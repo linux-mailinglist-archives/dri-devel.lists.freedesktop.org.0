@@ -2,37 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988A214AF0D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 06:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBC014AF2D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 06:50:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C9CB6EC7E;
-	Tue, 28 Jan 2020 05:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D92F6EC92;
+	Tue, 28 Jan 2020 05:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 265356EC7E;
- Tue, 28 Jan 2020 05:26:41 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2020 21:26:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,372,1574150400"; d="scan'208";a="229182709"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by orsmga003.jf.intel.com with ESMTP; 27 Jan 2020 21:26:13 -0800
-Date: Tue, 28 Jan 2020 10:56:15 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/hdcp: optimizing the srm handling
-Message-ID: <20200128052615.GA9540@intel.com>
-References: <20200127181231.5380-1-ramalingam.c@intel.com>
- <20200127211032.GA56834@art_vandelay>
+Received: from mail-yw1-xc43.google.com (mail-yw1-xc43.google.com
+ [IPv6:2607:f8b0:4864:20::c43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B84EA6EC91;
+ Tue, 28 Jan 2020 05:50:08 +0000 (UTC)
+Received: by mail-yw1-xc43.google.com with SMTP id u139so5986636ywf.13;
+ Mon, 27 Jan 2020 21:50:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZvYep82MJkgR/i/If++BTCiUiNwD0GUfJeeD8qY75mM=;
+ b=eTqf3Ahi6XCc+q1aVW7ahuf5+3dVL6jEh5IK1Yonfr2qIEXLynPC7WMhGVV2Moulql
+ dFAqiH9lGHOB/m0bUfaoSdmjs05nQmfEcm4ojfMOLIW5sMdVm4CzXptvMYLatfS6B26v
+ GGz7mMdrNBJ5QZGDR4XjxO6aiqvdbiKnB30pdpV9+Rv5UewaIZgrStBkCKjk4yKKf0bM
+ ZFwOv3huHJ6RgzGwYrSE4a72IuQJ9gMgm5fwRAtF/PYHAe2VQ7UDKXA11VYABBrfnqUb
+ e+0wNA/jJ2kazyUeae1b8t+nCRc1Yc63WIDFtxpfpycm9aey7xyDz9+hcfyX/c/0BB00
+ iqEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZvYep82MJkgR/i/If++BTCiUiNwD0GUfJeeD8qY75mM=;
+ b=mo+W810Pkn4Eh3MP6QrIv8jTVKObV4q38zv3nH47dz6cobm41tehxigy4HHF+GvQ/r
+ pMhQssf2gAcActJ+ktNkHafRCLzjc0+53X7eZ7q7yEQW0I+n9LN+D2AFB7Kyltw9tsPP
+ MJ9nyv4wAmgcJu3nGcojv8OZ2SP8Y4cTOj3AOr3BnedCEPGRoKuc61CpQ/RZ4ZxHu6y3
+ +6laHUvzENgGgXpTvc0YWSHyd/VDFl7EcbdLHQgF1aAYStLmYIB2QIXLo3JRPq4cO2u2
+ 0f9wugGE4zBcLvS3h7I+ljoRvPTPIM2BJtCMV9KjY8BgSzqhvu/Bi5ASCHq8yNkIMz8N
+ BJ/A==
+X-Gm-Message-State: APjAAAXMMYuzPSk0gX2H1M3DLIOVDobNXphgrmWtoKYMN+2CoATitf+h
+ dkUWlWbVi7pHpS80CMBYfDktxaXPzlmfZXCTBPM=
+X-Google-Smtp-Source: APXvYqxf3MGZzjZFfI/orZ60uWWMfSuG1kWj6mWa6bawXrxWbT/tCQTN+2U+K23VIzXw+c0OKq2av0TeK3aT4B1KVg4=
+X-Received: by 2002:a0d:e6cc:: with SMTP id
+ p195mr14341075ywe.413.1580190607241; 
+ Mon, 27 Jan 2020 21:50:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200127211032.GA56834@art_vandelay>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200124143042.93733-1-christian.koenig@amd.com>
+ <20200124143042.93733-2-christian.koenig@amd.com>
+In-Reply-To: <20200124143042.93733-2-christian.koenig@amd.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Tue, 28 Jan 2020 15:49:56 +1000
+Message-ID: <CACAvsv4OmB2DhMeK4omcTENK0VhjWe4Z=JRtHrphHehbGR72gA@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 1/2] drm/nouveau: move io_reserve_lru handling
+ into the driver v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,363 +64,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-01-27 at 16:10:32 -0500, Sean Paul wrote:
-> On Mon, Jan 27, 2020 at 11:42:31PM +0530, Ramalingam C wrote:
-> > As we are not using the sysfs infrastructure anymore, link to it is
-> > removed. And global srm data and mutex to protect it are removed,
-> > with required handling at revocation check function.
-> > 
-> > v2:
-> >   srm_data is dropped and few more comments are addressed.
-> > 
-> > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> > Suggested-by: Sean Paul <seanpaul@chromium.org>
-> > ---
-> >  drivers/gpu/drm/drm_hdcp.c     | 144 ++++++++++++---------------------
-> >  drivers/gpu/drm/drm_internal.h |   4 -
-> >  drivers/gpu/drm/drm_sysfs.c    |   2 -
-> >  include/drm/drm_hdcp.h         |   4 +-
-> >  4 files changed, 55 insertions(+), 99 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
-> > index 9191633a3c43..30749a13108e 100644
-> > --- a/drivers/gpu/drm/drm_hdcp.c
-> > +++ b/drivers/gpu/drm/drm_hdcp.c
-> > @@ -23,14 +23,6 @@
-> >  
-> >  #include "drm_internal.h"
-> >  
-> > -static struct hdcp_srm {
-> > -	u32 revoked_ksv_cnt;
-> > -	u8 *revoked_ksv_list;
-> > -
-> > -	/* Mutex to protect above struct member */
-> > -	struct mutex mutex;
-> > -} *srm_data;
-> > -
-> >  static inline void drm_hdcp_print_ksv(const u8 *ksv)
-> >  {
-> >  	DRM_DEBUG("\t%#02x, %#02x, %#02x, %#02x, %#02x\n",
-> > @@ -91,7 +83,8 @@ static inline u32 get_vrl_length(const u8 *buf)
-> >  	return drm_hdcp_be24_to_cpu(buf);
-> >  }
-> >  
-> > -static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count)
-> > +static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count,
-> > +				    u8 *revoked_ksv_list, u32 *revoked_ksv_cnt)
-> 
-> Shouldn't this be u8 **revoked_ksv_list since you want to return the pointer for
-> use in the caller?  I'm surprised any of this worked when you tested it...
-Not tested yet. And forgot to add RFC too. Sorry for wasting your time.
-
--Ram
-> 
-> >  {
-> >  	struct hdcp_srm_header *header;
-> >  	u32 vrl_length, ksv_count;
-> > @@ -131,29 +124,28 @@ static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count)
-> >  	ksv_count = drm_hdcp_get_revoked_ksv_count(buf, vrl_length);
-> >  	if (!ksv_count) {
-> >  		DRM_DEBUG("Revoked KSV count is 0\n");
-> > -		return count;
-> > +		return 0;
-> >  	}
-> >  
-> > -	kfree(srm_data->revoked_ksv_list);
-> > -	srm_data->revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN,
-> > -					     GFP_KERNEL);
-> > -	if (!srm_data->revoked_ksv_list) {
-> > +	revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN, GFP_KERNEL);
-> > +	if (!revoked_ksv_list) {
-> >  		DRM_ERROR("Out of Memory\n");
-> >  		return -ENOMEM;
-> >  	}
-> >  
-> > -	if (drm_hdcp_get_revoked_ksvs(buf, srm_data->revoked_ksv_list,
-> > +	if (drm_hdcp_get_revoked_ksvs(buf, revoked_ksv_list,
-> >  				      vrl_length) != ksv_count) {
-> > -		srm_data->revoked_ksv_cnt = 0;
-> > -		kfree(srm_data->revoked_ksv_list);
-> > +		*revoked_ksv_cnt = 0;
-> > +		kfree(revoked_ksv_list);
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > -	srm_data->revoked_ksv_cnt = ksv_count;
-> > -	return count;
-> > +	*revoked_ksv_cnt = ksv_count;
-> > +	return 0;
-> >  }
-> >  
-> > -static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
-> > +static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count,
-> > +				    u8 *revoked_ksv_list, u32 *revoked_ksv_cnt)
-> 
-> Same comment here, this should be u8 **
-> 
-> >  {
-> >  	struct hdcp_srm_header *header;
-> >  	u32 vrl_length, ksv_count, ksv_sz;
-> > @@ -195,13 +187,11 @@ static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
-> >  	ksv_count = (*buf << 2) | DRM_HDCP_2_KSV_COUNT_2_LSBITS(*(buf + 1));
-> >  	if (!ksv_count) {
-> >  		DRM_DEBUG("Revoked KSV count is 0\n");
-> > -		return count;
-> > +		return 0;
-> >  	}
-> >  
-> > -	kfree(srm_data->revoked_ksv_list);
-> > -	srm_data->revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN,
-> > -					     GFP_KERNEL);
-> > -	if (!srm_data->revoked_ksv_list) {
-> > +	revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN, GFP_KERNEL);
-> > +	if (!revoked_ksv_list) {
-> >  		DRM_ERROR("Out of Memory\n");
-> >  		return -ENOMEM;
-> >  	}
-> > @@ -210,10 +200,10 @@ static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
-> >  	buf += DRM_HDCP_2_NO_OF_DEV_PLUS_RESERVED_SZ;
-> >  
-> >  	DRM_DEBUG("Revoked KSVs: %d\n", ksv_count);
-> > -	memcpy(srm_data->revoked_ksv_list, buf, ksv_sz);
-> > +	memcpy(revoked_ksv_list, buf, ksv_sz);
-> >  
-> > -	srm_data->revoked_ksv_cnt = ksv_count;
-> > -	return count;
-> > +	*revoked_ksv_cnt = ksv_count;
-> > +	return 0;
-> >  }
-> >  
-> >  static inline bool is_srm_version_hdcp1(const u8 *buf)
-> > @@ -226,18 +216,22 @@ static inline bool is_srm_version_hdcp2(const u8 *buf)
-> >  	return *buf == (u8)(DRM_HDCP_2_SRM_ID << 4 | DRM_HDCP_2_INDICATOR);
-> >  }
-> >  
-> > -static void drm_hdcp_srm_update(const u8 *buf, size_t count)
-> > +static void drm_hdcp_srm_update(const u8 *buf, size_t count,
-> > +				u8 *revoked_ksv_list, u32 *revoked_ksv_cnt)
-> 
-> and here
-> 
-> >  {
-> >  	if (count < sizeof(struct hdcp_srm_header))
-> >  		return;
-> >  
-> >  	if (is_srm_version_hdcp1(buf))
-> > -		drm_hdcp_parse_hdcp1_srm(buf, count);
-> > +		drm_hdcp_parse_hdcp1_srm(buf, count, revoked_ksv_list,
-> > +					 revoked_ksv_cnt);
-> >  	else if (is_srm_version_hdcp2(buf))
-> > -		drm_hdcp_parse_hdcp2_srm(buf, count);
-> > +		drm_hdcp_parse_hdcp2_srm(buf, count, revoked_ksv_list,
-> > +					 revoked_ksv_cnt);
-> >  }
-> >  
-> > -static void drm_hdcp_request_srm(struct drm_device *drm_dev)
-> > +static void drm_hdcp_request_srm(struct drm_device *drm_dev,
-> > +				 u8 *revoked_ksv_list, u32 *revoked_ksv_cnt)
-> 
-> and here
-> 
-> >  {
-> >  	char fw_name[36] = "display_hdcp_srm.bin";
-> >  	const struct firmware *fw;
-> > @@ -250,7 +244,8 @@ static void drm_hdcp_request_srm(struct drm_device *drm_dev)
-> >  		goto exit;
-> >  
-> >  	if (fw->size && fw->data)
-> > -		drm_hdcp_srm_update(fw->data, fw->size);
-> > +		drm_hdcp_srm_update(fw->data, fw->size, revoked_ksv_list,
-> > +				    revoked_ksv_cnt);
-> >  
-> >  exit:
-> >  	release_firmware(fw);
-> > @@ -279,70 +274,37 @@ static void drm_hdcp_request_srm(struct drm_device *drm_dev)
-> >   * https://www.digital-cp.com/sites/default/files/specifications/HDCP%20on%20HDMI%20Specification%20Rev2_2_Final1.pdf
-> >   *
-> >   * Returns:
-> > - * TRUE on any of the KSV is revoked, else FALSE.
-> > + * Count of the revoked KSVs.
-> 
-> What about on error?
-> 
-> >   */
-> > -bool drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
-> > -				 u32 ksv_count)
-> > +int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs_in,
-> > +				u32 ksv_count)
-> >  {
-> > -	u32 rev_ksv_cnt, cnt, i, j;
-> > -	u8 *rev_ksv_list;
-> > -
-> > -	if (!srm_data)
-> > -		return false;
-> > -
-> > -	mutex_lock(&srm_data->mutex);
-> > -	drm_hdcp_request_srm(drm_dev);
-> > -
-> > -	rev_ksv_cnt = srm_data->revoked_ksv_cnt;
-> > -	rev_ksv_list = srm_data->revoked_ksv_list;
-> > -
-> > -	/* If the Revoked ksv list is empty */
-> > -	if (!rev_ksv_cnt || !rev_ksv_list) {
-> > -		mutex_unlock(&srm_data->mutex);
-> > -		return false;
-> > -	}
-> > -
-> > -	for  (cnt = 0; cnt < ksv_count; cnt++) {
-> > -		rev_ksv_list = srm_data->revoked_ksv_list;
-> > -		for (i = 0; i < rev_ksv_cnt; i++) {
-> > -			for (j = 0; j < DRM_HDCP_KSV_LEN; j++)
-> > -				if (ksvs[j] != rev_ksv_list[j]) {
-> > -					break;
-> > -				} else if (j == (DRM_HDCP_KSV_LEN - 1)) {
-> > -					DRM_DEBUG("Revoked KSV is ");
-> > -					drm_hdcp_print_ksv(ksvs);
-> > -					mutex_unlock(&srm_data->mutex);
-> > -					return true;
-> > -				}
-> > -			/* Move the offset to next KSV in the revoked list */
-> > -			rev_ksv_list += DRM_HDCP_KSV_LEN;
-> > +	u8 *revoked_ksv_list = NULL, *ksvs, *list_itr;
-> 
-> Where is revoked_ksv_list freed?
-> 
-> > +	u32 revoked_ksv_cnt = 0, i, j;
-> > +	int ret = 0;
-> > +
-> > +	drm_hdcp_request_srm(drm_dev, revoked_ksv_list, &revoked_ksv_cnt);
-> 
-> This can't fail?
-> 
-> > +	list_itr = revoked_ksv_list;
-> > +
-> > +	for (i = 0; i < revoked_ksv_cnt; i++) {
-> > +		ksvs = ksvs_in;
-> > +		for  (j = 0; j < ksv_count; j++) {
-> 
-> 
-> You can save yourself the iterators if you just generate the offsets like:
-> 
->         for (i = 0; i < revoked_ksv_cnt; i++) {
->                 u8 *a = &ksvs_in[j * DRM_HDCP_KSV_LEN];
->                 for  (j = 0; j < ksv_count; j++) {
->                         u8 *b = &revoked_ksv_list[i * DRM_HDCP_KSV_LEN];
-> 
->                         if (!memcmp(a, b, DRM_HDCP_KSV_LEN)) {
->                                 ...
->                         }
-> 
-> 
-> 
-> 
-> > +			if (!memcmp(ksvs, list_itr, DRM_HDCP_KSV_LEN)) {
-> > +				DRM_DEBUG("Revoked KSV is ");
-> > +				drm_hdcp_print_ksv(ksvs);
-> > +				ret++;
-> > +			}
-> > +			/* Iterate to next ksv_offset */
-> > +			ksvs += DRM_HDCP_KSV_LEN;
-> >  		}
-> > -
-> > -		/* Iterate to next ksv_offset */
-> > -		ksvs += DRM_HDCP_KSV_LEN;
-> > +		/* Move the offset to next KSV in the revoked list */
-> > +		list_itr += DRM_HDCP_KSV_LEN;
-> >  	}
-> > -	mutex_unlock(&srm_data->mutex);
-> > -	return false;
-> > -}
-> > -EXPORT_SYMBOL_GPL(drm_hdcp_check_ksvs_revoked);
-> > -
-> > -int drm_setup_hdcp_srm(struct class *drm_class)
-> > -{
-> > -	srm_data = kzalloc(sizeof(*srm_data), GFP_KERNEL);
-> > -	if (!srm_data)
-> > -		return -ENOMEM;
-> > -	mutex_init(&srm_data->mutex);
-> >  
-> > -	return 0;
-> > -}
-> > -
-> > -void drm_teardown_hdcp_srm(struct class *drm_class)
-> > -{
-> > -	if (srm_data) {
-> > -		kfree(srm_data->revoked_ksv_list);
-> > -		kfree(srm_data);
-> > -	}
-> > +	kfree(revoked_ksv_list);
-> > +	return ret;
-> >  }
-> > +EXPORT_SYMBOL_GPL(drm_hdcp_check_ksvs_revoked);
-> >  
-> >  static struct drm_prop_enum_list drm_cp_enum_list[] = {
-> >  	{ DRM_MODE_CONTENT_PROTECTION_UNDESIRED, "Undesired" },
-> > diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> > index 6937bf923f05..a34c7f8373fa 100644
-> > --- a/drivers/gpu/drm/drm_internal.h
-> > +++ b/drivers/gpu/drm/drm_internal.h
-> > @@ -235,7 +235,3 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
-> >  void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
-> >  				const struct drm_framebuffer *fb);
-> >  int drm_framebuffer_debugfs_init(struct drm_minor *minor);
-> > -
-> > -/* drm_hdcp.c */
-> > -int drm_setup_hdcp_srm(struct class *drm_class);
-> > -void drm_teardown_hdcp_srm(struct class *drm_class);
-> > diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> > index dd2bc85f43cc..2e83c3d72af9 100644
-> > --- a/drivers/gpu/drm/drm_sysfs.c
-> > +++ b/drivers/gpu/drm/drm_sysfs.c
-> > @@ -85,7 +85,6 @@ int drm_sysfs_init(void)
-> >  	}
-> >  
-> >  	drm_class->devnode = drm_devnode;
-> > -	drm_setup_hdcp_srm(drm_class);
-> >  	return 0;
-> >  }
-> >  
-> > @@ -98,7 +97,6 @@ void drm_sysfs_destroy(void)
-> >  {
-> >  	if (IS_ERR_OR_NULL(drm_class))
-> >  		return;
-> > -	drm_teardown_hdcp_srm(drm_class);
-> >  	class_remove_file(drm_class, &class_attr_version.attr);
-> >  	class_destroy(drm_class);
-> >  	drm_class = NULL;
-> > diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
-> > index 06a11202a097..d512089b873f 100644
-> > --- a/include/drm/drm_hdcp.h
-> > +++ b/include/drm/drm_hdcp.h
-> > @@ -288,8 +288,8 @@ struct hdcp_srm_header {
-> >  struct drm_device;
-> >  struct drm_connector;
-> >  
-> > -bool drm_hdcp_check_ksvs_revoked(struct drm_device *dev,
-> > -				 u8 *ksvs, u32 ksv_count);
-> > +int drm_hdcp_check_ksvs_revoked(struct drm_device *dev,
-> > +				u8 *ksvs, u32 ksv_count);
-> >  int drm_connector_attach_content_protection_property(
-> >  		struct drm_connector *connector, bool hdcp_content_type);
-> >  void drm_hdcp_update_content_protection(struct drm_connector *connector,
-> > -- 
-> > 2.20.1
-> > 
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> 
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCAyNSBKYW4gMjAyMCBhdCAwMDozMCwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
+ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gRnJvbTogQ2hyaXN0aWFuIEvDtm5p
+ZyA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+Cj4KPiBXaGlsZSB3b3JraW5nIG9u
+IFRUTSBjbGVhbnVwcyBJJ3ZlIGZvdW5kIHRoYXQgdGhlIGlvX3Jlc2VydmVfbHJ1IHVzZWQgYnkK
+PiBOb3V2ZWF1IGlzIGFjdHVhbGx5IG5vdCB3b3JraW5nIGF0IGFsbC4KPgo+IEluIGdlbmVyYWwg
+d2Ugc2hvdWxkIHJlbW92ZSBkcml2ZXIgc3BlY2lmaWMgaGFuZGxpbmcgZnJvbSB0aGUgbWVtb3J5
+Cj4gbWFuYWdlbWVudCwgc28gdGhpcyBwYXRjaCBtb3ZlcyB0aGUgaW9fcmVzZXJ2ZV9scnUgaGFu
+ZGxpbmcgaW50byBOb3V2ZWF1Cj4gaW5zdGVhZC4KPgo+IFRoZSBwYXRjaCBzaG91bGQgYmUgZnVu
+Y3Rpb25hbCBjb3JyZWN0LCBidXQgaXMgb25seSBjb21waWxlIHRlc3RlZCEKTkFDSyBvbiB0aGlz
+IGFzIGl0IGN1cnJlbnRseSBzdGFuZHMuICBJdCBub3Qgb25seSBjYXVzZXMgaW52YWxpZCBpbwph
+Y2Nlc3NlcyBzb21laG93IG9uIG1vZHVsZSBsb2FkLCBidXQgd2hpbGUgYXR0ZW1wdGluZyB0byB0
+cmFjayBkb3duCndoeSwgSSByZWFsaXNlZCB0aGVyZSdzIGEgbW9yZSBzZXZlcmUgaXNzdWUuICBU
+aGlzIHJlbW92ZXMgdGhlCmRpc3RpbmN0aW9uIGJldHdlZW4ga21hcCgpIGFuZCBtYXBwaW5nIGlu
+dG8gdXNlcnNwYWNlLCB0aGUgZm9ybWVyIG9mCndoaWNoIHNob3VsZCBub3QgYmUgcGxhY2VkIG9u
+dG8gdGhlIExSVSBhcyBhbiBldmljdGlvbiBjYW5kaWRhdGUuCgpXZSAqZG8qIHJlcXVpcmUgdGhl
+IExSVSwgc28gaXQncyBub3Qgc29tZXRoaW5nIHRoYXQgY2FuIGp1c3QgYmUKZHJvcHBlZCBjb21w
+bGV0ZWx5LiAgVGhlcmUncyBhIHVzZXIgcmVwb3J0IHdoZXJlIHRoZXkncmUgZ2V0dGluZyBhClNJ
+R0JVUyBkdWUgdG8gdGhlIGJ1ZyB5b3Ugbm90aWNlZCBjYXVzaW5nIGl0IHRvIG5vdCB3b3JrIHJp
+Z2h0IG5vdy4KCkJlbi4KCj4KPiB2MjogZG9uJ3QgY2FsbCB0dG1fYm9fdW5tYXBfdmlydHVhbCBp
+biBub3V2ZWF1X3R0bV9pb19tZW1fcmVzZXJ2ZQo+Cj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFu
+IEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IEFja2VkLWJ5OiBEYW5pZWwgVmV0
+dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbm91
+dmVhdS9ub3V2ZWF1X2JvLmMgIHwgMTA3ICsrKysrKysrKysrKysrKysrKysrLS0tLS0tCj4gIGRy
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uaCAgfCAgIDMgKwo+ICBkcml2ZXJzL2dw
+dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rydi5oIHwgICAyICsKPiAgZHJpdmVycy9ncHUvZHJtL25v
+dXZlYXUvbm91dmVhdV90dG0uYyB8ICA0MyArKysrKysrKysrLQo+ICA0IGZpbGVzIGNoYW5nZWQs
+IDEzMSBpbnNlcnRpb25zKCspLCAyNCBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVh
+dS9ub3V2ZWF1X2JvLmMKPiBpbmRleCA4MTY2ODEwNDU5NWYuLmFjZWUwNTRmNzdlZCAxMDA2NDQK
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPiBAQCAtMTM3LDYgKzEzNyw3IEBAIG5v
+dXZlYXVfYm9fZGVsX3R0bShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKQo+ICAgICAgICAg
+c3RydWN0IG5vdXZlYXVfYm8gKm52Ym8gPSBub3V2ZWF1X2JvKGJvKTsKPgo+ICAgICAgICAgV0FS
+Tl9PTihudmJvLT5waW5fcmVmY250ID4gMCk7Cj4gKyAgICAgICBub3V2ZWF1X2JvX2RlbF9pb19y
+ZXNlcnZlX2xydShibyk7Cj4gICAgICAgICBudjEwX2JvX3B1dF90aWxlX3JlZ2lvbihkZXYsIG52
+Ym8tPnRpbGUsIE5VTEwpOwo+Cj4gICAgICAgICAvKgo+IEBAIC0zMDQsNiArMzA1LDcgQEAgbm91
+dmVhdV9ib19pbml0KHN0cnVjdCBub3V2ZWF1X2JvICpudmJvLCB1NjQgc2l6ZSwgaW50IGFsaWdu
+LCB1MzIgZmxhZ3MsCj4KPiAgICAgICAgIG52Ym8tPmJvLm1lbS5udW1fcGFnZXMgPSBzaXplID4+
+IFBBR0VfU0hJRlQ7Cj4gICAgICAgICBub3V2ZWF1X2JvX3BsYWNlbWVudF9zZXQobnZibywgZmxh
+Z3MsIDApOwo+ICsgICAgICAgSU5JVF9MSVNUX0hFQUQoJm52Ym8tPmlvX3Jlc2VydmVfbHJ1KTsK
+Pgo+ICAgICAgICAgcmV0ID0gdHRtX2JvX2luaXQobnZiby0+Ym8uYmRldiwgJm52Ym8tPmJvLCBz
+aXplLCB0eXBlLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgJm52Ym8tPnBsYWNlbWVudCwg
+YWxpZ24gPj4gUEFHRV9TSElGVCwgZmFsc2UsCj4gQEAgLTU3NCw2ICs1NzYsMjYgQEAgbm91dmVh
+dV9ib19zeW5jX2Zvcl9jcHUoc3RydWN0IG5vdXZlYXVfYm8gKm52Ym8pCj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFBBR0VfU0laRSwgRE1BX0ZST01fREVWSUNFKTsK
+PiAgfQo+Cj4gK3ZvaWQgbm91dmVhdV9ib19hZGRfaW9fcmVzZXJ2ZV9scnUoc3RydWN0IHR0bV9i
+dWZmZXJfb2JqZWN0ICpibykKPiArewo+ICsgICAgICAgc3RydWN0IG5vdXZlYXVfZHJtICpkcm0g
+PSBub3V2ZWF1X2JkZXYoYm8tPmJkZXYpOwo+ICsgICAgICAgc3RydWN0IG5vdXZlYXVfYm8gKm52
+Ym8gPSBub3V2ZWF1X2JvKGJvKTsKPiArCj4gKyAgICAgICBtdXRleF9sb2NrKCZkcm0tPnR0bS5p
+b19yZXNlcnZlX211dGV4KTsKPiArICAgICAgIGxpc3RfbW92ZV90YWlsKCZudmJvLT5pb19yZXNl
+cnZlX2xydSwgJmRybS0+dHRtLmlvX3Jlc2VydmVfbHJ1KTsKPiArICAgICAgIG11dGV4X3VubG9j
+aygmZHJtLT50dG0uaW9fcmVzZXJ2ZV9tdXRleCk7Cj4gK30KPiArCj4gK3ZvaWQgbm91dmVhdV9i
+b19kZWxfaW9fcmVzZXJ2ZV9scnUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykKPiArewo+
+ICsgICAgICAgc3RydWN0IG5vdXZlYXVfZHJtICpkcm0gPSBub3V2ZWF1X2JkZXYoYm8tPmJkZXYp
+Owo+ICsgICAgICAgc3RydWN0IG5vdXZlYXVfYm8gKm52Ym8gPSBub3V2ZWF1X2JvKGJvKTsKPiAr
+Cj4gKyAgICAgICBtdXRleF9sb2NrKCZkcm0tPnR0bS5pb19yZXNlcnZlX211dGV4KTsKPiArICAg
+ICAgIGxpc3RfZGVsX2luaXQoJm52Ym8tPmlvX3Jlc2VydmVfbHJ1KTsKPiArICAgICAgIG11dGV4
+X3VubG9jaygmZHJtLT50dG0uaW9fcmVzZXJ2ZV9tdXRleCk7Cj4gK30KPiArCj4gIGludAo+ICBu
+b3V2ZWF1X2JvX3ZhbGlkYXRlKHN0cnVjdCBub3V2ZWF1X2JvICpudmJvLCBib29sIGludGVycnVw
+dGlibGUsCj4gICAgICAgICAgICAgICAgICAgICBib29sIG5vX3dhaXRfZ3B1KQo+IEBAIC02NzUs
+OCArNjk3LDYgQEAgbm91dmVhdV9ib19pbml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNl
+ICpiZGV2LCB1aW50MzJfdCB0eXBlLAo+ICAgICAgICAgICAgICAgICAgICAgICAgIH0KPgo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgIG1hbi0+ZnVuYyA9ICZub3V2ZWF1X3ZyYW1fbWFuYWdlcjsK
+PiAtICAgICAgICAgICAgICAgICAgICAgICBtYW4tPmlvX3Jlc2VydmVfZmFzdHBhdGggPSBmYWxz
+ZTsKPiAtICAgICAgICAgICAgICAgICAgICAgICBtYW4tPnVzZV9pb19yZXNlcnZlX2xydSA9IHRy
+dWU7Cj4gICAgICAgICAgICAgICAgIH0gZWxzZSB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAg
+bWFuLT5mdW5jID0gJnR0bV9ib19tYW5hZ2VyX2Z1bmM7Cj4gICAgICAgICAgICAgICAgIH0KPiBA
+QCAtMTMwNSw2ICsxMzI1LDggQEAgbm91dmVhdV9ib19tb3ZlX250Znkoc3RydWN0IHR0bV9idWZm
+ZXJfb2JqZWN0ICpibywgYm9vbCBldmljdCwKPiAgICAgICAgIGlmIChiby0+ZGVzdHJveSAhPSBu
+b3V2ZWF1X2JvX2RlbF90dG0pCj4gICAgICAgICAgICAgICAgIHJldHVybjsKPgo+ICsgICAgICAg
+bm91dmVhdV9ib19kZWxfaW9fcmVzZXJ2ZV9scnUoYm8pOwo+ICsKPiAgICAgICAgIGlmIChtZW0g
+JiYgbmV3X3JlZy0+bWVtX3R5cGUgIT0gVFRNX1BMX1NZU1RFTSAmJgo+ICAgICAgICAgICAgIG1l
+bS0+bWVtLnBhZ2UgPT0gbnZiby0+cGFnZSkgewo+ICAgICAgICAgICAgICAgICBsaXN0X2Zvcl9l
+YWNoX2VudHJ5KHZtYSwgJm52Ym8tPnZtYV9saXN0LCBoZWFkKSB7Cj4gQEAgLTE0MjcsNiArMTQ0
+OSwzMCBAQCBub3V2ZWF1X2JvX3ZlcmlmeV9hY2Nlc3Moc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0
+ICpibywgc3RydWN0IGZpbGUgKmZpbHApCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgZmlscC0+cHJpdmF0ZV9kYXRhKTsKPiAgfQo+Cj4gK3N0YXRpYyB2b2lkCj4g
+K25vdXZlYXVfdHRtX2lvX21lbV9mcmVlX2xvY2tlZChzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSwg
+c3RydWN0IHR0bV9tZW1fcmVnICpyZWcpCj4gK3sKPiArICAgICAgIHN0cnVjdCBub3V2ZWF1X21l
+bSAqbWVtID0gbm91dmVhdV9tZW0ocmVnKTsKPiArCj4gKyAgICAgICBpZiAoIXJlZy0+YnVzLmJh
+c2UpCj4gKyAgICAgICAgICAgICAgIHJldHVybjsgLyogYWxyZWFkeSBmcmVlZCAqLwo+ICsKPiAr
+ICAgICAgIGlmIChkcm0tPmNsaWVudC5tZW0tPm9jbGFzcyA+PSBOVklGX0NMQVNTX01FTV9OVjUw
+KSB7Cj4gKyAgICAgICAgICAgICAgIHN3aXRjaCAocmVnLT5tZW1fdHlwZSkgewo+ICsgICAgICAg
+ICAgICAgICBjYXNlIFRUTV9QTF9UVDoKPiArICAgICAgICAgICAgICAgICAgICAgICBpZiAobWVt
+LT5raW5kKQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbnZpZl9vYmplY3RfdW5t
+YXBfaGFuZGxlKCZtZW0tPm1lbS5vYmplY3QpOwo+ICsgICAgICAgICAgICAgICAgICAgICAgIGJy
+ZWFrOwo+ICsgICAgICAgICAgICAgICBjYXNlIFRUTV9QTF9WUkFNOgo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgIG52aWZfb2JqZWN0X3VubWFwX2hhbmRsZSgmbWVtLT5tZW0ub2JqZWN0KTsKPiAr
+ICAgICAgICAgICAgICAgICAgICAgICBicmVhazsKPiArICAgICAgICAgICAgICAgZGVmYXVsdDoK
+PiArICAgICAgICAgICAgICAgICAgICAgICBicmVhazsKPiArICAgICAgICAgICAgICAgfQo+ICsg
+ICAgICAgfQo+ICsgICAgICAgcmVnLT5idXMuYmFzZSA9IDA7Cj4gK30KPiArCj4gIHN0YXRpYyBp
+bnQKPiAgbm91dmVhdV90dG1faW9fbWVtX3Jlc2VydmUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
+ZXYsIHN0cnVjdCB0dG1fbWVtX3JlZyAqcmVnKQo+ICB7Cj4gQEAgLTE0MzQsMTggKzE0ODAsMjYg
+QEAgbm91dmVhdV90dG1faW9fbWVtX3Jlc2VydmUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYs
+IHN0cnVjdCB0dG1fbWVtX3JlZyAqcmVnKQo+ICAgICAgICAgc3RydWN0IG5vdXZlYXVfZHJtICpk
+cm0gPSBub3V2ZWF1X2JkZXYoYmRldik7Cj4gICAgICAgICBzdHJ1Y3QgbnZrbV9kZXZpY2UgKmRl
+dmljZSA9IG52eHhfZGV2aWNlKCZkcm0tPmNsaWVudC5kZXZpY2UpOwo+ICAgICAgICAgc3RydWN0
+IG5vdXZlYXVfbWVtICptZW0gPSBub3V2ZWF1X21lbShyZWcpOwo+ICsgICAgICAgc3RydWN0IG5v
+dXZlYXVfYm8gKm52Ym87Cj4gKyAgICAgICBpbnQgcmV0Owo+ICsKPiArICAgICAgIGlmIChyZWct
+PmJ1cy5iYXNlKQo+ICsgICAgICAgICAgICAgICByZXR1cm4gMDsgLyogYWxyZWFkeSBtYXBwZWQg
+Ki8KPgo+ICAgICAgICAgcmVnLT5idXMuYWRkciA9IE5VTEw7Cj4gICAgICAgICByZWctPmJ1cy5v
+ZmZzZXQgPSAwOwo+ICAgICAgICAgcmVnLT5idXMuc2l6ZSA9IHJlZy0+bnVtX3BhZ2VzIDw8IFBB
+R0VfU0hJRlQ7Cj4gLSAgICAgICByZWctPmJ1cy5iYXNlID0gMDsKPiAgICAgICAgIHJlZy0+YnVz
+LmlzX2lvbWVtID0gZmFsc2U7Cj4gICAgICAgICBpZiAoIShtYW4tPmZsYWdzICYgVFRNX01FTVRZ
+UEVfRkxBR19NQVBQQUJMRSkpCj4gICAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+ICsK
+PiArICAgICAgIG11dGV4X2xvY2soJmRybS0+dHRtLmlvX3Jlc2VydmVfbXV0ZXgpOwo+ICtyZXRy
+eToKPiAgICAgICAgIHN3aXRjaCAocmVnLT5tZW1fdHlwZSkgewo+ICAgICAgICAgY2FzZSBUVE1f
+UExfU1lTVEVNOgo+ICAgICAgICAgICAgICAgICAvKiBTeXN0ZW0gbWVtb3J5ICovCj4gLSAgICAg
+ICAgICAgICAgIHJldHVybiAwOwo+ICsgICAgICAgICAgICAgICByZXQgPSAwOwo+ICsgICAgICAg
+ICAgICAgICBnb3RvIG91dDsKPiAgICAgICAgIGNhc2UgVFRNX1BMX1RUOgo+ICAjaWYgSVNfRU5B
+QkxFRChDT05GSUdfQUdQKQo+ICAgICAgICAgICAgICAgICBpZiAoZHJtLT5hZ3AuYnJpZGdlKSB7
+Cj4gQEAgLTE0NjksNyArMTUyMyw2IEBAIG5vdXZlYXVfdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVj
+dCB0dG1fYm9fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX21lbV9yZWcgKnJlZykKPiAgICAgICAg
+ICAgICAgICAgICAgICAgICB9IGFyZ3M7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgdTY0IGhh
+bmRsZSwgbGVuZ3RoOwo+ICAgICAgICAgICAgICAgICAgICAgICAgIHUzMiBhcmdjID0gMDsKPiAt
+ICAgICAgICAgICAgICAgICAgICAgICBpbnQgcmV0Owo+Cj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgc3dpdGNoIChtZW0tPm1lbS5vYmplY3Qub2NsYXNzKSB7Cj4gICAgICAgICAgICAgICAgICAg
+ICAgICAgY2FzZSBOVklGX0NMQVNTX01FTV9OVjUwOgo+IEBAIC0xNDkzLDM4ICsxNTQ2LDQ2IEBA
+IG5vdXZlYXVfdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCBz
+dHJ1Y3QgdHRtX21lbV9yZWcgKnJlZykKPiAgICAgICAgICAgICAgICAgICAgICAgICByZXQgPSBu
+dmlmX29iamVjdF9tYXBfaGFuZGxlKCZtZW0tPm1lbS5vYmplY3QsCj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmYXJncywgYXJnYywKPiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZoYW5kbGUs
+ICZsZW5ndGgpOwo+IC0gICAgICAgICAgICAgICAgICAgICAgIGlmIChyZXQgIT0gMSkKPiAtICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQgPyByZXQgOiAtRUlOVkFMOwo+
+ICsgICAgICAgICAgICAgICAgICAgICAgIGlmIChyZXQgIT0gMSkgewo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgcmV0ID0gcmV0ID8gcmV0IDogLUVJTlZBTDsKPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIGdvdG8gb3V0Owo+ICsgICAgICAgICAgICAgICAgICAgICAg
+IH0KPiArICAgICAgICAgICAgICAgICAgICAgICByZXQgPSAwOwo+Cj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgcmVnLT5idXMuYmFzZSA9IDA7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgcmVn
+LT5idXMub2Zmc2V0ID0gaGFuZGxlOwo+ICAgICAgICAgICAgICAgICB9Cj4gICAgICAgICAgICAg
+ICAgIGJyZWFrOwo+ICAgICAgICAgZGVmYXVsdDoKPiAtICAgICAgICAgICAgICAgcmV0dXJuIC1F
+SU5WQUw7Cj4gKyAgICAgICAgICAgICAgIHJldCA9IC1FSU5WQUw7Cj4gICAgICAgICB9Cj4gLSAg
+ICAgICByZXR1cm4gMDsKPiArCj4gK291dDoKPiArICAgICAgIGlmIChyZXQgPT0gLUVBR0FJTikg
+ewo+ICsgICAgICAgICAgICAgICBudmJvID0gbGlzdF9maXJzdF9lbnRyeV9vcl9udWxsKCZkcm0t
+PnR0bS5pb19yZXNlcnZlX2xydSwKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB0eXBlb2YoKm52Ym8pLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIGlvX3Jlc2VydmVfbHJ1KTsKPiArICAgICAgICAgICAgICAg
+aWYgKG52Ym8pIHsKPiArICAgICAgICAgICAgICAgICAgICAgICBsaXN0X2RlbF9pbml0KCZudmJv
+LT5pb19yZXNlcnZlX2xydSk7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgZHJtX3ZtYV9ub2Rl
+X3VubWFwKCZudmJvLT5iby5iYXNlLnZtYV9ub2RlLAo+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBiZGV2LT5kZXZfbWFwcGluZyk7Cj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgbm91dmVhdV90dG1faW9fbWVtX2ZyZWVfbG9ja2VkKGRybSwgJm52Ym8tPmJvLm1l
+bSk7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgZ290byByZXRyeTsKPiArICAgICAgICAgICAg
+ICAgfQo+ICsKPiArICAgICAgIH0KPiArICAgICAgIG11dGV4X3VubG9jaygmZHJtLT50dG0uaW9f
+cmVzZXJ2ZV9tdXRleCk7Cj4gKyAgICAgICByZXR1cm4gcmV0Owo+ICB9Cj4KPiAgc3RhdGljIHZv
+aWQKPiAgbm91dmVhdV90dG1faW9fbWVtX2ZyZWUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYs
+IHN0cnVjdCB0dG1fbWVtX3JlZyAqcmVnKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3Qgbm91dmVhdV9k
+cm0gKmRybSA9IG5vdXZlYXVfYmRldihiZGV2KTsKPiAtICAgICAgIHN0cnVjdCBub3V2ZWF1X21l
+bSAqbWVtID0gbm91dmVhdV9tZW0ocmVnKTsKPgo+IC0gICAgICAgaWYgKGRybS0+Y2xpZW50Lm1l
+bS0+b2NsYXNzID49IE5WSUZfQ0xBU1NfTUVNX05WNTApIHsKPiAtICAgICAgICAgICAgICAgc3dp
+dGNoIChyZWctPm1lbV90eXBlKSB7Cj4gLSAgICAgICAgICAgICAgIGNhc2UgVFRNX1BMX1RUOgo+
+IC0gICAgICAgICAgICAgICAgICAgICAgIGlmIChtZW0tPmtpbmQpCj4gLSAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBudmlmX29iamVjdF91bm1hcF9oYW5kbGUoJm1lbS0+bWVtLm9iamVj
+dCk7Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7Cj4gLSAgICAgICAgICAgICAgIGNh
+c2UgVFRNX1BMX1ZSQU06Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgbnZpZl9vYmplY3RfdW5t
+YXBfaGFuZGxlKCZtZW0tPm1lbS5vYmplY3QpOwo+IC0gICAgICAgICAgICAgICAgICAgICAgIGJy
+ZWFrOwo+IC0gICAgICAgICAgICAgICBkZWZhdWx0Ogo+IC0gICAgICAgICAgICAgICAgICAgICAg
+IGJyZWFrOwo+IC0gICAgICAgICAgICAgICB9Cj4gLSAgICAgICB9Cj4gKyAgICAgICBtdXRleF9s
+b2NrKCZkcm0tPnR0bS5pb19yZXNlcnZlX211dGV4KTsKPiArICAgICAgIG5vdXZlYXVfdHRtX2lv
+X21lbV9mcmVlX2xvY2tlZChkcm0sIHJlZyk7Cj4gKyAgICAgICBtdXRleF91bmxvY2soJmRybS0+
+dHRtLmlvX3Jlc2VydmVfbXV0ZXgpOwo+ICB9Cj4KPiAgc3RhdGljIGludAo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmggYi9kcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9ub3V2ZWF1X2JvLmgKPiBpbmRleCAzOGY5ZDgzNTA5NjMuLmM0N2ZjZGY4MGFkZSAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmgKPiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmgKPiBAQCAtMTcsNiArMTcsNyBA
+QCBzdHJ1Y3Qgbm91dmVhdV9ibyB7Cj4gICAgICAgICBib29sIGZvcmNlX2NvaGVyZW50Owo+ICAg
+ICAgICAgc3RydWN0IHR0bV9ib19rbWFwX29iaiBrbWFwOwo+ICAgICAgICAgc3RydWN0IGxpc3Rf
+aGVhZCBoZWFkOwo+ICsgICAgICAgc3RydWN0IGxpc3RfaGVhZCBpb19yZXNlcnZlX2xydTsKPgo+
+ICAgICAgICAgLyogcHJvdGVjdGVkIGJ5IHR0bV9ib19yZXNlcnZlKCkgKi8KPiAgICAgICAgIHN0
+cnVjdCBkcm1fZmlsZSAqcmVzZXJ2ZWRfYnk7Cj4gQEAgLTkyLDYgKzkzLDggQEAgaW50ICBub3V2
+ZWF1X2JvX3ZhbGlkYXRlKHN0cnVjdCBub3V2ZWF1X2JvICosIGJvb2wgaW50ZXJydXB0aWJsZSwK
+PiAgICAgICAgICAgICAgICAgICAgICAgICAgYm9vbCBub193YWl0X2dwdSk7Cj4gIHZvaWQgbm91
+dmVhdV9ib19zeW5jX2Zvcl9kZXZpY2Uoc3RydWN0IG5vdXZlYXVfYm8gKm52Ym8pOwo+ICB2b2lk
+IG5vdXZlYXVfYm9fc3luY19mb3JfY3B1KHN0cnVjdCBub3V2ZWF1X2JvICpudmJvKTsKPiArdm9p
+ZCBub3V2ZWF1X2JvX2FkZF9pb19yZXNlcnZlX2xydShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
+KmJvKTsKPiArdm9pZCBub3V2ZWF1X2JvX2RlbF9pb19yZXNlcnZlX2xydShzdHJ1Y3QgdHRtX2J1
+ZmZlcl9vYmplY3QgKmJvKTsKPgo+ICAvKiBUT0RPOiBzdWJtaXQgZXF1aXZhbGVudCB0byBUVE0g
+Z2VuZXJpYyBBUEkgdXBzdHJlYW0/ICovCj4gIHN0YXRpYyBpbmxpbmUgdm9pZCBfX2lvbWVtICoK
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcnYuaCBiL2Ry
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJ2LmgKPiBpbmRleCBkYThjNDZlMDk5NDMu
+LmNkMTljOGNlNTkzOSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
+ZWF1X2Rydi5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcnYuaAo+
+IEBAIC0xNTgsNiArMTU4LDggQEAgc3RydWN0IG5vdXZlYXVfZHJtIHsKPiAgICAgICAgICAgICAg
+ICAgaW50IHR5cGVfdnJhbTsKPiAgICAgICAgICAgICAgICAgaW50IHR5cGVfaG9zdFsyXTsKPiAg
+ICAgICAgICAgICAgICAgaW50IHR5cGVfbmNvaFsyXTsKPiArICAgICAgICAgICAgICAgc3RydWN0
+IG11dGV4IGlvX3Jlc2VydmVfbXV0ZXg7Cj4gKyAgICAgICAgICAgICAgIHN0cnVjdCBsaXN0X2hl
+YWQgaW9fcmVzZXJ2ZV9scnU7Cj4gICAgICAgICB9IHR0bTsKPgo+ICAgICAgICAgLyogR0VNIGlu
+dGVyZmFjZSBzdXBwb3J0ICovCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L25vdXZlYXVfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3R0bS5jCj4g
+aW5kZXggNzdhMGM2YWQzY2VmLi41MDUxOGI0OGU5YjQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvbm91dmVhdV90dG0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L25vdXZlYXVfdHRtLmMKPiBAQCAtMTYyLDEzICsxNjIsNTEgQEAgY29uc3Qgc3RydWN0IHR0
+bV9tZW1fdHlwZV9tYW5hZ2VyX2Z1bmMgbnYwNF9nYXJ0X21hbmFnZXIgPSB7Cj4gICAgICAgICAu
+ZGVidWcgPSBub3V2ZWF1X21hbmFnZXJfZGVidWcKPiAgfTsKPgo+ICtzdGF0aWMgdm1fZmF1bHRf
+dCBub3V2ZWF1X3R0bV9mYXVsdChzdHJ1Y3Qgdm1fZmF1bHQgKnZtZikKPiArewo+ICsgICAgICAg
+c3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEgPSB2bWYtPnZtYTsKPiArICAgICAgIHN0cnVjdCB0
+dG1fYnVmZmVyX29iamVjdCAqYm8gPSB2bWEtPnZtX3ByaXZhdGVfZGF0YTsKPiArICAgICAgIHBn
+cHJvdF90IHByb3Q7Cj4gKyAgICAgICB2bV9mYXVsdF90IHJldDsKPiArCj4gKyAgICAgICByZXQg
+PSB0dG1fYm9fdm1fcmVzZXJ2ZShibywgdm1mKTsKPiArICAgICAgIGlmIChyZXQpCj4gKyAgICAg
+ICAgICAgICAgIHJldHVybiByZXQ7Cj4gKwo+ICsgICAgICAgbm91dmVhdV9ib19kZWxfaW9fcmVz
+ZXJ2ZV9scnUoYm8pOwo+ICsKPiArICAgICAgIHByb3QgPSB2bV9nZXRfcGFnZV9wcm90KHZtYS0+
+dm1fZmxhZ3MpOwo+ICsgICAgICAgcmV0ID0gdHRtX2JvX3ZtX2ZhdWx0X3Jlc2VydmVkKHZtZiwg
+cHJvdCwgVFRNX0JPX1ZNX05VTV9QUkVGQVVMVCk7Cj4gKyAgICAgICBpZiAocmV0ID09IFZNX0ZB
+VUxUX1JFVFJZICYmICEodm1mLT5mbGFncyAmIEZBVUxUX0ZMQUdfUkVUUllfTk9XQUlUKSkKPiAr
+ICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiArCj4gKyAgICAgICBub3V2ZWF1X2JvX2FkZF9p
+b19yZXNlcnZlX2xydShibyk7Cj4gKwo+ICsgICAgICAgZG1hX3Jlc3ZfdW5sb2NrKGJvLT5iYXNl
+LnJlc3YpOwo+ICsKPiArICAgICAgIHJldHVybiByZXQ7Cj4gK30KPiArCj4gK3N0YXRpYyBzdHJ1
+Y3Qgdm1fb3BlcmF0aW9uc19zdHJ1Y3Qgbm91dmVhdV90dG1fdm1fb3BzID0gewo+ICsgICAgICAg
+LmZhdWx0ID0gbm91dmVhdV90dG1fZmF1bHQsCj4gKyAgICAgICAub3BlbiA9IHR0bV9ib192bV9v
+cGVuLAo+ICsgICAgICAgLmNsb3NlID0gdHRtX2JvX3ZtX2Nsb3NlLAo+ICsgICAgICAgLmFjY2Vz
+cyA9IHR0bV9ib192bV9hY2Nlc3MKPiArfTsKPiArCj4gIGludAo+ICBub3V2ZWF1X3R0bV9tbWFw
+KHN0cnVjdCBmaWxlICpmaWxwLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKPiAgewo+ICAg
+ICAgICAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYgPSBmaWxwLT5wcml2YXRlX2RhdGE7Cj4g
+ICAgICAgICBzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSA9IG5vdXZlYXVfZHJtKGZpbGVfcHJpdi0+
+bWlub3ItPmRldik7Cj4gKyAgICAgICBpbnQgcmV0Owo+Cj4gLSAgICAgICByZXR1cm4gdHRtX2Jv
+X21tYXAoZmlscCwgdm1hLCAmZHJtLT50dG0uYmRldik7Cj4gKyAgICAgICByZXQgPSB0dG1fYm9f
+bW1hcChmaWxwLCB2bWEsICZkcm0tPnR0bS5iZGV2KTsKPiArICAgICAgIGlmIChyZXQpCj4gKyAg
+ICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gKwo+ICsgICAgICAgdm1hLT52bV9vcHMgPSAmbm91
+dmVhdV90dG1fdm1fb3BzOwo+ICsgICAgICAgcmV0dXJuIDA7Cj4gIH0KPgo+ICBzdGF0aWMgaW50
+Cj4gQEAgLTI3Myw2ICszMTEsOSBAQCBub3V2ZWF1X3R0bV9pbml0KHN0cnVjdCBub3V2ZWF1X2Ry
+bSAqZHJtKQo+ICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ICAgICAgICAgfQo+Cj4gKyAg
+ICAgICBtdXRleF9pbml0KCZkcm0tPnR0bS5pb19yZXNlcnZlX211dGV4KTsKPiArICAgICAgIElO
+SVRfTElTVF9IRUFEKCZkcm0tPnR0bS5pb19yZXNlcnZlX2xydSk7Cj4gKwo+ICAgICAgICAgTlZf
+SU5GTyhkcm0sICJWUkFNOiAlZCBNaUJcbiIsICh1MzIpKGRybS0+Z2VtLnZyYW1fYXZhaWxhYmxl
+ID4+IDIwKSk7Cj4gICAgICAgICBOVl9JTkZPKGRybSwgIkdBUlQ6ICVkIE1pQlxuIiwgKHUzMiko
+ZHJtLT5nZW0uZ2FydF9hdmFpbGFibGUgPj4gMjApKTsKPiAgICAgICAgIHJldHVybiAwOwo+IC0t
+Cj4gMi4xNy4xCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwo+IE5vdXZlYXUgbWFpbGluZyBsaXN0Cj4gTm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL25vdXZl
+YXUKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
