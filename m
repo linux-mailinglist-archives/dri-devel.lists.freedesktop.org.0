@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C9614BFAE
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C7314BFB0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:27:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8D46EF29;
-	Tue, 28 Jan 2020 18:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69A406EF2D;
+	Tue, 28 Jan 2020 18:27:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14FA26EF29;
- Tue, 28 Jan 2020 18:27:40 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EACD6EF2D;
+ Tue, 28 Jan 2020 18:27:46 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2020 10:27:39 -0800
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2020 10:27:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310816348"
+X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310816807"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:27:35 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:27:41 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Vandita Kulkarni <vandita.kulkarni@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>
-Subject: [Intel-gfx] [PATCH v5 01/21] drm/i915/display/icl_dsi: Make WARN* drm
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Aditya Swarup <aditya.swarup@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [Intel-gfx] [PATCH v5 02/21] drm/i915/display/audio: Make WARN* drm
  specific where drm_priv ptr is available
-Date: Tue, 28 Jan 2020 23:45:43 +0530
-Message-Id: <20200128181603.27767-2-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Tue, 28 Jan 2020 23:45:44 +0530
+Message-Id: <20200128181603.27767-3-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -64,7 +66,7 @@ variants in functions where drm_i915_private struct pointer is readily
 available.
 
 The conversion was done automatically with below coccinelle semantic
-patch.
+patch. checkpatch errors/warnings are fixed manually.
 
 @rule1@
 identifier func, T;
@@ -120,41 +122,83 @@ func(struct drm_i915_private *T,...) {
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/icl_dsi.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/display/intel_audio.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
-index 1186a5df057e..6603c022c967 100644
---- a/drivers/gpu/drm/i915/display/icl_dsi.c
-+++ b/drivers/gpu/drm/i915/display/icl_dsi.c
-@@ -352,7 +352,7 @@ static void get_dsi_io_power_domains(struct drm_i915_private *dev_priv,
- 	enum port port;
+diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/drm/i915/display/intel_audio.c
+index 3926b9b9a09f..5ffacb9c3982 100644
+--- a/drivers/gpu/drm/i915/display/intel_audio.c
++++ b/drivers/gpu/drm/i915/display/intel_audio.c
+@@ -571,7 +571,7 @@ static void ilk_audio_codec_disable(struct intel_encoder *encoder,
+ 		     encoder->base.base.id, encoder->base.name,
+ 		     pipe_name(pipe));
  
- 	for_each_dsi_port(port, intel_dsi->ports) {
--		WARN_ON(intel_dsi->io_wakeref[port]);
-+		drm_WARN_ON(&dev_priv->drm, intel_dsi->io_wakeref[port]);
- 		intel_dsi->io_wakeref[port] =
- 			intel_display_power_get(dev_priv,
- 						port == PORT_A ?
-@@ -1368,11 +1368,13 @@ static int gen11_dsi_dsc_compute_config(struct intel_encoder *encoder,
- 		return ret;
+-	if (WARN_ON(port == PORT_A))
++	if (drm_WARN_ON(&dev_priv->drm, port == PORT_A))
+ 		return;
  
- 	/* DSI specific sanity checks on the common code */
--	WARN_ON(vdsc_cfg->vbr_enable);
--	WARN_ON(vdsc_cfg->simple_422);
--	WARN_ON(vdsc_cfg->pic_width % vdsc_cfg->slice_width);
--	WARN_ON(vdsc_cfg->slice_height < 8);
--	WARN_ON(vdsc_cfg->pic_height % vdsc_cfg->slice_height);
-+	drm_WARN_ON(&dev_priv->drm, vdsc_cfg->vbr_enable);
-+	drm_WARN_ON(&dev_priv->drm, vdsc_cfg->simple_422);
-+	drm_WARN_ON(&dev_priv->drm,
-+		    vdsc_cfg->pic_width % vdsc_cfg->slice_width);
-+	drm_WARN_ON(&dev_priv->drm, vdsc_cfg->slice_height < 8);
-+	drm_WARN_ON(&dev_priv->drm,
-+		    vdsc_cfg->pic_height % vdsc_cfg->slice_height);
+ 	if (HAS_PCH_IBX(dev_priv)) {
+@@ -622,7 +622,7 @@ static void ilk_audio_codec_enable(struct intel_encoder *encoder,
+ 		    encoder->base.base.id, encoder->base.name,
+ 		    pipe_name(pipe), drm_eld_size(eld));
  
- 	ret = drm_dsc_compute_rc_parameters(vdsc_cfg);
- 	if (ret)
+-	if (WARN_ON(port == PORT_A))
++	if (drm_WARN_ON(&dev_priv->drm, port == PORT_A))
+ 		return;
+ 
+ 	/*
+@@ -818,7 +818,7 @@ static void glk_force_audio_cdclk(struct drm_i915_private *dev_priv,
+ 
+ 	drm_modeset_acquire_init(&ctx, 0);
+ 	state = drm_atomic_state_alloc(&dev_priv->drm);
+-	if (WARN_ON(!state))
++	if (drm_WARN_ON(&dev_priv->drm, !state))
+ 		return;
+ 
+ 	state->acquire_ctx = &ctx;
+@@ -839,7 +839,7 @@ static void glk_force_audio_cdclk(struct drm_i915_private *dev_priv,
+ 		goto retry;
+ 	}
+ 
+-	WARN_ON(ret);
++	drm_WARN_ON(&dev_priv->drm, ret);
+ 
+ 	drm_atomic_state_put(state);
+ 
+@@ -927,7 +927,7 @@ static int i915_audio_component_get_cdclk_freq(struct device *kdev)
+ {
+ 	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
+ 
+-	if (WARN_ON_ONCE(!HAS_DDI(dev_priv)))
++	if (drm_WARN_ON_ONCE(&dev_priv->drm, !HAS_DDI(dev_priv)))
+ 		return -ENODEV;
+ 
+ 	return dev_priv->cdclk.hw.cdclk;
+@@ -950,7 +950,8 @@ static struct intel_encoder *get_saved_enc(struct drm_i915_private *dev_priv,
+ 
+ 	/* MST */
+ 	if (pipe >= 0) {
+-		if (WARN_ON(pipe >= ARRAY_SIZE(dev_priv->av_enc_map)))
++		if (drm_WARN_ON(&dev_priv->drm,
++				pipe >= ARRAY_SIZE(dev_priv->av_enc_map)))
+ 			return NULL;
+ 
+ 		encoder = dev_priv->av_enc_map[pipe];
+@@ -1069,10 +1070,12 @@ static int i915_audio_component_bind(struct device *i915_kdev,
+ 	struct drm_i915_private *dev_priv = kdev_to_i915(i915_kdev);
+ 	int i;
+ 
+-	if (WARN_ON(acomp->base.ops || acomp->base.dev))
++	if (drm_WARN_ON(&dev_priv->drm, acomp->base.ops || acomp->base.dev))
+ 		return -EEXIST;
+ 
+-	if (WARN_ON(!device_link_add(hda_kdev, i915_kdev, DL_FLAG_STATELESS)))
++	if (drm_WARN_ON(&dev_priv->drm,
++			!device_link_add(hda_kdev, i915_kdev,
++					 DL_FLAG_STATELESS)))
+ 		return -ENOMEM;
+ 
+ 	drm_modeset_lock_all(&dev_priv->drm);
 -- 
 2.23.0
 
