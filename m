@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6141A14BFC9
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597DE14BFCA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:29:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C936F377;
-	Tue, 28 Jan 2020 18:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF276EF3F;
+	Tue, 28 Jan 2020 18:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 821CF6F371;
- Tue, 28 Jan 2020 18:29:07 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3BDA6EF3F;
+ Tue, 28 Jan 2020 18:29:12 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2020 10:29:06 -0800
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2020 10:29:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310821894"
+X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310822236"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:29:02 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:29:08 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hans de Goede <hdegoede@redhat.com>
-Subject: [Intel-gfx] [PATCH v5 15/21] drm/i915/display/panel: Make WARN* drm
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [Intel-gfx] [PATCH v5 16/21] drm/i915/display/psr: Make WARN* drm
  specific where drm_priv ptr is available
-Date: Tue, 28 Jan 2020 23:45:57 +0530
-Message-Id: <20200128181603.27767-16-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Tue, 28 Jan 2020 23:45:58 +0530
+Message-Id: <20200128181603.27767-17-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -51,6 +51,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -120,95 +121,121 @@ func(struct drm_i915_private *T,...) {
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_panel.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/display/intel_psr.c | 32 +++++++++++++-----------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-index c03afcef85ae..7b035f44fce7 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.c
-+++ b/drivers/gpu/drm/i915/display/intel_panel.c
-@@ -423,7 +423,8 @@ void intel_gmch_panel_fitting(struct intel_crtc *intel_crtc,
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index b9dd9763c0f7..edb7e28627f3 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -77,8 +77,8 @@ static bool intel_psr2_enabled(struct drm_i915_private *dev_priv,
+ 			       const struct intel_crtc_state *crtc_state)
+ {
+ 	/* Cannot enable DSC and PSR2 simultaneously */
+-	WARN_ON(crtc_state->dsc.compression_enable &&
+-		crtc_state->has_psr2);
++	drm_WARN_ON(&dev_priv->drm, crtc_state->dsc.compression_enable &&
++		    crtc_state->has_psr2);
+ 
+ 	switch (dev_priv->psr.debug & I915_PSR_DEBUG_MODE_MASK) {
+ 	case I915_PSR_DEBUG_DISABLE:
+@@ -469,7 +469,7 @@ static u8 psr_compute_idle_frames(struct intel_dp *intel_dp)
+ 	idle_frames = max(6, dev_priv->vbt.psr.idle_frames);
+ 	idle_frames = max(idle_frames, dev_priv->psr.sink_sync_latency + 1);
+ 
+-	if (WARN_ON(idle_frames > 0xf))
++	if (drm_WARN_ON(&dev_priv->drm, idle_frames > 0xf))
+ 		idle_frames = 0xf;
+ 
+ 	return idle_frames;
+@@ -628,7 +628,7 @@ tgl_dc3co_exitline_compute_config(struct intel_dp *intel_dp,
+ 	exit_scanlines =
+ 		intel_usecs_to_scanlines(&crtc_state->uapi.adjusted_mode, 200) + 1;
+ 
+-	if (WARN_ON(exit_scanlines > crtc_vdisplay))
++	if (drm_WARN_ON(&dev_priv->drm, exit_scanlines > crtc_vdisplay))
+ 		return;
+ 
+ 	crtc_state->dc3co_exitline = crtc_vdisplay - exit_scanlines;
+@@ -768,10 +768,12 @@ static void intel_psr_activate(struct intel_dp *intel_dp)
+ 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+ 
+ 	if (transcoder_has_psr2(dev_priv, dev_priv->psr.transcoder))
+-		WARN_ON(intel_de_read(dev_priv, EDP_PSR2_CTL(dev_priv->psr.transcoder)) & EDP_PSR2_ENABLE);
++		drm_WARN_ON(&dev_priv->drm,
++			    intel_de_read(dev_priv, EDP_PSR2_CTL(dev_priv->psr.transcoder)) & EDP_PSR2_ENABLE);
+ 
+-	WARN_ON(intel_de_read(dev_priv, EDP_PSR_CTL(dev_priv->psr.transcoder)) & EDP_PSR_ENABLE);
+-	WARN_ON(dev_priv->psr.active);
++	drm_WARN_ON(&dev_priv->drm,
++		    intel_de_read(dev_priv, EDP_PSR_CTL(dev_priv->psr.transcoder)) & EDP_PSR_ENABLE);
++	drm_WARN_ON(&dev_priv->drm, dev_priv->psr.active);
+ 	lockdep_assert_held(&dev_priv->psr.lock);
+ 
+ 	/* psr1 and psr2 are mutually exclusive.*/
+@@ -846,7 +848,7 @@ static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
+ 	struct intel_dp *intel_dp = dev_priv->psr.dp;
+ 	u32 val;
+ 
+-	WARN_ON(dev_priv->psr.enabled);
++	drm_WARN_ON(&dev_priv->drm, dev_priv->psr.enabled);
+ 
+ 	dev_priv->psr.psr2_enabled = intel_psr2_enabled(dev_priv, crtc_state);
+ 	dev_priv->psr.busy_frontbuffer_bits = 0;
+@@ -904,10 +906,10 @@ void intel_psr_enable(struct intel_dp *intel_dp,
+ 	if (!crtc_state->has_psr)
+ 		return;
+ 
+-	if (WARN_ON(!CAN_PSR(dev_priv)))
++	if (drm_WARN_ON(&dev_priv->drm, !CAN_PSR(dev_priv)))
+ 		return;
+ 
+-	WARN_ON(dev_priv->drrs.dp);
++	drm_WARN_ON(&dev_priv->drm, dev_priv->drrs.dp);
+ 
+ 	mutex_lock(&dev_priv->psr.lock);
+ 
+@@ -930,12 +932,12 @@ static void intel_psr_exit(struct drm_i915_private *dev_priv)
+ 		if (transcoder_has_psr2(dev_priv, dev_priv->psr.transcoder)) {
+ 			val = intel_de_read(dev_priv,
+ 					    EDP_PSR2_CTL(dev_priv->psr.transcoder));
+-			WARN_ON(val & EDP_PSR2_ENABLE);
++			drm_WARN_ON(&dev_priv->drm, val & EDP_PSR2_ENABLE);
  		}
- 		break;
- 	default:
--		WARN(1, "bad panel fit mode: %d\n", fitting_mode);
-+		drm_WARN(&dev_priv->drm, 1, "bad panel fit mode: %d\n",
-+			 fitting_mode);
+ 
+ 		val = intel_de_read(dev_priv,
+ 				    EDP_PSR_CTL(dev_priv->psr.transcoder));
+-		WARN_ON(val & EDP_PSR_ENABLE);
++		drm_WARN_ON(&dev_priv->drm, val & EDP_PSR_ENABLE);
+ 
  		return;
  	}
+@@ -944,14 +946,14 @@ static void intel_psr_exit(struct drm_i915_private *dev_priv)
+ 		tgl_disallow_dc3co_on_psr2_exit(dev_priv);
+ 		val = intel_de_read(dev_priv,
+ 				    EDP_PSR2_CTL(dev_priv->psr.transcoder));
+-		WARN_ON(!(val & EDP_PSR2_ENABLE));
++		drm_WARN_ON(&dev_priv->drm, !(val & EDP_PSR2_ENABLE));
+ 		val &= ~EDP_PSR2_ENABLE;
+ 		intel_de_write(dev_priv,
+ 			       EDP_PSR2_CTL(dev_priv->psr.transcoder), val);
+ 	} else {
+ 		val = intel_de_read(dev_priv,
+ 				    EDP_PSR_CTL(dev_priv->psr.transcoder));
+-		WARN_ON(!(val & EDP_PSR_ENABLE));
++		drm_WARN_ON(&dev_priv->drm, !(val & EDP_PSR_ENABLE));
+ 		val &= ~EDP_PSR_ENABLE;
+ 		intel_de_write(dev_priv,
+ 			       EDP_PSR_CTL(dev_priv->psr.transcoder), val);
+@@ -1012,7 +1014,7 @@ void intel_psr_disable(struct intel_dp *intel_dp,
+ 	if (!old_crtc_state->has_psr)
+ 		return;
  
-@@ -520,7 +521,7 @@ static u32 intel_panel_compute_brightness(struct intel_connector *connector,
- 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
- 	struct intel_panel *panel = &connector->panel;
+-	if (WARN_ON(!CAN_PSR(dev_priv)))
++	if (drm_WARN_ON(&dev_priv->drm, !CAN_PSR(dev_priv)))
+ 		return;
  
--	WARN_ON(panel->backlight.max == 0);
-+	drm_WARN_ON(&dev_priv->drm, panel->backlight.max == 0);
- 
- 	if (i915_modparams.invert_brightness < 0)
- 		return val;
-@@ -569,7 +570,7 @@ static u32 i9xx_get_backlight(struct intel_connector *connector)
- 
- static u32 _vlv_get_backlight(struct drm_i915_private *dev_priv, enum pipe pipe)
- {
--	if (WARN_ON(pipe != PIPE_A && pipe != PIPE_B))
-+	if (drm_WARN_ON(&dev_priv->drm, pipe != PIPE_A && pipe != PIPE_B))
- 		return 0;
- 
- 	return intel_de_read(dev_priv, VLV_BLC_PWM_CTL(pipe)) & BACKLIGHT_DUTY_CYCLE_MASK;
-@@ -627,7 +628,7 @@ static void i9xx_set_backlight(const struct drm_connector_state *conn_state, u32
- 	struct intel_panel *panel = &connector->panel;
- 	u32 tmp, mask;
- 
--	WARN_ON(panel->backlight.max == 0);
-+	drm_WARN_ON(&dev_priv->drm, panel->backlight.max == 0);
- 
- 	if (panel->backlight.combination_mode) {
- 		u8 lbpc;
-@@ -711,7 +712,7 @@ void intel_panel_set_backlight_acpi(const struct drm_connector_state *conn_state
- 
- 	mutex_lock(&dev_priv->backlight_lock);
- 
--	WARN_ON(panel->backlight.max == 0);
-+	drm_WARN_ON(&dev_priv->drm, panel->backlight.max == 0);
- 
- 	hw_level = clamp_user_to_hw(connector, user_level, user_max);
- 	panel->backlight.level = hw_level;
-@@ -1256,7 +1257,7 @@ static void intel_panel_set_backlight(const struct drm_connector_state *conn_sta
- 
- 	mutex_lock(&dev_priv->backlight_lock);
- 
--	WARN_ON(panel->backlight.max == 0);
-+	drm_WARN_ON(&dev_priv->drm, panel->backlight.max == 0);
- 
- 	hw_level = scale_user_to_hw(connector, user_level, user_max);
- 	panel->backlight.level = hw_level;
-@@ -1565,7 +1566,7 @@ static u32 get_backlight_min_vbt(struct intel_connector *connector)
- 	struct intel_panel *panel = &connector->panel;
- 	int min;
- 
--	WARN_ON(panel->backlight.max == 0);
-+	drm_WARN_ON(&dev_priv->drm, panel->backlight.max == 0);
- 
- 	/*
- 	 * XXX: If the vbt value is 255, it makes min equal to max, which leads
-@@ -1752,7 +1753,7 @@ static int vlv_setup_backlight(struct intel_connector *connector, enum pipe pipe
- 	struct intel_panel *panel = &connector->panel;
- 	u32 ctl, ctl2, val;
- 
--	if (WARN_ON(pipe != PIPE_A && pipe != PIPE_B))
-+	if (drm_WARN_ON(&dev_priv->drm, pipe != PIPE_A && pipe != PIPE_B))
- 		return -ENODEV;
- 
- 	ctl2 = intel_de_read(dev_priv, VLV_BLC_PWM_CTL2(pipe));
-@@ -1946,7 +1947,7 @@ int intel_panel_setup_backlight(struct drm_connector *connector, enum pipe pipe)
- 	}
- 
- 	/* ensure intel_panel has been initialized first */
--	if (WARN_ON(!panel->backlight.setup))
-+	if (drm_WARN_ON(&dev_priv->drm, !panel->backlight.setup))
- 		return -ENODEV;
- 
- 	/* set level and max in panel struct */
+ 	mutex_lock(&dev_priv->psr.lock);
 -- 
 2.23.0
 
