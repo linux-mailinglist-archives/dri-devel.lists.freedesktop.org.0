@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58E614BC8B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 16:02:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D5A14BCA4
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 16:14:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 716216E06B;
-	Tue, 28 Jan 2020 15:02:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86C46E0B9;
+	Tue, 28 Jan 2020 15:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 732826E06B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 15:02:06 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id a5so2888129wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 07:02:06 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 310416E0B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 15:14:47 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id p17so2965950wma.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 07:14:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7XoF0plGDCzaQQj/DdAEdPuSDr2qTr4cuR0UW8Rmz84=;
- b=W6nYxWEz+rkPjKwxlUEnXVMdEJ5kUG6KxMml96C/WQBYBsJuTmt4kTbb9ClSDd28sH
- OyBY1p3iA5iMnfwQrR+Nw3V6TIzr/JgRUaTB/YqiNdsLwoftqDFcRj3FONPK5YTBXBmb
- Ms/tZB5ymClVZsLurBYs/MfWLEkhBe5G0M2W8=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=wC9C/BsYUjVeK8G1BQ+TqjG6d+uume0GDrnY6oFsX1Q=;
+ b=KluDkgOvTVrXsbcZm8SJITVRRmj+jRnR+xflcCbz62cZyc2ZJ+ugUGupwazQ0fjHxW
+ 39Vw9tHePuIm1zNNWior0QOUaBEnJcIxqu7mu/+IvsSrPgitaJ8WtPT1R2iNmZhH34yI
+ m1FMT8KUzzdw0/e9AG8rnXc3Ll8bMaiSQmlu8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7XoF0plGDCzaQQj/DdAEdPuSDr2qTr4cuR0UW8Rmz84=;
- b=dbJP8ae+pavIPLfTxIqpmd/IkCcuBADgPhmxpAsLa3mp6OA/p/z5f4H1hdq8fmPVye
- Z3KHqlZOKhM07hNcUDlqiyKn28csEUP5cJkqmASawm3wzEIhN8XluKODTA1wtFMNLljd
- r+KjLFTf2Y2h6wI1wrSvENIbINMxoAu5shoGwShBBLokoqAWiVQBQUe8h31rMjwRHdCz
- XyRb/izdWw9o9XjjluqOLp5K089lsQrXWIgWHvPPjzEMECItoz+6IU7nHWYL6gzaBBI7
- mPwJV9KiprbldUHbJVRMJwhHxKRa8CAaPVzzAN9xchUwIb9WB4fJamrxL04kZPhJ2xcX
- v8wQ==
-X-Gm-Message-State: APjAAAXX6d3RwRCFF2DREgzuF4ItM8RS/X2WaRHN+X7rQuMXeJSCF0za
- sipdMIHJGpQVhzksbpii8B8z8A==
-X-Google-Smtp-Source: APXvYqz2B0u+017u8gfxyGI38dajvt8J16sEWM3hF4TXxjVbukoktIS7OTSNcojeoSomzACzCnXGfg==
-X-Received: by 2002:a7b:c753:: with SMTP id w19mr5656661wmk.34.1580223724968; 
- Tue, 28 Jan 2020 07:02:04 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wC9C/BsYUjVeK8G1BQ+TqjG6d+uume0GDrnY6oFsX1Q=;
+ b=Wui5bRQHKP6F0O9g3h9Be34BTyg9Ewi84AzF3qmOemHbraqU4ZI48wt5nWGhO75vYH
+ TbakNR2UY1BfopfI+Wfcfu1iJNPJOGIKo8UCZkQZCeJQyhViFwQcliJI8aUQy7pMEiU9
+ gpuMThKumTcmG07WfsBBiYuRX4prqTYnv3+BeL1fD0Ov3ljy7ayo0xCI580VmjlFFCMO
+ Qa9xkrK8HESNoQt1CrKAJcwUS1aARVkZ3r3EgrevXB6FnhvitNm/qVB2YDk22nu+cRwE
+ 7q7n8aGh33mks6L3J5sES+nvXrXs/XLKNJ61JIk1gx3OmXD2Qkyt2Tvnrw4VUvJkWD2i
+ 9BBA==
+X-Gm-Message-State: APjAAAU4peInQJ36MuC5QhtwNPrB9OR/FNLaop5dBpGpSoSyukhqP0kT
+ NkVR3kk38vX+OhZB9JjA55xBuA==
+X-Google-Smtp-Source: APXvYqwV0uyfdAheNbO9WR0r52FgmbieTRfSTGc5nqZhx6ndvBa2n8MA+ZWkciky+Z/HdaS4N8i+DQ==
+X-Received: by 2002:a1c:8095:: with SMTP id b143mr5431868wmd.7.1580224485772; 
+ Tue, 28 Jan 2020 07:14:45 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u1sm3275039wmc.5.2020.01.28.07.02.04
+ by smtp.gmail.com with ESMTPSA id d14sm27670784wru.9.2020.01.28.07.14.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 07:02:04 -0800 (PST)
-Date: Tue, 28 Jan 2020 16:02:02 +0100
+ Tue, 28 Jan 2020 07:14:44 -0800 (PST)
+Date: Tue, 28 Jan 2020 16:14:42 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [Intel-gfx] [PATCH 1/4] drm: Complain if drivers still use the
- ->load callback
-Message-ID: <20200128150202.GG43062@phenom.ffwll.local>
-References: <20200128104602.1459802-1-daniel.vetter@ffwll.ch>
- <158020847932.30113.5492073782079336156@skylake-alporthouse-com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 01/15] drm: Initialize struct drm_crtc_state.no_vblank
+ from device settings
+Message-ID: <20200128151442.GH43062@phenom.ffwll.local>
+References: <20200123092123.28368-1-tzimmermann@suse.de>
+ <20200123092123.28368-2-tzimmermann@suse.de>
+ <CACvgo53YvKjPNNshZoTjJehHyOX6e05kJ5gAXtjwxs+oLLv7vw@mail.gmail.com>
+ <183782e6-164c-bae8-90e0-906edb059a1d@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <158020847932.30113.5492073782079336156@skylake-alporthouse-com>
+In-Reply-To: <183782e6-164c-bae8-90e0-906edb059a1d@suse.de>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,60 +69,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: david@lechnology.com, Sam Ravnborg <sam@ravnborg.org>,
+ oleksandr_andrushchenko@epam.com, Dave Airlie <airlied@linux.ie>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Hans de Goede <hdegoede@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ xen-devel@lists.xenproject.org, Emil Velikov <emil.velikov@collabora.com>,
+ Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 28, 2020 at 10:47:59AM +0000, Chris Wilson wrote:
-> Quoting Daniel Vetter (2020-01-28 10:45:58)
-> > Kinda time to get this sorted. The locking around this really is not
-> > nice.
-> > 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_drv.c | 6 ++++++
-> >  include/drm/drm_drv.h     | 3 +++
-> >  2 files changed, 9 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index 7c18a980cd4b..8deff75b484c 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -948,6 +948,12 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
-> >  
-> >         mutex_lock(&drm_global_mutex);
-> >  
-> > +       if (dev->driver->load) {
-> > +               if (!drm_core_check_feature(dev, DRIVER_LEGACY))
-> > +                       DRM_INFO("drm driver %s is using deprecated ->load callback\n",
-> > +                                dev->driver->name);
-> 
-> DRM_WARN() if the plan is to remove it?
+On Mon, Jan 27, 2020 at 07:42:27PM +0100, Thomas Zimmermann wrote:
+> Hi Emil
+> =
 
-Consensus from the security check work that Kees Cook is doing seems to
-be:
-- Put new thing in place, convert lots
-- Start to do opt-in/informational stuff
-- Once you're sure it's all gone, put in the big splat that kills the
-  box/driver. Apparently radeon/amdgpu are the hold-outs, once those are
-  done I think I'll just outright disable ->load/unload for
-  !DRIVER_LEGACY.
+> Am 27.01.20 um 19:12 schrieb Emil Velikov:
+> > Hi Thomas,
+> > =
 
-Cheers, Daniel
+> > On Thu, 23 Jan 2020 at 09:21, Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+> > =
 
-> That should encourage people to complain louder.
-> -Chris
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >> @@ -174,12 +174,22 @@ struct drm_crtc_state {
+> >>          * @no_vblank:
+> >>          *
+> >>          * Reflects the ability of a CRTC to send VBLANK events. This =
+state
+> >> -        * usually depends on the pipeline configuration, and the main=
+ usuage
+> >> -        * is CRTCs feeding a writeback connector operating in oneshot=
+ mode.
+> >> -        * In this case the VBLANK event is only generated when a job =
+is queued
+> >> -        * to the writeback connector, and we want the core to fake VB=
+LANK
+> >> -        * events when this part of the pipeline hasn't changed but ot=
+hers had
+> >> -        * or when the CRTC and connectors are being disabled.
+> >> +        * usually depends on the pipeline configuration. If set to tr=
+ue, DRM
+> >> +        * atomic helpers will sendout a fake VBLANK event during disp=
+lay
+> >> +        * updates.
+> >> +        *
+> >> +        * One usage is for drivers and/or hardware without support fo=
+r VBLANK
+> >> +        * interrupts. Such drivers typically do not initialize vblank=
+ing
+> >> +        * (i.e., call drm_vblank_init() wit the number of CRTCs). For=
+ CRTCs
+> >> +        * without initialized vblanking, the field is initialized to =
+true and
+> >> +        * a VBLANK event will be send out on each update of the displ=
+ay
+> >> +        * pipeline.
+> >> +        *
+> >> +        * Another usage is CRTCs feeding a writeback connector operat=
+ing in
+> >> +        * oneshot mode. In this case the VBLANK event is only generat=
+ed when
+> >> +        * a job is queued to the writeback connector, and we want the=
+ core
+> >> +        * to fake VBLANK events when this part of the pipeline hasn't=
+ changed
+> >> +        * but others had or when the CRTC and connectors are being di=
+sabled.
+> >>          *
+> > =
 
--- 
+> > Perhaps it's just me, yet the following ideas would make the topic
+> > significantly easier and clearer.
+> > =
+
+> >  - adding explicit "fake" when talking about drm/atomic _helpers_
+> > generating/sending a VBLANK event.
+> > For example, in 15/15 the commit message says "fake", while inline
+> > comment omits it... Leading to the confusion pointed out.
+> =
+
+> No problem on being more precise here. I'll update the docs accordingly.
+> =
+
+> > =
+
+> > - s/no_vblank/fake_vblank/g or s/no_vblank/no_hw_vblank/g
+> > Simple and concise. With slight inclination towards the former wording =
+:-)
+> =
+
+> I'd prefer to not change the field's name. The current name 'no_vblank'
+> indicates state and lets helpers decide what to do with it. The name
+> 'fake_vblank' indicates an instruction to the helpers, telling them what
+> to do. It does neither seem to fit into drm_crtc_state, nor into the
+> overall concept.
+
+Yeah e.g. xen has no hw vblank, but still has special processing of
+events, which are kinda triggered by the "hw" (it's an event from the
+compositor).
+
+Maybe the confusion is with the helper function that generates the
+fake_vblank, since it's not really a fake vblank at all, it's just "send
+out this atomic completion event now, I'm not going to do it as part of
+the vblank processing since no vblank". So maybe that function should be
+called _send_events_i_have_no_hw_vblank, which yeah is not a great name
+:-) But maybe you have an idea for that one?
+-Daniel
+
+> =
+
+> Best regards
+> Thomas
+> =
+
+> > =
+
+> > If you and Daniel agree with the rename, then the first sentence of
+> > the description should probably be tweaked.
+> > =
+
+> > HTH
+> > Emil
+> > =
+
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
+
+
+
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
