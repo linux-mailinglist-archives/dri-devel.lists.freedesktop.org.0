@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D8F14C2CD
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 23:16:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E08C414C2C0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 23:16:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D78F6F43B;
-	Tue, 28 Jan 2020 22:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B4B6E155;
+	Tue, 28 Jan 2020 22:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8260F6E155
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 809BB6E141
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 22:16:23 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1580249784; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=i+aFwz/XZq1hLfURdhwYcNPvIQ+jYpVpqGRNNihkjB8=;
- b=t68r4dZFy37uqZuV3kR93gT/9u9mIe2o0mFWDBiCqYrb8z9Yjcw7B0XeuTxOV8wcL8sYWmTo
- Cy3WxTY0zlG9wRIMQxDc01/Czemi+1FHDW1hWZ+Gihy+B3FbCNnM/ntAM/KWmPTwpWJK34xx
- Fj5r398yUFjai+/UftRyEMKm8Ew=
-X-Mailgun-Sending-Ip: 104.130.122.26
+ s=smtp; t=1580249783; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=GpI+mTVrUBvTTsjKcw+tKygwnL3f9JdTCVmD4fbxwzA=;
+ b=aCNm8M4t97Gkjb0oayaKLkA44+OC39oEl9ajYmrynsBcPfwf16fEZMfI8upVFZeDLwh5KLK8
+ m9SDH78x8Nf+khx8LAXfpFL7/DDEJPKu2h3bm1mQ7zKe3N/z7Ox2CwjQG7kEDUUa1EJhFUTi
+ Dt7TyEVNGDvkW/k9HdatTye90BI=
+X-Mailgun-Sending-Ip: 104.130.122.25
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e30b2b3.7fb6d67462d0-smtp-out-n02;
- Tue, 28 Jan 2020 22:16:19 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e30b2b5.7f0683b63458-smtp-out-n02;
+ Tue, 28 Jan 2020 22:16:21 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id A9A8EC4479F; Tue, 28 Jan 2020 22:16:19 +0000 (UTC)
+ id D02FCC447A4; Tue, 28 Jan 2020 22:16:21 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B3BD1C433CB;
- Tue, 28 Jan 2020 22:16:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B3BD1C433CB
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 17571C4479F;
+ Tue, 28 Jan 2020 22:16:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 17571C4479F
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH v1 0/6] iommu/arm-smmu: Auxiliary domain and per instance
- pagetables
-Date: Tue, 28 Jan 2020 15:16:04 -0700
-Message-Id: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
+Subject: [PATCH v1 3/6] drm/msm/adreno: ADd support for IOMMU auxiliary domains
+Date: Tue, 28 Jan 2020 15:16:07 -0700
+Message-Id: <1580249770-1088-4-git-send-email-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
+References: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,67 +66,141 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- will@kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
- robin.murphy@arm.com, dri-devel@lists.freedesktop.org,
+ will@kernel.org, robin.murphy@arm.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Joerg Roedel <joro@8bytes.org>,
- linux-arm-kernel@lists.infradead.org
+ Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some clients have a requirement to sandbox memory mappings for security and
-advanced features like SVM. This series adds support to enable per-instance
-pagetables as auxiliary domains in the arm-smmu driver and adds per-instance
-support for the Adreno GPU.
+Add support for creating a auxiliary domain from the IOMMU device to
+implement per-instance pagetables. Also add a helper function to
+return the pagetable base address (ttbr) and asid to the caller so
+that the GPU target code can set up the pagetable switch.
 
-This patchset builds on the split pagetable support from [1]. In that series the
-TTBR1 address space is programmed for the default ("master") domain and enables
-support for auxiliary domains. Each new auxiliary domain will allocate a
-pagetable which the leaf driver can program through the usual IOMMU APIs. It can
-also query the physical address of the pagetable.
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+---
 
-In the SMMU driver the first auxiliary domain will enable and program the TTBR0
-space. Subsequent auxiliary domains won't touch the hardware. Similarly when
-the last auxiliary domain is detached the TTBR0 region will be disabled again.
+ drivers/gpu/drm/msm/msm_iommu.c | 72 +++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_mmu.h   |  3 ++
+ 2 files changed, 75 insertions(+)
 
-In the Adreno driver each new file descriptor instance will create a new
-auxiliary domain / pagetable and use it for all the memory allocations of that
-instance. The driver will query the base address of each pagetable and switch
-them dynamically using the built-in table switch capability of the GPU. If any
-of these features fail the driver will automatically fall back to using the
-default (global) pagetable.
-
-This patchset had previously been submitted as [2] but has been significantly
-modified since then.
-
-Jordan
-
-[1] https://lists.linuxfoundation.org/pipermail/iommu/2020-January/041438.html
-[2] https://patchwork.freedesktop.org/series/57441/
-
-
-Jordan Crouse (6):
-  iommu: Add DOMAIN_ATTR_PTBASE
-  arm/smmu: Add auxiliary domain support for arm-smmuv2
-  drm/msm/adreno: ADd support for IOMMU auxiliary domains
-  drm/msm: Add support to create target specific address spaces
-  drm/msm/gpu: Add ttbr0 to the memptrs
-  drm/msm/a6xx: Support per-instance pagetables
-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c |  89 +++++++++++++
- drivers/gpu/drm/msm/msm_drv.c         |  22 +++-
- drivers/gpu/drm/msm/msm_gpu.h         |   2 +
- drivers/gpu/drm/msm/msm_iommu.c       |  72 +++++++++++
- drivers/gpu/drm/msm/msm_mmu.h         |   3 +
- drivers/gpu/drm/msm/msm_ringbuffer.h  |   1 +
- drivers/iommu/arm-smmu.c              | 230 +++++++++++++++++++++++++++++++---
- drivers/iommu/arm-smmu.h              |   3 +
- include/linux/iommu.h                 |   2 +
- 9 files changed, 405 insertions(+), 19 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+index e773ef8..df0d70a 100644
+--- a/drivers/gpu/drm/msm/msm_iommu.c
++++ b/drivers/gpu/drm/msm/msm_iommu.c
+@@ -7,9 +7,17 @@
+ #include "msm_drv.h"
+ #include "msm_mmu.h"
+ 
++/*
++ * It is up to us to assign ASIDS for our instances. Start at 32 to give a
++ * cushion to account for ASIDS assigned to real context banks
++ */
++static int msm_iommu_asid = 32;
++
+ struct msm_iommu {
+ 	struct msm_mmu base;
+ 	struct iommu_domain *domain;
++	u64 ttbr;
++	int asid;
+ };
+ #define to_msm_iommu(x) container_of(x, struct msm_iommu, base)
+ 
+@@ -58,6 +66,20 @@ static void msm_iommu_destroy(struct msm_mmu *mmu)
+ 	kfree(iommu);
+ }
+ 
++static void msm_iommu_aux_detach(struct msm_mmu *mmu)
++{
++	struct msm_iommu *iommu = to_msm_iommu(mmu);
++
++	iommu_aux_detach_device(iommu->domain, mmu->dev);
++}
++
++static const struct msm_mmu_funcs aux_funcs = {
++		.detach = msm_iommu_aux_detach,
++		.map = msm_iommu_map,
++		.unmap = msm_iommu_unmap,
++		.destroy = msm_iommu_destroy,
++};
++
+ static const struct msm_mmu_funcs funcs = {
+ 		.detach = msm_iommu_detach,
+ 		.map = msm_iommu_map,
+@@ -65,6 +87,56 @@ static const struct msm_mmu_funcs funcs = {
+ 		.destroy = msm_iommu_destroy,
+ };
+ 
++bool msm_iommu_get_ptinfo(struct msm_mmu *mmu, u64 *ttbr, u32 *asid)
++{
++	struct msm_iommu *iommu = to_msm_iommu(mmu);
++
++	if (!iommu->ttbr)
++		return false;
++
++	if (ttbr)
++		*ttbr = iommu->ttbr;
++	if (asid)
++		*asid = iommu->asid;
++
++	return true;
++}
++
++struct msm_mmu *msm_iommu_new_instance(struct device *dev,
++		struct iommu_domain *domain)
++{
++	struct msm_iommu *iommu;
++	u64 ptbase;
++	int ret;
++
++	ret = iommu_aux_attach_device(domain, dev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = iommu_domain_get_attr(domain, DOMAIN_ATTR_PTBASE, &ptbase);
++	if (ret) {
++		iommu_aux_detach_device(domain, dev);
++		return ERR_PTR(ret);
++	}
++
++	iommu = kzalloc(sizeof(*iommu), GFP_KERNEL);
++	if (!iommu) {
++		iommu_aux_detach_device(domain, dev);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	iommu->domain = domain;
++	iommu->ttbr = ptbase;
++	iommu->asid = msm_iommu_asid++;
++
++	if (msm_iommu_asid > 0xff)
++		msm_iommu_asid = 32;
++
++	msm_mmu_init(&iommu->base, dev, &aux_funcs);
++
++	return &iommu->base;
++}
++
+ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
+ {
+ 	struct msm_iommu *iommu;
+diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
+index bae9e8e..65a5cb2 100644
+--- a/drivers/gpu/drm/msm/msm_mmu.h
++++ b/drivers/gpu/drm/msm/msm_mmu.h
+@@ -32,6 +32,9 @@ static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
+ }
+ 
+ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain);
++struct msm_mmu *msm_iommu_new_instance(struct device *dev,
++		struct iommu_domain *domain);
++bool msm_iommu_get_ptinfo(struct msm_mmu *mmu, u64 *ttbr, u32 *asid);
+ struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu);
+ 
+ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
 -- 
 2.7.4
 _______________________________________________
