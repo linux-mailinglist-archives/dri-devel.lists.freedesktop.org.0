@@ -1,57 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEA714B370
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 12:20:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2EA14B37F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 12:28:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E186EDD7;
-	Tue, 28 Jan 2020 11:20:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 287D76EDDB;
+	Tue, 28 Jan 2020 11:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF36A6EDD7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 11:20:00 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00SBJtNt109837;
- Tue, 28 Jan 2020 05:19:55 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1580210395;
- bh=swVa5c4u6qLCUKUsqKbEyQEnF/t26KSVtxcZXBxbYUA=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=qyJReMxGtqsze1upjDTRFQU9gA/lg2v28wUghnFPU2LA/PzBLIYt5NI4mZzC39TqS
- EZxNu5SJDm/foKr6dv5zB2vvsd7hmG7kYMcWneGJngTCJh8YSwV8BfQZC32njDeQbG
- tFXz+t/pNspsz1T3J05I/Kg216i6LrWyUDE5rZz8=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00SBJt69032356
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 28 Jan 2020 05:19:55 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 28
- Jan 2020 05:19:54 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 28 Jan 2020 05:19:54 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00SBJrNj017786;
- Tue, 28 Jan 2020 05:19:53 -0600
-Subject: Re: [PATCH v5 17/52] drm: Add helper to create a connector for a
- chain of bridges
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20200124035445.1830-1-laurent.pinchart@ideasonboard.com>
- <20200124035445.1830-18-laurent.pinchart@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <a3e8855c-ebb2-b72b-0e16-8f34a45df5a3@ti.com>
-Date: Tue, 28 Jan 2020 13:19:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 335F16EDDB;
+ Tue, 28 Jan 2020 11:28:31 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1iwP2i-0002MT-7V; Tue, 28 Jan 2020 11:28:28 +0000
+From: Colin King <colin.king@canonical.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amd/display: fix spelling mistake link_integiry_check ->
+ link_integrity_check
+Date: Tue, 28 Jan 2020 11:28:27 +0000
+Message-Id: <20200128112827.43682-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <20200124035445.1830-18-laurent.pinchart@ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,67 +44,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Boris Brezillon <bbrezillon@kernel.org>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+From: Colin Ian King <colin.king@canonical.com>
 
-On 24/01/2020 05:54, Laurent Pinchart wrote:
+There is a spelling mistake on the struct field name link_integiry_check,
+fix this by renaming it.
 
-> +struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> +						struct drm_encoder *encoder)
-> +{
-> +	struct drm_bridge_connector *bridge_connector;
-> +	struct drm_connector *connector;
-> +	struct i2c_adapter *ddc = NULL;
-> +	struct drm_bridge *bridge;
-> +	int connector_type;
-> +
-> +	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
-> +	if (!bridge_connector)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	bridge_connector->encoder = encoder;
-> +
-> +	/*
-> +	 * TODO: Handle doublescan_allowed, stereo_allowed and
-> +	 * ycbcr_420_allowed.
-> +	 */
-> +	connector = &bridge_connector->base;
-> +	connector->interlace_allowed = true;
-> +
-> +	/*
-> +	 * Initialise connector status handling. First locate the furthest
-> +	 * bridges in the pipeline that support HPD and output detection. Then
-> +	 * initialise the connector polling mode, using HPD if available and
-> +	 * falling back to polling if supported. If neither HPD nor output
-> +	 * detection are available, we don't support hotplug detection at all.
-> +	 */
-> +	connector_type = DRM_MODE_CONNECTOR_Unknown;
-> +	drm_for_each_bridge_in_chain(encoder, bridge) {
-> +		if (bridge->interlace_allowed)
-> +			connector->interlace_allowed = false;
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h           | 2 +-
+ .../gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c    | 8 ++++----
+ .../gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c   | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-This doesn't work on Beagle-xM's venc output.
-
-The above test should be !bridge->interlace_allowed.
-
-But that doesn't solve it fully. We have VENC and display-connector as bridges in the beagle's VENC 
-output path. Only VENC is marked as interlace_allowed.
-
-Setting "conn->bridge.interlace_allowed = true;" in display_connector_probe got the VENC output 
-working. But what's the correct fix here? set interlace_allowed based on connector type?
-
-  Tomi
-
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
+index f98d3d9ecb6d..af78e4f1be68 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
+@@ -63,7 +63,7 @@ struct mod_hdcp_transition_input_hdcp1 {
+ 	uint8_t hdcp_capable_dp;
+ 	uint8_t binfo_read_dp;
+ 	uint8_t r0p_available_dp;
+-	uint8_t link_integiry_check;
++	uint8_t link_integrity_check;
+ 	uint8_t reauth_request_check;
+ 	uint8_t stream_encryption_dp;
+ };
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+index 04845e43df15..37670db64855 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+@@ -283,8 +283,8 @@ static enum mod_hdcp_status wait_for_ready(struct mod_hdcp *hdcp,
+ 				hdcp, "bstatus_read"))
+ 			goto out;
+ 		if (!mod_hdcp_execute_and_set(check_link_integrity_dp,
+-				&input->link_integiry_check, &status,
+-				hdcp, "link_integiry_check"))
++				&input->link_integrity_check, &status,
++				hdcp, "link_integrity_check"))
+ 			goto out;
+ 		if (!mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
+ 				&input->reauth_request_check, &status,
+@@ -431,8 +431,8 @@ static enum mod_hdcp_status authenticated_dp(struct mod_hdcp *hdcp,
+ 			hdcp, "bstatus_read"))
+ 		goto out;
+ 	if (!mod_hdcp_execute_and_set(check_link_integrity_dp,
+-			&input->link_integiry_check, &status,
+-			hdcp, "link_integiry_check"))
++			&input->link_integrity_check, &status,
++			hdcp, "link_integrity_check"))
+ 		goto out;
+ 	if (!mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
+ 			&input->reauth_request_check, &status,
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c
+index 21ebc62bb9d9..76edcbe51f71 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c
+@@ -241,7 +241,7 @@ enum mod_hdcp_status mod_hdcp_hdcp1_dp_transition(struct mod_hdcp *hdcp,
+ 		}
+ 		break;
+ 	case D1_A4_AUTHENTICATED:
+-		if (input->link_integiry_check != PASS ||
++		if (input->link_integrity_check != PASS ||
+ 				input->reauth_request_check != PASS) {
+ 			/* 1A-07: restart hdcp on a link integrity failure */
+ 			fail_and_restart_in_ms(0, &status, output);
+@@ -249,7 +249,7 @@ enum mod_hdcp_status mod_hdcp_hdcp1_dp_transition(struct mod_hdcp *hdcp,
+ 		}
+ 		break;
+ 	case D1_A6_WAIT_FOR_READY:
+-		if (input->link_integiry_check == FAIL ||
++		if (input->link_integrity_check == FAIL ||
+ 				input->reauth_request_check == FAIL) {
+ 			fail_and_restart_in_ms(0, &status, output);
+ 			break;
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.24.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
