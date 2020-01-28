@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E4B14C22B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 22:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E36D14C26F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 23:00:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 637DE6F422;
-	Tue, 28 Jan 2020 21:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2CF6E149;
+	Tue, 28 Jan 2020 22:00:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD2A6F422
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 21:24:32 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id c9so17795144wrw.8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 13:24:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=D5AZ+KHDe1ZFmd6svZ9H6oX/QmvepdGXChmNe0lp0fY=;
- b=td5hqFS4v5qy5kwhKt1LKGz0z/eFnaM13/HBfyTtZY+VsTyOooZXJTyiil5kT1/UUt
- BQd1BlA5NvHuFhdn7LoGxgBoWsA0FoxNBP0HgzmQh0yYRiRXv44XOZuz7rHFBoei2h39
- KavwTOScJ/EOYi2ooalYRdWBOc26VhqdPEPCIMecOXKIVUuT588SCJ+aRg20OC5sIZbd
- rwTkE3Ay/rXomzbHGpcbIshd0t2HFHCdG97K8GW/qs7wx5CSl1ZbwyP9UAM17NK3ITLp
- IQj6a7vHRGgBiCAXI0fsTtCbhPKw8J4nNJUK84L7gsFYAwOFI49xTNGOm7lAS/2YL3KN
- m3/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=D5AZ+KHDe1ZFmd6svZ9H6oX/QmvepdGXChmNe0lp0fY=;
- b=B+xe+cfLdeXKPhjwlT3zYF8oSWs+YwNVtC+Q/X0nrJRRi3XszjqbqXn1qJGJBQ4vBn
- +hCCpgi+Y3YZteWHfQzxBVaxui1sWqIQOzD79bxUmBRzYMHUwkjSBIXLioLBG4S/e0kR
- YdHDKhf9posUGlwO/2Kt2d/Fr7m4NQTy58f1mZPydkYfqvX6FNeKhbseffAgIQ0AviH+
- 57TLCHcX4ZxULWSBrYI35jcdrhXKPSc7UzpwJRjzNHgkh+pFvzc0CeZVbWAUjLy2RqEX
- 8XjWABpCU81Tj0gsAlkUOM4wvVq6ZJeEhLEIBnfhRbMU8F+Ax96yVTueFPxmbLVVHQJw
- VOCg==
-X-Gm-Message-State: APjAAAWLXhSiwvCl7gDlNeAC+QHpPyAWnKHLEudgIRRCCoiOPgs5c/ed
- eveuRWsg6aUPFbpafuTtGm+ikjaklSnnRNZWTs4=
-X-Google-Smtp-Source: APXvYqyPpmkBwuCzL1tg0C0C6v4joc2KNmQ1UUzcm7OadB4SSNYwP4cpnVDkjsJ2bPV7hwBh6xOpZMwPeD7WSFLf64M=
-X-Received: by 2002:a05:6000:1183:: with SMTP id
- g3mr2461057wrx.374.1580246671079; 
- Tue, 28 Jan 2020 13:24:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20200128160952.1628146-1-daniel.vetter@ffwll.ch>
- <CADnq5_PhFRASAC62axW9yV_Dq96NonNkw_nvjmRffUYMJa3xCQ@mail.gmail.com>
-In-Reply-To: <CADnq5_PhFRASAC62axW9yV_Dq96NonNkw_nvjmRffUYMJa3xCQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 28 Jan 2020 16:24:19 -0500
-Message-ID: <CADnq5_PADDMf+W6hzVSogJn5h-ge2cXt41bjWEpPOq-3eqXWfg@mail.gmail.com>
-Subject: Re: [PATCH] radeon: insert 10ms sleep in dce5_crtc_load_lut
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDBB76E14A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 22:00:42 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1580248845; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Mf6gK8Pui4SYiZYwgie2fpyV4QvxBlRoxDwIb21t6R0=;
+ b=wUDJk1GiF7vPm2aaPE/vLTS2+48SZJ7v/b55y2C15q0zBPIxIDQTHOkxX/Jt4F+DEZkC6lEs
+ dDilwmgNUn3Xq7g3bh1MIP4Vw4vnCrvlins8p62fzJ4EtGC5OksVabF6niFATzQMwxUBvGg9
+ aKPa9EYhB1N+O+PxLLQlOXMewes=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e30af04.7f496aa63768-smtp-out-n01;
+ Tue, 28 Jan 2020 22:00:36 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3A1EBC4479F; Tue, 28 Jan 2020 22:00:33 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 914EAC43383;
+ Tue, 28 Jan 2020 22:00:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 914EAC43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH v5 0/5] iommu/arm-smmu: Split pagetable support for arm-smmu-v2
+Date: Tue, 28 Jan 2020 15:00:14 -0700
+Message-Id: <1580248819-12644-1-git-send-email-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +62,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Wen Yang <wen.yang99@zte.com.cn>,
+ will@kernel.org, Joerg Roedel <joro@8bytes.org>,
+ Ben Dooks <ben.dooks@codethink.co.uk>, linux-arm-kernel@lists.infradead.org,
+ Wambui Karuga <wambui.karugax@gmail.com>, freedreno@lists.freedesktop.org,
+ Fritz Koenig <frkoenig@google.com>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ Allison Randal <allison@lohutok.net>, Enrico Weigelt <info@metux.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
+ zhengbin <zhengbin13@huawei.com>, Drew Davenport <ddavenport@chromium.org>,
+ Brian Masney <masneyb@onstation.org>, robin.murphy@arm.com,
+ Georgi Djakov <georgi.djakov@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKYW4gMjgsIDIwMjAgYXQgNDoyMSBQTSBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVy
-QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBUdWUsIEphbiAyOCwgMjAyMCBhdCAxMToxMCBBTSBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPiB3cm90ZToKPiA+Cj4gPiBQZXIg
-YXQgbGVhc3Qgb25lIHRlc3RlciB0aGlzIGlzIGVub3VnaCBtYWdpYyB0byByZWNvdmVyIHRoZSBy
-ZWdyZXNzaW9uCj4gPiBpbnRyb2R1Y2VkIGZvciBzb21lIHBlb3BsZSAoYnV0IG5vdCBhbGwpIGlu
-Cj4gPgo+ID4gY29tbWl0IGI4ZTJiMDE5OWNjMzc3NjE3ZGMyMzhmNTEwNjM1MmMwNmRjZDNmYTIK
-PiA+IEF1dGhvcjogUGV0ZXIgUm9zaW4gPHBlZGFAYXhlbnRpYS5zZT4KPiA+IERhdGU6ICAgVHVl
-IEp1bCA0IDEyOjM2OjU3IDIwMTcgKzAyMDAKPiA+Cj4gPiAgICAgZHJtL2ZiLWhlbHBlcjogZmFj
-dG9yIG91dCBwc2V1ZG8tcGFsZXR0ZQo+ID4KPiA+IHdoaWNoIGZvciByYWRlb24gaGFkIHRoZSBz
-aWRlLWVmZmVjdCBvZiByZWZhY3RvcmluZyBvdXQgYSBzZWVtaW5nbHkKPiA+IHJlZHVkYW50IHdy
-aXRpbmcgb2YgdGhlIGNvbG9yIHBhbGV0dGUuCj4gPgo+ID4gMTBtcyBpbiBhIGZhaXJseSBzbG93
-IG1vZGVzZXQgcGF0aCBmZWVscyBsaWtlIGFuIGFjY2VwdGFibGUgZm9ybSBvZgo+ID4gZHVjdC10
-YXBlLCBzbyBtYXliZSB3b3J0aCBhIHNob3QgYW5kIHNlZSB3aGF0IHN0aWNrcy4KPiA+Cj4gPiBD
-YzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+ID4gQ2M6IE1pY2hl
-bCBEw6RuemVyIDxtaWNoZWwuZGFlbnplckBhbWQuY29tPgo+ID4gUmVmZXJlbmNlczogaHR0cHM6
-Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0xOTgxMjMKPiA+IFNpZ25lZC1v
-ZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+Cj4gV29ya3Mg
-Zm9yIG1lLiAgQXBwbGllZC4gIFRoYW5rcyEKCkFjdHVhbGx5LCB0aGlua2luZyBhYm91dCB0aGlz
-IG1vcmUsIEkgd29uZGVyIGlmIHRoaXMgd2lsbCBoYXZlIGFkdmVyc2UKYWZmZWN0cyBvbiBzdHVm
-ZiB0aGF0IG1lc3NlcyB3aXRoIHRoZSBMVVQgbGlrZSB2YXJpb3VzIGZhZGUgZWZmZWN0cyBpbgpj
-b21wb3NpdG9ycy4gIEkgZ3Vlc3Mgd2UgY2FuIGNyb3NzIHRoYXQgYnJpZGdlIHdoZW4gd2UgZ2V0
-IHRvIGl0LgoKQWxleAoKCj4KPiBBbGV4Cj4KPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJt
-L3JhZGVvbi9yYWRlb25fZGlzcGxheS5jIHwgMiArKwo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
-c2VydGlvbnMoKykKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9y
-YWRlb25fZGlzcGxheS5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5j
-Cj4gPiBpbmRleCAzNTQ3NTZlMDBmZTEuLmQwN2M3ZGIwYzgxNSAxMDA2NDQKPiA+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rpc3BsYXkuYwo+ID4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jCj4gPiBAQCAtMTI3LDYgKzEyNyw4IEBAIHN0
-YXRpYyB2b2lkIGRjZTVfY3J0Y19sb2FkX2x1dChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCj4gPgo+
-ID4gICAgICAgICBEUk1fREVCVUdfS01TKCIlZFxuIiwgcmFkZW9uX2NydGMtPmNydGNfaWQpOwo+
-ID4KPiA+ICsgICAgICAgbXNsZWVwKDEwKTsKPiA+ICsKPiA+ICAgICAgICAgV1JFRzMyKE5JX0lO
-UFVUX0NTQ19DT05UUk9MICsgcmFkZW9uX2NydGMtPmNydGNfb2Zmc2V0LAo+ID4gICAgICAgICAg
-ICAgICAgKE5JX0lOUFVUX0NTQ19HUlBIX01PREUoTklfSU5QVVRfQ1NDX0JZUEFTUykgfAo+ID4g
-ICAgICAgICAgICAgICAgIE5JX0lOUFVUX0NTQ19PVkxfTU9ERShOSV9JTlBVVF9DU0NfQllQQVNT
-KSkpOwo+ID4gLS0KPiA+IDIuMjQuMQo+ID4KPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCj4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiBkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+This is another iteration for the split pagetable support based on the
+suggestions from Robin and Will [1].
+
+Background: In order to support per-context pagetables the GPU needs to enable
+split tables so that we can store global buffers in the TTBR1 space leaving the
+GPU free to program the TTBR0 register with the address of a context specific
+pagetable.
+
+If the DOMAIN_ATTR_SPLIT_TABLES attribute is set on the domain before attaching,
+the context bank assigned to the domain will be programmed to allow translations
+in the TTBR1 space. Translations in the TTBR0 region will be disallowed because,
+as Robin pointe out, having a un-programmed TTBR0 register is dangerous.
+
+The driver can determine if TTBR1 was successfully programmed by querying
+DOMAIN_ATTR_SPLIT_TABLES after attaching. The domain geometry will also be
+updated to reflect the virtual address space for the TTBR1 range.
+
+Upcoming changes will allow auxiliary domains to be attached to the device which
+will enable and program TTBR0.
+
+This patchset is based on top of linux-next-20200127.
+
+Change log:
+
+v4: Only program TTBR1 when split pagetables are requested. TTBR0 will be
+enabled later when an auxiliary domain is attached
+v3: Remove the implementation specific and make split pagetable support
+part of the generic configuration
+
+[1] https://lists.linuxfoundation.org/pipermail/iommu/2020-January/041373.html
+
+Jordan Crouse (5):
+  iommu: Add DOMAIN_ATTR_SPLIT_TABLES
+  iommu/arm-smmu: Add support for TTBR1
+  drm/msm: Attach the IOMMU device during initialization
+  drm/msm: Refactor address space initialization
+  drm/msm/a6xx: Support split pagetables
+
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c    | 16 ++++++++++
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c    |  1 +
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c    |  1 +
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c    |  1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c    | 51 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c  | 23 ++++++++++----
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h  |  8 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 18 ++++-------
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 18 +++++------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c |  4 ---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 18 +++++------
+ drivers/gpu/drm/msm/msm_drv.h            |  8 ++---
+ drivers/gpu/drm/msm/msm_gem_vma.c        | 36 ++++------------------
+ drivers/gpu/drm/msm/msm_gpu.c            | 49 ++----------------------------
+ drivers/gpu/drm/msm/msm_gpu.h            |  4 +--
+ drivers/gpu/drm/msm/msm_gpummu.c         |  6 ----
+ drivers/gpu/drm/msm/msm_iommu.c          | 18 ++++++-----
+ drivers/gpu/drm/msm/msm_mmu.h            |  1 -
+ drivers/iommu/arm-smmu.c                 | 48 +++++++++++++++++++++++++-----
+ drivers/iommu/arm-smmu.h                 | 22 ++++++++++----
+ include/linux/iommu.h                    |  2 ++
+ 21 files changed, 198 insertions(+), 155 deletions(-)
+
+-- 
+2.7.4
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
