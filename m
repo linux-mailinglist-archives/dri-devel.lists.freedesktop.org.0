@@ -2,66 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1BF14C72A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:06:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED2C14C72E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:06:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 726626F471;
-	Wed, 29 Jan 2020 08:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5ECB6F477;
+	Wed, 29 Jan 2020 08:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C8D76EE86
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 15:43:39 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id l18so9462901lfc.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 07:43:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=R5kBMh4d+jF6Iwky3860+MgFWMq82eO07pKtL2+tzsM=;
- b=a0Z8FyCOuJQvUGgNYXLxA+nsU5OiE2CApN7uYm1l2MMj+oLoMuD1Y4Dm2qLddOwL3U
- 6y9LNcq4De2dvyrqkNpqYz30rmDHqy4ihIQ1DLsx/wyci8n9nJNyzynhGBG8nbHx1frl
- s9P7Y/RhODHOt5tugCfFjm7eSygyquDFqa/9dz8F4+JaOmJID6vaS4WMkCncnMfemrYF
- B4DurJqTDQhlA6usS0sDaRplkxl8k6DxD4pzhkq104NZKbYfK8VOxHdJ/+2BTdHvtVtR
- gRtu1FFZ4f/PsGclIIxlQ0M45/tZMn73eTGu59Yx0rcg5OINHONKBzoiFWnYaRFxIJjt
- hZvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R5kBMh4d+jF6Iwky3860+MgFWMq82eO07pKtL2+tzsM=;
- b=MNRPXCIKT07myF4iXX3mhvYsx8w9251tpVzm+xxjgMRS0nJxRc3LIL9zu77VTflgoc
- lU5BACpb3H/9o4tMxj+P9y0lv3t4oG7D7qZsUfTX8t4L1OGoR3QNgMDwOfysK/3Worgk
- z4wPEVst4CA67IHqpJx1cNEDt2AGmw67RmTIffqPKmqGrwlECeVV9oBaDJtAuhDsWS4+
- kf/3YJIsCwYbfHOOp4+hHeXch9UoVhclR2k9L8dXtQwb95W95QNoM8p0gu3VKBdlN2EF
- /t5ExvZ4kZhO38zZs856fCEoyt//4QslogibNramNNoEZocDI5JJlvVMAeY9AvJIEiWA
- CwJA==
-X-Gm-Message-State: APjAAAVH8sA/+3ZuufFoA1nPcJRoZKwL6XTmG2dqHQ0LtFylssAt/aEF
- 7+wpnZSwH7Ts1L2HOp6vWwk=
-X-Google-Smtp-Source: APXvYqxF6M/0B/ST9lUthVvxoetkET/HLrNq11A1249kcdoCCadAHqoszgPAL/oVpnZHgMf2ehBP7A==
-X-Received: by 2002:a19:3f07:: with SMTP id m7mr2748099lfa.61.1580226217514;
- Tue, 28 Jan 2020 07:43:37 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru.
- [79.139.233.37])
- by smtp.googlemail.com with ESMTPSA id f11sm12347370lfa.9.2020.01.28.07.43.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jan 2020 07:43:36 -0800 (PST)
-Subject: Re: [Regression 5.5-rc1] Extremely low GPU performance on NVIDIA
- Tegra20/30
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <a2c9eb65-c600-bf49-2c32-bddf7b44f784@gmail.com>
- <20191213151045.GB222809@ulmo>
- <d03876b8-b0d1-850b-7ae8-a61302e23843@gmail.com>
- <2f5c6fda-adf9-c6c3-7601-fa912813ce1f@gmail.com>
-Message-ID: <8b1a4006-d680-e4a7-dc91-a746c30681e4@gmail.com>
-Date: Tue, 28 Jan 2020 18:43:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+Received: from brightrain.aerifal.cx (216-12-86-13.cv.mvl.ntelos.net
+ [216.12.86.13])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CCEE66E062
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 18:58:26 +0000 (UTC)
+Received: from dalias by brightrain.aerifal.cx with local (Exim 3.15 #2)
+ id 1iwW43-0002pe-00; Tue, 28 Jan 2020 18:58:19 +0000
+Date: Tue, 28 Jan 2020 13:58:19 -0500
+From: Rich Felker <dalias@libc.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] matroxfb: add Matrox MGA-G200eW board support
+Message-ID: <20200128185819.GG30412@brightrain.aerifal.cx>
+References: <20200125195506.GA16638@brightrain.aerifal.cx>
+ <1466259e-efe7-df52-c05b-80042628d577@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <2f5c6fda-adf9-c6c3-7601-fa912813ce1f@gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <1466259e-efe7-df52-c05b-80042628d577@suse.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Wed, 29 Jan 2020 08:06:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,97 +39,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ dri-devel@lists.freedesktop.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjAuMDEuMjAyMCAwNTo1MywgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4gMTMuMTIuMjAx
-OSAxODozNSwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4+IDEzLjEyLjIwMTkgMTg6MTAs
-IFRoaWVycnkgUmVkaW5nINC/0LjRiNC10YI6Cj4+PiBPbiBGcmksIERlYyAxMywgMjAxOSBhdCAx
-MjoyNTozM0FNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+Pj4gSGVsbG8gVGhpZXJy
-eSwKPj4+Pgo+Pj4+IENvbW1pdCBbMV0gaW50cm9kdWNlZCBhIHNldmVyZSBHUFUgcGVyZm9ybWFu
-Y2UgcmVncmVzc2lvbiBvbiBUZWdyYTIwIGFuZAo+Pj4+IFRlZ3JhMzAgdXNpbmcuCj4+Pj4KPj4+
-PiBbMV0KPj4+PiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
-dC90b3J2YWxkcy9saW51eC5naXQvY29tbWl0Lz9oPXY1LjUtcmMxJmlkPWZhNjY2MWI3YWEwYjUy
-MDczNjgxYjBkMjY3NDI2NTBjOGNiZDMwZjMKPj4+Pgo+Pj4+IEludGVyZXN0aW5nbHkgdGhlIHBl
-cmZvcm1hbmNlIGlzIG9rYXkgb24gVGVncmEzMCBpZgo+Pj4+IENPTkZJR19URUdSQV9IT1NUMVhf
-RklSRVdBTEw9biwgYnV0IHRoYXQgZG9lc24ndCBtYWtlIGRpZmZlcmVuY2UgZm9yCj4+Pj4gVGVn
-cmEyMC4KPj4+Pgo+Pj4+IEkgd2FzIHRlbGxpbmcgeW91IGFib3V0IHRoaXMgcHJvYmxlbSBvbiB0
-aGUgI3RlZ3JhIElSQyBzb21ldGltZSBhZ28gYW5kCj4+Pj4geW91IGFza2VkIHRvIHJlcG9ydCBp
-dCBpbiBhIHRyYWNrYWJsZSBmb3JtLCBzbyBmaW5hbGx5IGhlcmUgaXQgaXMuCj4+Pj4KPj4+PiBZ
-b3UgY291bGQgcmVwcm9kdWNlIHRoZSBwcm9ibGVtIGJ5IHJ1bm5pbmcgWzJdIGxpa2UgdGhpcwo+
-Pj4+IGBncmF0ZS90ZXh0dXJlLWZpbHRlciAtZiAtc2Agd2hpY2ggc2hvdWxkIHByb2R1Y2Ugb3Zl
-ciAxMDAgRlBTIGZvciA3MjBwCj4+Pj4gZGlzcGxheSByZXNvbHV0aW9uIGFuZCBjdXJyZW50bHkg
-aXQncyB+MTEgRlBTLgo+Pj4+Cj4+Pj4gWzJdCj4+Pj4gaHR0cHM6Ly9naXRodWIuY29tL2dyYXRl
-LWRyaXZlci9ncmF0ZS9ibG9iL21hc3Rlci90ZXN0cy9ncmF0ZS90ZXh0dXJlLWZpbHRlci5jCj4+
-Pj4KPj4+PiBQcmV2aW91c2x5IEkgd2FzIHNlZWluZyBzb21lIG1lbW9yeSBlcnJvcnMgY29taW5n
-IGZyb20gSG9zdDF4IERNQSwgYnV0Cj4+Pj4gZG9uJ3Qgc2VlIGFueSBlcnJvcnMgYXQgYWxsIHJp
-Z2h0IG5vdy4KPj4+Pgo+Pj4+IEkgZG9uJ3Qgc2VlIGFueXRoaW5nIGRvbmUgaG9ycmlibHkgd3Jv
-bmcgaW4gdGhlIG9mZmVuZGluZyBjb21taXQuCj4+Pj4KPj4+PiBVbmZvcnR1bmF0ZWx5IEkgY291
-bGRuJ3QgZGVkaWNhdGUgZW5vdWdoIHRpbWUgdG8gc2l0IGRvd24gYW5kIGRlYnVnIHRoZQo+Pj4+
-IHByb2JsZW0gdGhvcm91Z2hseSB5ZXQuIFBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3UnbGwgZmlu
-ZCBhIHNvbHV0aW9uLAo+Pj4+IEknbGwgYmUgaGFwcHkgdG8gdGVzdCBpdC4gVGhhbmtzIGluIGFk
-dmFuY2UhCj4+Pgo+Pj4gSSBzdXNwZWN0IHRoYXQgdGhlIHByb2JsZW0gaGVyZSBpcyB0aGF0IHdl
-J3JlIG5vdyB1c2luZyB0aGUgRE1BIEFQSSwKPj4+IHdoaWNoIGNhdXNlcyB0aGUgMzItYml0IEFS
-TSBETUEvSU9NTVUgZ2x1ZSB0byBiZSB1c2VkLiBJIHZhZ3VlbHkgcmVjYWxsCj4+PiB0aGF0IHRo
-YXQgY29kZSBkb2Vzbid0IGNvYWxlc2NlIGVudHJpZXMgaW4gdGhlIFNHIHRhYmxlLCBzbyB3ZSBt
-YXkgZW5kCj4+PiB1cCBjYWxsaW5nIGlvbW11X21hcCgpIGEgbG90IG9mIHRpbWVzLCBhbmQgbWlz
-cyBvdXQgb24gbXVjaCBvZiB0aGUKPj4+IGFkdmFudGFnZXMgdGhhdCB0aGUgLT5pb3RsYl9zeW5j
-X21hcCgpIGdpdmVzIHVzIG9uIFRlZ3JhMjAuCj4+Pgo+Pj4gQXQgdGhlIHNhbWUgdGltZSBkbWFf
-bWFwX3NnKCkgd2lsbCBmbHVzaCBjYWNoZXMsIHdoaWNoIHdlIGRpZG4ndCBkbwo+Pj4gYmVmb3Jl
-LiBUaGlzIHdlIHNob3VsZCBiZSBhYmxlIHRvIGltcHJvdmUgYnkgcGFzc2luZyB0aGUgYXR0cmli
-dXRlCj4+PiBETUFfQVRUUl9TS0lQX0NQVV9TWU5DIHRvIGRtYV9tYXBfc2coKSB3aGVuIHdlIGtu
-b3cgdGhhdCB0aGUgY2FjaGUKPj4+IG1haW50ZW5hbmNlIGlzbid0IG5lZWRlZC4KPj4+Cj4+PiBB
-bmQgd2hpbGUgdGhpbmtpbmcgYWJvdXQgaXQsIG9uZSBvdGhlciBkaWZmZXJlbmNlIGlzIHRoYXQg
-d2l0aCB0aGUgRE1BCj4+PiBBUEkgd2UgYWN0dWFsbHkgbWFwL3VubWFwIHRoZSBidWZmZXJzIGZv
-ciBldmVyeSBzdWJtaXNzaW9uLiBUaGlzIGlzCj4+PiBiZWNhdXNlIHRoZSBETUEgQVBJIHNlbWFu
-dGljcyByZXF1aXJlIHRoYXQgYnVmZmVycyBiZSBtYXBwZWQvdW5tYXBwZWQKPj4+IGV2ZXJ5IHRp
-bWUgeW91IHVzZSB0aGVtLiBQcmV2aW91c2x5IHdlIHdvdWxkIGJhc2ljYWxseSBvbmx5IG1hcCBl
-YWNoCj4+PiBidWZmZXIgb25jZSAoYXQgYWxsb2NhdGlvbiB0aW1lKSBhbmQgb25seSBoYXZlIHRv
-IGRlYWwgd2l0aCBjYWNoZQo+Pj4gbWFpbnRlbmFuY2UsIHNvIHRoZSBvdmVyaGVhZCBwZXIgc3Vi
-bWlzc2lvbiB3YXMgZHJhc3RpY2FsbHkgbG93ZXIuCj4+Pgo+Pj4gSWYgRE1BX0FUVFJfU0tJUF9D
-UFVfU1lOQyBkb2Vzbid0IGdpdmUgdXMgZW5vdWdoIG9mIGFuIGltcHJvdmVtZW50LCB3ZQo+Pj4g
-bWF5IHdhbnQgdG8gcmVzdG9yZSBleHBsaWNpdCBJT01NVSB1c2FnZSwgYXQgbGVhc3Qgb24gYW55
-dGhpbmcgcHJpb3IgdG8KPj4+IFRlZ3JhMTI0IHdoZXJlIHdlJ3JlIHVubGlrZWx5IHRvIGV2ZXIg
-dXNlIGRpZmZlcmVudCBJT01NVSBkb21haW5zIGFueXdheQo+Pj4gKGJlY2F1c2UgdGhleSBhcmUg
-c3VjaCBhIHNjYXJjZSByZXNvdXJjZSkuCj4+Cj4+IFRlZ3JhMjAgZG9lc24ndCB1c2UgSU9NTVUg
-aW4gYSB2YW5pbGxhIHVwc3RyZWFtIGtlcm5lbCAoeWV0KSwgc28gSSBkb24ndAo+PiB0aGluayB0
-aGF0IGl0J3MgdGhlIHJvb3Qgb2YgdGhlIHByb2JsZW0uIERpc2FibGluZyBJT01NVSBmb3IgVGVn
-cmEzMAo+PiBhbHNvIGRpZG4ndCBoZWxwIChJSVJDKS4KPj4KPj4gVGhlIG9mZmVuZGluZyBwYXRj
-aCBzaG91bGRuJ3QgY2hhbmdlIGFueXRoaW5nIGluIHJlZ2FyZHMgdG8gdGhlIERNQSBBUEksCj4+
-IGlmIEknbSBub3QgbWlzc2luZyBzb21ldGhpbmcuIFN0cmFuZ2UuLgo+Pgo+PiBQbGVhc2Uga2Vl
-cCBtZSB1cC10by1kYXRlIQo+Pgo+IAo+IEhlbGxvIFRoaWVycnksCj4gCj4gSSB0b29rIGFub3Ro
-ZXIgbG9vayBhdCB0aGUgcHJvYmxlbSBhbmQgaGVyZSB3aGF0IHdhcyBmb3VuZDoKPiAKPiAxKSBU
-aGUgIk9wdGlvbmFsbHkgYXR0YWNoIGNsaWVudHMgdG8gdGhlIElPTU1VIiBwYXRjaCBpcyB3cm9u
-ZyBiZWNhdXNlOgo+IAo+ICAgICAxLiBob3N0MXhfZHJtX3Byb2JlKCkgaXMgaW52b2tlZCAqYmVm
-b3JlKiBhbnkgb2YgdGhlCj4gICAgICAgIGhvc3QxeF9jbGllbnRfaW9tbXVfYXR0YWNoKCkgaGFw
-cGVucywgc28gdGhlcmUgaXMgbm8gd2F5Cj4gICAgICAgIG9uIGVhcnRoIHRoZSAndXNlX2V4cGxp
-Y2l0X2lvbW11JyBjb3VsZCBldmVyIGJlIHRydWUuCj4gCj4gICAgIDIuIE5vdCBhdHRhY2hpbmcg
-RFJNIGNsaWVudHMgdG8gSU9NTVUgaWYgSE9TVDF4IGlzbid0Cj4gICAgICAgIGF0dGFjaGVkIGlz
-IHdyb25nIGJlY2F1c2UgaXQgbmV2ZXIgYXR0YWNoZWQgaW4gdGhlIGNhc2UKPiAgICAgICAgb2Yg
-Q09ORklHX1RFR1JBX0hPU1QxWF9GSVJFV0FMTD15IFsxXSBhbmQgdGhpcyBhbHNvCj4gICAgICAg
-IG1ha2VzIG5vIHNlbnNlIGZvciBUMjAvMzAgdGhhdCBkbyBub3Qgc3VwcG9ydCBMUEFFLgo+IAo+
-IFsxXQo+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y1LjUtcmM2L3NvdXJjZS9k
-cml2ZXJzL2dwdS9ob3N0MXgvZGV2LmMjTDIwNQo+IAo+IDIpIEJlY2F1c2Ugb2YgdGhlIGFib3Zl
-IHByb2JsZW1zLCB0aGUgRFJNIGNsaWVudHMgYXJlIGVycm9uZW91c2x5IG5vdAo+IGdldHRpbmcg
-YXR0YWNoZWQgdG8gSU9NTVUgYXQgYWxsIGFuZCB0aHVzIENNQSBpcyBnZXR0aW5nIHVzZWQgZm9y
-IHRoZSBCTwo+IGFsbG9jYXRpb25zLiBIZXJlIGNvbWVzIHRoZSBwcm9ibGVtcyBpbnRyb2R1Y2Vk
-IGJ5IHRoZSAiZ3B1OiBob3N0MXg6Cj4gU3VwcG9ydCBETUEgbWFwcGluZyBvZiBidWZmZXJzIiBw
-YXRjaCwgd2hpY2ggbWFrZXMgRE1BIEFQSSB0byBwZXJmb3JtCj4gQ1BVIGNhY2hlIG1haW50ZW5h
-bmNlIG9uIGVhY2ggam9iIHN1Ym1pc3Npb24gYW5kIGFwcGFyZW50bHkgdGhpcyBpcwo+IHN1cGVy
-IGJhZCBmb3IgcGVyZm9ybWFuY2UuIFRoaXMgYWxzbyBtYWtlcyBubyBzZW5zZSBpbiBjb21wYXJp
-c29uIHRvIHRoZQo+IGNhc2Ugb2YgZW5hYmxlZCBJT01NVSwgd2hlcmUgY2FjaGUgbWFpbnRlbmFu
-Y2UgaXNuJ3QgcGVyZm9ybWVkIGF0IGFsbAo+IChsaWtlIGl0IHNob3VsZCBiZSkuCj4gCj4gUGxl
-YXNlIGxldCBtZSBrbm93IGlmIHlvdSdyZSBnb2luZyB0byBmaXggdGhlIHByb2JsZW1zIG9yIGlm
-IHlvdSdkCj4gcHJlZmVyIG1lIHRvIGNyZWF0ZSB0aGUgcGF0Y2hlcy4KPiAKPiBIZXJlIGlzIGEg
-ZHJhZnQgb2YgdGhlIGZpeCBmb3IgIzIsIGl0IGRvZXNuJ3QgY292ZXIgY2FzZSBvZiBpbXBvcnRl
-ZAo+IGJ1ZmZlcnMgKHdoaWNoIHNob3VsZCBiZSBzdGF0aWNhbGx5IG1hcHBlZCwgSUlVQyk6Ci4u
-LgoKVGhlIHY1LjUgaXMgcmVsZWFzZWQgbm93IHdpdGggdGhlIHVudXNhYmxlIEdQVSBkcml2ZXIu
-IFRoaWVycnksIGNvdWxkCnBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3UncmUgcGxhbm5pbmcgdG8g
-ZG8gc29tZXRoaW5nIGFib3V0IGl0PyBTaG91bGQgSQpoZWxwPwpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Jan 27, 2020 at 08:36:07AM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 25.01.20 um 20:55 schrieb Rich Felker:
+> > Signed-off-by: Rich Felker <dalias@libc.org>
+> > --
+> > I've had this lying around a while and figure I should send it
+> > upsteam; it's needed to support the onboard video on my Spectre-free
+> > Atom S1260 server board.
+> 
+> This HW is supported by mgag200, which is maintained. Can't you use that?
+
+Perhaps; I wasn't aware it existed. I'll give it a try. It still might
+be nice to apply my patch though since the matroxfb driver works with
+it and only fails to support it because of not knowing the device id.
+
+Rich
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
