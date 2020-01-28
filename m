@@ -1,43 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B030A14C091
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 20:06:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF4214C119
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 20:35:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B8E6F387;
-	Tue, 28 Jan 2020 19:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCA96E103;
+	Tue, 28 Jan 2020 19:35:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 376D86E118;
- Tue, 28 Jan 2020 19:06:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2020 10:28:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310821223"
-Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:28:50 -0800
-From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Ramalingam C <ramalingam.c@intel.com>
-Subject: [Intel-gfx] [PATCH v5 13/21] drm/i915/display/hdmi: Make WARN* drm
- specific where drm_device ptr is available
-Date: Tue, 28 Jan 2020 23:45:55 +0530
-Message-Id: <20200128181603.27767-14-pankaj.laxminarayan.bharadiya@intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
-References: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9607E6E103;
+ Tue, 28 Jan 2020 19:35:47 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4C38424685;
+ Tue, 28 Jan 2020 19:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1580240147;
+ bh=Pr3DXFI8ViRGOKjh9h8Hz0BT7YyyVwuuTEjQR62AWt0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=WfvRLtX5hpTQMwySLxrZH8GpBe6ytT2T/lwnUPhmTFwO1NedUw8V0GQrveCaKQZ8P
+ ohCoeR/PjFUr4GK+xsjvr1e1Pq9c1LysBmb5DmJrFbUPl09WXUa+7W+Bu+UrBIQItp
+ rYcqUX1cq+HCR5fwJzxS2OI6cs7CxlP7xdhwju7I=
+Received: by mail-qv1-f46.google.com with SMTP id u10so6847338qvi.2;
+ Tue, 28 Jan 2020 11:35:47 -0800 (PST)
+X-Gm-Message-State: APjAAAXf805YhxVNWwT8/WYWxiYrOPIw+ydahbLJp9ty2pL43J9KNw6v
+ whU6CmJIqf0/I3xDF4+eajfh9fJkcu8SdelmUg==
+X-Google-Smtp-Source: APXvYqwkmWB2OfVLFMVNplRokJbj3S/E+jDUH5hAvg+SvFAjOQiYU7rRQIIH/C6cNNowZ+CtFMHj5h56SknQFBBd9ec=
+X-Received: by 2002:ad4:4511:: with SMTP id k17mr22775194qvu.135.1580240146421; 
+ Tue, 28 Jan 2020 11:35:46 -0800 (PST)
 MIME-Version: 1.0
+References: <20200128082013.15951-1-benjamin.gaignard@st.com>
+ <20200128120600.oagnindklixjyieo@gilmour.lan>
+ <a7fa1b43-a188-9d06-73ec-16bcd4012207@st.com>
+In-Reply-To: <a7fa1b43-a188-9d06-73ec-16bcd4012207@st.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 28 Jan 2020 13:35:34 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ80kSU7bHJt0_SeX5FVfxxjN5-ZKxt+tOfGy2cV62cbQ@mail.gmail.com>
+Message-ID: <CAL_JsqJ80kSU7bHJt0_SeX5FVfxxjN5-ZKxt+tOfGy2cV62cbQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: display: Convert etnaviv to json-schema
+To: Benjamin GAIGNARD <benjamin.gaignard@st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,275 +55,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pankaj.laxminarayan.bharadiya@intel.com
+Cc: "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Pierre Yves MORDRET <pierre-yves.mordret@st.com>,
+ Philippe CORNU <philippe.cornu@st.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm specific WARN* calls include device information in the
-backtrace, so we know what device the warnings originate from.
+On Tue, Jan 28, 2020 at 6:31 AM Benjamin GAIGNARD
+<benjamin.gaignard@st.com> wrote:
+>
+>
+> On 1/28/20 1:06 PM, Maxime Ripard wrote:
+> > Hi Benjamin,
+> >
+> > On Tue, Jan 28, 2020 at 09:20:13AM +0100, Benjamin Gaignard wrote:
+> >> Convert etnaviv bindings to yaml format.
+> >>
+> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+> >> ---
+> >>   .../bindings/display/etnaviv/etnaviv-drm.txt       | 36 -----------
+> >>   .../devicetree/bindings/gpu/vivante,gc.yaml        | 72 ++++++++++++++++++++++
+> >>   2 files changed, 72 insertions(+), 36 deletions(-)
+> >>   delete mode 100644 Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+> >>   create mode 100644 Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt b/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+> >> deleted file mode 100644
+> >> index 8def11b16a24..000000000000
+> >> --- a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+> >> +++ /dev/null
+> >> @@ -1,36 +0,0 @@
+> >> -Vivante GPU core devices
+> >> -========================
+> >> -
+> >> -Required properties:
+> >> -- compatible: Should be "vivante,gc"
+> >> -  A more specific compatible is not needed, as the cores contain chip
+> >> -  identification registers at fixed locations, which provide all the
+> >> -  necessary information to the driver.
+> >> -- reg: should be register base and length as documented in the
+> >> -  datasheet
+> >> -- interrupts: Should contain the cores interrupt line
+> >> -- clocks: should contain one clock for entry in clock-names
+> >> -  see Documentation/devicetree/bindings/clock/clock-bindings.txt
+> >> -- clock-names:
+> >> -   - "bus":    AXI/master interface clock
+> >> -   - "reg":    AHB/slave interface clock
+> >> -               (only required if GPU can gate slave interface independently)
+> >> -   - "core":   GPU core clock
+> >> -   - "shader": Shader clock (only required if GPU has feature PIPE_3D)
+> >> -
+> >> -Optional properties:
+> >> -- power-domains: a power domain consumer specifier according to
+> >> -  Documentation/devicetree/bindings/power/power_domain.txt
+> >> -
+> >> -example:
+> >> -
+> >> -gpu_3d: gpu@130000 {
+> >> -    compatible = "vivante,gc";
+> >> -    reg = <0x00130000 0x4000>;
+> >> -    interrupts = <0 9 IRQ_TYPE_LEVEL_HIGH>;
+> >> -    clocks = <&clks IMX6QDL_CLK_GPU3D_AXI>,
+> >> -             <&clks IMX6QDL_CLK_GPU3D_CORE>,
+> >> -             <&clks IMX6QDL_CLK_GPU3D_SHADER>;
+> >> -    clock-names = "bus", "core", "shader";
+> >> -    power-domains = <&gpc 1>;
+> >> -};
+> >> diff --git a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+> >> new file mode 100644
+> >> index 000000000000..c4f549c0d750
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+> >> @@ -0,0 +1,72 @@
+> >> +# SPDX-License-Identifier: GPL-2.0
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/gpu/vivante,gc.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: Vivante GPU Bindings
+> >> +
+> >> +description: Vivante GPU core devices
+> >> +
+> >> +maintainers:
+> >> +  -  Lucas Stach <l.stach@pengutronix.de>
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    const: vivante,gc
+> >> +
+> >> +  reg:
+> >> +    maxItems: 1
+> >> +
+> >> +  interrupts:
+> >> +    maxItems: 1
+> >> +
+> >> +  clocks:
+> >> +    items:
+> >> +      - description: AXI/master interface clock
+> >> +      - description: GPU core clock
+> >> +      - description: Shader clock (only required if GPU has feature PIPE_3D)
+> >> +      - description: AHB/slave interface clock (only required if GPU can gate slave interface independently)
+> > Can you have an AHB slave interface clock without a shader clock?
+>
+> No because the items in the list are ordered so you need to have, in
+> order: "bus", "core", "shader", "reg"
+>
+> If it is needed to allow any number of clock in any order I could write
+> it like this:
 
-Covert all the calls of WARN* with device specific drm_WARN*
-variants in functions where drm_device or drm_i915_private struct
-pointer is readily available.
+Yes, but I prefer we don't allow any order if we don't have to. Did
+you run this schema against dtbs_check or just audit the dts files
+with vivante?
 
-The conversion was done automatically with below coccinelle semantic
-patch.
-
-@rule1@
-identifier func, T;
-@@
-func(...) {
-...
-struct drm_device *T = ...;
-<...
-(
--WARN(
-+drm_WARN(T,
-...)
-|
--WARN_ON(
-+drm_WARN_ON(T,
-...)
-|
--WARN_ONCE(
-+drm_WARN_ONCE(T,
-...)
-|
--WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(T,
-...)
-)
-...>
-}
-
-@rule2@
-identifier func, T;
-@@
-func(struct drm_device *T,...) {
-<...
-(
--WARN(
-+drm_WARN(T,
-...)
-|
--WARN_ON(
-+drm_WARN_ON(T,
-...)
-|
--WARN_ONCE(
-+drm_WARN_ONCE(T,
-...)
-|
--WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(T,
-...)
-)
-...>
-}
-
-@rule3@
-identifier func, T;
-@@
-func(...) {
-...
-struct drm_i915_private *T = ...;
-<+...
-(
--WARN(
-+drm_WARN(&T->drm,
-...)
-|
--WARN_ON(
-+drm_WARN_ON(&T->drm,
-...)
-|
--WARN_ONCE(
-+drm_WARN_ONCE(&T->drm,
-...)
-|
--WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(&T->drm,
-...)
-)
-...+>
-}
-
-@rule4@
-identifier func, T;
-@@
-func(struct drm_i915_private *T,...) {
-<+...
-(
--WARN(
-+drm_WARN(&T->drm,
-...)
-|
--WARN_ON(
-+drm_WARN_ON(&T->drm,
-...)
-|
--WARN_ONCE(
-+drm_WARN_ONCE(&T->drm,
-...)
-|
--WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(&T->drm,
-...)
-)
-...+>
-}
-
-Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
----
- drivers/gpu/drm/i915/display/intel_hdmi.c | 52 +++++++++++++----------
- 1 file changed, 29 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index ab13cf834cc4..e68bafb76cb1 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -72,17 +72,19 @@ assert_hdmi_port_disabled(struct intel_hdmi *intel_hdmi)
- 
- 	enabled_bits = HAS_DDI(dev_priv) ? DDI_BUF_CTL_ENABLE : SDVO_ENABLE;
- 
--	WARN(intel_de_read(dev_priv, intel_hdmi->hdmi_reg) & enabled_bits,
--	     "HDMI port enabled, expecting disabled\n");
-+	drm_WARN(dev,
-+		 intel_de_read(dev_priv, intel_hdmi->hdmi_reg) & enabled_bits,
-+		 "HDMI port enabled, expecting disabled\n");
- }
- 
- static void
- assert_hdmi_transcoder_func_disabled(struct drm_i915_private *dev_priv,
- 				     enum transcoder cpu_transcoder)
- {
--	WARN(intel_de_read(dev_priv, TRANS_DDI_FUNC_CTL(cpu_transcoder)) &
--	     TRANS_DDI_FUNC_ENABLE,
--	     "HDMI transcoder function enabled, expecting disabled\n");
-+	drm_WARN(&dev_priv->drm,
-+		 intel_de_read(dev_priv, TRANS_DDI_FUNC_CTL(cpu_transcoder)) &
-+		 TRANS_DDI_FUNC_ENABLE,
-+		 "HDMI transcoder function enabled, expecting disabled\n");
- }
- 
- struct intel_hdmi *enc_to_intel_hdmi(struct intel_encoder *encoder)
-@@ -218,7 +220,8 @@ static void g4x_write_infoframe(struct intel_encoder *encoder,
- 	u32 val = intel_de_read(dev_priv, VIDEO_DIP_CTL);
- 	int i;
- 
--	WARN(!(val & VIDEO_DIP_ENABLE), "Writing DIP with CTL reg disabled\n");
-+	drm_WARN(&dev_priv->drm, !(val & VIDEO_DIP_ENABLE),
-+		 "Writing DIP with CTL reg disabled\n");
- 
- 	val &= ~(VIDEO_DIP_SELECT_MASK | 0xf); /* clear DIP data offset */
- 	val |= g4x_infoframe_index(type);
-@@ -291,7 +294,8 @@ static void ibx_write_infoframe(struct intel_encoder *encoder,
- 	u32 val = intel_de_read(dev_priv, reg);
- 	int i;
- 
--	WARN(!(val & VIDEO_DIP_ENABLE), "Writing DIP with CTL reg disabled\n");
-+	drm_WARN(&dev_priv->drm, !(val & VIDEO_DIP_ENABLE),
-+		 "Writing DIP with CTL reg disabled\n");
- 
- 	val &= ~(VIDEO_DIP_SELECT_MASK | 0xf); /* clear DIP data offset */
- 	val |= g4x_infoframe_index(type);
-@@ -369,7 +373,8 @@ static void cpt_write_infoframe(struct intel_encoder *encoder,
- 	u32 val = intel_de_read(dev_priv, reg);
- 	int i;
- 
--	WARN(!(val & VIDEO_DIP_ENABLE), "Writing DIP with CTL reg disabled\n");
-+	drm_WARN(&dev_priv->drm, !(val & VIDEO_DIP_ENABLE),
-+		 "Writing DIP with CTL reg disabled\n");
- 
- 	val &= ~(VIDEO_DIP_SELECT_MASK | 0xf); /* clear DIP data offset */
- 	val |= g4x_infoframe_index(type);
-@@ -446,7 +451,8 @@ static void vlv_write_infoframe(struct intel_encoder *encoder,
- 	u32 val = intel_de_read(dev_priv, reg);
- 	int i;
- 
--	WARN(!(val & VIDEO_DIP_ENABLE), "Writing DIP with CTL reg disabled\n");
-+	drm_WARN(&dev_priv->drm, !(val & VIDEO_DIP_ENABLE),
-+		 "Writing DIP with CTL reg disabled\n");
- 
- 	val &= ~(VIDEO_DIP_SELECT_MASK | 0xf); /* clear DIP data offset */
- 	val |= g4x_infoframe_index(type);
-@@ -528,7 +534,7 @@ static void hsw_write_infoframe(struct intel_encoder *encoder,
- 
- 	data_size = hsw_dip_data_size(dev_priv, type);
- 
--	WARN_ON(len > data_size);
-+	drm_WARN_ON(&dev_priv->drm, len > data_size);
- 
- 	val &= ~hsw_infoframe_enable(type);
- 	intel_de_write(dev_priv, ctl_reg, val);
-@@ -852,7 +858,7 @@ intel_hdmi_compute_drm_infoframe(struct intel_encoder *encoder,
- 	}
- 
- 	ret = hdmi_drm_infoframe_check(frame);
--	if (WARN_ON(ret))
-+	if (drm_WARN_ON(&dev_priv->drm, ret))
- 		return false;
- 
- 	return true;
-@@ -1070,9 +1076,9 @@ static void ibx_set_infoframes(struct intel_encoder *encoder,
- 	}
- 
- 	if (port != (val & VIDEO_DIP_PORT_MASK)) {
--		WARN(val & VIDEO_DIP_ENABLE,
--		     "DIP already enabled on port %c\n",
--		     (val & VIDEO_DIP_PORT_MASK) >> 29);
-+		drm_WARN(&dev_priv->drm, val & VIDEO_DIP_ENABLE,
-+			 "DIP already enabled on port %c\n",
-+			 (val & VIDEO_DIP_PORT_MASK) >> 29);
- 		val &= ~VIDEO_DIP_PORT_MASK;
- 		val |= port;
- 	}
-@@ -1177,9 +1183,9 @@ static void vlv_set_infoframes(struct intel_encoder *encoder,
- 	}
- 
- 	if (port != (val & VIDEO_DIP_PORT_MASK)) {
--		WARN(val & VIDEO_DIP_ENABLE,
--		     "DIP already enabled on port %c\n",
--		     (val & VIDEO_DIP_PORT_MASK) >> 29);
-+		drm_WARN(&dev_priv->drm, val & VIDEO_DIP_ENABLE,
-+			 "DIP already enabled on port %c\n",
-+			 (val & VIDEO_DIP_PORT_MASK) >> 29);
- 		val &= ~VIDEO_DIP_PORT_MASK;
- 		val |= port;
- 	}
-@@ -3011,7 +3017,7 @@ static u8 icl_port_to_ddc_pin(struct drm_i915_private *dev_priv, enum port port)
- 	else if (intel_phy_is_tc(dev_priv, phy))
- 		return GMBUS_PIN_9_TC1_ICP + intel_port_to_tc(dev_priv, port);
- 
--	WARN(1, "Unknown port:%c\n", port_name(port));
-+	drm_WARN(&dev_priv->drm, 1, "Unknown port:%c\n", port_name(port));
- 	return GMBUS_PIN_2_BXT;
- }
- 
-@@ -3148,13 +3154,13 @@ void intel_hdmi_init_connector(struct intel_digital_port *intel_dig_port,
- 	DRM_DEBUG_KMS("Adding HDMI connector on [ENCODER:%d:%s]\n",
- 		      intel_encoder->base.base.id, intel_encoder->base.name);
- 
--	if (INTEL_GEN(dev_priv) < 12 && WARN_ON(port == PORT_A))
-+	if (INTEL_GEN(dev_priv) < 12 && drm_WARN_ON(dev, port == PORT_A))
- 		return;
- 
--	if (WARN(intel_dig_port->max_lanes < 4,
--		 "Not enough lanes (%d) for HDMI on [ENCODER:%d:%s]\n",
--		 intel_dig_port->max_lanes, intel_encoder->base.base.id,
--		 intel_encoder->base.name))
-+	if (drm_WARN(dev, intel_dig_port->max_lanes < 4,
-+		     "Not enough lanes (%d) for HDMI on [ENCODER:%d:%s]\n",
-+		     intel_dig_port->max_lanes, intel_encoder->base.base.id,
-+		     intel_encoder->base.name))
- 		return;
- 
- 	intel_hdmi->ddc_bus = intel_hdmi_ddc_pin(intel_encoder);
--- 
-2.23.0
-
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
