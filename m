@@ -1,58 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BA414C283
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 23:01:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9140C14C29C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 23:08:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 026366F42B;
-	Tue, 28 Jan 2020 22:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F139F6E145;
+	Tue, 28 Jan 2020 22:08:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2152E6F42D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 22:00:54 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1580248857; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=yghdhlFiZU77aOY7g/N4Y1I7xkAvDvSkr40c3b2zObg=;
- b=iIJpBLsHXF8G2Au75zom5YkedevpQPNZpWa0sAnJX+gGf+wzdtYjFGeCQY0IXb+twV4tq/jk
- CO+un8s/Jk20qz2lBA/7AHFHyfg/YkqYWvw4gugod9TaCY/mVxsW1no8RU5k6ZnN3u5Tu4lw
- X50bIYnIrPoD1KL0TI5o1REnZA0=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e30af0d.7f6a00adcd18-smtp-out-n01;
- Tue, 28 Jan 2020 22:00:45 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 36ED4C447AF; Tue, 28 Jan 2020 22:00:43 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 14A37C4479C;
- Tue, 28 Jan 2020 22:00:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 14A37C4479C
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH v5 5/5] drm/msm/a6xx: Support split pagetables
-Date: Tue, 28 Jan 2020 15:00:19 -0700
-Message-Id: <1580248819-12644-6-git-send-email-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1580248819-12644-1-git-send-email-jcrouse@codeaurora.org>
-References: <1580248819-12644-1-git-send-email-jcrouse@codeaurora.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7016A6E145;
+ Tue, 28 Jan 2020 22:08:23 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 331BC24687;
+ Tue, 28 Jan 2020 22:08:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1580249302;
+ bh=JdEuxZDf0ro4RVyPSlg7zqseX/OLqyvKgF4b95e8xXc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=X/kGzDM2APsiXpo++m8tCdryIif7Y2FCZ+vlOp6GFLfpCxlI6DHlYoDbwHPCOXjk3
+ cV9yij5aPKwxYJd29Bv8ZAKlT/6veUYoOdk/W40BJrqZrFMXYgwXHLaM+iMEXQFolC
+ kRpfqwnPejmrObLrsstm3kpn9BDTlS1S8+1mOvjo=
+Received: by mail-qt1-f173.google.com with SMTP id t8so6125047qtr.2;
+ Tue, 28 Jan 2020 14:08:22 -0800 (PST)
+X-Gm-Message-State: APjAAAWFwzZOxI/vRilsSUhARx6FDdjm8BEHWi4L6OIxyD6+lXRnGAr/
+ 6N0L90SvpQiY+9QcQGd08aCJvH7GGOLd3oP4jQ==
+X-Google-Smtp-Source: APXvYqwmWfwn77Hr3BX7qUfKz9G+Ld17fXrROOoEL/Gl0LFF5YNA/xHd0pf7rebUiGWGkqAZMRQtUuGEnSiq5u2YVDY=
+X-Received: by 2002:ac8:1415:: with SMTP id k21mr24048013qtj.300.1580249301182; 
+ Tue, 28 Jan 2020 14:08:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20200128082013.15951-1-benjamin.gaignard@st.com>
+ <20200128120600.oagnindklixjyieo@gilmour.lan>
+ <a7fa1b43-a188-9d06-73ec-16bcd4012207@st.com>
+ <CAL_JsqJ80kSU7bHJt0_SeX5FVfxxjN5-ZKxt+tOfGy2cV62cbQ@mail.gmail.com>
+ <676d7e79-c129-c13c-b804-25d41afdbef9@st.com>
+In-Reply-To: <676d7e79-c129-c13c-b804-25d41afdbef9@st.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 28 Jan 2020 16:08:10 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+rozrRb1embptEQrtpaxP5u9v8hH-WAfCrUZHXt7WYXQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+rozrRb1embptEQrtpaxP5u9v8hH-WAfCrUZHXt7WYXQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: display: Convert etnaviv to json-schema
+To: Benjamin GAIGNARD <benjamin.gaignard@st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +57,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- will@kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
- robin.murphy@arm.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
+Cc: "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Pierre Yves MORDRET <pierre-yves.mordret@st.com>,
+ Philippe CORNU <philippe.cornu@st.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Attempt to enable split pagetables if the arm-smmu driver supports it.
-This will move the default address space from the default region to
-the address range assigned to TTBR1. The behavior should be transparent
-to the driver for now but it gets the default buffers out of the way
-when we want to start swapping TTBR0 for context-specific pagetables.
+On Tue, Jan 28, 2020 at 1:58 PM Benjamin GAIGNARD
+<benjamin.gaignard@st.com> wrote:
+>
+>
+> On 1/28/20 8:35 PM, Rob Herring wrote:
+> > On Tue, Jan 28, 2020 at 6:31 AM Benjamin GAIGNARD
+> > <benjamin.gaignard@st.com> wrote:
+> >>
+> >> On 1/28/20 1:06 PM, Maxime Ripard wrote:
+> >>> Hi Benjamin,
+> >>>
+> >>> On Tue, Jan 28, 2020 at 09:20:13AM +0100, Benjamin Gaignard wrote:
+> >>>> Convert etnaviv bindings to yaml format.
+> >>>>
+> >>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+> >>>> ---
+> >>>>    .../bindings/display/etnaviv/etnaviv-drm.txt       | 36 -----------
+> >>>>    .../devicetree/bindings/gpu/vivante,gc.yaml        | 72 ++++++++++++++++++++++
+> >>>>    2 files changed, 72 insertions(+), 36 deletions(-)
+> >>>>    delete mode 100644 Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+> >>>>    create mode 100644 Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+> >>>>
+> >>>> diff --git a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt b/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+> >>>> deleted file mode 100644
+> >>>> index 8def11b16a24..000000000000
+> >>>> --- a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+> >>>> +++ /dev/null
+> >>>> @@ -1,36 +0,0 @@
+> >>>> -Vivante GPU core devices
+> >>>> -========================
+> >>>> -
+> >>>> -Required properties:
+> >>>> -- compatible: Should be "vivante,gc"
+> >>>> -  A more specific compatible is not needed, as the cores contain chip
+> >>>> -  identification registers at fixed locations, which provide all the
+> >>>> -  necessary information to the driver.
+> >>>> -- reg: should be register base and length as documented in the
+> >>>> -  datasheet
+> >>>> -- interrupts: Should contain the cores interrupt line
+> >>>> -- clocks: should contain one clock for entry in clock-names
+> >>>> -  see Documentation/devicetree/bindings/clock/clock-bindings.txt
+> >>>> -- clock-names:
+> >>>> -   - "bus":    AXI/master interface clock
+> >>>> -   - "reg":    AHB/slave interface clock
+> >>>> -               (only required if GPU can gate slave interface independently)
+> >>>> -   - "core":   GPU core clock
+> >>>> -   - "shader": Shader clock (only required if GPU has feature PIPE_3D)
+> >>>> -
+> >>>> -Optional properties:
+> >>>> -- power-domains: a power domain consumer specifier according to
+> >>>> -  Documentation/devicetree/bindings/power/power_domain.txt
+> >>>> -
+> >>>> -example:
+> >>>> -
+> >>>> -gpu_3d: gpu@130000 {
+> >>>> -    compatible = "vivante,gc";
+> >>>> -    reg = <0x00130000 0x4000>;
+> >>>> -    interrupts = <0 9 IRQ_TYPE_LEVEL_HIGH>;
+> >>>> -    clocks = <&clks IMX6QDL_CLK_GPU3D_AXI>,
+> >>>> -             <&clks IMX6QDL_CLK_GPU3D_CORE>,
+> >>>> -             <&clks IMX6QDL_CLK_GPU3D_SHADER>;
+> >>>> -    clock-names = "bus", "core", "shader";
+> >>>> -    power-domains = <&gpc 1>;
+> >>>> -};
+> >>>> diff --git a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+> >>>> new file mode 100644
+> >>>> index 000000000000..c4f549c0d750
+> >>>> --- /dev/null
+> >>>> +++ b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+> >>>> @@ -0,0 +1,72 @@
+> >>>> +# SPDX-License-Identifier: GPL-2.0
+> >>>> +%YAML 1.2
+> >>>> +---
+> >>>> +$id: http://devicetree.org/schemas/gpu/vivante,gc.yaml#
+> >>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>>> +
+> >>>> +title: Vivante GPU Bindings
+> >>>> +
+> >>>> +description: Vivante GPU core devices
+> >>>> +
+> >>>> +maintainers:
+> >>>> +  -  Lucas Stach <l.stach@pengutronix.de>
+> >>>> +
+> >>>> +properties:
+> >>>> +  compatible:
+> >>>> +    const: vivante,gc
+> >>>> +
+> >>>> +  reg:
+> >>>> +    maxItems: 1
+> >>>> +
+> >>>> +  interrupts:
+> >>>> +    maxItems: 1
+> >>>> +
+> >>>> +  clocks:
+> >>>> +    items:
+> >>>> +      - description: AXI/master interface clock
+> >>>> +      - description: GPU core clock
+> >>>> +      - description: Shader clock (only required if GPU has feature PIPE_3D)
+> >>>> +      - description: AHB/slave interface clock (only required if GPU can gate slave interface independently)
+> >>> Can you have an AHB slave interface clock without a shader clock?
+> >> No because the items in the list are ordered so you need to have, in
+> >> order: "bus", "core", "shader", "reg"
+> >>
+> >> If it is needed to allow any number of clock in any order I could write
+> >> it like this:
+> > Yes, but I prefer we don't allow any order if we don't have to. Did
+> > you run this schema against dtbs_check or just audit the dts files
+> > with vivante?
+>
+> Both, I found these mix of reg-names:
+>
+> "core"
+>
+> "bus","core"
+>
+> "bus","core","shader"
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
+You missed a couple:
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 52 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 51 insertions(+), 1 deletion(-)
+arch/arc/boot/dts/hsdk.dts-                     clock-names = "bus",
+"reg", "core", "shader";
+arch/arm/boot/dts/dove.dtsi-                            clock-names = "core";
+arch/arm/boot/dts/imx6q.dtsi-                   clock-names = "bus", "core";
+arch/arm/boot/dts/imx6qdl.dtsi-                 clock-names = "bus",
+"core", "shader";
+arch/arm/boot/dts/imx6qdl.dtsi-                 clock-names = "bus", "core";
+arch/arm/boot/dts/imx6sl.dtsi-                  clock-names = "bus", "core";
+arch/arm/boot/dts/imx6sl.dtsi-                  clock-names = "bus", "core";
+arch/arm/boot/dts/imx6sx.dtsi-                  clock-names = "bus",
+"core", "shader";
+arch/arm/boot/dts/stm32mp157c.dtsi-                     clock-names =
+"bus" ,"core";
+arch/arm64/boot/dts/freescale/imx8mq.dtsi-
+clock-names = "core", "shader", "bus", "reg";
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index a2c5412..9bec603c 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -878,6 +878,56 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
- 	return (unsigned long)busy_time;
- }
- 
-+static struct msm_gem_address_space *
-+a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
-+{
-+	struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
-+	struct msm_gem_address_space *aspace;
-+	struct msm_mmu *mmu;
-+	u64 start, size;
-+	u32 val = 1;
-+	int ret;
-+
-+	if (!iommu)
-+		return ERR_PTR(-ENOMEM);
-+
-+	/*
-+	 * Try to request split pagetables - the request has to be made before
-+	 * the domian is attached
-+	 */
-+	iommu_domain_set_attr(iommu, DOMAIN_ATTR_SPLIT_TABLES, &val);
-+
-+	mmu = msm_iommu_new(&pdev->dev, iommu);
-+	if (IS_ERR(mmu)) {
-+		iommu_domain_free(iommu);
-+		return ERR_CAST(mmu);
-+	}
-+
-+	/*
-+	 * After the domain is attached, see if the split tables were actually
-+	 * successful.
-+	 */
-+	ret = iommu_domain_get_attr(iommu, DOMAIN_ATTR_SPLIT_TABLES, &val);
-+	if (!ret && val) {
-+		/*
-+		 * The aperture start will be at the beginning of the TTBR1
-+		 * space so use that as a base
-+		 */
-+		start = iommu->geometry.aperture_start;
-+		size = 0xffffffff;
-+	} else {
-+		/* Otherwise use the legacy 32 bit region */
-+		start = SZ_16M;
-+		size = 0xffffffff - SZ_16M;
-+	}
-+
-+	aspace = msm_gem_address_space_create(mmu, "gpu", start, size);
-+	if (IS_ERR(aspace))
-+		iommu_domain_free(iommu);
-+
-+	return aspace;
-+}
-+
- static const struct adreno_gpu_funcs funcs = {
- 	.base = {
- 		.get_param = adreno_get_param,
-@@ -900,7 +950,7 @@ static const struct adreno_gpu_funcs funcs = {
- 		.gpu_state_get = a6xx_gpu_state_get,
- 		.gpu_state_put = a6xx_gpu_state_put,
- #endif
--		.create_address_space = adreno_iommu_create_address_space,
-+		.create_address_space = a6xx_create_address_space,
- 	},
- 	.get_timestamp = a6xx_get_timestamp,
- };
--- 
-2.7.4
+imx8mq is probably new enough to change if we wanted to.
+
+I guess just do an enum...
+
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
