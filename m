@@ -1,54 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C773E14BE31
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 17:58:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABED114BFAD
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:27:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD006EEB7;
-	Tue, 28 Jan 2020 16:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A9FA6E109;
+	Tue, 28 Jan 2020 18:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6890C6EEB7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 16:58:40 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id d62so10942300oia.11
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 08:58:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=e6w0EQ8/BmrrZNaMjPQWOsM/wKn1DMIr1Vo+PTNNOYc=;
- b=RfxdQ+Uj2+lY9zUj2aBem67fQ1xytIgAIWkEf7AMH7H7rLMI7PcIzzY664j9JLZNbk
- idXD654T5isweS38a8KvuLIcEoEwjjRjoT5Rio8LE6cNZx4UKS+zCMnrumiq/Knt8+0U
- PBwvanyFSMyPveqlJE8YscVurLTENsoXNgDm8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=e6w0EQ8/BmrrZNaMjPQWOsM/wKn1DMIr1Vo+PTNNOYc=;
- b=dMY4A2mJ5JfLEH99v8gMtsF+SAcSjr4qo++6x3gDWKhtkfFTVPWFh6Dbsm8LM8zKhw
- mzIK7AoMv2KQGCBytxWorFsUnHfuQXkeUkojZxhUa9no804CGgOpjP7UQxdT3wO4XWsp
- Kr5IgM0wxaAXEWlzchK6xXL1FZFiJtjqBXm3KP9KSq41iB8f/GFla4k3xKn/QxtPx+p+
- XevtKqNTVvFL/Apu9QbuzoNpJESOO6VkSeMrmWM2EQXCwSEEUBFB9tEnWsaFmpQa+nzn
- a5HyTsrnGyqwFPr0WE6FgoLmcgXGwi6vDQFUkNHAVCJwSXDYKxYmeASJfF/oITVui6no
- QuXA==
-X-Gm-Message-State: APjAAAXr7JacsFLHJ5pnYygzHkiQ5r2WcTZ4L0h5Z5Fv06Ei9hcwiK1c
- xvM7a8UdgfjYWvGrZWVhdz9wUkc8TgyTZ2kg6QmsVQ==
-X-Google-Smtp-Source: APXvYqy3mtHOBb80OIqD/M3tlAyz/2m6WX7Mn9G48YBkQT5FIMSzAceGDv6WICwLI4B0LCIXhD1OqVGW/EV5kz340xs=
-X-Received: by 2002:aca:af09:: with SMTP id y9mr3276351oie.101.1580230719598; 
- Tue, 28 Jan 2020 08:58:39 -0800 (PST)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6166E0FD;
+ Tue, 28 Jan 2020 18:27:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2020 10:27:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310815904"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:27:31 -0800
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [Intel-gfx] [PATCH v5 00/21] drm: Introduce struct drm_device based
+ WARN* and use them in i915
+Date: Tue, 28 Jan 2020 23:45:42 +0530
+Message-Id: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20200120100014.23488-1-kraxel@redhat.com>
- <CAKMK7uGMTLoyMnfLmx3r9+qf6sMXcrKT_EgO78f=Gw0Oi51kWQ@mail.gmail.com>
- <CAKMK7uFgGQdd1V3-ux6dGhUXFNvsFJvCiA8eNW9RK=nNdsK3OA@mail.gmail.com>
-In-Reply-To: <CAKMK7uFgGQdd1V3-ux6dGhUXFNvsFJvCiA8eNW9RK=nNdsK3OA@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 28 Jan 2020 17:58:28 +0100
-Message-ID: <CAKMK7uHBgnn3Pa9dx75DWugqi4nZ4QVTGfaDV86TdQjE2ukFQg@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: wait for references go away
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,124 +42,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marmarek@invisiblethingslab.com,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: pankaj.laxminarayan.bharadiya@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKYW4gMjgsIDIwMjAgYXQgNTo0NCBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+Cj4gT24gVHVlLCBKYW4gMjgsIDIwMjAgYXQgNTozOSBQTSBEYW5pZWwg
-VmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+ID4KPiA+IE9uIE1vbiwgSmFuIDIwLCAy
-MDIwIGF0IDExOjAwIEFNIEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPiB3cm90ZToK
-PiA+ID4KPiA+ID4gUHJvYmxlbTogZG9fdW5yZWdpc3Rlcl9mcmFtZWJ1ZmZlcigpIG1pZ2h0IHJl
-dHVybiBiZWZvcmUgdGhlIGRldmljZSBpcwo+ID4gPiBmdWxseSBjbGVhbmVkIHVwLCBkdWUgdG8g
-dXNlcnNwYWNlIGhhdmluZyBhIGZpbGUgaGFuZGxlIGZvciAvZGV2L2ZiMAo+ID4gPiBvcGVuLiAg
-V2hpY2ggY2FuIHJlc3VsdCBpbiBkcm0gZHJpdmVyIG5vdCBiZWluZyBhYmxlIHRvIGdyYWIgcmVz
-b3VyY2VzCj4gPiA+IChhbmQgZmFpbCBpbml0aWFsaXphdGlvbikgYmVjYXVzZSB0aGUgZmlybXdh
-cmUgZnJhbWVidWZmZXIgc3RpbGwgaG9sZHMKPiA+ID4gdGhlbS4gIFJlcG9ydGVkbHkgcGx5bW91
-dGggY2FuIHRyaWdnZXIgdGhpcy4KPiA+ID4KPiA+ID4gRml4IHRoaXMgYnkgdHJ5aW5nIHRvIHdh
-aXQgdW50aWwgYWxsIHJlZmVyZW5jZXMgYXJlIGdvbmUuICBEb24ndCB3YWl0Cj4gPiA+IGZvcmV2
-ZXIgdGhvdWdoIGdpdmVuIHRoYXQgdXNlcnNwYWNlIG1pZ2h0IGtlZXAgdGhlIGZpbGUgaGFuZGxl
-IG9wZW4uCj4gPiA+Cj4gPiA+IFJlcG9ydGVkLWJ5OiBNYXJlayBNYXJjenlrb3dza2ktR8OzcmVj
-a2kgPG1hcm1hcmVrQGludmlzaWJsZXRoaW5nc2xhYi5jb20+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6
-IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgo+ID4KPiA+IChNaXNzZWQgdGhpcyBi
-ZWNhdXNlIGxjYSwgc28gYSBiaXQgbGF0ZSkKPiA+Cj4gPiBUaGlzIGlzbid0IHJlYWxseSBob3cg
-ZHJpdmVyIHVubG9hZCBpcyBzdXBwb3NlZCB0byBoYXBwZW4uIEluc3RlYWQ6Cj4gPgo+ID4gLSBE
-cml2ZXIgdW5sb2FkIHN0YXJ0cwo+ID4gLSBEcml2ZXIgY2FsbHMgdGhlIGZvb191bnJlZ2lzdGVy
-IGZ1bmN0aW9uLCB3aGljaCBzdG9wcyBuZXcgdXNlcnNwYWNlCj4gPiBmcm9tIGdldHRpbmcgYXQg
-dGhlIGRyaXZlci4gSWYgeW91J3JlIHN1YnN5c3RlbSBpcyBnb29kIChpLmUuIGRybQo+ID4gc2lu
-Y2UgTm9yYWxmIGZpeGVkIGl0KSB0aGlzIHdpbGwgYWxzbyBzdWZmaWNpZW50bHkgc3luY2hyb25p
-emUgd2l0aAo+ID4gYW55IHBlbmRpbmcgaW9jdGwuCj4gPiAtIEltcG9ydGFudDogVGhpcyBkb2Vz
-IF9ub3RfIHdhaXQgdW50aWwgdXNlcnNwYWNlIGNsb3NlcyBhbGwKPiA+IHJlZmVyZW5jZXMuIFlv
-dSBjYW4ndCBmb3JjZSB0aGF0Lgo+ID4gLSBEcml2ZXIgcmVsZWFzZXMgYWxsIGh3IHN0cnVjdHVy
-ZXMgYW5kIG1hcHBpbmdzIGFuZCBldmVyeXRoaW5nIGVsc2UuCj4gPiBXaXRoIGZiZGV2IHRoaXMg
-aXMgY3VycmVudGx5IG5vdCBmdWxseSByYWNlIGZyZWUgYmVjYXVzZSBubyBvbmUgaXMKPiA+IHN5
-bmNocm9uaXppbmcgd2l0aCB1c2Vyc3BhY2UgZXZlcnl3aGVyZSBjb3JyZWN0bHkuCj4gPgo+ID4g
-Li4uIG11Y2ggdGltZSBjYW4gcGFzcyAuLi4KPiA+Cj4gPiAtIFVzZXJzcGFjZSByZWxlYXNlcyB0
-aGUgbGFzdCByZWZlcmVuY2VzLCB3aGljaCB0cmlnZ2VycyB0aGUgZmluYWwKPiA+IGRlc3Ryb3kg
-c3R1ZmYgYW5kIHdoaWNoIHJlbGVhc2VzIHRoZSBtZW1vcnkgb2NjdXBpZWQgYnkgdmFyaW91cwo+
-ID4gc3RydWN0dXJlcyBzdGlsbCAoYnV0IG5vdCBhbnl0aGluZyByZWxlYXRlZCB0byBodyBvciBh
-bnl0aGluZyBlbHNlCj4gPiByZWFsbHkpLgo+ID4KPiA+IFNvIHRoZXJlJ3MgdHdvIGJpdHM6Cj4g
-Pgo+ID4gMS4gU3luY2hyb25pemluZyB3aXRoIHBlbmRpbmcgaW9jdGxzLiBUaGlzIGlzIG1vc3Rs
-eSB0aGVyZSBhbHJlYWR5Cj4gPiB3aXRoIGxvY2tfZmJfaW5mby91bmxvY2tfZmJfaW5mby4gRnJv
-bSBhIHF1aWNrIGxvb2sgdGhlIG1pc3NpbmcgYml0Cj4gPiBzZWVtcyB0byBiZSB0aGF0IHRoZSB1
-bnJlZ2lzdGVyIGNvZGUgaXMgbm90IHRha2luZyB0aGF0IGxvY2ssIGFuZCBzbwo+ID4gbm90IHN1
-ZmZpY2llbnRseSBzeW5jaHJvbml6aW5nIGFnYWluc3QgY29uY3VycmVudCBpb2N0bCBjYWxscyBh
-bmQKPiA+IG90aGVyIHN0dWZmLiBQbHVzIHdvdWxkIG5lZWQgdG8gYXVkaXQgYWxsIGVudHJ5IHBv
-aW50cy4KPgo+IENvcnJlY3Rpb246IFRoZSBjaGVjayBoZXJlIGlzIGZpbGVfZmJfaW5mbygpLCB3
-aGljaCBjaGVja3MgZm9yCj4gdW5yZWdpc3Rlci4gRXhjZXB0IGl0J3MgdG90YWxseSByYWN5IGFu
-ZCBtaXNzZXMgdGhlIGVuZCBtYXJrZXIgKHVubGlrZQo+IGRybV9kZXZfZW50ZXIvZXhpdCBpbiBk
-cm0pLiBTbyBidW5jaCBvZiB3b3JrIHRvIGRvIGhlcmUgdG9vLiBUaGUKPiBsb2NrX2ZiX2luZm8g
-aXMgcHVyZWx5IGxvY2tpbmcsIG5vdCBsaWZldGltZSAoYW5kIEkgdGhpbmsgaW4gYSBidW5jaAo+
-IG9mIHBsYWNlcyB3YXkgdG9vIGxhdGUpLgoKT2ggYW5kIHNpbmNlIHlvdXIgcGF0Y2ggaXMgZnVs
-bCBvZiByYWNlcyB0b28gSSBleHBlY3QgeW91J2xsIGJlIGFibGUKdG8gZ2V0IGF3YXkgd2l0aCBq
-dXN0IGFkZGluZyB0aGUgLT5mYl9yZW1vdmUgaG9vaywgZml4IHVwIGRyaXZlcnMsIGFuZApsZWF2
-ZSBmaXhpbmcgdGhlIHZhcmlvdXMgcmFjZXMgdG8gc29tZW9uZSBlbHNlLgotRGFuaWVsCgo+Cj4g
-PiAxYS4gZmJjb24gd29ya3MgZGlmZmVyZW50bHkuIERvbid0IGxvb2sgdG9vIGNsb3NlbHksIGJ1
-dCB0aGlzIGlzIGFsc28KPiA+IG5vdCB0aGUgcHJvYmxlbSB5b3VyIGZhY2luZyBoZXJlLgo+ID4K
-PiA+IDIuIFJlZmNvdW50aW5nIG9mIHRoZSBmYiBzdHJ1Y3R1cmUgYW5kIGh3IHRlYXJkb3duLiBU
-aGF0J3Mgd2hhdCdzCj4gPiB0cmFja2VkIGluIGZiX2luZm8tPmNvdW50LiBNb3N0IGxpa2VseSB0
-aGUgZmJkZXYgZHJpdmVyIHlvdSBoYXZlIGhhcyBhCj4gPiB3cm9uZyBzcGxpdCBiZXR3ZWVuIHRo
-ZSBodyB0ZWFyZG93biBjb2RlIGFuZCB3aGF0J3MgaW4gZmJfZGVzdHJveS4gSWYKPiA+IHlvdSBo
-YXZlIGFueSBodyBjbGVhbnVwIGNvZGUgaW4gZmJfZGVzdHJveSB0aGF0IGRyaXZlciBpcyBidWdn
-eS4gZWZpZmIKPiA+IGlzIHZlcnkgYnVnZ3kgaW4gdGhhdCBhcmVhIDotKSBTYW1lIGZvciBvZmZi
-LCBzaW1wbGVmYiwgdmVzYWZiIGFuZAo+ID4gdmVzYTE2ZmIuCj4gPgo+ID4gV2UgbWlnaHQgbmVl
-ZCBhIG5ldyBmYl91bnJlZ2lzdGVyIGNhbGxiYWNrIGZvciB0aGVzZSBkcml2ZXJzIHRvIGJlCj4g
-PiBhYmxlIHRvIGZpeCB0aGlzIHByb3Blcmx5LiBCZWNhdXNlIHRoZSB1bnJlZ2lzdGVyIGNvbWVz
-IGZyb20gdGhlIGZiZGV2Cj4gPiBjb3JlLCBhbmQgbm90IHRoZSBkcml2ZXIgYXMgdXN1YWwsIHNv
-IHRoZSB1c3VhbCBkcml2ZXIgdW5sb2FkIHNlcXVlbmNlCj4gPiBkb2VzbnQgd29yazoKPiA+Cj4g
-PiBkcm1fZGV2X3VucmVnaXN0ZXIoKTsKPiA+IC4uLiByZWxlYXNlIGFsbCBodyByZXNvdXJjZSAu
-Li4KPiA+Cj4gPiBkcm1fZGV2X3B1dCgpOwo+ID4KPiA+IE9yIGluIHRlcm1zIG9mIGZiZGV2Ogo+
-ID4KPiA+IHVucmVnaXN0ZXJfZnJhbWVidWZmZXIoaW5mbyk7Cj4gPiAuLi4gcmVsZWFzZSBhbGwg
-aHcgcmVzb3VyY2VzIC4uLiA8LSBldmVyeW9uZSBnZXRzIHRoaXMgd3JvbmcKPiA+IGZyYW1lYnVm
-ZmVyX3JlbGVhc2UoaW5mbyk7IDwtIGFsc28gd3JvbmcgYmVjYXVzZSBub3QgcmVmY291bnRlZCwK
-PiA+IGhvb3JheSwgdGhpcyBzaG91bGQgYmUgbW92ZWQgdG8gdG8gZW5kIG9mIHRoZSAtPmZiX2Rl
-c3Ryb3kgY2FsbGJhY2sKPiA+Cj4gPiBTbyB3ZSBuZWVkIGEgY2FsbGJhY2sgdG8gcHV0IHRoZSAi
-cmVsZWFzZSBhbGwgaHcgcmVzb3VyY2VzIiBzdGVwIGludG8KPiA+IHRoZSBmbG93IGF0IHRoZSBy
-aWdodCBwbGFjZS4gQW5vdGhlciBvcHRpb24gKHNsaWdodGx5IGxlc3MgbWlkbGF5ZXIpCj4gPiB3
-b3VsZCBiZSB0byBhZGQgYSBmYl90YWtlb3ZlciBob29rLCBmb3IgdGhlc2UgcGxhdGZvcm1zIGRy
-aXZlcnMsIHdoaWNoCj4gPiB3b3VsZCB0aGVuIGRvIHRoZSBhYm92ZSBzZXF1ZW5jZSAobGlrZSBh
-dCBkcml2ZXIgdW5sb2FkKS4KPiA+Cj4gPiBBbHNvIGFkZGluZyBOb3JhbGYsIHNpbmNlIGhlJ3Mg
-Zml4ZWQgdXAgYWxsIHRoZSBkcm0gc3R1ZmYgaW4gdGhpcyBhcmVhCj4gPiBpbiB0aGUgcGFzdC4K
-PiA+Cj4gPiBDaGVlcnMsIERhbmllbAo+ID4KPiA+ID4gLS0tCj4gPiA+ICBkcml2ZXJzL3ZpZGVv
-L2ZiZGV2L2NvcmUvZmJtZW0uYyB8IDcgKysrKysrKwo+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDcg
-aW5zZXJ0aW9ucygrKQo+ID4gPgo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRl
-di9jb3JlL2ZibWVtLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYwo+ID4gPiBp
-bmRleCBkMDQ1NTQ5NTllYTcuLjJlYThhYzA1YjA2NSAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVy
-cy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMKPiA+ID4gKysrIGIvZHJpdmVycy92aWRlby9mYmRl
-di9jb3JlL2ZibWVtLmMKPiA+ID4gQEAgLTM1LDYgKzM1LDcgQEAKPiA+ID4gICNpbmNsdWRlIDxs
-aW51eC9mYmNvbi5oPgo+ID4gPiAgI2luY2x1ZGUgPGxpbnV4L21lbV9lbmNyeXB0Lmg+Cj4gPiA+
-ICAjaW5jbHVkZSA8bGludXgvcGNpLmg+Cj4gPiA+ICsjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4K
-PiA+ID4KPiA+ID4gICNpbmNsdWRlIDxhc20vZmIuaD4KPiA+ID4KPiA+ID4gQEAgLTE3MDcsNiAr
-MTcwOCw4IEBAIHN0YXRpYyB2b2lkIHVubGlua19mcmFtZWJ1ZmZlcihzdHJ1Y3QgZmJfaW5mbyAq
-ZmJfaW5mbykKPiA+ID4KPiA+ID4gIHN0YXRpYyB2b2lkIGRvX3VucmVnaXN0ZXJfZnJhbWVidWZm
-ZXIoc3RydWN0IGZiX2luZm8gKmZiX2luZm8pCj4gPiA+ICB7Cj4gPiA+ICsgICAgICAgaW50IGxp
-bWl0ID0gMTAwOwo+ID4gPiArCj4gPiA+ICAgICAgICAgdW5saW5rX2ZyYW1lYnVmZmVyKGZiX2lu
-Zm8pOwo+ID4gPiAgICAgICAgIGlmIChmYl9pbmZvLT5waXhtYXAuYWRkciAmJgo+ID4gPiAgICAg
-ICAgICAgICAoZmJfaW5mby0+cGl4bWFwLmZsYWdzICYgRkJfUElYTUFQX0RFRkFVTFQpKQo+ID4g
-PiBAQCAtMTcyNiw2ICsxNzI5LDEwIEBAIHN0YXRpYyB2b2lkIGRvX3VucmVnaXN0ZXJfZnJhbWVi
-dWZmZXIoc3RydWN0IGZiX2luZm8gKmZiX2luZm8pCj4gPiA+ICAgICAgICAgZmJjb25fZmJfdW5y
-ZWdpc3RlcmVkKGZiX2luZm8pOwo+ID4gPiAgICAgICAgIGNvbnNvbGVfdW5sb2NrKCk7Cj4gPiA+
-Cj4gPiA+ICsgICAgICAgLyogdHJ5IHdhaXQgdW50aWwgYWxsIHJlZmVyZW5jZXMgYXJlIGdvbmUg
-Ki8KPiA+ID4gKyAgICAgICB3aGlsZSAoYXRvbWljX3JlYWQoJmZiX2luZm8tPmNvdW50KSA+IDEg
-JiYgLS1saW1pdCA+IDApCj4gPiA+ICsgICAgICAgICAgICAgICBtc2xlZXAoMTApOwo+ID4gPiAr
-Cj4gPiA+ICAgICAgICAgLyogdGhpcyBtYXkgZnJlZSBmYiBpbmZvICovCj4gPiA+ICAgICAgICAg
-cHV0X2ZiX2luZm8oZmJfaW5mbyk7Cj4gPiA+ICB9Cj4gPiA+IC0tCj4gPiA+IDIuMTguMQo+ID4g
-Pgo+ID4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-ID4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPiA+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwKPiA+Cj4gPgo+ID4KPiA+IC0tCj4gPiBEYW5pZWwgVmV0dGVyCj4gPiBT
-b2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiA+ICs0MSAoMCkgNzkgMzY1IDU3
-IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPgo+Cj4KPiAtLQo+IERhbmllbCBWZXR0ZXIKPiBT
-b2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiArNDEgKDApIDc5IDM2NSA1NyA0
-OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
-Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9i
-bG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Device specific dev_WARN and dev_WARN_ONCE macros available in kernel
+include device information in the backtrace, so we know what device
+the warnings originate from.
+
+Similar to this, add new struct drm_device based drm_WARN* macros. These
+macros include device information in the backtrace, so we know
+what device the warnings originate from. Knowing the device specific
+information in the backtrace would be helpful in development all
+around.
+
+This patch series aims to convert calls of WARN(), WARN_ON(),
+WARN_ONCE() and WARN_ON_ONCE() in i915 driver to use the drm
+device-specific variants automatically wherever struct device pointer
+is available.
+
+To do this, this patch series -
+  - introduces new struct drm_device based WARN* macros
+  - automatically converts WARN* with device specific dev_WARN*
+    variants using coccinelle semantic patch scripts.
+
+The goal is to convert all the calls of WARN* with drm_WARN* in i915,
+but there are still cases where device pointer is not readily
+available in some functions (or I missed them somehow) using WARN*
+hence some manual churning is needed. Handle such remaining cases
+separately later.
+
+changes since v4:
+   - Address Jani's comment
+     - split major i915/display related conversions per file into
+       seperate patches so that non conflicting patches can be
+       merged.
+
+changes since v3:
+  - rebase pending unmerged patches on drm-tip
+	(bc626bbb5b6e drm-tip: 2020y-01m-25d-14h-28m-41s UTC integration manifest)
+
+changes since v2:
+  - rebase pending unmerged patches on drm-tip
+
+changes since v1:
+  - Address Jani's review comments
+    - Fix typo in comment of patch 0001
+    - Get rid of helper functions
+    - Split patches by directory
+
+Changes since RFC at [1]
+  - Introduce drm_WARN* macros and use them as suggested by Sam and Jani
+  - Get rid of extra local variables
+
+[1] https://patchwork.freedesktop.org/series/71668/
+
+
+Pankaj Bharadiya (21):
+  drm/i915/display/icl_dsi: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/audio: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/cdclk: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/crt: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/ddi: Make WARN* drm specific where drm_device ptr is available
+  drm/i915/display/display: Make WARN* drm specific where drm_device ptr is available
+  drm/i915/display/power: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/dp: Make WARN* drm specific where drm_device ptr is available
+  drm/i915/display/dpll_mgr: Make WARN* drm specific where drm_device ptr is available
+  drm/i915/display/fbc: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/fbdev: Make WARN* drm specific where drm_device ptr is available
+  drm/i915/display/hdcp: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/hdmi: Make WARN* drm specific where drm_device ptr is available
+  drm/i915/display/overlay: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/panel: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/psr: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/sdvo: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display/tc: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/display: Make WARN* drm specific where drm_device ptr is available
+  drm/i915/gvt: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/gvt: Make WARN* drm specific where vgpu ptr is available
+
+ drivers/gpu/drm/i915/display/icl_dsi.c        |  14 +-
+ drivers/gpu/drm/i915/display/intel_atomic.c   |   6 +-
+ drivers/gpu/drm/i915/display/intel_audio.c    |  19 +-
+ drivers/gpu/drm/i915/display/intel_bios.c     |  10 +-
+ drivers/gpu/drm/i915/display/intel_bw.c       |   3 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |  81 ++++---
+ drivers/gpu/drm/i915/display/intel_color.c    |   3 +-
+ .../gpu/drm/i915/display/intel_combo_phy.c    |   2 +-
+ .../gpu/drm/i915/display/intel_connector.c    |   3 +-
+ drivers/gpu/drm/i915/display/intel_crt.c      |  10 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  92 +++----
+ drivers/gpu/drm/i915/display/intel_display.c  | 226 ++++++++++--------
+ .../drm/i915/display/intel_display_power.c    | 168 +++++++------
+ drivers/gpu/drm/i915/display/intel_dp.c       | 117 +++++----
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |  10 +-
+ drivers/gpu/drm/i915/display/intel_dpio_phy.c |   3 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  37 +--
+ drivers/gpu/drm/i915/display/intel_dsb.c      |   6 +-
+ .../i915/display/intel_dsi_dcs_backlight.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |   5 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c      |  23 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |  13 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c    |   3 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     |  21 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  52 ++--
+ drivers/gpu/drm/i915/display/intel_hotplug.c  |   7 +-
+ .../gpu/drm/i915/display/intel_lpe_audio.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_lvds.c     |   7 +-
+ drivers/gpu/drm/i915/display/intel_opregion.c |   7 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c  |  12 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    |  19 +-
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c |   7 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      |  32 +--
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |  14 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c   |   5 +-
+ drivers/gpu/drm/i915/display/intel_tc.c       |  18 +-
+ drivers/gpu/drm/i915/display/intel_vdsc.c     |   2 +-
+ drivers/gpu/drm/i915/display/vlv_dsi.c        |   2 +-
+ drivers/gpu/drm/i915/gvt/aperture_gm.c        |   6 +-
+ drivers/gpu/drm/i915/gvt/cfg_space.c          |  23 +-
+ drivers/gpu/drm/i915/gvt/cmd_parser.c         |   4 +-
+ drivers/gpu/drm/i915/gvt/display.c            |   6 +-
+ drivers/gpu/drm/i915/gvt/dmabuf.c             |   4 +-
+ drivers/gpu/drm/i915/gvt/edid.c               |  19 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                |  21 +-
+ drivers/gpu/drm/i915/gvt/gvt.c                |   4 +-
+ drivers/gpu/drm/i915/gvt/handlers.c           |  22 +-
+ drivers/gpu/drm/i915/gvt/interrupt.c          |  16 +-
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  10 +-
+ drivers/gpu/drm/i915/gvt/mmio.c               |  30 ++-
+ drivers/gpu/drm/i915/gvt/mmio_context.c       |   8 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c          |   6 +-
+ drivers/gpu/drm/i915/gvt/vgpu.c               |   6 +-
+ 53 files changed, 716 insertions(+), 532 deletions(-)
+
+-- 
+2.23.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
