@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8ED814BFD0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681BC14BFD1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD63C6F376;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1D546F378;
 	Tue, 28 Jan 2020 18:29:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACEAB6F376;
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC5AD6F378;
  Tue, 28 Jan 2020 18:29:25 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2020 10:29:18 -0800
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2020 10:29:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310822558"
+X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310823091"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:29:14 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:29:21 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Imre Deak <imre.deak@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [Intel-gfx] [PATCH v5 17/21] drm/i915/display/sdvo: Make WARN* drm
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [Intel-gfx] [PATCH v5 18/21] drm/i915/display/tc: Make WARN* drm
  specific where drm_priv ptr is available
-Date: Tue, 28 Jan 2020 23:45:59 +0530
-Message-Id: <20200128181603.27767-18-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Tue, 28 Jan 2020 23:46:00 +0530
+Message-Id: <20200128181603.27767-19-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -63,7 +64,7 @@ variants in functions where drm_i915_private struct pointer is readily
 available.
 
 The conversion was done automatically with below coccinelle semantic
-patch.
+patch. checkpatch errors/warnings are fixed manually.
 
 @rule1@
 identifier func, T;
@@ -119,49 +120,80 @@ func(struct drm_i915_private *T,...) {
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_sdvo.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/display/intel_tc.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index 225b6402718e..c098c3f92eba 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -1506,7 +1506,8 @@ static void intel_sdvo_pre_enable(struct intel_encoder *intel_encoder,
+diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
+index 7773169b7331..c47f3a1fa73d 100644
+--- a/drivers/gpu/drm/i915/display/intel_tc.c
++++ b/drivers/gpu/drm/i915/display/intel_tc.c
+@@ -61,7 +61,7 @@ u32 intel_tc_port_get_lane_mask(struct intel_digital_port *dig_port)
+ 	lane_mask = intel_uncore_read(uncore,
+ 				      PORT_TX_DFLEXDPSP(dig_port->tc_phy_fia));
  
- 	switch (crtc_state->pixel_multiplier) {
- 	default:
--		WARN(1, "unknown pixel multiplier specified\n");
-+		drm_WARN(&dev_priv->drm, 1,
-+			 "unknown pixel multiplier specified\n");
- 		/* fall through */
- 	case 1: rate = SDVO_CLOCK_RATE_MULT_1X; break;
- 	case 2: rate = SDVO_CLOCK_RATE_MULT_2X; break;
-@@ -1674,9 +1675,10 @@ static void intel_sdvo_get_config(struct intel_encoder *encoder,
- 		}
- 	}
+-	WARN_ON(lane_mask == 0xffffffff);
++	drm_WARN_ON(&i915->drm, lane_mask == 0xffffffff);
  
--	WARN(encoder_pixel_multiplier != pipe_config->pixel_multiplier,
--	     "SDVO pixel multiplier mismatch, port: %i, encoder: %i\n",
--	     pipe_config->pixel_multiplier, encoder_pixel_multiplier);
-+	drm_WARN(dev,
-+		 encoder_pixel_multiplier != pipe_config->pixel_multiplier,
-+		 "SDVO pixel multiplier mismatch, port: %i, encoder: %i\n",
-+		 pipe_config->pixel_multiplier, encoder_pixel_multiplier);
+ 	lane_mask &= DP_LANE_ASSIGNMENT_MASK(dig_port->tc_phy_fia_idx);
+ 	return lane_mask >> DP_LANE_ASSIGNMENT_SHIFT(dig_port->tc_phy_fia_idx);
+@@ -76,7 +76,7 @@ u32 intel_tc_port_get_pin_assignment_mask(struct intel_digital_port *dig_port)
+ 	pin_mask = intel_uncore_read(uncore,
+ 				     PORT_TX_DFLEXPA1(dig_port->tc_phy_fia));
  
- 	if (sdvox & HDMI_COLOR_RANGE_16_235)
- 		pipe_config->limited_color_range = true;
-@@ -3236,9 +3238,9 @@ static void assert_sdvo_port_valid(const struct drm_i915_private *dev_priv,
- 				   enum port port)
- {
- 	if (HAS_PCH_SPLIT(dev_priv))
--		WARN_ON(port != PORT_B);
-+		drm_WARN_ON(&dev_priv->drm, port != PORT_B);
- 	else
--		WARN_ON(port != PORT_B && port != PORT_C);
-+		drm_WARN_ON(&dev_priv->drm, port != PORT_B && port != PORT_C);
+-	WARN_ON(pin_mask == 0xffffffff);
++	drm_WARN_ON(&i915->drm, pin_mask == 0xffffffff);
+ 
+ 	return (pin_mask & DP_PIN_ASSIGNMENT_MASK(dig_port->tc_phy_fia_idx)) >>
+ 	       DP_PIN_ASSIGNMENT_SHIFT(dig_port->tc_phy_fia_idx);
+@@ -120,7 +120,8 @@ void intel_tc_port_set_fia_lane_count(struct intel_digital_port *dig_port,
+ 	struct intel_uncore *uncore = &i915->uncore;
+ 	u32 val;
+ 
+-	WARN_ON(lane_reversal && dig_port->tc_mode != TC_PORT_LEGACY);
++	drm_WARN_ON(&i915->drm,
++		    lane_reversal && dig_port->tc_mode != TC_PORT_LEGACY);
+ 
+ 	val = intel_uncore_read(uncore,
+ 				PORT_TX_DFLEXDPMLE1(dig_port->tc_phy_fia));
+@@ -195,7 +196,7 @@ static u32 tc_port_live_status_mask(struct intel_digital_port *dig_port)
+ 		mask |= BIT(TC_PORT_LEGACY);
+ 
+ 	/* The sink can be connected only in a single mode. */
+-	if (!WARN_ON(hweight32(mask) > 1))
++	if (!drm_WARN_ON(&i915->drm, hweight32(mask) > 1))
+ 		tc_port_fixup_legacy_flag(dig_port, mask);
+ 
+ 	return mask;
+@@ -409,8 +410,9 @@ static void intel_tc_port_reset_mode(struct intel_digital_port *dig_port,
+ 	enum tc_port_mode old_tc_mode = dig_port->tc_mode;
+ 
+ 	intel_display_power_flush_work(i915);
+-	WARN_ON(intel_display_power_is_enabled(i915,
+-					       intel_aux_power_domain(dig_port)));
++	drm_WARN_ON(&i915->drm,
++		    intel_display_power_is_enabled(i915,
++					intel_aux_power_domain(dig_port)));
+ 
+ 	icl_tc_phy_disconnect(dig_port);
+ 	icl_tc_phy_connect(dig_port, required_lanes);
+@@ -503,7 +505,7 @@ static void __intel_tc_port_lock(struct intel_digital_port *dig_port,
+ 	    intel_tc_port_needs_reset(dig_port))
+ 		intel_tc_port_reset_mode(dig_port, required_lanes);
+ 
+-	WARN_ON(dig_port->tc_lock_wakeref);
++	drm_WARN_ON(&i915->drm, dig_port->tc_lock_wakeref);
+ 	dig_port->tc_lock_wakeref = wakeref;
  }
  
- bool intel_sdvo_init(struct drm_i915_private *dev_priv,
+@@ -550,7 +552,7 @@ void intel_tc_port_init(struct intel_digital_port *dig_port, bool is_legacy)
+ 	enum port port = dig_port->base.port;
+ 	enum tc_port tc_port = intel_port_to_tc(i915, port);
+ 
+-	if (WARN_ON(tc_port == PORT_TC_NONE))
++	if (drm_WARN_ON(&i915->drm, tc_port == PORT_TC_NONE))
+ 		return;
+ 
+ 	snprintf(dig_port->tc_port_name, sizeof(dig_port->tc_port_name),
 -- 
 2.23.0
 
