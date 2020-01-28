@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA55014BFBC
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:28:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A20214BFBF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:28:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 876806EF38;
-	Tue, 28 Jan 2020 18:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D57C6EF40;
+	Tue, 28 Jan 2020 18:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC526EF38;
- Tue, 28 Jan 2020 18:28:26 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 299896EF3B;
+ Tue, 28 Jan 2020 18:28:33 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2020 10:28:26 -0800
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2020 10:28:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310819224"
+X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310819650"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:28:22 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:28:28 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: [Intel-gfx] [PATCH v5 08/21] drm/i915/display/dp: Make WARN* drm
- specific where drm_device ptr is available
-Date: Tue, 28 Jan 2020 23:45:50 +0530
-Message-Id: <20200128181603.27767-9-pankaj.laxminarayan.bharadiya@intel.com>
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Imre Deak <imre.deak@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Subject: [Intel-gfx] [PATCH v5 09/21] drm/i915/display/dpll_mgr: Make WARN*
+ drm specific where drm_device ptr is available
+Date: Tue, 28 Jan 2020 23:45:51 +0530
+Message-Id: <20200128181603.27767-10-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -172,332 +173,147 @@ func(struct drm_i915_private *T,...) {
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 117 +++++++++++++-----------
- 1 file changed, 66 insertions(+), 51 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 37 ++++++++++---------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index e21bc339cb29..4770c1967de4 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -324,7 +324,8 @@ intel_dp_set_source_rates(struct intel_dp *intel_dp)
- 	int size, max_rate = 0, vbt_max_rate;
- 
- 	/* This should only be done once */
--	WARN_ON(intel_dp->source_rates || intel_dp->num_source_rates);
-+	drm_WARN_ON(&dev_priv->drm,
-+		    intel_dp->source_rates || intel_dp->num_source_rates);
- 
- 	if (INTEL_GEN(dev_priv) >= 10) {
- 		source_rates = cnl_rates;
-@@ -756,10 +757,11 @@ vlv_power_sequencer_kick(struct intel_dp *intel_dp)
- 	enum dpio_channel ch = vlv_pipe_to_channel(pipe);
- 	u32 DP;
- 
--	if (WARN(I915_READ(intel_dp->output_reg) & DP_PORT_EN,
--		 "skipping pipe %c power sequencer kick due to [ENCODER:%d:%s] being active\n",
--		 pipe_name(pipe), intel_dig_port->base.base.base.id,
--		 intel_dig_port->base.base.name))
-+	if (drm_WARN(&dev_priv->drm,
-+		     I915_READ(intel_dp->output_reg) & DP_PORT_EN,
-+		     "skipping pipe %c power sequencer kick due to [ENCODER:%d:%s] being active\n",
-+		     pipe_name(pipe), intel_dig_port->base.base.base.id,
-+		     intel_dig_port->base.base.name))
- 		return;
- 
- 	drm_dbg_kms(&dev_priv->drm,
-@@ -835,13 +837,16 @@ static enum pipe vlv_find_free_pps(struct drm_i915_private *dev_priv)
- 		struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
- 
- 		if (encoder->type == INTEL_OUTPUT_EDP) {
--			WARN_ON(intel_dp->active_pipe != INVALID_PIPE &&
--				intel_dp->active_pipe != intel_dp->pps_pipe);
-+			drm_WARN_ON(&dev_priv->drm,
-+				    intel_dp->active_pipe != INVALID_PIPE &&
-+				    intel_dp->active_pipe !=
-+				    intel_dp->pps_pipe);
- 
- 			if (intel_dp->pps_pipe != INVALID_PIPE)
- 				pipes &= ~(1 << intel_dp->pps_pipe);
- 		} else {
--			WARN_ON(intel_dp->pps_pipe != INVALID_PIPE);
-+			drm_WARN_ON(&dev_priv->drm,
-+				    intel_dp->pps_pipe != INVALID_PIPE);
- 
- 			if (intel_dp->active_pipe != INVALID_PIPE)
- 				pipes &= ~(1 << intel_dp->active_pipe);
-@@ -864,10 +869,10 @@ vlv_power_sequencer_pipe(struct intel_dp *intel_dp)
- 	lockdep_assert_held(&dev_priv->pps_mutex);
- 
- 	/* We should never land here with regular DP ports */
--	WARN_ON(!intel_dp_is_edp(intel_dp));
-+	drm_WARN_ON(&dev_priv->drm, !intel_dp_is_edp(intel_dp));
- 
--	WARN_ON(intel_dp->active_pipe != INVALID_PIPE &&
--		intel_dp->active_pipe != intel_dp->pps_pipe);
-+	drm_WARN_ON(&dev_priv->drm, intel_dp->active_pipe != INVALID_PIPE &&
-+		    intel_dp->active_pipe != intel_dp->pps_pipe);
- 
- 	if (intel_dp->pps_pipe != INVALID_PIPE)
- 		return intel_dp->pps_pipe;
-@@ -878,7 +883,7 @@ vlv_power_sequencer_pipe(struct intel_dp *intel_dp)
- 	 * Didn't find one. This should not happen since there
- 	 * are two power sequencers and up to two eDP ports.
- 	 */
--	if (WARN_ON(pipe == INVALID_PIPE))
-+	if (drm_WARN_ON(&dev_priv->drm, pipe == INVALID_PIPE))
- 		pipe = PIPE_A;
- 
- 	vlv_steal_power_sequencer(dev_priv, pipe);
-@@ -912,7 +917,7 @@ bxt_power_sequencer_idx(struct intel_dp *intel_dp)
- 	lockdep_assert_held(&dev_priv->pps_mutex);
- 
- 	/* We should never land here with regular DP ports */
--	WARN_ON(!intel_dp_is_edp(intel_dp));
-+	drm_WARN_ON(&dev_priv->drm, !intel_dp_is_edp(intel_dp));
- 
- 	if (!intel_dp->pps_reset)
- 		return backlight_controller;
-@@ -1017,8 +1022,9 @@ void intel_power_sequencer_reset(struct drm_i915_private *dev_priv)
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+index 13535c5ca3cf..2e596e88cf09 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+@@ -103,8 +103,8 @@ enum intel_dpll_id
+ intel_get_shared_dpll_id(struct drm_i915_private *dev_priv,
+ 			 struct intel_shared_dpll *pll)
  {
- 	struct intel_encoder *encoder;
+-	if (WARN_ON(pll < dev_priv->shared_dplls||
+-		    pll > &dev_priv->shared_dplls[dev_priv->num_shared_dpll]))
++	if (drm_WARN_ON(&dev_priv->drm, pll < dev_priv->shared_dplls ||
++			pll > &dev_priv->shared_dplls[dev_priv->num_shared_dpll]))
+ 		return -1;
  
--	if (WARN_ON(!IS_VALLEYVIEW(dev_priv) && !IS_CHERRYVIEW(dev_priv) &&
--		    !IS_GEN9_LP(dev_priv)))
-+	if (drm_WARN_ON(&dev_priv->drm, !IS_VALLEYVIEW(dev_priv) &&
-+			!IS_CHERRYVIEW(dev_priv) &&
-+			!IS_GEN9_LP(dev_priv)))
+ 	return (enum intel_dpll_id) (pll - dev_priv->shared_dplls);
+@@ -118,7 +118,8 @@ void assert_shared_dpll(struct drm_i915_private *dev_priv,
+ 	bool cur_state;
+ 	struct intel_dpll_hw_state hw_state;
+ 
+-	if (WARN(!pll, "asserting DPLL %s with no DPLL\n", onoff(state)))
++	if (drm_WARN(&dev_priv->drm, !pll,
++		     "asserting DPLL %s with no DPLL\n", onoff(state)))
  		return;
  
- 	/*
-@@ -1034,7 +1040,8 @@ void intel_power_sequencer_reset(struct drm_i915_private *dev_priv)
- 	for_each_intel_dp(&dev_priv->drm, encoder) {
- 		struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
+ 	cur_state = pll->info->funcs->get_hw_state(dev_priv, pll, &hw_state);
+@@ -140,14 +141,14 @@ void intel_prepare_shared_dpll(const struct intel_crtc_state *crtc_state)
+ 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+ 	struct intel_shared_dpll *pll = crtc_state->shared_dpll;
  
--		WARN_ON(intel_dp->active_pipe != INVALID_PIPE);
-+		drm_WARN_ON(&dev_priv->drm,
-+			    intel_dp->active_pipe != INVALID_PIPE);
- 
- 		if (encoder->type != INTEL_OUTPUT_EDP)
- 			continue;
-@@ -1168,7 +1175,8 @@ intel_dp_check_edp(struct intel_dp *intel_dp)
+-	if (WARN_ON(pll == NULL))
++	if (drm_WARN_ON(&dev_priv->drm, pll == NULL))
  		return;
  
- 	if (!edp_have_panel_power(intel_dp) && !edp_have_panel_vdd(intel_dp)) {
--		WARN(1, "eDP powered off while attempting aux channel communication.\n");
-+		drm_WARN(&dev_priv->drm, 1,
-+			 "eDP powered off while attempting aux channel communication.\n");
- 		drm_dbg_kms(&dev_priv->drm, "Status 0x%08x Control 0x%08x\n",
- 			    I915_READ(_pp_stat_reg(intel_dp)),
- 			    I915_READ(_pp_ctrl_reg(intel_dp)));
-@@ -1380,8 +1388,9 @@ intel_dp_aux_xfer(struct intel_dp *intel_dp,
- 		const u32 status = intel_uncore_read(uncore, ch_ctl);
+ 	mutex_lock(&dev_priv->dpll_lock);
+-	WARN_ON(!pll->state.crtc_mask);
++	drm_WARN_ON(&dev_priv->drm, !pll->state.crtc_mask);
+ 	if (!pll->active_mask) {
+ 		DRM_DEBUG_DRIVER("setting up %s\n", pll->info->name);
+-		WARN_ON(pll->on);
++		drm_WARN_ON(&dev_priv->drm, pll->on);
+ 		assert_shared_dpll_disabled(dev_priv, pll);
  
- 		if (status != intel_dp->aux_busy_last_status) {
--			WARN(1, "%s: not started (status 0x%08x)\n",
--			     intel_dp->aux.name, status);
-+			drm_WARN(&i915->drm, 1,
-+				 "%s: not started (status 0x%08x)\n",
-+				 intel_dp->aux.name, status);
- 			intel_dp->aux_busy_last_status = status;
- 		}
+ 		pll->info->funcs->prepare(dev_priv, pll);
+@@ -169,14 +170,14 @@ void intel_enable_shared_dpll(const struct intel_crtc_state *crtc_state)
+ 	unsigned int crtc_mask = drm_crtc_mask(&crtc->base);
+ 	unsigned int old_mask;
  
-@@ -1390,7 +1399,7 @@ intel_dp_aux_xfer(struct intel_dp *intel_dp,
- 	}
+-	if (WARN_ON(pll == NULL))
++	if (drm_WARN_ON(&dev_priv->drm, pll == NULL))
+ 		return;
  
- 	/* Only 5 data registers! */
--	if (WARN_ON(send_bytes > 20 || recv_size > 20)) {
-+	if (drm_WARN_ON(&i915->drm, send_bytes > 20 || recv_size > 20)) {
- 		ret = -E2BIG;
+ 	mutex_lock(&dev_priv->dpll_lock);
+ 	old_mask = pll->active_mask;
+ 
+-	if (WARN_ON(!(pll->state.crtc_mask & crtc_mask)) ||
+-	    WARN_ON(pll->active_mask & crtc_mask))
++	if (drm_WARN_ON(&dev_priv->drm, !(pll->state.crtc_mask & crtc_mask)) ||
++	    drm_WARN_ON(&dev_priv->drm, pll->active_mask & crtc_mask))
+ 		goto out;
+ 
+ 	pll->active_mask |= crtc_mask;
+@@ -186,11 +187,11 @@ void intel_enable_shared_dpll(const struct intel_crtc_state *crtc_state)
+ 		      crtc->base.base.id);
+ 
+ 	if (old_mask) {
+-		WARN_ON(!pll->on);
++		drm_WARN_ON(&dev_priv->drm, !pll->on);
+ 		assert_shared_dpll_enabled(dev_priv, pll);
  		goto out;
  	}
-@@ -2675,8 +2684,8 @@ static  u32 ilk_get_pp_control(struct intel_dp *intel_dp)
- 	lockdep_assert_held(&dev_priv->pps_mutex);
+-	WARN_ON(pll->on);
++	drm_WARN_ON(&dev_priv->drm, pll->on);
  
- 	control = I915_READ(_pp_ctrl_reg(intel_dp));
--	if (WARN_ON(!HAS_DDI(dev_priv) &&
--		    (control & PANEL_UNLOCK_MASK) != PANEL_UNLOCK_REGS)) {
-+	if (drm_WARN_ON(&dev_priv->drm, !HAS_DDI(dev_priv) &&
-+			(control & PANEL_UNLOCK_MASK) != PANEL_UNLOCK_REGS)) {
- 		control &= ~PANEL_UNLOCK_MASK;
- 		control |= PANEL_UNLOCK_REGS;
+ 	DRM_DEBUG_KMS("enabling %s\n", pll->info->name);
+ 	pll->info->funcs->enable(dev_priv, pll);
+@@ -221,7 +222,7 @@ void intel_disable_shared_dpll(const struct intel_crtc_state *crtc_state)
+ 		return;
+ 
+ 	mutex_lock(&dev_priv->dpll_lock);
+-	if (WARN_ON(!(pll->active_mask & crtc_mask)))
++	if (drm_WARN_ON(&dev_priv->drm, !(pll->active_mask & crtc_mask)))
+ 		goto out;
+ 
+ 	DRM_DEBUG_KMS("disable %s (active %x, on? %d) for crtc %d\n",
+@@ -229,7 +230,7 @@ void intel_disable_shared_dpll(const struct intel_crtc_state *crtc_state)
+ 		      crtc->base.base.id);
+ 
+ 	assert_shared_dpll_enabled(dev_priv, pll);
+-	WARN_ON(!pll->on);
++	drm_WARN_ON(&dev_priv->drm, !pll->on);
+ 
+ 	pll->active_mask &= ~crtc_mask;
+ 	if (pll->active_mask)
+@@ -256,7 +257,7 @@ intel_find_shared_dpll(struct intel_atomic_state *state,
+ 
+ 	shared_dpll = intel_atomic_get_shared_dpll_state(&state->base);
+ 
+-	WARN_ON(dpll_mask & ~(BIT(I915_NUM_PLLS) - 1));
++	drm_WARN_ON(&dev_priv->drm, dpll_mask & ~(BIT(I915_NUM_PLLS) - 1));
+ 
+ 	for_each_set_bit(i, &dpll_mask, I915_NUM_PLLS) {
+ 		pll = &dev_priv->shared_dplls[i];
+@@ -1100,7 +1101,7 @@ static bool skl_ddi_dpll0_get_hw_state(struct drm_i915_private *dev_priv,
+ 
+ 	/* DPLL0 is always enabled since it drives CDCLK */
+ 	val = intel_de_read(dev_priv, regs[id].ctl);
+-	if (WARN_ON(!(val & LCPLL_PLL_ENABLE)))
++	if (drm_WARN_ON(&dev_priv->drm, !(val & LCPLL_PLL_ENABLE)))
+ 		goto out;
+ 
+ 	val = intel_de_read(dev_priv, DPLL_CTRL1);
+@@ -3791,7 +3792,7 @@ void intel_shared_dpll_init(struct drm_device *dev)
+ 	dpll_info = dpll_mgr->dpll_info;
+ 
+ 	for (i = 0; dpll_info[i].name; i++) {
+-		WARN_ON(i != dpll_info[i].id);
++		drm_WARN_ON(dev, i != dpll_info[i].id);
+ 		dev_priv->shared_dplls[i].info = &dpll_info[i];
  	}
-@@ -2774,7 +2783,7 @@ static void edp_panel_vdd_off_sync(struct intel_dp *intel_dp)
  
- 	lockdep_assert_held(&dev_priv->pps_mutex);
+@@ -3828,7 +3829,7 @@ bool intel_reserve_shared_dplls(struct intel_atomic_state *state,
+ 	struct drm_i915_private *dev_priv = to_i915(state->base.dev);
+ 	const struct intel_dpll_mgr *dpll_mgr = dev_priv->dpll_mgr;
  
--	WARN_ON(intel_dp->want_panel_vdd);
-+	drm_WARN_ON(&dev_priv->drm, intel_dp->want_panel_vdd);
- 
- 	if (!edp_have_panel_vdd(intel_dp))
- 		return;
-@@ -2870,10 +2879,10 @@ static void edp_panel_on(struct intel_dp *intel_dp)
- 		    dp_to_dig_port(intel_dp)->base.base.base.id,
- 		    dp_to_dig_port(intel_dp)->base.base.name);
- 
--	if (WARN(edp_have_panel_power(intel_dp),
--		 "[ENCODER:%d:%s] panel power already on\n",
--		 dp_to_dig_port(intel_dp)->base.base.base.id,
--		 dp_to_dig_port(intel_dp)->base.base.name))
-+	if (drm_WARN(&dev_priv->drm, edp_have_panel_power(intel_dp),
-+		     "[ENCODER:%d:%s] panel power already on\n",
-+		     dp_to_dig_port(intel_dp)->base.base.base.id,
-+		     dp_to_dig_port(intel_dp)->base.base.name))
- 		return;
- 
- 	wait_panel_power_cycle(intel_dp);
-@@ -2931,8 +2940,9 @@ static void edp_panel_off(struct intel_dp *intel_dp)
- 	drm_dbg_kms(&dev_priv->drm, "Turn [ENCODER:%d:%s] panel power off\n",
- 		    dig_port->base.base.base.id, dig_port->base.base.name);
- 
--	WARN(!intel_dp->want_panel_vdd, "Need [ENCODER:%d:%s] VDD to turn off panel\n",
--	     dig_port->base.base.base.id, dig_port->base.base.name);
-+	drm_WARN(&dev_priv->drm, !intel_dp->want_panel_vdd,
-+		 "Need [ENCODER:%d:%s] VDD to turn off panel\n",
-+		 dig_port->base.base.base.id, dig_port->base.base.name);
- 
- 	pp = ilk_get_pp_control(intel_dp);
- 	/* We need to switch off panel power _and_ force vdd, for otherwise some
-@@ -3574,7 +3584,7 @@ static void intel_enable_dp(struct intel_encoder *encoder,
- 	enum pipe pipe = crtc->pipe;
- 	intel_wakeref_t wakeref;
- 
--	if (WARN_ON(dp_reg & DP_PORT_EN))
-+	if (drm_WARN_ON(&dev_priv->drm, dp_reg & DP_PORT_EN))
- 		return;
- 
- 	with_pps_lock(intel_dp, wakeref) {
-@@ -3645,9 +3655,9 @@ static void vlv_detach_power_sequencer(struct intel_dp *intel_dp)
- 	enum pipe pipe = intel_dp->pps_pipe;
- 	i915_reg_t pp_on_reg = PP_ON_DELAYS(pipe);
- 
--	WARN_ON(intel_dp->active_pipe != INVALID_PIPE);
-+	drm_WARN_ON(&dev_priv->drm, intel_dp->active_pipe != INVALID_PIPE);
- 
--	if (WARN_ON(pipe != PIPE_A && pipe != PIPE_B))
-+	if (drm_WARN_ON(&dev_priv->drm, pipe != PIPE_A && pipe != PIPE_B))
- 		return;
- 
- 	edp_panel_vdd_off_sync(intel_dp);
-@@ -3681,10 +3691,10 @@ static void vlv_steal_power_sequencer(struct drm_i915_private *dev_priv,
- 	for_each_intel_dp(&dev_priv->drm, encoder) {
- 		struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
- 
--		WARN(intel_dp->active_pipe == pipe,
--		     "stealing pipe %c power sequencer from active [ENCODER:%d:%s]\n",
--		     pipe_name(pipe), encoder->base.base.id,
--		     encoder->base.name);
-+		drm_WARN(&dev_priv->drm, intel_dp->active_pipe == pipe,
-+			 "stealing pipe %c power sequencer from active [ENCODER:%d:%s]\n",
-+			 pipe_name(pipe), encoder->base.base.id,
-+			 encoder->base.name);
- 
- 		if (intel_dp->pps_pipe != pipe)
- 			continue;
-@@ -3708,7 +3718,7 @@ static void vlv_init_panel_power_sequencer(struct intel_encoder *encoder,
- 
- 	lockdep_assert_held(&dev_priv->pps_mutex);
- 
--	WARN_ON(intel_dp->active_pipe != INVALID_PIPE);
-+	drm_WARN_ON(&dev_priv->drm, intel_dp->active_pipe != INVALID_PIPE);
- 
- 	if (intel_dp->pps_pipe != INVALID_PIPE &&
- 	    intel_dp->pps_pipe != crtc->pipe) {
-@@ -4236,7 +4246,8 @@ intel_dp_link_down(struct intel_encoder *encoder,
- 	enum port port = encoder->port;
- 	u32 DP = intel_dp->DP;
- 
--	if (WARN_ON((I915_READ(intel_dp->output_reg) & DP_PORT_EN) == 0))
-+	if (drm_WARN_ON(&dev_priv->drm,
-+			(I915_READ(intel_dp->output_reg) & DP_PORT_EN) == 0))
- 		return;
- 
- 	drm_dbg_kms(&dev_priv->drm, "\n");
-@@ -4398,7 +4409,7 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
- 		to_i915(dp_to_dig_port(intel_dp)->base.base.dev);
- 
- 	/* this function is meant to be called only once */
--	WARN_ON(intel_dp->dpcd[DP_DPCD_REV] != 0);
-+	drm_WARN_ON(&dev_priv->drm, intel_dp->dpcd[DP_DPCD_REV] != 0);
- 
- 	if (!intel_dp_read_dpcd(intel_dp))
- 		return false;
-@@ -5154,7 +5165,7 @@ int intel_dp_retrain_link(struct intel_encoder *encoder,
- 
- 	crtc_state = to_intel_crtc_state(crtc->base.state);
- 
--	WARN_ON(!intel_crtc_has_dp_encoder(crtc_state));
-+	drm_WARN_ON(&dev_priv->drm, !intel_crtc_has_dp_encoder(crtc_state));
- 
- 	if (!crtc_state->hw.active)
- 		return 0;
-@@ -5689,7 +5700,8 @@ intel_dp_detect(struct drm_connector *connector,
- 
- 	drm_dbg_kms(&dev_priv->drm, "[CONNECTOR:%d:%s]\n",
- 		    connector->base.id, connector->name);
--	WARN_ON(!drm_modeset_is_locked(&dev_priv->drm.mode_config.connection_mutex));
-+	drm_WARN_ON(&dev_priv->drm,
-+		    !drm_modeset_is_locked(&dev_priv->drm.mode_config.connection_mutex));
- 
- 	/* Can't disconnect eDP */
- 	if (intel_dp_is_edp(intel_dp))
-@@ -6902,7 +6914,8 @@ intel_dp_init_panel_power_sequencer_registers(struct intel_dp *intel_dp,
- 	if (force_disable_vdd) {
- 		u32 pp = ilk_get_pp_control(intel_dp);
- 
--		WARN(pp & PANEL_POWER_ON, "Panel power already on\n");
-+		drm_WARN(&dev_priv->drm, pp & PANEL_POWER_ON,
-+			 "Panel power already on\n");
- 
- 		if (pp & EDP_FORCE_VDD)
- 			drm_dbg_kms(&dev_priv->drm,
-@@ -7379,7 +7392,8 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	 * with an already powered-on LVDS power sequencer.
- 	 */
- 	if (intel_get_lvds_encoder(dev_priv)) {
--		WARN_ON(!(HAS_PCH_IBX(dev_priv) || HAS_PCH_CPT(dev_priv)));
-+		drm_WARN_ON(dev,
-+			    !(HAS_PCH_IBX(dev_priv) || HAS_PCH_CPT(dev_priv)));
- 		drm_info(&dev_priv->drm,
- 			 "LVDS was detected, not registering eDP\n");
- 
-@@ -7513,10 +7527,10 @@ intel_dp_init_connector(struct intel_digital_port *intel_dig_port,
- 	INIT_WORK(&intel_connector->modeset_retry_work,
- 		  intel_dp_modeset_retry_work_fn);
- 
--	if (WARN(intel_dig_port->max_lanes < 1,
--		 "Not enough lanes (%d) for DP on [ENCODER:%d:%s]\n",
--		 intel_dig_port->max_lanes, intel_encoder->base.base.id,
--		 intel_encoder->base.name))
-+	if (drm_WARN(dev, intel_dig_port->max_lanes < 1,
-+		     "Not enough lanes (%d) for DP on [ENCODER:%d:%s]\n",
-+		     intel_dig_port->max_lanes, intel_encoder->base.base.id,
-+		     intel_encoder->base.name))
+-	if (WARN_ON(!dpll_mgr))
++	if (drm_WARN_ON(&dev_priv->drm, !dpll_mgr))
  		return false;
  
- 	intel_dp_set_source_rates(intel_dp);
-@@ -7534,7 +7548,7 @@ intel_dp_init_connector(struct intel_digital_port *intel_dig_port,
- 		 * Currently we don't support eDP on TypeC ports, although in
- 		 * theory it could work on TypeC legacy ports.
- 		 */
--		WARN_ON(intel_phy_is_tc(dev_priv, phy));
-+		drm_WARN_ON(dev, intel_phy_is_tc(dev_priv, phy));
- 		type = DRM_MODE_CONNECTOR_eDP;
- 	} else {
- 		type = DRM_MODE_CONNECTOR_DisplayPort;
-@@ -7552,9 +7566,10 @@ intel_dp_init_connector(struct intel_digital_port *intel_dig_port,
- 		intel_encoder->type = INTEL_OUTPUT_EDP;
+ 	return dpll_mgr->get_dplls(state, crtc, encoder);
+@@ -3880,7 +3881,7 @@ void intel_update_active_dpll(struct intel_atomic_state *state,
+ 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+ 	const struct intel_dpll_mgr *dpll_mgr = dev_priv->dpll_mgr;
  
- 	/* eDP only on port B and/or C on vlv/chv */
--	if (WARN_ON((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
--		    intel_dp_is_edp(intel_dp) &&
--		    port != PORT_B && port != PORT_C))
-+	if (drm_WARN_ON(dev, (IS_VALLEYVIEW(dev_priv) ||
-+			      IS_CHERRYVIEW(dev_priv)) &&
-+			intel_dp_is_edp(intel_dp) &&
-+			port != PORT_B && port != PORT_C))
- 		return false;
+-	if (WARN_ON(!dpll_mgr))
++	if (drm_WARN_ON(&dev_priv->drm, !dpll_mgr))
+ 		return;
  
- 	drm_dbg_kms(&dev_priv->drm,
+ 	dpll_mgr->update_active_dpll(state, crtc, encoder);
 -- 
 2.23.0
 
