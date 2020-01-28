@@ -1,37 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2EA14B37F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 12:28:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A7A14B3AD
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 12:44:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 287D76EDDB;
-	Tue, 28 Jan 2020 11:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAB006EDE8;
+	Tue, 28 Jan 2020 11:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 335F16EDDB;
- Tue, 28 Jan 2020 11:28:31 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1iwP2i-0002MT-7V; Tue, 28 Jan 2020 11:28:28 +0000
-From: Colin King <colin.king@canonical.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amd/display: fix spelling mistake link_integiry_check ->
- link_integrity_check
-Date: Tue, 28 Jan 2020 11:28:27 +0000
-Message-Id: <20200128112827.43682-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.24.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B45F6EDE6;
+ Tue, 28 Jan 2020 11:44:33 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2020 03:44:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,373,1574150400"; d="scan'208";a="261403587"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga002.fm.intel.com with SMTP; 28 Jan 2020 03:44:05 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 28 Jan 2020 13:44:04 +0200
+Date: Tue, 28 Jan 2020 13:44:04 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH 5/8] drm/edid: Document why we don't bounds check the
+ DispID CEA block start/end
+Message-ID: <20200128114404.GG13686@intel.com>
+References: <20200124200231.10517-1-ville.syrjala@linux.intel.com>
+ <20200124200231.10517-5-ville.syrjala@linux.intel.com>
+ <CADnq5_MM5VHhZan=Q-NUjgvmyovg_33DjvNcZ3kO0=rxCkizQg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CADnq5_MM5VHhZan=Q-NUjgvmyovg_33DjvNcZ3kO0=rxCkizQg@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,88 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Andres Rodriguez <andresx7@gmail.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+On Mon, Jan 27, 2020 at 05:30:42PM -0500, Alex Deucher wrote:
+> On Fri, Jan 24, 2020 at 3:03 PM Ville Syrjala
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> >
+> > After much head scratching I managed to convince myself that
+> > for_each_displayid_db() has already done the bounds checks for
+> > the DispID CEA data block. Which is why we don't need to repeat
+> > them in cea_db_offsets(). To avoid having to go through that
+> > pain again in the future add a comment which explains this fact.
+> >
+> > Cc: Andres Rodriguez <andresx7@gmail.com>
+> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_edid.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> > index 3df5744026b0..0369a54e3d32 100644
+> > --- a/drivers/gpu/drm/drm_edid.c
+> > +++ b/drivers/gpu/drm/drm_edid.c
+> > @@ -4001,6 +4001,10 @@ cea_db_offsets(const u8 *cea, int *start, int *e=
+nd)
+> >          *   no non-DTD data.
+> >          */
+> >         if (cea[0] =3D=3D DATA_BLOCK_CTA) {
+> > +               /*
+> > +                * for_each_displayid_db() has already verified
+> > +                * that these stay within expected bounds.
+> > +                */
+> =
 
-There is a spelling mistake on the struct field name link_integiry_check,
-fix this by renaming it.
+> I think the preferred format is to have the start of the comment be on
+> the first line after the /* with that fixed:
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h           | 2 +-
- .../gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c    | 8 ++++----
- .../gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c   | 4 ++--
- 3 files changed, 7 insertions(+), 7 deletions(-)
+Nope.
 
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
-index f98d3d9ecb6d..af78e4f1be68 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
-@@ -63,7 +63,7 @@ struct mod_hdcp_transition_input_hdcp1 {
- 	uint8_t hdcp_capable_dp;
- 	uint8_t binfo_read_dp;
- 	uint8_t r0p_available_dp;
--	uint8_t link_integiry_check;
-+	uint8_t link_integrity_check;
- 	uint8_t reauth_request_check;
- 	uint8_t stream_encryption_dp;
- };
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
-index 04845e43df15..37670db64855 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
-@@ -283,8 +283,8 @@ static enum mod_hdcp_status wait_for_ready(struct mod_hdcp *hdcp,
- 				hdcp, "bstatus_read"))
- 			goto out;
- 		if (!mod_hdcp_execute_and_set(check_link_integrity_dp,
--				&input->link_integiry_check, &status,
--				hdcp, "link_integiry_check"))
-+				&input->link_integrity_check, &status,
-+				hdcp, "link_integrity_check"))
- 			goto out;
- 		if (!mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
- 				&input->reauth_request_check, &status,
-@@ -431,8 +431,8 @@ static enum mod_hdcp_status authenticated_dp(struct mod_hdcp *hdcp,
- 			hdcp, "bstatus_read"))
- 		goto out;
- 	if (!mod_hdcp_execute_and_set(check_link_integrity_dp,
--			&input->link_integiry_check, &status,
--			hdcp, "link_integiry_check"))
-+			&input->link_integrity_check, &status,
-+			hdcp, "link_integrity_check"))
- 		goto out;
- 	if (!mod_hdcp_execute_and_set(check_no_reauthentication_request_dp,
- 			&input->reauth_request_check, &status,
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c
-index 21ebc62bb9d9..76edcbe51f71 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_transition.c
-@@ -241,7 +241,7 @@ enum mod_hdcp_status mod_hdcp_hdcp1_dp_transition(struct mod_hdcp *hdcp,
- 		}
- 		break;
- 	case D1_A4_AUTHENTICATED:
--		if (input->link_integiry_check != PASS ||
-+		if (input->link_integrity_check != PASS ||
- 				input->reauth_request_check != PASS) {
- 			/* 1A-07: restart hdcp on a link integrity failure */
- 			fail_and_restart_in_ms(0, &status, output);
-@@ -249,7 +249,7 @@ enum mod_hdcp_status mod_hdcp_hdcp1_dp_transition(struct mod_hdcp *hdcp,
- 		}
- 		break;
- 	case D1_A6_WAIT_FOR_READY:
--		if (input->link_integiry_check == FAIL ||
-+		if (input->link_integrity_check == FAIL ||
- 				input->reauth_request_check == FAIL) {
- 			fail_and_restart_in_ms(0, &status, output);
- 			break;
--- 
-2.24.0
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> =
 
+> >                 *start =3D 3;
+> >                 *end =3D *start + cea[2];
+> >         } else if (cea[0] =3D=3D CEA_EXT) {
+> > --
+> > 2.24.1
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
