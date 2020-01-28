@@ -1,71 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E165C14BCED
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 16:35:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385E114BD3D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 16:50:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DBA6EE04;
-	Tue, 28 Jan 2020 15:35:31 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
- [104.130.122.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64F46E0C8
- for <dri-devel@freedesktop.org>; Tue, 28 Jan 2020 15:35:29 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1580225729; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=OAcEYdNBjmrheJryVcIbMHDRSTe55eH2xPjNsqjLvVM=;
- b=Pr+45ni7sjK3N5YOxVyYO78EGB9NSP8mhS/lvPMZyMwb2tc5SOkyb8lFNJqhAc7DpqPdeuIb
- yv1I8eI4WI3vC0tepSaT3oJrm3qKyFUuRd5SDWJ2PSL7xRst4ox1qyRMO/5SvgGdybPx0AoV
- rZxWyKRY9/lWV8gI3QdltbI+KzA=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e3054c0.7f660bd30b90-smtp-out-n03;
- Tue, 28 Jan 2020 15:35:28 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id CB008C433A2; Tue, 28 Jan 2020 15:35:27 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 592F1C43383;
- Tue, 28 Jan 2020 15:35:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 592F1C43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Tue, 28 Jan 2020 08:35:24 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
-Message-ID: <20200128153524.GA30489@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, dri-devel@freedesktop.org,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Matthias Kaehlcke <mka@chromium.org>,
- Rob Clark <robdclark@chromium.org>
-References: <1580117390-6057-1-git-send-email-smasetty@codeaurora.org>
- <CAD=FV=VFVC6XJ=OXJCSd2_oij5vggKnTedGP0Gj4KHC50QH0SQ@mail.gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA086EE8A;
+	Tue, 28 Jan 2020 15:50:09 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86DBB6EE8B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 15:50:08 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id 77so12409875oty.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 07:50:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nc6zEDXW8JJ+3wMLQz+Td4KltH/qS/E9W/fNWd91GVE=;
+ b=aexZ6lqWaGA4Yqgfmv0EU2IOl51VB56G0IGfVO2bQMi5mn/PXPqJ+Mgj7dw7+QEHJO
+ qRF8siw3EGSQY+5ShcjuCbmhzF8CBuuH2jAsX/qlyOiSxEVCKFKvuSosWdnUkNtMcMJ3
+ cYDwrWmvboYVimo5vXWX8mOO0/W90LEfKjGDI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nc6zEDXW8JJ+3wMLQz+Td4KltH/qS/E9W/fNWd91GVE=;
+ b=lh4nCNTEasdNKI+6ZaY8ahlWsLm+KEBs9D3B2NWYmt272cZVruhnIDd9b4J12dt/7V
+ 2ZWfmhibKlPP33lPJ6FjNxHK+rSljNd06pohozs4vigZ0X8x2dGk3EkGitmzTkdbc/+x
+ QIGBxg89mmM/PwhzCfKBpyk69mU3f1zZpEj9pbhOoAOeOPtw54s9/rmX4C3kz7C7N5AP
+ 4aA+fUu98PVwDqcLSAlK7yZvD8LggeSoc6tbaWu9EEytobhEpYHdWvdv/+HlBwogrj2O
+ CpLdPzs+AWzcmqgNqwJsTTOY+5bH9fhZ/MnDbx5UXRxKZEKU4XgLTz/yoAVCwS18EXru
+ ubXw==
+X-Gm-Message-State: APjAAAWjKwzkNmK03RvwG49V3mILCxKssLruzspFYiYkZTIlA9Z7HW04
+ PVb/esa1yGkTE9ebrnCWR+phMpavvdM3WC52bAzHQQ==
+X-Google-Smtp-Source: APXvYqwh8ncpMiFVjXYefVItDpoiwQzhG8050eHpaLpG6eiCmNlj6Nh2jaVbtG9Wuk22BAaHia9csZ47hMVFYiRkVPo=
+X-Received: by 2002:a9d:7f11:: with SMTP id j17mr17632223otq.281.1580226607561; 
+ Tue, 28 Jan 2020 07:50:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=VFVC6XJ=OXJCSd2_oij5vggKnTedGP0Gj4KHC50QH0SQ@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20190821203835.18314-1-daniel.vetter@ffwll.ch>
+ <20190822122038.GK5942@intel.com>
+In-Reply-To: <20190822122038.GK5942@intel.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 28 Jan 2020 16:49:56 +0100
+Message-ID: <CAKMK7uHYJBsYbSkUbrAa4e6odrax4uij=CaNHkDewcoLJ3D6=w@mail.gmail.com>
+Subject: Re: [PATCH] drm/crc: Actually allow to change the crc source
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,94 +59,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>, LKML <linux-kernel@vger.kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 27, 2020 at 02:29:53PM -0800, Doug Anderson wrote:
-> Hi,
-> 
-> On Mon, Jan 27, 2020 at 1:30 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
-> >
-> > This patch adds the required dt nodes and properties
-> > to enabled A618 GPU.
-> >
-> > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> > ---
-> >  arch/arm64/boot/dts/qcom/sc7180.dtsi | 103 +++++++++++++++++++++++++++++++++++
-> >  1 file changed, 103 insertions(+)
-> 
-> Note that +Matthias Kaehlcke commented on v1 your patch:
-> 
-> https://lore.kernel.org/r/20191204220033.GH228856@google.com/
-> 
-> ...so he should have been CCed on v2.  I would also note that some of
-> the comments below are echos of what Matthias already said in the
-> previous version but just weren't addressed.
-> 
-> 
-> > diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> > index b859431..277d84d 100644
-> > --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> > +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> > @@ -7,6 +7,7 @@
-> >
-> >  #include <dt-bindings/clock/qcom,gcc-sc7180.h>
-> >  #include <dt-bindings/clock/qcom,rpmh.h>
-> > +#include <dt-bindings/clock/qcom,gpucc-sc7180.h>
-> 
-> Header files should be sorted alphabetically.  ...or, even better,
-> base your patch atop mine:
-> 
-> https://lore.kernel.org/r/20200124144154.v2.10.I1a4b93fb005791e29a9dcf288fc8bd459a555a59@changeid/
-> 
-> ...which adds the gpucc header file so you don't have to.  ...and when
-> you do so, email out a Reviewed-by and/or Tested-by for my patch.  ;-)
-> 
-> 
-> >  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >  #include <dt-bindings/interconnect/qcom,sc7180.h>
-> >  #include <dt-bindings/phy/phy-qcom-qusb2.h>
-> > @@ -1619,6 +1620,108 @@
-> >                         #interconnect-cells = <1>;
-> >                         qcom,bcm-voters = <&apps_bcm_voter>;
-> >                 };
-> > +
-> > +               gpu: gpu@5000000 {
-> > +                       compatible = "qcom,adreno-618.0", "qcom,adreno";
-> 
-> Though it's not controversial, please send a patch to:
-> 
-> Documentation/devicetree/bindings/display/msm/gmu.txt
-> 
-> ...to add 'qcom,adreno-618.0', like:
-> 
->     for example:
->       "qcom,adreno-gmu-618.0", "qcom,adreno-gmu"
->       "qcom,adreno-gmu-630.2", "qcom,adreno-gmu"
-> 
-> Probably as part of this you will be asked to convert this file to
-> yaml.  IMO we don't need to block landing this patch on the effort to
-> convert it to yaml, but you should still work on it.  ...or maybe
-> Jordan wants to work on it?
-
-I'll toss it on my to-do list. There always seems to be something more urgent
-but I should just bite the bullet and get it done.
-
-Jordan
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBBdWcgMjIsIDIwMTkgYXQgMjoyMCBQTSBWaWxsZSBTeXJqw6Rsw6QKPHZpbGxlLnN5
+cmphbGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgQXVnIDIxLCAyMDE5IGF0
+IDEwOjM4OjM1UE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBPb3BzLgo+ID4KPiA+
+IEZpeGVzOiA5ZWRiZjFmYTYwMGEgKCJkcm06IEFkZCBBUEkgZm9yIGNhcHR1cmluZyBmcmFtZSBD
+UkNzIikKPiA+IENjOiBUb21ldSBWaXpvc28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29tPgo+
+ID4gQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+Cj4gPiBDYzog
+QmVuamFtaW4gR2FpZ25hcmQgPGJlbmphbWluLmdhaWduYXJkQGxpbmFyby5vcmc+Cj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiA+IC0t
+LQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmc19jcmMuYyB8IDIgKy0KPiA+ICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiA+Cj4gPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzX2NyYy5jIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9kZWJ1Z2ZzX2NyYy5jCj4gPiBpbmRleCBiZTFiN2JhOTJmZmUuLjZmZTY5M2VlMTVmOSAx
+MDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmc19jcmMuYwo+ID4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzX2NyYy5jCj4gPiBAQCAtMzY5LDcgKzM2OSw3
+IEBAIHZvaWQgZHJtX2RlYnVnZnNfY3J0Y19jcmNfYWRkKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykK
+PiA+Cj4gPiAgICAgICBjcmNfZW50ID0gZGVidWdmc19jcmVhdGVfZGlyKCJjcmMiLCBjcnRjLT5k
+ZWJ1Z2ZzX2VudHJ5KTsKPiA+Cj4gPiAtICAgICBkZWJ1Z2ZzX2NyZWF0ZV9maWxlKCJjb250cm9s
+IiwgU19JUlVHTywgY3JjX2VudCwgY3J0YywKPiA+ICsgICAgIGRlYnVnZnNfY3JlYXRlX2ZpbGUo
+ImNvbnRyb2wiLCBTX0lSVUdPIHwgU19JV1VTUiwgY3JjX2VudCwgY3J0YywKPiA+ICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgJmRybV9jcnRjX2NyY19jb250cm9sX2ZvcHMpOwo+Cj4gUmV2aWV3
+ZWQtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+CgpG
+b3VuZCB0aGlzIG9sZCBwYXRjaCBvZiBtaW5lLCBmaW5hbGx5IGFwcGxpZWQgaXQuIFRoYW5rcyBm
+b3IgeW91ciByZXZpZXcuCi1EYW5pZWwKCj4KPiBCdXQgY291bGQgd2UgcGxlYXNlIGdvIG9jdGFs
+PyBNeSBicmFpbiBjYW4ndCBkZWNvZGUgdGhhdCBhbHBoYWJldCBzb3VwLgo+Cj4gPiAgICAgICBk
+ZWJ1Z2ZzX2NyZWF0ZV9maWxlKCJkYXRhIiwgU19JUlVHTywgY3JjX2VudCwgY3J0YywKPiA+ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgJmRybV9jcnRjX2NyY19kYXRhX2ZvcHMpOwo+ID4gLS0K
+PiA+IDIuMjMuMC5yYzEKPiA+Cj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwo+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPgo+IC0tCj4gVmlsbGUgU3lyasOkbMOkCj4gSW50ZWwK
+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9u
+Cis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
