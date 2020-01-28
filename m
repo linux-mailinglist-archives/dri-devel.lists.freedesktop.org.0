@@ -1,30 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C739814B578
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 14:55:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82ED714B575
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 14:55:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88C446EE4F;
-	Tue, 28 Jan 2020 13:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9416EE4C;
+	Tue, 28 Jan 2020 13:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D12B6EE4B;
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C406E6EE43;
  Tue, 28 Jan 2020 13:55:25 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 50746294502;
- Tue, 28 Jan 2020 13:55:23 +0000 (GMT)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2EF1229450B;
+ Tue, 28 Jan 2020 13:55:24 +0000 (GMT)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v10 07/12] drm/imx: pd: Use bus format/flags provided by the
- bridge when available
-Date: Tue, 28 Jan 2020 14:55:09 +0100
-Message-Id: <20200128135514.108171-8-boris.brezillon@collabora.com>
+Subject: [PATCH v10 08/12] drm/bridge: lvds-codec: Implement basic bus format
+ negotiation
+Date: Tue, 28 Jan 2020 14:55:10 +0100
+Message-Id: <20200128135514.108171-9-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200128135514.108171-1-boris.brezillon@collabora.com>
 References: <20200128135514.108171-1-boris.brezillon@collabora.com>
@@ -56,301 +55,156 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that bridges can expose the bus format/flags they expect, we can
-use those instead of the relying on the display_info provided by the
-connector (which is only valid if the encoder is directly connected
-to bridge element driving the panel/display).
-
-We also explicitly expose the bus formats supported by our encoder by
-filling encoder->output_bus_caps with proper info.
+Some DPI -> LVDS encoders might support several input bus width. Add a
+DT property to describe the bus width used on a specific design.
 
 v10:
 * Add changelog to the commit message
-* Use kmalloc() instead of kcalloc()
-* Add a dev_warn() when unsupported flags are requested
 
 v8 -> v9:
 * No changes
 
 v7:
-* Add an imx_pd_format_supported() helper (suggested by Philipp)
-* Simplify imx_pd_bridge_atomic_get_output_bus_fmts() (suggested by Philipp)
-* Simplify imx_pd_bridge_atomic_get_input_bus_fmts()
-* Explicitly set the duplicate/destro_state() and reset() hooks
+* Fix a use-after-release problem
+* Get rid of the data-mapping parsing
+* Use kmalloc instead of kcalloc.
 
 v4 -> v6:
-* Patch was not part of the series
+* Not part of the series
 
-v3 (all suggested by Philipp):
-* Adjust to match core changes
-* Propagate output format to input format
-* Pick a default value when output_fmt = _FIXED
-* Add missing BGR888 and GBR888 fmts to imx_pd_bus_fmts[]
+v3:
+* Use bus-width for the rgb24/rgb18 distinction
+* Adjust code to match core changes
+* Get rid of of_get_data_mapping()
+* Don't implement ->atomic_check() (the core now takes care of bus
+  flags propagation)
 
 v2:
-* Adjust things to match the new bus-format negotiation infra
+* Make the bus-format negotiation logic more generic
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/imx/parallel-display.c | 177 +++++++++++++++++++++----
- 1 file changed, 152 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/bridge/lvds-codec.c | 64 ++++++++++++++++++++++++++---
+ 1 file changed, 58 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index 3dca424059f7..dc05506b6d4b 100644
---- a/drivers/gpu/drm/imx/parallel-display.c
-+++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -24,6 +24,7 @@
- struct imx_parallel_display {
- 	struct drm_connector connector;
- 	struct drm_encoder encoder;
-+	struct drm_bridge bridge;
- 	struct device *dev;
- 	void *edid;
- 	int edid_len;
-@@ -31,7 +32,7 @@ struct imx_parallel_display {
- 	u32 bus_flags;
- 	struct drm_display_mode mode;
- 	struct drm_panel *panel;
--	struct drm_bridge *bridge;
-+	struct drm_bridge *next_bridge;
+diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+index 5f04cc11227e..f4fd8472c335 100644
+--- a/drivers/gpu/drm/bridge/lvds-codec.c
++++ b/drivers/gpu/drm/bridge/lvds-codec.c
+@@ -11,6 +11,7 @@
+ #include <linux/of_graph.h>
+ #include <linux/platform_device.h>
+ 
++#include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_panel.h>
+ 
+@@ -19,6 +20,7 @@ struct lvds_codec {
+ 	struct drm_bridge *panel_bridge;
+ 	struct gpio_desc *powerdown_gpio;
+ 	u32 connector_type;
++	u32 input_fmt;
  };
  
- static inline struct imx_parallel_display *con_to_imxpd(struct drm_connector *c)
-@@ -44,6 +45,11 @@ static inline struct imx_parallel_display *enc_to_imxpd(struct drm_encoder *e)
- 	return container_of(e, struct imx_parallel_display, encoder);
+ static int lvds_codec_attach(struct drm_bridge *bridge)
+@@ -48,18 +50,47 @@ static void lvds_codec_disable(struct drm_bridge *bridge)
+ 		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 1);
  }
  
-+static inline struct imx_parallel_display *bridge_to_imxpd(struct drm_bridge *b)
-+{
-+	return container_of(b, struct imx_parallel_display, bridge);
-+}
-+
- static int imx_pd_connector_get_modes(struct drm_connector *connector)
- {
- 	struct imx_parallel_display *imxpd = con_to_imxpd(connector);
-@@ -89,37 +95,149 @@ static struct drm_encoder *imx_pd_connector_best_encoder(
- 	return &imxpd->encoder;
- }
- 
--static void imx_pd_encoder_enable(struct drm_encoder *encoder)
-+static void imx_pd_bridge_enable(struct drm_bridge *bridge)
- {
--	struct imx_parallel_display *imxpd = enc_to_imxpd(encoder);
-+	struct imx_parallel_display *imxpd = bridge_to_imxpd(bridge);
- 
- 	drm_panel_prepare(imxpd->panel);
- 	drm_panel_enable(imxpd->panel);
- }
- 
--static void imx_pd_encoder_disable(struct drm_encoder *encoder)
-+static void imx_pd_bridge_disable(struct drm_bridge *bridge)
- {
--	struct imx_parallel_display *imxpd = enc_to_imxpd(encoder);
-+	struct imx_parallel_display *imxpd = bridge_to_imxpd(bridge);
- 
- 	drm_panel_disable(imxpd->panel);
- 	drm_panel_unprepare(imxpd->panel);
- }
- 
--static int imx_pd_encoder_atomic_check(struct drm_encoder *encoder,
--				       struct drm_crtc_state *crtc_state,
--				       struct drm_connector_state *conn_state)
-+static const u32 imx_pd_bus_fmts[] = {
-+	MEDIA_BUS_FMT_RGB888_1X24,
-+	MEDIA_BUS_FMT_BGR888_1X24,
-+	MEDIA_BUS_FMT_GBR888_1X24,
-+	MEDIA_BUS_FMT_RGB666_1X18,
-+	MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
-+	MEDIA_BUS_FMT_RGB565_1X16,
-+};
-+
 +static u32 *
-+imx_pd_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
-+					 struct drm_bridge_state *bridge_state,
-+					 struct drm_crtc_state *crtc_state,
-+					 struct drm_connector_state *conn_state,
-+					 unsigned int *num_output_fmts)
- {
--	struct imx_crtc_state *imx_crtc_state = to_imx_crtc_state(crtc_state);
- 	struct drm_display_info *di = &conn_state->connector->display_info;
--	struct imx_parallel_display *imxpd = enc_to_imxpd(encoder);
-+	struct imx_parallel_display *imxpd = bridge_to_imxpd(bridge);
-+	u32 *output_fmts;
- 
--	if (!imxpd->bus_format && di->num_bus_formats) {
--		imx_crtc_state->bus_flags = di->bus_flags;
--		imx_crtc_state->bus_format = di->bus_formats[0];
--	} else {
--		imx_crtc_state->bus_flags = imxpd->bus_flags;
--		imx_crtc_state->bus_format = imxpd->bus_format;
-+	if (!imxpd->bus_format && !di->num_bus_formats) {
-+		*num_output_fmts = ARRAY_SIZE(imx_pd_bus_fmts);
-+		return kmemdup(imx_pd_bus_fmts, sizeof(imx_pd_bus_fmts),
-+			       GFP_KERNEL);
-+	}
-+
-+	*num_output_fmts = 1;
-+	output_fmts = kmalloc(sizeof(*output_fmts), GFP_KERNEL);
-+	if (!output_fmts)
-+		return NULL;
-+
-+	if (!imxpd->bus_format && di->num_bus_formats)
-+		output_fmts[0] = di->bus_formats[0];
-+	else
-+		output_fmts[0] = imxpd->bus_format;
-+
-+	return output_fmts;
-+}
-+
-+static bool imx_pd_format_supported(u32 output_fmt)
++lvds_codec_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
++				     struct drm_bridge_state *bridge_state,
++				     struct drm_crtc_state *crtc_state,
++				     struct drm_connector_state *conn_state,
++				     u32 output_fmt,
++				     unsigned int *num_input_fmts)
 +{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(imx_pd_bus_fmts); i++) {
-+		if (imx_pd_bus_fmts[i] == output_fmt)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static u32 *
-+imx_pd_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+					struct drm_bridge_state *bridge_state,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state,
-+					u32 output_fmt,
-+					unsigned int *num_input_fmts)
-+{
-+	struct imx_parallel_display *imxpd = bridge_to_imxpd(bridge);
++	struct lvds_codec *lvds_codec = container_of(bridge,
++						     struct lvds_codec, bridge);
 +	u32 *input_fmts;
 +
-+	/*
-+	 * If the next bridge does not support bus format negotiation, let's
-+	 * use the static bus format definition (imxpd->bus_format) if it's
-+	 * specified, RGB888 when it's not.
-+	 */
-+	if (output_fmt == MEDIA_BUS_FMT_FIXED)
-+		output_fmt = imxpd->bus_format ? : MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	/* Now make sure the requested output format is supported. */
-+	if ((imxpd->bus_format && imxpd->bus_format != output_fmt) ||
-+	    !imx_pd_format_supported(output_fmt)) {
++	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
++	if (!input_fmts) {
 +		*num_input_fmts = 0;
 +		return NULL;
 +	}
 +
 +	*num_input_fmts = 1;
-+	input_fmts = kcalloc(*num_input_fmts, sizeof(*input_fmts),
-+			     GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	input_fmts[0] = output_fmt;
++	input_fmts[0] = lvds_codec->input_fmt;
 +	return input_fmts;
 +}
 +
-+static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *bridge_state,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_connector_state *conn_state)
-+{
-+	struct imx_crtc_state *imx_crtc_state = to_imx_crtc_state(crtc_state);
-+	struct drm_display_info *di = &conn_state->connector->display_info;
-+	struct imx_parallel_display *imxpd = bridge_to_imxpd(bridge);
-+	struct drm_bridge_state *next_bridge_state = NULL;
-+	struct drm_bridge *next_bridge;
-+	u32 bus_flags, bus_fmt;
-+
-+	next_bridge = drm_bridge_get_next_bridge(bridge);
-+	if (next_bridge)
-+		next_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
-+								    next_bridge);
-+
-+	if (next_bridge_state)
-+		bus_flags = next_bridge_state->input_bus_cfg.flags;
-+	else if (!imxpd->bus_format && di->num_bus_formats)
-+		bus_flags = di->bus_flags;
-+	else
-+		bus_flags = imxpd->bus_flags;
-+
-+	bus_fmt = bridge_state->input_bus_cfg.format;
-+	if (!imx_pd_format_supported(bus_fmt))
-+		return -EINVAL;
-+
-+	if (bus_flags &
-+	    ~(DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_DE_HIGH |
-+	      DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
-+	      DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)) {
-+		dev_warn(imxpd->dev, "invalid bus_flags (%x)\n", bus_flags);
-+		return -EINVAL;
- 	}
-+
-+	bridge_state->output_bus_cfg.flags = bus_flags;
-+	bridge_state->input_bus_cfg.flags = bus_flags;
-+	imx_crtc_state->bus_flags = bus_flags;
-+	imx_crtc_state->bus_format = bridge_state->input_bus_cfg.format;
- 	imx_crtc_state->di_hsync_pin = 2;
- 	imx_crtc_state->di_vsync_pin = 3;
- 
-@@ -143,10 +261,15 @@ static const struct drm_encoder_funcs imx_pd_encoder_funcs = {
- 	.destroy = imx_drm_encoder_destroy,
- };
- 
--static const struct drm_encoder_helper_funcs imx_pd_encoder_helper_funcs = {
--	.enable = imx_pd_encoder_enable,
--	.disable = imx_pd_encoder_disable,
--	.atomic_check = imx_pd_encoder_atomic_check,
-+static const struct drm_bridge_funcs imx_pd_bridge_funcs = {
-+	.enable = imx_pd_bridge_enable,
-+	.disable = imx_pd_bridge_disable,
+ static struct drm_bridge_funcs funcs = {
+ 	.attach = lvds_codec_attach,
+ 	.enable = lvds_codec_enable,
+ 	.disable = lvds_codec_disable,
 +	.atomic_reset = drm_atomic_helper_bridge_reset,
 +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_check = imx_pd_bridge_atomic_check,
-+	.atomic_get_input_bus_fmts = imx_pd_bridge_atomic_get_input_bus_fmts,
-+	.atomic_get_output_bus_fmts = imx_pd_bridge_atomic_get_output_bus_fmts,
++	.atomic_get_input_bus_fmts = lvds_codec_atomic_get_input_bus_fmts,
  };
  
- static int imx_pd_register(struct drm_device *drm,
-@@ -166,11 +289,13 @@ static int imx_pd_register(struct drm_device *drm,
- 	 */
- 	imxpd->connector.dpms = DRM_MODE_DPMS_OFF;
+ static int lvds_codec_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+-	struct device_node *panel_node;
++	struct device_node *np;
+ 	struct drm_panel *panel;
+ 	struct lvds_codec *lvds_codec;
++	u32 input_bus_width;
++	int err;
  
--	drm_encoder_helper_add(encoder, &imx_pd_encoder_helper_funcs);
- 	drm_encoder_init(drm, encoder, &imx_pd_encoder_funcs,
- 			 DRM_MODE_ENCODER_NONE, NULL);
+ 	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+ 	if (!lvds_codec)
+@@ -69,22 +100,43 @@ static int lvds_codec_probe(struct platform_device *pdev)
+ 	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+ 							     GPIOD_OUT_HIGH);
+ 	if (IS_ERR(lvds_codec->powerdown_gpio)) {
+-		int err = PTR_ERR(lvds_codec->powerdown_gpio);
++		err = PTR_ERR(lvds_codec->powerdown_gpio);
  
--	if (!imxpd->bridge) {
-+	imxpd->bridge.funcs = &imx_pd_bridge_funcs;
-+	drm_bridge_attach(encoder, &imxpd->bridge, NULL);
+ 		if (err != -EPROBE_DEFER)
+ 			dev_err(dev, "powerdown GPIO failure: %d\n", err);
+ 		return err;
+ 	}
+ 
++	np = of_graph_get_port_by_id(dev->of_node, 0);
++	if (!np) {
++		dev_dbg(dev, "port 0 not found\n");
++		return -ENXIO;
++	}
 +
-+	if (!imxpd->next_bridge) {
- 		drm_connector_helper_add(&imxpd->connector,
- 				&imx_pd_connector_helper_funcs);
- 		drm_connector_init(drm, &imxpd->connector,
-@@ -181,8 +306,9 @@ static int imx_pd_register(struct drm_device *drm,
- 	if (imxpd->panel)
- 		drm_panel_attach(imxpd->panel, &imxpd->connector);
++	err = of_property_read_u32(np, "bus-width", &input_bus_width);
++	of_node_put(np);
++
++	if (err) {
++		lvds_codec->input_fmt = MEDIA_BUS_FMT_FIXED;
++	} else if (input_bus_width == 18) {
++		lvds_codec->input_fmt = MEDIA_BUS_FMT_RGB666_1X18;
++	} else if (input_bus_width == 24) {
++		lvds_codec->input_fmt = MEDIA_BUS_FMT_RGB888_1X24;
++	} else {
++		dev_dbg(dev, "unsupported bus-width value %u on port 0\n",
++			input_bus_width);
++		return -ENOTSUPP;
++	}
++
+ 	/* Locate the panel DT node. */
+-	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
+-	if (!panel_node) {
++	np = of_graph_get_remote_node(dev->of_node, 1, 0);
++	if (!np) {
+ 		dev_dbg(dev, "panel DT node not found\n");
+ 		return -ENXIO;
+ 	}
  
--	if (imxpd->bridge) {
--		ret = drm_bridge_attach(encoder, imxpd->bridge, NULL);
-+	if (imxpd->next_bridge) {
-+		ret = drm_bridge_attach(encoder, imxpd->next_bridge,
-+					&imxpd->bridge);
- 		if (ret < 0) {
- 			dev_err(imxpd->dev, "failed to attach bridge: %d\n",
- 				ret);
-@@ -227,7 +353,8 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
- 	imxpd->bus_format = bus_format;
- 
- 	/* port@1 is the output port */
--	ret = drm_of_find_panel_or_bridge(np, 1, 0, &imxpd->panel, &imxpd->bridge);
-+	ret = drm_of_find_panel_or_bridge(np, 1, 0, &imxpd->panel,
-+					  &imxpd->next_bridge);
- 	if (ret && ret != -ENODEV)
- 		return ret;
- 
+-	panel = of_drm_find_panel(panel_node);
+-	of_node_put(panel_node);
++	panel = of_drm_find_panel(np);
++	of_node_put(np);
+ 	if (IS_ERR(panel)) {
+ 		dev_dbg(dev, "panel not found, deferring probe\n");
+ 		return PTR_ERR(panel);
 -- 
 2.24.1
 
