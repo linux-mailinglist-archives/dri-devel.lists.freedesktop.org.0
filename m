@@ -2,30 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7AD14C730
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D014C737
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:08:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEDBC6F47F;
-	Wed, 29 Jan 2020 08:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43E326F47A;
+	Wed, 29 Jan 2020 08:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7AA6F3CF
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 19:58:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 330A2293EA9
-Message-ID: <f15ac21ab733e094fff4ed5f129a519113b75cc8.camel@collabora.com>
-Subject: Re: [PATCH] drm: shrinker: Add a prefix on purging logs
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 28 Jan 2020 16:58:07 -0300
-In-Reply-To: <20200122080413.GL43062@phenom.ffwll.local>
-References: <20191214162049.10997-1-ezequiel@collabora.com>
- <20200122080413.GL43062@phenom.ffwll.local>
-Organization: Collabora
-User-Agent: Evolution 3.34.1-2 
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2949F6F47D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 08:08:03 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id q10so19029303wrm.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 00:08:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=bvE12L7lEn/mTFSZYCGy+MNNNQ1ZOLEMV//buTiW8GY=;
+ b=ct8Sw2X2mwbIePeWEzfZiolDLM6f5fyi8KP/t6UPAWiSLXKpd7+RZUk7XUggi2rgq1
+ /Ytvq4u4dAFc6HQTf66j8Aqm+GGyz8OEyHP/Bvi/Zc6PnRzxUoBmUMTgYfcSsEOMTsii
+ BvNBghGsgBFE2Fkg5ZLCoLK+roTX/gSw7oOE8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=bvE12L7lEn/mTFSZYCGy+MNNNQ1ZOLEMV//buTiW8GY=;
+ b=SV2PIVJidv1MQY2TpgHdrvy/nVo6wMHxkQEi2zgmZl+sjWC8wVNwq7KogmWbu1uwxm
+ 5enasA2hV3e8dJMK+MoaAr0FQMMXx93CzHhLptiupAhZtJN2+7CRTaEjOhkRlGLeMnP/
+ oDWXelEK1VLlodTOui3OCQLdeRWVpc93oT14/V2hj6Qx0qF7683CYUD6HxDIwiMOg8IF
+ FQG3eVFIrTmB61rpWOLGykX4q+DHeUNXqWH6EDOQV6c0NpkIcDiknb04hGdQFikDZojq
+ xq03DTyZdxakfLnsZnpFeXDp7snGUKYSP9nIEHX8kkHShr8BmfdlGztZOzEvZMuu8Y3U
+ V5Dg==
+X-Gm-Message-State: APjAAAW9Tf9/hntSAZjmvR6mcGVfO0xORSH7E7ryqppHI6J31S4iDXHz
+ BuMkhomvpLwNEnNbMzm6tPfmLLdJl2UD/Q==
+X-Google-Smtp-Source: APXvYqwnEq09++ittS5cRMUBhnrMu/D+AwbosDhLQMJ/wQsaGLge7NMrc0D8i0oigx9YZNo5qzyY2Q==
+X-Received: by 2002:adf:fd87:: with SMTP id d7mr35659466wrr.226.1580285281728; 
+ Wed, 29 Jan 2020 00:08:01 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n1sm1763798wrw.52.2020.01.29.00.08.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jan 2020 00:08:00 -0800 (PST)
+Date: Wed, 29 Jan 2020 09:07:59 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH] radeon: insert 10ms sleep in dce5_crtc_load_lut
+Message-ID: <20200129080759.GJ43062@phenom.ffwll.local>
+References: <20200128160952.1628146-1-daniel.vetter@ffwll.ch>
+ <CADnq5_PhFRASAC62axW9yV_Dq96NonNkw_nvjmRffUYMJa3xCQ@mail.gmail.com>
+ <CADnq5_PADDMf+W6hzVSogJn5h-ge2cXt41bjWEpPOq-3eqXWfg@mail.gmail.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 29 Jan 2020 08:06:22 +0000
+Content-Disposition: inline
+In-Reply-To: <CADnq5_PADDMf+W6hzVSogJn5h-ge2cXt41bjWEpPOq-3eqXWfg@mail.gmail.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,57 +67,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIwLTAxLTIyIGF0IDA5OjA0ICswMTAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+
-IE9uIFNhdCwgRGVjIDE0LCAyMDE5IGF0IDAxOjIwOjQ5UE0gLTAzMDAsIEV6ZXF1aWVsIEdhcmNp
-YSB3cm90ZToKPiA+IEl0J3Mgbm90IGVudGlyZWx5IG9idmlvdXMgd2h5IHRoZXNlIG1lc3NhZ2Vz
-IGhhdmUKPiA+ICJpbmZvIiBzZXZlcml0eS4gSW4gYW55IGNhc2UsIGFkZCBhIHByb3BlciBkcml2
-ZXIgcHJlZml4Cj4gPiB0byBnaXZlIHRoZSB1c2VyIGEgYml0IG9mIGNvbnRleHQgb2Ygd2hlcmUg
-dGhleSBhcmUgY29taW5nIGZyb20uCj4gCj4gU28gdGhlIGk5MTUgb25lIG1ha2VzIHNvbWUgc2Vu
-c2UsIGl0J3MgZm9yIG9vbS4gV2hpY2ggc2hvdWxkbid0IGhhcHBlbgo+IG9mdGVuLiBUaGVuIHBh
-bmZyb3N0L21zbSBvbmVzIGFyZSBpbW8gZHViaW91cyBhbmQgc2hvdWxkIGJlIGNoYW5nZWQgdG8g
-b25lCj4gb2YgdGhlIGRybSBkZWJ1ZyBvbmVzLiBMb29rcyBsaWtlIGNvcHlwYXN0YSBmYWlsLCB3
-ZSBtaWdodCB3YW50IHRvIGNoYW5nZQo+IGFsbCBvZiB0aGVtIHRvIGRybSBkZWJ1Z2dpbmcgb25l
-cyAod2VsbCBtYXliZSBrZWVwIHRoZSBpOTE1IG9uZSBhcyBhIGRybQo+IGluZm8gb3V0cHV0KS4K
-ClNvdW5kcyBnb29kLiBJIGNhbiBzdWJtaXQgZm9sbG93IHVwIHBhdGNoZXMgZm9yIHRoYXQuCk1l
-YW53aGlsZSwgdGhpcyBwYXRjaCBzZWVtcyBnb29kIHRvIGdvLCByaWdodD8KClRoYW5rcywKRXpl
-cXVpZWwKCj4gLURhbmllbAo+IAo+ID4gU2lnbmVkLW9mZi1ieTogRXplcXVpZWwgR2FyY2lhIDxl
-emVxdWllbEBjb2xsYWJvcmEuY29tPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Z2VtL2k5MTVfZ2VtX3Nocmlua2VyLmMgICAgIHwgMiArKwo+ID4gIGRyaXZlcnMvZ3B1L2RybS9t
-c20vbXNtX2dlbV9zaHJpbmtlci5jICAgICAgICAgICB8IDIgKysKPiA+ICBkcml2ZXJzL2dwdS9k
-cm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtX3Nocmlua2VyLmMgfCAyICsrCj4gPiAgMyBmaWxlcyBj
-aGFuZ2VkLCA2IGluc2VydGlvbnMoKykKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zaHJpbmtlci5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Z2VtL2k5MTVfZ2VtX3Nocmlua2VyLmMKPiA+IGluZGV4IDNhOTI2YTg3NTVjNi4uY2QwMzcyYTFk
-OTM2IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3No
-cmlua2VyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zaHJp
-bmtlci5jCj4gPiBAQCAtNCw2ICs0LDggQEAKPiA+ICAgKiBDb3B5cmlnaHQgwqkgMjAwOC0yMDE1
-IEludGVsIENvcnBvcmF0aW9uCj4gPiAgICovCj4gPiAgCj4gPiArI2RlZmluZSBwcl9mbXQoZm10
-KSBLQlVJTERfTU9ETkFNRSAiOiAiIGZtdAo+ID4gKwo+ID4gICNpbmNsdWRlIDxsaW51eC9vb20u
-aD4KPiA+ICAjaW5jbHVkZSA8bGludXgvc2NoZWQvbW0uaD4KPiA+ICAjaW5jbHVkZSA8bGludXgv
-c2htZW1fZnMuaD4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9nZW1f
-c2hyaW5rZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dlbV9zaHJpbmtlci5jCj4gPiBp
-bmRleCA3MjJkNjE2NjhhOTcuLjA2MjBkNDQxYTJjYyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9tc20vbXNtX2dlbV9zaHJpbmtlci5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-bXNtL21zbV9nZW1fc2hyaW5rZXIuYwo+ID4gQEAgLTQsNiArNCw4IEBACj4gPiAgICogQXV0aG9y
-OiBSb2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFpbC5jb20+Cj4gPiAgICovCj4gPiAgCj4gPiArI2Rl
-ZmluZSBwcl9mbXQoZm10KSBLQlVJTERfTU9ETkFNRSAiOiAiIGZtdAo+ID4gKwo+ID4gICNpbmNs
-dWRlICJtc21fZHJ2LmgiCj4gPiAgI2luY2x1ZGUgIm1zbV9nZW0uaCIKPiA+ICAKPiA+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtX3Nocmlua2VyLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtX3Nocmlua2VyLmMKPiA+IGlu
-ZGV4IDQ1OGYwZmE2ODExMS4uYjlkMGU4MjFjM2Y2IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbV9zaHJpbmtlci5jCj4gPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtX3Nocmlua2VyLmMKPiA+IEBAIC02LDYgKzYs
-OCBAQAo+ID4gICAqIEF1dGhvcjogUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPgo+ID4g
-ICAqLwo+ID4gIAo+ID4gKyNkZWZpbmUgcHJfZm10KGZtdCkgS0JVSUxEX01PRE5BTUUgIjogIiBm
-bXQKPiA+ICsKPiA+ICAjaW5jbHVkZSA8bGludXgvbGlzdC5oPgo+ID4gIAo+ID4gICNpbmNsdWRl
-IDxkcm0vZHJtX2RldmljZS5oPgo+ID4gLS0gCj4gPiAyLjIyLjAKPiA+IAoKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Jan 28, 2020 at 04:24:19PM -0500, Alex Deucher wrote:
+> On Tue, Jan 28, 2020 at 4:21 PM Alex Deucher <alexdeucher@gmail.com> wrot=
+e:
+> >
+> > On Tue, Jan 28, 2020 at 11:10 AM Daniel Vetter <daniel.vetter@ffwll.ch>=
+ wrote:
+> > >
+> > > Per at least one tester this is enough magic to recover the regression
+> > > introduced for some people (but not all) in
+> > >
+> > > commit b8e2b0199cc377617dc238f5106352c06dcd3fa2
+> > > Author: Peter Rosin <peda@axentia.se>
+> > > Date:   Tue Jul 4 12:36:57 2017 +0200
+> > >
+> > >     drm/fb-helper: factor out pseudo-palette
+> > >
+> > > which for radeon had the side-effect of refactoring out a seemingly
+> > > redudant writing of the color palette.
+> > >
+> > > 10ms in a fairly slow modeset path feels like an acceptable form of
+> > > duct-tape, so maybe worth a shot and see what sticks.
+> > >
+> > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: Michel D=E4nzer <michel.daenzer@amd.com>
+> > > References: https://bugzilla.kernel.org/show_bug.cgi?id=3D198123
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> >
+> > Works for me.  Applied.  Thanks!
+> =
+
+> Actually, thinking about this more, I wonder if this will have adverse
+> affects on stuff that messes with the LUT like various fade effects in
+> compositors.  I guess we can cross that bridge when we get to it.
+
+With atomic and the new color manager stuff the legacy gamma table things
+go through a full atomic commit for at least some drivers already. So
+ratelimited to vblank.
+
+So for the overall ecosystem I think we crossed that bridge already, but
+yeah good point might be someone with an older stack on radeon being
+upset.
+-Daniel
+
+> =
+
+> Alex
+> =
+
+> =
+
+> >
+> > Alex
+> >
+> >
+> > > ---
+> > >  drivers/gpu/drm/radeon/radeon_display.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/dr=
+m/radeon/radeon_display.c
+> > > index 354756e00fe1..d07c7db0c815 100644
+> > > --- a/drivers/gpu/drm/radeon/radeon_display.c
+> > > +++ b/drivers/gpu/drm/radeon/radeon_display.c
+> > > @@ -127,6 +127,8 @@ static void dce5_crtc_load_lut(struct drm_crtc *c=
+rtc)
+> > >
+> > >         DRM_DEBUG_KMS("%d\n", radeon_crtc->crtc_id);
+> > >
+> > > +       msleep(10);
+> > > +
+> > >         WREG32(NI_INPUT_CSC_CONTROL + radeon_crtc->crtc_offset,
+> > >                (NI_INPUT_CSC_GRPH_MODE(NI_INPUT_CSC_BYPASS) |
+> > >                 NI_INPUT_CSC_OVL_MODE(NI_INPUT_CSC_BYPASS)));
+> > > --
+> > > 2.24.1
+> > >
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
