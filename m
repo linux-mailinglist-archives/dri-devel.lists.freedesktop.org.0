@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018B114D7B3
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 09:33:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D4014D7B0
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 09:33:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 741E46F914;
-	Thu, 30 Jan 2020 08:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFB466F910;
+	Thu, 30 Jan 2020 08:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 6728 seconds by postgrey-1.36 at gabe;
- Wed, 29 Jan 2020 19:27:29 UTC
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5206F647
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:27:29 +0000 (UTC)
-Received: from fsav109.sakura.ne.jp (fsav109.sakura.ne.jp [27.133.134.236])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 00THZ88v007101;
- Thu, 30 Jan 2020 02:35:08 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav109.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp);
- Thu, 30 Jan 2020 02:35:08 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp)
-Received: from [192.168.1.9] (softbank126040062084.bbtec.net [126.40.62.84])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 00THZ1EC007062
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Thu, 30 Jan 2020 02:35:08 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: KASAN: slab-out-of-bounds Write in vgacon_scroll
-To: Dmitry Vyukov <dvyukov@google.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-References: <CAA=061EoW8AmjUrBLsJy5nTDz-1jeArLeB+z6HJuyZud0zZXug@mail.gmail.com>
- <CGME20200128124918eucas1p1f0ce2b2b7b33a5d63d33f876ef30f454@eucas1p1.samsung.com>
- <20200128124912.chttagasucdpydhk@pathway.suse.cz>
- <4ab69855-6112-52f4-bee2-3358664d0c20@samsung.com>
- <20200129141517.GA13721@jagdpanzerIV.localdomain>
- <20200129141759.GB13721@jagdpanzerIV.localdomain>
- <20200129143754.GA15445@jagdpanzerIV.localdomain>
- <CACT4Y+bavHG8esK3jsv0V40+9+mUOFaSdOD1+prpw6L4Wv816g@mail.gmail.com>
- <CACT4Y+arS5GsyUa0A0s51OAWj7eJohZsCoY-7cuoU0HVsyeZ6Q@mail.gmail.com>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <0f852429-c69d-1520-2db5-6f2370799566@i-love.sakura.ne.jp>
-Date: Thu, 30 Jan 2020 02:34:57 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+Received: from plasma4.jpberlin.de (plasma4.jpberlin.de [80.241.57.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BEE26E420
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 18:36:02 +0000 (UTC)
+Received: from spamfilter04.heinlein-hosting.de
+ (spamfilter04.heinlein-hosting.de [80.241.56.122])
+ by plasma.jpberlin.de (Postfix) with ESMTP id D339CB9A47
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:35:58 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+ by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de
+ [80.241.56.122]) (amavisd-new, port 10030)
+ with ESMTP id khLbZGziJSi9 for <dri-devel@lists.freedesktop.org>;
+ Wed, 29 Jan 2020 19:35:57 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "webmail.opensynergy.com",
+ Issuer "GeoTrust EV RSA CA 2018" (not verified))
+ (Authenticated sender: opensynergy@jpberlin.de)
+ by plasma.jpberlin.de (Postfix) with ESMTPSA id D41ADBABA7
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:35:57 +0100 (CET)
+Received: from os-lin-mgo.open-synergy.com (10.25.255.1) by
+ MXS01.open-synergy.com (10.25.10.17) with Microsoft SMTP Server (TLS) id
+ 14.3.468.0; Wed, 29 Jan 2020 19:35:59 +0100
+From: Mikhail Golubev <Mikhail.Golubev@opensynergy.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH libdrm RESEND 1/2] xf86drm: generalize the device subsystem
+ type parsing code
+Date: Wed, 29 Jan 2020 19:35:42 +0100
+Message-ID: <20200129183543.30023-1-Mikhail.Golubev@opensynergy.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <CACT4Y+arS5GsyUa0A0s51OAWj7eJohZsCoY-7cuoU0HVsyeZ6Q@mail.gmail.com>
-Content-Language: en-US
+X-Originating-IP: [10.25.255.1]
 X-Mailman-Approved-At: Thu, 30 Jan 2020 08:32:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,19 +54,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- LKML <linux-kernel@vger.kernel.org>, anon anon <742991625abc@gmail.com>,
- syzkaller <syzkaller@googlegroups.com>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+Cc: Mikhail.Golubev@opensynergy.com, vasyl.vavrychuk@opensynergy.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A fbcon bug found that allocation size was wrong.
-  https://groups.google.com/d/msg/syzkaller-bugs/TVGAFDeUKJo/uchTlvbFAQAJ
-You can try adding printk() for examining values because you have reproducers.
+From: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+
+Move the code, which used to get the device subsystem type from a device
+path in sysfs, to a separate function to be reusable.
+
+Signed-off-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+Signed-off-by: Mikhail Golubev <Mikhail.Golubev@opensynergy.com>
+---
+ xf86drm.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
+
+diff --git a/xf86drm.c b/xf86drm.c
+index 7ae41c37..b1479128 100644
+--- a/xf86drm.c
++++ b/xf86drm.c
+@@ -2964,10 +2964,10 @@ sysfs_uevent_get(const char *path, const char *fmt, ...)
+ /* Little white lie to avoid major rework of the existing code */
+ #define DRM_BUS_VIRTIO 0x10
+ 
+-static int drmParseSubsystemType(int maj, int min)
+-{
+ #ifdef __linux__
+-    char path[PATH_MAX + 1];
++static int get_subsystem_type(const char *device_path)
++{
++    char path[PATH_MAX + 1] = "";
+     char link[PATH_MAX + 1] = "";
+     char *name;
+     struct {
+@@ -2982,8 +2982,8 @@ static int drmParseSubsystemType(int maj, int min)
+         { "/virtio", DRM_BUS_VIRTIO },
+     };
+ 
+-    snprintf(path, PATH_MAX, "/sys/dev/char/%d:%d/device/subsystem",
+-             maj, min);
++    strncpy(path, device_path, PATH_MAX);
++    strncat(path, "/subsystem", PATH_MAX);
+ 
+     if (readlink(path, link, PATH_MAX) < 0)
+         return -errno;
+@@ -2998,6 +2998,17 @@ static int drmParseSubsystemType(int maj, int min)
+     }
+ 
+     return -EINVAL;
++}
++#endif
++
++static int drmParseSubsystemType(int maj, int min)
++{
++#ifdef __linux__
++    char path[PATH_MAX + 1] = "";
++
++    snprintf(path, PATH_MAX, "/sys/dev/char/%d:%d/device", maj, min);
++
++    return get_subsystem_type(path);
+ #elif defined(__OpenBSD__) || defined(__DragonFly__)
+     return DRM_BUS_PCI;
+ #else
+-- 
+2.23.0
 
 _______________________________________________
 dri-devel mailing list
