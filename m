@@ -1,34 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1661F14CA2E
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 13:06:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 947FB14CAE1
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 13:31:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B91D6F520;
-	Wed, 29 Jan 2020 12:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3BED6E342;
+	Wed, 29 Jan 2020 12:31:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBCA6E332
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 12:05:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8D06E342
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 12:31:15 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 3B79FB1F1;
- Wed, 29 Jan 2020 12:05:41 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 3164CB011;
+ Wed, 29 Jan 2020 12:31:14 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, hdegoede@redhat.com,
- david@lechnology.com, noralf@tronnes.org, sean@poorly.run,
- oleksandr_andrushchenko@epam.com, sam@ravnborg.org,
- laurent.pinchart@ideasonboard.com, emil.velikov@collabora.com
-Subject: [PATCH v5 15/15] drm/xen: Explicitly disable automatic sending of
- vblank event
-Date: Wed, 29 Jan 2020 13:05:31 +0100
-Message-Id: <20200129120531.6891-16-tzimmermann@suse.de>
+To: airlied@redhat.com, daniel.vetter@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, noralf@tronnes.org, sam@ravnborg.org,
+ laurent.pinchart@ideasonboard.com, sschricker@suse.de
+Subject: [PATCH RESEND] drm/ast: Allocate initial CRTC state of the correct
+ size
+Date: Wed, 29 Jan 2020 13:31:12 +0100
+Message-Id: <20200129123112.11989-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200129120531.6891-1-tzimmermann@suse.de>
-References: <20200129120531.6891-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,72 +38,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xen-devel@lists.xenproject.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The atomic helpers automatically send out fake VBLANK events if no
-vblanking has been initialized. This would apply to xen, but xen has
-its own vblank logic. To avoid interfering with the atomic helpers,
-disable automatic vblank events explicitly.
-
-v5:
-	* update comment
-v4:
-	* separate commit from core vblank changes
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/xen/xen_drm_front_kms.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_kms.c b/drivers/gpu/drm/xen/xen_drm_front_kms.c
-index 4f34c5208180..78096bbcd226 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_kms.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_kms.c
-@@ -220,6 +220,24 @@ static bool display_send_page_flip(struct drm_simple_display_pipe *pipe,
- 	return false;
- }
- 
-+static int display_check(struct drm_simple_display_pipe *pipe,
-+			 struct drm_plane_state *plane_state,
-+			 struct drm_crtc_state *crtc_state)
-+{
-+	/*
-+	 * Xen doesn't initialize vblanking via drm_vblank_init(), so
-+	 * DRM helpers assume that it doesn't handle vblanking and start
-+	 * sending out fake VBLANK events automatically.
-+	 *
-+	 * As xen contains it's own logic for sending out VBLANK events
-+	 * in send_pending_event(), disable no_vblank (i.e., the xen
-+	 * driver has vblanking support).
-+	 */
-+	crtc_state->no_vblank = false;
-+
-+	return 0;
-+}
-+
- static void display_update(struct drm_simple_display_pipe *pipe,
- 			   struct drm_plane_state *old_plane_state)
- {
-@@ -284,6 +302,7 @@ static const struct drm_simple_display_pipe_funcs display_funcs = {
- 	.enable = display_enable,
- 	.disable = display_disable,
- 	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
-+	.check = display_check,
- 	.update = display_update,
- };
- 
--- 
-2.25.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIGFzdCBkcml2ZXIgaW5oZXJpdHMgZnJvbSBEUk0ncyBDUlRDIHN0YXRlLCBidXQgc3RpbGwg
+dXNlcyB0aGUgYXRvbWljCmhlbHBlciBmb3Igc3RydWN0IGRybV9jcnRjX2Z1bmNzLnJlc2V0LCBk
+cm1fYXRvbWljX2hlbHBlcl9jcnRjX3Jlc2V0KCkuCgpUaGUgaGVscGVyIG9ubHkgYWxsb2NhdGVz
+IGVub3VnaCBtZW1vcnkgZm9yIHRoZSBjb3JlIENSVEMgc3RhdGUuIFRoYXQKcmVzdWx0cyBpbiBh
+biBvdXQtb3VmLWJvdW5kcyBhY2Nlc3Mgd2hlbiBkdXBsaWNhdGluZyB0aGUgaW5pdGlhbCBDUlRD
+CnN0YXRlLiBTaW1wbGlmaWVkIGJhY2t0cmFjZSBzaG93biBiZWxvdzoKClsgICAyMS40NjkzMjFd
+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PQpbICAgMjEuNDY5NDM0XSBCVUc6IEtBU0FOOiBzbGFiLW91dC1vZi1ib3VuZHMg
+aW4gYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAy
+MS40Njk0NDVdIFJlYWQgb2Ygc2l6ZSA4IGF0IGFkZHIgZmZmZjg4ODAzNmMxYzVmOCBieSB0YXNr
+IHN5c3RlbWQtdWRldmQvMzgyClsgICAyMS40Njk0NTFdClsgICAyMS40Njk0NjRdIENQVTogMiBQ
+SUQ6IDM4MiBDb21tOiBzeXN0ZW1kLXVkZXZkIFRhaW50ZWQ6IEcgICAgICAgICAgICBFICAgICA1
+LjUuMC1yYzYtMS1kZWZhdWx0KyAjMjE0ClsgICAyMS40Njk0NzNdIEhhcmR3YXJlIG5hbWU6IFN1
+biBNaWNyb3N5c3RlbXMgU1VOIEZJUkUgWDIyNzAgTTIvU1VOIEZJUkUgWDIyNzAgTTIsIEJJT1Mg
+Mi4wNSAgICAwNy8wMS8yMDEwClsgICAyMS40Njk0ODBdIENhbGwgVHJhY2U6ClsgICAyMS40Njk1
+MDFdICBkdW1wX3N0YWNrKzB4YjgvMHgxMTAKWyAgIDIxLjQ2OTUyOF0gIHByaW50X2FkZHJlc3Nf
+ZGVzY3JpcHRpb24uY29uc3Rwcm9wLjArMHgxYi8weDFlMApbICAgMjEuNDY5NTU3XSAgPyBhc3Rf
+Y3J0Y19hdG9taWNfZHVwbGljYXRlX3N0YXRlKzB4ODQvMHgxMDAgW2FzdF0KWyAgIDIxLjQ2OTU4
+MV0gID8gYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsg
+ICAyMS40Njk1OTddICBfX2thc2FuX3JlcG9ydC5jb2xkKzB4MWEvMHgzNQpbICAgMjEuNDY5NjQw
+XSAgPyBhc3RfY3J0Y19hdG9taWNfZHVwbGljYXRlX3N0YXRlKzB4ODQvMHgxMDAgW2FzdF0KWyAg
+IDIxLjQ2OTY2NV0gIGthc2FuX3JlcG9ydCsweGUvMHgyMApbICAgMjEuNDY5NjkzXSAgYXN0X2Ny
+dGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAyMS40Njk3MzNd
+ICBkcm1fYXRvbWljX2dldF9jcnRjX3N0YXRlKzB4YmYvMHgxYzAKWyAgIDIxLjQ2OTc2OF0gIF9f
+ZHJtX2F0b21pY19oZWxwZXJfc2V0X2NvbmZpZysweDgxLzB4NWEwClsgICAyMS40Njk4MDNdICA/
+IGRybV9hdG9taWNfcGxhbmVfY2hlY2srMHg2OTAvMHg2OTAKWyAgIDIxLjQ2OTg0M10gID8gZHJt
+X2NsaWVudF9yb3RhdGlvbisweGFlLzB4MjQwClsgICAyMS40Njk4NzZdICBkcm1fY2xpZW50X21v
+ZGVzZXRfY29tbWl0X2F0b21pYysweDIzMC8weDM5MApbICAgMjEuNDY5ODg4XSAgPyBfX211dGV4
+X2xvY2srMHg4ZjAvMHhiZTAKWyAgIDIxLjQ2OTkyOV0gID8gZHJtX2NsaWVudF9maXJtd2FyZV9j
+b25maWcuaXNyYS4wKzB4YTYwLzB4YTYwClsgICAyMS40Njk5NDhdICA/IGRybV9jbGllbnRfbW9k
+ZXNldF9jb21taXRfZm9yY2UrMHgyOC8weDIzMApbICAgMjEuNDcwMDMxXSAgPyBtZW1zZXQrMHgy
+MC8weDQwClsgICAyMS40NzAwNzhdICBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKzB4
+OTAvMHgyMzAKWyAgIDIxLjQ3MDExMF0gIGRybV9mYl9oZWxwZXJfcmVzdG9yZV9mYmRldl9tb2Rl
+X3VubG9ja2VkKzB4NWYvMHhjMApbICAgMjEuNDcwMTMyXSAgZHJtX2ZiX2hlbHBlcl9zZXRfcGFy
+KzB4NTkvMHg3MApbICAgMjEuNDcwMTU1XSAgZmJjb25faW5pdCsweDYxZC8weGFkMApbICAgMjEu
+NDcwMTg1XSAgPyBkcm1fZmJfaGVscGVyX3Jlc3RvcmVfZmJkZXZfbW9kZV91bmxvY2tlZCsweGMw
+LzB4YzAKWyAgIDIxLjQ3MDIzMl0gIHZpc3VhbF9pbml0KzB4MTg3LzB4MjQwClsgICAyMS40NzAy
+NjZdICBkb19iaW5kX2Nvbl9kcml2ZXIrMHgyZTMvMHg0NjAKWyAgIDIxLjQ3MDMyMV0gIGRvX3Rh
+a2Vfb3Zlcl9jb25zb2xlKzB4MjBhLzB4MjkwClsgICAyMS40NzAzNzFdICBkb19mYmNvbl90YWtl
+b3ZlcisweDg1LzB4MTAwClsgICAyMS40NzA0MDJdICByZWdpc3Rlcl9mcmFtZWJ1ZmZlcisweDJm
+ZC8weDQ5MApbICAgMjEuNDcwNDI1XSAgPyBremFsbG9jLmNvbnN0cHJvcC4wKzB4MTAvMHgxMApb
+ICAgMjEuNDcwNTAzXSAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2sr
+MHhmMi8weDE0MApbICAgMjEuNDcwNTMzXSAgZHJtX2ZiZGV2X2NsaWVudF9ob3RwbHVnKzB4MTYy
+LzB4MjUwClsgICAyMS40NzA1NjNdICBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCsweGQyLzB4MTU1
+ClsgICAyMS40NzA2MDJdICBhc3RfZHJpdmVyX2xvYWQrMHg2ODgvMHg4NTAgW2FzdF0KPC4uLj4K
+WyAgIDIxLjQ3MjYyNV0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09CgpBbGxvY2F0aW5nIGVub3VnaCBtZW1vcnkgZm9yIHN0
+cnVjdCBhc3RfY3J0Y19zdGF0ZSBpbiBhIGN1c3RvbSBhc3QgQ1JUQwpyZXNldCBoYW5kbGVyIGZp
+eGVzIHRoZSBwcm9ibGVtLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+CkZpeGVzOiA4M2JlNmEzY2ViMTEgKCJkcm0vYXN0OiBJbnRyb2R1Y2Ug
+c3RydWN0IGFzdF9jcnRjX3N0YXRlIikKQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQu
+Y29tPgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KQ2M6IERhbmllbCBWZXR0
+ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
+ZXVjaGVyQGFtZC5jb20+CkNjOiAiTm9yYWxmIFRyw7hubmVzIiA8bm9yYWxmQHRyb25uZXMub3Jn
+PgpDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpDYzogTGF1cmVudCBQaW5jaGFy
+dCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS9hc3QvYXN0X21vZGUuYyB8IDE5ICsrKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2Vk
+LCAxOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2FzdC9hc3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCmlu
+ZGV4IDM0NjA4ZjA0OTllYi4uYjVhMGUyYTA1OTViIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYXN0L2FzdF9tb2RlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCkBA
+IC04ODIsNiArODgyLDIzIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NydGNfaGVscGVyX2Z1
+bmNzIGFzdF9jcnRjX2hlbHBlcl9mdW5jcyA9IHsKIAkuYXRvbWljX2Rpc2FibGUgPSBhc3RfY3J0
+Y19oZWxwZXJfYXRvbWljX2Rpc2FibGUsCiB9OwoKK3N0YXRpYyB2b2lkIGFzdF9jcnRjX3Jlc2V0
+KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKK3sKKwlzdHJ1Y3QgYXN0X2NydGNfc3RhdGUgKmFzdF9z
+dGF0ZTsKKworCWlmIChjcnRjLT5zdGF0ZSkgeworCQljcnRjLT5mdW5jcy0+YXRvbWljX2Rlc3Ry
+b3lfc3RhdGUoY3J0YywgY3J0Yy0+c3RhdGUpOworCQljcnRjLT5zdGF0ZSA9IE5VTEw7CisJfQor
+CisJYXN0X3N0YXRlID0ga3phbGxvYyhzaXplb2YoKmFzdF9zdGF0ZSksIEdGUF9LRVJORUwpOwor
+CWlmICghYXN0X3N0YXRlKQorCQlyZXR1cm47CisKKwljcnRjLT5zdGF0ZSA9ICZhc3Rfc3RhdGUt
+PmJhc2U7CisJY3J0Yy0+c3RhdGUtPmNydGMgPSBjcnRjOworfQorCiBzdGF0aWMgdm9pZCBhc3Rf
+Y3J0Y19kZXN0cm95KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKIHsKIAlkcm1fY3J0Y19jbGVhbnVw
+KGNydGMpOwpAQCAtOTIwLDcgKzkzNyw3IEBAIHN0YXRpYyB2b2lkIGFzdF9jcnRjX2F0b21pY19k
+ZXN0cm95X3N0YXRlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIH0KCiBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGRybV9jcnRjX2Z1bmNzIGFzdF9jcnRjX2Z1bmNzID0gewotCS5yZXNldCA9IGRybV9hdG9t
+aWNfaGVscGVyX2NydGNfcmVzZXQsCisJLnJlc2V0ID0gYXN0X2NydGNfcmVzZXQsCiAJLnNldF9j
+b25maWcgPSBkcm1fY3J0Y19oZWxwZXJfc2V0X2NvbmZpZywKIAkuZ2FtbWFfc2V0ID0gZHJtX2F0
+b21pY19oZWxwZXJfbGVnYWN5X2dhbW1hX3NldCwKIAkuZGVzdHJveSA9IGFzdF9jcnRjX2Rlc3Ry
+b3ksCi0tCjIuMjUuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
