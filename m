@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D014C737
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:08:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2048314C73E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:10:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43E326F47A;
-	Wed, 29 Jan 2020 08:08:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 175536F47E;
+	Wed, 29 Jan 2020 08:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2949F6F47D
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 08:08:03 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id q10so19029303wrm.11
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 00:08:03 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B948F6F47E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 08:10:22 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id t14so5298054wmi.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 00:10:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=bvE12L7lEn/mTFSZYCGy+MNNNQ1ZOLEMV//buTiW8GY=;
- b=ct8Sw2X2mwbIePeWEzfZiolDLM6f5fyi8KP/t6UPAWiSLXKpd7+RZUk7XUggi2rgq1
- /Ytvq4u4dAFc6HQTf66j8Aqm+GGyz8OEyHP/Bvi/Zc6PnRzxUoBmUMTgYfcSsEOMTsii
- BvNBghGsgBFE2Fkg5ZLCoLK+roTX/gSw7oOE8=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T3yYWFQgLZ8zja+P7hn9aOCYU3JxyWYtUmKXUyz25h4=;
+ b=BDM/0ryTqQbq4r+p1tESfiNuF5Ul23IWHDRIVC0/lL6uKxXqScqMsAzPUvS85tnwf9
+ bPVPyXE4fJqKBllsHyhvHu4ZXJ+9CKNRrPRliTQNK8wQsEymnXFAD8mzJ3VhGigz3Fdw
+ BvwgVHVqBo2aSY1/7u86XK3E/E0ItwEn8Nc5Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bvE12L7lEn/mTFSZYCGy+MNNNQ1ZOLEMV//buTiW8GY=;
- b=SV2PIVJidv1MQY2TpgHdrvy/nVo6wMHxkQEi2zgmZl+sjWC8wVNwq7KogmWbu1uwxm
- 5enasA2hV3e8dJMK+MoaAr0FQMMXx93CzHhLptiupAhZtJN2+7CRTaEjOhkRlGLeMnP/
- oDWXelEK1VLlodTOui3OCQLdeRWVpc93oT14/V2hj6Qx0qF7683CYUD6HxDIwiMOg8IF
- FQG3eVFIrTmB61rpWOLGykX4q+DHeUNXqWH6EDOQV6c0NpkIcDiknb04hGdQFikDZojq
- xq03DTyZdxakfLnsZnpFeXDp7snGUKYSP9nIEHX8kkHShr8BmfdlGztZOzEvZMuu8Y3U
- V5Dg==
-X-Gm-Message-State: APjAAAW9Tf9/hntSAZjmvR6mcGVfO0xORSH7E7ryqppHI6J31S4iDXHz
- BuMkhomvpLwNEnNbMzm6tPfmLLdJl2UD/Q==
-X-Google-Smtp-Source: APXvYqwnEq09++ittS5cRMUBhnrMu/D+AwbosDhLQMJ/wQsaGLge7NMrc0D8i0oigx9YZNo5qzyY2Q==
-X-Received: by 2002:adf:fd87:: with SMTP id d7mr35659466wrr.226.1580285281728; 
- Wed, 29 Jan 2020 00:08:01 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T3yYWFQgLZ8zja+P7hn9aOCYU3JxyWYtUmKXUyz25h4=;
+ b=uUSxN0LRQjFWEI2C2K6L+aKZwRaqmdy/mudQhRgFjat4z4SlJBd2mP2LGYnKBHSVs0
+ 38If6erSl1eGr6YPqch+KER1AlIEGov/LaNFUD60sns315lkEE1WNrw8zUN7X4RE9pkV
+ IcTd6IeqhmuAkcia6QiCj3swqb2HDBs5CbyYYqk072eR8j/izROqeNueHdflBd1LTzVd
+ R39LFmmBtwl3HuuSaAY6vyM1kbjLNIzRL+QnPksD+FOG0Fy4xroxw/AyYFW5oK+oBDH7
+ xdIgFPeIosd+saOxAdyyVdgNxfsJQcJUFeLt1RWbBm78Pakndz0PC15EL/1s6+vg7MU/
+ W0Ug==
+X-Gm-Message-State: APjAAAXykSpm/T4arKOCfHPvfy8zgPyccIOtwSN6Dqv5jal2nNmjI/oy
+ uiNQopOVcDKRhqHi4YI6z8ZeCsjg6ytonQ==
+X-Google-Smtp-Source: APXvYqzlSLlKy6w5rtyH6Q3vXq8arGTeKcI7HpbmcHdOPRPV+Ibg8lOUimVMGJ4xnXg9NO4bahVpOg==
+X-Received: by 2002:a05:600c:214f:: with SMTP id
+ v15mr10184100wml.110.1580285421098; 
+ Wed, 29 Jan 2020 00:10:21 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n1sm1763798wrw.52.2020.01.29.00.08.00
+ by smtp.gmail.com with ESMTPSA id e16sm1817552wrs.73.2020.01.29.00.10.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 00:08:00 -0800 (PST)
-Date: Wed, 29 Jan 2020 09:07:59 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH] radeon: insert 10ms sleep in dce5_crtc_load_lut
-Message-ID: <20200129080759.GJ43062@phenom.ffwll.local>
-References: <20200128160952.1628146-1-daniel.vetter@ffwll.ch>
- <CADnq5_PhFRASAC62axW9yV_Dq96NonNkw_nvjmRffUYMJa3xCQ@mail.gmail.com>
- <CADnq5_PADDMf+W6hzVSogJn5h-ge2cXt41bjWEpPOq-3eqXWfg@mail.gmail.com>
+ Wed, 29 Jan 2020 00:10:20 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] radeon: completely remove lut leftovers
+Date: Wed, 29 Jan 2020 09:09:05 +0100
+Message-Id: <20200129080904.1637634-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADnq5_PADDMf+W6hzVSogJn5h-ge2cXt41bjWEpPOq-3eqXWfg@mail.gmail.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,101 +64,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@amd.com>,
+ Peter Rosin <peda@axentia.se>, Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 28, 2020 at 04:24:19PM -0500, Alex Deucher wrote:
-> On Tue, Jan 28, 2020 at 4:21 PM Alex Deucher <alexdeucher@gmail.com> wrot=
-e:
-> >
-> > On Tue, Jan 28, 2020 at 11:10 AM Daniel Vetter <daniel.vetter@ffwll.ch>=
- wrote:
-> > >
-> > > Per at least one tester this is enough magic to recover the regression
-> > > introduced for some people (but not all) in
-> > >
-> > > commit b8e2b0199cc377617dc238f5106352c06dcd3fa2
-> > > Author: Peter Rosin <peda@axentia.se>
-> > > Date:   Tue Jul 4 12:36:57 2017 +0200
-> > >
-> > >     drm/fb-helper: factor out pseudo-palette
-> > >
-> > > which for radeon had the side-effect of refactoring out a seemingly
-> > > redudant writing of the color palette.
-> > >
-> > > 10ms in a fairly slow modeset path feels like an acceptable form of
-> > > duct-tape, so maybe worth a shot and see what sticks.
-> > >
-> > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > Cc: Michel D=E4nzer <michel.daenzer@amd.com>
-> > > References: https://bugzilla.kernel.org/show_bug.cgi?id=3D198123
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> >
-> > Works for me.  Applied.  Thanks!
-> =
-
-> Actually, thinking about this more, I wonder if this will have adverse
-> affects on stuff that messes with the LUT like various fade effects in
-> compositors.  I guess we can cross that bridge when we get to it.
-
-With atomic and the new color manager stuff the legacy gamma table things
-go through a full atomic commit for at least some drivers already. So
-ratelimited to vblank.
-
-So for the overall ecosystem I think we crossed that bridge already, but
-yeah good point might be someone with an older stack on radeon being
-upset.
--Daniel
-
-> =
-
-> Alex
-> =
-
-> =
-
-> >
-> > Alex
-> >
-> >
-> > > ---
-> > >  drivers/gpu/drm/radeon/radeon_display.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/dr=
-m/radeon/radeon_display.c
-> > > index 354756e00fe1..d07c7db0c815 100644
-> > > --- a/drivers/gpu/drm/radeon/radeon_display.c
-> > > +++ b/drivers/gpu/drm/radeon/radeon_display.c
-> > > @@ -127,6 +127,8 @@ static void dce5_crtc_load_lut(struct drm_crtc *c=
-rtc)
-> > >
-> > >         DRM_DEBUG_KMS("%d\n", radeon_crtc->crtc_id);
-> > >
-> > > +       msleep(10);
-> > > +
-> > >         WREG32(NI_INPUT_CSC_CONTROL + radeon_crtc->crtc_offset,
-> > >                (NI_INPUT_CSC_GRPH_MODE(NI_INPUT_CSC_BYPASS) |
-> > >                 NI_INPUT_CSC_OVL_MODE(NI_INPUT_CSC_BYPASS)));
-> > > --
-> > > 2.24.1
-> > >
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBpcyBhbiBvdmVyc2lnaHQgZnJvbQoKY29tbWl0IDQyNTg1Mzk1ZWJjMTAzNGE5ODkzNzcw
+Mjg0OTY2OWYxN2VhZGIzNWYKQXV0aG9yOiBQZXRlciBSb3NpbiA8cGVkYUBheGVudGlhLnNlPgpE
+YXRlOiAgIFRodSBKdWwgMTMgMTg6MjU6MzYgMjAxNyArMDIwMAoKICAgIGRybTogcmFkZW9uOiBy
+ZW1vdmUgZGVhZCBjb2RlIGFuZCBwb2ludGxlc3MgbG9jYWwgbHV0IHN0b3JhZ2UKCnYyOiBBbHNv
+IHJlbW92ZSBsZWZ0b3ZlciBsb2NhbCB2YXJpYWJsZS4KCkNjOiBQZXRlciBSb3NpbiA8cGVkYUBh
+eGVudGlhLnNlPgpDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpD
+YzogTWljaGVsIETDpG56ZXIgPG1pY2hlbC5kYWVuemVyQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6
+IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgotLS0KRnVtYmxlZCB0aGUg
+cHJldmlvdXMgcGF0Y2ggZm9yIHRoZSByZWdyZXNzaW9uIGZpeCAoaG0ganVzdCByZWFsaXplZCBt
+YXliZQp0aGF0IG9uZSBzaG91bGQgaGF2ZSBhIGNjOiBzdGFibGUgdG8gbWFrZSBhIGZldyBtb3Jl
+IHBlb3BsZSBoYXBweSksIHdhbnRlZAp0byBpbmNsdWRlIHRoaXMgY2xlYW51cCBoZXJlLgotRGFu
+aWVsCgotLS0KIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rpc3BsYXkuYyB8IDcgLS0t
+LS0tLQogZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fbW9kZS5oICAgIHwgMSAtCiAyIGZp
+bGVzIGNoYW5nZWQsIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3JhZGVvbi9yYWRlb25fZGlzcGxheS5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25f
+ZGlzcGxheS5jCmluZGV4IDg1NjUyNmNiMmNhZi4uMzU0NzU2ZTAwZmUxIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kaXNwbGF5LmMKKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jCkBAIC02NzIsNyArNjcyLDYgQEAgc3RhdGljIHZv
+aWQgcmFkZW9uX2NydGNfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBpbnQgaW5kZXgpCiB7
+CiAJc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYgPSBkZXYtPmRldl9wcml2YXRlOwogCXN0cnVj
+dCByYWRlb25fY3J0YyAqcmFkZW9uX2NydGM7Ci0JaW50IGk7CiAKIAlyYWRlb25fY3J0YyA9IGt6
+YWxsb2Moc2l6ZW9mKHN0cnVjdCByYWRlb25fY3J0YykgKyAoUkFERU9ORkJfQ09OTl9MSU1JVCAq
+IHNpemVvZihzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqKSksIEdGUF9LRVJORUwpOwogCWlmIChyYWRl
+b25fY3J0YyA9PSBOVUxMKQpAQCAtNzAxLDEyICs3MDAsNiBAQCBzdGF0aWMgdm9pZCByYWRlb25f
+Y3J0Y19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGludCBpbmRleCkKIAlyYWRlb25fY3J0
+Yy0+bW9kZV9zZXQubnVtX2Nvbm5lY3RvcnMgPSAwOwogI2VuZGlmCiAKLQlmb3IgKGkgPSAwOyBp
+IDwgMjU2OyBpKyspIHsKLQkJcmFkZW9uX2NydGMtPmx1dF9yW2ldID0gaSA8PCAyOwotCQlyYWRl
+b25fY3J0Yy0+bHV0X2dbaV0gPSBpIDw8IDI7Ci0JCXJhZGVvbl9jcnRjLT5sdXRfYltpXSA9IGkg
+PDwgMjsKLQl9Ci0KIAlpZiAocmRldi0+aXNfYXRvbV9iaW9zICYmIChBU0lDX0lTX0FWSVZPKHJk
+ZXYpIHx8IHJhZGVvbl9yNHh4X2F0b20pKQogCQlyYWRlb25fYXRvbWJpb3NfaW5pdF9jcnRjKGRl
+diwgcmFkZW9uX2NydGMpOwogCWVsc2UKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRl
+b24vcmFkZW9uX21vZGUuaCBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX21vZGUuaApp
+bmRleCBmZDQ3MGQ2YmYzZjQuLjk2NTY1MTcxZDEzZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3JhZGVvbi9yYWRlb25fbW9kZS5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFk
+ZW9uX21vZGUuaApAQCAtMzI3LDcgKzMyNyw2IEBAIGVudW0gcmFkZW9uX2ZsaXBfc3RhdHVzIHsK
+IHN0cnVjdCByYWRlb25fY3J0YyB7CiAJc3RydWN0IGRybV9jcnRjIGJhc2U7CiAJaW50IGNydGNf
+aWQ7Ci0JdTE2IGx1dF9yWzI1Nl0sIGx1dF9nWzI1Nl0sIGx1dF9iWzI1Nl07CiAJYm9vbCBlbmFi
+bGVkOwogCWJvb2wgY2FuX3RpbGU7CiAJYm9vbCBjdXJzb3Jfb3V0X29mX2JvdW5kczsKLS0gCjIu
+MjQuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
