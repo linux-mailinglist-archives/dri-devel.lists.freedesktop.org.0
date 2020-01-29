@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C0114D171
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 20:53:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451FD14D172
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 20:53:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8B6D6F878;
-	Wed, 29 Jan 2020 19:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 378DD6F87A;
+	Wed, 29 Jan 2020 19:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 998146F878
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:53:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1DB6F87A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:53:42 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206347] New: amdgpu.dc=1 breaks power management on RX480
-Date: Wed, 29 Jan 2020 19:53:27 +0000
+Subject: [Bug 206347] amdgpu.dc=1 breaks power management on RX480 and others
+Date: Wed, 29 Jan 2020 19:53:41 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -32,10 +32,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-206347-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-206347-2300-QbGe1dY2oZ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206347-2300@https.bugzilla.kernel.org/>
+References: <bug-206347-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,52 +51,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206347
-
-            Bug ID: 206347
-           Summary: amdgpu.dc=1 breaks power management on RX480
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.4.14
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: matare@fh-aachen.de
-        Regression: No
-
-I've been using an AMD RX480 with amdgpu ever since it was supported (i.e.
-since ~4.8 I think). Somehow I almost got used to the fact that, when idling,
-it uses 15-20 Watt more than in Windows. Recently I investigated again and
-found that it simply never reduces the GPU clock below 1278Mhz.
-
-I found this related bug report on freedesktop.org:
-https://gitlab.freedesktop.org/drm/amd/issues/817
-
-And this comment on Phoronix...
-https://www.phoronix.com/forums/forum/linux-graphics-x-org-drivers/open-source-amd-linux/1046724-rx-580-idles-at-1300mhz-core-clock?p=1047617#post1047617
-
-... which gave the crucial hint of setting amdgpu.dc=0
-
-It is only with this setting that my GPU clock will be reduced to 300 MHz on
-idle as it should. My system runs perfectly fine, performance is good, and
-system idle power consumption is down to ~70W from the ~90W I had before. So I
-don't understand why we're wasting 20W by default on all those chips. Maybe
-there is something that should be fixed or it should default to off?
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDYzNDcKClZpY3Rv
+ciBNYXRhcsOpIChtYXRhcmVAZmgtYWFjaGVuLmRlKSBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0
+ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0KICAgICAgICAgICAgU3VtbWFyeXxhbWRncHUuZGM9MSBicmVha3MgcG93ZXIgICAgfGFtZGdw
+dS5kYz0xIGJyZWFrcyBwb3dlcgogICAgICAgICAgICAgICAgICAgfG1hbmFnZW1lbnQgb24gUlg0
+ODAgICAgICAgICB8bWFuYWdlbWVudCBvbiBSWDQ4MCBhbmQKICAgICAgICAgICAgICAgICAgIHwg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfG90aGVycwoKLS0gCllvdSBhcmUgcmVjZWl2aW5n
+IHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUg
+YnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
