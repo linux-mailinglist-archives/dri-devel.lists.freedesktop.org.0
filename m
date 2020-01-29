@@ -1,58 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73C814C2D0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 23:16:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42AF914C625
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 06:55:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B15FA6F43F;
-	Tue, 28 Jan 2020 22:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C9B6E1B7;
+	Wed, 29 Jan 2020 05:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
- [104.130.122.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F996F439
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 22:16:30 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1580249790; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=Llw2kTJ4XUeuT4T/F2T53za68YIhWHzkSvM16vklV7s=;
- b=GQHVdOKG66u18uQdp7NU17M1hcim6myTJGX9LqbiNNUo4aOmG+QhW5JhVukMjiyWeE3Xxrpm
- gzv3N9h7Ty0gaxckkidNHzRyXCF5suXuZtG1INZMdB+SjyJHiOJk+lG2plX8xLhcSG8Iyqhb
- MWpzU1w+esPA6gkquG3C6z/oAGk=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e30b2bc.7f1adef063b0-smtp-out-n01;
- Tue, 28 Jan 2020 22:16:28 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 22C9DC447A6; Tue, 28 Jan 2020 22:16:25 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 143DFC433CB;
- Tue, 28 Jan 2020 22:16:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 143DFC433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH v1 6/6] drm/msm/a6xx: Support per-instance pagetables
-Date: Tue, 28 Jan 2020 15:16:10 -0700
-Message-Id: <1580249770-1088-7-git-send-email-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
-References: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
+Received: from mail-yw1-xc2f.google.com (mail-yw1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDB686E1B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 05:55:37 +0000 (UTC)
+Received: by mail-yw1-xc2f.google.com with SMTP id b81so5718939ywe.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 21:55:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=m3zWIg4noL5Yk/yrN3CdG2y2KqLJ0OcFuiU/Yp4BMfY=;
+ b=YjIq7NQ94+ygDGxXKwlrWQcddRG1F4t6IA+iqNqRFEZE7t802n9E81sPEebqiBmlm1
+ 3mFcYfHhVuOY4rFFcJsAdao7c4bbE/UeEXDZtNFhnFgdWhPHYo4yS5QAvd9SLWkQPxtS
+ vZf2/13YlNaPgajvO/MJRUNiss+xDY2fANr52x5MeRlsZ2fHitJ/jNpWIkULXoMPm/t4
+ o9A0yJcaqqk+G0gmjMjOoLSnTQfm/k9faepqrq6dnuQouuPsyqH4hbTeIUCagmpww1Wj
+ v43MsAo9dta/WdxqFepbgppno2Zt+qO2Vi1qLPm5sXN6ERFebijL6aq/c2UUOUz1Lbvc
+ kLrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=m3zWIg4noL5Yk/yrN3CdG2y2KqLJ0OcFuiU/Yp4BMfY=;
+ b=KhML1vkl/VoKzHJY3t0Nwja/9ycncS2ADSteCY335tqNyT//wxx7/jMEL+/wxnnt5W
+ l0h7Ws7+bfBOJ8pBIa62NiQQiVkawsf4oilZDAw3+T0J94uKMs9LBf4i+a5cf2sylUML
+ qMlHHx/XiX+WbO7Ms9iWyqCoL+MIetLEPcmuBglHyEW3GX0RCDH0TLyYvdO44t9BMz4x
+ M6CsFgZzc5L3jBhrZMY8rY/YM69yjWycQpsUjXfuo6LaHLrn388gXMNUizFZp0GLXox7
+ IJSOjAY/y0/bYONJpJq/eoL1D98vXOIbjJsmCj+B75ejmqOVAcmKMGry/39IhTHGE7jP
+ ++Ig==
+X-Gm-Message-State: APjAAAW39LYrcnJf3FpOQelZCe3pOQN5QWVWlrhghwtmHi/u5fcdbVYZ
+ AhgZc14MFiez1igchztOnIC0ojmxCP1QRGWEfzgzG1ajd6o=
+X-Google-Smtp-Source: APXvYqw5qVj5l1zNPPzQWGZy/sJykhwjCUQOqFWlyTzFWLxZvgQmPG4Hp3D1Wt2/P37RsNDrytn9/RKqStkvre5WHd8=
+X-Received: by 2002:a0d:f844:: with SMTP id i65mr18171606ywf.341.1580277336790; 
+ Tue, 28 Jan 2020 21:55:36 -0800 (PST)
+MIME-Version: 1.0
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Wed, 29 Jan 2020 15:55:26 +1000
+Message-ID: <CACAvsv4xcLF6Ahh7UYEesn-wBEksd2da+ghusBAdODMrH7Sz2A@mail.gmail.com>
+Subject: [PULL] nouveau-fixes 5.6
+To: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,151 +58,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- will@kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
- robin.murphy@arm.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for per-instance pagetables for a6xx targets. Add support
-to handle split pagetables and create a new instance if the needed
-IOMMU support exists and insert the necessary PM4 commands to trigger
-a pagetable switch at the beginning of a user command.
+Hey Dave,
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
+A couple of OOPS fixes, fixes for TU1xx if firmware isn't available,
+better behaviour in the face of GPU faults, and a patch to make HD
+audio work again after runpm changes.
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 89 +++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+Ben.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 9bec603c..e1a257e 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -12,6 +12,62 @@
- 
- #define GPU_PAS_ID 13
- 
-+static void a6xx_set_pagetable(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
-+		struct msm_file_private *ctx)
-+{
-+	u64 ttbr;
-+	u32 asid;
-+
-+	if (!msm_iommu_get_ptinfo(ctx->aspace->mmu, &ttbr, &asid))
-+		return;
-+
-+	ttbr = ttbr | ((u64) asid) << 48;
-+
-+	/* Turn off protected mode */
-+	OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
-+	OUT_RING(ring, 0);
-+
-+	/* Turn on APIV mode to access critical regions */
-+	OUT_PKT4(ring, REG_A6XX_CP_MISC_CNTL, 1);
-+	OUT_RING(ring, 1);
-+
-+	/* Make sure the ME is synchronized before staring the update */
-+	OUT_PKT7(ring, CP_WAIT_FOR_ME, 0);
-+
-+	/* Execute the table update */
-+	OUT_PKT7(ring, CP_SMMU_TABLE_UPDATE, 4);
-+	OUT_RING(ring, lower_32_bits(ttbr));
-+	OUT_RING(ring, upper_32_bits(ttbr));
-+	/* CONTEXTIDR is currently unused */
-+	OUT_RING(ring, 0);
-+	/* CONTEXTBANK is currently unused */
-+	OUT_RING(ring, 0);
-+
-+	/*
-+	 * Write the new TTBR0 to the preemption records - this will be used to
-+	 * reload the pagetable if the current ring gets preempted out.
-+	 */
-+	OUT_PKT7(ring, CP_MEM_WRITE, 4);
-+	OUT_RING(ring, lower_32_bits(rbmemptr(ring, ttbr0)));
-+	OUT_RING(ring, upper_32_bits(rbmemptr(ring, ttbr0)));
-+	OUT_RING(ring, lower_32_bits(ttbr));
-+	OUT_RING(ring, upper_32_bits(ttbr));
-+
-+	/* Invalidate the draw state so we start off fresh */
-+	OUT_PKT7(ring, CP_SET_DRAW_STATE, 3);
-+	OUT_RING(ring, 0x40000);
-+	OUT_RING(ring, 1);
-+	OUT_RING(ring, 0);
-+
-+	/* Turn off APRIV */
-+	OUT_PKT4(ring, REG_A6XX_CP_MISC_CNTL, 1);
-+	OUT_RING(ring, 0);
-+
-+	/* Turn off protected mode */
-+	OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
-+	OUT_RING(ring, 1);
-+}
-+
- static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-@@ -89,6 +145,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
- 	struct msm_ringbuffer *ring = submit->ring;
- 	unsigned int i;
- 
-+	a6xx_set_pagetable(gpu, ring, ctx);
-+
- 	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
- 		rbmemptr_stats(ring, index, cpcycles_start));
- 
-@@ -878,6 +936,36 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
- 	return (unsigned long)busy_time;
- }
- 
-+static struct msm_gem_address_space*
-+a6xx_create_instance_space(struct msm_gpu *gpu)
-+{
-+	struct msm_gem_address_space *aspace;
-+	struct iommu_domain *iommu;
-+	struct msm_mmu *mmu;
-+
-+	if (!iommu_dev_has_feature(&gpu->pdev->dev, IOMMU_DEV_FEAT_AUX))
-+		return gpu->aspace;
-+
-+	iommu = iommu_domain_alloc(&platform_bus_type);
-+	if (!iommu)
-+		return gpu->aspace;
-+
-+	mmu = msm_iommu_new_instance(&gpu->pdev->dev, iommu);
-+	if (IS_ERR(mmu)) {
-+		iommu_domain_free(iommu);
-+		return gpu->aspace;
-+	}
-+
-+	aspace = msm_gem_address_space_create(mmu, "gpu",
-+		0x100000000ULL, 0x1ffffffffULL);
-+	if (IS_ERR(aspace)) {
-+		mmu->funcs->destroy(mmu);
-+		return gpu->aspace;
-+	}
-+
-+	return aspace;
-+}
-+
- static struct msm_gem_address_space *
- a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
- {
-@@ -951,6 +1039,7 @@ static const struct adreno_gpu_funcs funcs = {
- 		.gpu_state_put = a6xx_gpu_state_put,
- #endif
- 		.create_address_space = a6xx_create_address_space,
-+		.create_instance_space = a6xx_create_instance_space,
- 	},
- 	.get_timestamp = a6xx_get_timestamp,
- };
--- 
-2.7.4
+The following changes since commit ee8642162a9edd40daafd3fb894e3fd3f909e361:
+
+  drm/nouveau: fix build error without CONFIG_IOMMU_API (2020-01-23
+08:56:51 +1000)
+
+are available in the Git repository at:
+
+  git://github.com/skeggsb/linux-5.6 linux-5.6
+
+for you to fetch changes up to c3463aed05abf06bd5ebaac12f2c015db298b98f:
+
+  drm/nouveau/fb/gp102-: allow module to load even when scrubber
+binary is missing (2020-01-29 15:49:56 +1000)
+
+----------------------------------------------------------------
+Ben Skeggs (8):
+      drm/nouveau: zero vma pointer even if we only unreference it
+rather than free
+      drm/nouveau: reject attempts to submit to dead channels
+      drm/nouveau: signal pending fences when channel has been killed
+      drm/nouveau: support synchronous pushbuf submission
+      drm/nouveau/disp/nv50-: prevent oops when no channel method map provided
+      drm/nouveau/disp/gv100-: not all channel types support reporting
+error codes
+      drm/nouveau/acr: return error when registering LSF if ACR not supported
+      drm/nouveau/fb/gp102-: allow module to load even when scrubber
+binary is missing
+
+Takashi Iwai (1):
+      drm/nouveau: Add HD-audio component notifier support
+
+ drivers/gpu/drm/nouveau/Kconfig                    |   1 +
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            | 111 +++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_chan.c             |   2 +
+ drivers/gpu/drm/nouveau/nouveau_drv.h              |   7 ++
+ drivers/gpu/drm/nouveau/nouveau_fence.c            |  10 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.h            |   1 +
+ drivers/gpu/drm/nouveau/nouveau_gem.c              |  13 ++-
+ drivers/gpu/drm/nouveau/nouveau_vmm.c              |   2 +-
+ .../gpu/drm/nouveau/nvkm/engine/disp/channv50.c    |   2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c   |  23 +++--
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c     |   6 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/base.c      |  39 ++++++--
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gp102.c     |   5 +-
+ include/uapi/drm/nouveau_drm.h                     |   1 +
+ 14 files changed, 201 insertions(+), 22 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
