@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269D114C743
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:14:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E121314C75E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 327686F482;
-	Wed, 29 Jan 2020 08:14:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5F326F489;
+	Wed, 29 Jan 2020 08:24:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72636F483
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 08:14:54 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id p17so5353680wma.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 00:14:54 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8117F6E27C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 08:24:17 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id b6so19106045wrq.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 00:24:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=OzZ5MyAWppw3BriyyWTAbdH6cnMV4POzNYoBCRMCBy0=;
- b=h7OxoWXzhB+MZU9ZUTeb+2WrN3pKpDXCHCo501mRgHZ9djV0tgGGDKxjl+6O18R826
- akFA7BTyir5FgHRRU/zqYAw1TtpyVXroJ8VTtyDywb1KScL5ve/pA2AeEOKSYzcptDIs
- kHeSAQVaRRT7HL4hRPGDHuJ5pW1UCfvGc14OQ=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iTJtgVy6LTqArF7NKDeugLKfpnz0aWBmf+fmNqkbCAg=;
+ b=LXhjoK0MrthlTSJ1hvTfNeLYDMLEmtrMuOSssT81UXACobo4U/Fa+vfpi8iq4JAncT
+ vYnhFkVUyv8vK4bkVnJS7D1arXebmuCjMNW0+MHP3mvtZJv/HEvgtqsiREVRK5a8EW4R
+ +GKFBn9yCzw1rywrXRoy62DJ4JAQ6HW+tDuig=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=OzZ5MyAWppw3BriyyWTAbdH6cnMV4POzNYoBCRMCBy0=;
- b=pACQVkWndPgW9rKCZAn6nL0pOyJ31LEcF6wICMYbCkK7k+ML6/0wXSm8TV30Ms46e9
- VIdnrZTf7TZMOdz/dq3AJguz+14uUkdak2IYYm7biZA7zhjUIBfBnUQa0FM1qd+kxmRr
- 5HTm2Ul5g35pm3FT6OaL6JfNVQA2EC0csVbX9yfMbyYmLil3tRtDmgUNIEzbj/HxZHWm
- q/Lh1x35GaT5AQLLPC2pMi9chWLNBpp7zYW8aikEbcAJlCS7iYSUO7kSvzwLhBpwSLNq
- 03Vz0/UUa4KZB2c5OpTDkR4vZnlocVgV5SR0fH6T1rLfRx+ma7PGBoLVjk+Xd5sgTt5t
- gSnQ==
-X-Gm-Message-State: APjAAAVNzBxXjpViEWMFqFTpC/8qBf2UdhnvyKAWstBs7Pu7DcmLbL4p
- fkMJPmb+gjFdhab4JHonhcD1Ww==
-X-Google-Smtp-Source: APXvYqwjbvM5HRMxslBJ/PZoEnkE2ajEVMaSkwqhNN2iC1zrce7Bh4bofqBSMCSfM8zUtRcVxZx8rg==
-X-Received: by 2002:a7b:cd14:: with SMTP id f20mr9871915wmj.43.1580285693543; 
- Wed, 29 Jan 2020 00:14:53 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iTJtgVy6LTqArF7NKDeugLKfpnz0aWBmf+fmNqkbCAg=;
+ b=IB0L9oNkAgACKacvBnByCTmLxsoptq1piEkQziAn6Qr+ZE4vfx9zGcP74kwzCwfdJK
+ dFAOOqVlQT3cbEHVoWA8EcrHRdVQjPPFQ76YaGizKX1Wy2u8ohH7XglwkRoShlAhsucR
+ Nk1kboaKRvFFwrlNDYcMjQyDzxf15DEpkKAUaA1oEyzrL3QOwOseiDACxj6TZz8+xZrj
+ QpEvItVf3TczW0DydfyAJ5lLSp7Rl4WbFdnoDS32MdqlhqzHc6dArNL2GNyhs7F0MyCb
+ UdVCwsIY74/vB7N3Fz5IuK6shCsq7AcZjt/qb+7Tm4YZ95FJai2tAkVYSQr+eSysytk5
+ RmCQ==
+X-Gm-Message-State: APjAAAUT2jlbLMER8V5JxKp+ioTwRT73Ckww7CI40dqHPNiwMPmHXRMA
+ dIBM3LMOCUruqBKeQ+nuqADGZC0+mpzmdw==
+X-Google-Smtp-Source: APXvYqzxe0hegIcz92JGlNZl3xfMykI1IKpxL8d7hYasv9UzkGknxjceAH8rMM5db44UgS6DaVfQGw==
+X-Received: by 2002:adf:ee88:: with SMTP id b8mr35899489wro.249.1580286255913; 
+ Wed, 29 Jan 2020 00:24:15 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k7sm1334243wmi.19.2020.01.29.00.14.52
+ by smtp.gmail.com with ESMTPSA id n14sm1351931wmi.26.2020.01.29.00.24.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 00:14:52 -0800 (PST)
-Date: Wed, 29 Jan 2020 09:14:50 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28VMware=29?= <thomas_os@shipmail.org>
-Subject: Re: [PATCH] drm/auth: Drop master_create/destroy hooks
-Message-ID: <20200129081450.GL43062@phenom.ffwll.local>
-References: <20200127100203.1299322-1-daniel.vetter@ffwll.ch>
- <326bfd15-e739-7c19-ec9d-602fc72c7d83@shipmail.org>
+ Wed, 29 Jan 2020 00:24:15 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/5] disable drm_global_mutex for most drivers
+Date: Wed, 29 Jan 2020 09:24:05 +0100
+Message-Id: <20200129082410.1691996-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <326bfd15-e739-7c19-ec9d-602fc72c7d83@shipmail.org>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,47 +62,45 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 27, 2020 at 01:14:37PM +0100, Thomas Hellstr=F6m (VMware) wrote:
-> On 1/27/20 11:02 AM, Daniel Vetter wrote:
-> > vmwgfx stopped using them.
-> > =
+Hi all
 
-> > With the drm device model that we've slowly evolved over the past few
-> > years master status essentially controls access to display resources,
-> > and nothing else. Since that's a pure access permission check drivers
-> > should have no need at all to track additional state on a per file
-> > basis.
-> > =
+New version without the deadlock in pan_display that Noralf spotted
+(hopefully that appeases CI a bit, v1 was bad), plus now being co-tested
+with the right igt series (hopefully).
 
-> > Aside: For cleanup and restoring kernel-internal clients the grand
-> > plan is to move everyone over to drm_client and
-> > drm_master_internal_acquire/release, like the generic fbdev code
-> > already does. That should get rid of most ->lastclose implementations,
-> > and I think also subsumes any processing vmwgfx does in
-> > master_set/drop.
-> > =
+Review (especially but not only on the igt side) very much appreciated.
 
-> > Cc: "Thomas Hellstr=F6m (VMware)" <thomas_os@shipmail.org>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> =
+Test-With: 20200128112549.172135-1-daniel.vetter@ffwll.ch
 
-> Reviewed-by: Thomas Hellstrom <thellstrom@vmware.com>
+igt series link https://patchwork.freedesktop.org/series/72654/
 
-Thanks for your review, patch applied.
--Daniel
--- =
+Cheers, Daniel
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Daniel Vetter (5):
+  drm: Complain if drivers still use the ->load callback
+  drm/fbdev-helper: don't force restores
+  drm/client: Rename _force to _locked
+  drm: Push drm_global_mutex locking in drm_open
+  drm: Nerv drm_global_mutex BKL for good drivers
+
+ drivers/gpu/drm/drm_client_modeset.c | 12 ++++----
+ drivers/gpu/drm/drm_drv.c            | 26 +++++++++-------
+ drivers/gpu/drm/drm_fb_helper.c      | 16 ++--------
+ drivers/gpu/drm/drm_file.c           | 44 +++++++++++++++++++++++++++-
+ drivers/gpu/drm/drm_internal.h       |  1 +
+ include/drm/drm_client.h             |  7 ++++-
+ include/drm/drm_drv.h                |  3 ++
+ 7 files changed, 78 insertions(+), 31 deletions(-)
+
+-- 
+2.24.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
