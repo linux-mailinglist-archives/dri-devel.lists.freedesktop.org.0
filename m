@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F57214D156
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 20:48:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C0114D171
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 20:53:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 847536E435;
-	Wed, 29 Jan 2020 19:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8B6D6F878;
+	Wed, 29 Jan 2020 19:53:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F07B96E435
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:48:51 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id EA28880477;
- Wed, 29 Jan 2020 20:48:49 +0100 (CET)
-Date: Wed, 29 Jan 2020 20:48:48 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: add vendor prefix for OzzMaker and
- Waveshare Electronics
-Message-ID: <20200129194848.GB29646@ravnborg.org>
-References: <cover.1580134320.git.kamlesh.gurudasani@gmail.com>
- <aa8799c4164b54fa5c4ca55e48966d7b61352c2c.1580134320.git.kamlesh.gurudasani@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 998146F878
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:53:27 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206347] New: amdgpu.dc=1 breaks power management on RX480
+Date: Wed, 29 Jan 2020 19:53:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: matare@fh-aachen.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-206347-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <aa8799c4164b54fa5c4ca55e48966d7b61352c2c.1580134320.git.kamlesh.gurudasani@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=TELmJA4fAAAA:8
- a=V4Th9uXqAAAA:8 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=3u5PU5XXhnd4_xb3wXMA:9
- a=CjuIK1q_8ugA:10 a=OxZBpCp95H4A:10 a=7nPLErV8LTYA:10
- a=0n8ANzlPCKH_0m4f1BvC:22 a=NPz-sUGDo_RSEfLfxCKS:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=2u7P7y6wY8-ADUGXAArp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,52 +51,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kamlesh
+https://bugzilla.kernel.org/show_bug.cgi?id=206347
 
-On Mon, Jan 27, 2020 at 07:55:33PM +0530, Kamlesh Gurudasani wrote:
-> Add vendor prefix for OzzMaker [1] and Waveshare Electronics [2]
-> Both are display manufacturers
-> 
-> [1] https://ozzmaker.com/about/
-> [2] https://www.waveshare.com/contact_us
-> 
-> Signed-off-by: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index ac4804d..dfb926d 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -721,6 +721,8 @@ patternProperties:
->      description: OmniVision Technologies
->    "^oxsemi,.*":
->      description: Oxford Semiconductor, Ltd.
-> +  "^ozzmaker,.*":
-> +    description: OzzMaker
->    "^panasonic,.*":
->      description: Panasonic Corporation
->    "^parade,.*":
-> @@ -1038,6 +1040,8 @@ patternProperties:
->      description: Vision Optical Technology Co., Ltd.
->    "^vxt,.*":
->      description: VXT Ltd
-> +  "^waveshare,.*":
-> +    description: Waveshare Electronics
->    "^wd,.*":
->      description: Western Digital Corp.
->    "^wetek,.*":
-> -- 
-> 2.7.4
+            Bug ID: 206347
+           Summary: amdgpu.dc=1 breaks power management on RX480
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.4.14
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: matare@fh-aachen.de
+        Regression: No
+
+I've been using an AMD RX480 with amdgpu ever since it was supported (i.e.
+since ~4.8 I think). Somehow I almost got used to the fact that, when idling,
+it uses 15-20 Watt more than in Windows. Recently I investigated again and
+found that it simply never reduces the GPU clock below 1278Mhz.
+
+I found this related bug report on freedesktop.org:
+https://gitlab.freedesktop.org/drm/amd/issues/817
+
+And this comment on Phoronix...
+https://www.phoronix.com/forums/forum/linux-graphics-x-org-drivers/open-source-amd-linux/1046724-rx-580-idles-at-1300mhz-core-clock?p=1047617#post1047617
+
+... which gave the crucial hint of setting amdgpu.dc=0
+
+It is only with this setting that my GPU clock will be reduced to 300 MHz on
+idle as it should. My system runs perfectly fine, performance is good, and
+system idle power consumption is down to ~70W from the ~90W I had before. So I
+don't understand why we're wasting 20W by default on all those chips. Maybe
+there is something that should be fixed or it should default to off?
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
