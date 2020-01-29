@@ -1,92 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3DA14CCD3
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 15:56:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B3614CE74
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 17:34:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D10BF6F591;
-	Wed, 29 Jan 2020 14:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 777FE6F5D2;
+	Wed, 29 Jan 2020 16:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com
- (mail-eopbgr680068.outbound.protection.outlook.com [40.107.68.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D99C6F591
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 14:56:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hx3XKawfR9Uh8ZYzSoOm7cK9fifR9mL6yLchaGJOIhPRqQfRcHoiErvy/80pu3zjUQU/mDlKwsLyPXxl/FWjhNPmvLGdXisljpHMyysZbD8ToUF2Jk7/jjQV1xaJj3j1Jlwl5v3UYSp+/Z4dvEFNQqMHDQSm7j91n5+cqyZZSNbNNoz59JVAyLQfINTL2VE+36IUPI6eYWUysFtTj4hGmzKLbKF/NcBxrgw+AgbJxQpNIJlHMlBeDqMmF0gBLqObR3tO1kNnihdGQxq3rOb1CUPS7pfJx7uWnUuu+Lib8TeYUJztXp+z/FbKTLUYKlcYRWrgVqBuA/cls24tIAfTUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MUhtwYaagQLLywbromCnv0dVL9Vbxs8Bg1+eSa46dms=;
- b=JE9JduHMmJhzxA1MNYuLwNzWgJrd6jU1/zj0xx39SuOB3ZToGgSAfz+biOvNeGe3wtvYvMhKEIPsg557ny8XkhAbJY5i6HbOCevrJnVBGLpwiGFy7vgV2ydK2r9Nte9VOre+hOdvx2GEe2vWSVKdK6UOjXpscdNlHUBk8fsbwKIPAWf1psTmnUk5BKkEvxTxN98w1M0Eem6hXaxyGiulYKYAQQ/XXXSSBTWwf2eCjDavc2UGm/q0PvsIKA0n+RDTFWBGH2MnULd9J9WyS6dxItuiYL/gfmcOTYuAehfxHX+9H4urwLNuW27OOr7HN9EMU6QgjVkfOSNH/QlTpY9fyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MUhtwYaagQLLywbromCnv0dVL9Vbxs8Bg1+eSa46dms=;
- b=pdUzwkY5VhTJ4nEB41gMQlGPb2EzrksXDITbJM9BmeUsI4Yj5ow0sZQ8JiVlsgxNGUwI8b/BCEMDlsuBdcDRF2Amwjjs8LuT0NJ54Vm3mZ09YDUtjJ7YsiaLQSjCH2DS9YjticfPfnIFB6vfp3BuO7Xfr8kpj9GWDiJBY+4QWmY=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
- DM5PR12MB1435.namprd12.prod.outlook.com (10.168.240.19) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.22; Wed, 29 Jan 2020 14:56:02 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::8dde:b52a:d97a:e89]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::8dde:b52a:d97a:e89%2]) with mapi id 15.20.2665.026; Wed, 29 Jan 2020
- 14:56:02 +0000
-Subject: Re: [PATCH 5/9] mm, drm/ttm, drm/vmwgfx: Support huge TTM pagefaults
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20200124090940.26571-1-thomas_os@shipmail.org>
- <20200124090940.26571-6-thomas_os@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <bc30bf7e-5c96-0272-6e7e-64d22490d6a2@amd.com>
-Date: Wed, 29 Jan 2020 15:55:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200124090940.26571-6-thomas_os@shipmail.org>
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR06CA0103.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::44) To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 649036F5D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 16:34:50 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C4EB720720
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 16:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1580315690;
+ bh=as+FHRcpxUqoZnekcq/AO7MrXtguGQSlW9YRdNMwiZE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=gBwuT2sGW56HZP4xomRpErcFAPDDJ7OnbZ0a1Cyi+H3WvNyN7lmSmFx130aK9h0Wq
+ hF5b5r566OvNqGuLc4XcnXjuoy7XE+pVSuLq0+O0M+bPZQ9qFGgF3+UF1G1y4SrKD5
+ KSPR03GQHur1+WX7aA8ZwuMRdz2MxivI+Vlqrjl4=
+Received: by mail-wm1-f42.google.com with SMTP id t14so459940wmi.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 08:34:49 -0800 (PST)
+X-Gm-Message-State: APjAAAUDhG8QsfprbcrGtLETorM6Z6wXECYHdwWM1HJVjazSbHzgE4Ko
+ n+BmxUJUKH/qVWOe74IMBPxe9uiwJsbS/rbofcQ=
+X-Google-Smtp-Source: APXvYqwnbnsiWVOxojjVERSEDRLtLsSRyV/JHo8JODVgQp7XSXaZmw9gjgTFoHX44Y+9O+dshNDpgiU5hG3qJlm6U28=
+X-Received: by 2002:a1c:dc85:: with SMTP id t127mr139105wmg.16.1580315688029; 
+ Wed, 29 Jan 2020 08:34:48 -0800 (PST)
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR06CA0103.eurprd06.prod.outlook.com (2603:10a6:208:fa::44) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.22 via Frontend Transport; Wed, 29 Jan 2020 14:55:59 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 3c494af1-9a07-4d6b-2f52-08d7a4cb5be5
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1435:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1435FAD0E509043F863AAA1283050@DM5PR12MB1435.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-Forefront-PRVS: 02973C87BC
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(366004)(396003)(39850400004)(376002)(346002)(199004)(189003)(4326008)(478600001)(6666004)(31686004)(66574012)(36756003)(2616005)(54906003)(5660300002)(52116002)(66476007)(16526019)(66556008)(66946007)(81166006)(81156014)(6486002)(316002)(186003)(31696002)(86362001)(8676002)(2906002)(7416002)(8936002)(14583001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1435;
- H:DM5PR12MB1705.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MQ59mzG7bexgyn27Ao/uF+pRMoOYRXEbvq6socuLBa5HW85K+vWA1Q/85wwHQ+aEy6ClQLzdt11kQwyrlUqRPNkldD4QeJwbJbcQrReH4YruXe2nEmGWE2BDoijrk3YFBIk86yKTb7jAVspdIwGgr0e/4wjNDW4o/jg6HwdDZLY/cm92LWb8awtPCFFTm54a3iBB+opZ3doWx9ilda+H6AwFMrVCaTTBdOStwFC2E2hdnG63DyCyKzylUVb/MhiPR8cNa5Jj+9eqnJkLNX+TQj0BA9kZmq9QxHmLZik12YPBAR91IkoCUmuVCR1VIPXEacLmJQzNYpvXTZ/1BKGqGknGOhPS9SPAYC0USCAuzimEcI8Kneca3K0imSJ7RhHIrtqTKUEckW0sarwWMzSzsFo11ny1cwDbH4OsVioxJZ7DbKXdZ3/Wn+rFkvkiHD+e2Rqyr/Qombu59icgwgFDvJFyElOLR5aojAG+jxrwr2Uo5pSQNIHIuxxL0J54X6ez
-X-MS-Exchange-AntiSpam-MessageData: t2TcOJLD7VoFl9GJS/cbkS2KxwHC8OZrJ6eoaAHaNIKHaaiwx75WiNEZY4FzvExcqZ5UprB7Bp0jeYIEEQ7X3PoINe9qRfCi6zGM95wsuXSiVUXJdtCHLFjRjGQrFHDjqyE46lE8TJ71b9XUFyfEGsngImdd4WtMCXjf10NMrMJgU8i4ZEsL9I7q6fnOkWi8sBJ8Xt6g+mzb4Lzmp6zAkQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c494af1-9a07-4d6b-2f52-08d7a4cb5be5
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2020 14:56:02.5326 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6We7HE/3zzuwllzF3H3Ihddu4erUYK5WyfW+TH9AxyFUx/myfAWZ9RKB38Gq6yHa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1435
+References: <20200128140642.8404-1-stefan@olimex.com>
+ <20200128140642.8404-2-stefan@olimex.com>
+In-Reply-To: <20200128140642.8404-2-stefan@olimex.com>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 30 Jan 2020 00:34:35 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66kEACD0oOqoL2sx8JJJAnZzZc+EwEK8+74bZx48L-Z5A@mail.gmail.com>
+Message-ID: <CAGb2v66kEACD0oOqoL2sx8JJJAnZzZc+EwEK8+74bZx48L-Z5A@mail.gmail.com>
+Subject: Re: [linux-sunxi] [PATCH v3 1/1] drm: sun4i: hdmi: Add support for
+ sun4i HDMI encoder audio
+To: Stefan Mavrodiev <stefan@olimex.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,188 +55,691 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>, Michal Hocko <mhocko@suse.com>,
- pv-drivers@vmware.com, Roland Scheidegger <sroland@vmware.com>,
- Ralph Campbell <rcampbell@nvidia.com>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- linux-graphics-maintainer@vmware.com,
- Andrew Morton <akpm@linux-foundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>, Chen-Yu Tsai <wens@csie.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Takashi Iwai <tiwai@suse.com>, linux-sunxi <linux-sunxi@googlegroups.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ "moderated list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMDEuMjAgdW0gMTA6MDkgc2NocmllYiBUaG9tYXMgSGVsbHN0csO2bSAoVk13YXJlKToK
-PiBGcm9tOiBUaG9tYXMgSGVsbHN0cm9tIDx0aGVsbHN0cm9tQHZtd2FyZS5jb20+Cj4KPiBTdXBw
-b3J0IGh1Z2UgKFBNRC1zaXplIGFuZCBQVUQtc2l6ZSkgcGFnZS10YWJsZSBlbnRyaWVzIGJ5IHBy
-b3ZpZGluZyBhCj4gaHVnZV9mYXVsdCgpIGNhbGxiYWNrLgo+IFdlIHN0aWxsIHN1cHBvcnQgcHJp
-dmF0ZSBtYXBwaW5ncyBhbmQgd3JpdGUtbm90aWZ5IGJ5IHNwbGl0dGluZyB0aGUgaHVnZQo+IHBh
-Z2UtdGFibGUgZW50cmllcyBvbiB3cml0ZS1hY2Nlc3MuCj4KPiBOb3RlIHRoYXQgZm9yIGh1Z2Ug
-cGFnZS1mYXVsdHMgdG8gb2NjdXIsIGVpdGhlciB0aGUga2VybmVsIG5lZWRzIHRvIGJlCj4gY29t
-cGlsZWQgd2l0aCB0cmFucy1odWdlLXBhZ2VzIGFsd2F5cyBlbmFibGVkLCBvciB0aGUga2VybmVs
-IG5lZWRzIHRvIGJlCj4gY29tcGlsZWQgd2l0aCB0cmFucy1odWdlLXBhZ2VzIGVuYWJsZWQgdXNp
-bmcgbWFkdmlzZSwgYW5kIHRoZSB1c2VyLXNwYWNlCj4gYXBwIG5lZWRzIHRvIGNhbGwgbWFkdmlz
-ZSgpIHRvIGVuYWJsZSB0cmFucy1odWdlIHBhZ2VzIG9uIGEgcGVyLW1hcHBpbmcKPiBiYXNpcy4K
-Pgo+IEZ1cnRoZXJtb3JlIGh1Z2UgcGFnZS1mYXVsdHMgd2lsbCBub3Qgc3VjY2VlZCB1bmxlc3Mg
-YnVmZmVyIG9iamVjdHMgYW5kCj4gdXNlci1zcGFjZSBhZGRyZXNzZXMgYXJlIGFsaWduZWQgb24g
-aHVnZSBwYWdlIHNpemUgYm91bmRhcmllcy4KPgo+IENjOiBBbmRyZXcgTW9ydG9uIDxha3BtQGxp
-bnV4LWZvdW5kYXRpb24ub3JnPgo+IENjOiBNaWNoYWwgSG9ja28gPG1ob2Nrb0BzdXNlLmNvbT4K
-PiBDYzogIk1hdHRoZXcgV2lsY294IChPcmFjbGUpIiA8d2lsbHlAaW5mcmFkZWFkLm9yZz4KPiBD
-YzogIktpcmlsbCBBLiBTaHV0ZW1vdiIgPGtpcmlsbC5zaHV0ZW1vdkBsaW51eC5pbnRlbC5jb20+
-Cj4gQ2M6IFJhbHBoIENhbXBiZWxsIDxyY2FtcGJlbGxAbnZpZGlhLmNvbT4KPiBDYzogIkrDqXLD
-tG1lIEdsaXNzZSIgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiBDYzogIkNocmlzdGlhbiBLw7ZuaWci
-IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gQ2M6IERhbiBXaWxsaWFtcyA8ZGFuLmoud2ls
-bGlhbXNAaW50ZWwuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBIZWxsc3Ryb20gPHRoZWxs
-c3Ryb21Adm13YXJlLmNvbT4KPiBSZXZpZXdlZC1ieTogUm9sYW5kIFNjaGVpZGVnZ2VyIDxzcm9s
-YW5kQHZtd2FyZS5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5j
-ICAgICAgICAgICAgfCAxNDUgKysrKysrKysrKysrKysrKysrKystCj4gICBkcml2ZXJzL2dwdS9k
-cm0vdm13Z2Z4L3Ztd2dmeF9wYWdlX2RpcnR5LmMgfCAgIDIgKy0KPiAgIGluY2x1ZGUvZHJtL3R0
-bS90dG1fYm9fYXBpLmggICAgICAgICAgICAgICB8ICAgMyArLQo+ICAgMyBmaWxlcyBjaGFuZ2Vk
-LCAxNDUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9f
-dm0uYwo+IGluZGV4IDM4OTEyOGI4YzRkZC4uNDk3MDQyNjFhMDBkIDEwMDY0NAo+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRt
-L3R0bV9ib192bS5jCj4gQEAgLTE1Niw2ICsxNTYsODkgQEAgdm1fZmF1bHRfdCB0dG1fYm9fdm1f
-cmVzZXJ2ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgfQo+ICAgRVhQT1JUX1NZ
-TUJPTCh0dG1fYm9fdm1fcmVzZXJ2ZSk7Cj4gICAKPiArI2lmZGVmIENPTkZJR19UUkFOU1BBUkVO
-VF9IVUdFUEFHRQo+ICsvKioKPiArICogdHRtX2JvX3ZtX2luc2VydF9odWdlIC0gSW5zZXJ0IGEg
-cGZuIGZvciBQVUQgb3IgUE1EIGZhdWx0cwo+ICsgKiBAdm1mOiBGYXVsdCBkYXRhCj4gKyAqIEBi
-bzogVGhlIGJ1ZmZlciBvYmplY3QKPiArICogQHBhZ2Vfb2Zmc2V0OiBQYWdlIG9mZnNldCBmcm9t
-IGJvIHN0YXJ0Cj4gKyAqIEBmYXVsdF9wYWdlX3NpemU6IFRoZSBzaXplIG9mIHRoZSBmYXVsdCBp
-biBwYWdlcy4KPiArICogQHBncHJvdDogVGhlIHBhZ2UgcHJvdGVjdGlvbnMuCj4gKyAqIERvZXMg
-YWRkaXRpb25hbCBjaGVja2luZyB3aGV0aGVyIGl0J3MgcG9zc2libGUgdG8gaW5zZXJ0IGEgUFVE
-IG9yIFBNRAo+ICsgKiBwZm4gYW5kIHBlcmZvcm1zIHRoZSBpbnNlcnRpb24uCj4gKyAqCj4gKyAq
-IFJldHVybjogVk1fRkFVTFRfTk9QQUdFIG9uIHN1Y2Nlc3NmdWwgaW5zZXJ0aW9uLCBWTV9GQVVM
-VF9GQUxMQkFDSyBpZgo+ICsgKiBhIGh1Z2UgZmF1bHQgd2FzIG5vdCBwb3NzaWJsZSwgYW5kIGEg
-Vk1fRkFVTFRfRVJST1IgY29kZSBvdGhlcndpc2UuCj4gKyAqLwo+ICtzdGF0aWMgdm1fZmF1bHRf
-dCB0dG1fYm9fdm1faW5zZXJ0X2h1Z2Uoc3RydWN0IHZtX2ZhdWx0ICp2bWYsCj4gKwkJCQkJc3Ry
-dWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiArCQkJCQlwZ29mZl90IHBhZ2Vfb2Zmc2V0LAo+
-ICsJCQkJCXBnb2ZmX3QgZmF1bHRfcGFnZV9zaXplLAo+ICsJCQkJCXBncHJvdF90IHBncHJvdCkK
-PiArewo+ICsJcGdvZmZfdCBpOwo+ICsJdm1fZmF1bHRfdCByZXQ7Cj4gKwl1bnNpZ25lZCBsb25n
-IHBmbjsKPiArCXBmbl90IHBmbnQ7Cj4gKwlzdHJ1Y3QgdHRtX3R0ICp0dG0gPSBiby0+dHRtOwo+
-ICsJYm9vbCB3cml0ZSA9IHZtZi0+ZmxhZ3MgJiBGQVVMVF9GTEFHX1dSSVRFOwo+ICsKPiArCS8q
-IEZhdWx0IHNob3VsZCBub3QgY3Jvc3MgYm8gYm91bmRhcnkuICovCj4gKwlwYWdlX29mZnNldCAm
-PSB+KGZhdWx0X3BhZ2Vfc2l6ZSAtIDEpOwo+ICsJaWYgKHBhZ2Vfb2Zmc2V0ICsgZmF1bHRfcGFn
-ZV9zaXplID4gYm8tPm51bV9wYWdlcykKPiArCQlnb3RvIG91dF9mYWxsYmFjazsKPiArCj4gKwlp
-ZiAoYm8tPm1lbS5idXMuaXNfaW9tZW0pCj4gKwkJcGZuID0gdHRtX2JvX2lvX21lbV9wZm4oYm8s
-IHBhZ2Vfb2Zmc2V0KTsKPiArCWVsc2UKPiArCQlwZm4gPSBwYWdlX3RvX3Bmbih0dG0tPnBhZ2Vz
-W3BhZ2Vfb2Zmc2V0XSk7Cj4gKwo+ICsJLyogcGZuIG11c3QgYmUgZmF1bHRfcGFnZV9zaXplIGFs
-aWduZWQuICovCj4gKwlpZiAoKHBmbiAmIChmYXVsdF9wYWdlX3NpemUgLSAxKSkgIT0gMCkKPiAr
-CQlnb3RvIG91dF9mYWxsYmFjazsKPiArCj4gKwkvKiBDaGVjayB0aGF0IG1lbW9yeSBpcyBjb250
-aWd1b3VzLiAqLwo+ICsJaWYgKCFiby0+bWVtLmJ1cy5pc19pb21lbSkKPiArCQlmb3IgKGkgPSAx
-OyBpIDwgZmF1bHRfcGFnZV9zaXplOyArK2kpIHsKPiArCQkJaWYgKHBhZ2VfdG9fcGZuKHR0bS0+
-cGFnZXNbcGFnZV9vZmZzZXQgKyBpXSkgIT0gcGZuICsgaSkKPiArCQkJCWdvdG8gb3V0X2ZhbGxi
-YWNrOwo+ICsJCX0KPiArCS8qIElPIG1lbSB3aXRob3V0IHRoZSBpb19tZW1fcGZuIGNhbGxiYWNr
-IGlzIGFsd2F5cyBjb250aWd1b3VzLiAqLwo+ICsJZWxzZSBpZiAoYm8tPmJkZXYtPmRyaXZlci0+
-aW9fbWVtX3BmbikKPiArCQlmb3IgKGkgPSAxOyBpIDwgZmF1bHRfcGFnZV9zaXplOyArK2kpIHsK
-PiArCQkJaWYgKHR0bV9ib19pb19tZW1fcGZuKGJvLCBwYWdlX29mZnNldCArIGkpICE9IHBmbiAr
-IGkpCj4gKwkJCQlnb3RvIG91dF9mYWxsYmFjazsKPiArCQl9CgpNYXliZSBhZGQge30gdG8gdGhl
-IGlmIHRvIG1ha2UgY2xlYXIgd2hlcmUgdGhpbmdzIHN0YXJ0L2VuZC4KCj4gKwo+ICsJcGZudCA9
-IF9fcGZuX3RvX3Bmbl90KHBmbiwgUEZOX0RFVik7Cj4gKwlpZiAoZmF1bHRfcGFnZV9zaXplID09
-IChIUEFHRV9QTURfU0laRSA+PiBQQUdFX1NISUZUKSkKPiArCQlyZXQgPSB2bWZfaW5zZXJ0X3Bm
-bl9wbWRfcHJvdCh2bWYsIHBmbnQsIHBncHJvdCwgd3JpdGUpOwo+ICsjaWZkZWYgQ09ORklHX0hB
-VkVfQVJDSF9UUkFOU1BBUkVOVF9IVUdFUEFHRV9QVUQKPiArCWVsc2UgaWYgKGZhdWx0X3BhZ2Vf
-c2l6ZSA9PSAoSFBBR0VfUFVEX1NJWkUgPj4gUEFHRV9TSElGVCkpCj4gKwkJcmV0ID0gdm1mX2lu
-c2VydF9wZm5fcHVkX3Byb3Qodm1mLCBwZm50LCBwZ3Byb3QsIHdyaXRlKTsKPiArI2VuZGlmCj4g
-KwllbHNlCj4gKwkJV0FSTl9PTl9PTkNFKHJldCA9IFZNX0ZBVUxUX0ZBTExCQUNLKTsKPiArCj4g
-KwlpZiAocmV0ICE9IFZNX0ZBVUxUX05PUEFHRSkKPiArCQlnb3RvIG91dF9mYWxsYmFjazsKPiAr
-Cj4gKwlyZXR1cm4gVk1fRkFVTFRfTk9QQUdFOwo+ICtvdXRfZmFsbGJhY2s6Cj4gKwljb3VudF92
-bV9ldmVudChUSFBfRkFVTFRfRkFMTEJBQ0spOwo+ICsJcmV0dXJuIFZNX0ZBVUxUX0ZBTExCQUNL
-OwoKVGhpcyBkb2Vzbid0IHNlZW0gdG8gbWF0Y2ggdGhlIGZ1bmN0aW9uIGRvY3VtZW50YXRpb24g
-c2luY2Ugd2UgbmV2ZXIgCnJldHVybiByZXQgaGVyZSBhcyBmYXIgYXMgSSBjYW4gc2VlLgoKQXBh
-cnQgZnJvbSB0aG9zZSBjb21tZW50cyBpdCBsb29rcyBsaWtlIHRoYXQgc2hvdWxkIHdvcmssCkNo
-cmlzdGlhbi4KCj4gK30KPiArI2Vsc2UKPiArc3RhdGljIHZtX2ZhdWx0X3QgdHRtX2JvX3ZtX2lu
-c2VydF9odWdlKHN0cnVjdCB2bV9mYXVsdCAqdm1mLAo+ICsJCQkJCXN0cnVjdCB0dG1fYnVmZmVy
-X29iamVjdCAqYm8sCj4gKwkJCQkJcGdvZmZfdCBwYWdlX29mZnNldCwKPiArCQkJCQlwZ29mZl90
-IGZhdWx0X3BhZ2Vfc2l6ZSwKPiArCQkJCQlwZ3Byb3RfdCBwZ3Byb3QpCj4gK3sKPiArCXJldHVy
-biBWTV9GQVVMVF9OT1BBR0U7Cj4gK30KPiArI2VuZGlmCj4gKwo+ICAgLyoqCj4gICAgKiB0dG1f
-Ym9fdm1fZmF1bHRfcmVzZXJ2ZWQgLSBUVE0gZmF1bHQgaGVscGVyCj4gICAgKiBAdm1mOiBUaGUg
-c3RydWN0IHZtX2ZhdWx0IGdpdmVuIGFzIGFyZ3VtZW50IHRvIHRoZSBmYXVsdCBjYWxsYmFjawo+
-IEBAIC0xNjMsNiArMjQ2LDcgQEAgRVhQT1JUX1NZTUJPTCh0dG1fYm9fdm1fcmVzZXJ2ZSk7Cj4g
-ICAgKiBAbnVtX3ByZWZhdWx0OiBNYXhpbXVtIG51bWJlciBvZiBwcmVmYXVsdCBwYWdlcy4gVGhl
-IGNhbGxlciBtYXkgd2FudCB0bwo+ICAgICogc3BlY2lmeSB0aGlzIGJhc2VkIG9uIG1hZHZpY2Ug
-c2V0dGluZ3MgYW5kIHRoZSBzaXplIG9mIHRoZSBHUFUgb2JqZWN0Cj4gICAgKiBiYWNrZWQgYnkg
-dGhlIG1lbW9yeS4KPiArICogQGZhdWx0X3BhZ2Vfc2l6ZTogVGhlIHNpemUgb2YgdGhlIGZhdWx0
-IGluIHBhZ2VzLgo+ICAgICoKPiAgICAqIFRoaXMgZnVuY3Rpb24gaW5zZXJ0cyBvbmUgb3IgbW9y
-ZSBwYWdlIHRhYmxlIGVudHJpZXMgcG9pbnRpbmcgdG8gdGhlCj4gICAgKiBtZW1vcnkgYmFja2lu
-ZyB0aGUgYnVmZmVyIG9iamVjdCwgYW5kIHRoZW4gcmV0dXJucyBhIHJldHVybiBjb2RlCj4gQEAg
-LTE3Niw3ICsyNjAsOCBAQCBFWFBPUlRfU1lNQk9MKHR0bV9ib192bV9yZXNlcnZlKTsKPiAgICAq
-Lwo+ICAgdm1fZmF1bHRfdCB0dG1fYm9fdm1fZmF1bHRfcmVzZXJ2ZWQoc3RydWN0IHZtX2ZhdWx0
-ICp2bWYsCj4gICAJCQkJICAgIHBncHJvdF90IHByb3QsCj4gLQkJCQkgICAgcGdvZmZfdCBudW1f
-cHJlZmF1bHQpCj4gKwkJCQkgICAgcGdvZmZfdCBudW1fcHJlZmF1bHQsCj4gKwkJCQkgICAgcGdv
-ZmZfdCBmYXVsdF9wYWdlX3NpemUpCj4gICB7Cj4gICAJc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2
-bWEgPSB2bWYtPnZtYTsKPiAgIAlzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0gdm1hLT52
-bV9wcml2YXRlX2RhdGE7Cj4gQEAgLTI2OCw2ICszNTMsMTMgQEAgdm1fZmF1bHRfdCB0dG1fYm9f
-dm1fZmF1bHRfcmVzZXJ2ZWQoc3RydWN0IHZtX2ZhdWx0ICp2bWYsCj4gICAJCXByb3QgPSBwZ3By
-b3RfZGVjcnlwdGVkKHByb3QpOwo+ICAgCX0KPiAgIAo+ICsJLyogV2UgZG9uJ3QgcHJlZmF1bHQg
-b24gaHVnZSBmYXVsdHMuIFlldC4gKi8KPiArCWlmIChJU19FTkFCTEVEKENPTkZJR19UUkFOU1BB
-UkVOVF9IVUdFUEFHRSkgJiYgZmF1bHRfcGFnZV9zaXplICE9IDEpIHsKPiArCQlyZXQgPSB0dG1f
-Ym9fdm1faW5zZXJ0X2h1Z2Uodm1mLCBibywgcGFnZV9vZmZzZXQsCj4gKwkJCQkJICAgIGZhdWx0
-X3BhZ2Vfc2l6ZSwgcHJvdCk7Cj4gKwkJZ290byBvdXRfaW9fdW5sb2NrOwo+ICsJfQo+ICsKPiAg
-IAkvKgo+ICAgCSAqIFNwZWN1bGF0aXZlbHkgcHJlZmF1bHQgYSBudW1iZXIgb2YgcGFnZXMuIE9u
-bHkgZXJyb3Igb24KPiAgIAkgKiBmaXJzdCBwYWdlLgo+IEBAIC0zMzQsNyArNDI2LDcgQEAgdm1f
-ZmF1bHRfdCB0dG1fYm9fdm1fZmF1bHQoc3RydWN0IHZtX2ZhdWx0ICp2bWYpCj4gICAJCXJldHVy
-biByZXQ7Cj4gICAKPiAgIAlwcm90ID0gdm1hLT52bV9wYWdlX3Byb3Q7Cj4gLQlyZXQgPSB0dG1f
-Ym9fdm1fZmF1bHRfcmVzZXJ2ZWQodm1mLCBwcm90LCBUVE1fQk9fVk1fTlVNX1BSRUZBVUxUKTsK
-PiArCXJldCA9IHR0bV9ib192bV9mYXVsdF9yZXNlcnZlZCh2bWYsIHByb3QsIFRUTV9CT19WTV9O
-VU1fUFJFRkFVTFQsIDEpOwo+ICAgCWlmIChyZXQgPT0gVk1fRkFVTFRfUkVUUlkgJiYgISh2bWYt
-PmZsYWdzICYgRkFVTFRfRkxBR19SRVRSWV9OT1dBSVQpKQo+ICAgCQlyZXR1cm4gcmV0Owo+ICAg
-Cj4gQEAgLTM0NCw2ICs0MzYsNTAgQEAgdm1fZmF1bHRfdCB0dG1fYm9fdm1fZmF1bHQoc3RydWN0
-IHZtX2ZhdWx0ICp2bWYpCj4gICB9Cj4gICBFWFBPUlRfU1lNQk9MKHR0bV9ib192bV9mYXVsdCk7
-Cj4gICAKPiArI2lmZGVmIENPTkZJR19UUkFOU1BBUkVOVF9IVUdFUEFHRQo+ICtzdGF0aWMgdm1f
-ZmF1bHRfdCB0dG1fYm9fdm1faHVnZV9mYXVsdChzdHJ1Y3Qgdm1fZmF1bHQgKnZtZiwKPiArCQkJ
-CSAgICAgICBlbnVtIHBhZ2VfZW50cnlfc2l6ZSBwZV9zaXplKQo+ICt7Cj4gKwlzdHJ1Y3Qgdm1f
-YXJlYV9zdHJ1Y3QgKnZtYSA9IHZtZi0+dm1hOwo+ICsJcGdwcm90X3QgcHJvdDsKPiArCXN0cnVj
-dCB0dG1fYnVmZmVyX29iamVjdCAqYm8gPSB2bWEtPnZtX3ByaXZhdGVfZGF0YTsKPiArCXZtX2Zh
-dWx0X3QgcmV0Owo+ICsJcGdvZmZfdCBmYXVsdF9wYWdlX3NpemUgPSAwOwo+ICsJYm9vbCB3cml0
-ZSA9IHZtZi0+ZmxhZ3MgJiBGQVVMVF9GTEFHX1dSSVRFOwo+ICsKPiArCXN3aXRjaCAocGVfc2l6
-ZSkgewo+ICsJY2FzZSBQRV9TSVpFX1BNRDoKPiArCQlmYXVsdF9wYWdlX3NpemUgPSBIUEFHRV9Q
-TURfU0laRSA+PiBQQUdFX1NISUZUOwo+ICsJCWJyZWFrOwo+ICsjaWZkZWYgQ09ORklHX0hBVkVf
-QVJDSF9UUkFOU1BBUkVOVF9IVUdFUEFHRV9QVUQKPiArCWNhc2UgUEVfU0laRV9QVUQ6Cj4gKwkJ
-ZmF1bHRfcGFnZV9zaXplID0gSFBBR0VfUFVEX1NJWkUgPj4gUEFHRV9TSElGVDsKPiArCQlicmVh
-azsKPiArI2VuZGlmCj4gKwlkZWZhdWx0Ogo+ICsJCVdBUk5fT05fT05DRSgxKTsKPiArCQlyZXR1
-cm4gVk1fRkFVTFRfRkFMTEJBQ0s7Cj4gKwl9Cj4gKwo+ICsJLyogRmFsbGJhY2sgb24gd3JpdGUg
-ZGlydHktdHJhY2tpbmcgb3IgQ09XICovCj4gKwlpZiAod3JpdGUgJiYgIShwZ3Byb3RfdmFsKHZt
-Zi0+dm1hLT52bV9wYWdlX3Byb3QpICYgX1BBR0VfUlcpKQo+ICsJCXJldHVybiBWTV9GQVVMVF9G
-QUxMQkFDSzsKPiArCj4gKwlyZXQgPSB0dG1fYm9fdm1fcmVzZXJ2ZShibywgdm1mKTsKPiArCWlm
-IChyZXQpCj4gKwkJcmV0dXJuIHJldDsKPiArCj4gKwlwcm90ID0gdm1fZ2V0X3BhZ2VfcHJvdCh2
-bWEtPnZtX2ZsYWdzKTsKPiArCXJldCA9IHR0bV9ib192bV9mYXVsdF9yZXNlcnZlZCh2bWYsIHBy
-b3QsIDEsIGZhdWx0X3BhZ2Vfc2l6ZSk7Cj4gKwlpZiAocmV0ID09IFZNX0ZBVUxUX1JFVFJZICYm
-ICEodm1mLT5mbGFncyAmIEZBVUxUX0ZMQUdfUkVUUllfTk9XQUlUKSkKPiArCQlyZXR1cm4gcmV0
-Owo+ICsKPiArCWRtYV9yZXN2X3VubG9jayhiby0+YmFzZS5yZXN2KTsKPiArCj4gKwlyZXR1cm4g
-cmV0Owo+ICt9Cj4gKyNlbmRpZgo+ICsKPiAgIHZvaWQgdHRtX2JvX3ZtX29wZW4oc3RydWN0IHZt
-X2FyZWFfc3RydWN0ICp2bWEpCj4gICB7Cj4gICAJc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpi
-byA9IHZtYS0+dm1fcHJpdmF0ZV9kYXRhOwo+IEBAIC00NDUsNyArNTgxLDEwIEBAIHN0YXRpYyBj
-b25zdCBzdHJ1Y3Qgdm1fb3BlcmF0aW9uc19zdHJ1Y3QgdHRtX2JvX3ZtX29wcyA9IHsKPiAgIAku
-ZmF1bHQgPSB0dG1fYm9fdm1fZmF1bHQsCj4gICAJLm9wZW4gPSB0dG1fYm9fdm1fb3BlbiwKPiAg
-IAkuY2xvc2UgPSB0dG1fYm9fdm1fY2xvc2UsCj4gLQkuYWNjZXNzID0gdHRtX2JvX3ZtX2FjY2Vz
-cwo+ICsJLmFjY2VzcyA9IHR0bV9ib192bV9hY2Nlc3MsCj4gKyNpZmRlZiBDT05GSUdfVFJBTlNQ
-QVJFTlRfSFVHRVBBR0UKPiArCS5odWdlX2ZhdWx0ID0gdHRtX2JvX3ZtX2h1Z2VfZmF1bHQsCj4g
-KyNlbmRpZgo+ICAgfTsKPiAgIAo+ICAgc3RhdGljIHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
-dHRtX2JvX3ZtX2xvb2t1cChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfcGFnZV9kaXJ0eS5jIGIvZHJpdmVycy9n
-cHUvZHJtL3Ztd2dmeC92bXdnZnhfcGFnZV9kaXJ0eS5jCj4gaW5kZXggZjA3YWE4NTc1ODdjLi4x
-N2E1ZGNhN2I5MjEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhf
-cGFnZV9kaXJ0eS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfcGFnZV9k
-aXJ0eS5jCj4gQEAgLTQ3Nyw3ICs0NzcsNyBAQCB2bV9mYXVsdF90IHZtd19ib192bV9mYXVsdChz
-dHJ1Y3Qgdm1fZmF1bHQgKnZtZikKPiAgIAllbHNlCj4gICAJCXByb3QgPSB2bV9nZXRfcGFnZV9w
-cm90KHZtYS0+dm1fZmxhZ3MpOwo+ICAgCj4gLQlyZXQgPSB0dG1fYm9fdm1fZmF1bHRfcmVzZXJ2
-ZWQodm1mLCBwcm90LCBudW1fcHJlZmF1bHQpOwo+ICsJcmV0ID0gdHRtX2JvX3ZtX2ZhdWx0X3Jl
-c2VydmVkKHZtZiwgcHJvdCwgbnVtX3ByZWZhdWx0LCAxKTsKPiAgIAlpZiAocmV0ID09IFZNX0ZB
-VUxUX1JFVFJZICYmICEodm1mLT5mbGFncyAmIEZBVUxUX0ZMQUdfUkVUUllfTk9XQUlUKSkKPiAg
-IAkJcmV0dXJuIHJldDsKPiAgIAo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2Jv
-X2FwaS5oIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaAo+IGluZGV4IDY2Y2E0OWRiOTYz
-My4uNGZjOTBkNTNhYTE1IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBp
-LmgKPiArKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCj4gQEAgLTczMiw3ICs3MzIs
-OCBAQCB2bV9mYXVsdF90IHR0bV9ib192bV9yZXNlcnZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVj
-dCAqYm8sCj4gICAKPiAgIHZtX2ZhdWx0X3QgdHRtX2JvX3ZtX2ZhdWx0X3Jlc2VydmVkKHN0cnVj
-dCB2bV9mYXVsdCAqdm1mLAo+ICAgCQkJCSAgICBwZ3Byb3RfdCBwcm90LAo+IC0JCQkJICAgIHBn
-b2ZmX3QgbnVtX3ByZWZhdWx0KTsKPiArCQkJCSAgICBwZ29mZl90IG51bV9wcmVmYXVsdCwKPiAr
-CQkJCSAgICBwZ29mZl90IGZhdWx0X3BhZ2Vfc2l6ZSk7Cj4gICAKPiAgIHZtX2ZhdWx0X3QgdHRt
-X2JvX3ZtX2ZhdWx0KHN0cnVjdCB2bV9mYXVsdCAqdm1mKTsKPiAgIAoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Jan 28, 2020 at 10:07 PM Stefan Mavrodiev <stefan@olimex.com> wrote:
+>
+> Add HDMI audio support for the sun4i-hdmi encoder, used on
+> the older Allwinner chips - A10, A20, A31.
+>
+> Most of the code is based on the BSP implementation. In it
+> dditional formats are supported (S20_3LE and S24_LE), however
+> there where some problems with them and only S16_LE is left.
+>
+> Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
+> ---
+> Changes for v3:
+>  - Instead of platfrom_driver dynammicly register/unregister card
+>  - Add Kconfig dependencies
+>  - Restrore drvdata after card unregistering
+>
+> Changes for v2:
+>  - Create a new platform driver instead of using the HDMI encoder
+>  - Expose a new kcontrol to the userspace holding the ELD data
+>  - Wrap all macro arguments in parentheses
+>
+>  drivers/gpu/drm/sun4i/Kconfig            |  11 +
+>  drivers/gpu/drm/sun4i/Makefile           |   3 +
+>  drivers/gpu/drm/sun4i/sun4i_hdmi.h       |  37 ++
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c | 450 +++++++++++++++++++++++
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c   |  14 +
+>  5 files changed, 515 insertions(+)
+>  create mode 100644 drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+
+Since this is actually an audio driver, please include all the ALSA / ASoC
+maintainers and mailing lists (CC-ed).
+
+> diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+> index 37e90e42943f..ca2ab5d53dd4 100644
+> --- a/drivers/gpu/drm/sun4i/Kconfig
+> +++ b/drivers/gpu/drm/sun4i/Kconfig
+> @@ -23,6 +23,17 @@ config DRM_SUN4I_HDMI
+>           Choose this option if you have an Allwinner SoC with an HDMI
+>           controller.
+>
+> +config DRM_SUN4I_HDMI_AUDIO
+> +       bool "Allwinner A10 HDMI Audio Support"
+> +       default y
+> +       depends on DRM_SUN4I_HDMI
+> +       depends on SND_SOC=y || SND_SOC=DRM_SUN4I_HDMI
+> +       select SND_PCM_ELD
+> +       select SND_SOC_GENERIC_DMAENGINE_PCM
+> +       help
+> +         Choose this option if you have an Allwinner SoC with an HDMI
+> +         controller and want to use audio.
+> +
+>  config DRM_SUN4I_HDMI_CEC
+>         bool "Allwinner A10 HDMI CEC Support"
+>         depends on DRM_SUN4I_HDMI
+> diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Makefile
+> index 0d04f2447b01..492bfd28ad2e 100644
+> --- a/drivers/gpu/drm/sun4i/Makefile
+> +++ b/drivers/gpu/drm/sun4i/Makefile
+> @@ -5,6 +5,9 @@ sun4i-frontend-y                += sun4i_frontend.o
+>  sun4i-drm-y                    += sun4i_drv.o
+>  sun4i-drm-y                    += sun4i_framebuffer.o
+>
+> +ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+> +sun4i-drm-hdmi-y               += sun4i_hdmi_audio.o
+> +endif
+>  sun4i-drm-hdmi-y               += sun4i_hdmi_ddc_clk.o
+>  sun4i-drm-hdmi-y               += sun4i_hdmi_enc.o
+>  sun4i-drm-hdmi-y               += sun4i_hdmi_i2c.o
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi.h b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+> index 7ad3f06c127e..28621d289655 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+> @@ -42,7 +42,32 @@
+>  #define SUN4I_HDMI_VID_TIMING_POL_VSYNC                BIT(1)
+>  #define SUN4I_HDMI_VID_TIMING_POL_HSYNC                BIT(0)
+>
+> +#define SUN4I_HDMI_AUDIO_CTRL_REG      0x040
+> +#define SUN4I_HDMI_AUDIO_CTRL_ENABLE           BIT(31)
+> +#define SUN4I_HDMI_AUDIO_CTRL_RESET            BIT(30)
+> +
+> +#define SUN4I_HDMI_AUDIO_FMT_REG       0x048
+> +#define SUN4I_HDMI_AUDIO_FMT_SRC               BIT(31)
+> +#define SUN4I_HDMI_AUDIO_FMT_LAYOUT            BIT(3)
+> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG(n)         ((n) - 1)
+> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG_MASK       GENMASK(2, 0)
+> +
+> +#define SUN4I_HDMI_AUDIO_PCM_REG       0x4c
+> +#define SUN4I_HDMI_AUDIO_PCM_CH_MAP(n, m)      (((m) - 1) << ((n) * 4))
+> +#define SUN4I_HDMI_AUDIO_PCM_CH_MAP_MASK(n)    (GENMASK(2, 0) << ((n) * 4))
+> +
+> +#define SUN4I_HDMI_AUDIO_CTS_REG       0x050
+> +#define SUN4I_HDMI_AUDIO_CTS(n)                        ((n) & GENMASK(19, 0))
+> +
+> +#define SUN4I_HDMI_AUDIO_N_REG         0x054
+> +#define SUN4I_HDMI_AUDIO_N(n)                  ((n) & GENMASK(19, 0))
+> +
+> +#define SUN4I_HDMI_AUDIO_STAT0_REG     0x58
+> +#define SUN4I_HDMI_AUDIO_STAT0_FREQ(n)         ((n) << 24)
+> +#define SUN4I_HDMI_AUDIO_STAT0_FREQ_MASK       GENMASK(27, 24)
+> +
+>  #define SUN4I_HDMI_AVI_INFOFRAME_REG(n)        (0x080 + (n))
+> +#define SUN4I_HDMI_AUDIO_INFOFRAME_REG(n)      (0x0a0 + (n))
+>
+>  #define SUN4I_HDMI_PAD_CTRL0_REG       0x200
+>  #define SUN4I_HDMI_PAD_CTRL0_BIASEN            BIT(31)
+> @@ -242,6 +267,11 @@ struct sun4i_hdmi_variant {
+>         bool                    ddc_fifo_has_dir;
+>  };
+>
+> +struct sun4i_hdmi_audio {
+> +       struct snd_soc_card             *card;
+> +       u8                              channels;
+> +};
+> +
+>  struct sun4i_hdmi {
+>         struct drm_connector    connector;
+>         struct drm_encoder      encoder;
+> @@ -283,9 +313,14 @@ struct sun4i_hdmi {
+>         struct regmap_field     *field_ddc_sda_en;
+>         struct regmap_field     *field_ddc_sck_en;
+>
+> +
+>         struct sun4i_drv        *drv;
+>
+>         bool                    hdmi_monitor;
+> +       bool                    hdmi_audio;
+> +
+> +       struct sun4i_hdmi_audio audio;
+> +
+>         struct cec_adapter      *cec_adap;
+>
+>         const struct sun4i_hdmi_variant *variant;
+> @@ -294,5 +329,7 @@ struct sun4i_hdmi {
+>  int sun4i_ddc_create(struct sun4i_hdmi *hdmi, struct clk *clk);
+>  int sun4i_tmds_create(struct sun4i_hdmi *hdmi);
+>  int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi);
+> +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi);
+> +void sun4i_hdmi_audio_destroy(struct sun4i_hdmi *hdmi);
+>
+>  #endif /* _SUN4I_HDMI_H_ */
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+> new file mode 100644
+> index 000000000000..f42f2cea4e9e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+> @@ -0,0 +1,450 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2020 Olimex Ltd.
+> + *   Author: Stefan Mavrodiev <stefan@olimex.com>
+> + */
+> +#include <linux/dma-mapping.h>
+> +#include <linux/dmaengine.h>
+> +#include <linux/module.h>
+> +#include <linux/of_dma.h>
+> +#include <linux/regmap.h>
+> +
+> +#include <drm/drm_print.h>
+> +
+> +#include <sound/dmaengine_pcm.h>
+> +#include <sound/pcm_drm_eld.h>
+> +#include <sound/pcm_params.h>
+> +#include <sound/soc.h>
+> +
+> +#include "sun4i_hdmi.h"
+> +
+> +static int sun4i_hdmi_audio_ctl_eld_info(struct snd_kcontrol *kcontrol,
+> +                                        struct snd_ctl_elem_info *uinfo)
+> +{
+> +       uinfo->type = SNDRV_CTL_ELEM_TYPE_BYTES;
+> +       uinfo->count = MAX_ELD_BYTES;
+> +       return 0;
+> +}
+> +
+> +static int sun4i_hdmi_audio_ctl_eld_get(struct snd_kcontrol *kcontrol,
+> +                                       struct snd_ctl_elem_value *ucontrol)
+> +{
+> +       struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+> +       struct snd_soc_card *card = snd_soc_component_get_drvdata(component);
+> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+> +
+> +       memcpy(ucontrol->value.bytes.data,
+> +              hdmi->connector.eld,
+> +              MAX_ELD_BYTES);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct snd_kcontrol_new sun4i_hdmi_audio_controls[] = {
+> +       {
+> +               .access = SNDRV_CTL_ELEM_ACCESS_READ |
+> +                         SNDRV_CTL_ELEM_ACCESS_VOLATILE,
+> +               .iface = SNDRV_CTL_ELEM_IFACE_PCM,
+> +               .name = "ELD",
+> +               .info = sun4i_hdmi_audio_ctl_eld_info,
+> +               .get = sun4i_hdmi_audio_ctl_eld_get,
+> +       },
+> +};
+> +
+> +static const struct snd_soc_dapm_widget sun4i_hdmi_audio_widgets[] = {
+> +       SND_SOC_DAPM_OUTPUT("TX"),
+> +};
+> +
+> +static const struct snd_soc_dapm_route sun4i_hdmi_audio_routes[] = {
+> +       { "TX", NULL, "Playback" },
+> +};
+> +
+> +static const struct snd_soc_component_driver sun4i_hdmi_audio_component = {
+> +       .controls               = sun4i_hdmi_audio_controls,
+> +       .num_controls           = ARRAY_SIZE(sun4i_hdmi_audio_controls),
+> +       .dapm_widgets           = sun4i_hdmi_audio_widgets,
+> +       .num_dapm_widgets       = ARRAY_SIZE(sun4i_hdmi_audio_widgets),
+> +       .dapm_routes            = sun4i_hdmi_audio_routes,
+> +       .num_dapm_routes        = ARRAY_SIZE(sun4i_hdmi_audio_routes),
+> +};
+> +
+> +static int sun4i_hdmi_audio_startup(struct snd_pcm_substream *substream,
+> +                                   struct snd_soc_dai *dai)
+> +{
+> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
+> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+> +       u32 reg;
+> +       int ret;
+> +
+> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_CTRL_REG, 0);
+> +       regmap_write(hdmi->regmap,
+> +                    SUN4I_HDMI_AUDIO_CTRL_REG,
+> +                    SUN4I_HDMI_AUDIO_CTRL_RESET);
+> +       ret = regmap_read_poll_timeout(hdmi->regmap,
+> +                                      SUN4I_HDMI_AUDIO_CTRL_REG,
+> +                                      reg, !reg, 100, 50000);
+> +       if (ret < 0) {
+> +               DRM_ERROR("Failed to reset HDMI Audio\n");
+> +               return ret;
+> +       }
+> +
+> +       regmap_write(hdmi->regmap,
+> +                    SUN4I_HDMI_AUDIO_CTRL_REG,
+> +                    SUN4I_HDMI_AUDIO_CTRL_ENABLE);
+> +
+> +       return snd_pcm_hw_constraint_eld(substream->runtime,
+> +                                       hdmi->connector.eld);
+> +}
+> +
+> +static void sun4i_hdmi_audio_shutdown(struct snd_pcm_substream *substream,
+> +                                     struct snd_soc_dai *dai)
+> +{
+> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
+> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+> +
+> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_CTRL_REG, 0);
+> +}
+> +
+> +static int sun4i_hdmi_setup_audio_infoframes(struct sun4i_hdmi *hdmi)
+> +{
+> +       union hdmi_infoframe frame;
+> +       u8 buffer[14];
+> +       int i, ret;
+> +
+> +       ret = hdmi_audio_infoframe_init(&frame.audio);
+> +       if (ret < 0) {
+> +               DRM_ERROR("Failed to init HDMI audio infoframe\n");
+> +               return ret;
+> +       }
+> +
+> +       frame.audio.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
+> +       frame.audio.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
+> +       frame.audio.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
+> +       frame.audio.channels = hdmi->audio.channels;
+> +
+> +       ret = hdmi_infoframe_pack(&frame, buffer, sizeof(buffer));
+> +       if (ret < 0) {
+> +               DRM_ERROR("Failed to pack HDMI audio infoframe\n");
+> +               return ret;
+> +       }
+> +
+> +       for (i = 0; i < sizeof(buffer); i++)
+> +               writeb(buffer[i],
+> +                      hdmi->base + SUN4I_HDMI_AUDIO_INFOFRAME_REG(i));
+> +
+> +       return 0;
+> +}
+> +
+> +static void sun4i_hdmi_audio_set_cts_n(struct sun4i_hdmi *hdmi,
+> +                                      struct snd_pcm_hw_params *params)
+> +{
+> +       struct drm_encoder *encoder = &hdmi->encoder;
+> +       struct drm_crtc *crtc = encoder->crtc;
+> +       const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+> +       u32 rate = params_rate(params);
+> +       u32 n, cts;
+> +       u64 tmp;
+> +
+> +       /**
+> +        * Calculate Cycle Time Stamp (CTS) and Numerator (N):
+> +        *
+> +        * N = 128 * Samplerate / 1000
+> +        * CTS = (Ftdms * N) / (128 * Samplerate)
+> +        */
+> +
+> +       n = 128 * rate / 1000;
+> +       tmp = (u64)(mode->clock * 1000) * n;
+> +       do_div(tmp, 128 * rate);
+> +       cts = tmp;
+> +
+> +       regmap_write(hdmi->regmap,
+> +                    SUN4I_HDMI_AUDIO_CTS_REG,
+> +                    SUN4I_HDMI_AUDIO_CTS(cts));
+> +
+> +       regmap_write(hdmi->regmap,
+> +                    SUN4I_HDMI_AUDIO_N_REG,
+> +                    SUN4I_HDMI_AUDIO_N(n));
+> +}
+> +
+> +static int sun4i_hdmi_audio_set_hw_rate(struct sun4i_hdmi *hdmi,
+> +                                       struct snd_pcm_hw_params *params)
+> +{
+> +       u32 rate = params_rate(params);
+> +       u32 val;
+> +
+> +       switch (rate) {
+> +       case 44100:
+> +               val = 0x0;
+> +               break;
+> +       case 48000:
+> +               val = 0x2;
+> +               break;
+> +       case 32000:
+> +               val = 0x3;
+> +               break;
+> +       case 88200:
+> +               val = 0x8;
+> +               break;
+> +       case 96000:
+> +               val = 0x9;
+> +               break;
+> +       case 176400:
+> +               val = 0xc;
+> +               break;
+> +       case 192000:
+> +               val = 0xe;
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       regmap_update_bits(hdmi->regmap,
+> +                          SUN4I_HDMI_AUDIO_STAT0_REG,
+> +                          SUN4I_HDMI_AUDIO_STAT0_FREQ_MASK,
+> +                          SUN4I_HDMI_AUDIO_STAT0_FREQ(val));
+> +
+> +       return 0;
+> +}
+> +
+> +static int sun4i_hdmi_audio_set_hw_channels(struct sun4i_hdmi *hdmi,
+> +                                           struct snd_pcm_hw_params *params)
+> +{
+> +       u32 channels = params_channels(params);
+> +
+> +       if (channels > 8)
+> +               return -EINVAL;
+> +
+> +       hdmi->audio.channels = channels;
+> +
+> +       regmap_update_bits(hdmi->regmap,
+> +                          SUN4I_HDMI_AUDIO_FMT_REG,
+> +                          SUN4I_HDMI_AUDIO_FMT_LAYOUT,
+> +                          (channels > 2) ? SUN4I_HDMI_AUDIO_FMT_LAYOUT : 0);
+> +
+> +       regmap_update_bits(hdmi->regmap,
+> +                          SUN4I_HDMI_AUDIO_FMT_REG,
+> +                          SUN4I_HDMI_AUDIO_FMT_CH_CFG_MASK,
+> +                          SUN4I_HDMI_AUDIO_FMT_CH_CFG(channels));
+> +
+> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_PCM_REG, 0x76543210);
+> +
+> +       /**
+> +        * If only one channel is required, send the same sample
+> +        * to the sink device as a left and right channel.
+> +        */
+> +       if (channels == 1)
+> +               regmap_update_bits(hdmi->regmap,
+> +                                  SUN4I_HDMI_AUDIO_PCM_REG,
+> +                                  SUN4I_HDMI_AUDIO_PCM_CH_MAP_MASK(1),
+> +                                  SUN4I_HDMI_AUDIO_PCM_CH_MAP(1, 1));
+> +
+> +       return 0;
+> +}
+> +
+> +static int sun4i_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+> +                                     struct snd_pcm_hw_params *params,
+> +                                     struct snd_soc_dai *dai)
+> +{
+> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
+> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+> +       int ret;
+> +
+> +       ret = sun4i_hdmi_audio_set_hw_rate(hdmi, params);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       ret = sun4i_hdmi_audio_set_hw_channels(hdmi, params);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       sun4i_hdmi_audio_set_cts_n(hdmi, params);
+> +
+> +       return 0;
+> +}
+> +
+> +static int sun4i_hdmi_audio_trigger(struct snd_pcm_substream *substream,
+> +                                   int cmd,
+> +                                   struct snd_soc_dai *dai)
+> +{
+> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
+> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+> +       int ret = 0;
+> +
+> +       switch (cmd) {
+> +       case SNDRV_PCM_TRIGGER_START:
+> +               ret = sun4i_hdmi_setup_audio_infoframes(hdmi);
+> +               break;
+> +       default:
+> +               break;
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+> +static const struct snd_soc_dai_ops sun4i_hdmi_audio_dai_ops = {
+> +       .startup = sun4i_hdmi_audio_startup,
+> +       .shutdown = sun4i_hdmi_audio_shutdown,
+> +       .hw_params = sun4i_hdmi_audio_hw_params,
+> +       .trigger = sun4i_hdmi_audio_trigger,
+> +};
+> +
+> +static int sun4i_hdmi_audio_dai_probe(struct snd_soc_dai *dai)
+> +{
+> +       struct snd_dmaengine_dai_dma_data *dma_data;
+> +
+> +       dma_data = devm_kzalloc(dai->dev, sizeof(*dma_data), GFP_KERNEL);
+> +       if (!dma_data)
+> +               return -ENOMEM;
+> +
+> +       dma_data->addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+> +       dma_data->maxburst = 8;
+> +
+> +       snd_soc_dai_init_dma_data(dai, dma_data, NULL);
+> +
+> +       return 0;
+> +}
+> +
+> +static struct snd_soc_dai_driver sun4i_hdmi_audio_dai = {
+> +       .name = "HDMI",
+> +       .ops = &sun4i_hdmi_audio_dai_ops,
+> +       .probe = sun4i_hdmi_audio_dai_probe,
+> +       .playback = {
+> +               .stream_name    = "Playback",
+> +               .channels_min   = 1,
+> +               .channels_max   = 8,
+> +               .formats        = SNDRV_PCM_FMTBIT_S16_LE,
+> +               .rates          = SNDRV_PCM_RATE_8000_192000,
+> +       },
+> +};
+> +
+> +static const struct snd_pcm_hardware sun4i_hdmi_audio_pcm_hardware = {
+> +       .info                   = SNDRV_PCM_INFO_INTERLEAVED |
+> +                                 SNDRV_PCM_INFO_BLOCK_TRANSFER |
+> +                                 SNDRV_PCM_INFO_MMAP |
+> +                                 SNDRV_PCM_INFO_MMAP_VALID |
+> +                                 SNDRV_PCM_INFO_PAUSE |
+> +                                 SNDRV_PCM_INFO_RESUME,
+> +       .formats                = SNDRV_PCM_FMTBIT_S16_LE,
+> +       .rates                  = SNDRV_PCM_RATE_8000_192000,
+> +       .rate_min               = 8000,
+> +       .rate_max               = 192000,
+> +       .channels_min           = 1,
+> +       .channels_max           = 8,
+> +       .buffer_bytes_max       = 128 * 1024,
+> +       .period_bytes_min       = 4 * 1024,
+> +       .period_bytes_max       = 32 * 1024,
+> +       .periods_min            = 2,
+> +       .periods_max            = 8,
+> +       .fifo_size              = 128,
+> +};
+> +
+> +static const struct snd_dmaengine_pcm_config sun4i_hdmi_audio_pcm_config = {
+> +       .chan_names[SNDRV_PCM_STREAM_PLAYBACK] = "audio-tx",
+> +       .pcm_hardware = &sun4i_hdmi_audio_pcm_hardware,
+> +       .prealloc_buffer_size = 128 * 1024,
+> +       .prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
+> +};
+> +
+> +struct snd_soc_card sun4i_hdmi_audio_card = {
+> +       .name = "sun4i-hdmi",
+> +};
+> +
+> +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi)
+> +{
+> +       struct snd_soc_card *card = &sun4i_hdmi_audio_card;
+> +       struct snd_soc_dai_link_component *comp;
+> +       struct snd_soc_dai_link *link;
+> +       int ret;
+> +
+> +       ret = snd_dmaengine_pcm_register(hdmi->dev,
+> +                                        &sun4i_hdmi_audio_pcm_config, 0);
+> +       if (ret < 0) {
+> +               DRM_ERROR("Could not register PCM\n");
+> +               return ret;
+> +       }
+> +
+> +       ret = snd_soc_register_component(hdmi->dev,
+> +                                        &sun4i_hdmi_audio_component,
+> +                                        &sun4i_hdmi_audio_dai, 1);
+> +       if (ret < 0) {
+> +               DRM_ERROR("Could not register DAI\n");
+> +               goto unregister_pcm;
+> +       }
+> +
+> +       link = devm_kzalloc(hdmi->dev, sizeof(*link), GFP_KERNEL);
+> +       if (!link) {
+> +               ret = -ENOMEM;
+> +               goto unregister_component;
+> +       }
+> +
+> +       comp = devm_kzalloc(hdmi->dev, sizeof(*comp) * 3, GFP_KERNEL);
+> +       if (!comp) {
+> +               ret = -ENOMEM;
+> +               goto unregister_component;
+> +       }
+> +
+> +       link->cpus = &comp[0];
+> +       link->codecs = &comp[1];
+> +       link->platforms = &comp[2];
+> +
+> +       link->num_cpus = 1;
+> +       link->num_codecs = 1;
+> +       link->num_platforms = 1;
+> +
+> +       link->playback_only = 1;
+> +
+> +       link->name = "SUN4I-HDMI";
+> +       link->stream_name = "SUN4I-HDMI PCM";
+> +
+> +       link->codecs->name = dev_name(hdmi->dev);
+> +       link->codecs->dai_name  = sun4i_hdmi_audio_dai.name;
+> +
+> +       link->cpus->dai_name = dev_name(hdmi->dev);
+> +
+> +       link->platforms->name = dev_name(hdmi->dev);
+> +
+> +       link->dai_fmt = SND_SOC_DAIFMT_I2S;
+> +
+> +       card->dai_link = link;
+> +       card->num_links = 1;
+> +       card->dev = hdmi->dev;
+> +
+> +       hdmi->audio.card = card;
+> +
+> +       /**
+> +        * snd_soc_register_card() will overwrite the driver_data pointer.
+> +        * So before registering the card, store the original pointer in
+> +        * card->drvdata.
+> +        */
+> +       snd_soc_card_set_drvdata(card, hdmi);
+> +       ret = snd_soc_register_card(card);
+> +       if (ret)
+> +               goto unregister_component;
+
+So using ASoC with all the components IMHO is just adding dead weight. The
+audio interface for this particular hardware is just a FIFO that needs to
+be written to by an external DMA engine, and a bunch of controls to setup
+the parameters of the HDMI audio stream. There's no power sequencing to do,
+and no actual individual components to control. There's no reason you couldn't
+use just the ALSA DMAENGINE helpers to create a simple ALSA sound card.
+
+(Maybe we could clean it up after it's merged? Would there be any issues
+ with backward compatibility?)
+
+I think the only example of this besides ASoC is the PXA2xx sound library
+and AC97 driver:
+
+  - sound/arm/pxa2xx-pcm-lib.c
+  - sound/arm/pxa2xx-ac97.c
+
+Regards
+ChenYu
+
+
+
+> +
+> +       return 0;
+> +
+> +unregister_component:
+> +       snd_soc_unregister_component(hdmi->dev);
+> +unregister_pcm:
+> +       snd_dmaengine_pcm_unregister(hdmi->dev);
+> +       return ret;
+> +}
+> +
+> +void sun4i_hdmi_audio_destroy(struct sun4i_hdmi *hdmi)
+> +{
+> +       struct snd_soc_card *card = hdmi->audio.card;
+> +       void *data;
+> +
+> +       /**
+> +        * Before removing the card, restore the previously stored driver_data.
+> +        * This will ensure proper removal of the sun4i-hdmi module, since it
+> +        * uses dev_get_drvdata() in the unbind function.
+> +        */
+> +       data = snd_soc_card_get_drvdata(card);
+> +
+> +       snd_soc_unregister_card(card);
+> +       snd_soc_unregister_component(hdmi->dev);
+> +       snd_dmaengine_pcm_unregister(hdmi->dev);
+> +
+> +       dev_set_drvdata(hdmi->dev, data);
+> +}
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> index 68d4644ac2dc..4cd35c97c503 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> @@ -23,6 +23,8 @@
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+>
+> +#include <sound/soc.h>
+> +
+>  #include "sun4i_backend.h"
+>  #include "sun4i_crtc.h"
+>  #include "sun4i_drv.h"
+> @@ -87,6 +89,10 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder)
+>
+>         DRM_DEBUG_DRIVER("Disabling the HDMI Output\n");
+>
+> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+> +       sun4i_hdmi_audio_destroy(hdmi);
+> +#endif
+> +
+>         val = readl(hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+>         val &= ~SUN4I_HDMI_VID_CTRL_ENABLE;
+>         writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+> @@ -114,6 +120,11 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+>                 val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
+>
+>         writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+> +
+> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+> +       if (hdmi->hdmi_audio && sun4i_hdmi_audio_create(hdmi))
+> +               DRM_ERROR("Couldn't create the HDMI audio adapter\n");
+> +#endif
+>  }
+>
+>  static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
+> @@ -218,6 +229,9 @@ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+>         if (!edid)
+>                 return 0;
+>
+> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+> +       hdmi->hdmi_audio = drm_detect_monitor_audio(edid);
+> +#endif
+>         hdmi->hdmi_monitor = drm_detect_hdmi_monitor(edid);
+>         DRM_DEBUG_DRIVER("Monitor is %s monitor\n",
+>                          hdmi->hdmi_monitor ? "an HDMI" : "a DVI");
+> --
+> 2.17.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
+> To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/20200128140642.8404-2-stefan%40olimex.com.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
