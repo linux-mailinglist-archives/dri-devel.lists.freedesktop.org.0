@@ -1,46 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC3714D7AC
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 09:33:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D46314D7B2
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 09:33:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874966F90C;
-	Thu, 30 Jan 2020 08:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94AFB6F8F6;
+	Thu, 30 Jan 2020 08:32:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 723906E3EE
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 16:06:15 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id i8so10903922ioi.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 08:06:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=fEUlUjM8SEojeOk6pwtcSTQDu8D7nALBWF21TUkUjFQ=;
- b=MNaIeR/q8O9yGTPYKZ337GNPPAmJ/e8D5sYr0wDwCq4w73z35ZgN8MgG+lfr0qtOGR
- PBallbjPuBv4fG2H0+z+3xGgP/X25ggXXx26tW1+hzznXOHH7P5noi8ROlZWrP6jzTln
- Oxsftnf8pXAqChkK9A2Ri8cJpSAljm7uT5cmA0i2JiN8bNR1ydZ1duiDfcdPvtzKK9y8
- /smUs1jJ1R56HVjUjFmlaZKOu8BApuiETpt9Bs0d0SdAQ50IC/mgqllUG95cJuP5zNS6
- 7Itj9RWPhhUt30WUP4Xy5YBjvsI9eXbyQ0u7p24KLyo90MHiVVGMDxqn9ZxvY1rklf2M
- X5KQ==
-X-Gm-Message-State: APjAAAWi3omTtn2JBFlHgrB6PgXEYAAK6L1pltJngrC15M921rto9s8E
- yP12rHX7/J/rPQT2re1xRCt0mUIJmwLP/97xhnuAlUtDgqST
-X-Google-Smtp-Source: APXvYqxRd2se19n9AMGBF0tsd+V/QMOOXynWF3G0Gosz8cItmjCbMWlTR4gOeDt0e9z2keIjwUnyAv5NoJ294QR5X7nnb81NTilm
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C430B6F5DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 16:43:28 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id E8A8073A;
+ Wed, 29 Jan 2020 11:43:24 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 29 Jan 2020 11:43:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=wVzq7A1mRlnA44nVMIvtmOwiqIc
+ +jpFRZC1MsfkyksU=; b=VthOtP0DvyThBwtvX6HaFcbEMTcSArV4Azqiv8KpPlD
+ 50QKi/8mlb2CCFnvsKBl1sLQYzejzFwOzg53M+fo3tndBhFTG58xStEyKTu5FCQH
+ mrP+vFew0q+304HhwRf0hZaS9IXsnKVsMnEkg+eslmhGPeaVvL7wqq97VYtBHXmI
+ KIfDEuglk2ZvNRcNnwynNy/NqfNgnheN5TnuZpOM87ZUvQqZo1irT+suVx/d+t0i
+ N+FxgG7oOmHW4cwAFub2wg+GNxf/2gzKrOGPvcaLzT1X7Iq41LimQJeYz8m6ab2S
+ iQBARgG9hJUbfIgdstm7Z06X+CxVGUbSafW4dHCgVdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=wVzq7A
+ 1mRlnA44nVMIvtmOwiqIc+jpFRZC1MsfkyksU=; b=qqytq1Yf31pUWzGdkKoti4
+ Ov3jOUxIbpFlDCoJapv/9+GsHth0RMKmc34TB1zE7RjKgDm/7LU4puM630p0rC+R
+ fZqoXn+0hZvktfbhzDeYJUx3Pm4NdiBkXzQjI7UVQZEgzbytALwfyseOxZ4+zRkz
+ 5PwdhI56hqtwD/qh9kXtSCjJTc8vr9L1a3BEgKltoKa6THTNijP2kPDV9uMIe5NQ
+ rJUt6RwxGeamRrJZaKDfPZDY8pwZ2S34YUoeGhLJgqddlcuAfhDUglC2CjMtymRZ
+ WmQXUOjbUiSBtSBwcv+HqxyQ0KW9AYf/32c+fcCe4gv+286by/b9XkcmLzn6KXoQ
+ ==
+X-ME-Sender: <xms:K7YxXpQ7Fze2-w6LiBtLU5-rg0hFUh_yVGdqBeHSCuUHfvTHxe5ItQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrfeeigdeltdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:K7YxXu0G2pW7Q-Z_7L5EJQ3Q_0-F2HSRt6rp7LaCQhz4QDAXlnBWzw>
+ <xmx:K7YxXqLW-PGmXsZzP9x85jXy1zifo0OFbY9yelJS6McPDnZfkm_B9g>
+ <xmx:K7YxXv9LjfUa8O82HPWK5BxXQzDbVlBIdpO3RSUDz2xJ1mv6XzZyrQ>
+ <xmx:LLYxXtRhIUP1D-BmKu7jflKrRsEL2xZ8SJ-oVgX_bjJt6KBChsgFJg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7C10B3060B27;
+ Wed, 29 Jan 2020 11:43:23 -0500 (EST)
+Date: Wed, 29 Jan 2020 17:43:21 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stefan Mavrodiev <stefan@olimex.com>
+Subject: Re: [PATCH v3 1/1] drm: sun4i: hdmi: Add support for sun4i HDMI
+ encoder audio
+Message-ID: <20200129164321.34mornbi3xvx5dys@gilmour.lan>
+References: <20200128140642.8404-1-stefan@olimex.com>
+ <20200128140642.8404-2-stefan@olimex.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:914a:: with SMTP id t71mr26674745ild.293.1580313974646; 
- Wed, 29 Jan 2020 08:06:14 -0800 (PST)
-Date: Wed, 29 Jan 2020 08:06:14 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000017ad0d059d498531@google.com>
-Subject: memory leak in snd_pcm_hw_params
-From: syzbot <syzbot+30edd0f34bfcdc548ac4@syzkaller.appspotmail.com>
-To: alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, perex@perex.cz, sumit.semwal@linaro.org, 
- syzkaller-bugs@googlegroups.com, tglx@linutronix.de, tiwai@suse.com
+Content-Disposition: inline
+In-Reply-To: <20200128140642.8404-2-stefan@olimex.com>
 X-Mailman-Approved-At: Thu, 30 Jan 2020 08:32:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,73 +78,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Chen-Yu Tsai <wens@csie.org>,
+ "moderated list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hi,
 
-syzbot found the following crash on:
+On Tue, Jan 28, 2020 at 04:06:42PM +0200, Stefan Mavrodiev wrote:
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> index 68d4644ac2dc..4cd35c97c503 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> @@ -23,6 +23,8 @@
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+>
+> +#include <sound/soc.h>
+> +
+>  #include "sun4i_backend.h"
+>  #include "sun4i_crtc.h"
+>  #include "sun4i_drv.h"
+> @@ -87,6 +89,10 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder)
+>
+>  	DRM_DEBUG_DRIVER("Disabling the HDMI Output\n");
+>
+> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+> +	sun4i_hdmi_audio_destroy(hdmi);
+> +#endif
+> +
+>  	val = readl(hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+>  	val &= ~SUN4I_HDMI_VID_CTRL_ENABLE;
+>  	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+> @@ -114,6 +120,11 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+>  		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
+>
+>  	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+> +
+> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+> +	if (hdmi->hdmi_audio && sun4i_hdmi_audio_create(hdmi))
+> +		DRM_ERROR("Couldn't create the HDMI audio adapter\n");
+> +#endif
 
-HEAD commit:    b3a60822 Merge branch 'for-v5.6' of git://git.kernel.org:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1351cf66e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e97a1bc78afb77f
-dashboard link: https://syzkaller.appspot.com/bug?extid=30edd0f34bfcdc548ac4
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14e97735e00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13cd9bc9e00000
+I really don't think we should be creating / removing the audio card
+at enable / disable time.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+30edd0f34bfcdc548ac4@syzkaller.appspotmail.com
+To fix the drvdata pointer, you just need to use the card pointer in
+the unbind, and that's it.
 
-executing program
-executing program
-executing program
-BUG: memory leak
-unreferenced object 0xffff888108fdefc0 (size 64):
-  comm "syz-executor222", pid 7310, jiffies 4294946025 (age 13.660s)
-  hex dump (first 32 bytes):
-    07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 10 33 02 00 c9 ff ff 00 00 00 00 00 00 00 00  ..3.............
-  backtrace:
-    [<00000000c59c6b0c>] kmemleak_alloc_recursive include/linux/kmemleak.h:43 [inline]
-    [<00000000c59c6b0c>] slab_post_alloc_hook mm/slab.h:586 [inline]
-    [<00000000c59c6b0c>] slab_alloc mm/slab.c:3320 [inline]
-    [<00000000c59c6b0c>] kmem_cache_alloc_trace+0x145/0x2c0 mm/slab.c:3549
-    [<00000000478172ce>] kmalloc include/linux/slab.h:556 [inline]
-    [<00000000478172ce>] kzalloc include/linux/slab.h:670 [inline]
-    [<00000000478172ce>] snd_pcm_lib_malloc_pages+0x12b/0x200 sound/core/pcm_memory.c:404
-    [<0000000091532e16>] snd_pcm_hw_params+0x720/0x830 sound/core/pcm_native.c:691
-    [<000000002070a986>] snd_pcm_kernel_ioctl+0xb5/0x170 sound/core/pcm_native.c:3238
-    [<00000000394e99f4>] snd_pcm_oss_change_params_locked+0x745/0x1140 sound/core/oss/pcm_oss.c:944
-    [<00000000c81f42ac>] snd_pcm_oss_change_params+0x43/0x80 sound/core/oss/pcm_oss.c:1087
-    [<000000007710a1c0>] snd_pcm_oss_make_ready+0x55/0xc0 sound/core/oss/pcm_oss.c:1146
-    [<0000000069305204>] snd_pcm_oss_sync.isra.0+0xb8/0x310 sound/core/oss/pcm_oss.c:1707
-    [<00000000692460c8>] snd_pcm_oss_release+0xef/0x100 sound/core/oss/pcm_oss.c:2545
-    [<0000000013ba02c9>] __fput+0xed/0x300 fs/file_table.c:280
-    [<0000000080810f18>] ____fput+0x16/0x20 fs/file_table.c:313
-    [<00000000e6bb3aa6>] task_work_run+0x9d/0xc0 kernel/task_work.c:113
-    [<00000000b6ce71eb>] exit_task_work include/linux/task_work.h:22 [inline]
-    [<00000000b6ce71eb>] do_exit+0x3fa/0xe20 kernel/exit.c:801
-    [<0000000045ce7ad3>] do_group_exit+0x4b/0xe0 kernel/exit.c:899
-    [<00000000aeb85903>] __do_sys_exit_group kernel/exit.c:910 [inline]
-    [<00000000aeb85903>] __se_sys_exit_group kernel/exit.c:908 [inline]
-    [<00000000aeb85903>] __x64_sys_exit_group+0x1c/0x20 kernel/exit.c:908
-    [<000000008b12db16>] do_syscall_64+0x73/0x220 arch/x86/entry/common.c:294
-
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Maxime
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
