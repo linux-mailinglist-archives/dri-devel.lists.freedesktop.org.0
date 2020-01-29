@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF9214CAF3
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 13:43:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281B814CB0C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 14:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDF616E359;
-	Wed, 29 Jan 2020 12:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3603F6F537;
+	Wed, 29 Jan 2020 13:03:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FCFA6E359
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 12:43:52 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id q84so1936402oic.4
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 04:43:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zaoeqK2tkWBBzDJVSPwr6fTwHXbtXRL5lX91SiPOUyo=;
- b=Odt9/y8JEUqQNj65jImSbjC2xJiT4uOe8+hRySfaybeB7E67mjUKwB97/rea/EmOBO
- +YEGh1gUznQ8ClEuwreqO1d/GPQpXkkq+PBMJ0wTJoL/SrPcX8QNSUljZ3fTYD35AWHE
- Y0i8Cp1301qQ4bBDtzzekyqo3GIw6+bcFdcqY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zaoeqK2tkWBBzDJVSPwr6fTwHXbtXRL5lX91SiPOUyo=;
- b=JxxnIF2GNx2GxehmLAQl7FmJ3KNY1pG+RjKKUIWdEzwfHY+ub4RF1918lTrx7l/kA0
- kMp0H7ezH+6sEmmhQzYkvvngFkR/Hwb/uqxDsiHMMukz1dP5U+icjb0YzoTekchq5X/o
- 5UMp8UC83L5XPuut1hbJZ1sMvQfMY/cNQm8IsHNvtuQel5U5Ga+xrE6vW+H3GfgqUsj+
- PmWbeAPHJ9hxQYTFdc7gXsJ74Zks6OQ69apmXfAmefOVHte144XkIi0JUH4Zh4PKBRQE
- kQ4cCHDRra+JBqni+mLbZIVfDkkXWBNOqI+6C+jYKZuJwKJM8lhvm4rFmmEDt0BHHOty
- LR1w==
-X-Gm-Message-State: APjAAAV69xase6JVYi9NspJWG9ajpfCImdqRJB2XMyWHawg+kU3DA3uq
- R+N1yEp0Vjh8B7kP9xItBzE3j2e/J0IgadtqcKruDw==
-X-Google-Smtp-Source: APXvYqzNBhbEUGg4cBII0Bcv8pd6yfsE0boeI/U9WC3/7lRs1w/KWz2Uv7qasCeu9p8kh1fkAA2Co4cFyctKkR619y4=
-X-Received: by 2002:aca:af09:: with SMTP id y9mr5880331oie.101.1580301831349; 
- Wed, 29 Jan 2020 04:43:51 -0800 (PST)
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA876F4AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 08:55:25 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1580288126; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=m1aJ2Qp8X5dBwtzaU0ERZTgZJkpnmU03rRacyFrY9dI=;
+ b=EKeIdXiRssKjwnUmIcrFxx2QTFH2kBa43PEHOXFvVLAODnff1hjPjnfDxyI7njT3BChWMlHk
+ 8/d3o5Ww+4xVy09KEYQQmhTUJckzN3TMCYrrRLokur3Cwq5e+e7NmD0Z+E26JpjAQEHPcviH
+ 1YyZpPvKyv4fWCiHmThkBvnQ5AY=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e31487b.7f8880663378-smtp-out-n03;
+ Wed, 29 Jan 2020 08:55:23 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4AF5AC447A1; Wed, 29 Jan 2020 08:55:23 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: harigovi)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 756B2C433CB;
+ Wed, 29 Jan 2020 08:55:22 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200129123112.11989-1-tzimmermann@suse.de>
-In-Reply-To: <20200129123112.11989-1-tzimmermann@suse.de>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 29 Jan 2020 13:43:40 +0100
-Message-ID: <CAKMK7uFrcKNzmgPM6XdP7q3tbRzX9Cq6N652abe1VAK_mNT8=w@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/ast: Allocate initial CRTC state of the
- correct size
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Wed, 29 Jan 2020 14:25:22 +0530
+From: harigovi@codeaurora.org
+To: Matthias Kaehlcke <mka@chromium.org>
+Subject: Re: [v4] arm64: dts: sc7180: add display dt nodes
+In-Reply-To: <20200128203222.GD46072@google.com>
+References: <1580217884-21932-1-git-send-email-harigovi@codeaurora.org>
+ <20200128203222.GD46072@google.com>
+Message-ID: <e9b02cfe89db7b8624bdce56c3f9ceef@codeaurora.org>
+X-Sender: harigovi@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+X-Mailman-Approved-At: Wed, 29 Jan 2020 13:03:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,106 +63,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, sschricker@suse.de,
- Gerd Hoffmann <kraxel@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org,
+ freedreno@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKYW4gMjksIDIwMjAgYXQgMTozMSBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBUaGUgYXN0IGRyaXZlciBpbmhlcml0cyBmcm9tIERS
-TSdzIENSVEMgc3RhdGUsIGJ1dCBzdGlsbCB1c2VzIHRoZSBhdG9taWMKPiBoZWxwZXIgZm9yIHN0
-cnVjdCBkcm1fY3J0Y19mdW5jcy5yZXNldCwgZHJtX2F0b21pY19oZWxwZXJfY3J0Y19yZXNldCgp
-Lgo+Cj4gVGhlIGhlbHBlciBvbmx5IGFsbG9jYXRlcyBlbm91Z2ggbWVtb3J5IGZvciB0aGUgY29y
-ZSBDUlRDIHN0YXRlLiBUaGF0Cj4gcmVzdWx0cyBpbiBhbiBvdXQtb3VmLWJvdW5kcyBhY2Nlc3Mg
-d2hlbiBkdXBsaWNhdGluZyB0aGUgaW5pdGlhbCBDUlRDCj4gc3RhdGUuIFNpbXBsaWZpZWQgYmFj
-a3RyYWNlIHNob3duIGJlbG93Ogo+Cj4gWyAgIDIxLjQ2OTMyMV0gPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4gWyAgIDIx
-LjQ2OTQzNF0gQlVHOiBLQVNBTjogc2xhYi1vdXQtb2YtYm91bmRzIGluIGFzdF9jcnRjX2F0b21p
-Y19kdXBsaWNhdGVfc3RhdGUrMHg4NC8weDEwMCBbYXN0XQo+IFsgICAyMS40Njk0NDVdIFJlYWQg
-b2Ygc2l6ZSA4IGF0IGFkZHIgZmZmZjg4ODAzNmMxYzVmOCBieSB0YXNrIHN5c3RlbWQtdWRldmQv
-MzgyCj4gWyAgIDIxLjQ2OTQ1MV0KPiBbICAgMjEuNDY5NDY0XSBDUFU6IDIgUElEOiAzODIgQ29t
-bTogc3lzdGVtZC11ZGV2ZCBUYWludGVkOiBHICAgICAgICAgICAgRSAgICAgNS41LjAtcmM2LTEt
-ZGVmYXVsdCsgIzIxNAo+IFsgICAyMS40Njk0NzNdIEhhcmR3YXJlIG5hbWU6IFN1biBNaWNyb3N5
-c3RlbXMgU1VOIEZJUkUgWDIyNzAgTTIvU1VOIEZJUkUgWDIyNzAgTTIsIEJJT1MgMi4wNSAgICAw
-Ny8wMS8yMDEwCj4gWyAgIDIxLjQ2OTQ4MF0gQ2FsbCBUcmFjZToKPiBbICAgMjEuNDY5NTAxXSAg
-ZHVtcF9zdGFjaysweGI4LzB4MTEwCj4gWyAgIDIxLjQ2OTUyOF0gIHByaW50X2FkZHJlc3NfZGVz
-Y3JpcHRpb24uY29uc3Rwcm9wLjArMHgxYi8weDFlMAo+IFsgICAyMS40Njk1NTddICA/IGFzdF9j
-cnRjX2F0b21pY19kdXBsaWNhdGVfc3RhdGUrMHg4NC8weDEwMCBbYXN0XQo+IFsgICAyMS40Njk1
-ODFdICA/IGFzdF9jcnRjX2F0b21pY19kdXBsaWNhdGVfc3RhdGUrMHg4NC8weDEwMCBbYXN0XQo+
-IFsgICAyMS40Njk1OTddICBfX2thc2FuX3JlcG9ydC5jb2xkKzB4MWEvMHgzNQo+IFsgICAyMS40
-Njk2NDBdICA/IGFzdF9jcnRjX2F0b21pY19kdXBsaWNhdGVfc3RhdGUrMHg4NC8weDEwMCBbYXN0
-XQo+IFsgICAyMS40Njk2NjVdICBrYXNhbl9yZXBvcnQrMHhlLzB4MjAKPiBbICAgMjEuNDY5Njkz
-XSAgYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdCj4gWyAg
-IDIxLjQ2OTczM10gIGRybV9hdG9taWNfZ2V0X2NydGNfc3RhdGUrMHhiZi8weDFjMAo+IFsgICAy
-MS40Njk3NjhdICBfX2RybV9hdG9taWNfaGVscGVyX3NldF9jb25maWcrMHg4MS8weDVhMAo+IFsg
-ICAyMS40Njk4MDNdICA/IGRybV9hdG9taWNfcGxhbmVfY2hlY2srMHg2OTAvMHg2OTAKPiBbICAg
-MjEuNDY5ODQzXSAgPyBkcm1fY2xpZW50X3JvdGF0aW9uKzB4YWUvMHgyNDAKPiBbICAgMjEuNDY5
-ODc2XSAgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9hdG9taWMrMHgyMzAvMHgzOTAKPiBbICAg
-MjEuNDY5ODg4XSAgPyBfX211dGV4X2xvY2srMHg4ZjAvMHhiZTAKPiBbICAgMjEuNDY5OTI5XSAg
-PyBkcm1fY2xpZW50X2Zpcm13YXJlX2NvbmZpZy5pc3JhLjArMHhhNjAvMHhhNjAKPiBbICAgMjEu
-NDY5OTQ4XSAgPyBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKzB4MjgvMHgyMzAKPiBb
-ICAgMjEuNDcwMDMxXSAgPyBtZW1zZXQrMHgyMC8weDQwCj4gWyAgIDIxLjQ3MDA3OF0gIGRybV9j
-bGllbnRfbW9kZXNldF9jb21taXRfZm9yY2UrMHg5MC8weDIzMAo+IFsgICAyMS40NzAxMTBdICBk
-cm1fZmJfaGVscGVyX3Jlc3RvcmVfZmJkZXZfbW9kZV91bmxvY2tlZCsweDVmLzB4YzAKPiBbICAg
-MjEuNDcwMTMyXSAgZHJtX2ZiX2hlbHBlcl9zZXRfcGFyKzB4NTkvMHg3MAo+IFsgICAyMS40NzAx
-NTVdICBmYmNvbl9pbml0KzB4NjFkLzB4YWQwCj4gWyAgIDIxLjQ3MDE4NV0gID8gZHJtX2ZiX2hl
-bHBlcl9yZXN0b3JlX2ZiZGV2X21vZGVfdW5sb2NrZWQrMHhjMC8weGMwCj4gWyAgIDIxLjQ3MDIz
-Ml0gIHZpc3VhbF9pbml0KzB4MTg3LzB4MjQwCj4gWyAgIDIxLjQ3MDI2Nl0gIGRvX2JpbmRfY29u
-X2RyaXZlcisweDJlMy8weDQ2MAo+IFsgICAyMS40NzAzMjFdICBkb190YWtlX292ZXJfY29uc29s
-ZSsweDIwYS8weDI5MAo+IFsgICAyMS40NzAzNzFdICBkb19mYmNvbl90YWtlb3ZlcisweDg1LzB4
-MTAwCj4gWyAgIDIxLjQ3MDQwMl0gIHJlZ2lzdGVyX2ZyYW1lYnVmZmVyKzB4MmZkLzB4NDkwCj4g
-WyAgIDIxLjQ3MDQyNV0gID8ga3phbGxvYy5jb25zdHByb3AuMCsweDEwLzB4MTAKPiBbICAgMjEu
-NDcwNTAzXSAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2srMHhmMi8w
-eDE0MAo+IFsgICAyMS40NzA1MzNdICBkcm1fZmJkZXZfY2xpZW50X2hvdHBsdWcrMHgxNjIvMHgy
-NTAKPiBbICAgMjEuNDcwNTYzXSAgZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXArMHhkMi8weDE1NQo+
-IFsgICAyMS40NzA2MDJdICBhc3RfZHJpdmVyX2xvYWQrMHg2ODgvMHg4NTAgW2FzdF0KPiA8Li4u
-Pgo+IFsgICAyMS40NzI2MjVdID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+Cj4gQWxsb2NhdGluZyBlbm91Z2ggbWVtb3J5
-IGZvciBzdHJ1Y3QgYXN0X2NydGNfc3RhdGUgaW4gYSBjdXN0b20gYXN0IENSVEMKPiByZXNldCBo
-YW5kbGVyIGZpeGVzIHRoZSBwcm9ibGVtLgo+Cj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1l
-cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gRml4ZXM6IDgzYmU2YTNjZWIxMSAoImRybS9h
-c3Q6IEludHJvZHVjZSBzdHJ1Y3QgYXN0X2NydGNfc3RhdGUiKQo+IENjOiBHZXJkIEhvZmZtYW5u
-IDxrcmF4ZWxAcmVkaGF0LmNvbT4KPiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNv
-bT4KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBDYzogQWxl
-eCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+IENjOiAiTm9yYWxmIFRyw7hu
-bmVzIiA8bm9yYWxmQHRyb25uZXMub3JnPgo+IENjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9y
-Zy5vcmc+Cj4gQ2M6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJv
-YXJkLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jIHwgMTkgKysr
-KysrKysrKysrKysrKysrLQo+ICAxIGZpbGUgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgMSBk
-ZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYwo+IGluZGV4IDM0NjA4ZjA0OTllYi4u
-YjVhMGUyYTA1OTViIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUu
-Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYwo+IEBAIC04ODIsNiArODgy
-LDIzIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NydGNfaGVscGVyX2Z1bmNzIGFzdF9jcnRj
-X2hlbHBlcl9mdW5jcyA9IHsKPiAgICAgICAgIC5hdG9taWNfZGlzYWJsZSA9IGFzdF9jcnRjX2hl
-bHBlcl9hdG9taWNfZGlzYWJsZSwKPiAgfTsKPgo+ICtzdGF0aWMgdm9pZCBhc3RfY3J0Y19yZXNl
-dChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCj4gK3sKPiArICAgICAgIHN0cnVjdCBhc3RfY3J0Y19z
-dGF0ZSAqYXN0X3N0YXRlOwo+ICsKPiArICAgICAgIGlmIChjcnRjLT5zdGF0ZSkgewo+ICsgICAg
-ICAgICAgICAgICBjcnRjLT5mdW5jcy0+YXRvbWljX2Rlc3Ryb3lfc3RhdGUoY3J0YywgY3J0Yy0+
-c3RhdGUpOwo+ICsgICAgICAgICAgICAgICBjcnRjLT5zdGF0ZSA9IE5VTEw7Cj4gKyAgICAgICB9
-Cj4gKwo+ICsgICAgICAgYXN0X3N0YXRlID0ga3phbGxvYyhzaXplb2YoKmFzdF9zdGF0ZSksIEdG
-UF9LRVJORUwpOwo+ICsgICAgICAgaWYgKCFhc3Rfc3RhdGUpCj4gKyAgICAgICAgICAgICAgIHJl
-dHVybjsKPiArCj4gKyAgICAgICBjcnRjLT5zdGF0ZSA9ICZhc3Rfc3RhdGUtPmJhc2U7Cj4gKyAg
-ICAgICBjcnRjLT5zdGF0ZS0+Y3J0YyA9IGNydGM7Cj4gK30KClBsZWFzZSBtb2RlbCB0aGlzIGFm
-dGVyIGRybV9hdG9taWNfaGVscGVyX2NydGNfcmVzZXQgYW5kIGNhbGwKX19kcm1fYXRvbWljX2hl
-bHBlcl9jcnRjX3Jlc2V0IGF0IHRoZSBib3R0b20uIEl0J3MganVzdCB0dyBsaW5lcyBvZgpzaGFy
-ZWQgY29kZSB5b3UncmUgc2F2aW5nLCBidXQgbm90IHVzaW5nIHRoZXNlIGhlbHBlcnMgaGFzIGNv
-c3QgdXMgaW4KdGhlIHBhc3QuIFdpdGggdGhhdDoKClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVy
-IDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgoKPiArCj4gIHN0YXRpYyB2b2lkIGFzdF9jcnRjX2Rl
-c3Ryb3koc3RydWN0IGRybV9jcnRjICpjcnRjKQo+ICB7Cj4gICAgICAgICBkcm1fY3J0Y19jbGVh
-bnVwKGNydGMpOwo+IEBAIC05MjAsNyArOTM3LDcgQEAgc3RhdGljIHZvaWQgYXN0X2NydGNfYXRv
-bWljX2Rlc3Ryb3lfc3RhdGUoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ICB9Cj4KPiAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19mdW5jcyBhc3RfY3J0Y19mdW5jcyA9IHsKPiAtICAgICAg
-IC5yZXNldCA9IGRybV9hdG9taWNfaGVscGVyX2NydGNfcmVzZXQsCj4gKyAgICAgICAucmVzZXQg
-PSBhc3RfY3J0Y19yZXNldCwKPiAgICAgICAgIC5zZXRfY29uZmlnID0gZHJtX2NydGNfaGVscGVy
-X3NldF9jb25maWcsCj4gICAgICAgICAuZ2FtbWFfc2V0ID0gZHJtX2F0b21pY19oZWxwZXJfbGVn
-YWN5X2dhbW1hX3NldCwKPiAgICAgICAgIC5kZXN0cm95ID0gYXN0X2NydGNfZGVzdHJveSwKPiAt
-LQo+IDIuMjUuMAo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVs
-IENvcnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 2020-01-29 02:02, Matthias Kaehlcke wrote:
+> Hi,
+> 
+> On Tue, Jan 28, 2020 at 06:54:44PM +0530, Harigovindan P wrote:
+>> Add display, DSI hardware DT nodes for sc7180.
+>> 
+>> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+>> ---
+>> 
+>> Changes in v1:
+>> 	-Added display DT nodes for sc7180
+>> Changes in v2:
+>> 	-Renamed node names
+>> 	-Corrected code alignments
+>> 	-Removed extra new line
+>> 	-Added DISP AHB clock for register access
+>> 	under display_subsystem node for global settings
+>> Changes in v3:
+>> 	-Modified node names
+>> 	-Modified hard coded values
+>> 	-Removed mdss reg entry
+>> Changes in v4:
+>> 	-Reverting mdp node name
+>> 	-Setting status to disabled in main SOC dtsi file
+>> 	-Replacing _ to - for node names
+>> 	-Adding clock dependency patch link
+>> 	-Splitting idp dt file to a separate patch
+>> 
+>> This patch has dependency on the below series
+>> https://lkml.org/lkml/2019/12/27/73
+>>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 128 
+>> +++++++++++++++++++++++++++++++++++
+>>  1 file changed, 128 insertions(+)
+>> 
+>> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi 
+>> b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+>> index 3bc3f64..c3883af 100644
+>> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+>> @@ -1184,6 +1184,134 @@
+>>  			#power-domain-cells = <1>;
+>>  		};
+>> 
+>> +		mdss: mdss@ae00000 {
+>> +			compatible = "qcom,sc7180-mdss";
+>> +			reg = <0 0x0ae00000 0 0x1000>;
+>> +			reg-names = "mdss";
+>> +
+>> +			power-domains = <&dispcc MDSS_GDSC>;
+>> +
+>> +			clocks = <&gcc GCC_DISP_AHB_CLK>,
+>> +				 <&gcc GCC_DISP_HF_AXI_CLK>,
+>> +				 <&dispcc DISP_CC_MDSS_AHB_CLK>,
+>> +				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
+>> +			clock-names = "iface", "gcc_bus", "ahb", "core";
+>> +
+>> +			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
+>> +			assigned-clock-rates = <300000000>;
+>> +
+>> +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+>> +			interrupt-controller;
+>> +			#interrupt-cells = <1>;
+>> +
+>> +			iommus = <&apps_smmu 0x800 0x2>;
+>> +
+>> +			#address-cells = <2>;
+>> +			#size-cells = <2>;
+>> +			ranges;
+>> +
+>> +			mdss_mdp: mdp@ae01000 {
+>> +				compatible = "qcom,sc7180-dpu";
+>> +				reg = <0 0x0ae01000 0 0x8f000>,
+>> +				      <0 0x0aeb0000 0 0x2008>,
+>> +				      <0 0x0af03000 0 0x16>;
+>> +				reg-names = "mdp", "vbif", "disp_cc";
+>> +
+>> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+>> +					 <&dispcc DISP_CC_MDSS_ROT_CLK>,
+>> +					 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
+>> +					 <&dispcc DISP_CC_MDSS_MDP_CLK>,
+>> +					 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+>> +				clock-names = "iface", "rot", "lut", "core",
+>> +					      "vsync";
+>> +				assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>,
+>> +						  <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+>> +				assigned-clock-rates = <300000000>,
+>> +						       <19200000>;
+> 
+> The clock rate for DISP_CC_MDSS_MDP_CLK is already specified in the
+> parent node, do we really want/need to specify it twice?
+
+Hi,
+
+The parent device ( MDSS ) configures global HW settings which needs MDP 
+CLK to be turned on with a default rate.
+mdp device handles the composition, and it will compute the frequency 
+needed as per the layer stack in the composition, hence we can have 
+multiple rates on the CLK.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
