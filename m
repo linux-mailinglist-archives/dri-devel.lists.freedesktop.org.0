@@ -1,44 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB8714D840
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 10:31:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DFD14D852
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 10:40:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA3E89E86;
-	Thu, 30 Jan 2020 09:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6BE889124;
+	Thu, 30 Jan 2020 09:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4908E89E86
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 09:31:15 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206351] RX 5600 XT Not Correctly Recognized, Max Memory
- Frequency Below Where it Should Be
-Date: Thu, 30 Jan 2020 09:31:14 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gardotd426@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206351-2300-PTNNy5eVIM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206351-2300@https.bugzilla.kernel.org/>
-References: <bug-206351-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3AF89124
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 09:40:18 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 86449AE4B;
+ Thu, 30 Jan 2020 09:40:16 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel.vetter@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, noralf@tronnes.org, sam@ravnborg.org,
+ laurent.pinchart@ideasonboard.com, sschricker@suse.de
+Subject: [PATCH v2] drm/ast: Allocate initial CRTC state of the correct size
+Date: Thu, 30 Jan 2020 10:40:12 +0100
+Message-Id: <20200130094012.32140-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,22 +37,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206351
-
---- Comment #1 from Matt McDonald (gardotd426@gmail.com) ---
-Actually, the new vBIOS memory clock should be 1750MHz, not 1500. Either way
-it's far to low on Linux, and this was not an issue with the Polaris cards,
-they correctly set memory frequencies in line with the vBIOS.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIGFzdCBkcml2ZXIgaW5oZXJpdHMgZnJvbSBEUk0ncyBDUlRDIHN0YXRlLCBidXQgc3RpbGwg
+dXNlcyB0aGUgYXRvbWljCmhlbHBlciBmb3Igc3RydWN0IGRybV9jcnRjX2Z1bmNzLnJlc2V0LCBk
+cm1fYXRvbWljX2hlbHBlcl9jcnRjX3Jlc2V0KCkuCgpUaGUgaGVscGVyIG9ubHkgYWxsb2NhdGVz
+IGVub3VnaCBtZW1vcnkgZm9yIHRoZSBjb3JlIENSVEMgc3RhdGUuIFRoYXQKcmVzdWx0cyBpbiBh
+biBvdXQtb3VmLWJvdW5kcyBhY2Nlc3Mgd2hlbiBkdXBsaWNhdGluZyB0aGUgaW5pdGlhbCBDUlRD
+CnN0YXRlLiBTaW1wbGlmaWVkIGJhY2t0cmFjZSBzaG93biBiZWxvdzoKClsgICAyMS40NjkzMjFd
+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PQpbICAgMjEuNDY5NDM0XSBCVUc6IEtBU0FOOiBzbGFiLW91dC1vZi1ib3VuZHMg
+aW4gYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAy
+MS40Njk0NDVdIFJlYWQgb2Ygc2l6ZSA4IGF0IGFkZHIgZmZmZjg4ODAzNmMxYzVmOCBieSB0YXNr
+IHN5c3RlbWQtdWRldmQvMzgyClsgICAyMS40Njk0NTFdClsgICAyMS40Njk0NjRdIENQVTogMiBQ
+SUQ6IDM4MiBDb21tOiBzeXN0ZW1kLXVkZXZkIFRhaW50ZWQ6IEcgICAgICAgICAgICBFICAgICA1
+LjUuMC1yYzYtMS1kZWZhdWx0KyAjMjE0ClsgICAyMS40Njk0NzNdIEhhcmR3YXJlIG5hbWU6IFN1
+biBNaWNyb3N5c3RlbXMgU1VOIEZJUkUgWDIyNzAgTTIvU1VOIEZJUkUgWDIyNzAgTTIsIEJJT1Mg
+Mi4wNSAgICAwNy8wMS8yMDEwClsgICAyMS40Njk0ODBdIENhbGwgVHJhY2U6ClsgICAyMS40Njk1
+MDFdICBkdW1wX3N0YWNrKzB4YjgvMHgxMTAKWyAgIDIxLjQ2OTUyOF0gIHByaW50X2FkZHJlc3Nf
+ZGVzY3JpcHRpb24uY29uc3Rwcm9wLjArMHgxYi8weDFlMApbICAgMjEuNDY5NTU3XSAgPyBhc3Rf
+Y3J0Y19hdG9taWNfZHVwbGljYXRlX3N0YXRlKzB4ODQvMHgxMDAgW2FzdF0KWyAgIDIxLjQ2OTU4
+MV0gID8gYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsg
+ICAyMS40Njk1OTddICBfX2thc2FuX3JlcG9ydC5jb2xkKzB4MWEvMHgzNQpbICAgMjEuNDY5NjQw
+XSAgPyBhc3RfY3J0Y19hdG9taWNfZHVwbGljYXRlX3N0YXRlKzB4ODQvMHgxMDAgW2FzdF0KWyAg
+IDIxLjQ2OTY2NV0gIGthc2FuX3JlcG9ydCsweGUvMHgyMApbICAgMjEuNDY5NjkzXSAgYXN0X2Ny
+dGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAyMS40Njk3MzNd
+ICBkcm1fYXRvbWljX2dldF9jcnRjX3N0YXRlKzB4YmYvMHgxYzAKWyAgIDIxLjQ2OTc2OF0gIF9f
+ZHJtX2F0b21pY19oZWxwZXJfc2V0X2NvbmZpZysweDgxLzB4NWEwClsgICAyMS40Njk4MDNdICA/
+IGRybV9hdG9taWNfcGxhbmVfY2hlY2srMHg2OTAvMHg2OTAKWyAgIDIxLjQ2OTg0M10gID8gZHJt
+X2NsaWVudF9yb3RhdGlvbisweGFlLzB4MjQwClsgICAyMS40Njk4NzZdICBkcm1fY2xpZW50X21v
+ZGVzZXRfY29tbWl0X2F0b21pYysweDIzMC8weDM5MApbICAgMjEuNDY5ODg4XSAgPyBfX211dGV4
+X2xvY2srMHg4ZjAvMHhiZTAKWyAgIDIxLjQ2OTkyOV0gID8gZHJtX2NsaWVudF9maXJtd2FyZV9j
+b25maWcuaXNyYS4wKzB4YTYwLzB4YTYwClsgICAyMS40Njk5NDhdICA/IGRybV9jbGllbnRfbW9k
+ZXNldF9jb21taXRfZm9yY2UrMHgyOC8weDIzMApbICAgMjEuNDcwMDMxXSAgPyBtZW1zZXQrMHgy
+MC8weDQwClsgICAyMS40NzAwNzhdICBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKzB4
+OTAvMHgyMzAKWyAgIDIxLjQ3MDExMF0gIGRybV9mYl9oZWxwZXJfcmVzdG9yZV9mYmRldl9tb2Rl
+X3VubG9ja2VkKzB4NWYvMHhjMApbICAgMjEuNDcwMTMyXSAgZHJtX2ZiX2hlbHBlcl9zZXRfcGFy
+KzB4NTkvMHg3MApbICAgMjEuNDcwMTU1XSAgZmJjb25faW5pdCsweDYxZC8weGFkMApbICAgMjEu
+NDcwMTg1XSAgPyBkcm1fZmJfaGVscGVyX3Jlc3RvcmVfZmJkZXZfbW9kZV91bmxvY2tlZCsweGMw
+LzB4YzAKWyAgIDIxLjQ3MDIzMl0gIHZpc3VhbF9pbml0KzB4MTg3LzB4MjQwClsgICAyMS40NzAy
+NjZdICBkb19iaW5kX2Nvbl9kcml2ZXIrMHgyZTMvMHg0NjAKWyAgIDIxLjQ3MDMyMV0gIGRvX3Rh
+a2Vfb3Zlcl9jb25zb2xlKzB4MjBhLzB4MjkwClsgICAyMS40NzAzNzFdICBkb19mYmNvbl90YWtl
+b3ZlcisweDg1LzB4MTAwClsgICAyMS40NzA0MDJdICByZWdpc3Rlcl9mcmFtZWJ1ZmZlcisweDJm
+ZC8weDQ5MApbICAgMjEuNDcwNDI1XSAgPyBremFsbG9jLmNvbnN0cHJvcC4wKzB4MTAvMHgxMApb
+ICAgMjEuNDcwNTAzXSAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2sr
+MHhmMi8weDE0MApbICAgMjEuNDcwNTMzXSAgZHJtX2ZiZGV2X2NsaWVudF9ob3RwbHVnKzB4MTYy
+LzB4MjUwClsgICAyMS40NzA1NjNdICBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCsweGQyLzB4MTU1
+ClsgICAyMS40NzA2MDJdICBhc3RfZHJpdmVyX2xvYWQrMHg2ODgvMHg4NTAgW2FzdF0KPC4uLj4K
+WyAgIDIxLjQ3MjYyNV0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09CgpBbGxvY2F0aW5nIGVub3VnaCBtZW1vcnkgZm9yIHN0
+cnVjdCBhc3RfY3J0Y19zdGF0ZSBpbiBhIGN1c3RvbSBhc3QgQ1JUQwpyZXNldCBoYW5kbGVyIGZp
+eGVzIHRoZSBwcm9ibGVtLgoKdjI6CgkqIGltcGxlbWVudCBhY2NvcmRpbmcgdG8gZHJtX2F0b21p
+Y19oZWxwZXJfY3J0Y19yZXNldCgpCgkqIHVwZGF0ZSBzdGF0ZSB3aXRoIF9fZHJtX2F0b21pY19o
+ZWxwZXJfY3J0Y19yZXNldCgpCgpTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
+bW1lcm1hbm5Ac3VzZS5kZT4KRml4ZXM6IDgzYmU2YTNjZWIxMSAoImRybS9hc3Q6IEludHJvZHVj
+ZSBzdHJ1Y3QgYXN0X2NydGNfc3RhdGUiKQpSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFu
+aWVsLnZldHRlckBmZndsbC5jaD4KQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29t
+PgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KQ2M6IERhbmllbCBWZXR0ZXIg
+PGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVj
+aGVyQGFtZC5jb20+CkNjOiAiTm9yYWxmIFRyw7hubmVzIiA8bm9yYWxmQHRyb25uZXMub3JnPgpD
+YzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpDYzogTGF1cmVudCBQaW5jaGFydCA8
+bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9h
+c3QvYXN0X21vZGUuYyB8IDEzICsrKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNl
+cnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Fz
+dC9hc3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCmluZGV4IDM0NjA4
+ZjA0OTllYi4uNmU3MWNjNzk3MTA5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2Fz
+dF9tb2RlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCkBAIC04ODIsNiAr
+ODgyLDE3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NydGNfaGVscGVyX2Z1bmNzIGFzdF9j
+cnRjX2hlbHBlcl9mdW5jcyA9IHsKIAkuYXRvbWljX2Rpc2FibGUgPSBhc3RfY3J0Y19oZWxwZXJf
+YXRvbWljX2Rpc2FibGUsCiB9OwogCitzdGF0aWMgdm9pZCBhc3RfY3J0Y19yZXNldChzdHJ1Y3Qg
+ZHJtX2NydGMgKmNydGMpCit7CisJc3RydWN0IGFzdF9jcnRjX3N0YXRlICphc3Rfc3RhdGUgPQor
+CQlremFsbG9jKHNpemVvZigqYXN0X3N0YXRlKSwgR0ZQX0tFUk5FTCk7CisKKwlpZiAoY3J0Yy0+
+c3RhdGUpCisJCWNydGMtPmZ1bmNzLT5hdG9taWNfZGVzdHJveV9zdGF0ZShjcnRjLCBjcnRjLT5z
+dGF0ZSk7CisKKwlfX2RybV9hdG9taWNfaGVscGVyX2NydGNfcmVzZXQoY3J0YywgJmFzdF9zdGF0
+ZS0+YmFzZSk7Cit9CisKIHN0YXRpYyB2b2lkIGFzdF9jcnRjX2Rlc3Ryb3koc3RydWN0IGRybV9j
+cnRjICpjcnRjKQogewogCWRybV9jcnRjX2NsZWFudXAoY3J0Yyk7CkBAIC05MjAsNyArOTMxLDcg
+QEAgc3RhdGljIHZvaWQgYXN0X2NydGNfYXRvbWljX2Rlc3Ryb3lfc3RhdGUoc3RydWN0IGRybV9j
+cnRjICpjcnRjLAogfQogCiBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jcnRjX2Z1bmNzIGFzdF9j
+cnRjX2Z1bmNzID0gewotCS5yZXNldCA9IGRybV9hdG9taWNfaGVscGVyX2NydGNfcmVzZXQsCisJ
+LnJlc2V0ID0gYXN0X2NydGNfcmVzZXQsCiAJLnNldF9jb25maWcgPSBkcm1fY3J0Y19oZWxwZXJf
+c2V0X2NvbmZpZywKIAkuZ2FtbWFfc2V0ID0gZHJtX2F0b21pY19oZWxwZXJfbGVnYWN5X2dhbW1h
+X3NldCwKIAkuZGVzdHJveSA9IGFzdF9jcnRjX2Rlc3Ryb3ksCi0tIAoyLjI1LjAKCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
