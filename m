@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3879214D7A7
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 09:32:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD32814D7AE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 09:33:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBD96F900;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF27D6F905;
 	Thu, 30 Jan 2020 08:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from plasma4.jpberlin.de (plasma4.jpberlin.de [80.241.57.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9AC06E420
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 18:36:03 +0000 (UTC)
-Received: from spamfilter05.heinlein-hosting.de
- (spamfilter05.heinlein-hosting.de [80.241.56.123])
- by plasma.jpberlin.de (Postfix) with ESMTP id 6B5AABACE6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:36:00 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
- by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de
- [80.241.56.123]) (amavisd-new, port 10030)
- with ESMTP id cMrrQRDWj2mu for <dri-devel@lists.freedesktop.org>;
- Wed, 29 Jan 2020 19:35:59 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "webmail.opensynergy.com",
- Issuer "GeoTrust EV RSA CA 2018" (not verified))
- (Authenticated sender: opensynergy@jpberlin.de)
- by plasma.jpberlin.de (Postfix) with ESMTPSA id 63C19BABFE
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 19:35:59 +0100 (CET)
-Received: from os-lin-mgo.open-synergy.com (10.25.255.1) by
- MXS01.open-synergy.com (10.25.10.17) with Microsoft SMTP Server (TLS) id
- 14.3.468.0; Wed, 29 Jan 2020 19:36:01 +0100
-From: Mikhail Golubev <Mikhail.Golubev@opensynergy.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH libdrm RESEND 2/2] xf86drm: fix subsystem type lookup for
- virtio mmio-based devices
-Date: Wed, 29 Jan 2020 19:35:43 +0100
-Message-ID: <20200129183543.30023-2-Mikhail.Golubev@opensynergy.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200129183543.30023-1-Mikhail.Golubev@opensynergy.com>
-References: <20200129183543.30023-1-Mikhail.Golubev@opensynergy.com>
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFCFA6E519;
+ Thu, 30 Jan 2020 01:24:54 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id i6so1588432otr.7;
+ Wed, 29 Jan 2020 17:24:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=m24GYwzOSVWU+XgAxv5NZs3essGtF+Xv5GVsT6y+oQ0=;
+ b=SmLK3Ae8l49DBLrp/TyTcGyk46WdEdjUx6FKHNpKRhBw9rTaOz876P6OfK77iim7e1
+ MddSYRqGP5ni4xD8KuRd7Of4iUtVDcB928Ak72Fey9l8UnhdViUomoJtetz5CqymXQZx
+ cm8bRQqgdyv3W8lUAOyIl1xwy+R2keLecloC+YKhM73fSWIg+vNkHRC9+kmCT95+0VGE
+ SklY3eRTKam9mcq1T3MYXaNEg85e44va9QEMcDPt70pZRvf9+aSc+e39nUKouD81ly+O
+ kCYuF4Mxkn9szjWp0adK7dEvmbylf2/tdG/vtf/y3aJK+EmhJCyGFzzgCbeBXbQFehyt
+ aL/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=m24GYwzOSVWU+XgAxv5NZs3essGtF+Xv5GVsT6y+oQ0=;
+ b=E1n3vxe1zT1WhVOBlldmDjlMbbjFnCfq13R3IFQ5fNZfVAMjU3i8sJGw4/a8D1gbxb
+ OiCvBMrFIaDe7J5WkX8uLhVL5B0EB+kXSgwSjR7MibgTpVDrZTX4PrCRnnkzu/mg7BFL
+ ogkmHY1C2ARNFFA0UXptnIlflJ20ArzNL/ddDyXiU6xUl1O7Vb8F+rjWzr1XUe8FGDCa
+ xK+nl2J3tFdA1vuFZpJjLh7xnDpUtsQRWbAHdTEr2zUyOt/N8yN++rCt842muMlpL+bn
+ kIKqtVPAdcqh9ZVsyhWaWVSxQwieYFDA8vVACmi4uP/urWqtl9Q79h+1jF0iiKlMZJZY
+ nBGw==
+X-Gm-Message-State: APjAAAUwh0z0sVTIoi6H7HhXpr+swyrdDBEILLlAucCOVQgzfXqzs2+z
+ ZHP4PaJcqP/EFzA9S5eM244=
+X-Google-Smtp-Source: APXvYqxPPGBp3KYwUcU6vqfn1qJZSerBLkruC3uBx8UzrQIyDAYRD458ao+PQYaeLP+w76nr1cOfng==
+X-Received: by 2002:a05:6830:15d7:: with SMTP id
+ j23mr1517474otr.357.1580347494042; 
+ Wed, 29 Jan 2020 17:24:54 -0800 (PST)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
+ by smtp.gmail.com with ESMTPSA id v10sm930917oic.32.2020.01.29.17.24.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jan 2020 17:24:53 -0800 (PST)
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>
+Subject: [PATCH] drm/amdgpu: Fix implicit enum conversion in
+ gfx_v9_4_ras_error_inject
+Date: Wed, 29 Jan 2020 18:24:35 -0700
+Message-Id: <20200130012435.49822-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-X-Originating-IP: [10.25.255.1]
+X-Patchwork-Bot: notify
 X-Mailman-Approved-At: Thu, 30 Jan 2020 08:32:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,65 +70,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikhail.Golubev@opensynergy.com, vasyl.vavrychuk@opensynergy.com
+Cc: clang-built-linux@googlegroups.com,
+ Nathan Chancellor <natechancellor@gmail.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+Clang warns:
 
-Currently the code assumes that a virtio based device is always located
-on the PCI bus.
+../drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c:967:35: warning: implicit
+conversion from enumeration type 'enum amdgpu_ras_block' to different
+enumeration type 'enum ta_ras_block' [-Wenum-conversion]
+        block_info.block_id = info->head.block;
+                            ~ ~~~~~~~~~~~^~~~~
+1 warning generated.
 
-Modify the parser to make it check the device's parent directory to
-determine on which bus it is located.
+Use the function added in commit 828cfa29093f ("drm/amdgpu: Fix amdgpu
+ras to ta enums conversion") that handles this conversion explicitly.
 
-Output for virtio-pci is the PCI bus.
-Output for virtio-mmio is the Platform bus.
-
-Signed-off-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
-Signed-off-by: Mikhail Golubev <Mikhail.Golubev@opensynergy.com>
+Fixes: 4c461d89db4f ("drm/amdgpu: add RAS support for the gfx block of Arcturus")
+Link: https://github.com/ClangBuiltLinux/linux/issues/849
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 ---
- xf86drm.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/xf86drm.c b/xf86drm.c
-index b1479128..1b22efe4 100644
---- a/xf86drm.c
-+++ b/xf86drm.c
-@@ -3005,10 +3005,20 @@ static int drmParseSubsystemType(int maj, int min)
- {
- #ifdef __linux__
-     char path[PATH_MAX + 1] = "";
-+    char real_path[PATH_MAX + 1] = "";
-+    int subsystem_type;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
+index e19d275f3f7d..f099f13d7f1e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
+@@ -964,7 +964,7 @@ int gfx_v9_4_ras_error_inject(struct amdgpu_device *adev, void *inject_if)
+ 	if (!amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__GFX))
+ 		return -EINVAL;
  
-     snprintf(path, PATH_MAX, "/sys/dev/char/%d:%d/device", maj, min);
-+    if (!realpath(path, real_path))
-+        return -errno;
-+    strncpy(path, real_path, PATH_MAX);
- 
--    return get_subsystem_type(path);
-+    subsystem_type = get_subsystem_type(path);
-+    if (subsystem_type == DRM_BUS_VIRTIO) {
-+        strncat(path, "/..", PATH_MAX);
-+        subsystem_type = get_subsystem_type(path);
-+    }
-+    return subsystem_type;
- #elif defined(__OpenBSD__) || defined(__DragonFly__)
-     return DRM_BUS_PCI;
- #else
-@@ -3710,7 +3720,6 @@ process_device(drmDevicePtr *device, const char *d_name,
- 
-     switch (subsystem_type) {
-     case DRM_BUS_PCI:
--    case DRM_BUS_VIRTIO:
-         return drmProcessPciDevice(device, node, node_type, maj, min,
-                                    fetch_deviceinfo, flags);
-     case DRM_BUS_USB:
+-	block_info.block_id = info->head.block;
++	block_info.block_id = amdgpu_ras_block_to_ta(info->head.block);
+ 	block_info.sub_block_index = info->head.sub_block_index;
+ 	block_info.inject_error_type = amdgpu_ras_error_to_ta(info->head.type);
+ 	block_info.address = info->address;
 -- 
-2.23.0
+2.25.0
 
 _______________________________________________
 dri-devel mailing list
