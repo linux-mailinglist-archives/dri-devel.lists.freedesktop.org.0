@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DAF14D48C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 01:16:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6799414D49A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 01:18:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E14916F8B5;
-	Thu, 30 Jan 2020 00:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 777116F8B9;
+	Thu, 30 Jan 2020 00:18:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 004156F8B5
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 00:16:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A372F6F8B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 00:18:15 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206347] amdgpu.dc=1 breaks power management on RX480 and others
-Date: Thu, 30 Jan 2020 00:16:37 +0000
+Date: Thu, 30 Jan 2020 00:18:15 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-206347-2300-2iUe4OSDAP@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206347-2300-fR5ftrt0JQ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206347-2300@https.bugzilla.kernel.org/>
 References: <bug-206347-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,15 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206347
 
-Alex Deucher (alexdeucher@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-Most boards clock down when idle.  What displays are you using?  Please attach
-your dmesg output and xorg log (if using X).
+--- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
+dc is enabled by default because it supports a lot more display features and
+the non-DC code (audio, DP MST, advanced HDMI features, etc.).  On most boards
+it also clocks down fine.
 
 -- 
 You are receiving this mail because:
