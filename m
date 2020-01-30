@@ -2,35 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498CC14D7B4
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 09:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52BD14D7E7
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 09:45:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71B066F913;
-	Thu, 30 Jan 2020 08:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1259C6F91D;
+	Thu, 30 Jan 2020 08:45:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from olimex.com (olimex.com [IPv6:2001:470:0:1f2::b869:4820])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5DC96E353
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 06:21:01 +0000 (UTC)
-Received: from 94.155.250.134 ([94.155.250.134]) by olimex.com with ESMTPSA
- (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
- (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2020 22:20:58 -0800
-Subject: Re: [PATCH v3 1/1] drm: sun4i: hdmi: Add support for sun4i HDMI
- encoder audio
-To: Maxime Ripard <maxime@cerno.tech>, Stefan Mavrodiev <stefan@olimex.com>
-References: <20200128140642.8404-1-stefan@olimex.com>
- <20200128140642.8404-2-stefan@olimex.com>
- <20200129164321.34mornbi3xvx5dys@gilmour.lan>
-From: Stefan Mavrodiev <stefan@olimex.com>
-Message-ID: <64676a4b-e149-146c-81b4-7fd5e792efc5@olimex.com>
-Date: Thu, 30 Jan 2020 08:20:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F00588EB4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 08:45:35 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id q15so2224355qki.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 00:45:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8Dv9Iey8XDP+W4Jvx0tu6D9dtoFliuQckA02jxVrkiI=;
+ b=FfU4r18rqt3nIyU8oCyHh2DrVi4sSHVRw0uZnAvTGCnOYwID6LfoXkBH1ovdCemtE4
+ 5j+5VpNsz2l0m2k1tvgzSMu05bivwILwiI0dl+Kt6nHIuVU/FplE2CFCcRgb7vZ50K/2
+ pNwqP/TT7aU1e1ed42pWXnEArEsipG+p1XwdOJI/iL64EavlOkK3DlDNYotizw2DARPx
+ wLKv0AtTCjYiiU1tAY53ofxazQqJzEfLlh+XrwxL12voGqyU6lOMBpq6ip81x81JRZrB
+ XqWKpM+DhQOG1m4M7P0XGGDwDoKI35Otr0gWlXJf2yS/yNNarbLwToZfqr/QFsW0sIjP
+ 3gjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8Dv9Iey8XDP+W4Jvx0tu6D9dtoFliuQckA02jxVrkiI=;
+ b=F9Mw9Aqd9PVTjcWmg5RWX+SE9oxOdbH8FebQ7Gw5V/oNlpvZmFoV/8QZwR6u6XYJtK
+ iUtn978Dv5Ng3OWOSoivhQzFY3Z1/FHC8YJacz8aM1VT6lCgJnRy39fdsPmlSJo7r7eV
+ jJq0Lmt9zoDm5s7yniywF3DIvvKQ4CoHIf8STQOacyOfzeVJN/F/px9HWmv9R+kmTYjA
+ G6Gfan9G+taR859vaaT+3X6+oc6n2qZV1MXtLm4Ggt65HKaaBmHQPJJgRlez1YlJXYPU
+ KsjU7Zvzwl62MfWcNKd2MY8M73Cj36pufa9oD1shdBWLWdjwkN+5cFlI7mjD3WKZNN2v
+ sRrA==
+X-Gm-Message-State: APjAAAWQgzKEACtvhrNe3W00FcnkLtRCoKd2d0Wg3RYMQWS1ct3GB6F8
+ OUzXL1FTsXCvq1Ii87S5FR+KamZGYm7es8P70OiVdA==
+X-Google-Smtp-Source: APXvYqxA2ryubrn9SVP4bGswHzifIIvTYoaMvdHt0F734B4foisqyFh6kSbmzK7DBUf2KnwKeuVbecmn8CEvgq3f5uQ=
+X-Received: by 2002:a37:c244:: with SMTP id j4mr3986838qkm.433.1580373934153; 
+ Thu, 30 Jan 2020 00:45:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200129164321.34mornbi3xvx5dys@gilmour.lan>
-Content-Language: en-US
-X-Mailman-Approved-At: Thu, 30 Jan 2020 08:32:45 +0000
+References: <20200102101712.5085-1-sam@ravnborg.org>
+ <20200102101712.5085-3-sam@ravnborg.org>
+ <CA+M3ks5Zs5j0FMD4SQiva2soW62tSnu14qiq3kErhLvCMxrxAA@mail.gmail.com>
+ <CAL_Jsq+g8mVdC=aOZDpMGMt3j1Y=Lgku-OcfoBP_V7PGabq5Lg@mail.gmail.com>
+ <CA+M3ks4sD971mCUQRJO+9gXaAWcwgzy2iNtMNVBRov5JSJk=HQ@mail.gmail.com>
+ <CA+M3ks7GkVSi2WcwpK+tkoBx=EpJLfFVAp=qs2ygZyW114hWfw@mail.gmail.com>
+ <20200129194711.GA29646@ravnborg.org>
+In-Reply-To: <20200129194711.GA29646@ravnborg.org>
+From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Date: Thu, 30 Jan 2020 09:45:22 +0100
+Message-ID: <CA+M3ks4i9gso1jJT-+18R+ggSFTMHQy9_GC+LkOxZ41eSH3Dmg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: one file of all simple DSI panels
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,74 +67,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Chen-Yu Tsai <wens@csie.org>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 1/29/20 6:43 PM, Maxime Ripard wrote:
-> Hi,
->
-> On Tue, Jan 28, 2020 at 04:06:42PM +0200, Stefan Mavrodiev wrote:
->> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
->> index 68d4644ac2dc..4cd35c97c503 100644
->> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
->> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
->> @@ -23,6 +23,8 @@
->>   #include <drm/drm_print.h>
->>   #include <drm/drm_probe_helper.h>
->>
->> +#include <sound/soc.h>
->> +
->>   #include "sun4i_backend.h"
->>   #include "sun4i_crtc.h"
->>   #include "sun4i_drv.h"
->> @@ -87,6 +89,10 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder)
->>
->>   	DRM_DEBUG_DRIVER("Disabling the HDMI Output\n");
->>
->> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
->> +	sun4i_hdmi_audio_destroy(hdmi);
->> +#endif
->> +
->>   	val = readl(hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
->>   	val &= ~SUN4I_HDMI_VID_CTRL_ENABLE;
->>   	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
->> @@ -114,6 +120,11 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
->>   		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
->>
->>   	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
->> +
->> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
->> +	if (hdmi->hdmi_audio && sun4i_hdmi_audio_create(hdmi))
->> +		DRM_ERROR("Couldn't create the HDMI audio adapter\n");
->> +#endif
-> I really don't think we should be creating / removing the audio card
-> at enable / disable time.
-
-For me it's unnatural to have sound card all the time, even when the HDMI
-is not plugged-in.
-
-I'll follow your suggestion. Besides it's easier for me just to drop this
-register/unregister mechanism.
-
-Best regards,
-Stefan Mavrodiev
-
->
-> To fix the drvdata pointer, you just need to use the card pointer in
-> the unbind, and that's it.
->
-> Maxime
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TGUgbWVyLiAyOSBqYW52LiAyMDIwIMOgIDIwOjQ3LCBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9y
+Zy5vcmc+IGEgw6ljcml0IDoKPgo+IEhpIEJlbmphbWluLgo+ID4gPiA+Cj4gPiA+ID4gSGVyZSdz
+IHRoZSBwcm9ibGVtLiBJZiBpdCBpcyBub3QgcmVxdWlyZWQsIHRoZW4gcGFuZWxzIHdpdGggbXVs
+dGlwbGUKPiA+ID4gPiBzdXBwbGllcyB3aWxsIGdldCBhZGRlZCBoZXJlIGJlY2F1c2UgdGhleSBk
+aWRuJ3QgY2FyZSB0byBiZWdpbiB3aXRoLgo+ID4gPiA+IFRoZW4gd2hlbiBzb21lb25lIGRlY2lk
+ZXMgdG8gdGhpbmsgYWJvdXQgdGhlIHN1cHBsaWVzIGl0IHdpbGwgaGF2ZSB0bwo+ID4gPiA+IGJl
+IG1vdmVkLiBCaW5kaW5ncyBuZWVkIHRvIGJlIGNvbXBsZXRlIGZyb20gdGhlIHN0YXJ0Lgo+ID4g
+Pgo+ID4gPiBGYWlyIGVub3VnaCwgSSB3aWxsIGFkZCBmaXhlZCBzdXBwbHkgaW4gZHRzIGZpbGVz
+Lgo+ID4gPiBJZiByZXNldC1ncGlvcyBjb3VsZCBiZSBhZGRlZCBpbiB0aGlzIHNjaGVtYSB0aGVu
+IHdlIGNvdWxkIGluY2x1ZGUKPiA+ID4gb3Jpc3RlY2ggcGFuZWwgaGVyZS4KPiA+Cj4gPiBEb2Vz
+IHRoaXMgcGF0Y2ggaGFzIGJlZW4gbWVyZ2VkID8KPgo+IEkgd2FzIHNpZGV0cmFja2VkIGJ5IG90
+aGVyIHRoaW5ncy4KPiBNYXliZSB5b3UgY2FuIG1vdmUgaXQgZm9yd2FyZD8KClllcyBJIHdpbGwg
+c2VuZCBhIHYzLgpCZW5qYW1pbgoKPgo+ICAgICAgICAgU2FtCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
