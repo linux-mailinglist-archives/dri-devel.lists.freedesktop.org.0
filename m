@@ -1,42 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9134C14E369
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 20:52:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF9614E3AA
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 21:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07096E8ED;
-	Thu, 30 Jan 2020 19:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12BB16E8F8;
+	Thu, 30 Jan 2020 20:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 895DE6E8ED
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 19:52:44 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id F3125803F1;
- Thu, 30 Jan 2020 20:52:40 +0100 (CET)
-Date: Thu, 30 Jan 2020 20:52:39 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Michael Srba <Michael.Srba@seznam.cz>
-Subject: Re: [PATCH v2 2/2] drm/panel: Add a driver for Samsung
- s6e88a0-ams452ef01 panel
-Message-ID: <20200130195239.GA28017@ravnborg.org>
-References: <20200130171128.29251-1-michael.srba@seznam.cz>
- <20200130171128.29251-2-michael.srba@seznam.cz>
- <20200130182832.GB21265@ravnborg.org>
- <0d78995c-e1a6-f301-12f7-d62cd5833f2c@seznam.cz>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14FFB6E8F8;
+ Thu, 30 Jan 2020 20:07:14 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2020 12:07:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,382,1574150400"; d="scan'208";a="218391616"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by orsmga007.jf.intel.com with ESMTP; 30 Jan 2020 12:07:09 -0800
+Received: from fmsmsx122.amr.corp.intel.com (10.18.125.37) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 30 Jan 2020 12:07:08 -0800
+Received: from fmsmsx117.amr.corp.intel.com ([169.254.3.3]) by
+ fmsmsx122.amr.corp.intel.com ([169.254.5.232]) with mapi id 14.03.0439.000;
+ Thu, 30 Jan 2020 12:07:08 -0800
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 4/4] drm/i915/display: Set TRANS_DDI_MODE_SELECT to
+ default value when disabling TRANS_DDI
+Thread-Topic: [PATCH 4/4] drm/i915/display: Set TRANS_DDI_MODE_SELECT to
+ default value when disabling TRANS_DDI
+Thread-Index: AQHVzNmm2x0yzyk6CEWhvTCt/1Z32agEENEAgAAtSYA=
+Date: Thu, 30 Jan 2020 20:07:07 +0000
+Message-ID: <2c578720445cfb0a036502b7dba94f1ebd2e8ca0.camel@intel.com>
+References: <20200117015837.402239-1-jose.souza@intel.com>
+ <20200117015837.402239-4-jose.souza@intel.com>
+ <20200130172502.GH13686@intel.com>
+In-Reply-To: <20200130172502.GH13686@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.24.12.250]
+Content-ID: <18FCD5377E8A7E4AA8245EB58F68FE24@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0d78995c-e1a6-f301-12f7-d62cd5833f2c@seznam.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=rgSknGwOoRCBxhHlYYYA:9 a=k_jlxkuc_V8kldkU:21 a=3HhA6UZRQneBFC6W:21
- a=CjuIK1q_8ugA:10 a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,445 +59,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael.
-
-On Thu, Jan 30, 2020 at 08:02:31PM +0100, Michael Srba wrote:
-> Sending this with thunderbird, fingers crossed for no formatting issues
-Readable...
-
-> 
-> Hi,
-> I've taken about two weeks to send zinitix v2, and haven't heard about
-> that or
-> v3 yet, so combined with how easy it was to address the issues, I didn't
-> want
-> to risk that was the reason :)
-> I'm not sure how I should make the subject shorter, it's already pretty
-> barebones, so if it has to be done, I assume you would have a suggestion
-> on what
-> is not as important as it seems to me?
-> I'm also not sure if splitting the comment on line 78 to three lines
-> (two seem
-> to not suffice) wouldn't be even worse than leaving it like this? Or
-> should I
-> have it more to the left so that it fits on just two lines?
-> Similarly, I'm not sure what the convention for splitting would be on
-> line 25,
-> since I saw the line breaks placed mostly after a whole function parameter.
-> Actually, for all of the above-80 lines except the one that I missed when
-> updating it today I don't really know how to handle them... except maybe
-> line
-> 139, I guess I missed that since it's off-by-one
-
-Address what you think needs to be addressed.
-If I feel strong about some of the remaining warnings I
-will fix when applying.
-And let you know what I did if this is the case.
-
-	Sam
-
-
-> 
-> On 30. 01. 20 19:28, Sam Ravnborg wrote:
-> > Hi Micahel.
-> >
-> > Thanks for the quick feedback.
-> >
-> > Please address checkpatch warnings.
-> >
-> > be2b44c76320 (HEAD -> drm-misc-next) drm/panel: Add a driver for Samsung s6e88a0-ams452ef01 panel
-> > -:7: WARNING:COMMIT_MESSAGE: Missing commit description - Add an appropriate one
-> >
-> > -:40: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
-> > #40: 
-> > new file mode 100644
-> >
-> > -:69: WARNING:LONG_LINE: line over 80 characters
-> > #69: FILE: drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c:25:
-> > +static inline struct s6e88a0_ams452ef01 *to_s6e88a0_ams452ef01(struct drm_panel *panel)
-> >
-> > -:74: WARNING:MACRO_WITH_FLOW_CONTROL: Macros with flow control statements should be avoided
-> > #74: FILE: drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c:30:
-> > +#define dsi_dcs_write_seq(dsi, seq...) do {				\
-> > +		static const u8 d[] = { seq };				\
-> > +		int ret;						\
-> > +		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
-> > +		if (ret < 0)						\
-> > +			return ret;					\
-> > +	} while (0)
-> >
-> > -:122: WARNING:LONG_LINE_COMMENT: line over 80 characters
-> > #122: FILE: drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c:78:
-> > +	dsi_dcs_write_seq(dsi, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a); // set default Amoled Off Ratio
-> >
-> > -:183: WARNING:LONG_LINE: line over 80 characters
-> > #183: FILE: drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c:139:
-> > +		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> >
-> > -:226: WARNING:LONG_LINE: line over 80 characters
-> > #226: FILE: drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c:182:
-> > +static int s6e88a0_ams452ef01_get_modes(struct drm_panel *panel, struct drm_connector *connector)
-> >
-> > total: 0 errors, 7 warnings, 0 checks, 308 lines checked
-> >
-> >
-> >
-> > Use: dim checkpatch" if you have dim.
-> > Otherwise use checkpatch -q --emacs --strict --show-types
-> >
-> > Ignore the warning "MACRO_WITH_FLOW_CONTROL" - as this seems legit in this use-case.
-> >
-> > 	Sam
-> >
-> > On Thu, Jan 30, 2020 at 06:11:28PM +0100, michael.srba@seznam.cz wrote:
-> >> From: Michael Srba <Michael.Srba@seznam.cz>
-> >>
-> >> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
-> >> ---
-> >> Changes since v1: reorder includes; remove empty functions; fix after rebasing
-> >> ---
-> >>  drivers/gpu/drm/panel/Kconfig                 |   6 +
-> >>  drivers/gpu/drm/panel/Makefile                |   1 +
-> >>  .../panel/panel-samsung-s6e88a0-ams452ef01.c  | 289 ++++++++++++++++++
-> >>  3 files changed, 296 insertions(+)
-> >>  create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-> >>
-> >> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> >> index ae44ac2ec106..0c7d61f32b0e 100644
-> >> --- a/drivers/gpu/drm/panel/Kconfig
-> >> +++ b/drivers/gpu/drm/panel/Kconfig
-> >> @@ -275,6 +275,12 @@ config DRM_PANEL_SAMSUNG_S6E63M0
-> >>  	  Say Y here if you want to enable support for Samsung S6E63M0
-> >>  	  AMOLED LCD panel.
-> >>  
-> >> +config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
-> >> +	tristate "Samsung AMS452EF01 panel with S6E88A0 DSI video mode controller"
-> >> +	depends on OF
-> >> +	select DRM_MIPI_DSI
-> >> +	select VIDEOMODE_HELPERS
-> >> +
-> >>  config DRM_PANEL_SAMSUNG_S6E8AA0
-> >>  	tristate "Samsung S6E8AA0 DSI video mode panel"
-> >>  	depends on OF
-> >> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> >> index 7c4d3c581fd4..5b622fbe4014 100644
-> >> --- a/drivers/gpu/drm/panel/Makefile
-> >> +++ b/drivers/gpu/drm/panel/Makefile
-> >> @@ -28,6 +28,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
-> >>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2) += panel-samsung-s6e3ha2.o
-> >>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03) += panel-samsung-s6e63j0x03.o
-> >>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0) += panel-samsung-s6e63m0.o
-> >> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01) += panel-samsung-s6e88a0-ams452ef01.o
-> >>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0) += panel-samsung-s6e8aa0.o
-> >>  obj-$(CONFIG_DRM_PANEL_SEIKO_43WVF1G) += panel-seiko-43wvf1g.o
-> >>  obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
-> >> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-> >> new file mode 100644
-> >> index 000000000000..49d3f6d0f137
-> >> --- /dev/null
-> >> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-> >> @@ -0,0 +1,289 @@
-> >> +// SPDX-License-Identifier: GPL-2.0-only
-> >> +// Copyright (C) 2019, Michael Srba
-> >> +
-> >> +#include <linux/delay.h>
-> >> +#include <linux/gpio/consumer.h>
-> >> +#include <linux/module.h>
-> >> +#include <linux/of.h>
-> >> +#include <linux/regulator/consumer.h>
-> >> +
-> >> +#include <video/mipi_display.h>
-> >> +
-> >> +#include <drm/drm_mipi_dsi.h>
-> >> +#include <drm/drm_modes.h>
-> >> +#include <drm/drm_panel.h>
-> >> +
-> >> +struct s6e88a0_ams452ef01 {
-> >> +	struct drm_panel panel;
-> >> +	struct mipi_dsi_device *dsi;
-> >> +	struct regulator_bulk_data supplies[2];
-> >> +	struct gpio_desc *reset_gpio;
-> >> +
-> >> +	bool prepared;
-> >> +};
-> >> +
-> >> +static inline struct s6e88a0_ams452ef01 *to_s6e88a0_ams452ef01(struct drm_panel *panel)
-> >> +{
-> >> +	return container_of(panel, struct s6e88a0_ams452ef01, panel);
-> >> +}
-> >> +
-> >> +#define dsi_dcs_write_seq(dsi, seq...) do {				\
-> >> +		static const u8 d[] = { seq };				\
-> >> +		int ret;						\
-> >> +		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
-> >> +		if (ret < 0)						\
-> >> +			return ret;					\
-> >> +	} while (0)
-> >> +
-> >> +static void s6e88a0_ams452ef01_reset(struct s6e88a0_ams452ef01 *ctx)
-> >> +{
-> >> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> >> +	usleep_range(5000, 6000);
-> >> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> >> +	usleep_range(1000, 2000);
-> >> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> >> +	usleep_range(10000, 11000);
-> >> +}
-> >> +
-> >> +static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
-> >> +{
-> >> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> >> +	struct device *dev = &dsi->dev;
-> >> +	int ret;
-> >> +
-> >> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> >> +
-> >> +	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
-> >> +	dsi_dcs_write_seq(dsi, 0xcc, 0x4c); // set Pixel Clock Divider polarity
-> >> +
-> >> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +	msleep(120);
-> >> +
-> >> +	// set default brightness/gama
-> >> +	dsi_dcs_write_seq(dsi, 0xca,
-> >> +			  0x01, 0x00, 0x01, 0x00, 0x01, 0x00,	// V255 RR,GG,BB
-> >> +			  0x80, 0x80, 0x80,			// V203 R,G,B
-> >> +			  0x80, 0x80, 0x80,			// V151 R,G,B
-> >> +			  0x80, 0x80, 0x80,			// V87  R,G,B
-> >> +			  0x80, 0x80, 0x80,			// V51  R,G,B
-> >> +			  0x80, 0x80, 0x80,			// V35  R,G,B
-> >> +			  0x80, 0x80, 0x80,			// V23  R,G,B
-> >> +			  0x80, 0x80, 0x80,			// V11  R,G,B
-> >> +			  0x6b, 0x68, 0x71,			// V3   R,G,B
-> >> +			  0x00, 0x00, 0x00);			// V1   R,G,B
-> >> +	dsi_dcs_write_seq(dsi, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a); // set default Amoled Off Ratio
-> >> +	dsi_dcs_write_seq(dsi, 0xb6, 0x2c, 0x0b); // set default elvss voltage
-> >> +	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-> >> +	dsi_dcs_write_seq(dsi, 0xf7, 0x03); // gamma/aor update
-> >> +	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
-> >> +
-> >> +	ret = mipi_dsi_dcs_set_display_on(dsi);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to set display on: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int s6e88a0_ams452ef01_off(struct s6e88a0_ams452ef01 *ctx)
-> >> +{
-> >> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> >> +	struct device *dev = &dsi->dev;
-> >> +	int ret;
-> >> +
-> >> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> >> +
-> >> +	ret = mipi_dsi_dcs_set_display_off(dsi);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to set display off: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +	msleep(35);
-> >> +
-> >> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +	msleep(120);
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int s6e88a0_ams452ef01_prepare(struct drm_panel *panel)
-> >> +{
-> >> +	struct s6e88a0_ams452ef01 *ctx = to_s6e88a0_ams452ef01(panel);
-> >> +	struct device *dev = &ctx->dsi->dev;
-> >> +	int ret;
-> >> +
-> >> +	if (ctx->prepared)
-> >> +		return 0;
-> >> +
-> >> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	s6e88a0_ams452ef01_reset(ctx);
-> >> +
-> >> +	ret = s6e88a0_ams452ef01_on(ctx);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-> >> +		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> >> +		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	ctx->prepared = true;
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int s6e88a0_ams452ef01_unprepare(struct drm_panel *panel)
-> >> +{
-> >> +	struct s6e88a0_ams452ef01 *ctx = to_s6e88a0_ams452ef01(panel);
-> >> +	struct device *dev = &ctx->dsi->dev;
-> >> +	int ret;
-> >> +
-> >> +	if (!ctx->prepared)
-> >> +		return 0;
-> >> +
-> >> +	ret = s6e88a0_ams452ef01_off(ctx);
-> >> +	if (ret < 0)
-> >> +		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-> >> +
-> >> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> >> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> >> +
-> >> +	ctx->prepared = false;
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static const struct drm_display_mode s6e88a0_ams452ef01_mode = {
-> >> +	.clock = (540 + 88 + 4 + 20) * (960 + 14 + 2 + 8) * 60 / 1000,
-> >> +	.hdisplay = 540,
-> >> +	.hsync_start = 540 + 88,
-> >> +	.hsync_end = 540 + 88 + 4,
-> >> +	.htotal = 540 + 88 + 4 + 20,
-> >> +	.vdisplay = 960,
-> >> +	.vsync_start = 960 + 14,
-> >> +	.vsync_end = 960 + 14 + 2,
-> >> +	.vtotal = 960 + 14 + 2 + 8,
-> >> +	.vrefresh = 60,
-> >> +	.width_mm = 56,
-> >> +	.height_mm = 100,
-> >> +};
-> >> +
-> >> +static int s6e88a0_ams452ef01_get_modes(struct drm_panel *panel, struct drm_connector *connector)
-> >> +{
-> >> +	struct drm_display_mode *mode;
-> >> +
-> >> +	mode = drm_mode_duplicate(connector->dev, &s6e88a0_ams452ef01_mode);
-> >> +	if (!mode)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	drm_mode_set_name(mode);
-> >> +
-> >> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >> +	connector->display_info.width_mm = mode->width_mm;
-> >> +	connector->display_info.height_mm = mode->height_mm;
-> >> +	drm_mode_probed_add(connector, mode);
-> >> +
-> >> +	return 1;
-> >> +}
-> >> +
-> >> +static const struct drm_panel_funcs s6e88a0_ams452ef01_panel_funcs = {
-> >> +	.unprepare = s6e88a0_ams452ef01_unprepare,
-> >> +	.prepare = s6e88a0_ams452ef01_prepare,
-> >> +	.get_modes = s6e88a0_ams452ef01_get_modes,
-> >> +};
-> >> +
-> >> +static int s6e88a0_ams452ef01_probe(struct mipi_dsi_device *dsi)
-> >> +{
-> >> +	struct device *dev = &dsi->dev;
-> >> +	struct s6e88a0_ams452ef01 *ctx;
-> >> +	int ret;
-> >> +
-> >> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> >> +	if (!ctx)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	ctx->supplies[0].supply = "vdd3";
-> >> +	ctx->supplies[1].supply = "vci";
-> >> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
-> >> +				      ctx->supplies);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to get regulators: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> >> +	if (IS_ERR(ctx->reset_gpio)) {
-> >> +		ret = PTR_ERR(ctx->reset_gpio);
-> >> +		dev_err(dev, "Failed to get reset-gpios: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	ctx->dsi = dsi;
-> >> +	mipi_dsi_set_drvdata(dsi, ctx);
-> >> +
-> >> +	dsi->lanes = 2;
-> >> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> >> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
-> >> +
-> >> +	drm_panel_init(&ctx->panel, dev, &s6e88a0_ams452ef01_panel_funcs,
-> >> +		       DRM_MODE_CONNECTOR_DSI);
-> >> +
-> >> +	ret = drm_panel_add(&ctx->panel);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to add panel: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	ret = mipi_dsi_attach(dsi);
-> >> +	if (ret < 0) {
-> >> +		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int s6e88a0_ams452ef01_remove(struct mipi_dsi_device *dsi)
-> >> +{
-> >> +	struct s6e88a0_ams452ef01 *ctx = mipi_dsi_get_drvdata(dsi);
-> >> +	int ret;
-> >> +
-> >> +	ret = mipi_dsi_detach(dsi);
-> >> +	if (ret < 0)
-> >> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-> >> +
-> >> +	drm_panel_remove(&ctx->panel);
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static const struct of_device_id s6e88a0_ams452ef01_of_match[] = {
-> >> +	{ .compatible = "samsung,s6e88a0-ams452ef01" },
-> >> +	{ /* sentinel */ },
-> >> +};
-> >> +MODULE_DEVICE_TABLE(of, s6e88a0_ams452ef01_of_match);
-> >> +
-> >> +static struct mipi_dsi_driver s6e88a0_ams452ef01_driver = {
-> >> +	.probe = s6e88a0_ams452ef01_probe,
-> >> +	.remove = s6e88a0_ams452ef01_remove,
-> >> +	.driver = {
-> >> +		.name = "panel-s6e88a0-ams452ef01",
-> >> +		.of_match_table = s6e88a0_ams452ef01_of_match,
-> >> +	},
-> >> +};
-> >> +module_mipi_dsi_driver(s6e88a0_ams452ef01_driver);
-> >> +
-> >> +MODULE_AUTHOR("Michael Srba <Michael.Srba@seznam.cz>");
-> >> +MODULE_DESCRIPTION("MIPI-DSI based Panel Driver for AMS452EF01 AMOLED LCD with a S6E88A0 controller");
-> >> +MODULE_LICENSE("GPL v2");
-> >> -- 
-> >> 2.24.0
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAyMDIwLTAxLTMwIGF0IDE5OjI1ICswMjAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6
+DQo+IE9uIFRodSwgSmFuIDE2LCAyMDIwIGF0IDA1OjU4OjM3UE0gLTA4MDAsIEpvc8OpIFJvYmVy
+dG8gZGUgU291emENCj4gd3JvdGU6DQo+ID4gVEdMIHRpbWVvdXRzIHdoZW4gZGlzYWJsaW5nIE1T
+VCB0cmFuc2NvZGVyIGFuZCBmaWZvIHVuZGVycnVucyBvdmVyDQo+ID4gTVNUDQo+ID4gdHJhbnNj
+b2RlcnMgYXJlIGZpeGVkIHdoZW4gc2V0dGluZyBUUkFOU19ERElfTU9ERV9TRUxFQ1QgdG8gMChI
+RE1JDQo+ID4gbW9kZSkgZHVyaW5nIHRoZSBkaXNhYmxlIHNlcXVlbmNlLg0KPiA+IA0KPiA+IEFs
+dGhvdWdoIEJTcGVjIGRpc2FibGUgc2VxdWVuY2UgZG9uJ3QgcmVxdWlyZSB0aGlzIHN0ZXAgaXQg
+aXMgYQ0KPiA+IGhhcm1sZXNzIGNoYW5nZSBhbmQgaXQgaXMgYWxzbyBkb25lIGJ5IFdpbmRvd3Mg
+ZHJpdmVyLg0KPiA+IEFueWhvdyBIVyB0ZWFtIHdhcyBub3RpZmllZCBhYm91dCB0aGF0IGJ1dCBp
+dCBjYW4gdGFrZSBzb21lIHRpbWUgdG8NCj4gPiBkb2N1bWVudGF0aW9uIHRvIGJlIHVwZGF0ZWQu
+DQo+ID4gDQo+ID4gQSBjYXNlIHRoYXQgYWx3YXlzIGxlYWQgdG8gdGhvc2UgaXNzdWVzIGlzOg0K
+PiA+IC0gZG8gYSBtb2Rlc2V0IGVuYWJsaW5nIHBpcGUgQSBhbmQgcGlwZSBCIGluIHRoZSBzYW1l
+IE1TVCBzdHJlYW0NCj4gPiBsZWF2aW5nIEEgYXMgbWFzdGVyDQo+ID4gLSBkaXNhYmxlIHBpcGUg
+QSwgcHJvbW90ZSBCIGFzIG1hc3RlciBkb2luZyBhIGZ1bGwgbW9kZXNldCBpbiBBDQo+ID4gLSBl
+bmFibGUgcGlwZSBBLCBjaGFuZ2luZyB0aGUgbWFzdGVyIHRyYW5zY29kZXIgYmFjayB0byBBKGRv
+aW5nIGENCj4gPiBmdWxsIG1vZGVzZXQgaW4gQikNCj4gPiAtIFBvdzogdW5kZXJydW5zIGFuZCB0
+aW1lb3V0cw0KPiA+IA0KPiA+IFRoZSB0cmFuc2NvZGVycyBpbnZvbHZlZCB3aWxsIG9ubHkgd29y
+ayBhZ2FpbiB3aGVuIGNvbXBsZXRlDQo+ID4gZGlzYWJsZWQNCj4gPiBhbmQgdGhlaXIgcG93ZXIg
+d2VsbHMgdHVybmVkIG9mZiBjYXVzaW5nIGEgcmVzZXQgaW4gdGhlaXINCj4gPiByZWdpc3RlcnMu
+DQo+ID4gDQo+ID4gQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRl
+bC5jb20+DQo+ID4gQ2M6IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5jb20+DQo+
+ID4gU2lnbmVkLW9mZi1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRl
+bC5jb20+DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
+ZGRpLmMgfCAxICsNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspDQo+ID4gDQo+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMN
+Cj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMNCj4gPiBpbmRl
+eCAzMmVhM2M3ZThiNjIuLjgyZTkwZjI3MTk3NCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYw0KPiA+IEBAIC0xOTk3LDYgKzE5OTcsNyBAQCB2b2lk
+IGludGVsX2RkaV9kaXNhYmxlX3RyYW5zY29kZXJfZnVuYyhjb25zdA0KPiA+IHN0cnVjdCBpbnRl
+bF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlDQo+ID4gIA0KPiA+ICAJdmFsID0gSTkxNV9SRUFEKFRS
+QU5TX0RESV9GVU5DX0NUTChjcHVfdHJhbnNjb2RlcikpOw0KPiA+ICAJdmFsICY9IH5UUkFOU19E
+RElfRlVOQ19FTkFCTEU7DQo+ID4gKwl2YWwgJj0gflRSQU5TX0RESV9NT0RFX1NFTEVDVF9NQVNL
+Ow0KPiANCj4gRmVlbHMgYSBiaXQgZWFybHkgc2luY2UgSUlSQyB3ZSBzdGlsbCBsZWF2ZSBhIGJ1
+bmNoIG9mIG90aGVyIHN0dWZmDQo+IGVuYWJsZWQvc2VsZWN0ZWQgaGVyZS4gSW4gZmFjdCB3ZSBk
+b24ndCBzZWVtIHRvIGJlIGNsZWFyaW5nIHRoZSBEREkNCj4gc2VsZWN0DQo+IGFueXdoZXJlIGF0
+IGFsbD8gVGhhdCBvbmUgSSB3b3VsZCBiZSBtb3JlIHN1c3BpY2lvdXMgb2YgdGhhbiB0aGUNCj4g
+bW9kZS4NCj4gQnV0IG1heWJlIHdlIHNob3VsZCBqdXN0IGNsZWFyIGJvdGggc29tZXdoZXJlPyBJ
+IHdvdWxkIHN1Z2dlc3QgaXQNCj4gc2hvdWxkDQo+IGJlIHdoZW4gd2UgY2xlYXIgdGhlIHBvcnQg
+c2VsZWN0IGZpbmFsbHkuDQoNCldlIGFyZSBjbGVhcmluZyBEREkgc2VsZWN0LCBpbiBvdXIgY29k
+ZSBpdCBpcyBuYW1lZCBhcw0KVEdMX1RSQU5TX0RESV9QT1JUX01BU0svVFJBTlNfRERJX1BPUlRf
+TUFTSy4NCg0KRm9yIFRHTCBpbiBNU1QgbW9kZSB3ZSBjbGVhciBEREkgc2VsZWN0IGluIHRoZSBi
+bG9jayBiZWxvdyBmb3IgTVNUDQpzbGF2ZXMgYW5kIHRoZW4gaW4gaW50ZWxfZGRpX3Bvc3RfZGlz
+YWJsZV9kcCgpIGZvciBNU1QgbWFzdGVyIGFzDQppbnN0cnVjdGVkIGJ5IERpc3BsYXkgcG9ydCBz
+ZXF1ZW5jZXMuDQoNCj4gDQo+ID4gIA0KPiA+ICAJaWYgKElOVEVMX0dFTihkZXZfcHJpdikgPj0g
+MTIpIHsNCj4gPiAgCQlpZiAoIWludGVsX2RwX21zdF9pc19tYXN0ZXJfdHJhbnMoY3J0Y19zdGF0
+ZSkpDQo+ID4gLS0gDQo+ID4gMi4yNS4wDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
