@@ -2,31 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4466914DA68
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 13:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4800614DA69
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 13:08:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45D756F978;
-	Thu, 30 Jan 2020 12:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 044A56F979;
+	Thu, 30 Jan 2020 12:08:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C2B3F6F978
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 12:08:43 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,381,1574089200"; d="scan'208";a="37798975"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1A1536F97A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 12:08:45 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,381,1574089200"; d="scan'208";a="38015105"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 30 Jan 2020 21:08:42 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 30 Jan 2020 21:08:45 +0900
 Received: from marian-VirtualBox.ree.adwin.renesas.com (unknown
  [10.226.36.164])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6F96640062A5;
- Thu, 30 Jan 2020 21:08:41 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 09A9B40065D0;
+ Thu, 30 Jan 2020 21:08:43 +0900 (JST)
 From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 To: dri-devel@lists.freedesktop.org,
 	sam@ravnborg.org
-Subject: [PATCH v2 0/2] Add support for EDT ETM043080DH6-GP
-Date: Thu, 30 Jan 2020 12:08:36 +0000
-Message-Id: <1580386118-22895-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+Subject: [PATCH v2 1/2] dt-bindings: display: Add bindings for EDT panel
+Date: Thu, 30 Jan 2020 12:08:37 +0000
+Message-Id: <1580386118-22895-2-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1580386118-22895-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+References: <1580386118-22895-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,29 +50,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Second version of patch-set that adds support for EDT ETM043080DH6-GP. This
-is a 480x272 TFT Display with capacitive touchscreen and it is compatible
-with the simple panel driver.
+Document the Emerging Display Technology Corp. (EDT) ETM043080DH6-GP
+display, which is a 480x272 4.3" TFT display with capacitive touchscreen.
 
-We have tested it with our iWave-G22D Generic SODIMM Development Board.
+Changes in v2:
+	-modify proper bindings file
 
-In v2, after Sam Ravnborg's review, I've rebased the patches against
-drm-misc-next and modified the proper bindings file for the simple panels.
+Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I have also added the mandatory connector-type field and corrected the bus
-type as it is a 18bbp, therefore an RGB666.
-
-Unfortunately, we do not have access to the datasheet, therefore we could
-not use the display_timings format.
-
-Marian-Cristian Rotariu (2):
-  dt-bindings: display: Add bindings for EDT panel
-  drm/panel: simple: Add EDT panel support
-
- .../bindings/display/panel/panel-simple.yaml       |  2 ++
- drivers/gpu/drm/panel/panel-simple.c               | 34 ++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index bdf4d0b..cf23b0a 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -89,6 +89,8 @@ properties:
+       - dlc,dlc1010gig
+         # Emerging Display Technology Corp. 3.5" QVGA TFT LCD panel
+       - edt,et035012dm6
++        # Emerging Display Technology Corp. 480x272 TFT Display with capacitive touch
++      - edt,etm043080dh6gp
+         # Emerging Display Technology Corp. 480x272 TFT Display
+       - edt,etm0430g0dh6
+         # Emerging Display Technology Corp. 5.7" VGA TFT LCD panel
 -- 
 2.7.4
 
