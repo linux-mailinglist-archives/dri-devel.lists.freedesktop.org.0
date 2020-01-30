@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615D414E951
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:04:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C54F314E959
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:04:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6426FA93;
-	Fri, 31 Jan 2020 08:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC6446FA9A;
+	Fri, 31 Jan 2020 08:04:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB1236F90D;
- Thu, 30 Jan 2020 08:32:56 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id b6so2978806wrq.0;
- Thu, 30 Jan 2020 00:32:56 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B606F91C;
+ Thu, 30 Jan 2020 08:33:00 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id m16so2872091wrx.11;
+ Thu, 30 Jan 2020 00:33:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mqV0fT/ncaD/YJHsfmzv5rFTbuhd1bc0cBkD/akkLbo=;
- b=TsnposRa7WGz3pW9s2iNyMfXZFQ1Yemb7dUagN7tNileYwzO4ngKM8x9lbcBfEy+ox
- fqJGQCO79zE7Ow5Imb+HH84PJDERG0tRbUpqxyhcDCZAd5ktHP9tVVDxBo2jqyYJxa2d
- KJTKbFs3FIMLb65xysD+yOwNcZOikrWla8ivKYQHQvh1dXC30pF9afNnj5R9gUa5zU3B
- RJk30F98m9B3X/5UbewtUVosa3oBst9khOvtS2rFrruQkgivziULa+zCUqzI+nGpx1FK
- hAOfam2aaau3RFaaj9mI6px6DuJPlEVhxXnneitWEpjtyfEvJWj96OPQ9Uk3LclNkEMp
- 7eLQ==
+ bh=3dxWyTLXrZeEhnN/rlOo+rQE0cKhTGc+Bj4z4DrHgrg=;
+ b=n8XC/n5ICIo9IPWZtYzatOWLUbzNLcwQeRbZ9QsawNwzhwXdyK3FgBVtyuCblVUTRO
+ LvOc97rEgrifjv3dDkhuV18js9dqjraLeqbFT0e1PSVyvVbOuBlkTAYqDLec5mrGrhjx
+ RBZhuAcqQj5g1d9lURFiK+nbm04lvvYU0nGUybd92D33hm1iAc7lQLJ970MGj6LMUa7M
+ QKZ2isKVwNAJl34nRuVSv2vjSf8vQTkNx55e8oRpLJUqcPaZ26HKFjAJkFw2OmAqldeG
+ IZXjr3kbPnTCPWsCgj39WJacx4fYcVgBisyw8T6s8uul3Pu0ihf6sYP2S08dVCjEvJBT
+ +dbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mqV0fT/ncaD/YJHsfmzv5rFTbuhd1bc0cBkD/akkLbo=;
- b=DhGI64bPFoqoaf+FoVyaVocbixPavYAOmac0bN8UXKFUgriGBgVMr0cuQskAyU43hB
- 5GUt0XpnWxJtP7/w7G7lr5QwbqPE4kYGuLKyhIg9IwQG9basQHLm4MqlGHQnxCnVZhYY
- VJhzKVxgEoIU0YDhtw0jdPJFZzEF7xuLNQd2kPpwzOtb56gOCwSdX8Csj0T7aYF6xMey
- yJWNQaICRmSIiyoh/7xea4CjPxe5AqqY611U2FPEbXVvVtIciAj5KxK6fKAPYqjAL3Qi
- 0W0CTUELzAOyoVVbj8Jk7hWq1OIKFK6SyLFIjMFFbawVjRKQnAR1oz7qRNwHCHn9I1AY
- ISNA==
-X-Gm-Message-State: APjAAAV+lE0cuNK/b2WSN47CXIotyjC2bwoikHAnbkh5WVljJrSjYWt7
- rMMbkNDA7GRDz8gipRVBUOY=
-X-Google-Smtp-Source: APXvYqzhWu4jNdP+y3/zt5zjD4vcBLtUfg0SjJ1rRRzk5YdW7N5GNjD0DKCK/Ymul9yo9ED2ueahHw==
-X-Received: by 2002:a5d:46d0:: with SMTP id g16mr3829899wrs.287.1580373175435; 
- Thu, 30 Jan 2020 00:32:55 -0800 (PST)
+ bh=3dxWyTLXrZeEhnN/rlOo+rQE0cKhTGc+Bj4z4DrHgrg=;
+ b=X7uQN0yRoQqVE0BV0VEYIsQ7fitYTltxkw4N70HuPW1Mp0Sf7UvCoc0EkyY/BWML55
+ UG7gPvWU/QhWAdRbNSG+QW7i3uqm7G1NGTN1z8LrnbLJxzl6C/VufHv6nnO3X/Quu4+K
+ GV9f8eqb8rb/8EkjFSo6r1uGAVVMlA9iZgETxNwNWC//WmqfsBYfLxt4yaf8e49UtAva
+ lYzgzMZsrvs3cmhhbs3+3de6ekUunM2iqJtLmlM7rRD1kvwBLK1v3IhIeY1FOni2kQeJ
+ PF3/54NjMIknO0tAT6KjXRrYfHDLhhFFguCTLq1XwptaCq3kt2Mh8WzI1upl1e+3+LUc
+ 5gWw==
+X-Gm-Message-State: APjAAAUiRS+JA0/s3RAMmKTSbwzuM2GQzvJZhjpJgdYlc2tUafJSoacZ
+ CT6gPxXU43s4u5sMBrCDUgQ=
+X-Google-Smtp-Source: APXvYqwwDretUyLMrPPyWsa2YOKUZ9nU3+0soaRFgJeZ9shCWmldX09rIgAYp/uxsGRISnW5igwjQA==
+X-Received: by 2002:adf:a453:: with SMTP id e19mr3656374wra.305.1580373179237; 
+ Thu, 30 Jan 2020 00:32:59 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id i11sm6363678wrs.10.2020.01.30.00.32.52
+ by smtp.googlemail.com with ESMTPSA id i11sm6363678wrs.10.2020.01.30.00.32.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 00:32:54 -0800 (PST)
+ Thu, 30 Jan 2020 00:32:58 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 06/12] drm/i915/tc: automatic conversion to drm_device based
- logging macros.
-Date: Thu, 30 Jan 2020 11:32:23 +0300
-Message-Id: <20200130083229.12889-7-wambui.karugax@gmail.com>
+Subject: [PATCH 07/12] drm/i915/sprite: automatic conversion to drm_device
+ based logging macros
+Date: Thu, 30 Jan 2020 11:32:24 +0300
+Message-Id: <20200130083229.12889-8-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200130083229.12889-1-wambui.karugax@gmail.com>
 References: <20200130083229.12889-1-wambui.karugax@gmail.com>
@@ -76,10 +76,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Converts most uses of the printk based logging macros to the struct
-drm_device based logging macros in i915/display/intel_tc.c using the
-following coccinelle script that matches based on the existence of a
-struct drm_i915_private device:
+Conversion of most instances of the printk based logging macros to the
+struct drm_device based logging macros in i915/display/intel_sprite.c
+This was done automatically by the following coccinelle script that
+matches based on the existence of a struct drm_i915_private device:
 @@
 identifier fn, T;
 @@
@@ -158,92 +158,148 @@ fn(...,struct drm_i915_private *T,...) {
 ...+>
 }
 
-Checkpatch warnings were addressed manually.
+Checkpatch warnings were fixed manually.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/display/intel_tc.c | 33 ++++++++++++++-----------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/i915/display/intel_sprite.c | 60 ++++++++++++---------
+ 1 file changed, 36 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
-index 7773169b7331..01508e447836 100644
---- a/drivers/gpu/drm/i915/display/intel_tc.c
-+++ b/drivers/gpu/drm/i915/display/intel_tc.c
-@@ -181,8 +181,9 @@ static u32 tc_port_live_status_mask(struct intel_digital_port *dig_port)
- 				PORT_TX_DFLEXDPSP(dig_port->tc_phy_fia));
+diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/drm/i915/display/intel_sprite.c
+index 2f277d1fc6f1..8a4b5ad12d58 100644
+--- a/drivers/gpu/drm/i915/display/intel_sprite.c
++++ b/drivers/gpu/drm/i915/display/intel_sprite.c
+@@ -113,8 +113,9 @@ void intel_pipe_update_start(const struct intel_crtc_state *new_crtc_state)
+ 	 * re-entry as well.
+ 	 */
+ 	if (intel_psr_wait_for_idle(new_crtc_state, &psr_status))
+-		DRM_ERROR("PSR idle timed out 0x%x, atomic update may fail\n",
+-			  psr_status);
++		drm_err(&dev_priv->drm,
++			"PSR idle timed out 0x%x, atomic update may fail\n",
++			psr_status);
  
- 	if (val == 0xffffffff) {
--		DRM_DEBUG_KMS("Port %s: PHY in TCCOLD, nothing connected\n",
--			      dig_port->tc_port_name);
-+		drm_dbg_kms(&i915->drm,
-+			    "Port %s: PHY in TCCOLD, nothing connected\n",
-+			    dig_port->tc_port_name);
- 		return mask;
+ 	local_irq_disable();
+ 
+@@ -135,8 +136,9 @@ void intel_pipe_update_start(const struct intel_crtc_state *new_crtc_state)
+ 			break;
+ 
+ 		if (!timeout) {
+-			DRM_ERROR("Potential atomic update failure on pipe %c\n",
+-				  pipe_name(crtc->pipe));
++			drm_err(&dev_priv->drm,
++				"Potential atomic update failure on pipe %c\n",
++				pipe_name(crtc->pipe));
+ 			break;
+ 		}
+ 
+@@ -221,17 +223,20 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
+ 
+ 	if (crtc->debug.start_vbl_count &&
+ 	    crtc->debug.start_vbl_count != end_vbl_count) {
+-		DRM_ERROR("Atomic update failure on pipe %c (start=%u end=%u) time %lld us, min %d, max %d, scanline start %d, end %d\n",
+-			  pipe_name(pipe), crtc->debug.start_vbl_count,
+-			  end_vbl_count,
+-			  ktime_us_delta(end_vbl_time, crtc->debug.start_vbl_time),
+-			  crtc->debug.min_vbl, crtc->debug.max_vbl,
+-			  crtc->debug.scanline_start, scanline_end);
++		drm_err(&dev_priv->drm,
++			"Atomic update failure on pipe %c (start=%u end=%u) time %lld us, min %d, max %d, scanline start %d, end %d\n",
++			pipe_name(pipe), crtc->debug.start_vbl_count,
++			end_vbl_count,
++			ktime_us_delta(end_vbl_time,
++				       crtc->debug.start_vbl_time),
++			crtc->debug.min_vbl, crtc->debug.max_vbl,
++			crtc->debug.scanline_start, scanline_end);
+ 	}
+ #ifdef CONFIG_DRM_I915_DEBUG_VBLANK_EVADE
+ 	else if (ktime_us_delta(end_vbl_time, crtc->debug.start_vbl_time) >
+ 		 VBLANK_EVASION_TIME_US)
+-		DRM_WARN("Atomic update on pipe (%c) took %lld us, max time under evasion is %u us\n",
++		drm_warn(&dev_priv->drm,
++			 "Atomic update on pipe (%c) took %lld us, max time under evasion is %u us\n",
+ 			 pipe_name(pipe),
+ 			 ktime_us_delta(end_vbl_time, crtc->debug.start_vbl_time),
+ 			 VBLANK_EVASION_TIME_US);
+@@ -2029,7 +2034,8 @@ int chv_plane_check_rotation(const struct intel_plane_state *plane_state)
+ 	if (IS_CHERRYVIEW(dev_priv) &&
+ 	    rotation & DRM_MODE_ROTATE_180 &&
+ 	    rotation & DRM_MODE_REFLECT_X) {
+-		DRM_DEBUG_KMS("Cannot rotate and reflect at the same time\n");
++		drm_dbg_kms(&dev_priv->drm,
++			    "Cannot rotate and reflect at the same time\n");
+ 		return -EINVAL;
  	}
  
-@@ -210,8 +211,9 @@ static bool icl_tc_phy_status_complete(struct intel_digital_port *dig_port)
- 	val = intel_uncore_read(uncore,
- 				PORT_TX_DFLEXDPPMS(dig_port->tc_phy_fia));
- 	if (val == 0xffffffff) {
--		DRM_DEBUG_KMS("Port %s: PHY in TCCOLD, assuming not complete\n",
--			      dig_port->tc_port_name);
-+		drm_dbg_kms(&i915->drm,
-+			    "Port %s: PHY in TCCOLD, assuming not complete\n",
-+			    dig_port->tc_port_name);
- 		return false;
+@@ -2084,21 +2090,24 @@ static int skl_plane_check_fb(const struct intel_crtc_state *crtc_state,
+ 
+ 	if (rotation & ~(DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180) &&
+ 	    is_ccs_modifier(fb->modifier)) {
+-		DRM_DEBUG_KMS("RC support only with 0/180 degree rotation (%x)\n",
+-			      rotation);
++		drm_dbg_kms(&dev_priv->drm,
++			    "RC support only with 0/180 degree rotation (%x)\n",
++			    rotation);
+ 		return -EINVAL;
  	}
  
-@@ -228,8 +230,9 @@ static bool icl_tc_phy_set_safe_mode(struct intel_digital_port *dig_port,
- 	val = intel_uncore_read(uncore,
- 				PORT_TX_DFLEXDPCSSS(dig_port->tc_phy_fia));
- 	if (val == 0xffffffff) {
--		DRM_DEBUG_KMS("Port %s: PHY in TCCOLD, can't set safe-mode to %s\n",
--			      dig_port->tc_port_name,
-+		drm_dbg_kms(&i915->drm,
-+			    "Port %s: PHY in TCCOLD, can't set safe-mode to %s\n",
-+			    dig_port->tc_port_name,
- 			      enableddisabled(enable));
- 
- 		return false;
-@@ -243,8 +246,9 @@ static bool icl_tc_phy_set_safe_mode(struct intel_digital_port *dig_port,
- 			   PORT_TX_DFLEXDPCSSS(dig_port->tc_phy_fia), val);
- 
- 	if (enable && wait_for(!icl_tc_phy_status_complete(dig_port), 10))
--		DRM_DEBUG_KMS("Port %s: PHY complete clear timed out\n",
--			      dig_port->tc_port_name);
-+		drm_dbg_kms(&i915->drm,
-+			    "Port %s: PHY complete clear timed out\n",
-+			    dig_port->tc_port_name);
- 
- 	return true;
- }
-@@ -258,8 +262,9 @@ static bool icl_tc_phy_is_in_safe_mode(struct intel_digital_port *dig_port)
- 	val = intel_uncore_read(uncore,
- 				PORT_TX_DFLEXDPCSSS(dig_port->tc_phy_fia));
- 	if (val == 0xffffffff) {
--		DRM_DEBUG_KMS("Port %s: PHY in TCCOLD, assume safe mode\n",
--			      dig_port->tc_port_name);
-+		drm_dbg_kms(&i915->drm,
-+			    "Port %s: PHY in TCCOLD, assume safe mode\n",
-+			    dig_port->tc_port_name);
- 		return true;
+ 	if (rotation & DRM_MODE_REFLECT_X &&
+ 	    fb->modifier == DRM_FORMAT_MOD_LINEAR) {
+-		DRM_DEBUG_KMS("horizontal flip is not supported with linear surface formats\n");
++		drm_dbg_kms(&dev_priv->drm,
++			    "horizontal flip is not supported with linear surface formats\n");
+ 		return -EINVAL;
  	}
  
-@@ -415,10 +420,10 @@ static void intel_tc_port_reset_mode(struct intel_digital_port *dig_port,
- 	icl_tc_phy_disconnect(dig_port);
- 	icl_tc_phy_connect(dig_port, required_lanes);
+ 	if (drm_rotation_90_or_270(rotation)) {
+ 		if (fb->modifier != I915_FORMAT_MOD_Y_TILED &&
+ 		    fb->modifier != I915_FORMAT_MOD_Yf_TILED) {
+-			DRM_DEBUG_KMS("Y/Yf tiling required for 90/270!\n");
++			drm_dbg_kms(&dev_priv->drm,
++				    "Y/Yf tiling required for 90/270!\n");
+ 			return -EINVAL;
+ 		}
  
--	DRM_DEBUG_KMS("Port %s: TC port mode reset (%s -> %s)\n",
--		      dig_port->tc_port_name,
--		      tc_port_mode_name(old_tc_mode),
--		      tc_port_mode_name(dig_port->tc_mode));
-+	drm_dbg_kms(&i915->drm, "Port %s: TC port mode reset (%s -> %s)\n",
-+		    dig_port->tc_port_name,
-+		    tc_port_mode_name(old_tc_mode),
-+		    tc_port_mode_name(dig_port->tc_mode));
- }
+@@ -2121,9 +2130,10 @@ static int skl_plane_check_fb(const struct intel_crtc_state *crtc_state,
+ 		case DRM_FORMAT_Y216:
+ 		case DRM_FORMAT_XVYU12_16161616:
+ 		case DRM_FORMAT_XVYU16161616:
+-			DRM_DEBUG_KMS("Unsupported pixel format %s for 90/270!\n",
+-				      drm_get_format_name(fb->format->format,
+-							  &format_name));
++			drm_dbg_kms(&dev_priv->drm,
++				    "Unsupported pixel format %s for 90/270!\n",
++				    drm_get_format_name(fb->format->format,
++							&format_name));
+ 			return -EINVAL;
+ 		default:
+ 			break;
+@@ -2139,7 +2149,8 @@ static int skl_plane_check_fb(const struct intel_crtc_state *crtc_state,
+ 	     fb->modifier == I915_FORMAT_MOD_Yf_TILED_CCS ||
+ 	     fb->modifier == I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS ||
+ 	     fb->modifier == I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS)) {
+-		DRM_DEBUG_KMS("Y/Yf tiling not supported in IF-ID mode\n");
++		drm_dbg_kms(&dev_priv->drm,
++			    "Y/Yf tiling not supported in IF-ID mode\n");
+ 		return -EINVAL;
+ 	}
  
- static void
+@@ -2166,10 +2177,11 @@ static int skl_plane_check_dst_coordinates(const struct intel_crtc_state *crtc_s
+ 	 */
+ 	if ((IS_GEMINILAKE(dev_priv) || IS_CANNONLAKE(dev_priv)) &&
+ 	    (crtc_x + crtc_w < 4 || crtc_x > pipe_src_w - 4)) {
+-		DRM_DEBUG_KMS("requested plane X %s position %d invalid (valid range %d-%d)\n",
+-			      crtc_x + crtc_w < 4 ? "end" : "start",
+-			      crtc_x + crtc_w < 4 ? crtc_x + crtc_w : crtc_x,
+-			      4, pipe_src_w - 4);
++		drm_dbg_kms(&dev_priv->drm,
++			    "requested plane X %s position %d invalid (valid range %d-%d)\n",
++			    crtc_x + crtc_w < 4 ? "end" : "start",
++			    crtc_x + crtc_w < 4 ? crtc_x + crtc_w : crtc_x,
++			    4, pipe_src_w - 4);
+ 		return -ERANGE;
+ 	}
+ 
 -- 
 2.25.0
 
