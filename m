@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B40914E957
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:04:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 615D414E951
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:04:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDAB76FA9D;
-	Fri, 31 Jan 2020 08:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6426FA93;
+	Fri, 31 Jan 2020 08:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB8D6F913;
- Thu, 30 Jan 2020 08:32:52 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id g17so2966113wro.2;
- Thu, 30 Jan 2020 00:32:52 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB1236F90D;
+ Thu, 30 Jan 2020 08:32:56 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id b6so2978806wrq.0;
+ Thu, 30 Jan 2020 00:32:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2pcDxaz1r4lnc+nRs7lVUX0N/1Eh6e9jSwk1X6FXGgE=;
- b=qUmWV/5yag6pLFCbZLyu5GznADzlwTRav4iWYGR55YHD1vX4gxk/Wng1gIw5k8vWrr
- Qpp/Q3a8uW102Gliljtw4iKyjf3V+8d326VADG22ie70Kqi38OjRVVULgrfsToDgODLN
- gZcFzxhWuB86jxVr9jNI1p4331Or4oLILxkoOq78l+USXSQqEkKLurC6HVc3qIJXcTAG
- mzGpf0Yv29EYgKslTRvZWPGdFZUPhxlPoZ5xRjPdn7FWF5jkINn861WOAQZ4C4OWXM9u
- gZK5XAPStnjuIYNgXpt6rDRdKQXxdYpU+WnpPrMYmyPya4GIozZxvXFTSiz90mbJPIc6
- dobw==
+ bh=mqV0fT/ncaD/YJHsfmzv5rFTbuhd1bc0cBkD/akkLbo=;
+ b=TsnposRa7WGz3pW9s2iNyMfXZFQ1Yemb7dUagN7tNileYwzO4ngKM8x9lbcBfEy+ox
+ fqJGQCO79zE7Ow5Imb+HH84PJDERG0tRbUpqxyhcDCZAd5ktHP9tVVDxBo2jqyYJxa2d
+ KJTKbFs3FIMLb65xysD+yOwNcZOikrWla8ivKYQHQvh1dXC30pF9afNnj5R9gUa5zU3B
+ RJk30F98m9B3X/5UbewtUVosa3oBst9khOvtS2rFrruQkgivziULa+zCUqzI+nGpx1FK
+ hAOfam2aaau3RFaaj9mI6px6DuJPlEVhxXnneitWEpjtyfEvJWj96OPQ9Uk3LclNkEMp
+ 7eLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2pcDxaz1r4lnc+nRs7lVUX0N/1Eh6e9jSwk1X6FXGgE=;
- b=qTiFAwMS8CMF9S4vDmeET9zKpDUIHinXnhL14IQ5oWREOiwG0DnQt9XIxa9guxOsVz
- /LkOwKxMgbs9F3J3DQO0chCFOr4NmxMIdtLcOjI3kwcOuazf+O8duvStQ1RNKpUnpJ8b
- CX6kifyN+8tqZ4IMQNQeXaYBDZ/Mizg+4XH+8/4R06EelfQ/Frl1Ueduk41MN4qptFrN
- dHH4AJv3SIGMbpvA2AtymzUPLk13wtc8Bgww1BdY/UKaVf6l8UMbT5+kCePvBHMOJVpc
- rZ/cjWF6LYD6bT7hPeipnfPlxhMilML7C5mQz2UupLhUcwXAPecWB3Epi/HMpNUVrZyK
- TTog==
-X-Gm-Message-State: APjAAAUBPKUtzkWgp6z8HeGXsZCROnpaIvTh/JKt4/kN2d7xghnRis8O
- y6i12CG4i3gCxh9zsEpENwg=
-X-Google-Smtp-Source: APXvYqzbNJO+RIK8BP1aWXfkEitt7hAQWMdFXdmI8BW8FcpP2VAjvf1Fd/Wl7WwHBFCzT96ZppILzA==
-X-Received: by 2002:a5d:53c1:: with SMTP id a1mr3868300wrw.373.1580373171373; 
- Thu, 30 Jan 2020 00:32:51 -0800 (PST)
+ bh=mqV0fT/ncaD/YJHsfmzv5rFTbuhd1bc0cBkD/akkLbo=;
+ b=DhGI64bPFoqoaf+FoVyaVocbixPavYAOmac0bN8UXKFUgriGBgVMr0cuQskAyU43hB
+ 5GUt0XpnWxJtP7/w7G7lr5QwbqPE4kYGuLKyhIg9IwQG9basQHLm4MqlGHQnxCnVZhYY
+ VJhzKVxgEoIU0YDhtw0jdPJFZzEF7xuLNQd2kPpwzOtb56gOCwSdX8Csj0T7aYF6xMey
+ yJWNQaICRmSIiyoh/7xea4CjPxe5AqqY611U2FPEbXVvVtIciAj5KxK6fKAPYqjAL3Qi
+ 0W0CTUELzAOyoVVbj8Jk7hWq1OIKFK6SyLFIjMFFbawVjRKQnAR1oz7qRNwHCHn9I1AY
+ ISNA==
+X-Gm-Message-State: APjAAAV+lE0cuNK/b2WSN47CXIotyjC2bwoikHAnbkh5WVljJrSjYWt7
+ rMMbkNDA7GRDz8gipRVBUOY=
+X-Google-Smtp-Source: APXvYqzhWu4jNdP+y3/zt5zjD4vcBLtUfg0SjJ1rRRzk5YdW7N5GNjD0DKCK/Ymul9yo9ED2ueahHw==
+X-Received: by 2002:a5d:46d0:: with SMTP id g16mr3829899wrs.287.1580373175435; 
+ Thu, 30 Jan 2020 00:32:55 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id i11sm6363678wrs.10.2020.01.30.00.32.48
+ by smtp.googlemail.com with ESMTPSA id i11sm6363678wrs.10.2020.01.30.00.32.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 00:32:50 -0800 (PST)
+ Thu, 30 Jan 2020 00:32:54 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 05/12] drm/i915/tv: automatic conversion to drm_device based
+Subject: [PATCH 06/12] drm/i915/tc: automatic conversion to drm_device based
  logging macros.
-Date: Thu, 30 Jan 2020 11:32:22 +0300
-Message-Id: <20200130083229.12889-6-wambui.karugax@gmail.com>
+Date: Thu, 30 Jan 2020 11:32:23 +0300
+Message-Id: <20200130083229.12889-7-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200130083229.12889-1-wambui.karugax@gmail.com>
 References: <20200130083229.12889-1-wambui.karugax@gmail.com>
@@ -77,9 +77,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Converts most uses of the printk based logging macros to the struct
-drm_device based logging macros in i915/display/intel_tv.c using the
+drm_device based logging macros in i915/display/intel_tc.c using the
 following coccinelle script that matches based on the existence of a
-drm_i915_private device pointer:
+struct drm_i915_private device:
 @@
 identifier fn, T;
 @@
@@ -158,105 +158,92 @@ fn(...,struct drm_i915_private *T,...) {
 ...+>
 }
 
-Checkpatch warnings were fixed manually.
+Checkpatch warnings were addressed manually.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/display/intel_tv.c | 26 ++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/display/intel_tc.c | 33 ++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
-index fa155a028e2b..4f81ee26b7ab 100644
---- a/drivers/gpu/drm/i915/display/intel_tv.c
-+++ b/drivers/gpu/drm/i915/display/intel_tv.c
-@@ -1146,7 +1146,7 @@ intel_tv_get_config(struct intel_encoder *encoder,
+diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
+index 7773169b7331..01508e447836 100644
+--- a/drivers/gpu/drm/i915/display/intel_tc.c
++++ b/drivers/gpu/drm/i915/display/intel_tc.c
+@@ -181,8 +181,9 @@ static u32 tc_port_live_status_mask(struct intel_digital_port *dig_port)
+ 				PORT_TX_DFLEXDPSP(dig_port->tc_phy_fia));
  
- 	intel_tv_mode_to_mode(&mode, &tv_mode);
- 
--	DRM_DEBUG_KMS("TV mode:\n");
-+	drm_dbg_kms(&dev_priv->drm, "TV mode:\n");
- 	drm_mode_debug_printmodeline(&mode);
- 
- 	intel_tv_scale_mode_horiz(&mode, hdisplay,
-@@ -1202,7 +1202,7 @@ intel_tv_compute_config(struct intel_encoder *encoder,
- 
- 	pipe_config->output_format = INTEL_OUTPUT_FORMAT_RGB;
- 
--	DRM_DEBUG_KMS("forcing bpc to 8 for TV\n");
-+	drm_dbg_kms(&dev_priv->drm, "forcing bpc to 8 for TV\n");
- 	pipe_config->pipe_bpp = 8*3;
- 
- 	pipe_config->port_clock = tv_mode->clock;
-@@ -1217,7 +1217,8 @@ intel_tv_compute_config(struct intel_encoder *encoder,
- 		extra = adjusted_mode->crtc_vdisplay - vdisplay;
- 
- 		if (extra < 0) {
--			DRM_DEBUG_KMS("No vertical scaling for >1024 pixel wide modes\n");
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "No vertical scaling for >1024 pixel wide modes\n");
- 			return -EINVAL;
- 		}
- 
-@@ -1250,7 +1251,7 @@ intel_tv_compute_config(struct intel_encoder *encoder,
- 		tv_conn_state->bypass_vfilter = false;
+ 	if (val == 0xffffffff) {
+-		DRM_DEBUG_KMS("Port %s: PHY in TCCOLD, nothing connected\n",
+-			      dig_port->tc_port_name);
++		drm_dbg_kms(&i915->drm,
++			    "Port %s: PHY in TCCOLD, nothing connected\n",
++			    dig_port->tc_port_name);
+ 		return mask;
  	}
  
--	DRM_DEBUG_KMS("TV mode:\n");
-+	drm_dbg_kms(&dev_priv->drm, "TV mode:\n");
- 	drm_mode_debug_printmodeline(adjusted_mode);
- 
- 	/*
-@@ -1622,7 +1623,7 @@ intel_tv_detect_type(struct intel_tv *intel_tv,
- 
- 	type = -1;
- 	tv_dac = intel_de_read(dev_priv, TV_DAC);
--	DRM_DEBUG_KMS("TV detected: %x, %x\n", tv_ctl, tv_dac);
-+	drm_dbg_kms(&dev_priv->drm, "TV detected: %x, %x\n", tv_ctl, tv_dac);
- 	/*
- 	 *  A B C
- 	 *  0 1 1 Composite
-@@ -1630,16 +1631,19 @@ intel_tv_detect_type(struct intel_tv *intel_tv,
- 	 *  0 0 0 Component
- 	 */
- 	if ((tv_dac & TVDAC_SENSE_MASK) == (TVDAC_B_SENSE | TVDAC_C_SENSE)) {
--		DRM_DEBUG_KMS("Detected Composite TV connection\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Detected Composite TV connection\n");
- 		type = DRM_MODE_CONNECTOR_Composite;
- 	} else if ((tv_dac & (TVDAC_A_SENSE|TVDAC_B_SENSE)) == TVDAC_A_SENSE) {
--		DRM_DEBUG_KMS("Detected S-Video TV connection\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Detected S-Video TV connection\n");
- 		type = DRM_MODE_CONNECTOR_SVIDEO;
- 	} else if ((tv_dac & TVDAC_SENSE_MASK) == 0) {
--		DRM_DEBUG_KMS("Detected Component TV connection\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Detected Component TV connection\n");
- 		type = DRM_MODE_CONNECTOR_Component;
- 	} else {
--		DRM_DEBUG_KMS("Unrecognised TV connection\n");
-+		drm_dbg_kms(&dev_priv->drm, "Unrecognised TV connection\n");
- 		type = -1;
+@@ -210,8 +211,9 @@ static bool icl_tc_phy_status_complete(struct intel_digital_port *dig_port)
+ 	val = intel_uncore_read(uncore,
+ 				PORT_TX_DFLEXDPPMS(dig_port->tc_phy_fia));
+ 	if (val == 0xffffffff) {
+-		DRM_DEBUG_KMS("Port %s: PHY in TCCOLD, assuming not complete\n",
+-			      dig_port->tc_port_name);
++		drm_dbg_kms(&i915->drm,
++			    "Port %s: PHY in TCCOLD, assuming not complete\n",
++			    dig_port->tc_port_name);
+ 		return false;
  	}
  
-@@ -1800,7 +1804,7 @@ intel_tv_get_modes(struct drm_connector *connector)
- 		 */
- 		intel_tv_mode_to_mode(mode, tv_mode);
- 		if (count == 0) {
--			DRM_DEBUG_KMS("TV mode:\n");
-+			drm_dbg_kms(&dev_priv->drm, "TV mode:\n");
- 			drm_mode_debug_printmodeline(mode);
- 		}
- 		intel_tv_scale_mode_horiz(mode, input->w, 0, 0);
-@@ -1880,7 +1884,7 @@ intel_tv_init(struct drm_i915_private *dev_priv)
- 		return;
+@@ -228,8 +230,9 @@ static bool icl_tc_phy_set_safe_mode(struct intel_digital_port *dig_port,
+ 	val = intel_uncore_read(uncore,
+ 				PORT_TX_DFLEXDPCSSS(dig_port->tc_phy_fia));
+ 	if (val == 0xffffffff) {
+-		DRM_DEBUG_KMS("Port %s: PHY in TCCOLD, can't set safe-mode to %s\n",
+-			      dig_port->tc_port_name,
++		drm_dbg_kms(&i915->drm,
++			    "Port %s: PHY in TCCOLD, can't set safe-mode to %s\n",
++			    dig_port->tc_port_name,
+ 			      enableddisabled(enable));
  
- 	if (!intel_bios_is_tv_present(dev_priv)) {
--		DRM_DEBUG_KMS("Integrated TV is not present.\n");
-+		drm_dbg_kms(&dev_priv->drm, "Integrated TV is not present.\n");
- 		return;
+ 		return false;
+@@ -243,8 +246,9 @@ static bool icl_tc_phy_set_safe_mode(struct intel_digital_port *dig_port,
+ 			   PORT_TX_DFLEXDPCSSS(dig_port->tc_phy_fia), val);
+ 
+ 	if (enable && wait_for(!icl_tc_phy_status_complete(dig_port), 10))
+-		DRM_DEBUG_KMS("Port %s: PHY complete clear timed out\n",
+-			      dig_port->tc_port_name);
++		drm_dbg_kms(&i915->drm,
++			    "Port %s: PHY complete clear timed out\n",
++			    dig_port->tc_port_name);
+ 
+ 	return true;
+ }
+@@ -258,8 +262,9 @@ static bool icl_tc_phy_is_in_safe_mode(struct intel_digital_port *dig_port)
+ 	val = intel_uncore_read(uncore,
+ 				PORT_TX_DFLEXDPCSSS(dig_port->tc_phy_fia));
+ 	if (val == 0xffffffff) {
+-		DRM_DEBUG_KMS("Port %s: PHY in TCCOLD, assume safe mode\n",
+-			      dig_port->tc_port_name);
++		drm_dbg_kms(&i915->drm,
++			    "Port %s: PHY in TCCOLD, assume safe mode\n",
++			    dig_port->tc_port_name);
+ 		return true;
  	}
  
+@@ -415,10 +420,10 @@ static void intel_tc_port_reset_mode(struct intel_digital_port *dig_port,
+ 	icl_tc_phy_disconnect(dig_port);
+ 	icl_tc_phy_connect(dig_port, required_lanes);
+ 
+-	DRM_DEBUG_KMS("Port %s: TC port mode reset (%s -> %s)\n",
+-		      dig_port->tc_port_name,
+-		      tc_port_mode_name(old_tc_mode),
+-		      tc_port_mode_name(dig_port->tc_mode));
++	drm_dbg_kms(&i915->drm, "Port %s: TC port mode reset (%s -> %s)\n",
++		    dig_port->tc_port_name,
++		    tc_port_mode_name(old_tc_mode),
++		    tc_port_mode_name(dig_port->tc_mode));
+ }
+ 
+ static void
 -- 
 2.25.0
 
