@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECB714E95B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:04:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD3414E954
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:04:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 196136FAA0;
-	Fri, 31 Jan 2020 08:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDEBF6FA99;
+	Fri, 31 Jan 2020 08:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A95BD6F91D;
- Thu, 30 Jan 2020 08:33:19 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id w15so2939950wru.4;
- Thu, 30 Jan 2020 00:33:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dHODT5F3MVXDIl9ni3de8cAXpEfjT06B9onUe8P5bB8=;
- b=j2pC9br02rq19XGwrG/x2cKlCe6xTN1nqpHCFAWm28TBYfareSDhs2ENq8vg3zgYmK
- LfPNZ8+pnRZ5GL2iB1UNCjsldxKBq/43BuYKr4wIzx55uaoDM0lm4knD4TpN2g1Ykip9
- 0e4Yep8g1bsRNSnMPaXYOcso1qSBGjxx0v+I40o0dloI7VY8eTY+Mx7nvWurIqsbr+HO
- Gj/5QQuOw4NIXBjTKh8rKWe/zs9Aaqe8NcdSOeOcSqLLZREJpQyAUvzaX5n3dj2c16N9
- lr6cQZNR+YkIdgT+PRikTF/SFUBs6gjQ0TnWkAx/MBE/Gl+Y1rzZTGBSWeVvndHWJYfE
- 7q2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dHODT5F3MVXDIl9ni3de8cAXpEfjT06B9onUe8P5bB8=;
- b=VXCzQUfl9GKDQHrHVuIkRkWWNtrlgPmWVXSfS5627/4NqiXMRnE/2B+ht2vHnqQq9X
- mUmHtSnLZjxBmiG3/Oy1DIGWtkDaj738ULqA1Y46gNg3fXM+sa/gLdpR+C1+sAC8g6Kd
- skPXN1K9GfdAwQXjAKt2B61rrz3bjGuA7p5RLN+XLZuc9qLmqu7ehbzvEnDHQbEEwEXI
- DDSWlFeuOJ1+GvpgYkMR7HWQkExHkAOrIjEy9gGSHU0/+FfY6fPR3sxJ10kmTzsVzmHo
- nxq3tviuH29b75G/bYVaDnWRBosc53GV9AOPzh7vaa6tvt9SCzpuI98dTMOqNHT43dja
- 96Pw==
-X-Gm-Message-State: APjAAAVnnZLByKkbrrgV08qLKQpXbaDConPZo1hpAYundVLVLXqCIUki
- tF/gfPEVtM4P947ifszIs2M=
-X-Google-Smtp-Source: APXvYqwAqywSufXXHXz/zHpiS3kRm1cX4GXxvibdvK8frwOKsIm3oHHxNNcyN662HZzfrEsidm5ksA==
-X-Received: by 2002:adf:a453:: with SMTP id e19mr3658095wra.305.1580373198047; 
- Thu, 30 Jan 2020 00:33:18 -0800 (PST)
-Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id i11sm6363678wrs.10.2020.01.30.00.33.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 00:33:17 -0800 (PST)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 12/12] drm/i915/panel: automatic conversion to drm_device
- based logging macros.
-Date: Thu, 30 Jan 2020 11:32:29 +0300
-Message-Id: <20200130083229.12889-13-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200130083229.12889-1-wambui.karugax@gmail.com>
-References: <20200130083229.12889-1-wambui.karugax@gmail.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA1D86F901
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 08:45:07 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 00U8cLPq025647; Thu, 30 Jan 2020 09:44:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=kWfXJnmr0BI7puqIerfdcIFZFcyxNHSzlJmHkNmaVRw=;
+ b=feNeqU4zO0MFE/ruSwBCprntxNVqEFLc3rPHyECyMsu3M5t+bM5SvxdcKrviCSJJ/kt9
+ 0KEC3fKWceLrLnh84VNQTVs/lIyexyczULeiLq+30OjmgbZMyIzwozeeTAM3KC2JRmtR
+ gOmfOALXm4T6KcgE7FeU+g0D5sLeDyF0YhP25N1ALDKYo4TMhL1oSBTPr+ZrjvOIz5Dq
+ VtfTyJvKuNLftub3DC2p9W19nb5tTj7MU6BD9h1TCN9NqZgiOHBUx5pseA4iQdh03FzN
+ S7e5J4EhkWHpnmnwXQf14ApXmSBG8EO9R4PdEFOmhF+YLxuxKrHqptPdBwnDn67hjgAL fQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 2xrc13f5g7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Jan 2020 09:44:59 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id CDDA3100039;
+ Thu, 30 Jan 2020 09:44:55 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B97A3222CB6;
+ Thu, 30 Jan 2020 09:44:55 +0100 (CET)
+Received: from localhost (10.75.127.47) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 30 Jan 2020 09:44:55
+ +0100
+From: Benjamin Gaignard <benjamin.gaignard@st.com>
+To: 
+Subject: [PATCH v3] dt-bindings: one file of all simple DSI panels
+Date: Thu, 30 Jan 2020 09:44:30 +0100
+Message-ID: <20200130084430.20966-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG8NODE2.st.com (10.75.127.23) To SFHDAG3NODE3.st.com
+ (10.75.127.9)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-30_02:2020-01-28,
+ 2020-01-30 signatures=0
 X-Mailman-Approved-At: Fri, 31 Jan 2020 08:04:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,398 +64,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, sean@poorly.run,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Benjamin Gaignard <benjamin.gaignard@st.com>, devicetree@vger.kernel.org,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Converts various instances of the printk based drm logging macros to the
-struct drm_device based logging macros in i915/display/intel_panel.c
-using the following coccinelle script that transforms based on the
-existence of a struct drm_i915_private device pointer:
-@@
-identifier fn, T;
-@@
+From: Sam Ravnborg <sam@ravnborg.org>
 
-fn(...) {
-...
-struct drm_i915_private *T = ...;
-<+...
-(
--DRM_INFO(
-+drm_info(&T->drm,
-...)
-|
--DRM_ERROR(
-+drm_err(&T->drm,
-...)
-|
--DRM_WARN(
-+drm_warn(&T->drm,
-...)
-|
--DRM_DEBUG(
-+drm_dbg(&T->drm,
-...)
-|
--DRM_DEBUG_KMS(
-+drm_dbg_kms(&T->drm,
-...)
-|
--DRM_DEBUG_DRIVER(
-+drm_dbg(&T->drm,
-...)
-|
--DRM_DEBUG_ATOMIC(
-+drm_dbg_atomic(&T->drm,
-...)
-)
-...+>
-}
+To complement panel-simple.yaml, create panel-simple-dsi.yaml.
+panel-simple-dsi-yaml are for all simple DSP panels with a single
+power-supply and optional backlight / enable GPIO / reset GPIO.
 
-@@
-identifier fn, T;
-@@
+Migrate panasonic,vvx10f034n00, orisetech,otm8009a and raydium,rm68200 over to the new file.
 
-fn(...,struct drm_i915_private *T,...) {
-<+...
-(
--DRM_INFO(
-+drm_info(&T->drm,
-...)
-|
--DRM_ERROR(
-+drm_err(&T->drm,
-...)
-|
--DRM_WARN(
-+drm_warn(&T->drm,
-...)
-|
--DRM_DEBUG(
-+drm_dbg(&T->drm,
-...)
-|
--DRM_DEBUG_DRIVER(
-+drm_dbg(&T->drm,
-...)
-|
--DRM_DEBUG_KMS(
-+drm_dbg_kms(&T->drm,
-...)
-|
--DRM_DEBUG_ATOMIC(
-+drm_dbg_atomic(&T->drm,
-...)
-)
-...+>
-}
+The objectives with one file for all the simple DSI panels are:
+    - Make it simpler to add bindings for simple DSI panels
+    - Keep the number of bindings file lower
+    - Keep the binding documentation for simple DSI panels more consistent
 
-Checkpatch warnings were addressed manually.
-
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Yannick Fertre <yannick.fertre@st.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
 ---
- drivers/gpu/drm/i915/display/intel_panel.c | 100 ++++++++++++---------
- 1 file changed, 59 insertions(+), 41 deletions(-)
+version 3:
+- add orisetech,otm8009a and raydium,rm68200 compatibles
+- add reset-gpios optional property
+- fix indentation on compatible enumeration
+=> Rob had reviewed the second version but, given the changes in version 3
+   I haven't added here.
+ .../bindings/display/panel/orisetech,otm8009a.txt  | 23 -------
+ .../display/panel/panasonic,vvx10f034n00.txt       | 20 ------
+ .../bindings/display/panel/panel-simple-dsi.yaml   | 74 ++++++++++++++++++++++
+ .../bindings/display/panel/raydium,rm68200.txt     | 25 --------
+ 4 files changed, 74 insertions(+), 68 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt
 
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-index c03afcef85ae..1acefaf5ed1e 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.c
-+++ b/drivers/gpu/drm/i915/display/intel_panel.c
-@@ -96,8 +96,9 @@ intel_panel_edid_downclock_mode(struct intel_connector *connector,
- 	if (!downclock_mode)
- 		return NULL;
- 
--	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] using downclock mode from EDID: ",
--		      connector->base.base.id, connector->base.name);
-+	drm_dbg_kms(&dev_priv->drm,
-+		    "[CONNECTOR:%d:%s] using downclock mode from EDID: ",
-+		    connector->base.base.id, connector->base.name);
- 	drm_mode_debug_printmodeline(downclock_mode);
- 
- 	return downclock_mode;
-@@ -122,8 +123,9 @@ intel_panel_edid_fixed_mode(struct intel_connector *connector)
- 		if (!fixed_mode)
- 			return NULL;
- 
--		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] using preferred mode from EDID: ",
--			      connector->base.base.id, connector->base.name);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "[CONNECTOR:%d:%s] using preferred mode from EDID: ",
-+			    connector->base.base.id, connector->base.name);
- 		drm_mode_debug_printmodeline(fixed_mode);
- 
- 		return fixed_mode;
-@@ -138,8 +140,9 @@ intel_panel_edid_fixed_mode(struct intel_connector *connector)
- 
- 	fixed_mode->type |= DRM_MODE_TYPE_PREFERRED;
- 
--	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] using first mode from EDID: ",
--		      connector->base.base.id, connector->base.name);
-+	drm_dbg_kms(&dev_priv->drm,
-+		    "[CONNECTOR:%d:%s] using first mode from EDID: ",
-+		    connector->base.base.id, connector->base.name);
- 	drm_mode_debug_printmodeline(fixed_mode);
- 
- 	return fixed_mode;
-@@ -162,8 +165,8 @@ intel_panel_vbt_fixed_mode(struct intel_connector *connector)
- 
- 	fixed_mode->type |= DRM_MODE_TYPE_PREFERRED;
- 
--	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] using mode from VBT: ",
--		      connector->base.base.id, connector->base.name);
-+	drm_dbg_kms(&dev_priv->drm, "[CONNECTOR:%d:%s] using mode from VBT: ",
-+		    connector->base.base.id, connector->base.name);
- 	drm_mode_debug_printmodeline(fixed_mode);
- 
- 	info->width_mm = fixed_mode->width_mm;
-@@ -746,7 +749,8 @@ static void lpt_disable_backlight(const struct drm_connector_state *old_conn_sta
- 	 */
- 	tmp = intel_de_read(dev_priv, BLC_PWM_CPU_CTL2);
- 	if (tmp & BLM_PWM_ENABLE) {
--		DRM_DEBUG_KMS("cpu backlight was enabled, disabling\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "cpu backlight was enabled, disabling\n");
- 		intel_de_write(dev_priv, BLC_PWM_CPU_CTL2,
- 			       tmp & ~BLM_PWM_ENABLE);
- 	}
-@@ -863,7 +867,8 @@ void intel_panel_disable_backlight(const struct drm_connector_state *old_conn_st
- 	 * another client is not activated.
- 	 */
- 	if (dev_priv->drm.switch_power_state == DRM_SWITCH_POWER_CHANGING) {
--		DRM_DEBUG_DRIVER("Skipping backlight disable on vga switch\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Skipping backlight disable on vga switch\n");
- 		return;
- 	}
- 
-@@ -887,7 +892,7 @@ static void lpt_enable_backlight(const struct intel_crtc_state *crtc_state,
- 
- 	pch_ctl1 = intel_de_read(dev_priv, BLC_PWM_PCH_CTL1);
- 	if (pch_ctl1 & BLM_PCH_PWM_ENABLE) {
--		DRM_DEBUG_KMS("pch backlight already enabled\n");
-+		drm_dbg_kms(&dev_priv->drm, "pch backlight already enabled\n");
- 		pch_ctl1 &= ~BLM_PCH_PWM_ENABLE;
- 		intel_de_write(dev_priv, BLC_PWM_PCH_CTL1, pch_ctl1);
- 	}
-@@ -939,14 +944,14 @@ static void pch_enable_backlight(const struct intel_crtc_state *crtc_state,
- 
- 	cpu_ctl2 = intel_de_read(dev_priv, BLC_PWM_CPU_CTL2);
- 	if (cpu_ctl2 & BLM_PWM_ENABLE) {
--		DRM_DEBUG_KMS("cpu backlight already enabled\n");
-+		drm_dbg_kms(&dev_priv->drm, "cpu backlight already enabled\n");
- 		cpu_ctl2 &= ~BLM_PWM_ENABLE;
- 		intel_de_write(dev_priv, BLC_PWM_CPU_CTL2, cpu_ctl2);
- 	}
- 
- 	pch_ctl1 = intel_de_read(dev_priv, BLC_PWM_PCH_CTL1);
- 	if (pch_ctl1 & BLM_PCH_PWM_ENABLE) {
--		DRM_DEBUG_KMS("pch backlight already enabled\n");
-+		drm_dbg_kms(&dev_priv->drm, "pch backlight already enabled\n");
- 		pch_ctl1 &= ~BLM_PCH_PWM_ENABLE;
- 		intel_de_write(dev_priv, BLC_PWM_PCH_CTL1, pch_ctl1);
- 	}
-@@ -985,7 +990,7 @@ static void i9xx_enable_backlight(const struct intel_crtc_state *crtc_state,
- 
- 	ctl = intel_de_read(dev_priv, BLC_PWM_CTL);
- 	if (ctl & BACKLIGHT_DUTY_CYCLE_MASK_PNV) {
--		DRM_DEBUG_KMS("backlight already enabled\n");
-+		drm_dbg_kms(&dev_priv->drm, "backlight already enabled\n");
- 		intel_de_write(dev_priv, BLC_PWM_CTL, 0);
- 	}
- 
-@@ -1025,7 +1030,7 @@ static void i965_enable_backlight(const struct intel_crtc_state *crtc_state,
- 
- 	ctl2 = intel_de_read(dev_priv, BLC_PWM_CTL2);
- 	if (ctl2 & BLM_PWM_ENABLE) {
--		DRM_DEBUG_KMS("backlight already enabled\n");
-+		drm_dbg_kms(&dev_priv->drm, "backlight already enabled\n");
- 		ctl2 &= ~BLM_PWM_ENABLE;
- 		intel_de_write(dev_priv, BLC_PWM_CTL2, ctl2);
- 	}
-@@ -1060,7 +1065,7 @@ static void vlv_enable_backlight(const struct intel_crtc_state *crtc_state,
- 
- 	ctl2 = intel_de_read(dev_priv, VLV_BLC_PWM_CTL2(pipe));
- 	if (ctl2 & BLM_PWM_ENABLE) {
--		DRM_DEBUG_KMS("backlight already enabled\n");
-+		drm_dbg_kms(&dev_priv->drm, "backlight already enabled\n");
- 		ctl2 &= ~BLM_PWM_ENABLE;
- 		intel_de_write(dev_priv, VLV_BLC_PWM_CTL2(pipe), ctl2);
- 	}
-@@ -1093,7 +1098,8 @@ static void bxt_enable_backlight(const struct intel_crtc_state *crtc_state,
- 	if (panel->backlight.controller == 1) {
- 		val = intel_de_read(dev_priv, UTIL_PIN_CTL);
- 		if (val & UTIL_PIN_ENABLE) {
--			DRM_DEBUG_KMS("util pin already enabled\n");
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "util pin already enabled\n");
- 			val &= ~UTIL_PIN_ENABLE;
- 			intel_de_write(dev_priv, UTIL_PIN_CTL, val);
- 		}
-@@ -1108,7 +1114,7 @@ static void bxt_enable_backlight(const struct intel_crtc_state *crtc_state,
- 	pwm_ctl = intel_de_read(dev_priv,
- 				BXT_BLC_PWM_CTL(panel->backlight.controller));
- 	if (pwm_ctl & BXT_BLC_PWM_ENABLE) {
--		DRM_DEBUG_KMS("backlight already enabled\n");
-+		drm_dbg_kms(&dev_priv->drm, "backlight already enabled\n");
- 		pwm_ctl &= ~BXT_BLC_PWM_ENABLE;
- 		intel_de_write(dev_priv,
- 			       BXT_BLC_PWM_CTL(panel->backlight.controller),
-@@ -1144,7 +1150,7 @@ static void cnp_enable_backlight(const struct intel_crtc_state *crtc_state,
- 	pwm_ctl = intel_de_read(dev_priv,
- 				BXT_BLC_PWM_CTL(panel->backlight.controller));
- 	if (pwm_ctl & BXT_BLC_PWM_ENABLE) {
--		DRM_DEBUG_KMS("backlight already enabled\n");
-+		drm_dbg_kms(&dev_priv->drm, "backlight already enabled\n");
- 		pwm_ctl &= ~BXT_BLC_PWM_ENABLE;
- 		intel_de_write(dev_priv,
- 			       BXT_BLC_PWM_CTL(panel->backlight.controller),
-@@ -1213,7 +1219,7 @@ void intel_panel_enable_backlight(const struct intel_crtc_state *crtc_state,
- 	if (!panel->backlight.present)
- 		return;
- 
--	DRM_DEBUG_KMS("pipe %c\n", pipe_name(pipe));
-+	drm_dbg_kms(&dev_priv->drm, "pipe %c\n", pipe_name(pipe));
- 
- 	mutex_lock(&dev_priv->backlight_lock);
- 
-@@ -1238,7 +1244,7 @@ static u32 intel_panel_get_backlight(struct intel_connector *connector)
- 
- 	mutex_unlock(&dev_priv->backlight_lock);
- 
--	DRM_DEBUG_DRIVER("get backlight PWM = %d\n", val);
-+	drm_dbg(&dev_priv->drm, "get backlight PWM = %d\n", val);
- 	return val;
- }
- 
-@@ -1534,22 +1540,26 @@ static u32 get_backlight_max_vbt(struct intel_connector *connector)
- 	u32 pwm;
- 
- 	if (!panel->backlight.hz_to_pwm) {
--		DRM_DEBUG_KMS("backlight frequency conversion not supported\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "backlight frequency conversion not supported\n");
- 		return 0;
- 	}
- 
- 	if (pwm_freq_hz) {
--		DRM_DEBUG_KMS("VBT defined backlight frequency %u Hz\n",
--			      pwm_freq_hz);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "VBT defined backlight frequency %u Hz\n",
-+			    pwm_freq_hz);
- 	} else {
- 		pwm_freq_hz = 200;
--		DRM_DEBUG_KMS("default backlight frequency %u Hz\n",
--			      pwm_freq_hz);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "default backlight frequency %u Hz\n",
-+			    pwm_freq_hz);
- 	}
- 
- 	pwm = panel->backlight.hz_to_pwm(connector, pwm_freq_hz);
- 	if (!pwm) {
--		DRM_DEBUG_KMS("backlight frequency conversion failed\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "backlight frequency conversion failed\n");
- 		return 0;
- 	}
- 
-@@ -1576,8 +1586,9 @@ static u32 get_backlight_min_vbt(struct intel_connector *connector)
- 	 */
- 	min = clamp_t(int, dev_priv->vbt.backlight.min_brightness, 0, 64);
- 	if (min != dev_priv->vbt.backlight.min_brightness) {
--		DRM_DEBUG_KMS("clamping VBT min backlight %d/255 to %d/255\n",
--			      dev_priv->vbt.backlight.min_brightness, min);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "clamping VBT min backlight %d/255 to %d/255\n",
-+			    dev_priv->vbt.backlight.min_brightness, min);
- 	}
- 
- 	/* vbt value is a coefficient in range [0..255] */
-@@ -1627,7 +1638,8 @@ static int lpt_setup_backlight(struct intel_connector *connector, enum pipe unus
- 				       panel->backlight.max);
- 
- 	if (cpu_mode) {
--		DRM_DEBUG_KMS("CPU backlight register was enabled, switching to PCH override\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "CPU backlight register was enabled, switching to PCH override\n");
- 
- 		/* Write converted CPU PWM value to PCH override register */
- 		lpt_set_backlight(connector->base.state, panel->backlight.level);
-@@ -1880,7 +1892,8 @@ static int pwm_setup_backlight(struct intel_connector *connector,
- 	}
- 
- 	if (IS_ERR(panel->backlight.pwm)) {
--		DRM_ERROR("Failed to get the %s PWM chip\n", desc);
-+		drm_err(&dev_priv->drm, "Failed to get the %s PWM chip\n",
-+			desc);
- 		panel->backlight.pwm = NULL;
- 		return -ENODEV;
- 	}
-@@ -1894,7 +1907,7 @@ static int pwm_setup_backlight(struct intel_connector *connector,
- 	retval = pwm_config(panel->backlight.pwm, CRC_PMIC_PWM_PERIOD_NS,
- 			    CRC_PMIC_PWM_PERIOD_NS);
- 	if (retval < 0) {
--		DRM_ERROR("Failed to configure the pwm chip\n");
-+		drm_err(&dev_priv->drm, "Failed to configure the pwm chip\n");
- 		pwm_put(panel->backlight.pwm);
- 		panel->backlight.pwm = NULL;
- 		return retval;
-@@ -1907,7 +1920,8 @@ static int pwm_setup_backlight(struct intel_connector *connector,
- 				 CRC_PMIC_PWM_PERIOD_NS);
- 	panel->backlight.enabled = panel->backlight.level != 0;
- 
--	DRM_INFO("Using %s PWM for LCD backlight control\n", desc);
-+	drm_info(&dev_priv->drm, "Using %s PWM for LCD backlight control\n",
-+		 desc);
- 	return 0;
- }
- 
-@@ -1938,9 +1952,11 @@ int intel_panel_setup_backlight(struct drm_connector *connector, enum pipe pipe)
- 
- 	if (!dev_priv->vbt.backlight.present) {
- 		if (dev_priv->quirks & QUIRK_BACKLIGHT_PRESENT) {
--			DRM_DEBUG_KMS("no backlight present per VBT, but present per quirk\n");
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "no backlight present per VBT, but present per quirk\n");
- 		} else {
--			DRM_DEBUG_KMS("no backlight present per VBT\n");
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "no backlight present per VBT\n");
- 			return 0;
- 		}
- 	}
-@@ -1955,17 +1971,19 @@ int intel_panel_setup_backlight(struct drm_connector *connector, enum pipe pipe)
- 	mutex_unlock(&dev_priv->backlight_lock);
- 
- 	if (ret) {
--		DRM_DEBUG_KMS("failed to setup backlight for connector %s\n",
--			      connector->name);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "failed to setup backlight for connector %s\n",
-+			    connector->name);
- 		return ret;
- 	}
- 
- 	panel->backlight.present = true;
- 
--	DRM_DEBUG_KMS("Connector %s backlight initialized, %s, brightness %u/%u\n",
--		      connector->name,
--		      enableddisabled(panel->backlight.enabled),
--		      panel->backlight.level, panel->backlight.max);
-+	drm_dbg_kms(&dev_priv->drm,
-+		    "Connector %s backlight initialized, %s, brightness %u/%u\n",
-+		    connector->name,
-+		    enableddisabled(panel->backlight.enabled),
-+		    panel->backlight.level, panel->backlight.max);
- 
- 	return 0;
- }
+diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
+deleted file mode 100644
+index 203b03eefb68..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
++++ /dev/null
+@@ -1,23 +0,0 @@
+-Orise Tech OTM8009A 3.97" 480x800 TFT LCD panel (MIPI-DSI video mode)
+-
+-The Orise Tech OTM8009A is a 3.97" 480x800 TFT LCD panel connected using
+-a MIPI-DSI video interface. Its backlight is managed through the DSI link.
+-
+-Required properties:
+-  - compatible: "orisetech,otm8009a"
+-  - reg: the virtual channel number of a DSI peripheral
+-
+-Optional properties:
+-  - reset-gpios: a GPIO spec for the reset pin (active low).
+-  - power-supply: phandle of the regulator that provides the supply voltage.
+-
+-Example:
+-&dsi {
+-	...
+-	panel@0 {
+-		compatible = "orisetech,otm8009a";
+-		reg = <0>;
+-		reset-gpios = <&gpioh 7 GPIO_ACTIVE_LOW>;
+-		power-supply = <&v1v8>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt b/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
+deleted file mode 100644
+index 37dedf6a6702..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Panasonic 10" WUXGA TFT LCD panel
+-
+-Required properties:
+-- compatible: should be "panasonic,vvx10f034n00"
+-- reg: DSI virtual channel of the peripheral
+-- power-supply: phandle of the regulator that provides the supply voltage
+-
+-Optional properties:
+-- backlight: phandle of the backlight device attached to the panel
+-
+-Example:
+-
+-	mdss_dsi@fd922800 {
+-		panel@0 {
+-			compatible = "panasonic,vvx10f034n00";
+-			reg = <0>;
+-			power-supply = <&vreg_vsp>;
+-			backlight = <&lp8566_wled>;
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+new file mode 100644
+index 000000000000..1168b8186490
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/panel-simple-dsi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Simple DSI panels with a single power-supply
++
++maintainers:
++  - Thierry Reding <thierry.reding@gmail.com>
++  - Sam Ravnborg <sam@ravnborg.org>
++
++description: |
++  This binding file is a collection of the DSI panels that
++  requires only a single power-supply.
++  There are optionally a backlight and an enable GPIO.
++  The panel may use an OF graph binding for the association to the display,
++  or it may be a direct child node of the display.
++
++  If the panel is more advanced a dedicated binding file is required.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++
++  compatible:
++    enum:
++      # compatible must be listed in alphabetical order, ordered by compatible.
++      # The description in the comment is mandatory for each compatible.
++
++        # Orise Tech OTM8009A is a 3.97" 480x800 TFT LCD
++      - orisetech,otm8009a
++        # Panasonic 10" WUXGA TFT LCD panel
++      - panasonic,vvx10f034n00
++        # Raydium Semiconductor Corporation RM68200 is a 5.5" 720x1280 TFT LCD
++      - raydium,rm68200
++
++  reg:
++    maxItems: 1
++    description: DSI virtual channel
++
++  reset-gpios:
++    maxItems : 1
++
++  backlight: true
++  enable-gpios: true
++  port: true
++  power-supply: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - power-supply
++  - reg
++
++examples:
++  - |
++    mdss_dsi@fd922800 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      panel@0 {
++        compatible = "panasonic,vvx10f034n00";
++        reg = <0>;
++        power-supply = <&vcc_lcd_reg>;
++
++        port {
++          panel: endpoint {
++            remote-endpoint = <&ltdc_out>;
++          };
++        };
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt
+deleted file mode 100644
+index cbb79ef3bfc9..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt
++++ /dev/null
+@@ -1,25 +0,0 @@
+-Raydium Semiconductor Corporation RM68200 5.5" 720p MIPI-DSI TFT LCD panel
+-
+-The Raydium Semiconductor Corporation RM68200 is a 5.5" 720x1280 TFT LCD
+-panel connected using a MIPI-DSI video interface.
+-
+-Required properties:
+-  - compatible: "raydium,rm68200"
+-  - reg: the virtual channel number of a DSI peripheral
+-
+-Optional properties:
+-  - reset-gpios: a GPIO spec for the reset pin (active low).
+-  - power-supply: phandle of the regulator that provides the supply voltage.
+-  - backlight: phandle of the backlight device attached to the panel.
+-
+-Example:
+-&dsi {
+-	...
+-	panel@0 {
+-		compatible = "raydium,rm68200";
+-		reg = <0>;
+-		reset-gpios = <&gpiof 15 GPIO_ACTIVE_LOW>;
+-		power-supply = <&v1v8>;
+-		backlight = <&pwm_backlight>;
+-	};
+-};
 -- 
-2.25.0
+2.15.0
 
 _______________________________________________
 dri-devel mailing list
