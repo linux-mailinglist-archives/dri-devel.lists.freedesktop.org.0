@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616DB14E962
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:04:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A815314E955
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5E66FAA9;
-	Fri, 31 Jan 2020 08:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFD726FA97;
+	Fri, 31 Jan 2020 08:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04B5F6E593;
- Thu, 30 Jan 2020 08:32:37 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id m10so5885520wmc.0;
- Thu, 30 Jan 2020 00:32:36 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 456E36E593;
+ Thu, 30 Jan 2020 08:32:40 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id s10so2772281wmh.3;
+ Thu, 30 Jan 2020 00:32:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yE4btNB8EfxUzZqxFyA6oEbNKF4HFpMWZ+vsvZanBPg=;
- b=HNe7I55/5rRr8SyjTzJHXRpJUL6dRGWfNb+HRWVWLxMpgDX4FqSKzzcjy7STlolkxD
- pu5tpHr4B4jrLwlMcSIPtSNS6cGHqinsfJj65smxjqChnCCkdcNSeut9HxYhi4izOnN1
- 6LWOG+pdV7MtOZ3wWyKLE9HHzrvk4nVeWqSHzsdRoVs8rESQG/BOGY03sbQpAQGy6Ibs
- 6VWDYVI7GQ8Cnh0ug2O4FsimWhdHq4ki5xG7SYyeCos/GopA7+7rSXQGDmIDYUzsS597
- oJKd8PU/tJWmQrUoJOr0qUQpzjy7LnnG8DaBxrtZm/IucmR+n/prYUZGJY9YE3/6+4u8
- y43w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=32jvXD3cPexjv7JnSZTYWkfatpOgTafU8/6QQULQx+A=;
+ b=XBTKrOZ3+lsyQ0B9uHU5EQoZWWT0yGbb63eZQVB44AjWECJleM0IeLRkv6333At0Pc
+ FILjFOewaZ3lK3MGhVUItG1nwO/MxMj3AWa62bCJbZqziF6tfQpVfcK2fiw1pqJW5E4j
+ Bsmp4jjcLqaY51OaCdfFz2DVozQ+cNO9FWhtjaK0cqWjYzOA3z35c7e0FO9dVK/Uv/ii
+ dKQYjCBQ36MwJ9b3VQvtAwJkKXhxLfS0q+ChuYwcfOPCqi3ZIVPAiBfNyvrZUKDbFT7U
+ nd1mb+sLT/1nMf+lDgQavLqFu0qGW5oWPwo72//BFUDV/t2h1JHdHhfoBT5YCK8vjPzJ
+ lz8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yE4btNB8EfxUzZqxFyA6oEbNKF4HFpMWZ+vsvZanBPg=;
- b=nzJa/f46QYMKnBAFrJAa5cklPfugIFUvvKJolT2XtlEFUGCak15X+9Q8gS8t6yY7Y0
- aJKBpyJFfe3nytcrHEMsF+gb9r1Y3sHY4oIq4gSeKMUmYTiNFBA7Xx5tdJjxh4pBMboP
- QK+FAAPKdAA15gjzgce12N2C4DQXI6EgQ5K4j9lyn5H9aOWXPVRrydDUc/jMh2jKqLkw
- 3o34rvdPEijiHaGBh39WJV2PMB45XsjkT0dyVlhESZCdJpLo0/0OJQEaIFNfcl9SEFpF
- z6i4aI9ku3RWgFN/ffBlEmpoXD8Na7KPdVCFG4QPUIFPVDii6LmIwZGoQiVRsWUzzUci
- vrRA==
-X-Gm-Message-State: APjAAAUhMaTaBPRtL1halqkLrzbV5KEMyOUoTDE0ajZYM9Mel1EJptYB
- gWguTuRBoPpL4LVrvkkv3e0=
-X-Google-Smtp-Source: APXvYqxy3AIofHVFPr2m//HDYIzmTD2loozf5TIXJg9FJJMqCPnU14ZPgW3fLcWsMJwM9OQUjcRL5A==
-X-Received: by 2002:a7b:ce98:: with SMTP id q24mr3995609wmj.41.1580373155616; 
- Thu, 30 Jan 2020 00:32:35 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=32jvXD3cPexjv7JnSZTYWkfatpOgTafU8/6QQULQx+A=;
+ b=TT4xHlLmpwqlSx3YLUHQ4AHYYOL2ejrZM1GfQPVI7obemC1aw8qmtYNyLCZwDmvy7u
+ R4lgRsgN+0U4D15nzBX27YDJQJK8twPh2yZZOvutfoPlCyDApyjEEU1PnpjkePzUh8Ud
+ uLGoVll24vBVa6HMRqxijZz5ApDoqLrZBaW8MuwXKDPKfb52+gYFfs64LWSYMMjwCaY4
+ 7ykHFBjHa9qozV1do3A3Xju67II++TjXWGMw/szviVqREb/9A42PzYmIYuX+0ZskkHJP
+ VJoPo0399tHCol1wZLEc+3n0VDrft4d77DBabICR9wJX3FKaPUAcDri7YsbWd0wbkIUd
+ D5nQ==
+X-Gm-Message-State: APjAAAWVVp29Bscc7qLM5N7sg10lRTZfLa68C8SRAkLpJY0o/4qTMKyk
+ uUReuX8UD821s82BAZdNZLfy0kjNcFU=
+X-Google-Smtp-Source: APXvYqy76PILK+QlY/12K5ud4j7hkeusVbojfkgjJDVTfPNkkqEZ1YCTe066CTqwxeor/JXQjSu02A==
+X-Received: by 2002:a05:600c:2944:: with SMTP id
+ n4mr4103781wmd.22.1580373158828; 
+ Thu, 30 Jan 2020 00:32:38 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id i11sm6363678wrs.10.2020.01.30.00.32.32
+ by smtp.googlemail.com with ESMTPSA id i11sm6363678wrs.10.2020.01.30.00.32.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 00:32:34 -0800 (PST)
+ Thu, 30 Jan 2020 00:32:38 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 00/12] drm/i915/display: conversion to drm_device based
- logging macros
-Date: Thu, 30 Jan 2020 11:32:17 +0300
-Message-Id: <20200130083229.12889-1-wambui.karugax@gmail.com>
+Subject: [PATCH 01/12] drm/i915/vlv_dsi_pll: conversion to struct drm_device
+ logging macros.
+Date: Thu, 30 Jan 2020 11:32:18 +0300
+Message-Id: <20200130083229.12889-2-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200130083229.12889-1-wambui.karugax@gmail.com>
+References: <20200130083229.12889-1-wambui.karugax@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 31 Jan 2020 08:04:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,12 +77,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series continues the conversion of the printk based logging macros
-to the new struct drm_device based logging macros in the drm/i915/display
-folder.
-This series was achieved using the following coccinelle script
-that transforms based on the existence of a struct drm_i915_private
-instance in the function:
+Convert the printk based logging macros to the new struct drm_device
+based logging macros in i915/display/vlv_dsi_pll.c using the following
+coccinelle script that matches based on the existence of a drm_i915_private
+device:
 @@
 identifier fn, T;
 @@
@@ -158,40 +159,189 @@ fn(...,struct drm_i915_private *T,...) {
 ...+>
 }
 
+Checkpatch warnings were fixed manually.
 
-Wambui Karuga (12):
-  drm/i915/vlv_dsi_pll: conversion to struct drm_device logging macros.
-  drm/i915/vlv_dsi: conversion to drm_device based logging macros.
-  drm/i915/vga: conversion to drm_device based logging macros.
-  drm/i915/vdsc: convert to struct drm_device based logging macros.
-  drm/i915/tv: automatic conversion to drm_device based logging macros.
-  drm/i915/tc: automatic conversion to drm_device based logging macros.
-  drm/i915/sprite: automatic conversion to drm_device based logging
-    macros
-  drm/i915/sdvo: automatic conversion to drm_device based logging
-    macros.
-  drm/i915/quirks: automatic conversion to drm_device based logging
-    macros.
-  drm/i915/psr: automatic conversion to drm_device based logging macros.
-  drm/i915/pipe_crc: automatic conversion to drm_device based logging
-    macros.
-  drm/i915/panel: automatic conversion to drm_device based logging
-    macros.
+Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+---
+ drivers/gpu/drm/i915/display/vlv_dsi_pll.c | 47 ++++++++++++----------
+ 1 file changed, 26 insertions(+), 21 deletions(-)
 
- drivers/gpu/drm/i915/display/intel_panel.c    | 100 ++++++++------
- drivers/gpu/drm/i915/display/intel_pipe_crc.c |   7 +-
- drivers/gpu/drm/i915/display/intel_psr.c      | 128 +++++++++++-------
- drivers/gpu/drm/i915/display/intel_quirks.c   |  10 +-
- drivers/gpu/drm/i915/display/intel_sdvo.c     |  29 ++--
- drivers/gpu/drm/i915/display/intel_sprite.c   |  60 ++++----
- drivers/gpu/drm/i915/display/intel_tc.c       |  33 +++--
- drivers/gpu/drm/i915/display/intel_tv.c       |  26 ++--
- drivers/gpu/drm/i915/display/intel_vdsc.c     |  28 ++--
- drivers/gpu/drm/i915/display/intel_vga.c      |   7 +-
- drivers/gpu/drm/i915/display/vlv_dsi.c        |  80 ++++++-----
- drivers/gpu/drm/i915/display/vlv_dsi_pll.c    |  47 ++++---
- 12 files changed, 322 insertions(+), 233 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
+index 8a68a86e2dc8..d0a514301575 100644
+--- a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
++++ b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
+@@ -64,7 +64,7 @@ static int dsi_calc_mnp(struct drm_i915_private *dev_priv,
+ 
+ 	/* target_dsi_clk is expected in kHz */
+ 	if (target_dsi_clk < 300000 || target_dsi_clk > 1150000) {
+-		DRM_ERROR("DSI CLK Out of Range\n");
++		drm_err(&dev_priv->drm, "DSI CLK Out of Range\n");
+ 		return -ECHRNG;
+ 	}
+ 
+@@ -126,7 +126,7 @@ int vlv_dsi_pll_compute(struct intel_encoder *encoder,
+ 
+ 	ret = dsi_calc_mnp(dev_priv, config, dsi_clk);
+ 	if (ret) {
+-		DRM_DEBUG_KMS("dsi_calc_mnp failed\n");
++		drm_dbg_kms(&dev_priv->drm, "dsi_calc_mnp failed\n");
+ 		return ret;
+ 	}
+ 
+@@ -138,8 +138,8 @@ int vlv_dsi_pll_compute(struct intel_encoder *encoder,
+ 
+ 	config->dsi_pll.ctrl |= DSI_PLL_VCO_EN;
+ 
+-	DRM_DEBUG_KMS("dsi pll div %08x, ctrl %08x\n",
+-		      config->dsi_pll.div, config->dsi_pll.ctrl);
++	drm_dbg_kms(&dev_priv->drm, "dsi pll div %08x, ctrl %08x\n",
++		    config->dsi_pll.div, config->dsi_pll.ctrl);
+ 
+ 	return 0;
+ }
+@@ -149,7 +149,7 @@ void vlv_dsi_pll_enable(struct intel_encoder *encoder,
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+ 
+-	DRM_DEBUG_KMS("\n");
++	drm_dbg_kms(&dev_priv->drm, "\n");
+ 
+ 	vlv_cck_get(dev_priv);
+ 
+@@ -169,12 +169,12 @@ void vlv_dsi_pll_enable(struct intel_encoder *encoder,
+ 						DSI_PLL_LOCK, 20)) {
+ 
+ 		vlv_cck_put(dev_priv);
+-		DRM_ERROR("DSI PLL lock failed\n");
++		drm_err(&dev_priv->drm, "DSI PLL lock failed\n");
+ 		return;
+ 	}
+ 	vlv_cck_put(dev_priv);
+ 
+-	DRM_DEBUG_KMS("DSI PLL locked\n");
++	drm_dbg_kms(&dev_priv->drm, "DSI PLL locked\n");
+ }
+ 
+ void vlv_dsi_pll_disable(struct intel_encoder *encoder)
+@@ -182,7 +182,7 @@ void vlv_dsi_pll_disable(struct intel_encoder *encoder)
+ 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+ 	u32 tmp;
+ 
+-	DRM_DEBUG_KMS("\n");
++	drm_dbg_kms(&dev_priv->drm, "\n");
+ 
+ 	vlv_cck_get(dev_priv);
+ 
+@@ -218,12 +218,14 @@ bool bxt_dsi_pll_is_enabled(struct drm_i915_private *dev_priv)
+ 	val = intel_de_read(dev_priv, BXT_DSI_PLL_CTL);
+ 	if (IS_GEMINILAKE(dev_priv)) {
+ 		if (!(val & BXT_DSIA_16X_MASK)) {
+-			DRM_DEBUG_DRIVER("Invalid PLL divider (%08x)\n", val);
++			drm_dbg(&dev_priv->drm,
++				"Invalid PLL divider (%08x)\n", val);
+ 			enabled = false;
+ 		}
+ 	} else {
+ 		if (!(val & BXT_DSIA_16X_MASK) || !(val & BXT_DSIC_16X_MASK)) {
+-			DRM_DEBUG_DRIVER("Invalid PLL divider (%08x)\n", val);
++			drm_dbg(&dev_priv->drm,
++				"Invalid PLL divider (%08x)\n", val);
+ 			enabled = false;
+ 		}
+ 	}
+@@ -236,7 +238,7 @@ void bxt_dsi_pll_disable(struct intel_encoder *encoder)
+ 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+ 	u32 val;
+ 
+-	DRM_DEBUG_KMS("\n");
++	drm_dbg_kms(&dev_priv->drm, "\n");
+ 
+ 	val = intel_de_read(dev_priv, BXT_DSI_PLL_ENABLE);
+ 	val &= ~BXT_DSI_PLL_DO_ENABLE;
+@@ -248,7 +250,8 @@ void bxt_dsi_pll_disable(struct intel_encoder *encoder)
+ 	 */
+ 	if (intel_de_wait_for_clear(dev_priv, BXT_DSI_PLL_ENABLE,
+ 				    BXT_DSI_PLL_LOCKED, 1))
+-		DRM_ERROR("Timeout waiting for PLL lock deassertion\n");
++		drm_err(&dev_priv->drm,
++			"Timeout waiting for PLL lock deassertion\n");
+ }
+ 
+ u32 vlv_dsi_get_pclk(struct intel_encoder *encoder,
+@@ -263,7 +266,7 @@ u32 vlv_dsi_get_pclk(struct intel_encoder *encoder,
+ 	int refclk = IS_CHERRYVIEW(dev_priv) ? 100000 : 25000;
+ 	int i;
+ 
+-	DRM_DEBUG_KMS("\n");
++	drm_dbg_kms(&dev_priv->drm, "\n");
+ 
+ 	vlv_cck_get(dev_priv);
+ 	pll_ctl = vlv_cck_read(dev_priv, CCK_REG_DSI_PLL_CONTROL);
+@@ -292,7 +295,7 @@ u32 vlv_dsi_get_pclk(struct intel_encoder *encoder,
+ 	p--;
+ 
+ 	if (!p) {
+-		DRM_ERROR("wrong P1 divisor\n");
++		drm_err(&dev_priv->drm, "wrong P1 divisor\n");
+ 		return 0;
+ 	}
+ 
+@@ -302,7 +305,7 @@ u32 vlv_dsi_get_pclk(struct intel_encoder *encoder,
+ 	}
+ 
+ 	if (i == ARRAY_SIZE(lfsr_converts)) {
+-		DRM_ERROR("wrong m_seed programmed\n");
++		drm_err(&dev_priv->drm, "wrong m_seed programmed\n");
+ 		return 0;
+ 	}
+ 
+@@ -333,7 +336,7 @@ u32 bxt_dsi_get_pclk(struct intel_encoder *encoder,
+ 
+ 	pclk = DIV_ROUND_CLOSEST(dsi_clk * intel_dsi->lane_count, bpp);
+ 
+-	DRM_DEBUG_DRIVER("Calculated pclk=%u\n", pclk);
++	drm_dbg(&dev_priv->drm, "Calculated pclk=%u\n", pclk);
+ 	return pclk;
+ }
+ 
+@@ -479,10 +482,11 @@ int bxt_dsi_pll_compute(struct intel_encoder *encoder,
+ 	}
+ 
+ 	if (dsi_ratio < dsi_ratio_min || dsi_ratio > dsi_ratio_max) {
+-		DRM_ERROR("Cant get a suitable ratio from DSI PLL ratios\n");
++		drm_err(&dev_priv->drm,
++			"Cant get a suitable ratio from DSI PLL ratios\n");
+ 		return -ECHRNG;
+ 	} else
+-		DRM_DEBUG_KMS("DSI PLL calculation is Done!!\n");
++		drm_dbg_kms(&dev_priv->drm, "DSI PLL calculation is Done!!\n");
+ 
+ 	/*
+ 	 * Program DSI ratio and Select MIPIC and MIPIA PLL output as 8x
+@@ -508,7 +512,7 @@ void bxt_dsi_pll_enable(struct intel_encoder *encoder,
+ 	enum port port;
+ 	u32 val;
+ 
+-	DRM_DEBUG_KMS("\n");
++	drm_dbg_kms(&dev_priv->drm, "\n");
+ 
+ 	/* Configure PLL vales */
+ 	intel_de_write(dev_priv, BXT_DSI_PLL_CTL, config->dsi_pll.ctrl);
+@@ -530,11 +534,12 @@ void bxt_dsi_pll_enable(struct intel_encoder *encoder,
+ 	/* Timeout and fail if PLL not locked */
+ 	if (intel_de_wait_for_set(dev_priv, BXT_DSI_PLL_ENABLE,
+ 				  BXT_DSI_PLL_LOCKED, 1)) {
+-		DRM_ERROR("Timed out waiting for DSI PLL to lock\n");
++		drm_err(&dev_priv->drm,
++			"Timed out waiting for DSI PLL to lock\n");
+ 		return;
+ 	}
+ 
+-	DRM_DEBUG_KMS("DSI PLL locked\n");
++	drm_dbg_kms(&dev_priv->drm, "DSI PLL locked\n");
+ }
+ 
+ void bxt_dsi_reset_clocks(struct intel_encoder *encoder, enum port port)
 -- 
 2.25.0
 
