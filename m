@@ -1,35 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D7E14DF3A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 17:34:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B760F14DFD9
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2020 18:24:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD3B26E88F;
-	Thu, 30 Jan 2020 16:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E7D46F9FE;
+	Thu, 30 Jan 2020 17:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 971 seconds by postgrey-1.36 at gabe;
- Thu, 30 Jan 2020 16:34:14 UTC
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE986E88F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 16:34:14 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 20062184-1500050 for multiple; Thu, 30 Jan 2020 16:18:00 +0000
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB9DB6E8A8;
+ Thu, 30 Jan 2020 17:24:39 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2020 09:16:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,382,1574150400"; d="scan'208";a="233012800"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 30 Jan 2020 09:16:01 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 30 Jan 2020 19:16:00 +0200
+Date: Thu, 30 Jan 2020 19:16:00 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915/display: Remove useless call
+ intel_dp_mst_encoder_cleanup()
+Message-ID: <20200130171600.GG13686@intel.com>
+References: <20200117015837.402239-1-jose.souza@intel.com>
+ <20200117015837.402239-3-jose.souza@intel.com>
 MIME-Version: 1.0
-To: Dave Airlie <airlied@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <CAHk-=wi31OH0Rjv5=0ELTz3ZFUVaARmvq+w-oy+pRpGENd-iEA@mail.gmail.com>
-References: <CAPM=9twBvYvUoijdzAi2=FGLys0pfaK+PZw-uq2kyxqZipeujA@mail.gmail.com>
- <CAHk-=wi31OH0Rjv5=0ELTz3ZFUVaARmvq+w-oy+pRpGENd-iEA@mail.gmail.com>
-Message-ID: <158040107875.18112.5093555261012183633@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [git pull] drm for 5.6-rc1
-Date: Thu, 30 Jan 2020 16:17:58 +0000
+Content-Disposition: inline
+In-Reply-To: <20200117015837.402239-3-jose.souza@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,53 +49,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Linus Torvalds (2020-01-30 16:13:24)
-> On Wed, Jan 29, 2020 at 9:58 PM Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > It has two known conflicts, one in i915_gem_gtt, where you should juat
-> > take what's in the pull (it looks messier than it is),
-> 
-> That doesn't seem right. If I do that, I lose the added GEM_BUG_ON()'s.
-> 
-> I think the proper merge resolution does this:
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> index f10b2c41571c..f4fec7eb4064 100644
-> --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> @@ -131,6 +131,7 @@ static void gen6_ppgtt_insert_entries(struct
-> i915_address_space *vm,
-> 
->         vaddr = kmap_atomic_px(i915_pt_entry(pd, act_pt));
->         do {
-> +               GEM_BUG_ON(iter.sg->length < I915_GTT_PAGE_SIZE);
->                 vaddr[act_pte] = pte_encode | GEN6_PTE_ADDR_ENCODE(iter.dma);
-> 
->                 iter.dma += I915_GTT_PAGE_SIZE;
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> index 077b8f7cf6cb..4d1de2d97d5c 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> @@ -379,6 +379,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
->         pd = i915_pd_entry(pdp, gen8_pd_index(idx, 2));
->         vaddr = kmap_atomic_px(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
->         do {
-> +               GEM_BUG_ON(iter->sg->length < I915_GTT_PAGE_SIZE);
->                 vaddr[gen8_pd_index(idx, 0)] = pte_encode | iter->dma;
-> 
->                 iter->dma += I915_GTT_PAGE_SIZE;
+On Thu, Jan 16, 2020 at 05:58:36PM -0800, Jos=E9 Roberto de Souza wrote:
+> This is a eDP function and it will always returns true for non-eDP
+> ports.
+> =
 
-Yes, that matches the code in drm-intel-next-queued.
--Chris
+> Signed-off-by: Jos=E9 Roberto de Souza <jose.souza@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 1 -
+>  1 file changed, 1 deletion(-)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 4074d83b1a5f..a50b5b6dd009 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -7537,7 +7537,6 @@ intel_dp_init_connector(struct intel_digital_port *=
+intel_dig_port,
+>  =
+
+>  	if (!intel_edp_init_connector(intel_dp, intel_connector)) {
+>  		intel_dp_aux_fini(intel_dp);
+> -		intel_dp_mst_encoder_cleanup(intel_dig_port);
+
+This makes the unwind look incomplete to the causual reader. The cleanup
+function does both anyway so cross checking is harder if they're not
+consistent. So not sure I like it. Hmm. The ordering of these two also
+looks off here.
+
+Maybe nicer to just move the whole onion to the end of function
+(we alredy have one layer there)?
+
+>  		goto fail;
+>  	}
+>  =
+
+> -- =
+
+> 2.25.0
+> =
+
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
