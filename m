@@ -2,50 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5327214E66E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 01:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6247D14E6DE
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 02:46:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1006E938;
-	Fri, 31 Jan 2020 00:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D103A6E113;
+	Fri, 31 Jan 2020 01:46:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9F166E0E8;
- Fri, 31 Jan 2020 00:14:28 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2020 16:14:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,383,1574150400"; d="scan'208";a="428548636"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by fmsmga005.fm.intel.com with ESMTP; 30 Jan 2020 16:14:28 -0800
-Received: from FMSMSX110.amr.corp.intel.com (10.18.116.10) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 30 Jan 2020 16:14:27 -0800
-Received: from fmsmsx117.amr.corp.intel.com ([169.254.3.3]) by
- FMSMSX110.amr.corp.intel.com ([169.254.14.114]) with mapi id 14.03.0439.000;
- Thu, 30 Jan 2020 16:14:28 -0800
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915/display: Remove useless call
- intel_dp_mst_encoder_cleanup()
-Thread-Topic: [Intel-gfx] [PATCH 3/4] drm/i915/display: Remove useless call
- intel_dp_mst_encoder_cleanup()
-Thread-Index: AQHVzNmmwULFl9p5+kCXCcIvpKRTtKgEDksAgAB06QA=
-Date: Fri, 31 Jan 2020 00:14:27 +0000
-Message-ID: <86fca1dae874489d59b9978061da51c8ff568919.camel@intel.com>
-References: <20200117015837.402239-1-jose.souza@intel.com>
- <20200117015837.402239-3-jose.souza@intel.com>
- <20200130171600.GG13686@intel.com>
-In-Reply-To: <20200130171600.GG13686@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.24.12.250]
-Content-ID: <9067C25DC768C647B92A9645FED78CBC@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE3466E113
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 01:46:38 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206351] RX 5600 XT Not Correctly Recognized, Max Memory
+ Frequency Below Where it Should Be
+Date: Fri, 31 Jan 2020 01:46:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gardotd426@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206351-2300-k2sH7OFzPg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206351-2300@https.bugzilla.kernel.org/>
+References: <bug-206351-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,42 +52,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDIwLTAxLTMwIGF0IDE5OjE2ICswMjAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6
-DQo+IE9uIFRodSwgSmFuIDE2LCAyMDIwIGF0IDA1OjU4OjM2UE0gLTA4MDAsIEpvc8OpIFJvYmVy
-dG8gZGUgU291emENCj4gd3JvdGU6DQo+ID4gVGhpcyBpcyBhIGVEUCBmdW5jdGlvbiBhbmQgaXQg
-d2lsbCBhbHdheXMgcmV0dXJucyB0cnVlIGZvciBub24tZURQDQo+ID4gcG9ydHMuDQo+ID4gDQo+
-ID4gU2lnbmVkLW9mZi1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRl
-bC5jb20+DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
-ZHAuYyB8IDEgLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQ0KPiA+IA0KPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMNCj4g
-PiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYw0KPiA+IGluZGV4IDQw
-NzRkODNiMWE1Zi4uYTUwYjViNmRkMDA5IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2Rpc3BsYXkvaW50ZWxfZHAuYw0KPiA+IEBAIC03NTM3LDcgKzc1MzcsNiBAQCBpbnRlbF9kcF9p
-bml0X2Nvbm5lY3RvcihzdHJ1Y3QNCj4gPiBpbnRlbF9kaWdpdGFsX3BvcnQgKmludGVsX2RpZ19w
-b3J0LA0KPiA+ICANCj4gPiAgCWlmICghaW50ZWxfZWRwX2luaXRfY29ubmVjdG9yKGludGVsX2Rw
-LCBpbnRlbF9jb25uZWN0b3IpKSB7DQo+ID4gIAkJaW50ZWxfZHBfYXV4X2ZpbmkoaW50ZWxfZHAp
-Ow0KPiA+IC0JCWludGVsX2RwX21zdF9lbmNvZGVyX2NsZWFudXAoaW50ZWxfZGlnX3BvcnQpOw0K
-PiANCj4gVGhpcyBtYWtlcyB0aGUgdW53aW5kIGxvb2sgaW5jb21wbGV0ZSB0byB0aGUgY2F1c3Vh
-bCByZWFkZXIuIFRoZQ0KPiBjbGVhbnVwDQo+IGZ1bmN0aW9uIGRvZXMgYm90aCBhbnl3YXkgc28g
-Y3Jvc3MgY2hlY2tpbmcgaXMgaGFyZGVyIGlmIHRoZXkncmUgbm90DQo+IGNvbnNpc3RlbnQuIFNv
-IG5vdCBzdXJlIEkgbGlrZSBpdC4gSG1tLiBUaGUgb3JkZXJpbmcgb2YgdGhlc2UgdHdvDQo+IGFs
-c28NCj4gbG9va3Mgb2ZmIGhlcmUuDQo+IA0KPiBNYXliZSBuaWNlciB0byBqdXN0IG1vdmUgdGhl
-IHdob2xlIG9uaW9uIHRvIHRoZSBlbmQgb2YgZnVuY3Rpb24NCj4gKHdlIGFscmVkeSBoYXZlIG9u
-ZSBsYXllciB0aGVyZSk/DQoNCklmIEkgbmVlZCB0byByZXdvcmsgdGhlIDQvNCBwYXRjaCBJIHdp
-bGwgZG8gdGhhdCwgb3RoZXJ3aXNlIEkgd2lsbCBqdXN0DQppZ25vcmUgdGhpcyBwYXRjaC4NCg0K
-UGxlYXNlIGNoZWNrIG15IGFuc3dlciB0byB5b3VyIGNvbW1lbnQuDQoNCj4gDQo+ID4gIAkJZ290
-byBmYWlsOw0KPiA+ICAJfQ0KPiA+ICANCj4gPiAtLSANCj4gPiAyLjI1LjANCj4gPiANCj4gPiBf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+IEludGVs
-LWdmeCBtYWlsaW5nIGxpc3QNCj4gPiBJbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+
-ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9pbnRlbC1n
-ZngNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=206351
+
+--- Comment #5 from Matt McDonald (gardotd426@gmail.com) ---
+I'm not referring to the 1750MHz boost clock. I'm referring to the 14Gbps
+Memory clock on the same page. Which is 1750MHz (1750Mhz * 8 octopumped GDDR6 =
+14Gbps or 14GT/s, which is the stated memory frequency of the card) . Which is
+how it's reported in Windows as well. Like explained on here:
+
+
+
+https://forums.tomshardware.com/threads/effective-memory-clock-speed-confusions.3518637/ 
+
+
+
+and here:
+https://www.techpowerup.com/forums/threads/how-to-calculate-gddr6-speed-from-gpu-z.250747/
+
+
+
+Literally everything I can find has said to calculate the GDDR6 clock frequency
+as DOUBLE(DoubleDataRate, so x2) rate and Quad(x4) pumped, so 1750 * 2 * 4 =
+14000, or 14Gbps. The specs for the card itself show it's memory frequency at
+14Gbps, which fits everything I've seen. Windows reports the Memory clock (no,
+not the Boost clock, they're listed separately) as 1750MHz which also lines up. 
+
+
+
+
+Am I missing something? If I am, I apologize but literally everything I can
+find says otherwise. If I am missing something, how does 14Gbps (which is the
+official memory clock frequency of the card) end up being 900MHz?
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
