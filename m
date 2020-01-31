@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42A714F415
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 22:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965BF14F417
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 22:47:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA8786FC10;
-	Fri, 31 Jan 2020 21:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 891E76FC11;
+	Fri, 31 Jan 2020 21:47:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3946FC0A;
- Fri, 31 Jan 2020 21:47:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C32206FC0C;
+ Fri, 31 Jan 2020 21:47:17 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2020 13:47:16 -0800
+ 31 Jan 2020 13:47:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,387,1574150400"; d="scan'208";a="262691467"
+X-IronPort-AV: E=Sophos;i="5.70,387,1574150400"; d="scan'208";a="262691469"
 Received: from helsinki.fi.intel.com ([10.237.66.145])
- by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2020 13:47:14 -0800
+ by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2020 13:47:16 -0800
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 07/18] drm/i915/dp: Read out DP SDPs (Secondary Data Packet)
-Date: Fri, 31 Jan 2020 23:46:50 +0200
-Message-Id: <20200131214701.1085737-8-gwan-gyeong.mun@intel.com>
+Subject: [PATCH 08/18] drm/i915/dp: Add logging function for DP VSC SDP
+Date: Fri, 31 Jan 2020 23:46:51 +0200
+Message-Id: <20200131214701.1085737-9-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131214701.1085737-1-gwan-gyeong.mun@intel.com>
 References: <20200131214701.1085737-1-gwan-gyeong.mun@intel.com>
@@ -43,131 +43,237 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SXQgYWRkcyBjb2RlIHRvIHJlYWQgdGhlIERQIFNEUHMgZnJvbSB0aGUgdmlkZW8gRElQIGFuZCB1
-bnBhY2sgdGhlbSBpbnRvCnRoZSBjcnRjIHN0YXRlLgoKSXQgYWRkcyByb3V0aW5lcyB0aGF0IHJl
-YWQgb3V0IERQIFZTQyBTRFAgYW5kIERQIEhEUiBNZXRhZGF0YSBJbmZvZnJhbWUgU0RQCkluIG9y
-ZGVyIHRvIHVucGFjayBEUCBWU0MgU0RQLCBpdCBhZGRzIGludGVsX2RwX3ZzY19zZHBfdW5wYWNr
-KCkgZnVuY3Rpb24uCkl0IGZvbGxvd3MgRFAgMS40YSBzcGVjLiBbVGFibGUgMi0xMTY6IFZTQyBT
-RFAgSGVhZGVyIEJ5dGVzXSBhbmQKW1RhYmxlIDItMTE3OiBWU0MgU0RQIFBheWxvYWQgZm9yIERC
-MTYgdGhyb3VnaCBEQjE4XQoKSW4gb3JkZXIgdG8gdW5wYWNrIERQIEhEUiBNZXRhZGF0YSBJbmZv
-ZnJhbWUgU0RQLCBpdCBhZGRzCmludGVsX2RwX2hkcl9tZXRhZGF0YV9pbmZvZnJhbWVfc2RwX3Vu
-cGFjaygpLiBBbmQgaXQgZm9sbG93cyBEUCAxLjRhIHNwZWMuCihbVGFibGUgMi0xMjU6IElORk9G
-UkFNRSBTRFAgdjEuMiBIZWFkZXIgQnl0ZXNdIGFuZApbVGFibGUgMi0xMjY6IElORk9GUkFNRSBT
-RFAgdjEuMiBQYXlsb2FkIERhdGEgQnl0ZXMgLSBEQjAgdGhyb3VnaCBEQjMxXSkKYW5kIENUQS04
-NjEtRyBzcGVjLiBbVGFibGUtNDIgRHluYW1pYyBSYW5nZSBhbmQgTWFzdGVyaW5nIEluZm9GcmFt
-ZV0uCgpBIG5hbWVpbmcgcnVsZSBhbmQgc3R5bGUgb2YgaW50ZWxfcmVhZF9kcF9zZHAoKSBmdW5j
-dGlvbiByZWZlcmVuY2VzCmludGVsX3JlYWRfaW5mb2ZyYW1lKCkgZnVuY3Rpb24gb2YgaW50ZWxf
-aGRtaS5jCgpTaWduZWQtb2ZmLWJ5OiBHd2FuLWd5ZW9uZyBNdW4gPGd3YW4tZ3llb25nLm11bkBp
-bnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jIHwg
-MTcwICsrKysrKysrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kcC5oIHwgICAzICsKIDIgZmlsZXMgY2hhbmdlZCwgMTczIGluc2VydGlvbnMoKykK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKaW5kZXggNjA5NDQ0Y2JiMjlm
-Li42NzU2MDMwNjkyYzggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZHAuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMK
-QEAgLTQ5MjAsNiArNDkyMCwxNzYgQEAgdm9pZCBpbnRlbF9kcF9zZXRfaW5mb2ZyYW1lcyhzdHJ1
-Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKIAlpbnRlbF93cml0ZV9kcF9zZHAoZW5jb2Rlciwg
-Y3J0Y19zdGF0ZSwgSERNSV9QQUNLRVRfVFlQRV9HQU1VVF9NRVRBREFUQSk7CiB9CiAKK3N0YXRp
-YyBpbnQgaW50ZWxfZHBfdnNjX3NkcF91bnBhY2soc3RydWN0IGludGVsX2RwX3ZzY19zZHAgKnZz
-YywKKwkJCQkgICBjb25zdCB2b2lkICpidWZmZXIsIHNpemVfdCBzaXplKQoreworCWNvbnN0IHN0
-cnVjdCBkcF9zZHAgKnNkcCA9IGJ1ZmZlcjsKKworCWlmIChzaXplIDwgc2l6ZW9mKHN0cnVjdCBk
-cF9zZHApKQorCQlyZXR1cm4gLUVJTlZBTDsKKworCW1lbXNldCh2c2MsIDAsIHNpemUpOworCisJ
-aWYgKHNkcC0+c2RwX2hlYWRlci5IQjAgIT0gMCApCisJCXJldHVybiAtRUlOVkFMOworCisJaWYg
-KHNkcC0+c2RwX2hlYWRlci5IQjEgIT0gRFBfU0RQX1ZTQykKKwkJcmV0dXJuIC1FSU5WQUw7CisJ
-dnNjLT5zZHBfdHlwZSA9IHNkcC0+c2RwX2hlYWRlci5IQjE7CisKKwlpZiAoc2RwLT5zZHBfaGVh
-ZGVyLkhCMiA9PSAweDIgJiYgc2RwLT5zZHBfaGVhZGVyLkhCMyA9PSAweDgpIHsKKwkJdnNjLT5y
-ZXZpc2lvbiA9IHNkcC0+c2RwX2hlYWRlci5IQjI7CisJCXZzYy0+bGVuZ3RoID0gc2RwLT5zZHBf
-aGVhZGVyLkhCMzsKKwl9IGVsc2UgaWYgKHNkcC0+c2RwX2hlYWRlci5IQjIgPT0gMHg0ICYmIHNk
-cC0+c2RwX2hlYWRlci5IQjMgPT0gMHhlKSB7CisJCXZzYy0+cmV2aXNpb24gPSBzZHAtPnNkcF9o
-ZWFkZXIuSEIyOworCQl2c2MtPmxlbmd0aCA9IHNkcC0+c2RwX2hlYWRlci5IQjM7CisJfSBlbHNl
-IGlmIChzZHAtPnNkcF9oZWFkZXIuSEIyID09IDB4NSAmJiBzZHAtPnNkcF9oZWFkZXIuSEIzID09
-IDB4MTMpIHsKKwkJdnNjLT5yZXZpc2lvbiA9IHNkcC0+c2RwX2hlYWRlci5IQjI7CisJCXZzYy0+
-bGVuZ3RoID0gc2RwLT5zZHBfaGVhZGVyLkhCMzsKKwkJdnNjLT5jb2xvcnNwYWNlID0gKHNkcC0+
-ZGJbMTZdID4+IDQpICYgMHhmOworCQl2c2MtPmNvbG9yaW1ldHJ5ID0gc2RwLT5kYlsxNl0gJiAw
-eGY7CisJCXZzYy0+ZHluYW1pY19yYW5nZSA9IChzZHAtPmRiWzE3XSA+PiA3KSAmIDB4MTsKKwor
-CQlzd2l0Y2ggKHNkcC0+ZGJbMTddICYgMHg3KSB7CisJCWNhc2UgMHgxOgorCQkJdnNjLT5icGMg
-PSA4OworCQkJYnJlYWs7CisJCWNhc2UgMHgyOgorCQkJdnNjLT5icGMgPSAxMDsKKwkJCWJyZWFr
-OworCQljYXNlIDB4MzoKKwkJCXZzYy0+YnBjID0gMTI7CisJCQlicmVhazsKKwkJY2FzZSAweDQ6
-CisJCQl2c2MtPmJwYyA9IDE2OworCQkJYnJlYWs7CisJCWRlZmF1bHQ6CisJCQlNSVNTSU5HX0NB
-U0Uoc2RwLT5kYlsxN10gJiAweDcpOworCQkJcmV0dXJuIC1FSU5WQUw7CisJCX0KKworCQl2c2Mt
-PmNvbnRlbnRfdHlwZSA9IHNkcC0+ZGJbMThdICYgMHg3OworCX0gZWxzZSB7CisJCXJldHVybiAt
-RUlOVkFMOworCX0KKworCXJldHVybiAwOworfQorCitzdGF0aWMgaW50CitpbnRlbF9kcF9oZHJf
-bWV0YWRhdGFfaW5mb2ZyYW1lX3NkcF91bnBhY2soc3RydWN0IGhkbWlfZHJtX2luZm9mcmFtZSAq
-ZHJtX2luZm9mcmFtZSwKKwkJCQkJICAgY29uc3Qgdm9pZCAqYnVmZmVyLCBzaXplX3Qgc2l6ZSkK
-K3sKKwlpbnQgcmV0OworCisJY29uc3Qgc3RydWN0IGRwX3NkcCAqc2RwID0gYnVmZmVyOworCWlm
-IChzaXplIDwgc2l6ZW9mKHN0cnVjdCBkcF9zZHApKQorCQlyZXR1cm4gLUVJTlZBTDsKKworCWlm
-IChzZHAtPnNkcF9oZWFkZXIuSEIwICE9IDAgKQorCQlyZXR1cm4gLUVJTlZBTDsKKworCWlmIChz
-ZHAtPnNkcF9oZWFkZXIuSEIxICE9IEhETUlfSU5GT0ZSQU1FX1RZUEVfRFJNKQorCQlyZXR1cm4g
-LUVJTlZBTDsKKworCS8qCisJICogTGVhc3QgU2lnbmlmaWNhbnQgRWlnaHQgQml0cyBvZiAoRGF0
-YSBCeXRlIENvdW50IOKAkyAxKQorCSAqIDFEaCAoaS5lLiwgRGF0YSBCeXRlIENvdW50ID0gMzAg
-Ynl0ZXMpLgorCSAqLworCWlmIChzZHAtPnNkcF9oZWFkZXIuSEIyICE9IDB4MUQpCisJCXJldHVy
-biAtRUlOVkFMOworCisJLyogTW9zdCBTaWduaWZpY2FudCBUd28gQml0cyBvZiAoRGF0YSBCeXRl
-IENvdW50IOKAkyAxKSwgQ2xlYXIgdG8gMDBiLiAqLworCWlmICgoc2RwLT5zZHBfaGVhZGVyLkhC
-MyAmIDB4MykgIT0gMCkKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwkvKiBJTkZPRlJBTUUgU0RQIFZl
-cnNpb24gTnVtYmVyICovCisJaWYgKCgoc2RwLT5zZHBfaGVhZGVyLkhCMyA+PiAyKSAmIDB4M2Yp
-ICE9IDB4MTMpCisJCXJldHVybiAtRUlOVkFMOworCisJLyogQ1RBIEhlYWRlciBCeXRlIDIgKElO
-Rk9GUkFNRSBWZXJzaW9uIE51bWJlcikgKi8KKwlpZiAoc2RwLT5kYlswXSAhPSAxKQorCQlyZXR1
-cm4gLUVJTlZBTDsKKworCS8qIENUQSBIZWFkZXIgQnl0ZSAzIChMZW5ndGggb2YgSU5GT0ZSQU1F
-KTogSERNSV9EUk1fSU5GT0ZSQU1FX1NJWkUgKi8KKwlpZiAoc2RwLT5kYlsxXSAhPSBIRE1JX0RS
-TV9JTkZPRlJBTUVfU0laRSkKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwlyZXQgPSBoZG1pX2RybV9p
-bmZvZnJhbWVfdW5wYWNrX29ubHkoZHJtX2luZm9mcmFtZSwgJnNkcC0+ZGJbMl0sCisJCQkJCSAg
-ICAgSERNSV9EUk1fSU5GT0ZSQU1FX1NJWkUpOworCisJcmV0dXJuIHJldDsKK30KKworc3RhdGlj
-IHZvaWQgaW50ZWxfcmVhZF9kcF92c2Nfc2RwKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVy
-LAorCQkJCSAgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsCisJCQkJICBzdHJ1
-Y3QgaW50ZWxfZHBfdnNjX3NkcCAqdnNjKQoreworCXN0cnVjdCBpbnRlbF9kaWdpdGFsX3BvcnQg
-KmludGVsX2RpZ19wb3J0ID0gZW5jX3RvX2RpZ19wb3J0KGVuY29kZXIpOworCXN0cnVjdCBpbnRl
-bF9kcCAqaW50ZWxfZHAgPSBlbmNfdG9faW50ZWxfZHAoZW5jb2Rlcik7CisJdW5zaWduZWQgaW50
-IHR5cGUgPSBEUF9TRFBfVlNDOworCXN0cnVjdCBkcF9zZHAgc2RwID0ge307CisJaW50IHJldDsK
-KworCS8qIFdoZW4gUFNSIGlzIGVuYWJsZWQsIFZTQyBTRFAgaXMgaGFuZGxlZCBieSBQU1Igcm91
-dGluZSAqLworCWlmIChpbnRlbF9wc3JfZW5hYmxlZChpbnRlbF9kcCkpCisJCXJldHVybjsKKwor
-CWlmICgoY3J0Y19zdGF0ZS0+aW5mb2ZyYW1lcy5lbmFibGUgJgorCSAgICAgaW50ZWxfaGRtaV9p
-bmZvZnJhbWVfZW5hYmxlKHR5cGUpKSA9PSAwKQorCQlyZXR1cm47CisKKwlpbnRlbF9kaWdfcG9y
-dC0+cmVhZF9pbmZvZnJhbWUoZW5jb2RlciwgY3J0Y19zdGF0ZSwgdHlwZSwgJnNkcCwgc2l6ZW9m
-KHNkcCkpOworCisJcmV0ID0gaW50ZWxfZHBfdnNjX3NkcF91bnBhY2sodnNjLCAmc2RwLCBzaXpl
-b2Yoc2RwKSk7CisKKwlpZiAocmV0KQorCQlEUk1fREVCVUdfS01TKCJGYWlsZWQgdG8gdW5wYWNr
-IERQIFZTQyBTRFBcbiIpOworCit9CisKK3N0YXRpYyB2b2lkIGludGVsX3JlYWRfZHBfaGRyX21l
-dGFkYXRhX2luZm9mcmFtZV9zZHAoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsCisJCQkJ
-CQkgICAgIHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLAorCQkJCQkJICAgICBz
-dHJ1Y3QgaGRtaV9kcm1faW5mb2ZyYW1lICpkcm1faW5mb2ZyYW1lKQoreworCXN0cnVjdCBpbnRl
-bF9kaWdpdGFsX3BvcnQgKmludGVsX2RpZ19wb3J0ID0gZW5jX3RvX2RpZ19wb3J0KGVuY29kZXIp
-OworCXVuc2lnbmVkIGludCB0eXBlID0gSERNSV9QQUNLRVRfVFlQRV9HQU1VVF9NRVRBREFUQTsK
-KwlzdHJ1Y3QgZHBfc2RwIHNkcCA9IHt9OworCWludCByZXQ7CisKKwlpZiAoKGNydGNfc3RhdGUt
-PmluZm9mcmFtZXMuZW5hYmxlICYKKwkgICAgaW50ZWxfaGRtaV9pbmZvZnJhbWVfZW5hYmxlKHR5
-cGUpKSA9PSAwKQorCQlyZXR1cm47CisKKwlpbnRlbF9kaWdfcG9ydC0+cmVhZF9pbmZvZnJhbWUo
-ZW5jb2RlciwgY3J0Y19zdGF0ZSwgdHlwZSwgJnNkcCwKKwkJCQkgICAgICAgc2l6ZW9mKHNkcCkp
-OworCisJcmV0ID0gaW50ZWxfZHBfaGRyX21ldGFkYXRhX2luZm9mcmFtZV9zZHBfdW5wYWNrKGRy
-bV9pbmZvZnJhbWUsICZzZHAsCisJCQkJCQkJIHNpemVvZihzZHApKTsKKworCWlmIChyZXQpCisJ
-CURSTV9ERUJVR19LTVMoIkZhaWxlZCB0byB1bnBhY2sgRFAgSERSIE1ldGFkYXRhIEluZm9mcmFt
-ZSBTRFBcbiIpOworfQorCit2b2lkIGludGVsX3JlYWRfZHBfc2RwKHN0cnVjdCBpbnRlbF9lbmNv
-ZGVyICplbmNvZGVyLAorCQkgICAgICAgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3Rh
-dGUsCisJCSAgICAgICB1bnNpZ25lZCBpbnQgdHlwZSkKK3sKKwlzd2l0Y2ggKHR5cGUpIHsKKwlj
-YXNlIERQX1NEUF9WU0M6CisJCWludGVsX3JlYWRfZHBfdnNjX3NkcChlbmNvZGVyLCBjcnRjX3N0
-YXRlLAorCQkJCSAgICAgICZjcnRjX3N0YXRlLT5pbmZvZnJhbWVzLnZzYyk7CisJCWJyZWFrOwor
-CWNhc2UgSERNSV9QQUNLRVRfVFlQRV9HQU1VVF9NRVRBREFUQToKKwkJaW50ZWxfcmVhZF9kcF9o
-ZHJfbWV0YWRhdGFfaW5mb2ZyYW1lX3NkcChlbmNvZGVyLCBjcnRjX3N0YXRlLAorCQkJCQkJCSAm
-Y3J0Y19zdGF0ZS0+aW5mb2ZyYW1lcy5kcm0uZHJtKTsKKwkJYnJlYWs7CisJZGVmYXVsdDoKKwkJ
-TUlTU0lOR19DQVNFKHR5cGUpOworCQlicmVhazsKKwl9Cit9CisKIHN0YXRpYyB2b2lkCiBpbnRl
-bF9kcF9zZXR1cF92c2Nfc2RwKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsCiAJCSAgICAgICBj
-b25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuaCBiL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfZHAuaAppbmRleCAwZGMwOWE0NjNlZTEuLmU4ZjliYTk2MmQwOSAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuaApAQCAtMTE5LDYgKzExOSw5
-IEBAIHZvaWQgaW50ZWxfZHBfaGRyX21ldGFkYXRhX2VuYWJsZShzdHJ1Y3QgaW50ZWxfZHAgKmlu
-dGVsX2RwLAogdm9pZCBpbnRlbF9kcF9zZXRfaW5mb2ZyYW1lcyhzdHJ1Y3QgaW50ZWxfZW5jb2Rl
-ciAqZW5jb2RlciwgYm9vbCBlbmFibGUsCiAJCQkgICAgIGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRj
-X3N0YXRlICpjcnRjX3N0YXRlLAogCQkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9z
-dGF0ZSAqY29ubl9zdGF0ZSk7Cit2b2lkIGludGVsX3JlYWRfZHBfc2RwKHN0cnVjdCBpbnRlbF9l
-bmNvZGVyICplbmNvZGVyLAorCQkgICAgICAgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNf
-c3RhdGUsCisJCSAgICAgICB1bnNpZ25lZCBpbnQgdHlwZSk7CiBib29sIGludGVsX2RpZ2l0YWxf
-cG9ydF9jb25uZWN0ZWQoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIpOwogCiBzdGF0aWMg
-aW5saW5lIHVuc2lnbmVkIGludCBpbnRlbF9kcF91bnVzZWRfbGFuZV9tYXNrKGludCBsYW5lX2Nv
-dW50KQotLSAKMi4yNC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+When receiving video it is very useful to be able to log DP VSC SDP.
+This greatly simplifies debugging.
+
+Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_dp.c | 173 ++++++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.h |   4 +
+ 2 files changed, 177 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 6756030692c8..e33488222ac5 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5090,6 +5090,179 @@ void intel_read_dp_sdp(struct intel_encoder *encoder,
+ 	}
+ }
+ 
++static const char *dp_colorspace_get_name(enum dp_colorspace colorspace)
++{
++	if (colorspace < 0 || colorspace > DP_COLORSPACE_RESERVED)
++		return "Invalid";
++
++	switch (colorspace) {
++	case DP_COLORSPACE_RGB:
++		return "RGB";
++	case DP_COLORSPACE_YUV444:
++		return "YUV444";
++	case DP_COLORSPACE_YUV422:
++		return "YUV422";
++	case DP_COLORSPACE_YUV420:
++		return "YUV420";
++	case DP_COLORSPACE_Y_ONLY:
++		return "Y_ONLY";
++	case DP_COLORSPACE_RAW:
++		return "RAW";
++	default:
++		return "Reserved";
++	}
++}
++
++static const char *dp_colorimetry_get_name(enum dp_colorspace colorspace,
++					   enum dp_colorimetry colorimetry)
++{
++	if (colorspace < 0 || colorspace > DP_COLORSPACE_RESERVED)
++		return "Invalid";
++
++	switch (colorimetry) {
++	case DP_COLORIMETRY_DEFAULT:
++		switch (colorspace) {
++		case DP_COLORSPACE_RGB:
++			return "sRGB";
++		case DP_COLORSPACE_YUV444:
++		case DP_COLORSPACE_YUV422:
++		case DP_COLORSPACE_YUV420:
++			return "BT.601";
++		case DP_COLORSPACE_Y_ONLY:
++			return "DICOM PS3.14";
++		case DP_COLORSPACE_RAW:
++			return "Custom Color Profile";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_RGB_WIDE_FIXED: /* and DP_COLORIMETRY_BT709_YCC */
++		switch (colorspace) {
++		case DP_COLORSPACE_RGB:
++			return "Wide Fixed";
++		case DP_COLORSPACE_YUV444:
++		case DP_COLORSPACE_YUV422:
++		case DP_COLORSPACE_YUV420:
++			return "BT.709";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_RGB_WIDE_FLOAT: /* and DP_COLORIMETRY_XVYCC_601 */
++		switch (colorspace) {
++		case DP_COLORSPACE_RGB:
++			return "Wide Float";
++		case DP_COLORSPACE_YUV444:
++		case DP_COLORSPACE_YUV422:
++		case DP_COLORSPACE_YUV420:
++			return "xvYCC 601";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_OPRGB: /* and DP_COLORIMETRY_XVYCC_709 */
++		switch (colorspace) {
++		case DP_COLORSPACE_RGB:
++			return "OpRGB";
++		case DP_COLORSPACE_YUV444:
++		case DP_COLORSPACE_YUV422:
++		case DP_COLORSPACE_YUV420:
++			return "xvYCC 709";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_DCI_P3_RGB: /* and DP_COLORIMETRY_SYCC_601 */
++		switch (colorspace) {
++		case DP_COLORSPACE_RGB:
++			return "DCI-P3";
++		case DP_COLORSPACE_YUV444:
++		case DP_COLORSPACE_YUV422:
++		case DP_COLORSPACE_YUV420:
++			return "sYCC 601";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_RGB_CUSTOM: /* and DP_COLORIMETRY_OPYCC_601 */
++		switch (colorspace) {
++		case DP_COLORSPACE_RGB:
++			return "Custom Profile";
++		case DP_COLORSPACE_YUV444:
++		case DP_COLORSPACE_YUV422:
++		case DP_COLORSPACE_YUV420:
++			return "OpYCC 601";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_BT2020_RGB: /* and DP_COLORIMETRY_BT2020_CYCC */
++		switch (colorspace) {
++		case DP_COLORSPACE_RGB:
++			return "BT.2020 RGB";
++		case DP_COLORSPACE_YUV444:
++		case DP_COLORSPACE_YUV422:
++		case DP_COLORSPACE_YUV420:
++			return "BT.2020 CYCC";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_BT2020_YCC:
++		switch (colorspace) {
++		case DP_COLORSPACE_YUV444:
++		case DP_COLORSPACE_YUV422:
++		case DP_COLORSPACE_YUV420:
++			return "BT.2020 YCC";
++		default:
++			return "Reserved";
++		}
++	default:
++		return "Invalid";
++	}
++}
++
++static const char *dp_dynamic_range_get_name(enum dp_dynamic_range dynamic_range)
++{
++	switch (dynamic_range) {
++	case DP_DYNAMIC_RANGE_VESA:
++		return "VESA range";
++	case DP_DYNAMIC_RANGE_CTA:
++		return "CTA range";
++	default:
++		return "Invalid";
++	}
++}
++
++static const char *dp_content_type_get_name(enum dp_content_type content_type)
++{
++	switch (content_type) {
++	case DP_CONTENT_TYPE_NOT_DEFINED:
++		return "Not defined";
++	case DP_CONTENT_TYPE_GRAPHICS:
++		return "Graphics";
++	case DP_CONTENT_TYPE_PHOTO:
++		return "Photo";
++	case DP_CONTENT_TYPE_VIDEO:
++		return "Video";
++	case DP_CONTENT_TYPE_GAME:
++		return "Game";
++	default:
++		return "Reserved";
++	}
++}
++
++#define dp_sdp_log(fmt, ...) dev_printk(level, dev, fmt, ##__VA_ARGS__)
++void intel_dp_vsc_sdp_log(const char *level, struct device *dev,
++			  const struct intel_dp_vsc_sdp *vsc)
++{
++	dp_sdp_log("DP SDP: %s, revision %u, length %u\n", "VSC",
++		   vsc->revision, vsc->length);
++	dp_sdp_log("    colorspace: %s\n",
++			dp_colorspace_get_name(vsc->colorspace));
++	dp_sdp_log("    colorimetry: %s\n",
++			dp_colorimetry_get_name(vsc->colorspace, vsc->colorimetry));
++	dp_sdp_log("    bpc: %u\n",vsc->bpc);
++	dp_sdp_log("    dynamic range: %s\n",
++			dp_dynamic_range_get_name(vsc->dynamic_range));
++	dp_sdp_log("    content type: %s\n",
++			dp_content_type_get_name(vsc->content_type));
++}
++#undef dp_sdp_log
++
+ static void
+ intel_dp_setup_vsc_sdp(struct intel_dp *intel_dp,
+ 		       const struct intel_crtc_state *crtc_state,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index e8f9ba962d09..03b300b58fd0 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -7,6 +7,7 @@
+ #define __INTEL_DP_H__
+ 
+ #include <linux/types.h>
++#include <linux/device.h>
+ 
+ #include <drm/i915_drm.h>
+ 
+@@ -23,6 +24,7 @@ struct intel_crtc_state;
+ struct intel_digital_port;
+ struct intel_dp;
+ struct intel_encoder;
++struct intel_dp_vsc_sdp;
+ 
+ struct link_config_limits {
+ 	int min_clock, max_clock;
+@@ -122,6 +124,8 @@ void intel_dp_set_infoframes(struct intel_encoder *encoder, bool enable,
+ void intel_read_dp_sdp(struct intel_encoder *encoder,
+ 		       struct intel_crtc_state *crtc_state,
+ 		       unsigned int type);
++void intel_dp_vsc_sdp_log(const char *level, struct device *dev,
++			  const struct intel_dp_vsc_sdp *vsc);
+ bool intel_digital_port_connected(struct intel_encoder *encoder);
+ 
+ static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
