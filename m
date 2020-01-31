@@ -2,74 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15DC0150244
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 09:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDDC615024A
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 09:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA1706EB3A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C53036EB36;
 	Mon,  3 Feb 2020 08:10:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
  [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65E346FAA5
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 08:08:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614A76E95F
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 09:22:01 +0000 (UTC)
 Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00V830u4015648; Fri, 31 Jan 2020 09:08:37 +0100
+ 00V9IkTY032507; Fri, 31 Jan 2020 10:21:54 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
  h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=lHn3hsnBweOo3xubj4V/5edBG0xugDlmxQ4iesCGeFo=;
- b=bxGNeJBXi6nEwByPboUUKteCSfHDCaxMkRhvAIimv/j67+PwG7fVF+vcqndGlzntti67
- OeBX/iOtvs+m9dQ6gIuL2YJNhoHDRFY0sjRP/H8+qMo/dxkZNwj5xk4NyQzri2/j3cX+
- p7f4/7VpzSM7Q8BQhK10/GHGtJzUxt4iMGJum5H7oLmFkCE6vDQyVoJ9YP64mJnyyIKO
- TDYmWCmU0UI3342W7PvObN9MZpU0INdAB5LFrzy3Z+hQJzvSRMfT2cO9wB1cFNPARfwA
- +2GtC7TASOUkoBBVtTIP0a7COX7tny3fHqD9p3MdVN10mrLPoVHXaj1+sgD7iFONfPCI Cw== 
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=C0Udf40gju7kySCbmq3FPOBzpyJNDU///ikc7Ctm0u4=;
+ b=bkzfrPgwN4UkwYBkFw3XlpDYeW6SpPQVhepmPzcOOUnoanMSmDBHdOp/nBezteQOUCeg
+ iERvVz8jvPoOpbzCu2RVsXJCqchGcCQxIEQRqNwUOTEkBX7EjaWYaOFYmGnKWBJA5Y4x
+ O5mPx5riyf/b9/i3jvA+oqi7/CP2rVi2D7Kg/BeVtB95zaBPjHGqxNHQUMocbO9f+wa7
+ HehJY3+6XtBhmArbw66+7OSLvG/MqYpuJGPW9CYYOzu84HyJm2YLGvCOOh9n+pKrhX89
+ 6XF2GLvnpNb8+/3iWuaBenZob4VTg/t6DjH26x4OVd1CUgrHnpbvtOZmBRMJrsuKbFXa /w== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 2xrdekvhuf-1
+ by mx07-00178001.pphosted.com with ESMTP id 2xrdekvx63-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Jan 2020 09:08:37 +0100
+ Fri, 31 Jan 2020 10:21:54 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0A4CA100034;
- Fri, 31 Jan 2020 09:08:35 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 026A5100039;
+ Fri, 31 Jan 2020 10:21:49 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EF6BC21ECF3;
- Fri, 31 Jan 2020 09:08:34 +0100 (CET)
-Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG3NODE3.st.com
- (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 31 Jan
- 2020 09:08:34 +0100
-Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
- SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
- 15.00.1347.000; Fri, 31 Jan 2020 09:08:34 +0100
-From: Benjamin GAIGNARD <benjamin.gaignard@st.com>
-To: Dave Airlie <airlied@gmail.com>, Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v3] drm/dp_mst: Fix W=1 warnings
-Thread-Topic: [PATCH v3] drm/dp_mst: Fix W=1 warnings
-Thread-Index: AQHVpfLdCTG3TRn1q0qMv+WgKbKtSqeqKGOAgBJQjICABqb1AIAcO4cAgBtNdQCABCA3gIAFUbCAgAAQtACAAJMdAA==
-Date: Fri, 31 Jan 2020 08:08:34 +0000
-Message-ID: <f64197e6-74bd-6577-2aa7-9c69cfdb9080@st.com>
-References: <20191128135057.20020-1-benjamin.gaignard@st.com>
- <878snsvxzu.fsf@intel.com>
- <CA+M3ks5WvYoDLSrbvaGBbJg9+nnkX=xyCiD389QD8tSCdNqB+g@mail.gmail.com>
- <CA+M3ks4Y4LemFh=dQds91Z-LGJPK3vHKv=GeUNYHjNhdwz_m2g@mail.gmail.com>
- <CA+M3ks4yEBejzMoXPw_OK_LNP7ag5SNXZjvHqNeuZ8+9r2X-qw@mail.gmail.com>
- <b273036b10d8c2882800d01dcda7392e93b731fa.camel@redhat.com>
- <CA+M3ks5cuC5yJ-e0DCUiY1HtyyeU=mM9z56y4e_UduKaxcbw-A@mail.gmail.com>
- <08f4b69b1e48a81e90f28e7672da15cc5165969c.camel@redhat.com>
- <CAPM=9txafoQNfMFf0Ff1SnBTgq6jYyvjJyjCSJua6-SJVVkScQ@mail.gmail.com>
-In-Reply-To: <CAPM=9txafoQNfMFf0Ff1SnBTgq6jYyvjJyjCSJua6-SJVVkScQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.48]
-Content-ID: <FCC1E6061AA3DF4BA26EAE549BDE65E5@st.com>
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id AC9D62A4D6F;
+ Fri, 31 Jan 2020 10:21:49 +0100 (CET)
+Received: from localhost (10.75.127.44) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 31 Jan 2020 10:21:48
+ +0100
+From: Benjamin Gaignard <benjamin.gaignard@st.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH] gpu: drm: context: Clean up documentation
+Date: Fri, 31 Jan 2020 10:21:47 +0100
+Message-ID: <20200131092147.32063-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG3NODE3.st.com (10.75.127.9) To SFHDAG3NODE3.st.com
+ (10.75.127.9)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-01-31_02:2020-01-30,
  2020-01-31 signatures=0
@@ -86,52 +65,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@st.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQpPbiAxLzMxLzIwIDEyOjIyIEFNLCBEYXZlIEFpcmxpZSB3cm90ZToNCj4+Pj4gaGktYWN0dWFs
-bHkgeWVzLCB3ZSBzaG91bGQgcHJvYmFibHkgYmUgdXNpbmcgdGhpcyBpbnN0ZWFkIG9mIGp1c3Qg
-ZHJvcHBpbmcNCj4+Pj4gdGhpcy4gQWxzbywgSSBkaWRuJ3Qgd3JpdGUgdGhpcyBjb2RlIG9yaWdp
-bmFsbHkgSSBqdXN0IHJlZmFjdG9yZWQgYSBidW5jaA0KPj4+PiBvZg0KPj4+PiBpdCAtIERhdmUg
-QWlybGllZCBpcyB0aGUgb3JpZ2luYWwgYXV0aG9yLCBidXQgdGhlIG9yaWdpbmFsIHZlcnNpb24g
-b2YgdGhpcw0KPj4+PiBjb2RlIHdhcyB3cml0dGVuIGFnZXMgYWdvLiB0YmgsIEkgdGhpbmsgaXQn
-cyBhIHNhZmUgYmV0IHRvIHNheSB0aGF0IHRoZXkNCj4+Pj4gcHJvYmFibHkgZGlkIG1lYW4gdG8g
-dXNlIHRoaXMgYnV0IGZvcmdvdCB0byBhbmQgbm8gb25lIG5vdGljZWQgdW50aWwgbm93Lg0KPj4+
-IEhpLA0KPj4+DQo+Pj4gQW55IGNsdWUgYWJvdXQgaG93IHRvIHVzZSBjcmMgdmFsdWUgPyBEb2Vz
-IGl0IGhhdmUgdG8gYmUgY2hlY2tlZA0KPj4+IGFnYWluc3Qgc29tZXRoaW5nIGVsc2UgPw0KPj4+
-IElmIGNyYyBhcmUgbm90IG1hdGNoaW5nIHdoYXQgc2hvdWxkIHdlIGRvIG9mIHRoZSBkYXRhIGNv
-cGllZCBqdXN0IGJlZm9yZSA/DQo+PiBXZSBzaG91bGQgYmUgYWJsZSB0byBqdXN0IHRha2UgdGhl
-IENSQyB2YWx1ZSBmcm9tIHRoZSBzaWRlYmFuZCBtZXNzYWdlIGFuZA0KPj4gdGhlbiBnZW5lcmF0
-ZSBvdXIgb3duIENSQyB2YWx1ZSB1c2luZyB0aGUgc2lkZWJhbmQgbWVzc2FnZSBjb250ZW50cywg
-YW5kIGNoZWNrDQo+PiBpZiB0aGUgdHdvIGFyZSBlcXVhbC4gSWYgdGhleSBhcmVuJ3QsIHNvbWV0
-aGluZyB3ZW50IHdyb25nIGFuZCB3ZSBkaWRuJ3QNCj4+IHJlY2VpdmUgdGhlIG1lc3NhZ2UgcHJv
-cGVybHkuDQo+Pg0KPj4gTm93IGFzIHRvIHdoYXQgd2Ugc2hvdWxkIGRvIHdoZW4gd2UgaGF2ZSBD
-UkMgbWlzbWF0Y2hlcz8gVGhhdCdzIGEgYml0IG1vcmUNCj4+IGRpZmZpY3VsdC4gSWYgeW91IGhh
-dmUgYWNjZXNzIHRvIHRoZSBEUCBNU1Qgc3BlYywgSSBzdXBwb3NlIGEgcGxhY2UgdG8gc3RhcnQN
-Cj4+IGZpZ3VyaW5nIHRoYXQgb3V0IHdvdWxkIGJlIGNoZWNraW5nIGlmIHRoZXJlJ3MgYSB3YXkg
-Zm9yIHVzIHRvIHJlcXVlc3QgdGhhdCBhDQo+PiBicmFuY2ggZGV2aWNlIHJlc2VuZCB3aGF0ZXZl
-ciBtZXNzYWdlIGl0IHNlbnQgcHJldmlvdXNseS4gSWYgdGhlcmUgaXNuJ3QsIEkNCj4+IGd1ZXNz
-IHdlIHNob3VsZCBqdXN0IHByaW50IGFuIGVycm9yIGluIGRtZXNnIChwb3NzaWJseSB3aXRoIGEg
-aGV4ZHVtcCBvZiB0aGUNCj4+IGZhaWxlZCBtZXNzYWdlIGFzIHdlbGwpIGFuZCBub3QgZm9yd2Fy
-ZCB0aGUgbWVzc2FnZSB0byB0aGUgZHJpdmVyLiBOb3Qgc3VyZSBvZg0KPj4gYW55IGJldHRlciB3
-YXkgb2YgaGFuZGxpbmcgaXQgdGhlbiB0aGF0DQo+IFllYWggSSB0aGluayB0aGlzIHJlZmxlY3Rz
-IHdoYXQgSSB3YW50ZWQgdG8gZG8sIEkndmUgbm8gbWVtb3J5IG9mIGENCj4gcmV0cmFuc21pdCBv
-cHRpb24gaW4gdGhlIHNwZWMsIGJ1dCBJJ3ZlIGF3YXkgZnJvbSBpdCBmb3IgYSB3aGlsZS4gQnV0
-DQo+IHdlJ2Qgd2FudCB0byBjb21wYXJlIHRoZSBDUkMgd2l0aCB3aGF0IHdlIGdvdCB0byBtYWtl
-IHN1cmUgdGhlIGFyZSB0aGUNCj4gc2FtZS4NCg0KSG1tLCB0aGF0IGZhciBtb3JlIGNvbXBsZXgg
-dGhhbiBqdXN0IGZpeCBjb21waWxhdGlvbiB3YXJuaW5ncyA6KQ0KDQpJIHdpbGwgc3BsaXQgdGhl
-IHBhdGNoIGluIHR3bzoNCg0KLSBvbmUgZm9yIG9mIGFsbCBvdGhlciB3YXJuaW5ncywgaG9wZWZ1
-bGx5IGl0IGNhbiBnZXQgcmV2aWV3ZWQNCg0KLSBvbmUgZm9yIHRoaXMgY3JjNCB2YXJpYWJsZS4g
-RG9lcyBjaGVja2luZyBjcmMgdmFsdWUgYW5kIHByaW50IGFuIGVycm9yIA0Kc2hvdWxkIGJlIGFj
-Y2VwdGFibGUgPw0KDQpTb21ldGhpbmcgbGlrZToNCg0KaWYgKGNyYzQgIT0gbXNnLT5jaHVua1tt
-c2ctPmN1cmNodW5rX2xlbiAtIDFdKQ0KDQogwqDCoMKgIHByaW50X2hleF9kdW1wKEtFUk5fREVC
-VUcsICJ3cm9uZyBjcmMiLCBEVU1QX1BSRUZJWF9OT05FLCAxNiwgMSwgDQptc2ctPmNodW5rLMKg
-IG1zZy0+Y3VyY2h1bmtfbGVuLCBmYWxzZSk7DQoNCg0KQmVuamFtaW4NCg0KDQo+DQo+IERhdmUu
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Fix kernel doc comments to avoid warnings when compiling with W=1.
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+---
+ drivers/gpu/drm/drm_context.c | 145 ++++++++++++++++++------------------------
+ 1 file changed, 61 insertions(+), 84 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_context.c
+index 1f802d8e5681..54e64d612a2b 100644
+--- a/drivers/gpu/drm/drm_context.c
++++ b/drivers/gpu/drm/drm_context.c
+@@ -43,15 +43,11 @@ struct drm_ctx_list {
+ 	struct drm_file *tag;
+ };
+ 
+-/******************************************************************/
+-/** \name Context bitmap support */
+-/*@{*/
+-
+ /**
+- * Free a handle from the context bitmap.
++ * drm_legacy_ctxbitmap_free() - Free a handle from the context bitmap.
+  *
+- * \param dev DRM device.
+- * \param ctx_handle context handle.
++ * @dev: DRM device.
++ * @ctx_handle: context handle.
+  *
+  * Clears the bit specified by \p ctx_handle in drm_device::ctx_bitmap and the entry
+  * in drm_device::ctx_idr, while holding the drm_device::struct_mutex
+@@ -69,10 +65,10 @@ void drm_legacy_ctxbitmap_free(struct drm_device * dev, int ctx_handle)
+ }
+ 
+ /**
+- * Context bitmap allocation.
++ * drm_legacy_ctxbitmap_next() - Context bitmap allocation.
+  *
+- * \param dev DRM device.
+- * \return (non-negative) context handle on success or a negative number on failure.
++ * @dev: DRM device.
++ * Return: (non-negative) context handle on success or a negative number on failure.
+  *
+  * Allocate a new idr from drm_device::ctx_idr while holding the
+  * drm_device::struct_mutex lock.
+@@ -89,9 +85,9 @@ static int drm_legacy_ctxbitmap_next(struct drm_device * dev)
+ }
+ 
+ /**
+- * Context bitmap initialization.
++ * drm_legacy_ctxbitmap_init() - Context bitmap initialization.
+  *
+- * \param dev DRM device.
++ * @dev: DRM device.
+  *
+  * Initialise the drm_device::ctx_idr
+  */
+@@ -105,9 +101,9 @@ void drm_legacy_ctxbitmap_init(struct drm_device * dev)
+ }
+ 
+ /**
+- * Context bitmap cleanup.
++ * drm_legacy_ctxbitmap_cleanup() - bitmap cleanup.
+  *
+- * \param dev DRM device.
++ * @dev: DRM device.
+  *
+  * Free all idr members using drm_ctx_sarea_free helper function
+  * while holding the drm_device::struct_mutex lock.
+@@ -157,20 +153,13 @@ void drm_legacy_ctxbitmap_flush(struct drm_device *dev, struct drm_file *file)
+ 	mutex_unlock(&dev->ctxlist_mutex);
+ }
+ 
+-/*@}*/
+-
+-/******************************************************************/
+-/** \name Per Context SAREA Support */
+-/*@{*/
+-
+ /**
+- * Get per-context SAREA.
++ * drm_legacy_getsareactx() - Get per-context SAREA.
+  *
+- * \param inode device inode.
+- * \param file_priv DRM file private.
+- * \param cmd command.
+- * \param arg user argument pointing to a drm_ctx_priv_map structure.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device to operate on
++ * @data: request data
++ * @file_priv: DRM file private.
++ * Return:  zero on success or a negative number on failure.
+  *
+  * Gets the map from drm_device::ctx_idr with the handle specified and
+  * returns its handle.
+@@ -212,13 +201,12 @@ int drm_legacy_getsareactx(struct drm_device *dev, void *data,
+ }
+ 
+ /**
+- * Set per-context SAREA.
++ * drm_legacy_setsareactx() - Set per-context SAREA.
+  *
+- * \param inode device inode.
+- * \param file_priv DRM file private.
+- * \param cmd command.
+- * \param arg user argument pointing to a drm_ctx_priv_map structure.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device to operate on
++ * @data: request data
++ * @file_priv: DRM file private.
++ * Return: zero on success or a negative number on failure.
+  *
+  * Searches the mapping specified in \p arg and update the entry in
+  * drm_device::ctx_idr with it.
+@@ -257,19 +245,13 @@ int drm_legacy_setsareactx(struct drm_device *dev, void *data,
+ 	return 0;
+ }
+ 
+-/*@}*/
+-
+-/******************************************************************/
+-/** \name The actual DRM context handling routines */
+-/*@{*/
+-
+ /**
+- * Switch context.
++ * drm_context_switch() - Switch context.
+  *
+- * \param dev DRM device.
+- * \param old old context handle.
+- * \param new new context handle.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device.
++ * @old: old context handle.
++ * @new: new context handle.
++ * Return: zero on success or a negative number on failure.
+  *
+  * Attempt to set drm_device::context_flag.
+  */
+@@ -291,11 +273,12 @@ static int drm_context_switch(struct drm_device * dev, int old, int new)
+ }
+ 
+ /**
+- * Complete context switch.
++ * drm_context_switch_complete() - Complete context switch.
+  *
+- * \param dev DRM device.
+- * \param new new context handle.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device.
++ * @file_priv: DRM file private.
++ * @new: new context handle.
++ * Return: zero on success or a negative number on failure.
+  *
+  * Updates drm_device::last_context and drm_device::last_switch. Verifies the
+  * hardware lock is held, clears the drm_device::context_flag and wakes up
+@@ -319,13 +302,13 @@ static int drm_context_switch_complete(struct drm_device *dev,
+ }
+ 
+ /**
+- * Reserve contexts.
++ * drm_legacy_resctx() - Reserve contexts.
++ *
++ * @dev: DRM device to operate on
++ * @data: request data
++ * @file_priv: DRM file private.
+  *
+- * \param inode device inode.
+- * \param file_priv DRM file private.
+- * \param cmd command.
+- * \param arg user argument pointing to a drm_ctx_res structure.
+- * \return zero on success or a negative number on failure.
++ * Return: zero on success or a negative number on failure.
+  */
+ int drm_legacy_resctx(struct drm_device *dev, void *data,
+ 		      struct drm_file *file_priv)
+@@ -352,15 +335,13 @@ int drm_legacy_resctx(struct drm_device *dev, void *data,
+ }
+ 
+ /**
+- * Add context.
++ * drm_legacy_addctx() - Add context.
+  *
+- * \param inode device inode.
+- * \param file_priv DRM file private.
+- * \param cmd command.
+- * \param arg user argument pointing to a drm_ctx structure.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device to operate on
++ * @data: request data
++ * @file_priv: DRM file private.
+  *
+- * Get a new handle for the context and copy to userspace.
++ * Return: zero on success or a negative number on failure.
+  */
+ int drm_legacy_addctx(struct drm_device *dev, void *data,
+ 		      struct drm_file *file_priv)
+@@ -405,13 +386,12 @@ int drm_legacy_addctx(struct drm_device *dev, void *data,
+ }
+ 
+ /**
+- * Get context.
++ * drm_legacy_getctx() - Get context.
+  *
+- * \param inode device inode.
+- * \param file_priv DRM file private.
+- * \param cmd command.
+- * \param arg user argument pointing to a drm_ctx structure.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device to operate on
++ * @data: request data
++ * @file_priv: DRM file private.
++ * Return: zero on success or a negative number on failure.
+  */
+ int drm_legacy_getctx(struct drm_device *dev, void *data,
+ 		      struct drm_file *file_priv)
+@@ -429,13 +409,12 @@ int drm_legacy_getctx(struct drm_device *dev, void *data,
+ }
+ 
+ /**
+- * Switch context.
++ * drm_legacy_switchctx() - Switch context.
+  *
+- * \param inode device inode.
+- * \param file_priv DRM file private.
+- * \param cmd command.
+- * \param arg user argument pointing to a drm_ctx structure.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device to operate on
++ * @data: request data
++ * @file_priv: DRM file private.
++ * Return: zero on success or a negative number on failure.
+  *
+  * Calls context_switch().
+  */
+@@ -453,13 +432,12 @@ int drm_legacy_switchctx(struct drm_device *dev, void *data,
+ }
+ 
+ /**
+- * New context.
++ * drm_legacy_newctx() - New context.
+  *
+- * \param inode device inode.
+- * \param file_priv DRM file private.
+- * \param cmd command.
+- * \param arg user argument pointing to a drm_ctx structure.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device to operate on
++ * @data: request data
++ * @file_priv: DRM file private.
++ * Return: zero on success or a negative number on failure.
+  *
+  * Calls context_switch_complete().
+  */
+@@ -479,13 +457,12 @@ int drm_legacy_newctx(struct drm_device *dev, void *data,
+ }
+ 
+ /**
+- * Remove context.
++ * drm_legacy_rmctx() - Remove context.
+  *
+- * \param inode device inode.
+- * \param file_priv DRM file private.
+- * \param cmd command.
+- * \param arg user argument pointing to a drm_ctx structure.
+- * \return zero on success or a negative number on failure.
++ * @dev: DRM device to operate on
++ * @data: request data
++ * @file_priv: DRM file private.
++ * Return: zero on success or a negative number on failure.
+  *
+  * If not the special kernel context, calls ctxbitmap_free() to free the specified context.
+  */
+-- 
+2.15.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
