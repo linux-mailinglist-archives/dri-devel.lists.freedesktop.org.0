@@ -1,41 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058E414EF5A
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 16:16:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F2914EFF1
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 16:42:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D8FB6E9BB;
-	Fri, 31 Jan 2020 15:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF3076FB88;
+	Fri, 31 Jan 2020 15:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED386E9BB
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 15:16:23 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 882FE20027;
- Fri, 31 Jan 2020 16:16:19 +0100 (CET)
-Date: Fri, 31 Jan 2020 16:16:17 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] MAINTAINERS: Add Thomas as drm-misc co-maintainer
-Message-ID: <20200131151617.GA2213@ravnborg.org>
-References: <20200130120643.5759-1-tzimmermann@suse.de>
- <21c31cf3-ae2e-e361-7edd-a45f7589dd9f@suse.de>
- <20200130130418.fta4sqpbfkpj5tzx@gilmour.lan>
- <CAKMK7uHOH2UwdZ+dpYySiKACfdpjaT+SL5agPQKb7Li=gCfeQw@mail.gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED056FB88;
+ Fri, 31 Jan 2020 15:42:49 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0FD1029567B;
+ Fri, 31 Jan 2020 15:42:48 +0000 (GMT)
+Date: Fri, 31 Jan 2020 16:42:44 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v10 00/12] drm: Add support for bus-format negotiation
+Message-ID: <20200131164244.6955ec45@collabora.com>
+In-Reply-To: <20200128135514.108171-1-boris.brezillon@collabora.com>
+References: <20200128135514.108171-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uHOH2UwdZ+dpYySiKACfdpjaT+SL5agPQKb7Li=gCfeQw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
- a=7gkXJVJtAAAA:8 a=w1Bnle25sDPdXy-rkrcA:9 a=CjuIK1q_8ugA:10
- a=AjGcO6oz07-iQ99wixmX:22 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,43 +40,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Maxime Ripard <maxime@cerno.tech>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ intel-gfx-trybot@lists.freedesktop.org, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 31, 2020 at 02:05:55PM +0100, Daniel Vetter wrote:
-> On Fri, Jan 31, 2020 at 9:04 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > On Thu, Jan 30, 2020 at 01:09:23PM +0100, Thomas Zimmermann wrote:
-> > > (cc'ing Maxime with the corrrect email addrees)
-> > >
-> > > Am 30.01.20 um 13:06 schrieb Thomas Zimmermann:
-> > > > Daniel asked me to serve as co-maintainer of the drm-misc tree.
-> > > >
-> > > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> > Acked-by: Maxime Ripard <mripard@kernel.org>
+On Tue, 28 Jan 2020 14:55:02 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
+
+> Hello,
 > 
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> This patch series aims at adding support for runtime bus-format
+> negotiation between all elements of the
+> 'encoder -> bridges -> connector/display' section of the pipeline.
+> 
+> In order to support that, we need drm bridges to fully take part in the
+> atomic state validation process, which requires adding a
+> drm_bridge_state and a new drm_bridge_funcs.atomic_check() hook.
+> Once those basic building blocks are in place, we can add new hooks to
+> allow bus format negotiation (those are called just before
+> ->atomic_check()). The bus format selection is done at runtime by  
+> testing all possible combinations across the whole bridge chain until
+> one is reported to work.
+> 
+> No fundamental changes in this v10, just collected R-bs, addressed
+> Philipp's comments and moved the changelog back to the visible part
+> of the commit message.
+> 
+> I plan to apply patches 1 to 7 soon, so if there's anything you don't
+> like in there, please say it now. Still waiting for review on the LVDS
+> bridge and panel stuff.
+> 
+> This patch series is also available here [1].
+> 
+> Thanks,
+> 
+> Boris
+> 
+> [1]https://github.com/bbrezillon/linux-0day/commits/drm-bridge-busfmt-v10
+> 
+> Boris Brezillon (12):
+>   drm/bridge: Add a drm_bridge_state object
+>   drm/rcar-du: Plug atomic state hooks to the default implementation
+>   drm/bridge: analogix: Plug atomic state hooks to the default
+>     implementation
+>   drm/bridge: Patch atomic hooks to take a drm_bridge_state
+>   drm/bridge: Add an ->atomic_check() hook
+>   drm/bridge: Add the necessary bits to support bus format negotiation
+>   drm/imx: pd: Use bus format/flags provided by the bridge when
+>     available
 
-<humor mode on>
-Maybe not so happy to see this move...
-Thomas has produced a lot of pathces lately,
-and speking from personal experience with the panel/
-parts, your own controbutions suffers when you start to take
-more responsibility.
-So will we now see less of the briliant work from Thomas?
-<humor mode off>
+Patches 1 to 7 applied.
 
-Glad to see this - you have my:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>   drm/bridge: lvds-codec: Implement basic bus format negotiation
+>   dt-bindings: display: bridge: lvds-codec: Add new bus-width prop
+>   drm/bridge: panel: Propage bus format/flags
 
+Laurent, when you find some time, could you have a look at patches 8-10?
 
-	Sam
+>   drm/panel: simple: Fix the lt089ac29000 bus_format
+
+Sam, I'll let you apply that one since dim complained that it was
+missing a R-b (you only gave your A-b).
+
+>   ARM: dts: imx: imx51-zii-rdu1: Fix the display pipeline definition
+> 
+>  .../bindings/display/bridge/lvds-codec.yaml   |   8 +
+>  arch/arm/boot/dts/imx51-zii-rdu1.dts          |  24 +-
+>  .../drm/bridge/analogix/analogix_dp_core.c    |  44 +-
+>  drivers/gpu/drm/bridge/lvds-codec.c           |  64 ++-
+>  drivers/gpu/drm/bridge/panel.c                |   4 +
+>  drivers/gpu/drm/drm_atomic.c                  | 116 +++++
+>  drivers/gpu/drm/drm_atomic_helper.c           |  73 ++-
+>  drivers/gpu/drm/drm_atomic_state_helper.c     | 103 +++++
+>  drivers/gpu/drm/drm_bridge.c                  | 437 +++++++++++++++++-
+>  drivers/gpu/drm/imx/parallel-display.c        | 177 ++++++-
+>  drivers/gpu/drm/panel/panel-simple.c          |   2 +-
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c           |  11 +-
+>  include/drm/drm_atomic.h                      |  76 +++
+>  include/drm/drm_atomic_helper.h               |   8 +
+>  include/drm/drm_atomic_state_helper.h         |  13 +
+>  include/drm/drm_bridge.h                      | 179 ++++++-
+>  16 files changed, 1258 insertions(+), 81 deletions(-)
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
