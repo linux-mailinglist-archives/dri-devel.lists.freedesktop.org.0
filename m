@@ -2,32 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F2914EFF1
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 16:42:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CA614F068
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 17:08:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3076FB88;
-	Fri, 31 Jan 2020 15:42:50 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED056FB88;
- Fri, 31 Jan 2020 15:42:49 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0FD1029567B;
- Fri, 31 Jan 2020 15:42:48 +0000 (GMT)
-Date: Fri, 31 Jan 2020 16:42:44 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v10 00/12] drm: Add support for bus-format negotiation
-Message-ID: <20200131164244.6955ec45@collabora.com>
-In-Reply-To: <20200128135514.108171-1-boris.brezillon@collabora.com>
-References: <20200128135514.108171-1-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 918756FB97;
+	Fri, 31 Jan 2020 16:08:28 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 662E56FB96
+ for <dri-devel@freedesktop.org>; Fri, 31 Jan 2020 16:08:27 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id 7so4648869vsr.10
+ for <dri-devel@freedesktop.org>; Fri, 31 Jan 2020 08:08:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4xPLoiaUgyd94a+bWIqEdjSO+/pm7JzzixTlR76nC4k=;
+ b=cCCXrbR60CBlDAGSpmvFYrjjyE1DVVDlZhNhjXqkIlKpR2BcoPRCHGrUSSTCDfRqDk
+ 72D2LUsRS4KoF3mrsLr5JyigXGZ9EsF0j5WPA+OZLvWstHHFS/ADUWF2H+JRsfTpY1YT
+ ZYDGjjQ7IrKGRYG64lWiFl0zCmZnBnqC4m0/4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4xPLoiaUgyd94a+bWIqEdjSO+/pm7JzzixTlR76nC4k=;
+ b=HP3z+PmH9ZQsZ9oZkxcty5Tixlrrw//ovyf1/Im0JYjGcjIEG2xbSPNtIdJFpCO9Jz
+ qXE5AnXYPKsJQaF3ZhbJStOvLZAGWh/BY4W6vinQ+1Rd3pvlDu8UFWFMgGyyyDOpk9AJ
+ z49qcApo/layjGcKX6ZABt8hBGPrfrnhaIjo2Qtfqso9MozO6nm1kfvcoqkn3Ed8m0tb
+ fB4agI3d4QK0xUvqizkW4YGdV85N2WfI1CguEpLUwgAwvXGauhFLN991FgEs/dVvT2wW
+ zKKwSgwaaZ3gy3dO1IoJNQJGBNaVbM6P6zrGkGWXuA82EhrZWOoq93TWlyqrPqB3IBZ8
+ 3btg==
+X-Gm-Message-State: APjAAAX432ZUjE35L9BPmq3P2F59BXt2o1FvntX3hlXZ13oCDcgpZOoA
+ B1SINqmH0jVcTwvOZBV8WJwkwGnS2UA=
+X-Google-Smtp-Source: APXvYqy97le7nFxwZI7J0VguozMJohADidx3DStxOlGHdi8aiV9GzKGVmxgHkDZM3VbvP95lHdbJoA==
+X-Received: by 2002:a67:fc41:: with SMTP id p1mr5389777vsq.6.1580486905716;
+ Fri, 31 Jan 2020 08:08:25 -0800 (PST)
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com.
+ [209.85.221.169])
+ by smtp.gmail.com with ESMTPSA id r1sm2339103vsi.33.2020.01.31.08.08.24
+ for <dri-devel@freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Jan 2020 08:08:24 -0800 (PST)
+Received: by mail-vk1-f169.google.com with SMTP id w4so600466vkd.5
+ for <dri-devel@freedesktop.org>; Fri, 31 Jan 2020 08:08:24 -0800 (PST)
+X-Received: by 2002:a1f:a9d0:: with SMTP id s199mr6709266vke.40.1580486903706; 
+ Fri, 31 Jan 2020 08:08:23 -0800 (PST)
 MIME-Version: 1.0
+References: <1580117390-6057-1-git-send-email-smasetty@codeaurora.org>
+ <CAD=FV=VFVC6XJ=OXJCSd2_oij5vggKnTedGP0Gj4KHC50QH0SQ@mail.gmail.com>
+ <4bd79f53cab95db9286067836722dd4b@codeaurora.org>
+In-Reply-To: <4bd79f53cab95db9286067836722dd4b@codeaurora.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 31 Jan 2020 08:08:09 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=X7pUvab1FXkPbxio_0hW0mvAguFbPAcfQ1=K9HD9bMug@mail.gmail.com>
+Message-ID: <CAD=FV=X7pUvab1FXkPbxio_0hW0mvAguFbPAcfQ1=K9HD9bMug@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
+To: Sharat Masetty <smasetty@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,99 +70,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- intel-gfx-trybot@lists.freedesktop.org, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ freedreno <freedreno@lists.freedesktop.org>,
+ linux-arm-msm-owner@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Jan 2020 14:55:02 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+Hi,
 
-> Hello,
-> 
-> This patch series aims at adding support for runtime bus-format
-> negotiation between all elements of the
-> 'encoder -> bridges -> connector/display' section of the pipeline.
-> 
-> In order to support that, we need drm bridges to fully take part in the
-> atomic state validation process, which requires adding a
-> drm_bridge_state and a new drm_bridge_funcs.atomic_check() hook.
-> Once those basic building blocks are in place, we can add new hooks to
-> allow bus format negotiation (those are called just before
-> ->atomic_check()). The bus format selection is done at runtime by  
-> testing all possible combinations across the whole bridge chain until
-> one is reported to work.
-> 
-> No fundamental changes in this v10, just collected R-bs, addressed
-> Philipp's comments and moved the changelog back to the visible part
-> of the commit message.
-> 
-> I plan to apply patches 1 to 7 soon, so if there's anything you don't
-> like in there, please say it now. Still waiting for review on the LVDS
-> bridge and panel stuff.
-> 
-> This patch series is also available here [1].
-> 
-> Thanks,
-> 
-> Boris
-> 
-> [1]https://github.com/bbrezillon/linux-0day/commits/drm-bridge-busfmt-v10
-> 
-> Boris Brezillon (12):
->   drm/bridge: Add a drm_bridge_state object
->   drm/rcar-du: Plug atomic state hooks to the default implementation
->   drm/bridge: analogix: Plug atomic state hooks to the default
->     implementation
->   drm/bridge: Patch atomic hooks to take a drm_bridge_state
->   drm/bridge: Add an ->atomic_check() hook
->   drm/bridge: Add the necessary bits to support bus format negotiation
->   drm/imx: pd: Use bus format/flags provided by the bridge when
->     available
+On Fri, Jan 31, 2020 at 4:16 AM <smasetty@codeaurora.org> wrote:
+>
+> >> +                       reg = <0 0x0506a000 0 0x31000>, <0 0x0b290000
+> >> 0 0x10000>,
+> >> +                               <0 0x0b490000 0 0x10000>;
+> >> +                       reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
+> >> +                       interrupts = <GIC_SPI 304
+> >> IRQ_TYPE_LEVEL_HIGH>,
+> >> +                                  <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
+> >> +                       interrupt-names = "hfi", "gmu";
+> >> +                       clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
+> >> +                              <&gpucc GPU_CC_CXO_CLK>,
+> >> +                              <&gcc GCC_DDRSS_GPU_AXI_CLK>,
+> >> +                              <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
+> >> +                       clock-names = "gmu", "cxo", "axi", "memnoc";
+> >> +                       power-domains = <&gpucc CX_GDSC>;
+> >
+> > Bindings claim that you need both CX and GC.  Is sc7180 somehow
+> > different?  Bindings also claim that you should be providing
+> > power-domain-names.
+> No this is still needed, We need the GX power domain for GPU recovery
+> use cases where the shutdown was not successful.
 
-Patches 1 to 7 applied.
+This almost sounds as if the bindings should mark the GX power domain
+as optional?  The driver can function without it but doesn't get all
+the features?  As the binding is written right now I think it is
+"invalid" to not specify a a GX power domain and once the yaml
+conversion is done then it will even be flagged as an error.  That's
+going to make it harder to land the your patch...
 
->   drm/bridge: lvds-codec: Implement basic bus format negotiation
->   dt-bindings: display: bridge: lvds-codec: Add new bus-width prop
->   drm/bridge: panel: Propage bus format/flags
+> I am working the Taniya
+> to get the dependencies sorted out to bring this change in. This should
+> be
+> okay for the time being.
 
-Laurent, when you find some time, could you have a look at patches 8-10?
+What breaks today if you add in the GX power domain here?
 
->   drm/panel: simple: Fix the lt089ac29000 bus_format
+Oh, I see.  It's not even provided by the 'gpucc-sc7180.c' file.  What
+happens if you do this for now:
 
-Sam, I'll let you apply that one since dim complained that it was
-missing a R-b (you only gave your A-b).
+  power-domains = <&gpucc CX_GDSC>, <0>;
+  power-domain-names = "cx", "gx";
 
->   ARM: dts: imx: imx51-zii-rdu1: Fix the display pipeline definition
-> 
->  .../bindings/display/bridge/lvds-codec.yaml   |   8 +
->  arch/arm/boot/dts/imx51-zii-rdu1.dts          |  24 +-
->  .../drm/bridge/analogix/analogix_dp_core.c    |  44 +-
->  drivers/gpu/drm/bridge/lvds-codec.c           |  64 ++-
->  drivers/gpu/drm/bridge/panel.c                |   4 +
->  drivers/gpu/drm/drm_atomic.c                  | 116 +++++
->  drivers/gpu/drm/drm_atomic_helper.c           |  73 ++-
->  drivers/gpu/drm/drm_atomic_state_helper.c     | 103 +++++
->  drivers/gpu/drm/drm_bridge.c                  | 437 +++++++++++++++++-
->  drivers/gpu/drm/imx/parallel-display.c        | 177 ++++++-
->  drivers/gpu/drm/panel/panel-simple.c          |   2 +-
->  drivers/gpu/drm/rcar-du/rcar_lvds.c           |  11 +-
->  include/drm/drm_atomic.h                      |  76 +++
->  include/drm/drm_atomic_helper.h               |   8 +
->  include/drm/drm_atomic_state_helper.h         |  13 +
->  include/drm/drm_bridge.h                      | 179 ++++++-
->  16 files changed, 1258 insertions(+), 81 deletions(-)
-> 
+That seems to be the trendy thing to do if a phandle to something is
+"required" but the code isn't ready for it.
 
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
