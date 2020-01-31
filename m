@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E4214F172
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 18:41:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 811CC14F174
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 18:41:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 236C66FBB3;
-	Fri, 31 Jan 2020 17:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5499B6FBB4;
+	Fri, 31 Jan 2020 17:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC9C6FBB3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 17:41:11 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA3776FBB4
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 17:41:14 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
+ [209.85.219.45])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DAB9124682
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 17:41:10 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AFC0A214D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 17:41:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1580492471;
- bh=j9L7YS1IMIUGvccZ1rHyQK+UVEwcZiYe0s6TbTpWVhY=;
+ s=default; t=1580492474;
+ bh=Vc4SiOJHxWuzUZxXFKK57A91sKVKRu2n+XwrsjrC9cY=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Gx7l5bnlji7EjZCMKzo5sJTAnC0ZbVzJDWJ05Hj8lgPMhgeKFWWq9mRKriCS4n8Qr
- oevClOc1Olg5m73sbKsISlWUbu+/sGeDeQlnPH9X2rbDwE27SXltHsxNUxJo50r5n2
- Cv+B/OgjoSsnx0l8vVo6+lGlxeXFHluvx2KtPRV0=
-Received: by mail-qk1-f177.google.com with SMTP id 21so7369972qky.4
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 09:41:10 -0800 (PST)
-X-Gm-Message-State: APjAAAWaoKHWjJ4tg0MERued4yEVbYQKDC0uaEV5tSBfo42hiRdbpskz
- A0V2TAJNEtYYauhdkH2OUj8pRpx+910WXkfW0Q==
-X-Google-Smtp-Source: APXvYqzcPXwNiM+WNCqBCrr2x5w5fdp61dkW1RPVkzEgStdAcfM6ZkFVm5E4Ii+5LeuvmrEOYFBEWfJnzrVzsu+chtk=
-X-Received: by 2002:a05:620a:9c7:: with SMTP id
- y7mr11820586qky.393.1580492470023; 
- Fri, 31 Jan 2020 09:41:10 -0800 (PST)
+ b=l5D6OfKKUgkBuUel5VMLzQsE61+ur26x2amPU4jozcTqHtvSg614PueqSBBoPmro6
+ c42mgQCWp54qTYHARHr2sg9yvPNxKzBIo57B3CJlqmtn2kHGsRZo1BGRZsGKHLPuba
+ X2N/FYY8tKGHYjsG/TXkTzwMpbRJVtyssk1gcU7c=
+Received: by mail-qv1-f45.google.com with SMTP id p2so3611303qvo.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 09:41:14 -0800 (PST)
+X-Gm-Message-State: APjAAAXlmV+IUbO8GX2UFPhwBZKMkwliYxFsv9W7qs4HcilbgP890xDM
+ RLmv2nNyZQI2toG7uEatGqdIdVoUV3B69+CpyQ==
+X-Google-Smtp-Source: APXvYqymOXuPQlCKGanKbWjWi5whel3UBjEZf1RL275OqNT9/9EQXyLkDL8EqglFNzzDWhiObUdqxzRS8fg/R1CrqIo=
+X-Received: by 2002:a0c:f68f:: with SMTP id p15mr11119378qvn.79.1580492473869; 
+ Fri, 31 Jan 2020 09:41:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20200125203454.7450-1-sam@ravnborg.org>
- <20200125203454.7450-3-sam@ravnborg.org>
-In-Reply-To: <20200125203454.7450-3-sam@ravnborg.org>
+ <20200125203454.7450-2-sam@ravnborg.org>
+In-Reply-To: <20200125203454.7450-2-sam@ravnborg.org>
 From: Rob Herring <robh@kernel.org>
-Date: Fri, 31 Jan 2020 11:40:57 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKgWaqJCxtsD02DsTu=p=Q2=ZzWNZ5bf_atmbbD9N6JQQ@mail.gmail.com>
-Message-ID: <CAL_JsqKgWaqJCxtsD02DsTu=p=Q2=ZzWNZ5bf_atmbbD9N6JQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] dt-bindings: display: convert display-timings to
- DT schema
+Date: Fri, 31 Jan 2020 11:41:01 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKcbZ2y0kqSsxc4CV27S-Wk+D0RYuVYr_MbQ6_Xex4K9A@mail.gmail.com>
+Message-ID: <CAL_JsqKcbZ2y0kqSsxc4CV27S-Wk+D0RYuVYr_MbQ6_Xex4K9A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: add panel-timing.yaml
 To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,73 +67,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sat, Jan 25, 2020 at 2:35 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> Add display-timings.yaml - that references panel-timings.yaml.
-> display-timings.yaml will be used for display bindings
-> when they are converted to meta-schema format.
+> Add meta-schema variant of panel-timing and
+> reference it from panel-common.yaml.
 >
-> For now the old display-timing.txt points to the new
-> display-timings.yaml - and all users are left as-is.
+> Part of this came form other files with other
+> licenses - original commits:
+>
+> cc3f414cf2e4 ("video: add of helper for display timings/videomode")
+> 86f46565dff3 ("dt-bindings: display: display-timing: Add property to configure sync drive edge")
+> 9cad9c95d7e8 ("Documentation: DocBook DRM framework documentation")
+>
+> The original authors acked the license change to:
+> (GPL-2.0-only OR BSD-2-Clause)
 >
 > v2:
->   - Updated native-mode description
+>   - Got OK from original authors for re-license
+>     Huge thanks for the quick replies!
+>   - Typo fixes (Oleksandr)
+>   - Drop -array variant when not needed (Maxime)
+>   - Replace oneOf:... with enum (Maxime)
+>   - Drop type from clock-frequency (Rob)
+>   - Drop "|" when not needed (Rob)
 >
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> Acked-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+> Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
 > Cc: Rob Herring <robh@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
 > Cc: devicetree@vger.kernel.org
 > ---
->  .../bindings/display/panel/display-timing.txt | 124 +-----------------
->  .../display/panel/display-timings.yaml        |  68 ++++++++++
->  2 files changed, 69 insertions(+), 123 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/display-timings.yaml
-
-
-> diff --git a/Documentation/devicetree/bindings/display/panel/display-timings.yaml b/Documentation/devicetree/bindings/display/panel/display-timings.yaml
-> new file mode 100644
-> index 000000000000..508302cd307a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/display-timings.yaml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/display-timings.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: display timing bindings
-> +
-> +maintainers:
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> +  - Sam Ravnborg <sam@ravnborg.org>
-> +
-> +properties:
-> +  $nodename:
-> +    const: display-timings
-> +
-> +  native-mode:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-> +      The default dispaly timing is the one specified as native-mode.
-> +      If no native-mode is specified then the first node is assume the
-> +      native mode.
-> +
-> +patternProperties:
-> +  "^timing.*$":
-
-'.*$' can be omitted.
-
-Probably should have a 'type: object' here too.
-
-With that,
+>  .../bindings/display/panel/panel-common.yaml  |   7 +-
+>  .../bindings/display/panel/panel-timing.yaml  | 227 ++++++++++++++++++
+>  2 files changed, 230 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-timing.yaml
 
 Reviewed-by: Rob Herring <robh@kernel.org>
-
-
-> +    allOf:
-> +      - $ref: panel-timing.yaml#
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
