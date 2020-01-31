@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA296150242
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 09:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D280D150251
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 09:11:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 297486E22B;
-	Mon,  3 Feb 2020 08:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AFBC6EB43;
+	Mon,  3 Feb 2020 08:11:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
  [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 393736E201
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 09:33:01 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1144A6E207
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 10:02:11 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00V9Rcql006139; Fri, 31 Jan 2020 10:31:53 +0100
+ 00V9rRHf027923; Fri, 31 Jan 2020 11:02:04 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
  h=from : to : cc : subject
  : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=OzgrrMO1I6BRP/JXETWqlbak+2ksZ9Y3YSNkEudaJVw=;
- b=PcMvBaz1zNTtlKsb5XdMmGAZKYSqnLpalr0sd+JTKV5iT5arOEYVWv3CmU4C9Uuub1rX
- xAD3VmUFBqRRzkV/yhsMnbJfzHeeghxrustUh4kwyogGo60UpcE7zaUgInEYv4ZMzvDe
- 7SOLaCZLVsjN5a/il+/Rs5wXQ3rqBj1xS3CzATIrYCCw/ukgu5JC8sVawIX4kaXzzd5z
- al+jTu2bh7YigxtqfqIN3QfG+VJaFTShDw21iJbXPQAynMNISKL5RJJqUrfz0eX3Dsol
- +4ScN8xTeB6EEhjMPw0iQdzRKZEuWfYYekLpzldCw5E1Acb22/RKBELgBBe3lIK3/ncX Ww== 
+ bh=shAlB5Zq6pf7bSoaz6Q42GCr4lfBiw4RfT9RTeJfkx0=;
+ b=FxgmDRkhdFK5Mqacalo1PPlsCoUzqB5h7U3dM0Yr9vdTiyfoIJBebK5IaIH8uIgBpChK
+ EqPDq6IvkL9l9JR0MOKCYc9iVn/B37F+chmxLvRLaNlf/1cc9ZKcMJ8NYP8w4hmROnbh
+ 85db5qZOJkM9L0hJHWFT+skwSJZB4NGIe7yEBosNHnlUW/PgF+EPzt+hH7rZ3ZIVFL1T
+ 56FU5oMAEf8dX+iPR+fLp+q0IJ0fx6GL+z/FZGGbtA3iBrKLUABx3+bKHBxw3mVvCmvM
+ EIK1qFMwYkV22z630axDwoaud9SIOeSpIyupl4vV7h6jUjoNU0c6upSjB+Bz8j01aJhC Cw== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 2xrbpbd70b-1
+ by mx07-00178001.pphosted.com with ESMTP id 2xrdekw4qw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Jan 2020 10:31:53 +0100
+ Fri, 31 Jan 2020 11:02:03 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4BDA2100038;
- Fri, 31 Jan 2020 10:31:47 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A8E84100040;
+ Fri, 31 Jan 2020 11:01:34 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3B4F42A4D89;
- Fri, 31 Jan 2020 10:31:47 +0100 (CET)
-Received: from localhost (10.75.127.45) by SFHDAG3NODE3.st.com (10.75.127.9)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 31 Jan 2020 10:31:46
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5B4A52A598A;
+ Fri, 31 Jan 2020 11:01:33 +0100 (CET)
+Received: from localhost (10.75.127.49) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 31 Jan 2020 11:01:32
  +0100
 From: Benjamin Gaignard <benjamin.gaignard@st.com>
 To: <jani.nikula@linux.intel.com>, <maarten.lankhorst@linux.intel.com>,
  <mripard@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH v4] drm/dp_mst: Fix W=1 warnings
-Date: Fri, 31 Jan 2020 10:31:42 +0100
-Message-ID: <20200131093142.2074-1-benjamin.gaignard@st.com>
+Subject: [PATCH v5] drm/dp_mst: Fix W=1 warnings
+Date: Fri, 31 Jan 2020 11:01:28 +0100
+Message-ID: <20200131100128.3927-1-benjamin.gaignard@st.com>
 X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-X-Originating-IP: [10.75.127.45]
-X-ClientProxiedBy: SFHDAG1NODE1.st.com (10.75.127.1) To SFHDAG3NODE3.st.com
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG8NODE3.st.com (10.75.127.24) To SFHDAG3NODE3.st.com
  (10.75.127.9)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-01-31_02:2020-01-30,
@@ -78,27 +78,33 @@ If functions returns are not used anymore make them void.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
 ---
+version 5:
+- fix indentation
+  
 version 4:
 - do not touch crc4 unused variable in this patch
 CC: lyude@redhat.com
 CC: airlied@linux.ie
- drivers/gpu/drm/drm_dp_mst_topology.c | 78 ++++++++++++++---------------------
- 1 file changed, 31 insertions(+), 47 deletions(-)
+CC: jani.nikula@linux.intel.com
+
+ drivers/gpu/drm/drm_dp_mst_topology.c | 92 +++++++++++++++--------------------
+ 1 file changed, 40 insertions(+), 52 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 4104f15f4594..44a8731665e4 100644
+index 4104f15f4594..822d2f177f90 100644
 --- a/drivers/gpu/drm/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1034,7 +1034,7 @@ static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
+@@ -1034,7 +1034,8 @@ static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
  	}
  }
  
 -static int build_dpcd_write(struct drm_dp_sideband_msg_tx *msg, u8 port_num, u32 offset, u8 num_bytes, u8 *bytes)
-+static void build_dpcd_write(struct drm_dp_sideband_msg_tx *msg, u8 port_num, u32 offset, u8 num_bytes, u8 *bytes)
++static void build_dpcd_write(struct drm_dp_sideband_msg_tx *msg,
++			     u8 port_num, u32 offset, u8 num_bytes, u8 *bytes)
  {
  	struct drm_dp_sideband_msg_req_body req;
  
-@@ -1044,17 +1044,14 @@ static int build_dpcd_write(struct drm_dp_sideband_msg_tx *msg, u8 port_num, u32
+@@ -1044,17 +1045,14 @@ static int build_dpcd_write(struct drm_dp_sideband_msg_tx *msg, u8 port_num, u32
  	req.u.dpcd_write.num_bytes = num_bytes;
  	req.u.dpcd_write.bytes = bytes;
  	drm_dp_encode_sideband_req(&req, msg);
@@ -117,16 +123,33 @@ index 4104f15f4594..44a8731665e4 100644
  }
  
  static int build_clear_payload_id_table(struct drm_dp_sideband_msg_tx *msg)
-@@ -1077,7 +1074,7 @@ static int build_enum_path_resources(struct drm_dp_sideband_msg_tx *msg, int por
+@@ -1066,7 +1064,8 @@ static int build_clear_payload_id_table(struct drm_dp_sideband_msg_tx *msg)
+ 	return 0;
+ }
+ 
+-static int build_enum_path_resources(struct drm_dp_sideband_msg_tx *msg, int port_num)
++static int build_enum_path_resources(struct drm_dp_sideband_msg_tx *msg,
++				     int port_num)
+ {
+ 	struct drm_dp_sideband_msg_req_body req;
+ 
+@@ -1077,10 +1076,11 @@ static int build_enum_path_resources(struct drm_dp_sideband_msg_tx *msg, int por
  	return 0;
  }
  
 -static int build_allocate_payload(struct drm_dp_sideband_msg_tx *msg, int port_num,
-+static void build_allocate_payload(struct drm_dp_sideband_msg_tx *msg, int port_num,
- 				  u8 vcpi, uint16_t pbn,
- 				  u8 number_sdp_streams,
- 				  u8 *sdp_stream_sink)
-@@ -1093,10 +1090,9 @@ static int build_allocate_payload(struct drm_dp_sideband_msg_tx *msg, int port_n
+-				  u8 vcpi, uint16_t pbn,
+-				  u8 number_sdp_streams,
+-				  u8 *sdp_stream_sink)
++static void build_allocate_payload(struct drm_dp_sideband_msg_tx *msg,
++				   int port_num,
++				   u8 vcpi, uint16_t pbn,
++				   u8 number_sdp_streams,
++				   u8 *sdp_stream_sink)
+ {
+ 	struct drm_dp_sideband_msg_req_body req;
+ 	memset(&req, 0, sizeof(req));
+@@ -1093,11 +1093,10 @@ static int build_allocate_payload(struct drm_dp_sideband_msg_tx *msg, int port_n
  		   number_sdp_streams);
  	drm_dp_encode_sideband_req(&req, msg);
  	msg->path_msg = true;
@@ -134,11 +157,13 @@ index 4104f15f4594..44a8731665e4 100644
  }
  
 -static int build_power_updown_phy(struct drm_dp_sideband_msg_tx *msg,
+-				  int port_num, bool power_up)
 +static void build_power_updown_phy(struct drm_dp_sideband_msg_tx *msg,
- 				  int port_num, bool power_up)
++				   int port_num, bool power_up)
  {
  	struct drm_dp_sideband_msg_req_body req;
-@@ -1109,7 +1105,6 @@ static int build_power_updown_phy(struct drm_dp_sideband_msg_tx *msg,
+ 
+@@ -1109,7 +1108,6 @@ static int build_power_updown_phy(struct drm_dp_sideband_msg_tx *msg,
  	req.u.port_num.port_number = port_num;
  	drm_dp_encode_sideband_req(&req, msg);
  	msg->path_msg = true;
@@ -146,7 +171,7 @@ index 4104f15f4594..44a8731665e4 100644
  }
  
  static int drm_dp_mst_assign_payload_id(struct drm_dp_mst_topology_mgr *mgr,
-@@ -2054,25 +2049,20 @@ ssize_t drm_dp_mst_dpcd_write(struct drm_dp_aux *aux,
+@@ -2054,25 +2052,20 @@ ssize_t drm_dp_mst_dpcd_write(struct drm_dp_aux *aux,
  
  static void drm_dp_check_mstb_guid(struct drm_dp_mst_branch *mstb, u8 *guid)
  {
@@ -181,16 +206,17 @@ index 4104f15f4594..44a8731665e4 100644
  		}
  	}
  }
-@@ -2595,7 +2585,7 @@ static bool drm_dp_validate_guid(struct drm_dp_mst_topology_mgr *mgr,
+@@ -2595,7 +2588,8 @@ static bool drm_dp_validate_guid(struct drm_dp_mst_topology_mgr *mgr,
  	return false;
  }
  
 -static int build_dpcd_read(struct drm_dp_sideband_msg_tx *msg, u8 port_num, u32 offset, u8 num_bytes)
-+static void build_dpcd_read(struct drm_dp_sideband_msg_tx *msg, u8 port_num, u32 offset, u8 num_bytes)
++static void build_dpcd_read(struct drm_dp_sideband_msg_tx *msg,
++			    u8 port_num, u32 offset, u8 num_bytes)
  {
  	struct drm_dp_sideband_msg_req_body req;
  
-@@ -2604,8 +2594,6 @@ static int build_dpcd_read(struct drm_dp_sideband_msg_tx *msg, u8 port_num, u32
+@@ -2604,8 +2598,6 @@ static int build_dpcd_read(struct drm_dp_sideband_msg_tx *msg, u8 port_num, u32
  	req.u.dpcd_read.dpcd_address = offset;
  	req.u.dpcd_read.num_bytes = num_bytes;
  	drm_dp_encode_sideband_req(&req, msg);
@@ -199,7 +225,7 @@ index 4104f15f4594..44a8731665e4 100644
  }
  
  static int drm_dp_send_sideband_msg(struct drm_dp_mst_topology_mgr *mgr,
-@@ -2828,7 +2816,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
+@@ -2828,7 +2820,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
  	struct drm_dp_sideband_msg_tx *txmsg;
  	struct drm_dp_link_address_ack_reply *reply;
  	struct drm_dp_mst_port *port, *tmp;
@@ -208,7 +234,7 @@ index 4104f15f4594..44a8731665e4 100644
  	bool changed = false;
  
  	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
-@@ -2836,7 +2824,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
+@@ -2836,7 +2828,7 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
  		return -ENOMEM;
  
  	txmsg->dst = mstb;
@@ -217,7 +243,7 @@ index 4104f15f4594..44a8731665e4 100644
  
  	mstb->link_address_sent = true;
  	drm_dp_queue_down_tx(mgr, txmsg);
-@@ -2898,14 +2886,14 @@ void drm_dp_send_clear_payload_id_table(struct drm_dp_mst_topology_mgr *mgr,
+@@ -2898,14 +2890,14 @@ void drm_dp_send_clear_payload_id_table(struct drm_dp_mst_topology_mgr *mgr,
  					struct drm_dp_mst_branch *mstb)
  {
  	struct drm_dp_sideband_msg_tx *txmsg;
@@ -234,7 +260,7 @@ index 4104f15f4594..44a8731665e4 100644
  
  	drm_dp_queue_down_tx(mgr, txmsg);
  
-@@ -2923,7 +2911,6 @@ drm_dp_send_enum_path_resources(struct drm_dp_mst_topology_mgr *mgr,
+@@ -2923,7 +2915,6 @@ drm_dp_send_enum_path_resources(struct drm_dp_mst_topology_mgr *mgr,
  {
  	struct drm_dp_enum_path_resources_ack_reply *path_res;
  	struct drm_dp_sideband_msg_tx *txmsg;
@@ -242,7 +268,7 @@ index 4104f15f4594..44a8731665e4 100644
  	int ret;
  
  	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
-@@ -2931,7 +2918,7 @@ drm_dp_send_enum_path_resources(struct drm_dp_mst_topology_mgr *mgr,
+@@ -2931,7 +2922,7 @@ drm_dp_send_enum_path_resources(struct drm_dp_mst_topology_mgr *mgr,
  		return -ENOMEM;
  
  	txmsg->dst = mstb;
@@ -251,7 +277,7 @@ index 4104f15f4594..44a8731665e4 100644
  
  	drm_dp_queue_down_tx(mgr, txmsg);
  
-@@ -3014,7 +3001,7 @@ static int drm_dp_payload_send_msg(struct drm_dp_mst_topology_mgr *mgr,
+@@ -3014,7 +3005,7 @@ static int drm_dp_payload_send_msg(struct drm_dp_mst_topology_mgr *mgr,
  {
  	struct drm_dp_sideband_msg_tx *txmsg;
  	struct drm_dp_mst_branch *mstb;
@@ -260,7 +286,7 @@ index 4104f15f4594..44a8731665e4 100644
  	u8 sinks[DRM_DP_MAX_SDP_STREAMS];
  	int i;
  
-@@ -3039,9 +3026,9 @@ static int drm_dp_payload_send_msg(struct drm_dp_mst_topology_mgr *mgr,
+@@ -3039,9 +3030,9 @@ static int drm_dp_payload_send_msg(struct drm_dp_mst_topology_mgr *mgr,
  		sinks[i] = i;
  
  	txmsg->dst = mstb;
@@ -273,7 +299,7 @@ index 4104f15f4594..44a8731665e4 100644
  
  	drm_dp_queue_down_tx(mgr, txmsg);
  
-@@ -3070,7 +3057,7 @@ int drm_dp_send_power_updown_phy(struct drm_dp_mst_topology_mgr *mgr,
+@@ -3070,7 +3061,7 @@ int drm_dp_send_power_updown_phy(struct drm_dp_mst_topology_mgr *mgr,
  				 struct drm_dp_mst_port *port, bool power_up)
  {
  	struct drm_dp_sideband_msg_tx *txmsg;
@@ -282,7 +308,7 @@ index 4104f15f4594..44a8731665e4 100644
  
  	port = drm_dp_mst_topology_get_port_validated(mgr, port);
  	if (!port)
-@@ -3083,7 +3070,7 @@ int drm_dp_send_power_updown_phy(struct drm_dp_mst_topology_mgr *mgr,
+@@ -3083,7 +3074,7 @@ int drm_dp_send_power_updown_phy(struct drm_dp_mst_topology_mgr *mgr,
  	}
  
  	txmsg->dst = port->parent;
@@ -291,7 +317,7 @@ index 4104f15f4594..44a8731665e4 100644
  	drm_dp_queue_down_tx(mgr, txmsg);
  
  	ret = drm_dp_mst_wait_tx_reply(port->parent, txmsg);
-@@ -3305,7 +3292,6 @@ static int drm_dp_send_dpcd_read(struct drm_dp_mst_topology_mgr *mgr,
+@@ -3305,7 +3296,6 @@ static int drm_dp_send_dpcd_read(struct drm_dp_mst_topology_mgr *mgr,
  				 struct drm_dp_mst_port *port,
  				 int offset, int size, u8 *bytes)
  {
@@ -299,7 +325,7 @@ index 4104f15f4594..44a8731665e4 100644
  	int ret = 0;
  	struct drm_dp_sideband_msg_tx *txmsg;
  	struct drm_dp_mst_branch *mstb;
-@@ -3320,7 +3306,7 @@ static int drm_dp_send_dpcd_read(struct drm_dp_mst_topology_mgr *mgr,
+@@ -3320,7 +3310,7 @@ static int drm_dp_send_dpcd_read(struct drm_dp_mst_topology_mgr *mgr,
  		goto fail_put;
  	}
  
@@ -308,7 +334,7 @@ index 4104f15f4594..44a8731665e4 100644
  	txmsg->dst = port->parent;
  
  	drm_dp_queue_down_tx(mgr, txmsg);
-@@ -3358,7 +3344,6 @@ static int drm_dp_send_dpcd_write(struct drm_dp_mst_topology_mgr *mgr,
+@@ -3358,7 +3348,6 @@ static int drm_dp_send_dpcd_write(struct drm_dp_mst_topology_mgr *mgr,
  				  struct drm_dp_mst_port *port,
  				  int offset, int size, u8 *bytes)
  {
@@ -316,7 +342,7 @@ index 4104f15f4594..44a8731665e4 100644
  	int ret;
  	struct drm_dp_sideband_msg_tx *txmsg;
  	struct drm_dp_mst_branch *mstb;
-@@ -3373,7 +3358,7 @@ static int drm_dp_send_dpcd_write(struct drm_dp_mst_topology_mgr *mgr,
+@@ -3373,7 +3362,7 @@ static int drm_dp_send_dpcd_write(struct drm_dp_mst_topology_mgr *mgr,
  		goto fail_put;
  	}
  
@@ -325,7 +351,7 @@ index 4104f15f4594..44a8731665e4 100644
  	txmsg->dst = mstb;
  
  	drm_dp_queue_down_tx(mgr, txmsg);
-@@ -4529,17 +4514,16 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
+@@ -4529,17 +4518,16 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
  	mutex_lock(&mgr->lock);
  	if (mgr->mst_primary) {
  		u8 buf[DP_PAYLOAD_TABLE_SIZE];
