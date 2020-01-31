@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EA914EE4B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 15:23:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F3414EE5D
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 15:25:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F29AE6E9AC;
-	Fri, 31 Jan 2020 14:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D09126FB67;
+	Fri, 31 Jan 2020 14:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E158F89FDD
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 14:23:09 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id d3so6704362otp.4
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 06:23:09 -0800 (PST)
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+ [209.85.167.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69AFF6FB67
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 14:25:14 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id c16so7401655oic.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 06:25:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=PxMeFzkOsZfzvlj1E/GqrVrfLq2JwIzh0NLeWA9Dicc=;
- b=b3hKfIugPpr5trvAaHi+LyB06FS4dkexooN603hPPpOTSfYaCo81Uj6wSvXBkSf9/G
- MuGkiyF0DGaL7CvoqR08Di52s7aHWYldhXuqhuGvb7fEDGoKeE1QofjTPfI2uOJ6nrS9
- Va/YBIBfXg6x9NodIMWrI6wvXq8I9oucdfOR2OWnBz2f0bxQNRIm32vCVmpla2coLo17
- 5iIozQvklW1gyS0FTC+Abxiq7Yh1l7DIRdwXAm7RinriNxRMhqE2mYJE++PHh48F3ZTo
- HX3AZEMkRGvso5aGxBLMMkR65arqmcNPaLU1xG6I+YB/Z0jKpDcr5asaAtqgouh17OM/
- XrHg==
-X-Gm-Message-State: APjAAAUarsvbgrjytAW0mIfGhOccLjN9qYjrfrVD0/rXJScpqZlE3/9r
- A0ekKYfIN2KtdArAPDfHIg==
-X-Google-Smtp-Source: APXvYqzbha/ycL5MajoXxSDh1B5G7/y41e7NeKsIZddrNIh8p5A46V6ONoTNhVOF1NvK7fkbx6+A4w==
-X-Received: by 2002:a9d:370:: with SMTP id 103mr1920211otv.103.1580480589112; 
- Fri, 31 Jan 2020 06:23:09 -0800 (PST)
+ bh=CY7J+IlecaG8nz6DPJS4G/LtHnWj0sEM0OBoR5NJd0k=;
+ b=VzwRHqMZUOxCnYodLOjGSTZedaQYMrfRGyW5lCWwrKKA6vQ7LHernBX7qm5R8uT09n
+ BIaxP+sZXit8pMeClTUc1LlKGagCCHKy63/Al0+TyqKdHrrGruFyYG459nZ8Zu5TnCdD
+ 8vFg8KXa7pFM92ypXtu1rUpO44X8cgEb8/rfIqOZwMg0jT3XO/ADknW7PpfAw6qMwmF9
+ ptu0bXgZnm3egODRuXfY23bb17Rwla37B8abuJoEfnZyWpl6rlh1k/qkXRLf51a5iv4Y
+ PweGG0q6Gq4NY/jmf2KGg7hiMXFg8Ql+GXEnYfC6an9kCOAR7WCV3UAVBOc0WHENbZaN
+ 0Dew==
+X-Gm-Message-State: APjAAAVf85HSGyKq+YjDKaivVvxYvO6Pfm9uqEEEqXuZmYVBb+ucOv9j
+ gPPeRI8C4Kh6Z08lvS1tLA==
+X-Google-Smtp-Source: APXvYqwP4UCqynTaGuEXM1pVcinpeQ7FXXcHK8C275p9lQJe8/rqR+GKzHezIpMqcGLexQe+mA4tIw==
+X-Received: by 2002:a05:6808:315:: with SMTP id
+ i21mr6201353oie.139.1580480713686; 
+ Fri, 31 Jan 2020 06:25:13 -0800 (PST)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id e5sm258654otk.74.2020.01.31.06.23.08
+ by smtp.gmail.com with ESMTPSA id d131sm2709089oia.36.2020.01.31.06.25.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jan 2020 06:23:08 -0800 (PST)
-Received: (nullmailer pid 3810 invoked by uid 1000);
- Fri, 31 Jan 2020 14:23:07 -0000
-Date: Fri, 31 Jan 2020 08:23:07 -0600
+ Fri, 31 Jan 2020 06:25:13 -0800 (PST)
+Received: (nullmailer pid 7140 invoked by uid 1000);
+ Fri, 31 Jan 2020 14:25:11 -0000
+Date: Fri, 31 Jan 2020 08:25:11 -0600
 From: Rob Herring <robh@kernel.org>
-To: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
-Subject: Re: [PATCH v4 2/3] dt-bindings: add binding for tft displays based
- on ilitek,ili9486
-Message-ID: <20200131142307.GA679@bogus>
-References: <cover.1580134320.git.kamlesh.gurudasani@gmail.com>
- <a37d95cbfc9603265ed15916cdd2fb69e8c5f041.1580134320.git.kamlesh.gurudasani@gmail.com>
+To: michael.srba@seznam.cz
+Subject: Re: [PATCH v3 1/2] dt-bindings: display/panel: add bindings for
+ S6E88A0-AMS452EF01
+Message-ID: <20200131142511.GA6222@bogus>
+References: <20200130203555.316-1-michael.srba@seznam.cz>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <a37d95cbfc9603265ed15916cdd2fb69e8c5f041.1580134320.git.kamlesh.gurudasani@gmail.com>
+In-Reply-To: <20200130203555.316-1-michael.srba@seznam.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,44 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Michael Srba <Michael.Srba@seznam.cz>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Jan 2020 19:56:14 +0530, Kamlesh Gurudasani wrote:
-> This binding is for the tft displays based on ilitek,ili9486.
-> ozzmaker,piscreen and waveshare,rpi-lcd-35 are such displays
+On Thu, 30 Jan 2020 21:35:54 +0100, michael.srba@seznam.cz wrote:
+> From: Michael Srba <Michael.Srba@seznam.cz>
 > 
-> Signed-off-by: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+> This patch adds dts bindings for Samsung AMS452EF01 AMOLED panel, which makes
+> use of their S6E88A0 controller.
+> 
+> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
 > ---
+> Hi,
+> I recall now that tabs cause a syntax error in yaml, should be easy to check 
+> in checkpatch.pl?
+> I hope there are no more embarassing oversights left.
 > 
-> v2 changes:
-> * Changing file from txt to yaml format
-> * removed ilitek,ili9486 from compatible string
-> 
-> v3 changes:
-> * no changes
-> 
-> v4 changes:
-> * no changes
+> Changes in v2: use yaml format for the binding
+> Changes in v3: fix oversights too embarassing to admit here
 > ---
->  .../bindings/display/ilitek,ili9486.yaml           | 79 ++++++++++++++++++++++
->  1 file changed, 79 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
+>  .../panel/samsung,s6e88a0-ams452ef01.yaml     | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams452ef01.yaml
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
 
-Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ilitek,ili9486.example.dt.yaml: display@0: compatible: ['waveshare,rpi-lcd-35'] is not valid under any of the given schemas (Possible causes of the failure):
-	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ilitek,ili9486.example.dt.yaml: display@0: compatible: ['waveshare,rpi-lcd-35'] is too short
-	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ilitek,ili9486.example.dt.yaml: display@0: compatible:0: 'waveshare,rpi-lcd-35' is not one of ['ozzmaker,piscreen']
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams452ef01.yaml: $id: 'http://devicetree.org/schemas/display/panel/samsung,s6e88a0-ams452ef01#' does not match 'http://devicetree.org/schemas/.*\\.yaml#'
+Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams452ef01.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams452ef01.example.dts] Error 1
+Makefile:1263: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
 
-See https://patchwork.ozlabs.org/patch/1229867
+See https://patchwork.ozlabs.org/patch/1231597
 Please check and re-submit.
 _______________________________________________
 dri-devel mailing list
