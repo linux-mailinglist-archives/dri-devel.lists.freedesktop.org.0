@@ -1,97 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A22714F323
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 21:25:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 085CF14F38D
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 22:07:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC7D66E243;
-	Fri, 31 Jan 2020 20:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6036F6E24D;
+	Fri, 31 Jan 2020 21:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2078.outbound.protection.outlook.com [40.107.237.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3DA26E23D;
- Fri, 31 Jan 2020 20:24:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JTwvQlUpkBvZ4gWCiYAS71hym+l9sqOgrzmea6UywJ5ec9Nb97ErzDqaKASQ7dtOh3L3GZ62bXdM3+pfz1tlDQvykyEnVJOJJBViKMm7cVREIAiydKmGpcGhD7zRd0+GoO534pSnufWEdv1ImHQW0Ux0cc0q7AlHfQGFmDpqM/4/+Br3kSDIR46N97ad814mZe9Vktt/NF1GLvCmDiIEEdNq/8B2oLFzZEB72Nj8yTiQa9Pa0ZyITD8aWVMM1H03Yk0NAXDU29K+bLF6WhKPPnaN1QEvSRbO5z/wE2ez/rDimrIW6zeMpv0bjnI+5Tj/X1cRSCRJxHFqr/1byjR9zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3PacQ0liBxEnuqspbDm+qjz52BplWu6gwKmxy7n8DjQ=;
- b=BjhPGPb3eSiLtkz07Ictb8G232QXe9DlyOdcF1s8U82VPB3LArifJ4dAgQy9vH95Sq/KynQEFD3e772nnUMZqe+jLGZ7sU9f/xx961aRMajYhj/XWTTzXCIFJzpKyYAUXhJX1udzdZRYMd6+ONo9SBFA2lqXfiga1ccYTcX9BXHoIyYC3m0AfRqd0m6iXotPs55K4l9lRIhEWnIx5ZVyM27aGc1unuh6Vm+s+Erw7ecxusLXwzcyky7KqP56/xLWJQcpSJAlgBfazUiWj3xQMAuLBCMa1jmAV/irHYg/2pVK2BEWLt1s5k+7fwB5+KvLnYtztbETi99OjtO8939OTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=permerror action=none header.from=amd.com; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3PacQ0liBxEnuqspbDm+qjz52BplWu6gwKmxy7n8DjQ=;
- b=drKcKg/4UkzluVmvYwcufmGphYQahvQABdoUajIru0vZhLweoNkMo3HWjgEXECLcVgenYbtzO4VTNTGL5+2RT2Wfs6PlpqXtX8yNqHp78AO69nSDCKwiQ4j0KtKku9uLMqE9VShNeuuSEjhdmKi85relRvwGG8cXWCc/xM+0Taw=
-Received: from BN6PR1201CA0022.namprd12.prod.outlook.com
- (2603:10b6:405:4c::32) by DM6PR12MB3196.namprd12.prod.outlook.com
- (2603:10b6:5:187::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2665.24; Fri, 31 Jan
- 2020 20:24:58 +0000
-Received: from BN8NAM11FT015.eop-nam11.prod.protection.outlook.com
- (2a01:111:f400:7eae::200) by BN6PR1201CA0022.outlook.office365.com
- (2603:10b6:405:4c::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2686.28 via Frontend
- Transport; Fri, 31 Jan 2020 20:24:58 +0000
-Authentication-Results: spf=none (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=permerror action=none
- header.from=amd.com;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-Received: from SATLEXMB02.amd.com (165.204.84.17) by
- BN8NAM11FT015.mail.protection.outlook.com (10.13.176.90) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.2686.25 via Frontend Transport; Fri, 31 Jan 2020 20:24:57 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB02.amd.com
- (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 31 Jan
- 2020 14:24:56 -0600
-Received: from SATLEXMB01.amd.com (10.181.40.142) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 31 Jan
- 2020 14:24:56 -0600
-Received: from jzuo-linux.amd.com (10.180.168.240) by SATLEXMB01.amd.com
- (10.181.40.142) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
- Transport; Fri, 31 Jan 2020 14:24:56 -0600
-From: "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>
-To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH V5] drm: Add support for DP 1.4 Compliance edid corruption test
-Date: Fri, 31 Jan 2020 15:24:51 -0500
-Message-ID: <20200131202451.8994-1-Jerry.Zuo@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 949176E24B
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 21:07:11 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1580504832; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=2o/MGv2EXSkD4CZhOwtBopRl7G1ZLM64R+tPgX8YM3c=;
+ b=ZQ/8UkPQjSHAY+qgKireqIov+TfTj7hROprzk4w/CoE1UWkd2eu7FAopGs4wEaeucoNdL7RE
+ J2Z9GyZdGBCUd0dnYus3ALUTcKFahZAvi6pMJDgYsZPRcRCCyhWNKqAkszpLbsdekMBGRKuk
+ wPqR7ng2IhO/fcBrPC+7RrYCjIo=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e3495b3.7f95a249d030-smtp-out-n03;
+ Fri, 31 Jan 2020 21:01:39 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 38BB4C43383; Fri, 31 Jan 2020 21:01:39 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5CFE2C433CB;
+ Fri, 31 Jan 2020 21:01:38 +0000 (UTC)
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(39860400002)(376002)(396003)(346002)(428003)(189003)(199004)(81166006)(81156014)(70586007)(186003)(8936002)(26005)(70206006)(4326008)(36756003)(336012)(86362001)(6666004)(2616005)(5660300002)(54906003)(7696005)(1076003)(2906002)(110136005)(478600001)(356004)(316002)(426003)(8676002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3196; H:SATLEXMB02.amd.com; FPR:;
- SPF:None; LANG:en; PTR:InfoDomainNonexistent; MX:1; A:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ec4b3ba8-12a4-4e51-3a2e-08d7a68ba3eb
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3196:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3196FB26868D63EA1D565CDEE5070@DM6PR12MB3196.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:820;
-X-Forefront-PRVS: 029976C540
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ov4CRJAc3m/rMj6uhyh7wOjlfJ63D5WozvIC65uDOWq/94X3+hcTawqRA82LD0LFpLYBBHb/bCBO7JCRMMpGlngGdzVEVfM/BIYgRsGvmUJP6ZTaiVZI96eldPbKT4y2HKqUqUKUowM2rkRmAc75ET04J6v88XL8EGmuxGLh+r7PM28Jk8RB6QzaC61bkQ3fnSr/7F5Ze8hTtb+skpv+CYeZ9RBmQkDeb1/4/nE8fAvihhQYyO5gLjNkVi3/CeG6KMt+AZ33CCiMH8SW7vh7j5oY3scyQQwrvRGMy+2Wm7rgLdNjjIHijCksAFrGFuaq8DC1qZdoV3+A6ll5fP7KACtvBfLMl+4iKIwPCLL2EJXY6BCVaN2RJR5f60Dpyq3AqNvrQ0n4ncEAOghQq9xfD1XSPJgD5JpC8qJckKO27VSQe92lfCa1Zkue3dLqgdaH
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2020 20:24:57.6551 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec4b3ba8-12a4-4e51-3a2e-08d7a68ba3eb
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB02.amd.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3196
+Date: Fri, 31 Jan 2020 13:01:38 -0800
+From: abhinavk@codeaurora.org
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm: Parse Colorimetry data block from EDID
+In-Reply-To: <1580168406-23808-1-git-send-email-abhinavk@codeaurora.org>
+References: <1580168406-23808-1-git-send-email-abhinavk@codeaurora.org>
+Message-ID: <90542e32913e315bae02865e1d18a622@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,177 +61,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rodrigo.siqueira@amd.com, manasi.d.navare@intel.com, Jerry.Zuo@amd.com,
- Alexander.Deucher@amd.com, nicholas.kazlauskas@amd.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: adelva@google.com, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
+ Uma Shankar <uma.shankar@intel.com>, seanpaul@chromium.org,
+ aravindh@codeaurora.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlike DP 1.2 edid corruption test, DP 1.4 requires to calculate
-real CRC value of the last edid data block, and write it back.
-Current edid CRC calculates routine adds the last CRC byte,
-and check if non-zero.
+Hi Steven
 
-This behavior is not accurate; actually, we need to return
-the actual CRC value when corruption is detected.
-This commit changes this issue by returning the calculated CRC,
-and initiate the required sequence.
+Any further comments on this change?
 
-Change since v5
-- Obtain real CRC value before dumping bad edid
+Thanks
 
-Change since v4
-- Fix for CI.CHECKPATCH
-
-Change since v3
-- Fix a minor typo.
-
-Change since v2
-- Rewrite checksum computation routine to avoid duplicated code.
-- Rename to avoid confusion.
-
-Change since v1
-- Have separate routine for returning real CRC.
-
-Signed-off-by: Jerry (Fangzhi) Zuo <Jerry.Zuo@amd.com>
----
- drivers/gpu/drm/drm_dp_helper.c | 35 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_edid.c      | 23 ++++++++++++++++++----
- include/drm/drm_connector.h     |  6 ++++++
- include/drm/drm_dp_helper.h     |  3 +++
- 4 files changed, 63 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index f629fc5494a4..18b285fa1a42 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -351,6 +351,41 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
- }
- EXPORT_SYMBOL(drm_dp_dpcd_read_link_status);
- 
-+/**
-+ * drm_dp_send_real_edid_checksum() - send back real edid checksum value
-+ * @aux: DisplayPort AUX channel
-+ * @real_edid_checksum: real edid checksum for the last block
-+ *
-+ * Returns true on success
-+ */
-+bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
-+                                    u8 real_edid_checksum)
-+{
-+	u8 link_edid_read = 0, auto_test_req = 0, test_resp = 0;
-+
-+	drm_dp_dpcd_read(aux, DP_DEVICE_SERVICE_IRQ_VECTOR, &auto_test_req, 1);
-+	auto_test_req &= DP_AUTOMATED_TEST_REQUEST;
-+
-+	drm_dp_dpcd_read(aux, DP_TEST_REQUEST, &link_edid_read, 1);
-+	link_edid_read &= DP_TEST_LINK_EDID_READ;
-+
-+	if (!auto_test_req || !link_edid_read) {
-+		DRM_DEBUG_KMS("Source DUT does not support TEST_EDID_READ\n");
-+		return false;
-+	}
-+
-+	drm_dp_dpcd_write(aux, DP_DEVICE_SERVICE_IRQ_VECTOR, &auto_test_req, 1);
-+
-+	/* send back checksum for the last edid extension block data */
-+	drm_dp_dpcd_write(aux, DP_TEST_EDID_CHECKSUM, &real_edid_checksum, 1);
-+
-+	test_resp |= DP_TEST_EDID_CHECKSUM_WRITE;
-+	drm_dp_dpcd_write(aux, DP_TEST_RESPONSE, &test_resp, 1);
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(drm_dp_send_real_edid_checksum);
-+
- /**
-  * drm_dp_downstream_max_clock() - extract branch device max
-  *                                 pixel rate for legacy VGA
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 99769d6c9f84..f064e75fb4c5 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1590,11 +1590,22 @@ static int validate_displayid(u8 *displayid, int length, int idx);
- static int drm_edid_block_checksum(const u8 *raw_edid)
- {
- 	int i;
--	u8 csum = 0;
--	for (i = 0; i < EDID_LENGTH; i++)
-+	u8 csum = 0, crc = 0;
-+
-+	for (i = 0; i < EDID_LENGTH - 1; i++)
- 		csum += raw_edid[i];
- 
--	return csum;
-+	crc = 0x100 - csum;
-+
-+	return crc;
-+}
-+
-+static bool drm_edid_block_checksum_diff(const u8 *raw_edid, u8 real_checksum)
-+{
-+	if (raw_edid[EDID_LENGTH - 1] != real_checksum)
-+		return true;
-+	else
-+		return false;
- }
- 
- static bool drm_edid_is_zero(const u8 *in_edid, int length)
-@@ -1652,7 +1663,7 @@ bool drm_edid_block_valid(u8 *raw_edid, int block, bool print_bad_edid,
- 	}
- 
- 	csum = drm_edid_block_checksum(raw_edid);
--	if (csum) {
-+	if (drm_edid_block_checksum_diff(raw_edid, csum)) {
- 		if (edid_corrupt)
- 			*edid_corrupt = true;
- 
-@@ -1793,6 +1804,10 @@ static void connector_bad_edid(struct drm_connector *connector,
- 			       u8 *edid, int num_blocks)
- {
- 	int i;
-+	u8 num_of_ext = edid[0x7e];
-+
-+	/* Calculate real checksum for the last edid extension block data */
-+	connector->real_edid_checksum = drm_edid_block_checksum(edid + num_of_ext * EDID_LENGTH);
- 
- 	if (connector->bad_edid_counter++ && !drm_debug_enabled(DRM_UT_KMS))
- 		return;
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 2113500b4075..b3815371c271 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1357,6 +1357,12 @@ struct drm_connector {
- 	 * rev1.1 4.2.2.6
- 	 */
- 	bool edid_corrupt;
-+	/**
-+	 * @real_edid_checksum: real edid checksum for corrupted edid block.
-+	 * Required in Displayport 1.4 compliance testing
-+	 * rev1.1 4.2.2.6
-+	 */
-+	u8 real_edid_checksum;
- 
- 	/** @debugfs_entry: debugfs directory for this connector */
- 	struct dentry *debugfs_entry;
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 127d6e1d3338..957a3d00ee05 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1459,6 +1459,9 @@ static inline ssize_t drm_dp_dpcd_writeb(struct drm_dp_aux *aux,
- int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
- 				 u8 status[DP_LINK_STATUS_SIZE]);
- 
-+bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
-+				    u8 real_edid_checksum);
-+
- int drm_dp_downstream_max_clock(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
- 				const u8 port_cap[4]);
- int drm_dp_downstream_max_bpc(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
--- 
-2.17.1
-
+Abhinav
+On 2020-01-27 15:40, Abhinav Kumar wrote:
+> From: Uma Shankar <uma.shankar@intel.com>
+> 
+> CEA 861.3 spec adds colorimetry data block for HDMI.
+> Parsing the block to get the colorimetry data from
+> panel.
+> 
+> This was posted by Uma Shankar at
+> https://patchwork.kernel.org/patch/10861327/
+> 
+> Modified by Abhinav Kumar:
+> - Use macros to distinguish the bit fields for clarity
+> 
+> Changes in v2:
+> - Use the drm_edid.h macros in drm_edid.c (Stephen Boyd)
+> 
+> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
+>  drivers/gpu/drm/drm_edid.c  | 45 
+> +++++++++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_connector.h |  3 +++
+>  include/drm/drm_edid.h      | 14 ++++++++++++++
+>  3 files changed, 62 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 99769d6..9a82fb8 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3136,6 +3136,7 @@ static int drm_cvt_modes(struct drm_connector 
+> *connector,
+>  #define VIDEO_BLOCK     0x02
+>  #define VENDOR_BLOCK    0x03
+>  #define SPEAKER_BLOCK	0x04
+> +#define COLORIMETRY_DATA_BLOCK		0x5
+>  #define HDR_STATIC_METADATA_BLOCK	0x6
+>  #define USE_EXTENDED_TAG 0x07
+>  #define EXT_VIDEO_CAPABILITY_BLOCK 0x00
+> @@ -4199,6 +4200,48 @@ static void
+> fixup_detailed_cea_mode_clock(struct drm_display_mode *mode)
+>  	mode->clock = clock;
+>  }
+> 
+> +static bool cea_db_is_hdmi_colorimetry_data_block(const u8 *db)
+> +{
+> +	if (cea_db_tag(db) != USE_EXTENDED_TAG)
+> +		return false;
+> +
+> +	if (db[1] != COLORIMETRY_DATA_BLOCK)
+> +		return false;
+> +
+> +	if (cea_db_payload_len(db) < 2)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static void
+> +drm_parse_colorimetry_data_block(struct drm_connector *connector, 
+> const u8 *db)
+> +{
+> +	struct drm_hdmi_info *info = &connector->display_info.hdmi;
+> +
+> +	if (db[2] & DRM_EDID_CLRMETRY_xvYCC_601)
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_xvYCC_601;
+> +	if (db[2] & DRM_EDID_CLRMETRY_xvYCC_709)
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_xvYCC_709;
+> +	if (db[2] & DRM_EDID_CLRMETRY_sYCC_601)
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_sYCC_601;
+> +	if (db[2] & DRM_EDID_CLRMETRY_ADBYCC_601)
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_ADBYCC_601;
+> +	if (db[2] & DRM_EDID_CLRMETRY_ADB_RGB)
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_ADB_RGB;
+> +	if (db[2] & DRM_EDID_CLRMETRY_BT2020_CYCC)
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_CYCC;
+> +	if (db[2] & DRM_EDID_CLRMETRY_BT2020_YCC)
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_YCC;
+> +	if (db[2] & DRM_EDID_CLRMETRY_BT2020_RGB)
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_RGB;
+> +	/* Byte 4 Bit 7: DCI-P3 */
+> +	if (db[3] & BIT(7))
+> +		info->colorimetry |= DRM_EDID_CLRMETRY_DCI_P3;
+> +
+> +	DRM_DEBUG_KMS("Supported Colorimetry 0x%x\n", info->colorimetry);
+> +}
+> +
+>  static bool cea_db_is_hdmi_hdr_metadata_block(const u8 *db)
+>  {
+>  	if (cea_db_tag(db) != USE_EXTENDED_TAG)
+> @@ -4877,6 +4920,8 @@ static void drm_parse_cea_ext(struct
+> drm_connector *connector,
+>  			drm_parse_vcdb(connector, db);
+>  		if (cea_db_is_hdmi_hdr_metadata_block(db))
+>  			drm_parse_hdr_metadata_block(connector, db);
+> +		if (cea_db_is_hdmi_colorimetry_data_block(db))
+> +			drm_parse_colorimetry_data_block(connector, db);
+>  	}
+>  }
+> 
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 2219109..a996ee3 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -207,6 +207,9 @@ struct drm_hdmi_info {
+> 
+>  	/** @y420_dc_modes: bitmap of deep color support index */
+>  	u8 y420_dc_modes;
+> +
+> +	/* @colorimetry: bitmap of supported colorimetry modes */
+> +	u16 colorimetry;
+>  };
+> 
+>  /**
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index f0b03d4..4f22f22 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -224,6 +224,20 @@ struct detailed_timing {
+>  				    DRM_EDID_YCBCR420_DC_36 | \
+>  				    DRM_EDID_YCBCR420_DC_30)
+> 
+> +/*
+> + * Supported Colorimetry from colorimetry data block
+> + * as per CEA 861-G spec
+> + */
+> +#define DRM_EDID_CLRMETRY_xvYCC_601   (1 << 0)
+> +#define DRM_EDID_CLRMETRY_xvYCC_709   (1 << 1)
+> +#define DRM_EDID_CLRMETRY_sYCC_601    (1 << 2)
+> +#define DRM_EDID_CLRMETRY_ADBYCC_601  (1 << 3)
+> +#define DRM_EDID_CLRMETRY_ADB_RGB     (1 << 4)
+> +#define DRM_EDID_CLRMETRY_BT2020_CYCC (1 << 5)
+> +#define DRM_EDID_CLRMETRY_BT2020_YCC  (1 << 6)
+> +#define DRM_EDID_CLRMETRY_BT2020_RGB  (1 << 7)
+> +#define DRM_EDID_CLRMETRY_DCI_P3      (1 << 15)
+> +
+>  /* ELD Header Block */
+>  #define DRM_ELD_HEADER_BLOCK_SIZE	4
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
