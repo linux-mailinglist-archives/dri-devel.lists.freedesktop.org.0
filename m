@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A5814F422
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 22:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6710814F423
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 22:47:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F31D6FC17;
-	Fri, 31 Jan 2020 21:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B786FC1E;
+	Fri, 31 Jan 2020 21:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF126FC0F;
- Fri, 31 Jan 2020 21:47:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88F536FC12;
+ Fri, 31 Jan 2020 21:47:20 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2020 13:47:18 -0800
+ 31 Jan 2020 13:47:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,387,1574150400"; d="scan'208";a="262691474"
+X-IronPort-AV: E=Sophos;i="5.70,387,1574150400"; d="scan'208";a="262691477"
 Received: from helsinki.fi.intel.com ([10.237.66.145])
- by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2020 13:47:17 -0800
+ by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2020 13:47:19 -0800
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 09/18] drm/i915: Include HDMI DRM infoframe in the crtc state
- dump
-Date: Fri, 31 Jan 2020 23:46:52 +0200
-Message-Id: <20200131214701.1085737-10-gwan-gyeong.mun@intel.com>
+Subject: [PATCH 10/18] drm/i915: Include DP HDR Metadata Infoframe SDP in the
+ crtc state dump
+Date: Fri, 31 Jan 2020 23:46:53 +0200
+Message-Id: <20200131214701.1085737-11-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131214701.1085737-1-gwan-gyeong.mun@intel.com>
 References: <20200131214701.1085737-1-gwan-gyeong.mun@intel.com>
@@ -49,8 +49,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dump out the HDMI Dynamic Range and Mastering (DRM) infoframe in the
-normal crtc state dump.
+Dump out the DP HDR Metadata Infoframe SDP in the normal crtc state dump.
+
+HDMI Dynamic Range and Mastering (DRM) infoframe and DP HDR Metadata
+Infoframe SDP use the same member variable in infoframes of crtc state.
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 ---
@@ -58,15 +60,15 @@ Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index c0e5002ce64c..239861bcedba 100644
+index 239861bcedba..593c63f51210 100644
 --- a/drivers/gpu/drm/i915/display/intel_display.c
 +++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -13030,6 +13030,9 @@ static void intel_dump_pipe_config(const struct intel_crtc_state *pipe_config,
+@@ -13033,6 +13033,9 @@ static void intel_dump_pipe_config(const struct intel_crtc_state *pipe_config,
  	if (pipe_config->infoframes.enable &
- 	    intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_VENDOR))
- 		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.hdmi);
+ 	    intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_DRM))
+ 		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.drm);
 +	if (pipe_config->infoframes.enable &
-+	    intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_DRM))
++	    intel_hdmi_infoframe_enable(HDMI_PACKET_TYPE_GAMUT_METADATA))
 +		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.drm);
  
  	drm_dbg_kms(&dev_priv->drm, "requested mode:\n");
