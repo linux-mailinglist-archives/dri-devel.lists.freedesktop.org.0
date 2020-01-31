@@ -2,69 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA75914E80E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 05:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A37B14E88B
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 06:58:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FDB86E1E8;
-	Fri, 31 Jan 2020 04:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E736E940;
+	Fri, 31 Jan 2020 05:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0E46E1E8
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 04:58:39 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00V4vt2U194365;
- Fri, 31 Jan 2020 04:58:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=+I6RfZxDTErkgikWYprG/z/JStkYXUsW5y5QJH/rzTA=;
- b=jCb7+HfwhDDI3Oacu5UPSWDNzB4Y29Dr2c7zc/4XiOhrfaoRVuRO8/8uKvSSjHfLoTe/
- KPasM4qmSjyJCrtNTvcbCPBBkMM17SdAhV1GVbPwdEOH1i3975ANxXdq+i8lvQFTL/Cu
- PFCAByzxMOMMnTGv+fQ6R9sFjfG7MMOMfai0fqpWlcclAFS51hfnVv4T1qJUJFXYoXjW
- jtPxtCdvWX6USFoBFri2EaJWPCAwOrwGfyeUbR6ENw3Kwc5C7lkKdm9Q8Ex9mrj7bhd3
- WxqMSRvmwOe0CCtfx2myA+evreQoc6IE5aOPjydzMvh0V03GssvsgJUES3aOnW6yPvyx Sw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2xrd3ur3sw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Jan 2020 04:58:33 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00V4wVv6182854;
- Fri, 31 Jan 2020 04:58:32 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 2xv8nq0s6f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Jan 2020 04:58:32 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00V4vpEQ009294;
- Fri, 31 Jan 2020 04:57:51 GMT
-Received: from kili.mountain (/129.205.23.165)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jan 2020 20:57:50 -0800
-Date: Fri, 31 Jan 2020 07:57:39 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Harry Wentland <harry.wentland@amd.com>, Lewis Huang <Lewis.Huang@amd.com>
-Subject: [PATCH] drm/amd/display: Possible divide by zero in set_speed()
-Message-ID: <20200131045739.ault4d6yk2lqlbed@kili.mountain>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DADA46E941
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 05:58:12 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id q9so6527865wmj.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 21:58:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=fqIZZmpuF/Iqn88PNa0TK7uvBgm0UXW1Kn70C/na+ZI=;
+ b=CC9nVW8OEddk39PZPL/yAkb2KL0r1Jqa0V01vqJAhut3qwuxBiaX0rqF9LCTHVaXT4
+ zaDyWM0PDTJHWoM1ry+FAyZ3WBiJKyKyAEeGZ4ltu6L+T8W8tFKoorFszSDXCX3Kzh/4
+ A9mCJxvDviiGRTPbOg4wbHLKmzlQQP9Po8su0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=fqIZZmpuF/Iqn88PNa0TK7uvBgm0UXW1Kn70C/na+ZI=;
+ b=hCd8uY8o6augpe26meQN6fYr3vF7eZK6u2012n3WKZASLKuL3bwg2qVe6wAD1i6wmz
+ ujbfENoVn9/0Yfh/G4XiI8340AbSujSEjd7WDmoUC+heCpJ8i9epCn1TxMi+tHdkKOW6
+ Xm6X/Fn31fwYgxMDcybVqKfAVpjbDi3c9caSVJT92p5fbbnqXu9Y8qS5ETG0mFPMXkwB
+ xeyUtwWdLLfV9QPrYdt6T9tfKrHhGSvP4bsrb/pd4bMiB9TjdY/04OfCahDiQhX36Nu4
+ WCI2OkcPSkg2X1iJ2IejLnVP7M9MUXhEE2Uc7N78wybqqI0V118DCoUXMfNn1IT7YnS9
+ /c3A==
+X-Gm-Message-State: APjAAAUs4VwtdrdTB2eER7gSZLAYYgTDNbGGY/3zUndPmw3nfQlizMr+
+ hsKhoZ3DzDlhwS435rEem4WwGOsfjhPO8w==
+X-Google-Smtp-Source: APXvYqw+d+irR/SKJ5qY5toATzXjOM8cJtDKrUEOCW7FRulDTWEHJNnljoh2eWswFsGsXyRsZlO9Hg==
+X-Received: by 2002:a1c:a5c5:: with SMTP id o188mr10262046wme.73.1580450291233; 
+ Thu, 30 Jan 2020 21:58:11 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v8sm10527318wrw.2.2020.01.30.21.58.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jan 2020 21:58:10 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: Nerf drm_global_mutex BKL for good drivers
+Date: Fri, 31 Jan 2020 06:58:03 +0100
+Message-Id: <20200131055804.1820865-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200129082410.1691996-6-daniel.vetter@ffwll.ch>
+References: <20200129082410.1691996-6-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001310043
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001310043
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,71 +63,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Derek Lai <Derek.Lai@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Tony Cheng <Tony.Cheng@amd.com>,
- kernel-janitors@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Jun Lei <Jun.Lei@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If "speed" is zero then we use it as a divisor to find "prescale".  It's
-better to move the check for zero to the very start of the function.
+This catches the majority of drivers (unfortunately not if we take
+users into account, because all the big drivers have at least a
+lastclose hook).
 
-Fixes: 9eeec26a1339 ("drm/amd/display: Refine i2c frequency calculating sequence")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+With the prep patches out of the way all drm state is fully protected
+and either prevents or can deal with the races from dropping the BKL
+around open/close. The only thing left to audit are the various driver
+hooks - by keeping the BKL around if any of them are set we have a
+very simple cop-out!
+
+Note that one of the biggest prep pieces to get here was making
+dev->open_count atomic, which was done in
+
+commit 7e13ad896484a0165a68197a2e64091ea28c9602
+Author: Chris Wilson <chris@chris-wilson.co.uk>
+Date:   Fri Jan 24 13:01:07 2020 +0000
+
+    drm: Avoid drm_global_mutex for simple inc/dec of dev->open_count
+
+v2:
+- Rebase and fix locking in drm_open() (Chris)
+- Indentation fix in drm_release
+- Typo fix in the commit message (Sam)
+
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/drm_drv.c      |  6 +++--
+ drivers/gpu/drm/drm_file.c     | 48 +++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/drm_internal.h |  1 +
+ 3 files changed, 47 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c b/drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c
-index 066188ba7949..24adec407972 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c
-@@ -267,6 +267,9 @@ static void set_speed(
- 	uint32_t xtal_ref_div = 0;
- 	uint32_t prescale = 0;
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 05bdf0b9d2b3..9fcd6ab3c154 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -946,7 +946,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+ 	struct drm_driver *driver = dev->driver;
+ 	int ret;
  
-+	if (speed == 0)
-+		return;
-+
- 	REG_GET(MICROSECOND_TIME_BASE_DIV, XTAL_REF_DIV, &xtal_ref_div);
+-	mutex_lock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_lock(&drm_global_mutex);
  
- 	if (xtal_ref_div == 0)
-@@ -274,17 +277,15 @@ static void set_speed(
- 
- 	prescale = ((dce_i2c_hw->reference_frequency * 2) / xtal_ref_div) / speed;
- 
--	if (speed) {
--		if (dce_i2c_hw->masks->DC_I2C_DDC1_START_STOP_TIMING_CNTL)
--			REG_UPDATE_N(SPEED, 3,
--				     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_PRESCALE), prescale,
--				     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_THRESHOLD), 2,
--				     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_START_STOP_TIMING_CNTL), speed > 50 ? 2:1);
--		else
--			REG_UPDATE_N(SPEED, 2,
--				     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_PRESCALE), prescale,
--				     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_THRESHOLD), 2);
--	}
-+	if (dce_i2c_hw->masks->DC_I2C_DDC1_START_STOP_TIMING_CNTL)
-+		REG_UPDATE_N(SPEED, 3,
-+			     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_PRESCALE), prescale,
-+			     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_THRESHOLD), 2,
-+			     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_START_STOP_TIMING_CNTL), speed > 50 ? 2:1);
-+	else
-+		REG_UPDATE_N(SPEED, 2,
-+			     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_PRESCALE), prescale,
-+			     FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_THRESHOLD), 2);
+ 	if (dev->driver->load) {
+ 		if (!drm_core_check_feature(dev, DRIVER_LEGACY))
+@@ -992,7 +993,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+ 	drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
+ 	drm_minor_unregister(dev, DRM_MINOR_RENDER);
+ out_unlock:
+-	mutex_unlock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_unlock(&drm_global_mutex);
+ 	return ret;
  }
+ EXPORT_SYMBOL(drm_dev_register);
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index 80d556402ab4..c4c704e01961 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -51,6 +51,37 @@
+ /* from BKL pushdown */
+ DEFINE_MUTEX(drm_global_mutex);
  
- static bool setup_engine(
++bool drm_dev_needs_global_mutex(struct drm_device *dev)
++{
++	/*
++	 * Legacy drivers rely on all kinds of BKL locking semantics, don't
++	 * bother. They also still need BKL locking for their ioctls, so better
++	 * safe than sorry.
++	 */
++	if (drm_core_check_feature(dev, DRIVER_LEGACY))
++		return true;
++
++	/*
++	 * The deprecated ->load callback must be called after the driver is
++	 * already registered. This means such drivers rely on the BKL to make
++	 * sure an open can't proceed until the driver is actually fully set up.
++	 * Similar hilarity holds for the unload callback.
++	 */
++	if (dev->driver->load || dev->driver->unload)
++		return true;
++
++	/*
++	 * Drivers with the lastclose callback assume that it's synchronized
++	 * against concurrent opens, which again needs the BKL. The proper fix
++	 * is to use the drm_client infrastructure with proper locking for each
++	 * client.
++	 */
++	if (dev->driver->lastclose)
++		return true;
++
++	return false;
++}
++
+ /**
+  * DOC: file operations
+  *
+@@ -378,9 +409,10 @@ int drm_open(struct inode *inode, struct file *filp)
+ 	if (IS_ERR(minor))
+ 		return PTR_ERR(minor);
+ 
+-	mutex_lock(&drm_global_mutex);
+-
+ 	dev = minor->dev;
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_lock(&drm_global_mutex);
++
+ 	if (!atomic_fetch_inc(&dev->open_count))
+ 		need_setup = 1;
+ 
+@@ -398,13 +430,15 @@ int drm_open(struct inode *inode, struct file *filp)
+ 		}
+ 	}
+ 
+-	mutex_unlock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_unlock(&drm_global_mutex);
+ 
+ 	return 0;
+ 
+ err_undo:
+ 	atomic_dec(&dev->open_count);
+-	mutex_unlock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_unlock(&drm_global_mutex);
+ 	drm_minor_release(minor);
+ 	return retcode;
+ }
+@@ -444,7 +478,8 @@ int drm_release(struct inode *inode, struct file *filp)
+ 	struct drm_minor *minor = file_priv->minor;
+ 	struct drm_device *dev = minor->dev;
+ 
+-	mutex_lock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_lock(&drm_global_mutex);
+ 
+ 	DRM_DEBUG("open_count = %d\n", atomic_read(&dev->open_count));
+ 
+@@ -453,7 +488,8 @@ int drm_release(struct inode *inode, struct file *filp)
+ 	if (atomic_dec_and_test(&dev->open_count))
+ 		drm_lastclose(dev);
+ 
+-	mutex_unlock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_unlock(&drm_global_mutex);
+ 
+ 	drm_minor_release(minor);
+ 
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 6937bf923f05..aeec2e68d772 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -41,6 +41,7 @@ struct drm_printer;
+ 
+ /* drm_file.c */
+ extern struct mutex drm_global_mutex;
++bool drm_dev_needs_global_mutex(struct drm_device *dev);
+ struct drm_file *drm_file_alloc(struct drm_minor *minor);
+ void drm_file_free(struct drm_file *file);
+ void drm_lastclose(struct drm_device *dev);
 -- 
-2.11.0
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
