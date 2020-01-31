@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B30B14F170
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 18:41:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E4214F172
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 18:41:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E726FBB0;
-	Fri, 31 Jan 2020 17:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 236C66FBB3;
+	Fri, 31 Jan 2020 17:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2336FBB0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 17:41:07 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC9C6FBB3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 17:41:11 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D309F21734
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 17:41:06 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DAB9124682
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 17:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1580492467;
- bh=xszzaaEpbbEax08VU5xvCuq9Bsf/JjNpN40JCLkc/ss=;
+ s=default; t=1580492471;
+ bh=j9L7YS1IMIUGvccZ1rHyQK+UVEwcZiYe0s6TbTpWVhY=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=zFJ50GvvgGvwOd4S131/LAWEV5D59UCMMcy57VtdUrH4vyDwsdwQF50mukUDrAe8k
- 44Qm9aUry4G4qVscxUQtOvuzIuvZWbTKcId4qRNN3PBpt8fpGHhtwSakLOARGU8ang
- NV0izsQ/GlBeB8amLbHa0sPuw+GX3eLGLugIw+Uc=
-Received: by mail-qt1-f178.google.com with SMTP id v25so6018940qto.7
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 09:41:06 -0800 (PST)
-X-Gm-Message-State: APjAAAU7hZPVwZTaAmgm9uL9UdPMXBe68sMr2NaNojmNsKWigbQPzxEc
- ENgz8mnkI9i87tpoE0F5McnxJ5TK7/64y7ixtQ==
-X-Google-Smtp-Source: APXvYqxjrrfRA36fdNqYp2gGKshUBhzz5J2P7CvcW484UyPS5Uj9LBhdDLwrtMPg8pFT8K7FzHjA1iCSpTCU2LcBqsA=
-X-Received: by 2002:ac8:1415:: with SMTP id k21mr12050220qtj.300.1580492466005; 
- Fri, 31 Jan 2020 09:41:06 -0800 (PST)
+ b=Gx7l5bnlji7EjZCMKzo5sJTAnC0ZbVzJDWJ05Hj8lgPMhgeKFWWq9mRKriCS4n8Qr
+ oevClOc1Olg5m73sbKsISlWUbu+/sGeDeQlnPH9X2rbDwE27SXltHsxNUxJo50r5n2
+ Cv+B/OgjoSsnx0l8vVo6+lGlxeXFHluvx2KtPRV0=
+Received: by mail-qk1-f177.google.com with SMTP id 21so7369972qky.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 09:41:10 -0800 (PST)
+X-Gm-Message-State: APjAAAWaoKHWjJ4tg0MERued4yEVbYQKDC0uaEV5tSBfo42hiRdbpskz
+ A0V2TAJNEtYYauhdkH2OUj8pRpx+910WXkfW0Q==
+X-Google-Smtp-Source: APXvYqzcPXwNiM+WNCqBCrr2x5w5fdp61dkW1RPVkzEgStdAcfM6ZkFVm5E4Ii+5LeuvmrEOYFBEWfJnzrVzsu+chtk=
+X-Received: by 2002:a05:620a:9c7:: with SMTP id
+ y7mr11820586qky.393.1580492470023; 
+ Fri, 31 Jan 2020 09:41:10 -0800 (PST)
 MIME-Version: 1.0
 References: <20200125203454.7450-1-sam@ravnborg.org>
- <20200125203454.7450-4-sam@ravnborg.org>
-In-Reply-To: <20200125203454.7450-4-sam@ravnborg.org>
+ <20200125203454.7450-3-sam@ravnborg.org>
+In-Reply-To: <20200125203454.7450-3-sam@ravnborg.org>
 From: Rob Herring <robh@kernel.org>
-Date: Fri, 31 Jan 2020 11:40:53 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+JsEk1qz7NQc0ybO0xgmTB+YcmUL_d=u7_Y0A56v18nw@mail.gmail.com>
-Message-ID: <CAL_Jsq+JsEk1qz7NQc0ybO0xgmTB+YcmUL_d=u7_Y0A56v18nw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] dt-bindings: display: convert panel-dpi to DT
- schema
+Date: Fri, 31 Jan 2020 11:40:57 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKgWaqJCxtsD02DsTu=p=Q2=ZzWNZ5bf_atmbbD9N6JQQ@mail.gmail.com>
+Message-ID: <CAL_JsqKgWaqJCxtsD02DsTu=p=Q2=ZzWNZ5bf_atmbbD9N6JQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: convert display-timings to
+ DT schema
 To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,163 +69,73 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sat, Jan 25, 2020 at 2:35 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> With panel-timing converted, now convert the single
-> remaining .txt user in panel/ of panel-timing to DT schema.
+> Add display-timings.yaml - that references panel-timings.yaml.
+> display-timings.yaml will be used for display bindings
+> when they are converted to meta-schema format.
+>
+> For now the old display-timing.txt points to the new
+> display-timings.yaml - and all users are left as-is.
 >
 > v2:
->   - Drop Thierry as maintainer, as this is not a general panel binding
->     and I have no acks.
->   - Drop requirement for a panel- specific binding - "panel-dpi" is enough
->   - Updated example
+>   - Updated native-mode description
 >
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Rob Herring <robh@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+> Cc: devicetree@vger.kernel.org
 > ---
->  .../bindings/display/panel/panel-dpi.txt      | 50 -------------
->  .../bindings/display/panel/panel-dpi.yaml     | 71 +++++++++++++++++++
->  2 files changed, 71 insertions(+), 50 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/panel-dpi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.txt b/Documentation/devicetree/bindings/display/panel/panel-dpi.txt
-> deleted file mode 100644
-> index 6b203bc4d932..000000000000
-> --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.txt
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -Generic MIPI DPI Panel
-> -======================
-> -
-> -Required properties:
-> -- compatible: "panel-dpi"
-> -
-> -Optional properties:
-> -- label: a symbolic name for the panel
-> -- enable-gpios: panel enable gpio
-> -- reset-gpios: GPIO to control the RESET pin
-> -- vcc-supply: phandle of regulator that will be used to enable power to the display
-> -- backlight: phandle of the backlight device
-> -
-> -Required nodes:
-> -- "panel-timing" containing video timings
-> -  (Documentation/devicetree/bindings/display/panel/display-timing.txt)
-> -- Video port for DPI input
-> -
-> -Example
-> --------
-> -
-> -lcd0: display@0 {
-> -        compatible = "samsung,lte430wq-f0c", "panel-dpi";
-> -        label = "lcd";
-> -
-> -        backlight = <&backlight>;
-> -
-> -        port {
-> -            lcd_in: endpoint {
-> -                    remote-endpoint = <&dpi_out>;
-> -            };
-> -        };
-> -
-> -        panel-timing {
-> -                clock-frequency = <9200000>;
-> -                hactive = <480>;
-> -                vactive = <272>;
-> -                hfront-porch = <8>;
-> -                hback-porch = <4>;
-> -                hsync-len = <41>;
-> -                vback-porch = <2>;
-> -                vfront-porch = <4>;
-> -                vsync-len = <10>;
-> -
-> -                hsync-active = <0>;
-> -                vsync-active = <0>;
-> -                de-active = <1>;
-> -                pixelclk-active = <1>;
-> -        };
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+>  .../bindings/display/panel/display-timing.txt | 124 +-----------------
+>  .../display/panel/display-timings.yaml        |  68 ++++++++++
+>  2 files changed, 69 insertions(+), 123 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/display-timings.yaml
+
+
+> diff --git a/Documentation/devicetree/bindings/display/panel/display-timings.yaml b/Documentation/devicetree/bindings/display/panel/display-timings.yaml
 > new file mode 100644
-> index 000000000000..a8e37318ec05
+> index 000000000000..508302cd307a
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> @@ -0,0 +1,71 @@
+> +++ b/Documentation/devicetree/bindings/display/panel/display-timings.yaml
+> @@ -0,0 +1,68 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/panel/panel-dpi.yaml#
+> +$id: http://devicetree.org/schemas/display/panel/display-timings.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Generic MIPI DPI Panel
+> +title: display timing bindings
 > +
 > +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > +  - Sam Ravnborg <sam@ravnborg.org>
 > +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
 > +properties:
-> +  compatible:
-> +    contains:
-> +      const: panel-dpi
-> +    description:
-> +      Shall contain "panel-dpi" in addition to an optional panel-specific
-> +      compatible string defined in individual panel bindings.
-> +      "panel-dpi" can be used alone, thus no dedicated binding file
-> +      is required for each and every panel.
+> +  $nodename:
+> +    const: display-timings
+> +
+> +  native-mode:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      The default dispaly timing is the one specified as native-mode.
+> +      If no native-mode is specified then the first node is assume the
+> +      native mode.
+> +
+> +patternProperties:
+> +  "^timing.*$":
 
-While this has occurred, I don't think the schema should allow it. I
-think a 'minItems: 2' should be added here.
+'.*$' can be omitted.
 
-AFAIK, MIPI DPI just defines a spec for what already existed. Maybe it
-constrains things somewhat, but to the extent why we require a panel
-specific compatible in the first place? Doubtful...
+Probably should have a 'type: object' here too.
 
-Rob
+With that,
 
-> +  port: true
-> +
-> +required:
-> +  - panel-timing
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    panel@0 {
-> +      compatible = "panel-dpi";
-> +      label = "lcd";
-> +      vcc-supply = <&vcc_supply>;
-> +
-> +      backlight = <&backlight>;
-> +
-> +      port {
-> +        lcd_in: endpoint {
-> +          remote-endpoint = <&dpi_out>;
-> +        };
-> +      };
-> +      panel-timing {
-> +        clock-frequency = <9200000>;
-> +        hactive = <800>;
-> +        vactive = <480>;
-> +        hfront-porch = <8>;
-> +        hback-porch = <4>;
-> +        hsync-len = <41>;
-> +        vback-porch = <2>;
-> +        vfront-porch = <4>;
-> +        vsync-len = <10>;
-> +
-> +        hsync-active = <0>;
-> +        vsync-active = <0>;
-> +        de-active = <1>;
-> +        pixelclk-active = <1>;
-> +      };
-> +    };
-> --
-> 2.20.1
->
+Reviewed-by: Rob Herring <robh@kernel.org>
+
+
+> +    allOf:
+> +      - $ref: panel-timing.yaml#
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
