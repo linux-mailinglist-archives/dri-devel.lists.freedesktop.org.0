@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9194F14E924
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 08:34:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 003FE14E94B
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 09:00:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D50AB6E94D;
-	Fri, 31 Jan 2020 07:34:21 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90C626E94D
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2020 07:34:20 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id g17so7450243wro.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2020 23:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=owDgY2hN74svhwO6V6vESJaP7KSYIDvwh0UpgYJP8tc=;
- b=W5QRTWPq5V1gfy2LTbkoaVWqpWIoew8i2DeZXV+kuXCdSPClSdS8DrQsRlQaLiqrn7
- SabGhJ0iUS/0C9J+n+RaDAKKMwWFY6K5vb6OVMjFSFlUUU9UYeC80j6CVbXtvdWem14s
- IsH/Hjq9Oa5D0p7TSXPBQTztEm1Mcdgik97M1ALqmknH/s18LhzHAHlhoyE14iXhsW3W
- GiTb0w9nkasDAUls/iGZp+RyZP+T8wiYazTdY1DAVB4e7F6+Zeit+HobTIrVOuZbNaNp
- tbtcHlWhTEqviWnCbABW5hHpVC3tN9c40PnMngS1eOjUo5SqMFNmth405QeznNdb925G
- VSgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=owDgY2hN74svhwO6V6vESJaP7KSYIDvwh0UpgYJP8tc=;
- b=CwdSD4Z0JB/D7GjS60bct88afixXCdPHfzy1cr+HOFtyd9ZRsAb0qQB5LWBRCteV5Q
- gcfoU5amof9QNP5aYKUmb7ejjXj1E9l0b0nnGJ24Ce0yppIpAjf5xqbunpVMH7x0kgo3
- afdg5n/N8YJ0A8vEWRIK5VZ/JnFmPcHitqW400gibBziAIdaEY1CU6DnNEpikelBRss6
- 0I5xf5jFtKziDm6pxHOOV6cxiUlLXL+2Yoz4D0E/12RoxhTG8LHufA+fyppIIPXfbK/G
- IqOBTUaciK3XH0USFhynPzdHmgHT1yJAmgUiT3cqL5ptAmbcZe5lgc/KCJX7TpVQTKVd
- rXxg==
-X-Gm-Message-State: APjAAAU0OTNUr3tJ3Jk+5X/Fr4IRtnoh/GKs+EUPc6QPJF+ZScM65Uau
- Att/dwchadR7SIxRcJrz+I9vvnFoE2vUL6KC8k1wgQ==
-X-Google-Smtp-Source: APXvYqxE2D1GUZqbFQ7juYd6KtGB0wWZIYc2Q/xIq23fGh/WL0GBK5zKH9bzu3lOwV9+kWP54Y3iKcuDHp21ot8TOJQ=
-X-Received: by 2002:a5d:6445:: with SMTP id d5mr8923297wrw.244.1580456059067; 
- Thu, 30 Jan 2020 23:34:19 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F3B6FAC1;
+	Fri, 31 Jan 2020 08:00:08 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E007E6FA97
+ for <dri-devel@freedesktop.org>; Fri, 31 Jan 2020 08:00:03 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1580457606; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: To:
+ Subject: Sender; bh=vDYKPZDva0OYUuiv6T+bASw/nbPttMElOslv2zckmr0=;
+ b=tBZNVRRpY9IjtnRUW4gJS0vvKzN/XfU41k6SRa/KbH5ZlppZxAT7HlWrKa40mH4PCQoyQGTj
+ iNiAPzXkiuJsP8m98zji13VUgPqPppnKApvrmACppJbQqV0PsLJ98HJTebPuGggVuvxlq61L
+ q2agLyAj4nvzhkc69lHSWYPmDgs=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e33de7f.7f12d3215ca8-smtp-out-n01;
+ Fri, 31 Jan 2020 07:59:59 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 367C2C433A2; Fri, 31 Jan 2020 07:59:59 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [10.204.67.239]
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 291A5C43383;
+ Fri, 31 Jan 2020 07:59:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 291A5C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=akhilpo@codeaurora.org
+Subject: Re: [PATCH] drm/msm/a6xx: Correct the highestbank configuration
+To: freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ smasetty@codeaurora.org
+References: <1579868411-20837-1-git-send-email-akhilpo@codeaurora.org>
+ <20200124182654.GA17149@jcrouse1-lnx.qualcomm.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+Message-ID: <9a9ec81d-f963-8d71-d6aa-d32956788d94@codeaurora.org>
+Date: Fri, 31 Jan 2020 13:29:54 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-References: <20180705101043.4883-1-daniel.vetter@ffwll.ch>
- <20180705102121.5091-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20180705102121.5091-1-daniel.vetter@ffwll.ch>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 31 Jan 2020 07:34:00 +0000
-Message-ID: <CAPj87rN48S8+pLd0ksOX4pdCTqtO=bDgjhkPxpWr_AnpVvgaSQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic
- modesets
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <20200124182654.GA17149@jcrouse1-lnx.qualcomm.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,46 +71,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable@vger.kernel.org, DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 Jul 2018 at 11:21, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
-> pull in arbitrary other resources, including CRTCs (e.g. when
-> reconfiguring global resources).
+On 1/24/2020 11:56 PM, Jordan Crouse wrote:
+> On Fri, Jan 24, 2020 at 05:50:11PM +0530, Akhil P Oommen wrote:
+>> Highest bank bit configuration is different for a618 gpu. Update
+>> it with the correct configuration which is the reset value incidentally.
+>>
+>> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+>> ---
+>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 10 ++++++----
+>>   1 file changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> index daf0780..536d196 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> @@ -470,10 +470,12 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
+>>   	/* Select CP0 to always count cycles */
+>>   	gpu_write(gpu, REG_A6XX_CP_PERFCTR_CP_SEL_0, PERF_CP_ALWAYS_COUNT);
+>>   
+>> -	gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL, 2 << 1);
+>> -	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, 2 << 1);
+>> -	gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL, 2 << 1);
+>> -	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, 2 << 21);
+>> +	if (adreno_is_a630(adreno_gpu)) {
+>> +		gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL, 2 << 1);
+>> +		gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, 2 << 1);
+>> +		gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL, 2 << 1);
+>> +		gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, 2 << 21);
+>> +	}
+> it shouldn't come as a surprise that everything in the a6xx family is going to
+> have a highest bank bit setting. Even though the a618 uses the reset value, I
+> think it would be less confusing to future folks if we explicitly program it:
 >
-> But in nonblocking mode userspace has then no idea this happened,
-> which can lead to spurious EBUSY calls, both:
-> - when that other CRTC is currently busy doing a page_flip the
->   ALLOW_MODESET commit can fail with an EBUSY
-> - on the other CRTC a normal atomic flip can fail with EBUSY because
->   of the additional commit inserted by the kernel without userspace's
->   knowledge
+> if (adreno_is_a630(adreno_dev))
+>    hbb = 2;
+> else
+>    hbb = 0;
+
+I think it would be better if we keep this in the adreno_info. Yes, this 
+would waste a tiny bit of space for other gpu
+entries in the gpulist. It is also possible to move this to a separate 
+struct and keep a pointer to it in the adreno_info.
+But that is something we should try when there are more a6xx specific 
+configurations in future.
+
+I have a new patch, but testing it is taking longer that I expected. I 
+will share it as soon as possible.
+
+> ....
 >
-> For blocking commits this isn't a problem, because everyone else will
-> just block until all the CRTC are reconfigured. Only thing userspace
-> can notice is the dropped frames without any reason for why frames got
-> dropped.
+> Jordan
 >
-> Consensus is that we need new uapi to handle this properly, but no one
-> has any idea what exactly the new uapi should look like. As a stop-gap
-> plug this problem by demoting nonblocking commits which might cause
-> issues by including CRTCs not in the original request to blocking
-> commits.
+Akhil
 
-Thanks for writing this up Daniel, and for reminding me about it some
-time later as well ...
-
-Reviewed-by: Daniel Stone <daniels@collabora.com>
-
-Cheers,
-Daniel
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
