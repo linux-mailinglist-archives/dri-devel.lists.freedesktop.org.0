@@ -1,63 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FD814F3EB
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 22:43:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDF314F3FD
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2020 22:47:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 058FE6FBFE;
-	Fri, 31 Jan 2020 21:43:21 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E7556FBFC
- for <dri-devel@freedesktop.org>; Fri, 31 Jan 2020 21:43:20 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id b79so5307861vsd.9
- for <dri-devel@freedesktop.org>; Fri, 31 Jan 2020 13:43:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=77iC328Ix55f8VFyzEfO2GMt08mqvFscC4bjbzzCOZU=;
- b=EAnJcYHOR3ksx1xu/pw65w6JGYMh2xej0Mc4zDb3jtP78rR15ykv/sZtF0FkjJbSak
- b37qkQE2D14Y3z8vOROlg2MYyd005jIT3q29AlSTbjIBx/pCRxYehOaJ/wQjimcgSSxe
- 6M65uD4rgYGAFuPGbXKpa7AjCV3oL5q6ZOezM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=77iC328Ix55f8VFyzEfO2GMt08mqvFscC4bjbzzCOZU=;
- b=o5MROTPHUFW/OoOlm23cRXw15PnVJMt/TFKPdOp0TE4Cm01ESM3jUvN1a1lq0hTYBA
- qQ+TTdvNLH3J85W4xO6jC+v48q1uq58mfzvlgTRzuuGV9XAiFmazoxoxawxgGqpnNzzJ
- 9GRVo0bJPYhajc9zfEGnhlA7eEYno2IrkUR8ilWNCc7vJmwvbuxVzpHAywTSk6U0k6YC
- hhShcRxrbezCsNehbP45RpGId8AsMBsr73Na59jkA2CKXrp1MEev+SnOaIS8WrOwdSIh
- 2uibZ+l7y7H7O1fQNeP9yFSiOpRSbycWdFg1GrWPRrc8Y15+A1XTiBFx+KTa54kVTlhd
- GI5Q==
-X-Gm-Message-State: APjAAAXloEMfMKciKP93KE1KaYIH9VLtH4yTOoPuNrEJbEqiLsyZAG6L
- 50es8Q63IA7wSwuPjQDuLQwl5mAcIpk=
-X-Google-Smtp-Source: APXvYqwciUQcmveRmkgih97qKeHIyKqY7tkDBMjVRikZRM2vJOSoqcB1p7ZLvmT1rULcXsTVr6sUig==
-X-Received: by 2002:a05:6102:31a3:: with SMTP id
- d3mr8253063vsh.60.1580506998859; 
- Fri, 31 Jan 2020 13:43:18 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com.
- [209.85.222.54])
- by smtp.gmail.com with ESMTPSA id p18sm2990134vke.23.2020.01.31.13.43.17
- for <dri-devel@freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Jan 2020 13:43:18 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id 59so3119732uap.12
- for <dri-devel@freedesktop.org>; Fri, 31 Jan 2020 13:43:17 -0800 (PST)
-X-Received: by 2002:ab0:724c:: with SMTP id d12mr7797680uap.0.1580506997224;
- Fri, 31 Jan 2020 13:43:17 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 683A86FC01;
+	Fri, 31 Jan 2020 21:47:08 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 591FA6E213;
+ Fri, 31 Jan 2020 21:47:06 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2020 13:47:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,387,1574150400"; d="scan'208";a="262691440"
+Received: from helsinki.fi.intel.com ([10.237.66.145])
+ by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2020 13:47:03 -0800
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/18] In order to readout DP SDPs,
+ refactors the handling of DP SDPs 
+Date: Fri, 31 Jan 2020 23:46:43 +0200
+Message-Id: <20200131214701.1085737-1-gwan-gyeong.mun@intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <1580472220-3453-1-git-send-email-smasetty@codeaurora.org>
- <1580472220-3453-2-git-send-email-smasetty@codeaurora.org>
-In-Reply-To: <1580472220-3453-2-git-send-email-smasetty@codeaurora.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 31 Jan 2020 13:43:06 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XJF4KworkHFLoNtxB7d+VyGqZSZkDUdie+09ur1g5thw@mail.gmail.com>
-Message-ID: <CAD=FV=XJF4KworkHFLoNtxB7d+VyGqZSZkDUdie+09ur1g5thw@mail.gmail.com>
-Subject: Re: [PATCH v3] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
-To: Sharat Masetty <smasetty@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +41,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+In order to readout DP SDPs (Secondary Data Packet: DP HDR Metadata
+Infoframe SDP, DP VSC SDP), it refactors handling DP SDPs codes.
+It adds new compute routines for DP HDR Metadata Infoframe SDP
+and DP VSC SDP. 
+And new writing routines of DP SDPs (Secondary Data Packet) that uses
+computed configs.
+New reading routines of DP SDPs are added for readout.
+It adds a logging function for DP VSC SDP.
+When receiving video it is very useful to be able to log DP VSC SDP.
+This greatly simplifies debugging.
+In order to use a common VSC SDP Colorimetry calculating code on PSR,
+it uses a new psr vsc sdp compute routine.
 
-On Fri, Jan 31, 2020 at 4:04 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
->
-> +               adreno_smmu: iommu@5040000 {
-> +                       compatible = "qcom,sc7180-smmu-v2", "qcom,smmu-v2";
-> +                       reg = <0 0x05040000 0 0x10000>;
-> +                       #iommu-cells = <1>;
-> +                       #global-interrupts = <2>;
-> +                       interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
-> +                                       <GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
-> +                                       <GIC_SPI 366 IRQ_TYPE_EDGE_RISING>,
-> +                                       <GIC_SPI 367 IRQ_TYPE_EDGE_RISING>,
-> +                                       <GIC_SPI 368 IRQ_TYPE_EDGE_RISING>,
-> +                                       <GIC_SPI 369 IRQ_TYPE_EDGE_RISING>,
-> +                                       <GIC_SPI 370 IRQ_TYPE_EDGE_RISING>,
-> +                                       <GIC_SPI 371 IRQ_TYPE_EDGE_RISING>;
-> +                       clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +                               <&gcc GCC_GPU_CFG_AHB_CLK>,
-> +                               <&gcc GCC_DDRSS_GPU_AXI_CLK>;
-> +
-> +                       clock-names = "bus", "iface", "mem_iface_clk";
+Gwan-gyeong Mun (18):
+  drm: add DP 1.4 VSC SDP Payload related enums
+  drm/i915: Add DP VSC SDP payload data to intel_crtc_state.infoframes
+  drm/i915/dp: Add compute routine for DP VSC SDP
+  drm/i915/dp: Add compute routine for DP HDR Metadata Infoframe SDP
+  drm/i915/dp: Add writing of DP SDPs (Secondary Data Packet)
+  video/hdmi: Add Unpack only function for DRM infoframe
+  drm/i915/dp: Read out DP SDPs (Secondary Data Packet)
+  drm/i915/dp: Add logging function for DP VSC SDP
+  drm/i915: Include HDMI DRM infoframe in the crtc state dump
+  drm/i915: Include DP HDR Metadata Infoframe SDP in the crtc state dump
+  drm/i915: Include DP VSC SDP in the crtc state dump
+  drm/i915: Program DP SDPs with computed configs
+  drm/i915: Add state readout for DP HDR Metadata Infoframe SDP
+  drm/i915: Add state readout for DP VSC SDP
+  drm/i915: Program DP SDPs on pipe updates
+  drm/i915: Stop sending DP SDPs on intel_ddi_post_disable_dp()
+  drm/i915/dp: Add compute routine for DP PSR VSC SDP
+  drm/i915/psr: Use new DP VSC SDP compute routine on PSR
 
-Repeated comment from v2 feedback:
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  19 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  62 ++
+ .../drm/i915/display/intel_display_types.h    |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 775 ++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_dp.h       |  21 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      |  54 +-
+ drivers/gpu/drm/i915/display/intel_psr.h      |   6 +-
+ drivers/gpu/drm/i915/i915_drv.h               |  12 +
+ drivers/video/hdmi.c                          |  58 +-
+ include/drm/drm_dp_helper.h                   |  45 +
+ include/linux/hdmi.h                          |   2 +
+ 11 files changed, 837 insertions(+), 218 deletions(-)
 
-Please send a patch to:
+-- 
+2.24.1
 
-Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-
-...adding 'qcom,sc7180-smmu-v2'.  If you do this it will point out
-that you've added a new clock: "mem_iface_clk".  Is this truly a new
-clock in sc7180 compared to previous IOMMUs?  ...or is it not really
-needed?
-
-
-> +               gmu: gmu@506a000 {
-> +                       compatible="qcom,adreno-gmu-618.0", "qcom,adreno-gmu";
-> +                       reg = <0 0x0506a000 0 0x31000>, <0 0x0b290000 0 0x10000>,
-> +                               <0 0x0b490000 0 0x10000>;
-> +                       reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
-> +                       interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> +                                  <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-> +                       interrupt-names = "hfi", "gmu";
-> +                       clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-> +                              <&gpucc GPU_CC_CXO_CLK>,
-> +                              <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-> +                              <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
-> +                       clock-names = "gmu", "cxo", "axi", "memnoc";
-> +                       power-domains = <&gpucc CX_GDSC>;
-> +                       power-domain-names = "cx";
-
-As per continued comments on v2, please see if this works for you:
-
-  power-domains = <&gpucc CX_GDSC>, <0>;
-  power-domain-names = "cx", "gx";
-
-...and work to get something more real for "gx" ASAP.  It did seem to
-boot for me and (unless someone disagrees) it seems better than
-totally leaving it out / violating the bindings?
-
-
--Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
