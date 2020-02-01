@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7586514F8BB
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Feb 2020 16:52:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FCC14F8BC
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Feb 2020 16:56:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E00E6E523;
-	Sat,  1 Feb 2020 15:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4878E6E524;
+	Sat,  1 Feb 2020 15:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4BA6E523
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Feb 2020 15:52:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586076E524
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Feb 2020 15:56:12 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206383] [drm] [amdgpu] [TTM] memory leak/out of memory
-Date: Sat, 01 Feb 2020 15:52:35 +0000
+Date: Sat, 01 Feb 2020 15:56:11 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206383-2300-8ohGLBVWry@https.bugzilla.kernel.org/>
+Message-ID: <bug-206383-2300-WqB9klmg4m@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206383-2300@https.bugzilla.kernel.org/>
 References: <bug-206383-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206383
 
---- Comment #1 from Alois Nespor (info@aloisnespor.info) ---
-Created attachment 287055
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287055&action=edit
-lspci
+--- Comment #2 from Alois Nespor (info@aloisnespor.info) ---
+Created attachment 287057
+  --> https://bugzilla.kernel.org/attachment.cgi?id=287057&action=edit
+memory+swap full, system freeze
 
 -- 
 You are receiving this mail because:
