@@ -2,46 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188E214FDEB
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 16:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910B614FDF4
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 16:49:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2EFB6E0C2;
-	Sun,  2 Feb 2020 15:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F031A6EAD3;
+	Sun,  2 Feb 2020 15:49:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B33C66E0C2
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2020 15:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8atPoxc/23YsyjIeJ25uVEXGuVq1GzjxYUCHOEU8uZQ=; b=S1SZWzqHtAsDKjBRxrYRLU5bUG
- XimT0bGxP3S53oioRHW9pFqTdfY8DfEb1l0PqKrAnoARRcqg85ZG67///8iX1AtstK9T71M1AJ/D3
- lLcUNyVTecgMNQ41uk2hf5WobtujpzQEHZ5aPIzxr/UQE/1jw0xWmPdAN6QvsWwSAYIuaUUuZKYP0
- 8Va7nALIyeVYyib27XeGz02+CKWPcaomVTJQmcVJ9QIlpgKkxRbTsVL8H+KaMV5ti/C+1R67qxNRJ
- 0O/YkwFGP3Ly8+TDDwQ7PLxaVdtm9+7DSqhPCudfRGIF/akE/lL0HZ5jLStrpxKvVOkKbq4ovTJuX
- YFFj9bGQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51619
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1iyHTh-0000Yv-1X; Sun, 02 Feb 2020 16:48:05 +0100
-Subject: Re: fbtft: 5 years in staging
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-To: OSUOSL Drivers <devel@driverdev.osuosl.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <a6cef26c-0f4b-47f0-d249-71f53891526b@tronnes.org>
-Message-ID: <402be329-9af7-affb-7519-9d507cb19326@tronnes.org>
-Date: Sun, 2 Feb 2020 16:48:03 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 877DA6EAD4;
+ Sun,  2 Feb 2020 15:49:41 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2020 07:49:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,394,1574150400"; d="scan'208";a="430899883"
+Received: from jghithan-mobl.amr.corp.intel.com (HELO
+ helsinki.ger.corp.intel.com) ([10.251.88.23])
+ by fmsmga006.fm.intel.com with ESMTP; 02 Feb 2020 07:49:39 -0800
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 00/18] In order to readout DP SDPs,
+ refactors the handling of DP SDPs 
+Date: Sun,  2 Feb 2020 17:49:20 +0200
+Message-Id: <20200202154938.1129610-1-gwan-gyeong.mun@intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <a6cef26c-0f4b-47f0-d249-71f53891526b@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,90 +42,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMDIuMDIuMjAyMCAxNi40MSwgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+IEhpLAo+IAo+
-IFNpbmNlIEknbSB0aGUgb3JpZ2luYWwgYXV0aG9yIG9mIGZidGZ0IEkgdGhvdWdodCBJJ2QgaGln
-aGxpZ2h0IGEgY291cGxlCj4gb2YgaXNzdWVzIHRoYXQncyBwcm9iYWJseSBub3Qgd2VsbCBrbm93
-bi4KPiAKPiBSaWdodCBhZnRlciBmYnRmdCB3YXMgYWRkZWQsIGZiZGV2IHdhcyBjbG9zZWQgZm9y
-IG5ldyBkcml2ZXJzWzFdIGFuZAo+IHRoZSBmYmRldiBtYWludGFpbmVyIHdhbnRlZCB0byByZW1v
-dmUgZmJ0ZnQgYXMgYSBjb25zZXF1ZW5jZSBvZiB0aGF0Cj4gZGVjaXNpb24sIGJ1dCBHcmVnIEtI
-IHNhaWQgaGUnZCBrZWVwIGZidGZ0IGRyaXZlcnMgaW4gc3RhZ2luZwo+ICJ1bnRpbCBhIG1hdGNo
-aW5nIERSTSBkcml2ZXIgaXMgcHJlc2VudCBpbiB0aGUgdHJlZSJbMl0uCj4gCj4gVGhlcmUgYXJl
-IDIgaXNzdWVzIHdydCB0aGUgZ29hbCBvZiBtYWtpbmcgYSBtYXRjaGluZyBEUk0gZHJpdmVyCj4g
-KHN0cmljdGx5IHNwZWFraW5nKS4gT25lIGlzIGltcG9zc2libGUgdG8gZG8gKHBvbGljeSksIHRo
-ZSBvdGhlciBpcwo+IHVubGlrZWx5IHRvIGhhcHBlbjoKPiAKPiAxLiBEZXZpY2UgVHJlZSAnaW5p
-dCcgcHJvcGVydHkKPiAKPiBBbGwgZmJ0ZnQgZHJpdmVycyBoYXZlIGNvbnRyb2xsZXIgc2V0dXAg
-Y29kZSB0aGF0IG1hdGNoZXMgb25lCj4gcGFydGljdWxhciBkaXNwbGF5IHBhbmVsLiBGcm9tIHRo
-ZSBzdGFydCBvZiBmYnRmdCBpdCB3YXMgcG9zc2libGUgdG8KPiBvdmVycmlkZSB0aGlzIHVzaW5n
-IHBsYXRmb3JtIGRhdGEuIExhdGVyIHdoZW4gRGV2aWNlIFRyZWUgc3VwcG9ydCB3YXMKPiBhZGRl
-ZCwgYW4gJ2luaXQ9JyBwcm9wZXJ0eSB0byBkbyB0aGUgc2FtZSB3YXMgYWRkZWQuCj4gCj4gRXhh
-bXBsZToKPiAJaW5pdCA9IDwweDEwMDAwZTUgMHg3OEYwCj4gCQkweDEwMDAwMDEgMHgwMTAwCj4g
-CQkweDIwMDAwMzIKPiAJCTB4MTAwMDAwNyAweDAxMzM+Owo+IAo+IFRoaXMgdHJhbnNsYXRlcyB0
-bzoKPiAJcmVnaXN0ZXJfd3JpdGUoMHgwMGU1LCAweDc4RjApOwo+IAlyZWdpc3Rlcl93cml0ZSgw
-eDAwMDEsIDB4MDEwMCk7Cj4gCW1kZWxheSgzMik7Cj4gCXJlZ2lzdGVyX3dyaXRlKDB4MDAwNywg
-MHgwMTMzKTsKPiAKPiBBRkFJVSBzZXR0aW5nIHJlZ2lzdGVyIHZhbHVlcyBmcm9tIERUIGlzIGEg
-bm8tZ28sIHNvIHRoaXMgZnVuY3Rpb25hbGl0eQo+IGNhbid0IGJlIHJlcGxpY2F0ZWQgaW4gYSBE
-Uk0gZHJpdmVyLiBNYW55IGRpc3BsYXlzIGFyZSBtYWRlIHRvIHdvcmsKPiB1c2luZyB0aGlzIG1l
-Y2hhbmlzbSwgaW4gcGFydGljdWxhciBpbGk5MzQxIGJhc2VkIG9uZXMuCj4gCj4gMi4gUGFyYWxs
-ZWwgYnVzIGludGVyZmFjZQo+IAo+IEFsbCBmYnRmdCBkcml2ZXJzIHN1cHBvcnQgYm90aCBhIFNQ
-SSBhbmQgYSBwYXJhbGxlbCBidXMgaW50ZXJmYWNlCj4gdGhyb3VnaCB0aGUgZmJ0ZnQgaGVscGVy
-IG1vZHVsZS4gTWFueSAobm90IGFsbCkgY29udHJvbGxlcnMgc3VwcG9ydCBtb3JlCj4gdGhhbiBv
-bmUgaW50ZXJmYWNlLiBUaGUgcGFyYWxsZWwgYnVzIHN1cHBvcnQgd2FzIGFkZGVkIHRvIGZidGZ0
-IGluIGl0cwo+IGVhcmx5IGRheXMgd2hlbiBub3QgbWFueSBTUEkgZGlzcGxheXMgd2VyZSBhdmFp
-bGFibGUgKG5vd2FkYXlzIHRoZXJlJ3MKPiBsb3RzIHRvIGNob29zZSBmcm9tKS4gZmJ0ZnQgdXNl
-cyBiaXRiYW5naW5nIHRvIGRyaXZlIHRoZSBwYXJhbGxlbAo+IGludGVyZmFjZSBzbyBpdCdzIHJl
-YWxseSBzbG93LCBldmVuIG1vcmUgc2xvdyB0aGFuIFNQSSBhbmQgU1BJIHdpdGggRE1BCj4gYmVh
-dHMgaXQgdGhvcm91Z2hseS4gSSBrbm93IHRoZXJlIGFyZSBwZW9wbGUgdGhhdCB1c2UgdGhlIHBh
-cmFsZWxsIGJ1cwo+IHN1cHBvcnQsIGJ1dCBJIGRvbid0IHNlZSBtdWNoIHBvaW50IGluIGl0IHVu
-bGVzcyB3ZSBnZXQgYSBwYXJhbGxlbCBidXMKPiBzdWJzeXN0ZW0gdGhhdCBjYW4gdXNlIHRoZSBk
-ZWRpY2F0ZWQgaHcgb24gY2VydGFpbiBTb0MncyAoQmVhZ2xlYm9uZSwKPiBQaSkuIEFuZCB0aG9z
-ZSBTT0MncyBtb3N0IGxpa2VseSBoYXZlIGEgcGFyYWxsZWwgdmlkZW8vUkdCIGJ1cyBhcyB3ZWxs
-LAo+IHdoaWNoIElNTyBpcyBhIG11Y2ggYmV0dGVyIG9wdGlvbiBmb3IgYSBwYW5lbC4KPiAKPiAK
-PiBUaGUgZm9sbG93aW5nIGRyaXZlcnMgaGF2ZSBEUk0gY291bnRlcnBhcnRzIHRoYXQgaGF2ZSB0
-aGUgc2FtZSBwYW5lbAo+IHNldHVwIGNvZGU6Cj4gCj4gLSBmYl9oeDgzNTdkLmM6IGRyaXZlcnMv
-Z3B1L2RybS90aW55L2h4ODM1N2QuYwo+IC0gZmJfaWxpOTM0MS5jOiBkcml2ZXJzL2dwdS9kcm0v
-dGlueS9taTAyODNxdC5jCj4gLSBmYl9zdDc3MzVyLmM6IGRyaXZlcnMvZ3B1L2RybS90aW55L3N0
-NzczNXIuYwo+IC0gZmJfaWxpOTQ4Ni5jOiBQYXRjaGVzIGFyZSBwb3N0ZWQgb24gZHJpLWRldmVs
-WzNdCj4gCj4gQnV0IHRoZXkgZG9uJ3Qgc3VwcG9ydCBhbGwgcGFuZWxzIGJhc2VkIG9uIHRoYXQg
-Y29udHJvbGxlciBhbmQgdGhleQo+IGRvbid0IGhhdmUgcGFyYWxsZWwgYnVzIHN1cHBvcnQuCj4g
-Cj4gVGhlcmUgaXMgYWN0dWFsbHkgYWxzbyBhbm90aGVyIG9ic3RhY2xlIGZvciBjb252ZXJzaW9u
-IGFuZCB0aGF0IGlzLCBzb21lCj4gb2YgdGhlIGRpc3BsYXlzIChmb3Igd2hpY2ggdGhlcmUgaXMg
-YnVpbHRpbiBkcml2ZXIgc3VwcG9ydCkgbWlnaHQgYmUKPiBpbXBvc3NpYmxlIHRvIHNvdXJjZSBl
-eGNlcHQgYXMgc2Vjb25kIGhhbmQuIEFuZCBpdCdzIG5vdCBhbHdheXMgb2J2aW91cwo+IHdoaWNo
-IHBhbmVsIGlzIHN1cHBvcnRlZCBieSBhIGNlcnRhaW4gZHJpdmVyLgo+IEF0IGxlYXN0IHRoZSBk
-aXNwbGF5cyBzdXBwb3J0ZWQgYnkgdGhlc2UgZHJpdmVycyBhcmUgbGlzdGVkIGFzCj4gZGlzY29u
-dGludWVkIG9uIHRoZSBmYnRmdCB3aWtpWzRdOgo+IC0gZmJfaHg4MzQwYm4uYwo+IC0gZmJfaHg4
-MzQ3ZC5jCj4gLSBmYl9pbGk5MzIwCj4gCj4gVGhpcyBvbmUgbmV2ZXIgbWFkZSBpdCBmcm9tIGEg
-cHJvdG90eXBlIHRvIGFuIGFjdHVhbCBwcm9kdWN0LCBiZWNhdXNlCj4gaXQgd2FzIHRvbyBzbG93
-Ogo+IC0gZmJfd2F0dGVyb3R0LmMKPiAKPiBJIGhhdmUgbm8gcGxhbnMgdG8gY29udmVydCBmYnRm
-dCBkcml2ZXJzIG15c2VsZiwgYnV0IEkgZmlndXJlZCBhIDUgeWVhcgo+IGFubml2ZXJzYXJ5IHdh
-cyBhIGdvb2QgZXhjdXNlIGZvciBhIHN0YXR1cyB1cGRhdGUuCgpTb21lIGluZm8gZm9yIGFueW9u
-ZSB3YW50aW5nIHRvIGNvbnZlcnQgZmJ0ZnQgZHJpdmVyczoKClRoZSBmb2xsb3dpbmcgZHJpdmVy
-cyBhcmUgTUlQSSBEQkkgY29tcGF0aWJsZSAobGlrZSB0aGUgb25lcyBhbHJlYWR5CmNvbnZlcnRl
-ZCkgd2hpY2ggbWVhbnMgdGhleSBoYXZlIHRoZSBzYW1lIHByb3RvY29sIGFuZCBzaGFyZSBjZXJ0
-YWluCmNvbW1hbmRzLiBUaGV5IGFyZSB2ZXJ5IGVhc3kgdG8gcG9ydCBvdmVyIGZvciBhbnlvbmUg
-d2l0aCBhY2Nlc3MgdG8Kc3VjaCBhIGRpc3BsYXkuCgotIGZiX2h4ODM0MGJuLmMKLSBmYl9oeDgz
-NTNkLmMKLSBmYl9pbGk5MzQwLmMKLSBmYl9pbGk5NDgxLmMKLSBmYl9zNmQwMmExLmMKLSBmYl9z
-dDc3ODl2LmMKLSBmYl90aW55bGNkLmMgKHByb2JhYmx5IGhhcyBhbiBpbGk5NDg2IGNoaXApCi0g
-ZmJfaWxpOTE2My5jCgoobGlicmFyeTogZHJpdmVycy9ncHUvZHJtL2RybV9taXBpX2RiaS5jKQoK
-VGhlcmUgaXMgYWxzbyBhbiBvdXQtb2YtdHJlZSBpbGk5MzI1IGRyaXZlciB0aGF0IHN1cHBvcnRz
-IHRoZSBwcm90b2NvbAp1c2VkIGJ5IGZiX2lsaTkzMjAgYW5kIGZiX2lsaTkzMjUsIGJ1dCBpdCBk
-b2Vzbid0IHN1cHBvcnQgdGhlaXIgcGFuZWxzCihhdCBsZWFzdCB0aGUgcmVnaXN0ZXIgdmFsdWVz
-IGRpZmZlcik6Cmh0dHBzOi8vZ2l0aHViLmNvbS9ub3Ryby90aW55ZHJtL2Jsb2IvbWFzdGVyL2ls
-aTkzMjUuYwoKPiAKPiBOb3JhbGYuCj4gCj4gWzFdIGh0dHBzOi8vbGttbC5vcmcvbGttbC8yMDE1
-LzkvMjQvMjUzCj4gWzJdIGh0dHBzOi8vbGttbC5vcmcvbGttbC8yMDE2LzExLzIzLzE0Ngo+IFsz
-XSBodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvc2VyaWVzLzcyNjQ1Lwo+IFs0XSBo
-dHRwczovL2dpdGh1Yi5jb20vbm90cm8vZmJ0ZnQvd2lraS9MQ0QtTW9kdWxlcyNkaXNjb250aW51
-ZWQtcHJvZHVjdHMKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+In order to readout DP SDPs (Secondary Data Packet: DP HDR Metadata
+Infoframe SDP, DP VSC SDP), it refactors handling DP SDPs codes.
+It adds new compute routines for DP HDR Metadata Infoframe SDP
+and DP VSC SDP. 
+And new writing routines of DP SDPs (Secondary Data Packet) that uses
+computed configs.
+New reading routines of DP SDPs are added for readout.
+It adds a logging function for DP VSC SDP.
+When receiving video it is very useful to be able to log DP VSC SDP.
+This greatly simplifies debugging.
+In order to use a common VSC SDP Colorimetry calculating code on PSR,
+it uses a new psr vsc sdp compute routine.
+
+v2: Minor style fix
+
+Gwan-gyeong Mun (18):
+  drm: add DP 1.4 VSC SDP Payload related enums
+  drm/i915: Add DP VSC SDP payload data to intel_crtc_state.infoframes
+  drm/i915/dp: Add compute routine for DP VSC SDP
+  drm/i915/dp: Add compute routine for DP HDR Metadata Infoframe SDP
+  drm/i915/dp: Add writing of DP SDPs (Secondary Data Packet)
+  video/hdmi: Add Unpack only function for DRM infoframe
+  drm/i915/dp: Read out DP SDPs (Secondary Data Packet)
+  drm/i915/dp: Add logging function for DP VSC SDP
+  drm/i915: Include HDMI DRM infoframe in the crtc state dump
+  drm/i915: Include DP HDR Metadata Infoframe SDP in the crtc state dump
+  drm/i915: Include DP VSC SDP in the crtc state dump
+  drm/i915: Program DP SDPs with computed configs
+  drm/i915: Add state readout for DP HDR Metadata Infoframe SDP
+  drm/i915: Add state readout for DP VSC SDP
+  drm/i915: Program DP SDPs on pipe updates
+  drm/i915: Stop sending DP SDPs on intel_ddi_post_disable_dp()
+  drm/i915/dp: Add compute routine for DP PSR VSC SDP
+  drm/i915/psr: Use new DP VSC SDP compute routine on PSR
+
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  19 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  61 ++
+ .../drm/i915/display/intel_display_types.h    |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 777 ++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_dp.h       |  21 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      |  54 +-
+ drivers/gpu/drm/i915/display/intel_psr.h      |   6 +-
+ drivers/gpu/drm/i915/i915_drv.h               |  12 +
+ drivers/video/hdmi.c                          |  58 +-
+ include/drm/drm_dp_helper.h                   |  45 +
+ include/linux/hdmi.h                          |   2 +
+ 11 files changed, 838 insertions(+), 218 deletions(-)
+
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
