@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8260314FAFA
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 00:39:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 424BF14FB4B
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 04:02:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C412D6E546;
-	Sat,  1 Feb 2020 23:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4794E6E85D;
+	Sun,  2 Feb 2020 03:01:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0151.hostedemail.com
- [216.40.44.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9FB56E546
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Feb 2020 23:38:56 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay08.hostedemail.com (Postfix) with ESMTP id A4059182CED28;
- Sat,  1 Feb 2020 23:38:53 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com,
- :::::::::::::::::::,
- RULES_HIT:41:355:379:599:967:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2525:2560:2563:2682:2685:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3622:3865:3867:3868:3870:3871:3872:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:5007:6119:8957:9025:10004:10400:10848:11026:11232:11657:11658:11914:12043:12297:12438:12555:12740:12760:12895:12986:13069:13311:13357:13439:14181:14659:14721:21080:21433:21451:21611:21627:21740:21795:21990:30051:30054:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:2, LUA_SUMMARY:none
-X-HE-Tag: flock06_30532222dbd16
-X-Filterd-Recvd-Size: 2806
-Received: from XPS-9350.home (unknown [47.151.135.224])
- (Authenticated sender: joe@perches.com)
- by omf03.hostedemail.com (Postfix) with ESMTPA;
- Sat,  1 Feb 2020 23:38:51 +0000 (UTC)
-Message-ID: <b9b671508d478469c1ad43206dd29d770bfb7818.camel@perches.com>
-Subject: Re: [PATCH] drm/amdkfd: Make process queues logs less verbose
-From: Joe Perches <joe@perches.com>
-To: Julian Sax <jsbc@gmx.de>, amd-gfx@lists.freedesktop.org
-Date: Sat, 01 Feb 2020 15:37:43 -0800
-In-Reply-To: <20200201231101.2127964-1-jsbc@gmx.de>
-References: <20200201231101.2127964-1-jsbc@gmx.de>
-User-Agent: Evolution 3.34.1-2 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04D9F6E85D
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2020 03:01:55 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206387] New: amdgpu with amdgpu.dc=1 and multiple monitors on
+ DisplayPort keeps changing devices
+Date: Sun, 02 Feb 2020 03:01:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexpereira@disroot.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-206387-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,62 +52,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 2020-02-02 at 00:11 +0100, Julian Sax wrote:
-> During normal usage, especially if jobs are started and stopped in rapid
-> succession, the kernel log is filled with messages like this:
-> 
-> [38732.522910] Restoring PASID 0x8003 queues
-> [38732.666767] Evicting PASID 0x8003 queues
-> [38732.714074] Restoring PASID 0x8003 queues
-> [38732.815633] Evicting PASID 0x8003 queues
-> [38732.834961] Restoring PASID 0x8003 queues
-> [38732.840536] Evicting PASID 0x8003 queues
-> [38732.869846] Restoring PASID 0x8003 queues
-> [38732.893655] Evicting PASID 0x8003 queues
-> [38732.927975] Restoring PASID 0x8003 queues
-> 
-> According to [1], these messages are expected, but they carry little
-> value for the end user, so turn them into debug messages.
-> 
-> [1] https://github.com/RadeonOpenCompute/ROCm/issues/343
+https://bugzilla.kernel.org/show_bug.cgi?id=206387
 
-trivia:
+            Bug ID: 206387
+           Summary: amdgpu with amdgpu.dc=1 and multiple monitors on
+                    DisplayPort keeps changing devices
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.5.0
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: alexpereira@disroot.org
+        Regression: No
 
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-[]
-> @@ -604,7 +604,7 @@ static int evict_process_queues_nocpsch(struct device_queue_manager *dqm,
->  		goto out;
-> 
->  	pdd = qpd_to_pdd(qpd);
-> -	pr_info_ratelimited("Evicting PASID 0x%x queues\n",
-> +	pr_debug_ratelimited("Evicting PASID 0x%x queues\n",
->  			    pdd->process->pasid);
+Hi,
 
-It would be nicer to realign all the subsequent lines in a
-single statement to the now moved open parenthesis.
+I have an amd rx580 with 2 monitors connected by display port.
+The 2 monitors are the same brand and model.
 
-> 
->  	/* Mark all queues as evicted. Deactivate all active queues on
-> @@ -650,7 +650,7 @@ static int evict_process_queues_cpsch(struct device_queue_manager *dqm,
->  		goto out;
-> 
->  	pdd = qpd_to_pdd(qpd);
-> -	pr_info_ratelimited("Evicting PASID 0x%x queues\n",
-> +	pr_debug_ratelimited("Evicting PASID 0x%x queues\n",
->  			    pdd->process->pasid);
+When using the amdgpu driver with amdgpu.dc=0, the device names ( DisplayPort-2
+and DisplayPort-3 ) stay consistent, but when using amdgpu.dc=1, the device
+names change randomly ( or at least not consistent ).
+They sometimes are DisplayPort-4 and DisplayPort-5 , sometimes DisplayPort-4
+and DisplayPort-6, making me have to configure Xorg at every boot ( to correct
+the placement of the monitors, which is left and which is right ) and configure
+kde plasma and sway ( because they base their configurations on the device
+names ).
 
-etc...
+Currently I switched to using amdgpu.dc=1 because amdgpu.dc=0 locks computer
+after a wake up from suspend ( with amdgpu.dc=1 it does not ).
 
+Thanks !
 
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
