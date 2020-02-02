@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9476E14FF21
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 21:42:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92FBA14FF22
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 21:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71F2A6E118;
-	Sun,  2 Feb 2020 20:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAAE56E119;
+	Sun,  2 Feb 2020 20:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 347156E118
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2020 20:42:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 966EA6E119
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2020 20:42:46 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206393] New: amdgpu: garbled screen after resume
-Date: Sun, 02 Feb 2020 20:42:14 +0000
+Subject: [Bug 206393] amdgpu: garbled screen after resume
+Date: Sun, 02 Feb 2020 20:42:46 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -32,10 +32,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-206393-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-206393-2300-m9sCuEWJsP@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206393-2300@https.bugzilla.kernel.org/>
+References: <bug-206393-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -58,31 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206393
 
-            Bug ID: 206393
-           Summary: amdgpu: garbled screen after resume
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.5.1-arch1, 5.5-arch1
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: bjo@nord-west.org
-        Regression: No
-
-Created attachment 287081
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287081&action=edit
-garbled screen
-
-On a Thinkpad A275 with a Radeon R5/R6/R7 (verbose lspci attached) the screen
-is garbled after resume. First a black screen appears and then more and more
-white pixels appear from the border to the middle of the screen.
-
-Restarting the X-session via SSH does not help, the VTs are also inaccessible.
+--- Comment #1 from Bjoern Franke (bjo@nord-west.org) ---
+Created attachment 287083
+  --> https://bugzilla.kernel.org/attachment.cgi?id=287083&action=edit
+dmesg
 
 -- 
 You are receiving this mail because:
