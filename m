@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7B614FE91
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 18:18:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55D914FE8D
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 18:17:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111CD6EB10;
-	Sun,  2 Feb 2020 17:18:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9473E6EB16;
+	Sun,  2 Feb 2020 17:16:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB836EB10;
- Sun,  2 Feb 2020 17:18:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 451916EB0F;
+ Sun,  2 Feb 2020 17:16:45 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
 Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20091965-1500050 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20091966-1500050 
  for multiple; Sun, 02 Feb 2020 17:16:36 +0000
 From: Chris Wilson <chris@chris-wilson.co.uk>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/5] drm/i915: Wean off drm_pci_alloc/drm_pci_free
-Date: Sun,  2 Feb 2020 17:16:34 +0000
-Message-Id: <20200202171635.4039044-4-chris@chris-wilson.co.uk>
+Subject: [PATCH 5/5] drm: Remove exports for drm_pci_alloc/drm_pci_free
+Date: Sun,  2 Feb 2020 17:16:35 +0000
+Message-Id: <20200202171635.4039044-5-chris@chris-wilson.co.uk>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
 References: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
@@ -38,262 +38,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_pci_alloc and drm_pci_free are just very thin wrappers around
-dma_alloc_coherent, with a note that we should be removing them.
-Furthermore since
+The drm_pci_alloc routines have been a thin wrapper around the core dma
+coherent routines. Remove the crutch of a wrapper and the exported
+symbols, marking it for only internal legacy use.
 
-commit de09d31dd38a50fdce106c15abd68432eebbd014
-Author: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Date:   Fri Jan 15 16:51:42 2016 -0800
-
-    page-flags: define PG_reserved behavior on compound pages
-
-    As far as I can see there's no users of PG_reserved on compound pages.
-    Let's use PF_NO_COMPOUND here.
-
-drm_pci_alloc has been declared broken since it mixes GFP_COMP and
-SetPageReserved. Avoid this conflict by weaning ourselves off using the
-abstraction and using the dma functions directly.
-
-Reported-by: Taketo Kabe
-Closes: https://gitlab.freedesktop.org/drm/intel/issues/1027
-Fixes: de09d31dd38a ("page-flags: define PG_reserved behavior on compound pages")
 Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: <stable@vger.kernel.org> # v4.5+
 ---
- drivers/gpu/drm/i915/display/intel_display.c  |  2 +-
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |  3 -
- drivers/gpu/drm/i915/gem/i915_gem_phys.c      | 98 ++++++++++---------
- drivers/gpu/drm/i915/i915_gem.c               |  8 +-
- 4 files changed, 55 insertions(+), 56 deletions(-)
+ drivers/gpu/drm/drm_bufs.c   |  5 +++--
+ drivers/gpu/drm/drm_legacy.h | 23 +++++++++++++++++++++++
+ drivers/gpu/drm/drm_pci.c    | 31 ++++++-------------------------
+ include/drm/drm_pci.h        | 18 ------------------
+ 4 files changed, 32 insertions(+), 45 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index b0af37fb6d4a..1f584263aa97 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -11234,7 +11234,7 @@ static u32 intel_cursor_base(const struct intel_plane_state *plane_state)
- 	u32 base;
- 
- 	if (INTEL_INFO(dev_priv)->display.cursor_needs_physical)
--		base = obj->phys_handle->busaddr;
-+		base = sg_dma_address(obj->mm.pages->sgl);
- 	else
- 		base = intel_plane_ggtt_offset(plane_state);
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index f64ad77e6b1e..c2174da35bb0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -285,9 +285,6 @@ struct drm_i915_gem_object {
- 
- 		void *gvt_info;
- 	};
--
--	/** for phys allocated objects */
--	struct drm_dma_handle *phys_handle;
- };
- 
- static inline struct drm_i915_gem_object *
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_phys.c b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-index b1b7c1b3038a..b07bb40edd5a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-@@ -22,88 +22,87 @@
- static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
- {
- 	struct address_space *mapping = obj->base.filp->f_mapping;
--	struct drm_dma_handle *phys;
--	struct sg_table *st;
- 	struct scatterlist *sg;
--	char *vaddr;
-+	struct sg_table *st;
-+	dma_addr_t dma;
-+	void *vaddr;
-+	void *dst;
- 	int i;
--	int err;
- 
- 	if (WARN_ON(i915_gem_object_needs_bit17_swizzle(obj)))
- 		return -EINVAL;
- 
--	/* Always aligning to the object size, allows a single allocation
-+	/*
-+	 * Always aligning to the object size, allows a single allocation
- 	 * to handle all possible callers, and given typical object sizes,
- 	 * the alignment of the buddy allocation will naturally match.
- 	 */
--	phys = drm_pci_alloc(obj->base.dev,
--			     roundup_pow_of_two(obj->base.size),
--			     roundup_pow_of_two(obj->base.size));
--	if (!phys)
-+	vaddr = dma_alloc_coherent(&obj->base.dev->pdev->dev,
-+				   roundup_pow_of_two(obj->base.size),
-+				   &dma, GFP_KERNEL);
-+	if (!vaddr)
- 		return -ENOMEM;
- 
--	vaddr = phys->vaddr;
-+	st = kmalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		goto err_pci;
-+
-+	if (sg_alloc_table(st, 1, GFP_KERNEL))
-+		goto err_st;
-+
-+	sg = st->sgl;
-+	sg->offset = 0;
-+	sg->length = obj->base.size;
-+
-+	sg_assign_page(sg, (struct page *)vaddr);
-+	sg_dma_address(sg) = dma;
-+	sg_dma_len(sg) = obj->base.size;
-+
-+	dst = vaddr;
- 	for (i = 0; i < obj->base.size / PAGE_SIZE; i++) {
- 		struct page *page;
--		char *src;
-+		void *src;
- 
- 		page = shmem_read_mapping_page(mapping, i);
--		if (IS_ERR(page)) {
--			err = PTR_ERR(page);
--			goto err_phys;
--		}
-+		if (IS_ERR(page))
-+			goto err_st;
- 
- 		src = kmap_atomic(page);
--		memcpy(vaddr, src, PAGE_SIZE);
--		drm_clflush_virt_range(vaddr, PAGE_SIZE);
-+		memcpy(dst, src, PAGE_SIZE);
-+		drm_clflush_virt_range(dst, PAGE_SIZE);
- 		kunmap_atomic(src);
- 
- 		put_page(page);
--		vaddr += PAGE_SIZE;
-+		dst += PAGE_SIZE;
- 	}
- 
- 	intel_gt_chipset_flush(&to_i915(obj->base.dev)->gt);
- 
--	st = kmalloc(sizeof(*st), GFP_KERNEL);
--	if (!st) {
--		err = -ENOMEM;
--		goto err_phys;
--	}
--
--	if (sg_alloc_table(st, 1, GFP_KERNEL)) {
--		kfree(st);
--		err = -ENOMEM;
--		goto err_phys;
--	}
--
--	sg = st->sgl;
--	sg->offset = 0;
--	sg->length = obj->base.size;
--
--	sg_dma_address(sg) = phys->busaddr;
--	sg_dma_len(sg) = obj->base.size;
--
--	obj->phys_handle = phys;
--
- 	__i915_gem_object_set_pages(obj, st, sg->length);
- 
- 	return 0;
- 
--err_phys:
--	drm_pci_free(obj->base.dev, phys);
--
--	return err;
-+err_st:
-+	kfree(st);
-+err_pci:
-+	dma_free_coherent(&obj->base.dev->pdev->dev,
-+			  roundup_pow_of_two(obj->base.size),
-+			  vaddr, dma);
-+	return -ENOMEM;
- }
- 
- static void
- i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
- 			       struct sg_table *pages)
- {
-+	dma_addr_t dma = sg_dma_address(pages->sgl);
-+	void *vaddr = sg_page(pages->sgl);
-+
- 	__i915_gem_object_release_shmem(obj, pages, false);
- 
- 	if (obj->mm.dirty) {
- 		struct address_space *mapping = obj->base.filp->f_mapping;
--		char *vaddr = obj->phys_handle->vaddr;
-+		void *src = vaddr;
- 		int i;
- 
- 		for (i = 0; i < obj->base.size / PAGE_SIZE; i++) {
-@@ -115,15 +114,16 @@ i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
- 				continue;
- 
- 			dst = kmap_atomic(page);
--			drm_clflush_virt_range(vaddr, PAGE_SIZE);
--			memcpy(dst, vaddr, PAGE_SIZE);
-+			drm_clflush_virt_range(src, PAGE_SIZE);
-+			memcpy(dst, src, PAGE_SIZE);
- 			kunmap_atomic(dst);
- 
- 			set_page_dirty(page);
- 			if (obj->mm.madv == I915_MADV_WILLNEED)
- 				mark_page_accessed(page);
- 			put_page(page);
--			vaddr += PAGE_SIZE;
-+
-+			src += PAGE_SIZE;
+diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+index 19297e58b232..a33df3744f76 100644
+--- a/drivers/gpu/drm/drm_bufs.c
++++ b/drivers/gpu/drm/drm_bufs.c
+@@ -675,7 +675,7 @@ static void drm_cleanup_buf_error(struct drm_device *dev,
+ 	if (entry->seg_count) {
+ 		for (i = 0; i < entry->seg_count; i++) {
+ 			if (entry->seglist[i]) {
+-				drm_pci_free(dev, entry->seglist[i]);
++				drm_legacy_pci_free(dev, entry->seglist[i]);
+ 			}
  		}
- 		obj->mm.dirty = false;
- 	}
-@@ -131,7 +131,9 @@ i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
- 	sg_free_table(pages);
- 	kfree(pages);
+ 		kfree(entry->seglist);
+@@ -975,7 +975,8 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
  
--	drm_pci_free(obj->base.dev, obj->phys_handle);
-+	dma_free_coherent(&obj->base.dev->pdev->dev,
-+			  roundup_pow_of_two(obj->base.size),
-+			  vaddr, dma);
+ 	while (entry->buf_count < count) {
+ 
+-		dmah = drm_pci_alloc(dev, PAGE_SIZE << page_order, 0x1000);
++		dmah = drm_legacy_pci_alloc(dev,
++					    PAGE_SIZE << page_order, 0x1000);
+ 
+ 		if (!dmah) {
+ 			/* Set count correctly so we free the proper amount. */
+diff --git a/drivers/gpu/drm/drm_legacy.h b/drivers/gpu/drm/drm_legacy.h
+index 1be3ea320474..3853b45341c7 100644
+--- a/drivers/gpu/drm/drm_legacy.h
++++ b/drivers/gpu/drm/drm_legacy.h
+@@ -36,6 +36,7 @@
+ 
+ struct agp_memory;
+ struct drm_device;
++struct drm_dma_handle;
+ struct drm_file;
+ struct drm_buf_desc;
+ 
+@@ -211,4 +212,26 @@ void drm_master_legacy_init(struct drm_master *master);
+ static inline void drm_master_legacy_init(struct drm_master *master) {}
+ #endif
+ 
++
++#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
++
++struct drm_dma_handle *
++drm_legacy_pci_alloc(struct drm_device *dev, size_t size, size_t align);
++void drm_legacy_pci_free(struct drm_device *dev, struct drm_dma_handle * dmah);
++
++#else
++
++static inline struct drm_dma_handle *
++drm_legacy_pci_alloc(struct drm_device *dev, size_t size, size_t align)
++{
++	return NULL;
++}
++
++static inline void drm_legacy_pci_free(struct drm_device *dev,
++				       struct drm_dma_handle *dmah)
++{
++}
++
++#endif
++
+ #endif /* __DRM_LEGACY_H__ */
+diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+index c6bb98729a26..12239498538c 100644
+--- a/drivers/gpu/drm/drm_pci.c
++++ b/drivers/gpu/drm/drm_pci.c
+@@ -36,19 +36,10 @@
+ #include "drm_internal.h"
+ #include "drm_legacy.h"
+ 
+-/**
+- * drm_pci_alloc - Allocate a PCI consistent memory block, for DMA.
+- * @dev: DRM device
+- * @size: size of block to allocate
+- * @align: alignment of block
+- *
+- * FIXME: This is a needless abstraction of the Linux dma-api and should be
+- * removed.
+- *
+- * Return: A handle to the allocated memory block on success or NULL on
+- * failure.
+- */
+-drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t align)
++#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
++
++drm_dma_handle_t *
++drm_legacy_pci_alloc(struct drm_device * dev, size_t size, size_t align)
+ {
+ 	drm_dma_handle_t *dmah;
+ 
+@@ -76,24 +67,14 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
+ 	return dmah;
  }
  
- static void phys_release(struct drm_i915_gem_object *obj)
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 7245e056ce77..a712e60b016a 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -180,7 +180,7 @@ i915_gem_phys_pwrite(struct drm_i915_gem_object *obj,
- 		     struct drm_i915_gem_pwrite *args,
- 		     struct drm_file *file)
+-EXPORT_SYMBOL(drm_pci_alloc);
+-
+-/**
+- * drm_pci_free - Free a PCI consistent memory block
+- * @dev: DRM device
+- * @dmah: handle to memory block
+- *
+- * FIXME: This is a needless abstraction of the Linux dma-api and should be
+- * removed.
+- */
+-void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
++void drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
  {
--	void *vaddr = obj->phys_handle->vaddr + args->offset;
-+	void *vaddr = sg_page(obj->mm.pages->sgl) + args->offset;
- 	char __user *user_data = u64_to_user_ptr(args->data_ptr);
+ 	dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
+ 			  dmah->busaddr);
+ 	kfree(dmah);
+ }
  
- 	/*
-@@ -844,10 +844,10 @@ i915_gem_pwrite_ioctl(struct drm_device *dev, void *data,
- 		ret = i915_gem_gtt_pwrite_fast(obj, args);
+-EXPORT_SYMBOL(drm_pci_free);
++#endif
  
- 	if (ret == -EFAULT || ret == -ENOSPC) {
--		if (obj->phys_handle)
--			ret = i915_gem_phys_pwrite(obj, args, file);
--		else
-+		if (i915_gem_object_has_struct_page(obj))
- 			ret = i915_gem_shmem_pwrite(obj, args);
-+		else
-+			ret = i915_gem_phys_pwrite(obj, args, file);
- 	}
+ static int drm_get_pci_domain(struct drm_device *dev)
+ {
+diff --git a/include/drm/drm_pci.h b/include/drm/drm_pci.h
+index 9031e217b506..cade5b60b643 100644
+--- a/include/drm/drm_pci.h
++++ b/include/drm/drm_pci.h
+@@ -34,34 +34,16 @@
  
- 	i915_gem_object_unpin_pages(obj);
+ #include <linux/pci.h>
+ 
+-struct drm_dma_handle;
+-struct drm_device;
+ struct drm_driver;
+-struct drm_master;
+ 
+ #ifdef CONFIG_PCI
+ 
+-struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev, size_t size,
+-				     size_t align);
+-void drm_pci_free(struct drm_device *dev, struct drm_dma_handle * dmah);
+-
+ int drm_get_pci_dev(struct pci_dev *pdev,
+ 		    const struct pci_device_id *ent,
+ 		    struct drm_driver *driver);
+ 
+ #else
+ 
+-static inline struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev,
+-						   size_t size, size_t align)
+-{
+-	return NULL;
+-}
+-
+-static inline void drm_pci_free(struct drm_device *dev,
+-				struct drm_dma_handle *dmah)
+-{
+-}
+-
+ static inline int drm_get_pci_dev(struct pci_dev *pdev,
+ 				  const struct pci_device_id *ent,
+ 				  struct drm_driver *driver)
 -- 
 2.25.0
 
