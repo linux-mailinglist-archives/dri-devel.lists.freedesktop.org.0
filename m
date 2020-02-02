@@ -1,32 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1429414FDF7
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 16:49:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D939814FDFD
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 16:49:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3338A890FF;
-	Sun,  2 Feb 2020 15:49:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A78E6EADB;
+	Sun,  2 Feb 2020 15:49:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C4FA6EAD7;
- Sun,  2 Feb 2020 15:49:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 556AC6EAD8;
+ Sun,  2 Feb 2020 15:49:43 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2020 07:49:41 -0800
+ 02 Feb 2020 07:49:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,394,1574150400"; d="scan'208";a="430899884"
+X-IronPort-AV: E=Sophos;i="5.70,394,1574150400"; d="scan'208";a="430899889"
 Received: from jghithan-mobl.amr.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.251.88.23])
- by fmsmga006.fm.intel.com with ESMTP; 02 Feb 2020 07:49:40 -0800
+ by fmsmga006.fm.intel.com with ESMTP; 02 Feb 2020 07:49:42 -0800
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 01/18] drm: add DP 1.4 VSC SDP Payload related enums
-Date: Sun,  2 Feb 2020 17:49:21 +0200
-Message-Id: <20200202154938.1129610-2-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v2 02/18] drm/i915: Add DP VSC SDP payload data to
+ intel_crtc_state.infoframes
+Date: Sun,  2 Feb 2020 17:49:22 +0200
+Message-Id: <20200202154938.1129610-3-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200202154938.1129610-1-gwan-gyeong.mun@intel.com>
 References: <20200202154938.1129610-1-gwan-gyeong.mun@intel.com>
@@ -49,76 +50,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It adds new enumeration definitions for VSC SDP Payload for Pixel
-Encoding/Colorimetry Format.
+In order to support state readout for DP VSC SDP, we need to have a
+structure which holds DP VSC SDP payload data such as
+"union hdmi_infoframe drm" which is used for DRM infoframe.
 
-enum dp_colorspace and enum dp_colorimetry correspond "Pixel Encoding and
-Colorimetry Formats". enum dp_dynamic_range corresponds "Dynamic Range".
-And enum dp_content_type corresponds "Content Type"
-All of them are based on DP 1.4 spec [Table 2-117: VSC SDP Payload for
-DB16 through DB18].
+And In order to support DP HDR10, we have to support VSC SDP and
+HDR Metadata Infoframe SDP. As we will use drm member variable of
+intel_crtc_state.infoframes, we only need to add vsc sdp member variable
+to intel_crtc_state.infoframes.
+
+Because DP SDP payload type does not have common structure like as
+"union hdmi_infoframe", it adds "struct intel_dp_vsc_sdp"
+to intel_display_types.h
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 ---
- include/drm/drm_dp_helper.h | 45 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display_types.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 262faf9e5e94..86b1be958a69 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1209,6 +1209,51 @@ struct dp_sdp {
- #define EDP_VSC_PSR_UPDATE_RFB		(1<<1)
- #define EDP_VSC_PSR_CRC_VALUES_VALID	(1<<2)
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 33ba93863488..81112d63342c 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -780,6 +780,17 @@ enum intel_output_format {
+ 	INTEL_OUTPUT_FORMAT_YCBCR444,
+ };
  
-+/* Based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 through DB18] */
-+enum dp_colorspace {
-+	DP_COLORSPACE_RGB = 0,
-+	DP_COLORSPACE_YUV444 = 0x1,
-+	DP_COLORSPACE_YUV422 = 0x2,
-+	DP_COLORSPACE_YUV420 = 0x3,
-+	DP_COLORSPACE_Y_ONLY = 0x4,
-+	DP_COLORSPACE_RAW = 0x5,
-+	DP_COLORSPACE_RESERVED = 0x6,
++struct intel_dp_vsc_sdp {
++	unsigned char sdp_type; /* Secondary-data Packet Type */
++	unsigned char revision; /* Revision Number */
++	unsigned char length; /* Number of Valid Data Bytes */
++	enum dp_colorspace colorspace;
++	enum dp_colorimetry colorimetry;
++	int bpc;
++	enum dp_dynamic_range dynamic_range;
++	enum dp_content_type content_type;
 +};
 +
-+/**
-+ * Based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 through DB18]
-+ * and a name of enum member followes DRM_MODE_COLORIMETRY definition.
-+ */
-+enum dp_colorimetry {
-+	DP_COLORIMETRY_DEFAULT = 0, /* sRGB (IEC 61966-2-1) / ITU-R BT.601 */
-+	DP_COLORIMETRY_RGB_WIDE_FIXED = 0x1,
-+	DP_COLORIMETRY_BT709_YCC = 0x1,
-+	DP_COLORIMETRY_RGB_WIDE_FLOAT = 0x2,
-+	DP_COLORIMETRY_XVYCC_601 = 0x2,
-+	DP_COLORIMETRY_OPRGB = 0x3,
-+	DP_COLORIMETRY_XVYCC_709 = 0x3,
-+	DP_COLORIMETRY_DCI_P3_RGB = 0x4,
-+	DP_COLORIMETRY_SYCC_601 = 0x4,
-+	DP_COLORIMETRY_RGB_CUSTOM = 0x5,
-+	DP_COLORIMETRY_OPYCC_601 = 0x5,
-+	DP_COLORIMETRY_BT2020_RGB = 0x6,
-+	DP_COLORIMETRY_BT2020_CYCC = 0x6,
-+	DP_COLORIMETRY_BT2020_YCC = 0x7,
-+};
-+
-+enum dp_dynamic_range {
-+	DP_DYNAMIC_RANGE_VESA = 0,
-+	DP_DYNAMIC_RANGE_CTA = 1,
-+};
-+
-+enum dp_content_type {
-+	DP_CONTENT_TYPE_NOT_DEFINED = 0x00,
-+	DP_CONTENT_TYPE_GRAPHICS = 0x01,
-+	DP_CONTENT_TYPE_PHOTO = 0x02,
-+	DP_CONTENT_TYPE_VIDEO = 0x03,
-+	DP_CONTENT_TYPE_GAME = 0x04,
-+};
-+
- int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+ struct intel_crtc_state {
+ 	/*
+ 	 * uapi (drm) state. This is the software state shown to userspace.
+@@ -1021,6 +1032,7 @@ struct intel_crtc_state {
+ 		union hdmi_infoframe spd;
+ 		union hdmi_infoframe hdmi;
+ 		union hdmi_infoframe drm;
++		struct intel_dp_vsc_sdp vsc;
+ 	} infoframes;
  
- static inline int
+ 	/* HDMI scrambling status */
 -- 
 2.24.1
 
