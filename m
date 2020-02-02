@@ -1,28 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B8014FE8B
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 18:16:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E389A14FE87
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 18:16:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 984AE6EB14;
-	Sun,  2 Feb 2020 17:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 380386EB0A;
+	Sun,  2 Feb 2020 17:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 311C56EB0C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4376EB0E;
  Sun,  2 Feb 2020 17:16:45 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
 Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20091963-1500050 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20091964-1500050 
  for multiple; Sun, 02 Feb 2020 17:16:36 +0000
 From: Chris Wilson <chris@chris-wilson.co.uk>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/5] drm: Remove the dma_alloc_coherent wrapper for internal
- usage
-Date: Sun,  2 Feb 2020 17:16:32 +0000
-Message-Id: <20200202171635.4039044-2-chris@chris-wilson.co.uk>
+Subject: [PATCH 3/5] drm/r128: Wean off drm_pci_alloc
+Date: Sun,  2 Feb 2020 17:16:33 +0000
+Message-Id: <20200202171635.4039044-3-chris@chris-wilson.co.uk>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
 References: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
@@ -45,157 +44,119 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Internally for "consistent" maps, we create a temporary struct
-drm_dma_handle in order to user our own dma_alloc_coherent wrapper then
-destroy the temporary wrap. Simplify our logic by removing the temporary
-wrapper!
+drm_pci_alloc is a thin wrapper over dma_coherent_alloc. Ditch the
+wrapper and just use the dma routines directly.
 
 Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 ---
- drivers/gpu/drm/drm_bufs.c | 20 +++++++++-----------
- drivers/gpu/drm/drm_pci.c  | 15 ++-------------
- drivers/gpu/drm/drm_vm.c   | 10 ++++------
- include/drm/drm_legacy.h   |  6 ------
- 4 files changed, 15 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/r128/ati_pcigart.c | 32 +++++++++++++++---------------
+ drivers/gpu/drm/r128/ati_pcigart.h |  2 +-
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-index 8ce9d73fab4f..19297e58b232 100644
---- a/drivers/gpu/drm/drm_bufs.c
-+++ b/drivers/gpu/drm/drm_bufs.c
-@@ -149,7 +149,6 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
+diff --git a/drivers/gpu/drm/r128/ati_pcigart.c b/drivers/gpu/drm/r128/ati_pcigart.c
+index 9b4072f97215..3d67afbbf0fc 100644
+--- a/drivers/gpu/drm/r128/ati_pcigart.c
++++ b/drivers/gpu/drm/r128/ati_pcigart.c
+@@ -44,9 +44,12 @@
+ static int drm_ati_alloc_pcigart_table(struct drm_device *dev,
+ 				       struct drm_ati_pcigart_info *gart_info)
  {
- 	struct drm_local_map *map;
- 	struct drm_map_list *list;
--	drm_dma_handle_t *dmah;
- 	unsigned long user_token;
- 	int ret;
+-	gart_info->table_handle = drm_pci_alloc(dev, gart_info->table_size,
+-						PAGE_SIZE);
+-	if (gart_info->table_handle == NULL)
++	gart_info->addr =
++		dma_alloc_coherent(&dev->pdev->dev,
++				  gart_info->table_size,
++				  ^gart_info->bus_addr,
++				  GFP_KERNEL);
++	if (!gart_info->addr)
+ 		return -ENOMEM;
  
-@@ -324,14 +323,14 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
- 		 * As we're limiting the address to 2^32-1 (or less),
- 		 * casting it down to 32 bits is no problem, but we
- 		 * need to point to a 64bit variable first. */
--		dmah = drm_pci_alloc(dev, map->size, map->size);
--		if (!dmah) {
-+		map->handle = dma_alloc_coherent(&dev->pdev->dev,
-+						 map->size,
-+						 &map->offset,
-+						 GFP_KERNEL);
-+		if (!map->handle) {
- 			kfree(map);
- 			return -ENOMEM;
- 		}
--		map->handle = dmah->vaddr;
--		map->offset = (unsigned long)dmah->busaddr;
--		kfree(dmah);
- 		break;
- 	default:
- 		kfree(map);
-@@ -513,7 +512,6 @@ int drm_legacy_getmap_ioctl(struct drm_device *dev, void *data,
- int drm_legacy_rmmap_locked(struct drm_device *dev, struct drm_local_map *map)
+ 	return 0;
+@@ -55,8 +58,10 @@ static int drm_ati_alloc_pcigart_table(struct drm_device *dev,
+ static void drm_ati_free_pcigart_table(struct drm_device *dev,
+ 				       struct drm_ati_pcigart_info *gart_info)
  {
- 	struct drm_map_list *r_list = NULL, *list_t;
--	drm_dma_handle_t dmah;
- 	int found = 0;
- 	struct drm_master *master;
- 
-@@ -554,10 +552,10 @@ int drm_legacy_rmmap_locked(struct drm_device *dev, struct drm_local_map *map)
- 	case _DRM_SCATTER_GATHER:
- 		break;
- 	case _DRM_CONSISTENT:
--		dmah.vaddr = map->handle;
--		dmah.busaddr = map->offset;
--		dmah.size = map->size;
--		__drm_legacy_pci_free(dev, &dmah);
-+		dma_free_coherent(&dev->pdev->dev,
-+				  map->size,
-+				  map->handle,
-+				  map->offset);
- 		break;
- 	}
- 	kfree(map);
-diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-index d16dac4325f9..c6bb98729a26 100644
---- a/drivers/gpu/drm/drm_pci.c
-+++ b/drivers/gpu/drm/drm_pci.c
-@@ -78,18 +78,6 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
- 
- EXPORT_SYMBOL(drm_pci_alloc);
- 
--/*
-- * Free a PCI consistent memory block without freeing its descriptor.
-- *
-- * This function is for internal use in the Linux-specific DRM core code.
-- */
--void __drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
--{
--	if (dmah->vaddr)
--		dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
--				  dmah->busaddr);
--}
--
- /**
-  * drm_pci_free - Free a PCI consistent memory block
-  * @dev: DRM device
-@@ -100,7 +88,8 @@ void __drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
-  */
- void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
- {
--	__drm_legacy_pci_free(dev, dmah);
-+	dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
-+			  dmah->busaddr);
- 	kfree(dmah);
+-	drm_pci_free(dev, gart_info->table_handle);
+-	gart_info->table_handle = NULL;
++	dma_free_coherent(&dev->pdev->dev,
++			  gart_info->table_size,
++			  gart_info->addr,
++			  gart_info->bus_addr);
  }
  
-diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
-index 52e87e4869a5..64619fe90046 100644
---- a/drivers/gpu/drm/drm_vm.c
-+++ b/drivers/gpu/drm/drm_vm.c
-@@ -269,8 +269,6 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
+ int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info *gart_info)
+@@ -89,8 +94,7 @@ int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info
+ 			gart_info->bus_addr = 0;
+ 	}
+ 
+-	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN &&
+-	    gart_info->table_handle) {
++	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN)
+ 		drm_ati_free_pcigart_table(dev, gart_info);
+ 	}
+ 
+@@ -103,7 +107,7 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
+ 	struct drm_sg_mem *entry = dev->sg;
+ 	void *address = NULL;
+ 	unsigned long pages;
+-	u32 *pci_gart = NULL, page_base, gart_idx;
++	u32 *page_base, gart_idx;
+ 	dma_addr_t bus_address = 0;
+ 	int i, j, ret = -ENOMEM;
+ 	int max_ati_pages, max_real_pages;
+@@ -128,18 +132,14 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
+ 			DRM_ERROR("cannot allocate PCI GART page!\n");
+ 			goto done;
  		}
- 
- 		if (!found_maps) {
--			drm_dma_handle_t dmah;
 -
- 			switch (map->type) {
- 			case _DRM_REGISTERS:
- 			case _DRM_FRAME_BUFFER:
-@@ -284,10 +282,10 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
- 			case _DRM_SCATTER_GATHER:
- 				break;
- 			case _DRM_CONSISTENT:
--				dmah.vaddr = map->handle;
--				dmah.busaddr = map->offset;
--				dmah.size = map->size;
--				__drm_legacy_pci_free(dev, &dmah);
-+				dma_free_coherent(&dev->pdev->dev,
-+						  map->size,
-+						  map->handle,
-+						  map->offset);
- 				break;
+-		pci_gart = gart_info->table_handle->vaddr;
+-		address = gart_info->table_handle->vaddr;
+-		bus_address = gart_info->table_handle->busaddr;
+ 	} else {
+-		address = gart_info->addr;
+-		bus_address = gart_info->bus_addr;
+ 		DRM_DEBUG("PCI: Gart Table: VRAM %08LX mapped at %08lX\n",
+ 			  (unsigned long long)bus_address,
+ 			  (unsigned long)address);
+ 	}
+ 
++	address = gart_info->addr;
++	bus_address = gart_info->bus_addr;
+ 
+ 	max_ati_pages = (gart_info->table_size / sizeof(u32));
+ 	max_real_pages = max_ati_pages / (PAGE_SIZE / ATI_PCIGART_PAGE_SIZE);
+@@ -147,7 +147,7 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
+ 	    ? entry->pages : max_real_pages;
+ 
+ 	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN) {
+-		memset(pci_gart, 0, max_ati_pages * sizeof(u32));
++		memset(address, 0, max_ati_pages * sizeof(u32));
+ 	} else {
+ 		memset_io((void __iomem *)map->handle, 0, max_ati_pages * sizeof(u32));
+ 	}
+@@ -185,7 +185,7 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
  			}
- 			kfree(map);
-diff --git a/include/drm/drm_legacy.h b/include/drm/drm_legacy.h
-index 5745710453c8..dcef3598f49e 100644
---- a/include/drm/drm_legacy.h
-+++ b/include/drm/drm_legacy.h
-@@ -194,17 +194,11 @@ void drm_legacy_idlelock_release(struct drm_lock_data *lock);
- 
- #ifdef CONFIG_PCI
- 
--void __drm_legacy_pci_free(struct drm_device *dev, drm_dma_handle_t * dmah);
- int drm_legacy_pci_init(struct drm_driver *driver, struct pci_driver *pdriver);
- void drm_legacy_pci_exit(struct drm_driver *driver, struct pci_driver *pdriver);
- 
- #else
- 
--static inline void __drm_legacy_pci_free(struct drm_device *dev,
--					 drm_dma_handle_t *dmah)
--{
--}
--
- static inline int drm_legacy_pci_init(struct drm_driver *driver,
- 				      struct pci_driver *pdriver)
- {
+ 			if (gart_info->gart_table_location ==
+ 			    DRM_ATI_GART_MAIN) {
+-				pci_gart[gart_idx] = cpu_to_le32(val);
++				address[gart_idx] = cpu_to_le32(val);
+ 			} else {
+ 				offset = gart_idx * sizeof(u32);
+ 				writel(val, (void __iomem *)map->handle + offset);
+diff --git a/drivers/gpu/drm/r128/ati_pcigart.h b/drivers/gpu/drm/r128/ati_pcigart.h
+index a728a1364e66..6219aced7e84 100644
+--- a/drivers/gpu/drm/r128/ati_pcigart.h
++++ b/drivers/gpu/drm/r128/ati_pcigart.h
+@@ -18,7 +18,7 @@ struct drm_ati_pcigart_info {
+ 	void *addr;
+ 	dma_addr_t bus_addr;
+ 	dma_addr_t table_mask;
+-	struct drm_dma_handle *table_handle;
++	dma_addr_t dma_addr;
+ 	struct drm_local_map mapping;
+ 	int table_size;
+ };
 -- 
 2.25.0
 
