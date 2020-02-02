@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92FBA14FF22
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 21:42:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9492414FF23
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 21:43:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAAE56E119;
-	Sun,  2 Feb 2020 20:42:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C84186E11A;
+	Sun,  2 Feb 2020 20:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966EA6E119
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2020 20:42:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96CCF6E11A
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2020 20:43:08 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206393] amdgpu: garbled screen after resume
-Date: Sun, 02 Feb 2020 20:42:46 +0000
+Date: Sun, 02 Feb 2020 20:43:08 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206393-2300-m9sCuEWJsP@https.bugzilla.kernel.org/>
+Message-ID: <bug-206393-2300-mHbAR2tu1o@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206393-2300@https.bugzilla.kernel.org/>
 References: <bug-206393-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206393
 
---- Comment #1 from Bjoern Franke (bjo@nord-west.org) ---
-Created attachment 287083
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287083&action=edit
-dmesg
+--- Comment #2 from Bjoern Franke (bjo@nord-west.org) ---
+Created attachment 287085
+  --> https://bugzilla.kernel.org/attachment.cgi?id=287085&action=edit
+lspci
 
 -- 
 You are receiving this mail because:
