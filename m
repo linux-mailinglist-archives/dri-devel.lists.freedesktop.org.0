@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55D914FE8D
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 18:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29B714FEA6
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 18:38:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9473E6EB16;
-	Sun,  2 Feb 2020 17:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56C886EB18;
+	Sun,  2 Feb 2020 17:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 451916EB0F;
- Sun,  2 Feb 2020 17:16:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C6F46E086;
+ Sun,  2 Feb 2020 17:38:32 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
-Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20091966-1500050 
- for multiple; Sun, 02 Feb 2020 17:16:36 +0000
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/5] drm: Remove exports for drm_pci_alloc/drm_pci_free
-Date: Sun,  2 Feb 2020 17:16:35 +0000
-Message-Id: <20200202171635.4039044-5-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
-References: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 20092098-1500050 for multiple; Sun, 02 Feb 2020 17:37:33 +0000
 MIME-Version: 1.0
+To: DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20200202132133.1891846-1-daniel.vetter@ffwll.ch>
+References: <20200202132133.1891846-1-daniel.vetter@ffwll.ch>
+Message-ID: <158066505178.17828.178213696291677257@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH] drm/vgem: Close use-after-free race in vgem_gem_create
+Date: Sun, 02 Feb 2020 17:37:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,183 +39,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Hillf Danton <hdanton@sina.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_pci_alloc routines have been a thin wrapper around the core dma
-coherent routines. Remove the crutch of a wrapper and the exported
-symbols, marking it for only internal legacy use.
+Quoting Daniel Vetter (2020-02-02 13:21:33)
+> There's two references floating around here (for the object reference,
+> not the handle_count reference, that's a different thing):
+> 
+> - The temporary reference held by vgem_gem_create, acquired by
+>   creating the object and released by calling
+>   drm_gem_object_put_unlocked.
+> 
+> - The reference held by the object handle, created by
+>   drm_gem_handle_create. This one generally outlives the function,
+>   except if a 2nd thread races with a GEM_CLOSE ioctl call.
+> 
+> So usually everything is correct, except in that race case, where the
+> access to gem_object->size could be looking at freed data already.
+> Which again isn't a real problem (userspace shot its feet off already
+> with the race, we could return garbage), but maybe someone can exploit
+> this as an information leak.
+> 
+> Cc: Dan Carpenter <dan.carpenter@oracle.com>
+> Cc: Hillf Danton <hdanton@sina.com>
+> Cc: Reported-by: syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com
+> Cc: stable@vger.kernel.org
+> Cc: Emil Velikov <emil.velikov@collabora.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Eric Anholt <eric@anholt.net>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/vgem/vgem_drv.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+> index 5bd60ded3d81..909eba43664a 100644
+> --- a/drivers/gpu/drm/vgem/vgem_drv.c
+> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
+> @@ -196,9 +196,10 @@ static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
+>                 return ERR_CAST(obj);
+>  
+>         ret = drm_gem_handle_create(file, &obj->base, handle);
+> -       drm_gem_object_put_unlocked(&obj->base);
+> -       if (ret)
+> +       if (ret) {
+> +               drm_gem_object_put_unlocked(&obj->base);
+>                 return ERR_PTR(ret);
+> +       }
+>  
+>         return &obj->base;
+>  }
+> @@ -221,7 +222,9 @@ static int vgem_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>         args->size = gem_object->size;
+>         args->pitch = pitch;
+>  
+> -       DRM_DEBUG("Created object of size %lld\n", size);
+> +       drm_gem_object_put_unlocked(gem_object);
+> +
+> +       DRM_DEBUG("Created object of size %llu\n", args->size);
 
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
----
- drivers/gpu/drm/drm_bufs.c   |  5 +++--
- drivers/gpu/drm/drm_legacy.h | 23 +++++++++++++++++++++++
- drivers/gpu/drm/drm_pci.c    | 31 ++++++-------------------------
- include/drm/drm_pci.h        | 18 ------------------
- 4 files changed, 32 insertions(+), 45 deletions(-)
+I was thinking we either should return size from vgem_gem_create (the
+strategy we took in i915) or simply remove the vgem_gem_create() as that
+doesn't improve readability.
 
-diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-index 19297e58b232..a33df3744f76 100644
---- a/drivers/gpu/drm/drm_bufs.c
-+++ b/drivers/gpu/drm/drm_bufs.c
-@@ -675,7 +675,7 @@ static void drm_cleanup_buf_error(struct drm_device *dev,
- 	if (entry->seg_count) {
- 		for (i = 0; i < entry->seg_count; i++) {
- 			if (entry->seglist[i]) {
--				drm_pci_free(dev, entry->seglist[i]);
-+				drm_legacy_pci_free(dev, entry->seglist[i]);
- 			}
- 		}
- 		kfree(entry->seglist);
-@@ -975,7 +975,8 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
- 
- 	while (entry->buf_count < count) {
- 
--		dmah = drm_pci_alloc(dev, PAGE_SIZE << page_order, 0x1000);
-+		dmah = drm_legacy_pci_alloc(dev,
-+					    PAGE_SIZE << page_order, 0x1000);
- 
- 		if (!dmah) {
- 			/* Set count correctly so we free the proper amount. */
-diff --git a/drivers/gpu/drm/drm_legacy.h b/drivers/gpu/drm/drm_legacy.h
-index 1be3ea320474..3853b45341c7 100644
---- a/drivers/gpu/drm/drm_legacy.h
-+++ b/drivers/gpu/drm/drm_legacy.h
-@@ -36,6 +36,7 @@
- 
- struct agp_memory;
- struct drm_device;
-+struct drm_dma_handle;
- struct drm_file;
- struct drm_buf_desc;
- 
-@@ -211,4 +212,26 @@ void drm_master_legacy_init(struct drm_master *master);
- static inline void drm_master_legacy_init(struct drm_master *master) {}
- #endif
- 
-+
-+#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
-+
-+struct drm_dma_handle *
-+drm_legacy_pci_alloc(struct drm_device *dev, size_t size, size_t align);
-+void drm_legacy_pci_free(struct drm_device *dev, struct drm_dma_handle * dmah);
-+
-+#else
-+
-+static inline struct drm_dma_handle *
-+drm_legacy_pci_alloc(struct drm_device *dev, size_t size, size_t align)
-+{
-+	return NULL;
-+}
-+
-+static inline void drm_legacy_pci_free(struct drm_device *dev,
-+				       struct drm_dma_handle *dmah)
-+{
-+}
-+
-+#endif
-+
- #endif /* __DRM_LEGACY_H__ */
-diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-index c6bb98729a26..12239498538c 100644
---- a/drivers/gpu/drm/drm_pci.c
-+++ b/drivers/gpu/drm/drm_pci.c
-@@ -36,19 +36,10 @@
- #include "drm_internal.h"
- #include "drm_legacy.h"
- 
--/**
-- * drm_pci_alloc - Allocate a PCI consistent memory block, for DMA.
-- * @dev: DRM device
-- * @size: size of block to allocate
-- * @align: alignment of block
-- *
-- * FIXME: This is a needless abstraction of the Linux dma-api and should be
-- * removed.
-- *
-- * Return: A handle to the allocated memory block on success or NULL on
-- * failure.
-- */
--drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t align)
-+#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
-+
-+drm_dma_handle_t *
-+drm_legacy_pci_alloc(struct drm_device * dev, size_t size, size_t align)
+-static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
+-                                             struct drm_file *file,
+-                                             unsigned int *handle,
+-                                             unsigned long size)
++static int vgem_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
++                               struct drm_mode_create_dumb *args)
  {
- 	drm_dma_handle_t *dmah;
- 
-@@ -76,24 +67,14 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
- 	return dmah;
- }
- 
--EXPORT_SYMBOL(drm_pci_alloc);
--
--/**
-- * drm_pci_free - Free a PCI consistent memory block
-- * @dev: DRM device
-- * @dmah: handle to memory block
-- *
-- * FIXME: This is a needless abstraction of the Linux dma-api and should be
-- * removed.
-- */
--void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
-+void drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
- {
- 	dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
- 			  dmah->busaddr);
- 	kfree(dmah);
- }
- 
--EXPORT_SYMBOL(drm_pci_free);
-+#endif
- 
- static int drm_get_pci_domain(struct drm_device *dev)
- {
-diff --git a/include/drm/drm_pci.h b/include/drm/drm_pci.h
-index 9031e217b506..cade5b60b643 100644
---- a/include/drm/drm_pci.h
-+++ b/include/drm/drm_pci.h
-@@ -34,34 +34,16 @@
- 
- #include <linux/pci.h>
- 
--struct drm_dma_handle;
--struct drm_device;
- struct drm_driver;
--struct drm_master;
- 
- #ifdef CONFIG_PCI
- 
--struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev, size_t size,
--				     size_t align);
--void drm_pci_free(struct drm_device *dev, struct drm_dma_handle * dmah);
--
- int drm_get_pci_dev(struct pci_dev *pdev,
- 		    const struct pci_device_id *ent,
- 		    struct drm_driver *driver);
- 
- #else
- 
--static inline struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev,
--						   size_t size, size_t align)
--{
--	return NULL;
+        struct drm_vgem_gem_object *obj;
+-       int ret;
++       u64 pitch, size;
++       u32 handle;
++
++       pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
++       size = mul_u32_u32(args->height, pitch);
++       if (size == 0 || pitch < args->width)
++               return -EINVAL;
+
+        obj = __vgem_gem_create(dev, size);
+        if (IS_ERR(obj))
+-               return ERR_CAST(obj);
++               return PTR_ERR(obj);
++
++       size = obj->base.size;
+
+-       ret = drm_gem_handle_create(file, &obj->base, handle);
++       ret = drm_gem_handle_create(file, &obj->base, &handle);
+        drm_gem_object_put_unlocked(&obj->base);
+        if (ret)
+                return ERR_PTR(ret);
+
+-       return &obj->base;
 -}
 -
--static inline void drm_pci_free(struct drm_device *dev,
--				struct drm_dma_handle *dmah)
+-static int vgem_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+-                               struct drm_mode_create_dumb *args)
 -{
--}
+-       struct drm_gem_object *gem_object;
+-       u64 pitch, size;
 -
- static inline int drm_get_pci_dev(struct pci_dev *pdev,
- 				  const struct pci_device_id *ent,
- 				  struct drm_driver *driver)
--- 
-2.25.0
+-       pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
+-       size = args->height * pitch;
+-       if (size == 0)
+-               return -EINVAL;
+-
+-       gem_object = vgem_gem_create(dev, file, &args->handle, size);
+-       if (IS_ERR(gem_object))
+-               return PTR_ERR(gem_object);
+-
+-       args->size = gem_object->size;
++       args->size = size;
+        args->pitch = pitch;
++       args->handle = handle;
 
+
+At the end of the day, it makes no difference,
+Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
