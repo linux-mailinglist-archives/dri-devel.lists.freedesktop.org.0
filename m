@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C33E1505D4
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 13:04:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B513F1505D6
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 13:04:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16F966EBE3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 872026EBE4;
 	Mon,  3 Feb 2020 12:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B85A06EBDE;
- Mon,  3 Feb 2020 12:04:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C874B6EBDF;
+ Mon,  3 Feb 2020 12:04:25 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2020 04:04:24 -0800
+ 03 Feb 2020 04:04:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,397,1574150400"; d="scan'208";a="219357424"
+X-IronPort-AV: E=Sophos;i="5.70,397,1574150400"; d="scan'208";a="219357447"
 Received: from unknown (HELO helsinki.fi.intel.com) ([10.237.66.150])
- by orsmga007.jf.intel.com with ESMTP; 03 Feb 2020 04:04:22 -0800
+ by orsmga007.jf.intel.com with ESMTP; 03 Feb 2020 04:04:24 -0800
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/2] drm: Add a detailed DP HDMI branch info on debugfs
-Date: Mon,  3 Feb 2020 14:04:20 +0200
-Message-Id: <20200203120421.113744-1-gwan-gyeong.mun@intel.com>
+Subject: [PATCH 2/2] drm/i915/dp: Add checking of YCBCR420 Pass-through to
+ YCBCR420 outputs.
+Date: Mon,  3 Feb 2020 14:04:21 +0200
+Message-Id: <20200203120421.113744-2-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200203120421.113744-1-gwan-gyeong.mun@intel.com>
+References: <20200203120421.113744-1-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,68 +49,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When DP downstream has HDMI branch, it checks below functionality and
-shows supports. It follows DP 1.4a spec; Table 2-161: Address Mapping
-within DPCD Receiver Capability Field (DPCD Addresses 00000h
-through 000FFh).
-
-Added flags for DP downstream:
-YCBCR422_PASS_THROUGH_SUPPORT, YCBCR420_PASS_THROUGH_SUPPORT,
-CONVERSION_FROM_YCBCR444_TO_YCBCR422_SUPPORT and
-CONVERSION_FROM_YCBCR444_TO_YCBCR420_SUPPORT.
+When a DP downstream uses a DP to HDMI active converter, the active
+converter needs to support YCbCr420 Pass-through to enable DP YCbCr 4:2:0
+outputs.
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 19 +++++++++++++++++++
- include/drm/drm_dp_helper.h     |  5 +++++
- 2 files changed, 24 insertions(+)
+ drivers/gpu/drm/i915/display/intel_dp.c | 26 +++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 5a103e9b3c86..cb6dcfb13127 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -531,6 +531,25 @@ void drm_dp_downstream_debug(struct seq_file *m,
- 
- 		if (bpc > 0)
- 			seq_printf(m, "\t\tMax bpc: %d\n", bpc);
-+
-+		if (type == DP_DS_PORT_TYPE_HDMI) {
-+			bool ycbcr422_passthru = port_cap[3] &
-+						 DP_DS_YCBCR422_PASSTHRU_SUPPORT;
-+			bool ycbcr420_passthru = port_cap[3] &
-+						 DP_DS_YCBCR420_PASSTHRU_SUPPORT;
-+			bool ycbcr422_convert = port_cap[3] &
-+						DP_DS_CONV_YCBCR444_TO_YCBCR422_SUPPORT;
-+			bool ycbcr420_convert = port_cap[3] &
-+						DP_DS_CONV_YCBCR444_TO_YCBCR420_SUPPORT;
-+			seq_printf(m, "\t\tHDMI YCbCr 4:2:2 pass-through support: %s\n",
-+				   ycbcr422_passthru ? "yes" : "no");
-+			seq_printf(m, "\t\tHDMI YCbCr 4:2:0  pass-through support: %s\n",
-+				   ycbcr420_passthru ? "yes" : "no");
-+			seq_printf(m, "\t\tHDMI YCbCr 4:4:4 to YCbCr 4:2:2 Convert support: %s\n",
-+				   ycbcr422_convert ? "yes" : "no");
-+			seq_printf(m, "\t\tHDMI YCbCr 4:4:4 to YCbCr 4:2:0 Convert support: %s\n",
-+				   ycbcr420_convert ? "yes" : "no");
-+		}
- 	}
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index f4dede6253f8..824ed8096426 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -2298,6 +2298,22 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_dp_downstream_debug);
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 262faf9e5e94..d61eadaba769 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -391,6 +391,11 @@
- # define DP_DS_10BPC		            1
- # define DP_DS_12BPC		            2
- # define DP_DS_16BPC		            3
-+/* offset 3 for HDMI */
-+# define DP_DS_YCBCR422_PASSTHRU_SUPPORT    (1 << 1) /* 1.4 */
-+# define DP_DS_YCBCR420_PASSTHRU_SUPPORT    (1 << 2)
-+# define DP_DS_CONV_YCBCR444_TO_YCBCR422_SUPPORT (1 << 3)
-+# define DP_DS_CONV_YCBCR444_TO_YCBCR420_SUPPORT (1 << 4)
  
- #define DP_MAX_DOWNSTREAM_PORTS		    0x10
++static bool
++intel_dp_downstream_is_hdmi_detailed_cap_info(struct intel_dp *intel_dp)
++{
++	int type = intel_dp->downstream_ports[0] & DP_DS_PORT_TYPE_MASK;
++	bool detailed_cap_info = intel_dp->dpcd[DP_DOWNSTREAMPORT_PRESENT] &
++				 DP_DETAILED_CAP_INFO_AVAILABLE;
++
++	return type == DP_DS_PORT_TYPE_HDMI && detailed_cap_info;
++}
++
++static bool
++intel_dp_downstream_supports_ycbcr_420_passthru(struct intel_dp *intel_dp)
++{
++	return intel_dp->downstream_ports[3] & DP_DS_YCBCR420_PASSTHRU_SUPPORT;
++}
++
+ static int
+ intel_dp_ycbcr420_config(struct intel_dp *intel_dp,
+ 			 struct drm_connector *connector,
+@@ -2314,6 +2330,16 @@ intel_dp_ycbcr420_config(struct intel_dp *intel_dp,
+ 	    !connector->ycbcr_420_allowed)
+ 		return 0;
  
++	/*
++	 * When a DP downstream uses a DP to HDMI active converter,
++	 * the active converter needs to support YCbCr420 Pass-through.
++	 */
++	if (drm_dp_is_branch(intel_dp->dpcd)) {
++		if (intel_dp_downstream_is_hdmi_detailed_cap_info(intel_dp) &&
++		    !intel_dp_downstream_supports_ycbcr_420_passthru(intel_dp))
++			return 0;
++	}
++
+ 	crtc_state->output_format = INTEL_OUTPUT_FORMAT_YCBCR420;
+ 
+ 	/* YCBCR 420 output conversion needs a scaler */
 -- 
 2.24.1
 
