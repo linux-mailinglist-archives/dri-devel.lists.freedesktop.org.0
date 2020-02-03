@@ -2,43 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9492414FF23
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2020 21:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D285D1501CF
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 07:48:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C84186E11A;
-	Sun,  2 Feb 2020 20:43:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D68986E199;
+	Mon,  3 Feb 2020 06:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96CCF6E11A
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2020 20:43:08 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206393] amdgpu: garbled screen after resume
-Date: Sun, 02 Feb 2020 20:43:08 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bjo@nord-west.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206393-2300-mHbAR2tu1o@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206393-2300@https.bugzilla.kernel.org/>
-References: <bug-206393-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A36306E199
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 06:48:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580712488;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iSvEp0NARLlsRjkcniMc+YoqIrR/1UyItUO6rmFA0Zs=;
+ b=SR/5xT/UGL6ZEnqTp+719nuaVm6cUe/lFJ6AoLLKpfIkG/abpQaOcIkof/z2xwkNfccY1T
+ D7RXaiMzmGErooYE5R3x6iCc4k2p3xy61Vd9M/nTjznCFAqEhnqR3QvnbYhD9Y2ueN07H0
+ QuMaIzVZNOo1BpznvUtyjaUXAFGd+mc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-t0ui-Z1SOU2wW0iPetMFNw-1; Mon, 03 Feb 2020 01:48:02 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F07C3800D4E;
+ Mon,  3 Feb 2020 06:47:59 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
+ [10.36.116.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E77E919C58;
+ Mon,  3 Feb 2020 06:47:58 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D4F509D7F; Mon,  3 Feb 2020 07:47:57 +0100 (CET)
+Date: Mon, 3 Feb 2020 07:47:57 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/4] drm/bochs: Implement struct
+ drm_mode_config_funcs.mode_valid
+Message-ID: <20200203064757.2v4hqad2trw7jcwk@sirius.home.kraxel.org>
+References: <20200201122744.27165-1-tzimmermann@suse.de>
+ <20200201122744.27165-3-tzimmermann@suse.de>
 MIME-Version: 1.0
+In-Reply-To: <20200201122744.27165-3-tzimmermann@suse.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: t0ui-Z1SOU2wW0iPetMFNw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,21 +65,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, puck.chen@hisilicon.com, z.liuxinliang@hisilicon.com,
+ hdegoede@redhat.com, kong.kongxinwei@hisilicon.com,
+ dri-devel@lists.freedesktop.org, zourongrong@gmail.com, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206393
+On Sat, Feb 01, 2020 at 01:27:42PM +0100, Thomas Zimmermann wrote:
+> The implementation of struct drm_mode_config_funcs.mode_valid verifies
+> that enough video memory is available for a given display mode.
 
---- Comment #2 from Bjoern Franke (bjo@nord-west.org) ---
-Created attachment 287085
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287085&action=edit
-lspci
+There is bochs_connector_mode_valid() doing the same check,
+you can drop it when hooking up drm_vram_helper_mode_valid.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+cheers,
+  Gerd
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
