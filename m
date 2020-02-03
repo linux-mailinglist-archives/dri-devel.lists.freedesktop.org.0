@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AEF1502F3
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 10:07:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DC9150377
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 10:40:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 774BD6EB6A;
-	Mon,  3 Feb 2020 09:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B3A6EB7B;
+	Mon,  3 Feb 2020 09:40:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96CD56EB68;
- Mon,  3 Feb 2020 09:06:56 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 013934fr088127;
- Mon, 3 Feb 2020 09:06:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=8WgPDKN0FJnUuKUBLKIxeobzc7t0Hcs7X5V3wjF1qF0=;
- b=LsHCgmGufai5qhkHeBqE7FZNDZB+nNdr1VIkClhVmmVBnP0vrrrqsyGzQXAsO5YvhFyn
- O6Ji/TwMEED9xLA0SHaIYYc/eBTR+NYfFiFHw8lAkc8B98IOBCPUKkRC59xP/eszz66x
- O3E9oCq0+zgIIUt3dpomej0ne1XSPTu+4Ru+KW9plKsJQz8IR+DWP3zppw1OKC95P0aF
- 5Y9vDip0WXiAYtY7Cp/+Ab6CoT2BGl3WgxAGwPm0SGNXNIXzF2hZLZ3gOVlBk637s9TC
- D79dARXZ5zRLAeITfA9pstDkGSIzuLpI35Awp5DJSMe+lViv+r4ybs7Klc14zSaRXNbS iQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2xw19q69g5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 03 Feb 2020 09:06:40 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 01393JHS177625;
- Mon, 3 Feb 2020 09:06:40 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 2xwjt3e3un-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 03 Feb 2020 09:06:39 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01396Ywj008538;
- Mon, 3 Feb 2020 09:06:35 GMT
-Received: from kadam (/41.210.143.134) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 03 Feb 2020 01:06:31 -0800
-Date: Mon, 3 Feb 2020 12:06:19 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: KASAN: use-after-free Read in vgem_gem_dumb_create
-Message-ID: <20200203090619.GL1778@kadam>
-References: <000000000000ae2f81059d7716b8@google.com>
- <CAKMK7uGivsYzP6h9rg0eN34YuOVbee6gnhdOxiys=M=4phK+kw@mail.gmail.com>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3EC36EB7B
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 09:40:39 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id c84so16068913wme.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2020 01:40:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=Jun4v0Y8OgEAY2zLGv+Re/EtkU8n60zpNHWxcp0S2ok=;
+ b=CZu5LkOdQADBeKoarcii40bcLg5DixvMZqaOgVSVexhWCKpjW97W4R6DBldrqPlA2z
+ /HXi3m2ZCrCypXPQVG0ILdVQu/GPR33jC42Y8eP/ViP9qBguZ5vOk2uk321HRn3MI3VS
+ QCS5JclmH4ecTgQCtGDmJQuGMmqCVvY3Rebds=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=Jun4v0Y8OgEAY2zLGv+Re/EtkU8n60zpNHWxcp0S2ok=;
+ b=fuyUhIs6CJY28MzazNFXyJvagx/GmgElVltGCQPX+QV1QBISlxhrVf2ahlVn+GqYgy
+ PUxZn94YYnzWileQoRGaaQ8o35noLR8ifQQo5aJ7LdKyzA0laV8+8oj9+78txEvdrkfL
+ LXRhBJP1Y8U8HVQKmTgR9yZ2p5zMhaD0WgquKIqo+oOiKhWUbt2r2r0zEdxOGJQ5Zp+3
+ jCGisXdahxZLZr+lcSdxoaBrc0SjiCs57R/3U9TIEzvpinDWZSkRtHFUhwgf9Nqplk0S
+ oM/4F/R3Q8lDFkQaWl2l/YwtV/lpx7wwqlAQ+BR8wtaxYV4h7WPXd0tw9/R2/0VTIntN
+ bnyw==
+X-Gm-Message-State: APjAAAX9eNdlvOeWtfxNt0G/m2DMkFmX0PaFNWAyxQH6FR9wRRkEySGV
+ ZFuVLtahgrtXZTg9uuCOmIIbyQ==
+X-Google-Smtp-Source: APXvYqy/Krxfe2RmIKcLszrxeHt62A0sSm0YaI/q+ttj5brYYV999VRextghxMacrz2Ki+eifvD9Sw==
+X-Received: by 2002:a1c:a4c3:: with SMTP id n186mr28333929wme.25.1580722838511; 
+ Mon, 03 Feb 2020 01:40:38 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g25sm28262597wmh.3.2020.02.03.01.40.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Feb 2020 01:40:37 -0800 (PST)
+Date: Mon, 3 Feb 2020 10:40:35 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Benjamin GAIGNARD <benjamin.gaignard@st.com>
+Subject: Re: [PATCH v3] drm/dp_mst: Fix W=1 warnings
+Message-ID: <20200203094035.GR43062@phenom.ffwll.local>
+Mail-Followup-To: Benjamin GAIGNARD <benjamin.gaignard@st.com>,
+ Dave Airlie <airlied@gmail.com>, Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20191128135057.20020-1-benjamin.gaignard@st.com>
+ <878snsvxzu.fsf@intel.com>
+ <CA+M3ks5WvYoDLSrbvaGBbJg9+nnkX=xyCiD389QD8tSCdNqB+g@mail.gmail.com>
+ <CA+M3ks4Y4LemFh=dQds91Z-LGJPK3vHKv=GeUNYHjNhdwz_m2g@mail.gmail.com>
+ <CA+M3ks4yEBejzMoXPw_OK_LNP7ag5SNXZjvHqNeuZ8+9r2X-qw@mail.gmail.com>
+ <b273036b10d8c2882800d01dcda7392e93b731fa.camel@redhat.com>
+ <CA+M3ks5cuC5yJ-e0DCUiY1HtyyeU=mM9z56y4e_UduKaxcbw-A@mail.gmail.com>
+ <08f4b69b1e48a81e90f28e7672da15cc5165969c.camel@redhat.com>
+ <CAPM=9txafoQNfMFf0Ff1SnBTgq6jYyvjJyjCSJua6-SJVVkScQ@mail.gmail.com>
+ <f64197e6-74bd-6577-2aa7-9c69cfdb9080@st.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uGivsYzP6h9rg0eN34YuOVbee6gnhdOxiys=M=4phK+kw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9519
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2002030073
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9519
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2002030073
+In-Reply-To: <f64197e6-74bd-6577-2aa7-9c69cfdb9080@st.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,66 +79,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Miller <davem@davemloft.net>,
- Dave Airlie <airlied@linux.ie>, netdev <netdev@vger.kernel.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+Cc: David Airlie <airlied@linux.ie>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- syzbot <syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ ML dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 02, 2020 at 02:19:18PM +0100, Daniel Vetter wrote:
-> On Fri, Jan 31, 2020 at 11:28 PM syzbot
-> <syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com> wrote:
-> >
-> > Hello,
-> >
-> > syzbot found the following crash on:
-> >
-> > HEAD commit:    39bed42d Merge tag 'for-linus-hmm' of git://git.kernel.org..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=179465bee00000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=2646535f8818ae25
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=0dc4444774d419e916c8
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16251279e00000
-> >
-> > The bug was bisected to:
-> >
-> > commit 7611750784664db46d0db95631e322aeb263dde7
-> > Author: Alex Deucher <alexander.deucher@amd.com>
-> > Date:   Wed Jun 21 16:31:41 2017 +0000
-> >
-> >     drm/amdgpu: use kernel is_power_of_2 rather than local version
-> >
-> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11628df1e00000
-> > final crash:    https://syzkaller.appspot.com/x/report.txt?x=13628df1e00000
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=15628df1e00000
-> >
-> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > Reported-by: syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com
-> > Fixes: 761175078466 ("drm/amdgpu: use kernel is_power_of_2 rather than local version")
-> 
-> Aside: This bisect line is complete nonsense ... I'm kinda at the
-> point where I'm assuming that syzbot bisect results are garbage, which
-> is maybe not what we want. I guess much stricter filtering for noise
-> is needed, dunno.
-> -Danile
+On Fri, Jan 31, 2020 at 08:08:34AM +0000, Benjamin GAIGNARD wrote:
+> =
 
-With race conditions the git bisect is often nonsense.
+> On 1/31/20 12:22 AM, Dave Airlie wrote:
+> >>>> hi-actually yes, we should probably be using this instead of just dr=
+opping
+> >>>> this. Also, I didn't write this code originally I just refactored a =
+bunch
+> >>>> of
+> >>>> it - Dave Airlied is the original author, but the original version o=
+f this
+> >>>> code was written ages ago. tbh, I think it's a safe bet to say that =
+they
+> >>>> probably did mean to use this but forgot to and no one noticed until=
+ now.
+> >>> Hi,
+> >>>
+> >>> Any clue about how to use crc value ? Does it have to be checked
+> >>> against something else ?
+> >>> If crc are not matching what should we do of the data copied just bef=
+ore ?
+> >> We should be able to just take the CRC value from the sideband message=
+ and
+> >> then generate our own CRC value using the sideband message contents, a=
+nd check
+> >> if the two are equal. If they aren't, something went wrong and we didn=
+'t
+> >> receive the message properly.
+> >>
+> >> Now as to what we should do when we have CRC mismatches? That's a bit =
+more
+> >> difficult. If you have access to the DP MST spec, I suppose a place to=
+ start
+> >> figuring that out would be checking if there's a way for us to request=
+ that a
+> >> branch device resend whatever message it sent previously. If there isn=
+'t, I
+> >> guess we should just print an error in dmesg (possibly with a hexdump =
+of the
+> >> failed message as well) and not forward the message to the driver. Not=
+ sure of
+> >> any better way of handling it then that
+> > Yeah I think this reflects what I wanted to do, I've no memory of a
+> > retransmit option in the spec, but I've away from it for a while. But
+> > we'd want to compare the CRC with what we got to make sure the are the
+> > same.
+> =
 
-regards,
-dan carpenter
+> Hmm, that far more complex than just fix compilation warnings :)
+> =
 
+> I will split the patch in two:
+> =
+
+> - one for of all other warnings, hopefully it can get reviewed
+> =
+
+> - one for this crc4 variable. Does checking crc value and print an error =
+
+> should be acceptable ?
+> =
+
+> Something like:
+> =
+
+> if (crc4 !=3D msg->chunk[msg->curchunk_len - 1])
+> =
+
+>  =A0=A0=A0 print_hex_dump(KERN_DEBUG, "wrong crc", DUMP_PREFIX_NONE, 16, =
+1, =
+
+> msg->chunk,=A0 msg->curchunk_len, false);
+
+Yeah I think that should be reasonable as a start. Then we'll see how much
+the bug reports start flowing in ...
+-Daniel
+> =
+
+> =
+
+> Benjamin
+> =
+
+> =
+
+> >
+> > Dave.
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
