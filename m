@@ -1,71 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39DC9150377
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 10:40:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69133150390
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 10:49:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41B3A6EB7B;
-	Mon,  3 Feb 2020 09:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C21056EB87;
+	Mon,  3 Feb 2020 09:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3EC36EB7B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 09:40:39 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id c84so16068913wme.4
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2020 01:40:39 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D406EB87
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 09:49:35 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id c9so17076357wrw.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2020 01:49:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=Jun4v0Y8OgEAY2zLGv+Re/EtkU8n60zpNHWxcp0S2ok=;
- b=CZu5LkOdQADBeKoarcii40bcLg5DixvMZqaOgVSVexhWCKpjW97W4R6DBldrqPlA2z
- /HXi3m2ZCrCypXPQVG0ILdVQu/GPR33jC42Y8eP/ViP9qBguZ5vOk2uk321HRn3MI3VS
- QCS5JclmH4ecTgQCtGDmJQuGMmqCVvY3Rebds=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=V3gYFkiv45c0tBCl+oDsF5a8UYscoPr+dpqprsPBB7g=;
+ b=j9sOd9tqj97FsExzItHKkPS6GuM14qnc7aR2MKuvKKWMLIQALHCxf8++a22IRKPXnh
+ cmverEFauYd+Qv6mD6195A5NLFXS/65eV9htyo4k2VhzoVZUgVufOAxzBB+U9qF1RHuj
+ 9+H2jTUfdhAZmmFeSgNedZVcm6Tf1EfwCPOPw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=Jun4v0Y8OgEAY2zLGv+Re/EtkU8n60zpNHWxcp0S2ok=;
- b=fuyUhIs6CJY28MzazNFXyJvagx/GmgElVltGCQPX+QV1QBISlxhrVf2ahlVn+GqYgy
- PUxZn94YYnzWileQoRGaaQ8o35noLR8ifQQo5aJ7LdKyzA0laV8+8oj9+78txEvdrkfL
- LXRhBJP1Y8U8HVQKmTgR9yZ2p5zMhaD0WgquKIqo+oOiKhWUbt2r2r0zEdxOGJQ5Zp+3
- jCGisXdahxZLZr+lcSdxoaBrc0SjiCs57R/3U9TIEzvpinDWZSkRtHFUhwgf9Nqplk0S
- oM/4F/R3Q8lDFkQaWl2l/YwtV/lpx7wwqlAQ+BR8wtaxYV4h7WPXd0tw9/R2/0VTIntN
- bnyw==
-X-Gm-Message-State: APjAAAX9eNdlvOeWtfxNt0G/m2DMkFmX0PaFNWAyxQH6FR9wRRkEySGV
- ZFuVLtahgrtXZTg9uuCOmIIbyQ==
-X-Google-Smtp-Source: APXvYqy/Krxfe2RmIKcLszrxeHt62A0sSm0YaI/q+ttj5brYYV999VRextghxMacrz2Ki+eifvD9Sw==
-X-Received: by 2002:a1c:a4c3:: with SMTP id n186mr28333929wme.25.1580722838511; 
- Mon, 03 Feb 2020 01:40:38 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=V3gYFkiv45c0tBCl+oDsF5a8UYscoPr+dpqprsPBB7g=;
+ b=HOos0XmtCkjgbCv6hKSRLH9TrIytjOC4t1ER9MGT6PTIQxCD6YJePtYEvekyyJ4oGK
+ UBNLpvFudoZcbHSP08ihYILWUFXNgtKa7hwvM325GALDrS4YpZjcYA4g/+JmntnQ6J4F
+ cvLejR/EPc56hTBmR6FjLp8fey3e2NUAfL2HguGaTMCuwJGHkRu9afIpi0M2SvcamWyA
+ m8df3LsRdiN+nnYxUY6JGkTKLGdvBGoiWCh8VwYNMF01T9ZWN/mQTQrYVjtwt8GouCub
+ FXEIZdC3VGjWKShwSKMcnprd/1CPCbdQybgUSHVjqu1csiHCFtR2/AB2Uufbflh9zQEu
+ 8+sg==
+X-Gm-Message-State: APjAAAXsNDXjwT1sYPjYC+e/ln+TEiMOYf81J6MCGL3uljz92ZY/YIQ8
+ AVP4XnRTolLb1paCcliwBXu5BQ==
+X-Google-Smtp-Source: APXvYqy/ihJgyLqixjN1orpXcAOeVQYGu+i1F1ZoKkNsZlo8iT/FUuBegA8uRRh3LHvW2nzBYGqNng==
+X-Received: by 2002:a5d:4cc9:: with SMTP id c9mr14204606wrt.70.1580723373665; 
+ Mon, 03 Feb 2020 01:49:33 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g25sm28262597wmh.3.2020.02.03.01.40.37
+ by smtp.gmail.com with ESMTPSA id r3sm25180499wrn.34.2020.02.03.01.49.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 01:40:37 -0800 (PST)
-Date: Mon, 3 Feb 2020 10:40:35 +0100
+ Mon, 03 Feb 2020 01:49:32 -0800 (PST)
+Date: Mon, 3 Feb 2020 10:49:30 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Benjamin GAIGNARD <benjamin.gaignard@st.com>
-Subject: Re: [PATCH v3] drm/dp_mst: Fix W=1 warnings
-Message-ID: <20200203094035.GR43062@phenom.ffwll.local>
-Mail-Followup-To: Benjamin GAIGNARD <benjamin.gaignard@st.com>,
- Dave Airlie <airlied@gmail.com>, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20191128135057.20020-1-benjamin.gaignard@st.com>
- <878snsvxzu.fsf@intel.com>
- <CA+M3ks5WvYoDLSrbvaGBbJg9+nnkX=xyCiD389QD8tSCdNqB+g@mail.gmail.com>
- <CA+M3ks4Y4LemFh=dQds91Z-LGJPK3vHKv=GeUNYHjNhdwz_m2g@mail.gmail.com>
- <CA+M3ks4yEBejzMoXPw_OK_LNP7ag5SNXZjvHqNeuZ8+9r2X-qw@mail.gmail.com>
- <b273036b10d8c2882800d01dcda7392e93b731fa.camel@redhat.com>
- <CA+M3ks5cuC5yJ-e0DCUiY1HtyyeU=mM9z56y4e_UduKaxcbw-A@mail.gmail.com>
- <08f4b69b1e48a81e90f28e7672da15cc5165969c.camel@redhat.com>
- <CAPM=9txafoQNfMFf0Ff1SnBTgq6jYyvjJyjCSJua6-SJVVkScQ@mail.gmail.com>
- <f64197e6-74bd-6577-2aa7-9c69cfdb9080@st.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/4] drm/vram: Add helpers to validate a display mode's
+ memory requirements
+Message-ID: <20200203094930.GS43062@phenom.ffwll.local>
+References: <20200201122744.27165-1-tzimmermann@suse.de>
+ <20200201122744.27165-2-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f64197e6-74bd-6577-2aa7-9c69cfdb9080@st.com>
+In-Reply-To: <20200201122744.27165-2-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,108 +66,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: airlied@linux.ie, puck.chen@hisilicon.com, dri-devel@lists.freedesktop.org,
+ z.liuxinliang@hisilicon.com, hdegoede@redhat.com,
+ kong.kongxinwei@hisilicon.com, kraxel@redhat.com, zourongrong@gmail.com,
+ sam@ravnborg.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 31, 2020 at 08:08:34AM +0000, Benjamin GAIGNARD wrote:
-> =
+On Sat, Feb 01, 2020 at 01:27:41PM +0100, Thomas Zimmermann wrote:
+> Devices with low amount of dedicated video memory may not be able
+> to use all possible display modes, as the framebuffers may not fit
+> into VRAM. The new helper function drm_vram_helper_mode_valid()
+> implements a simple test to sort out all display modes that can
+> not be used in any case. Drivers should call this function from
+> struct drm_mode_config_funcs.mode_valid.
+> 
+> Calling drm_vram_helper_mode_valid() works best for 32-bit framebuffers;
+> drivers with framebuffers of different color depth can use
+> drm_vram_helper_mode_valid_internal() instead.
+> 
+> The functionality was originally implemented by the ast driver, which
+> is being converted as well.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/ast/ast_main.c        | 24 +--------
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 76 +++++++++++++++++++++++++++
+>  include/drm/drm_gem_vram_helper.h     | 14 +++++
+>  3 files changed, 91 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+> index b79f484e9bd2..18a0a4ce00f6 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -388,31 +388,9 @@ static int ast_get_dram_info(struct drm_device *dev)
+>  	return 0;
+>  }
+>  
+> -enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
+> -						const struct drm_display_mode *mode)
+> -{
+> -	static const unsigned long max_bpp = 4; /* DRM_FORMAT_XRGBA8888 */
+> -
+> -	struct ast_private *ast = dev->dev_private;
+> -	unsigned long fbsize, fbpages, max_fbpages;
+> -
+> -	/* To support double buffering, a framebuffer may not
+> -	 * consume more than half of the available VRAM.
+> -	 */
+> -	max_fbpages = (ast->vram_size / 2) >> PAGE_SHIFT;
+> -
+> -	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
+> -	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
+> -
+> -	if (fbpages > max_fbpages)
+> -		return MODE_MEM;
+> -
+> -	return MODE_OK;
+> -}
+> -
+>  static const struct drm_mode_config_funcs ast_mode_funcs = {
+>  	.fb_create = drm_gem_fb_create,
+> -	.mode_valid = ast_mode_config_mode_valid,
+> +	.mode_valid = drm_vram_helper_mode_valid,
+>  	.atomic_check = drm_atomic_helper_check,
+>  	.atomic_commit = drm_atomic_helper_commit,
+>  };
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index a4863326061a..89aebd500655 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -1141,3 +1141,79 @@ void drm_vram_helper_release_mm(struct drm_device *dev)
+>  	dev->vram_mm = NULL;
+>  }
+>  EXPORT_SYMBOL(drm_vram_helper_release_mm);
+> +
+> +/*
+> + * Mode-config helpers
+> + */
+> +
+> +/**
+> + * drm_vram_helper_mode_valid_internal - Tests if a display mode's
+> + *	framebuffer fits into the available video memory.
+> + * @dev:	the DRM device
+> + * @mode:	the mode to test
+> + * @max_bpp:	the maximum number of bytes per pixel
 
-> On 1/31/20 12:22 AM, Dave Airlie wrote:
-> >>>> hi-actually yes, we should probably be using this instead of just dr=
-opping
-> >>>> this. Also, I didn't write this code originally I just refactored a =
-bunch
-> >>>> of
-> >>>> it - Dave Airlied is the original author, but the original version o=
-f this
-> >>>> code was written ages ago. tbh, I think it's a safe bet to say that =
-they
-> >>>> probably did mean to use this but forgot to and no one noticed until=
- now.
-> >>> Hi,
-> >>>
-> >>> Any clue about how to use crc value ? Does it have to be checked
-> >>> against something else ?
-> >>> If crc are not matching what should we do of the data copied just bef=
-ore ?
-> >> We should be able to just take the CRC value from the sideband message=
- and
-> >> then generate our own CRC value using the sideband message contents, a=
-nd check
-> >> if the two are equal. If they aren't, something went wrong and we didn=
-'t
-> >> receive the message properly.
-> >>
-> >> Now as to what we should do when we have CRC mismatches? That's a bit =
-more
-> >> difficult. If you have access to the DP MST spec, I suppose a place to=
- start
-> >> figuring that out would be checking if there's a way for us to request=
- that a
-> >> branch device resend whatever message it sent previously. If there isn=
-'t, I
-> >> guess we should just print an error in dmesg (possibly with a hexdump =
-of the
-> >> failed message as well) and not forward the message to the driver. Not=
- sure of
-> >> any better way of handling it then that
-> > Yeah I think this reflects what I wanted to do, I've no memory of a
-> > retransmit option in the spec, but I've away from it for a while. But
-> > we'd want to compare the CRC with what we got to make sure the are the
-> > same.
-> =
+Does this render correctly? I thought an empty comment line is required
+between comments and the free-form paragraphs ... Also usual style (in drm
+at least) is that the Returns: block is more towards the end of the text,
+and not indented.
 
-> Hmm, that far more complex than just fix compilation warnings :)
-> =
 
-> I will split the patch in two:
-> =
+> + * Returns:
+> + *	MODE_OK the display mode is supported, or an error code of type
+> + *	enum drm_mode_status otherwise.
+> + *
+> + * This function tests if enough video memory is available using the
+> + * specified display mode. Atomic modesetting requires importing the
+> + * designated framebuffer into video memory before evicting the active
+> + * one. Hence, any framebuffer may consume at most half of the available
+> + * VRAM. Display modes that require a larger framebuffer can not be used,
+> + * even of the CRTC does support them.
+> + *
+> + * Drivers should call this function from
+> + * struct drm_mode_config_funcs.mode_valid. See drm_vram_helper_mode_valid()
+> + * for framebuffers that use at most 32-bit color depth.
+> + *
+> + * Note:
+> + *	The function can only test if the display mode is supported in
+> + *	general. If you have too many framebuffers pinned to video memory,
+> + *	a display mode may still not be usable in practice.
+> + */
+> +enum drm_mode_status
+> +drm_vram_helper_mode_valid_internal(struct drm_device *dev,
+> +				    const struct drm_display_mode *mode,
+> +				    unsigned long max_bpp)
+> +{
+> +	struct drm_vram_mm *vmm = dev->vram_mm;
+> +	unsigned long fbsize, fbpages, max_fbpages;
+> +
+> +	if (!dev->vram_mm)
 
-> - one for of all other warnings, hopefully it can get reviewed
-> =
+This is a driver bug imo (most likely of enabling hotplug/output detection
+before the vram handling is set up), needs to be wrapped in a WARN_ON to
+catch this.
 
-> - one for this crc4 variable. Does checking crc value and print an error =
+> +		return MODE_BAD;
+> +
+> +	max_fbpages = (vmm->vram_size / 2) >> PAGE_SHIFT;
+> +
+> +	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
+> +	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
+> +
+> +	if (fbpages > max_fbpages)
+> +		return MODE_MEM;
+> +
+> +	return MODE_OK;
+> +}
+> +EXPORT_SYMBOL(drm_vram_helper_mode_valid_internal);
 
-> should be acceptable ?
-> =
+Anyway, patch looks good (with the nits addressed one way or the other):
 
-> Something like:
-> =
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> +
+> +/**
+> + * drm_vram_helper_mode_valid - Tests if a display mode's
+> + *	framebuffer fits into the available video memory.
+> + * @dev:	the DRM device
+> + * @mode:	the mode to test
+> + * Returns:
+> + *	MODE_OK the display mode is supported, or an error code of type
+> + *	enum drm_mode_status otherwise.
+> + *
+> + * This function is a variant of drm_vram_helper_mode_valid_internal()
+> + * for framebuffers that use at most 32-bit color depth. It can be plugged
+> + * directly into struct drm_mode_config_funcs.mode_valid.
+> + */
+> +enum drm_mode_status
+> +drm_vram_helper_mode_valid(struct drm_device *dev,
+> +			   const struct drm_display_mode *mode)
+> +{
+> +	static const unsigned long max_bpp = 4; /* DRM_FORMAT_XRGBA8888 */
+> +
+> +	return drm_vram_helper_mode_valid_internal(dev, mode, max_bpp);
+> +}
+> +EXPORT_SYMBOL(drm_vram_helper_mode_valid);
+> diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+> index 573e9fd109bf..e7d9144c79ad 100644
+> --- a/include/drm/drm_gem_vram_helper.h
+> +++ b/include/drm/drm_gem_vram_helper.h
+> @@ -6,6 +6,7 @@
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_ioctl.h>
+> +#include <drm/drm_modes.h>
+>  #include <drm/ttm/ttm_bo_api.h>
+>  #include <drm/ttm/ttm_bo_driver.h>
+>  #include <drm/ttm/ttm_placement.h>
+> @@ -205,4 +206,17 @@ struct drm_vram_mm *drm_vram_helper_alloc_mm(
+>  	struct drm_device *dev, uint64_t vram_base, size_t vram_size);
+>  void drm_vram_helper_release_mm(struct drm_device *dev);
+>  
+> +/*
+> + * Mode-config helpers
+> + */
+> +
+> +enum drm_mode_status
+> +drm_vram_helper_mode_valid_internal(struct drm_device *dev,
+> +				    const struct drm_display_mode *mode,
+> +				    unsigned long max_bpp);
+> +
+> +enum drm_mode_status
+> +drm_vram_helper_mode_valid(struct drm_device *dev,
+> +			   const struct drm_display_mode *mode);
+> +
+>  #endif
+> -- 
+> 2.25.0
+> 
 
-> if (crc4 !=3D msg->chunk[msg->curchunk_len - 1])
-> =
-
->  =A0=A0=A0 print_hex_dump(KERN_DEBUG, "wrong crc", DUMP_PREFIX_NONE, 16, =
-1, =
-
-> msg->chunk,=A0 msg->curchunk_len, false);
-
-Yeah I think that should be reasonable as a start. Then we'll see how much
-the bug reports start flowing in ...
--Daniel
-> =
-
-> =
-
-> Benjamin
-> =
-
-> =
-
-> >
-> > Dave.
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
