@@ -1,92 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8FFA15094F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 16:13:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CE715094D
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 16:12:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2666E4B7;
-	Mon,  3 Feb 2020 15:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26CE76EC20;
+	Mon,  3 Feb 2020 15:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2083.outbound.protection.outlook.com [40.107.220.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 149A26E3B5;
- Mon,  3 Feb 2020 15:13:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bFbT42sMFRY7vyR2jsg+vU861J73ShTeCYxIeU7+UOMEX77sOrClFHi9SDo2lfCqCRGe2cnkI9PUrjVOgkxM60kbN0xkW2QJNKGd1Jn4fXtoO72gCnLKaxC+LjGC/2VtQplrm23KjVETjmOL1MsZaH99Fw9XnfeOFRiiEQJmsZ5VfejtQwOZyuwK+N1kdt98nl+u5QXdaXDiHUejF92+Pv1qUjtgSK3nqSuNCXsm0l/g2dEPWW+UNd5mA2DyKwuO2tSmHiuc/W0F2rpykyDZRuMr+HR+FIqDv+Pfk88zoscgGzAPbqvVmMYLq60j8c2pm9j9TW4IesBXvGenzLeb7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mDPxitvLu7tX2qnG6XHJ2l592m0cADpHtKPko8YQ3Bs=;
- b=EhoXJC4wpGIj+FfvX09YRSfw3h5OkN59SeUw99sXtQC346rl8LWJKG7oF6Hpxjr2BqlW93U9KCEvMLZmRFQguB+99tWwHbdiz2sZPsdSe6een6wxsjjw+Vhxv/57otApg9djMq7SfChNEvFx7VVIGTU6myWNp6WL8Po98BcuUiYJ3LOp8NRjrQeJOWzO/c/mhPr/RWNZBeqJViJHNx1BZ0+p7o/h73CXCfhk4bP40weod5bhuBSrrBmeyOA8YZ8dUKoDLA/0p7ZtGaBjIKeYw1ylC4OWgrRToZQ1lnm3NLBnsLaATYCMNdoN5aMdfAOb0WRcmvqrXa2jGJhtgnandw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mDPxitvLu7tX2qnG6XHJ2l592m0cADpHtKPko8YQ3Bs=;
- b=nvgi5GcbStbtbT6MhsY4R4jdQh6fKkjZtyQWhiVqR5ntAiDc2LWCwgaqo/QRWFzpn0VodUEK+EFaUiDeHYfFUHh6W4ptY1gcc8uN+jxbYYfAT7fUaYDZF0BbRzBns5LbGO7vzypW1U2nQT4/427VmEweEjswpA9faWePIZ5J+Z0=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
- DM5PR12MB1129.namprd12.prod.outlook.com (10.168.240.7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.32; Mon, 3 Feb 2020 15:09:00 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::d40e:7339:8605:bc92]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::d40e:7339:8605:bc92%11]) with mapi id 15.20.2686.031; Mon, 3 Feb 2020
- 15:09:00 +0000
-Subject: Re: KASAN: use-after-free Read in vgem_gem_dumb_create
-To: Dan Carpenter <dan.carpenter@oracle.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <000000000000ae2f81059d7716b8@google.com>
- <CAKMK7uGivsYzP6h9rg0eN34YuOVbee6gnhdOxiys=M=4phK+kw@mail.gmail.com>
- <20200203090619.GL1778@kadam>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <7ba76c48-a002-12c3-8114-701e399b1190@amd.com>
-Date: Mon, 3 Feb 2020 16:08:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200203090619.GL1778@kadam>
-Content-Language: en-US
-X-ClientProxiedBy: AM4PR05CA0005.eurprd05.prod.outlook.com (2603:10a6:205::18)
- To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12B886EC20;
+ Mon,  3 Feb 2020 15:12:40 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2020 07:12:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,398,1574150400"; d="scan'208";a="310747262"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga001.jf.intel.com with SMTP; 03 Feb 2020 07:12:36 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 03 Feb 2020 17:12:36 +0200
+Date: Mon, 3 Feb 2020 17:12:36 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/dp: Add checking of YCBCR420 Pass-through
+ to YCBCR420 outputs.
+Message-ID: <20200203151236.GG13686@intel.com>
+References: <20200203120421.113744-1-gwan-gyeong.mun@intel.com>
+ <20200203120421.113744-2-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR05CA0005.eurprd05.prod.outlook.com (2603:10a6:205::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.27 via Frontend Transport; Mon, 3 Feb 2020 15:08:57 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 365c22ee-84fd-4d7b-d8ba-08d7a8baffc3
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1129:|DM5PR12MB1129:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB112930A95A172964ADD1FFD983000@DM5PR12MB1129.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0302D4F392
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10001)(10009020)(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(189003)(199004)(45080400002)(478600001)(186003)(16526019)(66946007)(6486002)(966005)(6666004)(53546011)(7416002)(2906002)(54906003)(31696002)(110136005)(86362001)(4326008)(316002)(52116002)(81156014)(31686004)(66556008)(66476007)(81166006)(2616005)(36756003)(8676002)(8936002)(5660300002)(99710200001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1129;
- H:DM5PR12MB1705.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tTNPf+FzOYMVATiqEOY3aDFPauPiAn7KMNMGfQ2Z5DvCSYrnWPXHZ/5PmkjfBrpsesgsdDkiW6H3F1v188Ak49K6jXD7csXYXqEoB40TmF2Edt52F56nMjk/IXpmUssloF5hSuSLlJcbZoyGfk1b/QD9WKaO0+Nc3fVuDj0rAWBBSsJLo1yws5YKXgxFgUwfKvtleIsUUagGtdrGu7p+4keDZ78oSxRPUBsJEz2wl0wgfVTIfK3yIUMY97qw3Mov7Rq0PRgwKBbv+TejRSm5QoV04LWlzW0cN4Nn0ODHCaR2wrO/nala6C6Lgvuo+7yohRTqcRfZgHIC0tS0oSAz7QS8NEEgw0oRw4heRf6qoEQSt3fugZC5eRXoU6krBwbKmgCziNedlOoC/A8QxmmQof1LGbyx8wiKe/rGXOTpvEthUvgTDzc/OSwDUcpaN46XXWKYzcVitehx0XeIy865Z4LrN1bZEXFyUJdoQ6AcLa78lV5E/g0EbQOfkDnA8JfwJK+4ajTuGSG3pUrcdYBoaDCSTiSubGFKXOl6T0WW8LEnqUspXDsjvcHApjIOmtZPvfjLQZgn9G0sqWRGgbqM1BznkFMici1Q4c9rY9Aq4BFDgWCFepAEemrVMviKvv8G4BwPrT4Pb/cD8J4fsKATKw==
-X-MS-Exchange-AntiSpam-MessageData: BEEKTmWHUNj9YPxqZRt34IaeDjojfLOnibllKiw1hZ7t7HvxZplsXb2CKlaNt44z50sIYKayORMWNYFNnL8YCvREejxF7tzaf6Ot/fC2qKL6nKCgbotLkNVWG3S6ERLyT69WRyxIQ6ds1c299zv2HQI3yL3XkcTBbR41Kd2ky9PN5YFMyJgFGtkni/axItOJh7AG1+2U7uRenS5P3j8/wQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 365c22ee-84fd-4d7b-d8ba-08d7a8baffc3
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2020 15:09:00.7031 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q8284h64pNXNi3WZvQfc60O+idzZPv7ycBZwMJ+q7dFh5AabbkVgJO08MdI8xfYg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1129
+Content-Disposition: inline
+In-Reply-To: <20200203120421.113744-2-gwan-gyeong.mun@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,79 +48,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Dave Airlie <airlied@linux.ie>,
- netdev <netdev@vger.kernel.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- syzbot <syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- David Miller <davem@davemloft.net>, Emil Velikov <emil.velikov@collabora.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.02.20 um 10:06 schrieb Dan Carpenter:
-> On Sun, Feb 02, 2020 at 02:19:18PM +0100, Daniel Vetter wrote:
->> On Fri, Jan 31, 2020 at 11:28 PM syzbot
->> <syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com> wrote:
->>> Hello,
->>>
->>> syzbot found the following crash on:
->>>
->>> HEAD commit:    39bed42d Merge tag 'for-linus-hmm' of git://git.kernel.org..
->>> git tree:       upstream
->>> console output: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsyzkaller.appspot.com%2Fx%2Flog.txt%3Fx%3D179465bee00000&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C529f2273b8374f38560108d7a88862eb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637163176051177627&amp;sdata=3goGqBs4%2BjkjCeV2bX5VTB%2F1PRLEP5bzq5Ec%2BN7fKHs%3D&amp;reserved=0
->>> kernel config:  https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsyzkaller.appspot.com%2Fx%2F.config%3Fx%3D2646535f8818ae25&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C529f2273b8374f38560108d7a88862eb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637163176051177627&amp;sdata=SnlKln%2FAG%2BVRVjSrOSJjUE%2BhSDf35wTqzWLCAyGQVss%3D&amp;reserved=0
->>> dashboard link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsyzkaller.appspot.com%2Fbug%3Fextid%3D0dc4444774d419e916c8&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C529f2273b8374f38560108d7a88862eb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637163176051177627&amp;sdata=33EJNAWjTm6Edi1J0oPBfs8epb%2BQ2cpAKlzl1sT40CQ%3D&amp;reserved=0
->>> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
->>> syz repro:      https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsyzkaller.appspot.com%2Fx%2Frepro.syz%3Fx%3D16251279e00000&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C529f2273b8374f38560108d7a88862eb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637163176051177627&amp;sdata=zmUyyp7znqQfLzzNZ80bNgCILAjeMeCVVr7xf7CHaWk%3D&amp;reserved=0
->>>
->>> The bug was bisected to:
->>>
->>> commit 7611750784664db46d0db95631e322aeb263dde7
->>> Author: Alex Deucher <alexander.deucher@amd.com>
->>> Date:   Wed Jun 21 16:31:41 2017 +0000
->>>
->>>      drm/amdgpu: use kernel is_power_of_2 rather than local version
->>>
->>> bisection log:  https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsyzkaller.appspot.com%2Fx%2Fbisect.txt%3Fx%3D11628df1e00000&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C529f2273b8374f38560108d7a88862eb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637163176051177627&amp;sdata=5QpTG4iU%2FOt22L3jxRbNxtVPZZ2EvBAcFGZdqVnVCbU%3D&amp;reserved=0
->>> final crash:    https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsyzkaller.appspot.com%2Fx%2Freport.txt%3Fx%3D13628df1e00000&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C529f2273b8374f38560108d7a88862eb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637163176051177627&amp;sdata=hN6UZnFR2nIMPMspjIF7S82oXstaRl%2BLAzmz5yujPac%3D&amp;reserved=0
->>> console output: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsyzkaller.appspot.com%2Fx%2Flog.txt%3Fx%3D15628df1e00000&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C529f2273b8374f38560108d7a88862eb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637163176051177627&amp;sdata=LHXMANOURDv3EsqTSvHSBZnPEzGQoJU1RbeqYExCaGk%3D&amp;reserved=0
->>>
->>> IMPORTANT: if you fix the bug, please add the following tag to the commit:
->>> Reported-by: syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com
->>> Fixes: 761175078466 ("drm/amdgpu: use kernel is_power_of_2 rather than local version")
->> Aside: This bisect line is complete nonsense ... I'm kinda at the
->> point where I'm assuming that syzbot bisect results are garbage, which
->> is maybe not what we want. I guess much stricter filtering for noise
->> is needed, dunno.
->> -Danile
-> With race conditions the git bisect is often nonsense.
+On Mon, Feb 03, 2020 at 02:04:21PM +0200, Gwan-gyeong Mun wrote:
+> When a DP downstream uses a DP to HDMI active converter, the active
+> converter needs to support YCbCr420 Pass-through to enable DP YCbCr 4:2:0
+> outputs.
+> =
 
-Which makes sense, but we can still try to sanitize the result. I'm not 
-familiar with the test case, but I think it doesn't even compile the 
-amdgpu driver.
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 26 +++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> =
 
-So skipping all patches of stuff you don't even compile would make not 
-only the result of bisecting quite a bit more reliable, but also speed 
-the process up quite a bit.
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index f4dede6253f8..824ed8096426 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -2298,6 +2298,22 @@ intel_dp_compute_link_config(struct intel_encoder =
+*encoder,
+>  	return 0;
+>  }
+>  =
 
-But no good idea to how teach that to a compile bot or the git bisect 
-command.
+> +static bool
+> +intel_dp_downstream_is_hdmi_detailed_cap_info(struct intel_dp *intel_dp)
+> +{
+> +	int type =3D intel_dp->downstream_ports[0] & DP_DS_PORT_TYPE_MASK;
+> +	bool detailed_cap_info =3D intel_dp->dpcd[DP_DOWNSTREAMPORT_PRESENT] &
+> +				 DP_DETAILED_CAP_INFO_AVAILABLE;
+> +
+> +	return type =3D=3D DP_DS_PORT_TYPE_HDMI && detailed_cap_info;
 
-Regards,
-Christian.
+This looks a bit incomplete, and should really be in the core. I have a
+bunch of stuff for DFPs sitting in a branch. I'll just post the whole
+thing...
 
->
-> regards,
-> dan carpenter
->
+> +}
+> +
+> +static bool
+> +intel_dp_downstream_supports_ycbcr_420_passthru(struct intel_dp *intel_d=
+p)
+> +{
+> +	return intel_dp->downstream_ports[3] & DP_DS_YCBCR420_PASSTHRU_SUPPORT;
+> +}
+> +
+>  static int
+>  intel_dp_ycbcr420_config(struct intel_dp *intel_dp,
+>  			 struct drm_connector *connector,
+> @@ -2314,6 +2330,16 @@ intel_dp_ycbcr420_config(struct intel_dp *intel_dp,
+>  	    !connector->ycbcr_420_allowed)
+>  		return 0;
+>  =
 
+> +	/*
+> +	 * When a DP downstream uses a DP to HDMI active converter,
+> +	 * the active converter needs to support YCbCr420 Pass-through.
+> +	 */
+> +	if (drm_dp_is_branch(intel_dp->dpcd)) {
+> +		if (intel_dp_downstream_is_hdmi_detailed_cap_info(intel_dp) &&
+> +		    !intel_dp_downstream_supports_ycbcr_420_passthru(intel_dp))
+> +			return 0;
+> +	}
+> +
+>  	crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_YCBCR420;
+>  =
+
+>  	/* YCBCR 420 output conversion needs a scaler */
+> -- =
+
+> 2.24.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
