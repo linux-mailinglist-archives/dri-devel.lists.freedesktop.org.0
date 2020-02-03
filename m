@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8715A151076
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 20:48:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36003151079
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 20:48:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3282D6ECC7;
-	Mon,  3 Feb 2020 19:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB5166ECCF;
+	Mon,  3 Feb 2020 19:48:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2739F6ECC7
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 19:48:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E67D6ECCF
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 19:48:29 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206387] amdgpu with amdgpu.dc=1 and multiple monitors on
  DisplayPort keeps changing devices
-Date: Mon, 03 Feb 2020 19:48:04 +0000
+Date: Mon, 03 Feb 2020 19:48:28 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206387-2300-egDtdhwS2F@https.bugzilla.kernel.org/>
+Message-ID: <bug-206387-2300-UwnaVvRcPf@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206387-2300@https.bugzilla.kernel.org/>
 References: <bug-206387-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206387
 
---- Comment #2 from Alexandre Pereira (alexpereira@disroot.org) ---
-Created attachment 287099
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287099&action=edit
-xorg and dmesg log - boot 1
+--- Comment #3 from Alexandre Pereira (alexpereira@disroot.org) ---
+Created attachment 287101
+  --> https://bugzilla.kernel.org/attachment.cgi?id=287101&action=edit
+xorg and dmesg log - boot 2
 
 -- 
 You are receiving this mail because:
