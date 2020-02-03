@@ -2,58 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDEA1502B1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 09:36:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AEF1502F3
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 10:07:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3A6C8972B;
-	Mon,  3 Feb 2020 08:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 774BD6EB6A;
+	Mon,  3 Feb 2020 09:06:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A046E8972B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 08:36:09 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id A308BACA4;
- Mon,  3 Feb 2020 08:36:07 +0000 (UTC)
-Subject: Re: [PATCH 2/4] drm/bochs: Implement struct
- drm_mode_config_funcs.mode_valid
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20200201122744.27165-1-tzimmermann@suse.de>
- <20200201122744.27165-3-tzimmermann@suse.de>
- <20200203064757.2v4hqad2trw7jcwk@sirius.home.kraxel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <86d3f7c6-0fda-9f2a-017f-5ea5623fac4f@suse.de>
-Date: Mon, 3 Feb 2020 09:35:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96CD56EB68;
+ Mon,  3 Feb 2020 09:06:56 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 013934fr088127;
+ Mon, 3 Feb 2020 09:06:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=8WgPDKN0FJnUuKUBLKIxeobzc7t0Hcs7X5V3wjF1qF0=;
+ b=LsHCgmGufai5qhkHeBqE7FZNDZB+nNdr1VIkClhVmmVBnP0vrrrqsyGzQXAsO5YvhFyn
+ O6Ji/TwMEED9xLA0SHaIYYc/eBTR+NYfFiFHw8lAkc8B98IOBCPUKkRC59xP/eszz66x
+ O3E9oCq0+zgIIUt3dpomej0ne1XSPTu+4Ru+KW9plKsJQz8IR+DWP3zppw1OKC95P0aF
+ 5Y9vDip0WXiAYtY7Cp/+Ab6CoT2BGl3WgxAGwPm0SGNXNIXzF2hZLZ3gOVlBk637s9TC
+ D79dARXZ5zRLAeITfA9pstDkGSIzuLpI35Awp5DJSMe+lViv+r4ybs7Klc14zSaRXNbS iQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2xw19q69g5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 03 Feb 2020 09:06:40 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 01393JHS177625;
+ Mon, 3 Feb 2020 09:06:40 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 2xwjt3e3un-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 03 Feb 2020 09:06:39 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01396Ywj008538;
+ Mon, 3 Feb 2020 09:06:35 GMT
+Received: from kadam (/41.210.143.134) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 03 Feb 2020 01:06:31 -0800
+Date: Mon, 3 Feb 2020 12:06:19 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: KASAN: use-after-free Read in vgem_gem_dumb_create
+Message-ID: <20200203090619.GL1778@kadam>
+References: <000000000000ae2f81059d7716b8@google.com>
+ <CAKMK7uGivsYzP6h9rg0eN34YuOVbee6gnhdOxiys=M=4phK+kw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200203064757.2v4hqad2trw7jcwk@sirius.home.kraxel.org>
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGivsYzP6h9rg0eN34YuOVbee6gnhdOxiys=M=4phK+kw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9519
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2002030073
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9519
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2002030073
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,109 +79,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, puck.chen@hisilicon.com, dri-devel@lists.freedesktop.org,
- hdegoede@redhat.com, kong.kongxinwei@hisilicon.com, zourongrong@gmail.com,
- sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1311361009=="
+Cc: Rob Clark <robdclark@chromium.org>, David Miller <davem@davemloft.net>,
+ Dave Airlie <airlied@linux.ie>, netdev <netdev@vger.kernel.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ syzbot <syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1311361009==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="EAs4OIJO0fTC2mTKcTFTtW8tsYrqCU6X6"
+On Sun, Feb 02, 2020 at 02:19:18PM +0100, Daniel Vetter wrote:
+> On Fri, Jan 31, 2020 at 11:28 PM syzbot
+> <syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com> wrote:
+> >
+> > Hello,
+> >
+> > syzbot found the following crash on:
+> >
+> > HEAD commit:    39bed42d Merge tag 'for-linus-hmm' of git://git.kernel.org..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=179465bee00000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=2646535f8818ae25
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=0dc4444774d419e916c8
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16251279e00000
+> >
+> > The bug was bisected to:
+> >
+> > commit 7611750784664db46d0db95631e322aeb263dde7
+> > Author: Alex Deucher <alexander.deucher@amd.com>
+> > Date:   Wed Jun 21 16:31:41 2017 +0000
+> >
+> >     drm/amdgpu: use kernel is_power_of_2 rather than local version
+> >
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11628df1e00000
+> > final crash:    https://syzkaller.appspot.com/x/report.txt?x=13628df1e00000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=15628df1e00000
+> >
+> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > Reported-by: syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com
+> > Fixes: 761175078466 ("drm/amdgpu: use kernel is_power_of_2 rather than local version")
+> 
+> Aside: This bisect line is complete nonsense ... I'm kinda at the
+> point where I'm assuming that syzbot bisect results are garbage, which
+> is maybe not what we want. I guess much stricter filtering for noise
+> is needed, dunno.
+> -Danile
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---EAs4OIJO0fTC2mTKcTFTtW8tsYrqCU6X6
-Content-Type: multipart/mixed; boundary="ZHb06XHLqeoBWetIInXJXtcQ5nCNbhi4r";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: airlied@linux.ie, puck.chen@hisilicon.com, hdegoede@redhat.com,
- kong.kongxinwei@hisilicon.com, dri-devel@lists.freedesktop.org,
- zourongrong@gmail.com, sam@ravnborg.org
-Message-ID: <86d3f7c6-0fda-9f2a-017f-5ea5623fac4f@suse.de>
-Subject: Re: [PATCH 2/4] drm/bochs: Implement struct
- drm_mode_config_funcs.mode_valid
-References: <20200201122744.27165-1-tzimmermann@suse.de>
- <20200201122744.27165-3-tzimmermann@suse.de>
- <20200203064757.2v4hqad2trw7jcwk@sirius.home.kraxel.org>
-In-Reply-To: <20200203064757.2v4hqad2trw7jcwk@sirius.home.kraxel.org>
+With race conditions the git bisect is often nonsense.
 
---ZHb06XHLqeoBWetIInXJXtcQ5nCNbhi4r
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Gerd
-
-Am 03.02.20 um 07:47 schrieb Gerd Hoffmann:
-> On Sat, Feb 01, 2020 at 01:27:42PM +0100, Thomas Zimmermann wrote:
->> The implementation of struct drm_mode_config_funcs.mode_valid verifies=
-
->> that enough video memory is available for a given display mode.
->=20
-> There is bochs_connector_mode_valid() doing the same check,
-> you can drop it when hooking up drm_vram_helper_mode_valid.
-
-Oh, didn't see it. That's more duplicated code to remove. :)
-
-There's a helpful comment in bochs_connector_mode_valid(). Where shall I
-move it?
-
-Best regard
-Thomas
-
->=20
-> cheers,
->   Gerd
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---ZHb06XHLqeoBWetIInXJXtcQ5nCNbhi4r--
-
---EAs4OIJO0fTC2mTKcTFTtW8tsYrqCU6X6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4322sACgkQaA3BHVML
-eiPIhwf/cTj0T9wakbKea8gpUhJbdug2J0ecWJiJ5F1SC1mW0pOxOypfuCq0W+c+
-NKm/gFlQXc8uyeW7HoGgIfgSVPTscOZdf817tMspr7oTfxXR3k6JYhkOAhHNAgbx
-SXEggeI02GWvMepAIkm29C0FH6O+1J3rQkLAY6q14JJNI+RU0sPRnYUjaG2Y/Khx
-IXI6o69hbM/x+GnwNjZAmUsrdfwTnryX/LXrqE2P+ewYGCFmXzhZKPxHe6I+0ynQ
-n3CBFQNuCftkrr3NgQpxMmTxrI9zJ8sztyz5aA2Le+9pfbyRGDRVFFuthNHNj317
-Rc2YakLbPcFB9wrXoinVC6ng5ltzmw==
-=QoSy
------END PGP SIGNATURE-----
-
---EAs4OIJO0fTC2mTKcTFTtW8tsYrqCU6X6--
-
---===============1311361009==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+regards,
+dan carpenter
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1311361009==--
