@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC593151221
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 22:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A436D1512C9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 00:16:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49DC36E442;
-	Mon,  3 Feb 2020 21:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61B406E03E;
+	Mon,  3 Feb 2020 23:16:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A106E442;
- Mon,  3 Feb 2020 21:55:42 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id t14so1091070wmi.5;
- Mon, 03 Feb 2020 13:55:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4E9f8I92yihbsVSUNCE3Lky+EwbjWrJog3x386ioidA=;
- b=htmI1Sn4Y90VBTnpntgey0V40GRD848NbEOt/BWw3gcyg7lxlFx7ORWnt+E0CZVcp6
- YfhQuQKYWIloySoBdoeAkb2p6AlC1mp6U/2T6N6Wv7x+1BUrxHqQm9bYBwY7pabo6WwH
- QijQXbGMZexxJUzYRD2zb3V2MZ5FoV4WuqTG21I9rHGKbzHwipBCoELzedrRH/s238v6
- xIkqE/3cltxwLsH9EfzEm4HB8RI3riAaHP2knoZIbHYlTVDuMQUS3y6cNRFZI3SwRonK
- R+pePgw4R9AsD8AhxPwR8M2g3+b/oMJMETFM7HZOUcdl6R8pVRhcLE2vIS5xh0iN8UyT
- Wd7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4E9f8I92yihbsVSUNCE3Lky+EwbjWrJog3x386ioidA=;
- b=j6RVviYqByO37/2R8Dbb56vUQXThUNqAgMWZ2Xb7/cGLG3D99d2XSAV9rEtueLY/c/
- dpdpBTfNvfcKWKS8nnmk5R1GnEU9JGMMIavZsawkSJCFv5gl2Pxuf/Y2jCVDKCJsutXZ
- 2PbAQ9o9Am+1LXj8NkGqqulK5HLIRICxCwaITnU6kROHJxhDjTmTX9XCd5DYv7rXPBqh
- f4vatIII/TvU0VEBH4ADJmEIvDbT0BlToblARut9Ghq1PzPmHMIRIT3Z2EA/j9TIEAqJ
- S1kls+/7C9kVnDyaObV2Kk8tl3OZqq3MI3mjlT5KDjAEJA8cZ94YlBQxYmbT88ejd3H4
- y7jw==
-X-Gm-Message-State: APjAAAUeNlu8Ni1EzSuO3rj5dCQL8OCx8CIpWM0Oq/8Bzg5upIlkYorW
- abUwz2O7f36sxjyB214tZ/AC5SWrXecGaiGW8vs6fw==
-X-Google-Smtp-Source: APXvYqxLecNJtcnO6PQ/IxBzsglq8GeN67l5tKNINreFSX4AW+Al4sM3NKU9oHVyci1bkMJN05TsmdGl3Ocw0h+4xao=
-X-Received: by 2002:a1c:9a56:: with SMTP id c83mr1097788wme.79.1580766940693; 
- Mon, 03 Feb 2020 13:55:40 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0472B6E03E;
+ Mon,  3 Feb 2020 23:16:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2020 15:16:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,398,1574150400"; d="scan'208";a="263625667"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+ by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2020 15:16:01 -0800
+Received: from irsmsx604.ger.corp.intel.com (163.33.146.137) by
+ IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 3 Feb 2020 23:15:59 +0000
+Received: from irsmsx605.ger.corp.intel.com (163.33.146.138) by
+ IRSMSX604.ger.corp.intel.com (163.33.146.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 3 Feb 2020 23:15:59 +0000
+Received: from irsmsx605.ger.corp.intel.com ([163.33.146.138]) by
+ IRSMSX605.ger.corp.intel.com ([163.33.146.138]) with mapi id 15.01.1713.004;
+ Mon, 3 Feb 2020 23:15:59 +0000
+From: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
+To: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 08/18] drm/i915/dp: Add logging function for
+ DP VSC SDP
+Thread-Topic: [Intel-gfx] [PATCH 08/18] drm/i915/dp: Add logging function for
+ DP VSC SDP
+Thread-Index: AQHV2IAYzjcTTlsADEabgA9NZnPkM6gGSV8AgAPVZwA=
+Date: Mon, 3 Feb 2020 23:15:59 +0000
+Message-ID: <5a7286907993210e752ffde47e1a5dafdcf08081.camel@intel.com>
+References: <20200131214701.1085737-1-gwan-gyeong.mun@intel.com>
+ <20200131214701.1085737-9-gwan-gyeong.mun@intel.com>
+ <87wo965vh1.fsf@intel.com>
+In-Reply-To: <87wo965vh1.fsf@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.66.150]
+Content-ID: <B1585EC8810471469A50D1B0421C6A79@intel.com>
 MIME-Version: 1.0
-References: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
- <20200202171635.4039044-5-chris@chris-wilson.co.uk>
-In-Reply-To: <20200202171635.4039044-5-chris@chris-wilson.co.uk>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 3 Feb 2020 16:55:29 -0500
-Message-ID: <CADnq5_PEa8UrXOCokq3CQn2QDqA=zm3XHkKNp6tbvCe9Tm__ng@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm: Remove exports for drm_pci_alloc/drm_pci_free
-To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,194 +64,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 2, 2020 at 12:16 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
->
-> The drm_pci_alloc routines have been a thin wrapper around the core dma
-> coherent routines. Remove the crutch of a wrapper and the exported
-> symbols, marking it for only internal legacy use.
->
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+On Sat, 2020-02-01 at 14:43 +0200, Jani Nikula wrote:
+> On Fri, 31 Jan 2020, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> wrote:
+> > When receiving video it is very useful to be able to log DP VSC
+> > SDP.
+> > This greatly simplifies debugging.
+> 
+> Seems like a lot of the functions should really be in drm core.
+> 
+> BR,
+> Jani.
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Hi,
 
+Okay, I'll move these logging functions to drm core.
 
-> ---
->  drivers/gpu/drm/drm_bufs.c   |  5 +++--
->  drivers/gpu/drm/drm_legacy.h | 23 +++++++++++++++++++++++
->  drivers/gpu/drm/drm_pci.c    | 31 ++++++-------------------------
->  include/drm/drm_pci.h        | 18 ------------------
->  4 files changed, 32 insertions(+), 45 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-> index 19297e58b232..a33df3744f76 100644
-> --- a/drivers/gpu/drm/drm_bufs.c
-> +++ b/drivers/gpu/drm/drm_bufs.c
-> @@ -675,7 +675,7 @@ static void drm_cleanup_buf_error(struct drm_device *dev,
->         if (entry->seg_count) {
->                 for (i = 0; i < entry->seg_count; i++) {
->                         if (entry->seglist[i]) {
-> -                               drm_pci_free(dev, entry->seglist[i]);
-> +                               drm_legacy_pci_free(dev, entry->seglist[i]);
->                         }
->                 }
->                 kfree(entry->seglist);
-> @@ -975,7 +975,8 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
->
->         while (entry->buf_count < count) {
->
-> -               dmah = drm_pci_alloc(dev, PAGE_SIZE << page_order, 0x1000);
-> +               dmah = drm_legacy_pci_alloc(dev,
-> +                                           PAGE_SIZE << page_order, 0x1000);
->
->                 if (!dmah) {
->                         /* Set count correctly so we free the proper amount. */
-> diff --git a/drivers/gpu/drm/drm_legacy.h b/drivers/gpu/drm/drm_legacy.h
-> index 1be3ea320474..3853b45341c7 100644
-> --- a/drivers/gpu/drm/drm_legacy.h
-> +++ b/drivers/gpu/drm/drm_legacy.h
-> @@ -36,6 +36,7 @@
->
->  struct agp_memory;
->  struct drm_device;
-> +struct drm_dma_handle;
->  struct drm_file;
->  struct drm_buf_desc;
->
-> @@ -211,4 +212,26 @@ void drm_master_legacy_init(struct drm_master *master);
->  static inline void drm_master_legacy_init(struct drm_master *master) {}
->  #endif
->
-> +
-> +#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
-> +
-> +struct drm_dma_handle *
-> +drm_legacy_pci_alloc(struct drm_device *dev, size_t size, size_t align);
-> +void drm_legacy_pci_free(struct drm_device *dev, struct drm_dma_handle * dmah);
-> +
-> +#else
-> +
-> +static inline struct drm_dma_handle *
-> +drm_legacy_pci_alloc(struct drm_device *dev, size_t size, size_t align)
-> +{
-> +       return NULL;
-> +}
-> +
-> +static inline void drm_legacy_pci_free(struct drm_device *dev,
-> +                                      struct drm_dma_handle *dmah)
-> +{
-> +}
-> +
-> +#endif
-> +
->  #endif /* __DRM_LEGACY_H__ */
-> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-> index c6bb98729a26..12239498538c 100644
-> --- a/drivers/gpu/drm/drm_pci.c
-> +++ b/drivers/gpu/drm/drm_pci.c
-> @@ -36,19 +36,10 @@
->  #include "drm_internal.h"
->  #include "drm_legacy.h"
->
-> -/**
-> - * drm_pci_alloc - Allocate a PCI consistent memory block, for DMA.
-> - * @dev: DRM device
-> - * @size: size of block to allocate
-> - * @align: alignment of block
-> - *
-> - * FIXME: This is a needless abstraction of the Linux dma-api and should be
-> - * removed.
-> - *
-> - * Return: A handle to the allocated memory block on success or NULL on
-> - * failure.
-> - */
-> -drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t align)
-> +#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
-> +
-> +drm_dma_handle_t *
-> +drm_legacy_pci_alloc(struct drm_device * dev, size_t size, size_t align)
->  {
->         drm_dma_handle_t *dmah;
->
-> @@ -76,24 +67,14 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
->         return dmah;
->  }
->
-> -EXPORT_SYMBOL(drm_pci_alloc);
-> -
-> -/**
-> - * drm_pci_free - Free a PCI consistent memory block
-> - * @dev: DRM device
-> - * @dmah: handle to memory block
-> - *
-> - * FIXME: This is a needless abstraction of the Linux dma-api and should be
-> - * removed.
-> - */
-> -void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
-> +void drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
->  {
->         dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
->                           dmah->busaddr);
->         kfree(dmah);
->  }
->
-> -EXPORT_SYMBOL(drm_pci_free);
-> +#endif
->
->  static int drm_get_pci_domain(struct drm_device *dev)
->  {
-> diff --git a/include/drm/drm_pci.h b/include/drm/drm_pci.h
-> index 9031e217b506..cade5b60b643 100644
-> --- a/include/drm/drm_pci.h
-> +++ b/include/drm/drm_pci.h
-> @@ -34,34 +34,16 @@
->
->  #include <linux/pci.h>
->
-> -struct drm_dma_handle;
-> -struct drm_device;
->  struct drm_driver;
-> -struct drm_master;
->
->  #ifdef CONFIG_PCI
->
-> -struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev, size_t size,
-> -                                    size_t align);
-> -void drm_pci_free(struct drm_device *dev, struct drm_dma_handle * dmah);
-> -
->  int drm_get_pci_dev(struct pci_dev *pdev,
->                     const struct pci_device_id *ent,
->                     struct drm_driver *driver);
->
->  #else
->
-> -static inline struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev,
-> -                                                  size_t size, size_t align)
-> -{
-> -       return NULL;
-> -}
-> -
-> -static inline void drm_pci_free(struct drm_device *dev,
-> -                               struct drm_dma_handle *dmah)
-> -{
-> -}
-> -
->  static inline int drm_get_pci_dev(struct pci_dev *pdev,
->                                   const struct pci_device_id *ent,
->                                   struct drm_driver *driver)
-> --
-> 2.25.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Br,
+G.G.
+
+> 
+> > Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_dp.c | 173
+> > ++++++++++++++++++++++++
+> >  drivers/gpu/drm/i915/display/intel_dp.h |   4 +
+> >  2 files changed, 177 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
+> > b/drivers/gpu/drm/i915/display/intel_dp.c
+> > index 6756030692c8..e33488222ac5 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > @@ -5090,6 +5090,179 @@ void intel_read_dp_sdp(struct intel_encoder
+> > *encoder,
+> >  	}
+> >  }
+> >  
+> > +static const char *dp_colorspace_get_name(enum dp_colorspace
+> > colorspace)
+> > +{
+> > +	if (colorspace < 0 || colorspace > DP_COLORSPACE_RESERVED)
+> > +		return "Invalid";
+> > +
+> > +	switch (colorspace) {
+> > +	case DP_COLORSPACE_RGB:
+> > +		return "RGB";
+> > +	case DP_COLORSPACE_YUV444:
+> > +		return "YUV444";
+> > +	case DP_COLORSPACE_YUV422:
+> > +		return "YUV422";
+> > +	case DP_COLORSPACE_YUV420:
+> > +		return "YUV420";
+> > +	case DP_COLORSPACE_Y_ONLY:
+> > +		return "Y_ONLY";
+> > +	case DP_COLORSPACE_RAW:
+> > +		return "RAW";
+> > +	default:
+> > +		return "Reserved";
+> > +	}
+> > +}
+> > +
+> > +static const char *dp_colorimetry_get_name(enum dp_colorspace
+> > colorspace,
+> > +					   enum dp_colorimetry
+> > colorimetry)
+> > +{
+> > +	if (colorspace < 0 || colorspace > DP_COLORSPACE_RESERVED)
+> > +		return "Invalid";
+> > +
+> > +	switch (colorimetry) {
+> > +	case DP_COLORIMETRY_DEFAULT:
+> > +		switch (colorspace) {
+> > +		case DP_COLORSPACE_RGB:
+> > +			return "sRGB";
+> > +		case DP_COLORSPACE_YUV444:
+> > +		case DP_COLORSPACE_YUV422:
+> > +		case DP_COLORSPACE_YUV420:
+> > +			return "BT.601";
+> > +		case DP_COLORSPACE_Y_ONLY:
+> > +			return "DICOM PS3.14";
+> > +		case DP_COLORSPACE_RAW:
+> > +			return "Custom Color Profile";
+> > +		default:
+> > +			return "Reserved";
+> > +		}
+> > +	case DP_COLORIMETRY_RGB_WIDE_FIXED: /* and
+> > DP_COLORIMETRY_BT709_YCC */
+> > +		switch (colorspace) {
+> > +		case DP_COLORSPACE_RGB:
+> > +			return "Wide Fixed";
+> > +		case DP_COLORSPACE_YUV444:
+> > +		case DP_COLORSPACE_YUV422:
+> > +		case DP_COLORSPACE_YUV420:
+> > +			return "BT.709";
+> > +		default:
+> > +			return "Reserved";
+> > +		}
+> > +	case DP_COLORIMETRY_RGB_WIDE_FLOAT: /* and
+> > DP_COLORIMETRY_XVYCC_601 */
+> > +		switch (colorspace) {
+> > +		case DP_COLORSPACE_RGB:
+> > +			return "Wide Float";
+> > +		case DP_COLORSPACE_YUV444:
+> > +		case DP_COLORSPACE_YUV422:
+> > +		case DP_COLORSPACE_YUV420:
+> > +			return "xvYCC 601";
+> > +		default:
+> > +			return "Reserved";
+> > +		}
+> > +	case DP_COLORIMETRY_OPRGB: /* and DP_COLORIMETRY_XVYCC_709 */
+> > +		switch (colorspace) {
+> > +		case DP_COLORSPACE_RGB:
+> > +			return "OpRGB";
+> > +		case DP_COLORSPACE_YUV444:
+> > +		case DP_COLORSPACE_YUV422:
+> > +		case DP_COLORSPACE_YUV420:
+> > +			return "xvYCC 709";
+> > +		default:
+> > +			return "Reserved";
+> > +		}
+> > +	case DP_COLORIMETRY_DCI_P3_RGB: /* and DP_COLORIMETRY_SYCC_601
+> > */
+> > +		switch (colorspace) {
+> > +		case DP_COLORSPACE_RGB:
+> > +			return "DCI-P3";
+> > +		case DP_COLORSPACE_YUV444:
+> > +		case DP_COLORSPACE_YUV422:
+> > +		case DP_COLORSPACE_YUV420:
+> > +			return "sYCC 601";
+> > +		default:
+> > +			return "Reserved";
+> > +		}
+> > +	case DP_COLORIMETRY_RGB_CUSTOM: /* and DP_COLORIMETRY_OPYCC_601
+> > */
+> > +		switch (colorspace) {
+> > +		case DP_COLORSPACE_RGB:
+> > +			return "Custom Profile";
+> > +		case DP_COLORSPACE_YUV444:
+> > +		case DP_COLORSPACE_YUV422:
+> > +		case DP_COLORSPACE_YUV420:
+> > +			return "OpYCC 601";
+> > +		default:
+> > +			return "Reserved";
+> > +		}
+> > +	case DP_COLORIMETRY_BT2020_RGB: /* and
+> > DP_COLORIMETRY_BT2020_CYCC */
+> > +		switch (colorspace) {
+> > +		case DP_COLORSPACE_RGB:
+> > +			return "BT.2020 RGB";
+> > +		case DP_COLORSPACE_YUV444:
+> > +		case DP_COLORSPACE_YUV422:
+> > +		case DP_COLORSPACE_YUV420:
+> > +			return "BT.2020 CYCC";
+> > +		default:
+> > +			return "Reserved";
+> > +		}
+> > +	case DP_COLORIMETRY_BT2020_YCC:
+> > +		switch (colorspace) {
+> > +		case DP_COLORSPACE_YUV444:
+> > +		case DP_COLORSPACE_YUV422:
+> > +		case DP_COLORSPACE_YUV420:
+> > +			return "BT.2020 YCC";
+> > +		default:
+> > +			return "Reserved";
+> > +		}
+> > +	default:
+> > +		return "Invalid";
+> > +	}
+> > +}
+> > +
+> > +static const char *dp_dynamic_range_get_name(enum dp_dynamic_range
+> > dynamic_range)
+> > +{
+> > +	switch (dynamic_range) {
+> > +	case DP_DYNAMIC_RANGE_VESA:
+> > +		return "VESA range";
+> > +	case DP_DYNAMIC_RANGE_CTA:
+> > +		return "CTA range";
+> > +	default:
+> > +		return "Invalid";
+> > +	}
+> > +}
+> > +
+> > +static const char *dp_content_type_get_name(enum dp_content_type
+> > content_type)
+> > +{
+> > +	switch (content_type) {
+> > +	case DP_CONTENT_TYPE_NOT_DEFINED:
+> > +		return "Not defined";
+> > +	case DP_CONTENT_TYPE_GRAPHICS:
+> > +		return "Graphics";
+> > +	case DP_CONTENT_TYPE_PHOTO:
+> > +		return "Photo";
+> > +	case DP_CONTENT_TYPE_VIDEO:
+> > +		return "Video";
+> > +	case DP_CONTENT_TYPE_GAME:
+> > +		return "Game";
+> > +	default:
+> > +		return "Reserved";
+> > +	}
+> > +}
+> > +
+> > +#define dp_sdp_log(fmt, ...) dev_printk(level, dev, fmt,
+> > ##__VA_ARGS__)
+> > +void intel_dp_vsc_sdp_log(const char *level, struct device *dev,
+> > +			  const struct intel_dp_vsc_sdp *vsc)
+> > +{
+> > +	dp_sdp_log("DP SDP: %s, revision %u, length %u\n", "VSC",
+> > +		   vsc->revision, vsc->length);
+> > +	dp_sdp_log("    colorspace: %s\n",
+> > +			dp_colorspace_get_name(vsc->colorspace));
+> > +	dp_sdp_log("    colorimetry: %s\n",
+> > +			dp_colorimetry_get_name(vsc->colorspace, vsc-
+> > >colorimetry));
+> > +	dp_sdp_log("    bpc: %u\n",vsc->bpc);
+> > +	dp_sdp_log("    dynamic range: %s\n",
+> > +			dp_dynamic_range_get_name(vsc->dynamic_range));
+> > +	dp_sdp_log("    content type: %s\n",
+> > +			dp_content_type_get_name(vsc->content_type));
+> > +}
+> > +#undef dp_sdp_log
+> > +
+> >  static void
+> >  intel_dp_setup_vsc_sdp(struct intel_dp *intel_dp,
+> >  		       const struct intel_crtc_state *crtc_state,
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.h
+> > b/drivers/gpu/drm/i915/display/intel_dp.h
+> > index e8f9ba962d09..03b300b58fd0 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+> > @@ -7,6 +7,7 @@
+> >  #define __INTEL_DP_H__
+> >  
+> >  #include <linux/types.h>
+> > +#include <linux/device.h>
+> >  
+> >  #include <drm/i915_drm.h>
+> >  
+> > @@ -23,6 +24,7 @@ struct intel_crtc_state;
+> >  struct intel_digital_port;
+> >  struct intel_dp;
+> >  struct intel_encoder;
+> > +struct intel_dp_vsc_sdp;
+> >  
+> >  struct link_config_limits {
+> >  	int min_clock, max_clock;
+> > @@ -122,6 +124,8 @@ void intel_dp_set_infoframes(struct
+> > intel_encoder *encoder, bool enable,
+> >  void intel_read_dp_sdp(struct intel_encoder *encoder,
+> >  		       struct intel_crtc_state *crtc_state,
+> >  		       unsigned int type);
+> > +void intel_dp_vsc_sdp_log(const char *level, struct device *dev,
+> > +			  const struct intel_dp_vsc_sdp *vsc);
+> >  bool intel_digital_port_connected(struct intel_encoder *encoder);
+> >  
+> >  static inline unsigned int intel_dp_unused_lane_mask(int
+> > lane_count)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
