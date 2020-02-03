@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AED21516BE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 09:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1C11516CF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 09:08:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2D656EDD4;
-	Tue,  4 Feb 2020 08:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B85C6EDED;
+	Tue,  4 Feb 2020 08:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6BF6E461
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 23:41:09 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id l24so8697481pgk.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2020 15:41:09 -0800 (PST)
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2683C6ED70
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 23:43:04 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id m13so511787pjb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2020 15:43:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=5GSxTQ6W9CcW+Z7ou2IhReezoqFKCBTZW97IH2PqqeE=;
- b=ykGGpqdBVz9OTEZXdrr3nMBFW6G6xd7G3rFY1dkfyRvXQeAnwbfl2QVrBzLExXsdNo
- vA0VqOTVlJTqVk7zRqcBNka7zsMZKr0XfWL5+J3nWl+SV0fObWN3TzJhw/3wkkWwCEo+
- AviQHXckfXkzG9a7pqMenKA/K/+Bd5mn9pD+0a4Iax6Q1TEzIGqjUab6eBI5864UJ4Rb
- SkioIn7d/F+D1LOHMxI7xiMMBIxfYIORN7QQnsUru6ik/9g6gxYV3GS1XSakIH7mJ+RE
- 4H+3XBDMu/DdAcHJMBxD2Kz5ec6hb+8PzBo4n85W89a2l8I04lwi6oxZ9fb3ultOVno/
- BC/g==
+ bh=T0mU1oroPJ0HY0dNzcxXAcfNPatT+YGlRxX9kH7dcIM=;
+ b=eOnQlBMZeFlZMZhMg5K5rXBW4GCRyvsE9wnChJZOKBLvUruSaKtCQrMI8SAP92lorM
+ 2Nk5VUOs4fjtWeV7bHpp5Nzqejkk2tR5i20g82K83aj6fc0qA68dU7gctigC+mekpeas
+ dattNjYNvwKTsp5mKYr9D9zyM12iaahkJhpme1FfknvksKFoY0vNBraIwp5Ra4/xVRZo
+ Q1AoSxdkQ7HlODEofCi8sRsrlFSiio9aF3rUHydH+Jotqob1nLedAzrOOEJaSehshlwg
+ OZwHcRsJWdldrWoJA4yypQrYfzFWcqpLmaH2teaoF/fckIxOszU98/Ha+nWLVcBvARap
+ jvjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=5GSxTQ6W9CcW+Z7ou2IhReezoqFKCBTZW97IH2PqqeE=;
- b=aKb/guraTLBPimOIG5K7GefWLD6y+5VLDmZrL9lwxb1YVQOqo4QhgswwS0HHUAgwoe
- Q6OzJdnjTlFzVmHH1YrLyp1qjoVV0M/22QguFbYmtjkY66RIcIz/UcJu/3250ItRaYc6
- 6GFEOLXoR2K+F2InG7vZRV869SV64loMbPTx7NFoRgVHJsO+uYEVw2eqQS8mb6xV7zQs
- ZXJULm95Zey72njAkehi/OTwCuDiUHD/GqO6Lfvh3lY48VfdhqXfnDBcW5UscpgTfSCP
- zn3ZVOyhSqB5AArKseXgsW10tFekfdQGMLc2tP/CGaAj8VkcmH+x2UmD389vLvpBI1Eh
- /gBA==
-X-Gm-Message-State: APjAAAVmvrV3bmyTSVUtBxdQ5HKrmcx2nUzkyjmhZJt6kJey3jUQJzEK
- aZHeNR97NUjkVxMJVk0uq5EbRg==
-X-Google-Smtp-Source: APXvYqzOEzc/reC7j8tFM+dcshzPEfWX0YqqE+y7YIL2L2v2ABNE3lPX/3RqH15FUH5z+O5wTVWXzg==
-X-Received: by 2002:a62:cfc4:: with SMTP id
- b187mr18808478pfg.155.1580773268964; 
- Mon, 03 Feb 2020 15:41:08 -0800 (PST)
+ bh=T0mU1oroPJ0HY0dNzcxXAcfNPatT+YGlRxX9kH7dcIM=;
+ b=HHCUuwY3Kd9rlp3a21zy/CRdEQXyQCQTlXQKSF43jHC3/mUvdWeq7PrN42V6KSo+6w
+ BPsLH95KZbWF7VPz7lADDrQIGl43c0iUnBRL45SFhxsLbEUo7ckaGFV1gHL6nrtzuRwE
+ eQknKA7znAMm4w1MiiTEe+VvTYUueXVpYxzheaJHXSVTCrf4+dT1IjW03gRuUhMzhVue
+ vzRoC+RpjIDzq+iRmkFCFFMYTSTG/kG0bYosL4iKZBy2d+hCrpkiMrbbj6LXJbwSAFrI
+ eyHiOKV+He8pyfBhMHe80rTWV3Rw3p0BbqqwRaYvAPMCanhl4nfn+iz2F89I6eeRCaCF
+ T+nA==
+X-Gm-Message-State: APjAAAVp2WLWyA913cwSxCycmM8XfDkYGqLNiCv7UIbRtrvR3OIuDu5N
+ /AJDCIAP+NgJiXfBnQoxDQOV3g==
+X-Google-Smtp-Source: APXvYqzmKejF7h24aEIn3bKKAXldqS9ubKBjs2a9h5aypFZz0uySrK09eGtkxT0ayDJJRn2uphRKEA==
+X-Received: by 2002:a17:902:7687:: with SMTP id
+ m7mr25751409pll.136.1580773383601; 
+ Mon, 03 Feb 2020 15:43:03 -0800 (PST)
 Received: from builder (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
  [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id 11sm22611146pfz.25.2020.02.03.15.41.07
+ by smtp.gmail.com with ESMTPSA id g21sm22460189pfb.126.2020.02.03.15.43.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 15:41:08 -0800 (PST)
-Date: Mon, 3 Feb 2020 15:41:06 -0800
+ Mon, 03 Feb 2020 15:43:03 -0800 (PST)
+Date: Mon, 3 Feb 2020 15:43:00 -0800
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v3 8/9] drm/bridge: ti-sn65dsi86: Train at faster rates
- if slower ones fail
-Message-ID: <20200203234106.GH311651@builder>
+Subject: Re: [PATCH v3 9/9] drm/bridge: ti-sn65dsi86: Avoid invalid rates
+Message-ID: <20200203234300.GI311651@builder>
 References: <20191218223530.253106-1-dianders@chromium.org>
- <20191218143416.v3.8.I251add713bc5c97225200894ab110ea9183434fd@changeid>
+ <20191218143416.v3.9.Ib59207b66db377380d13748752d6fce5596462c5@changeid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191218143416.v3.8.I251add713bc5c97225200894ab110ea9183434fd@changeid>
+In-Reply-To: <20191218143416.v3.9.Ib59207b66db377380d13748752d6fce5596462c5@changeid>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Tue, 04 Feb 2020 08:08:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,9 +75,8 @@ Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
  Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
  linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, seanpaul@chromium.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ seanpaul@chromium.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -86,164 +84,178 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed 18 Dec 14:35 PST 2019, Douglas Anderson wrote:
 
-> If we fail training at a lower DP link rate let's now keep trying
-> until we run out of rates to try.  Basically the algorithm here is to
-> start at the link rate that is the theoretical minimum and then slowly
-> bump up until we run out of rates or hit the max rate of the sink.  We
-> query the sink using a DPCD read.
+> Based on work by Bjorn Andersson <bjorn.andersson@linaro.org>,
+> Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, and
+> Rob Clark <robdclark@chromium.org>.
 > 
-> This is, in fact, important in practice.  Specifically at least one
-> panel hooked up to the bridge (AUO B116XAK01) had a theoretical min
-> rate more than 1.62 GHz (if run at 24 bpp) and fails to train at the
-> next rate (2.16 GHz).  It would train at 2.7 GHz, though.
+> Let's read the SUPPORTED_LINK_RATES and/or MAX_LINK_RATE (depending on
+> the eDP version of the sink) to figure out what eDP rates are
+> supported and pick the ideal one.
+> 
+> NOTE: I have only personally tested this code on eDP panels that are
+> 1.3 or older.  Code reading SUPPORTED_LINK_RATES for DP 1.4+ was
+> tested by hacking the code to pretend that a table was there.
 > 
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Tested-by: Rob Clark <robdclark@gmail.com>
-> Reviewed-by: Rob Clark <robdclark@gmail.com>
 
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 > ---
 > 
-> Changes in v3: None
-> Changes in v2:
-> - Squash in maybe-uninitialized fix from Rob Clark.
+> Changes in v3:
+> - Init rate_valid table, don't rely on stack being 0 (oops).
+> - Rename rate_times_200khz to rate_per_200khz.
+> - Loop over the ti_sn_bridge_dp_rate_lut table, making code smaller.
+> - Use 'true' instead of 1 for bools.
+> - Added note to commit message noting DP 1.4+ isn't well tested.
 > 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 71 ++++++++++++++++++++++-----
->  1 file changed, 60 insertions(+), 11 deletions(-)
+> Changes in v2:
+> - Patch ("Avoid invalid rates") replaces ("Skip non-standard DP rates")
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 100 +++++++++++++++++++-------
+>  1 file changed, 75 insertions(+), 25 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 48fb4dc72e1c..e1b817ccd9c7 100644
+> index e1b817ccd9c7..a57c6108cb1f 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -454,7 +454,7 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
->  	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
->  };
+> @@ -475,39 +475,85 @@ static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
+>  	return i;
+>  }
 >  
-> -static void ti_sn_bridge_set_dp_rate(struct ti_sn_bridge *pdata)
-> +static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
+> -static int ti_sn_bridge_get_max_dp_rate_idx(struct ti_sn_bridge *pdata)
+> +static void ti_sn_bridge_read_valid_rates(struct ti_sn_bridge *pdata,
+> +					  bool rate_valid[])
 >  {
->  	unsigned int bit_rate_khz, dp_rate_mhz;
->  	unsigned int i;
-> @@ -472,8 +472,42 @@ static void ti_sn_bridge_set_dp_rate(struct ti_sn_bridge *pdata)
->  		if (ti_sn_bridge_dp_rate_lut[i] > dp_rate_mhz)
->  			break;
->  
-> -	regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
-> -			   DP_DATARATE_MASK, DP_DATARATE(i));
-> +	return i;
-> +}
+> -	u8 data;
+> +	unsigned int rate_per_200khz;
+> +	unsigned int rate_mhz;
+> +	u8 dpcd_val;
+>  	int ret;
+> +	int i, j;
 > +
-> +static int ti_sn_bridge_get_max_dp_rate_idx(struct ti_sn_bridge *pdata)
-> +{
-> +	u8 data;
-> +	int ret;
-> +
-> +	ret = drm_dp_dpcd_readb(&pdata->aux, DP_MAX_LINK_RATE, &data);
+> +	ret = drm_dp_dpcd_readb(&pdata->aux, DP_EDP_DPCD_REV, &dpcd_val);
 > +	if (ret != 1) {
 > +		DRM_DEV_ERROR(pdata->dev,
-> +			      "Can't read max rate (%d); assuming 5.4 GHz\n",
-> +			      ret);
-> +		return ARRAY_SIZE(ti_sn_bridge_dp_rate_lut) - 1;
+> +			      "Can't read eDP rev (%d), assuming 1.1\n", ret);
+> +		dpcd_val = DP_EDP_11;
 > +	}
 > +
-> +	/*
-> +	 * Return an index into ti_sn_bridge_dp_rate_lut.  Just hardcode
-> +	 * these indicies since it's not like the register spec is ever going
-> +	 * to change and a loop would just be more complicated.  Apparently
-> +	 * the DP sink can only return these few rates as supported even
-> +	 * though the bridge allows some rates in between.
-> +	 */
-> +	switch (data) {
-> +	case DP_LINK_BW_1_62:
-> +		return 1;
+> +	if (dpcd_val >= DP_EDP_14) {
+> +		/* eDP 1.4 devices must provide a custom table */
+> +		__le16 sink_rates[DP_MAX_SUPPORTED_RATES];
+> +
+> +		ret = drm_dp_dpcd_read(&pdata->aux, DP_SUPPORTED_LINK_RATES,
+> +				       sink_rates, sizeof(sink_rates));
+> +
+> +		if (ret != sizeof(sink_rates)) {
+> +			DRM_DEV_ERROR(pdata->dev,
+> +				"Can't read supported rate table (%d)\n", ret);
+> +
+> +			/* By zeroing we'll fall back to DP_MAX_LINK_RATE. */
+> +			memset(sink_rates, 0, sizeof(sink_rates));
+> +		}
+> +
+> +		for (i = 0; i < ARRAY_SIZE(sink_rates); i++) {
+> +			rate_per_200khz = le16_to_cpu(sink_rates[i]);
+> +
+> +			if (!rate_per_200khz)
+> +				break;
+> +
+> +			rate_mhz = rate_per_200khz * 200 / 1000;
+> +			for (j = 0;
+> +			     j < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
+> +			     j++) {
+> +				if (ti_sn_bridge_dp_rate_lut[j] == rate_mhz)
+> +					rate_valid[j] = true;
+> +			}
+> +		}
+> +
+> +		for (i = 0; i < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut); i++) {
+> +			if (rate_valid[i])
+> +				return;
+> +		}
+> +		DRM_DEV_ERROR(pdata->dev,
+> +			      "No matching eDP rates in table; falling back\n");
+> +	}
+>  
+> -	ret = drm_dp_dpcd_readb(&pdata->aux, DP_MAX_LINK_RATE, &data);
+> +	/* On older versions best we can do is use DP_MAX_LINK_RATE */
+> +	ret = drm_dp_dpcd_readb(&pdata->aux, DP_MAX_LINK_RATE, &dpcd_val);
+>  	if (ret != 1) {
+>  		DRM_DEV_ERROR(pdata->dev,
+>  			      "Can't read max rate (%d); assuming 5.4 GHz\n",
+>  			      ret);
+> -		return ARRAY_SIZE(ti_sn_bridge_dp_rate_lut) - 1;
+> +		dpcd_val = DP_LINK_BW_5_4;
+>  	}
+>  
+> -	/*
+> -	 * Return an index into ti_sn_bridge_dp_rate_lut.  Just hardcode
+> -	 * these indicies since it's not like the register spec is ever going
+> -	 * to change and a loop would just be more complicated.  Apparently
+> -	 * the DP sink can only return these few rates as supported even
+> -	 * though the bridge allows some rates in between.
+> -	 */
+> -	switch (data) {
+> -	case DP_LINK_BW_1_62:
+> -		return 1;
+> -	case DP_LINK_BW_2_7:
+> -		return 4;
+> +	switch (dpcd_val) {
+> +	default:
+> +		DRM_DEV_ERROR(pdata->dev,
+> +			      "Unexpected max rate (%#x); assuming 5.4 GHz\n",
+> +			      (int)dpcd_val);
+> +		/* fall through */
+>  	case DP_LINK_BW_5_4:
+> -		return 7;
+> +		rate_valid[7] = 1;
+> +		/* fall through */
 > +	case DP_LINK_BW_2_7:
-> +		return 4;
-> +	case DP_LINK_BW_5_4:
-> +		return 7;
-> +	}
-> +
-> +	DRM_DEV_ERROR(pdata->dev,
-> +		      "Unexpected max data rate (%#x); assuming 5.4 GHz\n",
-> +		      (int)data);
-> +	return ARRAY_SIZE(ti_sn_bridge_dp_rate_lut) - 1;
+> +		rate_valid[4] = 1;
+> +		/* fall through */
+> +	case DP_LINK_BW_1_62:
+> +		rate_valid[1] = 1;
+> +		break;
+>  	}
+> -
+> -	DRM_DEV_ERROR(pdata->dev,
+> -		      "Unexpected max data rate (%#x); assuming 5.4 GHz\n",
+> -		      (int)data);
+> -	return ARRAY_SIZE(ti_sn_bridge_dp_rate_lut) - 1;
 >  }
 >  
 >  static void ti_sn_bridge_set_video_timings(struct ti_sn_bridge *pdata)
-> @@ -530,13 +564,15 @@ static unsigned int ti_sn_get_max_lanes(struct ti_sn_bridge *pdata)
->  	return data & DP_LANE_COUNT_MASK;
->  }
->  
-> -static int ti_sn_link_training(struct ti_sn_bridge *pdata)
-> +static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
-> +			       const char **last_err_str)
->  {
->  	unsigned int val;
->  	int ret;
->  
->  	/* set dp clk frequency value */
-> -	ti_sn_bridge_set_dp_rate(pdata);
-> +	regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
-> +			   DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx));
->  
->  	/* enable DP PLL */
->  	regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
-> @@ -545,7 +581,7 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata)
->  				       val & DPPLL_SRC_DP_PLL_LOCK, 1000,
->  				       50 * 1000);
->  	if (ret) {
-> -		DRM_ERROR("DP_PLL_LOCK polling failed (%d)\n", ret);
-> +		*last_err_str = "DP_PLL_LOCK polling failed";
->  		goto exit;
->  	}
->  
-> @@ -556,9 +592,9 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata)
->  				       val == ML_TX_NORMAL_MODE, 1000,
->  				       500 * 1000);
->  	if (ret) {
-> -		DRM_ERROR("Training complete polling failed (%d)\n", ret);
-> +		*last_err_str = "Training complete polling failed";
->  	} else if (val == ML_TX_MAIN_LINK_OFF) {
-> -		DRM_ERROR("Link training failed, link is off\n");
-> +		*last_err_str = "Link training failed, link is off";
->  		ret = -EIO;
->  	}
->  
-> @@ -573,8 +609,11 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata)
+> @@ -609,9 +655,9 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
 >  static void ti_sn_bridge_enable(struct drm_bridge *bridge)
 >  {
 >  	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
-> +	const char *last_err_str = "No supported DP rate";
-> +	int dp_rate_idx;
-> +	int max_dp_rate_idx;
+> +	bool rate_valid[ARRAY_SIZE(ti_sn_bridge_dp_rate_lut)] = { };
+>  	const char *last_err_str = "No supported DP rate";
+>  	int dp_rate_idx;
+> -	int max_dp_rate_idx;
 >  	unsigned int val;
-> -	int ret;
-> +	int ret = -EINVAL;
+>  	int ret = -EINVAL;
 >  
->  	/*
->  	 * Run with the maximum number of lanes that the DP sink supports.
-> @@ -616,9 +655,19 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+> @@ -655,11 +701,15 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
 >  	regmap_update_bits(pdata->regmap, SN_SSC_CONFIG_REG, DP_NUM_LANES_MASK,
 >  			   val);
 >  
-> -	ret = ti_sn_link_training(pdata);
-> -	if (ret)
-> +	/* Train until we run out of rates */
-> +	max_dp_rate_idx = ti_sn_bridge_get_max_dp_rate_idx(pdata);
-> +	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
-> +	     dp_rate_idx <= max_dp_rate_idx;
-> +	     dp_rate_idx++) {
-> +		ret = ti_sn_link_training(pdata, dp_rate_idx, &last_err_str);
-> +		if (!ret)
-> +			break;
-> +	}
-> +	if (ret) {
-> +		DRM_DEV_ERROR(pdata->dev, "%s (%d)\n", last_err_str, ret);
->  		return;
-> +	}
->  
->  	/* config video parameters */
->  	ti_sn_bridge_set_video_timings(pdata);
+> +	ti_sn_bridge_read_valid_rates(pdata, rate_valid);
+> +
+>  	/* Train until we run out of rates */
+> -	max_dp_rate_idx = ti_sn_bridge_get_max_dp_rate_idx(pdata);
+>  	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
+> -	     dp_rate_idx <= max_dp_rate_idx;
+> +	     dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
+>  	     dp_rate_idx++) {
+> +		if (!rate_valid[dp_rate_idx])
+> +			continue;
+> +
+>  		ret = ti_sn_link_training(pdata, dp_rate_idx, &last_err_str);
+>  		if (!ret)
+>  			break;
 > -- 
 > 2.24.1.735.g03f4e72817-goog
 > 
