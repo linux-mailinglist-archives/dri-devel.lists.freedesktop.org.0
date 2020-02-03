@@ -1,29 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD9E1516CC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 09:08:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 163781516C3
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 09:08:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5256EDE3;
-	Tue,  4 Feb 2020 08:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E35CF6EDDE;
+	Tue,  4 Feb 2020 08:08:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2275E6E43A
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 19:12:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 7B45929040D
-Date: Mon, 3 Feb 2020 14:12:36 -0500
-From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-To: YueHaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH -next] drm/panfrost: Remove set but not used variable 'bo'
-Message-ID: <20200203191236.GA2913@kevin>
-References: <20200203152724.42611-1-yuehaibing@huawei.com>
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B80E6E431
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 20:32:56 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id q8so8145153pfh.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2020 12:32:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=message-id:mime-version:content-transfer-encoding:in-reply-to
+ :references:from:to:subject:cc:user-agent:date;
+ bh=cZVOQPzRauAIXrx2DHSAhNTQEM7p146g+MumciHO/jk=;
+ b=iFNn11J47AdMwBbDn4XXUTKPj+dhk6monov0dMi9b/hlWuI+g8yYn3J5j92biCTPa2
+ AC0mtcVc/K059lQy5yIcBtvwCD1intDx2U8PTBbTTrWEbsS5GXr7AyJpGUYonuLUFQ8A
+ RSqiPHdQghgzuJD1923MCF9rxM3AMYzfrogOs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:mime-version
+ :content-transfer-encoding:in-reply-to:references:from:to:subject:cc
+ :user-agent:date;
+ bh=cZVOQPzRauAIXrx2DHSAhNTQEM7p146g+MumciHO/jk=;
+ b=QXrOE7qFsAc9E7NLnoXmQnBYGlqLdyuH3mw6EgFKCrohpZSPR/Fw+2CN2fi5xEnRtd
+ Sqi6HDWxYeO09zR6RGM2KMRYWvK8Nlgza7aqfxmqUub9S0TOavhVGV/+jJqVdIYtheHi
+ 1Uj0rr3oNh+LcsQUu1kUtB/il3vSwpC6XjKbfo0L0j7PeJanh75HVFWt9bnpjfzx6rwq
+ 4yrJOQW6+Jnb7ZonHX5DqQejhiny9l3omaGynuvdadFY+PfMEWgBbryOnzDKv7Edfslz
+ svjzAuovIP/GGzABJhHFUiXnlbZIeLW9t95n1Ca3y10bOvKY+7dzrQ3Hw+m91sHqLVbc
+ JujA==
+X-Gm-Message-State: APjAAAWavUDZW0zrdX5W9rFjRPq/39CJ3DLO/fmC4GRf26UNr3Q/Ttq9
+ PxepgTkW8aQe2lg5yVaA61IuBg==
+X-Google-Smtp-Source: APXvYqw3Dt6FatPcHevWvl6417lDVwr9Hhkc8+lkqq4H/ei6Dgfgjv156vLllcBrCe730kTnkd8arA==
+X-Received: by 2002:a63:214e:: with SMTP id s14mr26679454pgm.428.1580761976230; 
+ Mon, 03 Feb 2020 12:32:56 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id g8sm21252615pfh.43.2020.02.03.12.32.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Feb 2020 12:32:55 -0800 (PST)
+Message-ID: <5e388377.1c69fb81.e9add.a3d4@mx.google.com>
 MIME-Version: 1.0
-In-Reply-To: <20200203152724.42611-1-yuehaibing@huawei.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <90542e32913e315bae02865e1d18a622@codeaurora.org>
+References: <1580168406-23808-1-git-send-email-abhinavk@codeaurora.org>
+ <90542e32913e315bae02865e1d18a622@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+To: abhinavk@codeaurora.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm: Parse Colorimetry data block from EDID
+User-Agent: alot/0.8.1
+Date: Mon, 03 Feb 2020 12:32:54 -0800
 X-Mailman-Approved-At: Tue, 04 Feb 2020 08:08:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,101 +66,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, linaro-mm-sig@lists.linaro.org,
- Hulk Robot <hulkci@huawei.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0044379750=="
+Cc: adelva@google.com, linux-arm-msm@vger.kernel.org, aravindh@codeaurora.org,
+ seanpaul@chromium.org, Uma Shankar <uma.shankar@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting abhinavk@codeaurora.org (2020-01-31 13:01:38)
+> Hi Steven
+> 
+> Any further comments on this change?
+> 
 
---===============0044379750==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
-Content-Disposition: inline
-
-
---3V7upXqbjpZ4EhLz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Reviewed-by: Alyssas Rosenzweig <alyssa.rosenzweig@collabora.com>, thank
-you!
-
-On Mon, Feb 03, 2020 at 03:27:24PM +0000, YueHaibing wrote:
-> Fixes gcc '-Wunused-but-set-variable' warning:
->=20
-> drivers/gpu/drm/panfrost/panfrost_job.c: In function 'panfrost_job_cleanu=
-p':
-> drivers/gpu/drm/panfrost/panfrost_job.c:278:31: warning:
->  variable 'bo' set but not used [-Wunused-but-set-variable]
->=20
-> commit bdefca2d8dc0 ("drm/panfrost: Add the panfrost_gem_mapping concept")
-> involved this unused variable.
->=20
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_job.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_job.c
-> index 7c36ec675b73..ccb8546a9342 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -275,12 +275,8 @@ static void panfrost_job_cleanup(struct kref *ref)
->  	}
-> =20
->  	if (job->bos) {
-> -		struct panfrost_gem_object *bo;
-> -
-> -		for (i =3D 0; i < job->bo_count; i++) {
-> -			bo =3D to_panfrost_bo(job->bos[i]);
-> +		for (i =3D 0; i < job->bo_count; i++)
->  			drm_gem_object_put_unlocked(job->bos[i]);
-> -		}
-> =20
->  		kvfree(job->bos);
->  	}
->=20
->=20
->=20
-
---3V7upXqbjpZ4EhLz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl44cJoACgkQ/v5QWgr1
-WA1MQA//eHYgx1kcsdR+AmUM+1kdx1sYRUsvVzSaADRg0iMTcRTZEmlBXAlu6hak
-WYuhLq96Cw6+kkmAoWSizha3jij7Vg1HwMsaHsbQMSnocIQVyp2BqfjlOMBtWcMm
-OyUzFz5QWvGFEEGh9DjSxZ8TGT4BoRzzCj0FF60d2JEEguRMSvT9xvq2Hi/JRsaN
-Mx0cfCAMjmPzaPv091TR8KhTuGPIHg+Im0agoY1rd2sTARywX9abYShLIQA2ZtEj
-mNSjuKGPDz7LlTdKpcgkQHK/7VQeQr63J8ymCTUDPfSFJd0qhVVAHB31knjkLLss
-nTtbMjKhGYtEXB7l64s+VqxUUJvRafsRJEc/7zUaqfjEtQb0iEt0AEecDxnkAyS6
-9cfC0hSMcUVYGRXENQTy0Pp8a5hFZFc25TxQq5zD36u4ndvVDs29ZCQ1iqAmg9K+
-m3zOWxJdcw9+kyyyFvSjbB8GM5+CcV8jfCe5pSxdwBsXILZ5Tb+8F32Y2y9EIORV
-RK9m32/mDJaZUsIPaeEmpMwkV/efHn9qTfA77iIVm9EkTRTzLBXWBjSodTC+a5mD
-9y5xR5RmSIuBY4FlcVsZNlZj2d/js6+UxtPj/qqVOYv9lnrqKJr/Ji+KqRYIGEyB
-QwjLFAQeOkINXhqRGfTlKgPaNwj+gFBse10UjwyLHRzL5HpLexg=
-=+/k/
------END PGP SIGNATURE-----
-
---3V7upXqbjpZ4EhLz--
-
---===============0044379750==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+No. I was more of a drive by review comment on the previous patch.
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0044379750==--
