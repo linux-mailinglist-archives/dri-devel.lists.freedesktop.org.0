@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D5C1516C9
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 09:08:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883671516C2
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 09:08:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7A826EDE1;
-	Tue,  4 Feb 2020 08:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10F0F6EDDA;
+	Tue,  4 Feb 2020 08:08:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B886E069
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 23:34:25 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id b9so8657898pgk.12
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2020 15:34:25 -0800 (PST)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3AD6E069
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 23:35:20 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id 2so8416323pfg.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2020 15:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=CRRDli79xE8LIu9zwaoq3HKVinZzj5LHxKyaS7ghdP8=;
- b=YouvTwznNYnoG+2f/OterSj77UFSEOFMw8fwMy4fgu8UlXX9NqGegRgyVlR03x50We
- FP/q0O3sHzgvntfxYyBg/ek2TGSmWxioJoesvHnkq0JKFn00Lwb3xrAF1Um74dcW0EgL
- wOwMYY/JFtoFnGQSVcOLgbGm66oB1jSHBDf9+DgaIuNbwSJuRWuBex24sA2ynzcZsKds
- WZ9TknN93NjOzLZ5XZt/wf89dPpK/aO0ZgHtt/Q9hk+eYNtt3qX3moG3v9YoDr4+Yv3E
- 4fCoq9dbluTJDPuy/V7jfA332en3wkv7YA7UDdhKS4BxIYH8paUvjBRRIPsJX1rYy8Pq
- 2mbw==
+ bh=Npi7Na9ZPRN7+svZB6NYN9WZnYpab1FvMeQ9pCjz/HE=;
+ b=N0C80xaK/OJsbuV6SjR0p8b3Mv91XsNZUzj9ek3PCmCLhKmXuUxSNDkV2E57T0Be0i
+ avC4vHvFsTDwgC7mzXMfnI3SJjhu3vH1f2ReGd2dRAMhdVWs+oJ96W0x8KEoYOy1ETVh
+ X8wOO6qJLTPoDxEA4VqEzbR7428zx3zV8EMaTbj185dQNa3csUUG0EElHu8XxehY0pbX
+ 3tDL3dsvbkQHdz6XkSyxhqjlOviyHJiztlYNhQQOQA8QLNUW7yKerZCOjC7aiu8k51va
+ qYHtdnuSarhFSkCptHSAMoxRkzOm0BElrkKMgK4kigJUym2l9s6cBwjxA+EUHPc3NSHb
+ v57w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=CRRDli79xE8LIu9zwaoq3HKVinZzj5LHxKyaS7ghdP8=;
- b=YqVGvormqIDBdOpXCEcqifcUo8RlFCh4KKoZk6QXWjbzC4GJqe2VApRoQuhJcSHPCd
- zU6jwwuGon6nU9O9mjxVbKPW7tOc9PPDEwGzbCGJzmr11Zx1c06Wi/RUtbL4WdrtV/7c
- wti46wVIIETPZnk7hDNYnvfCREhn5tpSSbSc1kwsfKXKt350NtuwMHXLUwy9XBimDYKl
- TpbcDpkZhb3x/JcXUvlMTvOYLsWKsw1GNlFgCNoxGUN6TkBKSwCKtPisQjbKgUL+mtU1
- Egw7dyLKnTNSG3xOmzlBAwTDjoFzP5Dh2K8aoRgj4SKYhgqVB0BpNIqheCMUqv/ZOlYO
- /Uyg==
-X-Gm-Message-State: APjAAAXhsU0PY608e3q634e0Ik72FUsXx+VL/J5IUq2vUiGP/3qWVn93
- PjBKZJSK1SedsPKOA2TogXgGyg==
-X-Google-Smtp-Source: APXvYqyD0yQtMSMVUy8QHav9nE32wkPgiPb4hwzH5mtiPqE1/LxdbmKtFgTTIVfpCqxgSMNoTDmxCw==
-X-Received: by 2002:aa7:9f5e:: with SMTP id h30mr3472249pfr.137.1580772864660; 
- Mon, 03 Feb 2020 15:34:24 -0800 (PST)
+ bh=Npi7Na9ZPRN7+svZB6NYN9WZnYpab1FvMeQ9pCjz/HE=;
+ b=idD2X+CNZEnbwKn+nIJTxtpEgyB4/p658cZvGBuMAKUFVuWio4Pt2RojD+XPIZSL4G
+ p+CMEgxQH/DCRTpWfoO5bO9d5uw9Ae99iT/oOPn6PA1zA57TZTU7h1L5SNP8Y5AlK87V
+ fzj1+QjP5YQ0yQI1C+81fXxKHb7qLdRCMIoMPnybat1OK1mOL6Ez4rQatT3r6kcRVvwu
+ gPKdqqSbJ5MBtBuDI5gskP5FvAqUKWuKKqazgJ/qUbMlenkieLgJue2E5naCdnARX2uj
+ WBjfNZR+xBFXDEa/byk//Fxlt61e7txNRFvnLBwgEZPETpLXxvmcxAI86g42oqaC8QET
+ 9qEg==
+X-Gm-Message-State: APjAAAVKKqoagx4Zx5qxj7RBwzDhS1iWwrXtpQX39k75CtoN6u5D7mnl
+ uUG+tuiEvDm5qtjrgcZ/FBWvlQ==
+X-Google-Smtp-Source: APXvYqwnZyv8Ev0iKfoX+uq0HNaOMlQj8lJY/h/9sXmZdFNEUKT4GIJnuZ7hzqnGOzG8ZXdEyqaTYA==
+X-Received: by 2002:aa7:8f3d:: with SMTP id y29mr28254568pfr.183.1580772919806; 
+ Mon, 03 Feb 2020 15:35:19 -0800 (PST)
 Received: from builder (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
  [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id w131sm22329038pfc.16.2020.02.03.15.34.23
+ by smtp.gmail.com with ESMTPSA id h3sm9379345pfo.102.2020.02.03.15.35.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 15:34:24 -0800 (PST)
-Date: Mon, 3 Feb 2020 15:34:21 -0800
+ Mon, 03 Feb 2020 15:35:19 -0800 (PST)
+Date: Mon, 3 Feb 2020 15:35:17 -0800
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v3 4/9] drm/bridge: ti-sn65dsi86: Config number of DP
- lanes Mo' Betta
-Message-ID: <20200203233421.GD311651@builder>
+Subject: Re: [PATCH v3 5/9] drm/bridge: ti-sn65dsi86: Read num lanes from the
+ DP sink
+Message-ID: <20200203233517.GE311651@builder>
 References: <20191218223530.253106-1-dianders@chromium.org>
- <20191218143416.v3.4.If3e2d0493e7b6e8b510ea90d8724ff760379b3ba@changeid>
+ <20191218143416.v3.5.Idbd0051d0de53f7e9d18a291ea33011c0854fcc6@changeid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191218143416.v3.4.If3e2d0493e7b6e8b510ea90d8724ff760379b3ba@changeid>
+In-Reply-To: <20191218143416.v3.5.Idbd0051d0de53f7e9d18a291ea33011c0854fcc6@changeid>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Tue, 04 Feb 2020 08:08:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,18 +85,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed 18 Dec 14:35 PST 2019, Douglas Anderson wrote:
 
-> The driver used to say that the value to program into bridge register
-> 0x93 was dp_lanes - 1.  Looking at the datasheet for the bridge, this
-> is wrong.  The data sheet says:
-> * 1 = 1 lane
-> * 2 = 2 lanes
-> * 3 = 4 lanes
-> 
-> A more proper way to express this encoding is min(dp_lanes, 3).
-> 
-> At the moment this change has zero effect because we've hardcoded the
-> number of DP lanes to 4.  ...and (4 - 1) == min(4, 3).  How fortunate!
-> ...but soon we'll stop hardcoding the number of lanes.
+> At least one panel hooked up to the bridge (AUO B116XAK01) only
+> supports 1 lane of DP.  Let's read this information and stop
+> hardcoding 4 DP lanes.
 > 
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > Tested-by: Rob Clark <robdclark@gmail.com>
@@ -109,22 +100,65 @@ Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > Changes in v3: None
 > Changes in v2: None
 > 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 32 +++++++++++++++++++++++++--
+>  1 file changed, 30 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index ab644baaf90c..d55d19759796 100644
+> index d55d19759796..0fc9e97b2d98 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -523,7 +523,7 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
->  			   CHA_DSI_LANES_MASK, val);
+> @@ -313,8 +313,7 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge)
+>  		goto err_dsi_host;
+>  	}
 >  
->  	/* DP lane config */
-> -	val = DP_NUM_LANES(pdata->dp_lanes - 1);
-> +	val = DP_NUM_LANES(min(pdata->dp_lanes, 3));
->  	regmap_update_bits(pdata->regmap, SN_SSC_CONFIG_REG, DP_NUM_LANES_MASK,
->  			   val);
+> -	/* TODO: setting to 4 lanes always for now */
+> -	pdata->dp_lanes = 4;
+> +	/* TODO: setting to 4 MIPI lanes always for now */
+>  	dsi->lanes = 4;
+>  	dsi->format = MIPI_DSI_FMT_RGB888;
+>  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
+> @@ -511,12 +510,41 @@ static void ti_sn_bridge_set_video_timings(struct ti_sn_bridge *pdata)
+>  	usleep_range(10000, 10500); /* 10ms delay recommended by spec */
+>  }
 >  
+> +static unsigned int ti_sn_get_max_lanes(struct ti_sn_bridge *pdata)
+> +{
+> +	u8 data;
+> +	int ret;
+> +
+> +	ret = drm_dp_dpcd_readb(&pdata->aux, DP_MAX_LANE_COUNT, &data);
+> +	if (ret != 1) {
+> +		DRM_DEV_ERROR(pdata->dev,
+> +			      "Can't read lane count (%d); assuming 4\n", ret);
+> +		return 4;
+> +	}
+> +
+> +	return data & DP_LANE_COUNT_MASK;
+> +}
+> +
+>  static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+>  {
+>  	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+>  	unsigned int val;
+>  	int ret;
+>  
+> +	/*
+> +	 * Run with the maximum number of lanes that the DP sink supports.
+> +	 *
+> +	 * Depending use cases, we might want to revisit this later because:
+> +	 * - It's plausible that someone may have run fewer lines to the
+> +	 *   sink than the sink actually supports, assuming that the lines
+> +	 *   will just be driven at a higher rate.
+> +	 * - The DP spec seems to indicate that it's more important to minimize
+> +	 *   the number of lanes than the link rate.
+> +	 *
+> +	 * If we do revisit, it would be important to measure the power impact.
+> +	 */
+> +	pdata->dp_lanes = ti_sn_get_max_lanes(pdata);
+> +
+>  	/* DSI_A lane config */
+>  	val = CHA_DSI_LANES(4 - pdata->dsi->lanes);
+>  	regmap_update_bits(pdata->regmap, SN_DSI_LANES_REG,
 > -- 
 > 2.24.1.735.g03f4e72817-goog
 > 
