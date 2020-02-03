@@ -1,38 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F9615098D
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 16:15:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6596E1509F3
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 16:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6ED16EC55;
-	Mon,  3 Feb 2020 15:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBE46E311;
+	Mon,  3 Feb 2020 15:41:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BC16EC59;
- Mon,  3 Feb 2020 15:15:06 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2020 07:15:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,398,1574150400"; d="scan'208";a="337543565"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 03 Feb 2020 07:15:03 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 03 Feb 2020 17:15:02 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 26/26] drm/i915: Try to frob the TMDS buffer enable knob on
- DP++ dongles on DP DFPs
-Date: Mon,  3 Feb 2020 17:13:43 +0200
-Message-Id: <20200203151343.14378-27-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200203151343.14378-1-ville.syrjala@linux.intel.com>
-References: <20200203151343.14378-1-ville.syrjala@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6BB396E311
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 15:41:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC5E830E;
+ Mon,  3 Feb 2020 07:41:12 -0800 (PST)
+Received: from arm.com (e112269-lin.cambridge.arm.com [10.1.195.32])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3BA253F68E;
+ Mon,  3 Feb 2020 07:41:11 -0800 (PST)
+Date: Mon, 3 Feb 2020 15:41:06 +0000
+From: Steven Price <steven.price@arm.com>
+To: YueHaibing <yuehaibing@huawei.com>
+Subject: Re: [PATCH -next] drm/panfrost: Remove set but not used variable 'bo'
+Message-ID: <20200203154106.GA2114@arm.com>
+References: <20200203152724.42611-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200203152724.42611-1-yuehaibing@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,83 +40,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Hulk Robot <hulkci@huawei.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClRv
-IHNhdmUgYSBiaXQgb2YgcG93ZXIgbGV0J3MgdHJ5IHRvIHBvd2VyIGRvd24gdGhlIFRNRFMgYnVm
-ZmVycyBvbgpEUCsrIGRvbmdsZXMgaG9va2VkIHRvIGRvd25zdHJlYW0gZmFjaW5nIERQKysgcG9y
-dHMuCgpTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXgu
-aW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMg
-fCAgNiArKysrKysKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyAgfCAy
-NSArKysrKysrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMzEgaW5zZXJ0aW9u
-cygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGRp
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jCmluZGV4IDkyYzI4
-MDkwNWYzMS4uNWRhYTUyOTA5OTgwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX2RkaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
-ZWxfZGRpLmMKQEAgLTM1MTIsNiArMzUxMiw5IEBAIHN0YXRpYyB2b2lkIGhzd19kZGlfcHJlX2Vu
-YWJsZV9kcChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKIAllbHNlCiAJCVdBUk5fT04o
-aXNfbXN0ICYmIHBvcnQgPT0gUE9SVF9BKTsKIAorCWludGVsX2RwX2R1YWxfbW9kZV9zZXRfdG1k
-c19vdXRwdXQoZW5jb2RlciwKKwkJCQkJICAgJmludGVsX2RwLT5kcF9kdWFsX21vZGUsIHRydWUp
-OworCiAJaW50ZWxfZHBfc2V0X2xpbmtfcGFyYW1zKGludGVsX2RwLCBjcnRjX3N0YXRlLT5wb3J0
-X2Nsb2NrLAogCQkJCSBjcnRjX3N0YXRlLT5sYW5lX2NvdW50LCBpc19tc3QpOwogCkBAIC0zNzU3
-LDYgKzM3NjAsOSBAQCBzdGF0aWMgdm9pZCBpbnRlbF9kZGlfcG9zdF9kaXNhYmxlX2RwKHN0cnVj
-dCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAogCQkJCQkJICBkaWdfcG9ydC0+ZGRpX2lvX3Bvd2Vy
-X2RvbWFpbik7CiAKIAlpbnRlbF9kZGlfY2xrX2Rpc2FibGUoZW5jb2Rlcik7CisKKwlpbnRlbF9k
-cF9kdWFsX21vZGVfc2V0X3RtZHNfb3V0cHV0KGVuY29kZXIsCisJCQkJCSAgICZpbnRlbF9kcC0+
-ZHBfZHVhbF9tb2RlLCBmYWxzZSk7CiB9CiAKIHN0YXRpYyB2b2lkIGludGVsX2RkaV9wb3N0X2Rp
-c2FibGVfaGRtaShzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyBiL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwppbmRleCA1MTQzYzFiMGZkOTIuLjA0NTJjYzk0MjNlNiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwpAQCAtMzUxMCwxOSArMzUx
-MCwyOCBAQCBzdGF0aWMgdm9pZCBnNHhfcG9zdF9kaXNhYmxlX2RwKHN0cnVjdCBpbnRlbF9lbmNv
-ZGVyICplbmNvZGVyLAogCS8qIE9ubHkgaWxrKyBoYXMgcG9ydCBBICovCiAJaWYgKHBvcnQgPT0g
-UE9SVF9BKQogCQlpbGtfZWRwX3BsbF9vZmYoaW50ZWxfZHAsIG9sZF9jcnRjX3N0YXRlKTsKKwor
-CWludGVsX2RwX2R1YWxfbW9kZV9zZXRfdG1kc19vdXRwdXQoZW5jb2RlciwKKwkJCQkJICAgJmlu
-dGVsX2RwLT5kcF9kdWFsX21vZGUsIGZhbHNlKTsKIH0KIAogc3RhdGljIHZvaWQgdmx2X3Bvc3Rf
-ZGlzYWJsZV9kcChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKIAkJCQljb25zdCBzdHJ1
-Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqb2xkX2NydGNfc3RhdGUsCiAJCQkJY29uc3Qgc3RydWN0IGRy
-bV9jb25uZWN0b3Jfc3RhdGUgKm9sZF9jb25uX3N0YXRlKQogeworCXN0cnVjdCBpbnRlbF9kcCAq
-aW50ZWxfZHAgPSBlbmNfdG9faW50ZWxfZHAoZW5jb2Rlcik7CisKIAlpbnRlbF9kcF9saW5rX2Rv
-d24oZW5jb2Rlciwgb2xkX2NydGNfc3RhdGUpOworCisJaW50ZWxfZHBfZHVhbF9tb2RlX3NldF90
-bWRzX291dHB1dChlbmNvZGVyLAorCQkJCQkgICAmaW50ZWxfZHAtPmRwX2R1YWxfbW9kZSwgZmFs
-c2UpOwogfQogCiBzdGF0aWMgdm9pZCBjaHZfcG9zdF9kaXNhYmxlX2RwKHN0cnVjdCBpbnRlbF9l
-bmNvZGVyICplbmNvZGVyLAogCQkJCWNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpvbGRf
-Y3J0Y19zdGF0ZSwKIAkJCQljb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqb2xkX2Nv
-bm5fc3RhdGUpCiB7CisJc3RydWN0IGludGVsX2RwICppbnRlbF9kcCA9IGVuY190b19pbnRlbF9k
-cChlbmNvZGVyKTsKIAlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19pOTE1
-KGVuY29kZXItPmJhc2UuZGV2KTsKIAogCWludGVsX2RwX2xpbmtfZG93bihlbmNvZGVyLCBvbGRf
-Y3J0Y19zdGF0ZSk7CkBAIC0zNTMzLDYgKzM1NDIsOSBAQCBzdGF0aWMgdm9pZCBjaHZfcG9zdF9k
-aXNhYmxlX2RwKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAogCWNodl9kYXRhX2xhbmVf
-c29mdF9yZXNldChlbmNvZGVyLCBvbGRfY3J0Y19zdGF0ZSwgdHJ1ZSk7CiAKIAl2bHZfZHBpb19w
-dXQoZGV2X3ByaXYpOworCisJaW50ZWxfZHBfZHVhbF9tb2RlX3NldF90bWRzX291dHB1dChlbmNv
-ZGVyLAorCQkJCQkgICAmaW50ZWxfZHAtPmRwX2R1YWxfbW9kZSwgZmFsc2UpOwogfQogCiBzdGF0
-aWMgdm9pZApAQCAtMzc0OCw2ICszNzYwLDkgQEAgc3RhdGljIHZvaWQgZzR4X3ByZV9lbmFibGVf
-ZHAoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsCiAJc3RydWN0IGludGVsX2RwICppbnRl
-bF9kcCA9IGVuY190b19pbnRlbF9kcChlbmNvZGVyKTsKIAllbnVtIHBvcnQgcG9ydCA9IGVuY29k
-ZXItPnBvcnQ7CiAKKwlpbnRlbF9kcF9kdWFsX21vZGVfc2V0X3RtZHNfb3V0cHV0KGVuY29kZXIs
-CisJCQkJCSAgICZpbnRlbF9kcC0+ZHBfZHVhbF9tb2RlLCB0cnVlKTsKKwogCWludGVsX2RwX3By
-ZXBhcmUoZW5jb2RlciwgcGlwZV9jb25maWcpOwogCiAJLyogT25seSBpbGsrIGhhcyBwb3J0IEEg
-Ki8KQEAgLTM4NjUsNiArMzg4MCwxMSBAQCBzdGF0aWMgdm9pZCB2bHZfcHJlX2VuYWJsZV9kcChz
-dHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKIAkJCSAgICAgIGNvbnN0IHN0cnVjdCBpbnRl
-bF9jcnRjX3N0YXRlICpwaXBlX2NvbmZpZywKIAkJCSAgICAgIGNvbnN0IHN0cnVjdCBkcm1fY29u
-bmVjdG9yX3N0YXRlICpjb25uX3N0YXRlKQogeworCXN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAg
-PSBlbmNfdG9faW50ZWxfZHAoZW5jb2Rlcik7CisKKwlpbnRlbF9kcF9kdWFsX21vZGVfc2V0X3Rt
-ZHNfb3V0cHV0KGVuY29kZXIsCisJCQkJCSAgICZpbnRlbF9kcC0+ZHBfZHVhbF9tb2RlLCB0cnVl
-KTsKKwogCXZsdl9waHlfcHJlX2VuY29kZXJfZW5hYmxlKGVuY29kZXIsIHBpcGVfY29uZmlnKTsK
-IAogCWludGVsX2VuYWJsZV9kcChlbmNvZGVyLCBwaXBlX2NvbmZpZywgY29ubl9zdGF0ZSk7CkBA
-IC0zODgzLDYgKzM5MDMsMTEgQEAgc3RhdGljIHZvaWQgY2h2X3ByZV9lbmFibGVfZHAoc3RydWN0
-IGludGVsX2VuY29kZXIgKmVuY29kZXIsCiAJCQkgICAgICBjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0
-Y19zdGF0ZSAqcGlwZV9jb25maWcsCiAJCQkgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-cl9zdGF0ZSAqY29ubl9zdGF0ZSkKIHsKKwlzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwID0gZW5j
-X3RvX2ludGVsX2RwKGVuY29kZXIpOworCisJaW50ZWxfZHBfZHVhbF9tb2RlX3NldF90bWRzX291
-dHB1dChlbmNvZGVyLAorCQkJCQkgICAmaW50ZWxfZHAtPmRwX2R1YWxfbW9kZSwgdHJ1ZSk7CisK
-IAljaHZfcGh5X3ByZV9lbmNvZGVyX2VuYWJsZShlbmNvZGVyLCBwaXBlX2NvbmZpZyk7CiAKIAlp
-bnRlbF9lbmFibGVfZHAoZW5jb2RlciwgcGlwZV9jb25maWcsIGNvbm5fc3RhdGUpOwotLSAKMi4y
-NC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Feb 03, 2020 at 03:27:24PM +0000, YueHaibing wrote:
+> Fixes gcc '-Wunused-but-set-variable' warning:
+> 
+> drivers/gpu/drm/panfrost/panfrost_job.c: In function 'panfrost_job_cleanup':
+> drivers/gpu/drm/panfrost/panfrost_job.c:278:31: warning:
+>  variable 'bo' set but not used [-Wunused-but-set-variable]
+> 
+> commit bdefca2d8dc0 ("drm/panfrost: Add the panfrost_gem_mapping concept")
+> involved this unused variable.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+
+I'm not sure how I didn't spot that before! Thanks for fixing it.
+
+Note commit bdefca2d8dc0 is actually in v5.5 and not (yet) in
+drm-misc-next.
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 7c36ec675b73..ccb8546a9342 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -275,12 +275,8 @@ static void panfrost_job_cleanup(struct kref *ref)
+>  	}
+>  
+>  	if (job->bos) {
+> -		struct panfrost_gem_object *bo;
+> -
+> -		for (i = 0; i < job->bo_count; i++) {
+> -			bo = to_panfrost_bo(job->bos[i]);
+> +		for (i = 0; i < job->bo_count; i++)
+>  			drm_gem_object_put_unlocked(job->bos[i]);
+> -		}
+>  
+>  		kvfree(job->bos);
+>  	}
+> 
+> 
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
