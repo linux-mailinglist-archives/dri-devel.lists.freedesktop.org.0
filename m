@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5724D151214
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 22:50:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82281151217
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 22:51:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0236E448;
-	Mon,  3 Feb 2020 21:50:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 913FE6E44B;
+	Mon,  3 Feb 2020 21:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C656E448;
- Mon,  3 Feb 2020 21:50:00 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id s10so972041wmh.3;
- Mon, 03 Feb 2020 13:50:00 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B02E6E44B;
+ Mon,  3 Feb 2020 21:51:01 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id f129so1111740wmf.2;
+ Mon, 03 Feb 2020 13:51:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Bz9H+rEoz42N2PohEklI4SsWSqfVLbtbYz6f4dlWqHo=;
- b=XGoDm4C7Ws0L6899IO4mI2wTFfMnh2NrICZh4Oix8pkovjle7RGdl5wTXqF5cBNXLn
- HVCrk1A7SWTs2MuCsgoDLl6kewc5yGJviw9sEaYNstVqguBv3EumaC+QUZonn4WiRw59
- L6YJJhB3Ss47Movu5i3OMEKFpYkC8N1rfnyxtcFccfVINeWPD7k64nTH4/81lPG0iYo2
- qSD6O62eCD2LC7Q26R4gJs/FSCt80zBkEGd3xahN9+yzMy+kvueE+F/RLtEpcA6e9BvH
- XWiRVtzvE6upcKVdr8Wy3KiU7tHE4Xg9Qa+d4UVA0hN6KVHGOKBx/FXGJC6GTYLKJdTm
- oJJQ==
+ :cc; bh=5WHLKjs5vKxBAv4LP02Et1szjZNI558BLfCCdmQcGRA=;
+ b=rkE8O83yHrPSifd4190TzVv6P6BbbqkWDqfI9cIpKuynj8+FU11daiaf4Gr0K/iqTY
+ CrRIU9pyGaSQiPaOjBlXhSk8WCcwRWKDCny4+ZFYPjU6vfBbPE2bDfBwbqMLhBTmIquH
+ 97PJ7lxeLkB4wq1hzdjTXjZDSmadXiG+1YbMGsKoivp7cFS3fXE5ND+0zbaNtHurOWAm
+ ja9hcFTkf3C9AGONTq+zTqbhcCVcQ8qUt9fd16plioNll1WDqXmHSLigdCajwvSstoDe
+ Pu0dBrq+2QXMzxtE4DmjUjCBxfruOxMMA0zHsSLy0GZ7la69ETWQQoSUDbM2FaQ+5qXU
+ E89A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Bz9H+rEoz42N2PohEklI4SsWSqfVLbtbYz6f4dlWqHo=;
- b=SOIj1sV692hR8z3qDIAsyIpNV7HtjMGLJtjCMcE8EZIzsCcHI6cXxCWEQJmJ4bzNw6
- m5BznbkN2AEUPilOs98mrupnJo1OflGr7S2yQ8QuIj4t83mI6UmbvV3Ds9EL6R/zOVGp
- +6p0ovU6U6ndnS4RDY8v5e9sdPn9UTrCt55QNI7RCvAE21bXskWNsX8lA0cbEu9l0V/I
- VN0F/hE1JzftXsIGSUoVmPMRFk0LDTmwv6w4TWDIddx3mFviLFEpd8b11sNjGFAX8oZ3
- SgDq6ZHMGdUHGqm9weXXr/gzy9JPaAK2Kb+ljHLwsaxl3YAFSRMPU09aWiRC2sSV61Ls
- ejEg==
-X-Gm-Message-State: APjAAAXKHJ+3XLkyhvcsRaBlIFRj7Tp1RHgl9IK6fuI4xOehQw0nLq6+
- 2+yzAq+MnNm8Ud4JZpwnKXvYNDk9iClJ9Isr2YM=
-X-Google-Smtp-Source: APXvYqyfoL3COtXhpTnhOUXZO+tkz1VpE8SA5wR1Bis4thbGX3S9VMZLXkKBQqgF1m53SOrLdMLOQmfMZhgL1gJ+njc=
-X-Received: by 2002:a05:600c:218b:: with SMTP id
- e11mr1105264wme.56.1580766599264; 
- Mon, 03 Feb 2020 13:49:59 -0800 (PST)
+ bh=5WHLKjs5vKxBAv4LP02Et1szjZNI558BLfCCdmQcGRA=;
+ b=ISQW4ZUadmxru63mJExYgib3CZkRujcEU/WmKC0Kqh0Q6yp7yT+pJn08APWnQfJGVK
+ urZjueY2k+mejZLi0Lgnkj7GLgle+u/fpvD+pGWCdL3a5oFXqCeqI+DUdvyKsi1I+0dB
+ LE/+a+BpB7L1Y36IV/Rw190hj+blJCw6lQwJxmxC6oPF7eaiTCEy7y+G+E6If9t+JXqC
+ fZTACgf0GLcIbOj+bOYKailf/wkr2o1IcUd5SbT3DMC6AagBoHYSJ8h8QsAJa23pc2oJ
+ Q52zX+tjdiwHqJhjjl5k2why29NRC4WsWijPkn3nH8yR28Fga6fDQd35nQeo6h3dDH/a
+ 4Wyg==
+X-Gm-Message-State: APjAAAWd06f8Jt/kGNRLI6+s7+dECDFq+/PQEw6Fe/lop3ntFMZeVta7
+ QcCDFAAvo5jiJ/HY5YrPTN7JCD/gS4oAlhQ+sGhDWpAW
+X-Google-Smtp-Source: APXvYqy49VnMaROssdlL0nnLaaXrzvRojLG6OcHIN/5wwgqUfflWKVPk8M3nR9pBC9hbuW2KYaZtzLD0kRbUVBMJkEg=
+X-Received: by 2002:a1c:f009:: with SMTP id a9mr1039751wmb.73.1580766659899;
+ Mon, 03 Feb 2020 13:50:59 -0800 (PST)
 MIME-Version: 1.0
 References: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
-In-Reply-To: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
+ <20200202171635.4039044-2-chris@chris-wilson.co.uk>
+In-Reply-To: <20200202171635.4039044-2-chris@chris-wilson.co.uk>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 3 Feb 2020 16:49:48 -0500
-Message-ID: <CADnq5_N7azVKP0iB1NMWz7KM79cU7HvR7Ssh1nbLDyBP946hxw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm: Remove PageReserved manipulation from
- drm_pci_alloc
+Date: Mon, 3 Feb 2020 16:50:48 -0500
+Message-ID: <CADnq5_Ny2u7Fb94cwiaCkh1TzkXXA++4Y2EWmj-v7aJ8f4mQDQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm: Remove the dma_alloc_coherent wrapper for
+ internal usage
 To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,7 +63,6 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "for 3.8" <stable@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -72,97 +71,160 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sun, Feb 2, 2020 at 12:16 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
 >
-> drm_pci_alloc/drm_pci_free are very thin wrappers around the core dma
-> facilities, and we have no special reason within the drm layer to behave
-> differently. In particular, since
+> Internally for "consistent" maps, we create a temporary struct
+> drm_dma_handle in order to user our own dma_alloc_coherent wrapper then
+> destroy the temporary wrap. Simplify our logic by removing the temporary
+> wrapper!
 >
-> commit de09d31dd38a50fdce106c15abd68432eebbd014
-> Author: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Date:   Fri Jan 15 16:51:42 2016 -0800
->
->     page-flags: define PG_reserved behavior on compound pages
->
->     As far as I can see there's no users of PG_reserved on compound pages.
->     Let's use PF_NO_COMPOUND here.
->
-> it has been illegal to combine GFP_COMP with SetPageReserved, so lets
-> stop doing both and leave the dma layer to its own devices.
->
-> Reported-by: Taketo Kabe
-
-Needs an email address.
-
-> Closes: https://gitlab.freedesktop.org/drm/intel/issues/1027
-
-Should be Bug: rather than Closes:
-
-> Fixes: de09d31dd38a ("page-flags: define PG_reserved behavior on compound pages")
 > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: <stable@vger.kernel.org> # v4.5+
 
-With those fixed:
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
 > ---
->  drivers/gpu/drm/drm_pci.c | 23 ++---------------------
->  1 file changed, 2 insertions(+), 21 deletions(-)
+>  drivers/gpu/drm/drm_bufs.c | 20 +++++++++-----------
+>  drivers/gpu/drm/drm_pci.c  | 15 ++-------------
+>  drivers/gpu/drm/drm_vm.c   | 10 ++++------
+>  include/drm/drm_legacy.h   |  6 ------
+>  4 files changed, 15 insertions(+), 36 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+> index 8ce9d73fab4f..19297e58b232 100644
+> --- a/drivers/gpu/drm/drm_bufs.c
+> +++ b/drivers/gpu/drm/drm_bufs.c
+> @@ -149,7 +149,6 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
+>  {
+>         struct drm_local_map *map;
+>         struct drm_map_list *list;
+> -       drm_dma_handle_t *dmah;
+>         unsigned long user_token;
+>         int ret;
+>
+> @@ -324,14 +323,14 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
+>                  * As we're limiting the address to 2^32-1 (or less),
+>                  * casting it down to 32 bits is no problem, but we
+>                  * need to point to a 64bit variable first. */
+> -               dmah = drm_pci_alloc(dev, map->size, map->size);
+> -               if (!dmah) {
+> +               map->handle = dma_alloc_coherent(&dev->pdev->dev,
+> +                                                map->size,
+> +                                                &map->offset,
+> +                                                GFP_KERNEL);
+> +               if (!map->handle) {
+>                         kfree(map);
+>                         return -ENOMEM;
+>                 }
+> -               map->handle = dmah->vaddr;
+> -               map->offset = (unsigned long)dmah->busaddr;
+> -               kfree(dmah);
+>                 break;
+>         default:
+>                 kfree(map);
+> @@ -513,7 +512,6 @@ int drm_legacy_getmap_ioctl(struct drm_device *dev, void *data,
+>  int drm_legacy_rmmap_locked(struct drm_device *dev, struct drm_local_map *map)
+>  {
+>         struct drm_map_list *r_list = NULL, *list_t;
+> -       drm_dma_handle_t dmah;
+>         int found = 0;
+>         struct drm_master *master;
+>
+> @@ -554,10 +552,10 @@ int drm_legacy_rmmap_locked(struct drm_device *dev, struct drm_local_map *map)
+>         case _DRM_SCATTER_GATHER:
+>                 break;
+>         case _DRM_CONSISTENT:
+> -               dmah.vaddr = map->handle;
+> -               dmah.busaddr = map->offset;
+> -               dmah.size = map->size;
+> -               __drm_legacy_pci_free(dev, &dmah);
+> +               dma_free_coherent(&dev->pdev->dev,
+> +                                 map->size,
+> +                                 map->handle,
+> +                                 map->offset);
+>                 break;
+>         }
+>         kfree(map);
 > diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-> index f2e43d341980..d16dac4325f9 100644
+> index d16dac4325f9..c6bb98729a26 100644
 > --- a/drivers/gpu/drm/drm_pci.c
 > +++ b/drivers/gpu/drm/drm_pci.c
-> @@ -51,8 +51,6 @@
->  drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t align)
->  {
->         drm_dma_handle_t *dmah;
-> -       unsigned long addr;
-> -       size_t sz;
+> @@ -78,18 +78,6 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
 >
->         /* pci_alloc_consistent only guarantees alignment to the smallest
->          * PAGE_SIZE order which is greater than or equal to the requested size.
-> @@ -68,20 +66,13 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
->         dmah->size = size;
->         dmah->vaddr = dma_alloc_coherent(&dev->pdev->dev, size,
->                                          &dmah->busaddr,
-> -                                        GFP_KERNEL | __GFP_COMP);
-> +                                        GFP_KERNEL);
+>  EXPORT_SYMBOL(drm_pci_alloc);
 >
->         if (dmah->vaddr == NULL) {
->                 kfree(dmah);
->                 return NULL;
->         }
->
-> -       /* XXX - Is virt_to_page() legal for consistent mem? */
-> -       /* Reserve */
-> -       for (addr = (unsigned long)dmah->vaddr, sz = size;
-> -            sz > 0; addr += PAGE_SIZE, sz -= PAGE_SIZE) {
-> -               SetPageReserved(virt_to_page((void *)addr));
-> -       }
+> -/*
+> - * Free a PCI consistent memory block without freeing its descriptor.
+> - *
+> - * This function is for internal use in the Linux-specific DRM core code.
+> - */
+> -void __drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
+> -{
+> -       if (dmah->vaddr)
+> -               dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
+> -                                 dmah->busaddr);
+> -}
 > -
->         return dmah;
->  }
->
-> @@ -94,19 +85,9 @@ EXPORT_SYMBOL(drm_pci_alloc);
->   */
->  void __drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
->  {
-> -       unsigned long addr;
-> -       size_t sz;
-> -
-> -       if (dmah->vaddr) {
-> -               /* XXX - Is virt_to_page() legal for consistent mem? */
-> -               /* Unreserve */
-> -               for (addr = (unsigned long)dmah->vaddr, sz = dmah->size;
-> -                    sz > 0; addr += PAGE_SIZE, sz -= PAGE_SIZE) {
-> -                       ClearPageReserved(virt_to_page((void *)addr));
-> -               }
-> +       if (dmah->vaddr)
->                 dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
->                                   dmah->busaddr);
-> -       }
->  }
->
 >  /**
+>   * drm_pci_free - Free a PCI consistent memory block
+>   * @dev: DRM device
+> @@ -100,7 +88,8 @@ void __drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
+>   */
+>  void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
+>  {
+> -       __drm_legacy_pci_free(dev, dmah);
+> +       dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
+> +                         dmah->busaddr);
+>         kfree(dmah);
+>  }
+>
+> diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
+> index 52e87e4869a5..64619fe90046 100644
+> --- a/drivers/gpu/drm/drm_vm.c
+> +++ b/drivers/gpu/drm/drm_vm.c
+> @@ -269,8 +269,6 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
+>                 }
+>
+>                 if (!found_maps) {
+> -                       drm_dma_handle_t dmah;
+> -
+>                         switch (map->type) {
+>                         case _DRM_REGISTERS:
+>                         case _DRM_FRAME_BUFFER:
+> @@ -284,10 +282,10 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
+>                         case _DRM_SCATTER_GATHER:
+>                                 break;
+>                         case _DRM_CONSISTENT:
+> -                               dmah.vaddr = map->handle;
+> -                               dmah.busaddr = map->offset;
+> -                               dmah.size = map->size;
+> -                               __drm_legacy_pci_free(dev, &dmah);
+> +                               dma_free_coherent(&dev->pdev->dev,
+> +                                                 map->size,
+> +                                                 map->handle,
+> +                                                 map->offset);
+>                                 break;
+>                         }
+>                         kfree(map);
+> diff --git a/include/drm/drm_legacy.h b/include/drm/drm_legacy.h
+> index 5745710453c8..dcef3598f49e 100644
+> --- a/include/drm/drm_legacy.h
+> +++ b/include/drm/drm_legacy.h
+> @@ -194,17 +194,11 @@ void drm_legacy_idlelock_release(struct drm_lock_data *lock);
+>
+>  #ifdef CONFIG_PCI
+>
+> -void __drm_legacy_pci_free(struct drm_device *dev, drm_dma_handle_t * dmah);
+>  int drm_legacy_pci_init(struct drm_driver *driver, struct pci_driver *pdriver);
+>  void drm_legacy_pci_exit(struct drm_driver *driver, struct pci_driver *pdriver);
+>
+>  #else
+>
+> -static inline void __drm_legacy_pci_free(struct drm_device *dev,
+> -                                        drm_dma_handle_t *dmah)
+> -{
+> -}
+> -
+>  static inline int drm_legacy_pci_init(struct drm_driver *driver,
+>                                       struct pci_driver *pdriver)
+>  {
 > --
 > 2.25.0
 >
