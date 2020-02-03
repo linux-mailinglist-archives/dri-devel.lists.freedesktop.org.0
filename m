@@ -1,41 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CE715094D
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 16:12:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2506150951
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 16:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26CE76EC20;
-	Mon,  3 Feb 2020 15:12:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E226EC26;
+	Mon,  3 Feb 2020 15:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12B886EC20;
- Mon,  3 Feb 2020 15:12:40 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F87B6EC1E;
+ Mon,  3 Feb 2020 15:13:47 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2020 07:12:39 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2020 07:13:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,398,1574150400"; d="scan'208";a="310747262"
+X-IronPort-AV: E=Sophos;i="5.70,398,1574150400"; d="scan'208";a="234702100"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 03 Feb 2020 07:12:36 -0800
+ by orsmga006.jf.intel.com with SMTP; 03 Feb 2020 07:13:44 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 03 Feb 2020 17:12:36 +0200
-Date: Mon, 3 Feb 2020 17:12:36 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/dp: Add checking of YCBCR420 Pass-through
- to YCBCR420 outputs.
-Message-ID: <20200203151236.GG13686@intel.com>
-References: <20200203120421.113744-1-gwan-gyeong.mun@intel.com>
- <20200203120421.113744-2-gwan-gyeong.mun@intel.com>
+ Mon, 03 Feb 2020 17:13:43 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/26] drm/i915: Pimp DP DFP handling
+Date: Mon,  3 Feb 2020 17:13:17 +0200
+Message-Id: <20200203151343.14378-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200203120421.113744-2-gwan-gyeong.mun@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,94 +42,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 03, 2020 at 02:04:21PM +0200, Gwan-gyeong Mun wrote:
-> When a DP downstream uses a DP to HDMI active converter, the active
-> converter needs to support YCbCr420 Pass-through to enable DP YCbCr 4:2:0
-> outputs.
-> =
-
-> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 26 +++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
-15/display/intel_dp.c
-> index f4dede6253f8..824ed8096426 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2298,6 +2298,22 @@ intel_dp_compute_link_config(struct intel_encoder =
-*encoder,
->  	return 0;
->  }
->  =
-
-> +static bool
-> +intel_dp_downstream_is_hdmi_detailed_cap_info(struct intel_dp *intel_dp)
-> +{
-> +	int type =3D intel_dp->downstream_ports[0] & DP_DS_PORT_TYPE_MASK;
-> +	bool detailed_cap_info =3D intel_dp->dpcd[DP_DOWNSTREAMPORT_PRESENT] &
-> +				 DP_DETAILED_CAP_INFO_AVAILABLE;
-> +
-> +	return type =3D=3D DP_DS_PORT_TYPE_HDMI && detailed_cap_info;
-
-This looks a bit incomplete, and should really be in the core. I have a
-bunch of stuff for DFPs sitting in a branch. I'll just post the whole
-thing...
-
-> +}
-> +
-> +static bool
-> +intel_dp_downstream_supports_ycbcr_420_passthru(struct intel_dp *intel_d=
-p)
-> +{
-> +	return intel_dp->downstream_ports[3] & DP_DS_YCBCR420_PASSTHRU_SUPPORT;
-> +}
-> +
->  static int
->  intel_dp_ycbcr420_config(struct intel_dp *intel_dp,
->  			 struct drm_connector *connector,
-> @@ -2314,6 +2330,16 @@ intel_dp_ycbcr420_config(struct intel_dp *intel_dp,
->  	    !connector->ycbcr_420_allowed)
->  		return 0;
->  =
-
-> +	/*
-> +	 * When a DP downstream uses a DP to HDMI active converter,
-> +	 * the active converter needs to support YCbCr420 Pass-through.
-> +	 */
-> +	if (drm_dp_is_branch(intel_dp->dpcd)) {
-> +		if (intel_dp_downstream_is_hdmi_detailed_cap_info(intel_dp) &&
-> +		    !intel_dp_downstream_supports_ycbcr_420_passthru(intel_dp))
-> +			return 0;
-> +	}
-> +
->  	crtc_state->output_format =3D INTEL_OUTPUT_FORMAT_YCBCR420;
->  =
-
->  	/* YCBCR 420 output conversion needs a scaler */
-> -- =
-
-> 2.24.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCkF0
+dGVtcHQgdG8gZGVhbCB3aXRoIERQIGRvd25zdHJlYW0gZmFjaW5nIHBvcnRzIChERlApIG1vcmUK
+dGhvcm91Z2hseS4gVGhpcyBpbnZvbHZlcyByZWFkaW5nIG1vcmUgb2YgdGhlIHBvcnQgY2Fwcwph
+bmQgZGVhbGluZyB3aXRoIHZhcmlvdXMgY2xvY2svYnBjIGxpbWl0YXRpb25zLgoKQWxzbyB3ZSB0
+cnkgdG8gaG9vayB1cCB0aGUgRFAgZHVhbCBtb2RlIGRvbmdsZXMgaW50byB0aGUKbWl4ICh1bmZv
+cnR1bmF0ZWx5IEkndmUgbm90IHlldCBzZWVuIGEgRFArKyBERlAgdGhhdCB3b3VsZApwYXNzIHRo
+ZSBkdWFsIG1vZGUgYWRhcHRlciByZWdpc3RlciBpMmMgYWNjZXNzZXMgdGhyb3VnaCkuCgpBbmQg
+d2UgdHJ5IHRvIGVuYWJsZSBZQ2JDciA0NDQtPjQyMCBjb252ZXJzaW9uIGZvciBIRE1JIERGUHMK
+d2hpY2ggY291bGQgYWxsb3cgc29tZSA0ayBkaXNwbGF5cyB0byBhY3R1YWxseSB1c2UgNGsgb24K
+cHJlLWljbCBoYXJkd2FyZSAod2hpY2ggZG9lc24ndCBoYXZlIG5hdGl2ZSA0MjAgb3V0cHV0KSwK
+YXNzdW1pbmcgd2UgZG9uJ3QgcnVuIGludG8gc29tZSBvdGhlciBoYXJkd2FyZSBsaW1pdHMuCgpJ
+dCdzIGEgYml0IG9uIHRoZSBsYXJnZSBzaWRlIGJ1dCBzaW5jZSBpdCBsb29rcyBsaWtlIG90aGVy
+CnBlb3BsZSBhcmUgcG9raW5nIGFyb3VuZCB0aGUgc2FtZSBhcmVhIEkgZmlndXJlZCBJJ2QgcG9z
+dAp0aGUgZW50aXJlIHRoaW5nLgoKRW50aXJlIHNlcmllcyBhdmFpbGFibGUgaGVyZToKZ2l0Oi8v
+Z2l0aHViLmNvbS92c3lyamFsYS9saW51eC5naXQgZHBfZG93bnN0cmVhbV9wb3J0c181CgpWaWxs
+ZSBTeXJqw6Rsw6QgKDI2KToKICBkcm0vaTkxNTogTnVrZSBwcmUtcHJvZHVjdGlvbiBHTEsgSERN
+SSB3L2EgMTEzOQogIGRybS9pOTE1OiBMaW1pdCBkaXNwbGF5IFdhXzE0MDU1MTAwNTcgdG8gZ2Vu
+MTEKICBkcm0vaTkxNTogRHJvcCBXYURESUlPVGltZW91dDpnbGsKICBkcm0vaTkxNTogQWRkIGds
+ayB0byBpbnRlbF9kZXRlY3RfcHJlcHJvZHVjdGlvbl9odygpCiAgZHJtL2RwOiBJbmNsdWRlIHRo
+ZSBBVVggQ0ggbmFtZSBpbiB0aGUgZGVidWcgbWVzc2FnZXMKICBkcm0vaTkxNS9sc3Bjb246IERv
+IG5vdCBzZW5kIGluZm9mcmFtZXMgdG8gbm9uLUhETUkgc2lua3MKICBkcm0vZHA6IERlZmluZSBw
+cm90b2NvbCBjb252ZXJ0ZXIgRFBDRCByZWdpc3RlcnMKICBkcm0vZHA6IERlZmluZSBtb3JlIGRv
+d25zdHJlYW0gZmFjaW5nIHBvcnQgY2FwcwogIGRybS9pOTE1OiBSZXdvcmtkIERGUCBtYXggYnBj
+IGhhbmRsaW5nCiAgZHJtL2RwOiBBZGQgaGVscGVycyB0byBpZGVudGlmeSBkb3duc3RyZWFtIGZh
+Y2luZyBwb3J0IHR5cGVzCiAgZHJtL2RwOiBQaW1wIGRybV9kcF9kb3duc3RyZWFtX21heF9icGMo
+KQogIGRybS9kcDogUmVkbyBkcm1fZHBfZG93bnN0cmVhbV9tYXhfY2xvY2soKSBhcwogICAgZHJt
+X2RwX2Rvd25zdHJlYW1fbWF4X2RvdGNsb2NrKCkKICBkcm0vaTkxNTogUmV3b3JrZCBEUCBERlAg
+Y2xvY2sgaGFuZGxpbmcKICBkcm0vaTkxNTogRHVtcCBkb3duc3RyZWFtIGZhY2luZyBwb3J0IGNh
+cHMKICBkcm0vZHA6IEFkZCBkcm1fZHBfZG93bnN0cmVhbV97bWluLG1heH1fdG1kc19jbG9jaygp
+CiAgZHJtL2k5MTU6IERlYWwgd2l0aCBUTURTIERGUCBjbG9jayBsaW1pdHMKICBkcm0vaTkxNTog
+Q29uZmlndXJlIERQIDEuMysgcHJvdG9jb2wgY29udmVydGVkIEhETUkgbW9kZQogIGRybS9kcDog
+QWRkIGRybV9kcF9kb3duc3RyZWFtX21vZGUoKQogIGRybS9pOTE1OiBIYW5kbGUgZG93bnN0cmVh
+bSBmYWNpbmcgcG9ydHMgdy9vIEVESUQKICBkcm0vaTkxNTogRXh0cmFjdCBpbnRlbF9oZG1pX2hh
+c19hdWRpbygpCiAgZHJtL2k5MTU6IERQLT5IRE1JIFRNRFMgY2xvY2sgbGltaXRzIHZzLiBkZWVw
+IGNvbG9yCiAgZHJtL2RwOiBBZGQgaGVscGVycyBmb3IgREZQIFlDYkNyIDQ6MjowIGhhbmRsaW5n
+CiAgZHJtL2k5MTU6IERvIFlDYkNyIDQ0NC0+NDIwIGNvbnZlcnNpb24gdmlhIERQIHByb3RvY29s
+IGNvbnZlcnRlcnMKICBkcm0vaTkxNTogRGVjb3VwbGUgRFArKyBmcm9tIHRoZSBIRE1JIGNvZGUK
+ICBkcm0vaTkxNTogVHJ5IHRvIHByb2JlIERQKysgZG9uZ2xlcyBvbiBEUCsrIGRvd25zdHJlYW0g
+ZmFjaW5nIHBvcnRzCiAgZHJtL2k5MTU6IFRyeSB0byBmcm9iIHRoZSBUTURTIGJ1ZmZlciBlbmFi
+bGUga25vYiBvbiBEUCsrIGRvbmdsZXMgb24KICAgIERQIERGUHMKCiBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX2RwX2hlbHBlci5jICAgICAgICAgICAgICAgfCA0MDkgKysrKysrKysrKysrKysrLS0tCiBk
+cml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyAgICAgICAgICAgICAgICAgICAgfCAgMjEgKwogZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYyAgICAgIHwgIDIzICstCiAuLi4v
+ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmggICAgfCAgMjIgKy0KIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyAgICAgICB8IDM2NyArKysrKysrKysr
+KysrKy0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmggICAgICAgfCAg
+IDEgKwogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1pLmMgICAgIHwgMTgx
+ICsrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuaCAgICAg
+fCAgMTEgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZGVidWdmcy5jICAgICAgICAgICB8
+ICAgNCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuYyAgICAgICAgICAgICAgIHwg
+ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2LmggICAgICAgICAgICAgICB8ICAg
+MiArCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9wbS5jICAgICAgICAgICAgICAgfCAgMTAg
+LQogaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oICAgICAgICAgICAgICAgICAgIHwgIDYzICsr
+LQogaW5jbHVkZS9kcm0vZHJtX2VkaWQuaCAgICAgICAgICAgICAgICAgICAgICAgIHwgICA0ICsK
+IDE0IGZpbGVzIGNoYW5nZWQsIDkwNCBpbnNlcnRpb25zKCspLCAyMTUgZGVsZXRpb25zKC0pCgot
+LSAKMi4yNC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
