@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6596E1509F3
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 16:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BC4150A4A
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2020 16:53:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBE46E311;
-	Mon,  3 Feb 2020 15:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 956676EC6A;
+	Mon,  3 Feb 2020 15:53:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6BB396E311
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 15:41:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC5E830E;
- Mon,  3 Feb 2020 07:41:12 -0800 (PST)
-Received: from arm.com (e112269-lin.cambridge.arm.com [10.1.195.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3BA253F68E;
- Mon,  3 Feb 2020 07:41:11 -0800 (PST)
-Date: Mon, 3 Feb 2020 15:41:06 +0000
-From: Steven Price <steven.price@arm.com>
-To: YueHaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH -next] drm/panfrost: Remove set but not used variable 'bo'
-Message-ID: <20200203154106.GA2114@arm.com>
-References: <20200203152724.42611-1-yuehaibing@huawei.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77B176EC6A
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2020 15:53:05 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id A9A2EADCC;
+ Mon,  3 Feb 2020 15:53:03 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ z.liuxinliang@hisilicon.com, zourongrong@gmail.com,
+ kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+ hdegoede@redhat.com, sam@ravnborg.org
+Subject: [PATCH v2 0/4] drm/vram: Check display modes against available VRAM
+Date: Mon,  3 Feb 2020 16:52:54 +0100
+Message-Id: <20200203155258.9346-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200203152724.42611-1-yuehaibing@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,64 +39,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Hulk Robot <hulkci@huawei.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 03, 2020 at 03:27:24PM +0000, YueHaibing wrote:
-> Fixes gcc '-Wunused-but-set-variable' warning:
-> 
-> drivers/gpu/drm/panfrost/panfrost_job.c: In function 'panfrost_job_cleanup':
-> drivers/gpu/drm/panfrost/panfrost_job.c:278:31: warning:
->  variable 'bo' set but not used [-Wunused-but-set-variable]
-> 
-> commit bdefca2d8dc0 ("drm/panfrost: Add the panfrost_gem_mapping concept")
-> involved this unused variable.
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+This adds drm_vram_helper_mode_valid(), which tests a display mode against
+the available video memory. It's a helper function to sort out display
+modes that cannot be used because of a lack of video memory.
 
-I'm not sure how I didn't spot that before! Thanks for fixing it.
+The ast driver already implemented this test for a while. The patchset
+converts ast over to the helper and adds the test to the over drivers
+that use VRAM helpers; except mgag200. I left out mgag200 as it doesn't
+have atomic modesetting yet and needs adjustments to memory management
+first.
 
-Note commit bdefca2d8dc0 is actually in v5.5 and not (yet) in
-drm-misc-next.
+v2:
+	* WARN_ON if VRAM memory manager has not been initialized (Daniel)
+	* unexport drm_vram_helper_mode_valid_internal() (Daniel)
+	* documentation formatting (Daniel)
+	* remove bochs_connector_mode_valid() (Gerd)
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Thomas Zimmermann (4):
+  drm/vram: Add helpers to validate a display mode's memory requirements
+  drm/bochs: Implement struct drm_mode_config_funcs.mode_valid
+  drm/hibmc: Implement struct drm_mode_config_funcs.mode_valid
+  drm/vboxvideo: Implement struct drm_mode_config_funcs.mode_valid
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_job.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 7c36ec675b73..ccb8546a9342 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -275,12 +275,8 @@ static void panfrost_job_cleanup(struct kref *ref)
->  	}
->  
->  	if (job->bos) {
-> -		struct panfrost_gem_object *bo;
-> -
-> -		for (i = 0; i < job->bo_count; i++) {
-> -			bo = to_panfrost_bo(job->bos[i]);
-> +		for (i = 0; i < job->bo_count; i++)
->  			drm_gem_object_put_unlocked(job->bos[i]);
-> -		}
->  
->  		kvfree(job->bos);
->  	}
-> 
-> 
-> 
+ drivers/gpu/drm/ast/ast_main.c              | 24 +-------
+ drivers/gpu/drm/bochs/bochs_kms.c           | 21 +------
+ drivers/gpu/drm/drm_gem_vram_helper.c       | 61 +++++++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c |  1 +
+ drivers/gpu/drm/vboxvideo/vbox_mode.c       |  1 +
+ include/drm/drm_gem_vram_helper.h           |  9 +++
+ 6 files changed, 74 insertions(+), 43 deletions(-)
+
+--
+2.25.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
