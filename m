@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F38B151CDD
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 16:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99490151CDE
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 16:02:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FCDF6F395;
-	Tue,  4 Feb 2020 15:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157526F38C;
+	Tue,  4 Feb 2020 15:01:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00D276F38A
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 15:01:56 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id w15so23506364wru.4
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 07:01:56 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 481C46F38A
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 15:01:58 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id w15so23506455wru.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 07:01:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kixerklci5RlRbfMm4TwGSbMVz9jECRAkEFI2yGWr10=;
- b=irif8kWRA2mQbgl1v/ss4oSEkdss2q2JyGwM6EtB2/9zhVqnTbvW87dyRuDR/3MAJa
- gGjh2IDF/pxxq8NhH+wwErvQKoKrNYe8XGAYNjYNE39yJOC/FXMYCcFNu4Ty6x74q35E
- Ejr84UR7o9L5oQF3m9J+9yxyu/IZdfwrhAIzY=
+ bh=SHOlRZtFBQ5wM1g1FaAtJgUmwljd+E+iomsSReCmsIg=;
+ b=RcNFhPSIHlfiVzre77FWNowEwMhWA3WsnInXU/DBxX5mqk5s04hudsVI8lGyO9Mr/+
+ 5NjaUIUBEH0OnF+cD/1qtX8SI6MZ7KJzupdRlK0CYA+0wl2ygQA5zkz194STmkaAicew
+ kePx5RVk3c+m1uwmeR/J8dhrJ103WYq2OGWm4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kixerklci5RlRbfMm4TwGSbMVz9jECRAkEFI2yGWr10=;
- b=BaKA8n1viEDUMXrJOR8tkgCBREvFduXp7cQFXDpfdyK1EjqGpLLIh8BTHPZDlEnIt2
- oli9ldsTZgpfjp+CV8/RkLUNv8Hd3nxa2bQfRWAwKtMrfK5NSRvrPlCy047W/hbFGGWd
- zuZr19GHG6bjGh1xF3fAiMnVLfpEurIh29JTDiJzN1yQnbIfqIMYlm3BcneHWM9mlAKZ
- TZ68Wvz12VtvNpr4BXtyGYlHTXvCrbtRVBBIE2SpPlj2VPBwYFfDHjc+WVhK6rv28cNE
- wKjYpWyKrM95NKGINDFD67nBejc8PTHGSZJcOYL28Idz8P+pKT7vguBAXKiSUziC/T7o
- L0rw==
-X-Gm-Message-State: APjAAAUDjwprXXl5evSHyRtfgqW9AO0owI+UIBQ3jvL/EGhipWO1YCDG
- BvZX4X/K1hE+fgoHgdbWtfwWnCnSFE7pRA==
-X-Google-Smtp-Source: APXvYqwYBZ1mjszW3BIHYVp9RgOS+WhPdAL7/zSJybrNpaYprPMRTqU4zrsW08LJXocMTHZSXhW04A==
-X-Received: by 2002:a5d:6ac4:: with SMTP id u4mr22107496wrw.318.1580828515411; 
- Tue, 04 Feb 2020 07:01:55 -0800 (PST)
+ bh=SHOlRZtFBQ5wM1g1FaAtJgUmwljd+E+iomsSReCmsIg=;
+ b=pIskTVC2vZpnzLQyFXKx+tr1DqNu/lJEbouIjquXRyEEK5a6ni2igPf14hYYuThPO+
+ N3tLp/pyMd2tdiNI1virNavZi6gjTowoJQ2rzl+Q25gvqJNhPMBScXxUCirztLhkX4yK
+ mobptuWDuBgKH2lkcysuDMRtu83AoKnsn5zxFZ1mxS6RJ0unB4/k3+dcy05xEG/GoeXk
+ r24wuyyaX3YMUJZ5CMicKCpZhAXBGgMwdxVEjEjDYkRgce6UVKiWpkjunTTmWKyTp5b+
+ 39+DhJsfpw5+wDnSQLphSb54zewMOYlP6w6sqqpoPyA+BCUYc+y72X+VPtxVsqYlhm4L
+ 5ljw==
+X-Gm-Message-State: APjAAAXP+W4ehOOid1baeZUYBzVS9ah3mYMwhqmlbU4lJQ4GhfYmj0uf
+ fA+Q5+UjuyPhpvegzO8LjoUiCGmDWbVrUQ==
+X-Google-Smtp-Source: APXvYqxSKwma/PlXyE4g1m7Bclug7VTr9fv37wBg5u0JeAOURH9sQJXGrL+8fMNlevRSC6RQyTkuZA==
+X-Received: by 2002:a5d:5704:: with SMTP id a4mr24298524wrv.198.1580828516672; 
+ Tue, 04 Feb 2020 07:01:56 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d9sm14428921wrx.94.2020.02.04.07.01.54
+ by smtp.gmail.com with ESMTPSA id d9sm14428921wrx.94.2020.02.04.07.01.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 07:01:54 -0800 (PST)
+ Tue, 04 Feb 2020 07:01:55 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/5] drm/client: Rename _force to _locked
-Date: Tue,  4 Feb 2020 16:01:44 +0100
-Message-Id: <20200204150146.2006481-4-daniel.vetter@ffwll.ch>
+Subject: [PATCH 4/5] drm: Push drm_global_mutex locking in drm_open
+Date: Tue,  4 Feb 2020 16:01:45 +0100
+Message-Id: <20200204150146.2006481-5-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
 References: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
@@ -63,82 +63,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGx1cyBleHRlbmQgdGhlIGtlcm5lbGRvYyBhIGJpdCB0byBleHBsYWluIGhvdyB0aGlzIHNob3Vs
-ZCBiZSB1c2VkLgpXaXRoIHRoZSBwcmV2aW91cyBwYXRjaCB0byBkcm9wIHRoZSBmb3JjZSByZXN0
-b3JlIHRoZSBtYWluIHVzZXIgb2YKdGhpcyBmdW5jdGlvbiBpcyBub3QgZW1waGFzaXMgb24gdGhl
-ICJJIGhvbGQgdGhlIGludGVybmFsIG1hc3RlciBsb2NrCmFscmVhZHkiIGFzcGVjdCwgc28gcmVu
-YW1lIHRoZSBmdW5jdGlvbiB0byBtYXRjaC4KClN1Z2dlc3RlZCBieSBOb3JhbGYuCgpDYzogTm9y
-YWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+ClJldmlld2VkLWJ5OiBOb3JhbGYgVHLD
-uG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8
-ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnRf
-bW9kZXNldC5jIHwgMTIgKysrKysrKy0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBl
-ci5jICAgICAgfCAgNCArKy0tCiBpbmNsdWRlL2RybS9kcm1fY2xpZW50LmggICAgICAgICAgICAg
-fCAgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50X21vZGVzZXQuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50X21vZGVzZXQuYwppbmRleCA2ZDRhMjllOTlhZTIuLjg0
-MTc5NGUxOWViNiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnRfbW9kZXNl
-dC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50X21vZGVzZXQuYwpAQCAtMTA5NCwx
-NSArMTA5NCwxNyBAQCBzdGF0aWMgaW50IGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfbGVnYWN5
-KHN0cnVjdCBkcm1fY2xpZW50X2RldiAqY2xpZW50KQogfQogCiAvKioKLSAqIGRybV9jbGllbnRf
-bW9kZXNldF9jb21taXRfZm9yY2UoKSAtIEZvcmNlIGNvbW1pdCBDUlRDIGNvbmZpZ3VyYXRpb24K
-KyAqIGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfbG9ja2VkKCkgLSBGb3JjZSBjb21taXQgQ1JU
-QyBjb25maWd1cmF0aW9uCiAgKiBAY2xpZW50OiBEUk0gY2xpZW50CiAgKgotICogQ29tbWl0IG1v
-ZGVzZXQgY29uZmlndXJhdGlvbiB0byBjcnRjcyB3aXRob3V0IGNoZWNraW5nIGlmIHRoZXJlIGlz
-IGEgRFJNIG1hc3Rlci4KKyAqIENvbW1pdCBtb2Rlc2V0IGNvbmZpZ3VyYXRpb24gdG8gY3J0Y3Mg
-d2l0aG91dCBjaGVja2luZyBpZiB0aGVyZSBpcyBhIERSTQorICogbWFzdGVyLiBUaGUgYXNzdW1w
-dGlvbiBpcyB0aGF0IHRoZSBjYWxsZXIgYWxyZWFkeSBob2xkcyBhbiBpbnRlcm5hbCBEUk0KKyAq
-IG1hc3RlciByZWZlcmVuY2UgYWNxdWlyZWQgd2l0aCBkcm1fbWFzdGVyX2ludGVybmFsX2FjcXVp
-cmUoKS4KICAqCiAgKiBSZXR1cm5zOgogICogWmVybyBvbiBzdWNjZXNzIG9yIG5lZ2F0aXZlIGVy
-cm9yIGNvZGUgb24gZmFpbHVyZS4KICAqLwotaW50IGRybV9jbGllbnRfbW9kZXNldF9jb21taXRf
-Zm9yY2Uoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQpCitpbnQgZHJtX2NsaWVudF9tb2Rl
-c2V0X2NvbW1pdF9sb2NrZWQoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQpCiB7CiAJc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiA9IGNsaWVudC0+ZGV2OwogCWludCByZXQ7CkBAIC0xMTE2LDcg
-KzExMTgsNyBAQCBpbnQgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9mb3JjZShzdHJ1Y3QgZHJt
-X2NsaWVudF9kZXYgKmNsaWVudCkKIAogCXJldHVybiByZXQ7CiB9Ci1FWFBPUlRfU1lNQk9MKGRy
-bV9jbGllbnRfbW9kZXNldF9jb21taXRfZm9yY2UpOworRVhQT1JUX1NZTUJPTChkcm1fY2xpZW50
-X21vZGVzZXRfY29tbWl0X2xvY2tlZCk7CiAKIC8qKgogICogZHJtX2NsaWVudF9tb2Rlc2V0X2Nv
-bW1pdCgpIC0gQ29tbWl0IENSVEMgY29uZmlndXJhdGlvbgpAQCAtMTEzNSw3ICsxMTM3LDcgQEAg
-aW50IGRybV9jbGllbnRfbW9kZXNldF9jb21taXQoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGll
-bnQpCiAJaWYgKCFkcm1fbWFzdGVyX2ludGVybmFsX2FjcXVpcmUoZGV2KSkKIAkJcmV0dXJuIC1F
-QlVTWTsKIAotCXJldCA9IGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfZm9yY2UoY2xpZW50KTsK
-KwlyZXQgPSBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2xvY2tlZChjbGllbnQpOwogCiAJZHJt
-X21hc3Rlcl9pbnRlcm5hbF9yZWxlYXNlKGRldik7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZmJfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCmlu
-ZGV4IDY3MjkzNGUwZWVlZC4uNDkwYTk5ZGU2ZWMxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2ZiX2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMK
-QEAgLTI4NCw3ICsyODQsNyBAQCBzdGF0aWMgYm9vbCBkcm1fZmJfaGVscGVyX2ZvcmNlX2tlcm5l
-bF9tb2RlKHZvaWQpCiAJCQljb250aW51ZTsKIAogCQltdXRleF9sb2NrKCZoZWxwZXItPmxvY2sp
-OwotCQlyZXQgPSBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKCZoZWxwZXItPmNsaWVu
-dCk7CisJCXJldCA9IGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfbG9ja2VkKCZoZWxwZXItPmNs
-aWVudCk7CiAJCWlmIChyZXQpCiAJCQllcnJvciA9IHRydWU7CiAJCW11dGV4X3VubG9jaygmaGVs
-cGVyLT5sb2NrKTsKQEAgLTEzNDcsNyArMTM0Nyw3IEBAIHN0YXRpYyBpbnQgcGFuX2Rpc3BsYXlf
-YXRvbWljKHN0cnVjdCBmYl92YXJfc2NyZWVuaW5mbyAqdmFyLAogCiAJcGFuX3NldChmYl9oZWxw
-ZXIsIHZhci0+eG9mZnNldCwgdmFyLT55b2Zmc2V0KTsKIAotCXJldCA9IGRybV9jbGllbnRfbW9k
-ZXNldF9jb21taXRfZm9yY2UoJmZiX2hlbHBlci0+Y2xpZW50KTsKKwlyZXQgPSBkcm1fY2xpZW50
-X21vZGVzZXRfY29tbWl0X2xvY2tlZCgmZmJfaGVscGVyLT5jbGllbnQpOwogCWlmICghcmV0KSB7
-CiAJCWluZm8tPnZhci54b2Zmc2V0ID0gdmFyLT54b2Zmc2V0OwogCQlpbmZvLT52YXIueW9mZnNl
-dCA9IHZhci0+eW9mZnNldDsKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jbGllbnQuaCBi
-L2luY2x1ZGUvZHJtL2RybV9jbGllbnQuaAppbmRleCBkMDFkMzExMDIzYWMuLjNlZDVkZWU4OTlm
-ZCAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2NsaWVudC5oCisrKyBiL2luY2x1ZGUvZHJt
-L2RybV9jbGllbnQuaApAQCAtMTYxLDcgKzE2MSw3IEBAIGludCBkcm1fY2xpZW50X21vZGVzZXRf
-Y3JlYXRlKHN0cnVjdCBkcm1fY2xpZW50X2RldiAqY2xpZW50KTsKIHZvaWQgZHJtX2NsaWVudF9t
-b2Rlc2V0X2ZyZWUoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQpOwogaW50IGRybV9jbGll
-bnRfbW9kZXNldF9wcm9iZShzdHJ1Y3QgZHJtX2NsaWVudF9kZXYgKmNsaWVudCwgdW5zaWduZWQg
-aW50IHdpZHRoLCB1bnNpZ25lZCBpbnQgaGVpZ2h0KTsKIGJvb2wgZHJtX2NsaWVudF9yb3RhdGlv
-bihzdHJ1Y3QgZHJtX21vZGVfc2V0ICptb2Rlc2V0LCB1bnNpZ25lZCBpbnQgKnJvdGF0aW9uKTsK
-LWludCBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKHN0cnVjdCBkcm1fY2xpZW50X2Rl
-diAqY2xpZW50KTsKK2ludCBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2xvY2tlZChzdHJ1Y3Qg
-ZHJtX2NsaWVudF9kZXYgKmNsaWVudCk7CiBpbnQgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdChz
-dHJ1Y3QgZHJtX2NsaWVudF9kZXYgKmNsaWVudCk7CiBpbnQgZHJtX2NsaWVudF9tb2Rlc2V0X2Rw
-bXMoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQsIGludCBtb2RlKTsKIAotLSAKMi4yNC4x
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+We want to only take the BKL on crap drivers, but to know whether
+we have a crap driver we first need to look it up. Split this shuffle
+out from the main BKL-disabling patch, for more clarity. Historical
+aside: When the kernel-wide BKL was removed, it was replaced by
+drm_global_mutex within the scope of the drm subsystem hence why these
+two things are (almost) interchangeable as concepts here.
+
+Since the minors are refcounted drm_minor_acquire is purely internal
+and this does not have a driver visible effect.
+
+v2: Push the locking even further into drm_open(), suggested by Chris.
+This gives us more symmetry with drm_release(), and maybe a futuer
+avenue where we make drm_global_mutex locking (partially) opt-in like
+with drm_release_noglobal().
+
+v3:
+- Actually push this stuff correctly, don't unlock twice (Chris)
+- Fix typo on commit message, plus explain why BKL = drm_global_mutex
+  (Sam)
+
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ drivers/gpu/drm/drm_drv.c  | 14 +++++---------
+ drivers/gpu/drm/drm_file.c |  6 ++++++
+ 2 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 8deff75b484c..05bdf0b9d2b3 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -1085,17 +1085,14 @@ static int drm_stub_open(struct inode *inode, struct file *filp)
+ 
+ 	DRM_DEBUG("\n");
+ 
+-	mutex_lock(&drm_global_mutex);
+ 	minor = drm_minor_acquire(iminor(inode));
+-	if (IS_ERR(minor)) {
+-		err = PTR_ERR(minor);
+-		goto out_unlock;
+-	}
++	if (IS_ERR(minor))
++		return PTR_ERR(minor);
+ 
+ 	new_fops = fops_get(minor->dev->driver->fops);
+ 	if (!new_fops) {
+ 		err = -ENODEV;
+-		goto out_release;
++		goto out;
+ 	}
+ 
+ 	replace_fops(filp, new_fops);
+@@ -1104,10 +1101,9 @@ static int drm_stub_open(struct inode *inode, struct file *filp)
+ 	else
+ 		err = 0;
+ 
+-out_release:
++out:
+ 	drm_minor_release(minor);
+-out_unlock:
+-	mutex_unlock(&drm_global_mutex);
++
+ 	return err;
+ }
+ 
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index 1075b3a8b5b1..80d556402ab4 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -378,6 +378,8 @@ int drm_open(struct inode *inode, struct file *filp)
+ 	if (IS_ERR(minor))
+ 		return PTR_ERR(minor);
+ 
++	mutex_lock(&drm_global_mutex);
++
+ 	dev = minor->dev;
+ 	if (!atomic_fetch_inc(&dev->open_count))
+ 		need_setup = 1;
+@@ -395,10 +397,14 @@ int drm_open(struct inode *inode, struct file *filp)
+ 			goto err_undo;
+ 		}
+ 	}
++
++	mutex_unlock(&drm_global_mutex);
++
+ 	return 0;
+ 
+ err_undo:
+ 	atomic_dec(&dev->open_count);
++	mutex_unlock(&drm_global_mutex);
+ 	drm_minor_release(minor);
+ 	return retcode;
+ }
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
