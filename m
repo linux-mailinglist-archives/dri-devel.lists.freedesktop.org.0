@@ -2,59 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5DF151BFF
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 15:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1AE7151C16
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 15:25:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E41B6EF3B;
-	Tue,  4 Feb 2020 14:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D97FA6E831;
+	Tue,  4 Feb 2020 14:25:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABE76EF3B
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 14:18:41 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id m10so2318127wmc.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 06:18:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=SZvtZEmEuBu9Lert2Y7308cs5ofq7lqleSOqJXTV/3I=;
- b=eQs/O/hfCevU7Ml98ikRT5G9UP81ZiTe8L6gQTAtmzx3GUxMB8pKrgyWdEjY41iW/p
- 7am5BXFWlCi5z4xAmrFK1m2z4rXFgg4GPtJ4/I6dKYpYP+Psc7CkqMjDTv8Hi4xxL/Pi
- 9vHAeH1P8xUOzCdRZ788a/vbUNK7JUBvcbu3M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SZvtZEmEuBu9Lert2Y7308cs5ofq7lqleSOqJXTV/3I=;
- b=CAgzBb3muu2aTEyEdAL7L730aGKj9sBQSQBHNKYs5Dg3+H6KnDEJNjz+j7uOOU0R8/
- EdnIUSE4HqBRuUBSRESOENrSfHcVvppDu4IY33sTjEQ3G7+IVPC7KKJUH/U//y3tj9G3
- IZM0KHb5PTLMQsNIvblYXecSLPMiF/8HP0bqsfozf2NB42lCRfBc88OTbk0oiYQ5dOq4
- Dq/T0KFeMU8sA9I27oX1h11zwZEjvpV4bwe4ft9kW8hnLyAzwwsJo6TfTzCG50qUPbk/
- g4Jf6X6Jy2GUaf4Rk1TbdROSqcgjBat04QlIb9DppzmfxrCwTiTnd0vsVrH97kzxNeUH
- bCew==
-X-Gm-Message-State: APjAAAVAdJRsHutKtWCXC9MzFB97T/+f9mesXBp0tBCoHrGfdG7/TUWX
- o5HDgdEHd68pvYedJ1jiUdSdo7sNh8xPDQ==
-X-Google-Smtp-Source: APXvYqzw0bQRLgFFXpEaTJgMksbHk/nROFDaiUYzeWqUjVMPPeCYAbxi4ETiPER3yR+Qh3mrz+KuIw==
-X-Received: by 2002:a05:600c:1007:: with SMTP id
- c7mr5976608wmc.158.1580825919833; 
- Tue, 04 Feb 2020 06:18:39 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c9sm4029858wme.41.2020.02.04.06.18.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 06:18:39 -0800 (PST)
-Date: Tue, 4 Feb 2020 15:18:37 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [Intel-gfx] [PATCH 5/5] drm: Remove exports for
- drm_pci_alloc/drm_pci_free
-Message-ID: <20200204141837.GW43062@phenom.ffwll.local>
-References: <20200202171635.4039044-1-chris@chris-wilson.co.uk>
- <20200202171635.4039044-5-chris@chris-wilson.co.uk>
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA496E831
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 14:25:09 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 014ENBmn174690;
+ Tue, 4 Feb 2020 14:25:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2019-08-05;
+ bh=GbQTCyVdlnKW8gqe/lplcRNTR3wgolWgH9HN9BHKhlc=;
+ b=JKG3ZmkOgtIGqReiXNLloVNM1/F/dkbhJaFcdn6Jc7iQWxtznsVsGHdX1bvpQ6L3qAMA
+ YPSciqjpfYPEAWLkr+7VpE6kJDFvrS7UnGdbZMPgGpdKn4NkIcHBf1vS/TBuXHkWeHlu
+ 9mtR/SwggKlfXpZwuNczf/M2/ZGI1QY39e7MRtwf0+jqxuFiRk+35O4MPmVasTafXT1C
+ CXk1KozuF/cGPTEkivC1yzQic/QQwvwXYhA4CzkxoF5cXLnY7mxCzh3KWt0EAX21bgwq
+ /xjANincJ8IdU0qgAc/U0ml+/u61zt2m04GipPGRgD1so6XiY3GFfx5J1I0WJuoCRnOz kw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2xwyg9k68n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 04 Feb 2020 14:25:05 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 014ENd6c126217;
+ Tue, 4 Feb 2020 14:25:05 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 2xxvy32jw9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 04 Feb 2020 14:25:05 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 014EP4Jj023821;
+ Tue, 4 Feb 2020 14:25:04 GMT
+Received: from kadam (/129.205.23.165) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 04 Feb 2020 06:25:03 -0800
+Date: Tue, 4 Feb 2020 17:24:58 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [bug report] drm/ttm: fix re-init of global structures
+Message-ID: <20200204142457.GP11068@kadam>
+References: <20200204125741.lwg526qxwn5gn5ux@kili.mountain>
+ <c83eb759-3ca9-64a6-d40c-32786304d82c@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200202171635.4039044-5-chris@chris-wilson.co.uk>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <c83eb759-3ca9-64a6-d40c-32786304d82c@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9520
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2002040102
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9520
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2002040102
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,203 +79,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 02, 2020 at 05:16:35PM +0000, Chris Wilson wrote:
-> The drm_pci_alloc routines have been a thin wrapper around the core dma
-> coherent routines. Remove the crutch of a wrapper and the exported
-> symbols, marking it for only internal legacy use.
-> 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+On Tue, Feb 04, 2020 at 03:03:43PM +0100, Christian K=F6nig wrote:
+> Am 04.02.20 um 13:57 schrieb Dan Carpenter:
+> > Hello Christian K=F6nig,
+> > =
 
-Since Alex bothered to review the drm_bufs&r128 patches ...
+> > The patch bd4264112f93: "drm/ttm: fix re-init of global structures"
+> > from Apr 16, 2019, leads to the following static checker warning:
+> > =
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > 	drivers/gpu/drm/ttm/ttm_bo.c:1610 ttm_bo_global_release()
+> > 	warn: passing freed memory 'glob'
+> > =
 
-I think all the other patches I've r-b stamped somewhere else already, but
-if they changed pls poke.
--Daniel
+> > drivers/gpu/drm/ttm/ttm_bo.c
+> >    1591  static void ttm_bo_global_kobj_release(struct kobject *kobj)
+> >    1592  {
+> >    1593          struct ttm_bo_global *glob =3D
+> >    1594                  container_of(kobj, struct ttm_bo_global, kobj);
+> >    1595
+> >    1596          __free_page(glob->dummy_read_page);
+> >    1597  }
+> >    1598
+> >    1599  static void ttm_bo_global_release(void)
+> >    1600  {
+> >    1601          struct ttm_bo_global *glob =3D &ttm_bo_glob;
+> >    1602
+> >    1603          mutex_lock(&ttm_global_mutex);
+> >    1604          if (--ttm_bo_glob_use_count > 0)
+> >    1605                  goto out;
+> >    1606
+> >    1607          kobject_del(&glob->kobj);
+> >    1608          kobject_put(&glob->kobj);
+> >    1609          ttm_mem_global_release(&ttm_mem_glob);
+> >    1610          memset(glob, 0, sizeof(*glob));
+> >                         ^^^^^^^^^^^^^^^^^^^^^^
+> > Depending on the config kobject_release() might call ttm_bo_global_kobj=
+_release()
+> > a few seconds after this memset.  Maybe put the memset into
+> > ttm_bo_global_kobj_release()?
+> =
+
+> That's not possible. The object might be re-used directly after we drop t=
+he
+> ttm_global_mutex.
+> =
 
 
-> ---
->  drivers/gpu/drm/drm_bufs.c   |  5 +++--
->  drivers/gpu/drm/drm_legacy.h | 23 +++++++++++++++++++++++
->  drivers/gpu/drm/drm_pci.c    | 31 ++++++-------------------------
->  include/drm/drm_pci.h        | 18 ------------------
->  4 files changed, 32 insertions(+), 45 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-> index 19297e58b232..a33df3744f76 100644
-> --- a/drivers/gpu/drm/drm_bufs.c
-> +++ b/drivers/gpu/drm/drm_bufs.c
-> @@ -675,7 +675,7 @@ static void drm_cleanup_buf_error(struct drm_device *dev,
->  	if (entry->seg_count) {
->  		for (i = 0; i < entry->seg_count; i++) {
->  			if (entry->seglist[i]) {
-> -				drm_pci_free(dev, entry->seglist[i]);
-> +				drm_legacy_pci_free(dev, entry->seglist[i]);
->  			}
->  		}
->  		kfree(entry->seglist);
-> @@ -975,7 +975,8 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
->  
->  	while (entry->buf_count < count) {
->  
-> -		dmah = drm_pci_alloc(dev, PAGE_SIZE << page_order, 0x1000);
-> +		dmah = drm_legacy_pci_alloc(dev,
-> +					    PAGE_SIZE << page_order, 0x1000);
->  
->  		if (!dmah) {
->  			/* Set count correctly so we free the proper amount. */
-> diff --git a/drivers/gpu/drm/drm_legacy.h b/drivers/gpu/drm/drm_legacy.h
-> index 1be3ea320474..3853b45341c7 100644
-> --- a/drivers/gpu/drm/drm_legacy.h
-> +++ b/drivers/gpu/drm/drm_legacy.h
-> @@ -36,6 +36,7 @@
->  
->  struct agp_memory;
->  struct drm_device;
-> +struct drm_dma_handle;
->  struct drm_file;
->  struct drm_buf_desc;
->  
-> @@ -211,4 +212,26 @@ void drm_master_legacy_init(struct drm_master *master);
->  static inline void drm_master_legacy_init(struct drm_master *master) {}
->  #endif
->  
-> +
-> +#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
-> +
-> +struct drm_dma_handle *
-> +drm_legacy_pci_alloc(struct drm_device *dev, size_t size, size_t align);
-> +void drm_legacy_pci_free(struct drm_device *dev, struct drm_dma_handle * dmah);
-> +
-> +#else
-> +
-> +static inline struct drm_dma_handle *
-> +drm_legacy_pci_alloc(struct drm_device *dev, size_t size, size_t align)
-> +{
-> +	return NULL;
-> +}
-> +
-> +static inline void drm_legacy_pci_free(struct drm_device *dev,
-> +				       struct drm_dma_handle *dmah)
-> +{
-> +}
-> +
-> +#endif
-> +
->  #endif /* __DRM_LEGACY_H__ */
-> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-> index c6bb98729a26..12239498538c 100644
-> --- a/drivers/gpu/drm/drm_pci.c
-> +++ b/drivers/gpu/drm/drm_pci.c
-> @@ -36,19 +36,10 @@
->  #include "drm_internal.h"
->  #include "drm_legacy.h"
->  
-> -/**
-> - * drm_pci_alloc - Allocate a PCI consistent memory block, for DMA.
-> - * @dev: DRM device
-> - * @size: size of block to allocate
-> - * @align: alignment of block
-> - *
-> - * FIXME: This is a needless abstraction of the Linux dma-api and should be
-> - * removed.
-> - *
-> - * Return: A handle to the allocated memory block on success or NULL on
-> - * failure.
-> - */
-> -drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t align)
-> +#if IS_ENABLED(CONFIG_DRM_LEGACY) && IS_ENABLED(CONFIG_PCI)
-> +
-> +drm_dma_handle_t *
-> +drm_legacy_pci_alloc(struct drm_device * dev, size_t size, size_t align)
->  {
->  	drm_dma_handle_t *dmah;
->  
-> @@ -76,24 +67,14 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
->  	return dmah;
->  }
->  
-> -EXPORT_SYMBOL(drm_pci_alloc);
-> -
-> -/**
-> - * drm_pci_free - Free a PCI consistent memory block
-> - * @dev: DRM device
-> - * @dmah: handle to memory block
-> - *
-> - * FIXME: This is a needless abstraction of the Linux dma-api and should be
-> - * removed.
-> - */
-> -void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
-> +void drm_legacy_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
->  {
->  	dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
->  			  dmah->busaddr);
->  	kfree(dmah);
->  }
->  
-> -EXPORT_SYMBOL(drm_pci_free);
-> +#endif
->  
->  static int drm_get_pci_domain(struct drm_device *dev)
->  {
-> diff --git a/include/drm/drm_pci.h b/include/drm/drm_pci.h
-> index 9031e217b506..cade5b60b643 100644
-> --- a/include/drm/drm_pci.h
-> +++ b/include/drm/drm_pci.h
-> @@ -34,34 +34,16 @@
->  
->  #include <linux/pci.h>
->  
-> -struct drm_dma_handle;
-> -struct drm_device;
->  struct drm_driver;
-> -struct drm_master;
->  
->  #ifdef CONFIG_PCI
->  
-> -struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev, size_t size,
-> -				     size_t align);
-> -void drm_pci_free(struct drm_device *dev, struct drm_dma_handle * dmah);
-> -
->  int drm_get_pci_dev(struct pci_dev *pdev,
->  		    const struct pci_device_id *ent,
->  		    struct drm_driver *driver);
->  
->  #else
->  
-> -static inline struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev,
-> -						   size_t size, size_t align)
-> -{
-> -	return NULL;
-> -}
-> -
-> -static inline void drm_pci_free(struct drm_device *dev,
-> -				struct drm_dma_handle *dmah)
-> -{
-> -}
-> -
->  static inline int drm_get_pci_dev(struct pci_dev *pdev,
->  				  const struct pci_device_id *ent,
->  				  struct drm_driver *driver)
-> -- 
-> 2.25.0
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+Hm...  That sucks.  If we reallocate glob->dummy_read_page before the
+ttm_bo_global_kobj_release() gets called then we're toasted.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> How can we wait for the ttm_mem_global_release() to have finished?
+> =
+
+
+A bunch of these release functions use a completion.  But you probably
+don't want a four second delay before we can re-use the struct.
+
+regards,
+dan carpenter
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
