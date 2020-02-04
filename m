@@ -2,89 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DE7151C30
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 15:27:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B959151C4C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 15:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E6A6F372;
-	Tue,  4 Feb 2020 14:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71BE36E839;
+	Tue,  4 Feb 2020 14:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2042.outbound.protection.outlook.com [40.107.237.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD6556F372
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 14:27:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QVGoKWx2N/ri+cWHGUo7XRT23rvZlZYzrVya7N/9SHQUAi7QPMlRPKOj9tPSsydpRGt5Aryu2FtLc5nMoDMMnfYs9051sTXByZ7T3yoyqEZ0v5yB6tW5AlxdeaDYDno5vRlJc1QB2xJhmooWkm7txUvhQTLwgh/zc3QvQPOUSTRJRyG+QdJkiO6UE8byKLLJ1me0xCDo+EEC10FycrFJf4RYTDpHv67NhG/Ixc6olj/y5+uasyWL0oTsA+//n6ZeaoZpCgcCcJlv+5rZ4bYj4Ko6kXxHrrHkluyk0+2PseB3T2xEEfrekKm5yPhpgkRrsdOk7vvz2ODXWN8Z79yUOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=14XCVcz+27uoORuWciDtxVYu3IA70OHmrAatGX2f/ow=;
- b=MIQkhd0mWrbMkwQT7fLWqzojxxUF2yIUUoLyHPCJWGO1HKVxCB5XQubTBwiLWqtOZb4kzim7UmIqHdLRruSZ5Q3Caiu5E8HvrlA9spDa9es+80zk6ggSqyIIYq6UoIybfcO9gGPlCsmOVr00flgs0oW/xxM/gL0NnGiLyjYfFtQhy1HKE4KXBj4tfeLtudR75kOue+NGc7MFDO5Iraj0p5Anicia0W0rtMmcqJKdp1VlnhMfHrP2oydfw13EE9wynalz8bL7j4ZB6SvuslogUmQ/PMTZ6z7uuQXr1V3HSTn9OFndx1vclEb0TMFo28+zwSHn8JtuHDt9QdSRKLFcEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=14XCVcz+27uoORuWciDtxVYu3IA70OHmrAatGX2f/ow=;
- b=FzAzIGvP0HB2NJt6GodQAOqWsnaj/4UrL5IYKZXVNz33O4hxBSWDAfWOXvjDT2v8N1iccpiHCVyCJSsqfhOEq/5fRfRT+ivCAuWz4QNt3NpqXA56kQ4SqUpDf4Z3iHHjycX5lIDl+qjl44TQR+jWnx/0V3ELhXMmppw0s0sQ2Mo=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
- DM5PR12MB1259.namprd12.prod.outlook.com (10.168.237.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.21; Tue, 4 Feb 2020 14:27:44 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::d40e:7339:8605:bc92]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::d40e:7339:8605:bc92%11]) with mapi id 15.20.2686.031; Tue, 4 Feb 2020
- 14:27:44 +0000
-Subject: Re: [bug report] drm/ttm: fix re-init of global structures
-To: Dan Carpenter <dan.carpenter@oracle.com>
-References: <20200204125741.lwg526qxwn5gn5ux@kili.mountain>
- <c83eb759-3ca9-64a6-d40c-32786304d82c@amd.com> <20200204142457.GP11068@kadam>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <04f7540f-c14f-12a3-8bf0-692edae4d3ef@amd.com>
-Date: Tue, 4 Feb 2020 15:27:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200204142457.GP11068@kadam>
-Content-Language: en-US
-X-ClientProxiedBy: ZR0P278CA0043.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1d::12) To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A0066E839
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 14:35:10 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CD923283BC0;
+ Tue,  4 Feb 2020 14:35:08 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH 1/2] drm/panfrost: Make sure MMU context lifetime is not bound
+ to panfrost_priv
+Date: Tue,  4 Feb 2020 15:35:03 +0100
+Message-Id: <20200204143504.135388-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- ZR0P278CA0043.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.29 via Frontend Transport; Tue, 4 Feb 2020 14:27:43 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 8bb81a02-3d38-4247-bb9a-08d7a97e6609
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1259:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1259B81906F4BBE047BCB27883030@DM5PR12MB1259.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:519;
-X-Forefront-PRVS: 03030B9493
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(396003)(366004)(136003)(39860400002)(376002)(189003)(199004)(4326008)(86362001)(31696002)(2616005)(66574012)(66946007)(6916009)(66556008)(66476007)(316002)(31686004)(8676002)(8936002)(81156014)(81166006)(6486002)(478600001)(5660300002)(52116002)(36756003)(16526019)(186003)(6666004)(2906002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1259;
- H:DM5PR12MB1705.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k+BiHNw1r/X1wukXKmpsHIV4C8e5e800SziIwWIu/b+qNbaaajf5hX6cuDdU2VXYe8bZsbrQQVQU0BOCj0SIkCtIBGMH4lzkvXG7/gAKbzt9RcmRz+P/JDrKY3qqj2mzdP46CQ2zN1erKCqukPI2KFu+2bjNUSuX60T18qX2hoX2qYQVWHx5UPTCc4TBb51DwwJvexlhCgY4GSZ+AhJju5oA6r11C35eH3uWn0YXzwKx4N6PTVZRmmn9m9Jq/F8a6leDVl1V7dKJd0xrK2R3pox1O7CuMnYc8fY1DZSfNO2oGTJOjRa2le77N6FtHO34qNWtL82ofDUfwNudaCWIOOazbM/lgZJb5j9sTLkWmCdF1Ms+YT7Mf8TOJIexUdoxDAcewACTLkxn+ujmSLIcf+uGr3zcEMITSU8bGf3/VZY9fx/r0pVS8acrVCesB7kc
-X-MS-Exchange-AntiSpam-MessageData: LUoaXMH632pLpPp99FoHQFMoE0Yn/U0bfi0ngDzT9TFbW5WuSRR0q3tNxEoMrlttJ9BBNHjmAWGp1owKGaepb8RSAst8rtdMCZ1sSJ/IIBh9fsGiophCt0B1c9BeMLItFo4UY9W5lAqriIIiDcDHpSUCVSpG+sUlY9jxRs59FV6ISO+BpZjc1L5HitNcBtFkWmo2NlPwA0h+XwR6qg0FrA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb81a02-3d38-4247-bb9a-08d7a97e6609
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2020 14:27:44.1030 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yZOyTfGmexMFYsk6NK+Ibcucnc3MqIs+Qv4Gb/vrkBe4JzrW5A2vuaBw2brarK7R
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1259
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,53 +41,466 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Icecream95 <ixn@keemail.me>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDQuMDIuMjAgdW0gMTU6MjQgc2NocmllYiBEYW4gQ2FycGVudGVyOgo+IE9uIFR1ZSwgRmVi
-IDA0LCAyMDIwIGF0IDAzOjAzOjQzUE0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
-IEFtIDA0LjAyLjIwIHVtIDEzOjU3IHNjaHJpZWIgRGFuIENhcnBlbnRlcjoKPj4+IEhlbGxvIENo
-cmlzdGlhbiBLw7ZuaWcsCj4+Pgo+Pj4gVGhlIHBhdGNoIGJkNDI2NDExMmY5MzogImRybS90dG06
-IGZpeCByZS1pbml0IG9mIGdsb2JhbCBzdHJ1Y3R1cmVzIgo+Pj4gZnJvbSBBcHIgMTYsIDIwMTks
-IGxlYWRzIHRvIHRoZSBmb2xsb3dpbmcgc3RhdGljIGNoZWNrZXIgd2FybmluZzoKPj4+Cj4+PiAJ
-ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYzoxNjEwIHR0bV9ib19nbG9iYWxfcmVsZWFzZSgp
-Cj4+PiAJd2FybjogcGFzc2luZyBmcmVlZCBtZW1vcnkgJ2dsb2InCj4+Pgo+Pj4gZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fYm8uYwo+Pj4gICAgIDE1OTEgIHN0YXRpYyB2b2lkIHR0bV9ib19nbG9i
-YWxfa29ial9yZWxlYXNlKHN0cnVjdCBrb2JqZWN0ICprb2JqKQo+Pj4gICAgIDE1OTIgIHsKPj4+
-ICAgICAxNTkzICAgICAgICAgIHN0cnVjdCB0dG1fYm9fZ2xvYmFsICpnbG9iID0KPj4+ICAgICAx
-NTk0ICAgICAgICAgICAgICAgICAgY29udGFpbmVyX29mKGtvYmosIHN0cnVjdCB0dG1fYm9fZ2xv
-YmFsLCBrb2JqKTsKPj4+ICAgICAxNTk1Cj4+PiAgICAgMTU5NiAgICAgICAgICBfX2ZyZWVfcGFn
-ZShnbG9iLT5kdW1teV9yZWFkX3BhZ2UpOwo+Pj4gICAgIDE1OTcgIH0KPj4+ICAgICAxNTk4Cj4+
-PiAgICAgMTU5OSAgc3RhdGljIHZvaWQgdHRtX2JvX2dsb2JhbF9yZWxlYXNlKHZvaWQpCj4+PiAg
-ICAgMTYwMCAgewo+Pj4gICAgIDE2MDEgICAgICAgICAgc3RydWN0IHR0bV9ib19nbG9iYWwgKmds
-b2IgPSAmdHRtX2JvX2dsb2I7Cj4+PiAgICAgMTYwMgo+Pj4gICAgIDE2MDMgICAgICAgICAgbXV0
-ZXhfbG9jaygmdHRtX2dsb2JhbF9tdXRleCk7Cj4+PiAgICAgMTYwNCAgICAgICAgICBpZiAoLS10
-dG1fYm9fZ2xvYl91c2VfY291bnQgPiAwKQo+Pj4gICAgIDE2MDUgICAgICAgICAgICAgICAgICBn
-b3RvIG91dDsKPj4+ICAgICAxNjA2Cj4+PiAgICAgMTYwNyAgICAgICAgICBrb2JqZWN0X2RlbCgm
-Z2xvYi0+a29iaik7Cj4+PiAgICAgMTYwOCAgICAgICAgICBrb2JqZWN0X3B1dCgmZ2xvYi0+a29i
-aik7Cj4+PiAgICAgMTYwOSAgICAgICAgICB0dG1fbWVtX2dsb2JhbF9yZWxlYXNlKCZ0dG1fbWVt
-X2dsb2IpOwo+Pj4gICAgIDE2MTAgICAgICAgICAgbWVtc2V0KGdsb2IsIDAsIHNpemVvZigqZ2xv
-YikpOwo+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl4K
-Pj4+IERlcGVuZGluZyBvbiB0aGUgY29uZmlnIGtvYmplY3RfcmVsZWFzZSgpIG1pZ2h0IGNhbGwg
-dHRtX2JvX2dsb2JhbF9rb2JqX3JlbGVhc2UoKQo+Pj4gYSBmZXcgc2Vjb25kcyBhZnRlciB0aGlz
-IG1lbXNldC4gIE1heWJlIHB1dCB0aGUgbWVtc2V0IGludG8KPj4+IHR0bV9ib19nbG9iYWxfa29i
-al9yZWxlYXNlKCk/Cj4+IFRoYXQncyBub3QgcG9zc2libGUuIFRoZSBvYmplY3QgbWlnaHQgYmUg
-cmUtdXNlZCBkaXJlY3RseSBhZnRlciB3ZSBkcm9wIHRoZQo+PiB0dG1fZ2xvYmFsX211dGV4Lgo+
-Pgo+IEhtLi4uICBUaGF0IHN1Y2tzLiAgSWYgd2UgcmVhbGxvY2F0ZSBnbG9iLT5kdW1teV9yZWFk
-X3BhZ2UgYmVmb3JlIHRoZQo+IHR0bV9ib19nbG9iYWxfa29ial9yZWxlYXNlKCkgZ2V0cyBjYWxs
-ZWQgdGhlbiB3ZSdyZSB0b2FzdGVkLgo+Cj4+IEhvdyBjYW4gd2Ugd2FpdCBmb3IgdGhlIHR0bV9t
-ZW1fZ2xvYmFsX3JlbGVhc2UoKSB0byBoYXZlIGZpbmlzaGVkPwo+Pgo+IEEgYnVuY2ggb2YgdGhl
-c2UgcmVsZWFzZSBmdW5jdGlvbnMgdXNlIGEgY29tcGxldGlvbi4gIEJ1dCB5b3UgcHJvYmFibHkK
-PiBkb24ndCB3YW50IGEgZm91ciBzZWNvbmQgZGVsYXkgYmVmb3JlIHdlIGNhbiByZS11c2UgdGhl
-IHN0cnVjdC4KCkFjdHVhbGx5IHRoYXQgc2hvdWxkIGJlIGZpbmUuCgpJIG1lYW4gdGhlIGZ1bmN0
-aW9uIGlzIHVzdWFsbHkgY2FsbGVkIG9uIG1vZHVsZSB1bmxvYWQsIGlmIHRoYXQgcmVhbGx5IAp3
-YWl0cyBmb3IgNCBzZWNvbmRzIHVudGlsIGl0IGNhbGxzIHR0bV9ib19nbG9iYWxfa29ial9yZWxl
-YXNlKCkgdGhlbiAKdGhhdCB3b3VsZCBtb3N0IGxpa2VseSByZXN1bHQgaW4gYSBjcmFzaCBhbnl3
-YXkgYmVjYXVzZSB0aGUgY29kZSBzZWdtZW50IAppcyBhbHJlYWR5IHVubG9hZGVkLgoKUmVnYXJk
-cywKQ2hyaXN0aWFuLgoKPgo+IHJlZ2FyZHMsCj4gZGFuIGNhcnBlbnRlcgoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Jobs can be in-flight when the file descriptor is closed (either because
+the process did not terminate properly, or because it didn't wait for
+all GPU jobs to be finished), and apparently panfrost_job_close() does
+not cancel already running jobs. Let's refcount the MMU context object
+so it's lifetime is no longer bound to the FD lifetime and running jobs
+can finish properly without generating spurious page faults.
+
+Reported-by: Icecream95 <ixn@keemail.me>
+Fixes: 7282f7645d06 ("drm/panfrost: Implement per FD address spaces")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_device.h |   8 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c    |  50 ++-----
+ drivers/gpu/drm/panfrost/panfrost_gem.c    |  20 ++-
+ drivers/gpu/drm/panfrost/panfrost_job.c    |   4 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c    | 158 ++++++++++++++-------
+ drivers/gpu/drm/panfrost/panfrost_mmu.h    |   5 +-
+ 6 files changed, 135 insertions(+), 110 deletions(-)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 06713811b92c..3f19288e8375 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -94,8 +94,12 @@ struct panfrost_device {
+ };
+ 
+ struct panfrost_mmu {
++	struct panfrost_device *pfdev;
++	struct kref refcount;
+ 	struct io_pgtable_cfg pgtbl_cfg;
+ 	struct io_pgtable_ops *pgtbl_ops;
++	struct drm_mm mm;
++	spinlock_t mm_lock;
+ 	int as;
+ 	atomic_t as_count;
+ 	struct list_head list;
+@@ -106,9 +110,7 @@ struct panfrost_file_priv {
+ 
+ 	struct drm_sched_entity sched_entity[NUM_JOB_SLOTS];
+ 
+-	struct panfrost_mmu mmu;
+-	struct drm_mm mm;
+-	spinlock_t mm_lock;
++	struct panfrost_mmu *mmu;
+ };
+ 
+ static inline struct panfrost_device *to_panfrost_device(struct drm_device *ddev)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 273d67e251c2..41e574742a3c 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -418,7 +418,7 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+ 		 * anyway, so let's not bother.
+ 		 */
+ 		if (!list_is_singular(&bo->mappings.list) ||
+-		    WARN_ON_ONCE(first->mmu != &priv->mmu)) {
++		    WARN_ON_ONCE(first->mmu != priv->mmu)) {
+ 			ret = -EINVAL;
+ 			goto out_unlock_mappings;
+ 		}
+@@ -450,32 +450,6 @@ int panfrost_unstable_ioctl_check(void)
+ 	return 0;
+ }
+ 
+-#define PFN_4G		(SZ_4G >> PAGE_SHIFT)
+-#define PFN_4G_MASK	(PFN_4G - 1)
+-#define PFN_16M		(SZ_16M >> PAGE_SHIFT)
+-
+-static void panfrost_drm_mm_color_adjust(const struct drm_mm_node *node,
+-					 unsigned long color,
+-					 u64 *start, u64 *end)
+-{
+-	/* Executable buffers can't start or end on a 4GB boundary */
+-	if (!(color & PANFROST_BO_NOEXEC)) {
+-		u64 next_seg;
+-
+-		if ((*start & PFN_4G_MASK) == 0)
+-			(*start)++;
+-
+-		if ((*end & PFN_4G_MASK) == 0)
+-			(*end)--;
+-
+-		next_seg = ALIGN(*start, PFN_4G);
+-		if (next_seg - *start <= PFN_16M)
+-			*start = next_seg + 1;
+-
+-		*end = min(*end, ALIGN(*start, PFN_4G) - 1);
+-	}
+-}
+-
+ static int
+ panfrost_open(struct drm_device *dev, struct drm_file *file)
+ {
+@@ -490,15 +464,11 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
+ 	panfrost_priv->pfdev = pfdev;
+ 	file->driver_priv = panfrost_priv;
+ 
+-	spin_lock_init(&panfrost_priv->mm_lock);
+-
+-	/* 4G enough for now. can be 48-bit */
+-	drm_mm_init(&panfrost_priv->mm, SZ_32M >> PAGE_SHIFT, (SZ_4G - SZ_32M) >> PAGE_SHIFT);
+-	panfrost_priv->mm.color_adjust = panfrost_drm_mm_color_adjust;
+-
+-	ret = panfrost_mmu_pgtable_alloc(panfrost_priv);
+-	if (ret)
+-		goto err_pgtable;
++	panfrost_priv->mmu = panfrost_mmu_ctx_create(pfdev);
++	if (IS_ERR(panfrost_priv->mmu)) {
++		ret = PTR_ERR(panfrost_priv->mmu);
++		goto err_free;
++	}
+ 
+ 	ret = panfrost_job_open(panfrost_priv);
+ 	if (ret)
+@@ -507,9 +477,8 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
+ 	return 0;
+ 
+ err_job:
+-	panfrost_mmu_pgtable_free(panfrost_priv);
+-err_pgtable:
+-	drm_mm_takedown(&panfrost_priv->mm);
++	panfrost_mmu_ctx_put(panfrost_priv->mmu);
++err_free:
+ 	kfree(panfrost_priv);
+ 	return ret;
+ }
+@@ -522,8 +491,7 @@ panfrost_postclose(struct drm_device *dev, struct drm_file *file)
+ 	panfrost_perfcnt_close(file);
+ 	panfrost_job_close(panfrost_priv);
+ 
+-	panfrost_mmu_pgtable_free(panfrost_priv);
+-	drm_mm_takedown(&panfrost_priv->mm);
++	panfrost_mmu_ctx_put(panfrost_priv->mmu);
+ 	kfree(panfrost_priv);
+ }
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 17b654e1eb94..406e595f99e4 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -60,7 +60,7 @@ panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
+ 
+ 	mutex_lock(&bo->mappings.lock);
+ 	list_for_each_entry(iter, &bo->mappings.list, node) {
+-		if (iter->mmu == &priv->mmu) {
++		if (iter->mmu == priv->mmu) {
+ 			kref_get(&iter->refcount);
+ 			mapping = iter;
+ 			break;
+@@ -74,16 +74,13 @@ panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
+ static void
+ panfrost_gem_teardown_mapping(struct panfrost_gem_mapping *mapping)
+ {
+-	struct panfrost_file_priv *priv;
+-
+ 	if (mapping->active)
+ 		panfrost_mmu_unmap(mapping);
+ 
+-	priv = container_of(mapping->mmu, struct panfrost_file_priv, mmu);
+-	spin_lock(&priv->mm_lock);
++	spin_lock(&mapping->mmu->mm_lock);
+ 	if (drm_mm_node_allocated(&mapping->mmnode))
+ 		drm_mm_remove_node(&mapping->mmnode);
+-	spin_unlock(&priv->mm_lock);
++	spin_unlock(&mapping->mmu->mm_lock);
+ }
+ 
+ static void panfrost_gem_mapping_release(struct kref *kref)
+@@ -94,6 +91,7 @@ static void panfrost_gem_mapping_release(struct kref *kref)
+ 
+ 	panfrost_gem_teardown_mapping(mapping);
+ 	drm_gem_object_put_unlocked(&mapping->obj->base.base);
++	panfrost_mmu_ctx_put(mapping->mmu);
+ 	kfree(mapping);
+ }
+ 
+@@ -145,11 +143,11 @@ int panfrost_gem_open(struct drm_gem_object *obj, struct drm_file *file_priv)
+ 	else
+ 		align = size >= SZ_2M ? SZ_2M >> PAGE_SHIFT : 0;
+ 
+-	mapping->mmu = &priv->mmu;
+-	spin_lock(&priv->mm_lock);
+-	ret = drm_mm_insert_node_generic(&priv->mm, &mapping->mmnode,
++	mapping->mmu = panfrost_mmu_ctx_get(priv->mmu);
++	spin_lock(&mapping->mmu->mm_lock);
++	ret = drm_mm_insert_node_generic(&mapping->mmu->mm, &mapping->mmnode,
+ 					 size >> PAGE_SHIFT, align, color, 0);
+-	spin_unlock(&priv->mm_lock);
++	spin_unlock(&mapping->mmu->mm_lock);
+ 	if (ret)
+ 		goto err;
+ 
+@@ -178,7 +176,7 @@ void panfrost_gem_close(struct drm_gem_object *obj, struct drm_file *file_priv)
+ 
+ 	mutex_lock(&bo->mappings.lock);
+ 	list_for_each_entry(iter, &bo->mappings.list, node) {
+-		if (iter->mmu == &priv->mmu) {
++		if (iter->mmu == priv->mmu) {
+ 			mapping = iter;
+ 			list_del(&iter->node);
+ 			break;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 4d383831c1fc..b0716e49eeca 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -154,7 +154,7 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+ 		return;
+ 	}
+ 
+-	cfg = panfrost_mmu_as_get(pfdev, &job->file_priv->mmu);
++	cfg = panfrost_mmu_as_get(pfdev, job->file_priv->mmu);
+ 	panfrost_devfreq_record_busy(pfdev);
+ 
+ 	job_write(pfdev, JS_HEAD_NEXT_LO(js), jc_head & 0xFFFFFFFF);
+@@ -481,7 +481,7 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
+ 			if (job) {
+ 				pfdev->jobs[j] = NULL;
+ 
+-				panfrost_mmu_as_put(pfdev, &job->file_priv->mmu);
++				panfrost_mmu_as_put(pfdev, job->file_priv->mmu);
+ 				panfrost_devfreq_record_idle(pfdev);
+ 
+ 				dma_fence_signal_locked(job->done_fence);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 763cfca886a7..f70d5a75cbd5 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -1,5 +1,8 @@
+ // SPDX-License-Identifier:	GPL-2.0
+ /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
++
++#include <drm/panfrost_drm.h>
++
+ #include <linux/atomic.h>
+ #include <linux/bitfield.h>
+ #include <linux/delay.h>
+@@ -332,7 +335,7 @@ static void mmu_tlb_inv_context_s1(void *cookie)
+ 
+ static void mmu_tlb_sync_context(void *cookie)
+ {
+-	//struct panfrost_device *pfdev = cookie;
++	//struct panfrost_mmu *mmu = cookie;
+ 	// TODO: Wait 1000 GPU cycles for HW_ISSUE_6367/T60X
+ }
+ 
+@@ -354,56 +357,10 @@ static const struct iommu_flush_ops mmu_tlb_ops = {
+ 	.tlb_flush_leaf = mmu_tlb_flush_leaf,
+ };
+ 
+-int panfrost_mmu_pgtable_alloc(struct panfrost_file_priv *priv)
+-{
+-	struct panfrost_mmu *mmu = &priv->mmu;
+-	struct panfrost_device *pfdev = priv->pfdev;
+-
+-	INIT_LIST_HEAD(&mmu->list);
+-	mmu->as = -1;
+-
+-	mmu->pgtbl_cfg = (struct io_pgtable_cfg) {
+-		.pgsize_bitmap	= SZ_4K | SZ_2M,
+-		.ias		= FIELD_GET(0xff, pfdev->features.mmu_features),
+-		.oas		= FIELD_GET(0xff00, pfdev->features.mmu_features),
+-		.tlb		= &mmu_tlb_ops,
+-		.iommu_dev	= pfdev->dev,
+-	};
+-
+-	mmu->pgtbl_ops = alloc_io_pgtable_ops(ARM_MALI_LPAE, &mmu->pgtbl_cfg,
+-					      priv);
+-	if (!mmu->pgtbl_ops)
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-
+-void panfrost_mmu_pgtable_free(struct panfrost_file_priv *priv)
+-{
+-	struct panfrost_device *pfdev = priv->pfdev;
+-	struct panfrost_mmu *mmu = &priv->mmu;
+-
+-	spin_lock(&pfdev->as_lock);
+-	if (mmu->as >= 0) {
+-		pm_runtime_get_noresume(pfdev->dev);
+-		if (pm_runtime_active(pfdev->dev))
+-			panfrost_mmu_disable(pfdev, mmu->as);
+-		pm_runtime_put_autosuspend(pfdev->dev);
+-
+-		clear_bit(mmu->as, &pfdev->as_alloc_mask);
+-		clear_bit(mmu->as, &pfdev->as_in_use_mask);
+-		list_del(&mmu->list);
+-	}
+-	spin_unlock(&pfdev->as_lock);
+-
+-	free_io_pgtable_ops(mmu->pgtbl_ops);
+-}
+-
+ static struct panfrost_gem_mapping *
+ addr_to_mapping(struct panfrost_device *pfdev, int as, u64 addr)
+ {
+ 	struct panfrost_gem_mapping *mapping = NULL;
+-	struct panfrost_file_priv *priv;
+ 	struct drm_mm_node *node;
+ 	u64 offset = addr >> PAGE_SHIFT;
+ 	struct panfrost_mmu *mmu;
+@@ -416,11 +373,10 @@ addr_to_mapping(struct panfrost_device *pfdev, int as, u64 addr)
+ 	goto out;
+ 
+ found_mmu:
+-	priv = container_of(mmu, struct panfrost_file_priv, mmu);
+ 
+-	spin_lock(&priv->mm_lock);
++	spin_lock(&mmu->mm_lock);
+ 
+-	drm_mm_for_each_node(node, &priv->mm) {
++	drm_mm_for_each_node(node, &mmu->mm) {
+ 		if (offset >= node->start &&
+ 		    offset < (node->start + node->size)) {
+ 			mapping = drm_mm_node_to_panfrost_mapping(node);
+@@ -430,7 +386,7 @@ addr_to_mapping(struct panfrost_device *pfdev, int as, u64 addr)
+ 		}
+ 	}
+ 
+-	spin_unlock(&priv->mm_lock);
++	spin_unlock(&mmu->mm_lock);
+ out:
+ 	spin_unlock(&pfdev->as_lock);
+ 	return mapping;
+@@ -537,6 +493,106 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	return ret;
+ }
+ 
++static void panfrost_mmu_release_ctx(struct kref *kref)
++{
++	struct panfrost_mmu *mmu = container_of(kref, struct panfrost_mmu,
++						refcount);
++	struct panfrost_device *pfdev = mmu->pfdev;
++
++	spin_lock(&pfdev->as_lock);
++	if (mmu->as >= 0) {
++		pm_runtime_get_noresume(pfdev->dev);
++		if (pm_runtime_active(pfdev->dev))
++			panfrost_mmu_disable(pfdev, mmu->as);
++		pm_runtime_put_autosuspend(pfdev->dev);
++
++		clear_bit(mmu->as, &pfdev->as_alloc_mask);
++		clear_bit(mmu->as, &pfdev->as_in_use_mask);
++		list_del(&mmu->list);
++	}
++	spin_unlock(&pfdev->as_lock);
++
++	free_io_pgtable_ops(mmu->pgtbl_ops);
++	drm_mm_takedown(&mmu->mm);
++	kfree(mmu);
++}
++
++void panfrost_mmu_ctx_put(struct panfrost_mmu *mmu)
++{
++	kref_put(&mmu->refcount, panfrost_mmu_release_ctx);
++}
++
++struct panfrost_mmu *panfrost_mmu_ctx_get(struct panfrost_mmu *mmu)
++{
++	kref_get(&mmu->refcount);
++
++	return mmu;
++}
++
++#define PFN_4G		(SZ_4G >> PAGE_SHIFT)
++#define PFN_4G_MASK	(PFN_4G - 1)
++#define PFN_16M		(SZ_16M >> PAGE_SHIFT)
++
++static void panfrost_drm_mm_color_adjust(const struct drm_mm_node *node,
++					 unsigned long color,
++					 u64 *start, u64 *end)
++{
++	/* Executable buffers can't start or end on a 4GB boundary */
++	if (!(color & PANFROST_BO_NOEXEC)) {
++		u64 next_seg;
++
++		if ((*start & PFN_4G_MASK) == 0)
++			(*start)++;
++
++		if ((*end & PFN_4G_MASK) == 0)
++			(*end)--;
++
++		next_seg = ALIGN(*start, PFN_4G);
++		if (next_seg - *start <= PFN_16M)
++			*start = next_seg + 1;
++
++		*end = min(*end, ALIGN(*start, PFN_4G) - 1);
++	}
++}
++
++struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
++{
++	struct panfrost_mmu *mmu;
++
++	mmu = kzalloc(sizeof(*mmu), GFP_KERNEL);
++	if (!mmu)
++		return ERR_PTR(-ENOMEM);
++
++	mmu->pfdev = pfdev;
++	spin_lock_init(&mmu->mm_lock);
++
++	/* 4G enough for now. can be 48-bit */
++	drm_mm_init(&mmu->mm, SZ_32M >> PAGE_SHIFT, (SZ_4G - SZ_32M) >> PAGE_SHIFT);
++	mmu->mm.color_adjust = panfrost_drm_mm_color_adjust;
++
++	INIT_LIST_HEAD(&mmu->list);
++	mmu->as = -1;
++
++	mmu->pgtbl_cfg = (struct io_pgtable_cfg) {
++		.pgsize_bitmap	= SZ_4K | SZ_2M,
++		.ias		= FIELD_GET(0xff, pfdev->features.mmu_features),
++		.oas		= FIELD_GET(0xff00, pfdev->features.mmu_features),
++		.tlb		= &mmu_tlb_ops,
++		.iommu_dev	= pfdev->dev,
++	};
++
++	mmu->pgtbl_ops = alloc_io_pgtable_ops(ARM_MALI_LPAE, &mmu->pgtbl_cfg,
++					      mmu);
++	if (!mmu->pgtbl_ops) {
++		kfree(mmu);
++		return ERR_PTR(-EINVAL);
++	}
++
++	kref_init(&mmu->refcount);
++
++	return mmu;
++}
++
+ static const char *access_type_name(struct panfrost_device *pfdev,
+ 		u32 fault_status)
+ {
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.h b/drivers/gpu/drm/panfrost/panfrost_mmu.h
+index 44fc2edf63ce..cc2a0d307feb 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.h
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.h
+@@ -18,7 +18,8 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev);
+ u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
+ void panfrost_mmu_as_put(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
+ 
+-int panfrost_mmu_pgtable_alloc(struct panfrost_file_priv *priv);
+-void panfrost_mmu_pgtable_free(struct panfrost_file_priv *priv);
++struct panfrost_mmu *panfrost_mmu_ctx_get(struct panfrost_mmu *mmu);
++void panfrost_mmu_ctx_put(struct panfrost_mmu *mmu);
++struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev);
+ 
+ #endif
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
