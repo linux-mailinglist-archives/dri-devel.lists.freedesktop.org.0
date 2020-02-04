@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC0A151BBC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 14:59:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2663151BBE
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 14:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8346EF28;
-	Tue,  4 Feb 2020 13:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B816EF2B;
+	Tue,  4 Feb 2020 13:59:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
  [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E286EF28
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 13:59:34 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id w12so12265176wrt.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 05:59:34 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D60B6EF2B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 13:59:36 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id z3so23225350wru.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 05:59:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xo1vD3bli406eUVIXbkQ0Zqxke8qKNMVbFU2u7O6vqk=;
- b=g3wd6YoEdjx+1f/jDqUF+fmNAN+7pQJT9H3uOU7aAc1X/QaBA/HKHmhzHv6I7AlaVo
- TiCQLQGe/HN2oOoOucyfSJCveHCISRGj2WKK2UjvGgKCe4CzJy2WqAsYsP99E8a5lEry
- a84D0McZP0f6hEKFIv5niXFxgfJz26u8uJVaNHg26iydajMIqxvK+K04I7hRsLJ0qIcD
- 38gk4HwAcEk09zdF6G7Gtf3DWllj4bAEEGz2SblRuxGb0xeaXP8DTVSzBi6mMdfKxBWk
- FFJm5hFVB5Amtx+xPwJPw95ySEceqJiBDB6I7VYdbfZ7S5q3wJDbFanJophfryMmoX2O
- fsFA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3q/hiF2IK65NcJNCMMQsx8gxz/hZCyk8W3CetMdLmis=;
+ b=gJx9rclb/KYIETIY47XHZSF6l4XeJ0wqmlLGUNZ5+qo2egx4cOuEZRnCmaHkqLwOt+
+ HCKpE+/ik2ToYZPvqXHXdUQZ7KxSn2B5xY24BdbzNgUVXo27Wwdvn0C8JOGN1unMFv41
+ dz7VRsT5+XuYYhLKq5vNwqqtB+OgVsU73Q3KsX6EfEZA5othsUsUZqIquGbAuTUOpF3T
+ AhNrKXUUPDLM6QEAITNRXefmqIismhoK9uvP/4mCeu7ib3MyoQ3tptiI96ZJ000xIEG8
+ BpPJFjuAC7WCBc6wtaitvLr7nK8iidEJ+eb9YAE3osvTQDOKVMXB+eGD903Xz3nF4PFJ
+ ZZ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xo1vD3bli406eUVIXbkQ0Zqxke8qKNMVbFU2u7O6vqk=;
- b=AunzCVdRIWNQd4OJiYTWj1DStyVSb56tu7+PaRcr7n1IV0zzKdw72ieF2vb2bfDP3P
- +avHqcG/6DEuXMjh9gbPC3T2ZHIo88X3T7v6ytV30Ce3hL86VSMWQjEQ8anDzHKkC8MP
- Bbj1pLNutwe7l49R8cxa6+hWvVs8pcOVxm3eusA8thYUZZ9WOFlOupdSPsd9pkDHM3Cs
- Jn2N948h5SQIvkYEbKneVPV7rfmWubvkAx2tTswZsJuF6lfMIJ2FiC0fp/1S+4/MHi/2
- 4By4mgu/2i3ST/MXcm92pyoH4BJwvzXd9kUjrIUeWv15dbNFCYzYp3lq1v46AYrkPFVn
- F7PA==
-X-Gm-Message-State: APjAAAVNC55fhF4rHxFHntZRmqG4TrC/SYjFJGiU/MEfg1Gsg0KJ7KVQ
- i24FXpU8r9F2eb/3NeUDd8E=
-X-Google-Smtp-Source: APXvYqzjfJsFs9scrTrfr6ES22T61+rUZj6CciAgIfYGpGmGcd5Dv9OkXlKme4iqb7T69j36fu3tAQ==
-X-Received: by 2002:adf:82ce:: with SMTP id 72mr22306786wrc.14.1580824773351; 
- Tue, 04 Feb 2020 05:59:33 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3q/hiF2IK65NcJNCMMQsx8gxz/hZCyk8W3CetMdLmis=;
+ b=EIeLmozykePI6w+uFyJrqGyKIajyIkHcwcLNi5I/Z4swRGKraUj69zKYiv1cSv/uYj
+ XYIjXyYu5/orWBpEiciXaliMqJ4Q9g2jpr2h9S+mSbagtWuIMfvDpP8U64QsmBEs/+KB
+ y12wUJLwIaSuFB44bxBt0enRACpw2/x4N3ZUcXs9oo8iQmE4A646qk/nekdkJcocoI1h
+ yQkh7P7Xh4ZUuAFJZHOWXNRaWVM7yVe1QZYEQbAdhBFK4bW/lrqxI+FqonoeqYAa/BMm
+ epMapuwdUTYfwTjAzm/MBiV2qqyJCk+OrsbzCLFrtrIlJdO2cjnwRPm1gfBzVtkHLXRc
+ tpBw==
+X-Gm-Message-State: APjAAAXYPF9tixlv4j33PfA/SbSa93sxEm/R2e4KD5Hu8u+rHHAHHa6W
+ V6Q23/aZSJblZKdR0DD85HQ=
+X-Google-Smtp-Source: APXvYqwn7BYhO8M2hQpfD9Jym0+4PExkrgi1qA+f60pUUidTJsrFQPhlPwtg8l3T+MSYBgVbmJMQig==
+X-Received: by 2002:a5d:448c:: with SMTP id j12mr21772768wrq.125.1580824775081; 
+ Tue, 04 Feb 2020 05:59:35 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
- by smtp.gmail.com with ESMTPSA id q3sm3753081wmj.38.2020.02.04.05.59.32
+ by smtp.gmail.com with ESMTPSA id w26sm3759538wmi.8.2020.02.04.05.59.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 05:59:32 -0800 (PST)
+ Tue, 04 Feb 2020 05:59:34 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 0/3] drm/tegra: A couple of fixes for v5.6-rc1
-Date: Tue,  4 Feb 2020 14:59:23 +0100
-Message-Id: <20200204135926.1156340-1-thierry.reding@gmail.com>
+Subject: [PATCH 1/3] drm/tegra: Relax IOMMU usage criteria on old Tegra
+Date: Tue,  4 Feb 2020 14:59:24 +0100
+Message-Id: <20200204135926.1156340-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200204135926.1156340-1-thierry.reding@gmail.com>
+References: <20200204135926.1156340-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,25 +75,87 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Hi,
+Older Tegra devices only allow addressing 32 bits of memory, so whether
+or not the host1x is attached to an IOMMU doesn't matter. host1x IOMMU
+attachment is only needed on devices that can address memory beyond the
+32-bit boundary and where the host1x doesn't support the wide GATHER
+opcode that allows it to access buffers at higher addresses.
 
-this contains a couple of fixes for a DMA API performance regression
-that was introduced in v5.5 for older Tegra devices. Patches 1 and 2
-will likely have to be backported to v5.5.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/drm.c | 49 ++++++++++++++++++++++++-------------
+ 1 file changed, 32 insertions(+), 17 deletions(-)
 
-Thierry
-
-Thierry Reding (3):
-  drm/tegra: Relax IOMMU usage criteria on old Tegra
-  drm/tegra: Reuse IOVA mapping where possible
-  gpu: host1x: Set DMA direction only for DMA-mapped buffer objects
-
- drivers/gpu/drm/tegra/drm.c   | 49 +++++++++++++++++++++++------------
- drivers/gpu/drm/tegra/gem.c   | 10 ++++++-
- drivers/gpu/drm/tegra/plane.c | 44 +++++++++++++++++--------------
- drivers/gpu/host1x/job.c      | 34 +++++++++++++++++++++---
- 4 files changed, 96 insertions(+), 41 deletions(-)
-
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index aa9e49f04988..bd268028fb3d 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1037,23 +1037,9 @@ void tegra_drm_free(struct tegra_drm *tegra, size_t size, void *virt,
+ 	free_pages((unsigned long)virt, get_order(size));
+ }
+ 
+-static int host1x_drm_probe(struct host1x_device *dev)
++static bool host1x_drm_wants_iommu(struct host1x_device *dev)
+ {
+-	struct drm_driver *driver = &tegra_drm_driver;
+ 	struct iommu_domain *domain;
+-	struct tegra_drm *tegra;
+-	struct drm_device *drm;
+-	int err;
+-
+-	drm = drm_dev_alloc(driver, &dev->dev);
+-	if (IS_ERR(drm))
+-		return PTR_ERR(drm);
+-
+-	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
+-	if (!tegra) {
+-		err = -ENOMEM;
+-		goto put;
+-	}
+ 
+ 	/*
+ 	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
+@@ -1082,9 +1068,38 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 	 * up the device tree appropriately. This is considered an problem
+ 	 * of integration, so care must be taken for the DT to be consistent.
+ 	 */
+-	domain = iommu_get_domain_for_dev(drm->dev->parent);
++	domain = iommu_get_domain_for_dev(dev->dev.parent);
++
++	/*
++	 * Tegra20 and Tegra30 don't support addressing memory beyond the
++	 * 32-bit boundary, so the regular GATHER opcodes will always be
++	 * sufficient and whether or not the host1x is attached to an IOMMU
++	 * doesn't matter.
++	 */
++	if (!domain && dma_get_mask(dev->dev.parent) <= DMA_BIT_MASK(32))
++		return true;
++
++	return domain != NULL;
++}
++
++static int host1x_drm_probe(struct host1x_device *dev)
++{
++	struct drm_driver *driver = &tegra_drm_driver;
++	struct tegra_drm *tegra;
++	struct drm_device *drm;
++	int err;
++
++	drm = drm_dev_alloc(driver, &dev->dev);
++	if (IS_ERR(drm))
++		return PTR_ERR(drm);
++
++	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
++	if (!tegra) {
++		err = -ENOMEM;
++		goto put;
++	}
+ 
+-	if (domain && iommu_present(&platform_bus_type)) {
++	if (host1x_drm_wants_iommu(dev) && iommu_present(&platform_bus_type)) {
+ 		tegra->domain = iommu_domain_alloc(&platform_bus_type);
+ 		if (!tegra->domain) {
+ 			err = -ENOMEM;
 -- 
 2.24.1
 
