@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6304E151CE1
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 16:02:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D9C151E5B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 17:35:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD56A6F39A;
-	Tue,  4 Feb 2020 15:02:00 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4F96E83D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 15:01:59 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id c9so23462993wrw.8
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 07:01:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fqIZZmpuF/Iqn88PNa0TK7uvBgm0UXW1Kn70C/na+ZI=;
- b=MVGtyuAbQGu01lsnAvnR3IItmIVFazzy2b1HOQ2Dx07Acr354u0w/gULmZQaKovZ0O
- UcdmbICZPD5UbD0ivWgSZkfNPAtdsR57FUpEo419SRFLTj7j4X1sXlr8TpYPPiSQWSwT
- E+c4okF05kEQTj/whCuXLrGtwZW+sNYnaxloc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fqIZZmpuF/Iqn88PNa0TK7uvBgm0UXW1Kn70C/na+ZI=;
- b=cJBgc5A0l3W88AR7aqnvqNntic4FfmKvKRCVAIi5hDXHPwyZtEMqBdyuU7B9LTF9G/
- NAU0Mfx2ZmzyPKpgIiyI2LfoqcBPisKaH9CMXyLD7DyglWiuPcG53Cp9Z0OxGydCEgsH
- 1Ud9E701yGePN3+wN3yjz8fWuvckh8hceNewEF9qtRXKfGUAmUoAlPeJ7ZU9rHq3joY+
- 15JCIiZ2nnA4CTJsxYwchThSeBSz9YLnBrYYYuKFy7IIp9C27LHWXUb3mU/d5HxwqZ62
- tHP4GDEOIv6xQWmQKkbabYH/tw/vvJgzJ9coNHDgh+x4377ujQvKpgjKyDWkfPEHONqf
- /0Hw==
-X-Gm-Message-State: APjAAAXknmZp61csG/Xk+FG9j72tnSKOY+If0N6LafoTrlhFoTnPuQtu
- valBXdeyh5fq+RFZkLcfmh2Z8PknPC+xPQ==
-X-Google-Smtp-Source: APXvYqzW/yyRAk8d0wUFwdeunGdApKplLeFcdfKoaA3X5kajorWwRzjR5Af0kPgWJcJiNK98bTWlxA==
-X-Received: by 2002:a5d:61cf:: with SMTP id q15mr21825032wrv.74.1580828517700; 
- Tue, 04 Feb 2020 07:01:57 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d9sm14428921wrx.94.2020.02.04.07.01.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 07:01:57 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 5/5] drm: Nerf drm_global_mutex BKL for good drivers
-Date: Tue,  4 Feb 2020 16:01:46 +0100
-Message-Id: <20200204150146.2006481-6-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
-References: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C2DE6E87F;
+	Tue,  4 Feb 2020 16:35:02 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49EEB6E87F
+ for <dri-devel@freedesktop.org>; Tue,  4 Feb 2020 16:34:59 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1580834100; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=7F4mpaGJXV854XleOqax1nGTOQoZmnCONXLBD4S1uf4=;
+ b=m8s4fU4aOZYBUYiuFtHbR4gLGJ6Mq165XokduvQFo+aqvryMBh4kyKtNwiZt3aI2QN1Pa2QB
+ FgznPpUKoyteVc32eGjVOWW/WV8KqoQd1kL1zOtiVrdBASOMr/++e6XTSAT0jvFyKELDyPij
+ H8F0JY8hzi8Z9khOpgrjX16W9/E=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e399d2f.7fa8366b7e68-smtp-out-n01;
+ Tue, 04 Feb 2020 16:34:55 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 96308C43383; Tue,  4 Feb 2020 16:34:55 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A7310C433CB;
+ Tue,  4 Feb 2020 16:34:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A7310C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Tue, 4 Feb 2020 09:34:51 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [Freedreno] [PATCH v2 2/3] drm: msm: a6xx: Add support for A618
+Message-ID: <20200204163451.GA14568@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ John Stultz <john.stultz@linaro.org>,
+ Amit Pundir <amit.pundir@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ dri-devel@freedesktop.org,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <1579763945-10478-1-git-send-email-smasetty@codeaurora.org>
+ <1579763945-10478-2-git-send-email-smasetty@codeaurora.org>
+ <CALAqxLU9-4YEF8mTjuPF+LBJH8fFw_OfrdT7JtTqib127RRaEA@mail.gmail.com>
+ <CAF6AEGtxtJU5dJxd4idQgPL2HYgiLm2vJejjK-gzDXqtoaTr9w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGtxtJU5dJxd4idQgPL2HYgiLm2vJejjK-gzDXqtoaTr9w@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,180 +80,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Amit Pundir <amit.pundir@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>, lkml <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@freedesktop.org,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This catches the majority of drivers (unfortunately not if we take
-users into account, because all the big drivers have at least a
-lastclose hook).
+On Mon, Feb 03, 2020 at 04:40:40PM -0800, Rob Clark wrote:
+> On Mon, Feb 3, 2020 at 4:21 PM John Stultz <john.stultz@linaro.org> wrote:
+> >
+> > On Wed, Jan 22, 2020 at 11:19 PM Sharat Masetty <smasetty@codeaurora.org> wrote:
+> > >
+> > > This patch adds support for enabling Graphics Bus Interface(GBIF)
+> > > used in multiple A6xx series chipets. Also makes changes to the
+> > > PDC/RSC sequencing specifically required for A618. This is needed
+> > > for proper interfacing with RPMH.
+> > >
+> > > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> > > ---
+> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > index dc8ec2c..2ac9a51 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > @@ -378,6 +378,18 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
+> > >         struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> > >         int ret;
+> > >
+> > > +       /*
+> > > +        * During a previous slumber, GBIF halt is asserted to ensure
+> > > +        * no further transaction can go through GPU before GPU
+> > > +        * headswitch is turned off.
+> > > +        *
+> > > +        * This halt is deasserted once headswitch goes off but
+> > > +        * incase headswitch doesn't goes off clear GBIF halt
+> > > +        * here to ensure GPU wake-up doesn't fail because of
+> > > +        * halted GPU transactions.
+> > > +        */
+> > > +       gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
+> > > +
+> > >         /* Make sure the GMU keeps the GPU on while we set it up */
+> > >         a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
+> > >
+> >
+> > So I already brought this up on #freedreno but figured I'd follow up
+> > on the list.
+> >
+> > With linus/master, I'm seeing hard crashes (into usb crash mode) with
+> > the db845c, which I isolated down to this patch, and then to the chunk
+> > above.
+> 
+> (repeating my speculation from #freedreno for benefit of those not on IRC)
+> 
+> I'm suspecting, that like the registers to take the GPU out of secure
+> mode, this register is being blocked on LA devices (like db845c),
+> which is why we didn't see this on cheza.
+> 
+> Maybe we can make this write conditional on whether we have a zap shader?
 
-With the prep patches out of the way all drm state is fully protected
-and either prevents or can deal with the races from dropping the BKL
-around open/close. The only thing left to audit are the various driver
-hooks - by keeping the BKL around if any of them are set we have a
-very simple cop-out!
+Sorry, I was WFH yesterday and didn't have IRC on.
 
-Note that one of the biggest prep pieces to get here was making
-dev->open_count atomic, which was done in
+The 845 doesn't have GBIF (it still uses VBIF) and on a AC enabled target large
+chunks of unused register space would be blocked by default so Rob's hypothesis
+is correct. Since the 845 is the only a6xx target that still has a VBIF a
+!adreno_is_a630() check would do here, but I'm not 100% convinced we need this
+code at all. We explicitly clear the GBIF halt in the stop function before the
+headswitch is turned off so I think this is mostly unneeded paranoia.
 
-commit 7e13ad896484a0165a68197a2e64091ea28c9602
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Fri Jan 24 13:01:07 2020 +0000
+I need to get a tree with the 618 code in it and I'll try to get a fix out
+shortly.
 
-    drm: Avoid drm_global_mutex for simple inc/dec of dev->open_count
+Jordan
 
-v2:
-- Rebase and fix locking in drm_open() (Chris)
-- Indentation fix in drm_release
-- Typo fix in the commit message (Sam)
+> > Dropping the gpu_write line above gets things booting again for me.
+> >
+> > Let me know if there are any follow on patches I can help validate.
+> >
+> > thanks
+> > -john
+> > _______________________________________________
+> > Freedreno mailing list
+> > Freedreno@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/freedreno
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/gpu/drm/drm_drv.c      |  6 +++--
- drivers/gpu/drm/drm_file.c     | 48 +++++++++++++++++++++++++++++-----
- drivers/gpu/drm/drm_internal.h |  1 +
- 3 files changed, 47 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 05bdf0b9d2b3..9fcd6ab3c154 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -946,7 +946,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
- 	struct drm_driver *driver = dev->driver;
- 	int ret;
- 
--	mutex_lock(&drm_global_mutex);
-+	if (drm_dev_needs_global_mutex(dev))
-+		mutex_lock(&drm_global_mutex);
- 
- 	if (dev->driver->load) {
- 		if (!drm_core_check_feature(dev, DRIVER_LEGACY))
-@@ -992,7 +993,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
- 	drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
- 	drm_minor_unregister(dev, DRM_MINOR_RENDER);
- out_unlock:
--	mutex_unlock(&drm_global_mutex);
-+	if (drm_dev_needs_global_mutex(dev))
-+		mutex_unlock(&drm_global_mutex);
- 	return ret;
- }
- EXPORT_SYMBOL(drm_dev_register);
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 80d556402ab4..c4c704e01961 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -51,6 +51,37 @@
- /* from BKL pushdown */
- DEFINE_MUTEX(drm_global_mutex);
- 
-+bool drm_dev_needs_global_mutex(struct drm_device *dev)
-+{
-+	/*
-+	 * Legacy drivers rely on all kinds of BKL locking semantics, don't
-+	 * bother. They also still need BKL locking for their ioctls, so better
-+	 * safe than sorry.
-+	 */
-+	if (drm_core_check_feature(dev, DRIVER_LEGACY))
-+		return true;
-+
-+	/*
-+	 * The deprecated ->load callback must be called after the driver is
-+	 * already registered. This means such drivers rely on the BKL to make
-+	 * sure an open can't proceed until the driver is actually fully set up.
-+	 * Similar hilarity holds for the unload callback.
-+	 */
-+	if (dev->driver->load || dev->driver->unload)
-+		return true;
-+
-+	/*
-+	 * Drivers with the lastclose callback assume that it's synchronized
-+	 * against concurrent opens, which again needs the BKL. The proper fix
-+	 * is to use the drm_client infrastructure with proper locking for each
-+	 * client.
-+	 */
-+	if (dev->driver->lastclose)
-+		return true;
-+
-+	return false;
-+}
-+
- /**
-  * DOC: file operations
-  *
-@@ -378,9 +409,10 @@ int drm_open(struct inode *inode, struct file *filp)
- 	if (IS_ERR(minor))
- 		return PTR_ERR(minor);
- 
--	mutex_lock(&drm_global_mutex);
--
- 	dev = minor->dev;
-+	if (drm_dev_needs_global_mutex(dev))
-+		mutex_lock(&drm_global_mutex);
-+
- 	if (!atomic_fetch_inc(&dev->open_count))
- 		need_setup = 1;
- 
-@@ -398,13 +430,15 @@ int drm_open(struct inode *inode, struct file *filp)
- 		}
- 	}
- 
--	mutex_unlock(&drm_global_mutex);
-+	if (drm_dev_needs_global_mutex(dev))
-+		mutex_unlock(&drm_global_mutex);
- 
- 	return 0;
- 
- err_undo:
- 	atomic_dec(&dev->open_count);
--	mutex_unlock(&drm_global_mutex);
-+	if (drm_dev_needs_global_mutex(dev))
-+		mutex_unlock(&drm_global_mutex);
- 	drm_minor_release(minor);
- 	return retcode;
- }
-@@ -444,7 +478,8 @@ int drm_release(struct inode *inode, struct file *filp)
- 	struct drm_minor *minor = file_priv->minor;
- 	struct drm_device *dev = minor->dev;
- 
--	mutex_lock(&drm_global_mutex);
-+	if (drm_dev_needs_global_mutex(dev))
-+		mutex_lock(&drm_global_mutex);
- 
- 	DRM_DEBUG("open_count = %d\n", atomic_read(&dev->open_count));
- 
-@@ -453,7 +488,8 @@ int drm_release(struct inode *inode, struct file *filp)
- 	if (atomic_dec_and_test(&dev->open_count))
- 		drm_lastclose(dev);
- 
--	mutex_unlock(&drm_global_mutex);
-+	if (drm_dev_needs_global_mutex(dev))
-+		mutex_unlock(&drm_global_mutex);
- 
- 	drm_minor_release(minor);
- 
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 6937bf923f05..aeec2e68d772 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -41,6 +41,7 @@ struct drm_printer;
- 
- /* drm_file.c */
- extern struct mutex drm_global_mutex;
-+bool drm_dev_needs_global_mutex(struct drm_device *dev);
- struct drm_file *drm_file_alloc(struct drm_minor *minor);
- void drm_file_free(struct drm_file *file);
- void drm_lastclose(struct drm_device *dev);
 -- 
-2.24.1
-
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
