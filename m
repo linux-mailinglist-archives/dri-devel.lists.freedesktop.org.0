@@ -2,31 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156221527B2
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 09:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3543C1527B0
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 09:53:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BD446F4CC;
-	Wed,  5 Feb 2020 08:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 574FB6F4D4;
+	Wed,  5 Feb 2020 08:52:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-blr-02.qualcomm.com (alexa-out-blr-02.qualcomm.com
- [103.229.18.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA5616E843;
- Tue,  4 Feb 2020 14:15:43 +0000 (UTC)
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 04 Feb 2020 19:45:39 +0530
-Received: from harigovi-linux.qualcomm.com ([10.204.66.157])
- by ironmsg02-blr.qualcomm.com with ESMTP; 04 Feb 2020 19:45:39 +0530
-Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695)
- id B45A528BA; Tue,  4 Feb 2020 19:45:38 +0530 (IST)
-From: Harigovindan P <harigovi@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1] dt-bindings: msm:disp: update dsi and dpu bindings
-Date: Tue,  4 Feb 2020 19:45:37 +0530
-Message-Id: <1580825737-27189-1-git-send-email-harigovi@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6CD6E841
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 14:37:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 84EC7283BC0
+Date: Tue, 4 Feb 2020 09:37:32 -0500
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH 2/2] drm/panfrost: Propagate panfrost_fence_create()
+ errors to the scheduler
+Message-ID: <20200204143732.GA4525@kevin>
+References: <20200204143504.135388-1-boris.brezillon@collabora.com>
+ <20200204143504.135388-2-boris.brezillon@collabora.com>
+MIME-Version: 1.0
+In-Reply-To: <20200204143504.135388-2-boris.brezillon@collabora.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Wed, 05 Feb 2020 08:52:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,101 +38,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Harigovindan P <harigovi@codeaurora.org>, linux-kernel@vger.kernel.org,
- seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Rob Herring <robh+dt@kernel.org>, Steven Price <steven.price@arm.com>,
+ Icecream95 <ixn@keemail.me>, dri-devel@lists.freedesktop.org,
+ Robin Murphy <robin.murphy@arm.com>
+Content-Type: multipart/mixed; boundary="===============0606064272=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Updating bindings of dsi and dpu by adding and removing certain
-properties.
 
-Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
----
+--===============0606064272==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
+Content-Disposition: inline
 
-Changes in v1:
-        - Adding "ahb" clock as a required property.
-        - Adding "bus", "rot", "lut" as optional properties for sc7180 device.
-        - Removing properties from dsi bindings that are unused.
-	- Removing power-domain property since DSI is the child node of MDSS
-	  and it will inherit supply from its parent.
 
- Documentation/devicetree/bindings/display/msm/dpu.txt | 7 +++++++
- Documentation/devicetree/bindings/display/msm/dsi.txt | 5 -----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+--vkogqOf2sHV7VnPd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
-index 551ae26..dd58472a 100644
---- a/Documentation/devicetree/bindings/display/msm/dpu.txt
-+++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
-@@ -19,6 +19,7 @@ Required properties:
-   The following clocks are required:
-   * "iface"
-   * "bus"
-+  * "ahb"
-   * "core"
- - interrupts: interrupt signal from MDSS.
- - interrupt-controller: identifies the node as an interrupt controller.
-@@ -50,6 +51,8 @@ Required properties:
- - clock-names: device clock names, must be in same order as clocks property.
-   The following clocks are required.
-   * "bus"
-+  For the device "qcom,sc7180-dpu":
-+  * "bus" - is an optional property due to architecture change.
-   * "iface"
-   * "core"
-   * "vsync"
-@@ -70,6 +73,10 @@ Optional properties:
- - assigned-clocks: list of clock specifiers for clocks needing rate assignment
- - assigned-clock-rates: list of clock frequencies sorted in the same order as
-   the assigned-clocks property.
-+- For the device "qcom,sc7180-dpu":
-+  clock-names: optional device clocks, needed for accessing LUT blocks.
-+  * "rot"
-+  * "lut"
- 
- Example:
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
-index af95586..61d659a 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi.txt
-+++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
-@@ -8,13 +8,10 @@ Required properties:
- - reg-names: The names of register regions. The following regions are required:
-   * "dsi_ctrl"
- - interrupts: The interrupt signal from the DSI block.
--- power-domains: Should be <&mmcc MDSS_GDSC>.
- - clocks: Phandles to device clocks.
- - clock-names: the following clocks are required:
--  * "mdp_core"
-   * "iface"
-   * "bus"
--  * "core_mmss"
-   * "byte"
-   * "pixel"
-   * "core"
-@@ -156,7 +153,6 @@ Example:
- 			"core",
- 			"core_mmss",
- 			"iface",
--			"mdp_core",
- 			"pixel";
- 		clocks =
- 			<&mmcc MDSS_AXI_CLK>,
-@@ -164,7 +160,6 @@ Example:
- 			<&mmcc MDSS_ESC0_CLK>,
- 			<&mmcc MMSS_MISC_AHB_CLK>,
- 			<&mmcc MDSS_AHB_CLK>,
--			<&mmcc MDSS_MDP_CLK>,
- 			<&mmcc MDSS_PCLK0_CLK>;
- 
- 		assigned-clocks =
--- 
-2.7.4
+Patch 2 is `Reviewed-by: Alyssa Rosenzweig
+<alyssa.rosenzweig@collabora.com>`
+On Tue, Feb 04, 2020 at 03:35:04PM +0100, Boris Brezillon wrote:
+> ->job_run() can return an ERR_PTR() if somethings fails. Let's
+> propagate the error returned by panfrost_fence_create() instead of
+> returning NULL.
+>=20
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_job.c
+> index b0716e49eeca..242147b36d8e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -349,7 +349,7 @@ static struct dma_fence *panfrost_job_run(struct drm_=
+sched_job *sched_job)
+> =20
+>  	fence =3D panfrost_fence_create(pfdev, slot);
+>  	if (IS_ERR(fence))
+> -		return NULL;
+> +		return fence;
+> =20
+>  	if (job->done_fence)
+>  		dma_fence_put(job->done_fence);
+> --=20
+> 2.24.1
+>=20
+
+--vkogqOf2sHV7VnPd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl45gaUACgkQ/v5QWgr1
+WA3Z6A//Z7IvPOqQSlkCWq1gl3iJeDlUXRn3zEAtvHtixUgkz5Vv8vYGbdXkGjvd
+crlg4WhL3vmmbtMcNDpXp4JXMCSjwa6QLMNEaJh8XHWsqiqdhzhj2Z0b0sSXoRov
+n5mA1nTDdC4xS3Ji8CuE4+L1pGgSu3IKbcx9NgF7nTclJYeC462CZVaqzXrPrp3/
+mvhx0h0TfQw06I0GWFUrMcGFz8W3kKey5XeWiArgQIr/vE//flp4c/HZTKglBdRE
+DKwn09Kq7PO6oMJdPewkeOixLOTskb0Opow+IiiT6ts9VlkMsccPDB4kwKVaJHa/
+GSON0d4eVARcXMd1R9Fj8FN9u3vOVc+hbO3fU7H6SYnKA1WHX8kmKzf+BRtAaiCf
+VQ5yLrvw0xJ1+GplIGDM8bfZfuX9uvnFqSzGDyGorcbqjC9/y7rHtfbZlCzjgpG+
+g2Q6jInwaYIgyQeTEX98caHLuEj5j/D2mUB8vTriudK4+8BNTUsCI6OmnGEodFXc
+PNL+NzfoY1V/7QhoYoVSQ9lDLGsYtrr32r0x1fIewZTSyyKToFYoiRcVeQPFeAqm
+vnaE77vXhGFAjmM7jgXL2CxmDLF6+uu1NuIOFT7VX2YN5byCVZYIF0wjF7F8hpXY
+r3p9yNyFhtt+m//QdZ0Ma0GJbbYVzVt7QwUqV0kX1wfSZFYQ2m4=
+=1Vul
+-----END PGP SIGNATURE-----
+
+--vkogqOf2sHV7VnPd--
+
+--===============0606064272==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0606064272==--
