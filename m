@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E49151CAD
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 15:57:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BE0151CD6
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 16:01:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8D46E84C;
-	Tue,  4 Feb 2020 14:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3143C6E84B;
+	Tue,  4 Feb 2020 15:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B65F6E835;
- Tue,  4 Feb 2020 14:57:31 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2020 06:57:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,402,1574150400"; d="scan'208";a="235186978"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga006.jf.intel.com with ESMTP; 04 Feb 2020 06:57:28 -0800
-Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 4 Feb 2020 06:57:28 -0800
-Received: from bgsmsx106.gar.corp.intel.com (10.223.43.196) by
- FMSMSX113.amr.corp.intel.com (10.18.116.7) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 4 Feb 2020 06:57:27 -0800
-Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.36]) by
- BGSMSX106.gar.corp.intel.com ([169.254.1.198]) with mapi id 14.03.0439.000;
- Tue, 4 Feb 2020 20:27:24 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: RE: [Intel-gfx] [PATCH 6/8] drm/edid: Add a FIXME about DispID CEA
- data block revision
-Thread-Topic: [Intel-gfx] [PATCH 6/8] drm/edid: Add a FIXME about DispID CEA
- data block revision
-Thread-Index: AQHV0vFRvK3Rx8nvZ0q0EHz2sUQxxagJ9d2AgADHEACAAG/agA==
-Date: Tue, 4 Feb 2020 14:57:24 +0000
-Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823AAAA0@BGSMSX104.gar.corp.intel.com>
-References: <20200124200231.10517-1-ville.syrjala@linux.intel.com>
- <20200124200231.10517-6-ville.syrjala@linux.intel.com>
- <E7C9878FBA1C6D42A1CA3F62AEB6945F823AA020@BGSMSX104.gar.corp.intel.com>
- <20200204133212.GI13686@intel.com>
-In-Reply-To: <20200204133212.GI13686@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTFlYmUwNmUtNWNiZC00OTk0LThkNjAtOWMzOGM5MmEwMWJjIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoibG5iMUlpZzVtbW1HMW9zWWFheHR1dlAzczdVS0JhZThBeHp5ZnFJTm1saFRiS200bFlVNVpSeWtcL2VyckJpcm4ifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D284C6E84A
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 15:01:52 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id m16so23438330wrx.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 07:01:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h2TaMJrIJ5n08Na/DcVmgaH4dlvanQpaf+3zXT6+tAk=;
+ b=Gr1HjKCpQTnTjqKMa0an4AkNwrviw9FlNK4ai/ryZ5sc8LpKHfuh15lBTxb9A5AB23
+ 1u3e0RvhfHsBjjw71MNQeZEQ7vlyYI04lSZEVNWoQ1lArKql+knQ7oV6QbYz6sJglp7g
+ EplVGlkph2rpiz+Q2PURGtSwSGAdk3bb1qz6M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h2TaMJrIJ5n08Na/DcVmgaH4dlvanQpaf+3zXT6+tAk=;
+ b=k3WdtIlRINIgg3wfUvaHTxKYKapAsiUqxhd6jMOkehxV1ngaBhbjtfsOd5xE+Trv0f
+ Q+5KsqEaZ0KkATX/TLePBsYe+8tX6MT8F5M8nSzMwn51hI3+DRz1apxb1Y5A9mCvfivE
+ vEC+UiUMg5A0EUiD5s6ro29ukt/m9/xCIr9iFbAB419ZD7XCI8PeAJJyXw1WD77pRD+5
+ z1Qx4Tv2XfULIU5X0RW38rmW/fdTDwGHzChzW7xoXg+tU8I+R1jKY82qHeEqX8WOIN1V
+ 7BCXCl5s999wqPh+CA6ZOS9j13HJ2COW5c4tXge7c2ft/k5vyX502hcgvNew9pWF4mtW
+ ZzwA==
+X-Gm-Message-State: APjAAAXKbcf7IZYp/qgecpiiUw8HuOetAY7fi4OXVuLtMQefkU56KUM8
+ uNmhA3/zNlv6GZOPs7wxcs5m6gKZYy2XeQ==
+X-Google-Smtp-Source: APXvYqx5pJTkHsARvBhUIiIbe0LDAMyotywEFpdOy3h+w6cpVuZ9JIrhjeHuIfZZTNS6vUvUkm/rGQ==
+X-Received: by 2002:adf:cd11:: with SMTP id w17mr22616959wrm.66.1580828511261; 
+ Tue, 04 Feb 2020 07:01:51 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id d9sm14428921wrx.94.2020.02.04.07.01.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Feb 2020 07:01:50 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/5] disable drm_global_mutex for most drivers, take 2
+Date: Tue,  4 Feb 2020 16:01:41 +0100
+Message-Id: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,104 +61,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, Andres
- Rodriguez <andresx7@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+CI didn't like my test-with tag :-/
 
+Test-with: 20200128112549.172135-1-daniel.vetter@ffwll.ch
 
-> -----Original Message-----
-> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Sent: Tuesday, February 4, 2020 7:02 PM
-> To: Shankar, Uma <uma.shankar@intel.com>
-> Cc: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; And=
-res
-> Rodriguez <andresx7@gmail.com>
-> Subject: Re: [Intel-gfx] [PATCH 6/8] drm/edid: Add a FIXME about DispID C=
-EA data
-> block revision
-> =
+Daniel Vetter (5):
+  drm: Complain if drivers still use the ->load callback
+  drm/fbdev-helper: don't force restores
+  drm/client: Rename _force to _locked
+  drm: Push drm_global_mutex locking in drm_open
+  drm: Nerf drm_global_mutex BKL for good drivers
 
-> On Mon, Feb 03, 2020 at 08:15:51PM +0000, Shankar, Uma wrote:
-> >
-> >
-> > > -----Original Message-----
-> > > From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf
-> > > Of Ville Syrjala
-> > > Sent: Saturday, January 25, 2020 1:32 AM
-> > > To: dri-devel@lists.freedesktop.org
-> > > Cc: intel-gfx@lists.freedesktop.org; Andres Rodriguez
-> > > <andresx7@gmail.com>
-> > > Subject: [Intel-gfx] [PATCH 6/8] drm/edid: Add a FIXME about DispID
-> > > CEA data block revision
-> > >
-> > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > >
-> > > I don't understand what the DispID CEA data block revision means.
-> > > The spec doesn't say. I guess some DispID must have a value of >=3D 3
-> > > in there or else we generally wouldn't even parse the CEA data
-> > > blocks. Or does all this code actually not do anything?
-> >
-> > This signifies the CTA extension revision (byte 1 of the block). As
-> > per the spec, seems like Version 1 is legacy and 2 is deprecated. So ve=
-rsion >=3D3 is
-> checked here.
-> > Refer section 7.3 of CTA-861-G
-> =
+ drivers/gpu/drm/drm_client_modeset.c | 12 +++++---
+ drivers/gpu/drm/drm_drv.c            | 26 +++++++++-------
+ drivers/gpu/drm/drm_fb_helper.c      | 16 ++--------
+ drivers/gpu/drm/drm_file.c           | 46 ++++++++++++++++++++++++++--
+ drivers/gpu/drm/drm_internal.h       |  1 +
+ include/drm/drm_client.h             |  7 ++++-
+ include/drm/drm_drv.h                |  3 ++
+ 7 files changed, 79 insertions(+), 32 deletions(-)
 
-> The confusion is about the revision field in the DispID CTA block, not in=
- the CTA
-> extension block.
+-- 
+2.24.1
 
-Oh ok, got the ambiguity here. Not sure if we actually get >3 here as value=
- for the block revision,
-totally unclear from spec, default being 0. Good to have this comment till =
-we get some clarity on
-its significance. Thanks for the clarification.
-
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-
-> >
-> > > Cc: Andres Rodriguez <andresx7@gmail.com>
-> > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_edid.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > > index
-> > > 0369a54e3d32..fd9b724067a7 100644
-> > > --- a/drivers/gpu/drm/drm_edid.c
-> > > +++ b/drivers/gpu/drm/drm_edid.c
-> > > @@ -3977,6 +3977,13 @@ cea_db_tag(const u8 *db)  static int
-> > > cea_revision(const
-> > > u8 *cea)  {
-> > > +	/*
-> > > +	 * FIXME is this correct for the DispID variant?
-> > > +	 * The DispID spec doesn't really specify whether
-> > > +	 * this is the revision of the CEA extension or
-> > > +	 * the DispID CEA data block. And the only value
-> > > +	 * given as an example is 0.
-> > > +	 */
-> > >  	return cea[1];
-> > >  }
-> > >
-> > > --
-> > > 2.24.1
-> > >
-> > > _______________________________________________
-> > > Intel-gfx mailing list
-> > > Intel-gfx@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> =
-
-> --
-> Ville Syrj=E4l=E4
-> Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
