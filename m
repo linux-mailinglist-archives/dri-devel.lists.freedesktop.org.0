@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99490151CDE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 16:02:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6304E151CE1
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 16:02:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 157526F38C;
-	Tue,  4 Feb 2020 15:01:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD56A6F39A;
+	Tue,  4 Feb 2020 15:02:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
  [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 481C46F38A
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 15:01:58 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id w15so23506455wru.4
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 07:01:58 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4F96E83D
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 15:01:59 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id c9so23462993wrw.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2020 07:01:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SHOlRZtFBQ5wM1g1FaAtJgUmwljd+E+iomsSReCmsIg=;
- b=RcNFhPSIHlfiVzre77FWNowEwMhWA3WsnInXU/DBxX5mqk5s04hudsVI8lGyO9Mr/+
- 5NjaUIUBEH0OnF+cD/1qtX8SI6MZ7KJzupdRlK0CYA+0wl2ygQA5zkz194STmkaAicew
- kePx5RVk3c+m1uwmeR/J8dhrJ103WYq2OGWm4=
+ bh=fqIZZmpuF/Iqn88PNa0TK7uvBgm0UXW1Kn70C/na+ZI=;
+ b=MVGtyuAbQGu01lsnAvnR3IItmIVFazzy2b1HOQ2Dx07Acr354u0w/gULmZQaKovZ0O
+ UcdmbICZPD5UbD0ivWgSZkfNPAtdsR57FUpEo419SRFLTj7j4X1sXlr8TpYPPiSQWSwT
+ E+c4okF05kEQTj/whCuXLrGtwZW+sNYnaxloc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SHOlRZtFBQ5wM1g1FaAtJgUmwljd+E+iomsSReCmsIg=;
- b=pIskTVC2vZpnzLQyFXKx+tr1DqNu/lJEbouIjquXRyEEK5a6ni2igPf14hYYuThPO+
- N3tLp/pyMd2tdiNI1virNavZi6gjTowoJQ2rzl+Q25gvqJNhPMBScXxUCirztLhkX4yK
- mobptuWDuBgKH2lkcysuDMRtu83AoKnsn5zxFZ1mxS6RJ0unB4/k3+dcy05xEG/GoeXk
- r24wuyyaX3YMUJZ5CMicKCpZhAXBGgMwdxVEjEjDYkRgce6UVKiWpkjunTTmWKyTp5b+
- 39+DhJsfpw5+wDnSQLphSb54zewMOYlP6w6sqqpoPyA+BCUYc+y72X+VPtxVsqYlhm4L
- 5ljw==
-X-Gm-Message-State: APjAAAXP+W4ehOOid1baeZUYBzVS9ah3mYMwhqmlbU4lJQ4GhfYmj0uf
- fA+Q5+UjuyPhpvegzO8LjoUiCGmDWbVrUQ==
-X-Google-Smtp-Source: APXvYqxSKwma/PlXyE4g1m7Bclug7VTr9fv37wBg5u0JeAOURH9sQJXGrL+8fMNlevRSC6RQyTkuZA==
-X-Received: by 2002:a5d:5704:: with SMTP id a4mr24298524wrv.198.1580828516672; 
- Tue, 04 Feb 2020 07:01:56 -0800 (PST)
+ bh=fqIZZmpuF/Iqn88PNa0TK7uvBgm0UXW1Kn70C/na+ZI=;
+ b=cJBgc5A0l3W88AR7aqnvqNntic4FfmKvKRCVAIi5hDXHPwyZtEMqBdyuU7B9LTF9G/
+ NAU0Mfx2ZmzyPKpgIiyI2LfoqcBPisKaH9CMXyLD7DyglWiuPcG53Cp9Z0OxGydCEgsH
+ 1Ud9E701yGePN3+wN3yjz8fWuvckh8hceNewEF9qtRXKfGUAmUoAlPeJ7ZU9rHq3joY+
+ 15JCIiZ2nnA4CTJsxYwchThSeBSz9YLnBrYYYuKFy7IIp9C27LHWXUb3mU/d5HxwqZ62
+ tHP4GDEOIv6xQWmQKkbabYH/tw/vvJgzJ9coNHDgh+x4377ujQvKpgjKyDWkfPEHONqf
+ /0Hw==
+X-Gm-Message-State: APjAAAXknmZp61csG/Xk+FG9j72tnSKOY+If0N6LafoTrlhFoTnPuQtu
+ valBXdeyh5fq+RFZkLcfmh2Z8PknPC+xPQ==
+X-Google-Smtp-Source: APXvYqzW/yyRAk8d0wUFwdeunGdApKplLeFcdfKoaA3X5kajorWwRzjR5Af0kPgWJcJiNK98bTWlxA==
+X-Received: by 2002:a5d:61cf:: with SMTP id q15mr21825032wrv.74.1580828517700; 
+ Tue, 04 Feb 2020 07:01:57 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d9sm14428921wrx.94.2020.02.04.07.01.55
+ by smtp.gmail.com with ESMTPSA id d9sm14428921wrx.94.2020.02.04.07.01.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 07:01:55 -0800 (PST)
+ Tue, 04 Feb 2020 07:01:57 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 4/5] drm: Push drm_global_mutex locking in drm_open
-Date: Tue,  4 Feb 2020 16:01:45 +0100
-Message-Id: <20200204150146.2006481-5-daniel.vetter@ffwll.ch>
+Subject: [PATCH 5/5] drm: Nerf drm_global_mutex BKL for good drivers
+Date: Tue,  4 Feb 2020 16:01:46 +0100
+Message-Id: <20200204150146.2006481-6-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
 References: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
@@ -72,100 +72,168 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We want to only take the BKL on crap drivers, but to know whether
-we have a crap driver we first need to look it up. Split this shuffle
-out from the main BKL-disabling patch, for more clarity. Historical
-aside: When the kernel-wide BKL was removed, it was replaced by
-drm_global_mutex within the scope of the drm subsystem hence why these
-two things are (almost) interchangeable as concepts here.
+This catches the majority of drivers (unfortunately not if we take
+users into account, because all the big drivers have at least a
+lastclose hook).
 
-Since the minors are refcounted drm_minor_acquire is purely internal
-and this does not have a driver visible effect.
+With the prep patches out of the way all drm state is fully protected
+and either prevents or can deal with the races from dropping the BKL
+around open/close. The only thing left to audit are the various driver
+hooks - by keeping the BKL around if any of them are set we have a
+very simple cop-out!
 
-v2: Push the locking even further into drm_open(), suggested by Chris.
-This gives us more symmetry with drm_release(), and maybe a futuer
-avenue where we make drm_global_mutex locking (partially) opt-in like
-with drm_release_noglobal().
+Note that one of the biggest prep pieces to get here was making
+dev->open_count atomic, which was done in
 
-v3:
-- Actually push this stuff correctly, don't unlock twice (Chris)
-- Fix typo on commit message, plus explain why BKL = drm_global_mutex
-  (Sam)
+commit 7e13ad896484a0165a68197a2e64091ea28c9602
+Author: Chris Wilson <chris@chris-wilson.co.uk>
+Date:   Fri Jan 24 13:01:07 2020 +0000
 
-Cc: Sam Ravnborg <sam@ravnborg.org>
+    drm: Avoid drm_global_mutex for simple inc/dec of dev->open_count
+
+v2:
+- Rebase and fix locking in drm_open() (Chris)
+- Indentation fix in drm_release
+- Typo fix in the commit message (Sam)
+
 Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/drm_drv.c  | 14 +++++---------
- drivers/gpu/drm/drm_file.c |  6 ++++++
- 2 files changed, 11 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_drv.c      |  6 +++--
+ drivers/gpu/drm/drm_file.c     | 48 +++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/drm_internal.h |  1 +
+ 3 files changed, 47 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 8deff75b484c..05bdf0b9d2b3 100644
+index 05bdf0b9d2b3..9fcd6ab3c154 100644
 --- a/drivers/gpu/drm/drm_drv.c
 +++ b/drivers/gpu/drm/drm_drv.c
-@@ -1085,17 +1085,14 @@ static int drm_stub_open(struct inode *inode, struct file *filp)
- 
- 	DRM_DEBUG("\n");
+@@ -946,7 +946,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+ 	struct drm_driver *driver = dev->driver;
+ 	int ret;
  
 -	mutex_lock(&drm_global_mutex);
- 	minor = drm_minor_acquire(iminor(inode));
--	if (IS_ERR(minor)) {
--		err = PTR_ERR(minor);
--		goto out_unlock;
--	}
-+	if (IS_ERR(minor))
-+		return PTR_ERR(minor);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_lock(&drm_global_mutex);
  
- 	new_fops = fops_get(minor->dev->driver->fops);
- 	if (!new_fops) {
- 		err = -ENODEV;
--		goto out_release;
-+		goto out;
- 	}
- 
- 	replace_fops(filp, new_fops);
-@@ -1104,10 +1101,9 @@ static int drm_stub_open(struct inode *inode, struct file *filp)
- 	else
- 		err = 0;
- 
--out_release:
-+out:
- 	drm_minor_release(minor);
--out_unlock:
+ 	if (dev->driver->load) {
+ 		if (!drm_core_check_feature(dev, DRIVER_LEGACY))
+@@ -992,7 +993,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+ 	drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
+ 	drm_minor_unregister(dev, DRM_MINOR_RENDER);
+ out_unlock:
 -	mutex_unlock(&drm_global_mutex);
-+
- 	return err;
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_unlock(&drm_global_mutex);
+ 	return ret;
  }
- 
+ EXPORT_SYMBOL(drm_dev_register);
 diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 1075b3a8b5b1..80d556402ab4 100644
+index 80d556402ab4..c4c704e01961 100644
 --- a/drivers/gpu/drm/drm_file.c
 +++ b/drivers/gpu/drm/drm_file.c
-@@ -378,6 +378,8 @@ int drm_open(struct inode *inode, struct file *filp)
+@@ -51,6 +51,37 @@
+ /* from BKL pushdown */
+ DEFINE_MUTEX(drm_global_mutex);
+ 
++bool drm_dev_needs_global_mutex(struct drm_device *dev)
++{
++	/*
++	 * Legacy drivers rely on all kinds of BKL locking semantics, don't
++	 * bother. They also still need BKL locking for their ioctls, so better
++	 * safe than sorry.
++	 */
++	if (drm_core_check_feature(dev, DRIVER_LEGACY))
++		return true;
++
++	/*
++	 * The deprecated ->load callback must be called after the driver is
++	 * already registered. This means such drivers rely on the BKL to make
++	 * sure an open can't proceed until the driver is actually fully set up.
++	 * Similar hilarity holds for the unload callback.
++	 */
++	if (dev->driver->load || dev->driver->unload)
++		return true;
++
++	/*
++	 * Drivers with the lastclose callback assume that it's synchronized
++	 * against concurrent opens, which again needs the BKL. The proper fix
++	 * is to use the drm_client infrastructure with proper locking for each
++	 * client.
++	 */
++	if (dev->driver->lastclose)
++		return true;
++
++	return false;
++}
++
+ /**
+  * DOC: file operations
+  *
+@@ -378,9 +409,10 @@ int drm_open(struct inode *inode, struct file *filp)
  	if (IS_ERR(minor))
  		return PTR_ERR(minor);
  
-+	mutex_lock(&drm_global_mutex);
-+
+-	mutex_lock(&drm_global_mutex);
+-
  	dev = minor->dev;
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_lock(&drm_global_mutex);
++
  	if (!atomic_fetch_inc(&dev->open_count))
  		need_setup = 1;
-@@ -395,10 +397,14 @@ int drm_open(struct inode *inode, struct file *filp)
- 			goto err_undo;
+ 
+@@ -398,13 +430,15 @@ int drm_open(struct inode *inode, struct file *filp)
  		}
  	}
-+
-+	mutex_unlock(&drm_global_mutex);
-+
+ 
+-	mutex_unlock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_unlock(&drm_global_mutex);
+ 
  	return 0;
  
  err_undo:
  	atomic_dec(&dev->open_count);
-+	mutex_unlock(&drm_global_mutex);
+-	mutex_unlock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_unlock(&drm_global_mutex);
  	drm_minor_release(minor);
  	return retcode;
  }
+@@ -444,7 +478,8 @@ int drm_release(struct inode *inode, struct file *filp)
+ 	struct drm_minor *minor = file_priv->minor;
+ 	struct drm_device *dev = minor->dev;
+ 
+-	mutex_lock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_lock(&drm_global_mutex);
+ 
+ 	DRM_DEBUG("open_count = %d\n", atomic_read(&dev->open_count));
+ 
+@@ -453,7 +488,8 @@ int drm_release(struct inode *inode, struct file *filp)
+ 	if (atomic_dec_and_test(&dev->open_count))
+ 		drm_lastclose(dev);
+ 
+-	mutex_unlock(&drm_global_mutex);
++	if (drm_dev_needs_global_mutex(dev))
++		mutex_unlock(&drm_global_mutex);
+ 
+ 	drm_minor_release(minor);
+ 
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 6937bf923f05..aeec2e68d772 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -41,6 +41,7 @@ struct drm_printer;
+ 
+ /* drm_file.c */
+ extern struct mutex drm_global_mutex;
++bool drm_dev_needs_global_mutex(struct drm_device *dev);
+ struct drm_file *drm_file_alloc(struct drm_minor *minor);
+ void drm_file_free(struct drm_file *file);
+ void drm_lastclose(struct drm_device *dev);
 -- 
 2.24.1
 
