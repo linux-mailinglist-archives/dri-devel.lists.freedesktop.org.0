@@ -2,34 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99975151C85
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 15:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E49151CAD
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2020 15:57:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C256F374;
-	Tue,  4 Feb 2020 14:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8D46E84C;
+	Tue,  4 Feb 2020 14:57:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F736F374
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2020 14:47:48 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8658628FB6F;
- Tue,  4 Feb 2020 14:47:46 +0000 (GMT)
-Date: Tue, 4 Feb 2020 15:47:39 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, Steven Price
- <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 1/2] drm/panfrost: Make sure MMU context lifetime is not
- bound to panfrost_priv
-Message-ID: <20200204154739.16a8a611@collabora.com>
-In-Reply-To: <20200204143504.135388-1-boris.brezillon@collabora.com>
-References: <20200204143504.135388-1-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B65F6E835;
+ Tue,  4 Feb 2020 14:57:31 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2020 06:57:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,402,1574150400"; d="scan'208";a="235186978"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by orsmga006.jf.intel.com with ESMTP; 04 Feb 2020 06:57:28 -0800
+Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 4 Feb 2020 06:57:28 -0800
+Received: from bgsmsx106.gar.corp.intel.com (10.223.43.196) by
+ FMSMSX113.amr.corp.intel.com (10.18.116.7) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 4 Feb 2020 06:57:27 -0800
+Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.36]) by
+ BGSMSX106.gar.corp.intel.com ([169.254.1.198]) with mapi id 14.03.0439.000;
+ Tue, 4 Feb 2020 20:27:24 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: RE: [Intel-gfx] [PATCH 6/8] drm/edid: Add a FIXME about DispID CEA
+ data block revision
+Thread-Topic: [Intel-gfx] [PATCH 6/8] drm/edid: Add a FIXME about DispID CEA
+ data block revision
+Thread-Index: AQHV0vFRvK3Rx8nvZ0q0EHz2sUQxxagJ9d2AgADHEACAAG/agA==
+Date: Tue, 4 Feb 2020 14:57:24 +0000
+Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823AAAA0@BGSMSX104.gar.corp.intel.com>
+References: <20200124200231.10517-1-ville.syrjala@linux.intel.com>
+ <20200124200231.10517-6-ville.syrjala@linux.intel.com>
+ <E7C9878FBA1C6D42A1CA3F62AEB6945F823AA020@BGSMSX104.gar.corp.intel.com>
+ <20200204133212.GI13686@intel.com>
+In-Reply-To: <20200204133212.GI13686@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTFlYmUwNmUtNWNiZC00OTk0LThkNjAtOWMzOGM5MmEwMWJjIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoibG5iMUlpZzVtbW1HMW9zWWFheHR1dlAzczdVS0JhZThBeHp5ZnFJTm1saFRiS200bFlVNVpSeWtcL2VyckJpcm4ifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,468 +67,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Icecream95 <ixn@keemail.me>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, Andres
+ Rodriguez <andresx7@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  4 Feb 2020 15:35:03 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> Jobs can be in-flight when the file descriptor is closed (either because
-> the process did not terminate properly, or because it didn't wait for
-> all GPU jobs to be finished), and apparently panfrost_job_close() does
-> not cancel already running jobs. Let's refcount the MMU context object
-> so it's lifetime is no longer bound to the FD lifetime and running jobs
 
-     ^its
+> -----Original Message-----
+> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Sent: Tuesday, February 4, 2020 7:02 PM
+> To: Shankar, Uma <uma.shankar@intel.com>
+> Cc: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; And=
+res
+> Rodriguez <andresx7@gmail.com>
+> Subject: Re: [Intel-gfx] [PATCH 6/8] drm/edid: Add a FIXME about DispID C=
+EA data
+> block revision
+> =
 
-> can finish properly without generating spurious page faults.
-> 
-> Reported-by: Icecream95 <ixn@keemail.me>
-> Fixes: 7282f7645d06 ("drm/panfrost: Implement per FD address spaces")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_device.h |   8 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c    |  50 ++-----
->  drivers/gpu/drm/panfrost/panfrost_gem.c    |  20 ++-
->  drivers/gpu/drm/panfrost/panfrost_job.c    |   4 +-
->  drivers/gpu/drm/panfrost/panfrost_mmu.c    | 158 ++++++++++++++-------
->  drivers/gpu/drm/panfrost/panfrost_mmu.h    |   5 +-
->  6 files changed, 135 insertions(+), 110 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index 06713811b92c..3f19288e8375 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -94,8 +94,12 @@ struct panfrost_device {
->  };
->  
->  struct panfrost_mmu {
-> +	struct panfrost_device *pfdev;
-> +	struct kref refcount;
->  	struct io_pgtable_cfg pgtbl_cfg;
->  	struct io_pgtable_ops *pgtbl_ops;
-> +	struct drm_mm mm;
-> +	spinlock_t mm_lock;
->  	int as;
->  	atomic_t as_count;
->  	struct list_head list;
-> @@ -106,9 +110,7 @@ struct panfrost_file_priv {
->  
->  	struct drm_sched_entity sched_entity[NUM_JOB_SLOTS];
->  
-> -	struct panfrost_mmu mmu;
-> -	struct drm_mm mm;
-> -	spinlock_t mm_lock;
-> +	struct panfrost_mmu *mmu;
->  };
->  
->  static inline struct panfrost_device *to_panfrost_device(struct drm_device *ddev)
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 273d67e251c2..41e574742a3c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -418,7 +418,7 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
->  		 * anyway, so let's not bother.
->  		 */
->  		if (!list_is_singular(&bo->mappings.list) ||
-> -		    WARN_ON_ONCE(first->mmu != &priv->mmu)) {
-> +		    WARN_ON_ONCE(first->mmu != priv->mmu)) {
->  			ret = -EINVAL;
->  			goto out_unlock_mappings;
->  		}
-> @@ -450,32 +450,6 @@ int panfrost_unstable_ioctl_check(void)
->  	return 0;
->  }
->  
-> -#define PFN_4G		(SZ_4G >> PAGE_SHIFT)
-> -#define PFN_4G_MASK	(PFN_4G - 1)
-> -#define PFN_16M		(SZ_16M >> PAGE_SHIFT)
-> -
-> -static void panfrost_drm_mm_color_adjust(const struct drm_mm_node *node,
-> -					 unsigned long color,
-> -					 u64 *start, u64 *end)
-> -{
-> -	/* Executable buffers can't start or end on a 4GB boundary */
-> -	if (!(color & PANFROST_BO_NOEXEC)) {
-> -		u64 next_seg;
-> -
-> -		if ((*start & PFN_4G_MASK) == 0)
-> -			(*start)++;
-> -
-> -		if ((*end & PFN_4G_MASK) == 0)
-> -			(*end)--;
-> -
-> -		next_seg = ALIGN(*start, PFN_4G);
-> -		if (next_seg - *start <= PFN_16M)
-> -			*start = next_seg + 1;
-> -
-> -		*end = min(*end, ALIGN(*start, PFN_4G) - 1);
-> -	}
-> -}
-> -
->  static int
->  panfrost_open(struct drm_device *dev, struct drm_file *file)
->  {
-> @@ -490,15 +464,11 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
->  	panfrost_priv->pfdev = pfdev;
->  	file->driver_priv = panfrost_priv;
->  
-> -	spin_lock_init(&panfrost_priv->mm_lock);
-> -
-> -	/* 4G enough for now. can be 48-bit */
-> -	drm_mm_init(&panfrost_priv->mm, SZ_32M >> PAGE_SHIFT, (SZ_4G - SZ_32M) >> PAGE_SHIFT);
-> -	panfrost_priv->mm.color_adjust = panfrost_drm_mm_color_adjust;
-> -
-> -	ret = panfrost_mmu_pgtable_alloc(panfrost_priv);
-> -	if (ret)
-> -		goto err_pgtable;
-> +	panfrost_priv->mmu = panfrost_mmu_ctx_create(pfdev);
-> +	if (IS_ERR(panfrost_priv->mmu)) {
-> +		ret = PTR_ERR(panfrost_priv->mmu);
-> +		goto err_free;
-> +	}
->  
->  	ret = panfrost_job_open(panfrost_priv);
->  	if (ret)
-> @@ -507,9 +477,8 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
->  	return 0;
->  
->  err_job:
-> -	panfrost_mmu_pgtable_free(panfrost_priv);
-> -err_pgtable:
-> -	drm_mm_takedown(&panfrost_priv->mm);
-> +	panfrost_mmu_ctx_put(panfrost_priv->mmu);
-> +err_free:
->  	kfree(panfrost_priv);
->  	return ret;
->  }
-> @@ -522,8 +491,7 @@ panfrost_postclose(struct drm_device *dev, struct drm_file *file)
->  	panfrost_perfcnt_close(file);
->  	panfrost_job_close(panfrost_priv);
->  
-> -	panfrost_mmu_pgtable_free(panfrost_priv);
-> -	drm_mm_takedown(&panfrost_priv->mm);
-> +	panfrost_mmu_ctx_put(panfrost_priv->mmu);
->  	kfree(panfrost_priv);
->  }
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 17b654e1eb94..406e595f99e4 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -60,7 +60,7 @@ panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
->  
->  	mutex_lock(&bo->mappings.lock);
->  	list_for_each_entry(iter, &bo->mappings.list, node) {
-> -		if (iter->mmu == &priv->mmu) {
-> +		if (iter->mmu == priv->mmu) {
->  			kref_get(&iter->refcount);
->  			mapping = iter;
->  			break;
-> @@ -74,16 +74,13 @@ panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
->  static void
->  panfrost_gem_teardown_mapping(struct panfrost_gem_mapping *mapping)
->  {
-> -	struct panfrost_file_priv *priv;
-> -
->  	if (mapping->active)
->  		panfrost_mmu_unmap(mapping);
->  
-> -	priv = container_of(mapping->mmu, struct panfrost_file_priv, mmu);
-> -	spin_lock(&priv->mm_lock);
-> +	spin_lock(&mapping->mmu->mm_lock);
->  	if (drm_mm_node_allocated(&mapping->mmnode))
->  		drm_mm_remove_node(&mapping->mmnode);
-> -	spin_unlock(&priv->mm_lock);
-> +	spin_unlock(&mapping->mmu->mm_lock);
->  }
->  
->  static void panfrost_gem_mapping_release(struct kref *kref)
-> @@ -94,6 +91,7 @@ static void panfrost_gem_mapping_release(struct kref *kref)
->  
->  	panfrost_gem_teardown_mapping(mapping);
->  	drm_gem_object_put_unlocked(&mapping->obj->base.base);
-> +	panfrost_mmu_ctx_put(mapping->mmu);
->  	kfree(mapping);
->  }
->  
-> @@ -145,11 +143,11 @@ int panfrost_gem_open(struct drm_gem_object *obj, struct drm_file *file_priv)
->  	else
->  		align = size >= SZ_2M ? SZ_2M >> PAGE_SHIFT : 0;
->  
-> -	mapping->mmu = &priv->mmu;
-> -	spin_lock(&priv->mm_lock);
-> -	ret = drm_mm_insert_node_generic(&priv->mm, &mapping->mmnode,
-> +	mapping->mmu = panfrost_mmu_ctx_get(priv->mmu);
-> +	spin_lock(&mapping->mmu->mm_lock);
-> +	ret = drm_mm_insert_node_generic(&mapping->mmu->mm, &mapping->mmnode,
->  					 size >> PAGE_SHIFT, align, color, 0);
-> -	spin_unlock(&priv->mm_lock);
-> +	spin_unlock(&mapping->mmu->mm_lock);
->  	if (ret)
->  		goto err;
->  
-> @@ -178,7 +176,7 @@ void panfrost_gem_close(struct drm_gem_object *obj, struct drm_file *file_priv)
->  
->  	mutex_lock(&bo->mappings.lock);
->  	list_for_each_entry(iter, &bo->mappings.list, node) {
-> -		if (iter->mmu == &priv->mmu) {
-> +		if (iter->mmu == priv->mmu) {
->  			mapping = iter;
->  			list_del(&iter->node);
->  			break;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 4d383831c1fc..b0716e49eeca 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -154,7 +154,7 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
->  		return;
->  	}
->  
-> -	cfg = panfrost_mmu_as_get(pfdev, &job->file_priv->mmu);
-> +	cfg = panfrost_mmu_as_get(pfdev, job->file_priv->mmu);
->  	panfrost_devfreq_record_busy(pfdev);
->  
->  	job_write(pfdev, JS_HEAD_NEXT_LO(js), jc_head & 0xFFFFFFFF);
-> @@ -481,7 +481,7 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
->  			if (job) {
->  				pfdev->jobs[j] = NULL;
->  
-> -				panfrost_mmu_as_put(pfdev, &job->file_priv->mmu);
-> +				panfrost_mmu_as_put(pfdev, job->file_priv->mmu);
->  				panfrost_devfreq_record_idle(pfdev);
->  
->  				dma_fence_signal_locked(job->done_fence);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index 763cfca886a7..f70d5a75cbd5 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -1,5 +1,8 @@
->  // SPDX-License-Identifier:	GPL-2.0
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> +
-> +#include <drm/panfrost_drm.h>
-> +
->  #include <linux/atomic.h>
->  #include <linux/bitfield.h>
->  #include <linux/delay.h>
-> @@ -332,7 +335,7 @@ static void mmu_tlb_inv_context_s1(void *cookie)
->  
->  static void mmu_tlb_sync_context(void *cookie)
->  {
-> -	//struct panfrost_device *pfdev = cookie;
-> +	//struct panfrost_mmu *mmu = cookie;
->  	// TODO: Wait 1000 GPU cycles for HW_ISSUE_6367/T60X
->  }
->  
-> @@ -354,56 +357,10 @@ static const struct iommu_flush_ops mmu_tlb_ops = {
->  	.tlb_flush_leaf = mmu_tlb_flush_leaf,
->  };
->  
-> -int panfrost_mmu_pgtable_alloc(struct panfrost_file_priv *priv)
-> -{
-> -	struct panfrost_mmu *mmu = &priv->mmu;
-> -	struct panfrost_device *pfdev = priv->pfdev;
-> -
-> -	INIT_LIST_HEAD(&mmu->list);
-> -	mmu->as = -1;
-> -
-> -	mmu->pgtbl_cfg = (struct io_pgtable_cfg) {
-> -		.pgsize_bitmap	= SZ_4K | SZ_2M,
-> -		.ias		= FIELD_GET(0xff, pfdev->features.mmu_features),
-> -		.oas		= FIELD_GET(0xff00, pfdev->features.mmu_features),
-> -		.tlb		= &mmu_tlb_ops,
-> -		.iommu_dev	= pfdev->dev,
-> -	};
-> -
-> -	mmu->pgtbl_ops = alloc_io_pgtable_ops(ARM_MALI_LPAE, &mmu->pgtbl_cfg,
-> -					      priv);
-> -	if (!mmu->pgtbl_ops)
-> -		return -EINVAL;
-> -
-> -	return 0;
-> -}
-> -
-> -void panfrost_mmu_pgtable_free(struct panfrost_file_priv *priv)
-> -{
-> -	struct panfrost_device *pfdev = priv->pfdev;
-> -	struct panfrost_mmu *mmu = &priv->mmu;
-> -
-> -	spin_lock(&pfdev->as_lock);
-> -	if (mmu->as >= 0) {
-> -		pm_runtime_get_noresume(pfdev->dev);
-> -		if (pm_runtime_active(pfdev->dev))
-> -			panfrost_mmu_disable(pfdev, mmu->as);
-> -		pm_runtime_put_autosuspend(pfdev->dev);
-> -
-> -		clear_bit(mmu->as, &pfdev->as_alloc_mask);
-> -		clear_bit(mmu->as, &pfdev->as_in_use_mask);
-> -		list_del(&mmu->list);
-> -	}
-> -	spin_unlock(&pfdev->as_lock);
-> -
-> -	free_io_pgtable_ops(mmu->pgtbl_ops);
-> -}
-> -
->  static struct panfrost_gem_mapping *
->  addr_to_mapping(struct panfrost_device *pfdev, int as, u64 addr)
->  {
->  	struct panfrost_gem_mapping *mapping = NULL;
-> -	struct panfrost_file_priv *priv;
->  	struct drm_mm_node *node;
->  	u64 offset = addr >> PAGE_SHIFT;
->  	struct panfrost_mmu *mmu;
-> @@ -416,11 +373,10 @@ addr_to_mapping(struct panfrost_device *pfdev, int as, u64 addr)
->  	goto out;
->  
->  found_mmu:
-> -	priv = container_of(mmu, struct panfrost_file_priv, mmu);
->  
-> -	spin_lock(&priv->mm_lock);
-> +	spin_lock(&mmu->mm_lock);
->  
-> -	drm_mm_for_each_node(node, &priv->mm) {
-> +	drm_mm_for_each_node(node, &mmu->mm) {
->  		if (offset >= node->start &&
->  		    offset < (node->start + node->size)) {
->  			mapping = drm_mm_node_to_panfrost_mapping(node);
-> @@ -430,7 +386,7 @@ addr_to_mapping(struct panfrost_device *pfdev, int as, u64 addr)
->  		}
->  	}
->  
-> -	spin_unlock(&priv->mm_lock);
-> +	spin_unlock(&mmu->mm_lock);
->  out:
->  	spin_unlock(&pfdev->as_lock);
->  	return mapping;
-> @@ -537,6 +493,106 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
->  	return ret;
->  }
->  
-> +static void panfrost_mmu_release_ctx(struct kref *kref)
-> +{
-> +	struct panfrost_mmu *mmu = container_of(kref, struct panfrost_mmu,
-> +						refcount);
-> +	struct panfrost_device *pfdev = mmu->pfdev;
-> +
-> +	spin_lock(&pfdev->as_lock);
-> +	if (mmu->as >= 0) {
-> +		pm_runtime_get_noresume(pfdev->dev);
-> +		if (pm_runtime_active(pfdev->dev))
-> +			panfrost_mmu_disable(pfdev, mmu->as);
-> +		pm_runtime_put_autosuspend(pfdev->dev);
-> +
-> +		clear_bit(mmu->as, &pfdev->as_alloc_mask);
-> +		clear_bit(mmu->as, &pfdev->as_in_use_mask);
-> +		list_del(&mmu->list);
-> +	}
-> +	spin_unlock(&pfdev->as_lock);
-> +
-> +	free_io_pgtable_ops(mmu->pgtbl_ops);
-> +	drm_mm_takedown(&mmu->mm);
-> +	kfree(mmu);
-> +}
-> +
-> +void panfrost_mmu_ctx_put(struct panfrost_mmu *mmu)
-> +{
-> +	kref_put(&mmu->refcount, panfrost_mmu_release_ctx);
-> +}
-> +
-> +struct panfrost_mmu *panfrost_mmu_ctx_get(struct panfrost_mmu *mmu)
-> +{
-> +	kref_get(&mmu->refcount);
-> +
-> +	return mmu;
-> +}
-> +
-> +#define PFN_4G		(SZ_4G >> PAGE_SHIFT)
-> +#define PFN_4G_MASK	(PFN_4G - 1)
-> +#define PFN_16M		(SZ_16M >> PAGE_SHIFT)
-> +
-> +static void panfrost_drm_mm_color_adjust(const struct drm_mm_node *node,
-> +					 unsigned long color,
-> +					 u64 *start, u64 *end)
-> +{
-> +	/* Executable buffers can't start or end on a 4GB boundary */
-> +	if (!(color & PANFROST_BO_NOEXEC)) {
-> +		u64 next_seg;
-> +
-> +		if ((*start & PFN_4G_MASK) == 0)
-> +			(*start)++;
-> +
-> +		if ((*end & PFN_4G_MASK) == 0)
-> +			(*end)--;
-> +
-> +		next_seg = ALIGN(*start, PFN_4G);
-> +		if (next_seg - *start <= PFN_16M)
-> +			*start = next_seg + 1;
-> +
-> +		*end = min(*end, ALIGN(*start, PFN_4G) - 1);
-> +	}
-> +}
-> +
-> +struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
-> +{
-> +	struct panfrost_mmu *mmu;
-> +
-> +	mmu = kzalloc(sizeof(*mmu), GFP_KERNEL);
-> +	if (!mmu)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	mmu->pfdev = pfdev;
-> +	spin_lock_init(&mmu->mm_lock);
-> +
-> +	/* 4G enough for now. can be 48-bit */
-> +	drm_mm_init(&mmu->mm, SZ_32M >> PAGE_SHIFT, (SZ_4G - SZ_32M) >> PAGE_SHIFT);
-> +	mmu->mm.color_adjust = panfrost_drm_mm_color_adjust;
-> +
-> +	INIT_LIST_HEAD(&mmu->list);
-> +	mmu->as = -1;
-> +
-> +	mmu->pgtbl_cfg = (struct io_pgtable_cfg) {
-> +		.pgsize_bitmap	= SZ_4K | SZ_2M,
-> +		.ias		= FIELD_GET(0xff, pfdev->features.mmu_features),
-> +		.oas		= FIELD_GET(0xff00, pfdev->features.mmu_features),
-> +		.tlb		= &mmu_tlb_ops,
-> +		.iommu_dev	= pfdev->dev,
-> +	};
-> +
-> +	mmu->pgtbl_ops = alloc_io_pgtable_ops(ARM_MALI_LPAE, &mmu->pgtbl_cfg,
-> +					      mmu);
-> +	if (!mmu->pgtbl_ops) {
-> +		kfree(mmu);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	kref_init(&mmu->refcount);
-> +
-> +	return mmu;
-> +}
-> +
->  static const char *access_type_name(struct panfrost_device *pfdev,
->  		u32 fault_status)
->  {
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.h b/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> index 44fc2edf63ce..cc2a0d307feb 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> @@ -18,7 +18,8 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev);
->  u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
->  void panfrost_mmu_as_put(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
->  
-> -int panfrost_mmu_pgtable_alloc(struct panfrost_file_priv *priv);
-> -void panfrost_mmu_pgtable_free(struct panfrost_file_priv *priv);
-> +struct panfrost_mmu *panfrost_mmu_ctx_get(struct panfrost_mmu *mmu);
-> +void panfrost_mmu_ctx_put(struct panfrost_mmu *mmu);
-> +struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev);
->  
->  #endif
+> On Mon, Feb 03, 2020 at 08:15:51PM +0000, Shankar, Uma wrote:
+> >
+> >
+> > > -----Original Message-----
+> > > From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf
+> > > Of Ville Syrjala
+> > > Sent: Saturday, January 25, 2020 1:32 AM
+> > > To: dri-devel@lists.freedesktop.org
+> > > Cc: intel-gfx@lists.freedesktop.org; Andres Rodriguez
+> > > <andresx7@gmail.com>
+> > > Subject: [Intel-gfx] [PATCH 6/8] drm/edid: Add a FIXME about DispID
+> > > CEA data block revision
+> > >
+> > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > >
+> > > I don't understand what the DispID CEA data block revision means.
+> > > The spec doesn't say. I guess some DispID must have a value of >=3D 3
+> > > in there or else we generally wouldn't even parse the CEA data
+> > > blocks. Or does all this code actually not do anything?
+> >
+> > This signifies the CTA extension revision (byte 1 of the block). As
+> > per the spec, seems like Version 1 is legacy and 2 is deprecated. So ve=
+rsion >=3D3 is
+> checked here.
+> > Refer section 7.3 of CTA-861-G
+> =
 
+> The confusion is about the revision field in the DispID CTA block, not in=
+ the CTA
+> extension block.
+
+Oh ok, got the ambiguity here. Not sure if we actually get >3 here as value=
+ for the block revision,
+totally unclear from spec, default being 0. Good to have this comment till =
+we get some clarity on
+its significance. Thanks for the clarification.
+
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+
+> >
+> > > Cc: Andres Rodriguez <andresx7@gmail.com>
+> > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_edid.c | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> > > index
+> > > 0369a54e3d32..fd9b724067a7 100644
+> > > --- a/drivers/gpu/drm/drm_edid.c
+> > > +++ b/drivers/gpu/drm/drm_edid.c
+> > > @@ -3977,6 +3977,13 @@ cea_db_tag(const u8 *db)  static int
+> > > cea_revision(const
+> > > u8 *cea)  {
+> > > +	/*
+> > > +	 * FIXME is this correct for the DispID variant?
+> > > +	 * The DispID spec doesn't really specify whether
+> > > +	 * this is the revision of the CEA extension or
+> > > +	 * the DispID CEA data block. And the only value
+> > > +	 * given as an example is 0.
+> > > +	 */
+> > >  	return cea[1];
+> > >  }
+> > >
+> > > --
+> > > 2.24.1
+> > >
+> > > _______________________________________________
+> > > Intel-gfx mailing list
+> > > Intel-gfx@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> =
+
+> --
+> Ville Syrj=E4l=E4
+> Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
