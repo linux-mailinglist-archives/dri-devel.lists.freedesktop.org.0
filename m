@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97F81539D0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 22:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 204791539E3
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 22:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB716F955;
-	Wed,  5 Feb 2020 21:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B755C6E241;
+	Wed,  5 Feb 2020 21:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1FC76E9F8;
- Wed,  5 Feb 2020 21:00:02 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id c26so3570024eds.8;
- Wed, 05 Feb 2020 13:00:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QafzbCfeHnYtXe2+wnlYbUjzoLaATFtLI4O/t7cFl+Q=;
- b=LLzqOyPgxOYxX2fFIZXbsrOnO82CGToxLSKJphbGKsqy7jnlCooFy6MJczAqo/EXur
- 55P20+vFkQoPMccuFsAxmtoa2yhFIvMbrfqgkCRJR1owQXd2gVUildcoaos3GRwLUaGL
- L57KXeAoHd1C4uKFyP0AxqtTwbzRgAGKUR9qi9Gm4O+Dj076hTIb6Q//1PBXzr01kWr3
- WG1M53aL46oCcDHx/S22c+JjxJCq6E9afR+6PjaqC3KEzXpSV8lCSjvZeJU1euvWLHIK
- CZ/9psDHd+gGs7F6fW/jLre0cKE8h3rl4yd3GW6XVPvhtNFDO4uRqi2WUgzHhhya0o7S
- GlXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QafzbCfeHnYtXe2+wnlYbUjzoLaATFtLI4O/t7cFl+Q=;
- b=c8IF1qCocfXtxZ4SkWRWNLmY8pzZPAkK6ziGv4ZXgiGsBaqXfbL23qwJSTYwmN8nuT
- H492smTVnq9d/aN9IfuP53TAxhq30sVIKYVrObpW2+9ha13ckA+Ms0aZTlcmvUeHWsJG
- mqVZtiIPNtLd8LIUiG/n2zV5Z2LlG34g5k3w+JmuOIJt+l5/n5sujlJ6TrlIyU48YBJ1
- EXRW+TOlHpYjUUc1SekssNRoeMzVWdvo8BRDEjt5H42Mb6wCDPLKhQDRI+r6+dpka66t
- 1qFLJz5lFyg1PxzUgkkecQNFNOuzeBr5EN2Xka62BZ5vSdhlQds1AJqR28F7V2/owg50
- WiRA==
-X-Gm-Message-State: APjAAAWNXcIOQweA5Epx5a8MSaDfCSyEu6lV6gQm85H3rBseuOp4IfW0
- RY890Iv/JhvKIkingIs5B+WqGMiRQjNXS7OoTik=
-X-Google-Smtp-Source: APXvYqzJzAjae+HUS9sVrAOjE8CO08MVfB1MqrAfFev2UPGSewtP0Vpp1kdw0wYbnvLZ9/+mFWRyadg3lVl4W+pI7kc=
-X-Received: by 2002:a17:906:af99:: with SMTP id
- mj25mr31219735ejb.293.1580936401142; 
- Wed, 05 Feb 2020 13:00:01 -0800 (PST)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E24796E241;
+ Wed,  5 Feb 2020 21:05:46 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e3b2e1c0001>; Wed, 05 Feb 2020 13:05:32 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Wed, 05 Feb 2020 13:05:46 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Wed, 05 Feb 2020 13:05:46 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 5 Feb
+ 2020 21:05:46 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 5 Feb 2020 21:05:46 +0000
+Received: from jajones-aftershock.nvidia.com (Not Verified[172.20.42.103]) by
+ hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5e3b2e290005>; Wed, 05 Feb 2020 13:05:46 -0800
+From: James Jones <jajones@nvidia.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Subject: [PATCH v3 0/3] drm/nouveau: Support NVIDIA format modifiers
+Date: Wed, 5 Feb 2020 13:06:10 -0800
+Message-ID: <20200205210613.15658-1-jajones@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <1580935697-28195-1-git-send-email-jcrouse@codeaurora.org>
-In-Reply-To: <1580935697-28195-1-git-send-email-jcrouse@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 5 Feb 2020 12:59:49 -0800
-Message-ID: <CAF6AEGv9jVEO=QDY3DWts3w9aPxQ6fSBt2nydoqWdf5JenK=jA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm: Fix a6xx GMU shutdown sequence
-To: Jordan Crouse <jcrouse@codeaurora.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1580936732; bh=tNDqn/Oy4pYTcTAMzx4ZFMESFi9g/9Xnhf92XeU8Zjc=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=qYObJ0G4GmWS4uUylbzsQr+PQDVKhYRMlv5LOkjsVxODV7oPpnNBglE4CVA+9d9/Q
+ V1YTB2Y+opILaGFATxn5ZCwi5C6h6L8GNDLzBuNptdTrkCbrOrtW43a56YnjXkdABm
+ 9H/ms64CvhOCTmoW2wVUyzJk6cQjXUhMHBs8pH+4sMG0UY11i+ueUKzNJ6k/5+s6Bd
+ QXlRJwElmWknE5o/AwEuQVhwt4+rHltZb0mn7V2L6pKJmkOq/NOK0w+/pLoWgArDS1
+ ibaR5zhGIGPwvd0Xz9LGdAn19q0RJYFdcBD98nWquNwP1pOxs2+ahDOK1/auQvdv2x
+ idP3VsGkhE0vQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,165 +60,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sean Paul <sean@poorly.run>
+Cc: nouveau@lists.freedesktop.org, James Jones <jajones@nvidia.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 5, 2020 at 12:48 PM Jordan Crouse <jcrouse@codeaurora.org> wrote:
->
-> Commit e812744c5f95 ("drm: msm: a6xx: Add support for A618") missed
-> updating the VBIF flush in a6xx_gmu_shutdown and instead
-> inserted the new sequence into a6xx_pm_suspend along with a redundant
-> GMU idle.
->
-> Move a6xx_bus_clear_pending_transactions to a6xx_gmu.c and use it in
-> the appropriate place in the shutdown routine and remove the redundant
-> idle call.
->
-> v2: Remove newly unused variable that was triggering a warning
->
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+This series modifies the NV5x+ nouveau display backends to advertise
+appropriate format modifiers on their display planes in atomic mode
+setting blobs.
 
-Reviewed-by: Rob Clark <robdclark@gmail.com>
+Corresponding modifications to Mesa/userspace are available on the
+Mesa-dev mailing list as the series:
 
-> ---
->
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 37 +++++++++++++++++++++++++-----
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 43 -----------------------------------
->  2 files changed, 31 insertions(+), 49 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 983afea..748cd37 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -796,12 +796,41 @@ bool a6xx_gmu_isidle(struct a6xx_gmu *gmu)
->         return true;
->  }
->
-> +#define GBIF_CLIENT_HALT_MASK             BIT(0)
-> +#define GBIF_ARB_HALT_MASK                BIT(1)
-> +
-> +static void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu)
-> +{
-> +       struct msm_gpu *gpu = &adreno_gpu->base;
-> +
-> +       if (!a6xx_has_gbif(adreno_gpu)) {
-> +               gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0xf);
-> +               spin_until((gpu_read(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL1) &
-> +                                                               0xf) == 0xf);
-> +               gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0);
-> +
-> +               return;
-> +       }
-> +
-> +       /* Halt new client requests on GBIF */
-> +       gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_CLIENT_HALT_MASK);
-> +       spin_until((gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK) &
-> +                       (GBIF_CLIENT_HALT_MASK)) == GBIF_CLIENT_HALT_MASK);
-> +
-> +       /* Halt all AXI requests on GBIF */
-> +       gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_ARB_HALT_MASK);
-> +       spin_until((gpu_read(gpu,  REG_A6XX_GBIF_HALT_ACK) &
-> +                       (GBIF_ARB_HALT_MASK)) == GBIF_ARB_HALT_MASK);
-> +
-> +       /* The GBIF halt needs to be explicitly cleared */
-> +       gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
-> +}
-> +
->  /* Gracefully try to shut down the GMU and by extension the GPU */
->  static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
->  {
->         struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
->         struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-> -       struct msm_gpu *gpu = &adreno_gpu->base;
->         u32 val;
->
->         /*
-> @@ -819,11 +848,7 @@ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
->                         return;
->                 }
->
-> -               /* Clear the VBIF pipe before shutting down */
-> -               gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0xf);
-> -               spin_until((gpu_read(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL1) & 0xf)
-> -                       == 0xf);
-> -               gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0);
-> +               a6xx_bus_clear_pending_transactions(adreno_gpu);
->
->                 /* tell the GMU we want to slumber */
->                 a6xx_gmu_notify_slumber(gmu);
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index daf0780..b580e47 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -748,39 +748,6 @@ static const u32 a6xx_register_offsets[REG_ADRENO_REGISTER_MAX] = {
->         REG_ADRENO_DEFINE(REG_ADRENO_CP_RB_CNTL, REG_A6XX_CP_RB_CNTL),
->  };
->
-> -#define GBIF_CLIENT_HALT_MASK             BIT(0)
-> -#define GBIF_ARB_HALT_MASK                BIT(1)
-> -
-> -static void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu)
-> -{
-> -       struct msm_gpu *gpu = &adreno_gpu->base;
-> -
-> -       if(!a6xx_has_gbif(adreno_gpu)){
-> -               gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0xf);
-> -               spin_until((gpu_read(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL1) &
-> -                                                               0xf) == 0xf);
-> -               gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0);
-> -
-> -               return;
-> -       }
-> -
-> -       /* Halt new client requests on GBIF */
-> -       gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_CLIENT_HALT_MASK);
-> -       spin_until((gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK) &
-> -                       (GBIF_CLIENT_HALT_MASK)) == GBIF_CLIENT_HALT_MASK);
-> -
-> -       /* Halt all AXI requests on GBIF */
-> -       gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_ARB_HALT_MASK);
-> -       spin_until((gpu_read(gpu,  REG_A6XX_GBIF_HALT_ACK) &
-> -                       (GBIF_ARB_HALT_MASK)) == GBIF_ARB_HALT_MASK);
-> -
-> -       /*
-> -        * GMU needs DDR access in slumber path. Deassert GBIF halt now
-> -        * to allow for GMU to access system memory.
-> -        */
-> -       gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
-> -}
-> -
->  static int a6xx_pm_resume(struct msm_gpu *gpu)
->  {
->         struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> @@ -805,16 +772,6 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
->
->         devfreq_suspend_device(gpu->devfreq.devfreq);
->
-> -       /*
-> -        * Make sure the GMU is idle before continuing (because some transitions
-> -        * may use VBIF
-> -        */
-> -       a6xx_gmu_wait_for_idle(&a6xx_gpu->gmu);
-> -
-> -       /* Clear the VBIF pipe before shutting down */
-> -       /* FIXME: This accesses the GPU - do we need to make sure it is on? */
-> -       a6xx_bus_clear_pending_transactions(adreno_gpu);
-> -
->         return a6xx_gmu_stop(a6xx_gpu);
->  }
->
-> --
-> 2.7.4
+  nouveau: Improved format modifier support
+
+I've tested this on Tesla, Kepler, Pascal, and Turing-class hardware
+using various formats and all the exposed format modifiers, plus some
+negative testing with invalid ones.
+
+NOTE: this series depends on the "[PATCH v3] drm: Generalized NV Block
+Linear DRM format mod" patch submitted to dri-devel.
+
+v2: Used Tesla family instead of NV50 chipset compare to avoid treating
+    oddly numbered NV4x-class chipsets as NV50+ GPUs.  Other instances
+    of compares with chipset number in the series were audited, deemed
+    safe, and left as-is for consistency with existing code.
+
+v3: -Rebased on nouveau linux-5.6 @ 137c4ba7163ad9d5696b9fde78b1c0898a9c115b
+    -Noted corresponding Mesa patches are production-worthy now
+    -Better validate bo tile_mode when checking framebuffer size.
+
+James Jones (3):
+  drm/nouveau: Add format mod prop to base/ovly/nvdisp
+  drm/nouveau: Check framebuffer size against bo
+  drm/nouveau: Support NVIDIA format modifiers
+
+ drivers/gpu/drm/nouveau/dispnv50/base507c.c |   7 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     |  59 ++++++++
+ drivers/gpu/drm/nouveau/dispnv50/disp.h     |   4 +
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c     |  35 ++++-
+ drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c |  17 +++
+ drivers/gpu/drm/nouveau/nouveau_display.c   | 158 ++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_display.h   |   4 +
+ 7 files changed, 276 insertions(+), 8 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
