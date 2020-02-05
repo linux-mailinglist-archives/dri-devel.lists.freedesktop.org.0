@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19A11538E9
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 20:20:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53441538F3
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 20:21:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24DD96F93C;
-	Wed,  5 Feb 2020 19:20:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E18A16F93E;
+	Wed,  5 Feb 2020 19:21:49 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E19E6F93F
- for <dri-devel@freedesktop.org>; Wed,  5 Feb 2020 19:20:36 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id w15so1312510uap.0
- for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:20:36 -0800 (PST)
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 977816F93E
+ for <dri-devel@freedesktop.org>; Wed,  5 Feb 2020 19:21:48 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id b79so2105005vsd.9
+ for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:21:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5YaLuYG6Iy8QwcRaBytxQgkWb5GSrDhgxvX793l25Mo=;
- b=GuNlVw9BGjVfmhTOpV2VTeLQx5fb7PKdprf2XR10o8G5FgixUq0JmY+Z6cyD+kx95/
- 5YEYPMNOQ2HaOFmXohheuf6yU7ENKL+x9hT+6uAnCPS2kPLJN5v1nYtcuPh1UbkNEo++
- J8++OrPT4HiHnTqOvvoifx1YVBfMdbqv1HAW8=
+ :cc; bh=iKWhr/qeopXFJ+ock8a5scgNwm8h5rGNiI2lQhosRco=;
+ b=d+Lea2T1FikkJSXKbyM1VkmMu7+6OK51opstzFjKZqfVTWGc0HJyavyLb+VPLonbdH
+ XamEHLtjdwui0xj8WnEoC7whi/BeT3DvPVSnA1XJbAN0mMEripODaa76GX6Q5KujvPEs
+ uxYN8bYLDYx5xjHsKtyyQHKN8OKwwXdxQ/T74=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5YaLuYG6Iy8QwcRaBytxQgkWb5GSrDhgxvX793l25Mo=;
- b=VHlbf6cVvbvG2npI55mJBjNwFGwLCfkSFNWXitwci3tbAz0q956ZQncwOLb8LaleS0
- ntU3/3LTgOJkaC8df1bdJQfs+a0oK18r9vkWUAlVRcg0Dxdn43fvrEd5/QAIgdbhrksy
- OBjn/PMvb+tZrRHv4LwG0boLFrJkpNLWzSz25eCbufSRFg826WZaZTJinUSt9qznouxk
- BY7SxsfEXTVxXGI+xRCnAQXzsYICGJrRw6jlFMoPYNXASfPf+BfWWNC6+kvabFAjcCBk
- wGz4kHUIcQB1lUKO7ry6MQ5W/MFBzDlJW2L/U+qsMPcCZA9MY8G4mYyEfYw0k6zZazp8
- kKYA==
-X-Gm-Message-State: APjAAAXAyZuAe5BbjyJqkd3yaz9F1flCLTtmTlMTBvUQ2RQUAE27E+W0
- WpIphacbt3JaVNprDR+0fiZLTNp/eDQ=
-X-Google-Smtp-Source: APXvYqypMXEKVTJ8vEwnC3Zr8hP/LQihrmvvlo3uI/1m3C/P1mYxKkcCp0c1PWd18kWScdWOzvIrJg==
-X-Received: by 2002:ab0:46c:: with SMTP id 99mr21208142uav.134.1580930434579; 
- Wed, 05 Feb 2020 11:20:34 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com.
- [209.85.222.41])
- by smtp.gmail.com with ESMTPSA id v2sm174576uap.5.2020.02.05.11.20.33
+ bh=iKWhr/qeopXFJ+ock8a5scgNwm8h5rGNiI2lQhosRco=;
+ b=d0JZoh0Hp6FWGHjCaWpF3SZUsyy9FwUtPw/lUruc7a8axzm3+yLC8cNxpDgeQ7ZgRM
+ JGcgUBJjvD1damcIsDf/TXrQenlxz7iCuXKPBW315BE/GXzbMQ33BOkt2K27A7eqj4ev
+ JsUXiHbzfsDhlGbxwkBdSHIlsLnlL4h63ESbxsZJeqScmEw66oYoGCRqMwyo2nccyp3+
+ VRHGGpO2rGJISFMfUdYfPzjzNt2ziDPDvG9OiSW1JUQYq8JhILBV4c1P9zW1J1vWU4RI
+ +5D57miHV1nJ2zJ5XVj1vQ2eU7NmBlK77mAw3KoMFyVWJbtarNIjFXHwe6T/mSv8CENX
+ TIlw==
+X-Gm-Message-State: APjAAAUchGxT8p1nBXl2O4PMA8Hqe6BFJIbKf7lu71LZpU8IHVkbetSw
+ wtdIfjuWxV74eXoNtPCjJV0MZUAMiyE=
+X-Google-Smtp-Source: APXvYqw/jD3VNqQy4xbT1FpXSvx0RffTg61BVWN0HdVfgaQF/qyhOITsVvzIrE3kj5ER+TKF9rz39Q==
+X-Received: by 2002:a67:6746:: with SMTP id b67mr23619654vsc.193.1580930507234; 
+ Wed, 05 Feb 2020 11:21:47 -0800 (PST)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com.
+ [209.85.217.45])
+ by smtp.gmail.com with ESMTPSA id o6sm257283vsr.21.2020.02.05.11.21.46
  for <dri-devel@freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Feb 2020 11:20:33 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id f7so1287563uaa.8
- for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:20:33 -0800 (PST)
-X-Received: by 2002:ab0:2006:: with SMTP id v6mr20493719uak.22.1580930433242; 
- Wed, 05 Feb 2020 11:20:33 -0800 (PST)
+ Wed, 05 Feb 2020 11:21:46 -0800 (PST)
+Received: by mail-vs1-f45.google.com with SMTP id g15so2133241vsf.1
+ for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:21:46 -0800 (PST)
+X-Received: by 2002:a67:fbcb:: with SMTP id o11mr22314847vsr.109.1580930506045; 
+ Wed, 05 Feb 2020 11:21:46 -0800 (PST)
 MIME-Version: 1.0
 References: <1580886097-6312-1-git-send-email-smasetty@codeaurora.org>
- <1580886097-6312-3-git-send-email-smasetty@codeaurora.org>
-In-Reply-To: <1580886097-6312-3-git-send-email-smasetty@codeaurora.org>
+ <1580886097-6312-2-git-send-email-smasetty@codeaurora.org>
+In-Reply-To: <1580886097-6312-2-git-send-email-smasetty@codeaurora.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 5 Feb 2020 11:20:22 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=V6yM7UJwu0ZLPCqmDgV9FS4=g+wcLg0TV51b72zvWT9Q@mail.gmail.com>
-Message-ID: <CAD=FV=V6yM7UJwu0ZLPCqmDgV9FS4=g+wcLg0TV51b72zvWT9Q@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] clk: qcom: gpucc: Add support for GX GDSC for
- SC7180
+Date: Wed, 5 Feb 2020 11:21:35 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VeMaKq3KR=t7dbG+VyVs5DS=gHasSdJQSqNQreTUoZig@mail.gmail.com>
+Message-ID: <CAD=FV=VeMaKq3KR=t7dbG+VyVs5DS=gHasSdJQSqNQreTUoZig@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: clk: qcom: Add support for GPU GX
+ GDSCR
 To: Sharat Masetty <smasetty@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,118 +84,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Feb 4, 2020 at 11:02 PM Sharat Masetty <smasetty@codeaurora.org> wrote:
+On Tue, Feb 4, 2020 at 11:01 PM Sharat Masetty <smasetty@codeaurora.org> wrote:
 >
 > From: Taniya Das <tdas@codeaurora.org>
 >
->  Most of the time the CPU should not be touching the GX domain on the
->  GPU
->  except for a very special use case when the CPU needs to force the GX
-
-Really weird word-wrapping?  You've also indented your whole commit message?
-
-
->  headswitch off. Add a dummy enable function for the GX gdsc to simulate
->  success so that the pm_runtime reference counting is correct.
-
-Overall the commit message sounds a lot like the message in commit
-85a3d920d30a ("clk: qcom: Add a dummy enable function for GX gdsc").
-That's fine for the most part, but it makes it sound like you're
-_only_ adding the dummy enable.  In this case you're adding support
-for the GX domain and _also_ adding a dummy enable.  Maybe try:
-
-Most of the time the CPU should not be touching the GX domain on the
-GPU except for a very special use case when the CPU needs to force the
-GX headswitch off. Add the GX domain for that use case.  As part of
-this add a dummy enable function for the GX gdsc to simulate success
-so that the pm_runtime reference counting is correct.  This matches
-what was done in sdm845 in commit 85a3d920d30a ("clk: qcom: Add a
-dummy enable function for GX gdsc").
-
-
+> In the cases where the GPU SW requires to use the GX GDSCR add
+> support for the same.
+>
 > Signed-off-by: Taniya Das <tdas@codeaurora.org>
 
 Since you are re-posting Taniya's patch you need to add your own
 Signed-off-by as per kernel policy.
 
+Other than the SoB issue:
 
-> ---
->  drivers/clk/qcom/gpucc-sc7180.c | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
->
-> diff --git a/drivers/clk/qcom/gpucc-sc7180.c b/drivers/clk/qcom/gpucc-sc7180.c
-> index ec61194..3b29f19 100644
-> --- a/drivers/clk/qcom/gpucc-sc7180.c
-> +++ b/drivers/clk/qcom/gpucc-sc7180.c
-> @@ -172,8 +172,45 @@ enum {
->         .flags = VOTABLE,
->  };
->
-> +/*
-> + * On SC7180 the GPU GX domain is *almost* entirely controlled by the GMU
-> + * running in the CX domain so the CPU doesn't need to know anything about the
-> + * GX domain EXCEPT....
-> + *
-> + * Hardware constraints dictate that the GX be powered down before the CX. If
-> + * the GMU crashes it could leave the GX on. In order to successfully bring back
-> + * the device the CPU needs to disable the GX headswitch. There being no sane
-> + * way to reach in and touch that register from deep inside the GPU driver we
-> + * need to set up the infrastructure to be able to ensure that the GPU can
-> + * ensure that the GX is off during this super special case. We do this by
-> + * defining a GX gdsc with a dummy enable function and a "default" disable
-> + * function.
-> + *
-> + * This allows us to attach with genpd_dev_pm_attach_by_name() in the GPU
-> + * driver. During power up, nothing will happen from the CPU (and the GMU will
-> + * power up normally but during power down this will ensure that the GX domain
-> + * is *really* off - this gives us a semi standard way of doing what we need.
-> + */
-> +static int gx_gdsc_enable(struct generic_pm_domain *domain)
-> +{
-> +       /* Do nothing but give genpd the impression that we were successful */
-> +       return 0;
-> +}
-> +
-> +static struct gdsc gx_gdsc = {
-> +       .gdscr = 0x100c,
-> +       .clamp_io_ctrl = 0x1508,
-> +       .pd = {
-> +               .name = "gpu_gx_gdsc",
-
-nit: technically name could be "gx_gdsc" to match the name of the
-struct and #define.  Your name is copied from sdm845 and matches the
-name of the struct and #define from there.
-
-
-> +               .power_on = gx_gdsc_enable,
-> +       },
-> +       .pwrsts = PWRSTS_OFF_ON,
-> +       .flags = CLAMP_IO,
-
-Compared to sdm845, you have different flags.  There we have:
-
-.flags = CLAMP_IO | AON_RESET | POLL_CFG_GDSCR,
-
-I'm not sure I have enough background knowledge about the hardare to
-figure this out.  Can you confirm that you're different than sdm845 on
-purpose?  Bonus points if you can confirm whether sdm845 is also
-correct as it is today or should be changed to match what you have?
-
-
-> +};
-> +
->  static struct gdsc *gpu_cc_sc7180_gdscs[] = {
->         [CX_GDSC] = &cx_gdsc,
-> +       [GX_GDSC] = &gx_gdsc,
->  };
-
-Assuming that the question on flags is resolved and the commit message
-updated, feel free to add my Reviewed-by tag.
-
-
-
-
--Doug
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
