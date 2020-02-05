@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC56152696
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 08:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8ED15271D
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 08:39:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95EF26F496;
-	Wed,  5 Feb 2020 07:02:08 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
- [104.130.122.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 677976F496
- for <dri-devel@freedesktop.org>; Wed,  5 Feb 2020 07:02:06 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1580886127; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=yCDeCdgKA3IXNoyqrtgJmGy4KgKCgByY8yGLh4PgpZg=;
- b=nPUmSHt8ZCqlt0XWAPXiuDO3RjcAPEdskYlkIh+NVRiBtiwOHHYYbbWANcKXOjwQjbYlc/Et
- IjnwRYZkpt4PLxnQsAdNrnmV5Bc+EuuPxBCzsoDALhK3y5CL3cfCWEaUYMJodAvBARig2Gvo
- TXR7TrRcOYfDFGfTZdepqsrcTq4=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e3a6867.7f25c2c57a08-smtp-out-n02;
- Wed, 05 Feb 2020 07:01:59 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id A340DC433A2; Wed,  5 Feb 2020 07:01:59 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=ham autolearn_force=no version=3.4.0
-Received: from smasetty-linux.qualcomm.com
- (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: smasetty)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 129F6C433CB;
- Wed,  5 Feb 2020 07:01:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 129F6C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=smasetty@codeaurora.org
-From: Sharat Masetty <smasetty@codeaurora.org>
-To: freedreno@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v4 3/3] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
-Date: Wed,  5 Feb 2020 12:31:37 +0530
-Message-Id: <1580886097-6312-4-git-send-email-smasetty@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1580886097-6312-1-git-send-email-smasetty@codeaurora.org>
-References: <1580886097-6312-1-git-send-email-smasetty@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3886F4A0;
+	Wed,  5 Feb 2020 07:39:25 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256F26F4A3
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 07:39:23 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 2DCE4B05C;
+ Wed,  5 Feb 2020 07:39:21 +0000 (UTC)
+Subject: Re: [PATCH] drm/virtio: fix vblank handling
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20200205065312.15790-1-kraxel@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <08af7a9d-4d5b-3b5d-ce0d-e4cfa8700ead@suse.de>
+Date: Wed, 5 Feb 2020 08:39:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200205065312.15790-1-kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,139 +63,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dianders@chromium.org, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
- bjorn.andersson@linaro.org, mka@chromium.org, dri-devel@freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ gurchetansingh@chromium.org
+Content-Type: multipart/mixed; boundary="===============1981298281=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds the required dt nodes and properties
-to enabled A618 GPU.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1981298281==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="n7BqPTALHhmC9nv5EOlXhgd7PvwNLTub7"
 
-Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 102 +++++++++++++++++++++++++++++++++++
- 1 file changed, 102 insertions(+)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--n7BqPTALHhmC9nv5EOlXhgd7PvwNLTub7
+Content-Type: multipart/mixed; boundary="8jyV62oj2H4d51KvhrWXToHiPqQnXYFsY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: olvaffe@gmail.com, gurchetansingh@chromium.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ open list <linux-kernel@vger.kernel.org>
+Message-ID: <08af7a9d-4d5b-3b5d-ce0d-e4cfa8700ead@suse.de>
+Subject: Re: [PATCH] drm/virtio: fix vblank handling
+References: <20200205065312.15790-1-kraxel@redhat.com>
+In-Reply-To: <20200205065312.15790-1-kraxel@redhat.com>
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index f3fcc5c..63fff15 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1043,6 +1043,108 @@
- 			};
- 		};
- 
-+		gpu: gpu@5000000 {
-+			compatible = "qcom,adreno-618.0", "qcom,adreno";
-+			#stream-id-cells = <16>;
-+			reg = <0 0x05000000 0 0x40000>, <0 0x0509e000 0 0x1000>,
-+				<0 0x05061000 0 0x800>;
-+			reg-names = "kgsl_3d0_reg_memory", "cx_mem", "cx_dbgc";
-+			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-+			iommus = <&adreno_smmu 0>;
-+			operating-points-v2 = <&gpu_opp_table>;
-+			qcom,gmu = <&gmu>;
-+
-+			gpu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-800000000 {
-+					opp-hz = /bits/ 64 <800000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-+				};
-+
-+				opp-650000000 {
-+					opp-hz = /bits/ 64 <650000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-+				};
-+
-+				opp-565000000 {
-+					opp-hz = /bits/ 64 <565000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-+				};
-+
-+				opp-430000000 {
-+					opp-hz = /bits/ 64 <430000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+				};
-+
-+				opp-355000000 {
-+					opp-hz = /bits/ 64 <355000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+				};
-+
-+				opp-267000000 {
-+					opp-hz = /bits/ 64 <267000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+				};
-+
-+				opp-180000000 {
-+					opp-hz = /bits/ 64 <180000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-+				};
-+			};
-+		};
-+
-+		adreno_smmu: iommu@5040000 {
-+			compatible = "qcom,sc7180-smmu-v2", "qcom,smmu-v2";
-+			reg = <0 0x05040000 0 0x10000>;
-+			#iommu-cells = <1>;
-+			#global-interrupts = <2>;
-+			interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
-+					<GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
-+					<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>,
-+					<GIC_SPI 367 IRQ_TYPE_EDGE_RISING>,
-+					<GIC_SPI 368 IRQ_TYPE_EDGE_RISING>,
-+					<GIC_SPI 369 IRQ_TYPE_EDGE_RISING>,
-+					<GIC_SPI 370 IRQ_TYPE_EDGE_RISING>,
-+					<GIC_SPI 371 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+				<&gcc GCC_GPU_CFG_AHB_CLK>,
-+				<&gcc GCC_DDRSS_GPU_AXI_CLK>;
-+
-+			clock-names = "bus", "iface", "mem_iface_clk";
-+			power-domains = <&gpucc CX_GDSC>;
-+		};
-+
-+		gmu: gmu@506a000 {
-+			compatible="qcom,adreno-gmu-618.0", "qcom,adreno-gmu";
-+			reg = <0 0x0506a000 0 0x31000>, <0 0x0b290000 0 0x10000>,
-+				<0 0x0b490000 0 0x10000>;
-+			reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
-+			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-+				   <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "hfi", "gmu";
-+			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-+			       <&gpucc GPU_CC_CXO_CLK>,
-+			       <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-+			       <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
-+			clock-names = "gmu", "cxo", "axi", "memnoc";
-+			power-domains = <&gpucc CX_GDSC>, <&gpucc GX_GDSC>;
-+			power-domain-names = "cx", "gx";
-+			iommus = <&adreno_smmu 5>;
-+			operating-points-v2 = <&gmu_opp_table>;
-+
-+			gmu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-200000000 {
-+					opp-hz = /bits/ 64 <200000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-+				};
-+			};
-+		};
-+
- 		gpucc: clock-controller@5090000 {
- 			compatible = "qcom,sc7180-gpucc";
- 			reg = <0 0x05090000 0 0x9000>;
--- 
-1.9.1
+--8jyV62oj2H4d51KvhrWXToHiPqQnXYFsY
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 05.02.20 um 07:53 schrieb Gerd Hoffmann:
+> virtio has its own commit fail function.  Add the
+> drm_atomic_helper_fake_vblank() call there.
+>=20
+> Fixes: 2a735ad3d211 ("drm/virtio: Remove sending of vblank event")
+
+Thanks for fixing the fallout.
+
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_display.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm=
+/virtio/virtgpu_display.c
+> index ecf4ba7cc32b..7b0f0643bb2d 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+> @@ -324,6 +324,7 @@ static void vgdev_atomic_commit_tail(struct drm_ato=
+mic_state *state)
+>  	drm_atomic_helper_commit_modeset_enables(dev, state);
+>  	drm_atomic_helper_commit_planes(dev, state, 0);
+> =20
+> +	drm_atomic_helper_fake_vblank(state);
+>  	drm_atomic_helper_commit_hw_done(state);
+> =20
+>  	drm_atomic_helper_wait_for_vblanks(dev, state);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--8jyV62oj2H4d51KvhrWXToHiPqQnXYFsY--
+
+--n7BqPTALHhmC9nv5EOlXhgd7PvwNLTub7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl46cScACgkQaA3BHVML
+eiP5QQgAuCOwZJoU/TXyWVpYlSmyHRDS14CnhHE94aQmrU9D8k1UsJUt/bqr+7NK
+PAKWbLWuZoeeHc1evbbqPypqdh47ndG9kT03/eEzLmKALmHqq1lcPj8evj9T1f3l
+5lol2uJoEFrf1OmB4Cmt5vwvg51X/ohqkzy8mi7EIeacSnDxIXeNtrSje9KCpBYU
+AXSz5WaFTq+uWpYIMKcrjfP9R/st/ULzHusI+Sa5gjjso2dIG62tvUSPJQZkxVfz
+iH0JO3doGIaLNGlWINQ+LEYB6tbIjgH9L+wzhegov0B4GUP0Trg0cH9oK52WcTRk
+UoySz2Jccy/g7FqHWhjT/zislQfZug==
+=eo1s
+-----END PGP SIGNATURE-----
+
+--n7BqPTALHhmC9nv5EOlXhgd7PvwNLTub7--
+
+--===============1981298281==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1981298281==--
