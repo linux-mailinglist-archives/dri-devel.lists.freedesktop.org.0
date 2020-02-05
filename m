@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EFC153535
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 17:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 569F8153559
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 17:38:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A29946F892;
-	Wed,  5 Feb 2020 16:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E626F8A3;
+	Wed,  5 Feb 2020 16:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05EC06F88F;
- Wed,  5 Feb 2020 16:29:14 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C99F6F89D;
+ Wed,  5 Feb 2020 16:38:29 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2020 08:29:14 -0800
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2020 08:38:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="235637281"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga006.jf.intel.com with ESMTP; 05 Feb 2020 08:29:14 -0800
-Received: from bgsmsx155.gar.corp.intel.com (10.224.48.102) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 5 Feb 2020 08:29:13 -0800
+X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="378788003"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by orsmga004.jf.intel.com with ESMTP; 05 Feb 2020 08:38:28 -0800
+Received: from fmsmsx119.amr.corp.intel.com (10.18.124.207) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 5 Feb 2020 08:38:28 -0800
+Received: from bgsmsx110.gar.corp.intel.com (10.223.4.212) by
+ FMSMSX119.amr.corp.intel.com (10.18.124.207) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 5 Feb 2020 08:38:27 -0800
 Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.97]) by
- BGSMSX155.gar.corp.intel.com ([169.254.12.108]) with mapi id 14.03.0439.000;
- Wed, 5 Feb 2020 21:59:11 +0530
+ BGSMSX110.gar.corp.intel.com ([169.254.11.43]) with mapi id 14.03.0439.000;
+ Wed, 5 Feb 2020 22:08:24 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v3 06/17] drm/i915/dp: Read out DP SDPs (Secondary Data
- Packet)
-Thread-Topic: [PATCH v3 06/17] drm/i915/dp: Read out DP SDPs (Secondary Data
- Packet)
-Thread-Index: AQHV2uiVbcWDGifkoE+HEzt9tgWpiKgMy9cw
-Date: Wed, 5 Feb 2020 16:29:10 +0000
-Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DD00C@BGSMSX104.gar.corp.intel.com>
+Subject: RE: [Intel-gfx] [PATCH v3 07/17] drm: Add logging function for DP
+ VSC SDP
+Thread-Topic: [Intel-gfx] [PATCH v3 07/17] drm: Add logging function for DP
+ VSC SDP
+Thread-Index: AQHV2uiXR3iQR04AgUW19jaJznUaHqgMzw9A
+Date: Wed, 5 Feb 2020 16:38:24 +0000
+Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DD029@BGSMSX104.gar.corp.intel.com>
 References: <20200203232014.906651-1-gwan-gyeong.mun@intel.com>
- <20200203232014.906651-7-gwan-gyeong.mun@intel.com>
-In-Reply-To: <20200203232014.906651-7-gwan-gyeong.mun@intel.com>
+ <20200203232014.906651-8-gwan-gyeong.mun@intel.com>
+In-Reply-To: <20200203232014.906651-8-gwan-gyeong.mun@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNTYxMWRlNzUtOGFlZC00MzNlLThkYTMtMjhjOTM5NzIxMDA4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiRGdzekkrbkx4MnkwRmdJWnk1dGNiOXErMnphUUxOZFwvS2l5Y2xnTVNFWjJnQ1U2MWQ0aksxYkVMK2tPNEUrNDYifQ==
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZWZjMGUwY2MtOWEzYi00ZTM0LTk5YmMtYjViYWJhMmMyNGY5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiN0JvWFIyck9GazN6T1FjcjkyamQ4TmtJOGVOOHZCV2ptV3FvazVlbkFvTjJkeFhpMmMwVHFYcHljbHZcLzVEcSsifQ==
 dlp-product: dlpe-windows
 dlp-version: 11.2.0.6
 dlp-reaction: no-action
@@ -65,156 +68,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogZHJpLWRldmVsIDxkcmkt
-ZGV2ZWwtYm91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZiBHd2FuLQ0K
-PiBneWVvbmcgTXVuDQo+IFNlbnQ6IFR1ZXNkYXksIEZlYnJ1YXJ5IDQsIDIwMjAgNDo1MCBBTQ0K
-PiBUbzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBDYzogbGludXgtZmJkZXZA
-dmdlci5rZXJuZWwub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IFN1Ympl
-Y3Q6IFtQQVRDSCB2MyAwNi8xN10gZHJtL2k5MTUvZHA6IFJlYWQgb3V0IERQIFNEUHMgKFNlY29u
-ZGFyeSBEYXRhIFBhY2tldCkNCg0KRHJvcCB0aGUgY29udGVudCBpbiBicmFja2V0Lg0KDQo+IEl0
-IGFkZHMgY29kZSB0byByZWFkIHRoZSBEUCBTRFBzIGZyb20gdGhlIHZpZGVvIERJUCBhbmQgdW5w
-YWNrIHRoZW0gaW50byB0aGUgY3J0Yw0KPiBzdGF0ZS4NCj4gDQo+IEl0IGFkZHMgcm91dGluZXMg
-dGhhdCByZWFkIG91dCBEUCBWU0MgU0RQIGFuZCBEUCBIRFIgTWV0YWRhdGEgSW5mb2ZyYW1lIFNE
-UCBJbg0KPiBvcmRlciB0byB1bnBhY2sgRFAgVlNDIFNEUCwgaXQgYWRkcyBpbnRlbF9kcF92c2Nf
-c2RwX3VucGFjaygpIGZ1bmN0aW9uLg0KPiBJdCBmb2xsb3dzIERQIDEuNGEgc3BlYy4gW1RhYmxl
-IDItMTE2OiBWU0MgU0RQIEhlYWRlciBCeXRlc10gYW5kIFtUYWJsZSAyLTExNzogVlNDDQo+IFNE
-UCBQYXlsb2FkIGZvciBEQjE2IHRocm91Z2ggREIxOF0NCj4gDQo+IEluIG9yZGVyIHRvIHVucGFj
-ayBEUCBIRFIgTWV0YWRhdGEgSW5mb2ZyYW1lIFNEUCwgaXQgYWRkcw0KPiBpbnRlbF9kcF9oZHJf
-bWV0YWRhdGFfaW5mb2ZyYW1lX3NkcF91bnBhY2soKS4gQW5kIGl0IGZvbGxvd3MgRFAgMS40YSBz
-cGVjLg0KPiAoW1RhYmxlIDItMTI1OiBJTkZPRlJBTUUgU0RQIHYxLjIgSGVhZGVyIEJ5dGVzXSBh
-bmQgW1RhYmxlIDItMTI2OiBJTkZPRlJBTUUNCj4gU0RQIHYxLjIgUGF5bG9hZCBEYXRhIEJ5dGVz
-IC0gREIwIHRocm91Z2ggREIzMV0pIGFuZCBDVEEtODYxLUcgc3BlYy4gW1RhYmxlLTQyDQo+IER5
-bmFtaWMgUmFuZ2UgYW5kIE1hc3RlcmluZyBJbmZvRnJhbWVdLg0KPiANCj4gQSBuYW1laW5nIHJ1
-bGUgYW5kIHN0eWxlIG9mIGludGVsX3JlYWRfZHBfc2RwKCkgZnVuY3Rpb24gcmVmZXJlbmNlcw0K
-DQpUeXBvIGluIG5hbWluZy4NCg0KPiBpbnRlbF9yZWFkX2luZm9mcmFtZSgpIGZ1bmN0aW9uIG9m
-IGludGVsX2hkbWkuYw0KPiANCj4gdjI6IE1pbm9yIHN0eWxlIGZpeA0KPiB2MzogUmVwbGFjZSBh
-IHN0cnVjdHVyZSBuYW1lIHRvIGRybV9kcF92c2Nfc2RwIGZyb20gaW50ZWxfZHBfdnNjX3NkcA0K
-PiANCj4gU2lnbmVkLW9mZi1ieTogR3dhbi1neWVvbmcgTXVuIDxnd2FuLWd5ZW9uZy5tdW5AaW50
-ZWwuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
-YyB8IDE3MCArKysrKysrKysrKysrKysrKysrKysrKysNCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1
-L2Rpc3BsYXkvaW50ZWxfZHAuaCB8ICAgMyArDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDE3MyBpbnNl
-cnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kcC5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5j
-DQo+IGluZGV4IGRkN2U1NTg4MDAxZS4uZDRlY2UwYTgyNGMwIDEwMDY0NA0KPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMNCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+IEBAIC00OTI1LDYgKzQ5MjUsMTc2IEBAIHZv
-aWQgaW50ZWxfZHBfc2V0X2luZm9mcmFtZXMoc3RydWN0IGludGVsX2VuY29kZXINCj4gKmVuY29k
-ZXIsDQo+ICAJaW50ZWxfd3JpdGVfZHBfc2RwKGVuY29kZXIsIGNydGNfc3RhdGUsDQo+IEhETUlf
-UEFDS0VUX1RZUEVfR0FNVVRfTUVUQURBVEEpOyAgfQ0KPiANCj4gK3N0YXRpYyBpbnQgaW50ZWxf
-ZHBfdnNjX3NkcF91bnBhY2soc3RydWN0IGRybV9kcF92c2Nfc2RwICp2c2MsDQo+ICsJCQkJICAg
-Y29uc3Qgdm9pZCAqYnVmZmVyLCBzaXplX3Qgc2l6ZSkgew0KPiArCWNvbnN0IHN0cnVjdCBkcF9z
-ZHAgKnNkcCA9IGJ1ZmZlcjsNCj4gKw0KPiArCWlmIChzaXplIDwgc2l6ZW9mKHN0cnVjdCBkcF9z
-ZHApKQ0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gKw0KPiArCW1lbXNldCh2c2MsIDAsIHNpemUp
-Ow0KPiArDQo+ICsJaWYgKHNkcC0+c2RwX2hlYWRlci5IQjAgIT0gMCkNCj4gKwkJcmV0dXJuIC1F
-SU5WQUw7DQo+ICsNCj4gKwlpZiAoc2RwLT5zZHBfaGVhZGVyLkhCMSAhPSBEUF9TRFBfVlNDKQ0K
-PiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gKwl2c2MtPnNkcF90eXBlID0gc2RwLT5zZHBfaGVhZGVy
-LkhCMTsNCj4gKw0KPiArCWlmIChzZHAtPnNkcF9oZWFkZXIuSEIyID09IDB4MiAmJiBzZHAtPnNk
-cF9oZWFkZXIuSEIzID09IDB4OCkgew0KPiArCQl2c2MtPnJldmlzaW9uID0gc2RwLT5zZHBfaGVh
-ZGVyLkhCMjsNCj4gKwkJdnNjLT5sZW5ndGggPSBzZHAtPnNkcF9oZWFkZXIuSEIzOw0KPiArCX0g
-ZWxzZSBpZiAoc2RwLT5zZHBfaGVhZGVyLkhCMiA9PSAweDQgJiYgc2RwLT5zZHBfaGVhZGVyLkhC
-MyA9PSAweGUpIHsNCj4gKwkJdnNjLT5yZXZpc2lvbiA9IHNkcC0+c2RwX2hlYWRlci5IQjI7DQo+
-ICsJCXZzYy0+bGVuZ3RoID0gc2RwLT5zZHBfaGVhZGVyLkhCMzsNCj4gKwl9IGVsc2UgaWYgKHNk
-cC0+c2RwX2hlYWRlci5IQjIgPT0gMHg1ICYmIHNkcC0+c2RwX2hlYWRlci5IQjMgPT0gMHgxMykg
-ew0KPiArCQl2c2MtPnJldmlzaW9uID0gc2RwLT5zZHBfaGVhZGVyLkhCMjsNCj4gKwkJdnNjLT5s
-ZW5ndGggPSBzZHAtPnNkcF9oZWFkZXIuSEIzOw0KDQpUaGUgYWJvdmUgMiBsaW5lcyBjYW4gYmUg
-ZG9uZSB1bmNvbmRpdGlvbmFsbHksIG1heSBiZSBjb21iaW5lIHRoZSBpZiBjaGVja3MuDQoNCj4g
-KwkJdnNjLT5jb2xvcnNwYWNlID0gKHNkcC0+ZGJbMTZdID4+IDQpICYgMHhmOw0KPiArCQl2c2Mt
-PmNvbG9yaW1ldHJ5ID0gc2RwLT5kYlsxNl0gJiAweGY7DQo+ICsJCXZzYy0+ZHluYW1pY19yYW5n
-ZSA9IChzZHAtPmRiWzE3XSA+PiA3KSAmIDB4MTsNCj4gKw0KPiArCQlzd2l0Y2ggKHNkcC0+ZGJb
-MTddICYgMHg3KSB7DQo+ICsJCWNhc2UgMHgxOg0KPiArCQkJdnNjLT5icGMgPSA4Ow0KPiArCQkJ
-YnJlYWs7DQo+ICsJCWNhc2UgMHgyOg0KPiArCQkJdnNjLT5icGMgPSAxMDsNCj4gKwkJCWJyZWFr
-Ow0KPiArCQljYXNlIDB4MzoNCj4gKwkJCXZzYy0+YnBjID0gMTI7DQo+ICsJCQlicmVhazsNCj4g
-KwkJY2FzZSAweDQ6DQo+ICsJCQl2c2MtPmJwYyA9IDE2Ow0KPiArCQkJYnJlYWs7DQo+ICsJCWRl
-ZmF1bHQ6DQo+ICsJCQlNSVNTSU5HX0NBU0Uoc2RwLT5kYlsxN10gJiAweDcpOw0KDQpIYW5kbGUg
-NmJwYyBjYXNlIGFzIHdlbGwuDQoNCj4gKwkJCXJldHVybiAtRUlOVkFMOw0KPiArCQl9DQo+ICsN
-Cj4gKwkJdnNjLT5jb250ZW50X3R5cGUgPSBzZHAtPmRiWzE4XSAmIDB4NzsNCj4gKwl9IGVsc2Ug
-ew0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gKwl9DQo+ICsNCj4gKwlyZXR1cm4gMDsNCj4gK30N
-Cj4gKw0KPiArc3RhdGljIGludA0KPiAraW50ZWxfZHBfaGRyX21ldGFkYXRhX2luZm9mcmFtZV9z
-ZHBfdW5wYWNrKHN0cnVjdCBoZG1pX2RybV9pbmZvZnJhbWUNCj4gKmRybV9pbmZvZnJhbWUsDQo+
-ICsJCQkJCSAgIGNvbnN0IHZvaWQgKmJ1ZmZlciwgc2l6ZV90IHNpemUpIHsNCj4gKwlpbnQgcmV0
-Ow0KPiArDQo+ICsJY29uc3Qgc3RydWN0IGRwX3NkcCAqc2RwID0gYnVmZmVyOw0KPiArDQo+ICsJ
-aWYgKHNpemUgPCBzaXplb2Yoc3RydWN0IGRwX3NkcCkpDQo+ICsJCXJldHVybiAtRUlOVkFMOw0K
-PiArDQo+ICsJaWYgKHNkcC0+c2RwX2hlYWRlci5IQjAgIT0gMCkNCj4gKwkJcmV0dXJuIC1FSU5W
-QUw7DQo+ICsNCj4gKwlpZiAoc2RwLT5zZHBfaGVhZGVyLkhCMSAhPSBIRE1JX0lORk9GUkFNRV9U
-WVBFX0RSTSkNCj4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ICsNCj4gKwkvKg0KPiArCSAqIExlYXN0
-IFNpZ25pZmljYW50IEVpZ2h0IEJpdHMgb2YgKERhdGEgQnl0ZSBDb3VudCDigJMgMSkNCj4gKwkg
-KiAxRGggKGkuZS4sIERhdGEgQnl0ZSBDb3VudCA9IDMwIGJ5dGVzKS4NCj4gKwkgKi8NCj4gKwlp
-ZiAoc2RwLT5zZHBfaGVhZGVyLkhCMiAhPSAweDFEKQ0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4g
-Kw0KPiArCS8qIE1vc3QgU2lnbmlmaWNhbnQgVHdvIEJpdHMgb2YgKERhdGEgQnl0ZSBDb3VudCDi
-gJMgMSksIENsZWFyIHRvIDAwYi4gKi8NCj4gKwlpZiAoKHNkcC0+c2RwX2hlYWRlci5IQjMgJiAw
-eDMpICE9IDApDQo+ICsJCXJldHVybiAtRUlOVkFMOw0KPiArDQo+ICsJLyogSU5GT0ZSQU1FIFNE
-UCBWZXJzaW9uIE51bWJlciAqLw0KPiArCWlmICgoKHNkcC0+c2RwX2hlYWRlci5IQjMgPj4gMikg
-JiAweDNmKSAhPSAweDEzKQ0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gKw0KPiArCS8qIENUQSBI
-ZWFkZXIgQnl0ZSAyIChJTkZPRlJBTUUgVmVyc2lvbiBOdW1iZXIpICovDQo+ICsJaWYgKHNkcC0+
-ZGJbMF0gIT0gMSkNCj4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ICsNCj4gKwkvKiBDVEEgSGVhZGVy
-IEJ5dGUgMyAoTGVuZ3RoIG9mIElORk9GUkFNRSk6DQo+IEhETUlfRFJNX0lORk9GUkFNRV9TSVpF
-ICovDQo+ICsJaWYgKHNkcC0+ZGJbMV0gIT0gSERNSV9EUk1fSU5GT0ZSQU1FX1NJWkUpDQo+ICsJ
-CXJldHVybiAtRUlOVkFMOw0KPiArDQo+ICsJcmV0ID0gaGRtaV9kcm1faW5mb2ZyYW1lX3VucGFj
-a19vbmx5KGRybV9pbmZvZnJhbWUsICZzZHAtPmRiWzJdLA0KPiArCQkJCQkgICAgIEhETUlfRFJN
-X0lORk9GUkFNRV9TSVpFKTsNCj4gKw0KPiArCXJldHVybiByZXQ7DQo+ICt9DQo+ICsNCj4gK3N0
-YXRpYyB2b2lkIGludGVsX3JlYWRfZHBfdnNjX3NkcChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5j
-b2RlciwNCj4gKwkJCQkgIHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLA0KPiAr
-CQkJCSAgc3RydWN0IGRybV9kcF92c2Nfc2RwICp2c2MpDQo+ICt7DQo+ICsJc3RydWN0IGludGVs
-X2RpZ2l0YWxfcG9ydCAqaW50ZWxfZGlnX3BvcnQgPSBlbmNfdG9fZGlnX3BvcnQoZW5jb2Rlcik7
-DQo+ICsJc3RydWN0IGludGVsX2RwICppbnRlbF9kcCA9IGVuY190b19pbnRlbF9kcChlbmNvZGVy
-KTsNCj4gKwl1bnNpZ25lZCBpbnQgdHlwZSA9IERQX1NEUF9WU0M7DQo+ICsJc3RydWN0IGRwX3Nk
-cCBzZHAgPSB7fTsNCj4gKwlpbnQgcmV0Ow0KPiArDQo+ICsJLyogV2hlbiBQU1IgaXMgZW5hYmxl
-ZCwgVlNDIFNEUCBpcyBoYW5kbGVkIGJ5IFBTUiByb3V0aW5lICovDQo+ICsJaWYgKGludGVsX3Bz
-cl9lbmFibGVkKGludGVsX2RwKSkNCj4gKwkJcmV0dXJuOw0KPiArDQo+ICsJaWYgKChjcnRjX3N0
-YXRlLT5pbmZvZnJhbWVzLmVuYWJsZSAmDQo+ICsJICAgICBpbnRlbF9oZG1pX2luZm9mcmFtZV9l
-bmFibGUodHlwZSkpID09IDApDQo+ICsJCXJldHVybjsNCj4gKw0KPiArCWludGVsX2RpZ19wb3J0
-LT5yZWFkX2luZm9mcmFtZShlbmNvZGVyLCBjcnRjX3N0YXRlLCB0eXBlLCAmc2RwLA0KPiArc2l6
-ZW9mKHNkcCkpOw0KPiArDQo+ICsJcmV0ID0gaW50ZWxfZHBfdnNjX3NkcF91bnBhY2sodnNjLCAm
-c2RwLCBzaXplb2Yoc2RwKSk7DQo+ICsNCj4gKwlpZiAocmV0KQ0KPiArCQlEUk1fREVCVUdfS01T
-KCJGYWlsZWQgdG8gdW5wYWNrIERQIFZTQyBTRFBcbiIpOyB9DQo+ICsNCj4gK3N0YXRpYyB2b2lk
-IGludGVsX3JlYWRfZHBfaGRyX21ldGFkYXRhX2luZm9mcmFtZV9zZHAoc3RydWN0IGludGVsX2Vu
-Y29kZXINCj4gKmVuY29kZXIsDQo+ICsJCQkJCQkgICAgIHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRl
-DQo+ICpjcnRjX3N0YXRlLA0KPiArCQkJCQkJICAgICBzdHJ1Y3QgaGRtaV9kcm1faW5mb2ZyYW1l
-DQo+ICpkcm1faW5mb2ZyYW1lKSB7DQo+ICsJc3RydWN0IGludGVsX2RpZ2l0YWxfcG9ydCAqaW50
-ZWxfZGlnX3BvcnQgPSBlbmNfdG9fZGlnX3BvcnQoZW5jb2Rlcik7DQo+ICsJdW5zaWduZWQgaW50
-IHR5cGUgPSBIRE1JX1BBQ0tFVF9UWVBFX0dBTVVUX01FVEFEQVRBOw0KPiArCXN0cnVjdCBkcF9z
-ZHAgc2RwID0ge307DQo+ICsJaW50IHJldDsNCj4gKw0KPiArCWlmICgoY3J0Y19zdGF0ZS0+aW5m
-b2ZyYW1lcy5lbmFibGUgJg0KPiArCSAgICBpbnRlbF9oZG1pX2luZm9mcmFtZV9lbmFibGUodHlw
-ZSkpID09IDApDQo+ICsJCXJldHVybjsNCj4gKw0KPiArCWludGVsX2RpZ19wb3J0LT5yZWFkX2lu
-Zm9mcmFtZShlbmNvZGVyLCBjcnRjX3N0YXRlLCB0eXBlLCAmc2RwLA0KPiArCQkJCSAgICAgICBz
-aXplb2Yoc2RwKSk7DQo+ICsNCj4gKwlyZXQgPSBpbnRlbF9kcF9oZHJfbWV0YWRhdGFfaW5mb2Zy
-YW1lX3NkcF91bnBhY2soZHJtX2luZm9mcmFtZSwgJnNkcCwNCj4gKwkJCQkJCQkgc2l6ZW9mKHNk
-cCkpOw0KPiArDQo+ICsJaWYgKHJldCkNCj4gKwkJRFJNX0RFQlVHX0tNUygiRmFpbGVkIHRvIHVu
-cGFjayBEUCBIRFIgTWV0YWRhdGEgSW5mb2ZyYW1lDQo+IFNEUFxuIik7IH0NCj4gKw0KPiArdm9p
-ZCBpbnRlbF9yZWFkX2RwX3NkcChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwNCj4gKwkJ
-ICAgICAgIHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLA0KPiArCQkgICAgICAg
-dW5zaWduZWQgaW50IHR5cGUpDQo+ICt7DQo+ICsJc3dpdGNoICh0eXBlKSB7DQo+ICsJY2FzZSBE
-UF9TRFBfVlNDOg0KPiArCQlpbnRlbF9yZWFkX2RwX3ZzY19zZHAoZW5jb2RlciwgY3J0Y19zdGF0
-ZSwNCj4gKwkJCQkgICAgICAmY3J0Y19zdGF0ZS0+aW5mb2ZyYW1lcy52c2MpOw0KPiArCQlicmVh
-azsNCj4gKwljYXNlIEhETUlfUEFDS0VUX1RZUEVfR0FNVVRfTUVUQURBVEE6DQo+ICsJCWludGVs
-X3JlYWRfZHBfaGRyX21ldGFkYXRhX2luZm9mcmFtZV9zZHAoZW5jb2RlciwgY3J0Y19zdGF0ZSwN
-Cj4gKwkJCQkJCQkgJmNydGNfc3RhdGUtDQo+ID5pbmZvZnJhbWVzLmRybS5kcm0pOw0KPiArCQli
-cmVhazsNCj4gKwlkZWZhdWx0Og0KPiArCQlNSVNTSU5HX0NBU0UodHlwZSk7DQo+ICsJCWJyZWFr
-Ow0KPiArCX0NCj4gK30NCj4gKw0KPiAgc3RhdGljIHZvaWQNCj4gIGludGVsX2RwX3NldHVwX3Zz
-Y19zZHAoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwNCj4gIAkJICAgICAgIGNvbnN0IHN0cnVj
-dCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLCBkaWZmIC0tZ2l0DQo+IGEvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-ZGlzcGxheS9pbnRlbF9kcC5oDQo+IGluZGV4IDBkYzA5YTQ2M2VlMS4uZThmOWJhOTYyZDA5IDEw
-MDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmgNCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oDQo+IEBAIC0xMTks
-NiArMTE5LDkgQEAgdm9pZCBpbnRlbF9kcF9oZHJfbWV0YWRhdGFfZW5hYmxlKHN0cnVjdCBpbnRl
-bF9kcA0KPiAqaW50ZWxfZHAsICB2b2lkIGludGVsX2RwX3NldF9pbmZvZnJhbWVzKHN0cnVjdCBp
-bnRlbF9lbmNvZGVyICplbmNvZGVyLCBib29sDQo+IGVuYWJsZSwNCj4gIAkJCSAgICAgY29uc3Qg
-c3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsDQo+ICAJCQkgICAgIGNvbnN0IHN0
-cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlICpjb25uX3N0YXRlKTsNCj4gK3ZvaWQgaW50ZWxfcmVh
-ZF9kcF9zZHAoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsDQo+ICsJCSAgICAgICBzdHJ1
-Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwNCj4gKwkJICAgICAgIHVuc2lnbmVkIGlu
-dCB0eXBlKTsNCj4gIGJvb2wgaW50ZWxfZGlnaXRhbF9wb3J0X2Nvbm5lY3RlZChzdHJ1Y3QgaW50
-ZWxfZW5jb2RlciAqZW5jb2Rlcik7DQo+IA0KPiAgc3RhdGljIGlubGluZSB1bnNpZ25lZCBpbnQg
-aW50ZWxfZHBfdW51c2VkX2xhbmVfbWFzayhpbnQgbGFuZV9jb3VudCkNCj4gLS0NCj4gMi4yNC4x
-DQo+IA0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0K
-PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0DQo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcNCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+
+> -----Original Message-----
+> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Gwan-
+> gyeong Mun
+> Sent: Tuesday, February 4, 2020 4:50 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org; dri-devel@lists.freedesktop.org
+> Subject: [Intel-gfx] [PATCH v3 07/17] drm: Add logging function for DP VSC SDP
+> 
+> When receiving video it is very useful to be able to log DP VSC SDP.
+> This greatly simplifies debugging.
+> 
+> v2: Minor style fix
+> v3: Move logging functions to drm core [Jani N]
+
+Looks good to me.
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 174 ++++++++++++++++++++++++++++++++
+>  include/drm/drm_dp_helper.h     |   3 +
+>  2 files changed, 177 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 5a103e9b3c86..5e3aef8c32e0 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -1395,3 +1395,177 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8
+> dsc_dpcd[DP_DSC_RECEIVER_CAP_S
+>  	return num_bpc;
+>  }
+>  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
+> +
+> +static const char *dp_colorspace_get_name(enum dp_colorspace
+> +colorspace) {
+> +	if (colorspace < 0 || colorspace > DP_COLORSPACE_RESERVED)
+> +		return "Invalid";
+> +
+> +	switch (colorspace) {
+> +	case DP_COLORSPACE_RGB:
+> +		return "RGB";
+> +	case DP_COLORSPACE_YUV444:
+> +		return "YUV444";
+> +	case DP_COLORSPACE_YUV422:
+> +		return "YUV422";
+> +	case DP_COLORSPACE_YUV420:
+> +		return "YUV420";
+> +	case DP_COLORSPACE_Y_ONLY:
+> +		return "Y_ONLY";
+> +	case DP_COLORSPACE_RAW:
+> +		return "RAW";
+> +	default:
+> +		return "Reserved";
+> +	}
+> +}
+> +
+> +static const char *dp_colorimetry_get_name(enum dp_colorspace colorspace,
+> +					   enum dp_colorimetry colorimetry) {
+> +	if (colorspace < 0 || colorspace > DP_COLORSPACE_RESERVED)
+> +		return "Invalid";
+> +
+> +	switch (colorimetry) {
+> +	case DP_COLORIMETRY_DEFAULT:
+> +		switch (colorspace) {
+> +		case DP_COLORSPACE_RGB:
+> +			return "sRGB";
+> +		case DP_COLORSPACE_YUV444:
+> +		case DP_COLORSPACE_YUV422:
+> +		case DP_COLORSPACE_YUV420:
+> +			return "BT.601";
+> +		case DP_COLORSPACE_Y_ONLY:
+> +			return "DICOM PS3.14";
+> +		case DP_COLORSPACE_RAW:
+> +			return "Custom Color Profile";
+> +		default:
+> +			return "Reserved";
+> +		}
+> +	case DP_COLORIMETRY_RGB_WIDE_FIXED: /* and
+> DP_COLORIMETRY_BT709_YCC */
+> +		switch (colorspace) {
+> +		case DP_COLORSPACE_RGB:
+> +			return "Wide Fixed";
+> +		case DP_COLORSPACE_YUV444:
+> +		case DP_COLORSPACE_YUV422:
+> +		case DP_COLORSPACE_YUV420:
+> +			return "BT.709";
+> +		default:
+> +			return "Reserved";
+> +		}
+> +	case DP_COLORIMETRY_RGB_WIDE_FLOAT: /* and
+> DP_COLORIMETRY_XVYCC_601 */
+> +		switch (colorspace) {
+> +		case DP_COLORSPACE_RGB:
+> +			return "Wide Float";
+> +		case DP_COLORSPACE_YUV444:
+> +		case DP_COLORSPACE_YUV422:
+> +		case DP_COLORSPACE_YUV420:
+> +			return "xvYCC 601";
+> +		default:
+> +			return "Reserved";
+> +		}
+> +	case DP_COLORIMETRY_OPRGB: /* and DP_COLORIMETRY_XVYCC_709 */
+> +		switch (colorspace) {
+> +		case DP_COLORSPACE_RGB:
+> +			return "OpRGB";
+> +		case DP_COLORSPACE_YUV444:
+> +		case DP_COLORSPACE_YUV422:
+> +		case DP_COLORSPACE_YUV420:
+> +			return "xvYCC 709";
+> +		default:
+> +			return "Reserved";
+> +		}
+> +	case DP_COLORIMETRY_DCI_P3_RGB: /* and DP_COLORIMETRY_SYCC_601
+> */
+> +		switch (colorspace) {
+> +		case DP_COLORSPACE_RGB:
+> +			return "DCI-P3";
+> +		case DP_COLORSPACE_YUV444:
+> +		case DP_COLORSPACE_YUV422:
+> +		case DP_COLORSPACE_YUV420:
+> +			return "sYCC 601";
+> +		default:
+> +			return "Reserved";
+> +		}
+> +	case DP_COLORIMETRY_RGB_CUSTOM: /* and
+> DP_COLORIMETRY_OPYCC_601 */
+> +		switch (colorspace) {
+> +		case DP_COLORSPACE_RGB:
+> +			return "Custom Profile";
+> +		case DP_COLORSPACE_YUV444:
+> +		case DP_COLORSPACE_YUV422:
+> +		case DP_COLORSPACE_YUV420:
+> +			return "OpYCC 601";
+> +		default:
+> +			return "Reserved";
+> +		}
+> +	case DP_COLORIMETRY_BT2020_RGB: /* and
+> DP_COLORIMETRY_BT2020_CYCC */
+> +		switch (colorspace) {
+> +		case DP_COLORSPACE_RGB:
+> +			return "BT.2020 RGB";
+> +		case DP_COLORSPACE_YUV444:
+> +		case DP_COLORSPACE_YUV422:
+> +		case DP_COLORSPACE_YUV420:
+> +			return "BT.2020 CYCC";
+> +		default:
+> +			return "Reserved";
+> +		}
+> +	case DP_COLORIMETRY_BT2020_YCC:
+> +		switch (colorspace) {
+> +		case DP_COLORSPACE_YUV444:
+> +		case DP_COLORSPACE_YUV422:
+> +		case DP_COLORSPACE_YUV420:
+> +			return "BT.2020 YCC";
+> +		default:
+> +			return "Reserved";
+> +		}
+> +	default:
+> +		return "Invalid";
+> +	}
+> +}
+> +
+> +static const char *dp_dynamic_range_get_name(enum dp_dynamic_range
+> +dynamic_range) {
+> +	switch (dynamic_range) {
+> +	case DP_DYNAMIC_RANGE_VESA:
+> +		return "VESA range";
+> +	case DP_DYNAMIC_RANGE_CTA:
+> +		return "CTA range";
+> +	default:
+> +		return "Invalid";
+> +	}
+> +}
+> +
+> +static const char *dp_content_type_get_name(enum dp_content_type
+> +content_type) {
+> +	switch (content_type) {
+> +	case DP_CONTENT_TYPE_NOT_DEFINED:
+> +		return "Not defined";
+> +	case DP_CONTENT_TYPE_GRAPHICS:
+> +		return "Graphics";
+> +	case DP_CONTENT_TYPE_PHOTO:
+> +		return "Photo";
+> +	case DP_CONTENT_TYPE_VIDEO:
+> +		return "Video";
+> +	case DP_CONTENT_TYPE_GAME:
+> +		return "Game";
+> +	default:
+> +		return "Reserved";
+> +	}
+> +}
+> +
+> +void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
+> +			const struct drm_dp_vsc_sdp *vsc)
+> +{
+> +#define DP_SDP_LOG(fmt, ...) dev_printk(level, dev, fmt, ##__VA_ARGS__)
+> +	DP_SDP_LOG("DP SDP: %s, revision %u, length %u\n", "VSC",
+> +		   vsc->revision, vsc->length);
+> +	DP_SDP_LOG("    colorspace: %s\n",
+> +		   dp_colorspace_get_name(vsc->colorspace));
+> +	DP_SDP_LOG("    colorimetry: %s\n",
+> +		   dp_colorimetry_get_name(vsc->colorspace, vsc->colorimetry));
+> +	DP_SDP_LOG("    bpc: %u\n", vsc->bpc);
+> +	DP_SDP_LOG("    dynamic range: %s\n",
+> +		   dp_dynamic_range_get_name(vsc->dynamic_range));
+> +	DP_SDP_LOG("    content type: %s\n",
+> +		   dp_content_type_get_name(vsc->content_type));
+> +#undef DP_SDP_LOG
+> +}
+> +EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h index
+> c098727681fa..00b775df6241 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -1266,6 +1266,9 @@ struct drm_dp_vsc_sdp {
+>  	enum dp_content_type content_type;
+>  };
+> 
+> +void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
+> +			const struct drm_dp_vsc_sdp *vsc);
+> +
+>  int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+> 
+>  static inline int
+> --
+> 2.24.1
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
