@@ -1,57 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CF01528DA
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 11:07:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC544152915
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 11:26:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 164716F51D;
-	Wed,  5 Feb 2020 10:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B221D6F52A;
+	Wed,  5 Feb 2020 10:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40CA46F51D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 10:07:52 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id u6so1952877wrt.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 02:07:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kmN+kD4FSA2ah1VtoMNYp6bLpdHdftqa8imfp5qvFQQ=;
- b=uxf/4cY/d5W+AsY1/8m+Expm55bXJmtngFXF/rHWedksM3UV1Uqnw4P36T43Wxhnl/
- 6O8akDYn3n3HAzBLUpGu0izJUtiD6fAWnB4lCcRSGBbCO+R4Em5OXJR7owAENDJJIAj9
- DiUIb1l3suJk4ZcFTBJvN04tvEvYXu9k0XekjeRrh49oAXJve69+wUSvPAuj+G1VjqDq
- NMlA0I384Ho7Nwq2w4mO3jQXRzJCtorUIvSKctFGSe0Zwc7lPnm0VeQhh6xhKJ/FpHHN
- vLpsRjRhg6d6DQBR/w1yUs4Ti42eK42Y5LlrG7ijZ4NoHTxTdWrmSo0qvPMdNQZSN7WO
- LnNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=kmN+kD4FSA2ah1VtoMNYp6bLpdHdftqa8imfp5qvFQQ=;
- b=T+4ZN7Nk78swCsldfiG9b0natvGrUAotuUoCLwBWLVOIFFVI1OhT5233Sdz76/SjVI
- vfdoH/+c6GtCP+RMfhW/QUaywT39imeJNN2Mxsm++cFA0ScGfwIMWQvwg3yNvdSbiCtV
- PKr/kVRSjV4hEo9xGABVD7jUQHnpyuYcmrPH+D1SO/+Z+sthGMveLU3CXUB2EIotbsEq
- cqsNtUNqZWYm3StFm60BwDxZOEtqlSWN65AotHR0wreVQ79IE8W1V8Gw6hcE5G/qu1EL
- 5u1IGtPqgGiyttKzUECvOssUjpr1Jndwznpgq39Z8nn7cc/dQrcjuEBujNOUa3rY5YN8
- JG6w==
-X-Gm-Message-State: APjAAAWS3vVrFBMb5cs29pEZtRjLG1pQ+xC5J+xrfHamiAoGKyMNVkro
- b1RWgzHEnntxk0cEo8nqbyc=
-X-Google-Smtp-Source: APXvYqw8R2TaGaAU3fic2Um7fz5KY8Q5ydfOXnJm0vGUyK4eHmdddD90kmC2E19/Z2AkBgRXGcRgLg==
-X-Received: by 2002:adf:ee0c:: with SMTP id y12mr28029051wrn.341.1580897270947; 
- Wed, 05 Feb 2020 02:07:50 -0800 (PST)
-Received: from cizrna.lan ([109.72.12.137])
- by smtp.gmail.com with ESMTPSA id y6sm33749863wrl.17.2020.02.05.02.07.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 02:07:50 -0800 (PST)
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panfrost: Don't try to map on error faults
-Date: Wed,  5 Feb 2020 11:07:16 +0100
-Message-Id: <20200205100719.24999-1-tomeu.vizoso@collabora.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6536F52A
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 10:26:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580898363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc; bh=ty2qopoz5uFvayM3OqAA/q+IIy2XgdQGOmBn5/Sdrz8=;
+ b=hpYIBxFCmOO90E6shfbuz+a/ZKC7CJMgQZWmV2BSDXVlgkV+SCZzg46qlaS07uAxsk9Aom
+ BhrZztJhHv5a/JWjeWjcGiLuaDEnH9GtfVZYe7YImVc+AOWB37FLdwAYBOu1+RKs1NZrad
+ 6r9Ydu9sReSg5PDvzqFNpM+IUyRy7MY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-vJRFFA-wOqCyJns9a-gY-g-1; Wed, 05 Feb 2020 05:25:58 -0500
+X-MC-Unique: vJRFFA-wOqCyJns9a-gY-g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EB471075920;
+ Wed,  5 Feb 2020 10:25:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
+ [10.36.116.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8441E2135;
+ Wed,  5 Feb 2020 10:25:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id BCD69A1E0; Wed,  5 Feb 2020 11:25:52 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: ratelimit error logging
+Date: Wed,  5 Feb 2020 11:25:52 +0100
+Message-Id: <20200205102552.21409-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +54,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, gurchetansingh@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the exception type isn't one of the normal faults, don't try to map
-and instead go straight to a terminal fault.
+Avoid flooding the log in case we screw up badly.
 
-Otherwise, we can get flooded by kernel warnings and further faults.
-
-Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_vq.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index 763cfca886a7..80abddb4544c 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -596,8 +596,9 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
- 		source_id = (fault_status >> 16);
- 
- 		/* Page fault only */
--		if ((status & mask) == BIT(i)) {
--			WARN_ON(exception_type < 0xC1 || exception_type > 0xC4);
-+		if ((status & mask) == BIT(i) &&
-+		     exception_type >= 0xC1 &&
-+		     exception_type <= 0xC4) {
- 
- 			ret = panfrost_mmu_map_fault_addr(pfdev, i, addr);
- 			if (!ret) {
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 5914e79d3429..83f22933c3bb 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -212,9 +212,9 @@ void virtio_gpu_dequeue_ctrl_func(struct work_struct *work)
+ 			if (resp->type >= cpu_to_le32(VIRTIO_GPU_RESP_ERR_UNSPEC)) {
+ 				struct virtio_gpu_ctrl_hdr *cmd;
+ 				cmd = (struct virtio_gpu_ctrl_hdr *)entry->buf;
+-				DRM_ERROR("response 0x%x (command 0x%x)\n",
+-					  le32_to_cpu(resp->type),
+-					  le32_to_cpu(cmd->type));
++				DRM_ERROR_RATELIMITED("response 0x%x (command 0x%x)\n",
++						      le32_to_cpu(resp->type),
++						      le32_to_cpu(cmd->type));
+ 			} else
+ 				DRM_DEBUG("response 0x%x\n", le32_to_cpu(resp->type));
+ 		}
 -- 
-2.21.0
+2.18.1
 
 _______________________________________________
 dri-devel mailing list
