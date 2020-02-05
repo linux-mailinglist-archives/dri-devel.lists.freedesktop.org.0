@@ -2,93 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD581533CA
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 16:23:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154B915340A
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 16:40:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD4AD6F60D;
-	Wed,  5 Feb 2020 15:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84CD289BF6;
+	Wed,  5 Feb 2020 15:40:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on20619.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eae::619])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0C806F60C;
- Wed,  5 Feb 2020 15:22:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HLxrPpqnEor/kWrTb1j0mbQ476ujF57XmTKw66xyHnd+wmxLVLuwFgXP8Q6rNnbyQ8tUNhsxUEkKfQ6JperJ424MeuU+pqfpgvgKdpFJUWLKfTi/IPb9hK2zGfCtNjFXn9YUhIZIzcmdh0jYJ0ADfdrAnA3+XN8UqXn6uMCuqklz1gxBLRJkZ7pVzLDVchzfpxiEnw6Ck/AaMeV6tpnFxoAsTjC55H0kciJbrfAap1/3qmVgaMyXMa+ksMOGzCCu/Y1pxglfRvi2i1cPlntx3CrFPRWTCla/YJPm5P8ic2Og0PtZ0NCtimNZV7DC93VENIK/AVNjuMEQ7PGiPLDKSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Y+s8rIkgHrDO9Sfh3CLYknUHMco2W7iG7I6zMmsWZM=;
- b=YAC27biSFtaA1Gf9kbvyShGn7l+7RP0x0Y96hqzLujUggIU6YhaPFQ04kYltOcLt7M8GkqB6jfXqvNulI2+/fusY+LQgslouEnD9ZIJnDqy/dz6TyyNng8dYiWDSYA8ghaFNoNmMBmSHjbMFyzcv/Jf/pp0gZINZqA5BRbAYoNDx9wJZQKdwjaJxpTQerr8+7VVbZAmMROHnCHs0OaT32W9OhdQWv3cGHYds1yfxJW1sC9bFhKrFhMSH+I77BIygGEdFSEshr7/M7UrCXHyNusdj2tL15O4Uv+E+bfaSsEqPvDqtHrONkAjCPbKt4YmHWXfSqIinMOsBrNZfU5J1UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=permerror action=none header.from=amd.com; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Y+s8rIkgHrDO9Sfh3CLYknUHMco2W7iG7I6zMmsWZM=;
- b=kEK8xJx+UKn3uczxpqz38ilsRw47PEoo2YKWdIJcaHrrA4pOz88rcCPLcncEz33UNxnpWAqrlpdnhyNW4Bqt39+UDTl7McJDhPIoiamK8wBKa+GUYAIBXdpjTYagzbhRNaf0x93uxWb7fneIYCypjRzSvzGWu8EDtaeUPZB7MBg=
-Received: from DM5PR12CA0049.namprd12.prod.outlook.com (2603:10b6:3:103::11)
- by DM6PR12MB3001.namprd12.prod.outlook.com (2603:10b6:5:116::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21; Wed, 5 Feb
- 2020 15:22:54 +0000
-Received: from BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
- (2a01:111:f400:7eae::202) by DM5PR12CA0049.outlook.office365.com
- (2603:10b6:3:103::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21 via Frontend
- Transport; Wed, 5 Feb 2020 15:22:54 +0000
-Authentication-Results: spf=none (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=permerror action=none
- header.from=amd.com;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-Received: from SATLEXMB01.amd.com (165.204.84.17) by
- BN8NAM11FT032.mail.protection.outlook.com (10.13.177.88) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.2707.21 via Frontend Transport; Wed, 5 Feb 2020 15:22:53 +0000
-Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB01.amd.com
- (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Wed, 5 Feb 2020
- 09:22:53 -0600
-Received: from jzuo-linux.amd.com (10.180.168.240) by SATLEXMB02.amd.com
- (10.181.40.143) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
- Transport; Wed, 5 Feb 2020 09:22:52 -0600
-From: "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>
-To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH V6] drm: Add support for DP 1.4 Compliance edid corruption test
-Date: Wed, 5 Feb 2020 10:22:48 -0500
-Message-ID: <20200205152248.32419-1-Jerry.Zuo@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-yw1-xc33.google.com (mail-yw1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD17789B61;
+ Wed,  5 Feb 2020 15:40:09 +0000 (UTC)
+Received: by mail-yw1-xc33.google.com with SMTP id z141so2657576ywd.13;
+ Wed, 05 Feb 2020 07:40:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bohzs8AwVgU2iFXq9B+9l3fxUImITlOT2NR+ughqP3k=;
+ b=IcoCQJ4MeoflC721q6eA6SRzmBuAGPJD8dhg3Hz1uO9ozSY8AzlpNZ3TzUODDZ5AHr
+ tik7H5ugp6VsDpFQb8SnQLGB8ESnyqUrK1FHIBJ/00IKP++2locgsINIwEfnchRO9y+l
+ OWO5xKZgC1g+S35Ob0KmvqpEXicMR7cDgyArBvKgk8aI193sLE6nL87ej2IT21Rnd9YH
+ 56jsvFI7JMNSsAjd43Y/sCv86uI1ksn3wD3b3CvPZ+fpk36sYikeyRK5N7eel6UjAxBT
+ fWDjm45wI7rzdi9esMlbTczlNuavkmrnofg/Q/EbNrBWzHhwCTNxt8CsWvH+AwDEbQHw
+ 63Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bohzs8AwVgU2iFXq9B+9l3fxUImITlOT2NR+ughqP3k=;
+ b=K56IEYB/QUkIK8WTb+kFtb6uvaUHa0ZwJQywIKas1seOnplztDmVaz212p94zzK+4H
+ a3ejazBZsZ87hoeiGU64nCnx79n9jQs2T0/liWd5yCTO/TK+BsgHzhexcI4z9mjl59dV
+ 4PT3Ive+CxgI7cn2+zGCS2LzVcQdaA+kNjb09MbE6PMV9502Z+l5g16fa+1fvUyAP3Qj
+ JVQM3TAo6qB2uZuP2EDukRWANody24GbSumUmFmh5wyEFuT80UMdIsIAdCG6e1CbZqKG
+ vjeZlJMJLESlqDskbuKQNiZOeDuZB+U0JpV3A5PZKoD+K9ksF1VEZ+HxeeG3jlX/P2mJ
+ 4+dA==
+X-Gm-Message-State: APjAAAXWHc7GE9CqtBv7XgQIsF93H+bbSFE56/kbQ9cwoUTfgU3O1RTD
+ m+LyMPX0p/7MSgKy3Tmvg7q1S3fp
+X-Google-Smtp-Source: APXvYqyjteGbAvFxSbDJ5em3/tkhD/fGCA/rY5wPLQYEm0pg25BxqZ2ohwwgPzFErFNxHa1SEn0MXg==
+X-Received: by 2002:a25:c6c5:: with SMTP id
+ k188mr31164121ybf.204.1580917208710; 
+ Wed, 05 Feb 2020 07:40:08 -0800 (PST)
+Received: from tr4.amd.com (atlvpn.amd.com. [165.204.84.11])
+ by smtp.gmail.com with ESMTPSA id q185sm61256ywh.61.2020.02.05.07.40.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Feb 2020 07:40:08 -0800 (PST)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/15] amdgpu: remove load and unload callbacks (v2)
+Date: Wed,  5 Feb 2020 10:39:45 -0500
+Message-Id: <20200205154000.536145-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(396003)(376002)(346002)(136003)(428003)(199004)(189003)(81156014)(81166006)(426003)(2616005)(70206006)(478600001)(4326008)(186003)(8936002)(2906002)(8676002)(336012)(110136005)(7696005)(26005)(1076003)(356004)(5660300002)(316002)(6666004)(70586007)(86362001)(54906003)(36756003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3001; H:SATLEXMB01.amd.com; FPR:;
- SPF:None; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: df973918-ffd1-41db-3a9b-08d7aa4f4562
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3001:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB30014F074F03746D49023F2BE5020@DM6PR12MB3001.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1360;
-X-Forefront-PRVS: 0304E36CA3
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oU75onZnRueLoNCDBAADOTozDzn/JkPoVrHRy3RtS4ejKBN46cDhgSSslm8UTDECq1N4o7ziDEMyKw0H4Jp8paHPO6C+AFSgYYbkOml61Gw0FKYjT7U5sZSpT4eDmUhrfBFhOgtN98xR7d/w1jtXZFXuWBCG7SZwFSdmifteunDJUOdl8BvFFOvKugfoTvzDEXDk3qZtFBDez2z7bZwODGJcWs83+weyDBJ8WWrB8GfKUoeDfhVIDH9CcGPNCsBCLbadfGjwjny0pLg4w5AYfxtuEexoyluxJ5b3dhYR+ruhxxzdLQv/jfVPCrYT/r/lMYVfu1P1/QqIAwMTrBxcILCfVQ/s4578mxRt9bDBf7CW4Uy/9iQc74cnVJWYo7zB0ZHzM/7bG0gyk2Q8sgy6P+jOIzdZYrYyoZFasCTy3d0IUfmUz/Ce5JBQGPjC77yd
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2020 15:22:53.8977 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: df973918-ffd1-41db-3a9b-08d7aa4f4562
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB01.amd.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,195 +67,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rodrigo.siqueira@amd.com, manasi.d.navare@intel.com, Jerry.Zuo@amd.com,
- Alexander.Deucher@amd.com, nicholas.kazlauskas@amd.com
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlike DP 1.2 edid corruption test, DP 1.4 requires to calculate
-real CRC value of the last edid data block, and write it back.
-Current edid CRC calculates routine adds the last CRC byte,
-and check if non-zero.
+These are deprecated and the drm will soon start warning when drivers still
+use them.  It was a long and twisty road, but seems to work.
 
-This behavior is not accurate; actually, we need to return
-the actual CRC value when corruption is detected.
-This commit changes this issue by returning the calculated CRC,
-and initiate the required sequence.
+v2: Add additional patch (13/15) which should fix the crash reported by
+Thomas Zimmermann.
 
-Change since v6
-- Add return check
+Alex Deucher (15):
+  drm/amdgpu: rename amdgpu_debugfs_preempt_cleanup
+  drm/amdgpu/ttm: move debugfs init into core amdgpu debugfs
+  drm/amdgpu/pm: move debugfs init into core amdgpu debugfs
+  drm/amdgpu/sa: move debugfs init into core amdgpu debugfs
+  drm/amdgpu/fence: move debugfs init into core amdgpu debugfs
+  drm/amdgpu/gem: move debugfs init into core amdgpu debugfs
+  drm/amdgpu/regs: move debugfs init into core amdgpu debugfs
+  drm/amdgpu/firmware: move debugfs init into core amdgpu debugfs
+  drm/amdgpu: don't call drm_connector_register for non-MST ports
+  drm/amdgpu/display: move debugfs init into core amdgpu debugfs
+  drm/amd/display: move dpcd debugfs members setup
+  drm/amdgpu/display: add a late register connector callback
+  drm/amdgpu/display: split dp connector registration
+  drm/amdgpu/ring: move debugfs init into core amdgpu debugfs
+  drm/amdgpu: drop legacy drm load and unload callbacks
 
-Change since v5
-- Obtain real CRC value before dumping bad edid
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 11 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   | 67 ++++++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h   |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 17 -----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 13 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |  3 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c        |  7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h    |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c        |  9 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pm.h        |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c      | 15 +----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h      |  4 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 14 +---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |  3 +
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c      |  8 +--
+ drivers/gpu/drm/amd/amdgpu/dce_virtual.c      |  1 -
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 26 +++----
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  3 +
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 13 ++--
+ 19 files changed, 131 insertions(+), 88 deletions(-)
 
-Change since v4
-- Fix for CI.CHECKPATCH
-
-Change since v3
-- Fix a minor typo.
-
-Change since v2
-- Rewrite checksum computation routine to avoid duplicated code.
-- Rename to avoid confusion.
-
-Change since v1
-- Have separate routine for returning real CRC.
-
-Signed-off-by: Jerry (Fangzhi) Zuo <Jerry.Zuo@amd.com>
----
- drivers/gpu/drm/drm_dp_helper.c | 51 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_edid.c      | 23 ++++++++++++---
- include/drm/drm_connector.h     |  6 ++++
- include/drm/drm_dp_helper.h     |  3 ++
- 4 files changed, 79 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index f629fc5494a4..1efd609df402 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -351,6 +351,57 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
- }
- EXPORT_SYMBOL(drm_dp_dpcd_read_link_status);
- 
-+/**
-+ * drm_dp_send_real_edid_checksum() - send back real edid checksum value
-+ * @aux: DisplayPort AUX channel
-+ * @real_edid_checksum: real edid checksum for the last block
-+ *
-+ * Returns:
-+ * True on success
-+ */
-+bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
-+				    u8 real_edid_checksum)
-+{
-+	u8 link_edid_read = 0, auto_test_req = 0, test_resp = 0;
-+
-+	if (drm_dp_dpcd_read(aux, DP_DEVICE_SERVICE_IRQ_VECTOR, &auto_test_req, 1) < 1) {
-+		DRM_ERROR("DPCD failed read at register 0x%x\n", DP_DEVICE_SERVICE_IRQ_VECTOR);
-+		return false;
-+	}
-+	auto_test_req &= DP_AUTOMATED_TEST_REQUEST;
-+
-+	if (drm_dp_dpcd_read(aux, DP_TEST_REQUEST, &link_edid_read, 1) < 1) {
-+		DRM_ERROR("DPCD failed read at register 0x%x\n", DP_TEST_REQUEST);
-+		return false;
-+	}
-+	link_edid_read &= DP_TEST_LINK_EDID_READ;
-+
-+	if (!auto_test_req || !link_edid_read) {
-+		DRM_DEBUG_KMS("Source DUT does not support TEST_EDID_READ\n");
-+		return false;
-+	}
-+
-+	if (drm_dp_dpcd_write(aux, DP_DEVICE_SERVICE_IRQ_VECTOR, &auto_test_req, 1) < 1) {
-+		DRM_ERROR("DPCD failed write at register 0x%x\n", DP_DEVICE_SERVICE_IRQ_VECTOR);
-+		return false;
-+	}
-+
-+	/* send back checksum for the last edid extension block data */
-+	if (drm_dp_dpcd_write(aux, DP_TEST_EDID_CHECKSUM, &real_edid_checksum, 1) < 1) {
-+		DRM_ERROR("DPCD failed write at register 0x%x\n", DP_TEST_EDID_CHECKSUM);
-+		return false;
-+	}
-+
-+	test_resp |= DP_TEST_EDID_CHECKSUM_WRITE;
-+	if (drm_dp_dpcd_write(aux, DP_TEST_RESPONSE, &test_resp, 1) < 1) {
-+		DRM_ERROR("DPCD failed write at register 0x%x\n", DP_TEST_RESPONSE);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(drm_dp_send_real_edid_checksum);
-+
- /**
-  * drm_dp_downstream_max_clock() - extract branch device max
-  *                                 pixel rate for legacy VGA
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 99769d6c9f84..f064e75fb4c5 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1590,11 +1590,22 @@ static int validate_displayid(u8 *displayid, int length, int idx);
- static int drm_edid_block_checksum(const u8 *raw_edid)
- {
- 	int i;
--	u8 csum = 0;
--	for (i = 0; i < EDID_LENGTH; i++)
-+	u8 csum = 0, crc = 0;
-+
-+	for (i = 0; i < EDID_LENGTH - 1; i++)
- 		csum += raw_edid[i];
- 
--	return csum;
-+	crc = 0x100 - csum;
-+
-+	return crc;
-+}
-+
-+static bool drm_edid_block_checksum_diff(const u8 *raw_edid, u8 real_checksum)
-+{
-+	if (raw_edid[EDID_LENGTH - 1] != real_checksum)
-+		return true;
-+	else
-+		return false;
- }
- 
- static bool drm_edid_is_zero(const u8 *in_edid, int length)
-@@ -1652,7 +1663,7 @@ bool drm_edid_block_valid(u8 *raw_edid, int block, bool print_bad_edid,
- 	}
- 
- 	csum = drm_edid_block_checksum(raw_edid);
--	if (csum) {
-+	if (drm_edid_block_checksum_diff(raw_edid, csum)) {
- 		if (edid_corrupt)
- 			*edid_corrupt = true;
- 
-@@ -1793,6 +1804,10 @@ static void connector_bad_edid(struct drm_connector *connector,
- 			       u8 *edid, int num_blocks)
- {
- 	int i;
-+	u8 num_of_ext = edid[0x7e];
-+
-+	/* Calculate real checksum for the last edid extension block data */
-+	connector->real_edid_checksum = drm_edid_block_checksum(edid + num_of_ext * EDID_LENGTH);
- 
- 	if (connector->bad_edid_counter++ && !drm_debug_enabled(DRM_UT_KMS))
- 		return;
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 2113500b4075..b3815371c271 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1357,6 +1357,12 @@ struct drm_connector {
- 	 * rev1.1 4.2.2.6
- 	 */
- 	bool edid_corrupt;
-+	/**
-+	 * @real_edid_checksum: real edid checksum for corrupted edid block.
-+	 * Required in Displayport 1.4 compliance testing
-+	 * rev1.1 4.2.2.6
-+	 */
-+	u8 real_edid_checksum;
- 
- 	/** @debugfs_entry: debugfs directory for this connector */
- 	struct dentry *debugfs_entry;
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 127d6e1d3338..957a3d00ee05 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1459,6 +1459,9 @@ static inline ssize_t drm_dp_dpcd_writeb(struct drm_dp_aux *aux,
- int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
- 				 u8 status[DP_LINK_STATUS_SIZE]);
- 
-+bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
-+				    u8 real_edid_checksum);
-+
- int drm_dp_downstream_max_clock(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
- 				const u8 port_cap[4]);
- int drm_dp_downstream_max_bpc(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
 -- 
-2.17.1
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
