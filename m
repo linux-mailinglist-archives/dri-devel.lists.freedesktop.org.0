@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACA2153282
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 15:08:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 283571532BD
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 15:22:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F10E86E99E;
-	Wed,  5 Feb 2020 14:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFBA86F5C2;
+	Wed,  5 Feb 2020 14:22:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 40A206E9AB
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 14:08:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B51E31B;
- Wed,  5 Feb 2020 06:08:31 -0800 (PST)
-Received: from [10.1.195.32] (e112269-lin.cambridge.arm.com [10.1.195.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 841903F68E;
- Wed,  5 Feb 2020 06:08:30 -0800 (PST)
-Subject: Re: [PATCH 1/2] drm/panfrost: Make sure MMU context lifetime is not
- bound to panfrost_priv
-To: Boris Brezillon <boris.brezillon@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBD686F5C2
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 14:21:59 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8CC352946B1;
+ Wed,  5 Feb 2020 14:21:58 +0000 (GMT)
+Date: Wed, 5 Feb 2020 15:21:55 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH 2/2] drm/panfrost: Propagate panfrost_fence_create()
+ errors to the scheduler
+Message-ID: <20200205152155.2dee52a8@collabora.com>
+In-Reply-To: <184d57ff-9193-ce08-c248-5c1de801fa6a@arm.com>
 References: <20200204143504.135388-1-boris.brezillon@collabora.com>
- <b798bc8f-e8a9-01e9-e234-a8fdef290259@arm.com>
- <20200205150134.340a72c8@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <f80c8f6d-6099-5052-a2f3-6453d50b4571@arm.com>
-Date: Wed, 5 Feb 2020 14:08:29 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ <20200204143504.135388-2-boris.brezillon@collabora.com>
+ <184d57ff-9193-ce08-c248-5c1de801fa6a@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200205150134.340a72c8@collabora.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,87 +45,61 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Icecream95 <ixn@keemail.me>, stable@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+ Icecream95 <ixn@keemail.me>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/02/2020 14:01, Boris Brezillon wrote:
-> On Wed, 5 Feb 2020 13:39:21 +0000
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 04/02/2020 14:35, Boris Brezillon wrote:
->>> Jobs can be in-flight when the file descriptor is closed (either because
->>> the process did not terminate properly, or because it didn't wait for
->>> all GPU jobs to be finished), and apparently panfrost_job_close() does
->>> not cancel already running jobs. Let's refcount the MMU context object
->>> so it's lifetime is no longer bound to the FD lifetime and running jobs
->>> can finish properly without generating spurious page faults.  
->>
->> Is there any good reason not to just make panfrost_job_close() kill off
->> any running jobs?
-> 
-> Nope, I just didn't know how to do that without stopping all other jobs
-> (should have looked at how mali_kbase is doing that before posting this
-> patch :)).
+On Wed, 5 Feb 2020 13:47:55 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Yeah - this is an area Panfrost might need some improvement, you need to
-target the HARD_STOP carefully to ensure you kill of the correct jobs
-(and only the correct ones). It's not too difficult at the moment
-because we still don't have the _NEXT registers actively in use (I must
-get round to reposting that having fixed up the devfreq integration).
+> On 04/02/2020 14:35, Boris Brezillon wrote:
+> > ->job_run() can return an ERR_PTR() if somethings fails. Let's  
+> > propagate the error returned by panfrost_fence_create() instead of
+> > returning NULL.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
+> 
+> In your previous posting[1] you also handled the case where
+> job->base.s_fence->finished.error is non-zero. Is there a good reason to
+> drop that?
 
->> I'm not sure what the benefit is of allowing the jobs
->> to still run after the file descriptor has closed.
-> 
-> None that I can think of.
-> 
->>
->> In particular this could cause problems when(/if) Panfrost starts trying
->> to deal with "compute" work loads that might have long runtimes. It's
->> quite possible to produce a job which never (naturally) exits, currently
->> we have a simplistic timeout which kills anything which doesn't complete
->> promptly. However there is nothing conceptually wrong with a job which
->> takes seconds (or even minutes) to complete.
-> 
-> Absolutely. That was also one of my concerns.
-> 
->> The hardware has support
->> for task switching ('soft stopping') between jobs so this can be done to
->> prevent blocking other applications.
-> 
-> Okay. I guess it's implemented in mali_kbase. I'll have a look.
-> 
->>
->> If panfrost_job_close() doesn't kill the jobs then removing the timeouts
->> could lead to the situation where there is an 'infinite' job with no
->> owner and no way of killing it off. Which doesn't seem like a great
->> feature ;)
-> 
-> Didn't know you were planning to remove the timeouts.
+[2] has been applied in the meantime: returning NULL now preserves
+the finished.error field.
 
-Well I don't have any immediate plans, but when(/if) there's interest in
-compute the relatively short timeouts for graphics tend to get in the
-way. I'm not in a hurry to do it because it will make the scheduling
-more complex :)
-
->>
->> Another approach could be simply to silence the page fault output in
->> this case - switching the address space to UNMAPPED is actually an
->> effective way of killing jobs - at some point I think this was a
->> workaround to a hardware bug, but IIRC that was unreleased hardware :)
 > 
-> Okay. I'll check how it's done in mali_kbase.
+> [1] https://patchwork.kernel.org/patch/11267153/
+
+[2]https://patchwork.kernel.org/patch/11218399/
+
 > 
-> Thanks for the feedback.
+> But this change on its own stands, so:
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> 
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > index b0716e49eeca..242147b36d8e 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > @@ -349,7 +349,7 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
+> >  
+> >  	fence = panfrost_fence_create(pfdev, slot);
+> >  	if (IS_ERR(fence))
+> > -		return NULL;
+> > +		return fence;
+> >  
+> >  	if (job->done_fence)
+> >  		dma_fence_put(job->done_fence);
+> >   
+> 
 
-Let me know if you need any pointers about how mali_kbase does it - the
-code is not exactly the prettiest ;)
-
-Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
