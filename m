@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED70A153502
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 17:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2773153511
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 17:15:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF9DC6F63A;
-	Wed,  5 Feb 2020 16:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 671C789DD8;
+	Wed,  5 Feb 2020 16:15:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5975089CBA;
- Wed,  5 Feb 2020 16:09:48 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6798C89DD8;
+ Wed,  5 Feb 2020 16:15:25 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2020 08:09:47 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2020 08:15:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="220146152"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga007.jf.intel.com with ESMTP; 05 Feb 2020 08:09:47 -0800
-Received: from bgsmsx106.gar.corp.intel.com (10.223.43.196) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 5 Feb 2020 08:09:46 -0800
+X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="430202745"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by fmsmga005.fm.intel.com with ESMTP; 05 Feb 2020 08:15:24 -0800
+Received: from bgsmsx151.gar.corp.intel.com (10.224.48.42) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 5 Feb 2020 08:15:23 -0800
 Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.97]) by
- BGSMSX106.gar.corp.intel.com ([169.254.1.101]) with mapi id 14.03.0439.000;
- Wed, 5 Feb 2020 21:39:22 +0530
+ BGSMSX151.gar.corp.intel.com ([169.254.3.195]) with mapi id 14.03.0439.000;
+ Wed, 5 Feb 2020 21:45:20 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v3 04/17] drm/i915/dp: Add writing of DP SDPs (Secondary
- Data Packet)
-Thread-Topic: [PATCH v3 04/17] drm/i915/dp: Add writing of DP SDPs
- (Secondary Data Packet)
-Thread-Index: AQHV2uiQlLyZNdpXr0+p8L6L7lKCd6gMxO3g
-Date: Wed, 5 Feb 2020 16:09:21 +0000
-Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DCF97@BGSMSX104.gar.corp.intel.com>
+Subject: RE: [Intel-gfx] [PATCH v3 05/17] video/hdmi: Add Unpack only
+ function for DRM infoframe
+Thread-Topic: [Intel-gfx] [PATCH v3 05/17] video/hdmi: Add Unpack only
+ function for DRM infoframe
+Thread-Index: AQHV2uiUnKzAl91bA0m5gXp/wgTk0qgMyJig
+Date: Wed, 5 Feb 2020 16:15:20 +0000
+Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DCFBC@BGSMSX104.gar.corp.intel.com>
 References: <20200203232014.906651-1-gwan-gyeong.mun@intel.com>
- <20200203232014.906651-5-gwan-gyeong.mun@intel.com>
-In-Reply-To: <20200203232014.906651-5-gwan-gyeong.mun@intel.com>
+ <20200203232014.906651-6-gwan-gyeong.mun@intel.com>
+In-Reply-To: <20200203232014.906651-6-gwan-gyeong.mun@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYWIzNTViODgtNmM0Yi00YmQ0LTk1ZjYtNzM5MjFiZTg5ODU5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiQ2t4eWRzVkZzK0puQ2VtSmljeFBpNVpYNTNINlVQUHcwYlRWTUY5QVwvTmRzOXJjTXZ5RXlCZFwvQjlnZG9rMlVDIn0=
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMmVkMDcwZmQtYTY0YS00MDM0LTlkYzUtMWRkNjIxNTIwZTU2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNjUxN2huTEg4N3A3MkhQXC9MSHRNNEtJXC9iRkFETCtxQzljTnpxbkFcL1dJRGQra2gyWVdDMUNuXC9WeTBFbGs4clgifQ==
 dlp-product: dlpe-windows
 dlp-version: 11.2.0.6
 dlp-reaction: no-action
@@ -65,187 +65,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogZHJpLWRldmVsIDxkcmkt
-ZGV2ZWwtYm91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZiBHd2FuLQ0K
-PiBneWVvbmcgTXVuDQo+IFNlbnQ6IFR1ZXNkYXksIEZlYnJ1YXJ5IDQsIDIwMjAgNDo1MCBBTQ0K
-PiBUbzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBDYzogbGludXgtZmJkZXZA
-dmdlci5rZXJuZWwub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IFN1Ympl
-Y3Q6IFtQQVRDSCB2MyAwNC8xN10gZHJtL2k5MTUvZHA6IEFkZCB3cml0aW5nIG9mIERQIFNEUHMg
-KFNlY29uZGFyeSBEYXRhDQo+IFBhY2tldCkNCg0KRHJvcCB0aGluZ3MgaW4gKCksIG5vdCBuZWVk
-ZWQuDQoNCj4gSXQgYWRkcyByb3V0aW5lcyB0aGF0IHdyaXRlIERQIFZTQyBTRFAgYW5kIERQIEhE
-UiBNZXRhZGF0YSBJbmZvZnJhbWUgU0RQLg0KPiBJbiBvcmRlciB0byBwYWNrIERQIFZTQyBTRFAs
-IGl0IGFkZHMgaW50ZWxfZHBfdnNjX3NkcF9wYWNrKCkgZnVuY3Rpb24uDQo+IEl0IGZvbGxvd3Mg
-RFAgMS40YSBzcGVjLiBbVGFibGUgMi0xMTY6IFZTQyBTRFAgSGVhZGVyIEJ5dGVzXSBhbmQgW1Rh
-YmxlIDItMTE3OiBWU0MNCj4gU0RQIFBheWxvYWQgZm9yIERCMTYgdGhyb3VnaCBEQjE4XQ0KPiAN
-Cj4gSW4gb3JkZXIgdG8gcGFjayBEUCBIRFIgTWV0YWRhdGEgSW5mb2ZyYW1lIFNEUCwgaXQgYWRk
-cw0KPiBpbnRlbF9kcF9oZHJfbWV0YWRhdGFfaW5mb2ZyYW1lX3NkcF9wYWNrKCkgZnVuY3Rpb24u
-DQo+IEFuZCBpdCBmb2xsb3dzIERQIDEuNGEgc3BlYy4NCj4gKFtUYWJsZSAyLTEyNTogSU5GT0ZS
-QU1FIFNEUCB2MS4yIEhlYWRlciBCeXRlc10gYW5kIFtUYWJsZSAyLTEyNjogSU5GT0ZSQU1FDQo+
-IFNEUCB2MS4yIFBheWxvYWQgRGF0YSBCeXRlcyAtIERCMCB0aHJvdWdoIERCMzFdKSBhbmQgQ1RB
-LTg2MS1HIHNwZWMuIFtUYWJsZS00Mg0KPiBEeW5hbWljIFJhbmdlIGFuZCBNYXN0ZXJpbmcgSW5m
-b0ZyYW1lXS4NCj4gDQo+IEEgbWFjaGFuaXNtIGFuZCBhIG5hbWluZyBydWxlIG9mIGludGVsX2Rw
-X3NldF9pbmZvZnJhbWVzKCkgZnVuY3Rpb24gcmVmZXJlbmNlcw0KDQpUeXBvIGluIG1lY2hhbmlz
-bS4NCg0KPiBpbnRlbF9lbmNvZGVyLT5zZXRfaW5mb2ZyYW1lcygpIG9mIGludGVsX2hkbWkuYyAu
-DQo+IFZTQyBTRFAgaXMgdXNlZCBmb3IgUFNSIGFuZCBQaXhlbCBFbmNvZGluZyBhbmQgQ29sb3Jp
-bWV0cnkgRm9ybWF0cyBjYXNlcy4NCj4gQmVjYXVzZSBQU1Igcm91dGluZSBoYXMgaXRzIG93biBy
-b3V0aW5lIG9mIHdyaXRpbmcgYSBWU0MgU0RQLCB3aGVuIHRoZSBQU1IgaXMNCj4gZW5hYmxlZCwg
-aW50ZWxfZHBfc2V0X2luZm9mcmFtZXMoKSBkb2VzIG5vdCB3cml0ZSBhIFZTQyBTRFAuDQo+IA0K
-PiB2MzoNCj4gICAtIEV4cGxpY2l0bHkgZGlzYWJsZSB1bnVzZWQgRElQcyAoQVZJLCBHQ1AsIFZT
-LCBTUEQsIERSTS4gVGhleSB3aWxsIGJlDQo+ICAgICB1c2VkIGZvciBIRE1JKSwgd2hlbiBpbnRl
-bF9kcF9zZXRfaW5mb2ZyYW1lcygpIGZ1bmN0aW9uIHdpbGwgYmUgY2FsbGVkLg0KPiAgIC0gUmVw
-bGFjZSBhIHN0cnVjdHVyZSBuYW1lIHRvIGRybV9kcF92c2Nfc2RwIGZyb20gaW50ZWxfZHBfdnNj
-X3NkcC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEd3YW4tZ3llb25nIE11biA8Z3dhbi1neWVvbmcu
-bXVuQGludGVsLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2RwLmMgfCAxOTQgKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmggfCAgIDMgKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAx
-OTcgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2Rpc3BsYXkvaW50ZWxfZHAuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
-ZWxfZHAuYw0KPiBpbmRleCBiMjY1YjVjNTk5ZjIuLmRkN2U1NTg4MDAxZSAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYw0KPiBAQCAtNDczMSw2ICs0NzMxLDIw
-MCBAQCBpbnRlbF9kcF9uZWVkc192c2Nfc2RwKGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRl
-DQo+ICpjcnRjX3N0YXRlLA0KPiAgCXJldHVybiBmYWxzZTsNCj4gIH0NCj4gDQo+ICtzdGF0aWMg
-c3NpemVfdCBpbnRlbF9kcF92c2Nfc2RwX3BhY2soY29uc3Qgc3RydWN0IGRybV9kcF92c2Nfc2Rw
-ICp2c2MsDQo+ICsJCQkJICAgICBzdHJ1Y3QgZHBfc2RwICpzZHAsIHNpemVfdCBzaXplKSB7DQo+
-ICsJc2l6ZV90IGxlbmd0aCA9IHNpemVvZihzdHJ1Y3QgZHBfc2RwKTsNCj4gKw0KPiArCWlmIChz
-aXplIDwgbGVuZ3RoKQ0KPiArCQlyZXR1cm4gLUVOT1NQQzsNCj4gKw0KPiArCW1lbXNldChzZHAs
-IDAsIHNpemUpOw0KPiArDQo+ICsJLyoNCj4gKwkgKiBQcmVwYXJlIFZTQyBIZWFkZXIgZm9yIFNV
-IGFzIHBlciBEUCAxLjRhIHNwZWMsIFRhYmxlIDItMTE5DQo+ICsJICogVlNDIFNEUCBIZWFkZXIg
-Qnl0ZXMNCj4gKwkgKi8NCj4gKwlzZHAtPnNkcF9oZWFkZXIuSEIwID0gMDsgLyogU2Vjb25kYXJ5
-LURhdGEgUGFja2V0IElEID0gMCAqLw0KPiArCXNkcC0+c2RwX2hlYWRlci5IQjEgPSB2c2MtPnNk
-cF90eXBlOyAvKiBTZWNvbmRhcnktZGF0YSBQYWNrZXQgVHlwZSAqLw0KPiArCXNkcC0+c2RwX2hl
-YWRlci5IQjIgPSB2c2MtPnJldmlzaW9uOyAvKiBSZXZpc2lvbiBOdW1iZXIgKi8NCj4gKwlzZHAt
-PnNkcF9oZWFkZXIuSEIzID0gdnNjLT5sZW5ndGg7IC8qIE51bWJlciBvZiBWYWxpZCBEYXRhIEJ5
-dGVzICovDQo+ICsNCj4gKwkvKiBWU0MgU0RQIFBheWxvYWQgZm9yIERCMTYgdGhyb3VnaCBEQjE4
-ICovDQo+ICsJLyogUGl4ZWwgRW5jb2RpbmcgYW5kIENvbG9yaW1ldHJ5IEZvcm1hdHMgICovDQo+
-ICsJc2RwLT5kYlsxNl0gPSAodnNjLT5jb2xvcnNwYWNlICYgMHhmKSA8PCA0OyAvKiBEQjE2Wzc6
-NF0gKi8NCj4gKwlzZHAtPmRiWzE2XSB8PSB2c2MtPmNvbG9yaW1ldHJ5ICYgMHhmOyAvKiBEQjE2
-WzM6MF0gKi8NCj4gKw0KPiArCXN3aXRjaCAodnNjLT5icGMpIHsNCj4gKwljYXNlIDg6DQo+ICsJ
-CXNkcC0+ZGJbMTddID0gMHgxOyAvKiBEQjE3WzM6MF0gKi8NCj4gKwkJYnJlYWs7DQo+ICsJY2Fz
-ZSAxMDoNCj4gKwkJc2RwLT5kYlsxN10gPSAweDI7DQo+ICsJCWJyZWFrOw0KPiArCWNhc2UgMTI6
-DQo+ICsJCXNkcC0+ZGJbMTddID0gMHgzOw0KPiArCQlicmVhazsNCj4gKwljYXNlIDE2Og0KPiAr
-CQlzZHAtPmRiWzE3XSA9IDB4NDsNCj4gKwkJYnJlYWs7DQo+ICsJZGVmYXVsdDoNCj4gKwkJTUlT
-U0lOR19DQVNFKHZzYy0+YnBjKTsNCg0KNmJwYyBpcyBub3QgaGFuZGxlZCBoZXJlLCBhZGQgdGhh
-dCBhcyB3ZWxsLg0KDQo+ICsJCWJyZWFrOw0KPiArCX0NCj4gKwkvKiBEeW5hbWljIFJhbmdlIGFu
-ZCBDb21wb25lbnQgQml0IERlcHRoICovDQo+ICsJaWYgKHZzYy0+ZHluYW1pY19yYW5nZSA9PSBE
-UF9EWU5BTUlDX1JBTkdFX0NUQSkNCj4gKwkJc2RwLT5kYlsxN10gfD0gMHg4MDsgIC8qIERCMTdb
-N10gKi8NCj4gKw0KPiArCS8qIENvbnRlbnQgVHlwZSAqLw0KPiArCXNkcC0+ZGJbMThdID0gdnNj
-LT5jb250ZW50X3R5cGUgJiAweDc7DQo+ICsNCj4gKwlyZXR1cm4gbGVuZ3RoOw0KPiArfQ0KPiAr
-DQo+ICtzdGF0aWMgc3NpemVfdA0KPiAraW50ZWxfZHBfaGRyX21ldGFkYXRhX2luZm9mcmFtZV9z
-ZHBfcGFjayhjb25zdCBzdHJ1Y3QgaGRtaV9kcm1faW5mb2ZyYW1lDQo+ICpkcm1faW5mb2ZyYW1l
-LA0KPiArCQkJCQkgc3RydWN0IGRwX3NkcCAqc2RwLA0KPiArCQkJCQkgc2l6ZV90IHNpemUpDQo+
-ICt7DQo+ICsJc2l6ZV90IGxlbmd0aCA9IHNpemVvZihzdHJ1Y3QgZHBfc2RwKTsNCj4gKwljb25z
-dCBpbnQgaW5mb2ZyYW1lX3NpemUgPSBIRE1JX0lORk9GUkFNRV9IRUFERVJfU0laRSArDQo+IEhE
-TUlfRFJNX0lORk9GUkFNRV9TSVpFOw0KPiArCXVuc2lnbmVkIGNoYXIgYnVmW0hETUlfSU5GT0ZS
-QU1FX0hFQURFUl9TSVpFICsNCj4gSERNSV9EUk1fSU5GT0ZSQU1FX1NJWkVdOw0KPiArCXNzaXpl
-X3QgbGVuOw0KPiArDQo+ICsJaWYgKHNpemUgPCBsZW5ndGgpDQo+ICsJCXJldHVybiAtRU5PU1BD
-Ow0KPiArDQo+ICsJbWVtc2V0KHNkcCwgMCwgc2l6ZSk7DQo+ICsNCj4gKwlsZW4gPSBoZG1pX2Ry
-bV9pbmZvZnJhbWVfcGFja19vbmx5KGRybV9pbmZvZnJhbWUsIGJ1Ziwgc2l6ZW9mKGJ1ZikpOw0K
-PiArCWlmIChsZW4gPCAwKSB7DQo+ICsJCURSTV9ERUJVR19LTVMoImJ1ZmZlciBzaXplIGlzIHNt
-YWxsZXIgdGhhbiBoZHIgbWV0YWRhdGENCj4gaW5mb2ZyYW1lXG4iKTsNCj4gKwkJcmV0dXJuIC1F
-Tk9TUEM7DQo+ICsJfQ0KPiArDQo+ICsJaWYgKGxlbiAhPSBpbmZvZnJhbWVfc2l6ZSkgew0KPiAr
-CQlEUk1fREVCVUdfS01TKCJ3cm9uZyBzdGF0aWMgaGRyIG1ldGFkYXRhIHNpemVcbiIpOw0KPiAr
-CQlyZXR1cm4gLUVOT1NQQzsNCj4gKwl9DQo+ICsNCj4gKwkvKg0KPiArCSAqIFNldCB1cCB0aGUg
-aW5mb2ZyYW1lIHNkcCBwYWNrZXQgZm9yIEhEUiBzdGF0aWMgbWV0YWRhdGEuDQo+ICsJICogUHJl
-cGFyZSBWU0MgSGVhZGVyIGZvciBTVSBhcyBwZXIgRFAgMS40YSBzcGVjLA0KPiArCSAqIFRhYmxl
-IDItMTAwIGFuZCBUYWJsZSAyLTEwMQ0KPiArCSAqLw0KPiArDQo+ICsJLyogU2Vjb25kYXJ5LURh
-dGEgUGFja2V0IElELCAwMGggZm9yIG5vbi1BdWRpbyBJTkZPRlJBTUUgKi8NCj4gKwlzZHAtPnNk
-cF9oZWFkZXIuSEIwID0gMDsNCj4gKwkvKg0KPiArCSAqIFBhY2tldCBUeXBlIDgwaCArIE5vbi1h
-dWRpbyBJTkZPRlJBTUUgVHlwZSB2YWx1ZQ0KPiArCSAqIEhETUlfSU5GT0ZSQU1FX1RZUEVfRFJN
-OiAweDg3DQo+ICsJICogLSA4MGggKyBOb24tYXVkaW8gSU5GT0ZSQU1FIFR5cGUgdmFsdWUNCj4g
-KwkgKiAtIEluZm9GcmFtZSBUeXBlOiAweDA3DQo+ICsJICogICAgW0NUQS04NjEtRyBUYWJsZS00
-MiBEeW5hbWljIFJhbmdlIGFuZCBNYXN0ZXJpbmcgSW5mb0ZyYW1lXQ0KPiArCSAqLw0KPiArCXNk
-cC0+c2RwX2hlYWRlci5IQjEgPSBkcm1faW5mb2ZyYW1lLT50eXBlOw0KPiArCS8qDQo+ICsJICog
-TGVhc3QgU2lnbmlmaWNhbnQgRWlnaHQgQml0cyBvZiAoRGF0YSBCeXRlIENvdW50IOKAkyAxKQ0K
-PiArCSAqIGluZm9mcmFtZV9zaXplIC0gMQ0KPiArCSAqLw0KPiArCXNkcC0+c2RwX2hlYWRlci5I
-QjIgPSAweDFEOw0KPiArCS8qIElORk9GUkFNRSBTRFAgVmVyc2lvbiBOdW1iZXIgKi8NCj4gKwlz
-ZHAtPnNkcF9oZWFkZXIuSEIzID0gKDB4MTMgPDwgMik7DQo+ICsJLyogQ1RBIEhlYWRlciBCeXRl
-IDIgKElORk9GUkFNRSBWZXJzaW9uIE51bWJlcikgKi8NCj4gKwlzZHAtPmRiWzBdID0gZHJtX2lu
-Zm9mcmFtZS0+dmVyc2lvbjsNCj4gKwkvKiBDVEEgSGVhZGVyIEJ5dGUgMyAoTGVuZ3RoIG9mIElO
-Rk9GUkFNRSk6DQo+IEhETUlfRFJNX0lORk9GUkFNRV9TSVpFICovDQo+ICsJc2RwLT5kYlsxXSA9
-IGRybV9pbmZvZnJhbWUtPmxlbmd0aDsNCj4gKwkvKg0KPiArCSAqIENvcHkgSERNSV9EUk1fSU5G
-T0ZSQU1FX1NJWkUgc2l6ZSBmcm9tIGEgYnVmZmVyIGFmdGVyDQoNCkNvbW1lbnQgTG9va3MgaW5j
-b21wbGV0ZS4NCg0KPiArCSAqLw0KPiArCUJVSUxEX0JVR19PTihzaXplb2Yoc2RwLT5kYikgPCBI
-RE1JX0RSTV9JTkZPRlJBTUVfU0laRSArIDIpOw0KPiArCW1lbWNweSgmc2RwLT5kYlsyXSwgJmJ1
-ZltIRE1JX0lORk9GUkFNRV9IRUFERVJfU0laRV0sDQo+ICsJICAgICAgIEhETUlfRFJNX0lORk9G
-UkFNRV9TSVpFKTsNCj4gKw0KPiArCS8qDQo+ICsJICogU2l6ZSBvZiBEUCBpbmZvZnJhbWUgc2Rw
-IHBhY2tldCBmb3IgSERSIHN0YXRpYyBtZXRhZGF0YSBpcyBjb25zaXN0IG9mDQoNCkRyb3AgImlz
-Ig0KDQo+ICsJICogLSBEUCBTRFAgSGVhZGVyKHN0cnVjdCBkcF9zZHBfaGVhZGVyKTogNCBieXRl
-cw0KPiArCSAqIC0gVHdvIERhdGEgQmxvY2tzOiAyIGJ5dGVzDQo+ICsJICogICAgQ1RBIEhlYWRl
-ciBCeXRlMiAoSU5GT0ZSQU1FIFZlcnNpb24gTnVtYmVyKQ0KPiArCSAqICAgIENUQSBIZWFkZXIg
-Qnl0ZTMgKExlbmd0aCBvZiBJTkZPRlJBTUUpDQo+ICsJICogLSBIRE1JX0RSTV9JTkZPRlJBTUVf
-U0laRTogMjYgYnl0ZXMNCj4gKwkgKg0KPiArCSAqIFByaW9yIHRvIEdFTjExJ3MgR01QIHJlZ2lz
-dGVyIHNpemUgaXMgaWRlbnRpY2FsIHRvIERQIEhEUiBzdGF0aWMgbWV0YWRhdGENCj4gKwkgKiBp
-bmZvZnJhbWUgc2l6ZS4gQnV0IEdFTjExKyBoYXMgbGFyZ2VyIHRoYW4gdGhhdCBzaXplLCB3cml0
-ZV9pbmZvZnJhbWUNCj4gKwkgKiB3aWxsIHBhZCByZXN0IG9mIHRoZSBzaXplLg0KPiArCSAqLw0K
-PiArCXJldHVybiBzaXplb2Yoc3RydWN0IGRwX3NkcF9oZWFkZXIpICsgMiArIEhETUlfRFJNX0lO
-Rk9GUkFNRV9TSVpFOyB9DQo+ICsNCj4gK3N0YXRpYyB2b2lkIGludGVsX3dyaXRlX2RwX3NkcChz
-dHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwNCj4gKwkJCSAgICAgICBjb25zdCBzdHJ1Y3Qg
-aW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwNCj4gKwkJCSAgICAgICB1bnNpZ25lZCBpbnQg
-dHlwZSkNCj4gK3sNCj4gKwlzdHJ1Y3QgaW50ZWxfZGlnaXRhbF9wb3J0ICppbnRlbF9kaWdfcG9y
-dCA9IGVuY190b19kaWdfcG9ydChlbmNvZGVyKTsNCj4gKwlzdHJ1Y3QgZHBfc2RwIHNkcCA9IHt9
-Ow0KPiArCXNzaXplX3QgbGVuOw0KPiArDQo+ICsJaWYgKChjcnRjX3N0YXRlLT5pbmZvZnJhbWVz
-LmVuYWJsZSAmDQo+ICsJICAgICBpbnRlbF9oZG1pX2luZm9mcmFtZV9lbmFibGUodHlwZSkpID09
-IDApDQo+ICsJCXJldHVybjsNCj4gKw0KPiArCXN3aXRjaCAodHlwZSkgew0KPiArCWNhc2UgRFBf
-U0RQX1ZTQzoNCj4gKwkJbGVuID0gaW50ZWxfZHBfdnNjX3NkcF9wYWNrKCZjcnRjX3N0YXRlLT5p
-bmZvZnJhbWVzLnZzYywgJnNkcCwNCj4gKwkJCQkJICAgIHNpemVvZihzZHApKTsNCj4gKwkJYnJl
-YWs7DQo+ICsJY2FzZSBIRE1JX1BBQ0tFVF9UWVBFX0dBTVVUX01FVEFEQVRBOg0KPiArCQlsZW4g
-PSBpbnRlbF9kcF9oZHJfbWV0YWRhdGFfaW5mb2ZyYW1lX3NkcF9wYWNrKCZjcnRjX3N0YXRlLQ0K
-PiA+aW5mb2ZyYW1lcy5kcm0uZHJtLA0KPiArCQkJCQkJCSAgICAgICAmc2RwLCBzaXplb2Yoc2Rw
-KSk7DQo+ICsJCWJyZWFrOw0KPiArCWRlZmF1bHQ6DQo+ICsJCU1JU1NJTkdfQ0FTRSh0eXBlKTsN
-Cj4gKwkJYnJlYWs7DQo+ICsJfQ0KPiArDQo+ICsJaWYgKFdBUk5fT04obGVuIDwgMCkpDQo+ICsJ
-CXJldHVybjsNCj4gKw0KPiArCWludGVsX2RpZ19wb3J0LT53cml0ZV9pbmZvZnJhbWUoZW5jb2Rl
-ciwgY3J0Y19zdGF0ZSwgdHlwZSwgJnNkcCwgbGVuKTsNCj4gK30NCj4gKw0KPiArdm9pZCBpbnRl
-bF9kcF9zZXRfaW5mb2ZyYW1lcyhzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwNCj4gKwkJ
-CSAgICAgYm9vbCBlbmFibGUsDQo+ICsJCQkgICAgIGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0
-YXRlICpjcnRjX3N0YXRlLA0KPiArCQkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9z
-dGF0ZSAqY29ubl9zdGF0ZSkgew0KPiArCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJp
-diA9IHRvX2k5MTUoZW5jb2Rlci0+YmFzZS5kZXYpOw0KPiArCXN0cnVjdCBpbnRlbF9kcCAqaW50
-ZWxfZHAgPSBlbmNfdG9faW50ZWxfZHAoZW5jb2Rlcik7DQo+ICsJaTkxNV9yZWdfdCByZWcgPSBI
-U1dfVFZJREVPX0RJUF9DVEwoY3J0Y19zdGF0ZS0+Y3B1X3RyYW5zY29kZXIpOw0KPiArCXUzMiBk
-aXBfZW5hYmxlID0gVklERU9fRElQX0VOQUJMRV9BVklfSFNXIHwNCj4gVklERU9fRElQX0VOQUJM
-RV9HQ1BfSFNXIHwNCj4gKwkJCSBWSURFT19ESVBfRU5BQkxFX1ZTX0hTVyB8DQo+IFZJREVPX0RJ
-UF9FTkFCTEVfR01QX0hTVyB8DQo+ICsJCQkgVklERU9fRElQX0VOQUJMRV9TUERfSFNXIHwNCj4g
-VklERU9fRElQX0VOQUJMRV9EUk1fR0xLOw0KPiArCXUzMiB2YWwgPSBJOTE1X1JFQUQocmVnKTsN
-Cj4gKw0KPiArCS8qIFRPRE86IEFkZCBEU0MgY2FzZSAoRElQX0VOQUJMRV9QUFMpICovDQo+ICsJ
-LyogV2hlbiBQU1IgaXMgZW5hYmxlZCwgdGhpcyByb3V0aW5lIGRvZXNuJ3QgZGlzYWJsZSBWU0Mg
-RElQICovDQo+ICsJaWYgKGludGVsX3Bzcl9lbmFibGVkKGludGVsX2RwKSkNCj4gKwkJdmFsICY9
-IH5kaXBfZW5hYmxlOw0KPiArCWVsc2UNCj4gKwkJdmFsICY9IH4oZGlwX2VuYWJsZSB8IFZJREVP
-X0RJUF9FTkFCTEVfVlNDX0hTVyk7DQoNCmRpcF9lbmFibGUgaGFzIFZJREVPX0RJUF9FTkFCTEVf
-VlNDX0hTVyBhbHJlYWR5IGluIGl0LiBQbGVhc2UgZml4IHRoaXMuDQoNCj4gKw0KPiArCWlmICgh
-ZW5hYmxlKSB7DQo+ICsJCUk5MTVfV1JJVEUocmVnLCB2YWwpOw0KPiArCQlQT1NUSU5HX1JFQUQo
-cmVnKTsNCj4gKwkJcmV0dXJuOw0KPiArCX0NCj4gKw0KPiArCUk5MTVfV1JJVEUocmVnLCB2YWwp
-Ow0KPiArCVBPU1RJTkdfUkVBRChyZWcpOw0KPiArDQo+ICsJLyogV2hlbiBQU1IgaXMgZW5hYmxl
-ZCwgVlNDIFNEUCBpcyBoYW5kbGVkIGJ5IFBTUiByb3V0aW5lICovDQo+ICsJaWYgKCFpbnRlbF9w
-c3JfZW5hYmxlZChpbnRlbF9kcCkpDQo+ICsJCWludGVsX3dyaXRlX2RwX3NkcChlbmNvZGVyLCBj
-cnRjX3N0YXRlLCBEUF9TRFBfVlNDKTsNCj4gKw0KPiArCWludGVsX3dyaXRlX2RwX3NkcChlbmNv
-ZGVyLCBjcnRjX3N0YXRlLA0KPiArSERNSV9QQUNLRVRfVFlQRV9HQU1VVF9NRVRBREFUQSk7IH0N
-Cj4gKw0KPiAgc3RhdGljIHZvaWQNCj4gIGludGVsX2RwX3NldHVwX3ZzY19zZHAoc3RydWN0IGlu
-dGVsX2RwICppbnRlbF9kcCwNCj4gIAkJICAgICAgIGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0
-YXRlICpjcnRjX3N0YXRlLCBkaWZmIC0tZ2l0DQo+IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kcC5oDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9k
-cC5oDQo+IGluZGV4IDNkYTE2NjA1NDc4OC4uMGRjMDlhNDYzZWUxIDEwMDY0NA0KPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmgNCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oDQo+IEBAIC0xMTYsNiArMTE2LDkgQEAgdm9p
-ZCBpbnRlbF9kcF92c2NfZW5hYmxlKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsICB2b2lkDQo+
-IGludGVsX2RwX2hkcl9tZXRhZGF0YV9lbmFibGUoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwN
-Cj4gIAkJCQkgIGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLA0KPiAg
-CQkJCSAgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5fc3RhdGUpOw0KPiAr
-dm9pZCBpbnRlbF9kcF9zZXRfaW5mb2ZyYW1lcyhzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2Rl
-ciwgYm9vbCBlbmFibGUsDQo+ICsJCQkgICAgIGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRl
-ICpjcnRjX3N0YXRlLA0KPiArCQkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0
-ZSAqY29ubl9zdGF0ZSk7DQo+ICBib29sIGludGVsX2RpZ2l0YWxfcG9ydF9jb25uZWN0ZWQoc3Ry
-dWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIpOw0KPiANCj4gIHN0YXRpYyBpbmxpbmUgdW5zaWdu
-ZWQgaW50IGludGVsX2RwX3VudXNlZF9sYW5lX21hc2soaW50IGxhbmVfY291bnQpDQo+IC0tDQo+
-IDIuMjQuMQ0KPiANCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18NCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdA0KPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnDQo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+
+
+> -----Original Message-----
+> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Gwan-
+> gyeong Mun
+> Sent: Tuesday, February 4, 2020 4:50 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org; dri-devel@lists.freedesktop.org
+> Subject: [Intel-gfx] [PATCH v3 05/17] video/hdmi: Add Unpack only function for DRM
+> infoframe
+> 
+> It adds an unpack only function for DRM infoframe for dynamic range and mastering
+> infoframe readout.
+> It unpacks the information data block contained in the binary buffer into a structured
+> frame of the HDMI Dynamic Range and Mastering (DRM) information frame.
+> 
+> In contrast to hdmi_drm_infoframe_unpack() function, it does not verify a
+> checksum.
+> 
+> It can be used for unpacking a DP HDR Metadata Infoframe SDP case.
+> DP HDR Metadata Infoframe SDP uses the same Dynamic Range and Mastering
+> (DRM) information (CTA-861-G spec.) such as HDMI DRM infoframe.
+> But DP SDP header and payload structure are different from HDMI DRM Infoframe.
+> Therefore unpacking DRM infoframe for DP requires skipping of a verifying
+> checksum.
+
+Looks good to me.
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> ---
+>  drivers/video/hdmi.c | 58 +++++++++++++++++++++++++++++++-------------
+>  include/linux/hdmi.h |  2 ++
+>  2 files changed, 43 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c index
+> 9c82e2a0a411..9818836d82b7 100644
+> --- a/drivers/video/hdmi.c
+> +++ b/drivers/video/hdmi.c
+> @@ -1775,20 +1775,18 @@ hdmi_vendor_any_infoframe_unpack(union
+> hdmi_vendor_any_infoframe *frame,  }
+> 
+>  /**
+> - * hdmi_drm_infoframe_unpack() - unpack binary buffer to a HDMI DRM infoframe
+> + * hdmi_drm_infoframe_unpack_only() - unpack binary buffer to a HDMI
+> + DRM infoframe
+>   * @frame: HDMI DRM infoframe
+>   * @buffer: source buffer
+>   * @size: size of buffer
+>   *
+> - * Unpacks the information contained in binary @buffer into a structured
+> + * Unpacks the information data block contained in binary @buffer into
+> + a structured
+>   * @frame of the HDMI Dynamic Range and Mastering (DRM) information frame.
+> - * Also verifies the checksum as required by section 5.3.5 of the HDMI 1.4
+> - * specification.
+>   *
+>   * Returns 0 on success or a negative error code on failure.
+>   */
+> -static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
+> -				     const void *buffer, size_t size)
+> +int hdmi_drm_infoframe_unpack_only(struct hdmi_drm_infoframe *frame,
+> +				   const void *buffer, size_t size)
+>  {
+>  	const u8 *ptr = buffer;
+>  	const u8 *temp;
+> @@ -1797,23 +1795,13 @@ static int hdmi_drm_infoframe_unpack(struct
+> hdmi_drm_infoframe *frame,
+>  	int ret;
+>  	int i;
+> 
+> -	if (size < HDMI_INFOFRAME_SIZE(DRM))
+> -		return -EINVAL;
+> -
+> -	if (ptr[0] != HDMI_INFOFRAME_TYPE_DRM ||
+> -	    ptr[1] != 1 ||
+> -	    ptr[2] != HDMI_DRM_INFOFRAME_SIZE)
+> -		return -EINVAL;
+> -
+> -	if (hdmi_infoframe_checksum(buffer, HDMI_INFOFRAME_SIZE(DRM)) != 0)
+> +	if (size < HDMI_DRM_INFOFRAME_SIZE)
+>  		return -EINVAL;
+> 
+>  	ret = hdmi_drm_infoframe_init(frame);
+>  	if (ret)
+>  		return ret;
+> 
+> -	ptr += HDMI_INFOFRAME_HEADER_SIZE;
+> -
+>  	frame->eotf = ptr[0] & 0x7;
+>  	frame->metadata_type = ptr[1] & 0x7;
+> 
+> @@ -1837,6 +1825,42 @@ static int hdmi_drm_infoframe_unpack(struct
+> hdmi_drm_infoframe *frame,
+> 
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(hdmi_drm_infoframe_unpack_only);
+> +
+> +/**
+> + * hdmi_drm_infoframe_unpack() - unpack binary buffer to a HDMI DRM
+> +infoframe
+> + * @frame: HDMI DRM infoframe
+> + * @buffer: source buffer
+> + * @size: size of buffer
+> + *
+> + * Unpacks the information contained in binary @buffer into a
+> +structured
+> + * @frame of the HDMI Dynamic Range and Mastering (DRM) information frame.
+> + * Also verifies the checksum as required by section 5.3.5 of the HDMI
+> +1.4
+> + * specification.
+> + *
+> + * Returns 0 on success or a negative error code on failure.
+> + */
+> +static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
+> +				     const void *buffer, size_t size) {
+> +	const u8 *ptr = buffer;
+> +	int ret;
+> +
+> +	if (size < HDMI_INFOFRAME_SIZE(DRM))
+> +		return -EINVAL;
+> +
+> +	if (ptr[0] != HDMI_INFOFRAME_TYPE_DRM ||
+> +	    ptr[1] != 1 ||
+> +	    ptr[2] != HDMI_DRM_INFOFRAME_SIZE)
+> +		return -EINVAL;
+> +
+> +	if (hdmi_infoframe_checksum(buffer, HDMI_INFOFRAME_SIZE(DRM)) != 0)
+> +		return -EINVAL;
+> +
+> +	ret = hdmi_drm_infoframe_unpack_only(frame, ptr +
+> HDMI_INFOFRAME_HEADER_SIZE,
+> +					     size - HDMI_INFOFRAME_HEADER_SIZE);
+> +	return ret;
+> +}
+> 
+>  /**
+>   * hdmi_infoframe_unpack() - unpack binary buffer to a HDMI infoframe diff --git
+> a/include/linux/hdmi.h b/include/linux/hdmi.h index 9918a6c910c5..afb43efc03e0
+> 100644
+> --- a/include/linux/hdmi.h
+> +++ b/include/linux/hdmi.h
+> @@ -219,6 +219,8 @@ ssize_t hdmi_drm_infoframe_pack(struct
+> hdmi_drm_infoframe *frame, void *buffer,  ssize_t
+> hdmi_drm_infoframe_pack_only(const struct hdmi_drm_infoframe *frame,
+>  				     void *buffer, size_t size);
+>  int hdmi_drm_infoframe_check(struct hdmi_drm_infoframe *frame);
+> +int hdmi_drm_infoframe_unpack_only(struct hdmi_drm_infoframe *frame,
+> +				   const void *buffer, size_t size);
+> 
+>  enum hdmi_spd_sdi {
+>  	HDMI_SPD_SDI_UNKNOWN,
+> --
+> 2.24.1
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
