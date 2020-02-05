@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBCF15389C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 20:02:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F181538E5
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 20:19:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72FCE6E9CC;
-	Wed,  5 Feb 2020 19:02:32 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C29F56E9CC
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 19:02:31 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id x2so2785584ila.9
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 11:02:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0626E9DE;
+	Wed,  5 Feb 2020 19:19:49 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
+ [IPv6:2607:f8b0:4864:20::e43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7E756E9DE
+ for <dri-devel@freedesktop.org>; Wed,  5 Feb 2020 19:19:47 +0000 (UTC)
+Received: by mail-vs1-xe43.google.com with SMTP id k188so2104731vsc.8
+ for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:19:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NFFmVcVESEfwSn2A/244mgSc36NuR/2W0Tkvm0b+8y8=;
- b=OkchdjsZNX5fOzLnoUuy87cUuoKByubZ2zqOERnwR9hKX8hukkCmV8HCsiT0Arwhqh
- O3u9tIDy2LybmWCTmCT2t6gZkyGkqHAe44Iz/NgWrgghuk72FiEkhGsKXBwAe7MREQnP
- 9O3smUse0EtCi7RJE2RRNhWI3fQMJwh3UhJhHutolJpbCE+w4TSFfGqPpxdb7kG51xYS
- W2ZpdBe8R0FeOw5HfCQLhmkt6rPo1ibCRSBEg6/O4W7XUwE6nvpNca5Whcb6Cy40v5ip
- 34/JEifRWbqP0vThcUQFmYe7iD4JZsM8IbEXOmS2lfT02z3oNYd4U3NS9p3e9u99LbDr
- yI9g==
+ :cc; bh=mevmQ6k3Ihmv8r7EI3IwBN79KI6v2gp2UE5ATwyofr0=;
+ b=BuyExxOHNOnGw0g31bLqy0gVGWAXxG3djserMGkbzccG82zvt+a2/8Sqzj9jTg+Asa
+ 2upuVHfTuyxd4DU4e3VS+64pnwjwhNe/J8UtYPtwP/hwbQ2Of2yNZIjQyTe42b6laPAb
+ Oa7DZNT5TuIoIpdt1rU89W3v4zmQUoQWR0r1E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NFFmVcVESEfwSn2A/244mgSc36NuR/2W0Tkvm0b+8y8=;
- b=YVVR3UK3pDOjIraf8R0fjrtM2DLoxvaDOEXEZEkIrzwYMGzg5I2P8NjZg0jVJe5pi5
- fK3XQiwEtk9SAuKSVuXqfIw0PLyH5JNM1tZyPphSQjH8rBWLLFQ0gQqURPfGOkOD0SPM
- wG3frmCOUrAaXDe/6GWFMGYjScLt+sVmpoa/dFBP22xCJ88BosNns8s3zH15y5gQEgUu
- 80CHwaeltkjvxLgCkDKMPU4iupVXKKwDAYqtUjIGgvPGZgbSQFC6WYX+TgKlhGimNunh
- HgscFhhi6umwXMB8l55oYxupFyH5O82VkeTR7L4MJ6W+WluDXrjregVLwx6/cKgVxWCc
- XGpw==
-X-Gm-Message-State: APjAAAVC5xV9R00bsQPClIFt3uM6RI6aXEo/FJgv5/dsbdGC/TRasBZZ
- IW1oq0YLt6P0bpP3ZuOubTGvHYC++adO+j+gYqzJ/c5a
-X-Google-Smtp-Source: APXvYqyp9wuSn6/5IMsbRVub/R5YxR28vshgim22WfgXtRPHIQYjj4RUu6bWJWFTvDN/70errdbBVIhzy+NuDtuJv0s=
-X-Received: by 2002:a92:9ac5:: with SMTP id c66mr35877612ill.232.1580929350686; 
- Wed, 05 Feb 2020 11:02:30 -0800 (PST)
+ bh=mevmQ6k3Ihmv8r7EI3IwBN79KI6v2gp2UE5ATwyofr0=;
+ b=FI8PDMfxcSFrKN1hkQu1EnGIVrEJzQDzZxrStJMT/FZjpfqI22JGKrMGYvLsCDQywO
+ /R5np3DAwXtt7V7QSYNmS8kKHBpwyncinRHblf8FiOa3mSp1tAEiK5WJaD46eNO3aXgz
+ FluewVRCEyupVzT9vOCPl3Yos19k4KCrt37oECsD5kk47vZDRZMF3PQFPzZIdxJnp4mD
+ FelUNOey3h7KkCxir5fqbxdYmLcPWUATISCU6vvBvEEScGqsXzdkhhWTvg+7I3beFx6U
+ 0xGoyfWkj4XWoQKzewin2f5kQCQ6sLnb1HrMHpdXyyOWr+PZe7AsT0yyg0rfGsocYGQH
+ v8gA==
+X-Gm-Message-State: APjAAAX8h413K/NqXyUCT+9SjaTqhkNAOEEbiN6tHnbcXOTPXIpXNBBp
+ pMu9J88Mg1lo+ROl1jTvki6Vfk+zpAI=
+X-Google-Smtp-Source: APXvYqyE95mYgxcgXmxqDIaSOqLX9Jky9gg1q8geAsJs10r56CQp5K3WYZIiB2g0FJCAToq1uiB/Jw==
+X-Received: by 2002:a05:6102:757:: with SMTP id
+ v23mr23645194vsg.35.1580930386157; 
+ Wed, 05 Feb 2020 11:19:46 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com.
+ [209.85.222.45])
+ by smtp.gmail.com with ESMTPSA id p7sm258104vsd.32.2020.02.05.11.19.44
+ for <dri-devel@freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Feb 2020 11:19:45 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id h32so1297895uah.4
+ for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:19:44 -0800 (PST)
+X-Received: by 2002:a9f:300a:: with SMTP id h10mr14335806uab.91.1580930384495; 
+ Wed, 05 Feb 2020 11:19:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20200205105955.28143-1-kraxel@redhat.com>
- <20200205105955.28143-3-kraxel@redhat.com>
-In-Reply-To: <20200205105955.28143-3-kraxel@redhat.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Wed, 5 Feb 2020 11:02:19 -0800
-Message-ID: <CAPaKu7SCk_3yeTtzFTTU_y-tyo8EDS7vR8i+mk829=0D-UjLQA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/virtio: resource teardown tweaks
-To: Gerd Hoffmann <kraxel@redhat.com>
+References: <1580886097-6312-1-git-send-email-smasetty@codeaurora.org>
+ <1580886097-6312-4-git-send-email-smasetty@codeaurora.org>
+In-Reply-To: <1580886097-6312-4-git-send-email-smasetty@codeaurora.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 5 Feb 2020 11:19:33 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UEQ0mOXuDrSZrcJ8g6jb0eLf1Ttn+Mn7T6d2TpCMUcuA@mail.gmail.com>
+Message-ID: <CAD=FV=UEQ0mOXuDrSZrcJ8g6jb0eLf1Ttn+Mn7T6d2TpCMUcuA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
+To: Sharat Masetty <smasetty@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,168 +70,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 5, 2020 at 3:00 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+Hi,
+
+On Tue, Feb 4, 2020 at 11:02 PM Sharat Masetty <smasetty@codeaurora.org> wrote:
 >
-> Add new virtio_gpu_cleanup_object() helper function for object cleanup.
-> Wire up callback function for resource unref, do cleanup from callback
-> when we know the host stopped using the resource.
+> This patch adds the required dt nodes and properties
+> to enabled A618 GPU.
 >
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
 > ---
->  drivers/gpu/drm/virtio/virtgpu_drv.h    |  3 ++-
->  drivers/gpu/drm/virtio/virtgpu_object.c | 19 ++++++++++----
->  drivers/gpu/drm/virtio/virtgpu_vq.c     | 35 ++++++++++++++++++++++---
->  3 files changed, 48 insertions(+), 9 deletions(-)
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 102 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 102 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> index 7e69c06e168e..372dd248cf02 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -262,7 +262,7 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
->                                     struct virtio_gpu_object_array *objs,
->                                     struct virtio_gpu_fence *fence);
->  void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
-> -                                  uint32_t resource_id);
-> +                                  struct virtio_gpu_object *bo);
->  void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
->                                         uint64_t offset,
->                                         uint32_t width, uint32_t height,
-> @@ -355,6 +355,7 @@ void virtio_gpu_fence_event_process(struct virtio_gpu_device *vdev,
->                                     u64 last_seq);
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index f3fcc5c..63fff15 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -1043,6 +1043,108 @@
+>                         };
+>                 };
 >
->  /* virtio_gpu_object */
-> +void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo);
->  struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
->                                                 size_t size);
->  int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index 017a9e0fc3bb..28a161af7503 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -61,6 +61,14 @@ static void virtio_gpu_resource_id_put(struct virtio_gpu_device *vgdev, uint32_t
->         }
->  }
->
-> +void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
-> +{
-> +       struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
+> +               gpu: gpu@5000000 {
+> +                       compatible = "qcom,adreno-618.0", "qcom,adreno";
+> +                       #stream-id-cells = <16>;
+> +                       reg = <0 0x05000000 0 0x40000>, <0 0x0509e000 0 0x1000>,
+> +                               <0 0x05061000 0 0x800>;
+> +                       reg-names = "kgsl_3d0_reg_memory", "cx_mem", "cx_dbgc";
+> +                       interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
+> +                       iommus = <&adreno_smmu 0>;
+> +                       operating-points-v2 = <&gpu_opp_table>;
+> +                       qcom,gmu = <&gmu>;
 > +
-> +       virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
-> +       drm_gem_shmem_free_object(&bo->base.base);
-> +}
+> +                       gpu_opp_table: opp-table {
+> +                               compatible = "operating-points-v2";
 > +
->  static void virtio_gpu_free_object(struct drm_gem_object *obj)
->  {
->         struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-> @@ -68,11 +76,12 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
->
->         if (bo->pages)
->                 virtio_gpu_object_detach(vgdev, bo);
-> -       if (bo->created)
-> -               virtio_gpu_cmd_unref_resource(vgdev, bo->hw_res_handle);
-> -       virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
-> -
-> -       drm_gem_shmem_free_object(obj);
-> +       if (bo->created) {
-> +               virtio_gpu_cmd_unref_resource(vgdev, bo);
-> +               /* completion handler calls virtio_gpu_cleanup_object() */
-nitpick: we don't need this comment when virtio_gpu_cmd_unref_cb is
-defined by this file and passed to virtio_gpu_cmd_unref_resource.
-
-I happen to be looking at our error handling paths.  I think we want
-virtio_gpu_queue_fenced_ctrl_buffer to call vbuf->resp_cb on errors.
-
-
-> +               return;
-> +       }
-> +       virtio_gpu_cleanup_object(bo);
->  }
->
->  static const struct drm_gem_object_funcs virtio_gpu_gem_funcs = {
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-> index 6d6d55dc384e..6e8097e4c214 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-> @@ -152,6 +152,15 @@ static void *virtio_gpu_alloc_cmd(struct virtio_gpu_device *vgdev,
->                                          sizeof(struct virtio_gpu_ctrl_hdr), NULL);
->  }
->
-> +static void *virtio_gpu_alloc_cmd_cb(struct virtio_gpu_device *vgdev,
-> +                                    struct virtio_gpu_vbuffer **vbuffer_p,
-> +                                    int size,
-> +                                    virtio_gpu_resp_cb cb)
-> +{
-> +       return virtio_gpu_alloc_cmd_resp(vgdev, cb, vbuffer_p, size,
-> +                                        sizeof(struct virtio_gpu_ctrl_hdr), NULL);
-> +}
+> +                               opp-800000000 {
+> +                                       opp-hz = /bits/ 64 <800000000>;
+> +                                       opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
+> +                               };
 > +
->  static void free_vbuf(struct virtio_gpu_device *vgdev,
->                       struct virtio_gpu_vbuffer *vbuf)
->  {
-> @@ -494,17 +503,37 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
->         bo->created = true;
->  }
->
-> +static void virtio_gpu_cmd_unref_cb(struct virtio_gpu_device *vgdev,
-> +                                   struct virtio_gpu_vbuffer *vbuf)
-> +{
-> +       struct virtio_gpu_object *bo;
+> +                               opp-650000000 {
+> +                                       opp-hz = /bits/ 64 <650000000>;
+> +                                       opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
+> +                               };
 > +
-> +       bo = gem_to_virtio_gpu_obj(vbuf->objs->objs[0]);
-> +       kfree(vbuf->objs);
-> +       vbuf->objs = NULL;
+> +                               opp-565000000 {
+> +                                       opp-hz = /bits/ 64 <565000000>;
+> +                                       opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
+> +                               };
 > +
-> +       virtio_gpu_cleanup_object(bo);
-> +}
+> +                               opp-430000000 {
+> +                                       opp-hz = /bits/ 64 <430000000>;
+> +                                       opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+> +                               };
 > +
->  void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
-> -                                  uint32_t resource_id)
-> +                                  struct virtio_gpu_object *bo)
->  {
->         struct virtio_gpu_resource_unref *cmd_p;
->         struct virtio_gpu_vbuffer *vbuf;
->
-> -       cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
-> +       cmd_p = virtio_gpu_alloc_cmd_cb(vgdev, &vbuf, sizeof(*cmd_p),
-> +                                       virtio_gpu_cmd_unref_cb);
->         memset(cmd_p, 0, sizeof(*cmd_p));
->
->         cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_UNREF);
-> -       cmd_p->resource_id = cpu_to_le32(resource_id);
-> +       cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
+> +                               opp-355000000 {
+> +                                       opp-hz = /bits/ 64 <355000000>;
+> +                                       opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+> +                               };
 > +
-> +       /*
-> +        * We are in the release callback and do NOT want refcount
-> +        * bo, so do NOT use virtio_gpu_array_add_obj().
-> +        */
-> +       vbuf->objs = virtio_gpu_array_alloc(1);
-> +       vbuf->objs->objs[0] = &bo->base.base
-This is an abuse of obj array.  Add "void *private_data;" to
-virtio_gpu_vbuffer and use that maybe?
+> +                               opp-267000000 {
+> +                                       opp-hz = /bits/ 64 <267000000>;
+> +                                       opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+> +                               };
+> +
+> +                               opp-180000000 {
+> +                                       opp-hz = /bits/ 64 <180000000>;
+> +                                       opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
+> +                               };
+> +                       };
+> +               };
+> +
+> +               adreno_smmu: iommu@5040000 {
+> +                       compatible = "qcom,sc7180-smmu-v2", "qcom,smmu-v2";
 
-Otherwise, simply
-
-  // abuse objs field to pass our private data; must reset in the resp_cb
-  vbuf->objs = (virtio_gpu_object_array *) bo;
-
-makes it easier to see what is going on.
+As per prior discussion "qcom,sc7180-smmu-v2" needs to be added to the bindings.
 
 
->
->         virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
->  }
-> --
-> 2.18.1
->
+> +                       reg = <0 0x05040000 0 0x10000>;
+> +                       #iommu-cells = <1>;
+> +                       #global-interrupts = <2>;
+> +                       interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
+> +                                       <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
+> +                                       <GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
+> +                                       <GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
+> +                                       <GIC_SPI 366 IRQ_TYPE_EDGE_RISING>,
+> +                                       <GIC_SPI 367 IRQ_TYPE_EDGE_RISING>,
+> +                                       <GIC_SPI 368 IRQ_TYPE_EDGE_RISING>,
+> +                                       <GIC_SPI 369 IRQ_TYPE_EDGE_RISING>,
+> +                                       <GIC_SPI 370 IRQ_TYPE_EDGE_RISING>,
+> +                                       <GIC_SPI 371 IRQ_TYPE_EDGE_RISING>;
+> +                       clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
+> +                               <&gcc GCC_GPU_CFG_AHB_CLK>,
+> +                               <&gcc GCC_DDRSS_GPU_AXI_CLK>;
+> +
+> +                       clock-names = "bus", "iface", "mem_iface_clk";
+
+As per discussion in v3 [1], "mem_iface_clk" is new and needs to be
+added to the bindings. Presumably that patch should be posted / Acked
+by Rob before we land this dts.
+
+Other than relying on un-posted bindings, this looks sane to me and
+this patch lets me bring the GPU up on my sc7180-based board.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Tested-by: Douglas Anderson <dianders@chromium.org>
+
+
+-Doug
+
+[1] https://lore.kernel.org/r/1e29097cc1cdf18671379f6420f872b0@codeaurora.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
