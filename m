@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2820152555
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 04:49:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7E0152559
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 04:49:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98E4C6F458;
-	Wed,  5 Feb 2020 03:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F295F6F45A;
+	Wed,  5 Feb 2020 03:49:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
  [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB4E6F458;
- Wed,  5 Feb 2020 03:49:06 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id 12so361903pjb.5;
- Tue, 04 Feb 2020 19:49:06 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A136F44F;
+ Wed,  5 Feb 2020 03:49:07 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id fa20so363910pjb.1;
+ Tue, 04 Feb 2020 19:49:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3+ovo0iYgzOlwPbufM9jSr3DhaQmmbwRK19EzNf16Io=;
- b=iIPqAHtDyIzxKr97V4uI6FMFq41mC55xeQg95oUT3hk4F/ufax5Ac6IFwBUQLHWb8L
- ODlD+CJ6217ZcUHtCc770y19pwfeusm37Vl0vlOfgt4RS4jQm1Yxo9FS3jyaCEMrgLhS
- 5pcdonl2mo1ewfwvz0growPxsgEXqwg5A0pXoV1w3xUaQ3pFlysEJ8sFCOSXLdE7Bqra
- HxIIUcQXVwj83WcI5QpwOQyeisXhS9Tyy5qsaStUPAsAKvGAXLV6QsRChBwONYXfr2zz
- vveazpQBAG6LtdTIEaabnvPyA/w9qrP0lCmGiLX5lCUtHb3uv3a85UwNDplG9ezNvXb9
- W0KA==
+ bh=1TDC92U8nuAvyygLVjc9oE1rL/0mGLYWnCBFIoGGCdc=;
+ b=F5X740cbWbt3Jh3WXWZXGlEAzPDW7Tm/WDF/FryCntIUiD16+ruQhX4TBBDBmQHytE
+ KpmaNNRjwngMm/2R0PWVG6CRYrCbS2NuCNhR9hxnqtxZrFCN6BGUV3WLuSSwtkrdLAUP
+ Pc57GcfWKDRNI/ZlG0Z6Jbw3QiAlDznna1PfFpTg7mIInCCybt5dH4warZ5ef1Cq7lUp
+ WEo/cZtJmC9LTo/gYQGz+kY+YqTuL/U2IMCw20ufx1dQXonYapi3r1/CFYQXoIq17mG7
+ lfoSiuCLTT83FSXK4rVJJwYlvcf64WwG5yPso6z15eR3Sc7tNyq2eTUpXpnVcHgfRFoW
+ bCpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3+ovo0iYgzOlwPbufM9jSr3DhaQmmbwRK19EzNf16Io=;
- b=ag/qbS7bZNbTTnftwPx0ea2gNKeeDdOJGfAmVD0owcPar6AjeHGWLHaUHFBkgMax7E
- cqRpHFIX/nE9QHx4HF96+jyiYtqceuvSaWxhsoOtECR9PpmqFpmQvsjsI4wyrceeIJWx
- lCpo+ynsA11aETgNEH3AwG7OP0g6pU+Mlf+t/Un2SW97JYRz13VtCOzKV6WLNS41sXPe
- I7jyptPDxWvRrydNJsCKnFPFVerL5xCY9nr6wkDcKoG5znfpBILQL5LXq/5Of1twqGXI
- A3nXh1e0J2AfKpojwPTdrg0dYsukg4oFrlpE1vzggPYnjBZSC5YKiv03ep85O0pXZS5n
- U5FA==
-X-Gm-Message-State: APjAAAWccD7UUOyxXzZUC4SctJEbem1/avVmftxIfBqckFhqpEIK6S8z
- 071Okxu4LiGr9EKBvV3ZD5y1fspq
-X-Google-Smtp-Source: APXvYqyZQ2gCLzdYODYGGT0mIOdV1JaLwvaQtPphffR0Hjrdlez3T/5gq/5IVUYcVL2ci3QuaMsLTQ==
-X-Received: by 2002:a17:902:b484:: with SMTP id
- y4mr32421152plr.126.1580874545723; 
- Tue, 04 Feb 2020 19:49:05 -0800 (PST)
+ bh=1TDC92U8nuAvyygLVjc9oE1rL/0mGLYWnCBFIoGGCdc=;
+ b=AEA9qH8JQXssV1abI8xhYzqjNuFRg5PhNA11Rs1J2E8OrwZBf7vurQSBUdo+rGEOW+
+ Wd75J8f1qQDujQ8x4Hs1mL2cx5FusCcG5GEt9ILtUoKWF9igGLXFLNTlJB+/xXGmIBD6
+ /PaQU47ZKreHSJ7XWnW5l4PnSF0oHr4LIT+6h2OCb/epXJb9E5dlmdNUdOf7Fn4K7wW6
+ zFDfCux+bo06vQ1F8w++0EQQM2nq0AC+lRWtwwEkrlFMLIx89KZK99xZtXVTe/Iy71iQ
+ 8bRytXvtrstrd34H7hZbBCfkhkirQJXD9YvifbYQ7Ww3CAIbUHpatx5GWy5qvI3AI7sI
+ q9ig==
+X-Gm-Message-State: APjAAAUpJn3+vig2boYOaBhVGRF9ORszYW3ndt1LOQmGoi5Vxg+gDpc4
+ jGmvdCzwpUbZ7rerQx2T6CDUCha7
+X-Google-Smtp-Source: APXvYqxcptPshSePK/jrShaTAIVb2kU4kV7jFS00rFK9MGneEl5ME1EjAKKIxA110dzLiGfJFyrtAQ==
+X-Received: by 2002:a17:90b:46cf:: with SMTP id
+ jx15mr3300071pjb.2.1580874547151; 
+ Tue, 04 Feb 2020 19:49:07 -0800 (PST)
 Received: from localhost.localdomain ([71.219.59.120])
- by smtp.gmail.com with ESMTPSA id 200sm25320292pfz.121.2020.02.04.19.49.04
+ by smtp.gmail.com with ESMTPSA id 200sm25320292pfz.121.2020.02.04.19.49.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 19:49:05 -0800 (PST)
+ Tue, 04 Feb 2020 19:49:06 -0800 (PST)
 From: Alex Deucher <alexdeucher@gmail.com>
 X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/14] drm/amdgpu/ttm: move debugfs init into core amdgpu
+Subject: [PATCH 03/14] drm/amdgpu/pm: move debugfs init into core amdgpu
  debugfs
-Date: Tue,  4 Feb 2020 22:48:40 -0500
-Message-Id: <20200205034852.4157-3-alexander.deucher@amd.com>
+Date: Tue,  4 Feb 2020 22:48:41 -0500
+Message-Id: <20200205034852.4157-4-alexander.deucher@amd.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200205034852.4157-1-alexander.deucher@amd.com>
 References: <20200205034852.4157-1-alexander.deucher@amd.com>
@@ -78,112 +78,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 In order to remove the load and unload drm callbacks,
 we need to reorder the init sequence to move all the drm
-debugfs file handling.  Do this for ttm.
+debugfs file handling.  Do this for pm.
 
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 10 ++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     | 14 ++------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |  3 +++
- 3 files changed, 15 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 7 +++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c      | 9 +--------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pm.h      | 2 ++
+ 3 files changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index 58b5e1b4f814..f49604c0d0b8 100644
+index f49604c0d0b8..c1d66cc6e6d8 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -1216,6 +1216,8 @@ DEFINE_SIMPLE_ATTRIBUTE(fops_ib_preempt, NULL,
+@@ -31,6 +31,7 @@
+ #include <drm/drm_debugfs.h>
  
- int amdgpu_debugfs_init(struct amdgpu_device *adev)
- {
-+	int r;
-+
- 	adev->debugfs_preempt =
- 		debugfs_create_file("amdgpu_preempt_ib", 0600,
- 				    adev->ddev->primary->debugfs_root, adev,
-@@ -1225,12 +1227,20 @@ int amdgpu_debugfs_init(struct amdgpu_device *adev)
- 		return -EIO;
+ #include "amdgpu.h"
++#include "amdgpu_pm.h"
+ 
+ /**
+  * amdgpu_debugfs_add_files - Add simple debugfs entries
+@@ -1234,6 +1235,12 @@ int amdgpu_debugfs_init(struct amdgpu_device *adev)
+ 		return r;
  	}
  
-+	/* Register debugfs entries for amdgpu_ttm */
-+	r = amdgpu_ttm_debugfs_init(adev);
++	r = amdgpu_debugfs_pm_init(adev);
 +	if (r) {
-+		DRM_ERROR("Failed to init debugfs\n");
++		DRM_ERROR("Failed to register debugfs file for dpm!\n");
 +		return r;
 +	}
 +
  	return amdgpu_debugfs_add_files(adev, amdgpu_debugfs_list,
  					ARRAY_SIZE(amdgpu_debugfs_list));
  }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+index b03b1eb7ba04..bc3cf04a1a94 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+@@ -41,8 +41,6 @@
+ #include "hwmgr.h"
+ #define WIDTH_4K 3840
  
- void amdgpu_debugfs_fini(struct amdgpu_device *adev)
- {
-+	amdgpu_ttm_debugfs_fini(adev);
- 	debugfs_remove(adev->debugfs_preempt);
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 56f743698868..0c35978626d2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -66,9 +66,6 @@ static int amdgpu_map_buffer(struct ttm_buffer_object *bo,
- 			     struct amdgpu_ring *ring,
- 			     uint64_t *addr);
- 
--static int amdgpu_ttm_debugfs_init(struct amdgpu_device *adev);
--static void amdgpu_ttm_debugfs_fini(struct amdgpu_device *adev);
+-static int amdgpu_debugfs_pm_init(struct amdgpu_device *adev);
 -
- static int amdgpu_invalidate_caches(struct ttm_bo_device *bdev, uint32_t flags)
- {
- 	return 0;
-@@ -1911,12 +1908,6 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
- 		return r;
+ static const struct cg_flag_name clocks[] = {
+ 	{AMD_CG_SUPPORT_GFX_MGCG, "Graphics Medium Grain Clock Gating"},
+ 	{AMD_CG_SUPPORT_GFX_MGLS, "Graphics Medium Grain memory Light Sleep"},
+@@ -3398,11 +3396,6 @@ int amdgpu_pm_sysfs_init(struct amdgpu_device *adev)
+ 		DRM_ERROR("failed to create device file unique_id\n");
+ 		return ret;
  	}
- 
--	/* Register debugfs entries for amdgpu_ttm */
--	r = amdgpu_ttm_debugfs_init(adev);
--	if (r) {
--		DRM_ERROR("Failed to init debugfs\n");
--		return r;
+-	ret = amdgpu_debugfs_pm_init(adev);
+-	if (ret) {
+-		DRM_ERROR("Failed to register debugfs file for dpm!\n");
+-		return ret;
 -	}
- 	return 0;
- }
  
-@@ -1938,7 +1929,6 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
- 	if (!adev->mman.initialized)
- 		return;
- 
--	amdgpu_ttm_debugfs_fini(adev);
- 	amdgpu_ttm_training_reserve_vram_fini(adev);
- 	/* return the IP Discovery TMR memory back to VRAM */
- 	amdgpu_bo_free_kernel(&adev->discovery_memory, NULL, NULL);
-@@ -2545,7 +2535,7 @@ static const struct {
- 
+ 	if ((adev->asic_type >= CHIP_VEGA10) &&
+ 	    !(adev->flags & AMD_IS_APU)) {
+@@ -3669,7 +3662,7 @@ static const struct drm_info_list amdgpu_pm_info_list[] = {
+ };
  #endif
  
--static int amdgpu_ttm_debugfs_init(struct amdgpu_device *adev)
-+int amdgpu_ttm_debugfs_init(struct amdgpu_device *adev)
+-static int amdgpu_debugfs_pm_init(struct amdgpu_device *adev)
++int amdgpu_debugfs_pm_init(struct amdgpu_device *adev)
  {
  #if defined(CONFIG_DEBUG_FS)
- 	unsigned count;
-@@ -2581,7 +2571,7 @@ static int amdgpu_ttm_debugfs_init(struct amdgpu_device *adev)
- #endif
- }
+ 	return amdgpu_debugfs_add_files(adev, amdgpu_pm_info_list, ARRAY_SIZE(amdgpu_pm_info_list));
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.h
+index 3da1da277805..5db0ef86e84c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.h
+@@ -43,4 +43,6 @@ void amdgpu_dpm_enable_uvd(struct amdgpu_device *adev, bool enable);
+ void amdgpu_dpm_enable_vce(struct amdgpu_device *adev, bool enable);
+ void amdgpu_dpm_enable_jpeg(struct amdgpu_device *adev, bool enable);
  
--static void amdgpu_ttm_debugfs_fini(struct amdgpu_device *adev)
-+void amdgpu_ttm_debugfs_fini(struct amdgpu_device *adev)
- {
- #if defined(CONFIG_DEBUG_FS)
- 	unsigned i;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index f1ebd424510c..2c4ad5b589d0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -133,4 +133,7 @@ uint64_t amdgpu_ttm_tt_pde_flags(struct ttm_tt *ttm, struct ttm_mem_reg *mem);
- uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_device *adev, struct ttm_tt *ttm,
- 				 struct ttm_mem_reg *mem);
- 
-+int amdgpu_ttm_debugfs_init(struct amdgpu_device *adev);
-+void amdgpu_ttm_debugfs_fini(struct amdgpu_device *adev);
++int amdgpu_debugfs_pm_init(struct amdgpu_device *adev);
 +
  #endif
 -- 
