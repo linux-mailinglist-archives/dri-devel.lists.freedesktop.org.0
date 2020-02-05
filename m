@@ -2,45 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD5A15297B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 11:56:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A02615298A
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 12:00:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 329F56F540;
-	Wed,  5 Feb 2020 10:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDE4D6F547;
+	Wed,  5 Feb 2020 11:00:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 380 seconds by postgrey-1.36 at gabe;
- Wed, 05 Feb 2020 10:56:30 UTC
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C31826F540
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 10:56:30 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83BB94F8;
- Wed,  5 Feb 2020 11:50:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1580899808;
- bh=UTifZTLLpMTI0RjXCoRHBDNEtdBVGY9d8q0FCMF/KEs=;
- h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
- b=jT6hyvWp23fjd1eR/G8A7L1pVRL+vHHp2MvwCrirctmTwaH9/cPyXoxTU6hwMcph0
- qTPTQb56E2qi4i6EEVyCyDYUOegdFJURmZRgHZjxe9ze+1KKnLpaxPwU3XGwt93Vgm
- 1RYeL3HPFlWT1vCqon3XlkJFeWU2mFFb7yjmHDAo=
-Subject: Re: [PATCH v2] drm: shmobile: Reduce include dependencies
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20200205093226.72064-1-andriy.shevchenko@linux.intel.com>
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <cd432385-7470-80c7-31e1-164851c23e7b@ideasonboard.com>
-Date: Wed, 5 Feb 2020 10:50:04 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
-MIME-Version: 1.0
-In-Reply-To: <20200205093226.72064-1-andriy.shevchenko@linux.intel.com>
-Content-Language: en-GB
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB0136F549
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 11:00:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580900407;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=N7yIwRjgsyZK3/TJwc6yC4On/1ER+DWw2XdE8QprL8o=;
+ b=PUPtDAyd41IwCa9H3QBWLfPazpqSp0kHfhC4NTFew+Rs6WR6OCfxw3mLm1n7EI+1OHFey8
+ 2kHk/Tln6EYoKyVxjMM1sQCD1QYpLINL9hEnWaNeUXroD2GkyrBaKXovOnbs/Lce7Ax/1M
+ qZT6Xoyla+a5YAe/xlsEPblB7sEpNkQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-GXoAviTcPY-ovdj2A5Wekw-1; Wed, 05 Feb 2020 06:00:03 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B83551005F6C;
+ Wed,  5 Feb 2020 10:59:58 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
+ [10.36.116.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C9D7790CC;
+ Wed,  5 Feb 2020 10:59:56 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 476399D1E; Wed,  5 Feb 2020 11:59:55 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] drm/virtio: rework backing storage handling
+Date: Wed,  5 Feb 2020 11:59:51 +0100
+Message-Id: <20200205105955.28143-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: GXoAviTcPY-ovdj2A5Wekw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,47 +58,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>, gurchetansingh@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-On 05/02/2020 09:32, Andy Shevchenko wrote:
-> This file doesn't need everything provided by <linux/kernel.h>.
-> All it needs are some types, which are provided by <linux/types.h>.
-> 
-> Note, <drm/drm_mode.h> already includes <linux/types.h>, but
-> not relying on implicit includes is indeed a good thing.
+Gerd Hoffmann (4):
+  drm/virtio: simplify virtio_gpu_alloc_cmd
+  drm/virtio: resource teardown tweaks
+  drm/virtio: move mapping teardown to virtio_gpu_cleanup_object()
+  drm/virtio: move virtio_gpu_mem_entry initialization to new function
 
-This explains things a bit better :-)
+ drivers/gpu/drm/virtio/virtgpu_drv.h    |   9 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c |  82 +++++++++++--
+ drivers/gpu/drm/virtio/virtgpu_vq.c     | 155 +++++++-----------------
+ 3 files changed, 124 insertions(+), 122 deletions(-)
 
-I'm sure the others will follow too, but here's my:
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> v2: Update commit message (Geert, Laurent)
->  include/linux/platform_data/shmob_drm.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/platform_data/shmob_drm.h b/include/linux/platform_data/shmob_drm.h
-> index fe815d7d9f58..08605fdb2226 100644
-> --- a/include/linux/platform_data/shmob_drm.h
-> +++ b/include/linux/platform_data/shmob_drm.h
-> @@ -10,7 +10,7 @@
->  #ifndef __SHMOB_DRM_H__
->  #define __SHMOB_DRM_H__
->  
-> -#include <linux/kernel.h>
-> +#include <linux/types.h>
->  
->  #include <drm/drm_mode.h>
->  
-> 
+-- 
+2.18.1
 
 _______________________________________________
 dri-devel mailing list
