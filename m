@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B521535CE
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 18:01:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0361535DA
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 18:03:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CED26F8C0;
-	Wed,  5 Feb 2020 17:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA3B56F8BF;
+	Wed,  5 Feb 2020 17:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
- [104.130.122.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9816F8B8
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 17:01:35 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1580922097; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=7DUhFiRSM+eRxfIS8UQQZG95uYXWL3eYV9xeTSLQqKg=;
- b=eVGUbxzudoH+u0LgPejn6d9BkEHGyNfDxmMQq8kF2TOtjI7m8r4n2AiM8yG5wUXQiUGi7hA5
- aZ4ShbMkKRpkrCd6wP7j9zQ/7mkLa6pDWeeD3aw33n+GUlUkyrzasMzfgcG0WcpAPFUeQvVq
- ygoVtqm0O8NnmomRCU06KbkhS1Y=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e3af4eb.7f79dcaa2f48-smtp-out-n02;
- Wed, 05 Feb 2020 17:01:31 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id F1467C433A2; Wed,  5 Feb 2020 17:01:29 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id EF247C43383;
- Wed,  5 Feb 2020 17:01:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EF247C43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH] drm/msm/a6xx: Update the GMU bus tables for sc7180
-Date: Wed,  5 Feb 2020 10:01:21 -0700
-Message-Id: <1580922081-25177-1-git-send-email-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCED96F8BF;
+ Wed,  5 Feb 2020 17:03:00 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2020 09:03:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="264287410"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by fmsmga002.fm.intel.com with ESMTP; 05 Feb 2020 09:03:00 -0800
+Received: from fmsmsx153.amr.corp.intel.com (10.18.125.6) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 5 Feb 2020 09:03:00 -0800
+Received: from BGSMSX108.gar.corp.intel.com (10.223.4.192) by
+ FMSMSX153.amr.corp.intel.com (10.18.125.6) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 5 Feb 2020 09:02:59 -0800
+Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.97]) by
+ BGSMSX108.gar.corp.intel.com ([169.254.8.91]) with mapi id 14.03.0439.000;
+ Wed, 5 Feb 2020 22:32:57 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v3 14/17] drm/i915: Program DP SDPs on pipe updates
+Thread-Topic: [PATCH v3 14/17] drm/i915: Program DP SDPs on pipe updates
+Thread-Index: AQHV2uic/VrOIFEoeE+JXlltfy6ci6gM1hRg
+Date: Wed, 5 Feb 2020 17:02:56 +0000
+Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DD12A@BGSMSX104.gar.corp.intel.com>
+References: <20200203232014.906651-1-gwan-gyeong.mun@intel.com>
+ <20200203232014.906651-15-gwan-gyeong.mun@intel.com>
+In-Reply-To: <20200203232014.906651-15-gwan-gyeong.mun@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYmY3OWNkMWUtMzRmZC00ZmU4LTg0YzUtMTJhMGNjYWQ5MzhjIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTWFXdW16QnFiZG5ON2U3R1dTUDdsQ2FhQVRnbWx0TzZ5eVR5cDkxaWdOc1wvdWcwZkQ4cklWcXk2UExzcm1RTjIifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,146 +64,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- Sharat Masetty <smasetty@codeaurora.org>, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-MIME-Version: 1.0
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixup the GMU bus table values for the sc7180 target.
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
 
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 85 ++++++++++++++++++++++++-----------
- 1 file changed, 60 insertions(+), 25 deletions(-)
+> -----Original Message-----
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Gwan-
+> gyeong Mun
+> Sent: Tuesday, February 4, 2020 4:50 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org; dri-devel@lists.freedesktop.org
+> Subject: [PATCH v3 14/17] drm/i915: Program DP SDPs on pipe updates
+> 
+> Call intel_dp_set_infoframes() function on pipe updates to make sure that we send
+> VSC SDP and HDR Metadata Infoframe SDP (when applicable) on fastsets.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-index eda11ab..e450e0b 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-@@ -7,6 +7,7 @@
- 
- #include "a6xx_gmu.h"
- #include "a6xx_gmu.xml.h"
-+#include "a6xx_gpu.h"
- 
- #define HFI_MSG_ID(val) [val] = #val
- 
-@@ -216,48 +217,82 @@ static int a6xx_hfi_send_perf_table(struct a6xx_gmu *gmu)
- 		NULL, 0);
- }
- 
--static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
-+static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
- {
--	struct a6xx_hfi_msg_bw_table msg = { 0 };
-+	/* Send a single "off" entry since the 618 GMU doesn't do bus scaling */
-+	msg->bw_level_num = 1;
-+
-+	msg->ddr_cmds_num = 3;
-+	msg->ddr_wait_bitmask = 0x01;
-+
-+	msg->ddr_cmds_addrs[0] = 0x50000;
-+	msg->ddr_cmds_addrs[1] = 0x5003c;
-+	msg->ddr_cmds_addrs[2] = 0x5000c;
-+
-+	msg->ddr_cmds_data[0][0] =  0x40000000;
-+	msg->ddr_cmds_data[0][1] =  0x40000000;
-+	msg->ddr_cmds_data[0][2] =  0x40000000;
- 
- 	/*
--	 * The sdm845 GMU doesn't do bus frequency scaling on its own but it
--	 * does need at least one entry in the list because it might be accessed
--	 * when the GMU is shutting down. Send a single "off" entry.
-+	 * These are the CX (CNOC) votes - these are used by the GMU but the
-+	 * votes are known and fixed for the target
- 	 */
-+	msg->cnoc_cmds_num = 1;
-+	msg->cnoc_wait_bitmask = 0x01;
-+
-+	msg->cnoc_cmds_addrs[0] = 0x5007c;
-+	msg->cnoc_cmds_data[0][0] =  0x40000000;
-+	msg->cnoc_cmds_data[1][0] =  0x60000001;
-+}
- 
--	msg.bw_level_num = 1;
-+static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
-+{
-+	/* Send a single "off" entry since the 630 GMU doesn't do bus scaling */
-+	msg->bw_level_num = 1;
- 
--	msg.ddr_cmds_num = 3;
--	msg.ddr_wait_bitmask = 0x07;
-+	msg->ddr_cmds_num = 3;
-+	msg->ddr_wait_bitmask = 0x07;
- 
--	msg.ddr_cmds_addrs[0] = 0x50000;
--	msg.ddr_cmds_addrs[1] = 0x5005c;
--	msg.ddr_cmds_addrs[2] = 0x5000c;
-+	msg->ddr_cmds_addrs[0] = 0x50000;
-+	msg->ddr_cmds_addrs[1] = 0x5005c;
-+	msg->ddr_cmds_addrs[2] = 0x5000c;
- 
--	msg.ddr_cmds_data[0][0] =  0x40000000;
--	msg.ddr_cmds_data[0][1] =  0x40000000;
--	msg.ddr_cmds_data[0][2] =  0x40000000;
-+	msg->ddr_cmds_data[0][0] =  0x40000000;
-+	msg->ddr_cmds_data[0][1] =  0x40000000;
-+	msg->ddr_cmds_data[0][2] =  0x40000000;
- 
- 	/*
- 	 * These are the CX (CNOC) votes.  This is used but the values for the
- 	 * sdm845 GMU are known and fixed so we can hard code them.
- 	 */
- 
--	msg.cnoc_cmds_num = 3;
--	msg.cnoc_wait_bitmask = 0x05;
-+	msg->cnoc_cmds_num = 3;
-+	msg->cnoc_wait_bitmask = 0x05;
- 
--	msg.cnoc_cmds_addrs[0] = 0x50034;
--	msg.cnoc_cmds_addrs[1] = 0x5007c;
--	msg.cnoc_cmds_addrs[2] = 0x5004c;
-+	msg->cnoc_cmds_addrs[0] = 0x50034;
-+	msg->cnoc_cmds_addrs[1] = 0x5007c;
-+	msg->cnoc_cmds_addrs[2] = 0x5004c;
- 
--	msg.cnoc_cmds_data[0][0] =  0x40000000;
--	msg.cnoc_cmds_data[0][1] =  0x00000000;
--	msg.cnoc_cmds_data[0][2] =  0x40000000;
-+	msg->cnoc_cmds_data[0][0] =  0x40000000;
-+	msg->cnoc_cmds_data[0][1] =  0x00000000;
-+	msg->cnoc_cmds_data[0][2] =  0x40000000;
-+
-+	msg->cnoc_cmds_data[1][0] =  0x60000001;
-+	msg->cnoc_cmds_data[1][1] =  0x20000001;
-+	msg->cnoc_cmds_data[1][2] =  0x60000001;
-+}
-+
-+
-+static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
-+{
-+	struct a6xx_hfi_msg_bw_table msg = { 0 };
-+	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
-+	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
- 
--	msg.cnoc_cmds_data[1][0] =  0x60000001;
--	msg.cnoc_cmds_data[1][1] =  0x20000001;
--	msg.cnoc_cmds_data[1][2] =  0x60000001;
-+	if (adreno_is_a618(adreno_gpu))
-+		a618_build_bw_table(&msg);
-+	else
-+		a6xx_build_bw_table(&msg);
- 
- 	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_BW_TABLE, &msg, sizeof(msg),
- 		NULL, 0);
--- 
-2.7.4
+Looks good to me.
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_ddi.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c
+> b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 64e4edefa998..69073a15edb8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -4062,6 +4062,7 @@ static void intel_ddi_update_pipe_dp(struct intel_encoder
+> *encoder,
+>  	intel_ddi_set_dp_msa(crtc_state, conn_state);
+> 
+>  	intel_psr_update(intel_dp, crtc_state);
+> +	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
+>  	intel_edp_drrs_enable(intel_dp, crtc_state);
+> 
+>  	intel_panel_update_backlight(encoder, crtc_state, conn_state);
+> --
+> 2.24.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
