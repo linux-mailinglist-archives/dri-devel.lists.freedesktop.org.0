@@ -1,42 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA281536F2
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 18:46:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 115D01536FA
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 18:48:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF7B6F90B;
-	Wed,  5 Feb 2020 17:46:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0F126F8FF;
+	Wed,  5 Feb 2020 17:48:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DDA16F90C;
- Wed,  5 Feb 2020 17:46:20 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2020 09:46:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="343804050"
-Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2020 09:46:15 -0800
-From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Ramalingam C <ramalingam.c@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: [Intel-gfx] [PATCH v6 7/7] drm/i915/display/hdcp: Make WARN* drm
- specific where drm_priv ptr is available
-Date: Wed,  5 Feb 2020 23:04:19 +0530
-Message-Id: <20200205173419.1695-8-pankaj.laxminarayan.bharadiya@intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200205173419.1695-1-pankaj.laxminarayan.bharadiya@intel.com>
-References: <20200205173419.1695-1-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB3516F8FF
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 17:48:17 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id a6so3787199wrx.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 09:48:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DWW6x8PMrWQCkVtFdy/rcXqLn49tbC8CainmUOE/p4g=;
+ b=bTXPB39gjkLKaTCfeFD6TVSYzrYo/c7wjDb3qgM47nxXOcm88szEtWPwW1+QUWmqVX
+ 1C9J+CzBy9YNCNKw0U8TMUenEPC9FIn9tBjT9nkVug+EIkfZ3XB7C1UEG7XrWb1fqafO
+ ZU6p9oOp+MLT43Bm9r43J/iS+NxQ6FIWukDBBQCVpUzbM3Y74oyVCvvsIBNNti8oZSxs
+ oq+SvsiGqza9svJw4yykMAKXB+wuPOh2PLJH4sXqLqGxdqZI6yEPaZ235zolPq0n4N4T
+ 8kTCmO3T4TP0hUqpwHARO+ytbXY37RwFZQHnqzfoa+BdTkqYEZKc1fRP1QnUGHIVqGfC
+ 3HFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DWW6x8PMrWQCkVtFdy/rcXqLn49tbC8CainmUOE/p4g=;
+ b=US37ZBbNrjl2nukGV1ijT7p2ybBMtqxfylTkuUmcfc//Vw24QkMr7nWtLsaqjhszV8
+ VCpePib+2J4Y1P+0ppKebhn6XKK+jM7Q7tlQJ5/rpY+7MCK9rcYQFW2G7ohYBzKZL74w
+ F8asXSt9Wp5q2/BPxdAq+QKJhwx5cySmjSD6dll4QobE66g+FlAHA/U3gBCxzPKJR1xD
+ zDbdBdT638mpfAytibAN8akGPcEM56M0qdC0BEmBz/CEPsbjeObqxdtWK0+KrdbW3SkR
+ WwnSpoIAzxkFSgE/X4lTzP0KP27fwbEkcIJJA9Ld5ry3MvGYQfwYpdM5O5Fiz2VoSKpb
+ 9T1Q==
+X-Gm-Message-State: APjAAAVsWbNW3lnHKxB8O67GGHUC36A5HNq3Os5NYSX34J3QO1L/JaAH
+ FH4ar3K9cG9c8MItn5D2iWakcQbI
+X-Google-Smtp-Source: APXvYqw7zdPpRQPUqFu/VuXHh120WvjBjgOFN6lgdJzqArkgegByP7yngq5Kup8rhcOUDB13En1XLQ==
+X-Received: by 2002:adf:a354:: with SMTP id d20mr29108549wrb.257.1580924896127; 
+ Wed, 05 Feb 2020 09:48:16 -0800 (PST)
+Received: from arch-x1c3.cbg.collabora.co.uk
+ ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
+ by smtp.gmail.com with ESMTPSA id m9sm682145wrx.55.2020.02.05.09.48.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Feb 2020 09:48:15 -0800 (PST)
+From: Emil Velikov <emil.l.velikov@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC] drm: rework SET_MASTER and DROP_MASTER perm handling
+Date: Wed,  5 Feb 2020 17:48:39 +0000
+Message-Id: <20200205174839.374658-1-emil.l.velikov@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,147 +65,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pankaj.laxminarayan.bharadiya@intel.com
+Cc: emil.l.velikov@gmail.com, Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm specific WARN* calls include device information in the
-backtrace, so we know what device the warnings originate from.
+From: Emil Velikov <emil.velikov@collabora.com>
 
-Covert all the calls of WARN* with device specific drm_WARN*
-variants in functions where drm_i915_private struct pointer is readily
-available.
+This commit reworks the permission handling of the two ioctls. In
+particular it enforced the CAP_SYS_ADMIN check only, if:
+ - we're issuing the ioctl from process other than the one which opened
+the node, and
+ - we are, or were master in the past
 
-The conversion was done automatically with below coccinelle semantic
-patch. checkpatch errors/warnings are fixed manually.
+This allows for any application which cannot rely on systemd-logind
+being present (for whichever reason), to drop it's master capabilities
+(and regain them at later point) w/o being ran as root.
 
-@rule1@
-identifier func, T;
-@@
-func(...) {
-...
-struct drm_i915_private *T = ...;
-<+...
-(
--WARN(
-+drm_WARN(&T->drm,
-...)
-|
--WARN_ON(
-+drm_WARN_ON(&T->drm,
-...)
-|
--WARN_ONCE(
-+drm_WARN_ONCE(&T->drm,
-...)
-|
--WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(&T->drm,
-...)
-)
-...+>
-}
+See the comment above drm_master_check_perm() for more details.
 
-@rule2@
-identifier func, T;
-@@
-func(struct drm_i915_private *T,...) {
-<+...
-(
--WARN(
-+drm_WARN(&T->drm,
-...)
-|
--WARN_ON(
-+drm_WARN_ON(&T->drm,
-...)
-|
--WARN_ONCE(
-+drm_WARN_ONCE(&T->drm,
-...)
-|
--WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(&T->drm,
-...)
-)
-...+>
-}
-
-Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+Cc: Adam Jackson <ajax@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/i915/display/intel_hdcp.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+This effectively supersedes an earlier patch [1] incorporating ajax's
+feedback (from IRC ages ago).
 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index 4d1a33d13105..b30859c79924 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -872,7 +872,8 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
- 		goto out;
+[1] https://patchwork.freedesktop.org/patch/268977/
+---
+ drivers/gpu/drm/drm_auth.c  | 59 +++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_ioctl.c |  4 +--
+ include/drm/drm_file.h      | 11 +++++++
+ 3 files changed, 72 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index cc9acd986c68..01d9e35c0106 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -135,6 +135,7 @@ static int drm_set_master(struct drm_device *dev, struct drm_file *fpriv,
+ 		}
  	}
  
--	if (WARN_ON(!intel_hdcp_in_use(dev_priv, cpu_transcoder, port))) {
-+	if (drm_WARN_ON(&dev_priv->drm,
-+			!intel_hdcp_in_use(dev_priv, cpu_transcoder, port))) {
- 		drm_err(&dev_priv->drm,
- 			"%s:%d HDCP link stopped encryption,%x\n",
- 			connector->base.name, connector->base.base.id,
-@@ -1561,8 +1562,9 @@ static int hdcp2_enable_encryption(struct intel_connector *connector)
- 	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
- 	int ret;
++	fpriv->was_master = (ret == 0);
+ 	return ret;
+ }
  
--	WARN_ON(intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)) &
--		LINK_ENCRYPTION_STATUS);
-+	drm_WARN_ON(&dev_priv->drm,
-+		    intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)) &
-+		    LINK_ENCRYPTION_STATUS);
- 	if (hdcp->shim->toggle_signalling) {
- 		ret = hdcp->shim->toggle_signalling(intel_dig_port, true);
- 		if (ret) {
-@@ -1599,8 +1601,8 @@ static int hdcp2_disable_encryption(struct intel_connector *connector)
- 	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
- 	int ret;
+@@ -179,12 +180,64 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
+ 	return ret;
+ }
  
--	WARN_ON(!(intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)) &
--			    LINK_ENCRYPTION_STATUS));
-+	drm_WARN_ON(&dev_priv->drm, !(intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)) &
-+				      LINK_ENCRYPTION_STATUS));
++/*
++ * In the olden days the SET/DROP_MASTER ioctls used to return EACCES when
++ * CAP_SYS_ADMIN was not set.
++ *
++ * Even though the first client is _always_ master, it also had to be run as
++ * root, otherwise SET/DROP_MASTER would fail. In those cases no other client
++ * could become master ... EVER.
++ *
++ * Resulting in a) the graphics session dying badly or b) a completely locked
++ * session :-\
++ *
++ * As some point systemd-logind was introduced to orchestrate and delegate
++ * master as applicable. It does so by opening the fd and passing it to users
++ * while in itself logind a) set/drop master per users' request and b)
++ * implicitly drops master on VT switch.
++ *
++ * Even though logind looks like the future, there are a few obstacles:
++ *  - using it is not possible on some platforms, or
++ *  - applications may not be updated to use it,
++ *  - any client which fails to drop master* can DoS the application using
++ * logind, to a varying degree.
++ *
++ * * Either due missing root permission or simply not calling DROP_MASTER.
++ *
++ *
++ * Here we implement the next best thing:
++ *   We enforce the CAP_SYS_ADMIN check only if the client was not a master
++ * before. We distinguish between the original master client (say logind) and
++ * another client which has the fd passed (say Xorg) by comparing the pids.
++ *
++ * As a result this fixes, the following when using root-less build w/o logind
++ * - startx - some drivers work fine regardless
++ * - weston
++ * - various compositors based on wlroots
++ */
++static int
++drm_master_check_perm(struct drm_device *dev, struct drm_file *file_priv)
++{
++	if (file_priv->pid != task_pid(current) && file_priv->was_master)
++		return 0;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EACCES;
++
++	return 0;
++}
++
+ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file_priv)
+ {
+ 	int ret = 0;
  
- 	intel_de_write(dev_priv, HDCP2_CTL(dev_priv, cpu_transcoder, port),
- 		       intel_de_read(dev_priv, HDCP2_CTL(dev_priv, cpu_transcoder, port)) & ~CTL_LINK_ENCRYPTION_REQ);
-@@ -1720,7 +1722,8 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
- 		goto out;
- 	}
+ 	mutex_lock(&dev->master_mutex);
++
++	ret = drm_master_check_perm(dev, file_priv);
++	if (ret)
++		goto out_unlock;
++
+ 	if (drm_is_current_master(file_priv))
+ 		goto out_unlock;
  
--	if (WARN_ON(!intel_hdcp2_in_use(dev_priv, cpu_transcoder, port))) {
-+	if (drm_WARN_ON(&dev_priv->drm,
-+			!intel_hdcp2_in_use(dev_priv, cpu_transcoder, port))) {
- 		drm_err(&dev_priv->drm,
- 			"HDCP2.2 link stopped the encryption, %x\n",
- 			intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)));
-@@ -1916,7 +1919,7 @@ void intel_hdcp_component_init(struct drm_i915_private *dev_priv)
- 		return;
+@@ -229,6 +282,12 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+ 	int ret = -EINVAL;
  
- 	mutex_lock(&dev_priv->hdcp_comp_mutex);
--	WARN_ON(dev_priv->hdcp_comp_added);
-+	drm_WARN_ON(&dev_priv->drm, dev_priv->hdcp_comp_added);
+ 	mutex_lock(&dev->master_mutex);
++
++	ret = drm_master_check_perm(dev, file_priv);
++	if (ret)
++		goto out_unlock;
++
++	ret = -EINVAL;
+ 	if (!drm_is_current_master(file_priv))
+ 		goto out_unlock;
  
- 	dev_priv->hdcp_comp_added = true;
- 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
-@@ -1990,7 +1993,8 @@ int intel_hdcp_enable(struct intel_connector *connector,
- 		return -ENOENT;
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index 9e41972c4bbc..73e31dd4e442 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -599,8 +599,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+ 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_SET_SAREA_CTX, drm_legacy_setsareactx, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+ 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_GET_SAREA_CTX, drm_legacy_getsareactx, DRM_AUTH),
  
- 	mutex_lock(&hdcp->mutex);
--	WARN_ON(hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED);
-+	drm_WARN_ON(&dev_priv->drm,
-+		    hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED);
- 	hdcp->content_type = content_type;
+-	DRM_IOCTL_DEF(DRM_IOCTL_SET_MASTER, drm_setmaster_ioctl, DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF(DRM_IOCTL_DROP_MASTER, drm_dropmaster_ioctl, DRM_ROOT_ONLY),
++	DRM_IOCTL_DEF(DRM_IOCTL_SET_MASTER, drm_setmaster_ioctl, 0),
++	DRM_IOCTL_DEF(DRM_IOCTL_DROP_MASTER, drm_dropmaster_ioctl, 0),
  
- 	if (INTEL_GEN(dev_priv) >= 12) {
+ 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_ADD_CTX, drm_legacy_addctx, DRM_AUTH|DRM_ROOT_ONLY),
+ 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_RM_CTX, drm_legacy_rmctx, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 19df8028a6c4..c4746c9d3619 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -201,6 +201,17 @@ struct drm_file {
+ 	 */
+ 	bool writeback_connectors;
+ 
++	/**
++	 * @was_master:
++	 *
++	 * This client has or had, master capability. Protected by struct
++	 * &drm_device.master_mutex.
++	 *
++	 * This is used to ensure that CAP_SYS_ADMIN is not enforced, if the
++	 * client is or was master in the past.
++	 */
++	bool was_master;
++
+ 	/**
+ 	 * @is_master:
+ 	 *
 -- 
-2.23.0
+2.25.0
 
 _______________________________________________
 dri-devel mailing list
