@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D4E153361
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 15:51:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AE11533A6
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 16:11:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0917A6F5E9;
-	Wed,  5 Feb 2020 14:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03BA6F5FE;
+	Wed,  5 Feb 2020 15:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE766F5E4;
- Wed,  5 Feb 2020 14:51:47 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52CE46F5FC;
+ Wed,  5 Feb 2020 15:11:10 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2020 06:51:46 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2020 07:10:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,405,1574150400"; d="scan'208";a="254780939"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by fmsmga004.fm.intel.com with ESMTP; 05 Feb 2020 06:51:46 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 5 Feb 2020 06:51:46 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.70,405,1574150400"; d="scan'208";a="343669299"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2020 07:10:05 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 5 Feb 2020 07:10:04 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 5 Feb 2020 06:51:46 -0800
-Received: from bgsmsx152.gar.corp.intel.com (10.224.48.50) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ 15.1.1713.5; Wed, 5 Feb 2020 07:08:21 -0800
+Received: from bgsmsx154.gar.corp.intel.com (10.224.48.47) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 5 Feb 2020 06:51:45 -0800
+ via Frontend Transport; Wed, 5 Feb 2020 07:08:20 -0800
 Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.97]) by
- BGSMSX152.gar.corp.intel.com ([169.254.6.38]) with mapi id 14.03.0439.000;
- Wed, 5 Feb 2020 20:21:45 +0530
+ BGSMSX154.gar.corp.intel.com ([169.254.7.238]) with mapi id 14.03.0439.000;
+ Wed, 5 Feb 2020 20:36:56 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v3 02/17] drm/i915/dp: Add compute routine for DP VSC SDP
-Thread-Topic: [PATCH v3 02/17] drm/i915/dp: Add compute routine for DP VSC SDP
-Thread-Index: AQHV2uiSrsEJvXDxNUCfZ9aTq1lhyagMsBHg
-Date: Wed, 5 Feb 2020 14:51:44 +0000
-Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DCE2A@BGSMSX104.gar.corp.intel.com>
+Subject: RE: [PATCH v3 03/17] drm/i915/dp: Add compute routine for DP HDR
+ Metadata Infoframe SDP
+Thread-Topic: [PATCH v3 03/17] drm/i915/dp: Add compute routine for DP HDR
+ Metadata Infoframe SDP
+Thread-Index: AQHV2uiMDE8we7SfPkCKcmmWhS6BNKgMtS+A
+Date: Wed, 5 Feb 2020 15:06:55 +0000
+Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DCE62@BGSMSX104.gar.corp.intel.com>
 References: <20200203232014.906651-1-gwan-gyeong.mun@intel.com>
- <20200203232014.906651-3-gwan-gyeong.mun@intel.com>
-In-Reply-To: <20200203232014.906651-3-gwan-gyeong.mun@intel.com>
+ <20200203232014.906651-4-gwan-gyeong.mun@intel.com>
+In-Reply-To: <20200203232014.906651-4-gwan-gyeong.mun@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOTQzNTViZWEtZTk5OC00YTEzLTg2ZDUtZjQ3ZDEzOTFiNjk0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiOE5haGlcLzFqUVwvMlhzcmcrc0FSQmVWcXdcL2Q3N25Dcml2ZGI2bmFjU0tjTmJQaUhhUCtFaWNsM0ViV3JBdDAzbCJ9
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMmMyNDZlOWMtNDE5Mi00ZjQxLWE4NDgtNTAyNzA4ZGY4MGQyIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiRndDTXgxMVwvd3V0dDNQbUR3bmJ6M3ArNlFseGxaZWcwbXpxbzhqelFZaTJQbFUxUXB3NlJnaDlcL2NUQmpRdk5tIn0=
 dlp-product: dlpe-windows
 dlp-version: 11.2.0.6
 dlp-reaction: no-action
@@ -84,155 +86,69 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > Sent: Tuesday, February 4, 2020 4:50 AM
 > To: intel-gfx@lists.freedesktop.org
 > Cc: linux-fbdev@vger.kernel.org; dri-devel@lists.freedesktop.org
-> Subject: [PATCH v3 02/17] drm/i915/dp: Add compute routine for DP VSC SDP
+> Subject: [PATCH v3 03/17] drm/i915/dp: Add compute routine for DP HDR Metadata
+> Infoframe SDP
 > 
-> In order to support state readout for DP VSC SDP, we need to have a structure which
-> holds DP VSC SDP payload data such as "union hdmi_infoframe drm" which is used
-> for DRM infoframe.
-> It adds a struct drm_dp_vsc_sdp vsc to intel_crtc_state.infoframes.
+> It stores computed dp hdr metadata infoframe sdp to infoframes.drm of crtc state.
+> It referenced intel_hdmi_compute_drm_infoframe().
 > 
-> And it stores computed dp vsc sdp to infoframes.vsc of crtc state.
-> While computing we'll also fill out the inforames.enable bitmask appropriately.
-> 
-> The compute routine follows DP 1.4 spec [Table 2-117: VSC SDP Payload for
-> DB16 through DB18].
-> 
-> v3: Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
->
+> While computing, we'll also fill out the inforames.enable bitmask appropriately.
 
-With the structure names updated, this looks good to me.
+Typo in infoframes
+
+With the above fixed, this is
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 
+> 
+> v2: Wrap a long line.
+> 
 > Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 > ---
->  .../drm/i915/display/intel_display_types.h    |  1 +
->  drivers/gpu/drm/i915/display/intel_dp.c       | 92 +++++++++++++++++++
->  2 files changed, 93 insertions(+)
+>  drivers/gpu/drm/i915/display/intel_dp.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
-> b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 33ba93863488..6633c1061670 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1021,6 +1021,7 @@ struct intel_crtc_state {
->  		union hdmi_infoframe spd;
->  		union hdmi_infoframe hdmi;
->  		union hdmi_infoframe drm;
-> +		struct drm_dp_vsc_sdp vsc;
->  	} infoframes;
-> 
->  	/* HDMI scrambling status */
 > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
 > b/drivers/gpu/drm/i915/display/intel_dp.c
-> index f4dede6253f8..2bdc43c80e03 100644
+> index 2bdc43c80e03..b265b5c599f2 100644
 > --- a/drivers/gpu/drm/i915/display/intel_dp.c
 > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2372,6 +2372,97 @@ static bool intel_dp_port_has_audio(struct
-> drm_i915_private *dev_priv,
->  	return true;
+> @@ -2463,6 +2463,27 @@ static void intel_dp_compute_vsc_sdp(struct intel_dp
+> *intel_dp,
+>  					 &crtc_state->infoframes.vsc);
 >  }
 > 
-> +static void intel_dp_compute_vsc_colorimetry(const struct intel_crtc_state
+> +static void
+> +intel_dp_compute_hdr_metadata_infoframe_sdp(struct intel_crtc_state
 > *crtc_state,
-> +					     const struct drm_connector_state
-> *conn_state,
-> +					     struct drm_dp_vsc_sdp *vsc)
-> +{
-> +	/*
-> +	 * Prepare VSC Header for SU as per DP 1.4 spec, Table 2-118
-> +	 * VSC SDP supporting 3D stereo, PSR2, and Pixel Encoding/
-> +	 * Colorimetry Format indication.
-> +	 */
-> +	vsc->revision = 0x5;
-> +	vsc->length = 0x13;
+> +					    const struct drm_connector_state
+> *conn_state) {
+> +	int ret;
+> +	struct hdmi_drm_infoframe *drm_infoframe =
+> +&crtc_state->infoframes.drm.drm;
 > +
-> +	/* DP 1.4a spec, Table 2-120 */
-> +	switch (crtc_state->output_format) {
-> +	case INTEL_OUTPUT_FORMAT_YCBCR444:
-> +		vsc->colorspace = DP_COLORSPACE_YUV444;
-> +		break;
-> +	case INTEL_OUTPUT_FORMAT_YCBCR420:
-> +		vsc->colorspace = DP_COLORSPACE_YUV420;
-> +		break;
-> +	case INTEL_OUTPUT_FORMAT_RGB:
-> +	default:
-> +		vsc->colorspace = DP_COLORSPACE_RGB;
-> +	}
-> +
-> +	switch (conn_state->colorspace) {
-> +	case DRM_MODE_COLORIMETRY_BT709_YCC:
-> +		vsc->colorimetry = DP_COLORIMETRY_BT709_YCC;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_XVYCC_601:
-> +		vsc->colorimetry = DP_COLORIMETRY_XVYCC_601;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_XVYCC_709:
-> +		vsc->colorimetry = DP_COLORIMETRY_XVYCC_709;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_SYCC_601:
-> +		vsc->colorimetry = DP_COLORIMETRY_SYCC_601;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_OPYCC_601:
-> +		vsc->colorimetry = DP_COLORIMETRY_OPYCC_601;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_BT2020_CYCC:
-> +		vsc->colorimetry = DP_COLORIMETRY_BT2020_CYCC;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_BT2020_RGB:
-> +		vsc->colorimetry = DP_COLORIMETRY_BT2020_RGB;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_BT2020_YCC:
-> +		vsc->colorimetry = DP_COLORIMETRY_BT2020_YCC;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
-> +	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
-> +		vsc->colorimetry = DP_COLORIMETRY_DCI_P3_RGB;
-> +		break;
-> +	default:
-> +		/*
-> +		 * RGB->YCBCR color conversion uses the BT.709
-> +		 * color space.
-> +		 */
-> +		if (crtc_state->output_format ==
-> INTEL_OUTPUT_FORMAT_YCBCR420)
-> +			vsc->colorimetry = DP_COLORIMETRY_BT709_YCC;
-> +		else
-> +			vsc->colorimetry = DP_COLORIMETRY_DEFAULT;
-> +		break;
-> +	}
-> +
-> +	vsc->bpc = crtc_state->pipe_bpp / 3;
-> +	/* all YCbCr are always limited range */
-> +	vsc->dynamic_range = DP_DYNAMIC_RANGE_CTA;
-> +	vsc->content_type = DP_CONTENT_TYPE_NOT_DEFINED; }
-> +
-> +static void intel_dp_compute_vsc_sdp(struct intel_dp *intel_dp,
-> +				     struct intel_crtc_state *crtc_state,
-> +				     const struct drm_connector_state *conn_state) {
-> +	struct drm_dp_vsc_sdp *vsc = &crtc_state->infoframes.vsc;
-> +
-> +	/* When PSR is enabled, VSC SDP is handled by PSR routine */
-> +	if (intel_psr_enabled(intel_dp))
+> +	if (!conn_state->hdr_output_metadata)
 > +		return;
 > +
-> +	if (!intel_dp_needs_vsc_sdp(crtc_state, conn_state))
+> +	ret = drm_hdmi_infoframe_set_hdr_metadata(drm_infoframe, conn_state);
+> +
+> +	if (ret) {
+> +		DRM_DEBUG_KMS("couldn't set HDR metadata in infoframe\n");
 > +		return;
+> +	}
 > +
 > +	crtc_state->infoframes.enable |=
-> intel_hdmi_infoframe_enable(DP_SDP_VSC);
-> +	vsc->sdp_type = DP_SDP_VSC;
-> +	intel_dp_compute_vsc_colorimetry(crtc_state, conn_state,
-> +					 &crtc_state->infoframes.vsc);
+> +
+> 	intel_hdmi_infoframe_enable(HDMI_PACKET_TYPE_GAMUT_METADATA);
 > +}
 > +
 >  int
 >  intel_dp_compute_config(struct intel_encoder *encoder,
->  			struct intel_crtc_state *pipe_config, @@ -2477,6 +2568,7
+>  			struct intel_crtc_state *pipe_config, @@ -2569,6 +2590,7
 > @@ intel_dp_compute_config(struct intel_encoder *encoder,
->  		intel_dp_set_clock(encoder, pipe_config);
 > 
 >  	intel_psr_compute_config(intel_dp, pipe_config);
-> +	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
+>  	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
+> +	intel_dp_compute_hdr_metadata_infoframe_sdp(pipe_config, conn_state);
 > 
 >  	return 0;
 >  }
