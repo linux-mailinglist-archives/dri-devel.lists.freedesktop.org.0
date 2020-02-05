@@ -1,41 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C86153A42
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 22:31:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E17E2153ABE
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 23:13:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115CC6E24D;
-	Wed,  5 Feb 2020 21:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 778C56E213;
+	Wed,  5 Feb 2020 22:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E426E24D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 21:31:10 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 657E780441;
- Wed,  5 Feb 2020 22:31:05 +0100 (CET)
-Date: Wed, 5 Feb 2020 22:31:03 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- David Lechner <david@lechnology.com>
+Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81DF16E213
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 22:13:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=uS00ukHTjbtGtcqES7lpaCa7AxEAapHUStwOBQZ5dts=; b=dwIsSpWGeGSnvnJsyMe0bMEG0/
+ 7Z/FgaQvK5ikY2AojScF0RTCsGpYC70qrGtZjyVXBeonTGpoCVYtw5jCzMQFlEVL/oqlFTufj5jqQ
+ Q2FAOuGZ2qdEhuQcaMHMiN1i21hnN9wLeYp/0uhVk7G3UFF9xjg+Lh6kfzvSogJ5r7WCZZ9m5CNJb
+ c3udi5rUO9mXkXECZcNJa+9ijO7M9tcLJq/An814vo0+ieAgs7AYewSr13J2LjqCiMpNO5VRoy2tR
+ qugVCaljQmzWgdB3HbCVWfQ3mQ6RkmLgTtEbkJtZa2f0EmRaLiPaI02jNQXUWOhHWZ536PS5Ku1CN
+ sN433NWw==;
+Received: from [2600:1700:4830:1650:5518:d2aa:e986:f3f6] (port=49920
+ helo=gerda.attlocal.net)
+ by vern.gendns.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (Exim 4.92) (envelope-from <david@lechnology.com>)
+ id 1izSux-0000gF-Ex; Wed, 05 Feb 2020 17:13:07 -0500
 Subject: Re: [PATCH v2 1/4] drm/tiny/repaper: Make driver OF-independent
-Message-ID: <20200205213103.GA14713@ravnborg.org>
+To: Sam Ravnborg <sam@ravnborg.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 References: <20200131204923.48928-1-andriy.shevchenko@linux.intel.com>
+ <20200205213103.GA14713@ravnborg.org>
+From: David Lechner <david@lechnology.com>
+Message-ID: <fd3ecc67-9c62-6ed8-1a1f-fc6b22e288a4@lechnology.com>
+Date: Wed, 5 Feb 2020 16:12:20 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200131204923.48928-1-andriy.shevchenko@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=SJz97ENfAAAA:8
- a=e5mUnYsNAAAA:8 a=WZHNqt2aAAAA:8 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8
- a=aE2j6VG5sAdimHmDfK4A:9 a=wPNLvfGTeEIA:10 a=vFet0B0WnEQeilDPIY6i:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=PrHl9onO2p7xFKlKy1af:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <20200205213103.GA14713@ravnborg.org>
+Content-Language: en-US
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
+ davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,96 +66,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- David Lechner <david@lechnology.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David.
 
-Are you planning to pick this series and apply it?
-Unless I get any other info I plan to process it tomorrow.
 
-	Sam
+On 2/5/20 3:31 PM, Sam Ravnborg wrote:
+> Hi David.
+> 
+> Are you planning to pick this series and apply it?
+> Unless I get any other info I plan to process it tomorrow.
+> 
+> 	Sam
+> 
 
-On Fri, Jan 31, 2020 at 10:49:22PM +0200, Andy Shevchenko wrote:
-> There is one OF call in the driver that limits its area of use.
-> Replace it to generic device_get_match_data() and get rid of OF dependenc=
-y.
-> =
-
-> While here, cast SPI driver data to certain enumerator type.
-> =
-
-> Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Lechner <david@lechnology.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
-> v2: Replace cryptic macro with comment, add Rb tag (Sam)
->  drivers/gpu/drm/tiny/repaper.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repape=
-r.c
-> index 76d179200775..e52a19ffd7c0 100644
-> --- a/drivers/gpu/drm/tiny/repaper.c
-> +++ b/drivers/gpu/drm/tiny/repaper.c
-> @@ -17,7 +17,7 @@
->  #include <linux/dma-buf.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/module.h>
-> -#include <linux/of_device.h>
-> +#include <linux/property.h>
->  #include <linux/sched/clock.h>
->  #include <linux/spi/spi.h>
->  #include <linux/thermal.h>
-> @@ -40,6 +40,7 @@
->  #define REPAPER_RID_G2_COG_ID	0x12
->  =
-
->  enum repaper_model {
-> +	/* 0 is reserved to avoid clashing with NULL */
->  	E1144CS021 =3D 1,
->  	E1190CS021,
->  	E2200CS021,
-> @@ -995,21 +996,21 @@ static int repaper_probe(struct spi_device *spi)
->  {
->  	const struct drm_display_mode *mode;
->  	const struct spi_device_id *spi_id;
-> -	const struct of_device_id *match;
->  	struct device *dev =3D &spi->dev;
->  	enum repaper_model model;
->  	const char *thermal_zone;
->  	struct repaper_epd *epd;
->  	size_t line_buffer_size;
->  	struct drm_device *drm;
-> +	const void *match;
->  	int ret;
->  =
-
-> -	match =3D of_match_device(repaper_of_match, dev);
-> +	match =3D device_get_match_data(dev);
->  	if (match) {
-> -		model =3D (enum repaper_model)match->data;
-> +		model =3D (enum repaper_model)match;
->  	} else {
->  		spi_id =3D spi_get_device_id(spi);
-> -		model =3D spi_id->driver_data;
-> +		model =3D (enum repaper_model)spi_id->driver_data;
->  	}
->  =
-
->  	/* The SPI device is used to allocate dma memory */
-> -- =
-
-> 2.24.1
+I won't be able to do it before then, so please go ahead.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
