@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F83B152564
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 04:49:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE77152566
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 04:49:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CEE26F455;
-	Wed,  5 Feb 2020 03:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61EA76F466;
+	Wed,  5 Feb 2020 03:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8056F464;
- Wed,  5 Feb 2020 03:49:16 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id y1so289303plp.7;
- Tue, 04 Feb 2020 19:49:16 -0800 (PST)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C94BC6F455;
+ Wed,  5 Feb 2020 03:49:17 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id w21so259727pgl.9;
+ Tue, 04 Feb 2020 19:49:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9aDTcgd6K3FAKk5HdP+fv9xU5kzD6Uz3SUrcwxPQ0SM=;
- b=ZAN5xjdMmvcTQ7ChhBvDoOtd5BlBBEX52tXnohLBBshRT/TYtgN3zPAME05kTCqNxE
- LyPxE9nVmLpMzTqw5SufqDopm74J/wFobLCnR4DMJq/YC/lxp1vb3VRtBZ2EHlEbh5cZ
- e82sL5tldSOXqzMDspLlxh63ovCQqQrFc3uJ8Ls4YpauqjZJKsUMWkSb26Gvxwg7jjmv
- xE0Nt0GSeY0gRY0ywY/bJmiqWQxSVSKtQC1jcFkVZql5b+J6+7y5hezcddDv26+78kfH
- daD7EQ1mS4L4fOAv24vZvP7eFl4l/ORcjYCH+bMFfhr8UTPs0CPL1lbaokUu8NcJDrGp
- k9UQ==
+ bh=kegdYWqGxBdCcQ+t0XrzYVFcSJhMX/TPpx7RwDN0cnM=;
+ b=XGMbVzwgYr7dlV32Zui3wSQfvAhAKe4BhFE1bEn2QbQXL7Wr9wQX2PN9vLxudK9O5q
+ l8af3Lb9gY6+IC09DMJsFsUMBfcTFNXRvLEcx7kBbDt6T4GEalLlWvifIceI353HlkCG
+ VJcjRYcgpE5LwINrYtyLAxyuV4AkGZGS7nbwvwMnYolMkizHLa9SAtkRoHA5836WhSMj
+ wudSZTih2Vh1KBg7ycRSSfQzTfy0ViT5GBDdiysTmSJp+tp9b83n3pYpI/AOhDSjfrXO
+ iehqxqSk2FMtJbM3YkjcVY5u9n6b2+DKZnwB7npREffyMgue4b2mLZiEqb6y6r1Z1jhm
+ Jlng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9aDTcgd6K3FAKk5HdP+fv9xU5kzD6Uz3SUrcwxPQ0SM=;
- b=mLm2COzjyFj01lHCZgCQiX0o4jwQr8BQ5G+dSWtF9v3v5TKwfzQFBAEYCg2XcwPa+I
- isdf5roTXmRRSDrq541U0fHVuis6+NpJ9hsgXclLli/eMah/f82hYWUC/+87tlC2rGKv
- YnK3FEDlpvVKlxllqJsAUNvn6tYTe2ncraWxpQMNDQkGlkQgDewq96wrmja09DdMn3OP
- fe1wd5Y2fjSFzMPUfhANF2ylwM7U95xP4zJsR0SkW+6SXchn6LZ6z1n+xvuGIrFKGioq
- A7x6kCM5esIVCUJx5Wr2GbbvY6vC/l8KLLn9drvbV3IGYTBAgqzBnobWiAGt1TSrZMhe
- kjXg==
-X-Gm-Message-State: APjAAAV0YGeerofabE5m4BgLn5rncFBrxoEyKRSlEo7AxT+UuFuxJoiE
- FaPKmq+Caj8jw782hB1sc8HLEyAG
-X-Google-Smtp-Source: APXvYqwbISoDX74M+dv40baLoLuwFbVrg3KALDo1iO5DeZ6+YWTXPrFVwFfYeS8eni5avV0IV1QOdQ==
-X-Received: by 2002:a17:90a:a08e:: with SMTP id
- r14mr3214764pjp.120.1580874555778; 
- Tue, 04 Feb 2020 19:49:15 -0800 (PST)
+ bh=kegdYWqGxBdCcQ+t0XrzYVFcSJhMX/TPpx7RwDN0cnM=;
+ b=V1W1b8kfnm82bd1Be4CotibDMaacw9zYXnvNvSpXajAKi8xyFcORTB6VUtAnFBT3ER
+ cdT8C9WU+rcyuUEjoh3BZiEecaxqpREmo+XapjnYhdvem9JykZF8TFuVGuLf9fvzRa8v
+ WVHyXdZf1SnsA1POXPP/SQyAo53bm3VBJz8U4T91hOPck80nRxEyXbYCb6b3uSIPhCgX
+ shf+nNpzMwZFVtgC9XZB4YcG3e6NtCeHoB66TWIZX0KWDy7CwarNVLxZLC13dPd9z33K
+ xPv6RBlzJel80YhRCm7BVLnC470T5icfLPfnjZzBoLMCYXqUPXwDr4WeFXzK008D5N4y
+ EnaA==
+X-Gm-Message-State: APjAAAUvmXkZRb5Tdbi2NDy94lr6VCkICTPE+VwnNYBq3d9DRYYRM0rq
+ jpSo375/Vu6WlofRlvF1QeEiGZnr
+X-Google-Smtp-Source: APXvYqxcktnWDKo7ibOkUyfrzoMLz3hfNspjWRyR8nmimv0wvNL4a0tyg589g+899WK/ViPlfJQpPA==
+X-Received: by 2002:a63:1807:: with SMTP id y7mr32812637pgl.94.1580874557135; 
+ Tue, 04 Feb 2020 19:49:17 -0800 (PST)
 Received: from localhost.localdomain ([71.219.59.120])
- by smtp.gmail.com with ESMTPSA id 200sm25320292pfz.121.2020.02.04.19.49.14
+ by smtp.gmail.com with ESMTPSA id 200sm25320292pfz.121.2020.02.04.19.49.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 19:49:15 -0800 (PST)
+ Tue, 04 Feb 2020 19:49:16 -0800 (PST)
 From: Alex Deucher <alexdeucher@gmail.com>
 X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 09/14] drm/amdgpu: don't call drm_connector_register for
- non-MST ports
-Date: Tue,  4 Feb 2020 22:48:47 -0500
-Message-Id: <20200205034852.4157-10-alexander.deucher@amd.com>
+Subject: [PATCH 10/14] drm/amdgpu/display: move debugfs init into core amdgpu
+ debugfs
+Date: Tue,  4 Feb 2020 22:48:48 -0500
+Message-Id: <20200205034852.4157-11-alexander.deucher@amd.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200205034852.4157-1-alexander.deucher@amd.com>
 References: <20200205034852.4157-1-alexander.deucher@amd.com>
@@ -76,51 +75,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The core does this for us now.
+In order to remove the load and unload drm callbacks,
+we need to reorder the init sequence to move all the drm
+debugfs file handling.  Do this for display.
 
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 1 -
- drivers/gpu/drm/amd/amdgpu/dce_virtual.c          | 1 -
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 -
- 3 files changed, 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c       | 6 ++++++
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 -----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index a62cbc8199de..ec1501e3a63a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -1931,7 +1931,6 @@ amdgpu_connector_add(struct amdgpu_device *adev,
- 		connector->polled = DRM_CONNECTOR_POLL_HPD;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+index 5bf43f20ec30..82d30bae2ba0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+@@ -32,6 +32,7 @@
  
- 	connector->display_info.subpixel_order = subpixel_order;
--	drm_connector_register(connector);
+ #include "amdgpu.h"
+ #include "amdgpu_pm.h"
++#include "amdgpu_dm_debugfs.h"
  
- 	if (has_aux)
- 		amdgpu_atombios_dp_aux_init(amdgpu_connector);
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_virtual.c b/drivers/gpu/drm/amd/amdgpu/dce_virtual.c
-index e4f94863332c..3c9f2d2490a5 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_virtual.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_virtual.c
-@@ -609,7 +609,6 @@ static int dce_virtual_connector_encoder_init(struct amdgpu_device *adev,
- 	connector->display_info.subpixel_order = SubPixelHorizontalRGB;
- 	connector->interlace_allowed = false;
- 	connector->doublescan_allowed = false;
--	drm_connector_register(connector);
+ /**
+  * amdgpu_debugfs_add_files - Add simple debugfs entries
+@@ -1260,6 +1261,11 @@ int amdgpu_debugfs_init(struct amdgpu_device *adev)
+ 	if (r)
+ 		DRM_ERROR("registering firmware debugfs failed (%d).\n", r);
  
- 	/* link them */
- 	drm_connector_attach_encoder(connector, encoder);
++	if (amdgpu_device_has_dc_support(adev)) {
++		if (dtn_debugfs_init(adev))
++			DRM_ERROR("amdgpu: failed initialize dtn debugfs support.\n");
++	}
++
+ 	return amdgpu_debugfs_add_files(adev, amdgpu_debugfs_list,
+ 					ARRAY_SIZE(amdgpu_debugfs_list));
+ }
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index d0ddbc9df264..7c094bfe07e2 100644
+index 7c094bfe07e2..efe74a8a8ace 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5839,7 +5839,6 @@ static int amdgpu_dm_connector_init(struct amdgpu_display_manager *dm,
- 	drm_connector_attach_encoder(
- 		&aconnector->base, &aencoder->base);
+@@ -991,11 +991,6 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
+ 		goto error;
+ 	}
  
--	drm_connector_register(&aconnector->base);
- #if defined(CONFIG_DEBUG_FS)
- 	connector_debugfs_init(aconnector);
- 	aconnector->debugfs_dpcd_address = 0;
+-#if defined(CONFIG_DEBUG_FS)
+-	if (dtn_debugfs_init(adev))
+-		DRM_ERROR("amdgpu: failed initialize dtn debugfs support.\n");
+-#endif
+-
+ 	DRM_DEBUG_DRIVER("KMS initialized.\n");
+ 
+ 	return 0;
 -- 
 2.24.1
 
