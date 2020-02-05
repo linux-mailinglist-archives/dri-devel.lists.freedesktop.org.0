@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F178153FD8
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78B7153FED
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E36E26F9F0;
-	Thu,  6 Feb 2020 08:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6B326F9FF;
+	Thu,  6 Feb 2020 08:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com
- [IPv6:2607:f8b0:4864:20::f4a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 043BD6F4F7
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 09:38:07 +0000 (UTC)
-Received: by mail-qv1-xf4a.google.com with SMTP id n11so1109308qvp.15
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 01:38:06 -0800 (PST)
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com
+ [IPv6:2607:f8b0:4864:20::749])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 091EB6F4F8
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 09:38:12 +0000 (UTC)
+Received: by mail-qk1-x749.google.com with SMTP id f22so885497qka.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 01:38:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=KEIH1qwXja/ZmU3/27elfahliyGtpPNLFM8jJAbIPe0=;
- b=CoDv4bmuhxUgR9bmsyfNwNeOGpipEjZz8WHI+CF859hIUpkYWhXlhZwzAGsS+bPxJw
- Ni25hCPqGGwCReROxGvBFe85BqQlIdFwrDE8Aowsf/8AHVm8sqc7vLbbhkP17oOX64eb
- V9eMMRvIDW6H7Pz8nTq7LCrhZOZuL2C3HVODNKe2b6HpegWPXfbX1PzxIsimi9NcM4Xu
- CGVHfTG2rPKgIC8f/fJqIRs0ZAsBZr18+eBxoedw8zjw9rdjBhGLKhyTIMnZ1jiCjUib
- qHWvt/JaBhiM4wikSZFQXK0Qu3yEzmFTBljvuMJBn2OfWVYp40mGXjDSVIAJLqBKIP/K
- Jezg==
+ :cc; bh=cX29gQ3Pe2nYNSmOPNFjk0KmvqrTptDWTP83/iCAsdA=;
+ b=ixbOIq8maNz1diHMn2lwgN76Wks4PKPS2JD5s1qhsxg+f4Lw0HcqZx/CFcJ9zvGF4J
+ LdRZO6zI4PrghmZbrzhz9Pbwie595/SdQzw5i15qqaE+duNoGAAqdtlsNeC6JHyhuEIZ
+ wY/1FPuOwOsaQX0vF2Mfr2OBuD+Bo41BB4mt/scYJFiZO46DLSj63t3xkl6x4wvV0mlR
+ eALP5NYK254rYDixapJgUG0dE8WxxHbbwmH81ICXVqOr03qEWAbgmbb0Vima2BWBTg3c
+ tknLYkEmLkGeT7M35AhA0k5pSX9LfGwnO3rPNRi2+iDmLmtm7GOpv+gWKnrTdCr6XaVk
+ 1Ogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=KEIH1qwXja/ZmU3/27elfahliyGtpPNLFM8jJAbIPe0=;
- b=BKkX3VazeuYdQajSx/Dik1G7KpmvTLku2m0fJdRfOkr5pl+QF0RfECWd85JCp87RbS
- If7+hBjKj8K+mwu3+rLP/mKuKVNd9hgflsOLMT0OietURcU40QOjZLR2oU8h+wcVkeHD
- 5ZtPcqZYNg8pC2F8mED6tSxSG+cd2dphlQbupLn1rkTolnz4chDdOfwtSI1a1KLAR165
- 71+4DPbverYAeeqv81Su7EOVzd8nM3BYPLg1cjYIiwMHYtgRsYPhiivM6nU8QCNDf5o3
- zuGni80A0usFhnX1JDwDqmMj7OMBl6XzKidcsKOVLzspDo2fe+WJ2nKpu2B/jOBMFiS8
- hWlA==
-X-Gm-Message-State: APjAAAUJIXESjtV4Svi0M3veVQgbShop8WQTnEcjtv3JLojmTsTKGmfa
- nGzUO9gl0F2q/9T7TgBsN2gj9c+ae/8u
-X-Google-Smtp-Source: APXvYqxBmBAsv6b6o4/hWnX6IZaGVfp7aEruPTeKewWwwid+Xv/sFuCAvNLDBkRklTQQiyRmKKgqtlZR4Yp3
-X-Received: by 2002:ac8:769a:: with SMTP id g26mr32402406qtr.259.1580895486103; 
- Wed, 05 Feb 2020 01:38:06 -0800 (PST)
-Date: Wed,  5 Feb 2020 17:37:43 +0800
+ bh=cX29gQ3Pe2nYNSmOPNFjk0KmvqrTptDWTP83/iCAsdA=;
+ b=CM9a0NMwVoUu1A7JNpQSury5okHf4Iim78/XtTeR2qgdddn7fFhqzuIaznR54UI5F+
+ mN5gLc8Em8O6CqJyPLlzQt0I6Q6Y9c9fVKEMKHEO5P6UrgfA1Euacj2Kp71CsR03Floq
+ i0rbD8FpjOp93VYT4ifLEIT92cQ/Txy+edFDe5l6wid1aUzjYxwS+Bs6Uj4fnGfrneAj
+ QNm9BDR0/0jeM9yRACD3q89depUMMiW0TBxJZOPsTPxH0BMKKVe+QfCyyvReYj+AddPC
+ hmeO5pfd8GCCFGQLKvOo1WKNVrKJ8MU1SOKh+6WoM1nDhopf2o1JIFfreFbKm+v8fF9H
+ TDgw==
+X-Gm-Message-State: APjAAAVSXjbOU5BGBfmfaQQd0XAh8u0D2w+CBLVuUYWkWP69M21mnlCE
+ +MYcZBMITGhC8Vi1kWxFHSkyVf1f5zOM
+X-Google-Smtp-Source: APXvYqzvqZ+I6q7rsrnsbANQ2Td41uSXPBSKwBl8ZrPWLMClutzjKDkU8rsrWO96kwNDsFR8NBUJJAomYVqM
+X-Received: by 2002:a0c:fe0d:: with SMTP id x13mr31660627qvr.88.1580895491114; 
+ Wed, 05 Feb 2020 01:38:11 -0800 (PST)
+Date: Wed,  5 Feb 2020 17:37:44 +0800
 In-Reply-To: <20200205093745.79298-1-tzungbi@google.com>
-Message-Id: <20200205170416.1.Ieba8d422486264eb7aaa3aa257620a1b0c74c6db@changeid>
+Message-Id: <20200205170416.2.I230fd59de28e73934a91cb01424e25b9e84727f4@changeid>
 Mime-Version: 1.0
 References: <20200205093745.79298-1-tzungbi@google.com>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH 1/3] drm/mediatek: exit earlier if failed to register audio
- driver
+Subject: [PATCH 2/3] drm/mediatek: support HDMI jack status reporting
 From: Tzung-Bi Shih <tzungbi@google.com>
 To: broonie@kernel.org, airlied@linux.ie, daniel@ffwll.ch
 X-Mailman-Approved-At: Thu, 06 Feb 2020 08:17:51 +0000
@@ -72,51 +71,115 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Exits earlier if register_audio_driver() returns errors.
+1.
+Provides a callback (i.e. mtk_hdmi_audio_hook_plugged_cb) to hdmi-codec.
+When ASoC machine driver calls hdmi_codec_set_jack_detect(), the
+callback will be invoked to save plugged_cb and codec_dev parameters.
+
++---------+  set_jack_  +------------+ plugged_cb  +----------+
+| machine | ----------> | hdmi-codec | ----------> | mtk-hdmi |
++---------+  detect()   +------------+ codec_dev   +----------+
+
+2.
+When there is any jack status changes, mtk-hdmi will call the
+plugged_cb() to notify hdmi-codec.  And then hdmi-codec will call
+snd_soc_jack_report().
+
++----------+ plugged_cb  +------------+
+| mtk-hdmi | ----------> | hdmi-codec | -> snd_soc_jack_report()
++----------+ codec_dev   +------------+
+             connector_status
 
 Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 41 +++++++++++++++++++++++++++--
+ 1 file changed, 39 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index c79b1f855d89..23c2b0e8693d 100644
+index 23c2b0e8693d..15736ed0a96a 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1656,7 +1656,7 @@ static const struct hdmi_codec_ops mtk_hdmi_audio_codec_ops = {
- 	.get_eld = mtk_hdmi_audio_get_eld,
+@@ -169,6 +169,8 @@ struct mtk_hdmi {
+ 	bool audio_enable;
+ 	bool powered;
+ 	bool enabled;
++	hdmi_codec_plugged_cb plugged_cb;
++	struct device *codec_dev;
  };
  
--static void mtk_hdmi_register_audio_driver(struct device *dev)
-+static int mtk_hdmi_register_audio_driver(struct device *dev)
- {
- 	struct hdmi_codec_pdata codec_data = {
- 		.ops = &mtk_hdmi_audio_codec_ops,
-@@ -1669,9 +1669,10 @@ static void mtk_hdmi_register_audio_driver(struct device *dev)
- 					     PLATFORM_DEVID_AUTO, &codec_data,
- 					     sizeof(codec_data));
- 	if (IS_ERR(pdev))
--		return;
-+		return PTR_ERR(pdev);
- 
- 	DRM_INFO("%s driver bound to HDMI\n", HDMI_CODEC_DRV_NAME);
-+	return 0;
+ static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
+@@ -1194,13 +1196,27 @@ static void mtk_hdmi_clk_disable_audio(struct mtk_hdmi *hdmi)
+ 	clk_disable_unprepare(hdmi->clk[MTK_HDMI_CLK_AUD_SPDIF]);
  }
  
- static int mtk_drm_hdmi_probe(struct platform_device *pdev)
-@@ -1705,7 +1706,11 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
++static void mtk_hdmi_update_plugged_status(struct mtk_hdmi *hdmi,
++					   enum drm_connector_status status)
++{
++	if (hdmi->plugged_cb && hdmi->codec_dev)
++		hdmi->plugged_cb(hdmi->codec_dev,
++				 status == connector_status_connected);
++}
++
+ static enum drm_connector_status hdmi_conn_detect(struct drm_connector *conn,
+ 						  bool force)
+ {
+ 	struct mtk_hdmi *hdmi = hdmi_ctx_from_conn(conn);
++	enum drm_connector_status status;
  
--	mtk_hdmi_register_audio_driver(dev);
-+	ret = mtk_hdmi_register_audio_driver(dev);
-+	if (ret) {
-+		dev_err(dev, "Failed to register audio driver: %d\n", ret);
-+		return ret;
-+	}
+-	return mtk_cec_hpd_high(hdmi->cec_dev) ?
+-	       connector_status_connected : connector_status_disconnected;
++	if (mtk_cec_hpd_high(hdmi->cec_dev))
++		status = connector_status_connected;
++	else
++		status = connector_status_disconnected;
++
++	mtk_hdmi_update_plugged_status(hdmi, status);
++	return status;
+ }
  
- 	hdmi->bridge.funcs = &mtk_hdmi_bridge_funcs;
- 	hdmi->bridge.of_node = pdev->dev.of_node;
+ static void hdmi_conn_destroy(struct drm_connector *conn)
+@@ -1648,20 +1664,41 @@ static int mtk_hdmi_audio_get_eld(struct device *dev, void *data, uint8_t *buf,
+ 	return 0;
+ }
+ 
++static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
++					  hdmi_codec_plugged_cb fn,
++					  struct device *codec_dev)
++{
++	struct mtk_hdmi *hdmi = data;
++
++	hdmi->plugged_cb = fn;
++	hdmi->codec_dev = codec_dev;
++
++	if (mtk_cec_hpd_high(hdmi->cec_dev))
++		mtk_hdmi_update_plugged_status(
++				hdmi, connector_status_connected);
++	else
++		mtk_hdmi_update_plugged_status(
++				hdmi, connector_status_disconnected);
++	return 0;
++}
++
+ static const struct hdmi_codec_ops mtk_hdmi_audio_codec_ops = {
+ 	.hw_params = mtk_hdmi_audio_hw_params,
+ 	.audio_startup = mtk_hdmi_audio_startup,
+ 	.audio_shutdown = mtk_hdmi_audio_shutdown,
+ 	.digital_mute = mtk_hdmi_audio_digital_mute,
+ 	.get_eld = mtk_hdmi_audio_get_eld,
++	.hook_plugged_cb = mtk_hdmi_audio_hook_plugged_cb,
+ };
+ 
+ static int mtk_hdmi_register_audio_driver(struct device *dev)
+ {
++	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
+ 	struct hdmi_codec_pdata codec_data = {
+ 		.ops = &mtk_hdmi_audio_codec_ops,
+ 		.max_i2s_channels = 2,
+ 		.i2s = 1,
++		.data = hdmi,
+ 	};
+ 	struct platform_device *pdev;
+ 
 -- 
 2.25.0.341.g760bfbb309-goog
 
