@@ -2,37 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E435E153FEA
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F8D153FD9
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4186F9F6;
-	Thu,  6 Feb 2020 08:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2276F9ED;
+	Thu,  6 Feb 2020 08:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4DAA6F4EF
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 09:32:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2020 01:32:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,405,1574150400"; d="scan'208";a="224591382"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga008.jf.intel.com with ESMTP; 05 Feb 2020 01:32:28 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 81BEC17C; Wed,  5 Feb 2020 11:32:27 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH v2] drm: shmobile: Reduce include dependencies
-Date: Wed,  5 Feb 2020 11:32:26 +0200
-Message-Id: <20200205093226.72064-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com
+ [IPv6:2607:f8b0:4864:20::f4a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F05FE6F4F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 09:38:01 +0000 (UTC)
+Received: by mail-qv1-xf4a.google.com with SMTP id l1so1110237qvu.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 01:38:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=t+hNfXtjwFMsmQ+t75tk3QCZWXLmXlUbrDyATbIS/Bc=;
+ b=MPdYJEe/X6+UOZ/iI1BO4xiJs31/Seqbo6Q05MkN0brP5sV4pUta35ASqc5ULG8ziQ
+ MIUHRAe8OceKhjKHENrwwX88Qlu0xqxjT9OFOuFAAHORAv2N3GXNou/tSWw1lGrfXJoc
+ 1O9xQ4fansGi92J16e/+mBRYDj8j0Pb55onstvRNM6TkiRBJJOdqXPfRsL4YUzImAPeD
+ gVXNWPUqdg9Cw6znnQcyC87bJXikYGVVqErTVVC9yv9HOZvUaMY94ZIEwBU2Y2wQGjGV
+ t3LQeT3oP6JZ1MG+jwnSUPEbUi1mKjw1OJDzO4MlWdnEkb+z4ifpd/IdsuYlVLNIaIdZ
+ rWUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=t+hNfXtjwFMsmQ+t75tk3QCZWXLmXlUbrDyATbIS/Bc=;
+ b=YuaosGk0fQW6nj/YGebjUabKVTW6c3ErbeNNmZ04KWmkzBFIrbEXOzpog0JJSm1+ad
+ wbg17h8HfmqmlzOcI4MhODbWjslCSF/QUFvMbkOPNp4+Gf8t2A82OanvjENt8d/fWYs8
+ H1T7el9AlwR3aLCPlFdFlPLjHgdSEe3uHz9ZubXZRfAaoT7fYB+BopqBjZam/eArF3KB
+ M8yLKutLcUw4VR1lCnFF80fNaHN5tdfFUnEni53xR2ArKY3t2Yiz20cGWJsmpgs/Wcf6
+ 1Ur/vJKvJ7isWosIZ7/tFQYqVO8neQfe8leWHwGVQz73LjMMaeY9vvOeQTvSLrqi4l7n
+ pBkw==
+X-Gm-Message-State: APjAAAXlcRg82ZNYcL/Vdist2u7zJWhyZKQk/q+OYTv6Z00iJ/1zpS88
+ KL/+RpzP7HaKd/eJ9Nr4bMAodunB1fC8
+X-Google-Smtp-Source: APXvYqxWq6o7mBKpCGRPGamchrFfwa2yARrxJ2bCNGi7q5SP7eZKkfVJhzmt1ZrNjdgv4w8hfmP3yhbrXV7A
+X-Received: by 2002:a37:de0b:: with SMTP id h11mr9177628qkj.274.1580895480903; 
+ Wed, 05 Feb 2020 01:38:00 -0800 (PST)
+Date: Wed,  5 Feb 2020 17:37:42 +0800
+Message-Id: <20200205093745.79298-1-tzungbi@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
+Subject: [PATCH 0/3] ASoC: mediatek: mt8173-rt5650: HDMI jack reporting
+From: Tzung-Bi Shih <tzungbi@google.com>
+To: broonie@kernel.org, airlied@linux.ie, daniel@ffwll.ch
 X-Mailman-Approved-At: Thu, 06 Feb 2020 08:17:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,39 +59,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, cychiang@google.com, tzungbi@google.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, dgreid@google.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This file doesn't need everything provided by <linux/kernel.h>.
-All it needs are some types, which are provided by <linux/types.h>.
+The series supports HDMI jack reporting to mt8173-rt5650.
 
-Note, <drm/drm_mode.h> already includes <linux/types.h>, but
-not relying on implicit includes is indeed a good thing.
+The 1st patch is less related.  It stops running in probe() if failed
+to register audio driver.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: Update commit message (Geert, Laurent)
- include/linux/platform_data/shmob_drm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The 2nd patch supports jack reporting in DRM driver.
 
-diff --git a/include/linux/platform_data/shmob_drm.h b/include/linux/platform_data/shmob_drm.h
-index fe815d7d9f58..08605fdb2226 100644
---- a/include/linux/platform_data/shmob_drm.h
-+++ b/include/linux/platform_data/shmob_drm.h
-@@ -10,7 +10,7 @@
- #ifndef __SHMOB_DRM_H__
- #define __SHMOB_DRM_H__
- 
--#include <linux/kernel.h>
-+#include <linux/types.h>
- 
- #include <drm/drm_mode.h>
- 
+The 3rd patch supports jack reporting in mt8173-rt5650 ASoC machine
+driver.
+
+Tzung-Bi Shih (3):
+  drm/mediatek: exit earlier if failed to register audio driver
+  drm/mediatek: support HDMI jack status reporting
+  ASoC: mediatek: mt8173-rt5650: support HDMI jack reporting
+
+ drivers/gpu/drm/mediatek/mtk_hdmi.c       | 52 ++++++++++++++++++++---
+ sound/soc/mediatek/mt8173/mt8173-rt5650.c | 17 +++++++-
+ 2 files changed, 63 insertions(+), 6 deletions(-)
+
 -- 
-2.24.1
+2.25.0.341.g760bfbb309-goog
 
 _______________________________________________
 dri-devel mailing list
