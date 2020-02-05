@@ -2,37 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D526B15334D
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 15:45:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D4E153361
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 15:51:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC086F5DB;
-	Wed,  5 Feb 2020 14:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0917A6F5E9;
+	Wed,  5 Feb 2020 14:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE8B6F5D7;
- Wed,  5 Feb 2020 14:45:18 +0000 (UTC)
-Received: from localhost (unknown [137.135.114.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7084D222C2;
- Wed,  5 Feb 2020 14:45:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1580913918;
- bh=ztiXU/qrRqrIBmSEuYtgGn+N5ZJQerFe60JUEI3uqn8=;
- h=Date:From:To:To:To:Cc:Cc:Subject:In-Reply-To:References:From;
- b=tDpH/6eD//x5iba0qIdaXUdt/MX2so5Wb11SVUfzH52gn1t0ov8vHbSqkQL5er5BR
- ID1/yXegxDemzRr5VBfW9ss9InJGi4VQg8j2G/XhoWLEb57Wp2Vk4QWF4wcPHJ4AOf
- xevJ8MqaGky8J3YjBKdn0/MZO9JA2Xte0CdgakFg=
-Date: Wed, 05 Feb 2020 14:45:17 +0000
-From: Sasha Levin <sashal@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 4/5] drm/i915: Wean off drm_pci_alloc/drm_pci_free
-In-Reply-To: <20200202171635.4039044-4-chris@chris-wilson.co.uk>
-References: <20200202171635.4039044-4-chris@chris-wilson.co.uk>
-Message-Id: <20200205144518.7084D222C2@mail.kernel.org>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE766F5E4;
+ Wed,  5 Feb 2020 14:51:47 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2020 06:51:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,405,1574150400"; d="scan'208";a="254780939"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by fmsmga004.fm.intel.com with ESMTP; 05 Feb 2020 06:51:46 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 5 Feb 2020 06:51:46 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 5 Feb 2020 06:51:46 -0800
+Received: from bgsmsx152.gar.corp.intel.com (10.224.48.50) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Wed, 5 Feb 2020 06:51:45 -0800
+Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.97]) by
+ BGSMSX152.gar.corp.intel.com ([169.254.6.38]) with mapi id 14.03.0439.000;
+ Wed, 5 Feb 2020 20:21:45 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v3 02/17] drm/i915/dp: Add compute routine for DP VSC SDP
+Thread-Topic: [PATCH v3 02/17] drm/i915/dp: Add compute routine for DP VSC SDP
+Thread-Index: AQHV2uiSrsEJvXDxNUCfZ9aTq1lhyagMsBHg
+Date: Wed, 5 Feb 2020 14:51:44 +0000
+Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DCE2A@BGSMSX104.gar.corp.intel.com>
+References: <20200203232014.906651-1-gwan-gyeong.mun@intel.com>
+ <20200203232014.906651-3-gwan-gyeong.mun@intel.com>
+In-Reply-To: <20200203232014.906651-3-gwan-gyeong.mun@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOTQzNTViZWEtZTk5OC00YTEzLTg2ZDUtZjQ3ZDEzOTFiNjk0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiOE5haGlcLzFqUVwvMlhzcmcrc0FSQmVWcXdcL2Q3N25Dcml2ZGI2bmFjU0tjTmJQaUhhUCtFaWNsM0ViV3JBdDAzbCJ9
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,69 +69,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , intel-gfx@lists.freedesktop.org, stable@vger.kernel.org
-MIME-Version: 1.0
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-[This is an automated email]
-
-This commit has been processed because it contains a "Fixes:" tag,
-fixing commit: de09d31dd38a ("page-flags: define PG_reserved behavior on compound pages").
-
-The bot has tested the following trees: v5.5.1, v5.4.17, v4.19.101, v4.14.169, v4.9.212.
-
-v5.5.1: Build OK!
-v5.4.17: Build OK!
-v4.19.101: Failed to apply! Possible dependencies:
-    4a3d3f6785be ("drm/i915: Match code to comment and enforce ppgtt for execlists")
-    4bdafb9ddfa4 ("drm/i915: Remove i915.enable_ppgtt override")
-    5771caf885ae ("drm/i915/skl+: Decode memory bandwidth and parameters")
-    6323113b7af6 ("drm/i915: Move SKL IPC WA to HAS_IPC()")
-    79556df293b2 ("drm/i915/gtt: Enable full-ppgtt by default everywhere")
-    86b592876cb6 ("drm/i915: Implement 16GB dimm wa for latency level-0")
-    8a6c5447635c ("drm/i915/kbl+: Enable IPC only for symmetric memory configurations")
-    900ccf30f9e1 ("drm/i915: Only force GGTT coherency w/a on required chipsets")
-    cbfa59d4b331 ("drm/i915/bxt: Decode memory bandwidth and parameters")
-    d53db442db36 ("drm/i915: Move display device info capabilities to its own struct")
-    f361912aa9bf ("drm/i915/skl+: don't trust IPC value set by BIOS")
-    fd847b8e60e0 ("drm/i915: Do not modifiy reserved bit in gens that do not have IPC")
-
-v4.14.169: Failed to apply! Possible dependencies:
-    0d6fc92a73e0 ("drm/i915: Separate RPS and RC6 handling for VLV")
-    37d933fc1728 ("drm/i915: Introduce separate status variable for RC6 and LLC ring frequency setup")
-    3e8ddd9e5071 ("drm/i915: Nuke some bogus tabs from the pcode defines")
-    562d9bae08a1 ("drm/i915: Name structure in dev_priv that contains RPS/RC6 state as "gt_pm"")
-    61843f0e6212 ("drm/i915: Name the IPS_PCODE_CONTROL bit")
-    771decb0b4d7 ("drm/i915: Rename intel_enable_rc6 to intel_rc6_enabled")
-    960e54652cee ("drm/i915: Separate RPS and RC6 handling for gen6+")
-    9f817501bd7f ("drm/i915: Move rps.hw_lock to dev_priv and s/hw_lock/pcu_lock")
-    c56b89f16dd0 ("drm/i915: Use INTEL_GEN everywhere")
-    d46b00dc38c8 ("drm/i915: Separate RPS and RC6 handling for CHV")
-    d53db442db36 ("drm/i915: Move display device info capabilities to its own struct")
-    fb6db0f5bf1d ("drm/i915: Remove unsafe i915.enable_rc6")
-
-v4.9.212: Failed to apply! Possible dependencies:
-    0031fb96859c ("drm/i915: Assorted dev_priv cleanups")
-    03cdc1d4f795 ("drm/i915: Store port enum in intel_encoder")
-    4f8036a28112 ("drm/i915: Make HAS_DDI and HAS_PCH_LPT_LP only take dev_priv")
-    50a0bc905416 ("drm/i915: Make INTEL_DEVID only take dev_priv")
-    6e266956a57f ("drm/i915: Make INTEL_PCH_TYPE & co only take dev_priv")
-    8652744b647e ("drm/i915: Make IS_BROADWELL only take dev_priv")
-    d53db442db36 ("drm/i915: Move display device info capabilities to its own struct")
 
 
-NOTE: The patch will not be queued to stable trees until it is upstream.
+> -----Original Message-----
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Gwan-
+> gyeong Mun
+> Sent: Tuesday, February 4, 2020 4:50 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org; dri-devel@lists.freedesktop.org
+> Subject: [PATCH v3 02/17] drm/i915/dp: Add compute routine for DP VSC SDP
+> 
+> In order to support state readout for DP VSC SDP, we need to have a structure which
+> holds DP VSC SDP payload data such as "union hdmi_infoframe drm" which is used
+> for DRM infoframe.
+> It adds a struct drm_dp_vsc_sdp vsc to intel_crtc_state.infoframes.
+> 
+> And it stores computed dp vsc sdp to infoframes.vsc of crtc state.
+> While computing we'll also fill out the inforames.enable bitmask appropriately.
+> 
+> The compute routine follows DP 1.4 spec [Table 2-117: VSC SDP Payload for
+> DB16 through DB18].
+> 
+> v3: Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
+>
 
-How should we proceed with this patch?
+With the structure names updated, this looks good to me.
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 
--- 
-Thanks,
-Sasha
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> ---
+>  .../drm/i915/display/intel_display_types.h    |  1 +
+>  drivers/gpu/drm/i915/display/intel_dp.c       | 92 +++++++++++++++++++
+>  2 files changed, 93 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
+> b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 33ba93863488..6633c1061670 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1021,6 +1021,7 @@ struct intel_crtc_state {
+>  		union hdmi_infoframe spd;
+>  		union hdmi_infoframe hdmi;
+>  		union hdmi_infoframe drm;
+> +		struct drm_dp_vsc_sdp vsc;
+>  	} infoframes;
+> 
+>  	/* HDMI scrambling status */
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
+> b/drivers/gpu/drm/i915/display/intel_dp.c
+> index f4dede6253f8..2bdc43c80e03 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -2372,6 +2372,97 @@ static bool intel_dp_port_has_audio(struct
+> drm_i915_private *dev_priv,
+>  	return true;
+>  }
+> 
+> +static void intel_dp_compute_vsc_colorimetry(const struct intel_crtc_state
+> *crtc_state,
+> +					     const struct drm_connector_state
+> *conn_state,
+> +					     struct drm_dp_vsc_sdp *vsc)
+> +{
+> +	/*
+> +	 * Prepare VSC Header for SU as per DP 1.4 spec, Table 2-118
+> +	 * VSC SDP supporting 3D stereo, PSR2, and Pixel Encoding/
+> +	 * Colorimetry Format indication.
+> +	 */
+> +	vsc->revision = 0x5;
+> +	vsc->length = 0x13;
+> +
+> +	/* DP 1.4a spec, Table 2-120 */
+> +	switch (crtc_state->output_format) {
+> +	case INTEL_OUTPUT_FORMAT_YCBCR444:
+> +		vsc->colorspace = DP_COLORSPACE_YUV444;
+> +		break;
+> +	case INTEL_OUTPUT_FORMAT_YCBCR420:
+> +		vsc->colorspace = DP_COLORSPACE_YUV420;
+> +		break;
+> +	case INTEL_OUTPUT_FORMAT_RGB:
+> +	default:
+> +		vsc->colorspace = DP_COLORSPACE_RGB;
+> +	}
+> +
+> +	switch (conn_state->colorspace) {
+> +	case DRM_MODE_COLORIMETRY_BT709_YCC:
+> +		vsc->colorimetry = DP_COLORIMETRY_BT709_YCC;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_XVYCC_601:
+> +		vsc->colorimetry = DP_COLORIMETRY_XVYCC_601;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_XVYCC_709:
+> +		vsc->colorimetry = DP_COLORIMETRY_XVYCC_709;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_SYCC_601:
+> +		vsc->colorimetry = DP_COLORIMETRY_SYCC_601;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_OPYCC_601:
+> +		vsc->colorimetry = DP_COLORIMETRY_OPYCC_601;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_BT2020_CYCC:
+> +		vsc->colorimetry = DP_COLORIMETRY_BT2020_CYCC;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_BT2020_RGB:
+> +		vsc->colorimetry = DP_COLORIMETRY_BT2020_RGB;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_BT2020_YCC:
+> +		vsc->colorimetry = DP_COLORIMETRY_BT2020_YCC;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+> +	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
+> +		vsc->colorimetry = DP_COLORIMETRY_DCI_P3_RGB;
+> +		break;
+> +	default:
+> +		/*
+> +		 * RGB->YCBCR color conversion uses the BT.709
+> +		 * color space.
+> +		 */
+> +		if (crtc_state->output_format ==
+> INTEL_OUTPUT_FORMAT_YCBCR420)
+> +			vsc->colorimetry = DP_COLORIMETRY_BT709_YCC;
+> +		else
+> +			vsc->colorimetry = DP_COLORIMETRY_DEFAULT;
+> +		break;
+> +	}
+> +
+> +	vsc->bpc = crtc_state->pipe_bpp / 3;
+> +	/* all YCbCr are always limited range */
+> +	vsc->dynamic_range = DP_DYNAMIC_RANGE_CTA;
+> +	vsc->content_type = DP_CONTENT_TYPE_NOT_DEFINED; }
+> +
+> +static void intel_dp_compute_vsc_sdp(struct intel_dp *intel_dp,
+> +				     struct intel_crtc_state *crtc_state,
+> +				     const struct drm_connector_state *conn_state) {
+> +	struct drm_dp_vsc_sdp *vsc = &crtc_state->infoframes.vsc;
+> +
+> +	/* When PSR is enabled, VSC SDP is handled by PSR routine */
+> +	if (intel_psr_enabled(intel_dp))
+> +		return;
+> +
+> +	if (!intel_dp_needs_vsc_sdp(crtc_state, conn_state))
+> +		return;
+> +
+> +	crtc_state->infoframes.enable |=
+> intel_hdmi_infoframe_enable(DP_SDP_VSC);
+> +	vsc->sdp_type = DP_SDP_VSC;
+> +	intel_dp_compute_vsc_colorimetry(crtc_state, conn_state,
+> +					 &crtc_state->infoframes.vsc);
+> +}
+> +
+>  int
+>  intel_dp_compute_config(struct intel_encoder *encoder,
+>  			struct intel_crtc_state *pipe_config, @@ -2477,6 +2568,7
+> @@ intel_dp_compute_config(struct intel_encoder *encoder,
+>  		intel_dp_set_clock(encoder, pipe_config);
+> 
+>  	intel_psr_compute_config(intel_dp, pipe_config);
+> +	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
+> 
+>  	return 0;
+>  }
+> --
+> 2.24.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
