@@ -1,36 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97E3153817
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 19:24:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBCF15389C
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 20:02:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4176F91D;
-	Wed,  5 Feb 2020 18:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72FCE6E9CC;
+	Wed,  5 Feb 2020 19:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 671946F91D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 18:24:43 +0000 (UTC)
-Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1izPLq-0000H9-4l; Wed, 05 Feb 2020 19:24:38 +0100
-Message-ID: <0de5ad33ca2ff86fee13a453aa9096c274afbd3c.camel@pengutronix.de>
-Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Date: Wed, 05 Feb 2020 19:24:37 +0100
-In-Reply-To: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>
-References: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>
-User-Agent: Evolution 3.30.5-1.1 
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C29F56E9CC
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 19:02:31 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id x2so2785584ila.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 11:02:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NFFmVcVESEfwSn2A/244mgSc36NuR/2W0Tkvm0b+8y8=;
+ b=OkchdjsZNX5fOzLnoUuy87cUuoKByubZ2zqOERnwR9hKX8hukkCmV8HCsiT0Arwhqh
+ O3u9tIDy2LybmWCTmCT2t6gZkyGkqHAe44Iz/NgWrgghuk72FiEkhGsKXBwAe7MREQnP
+ 9O3smUse0EtCi7RJE2RRNhWI3fQMJwh3UhJhHutolJpbCE+w4TSFfGqPpxdb7kG51xYS
+ W2ZpdBe8R0FeOw5HfCQLhmkt6rPo1ibCRSBEg6/O4W7XUwE6nvpNca5Whcb6Cy40v5ip
+ 34/JEifRWbqP0vThcUQFmYe7iD4JZsM8IbEXOmS2lfT02z3oNYd4U3NS9p3e9u99LbDr
+ yI9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NFFmVcVESEfwSn2A/244mgSc36NuR/2W0Tkvm0b+8y8=;
+ b=YVVR3UK3pDOjIraf8R0fjrtM2DLoxvaDOEXEZEkIrzwYMGzg5I2P8NjZg0jVJe5pi5
+ fK3XQiwEtk9SAuKSVuXqfIw0PLyH5JNM1tZyPphSQjH8rBWLLFQ0gQqURPfGOkOD0SPM
+ wG3frmCOUrAaXDe/6GWFMGYjScLt+sVmpoa/dFBP22xCJ88BosNns8s3zH15y5gQEgUu
+ 80CHwaeltkjvxLgCkDKMPU4iupVXKKwDAYqtUjIGgvPGZgbSQFC6WYX+TgKlhGimNunh
+ HgscFhhi6umwXMB8l55oYxupFyH5O82VkeTR7L4MJ6W+WluDXrjregVLwx6/cKgVxWCc
+ XGpw==
+X-Gm-Message-State: APjAAAVC5xV9R00bsQPClIFt3uM6RI6aXEo/FJgv5/dsbdGC/TRasBZZ
+ IW1oq0YLt6P0bpP3ZuOubTGvHYC++adO+j+gYqzJ/c5a
+X-Google-Smtp-Source: APXvYqyp9wuSn6/5IMsbRVub/R5YxR28vshgim22WfgXtRPHIQYjj4RUu6bWJWFTvDN/70errdbBVIhzy+NuDtuJv0s=
+X-Received: by 2002:a92:9ac5:: with SMTP id c66mr35877612ill.232.1580929350686; 
+ Wed, 05 Feb 2020 11:02:30 -0800 (PST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20200205105955.28143-1-kraxel@redhat.com>
+ <20200205105955.28143-3-kraxel@redhat.com>
+In-Reply-To: <20200205105955.28143-3-kraxel@redhat.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Wed, 5 Feb 2020 11:02:19 -0800
+Message-ID: <CAPaKu7SCk_3yeTtzFTTU_y-tyo8EDS7vR8i+mk829=0D-UjLQA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] drm/virtio: resource teardown tweaks
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,84 +61,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emily.Deng@amd.com, Christian.Koenig@amd.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- steven.price@arm.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQW5kcmV5LAoKVGhpcyBjb21taXQgYnJlYWtzIGFsbCBkcml2ZXJzLCB3aGljaCBtYXkgYmFp
-bCBvdXQgb2YgdGhlIHRpbWVvdXQKcHJvY2Vzc2luZyBhcyB0aGV5IHdpc2ggdG8gZXh0ZW5kIHRo
-ZSB0aW1lb3V0IChldG5hdml2LCB2M2QpLgoKVGhvc2UgZHJpdmVycyBjdXJyZW50bHkganVzdCBy
-ZXR1cm4gZnJvbSB0aGUgdGltZW91dCBoYW5kbGVyIGJlZm9yZQpjYWxsaW5nIGRybV9zY2hlZF9z
-dG9wKCksIHdoaWNoIG1lYW5zIHdpdGggdGhpcyBjb21taXQgYXBwbGllZCB3ZSBhcmUKcmVtb3Zp
-bmcgdGhlIGZpcnN0IGpvYiBmcm9tIHRoZSByaW5nX21pcnJvcl9saXN0LCBidXQgbmV2ZXIgcHV0
-IGl0CmJhY2suIFRoaXMgbGVhZHMgdG8gam9icyBnZXR0aW5nIGxvc3QgZnJvbSB0aGUgcmluZyBt
-aXJyb3IsIHdoaWNoIHRoZW4KY2F1c2VzIHF1aXRlIGEgYml0IG9mIGZhbGxvdXQgbGlrZSB1bnNp
-Z25hbGVkIGZlbmNlcy4KCk5vdCBzdXJlIHlldCB3aGF0IHRvIGRvIGFib3V0IGl0LCB3ZSBjYW4g
-ZWl0aGVyIGFkZCBhIGZ1bmN0aW9uIHRvIGFkZAp0aGUgam9iIGJhY2sgdG8gdGhlIHJpbmdfbWly
-cm9yIGlmIHRoZSBkcml2ZXIgd2FudHMgdG8gZXh0ZW5kIHRoZQp0aW1lb3V0LCBvciB3ZSBjb3Vs
-ZCBsb29rIGZvciBhbm90aGVyIHdheSB0byBzdG9wCmRybV9zY2hlZF9jbGVhbnVwX2pvYnMgZnJv
-bSBmcmVlaW5nIGpvYnMgdGhhdCBhcmUgY3VycmVudGx5IGluIHRpbWVvdXQKcHJvY2Vzc2luZy4K
-ClJlZ2FyZHMsCkx1Y2FzCgpPbiBNbywgMjAxOS0xMS0yNSBhdCAxNTo1MSAtMDUwMCwgQW5kcmV5
-IEdyb2R6b3Zza3kgd3JvdGU6Cj4gUHJvYmxlbToKPiBEdWUgdG8gYSByYWNlIGJldHdlZW4gZHJt
-X3NjaGVkX2NsZWFudXBfam9icyBpbiBzY2hlZCB0aHJlYWQgYW5kCj4gZHJtX3NjaGVkX2pvYl90
-aW1lZG91dCBpbiB0aW1lb3V0IHdvcmsgdGhlcmUgaXMgYSBwb3NzaWJsaXR5IHRoYXQKPiBiYWQg
-am9iIHdhcyBhbHJlYWR5IGZyZWVkIHdoaWxlIHN0aWxsIGJlaW5nIGFjY2Vzc2VkIGZyb20gdGhl
-Cj4gdGltZW91dCB0aHJlYWQuCj4gCj4gRml4Ogo+IEluc3RlYWQgb2YganVzdCBwZWVraW5nIGF0
-IHRoZSBiYWQgam9iIGluIHRoZSBtaXJyb3IgbGlzdAo+IHJlbW92ZSBpdCBmcm9tIHRoZSBsaXN0
-IHVuZGVyIGxvY2sgYW5kIHRoZW4gcHV0IGl0IGJhY2sgbGF0ZXIgd2hlbgo+IHdlIGFyZSBnYXJh
-bnRlZWQgbm8gcmFjZSB3aXRoIG1haW4gc2NoZWQgdGhyZWFkIGlzIHBvc3NpYmxlIHdoaWNoCj4g
-aXMgYWZ0ZXIgdGhlIHRocmVhZCBpcyBwYXJrZWQuCj4gCj4gdjI6IExvY2sgYXJvdW5kIHByb2Nl
-c3NpbmcgcmluZ19taXJyb3JfbGlzdCBpbiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzLgo+IAo+IHYz
-OiBSZWJhc2Ugb24gdG9wIG9mIGRybS1taXNjLW5leHQuIHYyIGlzIG5vdCBuZWVkZWQgYW55bW9y
-ZSBhcwo+IGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgYWxyZWFkeSBoYXMgYSBsb2NrIHRoZXJl
-Lgo+IAo+IHY0OiBGaXggY29tbWVudHMgdG8gcmVsZmVjdCBsYXRlc3QgY29kZSBpbiBkcm0tbWlz
-Yy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdyb2R6b3Zz
-a3lAYW1kLmNvbT4KPiBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtv
-ZW5pZ0BhbWQuY29tPgo+IFRlc3RlZC1ieTogRW1pbHkgRGVuZyA8RW1pbHkuRGVuZ0BhbWQuY29t
-Pgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyB8IDI3ICsr
-KysrKysrKysrKysrKysrKysrKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMjcgaW5zZXJ0aW9u
-cygrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21h
-aW4uYyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4gaW5kZXggNjc3
-NDk1NS4uMWJmOWM0MCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3Nj
-aGVkX21haW4uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5j
-Cj4gQEAgLTI4NCwxMCArMjg0LDIxIEBAIHN0YXRpYyB2b2lkIGRybV9zY2hlZF9qb2JfdGltZWRv
-dXQoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAJdW5zaWduZWQgbG9uZyBmbGFnczsKPiAg
-Cj4gIAlzY2hlZCA9IGNvbnRhaW5lcl9vZih3b3JrLCBzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIs
-IHdvcmtfdGRyLndvcmspOwo+ICsKPiArCS8qIFByb3RlY3RzIGFnYWluc3QgY29uY3VycmVudCBk
-ZWxldGlvbiBpbiBkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iICovCj4gKwlzcGluX2xvY2tfaXJx
-c2F2ZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKPiAgCWpvYiA9IGxpc3RfZmlyc3Rf
-ZW50cnlfb3JfbnVsbCgmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3QsCj4gIAkJCQkgICAgICAgc3Ry
-dWN0IGRybV9zY2hlZF9qb2IsIG5vZGUpOwo+ICAKPiAgCWlmIChqb2IpIHsKPiArCQkvKgo+ICsJ
-CSAqIFJlbW92ZSB0aGUgYmFkIGpvYiBzbyBpdCBjYW5ub3QgYmUgZnJlZWQgYnkgY29uY3VycmVu
-dAo+ICsJCSAqIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMuIEl0IHdpbGwgYmUgcmVpbnNlcnRlZCBi
-YWNrIGFmdGVyIHNjaGVkLT50aHJlYWQKPiArCQkgKiBpcyBwYXJrZWQgYXQgd2hpY2ggcG9pbnQg
-aXQncyBzYWZlLgo+ICsJCSAqLwo+ICsJCWxpc3RfZGVsX2luaXQoJmpvYi0+bm9kZSk7Cj4gKwkJ
-c3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKPiAr
-Cj4gIAkJam9iLT5zY2hlZC0+b3BzLT50aW1lZG91dF9qb2Ioam9iKTsKPiAgCj4gIAkJLyoKPiBA
-QCAtMjk4LDYgKzMwOSw4IEBAIHN0YXRpYyB2b2lkIGRybV9zY2hlZF9qb2JfdGltZWRvdXQoc3Ry
-dWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAJCQlqb2ItPnNjaGVkLT5vcHMtPmZyZWVfam9iKGpv
-Yik7Cj4gIAkJCXNjaGVkLT5mcmVlX2d1aWx0eSA9IGZhbHNlOwo+ICAJCX0KPiArCX0gZWxzZSB7
-Cj4gKwkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdz
-KTsKPiAgCX0KPiAgCj4gIAlzcGluX2xvY2tfaXJxc2F2ZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ss
-IGZsYWdzKTsKPiBAQCAtMzcwLDYgKzM4MywyMCBAQCB2b2lkIGRybV9zY2hlZF9zdG9wKHN0cnVj
-dCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQsIHN0cnVjdCBkcm1fc2NoZWRfam9iICpiYWQpCj4g
-IAlrdGhyZWFkX3Bhcmsoc2NoZWQtPnRocmVhZCk7Cj4gIAo+ICAJLyoKPiArCSAqIFJlaW5zZXJ0
-IGJhY2sgdGhlIGJhZCBqb2IgaGVyZSAtIG5vdyBpdCdzIHNhZmUgYXMKPiArCSAqIGRybV9zY2hl
-ZF9nZXRfY2xlYW51cF9qb2IgY2Fubm90IHJhY2UgYWdhaW5zdCB1cyBhbmQgcmVsZWFzZSB0aGUK
-PiArCSAqIGJhZCBqb2IgYXQgdGhpcyBwb2ludCAtIHdlIHBhcmtlZCAod2FpdGVkIGZvcikgYW55
-IGluIHByb2dyZXNzCj4gKwkgKiAoZWFybGllcikgY2xlYW51cHMgYW5kIGRybV9zY2hlZF9nZXRf
-Y2xlYW51cF9qb2Igd2lsbCBub3QgYmUgY2FsbGVkCj4gKwkgKiBub3cgdW50aWwgdGhlIHNjaGVk
-dWxlciB0aHJlYWQgaXMgdW5wYXJrZWQuCj4gKwkgKi8KPiArCWlmIChiYWQgJiYgYmFkLT5zY2hl
-ZCA9PSBzY2hlZCkKPiArCQkvKgo+ICsJCSAqIEFkZCBhdCB0aGUgaGVhZCBvZiB0aGUgcXVldWUg
-dG8gcmVmbGVjdCBpdCB3YXMgdGhlIGVhcmxpZXN0Cj4gKwkJICogam9iIGV4dHJhY3RlZC4KPiAr
-CQkgKi8KPiArCQlsaXN0X2FkZCgmYmFkLT5ub2RlLCAmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3Qp
-Owo+ICsKPiArCS8qCj4gIAkgKiBJdGVyYXRlIHRoZSBqb2IgbGlzdCBmcm9tIGxhdGVyIHRvICBl
-YXJsaWVyIG9uZSBhbmQgZWl0aGVyIGRlYWN0aXZlCj4gIAkgKiB0aGVpciBIVyBjYWxsYmFja3Mg
-b3IgcmVtb3ZlIHRoZW0gZnJvbSBtaXJyb3IgbGlzdCBpZiB0aGV5IGFscmVhZHkKPiAgCSAqIHNp
-Z25hbGVkLgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Feb 5, 2020 at 3:00 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> Add new virtio_gpu_cleanup_object() helper function for object cleanup.
+> Wire up callback function for resource unref, do cleanup from callback
+> when we know the host stopped using the resource.
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.h    |  3 ++-
+>  drivers/gpu/drm/virtio/virtgpu_object.c | 19 ++++++++++----
+>  drivers/gpu/drm/virtio/virtgpu_vq.c     | 35 ++++++++++++++++++++++---
+>  3 files changed, 48 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index 7e69c06e168e..372dd248cf02 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -262,7 +262,7 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
+>                                     struct virtio_gpu_object_array *objs,
+>                                     struct virtio_gpu_fence *fence);
+>  void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
+> -                                  uint32_t resource_id);
+> +                                  struct virtio_gpu_object *bo);
+>  void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+>                                         uint64_t offset,
+>                                         uint32_t width, uint32_t height,
+> @@ -355,6 +355,7 @@ void virtio_gpu_fence_event_process(struct virtio_gpu_device *vdev,
+>                                     u64 last_seq);
+>
+>  /* virtio_gpu_object */
+> +void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo);
+>  struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+>                                                 size_t size);
+>  int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index 017a9e0fc3bb..28a161af7503 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -61,6 +61,14 @@ static void virtio_gpu_resource_id_put(struct virtio_gpu_device *vgdev, uint32_t
+>         }
+>  }
+>
+> +void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+> +{
+> +       struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
+> +
+> +       virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
+> +       drm_gem_shmem_free_object(&bo->base.base);
+> +}
+> +
+>  static void virtio_gpu_free_object(struct drm_gem_object *obj)
+>  {
+>         struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+> @@ -68,11 +76,12 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
+>
+>         if (bo->pages)
+>                 virtio_gpu_object_detach(vgdev, bo);
+> -       if (bo->created)
+> -               virtio_gpu_cmd_unref_resource(vgdev, bo->hw_res_handle);
+> -       virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
+> -
+> -       drm_gem_shmem_free_object(obj);
+> +       if (bo->created) {
+> +               virtio_gpu_cmd_unref_resource(vgdev, bo);
+> +               /* completion handler calls virtio_gpu_cleanup_object() */
+nitpick: we don't need this comment when virtio_gpu_cmd_unref_cb is
+defined by this file and passed to virtio_gpu_cmd_unref_resource.
+
+I happen to be looking at our error handling paths.  I think we want
+virtio_gpu_queue_fenced_ctrl_buffer to call vbuf->resp_cb on errors.
+
+
+> +               return;
+> +       }
+> +       virtio_gpu_cleanup_object(bo);
+>  }
+>
+>  static const struct drm_gem_object_funcs virtio_gpu_gem_funcs = {
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> index 6d6d55dc384e..6e8097e4c214 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> @@ -152,6 +152,15 @@ static void *virtio_gpu_alloc_cmd(struct virtio_gpu_device *vgdev,
+>                                          sizeof(struct virtio_gpu_ctrl_hdr), NULL);
+>  }
+>
+> +static void *virtio_gpu_alloc_cmd_cb(struct virtio_gpu_device *vgdev,
+> +                                    struct virtio_gpu_vbuffer **vbuffer_p,
+> +                                    int size,
+> +                                    virtio_gpu_resp_cb cb)
+> +{
+> +       return virtio_gpu_alloc_cmd_resp(vgdev, cb, vbuffer_p, size,
+> +                                        sizeof(struct virtio_gpu_ctrl_hdr), NULL);
+> +}
+> +
+>  static void free_vbuf(struct virtio_gpu_device *vgdev,
+>                       struct virtio_gpu_vbuffer *vbuf)
+>  {
+> @@ -494,17 +503,37 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
+>         bo->created = true;
+>  }
+>
+> +static void virtio_gpu_cmd_unref_cb(struct virtio_gpu_device *vgdev,
+> +                                   struct virtio_gpu_vbuffer *vbuf)
+> +{
+> +       struct virtio_gpu_object *bo;
+> +
+> +       bo = gem_to_virtio_gpu_obj(vbuf->objs->objs[0]);
+> +       kfree(vbuf->objs);
+> +       vbuf->objs = NULL;
+> +
+> +       virtio_gpu_cleanup_object(bo);
+> +}
+> +
+>  void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
+> -                                  uint32_t resource_id)
+> +                                  struct virtio_gpu_object *bo)
+>  {
+>         struct virtio_gpu_resource_unref *cmd_p;
+>         struct virtio_gpu_vbuffer *vbuf;
+>
+> -       cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+> +       cmd_p = virtio_gpu_alloc_cmd_cb(vgdev, &vbuf, sizeof(*cmd_p),
+> +                                       virtio_gpu_cmd_unref_cb);
+>         memset(cmd_p, 0, sizeof(*cmd_p));
+>
+>         cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_UNREF);
+> -       cmd_p->resource_id = cpu_to_le32(resource_id);
+> +       cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
+> +
+> +       /*
+> +        * We are in the release callback and do NOT want refcount
+> +        * bo, so do NOT use virtio_gpu_array_add_obj().
+> +        */
+> +       vbuf->objs = virtio_gpu_array_alloc(1);
+> +       vbuf->objs->objs[0] = &bo->base.base
+This is an abuse of obj array.  Add "void *private_data;" to
+virtio_gpu_vbuffer and use that maybe?
+
+Otherwise, simply
+
+  // abuse objs field to pass our private data; must reset in the resp_cb
+  vbuf->objs = (virtio_gpu_object_array *) bo;
+
+makes it easier to see what is going on.
+
+
+>
+>         virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
+>  }
+> --
+> 2.18.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
