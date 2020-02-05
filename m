@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53441538F3
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 20:21:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E4B15390C
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 20:24:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E18A16F93E;
-	Wed,  5 Feb 2020 19:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFCA898C4;
+	Wed,  5 Feb 2020 19:24:55 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 977816F93E
- for <dri-devel@freedesktop.org>; Wed,  5 Feb 2020 19:21:48 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id b79so2105005vsd.9
- for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:21:48 -0800 (PST)
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
+ [IPv6:2607:f8b0:4864:20::e43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C40CD898A7
+ for <dri-devel@freedesktop.org>; Wed,  5 Feb 2020 19:24:53 +0000 (UTC)
+Received: by mail-vs1-xe43.google.com with SMTP id n27so2139771vsa.0
+ for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:24:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iKWhr/qeopXFJ+ock8a5scgNwm8h5rGNiI2lQhosRco=;
- b=d+Lea2T1FikkJSXKbyM1VkmMu7+6OK51opstzFjKZqfVTWGc0HJyavyLb+VPLonbdH
- XamEHLtjdwui0xj8WnEoC7whi/BeT3DvPVSnA1XJbAN0mMEripODaa76GX6Q5KujvPEs
- uxYN8bYLDYx5xjHsKtyyQHKN8OKwwXdxQ/T74=
+ :cc; bh=mAJctpXOp7118HERLXET2DrllCvao5vObxu/nw3+/Cg=;
+ b=IrCdKZxlk9MGjOVLL8nvg7LIAvfP0+eaAMZGI14LPfO2Xsvm/Oni8/zwNx3GyuHFVk
+ xSLsRYvA/h9GJOGwHl3TB+be2gSu88KN9DX+j1QFvvlPQfCSgm7+m++IUH5+Awt0SV1x
+ kg/476pbpukR7JOK7GsTJOiWYUwIcxVk69Ivs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iKWhr/qeopXFJ+ock8a5scgNwm8h5rGNiI2lQhosRco=;
- b=d0JZoh0Hp6FWGHjCaWpF3SZUsyy9FwUtPw/lUruc7a8axzm3+yLC8cNxpDgeQ7ZgRM
- JGcgUBJjvD1damcIsDf/TXrQenlxz7iCuXKPBW315BE/GXzbMQ33BOkt2K27A7eqj4ev
- JsUXiHbzfsDhlGbxwkBdSHIlsLnlL4h63ESbxsZJeqScmEw66oYoGCRqMwyo2nccyp3+
- VRHGGpO2rGJISFMfUdYfPzjzNt2ziDPDvG9OiSW1JUQYq8JhILBV4c1P9zW1J1vWU4RI
- +5D57miHV1nJ2zJ5XVj1vQ2eU7NmBlK77mAw3KoMFyVWJbtarNIjFXHwe6T/mSv8CENX
- TIlw==
-X-Gm-Message-State: APjAAAUchGxT8p1nBXl2O4PMA8Hqe6BFJIbKf7lu71LZpU8IHVkbetSw
- wtdIfjuWxV74eXoNtPCjJV0MZUAMiyE=
-X-Google-Smtp-Source: APXvYqw/jD3VNqQy4xbT1FpXSvx0RffTg61BVWN0HdVfgaQF/qyhOITsVvzIrE3kj5ER+TKF9rz39Q==
-X-Received: by 2002:a67:6746:: with SMTP id b67mr23619654vsc.193.1580930507234; 
- Wed, 05 Feb 2020 11:21:47 -0800 (PST)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com.
- [209.85.217.45])
- by smtp.gmail.com with ESMTPSA id o6sm257283vsr.21.2020.02.05.11.21.46
+ bh=mAJctpXOp7118HERLXET2DrllCvao5vObxu/nw3+/Cg=;
+ b=N4PdHhyLtKl7tpRH2mrNnoI2LJ6qPw0MOjIpXWOJ5SJr32wblXEgoVV8mfTnj8erdj
+ UCGvqLi8hIMpP8kRR8obejMN/c42XuXVQcodZHN0Q1RT9ZrDpN/hOz25fWwuwq+7yiET
+ TsOZ/FcNXFgfWydrRnCkHrxI18cnmtEefCJRg9JINm/g3+f1p4pfXBYaoVfa9NDADIcm
+ gGkYwEnFOab12Vp6GqOLneEqid96X66Vie1N2coLSqnqPzhoaG6SzP4uXaefMuJmKT10
+ eLSan2GX2/ahxbuG3GrgMGktie/s78ySQipfNeUvP/UJHU8Ly0gpddz8LdsCfn4MQLu4
+ hADQ==
+X-Gm-Message-State: APjAAAUH1om/hFq3P2WoIsage3R0YroZHOm9vSVg7ti/ctG5fTCatMDl
+ TRxSHtNI/IqvTtvjFvClSfEEFHVY/QU=
+X-Google-Smtp-Source: APXvYqyos9UWxOaeggsOnSpW7eu3kVRZ10PQdKAPpVibiaL96wkBbhE4hXabxGo+6h1r4rl4Dg69EA==
+X-Received: by 2002:a05:6102:4a1:: with SMTP id
+ r1mr24297794vsa.53.1580930692691; 
+ Wed, 05 Feb 2020 11:24:52 -0800 (PST)
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com.
+ [209.85.221.176])
+ by smtp.gmail.com with ESMTPSA id v21sm241847vkd.54.2020.02.05.11.24.52
  for <dri-devel@freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Feb 2020 11:21:46 -0800 (PST)
-Received: by mail-vs1-f45.google.com with SMTP id g15so2133241vsf.1
- for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:21:46 -0800 (PST)
-X-Received: by 2002:a67:fbcb:: with SMTP id o11mr22314847vsr.109.1580930506045; 
- Wed, 05 Feb 2020 11:21:46 -0800 (PST)
+ Wed, 05 Feb 2020 11:24:52 -0800 (PST)
+Received: by mail-vk1-f176.google.com with SMTP id i4so898941vkc.3
+ for <dri-devel@freedesktop.org>; Wed, 05 Feb 2020 11:24:52 -0800 (PST)
+X-Received: by 2002:a1f:c686:: with SMTP id w128mr2748451vkf.34.1580930691696; 
+ Wed, 05 Feb 2020 11:24:51 -0800 (PST)
 MIME-Version: 1.0
 References: <1580886097-6312-1-git-send-email-smasetty@codeaurora.org>
- <1580886097-6312-2-git-send-email-smasetty@codeaurora.org>
-In-Reply-To: <1580886097-6312-2-git-send-email-smasetty@codeaurora.org>
+ <1580886097-6312-4-git-send-email-smasetty@codeaurora.org>
+In-Reply-To: <1580886097-6312-4-git-send-email-smasetty@codeaurora.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 5 Feb 2020 11:21:35 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VeMaKq3KR=t7dbG+VyVs5DS=gHasSdJQSqNQreTUoZig@mail.gmail.com>
-Message-ID: <CAD=FV=VeMaKq3KR=t7dbG+VyVs5DS=gHasSdJQSqNQreTUoZig@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: clk: qcom: Add support for GPU GX
- GDSCR
+Date: Wed, 5 Feb 2020 11:24:40 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Ux9XjUQMy4zzaz9JxZzyuZJvNB_W9ANzE140W_pDmixA@mail.gmail.com>
+Message-ID: <CAD=FV=Ux9XjUQMy4zzaz9JxZzyuZJvNB_W9ANzE140W_pDmixA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
 To: Sharat Masetty <smasetty@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,8 +70,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Taniya Das <tdas@codeaurora.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
  LKML <linux-kernel@vger.kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -84,21 +83,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Feb 4, 2020 at 11:01 PM Sharat Masetty <smasetty@codeaurora.org> wrote:
+On Tue, Feb 4, 2020 at 11:02 PM Sharat Masetty <smasetty@codeaurora.org> wrote:
 >
-> From: Taniya Das <tdas@codeaurora.org>
->
-> In the cases where the GPU SW requires to use the GX GDSCR add
-> support for the same.
->
-> Signed-off-by: Taniya Das <tdas@codeaurora.org>
+> +                       power-domains = <&gpucc CX_GDSC>, <&gpucc GX_GDSC>;
 
-Since you are re-posting Taniya's patch you need to add your own
-Signed-off-by as per kernel policy.
+I should note that this is going to be a PITA to land because the
+patch adding "GX_GDSC" should technically land in the "clk" tree.
+Without extra work that's going to mean waiting for a full Linux
+release before Bjorn and Andy can land.  It might be worth sticking
+the hardcoded "1" in for now instead of "GX_GDSC".  That's what we
+often do in cases like this.
 
-Other than the SoB issue:
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
