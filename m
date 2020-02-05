@@ -1,53 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7009F15369F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 18:33:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A071536A2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 18:33:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5628D6F8EA;
-	Wed,  5 Feb 2020 17:33:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F0556F8EF;
+	Wed,  5 Feb 2020 17:33:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4749F6F8EA
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 17:33:13 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id s144so4978502wme.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 09:33:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=NIXMdyM17Vsgu9U2iF1Gocz/YPTIf7hG1iqxFJ4gHAI=;
- b=FctQ50s+mHPbIKaYqZLTne7iMJLshLxVUVsoC13d213XD2FA7MFAWI3O4Y4x64q0c9
- Kk8If/3aox6gaNtk2V8inZ5wJ1Olf2IVG6w/ZQWE8Huwfb9EmdnMVFxlWALewuSdDQT5
- qR1nSJ2jLJ/DjstxTtb5NjKM0gDtzmWIBvX8tiRT/hR6BFlQ3sGNK8PfcFNbcGc/W2hp
- ZliU0WoL1mvLPRoqF+Vs2aCW11iMF7YyCeh7y/Y++YVummPCDxRLSnhjrdIA3JjRaI6i
- O8UcEf3xdA34Afjz0e78iZ8ToHqRJVgGotUeeUJ9UzRyOIGt6HpbrhFDKUdNEq/VfltY
- hCLg==
-X-Gm-Message-State: APjAAAXA1Xf/wzILytIBpEitpmaGQ7SvBIAsnEAxJkT2j04hHwYBmMCe
- WzRpyungFmfwtt6P9SE/Gg==
-X-Google-Smtp-Source: APXvYqx3+2W+cyvAcOhXugVfztjPGzLY93MUdM73HQ7///RVqRrqQvMvrFeRIzWNzJm+AfMJ5rSu4A==
-X-Received: by 2002:a1c:6755:: with SMTP id b82mr6472269wmc.127.1580923991972; 
- Wed, 05 Feb 2020 09:33:11 -0800 (PST)
-Received: from rob-hp-laptop ([212.187.182.166])
- by smtp.gmail.com with ESMTPSA id r1sm658791wrx.11.2020.02.05.09.33.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 09:33:11 -0800 (PST)
-Received: (nullmailer pid 3137 invoked by uid 1000);
- Wed, 05 Feb 2020 17:33:09 -0000
-Date: Wed, 5 Feb 2020 17:33:09 +0000
-From: Rob Herring <robh@kernel.org>
-To: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: add vendor prefix for OzzMaker and
- Waveshare Electronics
-Message-ID: <20200205173309.GA2474@bogus>
-References: <cover.1580134320.git.kamlesh.gurudasani@gmail.com>
- <aa8799c4164b54fa5c4ca55e48966d7b61352c2c.1580134320.git.kamlesh.gurudasani@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBB16F8EF
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 17:33:39 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B5D84F8;
+ Wed,  5 Feb 2020 18:33:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1580924017;
+ bh=3rppcfl802crYXV1mq6To15oEXeQJ2Eo2DfgnPf0fxQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rAYlUf5zqywJCno3IDvWoX0GxB10MYGQQsR2ZfVibQKKSbiAu0rcwCgeDo+FvtRP5
+ TpvAiz0X+S6OzwGKVwpHpD6a0RTTsFq+v567Rjlhuyem2HETsAlhIXBuS4wBvks0oY
+ X+LDaZ1rkJqWGmmWgIZKAqHxT1r2aLwqTOA31hKg=
+Date: Wed, 5 Feb 2020 19:33:22 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2] drm: shmobile: Reduce include dependencies
+Message-ID: <20200205173322.GB4722@pendragon.ideasonboard.com>
+References: <20200205093226.72064-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <aa8799c4164b54fa5c4ca55e48966d7b61352c2c.1580134320.git.kamlesh.gurudasani@gmail.com>
+In-Reply-To: <20200205093226.72064-1-andriy.shevchenko@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,30 +46,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Jan 2020 19:55:33 +0530, Kamlesh Gurudasani wrote:
-> Add vendor prefix for OzzMaker [1] and Waveshare Electronics [2]
-> Both are display manufacturers
+Hi Andy,
+
+Thank you for the patch.
+
+On Wed, Feb 05, 2020 at 11:32:26AM +0200, Andy Shevchenko wrote:
+> This file doesn't need everything provided by <linux/kernel.h>.
+> All it needs are some types, which are provided by <linux/types.h>.
 > 
-> [1] https://ozzmaker.com/about/
-> [2] https://www.waveshare.com/contact_us
-> 
-> Signed-off-by: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+> Note, <drm/drm_mode.h> already includes <linux/types.h>, but
+> not relying on implicit includes is indeed a good thing.
+
+Do we even need linux/types.h ? Apart from struct drm_mode_modeinfo,
+shmob_drm.h seems to only contain plain C without using any externally
+defined types.
+
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+> v2: Update commit message (Geert, Laurent)
+>  include/linux/platform_data/shmob_drm.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/include/linux/platform_data/shmob_drm.h b/include/linux/platform_data/shmob_drm.h
+> index fe815d7d9f58..08605fdb2226 100644
+> --- a/include/linux/platform_data/shmob_drm.h
+> +++ b/include/linux/platform_data/shmob_drm.h
+> @@ -10,7 +10,7 @@
+>  #ifndef __SHMOB_DRM_H__
+>  #define __SHMOB_DRM_H__
+>  
+> -#include <linux/kernel.h>
+> +#include <linux/types.h>
+>  
+>  #include <drm/drm_mode.h>
+>  
 
-Applied, thanks.
+-- 
+Regards,
 
-Rob
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
