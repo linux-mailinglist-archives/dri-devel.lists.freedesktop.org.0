@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E92152607
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 06:34:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69854152623
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 06:52:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B46DE6E1E8;
-	Wed,  5 Feb 2020 05:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E90006F48E;
+	Wed,  5 Feb 2020 05:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF7076E1E8
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 05:34:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA176F48B
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 05:52:31 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
-Date: Wed, 05 Feb 2020 05:34:44 +0000
+Date: Wed, 05 Feb 2020 05:52:30 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-203905-2300-y5agxZ90DY@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-203905-2300-Vjr5oIU2jf@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
 References: <bug-203905-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,28 +58,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=203905
 
-Sandor Ecker (esanya@freemail.hu) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |esanya@freemail.hu
-
---- Comment #4 from Sandor Ecker (esanya@freemail.hu) ---
-Hi,
-
-I have the same Issue.
-
-I have written a bug report to this:
-
-https://bugs.launchpad.net/ubuntu/+source/xserver-xorg-video-amdgpu/+bug/1861925
-
-Maybe that is not the correct place...
-
-Is any news regarding the problem?
-
-Thx,
-Regards,
-Sandor
+--- Comment #5 from Sandor Ecker (esanya@freemail.hu) ---
+Would it be possible to set max_brightness to 2^16-1 ?
 
 -- 
 You are receiving this mail because:
