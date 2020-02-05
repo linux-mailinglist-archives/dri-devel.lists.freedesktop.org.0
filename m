@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44271153263
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 15:01:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DACA2153282
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 15:08:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26AC789650;
-	Wed,  5 Feb 2020 14:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F10E86E99E;
+	Wed,  5 Feb 2020 14:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 459E789650
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 14:01:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 40A206E9AB
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 14:08:32 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB65731B;
- Wed,  5 Feb 2020 06:01:48 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B51E31B;
+ Wed,  5 Feb 2020 06:08:31 -0800 (PST)
 Received: from [10.1.195.32] (e112269-lin.cambridge.arm.com [10.1.195.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27F733F68E;
- Wed,  5 Feb 2020 06:01:48 -0800 (PST)
-Subject: Re: [PATCH] drm/panfrost: Don't try to map on error faults
-To: Robin Murphy <robin.murphy@arm.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org
-References: <20200205100719.24999-1-tomeu.vizoso@collabora.com>
- <3500c501-b166-6a1e-267b-31a4e5c62619@arm.com>
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 841903F68E;
+ Wed,  5 Feb 2020 06:08:30 -0800 (PST)
+Subject: Re: [PATCH 1/2] drm/panfrost: Make sure MMU context lifetime is not
+ bound to panfrost_priv
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20200204143504.135388-1-boris.brezillon@collabora.com>
+ <b798bc8f-e8a9-01e9-e234-a8fdef290259@arm.com>
+ <20200205150134.340a72c8@collabora.com>
 From: Steven Price <steven.price@arm.com>
-Message-ID: <565bac84-9e3c-21de-9043-f508e98ae6bf@arm.com>
-Date: Wed, 5 Feb 2020 14:01:47 +0000
+Message-ID: <f80c8f6d-6099-5052-a2f3-6453d50b4571@arm.com>
+Date: Wed, 5 Feb 2020 14:08:29 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <3500c501-b166-6a1e-267b-31a4e5c62619@arm.com>
+In-Reply-To: <20200205150134.340a72c8@collabora.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,61 +44,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Icecream95 <ixn@keemail.me>, stable@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDUvMDIvMjAyMCAxMzoyNSwgUm9iaW4gTXVycGh5IHdyb3RlOgo+IE9uIDA1LzAyLzIwMjAg
-MTA6MDcgYW0sIFRvbWV1IFZpem9zbyB3cm90ZToKPj4gSWYgdGhlIGV4Y2VwdGlvbiB0eXBlIGlz
-bid0IG9uZSBvZiB0aGUgbm9ybWFsIGZhdWx0cywgZG9uJ3QgdHJ5IHRvIG1hcAo+PiBhbmQgaW5z
-dGVhZCBnbyBzdHJhaWdodCB0byBhIHRlcm1pbmFsIGZhdWx0Lgo+IAo+ICJPbmUgb2YgdGhlIHRo
-ZSBub3JtYWwgZmF1bHRzIiBzZWVtcyBhIHJhdGhlciB2YWd1ZSB3YXkgb2Ygc2F5aW5nICJhCj4g
-dHJhbnNsYXRpb24gZmF1bHQiLCB3aGljaCBpcyB3aGF0IHdlJ3JlIHNwZWNpZmljYWxseSBoYW5k
-bGluZyBoZXJlLCBhbmQKPiBsb2dpY2FsbHkgdGhlIG9ubHkgZmF1bHQgcmVmbGVjdGluZyBzb21l
-dGhpbmcgbm90IHlldCBtYXBwZWQgcmF0aGVyIHRoYW4KPiBtYXBwZWQgaW5hcHByb3ByaWF0ZWx5
-IDspCj4gCj4gKFdobyBrbm93cyBob3cgdGhlIGxldmVsIGVuZGVkIHVwIGFzIDEtNCByYXRoZXIg
-dGhhbiAwLTMgYXMgaXQgcmVhbGx5Cj4gc2hvdWxkIGJlIC0gYW5vdGhlciBNYWxpIE15c3Rlcnko
-VE0pLi4uKQoKQWgsIGJ1dCB5b3UncmUgdGhpbmtpbmcgb2YgTFBBRSBub3QgTWFsaSBNYWdpYyBQ
-YWdlIFRhYmxlcyAoJ2luc3BpcmVkCmJ5JyBMUEFFIGJ1dCBub3QgYWN0dWFsbHkgY29tcGF0aWJs
-ZS4uLi4pIDspIEhvd2V2ZXIgSSBkbyB3b25kZXIgd2hhdAp3aWxsIGhhcHBlbiB3aGVuIHdlIGVu
-YWJsZSBhYXJjaDY0IHBhZ2UgdGFibGVzIGluIEJpZnJvc3QuCgo+PiBPdGhlcndpc2UsIHdlIGNh
-biBnZXQgZmxvb2RlZCBieSBrZXJuZWwgd2FybmluZ3MgYW5kIGZ1cnRoZXIgZmF1bHRzLgo+IAo+
-IEVpdGhlciB3YXksCj4gCj4gUmV2aWV3ZWQtYnk6IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5
-QGFybS5jb20+Cj4gCj4+IFNpZ25lZC1vZmYtYnk6IFRvbWV1IFZpem9zbyA8dG9tZXUudml6b3Nv
-QGNvbGxhYm9yYS5jb20+Cj4+IC0tLQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFu
-ZnJvc3RfbW11LmMgfCA1ICsrKy0tCj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMo
-KyksIDIgZGVsZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFu
-ZnJvc3QvcGFuZnJvc3RfbW11LmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJv
-c3RfbW11LmMKPj4gaW5kZXggNzYzY2ZjYTg4NmE3Li44MGFiZGRiNDU0NGMgMTAwNjQ0Cj4+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYwo+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfbW11LmMKPj4gQEAgLTU5Niw4ICs1OTYsOSBA
-QCBzdGF0aWMgaXJxcmV0dXJuX3QKPj4gcGFuZnJvc3RfbW11X2lycV9oYW5kbGVyX3RocmVhZChp
-bnQgaXJxLCB2b2lkICpkYXRhKQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgc291cmNlX2lkID0gKGZh
-dWx0X3N0YXR1cyA+PiAxNik7Cj4+IMKgIMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBQYWdlIGZhdWx0
-IG9ubHkgKi8KPj4gLcKgwqDCoMKgwqDCoMKgIGlmICgoc3RhdHVzICYgbWFzaykgPT0gQklUKGkp
-KSB7Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFdBUk5fT04oZXhjZXB0aW9uX3R5cGUgPCAw
-eEMxIHx8IGV4Y2VwdGlvbl90eXBlID4gMHhDNCk7Cj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAoKHN0
-YXR1cyAmIG1hc2spID09IEJJVChpKSAmJgo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGV4
-Y2VwdGlvbl90eXBlID49IDB4QzEgJiYKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBleGNl
-cHRpb25fdHlwZSA8PSAweEM0KSB7CgpJIHdvdWxkIHN1Z2dlc3QgdGhlIGJlc3Qgb3B0aW9uIGhl
-cmUgaXMgdG8gY29weSBtYWxpX2tiYXNlIGFuZCBjaGVjawphZ2FpbnN0IGEgbWFzaywgaW4ga2Jh
-c2VbMV0gd2UgaGF2ZToKCglzd2l0Y2ggKGZhdWx0X3N0YXR1cyAmIEFTX0ZBVUxUU1RBVFVTX0VY
-Q0VQVElPTl9DT0RFX01BU0spIHsKCgljYXNlIEFTX0ZBVUxUU1RBVFVTX0VYQ0VQVElPTl9DT0RF
-X1RSQU5TTEFUSU9OX0ZBVUxUOgoKWzFdCmh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9w
-YW5mcm9zdC9saW51eC1wYW5mcm9zdC9ibG9iL2E4NjRlNmI5ZmJkMDkzYTAzM2E5MGQ1YmJkZDZk
-Y2M3OWEwNjY3YjIvbWFsaV9rYmFzZV9tbXUuYyNMMTA4CgpXaGVyZToKCiNkZWZpbmUgQVNfRkFV
-TFRTVEFUVVNfRVhDRVBUSU9OX0NPREVfTUFTSyAgICAgICAgICAgICAgICAgICAgICAoMHg3PDwz
-KQojZGVmaW5lIEFTX0ZBVUxUU1RBVFVTX0VYQ0VQVElPTl9DT0RFX1RSQU5TTEFUSU9OX0ZBVUxU
-ICAgICAgICAgKDB4MDw8MykKClN0ZXZlCgo+PiDCoCDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCByZXQgPSBwYW5mcm9zdF9tbXVfbWFwX2ZhdWx0X2FkZHIocGZkZXYsIGksIGFkZHIpOwo+PiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoIXJldCkgewo+Pgo+IF9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
-dAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 05/02/2020 14:01, Boris Brezillon wrote:
+> On Wed, 5 Feb 2020 13:39:21 +0000
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> On 04/02/2020 14:35, Boris Brezillon wrote:
+>>> Jobs can be in-flight when the file descriptor is closed (either because
+>>> the process did not terminate properly, or because it didn't wait for
+>>> all GPU jobs to be finished), and apparently panfrost_job_close() does
+>>> not cancel already running jobs. Let's refcount the MMU context object
+>>> so it's lifetime is no longer bound to the FD lifetime and running jobs
+>>> can finish properly without generating spurious page faults.  
+>>
+>> Is there any good reason not to just make panfrost_job_close() kill off
+>> any running jobs?
+> 
+> Nope, I just didn't know how to do that without stopping all other jobs
+> (should have looked at how mali_kbase is doing that before posting this
+> patch :)).
+
+Yeah - this is an area Panfrost might need some improvement, you need to
+target the HARD_STOP carefully to ensure you kill of the correct jobs
+(and only the correct ones). It's not too difficult at the moment
+because we still don't have the _NEXT registers actively in use (I must
+get round to reposting that having fixed up the devfreq integration).
+
+>> I'm not sure what the benefit is of allowing the jobs
+>> to still run after the file descriptor has closed.
+> 
+> None that I can think of.
+> 
+>>
+>> In particular this could cause problems when(/if) Panfrost starts trying
+>> to deal with "compute" work loads that might have long runtimes. It's
+>> quite possible to produce a job which never (naturally) exits, currently
+>> we have a simplistic timeout which kills anything which doesn't complete
+>> promptly. However there is nothing conceptually wrong with a job which
+>> takes seconds (or even minutes) to complete.
+> 
+> Absolutely. That was also one of my concerns.
+> 
+>> The hardware has support
+>> for task switching ('soft stopping') between jobs so this can be done to
+>> prevent blocking other applications.
+> 
+> Okay. I guess it's implemented in mali_kbase. I'll have a look.
+> 
+>>
+>> If panfrost_job_close() doesn't kill the jobs then removing the timeouts
+>> could lead to the situation where there is an 'infinite' job with no
+>> owner and no way of killing it off. Which doesn't seem like a great
+>> feature ;)
+> 
+> Didn't know you were planning to remove the timeouts.
+
+Well I don't have any immediate plans, but when(/if) there's interest in
+compute the relatively short timeouts for graphics tend to get in the
+way. I'm not in a hurry to do it because it will make the scheduling
+more complex :)
+
+>>
+>> Another approach could be simply to silence the page fault output in
+>> this case - switching the address space to UNMAPPED is actually an
+>> effective way of killing jobs - at some point I think this was a
+>> workaround to a hardware bug, but IIRC that was unreleased hardware :)
+> 
+> Okay. I'll check how it's done in mali_kbase.
+> 
+> Thanks for the feedback.
+
+Let me know if you need any pointers about how mali_kbase does it - the
+code is not exactly the prettiest ;)
+
+Steve
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
