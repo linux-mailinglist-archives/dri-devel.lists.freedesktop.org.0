@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BAB1535CC
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 18:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B521535CE
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 18:01:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC6D6F8B8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CED26F8C0;
 	Wed,  5 Feb 2020 17:01:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BA06F8BB;
- Wed,  5 Feb 2020 17:01:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2020 09:01:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="225013406"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by fmsmga007.fm.intel.com with ESMTP; 05 Feb 2020 09:01:36 -0800
-Received: from bgsmsx103.gar.corp.intel.com (10.223.4.130) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 5 Feb 2020 09:01:36 -0800
-Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.97]) by
- BGSMSX103.gar.corp.intel.com ([169.254.4.133]) with mapi id 14.03.0439.000;
- Wed, 5 Feb 2020 22:30:43 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v3 13/17] drm/i915: Add state readout for DP VSC SDP
-Thread-Topic: [PATCH v3 13/17] drm/i915: Add state readout for DP VSC SDP
-Thread-Index: AQHV2uibTOIR+APsBU6IMtHUw6VrfagM1aQQ
-Date: Wed, 5 Feb 2020 17:00:42 +0000
-Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F823DD0F4@BGSMSX104.gar.corp.intel.com>
-References: <20200203232014.906651-1-gwan-gyeong.mun@intel.com>
- <20200203232014.906651-14-gwan-gyeong.mun@intel.com>
-In-Reply-To: <20200203232014.906651-14-gwan-gyeong.mun@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYWEyYmM2OTUtYzEyYy00YmE3LTg4ZWEtNzRhNzJhMWZiYjkzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoicDhnd0ZCRXpmSERNUFBIWEdOeVNuRE8wXC9PMHlDdk96aloyMENjTHJSXC9uYXI3VTJKWVllNWN5SmR0TkIwcEt4In0=
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
-MIME-Version: 1.0
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9816F8B8
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2020 17:01:35 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1580922097; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=7DUhFiRSM+eRxfIS8UQQZG95uYXWL3eYV9xeTSLQqKg=;
+ b=eVGUbxzudoH+u0LgPejn6d9BkEHGyNfDxmMQq8kF2TOtjI7m8r4n2AiM8yG5wUXQiUGi7hA5
+ aZ4ShbMkKRpkrCd6wP7j9zQ/7mkLa6pDWeeD3aw33n+GUlUkyrzasMzfgcG0WcpAPFUeQvVq
+ ygoVtqm0O8NnmomRCU06KbkhS1Y=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e3af4eb.7f79dcaa2f48-smtp-out-n02;
+ Wed, 05 Feb 2020 17:01:31 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id F1467C433A2; Wed,  5 Feb 2020 17:01:29 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id EF247C43383;
+ Wed,  5 Feb 2020 17:01:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EF247C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH] drm/msm/a6xx: Update the GMU bus tables for sc7180
+Date: Wed,  5 Feb 2020 10:01:21 -0700
+Message-Id: <1580922081-25177-1-git-send-email-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,140 +62,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Sharat Masetty <smasetty@codeaurora.org>, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Sean Paul <sean@poorly.run>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fixup the GMU bus table values for the sc7180 target.
 
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+---
 
-> -----Original Message-----
-> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Gwan-
-> gyeong Mun
-> Sent: Tuesday, February 4, 2020 4:50 AM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org; dri-devel@lists.freedesktop.org
-> Subject: [PATCH v3 13/17] drm/i915: Add state readout for DP VSC SDP
-> 
-> Added state readout for DP VSC SDP and enabled state validation for DP VSC SDP.
-> 
-> v2: Minor style fix
-> v3: Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 85 ++++++++++++++++++++++++-----------
+ 1 file changed, 60 insertions(+), 25 deletions(-)
 
-Looks good.
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-
-> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_ddi.c     |  1 +
->  drivers/gpu/drm/i915/display/intel_display.c | 42 ++++++++++++++++++++
->  2 files changed, 43 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c
-> b/drivers/gpu/drm/i915/display/intel_ddi.c
-> index a9eaf7a6bc15..64e4edefa998 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> @@ -4391,6 +4391,7 @@ void intel_ddi_get_config(struct intel_encoder *encoder,
->  			     &pipe_config->infoframes.drm);
-> 
->  	intel_read_dp_sdp(encoder, pipe_config,
-> HDMI_PACKET_TYPE_GAMUT_METADATA);
-> +	intel_read_dp_sdp(encoder, pipe_config, DP_SDP_VSC);
->  }
-> 
->  static enum intel_output_type
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c
-> b/drivers/gpu/drm/i915/display/intel_display.c
-> index 4f187fd330e8..02471c7aa6e7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -13503,6 +13503,13 @@ intel_compare_infoframe(const union
-> hdmi_infoframe *a,
->  	return memcmp(a, b, sizeof(*a)) == 0;
->  }
-> 
-> +static bool
-> +intel_compare_dp_vsc_sdp(const struct drm_dp_vsc_sdp *a,
-> +			 const struct drm_dp_vsc_sdp *b)
-> +{
-> +	return memcmp(a, b, sizeof(*a)) == 0;
-> +}
-> +
->  static void
->  pipe_config_infoframe_mismatch(struct drm_i915_private *dev_priv,
->  			       bool fastset, const char *name, @@ -13528,6
-> +13535,30 @@ pipe_config_infoframe_mismatch(struct drm_i915_private
-> *dev_priv,
->  	}
->  }
-> 
-> +static void
-> +pipe_config_dp_vsc_sdp_mismatch(struct drm_i915_private *dev_priv,
-> +				bool fastset, const char *name,
-> +				const struct drm_dp_vsc_sdp *a,
-> +				const struct drm_dp_vsc_sdp *b)
-> +{
-> +	if (fastset) {
-> +		if (!drm_debug_enabled(DRM_UT_KMS))
-> +			return;
-> +
-> +		DRM_DEBUG_KMS("fastset mismatch in %s dp sdp\n", name);
-> +		DRM_DEBUG_KMS("expected:\n");
-> +		drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, a);
-> +		DRM_DEBUG_KMS("found:\n");
-> +		drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, b);
-> +	} else {
-> +		DRM_ERROR("mismatch in %s dp sdp\n", name);
-> +		DRM_ERROR("expected:\n");
-> +		drm_dp_vsc_sdp_log(KERN_ERR, dev_priv->drm.dev, a);
-> +		DRM_ERROR("found:\n");
-> +		drm_dp_vsc_sdp_log(KERN_ERR, dev_priv->drm.dev, b);
-> +	}
-> +}
-> +
->  static void __printf(4, 5)
->  pipe_config_mismatch(bool fastset, const struct intel_crtc *crtc,
->  		     const char *name, const char *format, ...) @@ -13729,6
-> +13760,16 @@ intel_pipe_config_compare(const struct intel_crtc_state
-> *current_config,
->  	} \
->  } while (0)
-> 
-> +#define PIPE_CONF_CHECK_DP_VSC_SDP(name) do { \
-> +	if (!intel_compare_dp_vsc_sdp(&current_config->infoframes.name, \
-> +				      &pipe_config->infoframes.name)) { \
-> +		pipe_config_dp_vsc_sdp_mismatch(dev_priv, fastset,
-> __stringify(name), \
-> +						&current_config-
-> >infoframes.name, \
-> +						&pipe_config->infoframes.name);
-> \
-> +		ret = false; \
-> +	} \
-> +} while (0)
-> +
->  #define PIPE_CONF_CHECK_COLOR_LUT(name1, name2, bit_precision) do { \
->  	if (current_config->name1 != pipe_config->name1) { \
->  		pipe_config_mismatch(fastset, crtc, __stringify(name1), \ @@ -
-> 13902,6 +13943,7 @@ intel_pipe_config_compare(const struct intel_crtc_state
-> *current_config,
->  	PIPE_CONF_CHECK_INFOFRAME(spd);
->  	PIPE_CONF_CHECK_INFOFRAME(hdmi);
->  	PIPE_CONF_CHECK_INFOFRAME(drm);
-> +	PIPE_CONF_CHECK_DP_VSC_SDP(vsc);
-> 
->  	PIPE_CONF_CHECK_X(sync_mode_slaves_mask);
->  	PIPE_CONF_CHECK_I(master_transcoder);
-> --
-> 2.24.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+index eda11ab..e450e0b 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+@@ -7,6 +7,7 @@
+ 
+ #include "a6xx_gmu.h"
+ #include "a6xx_gmu.xml.h"
++#include "a6xx_gpu.h"
+ 
+ #define HFI_MSG_ID(val) [val] = #val
+ 
+@@ -216,48 +217,82 @@ static int a6xx_hfi_send_perf_table(struct a6xx_gmu *gmu)
+ 		NULL, 0);
+ }
+ 
+-static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
++static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+-	struct a6xx_hfi_msg_bw_table msg = { 0 };
++	/* Send a single "off" entry since the 618 GMU doesn't do bus scaling */
++	msg->bw_level_num = 1;
++
++	msg->ddr_cmds_num = 3;
++	msg->ddr_wait_bitmask = 0x01;
++
++	msg->ddr_cmds_addrs[0] = 0x50000;
++	msg->ddr_cmds_addrs[1] = 0x5003c;
++	msg->ddr_cmds_addrs[2] = 0x5000c;
++
++	msg->ddr_cmds_data[0][0] =  0x40000000;
++	msg->ddr_cmds_data[0][1] =  0x40000000;
++	msg->ddr_cmds_data[0][2] =  0x40000000;
+ 
+ 	/*
+-	 * The sdm845 GMU doesn't do bus frequency scaling on its own but it
+-	 * does need at least one entry in the list because it might be accessed
+-	 * when the GMU is shutting down. Send a single "off" entry.
++	 * These are the CX (CNOC) votes - these are used by the GMU but the
++	 * votes are known and fixed for the target
+ 	 */
++	msg->cnoc_cmds_num = 1;
++	msg->cnoc_wait_bitmask = 0x01;
++
++	msg->cnoc_cmds_addrs[0] = 0x5007c;
++	msg->cnoc_cmds_data[0][0] =  0x40000000;
++	msg->cnoc_cmds_data[1][0] =  0x60000001;
++}
+ 
+-	msg.bw_level_num = 1;
++static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++{
++	/* Send a single "off" entry since the 630 GMU doesn't do bus scaling */
++	msg->bw_level_num = 1;
+ 
+-	msg.ddr_cmds_num = 3;
+-	msg.ddr_wait_bitmask = 0x07;
++	msg->ddr_cmds_num = 3;
++	msg->ddr_wait_bitmask = 0x07;
+ 
+-	msg.ddr_cmds_addrs[0] = 0x50000;
+-	msg.ddr_cmds_addrs[1] = 0x5005c;
+-	msg.ddr_cmds_addrs[2] = 0x5000c;
++	msg->ddr_cmds_addrs[0] = 0x50000;
++	msg->ddr_cmds_addrs[1] = 0x5005c;
++	msg->ddr_cmds_addrs[2] = 0x5000c;
+ 
+-	msg.ddr_cmds_data[0][0] =  0x40000000;
+-	msg.ddr_cmds_data[0][1] =  0x40000000;
+-	msg.ddr_cmds_data[0][2] =  0x40000000;
++	msg->ddr_cmds_data[0][0] =  0x40000000;
++	msg->ddr_cmds_data[0][1] =  0x40000000;
++	msg->ddr_cmds_data[0][2] =  0x40000000;
+ 
+ 	/*
+ 	 * These are the CX (CNOC) votes.  This is used but the values for the
+ 	 * sdm845 GMU are known and fixed so we can hard code them.
+ 	 */
+ 
+-	msg.cnoc_cmds_num = 3;
+-	msg.cnoc_wait_bitmask = 0x05;
++	msg->cnoc_cmds_num = 3;
++	msg->cnoc_wait_bitmask = 0x05;
+ 
+-	msg.cnoc_cmds_addrs[0] = 0x50034;
+-	msg.cnoc_cmds_addrs[1] = 0x5007c;
+-	msg.cnoc_cmds_addrs[2] = 0x5004c;
++	msg->cnoc_cmds_addrs[0] = 0x50034;
++	msg->cnoc_cmds_addrs[1] = 0x5007c;
++	msg->cnoc_cmds_addrs[2] = 0x5004c;
+ 
+-	msg.cnoc_cmds_data[0][0] =  0x40000000;
+-	msg.cnoc_cmds_data[0][1] =  0x00000000;
+-	msg.cnoc_cmds_data[0][2] =  0x40000000;
++	msg->cnoc_cmds_data[0][0] =  0x40000000;
++	msg->cnoc_cmds_data[0][1] =  0x00000000;
++	msg->cnoc_cmds_data[0][2] =  0x40000000;
++
++	msg->cnoc_cmds_data[1][0] =  0x60000001;
++	msg->cnoc_cmds_data[1][1] =  0x20000001;
++	msg->cnoc_cmds_data[1][2] =  0x60000001;
++}
++
++
++static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
++{
++	struct a6xx_hfi_msg_bw_table msg = { 0 };
++	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
++	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+ 
+-	msg.cnoc_cmds_data[1][0] =  0x60000001;
+-	msg.cnoc_cmds_data[1][1] =  0x20000001;
+-	msg.cnoc_cmds_data[1][2] =  0x60000001;
++	if (adreno_is_a618(adreno_gpu))
++		a618_build_bw_table(&msg);
++	else
++		a6xx_build_bw_table(&msg);
+ 
+ 	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_BW_TABLE, &msg, sizeof(msg),
+ 		NULL, 0);
+-- 
+2.7.4
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
