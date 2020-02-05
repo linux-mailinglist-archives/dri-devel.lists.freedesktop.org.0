@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03762153449
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 16:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B48E15344F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2020 16:42:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEDD6F633;
-	Wed,  5 Feb 2020 15:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBD96F637;
+	Wed,  5 Feb 2020 15:41:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6D06F62C;
- Wed,  5 Feb 2020 15:41:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06C786F62F;
+ Wed,  5 Feb 2020 15:41:52 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2020 07:41:51 -0800
+ 05 Feb 2020 07:41:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="224950178"
+X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; d="scan'208";a="224950185"
 Received: from helsinki.fi.intel.com ([10.237.66.164])
- by fmsmga007.fm.intel.com with ESMTP; 05 Feb 2020 07:41:50 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 05 Feb 2020 07:41:51 -0800
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 07/17] drm: Add logging function for DP VSC SDP
-Date: Wed,  5 Feb 2020 17:41:27 +0200
-Message-Id: <20200205154137.1202389-8-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v4 08/17] drm/i915: Include HDMI DRM infoframe in the crtc
+ state dump
+Date: Wed,  5 Feb 2020 17:41:28 +0200
+Message-Id: <20200205154137.1202389-9-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200205154137.1202389-1-gwan-gyeong.mun@intel.com>
 References: <20200205154137.1202389-1-gwan-gyeong.mun@intel.com>
@@ -48,214 +49,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When receiving video it is very useful to be able to log DP VSC SDP.
-This greatly simplifies debugging.
-
-v2: Minor style fix
-v3: Move logging functions to drm core [Jani N]
+Dump out the HDMI Dynamic Range and Mastering (DRM) infoframe in the
+normal crtc state dump.
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 174 ++++++++++++++++++++++++++++++++
- include/drm/drm_dp_helper.h     |   3 +
- 2 files changed, 177 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 5a103e9b3c86..5e3aef8c32e0 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1395,3 +1395,177 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
- 	return num_bpc;
- }
- EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
-+
-+static const char *dp_colorspace_get_name(enum dp_colorspace colorspace)
-+{
-+	if (colorspace < 0 || colorspace > DP_COLORSPACE_RESERVED)
-+		return "Invalid";
-+
-+	switch (colorspace) {
-+	case DP_COLORSPACE_RGB:
-+		return "RGB";
-+	case DP_COLORSPACE_YUV444:
-+		return "YUV444";
-+	case DP_COLORSPACE_YUV422:
-+		return "YUV422";
-+	case DP_COLORSPACE_YUV420:
-+		return "YUV420";
-+	case DP_COLORSPACE_Y_ONLY:
-+		return "Y_ONLY";
-+	case DP_COLORSPACE_RAW:
-+		return "RAW";
-+	default:
-+		return "Reserved";
-+	}
-+}
-+
-+static const char *dp_colorimetry_get_name(enum dp_colorspace colorspace,
-+					   enum dp_colorimetry colorimetry)
-+{
-+	if (colorspace < 0 || colorspace > DP_COLORSPACE_RESERVED)
-+		return "Invalid";
-+
-+	switch (colorimetry) {
-+	case DP_COLORIMETRY_DEFAULT:
-+		switch (colorspace) {
-+		case DP_COLORSPACE_RGB:
-+			return "sRGB";
-+		case DP_COLORSPACE_YUV444:
-+		case DP_COLORSPACE_YUV422:
-+		case DP_COLORSPACE_YUV420:
-+			return "BT.601";
-+		case DP_COLORSPACE_Y_ONLY:
-+			return "DICOM PS3.14";
-+		case DP_COLORSPACE_RAW:
-+			return "Custom Color Profile";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_RGB_WIDE_FIXED: /* and DP_COLORIMETRY_BT709_YCC */
-+		switch (colorspace) {
-+		case DP_COLORSPACE_RGB:
-+			return "Wide Fixed";
-+		case DP_COLORSPACE_YUV444:
-+		case DP_COLORSPACE_YUV422:
-+		case DP_COLORSPACE_YUV420:
-+			return "BT.709";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_RGB_WIDE_FLOAT: /* and DP_COLORIMETRY_XVYCC_601 */
-+		switch (colorspace) {
-+		case DP_COLORSPACE_RGB:
-+			return "Wide Float";
-+		case DP_COLORSPACE_YUV444:
-+		case DP_COLORSPACE_YUV422:
-+		case DP_COLORSPACE_YUV420:
-+			return "xvYCC 601";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_OPRGB: /* and DP_COLORIMETRY_XVYCC_709 */
-+		switch (colorspace) {
-+		case DP_COLORSPACE_RGB:
-+			return "OpRGB";
-+		case DP_COLORSPACE_YUV444:
-+		case DP_COLORSPACE_YUV422:
-+		case DP_COLORSPACE_YUV420:
-+			return "xvYCC 709";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_DCI_P3_RGB: /* and DP_COLORIMETRY_SYCC_601 */
-+		switch (colorspace) {
-+		case DP_COLORSPACE_RGB:
-+			return "DCI-P3";
-+		case DP_COLORSPACE_YUV444:
-+		case DP_COLORSPACE_YUV422:
-+		case DP_COLORSPACE_YUV420:
-+			return "sYCC 601";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_RGB_CUSTOM: /* and DP_COLORIMETRY_OPYCC_601 */
-+		switch (colorspace) {
-+		case DP_COLORSPACE_RGB:
-+			return "Custom Profile";
-+		case DP_COLORSPACE_YUV444:
-+		case DP_COLORSPACE_YUV422:
-+		case DP_COLORSPACE_YUV420:
-+			return "OpYCC 601";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_BT2020_RGB: /* and DP_COLORIMETRY_BT2020_CYCC */
-+		switch (colorspace) {
-+		case DP_COLORSPACE_RGB:
-+			return "BT.2020 RGB";
-+		case DP_COLORSPACE_YUV444:
-+		case DP_COLORSPACE_YUV422:
-+		case DP_COLORSPACE_YUV420:
-+			return "BT.2020 CYCC";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_BT2020_YCC:
-+		switch (colorspace) {
-+		case DP_COLORSPACE_YUV444:
-+		case DP_COLORSPACE_YUV422:
-+		case DP_COLORSPACE_YUV420:
-+			return "BT.2020 YCC";
-+		default:
-+			return "Reserved";
-+		}
-+	default:
-+		return "Invalid";
-+	}
-+}
-+
-+static const char *dp_dynamic_range_get_name(enum dp_dynamic_range dynamic_range)
-+{
-+	switch (dynamic_range) {
-+	case DP_DYNAMIC_RANGE_VESA:
-+		return "VESA range";
-+	case DP_DYNAMIC_RANGE_CTA:
-+		return "CTA range";
-+	default:
-+		return "Invalid";
-+	}
-+}
-+
-+static const char *dp_content_type_get_name(enum dp_content_type content_type)
-+{
-+	switch (content_type) {
-+	case DP_CONTENT_TYPE_NOT_DEFINED:
-+		return "Not defined";
-+	case DP_CONTENT_TYPE_GRAPHICS:
-+		return "Graphics";
-+	case DP_CONTENT_TYPE_PHOTO:
-+		return "Photo";
-+	case DP_CONTENT_TYPE_VIDEO:
-+		return "Video";
-+	case DP_CONTENT_TYPE_GAME:
-+		return "Game";
-+	default:
-+		return "Reserved";
-+	}
-+}
-+
-+void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
-+			const struct drm_dp_vsc_sdp *vsc)
-+{
-+#define DP_SDP_LOG(fmt, ...) dev_printk(level, dev, fmt, ##__VA_ARGS__)
-+	DP_SDP_LOG("DP SDP: %s, revision %u, length %u\n", "VSC",
-+		   vsc->revision, vsc->length);
-+	DP_SDP_LOG("    colorspace: %s\n",
-+		   dp_colorspace_get_name(vsc->colorspace));
-+	DP_SDP_LOG("    colorimetry: %s\n",
-+		   dp_colorimetry_get_name(vsc->colorspace, vsc->colorimetry));
-+	DP_SDP_LOG("    bpc: %u\n", vsc->bpc);
-+	DP_SDP_LOG("    dynamic range: %s\n",
-+		   dp_dynamic_range_get_name(vsc->dynamic_range));
-+	DP_SDP_LOG("    content type: %s\n",
-+		   dp_content_type_get_name(vsc->content_type));
-+#undef DP_SDP_LOG
-+}
-+EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index c098727681fa..00b775df6241 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1266,6 +1266,9 @@ struct drm_dp_vsc_sdp {
- 	enum dp_content_type content_type;
- };
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 368e481d45ee..66dbaab5867e 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -13158,6 +13158,9 @@ static void intel_dump_pipe_config(const struct intel_crtc_state *pipe_config,
+ 	if (pipe_config->infoframes.enable &
+ 	    intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_VENDOR))
+ 		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.hdmi);
++	if (pipe_config->infoframes.enable &
++	    intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_DRM))
++		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.drm);
  
-+void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
-+			const struct drm_dp_vsc_sdp *vsc);
-+
- int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
- 
- static inline int
+ 	drm_dbg_kms(&dev_priv->drm, "requested mode:\n");
+ 	drm_mode_debug_printmodeline(&pipe_config->hw.mode);
 -- 
 2.24.1
 
