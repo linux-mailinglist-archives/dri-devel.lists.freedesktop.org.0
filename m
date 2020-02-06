@@ -1,62 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC46C155C76
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 18:02:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 967D7155C6F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 18:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 667316FD2F;
-	Fri,  7 Feb 2020 17:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 924E16EAFA;
+	Fri,  7 Feb 2020 17:01:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [62.209.51.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37C776FA41
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 13:34:00 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 016DX36v016463; Thu, 6 Feb 2020 14:33:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=uw83YHkEimIhhPOEeMx2nLPySoUUuETqUW2sGayUiPM=;
- b=0z00dx/CAms+OVIefxU9IODEGW7IBlVO6dXKyAw4L/yLkKeQ/hJo5Bn7vm+yIETHS+ST
- Z/ZMksUD2k4oCF6k6wpCzzGT4Yo181tnKQLXcIs0+gsL8ts5zpyb3uqM022YIXveWptK
- 9eai6YcIuHVvrFSm/w/g4sTHyOunPGXwytXayPEeC8R281Ixo3wfC2qmuea6f+dulzRb
- l4eWNPRc65ES71CgyoRxtRfK4mQL7HYi80QaZCK4M5Xd2daUZdyCsYvlrGsIG7MBvvmJ
- LM4zNz8uzt5hj2ZBxPZOdycdiKuBHXKjm3Ag6I2O2wcA/xQbFJGmoWHD3qXK1yXL+XCw 0Q== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 2xyhku156e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Feb 2020 14:33:53 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E536E10003B;
- Thu,  6 Feb 2020 14:33:51 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D75B72BC7DB;
- Thu,  6 Feb 2020 14:33:51 +0100 (CET)
-Received: from localhost (10.75.127.48) by SFHDAG3NODE3.st.com (10.75.127.9)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 6 Feb 2020 14:33:51
- +0100
-From: Benjamin Gaignard <benjamin.gaignard@st.com>
-To: <thierry.reding@gmail.com>, <sam@ravnborg.org>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
- <philippe.cornu@st.com>
-Subject: [PATCH v4 3/3] dt-bindings: panel: Convert orisetech,
- otm8009a to json-schema
-Date: Thu, 6 Feb 2020 14:33:44 +0100
-Message-ID: <20200206133344.724-4-benjamin.gaignard@st.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20200206133344.724-1-benjamin.gaignard@st.com>
-References: <20200206133344.724-1-benjamin.gaignard@st.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG7NODE2.st.com (10.75.127.20) To SFHDAG3NODE3.st.com
- (10.75.127.9)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-06_01:2020-02-06,
- 2020-02-06 signatures=0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3855A6FA48
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 13:47:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AFCB730E;
+ Thu,  6 Feb 2020 05:47:04 -0800 (PST)
+Received: from e123648.arm.com (unknown [10.37.12.48])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 648223F52E;
+ Thu,  6 Feb 2020 05:46:52 -0800 (PST)
+From: lukasz.luba@arm.com
+To: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-imx@nxp.com
+Subject: [PATCH v2 0/4] Add support for devices in the Energy Model
+Date: Thu,  6 Feb 2020 13:46:36 +0000
+Message-Id: <20200206134640.11367-1-lukasz.luba@arm.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Fri, 07 Feb 2020 17:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,113 +40,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
+ bsegall@google.com, Morten.Rasmussen@arm.com, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ daniel.lezcano@linaro.org, steven.price@arm.com, cw00.choi@samsung.com,
+ mingo@redhat.com, mgorman@suse.de, rui.zhang@intel.com,
+ alyssa.rosenzweig@collabora.com, b.zolnierkie@samsung.com,
+ s.hauer@pengutronix.de, rostedt@goodmis.org, matthias.bgg@gmail.com,
+ Chris.Redpath@arm.com, Dietmar.Eggemann@arm.com, airlied@linux.ie,
+ javi.merino@arm.com, tomeu.vizoso@collabora.com, qperret@google.com,
+ sboyd@kernel.org, shawnguo@kernel.org, rjw@rjwysocki.net, agross@kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ ionela.voinescu@arm.com, lukasz.luba@arm.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert orisetech,otm8009a to json-schema.
+From: Lukasz Luba <lukasz.luba@arm.com>
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
----
- .../bindings/display/panel/orisetech,otm8009a.txt  | 23 ----------
- .../bindings/display/panel/orisetech,otm8009a.yaml | 53 ++++++++++++++++++++++
- 2 files changed, 53 insertions(+), 23 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+Hi all,
 
-diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
-deleted file mode 100644
-index 203b03eefb68..000000000000
---- a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
-+++ /dev/null
-@@ -1,23 +0,0 @@
--Orise Tech OTM8009A 3.97" 480x800 TFT LCD panel (MIPI-DSI video mode)
--
--The Orise Tech OTM8009A is a 3.97" 480x800 TFT LCD panel connected using
--a MIPI-DSI video interface. Its backlight is managed through the DSI link.
--
--Required properties:
--  - compatible: "orisetech,otm8009a"
--  - reg: the virtual channel number of a DSI peripheral
--
--Optional properties:
--  - reset-gpios: a GPIO spec for the reset pin (active low).
--  - power-supply: phandle of the regulator that provides the supply voltage.
--
--Example:
--&dsi {
--	...
--	panel@0 {
--		compatible = "orisetech,otm8009a";
--		reg = <0>;
--		reset-gpios = <&gpioh 7 GPIO_ACTIVE_LOW>;
--		power-supply = <&v1v8>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-new file mode 100644
-index 000000000000..6e6ac995c27b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-@@ -0,0 +1,53 @@
-+# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/orisetech,otm8009a.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Orise Tech OTM8009A 3.97" 480x800 TFT LCD panel (MIPI-DSI video mode)
-+
-+maintainers:
-+  - Philippe CORNU <philippe.cornu@st.com>
-+
-+description: |
-+             The Orise Tech OTM8009A is a 3.97" 480x800 TFT LCD panel connected using
-+             a MIPI-DSI video interface. Its backlight is managed through the DSI link.
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+
-+  compatible:
-+    const: orisetech,otm8009a
-+
-+  reg:
-+    maxItems: 1
-+    description: DSI virtual channel
-+
-+  enable-gpios: true
-+  port: true
-+  power-supply: true
-+
-+  reset-gpios:
-+    maxItems: 1
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+
-+examples:
-+  - |
-+    dsi@0 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      panel@0 {
-+        compatible = "orisetech,otm8009a";
-+        reg = <0>;
-+        reset-gpios = <&gpiof 15 0>;
-+        power-supply = <&v1v8>;
-+      };
-+    };
-+...
-+
+This patch set introduces support for devices in the Energy Model (EM)
+framework. It will unify the power model for thermal subsystem and make it
+simpler. The 1st patch refactors EM framework and adds support for devices.
+The 2nd patch changes dev_pm_opp_of_register_em() in OPP/OF which now should
+take as an argument struct device pointer. It touches a few trees
+(OMAP, NXP, mediatek) updating their CPUfreq drivers to the new interface.
+Patch 3/4 changes thermal devfreq cooling removing old code for calculating
+local power table. It simplifies the code and uses EM for requested power
+calculation. Last patch 4/4 adds EM to Panfrost driver.
+
+The patch set is based on linux-next tag next-20200206 but also applies on
+top of today's Linus's master.
+
+Changes:
+v2:
+- changed EM API em_register_perf_domain() adding cpumask_t pointer
+  as last argument (which was discussed with Dietmar and Quentin)
+- removed dependency on PM_OPP, thanks to the cpumask_t argument
+- removed enum em_type and em->type dependent code
+- em_get_pd() can handle CPU device as well as devfreq device
+- updated EM documentation
+- in devfreq cooling added code which prevents from race condition with
+  devfreq governors which are trying to use OPPs while thermal is in the middle
+  of disabling them.
+- in devfreq cooling added code which updates state of the devfreq device to
+  avoid working on stale data when governor has not updated it for a long time
+- in devfreq cooling added backward compatibility frequency table for drivers
+  which did not provide EM
+- added Steven's Reviewed-by to trace code in thermal
+- added another CPUFreq driver which needs to be updated to the new API
+
+The v1 can be found here [1].
+
+Regards,
+Lukasz Luba
+
+[1] https://lkml.org/lkml/2020/1/16/619
+
+
+Lukasz Luba (4):
+  PM / EM: add devices to Energy Model
+  OPP: change parameter to device pointer in dev_pm_opp_of_register_em()
+  thermal: devfreq_cooling: Refactor code and switch to use Energy Model
+  drm/panfrost: Register to the Energy Model with devfreq device
+
+ Documentation/power/energy-model.rst        | 129 +++---
+ drivers/cpufreq/cpufreq-dt.c                |   2 +-
+ drivers/cpufreq/imx6q-cpufreq.c             |   2 +-
+ drivers/cpufreq/mediatek-cpufreq.c          |   2 +-
+ drivers/cpufreq/omap-cpufreq.c              |   2 +-
+ drivers/cpufreq/qcom-cpufreq-hw.c           |   2 +-
+ drivers/cpufreq/scmi-cpufreq.c              |  11 +-
+ drivers/cpufreq/scpi-cpufreq.c              |   2 +-
+ drivers/cpufreq/vexpress-spc-cpufreq.c      |   2 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c |   3 +
+ drivers/opp/of.c                            |  45 +--
+ drivers/thermal/cpufreq_cooling.c           |  10 +-
+ drivers/thermal/devfreq_cooling.c           | 427 +++++++++-----------
+ include/linux/devfreq_cooling.h             |  17 -
+ include/linux/energy_model.h                | 108 +++--
+ include/linux/pm_opp.h                      |  14 +-
+ include/trace/events/thermal.h              |  19 +-
+ kernel/power/energy_model.c                 | 399 ++++++++++++++----
+ kernel/sched/sched.h                        |   2 +-
+ kernel/sched/topology.c                     |   4 +-
+ 20 files changed, 712 insertions(+), 490 deletions(-)
+
 -- 
-2.15.0
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
