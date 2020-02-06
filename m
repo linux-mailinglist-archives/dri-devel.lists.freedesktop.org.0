@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A3C154943
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 17:32:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A009154981
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 17:44:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D000D6FAA3;
-	Thu,  6 Feb 2020 16:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E57776FAB1;
+	Thu,  6 Feb 2020 16:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E73936FAA1;
- Thu,  6 Feb 2020 16:32:43 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e3c3f9d0000>; Thu, 06 Feb 2020 08:32:29 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 06 Feb 2020 08:32:43 -0800
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 06 Feb 2020 08:32:43 -0800
-Received: from [172.20.40.67] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Feb
- 2020 16:32:43 +0000
-Subject: Re: [Nouveau] [PATCH 4/4] drm/nouveau: Remove struct
- nouveau_framebuffer
-To: Thomas Zimmermann <tzimmermann@suse.de>, <bskeggs@redhat.com>,
- <airlied@linux.ie>, <daniel@ffwll.ch>
-References: <20200206101942.1412-1-tzimmermann@suse.de>
- <20200206101942.1412-5-tzimmermann@suse.de>
- <616dead7-030a-b678-3040-9e317549812e@nvidia.com>
- <5d0bc649-9d82-295e-fe00-58e9350f6d94@suse.de>
-From: James Jones <jajones@nvidia.com>
-Message-ID: <2c9ec479-c114-b485-8361-289d8794c65e@nvidia.com>
-Date: Thu, 6 Feb 2020 08:33:43 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
+ [IPv6:2607:f8b0:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37BBB6FAAF
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 16:44:34 +0000 (UTC)
+Received: by mail-il1-x144.google.com with SMTP id t17so5605320ilm.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 08:44:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PDCvRt344tP13Gliht0KAH20xg9EPZodt4zeY/LkVW0=;
+ b=OGPakx0ZM7y/zZ/xiB46ac0Ln4BN7BFVJ7Oz9r7IpfDw6Q8wt06bQT01AU1VWu2tfc
+ 5FaX0msEJOsubTnT/kLCA/wCHJMQ8f/vpABjQIX8fFKKwcpqVuVSImcWaZU5twpTt79v
+ NcyddQ1Mj+aTvr6bBThT7CmktlPgjcwiE6W1qJnxKna/O964CLc3MtogJ0Aygk98iXlA
+ tkKCXkSqyqUzZ2WKgbWrY0lUbvz8/aYBw8DXYVxLwP8VCgfL98vL1i9yBubXWQikvdUv
+ hDaEpk9L5qPcQTFIdqcsksHGHkPmEDPVAI+abTMJZMFu/tu/PJ8YvwpZrGexbpPnEvF1
+ KXew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PDCvRt344tP13Gliht0KAH20xg9EPZodt4zeY/LkVW0=;
+ b=m59mbQB4Jl11JKKNIbp9XVdwXEX2WMEQ2LfUMGFiDf6jUL6os80t366iw42aa64DsP
+ p0J6jf0lR2a0Wh5YW3DpkGFvl/sMyYAelJEl7o5ZGprCur/vhjc7se3wmxh7deQzLVHN
+ p6HXbe6JSZMnB/rvwiDtoVgM0K8krmwsERy88feccScWmSqb6TUrYUd4J96iln7dOBqy
+ 2XlAYJ+PCLfQjxpwyzTHBWEncxFols9aL6LFSr0tFSkPr/dns4txIEfuv6AeraFvcM1J
+ TRpptFiU377CXgb3WUuJkZ4ei2pcNtreJYgENdYewSeabIoXGU7V5IzE/wSIE2eW1MSY
+ bnTA==
+X-Gm-Message-State: APjAAAW9qQo5y57UGDZAyNb5yNYzqpf1a3+pNFT95uhZ/9FS9GjK77z7
+ KAogJSU/QjPcmnHMJnB+OXwYDTpx1bZrq1WN5w8TaA==
+X-Google-Smtp-Source: APXvYqzKUxSyXhxHPSxNwM43kQaGDK4r36osMZCTCyH7QM+ibqm7mJvnC+mxEHOlahzurHdZgFCO2nIF1mwu+YaTco0=
+X-Received: by 2002:a05:6e02:5cb:: with SMTP id
+ l11mr4596706ils.307.1581007473359; 
+ Thu, 06 Feb 2020 08:44:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5d0bc649-9d82-295e-fe00-58e9350f6d94@suse.de>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1581006749; bh=6H/7CWzeVJ63B3VQ81tqirGYlI9Mc77+8GZMJpV8woI=;
- h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
- User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
- X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=bFSZUOz3zpXvep8+ka4Wl4o9XNkX6VQmXtJNvXyJs5RMJ+9wL3gmGDMK4ZR+QSsJi
- aztYKRV8n4lDZnjMI+WMItFYJ/kPmTwVUL/OwQLJ4MzAglfRTWLKrtezOwX92agB3s
- e1yskNNLNHaRAcEO7l5Sfmpp1uDheG3+GXhdq79iFOVKSe+cTbVZ6yLr60GU4c7Erh
- oOA2LHwbybE1WpJcWkLfYJihci/3jIS6+oubFQLx/+txLw6Yohp6Lxz5xPZLq3EnCi
- InhsZlRMcWS6LaeU1t5ICqMINE7oAW/IjuR5bQ69p/DLp+/72Rua7FwI4DEDFF69bZ
- 7gIIEywsXed/A==
+References: <20200123235710.28673-1-bas@basnieuwenhuizen.nl>
+In-Reply-To: <20200123235710.28673-1-bas@basnieuwenhuizen.nl>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Thu, 6 Feb 2020 17:43:52 +0100
+Message-ID: <CAP+8YyHAt=Q6Z6=En1Jhd-4AGA34AmQ5jZBAYURKnx6HJg4NbQ@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/msm: Add syncobj support.
+To: freedreno@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,220 +62,423 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WWVzLCB0aGF0J3MgY2VydGFpbmx5IHZpYWJsZS4gIElmIHRoYXQncyB0aGUgZ2VuZXJhbCBwcmVm
-ZXJlbmNlIGluIApkaXJlY3Rpb24sIEknbGwgcmV3b3JrIHRoYXQgcGF0Y2hlcyB0byBkbyBzby4K
-ClRoYW5rcywKLUphbWVzCgpPbiAyLzYvMjAgNzo0OSBBTSwgVGhvbWFzIFppbW1lcm1hbm4gd3Jv
-dGU6Cj4gSGkgSmFtZXMKPiAKPiBBbSAwNi4wMi4yMCB1bSAxNjoxNyBzY2hyaWViIEphbWVzIEpv
-bmVzOgo+PiBOb3RlIEknbSBhZGRpbmcgc29tZSBmaWVsZHMgdG8gbm91dmVhdV9mcmFtZWJ1ZmZl
-ciBpbiB0aGUgc2VyaWVzCj4+ICJkcm0vbm91dmVhdTogU3VwcG9ydCBOVklESUEgZm9ybWF0IG1v
-ZGlmaWVycy4iwqAgSSBzZW50IG91dCB2MyBvZiB0aGF0Cj4+IHllc3RlcmRheS7CoCBJdCB3b3Vs
-ZCBwcm9iYWJseSBzdGlsbCBiZSBwb3NzaWJsZSB0byBhdm9pZCB0aGVtIGJ5Cj4+IHJlLWV4dHJh
-Y3RpbmcgdGhlIHJlbGV2YW50IGRhdGEgZnJvbSB0aGUgZm9ybWF0IG1vZGlmaWVyIG9uIHRoZSBm
-bHkgd2hlbgo+PiBuZWVkZWQsIGJ1dCBpdCBpcyBzaW1wbGVyIGFuZCBsaWtlbHkgbGVzcyBlcnJv
-ci1wcm9uZSB3aXRoIHRoZSB3cmFwcGVyCj4+IHN0cnVjdC4KPiAKPiBUaGFua3MgZm9yIHRoZSBu
-b3RlLgo+IAo+IEkganVzdCB0b29rIGEgbG9vayBhdCB5b3VyIHBhdGNoc2V0LiBJIHRoaW5rIHN0
-cnVjdCBub3V2ZWF1X2ZyYW1lYnVmZmVyCj4gc2hvdWxkIG5vdCBzdG9yZSB0aWxlX21vZGUgYW5k
-IGtpbmQuIEFGQUlDVCB0aGVyZSBhcmUgb25seSB0d28gdHJpdmlhbAo+IHBsYWNlcyB3aGVyZSB0
-aGVzZSB2YWx1ZXMgYXJlIHVzZWQgYW5kIHRoZXkgY2FuIGJlIGV4dHJhY3RlZCBmcm9tIHRoZQo+
-IGZyYW1lYnVmZmVyIGF0IGFueSB0aW1lLgo+IAo+IEknZCBzdWdnZXN0IHRvIGV4cGFuZCBub3V2
-ZWF1X2RlY29kZV9tb2QoKSB0byB0YWtlIGEgZHJtX2ZyYW1lYnVmZmVyIGFuZAo+IHJldHVybiB0
-aGUgY29ycmVjdCB2YWx1ZXMuIEtpbmQgb2Ygd2hhdCB5b3UgZG8gaW4KPiBub3V2ZWF1X2ZyYW1l
-YnVmZmVyX25ldygpIG5lYXIgbGluZSAzMzAuCj4gCj4gVGhvdWdodHM/Cj4gCj4gQmVzdCByZWdh
-cmRzCj4gVGhvbWFzCj4gCj4gWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9z
-ZXJpZXMvNzA3ODYvI3JldjMKPiAKPj4KPj4gVGhhbmtzLAo+PiAtSmFtZXMKPj4KPj4gT24gMi82
-LzIwIDI6MTkgQU0sIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+Pj4gQWZ0ZXIgaXRzIGNsZWFu
-dXAsIHN0cnVjdCBub3V2ZWF1X2ZyYW1lYnVmZmVyIGlzIG9ubHkgYSB3cmFwcGVyIGFyb3VuZAo+
-Pj4gc3RydWN0IGRybV9mcmFtZWJ1ZmZlci4gVXNlIHRoZSBsYXR0ZXIgZGlyZWN0bHkuCj4+Pgo+
-Pj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
-Cj4+PiAtLS0KPj4+ICDCoCBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC93bmR3LmPC
-oMKgIHwgMjYgKysrKysrKysrKystLS0tLS0tLS0tLS0KPj4+ICDCoCBkcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9ub3V2ZWF1X2Rpc3BsYXkuYyB8IDE0ICsrKysrKy0tLS0tLQo+Pj4gIMKgIGRyaXZl
-cnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxheS5oIHwgMTIgKy0tLS0tLS0tLS0KPj4+
-ICDCoCBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2ZiY29uLmPCoMKgIHwgMTQgKysr
-KysrLS0tLS0tCj4+PiAgwqAgNCBmaWxlcyBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspLCAzOCBk
-ZWxldGlvbnMoLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
-ZGlzcG52NTAvd25kdy5jCj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL3du
-ZHcuYwo+Pj4gaW5kZXggYmExMzk5OTY1YTFjLi40YTY3YTY1NmUwMDcgMTAwNjQ0Cj4+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC93bmR3LmMKPj4+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL3duZHcuYwo+Pj4gQEAgLTQwLDExICs0MCwxMSBA
-QCBudjUwX3duZHdfY3R4ZG1hX2RlbChzdHJ1Y3QgbnY1MF93bmR3X2N0eGRtYSAqY3R4ZG1hKQo+
-Pj4gIMKgIH0KPj4+ICDCoCDCoCBzdGF0aWMgc3RydWN0IG52NTBfd25kd19jdHhkbWEgKgo+Pj4g
-LW52NTBfd25kd19jdHhkbWFfbmV3KHN0cnVjdCBudjUwX3duZHcgKnduZHcsIHN0cnVjdAo+Pj4g
-bm91dmVhdV9mcmFtZWJ1ZmZlciAqZmIpCj4+PiArbnY1MF93bmR3X2N0eGRtYV9uZXcoc3RydWN0
-IG52NTBfd25kdyAqd25kdywgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIpCj4+PiAgwqAgewo+
-Pj4gLcKgwqDCoCBzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSA9IG5vdXZlYXVfZHJtKGZiLT5iYXNl
-LmRldik7Cj4+PiArwqDCoMKgIHN0cnVjdCBub3V2ZWF1X2RybSAqZHJtID0gbm91dmVhdV9kcm0o
-ZmItPmRldik7Cj4+PiAgwqDCoMKgwqDCoCBzdHJ1Y3QgbnY1MF93bmR3X2N0eGRtYSAqY3R4ZG1h
-Owo+Pj4gLcKgwqDCoCBzdHJ1Y3Qgbm91dmVhdV9ibyAqbnZibyA9IG5vdXZlYXVfZ2VtX29iamVj
-dChmYi0+YmFzZS5vYmpbMF0pOwo+Pj4gK8KgwqDCoCBzdHJ1Y3Qgbm91dmVhdV9ibyAqbnZibyA9
-IG5vdXZlYXVfZ2VtX29iamVjdChmYi0+b2JqWzBdKTsKPj4+ICDCoMKgwqDCoMKgIGNvbnN0IHU4
-wqDCoMKgIGtpbmQgPSBudmJvLT5raW5kOwo+Pj4gIMKgwqDCoMKgwqAgY29uc3QgdTMyIGhhbmRs
-ZSA9IDB4ZmIwMDAwMDAgfCBraW5kOwo+Pj4gIMKgwqDCoMKgwqAgc3RydWN0IHsKPj4+IEBAIC0y
-MzYsMTYgKzIzNiwxNiBAQCBudjUwX3duZHdfYXRvbWljX2NoZWNrX2FjcXVpcmUoc3RydWN0IG52
-NTBfd25kdwo+Pj4gKnduZHcsIGJvb2wgbW9kZXNldCwKPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBudjUwX3duZHdfYXRvbSAqYXN5dywKPj4+ICDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBudjUwX2hlYWRf
-YXRvbSAqYXN5aCkKPj4+ICDCoCB7Cj4+PiAtwqDCoMKgIHN0cnVjdCBub3V2ZWF1X2ZyYW1lYnVm
-ZmVyICpmYiA9Cj4+PiBub3V2ZWF1X2ZyYW1lYnVmZmVyKGFzeXctPnN0YXRlLmZiKTsKPj4+ICvC
-oMKgwqAgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBhc3l3LT5zdGF0ZS5mYjsKPj4+ICDC
-oMKgwqDCoMKgIHN0cnVjdCBub3V2ZWF1X2RybSAqZHJtID0gbm91dmVhdV9kcm0od25kdy0+cGxh
-bmUuZGV2KTsKPj4+IC3CoMKgwqAgc3RydWN0IG5vdXZlYXVfYm8gKm52Ym8gPSBub3V2ZWF1X2dl
-bV9vYmplY3QoZmItPmJhc2Uub2JqWzBdKTsKPj4+ICvCoMKgwqAgc3RydWN0IG5vdXZlYXVfYm8g
-Km52Ym8gPSBub3V2ZWF1X2dlbV9vYmplY3QoZmItPm9ialswXSk7Cj4+PiAgwqDCoMKgwqDCoCBp
-bnQgcmV0Owo+Pj4gIMKgIMKgwqDCoMKgwqAgTlZfQVRPTUlDKGRybSwgIiVzIGFjcXVpcmVcbiIs
-IHduZHctPnBsYW5lLm5hbWUpOwo+Pj4gIMKgIC3CoMKgwqAgaWYgKGFzeXctPnN0YXRlLmZiICE9
-IGFybXctPnN0YXRlLmZiIHx8ICFhcm13LT52aXNpYmxlIHx8Cj4+PiBtb2Rlc2V0KSB7Cj4+PiAt
-wqDCoMKgwqDCoMKgwqAgYXN5dy0+aW1hZ2UudyA9IGZiLT5iYXNlLndpZHRoOwo+Pj4gLcKgwqDC
-oMKgwqDCoMKgIGFzeXctPmltYWdlLmggPSBmYi0+YmFzZS5oZWlnaHQ7Cj4+PiArwqDCoMKgIGlm
-IChmYiAhPSBhcm13LT5zdGF0ZS5mYiB8fCAhYXJtdy0+dmlzaWJsZSB8fCBtb2Rlc2V0KSB7Cj4+
-PiArwqDCoMKgwqDCoMKgwqAgYXN5dy0+aW1hZ2UudyA9IGZiLT53aWR0aDsKPj4+ICvCoMKgwqDC
-oMKgwqDCoCBhc3l3LT5pbWFnZS5oID0gZmItPmhlaWdodDsKPj4+ICDCoMKgwqDCoMKgwqDCoMKg
-wqAgYXN5dy0+aW1hZ2Uua2luZCA9IG52Ym8tPmtpbmQ7Cj4+PiAgwqAgwqDCoMKgwqDCoMKgwqDC
-oMKgIHJldCA9IG52NTBfd25kd19hdG9taWNfY2hlY2tfYWNxdWlyZV9yZ2IoYXN5dyk7Cj4+PiBA
-QCAtMjYxLDEzICsyNjEsMTMgQEAgbnY1MF93bmR3X2F0b21pY19jaGVja19hY3F1aXJlKHN0cnVj
-dCBudjUwX3duZHcKPj4+ICp3bmR3LCBib29sIG1vZGVzZXQsCj4+PiAgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBhc3l3LT5pbWFnZS5ibG9ja2ggPSBudmJvLT5tb2RlID4+IDQ7
-Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZWxzZQo+Pj4gIMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN5dy0+aW1hZ2UuYmxvY2toID0gbnZiby0+bW9kZTsKPj4+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFzeXctPmltYWdlLmJsb2Nrc1swXSA9IGZiLT5iYXNl
-LnBpdGNoZXNbMF0gLyA2NDsKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFzeXctPmltYWdl
-LmJsb2Nrc1swXSA9IGZiLT5waXRjaGVzWzBdIC8gNjQ7Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgYXN5dy0+aW1hZ2UucGl0Y2hbMF0gPSAwOwo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDC
-oCB9IGVsc2Ugewo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFzeXctPmltYWdlLmxh
-eW91dCA9IDE7Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN5dy0+aW1hZ2UuYmxv
-Y2toID0gMDsKPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhc3l3LT5pbWFnZS5ibG9j
-a3NbMF0gPSAwOwo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN5dy0+aW1hZ2UucGl0Y2hb
-MF0gPSBmYi0+YmFzZS5waXRjaGVzWzBdOwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN5
-dy0+aW1hZ2UucGl0Y2hbMF0gPSBmYi0+cGl0Y2hlc1swXTsKPj4+ICDCoMKgwqDCoMKgwqDCoMKg
-wqAgfQo+Pj4gIMKgIMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoIWFzeWgtPnN0YXRlLmFzeW5jX2Zs
-aXApCj4+PiBAQCAtNDg2LDE2ICs0ODYsMTYgQEAgbnY1MF93bmR3X2NsZWFudXBfZmIoc3RydWN0
-IGRybV9wbGFuZSAqcGxhbmUsCj4+PiBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfc3RhdGUp
-Cj4+PiAgwqAgc3RhdGljIGludAo+Pj4gIMKgIG52NTBfd25kd19wcmVwYXJlX2ZiKHN0cnVjdCBk
-cm1fcGxhbmUgKnBsYW5lLCBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlCj4+PiAqc3RhdGUpCj4+PiAg
-wqAgewo+Pj4gLcKgwqDCoCBzdHJ1Y3Qgbm91dmVhdV9mcmFtZWJ1ZmZlciAqZmIgPSBub3V2ZWF1
-X2ZyYW1lYnVmZmVyKHN0YXRlLT5mYik7Cj4+PiArwqDCoMKgIHN0cnVjdCBkcm1fZnJhbWVidWZm
-ZXIgKmZiID0gc3RhdGUtPmZiOwo+Pj4gIMKgwqDCoMKgwqAgc3RydWN0IG5vdXZlYXVfZHJtICpk
-cm0gPSBub3V2ZWF1X2RybShwbGFuZS0+ZGV2KTsKPj4+ICDCoMKgwqDCoMKgIHN0cnVjdCBudjUw
-X3duZHcgKnduZHcgPSBudjUwX3duZHcocGxhbmUpOwo+Pj4gIMKgwqDCoMKgwqAgc3RydWN0IG52
-NTBfd25kd19hdG9tICphc3l3ID0gbnY1MF93bmR3X2F0b20oc3RhdGUpOwo+Pj4gLcKgwqDCoCBz
-dHJ1Y3Qgbm91dmVhdV9ibyAqbnZibyA9IG5vdXZlYXVfZ2VtX29iamVjdChzdGF0ZS0+ZmItPm9i
-alswXSk7Cj4+PiArwqDCoMKgIHN0cnVjdCBub3V2ZWF1X2JvICpudmJvID0gbm91dmVhdV9nZW1f
-b2JqZWN0KGZiLT5vYmpbMF0pOwo+Pj4gIMKgwqDCoMKgwqAgc3RydWN0IG52NTBfaGVhZF9hdG9t
-ICphc3loOwo+Pj4gIMKgwqDCoMKgwqAgc3RydWN0IG52NTBfd25kd19jdHhkbWEgKmN0eGRtYTsK
-Pj4+ICDCoMKgwqDCoMKgIGludCByZXQ7Cj4+PiAgwqAgLcKgwqDCoCBOVl9BVE9NSUMoZHJtLCAi
-JXMgcHJlcGFyZTogJXBcbiIsIHBsYW5lLT5uYW1lLCBzdGF0ZS0+ZmIpOwo+Pj4gK8KgwqDCoCBO
-Vl9BVE9NSUMoZHJtLCAiJXMgcHJlcGFyZTogJXBcbiIsIHBsYW5lLT5uYW1lLCBmYik7Cj4+PiAg
-wqDCoMKgwqDCoCBpZiAoIWFzeXctPnN0YXRlLmZiKQo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCBy
-ZXR1cm4gMDsKPj4+ICDCoCBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91
-dmVhdV9kaXNwbGF5LmMKPj4+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kaXNw
-bGF5LmMKPj4+IGluZGV4IGJiYmZmNTVlYjVkNS4uOTRmN2ZkNDhlMWNmIDEwMDY0NAo+Pj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kaXNwbGF5LmMKPj4+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxheS5jCj4+PiBAQCAtMjA3LDEwICsy
-MDcsMTAgQEAgaW50Cj4+PiAgwqAgbm91dmVhdV9mcmFtZWJ1ZmZlcl9uZXcoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwKPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3Qg
-ZHJtX21vZGVfZmJfY21kMiAqbW9kZV9jbWQsCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpnZW0sCj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBzdHJ1Y3Qgbm91dmVhdV9mcmFtZWJ1ZmZlciAqKnBmYikKPj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKipwZmIpCj4+PiAgwqAgewo+Pj4gIMKgwqDC
-oMKgwqAgc3RydWN0IG5vdXZlYXVfZHJtICpkcm0gPSBub3V2ZWF1X2RybShkZXYpOwo+Pj4gLcKg
-wqDCoCBzdHJ1Y3Qgbm91dmVhdV9mcmFtZWJ1ZmZlciAqZmI7Cj4+PiArwqDCoMKgIHN0cnVjdCBk
-cm1fZnJhbWVidWZmZXIgKmZiOwo+Pj4gIMKgwqDCoMKgwqAgaW50IHJldDsKPj4+ICDCoCDCoMKg
-wqDCoMKgwqDCoMKgwqAgLyogWVVWIG92ZXJsYXlzIGhhdmUgc3BlY2lhbCByZXF1aXJlbWVudHMg
-cHJlLU5WNTAgKi8KPj4+IEBAIC0yMzYsMTAgKzIzNiwxMCBAQCBub3V2ZWF1X2ZyYW1lYnVmZmVy
-X25ldyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+Pj4gIMKgwqDCoMKgwqAgaWYgKCEoZmIgPSAq
-cGZiID0ga3phbGxvYyhzaXplb2YoKmZiKSwgR0ZQX0tFUk5FTCkpKQo+Pj4gIMKgwqDCoMKgwqDC
-oMKgwqDCoCByZXR1cm4gLUVOT01FTTsKPj4+ICDCoCAtwqDCoMKgIGRybV9oZWxwZXJfbW9kZV9m
-aWxsX2ZiX3N0cnVjdChkZXYsICZmYi0+YmFzZSwgbW9kZV9jbWQpOwo+Pj4gLcKgwqDCoCBmYi0+
-YmFzZS5vYmpbMF0gPSBnZW07Cj4+PiArwqDCoMKgIGRybV9oZWxwZXJfbW9kZV9maWxsX2ZiX3N0
-cnVjdChkZXYsIGZiLCBtb2RlX2NtZCk7Cj4+PiArwqDCoMKgIGZiLT5vYmpbMF0gPSBnZW07Cj4+
-PiAgwqAgLcKgwqDCoCByZXQgPSBkcm1fZnJhbWVidWZmZXJfaW5pdChkZXYsICZmYi0+YmFzZSwK
-Pj4+ICZub3V2ZWF1X2ZyYW1lYnVmZmVyX2Z1bmNzKTsKPj4+ICvCoMKgwqAgcmV0ID0gZHJtX2Zy
-YW1lYnVmZmVyX2luaXQoZGV2LCBmYiwgJm5vdXZlYXVfZnJhbWVidWZmZXJfZnVuY3MpOwo+Pj4g
-IMKgwqDCoMKgwqAgaWYgKHJldCkKPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqAga2ZyZWUoZmIpOwo+
-Pj4gIMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPj4+IEBAIC0yNTAsNyArMjUwLDcgQEAgbm91dmVh
-dV91c2VyX2ZyYW1lYnVmZmVyX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZQo+Pj4gKmRldiwKPj4+
-ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fZmlsZSAqZmls
-ZV9wcml2LAo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3Qgc3Ry
-dWN0IGRybV9tb2RlX2ZiX2NtZDIgKm1vZGVfY21kKQo+Pj4gIMKgIHsKPj4+IC3CoMKgwqAgc3Ry
-dWN0IG5vdXZlYXVfZnJhbWVidWZmZXIgKmZiOwo+Pj4gK8KgwqDCoCBzdHJ1Y3QgZHJtX2ZyYW1l
-YnVmZmVyICpmYjsKPj4+ICDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqZ2VtOwo+
-Pj4gIMKgwqDCoMKgwqAgaW50IHJldDsKPj4+ICDCoCBAQCAtMjYwLDcgKzI2MCw3IEBAIG5vdXZl
-YXVfdXNlcl9mcmFtZWJ1ZmZlcl9jcmVhdGUoc3RydWN0Cj4+PiBkcm1fZGV2aWNlICpkZXYsCj4+
-PiAgwqAgwqDCoMKgwqDCoCByZXQgPSBub3V2ZWF1X2ZyYW1lYnVmZmVyX25ldyhkZXYsIG1vZGVf
-Y21kLCBnZW0sICZmYik7Cj4+PiAgwqDCoMKgwqDCoCBpZiAocmV0ID09IDApCj4+PiAtwqDCoMKg
-wqDCoMKgwqAgcmV0dXJuICZmYi0+YmFzZTsKPj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gZmI7
-Cj4+PiAgwqAgwqDCoMKgwqDCoCBkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQoZ2VtKTsKPj4+
-ICDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRSKHJldCk7Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kaXNwbGF5LmgKPj4+IGIvZHJpdmVycy9ncHUvZHJt
-L25vdXZlYXUvbm91dmVhdV9kaXNwbGF5LmgKPj4+IGluZGV4IDU2YzFkZWM4ZmMyOC4uMDgyYmIw
-NjdkNTc1IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9k
-aXNwbGF5LmgKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxh
-eS5oCj4+PiBAQCAtOCwyMSArOCwxMSBAQAo+Pj4gIMKgIMKgICNpbmNsdWRlIDxkcm0vZHJtX2Zy
-YW1lYnVmZmVyLmg+Cj4+PiAgwqAgLXN0cnVjdCBub3V2ZWF1X2ZyYW1lYnVmZmVyIHsKPj4+IC3C
-oMKgwqAgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciBiYXNlOwo+Pj4gLX07Cj4+PiAtCj4+PiAtc3Rh
-dGljIGlubGluZSBzdHJ1Y3Qgbm91dmVhdV9mcmFtZWJ1ZmZlciAqCj4+PiAtbm91dmVhdV9mcmFt
-ZWJ1ZmZlcihzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYikKPj4+IC17Cj4+PiAtwqDCoMKgIHJl
-dHVybiBjb250YWluZXJfb2YoZmIsIHN0cnVjdCBub3V2ZWF1X2ZyYW1lYnVmZmVyLCBiYXNlKTsK
-Pj4+IC19Cj4+PiAtCj4+PiAgwqAgaW50Cj4+PiAgwqAgbm91dmVhdV9mcmFtZWJ1ZmZlcl9uZXco
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwKPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBj
-b25zdCBzdHJ1Y3QgZHJtX21vZGVfZmJfY21kMiAqbW9kZV9jbWQsCj4+PiAgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpnZW0sCj4+PiAtwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBzdHJ1Y3Qgbm91dmVhdV9mcmFtZWJ1ZmZlciAqKnBmYik7Cj4+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICoqcGZiKTsKPj4+ICDC
-oCDCoCBzdHJ1Y3Qgbm91dmVhdV9kaXNwbGF5IHsKPj4+ICDCoMKgwqDCoMKgIHZvaWQgKnByaXY7
-Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9mYmNvbi5j
-Cj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZmJjb24uYwo+Pj4gaW5kZXgg
-MDJiMzZiNDQ0MDljLi5kNzhiYzAzYWQzYjggMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9ub3V2ZWF1X2ZiY29uLmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L25vdXZlYXVfZmJjb24uYwo+Pj4gQEAgLTMxMiw3ICszMTIsNyBAQCBub3V2ZWF1X2ZiY29u
-X2NyZWF0ZShzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqaGVscGVyLAo+Pj4gIMKgwqDCoMKgwqAgc3Ry
-dWN0IG5vdXZlYXVfZHJtICpkcm0gPSBub3V2ZWF1X2RybShkZXYpOwo+Pj4gIMKgwqDCoMKgwqAg
-c3RydWN0IG52aWZfZGV2aWNlICpkZXZpY2UgPSAmZHJtLT5jbGllbnQuZGV2aWNlOwo+Pj4gIMKg
-wqDCoMKgwqAgc3RydWN0IGZiX2luZm8gKmluZm87Cj4+PiAtwqDCoMKgIHN0cnVjdCBub3V2ZWF1
-X2ZyYW1lYnVmZmVyICpmYjsKPj4+ICvCoMKgwqAgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmI7
-Cj4+PiAgwqDCoMKgwqDCoCBzdHJ1Y3Qgbm91dmVhdV9jaGFubmVsICpjaGFuOwo+Pj4gIMKgwqDC
-oMKgwqAgc3RydWN0IG5vdXZlYXVfYm8gKm52Ym87Cj4+PiAgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJt
-X21vZGVfZmJfY21kMiBtb2RlX2NtZDsKPj4+IEBAIC0zNjcsNyArMzY3LDcgQEAgbm91dmVhdV9m
-YmNvbl9jcmVhdGUoc3RydWN0IGRybV9mYl9oZWxwZXIgKmhlbHBlciwKPj4+ICDCoMKgwqDCoMKg
-IH0KPj4+ICDCoCDCoMKgwqDCoMKgIC8qIHNldHVwIGhlbHBlciAqLwo+Pj4gLcKgwqDCoCBmYmNv
-bi0+aGVscGVyLmZiID0gJmZiLT5iYXNlOwo+Pj4gK8KgwqDCoCBmYmNvbi0+aGVscGVyLmZiID0g
-ZmI7Cj4+PiAgwqAgwqDCoMKgwqDCoCBpZiAoIWNoYW4pCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKg
-IGluZm8tPmZsYWdzID0gRkJJTkZPX0hXQUNDRUxfRElTQUJMRUQ7Cj4+PiBAQCAtMzkzLDcgKzM5
-Myw3IEBAIG5vdXZlYXVfZmJjb25fY3JlYXRlKHN0cnVjdCBkcm1fZmJfaGVscGVyICpoZWxwZXIs
-Cj4+PiAgwqAgwqDCoMKgwqDCoCAvKiBUbyBhbGxvdyByZXNpemVpbmcgd2l0aG91dCBzd2FwcGlu
-ZyBidWZmZXJzICovCj4+PiAgwqDCoMKgwqDCoCBOVl9JTkZPKGRybSwgImFsbG9jYXRlZCAlZHgl
-ZCBmYjogMHglbGx4LCBibyAlcFxuIiwKPj4+IC3CoMKgwqDCoMKgwqDCoCBmYi0+YmFzZS53aWR0
-aCwgZmItPmJhc2UuaGVpZ2h0LCBudmJvLT5iby5vZmZzZXQsIG52Ym8pOwo+Pj4gK8KgwqDCoMKg
-wqDCoMKgIGZiLT53aWR0aCwgZmItPmhlaWdodCwgbnZiby0+Ym8ub2Zmc2V0LCBudmJvKTsKPj4+
-ICDCoCDCoMKgwqDCoMKgIHZnYV9zd2l0Y2hlcm9vX2NsaWVudF9mYl9zZXQoZGV2LT5wZGV2LCBp
-bmZvKTsKPj4+ICDCoMKgwqDCoMKgIHJldHVybiAwOwo+Pj4gQEAgLTQxMywxOCArNDEzLDE4IEBA
-IG5vdXZlYXVfZmJjb25fY3JlYXRlKHN0cnVjdCBkcm1fZmJfaGVscGVyICpoZWxwZXIsCj4+PiAg
-wqAgc3RhdGljIGludAo+Pj4gIMKgIG5vdXZlYXVfZmJjb25fZGVzdHJveShzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2LCBzdHJ1Y3Qgbm91dmVhdV9mYmRldgo+Pj4gKmZiY29uKQo+Pj4gIMKgIHsKPj4+
-IC3CoMKgwqAgc3RydWN0IG5vdXZlYXVfZnJhbWVidWZmZXIgKm5vdXZlYXVfZmIgPQo+Pj4gbm91
-dmVhdV9mcmFtZWJ1ZmZlcihmYmNvbi0+aGVscGVyLmZiKTsKPj4+ICvCoMKgwqAgc3RydWN0IGRy
-bV9mcmFtZWJ1ZmZlciAqZmIgPSBmYmNvbi0+aGVscGVyLmZiOwo+Pj4gIMKgwqDCoMKgwqAgc3Ry
-dWN0IG5vdXZlYXVfYm8gKm52Ym87Cj4+PiAgwqAgwqDCoMKgwqDCoCBkcm1fZmJfaGVscGVyX3Vu
-cmVnaXN0ZXJfZmJpKCZmYmNvbi0+aGVscGVyKTsKPj4+ICDCoMKgwqDCoMKgIGRybV9mYl9oZWxw
-ZXJfZmluaSgmZmJjb24tPmhlbHBlcik7Cj4+PiAgwqAgLcKgwqDCoCBpZiAobm91dmVhdV9mYiAm
-JiBub3V2ZWF1X2ZiLT5iYXNlLm9ialswXSkgewo+Pj4gLcKgwqDCoMKgwqDCoMKgIG52Ym8gPSBu
-b3V2ZWF1X2dlbV9vYmplY3Qobm91dmVhdV9mYi0+YmFzZS5vYmpbMF0pOwo+Pj4gK8KgwqDCoCBp
-ZiAoZmIgJiYgZmItPm9ialswXSkgewo+Pj4gK8KgwqDCoMKgwqDCoMKgIG52Ym8gPSBub3V2ZWF1
-X2dlbV9vYmplY3QoZmItPm9ialswXSk7Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIG5vdXZlYXVf
-dm1hX2RlbCgmZmJjb24tPnZtYSk7Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIG5vdXZlYXVfYm9f
-dW5tYXAobnZibyk7Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIG5vdXZlYXVfYm9fdW5waW4obnZi
-byk7Cj4+PiAtwqDCoMKgwqDCoMKgwqAgZHJtX2ZyYW1lYnVmZmVyX3B1dCgmbm91dmVhdV9mYi0+
-YmFzZSk7Cj4+PiArwqDCoMKgwqDCoMKgwqAgZHJtX2ZyYW1lYnVmZmVyX3B1dChmYik7Cj4+PiAg
-wqDCoMKgwqDCoCB9Cj4+PiAgwqAgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4+Cj4+IF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+IGRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKPj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+IApfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi,
+
+I'd appreciate if you could take a look at this patch. I believe I
+have accommodated the earlier review comments.
+
+Thank you,
+Bas
+
+On Fri, Jan 24, 2020 at 12:58 AM Bas Nieuwenhuizen
+<bas@basnieuwenhuizen.nl> wrote:
+>
+> This
+>
+> 1) Enables core DRM syncobj support.
+> 2) Adds options to the submission ioctl to wait/signal syncobjs.
+>
+> Just like the wait fence fd, this does inline waits. Using the
+> scheduler would be nice but I believe it is out of scope for
+> this work.
+>
+> Support for timeline syncobjs is implemented and the interface
+> is ready for it, but I'm not enabling it yet until there is
+> some code for turnip to use it.
+>
+> The reset is mostly in there because in the presence of waiting
+> and signalling the same semaphores, resetting them after
+> signalling can become very annoying.
+>
+> v2:
+>   - Fixed style issues
+>   - Removed a cleanup issue in a failure case
+>   - Moved to a copy_from_user per syncobj
+>
+> v3:
+>  - Fixed a missing declaration introduced in v2
+>  - Reworked to use ERR_PTR/PTR_ERR
+>  - Simplified failure gotos.
+>
+> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c        |   6 +-
+>  drivers/gpu/drm/msm/msm_gem_submit.c | 232 ++++++++++++++++++++++++++-
+>  include/uapi/drm/msm_drm.h           |  24 ++-
+>  3 files changed, 258 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index c84f0a8b3f2c..5246b41798df 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -37,9 +37,10 @@
+>   * - 1.4.0 - softpin, MSM_RELOC_BO_DUMP, and GEM_INFO support to set/get
+>   *           GEM object's debug name
+>   * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
+> + * - 1.6.0 - Syncobj support
+>   */
+>  #define MSM_VERSION_MAJOR      1
+> -#define MSM_VERSION_MINOR      5
+> +#define MSM_VERSION_MINOR      6
+>  #define MSM_VERSION_PATCHLEVEL 0
+>
+>  static const struct drm_mode_config_funcs mode_config_funcs = {
+> @@ -988,7 +989,8 @@ static struct drm_driver msm_driver = {
+>         .driver_features    = DRIVER_GEM |
+>                                 DRIVER_RENDER |
+>                                 DRIVER_ATOMIC |
+> -                               DRIVER_MODESET,
+> +                               DRIVER_MODESET |
+> +                               DRIVER_SYNCOBJ,
+>         .open               = msm_open,
+>         .postclose           = msm_postclose,
+>         .lastclose          = drm_fb_helper_lastclose,
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index be5327af16fa..11045f56b815 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -8,7 +8,9 @@
+>  #include <linux/sync_file.h>
+>  #include <linux/uaccess.h>
+>
+> +#include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_syncobj.h>
+>
+>  #include "msm_drv.h"
+>  #include "msm_gpu.h"
+> @@ -394,6 +396,186 @@ static void submit_cleanup(struct msm_gem_submit *submit)
+>         ww_acquire_fini(&submit->ticket);
+>  }
+>
+> +
+> +struct msm_submit_post_dep {
+> +       struct drm_syncobj *syncobj;
+> +       uint64_t point;
+> +       struct dma_fence_chain *chain;
+> +};
+> +
+> +static struct drm_syncobj **msm_wait_deps(struct drm_device *dev,
+> +                                          struct drm_file *file,
+> +                                          uint64_t in_syncobjs_addr,
+> +                                          uint32_t nr_in_syncobjs,
+> +                                          size_t syncobj_stride,
+> +                                          struct msm_ringbuffer *ring)
+> +{
+> +       struct drm_syncobj **syncobjs = NULL;
+> +       struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
+> +       int ret = 0;
+> +       uint32_t i, j;
+> +
+> +       syncobjs = kcalloc(nr_in_syncobjs, sizeof(*syncobjs),
+> +                          GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
+> +       if (!syncobjs)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       for (i = 0; i < nr_in_syncobjs; ++i) {
+> +               uint64_t address = in_syncobjs_addr + i * syncobj_stride;
+> +               struct dma_fence *fence;
+> +
+> +               if (copy_from_user(&syncobj_desc,
+> +                                  u64_to_user_ptr(address),
+> +                                  min(syncobj_stride, sizeof(syncobj_desc)))) {
+> +                       ret = -EFAULT;
+> +                       break;
+> +               }
+> +
+> +               if (syncobj_desc.point &&
+> +                   !drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE)) {
+> +                       ret = -EOPNOTSUPP;
+> +                       break;
+> +               }
+> +
+> +               if (syncobj_desc.flags & ~MSM_SUBMIT_SYNCOBJ_FLAGS) {
+> +                       ret = -EINVAL;
+> +                       break;
+> +               }
+> +
+> +               ret = drm_syncobj_find_fence(file, syncobj_desc.handle,
+> +                                            syncobj_desc.point, 0, &fence);
+> +               if (ret)
+> +                       break;
+> +
+> +               if (!dma_fence_match_context(fence, ring->fctx->context))
+> +                       ret = dma_fence_wait(fence, true);
+> +
+> +               dma_fence_put(fence);
+> +               if (ret)
+> +                       break;
+> +
+> +               if (syncobj_desc.flags & MSM_SUBMIT_SYNCOBJ_RESET) {
+> +                       syncobjs[i] =
+> +                               drm_syncobj_find(file, syncobj_desc.handle);
+> +                       if (!syncobjs[i]) {
+> +                               ret = -EINVAL;
+> +                               break;
+> +                       }
+> +               }
+> +       }
+> +
+> +       if (ret) {
+> +               for (j = 0; j <= i; ++j) {
+> +                       if (syncobjs[j])
+> +                               drm_syncobj_put(syncobjs[j]);
+> +               }
+> +               kfree(syncobjs);
+> +               return ERR_PTR(ret);
+> +       }
+> +       return syncobjs;
+> +}
+> +
+> +static void msm_reset_syncobjs(struct drm_syncobj **syncobjs,
+> +                               uint32_t nr_syncobjs)
+> +{
+> +       uint32_t i;
+> +
+> +       for (i = 0; syncobjs && i < nr_syncobjs; ++i) {
+> +               if (syncobjs[i])
+> +                       drm_syncobj_replace_fence(syncobjs[i], NULL);
+> +       }
+> +}
+> +
+> +static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
+> +                                                       struct drm_file *file,
+> +                                                       uint64_t syncobjs_addr,
+> +                                                       uint32_t nr_syncobjs,
+> +                                                       size_t syncobj_stride)
+> +{
+> +       struct msm_submit_post_dep *post_deps;
+> +       struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
+> +       int ret = 0;
+> +       uint32_t i, j;
+> +
+> +       post_deps = kmalloc_array(nr_syncobjs, sizeof(*post_deps),
+> +                                 GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
+> +       if (!post_deps)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       for (i = 0; i < nr_syncobjs; ++i) {
+> +               uint64_t address = syncobjs_addr + i * syncobj_stride;
+> +
+> +               if (copy_from_user(&syncobj_desc,
+> +                                  u64_to_user_ptr(address),
+> +                                  min(syncobj_stride, sizeof(syncobj_desc)))) {
+> +                       ret = -EFAULT;
+> +                       break;
+> +               }
+> +
+> +               post_deps[i].point = syncobj_desc.point;
+> +               post_deps[i].chain = NULL;
+> +
+> +               if (syncobj_desc.flags) {
+> +                       ret = -EINVAL;
+> +                       break;
+> +               }
+> +
+> +               if (syncobj_desc.point) {
+> +                       if (!drm_core_check_feature(dev,
+> +                                                   DRIVER_SYNCOBJ_TIMELINE)) {
+> +                               ret = -EOPNOTSUPP;
+> +                               break;
+> +                       }
+> +
+> +                       post_deps[i].chain =
+> +                               kmalloc(sizeof(*post_deps[i].chain),
+> +                                       GFP_KERNEL);
+> +                       if (!post_deps[i].chain) {
+> +                               ret = -ENOMEM;
+> +                               break;
+> +                       }
+> +               }
+> +
+> +               post_deps[i].syncobj =
+> +                       drm_syncobj_find(file, syncobj_desc.handle);
+> +               if (!post_deps[i].syncobj) {
+> +                       ret = -EINVAL;
+> +                       break;
+> +               }
+> +       }
+> +
+> +       if (ret) {
+> +               for (j = 0; j <= i; ++j) {
+> +                       kfree(post_deps[j].chain);
+> +                       if (post_deps[j].syncobj)
+> +                               drm_syncobj_put(post_deps[j].syncobj);
+> +               }
+> +
+> +               kfree(post_deps);
+> +               return ERR_PTR(ret);
+> +       }
+> +
+> +       return post_deps;
+> +}
+> +
+> +static void msm_process_post_deps(struct msm_submit_post_dep *post_deps,
+> +                                  uint32_t count, struct dma_fence *fence)
+> +{
+> +       uint32_t i;
+> +
+> +       for (i = 0; post_deps && i < count; ++i) {
+> +               if (post_deps[i].chain) {
+> +                       drm_syncobj_add_point(post_deps[i].syncobj,
+> +                                             post_deps[i].chain,
+> +                                             fence, post_deps[i].point);
+> +                       post_deps[i].chain = NULL;
+> +               } else {
+> +                       drm_syncobj_replace_fence(post_deps[i].syncobj,
+> +                                                 fence);
+> +               }
+> +       }
+> +}
+> +
+>  int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>                 struct drm_file *file)
+>  {
+> @@ -406,6 +588,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>         struct sync_file *sync_file = NULL;
+>         struct msm_gpu_submitqueue *queue;
+>         struct msm_ringbuffer *ring;
+> +       struct msm_submit_post_dep *post_deps = NULL;
+> +       struct drm_syncobj **syncobjs_to_reset = NULL;
+>         int out_fence_fd = -1;
+>         struct pid *pid = get_pid(task_pid(current));
+>         unsigned i;
+> @@ -413,6 +597,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>         if (!gpu)
+>                 return -ENXIO;
+>
+> +       if (args->pad)
+> +               return -EINVAL;
+> +
+>         /* for now, we just have 3d pipe.. eventually this would need to
+>          * be more clever to dispatch to appropriate gpu module:
+>          */
+> @@ -460,9 +647,29 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>                         return ret;
+>         }
+>
+> +       if (args->flags & MSM_SUBMIT_SYNCOBJ_IN) {
+> +               syncobjs_to_reset = msm_wait_deps(dev, file,
+> +                                                 args->in_syncobjs,
+> +                                                 args->nr_in_syncobjs,
+> +                                                 args->syncobj_stride, ring);
+> +               if (IS_ERR(syncobjs_to_reset))
+> +                       return PTR_ERR(syncobjs_to_reset);
+> +       }
+> +
+> +       if (args->flags & MSM_SUBMIT_SYNCOBJ_OUT) {
+> +               post_deps = msm_parse_post_deps(dev, file,
+> +                                               args->out_syncobjs,
+> +                                               args->nr_out_syncobjs,
+> +                                               args->syncobj_stride);
+> +               if (IS_ERR(post_deps)) {
+> +                       ret = PTR_ERR(post_deps);
+> +                       goto out_post_unlock;
+> +               }
+> +       }
+> +
+>         ret = mutex_lock_interruptible(&dev->struct_mutex);
+>         if (ret)
+> -               return ret;
+> +               goto out_post_unlock;
+>
+>         if (args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
+>                 out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
+> @@ -586,6 +793,11 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>                 args->fence_fd = out_fence_fd;
+>         }
+>
+> +       msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
+> +       msm_process_post_deps(post_deps, args->nr_out_syncobjs,
+> +                             submit->fence);
+> +
+> +
+>  out:
+>         submit_cleanup(submit);
+>         if (ret)
+> @@ -594,5 +806,23 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>         if (ret && (out_fence_fd >= 0))
+>                 put_unused_fd(out_fence_fd);
+>         mutex_unlock(&dev->struct_mutex);
+> +
+> +out_post_unlock:
+> +       if (!IS_ERR_OR_NULL(post_deps)) {
+> +               for (i = 0; i < args->nr_out_syncobjs; ++i) {
+> +                       kfree(post_deps[i].chain);
+> +                       drm_syncobj_put(post_deps[i].syncobj);
+> +               }
+> +               kfree(post_deps);
+> +       }
+> +
+> +       if (!IS_ERR_OR_NULL(syncobjs_to_reset)) {
+> +               for (i = 0; i < args->nr_in_syncobjs; ++i) {
+> +                       if (syncobjs_to_reset[i])
+> +                               drm_syncobj_put(syncobjs_to_reset[i]);
+> +               }
+> +               kfree(syncobjs_to_reset);
+> +       }
+> +
+>         return ret;
+>  }
+> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+> index 0b85ed6a3710..19806eb3a8e8 100644
+> --- a/include/uapi/drm/msm_drm.h
+> +++ b/include/uapi/drm/msm_drm.h
+> @@ -217,13 +217,28 @@ struct drm_msm_gem_submit_bo {
+>  #define MSM_SUBMIT_FENCE_FD_IN   0x40000000 /* enable input fence_fd */
+>  #define MSM_SUBMIT_FENCE_FD_OUT  0x20000000 /* enable output fence_fd */
+>  #define MSM_SUBMIT_SUDO          0x10000000 /* run submitted cmds from RB */
+> +#define MSM_SUBMIT_SYNCOBJ_IN    0x08000000 /* enable input syncobj */
+> +#define MSM_SUBMIT_SYNCOBJ_OUT   0x04000000 /* enable output syncobj */
+>  #define MSM_SUBMIT_FLAGS                ( \
+>                 MSM_SUBMIT_NO_IMPLICIT   | \
+>                 MSM_SUBMIT_FENCE_FD_IN   | \
+>                 MSM_SUBMIT_FENCE_FD_OUT  | \
+>                 MSM_SUBMIT_SUDO          | \
+> +               MSM_SUBMIT_SYNCOBJ_IN    | \
+> +               MSM_SUBMIT_SYNCOBJ_OUT   | \
+>                 0)
+>
+> +#define MSM_SUBMIT_SYNCOBJ_RESET 0x00000001 /* Reset syncobj after wait. */
+> +#define MSM_SUBMIT_SYNCOBJ_FLAGS        ( \
+> +               MSM_SUBMIT_SYNCOBJ_RESET | \
+> +               0)
+> +
+> +struct drm_msm_gem_submit_syncobj {
+> +       __u32 handle;     /* in, syncobj handle. */
+> +       __u32 flags;      /* in, from MSM_SUBMIT_SYNCOBJ_FLAGS */
+> +       __u64 point;      /* in, timepoint for timeline syncobjs. */
+> +};
+> +
+>  /* Each cmdstream submit consists of a table of buffers involved, and
+>   * one or more cmdstream buffers.  This allows for conditional execution
+>   * (context-restore), and IB buffers needed for per tile/bin draw cmds.
+> @@ -236,7 +251,14 @@ struct drm_msm_gem_submit {
+>         __u64 bos;            /* in, ptr to array of submit_bo's */
+>         __u64 cmds;           /* in, ptr to array of submit_cmd's */
+>         __s32 fence_fd;       /* in/out fence fd (see MSM_SUBMIT_FENCE_FD_IN/OUT) */
+> -       __u32 queueid;         /* in, submitqueue id */
+> +       __u32 queueid;        /* in, submitqueue id */
+> +       __u64 in_syncobjs;    /* in, ptr to to array of drm_msm_gem_submit_syncobj */
+> +       __u64 out_syncobjs;   /* in, ptr to to array of drm_msm_gem_submit_syncobj */
+> +       __u32 nr_in_syncobjs; /* in, number of entries in in_syncobj */
+> +       __u32 nr_out_syncobjs; /* in, number of entries in out_syncobj. */
+> +       __u32 syncobj_stride; /* in, stride of syncobj arrays. */
+> +       __u32 pad;            /*in, reserved for future use, always 0. */
+> +
+>  };
+>
+>  /* The normal way to synchronize with the GPU is just to CPU_PREP on
+> --
+> 2.25.0
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
