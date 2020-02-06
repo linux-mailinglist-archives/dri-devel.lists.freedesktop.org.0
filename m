@@ -2,37 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E64F154739
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 16:11:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 084E3154773
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 16:16:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38A4A6E4D7;
-	Thu,  6 Feb 2020 15:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33A616FA84;
+	Thu,  6 Feb 2020 15:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id BD3B66E4D7
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 15:11:19 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16AAF1FB;
- Thu,  6 Feb 2020 07:11:19 -0800 (PST)
-Received: from [10.1.195.32] (e112269-lin.cambridge.arm.com [10.1.195.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED3BD3F52E;
- Thu,  6 Feb 2020 07:11:17 -0800 (PST)
-Subject: Re: [PATCH] drm/panfrost: perfcnt: Reserve/use the AS attached to the
- perfcnt MMU context
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20200206141327.446127-1-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <f22a7570-a054-c5ca-ce5a-1792f54b729f@arm.com>
-Date: Thu, 6 Feb 2020 15:11:16 +0000
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21EA6FA83;
+ Thu,  6 Feb 2020 15:16:10 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e3c2da10000>; Thu, 06 Feb 2020 07:15:45 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 06 Feb 2020 07:16:10 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 06 Feb 2020 07:16:10 -0800
+Received: from [172.20.40.67] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Feb
+ 2020 15:16:10 +0000
+Subject: Re: [Nouveau] [PATCH 4/4] drm/nouveau: Remove struct
+ nouveau_framebuffer
+To: Thomas Zimmermann <tzimmermann@suse.de>, <bskeggs@redhat.com>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>
+References: <20200206101942.1412-1-tzimmermann@suse.de>
+ <20200206101942.1412-5-tzimmermann@suse.de>
+X-Nvconfidentiality: public
+From: James Jones <jajones@nvidia.com>
+Message-ID: <616dead7-030a-b678-3040-9e317549812e@nvidia.com>
+Date: Thu, 6 Feb 2020 07:17:10 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200206141327.446127-1-boris.brezillon@collabora.com>
+In-Reply-To: <20200206101942.1412-5-tzimmermann@suse.de>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
 Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1581002146; bh=oAbuEM9RGWXjKFL24YxVNORo840bTLqFoCYtzUWmMHM=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=ecyYgdf7nwad4VzzEnzc0bmjXQiELcH5wLT7t4LEDGh8/YR4x+x1W/mqvFh0NHpdM
+ YuVyeqbLtpOPm/yPQRZRzXqR5BJLKkeSqeneYasnmt2I/whSXYESpoRx2eKzRQryu2
+ VAzAXTa0rRGIufGNKOLfbuopUEfs+eYnU4lCxdOy3C0cKdw2gyVE/RJr0JHgIzoNkY
+ bx+2LEPBnNl6oxzxzS+YaUB5d2Xe7Q9ZRMv7ID01rlmQAEkvepFmjD2dS7AwxdIyR8
+ 8wsogOaAYVMB7orhnWYNatZGYIT4wR52t5YXP9w03+/oREKiH3MrVy1EZ11KIU95Sk
+ BPeXzp5D29eQg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,86 +66,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Icecream95 <ixn@keemail.me>,
- Antonio Caggiano <antonio.caggiano@collabora.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/02/2020 14:13, Boris Brezillon wrote:
-> We need to use the AS attached to the opened FD when dumping counters.
+Note I'm adding some fields to nouveau_framebuffer in the series 
+"drm/nouveau: Support NVIDIA format modifiers."  I sent out v3 of that 
+yesterday.  It would probably still be possible to avoid them by 
+re-extracting the relevant data from the format modifier on the fly when 
+needed, but it is simpler and likely less error-prone with the wrapper 
+struct.
 
-Indeed we do!
+Thanks,
+-James
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-
+On 2/6/20 2:19 AM, Thomas Zimmermann wrote:
+> After its cleanup, struct nouveau_framebuffer is only a wrapper around
+> struct drm_framebuffer. Use the latter directly.
 > 
-> Reported-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> Fixes: 7282f7645d06 ("drm/panfrost: Implement per FD address spaces")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_mmu.c     |  7 ++++++-
->  drivers/gpu/drm/panfrost/panfrost_perfcnt.c | 11 ++++-------
->  2 files changed, 10 insertions(+), 8 deletions(-)
+>   drivers/gpu/drm/nouveau/dispnv50/wndw.c   | 26 +++++++++++------------
+>   drivers/gpu/drm/nouveau/nouveau_display.c | 14 ++++++------
+>   drivers/gpu/drm/nouveau/nouveau_display.h | 12 +----------
+>   drivers/gpu/drm/nouveau/nouveau_fbcon.c   | 14 ++++++------
+>   4 files changed, 28 insertions(+), 38 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index 763cfca886a7..3107b0738e40 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -151,7 +151,12 @@ u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
->  	as = mmu->as;
->  	if (as >= 0) {
->  		int en = atomic_inc_return(&mmu->as_count);
-> -		WARN_ON(en >= NUM_JOB_SLOTS);
-> +
-> +		/*
-> +		 * AS can be retained by active jobs or a perfcnt context,
-> +		 * hence the '+ 1' here.
-> +		 */
-> +		WARN_ON(en >= (NUM_JOB_SLOTS + 1));
->  
->  		list_move(&mmu->list, &pfdev->as_lru_list);
->  		goto out;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-> index 684820448be3..6913578d5aa7 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-> @@ -73,7 +73,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
->  	struct panfrost_file_priv *user = file_priv->driver_priv;
->  	struct panfrost_perfcnt *perfcnt = pfdev->perfcnt;
->  	struct drm_gem_shmem_object *bo;
-> -	u32 cfg;
-> +	u32 cfg, as;
->  	int ret;
->  
->  	if (user == perfcnt->user)
-> @@ -126,12 +126,8 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
->  
->  	perfcnt->user = user;
->  
-> -	/*
-> -	 * Always use address space 0 for now.
-> -	 * FIXME: this needs to be updated when we start using different
-> -	 * address space.
-> -	 */
-> -	cfg = GPU_PERFCNT_CFG_AS(0) |
-> +	as = panfrost_mmu_as_get(pfdev, perfcnt->mapping->mmu);
-> +	cfg = GPU_PERFCNT_CFG_AS(as) |
->  	      GPU_PERFCNT_CFG_MODE(GPU_PERFCNT_CFG_MODE_MANUAL);
->  
->  	/*
-> @@ -195,6 +191,7 @@ static int panfrost_perfcnt_disable_locked(struct panfrost_device *pfdev,
->  	drm_gem_shmem_vunmap(&perfcnt->mapping->obj->base.base, perfcnt->buf);
->  	perfcnt->buf = NULL;
->  	panfrost_gem_close(&perfcnt->mapping->obj->base.base, file_priv);
-> +	panfrost_mmu_as_put(pfdev, perfcnt->mapping->mmu);
->  	panfrost_gem_mapping_put(perfcnt->mapping);
->  	perfcnt->mapping = NULL;
->  	pm_runtime_mark_last_busy(pfdev->dev);
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> index ba1399965a1c..4a67a656e007 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> @@ -40,11 +40,11 @@ nv50_wndw_ctxdma_del(struct nv50_wndw_ctxdma *ctxdma)
+>   }
+>   
+>   static struct nv50_wndw_ctxdma *
+> -nv50_wndw_ctxdma_new(struct nv50_wndw *wndw, struct nouveau_framebuffer *fb)
+> +nv50_wndw_ctxdma_new(struct nv50_wndw *wndw, struct drm_framebuffer *fb)
+>   {
+> -	struct nouveau_drm *drm = nouveau_drm(fb->base.dev);
+> +	struct nouveau_drm *drm = nouveau_drm(fb->dev);
+>   	struct nv50_wndw_ctxdma *ctxdma;
+> -	struct nouveau_bo *nvbo = nouveau_gem_object(fb->base.obj[0]);
+> +	struct nouveau_bo *nvbo = nouveau_gem_object(fb->obj[0]);
+>   	const u8    kind = nvbo->kind;
+>   	const u32 handle = 0xfb000000 | kind;
+>   	struct {
+> @@ -236,16 +236,16 @@ nv50_wndw_atomic_check_acquire(struct nv50_wndw *wndw, bool modeset,
+>   			       struct nv50_wndw_atom *asyw,
+>   			       struct nv50_head_atom *asyh)
+>   {
+> -	struct nouveau_framebuffer *fb = nouveau_framebuffer(asyw->state.fb);
+> +	struct drm_framebuffer *fb = asyw->state.fb;
+>   	struct nouveau_drm *drm = nouveau_drm(wndw->plane.dev);
+> -	struct nouveau_bo *nvbo = nouveau_gem_object(fb->base.obj[0]);
+> +	struct nouveau_bo *nvbo = nouveau_gem_object(fb->obj[0]);
+>   	int ret;
+>   
+>   	NV_ATOMIC(drm, "%s acquire\n", wndw->plane.name);
+>   
+> -	if (asyw->state.fb != armw->state.fb || !armw->visible || modeset) {
+> -		asyw->image.w = fb->base.width;
+> -		asyw->image.h = fb->base.height;
+> +	if (fb != armw->state.fb || !armw->visible || modeset) {
+> +		asyw->image.w = fb->width;
+> +		asyw->image.h = fb->height;
+>   		asyw->image.kind = nvbo->kind;
+>   
+>   		ret = nv50_wndw_atomic_check_acquire_rgb(asyw);
+> @@ -261,13 +261,13 @@ nv50_wndw_atomic_check_acquire(struct nv50_wndw *wndw, bool modeset,
+>   				asyw->image.blockh = nvbo->mode >> 4;
+>   			else
+>   				asyw->image.blockh = nvbo->mode;
+> -			asyw->image.blocks[0] = fb->base.pitches[0] / 64;
+> +			asyw->image.blocks[0] = fb->pitches[0] / 64;
+>   			asyw->image.pitch[0] = 0;
+>   		} else {
+>   			asyw->image.layout = 1;
+>   			asyw->image.blockh = 0;
+>   			asyw->image.blocks[0] = 0;
+> -			asyw->image.pitch[0] = fb->base.pitches[0];
+> +			asyw->image.pitch[0] = fb->pitches[0];
+>   		}
+>   
+>   		if (!asyh->state.async_flip)
+> @@ -486,16 +486,16 @@ nv50_wndw_cleanup_fb(struct drm_plane *plane, struct drm_plane_state *old_state)
+>   static int
+>   nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+>   {
+> -	struct nouveau_framebuffer *fb = nouveau_framebuffer(state->fb);
+> +	struct drm_framebuffer *fb = state->fb;
+>   	struct nouveau_drm *drm = nouveau_drm(plane->dev);
+>   	struct nv50_wndw *wndw = nv50_wndw(plane);
+>   	struct nv50_wndw_atom *asyw = nv50_wndw_atom(state);
+> -	struct nouveau_bo *nvbo = nouveau_gem_object(state->fb->obj[0]);
+> +	struct nouveau_bo *nvbo = nouveau_gem_object(fb->obj[0]);
+>   	struct nv50_head_atom *asyh;
+>   	struct nv50_wndw_ctxdma *ctxdma;
+>   	int ret;
+>   
+> -	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, state->fb);
+> +	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, fb);
+>   	if (!asyw->state.fb)
+>   		return 0;
+>   
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+> index bbbff55eb5d5..94f7fd48e1cf 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+> @@ -207,10 +207,10 @@ int
+>   nouveau_framebuffer_new(struct drm_device *dev,
+>   			const struct drm_mode_fb_cmd2 *mode_cmd,
+>   			struct drm_gem_object *gem,
+> -			struct nouveau_framebuffer **pfb)
+> +			struct drm_framebuffer **pfb)
+>   {
+>   	struct nouveau_drm *drm = nouveau_drm(dev);
+> -	struct nouveau_framebuffer *fb;
+> +	struct drm_framebuffer *fb;
+>   	int ret;
+>   
+>           /* YUV overlays have special requirements pre-NV50 */
+> @@ -236,10 +236,10 @@ nouveau_framebuffer_new(struct drm_device *dev,
+>   	if (!(fb = *pfb = kzalloc(sizeof(*fb), GFP_KERNEL)))
+>   		return -ENOMEM;
+>   
+> -	drm_helper_mode_fill_fb_struct(dev, &fb->base, mode_cmd);
+> -	fb->base.obj[0] = gem;
+> +	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
+> +	fb->obj[0] = gem;
+>   
+> -	ret = drm_framebuffer_init(dev, &fb->base, &nouveau_framebuffer_funcs);
+> +	ret = drm_framebuffer_init(dev, fb, &nouveau_framebuffer_funcs);
+>   	if (ret)
+>   		kfree(fb);
+>   	return ret;
+> @@ -250,7 +250,7 @@ nouveau_user_framebuffer_create(struct drm_device *dev,
+>   				struct drm_file *file_priv,
+>   				const struct drm_mode_fb_cmd2 *mode_cmd)
+>   {
+> -	struct nouveau_framebuffer *fb;
+> +	struct drm_framebuffer *fb;
+>   	struct drm_gem_object *gem;
+>   	int ret;
+>   
+> @@ -260,7 +260,7 @@ nouveau_user_framebuffer_create(struct drm_device *dev,
+>   
+>   	ret = nouveau_framebuffer_new(dev, mode_cmd, gem, &fb);
+>   	if (ret == 0)
+> -		return &fb->base;
+> +		return fb;
+>   
+>   	drm_gem_object_put_unlocked(gem);
+>   	return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/nouveau/nouveau_display.h
+> index 56c1dec8fc28..082bb067d575 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_display.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_display.h
+> @@ -8,21 +8,11 @@
+>   
+>   #include <drm/drm_framebuffer.h>
+>   
+> -struct nouveau_framebuffer {
+> -	struct drm_framebuffer base;
+> -};
+> -
+> -static inline struct nouveau_framebuffer *
+> -nouveau_framebuffer(struct drm_framebuffer *fb)
+> -{
+> -	return container_of(fb, struct nouveau_framebuffer, base);
+> -}
+> -
+>   int
+>   nouveau_framebuffer_new(struct drm_device *dev,
+>   			const struct drm_mode_fb_cmd2 *mode_cmd,
+>   			struct drm_gem_object *gem,
+> -			struct nouveau_framebuffer **pfb);
+> +			struct drm_framebuffer **pfb);
+>   
+>   struct nouveau_display {
+>   	void *priv;
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+> index 02b36b44409c..d78bc03ad3b8 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+> @@ -312,7 +312,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
+>   	struct nouveau_drm *drm = nouveau_drm(dev);
+>   	struct nvif_device *device = &drm->client.device;
+>   	struct fb_info *info;
+> -	struct nouveau_framebuffer *fb;
+> +	struct drm_framebuffer *fb;
+>   	struct nouveau_channel *chan;
+>   	struct nouveau_bo *nvbo;
+>   	struct drm_mode_fb_cmd2 mode_cmd;
+> @@ -367,7 +367,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
+>   	}
+>   
+>   	/* setup helper */
+> -	fbcon->helper.fb = &fb->base;
+> +	fbcon->helper.fb = fb;
+>   
+>   	if (!chan)
+>   		info->flags = FBINFO_HWACCEL_DISABLED;
+> @@ -393,7 +393,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
+>   
+>   	/* To allow resizeing without swapping buffers */
+>   	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
+> -		fb->base.width, fb->base.height, nvbo->bo.offset, nvbo);
+> +		fb->width, fb->height, nvbo->bo.offset, nvbo);
+>   
+>   	vga_switcheroo_client_fb_set(dev->pdev, info);
+>   	return 0;
+> @@ -413,18 +413,18 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
+>   static int
+>   nouveau_fbcon_destroy(struct drm_device *dev, struct nouveau_fbdev *fbcon)
+>   {
+> -	struct nouveau_framebuffer *nouveau_fb = nouveau_framebuffer(fbcon->helper.fb);
+> +	struct drm_framebuffer *fb = fbcon->helper.fb;
+>   	struct nouveau_bo *nvbo;
+>   
+>   	drm_fb_helper_unregister_fbi(&fbcon->helper);
+>   	drm_fb_helper_fini(&fbcon->helper);
+>   
+> -	if (nouveau_fb && nouveau_fb->base.obj[0]) {
+> -		nvbo = nouveau_gem_object(nouveau_fb->base.obj[0]);
+> +	if (fb && fb->obj[0]) {
+> +		nvbo = nouveau_gem_object(fb->obj[0]);
+>   		nouveau_vma_del(&fbcon->vma);
+>   		nouveau_bo_unmap(nvbo);
+>   		nouveau_bo_unpin(nvbo);
+> -		drm_framebuffer_put(&nouveau_fb->base);
+> +		drm_framebuffer_put(fb);
+>   	}
+>   
+>   	return 0;
 > 
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
