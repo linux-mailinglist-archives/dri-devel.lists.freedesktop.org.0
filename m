@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BDB154D3B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 21:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E96154E7A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 23:00:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D20F6FB47;
-	Thu,  6 Feb 2020 20:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04BB66F567;
+	Thu,  6 Feb 2020 22:00:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 495F96FB47;
- Thu,  6 Feb 2020 20:46:28 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id gv17so499749pjb.1;
- Thu, 06 Feb 2020 12:46:28 -0800 (PST)
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A16536F567
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 22:00:16 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id w21so8540pgl.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 14:00:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=2NBFgKyFN0dyFl8VDFki9+LYpwoMV3nlGwylBI5zhTc=;
- b=is09vlFbX5CfRaTg+sqc26R1aYBp0ivQ+owR5pYoJT/WPd6KZxLokdZTWxwoZf+UBS
- jphcpWzdM8350QI2rGfbRtlHuRqUlopchBtsEA2kSlbuI028TEgQr5gEd9n6Z6YFBNLC
- xforcLnQdcHaIvRO2mOw66UpzzQzaVbbTjTMBg8uLw+guRJt0d99DaBM3DZNtpNGDlN/
- cZUfAkC+OEc3X03cF7jKajGaUIh0BAPasUQ20Rkm6icayayra87gOVOcmG9sZYhmBso4
- UEwAh1ml0R/Uo6Fs9IjjzBSm2BmXS3hPPkeuyYjZtCP8Pq6jFWjj7/Dw6+9yrCIxydVj
- evDw==
-X-Gm-Message-State: APjAAAVg2RkUv1yjwMjK65SHh8f5/bnruVGMe+zVYY5UvCIozC6thh0j
- ZBRzJ2AWgOTEDxAQII6CWA==
-X-Google-Smtp-Source: APXvYqyNEAAyTPvXxo1+qNGiJAaKLAML/OFDLMtfR2Y+1qUW/cvHgBNZYIkLTG9VLfLbpd3NqAC9UA==
-X-Received: by 2002:a17:90a:c390:: with SMTP id
- h16mr6846851pjt.131.1581021987274; 
- Thu, 06 Feb 2020 12:46:27 -0800 (PST)
+ bh=RE/0U9HMaaH2hc20ud5C4lxm6MqO7eGkAYTEiyXyOb0=;
+ b=ab/Yk0TEa6cngx41Xvsme2m3K7bVI12yTdHUsCqg8SOXEgwMMoMSZhk1LvP2G8VA58
+ QE4evbcdcDUmf63Vy3FDowqGIE+zj2HUWQGaVToWW4jlPBNChdHG3p4nNgcN+rE58Wo/
+ 64yiHF0wakQktCWhdE4hC1iv3+cgWzjOp7yPdoVJPV60X3MIzil0PNzad5Bc+G7U/JWD
+ GpXWwnp0IPqB2wJHE5D0Ou3NWtSFZXajcNvd7uJNzk1kiyW3LqkZ2TEfjtgE2EDeKOYi
+ JzWXn9GBbhQkGTyMezzgVtDVNGyN50XH4ZnTaLz1UtSuZiguDJs73m+AIKHldK5uLKeh
+ lfCw==
+X-Gm-Message-State: APjAAAUQRWK1QOb3Afx4LTdS38HjzfG5v4q0Xc9K3Wl2D7pOpCUoAm0F
+ gtmZfqvjai6YKVALZP580g==
+X-Google-Smtp-Source: APXvYqzKAZlOtZ6zTxVdNseR3XTrwfkuVpvDHj6Wjm4UEWVA+8HSlBMS//56y3E0jNlK1vsVxbxfCw==
+X-Received: by 2002:a05:6a00:5b:: with SMTP id
+ i27mr6395683pfk.112.1581026416197; 
+ Thu, 06 Feb 2020 14:00:16 -0800 (PST)
 Received: from rob-hp-laptop (63-158-47-182.dia.static.qwest.net.
  [63.158.47.182])
- by smtp.gmail.com with ESMTPSA id e38sm268368pgm.82.2020.02.06.12.46.25
+ by smtp.gmail.com with ESMTPSA id h62sm287723pfg.95.2020.02.06.14.00.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 12:46:26 -0800 (PST)
-Received: (nullmailer pid 23987 invoked by uid 1000);
- Thu, 06 Feb 2020 19:13:14 -0000
-Date: Thu, 6 Feb 2020 19:13:14 +0000
+ Thu, 06 Feb 2020 14:00:15 -0800 (PST)
+Received: (nullmailer pid 24167 invoked by uid 1000);
+ Thu, 06 Feb 2020 22:00:14 -0000
+Date: Thu, 6 Feb 2020 15:00:14 -0700
 From: Rob Herring <robh@kernel.org>
-To: Harigovindan P <harigovi@codeaurora.org>
-Subject: Re: [v1] dt-bindings: msm:disp: update dsi and dpu bindings
-Message-ID: <20200206191314.GA19759@bogus>
-References: <1580825737-27189-1-git-send-email-harigovi@codeaurora.org>
+To: Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: one file of all simple DSI panels
+Message-ID: <20200206220014.GA24061@bogus>
+References: <20200206133344.724-1-benjamin.gaignard@st.com>
+ <20200206133344.724-2-benjamin.gaignard@st.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1580825737-27189-1-git-send-email-harigovi@codeaurora.org>
+In-Reply-To: <20200206133344.724-2-benjamin.gaignard@st.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,110 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@st.com>, airlied@linux.ie,
+ philippe.cornu@st.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Yannick Fertre <yannick.fertre@st.com>,
+ robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2020 at 07:45:37PM +0530, Harigovindan P wrote:
-> Updating bindings of dsi and dpu by adding and removing certain
-> properties.
-
-Yes, the diff tells me that. The commit message should say why.
-
-This change breaks compatibility as well.
-
+On Thu, 6 Feb 2020 14:33:42 +0100, Benjamin Gaignard wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
 > 
-> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+> To complement panel-simple.yaml, create panel-simple-dsi.yaml.
+> panel-simple-dsi-yaml are for all simple DSP panels with a single
+> power-supply and optional backlight / enable GPIO.
+> 
+> Migrate panasonic,vvx10f034n00 over to the new file.
+> 
+> The objectives with one file for all the simple DSI panels are:
+>     - Make it simpler to add bindings for simple DSI panels
+>     - Keep the number of bindings file lower
+>     - Keep the binding documentation for simple DSI panels more consistent
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Yannick Fertre <yannick.fertre@st.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: devicetree@vger.kernel.org
 > ---
+> version 4:
+> - remove orisetech,otm8009a and raydium,rm68200 compatibles
+> - remove reset-gpios optional property
 > 
-> Changes in v1:
->         - Adding "ahb" clock as a required property.
->         - Adding "bus", "rot", "lut" as optional properties for sc7180 device.
->         - Removing properties from dsi bindings that are unused.
-> 	- Removing power-domain property since DSI is the child node of MDSS
-> 	  and it will inherit supply from its parent.
+> version 3:
+> - add orisetech,otm8009a and raydium,rm68200 compatibles
+> - add reset-gpios optional property
+> - fix indentation on compatible enumeration
 > 
->  Documentation/devicetree/bindings/display/msm/dpu.txt | 7 +++++++
->  Documentation/devicetree/bindings/display/msm/dsi.txt | 5 -----
->  2 files changed, 7 insertions(+), 5 deletions(-)
+>  .../display/panel/panasonic,vvx10f034n00.txt       | 20 -------
+>  .../bindings/display/panel/panel-simple-dsi.yaml   | 67 ++++++++++++++++++++++
+>  2 files changed, 67 insertions(+), 20 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
-> index 551ae26..dd58472a 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dpu.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
-> @@ -19,6 +19,7 @@ Required properties:
->    The following clocks are required:
->    * "iface"
->    * "bus"
-> +  * "ahb"
 
-You can't just add new clocks...
-
->    * "core"
->  - interrupts: interrupt signal from MDSS.
->  - interrupt-controller: identifies the node as an interrupt controller.
-> @@ -50,6 +51,8 @@ Required properties:
->  - clock-names: device clock names, must be in same order as clocks property.
->    The following clocks are required.
->    * "bus"
-> +  For the device "qcom,sc7180-dpu":
-> +  * "bus" - is an optional property due to architecture change.
->    * "iface"
->    * "core"
->    * "vsync"
-> @@ -70,6 +73,10 @@ Optional properties:
->  - assigned-clocks: list of clock specifiers for clocks needing rate assignment
->  - assigned-clock-rates: list of clock frequencies sorted in the same order as
->    the assigned-clocks property.
-> +- For the device "qcom,sc7180-dpu":
-> +  clock-names: optional device clocks, needed for accessing LUT blocks.
-> +  * "rot"
-> +  * "lut"
->  
->  Example:
->  
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi.txt b/Documentation/devicetree/bindings/display/msm/dsi.txt
-> index af95586..61d659a 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi.txt
-> @@ -8,13 +8,10 @@ Required properties:
->  - reg-names: The names of register regions. The following regions are required:
->    * "dsi_ctrl"
->  - interrupts: The interrupt signal from the DSI block.
-> -- power-domains: Should be <&mmcc MDSS_GDSC>.
->  - clocks: Phandles to device clocks.
->  - clock-names: the following clocks are required:
-> -  * "mdp_core"
->    * "iface"
->    * "bus"
-> -  * "core_mmss"
->    * "byte"
->    * "pixel"
->    * "core"
-> @@ -156,7 +153,6 @@ Example:
->  			"core",
->  			"core_mmss",
->  			"iface",
-> -			"mdp_core",
->  			"pixel";
->  		clocks =
->  			<&mmcc MDSS_AXI_CLK>,
-> @@ -164,7 +160,6 @@ Example:
->  			<&mmcc MDSS_ESC0_CLK>,
->  			<&mmcc MMSS_MISC_AHB_CLK>,
->  			<&mmcc MDSS_AHB_CLK>,
-> -			<&mmcc MDSS_MDP_CLK>,
->  			<&mmcc MDSS_PCLK0_CLK>;
->  
->  		assigned-clocks =
-> -- 
-> 2.7.4
-> 
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
