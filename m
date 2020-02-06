@@ -1,67 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B2F15437B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 12:50:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0411545A6
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 15:01:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 916BC6EA44;
-	Thu,  6 Feb 2020 11:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DB4D6FA5A;
+	Thu,  6 Feb 2020 14:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7CA06EA4A;
- Thu,  6 Feb 2020 11:50:01 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id t23so6017061wmi.1;
- Thu, 06 Feb 2020 03:50:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=gRYGMvr8k7UEDGDQhuU4pVuD0KbOvqjqXqV6tOx/tZQ=;
- b=EaS9kBL+1cDTuq6ELXA273iJH0B6IjFgzFjSGNSG+v0saHjj99DU0FDrDTVWcwB9cd
- ip8mjmUj4S0OWQWVt44zwbBw8F7YPgj0arpESNfnqrIFRbAuxthVMZvRaRkRv2ukRzM3
- cGG22R1PbmS9TtZa8gOkmFcA+S3zsjEKFTtob3LuoOPyJvToxvgvKRfUp9KB5sLkjHXO
- ZTyACJLqfj2eS/VfW+O2WSQ0UUO8hn1mYz68JLFEVS1JhFxEyy9OY9i+RIGlxIhnXhO9
- mfbTtfV9IjMSmAcmM2WR6dTj1PnmpLz57mTQXwyRt/G1zFdQaBqmTm1PX1+7gaLyUK4a
- 9h8A==
+Received: from mail-yw1-xc43.google.com (mail-yw1-xc43.google.com
+ [IPv6:2607:f8b0:4864:20::c43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31AEA6FA5A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 14:01:45 +0000 (UTC)
+Received: by mail-yw1-xc43.google.com with SMTP id i126so5045969ywe.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 06:01:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=DRB074YSrrw/Ajxbs86TrGm+cCr0lMPv565TdcUESKg=;
+ b=SNO7Opxbqqr4USlH83nYZoF8Y/k3VNM1/AJNyi744lvue8HQAM51fJoc9sEosvRjFg
+ +c0VwftSCxrSYWER5VkCTAr0Cp7KG6d7nYGuIIxKGAqI6ZGBKo7ozDQJtTYjTi+DGKlm
+ 0rBl1XN6C7x96HGnj20QkKLpYjFIpo4atXb42xL1763ihEgyuOKUrjWnpyX3U8OUzNqU
+ XGs69QadXJG9DpydCEOZVMCXzdJxlo5m6s4QNFnxlfglpt+ktXv5yjdu60b/9FUaW6gF
+ sg6Sik5l1eiN65KhjjBywlodgftu087eQ1BUGc+m6Z4vpsdUGq7x2/FE6s7ulU5gqIij
+ 1YpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=gRYGMvr8k7UEDGDQhuU4pVuD0KbOvqjqXqV6tOx/tZQ=;
- b=Oo1mZ52q4/ofgJsj6H9LXYXJEOAq09KFdf/dADf4mAVCi9w3toauh654hvqh17/Znc
- ArBlNZIf5g3Z5YCkWZnvtWsE3UqX94fPTz+RxhIqFXEu4fQyMTu/42YsBI+Yg4BsCNFa
- EBGrTpMCBadSZ0KbFnNFyNnvm6hKyEdpoM6Adz0JOxztPf555TVA8MeXu0cSV7210HOa
- EzMKij1hlzKvufSvmXlx+h53LCGGbhnm6tc2m9ziBMK734+G9TWvvczBWCM1h5zXT0Gc
- JDUmUyJ8ndSX7Cfifyd0DCMssEVCLuURiQPbIEDETwO1ipTxZNwmuKN36MUy9mskutFJ
- CfEQ==
-X-Gm-Message-State: APjAAAWJRYo+p4FP6vqza9wPMpcIdP17dsj5n/ruPKQtVtX2pQv22sqa
- vgFoR7iaY/Yd6ZmxUzFSWA8=
-X-Google-Smtp-Source: APXvYqwvu5SbSiAqkkMAxkPW6LoXzumpBNLoe3esFeaeiWUUXeLPu99yfA7RBCCXxTk/eOvLtYBTaQ==
-X-Received: by 2002:a05:600c:2042:: with SMTP id
- p2mr4266635wmg.79.1580989800359; 
- Thu, 06 Feb 2020 03:50:00 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id h13sm4194261wrw.54.2020.02.06.03.49.59
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 06 Feb 2020 03:49:59 -0800 (PST)
-Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
-To: Lucas Stach <l.stach@pengutronix.de>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>, Christian.Koenig@amd.com
-References: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>
- <0de5ad33ca2ff86fee13a453aa9096c274afbd3c.camel@pengutronix.de>
- <d710aba7c3acc537bfb1c20362f7c8dbee421f02.camel@pengutronix.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <740fb929-e788-075b-87db-e2524ed4b086@gmail.com>
-Date: Thu, 6 Feb 2020 12:49:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=DRB074YSrrw/Ajxbs86TrGm+cCr0lMPv565TdcUESKg=;
+ b=s62u6100nQHyZWcyU0y0gAU2FIR96v4qSIdMvJgvd65dartztuIajuPwbszslyMvN+
+ jimr+B9rpPHpdo+CL8qlwp+QUqO8/ZYFH0WIckvHVgklRrmE0w3kSL2impQtQsg/5t66
+ +Eni3ZbsBQvtH2aVtlth2ZkHDTIzy7RH/ZzwCxLN1zc/lSyOiaTFtMaMeuPfv/PpK77T
+ zw6GdHevi3ftR8MQT2/3oy2atiPRrDGcCT/7uWEwgkSrnZuRsOcmjgzgQUWsF9fFcyCW
+ aFiWCw1VOTaJZekTS5XqWscduGXL6CMy9e4THwNHXjid7LnNxgq+NXHJMoOD6cDm/lpv
+ qLRg==
+X-Gm-Message-State: APjAAAXEcbfl2D9gkesINSBcRPGWjOJQSOlAcq2gG8Pt22fbAEHOJPop
+ 3HJ9qH9v3M+T8yFeRHHMdmoEqg==
+X-Google-Smtp-Source: APXvYqxJ+qRIn5vw9ovBPy9eJ6PeFCEu6ye2FTwRuxN+5nN5TWx37YeBqVpz08U44oMti/32NqN4jw==
+X-Received: by 2002:a81:37d3:: with SMTP id e202mr3220444ywa.292.1580997703374; 
+ Thu, 06 Feb 2020 06:01:43 -0800 (PST)
+Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
+ by smtp.gmail.com with ESMTPSA id m137sm1471226ywd.108.2020.02.06.06.01.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2020 06:01:42 -0800 (PST)
+Date: Thu, 6 Feb 2020 09:01:40 -0500
+From: Sean Paul <sean@poorly.run>
+To: evanbenn@google.com
+Subject: Re: [PATCH] drm/mediatek: Ensure the cursor plane is on top of other
+ overlays
+Message-ID: <20200206140140.GA18465@art_vandelay>
+References: <1580441226.9516.1.camel@mtksdaap41>
+ <20200206065951.213862-1-evanbenn@google.com>
 MIME-Version: 1.0
-In-Reply-To: <d710aba7c3acc537bfb1c20362f7c8dbee421f02.camel@pengutronix.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200206065951.213862-1-evanbenn@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,115 +69,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Emily.Deng@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, steven.price@arm.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dcastagna@chromium.org, evanbenn@gmail.com, evanbenn@chromium.org,
+ dri-devel@lists.freedesktop.org, matthias.bgg@gmail.com,
+ linux-mediatek@lists.infradead.org, seanpaul@chromium.org, sean@poorly.run,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDYuMDIuMjAgdW0gMTI6MTAgc2NocmllYiBMdWNhcyBTdGFjaDoKPiBIaSBhbGwsCj4KPiBP
-biBNaSwgMjAyMC0wMi0wNSBhdCAxOToyNCArMDEwMCwgTHVjYXMgU3RhY2ggd3JvdGU6Cj4+IEhp
-IEFuZHJleSwKPj4KPj4gVGhpcyBjb21taXQgYnJlYWtzIGFsbCBkcml2ZXJzLCB3aGljaCBtYXkg
-YmFpbCBvdXQgb2YgdGhlIHRpbWVvdXQKPj4gcHJvY2Vzc2luZyBhcyB0aGV5IHdpc2ggdG8gZXh0
-ZW5kIHRoZSB0aW1lb3V0IChldG5hdml2LCB2M2QpLgo+Pgo+PiBUaG9zZSBkcml2ZXJzIGN1cnJl
-bnRseSBqdXN0IHJldHVybiBmcm9tIHRoZSB0aW1lb3V0IGhhbmRsZXIgYmVmb3JlCj4+IGNhbGxp
-bmcgZHJtX3NjaGVkX3N0b3AoKSwgd2hpY2ggbWVhbnMgd2l0aCB0aGlzIGNvbW1pdCBhcHBsaWVk
-IHdlIGFyZQo+PiByZW1vdmluZyB0aGUgZmlyc3Qgam9iIGZyb20gdGhlIHJpbmdfbWlycm9yX2xp
-c3QsIGJ1dCBuZXZlciBwdXQgaXQKPj4gYmFjay4gVGhpcyBsZWFkcyB0byBqb2JzIGdldHRpbmcg
-bG9zdCBmcm9tIHRoZSByaW5nIG1pcnJvciwgd2hpY2ggdGhlbgo+PiBjYXVzZXMgcXVpdGUgYSBi
-aXQgb2YgZmFsbG91dCBsaWtlIHVuc2lnbmFsZWQgZmVuY2VzLgo+Pgo+PiBOb3Qgc3VyZSB5ZXQg
-d2hhdCB0byBkbyBhYm91dCBpdCwgd2UgY2FuIGVpdGhlciBhZGQgYSBmdW5jdGlvbiB0byBhZGQK
-Pj4gdGhlIGpvYiBiYWNrIHRvIHRoZSByaW5nX21pcnJvciBpZiB0aGUgZHJpdmVyIHdhbnRzIHRv
-IGV4dGVuZCB0aGUKPj4gdGltZW91dCwgb3Igd2UgY291bGQgbG9vayBmb3IgYW5vdGhlciB3YXkg
-dG8gc3RvcAo+PiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzIGZyb20gZnJlZWluZyBqb2JzIHRoYXQg
-YXJlIGN1cnJlbnRseSBpbiB0aW1lb3V0Cj4+IHByb2Nlc3NpbmcuCj4gU28gYWZ0ZXIgdGhpbmtp
-bmcgYWJvdXQgdGhpcyBhIGJpdCBtb3JlIG15IG9waW5pb24gaXMgdGhhdCB3ZSBuZWVkIHRvCj4g
-cmV2ZXJ0IHRoaXMgY2hhbmdlIGZvciBub3cgYW5kIGdvIGJhY2sgdG8gdGhlIGRyYXdpbmcgYm9h
-cmQgZm9yIHRoZQo+IHNjaGVkdWxlciB0aW1lb3V0IGhhbmRsaW5nLgo+Cj4gUmlnaHQgbm93IHRo
-aXMgc3RhcnRzIHRvIGZlZWwgbGlrZSBhIGJpZyBtaWRsYXllciBtaXN0YWtlIHdpdGggYWxsIHRo
-ZQo+IHZlcnkgaW50cmljYXRlIGludGVydHdpbmluZyBiZXR3ZWVuIHRoZSBkcml2ZXJzIGFuZCB0
-aGUgc2NoZWR1bGVyLiBUaGUKPiBydWxlcyBvbiB3aGVuIGl0J3Mgc2FmZSB0byBtYW5pcHVsYXRl
-IHRoZSByaW5nIG1pcnJvciBhbmQgd2hlbgo+IGNvbXBsZXRlZCBqb2JzIGFyZSBzaWduYWxlZCBh
-bmQgZnJlZWQgYXJlIG5vdCByZWFsbHkgd2VsbCBzcGVjaWZpZWQuCj4gVGhlIGZhY3QgdGhhdCB3
-ZSBuZWVkIHRvIG11dGF0ZSBzdGF0ZSBpbiBvcmRlciB0byBnZXQgcmlkIG9mIHJhY2VzCj4gaW5z
-dGVhZCBvZiBoYXZpbmcgYSBzaW5nbGUgYmlnICJ0aW1lb3V0IHByb2Nlc3NpbmcgaXMgb3duZXIg
-b2YgdGhlCj4gc2NoZWR1bGVyIHN0YXRlIGZvciBub3ciIGlzIGEgYmlnIGZhdCB3YXJuaW5nIHNp
-Z24gSU1ITy4KClllcywgdGhhdCBzdHJvbmdseSBmZWVscyBsaWtlIGEgaGFjayB0byBtZSBhcyB3
-ZWxsLiBCdXQgSSBkaWRuJ3QgaGFkIAp0aW1lIGFuZCBzdGlsbCBoYXZlbid0IHRvIHRha2UgYSBj
-bG9zZXIgbG9vayBhbmQgc3VnZ2VzdCBzb21ldGhpbmcgYmV0dGVyLgoKQ2hyaXN0aWFuLgoKPgo+
-IEl0IHRvb2sgbWUgZmFyIGxvbmdlciB0aGFuIEknZCBsaWtlIHRvIGFkbWl0IHRvIHVuZGVyc3Rh
-bmQgdGhlIGZhaWx1cmUKPiBtb2RlIHdpdGggZmVuY2VzIG5vdCBnZXR0aW5nIHNpZ25hbGVkIGFm
-dGVyIGEgR1BVIGhhbmcuIFRoZSBiYWNrIGFuZAo+IGZvcnRoIGJldHdlZW4gc2NoZWR1bGVyIGFu
-ZCBkcml2ZXIgY29kZSBtYWtlcyB0aGluZ3MgcmVhbGx5IGhhcmQgdG8KPiBmb2xsb3cuCj4KPiBS
-ZWdhcmRzLAo+IEx1Y2FzCj4KPj4gUmVnYXJkcywKPj4gTHVjYXMKPj4KPj4gT24gTW8sIDIwMTkt
-MTEtMjUgYXQgMTU6NTEgLTA1MDAsIEFuZHJleSBHcm9kem92c2t5IHdyb3RlOgo+Pj4gUHJvYmxl
-bToKPj4+IER1ZSB0byBhIHJhY2UgYmV0d2VlbiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzIGluIHNj
-aGVkIHRocmVhZCBhbmQKPj4+IGRybV9zY2hlZF9qb2JfdGltZWRvdXQgaW4gdGltZW91dCB3b3Jr
-IHRoZXJlIGlzIGEgcG9zc2libGl0eSB0aGF0Cj4+PiBiYWQgam9iIHdhcyBhbHJlYWR5IGZyZWVk
-IHdoaWxlIHN0aWxsIGJlaW5nIGFjY2Vzc2VkIGZyb20gdGhlCj4+PiB0aW1lb3V0IHRocmVhZC4K
-Pj4+Cj4+PiBGaXg6Cj4+PiBJbnN0ZWFkIG9mIGp1c3QgcGVla2luZyBhdCB0aGUgYmFkIGpvYiBp
-biB0aGUgbWlycm9yIGxpc3QKPj4+IHJlbW92ZSBpdCBmcm9tIHRoZSBsaXN0IHVuZGVyIGxvY2sg
-YW5kIHRoZW4gcHV0IGl0IGJhY2sgbGF0ZXIgd2hlbgo+Pj4gd2UgYXJlIGdhcmFudGVlZCBubyBy
-YWNlIHdpdGggbWFpbiBzY2hlZCB0aHJlYWQgaXMgcG9zc2libGUgd2hpY2gKPj4+IGlzIGFmdGVy
-IHRoZSB0aHJlYWQgaXMgcGFya2VkLgo+Pj4KPj4+IHYyOiBMb2NrIGFyb3VuZCBwcm9jZXNzaW5n
-IHJpbmdfbWlycm9yX2xpc3QgaW4gZHJtX3NjaGVkX2NsZWFudXBfam9icy4KPj4+Cj4+PiB2Mzog
-UmViYXNlIG9uIHRvcCBvZiBkcm0tbWlzYy1uZXh0LiB2MiBpcyBub3QgbmVlZGVkIGFueW1vcmUg
-YXMKPj4+IGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgYWxyZWFkeSBoYXMgYSBsb2NrIHRoZXJl
-Lgo+Pj4KPj4+IHY0OiBGaXggY29tbWVudHMgdG8gcmVsZmVjdCBsYXRlc3QgY29kZSBpbiBkcm0t
-bWlzYy4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdy
-b2R6b3Zza3lAYW1kLmNvbT4KPj4+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
-c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4+PiBUZXN0ZWQtYnk6IEVtaWx5IERlbmcgPEVtaWx5LkRl
-bmdAYW1kLmNvbT4KPj4+IC0tLQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVk
-X21haW4uYyB8IDI3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKwo+Pj4gICAxIGZpbGUgY2hh
-bmdlZCwgMjcgaW5zZXJ0aW9ucygrKQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2No
-ZWRfbWFpbi5jCj4+PiBpbmRleCA2Nzc0OTU1Li4xYmY5YzQwIDEwMDY0NAo+Pj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4+PiBAQCAtMjg0LDEwICsyODQsMjEgQEAgc3Rh
-dGljIHZvaWQgZHJtX3NjaGVkX2pvYl90aW1lZG91dChzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmsp
-Cj4+PiAgIAl1bnNpZ25lZCBsb25nIGZsYWdzOwo+Pj4gICAKPj4+ICAgCXNjaGVkID0gY29udGFp
-bmVyX29mKHdvcmssIHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciwgd29ya190ZHIud29yayk7Cj4+
-PiArCj4+PiArCS8qIFByb3RlY3RzIGFnYWluc3QgY29uY3VycmVudCBkZWxldGlvbiBpbiBkcm1f
-c2NoZWRfZ2V0X2NsZWFudXBfam9iICovCj4+PiArCXNwaW5fbG9ja19pcnFzYXZlKCZzY2hlZC0+
-am9iX2xpc3RfbG9jaywgZmxhZ3MpOwo+Pj4gICAJam9iID0gbGlzdF9maXJzdF9lbnRyeV9vcl9u
-dWxsKCZzY2hlZC0+cmluZ19taXJyb3JfbGlzdCwKPj4+ICAgCQkJCSAgICAgICBzdHJ1Y3QgZHJt
-X3NjaGVkX2pvYiwgbm9kZSk7Cj4+PiAgIAo+Pj4gICAJaWYgKGpvYikgewo+Pj4gKwkJLyoKPj4+
-ICsJCSAqIFJlbW92ZSB0aGUgYmFkIGpvYiBzbyBpdCBjYW5ub3QgYmUgZnJlZWQgYnkgY29uY3Vy
-cmVudAo+Pj4gKwkJICogZHJtX3NjaGVkX2NsZWFudXBfam9icy4gSXQgd2lsbCBiZSByZWluc2Vy
-dGVkIGJhY2sgYWZ0ZXIgc2NoZWQtPnRocmVhZAo+Pj4gKwkJICogaXMgcGFya2VkIGF0IHdoaWNo
-IHBvaW50IGl0J3Mgc2FmZS4KPj4+ICsJCSAqLwo+Pj4gKwkJbGlzdF9kZWxfaW5pdCgmam9iLT5u
-b2RlKTsKPj4+ICsJCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJnNjaGVkLT5qb2JfbGlzdF9sb2Nr
-LCBmbGFncyk7Cj4+PiArCj4+PiAgIAkJam9iLT5zY2hlZC0+b3BzLT50aW1lZG91dF9qb2Ioam9i
-KTsKPj4+ICAgCj4+PiAgIAkJLyoKPj4+IEBAIC0yOTgsNiArMzA5LDggQEAgc3RhdGljIHZvaWQg
-ZHJtX3NjaGVkX2pvYl90aW1lZG91dChzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCj4+PiAgIAkJ
-CWpvYi0+c2NoZWQtPm9wcy0+ZnJlZV9qb2Ioam9iKTsKPj4+ICAgCQkJc2NoZWQtPmZyZWVfZ3Vp
-bHR5ID0gZmFsc2U7Cj4+PiAgIAkJfQo+Pj4gKwl9IGVsc2Ugewo+Pj4gKwkJc3Bpbl91bmxvY2tf
-aXJxcmVzdG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKPj4+ICAgCX0KPj4+ICAg
-Cj4+PiAgIAlzcGluX2xvY2tfaXJxc2F2ZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsK
-Pj4+IEBAIC0zNzAsNiArMzgzLDIwIEBAIHZvaWQgZHJtX3NjaGVkX3N0b3Aoc3RydWN0IGRybV9n
-cHVfc2NoZWR1bGVyICpzY2hlZCwgc3RydWN0IGRybV9zY2hlZF9qb2IgKmJhZCkKPj4+ICAgCWt0
-aHJlYWRfcGFyayhzY2hlZC0+dGhyZWFkKTsKPj4+ICAgCj4+PiAgIAkvKgo+Pj4gKwkgKiBSZWlu
-c2VydCBiYWNrIHRoZSBiYWQgam9iIGhlcmUgLSBub3cgaXQncyBzYWZlIGFzCj4+PiArCSAqIGRy
-bV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgY2Fubm90IHJhY2UgYWdhaW5zdCB1cyBhbmQgcmVsZWFz
-ZSB0aGUKPj4+ICsJICogYmFkIGpvYiBhdCB0aGlzIHBvaW50IC0gd2UgcGFya2VkICh3YWl0ZWQg
-Zm9yKSBhbnkgaW4gcHJvZ3Jlc3MKPj4+ICsJICogKGVhcmxpZXIpIGNsZWFudXBzIGFuZCBkcm1f
-c2NoZWRfZ2V0X2NsZWFudXBfam9iIHdpbGwgbm90IGJlIGNhbGxlZAo+Pj4gKwkgKiBub3cgdW50
-aWwgdGhlIHNjaGVkdWxlciB0aHJlYWQgaXMgdW5wYXJrZWQuCj4+PiArCSAqLwo+Pj4gKwlpZiAo
-YmFkICYmIGJhZC0+c2NoZWQgPT0gc2NoZWQpCj4+PiArCQkvKgo+Pj4gKwkJICogQWRkIGF0IHRo
-ZSBoZWFkIG9mIHRoZSBxdWV1ZSB0byByZWZsZWN0IGl0IHdhcyB0aGUgZWFybGllc3QKPj4+ICsJ
-CSAqIGpvYiBleHRyYWN0ZWQuCj4+PiArCQkgKi8KPj4+ICsJCWxpc3RfYWRkKCZiYWQtPm5vZGUs
-ICZzY2hlZC0+cmluZ19taXJyb3JfbGlzdCk7Cj4+PiArCj4+PiArCS8qCj4+PiAgIAkgKiBJdGVy
-YXRlIHRoZSBqb2IgbGlzdCBmcm9tIGxhdGVyIHRvICBlYXJsaWVyIG9uZSBhbmQgZWl0aGVyIGRl
-YWN0aXZlCj4+PiAgIAkgKiB0aGVpciBIVyBjYWxsYmFja3Mgb3IgcmVtb3ZlIHRoZW0gZnJvbSBt
-aXJyb3IgbGlzdCBpZiB0aGV5IGFscmVhZHkKPj4+ICAgCSAqIHNpZ25hbGVkLgo+PiBfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+PiBkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiBfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGFtZC1nZnggbWFpbGlu
-ZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2FtZC1nZngKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Feb 06, 2020 at 05:59:51PM +1100, evanbenn@google.com wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> Currently the cursor is placed on the first overlay plane, which means
+> it will be at the bottom of the stack when the hw does the compositing
+> with anything other than primary plane. Since mtk doesn't support plane
+> zpos, change the cursor location to the top-most plane.
+> 
+> Signed-off-by: Evan Benn <evanbenn@chromium.org>
+
+Hi Evan,
+Thanks for spotting the issue! I think this should probably be 2 patches, one to
+fix crtc init and then the cursor patch on top of that. We generally try to only
+do one thing per patch.
+
+A few other nits below..
+
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 29 +++++++++++++++++--------
+>  1 file changed, 20 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index 7b392d6c71cc..d4078c2089e0 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -658,10 +658,21 @@ static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
+>  
+>  static int mtk_drm_crtc_init(struct drm_device *drm,
+>  			     struct mtk_drm_crtc *mtk_crtc,
+> -			     struct drm_plane *primary,
+> -			     struct drm_plane *cursor, unsigned int pipe)
+> +			     unsigned int pipe)
+>  {
+> -	int ret;
+> +	int i, ret;
+> +
+
+extra line
+
+> +	struct drm_plane *primary = NULL;
+> +	struct drm_plane *cursor = NULL;
+
+These should be on top of the int declaration
+
+> +
+> +	for (i = 0; i < mtk_crtc->layer_nr; ++i) {
+
+We don't really do pre-increment in kernel for loops
+
+> +		if (!primary && mtk_crtc->planes[i].type ==
+> +				DRM_PLANE_TYPE_PRIMARY)
+
+Line breaks should be around '&&':
+
+                if (!primary &&
+                    mtk_crtc->planes[i].type == DRM_PLANE_TYPE_PRIMARY)
+
+> +			primary = &mtk_crtc->planes[i];
+> +		if (!cursor && mtk_crtc->planes[i].type ==
+
+else if?
+
+> +				DRM_PLANE_TYPE_CURSOR)
+> +			cursor = &mtk_crtc->planes[i];
+
+
+Since we can only have one primary and one cursor, the NULL checks on primary
+and cursor are unnecessary, you can just blindly assign them when you hit a
+plane of the right type. If the driver creates multiples the behavior is
+undefined anyways.
+
+> +	}
+>  
+>  	ret = drm_crtc_init_with_planes(drm, &mtk_crtc->base, primary, cursor,
+>  					&mtk_crtc_funcs, NULL);
+> @@ -711,11 +722,12 @@ static int mtk_drm_crtc_num_comp_planes(struct mtk_drm_crtc *mtk_crtc,
+>  }
+>  
+>  static inline
+> -enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx)
+> +enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx,
+> +					    unsigned int num_planes)
+>  {
+>  	if (plane_idx == 0)
+>  		return DRM_PLANE_TYPE_PRIMARY;
+> -	else if (plane_idx == 1)
+> +	else if (plane_idx == (num_planes - 1))
+>  		return DRM_PLANE_TYPE_CURSOR;
+>  	else
+>  		return DRM_PLANE_TYPE_OVERLAY;
+> @@ -734,7 +746,8 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
+>  		ret = mtk_plane_init(drm_dev,
+>  				&mtk_crtc->planes[mtk_crtc->layer_nr],
+>  				BIT(pipe),
+> -				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr),
+> +				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr,
+> +							num_planes),
+>  				mtk_ddp_comp_supported_rotations(comp));
+>  		if (ret)
+>  			return ret;
+> @@ -830,9 +843,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>  			return ret;
+>  	}
+>  
+> -	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, &mtk_crtc->planes[0],
+> -				mtk_crtc->layer_nr > 1 ? &mtk_crtc->planes[1] :
+> -				NULL, pipe);
+> +	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -- 
+> 2.25.0.341.g760bfbb309-goog
+> 
+
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
