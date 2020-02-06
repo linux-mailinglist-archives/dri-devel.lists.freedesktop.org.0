@@ -1,54 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3B2154ADD
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 19:15:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A870E154B15
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 19:28:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 780026FAF4;
-	Thu,  6 Feb 2020 18:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D826FB00;
+	Thu,  6 Feb 2020 18:28:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 832EA6FAF4
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 18:15:40 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id z193so7397600iof.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 10:15:40 -0800 (PST)
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E37106FB00
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 18:28:07 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id b15so5966796iln.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 10:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qm/9DZ1+cOCeT82di260lY0T4I/3ttFrYIoKFTAg9gs=;
- b=mpRfwzMmUJ3L0g1O2GfGVBmIfAqQL7N3wdd3Tb8slq9OwTT2ye8YHI1zw3p37eZnyy
- J2prHTc+aPQZ2eJNu7sxiZYePzw7J3H4ZLFd1zPzQl9oEVcd74hrjm8t+SBvaR/Av7TB
- GWR8BPHYT/K0D/kSO7rE35MMHmNWghOdZFVLXQaZyqYDsodF5vI+3cZdZ1c8y08WXRbw
- QbIrDZnO58iwfzXViEnszlGFfVaMf9DtlZ8EcEDGPL9WNKmGCpUmAzsdo/2cCgoSaC3m
- yUWXZS3Ii/U65H0r+YRQ7wKOrdZcjYivbhPkGek+tfzNH5u7Yeqe6Zj0F7n1zrvoc0W0
- hBOQ==
+ :cc; bh=4HW00T6Osm6WH4TyAw4D1VjVNdK7xc2XqYCF6kdJYx0=;
+ b=p+tk1qgQXb5MKd11ClypwRaVeIVdMZ4K2SD+LwlQ7GOM6fhKhbWva4FwPXvXOTGMWa
+ DGj8rNa/PNMeIRlw+JnrjTPWtpL4lkNNMO0F2m1NFve1Mneh8erKwo0pr9ACTGBf0Vx/
+ 1tPD/PXcE5bZ+8XAs8F37YkCFMsK7kdgusMnmj/JbLNUbQ2uAbCjEQRNElvlZiM7vAmI
+ hdtGWwONx5WxJtut7/1nJyAgCfCxMcaMSEMFbn8v+wHLLKQ0eL0O9jdW42FJ23ngwG67
+ KqVjIWWUxrQrCwIXxNmORZcMn8+m2aXsWHSimGL+rqAVaKBGxBqOVapp1JP3jfje4pwJ
+ Iw3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qm/9DZ1+cOCeT82di260lY0T4I/3ttFrYIoKFTAg9gs=;
- b=V94RxU54SKzrjmKJhtuFtcs0NBkOipX74GxiH7NDd5MZ/8iqBJ6Ol9eVLRFn+RAxhZ
- 1tkKGJFhuz6GtHEtDlpHkHde/I/IPgAcg0A//dbsdXKlxZbcHRCNSoeFYFI3FXbRtay4
- TJ15OAELGcoYaq9RHxC+UmsfUJt3nFPmXzUE66D+Gx8RQaFLhtICTAg0UtRfFcwrokdo
- mfb9PwUqOKaQRfb4ogxJofte434HtICPwHcH9D5YU+HrerG4C4pQNTTieAoyUSJo+Pir
- fKZ2irJoEYT1aaSw83rRMr+eiHDjB8bKyv67EZrt1CAMItDBglEhHHmOQyax6fvQ0ixn
- cpbw==
-X-Gm-Message-State: APjAAAUKvZVRCgJtXo2GRoHJSXC2EXm2XYYqO6E00Kl3cUvP+uTS6MTg
- QxmECpkViSOD/+OEGZgbsBPIDOc28Y/wR3DjmLe9btXA
-X-Google-Smtp-Source: APXvYqwwfx7ahBEIq6ja5VIzZPkRCDJAqTWXAylu6Iv8sD9Vj3+b0UuhHrjWFgteX+4PfVmyFedq0YesmBmAj46tNxM=
-X-Received: by 2002:a5e:df06:: with SMTP id f6mr34748316ioq.84.1581012939714; 
- Thu, 06 Feb 2020 10:15:39 -0800 (PST)
+ bh=4HW00T6Osm6WH4TyAw4D1VjVNdK7xc2XqYCF6kdJYx0=;
+ b=XT4ZU9hbNzfZnkhWFgIeRc/BscPiTT2aPcYWuv2JIejhXNXQR/OKyNDNw4nMPwHLwr
+ Q3k0mCG7ESTWTsY7uhML8YtB/Uo2ZUfzuSO+SG9p6LR1d7vvJRQJj45WS4aGYVCuS9ij
+ qQDSUzzWifEAr+nrdwkdiWk2nr0E44nGdnbpO+/hC/DusVQoxU5r+o27d+gDh+lbCljQ
+ OWCNEpbrLjO48B8e25/I0eDSVYsdV+SslCvPr7xxdOBN13GQc90OWXHE2tREvyj5RNnd
+ 5YrKhOUIKZOSQHAYwze46+iJBfQalz0xECuI/6ybGu1n8rJvhU/BMppL12xHcqziIurc
+ X5VQ==
+X-Gm-Message-State: APjAAAUzRzuhwCrOg50ntDk7lf6q1plxKG6hAHKva9EDzCDh+KzwndKu
+ D3BRYabGaWF0O/uoERXkbHLBEUSsH18SQDBwfRc=
+X-Google-Smtp-Source: APXvYqyZHwa2nq6KKqKvIuJYn93vumUv6IBXrHaKHhs6sEs86YWEhSWwob0M4z8F+GAhJSeeCgWniAlw4vBvHBIWArM=
+X-Received: by 2002:a5e:df06:: with SMTP id f6mr34797002ioq.84.1581013687236; 
+ Thu, 06 Feb 2020 10:28:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20200205181955.202485-1-olvaffe@gmail.com>
- <20200205181955.202485-10-olvaffe@gmail.com>
- <20200206094929.vuyjenl6fz2gfjus@sirius.home.kraxel.org>
-In-Reply-To: <20200206094929.vuyjenl6fz2gfjus@sirius.home.kraxel.org>
+References: <20200206111416.31269-1-kraxel@redhat.com>
+In-Reply-To: <20200206111416.31269-1-kraxel@redhat.com>
 From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 6 Feb 2020 10:15:28 -0800
-Message-ID: <CAPaKu7TaCznzd5zv079qkmuXX+HtQyKeCPwznQ30kWTwEAAczA@mail.gmail.com>
-Subject: Re: [PATCH 09/11] drm/virtio: avoid an infinite loop
+Date: Thu, 6 Feb 2020 10:27:56 -0800
+Message-ID: <CAPaKu7Tfp-thov9xCe-Gbq1zZe_uvDAno8SV_3tc=tU0gse=uA@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: fix ring free check
 To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,60 +60,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
  Gurchetan Singh <gurchetansingh@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 6, 2020 at 1:49 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Thu, Feb 6, 2020 at 3:14 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> On Wed, Feb 05, 2020 at 10:19:53AM -0800, Chia-I Wu wrote:
-> > Make sure elemcnt does not exceed the maximum element count in
-> > virtio_gpu_queue_ctrl_sgs.  We should improve our error handling or
-> > impose a size limit on execbuffer, which are TODOs.
+> If the virtio device supports indirect ring descriptors we need only one
+> ring entry for the whole command.  Take that into account when checking
+> whenever the virtqueue has enough free entries for our command.
 >
-> Hmm, virtio supports indirect ring entries, so large execbuffers should
-> not be a problem ...
->
-> So I've waded through the virtio code.  Figured our logic is wrong.
-> Luckily we err on the safe side (waiting for more free entries than we
-> actually need).  The patch below should fix that (not tested yet).
-That is good to know!  I was not sure if we have
-VIRTIO_RING_F_INDIRECT_DESC so I kept our logic.  I will drop this
-patch in v2.
-
->
-> cheers,
->   Gerd
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_vq.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-> index aa25e8781404..535399b3a3ea 100644
+> index 41e475fbd67b..a2ec09dba530 100644
 > --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
 > +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-> @@ -328,7 +328,7 @@ static bool virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
+> @@ -328,7 +328,8 @@ static void virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
 >  {
 >         struct virtqueue *vq = vgdev->ctrlq.vq;
 >         bool notify = false;
 > -       int ret;
+> +       bool indirect;
 > +       int vqcnt, ret;
 >
 >  again:
 >         spin_lock(&vgdev->ctrlq.qlock);
-> @@ -341,9 +341,10 @@ static bool virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
->                 return notify;
+> @@ -341,9 +342,11 @@ static void virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
+>                 return;
 >         }
 >
 > -       if (vq->num_free < elemcnt) {
-> +       vqcnt = virtqueue_use_indirect(vq, elemcnt) ? 1 : elemcnt;
+> +       indirect = virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC);
+> +       vqcnt = indirect ? 1 : elemcnt;
+Is the feature dynamic and require the lock held?  If not, the result
+can be cached and the fixup can happen before grabbing the lock
+
+  if (vgdev->has_indirect_desc)
+    elemcnt = 1;
+
+Either way, patch is
+
+  Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+
+
 > +       if (vq->num_free < vqcnt) {
 >                 spin_unlock(&vgdev->ctrlq.qlock);
 > -               wait_event(vgdev->ctrlq.ack_queue, vq->num_free >= elemcnt);
-> +               wait_event(vgdev->ctrlq.ack_queue, vq->num_free >= vq);
+> +               wait_event(vgdev->ctrlq.ack_queue, vq->num_free >= vqcnt);
 >                 goto again;
 >         }
 >
+> --
+> 2.18.1
 >
 _______________________________________________
 dri-devel mailing list
