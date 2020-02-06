@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BF2154BCF
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 20:18:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF17154BD0
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 20:18:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C78E6FB1C;
-	Thu,  6 Feb 2020 19:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C98B6FB1D;
+	Thu,  6 Feb 2020 19:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A13E6FB1C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 19:18:40 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id w15so8571286wru.4
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 11:18:40 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 948DB6FB1C
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 19:18:41 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z7so8536150wrl.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 11:18:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6mFlT0Omv41nAtEpTgYWO4Xf2iU3uM7fX834ml+D12E=;
- b=rci9PqEx4hby5MvW1khg7iEKwuy1bfbD4iaH4uETQBur1Za15XCzVjeFY1VfdBhtw4
- Sgm+lIqBzDWUcXws81WyInQc4DgofK0ajNixco/KiwkevvAVCOdtY5ZeQ6xfN/Ef6rVb
- GayBIdYOso2YrWls5jJXiF/U+8TKQSpE/sJZNy5HxzOqmim+LVfpuTuYr/kwh/7kYfdW
- Y3awX+mVUGcHmrjyQdCGHxtp6dtxRCX/efFt9Twi9ODg1shreYkTyHnQOaQ/ER9EN8Ut
- ptxJLeh9r0Gvc7WMEkLdB6fdxT1wUa0xnxOwgm+0Q4KtNxTa3y6OHyult0N4gOrTG7WX
- OpKQ==
+ bh=LfwwSgZBSRjQLTS6nz0OrfuIbfyqmaLe46Sq7iiWS8c=;
+ b=nuTjaVVr5wcwTnZqfAsI/wPKCTvbOASiVjKWSq+spZCIb/y/vJbnCq+XxMnO94worw
+ qTVv8ItgHInBYZxkuBb/xU0IMMKcCjbTWGgOGj6R2Swso7EiJ62AnQ8kd0txkrFL5Xza
+ 4lC4yHORnPNZAidzUdIjUxguEKhwQpHvzNqvL1EY5tZutgTyuQYoSWnRyK128d3SVFcN
+ vGNAPcxUtj4bX4NPnB3omZAAd6OF3VAD2MhGdSSGRwU6Xdt9h8aCV4G8X8XcZKAKaBhG
+ X2HyyUfCnjXm6cwzLGYZDjwDTmevBIGsDOHRckrHSdSYDuFdMIyeHYZ1kCzOnHPhgTCW
+ giLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6mFlT0Omv41nAtEpTgYWO4Xf2iU3uM7fX834ml+D12E=;
- b=Zz1x5HK25rRfZ0N6gSieCFFmjChUCGHNtMR7Hcc2/CA+Upz+REWLSyRsrfX7HcmeOb
- 81jPcBLFOB4d7j48vu8qG+T5Jq9ds37nLf030Qv+WQM5V8zIC0WIi6E6QMgwiNkI0bNA
- tvJJ6qX6t+ewgjvxWN2gUZSddw+jOaVBk6h+0MSeFeLJcbHLC9p0cHEymh9ZBdfUOOgs
- o2665cSHpxSgZQQNOxjq7GpVrrocj4xWGRQxOgt70mon6JsySgC3+Y4l1xkn+RjCsyW8
- doVtTbFNjEjXwQ+CWgdfvYhdWp52jyhreixf49AR5MWIWs/WLNWdACmtUwUaQOZMUwRl
- h6bA==
-X-Gm-Message-State: APjAAAU8+xZ+8SRIvBn4R0XXnW/ksiuv1nrnPCiY9Tj66mcA1AmV2jZS
- tAFfx7avS9qqvVD5Tx8oxahW4Q==
-X-Google-Smtp-Source: APXvYqyowlhqCLlPiC8LwlQGO8ZeahyUMuyPS6kHuCVL6/61Z4rWlDzBpMhGfN5LPnPhHBF2WM35Pw==
-X-Received: by 2002:adf:bc87:: with SMTP id g7mr5375779wrh.121.1581016718863; 
- Thu, 06 Feb 2020 11:18:38 -0800 (PST)
+ bh=LfwwSgZBSRjQLTS6nz0OrfuIbfyqmaLe46Sq7iiWS8c=;
+ b=uj7daHdFXHQCZ8s2g5BzSd2Aj80uo7JpYcJSLFa1A9CtFneV+foV4W8KYV/qeJQb2T
+ HwL0GD0R5/OgQMJfvEiCrdeUUJYuAdpaByTXHXEBY3RCv1x8N0oPOriVNvoqJHykjGnU
+ hOzrGzJ4V8+qM8Q+DVl6jezxp7sMqFSjAWjqX6VBiDTdg4/uAIgkb8a73OciKVWdcYu4
+ 2wd0sYU+crPAsQHdhCqdnZgK9WSPyxztgcWWSCykWPvcG/BPGj1oGMqU/ChHzOQODPpj
+ gL4uDIrpeXDrp7FsaEElIPlcGuA8cEKdGZzeOUinSvFE6T2hTG1CZxWzDbnFHHvIsu0J
+ zIHQ==
+X-Gm-Message-State: APjAAAUuCZQAKfMLxfIFCcKKNx+n8o7GTrSG5ogXEpO434sgWw3mi3LI
+ ZRL2zXoSw741i0Qv0Jn0tgsnrQ==
+X-Google-Smtp-Source: APXvYqwVZMBEfqGjN2j0fB5MXvXxRI+9+Sp2L8ylMlDIx4Zc4gEKynwt2gn9sTqQNabIC4jgkHTQmw==
+X-Received: by 2002:adf:e906:: with SMTP id f6mr5259501wrm.258.1581016720052; 
+ Thu, 06 Feb 2020 11:18:40 -0800 (PST)
 Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:7d33:17f7:8097:ecc7])
- by smtp.gmail.com with ESMTPSA id m3sm272662wrs.53.2020.02.06.11.18.37
+ by smtp.gmail.com with ESMTPSA id m3sm272662wrs.53.2020.02.06.11.18.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 11:18:38 -0800 (PST)
+ Thu, 06 Feb 2020 11:18:39 -0800 (PST)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@siol.net, boris.brezillon@collabora.com
-Subject: [PATCH v4 01/11] drm/bridge: dw-hdmi: set mtmdsclock for deep color
-Date: Thu,  6 Feb 2020 20:18:24 +0100
-Message-Id: <20200206191834.6125-2-narmstrong@baylibre.com>
+Subject: [PATCH v4 02/11] drm/bridge: dw-hdmi: add max bpc connector property
+Date: Thu,  6 Feb 2020 20:18:25 +0100
+Message-Id: <20200206191834.6125-3-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200206191834.6125-1-narmstrong@baylibre.com>
 References: <20200206191834.6125-1-narmstrong@baylibre.com>
@@ -77,46 +77,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jonas Karlman <jonas@kwiboo.se>
 
-Configure the correct mtmdsclock for deep colors to prepare support
-for 10, 12 & 16bit output.
+Add the max_bpc property to the dw-hdmi connector to prepare support
+for 10, 12 & 16bit output support.
 
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 67fca439bbfb..9e0927d22db6 100644
+index 9e0927d22db6..051001f77dd4 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -1818,9 +1818,26 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+@@ -2406,6 +2406,10 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
+ 				    DRM_MODE_CONNECTOR_HDMIA,
+ 				    hdmi->ddc);
  
- 	dev_dbg(hdmi->dev, "final pixclk = %d\n", vmode->mpixelclock);
- 
-+	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format)) {
-+		switch (hdmi_bus_fmt_color_depth(
-+				hdmi->hdmi_data.enc_out_bus_format)) {
-+		case 16:
-+			vmode->mtmdsclock = (u64)vmode->mpixelclock * 2;
-+			break;
-+		case 12:
-+			vmode->mtmdsclock = (u64)vmode->mpixelclock * 3 / 2;
-+			break;
-+		case 10:
-+			vmode->mtmdsclock = (u64)vmode->mpixelclock * 5 / 4;
-+			break;
-+		}
-+	}
++	drm_atomic_helper_connector_reset(connector);
 +
- 	if (hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format))
- 		vmode->mtmdsclock /= 2;
- 
-+	dev_dbg(hdmi->dev, "final tmdsclk = %d\n", vmode->mtmdsclock);
++	drm_connector_attach_max_bpc_property(connector, 8, 16);
 +
- 	/* Set up HDMI_FC_INVIDCONF */
- 	inv_val = (hdmi->hdmi_data.hdcp_enable ||
- 		   (dw_hdmi_support_scdc(hdmi) &&
+ 	if (hdmi->version >= 0x200a && hdmi->plat_data->use_drm_infoframe)
+ 		drm_object_attach_property(&connector->base,
+ 			connector->dev->mode_config.hdr_output_metadata_property, 0);
 -- 
 2.22.0
 
