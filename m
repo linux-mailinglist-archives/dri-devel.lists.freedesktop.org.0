@@ -1,60 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5712B154877
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 16:49:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13491154879
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 16:49:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF9D96FA91;
-	Thu,  6 Feb 2020 15:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4D789E69;
+	Thu,  6 Feb 2020 15:49:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCD66FA8F;
- Thu,  6 Feb 2020 15:49:07 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id C837FAAC3;
- Thu,  6 Feb 2020 15:49:05 +0000 (UTC)
-Subject: Re: [Nouveau] [PATCH 4/4] drm/nouveau: Remove struct
- nouveau_framebuffer
-To: James Jones <jajones@nvidia.com>, bskeggs@redhat.com, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20200206101942.1412-1-tzimmermann@suse.de>
- <20200206101942.1412-5-tzimmermann@suse.de>
- <616dead7-030a-b678-3040-9e317549812e@nvidia.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <5d0bc649-9d82-295e-fe00-58e9350f6d94@suse.de>
-Date: Thu, 6 Feb 2020 16:49:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr760040.outbound.protection.outlook.com [40.107.76.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED05589E2B;
+ Thu,  6 Feb 2020 15:49:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XwekLV+3QmI5iDeae3veNV7MXFUZ3Ysq4CncBAq0vyU1hXDQNjXHWz9YWJncJk2UqaaLouvtJ5tF0PmCUm4O8CKIllnj3PHzaSLVaYyjJhr0CEZkv80lbDCY4sbjsG1FUz2XxHvrEi2OHFbbKsg59Jb5wDrEi0DK4vXn53KOoA63zajDyjSSuAJ3SBiKmIfLUucbMSzpTKGlrkHwAJmP2E5YdjHqjTSSVrgUs4ClkP5SDWq5v38xKMR6+L38vCTqP+hFcLj806+pXcaBEHVWWXaYZM0k3Uwg/TBnA1BoAnYSjq8cMT28Bg+SBrl1cOmTjeOwYQZMik7i8Ba87NPchQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gNldWD7l2uiZoVOZI8qJ+OzgWV1hPuSkuQeqJTKhHZs=;
+ b=eGAI183iVF+8ST0l2QkT15rMLji/CtZl5werKnkgmDhWVqZ57S15vejHEZlYaifl1fM/qTQWkP5ZqnjHVZhiqsbucySW7RRoJNxFs00P4D52SGNxQyFQzlxFKifLDPrRkbAuaRgpDXorfHj71R5mk7hIXvSTocx/mVq8etx/8JD/sqbVHgUB1/OM29OaquLYSZCwtsA8PXsCfRdUVvrq//zK8ZVds7PWGNqYQ81SfoprHnFdcf1TejMgWg6ooDkM2pn1MOKlU7rDiwKWJcwMmG0PTfKJnMOzfnqILP45FeqDIxU36x88i/zGmo9QRtx0SRd4KC6ZIrpF14gi3Ug92A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gNldWD7l2uiZoVOZI8qJ+OzgWV1hPuSkuQeqJTKhHZs=;
+ b=O7FpGo+hRl/rTeIkgZwWYTB5fVfQ1cbWcXyN+UWOar0yZ8sGZ5pZFiWFUahfczOdFeQTCDr+WWvDOkarhpf1DaEjExDBkY9Nv6s1QoUprGPT8d4GPcCJCRWFHDjFz0g6I78zf6STN/suSYdZYJnA8wzDyBaznz7H7vvq6I6n+SI=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Andrey.Grodzovsky@amd.com; 
+Received: from MWHPR12MB1453.namprd12.prod.outlook.com (10.172.55.22) by
+ MWHPR12MB1389.namprd12.prod.outlook.com (10.169.206.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2686.32; Thu, 6 Feb 2020 15:49:49 +0000
+Received: from MWHPR12MB1453.namprd12.prod.outlook.com
+ ([fe80::610d:b9b1:dbd1:1150]) by MWHPR12MB1453.namprd12.prod.outlook.com
+ ([fe80::610d:b9b1:dbd1:1150%6]) with mapi id 15.20.2707.023; Thu, 6 Feb 2020
+ 15:49:49 +0000
+Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexdeucher@gmail.com>
+References: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>
+ <0de5ad33ca2ff86fee13a453aa9096c274afbd3c.camel@pengutronix.de>
+ <d710aba7c3acc537bfb1c20362f7c8dbee421f02.camel@pengutronix.de>
+ <740fb929-e788-075b-87db-e2524ed4b086@gmail.com>
+ <CADnq5_Np=OFgqAb4TPRz5yqx1YZSwWybS=F6R_r6r01QRrzADA@mail.gmail.com>
+ <61128c11-9e65-bc21-6306-ea4efea18b76@amd.com>
+From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Message-ID: <90de1234-a103-a695-4ad7-83b1486e15ee@amd.com>
+Date: Thu, 6 Feb 2020 10:49:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+In-Reply-To: <61128c11-9e65-bc21-6306-ea4efea18b76@amd.com>
+Content-Language: en-US
+X-ClientProxiedBy: QB1PR01CA0020.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:2d::33) To MWHPR12MB1453.namprd12.prod.outlook.com
+ (2603:10b6:301:e::22)
 MIME-Version: 1.0
-In-Reply-To: <616dead7-030a-b678-3040-9e317549812e@nvidia.com>
+Received: from [172.27.231.243] (165.204.55.251) by
+ QB1PR01CA0020.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c00:2d::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21 via Frontend Transport; Thu, 6 Feb 2020 15:49:47 +0000
+X-Originating-IP: [165.204.55.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ae06a052-e9e6-420a-d882-08d7ab1c3247
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1389:|MWHPR12MB1389:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1389F5D58AE0174B48ABAFE6EA1D0@MWHPR12MB1389.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 0305463112
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(366004)(396003)(136003)(376002)(39860400002)(199004)(189003)(66556008)(66946007)(66476007)(31696002)(5660300002)(36756003)(66574012)(52116002)(31686004)(86362001)(54906003)(6486002)(16576012)(4001150100001)(478600001)(316002)(4326008)(53546011)(81166006)(81156014)(956004)(2906002)(8676002)(110136005)(2616005)(16526019)(966005)(26005)(8936002)(45080400002)(186003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR12MB1389;
+ H:MWHPR12MB1453.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /qeHKbA+2PffjRin85Pj2TM73jbYesAR0Auy/qW5bMFarAmK3f4sPyrCrISQCAZ9C7XcgXjkI5fQlRED0aYLp+wuQVY+3/wBina+zXJ2QVl1+lJZj73P4uruCZiS51K6EfBnuxwRxtrZS2lLRJqsjhKiD5IsWtfsLLcEbtLoM/LF7SzK0K4bSvKJj1YizW732RamDByOGh7sBCoyktssUZK5JpBv7irC9sww2BbO1iigGLgeurBkQn+/pr6/1YSKjG1yWs/Rl5XCa+67k6hg7W59ZL+BieXd3+znUk8WoHr8ycXUzClazSfb9T4Jqvun41ZcMf4a9t9qfkA0D0m3jspRfUcT9ESaO3axINrQbZ445pMBeqXJ746jxDen2NKGKiKfOAGxKkwPTZeQWN6HOrDAzkWlfNHI96wI16ZYQZqfo4sPf3BPCvNfb0YDlIdVx8SpEBaU8Fy0APR+iGDNrua2HJCdVv9nZJ06e59Q7P5DBkbruGUo6pZQprms1x5WLR8CNYkHUOQE6DN7IBY5jw==
+X-MS-Exchange-AntiSpam-MessageData: RkOWJxrq/+BQcQqMZC9LUJerJddOCuKyj+t2cnD0JsLGlvTFrOYZgkOrl4ICSvaLqlRGO7zsJbTTpGuL4SSjSkvVQO0IfXJSs7/VKS9H+jpJYr7QXnxWZ+n7L+MR7TEYRn/MuJqFbQ4oB3DavCY7nA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae06a052-e9e6-420a-d882-08d7ab1c3247
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2020 15:49:48.9476 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OoPYG6CmtiCeq4MA7+BLwozlpPr0Xf/AmnpmSmZWjIgjk3Ct4Tdyy6PZD+EURelWNopqc8o9jQb8ZFvcEMOvEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1389
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,418 +102,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1448760699=="
+Cc: Emily Deng <Emily.Deng@amd.com>, steven.price@arm.com,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1448760699==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="HeUOTMaE8TN8TT7hYdqpz126qdsCO5Kbg"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HeUOTMaE8TN8TT7hYdqpz126qdsCO5Kbg
-Content-Type: multipart/mixed; boundary="sNVNvhm46SDi3Qn6bDvkPVTIbN3y9aNAG";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: James Jones <jajones@nvidia.com>, bskeggs@redhat.com, airlied@linux.ie,
- daniel@ffwll.ch
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <5d0bc649-9d82-295e-fe00-58e9350f6d94@suse.de>
-Subject: Re: [Nouveau] [PATCH 4/4] drm/nouveau: Remove struct
- nouveau_framebuffer
-References: <20200206101942.1412-1-tzimmermann@suse.de>
- <20200206101942.1412-5-tzimmermann@suse.de>
- <616dead7-030a-b678-3040-9e317549812e@nvidia.com>
-In-Reply-To: <616dead7-030a-b678-3040-9e317549812e@nvidia.com>
-
---sNVNvhm46SDi3Qn6bDvkPVTIbN3y9aNAG
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi James
-
-Am 06.02.20 um 16:17 schrieb James Jones:
-> Note I'm adding some fields to nouveau_framebuffer in the series
-> "drm/nouveau: Support NVIDIA format modifiers."=C2=A0 I sent out v3 of =
-that
-> yesterday.=C2=A0 It would probably still be possible to avoid them by
-> re-extracting the relevant data from the format modifier on the fly whe=
-n
-> needed, but it is simpler and likely less error-prone with the wrapper
-> struct.
-
-Thanks for the note.
-
-I just took a look at your patchset. I think struct nouveau_framebuffer
-should not store tile_mode and kind. AFAICT there are only two trivial
-places where these values are used and they can be extracted from the
-framebuffer at any time.
-
-I'd suggest to expand nouveau_decode_mod() to take a drm_framebuffer and
-return the correct values. Kind of what you do in
-nouveau_framebuffer_new() near line 330.
-
-Thoughts?
-
-Best regards
-Thomas
-
-[1] https://patchwork.freedesktop.org/series/70786/#rev3
-
->=20
-> Thanks,
-> -James
->=20
-> On 2/6/20 2:19 AM, Thomas Zimmermann wrote:
->> After its cleanup, struct nouveau_framebuffer is only a wrapper around=
-
->> struct drm_framebuffer. Use the latter directly.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->> =C2=A0 drivers/gpu/drm/nouveau/dispnv50/wndw.c=C2=A0=C2=A0 | 26 ++++++=
-+++++------------
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_display.c | 14 ++++++------
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_display.h | 12 +----------
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_fbcon.c=C2=A0=C2=A0 | 14 ++++++=
-------
->> =C2=A0 4 files changed, 28 insertions(+), 38 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
->> b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
->> index ba1399965a1c..4a67a656e007 100644
->> --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
->> +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
->> @@ -40,11 +40,11 @@ nv50_wndw_ctxdma_del(struct nv50_wndw_ctxdma *ctxd=
-ma)
->> =C2=A0 }
->> =C2=A0 =C2=A0 static struct nv50_wndw_ctxdma *
->> -nv50_wndw_ctxdma_new(struct nv50_wndw *wndw, struct
->> nouveau_framebuffer *fb)
->> +nv50_wndw_ctxdma_new(struct nv50_wndw *wndw, struct drm_framebuffer *=
-fb)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_drm *drm =3D nouveau_drm(fb->base.d=
-ev);
->> +=C2=A0=C2=A0=C2=A0 struct nouveau_drm *drm =3D nouveau_drm(fb->dev);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nv50_wndw_ctxdma *ctxdma;
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_bo *nvbo =3D nouveau_gem_object(fb-=
->base.obj[0]);
->> +=C2=A0=C2=A0=C2=A0 struct nouveau_bo *nvbo =3D nouveau_gem_object(fb-=
->obj[0]);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const u8=C2=A0=C2=A0=C2=A0 kind =3D nvb=
-o->kind;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const u32 handle =3D 0xfb000000 | kind;=
-
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct {
->> @@ -236,16 +236,16 @@ nv50_wndw_atomic_check_acquire(struct nv50_wndw
->> *wndw, bool modeset,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nv50_wndw_atom *a=
-syw,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nv50_head_atom *a=
-syh)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_framebuffer *fb =3D
->> nouveau_framebuffer(asyw->state.fb);
->> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D asyw->state.fb;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nouveau_drm *drm =3D nouveau_drm=
-(wndw->plane.dev);
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_bo *nvbo =3D nouveau_gem_object(fb-=
->base.obj[0]);
->> +=C2=A0=C2=A0=C2=A0 struct nouveau_bo *nvbo =3D nouveau_gem_object(fb-=
->obj[0]);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NV_ATOMIC(drm, "%s acquire\n", w=
-ndw->plane.name);
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (asyw->state.fb !=3D armw->state.fb || !=
-armw->visible ||
->> modeset) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asyw->image.w =3D fb->base=
-=2Ewidth;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asyw->image.h =3D fb->base=
-=2Eheight;
->> +=C2=A0=C2=A0=C2=A0 if (fb !=3D armw->state.fb || !armw->visible || mo=
-deset) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asyw->image.w =3D fb->widt=
-h;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asyw->image.h =3D fb->heig=
-ht;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asyw->image.kin=
-d =3D nvbo->kind;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D =
-nv50_wndw_atomic_check_acquire_rgb(asyw);
->> @@ -261,13 +261,13 @@ nv50_wndw_atomic_check_acquire(struct nv50_wndw
->> *wndw, bool modeset,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asyw->image.blockh =3D nvbo->mode >> 4;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 else
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asyw->image.blockh =3D nvbo->mode;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as=
-yw->image.blocks[0] =3D fb->base.pitches[0] / 64;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as=
-yw->image.blocks[0] =3D fb->pitches[0] / 64;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 asyw->image.pitch[0] =3D 0;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 asyw->image.layout =3D 1;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 asyw->image.blockh =3D 0;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 asyw->image.blocks[0] =3D 0;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as=
-yw->image.pitch[0] =3D fb->base.pitches[0];
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as=
-yw->image.pitch[0] =3D fb->pitches[0];
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!asy=
-h->state.async_flip)
->> @@ -486,16 +486,16 @@ nv50_wndw_cleanup_fb(struct drm_plane *plane,
->> struct drm_plane_state *old_state)
->> =C2=A0 static int
->> =C2=A0 nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_=
-state
->> *state)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_framebuffer *fb =3D nouveau_framebu=
-ffer(state->fb);
->> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D state->fb;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nouveau_drm *drm =3D nouveau_drm=
-(plane->dev);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nv50_wndw *wndw =3D nv50_wndw(pl=
-ane);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nv50_wndw_atom *asyw =3D nv50_wn=
-dw_atom(state);
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_bo *nvbo =3D nouveau_gem_object(sta=
-te->fb->obj[0]);
->> +=C2=A0=C2=A0=C2=A0 struct nouveau_bo *nvbo =3D nouveau_gem_object(fb-=
->obj[0]);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nv50_head_atom *asyh;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nv50_wndw_ctxdma *ctxdma;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 NV_ATOMIC(drm, "%s prepare: %p\n", plane->n=
-ame, state->fb);
->> +=C2=A0=C2=A0=C2=A0 NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, fb=
-);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!asyw->state.fb)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->> =C2=A0 diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c
->> b/drivers/gpu/drm/nouveau/nouveau_display.c
->> index bbbff55eb5d5..94f7fd48e1cf 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
->> @@ -207,10 +207,10 @@ int
->> =C2=A0 nouveau_framebuffer_new(struct drm_device *dev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 const struct drm_mode_fb_cmd2 *mode_cmd,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 struct drm_gem_object *gem,
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st=
-ruct nouveau_framebuffer **pfb)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st=
-ruct drm_framebuffer **pfb)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nouveau_drm *drm =3D nouveau_drm=
-(dev);
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_framebuffer *fb;
->> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* YUV o=
-verlays have special requirements pre-NV50 */
->> @@ -236,10 +236,10 @@ nouveau_framebuffer_new(struct drm_device *dev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!(fb =3D *pfb =3D kzalloc(sizeof(*f=
-b), GFP_KERNEL)))
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;=
-
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 drm_helper_mode_fill_fb_struct(dev, &fb->ba=
-se, mode_cmd);
->> -=C2=A0=C2=A0=C2=A0 fb->base.obj[0] =3D gem;
->> +=C2=A0=C2=A0=C2=A0 drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);=
-
->> +=C2=A0=C2=A0=C2=A0 fb->obj[0] =3D gem;
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 ret =3D drm_framebuffer_init(dev, &fb->base=
-,
->> &nouveau_framebuffer_funcs);
->> +=C2=A0=C2=A0=C2=A0 ret =3D drm_framebuffer_init(dev, fb, &nouveau_fra=
-mebuffer_funcs);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(fb);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
->> @@ -250,7 +250,7 @@ nouveau_user_framebuffer_create(struct drm_device
->> *dev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_mode_fb_cmd2 *mode_cmd)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_framebuffer *fb;
->> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_gem_object *gem;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
->> =C2=A0 @@ -260,7 +260,7 @@ nouveau_user_framebuffer_create(struct
->> drm_device *dev,
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D nouveau_framebuffer_new(=
-dev, mode_cmd, gem, &fb);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret =3D=3D 0)
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return &fb->base;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return fb;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_gem_object_put_unlocked(gem)=
-;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ERR_PTR(ret);
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h
->> b/drivers/gpu/drm/nouveau/nouveau_display.h
->> index 56c1dec8fc28..082bb067d575 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_display.h
->> +++ b/drivers/gpu/drm/nouveau/nouveau_display.h
->> @@ -8,21 +8,11 @@
->> =C2=A0 =C2=A0 #include <drm/drm_framebuffer.h>
->> =C2=A0 -struct nouveau_framebuffer {
->> -=C2=A0=C2=A0=C2=A0 struct drm_framebuffer base;
->> -};
->> -
->> -static inline struct nouveau_framebuffer *
->> -nouveau_framebuffer(struct drm_framebuffer *fb)
->> -{
->> -=C2=A0=C2=A0=C2=A0 return container_of(fb, struct nouveau_framebuffer=
-, base);
->> -}
->> -
->> =C2=A0 int
->> =C2=A0 nouveau_framebuffer_new(struct drm_device *dev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 const struct drm_mode_fb_cmd2 *mode_cmd,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 struct drm_gem_object *gem,
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st=
-ruct nouveau_framebuffer **pfb);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st=
-ruct drm_framebuffer **pfb);
->> =C2=A0 =C2=A0 struct nouveau_display {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *priv;
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
->> b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
->> index 02b36b44409c..d78bc03ad3b8 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
->> @@ -312,7 +312,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,=
-
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nouveau_drm *drm =3D nouveau_drm=
-(dev);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nvif_device *device =3D &drm->cl=
-ient.device;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct fb_info *info;
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_framebuffer *fb;
->> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nouveau_channel *chan;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nouveau_bo *nvbo;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_mode_fb_cmd2 mode_cmd;
->> @@ -367,7 +367,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,=
-
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* setup helper */
->> -=C2=A0=C2=A0=C2=A0 fbcon->helper.fb =3D &fb->base;
->> +=C2=A0=C2=A0=C2=A0 fbcon->helper.fb =3D fb;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!chan)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 info->flags =3D=
- FBINFO_HWACCEL_DISABLED;
->> @@ -393,7 +393,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,=
-
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* To allow resizeing without sw=
-apping buffers */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NV_INFO(drm, "allocated %dx%d fb: 0x%ll=
-x, bo %p\n",
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fb->base.width, fb->base.h=
-eight, nvbo->bo.offset, nvbo);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fb->width, fb->height, nvb=
-o->bo.offset, nvbo);
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vga_switcheroo_client_fb_set(dev=
-->pdev, info);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->> @@ -413,18 +413,18 @@ nouveau_fbcon_create(struct drm_fb_helper *helpe=
-r,
->> =C2=A0 static int
->> =C2=A0 nouveau_fbcon_destroy(struct drm_device *dev, struct nouveau_fb=
-dev
->> *fbcon)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 struct nouveau_framebuffer *nouveau_fb =3D
->> nouveau_framebuffer(fbcon->helper.fb);
->> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D fbcon->helper.fb;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nouveau_bo *nvbo;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_fb_helper_unregister_fbi(&fb=
-con->helper);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_fb_helper_fini(&fbcon->helper);
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (nouveau_fb && nouveau_fb->base.obj[0]) =
-{
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvbo =3D nouveau_gem_objec=
-t(nouveau_fb->base.obj[0]);
->> +=C2=A0=C2=A0=C2=A0 if (fb && fb->obj[0]) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvbo =3D nouveau_gem_objec=
-t(fb->obj[0]);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nouveau_vma_del=
-(&fbcon->vma);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nouveau_bo_unma=
-p(nvbo);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nouveau_bo_unpi=
-n(nvbo);
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_framebuffer_put(&nouve=
-au_fb->base);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_framebuffer_put(fb);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---sNVNvhm46SDi3Qn6bDvkPVTIbN3y9aNAG--
-
---HeUOTMaE8TN8TT7hYdqpz126qdsCO5Kbg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl48NXAACgkQaA3BHVML
-eiOiqAf/cByeQ2E9fP0tKxMwfnOeoPTkt7mTUMr6le8zR5e9S4eNnZKY0GZ10cqZ
-DBpGY7cO/nWFGbxZxNGKS3kgQjllmvGz3jzVOwMZ/2CvasHe8EKtO/N6cyUwlmHd
-Xvf9aNOovQP5WZ4Kfsc+2pIUdgev+qpnhHz3KNYbtt9UhkD7m+l9JrngTmNf1PiV
-weAvT6tKRX0iNb/N6gNd8JbHE1K+Cy/3QV6FnkjngJJBRAQlADELRcBb8gVsmQLb
-xVbDrZyHcDf2fO89qA91wL8vwlPK41gnxKHbFiRBjrU3BB4olTvvWv3BHD31GJc1
-Sl9xRTGA+PbdLMQZ47bBk6qlnu1L9Q==
-=lrmz
------END PGP SIGNATURE-----
-
---HeUOTMaE8TN8TT7hYdqpz126qdsCO5Kbg--
-
---===============1448760699==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1448760699==--
+Ck9uIDIvNi8yMCA5OjUxIEFNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IEFtIDA2LjAyLjIw
+IHVtIDE1OjQ5IHNjaHJpZWIgQWxleCBEZXVjaGVyOgo+PiBPbiBUaHUsIEZlYiA2LCAyMDIwIGF0
+IDY6NTAgQU0gQ2hyaXN0aWFuIEvDtm5pZwo+PiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFp
+bC5jb20+IHdyb3RlOgo+Pj4gQW0gMDYuMDIuMjAgdW0gMTI6MTAgc2NocmllYiBMdWNhcyBTdGFj
+aDoKPj4+PiBIaSBhbGwsCj4+Pj4KPj4+PiBPbiBNaSwgMjAyMC0wMi0wNSBhdCAxOToyNCArMDEw
+MCwgTHVjYXMgU3RhY2ggd3JvdGU6Cj4+Pj4+IEhpIEFuZHJleSwKPj4+Pj4KPj4+Pj4gVGhpcyBj
+b21taXQgYnJlYWtzIGFsbCBkcml2ZXJzLCB3aGljaCBtYXkgYmFpbCBvdXQgb2YgdGhlIHRpbWVv
+dXQKPj4+Pj4gcHJvY2Vzc2luZyBhcyB0aGV5IHdpc2ggdG8gZXh0ZW5kIHRoZSB0aW1lb3V0IChl
+dG5hdml2LCB2M2QpLgo+Pj4+Pgo+Pj4+PiBUaG9zZSBkcml2ZXJzIGN1cnJlbnRseSBqdXN0IHJl
+dHVybiBmcm9tIHRoZSB0aW1lb3V0IGhhbmRsZXIgYmVmb3JlCj4+Pj4+IGNhbGxpbmcgZHJtX3Nj
+aGVkX3N0b3AoKSwgd2hpY2ggbWVhbnMgd2l0aCB0aGlzIGNvbW1pdCBhcHBsaWVkIHdlIGFyZQo+
+Pj4+PiByZW1vdmluZyB0aGUgZmlyc3Qgam9iIGZyb20gdGhlIHJpbmdfbWlycm9yX2xpc3QsIGJ1
+dCBuZXZlciBwdXQgaXQKPj4+Pj4gYmFjay4gVGhpcyBsZWFkcyB0byBqb2JzIGdldHRpbmcgbG9z
+dCBmcm9tIHRoZSByaW5nIG1pcnJvciwgd2hpY2ggCj4+Pj4+IHRoZW4KPj4+Pj4gY2F1c2VzIHF1
+aXRlIGEgYml0IG9mIGZhbGxvdXQgbGlrZSB1bnNpZ25hbGVkIGZlbmNlcy4KPj4+Pj4KPj4+Pj4g
+Tm90IHN1cmUgeWV0IHdoYXQgdG8gZG8gYWJvdXQgaXQsIHdlIGNhbiBlaXRoZXIgYWRkIGEgZnVu
+Y3Rpb24gdG8gYWRkCj4+Pj4+IHRoZSBqb2IgYmFjayB0byB0aGUgcmluZ19taXJyb3IgaWYgdGhl
+IGRyaXZlciB3YW50cyB0byBleHRlbmQgdGhlCj4+Pj4+IHRpbWVvdXQsIG9yIHdlIGNvdWxkIGxv
+b2sgZm9yIGFub3RoZXIgd2F5IHRvIHN0b3AKPj4+Pj4gZHJtX3NjaGVkX2NsZWFudXBfam9icyBm
+cm9tIGZyZWVpbmcgam9icyB0aGF0IGFyZSBjdXJyZW50bHkgaW4gCj4+Pj4+IHRpbWVvdXQKPj4+
+Pj4gcHJvY2Vzc2luZy4KPj4+PiBTbyBhZnRlciB0aGlua2luZyBhYm91dCB0aGlzIGEgYml0IG1v
+cmUgbXkgb3BpbmlvbiBpcyB0aGF0IHdlIG5lZWQgdG8KPj4+PiByZXZlcnQgdGhpcyBjaGFuZ2Ug
+Zm9yIG5vdyBhbmQgZ28gYmFjayB0byB0aGUgZHJhd2luZyBib2FyZCBmb3IgdGhlCj4+Pj4gc2No
+ZWR1bGVyIHRpbWVvdXQgaGFuZGxpbmcuCj4+Pj4KPj4+PiBSaWdodCBub3cgdGhpcyBzdGFydHMg
+dG8gZmVlbCBsaWtlIGEgYmlnIG1pZGxheWVyIG1pc3Rha2Ugd2l0aCBhbGwgdGhlCj4+Pj4gdmVy
+eSBpbnRyaWNhdGUgaW50ZXJ0d2luaW5nIGJldHdlZW4gdGhlIGRyaXZlcnMgYW5kIHRoZSBzY2hl
+ZHVsZXIuIFRoZQo+Pj4+IHJ1bGVzIG9uIHdoZW4gaXQncyBzYWZlIHRvIG1hbmlwdWxhdGUgdGhl
+IHJpbmcgbWlycm9yIGFuZCB3aGVuCj4+Pj4gY29tcGxldGVkIGpvYnMgYXJlIHNpZ25hbGVkIGFu
+ZCBmcmVlZCBhcmUgbm90IHJlYWxseSB3ZWxsIHNwZWNpZmllZC4KPj4+PiBUaGUgZmFjdCB0aGF0
+IHdlIG5lZWQgdG8gbXV0YXRlIHN0YXRlIGluIG9yZGVyIHRvIGdldCByaWQgb2YgcmFjZXMKPj4+
+PiBpbnN0ZWFkIG9mIGhhdmluZyBhIHNpbmdsZSBiaWcgInRpbWVvdXQgcHJvY2Vzc2luZyBpcyBv
+d25lciBvZiB0aGUKPj4+PiBzY2hlZHVsZXIgc3RhdGUgZm9yIG5vdyIgaXMgYSBiaWcgZmF0IHdh
+cm5pbmcgc2lnbiBJTUhPLgo+Pj4gWWVzLCB0aGF0IHN0cm9uZ2x5IGZlZWxzIGxpa2UgYSBoYWNr
+IHRvIG1lIGFzIHdlbGwuIEJ1dCBJIGRpZG4ndCBoYWQKPj4+IHRpbWUgYW5kIHN0aWxsIGhhdmVu
+J3QgdG8gdGFrZSBhIGNsb3NlciBsb29rIGFuZCBzdWdnZXN0IHNvbWV0aGluZyAKPj4+IGJldHRl
+ci4KPj4+Cj4+IEluIHRoYXQgY2FzZSwgY2FuIHNvbWVvbmUgc2VuZCBtZSBhIHJldmVydD8KPgo+
+IFdlbGwgYSByZXZlcnQgd291bGQgYnJlYWsgb3VyIGRyaXZlci4KPgo+IFRoZSByZWFsIHNvbHV0
+aW9uIGlzIHRoYXQgc29tZWJvZHkgbmVlZHMgdG8gc2l0IGRvd24sIGdhdGhlciBBTEwgdGhlIAo+
+IHJlcXVpcmVtZW50cyBhbmQgdGhlbiBjb21lIHVwIHdpdGggYSBzb2x1dGlvbiB3aGljaCBpcyBj
+bGVhbiBhbmQgd29ya3MgCj4gZm9yIGV2ZXJ5b25lLgo+Cj4gQ2hyaXN0aWFuLgoKCkkgY2FuIHRv
+IHRha2Ugb24gdGhpcyBhcyBpbmRlZWQgb3VyIGdlbmVyYWwgZGVzaWduIG9uIHRoaXMgYmVjb21l
+cyBtb3JlIAphbmQgbW9yZSBlbnRhbmdsZWQgYXMgR1BVIHJlc2V0IHNjZW5hcmlvcyBncm93IGlu
+IGNvbXBsZXhpdHkgKGF0IGxlYXN0IAppbiBBTUQgZHJpdmVyKS4gQ3VycmVudGx5IEkgYW0gb24g
+YSBoaWdoIHByaW9yaXR5IGludGVybmFsIHRhc2sgd2hpY2ggCnNob3VsZCB0YWtlIG1lIGFyb3Vu
+ZCBhIHdlZWsgb3IgMiB0byBmaW5pc2ggYW5kIGFmdGVyIHRoYXQgSSBjYW4gZ2V0IHRvIGl0LgoK
+UmVnYXJkaW5nIHRlbXBvcmFyeSBzb2x1dGlvbsKgIC0gSSBsb29rZWQgaW50byB2M2QgYW5kIGV0
+bmF2aXYgdXNlIGNhc2VzIAphbmQgd2UgaW4gQU1EIGFjdHVhbGx5IGZhY2UgdGhlIHNhbWUgc2Nl
+bmFyaW8gd2hlcmUgd2UgZGVjaWRlIHRvIHNraXAgSFcgCnJlc2V0IGlmIHRoZSBndWlsdHkgam9i
+IGRpZCBmaW5pc2ggYnkgdGhlIHRpbWUgd2UgYXJlIHByb2Nlc3NpbmcgdGhlIAp0aW1lb3V0wqAg
+KHNlZSBhbWRncHVfZGV2aWNlX2dwdV9yZWNvdmVyIGFuZCBza2lwX2h3X3Jlc2V0IGdvdG8pIC0g
+dGhlIApkaWZmZXJlbmNlIGlzIHdlIGFsd2F5cyBjYWxsIGRybV9zY2hlZF9zdG9wL3N0YXJ0IGly
+cmVzcGVjdGl2ZWx5IG9mIAp3aGV0aGVyIHdlIGFyZSBnb2luZyB0byBhY3R1YWxseSBIVyByZXNl
+dCBvciBub3QgKHNhbWUgYXMgZXh0ZW5kIAp0aW1lb3V0KS4gSSB3b25kZXIgaWYgc29tZXRoaW5n
+IGxpa2UgdGhpcyBjYW4gYmUgZG9uZSBhbHNvIGZvciB2ZTMgYW5kIApldG5hdml2ID8KCkFuZHJl
+eQoKCj4KPj4KPj4gQWxleAo+Pgo+Pgo+Pj4gQ2hyaXN0aWFuLgo+Pj4KPj4+PiBJdCB0b29rIG1l
+IGZhciBsb25nZXIgdGhhbiBJJ2QgbGlrZSB0byBhZG1pdCB0byB1bmRlcnN0YW5kIHRoZSBmYWls
+dXJlCj4+Pj4gbW9kZSB3aXRoIGZlbmNlcyBub3QgZ2V0dGluZyBzaWduYWxlZCBhZnRlciBhIEdQ
+VSBoYW5nLiBUaGUgYmFjayBhbmQKPj4+PiBmb3J0aCBiZXR3ZWVuIHNjaGVkdWxlciBhbmQgZHJp
+dmVyIGNvZGUgbWFrZXMgdGhpbmdzIHJlYWxseSBoYXJkIHRvCj4+Pj4gZm9sbG93Lgo+Pj4+Cj4+
+Pj4gUmVnYXJkcywKPj4+PiBMdWNhcwo+Pj4+Cj4+Pj4+IFJlZ2FyZHMsCj4+Pj4+IEx1Y2FzCj4+
+Pj4+Cj4+Pj4+IE9uIE1vLCAyMDE5LTExLTI1IGF0IDE1OjUxIC0wNTAwLCBBbmRyZXkgR3JvZHpv
+dnNreSB3cm90ZToKPj4+Pj4+IFByb2JsZW06Cj4+Pj4+PiBEdWUgdG8gYSByYWNlIGJldHdlZW4g
+ZHJtX3NjaGVkX2NsZWFudXBfam9icyBpbiBzY2hlZCB0aHJlYWQgYW5kCj4+Pj4+PiBkcm1fc2No
+ZWRfam9iX3RpbWVkb3V0IGluIHRpbWVvdXQgd29yayB0aGVyZSBpcyBhIHBvc3NpYmxpdHkgdGhh
+dAo+Pj4+Pj4gYmFkIGpvYiB3YXMgYWxyZWFkeSBmcmVlZCB3aGlsZSBzdGlsbCBiZWluZyBhY2Nl
+c3NlZCBmcm9tIHRoZQo+Pj4+Pj4gdGltZW91dCB0aHJlYWQuCj4+Pj4+Pgo+Pj4+Pj4gRml4Ogo+
+Pj4+Pj4gSW5zdGVhZCBvZiBqdXN0IHBlZWtpbmcgYXQgdGhlIGJhZCBqb2IgaW4gdGhlIG1pcnJv
+ciBsaXN0Cj4+Pj4+PiByZW1vdmUgaXQgZnJvbSB0aGUgbGlzdCB1bmRlciBsb2NrIGFuZCB0aGVu
+IHB1dCBpdCBiYWNrIGxhdGVyIHdoZW4KPj4+Pj4+IHdlIGFyZSBnYXJhbnRlZWQgbm8gcmFjZSB3
+aXRoIG1haW4gc2NoZWQgdGhyZWFkIGlzIHBvc3NpYmxlIHdoaWNoCj4+Pj4+PiBpcyBhZnRlciB0
+aGUgdGhyZWFkIGlzIHBhcmtlZC4KPj4+Pj4+Cj4+Pj4+PiB2MjogTG9jayBhcm91bmQgcHJvY2Vz
+c2luZyByaW5nX21pcnJvcl9saXN0IGluIAo+Pj4+Pj4gZHJtX3NjaGVkX2NsZWFudXBfam9icy4K
+Pj4+Pj4+Cj4+Pj4+PiB2MzogUmViYXNlIG9uIHRvcCBvZiBkcm0tbWlzYy1uZXh0LiB2MiBpcyBu
+b3QgbmVlZGVkIGFueW1vcmUgYXMKPj4+Pj4+IGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgYWxy
+ZWFkeSBoYXMgYSBsb2NrIHRoZXJlLgo+Pj4+Pj4KPj4+Pj4+IHY0OiBGaXggY29tbWVudHMgdG8g
+cmVsZmVjdCBsYXRlc3QgY29kZSBpbiBkcm0tbWlzYy4KPj4+Pj4+Cj4+Pj4+PiBTaWduZWQtb2Zm
+LWJ5OiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdyb2R6b3Zza3lAYW1kLmNvbT4KPj4+Pj4+
+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+Cj4+Pj4+PiBUZXN0ZWQtYnk6IEVtaWx5IERlbmcgPEVtaWx5LkRlbmdAYW1kLmNvbT4KPj4+Pj4+
+IC0tLQo+Pj4+Pj4gwqDCoCBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyB8
+IDI3IAo+Pj4+Pj4gKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4+Pj4+PiDCoMKgIDEgZmls
+ZSBjaGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspCj4+Pj4+Pgo+Pj4+Pj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jIAo+Pj4+Pj4gYi9kcml2ZXJzL2dw
+dS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwo+Pj4+Pj4gaW5kZXggNjc3NDk1NS4uMWJmOWM0
+MCAxMDA2NDQKPj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFp
+bi5jCj4+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwo+
+Pj4+Pj4gQEAgLTI4NCwxMCArMjg0LDIxIEBAIHN0YXRpYyB2b2lkIGRybV9zY2hlZF9qb2JfdGlt
+ZWRvdXQoc3RydWN0IAo+Pj4+Pj4gd29ya19zdHJ1Y3QgKndvcmspCj4+Pj4+PiDCoMKgwqDCoCB1
+bnNpZ25lZCBsb25nIGZsYWdzOwo+Pj4+Pj4KPj4+Pj4+IMKgwqDCoMKgIHNjaGVkID0gY29udGFp
+bmVyX29mKHdvcmssIHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciwgCj4+Pj4+PiB3b3JrX3Rkci53
+b3JrKTsKPj4+Pj4+ICsKPj4+Pj4+ICvCoMKgIC8qIFByb3RlY3RzIGFnYWluc3QgY29uY3VycmVu
+dCBkZWxldGlvbiBpbiAKPj4+Pj4+IGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgKi8KPj4+Pj4+
+ICvCoMKgIHNwaW5fbG9ja19pcnFzYXZlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOwo+
+Pj4+Pj4gwqDCoMKgwqAgam9iID0gbGlzdF9maXJzdF9lbnRyeV9vcl9udWxsKCZzY2hlZC0+cmlu
+Z19taXJyb3JfbGlzdCwKPj4+Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9zY2hlZF9qb2Is
+IG5vZGUpOwo+Pj4+Pj4KPj4+Pj4+IMKgwqDCoMKgIGlmIChqb2IpIHsKPj4+Pj4+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAvKgo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBSZW1vdmUg
+dGhlIGJhZCBqb2Igc28gaXQgY2Fubm90IGJlIGZyZWVkIGJ5IAo+Pj4+Pj4gY29uY3VycmVudAo+
+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzLiBJ
+dCB3aWxsIGJlIHJlaW5zZXJ0ZWQgYmFjayAKPj4+Pj4+IGFmdGVyIHNjaGVkLT50aHJlYWQKPj4+
+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICogaXMgcGFya2VkIGF0IHdoaWNoIHBvaW50IGl0
+J3Mgc2FmZS4KPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4+Pj4+PiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgbGlzdF9kZWxfaW5pdCgmam9iLT5ub2RlKTsKPj4+Pj4+ICsgc3Bpbl91
+bmxvY2tfaXJxcmVzdG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKPj4+Pj4+ICsK
+Pj4+Pj4+IGpvYi0+c2NoZWQtPm9wcy0+dGltZWRvdXRfam9iKGpvYik7Cj4+Pj4+Pgo+Pj4+Pj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qCj4+Pj4+PiBAQCAtMjk4LDYgKzMwOSw4IEBAIHN0
+YXRpYyB2b2lkIGRybV9zY2hlZF9qb2JfdGltZWRvdXQoc3RydWN0IAo+Pj4+Pj4gd29ya19zdHJ1
+Y3QgKndvcmspCj4+Pj4+PiBqb2ItPnNjaGVkLT5vcHMtPmZyZWVfam9iKGpvYik7Cj4+Pj4+PiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNjaGVkLT5mcmVlX2d1aWx0
+eSA9IGZhbHNlOwo+Pj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPj4+Pj4+ICvCoMKg
+IH0gZWxzZSB7Cj4+Pj4+PiArIHNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJnNjaGVkLT5qb2JfbGlz
+dF9sb2NrLCBmbGFncyk7Cj4+Pj4+PiDCoMKgwqDCoCB9Cj4+Pj4+Pgo+Pj4+Pj4gwqDCoMKgwqAg
+c3Bpbl9sb2NrX2lycXNhdmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7Cj4+Pj4+PiBA
+QCAtMzcwLDYgKzM4MywyMCBAQCB2b2lkIGRybV9zY2hlZF9zdG9wKHN0cnVjdCBkcm1fZ3B1X3Nj
+aGVkdWxlciAKPj4+Pj4+ICpzY2hlZCwgc3RydWN0IGRybV9zY2hlZF9qb2IgKmJhZCkKPj4+Pj4+
+IMKgwqDCoMKgIGt0aHJlYWRfcGFyayhzY2hlZC0+dGhyZWFkKTsKPj4+Pj4+Cj4+Pj4+PiDCoMKg
+wqDCoCAvKgo+Pj4+Pj4gK8KgwqDCoCAqIFJlaW5zZXJ0IGJhY2sgdGhlIGJhZCBqb2IgaGVyZSAt
+IG5vdyBpdCdzIHNhZmUgYXMKPj4+Pj4+ICvCoMKgwqAgKiBkcm1fc2NoZWRfZ2V0X2NsZWFudXBf
+am9iIGNhbm5vdCByYWNlIGFnYWluc3QgdXMgYW5kIAo+Pj4+Pj4gcmVsZWFzZSB0aGUKPj4+Pj4+
+ICvCoMKgwqAgKiBiYWQgam9iIGF0IHRoaXMgcG9pbnQgLSB3ZSBwYXJrZWQgKHdhaXRlZCBmb3Ip
+IGFueSBpbiAKPj4+Pj4+IHByb2dyZXNzCj4+Pj4+PiArwqDCoMKgICogKGVhcmxpZXIpIGNsZWFu
+dXBzIGFuZCBkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iIHdpbGwgbm90IAo+Pj4+Pj4gYmUgY2Fs
+bGVkCj4+Pj4+PiArwqDCoMKgICogbm93IHVudGlsIHRoZSBzY2hlZHVsZXIgdGhyZWFkIGlzIHVu
+cGFya2VkLgo+Pj4+Pj4gK8KgwqDCoCAqLwo+Pj4+Pj4gK8KgwqAgaWYgKGJhZCAmJiBiYWQtPnNj
+aGVkID09IHNjaGVkKQo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIC8qCj4+Pj4+PiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAqIEFkZCBhdCB0aGUgaGVhZCBvZiB0aGUgcXVldWUgdG8gcmVm
+bGVjdCBpdCB3YXMgdGhlIAo+Pj4+Pj4gZWFybGllc3QKPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICogam9iIGV4dHJhY3RlZC4KPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICov
+Cj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGlzdF9hZGQoJmJhZC0+bm9kZSwgJnNjaGVk
+LT5yaW5nX21pcnJvcl9saXN0KTsKPj4+Pj4+ICsKPj4+Pj4+ICvCoMKgIC8qCj4+Pj4+PiDCoMKg
+wqDCoMKgICogSXRlcmF0ZSB0aGUgam9iIGxpc3QgZnJvbSBsYXRlciB0b8KgIGVhcmxpZXIgb25l
+IGFuZCAKPj4+Pj4+IGVpdGhlciBkZWFjdGl2ZQo+Pj4+Pj4gwqDCoMKgwqDCoCAqIHRoZWlyIEhX
+IGNhbGxiYWNrcyBvciByZW1vdmUgdGhlbSBmcm9tIG1pcnJvciBsaXN0IGlmIAo+Pj4+Pj4gdGhl
+eSBhbHJlYWR5Cj4+Pj4+PiDCoMKgwqDCoMKgICogc2lnbmFsZWQuCj4+Pj4+IF9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+Pj4+IGRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKPj4+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+Pj4+PiBodHRw
+czovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0El
+MkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZkcmktZGV2
+ZWwmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDZTg4YjUx
+YTI0NDM3NDFiMGI1NmYwOGQ3YWIxM2RhNzQlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRl
+MTgzZCU3QzAlN0MwJTdDNjM3MTY1OTc0MDc2Nzc5MzY1JmFtcDtzZGF0YT1MN0hpbiUyRmF3N3ZL
+OUlZQmFabiUyQlZtV1pLempxVFlCc3ZKJTJCSUw4MHFCM000JTNEJmFtcDtyZXNlcnZlZD0wIAo+
+Pj4+Pgo+Pj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Cj4+Pj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPj4+PiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwo+Pj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20v
+P3VybD1odHRwcyUzQSUyRiUyRmxpc3RzLmZyZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0
+aW5mbyUyRmFtZC1nZngmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQu
+Y29tJTdDZTg4YjUxYTI0NDM3NDFiMGI1NmYwOGQ3YWIxM2RhNzQlN0MzZGQ4OTYxZmU0ODg0ZTYw
+OGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3MTY1OTc0MDc2Nzc5MzY1JmFtcDtzZGF0YT05
+NEV5RDhYOTFNVDVJVkU4VE45JTJGUlllZDhhSVg2dE4xUHZsOExKQmtDZVUlM0QmYW1wO3Jlc2Vy
+dmVkPTAgCj4+Pj4KPj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCj4+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+PiBkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCj4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxv
+b2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFu
+JTJGbGlzdGluZm8lMkZkcmktZGV2ZWwmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2Vu
+aWclNDBhbWQuY29tJTdDZTg4YjUxYTI0NDM3NDFiMGI1NmYwOGQ3YWIxM2RhNzQlN0MzZGQ4OTYx
+ZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3MTY1OTc0MDc2Nzc5MzY1JmFt
+cDtzZGF0YT1MN0hpbiUyRmF3N3ZLOUlZQmFabiUyQlZtV1pLempxVFlCc3ZKJTJCSUw4MHFCM000
+JTNEJmFtcDtyZXNlcnZlZD0wIAo+Pj4KPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
