@@ -2,40 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E547155C75
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 18:02:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FEC155C5E
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 18:01:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E98ED6FD34;
-	Fri,  7 Feb 2020 17:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4396A6EAEA;
+	Fri,  7 Feb 2020 17:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEBF36EA2F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 11:04:44 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB1DD6EA29
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 11:12:36 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2020 03:04:43 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2020 03:12:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,409,1574150400"; d="scan'208";a="344750862"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga001.fm.intel.com with ESMTP; 06 Feb 2020 03:04:42 -0800
-Received: from andy by smile with local (Exim 4.93)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1izexg-0007Oc-13; Thu, 06 Feb 2020 13:04:44 +0200
-Date: Thu, 6 Feb 2020 13:04:44 +0200
+X-IronPort-AV: E=Sophos;i="5.70,409,1574150400"; d="scan'208";a="430473269"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmsmga005.fm.intel.com with ESMTP; 06 Feb 2020 03:12:34 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 7BB01101; Thu,  6 Feb 2020 13:12:33 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2] drm: shmobile: Reduce include dependencies
-Message-ID: <20200206110444.GU10400@smile.fi.intel.com>
-References: <20200205093226.72064-1-andriy.shevchenko@linux.intel.com>
- <20200205173322.GB4722@pendragon.ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v3] drm: shmobile: Reduce include dependencies
+Date: Thu,  6 Feb 2020 13:12:32 +0200
+Message-Id: <20200206111232.75309-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200205173322.GB4722@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Fri, 07 Feb 2020 17:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,37 +46,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 05, 2020 at 07:33:22PM +0200, Laurent Pinchart wrote:
-> Hi Andy,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Feb 05, 2020 at 11:32:26AM +0200, Andy Shevchenko wrote:
-> > This file doesn't need everything provided by <linux/kernel.h>.
-> > All it needs are some types, which are provided by <linux/types.h>.
-> > 
-> > Note, <drm/drm_mode.h> already includes <linux/types.h>, but
-> > not relying on implicit includes is indeed a good thing.
-> 
-> Do we even need linux/types.h ? Apart from struct drm_mode_modeinfo,
-> shmob_drm.h seems to only contain plain C without using any externally
-> defined types.
+This file doesn't need everything provided by <linux/kernel.h>.
+All it needs are some types, which are provided by <drm/drm_mode.h>.
 
-Good point. It doesn't contain neither bool nor uXX or alike types.
-Probably we may simple drop the inclusion. I'll send v3.
+Drop unneeded <linux/kernel.h> completely.
 
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v3: Drop header completely (Laurent)
+ include/linux/platform_data/shmob_drm.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/include/linux/platform_data/shmob_drm.h b/include/linux/platform_data/shmob_drm.h
+index fe815d7d9f58..d661399b217d 100644
+--- a/include/linux/platform_data/shmob_drm.h
++++ b/include/linux/platform_data/shmob_drm.h
+@@ -10,8 +10,6 @@
+ #ifndef __SHMOB_DRM_H__
+ #define __SHMOB_DRM_H__
+ 
+-#include <linux/kernel.h>
+-
+ #include <drm/drm_mode.h>
+ 
+ enum shmob_drm_clk_source {
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
