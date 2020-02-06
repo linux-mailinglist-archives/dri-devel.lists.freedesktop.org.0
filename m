@@ -1,49 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B232C153FDB
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80963153FD5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4E886F9EE;
-	Thu,  6 Feb 2020 08:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AAA66F9E1;
+	Thu,  6 Feb 2020 08:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com
- [IPv6:2607:f8b0:4864:20::104a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D60C6F9AB
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 03:18:11 +0000 (UTC)
-Received: by mail-pj1-x104a.google.com with SMTP id a31so2429621pje.4
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 19:18:11 -0800 (PST)
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com
+ [IPv6:2607:f8b0:4864:20::44a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79A8A6F9AD
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 03:18:16 +0000 (UTC)
+Received: by mail-pf1-x44a.google.com with SMTP id 203so2954138pfx.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 19:18:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=uzNslwih52mut38yu2zPYARWSPgX7/Fj9tEkbUQiLCY=;
- b=kQipj1HOw6H9RjfqtABkLQr6XZs45QySHOuXfNbVYLTKTbVR6lJvlWXrJJqmXEvNHv
- 7KYy3ZYtw0T7EMWkG267WNwwf4j5dBwiBhQN/aWL6NT+/nrNvt+BqaLm69DMvYP1KeMz
- 533QlILj02oeM4k42xqA5qS3IicNO2AP9Y6p0MiBG1SswCLxhpani/zASYBossTXapj7
- xCOIY45RzAA3+a98PuK+kRfWpAFwI10l/MgT8hrB85mslJA+g8whCZVdw4+dXVcmGT90
- G6nhcNyzFXY1D15PmKFR/A1K2wIyT/Vaz5RxYW4oxehV7MFgH2WlXGb26+pAoO8+LBRG
- Lrtw==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=KEIH1qwXja/ZmU3/27elfahliyGtpPNLFM8jJAbIPe0=;
+ b=t6ozdDcWXnqlycYXVvxHhOWC41qF8dQhtkxMgc3cj9ys3LWT7swok1SnhBVAqh4iIK
+ 8NGSfV4wb+JIYUnOBtkwGiKW7JzQK9Fbhjvr2h71WZluUnlT9W0Bgr8EhRAlKqKxDztE
+ 0d9+GSbN9KCNqXWGRSEM/FSn/rRn+D8W6XEcFtH27mvwDZUFKXCYgdT3hVS5EWHVu/gw
+ PF+v4DFja2f+vDZtTesIeq+13RktcT/86fnEUJd6gxFj9jDTQ/A4tu/vpr5NXiqjgmwY
+ sKlio/9K9cB+vXBOcyXXIYz+P3CWg0IwHwRwAVQ5UJU7ydufexjk2HoQyc1cdNCiCFN7
+ DDng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=uzNslwih52mut38yu2zPYARWSPgX7/Fj9tEkbUQiLCY=;
- b=Lu25v8vQ5A4KmrhHf/n5iwoBxd4YsGpLYFklz2jhkznhni1WxbQGRHRLiDgP2lPTSK
- ANzApG/zvW+ZIDhnJy4+Kr9oaoMj1wqEugWbi32ObyUHaqKQbu/BAE9e8EXsg7cecbqz
- Jchzanyw1Iel1da5iNYlScb2GT65WEF/N/ALCuosYGAfAtv0C1u7MjVADFccpZRmCDl9
- ArSu62/GCxOjeEWLkvEH455sNTFqeVMG1QE50+L7ZTfD30DF6YTYftSM8ag2p7TK5YAN
- HLYilcP8+Bj8FvrF/8d/iQg4bc0/kJVmTpfRprsZzR7SCC6t/msGwu8rUbbZlZJtbjj8
- r7qA==
-X-Gm-Message-State: APjAAAVdyQ2xtpXBrJvk7OA77dSYte0NaUKZATWLLtxSAMAuBwOAFl+Y
- mlgk3kkTm07dkYp4kzl1LVKQRStQRi0A
-X-Google-Smtp-Source: APXvYqxvANnV5oSf4Bvv4neQ0kGoZkwLa+xHXPicON44dm/8skMS0QJiNuOflobRRu27n/GdR45z8/gaqNb5
-X-Received: by 2002:a63:2bc3:: with SMTP id r186mr1296081pgr.294.1580959090963; 
- Wed, 05 Feb 2020 19:18:10 -0800 (PST)
-Date: Thu,  6 Feb 2020 11:17:49 +0800
-Message-Id: <20200206031752.193298-1-tzungbi@google.com>
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=KEIH1qwXja/ZmU3/27elfahliyGtpPNLFM8jJAbIPe0=;
+ b=GRXXGv23MAdHUYA6Opr4opH59GHaf40Zjjf/4KQHVk6oINpcnaCI3e3XvGQVu5oipG
+ 01EoUkDCEuzPUQ0WOCCEJ9bSD1j9QHVJ9fwRw+xjA0xZ0NOUbnUcR3plDuEajuBq8x5y
+ KU3m030N91vkooXbnPrr31TgsXFmNcOqY0+X0pekdWtcYYNUWC61KwJDRWyz2xsjjW0+
+ 3aTHD5WQTW3qjmmrajtSoiU1335+9DE5mTHauCWWTqoVuDYcfR+7JL+lCiBmHfNfTCiD
+ m3BExKbdvI6oYw6v9K1UPicHcsp10dPM2ViQm8etRzEUtl3uFsXSb0HMVnykgA8uU6Ck
+ tEPw==
+X-Gm-Message-State: APjAAAUXVY3jpyT0L/1byIKsgyyawXQJwtkDIq7pqNEfy9XMzYE5xLgM
+ lQH9MwxvzlKD1266wwBIl+mL/7O3yplI
+X-Google-Smtp-Source: APXvYqwvYH4hqfpVMgHnlTJXAR9wXcKrV1aylz6TVB7wVNgSuffWm5cIKjVzB2ZMIRRMPL4bBaqkFWGwqZ2Y
+X-Received: by 2002:a63:ff5c:: with SMTP id s28mr1290924pgk.196.1580959095995; 
+ Wed, 05 Feb 2020 19:18:15 -0800 (PST)
+Date: Thu,  6 Feb 2020 11:17:50 +0800
+In-Reply-To: <20200206031752.193298-1-tzungbi@google.com>
+Message-Id: <20200206102509.1.Ieba8d422486264eb7aaa3aa257620a1b0c74c6db@changeid>
 Mime-Version: 1.0
+References: <20200206031752.193298-1-tzungbi@google.com>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH v2 0/3] ASoC: mediatek: mt8173-rt5650: HDMI jack reporting
+Subject: [PATCH v2 1/3] drm/mediatek: exit earlier if failed to register audio
+ driver
 From: Tzung-Bi Shih <tzungbi@google.com>
 To: broonie@kernel.org, airlied@linux.ie, daniel@ffwll.ch
 X-Mailman-Approved-At: Thu, 06 Feb 2020 08:17:51 +0000
@@ -68,28 +72,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The series supports HDMI jack reporting to mt8173-rt5650.
+Exits earlier if register_audio_driver() returns errors.
 
-The 1st patch is less related.  It stops running in probe() if failed
-to register audio driver.
+Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+---
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-The 2nd patch supports jack reporting in DRM driver.
-
-The 3rd patch supports jack reporting in mt8173-rt5650 ASoC machine
-driver.
-
-Changes from v1:
-- refactor the 2nd patch to simplify the code
-
-Tzung-Bi Shih (3):
-  drm/mediatek: exit earlier if failed to register audio driver
-  drm/mediatek: support HDMI jack status reporting
-  ASoC: mediatek: mt8173-rt5650: support HDMI jack reporting
-
- drivers/gpu/drm/mediatek/mtk_hdmi.c       | 45 ++++++++++++++++++++---
- sound/soc/mediatek/mt8173/mt8173-rt5650.c | 17 ++++++++-
- 2 files changed, 55 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index c79b1f855d89..23c2b0e8693d 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -1656,7 +1656,7 @@ static const struct hdmi_codec_ops mtk_hdmi_audio_codec_ops = {
+ 	.get_eld = mtk_hdmi_audio_get_eld,
+ };
+ 
+-static void mtk_hdmi_register_audio_driver(struct device *dev)
++static int mtk_hdmi_register_audio_driver(struct device *dev)
+ {
+ 	struct hdmi_codec_pdata codec_data = {
+ 		.ops = &mtk_hdmi_audio_codec_ops,
+@@ -1669,9 +1669,10 @@ static void mtk_hdmi_register_audio_driver(struct device *dev)
+ 					     PLATFORM_DEVID_AUTO, &codec_data,
+ 					     sizeof(codec_data));
+ 	if (IS_ERR(pdev))
+-		return;
++		return PTR_ERR(pdev);
+ 
+ 	DRM_INFO("%s driver bound to HDMI\n", HDMI_CODEC_DRV_NAME);
++	return 0;
+ }
+ 
+ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
+@@ -1705,7 +1706,11 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	mtk_hdmi_register_audio_driver(dev);
++	ret = mtk_hdmi_register_audio_driver(dev);
++	if (ret) {
++		dev_err(dev, "Failed to register audio driver: %d\n", ret);
++		return ret;
++	}
+ 
+ 	hdmi->bridge.funcs = &mtk_hdmi_bridge_funcs;
+ 	hdmi->bridge.of_node = pdev->dev.of_node;
 -- 
 2.25.0.341.g760bfbb309-goog
 
