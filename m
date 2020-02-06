@@ -2,133 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D66153FF8
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:19:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988BD153FF0
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D7876FA0B;
-	Thu,  6 Feb 2020 08:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBB56FA01;
+	Thu,  6 Feb 2020 08:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com
- [208.84.65.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9636B6E37C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 06:30:20 +0000 (UTC)
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
- by mx0a-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0166TPaO004236; Wed, 5 Feb 2020 22:30:09 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=proofpoint;
- bh=gVxJsMm5khm7rYG8x5y0yRFYeymJ68BTOAjEK08mbls=;
- b=E+6g2MXBqP5kuiqH+FwiUlTCRdDi+nh1DY+nRGD9blaUh8p5DXXanEKnTVozZmRqDXaV
- ym1906HO9nC79rAIvDK+jQ+AvsUoMqPPdSLQHsmMlMY0/M1NhVDLX8Df5ONCYpBJIpTa
- ZD9cpDwlfGGAnG3SnNin8Xd42JDynDg4CWeeo6DZAzWN80ten9QQsonwHmP2ztZFudEq
- b2MzETHYgAsA9RtYYvO9qcReuaO+9CHf52K/udnx6nHY6dhEC/p0sh2orFSiZbvhCQeh
- lT0otJqGI9vKy2Edr3kTMC9RAO8RkKOdM7R3YRGXJKzlmazn4vJaXHOrUEr4+mPTSMDe Og== 
-Received: from nam02-cy1-obe.outbound.protection.outlook.com
- (mail-cys01nam02lp2058.outbound.protection.outlook.com [104.47.37.58])
- by mx0a-0014ca01.pphosted.com with ESMTP id 2xyhkv5r4q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Feb 2020 22:30:08 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mM57Pvdh26+AdGISwv3eBYV8cFvVp+3Tg0YYSojKuInzIaDr7cYvYuX395BCHs5V66rXwWtkHGBmPl/JRUVSTXXswO0zzqxcUvstX4q4V8ljQnua6pGyJthJNMBSPMp9Aw1b0z+MEOK0xPVR2zKgc+dSxBNTomjNvYX0UqdTv1gHr83ywA55121TxPqn2FJSq/ysBsKfTsQ49UEh+D+Um1raeB7fB4q/wMSFHYBD5g4wTQ0dPSopTSjas5EZvNEjjsq2PIIdAceBemDhxGd96BJsfIfaE4Pw7HgH+Y0D3378kiEhc1MRKOTCc51mLeazpoPT5MJDxrKql5aX4IJbPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gVxJsMm5khm7rYG8x5y0yRFYeymJ68BTOAjEK08mbls=;
- b=Ej4dLygvj0Am7+QOa5F6qTGZVtGDYEdIRswy7l/mHI1BcAlMDqkdI3+/XVXLbV0KwJ3mUGF2eOZsnQRUAqoAghCi+vI+dcWw/Ogm9px855Dg42LXXzNRS13TCt0PFRbXKsuRB3kgomK6No02T5SzSOxlrQHxnxvaIfHXQV06xwUMSq2kPTTY/+rBO5GNLtXD64rFkvFuvrU0pdUl2KbRsu4iAYrldgGovEEo3HSIdDavR37dmSpxit1VjAQpOzoMuw6BM/0c4mFijXpsQ8OjBaxXEexStr+GPxDFr2yKv29TbVnN+CbjcvYeCr6sCqfW2jdyZX+0Tiubb3HbRypNSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 158.140.1.28) smtp.rcpttodomain=linux.ie smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gVxJsMm5khm7rYG8x5y0yRFYeymJ68BTOAjEK08mbls=;
- b=wX4VrdN1kfB56E1ycEnZAq5Nj7DvkuPtKkXuIqt6zWf8YvLmZ0YHOMfomYCQ3Cv9JLenxQQthFBjdBsOuTdCUSsdbQAgEm+W+Juw54gxwtX7E82fUF3QhJ4LqK9w+1rC6bz1y5UTtEHKvMv1tcYo9+A4mGk2L6uZ5+2c38K9PS4=
-Received: from DM6PR07CA0056.namprd07.prod.outlook.com (2603:10b6:5:74::33) by
- BYAPR07MB6230.namprd07.prod.outlook.com (2603:10b6:a03:122::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2686.27; Thu, 6 Feb
- 2020 06:30:03 +0000
-Received: from DM6NAM12FT014.eop-nam12.prod.protection.outlook.com
- (2a01:111:f400:fe59::204) by DM6PR07CA0056.outlook.office365.com
- (2603:10b6:5:74::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21 via Frontend
- Transport; Thu, 6 Feb 2020 06:30:03 +0000
-Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 158.140.1.28 as permitted sender) receiver=protection.outlook.com;
- client-ip=158.140.1.28; helo=sjmaillnx2.cadence.com;
-Received: from sjmaillnx2.cadence.com (158.140.1.28) by
- DM6NAM12FT014.mail.protection.outlook.com (10.13.178.128) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.10 via Frontend Transport; Thu, 6 Feb 2020 06:30:02 +0000
-Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
- by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id
- 0166TqcZ023018
- (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
- Wed, 5 Feb 2020 22:30:01 -0800
-X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
-Received: from maileu3.global.cadence.com (10.160.88.99) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3; Thu, 6 Feb 2020 07:29:52 +0100
-Received: from vleu-orange.cadence.com (10.160.88.83) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Thu, 6 Feb 2020 07:29:52 +0100
-Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
- by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0166TpNS021654;
- Thu, 6 Feb 2020 07:29:51 +0100
-Received: (from yamonkar@localhost)
- by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0166TpIs021653;
- Thu, 6 Feb 2020 07:29:51 +0100
-From: Yuti Amonkar <yamonkar@cadence.com>
-To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <robh+dt@kernel.org>,
- <maxime@cerno.tech>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <mark.rutland@arm.com>, <a.hajda@samsung.com>,
- <narmstrong@baylibre.com>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@siol.net>
-Subject: [PATCH v4 3/3] drm: bridge: cdns-mhdp: add j721e wrapper
-Date: Thu, 6 Feb 2020 07:29:48 +0100
-Message-ID: <1580970588-21596-4-git-send-email-yamonkar@cadence.com>
-X-Mailer: git-send-email 2.4.5
-In-Reply-To: <1580970588-21596-1-git-send-email-yamonkar@cadence.com>
-References: <1580970588-21596-1-git-send-email-yamonkar@cadence.com>
-MIME-Version: 1.0
-X-OrganizationHeadersPreserved: maileu3.global.cadence.com
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:158.140.1.28; IPV:CAL; SCL:-1; CTRY:US;
- EFV:NLI; SFV:NSPM;
- SFS:(10009020)(4636009)(376002)(396003)(346002)(39860400002)(136003)(36092001)(199004)(189003)(7636002)(246002)(8936002)(107886003)(36756003)(316002)(8676002)(54906003)(42186006)(110136005)(26005)(186003)(2616005)(5660300002)(86362001)(966005)(478600001)(26826003)(7416002)(6666004)(356004)(70206006)(426003)(70586007)(2906002)(4326008)(336012)(921003)(2004002)(83996005)(1121003)(2101003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR07MB6230; H:sjmaillnx2.cadence.com; FPR:;
- SPF:Pass; LANG:en; PTR:corp.cadence.com; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e7029965-102c-4e77-a53f-08d7aacdff7d
-X-MS-TrafficTypeDiagnostic: BYAPR07MB6230:
-X-Microsoft-Antispam-PRVS: <BYAPR07MB623089C226CF4043A6162C15D21D0@BYAPR07MB6230.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:418;
-X-Forefront-PRVS: 0305463112
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fyegOGM+/6fb8Ic19xoF+AIEPG9mWBvhwBsg6MZkQxnwXCHUlfBN88c1N8+F8dlGFwpH5kikRBQrT5fINgJjqpfPPPY/lBiaVnT0Y5UwCpVgNB1xX4+U67YO3CB6ZIzUU1xI5FFY2FNntPtoiWh2jBB84PTRfXeAG+h2I4EJg7EKaiToeNNdPZGfOiDe9CetmLEuKZchdbuCVGk2CPgubWeUtl65dveJp8d/p3qW6BCSBodcuJlsBFegeNeW5YEXu23kGh1WnoAwEbjQZRLFVylWMkHtuf1uQ8TRoWkGJ8bMuCYzEVy8ivB1nwXvFsSTxbj3qjUeT+b2UOPWqhba6UY1OmvnJg88AYkOdZrY6HX8TYrK0fT241Tov7HgPKV2kuvR38CjKJRYkKHWrHEt60d5OsxWaYfeJFvuemSZKHxq2eOvKsj2bhgyWLd0ppFC636XtqHYlIi4Rv3Ip6fteGoERfatOuU9sMKUOjIBT+fNvyc6Buq9T2i7S2j4kONfYm6GEdm2s84Cy+lvBokY5lmxYv3uNLuvJe6GLk/q7rzByFSiPHESclUzdpOadLKmR4qsuT3MPtlKGK/HwIev4sTWIFSRm/m+oBOl4wElEs/TytxrSablZYltGCTUQ8nqIX4JVCoB+t/cOoftKaEzv0+7wZKYepsvCSk5SS5h8sk=
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2020 06:30:02.6447 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7029965-102c-4e77-a53f-08d7aacdff7d
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[158.140.1.28];
- Helo=[sjmaillnx2.cadence.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB6230
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-05_06:2020-02-04,
- 2020-02-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
- score=0 mlxscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 mlxlogscore=999 phishscore=0
- suspectscore=0 impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002060049
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
+ [IPv6:2607:f8b0:4864:20::b49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B21B6E2E6
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 07:00:01 +0000 (UTC)
+Received: by mail-yb1-xb49.google.com with SMTP id o142so737355ybg.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 23:00:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=ohRhPi8BaP2Hr5/3y3n5V3DWtzBXMkpjbXzBGyXAhaU=;
+ b=T8vIBTEH7afCvW+9MUnm3Xu5qubD8B7doR+wav2Hn7tW5+4oB/z325sG00l+sCcS+X
+ yL6qM0XJQbM91UAUaKh1UheNVC8HLx/dl79+LO9U7yIErEcjvLu5EjRn84kGCr3AcAQL
+ 9sYCBAMrrlpOsjfKC7ib6Eko0iteLNSqhotbMmvj8R/cCJdvDyIOjyzo2dHXAYj7338j
+ l8208YxZh63z2FS2sF9g5y8f0OBuYXwxklcKHfpTn0ec2hmeN0fuUKTIWl6jq/FyZBdj
+ ZLbZr9A/ZEwHZpfIT/46CypnfZMUGIo8/q68daXNfYfnF2GLHuSfILI5S5sfbym00jb0
+ 7Rew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=ohRhPi8BaP2Hr5/3y3n5V3DWtzBXMkpjbXzBGyXAhaU=;
+ b=CtJ8Uit1C8AIfa6ymD82daxKF7gTU+gRCdXtkjpTaruF9av9vvPDEiYMQlaMmQ30ve
+ n6vuejr9kdfW9f0od6dxsWgK74BypSYPMqwiWRHl8ID6DHWsB71/UCjf22UNP25JJSFg
+ W+DWhLm7W889QN5Vn57vxIdrOSbANg1gAo7qAIsCyQIlRG+BjUuCcHq5H2wKgP34sRBk
+ I6PNHyhfoV6nKCivPGmsQyZewHBmx8HE8cgu86s0/xVf98ZxqlNJbTIXltPZUQSiVj2c
+ LXPAtAmO0r2iCNxe96BZxxW6Cuug0/BlO0z0CijR9qIajxwPmS0P1KJI9rPyGAMXkmCE
+ SKrw==
+X-Gm-Message-State: APjAAAWTEz5bv1wMa15r6FWTwYQg+F0jNVMpnfUnoSToQR+oIORve1HN
+ 7ODdbiygQxzv+5RvF/kirIHplzEPXG8bAQ==
+X-Google-Smtp-Source: APXvYqy/T41MypaRkzpvorQCzz5aeOT5d2jGXM9FxIb64m0CZleygIGtHIdFFMdtLCPoL8RkWNY4GAeVDW7YJQ==
+X-Received: by 2002:a81:2608:: with SMTP id m8mr1874539ywm.259.1580972400426; 
+ Wed, 05 Feb 2020 23:00:00 -0800 (PST)
+Date: Thu,  6 Feb 2020 17:59:51 +1100
+In-Reply-To: <1580441226.9516.1.camel@mtksdaap41>
+Message-Id: <20200206065951.213862-1-evanbenn@google.com>
+Mime-Version: 1.0
+References: <1580441226.9516.1.camel@mtksdaap41>
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
+Subject: [PATCH] drm/mediatek: Ensure the cursor plane is on top of other
+ overlays
+From: evanbenn@google.com
+To: ck.hu@mediatek.com
 X-Mailman-Approved-At: Thu, 06 Feb 2020 08:17:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -142,248 +63,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, yamonkar@cadence.com, praneeth@ti.com, jsarha@ti.com,
- tomi.valkeinen@ti.com, sjakhade@cadence.com
+Cc: dcastagna@chromium.org, evanbenn@gmail.com, evanbenn@google.com,
+ evanbenn@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ seanpaul@chromium.org, sean@poorly.run, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add j721e wrapper for mhdp, which sets up the clock and data muxes.
+From: Sean Paul <seanpaul@chromium.org>
 
-Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
+Currently the cursor is placed on the first overlay plane, which means
+it will be at the bottom of the stack when the hw does the compositing
+with anything other than primary plane. Since mtk doesn't support plane
+zpos, change the cursor location to the top-most plane.
+
+Signed-off-by: Evan Benn <evanbenn@chromium.org>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
 ---
- drivers/gpu/drm/bridge/Kconfig           | 12 ++++
- drivers/gpu/drm/bridge/Makefile          |  3 +
- drivers/gpu/drm/bridge/cdns-mhdp-core.c  | 14 +++++
- drivers/gpu/drm/bridge/cdns-mhdp-core.h  |  1 +
- drivers/gpu/drm/bridge/cdns-mhdp-j721e.c | 79 ++++++++++++++++++++++++
- drivers/gpu/drm/bridge/cdns-mhdp-j721e.h | 55 +++++++++++++++++
- 6 files changed, 164 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
- create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 29 +++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index c66f2ef04f71..32e3bc5edae8 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -38,6 +38,18 @@ config DRM_CDNS_MHDP
- 	  It takes a DPI stream as input and output it encoded
- 	  in DP format.
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 7b392d6c71cc..d4078c2089e0 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -658,10 +658,21 @@ static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
  
-+if DRM_CDNS_MHDP
+ static int mtk_drm_crtc_init(struct drm_device *drm,
+ 			     struct mtk_drm_crtc *mtk_crtc,
+-			     struct drm_plane *primary,
+-			     struct drm_plane *cursor, unsigned int pipe)
++			     unsigned int pipe)
+ {
+-	int ret;
++	int i, ret;
 +
-+config DRM_CDNS_MHDP_J721E
-+	bool "J721E Cadence DPI/DP wrapper support"
-+	default y
-+	help
-+	  Support J721E Cadence DPI/DP wrapper. This is a wrapper
-+	  which adds support for J721E related platform ops. It
-+	  initializes the J721e Display Port and sets up the
-+	  clock and data muxes.
-+endif
++	struct drm_plane *primary = NULL;
++	struct drm_plane *cursor = NULL;
 +
- config DRM_DUMB_VGA_DAC
- 	tristate "Dumb VGA DAC Bridge support"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 71019088d257..7e6c64f9021f 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -21,3 +21,6 @@ obj-y += analogix/
- obj-y += synopsys/
++	for (i = 0; i < mtk_crtc->layer_nr; ++i) {
++		if (!primary && mtk_crtc->planes[i].type ==
++				DRM_PLANE_TYPE_PRIMARY)
++			primary = &mtk_crtc->planes[i];
++		if (!cursor && mtk_crtc->planes[i].type ==
++				DRM_PLANE_TYPE_CURSOR)
++			cursor = &mtk_crtc->planes[i];
++	}
  
- cdns-mhdp-objs := cdns-mhdp-core.o
-+ifeq ($(CONFIG_DRM_CDNS_MHDP_J721E),y)
-+	cdns-mhdp-objs += cdns-mhdp-j721e.o
-+endif
-diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-core.c b/drivers/gpu/drm/bridge/cdns-mhdp-core.c
-index 51ed9cdee161..8483b6b1023b 100644
---- a/drivers/gpu/drm/bridge/cdns-mhdp-core.c
-+++ b/drivers/gpu/drm/bridge/cdns-mhdp-core.c
-@@ -36,8 +36,22 @@
+ 	ret = drm_crtc_init_with_planes(drm, &mtk_crtc->base, primary, cursor,
+ 					&mtk_crtc_funcs, NULL);
+@@ -711,11 +722,12 @@ static int mtk_drm_crtc_num_comp_planes(struct mtk_drm_crtc *mtk_crtc,
+ }
  
- #include "cdns-mhdp-core.h"
+ static inline
+-enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx)
++enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx,
++					    unsigned int num_planes)
+ {
+ 	if (plane_idx == 0)
+ 		return DRM_PLANE_TYPE_PRIMARY;
+-	else if (plane_idx == 1)
++	else if (plane_idx == (num_planes - 1))
+ 		return DRM_PLANE_TYPE_CURSOR;
+ 	else
+ 		return DRM_PLANE_TYPE_OVERLAY;
+@@ -734,7 +746,8 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
+ 		ret = mtk_plane_init(drm_dev,
+ 				&mtk_crtc->planes[mtk_crtc->layer_nr],
+ 				BIT(pipe),
+-				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr),
++				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr,
++							num_planes),
+ 				mtk_ddp_comp_supported_rotations(comp));
+ 		if (ret)
+ 			return ret;
+@@ -830,9 +843,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+ 			return ret;
+ 	}
  
-+#include "cdns-mhdp-j721e.h"
-+
-+#ifdef CONFIG_DRM_CDNS_MHDP_J721E
-+static const struct mhdp_platform_ops mhdp_ti_j721e_ops = {
-+	.init = cdns_mhdp_j721e_init,
-+	.exit = cdns_mhdp_j721e_fini,
-+	.enable = cdns_mhdp_j721e_enable,
-+	.disable = cdns_mhdp_j721e_disable,
-+};
-+#endif
-+
- static const struct of_device_id mhdp_ids[] = {
- 	{ .compatible = "cdns,mhdp8546", },
-+#ifdef CONFIG_DRM_CDNS_MHDP_J721E
-+	{ .compatible = "ti,j721e-mhdp8546", .data = &mhdp_ti_j721e_ops },
-+#endif
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, mhdp_ids);
-diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-core.h b/drivers/gpu/drm/bridge/cdns-mhdp-core.h
-index 2f3b67987832..67a99eab5db3 100644
---- a/drivers/gpu/drm/bridge/cdns-mhdp-core.h
-+++ b/drivers/gpu/drm/bridge/cdns-mhdp-core.h
-@@ -335,6 +335,7 @@ struct mhdp_platform_ops {
+-	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, &mtk_crtc->planes[0],
+-				mtk_crtc->layer_nr > 1 ? &mtk_crtc->planes[1] :
+-				NULL, pipe);
++	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
+ 	if (ret < 0)
+ 		return ret;
  
- struct cdns_mhdp_device {
- 	void __iomem *regs;
-+	void __iomem *j721e_regs;
- 
- 	struct device *dev;
- 	struct clk *clk;
-diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
-new file mode 100644
-index 000000000000..a87faf55c065
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
-@@ -0,0 +1,79 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * TI j721e Cadence MHDP DP wrapper
-+ *
-+ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-+ * Author: Jyri Sarha <jsarha@ti.com
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/io.h>
-+
-+#include "cdns-mhdp-j721e.h"
-+
-+#define	REVISION			0x00
-+#define	DPTX_IPCFG			0x04
-+#define	ECC_MEM_CFG			0x08
-+#define	DPTX_DSC_CFG			0x0c
-+#define	DPTX_SRC_CFG			0x10
-+#define	DPTX_VIF_SECURE_MODE_CFG	0x14
-+#define	DPTX_VIF_CONN_STATUS		0x18
-+#define	PHY_CLK_STATUS			0x1c
-+
-+#define DPTX_SRC_AIF_EN			BIT(16)
-+#define DPTX_SRC_VIF_3_IN30B		BIT(11)
-+#define DPTX_SRC_VIF_2_IN30B		BIT(10)
-+#define DPTX_SRC_VIF_1_IN30B		BIT(9)
-+#define DPTX_SRC_VIF_0_IN30B		BIT(8)
-+#define DPTX_SRC_VIF_3_SEL_DPI5		BIT(7)
-+#define DPTX_SRC_VIF_3_SEL_DPI3		0
-+#define DPTX_SRC_VIF_2_SEL_DPI4		BIT(6)
-+#define DPTX_SRC_VIF_2_SEL_DPI2		0
-+#define DPTX_SRC_VIF_1_SEL_DPI3		BIT(5)
-+#define DPTX_SRC_VIF_1_SEL_DPI1		0
-+#define DPTX_SRC_VIF_0_SEL_DPI2		BIT(4)
-+#define DPTX_SRC_VIF_0_SEL_DPI0		0
-+#define DPTX_SRC_VIF_3_EN		BIT(3)
-+#define DPTX_SRC_VIF_2_EN		BIT(2)
-+#define DPTX_SRC_VIF_1_EN		BIT(1)
-+#define DPTX_SRC_VIF_0_EN		BIT(0)
-+
-+/* TODO turn DPTX_IPCFG fw_mem_clk_en at pm_runtime_suspend. */
-+
-+int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp)
-+{
-+	struct platform_device *pdev = to_platform_device(mhdp->dev);
-+	struct resource *regs;
-+
-+	regs = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+	mhdp->j721e_regs = devm_ioremap_resource(&pdev->dev, regs);
-+	if (IS_ERR(mhdp->j721e_regs))
-+		return PTR_ERR(mhdp->j721e_regs);
-+
-+	return 0;
-+}
-+
-+void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp)
-+{
-+}
-+
-+void cdns_mhdp_j721e_enable(struct cdns_mhdp_device *mhdp)
-+{
-+	/*
-+	 * Eneble VIF_0 and select DPI2 as its input. DSS0 DPI0 is connected
-+	 * to eDP DPI2. This is the only supported SST configuration on
-+	 * J721E.
-+	 */
-+	writel(DPTX_SRC_VIF_0_EN | DPTX_SRC_VIF_0_SEL_DPI2,
-+	       mhdp->j721e_regs + DPTX_SRC_CFG);
-+}
-+
-+void cdns_mhdp_j721e_disable(struct cdns_mhdp_device *mhdp)
-+{
-+	/* Put everything to defaults  */
-+	writel(0, mhdp->j721e_regs + DPTX_DSC_CFG);
-+}
-diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
-new file mode 100644
-index 000000000000..de0e4e82b58c
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
-@@ -0,0 +1,55 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * TI j721e Cadence MHDP DP wrapper
-+ *
-+ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-+ * Author: Jyri Sarha <jsarha@ti.com
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#ifndef CDNS_MHDP_J721E_H
-+#define CDNS_MHDP_J721E_H
-+
-+#include <linux/platform_device.h>
-+#include "cdns-mhdp-core.h"
-+
-+struct cdns_mhdp_j721e_wrap;
-+
-+#ifdef CONFIG_DRM_CDNS_MHDP_J721E
-+
-+int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp);
-+
-+void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp);
-+
-+void cdns_mhdp_j721e_enable(struct cdns_mhdp_device *mhdp);
-+
-+void cdns_mhdp_j721e_disable(struct cdns_mhdp_device *mhdp);
-+
-+#else
-+
-+static inline
-+int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp)
-+{
-+	return 0;
-+}
-+
-+static inline
-+void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp)
-+{
-+}
-+
-+static inline
-+void cdns_mhdp_j721e_sst_enable(struct cdns_mhdp_device *mhdp);
-+{
-+}
-+
-+static inline
-+void cdns_mhdp_j721e_sst_disable(struct cdns_mhdp_device *mhdp)
-+{
-+}
-+#endif /* CONFIG_DRM_CDNS_MHDP_J721E */
-+
-+#endif /* !CDNS_MHDP_J721E_H */
 -- 
-2.20.1
+2.25.0.341.g760bfbb309-goog
 
 _______________________________________________
 dri-devel mailing list
