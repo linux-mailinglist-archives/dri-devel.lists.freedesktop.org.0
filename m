@@ -2,30 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5131541B9
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 11:19:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B62154261
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 11:52:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E17C189F5F;
-	Thu,  6 Feb 2020 10:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AEB36EA25;
+	Thu,  6 Feb 2020 10:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B3F689FC8;
- Thu,  6 Feb 2020 10:19:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 3A729B1B0;
- Thu,  6 Feb 2020 10:19:48 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: bskeggs@redhat.com,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH 4/4] drm/nouveau: Remove struct nouveau_framebuffer
-Date: Thu,  6 Feb 2020 11:19:42 +0100
-Message-Id: <20200206101942.1412-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200206101942.1412-1-tzimmermann@suse.de>
-References: <20200206101942.1412-1-tzimmermann@suse.de>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A19E86E4B6;
+ Thu,  6 Feb 2020 10:52:25 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2020 02:52:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,409,1574150400"; d="scan'208";a="220408552"
+Received: from ramaling-i9x.iind.intel.com ([10.99.66.154])
+ by orsmga007.jf.intel.com with ESMTP; 06 Feb 2020 02:52:22 -0800
+From: Ramalingam C <ramalingam.c@intel.com>
+To: dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH v3] drm/hdcp: optimizing the srm handling
+Date: Thu,  6 Feb 2020 16:22:31 +0530
+Message-Id: <20200206105231.24813-1-ramalingam.c@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -39,233 +41,349 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: Sean Paul <seanpaul@chromium.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After its cleanup, struct nouveau_framebuffer is only a wrapper around
-struct drm_framebuffer. Use the latter directly.
+As we are not using the sysfs infrastructure anymore, link to it is
+removed. And global srm data and mutex to protect it are removed,
+with required handling at revocation check function.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+v2:
+  srm_data is dropped and few more comments are addressed.
+v3:
+  ptr passing around is fixed with functional testing.
+
+Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+Suggested-by: Sean Paul <seanpaul@chromium.org>
 ---
- drivers/gpu/drm/nouveau/dispnv50/wndw.c   | 26 +++++++++++------------
- drivers/gpu/drm/nouveau/nouveau_display.c | 14 ++++++------
- drivers/gpu/drm/nouveau/nouveau_display.h | 12 +----------
- drivers/gpu/drm/nouveau/nouveau_fbcon.c   | 14 ++++++------
- 4 files changed, 28 insertions(+), 38 deletions(-)
+ drivers/gpu/drm/drm_hdcp.c     | 158 ++++++++++++---------------------
+ drivers/gpu/drm/drm_internal.h |   4 -
+ drivers/gpu/drm/drm_sysfs.c    |   2 -
+ include/drm/drm_hdcp.h         |   4 +-
+ 4 files changed, 61 insertions(+), 107 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index ba1399965a1c..4a67a656e007 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -40,11 +40,11 @@ nv50_wndw_ctxdma_del(struct nv50_wndw_ctxdma *ctxdma)
+diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
+index 9191633a3c43..10b735aafa64 100644
+--- a/drivers/gpu/drm/drm_hdcp.c
++++ b/drivers/gpu/drm/drm_hdcp.c
+@@ -23,14 +23,6 @@
+ 
+ #include "drm_internal.h"
+ 
+-static struct hdcp_srm {
+-	u32 revoked_ksv_cnt;
+-	u8 *revoked_ksv_list;
+-
+-	/* Mutex to protect above struct member */
+-	struct mutex mutex;
+-} *srm_data;
+-
+ static inline void drm_hdcp_print_ksv(const u8 *ksv)
+ {
+ 	DRM_DEBUG("\t%#02x, %#02x, %#02x, %#02x, %#02x\n",
+@@ -60,11 +52,11 @@ static u32 drm_hdcp_get_revoked_ksv_count(const u8 *buf, u32 vrls_length)
+ 	return ksv_count;
  }
  
- static struct nv50_wndw_ctxdma *
--nv50_wndw_ctxdma_new(struct nv50_wndw *wndw, struct nouveau_framebuffer *fb)
-+nv50_wndw_ctxdma_new(struct nv50_wndw *wndw, struct drm_framebuffer *fb)
+-static u32 drm_hdcp_get_revoked_ksvs(const u8 *buf, u8 *revoked_ksv_list,
++static u32 drm_hdcp_get_revoked_ksvs(const u8 *buf, u8 **revoked_ksv_list,
+ 				     u32 vrls_length)
  {
--	struct nouveau_drm *drm = nouveau_drm(fb->base.dev);
-+	struct nouveau_drm *drm = nouveau_drm(fb->dev);
- 	struct nv50_wndw_ctxdma *ctxdma;
--	struct nouveau_bo *nvbo = nouveau_gem_object(fb->base.obj[0]);
-+	struct nouveau_bo *nvbo = nouveau_gem_object(fb->obj[0]);
- 	const u8    kind = nvbo->kind;
- 	const u32 handle = 0xfb000000 | kind;
- 	struct {
-@@ -236,16 +236,16 @@ nv50_wndw_atomic_check_acquire(struct nv50_wndw *wndw, bool modeset,
- 			       struct nv50_wndw_atom *asyw,
- 			       struct nv50_head_atom *asyh)
+-	u32 parsed_bytes = 0, ksv_count = 0;
+ 	u32 vrl_ksv_cnt, vrl_ksv_sz, vrl_idx = 0;
++	u32 parsed_bytes = 0, ksv_count = 0;
+ 
+ 	do {
+ 		vrl_ksv_cnt = *buf;
+@@ -74,10 +66,10 @@ static u32 drm_hdcp_get_revoked_ksvs(const u8 *buf, u8 *revoked_ksv_list,
+ 
+ 		DRM_DEBUG("vrl: %d, Revoked KSVs: %d\n", vrl_idx++,
+ 			  vrl_ksv_cnt);
+-		memcpy(revoked_ksv_list, buf, vrl_ksv_sz);
++		memcpy((*revoked_ksv_list) + (ksv_count * DRM_HDCP_KSV_LEN),
++		       buf, vrl_ksv_sz);
+ 
+ 		ksv_count += vrl_ksv_cnt;
+-		revoked_ksv_list += vrl_ksv_sz;
+ 		buf += vrl_ksv_sz;
+ 
+ 		parsed_bytes += (vrl_ksv_sz + 1);
+@@ -91,7 +83,8 @@ static inline u32 get_vrl_length(const u8 *buf)
+ 	return drm_hdcp_be24_to_cpu(buf);
+ }
+ 
+-static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count)
++static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count,
++				    u8 **revoked_ksv_list, u32 *revoked_ksv_cnt)
  {
--	struct nouveau_framebuffer *fb = nouveau_framebuffer(asyw->state.fb);
-+	struct drm_framebuffer *fb = asyw->state.fb;
- 	struct nouveau_drm *drm = nouveau_drm(wndw->plane.dev);
--	struct nouveau_bo *nvbo = nouveau_gem_object(fb->base.obj[0]);
-+	struct nouveau_bo *nvbo = nouveau_gem_object(fb->obj[0]);
- 	int ret;
+ 	struct hdcp_srm_header *header;
+ 	u32 vrl_length, ksv_count;
+@@ -131,29 +124,28 @@ static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count)
+ 	ksv_count = drm_hdcp_get_revoked_ksv_count(buf, vrl_length);
+ 	if (!ksv_count) {
+ 		DRM_DEBUG("Revoked KSV count is 0\n");
+-		return count;
++		return 0;
+ 	}
  
- 	NV_ATOMIC(drm, "%s acquire\n", wndw->plane.name);
- 
--	if (asyw->state.fb != armw->state.fb || !armw->visible || modeset) {
--		asyw->image.w = fb->base.width;
--		asyw->image.h = fb->base.height;
-+	if (fb != armw->state.fb || !armw->visible || modeset) {
-+		asyw->image.w = fb->width;
-+		asyw->image.h = fb->height;
- 		asyw->image.kind = nvbo->kind;
- 
- 		ret = nv50_wndw_atomic_check_acquire_rgb(asyw);
-@@ -261,13 +261,13 @@ nv50_wndw_atomic_check_acquire(struct nv50_wndw *wndw, bool modeset,
- 				asyw->image.blockh = nvbo->mode >> 4;
- 			else
- 				asyw->image.blockh = nvbo->mode;
--			asyw->image.blocks[0] = fb->base.pitches[0] / 64;
-+			asyw->image.blocks[0] = fb->pitches[0] / 64;
- 			asyw->image.pitch[0] = 0;
- 		} else {
- 			asyw->image.layout = 1;
- 			asyw->image.blockh = 0;
- 			asyw->image.blocks[0] = 0;
--			asyw->image.pitch[0] = fb->base.pitches[0];
-+			asyw->image.pitch[0] = fb->pitches[0];
- 		}
- 
- 		if (!asyh->state.async_flip)
-@@ -486,16 +486,16 @@ nv50_wndw_cleanup_fb(struct drm_plane *plane, struct drm_plane_state *old_state)
- static int
- nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
- {
--	struct nouveau_framebuffer *fb = nouveau_framebuffer(state->fb);
-+	struct drm_framebuffer *fb = state->fb;
- 	struct nouveau_drm *drm = nouveau_drm(plane->dev);
- 	struct nv50_wndw *wndw = nv50_wndw(plane);
- 	struct nv50_wndw_atom *asyw = nv50_wndw_atom(state);
--	struct nouveau_bo *nvbo = nouveau_gem_object(state->fb->obj[0]);
-+	struct nouveau_bo *nvbo = nouveau_gem_object(fb->obj[0]);
- 	struct nv50_head_atom *asyh;
- 	struct nv50_wndw_ctxdma *ctxdma;
- 	int ret;
- 
--	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, state->fb);
-+	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, fb);
- 	if (!asyw->state.fb)
- 		return 0;
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index bbbff55eb5d5..94f7fd48e1cf 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -207,10 +207,10 @@ int
- nouveau_framebuffer_new(struct drm_device *dev,
- 			const struct drm_mode_fb_cmd2 *mode_cmd,
- 			struct drm_gem_object *gem,
--			struct nouveau_framebuffer **pfb)
-+			struct drm_framebuffer **pfb)
- {
- 	struct nouveau_drm *drm = nouveau_drm(dev);
--	struct nouveau_framebuffer *fb;
-+	struct drm_framebuffer *fb;
- 	int ret;
- 
-         /* YUV overlays have special requirements pre-NV50 */
-@@ -236,10 +236,10 @@ nouveau_framebuffer_new(struct drm_device *dev,
- 	if (!(fb = *pfb = kzalloc(sizeof(*fb), GFP_KERNEL)))
+-	kfree(srm_data->revoked_ksv_list);
+-	srm_data->revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN,
+-					     GFP_KERNEL);
+-	if (!srm_data->revoked_ksv_list) {
++	*revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN, GFP_KERNEL);
++	if (!*revoked_ksv_list) {
+ 		DRM_ERROR("Out of Memory\n");
  		return -ENOMEM;
+ 	}
  
--	drm_helper_mode_fill_fb_struct(dev, &fb->base, mode_cmd);
--	fb->base.obj[0] = gem;
-+	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
-+	fb->obj[0] = gem;
+-	if (drm_hdcp_get_revoked_ksvs(buf, srm_data->revoked_ksv_list,
++	if (drm_hdcp_get_revoked_ksvs(buf, revoked_ksv_list,
+ 				      vrl_length) != ksv_count) {
+-		srm_data->revoked_ksv_cnt = 0;
+-		kfree(srm_data->revoked_ksv_list);
++		*revoked_ksv_cnt = 0;
++		kfree(*revoked_ksv_list);
+ 		return -EINVAL;
+ 	}
  
--	ret = drm_framebuffer_init(dev, &fb->base, &nouveau_framebuffer_funcs);
-+	ret = drm_framebuffer_init(dev, fb, &nouveau_framebuffer_funcs);
- 	if (ret)
- 		kfree(fb);
- 	return ret;
-@@ -250,7 +250,7 @@ nouveau_user_framebuffer_create(struct drm_device *dev,
- 				struct drm_file *file_priv,
- 				const struct drm_mode_fb_cmd2 *mode_cmd)
+-	srm_data->revoked_ksv_cnt = ksv_count;
+-	return count;
++	*revoked_ksv_cnt = ksv_count;
++	return 0;
+ }
+ 
+-static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
++static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count,
++				    u8 **revoked_ksv_list, u32 *revoked_ksv_cnt)
  {
--	struct nouveau_framebuffer *fb;
-+	struct drm_framebuffer *fb;
- 	struct drm_gem_object *gem;
+ 	struct hdcp_srm_header *header;
+ 	u32 vrl_length, ksv_count, ksv_sz;
+@@ -195,13 +187,11 @@ static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
+ 	ksv_count = (*buf << 2) | DRM_HDCP_2_KSV_COUNT_2_LSBITS(*(buf + 1));
+ 	if (!ksv_count) {
+ 		DRM_DEBUG("Revoked KSV count is 0\n");
+-		return count;
++		return 0;
+ 	}
+ 
+-	kfree(srm_data->revoked_ksv_list);
+-	srm_data->revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN,
+-					     GFP_KERNEL);
+-	if (!srm_data->revoked_ksv_list) {
++	*revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN, GFP_KERNEL);
++	if (!*revoked_ksv_list) {
+ 		DRM_ERROR("Out of Memory\n");
+ 		return -ENOMEM;
+ 	}
+@@ -210,10 +200,10 @@ static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
+ 	buf += DRM_HDCP_2_NO_OF_DEV_PLUS_RESERVED_SZ;
+ 
+ 	DRM_DEBUG("Revoked KSVs: %d\n", ksv_count);
+-	memcpy(srm_data->revoked_ksv_list, buf, ksv_sz);
++	memcpy(*revoked_ksv_list, buf, ksv_sz);
+ 
+-	srm_data->revoked_ksv_cnt = ksv_count;
+-	return count;
++	*revoked_ksv_cnt = ksv_count;
++	return 0;
+ }
+ 
+ static inline bool is_srm_version_hdcp1(const u8 *buf)
+@@ -226,22 +216,27 @@ static inline bool is_srm_version_hdcp2(const u8 *buf)
+ 	return *buf == (u8)(DRM_HDCP_2_SRM_ID << 4 | DRM_HDCP_2_INDICATOR);
+ }
+ 
+-static void drm_hdcp_srm_update(const u8 *buf, size_t count)
++static int drm_hdcp_srm_update(const u8 *buf, size_t count,
++			       u8 **revoked_ksv_list, u32 *revoked_ksv_cnt)
+ {
+ 	if (count < sizeof(struct hdcp_srm_header))
+-		return;
++		return -EINVAL;
+ 
+ 	if (is_srm_version_hdcp1(buf))
+-		drm_hdcp_parse_hdcp1_srm(buf, count);
++		return drm_hdcp_parse_hdcp1_srm(buf, count, revoked_ksv_list,
++						revoked_ksv_cnt);
+ 	else if (is_srm_version_hdcp2(buf))
+-		drm_hdcp_parse_hdcp2_srm(buf, count);
++		return drm_hdcp_parse_hdcp2_srm(buf, count, revoked_ksv_list,
++						revoked_ksv_cnt);
++	else
++		return -EINVAL;
+ }
+ 
+-static void drm_hdcp_request_srm(struct drm_device *drm_dev)
++static int drm_hdcp_request_srm(struct drm_device *drm_dev,
++				u8 **revoked_ksv_list, u32 *revoked_ksv_cnt)
+ {
+ 	char fw_name[36] = "display_hdcp_srm.bin";
+ 	const struct firmware *fw;
+-
  	int ret;
  
-@@ -260,7 +260,7 @@ nouveau_user_framebuffer_create(struct drm_device *dev,
+ 	ret = request_firmware_direct(&fw, (const char *)fw_name,
+@@ -250,10 +245,12 @@ static void drm_hdcp_request_srm(struct drm_device *drm_dev)
+ 		goto exit;
  
- 	ret = nouveau_framebuffer_new(dev, mode_cmd, gem, &fb);
- 	if (ret == 0)
--		return &fb->base;
-+		return fb;
+ 	if (fw->size && fw->data)
+-		drm_hdcp_srm_update(fw->data, fw->size);
++		ret = drm_hdcp_srm_update(fw->data, fw->size, revoked_ksv_list,
++					  revoked_ksv_cnt);
  
- 	drm_gem_object_put_unlocked(gem);
- 	return ERR_PTR(ret);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/nouveau/nouveau_display.h
-index 56c1dec8fc28..082bb067d575 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.h
-@@ -8,21 +8,11 @@
+ exit:
+ 	release_firmware(fw);
++	return ret;
+ }
  
- #include <drm/drm_framebuffer.h>
- 
--struct nouveau_framebuffer {
--	struct drm_framebuffer base;
--};
+ /**
+@@ -279,71 +276,34 @@ static void drm_hdcp_request_srm(struct drm_device *drm_dev)
+  * https://www.digital-cp.com/sites/default/files/specifications/HDCP%20on%20HDMI%20Specification%20Rev2_2_Final1.pdf
+  *
+  * Returns:
+- * TRUE on any of the KSV is revoked, else FALSE.
++ * Count of the revoked KSVs or -ve error number incase of the failure.
+  */
+-bool drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
+-				 u32 ksv_count)
++int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs_in,
++				u32 ksv_count)
+ {
+-	u32 rev_ksv_cnt, cnt, i, j;
+-	u8 *rev_ksv_list;
 -
--static inline struct nouveau_framebuffer *
--nouveau_framebuffer(struct drm_framebuffer *fb)
+-	if (!srm_data)
+-		return false;
+-
+-	mutex_lock(&srm_data->mutex);
+-	drm_hdcp_request_srm(drm_dev);
+-
+-	rev_ksv_cnt = srm_data->revoked_ksv_cnt;
+-	rev_ksv_list = srm_data->revoked_ksv_list;
+-
+-	/* If the Revoked ksv list is empty */
+-	if (!rev_ksv_cnt || !rev_ksv_list) {
+-		mutex_unlock(&srm_data->mutex);
+-		return false;
+-	}
+-
+-	for  (cnt = 0; cnt < ksv_count; cnt++) {
+-		rev_ksv_list = srm_data->revoked_ksv_list;
+-		for (i = 0; i < rev_ksv_cnt; i++) {
+-			for (j = 0; j < DRM_HDCP_KSV_LEN; j++)
+-				if (ksvs[j] != rev_ksv_list[j]) {
+-					break;
+-				} else if (j == (DRM_HDCP_KSV_LEN - 1)) {
+-					DRM_DEBUG("Revoked KSV is ");
+-					drm_hdcp_print_ksv(ksvs);
+-					mutex_unlock(&srm_data->mutex);
+-					return true;
+-				}
+-			/* Move the offset to next KSV in the revoked list */
+-			rev_ksv_list += DRM_HDCP_KSV_LEN;
+-		}
+-
+-		/* Iterate to next ksv_offset */
+-		ksvs += DRM_HDCP_KSV_LEN;
+-	}
+-	mutex_unlock(&srm_data->mutex);
+-	return false;
++	u32 revoked_ksv_cnt = 0, i, j;
++	u8 *revoked_ksv_list = NULL;
++	int ret = 0;
++
++	ret = drm_hdcp_request_srm(drm_dev, &revoked_ksv_list,
++				   &revoked_ksv_cnt);
++
++	/* revoked_ksv_cnt will be zero when above function failed */
++	for (i = 0; i < revoked_ksv_cnt; i++)
++		for  (j = 0; j < ksv_count; j++)
++			if (!memcmp(&ksvs_in[j * DRM_HDCP_KSV_LEN],
++			    &revoked_ksv_list[i * DRM_HDCP_KSV_LEN],
++			    DRM_HDCP_KSV_LEN)) {
++				DRM_DEBUG("Revoked KSV is ");
++				drm_hdcp_print_ksv(&ksvs_in[j * DRM_HDCP_KSV_LEN]);
++				ret++;
++			}
++
++	kfree(revoked_ksv_list);
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(drm_hdcp_check_ksvs_revoked);
+ 
+-int drm_setup_hdcp_srm(struct class *drm_class)
 -{
--	return container_of(fb, struct nouveau_framebuffer, base);
+-	srm_data = kzalloc(sizeof(*srm_data), GFP_KERNEL);
+-	if (!srm_data)
+-		return -ENOMEM;
+-	mutex_init(&srm_data->mutex);
+-
+-	return 0;
 -}
 -
- int
- nouveau_framebuffer_new(struct drm_device *dev,
- 			const struct drm_mode_fb_cmd2 *mode_cmd,
- 			struct drm_gem_object *gem,
--			struct nouveau_framebuffer **pfb);
-+			struct drm_framebuffer **pfb);
- 
- struct nouveau_display {
- 	void *priv;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index 02b36b44409c..d78bc03ad3b8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -312,7 +312,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	struct nvif_device *device = &drm->client.device;
- 	struct fb_info *info;
--	struct nouveau_framebuffer *fb;
-+	struct drm_framebuffer *fb;
- 	struct nouveau_channel *chan;
- 	struct nouveau_bo *nvbo;
- 	struct drm_mode_fb_cmd2 mode_cmd;
-@@ -367,7 +367,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
+-void drm_teardown_hdcp_srm(struct class *drm_class)
+-{
+-	if (srm_data) {
+-		kfree(srm_data->revoked_ksv_list);
+-		kfree(srm_data);
+-	}
+-}
+-
+ static struct drm_prop_enum_list drm_cp_enum_list[] = {
+ 	{ DRM_MODE_CONTENT_PROTECTION_UNDESIRED, "Undesired" },
+ 	{ DRM_MODE_CONTENT_PROTECTION_DESIRED, "Desired" },
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 6937bf923f05..a34c7f8373fa 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -235,7 +235,3 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+ void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
+ 				const struct drm_framebuffer *fb);
+ int drm_framebuffer_debugfs_init(struct drm_minor *minor);
+-
+-/* drm_hdcp.c */
+-int drm_setup_hdcp_srm(struct class *drm_class);
+-void drm_teardown_hdcp_srm(struct class *drm_class);
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index dd2bc85f43cc..2e83c3d72af9 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -85,7 +85,6 @@ int drm_sysfs_init(void)
  	}
  
- 	/* setup helper */
--	fbcon->helper.fb = &fb->base;
-+	fbcon->helper.fb = fb;
- 
- 	if (!chan)
- 		info->flags = FBINFO_HWACCEL_DISABLED;
-@@ -393,7 +393,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
- 
- 	/* To allow resizeing without swapping buffers */
- 	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
--		fb->base.width, fb->base.height, nvbo->bo.offset, nvbo);
-+		fb->width, fb->height, nvbo->bo.offset, nvbo);
- 
- 	vga_switcheroo_client_fb_set(dev->pdev, info);
+ 	drm_class->devnode = drm_devnode;
+-	drm_setup_hdcp_srm(drm_class);
  	return 0;
-@@ -413,18 +413,18 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
- static int
- nouveau_fbcon_destroy(struct drm_device *dev, struct nouveau_fbdev *fbcon)
+ }
+ 
+@@ -98,7 +97,6 @@ void drm_sysfs_destroy(void)
  {
--	struct nouveau_framebuffer *nouveau_fb = nouveau_framebuffer(fbcon->helper.fb);
-+	struct drm_framebuffer *fb = fbcon->helper.fb;
- 	struct nouveau_bo *nvbo;
+ 	if (IS_ERR_OR_NULL(drm_class))
+ 		return;
+-	drm_teardown_hdcp_srm(drm_class);
+ 	class_remove_file(drm_class, &class_attr_version.attr);
+ 	class_destroy(drm_class);
+ 	drm_class = NULL;
+diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
+index 06a11202a097..d512089b873f 100644
+--- a/include/drm/drm_hdcp.h
++++ b/include/drm/drm_hdcp.h
+@@ -288,8 +288,8 @@ struct hdcp_srm_header {
+ struct drm_device;
+ struct drm_connector;
  
- 	drm_fb_helper_unregister_fbi(&fbcon->helper);
- 	drm_fb_helper_fini(&fbcon->helper);
- 
--	if (nouveau_fb && nouveau_fb->base.obj[0]) {
--		nvbo = nouveau_gem_object(nouveau_fb->base.obj[0]);
-+	if (fb && fb->obj[0]) {
-+		nvbo = nouveau_gem_object(fb->obj[0]);
- 		nouveau_vma_del(&fbcon->vma);
- 		nouveau_bo_unmap(nvbo);
- 		nouveau_bo_unpin(nvbo);
--		drm_framebuffer_put(&nouveau_fb->base);
-+		drm_framebuffer_put(fb);
- 	}
- 
- 	return 0;
+-bool drm_hdcp_check_ksvs_revoked(struct drm_device *dev,
+-				 u8 *ksvs, u32 ksv_count);
++int drm_hdcp_check_ksvs_revoked(struct drm_device *dev,
++				u8 *ksvs, u32 ksv_count);
+ int drm_connector_attach_content_protection_property(
+ 		struct drm_connector *connector, bool hdcp_content_type);
+ void drm_hdcp_update_content_protection(struct drm_connector *connector,
 -- 
-2.25.0
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
