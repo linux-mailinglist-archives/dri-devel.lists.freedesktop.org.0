@@ -1,42 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB5C155C1C
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 17:49:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B0D155C70
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 18:02:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1EB6EAD2;
-	Fri,  7 Feb 2020 16:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A6C6EAFC;
+	Fri,  7 Feb 2020 17:01:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7956EAD2;
- Fri,  7 Feb 2020 16:49:07 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2020 08:49:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,414,1574150400"; d="scan'208";a="225595113"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 07 Feb 2020 08:49:04 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 07 Feb 2020 18:49:03 +0200
-Date: Fri, 7 Feb 2020 18:49:03 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 6/6] drm: Validate encoder->possible_crtcs
-Message-ID: <20200207164903.GO13686@intel.com>
-References: <20200207135950.6655-1-ville.syrjala@linux.intel.com>
- <20200207135950.6655-7-ville.syrjala@linux.intel.com>
- <20200207163926.GN43062@phenom.ffwll.local>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200207163926.GN43062@phenom.ffwll.local>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
+ [103.229.18.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 331986E4A1;
+ Thu,  6 Feb 2020 08:52:26 +0000 (UTC)
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 06 Feb 2020 14:22:24 +0530
+Received: from harigovi-linux.qualcomm.com ([10.204.66.157])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 06 Feb 2020 14:22:02 +0530
+Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695)
+ id 2DE7628E6; Thu,  6 Feb 2020 14:22:02 +0530 (IST)
+From: Harigovindan P <harigovi@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1] drm/msm/dsi: save pll state before dsi host is powered off
+Date: Thu,  6 Feb 2020 14:21:54 +0530
+Message-Id: <1580979114-16447-1-git-send-email-harigovi@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Fri, 07 Feb 2020 17:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,113 +40,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Harigovindan P <harigovi@codeaurora.org>, linux-kernel@vger.kernel.org,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2020 at 05:39:26PM +0100, Daniel Vetter wrote:
-> On Fri, Feb 07, 2020 at 03:59:50PM +0200, Ville Syrjala wrote:
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > =
+Save pll state before dsi host is powered off. Without this change
+some register values gets resetted.
 
-> > WARN if the encoder possible_crtcs is effectively empty or contains
-> > bits for non-existing crtcs.
-> > =
+Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+---
 
-> > TODO: Or should we perhapst just filter out any bit for a
-> > non-exisiting crtc?
-> > =
+Changes in v1:
+	- Saving pll state before dsi host is powered off.
+	- Removed calling of save state in post_disable since everything
+	would be resetted and it would save only resetted values.
 
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> =
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 5 +++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 4 ----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-> >From a quick grep it looks like at least most drivers seem to get this
-> right. Worth a shot to find the hold-outs.
-> =
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index 104115d..a987efe 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -506,6 +506,7 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
+ 	struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
+ 	struct mipi_dsi_host *host = msm_dsi->host;
+ 	struct drm_panel *panel = msm_dsi->panel;
++	struct msm_dsi_pll *src_pll;
+ 	bool is_dual_dsi = IS_DUAL_DSI();
+ 	int ret;
+ 
+@@ -539,6 +540,10 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
+ 								id, ret);
+ 	}
+ 
++	/* Save PLL status if it is a clock source */
++	src_pll = msm_dsi_phy_get_pll(msm_dsi->phy);
++	msm_dsi_pll_save_state(src_pll);
++
+ 	ret = msm_dsi_host_power_off(host);
+ 	if (ret)
+ 		pr_err("%s: host %d power off failed,%d\n", __func__, id, ret);
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index b0cfa67..f509ebd 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -724,10 +724,6 @@ void msm_dsi_phy_disable(struct msm_dsi_phy *phy)
+ 	if (!phy || !phy->cfg->ops.disable)
+ 		return;
+ 
+-	/* Save PLL status if it is a clock source */
+-	if (phy->usecase != MSM_DSI_PHY_SLAVE)
+-		msm_dsi_pll_save_state(phy->pll);
+-
+ 	phy->cfg->ops.disable(phy);
+ 
+ 	dsi_phy_regulator_disable(phy);
+-- 
+2.7.4
 
-> Two things:
-> - Imo also best to move into the drm_mode_config_validate I suggested.
-> - Please update the kerneldoc for drm_encoder.possible_crtcs to mention
->   that this will WARN if you get it wrong (and maybe remove the line that
->   most drivers screw this up).
-
-ack
-
-> =
-
-> Check itself lgtm.
-> -Daniel
-> =
-
-> > ---
-> >  drivers/gpu/drm/drm_encoder.c | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encode=
-r.c
-> > index bc2246f27e0d..f16b2a2518d7 100644
-> > --- a/drivers/gpu/drm/drm_encoder.c
-> > +++ b/drivers/gpu/drm/drm_encoder.c
-> > @@ -107,6 +107,23 @@ static void validate_possible_clones(struct drm_en=
-coder *encoder)
-> >  	     encoder->possible_clones, encoder_mask);
-> >  }
-> >  =
-
-> > +static void validate_possible_crtcs(struct drm_encoder *encoder)
-> > +{
-> > +	struct drm_device *dev =3D encoder->dev;
-> > +	struct drm_crtc *crtc;
-> > +	u32 crtc_mask =3D 0;
-> > +
-> > +	drm_for_each_crtc(crtc, dev)
-> > +		crtc_mask |=3D drm_crtc_mask(crtc);
-> > +
-> > +	WARN((encoder->possible_crtcs & crtc_mask) =3D=3D 0 ||
-> > +	     (encoder->possible_crtcs & ~crtc_mask) !=3D 0,
-> > +	     "Bogus possible_crtcs: "
-> > +	     "[ENCODER:%d:%s] possible_crtcs=3D0x%x (full crtc mask=3D0x%x)\n=
-",
-> > +	     encoder->base.id, encoder->name,
-> > +	     encoder->possible_crtcs, crtc_mask);
-> > +}
-> > +
-> >  int drm_encoder_register_all(struct drm_device *dev)
-> >  {
-> >  	struct drm_encoder *encoder;
-> > @@ -115,6 +132,7 @@ int drm_encoder_register_all(struct drm_device *dev)
-> >  	fixup_possible_clones(dev);
-> >  =
-
-> >  	drm_for_each_encoder(encoder, dev) {
-> > +		validate_possible_crtcs(encoder);
-> >  		validate_possible_clones(encoder);
-> >  =
-
-> >  		if (encoder->funcs->late_register)
-> > -- =
-
-> > 2.24.1
-> > =
-
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
