@@ -1,57 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C778154166
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 10:49:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA501541B7
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 11:19:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4052C6FA0F;
-	Thu,  6 Feb 2020 09:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A57089F63;
+	Thu,  6 Feb 2020 10:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACBA6FA0F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 09:49:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580982575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MFNavGN1nVyUxsxO/8dHhfsdedFT+/LPyyIBlHkEN9Y=;
- b=WpMwXUKC/SoXXLIATbP+57tMKLbpB6AK9G2Sm86uDuBsqrE2BFBjMhZZTlZU/txmSNVEox
- admNRkCdkQBCDWPnKeY39EfVm5EgjanzIJ46sVqXF83JAljy9mCZlUBzY+SxW+kPake6s8
- UO55Dupo+nqjxUVJCoJ4hklffAEsIpA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-CkDRaShqPqKTP6bbwQIIjA-1; Thu, 06 Feb 2020 04:49:31 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE31318AB2C0;
- Thu,  6 Feb 2020 09:49:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
- [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6ED215DA7D;
- Thu,  6 Feb 2020 09:49:30 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AD1391747D; Thu,  6 Feb 2020 10:49:29 +0100 (CET)
-Date: Thu, 6 Feb 2020 10:49:29 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Subject: Re: [PATCH 09/11] drm/virtio: avoid an infinite loop
-Message-ID: <20200206094929.vuyjenl6fz2gfjus@sirius.home.kraxel.org>
-References: <20200205181955.202485-1-olvaffe@gmail.com>
- <20200205181955.202485-10-olvaffe@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE6289F63;
+ Thu,  6 Feb 2020 10:19:49 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id A6E05B146;
+ Thu,  6 Feb 2020 10:19:47 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: bskeggs@redhat.com,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH 0/4] drm/nouveau: Remove struct nouveau_framebuffer
+Date: Thu,  6 Feb 2020 11:19:38 +0100
+Message-Id: <20200206101942.1412-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <20200205181955.202485-10-olvaffe@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: CkDRaShqPqKTP6bbwQIIjA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +37,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, gurchetansingh@chromium.org
+Cc: nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 05, 2020 at 10:19:53AM -0800, Chia-I Wu wrote:
-> Make sure elemcnt does not exceed the maximum element count in
-> virtio_gpu_queue_ctrl_sgs.  We should improve our error handling or
-> impose a size limit on execbuffer, which are TODOs.
+All fields in struct nouveau_framebuffer appear to be obsolete. The
+data structure can be replaced by struct drm_framebuffer entirely.
 
-Hmm, virtio supports indirect ring entries, so large execbuffers should
-not be a problem ...
+Patch 1 removes several unused fields from struct nouveau_framebuffer.
 
-So I've waded through the virtio code.  Figured our logic is wrong.
-Luckily we err on the safe side (waiting for more free entries than we
-actually need).  The patch below should fix that (not tested yet).
+Patch 2 moves the field vma to struct nouveau_fbdev. The information
+in vma is only relevant for fbdev emulation, and as such he field is
+only used there.
 
-cheers,
-  Gerd
+Patch 3 removes nvbo from struct nouveau_framebuffer. The nouveau
+buffer object is based on gem, and as such should be stored in obj[0]
+of struct drm_framebuffer. This also enables the use of several generic
+GEM framebuffer functions.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index aa25e8781404..535399b3a3ea 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -328,7 +328,7 @@ static bool virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- {
- 	struct virtqueue *vq = vgdev->ctrlq.vq;
- 	bool notify = false;
--	int ret;
-+	int vqcnt, ret;
- 
- again:
- 	spin_lock(&vgdev->ctrlq.qlock);
-@@ -341,9 +341,10 @@ static bool virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- 		return notify;
- 	}
- 
--	if (vq->num_free < elemcnt) {
-+	vqcnt = virtqueue_use_indirect(vq, elemcnt) ? 1 : elemcnt;
-+	if (vq->num_free < vqcnt) {
- 		spin_unlock(&vgdev->ctrlq.qlock);
--		wait_event(vgdev->ctrlq.ack_queue, vq->num_free >= elemcnt);
-+		wait_event(vgdev->ctrlq.ack_queue, vq->num_free >= vq);
- 		goto again;
- 	}
- 
+Finally patch 4 removes struct nouveau_framebuffer. At this point it's
+merely a wrapper around struct drm_framebuffer.
+
+The patchset has been smoke-tested on NV34 HW by running fbcon and X11.
+
+Future directions: There are still functions for creating frameuffers.
+With further refinements of nouveau's fbcon code, GEM framebuffer helpers
+could be used here.
+
+Thomas Zimmermann (4):
+  drm/nouveau: Remove unused fields from struct nouveau_framebuffer
+  drm/nouveau: Move struct nouveau_framebuffer.vma to struct
+    nouveau_fbdev
+  drm/nouveau: Remove field nvbo from struct nouveau_framebuffer
+  drm/nouveau: Remove struct nouveau_framebuffer
+
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c    | 19 ++++-----
+ drivers/gpu/drm/nouveau/dispnv04/disp.c    | 21 +++++-----
+ drivers/gpu/drm/nouveau/dispnv04/overlay.c | 21 +++++-----
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c    | 45 ++++++++++++---------
+ drivers/gpu/drm/nouveau/nouveau_display.c  | 47 ++++++----------------
+ drivers/gpu/drm/nouveau/nouveau_display.h  | 25 +++---------
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c    | 42 ++++++++++---------
+ drivers/gpu/drm/nouveau/nouveau_fbcon.h    |  3 ++
+ drivers/gpu/drm/nouveau/nv50_fbcon.c       |  9 ++---
+ drivers/gpu/drm/nouveau/nvc0_fbcon.c       |  9 ++---
+ 10 files changed, 108 insertions(+), 133 deletions(-)
+
+--
+2.25.0
 
 _______________________________________________
 dri-devel mailing list
