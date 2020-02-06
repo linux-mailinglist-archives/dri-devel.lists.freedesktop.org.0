@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF41154E7E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 23:02:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E9D154E83
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 23:02:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B9B6FB6D;
-	Thu,  6 Feb 2020 22:02:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF1E06FB70;
+	Thu,  6 Feb 2020 22:02:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F35A6FB6C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 22:02:05 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id y73so161703pfg.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 14:02:05 -0800 (PST)
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 902DD6FB70
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 22:02:37 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id l24so28728pgk.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 14:02:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=AKy2GPfvS9CgxLQkVubqsZ+Y91Atlf8a7/klYM5O6+k=;
- b=rpi3gszuuEdbjfV8RfoIln94oapkleu0cWQYjRVAKfEzBd/77D2TCuWo7+9K08UsbB
- dQ7LFz3nYJ8g1XG4iLHOW09Fo8yDZ74rX46pIl5pLXZVa2Zfd5sM20iBaBAk1mn6qQLI
- 3TGv2NR8KPcBbh7lp9iiIT6JoOo+HBdLDjEJGNARYV7PbbSAbvANx/zaqRTqE1zZu9CR
- 01mX5FCQKRvjp9hJvqFQzoIbBwRPFsEUxwUWP6WYfAykIz5kpxoj9b+JpBMNe0aM2ttz
- Yn658U4kANfCXB0wX8jq4YIbZU9SC/++rAcMwccZeibONhPnSSY5YFYeQoEGJwBM/qiw
- fSFg==
-X-Gm-Message-State: APjAAAUj/EEL4ZN6tF3tWVGWXlQHd0QGm1e1jIwc4y8JYmreLr1oOWmk
- 1MrLIC98rUvr97UmHyoUDA==
-X-Google-Smtp-Source: APXvYqz2m/5KnaAfhQtR8QLh7i+VVO2GOuIJv1P44fBKu1hhLSuBxUnTemY6S8EUbWIOGw9Oj/QRjw==
-X-Received: by 2002:a62:2a07:: with SMTP id q7mr6263858pfq.153.1581026524104; 
- Thu, 06 Feb 2020 14:02:04 -0800 (PST)
+ bh=QZbN+Rw9Wauw1FSQRjx1EufFnK6c8lNge5XZrv7SCxo=;
+ b=LEONiLGEAiNqjozFu08+R/h26ttzHPzrpZ6kropyS7QFfJNWzw7LVX189BafyJmZpq
+ vK3oGrr5+DrUmqRuVrxkVlAWwz+aU90BoeWiNBHgzZvynnz2M82CYMqfEKlAkP2vbdOa
+ zmcfc3lnMrlPR8AeyNbTF5wI8bnuCjb7w6W/iUN4i/6IYiXZg+IR1HsEhcWDgB5H4b9I
+ Q6QgC7iUK6q0sSUjOItYGVrJI6WlBrNn5Fr6IRJ6vTlo1UqX3d2VWH5GejnB0AZbOcNe
+ mMZYzRINdrk+zxrFQH0yXQe/u/9jRotFCMreo3KWab78us/8gbeZTtOayNn4PUdR9ZC0
+ 3ugw==
+X-Gm-Message-State: APjAAAUbINwj9tp3NAs2Oj2Yor4Bdksc+sNy7s+0jBXrgAAoFvJU/tzq
+ QogjvTf4fWAUAHn0zukCkp7IVYZkFA==
+X-Google-Smtp-Source: APXvYqzgCtK5jer0WP+jTalui8imMwVqNKHQY63IVhlORAQ77cic7EYV5b0qZ4PiE7a9I22N4V4rIA==
+X-Received: by 2002:aa7:87c5:: with SMTP id i5mr6347609pfo.114.1581026557162; 
+ Thu, 06 Feb 2020 14:02:37 -0800 (PST)
 Received: from rob-hp-laptop (63-158-47-182.dia.static.qwest.net.
  [63.158.47.182])
- by smtp.gmail.com with ESMTPSA id z16sm347177pgl.92.2020.02.06.14.02.02
+ by smtp.gmail.com with ESMTPSA id e1sm348605pff.188.2020.02.06.14.02.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 14:02:03 -0800 (PST)
-Received: (nullmailer pid 27083 invoked by uid 1000);
- Thu, 06 Feb 2020 22:02:01 -0000
-Date: Thu, 6 Feb 2020 15:02:01 -0700
+ Thu, 06 Feb 2020 14:02:36 -0800 (PST)
+Received: (nullmailer pid 28125 invoked by uid 1000);
+ Thu, 06 Feb 2020 22:02:34 -0000
+Date: Thu, 6 Feb 2020 15:02:34 -0700
 From: Rob Herring <robh@kernel.org>
 To: Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: Re: [PATCH v4 2/3] dt-bindings: panel: Convert raydium,rm68200 to
+Subject: Re: [PATCH v4 3/3] dt-bindings: panel: Convert orisetech, otm8009a to
  json-schema
-Message-ID: <20200206220201.GA27021@bogus>
+Message-ID: <20200206220234.GA28073@bogus>
 References: <20200206133344.724-1-benjamin.gaignard@st.com>
- <20200206133344.724-3-benjamin.gaignard@st.com>
+ <20200206133344.724-4-benjamin.gaignard@st.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200206133344.724-3-benjamin.gaignard@st.com>
+In-Reply-To: <20200206133344.724-4-benjamin.gaignard@st.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,16 +72,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Feb 2020 14:33:43 +0100, Benjamin Gaignard wrote:
-> Convert raydium,rm68200 to json-schema.
+On Thu, 6 Feb 2020 14:33:44 +0100, Benjamin Gaignard wrote:
+> Convert orisetech,otm8009a to json-schema.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
 > ---
->  .../bindings/display/panel/raydium,rm68200.txt     | 25 ----------
->  .../bindings/display/panel/raydium,rm68200.yaml    | 56 ++++++++++++++++++++++
->  2 files changed, 56 insertions(+), 25 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
+>  .../bindings/display/panel/orisetech,otm8009a.txt  | 23 ----------
+>  .../bindings/display/panel/orisetech,otm8009a.yaml | 53 ++++++++++++++++++++++
+>  2 files changed, 53 insertions(+), 23 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
