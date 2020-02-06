@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80963153FD5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A9E153FE2
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 09:18:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AAA66F9E1;
-	Thu,  6 Feb 2020 08:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 618C86F9EB;
+	Thu,  6 Feb 2020 08:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com
- [IPv6:2607:f8b0:4864:20::44a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79A8A6F9AD
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 03:18:16 +0000 (UTC)
-Received: by mail-pf1-x44a.google.com with SMTP id 203so2954138pfx.5
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 19:18:16 -0800 (PST)
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com
+ [IPv6:2607:f8b0:4864:20::84a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 382806F9AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 03:18:22 +0000 (UTC)
+Received: by mail-qt1-x84a.google.com with SMTP id l1so2868315qtp.21
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2020 19:18:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=KEIH1qwXja/ZmU3/27elfahliyGtpPNLFM8jJAbIPe0=;
- b=t6ozdDcWXnqlycYXVvxHhOWC41qF8dQhtkxMgc3cj9ys3LWT7swok1SnhBVAqh4iIK
- 8NGSfV4wb+JIYUnOBtkwGiKW7JzQK9Fbhjvr2h71WZluUnlT9W0Bgr8EhRAlKqKxDztE
- 0d9+GSbN9KCNqXWGRSEM/FSn/rRn+D8W6XEcFtH27mvwDZUFKXCYgdT3hVS5EWHVu/gw
- PF+v4DFja2f+vDZtTesIeq+13RktcT/86fnEUJd6gxFj9jDTQ/A4tu/vpr5NXiqjgmwY
- sKlio/9K9cB+vXBOcyXXIYz+P3CWg0IwHwRwAVQ5UJU7ydufexjk2HoQyc1cdNCiCFN7
- DDng==
+ :cc; bh=GKdSBpWKS5JubKvYHooQ1tsJLs+L1G4clF+7s5FbyHw=;
+ b=naFzHNYgTkl6FjZpBOkCA2X/QrskO3Nyj3+Up6Q4sv70fhZlsQ9OfLbIfk1r0c13f4
+ eZ7iIngf+0/feqrVf4l2k8moJ1SVAXQLPEgJmjMmLuiAAM62o0X1gRX7fFP7t6Mr4H36
+ 0+tUG3s5KDIURJ7Z1Rk1MINTJQ76nBZiKGmkjah2srKyBHJuv9h4O7MfxPvMBZK1fY6M
+ wiMDH4EIJkavj55219XnSvbSenUmn+5oNJblgUzaI2YDjn6mPonp1jk3SsKy5ukJVDVO
+ t+iWto0HpgeelkmDD2dNdvWDV9C80RAhjpVNvaLx92zuCH5OS92Vsn3t90c9w2TAruRG
+ +bSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=KEIH1qwXja/ZmU3/27elfahliyGtpPNLFM8jJAbIPe0=;
- b=GRXXGv23MAdHUYA6Opr4opH59GHaf40Zjjf/4KQHVk6oINpcnaCI3e3XvGQVu5oipG
- 01EoUkDCEuzPUQ0WOCCEJ9bSD1j9QHVJ9fwRw+xjA0xZ0NOUbnUcR3plDuEajuBq8x5y
- KU3m030N91vkooXbnPrr31TgsXFmNcOqY0+X0pekdWtcYYNUWC61KwJDRWyz2xsjjW0+
- 3aTHD5WQTW3qjmmrajtSoiU1335+9DE5mTHauCWWTqoVuDYcfR+7JL+lCiBmHfNfTCiD
- m3BExKbdvI6oYw6v9K1UPicHcsp10dPM2ViQm8etRzEUtl3uFsXSb0HMVnykgA8uU6Ck
- tEPw==
-X-Gm-Message-State: APjAAAUXVY3jpyT0L/1byIKsgyyawXQJwtkDIq7pqNEfy9XMzYE5xLgM
- lQH9MwxvzlKD1266wwBIl+mL/7O3yplI
-X-Google-Smtp-Source: APXvYqwvYH4hqfpVMgHnlTJXAR9wXcKrV1aylz6TVB7wVNgSuffWm5cIKjVzB2ZMIRRMPL4bBaqkFWGwqZ2Y
-X-Received: by 2002:a63:ff5c:: with SMTP id s28mr1290924pgk.196.1580959095995; 
- Wed, 05 Feb 2020 19:18:15 -0800 (PST)
-Date: Thu,  6 Feb 2020 11:17:50 +0800
+ bh=GKdSBpWKS5JubKvYHooQ1tsJLs+L1G4clF+7s5FbyHw=;
+ b=HEVGlTsWrLLNK+G+ke0rpBHNNs/T0rkhyBlV5KzjGF3qZZilcBTwqQtc4P64vQadjP
+ q465R0/5PHfS/CVsTWfDpEy2xg+t1sj2E03Gcp9kpsIi+/dn44uLxLrne0/RCjJJ0Mr/
+ XWSFn6kkYjwcqRLTbVYlo2XYzqJJ6s/LcC2XHnZiB53OMDG7xdNT29oy/XYZHUZemdy+
+ jeQ500LjD/Tz2YToWYaYzm7dWzuqiBXfaM6+stQb5dxbVZGflvTT3bExP8ir0f/0Wjpb
+ UM1R4hRtNMvxGs9tuU43qyWxNvS6YlSzTgOCItsFD8MD5TUkVjL1aS7/QbPv1GTQNimh
+ WD+Q==
+X-Gm-Message-State: APjAAAVxpl6hCyu3mgqpOVPs4Q82q8ARdKRMRG3Pcmj3o9fPkxr2XO2I
+ tc3bxdXzAFcD3x9hhGXCVlKYcNoqhyb2
+X-Google-Smtp-Source: APXvYqyJ0n0UFWdJRGiNBcfGeJ9XTuOgIvFLDSVvgEpiQSthosjpQX4dk4r4oRet+K8HdyV3vkafiTKoFhUX
+X-Received: by 2002:a0c:ffc4:: with SMTP id h4mr662384qvv.233.1580959101083;
+ Wed, 05 Feb 2020 19:18:21 -0800 (PST)
+Date: Thu,  6 Feb 2020 11:17:51 +0800
 In-Reply-To: <20200206031752.193298-1-tzungbi@google.com>
-Message-Id: <20200206102509.1.Ieba8d422486264eb7aaa3aa257620a1b0c74c6db@changeid>
+Message-Id: <20200206102509.2.I230fd59de28e73934a91cb01424e25b9e84727f4@changeid>
 Mime-Version: 1.0
 References: <20200206031752.193298-1-tzungbi@google.com>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH v2 1/3] drm/mediatek: exit earlier if failed to register audio
- driver
+Subject: [PATCH v2 2/3] drm/mediatek: support HDMI jack status reporting
 From: Tzung-Bi Shih <tzungbi@google.com>
 To: broonie@kernel.org, airlied@linux.ie, daniel@ffwll.ch
 X-Mailman-Approved-At: Thu, 06 Feb 2020 08:17:51 +0000
@@ -72,51 +71,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Exits earlier if register_audio_driver() returns errors.
+1.
+Provides a callback (i.e. mtk_hdmi_audio_hook_plugged_cb) to hdmi-codec.
+When ASoC machine driver calls hdmi_codec_set_jack_detect(), the
+callback will be invoked to save plugged_cb and codec_dev parameters.
+
++---------+  set_jack_  +------------+ plugged_cb  +----------+
+| machine | ----------> | hdmi-codec | ----------> | mtk-hdmi |
++---------+  detect()   +------------+ codec_dev   +----------+
+
+2.
+When there is any jack status changes, mtk-hdmi will call the
+plugged_cb() to notify hdmi-codec.  And then hdmi-codec will call
+snd_soc_jack_report().
+
++----------+ plugged_cb  +------------+
+| mtk-hdmi | ----------> | hdmi-codec | -> snd_soc_jack_report()
++----------+ codec_dev   +------------+
+             connector_status
 
 Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 34 ++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index c79b1f855d89..23c2b0e8693d 100644
+index 23c2b0e8693d..fccdd975947d 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1656,7 +1656,7 @@ static const struct hdmi_codec_ops mtk_hdmi_audio_codec_ops = {
- 	.get_eld = mtk_hdmi_audio_get_eld,
+@@ -169,6 +169,8 @@ struct mtk_hdmi {
+ 	bool audio_enable;
+ 	bool powered;
+ 	bool enabled;
++	hdmi_codec_plugged_cb plugged_cb;
++	struct device *codec_dev;
  };
  
--static void mtk_hdmi_register_audio_driver(struct device *dev)
-+static int mtk_hdmi_register_audio_driver(struct device *dev)
- {
- 	struct hdmi_codec_pdata codec_data = {
- 		.ops = &mtk_hdmi_audio_codec_ops,
-@@ -1669,9 +1669,10 @@ static void mtk_hdmi_register_audio_driver(struct device *dev)
- 					     PLATFORM_DEVID_AUTO, &codec_data,
- 					     sizeof(codec_data));
- 	if (IS_ERR(pdev))
--		return;
-+		return PTR_ERR(pdev);
- 
- 	DRM_INFO("%s driver bound to HDMI\n", HDMI_CODEC_DRV_NAME);
-+	return 0;
+ static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
+@@ -1194,13 +1196,23 @@ static void mtk_hdmi_clk_disable_audio(struct mtk_hdmi *hdmi)
+ 	clk_disable_unprepare(hdmi->clk[MTK_HDMI_CLK_AUD_SPDIF]);
  }
  
- static int mtk_drm_hdmi_probe(struct platform_device *pdev)
-@@ -1705,7 +1706,11 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
++static enum drm_connector_status
++mtk_hdmi_update_plugged_status(struct mtk_hdmi *hdmi)
++{
++	bool connected = mtk_cec_hpd_high(hdmi->cec_dev);
++
++	if (hdmi->plugged_cb && hdmi->codec_dev)
++		hdmi->plugged_cb(hdmi->codec_dev, connected);
++
++	return connected ?
++	       connector_status_connected : connector_status_disconnected;
++}
++
+ static enum drm_connector_status hdmi_conn_detect(struct drm_connector *conn,
+ 						  bool force)
+ {
+ 	struct mtk_hdmi *hdmi = hdmi_ctx_from_conn(conn);
+-
+-	return mtk_cec_hpd_high(hdmi->cec_dev) ?
+-	       connector_status_connected : connector_status_disconnected;
++	return mtk_hdmi_update_plugged_status(hdmi);
+ }
  
--	mtk_hdmi_register_audio_driver(dev);
-+	ret = mtk_hdmi_register_audio_driver(dev);
-+	if (ret) {
-+		dev_err(dev, "Failed to register audio driver: %d\n", ret);
-+		return ret;
-+	}
+ static void hdmi_conn_destroy(struct drm_connector *conn)
+@@ -1648,20 +1660,36 @@ static int mtk_hdmi_audio_get_eld(struct device *dev, void *data, uint8_t *buf,
+ 	return 0;
+ }
  
- 	hdmi->bridge.funcs = &mtk_hdmi_bridge_funcs;
- 	hdmi->bridge.of_node = pdev->dev.of_node;
++static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
++					  hdmi_codec_plugged_cb fn,
++					  struct device *codec_dev)
++{
++	struct mtk_hdmi *hdmi = data;
++
++	hdmi->plugged_cb = fn;
++	hdmi->codec_dev = codec_dev;
++	mtk_hdmi_update_plugged_status(hdmi);
++
++	return 0;
++}
++
+ static const struct hdmi_codec_ops mtk_hdmi_audio_codec_ops = {
+ 	.hw_params = mtk_hdmi_audio_hw_params,
+ 	.audio_startup = mtk_hdmi_audio_startup,
+ 	.audio_shutdown = mtk_hdmi_audio_shutdown,
+ 	.digital_mute = mtk_hdmi_audio_digital_mute,
+ 	.get_eld = mtk_hdmi_audio_get_eld,
++	.hook_plugged_cb = mtk_hdmi_audio_hook_plugged_cb,
+ };
+ 
+ static int mtk_hdmi_register_audio_driver(struct device *dev)
+ {
++	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
+ 	struct hdmi_codec_pdata codec_data = {
+ 		.ops = &mtk_hdmi_audio_codec_ops,
+ 		.max_i2s_channels = 2,
+ 		.i2s = 1,
++		.data = hdmi,
+ 	};
+ 	struct platform_device *pdev;
+ 
 -- 
 2.25.0.341.g760bfbb309-goog
 
