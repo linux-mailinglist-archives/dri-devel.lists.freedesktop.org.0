@@ -1,57 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF8015588E
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 14:38:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EFF155892
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 14:38:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A576FC8F;
-	Fri,  7 Feb 2020 13:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD6046EAC0;
+	Fri,  7 Feb 2020 13:38:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF796EABA;
- Fri,  7 Feb 2020 13:37:56 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 39877AD85;
- Fri,  7 Feb 2020 13:37:55 +0000 (UTC)
-Subject: Re: [PATCH 0/5] disable drm_global_mutex for most drivers, take 2
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <3f1d5e20-e75d-cf35-92fa-b23ae586d0e7@suse.de>
-Date: Fri, 7 Feb 2020 14:37:51 +0100
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD2E6EAC0
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 13:38:48 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id k11so2704185wrd.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 05:38:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5Qd6/3q58AMNV5FtnZLoyt3WZqn0r69SnQkOZyEqook=;
+ b=U4KtBRgJfVYhk0bCXzyNZKJze5F9+Q+VcEj/WhMU1uOacxhgmn6IX0ssFWXdqRqqoS
+ rXmuR/OC7S3KBcWReiysoP/jIju/hOTWugytCUAJsnRIhOyTAmAiuEeNGOOXija0nXEP
+ mAV4Hen2qnWryK0QD57e1kzBZ4uagLucCd6Ds8rmZWt2X5lI/by4pLq/U4vU0urh5KCI
+ Zml2qLkz5rluZlLoUwkP7SUjdkqy2dIXZ4FV0wBaR+dtD2/1SD3HvXqsSQqjdJK7b5Or
+ lFpS9ycSFV/4ZNjXs7uz7adDtRIVtvp7JwaMz0EQQRSm+F5WQCdezh8c9PIdNcKgmFLQ
+ zFcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=5Qd6/3q58AMNV5FtnZLoyt3WZqn0r69SnQkOZyEqook=;
+ b=Rtv7hVT67zgfWPzxV/E3uV1jW24R0K3dQLKI3N0yUUEyl9r9xDmCvLp7eWWAtrp3G1
+ KbYh8DrL1hQoKbZIFGtwYup37wrCD9F79H0wG89tXB2uazODv3Rd07Zoaiy3E6LtVm5a
+ 1uRg17CPfBGTZWkXPlD11spigh3GtPE2SYWc8nRzvQxfp0AhiaLCKN1yL7Ko+rlOuzPI
+ UShGyvM7T53oF9eqO4YtwXEYpxZ3i5j/slI7liBUGTksVXQxvdO1Zw9zTbQIa+FVWjMT
+ 39DDP5U1Upl1ZRTxwW3lwfEvm+BBmr1LYzDfj48nxkqdzVJmTT2REZzgL5ELuFcwwmPi
+ jDyg==
+X-Gm-Message-State: APjAAAV6KNk/G25RFAkdsqL0/4E+SIfSU1YiKlsQRIuSXFmOFa8gwSvb
+ BEaxES/EHqTLVjvCw1SlbyGVaw==
+X-Google-Smtp-Source: APXvYqy96Xcw2WCkzazDgtKPjDKjf4IxI1lHpl2tvMAAc2csdX76KtbTy6TOGYQ9EUTqo88XD66ubA==
+X-Received: by 2002:adf:fdc7:: with SMTP id i7mr4604684wrs.270.1581082726956; 
+ Fri, 07 Feb 2020 05:38:46 -0800 (PST)
+Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
+ [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id z19sm3292742wmi.43.2020.02.07.05.38.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Feb 2020 05:38:46 -0800 (PST)
+Subject: Re: [PATCH v4 05/11] drm/bridge: synopsys: dw-hdmi: allow ycbcr420
+ modes for >= 0x200a
+To: a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@siol.net, boris.brezillon@collabora.com
+References: <20200206191834.6125-1-narmstrong@baylibre.com>
+ <20200206191834.6125-6-narmstrong@baylibre.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <e90331b8-5e8e-5c27-0297-77a281a66f4b@baylibre.com>
+Date: Fri, 7 Feb 2020 14:38:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200206191834.6125-6-narmstrong@baylibre.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,110 +125,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0210204467=="
+Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0210204467==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="un3Ao77glhGx0XeYouh5fltAFYCrKCNJm"
+On 06/02/2020 20:18, Neil Armstrong wrote:
+> Now the DW-HDMI Controller supports the HDMI2.0 modes, enable support
+> for these modes in the connector if the platform supports them.
+> We limit these modes to DW-HDMI IP version >= 0x200a which
+> are designed to support HDMI2.0 display modes.
+> 
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 6 ++++++
+>  include/drm/bridge/dw_hdmi.h              | 1 +
+>  2 files changed, 7 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 15048ad694bc..4b35ea1427df 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -3231,6 +3231,12 @@ __dw_hdmi_probe(struct platform_device *pdev,
+>  	hdmi->bridge.of_node = pdev->dev.of_node;
+>  #endif
+>  
+> +	if (hdmi->version >= 0x200a)
+> +		hdmi->connector.ycbcr_420_allowed =
+> +			hdmi->plat_data->ycbcr_420_allowed;
+> +	else
+> +		hdmi->connector.ycbcr_420_allowed = false;
+> +
+>  	memset(&pdevinfo, 0, sizeof(pdevinfo));
+>  	pdevinfo.parent = dev;
+>  	pdevinfo.id = PLATFORM_DEVID_AUTO;
+> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+> index 9d4d5cc47969..0b34a12c4a1c 100644
+> --- a/include/drm/bridge/dw_hdmi.h
+> +++ b/include/drm/bridge/dw_hdmi.h
+> @@ -129,6 +129,7 @@ struct dw_hdmi_plat_data {
+>  	unsigned long input_bus_format;
+>  	unsigned long input_bus_encoding;
+>  	bool use_drm_infoframe;
+> +	bool ycbcr_420_allowed;
+>  
+>  	/* Vendor PHY support */
+>  	const struct dw_hdmi_phy_ops *phy_ops;
+> 
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---un3Ao77glhGx0XeYouh5fltAFYCrKCNJm
-Content-Type: multipart/mixed; boundary="6XX2qTg3IGfXsVzH2QqOf6BoX3nZV47cH";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Message-ID: <3f1d5e20-e75d-cf35-92fa-b23ae586d0e7@suse.de>
-Subject: Re: [PATCH 0/5] disable drm_global_mutex for most drivers, take 2
-References: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
+Forgot to add:
+Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
---6XX2qTg3IGfXsVzH2QqOf6BoX3nZV47cH
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+from 020c82bc-15fd-6e23-a093-62abfa9b466d@samsung.com
 
-Hi,
-
-On patches 2 to 5:
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-I'm not overly knowledgeable on DRM locking semantics, but the patches
-appear to be correct in general.
-
-Best regards
-Thomas
-
-
-Am 04.02.20 um 16:01 schrieb Daniel Vetter:
-> CI didn't like my test-with tag :-/
->=20
-> Test-with: 20200128112549.172135-1-daniel.vetter@ffwll.ch
->=20
-> Daniel Vetter (5):
->   drm: Complain if drivers still use the ->load callback
->   drm/fbdev-helper: don't force restores
->   drm/client: Rename _force to _locked
->   drm: Push drm_global_mutex locking in drm_open
->   drm: Nerf drm_global_mutex BKL for good drivers
->=20
->  drivers/gpu/drm/drm_client_modeset.c | 12 +++++---
->  drivers/gpu/drm/drm_drv.c            | 26 +++++++++-------
->  drivers/gpu/drm/drm_fb_helper.c      | 16 ++--------
->  drivers/gpu/drm/drm_file.c           | 46 ++++++++++++++++++++++++++--=
-
->  drivers/gpu/drm/drm_internal.h       |  1 +
->  include/drm/drm_client.h             |  7 ++++-
->  include/drm/drm_drv.h                |  3 ++
->  7 files changed, 79 insertions(+), 32 deletions(-)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---6XX2qTg3IGfXsVzH2QqOf6BoX3nZV47cH--
-
---un3Ao77glhGx0XeYouh5fltAFYCrKCNJm
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl49aC8ACgkQaA3BHVML
-eiNsRAgAj1v2CxKAEDPmv0TpsNo9nSXU21eSnCPNQ2GHpFdklyqdK6mMkNyEmdTF
-aQm5mis3B83oiPk85ZNXVivSJ5Z4PpUMaBIqFpn/wt0j1n83TBJLvEj3UFLr9rXT
-Z+DI8hfFBChgGKYGNiaD4iqTs6UwSwELHIXm7UPPlfRubzyor6pE+OVYKYz/tCpf
-8737tJuApA9W/KzlLIYniaTeJeS9uj9P8GOjXY1Jg/rzl9cayGIjGF/KZVa8XS5r
-vHdpouWXPd2CN2R34sThIo9ZEHVRMhNJ2kF0lnDaWhmQe4WpfhpLdmZn+LhHK7ws
-7NkIgM/oXDSyk12iKE0D2Cu/Zis3jg==
-=nEQx
------END PGP SIGNATURE-----
-
---un3Ao77glhGx0XeYouh5fltAFYCrKCNJm--
-
---===============0210204467==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0210204467==--
