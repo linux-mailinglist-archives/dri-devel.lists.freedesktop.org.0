@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D98155927
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 15:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181B515593C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 15:25:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35CA16FCCA;
-	Fri,  7 Feb 2020 14:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0776FCC7;
+	Fri,  7 Feb 2020 14:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 471AB6FCC6;
- Fri,  7 Feb 2020 14:20:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EDC86FCC7;
+ Fri,  7 Feb 2020 14:25:21 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 021BDAF38;
- Fri,  7 Feb 2020 14:20:45 +0000 (UTC)
-Subject: Re: [PATCH v2 4/6] drm/imx: Remove the bogus possible_clones setup
+ by mx2.suse.de (Postfix) with ESMTP id C667CAD8E;
+ Fri,  7 Feb 2020 14:25:19 +0000 (UTC)
+Subject: Re: [PATCH v2 5/6] drm: Validate encoder->possible_clones
 To: Ville Syrjala <ville.syrjala@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 References: <20200207135950.6655-1-ville.syrjala@linux.intel.com>
- <20200207135950.6655-5-ville.syrjala@linux.intel.com>
+ <20200207135950.6655-6-ville.syrjala@linux.intel.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -47,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <02b04868-6f7b-f1cf-9cc7-fd1466b21761@suse.de>
-Date: Fri, 7 Feb 2020 15:20:44 +0100
+Message-ID: <81fe6f54-1811-bd6c-550e-1428227c89ad@suse.de>
+Date: Fri, 7 Feb 2020 15:25:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200207135950.6655-5-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200207135950.6655-6-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,72 +66,120 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0032915031=="
+Content-Type: multipart/mixed; boundary="===============0033638602=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0032915031==
+--===============0033638602==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Mqv5vaJR2e99eAtM62oQWEYLWKgZohVHw"
+ boundary="v7RW2DcsCGLUOIVDolces6GxYPPcHkN57"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Mqv5vaJR2e99eAtM62oQWEYLWKgZohVHw
-Content-Type: multipart/mixed; boundary="fu79LGBCjAww2GNcG3CJG9qMokhmQymdl";
+--v7RW2DcsCGLUOIVDolces6GxYPPcHkN57
+Content-Type: multipart/mixed; boundary="tPb9yrDQOs5P1ebC5zddAkxb8haPmMQjP";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Ville Syrjala <ville.syrjala@linux.intel.com>,
  dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Message-ID: <02b04868-6f7b-f1cf-9cc7-fd1466b21761@suse.de>
-Subject: Re: [PATCH v2 4/6] drm/imx: Remove the bogus possible_clones setup
+Cc: intel-gfx@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>
+Message-ID: <81fe6f54-1811-bd6c-550e-1428227c89ad@suse.de>
+Subject: Re: [PATCH v2 5/6] drm: Validate encoder->possible_clones
 References: <20200207135950.6655-1-ville.syrjala@linux.intel.com>
- <20200207135950.6655-5-ville.syrjala@linux.intel.com>
-In-Reply-To: <20200207135950.6655-5-ville.syrjala@linux.intel.com>
+ <20200207135950.6655-6-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200207135950.6655-6-ville.syrjala@linux.intel.com>
 
---fu79LGBCjAww2GNcG3CJG9qMokhmQymdl
+--tPb9yrDQOs5P1ebC5zddAkxb8haPmMQjP
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+
 
 Am 07.02.20 um 14:59 schrieb Ville Syrjala:
 > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 >=20
-> It's not at all clear what cloning options this driver supports.
-> So let's just clear possible_clones instead of setting it to some
-> bogus value.
+> Many drivers are populating encoder->possible_clones wrong. Let's
+> persuade them to get it right by adding some loud WARNs.
 >=20
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> We'll cross check the bits between any two encoders. So either
+> both encoders can clone with the other, or neither can.
+>=20
+> We'll also complain about effectively empty possible_clones, and
+> possible_clones containing bits for encoders that don't exist.
+>=20
+> TODO: Or should we just silently filter out any bits for non-existing
+> encoders?
+
+Please be noisy. Setting these masks incorrectly could be a bug.
+
+>=20
+> v2: encoder->possible_clones now includes the encoder itelf
+>=20
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 > ---
->  drivers/gpu/drm/imx/imx-drm-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_encoder.c | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/i=
-mx-drm-core.c
-> index da87c70e413b..a0a709dfba34 100644
-> --- a/drivers/gpu/drm/imx/imx-drm-core.c
-> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
-> @@ -140,7 +140,7 @@ int imx_drm_encoder_parse_of(struct drm_device *drm=
-,
->  	encoder->possible_crtcs =3D crtc_mask;
-> =20
->  	/* FIXME: this is the mask of outputs which can clone this output. */=
-
-> -	encoder->possible_clones =3D ~0;
-> +	encoder->possible_clones =3D 0;
-
-Maybe remove the comment as well. It's pointless.
-
-Best regards
-Thomas
-
-> =20
->  	return 0;
+> diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encode=
+r.c
+> index f761d9306028..bc2246f27e0d 100644
+> --- a/drivers/gpu/drm/drm_encoder.c
+> +++ b/drivers/gpu/drm/drm_encoder.c
+> @@ -79,6 +79,34 @@ static void fixup_possible_clones(struct drm_device =
+*dev)
+>  		encoder->possible_clones |=3D drm_encoder_mask(encoder);
 >  }
+> =20
+> +static void validate_possible_clones(struct drm_encoder *encoder)
+> +{
+> +	struct drm_device *dev =3D encoder->dev;
+> +	struct drm_encoder *other;
+> +	u32 encoder_mask =3D 0;
+> +
+> +	drm_for_each_encoder(other, dev) {
+> +		encoder_mask |=3D drm_encoder_mask(other);
+> +
+> +		WARN(!(encoder->possible_clones & drm_encoder_mask(other)) !=3D
+> +		     !(other->possible_clones & drm_encoder_mask(encoder)),
+> +		     "possible_clones mismatch: "
+> +		     "[ENCODER:%d:%s] mask=3D0x%x possible_clones=3D0x%x vs. "
+> +		     "[ENCODER:%d:%s] mask=3D0x%x possible_clones=3D0x%x\n",
+> +		     encoder->base.id, encoder->name,
+> +		     drm_encoder_mask(encoder), encoder->possible_clones,
+> +		     other->base.id, other->name,
+> +		     drm_encoder_mask(other), other->possible_clones);
+> +	}
+> +
+> +	WARN((encoder->possible_clones & drm_encoder_mask(encoder)) =3D=3D 0 =
+||
+> +	     (encoder->possible_clones & ~encoder_mask) !=3D 0,
+> +	     "Bogus possible_clones: "
+> +	     "[ENCODER:%d:%s] possible_clones=3D0x%x (full encoder mask=3D0x%=
+x)\n",
+> +	     encoder->base.id, encoder->name,
+> +	     encoder->possible_clones, encoder_mask);
+> +}
+> +
+>  int drm_encoder_register_all(struct drm_device *dev)
+>  {
+>  	struct drm_encoder *encoder;
+> @@ -87,6 +115,8 @@ int drm_encoder_register_all(struct drm_device *dev)=
+
+>  	fixup_possible_clones(dev);
+> =20
+>  	drm_for_each_encoder(encoder, dev) {
+> +		validate_possible_clones(encoder);
+> +
+>  		if (encoder->funcs->late_register)
+>  			ret =3D encoder->funcs->late_register(encoder);
+>  		if (ret)
 >=20
 
 --=20
@@ -143,28 +191,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---fu79LGBCjAww2GNcG3CJG9qMokhmQymdl--
+--tPb9yrDQOs5P1ebC5zddAkxb8haPmMQjP--
 
---Mqv5vaJR2e99eAtM62oQWEYLWKgZohVHw
+--v7RW2DcsCGLUOIVDolces6GxYPPcHkN57
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl49cjwACgkQaA3BHVML
-eiPm4gf/Sfv3z3Mg+jhIUBhTQqmEcQE2+ivS2PFGi6EeQtCIrxzXwF6tNH7DIiuW
-1ixBLy36YdtvVnAigng19/YEgNKuZUrCdS7tG0dqZ3GJ0/pu9BR32wga3G9VGAF2
-IOQzaWB4Xs5OEmC8Was6L3mbJ3ZKrVtFgjpuZwAnfNeqltHrxxwzlvmMmt1zRCDY
-axtV2Z4iEHAcX7YlYpkuXyr5P2d/kG50H5ig6ENRAr7rFYH+ayacwRP9ekzQf4aU
-wCUJTez3Z4+Zo589H0kxvgRG+5lmO9DRdyK585+1nudM3RLrKHEEh7hvaeb+U9+0
-+e2uN3HtWTyAbuTeNz1L38Kl9pW5yQ==
-=KW4t
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl49c08ACgkQaA3BHVML
+eiObHQgAm2tyxmwM7jK8Lw1kLceaz9A5To1GTqMULczTe/WZxjyTB8iTRrVlNooq
+hXTCZEWb6It85RuA48yZAAY0jBHE9aBVqAIC/V7O4E8hsaSbxgDHPa1K/Q7qVINq
+PHEpXOvR9KDiJPTWIqdgiAAtSgz4nG5NTqmV/kQ5Dml6sp7dM940v5BQzkHC6+J5
+UG7UBA0HkinWK9xWb3sEu1ZLsQBCGPgvVrJRCQNotClPngJFK6287aENu6SKCXJ3
+3Uv19M+0V7q6T1asOCJVgjMTpv61T3AnY7cXQdtjK8ebMlPXa82wyo+8E4LGQUOO
+3cugYFDJvBz9sOBqLyW3jhshD1Uqnw==
+=lQiv
 -----END PGP SIGNATURE-----
 
---Mqv5vaJR2e99eAtM62oQWEYLWKgZohVHw--
+--v7RW2DcsCGLUOIVDolces6GxYPPcHkN57--
 
---===============0032915031==
+--===============0033638602==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -175,4 +223,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0032915031==--
+--===============0033638602==--
