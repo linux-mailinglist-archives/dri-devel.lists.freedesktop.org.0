@@ -2,57 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF7815594D
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 15:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E2C1559BC
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 15:37:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 228096FCCD;
-	Fri,  7 Feb 2020 14:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 480196FCDA;
+	Fri,  7 Feb 2020 14:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BDA6FCCD;
- Fri,  7 Feb 2020 14:28:37 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id C8012AE3C;
- Fri,  7 Feb 2020 14:28:35 +0000 (UTC)
-Subject: Re: [PATCH v2 1/6] drm: Include the encoder itself in possible_clones
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20200207135950.6655-1-ville.syrjala@linux.intel.com>
- <20200207135950.6655-2-ville.syrjala@linux.intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <d58f13cf-6c9e-9a1c-5cbd-e51e1ad04e80@suse.de>
-Date: Fri, 7 Feb 2020 15:28:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 602766FCDA
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 14:36:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=66b7XSZ892In4dZ1AtrKGUvL65iL8vLWanZ6tyoqMyM=; b=fDjZZd5Te5Rl4u+13tgU7fo1yE
+ t0hdo1JSajVqq/0GyXpgPjWr34xG0ck/qHXuXiA7BaXEPZxkZZvu9kz5/vtschpCjAz7mRdZ4JU5e
+ /t4JvBnn+8BAMawK/EUP+Vg1Ttqw1XX/RAYzuW5B5QxNmYPcryDzcYiYufL2aprt5aRlaTwFRXRuh
+ sM1UBRz6YgGBCjioJvSrIzeD7TRHbIGNodRufiOFereFgTYpnypEcRxgkzhu+SEhiqA+vFvgWfxux
+ GmOh6bF5tlYq2gGIvRAOvc4T2fjbsWcNlW0SZJEIwxKsVgLgGQfdyjIfn3nlg12KrAhyWuEviug7A
+ hZq/uDJg==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:54428
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1j04kb-0006FI-2F; Fri, 07 Feb 2020 15:36:57 +0100
+Subject: Re: [PATCH 2/6] drm: Add drm_simple_encoder_{init,create}()
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ kraxel@redhat.com, sam@ravnborg.org, alexander.deucher@amd.com,
+ emil.velikov@collabora.com
+References: <20200207084135.4524-1-tzimmermann@suse.de>
+ <20200207084135.4524-3-tzimmermann@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <e43dcf9c-e228-dd01-2e55-5ad75804cf79@tronnes.org>
+Date: Fri, 7 Feb 2020 15:36:49 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200207135950.6655-2-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200207084135.4524-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,140 +57,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0572654130=="
+Cc: spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0572654130==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="NRNMFHcHAu1JFNkGCEy4Bn1GY1ahz5z8C"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---NRNMFHcHAu1JFNkGCEy4Bn1GY1ahz5z8C
-Content-Type: multipart/mixed; boundary="PX82Iur8hQLTQLG009xrACH8vrpDDMf9G";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Message-ID: <d58f13cf-6c9e-9a1c-5cbd-e51e1ad04e80@suse.de>
-Subject: Re: [PATCH v2 1/6] drm: Include the encoder itself in possible_clones
-References: <20200207135950.6655-1-ville.syrjala@linux.intel.com>
- <20200207135950.6655-2-ville.syrjala@linux.intel.com>
-In-Reply-To: <20200207135950.6655-2-ville.syrjala@linux.intel.com>
 
---PX82Iur8hQLTQLG009xrACH8vrpDDMf9G
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 07.02.20 um 14:59 schrieb Ville Syrjala:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->=20
-> The docs say possible_clones should always include the encoder itself.
-> Since most drivers don't want to deal with the complexities of cloning
-> let's allow them to set possible_clones=3D0 and instead we'll fix that
-> up in the core.
->=20
-> We can't put this special case into drm_encoder_init() because drivers
-> will have to fill up possible_clones after adding all the relevant
-> encoders. Otherwise they wouldn't know the proper encoder indexes to
-> use. So we'll just do it just before registering the encoders.
->=20
-> TODO: Should we do something similar for possible_crtcs=3D=3D0?
->=20
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-
-May this fixup function should warn iff possible_clones was set to non-0
-by the driver, but the encoder itself is missing. In any case
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
+Den 07.02.2020 09.41, skrev Thomas Zimmermann:
+> The simple-encoder helpers initialize an encoder with an empty
+> implementation. This covers the requirements of most of the existing
+> DRM drivers. A call to drm_simple_encoder_create() allocates and
+> initializes an encoder instance, a call to drm_simple_encoder_init()
+> initializes a pre-allocated instance.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/drm_encoder.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encode=
-r.c
-> index e555281f43d4..f761d9306028 100644
-> --- a/drivers/gpu/drm/drm_encoder.c
-> +++ b/drivers/gpu/drm/drm_encoder.c
-> @@ -66,11 +66,26 @@ static const struct drm_prop_enum_list drm_encoder_=
-enum_list[] =3D {
->  	{ DRM_MODE_ENCODER_DPI, "DPI" },
->  };
-> =20
-> +/*
-> + * For some reason we want the encoder itself included in
-> + * possible_clones. Make life easy for drivers by allowing them
-> + * to leave possible_clones unset if no cloning is possible.
+>  drivers/gpu/drm/drm_encoder.c | 116 ++++++++++++++++++++++++++++++++++
+>  include/drm/drm_encoder.h     |  10 +++
+>  2 files changed, 126 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
+
+<snip>
+
+> +/**
+> + * drm_simple_encoder_create - Allocate and initialize an encoder
+> + * @dev: drm device
+> + * @encoder_type: user visible type of the encoder
+> + * @name: printf style format string for the encoder name, or NULL for
+> + *        default name
+> + *
+> + * Allocates and initialises an encoder that has no further functionality. The
+> + * encoder will be released automatically.
+> + *
+> + * Returns:
+> + * The encoder on success, a pointer-encoder error code on failure.
 > + */
-> +static void fixup_possible_clones(struct drm_device *dev)
+> +struct drm_encoder *drm_simple_encoder_create(struct drm_device *dev,
+> +					      int encoder_type,
+> +					      const char *name, ...)
 > +{
+> +	char *namestr = NULL;
 > +	struct drm_encoder *encoder;
+> +	int ret;
 > +
-> +	drm_for_each_encoder(encoder, dev)
-> +		encoder->possible_clones |=3D drm_encoder_mask(encoder);
+> +	encoder = devm_kzalloc(dev->dev, sizeof(*encoder), GFP_KERNEL);
+
+The encoder can outlive the devres if the device is unbound when
+userspace has open fds, so you can't use devm_ here.
+
+Noralf.
+
+> +	if (!encoder)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	if (name) {
+> +		va_list ap;
+> +
+> +		va_start(ap, name);
+> +		namestr = kvasprintf(GFP_KERNEL, name, ap);
+> +		va_end(ap);
+> +		if (!namestr) {
+> +			ret = -ENOMEM;
+> +			goto err_devm_kfree;
+> +		}
+> +	}
+> +
+> +	ret = __drm_encoder_init(dev, encoder,
+> +				 &drm_simple_encoder_funcs_destroy,
+> +				 encoder_type, namestr);
+> +	if (ret)
+> +		goto err_kfree;
+> +
+> +	return encoder;
+> +
+> +err_kfree:
+> +	if (name)
+> +		kfree(namestr);
+> +err_devm_kfree:
+> +	devm_kfree(dev->dev, encoder);
+> +	return ERR_PTR(ret);
 > +}
+> +EXPORT_SYMBOL(drm_simple_encoder_create);
 > +
->  int drm_encoder_register_all(struct drm_device *dev)
->  {
->  	struct drm_encoder *encoder;
->  	int ret =3D 0;
-> =20
-> +	fixup_possible_clones(dev);
-> +
->  	drm_for_each_encoder(encoder, dev) {
->  		if (encoder->funcs->late_register)
->  			ret =3D encoder->funcs->late_register(encoder);
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---PX82Iur8hQLTQLG009xrACH8vrpDDMf9G--
-
---NRNMFHcHAu1JFNkGCEy4Bn1GY1ahz5z8C
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl49dBMACgkQaA3BHVML
-eiPJoQgAoWTVurP5zhBfaEI9QXN8pMFQ/vg3GXZXtcf7lgssPIDgm9K56aSlvgwV
-Mq9Hv/jTnvgYoZiT8YbKTM2EhZpZEOTeAjqEUT15qoK+MJhcu8fT6MEeNsRYIiLh
-20MkuVcSuPXx5T+YuZltUYfibY+FIL5nyvTHmTF2s2nzu3f+qgQQEsxSiecRy/AU
-bjIcyN0ORHtj53h4uom2xNraBGRMtTkBFbHECQ9zDFLIBV8HTjQB7bl4y1NPd8SW
-QSlX6duaqXh6k1TwGXnIkecaEk6y051Xjea84LGxLl961kp9q3xxaFC0fM+8SOxf
-fwOpuW+8q0CVZXEYO50oRpWpUpDgBw==
-=lewu
------END PGP SIGNATURE-----
-
---NRNMFHcHAu1JFNkGCEy4Bn1GY1ahz5z8C--
-
---===============0572654130==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0572654130==--
