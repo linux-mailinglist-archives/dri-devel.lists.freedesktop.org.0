@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E9D154E83
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2020 23:02:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56259155072
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 03:04:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF1E06FB70;
-	Thu,  6 Feb 2020 22:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3036E581;
+	Fri,  7 Feb 2020 02:04:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 902DD6FB70
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 22:02:37 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id l24so28728pgk.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 14:02:37 -0800 (PST)
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
+ [IPv6:2607:f8b0:4864:20::f44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE8A6E578
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 02:04:16 +0000 (UTC)
+Received: by mail-qv1-xf44.google.com with SMTP id n8so267839qvg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2020 18:04:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=f/k2mGN9MY7NNfoOb4gMqNsjIZIFXh28kOhlDVSQmA0=;
+ b=n54HafII/Lex3YLQXDbmveG7TRPxgfQUwWoNXykBlSczgnFnbEiABU6Nlwne2EnVqZ
+ BLZNg9eH05yf+6HnfQFJWO3Ox35KsJoJtLmFEwLlc7LmqfuMonfkWKrE2MVp0ijf+rlC
+ pgFHFzmYKEZYMyZMpnzqCt5JXY3Du2ndL/p2s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=QZbN+Rw9Wauw1FSQRjx1EufFnK6c8lNge5XZrv7SCxo=;
- b=LEONiLGEAiNqjozFu08+R/h26ttzHPzrpZ6kropyS7QFfJNWzw7LVX189BafyJmZpq
- vK3oGrr5+DrUmqRuVrxkVlAWwz+aU90BoeWiNBHgzZvynnz2M82CYMqfEKlAkP2vbdOa
- zmcfc3lnMrlPR8AeyNbTF5wI8bnuCjb7w6W/iUN4i/6IYiXZg+IR1HsEhcWDgB5H4b9I
- Q6QgC7iUK6q0sSUjOItYGVrJI6WlBrNn5Fr6IRJ6vTlo1UqX3d2VWH5GejnB0AZbOcNe
- mMZYzRINdrk+zxrFQH0yXQe/u/9jRotFCMreo3KWab78us/8gbeZTtOayNn4PUdR9ZC0
- 3ugw==
-X-Gm-Message-State: APjAAAUbINwj9tp3NAs2Oj2Yor4Bdksc+sNy7s+0jBXrgAAoFvJU/tzq
- QogjvTf4fWAUAHn0zukCkp7IVYZkFA==
-X-Google-Smtp-Source: APXvYqzgCtK5jer0WP+jTalui8imMwVqNKHQY63IVhlORAQ77cic7EYV5b0qZ4PiE7a9I22N4V4rIA==
-X-Received: by 2002:aa7:87c5:: with SMTP id i5mr6347609pfo.114.1581026557162; 
- Thu, 06 Feb 2020 14:02:37 -0800 (PST)
-Received: from rob-hp-laptop (63-158-47-182.dia.static.qwest.net.
- [63.158.47.182])
- by smtp.gmail.com with ESMTPSA id e1sm348605pff.188.2020.02.06.14.02.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 14:02:36 -0800 (PST)
-Received: (nullmailer pid 28125 invoked by uid 1000);
- Thu, 06 Feb 2020 22:02:34 -0000
-Date: Thu, 6 Feb 2020 15:02:34 -0700
-From: Rob Herring <robh@kernel.org>
-To: Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: Re: [PATCH v4 3/3] dt-bindings: panel: Convert orisetech, otm8009a to
- json-schema
-Message-ID: <20200206220234.GA28073@bogus>
-References: <20200206133344.724-1-benjamin.gaignard@st.com>
- <20200206133344.724-4-benjamin.gaignard@st.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=f/k2mGN9MY7NNfoOb4gMqNsjIZIFXh28kOhlDVSQmA0=;
+ b=OJWgIbXP78ai6gXJg8v+oSUdLrGPWNAzawLhkSPpMKi0f7q6Vvb1ekJN3woyYP2BTN
+ MMORLZ8SoDcFB/M5LfpTxWc0yldwitqkup1FyW0cXWZznNTASV4DllwgLwrUmYmhDUYO
+ bhlYHOzQsXnvxJp9Y/NOIfq4dxuoIiftuuj9VxUfRDxnRMLyH8MY7nBDRDvRF52MFNv5
+ EQZMtRRkeAi+wqUQsuBldSLIlkj+OVvN0Oo5FIII5YWo19McJtGa2j5aCvr67wuO8if8
+ +zc6WjzqDgX9AYJlzAyv853T4xVybauvOc7Bd53CflRekxzwjCS0s+qt6MiQyUjT3SMB
+ 1CkA==
+X-Gm-Message-State: APjAAAXc0C3OxpqfZjSKLv/XlHk5oivY5dOE7zxt+bx4moMEU6SXyaFo
+ cdofTEk4ea5ThlodvsJaGhBaTUnqo6YJKL+Gv2fbrw==
+X-Google-Smtp-Source: APXvYqy6BPTxmJROJmd8xpRbLnJsPInZlt9zqkAt5bAH9XGkXglHOonteC+kQPoH8wbuH3FDnIt6xkHqcmjd+EAPUBo=
+X-Received: by 2002:ad4:5a48:: with SMTP id ej8mr4977078qvb.187.1581041055375; 
+ Thu, 06 Feb 2020 18:04:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200206133344.724-4-benjamin.gaignard@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200108052337.65916-1-drinkcat@chromium.org>
+ <20200108052337.65916-6-drinkcat@chromium.org>
+ <b58a8cf9-3275-cf89-6dff-596aceeb8000@arm.com>
+ <CANMq1KBcNr=1_poBHrA_SDo_h-5i3e5TMqASEVaDj5LevsRcOQ@mail.gmail.com>
+ <CAPDyKFr4Vz1ihuFQNnhDLEnOs=BZ1n2wzw3CATgPcDXs9g54uA@mail.gmail.com>
+In-Reply-To: <CAPDyKFr4Vz1ihuFQNnhDLEnOs=BZ1n2wzw3CATgPcDXs9g54uA@mail.gmail.com>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Fri, 7 Feb 2020 10:04:04 +0800
+Message-ID: <CANMq1KBCd0wNgVAxAzxBwafHoafPExz07wKFhEWQFViAc0LL1Q@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] drm/panfrost: Add support for multiple power
+ domain support
+To: Ulf Hansson <ulf.hansson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +63,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@st.com>, airlied@linux.ie,
- philippe.cornu@st.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, thierry.reding@gmail.com,
- sam@ravnborg.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ David Airlie <airlied@linux.ie>, Mark Brown <broonie@kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Feb 2020 14:33:44 +0100, Benjamin Gaignard wrote:
-> Convert orisetech,otm8009a to json-schema.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
-> ---
->  .../bindings/display/panel/orisetech,otm8009a.txt  | 23 ----------
->  .../bindings/display/panel/orisetech,otm8009a.yaml | 53 ++++++++++++++++++++++
->  2 files changed, 53 insertions(+), 23 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-> 
+Hi Ulf,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Mon, Jan 27, 2020 at 3:55 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
+>
+> On Fri, 10 Jan 2020 at 02:53, Nicolas Boichat <drinkcat@chromium.org> wrote:
+> >
+> > +Ulf to keep me honest on the power domains
+> >
+> > On Thu, Jan 9, 2020 at 10:08 PM Steven Price <steven.price@arm.com> wrote:
+> > >
+> > > On 08/01/2020 05:23, Nicolas Boichat wrote:
+> > > > When there is a single power domain per device, the core will
+> > > > ensure the power domains are all switched on.
+> > > >
+> > > > However, when there are multiple ones, as in MT8183 Bifrost GPU,
+> > > > we need to handle them in driver code.
+> > > >
+> > > >
+> > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > > > ---
+> > > >
+> > > > The downstream driver we use on chromeos-4.19 currently uses 2
+> > > > additional devices in device tree to accomodate for this [1], but
+> > > > I believe this solution is cleaner.
+> > >
+> > > I'm not sure what is best, but it seems odd to encode this into the Panfrost driver itself - it doesn't have any knowledge of what to do with these power domains. The naming of the domains looks suspiciously like someone thought that e.g. only half of the cores could be powered, but it doesn't look like that was implemented in the chromeos driver linked and anyway that is *meant* to be automatic in the hardware! (I.e. if you only power up one cores in one core stack then the PDC should only enable the power domain for that set of cores).
+> >
+> > This is actually implemented in the Chrome OS driver [1]. IMHO power
+> > domains are a bit confusing [2]:
+> >  i. If there's only 1 power domain in the device, then the core takes
+> > care of power on the domain (based on pm_runtime)
+> >  ii. If there's more than 1 power domain, then the device needs to
+> > link the domains manually.
+> >
+> > So the Chrome OS [1] driver takes approach (i), by creating 3 devices,
+> > each with 1 power domain that is switched on/off automatically using
+> > pm_runtime.
+> >
+> > This patch takes approach (ii) with device links to handle the extra domains.
+> >
+> > I believe the latter is more upstream-friendly, but, as always,
+> > suggestions welcome.
+>
+> Apologies for the late reply. A few comments below.
+
+No worries, than for the helpful reply!
+
+> If the device is partitioned across multiple PM domains (it may need
+> several power rails), then that should be described with the "multi PM
+> domain" approach in the DTS. As in (ii).
+>
+> Using "device links" is however optional, as it may depend on the use
+> case. If all multiple PM domains needs to be powered on/off together,
+> then it's certainly recommended to use device links.
+
+That's the case here, there's no support for turning on/off the
+domains individually.
+
+> However, if the PM domains can be powered on/off independently (one
+> can be on while another is off), then it's probably easier to operate
+> directly with runtime PM, on the returned struct *device from
+> dev_pm_domain_attach_by_id().
+>
+> Also note, there is dev_pm_domain_attach_by_name(), which allows us to
+> specify a name for the PM domain in the DTS, rather than using an
+> index. This may be more future proof to use.
+
+Agree, probably better to have actual names than just "counting" the
+number of domains like I do, especially as we have a compatible struct
+anyway. I'll update the patch.
+
+> [...]
+>
+> Hope this helps.
+>
+> Kind regards
+> Uffe
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
