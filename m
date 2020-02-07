@@ -1,32 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423661553DF
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 09:41:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B337155453
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 10:13:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61B3B6FBC1;
-	Fri,  7 Feb 2020 08:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 551066FBE1;
+	Fri,  7 Feb 2020 09:13:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34E846FBC0;
- Fri,  7 Feb 2020 08:41:42 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 2C5EFB019;
- Fri,  7 Feb 2020 08:41:40 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, kraxel@redhat.com, noralf@tronnes.org,
- sam@ravnborg.org, alexander.deucher@amd.com, emil.velikov@collabora.com
-Subject: [PATCH 6/6] drm/simple-pipe: Use simple encoder
-Date: Fri,  7 Feb 2020 09:41:35 +0100
-Message-Id: <20200207084135.4524-7-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200207084135.4524-1-tzimmermann@suse.de>
-References: <20200207084135.4524-1-tzimmermann@suse.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C300D6FBE0;
+ Fri,  7 Feb 2020 09:13:24 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2020 01:13:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,412,1574150400"; d="scan'208";a="430783854"
+Received: from sgillich-mobl.ger.corp.intel.com (HELO [10.249.38.221])
+ ([10.249.38.221])
+ by fmsmga005.fm.intel.com with ESMTP; 07 Feb 2020 01:13:22 -0800
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <672810c3-4212-0a46-337b-2cb855573fd2@linux.intel.com>
+Date: Fri, 7 Feb 2020 10:13:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,51 +43,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: spice-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The simple-pipe helpers use an empty implementation for the encoder.
-Replace the code with the generic simple encoder.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_simple_kms_helper.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 15fb516ae2d8..e16606b3ee20 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -28,10 +28,6 @@
-  * encoder drivers.
-  */
- 
--static const struct drm_encoder_funcs drm_simple_kms_encoder_funcs = {
--	.destroy = drm_encoder_cleanup,
--};
--
- static enum drm_mode_status
- drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
- 			       const struct drm_display_mode *mode)
-@@ -288,8 +284,8 @@ int drm_simple_display_pipe_init(struct drm_device *dev,
- 		return ret;
- 
- 	encoder->possible_crtcs = drm_crtc_mask(crtc);
--	ret = drm_encoder_init(dev, encoder, &drm_simple_kms_encoder_funcs,
--			       DRM_MODE_ENCODER_NONE, NULL);
-+	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_NONE,
-+				      NULL);
- 	if (ret || !connector)
- 		return ret;
- 
--- 
-2.25.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ZHJtLW1pc2MtZml4ZXMtMjAyMC0wMi0wNzoKRml4ZXMgZm9yIHY1LjY6Ci0gUmV2ZXJ0IGFsbG93
+X2ZiX21vZGlmaWVycyBpbiBzdW40aSwgYXMgaXQgY2F1c2VzIGEgcmVncmVzc2lvbiBmb3IgREUy
+IGFuZCBERTMuCi0gRml4IG51bGwgcG9pbnRlciBkZXJlZiBpbiBkcm1fZHBfbXN0X3Byb2Nlc3Nf
+dXBfcmVxKCkuClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgYmRlZmNhMmQ4ZGMw
+ZjgwYmJlNDllMDhiZjUyYTcxNzE0NjQ5MDcwNjoKCiAgZHJtL3BhbmZyb3N0OiBBZGQgdGhlIHBh
+bmZyb3N0X2dlbV9tYXBwaW5nIGNvbmNlcHQgKDIwMjAtMDEtMjEgMTA6MzI6NTUgLTA2MDApCgph
+cmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5m
+cmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjIHRhZ3MvZHJtLW1pc2MtZml4ZXMtMjAyMC0wMi0w
+NwoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDdlMGNmN2U5OTM2YzQzNThiMDg2MzM1
+N2I5MGFhMTJhZmU2NDg5ZGE6CgogIGRybS9wYW5mcm9zdDogTWFrZSBzdXJlIHRoZSBzaHJpbmtl
+ciBkb2VzIG5vdCByZWNsYWltIHJlZmVyZW5jZWQgQk9zICgyMDIwLTAyLTAzIDExOjIzOjIxICsw
+MDAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQpGaXhlcyBmb3IgdjUuNjoKLSBSZXZlcnQgYWxsb3dfZmJfbW9kaWZpZXJz
+IGluIHN1bjRpLCBhcyBpdCBjYXVzZXMgYSByZWdyZXNzaW9uIGZvciBERTIgYW5kIERFMy4KLSBG
+aXggbnVsbCBwb2ludGVyIGRlcmVmIGluIGRybV9kcF9tc3RfcHJvY2Vzc191cF9yZXEoKS4KCi0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0KQm9yaXMgQnJlemlsbG9uICgxKToKICAgICAgZHJtL3BhbmZyb3N0OiBNYWtlIHN1cmUg
+dGhlIHNocmlua2VyIGRvZXMgbm90IHJlY2xhaW0gcmVmZXJlbmNlZCBCT3MKCkplcm5laiBTa3Jh
+YmVjICgxKToKICAgICAgUmV2ZXJ0ICJkcm0vc3VuNGk6IGRydjogQWxsb3cgZnJhbWVidWZmZXIg
+bW9kaWZpZXJzIGluIG1vZGUgY29uZmlnIgoKSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSAoMSk6CiAg
+ICAgIGRybS9tc3Q6IEZpeCBwb3NzaWJsZSBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgaW4gZHJt
+X2RwX21zdF9wcm9jZXNzX3VwX3JlcSgpCgogZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9w
+b2xvZ3kuYyAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5m
+cm9zdF9kcnYuYyAgICAgICAgICB8IDEgKwogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZy
+b3N0X2dlbS5oICAgICAgICAgIHwgNiArKysrKysKIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9w
+YW5mcm9zdF9nZW1fc2hyaW5rZXIuYyB8IDMgKysrCiBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3Qv
+cGFuZnJvc3Rfam9iLmMgICAgICAgICAgfCA3ICsrKysrKy0KIGRyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW40aV9kcnYuYyAgICAgICAgICAgICAgICB8IDEgLQogNiBmaWxlcyBjaGFuZ2VkLCAxOCBp
+bnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
