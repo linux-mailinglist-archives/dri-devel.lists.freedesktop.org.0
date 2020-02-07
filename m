@@ -1,35 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB27E155645
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 12:02:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D5F155672
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 12:11:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 204336FC39;
-	Fri,  7 Feb 2020 11:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFBDF6FC3D;
+	Fri,  7 Feb 2020 11:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 306086FC39
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 11:02:30 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CBA35295B59;
- Fri,  7 Feb 2020 11:02:28 +0000 (GMT)
-Date: Fri, 7 Feb 2020 12:02:25 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v4 04/11] drm/bridge: synopsys: dw-hdmi: add bus format
- negociation
-Message-ID: <20200207120225.2ea76016@collabora.com>
-In-Reply-To: <20200206191834.6125-5-narmstrong@baylibre.com>
-References: <20200206191834.6125-1-narmstrong@baylibre.com>
- <20200206191834.6125-5-narmstrong@baylibre.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC72F6FC3F;
+ Fri,  7 Feb 2020 11:11:14 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2020 03:11:14 -0800
+X-IronPort-AV: E=Sophos;i="5.70,413,1574150400"; d="scan'208";a="236324213"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2020 03:11:10 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 1/4] Revert "drm/i915: Don't use VBT for detecting DPCD
+ backlight controls"
+In-Reply-To: <20200204192823.111404-2-lyude@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200204192823.111404-1-lyude@redhat.com>
+ <20200204192823.111404-2-lyude@redhat.com>
+Date: Fri, 07 Feb 2020 13:11:07 +0200
+Message-ID: <87r1z61wl0.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,187 +45,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
- Laurent.pinchart@ideasonboard.com, linux-amlogic@lists.infradead.org
+Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Lee Shawn C <shawn.c.lee@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu,  6 Feb 2020 20:18:27 +0100
-Neil Armstrong <narmstrong@baylibre.com> wrote:
+On Tue, 04 Feb 2020, Lyude Paul <lyude@redhat.com> wrote:
+> This reverts commit d2a4bb6f8bc8cf2d788adf7e59b5b52fe3a3333c.
+>
+> So, turns out that this ended up just breaking things. While many
+> laptops incorrectly advertise themselves as supporting PWM backlight
+> controls, they actually will only work with DPCD backlight controls.
+> Unfortunately, it also seems there are a number of systems which
+> advertise DPCD backlight controls in their eDP DPCD but don't actually
+> support them. Talking with some laptop manufacturers has shown it might
+> be possible to probe this support via the EDID (!?!?) but I haven't been
+> able to confirm that this would work on any other manufacturer's
+> systems.
+>
+> So in the mean time, we'll just revert this commit for now and go back
+> to the old way of doing things.
 
-> Add the atomic_get_output_bus_fmts, atomic_get_input_bus_fmts to negociate
+The below sentence does not seem to match the patch:
 
-								^ hooks?
+> Additionally, let's print out an info
+> message into the kernel log so that it's a little more obvious if a
+> system needs DPCD backlight controls enabled through a quirk (which
+> we'll introduce in the next commit).
 
-> the possible output and input formats for the current mode and monitor,
-> and use the negotiated formats in a basic atomic_check callback.
-> 
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+I've pushed the revert to dinq, with the above removed, thanks for the
+patch.
+
+I'll try to look into the rest of the patches soon...
+
+BR,
+Jani.
+
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
 > ---
-
-> +
-> +/* Can return a maximum of 4 possible input formats for an output format */
-> +#define MAX_INPUT_SEL_FORMATS	4
-
-It seems to only be 3 in practice (based on the code) unless I missed
-something.
-
-> +
-> +static u32 *dw_hdmi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +					struct drm_bridge_state *bridge_state,
-> +					struct drm_crtc_state *crtc_state,
-> +					struct drm_connector_state *conn_state,
-> +					u32 output_fmt,
-> +					unsigned int *num_input_fmts)
-> +{
-> +	u32 *input_fmts;
-> +	int i = 0;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> +			     GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	switch (output_fmt) {
-> +	/* 8bit */
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
-> +		break;
-> +	case MEDIA_BUS_FMT_YUV8_1X24:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
-> +		break;
-> +	case MEDIA_BUS_FMT_UYVY8_1X16:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
-> +		break;
-> +
-> +	/* 10bit */
-> +	case MEDIA_BUS_FMT_RGB101010_1X30:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
-> +		break;
-> +	case MEDIA_BUS_FMT_YUV10_1X30:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
-> +		break;
-> +	case MEDIA_BUS_FMT_UYVY10_1X20:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
-> +		break;
-> +
-> +	/* 12bit */
-> +	case MEDIA_BUS_FMT_RGB121212_1X36:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
-> +		break;
-> +	case MEDIA_BUS_FMT_YUV12_1X36:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
-> +		break;
-> +	case MEDIA_BUS_FMT_UYVY12_1X24:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
-> +		break;
-> +
-> +	/* 16bit */
-> +	case MEDIA_BUS_FMT_RGB161616_1X48:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
-> +		break;
-> +	case MEDIA_BUS_FMT_YUV16_1X48:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
-> +		break;
-> +
-> +	/* 420 */
-> +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-> +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-> +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
-> +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
-> +		input_fmts[i++] = output_fmt;
-> +		break;
-> +	}
-> +
-> +	*num_input_fmts = i;
-> +
-> +	if (*num_input_fmts == 0) {
-> +		kfree(input_fmts);
-> +		input_fmts = NULL;
-> +	}
-> +
-> +	return input_fmts;
-> +}
-> +
-> +static int dw_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
-> +				       struct drm_bridge_state *bridge_state,
-> +				       struct drm_crtc_state *crtc_state,
-> +				       struct drm_connector_state *conn_state)
-> +{
-> +	struct dw_hdmi *hdmi = bridge->driver_private;
-> +
-> +	dev_dbg(hdmi->dev, "selected output format %x\n",
-> +			bridge_state->output_bus_cfg.format);
-
-Nit: not aligned on the open parens.
-
-> +
-> +	hdmi->hdmi_data.enc_out_bus_format =
-> +			bridge_state->output_bus_cfg.format;
-> +
-> +	dev_dbg(hdmi->dev, "selected input format %x\n",
-> +			bridge_state->input_bus_cfg.format);
-> +
-> +	hdmi->hdmi_data.enc_in_bus_format =
-> +			bridge_state->input_bus_cfg.format;
-> +
-> +	return 0;
-> +}
-> +
->  static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
+>  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index e86feebef299..48276237b362 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -328,16 +328,15 @@ intel_dp_aux_display_control_capable(struct intel_connector *connector)
+>  int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
 >  {
->  	struct dw_hdmi *hdmi = bridge->driver_private;
-> @@ -2499,6 +2759,9 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
->  	.atomic_reset = drm_atomic_helper_bridge_reset,
->  	.attach = dw_hdmi_bridge_attach,
->  	.detach = dw_hdmi_bridge_detach,
-> +	.atomic_check = dw_hdmi_bridge_atomic_check,
-> +	.atomic_get_output_bus_fmts = dw_hdmi_bridge_atomic_get_output_bus_fmts,
-> +	.atomic_get_input_bus_fmts = dw_hdmi_bridge_atomic_get_input_bus_fmts,
->  	.enable = dw_hdmi_bridge_enable,
->  	.disable = dw_hdmi_bridge_disable,
->  	.mode_set = dw_hdmi_bridge_mode_set,
-> @@ -2963,6 +3226,7 @@ __dw_hdmi_probe(struct platform_device *pdev,
+>  	struct intel_panel *panel = &intel_connector->panel;
+> -	enum intel_backlight_type type =
+> -		to_i915(intel_connector->base.dev)->vbt.backlight.type;
+> +	struct drm_i915_private *dev_priv = to_i915(intel_connector->base.dev);
 >  
->  	hdmi->bridge.driver_private = hdmi;
->  	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
-> +
+>  	if (i915_modparams.enable_dpcd_backlight == 0 ||
+>  	    (i915_modparams.enable_dpcd_backlight == -1 &&
+> -	     !intel_dp_aux_display_control_capable(intel_connector)))
+> +	    dev_priv->vbt.backlight.type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE))
+>  		return -ENODEV;
+>  
+> -	if (type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE)
+> -		DRM_DEBUG_DRIVER("Ignoring VBT backlight type\n");
+> +	if (!intel_dp_aux_display_control_capable(intel_connector))
+> +		return -ENODEV;
+>  
+>  	panel->backlight.setup = intel_dp_aux_setup_backlight;
+>  	panel->backlight.enable = intel_dp_aux_enable_backlight;
 
-Nit: not sure this has to be part of that patch.
-
-Looks good otherwise.
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
->  #ifdef CONFIG_OF
->  	hdmi->bridge.of_node = pdev->dev.of_node;
->  #endif
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
