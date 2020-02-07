@@ -1,36 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B337155453
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 10:13:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5490F1554C6
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 10:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 551066FBE1;
-	Fri,  7 Feb 2020 09:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E9E6FBE9;
+	Fri,  7 Feb 2020 09:34:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C300D6FBE0;
- Fri,  7 Feb 2020 09:13:24 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2020 01:13:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,412,1574150400"; d="scan'208";a="430783854"
-Received: from sgillich-mobl.ger.corp.intel.com (HELO [10.249.38.221])
- ([10.249.38.221])
- by fmsmga005.fm.intel.com with ESMTP; 07 Feb 2020 01:13:22 -0800
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <672810c3-4212-0a46-337b-2cb855573fd2@linux.intel.com>
-Date: Fri, 7 Feb 2020 10:13:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0909D6FBE9
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 09:34:23 +0000 (UTC)
+X-UUID: 806eec9a71c24019be45c0656c9f9297-20200207
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=m74yjQkT2G8gL7JoqJhfpeZ6P0zLpKwVgqiwmutKy3g=; 
+ b=PUFN4niIigJ5y4h9n6/8BFNCnIfv41AI2DNojRUrHJcG0/L3pCWJVbOa8n7ah4u0oGqJELS6wUtwpZQWf1NGfjjTsy4kQg9dIKuR64MEb5FOX+YyZevs/B0Q/QC9NtfU+b6tatMNH5cZ5nqCzjEYNmsXqs6rBH1gPQFSYLXZaYk=;
+X-UUID: 806eec9a71c24019be45c0656c9f9297-20200207
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 638472475; Fri, 07 Feb 2020 17:34:19 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 7 Feb 2020 17:33:30 +0800
+Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 7 Feb 2020 17:31:40 +0800
+Message-ID: <1581068057.28261.0.camel@mtksdaap41>
+Subject: Re: [PATCH v2 1/3] drm/mediatek: exit earlier if failed to register
+ audio driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Tzung-Bi Shih <tzungbi@google.com>
+Date: Fri, 7 Feb 2020 17:34:17 +0800
+In-Reply-To: <20200206102509.1.Ieba8d422486264eb7aaa3aa257620a1b0c74c6db@changeid>
+References: <20200206031752.193298-1-tzungbi@google.com>
+ <20200206102509.1.Ieba8d422486264eb7aaa3aa257620a1b0c74c6db@changeid>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Language: en-US
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,43 +53,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: alsa-devel@alsa-project.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, broonie@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, dgreid@google.com,
+ linux-arm-kernel@lists.infradead.org, cychiang@google.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZHJtLW1pc2MtZml4ZXMtMjAyMC0wMi0wNzoKRml4ZXMgZm9yIHY1LjY6Ci0gUmV2ZXJ0IGFsbG93
-X2ZiX21vZGlmaWVycyBpbiBzdW40aSwgYXMgaXQgY2F1c2VzIGEgcmVncmVzc2lvbiBmb3IgREUy
-IGFuZCBERTMuCi0gRml4IG51bGwgcG9pbnRlciBkZXJlZiBpbiBkcm1fZHBfbXN0X3Byb2Nlc3Nf
-dXBfcmVxKCkuClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgYmRlZmNhMmQ4ZGMw
-ZjgwYmJlNDllMDhiZjUyYTcxNzE0NjQ5MDcwNjoKCiAgZHJtL3BhbmZyb3N0OiBBZGQgdGhlIHBh
-bmZyb3N0X2dlbV9tYXBwaW5nIGNvbmNlcHQgKDIwMjAtMDEtMjEgMTA6MzI6NTUgLTA2MDApCgph
-cmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5m
-cmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjIHRhZ3MvZHJtLW1pc2MtZml4ZXMtMjAyMC0wMi0w
-NwoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDdlMGNmN2U5OTM2YzQzNThiMDg2MzM1
-N2I5MGFhMTJhZmU2NDg5ZGE6CgogIGRybS9wYW5mcm9zdDogTWFrZSBzdXJlIHRoZSBzaHJpbmtl
-ciBkb2VzIG5vdCByZWNsYWltIHJlZmVyZW5jZWQgQk9zICgyMDIwLTAyLTAzIDExOjIzOjIxICsw
-MDAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQpGaXhlcyBmb3IgdjUuNjoKLSBSZXZlcnQgYWxsb3dfZmJfbW9kaWZpZXJz
-IGluIHN1bjRpLCBhcyBpdCBjYXVzZXMgYSByZWdyZXNzaW9uIGZvciBERTIgYW5kIERFMy4KLSBG
-aXggbnVsbCBwb2ludGVyIGRlcmVmIGluIGRybV9kcF9tc3RfcHJvY2Vzc191cF9yZXEoKS4KCi0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0KQm9yaXMgQnJlemlsbG9uICgxKToKICAgICAgZHJtL3BhbmZyb3N0OiBNYWtlIHN1cmUg
-dGhlIHNocmlua2VyIGRvZXMgbm90IHJlY2xhaW0gcmVmZXJlbmNlZCBCT3MKCkplcm5laiBTa3Jh
-YmVjICgxKToKICAgICAgUmV2ZXJ0ICJkcm0vc3VuNGk6IGRydjogQWxsb3cgZnJhbWVidWZmZXIg
-bW9kaWZpZXJzIGluIG1vZGUgY29uZmlnIgoKSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSAoMSk6CiAg
-ICAgIGRybS9tc3Q6IEZpeCBwb3NzaWJsZSBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgaW4gZHJt
-X2RwX21zdF9wcm9jZXNzX3VwX3JlcSgpCgogZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9w
-b2xvZ3kuYyAgICAgICAgICAgIHwgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5m
-cm9zdF9kcnYuYyAgICAgICAgICB8IDEgKwogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZy
-b3N0X2dlbS5oICAgICAgICAgIHwgNiArKysrKysKIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9w
-YW5mcm9zdF9nZW1fc2hyaW5rZXIuYyB8IDMgKysrCiBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3Qv
-cGFuZnJvc3Rfam9iLmMgICAgICAgICAgfCA3ICsrKysrKy0KIGRyaXZlcnMvZ3B1L2RybS9zdW40
-aS9zdW40aV9kcnYuYyAgICAgICAgICAgICAgICB8IDEgLQogNiBmaWxlcyBjaGFuZ2VkLCAxOCBp
-bnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+Hi, Tzung-Bi:
+
+On Thu, 2020-02-06 at 11:17 +0800, Tzung-Bi Shih wrote:
+> Exits earlier if register_audio_driver() returns errors.
+> 
+
+Acked-by: CK Hu <ck.hu@mediatek.com>
+
+> Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> index c79b1f855d89..23c2b0e8693d 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> @@ -1656,7 +1656,7 @@ static const struct hdmi_codec_ops mtk_hdmi_audio_codec_ops = {
+>  	.get_eld = mtk_hdmi_audio_get_eld,
+>  };
+>  
+> -static void mtk_hdmi_register_audio_driver(struct device *dev)
+> +static int mtk_hdmi_register_audio_driver(struct device *dev)
+>  {
+>  	struct hdmi_codec_pdata codec_data = {
+>  		.ops = &mtk_hdmi_audio_codec_ops,
+> @@ -1669,9 +1669,10 @@ static void mtk_hdmi_register_audio_driver(struct device *dev)
+>  					     PLATFORM_DEVID_AUTO, &codec_data,
+>  					     sizeof(codec_data));
+>  	if (IS_ERR(pdev))
+> -		return;
+> +		return PTR_ERR(pdev);
+>  
+>  	DRM_INFO("%s driver bound to HDMI\n", HDMI_CODEC_DRV_NAME);
+> +	return 0;
+>  }
+>  
+>  static int mtk_drm_hdmi_probe(struct platform_device *pdev)
+> @@ -1705,7 +1706,11 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> -	mtk_hdmi_register_audio_driver(dev);
+> +	ret = mtk_hdmi_register_audio_driver(dev);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to register audio driver: %d\n", ret);
+> +		return ret;
+> +	}
+>  
+>  	hdmi->bridge.funcs = &mtk_hdmi_bridge_funcs;
+>  	hdmi->bridge.of_node = pdev->dev.of_node;
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
