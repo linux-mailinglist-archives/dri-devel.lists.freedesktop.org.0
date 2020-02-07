@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A7C155BFB
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 17:40:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45D2155BFF
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 17:41:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB3D6E0DC;
-	Fri,  7 Feb 2020 16:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD5446EAF7;
+	Fri,  7 Feb 2020 16:41:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
  [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 456BD6EACD
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 16:40:45 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id c9so3437016wrw.8
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 08:40:45 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 857ED6EAF7
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 16:41:51 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id k11so3428306wrd.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 08:41:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=RMiR/TOQE5lC5iLlhM8qP8jgnJsFfB+LRSeJJe7mo0M=;
- b=MP3qmtXPLXhMSfGIuN3LXlDYnXwyLP9/ZzmC6hmUwSsohnbRFjzFLe6cydo+2DjiZz
- O9QuRBieXizr4yx3OF2bCYcvBommETNkxUp12BE2EWOCOBfTNyrR5wHolyrHrshMligF
- a5JhQCpYH9lKy4P6/yldpXQUvkZR4hkzQ+AnI=
+ :content-disposition:in-reply-to;
+ bh=hXraVBZybctSIz7nAzSlqbrdDzV8mhwLcEOWTzuchK8=;
+ b=L716g/LiLX4GAYep8bx9JN2K0zRX+0zdV45FvIzbECwgsb785wVWFDVjXnmKnpnGGg
+ al8GYLys4/2LJ6ChNe+bhB9dpIpufJC2FO8iC8tXKNRVm+I00qjeC7y1n7fYEHud5OfG
+ AFvflsx38GwyVBDUcAms1AlOEwqrYD97DXsd0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RMiR/TOQE5lC5iLlhM8qP8jgnJsFfB+LRSeJJe7mo0M=;
- b=Cdw0VnwM+r2UxF5jfT+ylyRFVZ2K39mLZA5iIeRDqCTJnoCxcia26PT0Ay5bWcHlB6
- QYH6mJbYY1T2lgxVoUzu0Huvc0sqHJhIbcyHyLjTz0Ku0hkp4z5aXuk2shSZVQldDZrc
- oaeYuurvUXg3Znvr5O87WRaOPw2kFokuqLFDbCpPjQf/K4Bw5n1Ae3/zJ8Ae2kwrrRAZ
- lVAF8K1126ZfL8GTcb37LJldffRsTQrlrHNaVDVR/QiTlzfxquOqG8eS/81XuxQqOrGN
- eFPilhOnCeWHaiO+9GRBNn09OZewTAaBSqZ7V6j7yvWKYTTYK7Me0/w0WHQI+TgbFGnL
- PfrA==
-X-Gm-Message-State: APjAAAV3bAIPrrPlILFbXq08m1mvWYtPhbhczawdvEk5/OkZws8IymXw
- CHvObiwCcfz9xR3AyFKmnDmT5g==
-X-Google-Smtp-Source: APXvYqwxFkequdp64zvNb6hMXD4Z/vGeNgUX3L6RUFEGGqSVEVJgAT5QaFMw+1E1gqPSu4lDhEkoxA==
-X-Received: by 2002:a5d:4a48:: with SMTP id v8mr5580186wrs.42.1581093643848;
- Fri, 07 Feb 2020 08:40:43 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=hXraVBZybctSIz7nAzSlqbrdDzV8mhwLcEOWTzuchK8=;
+ b=GYjVdP8uMDaGRSxa0R8+honq3dPmmjWEONedQWEXvK5B2x018JBqTi/wSJTPwNX5tv
+ pQR6X1erT8XIuVcoz8MOcQVfz04GLJMRm3avNXGdKZFNnuPistKTOEziWwUMyWFlradV
+ XVk5ahKOtgZYKtWxG1s3uHzEGM647LFbIu6Hd+PYUICi1QDlmnWUvgxw4/C5TRLsdMH5
+ T4d9r7fuSQ1s9VtWjLazx0EU3mykYk6f383G+/5xFHUAb+20A9rbNTo8kkBjPdhJZiYW
+ mTub6PXLStajpCylTBWX7ofbtz+aFjxTptudzqEgkScoBX0IkdB8klEs6E7/pyPUqy1X
+ M4BA==
+X-Gm-Message-State: APjAAAWtxYJBLD4uwhC5HzgMi8UEeJGkCDuskIyjd7Rs1Wm1g44YaGKZ
+ ZzBNWthDa/Z7Ssm3/9YzNYKJ+A==
+X-Google-Smtp-Source: APXvYqzEH8wRgTPCMnHm56a2S+htFw5eE9F9ydeClHJAmvKakIY67ahVGugR61HeAvH0lUkIqCGTcA==
+X-Received: by 2002:a5d:5706:: with SMTP id a6mr5598761wrv.108.1581093710223; 
+ Fri, 07 Feb 2020 08:41:50 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t1sm4122661wma.43.2020.02.07.08.40.42
+ by smtp.gmail.com with ESMTPSA id l131sm4040027wmf.31.2020.02.07.08.41.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 08:40:43 -0800 (PST)
-Date: Fri, 7 Feb 2020 17:40:41 +0100
+ Fri, 07 Feb 2020 08:41:49 -0800 (PST)
+Date: Fri, 7 Feb 2020 17:41:47 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 1/6] drm: Include the encoder itself in
- possible_clones
-Message-ID: <20200207164041.GO43062@phenom.ffwll.local>
-References: <20200207135950.6655-1-ville.syrjala@linux.intel.com>
- <20200207135950.6655-2-ville.syrjala@linux.intel.com>
- <d58f13cf-6c9e-9a1c-5cbd-e51e1ad04e80@suse.de>
- <20200207145001.GI13686@intel.com>
- <20200207162751.GJ43062@phenom.ffwll.local>
- <20200207163447.GN13686@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] drm/udl: Clear struct drm_connector_funcs.dpms
+Message-ID: <20200207164147.GP43062@phenom.ffwll.local>
+References: <20200207141602.4760-1-tzimmermann@suse.de>
+ <20200207141602.4760-2-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200207163447.GN13686@intel.com>
+In-Reply-To: <20200207141602.4760-2-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,81 +65,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: airlied@linux.ie, sam@ravnborg.org, emil.l.velikov@gmail.com,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com, sean@poorly.run
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2020 at 06:34:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 07, 2020 at 05:27:51PM +0100, Daniel Vetter wrote:
-> > On Fri, Feb 07, 2020 at 04:50:01PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Fri, Feb 07, 2020 at 03:28:35PM +0100, Thomas Zimmermann wrote:
-> > > > Hi
-> > > > =
+On Fri, Feb 07, 2020 at 03:16:02PM +0100, Thomas Zimmermann wrote:
+> Atomic modesetting doesn't use struct drm_connector_funcs.dpms and
+> the set function, drm_helper_connector_dpms(), wouldn't support it
+> anyway. So keep the pointer to NULL.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> > > > Am 07.02.20 um 14:59 schrieb Ville Syrjala:
-> > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > =
+On both patches:
 
-> > > > > The docs say possible_clones should always include the encoder it=
-self.
-> > > > > Since most drivers don't want to deal with the complexities of cl=
-oning
-> > > > > let's allow them to set possible_clones=3D0 and instead we'll fix=
- that
-> > > > > up in the core.
-> > > > > =
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> > > > > We can't put this special case into drm_encoder_init() because dr=
-ivers
-> > > > > will have to fill up possible_clones after adding all the relevant
-> > > > > encoders. Otherwise they wouldn't know the proper encoder indexes=
- to
-> > > > > use. So we'll just do it just before registering the encoders.
-> > > > > =
-
-> > > > > TODO: Should we do something similar for possible_crtcs=3D=3D0?
-> > > > > =
-
-> > > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > =
-
-> > > > May this fixup function should warn iff possible_clones was set to =
-non-0
-> > > > by the driver, but the encoder itself is missing.
-> > > =
-
-> > > Yeah, I guess we could do that.
-> > =
-
-> > +1 on that, should catch some bugs at least.
-> > =
-
-> > Also can you pls fix up the kerneldoc for drm_encoder.possible_clones,
-> > defacto this now means that 0 is a totally fine setting.
-> =
-
-> Sure.
-> =
-
-> And for possible_crtcs I was thinking similar concept:
-> =
-
-> for_each_encoder()
-> 	if (possible_crtc =3D=3D 0)
-> 		possible_crtcs =3D all_crtc_mask;
-
-A quick grep shows that I think we can risk enforcing this. If that turns
-out to be a misconception we can always go back to the fixup approach if
-possible_crtcs is 0. But unlike possible_clones I think for possible_crtcs
-the fixup-less approach looks possible at least.
+I just suggested a drm_mode_config_validate() to Ville in his patch
+series, which runs in drm_dev_register(). Maybe we could add a check for
+that for atomic drivers? It's a bit a game of whack-a-mole otherwise :-)
 -Daniel
--- =
 
+> ---
+>  drivers/gpu/drm/udl/udl_connector.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
+> index e9671d38b4a0..0afdfb0d1fe1 100644
+> --- a/drivers/gpu/drm/udl/udl_connector.c
+> +++ b/drivers/gpu/drm/udl/udl_connector.c
+> @@ -109,7 +109,6 @@ static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
+>  };
+>  
+>  static const struct drm_connector_funcs udl_connector_funcs = {
+> -	.dpms = drm_helper_connector_dpms,
+>  	.reset = drm_atomic_helper_connector_reset,
+>  	.detect = udl_detect,
+>  	.fill_modes = drm_helper_probe_single_connector_modes,
+> -- 
+> 2.25.0
+> 
+
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
