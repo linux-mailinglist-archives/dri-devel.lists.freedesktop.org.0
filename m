@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7207F156110
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 23:14:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4053156111
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 23:14:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8426E129;
-	Fri,  7 Feb 2020 22:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6CB6FDCE;
+	Fri,  7 Feb 2020 22:14:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B0DD6FDD5
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 22:14:05 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id j4so496058pgi.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 14:14:05 -0800 (PST)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0BC6E129
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 22:14:06 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id z7so479398pgk.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 14:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9DoniFgOsba35P22TkUkSubfYRoGPlLL/6X6QFgtqrI=;
- b=Oq85KJV8yEreLCgRn5kjJYL/gZBDXmOww51kAYuOHVuEcp/HGukBQdHq/h41onZyyp
- j1DEQeU66frfcGY7KzBHsO+fYH1EEtSC+tayHNEoGeC62WDSDsTyLIxRSQoCfjiILxTZ
- OYlOKKeT1Wq6SFCj8JEJGE22JpNMa7bj/bJnLHMPkKKZPQJPiAvVWAJE0WX3coKVf6xj
- Bh5DpmK81F1N868TJWU4o9p7/9ofth88DoyQ9+vltXo0tEosBhZVBjVRSLVJHLUH0hX+
- hLNJruTRkgteRdSjosaUjY5PZmbESq3C1TJyoCrtOzdjtLgN87mMF+45uuGRgQeOqbqq
- 1m4g==
+ bh=ur/SzPw7VPp+Sa+NbQ1F+qItoizup1NgBtTWHGBliss=;
+ b=lnQaTmPkTF07VABN5DeYMoE7tBzMmQ06awH2STNGjWvh4hzAMjPk7Um3Mn42zBDsQz
+ 9z50u29IJd1HvW5UfW+erknVPhLDwrOJPdM2k2MGg87JyQDeB2P9oj7YByRRNIs1CTDO
+ oYjghMx1tfwt1/0Uk0A3tfy3A/PqEveqN3Zmo0lcahqsowvRjS678rEKNmnHTpqXdcqP
+ L8mOgk+/x1tk3sdxOlVwxcbZnwxX/YgD/Q5meW6xEfhSSxUfMNLF9UxBHkAk0AxqOGyq
+ DLnn5WF07RKG0KwTGv9T3ZgU+MJq6dd91BWMaJ6wsx8cIwiMR4gdqnp8aCjJo06Cbg1E
+ qhjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9DoniFgOsba35P22TkUkSubfYRoGPlLL/6X6QFgtqrI=;
- b=fEHbIeVANDyDvJG+555beZVZg27OtB5GpIxEbTz8ewQNhYETTEGbLkGc3M3ZXkBeld
- K+QNyV7csQcCfUQ0fZhmZ1gNa2RF4x/m69Zrd61iSzCaYWLeBCEyIwhNQaJjj51T1Mh8
- 3slzvzoz3W5wsR/Fq0blYTlIXjy3la257lcRvSrrO5PaZpFG7jGAJDZ+POLK6uPHqBDK
- Fc/M/JE71e64ylAgV9HSjp09j1WMIV881Yhn3FO6d6fh311I0Z2fNeBd7ylRmnBYkTpf
- nz9pI3liqj3iEFTnwAOrqu5GoEwCVgjO4SYryMpRpFW0FvbPBwsUHsJ1lj8RVXu/uwZN
- /gvw==
-X-Gm-Message-State: APjAAAVDzR5fu2ycMBGaztTXJMVMopnzq2vMFbbgcEJNLf28FE5cJZHl
- klYZy9vLc9EgRQB2xIebd6PloVFD
-X-Google-Smtp-Source: APXvYqzov+5sayAgWVBuBm4liW9aUVN730zu4aVg70v4uI7ACdghpDbQkZqzM0Jh/pPxE2rI/tAreQ==
-X-Received: by 2002:a63:e54c:: with SMTP id z12mr1276708pgj.415.1581113643935; 
- Fri, 07 Feb 2020 14:14:03 -0800 (PST)
+ bh=ur/SzPw7VPp+Sa+NbQ1F+qItoizup1NgBtTWHGBliss=;
+ b=Ph6vkK/hNO1IP78JiKUxp//0Z/OlTgFKBzXmxUGwPSMxP0pZXNJSDvmJxixp5zZv8/
+ MgwqgoCREPcCwbNrb3KmD5F4nkgSKGCo+90bXiLlgdLNroVj3G7beDO+qv8rlRuEAg26
+ zs29neh+0yZgT+7XrTrKNOD1M0/roCo3a6+Zk84oMBDEaAKycfjxSEJ/RNaoW4ntX/Go
+ E5N+FuJNE8XPb4CACCX+CJc2QQ03KxtJF7ZycWH6I4+qL+o3yNE6JzkalsKm0ZJB03x8
+ UrfRUGVuIB8o70Z409HeaknVxKcQ3cyRIzVnNCUFjSt3OXsT8gwelGTKPORUGRyOLh68
+ xMig==
+X-Gm-Message-State: APjAAAUtZjD5n1x0jHvsf4an2pXIJyxGrR8O/P+DKZ0zhZo7NmRNKUL6
+ gcOhkzZN1pe9CfQ75E+SA5+zKC1B
+X-Google-Smtp-Source: APXvYqzKkjrRph2SqQ+rPy/sESNsoGIzbTKXvyIscKfs6ClKiUcwi/c8unypdRf8hwUwvc4aWV34xg==
+X-Received: by 2002:a63:aa09:: with SMTP id e9mr1371686pgf.354.1581113645617; 
+ Fri, 07 Feb 2020 14:14:05 -0800 (PST)
 Received: from olv0.mtv.corp.google.com
  ([2620:15c:202:201:9649:82d6:f889:b307])
- by smtp.gmail.com with ESMTPSA id t65sm3899043pfd.178.2020.02.07.14.14.02
+ by smtp.gmail.com with ESMTPSA id t65sm3899043pfd.178.2020.02.07.14.14.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 14:14:02 -0800 (PST)
+ Fri, 07 Feb 2020 14:14:04 -0800 (PST)
 From: Chia-I Wu <olvaffe@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/3] drm/virtio: remove the global pending_notify state
-Date: Fri,  7 Feb 2020 14:13:57 -0800
-Message-Id: <20200207221359.187340-2-olvaffe@gmail.com>
+Subject: [PATCH v2 2/3] drm/virtio: never kick in virtio_gpu_queue_ctrl_sgs
+Date: Fri,  7 Feb 2020 14:13:58 -0800
+Message-Id: <20200207221359.187340-3-olvaffe@gmail.com>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
 In-Reply-To: <20200207221359.187340-1-olvaffe@gmail.com>
 References: <20200206192214.86818-1-olvaffe@gmail.com>
@@ -74,90 +74,196 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call virtqueue_kick_prepare once in virtio_gpu_enable_notify, not
-whenever a command is added.  This should be more efficient since
-the intention is to batch commands.
+virtio_gpu_queue_ctrl_sgs queues only.  virtio_gpu_commit_ctrl must
+be explicitly called.  This however means that we need to grab the
+spinlock twice.
 
 Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h |  1 -
- drivers/gpu/drm/virtio/virtgpu_vq.c  | 34 ++++++++++++++++++----------
- 2 files changed, 22 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_vq.c | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index d278c8c50f394..d3fcc25068132 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -178,7 +178,6 @@ struct virtio_gpu_device {
- 	bool vqs_ready;
- 
- 	bool disable_notify;
--	bool pending_notify;
- 
- 	struct ida	resource_ida;
- 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index cc02fc4bab2a5..0c9be2142ba1a 100644
+index 0c9be2142ba1a..d76b24f2b2bff 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -367,16 +367,13 @@ static void virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
+@@ -367,13 +367,7 @@ static void virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
  
  	trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf));
  
--	notify = virtqueue_kick_prepare(vq);
-+	if (!vgdev->disable_notify)
-+		notify = virtqueue_kick_prepare(vq);
- 
+-	if (!vgdev->disable_notify)
+-		notify = virtqueue_kick_prepare(vq);
+-
  	spin_unlock(&vgdev->ctrlq.qlock);
- 
--	if (notify) {
--		if (vgdev->disable_notify)
--			vgdev->pending_notify = true;
--		else
--			virtqueue_notify(vq);
--	}
-+	if (notify)
-+		virtqueue_notify(vq);
+-
+-	if (notify)
+-		virtqueue_notify(vq);
  }
  
  static void virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
-@@ -432,6 +429,23 @@ static void virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
- 	}
+@@ -434,6 +428,9 @@ static void virtio_gpu_commit_ctrl(struct virtio_gpu_device *vgdev)
+ 	struct virtqueue *vq = vgdev->ctrlq.vq;
+ 	bool notify;
+ 
++	if (vgdev->disable_notify)
++		return;
++
+ 	spin_lock(&vgdev->ctrlq.qlock);
+ 	notify = virtqueue_kick_prepare(vq);
+ 	spin_unlock(&vgdev->ctrlq.qlock);
+@@ -525,6 +522,7 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
+ 	cmd_p->height = cpu_to_le32(params->height);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++	virtio_gpu_commit_ctrl(vgdev);
+ 	bo->created = true;
  }
  
-+static void virtio_gpu_commit_ctrl(struct virtio_gpu_device *vgdev)
-+{
-+	struct virtqueue *vq = vgdev->ctrlq.vq;
-+	bool notify;
-+
-+	spin_lock(&vgdev->ctrlq.qlock);
-+	notify = virtqueue_kick_prepare(vq);
-+	spin_unlock(&vgdev->ctrlq.qlock);
-+
-+	/* Do not call virtqueue_notify with the lock held because
-+	 * virtio_gpu_dequeue_ctrl_func may contend for the lock if an irq is
-+	 * generated while we are in virtqueue_notify.
-+	 */
-+	if (notify)
-+		virtqueue_notify(vq);
-+}
-+
- void virtio_gpu_disable_notify(struct virtio_gpu_device *vgdev)
- {
- 	vgdev->disable_notify = true;
-@@ -440,11 +454,7 @@ void virtio_gpu_disable_notify(struct virtio_gpu_device *vgdev)
- void virtio_gpu_enable_notify(struct virtio_gpu_device *vgdev)
- {
- 	vgdev->disable_notify = false;
--
--	if (!vgdev->pending_notify)
--		return;
--	vgdev->pending_notify = false;
--	virtqueue_notify(vgdev->ctrlq.vq);
+@@ -541,6 +539,7 @@ void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
+ 	cmd_p->resource_id = cpu_to_le32(resource_id);
+ 
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
 +	virtio_gpu_commit_ctrl(vgdev);
  }
  
- static void virtio_gpu_queue_ctrl_buffer(struct virtio_gpu_device *vgdev,
+ static void virtio_gpu_cmd_resource_inval_backing(struct virtio_gpu_device *vgdev,
+@@ -557,6 +556,7 @@ static void virtio_gpu_cmd_resource_inval_backing(struct virtio_gpu_device *vgde
+ 	cmd_p->resource_id = cpu_to_le32(resource_id);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+@@ -579,6 +579,7 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+ 	cmd_p->r.y = cpu_to_le32(y);
+ 
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
+@@ -600,6 +601,7 @@ void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
+ 	cmd_p->r.y = cpu_to_le32(y);
+ 
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+@@ -632,6 +634,7 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 	cmd_p->r.y = cpu_to_le32(y);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ static void
+@@ -655,6 +658,7 @@ virtio_gpu_cmd_resource_attach_backing(struct virtio_gpu_device *vgdev,
+ 	vbuf->data_size = sizeof(*ents) * nents;
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ static void virtio_gpu_cmd_get_display_info_cb(struct virtio_gpu_device *vgdev,
+@@ -787,6 +791,7 @@ int virtio_gpu_cmd_get_display_info(struct virtio_gpu_device *vgdev)
+ 	vgdev->display_info_pending = true;
+ 	cmd_p->type = cpu_to_le32(VIRTIO_GPU_CMD_GET_DISPLAY_INFO);
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++	virtio_gpu_commit_ctrl(vgdev);
+ 	return 0;
+ }
+ 
+@@ -810,6 +815,7 @@ int virtio_gpu_cmd_get_capset_info(struct virtio_gpu_device *vgdev, int idx)
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_GET_CAPSET_INFO);
+ 	cmd_p->capset_index = cpu_to_le32(idx);
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++	virtio_gpu_commit_ctrl(vgdev);
+ 	return 0;
+ }
+ 
+@@ -885,6 +891,7 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
+ 	cmd_p->capset_version = cpu_to_le32(version);
+ 	*cache_p = cache_ent;
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++	virtio_gpu_commit_ctrl(vgdev);
+ 
+ 	return 0;
+ }
+@@ -912,6 +919,7 @@ int virtio_gpu_cmd_get_edids(struct virtio_gpu_device *vgdev)
+ 		cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_GET_EDID);
+ 		cmd_p->scanout = cpu_to_le32(scanout);
+ 		virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++		virtio_gpu_commit_ctrl(vgdev);
+ 	}
+ 
+ 	return 0;
+@@ -932,6 +940,7 @@ void virtio_gpu_cmd_context_create(struct virtio_gpu_device *vgdev, uint32_t id,
+ 	strncpy(cmd_p->debug_name, name, sizeof(cmd_p->debug_name) - 1);
+ 	cmd_p->debug_name[sizeof(cmd_p->debug_name) - 1] = 0;
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void virtio_gpu_cmd_context_destroy(struct virtio_gpu_device *vgdev,
+@@ -946,6 +955,7 @@ void virtio_gpu_cmd_context_destroy(struct virtio_gpu_device *vgdev,
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_CTX_DESTROY);
+ 	cmd_p->hdr.ctx_id = cpu_to_le32(id);
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void virtio_gpu_cmd_context_attach_resource(struct virtio_gpu_device *vgdev,
+@@ -964,7 +974,7 @@ void virtio_gpu_cmd_context_attach_resource(struct virtio_gpu_device *vgdev,
+ 	cmd_p->hdr.ctx_id = cpu_to_le32(ctx_id);
+ 	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
+-
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void virtio_gpu_cmd_context_detach_resource(struct virtio_gpu_device *vgdev,
+@@ -983,6 +993,7 @@ void virtio_gpu_cmd_context_detach_resource(struct virtio_gpu_device *vgdev,
+ 	cmd_p->hdr.ctx_id = cpu_to_le32(ctx_id);
+ 	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void
+@@ -1014,6 +1025,7 @@ virtio_gpu_cmd_resource_create_3d(struct virtio_gpu_device *vgdev,
+ 	cmd_p->flags = cpu_to_le32(params->flags);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++	virtio_gpu_commit_ctrl(vgdev);
+ 	bo->created = true;
+ }
+ 
+@@ -1047,6 +1059,7 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 	cmd_p->level = cpu_to_le32(level);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
+@@ -1073,6 +1086,7 @@ void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
+ 	cmd_p->level = cpu_to_le32(level);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
+@@ -1096,6 +1110,7 @@ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
+ 	cmd_p->size = cpu_to_le32(data_size);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
++	virtio_gpu_commit_ctrl(vgdev);
+ }
+ 
+ int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
 -- 
 2.25.0.341.g760bfbb309-goog
 
