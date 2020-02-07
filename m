@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC424156112
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 23:14:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8144F156121
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 23:23:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEE416FDD4;
-	Fri,  7 Feb 2020 22:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304536E11D;
+	Fri,  7 Feb 2020 22:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72E686FDD2
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 22:14:08 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id y8so285552pll.13
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 14:14:08 -0800 (PST)
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 947CD6E11D
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 22:23:21 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id z16so1198350iod.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 14:23:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=H1aYk6pA/0oV6YB3ZGdZS1qSqoRA0MUVCv2ZITjDmh8=;
- b=Qpwt3J0lyEVv9GDYTZrMkZEJuGd99Wb4Ww0ttnXbS7nhqntIy/KyBiUERGMUlJNZBu
- 08nzQ/63uxZXi2ZRo9eiRDHHdzWlRSK3K/kxg7EZcadcZXmXVJ6/X6BpNR70gQHj3Wc7
- VfQYPDx84XcFdk5JmdlFzcUuF+3iif2YJuR7hDu4Qb3L/M0A1AmfG+LmRzAR4aInSM4X
- WcSrB5kVQZtan1EU/OVmu64IL6XGgRrVLVs052iG/JUhsyBPYeThsC4yW/QytL/mYkfM
- vr0YrrTMP46V4kQSruuvYONG+PHb7XnzDHgyKuIYn2RfpfkSZbR87613joVV1eo58bbc
- nGTg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sA6Js53ORlW0uVroiulnh1uXWYTp9YqkDTc5J8Q3Y80=;
+ b=oD20NaGRXCxfmOO29KILik0LnyWvEfMe/oRPWp0S6BaoKHejPstu0OI/TEU1rSZerg
+ C1f0Uz6yB2KNiqQEYyxxQRNSayvchb37akVJzk+0wjiON8gzLtgJ83al1Fc4dD8Pyg7t
+ OXvXDaWF4S1tiVPDy/hlfBS9qomdERcRNQapPZy/ykuolviQ1ehXkSDKp8ThaZNE4uDC
+ 0ZIj+7Y8Y6VEFDezL7gRufAiOivY6hCEGI0gpmWTC9/bGgmyiaTXlgAsKkLnzRbznECt
+ 3+nG9MYhdVAu4t7PqWm6W6GnnmaJ91v1O+SAWKOwdGccOf1G2+R0dAdbJgqWie7YYc1S
+ Evpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=H1aYk6pA/0oV6YB3ZGdZS1qSqoRA0MUVCv2ZITjDmh8=;
- b=fuiRKPtOzW9XqalqWmDowYiilEd48pSohUSaZaxggyWAC0y6/nhvhOLS7U/yawVhwq
- lPEJxCJMTMF0ZPP+vtBQMDmSnBZj57RDJlhZsmhv89JCbki748L5+rLWLXYRmDDD8wnz
- sVarCdIbo5E4WGJXT/KAY/FrUoKp+UpS1rmbd/U7xCDHUbA43ali0E682uJxef4sGjMb
- wljuMzCqsDYRjRVJsD+fAL+8Ci7hVvL3C8cqDI0I2IG33PfBXLdHIGbXeOiLgB9Ga0Dr
- nam0dH/YxkrR6WoZ8Gvl3W07KgXX3JlI9PfRPgv6306Tqp8kI0SCJUeCiacmjAP1XJOc
- r3qg==
-X-Gm-Message-State: APjAAAVGg1ryZVng8AwRESilLcPPF4PqjBPce8TR0GfMJ6ZlylwL9xX5
- Ak9xHeXxtM6nO/SeqSKO3qAAQ5YJ
-X-Google-Smtp-Source: APXvYqwdMxm3JfFYG+NitYkUVnPE5sE+0s8eAjXPk6iuSL+hkuQFRcsnXUv50H2+yYC9CbWKEOA6cQ==
-X-Received: by 2002:a17:902:b598:: with SMTP id
- a24mr517170pls.262.1581113647512; 
- Fri, 07 Feb 2020 14:14:07 -0800 (PST)
-Received: from olv0.mtv.corp.google.com
- ([2620:15c:202:201:9649:82d6:f889:b307])
- by smtp.gmail.com with ESMTPSA id t65sm3899043pfd.178.2020.02.07.14.14.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 14:14:05 -0800 (PST)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/virtio: remove the global disable_notify state
-Date: Fri,  7 Feb 2020 14:13:59 -0800
-Message-Id: <20200207221359.187340-4-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-In-Reply-To: <20200207221359.187340-1-olvaffe@gmail.com>
-References: <20200206192214.86818-1-olvaffe@gmail.com>
- <20200207221359.187340-1-olvaffe@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sA6Js53ORlW0uVroiulnh1uXWYTp9YqkDTc5J8Q3Y80=;
+ b=HnVtft0fNtsZnvJD4KAIAaGC23eqqT/5wr4qEZgpU8iCIaAjK8ULl+IRxFwELRAgOU
+ mrJh4g7gamsN8VdG0iz/ip8/iOxoiMtil45duef4A36o0vqGJu0ZCSW9ixPLadCaKlhF
+ kwpRoch6pl+hWwbPoA2A0bbBuE6ILxnkr1OvdgFD6o73wjIdCrveZ4Aj+cforJBidUm8
+ cXodJgOdF12t3CQAfrnvvxHyHvru9PcDdqSV3EMgX9vdX/p5FQ9M0I1XLgrSalXpnYhM
+ fcJwknlx4x9HVl7gKYc1TUyCKbBL/qOEs0znjgXN2Y6eUIQ8g9dcj5yNrpv0R88+v/Go
+ LKMw==
+X-Gm-Message-State: APjAAAXLcZ+vnHg7gQU9kDUItVqL/NoYvydrKCvc+OsVVWtRDKIBnJ2K
+ lKcRIz5SH0McJCsNpMZRC54fBXFmNpRuWwhBJh8/sKQ7
+X-Google-Smtp-Source: APXvYqxxbxrtQDsGUBf6HkL2+KQF/kay9kSPxnWdpBBCcbtstKDMp5KcBfja3QQqwXsG9bfbXU+jRTEQmSMx8DgT1yE=
+X-Received: by 2002:a5d:8146:: with SMTP id f6mr595935ioo.93.1581114200829;
+ Fri, 07 Feb 2020 14:23:20 -0800 (PST)
 MIME-Version: 1.0
+References: <20200207074638.26386-1-kraxel@redhat.com>
+ <20200207074638.26386-5-kraxel@redhat.com>
+In-Reply-To: <20200207074638.26386-5-kraxel@redhat.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 7 Feb 2020 14:23:09 -0800
+Message-ID: <CAPaKu7Rc2jerNzDL7P4B1A2_a9z99B8LTHDi3OZnYxdw7+sLcg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/virtio: move virtio_gpu_mem_entry
+ initialization to new function
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,245 +62,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com, gurchetansingh@chromium.org
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The global disable_notify state does not scale well when we start
-using it in more places and when there are multiple threads.  Allow
-individual commands to be added to the virtqueue but not committed.
+On Thu, Feb 6, 2020 at 11:46 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> Introduce new virtio_gpu_object_shmem_init() helper function which will
+> create the virtio_gpu_mem_entry array, containing the backing storage
+> information for the host.  For the most path this just moves code from
+> virtio_gpu_object_attach().
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.h    |  4 +-
+>  drivers/gpu/drm/virtio/virtgpu_object.c | 55 ++++++++++++++++++++++++-
+>  drivers/gpu/drm/virtio/virtgpu_vq.c     | 51 ++---------------------
+>  3 files changed, 60 insertions(+), 50 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index d37ddd7644f6..6c78c77a2afc 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -71,6 +71,7 @@ struct virtio_gpu_object {
+>
+>         struct sg_table *pages;
+>         uint32_t mapped;
+> +
+>         bool dumb;
+>         bool created;
+>  };
+> @@ -280,7 +281,8 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+>                                 uint32_t x, uint32_t y);
+>  int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
+>                              struct virtio_gpu_object *obj,
+> -                            struct virtio_gpu_fence *fence);
+> +                            struct virtio_gpu_mem_entry *ents,
+> +                            unsigned int nents);
+>  int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
+>  int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
+>  void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index bce2b3d843fe..8870ee23ff2b 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -121,6 +121,51 @@ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+>         return &bo->base.base;
+>  }
+>
+> +static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+> +                                       struct virtio_gpu_object *bo,
+> +                                       struct virtio_gpu_mem_entry **ents,
+> +                                       unsigned int *nents)
+> +{
+> +       bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
+> +       struct scatterlist *sg;
+> +       int si, ret;
+> +
+> +       ret = drm_gem_shmem_pin(&bo->base.base);
+> +       if (ret < 0)
+> +               return -EINVAL;
+> +
+> +       bo->pages = drm_gem_shmem_get_sg_table(&bo->base.base);
+> +       if (!bo->pages) {
+> +               drm_gem_shmem_unpin(&bo->base.base);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (use_dma_api) {
+> +               bo->mapped = dma_map_sg(vgdev->vdev->dev.parent,
+> +                                       bo->pages->sgl, bo->pages->nents,
+> +                                       DMA_TO_DEVICE);
+> +               *nents = bo->mapped;
+> +       } else {
+> +               *nents = bo->pages->nents;
+> +       }
+> +
+> +       *ents = kmalloc_array(*nents, sizeof(struct virtio_gpu_mem_entry),
+> +                             GFP_KERNEL);
+> +       if (!(*ents)) {
+> +               DRM_ERROR("failed to allocate ent list\n");
+> +               return -ENOMEM;
+> +       }
+> +
+> +       for_each_sg(bo->pages->sgl, sg, *nents, si) {
+> +               (*ents)[si].addr = cpu_to_le64(use_dma_api
+> +                                              ? sg_dma_address(sg)
+> +                                              : sg_phys(sg));
+> +               (*ents)[si].length = cpu_to_le32(sg->length);
+> +               (*ents)[si].padding = 0;
+> +       }
+> +       return 0;
+> +}
+> +
+>  int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>                              struct virtio_gpu_object_params *params,
+>                              struct virtio_gpu_object **bo_ptr,
+> @@ -129,6 +174,8 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>         struct virtio_gpu_object_array *objs = NULL;
+>         struct drm_gem_shmem_object *shmem_obj;
+>         struct virtio_gpu_object *bo;
+> +       struct virtio_gpu_mem_entry *ents;
+> +       unsigned int nents;
+>         int ret;
+>
+>         *bo_ptr = NULL;
+> @@ -165,7 +212,13 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>                                                objs, fence);
+>         }
+>
+> -       ret = virtio_gpu_object_attach(vgdev, bo, NULL);
+> +       ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+> +       if (ret != 0) {
+> +               virtio_gpu_free_object(&shmem_obj->base);
+> +               return ret;
+> +       }
+> +
+> +       ret = virtio_gpu_object_attach(vgdev, bo, ents, nents);
+>         if (ret != 0) {
+>                 virtio_gpu_free_object(&shmem_obj->base);
+>                 return ret;
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> index 87c439156151..8360f7338209 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> @@ -1086,56 +1086,11 @@ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
+>
+>  int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
+nit: why do we keep this wrapper function?
 
-The naming conventions are
+Series is
 
-  virtio_gpu_cmd_foo -> add foo and commit
-  virtio_gpu_add_bar -> add bar but do not commit
+  Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 
-virtio_gpu_{disable,enable}_notify is replaced by
-virtio_gpu_commit_ctrl.
-
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 42 +++++++++++++++++++++-----
- drivers/gpu/drm/virtio/virtgpu_plane.c | 10 +++---
- drivers/gpu/drm/virtio/virtgpu_vq.c    | 25 +++------------
- 3 files changed, 42 insertions(+), 35 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index d3fcc25068132..2365f196f3169 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -177,8 +177,6 @@ struct virtio_gpu_device {
- 	struct kmem_cache *vbufs;
- 	bool vqs_ready;
- 
--	bool disable_notify;
--
- 	struct ida	resource_ida;
- 
- 	wait_queue_head_t resp_wq;
-@@ -256,6 +254,9 @@ void virtio_gpu_array_put_free_work(struct work_struct *work);
- /* virtio vg */
- int virtio_gpu_alloc_vbufs(struct virtio_gpu_device *vgdev);
- void virtio_gpu_free_vbufs(struct virtio_gpu_device *vgdev);
-+
-+void virtio_gpu_commit_ctrl(struct virtio_gpu_device *vgdev);
-+
- void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_object *bo,
- 				    struct virtio_gpu_object_params *params,
-@@ -263,20 +264,48 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_fence *fence);
- void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
- 				   uint32_t resource_id);
--void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
-+
-+void virtio_gpu_add_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 					uint64_t offset,
- 					uint32_t width, uint32_t height,
- 					uint32_t x, uint32_t y,
- 					struct virtio_gpu_object_array *objs,
- 					struct virtio_gpu_fence *fence);
--void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
-+
-+static inline void
-+virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
-+				   uint64_t offset,
-+				   uint32_t width, uint32_t height,
-+				   uint32_t x, uint32_t y,
-+				   struct virtio_gpu_object_array *objs,
-+				   struct virtio_gpu_fence *fence)
-+{
-+	virtio_gpu_add_transfer_to_host_2d(vgdev, offset, width, height, x, y,
-+					   objs, fence);
-+	virtio_gpu_commit_ctrl(vgdev);
-+}
-+
-+void virtio_gpu_add_resource_flush(struct virtio_gpu_device *vgdev,
- 				   uint32_t resource_id,
- 				   uint32_t x, uint32_t y,
- 				   uint32_t width, uint32_t height);
--void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
-+
-+void virtio_gpu_add_set_scanout(struct virtio_gpu_device *vgdev,
- 				uint32_t scanout_id, uint32_t resource_id,
- 				uint32_t width, uint32_t height,
- 				uint32_t x, uint32_t y);
-+
-+static inline void
-+virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
-+			   uint32_t scanout_id, uint32_t resource_id,
-+			   uint32_t width, uint32_t height,
-+			   uint32_t x, uint32_t y)
-+{
-+	virtio_gpu_add_set_scanout(vgdev, scanout_id, resource_id,
-+				   width, height, x, y);
-+	virtio_gpu_commit_ctrl(vgdev);
-+}
-+
- int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
- 			     struct virtio_gpu_object *obj,
- 			     struct virtio_gpu_fence *fence);
-@@ -332,9 +361,6 @@ void virtio_gpu_dequeue_ctrl_func(struct work_struct *work);
- void virtio_gpu_dequeue_cursor_func(struct work_struct *work);
- void virtio_gpu_dequeue_fence_func(struct work_struct *work);
- 
--void virtio_gpu_disable_notify(struct virtio_gpu_device *vgdev);
--void virtio_gpu_enable_notify(struct virtio_gpu_device *vgdev);
--
- /* virtio_gpu_display.c */
- void virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
- void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index ac42c84d2d7f2..448ee01cce026 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -122,7 +122,7 @@ static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
- 		return;
- 	virtio_gpu_array_add_obj(objs, &bo->base.base);
- 
--	virtio_gpu_cmd_transfer_to_host_2d(vgdev, off, w, h, x, y,
-+	virtio_gpu_add_transfer_to_host_2d(vgdev, off, w, h, x, y,
- 					   objs, NULL);
- }
- 
-@@ -154,8 +154,6 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
- 	if (!drm_atomic_helper_damage_merged(old_state, plane->state, &rect))
- 		return;
- 
--	virtio_gpu_disable_notify(vgdev);
--
- 	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
- 	if (bo->dumb)
- 		virtio_gpu_update_dumb_bo(vgdev, plane->state, &rect);
-@@ -173,7 +171,7 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
- 			  plane->state->src_h >> 16,
- 			  plane->state->src_x >> 16,
- 			  plane->state->src_y >> 16);
--		virtio_gpu_cmd_set_scanout(vgdev, output->index,
-+		virtio_gpu_add_set_scanout(vgdev, output->index,
- 					   bo->hw_res_handle,
- 					   plane->state->src_w >> 16,
- 					   plane->state->src_h >> 16,
-@@ -181,13 +179,13 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
- 					   plane->state->src_y >> 16);
- 	}
- 
--	virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle,
-+	virtio_gpu_add_resource_flush(vgdev, bo->hw_res_handle,
- 				      rect.x1,
- 				      rect.y1,
- 				      rect.x2 - rect.x1,
- 				      rect.y2 - rect.y1);
- 
--	virtio_gpu_enable_notify(vgdev);
-+	virtio_gpu_commit_ctrl(vgdev);
- }
- 
- static int virtio_gpu_cursor_prepare_fb(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index d76b24f2b2bff..4f2c24c4ddc3f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -423,14 +423,11 @@ static void virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
- 	}
- }
- 
--static void virtio_gpu_commit_ctrl(struct virtio_gpu_device *vgdev)
-+void virtio_gpu_commit_ctrl(struct virtio_gpu_device *vgdev)
- {
- 	struct virtqueue *vq = vgdev->ctrlq.vq;
- 	bool notify;
- 
--	if (vgdev->disable_notify)
--		return;
--
- 	spin_lock(&vgdev->ctrlq.qlock);
- 	notify = virtqueue_kick_prepare(vq);
- 	spin_unlock(&vgdev->ctrlq.qlock);
-@@ -443,17 +440,6 @@ static void virtio_gpu_commit_ctrl(struct virtio_gpu_device *vgdev)
- 		virtqueue_notify(vq);
- }
- 
--void virtio_gpu_disable_notify(struct virtio_gpu_device *vgdev)
--{
--	vgdev->disable_notify = true;
--}
--
--void virtio_gpu_enable_notify(struct virtio_gpu_device *vgdev)
--{
--	vgdev->disable_notify = false;
--	virtio_gpu_commit_ctrl(vgdev);
--}
--
- static void virtio_gpu_queue_ctrl_buffer(struct virtio_gpu_device *vgdev,
- 					 struct virtio_gpu_vbuffer *vbuf)
- {
-@@ -559,7 +545,7 @@ static void virtio_gpu_cmd_resource_inval_backing(struct virtio_gpu_device *vgde
- 	virtio_gpu_commit_ctrl(vgdev);
- }
- 
--void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
-+void virtio_gpu_add_set_scanout(struct virtio_gpu_device *vgdev,
- 				uint32_t scanout_id, uint32_t resource_id,
- 				uint32_t width, uint32_t height,
- 				uint32_t x, uint32_t y)
-@@ -579,10 +565,9 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
- 	cmd_p->r.y = cpu_to_le32(y);
- 
- 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
--	virtio_gpu_commit_ctrl(vgdev);
- }
- 
--void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
-+void virtio_gpu_add_resource_flush(struct virtio_gpu_device *vgdev,
- 				   uint32_t resource_id,
- 				   uint32_t x, uint32_t y,
- 				   uint32_t width, uint32_t height)
-@@ -601,10 +586,9 @@ void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
- 	cmd_p->r.y = cpu_to_le32(y);
- 
- 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
--	virtio_gpu_commit_ctrl(vgdev);
- }
- 
--void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
-+void virtio_gpu_add_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 					uint64_t offset,
- 					uint32_t width, uint32_t height,
- 					uint32_t x, uint32_t y,
-@@ -634,7 +618,6 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 	cmd_p->r.y = cpu_to_le32(y);
- 
- 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
--	virtio_gpu_commit_ctrl(vgdev);
- }
- 
- static void
--- 
-2.25.0.341.g760bfbb309-goog
-
+>                              struct virtio_gpu_object *obj,
+> -                            struct virtio_gpu_fence *fence)
+> +                            struct virtio_gpu_mem_entry *ents,
+> +                            unsigned int nents)
+>  {
+> -       bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
+> -       struct virtio_gpu_mem_entry *ents;
+> -       struct scatterlist *sg;
+> -       int si, nents, ret;
+> -
+> -       if (WARN_ON_ONCE(!obj->created))
+> -               return -EINVAL;
+> -       if (WARN_ON_ONCE(obj->pages))
+> -               return -EINVAL;
+> -
+> -       ret = drm_gem_shmem_pin(&obj->base.base);
+> -       if (ret < 0)
+> -               return -EINVAL;
+> -
+> -       obj->pages = drm_gem_shmem_get_sg_table(&obj->base.base);
+> -       if (obj->pages == NULL) {
+> -               drm_gem_shmem_unpin(&obj->base.base);
+> -               return -EINVAL;
+> -       }
+> -
+> -       if (use_dma_api) {
+> -               obj->mapped = dma_map_sg(vgdev->vdev->dev.parent,
+> -                                        obj->pages->sgl, obj->pages->nents,
+> -                                        DMA_TO_DEVICE);
+> -               nents = obj->mapped;
+> -       } else {
+> -               nents = obj->pages->nents;
+> -       }
+> -
+> -       /* gets freed when the ring has consumed it */
+> -       ents = kmalloc_array(nents, sizeof(struct virtio_gpu_mem_entry),
+> -                            GFP_KERNEL);
+> -       if (!ents) {
+> -               DRM_ERROR("failed to allocate ent list\n");
+> -               return -ENOMEM;
+> -       }
+> -
+> -       for_each_sg(obj->pages->sgl, sg, nents, si) {
+> -               ents[si].addr = cpu_to_le64(use_dma_api
+> -                                           ? sg_dma_address(sg)
+> -                                           : sg_phys(sg));
+> -               ents[si].length = cpu_to_le32(sg->length);
+> -               ents[si].padding = 0;
+> -       }
+> -
+>         virtio_gpu_cmd_resource_attach_backing(vgdev, obj->hw_res_handle,
+> -                                              ents, nents,
+> -                                              fence);
+> +                                              ents, nents, NULL);
+>         return 0;
+>  }
+>
+> --
+> 2.18.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
