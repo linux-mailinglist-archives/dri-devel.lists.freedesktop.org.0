@@ -2,54 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722EE157154
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 09:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAE115714F
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 09:59:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7316EB87;
-	Mon, 10 Feb 2020 08:59:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAEF76E94C;
+	Mon, 10 Feb 2020 08:59:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
- [IPv6:2607:f8b0:4864:20::944])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 292FB6FCCD
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 14:26:17 +0000 (UTC)
-Received: by mail-ua1-x944.google.com with SMTP id c7so946176uaf.5
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 06:26:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Mx9ECjfNlENLsB8AuDhvIZ40Y4vAEl7vLu8G7oMl5Mw=;
- b=RVsKo6amiSr5Aqo29IMdZvq4NC3MIh2yKZrItj3W3BKh7ZRwBATHvr4XIgGq+HWW0y
- 1Fk/SH5nrIHDirlwzfet3RgfBhucXkS0+hipka6wEoWpsnCFCbGNtUIgbjjHHEGIbrgG
- YDhyvQT+oFOomZzdKEhLZiCck97MtYsh4EToH3bkWu2QIGpPMr1vfCLcKgqcGdCIW8x+
- R0PhxilGs2b1/vLxsndT/aPTEIROcvMQ0qFs7PwgR5awpgkEs9kN0TUgtcVAwxSNLa8N
- 4Gmi8Rb40AgftqM7q6WG4peMXB/XUM6ZJJ8cELLN/QEwf8p6eCOxOm/yvv4kiWYM4nci
- zvlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Mx9ECjfNlENLsB8AuDhvIZ40Y4vAEl7vLu8G7oMl5Mw=;
- b=ce44nMNulsGOqny3FpfbgU1MoX0yVkZxoAJGw6VYdF4ZfZBPJQHYye92B9egrG7xy9
- OsLAXdlnuHLAyGHATMNkkgRjrF+WBlbvjdJ+QFOYzDcx4ZkKsarVfmGQsrTqBEy7KBVl
- bo7dFC2/2CRRktg/gsMH+EhAy29AruKr8jDnEajbr5VzYs1VbkqC7Zuu2JxJ9KXEHVBA
- DyoTaE9nMN/+ToGUDWIuHiXeKY9UJ4brTziCdiqIv0gyo1QktWT9TmIxrXAtW5qfgNRi
- EWRzGJIzEZ8JeLf3Z9pVGRq8R2Ghum6dkm5Hm7CIqVBiGPK7pj8SZxvm9W2m8nr83iy0
- 2CHA==
-X-Gm-Message-State: APjAAAUEwD9FAoO+hMTgR5ASPtqC0rh4jcOS4zvQ1ZyUsRUusJCIi9sx
- TkttMJp0jGIb5vfNhBgwWdNrw0tJGudQNpEpUW4lbQ==
-X-Google-Smtp-Source: APXvYqw82mjBwreczPiQ8M1VhMO9zp9ILdm/YdrZXThljZ80bt7p7iJEl0CFjYXuJ6z5wNz1z6zuf+PRYxSRmbRmNSw=
-X-Received: by 2002:ab0:7802:: with SMTP id x2mr4808449uaq.100.1581085576006; 
- Fri, 07 Feb 2020 06:26:16 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0203489D99
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 15:59:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 582151FB;
+ Fri,  7 Feb 2020 07:59:54 -0800 (PST)
+Received: from [10.37.12.229] (unknown [10.37.12.229])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2FC4D3F68E;
+ Fri,  7 Feb 2020 07:59:43 -0800 (PST)
+Subject: Re: [PATCH v2 1/4] PM / EM: add devices to Energy Model
+To: Quentin Perret <qperret@google.com>
+References: <20200206134640.11367-1-lukasz.luba@arm.com>
+ <20200206134640.11367-2-lukasz.luba@arm.com>
+ <20200207120430.GA242912@google.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <8599944e-160b-c9a9-7cb9-1b88b09c675b@arm.com>
+Date: Fri, 7 Feb 2020 15:59:42 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <20200207052627.130118-6-drinkcat@chromium.org>
-In-Reply-To: <20200207052627.130118-6-drinkcat@chromium.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 7 Feb 2020 15:25:40 +0100
-Message-ID: <CAPDyKFoz0gUkoofWkd6dFuOkRWqeeCDrv84UHyYYowAAgTiitw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] drm/panfrost: Add support for multiple power
- domains
-To: Nicolas Boichat <drinkcat@chromium.org>
+In-Reply-To: <20200207120430.GA242912@google.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 10 Feb 2020 08:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,277 +44,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: nm@ti.com, juri.lelli@redhat.com, daniel.lezcano@linaro.org,
+ peterz@infradead.org, viresh.kumar@linaro.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ bsegall@google.com, alyssa.rosenzweig@collabora.com, Morten.Rasmussen@arm.com,
+ amit.kucheria@verdurent.com, lorenzo.pieralisi@arm.com,
+ vincent.guittot@linaro.org, khilman@kernel.org, agross@kernel.org,
+ b.zolnierkie@samsung.com, steven.price@arm.com, cw00.choi@samsung.com,
+ mingo@redhat.com, linux-imx@nxp.com, rui.zhang@intel.com, mgorman@suse.de,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ s.hauer@pengutronix.de, rostedt@goodmis.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ Chris.Redpath@arm.com, linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, airlied@linux.ie, javi.merino@arm.com,
+ tomeu.vizoso@collabora.com, sboyd@kernel.org, shawnguo@kernel.org,
+ rjw@rjwysocki.net, linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+ sudeep.holla@arm.com, patrick.bellasi@matbug.net, ionela.voinescu@arm.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 7 Feb 2020 at 06:27, Nicolas Boichat <drinkcat@chromium.org> wrote:
->
-> When there is a single power domain per device, the core will
-> ensure the power domain is switched on (so it is technically
-> equivalent to having not power domain specified at all).
->
-> However, when there are multiple domains, as in MT8183 Bifrost
-> GPU, we need to handle them in driver code.
->
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+Hi Quentin,
 
-Besides a minor nitpick, feel free to add:
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Thank you for the review, please find my comments below.
 
-Kind regards
-Uffe
+On 2/7/20 12:04 PM, Quentin Perret wrote:
+> On Thursday 06 Feb 2020 at 13:46:37 (+0000), lukasz.luba@arm.com wrote:
+>>   2. Core APIs
+>> @@ -70,14 +72,16 @@ CONFIG_ENERGY_MODEL must be enabled to use the EM framework.
+>>   Drivers are expected to register performance domains into the EM framework by
+>>   calling the following API::
+>>   
+>> -  int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
+>> -			      struct em_data_callback *cb);
+>> +  int em_register_perf_domain(struct device *dev, unsigned int nr_states,
+>> +		struct em_data_callback *cb, cpumask_t *cpus);
+>>   
+>> -Drivers must specify the CPUs of the performance domains using the cpumask
+>> +Drivers must specify the device pointer of the performance domains as first
+> 
+> I find this sentence a little odd no?
 
->
-> ---
->
-> The downstream driver we use on chromeos-4.19 currently uses 2
-> additional devices in device tree to accomodate for this [1], but
-> I believe this solution is cleaner.
->
-> [1] https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/chromeos-4.19/drivers/gpu/arm/midgard/platform/mediatek/mali_kbase_runtime_pm.c#31
->
-> v4:
->  - Match the exact power domain names as specified in the compatible
->    struct, instead of just matching the number of power domains.
->    [Review: Ulf Hansson]
->  - Dropped print and reordered function [Review: Steven Price]
->  - nits: Run through latest version of checkpatch:
->    - Use WARN instead of BUG_ON.
->    - Drop braces for single expression if block.
-> v3:
->  - Use the compatible matching data to specify the number of power
->    domains. Note that setting 0 or 1 in num_pm_domains is equivalent
->    as the core will handle these 2 cases in the exact same way
->    (automatically, without driver intervention), and there should
->    be no adverse consequence in this case (the concern is about
->    switching on only some power domains and not others).
->
->  drivers/gpu/drm/panfrost/panfrost_device.c | 97 ++++++++++++++++++++--
->  drivers/gpu/drm/panfrost/panfrost_device.h | 11 +++
->  drivers/gpu/drm/panfrost/panfrost_drv.c    |  2 +
->  3 files changed, 102 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index 3720d50f6d9f965..8136babd3ba9935 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -5,6 +5,7 @@
->  #include <linux/clk.h>
->  #include <linux/reset.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
->  #include <linux/regulator/consumer.h>
->
->  #include "panfrost_device.h"
-> @@ -120,6 +121,79 @@ static void panfrost_regulator_fini(struct panfrost_device *pfdev)
->                         pfdev->regulators);
->  }
->
-> +static void panfrost_pm_domain_fini(struct panfrost_device *pfdev)
-> +{
-> +       int i;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(pfdev->pm_domain_devs); i++) {
-> +               if (!pfdev->pm_domain_devs[i])
-> +                       break;
-> +
-> +               if (pfdev->pm_domain_links[i])
-> +                       device_link_del(pfdev->pm_domain_links[i]);
-> +
-> +               dev_pm_domain_detach(pfdev->pm_domain_devs[i], true);
-> +       }
-> +}
-> +
-> +static int panfrost_pm_domain_init(struct panfrost_device *pfdev)
-> +{
-> +       int err;
-> +       int i, num_domains;
-> +
-> +       num_domains = of_count_phandle_with_args(pfdev->dev->of_node,
-> +                                                "power-domains",
-> +                                                "#power-domain-cells");
-> +
-> +       /*
-> +        * Single domain is handled by the core, and, if only a single power
-> +        * the power domain is requested, the property is optional.
-> +        */
-> +       if (num_domains < 2 && pfdev->comp->num_pm_domains < 2)
-> +               return 0;
-> +
-> +       if (num_domains != pfdev->comp->num_pm_domains) {
-> +               dev_err(pfdev->dev,
-> +                       "Incorrect number of power domains: %d provided, %d needed\n",
-> +                       num_domains, pfdev->comp->num_pm_domains);
-> +               return -EINVAL;
-> +       }
-> +
-> +       if (WARN(num_domains > ARRAY_SIZE(pfdev->pm_domain_devs),
-> +                       "Too many supplies in compatible structure.\n"))
+Agree, this needs to be redefined.
 
-Nitpick:
-Not sure this deserves a WARN. Perhaps a regular dev_err() is sufficient.
+> 
+>>   argument, and provide a callback function returning <frequency, power> tuples
+>> -for each capacity state. The callback function provided by the driver is free
+>> +for each performance state. The callback function provided by the driver is free
+>>   to fetch data from any relevant location (DT, firmware, ...), and by any mean
+>> -deemed necessary. See Section 3. for an example of driver implementing this
+>> +deemed necessary. For other devices than CPUs the last argumant must be set to
+> 
+> s/argumant/argument
 
-> +               return -EINVAL;
-> +
-> +       for (i = 0; i < num_domains; i++) {
-> +               pfdev->pm_domain_devs[i] =
-> +                       dev_pm_domain_attach_by_name(pfdev->dev,
-> +                                       pfdev->comp->pm_domain_names[i]);
-> +               if (IS_ERR_OR_NULL(pfdev->pm_domain_devs[i])) {
-> +                       err = PTR_ERR(pfdev->pm_domain_devs[i]) ? : -ENODATA;
-> +                       pfdev->pm_domain_devs[i] = NULL;
-> +                       dev_err(pfdev->dev,
-> +                               "failed to get pm-domain %s(%d): %d\n",
-> +                               pfdev->comp->pm_domain_names[i], i, err);
-> +                       goto err;
-> +               }
-> +
-> +               pfdev->pm_domain_links[i] = device_link_add(pfdev->dev,
-> +                               pfdev->pm_domain_devs[i], DL_FLAG_PM_RUNTIME |
-> +                               DL_FLAG_STATELESS | DL_FLAG_RPM_ACTIVE);
-> +               if (!pfdev->pm_domain_links[i]) {
-> +                       dev_err(pfdev->pm_domain_devs[i],
-> +                               "adding device link failed!\n");
-> +                       err = -ENODEV;
-> +                       goto err;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +
-> +err:
-> +       panfrost_pm_domain_fini(pfdev);
-> +       return err;
-> +}
-> +
->  int panfrost_device_init(struct panfrost_device *pfdev)
->  {
->         int err;
-> @@ -150,37 +224,43 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->                 goto err_out1;
->         }
->
-> +       err = panfrost_pm_domain_init(pfdev);
-> +       if (err)
-> +               goto err_out2;
-> +
->         res = platform_get_resource(pfdev->pdev, IORESOURCE_MEM, 0);
->         pfdev->iomem = devm_ioremap_resource(pfdev->dev, res);
->         if (IS_ERR(pfdev->iomem)) {
->                 dev_err(pfdev->dev, "failed to ioremap iomem\n");
->                 err = PTR_ERR(pfdev->iomem);
-> -               goto err_out2;
-> +               goto err_out3;
->         }
->
->         err = panfrost_gpu_init(pfdev);
->         if (err)
-> -               goto err_out2;
-> +               goto err_out3;
->
->         err = panfrost_mmu_init(pfdev);
->         if (err)
-> -               goto err_out3;
-> +               goto err_out4;
->
->         err = panfrost_job_init(pfdev);
->         if (err)
-> -               goto err_out4;
-> +               goto err_out5;
->
->         err = panfrost_perfcnt_init(pfdev);
->         if (err)
-> -               goto err_out5;
-> +               goto err_out6;
->
->         return 0;
-> -err_out5:
-> +err_out6:
->         panfrost_job_fini(pfdev);
-> -err_out4:
-> +err_out5:
->         panfrost_mmu_fini(pfdev);
-> -err_out3:
-> +err_out4:
->         panfrost_gpu_fini(pfdev);
-> +err_out3:
-> +       panfrost_pm_domain_fini(pfdev);
->  err_out2:
->         panfrost_reset_fini(pfdev);
->  err_out1:
-> @@ -196,6 +276,7 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
->         panfrost_job_fini(pfdev);
->         panfrost_mmu_fini(pfdev);
->         panfrost_gpu_fini(pfdev);
-> +       panfrost_pm_domain_fini(pfdev);
->         panfrost_reset_fini(pfdev);
->         panfrost_regulator_fini(pfdev);
->         panfrost_clk_fini(pfdev);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index c9468bc5573ac9d..c30c719a805940a 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -21,6 +21,7 @@ struct panfrost_perfcnt;
->
->  #define NUM_JOB_SLOTS 3
->  #define MAX_REGULATORS 2
-> +#define MAX_PM_DOMAINS 3
->
->  struct panfrost_features {
->         u16 id;
-> @@ -61,6 +62,13 @@ struct panfrost_compatible {
->         /* Supplies count and names. */
->         int num_supplies;
->         const char * const *supply_names;
-> +       /*
-> +        * Number of power domains required, note that values 0 and 1 are
-> +        * handled identically, as only values > 1 need special handling.
-> +        */
-> +       int num_pm_domains;
-> +       /* Only required if num_pm_domains > 1. */
-> +       const char * const *pm_domain_names;
->  };
->
->  struct panfrost_device {
-> @@ -73,6 +81,9 @@ struct panfrost_device {
->         struct clk *bus_clock;
->         struct regulator_bulk_data regulators[MAX_REGULATORS];
->         struct reset_control *rstc;
-> +       /* pm_domains for devices with more than one. */
-> +       struct device *pm_domain_devs[MAX_PM_DOMAINS];
-> +       struct device_link *pm_domain_links[MAX_PM_DOMAINS];
->
->         struct panfrost_features features;
->         const struct panfrost_compatible *comp;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 4d08507526239f2..a6e162236d67fdf 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -663,6 +663,8 @@ const char * const default_supplies[] = { "mali" };
->  static const struct panfrost_compatible default_data = {
->         .num_supplies = ARRAY_SIZE(default_supplies),
->         .supply_names = default_supplies,
-> +       .num_pm_domains = 1, /* optional */
-> +       .pm_domain_names = NULL,
->  };
->
->  static const struct of_device_id dt_match[] = {
-> --
-> 2.25.0.341.g760bfbb309-goog
->
+true
+
+> 
+>> +NULL. Only for CPUfreq drivers it is obligatory to specify the cpumask.
+> 
+> Please note that as of today nothing mandates the caller to be a CPUFreq
+> driver -- it could be anything in theory. I'd say 'only for CPU devices'
+> instead.
+
+Good point, I will change it into 'only for CPU devices'.
+
+> 
+> <snip>
+>> @@ -24,51 +27,65 @@ struct em_cap_state {
+>>   
+>>   /**
+>>    * em_perf_domain - Performance domain
+>> - * @table:		List of capacity states, in ascending order
+>> - * @nr_cap_states:	Number of capacity states
+>> - * @cpus:		Cpumask covering the CPUs of the domain
+>> + * @table:		List of performance states, in ascending order
+>> + * @nr_perf_states:	Number of performance states
+>> + * @priv:		In case of EM for CPU device it is a Cpumask
+>> + *			covering the CPUs of the domain
+> 
+> Could you turn @priv back into 'unsigned long priv[0];' and keep the
+> allocation as it is today ? That is, append the cpumask to the struct.
+> 
+> This empty pointer for non-CPU devices is just wasted space, and pointer
+> chasing isn't good for your caches. Given that you pre-allocate the pd
+> in em_create_pd() you could just have a special case for CPUs there I
+> suppose. And _is_cpu_em() will have to check the bus like you did in v1.
+
+OK, I will change it to 'unsigned long priv[0];'. The argument of stall 
+because of missing cpumask when we probably already missed for 'em_pd'
+in the scheduler code, is good for me.
+
+> 
+>>    *
+>> - * A "performance domain" represents a group of CPUs whose performance is
+>> - * scaled together. All CPUs of a performance domain must have the same
+>> - * micro-architecture. Performance domains often have a 1-to-1 mapping with
+>> - * CPUFreq policies.
+>> + * In case of CPU device, a "performance domain" represents a group of CPUs
+>> + * whose performance is scaled together. All CPUs of a performance domain
+>> + * must have the same micro-architecture. Performance domains often have
+>> + * a 1-to-1 mapping with CPUFreq policies.
+>> + * In case of other devices the 'priv' field is unused.
+>>    */
+>>   struct em_perf_domain {
+>> -	struct em_cap_state *table;
+>> -	int nr_cap_states;
+>> -	unsigned long cpus[0];
+>> +	struct em_perf_state *table;
+>> +	int nr_perf_states;
+>> +	void *priv;
+>>   };
+> 
+> <snip>
+>>   struct em_data_callback {
+>>   	/**
+>> -	 * active_power() - Provide power at the next capacity state of a CPU
+>> -	 * @power	: Active power at the capacity state in mW (modified)
+>> -	 * @freq	: Frequency at the capacity state in kHz (modified)
+>> -	 * @cpu		: CPU for which we do this operation
+>> +	 * active_power() - Provide power at the next performance state of a
+>> +	 *		    device
+>> +	 * @power	: Active power at the performance state in mW (modified)
+>> +	 * @freq	: Frequency at the performance state in kHz (modified)
+>> +	 * @dev		: Device for which we do this operation (can be a CPU)
+>>   	 *
+>> -	 * active_power() must find the lowest capacity state of 'cpu' above
+>> +	 * active_power() must find the lowest performance state of 'dev' above
+>>   	 * 'freq' and update 'power' and 'freq' to the matching active power
+>>   	 * and frequency.
+>>   	 *
+>> -	 * The power is the one of a single CPU in the domain, expressed in
+>> -	 * milli-watts. It is expected to fit in the [0, EM_CPU_MAX_POWER]
+>> -	 * range.
+>> +	 * In case of CPUs, the power is the one of a single CPU in the domain,
+>> +	 * expressed in milli-watts. It is expected to fit in the
+>> +	 * [0, EM_MAX_POWER] range.
+>>   	 *
+>>   	 * Return 0 on success.
+>>   	 */
+>> -	int (*active_power)(unsigned long *power, unsigned long *freq, int cpu);
+>> +	int (*active_power)(unsigned long *power, unsigned long *freq,
+>> +			    struct device *dev);
+> 
+> Given that you've made explicit in the doc of struct em_perf_state that
+> 'power' can be a 'total' value (static + dynamic), this could be renamed
+> I suppose.
+
+I have check some literature and indeed 'active power' is not present,
+but I could find 'active energy' and 'standby energy'. So we could
+use 'active power' when we are talking in context of active energy.
+In some other place I found 'Operating power (dynamic + leakage)' and
+'Standby power' measurements for different architectures.
+
+So I would prefer to keep 'active_power' which would mean the power
+when a device was running (active).
+
+> 
+> <snip>
+>>   /**
+>>    * em_cpu_get() - Return the performance domain for a CPU
+>>    * @cpu : CPU to find the performance domain for
+>>    *
+>> - * Return: the performance domain to which 'cpu' belongs, or NULL if it doesn't
+>> + * Returns the performance domain to which 'cpu' belongs, or NULL if it doesn't
+>>    * exist.
+>>    */
+>>   struct em_perf_domain *em_cpu_get(int cpu)
+>>   {
+>> -	return READ_ONCE(per_cpu(em_data, cpu));
+> 
+> Since CPU perf domains are guaranteed to never go away, it'd be safe to
+> keep that per-CPU variable and avoid the locking and list manipulation
+> below. No strong opinion, though.
+
+The functions em_cpu_get() and em_get_pd() are called only during
+start phase (topology initialization or thermal setup). After that
+these subsystems carry on with the returned pointer in their private
+structures. So I would prefer to keep implementation clean and have all
+EM structures in one list (avoiding the per-cpu).
+
+> 
+>> +	struct em_device *em_dev;
+>> +
+>> +	mutex_lock(&em_pd_mutex);
+>> +
+>> +	if (list_empty(&em_pd_dev_list))
+>> +		goto unlock;
+>> +
+>> +	list_for_each_entry(em_dev, &em_pd_dev_list, em_dev_list) {
+>> +		if (!_is_cpu_em(em_dev->em_pd))
+>> +			continue;
+>> +
+>> +		if (cpumask_test_cpu(cpu, em_span_cpus(em_dev->em_pd))) {
+>> +			mutex_unlock(&em_pd_mutex);
+>> +			return em_dev->em_pd;
+>> +		}
+>> +	}
+>> +
+>> +unlock:
+>> +	mutex_unlock(&em_pd_mutex);
+>> +	return NULL;
+>>   }
+>>   EXPORT_SYMBOL_GPL(em_cpu_get);
+> 
+> <snip>
+>>   /**
+>> - * em_register_perf_domain() - Register the Energy Model of a performance domain
+>> - * @span	: Mask of CPUs in the performance domain
+>> - * @nr_states	: Number of capacity states to register
+>> + * em_register_perf_domain() - Register the Energy Model (EM) of a performance
+>> + *		domain for the device
+>> + * @dev		: Device for which the EM is to register
+>> + * @nr_states	: Number of performance states to register
+>>    * @cb		: Callback functions providing the data of the Energy Model
+>> + * @cpus	: Pointer to cpumask_t, which in case of a CPU device is
+>> + *		obligatory. It can be taken from i.e. 'policy->cpus'. For other
+> 
+> It should be policy->related_cpus actually (or 'real_cpus' even) -- PM_EM
+> ignores hotplug ATM. Perhaps we should document that somewhere ...
+
+I also had this feeling until I have checked the cpufreq_online().
+In that function after a call to driver's init function, the
+'related_cpus' is set, not before (based on policy->cpus).
+So I think it is safe to say 'policy->cpus' here.
+
+https://elixir.bootlin.com/linux/latest/source/drivers/cpufreq/cpufreq.c#L1344
+
+> 
+>> + *		type of devices this should be set to NULL.
+>>    *
+>>    * Create Energy Model tables for a performance domain using the callbacks
+>>    * defined in cb.
+>> @@ -196,63 +361,129 @@ EXPORT_SYMBOL_GPL(em_cpu_get);
+> 
+> Thanks,
+> Quentin
+> 
+
+Regards,
+Lukasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
