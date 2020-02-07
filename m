@@ -2,28 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605E6155C73
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 18:02:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63E0155C6D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 18:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4FA6FD32;
-	Fri,  7 Feb 2020 17:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDDA76FD33;
+	Fri,  7 Feb 2020 17:01:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from kvm5.telegraphics.com.au (kvm5.telegraphics.com.au
  [98.124.60.144])
- by gabe.freedesktop.org (Postfix) with ESMTP id B59096E44C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2020 23:06:55 +0000 (UTC)
-Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
- id 0335E29A97; Thu,  6 Feb 2020 18:06:53 -0500 (EST)
-To: Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
- James Hogan <jhogan@kernel.org>
-Message-Id: <5504c0c416525ed8c7b8440e5f9971f2a7b59f28.1581030073.git.fthain@telegraphics.com.au>
-In-Reply-To: <cover.1581030073.git.fthain@telegraphics.com.au>
-References: <cover.1581030073.git.fthain@telegraphics.com.au>
+ by gabe.freedesktop.org (Postfix) with ESMTP id CCD506E4CA
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 00:10:26 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by kvm5.telegraphics.com.au (Postfix) with ESMTP id 01A8327E6B;
+ Thu,  6 Feb 2020 19:10:21 -0500 (EST)
+Date: Fri, 7 Feb 2020 11:10:21 +1100 (AEDT)
 From: Finn Thain <fthain@telegraphics.com.au>
-Subject: [PATCH v2 1/3] fbdev/g364fb: Fix build failure
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/3] fbdev/g364fb: Fix build failure
+In-Reply-To: <CAAdtpL5Cz5YGKZVfbA=X8qMtP7jDc0G7igSj3EB=PfazM5JoDg@mail.gmail.com>
+Message-ID: <alpine.LNX.2.22.394.2002071054180.13@nippy.intranet>
+References: <cover.1580610812.git.fthain@telegraphics.com.au>
+ <d8f19ebc00a7688da739d41d584d081d1559f0d2.1580610812.git.fthain@telegraphics.com.au>
+ <CAAdtpL7SpzfqSmEcuVszNyXfrRegC20txoS5j7Ss3WkCmyRH+g@mail.gmail.com>
+ <alpine.LNX.2.22.394.2002060829410.8@nippy.intranet>
+ <CAAdtpL5Cz5YGKZVfbA=X8qMtP7jDc0G7igSj3EB=PfazM5JoDg@mail.gmail.com>
 MIME-Version: 1.0
-Date: Fri, 07 Feb 2020 10:01:13 +1100
+Content-Type: multipart/mixed; BOUNDARY="-1463811774-1984420675-1581033946=:13"
+Content-ID: <alpine.LNX.2.22.394.2002071105540.13@nippy.intranet>
 X-Mailman-Approved-At: Fri, 07 Feb 2020 17:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -39,82 +45,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Paul Burton <paulburton@kernel.org>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- linux-mips@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ James Hogan <jhogan@kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ Thomas Bogendoerfer <tbogendoerfer@suse.de>, dri-devel@lists.freedesktop.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCByZXNvbHZlcyB0aGVzZSBjb21waWxlciBlcnJvcnMgYW5kIHdhcm5pbmdzIC0t
-CgogIENDICAgICAgZHJpdmVycy92aWRlby9mYmRldi9nMzY0ZmIubwpkcml2ZXJzL3ZpZGVvL2Zi
-ZGV2L2czNjRmYi5jOiBJbiBmdW5jdGlvbiAnZzM2NGZiX2N1cnNvcic6CmRyaXZlcnMvdmlkZW8v
-ZmJkZXYvZzM2NGZiLmM6MTM3Ojk6IGVycm9yOiAneCcgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGlu
-IHRoaXMgZnVuY3Rpb24pCmRyaXZlcnMvdmlkZW8vZmJkZXYvZzM2NGZiLmM6MTM3Ojk6IG5vdGU6
-IGVhY2ggdW5kZWNsYXJlZCBpZGVudGlmaWVyIGlzIHJlcG9ydGVkIG9ubHkgb25jZSBmb3IgZWFj
-aCBmdW5jdGlvbiBpdCBhcHBlYXJzIGluCmRyaXZlcnMvdmlkZW8vZmJkZXYvZzM2NGZiLmM6MTM3
-Ojc6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAnZm9udHdpZHRoJyBb
-LVdlcnJvcj1pbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0KZHJpdmVycy92aWRlby9mYmRl
-di9nMzY0ZmIuYzoxMzc6MjM6IGVycm9yOiAncCcgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRo
-aXMgZnVuY3Rpb24pCmRyaXZlcnMvdmlkZW8vZmJkZXYvZzM2NGZiLmM6MTM3OjM4OiBlcnJvcjog
-J3knIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKQpkcml2ZXJzL3ZpZGVv
-L2ZiZGV2L2czNjRmYi5jOjEzNzo3OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVu
-Y3Rpb24gJ2ZvbnRoZWlnaHQnIFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9u
-XQpkcml2ZXJzL3ZpZGVvL2ZiZGV2L2czNjRmYi5jOiBJbiBmdW5jdGlvbiAnZzM2NGZiX2luaXQn
-Ogpkcml2ZXJzL3ZpZGVvL2ZiZGV2L2czNjRmYi5jOjIzMzoyNDogZXJyb3I6ICdmYnZhcicgdW5k
-ZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pCmRyaXZlcnMvdmlkZW8vZmJkZXYv
-ZzM2NGZiLmM6MjM0OjI0OiBlcnJvcjogJ3hyZXMnIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0
-aGlzIGZ1bmN0aW9uKQpkcml2ZXJzL3ZpZGVvL2ZiZGV2L2czNjRmYi5jOjIwMToxNDogd2Fybmlu
-ZzogdW51c2VkIHZhcmlhYmxlICdqJyBbLVd1bnVzZWQtdmFyaWFibGVdCmRyaXZlcnMvdmlkZW8v
-ZmJkZXYvZzM2NGZiLmM6MTk3OjI1OiB3YXJuaW5nOiB1bnVzZWQgdmFyaWFibGUgJ3BhbF9wdHIn
-IFstV3VudXNlZC12YXJpYWJsZV0KClRoZSBNSVBTIE1hZ251bSBmcmFtZWJ1ZmZlciBjb25zb2xl
-IG5vdyB3b3JrcyB3aGVuIHRlc3RlZCBpbiBRRU1VLgoKQ2M6IEJhcnRsb21pZWogWm9sbmllcmtp
-ZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KRml4ZXM6IDFkYTE3N2U0YzNmNCAoIkxp
-bnV4LTIuNi4xMi1yYzIiKQpSZXZpZXdlZC1ieTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPGY0
-YnVnQGFtc2F0Lm9yZz4KU2lnbmVkLW9mZi1ieTogRmlubiBUaGFpbiA8ZnRoYWluQHRlbGVncmFw
-aGljcy5jb20uYXU+Ci0tLQogZHJpdmVycy92aWRlby9mYmRldi9nMzY0ZmIuYyB8IDI5ICsrKy0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCsp
-LCAyNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2czNjRm
-Yi5jIGIvZHJpdmVycy92aWRlby9mYmRldi9nMzY0ZmIuYwppbmRleCA4NDViNzlkYTJhN2MuLjA1
-ODM3YTNiOTg1YyAxMDA2NDQKLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9nMzY0ZmIuYworKysg
-Yi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2czNjRmYi5jCkBAIC0xMDgsNyArMTA4LDYgQEAgc3RhdGlj
-IGludCBnMzY0ZmJfcGFuX2Rpc3BsYXkoc3RydWN0IGZiX3Zhcl9zY3JlZW5pbmZvICp2YXIsCiBz
-dGF0aWMgaW50IGczNjRmYl9zZXRjb2xyZWcodV9pbnQgcmVnbm8sIHVfaW50IHJlZCwgdV9pbnQg
-Z3JlZW4sCiAJCQkgICAgdV9pbnQgYmx1ZSwgdV9pbnQgdHJhbnNwLAogCQkJICAgIHN0cnVjdCBm
-Yl9pbmZvICppbmZvKTsKLXN0YXRpYyBpbnQgZzM2NGZiX2N1cnNvcihzdHJ1Y3QgZmJfaW5mbyAq
-aW5mbywgc3RydWN0IGZiX2N1cnNvciAqY3Vyc29yKTsKIHN0YXRpYyBpbnQgZzM2NGZiX2JsYW5r
-KGludCBibGFuaywgc3RydWN0IGZiX2luZm8gKmluZm8pOwogCiBzdGF0aWMgY29uc3Qgc3RydWN0
-IGZiX29wcyBnMzY0ZmJfb3BzID0gewpAQCAtMTE5LDI4ICsxMTgsOCBAQCBzdGF0aWMgY29uc3Qg
-c3RydWN0IGZiX29wcyBnMzY0ZmJfb3BzID0gewogCS5mYl9maWxscmVjdAk9IGNmYl9maWxscmVj
-dCwKIAkuZmJfY29weWFyZWEJPSBjZmJfY29weWFyZWEsCiAJLmZiX2ltYWdlYmxpdAk9IGNmYl9p
-bWFnZWJsaXQsCi0JLmZiX2N1cnNvcgk9IGczNjRmYl9jdXJzb3IsCiB9OwogCi1pbnQgZzM2NGZi
-X2N1cnNvcihzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgc3RydWN0IGZiX2N1cnNvciAqY3Vyc29yKQot
-ewotCQotCXN3aXRjaCAoY3Vyc29yLT5lbmFibGUpIHsKLQljYXNlIENNX0VSQVNFOgotCQkqKHVu
-c2lnbmVkIGludCAqKSBDVExBX1JFRyB8PSBDVVJTX1RPR0dMRTsKLQkJYnJlYWs7Ci0KLQljYXNl
-IENNX01PVkU6Ci0JY2FzZSBDTV9EUkFXOgotCQkqKHVuc2lnbmVkIGludCAqKSBDVExBX1JFRyAm
-PSB+Q1VSU19UT0dHTEU7Ci0JCSoodW5zaWduZWQgaW50ICopIENVUlNfUE9TX1JFRyA9Ci0JCSAg
-ICAoKHggKiBmb250d2lkdGgocCkpIDw8IDEyKSB8ICgoeSAqIGZvbnRoZWlnaHQocCkpIC0KLQkJ
-CQkJCSAgaW5mby0+dmFyLnlvZmZzZXQpOwotCQlicmVhazsKLQl9Ci0JcmV0dXJuIDA7Ci19Ci0K
-IC8qCiAgKiAgUGFuIG9yIFdyYXAgdGhlIERpc3BsYXkKICAqCkBAIC0xOTQsMTEgKzE3Myw5IEBA
-IHN0YXRpYyBpbnQgZzM2NGZiX3NldGNvbHJlZyh1X2ludCByZWdubywgdV9pbnQgcmVkLCB1X2lu
-dCBncmVlbiwKICAqLwogaW50IF9faW5pdCBnMzY0ZmJfaW5pdCh2b2lkKQogewotCXZvbGF0aWxl
-IHVuc2lnbmVkIGludCAqcGFsX3B0ciA9Ci0JICAgICh2b2xhdGlsZSB1bnNpZ25lZCBpbnQgKikg
-Q0xSX1BBTF9SRUc7CiAJdm9sYXRpbGUgdW5zaWduZWQgaW50ICpjdXJzX3BhbF9wdHIgPQogCSAg
-ICAodm9sYXRpbGUgdW5zaWduZWQgaW50ICopIENVUlNfUEFMX1JFRzsKLQlpbnQgbWVtLCBpLCBq
-OworCWludCBtZW0sIGk7CiAKIAlpZiAoZmJfZ2V0X29wdGlvbnMoImczNjRmYiIsIE5VTEwpKQog
-CQlyZXR1cm4gLUVOT0RFVjsKQEAgLTIzMCw4ICsyMDcsOCBAQCBpbnQgX19pbml0IGczNjRmYl9p
-bml0KHZvaWQpCiAJICovCiAJKih1bnNpZ25lZCBzaG9ydCAqKSAoQ1VSU19QQVRfUkVHICsgMTQg
-KiA2NCkgPSAweGZmZmY7CiAJKih1bnNpZ25lZCBzaG9ydCAqKSAoQ1VSU19QQVRfUkVHICsgMTUg
-KiA2NCkgPSAweGZmZmY7Ci0JZmJfdmFyLnhyZXNfdmlydHVhbCA9IGZidmFyLnhyZXM7Ci0JZmJf
-Zml4LmxpbmVfbGVuZ3RoID0gKHhyZXMgLyA4KSAqIGZiX3Zhci5iaXRzX3Blcl9waXhlbDsKKwlm
-Yl92YXIueHJlc192aXJ0dWFsID0gZmJfdmFyLnhyZXM7CisJZmJfZml4LmxpbmVfbGVuZ3RoID0g
-ZmJfdmFyLnhyZXNfdmlydHVhbCAqIGZiX3Zhci5iaXRzX3Blcl9waXhlbCAvIDg7CiAJZmJfZml4
-LnNtZW1fc3RhcnQgPSAweDQwMDAwMDAwOwkvKiBwaHlzaWNhbCBhZGRyZXNzICovCiAJLyogZ2V0
-IHNpemUgb2YgdmlkZW8gbWVtb3J5OyB0aGlzIGlzIHNwZWNpYWwgZm9yIHRoZSBKQVpaIGhhcmR3
-YXJlICovCiAJbWVtID0gKHI0MDMwX3JlYWRfcmVnMzIoSkFaWl9SNDAzMF9DT05GSUcpID4+IDgp
-ICYgMzsKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+---1463811774-1984420675-1581033946=:13
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <alpine.LNX.2.22.394.2002071105541.13@nippy.intranet>
+
+On Fri, 7 Feb 2020, Philippe Mathieu-Daud=C3=A9 wrote:
+
+> On Wed, Feb 5, 2020 at 11:18 PM Finn Thain <fthain@telegraphics.com.au>  =
+wrote:
+> > On Wed, 5 Feb 2020, Philippe Mathieu-Daud=C3=A9 wrote:
+> > > On Sun, Feb 2, 2020 at 3:41 AM Finn Thain  <fthain@telegraphics.com.a=
+u> wrote:
+> > > >
+> > > > This patch resolves these compiler errors and warnings --
+> > > >
+> > > >   CC      drivers/video/fbdev/g364fb.o
+> > > > drivers/video/fbdev/g364fb.c: In function 'g364fb_cursor':
+> > > > drivers/video/fbdev/g364fb.c:137:9: error: 'x' undeclared (first us=
+e in this function)
+> > > > drivers/video/fbdev/g364fb.c:137:9: note: each undeclared identifie=
+r is reported only once for each function it appears in
+> > > > drivers/video/fbdev/g364fb.c:137:7: error: implicit declaration of =
+function 'fontwidth' [-Werror=3Dimplicit-function-declaration]
+> > > > drivers/video/fbdev/g364fb.c:137:23: error: 'p' undeclared (first u=
+se in this function)
+> > > > drivers/video/fbdev/g364fb.c:137:38: error: 'y' undeclared (first u=
+se in this function)
+> > > > drivers/video/fbdev/g364fb.c:137:7: error: implicit declaration of =
+function 'fontheight' [-Werror=3Dimplicit-function-declaration]
+> > > > drivers/video/fbdev/g364fb.c: In function 'g364fb_init':
+> > > > drivers/video/fbdev/g364fb.c:233:24: error: 'fbvar' undeclared (fir=
+st use in this function)
+> > > > drivers/video/fbdev/g364fb.c:234:24: error: 'xres' undeclared (firs=
+t use in this function)
+> > >
+> > > 18 years unnoticed...
+> > >
+> >
+> > More likely, it was noticed by those without the skills or time to get=
+=20
+> > it fixed upstream.
+> >
+> > Those with the hardware skills and platform knowledge to be affected=20
+> > by an obscure bug aren't necessarily also capable of fixing a kernel=20
+> > bug, sending a patch upstream and getting it past code review.
+> >
+> > Getting a patch into the Linux kernel is itself a lot of work, unless=
+=20
+> > you've had years of experience with that constantly changing process=20
+> > (which varies significantly between subsystems).
+>=20
+> I see, I'm not custom to kernel workflow.
+>=20
+> > Kernel developers are only human and do accidentally introduce=20
+> > breakage in their work (as contributors) while ironically (as=20
+> > reviewers) they raise the bar for random fixes from users not versed=20
+> > in the 10000+ lines of Documentation/process/*.rst
+> >
+> > Broken code does not mean zero potential users or zero frustrated=20
+> > users yet I often hear kernel developers disingenuously claim that it=
+=20
+> > does. They have an incentive to make that claim and often there's=20
+> > no-one reading the mailing lists to push back.
+>=20
+> But broken code is also bad example of code. The removed code is still=20
+> buried in the git tree.
+>=20
+
+Some bugs may never be noticed and yet everyone assumes that they are=20
+present (hence "defence in depth" and all of the complexity that entails).
+
+My complaint was really about broken code being used as a rationale to=20
+remove additional code (whatever its quality).
+
+For example, some maintainers would say, "18 years unnoticed... don't stop=
+=20
+at g364fb_cursor(), remove the entire driver".
+---1463811774-1984420675-1581033946=:13
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+---1463811774-1984420675-1581033946=:13--
