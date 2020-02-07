@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80A41553DE
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 09:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACD11553E0
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 09:41:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D316FBC3;
-	Fri,  7 Feb 2020 08:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8B696FBC9;
+	Fri,  7 Feb 2020 08:41:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E83036FBC1;
- Fri,  7 Feb 2020 08:41:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9EF6FBC1;
+ Fri,  7 Feb 2020 08:41:42 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 601B2B147;
+ by mx2.suse.de (Postfix) with ESMTP id C4FC0B149;
  Fri,  7 Feb 2020 08:41:39 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, noralf@tronnes.org,
  sam@ravnborg.org, alexander.deucher@amd.com, emil.velikov@collabora.com
-Subject: [PATCH 4/6] drm/mgag200: Use simple encoder
-Date: Fri,  7 Feb 2020 09:41:33 +0100
-Message-Id: <20200207084135.4524-5-tzimmermann@suse.de>
+Subject: [PATCH 5/6] drm/qxl: Use simple encoder
+Date: Fri,  7 Feb 2020 09:41:34 +0100
+Message-Id: <20200207084135.4524-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200207084135.4524-1-tzimmermann@suse.de>
 References: <20200207084135.4524-1-tzimmermann@suse.de>
@@ -46,119 +46,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mgag200 driver uses an empty implementation for its encoder. Replace
+The qxl driver uses an empty implementation for its encoder. Replace
 the code with the generic simple encoder.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  7 ---
- drivers/gpu/drm/mgag200/mgag200_mode.c | 60 +-------------------------
- 2 files changed, 2 insertions(+), 65 deletions(-)
+ drivers/gpu/drm/qxl/qxl_display.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index aa32aad222c2..9bb9e8e14539 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -95,7 +95,6 @@
- #define MATROX_DPMS_CLEARED (-1)
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index ab4f8dd00400..fc71f7d9436a 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -1007,9 +1007,6 @@ static struct drm_encoder *qxl_best_encoder(struct drm_connector *connector)
+ 	return &qxl_output->enc;
+ }
  
- #define to_mga_crtc(x) container_of(x, struct mga_crtc, base)
--#define to_mga_encoder(x) container_of(x, struct mga_encoder, base)
- #define to_mga_connector(x) container_of(x, struct mga_connector, base)
- 
- struct mga_crtc {
-@@ -110,12 +109,6 @@ struct mga_mode_info {
- 	struct mga_crtc *crtc;
+-static const struct drm_encoder_helper_funcs qxl_enc_helper_funcs = {
+-};
+-
+ static const struct drm_connector_helper_funcs qxl_connector_helper_funcs = {
+ 	.get_modes = qxl_conn_get_modes,
+ 	.mode_valid = qxl_conn_mode_valid,
+@@ -1059,15 +1056,6 @@ static const struct drm_connector_funcs qxl_connector_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
  };
  
--struct mga_encoder {
--	struct drm_encoder base;
--	int last_dpms;
--};
--
--
- struct mga_i2c_chan {
- 	struct i2c_adapter adapter;
- 	struct drm_device *dev;
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 62a8e9ccb16d..d8f1a552f8ac 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -1449,72 +1449,16 @@ static void mga_crtc_init(struct mga_device *mdev)
- 	drm_crtc_helper_add(&mga_crtc->base, &mga_helper_funcs);
- }
- 
--/*
-- * The encoder comes after the CRTC in the output pipeline, but before
-- * the connector. It's responsible for ensuring that the digital
-- * stream is appropriately converted into the output format. Setup is
-- * very simple in this case - all we have to do is inform qemu of the
-- * colour depth in order to ensure that it displays appropriately
-- */
--
--/*
-- * These functions are analagous to those in the CRTC code, but are intended
-- * to handle any encoder-specific limitations
-- */
--static void mga_encoder_mode_set(struct drm_encoder *encoder,
--				struct drm_display_mode *mode,
--				struct drm_display_mode *adjusted_mode)
+-static void qxl_enc_destroy(struct drm_encoder *encoder)
 -{
--
--}
--
--static void mga_encoder_dpms(struct drm_encoder *encoder, int state)
--{
--	return;
--}
--
--static void mga_encoder_prepare(struct drm_encoder *encoder)
--{
--}
--
--static void mga_encoder_commit(struct drm_encoder *encoder)
--{
--}
--
--static void mga_encoder_destroy(struct drm_encoder *encoder)
--{
--	struct mga_encoder *mga_encoder = to_mga_encoder(encoder);
 -	drm_encoder_cleanup(encoder);
--	kfree(mga_encoder);
 -}
 -
--static const struct drm_encoder_helper_funcs mga_encoder_helper_funcs = {
--	.dpms = mga_encoder_dpms,
--	.mode_set = mga_encoder_mode_set,
--	.prepare = mga_encoder_prepare,
--	.commit = mga_encoder_commit,
+-static const struct drm_encoder_funcs qxl_enc_funcs = {
+-	.destroy = qxl_enc_destroy,
 -};
 -
--static const struct drm_encoder_funcs mga_encoder_encoder_funcs = {
--	.destroy = mga_encoder_destroy,
--};
--
- static struct drm_encoder *mga_encoder_init(struct drm_device *dev)
+ static int qxl_mode_create_hotplug_mode_update_property(struct qxl_device *qdev)
  {
- 	struct drm_encoder *encoder;
--	struct mga_encoder *mga_encoder;
+ 	if (qdev->hotplug_mode_update_property)
+@@ -1098,15 +1086,14 @@ static int qdev_output_init(struct drm_device *dev, int num_output)
+ 	drm_connector_init(dev, &qxl_output->base,
+ 			   &qxl_connector_funcs, DRM_MODE_CONNECTOR_VIRTUAL);
  
--	mga_encoder = kzalloc(sizeof(struct mga_encoder), GFP_KERNEL);
--	if (!mga_encoder)
-+	encoder = drm_simple_encoder_create(dev, DRM_MODE_ENCODER_DAC, NULL);
-+	if (IS_ERR(encoder))
- 		return NULL;
+-	drm_encoder_init(dev, &qxl_output->enc, &qxl_enc_funcs,
+-			 DRM_MODE_ENCODER_VIRTUAL, NULL);
++	drm_simple_encoder_init(dev, qxl_output->enc, DRM_MODE_ENCODER_VIRTUAL,
++				NULL);
  
--	encoder = &mga_encoder->base;
- 	encoder->possible_crtcs = 0x1;
+ 	/* we get HPD via client monitors config */
+ 	connector->polled = DRM_CONNECTOR_POLL_HPD;
+ 	encoder->possible_crtcs = 1 << num_output;
+ 	drm_connector_attach_encoder(&qxl_output->base,
+ 					  &qxl_output->enc);
+-	drm_encoder_helper_add(encoder, &qxl_enc_helper_funcs);
+ 	drm_connector_helper_add(connector, &qxl_connector_helper_funcs);
  
--	drm_encoder_init(dev, encoder, &mga_encoder_encoder_funcs,
--			 DRM_MODE_ENCODER_DAC, NULL);
--	drm_encoder_helper_add(encoder, &mga_encoder_helper_funcs);
--
- 	return encoder;
- }
- 
+ 	drm_object_attach_property(&connector->base,
 -- 
 2.25.0
 
