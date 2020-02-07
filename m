@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EFF155892
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 14:38:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E60515589C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 14:39:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD6046EAC0;
-	Fri,  7 Feb 2020 13:38:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC3F6FC92;
+	Fri,  7 Feb 2020 13:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
  [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD2E6EAC0
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 13:38:48 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id k11so2704185wrd.9
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 05:38:48 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB1B6FC92
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 13:39:34 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id y11so2734927wrt.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 05:39:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5Qd6/3q58AMNV5FtnZLoyt3WZqn0r69SnQkOZyEqook=;
- b=U4KtBRgJfVYhk0bCXzyNZKJze5F9+Q+VcEj/WhMU1uOacxhgmn6IX0ssFWXdqRqqoS
- rXmuR/OC7S3KBcWReiysoP/jIju/hOTWugytCUAJsnRIhOyTAmAiuEeNGOOXija0nXEP
- mAV4Hen2qnWryK0QD57e1kzBZ4uagLucCd6Ds8rmZWt2X5lI/by4pLq/U4vU0urh5KCI
- Zml2qLkz5rluZlLoUwkP7SUjdkqy2dIXZ4FV0wBaR+dtD2/1SD3HvXqsSQqjdJK7b5Or
- lFpS9ycSFV/4ZNjXs7uz7adDtRIVtvp7JwaMz0EQQRSm+F5WQCdezh8c9PIdNcKgmFLQ
- zFcg==
+ bh=+chzd5YTlJXfwCHdGMRTXrrA2aj2F7AXsMOKrEm2tr4=;
+ b=WQ1fULw/Hx71WFRzz2+kWW1dDM0fq0xejDzbYEP8puWWAyu5iJEb6zKvLJd0eJfKNg
+ k13Hpuzsu7DvK3EgQpEgZWuO5D1L2DMGkgLmu9nuwJieVBvZY/1iV7CauShj3tWKiX7o
+ +qbY6esm+ppNAQH6ycVeFHWZGtuAyVyQhsWIWvrGcwFq1TAtpSVrJnZprb8R5165+3HB
+ 2TPdw94cYJIOixT+rnKekG1ZNLvmpQk8HgVDeEmTT69qqXY4z7taxbeN5iX20g3BDJ+u
+ IC2pJfq0dksQEXOG2BKY7DJYK0/m9EvmaTfEN9PyMJ6XLOmSWcPReShnxTdooFwlsuSP
+ wG5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=5Qd6/3q58AMNV5FtnZLoyt3WZqn0r69SnQkOZyEqook=;
- b=Rtv7hVT67zgfWPzxV/E3uV1jW24R0K3dQLKI3N0yUUEyl9r9xDmCvLp7eWWAtrp3G1
- KbYh8DrL1hQoKbZIFGtwYup37wrCD9F79H0wG89tXB2uazODv3Rd07Zoaiy3E6LtVm5a
- 1uRg17CPfBGTZWkXPlD11spigh3GtPE2SYWc8nRzvQxfp0AhiaLCKN1yL7Ko+rlOuzPI
- UShGyvM7T53oF9eqO4YtwXEYpxZ3i5j/slI7liBUGTksVXQxvdO1Zw9zTbQIa+FVWjMT
- 39DDP5U1Upl1ZRTxwW3lwfEvm+BBmr1LYzDfj48nxkqdzVJmTT2REZzgL5ELuFcwwmPi
- jDyg==
-X-Gm-Message-State: APjAAAV6KNk/G25RFAkdsqL0/4E+SIfSU1YiKlsQRIuSXFmOFa8gwSvb
- BEaxES/EHqTLVjvCw1SlbyGVaw==
-X-Google-Smtp-Source: APXvYqy96Xcw2WCkzazDgtKPjDKjf4IxI1lHpl2tvMAAc2csdX76KtbTy6TOGYQ9EUTqo88XD66ubA==
-X-Received: by 2002:adf:fdc7:: with SMTP id i7mr4604684wrs.270.1581082726956; 
- Fri, 07 Feb 2020 05:38:46 -0800 (PST)
+ bh=+chzd5YTlJXfwCHdGMRTXrrA2aj2F7AXsMOKrEm2tr4=;
+ b=OgYYEIrN9N0P3dQFNKl4zTUeuQ4FtOg0xNWkbOK34TIo0vsBdR4+LlTf9M9tXcYczT
+ cylEgmUV5kzYr9bdXsmYJJNd33AdVxzEek33+zkvCeWlRuCfjCHjmv4IyzeDSd3XCwHe
+ nkSel3wYHZ3EIM5Jev+aehhT1qWHn6EqFmhq3pTu+/pjglGNGBAZNEkfYg1+ujNvkQyY
+ JY8o/qFglj5bBex47n9ZxiRgZzJ86Y7BWeLqxv7VtgTzaJEOGpQk07yFE2llBV/LcQsL
+ 5lhcrMX5/BwMpx2Y2t4YP7YPxvQqMWFGZGA80DZu+1nmHJRpnU/IvEQoOGJ8Vj5yH+8a
+ c8uQ==
+X-Gm-Message-State: APjAAAUpjJ37aqOdVKoxp0YfVxKGRjv9Wv2z2FF1d1kRtoXsBV96aWtx
+ iIe5/tqmxcqzsVRdY0M//DecRg==
+X-Google-Smtp-Source: APXvYqw4iBJEj/fEyxAkLDnXdZvZgZGFX0rMnZFSwdVWfhGRMQb2DXP/V+KX8dCFpk5qg6D5/sDKtQ==
+X-Received: by 2002:adf:e68d:: with SMTP id r13mr4733107wrm.349.1581082772760; 
+ Fri, 07 Feb 2020 05:39:32 -0800 (PST)
 Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id z19sm3292742wmi.43.2020.02.07.05.38.45
+ by smtp.gmail.com with ESMTPSA id m21sm3413649wmi.27.2020.02.07.05.39.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2020 05:38:46 -0800 (PST)
-Subject: Re: [PATCH v4 05/11] drm/bridge: synopsys: dw-hdmi: allow ycbcr420
- modes for >= 0x200a
+ Fri, 07 Feb 2020 05:39:32 -0800 (PST)
+Subject: Re: [PATCH v4 06/11] drm/meson: venc: make drm_display_mode const
 To: a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@siol.net, boris.brezillon@collabora.com
 References: <20200206191834.6125-1-narmstrong@baylibre.com>
- <20200206191834.6125-6-narmstrong@baylibre.com>
+ <20200206191834.6125-7-narmstrong@baylibre.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +105,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <e90331b8-5e8e-5c27-0297-77a281a66f4b@baylibre.com>
-Date: Fri, 7 Feb 2020 14:38:44 +0100
+Message-ID: <61ddf618-dcbc-05b2-99a3-397feda9762a@baylibre.com>
+Date: Fri, 7 Feb 2020 14:39:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200206191834.6125-6-narmstrong@baylibre.com>
+In-Reply-To: <20200206191834.6125-7-narmstrong@baylibre.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -133,52 +132,49 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 06/02/2020 20:18, Neil Armstrong wrote:
-> Now the DW-HDMI Controller supports the HDMI2.0 modes, enable support
-> for these modes in the connector if the platform supports them.
-> We limit these modes to DW-HDMI IP version >= 0x200a which
-> are designed to support HDMI2.0 display modes.
+> Before switching to bridge funcs, make sure drm_display_mode is passed
+> as const to the venc functions.
 > 
 > Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 6 ++++++
->  include/drm/bridge/dw_hdmi.h              | 1 +
->  2 files changed, 7 insertions(+)
+>  drivers/gpu/drm/meson/meson_venc.c | 2 +-
+>  drivers/gpu/drm/meson/meson_venc.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 15048ad694bc..4b35ea1427df 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3231,6 +3231,12 @@ __dw_hdmi_probe(struct platform_device *pdev,
->  	hdmi->bridge.of_node = pdev->dev.of_node;
->  #endif
+> diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
+> index 4efd7864d5bf..a9ab78970bfe 100644
+> --- a/drivers/gpu/drm/meson/meson_venc.c
+> +++ b/drivers/gpu/drm/meson/meson_venc.c
+> @@ -946,7 +946,7 @@ bool meson_venc_hdmi_venc_repeat(int vic)
+>  EXPORT_SYMBOL_GPL(meson_venc_hdmi_venc_repeat);
 >  
-> +	if (hdmi->version >= 0x200a)
-> +		hdmi->connector.ycbcr_420_allowed =
-> +			hdmi->plat_data->ycbcr_420_allowed;
-> +	else
-> +		hdmi->connector.ycbcr_420_allowed = false;
-> +
->  	memset(&pdevinfo, 0, sizeof(pdevinfo));
->  	pdevinfo.parent = dev;
->  	pdevinfo.id = PLATFORM_DEVID_AUTO;
-> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index 9d4d5cc47969..0b34a12c4a1c 100644
-> --- a/include/drm/bridge/dw_hdmi.h
-> +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -129,6 +129,7 @@ struct dw_hdmi_plat_data {
->  	unsigned long input_bus_format;
->  	unsigned long input_bus_encoding;
->  	bool use_drm_infoframe;
-> +	bool ycbcr_420_allowed;
+>  void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
+> -			      struct drm_display_mode *mode)
+> +			      const struct drm_display_mode *mode)
+>  {
+>  	union meson_hdmi_venc_mode *vmode = NULL;
+>  	union meson_hdmi_venc_mode vmode_dmt;
+> diff --git a/drivers/gpu/drm/meson/meson_venc.h b/drivers/gpu/drm/meson/meson_venc.h
+> index 576768bdd08d..1abdcbdf51c0 100644
+> --- a/drivers/gpu/drm/meson/meson_venc.h
+> +++ b/drivers/gpu/drm/meson/meson_venc.h
+> @@ -60,7 +60,7 @@ extern struct meson_cvbs_enci_mode meson_cvbs_enci_ntsc;
+>  void meson_venci_cvbs_mode_set(struct meson_drm *priv,
+>  			       struct meson_cvbs_enci_mode *mode);
+>  void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
+> -			      struct drm_display_mode *mode);
+> +			      const struct drm_display_mode *mode);
+>  unsigned int meson_venci_get_field(struct meson_drm *priv);
 >  
->  	/* Vendor PHY support */
->  	const struct dw_hdmi_phy_ops *phy_ops;
+>  void meson_venc_enable_vsync(struct meson_drm *priv);
 > 
+
 
 Forgot to add:
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
-from 020c82bc-15fd-6e23-a093-62abfa9b466d@samsung.com
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+from 20190821203233.47137f57@collabora.com
 
 Neil
 _______________________________________________
