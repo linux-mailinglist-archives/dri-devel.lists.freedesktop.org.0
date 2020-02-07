@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFFC155EE4
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 20:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0AD155EE6
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 20:51:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B726FD8C;
-	Fri,  7 Feb 2020 19:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB0B96FD8D;
+	Fri,  7 Feb 2020 19:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B690A6FD86;
- Fri,  7 Feb 2020 19:51:18 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id p10so116431qkk.5;
- Fri, 07 Feb 2020 11:51:18 -0800 (PST)
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D35306FD82;
+ Fri,  7 Feb 2020 19:51:19 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id w47so312795qtk.4;
+ Fri, 07 Feb 2020 11:51:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L1GhNIx2PtGdglnqeJklgMjlbabviVksiURR6t7YZis=;
- b=ikMmYJwCTIkBMS9frwO3MRwmVg354wSQuIMZBYbBsyO69KipXIap8s7uUsADUrP6e0
- +uT38HW+FWmEH39v6X5VHtzT0pD+GQbN/A4WThbNgSH09fXX2LeZd+QkVWWHbrqjeE94
- FBQAjtQDVwdew1hJQGNWlOKeb2qUwhCoOn9iOpzsOETAoP+EIPbDje5oi/247GRXx2Yi
- SHZ6g5ALx7aO6jRnd0KyXhXZ8hUr0bJXnnHGYxs6huJ0D43+sjJlQpF6IYXsEQzRqxJb
- kM7+fks8GxnKy1QQ+p0CHMmQQ1rfp5P1+322NfbWrOJ9oFNXIbu7VEaoTuKbh7EcPj46
- CN0g==
+ bh=jSk8UNuSvV0yFKAsTmjIMgpIonbMj22btC08pBbXT2E=;
+ b=ak+N9xwunflpk4Bp+gtPvBEOwDKiLji4HGoXoH8uMNeIINUr39B5NrV9BO9Ag0A4H0
+ WuHxEPy07gxQ+sC4jZTeRZOL6psg/bBHfjeesNtcr3tverv4fGEEyQvfz12rVhdrW2GW
+ GVbeze/QRZOaQuEe2aL8PlaEQuQkve9FLyUoCH2jnbialnnj4v/7lBDP1RCPandnbkN/
+ mxgWS1B5q07VcJ5A4WitCkOguVooWlNNs0vvGuih6ujXlkIdBLjT9lNFdJFiQ5wPZ4fc
+ WrSpwXO711oHGOgOhvyisVD2wSNrGzZh4YW8l/lDoXf6id1yhZtwb0hCYBcBd7I4cRr1
+ FwOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L1GhNIx2PtGdglnqeJklgMjlbabviVksiURR6t7YZis=;
- b=i6O83fyuW2j2gjBJMVOua6Xz3MO1vs9QUT+zl6ACDihZJmaYDwFsbV1DThEfSRZ71S
- 8AnvDMqIjk1TeT//bkhpWV8jc1KtyLOkd8+xaWx+LiqAxn7MbBPX/9t9ofiwiHPouyrL
- dxg3IjuzA90T+PfWj1qY6MlOVna6hF+JkRCSKpJjFbe7TUFFmn//XwOif5mdEpxwxlYc
- FUcKsETTpoL0s1RntRIqCjaqmLH9vaQOsJVqut/995n7/XSRjtSM+Z8zBAk3nZuXt2o6
- bvHZghHNkWedh+KmR+27FE1V4S+DttA2YgzCnNYc4vdQrLfbkvPae4cK4kdmf6BhYfto
- S5hQ==
-X-Gm-Message-State: APjAAAXeI2nesTN5ixOShRK4PyR6iGqeaif5VmmWW4xs3qqRarw3P7Lt
- lWNAx64ZhTZipJIUP4YYzExjqS4T
-X-Google-Smtp-Source: APXvYqxpLke40XqSCzKCHk+JIyQEP/Z1BLV1P0iqX7n8HbJTNgrar/wMOmzS4rTEdnNfYMzYtn4aRA==
-X-Received: by 2002:a37:9bc6:: with SMTP id d189mr566083qke.44.1581105077709; 
- Fri, 07 Feb 2020 11:51:17 -0800 (PST)
+ bh=jSk8UNuSvV0yFKAsTmjIMgpIonbMj22btC08pBbXT2E=;
+ b=kR7CGV8G2YutNlWSBbs3qkTDqk7QB3zyK9FViconEPlE/e2N5WKPE4uOJXCOUHxIFk
+ kTm2jTQGYzEhDyxKe41FzFAOY9oCbe7acKSh737gK2yBt64tiNyTn86hLo7rTaJwWF4C
+ YpLuk058ftj5NmlefpynFuvL4j3ZbcHbWGWpRg7uFIU2ewuC23DnD+soGY4BOg/yJj4E
+ cK8Kx3HiK4lskY1QAArWlhHgbKHZN9q2KyO1fYH5a4Erw9Y/2QeZdVWm2MfrezHR3AO+
+ ffOgoM7P3H5IOUC63OwKUu+Gb3t1vV5/5PSSHQftc3YzN3RhjidehSoLDRtAkWT7GX7u
+ 3YtA==
+X-Gm-Message-State: APjAAAVDwwHU3c+1myNO8K7v7ibXmoa/x01L5+uLtsayLFMSf0g9sfz8
+ W/P1cTRrQmd9/1RTvqELLw3BDVMn
+X-Google-Smtp-Source: APXvYqzRSWTq4c2P0EYOdmbDCH7q0+o/PY8XzmKHxoojQ/oL+84kE+CT+kcsFF5PHAvDHAa2b+EFxg==
+X-Received: by 2002:ac8:1194:: with SMTP id d20mr445495qtj.243.1581105078717; 
+ Fri, 07 Feb 2020 11:51:18 -0800 (PST)
 Received: from localhost.localdomain ([71.219.59.120])
- by smtp.gmail.com with ESMTPSA id w16sm1752226qkj.135.2020.02.07.11.51.16
+ by smtp.gmail.com with ESMTPSA id w16sm1752226qkj.135.2020.02.07.11.51.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 11:51:17 -0800 (PST)
+ Fri, 07 Feb 2020 11:51:18 -0800 (PST)
 From: Alex Deucher <alexdeucher@gmail.com>
 X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/15] drm/amdgpu/display: add a late register connector
- callback
-Date: Fri,  7 Feb 2020 14:50:55 -0500
-Message-Id: <20200207195058.2354-13-alexander.deucher@amd.com>
+Subject: [PATCH 13/15] drm/amdgpu/display: split dp connector registration (v2)
+Date: Fri,  7 Feb 2020 14:50:56 -0500
+Message-Id: <20200207195058.2354-14-alexander.deucher@amd.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200207195058.2354-1-alexander.deucher@amd.com>
 References: <20200207195058.2354-1-alexander.deucher@amd.com>
@@ -69,48 +68,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VG8gaGFuZGxlIGRlYnVnZnMgc2V0dXAgb24gbm9uIERQIE1TVCBjb25uZWN0b3JzLgoKUmV2aWV3
-ZWQtYnk6IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgpBY2tlZC1ieTog
-Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpTaWduZWQtb2ZmLWJ5
-OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Ci0tLQogLi4uL2dwdS9k
-cm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jICB8IDE4ICsrKysrKysrKysrKysr
-LS0tLQogMSBmaWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVf
-ZG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMK
-aW5kZXggYWY4MTU1NzA4NTY5Li5iNjE5MDA3OWVkM2YgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwpAQCAtNDQ4Niw2ICs0NDg2LDE5
-IEBAIGFtZGdwdV9kbV9jb25uZWN0b3JfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZShzdHJ1Y3QgZHJt
-X2Nvbm5lY3RvciAqY29ubmVjdG9yKQogCXJldHVybiAmbmV3X3N0YXRlLT5iYXNlOwogfQogCitz
-dGF0aWMgaW50CithbWRncHVfZG1fY29ubmVjdG9yX2xhdGVfcmVnaXN0ZXIoc3RydWN0IGRybV9j
-b25uZWN0b3IgKmNvbm5lY3RvcikKK3sKKwlzdHJ1Y3QgYW1kZ3B1X2RtX2Nvbm5lY3RvciAqYW1k
-Z3B1X2RtX2Nvbm5lY3RvciA9CisJCXRvX2FtZGdwdV9kbV9jb25uZWN0b3IoY29ubmVjdG9yKTsK
-KworI2lmIGRlZmluZWQoQ09ORklHX0RFQlVHX0ZTKQorCWNvbm5lY3Rvcl9kZWJ1Z2ZzX2luaXQo
-YW1kZ3B1X2RtX2Nvbm5lY3Rvcik7CisjZW5kaWYKKworCXJldHVybiAwOworfQorCiBzdGF0aWMg
-Y29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfZnVuY3MgYW1kZ3B1X2RtX2Nvbm5lY3Rvcl9mdW5j
-cyA9IHsKIAkucmVzZXQgPSBhbWRncHVfZG1fY29ubmVjdG9yX2Z1bmNzX3Jlc2V0LAogCS5kZXRl
-Y3QgPSBhbWRncHVfZG1fY29ubmVjdG9yX2RldGVjdCwKQEAgLTQ0OTUsNiArNDUwOCw3IEBAIHN0
-YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9mdW5jcyBhbWRncHVfZG1fY29ubmVjdG9y
-X2Z1bmNzID0gewogCS5hdG9taWNfZGVzdHJveV9zdGF0ZSA9IGRybV9hdG9taWNfaGVscGVyX2Nv
-bm5lY3Rvcl9kZXN0cm95X3N0YXRlLAogCS5hdG9taWNfc2V0X3Byb3BlcnR5ID0gYW1kZ3B1X2Rt
-X2Nvbm5lY3Rvcl9hdG9taWNfc2V0X3Byb3BlcnR5LAogCS5hdG9taWNfZ2V0X3Byb3BlcnR5ID0g
-YW1kZ3B1X2RtX2Nvbm5lY3Rvcl9hdG9taWNfZ2V0X3Byb3BlcnR5LAorCS5sYXRlX3JlZ2lzdGVy
-ID0gYW1kZ3B1X2RtX2Nvbm5lY3Rvcl9sYXRlX3JlZ2lzdGVyLAogCS5lYXJseV91bnJlZ2lzdGVy
-ID0gYW1kZ3B1X2RtX2Nvbm5lY3Rvcl91bnJlZ2lzdGVyCiB9OwogCkBAIC01ODM0LDEwICs1ODQ4
-LDYgQEAgc3RhdGljIGludCBhbWRncHVfZG1fY29ubmVjdG9yX2luaXQoc3RydWN0IGFtZGdwdV9k
-aXNwbGF5X21hbmFnZXIgKmRtLAogCWRybV9jb25uZWN0b3JfYXR0YWNoX2VuY29kZXIoCiAJCSZh
-Y29ubmVjdG9yLT5iYXNlLCAmYWVuY29kZXItPmJhc2UpOwogCi0jaWYgZGVmaW5lZChDT05GSUdf
-REVCVUdfRlMpCi0JY29ubmVjdG9yX2RlYnVnZnNfaW5pdChhY29ubmVjdG9yKTsKLSNlbmRpZgot
-CiAJaWYgKGNvbm5lY3Rvcl90eXBlID09IERSTV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9ydAog
-CQl8fCBjb25uZWN0b3JfdHlwZSA9PSBEUk1fTU9ERV9DT05ORUNUT1JfZURQKQogCQlhbWRncHVf
-ZG1faW5pdGlhbGl6ZV9kcF9jb25uZWN0b3IoZG0sIGFjb25uZWN0b3IpOwotLSAKMi4yNC4xCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Split into init and register functions to avoid a segfault
+in some configs when the load/unload callbacks are removed.
+
+v2:
+- add back accidently dropped has_aux setting
+- set dev in late_register
+
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c   | 16 ++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c         | 10 ++--------
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  | 11 ++++++++---
+ 3 files changed, 26 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index ec1501e3a63a..f355d9a752d2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -1461,6 +1461,20 @@ static enum drm_mode_status amdgpu_connector_dp_mode_valid(struct drm_connector
+ 	return MODE_OK;
+ }
+ 
++static int
++amdgpu_connector_late_register(struct drm_connector *connector)
++{
++	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
++	int r = 0;
++
++	if (amdgpu_connector->ddc_bus->has_aux) {
++		amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
++		r = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
++	}
++
++	return r;
++}
++
+ static const struct drm_connector_helper_funcs amdgpu_connector_dp_helper_funcs = {
+ 	.get_modes = amdgpu_connector_dp_get_modes,
+ 	.mode_valid = amdgpu_connector_dp_mode_valid,
+@@ -1475,6 +1489,7 @@ static const struct drm_connector_funcs amdgpu_connector_dp_funcs = {
+ 	.early_unregister = amdgpu_connector_unregister,
+ 	.destroy = amdgpu_connector_destroy,
+ 	.force = amdgpu_connector_dvi_force,
++	.late_register = amdgpu_connector_late_register,
+ };
+ 
+ static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
+@@ -1485,6 +1500,7 @@ static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
+ 	.early_unregister = amdgpu_connector_unregister,
+ 	.destroy = amdgpu_connector_destroy,
+ 	.force = amdgpu_connector_dvi_force,
++	.late_register = amdgpu_connector_late_register,
+ };
+ 
+ void
+diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+index ea702a64f807..9b74cfdba7b8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
++++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+@@ -186,16 +186,10 @@ amdgpu_atombios_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m
+ 
+ void amdgpu_atombios_dp_aux_init(struct amdgpu_connector *amdgpu_connector)
+ {
+-	int ret;
+-
+ 	amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector->hpd.hpd;
+-	amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
+ 	amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
+-	ret = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
+-	if (!ret)
+-		amdgpu_connector->ddc_bus->has_aux = true;
+-
+-	WARN(ret, "drm_dp_aux_register_i2c_bus() failed with error %d\n", ret);
++	drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
++	amdgpu_connector->ddc_bus->has_aux = true;
+ }
+ 
+ /***** general DP utility functions *****/
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 3959c942c88b..a4e6f9d39e12 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -155,6 +155,13 @@ amdgpu_dm_mst_connector_late_register(struct drm_connector *connector)
+ 	struct amdgpu_dm_connector *amdgpu_dm_connector =
+ 		to_amdgpu_dm_connector(connector);
+ 	struct drm_dp_mst_port *port = amdgpu_dm_connector->port;
++	int r;
++
++	r = drm_dp_aux_register(&amdgpu_dm_connector->dm_dp_aux.aux);
++	if (r)
++		return r;
++	drm_dp_cec_register_connector(&amdgpu_dm_connector->dm_dp_aux.aux,
++				      connector);
+ 
+ #if defined(CONFIG_DEBUG_FS)
+ 	connector_debugfs_init(amdgpu_dm_connector);
+@@ -484,9 +491,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
+ 	aconnector->dm_dp_aux.aux.transfer = dm_dp_aux_transfer;
+ 	aconnector->dm_dp_aux.ddc_service = aconnector->dc_link->ddc;
+ 
+-	drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
+-	drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
+-				      &aconnector->base);
++	drm_dp_aux_init(&aconnector->dm_dp_aux.aux);
+ 
+ 	if (aconnector->base.connector_type == DRM_MODE_CONNECTOR_eDP)
+ 		return;
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
