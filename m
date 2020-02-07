@@ -2,35 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0031554F5
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 10:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24361555C2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 11:33:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7B76FBF7;
-	Fri,  7 Feb 2020 09:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 809556FC23;
+	Fri,  7 Feb 2020 10:33:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D49E16FBF7;
- Fri,  7 Feb 2020 09:43:28 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2020 01:43:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,412,1574150400"; d="scan'208";a="430790942"
-Received: from sgillich-mobl.ger.corp.intel.com (HELO [10.249.38.221])
- ([10.249.38.221])
- by fmsmga005.fm.intel.com with ESMTP; 07 Feb 2020 01:43:26 -0800
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <551b6183-a581-9d12-10a9-24cd929de425@linux.intel.com>
-Date: Fri, 7 Feb 2020 10:43:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7A76FC22
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 10:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581071622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yl0rQbbe9aSm6WvN8MMtP7pc3kCYUxsvpG+aMvEgApI=;
+ b=ZI8lDJwDMw0ZGt61rs8kjX0EB9/zd84I9Byz16lp4ZCBM4arDfkYMI6BnqOU7fMKRTH1xK
+ OAdih4FhRYWLHAGn34JQcrkjFlOHtswCPdNfzPYfs+F+yw0o1eZ8qeALHLBvCsz72BK1YF
+ CIIHnPWh3sMm84drRjBcdamMWBCY//8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-YKGTqmbqNx67jbKFI2bxwg-1; Fri, 07 Feb 2020 05:33:38 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92356100551A;
+ Fri,  7 Feb 2020 10:33:35 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
+ [10.36.116.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C622386;
+ Fri,  7 Feb 2020 10:33:34 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 6D783A1E0; Fri,  7 Feb 2020 11:33:33 +0100 (CET)
+Date: Fri, 7 Feb 2020 11:33:33 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/6] drm: Add drm_simple_encoder_{init,create}()
+Message-ID: <20200207103333.rxebukm4hukavlq5@sirius.home.kraxel.org>
+References: <20200207084135.4524-1-tzimmermann@suse.de>
+ <20200207084135.4524-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Language: en-US
+In-Reply-To: <20200207084135.4524-3-tzimmermann@suse.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: YKGTqmbqNx67jbKFI2bxwg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,51 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: airlied@linux.ie, virtualization@lists.linux-foundation.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ spice-devel@lists.freedesktop.org, sam@ravnborg.org,
+ emil.velikov@collabora.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm-misc-next-fixes-2020-02-07:
-drm-misc-next fixes for v5.6:
-- Fix build error in drm/edid.
-- Plug close-after-free race in vgem_gem_create.
-- Handle CONFIG_DMA_API_DEBUG_SG better in drm/msm.
-The following changes since commit d7ca2d19c751b6715e9cb899a6b94f47b3499d02:
+> +static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+> +/**
+> + * drm_simple_encoder_init - Init a preallocated encoder
+> + * @dev: drm device
+> + * @funcs: callbacks for this encoder
+> + * @encoder_type: user visible type of the encoder
+> + * @name: printf style format string for the encoder name, or NULL
+> + *        for default name
+> + *
+> + * Initialises a preallocated encoder that has no further functionality. The
+> + * encoder will be released automatically.
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drm_simple_encoder_init(struct drm_device *dev,
+> +			    struct drm_encoder *encoder,
+> +			    int encoder_type, const char *name, ...)
 
-  Merge tag 'drm-msm-next-2020-01-14' of https://gitlab.freedesktop.org/drm/msm into drm-next (2020-01-20 14:09:43 +1000)
+How about using
 
-are available in the Git repository at:
+#define drm_simple_encoder_init(dev, type, name, ...) \
+        drm_encoder_init(dev, drm_simple_encoder_funcs_cleanup, type, name, __VA_ARGS__)
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2020-02-07
+instead ?
 
-for you to fetch changes up to e1cf35b94c5fd122a8780587559fc6da9fc2dd12:
+cheers,
+  Gerd
 
-  drm/edid: fix building error (2020-02-06 22:01:40 +0200)
-
-----------------------------------------------------------------
-drm-misc-next fixes for v5.6:
-- Fix build error in drm/edid.
-- Plug close-after-free race in vgem_gem_create.
-- Handle CONFIG_DMA_API_DEBUG_SG better in drm/msm.
-
-----------------------------------------------------------------
-Daniel Vetter (1):
-      drm/vgem: Close use-after-free race in vgem_gem_create
-
-Mauro Rossi (1):
-      drm/edid: fix building error
-
-Sean Paul (1):
-      drm/msm: Set dma maximum segment size for mdss
-
- drivers/gpu/drm/drm_edid.c      | 2 +-
- drivers/gpu/drm/msm/msm_drv.c   | 8 ++++++++
- drivers/gpu/drm/vgem/vgem_drv.c | 9 ++++++---
- 3 files changed, 15 insertions(+), 4 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
