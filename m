@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678561553D4
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 09:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7E81553DA
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 09:41:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D41046EA0A;
-	Fri,  7 Feb 2020 08:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10CAD6FBB8;
+	Fri,  7 Feb 2020 08:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD63E6FBC0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0ABD6FBB8;
  Fri,  7 Feb 2020 08:41:40 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 91845B132;
+ by mx2.suse.de (Postfix) with ESMTP id F175FB145;
  Fri,  7 Feb 2020 08:41:38 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, noralf@tronnes.org,
  sam@ravnborg.org, alexander.deucher@amd.com, emil.velikov@collabora.com
-Subject: [PATCH 2/6] drm: Add drm_simple_encoder_{init,create}()
-Date: Fri,  7 Feb 2020 09:41:31 +0100
-Message-Id: <20200207084135.4524-3-tzimmermann@suse.de>
+Subject: [PATCH 3/6] drm/ast: Use simple encoder
+Date: Fri,  7 Feb 2020 09:41:32 +0100
+Message-Id: <20200207084135.4524-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200207084135.4524-1-tzimmermann@suse.de>
 References: <20200207084135.4524-1-tzimmermann@suse.de>
@@ -46,166 +46,82 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The simple-encoder helpers initialize an encoder with an empty
-implementation. This covers the requirements of most of the existing
-DRM drivers. A call to drm_simple_encoder_create() allocates and
-initializes an encoder instance, a call to drm_simple_encoder_init()
-initializes a pre-allocated instance.
+The ast driver uses an empty implementation for its encoder. Replace
+the code with the generic simple encoder.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_encoder.c | 116 ++++++++++++++++++++++++++++++++++
- include/drm/drm_encoder.h     |  10 +++
- 2 files changed, 126 insertions(+)
+ drivers/gpu/drm/ast/ast_drv.h  |  6 +-----
+ drivers/gpu/drm/ast/ast_mode.c | 25 ++++++++-----------------
+ 2 files changed, 9 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-index ffe691a1bf34..1a65cab1f310 100644
---- a/drivers/gpu/drm/drm_encoder.c
-+++ b/drivers/gpu/drm/drm_encoder.c
-@@ -178,6 +178,122 @@ int drm_encoder_init(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index f5d8780776ae..656d591b154b 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -121,6 +121,7 @@ struct ast_private {
+ 		unsigned int next_index;
+ 	} cursor;
+ 
++	struct drm_encoder encoder;
+ 	struct drm_plane primary_plane;
+ 	struct drm_plane cursor_plane;
+ 
+@@ -238,13 +239,8 @@ struct ast_crtc {
+ 	u8 offset_x, offset_y;
+ };
+ 
+-struct ast_encoder {
+-	struct drm_encoder base;
+-};
+-
+ #define to_ast_crtc(x) container_of(x, struct ast_crtc, base)
+ #define to_ast_connector(x) container_of(x, struct ast_connector, base)
+-#define to_ast_encoder(x) container_of(x, struct ast_encoder, base)
+ 
+ struct ast_vbios_stdtable {
+ 	u8 misc;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 562ea6d9df13..60facaa152ac 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -968,28 +968,19 @@ static int ast_crtc_init(struct drm_device *dev)
+  * Encoder
+  */
+ 
+-static void ast_encoder_destroy(struct drm_encoder *encoder)
+-{
+-	drm_encoder_cleanup(encoder);
+-	kfree(encoder);
+-}
+-
+-static const struct drm_encoder_funcs ast_enc_funcs = {
+-	.destroy = ast_encoder_destroy,
+-};
+-
+ static int ast_encoder_init(struct drm_device *dev)
+ {
+-	struct ast_encoder *ast_encoder;
++	struct ast_private *ast = dev->dev_private;
++	struct drm_encoder *encoder = &ast->encoder;
++	int ret;
+ 
+-	ast_encoder = kzalloc(sizeof(struct ast_encoder), GFP_KERNEL);
+-	if (!ast_encoder)
+-		return -ENOMEM;
++	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC,
++				      NULL);
++	if (ret)
++		return ret;
+ 
+-	drm_encoder_init(dev, &ast_encoder->base, &ast_enc_funcs,
+-			 DRM_MODE_ENCODER_DAC, NULL);
++	encoder->possible_crtcs = 1;
+ 
+-	ast_encoder->base.possible_crtcs = 1;
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_encoder_init);
  
-+static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
-+/**
-+ * drm_simple_encoder_init - Init a preallocated encoder
-+ * @dev: drm device
-+ * @funcs: callbacks for this encoder
-+ * @encoder_type: user visible type of the encoder
-+ * @name: printf style format string for the encoder name, or NULL
-+ *        for default name
-+ *
-+ * Initialises a preallocated encoder that has no further functionality. The
-+ * encoder will be released automatically.
-+ *
-+ * Returns:
-+ * Zero on success, error code on failure.
-+ */
-+int drm_simple_encoder_init(struct drm_device *dev,
-+			    struct drm_encoder *encoder,
-+			    int encoder_type, const char *name, ...)
-+{
-+	char *namestr = NULL;
-+	int ret;
-+
-+	if (name) {
-+		va_list ap;
-+
-+		va_start(ap, name);
-+		namestr = kvasprintf(GFP_KERNEL, name, ap);
-+		va_end(ap);
-+		if (!namestr)
-+			return -ENOMEM;
-+	}
-+
-+	ret = __drm_encoder_init(dev, encoder,
-+				 &drm_simple_encoder_funcs_cleanup,
-+				 encoder_type, namestr);
-+	if (ret)
-+		goto err_kfree;
-+
-+	return 0;
-+
-+err_kfree:
-+	if (name)
-+		kfree(namestr);
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_simple_encoder_init);
-+
-+static void drm_encoder_destroy(struct drm_encoder *encoder)
-+{
-+	struct drm_device *dev = encoder->dev;
-+
-+	drm_encoder_cleanup(encoder);
-+	devm_kfree(dev->dev, encoder);
-+}
-+
-+static const struct drm_encoder_funcs drm_simple_encoder_funcs_destroy = {
-+	.destroy = drm_encoder_destroy,
-+};
-+
-+/**
-+ * drm_simple_encoder_create - Allocate and initialize an encoder
-+ * @dev: drm device
-+ * @encoder_type: user visible type of the encoder
-+ * @name: printf style format string for the encoder name, or NULL for
-+ *        default name
-+ *
-+ * Allocates and initialises an encoder that has no further functionality. The
-+ * encoder will be released automatically.
-+ *
-+ * Returns:
-+ * The encoder on success, a pointer-encoder error code on failure.
-+ */
-+struct drm_encoder *drm_simple_encoder_create(struct drm_device *dev,
-+					      int encoder_type,
-+					      const char *name, ...)
-+{
-+	char *namestr = NULL;
-+	struct drm_encoder *encoder;
-+	int ret;
-+
-+	encoder = devm_kzalloc(dev->dev, sizeof(*encoder), GFP_KERNEL);
-+	if (!encoder)
-+		return ERR_PTR(-ENOMEM);
-+
-+	if (name) {
-+		va_list ap;
-+
-+		va_start(ap, name);
-+		namestr = kvasprintf(GFP_KERNEL, name, ap);
-+		va_end(ap);
-+		if (!namestr) {
-+			ret = -ENOMEM;
-+			goto err_devm_kfree;
-+		}
-+	}
-+
-+	ret = __drm_encoder_init(dev, encoder,
-+				 &drm_simple_encoder_funcs_destroy,
-+				 encoder_type, namestr);
-+	if (ret)
-+		goto err_kfree;
-+
-+	return encoder;
-+
-+err_kfree:
-+	if (name)
-+		kfree(namestr);
-+err_devm_kfree:
-+	devm_kfree(dev->dev, encoder);
-+	return ERR_PTR(ret);
-+}
-+EXPORT_SYMBOL(drm_simple_encoder_create);
-+
- /**
-  * drm_encoder_cleanup - cleans up an initialised encoder
-  * @encoder: encoder to cleanup
-diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-index 5623994b6e9e..0214f6cf9de6 100644
---- a/include/drm/drm_encoder.h
-+++ b/include/drm/drm_encoder.h
-@@ -190,6 +190,16 @@ int drm_encoder_init(struct drm_device *dev,
- 		     const struct drm_encoder_funcs *funcs,
- 		     int encoder_type, const char *name, ...);
- 
-+__printf(4, 5)
-+int drm_simple_encoder_init(struct drm_device *dev,
-+			    struct drm_encoder *encoder,
-+			    int encoder_type, const char *name, ...);
-+
-+__printf(3, 4)
-+struct drm_encoder *drm_simple_encoder_create(struct drm_device *dev,
-+					      int encoder_type,
-+					      const char *name, ...);
-+
- /**
-  * drm_encoder_index - find the index of a registered encoder
-  * @encoder: encoder to find index for
 -- 
 2.25.0
 
