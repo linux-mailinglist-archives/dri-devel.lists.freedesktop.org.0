@@ -1,38 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D5F155672
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 12:11:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB4715571C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 12:44:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFBDF6FC3D;
-	Fri,  7 Feb 2020 11:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA716FC51;
+	Fri,  7 Feb 2020 11:44:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC72F6FC3F;
- Fri,  7 Feb 2020 11:11:14 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2020 03:11:14 -0800
-X-IronPort-AV: E=Sophos;i="5.70,413,1574150400"; d="scan'208";a="236324213"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2020 03:11:10 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 1/4] Revert "drm/i915: Don't use VBT for detecting DPCD
- backlight controls"
-In-Reply-To: <20200204192823.111404-2-lyude@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200204192823.111404-1-lyude@redhat.com>
- <20200204192823.111404-2-lyude@redhat.com>
-Date: Fri, 07 Feb 2020 13:11:07 +0200
-Message-ID: <87r1z61wl0.fsf@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F08D46FC51
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 11:44:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: andrzej.p) with ESMTPSA id 71B6B294818
+Subject: Re: [PATCHv5 00/34] Add AFBC support for Rockchip
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To: dri-devel@lists.freedesktop.org
+References: <20191213173350.GJ624164@phenom.ffwll.local>
+ <20191217145020.14645-1-andrzej.p@collabora.com>
+ <abace7b9-388b-e161-3371-c3b2e5406ff5@collabora.com>
+Message-ID: <de033b8f-756c-a6ea-106e-bfbb480cc354@collabora.com>
+Date: Fri, 7 Feb 2020 12:44:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <abace7b9-388b-e161-3371-c3b2e5406ff5@collabora.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,81 +39,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Lee Shawn C <shawn.c.lee@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernel@collabora.com, Mihail Atanassov <mihail.atanassov@arm.com>,
+ David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sandy Huang <hjc@rock-chips.com>, James Wang <james.qian.wang@arm.com>,
+ Ayan Halder <Ayan.Halder@arm.com>, Sean Paul <sean@poorly.run>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 04 Feb 2020, Lyude Paul <lyude@redhat.com> wrote:
-> This reverts commit d2a4bb6f8bc8cf2d788adf7e59b5b52fe3a3333c.
->
-> So, turns out that this ended up just breaking things. While many
-> laptops incorrectly advertise themselves as supporting PWM backlight
-> controls, they actually will only work with DPCD backlight controls.
-> Unfortunately, it also seems there are a number of systems which
-> advertise DPCD backlight controls in their eDP DPCD but don't actually
-> support them. Talking with some laptop manufacturers has shown it might
-> be possible to probe this support via the EDID (!?!?) but I haven't been
-> able to confirm that this would work on any other manufacturer's
-> systems.
->
-> So in the mean time, we'll just revert this commit for now and go back
-> to the old way of doing things.
-
-The below sentence does not seem to match the patch:
-
-> Additionally, let's print out an info
-> message into the kernel log so that it's a little more obvious if a
-> system needs DPCD backlight controls enabled through a quirk (which
-> we'll introduce in the next commit).
-
-I've pushed the revert to dinq, with the above removed, thanks for the
-patch.
-
-I'll try to look into the rest of the patches soon...
-
-BR,
-Jani.
-
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index e86feebef299..48276237b362 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -328,16 +328,15 @@ intel_dp_aux_display_control_capable(struct intel_connector *connector)
->  int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
->  {
->  	struct intel_panel *panel = &intel_connector->panel;
-> -	enum intel_backlight_type type =
-> -		to_i915(intel_connector->base.dev)->vbt.backlight.type;
-> +	struct drm_i915_private *dev_priv = to_i915(intel_connector->base.dev);
->  
->  	if (i915_modparams.enable_dpcd_backlight == 0 ||
->  	    (i915_modparams.enable_dpcd_backlight == -1 &&
-> -	     !intel_dp_aux_display_control_capable(intel_connector)))
-> +	    dev_priv->vbt.backlight.type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE))
->  		return -ENODEV;
->  
-> -	if (type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE)
-> -		DRM_DEBUG_DRIVER("Ignoring VBT backlight type\n");
-> +	if (!intel_dp_aux_display_control_capable(intel_connector))
-> +		return -ENODEV;
->  
->  	panel->backlight.setup = intel_dp_aux_setup_backlight;
->  	panel->backlight.enable = intel_dp_aux_enable_backlight;
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQWxsIGFnYWluLAoKQG1hbGlkcCBhbmQga29tZWRhIGZvbGtzOiBJIGtpbmRseSBhc2sgeW91
+IHRvIGhhdmUgeW91ciBzYXkuIElmIHRoZXJlIGlzCm5vIGludGVyZXN0IGZyb20geW91ICh3aGlj
+aCBpcyBvayB3aXRoIG1lKSBJIHdpbGwgcmVzZW5kIHRoZSBzZXJpZXMKZHJvcHBpbmcgdGhlIGtv
+bWVkYSBhbmQgbWFsaWRwIHBhcnQuCgpBbmRyemVqCgpXIGRuaXUgMzAuMDEuMjAyMCBvwqAxMDow
+OCwgQW5kcnplaiBQaWV0cmFzaWV3aWN6IHBpc3plOgo+IEhpIEFsbCwKPiAKPiBBIGdlbnRsZSBy
+ZW1pbmRlci4KPiAKPiBQbGVhc2UgYWxzbyBzZWUgaW5saW5lOgo+IAo+IFcgZG5pdSAxNy4xMi4y
+MDE5IG/CoDE1OjQ5LCBBbmRyemVqIFBpZXRyYXNpZXdpY3ogcGlzemU6Cj4+IFRoaXMgc2VyaWVz
+IGFkZHMgQUZCQyBzdXBwb3J0IGZvciBSb2NrY2hpcC4gSXQgaXMgaW5zcGlyZWQgYnk6Cj4+Cj4+
+IGh0dHBzOi8vY2hyb21pdW0uZ29vZ2xlc291cmNlLmNvbS9jaHJvbWl1bW9zL3RoaXJkX3BhcnR5
+L2tlcm5lbC8rL3JlZnMvaGVhZHMvZmFjdG9yeS1ncnUtOTAxNy5CLWNocm9tZW9zLTQuNC9kcml2
+ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jIAo+Pgo+Pgo+PiBUaGlzIGlz
+IHRoZSBmaWZ0aCBpdGVyYXRpb24gb2YgdGhlIGFmYmMgc2VyaWVzLiBCZXR3ZWVuIHYzIGFuZCB2
+NCBhIGxvdCBvZgo+PiByZXdvcmsgaGFzIGJlZW4gZG9uZSwgdGhlIG1haW4gZ29hbCBvZiB3aGlj
+aCB3YXMgdG8gbW92ZSBhbGwgYWZiYy1yZWxhdGVkCj4+IGNoZWNrcyB0byBoZWxwZXJzLCBzbyB0
+aGF0IGNvcmUgZG9lcyBub3QgZGVhbCB3aXRoIGl0Lgo+Pgo+PiBBIG5ldyBzdHJ1Y3QgZHJtX2Fm
+YmNfZnJhbWVidWZmZXIgaXMgYWRkZWQsIHdoaWNoIHN0b3JlcyBhZmJjLXJlbGF0ZWQKPj4gZHJp
+dmVyLXNwZWNpZmljIGRhdGEuIEJlY2F1c2Ugb2YgdGhhdCwgaW4gZHJpdmVycyB0aGF0IHdpc2gg
+dG8KPj4gdXNlIHRoaXMgZmVhdHVyZSwgdGhlIHN0cnVjdCBtdXN0IGJlIGFsbG9jYXRlZCBkaXJl
+Y3RseSBpbiB0aGUgZHJpdmVyCj4+IGNvZGUgcmF0aGVyIHRoYW4gaW5zaWRlIGhlbHBlcnMsIHNv
+IHRoZSBmaXJzdCBwb3J0aW9uIG9mIHRoZSBwYXRjaHNldAo+PiBkb2VzIHRoZSBuZWNlc3Nhcnkg
+cmVmYWN0b3JpbmcuCj4+Cj4+IFRoZW4sIHRoZXJlIGFyZSAzIHVzZXJzIG9mIGFmYmM6IGtvbWVk
+YSwgbWFsaWRwIGFuZCwgZmluYWxseSwgcm9ja2NoaXAsCj4+IHRoZSBsYXR0ZXIgYmVpbmcgdGhl
+IHVsdGltYXRlIHB1cnBvc2Ugb2YgdGhpcyB3b3JrIGFuZCB0aGUgMyBzdWJzZXF1ZW50Cj4+IHBv
+cnRpb25zIG9mIHRoZSBwYXRjaHNldCBtb3ZlIGtvbWVkYSBhbmQgbWFsaWRwIHRvIGdlbmVyaWMg
+aGVscGVycyBhbmQgYWRkCj4+IGFmYmMgc3VwcG9ydCB0byByb2NrY2hpcC4KPiAKPiBJZiBjaGFu
+Z2VzIGluIGtvbWVkYSBhbmQgbWFsaWRwIGlzIHRvbyBtdWNoIHRvIGRpZ2VzdCBhdCBhIHRpbWUg
+SSBjYW4KPiBmb2N1cyBvbiByb2NrY2hpcCBvbmx5LiBUaGlzIHdvdWxkIGFtb3VudCB0byBwYXRj
+aGVzIDEtNCBhbmQgMzMtMzQuCj4gQWZ0ZXIgYWxsIHRoZSB1bHRpbWF0ZSBwdXJwb3NlIG9mIHRo
+aXMgd29yayBhbmQgdGltZSBzcGVudCBvbiBpdAo+IGlzIGxhbmRpbmcgYWZiYyBzdXBwb3J0IGZv
+ciByb2NrY2hpcC4KPiAKPiBSZWdhcmRzLAo+IAo+IEFuZHJ6ZWoKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
