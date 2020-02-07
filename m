@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0AD155EE6
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 20:51:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68B4155EE7
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 20:51:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB0B96FD8D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D654C6FD90;
 	Fri,  7 Feb 2020 19:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D35306FD82;
- Fri,  7 Feb 2020 19:51:19 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id w47so312795qtk.4;
- Fri, 07 Feb 2020 11:51:19 -0800 (PST)
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A768E6FD8A;
+ Fri,  7 Feb 2020 19:51:20 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id q15so257793qke.9;
+ Fri, 07 Feb 2020 11:51:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jSk8UNuSvV0yFKAsTmjIMgpIonbMj22btC08pBbXT2E=;
- b=ak+N9xwunflpk4Bp+gtPvBEOwDKiLji4HGoXoH8uMNeIINUr39B5NrV9BO9Ag0A4H0
- WuHxEPy07gxQ+sC4jZTeRZOL6psg/bBHfjeesNtcr3tverv4fGEEyQvfz12rVhdrW2GW
- GVbeze/QRZOaQuEe2aL8PlaEQuQkve9FLyUoCH2jnbialnnj4v/7lBDP1RCPandnbkN/
- mxgWS1B5q07VcJ5A4WitCkOguVooWlNNs0vvGuih6ujXlkIdBLjT9lNFdJFiQ5wPZ4fc
- WrSpwXO711oHGOgOhvyisVD2wSNrGzZh4YW8l/lDoXf6id1yhZtwb0hCYBcBd7I4cRr1
- FwOQ==
+ bh=hpS9gOoEF48PiATu60PxiiASisTpI+MmTUv9TeQ4QWI=;
+ b=M104C8OZ295ZzOJpwQhwBpeMd06KqjGjdIy+W74hEIMpl4WyvVcv/HWRNJ+4GwYKVI
+ 8QbHKh4PLCywRA7FkdZwVeIql+7vAquPJCs+BvcgiFB9oU7cHm14I5HpV4BXIOfzc0Ia
+ naB57tJkq5Fh8cr4llTaiGDUc5O+aOih7gDQDDRqNsS8D52NtF0A7Yj826SqLmqPqV+T
+ 8ViAFOK6xl7+YO1a8f017KNJkS9GTToIM3onfM0n7MUGzKh42JiZvsR//k7J6wGZV/Yf
+ PdZP38pK/HgPnTEieKbJjPWV9BtNTelXunpUq+arYhpd3cKeQjgICYsB7SYWlKZHqd1G
+ lElQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jSk8UNuSvV0yFKAsTmjIMgpIonbMj22btC08pBbXT2E=;
- b=kR7CGV8G2YutNlWSBbs3qkTDqk7QB3zyK9FViconEPlE/e2N5WKPE4uOJXCOUHxIFk
- kTm2jTQGYzEhDyxKe41FzFAOY9oCbe7acKSh737gK2yBt64tiNyTn86hLo7rTaJwWF4C
- YpLuk058ftj5NmlefpynFuvL4j3ZbcHbWGWpRg7uFIU2ewuC23DnD+soGY4BOg/yJj4E
- cK8Kx3HiK4lskY1QAArWlhHgbKHZN9q2KyO1fYH5a4Erw9Y/2QeZdVWm2MfrezHR3AO+
- ffOgoM7P3H5IOUC63OwKUu+Gb3t1vV5/5PSSHQftc3YzN3RhjidehSoLDRtAkWT7GX7u
- 3YtA==
-X-Gm-Message-State: APjAAAVDwwHU3c+1myNO8K7v7ibXmoa/x01L5+uLtsayLFMSf0g9sfz8
- W/P1cTRrQmd9/1RTvqELLw3BDVMn
-X-Google-Smtp-Source: APXvYqzRSWTq4c2P0EYOdmbDCH7q0+o/PY8XzmKHxoojQ/oL+84kE+CT+kcsFF5PHAvDHAa2b+EFxg==
-X-Received: by 2002:ac8:1194:: with SMTP id d20mr445495qtj.243.1581105078717; 
- Fri, 07 Feb 2020 11:51:18 -0800 (PST)
+ bh=hpS9gOoEF48PiATu60PxiiASisTpI+MmTUv9TeQ4QWI=;
+ b=hdLab3p63SVP4FczI0Yo7xUhSLV4qEYw6gtyqwVqllaEp6n47F+GS8FpmfhlE8ljtf
+ e4c1fNisC0CUGe9meIjFOL2J0mD3pw5g2S7IJueQI3s7uVP0XpmbaoSI7RbaHXT/1vp8
+ SDl6HY5GbkEQrb7Qro7NaXxqyxGSvakTg8MIBYfmV6c9CqdO6f3ZA5CuYp3I3duLAJF4
+ d4EW4/mKl9LjP0OSBtqk7+CFS3KfzvqJqFVwm6fqdbtmyEpRssA/BrGL38Koij7jG+j8
+ 0mSwtuJUwQn14kW7G4deBOKELYkioiKPUgF7/vxmS5fP/7Pwe6A1AgRc4MgYDFeuOu5D
+ ItLw==
+X-Gm-Message-State: APjAAAUfIDG8nkhMFkAQIpc4YghyosJxn8kmFVZ07G5yjziqCwifxkmV
+ c5RrvYSQM+5xeAAPtNMkUrI4wryg
+X-Google-Smtp-Source: APXvYqyEnZfiXjKExC2Trp44cV9Dt/jfmCGKw6nCUH7LtC7x1CgxIwZacKTH8LPgWZswt2QymRh3xA==
+X-Received: by 2002:a37:6457:: with SMTP id y84mr550075qkb.254.1581105079582; 
+ Fri, 07 Feb 2020 11:51:19 -0800 (PST)
 Received: from localhost.localdomain ([71.219.59.120])
- by smtp.gmail.com with ESMTPSA id w16sm1752226qkj.135.2020.02.07.11.51.17
+ by smtp.gmail.com with ESMTPSA id w16sm1752226qkj.135.2020.02.07.11.51.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 11:51:18 -0800 (PST)
+ Fri, 07 Feb 2020 11:51:19 -0800 (PST)
 From: Alex Deucher <alexdeucher@gmail.com>
 X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/15] drm/amdgpu/display: split dp connector registration (v2)
-Date: Fri,  7 Feb 2020 14:50:56 -0500
-Message-Id: <20200207195058.2354-14-alexander.deucher@amd.com>
+Subject: [PATCH 14/15] drm/amdgpu/ring: move debugfs init into core amdgpu
+ debugfs
+Date: Fri,  7 Feb 2020 14:50:57 -0500
+Message-Id: <20200207195058.2354-15-alexander.deucher@amd.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200207195058.2354-1-alexander.deucher@amd.com>
 References: <20200207195058.2354-1-alexander.deucher@amd.com>
@@ -68,123 +69,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split into init and register functions to avoid a segfault
-in some configs when the load/unload callbacks are removed.
-
-v2:
-- add back accidently dropped has_aux setting
-- set dev in late_register
-
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c   | 16 ++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/atombios_dp.c         | 10 ++--------
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  | 11 ++++++++---
- 3 files changed, 26 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index ec1501e3a63a..f355d9a752d2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -1461,6 +1461,20 @@ static enum drm_mode_status amdgpu_connector_dp_mode_valid(struct drm_connector
- 	return MODE_OK;
- }
- 
-+static int
-+amdgpu_connector_late_register(struct drm_connector *connector)
-+{
-+	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
-+	int r = 0;
-+
-+	if (amdgpu_connector->ddc_bus->has_aux) {
-+		amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
-+		r = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
-+	}
-+
-+	return r;
-+}
-+
- static const struct drm_connector_helper_funcs amdgpu_connector_dp_helper_funcs = {
- 	.get_modes = amdgpu_connector_dp_get_modes,
- 	.mode_valid = amdgpu_connector_dp_mode_valid,
-@@ -1475,6 +1489,7 @@ static const struct drm_connector_funcs amdgpu_connector_dp_funcs = {
- 	.early_unregister = amdgpu_connector_unregister,
- 	.destroy = amdgpu_connector_destroy,
- 	.force = amdgpu_connector_dvi_force,
-+	.late_register = amdgpu_connector_late_register,
- };
- 
- static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
-@@ -1485,6 +1500,7 @@ static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
- 	.early_unregister = amdgpu_connector_unregister,
- 	.destroy = amdgpu_connector_destroy,
- 	.force = amdgpu_connector_dvi_force,
-+	.late_register = amdgpu_connector_late_register,
- };
- 
- void
-diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-index ea702a64f807..9b74cfdba7b8 100644
---- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-@@ -186,16 +186,10 @@ amdgpu_atombios_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m
- 
- void amdgpu_atombios_dp_aux_init(struct amdgpu_connector *amdgpu_connector)
- {
--	int ret;
--
- 	amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector->hpd.hpd;
--	amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
- 	amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
--	ret = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
--	if (!ret)
--		amdgpu_connector->ddc_bus->has_aux = true;
--
--	WARN(ret, "drm_dp_aux_register_i2c_bus() failed with error %d\n", ret);
-+	drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
-+	amdgpu_connector->ddc_bus->has_aux = true;
- }
- 
- /***** general DP utility functions *****/
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 3959c942c88b..a4e6f9d39e12 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -155,6 +155,13 @@ amdgpu_dm_mst_connector_late_register(struct drm_connector *connector)
- 	struct amdgpu_dm_connector *amdgpu_dm_connector =
- 		to_amdgpu_dm_connector(connector);
- 	struct drm_dp_mst_port *port = amdgpu_dm_connector->port;
-+	int r;
-+
-+	r = drm_dp_aux_register(&amdgpu_dm_connector->dm_dp_aux.aux);
-+	if (r)
-+		return r;
-+	drm_dp_cec_register_connector(&amdgpu_dm_connector->dm_dp_aux.aux,
-+				      connector);
- 
- #if defined(CONFIG_DEBUG_FS)
- 	connector_debugfs_init(amdgpu_dm_connector);
-@@ -484,9 +491,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
- 	aconnector->dm_dp_aux.aux.transfer = dm_dp_aux_transfer;
- 	aconnector->dm_dp_aux.ddc_service = aconnector->dc_link->ddc;
- 
--	drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
--	drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
--				      &aconnector->base);
-+	drm_dp_aux_init(&aconnector->dm_dp_aux.aux);
- 
- 	if (aconnector->base.connector_type == DRM_MODE_CONNECTOR_eDP)
- 		return;
--- 
-2.24.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SW4gb3JkZXIgdG8gcmVtb3ZlIHRoZSBsb2FkIGFuZCB1bmxvYWQgZHJtIGNhbGxiYWNrcywKd2Ug
+bmVlZCB0byByZW9yZGVyIHRoZSBpbml0IHNlcXVlbmNlIHRvIG1vdmUgYWxsIHRoZSBkcm0KZGVi
+dWdmcyBmaWxlIGhhbmRsaW5nLiAgRG8gdGhpcyBmb3IgcmluZ3MuCgpBY2tlZC1ieTogQ2hyaXN0
+aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBBbGV4
+IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X2RlYnVnZnMuYyB8IDIzICsrKysrKysrKysrKysrKysrKysrLQog
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3JpbmcuYyAgICB8IDE1ICsrKy0tLS0t
+LS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcmluZy5oICAgIHwgIDQg
+KysrKwogMyBmaWxlcyBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkK
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGVidWdmcy5j
+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RlYnVnZnMuYwppbmRleCBkZjM5
+MTllZjg4NmIuLjczNzk5MTA3OTBjOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X2RlYnVnZnMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfZGVidWdmcy5jCkBAIC0xMjE4LDcgKzEyMTgsNyBAQCBERUZJTkVfU0lNUExFX0FUVFJJ
+QlVURShmb3BzX2liX3ByZWVtcHQsIE5VTEwsCiAKIGludCBhbWRncHVfZGVidWdmc19pbml0KHN0
+cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KQogewotCWludCByOworCWludCByLCBpOwogCiAJYWRl
+di0+ZGVidWdmc19wcmVlbXB0ID0KIAkJZGVidWdmc19jcmVhdGVfZmlsZSgiYW1kZ3B1X3ByZWVt
+cHRfaWIiLCAwNjAwLApAQCAtMTI2OCwxMiArMTI2OCwzMyBAQCBpbnQgYW1kZ3B1X2RlYnVnZnNf
+aW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIAl9CiAjZW5kaWYKIAorCWZvciAoaSA9
+IDA7IGkgPCBBTURHUFVfTUFYX1JJTkdTOyArK2kpIHsKKwkJc3RydWN0IGFtZGdwdV9yaW5nICpy
+aW5nID0gYWRldi0+cmluZ3NbaV07CisKKwkJaWYgKCFyaW5nKQorCQkJY29udGludWU7CisKKwkJ
+aWYgKGFtZGdwdV9kZWJ1Z2ZzX3JpbmdfaW5pdChhZGV2LCByaW5nKSkgeworCQkJRFJNX0VSUk9S
+KCJGYWlsZWQgdG8gcmVnaXN0ZXIgZGVidWdmcyBmaWxlIGZvciByaW5ncyAhXG4iKTsKKwkJfQor
+CX0KKwogCXJldHVybiBhbWRncHVfZGVidWdmc19hZGRfZmlsZXMoYWRldiwgYW1kZ3B1X2RlYnVn
+ZnNfbGlzdCwKIAkJCQkJQVJSQVlfU0laRShhbWRncHVfZGVidWdmc19saXN0KSk7CiB9CiAKIHZv
+aWQgYW1kZ3B1X2RlYnVnZnNfZmluaShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIHsKKwlp
+bnQgaTsKKworCWZvciAoaSA9IDA7IGkgPCBBTURHUFVfTUFYX1JJTkdTOyArK2kpIHsKKwkJc3Ry
+dWN0IGFtZGdwdV9yaW5nICpyaW5nID0gYWRldi0+cmluZ3NbaV07CisKKwkJaWYgKCFyaW5nKQor
+CQkJY29udGludWU7CisKKwkJYW1kZ3B1X2RlYnVnZnNfcmluZ19maW5pKHJpbmcpOworCX0KIAlh
+bWRncHVfdHRtX2RlYnVnZnNfZmluaShhZGV2KTsKIAlkZWJ1Z2ZzX3JlbW92ZShhZGV2LT5kZWJ1
+Z2ZzX3ByZWVtcHQpOwogfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X3JpbmcuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmMK
+aW5kZXggZTVjODNlMTY0ZDgyLi41MzliZTEzODI2MGUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X3JpbmcuYwpAQCAtNDgsOSArNDgsNiBAQAogICogd3B0ci4gIFRoZSBHUFUg
+dGhlbiBzdGFydHMgZmV0Y2hpbmcgY29tbWFuZHMgYW5kIGV4ZWN1dGVzCiAgKiB0aGVtIHVudGls
+IHRoZSBwb2ludGVycyBhcmUgZXF1YWwgYWdhaW4uCiAgKi8KLXN0YXRpYyBpbnQgYW1kZ3B1X2Rl
+YnVnZnNfcmluZ19pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LAotCQkJCSAgICBzdHJ1
+Y3QgYW1kZ3B1X3JpbmcgKnJpbmcpOwotc3RhdGljIHZvaWQgYW1kZ3B1X2RlYnVnZnNfcmluZ19m
+aW5pKHN0cnVjdCBhbWRncHVfcmluZyAqcmluZyk7CiAKIC8qKgogICogYW1kZ3B1X3JpbmdfYWxs
+b2MgLSBhbGxvY2F0ZSBzcGFjZSBvbiB0aGUgcmluZyBidWZmZXIKQEAgLTMzNCwxMCArMzMxLDYg
+QEAgaW50IGFtZGdwdV9yaW5nX2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHN0cnVj
+dCBhbWRncHVfcmluZyAqcmluZywKIAlmb3IgKGkgPSAwOyBpIDwgRFJNX1NDSEVEX1BSSU9SSVRZ
+X01BWDsgKytpKQogCQlhdG9taWNfc2V0KCZyaW5nLT5udW1fam9ic1tpXSwgMCk7CiAKLQlpZiAo
+YW1kZ3B1X2RlYnVnZnNfcmluZ19pbml0KGFkZXYsIHJpbmcpKSB7Ci0JCURSTV9FUlJPUigiRmFp
+bGVkIHRvIHJlZ2lzdGVyIGRlYnVnZnMgZmlsZSBmb3IgcmluZ3MgIVxuIik7Ci0JfQotCiAJcmV0
+dXJuIDA7CiB9CiAKQEAgLTM2Nyw4ICszNjAsNiBAQCB2b2lkIGFtZGdwdV9yaW5nX2Zpbmkoc3Ry
+dWN0IGFtZGdwdV9yaW5nICpyaW5nKQogCQkJICAgICAgJnJpbmctPmdwdV9hZGRyLAogCQkJICAg
+ICAgKHZvaWQgKiopJnJpbmctPnJpbmcpOwogCi0JYW1kZ3B1X2RlYnVnZnNfcmluZ19maW5pKHJp
+bmcpOwotCiAJZG1hX2ZlbmNlX3B1dChyaW5nLT52bWlkX3dhaXQpOwogCXJpbmctPnZtaWRfd2Fp
+dCA9IE5VTEw7CiAJcmluZy0+bWUgPSAwOwpAQCAtNDg1LDggKzQ3Niw4IEBAIHN0YXRpYyBjb25z
+dCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIGFtZGdwdV9kZWJ1Z2ZzX3JpbmdfZm9wcyA9IHsKIAog
+I2VuZGlmCiAKLXN0YXRpYyBpbnQgYW1kZ3B1X2RlYnVnZnNfcmluZ19pbml0KHN0cnVjdCBhbWRn
+cHVfZGV2aWNlICphZGV2LAotCQkJCSAgICBzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcpCitpbnQg
+YW1kZ3B1X2RlYnVnZnNfcmluZ19pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LAorCQkJ
+ICAgICBzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcpCiB7CiAjaWYgZGVmaW5lZChDT05GSUdfREVC
+VUdfRlMpCiAJc3RydWN0IGRybV9taW5vciAqbWlub3IgPSBhZGV2LT5kZGV2LT5wcmltYXJ5OwpA
+QCAtNTA3LDcgKzQ5OCw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2RlYnVnZnNfcmluZ19pbml0KHN0
+cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LAogCXJldHVybiAwOwogfQogCi1zdGF0aWMgdm9pZCBh
+bWRncHVfZGVidWdmc19yaW5nX2Zpbmkoc3RydWN0IGFtZGdwdV9yaW5nICpyaW5nKQordm9pZCBh
+bWRncHVfZGVidWdmc19yaW5nX2Zpbmkoc3RydWN0IGFtZGdwdV9yaW5nICpyaW5nKQogewogI2lm
+IGRlZmluZWQoQ09ORklHX0RFQlVHX0ZTKQogCWRlYnVnZnNfcmVtb3ZlKHJpbmctPmVudCk7CmRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcmluZy5oIGIvZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3JpbmcuaAppbmRleCA1MTM0ZDBkZDZkYzIu
+LjBkMDk4ZGFmZDIzYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X3JpbmcuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcmluZy5o
+CkBAIC0zMjksNCArMzI5LDggQEAgc3RhdGljIGlubGluZSB2b2lkIGFtZGdwdV9yaW5nX3dyaXRl
+X211bHRpcGxlKHN0cnVjdCBhbWRncHVfcmluZyAqcmluZywKIAogaW50IGFtZGdwdV9yaW5nX3Rl
+c3RfaGVscGVyKHN0cnVjdCBhbWRncHVfcmluZyAqcmluZyk7CiAKK2ludCBhbWRncHVfZGVidWdm
+c19yaW5nX2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsCisJCQkgICAgIHN0cnVjdCBh
+bWRncHVfcmluZyAqcmluZyk7Cit2b2lkIGFtZGdwdV9kZWJ1Z2ZzX3JpbmdfZmluaShzdHJ1Y3Qg
+YW1kZ3B1X3JpbmcgKnJpbmcpOworCiAjZW5kaWYKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
