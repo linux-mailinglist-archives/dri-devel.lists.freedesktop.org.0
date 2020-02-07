@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D7A1554C8
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 10:35:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58ACD1554CB
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 10:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A20E46FBEC;
-	Fri,  7 Feb 2020 09:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74E1B6FBF3;
+	Fri,  7 Feb 2020 09:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D02BE6FBEC
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 09:34:59 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85F36FBF3
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 09:35:33 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0179RUDx013874; Fri, 7 Feb 2020 10:34:53 +0100
+ 0179T9jD000507; Fri, 7 Feb 2020 10:35:28 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
  h=from : to : cc : subject
  : date : message-id : references : in-reply-to : content-type : content-id
  : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=bUFEdxgHJ3uF5fxlnj+Oz6ttTEQRedQ3ZUNqy8lCUjU=;
- b=IuS7DkoJEon3mMJ3lk5szh26gy3yt0ZaYpUkiXVkhDScwV65SGAkmHmGfVoXq0QMBhsH
- l9rk1ZLGTQUjt31ryiQZSs+fGhNHUIDdhsBOxX1+ARrGvnC1ByGOL8+YeiLxqdHnFUES
- 0pwwvmAdzmW/UCbbihnIXmMbe9/t1CH4cC8h/Vm0JR3vEuDTMES5GgDC1lVFppK8UZ9O
- /feJ68sudoOhgtaNaCWo7B2sNaOsllbabbAICEepLfAGMqjh+1O3EGk2i0m5FyFDfDhs
- I89fXriFMPsPC+he+yQEctPcJYNzKWCAKYyzz1YCgVEP8NmxmTOLCWTN0+am1dKkYwMt AA== 
+ bh=vKgnaX5bjo09jVxPTqlOy1rgK6nH+2B8BLsuyDClUl8=;
+ b=vJHPrnO0gHy5W/LwCsmxpAI6LNzrUHtxsQrn5Sf10NoLdXkV1IHddDDQ0eLTt5dwRgKx
+ NNG75Uieu+LTkdqtwSg3SUrrAYAuQh8u/eCGiWSYxTgRchArBEfYp97bmmtu3X5uZ8kG
+ jUd7K0lQ4MBaHWNmB82TYVrUcLRkvyNo4VL+TPTE0EC3xNmSSFM+/OguveWM+Q8SkBsm
+ 02skcAZj3O90+FhJ2uJjGL07fxzywZXa1S0X3hFPRpYB5V2E/SFN2XMooGoie/bHFx9K
+ dyGqnqhnbQ7Wce9BDJWGU6Cwa/tRdLBlIwbm0O+cwPI25S0BIuuFZD2QoktHM7HU+BSq WA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 2xyhm003tt-1
+ by mx07-00178001.pphosted.com with ESMTP id 2xyhku9r14-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Feb 2020 10:34:53 +0100
+ Fri, 07 Feb 2020 10:35:28 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 22DE2100034;
- Fri,  7 Feb 2020 10:34:48 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E81192A8FA2;
- Fri,  7 Feb 2020 10:34:47 +0100 (CET)
-Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 7 Feb
- 2020 10:34:47 +0100
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 9E98310002A;
+ Fri,  7 Feb 2020 10:35:27 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8CBAC2A8FA3;
+ Fri,  7 Feb 2020 10:35:27 +0100 (CET)
+Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG3NODE1.st.com
+ (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 7 Feb
+ 2020 10:35:27 +0100
 Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
  SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
- 15.00.1473.003; Fri, 7 Feb 2020 10:34:47 +0100
+ 15.00.1473.003; Fri, 7 Feb 2020 10:35:26 +0100
 From: Philippe CORNU <philippe.cornu@st.com>
 To: Benjamin GAIGNARD <benjamin.gaignard@st.com>, "thierry.reding@gmail.com"
  <thierry.reding@gmail.com>, "sam@ravnborg.org" <sam@ravnborg.org>,
  "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
  "robh+dt@kernel.org" <robh+dt@kernel.org>, "mark.rutland@arm.com"
  <mark.rutland@arm.com>
-Subject: Re: [PATCH v4 3/3] dt-bindings: panel: Convert orisetech, otm8009a to
+Subject: Re: [PATCH v4 2/3] dt-bindings: panel: Convert raydium,rm68200 to
  json-schema
-Thread-Topic: [PATCH v4 3/3] dt-bindings: panel: Convert orisetech, otm8009a to
+Thread-Topic: [PATCH v4 2/3] dt-bindings: panel: Convert raydium,rm68200 to
  json-schema
-Thread-Index: AQHV3PIRgJ4AtMRmk0Ke4l0B2y5xt6gPaP+A
-Date: Fri, 7 Feb 2020 09:34:47 +0000
-Message-ID: <80b5cd29-166c-f3a2-891f-762c45dd203b@st.com>
+Thread-Index: AQHV3PIRbsEXfpNCKEe93LIMHMYazKgPaTMA
+Date: Fri, 7 Feb 2020 09:35:26 +0000
+Message-ID: <2939457c-0d76-caa9-7f12-8befbc5b96f2@st.com>
 References: <20200206133344.724-1-benjamin.gaignard@st.com>
- <20200206133344.724-4-benjamin.gaignard@st.com>
-In-Reply-To: <20200206133344.724-4-benjamin.gaignard@st.com>
+ <20200206133344.724-3-benjamin.gaignard@st.com>
+In-Reply-To: <20200206133344.724-3-benjamin.gaignard@st.com>
 Accept-Language: fr-FR, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -66,8 +66,8 @@ user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.49]
-Content-ID: <8804B4F629350A48B86A7680318AF44E@st.com>
+x-originating-ip: [10.75.127.46]
+Content-ID: <73E242B49A240944830717037FB39E19@st.com>
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-07_01:2020-02-07,
@@ -95,77 +95,81 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Benjamin,
 
 On 2/6/20 2:33 PM, Benjamin Gaignard wrote:
-> Convert orisetech,otm8009a to json-schema.
+> Convert raydium,rm68200 to json-schema.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
 > ---
->   .../bindings/display/panel/orisetech,otm8009a.txt  | 23 ----------
->   .../bindings/display/panel/orisetech,otm8009a.yaml | 53 ++++++++++++++++++++++
->   2 files changed, 53 insertions(+), 23 deletions(-)
->   delete mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
->   create mode 100644 Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+>   .../bindings/display/panel/raydium,rm68200.txt     | 25 ----------
+>   .../bindings/display/panel/raydium,rm68200.yaml    | 56 ++++++++++++++++++++++
+>   2 files changed, 56 insertions(+), 25 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt
+>   create mode 100644 Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
+> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt
 > deleted file mode 100644
-> index 203b03eefb68..000000000000
-> --- a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.txt
+> index cbb79ef3bfc9..000000000000
+> --- a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.txt
 > +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -Orise Tech OTM8009A 3.97" 480x800 TFT LCD panel (MIPI-DSI video mode)
+> @@ -1,25 +0,0 @@
+> -Raydium Semiconductor Corporation RM68200 5.5" 720p MIPI-DSI TFT LCD panel
 > -
-> -The Orise Tech OTM8009A is a 3.97" 480x800 TFT LCD panel connected using
-> -a MIPI-DSI video interface. Its backlight is managed through the DSI link.
+> -The Raydium Semiconductor Corporation RM68200 is a 5.5" 720x1280 TFT LCD
+> -panel connected using a MIPI-DSI video interface.
 > -
 > -Required properties:
-> -  - compatible: "orisetech,otm8009a"
+> -  - compatible: "raydium,rm68200"
 > -  - reg: the virtual channel number of a DSI peripheral
 > -
 > -Optional properties:
 > -  - reset-gpios: a GPIO spec for the reset pin (active low).
 > -  - power-supply: phandle of the regulator that provides the supply voltage.
+> -  - backlight: phandle of the backlight device attached to the panel.
 > -
 > -Example:
 > -&dsi {
 > -	...
 > -	panel@0 {
-> -		compatible = "orisetech,otm8009a";
+> -		compatible = "raydium,rm68200";
 > -		reg = <0>;
-> -		reset-gpios = <&gpioh 7 GPIO_ACTIVE_LOW>;
+> -		reset-gpios = <&gpiof 15 GPIO_ACTIVE_LOW>;
 > -		power-supply = <&v1v8>;
+> -		backlight = <&pwm_backlight>;
 > -	};
 > -};
-> diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
 > new file mode 100644
-> index 000000000000..6e6ac995c27b
+> index 000000000000..09149f140d5f
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-> @@ -0,0 +1,53 @@
+> +++ b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
+> @@ -0,0 +1,56 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/panel/orisetech,otm8009a.yaml#
+> +$id: http://devicetree.org/schemas/display/panel/raydium,rm68200.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Orise Tech OTM8009A 3.97" 480x800 TFT LCD panel (MIPI-DSI video mode)
+> +title: Raydium Semiconductor Corporation RM68200 5.5" 720p MIPI-DSI TFT LCD panel
 > +
 > +maintainers:
 > +  - Philippe CORNU <philippe.cornu@st.com>
 > +
 > +description: |
-> +             The Orise Tech OTM8009A is a 3.97" 480x800 TFT LCD panel connected using
-> +             a MIPI-DSI video interface. Its backlight is managed through the DSI link.
+> +             The Raydium Semiconductor Corporation RM68200 is a 5.5" 720x1280 TFT LCD
+> +             panel connected using a MIPI-DSI video interface.
+> +
 > +allOf:
 > +  - $ref: panel-common.yaml#
 > +
 > +properties:
 > +
 > +  compatible:
-> +    const: orisetech,otm8009a
+> +    const: raydium,rm68200
 > +
 > +  reg:
 > +    maxItems: 1
 > +    description: DSI virtual channel
 > +
+> +  backlight: true
 > +  enable-gpios: true
 > +  port: true
 > +  power-supply: true
@@ -177,6 +181,7 @@ On 2/6/20 2:33 PM, Benjamin Gaignard wrote:
 > +
 > +required:
 > +  - compatible
+> +  - power-supply
 > +  - reg
 > +
 > +examples:
@@ -185,14 +190,14 @@ On 2/6/20 2:33 PM, Benjamin Gaignard wrote:
 > +      #address-cells = <1>;
 > +      #size-cells = <0>;
 > +      panel@0 {
-> +        compatible = "orisetech,otm8009a";
+> +        compatible = "raydium,rm68200";
 > +        reg = <0>;
 > +        reset-gpios = <&gpiof 15 0>;
 > +        power-supply = <&v1v8>;
+> +        backlight = <&pwm_backlight>;
 > +      };
 > +    };
 > +...
-> +
 > 
 
 Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
