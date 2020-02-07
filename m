@@ -1,51 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A943F15573D
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 12:58:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C72155759
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 13:06:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 768B16EA95;
-	Fri,  7 Feb 2020 11:57:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 900216EA98;
+	Fri,  7 Feb 2020 12:06:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351E76EA95
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 11:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581076673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=l9Om1VdDqKQp4D0lip8cfLl2U7Dg5Wq0M3QVMJgD+1I=;
- b=E0XlqrGZKCxabNi9xji375bvgj4tiglvKYxpJYVGdhg0VxiT9xIedeP14MAJmxT2MJp1YJ
- U7VnTpesSJ5BVrUhnjtR5wFsDCnai7OCbrdSwEZw7+6DQrxlvqFbuqv1KYZl62fbQ+fE0q
- YIJAFxkXXxLvydB4LG8KQR02Ulhu2S4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-Wx585QMENKWhZ0HmxUjXYA-1; Fri, 07 Feb 2020 06:57:49 -0500
-X-MC-Unique: Wx585QMENKWhZ0HmxUjXYA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30061DBA3;
- Fri,  7 Feb 2020 11:57:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
- [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 606D4790F2;
- Fri,  7 Feb 2020 11:57:45 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A26201747D; Fri,  7 Feb 2020 12:57:44 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/bochs: downgrade pci_request_region failure from error
- to warning
-Date: Fri,  7 Feb 2020 12:57:44 +0100
-Message-Id: <20200207115744.4559-1-kraxel@redhat.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 759556EA98
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 12:06:06 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id DA01FB19A;
+ Fri,  7 Feb 2020 12:06:04 +0000 (UTC)
+Subject: Re: [PATCH v2] drm/bochs: downgrade pci_request_region failure from
+ error to warning
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20200207115744.4559-1-kraxel@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <04783a3f-daae-47a3-d2a7-d42f192daf23@suse.de>
+Date: Fri, 7 Feb 2020 13:06:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200207115744.4559-1-kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,34 +64,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marmarek@invisiblethingslab.com, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
+Cc: David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <virtualization@lists.linux-foundation.org>, marmarek@invisiblethingslab.com,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1668506117=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2h1dGRvd24gb2YgZmlybXdhcmUgZnJhbWVidWZmZXIgaGFzIGEgYnVuY2ggb2YgcHJvYmxlbXMu
-ICBCZWNhdXNlCm9mIHRoaXMgdGhlIGZyYW1lYnVmZmVyIHJlZ2lvbiBtaWdodCBzdGlsbCBiZSBy
-ZXNlcnZlZCBldmVuIGFmdGVyCmRybV9mYl9oZWxwZXJfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9m
-cmFtZWJ1ZmZlcnMoKSByZXR1cm5lZC4KCkRvbid0IGNvbnNpZGVyIHBjaV9yZXF1ZXN0X3JlZ2lv
-bigpIGZhaWx1cmUgZm9yIHRoZSBmcmFtZWJ1ZmZlcgpyZWdpb24gYXMgZmF0YWwgZXJyb3IgdG8g
-d29ya2Fyb3VuZCB0aGlzIGlzc3VlLgoKUmVwb3J0ZWQtYnk6IE1hcmVrIE1hcmN6eWtvd3NraS1H
-w7NyZWNraSA8bWFybWFyZWtAaW52aXNpYmxldGhpbmdzbGFiLmNvbT4KU2lnbmVkLW9mZi1ieTog
-R2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2Jv
-Y2hzL2JvY2hzX2h3LmMgfCAzICstLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAy
-IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19o
-dy5jIGIvZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2h3LmMKaW5kZXggYjYxNWI3ZGZkZDlk
-Li5hMzg3ZWZhOWU1NTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19o
-dy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19ody5jCkBAIC0xNTcsOCArMTU3
-LDcgQEAgaW50IGJvY2hzX2h3X2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldikKIAl9CiAKIAlp
-ZiAocGNpX3JlcXVlc3RfcmVnaW9uKHBkZXYsIDAsICJib2Nocy1kcm0iKSAhPSAwKSB7Ci0JCURS
-TV9FUlJPUigiQ2Fubm90IHJlcXVlc3QgZnJhbWVidWZmZXJcbiIpOwotCQlyZXR1cm4gLUVCVVNZ
-OworCQlEUk1fV0FSTigiQ2Fubm90IHJlcXVlc3QgZnJhbWVidWZmZXIsIGJvb3QgZnJhbWVidWZm
-ZXIgc3RpbGwgYWN0aXZlP1xuIik7CiAJfQogCiAJYm9jaHMtPmZiX21hcCA9IGlvcmVtYXAoYWRk
-ciwgc2l6ZSk7Ci0tIAoyLjE4LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1668506117==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="foLTu5q3eMQh5VHpADh7fpioUUpykH1jb"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--foLTu5q3eMQh5VHpADh7fpioUUpykH1jb
+Content-Type: multipart/mixed; boundary="s3z0rAySyYq5LD1IVBxm1VB0rgaYv9rkq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: marmarek@invisiblethingslab.com, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>
+Message-ID: <04783a3f-daae-47a3-d2a7-d42f192daf23@suse.de>
+Subject: Re: [PATCH v2] drm/bochs: downgrade pci_request_region failure from
+ error to warning
+References: <20200207115744.4559-1-kraxel@redhat.com>
+In-Reply-To: <20200207115744.4559-1-kraxel@redhat.com>
+
+--s3z0rAySyYq5LD1IVBxm1VB0rgaYv9rkq
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 07.02.20 um 12:57 schrieb Gerd Hoffmann:
+> Shutdown of firmware framebuffer has a bunch of problems.  Because
+> of this the framebuffer region might still be reserved even after
+> drm_fb_helper_remove_conflicting_pci_framebuffers() returned.
+
+Out of curiosity: what's going wrong here?
+
+Best regards
+Thomas
+
+>=20
+> Don't consider pci_request_region() failure for the framebuffer
+> region as fatal error to workaround this issue.
+>=20
+> Reported-by: Marek Marczykowski-G=C3=B3recki <marmarek@invisiblethingsl=
+ab.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  drivers/gpu/drm/bochs/bochs_hw.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bochs/bochs_hw.c b/drivers/gpu/drm/bochs/b=
+ochs_hw.c
+> index b615b7dfdd9d..a387efa9e559 100644
+> --- a/drivers/gpu/drm/bochs/bochs_hw.c
+> +++ b/drivers/gpu/drm/bochs/bochs_hw.c
+> @@ -157,8 +157,7 @@ int bochs_hw_init(struct drm_device *dev)
+>  	}
+> =20
+>  	if (pci_request_region(pdev, 0, "bochs-drm") !=3D 0) {
+> -		DRM_ERROR("Cannot request framebuffer\n");
+> -		return -EBUSY;
+> +		DRM_WARN("Cannot request framebuffer, boot framebuffer still active?=
+\n");
+>  	}
+> =20
+>  	bochs->fb_map =3D ioremap(addr, size);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--s3z0rAySyYq5LD1IVBxm1VB0rgaYv9rkq--
+
+--foLTu5q3eMQh5VHpADh7fpioUUpykH1jb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl49UqkACgkQaA3BHVML
+eiO04wf/dIsiLt9szHzZl+XV/01hNiujAAhN5F6zS8nASQnLENXF588S6Bk0ROvY
+Bmv+EN6CL5mi3SjNl2qSAw2F5SmeRmbQptJjuBmSLbep0N5HUhk4lR0qyGDg7cT9
+F9l7FJcZI1SCQXWICWqRNL/ziokpLbgAO+DDtYIlC0CcahdqE9yHt4kJZDmy5A08
+q7qaPaC2z8BbOhRR1bNw++BY3vmZQrq0AevYBwuNMvfR1p/cY8jZzuAqvw9EyRZ0
+JrpG9lbTPCMy79iEinfQTYe5mBz0nOJLeKyGfzi+TbRHDBJt1oih21ybv59S/lAP
+I/vTF+HchjvBzuLvhk0aTDM28C+LLw==
+=fkeZ
+-----END PGP SIGNATURE-----
+
+--foLTu5q3eMQh5VHpADh7fpioUUpykH1jb--
+
+--===============1668506117==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1668506117==--
