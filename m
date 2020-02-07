@@ -2,60 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26786155BD2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 17:32:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD698155BE2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 17:34:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D51E96EAFF;
-	Fri,  7 Feb 2020 16:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39ADD6FD26;
+	Fri,  7 Feb 2020 16:34:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 243466EAFE
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 16:32:03 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id m10so3521655wmc.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 08:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=W07peGRSyneP+Jc5OMGDHyPXwj07l+1UxvUtVZ5QEBY=;
- b=izEvmh70uQ1tbUB1hQNUzc8tH/SbZ+wXFGUy+RXccYg2Mb+1ECPj9XdOayLonEA8qn
- +ueTB1Pk0RonRj9rcHt7Lt9fiZA61JcBnbsvYyEallfcrIEaqMKCTnrwtlhDFSZN714n
- bgWcL1AdqTWYUzR2HWxE9S/dMHuI/ejlYuNdM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=W07peGRSyneP+Jc5OMGDHyPXwj07l+1UxvUtVZ5QEBY=;
- b=fpZYEoZfbyc+lQjCqKsAeocFGt+J6b/tF+1zmBNMFc0IOldK9q1LcnBL1uI2vj1aYJ
- ag0Yu0BrLnuO+TA96T7R6ic/S3kr0S4olDaNaCMMOxUvMK32Po9ZTjNFL9NmyYlcZewl
- V29vLq3Y1+rkst9clCMXKxbHKdBljj0wcveoR7NdUlCqeAgplyys7LGiwDw9xj4JLN6x
- DmmqHN72MAPF0hwpOvoG2JFWXDGgT6OCQhyOznV1Ilz59GV5ArDiWqi1WZDoqfhNY8h/
- byxL2Dqfr59fAKmWeY1aZ2taet4IUPzlypaJwdMKhhH4+FdiuiSRByHHmK2AS2ZCZ9L0
- J1BA==
-X-Gm-Message-State: APjAAAW01O2VYb5IBkDf6nr8/RYy2ezcnQET0mLkULehZ19CfLjKwGmz
- CRoFUQitE/qanP4cwmP35b7UTQ==
-X-Google-Smtp-Source: APXvYqz2O+F63lWEy4DQnvghi8mR3ptDOibCq67yZa3m8D2Inx44lC+mQfyMr9X14xw4pnT44a/iZA==
-X-Received: by 2002:a1c:7dd4:: with SMTP id y203mr5277285wmc.67.1581093121773; 
- Fri, 07 Feb 2020 08:32:01 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y6sm3982661wrl.17.2020.02.07.08.32.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 08:32:00 -0800 (PST)
-Date: Fri, 7 Feb 2020 17:31:59 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [Intel-gfx] [PATCH v2 4/6] drm/imx: Remove the bogus
- possible_clones setup
-Message-ID: <20200207163159.GL43062@phenom.ffwll.local>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B7576FD1B;
+ Fri,  7 Feb 2020 16:34:51 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2020 08:34:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,414,1574150400"; d="scan'208";a="250462951"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 07 Feb 2020 08:34:48 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 07 Feb 2020 18:34:47 +0200
+Date: Fri, 7 Feb 2020 18:34:47 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH v2 1/6] drm: Include the encoder itself in
+ possible_clones
+Message-ID: <20200207163447.GN13686@intel.com>
 References: <20200207135950.6655-1-ville.syrjala@linux.intel.com>
- <20200207135950.6655-5-ville.syrjala@linux.intel.com>
- <02b04868-6f7b-f1cf-9cc7-fd1466b21761@suse.de>
+ <20200207135950.6655-2-ville.syrjala@linux.intel.com>
+ <d58f13cf-6c9e-9a1c-5cbd-e51e1ad04e80@suse.de>
+ <20200207145001.GI13686@intel.com>
+ <20200207162751.GJ43062@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <02b04868-6f7b-f1cf-9cc7-fd1466b21761@suse.de>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200207162751.GJ43062@phenom.ffwll.local>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,91 +52,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2020 at 03:20:44PM +0100, Thomas Zimmermann wrote:
-> Hi
-> =
+On Fri, Feb 07, 2020 at 05:27:51PM +0100, Daniel Vetter wrote:
+> On Fri, Feb 07, 2020 at 04:50:01PM +0200, Ville Syrj=E4l=E4 wrote:
+> > On Fri, Feb 07, 2020 at 03:28:35PM +0100, Thomas Zimmermann wrote:
+> > > Hi
+> > > =
 
-> Am 07.02.20 um 14:59 schrieb Ville Syrjala:
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > Am 07.02.20 um 14:59 schrieb Ville Syrjala:
+> > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > =
+
+> > > > The docs say possible_clones should always include the encoder itse=
+lf.
+> > > > Since most drivers don't want to deal with the complexities of clon=
+ing
+> > > > let's allow them to set possible_clones=3D0 and instead we'll fix t=
+hat
+> > > > up in the core.
+> > > > =
+
+> > > > We can't put this special case into drm_encoder_init() because driv=
+ers
+> > > > will have to fill up possible_clones after adding all the relevant
+> > > > encoders. Otherwise they wouldn't know the proper encoder indexes to
+> > > > use. So we'll just do it just before registering the encoders.
+> > > > =
+
+> > > > TODO: Should we do something similar for possible_crtcs=3D=3D0?
+> > > > =
+
+> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > =
+
+> > > May this fixup function should warn iff possible_clones was set to no=
+n-0
+> > > by the driver, but the encoder itself is missing.
 > > =
 
-> > It's not at all clear what cloning options this driver supports.
-> > So let's just clear possible_clones instead of setting it to some
-> > bogus value.
-> > =
-
-> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/imx/imx-drm-core.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/i=
-mx-drm-core.c
-> > index da87c70e413b..a0a709dfba34 100644
-> > --- a/drivers/gpu/drm/imx/imx-drm-core.c
-> > +++ b/drivers/gpu/drm/imx/imx-drm-core.c
-> > @@ -140,7 +140,7 @@ int imx_drm_encoder_parse_of(struct drm_device *drm,
-> >  	encoder->possible_crtcs =3D crtc_mask;
-> >  =
-
-> >  	/* FIXME: this is the mask of outputs which can clone this output. */
-> > -	encoder->possible_clones =3D ~0;
-> > +	encoder->possible_clones =3D 0;
+> > Yeah, I guess we could do that.
 > =
 
-> Maybe remove the comment as well. It's pointless.
-
-Maybe change it to "FIXME: cloning support not clear, disable it all for
-now". With that
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> +1 on that, should catch some bugs at least.
 > =
 
-> Best regards
-> Thomas
-> =
+> Also can you pls fix up the kerneldoc for drm_encoder.possible_clones,
+> defacto this now means that 0 is a totally fine setting.
 
-> >  =
+Sure.
 
-> >  	return 0;
-> >  }
-> > =
+And for possible_crtcs I was thinking similar concept:
 
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
+for_each_encoder()
+	if (possible_crtc =3D=3D 0)
+		possible_crtcs =3D all_crtc_mask;
 
 -- =
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
