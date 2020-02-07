@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B847155BE7
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 17:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4AC155BF8
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2020 17:39:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 872CC6E0B8;
-	Fri,  7 Feb 2020 16:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB9076EB00;
+	Fri,  7 Feb 2020 16:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
  [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880A46E0AF
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 16:36:17 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id t23so3233522wmi.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 08:36:17 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 087666E0AF
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2020 16:39:30 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id t23so3242866wmi.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2020 08:39:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Xr0r1NPoghHw+wX1zbKLRQxBTFmc0m0oEomBjFuzToM=;
- b=I91Ao0MC/+Sfr+pi31770W3toz4FNxpwk1Bb5idAfibYLLF7nQ+gZjYQXHnK3UsU4r
- HIcdWvBDHlXCSEBtBhJbhFewn0ScqFyeCN8st1LUgNr41HEBX4VctJjBO6HIWlZpZ6GF
- aqghDIG/hNudginaf3QJCanL7pDqGLC4SbcGQ=
+ bh=XVUWQ66dkvZlVhMgAVolskWz95Cn5Ra1ERHvEZJqaYU=;
+ b=imdJYPDbxgBxcEGy5/0Fk4y4lA24If9JaSQrfXeb+ytYxtCY1ZgjtUpQeE864ZDIzy
+ Lu3Tx+FuAhR7qSTfNnXKIbP/MqXPOa59h+zX85TpuYlao7pRQTUqS16GpykN5X2FSwc0
+ 5eJZDPwFl92R1CJPMbybP52FwJ67VubAdrl24=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=Xr0r1NPoghHw+wX1zbKLRQxBTFmc0m0oEomBjFuzToM=;
- b=haU3Q5tPmnY112i+cCQloQg/Ispu305VveH49hUsgky4MWPBdAvBgiGwGMHRjiT1pc
- vJ/3ZD5hWyrOKyyvxD7fcz11yhQRkCGV1DmMzCU8SXTvVy9YF5ohYVMVchq63S9dDoMv
- i1MFO0M3JRiiC0wGD5is9WWdjSbka9U6MoSv5NPRKI8x3r6FPwaQS9CaGg13eTnvg6/d
- SS3u//MehYafAPPfXedxVzql3EXtp0OnMI+MOaSqAgBmLcRhwl+1wyytsDSOdGHkjJ2D
- 1cqR95XxdMe+jm1jAo9WyHY93XtEuBAR80ayeKxiXbokb073T3Ou0eVnLSeiix13NU2D
- xVeQ==
-X-Gm-Message-State: APjAAAX9RPNzrUMENXbinPYKJJlZqf1S2oJRSpiUUMXzwcdx7MTknYWa
- iMImJn2NAjHAopLBkVAvavmFxg==
-X-Google-Smtp-Source: APXvYqzA/+lmNPvP32/zA1Dqh6EJejEjOBvyyisRjfr+1ATQ0Qj/UrFORq5VwDruZ4QHXVIx1BWUAw==
-X-Received: by 2002:a05:600c:2383:: with SMTP id
- m3mr5346187wma.32.1581093376217; 
- Fri, 07 Feb 2020 08:36:16 -0800 (PST)
+ bh=XVUWQ66dkvZlVhMgAVolskWz95Cn5Ra1ERHvEZJqaYU=;
+ b=uW2KPlT6KniLw4DLpbR/wXOvJKKg9ClUG3q68lAfWHHD1EoUaErg5vEstJ5UALS5Fo
+ U6U4E9NiZncNMRp030No1O5DDOa57XNAZU9qzHLp7jQS3KQpmNV64jHYxDxxZLsCyiPy
+ vsntdwVMl2s3yMyNFLqfdFvXQSpBZLAQkKq0P0mGpuSdzF9ymeIx+43O+fB/mdQc+L4Q
+ HM0H2k0nZhctq800osV+7f4ws+dPqSwr8jgGp7n3CCrp5ctvIVeZxr1ZLwMug8/TNv6R
+ 1o81Ak1lIo+BVmAzNkn247lIX7tbtTyobTNBknbC22G+WmKgrxi+xbfRfhI6woJ50rRq
+ yQ8g==
+X-Gm-Message-State: APjAAAUOGDWLVvx1leajOKT3VK6QGrnr7YwppqXNSnADgu7tMdOWsEFX
+ SgIGzh8cxeY89GXpFn/9vYUo9Q==
+X-Google-Smtp-Source: APXvYqw9hxfRNiAA9wvQJLL6hjC6m8Fm4Fbnb48eJnmgfAxBUDtG1TcxAhMDLP7HlXHXWqmu2KZwBw==
+X-Received: by 2002:a7b:ce18:: with SMTP id m24mr5210736wmc.123.1581093568714; 
+ Fri, 07 Feb 2020 08:39:28 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g21sm3840013wmh.17.2020.02.07.08.36.15
+ by smtp.gmail.com with ESMTPSA id a22sm4076271wmd.20.2020.02.07.08.39.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 08:36:15 -0800 (PST)
-Date: Fri, 7 Feb 2020 17:36:13 +0100
+ Fri, 07 Feb 2020 08:39:27 -0800 (PST)
+Date: Fri, 7 Feb 2020 17:39:26 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 1/6] drm: Include the encoder itself in possible_clones
-Message-ID: <20200207163613.GM43062@phenom.ffwll.local>
+Subject: Re: [PATCH v2 6/6] drm: Validate encoder->possible_crtcs
+Message-ID: <20200207163926.GN43062@phenom.ffwll.local>
 References: <20200207135950.6655-1-ville.syrjala@linux.intel.com>
- <20200207135950.6655-2-ville.syrjala@linux.intel.com>
+ <20200207135950.6655-7-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200207135950.6655-2-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200207135950.6655-7-ville.syrjala@linux.intel.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,76 +73,79 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2020 at 03:59:45PM +0200, Ville Syrjala wrote:
+On Fri, Feb 07, 2020 at 03:59:50PM +0200, Ville Syrjala wrote:
 > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
 > =
 
-> The docs say possible_clones should always include the encoder itself.
-> Since most drivers don't want to deal with the complexities of cloning
-> let's allow them to set possible_clones=3D0 and instead we'll fix that
-> up in the core.
+> WARN if the encoder possible_crtcs is effectively empty or contains
+> bits for non-existing crtcs.
 > =
 
-> We can't put this special case into drm_encoder_init() because drivers
-> will have to fill up possible_clones after adding all the relevant
-> encoders. Otherwise they wouldn't know the proper encoder indexes to
-> use. So we'll just do it just before registering the encoders.
-> =
-
-> TODO: Should we do something similar for possible_crtcs=3D=3D0?
+> TODO: Or should we perhapst just filter out any bit for a
+> non-exisiting crtc?
 > =
 
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
+From a quick grep it looks like at least most drivers seem to get this
+right. Worth a shot to find the hold-outs.
+
+Two things:
+- Imo also best to move into the drm_mode_config_validate I suggested.
+- Please update the kerneldoc for drm_encoder.possible_crtcs to mention
+  that this will WARN if you get it wrong (and maybe remove the line that
+  most drivers screw this up).
+
+Check itself lgtm.
+-Daniel
+
 > ---
->  drivers/gpu/drm/drm_encoder.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  drivers/gpu/drm/drm_encoder.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 > =
 
 > diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-> index e555281f43d4..f761d9306028 100644
+> index bc2246f27e0d..f16b2a2518d7 100644
 > --- a/drivers/gpu/drm/drm_encoder.c
 > +++ b/drivers/gpu/drm/drm_encoder.c
-> @@ -66,11 +66,26 @@ static const struct drm_prop_enum_list drm_encoder_en=
-um_list[] =3D {
->  	{ DRM_MODE_ENCODER_DPI, "DPI" },
->  };
+> @@ -107,6 +107,23 @@ static void validate_possible_clones(struct drm_enco=
+der *encoder)
+>  	     encoder->possible_clones, encoder_mask);
+>  }
 >  =
 
-> +/*
-> + * For some reason we want the encoder itself included in
-> + * possible_clones. Make life easy for drivers by allowing them
-> + * to leave possible_clones unset if no cloning is possible.
-> + */
-> +static void fixup_possible_clones(struct drm_device *dev)
+> +static void validate_possible_crtcs(struct drm_encoder *encoder)
 > +{
-> +	struct drm_encoder *encoder;
+> +	struct drm_device *dev =3D encoder->dev;
+> +	struct drm_crtc *crtc;
+> +	u32 crtc_mask =3D 0;
 > +
-> +	drm_for_each_encoder(encoder, dev)
-> +		encoder->possible_clones |=3D drm_encoder_mask(encoder);
+> +	drm_for_each_crtc(crtc, dev)
+> +		crtc_mask |=3D drm_crtc_mask(crtc);
+> +
+> +	WARN((encoder->possible_crtcs & crtc_mask) =3D=3D 0 ||
+> +	     (encoder->possible_crtcs & ~crtc_mask) !=3D 0,
+> +	     "Bogus possible_crtcs: "
+> +	     "[ENCODER:%d:%s] possible_crtcs=3D0x%x (full crtc mask=3D0x%x)\n",
+> +	     encoder->base.id, encoder->name,
+> +	     encoder->possible_crtcs, crtc_mask);
 > +}
 > +
 >  int drm_encoder_register_all(struct drm_device *dev)
 >  {
 >  	struct drm_encoder *encoder;
->  	int ret =3D 0;
+> @@ -115,6 +132,7 @@ int drm_encoder_register_all(struct drm_device *dev)
+>  	fixup_possible_clones(dev);
 >  =
 
-> +	fixup_possible_clones(dev);
-
-This is way too late, we've already registered the chardev minors at this
-point. I think we need a new drm_mode_config_validate() at the top of
-drm_dev_register, but which does _not_ run when the driver has a ->load
-callback (which soon will be no driver at all).
-
-Cheers, Daniel
-
-
-> +
 >  	drm_for_each_encoder(encoder, dev) {
+> +		validate_possible_crtcs(encoder);
+>  		validate_possible_clones(encoder);
+>  =
+
 >  		if (encoder->funcs->late_register)
->  			ret =3D encoder->funcs->late_register(encoder);
 > -- =
 
 > 2.24.1
