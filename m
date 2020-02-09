@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9365156B01
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 16:33:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA914156B02
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 16:34:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4893289F1B;
-	Sun,  9 Feb 2020 15:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 196956E822;
+	Sun,  9 Feb 2020 15:34:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4CF889F1B
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2020 15:33:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5AD6E822
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2020 15:34:19 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205675] Display locks up. AMDGPU timeout
-Date: Sun, 09 Feb 2020 15:33:16 +0000
+Date: Sun, 09 Feb 2020 15:34:18 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205675-2300-pvpRnzeZHu@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-205675-2300-XZSEctilSh@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205675-2300@https.bugzilla.kernel.org/>
 References: <bug-205675-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,19 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205675
 
---- Comment #3 from freddyreimer@comcast.net ---
-Update. Roughly around the time of the last update to this, I manually added
-that fix and it was working out for me. However, I ran some updates to both
-mesa and the kernel itself and now it appears the issue is back.
-
-I have updated this issue with my current specifications. I'm on the 5.5.2
-kernel now, with my package manager reporting the mesa version as 20.0.0_rc1.
-llvm is on 9.0.1.
-
-I'll also add in an attachment with a more recent dmesg tail. I did try
-checking to see if I could manually re-add the patch to the file again, but it
-looks like those lines of code are already there, yet this issue still
-persists.
+--- Comment #4 from freddyreimer@comcast.net ---
+Created attachment 287263
+  --> https://bugzilla.kernel.org/attachment.cgi?id=287263&action=edit
+Newer dmesg tail from a lockup on 5.5.2
 
 -- 
 You are receiving this mail because:
