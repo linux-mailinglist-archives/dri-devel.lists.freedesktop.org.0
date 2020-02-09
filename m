@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B58F15689A
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 04:53:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D981568A0
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 04:54:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24FAF6E462;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A816E461;
 	Sun,  9 Feb 2020 03:53:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 424E16E084;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9646E461;
  Sun,  9 Feb 2020 03:53:49 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2020 19:53:47 -0800
+ 08 Feb 2020 19:53:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,419,1574150400"; d="scan'208";a="221210491"
+X-IronPort-AV: E=Sophos;i="5.70,419,1574150400"; d="scan'208";a="221210492"
 Received: from rrcarnag-mobl.amr.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.252.14.133])
- by orsmga007.jf.intel.com with ESMTP; 08 Feb 2020 19:53:46 -0800
+ by orsmga007.jf.intel.com with ESMTP; 08 Feb 2020 19:53:48 -0800
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 00/18] In order to readout DP SDPs,
- refactors the handling of DP SDPs 
-Date: Sun,  9 Feb 2020 05:53:27 +0200
-Message-Id: <20200209035345.357436-1-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v5 01/18] drm: Add DP1.4 VSC SDP Payload related Data
+ Structures
+Date: Sun,  9 Feb 2020 05:53:28 +0200
+Message-Id: <20200209035345.357436-2-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200209035345.357436-1-gwan-gyeong.mun@intel.com>
+References: <20200209035345.357436-1-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,78 +50,170 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to readout DP SDPs (Secondary Data Packet: DP HDR Metadata
-Infoframe SDP, DP VSC SDP), it refactors handling DP SDPs codes.
-It adds new compute routines for DP HDR Metadata Infoframe SDP
-and DP VSC SDP. 
-And new writing routines of DP SDPs (Secondary Data Packet) that uses
-computed configs.
-New reading routines of DP SDPs are added for readout.
-It adds a logging function for DP VSC SDP.
-When receiving video it is very useful to be able to log DP VSC SDP.
-This greatly simplifies debugging.
-In order to use a common VSC SDP Colorimetry calculating code on PSR,
-it uses a new psr vsc sdp compute routine.
+It adds new enumeration definitions for VSC SDP Payload for Pixel
+Encoding/Colorimetry Format.
+And it adds a new drm data structure for DP VSC SDP.
 
-v2: Minor style fix
-v3: 
-  - Add a new drm data structure for DP VSC SDP
-  - Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
-  - Move logging functions to drm core [Jani N]
-    And use drm core's DP VSC SDP logging function
-  - Explicitly disable unused DIPs (AVI, GCP, VS, SPD, DRM. They will be
-    used for HDMI), when intel_dp_set_infoframes() function will be called.
-v4:
-  - Use struct drm_device logging macros
-  - Rebased
-v5:
-  - Add disabling DIPs(Data Island Packets) when LSPCON is used
-    When LSPCON is used, DIPs(Data Island Packets of DP or HDMI) will not
-    be used. Therefore it explicitly disables DIPs on encoder->pre_enable
-    callback.
-  - Use intel_de_*() functions for register access
-  - Add warning where a bpc is 6 and a pixel format is RGB.
-  - Addressed review comments from Uma
-    Add kernel docs for added data structures
-    Rename enum dp_colorspace to dp_pixelformat
-    Polish commit message and comments
-    Combine the if checks of sdp.HB2 and sdp.HB3
-    Add 6bpc to packining and unpacking of VSC SDP
+enum dp_colorspace and enum dp_colorimetry correspond "Pixel Encoding and
+Colorimetry Formats". enum dp_dynamic_range corresponds "Dynamic Range".
+And enum dp_content_type corresponds "Content Type"
+All of them are based on DP 1.4 spec [Table 2-117: VSC SDP Payload for
+DB16 through DB18].
 
-Gwan-gyeong Mun (18):
-  drm: Add DP1.4 VSC SDP Payload related Data Structures
-  drm/i915/dp: Add compute routine for DP VSC SDP
-  drm/i915/dp: Add compute routine for DP HDR Metadata Infoframe SDP
-  drm/i915/dp: Add writing of DP SDPs
-  video/hdmi: Add Unpack only function for DRM infoframe
-  drm/i915/dp: Read out DP SDPs
-  drm: Add logging function for DP VSC SDP
-  drm/i915: Include HDMI DRM infoframe in the crtc state dump
-  drm/i915: Include DP HDR Metadata Infoframe SDP in the crtc state dump
-  drm/i915: Include DP VSC SDP in the crtc state dump
-  drm/i915: Program DP SDPs with computed configs
-  drm/i915: Add state readout for DP HDR Metadata Infoframe SDP
-  drm/i915: Add state readout for DP VSC SDP
-  drm/i915: Disable DIPs when LSPCON is used
-  drm/i915: Program DP SDPs on pipe updates
-  drm/i915: Stop sending DP SDPs on ddi disable
-  drm/i915/dp: Add compute routine for DP PSR VSC SDP
-  drm/i915/psr: Use new DP VSC SDP compute routine on PSR
+v3: Add a new drm data structure for DP VSC SDP
+v5: Addressed review comments from Uma
+    - Add kernel docs for added data structures
+    - Rename enum dp_colorspace to dp_pixelformat
+    - Polish commit message
+    - Fix typos
+    - Drop self-explanatory comments
 
- drivers/gpu/drm/drm_dp_helper.c               | 174 +++++
- drivers/gpu/drm/i915/display/intel_ddi.c      |  42 +-
- drivers/gpu/drm/i915/display/intel_display.c  |  62 ++
- .../drm/i915/display/intel_display_types.h    |   1 +
- drivers/gpu/drm/i915/display/intel_dp.c       | 636 +++++++++++++-----
- drivers/gpu/drm/i915/display/intel_dp.h       |  18 +-
- drivers/gpu/drm/i915/display/intel_psr.c      |  54 +-
- drivers/gpu/drm/i915/display/intel_psr.h      |   6 +-
- drivers/gpu/drm/i915/i915_drv.h               |   1 +
- drivers/video/hdmi.c                          |  58 +-
- include/drm/drm_dp_helper.h                   | 133 ++++
- include/linux/hdmi.h                          |   2 +
- 12 files changed, 970 insertions(+), 217 deletions(-)
+Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+---
+ include/drm/drm_dp_helper.h | 130 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 130 insertions(+)
 
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 262faf9e5e94..e332f54013d7 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1209,6 +1209,136 @@ struct dp_sdp {
+ #define EDP_VSC_PSR_UPDATE_RFB		(1<<1)
+ #define EDP_VSC_PSR_CRC_VALUES_VALID	(1<<2)
+ 
++/**
++ * enum dp_pixelformat - drm DP Pixel encoding formats
++ *
++ * This enum is used to indicate DP VSC SDP Pixel encoding formats.
++ * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 through
++ * DB18]
++ *
++ * @DP_PIXELFORMAT_RGB: RGB pixel encoding format
++ * @DP_PIXELFORMAT_YUV444: YCbCr 4:4:4 pixel encoding format
++ * @DP_PIXELFORMAT_YUV422: YCbCr 4:2:2 pixel encoding format
++ * @DP_PIXELFORMAT_YUV420: YCbCr 4:2:0 pixel encoding format
++ * @DP_PIXELFORMAT_Y_ONLY: Y Only pixel encoding format
++ * @DP_PIXELFORMAT_RAW: RAW pixel encoding format
++ * @DP_PIXELFORMAT_RESERVED: Reserved pixel encoding format
++ */
++enum dp_pixelformat {
++	DP_PIXELFORMAT_RGB = 0,
++	DP_PIXELFORMAT_YUV444 = 0x1,
++	DP_PIXELFORMAT_YUV422 = 0x2,
++	DP_PIXELFORMAT_YUV420 = 0x3,
++	DP_PIXELFORMAT_Y_ONLY = 0x4,
++	DP_PIXELFORMAT_RAW = 0x5,
++	DP_PIXELFORMAT_RESERVED = 0x6,
++};
++
++/**
++ * enum dp_colorimetry - drm DP Colorimetry formats
++ *
++ * This enum is used to indicate DP VSC SDP Colorimetry formats.
++ * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 through
++ * DB18] and a name of enum member follows DRM_MODE_COLORIMETRY definition.
++ *
++ * @DP_COLORIMETRY_DEFAULT: sRGB (IEC 61966-2-1) or
++ *                          ITU-R BT.601 colorimetry format
++ * @DP_COLORIMETRY_RGB_WIDE_FIXED: RGB wide gamut fixed point colorimetry format
++ * @DP_COLORIMETRY_BT709_YCC: ITU-R BT.709 colorimetry format
++ * @DP_COLORIMETRY_RGB_WIDE_FLOAT: RGB wide gamut floating point
++ *                                 (scRGB (IEC 61966-2-2)) colorimetry format
++ * @DP_COLORIMETRY_XVYCC_601: xvYCC601 colorimetry format
++ * @DP_COLORIMETRY_OPRGB: OpRGB colorimetry format
++ * @DP_COLORIMETRY_XVYCC_709: xvYCC709 colorimetry format
++ * @DP_COLORIMETRY_DCI_P3_RGB: DCI-P3 (SMPTE RP 431-2) colorimetry format
++ * @DP_COLORIMETRY_SYCC_601: sYCC601 colorimetry format
++ * @DP_COLORIMETRY_RGB_CUSTOM: RGB Custom Color Profile colorimetry format
++ * @DP_COLORIMETRY_OPYCC_601: opYCC601 colorimetry format
++ * @DP_COLORIMETRY_BT2020_RGB: ITU-R BT.2020 R' G' B' colorimetry format
++ * @DP_COLORIMETRY_BT2020_CYCC: ITU-R BT.2020 Y'c C'bc C'rc colorimetry format
++ * @DP_COLORIMETRY_BT2020_YCC: ITU-R BT.2020 Y' C'b C'r colorimetry format
++ */
++enum dp_colorimetry {
++	DP_COLORIMETRY_DEFAULT = 0,
++	DP_COLORIMETRY_RGB_WIDE_FIXED = 0x1,
++	DP_COLORIMETRY_BT709_YCC = 0x1,
++	DP_COLORIMETRY_RGB_WIDE_FLOAT = 0x2,
++	DP_COLORIMETRY_XVYCC_601 = 0x2,
++	DP_COLORIMETRY_OPRGB = 0x3,
++	DP_COLORIMETRY_XVYCC_709 = 0x3,
++	DP_COLORIMETRY_DCI_P3_RGB = 0x4,
++	DP_COLORIMETRY_SYCC_601 = 0x4,
++	DP_COLORIMETRY_RGB_CUSTOM = 0x5,
++	DP_COLORIMETRY_OPYCC_601 = 0x5,
++	DP_COLORIMETRY_BT2020_RGB = 0x6,
++	DP_COLORIMETRY_BT2020_CYCC = 0x6,
++	DP_COLORIMETRY_BT2020_YCC = 0x7,
++};
++
++/**
++ * enum dp_dynamic_range - drm DP Dynamic Range
++ *
++ * This enum is used to indicate DP VSC SDP Dynamic Range.
++ * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 through
++ * DB18]
++ *
++ * @DP_DYNAMIC_RANGE_VESA: VESA range
++ * @DP_DYNAMIC_RANGE_CTA: CTA range
++ */
++enum dp_dynamic_range {
++	DP_DYNAMIC_RANGE_VESA = 0,
++	DP_DYNAMIC_RANGE_CTA = 1,
++};
++
++/**
++ * enum dp_content_type - drm DP Content Type
++ *
++ * This enum is used to indicate DP VSC SDP Content Types.
++ * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 through
++ * DB18]
++ * CTA-861-G defines content types and expected processing by a sink device
++ *
++ * @DP_CONTENT_TYPE_NOT_DEFINED: Not defined type
++ * @DP_CONTENT_TYPE_GRAPHICS: Graphics type
++ * @DP_CONTENT_TYPE_PHOTO: Photo type
++ * @DP_CONTENT_TYPE_VIDEO: Video type
++ * @DP_CONTENT_TYPE_GAME: Game type
++ */
++enum dp_content_type {
++	DP_CONTENT_TYPE_NOT_DEFINED = 0x00,
++	DP_CONTENT_TYPE_GRAPHICS = 0x01,
++	DP_CONTENT_TYPE_PHOTO = 0x02,
++	DP_CONTENT_TYPE_VIDEO = 0x03,
++	DP_CONTENT_TYPE_GAME = 0x04,
++};
++
++/**
++ * struct drm_dp_vsc_sdp - drm DP VSC SDP
++ *
++ * This structure represents a DP VSC SDP of drm
++ * It is based on DP 1.4 spec [Table 2-116: VSC SDP Header Bytes] and
++ * [Table 2-117: VSC SDP Payload for DB16 through DB18]
++ *
++ * @sdp_type: secondary-data packet type
++ * @revision: revision number
++ * @length: number of valid data bytes
++ * @pixelformat: pixel encoding format
++ * @colorimetry: colorimetry format
++ * @bpc: bit per color
++ * @dynamic_range: dynamic range information
++ * @content_type: CTA-861-G defines content types and expected processing by a sink device
++ */
++struct drm_dp_vsc_sdp {
++	unsigned char sdp_type;
++	unsigned char revision;
++	unsigned char length;
++	enum dp_pixelformat pixelformat;
++	enum dp_colorimetry colorimetry;
++	int bpc;
++	enum dp_dynamic_range dynamic_range;
++	enum dp_content_type content_type;
++};
++
+ int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+ 
+ static inline int
 -- 
 2.24.1
 
