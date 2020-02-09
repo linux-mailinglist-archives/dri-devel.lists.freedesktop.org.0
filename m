@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF21156C47
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 20:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2939156C49
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 20:50:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 976156E874;
-	Sun,  9 Feb 2020 19:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7C7789C69;
+	Sun,  9 Feb 2020 19:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C324F6E874
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2020 19:49:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA74C89C69
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2020 19:50:40 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id DB09920028;
- Sun,  9 Feb 2020 20:49:02 +0100 (CET)
-Date: Sun, 9 Feb 2020 20:49:01 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 04B1620029;
+ Sun,  9 Feb 2020 20:50:38 +0100 (CET)
+Date: Sun, 9 Feb 2020 20:50:37 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: add binding for tft displays based
- on ilitek,ili9486
-Message-ID: <20200209194901.GA24265@ravnborg.org>
+Subject: Re: [PATCH v5 2/2] drm/tiny: add support for tft displays based on
+ ilitek,ili9486
+Message-ID: <20200209195037.GB24265@ravnborg.org>
 References: <cover.1581270802.git.kamlesh.gurudasani@gmail.com>
- <8938c7a53598db793bbcddf205dcf35bcc19a18e.1581270802.git.kamlesh.gurudasani@gmail.com>
+ <a9c8065c3ef7707650630b3b21a0c01d725fc5a0.1581270802.git.kamlesh.gurudasani@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8938c7a53598db793bbcddf205dcf35bcc19a18e.1581270802.git.kamlesh.gurudasani@gmail.com>
+In-Reply-To: <a9c8065c3ef7707650630b3b21a0c01d725fc5a0.1581270802.git.kamlesh.gurudasani@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8
- a=gEfo2CItAAAA:8 a=_OE19q4kzygtEEPZJPIA:9 a=7Zwj6sZBwVKJAoWSPKxL6X1jA+E=:19
- a=CjuIK1q_8ugA:10 a=sptkURWiP4Gy88Gu7hUp:22
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=SJz97ENfAAAA:8 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8 a=-VAfIpHNAAAA:8
+ a=2V8QjJmRlTVMsTBVGMEA:9 a=E7oIuDMDMAL4fkPw:21 a=j_ZeJZQ8I-DTPfeC:21
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=vFet0B0WnEQeilDPIY6i:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=srlwD-8ojaedGGhPAyx8:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,16 +58,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Kamlesh.
 
-On Sun, Feb 09, 2020 at 11:36:26PM +0530, Kamlesh Gurudasani wrote:
-> This binding is for the tft displays based on ilitek,ili9486.
-> ozzmaker,piscreen and waveshare,rpi-lcd-35 are such displays
+Thanks for the quick respin.
+checkpatch was not too happy with this driver.
+For DRM we use --strict.
+
+I fixed it up like this whiel applying:
+diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
+index e960b16c05d6..5084b38c1a71 100644
+--- a/drivers/gpu/drm/tiny/ili9486.c
++++ b/drivers/gpu/drm/tiny/ili9486.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/property.h>
+ #include <linux/spi/spi.h>
++
+ #include <video/mipi_display.h>
+
+ #include <drm/drm_atomic_helper.h>
+@@ -37,7 +38,8 @@
+  * in front of the  display controller. This means that 8-bit values have to be
+  * transferred as 16-bit.
+  */
+-static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par, size_t num)
++static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par,
++                            size_t num)
+ {
+        struct spi_device *spi = mipi->spi;
+        void *data = par;
+@@ -81,8 +83,8 @@ static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par, size_t num
+ }
+
+ static void waveshare_enable(struct drm_simple_display_pipe *pipe,
+-                          struct drm_crtc_state *crtc_state,
+-                          struct drm_plane_state *plane_state)
++                            struct drm_crtc_state *crtc_state,
++                            struct drm_plane_state *plane_state)
+ {
+        struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
+        struct mipi_dbi *dbi = &dbidev->dbi;
+@@ -234,7 +236,8 @@ static int ili9486_probe(struct spi_device *spi)
+        dbi->command = waveshare_command;
+        dbi->read_commands = NULL;
+
+-       ret = mipi_dbi_dev_init(dbidev, &waveshare_pipe_funcs, &waveshare_mode, rotation);
++       ret = mipi_dbi_dev_init(dbidev, &waveshare_pipe_funcs,
++                               &waveshare_mode, rotation);
+        if (ret)
+                return ret;
+
+
+
+Applied to drm-misc-next and pushed out.
+
+	Sam
+
+On Sun, Feb 09, 2020 at 11:36:41PM +0530, Kamlesh Gurudasani wrote:
+> This adds support fot ilitek,ili9486 based displays with shift register
+> in front of controller.
+> Ozzmaker,Piscreen and Waveshare,rpi-lcd-35 are such displays.
 > 
+> Acked-by: Sam Ravnborg <sam@ravnborg.org> (v4)
+> Reviewed-by: Noralf Tronnes <noralf@tronnes.org> (v4)
 > Signed-off-by: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
 > ---
 > 
 > v2 changes:
-> * Changing file from txt to yaml format
-> * removed ilitek,ili9486 from compatible string
+> * assignment of dbi_command before registration
+> * made dc and reset gpio compulsory
+> * typos and unwanted comments removed
+> * changed the name of function which were display specific
+> * arranged the Makefile entries in alphabetical order
 > 
 > v3 changes:
 > * no changes
@@ -74,102 +136,360 @@ On Sun, Feb 09, 2020 at 11:36:26PM +0530, Kamlesh Gurudasani wrote:
 > * no changes
 > 
 > v5 changes:
-> * made changes according to Sam Ravnborg's comment
->   for making compatible part less complex
-
-Applied to drm-misc-next.
-I assume waveshare and ozzmaker hits vendor-prefixes via some other
-tree.
-I had hoped we could use the license I suggested as this is default
-for new bindings. But thats your call.
-
-Sam
-
-
+> * replaced tinydrm with tiny in subject
+> * added Rb tag (Noralf) and Ab tag (Sam)
 > ---
->  .../bindings/display/ilitek,ili9486.yaml           | 73 ++++++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
+>  MAINTAINERS                    |   7 +
+>  drivers/gpu/drm/tiny/Kconfig   |  14 ++
+>  drivers/gpu/drm/tiny/Makefile  |   1 +
+>  drivers/gpu/drm/tiny/ili9486.c | 283 +++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 305 insertions(+)
+>  create mode 100644 drivers/gpu/drm/tiny/ili9486.c
 > 
-> diff --git a/Documentation/devicetree/bindings/display/ilitek,ili9486.yaml b/Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1196d07..af189ef 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5233,6 +5233,13 @@ S:	Maintained
+>  F:	drivers/gpu/drm/tiny/ili9225.c
+>  F:	Documentation/devicetree/bindings/display/ilitek,ili9225.txt
+>  
+> +DRM DRIVER FOR ILITEK ILI9486 PANELS
+> +M:	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+> +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> +S:	Maintained
+> +F:	drivers/gpu/drm/tiny/ili9486.c
+> +F:	Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
+> +
+>  DRM DRIVER FOR HX8357D PANELS
+>  M:	Eric Anholt <eric@anholt.net>
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+> index a866421..4160e74 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -47,6 +47,20 @@ config TINYDRM_ILI9341
+>  
+>  	  If M is selected the module will be called ili9341.
+>  
+> +config TINYDRM_ILI9486
+> +	tristate "DRM support for ILI9486 display panels"
+> +	depends on DRM && SPI
+> +	select DRM_KMS_HELPER
+> +	select DRM_KMS_CMA_HELPER
+> +	select DRM_MIPI_DBI
+> +	select BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  DRM driver for the following Ilitek ILI9486 panels:
+> +	  * PISCREEN 3.5" 320x480 TFT (Ozzmaker 3.5")
+> +	  * RPILCD 3.5" 320x480 TFT (Waveshare 3.5")
+> +
+> +	  If M is selected the module will be called ili9486.
+> +
+>  config TINYDRM_MI0283QT
+>  	tristate "DRM support for MI0283QT"
+>  	depends on DRM && SPI
+> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+> index 896cf31..c96ceee 100644
+> --- a/drivers/gpu/drm/tiny/Makefile
+> +++ b/drivers/gpu/drm/tiny/Makefile
+> @@ -4,6 +4,7 @@ obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
+>  obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
+>  obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
+>  obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
+> +obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
+>  obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
+>  obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
+>  obj-$(CONFIG_TINYDRM_ST7586)		+= st7586.o
+> diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
 > new file mode 100644
-> index 0000000..66e93e5
+> index 0000000..e960b16
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/ilitek,ili9486.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/gpu/drm/tiny/ili9486.c
+> @@ -0,0 +1,283 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * DRM driver for Ilitek ILI9486 panels
+> + *
+> + * Copyright 2020 Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+> + */
 > +
-> +title: Ilitek ILI9486 display panels device tree bindings
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/property.h>
+> +#include <linux/spi/spi.h>
+> +#include <video/mipi_display.h>
 > +
-> +maintainers:
-> +  - Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_mipi_dbi.h>
+> +#include <drm/drm_modeset_helper.h>
 > +
-> +description:
-> +  This binding is for display panels using an Ilitek ILI9486 controller in SPI
-> +  mode.
+> +#define ILI9486_ITFCTR1         0xb0
+> +#define ILI9486_PWCTRL1         0xc2
+> +#define ILI9486_VMCTRL1         0xc5
+> +#define ILI9486_PGAMCTRL        0xe0
+> +#define ILI9486_NGAMCTRL        0xe1
+> +#define ILI9486_DGAMCTRL        0xe2
+> +#define ILI9486_MADCTL_BGR      BIT(3)
+> +#define ILI9486_MADCTL_MV       BIT(5)
+> +#define ILI9486_MADCTL_MX       BIT(6)
+> +#define ILI9486_MADCTL_MY       BIT(7)
 > +
-> +allOf:
-> +  - $ref: panel/panel-common.yaml#
+> +/*
+> + * The PiScreen/waveshare rpi-lcd-35 has a SPI to 16-bit parallel bus converter
+> + * in front of the  display controller. This means that 8-bit values have to be
+> + * transferred as 16-bit.
+> + */
+> +static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par, size_t num)
+> +{
+> +	struct spi_device *spi = mipi->spi;
+> +	void *data = par;
+> +	u32 speed_hz;
+> +	int i, ret;
+> +	u16 *buf;
 > +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          # Waveshare 3.5" 320x480 Color TFT LCD
-> +        - waveshare,rpi-lcd-35
-> +          # Ozzmaker 3.5" 320x480 Color TFT LCD
-> +        - ozzmaker,piscreen
-> +      - const: ilitek,ili9486
+> +	buf = kmalloc(32 * sizeof(u16), GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
 > +
-> +  spi-max-frequency:
-> +    maximum: 32000000
+> +	/*
+> +	 * The displays are Raspberry Pi HATs and connected to the 8-bit only
+> +	 * SPI controller, so 16-bit command and parameters need byte swapping
+> +	 * before being transferred as 8-bit on the big endian SPI bus.
+> +	 * Pixel data bytes have already been swapped before this function is
+> +	 * called.
+> +	 */
+> +	buf[0] = cpu_to_be16(*cmd);
+> +	gpiod_set_value_cansleep(mipi->dc, 0);
+> +	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, 2);
+> +	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, buf, 2);
+> +	if (ret || !num)
+> +		goto free;
 > +
-> +  dc-gpios:
-> +    maxItems: 1
-> +    description: Display data/command selection (D/CX)
+> +	/* 8-bit configuration data, not 16-bit pixel data */
+> +	if (num <= 32) {
+> +		for (i = 0; i < num; i++)
+> +			buf[i] = cpu_to_be16(par[i]);
+> +		num *= 2;
+> +		speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
+> +		data = buf;
+> +	}
 > +
-> +  backlight: true
-> +  reg: true
-> +  reset-gpios: true
-> +  rotation: true
+> +	gpiod_set_value_cansleep(mipi->dc, 1);
+> +	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, data, num);
+> + free:
+> +	kfree(buf);
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - dc-gpios
-> +  - reset-gpios
+> +	return ret;
+> +}
 > +
-> +additionalProperties: false
+> +static void waveshare_enable(struct drm_simple_display_pipe *pipe,
+> +			   struct drm_crtc_state *crtc_state,
+> +			   struct drm_plane_state *plane_state)
+> +{
+> +	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
+> +	struct mipi_dbi *dbi = &dbidev->dbi;
+> +	u8 addr_mode;
+> +	int ret, idx;
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
+> +	if (!drm_dev_enter(pipe->crtc.dev, &idx))
+> +		return;
 > +
-> +    backlight: backlight {
-> +            compatible = "gpio-backlight";
-> +            gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
-> +    };
-> +    spi {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
+> +	DRM_DEBUG_KMS("\n");
 > +
+> +	ret = mipi_dbi_poweron_conditional_reset(dbidev);
+> +	if (ret < 0)
+> +		goto out_exit;
+> +	if (ret == 1)
+> +		goto out_enable;
 > +
-> +            display@0{
-> +                    compatible = "waveshare,rpi-lcd-35", "ilitek,ili9486";
-> +                    reg = <0>;
-> +                    spi-max-frequency = <32000000>;
-> +                    dc-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-> +                    reset-gpios = <&gpio0 25 GPIO_ACTIVE_HIGH>;
-> +                    rotation = <180>;
-> +                    backlight = <&backlight>;
-> +            };
-> +    };
+> +	mipi_dbi_command(dbi, ILI9486_ITFCTR1);
+> +	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
+> +	msleep(250);
 > +
-> +...
+> +	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+> +
+> +	mipi_dbi_command(dbi, ILI9486_PWCTRL1, 0x44);
+> +
+> +	mipi_dbi_command(dbi, ILI9486_VMCTRL1, 0x00, 0x00, 0x00, 0x00);
+> +
+> +	mipi_dbi_command(dbi, ILI9486_PGAMCTRL,
+> +			 0x0F, 0x1F, 0x1C, 0x0C, 0x0F, 0x08, 0x48, 0x98,
+> +			 0x37, 0x0A, 0x13, 0x04, 0x11, 0x0D, 0x0);
+> +	mipi_dbi_command(dbi, ILI9486_NGAMCTRL,
+> +			 0x0F, 0x32, 0x2E, 0x0B, 0x0D, 0x05, 0x47, 0x75,
+> +			 0x37, 0x06, 0x10, 0x03, 0x24, 0x20, 0x00);
+> +	mipi_dbi_command(dbi, ILI9486_DGAMCTRL,
+> +			 0x0F, 0x32, 0x2E, 0x0B, 0x0D, 0x05, 0x47, 0x75,
+> +			 0x37, 0x06, 0x10, 0x03, 0x24, 0x20, 0x00);
+> +
+> +	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
+> +	msleep(100);
+> +
+> + out_enable:
+> +	switch (dbidev->rotation) {
+> +	case 90:
+> +		addr_mode = ILI9486_MADCTL_MY;
+> +		break;
+> +	case 180:
+> +		addr_mode = ILI9486_MADCTL_MV;
+> +		break;
+> +	case 270:
+> +		addr_mode = ILI9486_MADCTL_MX;
+> +		break;
+> +	default:
+> +		addr_mode = ILI9486_MADCTL_MV | ILI9486_MADCTL_MY |
+> +			ILI9486_MADCTL_MX;
+> +		break;
+> +	}
+> +	addr_mode |= ILI9486_MADCTL_BGR;
+> +	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
+> +	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
+> + out_exit:
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +static const struct drm_simple_display_pipe_funcs waveshare_pipe_funcs = {
+> +	.enable = waveshare_enable,
+> +	.disable = mipi_dbi_pipe_disable,
+> +	.update = mipi_dbi_pipe_update,
+> +	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
+> +};
+> +
+> +static const struct drm_display_mode waveshare_mode = {
+> +	DRM_SIMPLE_MODE(480, 320, 73, 49),
+> +};
+> +
+> +DEFINE_DRM_GEM_CMA_FOPS(ili9486_fops);
+> +
+> +static struct drm_driver ili9486_driver = {
+> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> +	.fops			= &ili9486_fops,
+> +	.release		= mipi_dbi_release,
+> +	DRM_GEM_CMA_VMAP_DRIVER_OPS,
+> +	.debugfs_init		= mipi_dbi_debugfs_init,
+> +	.name			= "ili9486",
+> +	.desc			= "Ilitek ILI9486",
+> +	.date			= "20200118",
+> +	.major			= 1,
+> +	.minor			= 0,
+> +};
+> +
+> +static const struct of_device_id ili9486_of_match[] = {
+> +	{ .compatible = "waveshare,rpi-lcd-35" },
+> +	{ .compatible = "ozzmaker,piscreen" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, ili9486_of_match);
+> +
+> +static const struct spi_device_id ili9486_id[] = {
+> +	{ "ili9486", 0 },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, ili9486_id);
+> +
+> +static int ili9486_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev = &spi->dev;
+> +	struct mipi_dbi_dev *dbidev;
+> +	struct drm_device *drm;
+> +	struct mipi_dbi *dbi;
+> +	struct gpio_desc *dc;
+> +	u32 rotation = 0;
+> +	int ret;
+> +
+> +	dbidev = kzalloc(sizeof(*dbidev), GFP_KERNEL);
+> +	if (!dbidev)
+> +		return -ENOMEM;
+> +
+> +	dbi = &dbidev->dbi;
+> +	drm = &dbidev->drm;
+> +	ret = devm_drm_dev_init(dev, drm, &ili9486_driver);
+> +	if (ret) {
+> +		kfree(dbidev);
+> +		return ret;
+> +	}
+> +
+> +	drm_mode_config_init(drm);
+> +
+> +	dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(dbi->reset)) {
+> +		DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
+> +		return PTR_ERR(dbi->reset);
+> +	}
+> +
+> +	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
+> +	if (IS_ERR(dc)) {
+> +		DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
+> +		return PTR_ERR(dc);
+> +	}
+> +
+> +	dbidev->backlight = devm_of_find_backlight(dev);
+> +	if (IS_ERR(dbidev->backlight))
+> +		return PTR_ERR(dbidev->backlight);
+> +
+> +	device_property_read_u32(dev, "rotation", &rotation);
+> +
+> +	ret = mipi_dbi_spi_init(spi, dbi, dc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dbi->command = waveshare_command;
+> +	dbi->read_commands = NULL;
+> +
+> +	ret = mipi_dbi_dev_init(dbidev, &waveshare_pipe_funcs, &waveshare_mode, rotation);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_mode_config_reset(drm);
+> +
+> +	ret = drm_dev_register(drm, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	spi_set_drvdata(spi, drm);
+> +
+> +	drm_fbdev_generic_setup(drm, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ili9486_remove(struct spi_device *spi)
+> +{
+> +	struct drm_device *drm = spi_get_drvdata(spi);
+> +
+> +	drm_dev_unplug(drm);
+> +	drm_atomic_helper_shutdown(drm);
+> +
+> +	return 0;
+> +}
+> +
+> +static void ili9486_shutdown(struct spi_device *spi)
+> +{
+> +	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
+> +}
+> +
+> +static struct spi_driver ili9486_spi_driver = {
+> +	.driver = {
+> +		.name = "ili9486",
+> +		.of_match_table = ili9486_of_match,
+> +	},
+> +	.id_table = ili9486_id,
+> +	.probe = ili9486_probe,
+> +	.remove = ili9486_remove,
+> +	.shutdown = ili9486_shutdown,
+> +};
+> +module_spi_driver(ili9486_spi_driver);
+> +
+> +MODULE_DESCRIPTION("Ilitek ILI9486 DRM driver");
+> +MODULE_AUTHOR("Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>");
+> +MODULE_LICENSE("GPL");
 > -- 
 > 2.7.4
 _______________________________________________
