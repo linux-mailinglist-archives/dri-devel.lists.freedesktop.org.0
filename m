@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04644156AA3
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 14:33:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9365156B01
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 16:33:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C90F66E3D0;
-	Sun,  9 Feb 2020 13:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4893289F1B;
+	Sun,  9 Feb 2020 15:33:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 227086E3D0
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2020 13:33:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4CF889F1B
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2020 15:33:16 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
-Date: Sun, 09 Feb 2020 13:33:15 +0000
+Subject: [Bug 205675] Display locks up. AMDGPU timeout
+Date: Sun, 09 Feb 2020 15:33:16 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,17 +25,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: esanya@freemail.hu
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: freddyreimer@comcast.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-203905-2300-I1FvrxOzA4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
-References: <bug-203905-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-205675-2300-pvpRnzeZHu@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205675-2300@https.bugzilla.kernel.org/>
+References: <bug-205675-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,15 +56,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=203905
+https://bugzilla.kernel.org/show_bug.cgi?id=205675
 
---- Comment #6 from Sandor Ecker (esanya@freemail.hu) ---
-So it seems that the 16 bit actual_brightness is not a bug, but a feature... :)
+--- Comment #3 from freddyreimer@comcast.net ---
+Update. Roughly around the time of the last update to this, I manually added
+that fix and it was working out for me. However, I ran some updates to both
+mesa and the kernel itself and now it appears the issue is back.
 
-https://github.com/torvalds/linux/commit/262485a50fd4532a8d71165190adc7a0a19bcc9e#diff-b496037255b7766a782d3f3711b50db8
+I have updated this issue with my current specifications. I'm on the 5.5.2
+kernel now, with my package manager reporting the mesa version as 20.0.0_rc1.
+llvm is on 9.0.1.
 
-So my question now:
--why are the max_brightness and brightness values in 8bit range?
+I'll also add in an attachment with a more recent dmesg tail. I did try
+checking to see if I could manually re-add the patch to the file again, but it
+looks like those lines of code are already there, yet this issue still
+persists.
 
 -- 
 You are receiving this mail because:
