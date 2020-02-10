@@ -2,98 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6BC158542
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 22:50:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C97C158548
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 22:54:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 776CF6E24D;
-	Mon, 10 Feb 2020 21:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA136E261;
+	Mon, 10 Feb 2020 21:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A81236E248;
- Mon, 10 Feb 2020 21:50:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PQC6BlPyzxCjmJtNODxvuAExQj2QATzJ4RHA13wNOxRNitjVZho4DlqbwWGjAp4iDdZR/gah1mtS62poqhHiU2y3MMcEm2ArxLZxpQuwW7Mpj1HfGgALBZOCK5D78S2FFVSd+ox6tHY8/DspcS40ULlDISbNjnxd2yRM6FeBtey5Vd6u8ME9AyedPXmyAN29QJkjkmm01W5OnShCDjoaUuam1ElQF2LhXbVopBD58dCd6kpmAnqLtqy61i/BKzPMmi73ECba7+0hR9q1nZDrQWgJcsTeoynnKxywil8DoJyeofx+FDZfvvRWE6n6v0eCNR8JpUhiAzypi/4BnSj5HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G2/VWtj9SJdnO8+npHrxvvque3Q6F9wF+C8sqkFfRBk=;
- b=AfOC7ypEwZlCnP3jLLy9aApf/wz38lxqkqBp9oGkb74d7DWKu0M/a9UK3Kv5fXnNXN9SW5XuyBc4AR/hL6WlJjpKTtO7opalPbAGYrEQmoPz3PPW6O5ELSm4srGOeGnCiGK2XAnfy2QctGRHv9b5c0Sl8+d6Fc2tZ3z+y+LZSUDk/vC5zKj1doxXHkz/lkLwH/e4sKVxnPIS1bRtq4pyv9L3zcAOThhXZo4WRl/8S4gypGAlQGF/yUaa8888KL//ysi6TTRNKkG/0IKJyjlvuJK2FOJ0loOCqOsRpYSDjQGYAy/G+5EGc44n9+ItGGihlmT5SJlCxndPujYKXwMoIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G2/VWtj9SJdnO8+npHrxvvque3Q6F9wF+C8sqkFfRBk=;
- b=iyOj6MazeY4lwr+cpOk5eo379OGWhZsypbIOQpqlizqBuY+U6WHgGWecsBWXXb1xIUqF5t3Bcew56IDX/dYvlS2mm14VASEo9ujmN5K3B+PofFBmMZEEFv2ZV91IU0S3IUI6UBhn3zNR30xW3+/iT4K4s5yTM2UbAVkVgSTnA7o=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Luben.Tuikov@amd.com; 
-Received: from DM6PR12MB3355.namprd12.prod.outlook.com (20.178.29.90) by
- DM6PR12MB3049.namprd12.prod.outlook.com (20.178.31.83) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.26; Mon, 10 Feb 2020 21:50:33 +0000
-Received: from DM6PR12MB3355.namprd12.prod.outlook.com
- ([fe80::799b:b372:6589:c8a]) by DM6PR12MB3355.namprd12.prod.outlook.com
- ([fe80::799b:b372:6589:c8a%7]) with mapi id 15.20.2707.030; Mon, 10 Feb 2020
- 21:50:33 +0000
-Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexdeucher@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
-References: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>
- <0de5ad33ca2ff86fee13a453aa9096c274afbd3c.camel@pengutronix.de>
- <d710aba7c3acc537bfb1c20362f7c8dbee421f02.camel@pengutronix.de>
- <740fb929-e788-075b-87db-e2524ed4b086@gmail.com>
- <CADnq5_Np=OFgqAb4TPRz5yqx1YZSwWybS=F6R_r6r01QRrzADA@mail.gmail.com>
- <61128c11-9e65-bc21-6306-ea4efea18b76@amd.com>
- <90de1234-a103-a695-4ad7-83b1486e15ee@amd.com>
- <02ba868c-e904-3681-c795-59a4e48926d5@amd.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Message-ID: <b1ebac7c-5593-bc87-1f36-ea55503f05d1@amd.com>
-Date: Mon, 10 Feb 2020 16:50:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
-In-Reply-To: <02ba868c-e904-3681-c795-59a4e48926d5@amd.com>
-Content-Language: en-CA
-X-ClientProxiedBy: YTOPR0101CA0016.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:15::29) To DM6PR12MB3355.namprd12.prod.outlook.com
- (2603:10b6:5:115::26)
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1610D6E261
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 21:54:36 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id 77so7997825oty.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 13:54:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6TN01GzOeOni8dv2Pua3rcMzfmy3cTDQag9x5yqO0TY=;
+ b=Z+vF4GZmwWe+N1J+a++1T9cDvGwp64kBoE9MTLsRQXoSaS2Hbf4p4KqECfafkBkrWe
+ 73vWEEq2IQvZC5Vz2+LkGxAfFn0qPDURrz3ekMuyO/pSZl+e1HTa7t58J8iyn0KFiijy
+ v/yg+KNw+N0j1JE7/GomQt7Nt9pBGNVXoy2PE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6TN01GzOeOni8dv2Pua3rcMzfmy3cTDQag9x5yqO0TY=;
+ b=SpCMNphjpnL74ZJ/dvn64Jdbx4KRBCRbkqp0qo/bPk3XzThHJhzY27kRWSryLo+Mdz
+ HKaHBe+rDQYdcK8vLmFoynGfdRcSybDQzeeg23yBRxs6OJwdpd/8TXgs7V+xObyHEc9k
+ Jfl42A+w95Qq2wtdnexv4oUSmP0RH8/5BwqJjbV5h5upH/+MUokbgREUIKP4GW2J64Hb
+ 0kl87M5u17pkhvyTlmsBRZIJD7xWr4xDrJGubgECuYrzqYXBpzIdSRMPHtaJMEpM0NYw
+ /icC0+koEKtX2MzNKdGN6cYPJ7INxkK7TuIRfKhPSDgAzJACnv4STcVjG8FqJ2BoJS1T
+ 9RsQ==
+X-Gm-Message-State: APjAAAUsRnbalSyMfJPzPFtyX5ml1TldJRuoHFkz6ST9wNjv+OerzJVt
+ x7SH3t3E7PvkRL2RhY1DJSDN1FyRfridQehqIQ6PYQ==
+X-Google-Smtp-Source: APXvYqwGLDYoqgJ25HRfUbxOjLMZQS/9qoaQ4HjasALwA+v7Eiuh6qgB+uIQ3Sfy+lQlf9K6kglv3mbEO5FcmiTL0xM=
+X-Received: by 2002:a9d:7696:: with SMTP id j22mr2885716otl.188.1581371675267; 
+ Mon, 10 Feb 2020 13:54:35 -0800 (PST)
 MIME-Version: 1.0
-Received: from localhost.localdomain (165.204.55.250) by
- YTOPR0101CA0016.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21 via Frontend
- Transport; Mon, 10 Feb 2020 21:50:32 +0000
-X-Originating-IP: [165.204.55.250]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f6391852-06b8-4208-c5ab-08d7ae7340fb
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3049:|DM6PR12MB3049:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB304908E4F8885A223CF65C5299190@DM6PR12MB3049.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-Forefront-PRVS: 03094A4065
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(376002)(366004)(396003)(346002)(39860400002)(189003)(199004)(2616005)(316002)(54906003)(956004)(110136005)(86362001)(52116002)(31696002)(26005)(2906002)(31686004)(53546011)(6506007)(16526019)(186003)(6486002)(66476007)(66946007)(6512007)(66556008)(5660300002)(478600001)(4326008)(8936002)(966005)(45080400002)(8676002)(44832011)(36756003)(81166006)(81156014);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3049;
- H:DM6PR12MB3355.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CnU2tmhNsDIVFedRhzlrGIxjptTX1j1cJla03oZRjnMoSIneQMp8qohRyUDOA8sefbSK8vadOQgaNhFsrfvBZccp5Q9385nni/s9pKPLn6DW9wI8P9hfPBQyu0PVTAfyJ4quPmkOatq32926LOOBWh/eSDs3dB6mItUD3raDwpLcnpYQE+YmDV56oquN/hT3yXSvzkHD7jzFnUkuP29F3jFsyM5nr2zfzQJjUH/5pKBzWAKVe5+aEvd5dwNmjiL6Ay6CKlwkA0Kv7Sz3PIRGsDcjqzZYGvx/dwIMlvOyOjDlFPSIFzVcWH2jRJLygWXMGD+nA2nTAbNh6MvmXB9zHDd682rZfy4EZKBCCrm5o8GvSlnaTD/5/z/i5ZnbGb+hce22Oe8qHaoEiY1vAxKU59aogD7HuqzlFGQ1XrUjU1oZMuBAR+VdocF794FXBoaCfzE6hlPUhZLvOe7RzJGHQgjSG1CAjUkHCchZDUn6RRtcnucJD1aqE0ZSTI6R6qhDyWqq9VzEMVEYibPKKKTH2Q==
-X-MS-Exchange-AntiSpam-MessageData: dSU7VGq3bFi0WkGUQ16wKA7Bl3fGm9fJ+Ff1b7D4waQfK/rYJFYdHbUtjiH5umE3kPI9YmW23+Upi5oSG+87O0H8nz+dCSZvSCPJKnfL/OFqUcETXo6FpmKXhCzfTYm6U5dvHy7iUWiDTsiDqR3k9g==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6391852-06b8-4208-c5ab-08d7ae7340fb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2020 21:50:33.2187 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yivNunzqndpyIp+ahWRiKuZ7C04FWJtYXU9gEc+SfoVlB11HdZLqyzTW2TDfnb7S
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3049
+References: <20200205174839.374658-1-emil.l.velikov@gmail.com>
+ <20200207132942.GY43062@phenom.ffwll.local>
+ <CACvgo52NO5uOnG5p360nWKiu6Bigs9bgP9x3XKMQ3vfT-APfmQ@mail.gmail.com>
+In-Reply-To: <CACvgo52NO5uOnG5p360nWKiu6Bigs9bgP9x3XKMQ3vfT-APfmQ@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 10 Feb 2020 22:54:23 +0100
+Message-ID: <CAKMK7uEoxPf023wuMmSByhBf5c=d9nxSn0rSccv_6e9Yq-JSzQ@mail.gmail.com>
+Subject: Re: [RFC] drm: rework SET_MASTER and DROP_MASTER perm handling
+To: Emil Velikov <emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,65 +59,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emily Deng <Emily.Deng@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, steven.price@arm.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTHVjYXMsCgpUaGFuayB5b3UgZm9yIGJyaW5naW5nIGF3YXJlbmVzcyBvZiB0aGlzIGlzc3Vl
-LCBwdWJsaWNseS4KCkFzIHNvb24gYXMgdGhpcyBwYXRjaCBzaG93ZWQgdXAgYmFjayBpbiBOb3Zl
-bWJlciBvZiAyMDE5LApJIG9iamVjdGVkIHRvIGl0LCBwcml2YXRlbHkuCgpJIHN1Z2dlc3RlZCB0
-byBpbnN0ZWFkIHVzZSBhIF9saXN0XyB0byBzdG9yZSB0aGUgInN0YXRlIiBvZgphbGwgam9icyBv
-ZiB0aGUgc2FtZSBzdGF0ZS4gVGhlbiwgYXQgYW55IHRpbWUsIHRpbWVvdXQgaW50ZXJydXB0Cm9y
-IHdoYXRldmVyLCB3ZSBjYW4gYXRvbWljYWxseSAoaXJxIHNwaW5sb2NrKSBtb3ZlIHRoZSB0aW1l
-b3V0L2JhZApqb2IgdG8gdGhlIHRpbWVkb3V0L2NsZWFudXAvYmFkIGpvYiBsaXN0LCBhbmQgd2Fr
-ZSBzb21lb25lIHVwCnRvIGRlYWwgd2l0aCB0aGF0IGxpc3QgYXN5bmNocm9ub3VzbHksIGFuZCBy
-ZXR1cm4gZnJvbSB0aGUgaW50ZXJydXB0L2V0Yy4KaW1tZWRpYXRlbHkuCgpUaGVuIGluIGR1ZSB0
-aW1lLCBpZiBhbnkgbW9yZSBpbnRlcnJ1cHRzIG9yIHdoYXRub3QgdGFrZSBwbGFjZSwKdGhlIGpv
-YiB3aWxsIGVpdGhlciBiZSBpbiB0aGUgdGltZW91dCBsaXN0IG9yIG5vdC4gSWYgaXQgaXQsCnRo
-ZW4gdGhlIGluc3RpZ2F0b3IgYmFja3Mgb2ZmIGFzIHNvbWVvbmUgZWxzZSAodGhlIGxpc3QgaGFu
-ZGxlcikgd2lsbC9pcwphd2FrZSBhbmQgaGFuZGxpbmcgaXQgKG9idmlvdXNseSBhIHN0YXRlIHZh
-cmlhYmxlIG1heSBiZSBrZXB0IGFzIHdlbGwpLgoKVGhpcyBkcmF3cyBzb21ld2hhdCBmcm9tIG15
-IGRheXMgd2l0aCBpU0NTSSwgU0NTSSBhbmQgU0FTLCAxNSB5ZWFycyBhZ28sCndoZXJlIGEgZGV2
-aWNlIGNhbiBjb21wbGV0ZSBhIGpvYiAodGFzaykgYXQgYW55dGltZSByZWdhcmRsZXNzCm9mIHdo
-YXQgdGhlIFNDU0kgbGF5ZXIgInRoaW5rcyIgdGhlIHRhc2sncyBzdGF0ZSBpczogdGltZWQtb3V0
-LCBhYm9ydGVkLAp3aGF0ZXZlci4gSXQgaXMgYSB2ZXJ5IHNpbXBsZSBhbmQgZWxlZ2FudCBzb2x1
-dGlvbiB3aGljaCBnZW5lcmFsaXplcwp3ZWxsLgoKUmVnYXJkcywKTHViZW4KCk9uIDIwMjAtMDIt
-MTAgMTE6NTUgYS5tLiwgQW5kcmV5IEdyb2R6b3Zza3kgd3JvdGU6Cj4gTHVjYXMgLSBQaW5nIG9u
-IG15IHF1ZXN0aW9uIGFuZCBhbHNvIEkgYXR0YWNoZWQgdGhpcyB0ZW1wb3Jhcnkgc29sdXRpb24g
-Zm9yIGV0bmF2aXYgdG8gY2xhcmlmeSBteSBwb2ludC4gSWYgdGhhdCBzb21ldGhpbmcgYWNjZXB0
-YWJsZSBmb3Igbm93IGF0IGxlYXN0IGkgY2FuIGRvIHRoZSBzYW1lIGZvciB2M2Qgd2hlcmUgaXQg
-cmVxdWlyZXMgYSBiaXQgbW9yZSBjb2RlIGNoYW5nZXMuCj4gCj4gQW5kcmV5Cj4gCj4gT24gMi82
-LzIwIDEwOjQ5IEFNLCBBbmRyZXkgR3JvZHpvdnNreSB3cm90ZToKPj4+IFdlbGwgYSByZXZlcnQg
-d291bGQgYnJlYWsgb3VyIGRyaXZlci4KPj4+Cj4+PiBUaGUgcmVhbCBzb2x1dGlvbiBpcyB0aGF0
-IHNvbWVib2R5IG5lZWRzIHRvIHNpdCBkb3duLCBnYXRoZXIgQUxMIHRoZSByZXF1aXJlbWVudHMg
-YW5kIHRoZW4gY29tZSB1cCB3aXRoIGEgc29sdXRpb24gd2hpY2ggaXMgY2xlYW4gYW5kIHdvcmtz
-IGZvciBldmVyeW9uZS4KPj4+Cj4+PiBDaHJpc3RpYW4uCj4+Cj4+Cj4+IEkgY2FuIHRvIHRha2Ug
-b24gdGhpcyBhcyBpbmRlZWQgb3VyIGdlbmVyYWwgZGVzaWduIG9uIHRoaXMgYmVjb21lcyBtb3Jl
-IGFuZCBtb3JlIGVudGFuZ2xlZCBhcyBHUFUgcmVzZXQgc2NlbmFyaW9zIGdyb3cgaW4gY29tcGxl
-eGl0eSAoYXQgbGVhc3QgaW4gQU1EIGRyaXZlcikuIEN1cnJlbnRseSBJIGFtIG9uIGEgaGlnaCBw
-cmlvcml0eSBpbnRlcm5hbCB0YXNrIHdoaWNoIHNob3VsZCB0YWtlIG1lIGFyb3VuZCBhIHdlZWsg
-b3IgMiB0byBmaW5pc2ggYW5kIGFmdGVyIHRoYXQgSSBjYW4gZ2V0IHRvIGl0Lgo+Pgo+PiBSZWdh
-cmRpbmcgdGVtcG9yYXJ5IHNvbHV0aW9uwqAgLSBJIGxvb2tlZCBpbnRvIHYzZCBhbmQgZXRuYXZp
-diB1c2UgY2FzZXMgYW5kIHdlIGluIEFNRCBhY3R1YWxseSBmYWNlIHRoZSBzYW1lIHNjZW5hcmlv
-IHdoZXJlIHdlIGRlY2lkZSB0byBza2lwIEhXIHJlc2V0IGlmIHRoZSBndWlsdHkgam9iIGRpZCBm
-aW5pc2ggYnkgdGhlIHRpbWUgd2UgYXJlIHByb2Nlc3NpbmcgdGhlIHRpbWVvdXTCoCAoc2VlIGFt
-ZGdwdV9kZXZpY2VfZ3B1X3JlY292ZXIgYW5kIHNraXBfaHdfcmVzZXQgZ290bykgLSB0aGUgZGlm
-ZmVyZW5jZSBpcyB3ZSBhbHdheXMgY2FsbCBkcm1fc2NoZWRfc3RvcC9zdGFydCBpcnJlc3BlY3Rp
-dmVseSBvZiB3aGV0aGVyIHdlIGFyZSBnb2luZyB0byBhY3R1YWxseSBIVyByZXNldCBvciBub3Qg
-KHNhbWUgYXMgZXh0ZW5kIHRpbWVvdXQpLiBJIHdvbmRlciBpZiBzb21ldGhpbmcgbGlrZSB0aGlz
-IGNhbiBiZSBkb25lIGFsc28gZm9yIHZlMyBhbmQgZXRuYXZpdiA/Cj4+Cj4+IEFuZHJleSAKPiAK
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGFtZC1n
-ZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczov
-L25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYl
-MkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZhbWQtZ2Z4JmFt
-cDtkYXRhPTAyJTdDMDElN0NsdWJlbi50dWlrb3YlNDBhbWQuY29tJTdDY2U5N2JjMjk5ODhlNDA2
-OGVmODEwOGQ3YWU0YTA0M2QlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAl
-N0MwJTdDNjM3MTY5NTA1Mjc3MzgxMzI3JmFtcDtzZGF0YT1GeVYwcTN5NXVXUHdCZ0pGNVFaTFdB
-UmNYYXU5MTZFVWNZZXoyVkElMkZxUkElM0QmYW1wO3Jlc2VydmVkPTAKPiAKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Feb 10, 2020 at 8:01 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+>
+> Thanks for having a look Daniel.
+>
+> On Fri, 7 Feb 2020 at 13:29, Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Wed, Feb 05, 2020 at 05:48:39PM +0000, Emil Velikov wrote:
+> > > From: Emil Velikov <emil.velikov@collabora.com>
+> > >
+> > > This commit reworks the permission handling of the two ioctls. In
+> > > particular it enforced the CAP_SYS_ADMIN check only, if:
+> > >  - we're issuing the ioctl from process other than the one which opened
+> > > the node, and
+> > >  - we are, or were master in the past
+> > >
+> > > This allows for any application which cannot rely on systemd-logind
+> > > being present (for whichever reason), to drop it's master capabilities
+> > > (and regain them at later point) w/o being ran as root.
+> > >
+> > > See the comment above drm_master_check_perm() for more details.
+> > >
+> > > Cc: Adam Jackson <ajax@redhat.com>
+> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> > > ---
+> > > This effectively supersedes an earlier patch [1] incorporating ajax's
+> > > feedback (from IRC ages ago).
+> > >
+> > > [1] https://patchwork.freedesktop.org/patch/268977/
+> > > ---
+> > >  drivers/gpu/drm/drm_auth.c  | 59 +++++++++++++++++++++++++++++++++++++
+> > >  drivers/gpu/drm/drm_ioctl.c |  4 +--
+> > >  include/drm/drm_file.h      | 11 +++++++
+> > >  3 files changed, 72 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> > > index cc9acd986c68..01d9e35c0106 100644
+> > > --- a/drivers/gpu/drm/drm_auth.c
+> > > +++ b/drivers/gpu/drm/drm_auth.c
+> > > @@ -135,6 +135,7 @@ static int drm_set_master(struct drm_device *dev, struct drm_file *fpriv,
+> > >               }
+> > >       }
+> > >
+> > > +     fpriv->was_master = (ret == 0);
+> > >       return ret;
+> > >  }
+> > >
+> > > @@ -179,12 +180,64 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
+> > >       return ret;
+> > >  }
+> > >
+> > > +/*
+> > > + * In the olden days the SET/DROP_MASTER ioctls used to return EACCES when
+> > > + * CAP_SYS_ADMIN was not set.
+> > > + *
+> > > + * Even though the first client is _always_ master, it also had to be run as
+> > > + * root, otherwise SET/DROP_MASTER would fail. In those cases no other client
+> > > + * could become master ... EVER.
+> > > + *
+> > > + * Resulting in a) the graphics session dying badly or b) a completely locked
+> > > + * session :-\
+> > > + *
+> > > + * As some point systemd-logind was introduced to orchestrate and delegate
+> > > + * master as applicable. It does so by opening the fd and passing it to users
+> > > + * while in itself logind a) set/drop master per users' request and b)
+> > > + * implicitly drops master on VT switch.
+> > > + *
+> > > + * Even though logind looks like the future, there are a few obstacles:
+> > > + *  - using it is not possible on some platforms, or
+> > > + *  - applications may not be updated to use it,
+> > > + *  - any client which fails to drop master* can DoS the application using
+> > > + * logind, to a varying degree.
+> > > + *
+> > > + * * Either due missing root permission or simply not calling DROP_MASTER.
+> > > + *
+> > > + *
+> > > + * Here we implement the next best thing:
+> > > + *   We enforce the CAP_SYS_ADMIN check only if the client was not a master
+> > > + * before. We distinguish between the original master client (say logind) and
+> > > + * another client which has the fd passed (say Xorg) by comparing the pids.
+> > > + *
+> > > + * As a result this fixes, the following when using root-less build w/o logind
+> > > + * - startx - some drivers work fine regardless
+> > > + * - weston
+> > > + * - various compositors based on wlroots
+> > > + */
+> >
+> > I think this breaks logind security. With logind no compositor can open
+> > the device node directly, hence no compositor can accidentally become the
+> > master and block everyone else.
+> >
+> I've explicitly considered this case. AFAICT this patch does not
+> change any of the contract.
+> If you think there's a scenario where things have broken, please let me know.
+>
+> > And for the vt switch logind is the only one that can grant master rights,
+> > and it can make sure that the right compositor gets them. And if the old
+> > compositor is non-cooperating, it can also forcefully remove master
+> > rights.
+> >
+> Yes logind does set/drop master on VT switch, session setup/teardown, etc.
+>
+> To take this a step further, there is no logind API or dbus method for
+> compositors to only set/drop master.
+> Thus logind ensures that compositors are in sane state.
+>
+> > But with this here we lift this restriction if a compositor has ever been
+> > master. So the following thing could happen:
+> > - We have 3 compositors for different users C1, C2, C3
+> > - We switch from C1 to C2
+> > - While we switch no one is master for a moment, which means C3 could
+> >   sneak in and do a quick setmaster, and become master
+> > - Everything would come crashing done since logind believes it already
+> >   revoked master for C1, but somehow it now cant grant master to C2
+> >
+> Does this scenario consider that all three compositors are logind users?
+> If so, C3 should not be able to set or drop master. Since it got its
+> fd from logind:
+>
+>  - `file_priv->pid` will point to systemd-logind, and
+>  - `task_pid(current)` will point to the respective compositor
+>
+> -> EACCES will be returned to any compositor calling drmSetMaster.
+>
+> Regardless of my patch, C3 can open() and simply not release the master.
+> Assuming it's the first DRM client of course - say switch to VTx +
+> login + start C3.
+
+Hm ... I guess this works indeed. Or should. I'm mildly freaked out
+that we're checking for opener_pid == current->pid. Not sure how many
+other security assumptions we're breaking.
+
+> I've been lucky enough to spot various ways to softlock my system...
+> even when the compositor is using logind ;-)
+> If you're really interested I can share, but I'm worried that people
+> may see them as bashing at logind.
+>
+> > I'm not sure we can even support these two models at the same time.
+> >
+> > > +static int
+> > > +drm_master_check_perm(struct drm_device *dev, struct drm_file *file_priv)
+> > > +{
+> > > +     if (file_priv->pid != task_pid(current) && file_priv->was_master)
+> >
+> > Isn't this a typo? Why should we only allow this if the opener is someone
+> > else ... that looks like the logind approach? Or is my bolean logic parser
+> > broken again.
+> >
+> Thanks for spotting it. Indeed that should be:
+>
+> if (file_priv->pid == task_pid(current) && file_priv->was_master)
+>     return 0;
+>
+>
+> Modulo any objections, I'll do proper testing and submit a non RFC version.
+> The inline comments will explicitly mention your concerns and why the
+> patch is safe.
+
+Given the above bug I think a solid igt for both the logind and the
+non-logind scenario is needed. We have some helpers to drop root and
+fork stuff and all that, so shouldn't be many lines.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
