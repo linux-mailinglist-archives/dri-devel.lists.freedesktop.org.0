@@ -2,39 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A85156D79
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 02:56:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01786156DBA
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 03:52:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C472A6E0DB;
-	Mon, 10 Feb 2020 01:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F77E6E0EE;
+	Mon, 10 Feb 2020 02:51:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABE9D6E0DB
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 01:56:40 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 97A4D2001E;
- Mon, 10 Feb 2020 02:56:35 +0100 (CET)
-Date: Mon, 10 Feb 2020 02:56:34 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 1/4] drm/tiny/repaper: Make driver OF-independent
-Message-ID: <20200210015634.GA22066@ravnborg.org>
-References: <20200131204923.48928-1-andriy.shevchenko@linux.intel.com>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A48F76E0EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 02:51:55 +0000 (UTC)
+X-UUID: cb27a5e55bcb4994ad2d0af8aa941da3-20200210
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=EJpRwbjSh58mj6l2nQ/bNZGk/GQgl0/adoFvtAUjmAg=; 
+ b=WXbLyO7IqynVOZohr4EPF3D1/xdLmqoUUlmnpd/HlqfJzAnJ/qkugrex4/rLvngLd0oJ7Ds3t3OvHWw9Y7SCtNMqcK/udTu/F8hbf2lJMtsCP2aVxFfQDTw7Ahvz/yFdepU595btttGpYGVMmyfdPqN3VU7EWej3qvlR9gVp8k0=;
+X-UUID: cb27a5e55bcb4994ad2d0af8aa941da3-20200210
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 141817399; Mon, 10 Feb 2020 10:51:51 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 10 Feb 2020 10:50:33 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 10 Feb 2020 10:52:06 +0800
+Message-ID: <1581303109.951.1.camel@mtksdaap41>
+Subject: Re: [PATCH] drm/mediatek: Ensure the cursor plane is on top of
+ other overlays
+From: CK Hu <ck.hu@mediatek.com>
+To: Sean Paul <sean@poorly.run>
+Date: Mon, 10 Feb 2020 10:51:49 +0800
+In-Reply-To: <1580441226.9516.1.camel@mtksdaap41>
+References: <20200130192511.81205-1-sean@poorly.run>
+ <1580441226.9516.1.camel@mtksdaap41>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200131204923.48928-1-andriy.shevchenko@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=SJz97ENfAAAA:8
- a=e5mUnYsNAAAA:8 a=WZHNqt2aAAAA:8 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8
- a=aE2j6VG5sAdimHmDfK4A:9 a=wPNLvfGTeEIA:10 a=vFet0B0WnEQeilDPIY6i:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=PrHl9onO2p7xFKlKy1af:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+X-TM-SNTS-SMTP: C0506BEC4AA5A41519AE24F56027614D84231C02A31EF03E8A3004DDC58C47C22000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,96 +54,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- David Lechner <david@lechnology.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dcastagna@chromium.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <seanpaul@chromium.org>, Matthias
+ Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy.
+Hi, Sean:
 
-On Fri, Jan 31, 2020 at 10:49:22PM +0200, Andy Shevchenko wrote:
-> There is one OF call in the driver that limits its area of use.
-> Replace it to generic device_get_match_data() and get rid of OF dependenc=
-y.
-> =
+On Fri, 2020-01-31 at 11:27 +0800, CK Hu wrote:
+> Hi, Sean:
+> 
+> On Thu, 2020-01-30 at 14:24 -0500, Sean Paul wrote:
+> > From: Sean Paul <seanpaul@chromium.org>
+> > 
+> > Currently the cursor is placed on the first overlay plane, which means
+> > it will be at the bottom of the stack when the hw does the compositing
+> > with anything other than primary plane. Since mtk doesn't support plane
+> > zpos, change the cursor location to the top-most plane.
+> > 
+> 
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-> While here, cast SPI driver data to certain enumerator type.
-> =
+Applied to mediatek-drm-fixes-5.6 [1], thanks.
 
-> Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Lechner <david@lechnology.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
-> v2: Replace cryptic macro with comment, add Rb tag (Sam)
->  drivers/gpu/drm/tiny/repaper.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> =
+[1]
+https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-fixes-5.6
 
+Regards,
+CK
 
-Thanks, applied this and the other three patches to drm-misc-next.
+> 
+> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 8 +++++---
+> >  1 file changed, 5 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > index 0dfcd1787e651..4ac76b9613926 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > @@ -689,11 +689,12 @@ static int mtk_drm_crtc_num_comp_planes(struct mtk_drm_crtc *mtk_crtc,
+> >  }
+> >  
+> >  static inline
+> > -enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx)
+> > +enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx,
+> > +					    unsigned int num_planes)
+> >  {
+> >  	if (plane_idx == 0)
+> >  		return DRM_PLANE_TYPE_PRIMARY;
+> > -	else if (plane_idx == 1)
+> > +	else if (plane_idx == (num_planes - 1))
+> >  		return DRM_PLANE_TYPE_CURSOR;
+> >  	else
+> >  		return DRM_PLANE_TYPE_OVERLAY;
+> > @@ -712,7 +713,8 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
+> >  		ret = mtk_plane_init(drm_dev,
+> >  				&mtk_crtc->planes[mtk_crtc->layer_nr],
+> >  				BIT(pipe),
+> > -				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr),
+> > +				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr,
+> > +							num_planes),
+> >  				mtk_ddp_comp_supported_rotations(comp));
+> >  		if (ret)
+> >  			return ret;
+> 
 
-	Sam
-
-> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repape=
-r.c
-> index 76d179200775..e52a19ffd7c0 100644
-> --- a/drivers/gpu/drm/tiny/repaper.c
-> +++ b/drivers/gpu/drm/tiny/repaper.c
-> @@ -17,7 +17,7 @@
->  #include <linux/dma-buf.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/module.h>
-> -#include <linux/of_device.h>
-> +#include <linux/property.h>
->  #include <linux/sched/clock.h>
->  #include <linux/spi/spi.h>
->  #include <linux/thermal.h>
-> @@ -40,6 +40,7 @@
->  #define REPAPER_RID_G2_COG_ID	0x12
->  =
-
->  enum repaper_model {
-> +	/* 0 is reserved to avoid clashing with NULL */
->  	E1144CS021 =3D 1,
->  	E1190CS021,
->  	E2200CS021,
-> @@ -995,21 +996,21 @@ static int repaper_probe(struct spi_device *spi)
->  {
->  	const struct drm_display_mode *mode;
->  	const struct spi_device_id *spi_id;
-> -	const struct of_device_id *match;
->  	struct device *dev =3D &spi->dev;
->  	enum repaper_model model;
->  	const char *thermal_zone;
->  	struct repaper_epd *epd;
->  	size_t line_buffer_size;
->  	struct drm_device *drm;
-> +	const void *match;
->  	int ret;
->  =
-
-> -	match =3D of_match_device(repaper_of_match, dev);
-> +	match =3D device_get_match_data(dev);
->  	if (match) {
-> -		model =3D (enum repaper_model)match->data;
-> +		model =3D (enum repaper_model)match;
->  	} else {
->  		spi_id =3D spi_get_device_id(spi);
-> -		model =3D spi_id->driver_data;
-> +		model =3D (enum repaper_model)spi_id->driver_data;
->  	}
->  =
-
->  	/* The SPI device is used to allocate dma memory */
-> -- =
-
-> 2.24.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
