@@ -1,89 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24558157EF8
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 16:38:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 564F3157EFA
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 16:38:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6CC86EC9D;
-	Mon, 10 Feb 2020 15:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B04B06EC9E;
+	Mon, 10 Feb 2020 15:38:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05olkn2088.outbound.protection.outlook.com [40.92.90.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B68B06E20D;
- Mon, 10 Feb 2020 13:20:53 +0000 (UTC)
+ (mail-vi1eur05olkn2066.outbound.protection.outlook.com [40.92.90.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D806E97F;
+ Mon, 10 Feb 2020 13:26:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ihRbn44kyhV5OCW3gIGiGCKRm8oKnzE7Dw6Vkm0E1BmSmnzblBdIvVD+klIMYGtULv3SFk+Hdp7I/aIInMOaBa0x+Wa4WdF0ZzFZWFjofCfihmSIrAjuNa1W9N2yB0zGXjgWngs3imzQTtSRchv+kVGUc4TjD/poPd/t5yRxS3yEYLuQP41hFR5Y/GFCyC5Zglu/pEds+bWNUUG4y1yFG9rNPYYx8FQZw7qNg6UPoC3QaGk7CPW1gMgJL7M3dc+3Mls9AJNQjq7/Psf1uwxw3fDkHTm6z6NLVQPeaCj4GhOyED/fZeUUUjhEI1BOTDU2UrzwZ+F1mpJ1RFoEMhyR5Q==
+ b=JrmZF70+LFlw8w5D5qBpKMITzi7cP40pIQLl8g3Iw8v4f2A91pJ/40/0fn4HKWQr4t3g3yZqaMjQXNLcwVctYrd19SFNuC5XeLZPiwJvqge6AzL+PFmFmgGfDEN7i6l+i5cMc+uNHYq2hM0X1rcqWWN1tP9i138gmPlmlZwvkk9rhYdYBpwYoDWkA5zoRrkvxYzOYV3fNcvGL/jAc9OPL/h0AFvI2pZ+JO3X35x/RLxB/M78YEVH6hHgoszEH5kQFAyz7LhmL8XHlnbgfFjL7GUed1EQ+rTqsYubH2FhNoe4+gzJywgXzM47dd1U/rXCM0CIsUjcAZu82822mihL5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JN+va05ZbjMyKEWzwdO6T+qVBco4SNlpNcsR+DK1xqE=;
- b=cqYWdC43FDTr//2DUnWrJAZVoxtQmAL1/wLoIQjiy05cy9t6Uth5yMmG+xoMKvK4hB2Fe807mrjo9rBSATtdKYYTgvmG2y5Pn+dWxQlCl6nqYofQXJtpsnpgf07N9kV9O/0ewoAjchCSfpT/TBco5d2mIKOqYDcv5wMUy3WaBpm6X3LVu9t749tCRVc32G2fcXLfaAag9h9M1F5/DX8tQEJlenxK9ShDcsdLXiWiEmGr5sFgFx1ZnbRJxebxjrX1RFyeJX/Vs4haFErF7oTXdZx51F3YjL2uStNNAikAvOlw/P/JzMASWvHAJWIpxX2FV+ylBSgIrZBSi28Cyi8QhQ==
+ bh=xf7B3Eeg7BQqwbpemDqXtuTUXpJ5+5Dup4JNoqcPuIM=;
+ b=V/QdDES5mKYv7Cz4Jh/KQfYFf/g3m0GrGCMUgExf7MXBEwC3IkytzzOBR1TusPp7a0rLbRlSQ/7cxZ4iHfy6lgX320kLZPVPWP6pX/Ta2S0ecuDhHJPgLpedV3A2boj+Wlla7u6h5HDYHiESc9flZLW+85iuOZ43zISjVGSzH2+jYSn/NY2QRDKn1TrTme+pMhy/+ejnVd6V9ues6iJIoDP00Vy6gPFrx6It1rvgU+Zo2hTazGdRn1tBnqBgYAs30knwyq4tnfYlBKK1mQSeXzQV6xfiVCqkjjWCXhaDmnv0HEENDy6cjLYg4vYhwD2eI7pOj5j5Ujs2d9aN8DsQ6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JN+va05ZbjMyKEWzwdO6T+qVBco4SNlpNcsR+DK1xqE=;
- b=YwMu+RC2KzZNFpTTlKe5ZcqCNtwmuWRo3u/peCcE2OJRZ0H0aYlAwfm2ruesZF8a7bcz7s45h18lItKBNR1U07FxKVS4+CT55eyqw+w/RpzaIdm+XoGpxmHKGnGeTA2mzc3mgpGDAHpWECCjP5zgo6jyRnlVCvdOb2p6Dp9KoxOroBgVQ8kwneP8vhUKJOlkn1MAkTzFGkMJJU8rhgHUe70QqfIiBR4IiOZuify1cSyZ7XfAl0z545iqHbyAKwzoYr5EVGwr9fsZmCf2mIXgCURmepaW744ru+R3h2OB+9lILbrEx34T0A2cmJZg7KPC4fTCzc5ER8qKdIaVwrJd4g==
+ bh=xf7B3Eeg7BQqwbpemDqXtuTUXpJ5+5Dup4JNoqcPuIM=;
+ b=pcd75T9ftrguVRYe5rglj7rKQldC9V3wg2J2z8HGYI3CsU8BjcH4ujvr5kLJBBE2+mA07WKyAgmaWlhG3miIP8nNA84+ITNtrfSmHRNT6GRJUP0jDYhEMCYxSYB/WQaaVCeePqoZeepCenOy20Q62j47lMXJZveLPrmC2WWrP1cTRBCjuRvSYAQxREhMT08RN90wgPwKzBdsegTnAqOmhwMkvgc1qYaVwMg2AJC3/BKvBZpYO4dp7XLfDisVdCVpfEulC14xdFthM30JgnmOTSyR5DOWDJ2k5rvqkZZ7Zf2kYd1erHnTi+jodoeM+pwLthsyBYKHG5d+r2p/J8fHHw==
 Received: from AM6EUR05FT005.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::36) by
- AM6EUR05HT073.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::322)
+ (2a01:111:e400:fc11::34) by
+ AM6EUR05HT188.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::295)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21; Mon, 10 Feb
- 2020 13:20:50 +0000
+ 2020 13:26:27 +0000
 Received: from DB7PR08MB3801.eurprd08.prod.outlook.com (10.233.240.58) by
  AM6EUR05FT005.mail.protection.outlook.com (10.233.241.71) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.21 via Frontend Transport; Mon, 10 Feb 2020 13:20:50 +0000
+ 15.20.2707.21 via Frontend Transport; Mon, 10 Feb 2020 13:26:27 +0000
 Received: from DB7PR08MB3801.eurprd08.prod.outlook.com
  ([fe80::7435:b1b7:7a14:4095]) by DB7PR08MB3801.eurprd08.prod.outlook.com
  ([fe80::7435:b1b7:7a14:4095%4]) with mapi id 15.20.2707.028; Mon, 10 Feb 2020
- 13:20:50 +0000
+ 13:26:27 +0000
 From: David Binderman <dcb314@hotmail.com>
 To: "harry.wentland@amd.com" <harry.wentland@amd.com>, "sunpeng.li@amd.com"
  <sunpeng.li@amd.com>, "alexander.deucher@amd.com"
  <alexander.deucher@amd.com>, "christian.koenig@amd.com"
  <christian.koenig@amd.com>, "David1.Zhou@amd.com" <David1.Zhou@amd.com>,
  David Airlie <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
  "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c:33:33:
- error: Buffer is accessed out of bounds
-Thread-Topic: drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c:33:33: error:
- Buffer is accessed out of bounds
-Thread-Index: AQHV4BTGV26MS1cglUGXtSYHs0rE4g==
-Date: Mon, 10 Feb 2020 13:20:50 +0000
-Message-ID: <DB7PR08MB3801743541D8F3F1D965D0159C190@DB7PR08MB3801.eurprd08.prod.outlook.com>
+ Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
+Subject: linux-5.6-rc1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:8411:45:
+ error: Division by zero.
+Thread-Topic: linux-5.6-rc1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:8411:45:
+ error: Division by zero.
+Thread-Index: AQHV4BU/KGsH5jTAckazxatedoiBTg==
+Date: Mon, 10 Feb 2020 13:26:27 +0000
+Message-ID: <DB7PR08MB3801C24293CA03F7C57603929C190@DB7PR08MB3801.eurprd08.prod.outlook.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-GB
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-incomingtopheadermarker: OriginalChecksum:6AC9E1CD492ED63E036590B5A477FDC6751B25C211708346B018CB1F36AD4A5B;
- UpperCasedChecksum:C5078E19AF43812ED6008D0E9F1188E540FD5A1ED9BD9BF906908716EDE261A3;
- SizeAsReceived:7498; Count:43
+x-incomingtopheadermarker: OriginalChecksum:FD6E60A8EF71E7A386D465942962850874370F6B51794666A892BA8F1712BF9A;
+ UpperCasedChecksum:F22907425F3B99976FB8AAF77B2FA8F8B94FC0436BB85773C5ABB413F697F9E9;
+ SizeAsReceived:7678; Count:43
 x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [l5IqIsAvcQf46Y+aNpWwcwnZp+cSkKKCaK2ddA4Rh/ZjWNQx7RJYB/TuvprBnxfk]
+x-tmn: [x9jgQ0ZWRU2OLvsMeD//RVYE+ymvS22Bvh68yje+jIm/c0sL04YmbzXUjXLTpKDo]
 x-ms-publictraffictype: Email
 x-incomingheadercount: 43
 x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 56799580-a37f-469f-d7e8-08d7ae2c0c45
-x-ms-traffictypediagnostic: AM6EUR05HT073:
+x-ms-office365-filtering-correlation-id: a44eed28-d88b-490c-8df2-08d7ae2cd550
+x-ms-traffictypediagnostic: AM6EUR05HT188:
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Lp3Ub606pyqbi2+Rh6XxQxXQ26Jx8AAEwsF1foGk3LuBNUYH2SBl6PuwJAKNUTBcMhOjtcjcy4zlfSeiMwp1PejSaRYFfxa9WFELnaoPuyix5G9PxefIoXI2umRM0p4lVzmUgkd5ax/+aqyIPXHL6CbA/VhKs65NN+TZzlJGk6elNJvUCWuRQMI5QYMtEnsA
-x-ms-exchange-antispam-messagedata: gPumPVKlPMvoMVz4tHmrKQC97EcSLt/F2wDby9Fy787lisyHPCVo86g4USjPRRSQ8Q7l/lOUn7wnL6Wy2xn+4TY7sdBInoicGGwKCWOen3o7UVeTlSCIr1n8jR3wdCjqmbx2bWreowWLJfrD9pHQ5kLgDbs2NKSrat/dbn3y0Ib3ZIp+ei9r0A42MpCcsYgtILOAzmRb3Z2Lhmqv2cOMMw==
+x-microsoft-antispam-message-info: 0AIGj5kNreVkFuRc1U2ZqgydwxhDoFQt8dJVJ5gTtzv5hUtFCSmYGRzk0TA+CxQmsqsbzD0guVZlyVtQyMWmcH2Tempu5Qn21n4d46+LoBM607uOyIId/qTV0vx0PzXXvWZeLYLR6OIWboGKhIY/D5/RR/Z7esf5zJffrbRKb4kO7hxnX6CCnebt4qphFQCQ
+x-ms-exchange-antispam-messagedata: LCxzYPB48oqpu47oCvSa/iHpTxt8qHudmFUL4r4GOVCWm8Z82cI1ZQIcVHTuOyBhQrPC3C9hwtjdwtFYtlm7u2mu49FhoR1BAIbz0kvqj/F0/IkthAgiBEh63B51toGSHj3+tM1wl3gKPJ2gQ8VFlXnQuo8lfL6M0C8eCsAH35v0sB1w+EmnK4hb2B5PL3tR3v25k3cEF7GB+uydSV+ITQ==
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: hotmail.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56799580-a37f-469f-d7e8-08d7ae2c0c45
+X-MS-Exchange-CrossTenant-Network-Message-Id: a44eed28-d88b-490c-8df2-08d7ae2cd550
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2020 13:20:50.2853 (UTC)
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2020 13:26:27.6125 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Internet
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT073
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT188
 X-Mailman-Approved-At: Mon, 10 Feb 2020 15:38:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,13 +107,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello there,
 
-linux-5.6-rc1/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c:33:33: error: Buffer is accessed out of bounds: hdcp->auth.msg.hdcp1.bksv [bufferAccessOutOfBounds]
-
 Source code is
 
-   memcpy(&n, hdcp->auth.msg.hdcp1.bksv, sizeof(uint64_t));
+    unsigned int vsync_rate_hz = 0;
+    struct dc_static_screen_params params = {0};
+    /* Calculate number of static frames before generating interrupt to
+     * enter PSR.
+     */
+    unsigned int frame_time_microsec = 1000000 / vsync_rate_hz;
 
-Field bksv is only five bytes long. Suggest code rework.
+Suggest code rework.
 
 Regards
 
