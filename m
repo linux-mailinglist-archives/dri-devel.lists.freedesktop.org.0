@@ -2,99 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6263F157F14
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 16:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71546157F6B
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 17:03:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 303026ECA6;
-	Mon, 10 Feb 2020 15:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA7E26E9BC;
+	Mon, 10 Feb 2020 16:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05AFE6ECA6
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 15:44:27 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01AFiMlJ072665;
- Mon, 10 Feb 2020 09:44:22 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1581349462;
- bh=S1DYVOF/AH+nDgCNmTkuH+xkUSCYA0oIkCH8sfTu3X4=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=dIatVyd6VFmxuuye+6VC+BbnfNQ3Fpxv3rB2xzk+yzzuwoufBua40ehcy2frRbiGI
- LcexLcHtassij6+l7nh5d8Z9SSQeGUfUZ7ILPHXDa0eEiycPG43FFxU+6WoJxLfk6V
- kaOISraQxUSGlAtAlEAXO9QfbREI8qjT8nZ2Q6+w=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01AFiM0I038149
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 10 Feb 2020 09:44:22 -0600
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 10
- Feb 2020 09:44:21 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 10 Feb 2020 09:44:22 -0600
-Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01AFiJ7o074941;
- Mon, 10 Feb 2020 09:44:20 -0600
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 521BD6E9BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 16:03:41 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2020 08:03:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,425,1574150400"; d="scan'208";a="265908867"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga002.fm.intel.com with SMTP; 10 Feb 2020 08:03:37 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 10 Feb 2020 18:03:36 +0200
+Date: Mon, 10 Feb 2020 18:03:36 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jyri Sarha <jsarha@ti.com>
 Subject: Re: [PATCH] drm/tidss: dispc: Rewrite naive plane positioning code
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Message-ID: <20200210160336.GT13686@intel.com>
 References: <20200207181824.7233-1-jsarha@ti.com>
  <02abcb19-efca-27a1-6aba-220532393a81@ti.com>
  <20200207184545.GQ13686@intel.com>
  <76f083da-e05f-9dd1-a85f-c7a3a1820f6a@ti.com>
  <20200210132103.GS13686@intel.com>
-From: Jyri Sarha <jsarha@ti.com>
-Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
- xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
- fNEWzMjm7eqoUBi1BUAQIReS6won0cXIEXFg9nDYQ3wNTPyh+VRjBvlb/gRJlf4MQnJDTGDP
- S5i63HxYtOfjPMSsUSu8NvhbzayNkN5YKspJDu1cK5toRtyUn1bMzUSKDHfwpdmuCDgXZSj2
- t+z+c6u7yx99/j4m9t0SVlaMt00p1vJJ3HJ2Pkm3IImWvtIfvCmxnOsK8hmwgNQY6PYK1Idk
- puSRjMIGLqjZo071Z6dyDe08zv6DWL1fMoOYbAk/H4elYBaqEsdhUlDCJxZURcheQUnOMYXo
- /kg+7TP6RqjcyXoGgqjfkqlf3hYKmyNMq0FaYmUAfeqCWGOOy3PPxR/IiACezs8mMya1XcIK
- Hk/5JAGuwsqT80bvDFAB2XfnF+fNIie/n5SUHHejJBxngb9lFE90BsSfdcVwzNJ9gVf/TOJc
- qJEHuUx0WPi0taO7hw9+jXV8KTHp6CQPmDSikEIlW7/tJmVDBXQx8n4RMUk4VzjE9Y/m9kHE
- UVJ0bJYzMqECMTAP6KgzgkQCD7n8OzswC18PrK69ByGFpcm664uCAa8YiMuX92MnesKMiYPQ
- z1rvR5riXZdplziIRjFRX+68fvhPverrvjNVmzz0bAFwfVjBsQARAQABzRpKeXJpIFNhcmhh
- IDxqc2FyaGFAdGkuY29tPsLBeAQTAQIAIgUCVt1a3wIbAwYLCQgHAwIGFQgCCQoLBBYCAwEC
- HgECF4AACgkQkDazUNfWGUEVVhAAmFL/21tUhZECrDrP9FWuAUuDvg+1CgrrqBj7ZxKtMaiz
- qTcZwZdggp8bKlFaNrmsyrBsuPlAk99f7ToxufqbV5l/lAT3DdIkjb4nwN4rJkxqSU3PaUnh
- mDMKIAp6bo1N9L+h82LE6CjI89W4ydQp5i+cOeD/kbdxbHHvxgNwrv5x4gg1JvEQLVnUSHva
- R2kx7u2rlnq7OOyh9vU0MUq7U5enNNqdBjjBTeaOwa5xb3S2Cc9dR10mpFiy+jSSkuFOjPpc
- fLfr/s03NGqbZ4aXvZCGjCw4jclpTJkuWPKO+Gb+a/3oJ4qpGN9pJ+48n2Tx9MdSrR4aaXHi
- EYMrbYQz9ICJ5V80P5+yCY5PzCvqpkizP6vtKvRSi8itzsglauMZGu6GwGraMJNBgu5u+HIZ
- nfRtJO1AAiwuupOHxe1nH05c0zBJaEP4xJHyeyDsMDh+ThwbGwQmAkrLJZtOd3rTmqlJXnuj
- sfgQlFyC68t1YoMHukz9LHzg02xxBCaLb0KjslfwuDUTPrWtcDL1a5hccksrkHx7k9crVFA1
- o6XWsOPGKRHOGvYyo3TU3CRygXysO41UnGG40Q3B5R8RMwRHV925LOQIwEGF/6Os8MLgFXCb
- Lv3iJtan+PBdqO1Bv3u2fXUMbYgQ3v7jHctB8nHphwSwnHuGN7FAmto+SxzotE3OwU0EVt1a
- 3wEQAMHwOgNaIidGN8UqhSJJWDEfF/SPSCrsd3WsJklanbDlUCB3WFP2EB4k03JroIRvs7/V
- VMyITLQvPoKgaECbDS5U20r/Po/tmaAOEgC7m1VaWJUUEXhjYQIw7t/tSdWlo5XxZIcO4LwO
- Kf0S4BPrQux6hDLIFL8RkDH/8lKKc44ZnSLoF1gyjc5PUt6iwgGJRRkOD8gGxCv1RcUsu1xU
- U9lHBxdWdPmMwyXiyui1Vx7VJJyD55mqc7+qGrpDHG9yh3pUm2IWp7jVt/qw9+OE9dVwwhP9
- GV2RmBpDmB3oSFpk7lNvLJ11VPixl+9PpmRlozMBO00wA1W017EpDHgOm8XGkq++3wsFNOmx
- 6p631T2WuIthdCSlZ2kY32nGITWn4d8L9plgb4HnDX6smrMTy1VHVYX9vsHXzbqffDszQrHS
- wFo5ygKhbGNXO15Ses1r7Cs/XAZk3PkFsL78eDBHbQd+MveApRB7IyfffIz7pW1R1ZmCrmAg
- Bn36AkDXJTgUwWqGyJMd+5GHEOg1UPjR5Koxa4zFhj1jp1Fybn1t4N11cmEmWh0aGgI/zsty
- g/qtGRnFEywBbzyrDEoV4ZJy2Q5pnZohVhpbhsyETeYKQrRnMk/dIPWg6AJx38Cl4P9PK1JX
- 8VK661BG8GXsXJ3uZbPSu6K0+FiJy09N4IW7CPJNABEBAAHCwV8EGAECAAkFAlbdWt8CGwwA
- CgkQkDazUNfWGUFOfRAA5K/z9DXVEl2kkuMuIWkgtuuLQ7ZwqgxGP3dMA5z3Iv/N+VNRGbaw
- oxf+ZkTbJHEE/dWclj1TDtpET/t6BJNLaldLtJ1PborQH+0jTmGbsquemKPgaHeSU8vYLCdc
- GV/Rz+3FN0/fRdmoq2+bIHght4T6KZJ6jsrnBhm7y6gzjMOiftH6M5GXPjU0/FsU09qsk/af
- jbwLETaea0mlWMrLd9FC2KfVITA/f/YG2gqtUUF9WlizidyctWJqSTZn08MdzaoPItIkRUTv
- 6Bv6rmFn0daWkHt23BLd0ZP7e7pON1rqNVljWjWQ/b/E/SzeETrehgiyDr8pP+CLlC+vSQxi
- XtjhWjt1ItFLXxb4/HLZbb/L4gYX7zbZ3NwkON6Ifn3VU7UwqxGLmKfUwu/mFV+DXif1cKSS
- v6vWkVQ6Go9jPsSMFxMXPA5317sZZk/v18TAkIiwFqda3/SSjwc3e8Y76/DwPvUQd36lEbva
- uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
- PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
- tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
-Message-ID: <1f396d11-2ce0-ef01-dd6e-8c563568800b@ti.com>
-Date: Mon, 10 Feb 2020 17:44:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ <1f396d11-2ce0-ef01-dd6e-8c563568800b@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20200210132103.GS13686@intel.com>
-Content-Language: en-GB
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <1f396d11-2ce0-ef01-dd6e-8c563568800b@ti.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,86 +55,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: praneeth@ti.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
  dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
  laurent.pinchart@ideasonboard.com, sam@ravnborg.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTAvMDIvMjAyMCAxNToyMSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIFN1biwgRmVi
-IDA5LCAyMDIwIGF0IDAyOjUwOjA5UE0gKzAyMDAsIEp5cmkgU2FyaGEgd3JvdGU6Cj4+IE9uIDA3
-LzAyLzIwMjAgMjA6NDUsIFZpbGxlIFN5cmrDpGzDpCB3cm90ZToKPj4+IE9uIEZyaSwgRmViIDA3
-LCAyMDIwIGF0IDA4OjI2OjE3UE0gKzAyMDAsIEp5cmkgU2FyaGEgd3JvdGU6Cj4+Pj4gT24gMDcv
-MDIvMjAyMCAyMDoxOCwgSnlyaSBTYXJoYSB3cm90ZToKPj4+Pj4gVGhlIG9sZCBpbXBsZW1lbnRh
-dGlvbiBvZiBwbGFjaW5nIHBsYW5lcyBvbiB0aGUgQ1JUQyB3aGlsZSBjb25maWd1cmluZwo+Pj4+
-PiB0aGUgcGxhbmVzIHdhcyBuYWl2ZSBhbmQgcmVsaWVkIG9uIHRoZSBvcmRlciBpbiB3aGljaCB0
-aGUgcGxhbmVzIHdlcmUKPj4+Pj4gY29uZmlndXJlZCwgZW5hYmxlZCwgYW5kIGRpc2FibGVkLiBU
-aGUgc2l0dWF0aW9uIHdoZXJlIGEgcGxhbmUncyB6cG9zCj4+Pj4+IHdhcyBjaGFuZ2VkIG9uIHRo
-ZSBmbHkgd2FzIGNvbXBsZXRlbHkgYnJva2VuLiBUaGUgdXN1YWwgc3ltcHRvbXMgb2YKPj4+Pj4g
-dGhpcyBwcm9ibGVtIHdhcyBzY3JhbWJsZWQgZGlzcGxheSBhbmQgYSBmbG9vZCBvZiBzeW5jIGxv
-c3QgZXJyb3JzLAo+Pj4+PiB3aGVuIGEgcGxhbmUgd2FzIGFjdGl2ZSBpbiB0d28gbGF5ZXJzIGF0
-IHRoZSBzYW1lIHRpbWUsIG9yIGEgbWlzc2luZwo+Pj4+PiBwbGFuZSwgaW4gY2FzZSB3aGVuIGEg
-bGF5ZXIgd2FzIGFjY2lkZW50YWxseSBkaXNhYmxlZC4KPj4+Pj4KPj4+Pj4gVGhlIHJld3JpdGUg
-dGFrZXMgYSBtb3JlIHN0cmFpZ2h0IGZvcndhcmQgYXBwcm9hY2ggd2hlbiB3aGVuIEhXIGlzCj4+
-Pj4+IGNvbmNlcm5lZC4gVGhlIHBsYW5lIHBvc2l0aW9uaW5nIHJlZ2lzdGVycyBhcmUgaW4gdGhl
-IENSVEMgKG9yCj4+Pj4+IGFjdHVhbGx5IE9WUikgcmVnaXN0ZXIgc3BhY2UgYW5kIGl0IGlzIG1v
-cmUgbmF0dXJhbCB0byBjb25maWd1cmUgdGhlbQo+Pj4+PiBpbiBhIG9uZSBnbyB3aGVuIGNvbmZp
-Z3VyaW5nIHRoZSBDUlRDLiBUaGlzIGlzIGVhc3kgc2luY2Ugd2UgaGF2ZQo+Pj4+PiBhY2Nlc3Mg
-dG8gdGhlIHdob2xlIGF0b21pYyBzdGF0ZSB3aGVuIHVwZGF0aW5nIHRoZSBDUlRDIGNvbmZpZ3Vy
-YXRpb24uCj4+Pj4+Cj4+Pj4KPj4+PiBXaGlsZSBpbXBsZW1lbnRpbmcgdGhpcyBmaXggaXQgY2F1
-Z2h0IG1lIGJ5IHN1cnByaXNlIHRoYXQKPj4+PiBjcnRjLT5zdGF0ZS0+c3RhdGUgKHBvaW50ZXIg
-dXAgdG8gZnVsbCBhdG9taWMgc3RhdGUpIGlzIE5VTEwgd2hlbgo+Pj4+IGNydGNfZW5hYmxlKCkg
-b3IgLWZsdXNoKCkgaXMgY2FsbGVkLiBTbyBJIHRha2UgdGhlIHBsYW5lLXN0YXRlIGRpcmVjdGx5
-Cj4+Pj4gZnJvbSB0aGUgcGxhbmUtPnN0YXRlIGFuZCBqdXN0IGFzc3VtZSB0aGF0IGl0IGlzIHBv
-aW50aW5nIHRvIHRoZSBzYW1lCj4+Pj4gYXRvbWljIHN0YXRlIHdpdGggdGhlIGNydGMgc3RhdGUg
-SSBhbSBoYXZpbmcuIEkgdGhhdCBhbHJhaWdodD8KPj4+Cj4+PiBJTU8geW91IHNob3VsZCBuZXZl
-ciB1c2UgcGxhbmUtPnN0YXRlIGV0Yy4gQmV0dGVyIHBhc3MgZG93biB0aGUKPj4+IGZ1bGwgYXRv
-bWljIHN0YXRlIGV2ZXJ5d2hlcmUuIE90aGVyd2lzZSB5b3UgY2FuIG5ldmVyIGV2ZW4gY29uc2lk
-ZXIKPj4+IGluY3JlYXNpbmcgdGhlIGNvbW1pdCBxdWV1ZSBkZXB0aCBzaW5jZSB5b3UnZCBlbmQg
-dXAgYWNjZXNzaW5nIHRoZQo+Pj4gd3Jvbmcgc3RhdGUuCj4+Pgo+Pgo+PiBPay4gSSBkaWQgZXhw
-bG9yZSB0aGlzIGEgYml0IGFuZCBpdCBzdGFydHMgdG8gbG9vayBsaWtlIHRoYXQgSSBoYXZlIHRv
-Cj4+IHN0b3JlIHRoZSBwbGFuZXMnIHpwb3MgdmFsdWVzIGluIHRoZSBkcml2ZXIgYWZ0ZXIgYWxs
-LiBPbmx5IHRoZSBjaGFuZ2VzCj4+IGFyZSBhdmFpbGFibGUgaW4gdGhlIGRybV9hdG9taWNfc3Rh
-dGUgYmVpbmcgY29tbWl0ZWQgc28gSSBoYXZlIHRvCj4+IG1haW50YWluIHRoZSBmdWxsIHN0YXRl
-IG15c2VsZi4gVGhhdCBpcyBpZiBJIHNob3VsZCBub3QgdXNlIHBsYW5lLT5zdGF0ZQo+PiBpbiBj
-cnRjX2VuYWJsZSgpIG9yIC1mbHVzaCgpLgo+IAo+IFlvdSBoYXZlIHRoZSBmdWxsIG9sZCBhbmQg
-bmV3IHN0YXRlcyBhcm91bmQgZm9yIGVhY2gKPiBjcnRjL3BsYW5lL2Nvbm5lY3RvciBpbiB0aGUg
-c3RhdGUuIFNvIG5vdCBzdXJlIHdoYXQgeW91IG1lYW4KPiBieSBoYXZpbmcgb25seSB0aGUgY2hh
-bmdlcyBhdmFpbGFibGU/Cj4gCgpJZiAoYnkgdXNpbmcgdGhlIGRybV9hdG9taWNfc3RhdGUgcG9p
-bnRlciBpbiBvbGRfY3J0Y19zdGF0ZSBwYXJlbWV0ZXIpCkkgbG9vcCB0aGUgcGxhbmVzIHRyb3Vn
-aCB3aXRoIGZvcl9lYWNoX29sZG5ld19wbGFuZV9pbl9zdGF0ZSgpLCBJIHdpbGwKb25seSBzZWUg
-dGhlIHBsYW5lcyB0aGF0IHdlcmUgcGFydCBvZiB0aGUgZHJtIGF0b21pYyByZXF1ZXN0IHNlbnQg
-ZnJvbQp0aGUgdXNlci1zcGFjZS4gSSBqdXN0IHRlc3RlZCB0aGF0IGFnYWluLgoKQnV0IGlzIGl0
-IGEgcmVxdWlyZW1lbnQgdGhhdCBhbiB1c2VyLXNwYWNlIGFwcGxpY2F0aW9ucyBzaG91bGQgYWx3
-YXlzCnNlbmQgdGhlIGZ1bGwgc3RhdGUsIGFuZCB0aGF0IHRoZSBkcml2ZXIgc2hvdWxkIGFzc3Vt
-ZSB0aGF0IGFsbAptb2RlX2NvbmZpZyBvYmplY3RzIHRoYXQgYXJlIG5vdCB0aGVyZSBpbiBkcm1f
-YXRvbWljX3N0YXRlIHNob3VsZCBiZQpkaXNhYmxlZD8KCkF0IGxlYXN0IHRoZSBpbXBsZW1lbnRh
-dGlvbiBvZiBkcm1fYXRvbWljX2dldF9wbGFuZV9zdGF0ZSgpICh1c2VkIGJ5IGF0CmxlYXN0IGRy
-bV9hdG9taWNfbm9ybWFsaXplX3pwb3MoKSBhbmQgZHJtX21vZGVfY29uZmlnX2hlbHBlcl9zdXNw
-ZW5kKCkpCnNlZW1zIHRvIHN1Z2dlc3Qgb3RoZXJ3aXNlLiBXaGVuIGdldHRpbmcgdGhlIHBsYW5l
-IHN0YXRlIGl0IGZpcnN0IHRyaWVzCmRybV9hdG9taWNfZ2V0X2V4aXN0aW5nX3BsYW5lX3N0YXRl
-KCksIGJ1dCBpZiBpdCBjYW4gbm90IGZpbmQgdGhlIHN0YXRlCmZyb20gdGhlIGdpdmVuIGRybV9h
-dG9taWNfc3RhdGUsIGl0IGdvZXMgZG93biB0byB0aGUgYWN0dWFsIHBsYW5lIGFuZApjYWxscyBw
-bGFuZS0+ZnVuY3MtPmF0b21pY19kdXBsaWNhdGVfc3RhdGUocGxhbmUpIHRvIGdldCBpdCBmcm9t
-IHRoZQpwbGFuZS1vYmplY3QgaXRzZWxmLgoKPj4KPj4+Pgo+Pj4+IFdoeSBpcyB0aGUgY3J0Yy0+
-c3RhdGUtPnN0YXRlIE5VTEw/IElzIGl0IGEgYnVnIG9yIGlzIHRoZXJlIHNvbWUgcmVhc29uCj4+
-Pj4gdG8gaXQ/Cj4+Pgo+Pj4gQ3VycmVudGx5IHN3YXBfc3RhdGUoKSBtb3ZlcyB0aGF0IHN0YXRl
-IHBvaW50ZXIgZnJvbSB0aGUgbmV3IG9iaiBzdGF0ZQo+Pj4gdG8gdGhlIG9sZCBvYmogc3RhdGUs
-IGFuZCBjbGVhcnMgdGhlIG9uZSBpbiB0aGUgbmV3IG9iaiBzdGF0ZS4gTm90IGVudGlyZWx5Cj4+
-PiBzdXJlIHdoeSwgYnV0IG1heWJlIGp1c3Qgc28gdGhlcmUgaXNuJ3QgYSBzdGFsZSAtPnN0YXRl
-IHBvaW50ZXIgaGFuZ2luZyAKPj4+IGFyb3VuZCBpbiB0aGUgb2JqLT5zdGF0ZSBhZnRlciB0aGUg
-c3dhcD8KPj4+Cj4+PiBJIHRoaW5rIGEgYmV0dGVyIHdheSBjb3VsZCBiZSB0byBub3QgY2xvYmJl
-ciB0aGUgb2xkIG9iaiBzdGF0ZSBhdAo+Pj4gYWxsLCBsZWF2ZSB0aGUgbmV3X29ial9zdGF0ZS0+
-c3RhdGUgYWxvbmUsIGFuZCBqdXN0IGNsZWFyIHRoZSAtPnN0YXRlCj4+PiBwb2ludGVyIC5kdXBs
-aWNhdGVfc3RhdGUoKS4gQnV0IHRoYXQgd291bGQgcmVxdWlyZSByZXZpZXdpbmcgYSBidW5jaAo+
-Pj4gb2YgY29kZSB0byBmaW5kIGFsbCB0aGUgcGxhY2VzIHdoZXJlIG9sZF9vYmpfc3RhdGUtPnN0
-YXRlIGdldHMgdXNlZAo+Pj4gZHVyaW5nIHRoZSBjb21taXQuCj4+Pgo+Pgo+PiBJIHRoaW5rIHRo
-b3NlIHBsYWNlcyBhcmUgbWFueSwgc2luY2UgYXQgbGVhc3QgSSBkaWQgbm90IGZpZ3VyZSBvdXQg
-YW55Cj4+IG90aGVyIHdheSB0byBhY2Nlc3MgdGhlIGZ1bGwgY29tbWl0IGJlaGluZCB0aGUgYXRv
-bWljIGhlbHBlcnMuCj4gCj4gSSBoYXZlbid0IGV4YW1pbmVkIGhvdyBtYW55IGRyaXZlcnMgZGVw
-ZW5kIG9uIHRoZSBjdXJyZW50IGJlaGF2aW91ci4KPiBCdXQgZml4aW5nIHVwIHRoZSBjb3JlL2hl
-bHBlcnMgc2hvdWxkIGJlIHByZXR0eSB0cml2aWFsLgo+IAoKCi0tIApUZXhhcyBJbnN0cnVtZW50
-cyBGaW5sYW5kIE95LCBQb3Jra2FsYW5rYXR1IDIyLCAwMDE4MCBIZWxzaW5raS4KWS10dW5udXMv
-QnVzaW5lc3MgSUQ6IDA2MTU1MjEtNC4gS290aXBhaWtrYS9Eb21pY2lsZTogSGVsc2lua2kKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Feb 10, 2020 at 05:44:19PM +0200, Jyri Sarha wrote:
+> On 10/02/2020 15:21, Ville Syrj=E4l=E4 wrote:
+> > On Sun, Feb 09, 2020 at 02:50:09PM +0200, Jyri Sarha wrote:
+> >> On 07/02/2020 20:45, Ville Syrj=E4l=E4 wrote:
+> >>> On Fri, Feb 07, 2020 at 08:26:17PM +0200, Jyri Sarha wrote:
+> >>>> On 07/02/2020 20:18, Jyri Sarha wrote:
+> >>>>> The old implementation of placing planes on the CRTC while configur=
+ing
+> >>>>> the planes was naive and relied on the order in which the planes we=
+re
+> >>>>> configured, enabled, and disabled. The situation where a plane's zp=
+os
+> >>>>> was changed on the fly was completely broken. The usual symptoms of
+> >>>>> this problem was scrambled display and a flood of sync lost errors,
+> >>>>> when a plane was active in two layers at the same time, or a missing
+> >>>>> plane, in case when a layer was accidentally disabled.
+> >>>>>
+> >>>>> The rewrite takes a more straight forward approach when when HW is
+> >>>>> concerned. The plane positioning registers are in the CRTC (or
+> >>>>> actually OVR) register space and it is more natural to configure th=
+em
+> >>>>> in a one go when configuring the CRTC. This is easy since we have
+> >>>>> access to the whole atomic state when updating the CRTC configurati=
+on.
+> >>>>>
+> >>>>
+> >>>> While implementing this fix it caught me by surprise that
+> >>>> crtc->state->state (pointer up to full atomic state) is NULL when
+> >>>> crtc_enable() or -flush() is called. So I take the plane-state direc=
+tly
+> >>>> from the plane->state and just assume that it is pointing to the same
+> >>>> atomic state with the crtc state I am having. I that alraight?
+> >>>
+> >>> IMO you should never use plane->state etc. Better pass down the
+> >>> full atomic state everywhere. Otherwise you can never even consider
+> >>> increasing the commit queue depth since you'd end up accessing the
+> >>> wrong state.
+> >>>
+> >>
+> >> Ok. I did explore this a bit and it starts to look like that I have to
+> >> store the planes' zpos values in the driver after all. Only the changes
+> >> are available in the drm_atomic_state being commited so I have to
+> >> maintain the full state myself. That is if I should not use plane->sta=
+te
+> >> in crtc_enable() or -flush().
+> > =
+
+> > You have the full old and new states around for each
+> > crtc/plane/connector in the state. So not sure what you mean
+> > by having only the changes available?
+> > =
+
+> =
+
+> If (by using the drm_atomic_state pointer in old_crtc_state paremeter)
+> I loop the planes trough with for_each_oldnew_plane_in_state(), I will
+> only see the planes that were part of the drm atomic request sent from
+> the user-space. I just tested that again.
+> =
+
+> But is it a requirement that an user-space applications should always
+> send the full state, and that the driver should assume that all
+> mode_config objects that are not there in drm_atomic_state should be
+> disabled?
+
+No.
+
+The usual approach we follow in i915 for things that affect more
+than one plane is is to collect that state into the crtc state. =
+
+That way we get to remember it for the planes that are not part
+of the current commit.
+
+And when we have state that affects more than one crtc that again
+get collected up one level up in what we call global state
+(basically drm_private_obj with less heavy handed locking scheme).
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
