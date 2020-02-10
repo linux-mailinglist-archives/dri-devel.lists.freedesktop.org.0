@@ -2,115 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B590815728E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 11:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936701572A7
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 11:15:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5AE26EBC7;
-	Mon, 10 Feb 2020 10:08:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEC0F89B8E;
+	Mon, 10 Feb 2020 10:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E84E76EBC7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 10:08:44 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id c84so9833826wme.4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 02:08:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0BF89B8E
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 10:15:13 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id n25so3789789lfl.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 02:15:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LcyUsdPLSviqzRR7B86ggtEsP4Or+MG7Cfw3cmEj02s=;
- b=bkDzZTFpSqwVG3jMwAuVmL3FiiYMyHwixeJIeGTplbdAXTPmlHR+9yAy3faxc9QVA8
- A5hf6zJIiby3O7y/icWS82ubDkHbhfdUZCzYA2qnIf1HpXWIvCbEO1nMze7xov3zo3cu
- gvGGHCwQekLNs1JyER5uX8z4C50c2R1MaPgNhNYerzmmR524sRCXry3AQu+HJZSuV6Nr
- kCy2J/jCFumkz+ls40WA5F3yiO9z+Wf5utvwXvJ7gLgxwZnU11rgPQr1umv9h0sZOYsr
- Te/WPF4SeM7tSAm8vfiMElsVxX4xNRrzLYzxNye6uZxxmJUyIl1GHiZwhxRwRs4pbPxH
- Fwdw==
+ bh=MBLnankq1uCCwRGHTNFRB7dHy4CZy+w24kG9dUYnTAw=;
+ b=UWe16Bllu+K7l5jM4AmH2+kk40dGEF68dSCa8tvHhJLFyxvcTHuvfdg+3t1CWCh4lw
+ VZKncXKYCw+Ykw4+BmSrvmcHmq242S2BEi8Q3SOBhrr3VJicTw/p6PHWNnlplx7CRLeq
+ aPDFsVLx6rtgVViY09P143O1fHWgf3I98DZjT05DTooYxwhnm0wuSWHm00ecIfuptbxe
+ Eju6ncKRxJTGFhe6IljaHMe26FsUwalR/u5bvoLJBFotR+KNvV2Syb2/vBtMcFD+Whfj
+ NXjzmRzNZfg30PwfNCAaHVD1ZOe4GJLJqk0Wpa8pnya4aWvAvPksizO3Eh1d7OxXr/Zm
+ QGeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=LcyUsdPLSviqzRR7B86ggtEsP4Or+MG7Cfw3cmEj02s=;
- b=mU05yE7aUn83jlKXEzVZcXXYdH9KdKgTawCizHFeyUL4CUiG+DcmCra4+zyCS+Alk1
- L4HT+mOKjmVBQ5wdXkYZPjT29JAbrtNzfbd3i2lGigiYSrXuS6Jj6Zx7jbNOLgUjs8GJ
- 2vTVTcgCFdh9v06HmRrrLD+2c8RhhowdozlnCHUvQ9O91bJKKfpm1w1dpAXgQEa2dbcH
- otcRQcoRgQR3RVHsM2HPPZgZYOzXFKbBHh+QA3zZ8LIYpMzm+xEAws+T6zz2SXRN/MZD
- Ue8AyZp61OmoPWGUSIpFq6wPz4+/I28F2EJFiOXWN619fQJDMa10BZiYEz6d+Baoo3yg
- tNhA==
-X-Gm-Message-State: APjAAAVPFwun7TSyZ4zeq61Oz48jHKWGzP0KDhCDZUgNPO8kqPB6IVNC
- B88ZqALmPjk5n3hWVcQW8mpEZg==
-X-Google-Smtp-Source: APXvYqwUSOmPEsb9RqymX5qO99l4AqEn1JOgSGFlpZFQYHmCJPRuexL3n6E94Vnr8hANq3Rkfrfyrg==
-X-Received: by 2002:a1c:4d03:: with SMTP id o3mr14140563wmh.164.1581329323429; 
- Mon, 10 Feb 2020 02:08:43 -0800 (PST)
-Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
- [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id j14sm5436015wrn.32.2020.02.10.02.08.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2020 02:08:42 -0800 (PST)
-Subject: Re: [PATCH] drm/bridge: panel: Fix typo in drm_panel_bridge_add docs
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- linux-kernel@vger.kernel.org
-References: <20191218121223.30181-1-enric.balletbo@collabora.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <02b9c41b-a564-ccc4-94fc-62482e336736@baylibre.com>
-Date: Mon, 10 Feb 2020 11:08:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MBLnankq1uCCwRGHTNFRB7dHy4CZy+w24kG9dUYnTAw=;
+ b=KnNUPk+eJ0jEulDL+EAd1lw2JE8+JI3pVmFglLMTZHgrNe/QRTsW7qrBOYSTOrV/eZ
+ fkYfguMbVOK3Wghrjmd+mckwTyKF6fgwdPH8UAm6EC/diL1OKUVo5DD3T1vE0GS0S0PU
+ egOes2hmveipgS5GzIXFxoNcXG4k1nZ+FPJFm1Jz9on+jw36GkrXnHiiz7xkj+nARdBO
+ Paa5k2YS2Lm0je8FIDN0kH95marcPFI/VJJ9dSJLTScopbG11BS6vfawx7cLZp6dKEho
+ DC3cJkqRDWX/LwYs3T96Ix6H2C2qAyEtAt2WPoIZMymI151rotKTBnmpkYfwV+fMHbEY
+ kDzA==
+X-Gm-Message-State: APjAAAUXR90trzCVhE33IxOzfiyEWrL0M27Yh84ZFCM3m0B5jJk3hoKf
+ U0p7DBpByWkKZGUh+S9Uks1JqA==
+X-Google-Smtp-Source: APXvYqyySln5rCCqzm+PvKtHDaCFlCg1gTAUeEJ0k/x0f26AHhZ9L/2PkD870kAtO24f/VAnKwjsYA==
+X-Received: by 2002:ac2:5147:: with SMTP id q7mr365303lfd.87.1581329711787;
+ Mon, 10 Feb 2020 02:15:11 -0800 (PST)
+Received: from genomnajs.ideon.se ([85.235.10.227])
+ by smtp.gmail.com with ESMTPSA id d11sm5063841lfj.3.2020.02.10.02.15.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Feb 2020 02:15:11 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] backlight: corgi: Convert to use GPIO descriptors
+Date: Mon, 10 Feb 2020 11:15:04 +0100
+Message-Id: <20200210101504.287366-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191218121223.30181-1-enric.balletbo@collabora.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,42 +66,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Collabora Kernel ML <kernel@collabora.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>,
+ Andrea Adami <andrea.adami@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/12/2019 13:12, Enric Balletbo i Serra wrote:
-> Fix the 'manged' typo with 'managed' in the drm_panel_bridge_add
-> kernel-doc documentation.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
-> 
->  drivers/gpu/drm/bridge/panel.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index f4e293e7cf64..fcda954bbfec 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -151,7 +151,7 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
->   * known type. Calling this function with a panel whose connector type is
->   * DRM_MODE_CONNECTOR_Unknown will return NULL.
->   *
-> - * See devm_drm_panel_bridge_add() for an automatically manged version of this
-> + * See devm_drm_panel_bridge_add() for an automatically managed version of this
->   * function.
->   */
->  struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel)
-> 
+The code in the Corgi backlight driver can be considerably
+simplified by moving to GPIO descriptors and lookup tables
+from the board files instead of passing GPIO numbers using
+the old API.
 
-Applied to drm-misc-next
+Make sure to encode inversion semantics for the Akita and
+Spitz platforms inside the GPIO lookup table and drop the
+custom inversion semantics from the driver.
+
+All in-tree users are converted in this patch.
+
+Cc: Andrea Adami <andrea.adami@gmail.com>
+Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v2:
+- Collect Robert's ACK.
+---
+ arch/arm/mach-pxa/corgi.c           | 12 ++++-
+ arch/arm/mach-pxa/spitz.c           | 34 +++++++++++----
+ drivers/video/backlight/corgi_lcd.c | 68 ++++++++---------------------
+ include/linux/spi/corgi_lcd.h       |  3 --
+ 4 files changed, 54 insertions(+), 63 deletions(-)
+
+diff --git a/arch/arm/mach-pxa/corgi.c b/arch/arm/mach-pxa/corgi.c
+index f2d73289230f..c9625dcae27c 100644
+--- a/arch/arm/mach-pxa/corgi.c
++++ b/arch/arm/mach-pxa/corgi.c
+@@ -563,13 +563,20 @@ static void corgi_bl_kick_battery(void)
+ 	}
+ }
+ 
++static struct gpiod_lookup_table corgi_lcdcon_gpio_table = {
++	.dev_id = "spi0.1",
++	.table = {
++		GPIO_LOOKUP("gpio-pxa", CORGI_GPIO_BACKLIGHT_CONT,
++			    "BL_CONT", GPIO_ACTIVE_HIGH),
++		{ },
++	},
++};
++
+ static struct corgi_lcd_platform_data corgi_lcdcon_info = {
+ 	.init_mode		= CORGI_LCD_MODE_VGA,
+ 	.max_intensity		= 0x2f,
+ 	.default_intensity	= 0x1f,
+ 	.limit_mask		= 0x0b,
+-	.gpio_backlight_cont	= CORGI_GPIO_BACKLIGHT_CONT,
+-	.gpio_backlight_on	= -1,
+ 	.kick_battery		= corgi_bl_kick_battery,
+ };
+ 
+@@ -609,6 +616,7 @@ static struct spi_board_info corgi_spi_devices[] = {
+ static void __init corgi_init_spi(void)
+ {
+ 	pxa2xx_set_spi_info(1, &corgi_spi_info);
++	gpiod_add_lookup_table(&corgi_lcdcon_gpio_table);
+ 	spi_register_board_info(ARRAY_AND_SIZE(corgi_spi_devices));
+ }
+ #else
+diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
+index a4fdc399d152..82e80a257c0f 100644
+--- a/arch/arm/mach-pxa/spitz.c
++++ b/arch/arm/mach-pxa/spitz.c
+@@ -525,13 +525,33 @@ static void spitz_bl_kick_battery(void)
+ 	}
+ }
+ 
++static struct gpiod_lookup_table spitz_lcdcon_gpio_table = {
++	.dev_id = "spi0.1",
++	.table = {
++		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_BACKLIGHT_CONT,
++			    "BL_CONT", GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_BACKLIGHT_ON,
++			    "BL_ON", GPIO_ACTIVE_HIGH),
++		{ },
++	},
++};
++
++static struct gpiod_lookup_table akita_lcdcon_gpio_table = {
++	.dev_id = "spi0.1",
++	.table = {
++		GPIO_LOOKUP("gpio-pxa", AKITA_GPIO_BACKLIGHT_CONT,
++			    "BL_CONT", GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP("gpio-pxa", AKITA_GPIO_BACKLIGHT_ON,
++			    "BL_ON", GPIO_ACTIVE_HIGH),
++		{ },
++	},
++};
++
+ static struct corgi_lcd_platform_data spitz_lcdcon_info = {
+ 	.init_mode		= CORGI_LCD_MODE_VGA,
+ 	.max_intensity		= 0x2f,
+ 	.default_intensity	= 0x1f,
+ 	.limit_mask		= 0x0b,
+-	.gpio_backlight_cont	= SPITZ_GPIO_BACKLIGHT_CONT,
+-	.gpio_backlight_on	= SPITZ_GPIO_BACKLIGHT_ON,
+ 	.kick_battery		= spitz_bl_kick_battery,
+ };
+ 
+@@ -574,12 +594,10 @@ static struct pxa2xx_spi_controller spitz_spi_info = {
+ 
+ static void __init spitz_spi_init(void)
+ {
+-	struct corgi_lcd_platform_data *lcd_data = &spitz_lcdcon_info;
+-
+-	if (machine_is_akita()) {
+-		lcd_data->gpio_backlight_cont = AKITA_GPIO_BACKLIGHT_CONT;
+-		lcd_data->gpio_backlight_on = AKITA_GPIO_BACKLIGHT_ON;
+-	}
++	if (machine_is_akita())
++		gpiod_add_lookup_table(&akita_lcdcon_gpio_table);
++	else
++		gpiod_add_lookup_table(&spitz_lcdcon_gpio_table);
+ 
+ 	pxa2xx_set_spi_info(2, &spitz_spi_info);
+ 	spi_register_board_info(ARRAY_AND_SIZE(spitz_spi_devices));
+diff --git a/drivers/video/backlight/corgi_lcd.c b/drivers/video/backlight/corgi_lcd.c
+index 68f7592c5060..25ef0cbd7583 100644
+--- a/drivers/video/backlight/corgi_lcd.c
++++ b/drivers/video/backlight/corgi_lcd.c
+@@ -15,7 +15,7 @@
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+ #include <linux/delay.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/fb.h>
+ #include <linux/lcd.h>
+ #include <linux/spi/spi.h>
+@@ -90,9 +90,8 @@ struct corgi_lcd {
+ 	int	mode;
+ 	char	buf[2];
+ 
+-	int	gpio_backlight_on;
+-	int	gpio_backlight_cont;
+-	int	gpio_backlight_cont_inverted;
++	struct gpio_desc *backlight_on;
++	struct gpio_desc *backlight_cont;
+ 
+ 	void (*kick_battery)(void);
+ };
+@@ -403,13 +402,13 @@ static int corgi_bl_set_intensity(struct corgi_lcd *lcd, int intensity)
+ 	corgi_ssp_lcdtg_send(lcd, DUTYCTRL_ADRS, intensity);
+ 
+ 	/* Bit 5 via GPIO_BACKLIGHT_CONT */
+-	cont = !!(intensity & 0x20) ^ lcd->gpio_backlight_cont_inverted;
++	cont = !!(intensity & 0x20);
+ 
+-	if (gpio_is_valid(lcd->gpio_backlight_cont))
+-		gpio_set_value_cansleep(lcd->gpio_backlight_cont, cont);
++	if (lcd->backlight_cont)
++		gpiod_set_value_cansleep(lcd->backlight_cont, cont);
+ 
+-	if (gpio_is_valid(lcd->gpio_backlight_on))
+-		gpio_set_value_cansleep(lcd->gpio_backlight_on, intensity);
++	if (lcd->backlight_on)
++		gpiod_set_value_cansleep(lcd->backlight_on, intensity);
+ 
+ 	if (lcd->kick_battery)
+ 		lcd->kick_battery();
+@@ -482,48 +481,17 @@ static int setup_gpio_backlight(struct corgi_lcd *lcd,
+ 				struct corgi_lcd_platform_data *pdata)
+ {
+ 	struct spi_device *spi = lcd->spi_dev;
+-	int err;
+-
+-	lcd->gpio_backlight_on = -1;
+-	lcd->gpio_backlight_cont = -1;
+-
+-	if (gpio_is_valid(pdata->gpio_backlight_on)) {
+-		err = devm_gpio_request(&spi->dev, pdata->gpio_backlight_on,
+-					"BL_ON");
+-		if (err) {
+-			dev_err(&spi->dev,
+-				"failed to request GPIO%d for backlight_on\n",
+-				pdata->gpio_backlight_on);
+-			return err;
+-		}
+-
+-		lcd->gpio_backlight_on = pdata->gpio_backlight_on;
+-		gpio_direction_output(lcd->gpio_backlight_on, 0);
+-	}
+ 
+-	if (gpio_is_valid(pdata->gpio_backlight_cont)) {
+-		err = devm_gpio_request(&spi->dev, pdata->gpio_backlight_cont,
+-					"BL_CONT");
+-		if (err) {
+-			dev_err(&spi->dev,
+-				"failed to request GPIO%d for backlight_cont\n",
+-				pdata->gpio_backlight_cont);
+-			return err;
+-		}
+-
+-		lcd->gpio_backlight_cont = pdata->gpio_backlight_cont;
+-
+-		/* spitz and akita use both GPIOs for backlight, and
+-		 * have inverted polarity of GPIO_BACKLIGHT_CONT
+-		 */
+-		if (gpio_is_valid(lcd->gpio_backlight_on)) {
+-			lcd->gpio_backlight_cont_inverted = 1;
+-			gpio_direction_output(lcd->gpio_backlight_cont, 1);
+-		} else {
+-			lcd->gpio_backlight_cont_inverted = 0;
+-			gpio_direction_output(lcd->gpio_backlight_cont, 0);
+-		}
+-	}
++	lcd->backlight_on = devm_gpiod_get_optional(&spi->dev,
++						    "BL_ON", GPIOD_OUT_LOW);
++	if (IS_ERR(lcd->backlight_on))
++		return PTR_ERR(lcd->backlight_on);
++
++	lcd->backlight_cont = devm_gpiod_get_optional(&spi->dev, "BL_CONT",
++						      GPIOD_OUT_LOW);
++	if (IS_ERR(lcd->backlight_cont))
++		return PTR_ERR(lcd->backlight_cont);
++
+ 	return 0;
+ }
+ 
+diff --git a/include/linux/spi/corgi_lcd.h b/include/linux/spi/corgi_lcd.h
+index edf4beccdadb..0b857616919c 100644
+--- a/include/linux/spi/corgi_lcd.h
++++ b/include/linux/spi/corgi_lcd.h
+@@ -11,9 +11,6 @@ struct corgi_lcd_platform_data {
+ 	int	default_intensity;
+ 	int	limit_mask;
+ 
+-	int	gpio_backlight_on;	/* -1 if n/a */
+-	int	gpio_backlight_cont;	/* -1 if n/a */
+-
+ 	void (*notify)(int intensity);
+ 	void (*kick_battery)(void);
+ };
+-- 
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
