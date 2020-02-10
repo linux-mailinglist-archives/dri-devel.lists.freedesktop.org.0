@@ -1,59 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F188B1572A8
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 11:15:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C941572D0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 11:29:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1972189B48;
-	Mon, 10 Feb 2020 10:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 007FC6EBDC;
+	Mon, 10 Feb 2020 10:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4CF89B48
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 10:15:52 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id 203so3741290lfa.12
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 02:15:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UcjM6MRHqKJDsy6BtRIxMRvMAVk0NtuuQN2fwkVsA/s=;
- b=LcEUSwbDWXCIsMfJGR8X1g5WOHZ/Vy/qK9rmhphRcIOXJztVo3B2v/Whic4KYO1+I4
- IAXrlY/d++8WQvp8HXBdKg2BYrP0/DFZp1xg7+0xRnJ74d9eQb7pJoeRmYtv3ByoxSA9
- tPELdWPyhSmaQtxCY1twaMjAxKwvoFlTJH9Hr4cFaCxkxj+IYFC30jdeVeRNKDmCO33W
- HYHnvt1ZTcPQkDLM3JQd8EMoelw14fDFChjvsgkK9J7db9jbddNn2c5nisRZW3OFr4j6
- xbhntdaobQLKvE3b1Um7THGlt5qoYYu+XyrAKULg6l2RFQTjg/6YuwAWvo4ctSBS5nxF
- L18Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UcjM6MRHqKJDsy6BtRIxMRvMAVk0NtuuQN2fwkVsA/s=;
- b=pO7meJTGNZV1s8q/WisskXnxiy8N/VuKsXbG68udZ2oCw93QjbbZlkWjBXNhzZqWJ8
- ctO7xbMlsnLIXywDiUpB1bPYjEaxS4dnzKNZJLcokmauXeNP6NSRsresNMZpmWa4XxzJ
- Gl0Jk3gmvqx4gkH/y2MjK9SzvzDZf4dBWCrb+uRduYzKNvyeggF7jMcz78g2eBoiPn8P
- 5DchKDr10gpzFIgjc9ncO/tsW7xwL05+lSXY53owJ+UIVn3D2XUEbYAtZ9kZZJpkmmGY
- gYKsK1G8CgCl0uA/PBlPH8XP8aAVpaT1giRQr5wOwtK0jeTs2Yq0rzzi7Oz1uJG7l7xT
- SUCA==
-X-Gm-Message-State: APjAAAUX3HiDBU0wYUXa9QAJGDvTQb7rZ9LHf+L7TjfXsjgoIKPtOXGy
- aljdZJmz8OmTZvLfB4VcfvOVzQ==
-X-Google-Smtp-Source: APXvYqz2Gf6fEjwNsTqd4QrZ/guEAwZBA0O63Dv73/Llad7UcgAzVH9nKIkU+3USPRu8dw+4It9k1g==
-X-Received: by 2002:a19:dc14:: with SMTP id t20mr373278lfg.47.1581329750515;
- Mon, 10 Feb 2020 02:15:50 -0800 (PST)
-Received: from genomnajs.ideon.se ([85.235.10.227])
- by smtp.gmail.com with ESMTPSA id c22sm5033835lfc.93.2020.02.10.02.15.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Feb 2020 02:15:49 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] backlight: pwm_bl: Switch to full GPIO descriptor
-Date: Mon, 10 Feb 2020 11:15:46 +0100
-Message-Id: <20200210101546.287565-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.23.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 969046EBDC;
+ Mon, 10 Feb 2020 10:29:07 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2020 02:29:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,424,1574150400"; 
+ d="gz'50?scan'50,208,50";a="280597395"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2020 02:29:04 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1j16JL-000Dmq-KR; Mon, 10 Feb 2020 18:29:03 +0800
+Date: Mon, 10 Feb 2020 18:28:34 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/6] drm: Add drm_simple_encoder_{init,create}()
+Message-ID: <202002101841.dbljrw5D%lkp@intel.com>
+References: <20200207084135.4524-3-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="oyuukydk5nr5gigi"
+Content-Disposition: inline
+In-Reply-To: <20200207084135.4524-3-tzimmermann@suse.de>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,463 +49,445 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>, Guan Xuetao <gxt@pku.edu.cn>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kbuild-all@lists.01.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, kraxel@redhat.com,
+ alexander.deucher@amd.com, spice-devel@lists.freedesktop.org, sam@ravnborg.org,
+ emil.velikov@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The PWM backlight still supports passing a enable GPIO line as
-platform data using the legacy <linux/gpio.h> API.
 
-It turns out that ever board using this mechanism except one
-is pass .enable_gpio = -1. So we drop all these cargo-culted -1's
-from all instances of this platform data in the kernel.
+--oyuukydk5nr5gigi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The remaning board, Palm TC, is converted to pass a machine
-descriptior table with the "enable" GPIO instead, and delete the
-platform data entry for enable_gpio and the code handling it
-and things should work smoothly with the new API.
+Hi Thomas,
 
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Guan Xuetao <gxt@pku.edu.cn>
-Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-Reviewed-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.6-rc1 next-20200210]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+
+url:    https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/drm-Provide-a-simple-encoder/20200210-153139
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9
+reproduce: make htmldocs
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   include/linux/lsm_hooks.h:1830: warning: Function parameter or member 'getprocattr' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1830: warning: Function parameter or member 'setprocattr' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1830: warning: Function parameter or member 'locked_down' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1830: warning: Function parameter or member 'perf_event_open' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1830: warning: Function parameter or member 'perf_event_alloc' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1830: warning: Function parameter or member 'perf_event_free' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1830: warning: Function parameter or member 'perf_event_read' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1830: warning: Function parameter or member 'perf_event_write' not described in 'security_list_options'
+   drivers/usb/typec/bus.c:1: warning: 'typec_altmode_register_driver' not found
+   drivers/usb/typec/bus.c:1: warning: 'typec_altmode_unregister_driver' not found
+   drivers/usb/typec/class.c:1: warning: 'typec_altmode_unregister_notifier' not found
+   drivers/usb/typec/class.c:1: warning: 'typec_altmode_register_notifier' not found
+   include/linux/regulator/machine.h:196: warning: Function parameter or member 'max_uV_step' not described in 'regulation_constraints'
+   include/linux/regulator/driver.h:223: warning: Function parameter or member 'resume' not described in 'regulator_ops'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'dev_scratch' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'list' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'ip_defrag_offset' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'skb_mstamp_ns' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member '__cloned_offset' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'head_frag' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member '__pkt_type_offset' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'encapsulation' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'encap_hdr_csum' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'csum_valid' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member '__pkt_vlan_present_offset' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'vlan_present' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'csum_complete_sw' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'csum_level' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'inner_protocol_type' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'remcsum_offload' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'sender_cpu' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'reserved_tailroom' not described in 'sk_buff'
+   include/linux/skbuff.h:890: warning: Function parameter or member 'inner_ipproto' not described in 'sk_buff'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_addrpair' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_portpair' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_ipv6only' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_net_refcnt' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_v6_daddr' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_v6_rcv_saddr' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_cookie' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_listener' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_tw_dr' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_rcv_wnd' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_tw_rcv_nxt' not described in 'sock_common'
+   include/net/sock.h:498: warning: Function parameter or member 'sk_rx_skb_cache' not described in 'sock'
+   include/net/sock.h:498: warning: Function parameter or member 'sk_wq_raw' not described in 'sock'
+   include/net/sock.h:498: warning: Function parameter or member 'tcp_rtx_queue' not described in 'sock'
+   include/net/sock.h:498: warning: Function parameter or member 'sk_tx_skb_cache' not described in 'sock'
+   include/net/sock.h:498: warning: Function parameter or member 'sk_route_forced_caps' not described in 'sock'
+   include/net/sock.h:498: warning: Function parameter or member 'sk_txtime_report_errors' not described in 'sock'
+   include/net/sock.h:498: warning: Function parameter or member 'sk_validate_xmit_skb' not described in 'sock'
+   include/net/sock.h:498: warning: Function parameter or member 'sk_bpf_storage' not described in 'sock'
+   include/net/sock.h:2444: warning: Function parameter or member 'tcp_rx_skb_cache_key' not described in 'DECLARE_STATIC_KEY_FALSE'
+   include/net/sock.h:2444: warning: Excess function parameter 'sk' description in 'DECLARE_STATIC_KEY_FALSE'
+   include/net/sock.h:2444: warning: Excess function parameter 'skb' description in 'DECLARE_STATIC_KEY_FALSE'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'gso_partial_features' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'l3mdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'xfrmdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'tlsdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'name_assign_type' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'ieee802154_ptr' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'mpls_ptr' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'xdp_prog' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'gro_flush_timeout' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'xdp_bulkq' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'xps_cpus_map' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'xps_rxqs_map' not described in 'net_device'
+   include/linux/netdevice.h:2100: warning: Function parameter or member 'qdisc_hash' not described in 'net_device'
+   include/linux/phylink.h:56: warning: Function parameter or member '__ETHTOOL_DECLARE_LINK_MODE_MASK(advertising' not described in 'phylink_link_state'
+   include/linux/phylink.h:56: warning: Function parameter or member '__ETHTOOL_DECLARE_LINK_MODE_MASK(lp_advertising' not described in 'phylink_link_state'
+   drivers/infiniband/core/umem_odp.c:161: warning: Function parameter or member 'ops' not described in 'ib_umem_odp_alloc_child'
+   drivers/infiniband/core/umem_odp.c:211: warning: Function parameter or member 'ops' not described in 'ib_umem_odp_get'
+   drivers/infiniband/ulp/iser/iscsi_iser.h:401: warning: Function parameter or member 'all_list' not described in 'iser_fr_desc'
+   drivers/infiniband/ulp/iser/iscsi_iser.h:415: warning: Function parameter or member 'all_list' not described in 'iser_fr_pool'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd0' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd1' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd2' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd3' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd4' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:205: warning: Function parameter or member 'rsvd0' not described in 'opa_per_veswport_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:205: warning: Function parameter or member 'rsvd1' not described in 'opa_per_veswport_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:205: warning: Function parameter or member 'rsvd2' not described in 'opa_per_veswport_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:205: warning: Function parameter or member 'rsvd3' not described in 'opa_per_veswport_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:263: warning: Function parameter or member 'tbl_entries' not described in 'opa_veswport_mactable'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:342: warning: Function parameter or member 'reserved' not described in 'opa_veswport_summary_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd0' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd1' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd2' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd3' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd4' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd5' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd6' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd7' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd8' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd9' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:460: warning: Function parameter or member 'reserved' not described in 'opa_vnic_vema_mad'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:485: warning: Function parameter or member 'reserved' not described in 'opa_vnic_notice_attr'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:500: warning: Function parameter or member 'reserved' not described in 'opa_vnic_vema_mad_trap'
+   include/linux/input/sparse-keymap.h:43: warning: Function parameter or member 'sw' not described in 'key_entry'
+   drivers/gpu/drm/drm_encoder.c:202: warning: Excess function parameter 'funcs' description in 'drm_simple_encoder_init'
+>> drivers/gpu/drm/drm_encoder.c:203: warning: Function parameter or member 'encoder' not described in 'drm_simple_encoder_init'
+   drivers/gpu/drm/drm_encoder.c:203: warning: Excess function parameter 'funcs' description in 'drm_simple_encoder_init'
+   include/drm/drm_modeset_helper_vtables.h:1052: warning: Function parameter or member 'prepare_writeback_job' not described in 'drm_connector_helper_funcs'
+   include/drm/drm_modeset_helper_vtables.h:1052: warning: Function parameter or member 'cleanup_writeback_job' not described in 'drm_connector_helper_funcs'
+   drivers/gpu/drm/bridge/panel.c:303: warning: Function parameter or member 'bridge' not described in 'drm_panel_bridge_connector'
+   include/drm/drm_dp_mst_helper.h:162: warning: Function parameter or member 'fec_capable' not described in 'drm_dp_mst_port'
+   include/drm/gpu_scheduler.h:103: warning: Function parameter or member 'priority' not described in 'drm_sched_entity'
+   drivers/gpu/drm/i915/i915_vma.h:1: warning: 'Virtual Memory Address' not found
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1: warning: 'Global GTT views' not found
+   include/linux/host1x.h:66: warning: Function parameter or member 'parent' not described in 'host1x_client'
+   include/linux/host1x.h:66: warning: Function parameter or member 'usecount' not described in 'host1x_client'
+   include/linux/host1x.h:66: warning: Function parameter or member 'lock' not described in 'host1x_client'
+   include/net/cfg80211.h:1189: warning: Function parameter or member 'txpwr' not described in 'station_parameters'
+   include/net/mac80211.h:4081: warning: Function parameter or member 'sta_set_txpwr' not described in 'ieee80211_ops'
+   include/net/mac80211.h:2036: warning: Function parameter or member 'txpwr' not described in 'ieee80211_sta'
+   kernel/sched/fair.c:3526: warning: Excess function parameter 'flags' description in 'attach_entity_load_avg'
+   Documentation/admin-guide/acpi/fan_performance_states.rst:21: WARNING: Literal block ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/acpi/fan_performance_states.rst:41: WARNING: Literal block expected; none found.
+   Documentation/admin-guide/perf/imx-ddr.rst:47: WARNING: Unexpected indentation.
+   Documentation/x86/index.rst:7: WARNING: toctree contains reference to nonexisting document 'x86/intel_mpx'
+   Documentation/admin-guide/bootconfig.rst:26: WARNING: Literal block expected; none found.
+   Documentation/admin-guide/hw-vuln/tsx_async_abort.rst:142: WARNING: duplicate label virt_mechanism, other instance in Documentation/admin-guide/hw-vuln/mds.rst
+   drivers/message/fusion/mptbase.c:5057: WARNING: Definition list ends without a blank line; unexpected unindent.
+   include/uapi/linux/firewire-cdev.h:312: WARNING: Inline literal start-string without end-string.
+   drivers/firewire/core-transaction.c:606: WARNING: Inline strong start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:425: WARNING: Unexpected indentation.
+   Documentation/driver-api/gpio/driver.rst:423: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:427: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/gpio/driver.rst:429: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:429: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:429: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:433: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:446: WARNING: Unexpected indentation.
+   Documentation/driver-api/gpio/driver.rst:440: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:440: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:447: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/gpio/driver.rst:449: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/driver-api/gpio/driver.rst:462: WARNING: Unexpected indentation.
+   Documentation/driver-api/gpio/driver.rst:460: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:462: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:465: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/gpio/driver.rst:467: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:467: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:467: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:471: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/gpio/driver.rst:478: WARNING: Inline emphasis start-string without end-string.
+   include/linux/spi/spi.h:399: WARNING: Unexpected indentation.
+   Documentation/power/index.rst:7: WARNING: toctree contains reference to nonexisting document 'power/interface'
+   Documentation/power/pm_qos_interface.rst:12: WARNING: Unexpected indentation.
+   Documentation/admin-guide/ras.rst:358: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/ras.rst:358: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/ras.rst:363: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/ras.rst:363: WARNING: Definition list ends without a blank line; unexpected unindent.
+   include/linux/devfreq.h:156: WARNING: Inline emphasis start-string without end-string.
+   include/linux/devfreq.h:261: WARNING: Inline emphasis start-string without end-string.
+   include/linux/devfreq.h:281: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/dmaengine/client.rst:203: WARNING: Unexpected indentation.
+   Documentation/driver-api/dmaengine/client.rst:204: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/dmaengine/client.rst:210: WARNING: Unexpected indentation.
+   Documentation/driver-api/dmaengine/client.rst:211: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/dmaengine/client.rst:220: WARNING: Unexpected indentation.
+   Documentation/driver-api/dmaengine/client.rst:221: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/dmaengine/client.rst:229: WARNING: Unexpected indentation.
+   Documentation/driver-api/dmaengine/client.rst:230: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/dmaengine/provider.rst:270: WARNING: Unexpected indentation.
+   Documentation/driver-api/dmaengine/provider.rst:273: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/dmaengine/provider.rst:288: WARNING: Unexpected indentation.
+   Documentation/driver-api/dmaengine/provider.rst:290: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/driver-api/driver-model/driver.rst:215: WARNING: Inline emphasis start-string without end-string.
+   Documentation/driver-api/driver-model/driver.rst:215: WARNING: Inline emphasis start-string without end-string.
+   Documentation/filesystems/fuse.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+   Documentation/filesystems/ubifs-authentication.rst:94: WARNING: Inline interpreted text or phrase reference start-string without end-string.
+   Documentation/trace/events.rst:589: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/trace/events.rst:620: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:623: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:626: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:703: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:697: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:722: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:775: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/trace/events.rst:814: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:817: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:820: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:823: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:826: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:829: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:832: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:844: WARNING: Unexpected indentation.
+   Documentation/trace/events.rst:845: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/trace/events.rst:849: WARNING: Unexpected indentation.
+   Documentation/trace/events.rst:850: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/trace/events.rst:883: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:886: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:889: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:895: WARNING: Bullet list ends without a blank line; unexpected unindent.
+   Documentation/trace/events.rst:895: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/events.rst:968: WARNING: Inline emphasis start-string without end-string.
+   fs/inode.c:1608: WARNING: Inline emphasis start-string without end-string.
+   fs/inode.c:1608: WARNING: Inline emphasis start-string without end-string.
+   fs/inode.c:1614: WARNING: Inline emphasis start-string without end-string.
+   fs/seq_file.c:40: WARNING: Inline strong start-string without end-string.
+
+vim +203 drivers/gpu/drm/drm_encoder.c
+
+   184	
+   185	/**
+   186	 * drm_simple_encoder_init - Init a preallocated encoder
+   187	 * @dev: drm device
+   188	 * @funcs: callbacks for this encoder
+   189	 * @encoder_type: user visible type of the encoder
+   190	 * @name: printf style format string for the encoder name, or NULL
+   191	 *        for default name
+   192	 *
+   193	 * Initialises a preallocated encoder that has no further functionality. The
+   194	 * encoder will be released automatically.
+   195	 *
+   196	 * Returns:
+   197	 * Zero on success, error code on failure.
+   198	 */
+   199	int drm_simple_encoder_init(struct drm_device *dev,
+   200				    struct drm_encoder *encoder,
+   201				    int encoder_type, const char *name, ...)
+   202	{
+ > 203		char *namestr = NULL;
+   204		int ret;
+   205	
+   206		if (name) {
+   207			va_list ap;
+   208	
+   209			va_start(ap, name);
+   210			namestr = kvasprintf(GFP_KERNEL, name, ap);
+   211			va_end(ap);
+   212			if (!namestr)
+   213				return -ENOMEM;
+   214		}
+   215	
+   216		ret = __drm_encoder_init(dev, encoder,
+   217					 &drm_simple_encoder_funcs_cleanup,
+   218					 encoder_type, namestr);
+   219		if (ret)
+   220			goto err_kfree;
+   221	
+   222		return 0;
+   223	
+   224	err_kfree:
+   225		if (name)
+   226			kfree(namestr);
+   227		return ret;
+   228	}
+   229	EXPORT_SYMBOL(drm_simple_encoder_init);
+   230	
+
 ---
-ChangeLog v2->v3:
-- Collect Robert's ACK.
-ChangeLog v1->v2:
-- Located a missing removal of .enable_gpio in the Palm TC
-  board file, pointed out by Daniel.
-- Grepped to ascertain there is not a single instance of
-  the string "enable_gpio" in the affected board files.
----
- arch/arm/mach-pxa/cm-x300.c               |  1 -
- arch/arm/mach-pxa/colibri-pxa270-income.c |  1 -
- arch/arm/mach-pxa/ezx.c                   |  1 -
- arch/arm/mach-pxa/hx4700.c                |  1 -
- arch/arm/mach-pxa/lpd270.c                |  1 -
- arch/arm/mach-pxa/magician.c              |  1 -
- arch/arm/mach-pxa/mainstone.c             |  1 -
- arch/arm/mach-pxa/mioa701.c               |  1 -
- arch/arm/mach-pxa/palm27x.c               |  1 -
- arch/arm/mach-pxa/palmtc.c                | 11 ++++++++++-
- arch/arm/mach-pxa/palmte2.c               |  1 -
- arch/arm/mach-pxa/pcm990-baseboard.c      |  1 -
- arch/arm/mach-pxa/tavorevb.c              |  2 --
- arch/arm/mach-pxa/viper.c                 |  1 -
- arch/arm/mach-pxa/z2.c                    |  2 --
- arch/arm/mach-pxa/zylonite.c              |  1 -
- arch/arm/mach-s3c24xx/mach-h1940.c        |  1 -
- arch/arm/mach-s3c24xx/mach-rx1950.c       |  1 -
- arch/arm/mach-s3c64xx/dev-backlight.c     |  3 ---
- arch/arm/mach-s3c64xx/mach-crag6410.c     |  1 -
- arch/arm/mach-s3c64xx/mach-hmt.c          |  1 -
- arch/arm/mach-s3c64xx/mach-smartq.c       |  1 -
- arch/arm/mach-s3c64xx/mach-smdk6410.c     |  2 +-
- arch/unicore32/kernel/puv3-nb0916.c       |  1 -
- drivers/video/backlight/pwm_bl.c          | 19 -------------------
- include/linux/pwm_backlight.h             |  2 --
- 26 files changed, 11 insertions(+), 49 deletions(-)
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-diff --git a/arch/arm/mach-pxa/cm-x300.c b/arch/arm/mach-pxa/cm-x300.c
-index 425855f456f2..2e35354b61f5 100644
---- a/arch/arm/mach-pxa/cm-x300.c
-+++ b/arch/arm/mach-pxa/cm-x300.c
-@@ -312,7 +312,6 @@ static struct pwm_lookup cm_x300_pwm_lookup[] = {
- static struct platform_pwm_backlight_data cm_x300_backlight_data = {
- 	.max_brightness	= 100,
- 	.dft_brightness	= 100,
--	.enable_gpio	= -1,
- };
- 
- static struct platform_device cm_x300_backlight_device = {
-diff --git a/arch/arm/mach-pxa/colibri-pxa270-income.c b/arch/arm/mach-pxa/colibri-pxa270-income.c
-index dbad2f13706c..e5879e8b0682 100644
---- a/arch/arm/mach-pxa/colibri-pxa270-income.c
-+++ b/arch/arm/mach-pxa/colibri-pxa270-income.c
-@@ -202,7 +202,6 @@ static struct pwm_lookup income_pwm_lookup[] = {
- static struct platform_pwm_backlight_data income_backlight_data = {
- 	.max_brightness	= 0x3ff,
- 	.dft_brightness	= 0x1ff,
--	.enable_gpio	= -1,
- };
- 
- static struct platform_device income_backlight = {
-diff --git a/arch/arm/mach-pxa/ezx.c b/arch/arm/mach-pxa/ezx.c
-index ec10851b63cf..eb85950e7c0e 100644
---- a/arch/arm/mach-pxa/ezx.c
-+++ b/arch/arm/mach-pxa/ezx.c
-@@ -55,7 +55,6 @@ static struct pwm_lookup ezx_pwm_lookup[] __maybe_unused = {
- static struct platform_pwm_backlight_data ezx_backlight_data = {
- 	.max_brightness	= 1023,
- 	.dft_brightness	= 1023,
--	.enable_gpio	= -1,
- };
- 
- static struct platform_device ezx_backlight_device = {
-diff --git a/arch/arm/mach-pxa/hx4700.c b/arch/arm/mach-pxa/hx4700.c
-index 238a751a8797..1d4c5db54be2 100644
---- a/arch/arm/mach-pxa/hx4700.c
-+++ b/arch/arm/mach-pxa/hx4700.c
-@@ -556,7 +556,6 @@ static struct platform_device hx4700_lcd = {
- static struct platform_pwm_backlight_data backlight_data = {
- 	.max_brightness = 200,
- 	.dft_brightness = 100,
--	.enable_gpio    = -1,
- };
- 
- static struct platform_device backlight = {
-diff --git a/arch/arm/mach-pxa/lpd270.c b/arch/arm/mach-pxa/lpd270.c
-index 20e00e970385..6fc40bc06910 100644
---- a/arch/arm/mach-pxa/lpd270.c
-+++ b/arch/arm/mach-pxa/lpd270.c
-@@ -277,7 +277,6 @@ static struct pwm_lookup lpd270_pwm_lookup[] = {
- static struct platform_pwm_backlight_data lpd270_backlight_data = {
- 	.max_brightness	= 1,
- 	.dft_brightness	= 1,
--	.enable_gpio	= -1,
- };
- 
- static struct platform_device lpd270_backlight_device = {
-diff --git a/arch/arm/mach-pxa/magician.c b/arch/arm/mach-pxa/magician.c
-index 5d0591f93f4d..cd9fa465b9b2 100644
---- a/arch/arm/mach-pxa/magician.c
-+++ b/arch/arm/mach-pxa/magician.c
-@@ -401,7 +401,6 @@ static void magician_backlight_exit(struct device *dev)
- static struct platform_pwm_backlight_data backlight_data = {
- 	.max_brightness	= 272,
- 	.dft_brightness	= 100,
--	.enable_gpio	= -1,
- 	.init		= magician_backlight_init,
- 	.notify		= magician_backlight_notify,
- 	.exit		= magician_backlight_exit,
-diff --git a/arch/arm/mach-pxa/mainstone.c b/arch/arm/mach-pxa/mainstone.c
-index 1b7882920164..d1010ec26e9f 100644
---- a/arch/arm/mach-pxa/mainstone.c
-+++ b/arch/arm/mach-pxa/mainstone.c
-@@ -256,7 +256,6 @@ static struct pwm_lookup mainstone_pwm_lookup[] = {
- static struct platform_pwm_backlight_data mainstone_backlight_data = {
- 	.max_brightness	= 1023,
- 	.dft_brightness	= 1023,
--	.enable_gpio	= -1,
- };
- 
- static struct platform_device mainstone_backlight_device = {
-diff --git a/arch/arm/mach-pxa/mioa701.c b/arch/arm/mach-pxa/mioa701.c
-index 0b8bae9610f1..d3af80317f2d 100644
---- a/arch/arm/mach-pxa/mioa701.c
-+++ b/arch/arm/mach-pxa/mioa701.c
-@@ -176,7 +176,6 @@ static struct pwm_lookup mioa701_pwm_lookup[] = {
- static struct platform_pwm_backlight_data mioa701_backlight_data = {
- 	.max_brightness	= 100,
- 	.dft_brightness	= 50,
--	.enable_gpio	= -1,
- };
- 
- /*
-diff --git a/arch/arm/mach-pxa/palm27x.c b/arch/arm/mach-pxa/palm27x.c
-index b600b63af3a6..0d246a1aebbc 100644
---- a/arch/arm/mach-pxa/palm27x.c
-+++ b/arch/arm/mach-pxa/palm27x.c
-@@ -318,7 +318,6 @@ static void palm27x_backlight_exit(struct device *dev)
- static struct platform_pwm_backlight_data palm27x_backlight_data = {
- 	.max_brightness	= 0xfe,
- 	.dft_brightness	= 0x7e,
--	.enable_gpio	= -1,
- 	.init		= palm27x_backlight_init,
- 	.notify		= palm27x_backlight_notify,
- 	.exit		= palm27x_backlight_exit,
-diff --git a/arch/arm/mach-pxa/palmtc.c b/arch/arm/mach-pxa/palmtc.c
-index fda9deaaae02..455cb8ccaf26 100644
---- a/arch/arm/mach-pxa/palmtc.c
-+++ b/arch/arm/mach-pxa/palmtc.c
-@@ -174,6 +174,15 @@ static inline void palmtc_keys_init(void) {}
-  * Backlight
-  ******************************************************************************/
- #if defined(CONFIG_BACKLIGHT_PWM) || defined(CONFIG_BACKLIGHT_PWM_MODULE)
-+
-+static struct gpiod_lookup_table palmtc_pwm_bl_gpio_table = {
-+	.dev_id = "pwm-backlight.0",
-+	.table = {
-+		GPIO_LOOKUP("gpio-pxa", GPIO_NR_PALMTC_BL_POWER,
-+			    "enable", GPIO_ACTIVE_HIGH),
-+	},
-+};
-+
- static struct pwm_lookup palmtc_pwm_lookup[] = {
- 	PWM_LOOKUP("pxa25x-pwm.1", 0, "pwm-backlight.0", NULL, PALMTC_PERIOD_NS,
- 		   PWM_POLARITY_NORMAL),
-@@ -182,7 +191,6 @@ static struct pwm_lookup palmtc_pwm_lookup[] = {
- static struct platform_pwm_backlight_data palmtc_backlight_data = {
- 	.max_brightness	= PALMTC_MAX_INTENSITY,
- 	.dft_brightness	= PALMTC_MAX_INTENSITY,
--	.enable_gpio	= GPIO_NR_PALMTC_BL_POWER,
- };
- 
- static struct platform_device palmtc_backlight = {
-@@ -195,6 +203,7 @@ static struct platform_device palmtc_backlight = {
- 
- static void __init palmtc_pwm_init(void)
- {
-+	gpiod_add_lookup_table(&palmtc_pwm_bl_gpio_table);
- 	pwm_add_table(palmtc_pwm_lookup, ARRAY_SIZE(palmtc_pwm_lookup));
- 	platform_device_register(&palmtc_backlight);
- }
-diff --git a/arch/arm/mach-pxa/palmte2.c b/arch/arm/mach-pxa/palmte2.c
-index 7171014fd311..e3bcf58b4e63 100644
---- a/arch/arm/mach-pxa/palmte2.c
-+++ b/arch/arm/mach-pxa/palmte2.c
-@@ -175,7 +175,6 @@ static void palmte2_backlight_exit(struct device *dev)
- static struct platform_pwm_backlight_data palmte2_backlight_data = {
- 	.max_brightness	= PALMTE2_MAX_INTENSITY,
- 	.dft_brightness	= PALMTE2_MAX_INTENSITY,
--	.enable_gpio	= -1,
- 	.init		= palmte2_backlight_init,
- 	.notify		= palmte2_backlight_notify,
- 	.exit		= palmte2_backlight_exit,
-diff --git a/arch/arm/mach-pxa/pcm990-baseboard.c b/arch/arm/mach-pxa/pcm990-baseboard.c
-index cb1c56769fbc..bf613f88d70b 100644
---- a/arch/arm/mach-pxa/pcm990-baseboard.c
-+++ b/arch/arm/mach-pxa/pcm990-baseboard.c
-@@ -154,7 +154,6 @@ static struct pwm_lookup pcm990_pwm_lookup[] = {
- static struct platform_pwm_backlight_data pcm990_backlight_data = {
- 	.max_brightness	= 1023,
- 	.dft_brightness	= 1023,
--	.enable_gpio	= -1,
- };
- 
- static struct platform_device pcm990_backlight_device = {
-diff --git a/arch/arm/mach-pxa/tavorevb.c b/arch/arm/mach-pxa/tavorevb.c
-index 93466fa3b0fe..a15eb3b9484d 100644
---- a/arch/arm/mach-pxa/tavorevb.c
-+++ b/arch/arm/mach-pxa/tavorevb.c
-@@ -178,13 +178,11 @@ static struct platform_pwm_backlight_data tavorevb_backlight_data[] = {
- 		/* primary backlight */
- 		.max_brightness	= 100,
- 		.dft_brightness	= 100,
--		.enable_gpio	= -1,
- 	},
- 	[1] = {
- 		/* secondary backlight */
- 		.max_brightness	= 100,
- 		.dft_brightness	= 100,
--		.enable_gpio	= -1,
- 	},
- };
- 
-diff --git a/arch/arm/mach-pxa/viper.c b/arch/arm/mach-pxa/viper.c
-index c06031da6676..3aa34e9a15d3 100644
---- a/arch/arm/mach-pxa/viper.c
-+++ b/arch/arm/mach-pxa/viper.c
-@@ -404,7 +404,6 @@ static void viper_backlight_exit(struct device *dev)
- static struct platform_pwm_backlight_data viper_backlight_data = {
- 	.max_brightness	= 100,
- 	.dft_brightness	= 100,
--	.enable_gpio	= -1,
- 	.init		= viper_backlight_init,
- 	.notify		= viper_backlight_notify,
- 	.exit		= viper_backlight_exit,
-diff --git a/arch/arm/mach-pxa/z2.c b/arch/arm/mach-pxa/z2.c
-index 900cefc4c5ea..21fd76bb09cd 100644
---- a/arch/arm/mach-pxa/z2.c
-+++ b/arch/arm/mach-pxa/z2.c
-@@ -210,13 +210,11 @@ static struct platform_pwm_backlight_data z2_backlight_data[] = {
- 		/* Keypad Backlight */
- 		.max_brightness	= 1023,
- 		.dft_brightness	= 0,
--		.enable_gpio	= -1,
- 	},
- 	[1] = {
- 		/* LCD Backlight */
- 		.max_brightness	= 1023,
- 		.dft_brightness	= 512,
--		.enable_gpio	= -1,
- 	},
- };
- 
-diff --git a/arch/arm/mach-pxa/zylonite.c b/arch/arm/mach-pxa/zylonite.c
-index bf2ab5bd49ec..79f0025fa17a 100644
---- a/arch/arm/mach-pxa/zylonite.c
-+++ b/arch/arm/mach-pxa/zylonite.c
-@@ -117,7 +117,6 @@ static struct pwm_lookup zylonite_pwm_lookup[] = {
- static struct platform_pwm_backlight_data zylonite_backlight_data = {
- 	.max_brightness	= 100,
- 	.dft_brightness	= 100,
--	.enable_gpio	= -1,
- };
- 
- static struct platform_device zylonite_backlight_device = {
-diff --git a/arch/arm/mach-s3c24xx/mach-h1940.c b/arch/arm/mach-s3c24xx/mach-h1940.c
-index 74d6b68e91c7..e1c372e5447b 100644
---- a/arch/arm/mach-s3c24xx/mach-h1940.c
-+++ b/arch/arm/mach-s3c24xx/mach-h1940.c
-@@ -516,7 +516,6 @@ static void h1940_backlight_exit(struct device *dev)
- static struct platform_pwm_backlight_data backlight_data = {
- 	.max_brightness = 100,
- 	.dft_brightness = 50,
--	.enable_gpio    = -1,
- 	.init           = h1940_backlight_init,
- 	.notify		= h1940_backlight_notify,
- 	.exit           = h1940_backlight_exit,
-diff --git a/arch/arm/mach-s3c24xx/mach-rx1950.c b/arch/arm/mach-s3c24xx/mach-rx1950.c
-index 03d8f27cdc32..fde98b175c75 100644
---- a/arch/arm/mach-s3c24xx/mach-rx1950.c
-+++ b/arch/arm/mach-s3c24xx/mach-rx1950.c
-@@ -534,7 +534,6 @@ static int rx1950_backlight_notify(struct device *dev, int brightness)
- static struct platform_pwm_backlight_data rx1950_backlight_data = {
- 	.max_brightness = 24,
- 	.dft_brightness = 4,
--	.enable_gpio = -1,
- 	.init = rx1950_backlight_init,
- 	.notify = rx1950_backlight_notify,
- 	.exit = rx1950_backlight_exit,
-diff --git a/arch/arm/mach-s3c64xx/dev-backlight.c b/arch/arm/mach-s3c64xx/dev-backlight.c
-index 799cfdf0606b..09e6da305f60 100644
---- a/arch/arm/mach-s3c64xx/dev-backlight.c
-+++ b/arch/arm/mach-s3c64xx/dev-backlight.c
-@@ -65,7 +65,6 @@ static struct samsung_bl_drvdata samsung_dfl_bl_data __initdata = {
- 	.plat_data = {
- 		.max_brightness = 255,
- 		.dft_brightness = 255,
--		.enable_gpio    = -1,
- 		.init           = samsung_bl_init,
- 		.exit           = samsung_bl_exit,
- 	},
-@@ -111,8 +110,6 @@ void __init samsung_bl_set(struct samsung_bl_gpio_info *gpio_info,
- 		samsung_bl_data->dft_brightness = bl_data->dft_brightness;
- 	if (bl_data->lth_brightness)
- 		samsung_bl_data->lth_brightness = bl_data->lth_brightness;
--	if (bl_data->enable_gpio >= 0)
--		samsung_bl_data->enable_gpio = bl_data->enable_gpio;
- 	if (bl_data->init)
- 		samsung_bl_data->init = bl_data->init;
- 	if (bl_data->notify)
-diff --git a/arch/arm/mach-s3c64xx/mach-crag6410.c b/arch/arm/mach-s3c64xx/mach-crag6410.c
-index 8ec6a4f5eb05..da9654255e3f 100644
---- a/arch/arm/mach-s3c64xx/mach-crag6410.c
-+++ b/arch/arm/mach-s3c64xx/mach-crag6410.c
-@@ -114,7 +114,6 @@ static struct pwm_lookup crag6410_pwm_lookup[] = {
- static struct platform_pwm_backlight_data crag6410_backlight_data = {
- 	.max_brightness	= 1000,
- 	.dft_brightness	= 600,
--	.enable_gpio	= -1,
- };
- 
- static struct platform_device crag6410_backlight_device = {
-diff --git a/arch/arm/mach-s3c64xx/mach-hmt.c b/arch/arm/mach-s3c64xx/mach-hmt.c
-index bfe9881d12cc..e7080215c624 100644
---- a/arch/arm/mach-s3c64xx/mach-hmt.c
-+++ b/arch/arm/mach-s3c64xx/mach-hmt.c
-@@ -115,7 +115,6 @@ static void hmt_bl_exit(struct device *dev)
- static struct platform_pwm_backlight_data hmt_backlight_data = {
- 	.max_brightness	= 100 * 256,
- 	.dft_brightness	= 40 * 256,
--	.enable_gpio	= -1,
- 	.init		= hmt_bl_init,
- 	.notify		= hmt_bl_notify,
- 	.exit		= hmt_bl_exit,
-diff --git a/arch/arm/mach-s3c64xx/mach-smartq.c b/arch/arm/mach-s3c64xx/mach-smartq.c
-index 829d5dbd69ee..5025db607c0f 100644
---- a/arch/arm/mach-s3c64xx/mach-smartq.c
-+++ b/arch/arm/mach-s3c64xx/mach-smartq.c
-@@ -150,7 +150,6 @@ static int smartq_bl_init(struct device *dev)
- static struct platform_pwm_backlight_data smartq_backlight_data = {
- 	.max_brightness	= 1000,
- 	.dft_brightness	= 600,
--	.enable_gpio	= -1,
- 	.init		= smartq_bl_init,
- };
- 
-diff --git a/arch/arm/mach-s3c64xx/mach-smdk6410.c b/arch/arm/mach-s3c64xx/mach-smdk6410.c
-index 908e5aa831c8..56f406c0c3dd 100644
---- a/arch/arm/mach-s3c64xx/mach-smdk6410.c
-+++ b/arch/arm/mach-s3c64xx/mach-smdk6410.c
-@@ -623,7 +623,7 @@ static struct pwm_lookup smdk6410_pwm_lookup[] = {
- };
- 
- static struct platform_pwm_backlight_data smdk6410_bl_data = {
--	.enable_gpio = -1,
-+	/* Intentionally blank */
- };
- 
- static struct dwc2_hsotg_plat smdk6410_hsotg_pdata;
-diff --git a/arch/unicore32/kernel/puv3-nb0916.c b/arch/unicore32/kernel/puv3-nb0916.c
-index a3bf2ffc54dd..e251f5028396 100644
---- a/arch/unicore32/kernel/puv3-nb0916.c
-+++ b/arch/unicore32/kernel/puv3-nb0916.c
-@@ -55,7 +55,6 @@ static struct pwm_lookup nb0916_pwm_lookup[] = {
- static struct platform_pwm_backlight_data nb0916_backlight_data = {
- 	.max_brightness	= 100,
- 	.dft_brightness	= 100,
--	.enable_gpio	= -1,
- };
- 
- static struct gpio_keys_button nb0916_gpio_keys[] = {
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index efb4efc2a13d..82b8d7594701 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -7,7 +7,6 @@
- 
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
--#include <linux/gpio.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/init.h>
-@@ -258,8 +257,6 @@ static int pwm_backlight_parse_dt(struct device *dev,
- 			     &data->post_pwm_on_delay);
- 	of_property_read_u32(node, "pwm-off-delay-ms", &data->pwm_off_delay);
- 
--	data->enable_gpio = -EINVAL;
--
- 	/*
- 	 * Determine the number of brightness levels, if this property is not
- 	 * set a default table of brightness levels will be used.
-@@ -502,22 +499,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 		goto err_alloc;
- 	}
- 
--	/*
--	 * Compatibility fallback for drivers still using the integer GPIO
--	 * platform data. Must go away soon.
--	 */
--	if (!pb->enable_gpio && gpio_is_valid(data->enable_gpio)) {
--		ret = devm_gpio_request_one(&pdev->dev, data->enable_gpio,
--					    GPIOF_OUT_INIT_HIGH, "enable");
--		if (ret < 0) {
--			dev_err(&pdev->dev, "failed to request GPIO#%d: %d\n",
--				data->enable_gpio, ret);
--			goto err_alloc;
--		}
--
--		pb->enable_gpio = gpio_to_desc(data->enable_gpio);
--	}
--
- 	/*
- 	 * If the GPIO is not known to be already configured as output, that
- 	 * is, if gpiod_get_direction returns either 1 or -EINVAL, change the
-diff --git a/include/linux/pwm_backlight.h b/include/linux/pwm_backlight.h
-index 8ea265a022fd..06086cb93b6f 100644
---- a/include/linux/pwm_backlight.h
-+++ b/include/linux/pwm_backlight.h
-@@ -16,8 +16,6 @@ struct platform_pwm_backlight_data {
- 	unsigned int *levels;
- 	unsigned int post_pwm_on_delay;
- 	unsigned int pwm_off_delay;
--	/* TODO remove once all users are switched to gpiod_* API */
--	int enable_gpio;
- 	int (*init)(struct device *dev);
- 	int (*notify)(struct device *dev, int brightness);
- 	void (*notify_after)(struct device *dev, int brightness);
--- 
-2.23.0
+--oyuukydk5nr5gigi
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+zb2f3ckqm2zSf6Sx7JJkaQAA
+
+--oyuukydk5nr5gigi
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--oyuukydk5nr5gigi--
