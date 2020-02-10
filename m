@@ -2,45 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EACB157D66
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 15:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E293F157DEC
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 15:55:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB16F6E995;
-	Mon, 10 Feb 2020 14:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D9A6EC6F;
+	Mon, 10 Feb 2020 14:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13CEA6EC5D
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 14:30:00 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 941F12080C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 14:29:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581344999;
- bh=srVv0k1PUHqV+iykNI1ngzesXpD86NAK0uNW9suEACs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=oEiWLmd1kSXZ5sypE8oAAinphmmZLmxs31uhycX9azwpOPFqTXO/+UVFMqbsYyiMx
- krkL49X6CUHw2+HY5lSc9gnxuh3NOnPRfarRYnw7W7j8G7jQtesLpUU3EvqIoG7jeA
- i1qkf8TCQyMX1IgXDqVs298UE8ud75+y3W8Y6ikU=
-Received: by mail-lf1-f54.google.com with SMTP id 203so4311015lfa.12
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 06:29:59 -0800 (PST)
-X-Gm-Message-State: APjAAAUxO2r1mj+4Dhn4yzviTNPRrDKz3XZwwnA+8FMovSCqIyqYHOh+
- mrSNTD7A+lwAbvM6LXVDfn951AaHxdP/isN7X4A=
-X-Google-Smtp-Source: APXvYqzmUwB64vGBYzVzZamaC5P7yO6lrotLzuwaIsiD/JXK5oCwW0cmlX60GO7+HofSYdj5YL/zDkbiJVIo2+R50L4=
-X-Received: by 2002:a19:4855:: with SMTP id v82mr842321lfa.197.1581344997745; 
- Mon, 10 Feb 2020 06:29:57 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E0ED6EC6F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 14:55:40 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id c84so671507wme.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 06:55:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=e6DHkRv/RjVLMoJccwFow7vvIDkBmRxpatiW9uqHzAA=;
+ b=T3AIPwpHb40S1bpKetV7hO985S/I88xVqo8fkgncaFoZN33BL4HETEu++2ciOa8uFG
+ 4+msmny/lboaWn7mnopixrx1reZqDzIkhoAEflSmF/Rk01KUe7jk8RKOIWrN8RM8u+7m
+ XKvVhnzIo54T6UE9cYaSQnZGDIP/Ql6gl7VIc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=e6DHkRv/RjVLMoJccwFow7vvIDkBmRxpatiW9uqHzAA=;
+ b=TLuU7jACaKIxw71u4u285z0+9gwjlLX6XPTqfG0Cdgwxt2TWhRWHOoYa9Im3GUH8JR
+ iUwkDh23DzlzOA0gX7pEFwMAnz09PnGwKTuninknd2rt02uIjPkj3UpFxb/zqOOroNDD
+ BQz1zA319laokONDeZCsXE3S3+2KL2zvvdiNWvUqXHDhCoNkIkcMRp328gHImx13rxKv
+ LphG4ovvrwJWpM85ZX6fgS6gvq9lHzHaDkjoKm00D2oKrOFnyqe5XCSOPLIs63RLb+7l
+ 49sl+x9sRWAkKDmmnvxDiYIMtY3pjh09AQJ7iQ9BpCPD9GkQHVp2FWn+Lw9vrU3VaKSE
+ aYIQ==
+X-Gm-Message-State: APjAAAW03uBNj7ppXBLEzI6uDeGrCloYyf1tqs99932OFfrgusCAZs2z
+ RW3KRn0EXu7ujUW7nFAhnZDBjA==
+X-Google-Smtp-Source: APXvYqwyb3cBhEKTprq13qfJXLglASZPW0m/htnQi0Lz1UZwEiKsNxIUIoHqj1hTCGDthl5O4Ffi8A==
+X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr16308048wmb.33.1581346539278; 
+ Mon, 10 Feb 2020 06:55:39 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n13sm887530wmd.21.2020.02.10.06.55.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Feb 2020 06:55:38 -0800 (PST)
+Date: Mon, 10 Feb 2020 15:55:36 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2] drm/bochs: add drm_driver.release callback.
+Message-ID: <20200210145536.GR43062@phenom.ffwll.local>
+Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, 
+ open list <linux-kernel@vger.kernel.org>
+References: <20200210093801.4773-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20200210101546.287565-1-linus.walleij@linaro.org>
-In-Reply-To: <20200210101546.287565-1-linus.walleij@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Mon, 10 Feb 2020 15:29:46 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPfGvOH=TbpFwh7QUT8001UAo7tdiaVNGSj97ytkNmo5cg@mail.gmail.com>
-Message-ID: <CAJKOXPfGvOH=TbpFwh7QUT8001UAo7tdiaVNGSj97ytkNmo5cg@mail.gmail.com>
-Subject: Re: [PATCH v3] backlight: pwm_bl: Switch to full GPIO descriptor
-To: Linus Walleij <linus.walleij@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20200210093801.4773-1-kraxel@redhat.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,46 +70,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
  dri-devel@lists.freedesktop.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Lee Jones <lee.jones@linaro.org>, Guan Xuetao <gxt@pku.edu.cn>
+ "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Feb 2020 at 11:15, Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> The PWM backlight still supports passing a enable GPIO line as
-> platform data using the legacy <linux/gpio.h> API.
->
-> It turns out that ever board using this mechanism except one
-> is pass .enable_gpio = -1. So we drop all these cargo-culted -1's
-> from all instances of this platform data in the kernel.
->
-> The remaning board, Palm TC, is converted to pass a machine
-> descriptior table with the "enable" GPIO instead, and delete the
-> platform data entry for enable_gpio and the code handling it
-> and things should work smoothly with the new API.
->
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Guan Xuetao <gxt@pku.edu.cn>
-> Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-> Reviewed-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+On Mon, Feb 10, 2020 at 10:38:01AM +0100, Gerd Hoffmann wrote:
+> Call drm_dev_unregister() first in bochs_pci_remove().  Hook
+> bochs_unload() into the new .release callback, to make sure cleanup
+> is done when all users are gone.
+> 
+> Add ready bool to state struct and move bochs_hw_fini() call from
+> bochs_unload() to bochs_pci_remove() to make sure hardware is not
+> touched after bochs_pci_remove returns.
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
-> ChangeLog v2->v3:
-> - Collect Robert's ACK.
+>  drivers/gpu/drm/bochs/bochs.h     |  1 +
+>  drivers/gpu/drm/bochs/bochs_drv.c |  6 +++---
+>  drivers/gpu/drm/bochs/bochs_hw.c  | 14 ++++++++++++++
+>  3 files changed, 18 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bochs/bochs.h b/drivers/gpu/drm/bochs/bochs.h
+> index 917767173ee6..f6bce8669274 100644
+> --- a/drivers/gpu/drm/bochs/bochs.h
+> +++ b/drivers/gpu/drm/bochs/bochs.h
+> @@ -57,6 +57,7 @@ struct bochs_device {
+>  	unsigned long  fb_base;
+>  	unsigned long  fb_size;
+>  	unsigned long  qext_size;
+> +	bool           ready;
+>  
+>  	/* mode */
+>  	u16 xres;
+> diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/bochs_drv.c
+> index 10460878414e..60b5492739ef 100644
+> --- a/drivers/gpu/drm/bochs/bochs_drv.c
+> +++ b/drivers/gpu/drm/bochs/bochs_drv.c
+> @@ -23,7 +23,6 @@ static void bochs_unload(struct drm_device *dev)
+>  
+>  	bochs_kms_fini(bochs);
+>  	bochs_mm_fini(bochs);
+> -	bochs_hw_fini(dev);
+>  	kfree(bochs);
+>  	dev->dev_private = NULL;
+>  }
+> @@ -69,6 +68,7 @@ static struct drm_driver bochs_driver = {
+>  	.major			= 1,
+>  	.minor			= 0,
+>  	DRM_GEM_VRAM_DRIVER,
+> +	.release                = bochs_unload,
+>  };
+>  
+>  /* ---------------------------------------------------------------------- */
+> @@ -148,9 +148,9 @@ static void bochs_pci_remove(struct pci_dev *pdev)
+>  {
+>  	struct drm_device *dev = pci_get_drvdata(pdev);
+>  
+> -	drm_atomic_helper_shutdown(dev);
+>  	drm_dev_unregister(dev);
+> -	bochs_unload(dev);
+> +	drm_atomic_helper_shutdown(dev);
+> +	bochs_hw_fini(dev);
+>  	drm_dev_put(dev);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/bochs/bochs_hw.c b/drivers/gpu/drm/bochs/bochs_hw.c
+> index b615b7dfdd9d..48c1a6a8b026 100644
+> --- a/drivers/gpu/drm/bochs/bochs_hw.c
+> +++ b/drivers/gpu/drm/bochs/bochs_hw.c
+> @@ -168,6 +168,7 @@ int bochs_hw_init(struct drm_device *dev)
+>  	}
+>  	bochs->fb_base = addr;
+>  	bochs->fb_size = size;
+> +	bochs->ready = true;
+>  
+>  	DRM_INFO("Found bochs VGA, ID 0x%x.\n", id);
+>  	DRM_INFO("Framebuffer size %ld kB @ 0x%lx, %s @ 0x%lx.\n",
+> @@ -194,6 +195,10 @@ void bochs_hw_fini(struct drm_device *dev)
+>  {
+>  	struct bochs_device *bochs = dev->dev_private;
+>  
+> +	bochs->ready = false;
+> +
+> +	/* TODO: shot down existing vram mappings */
 
-You missed my ack:
+Aside: I'm mildly hopefull that we could do this with a generic helper,
+both punching out all current ptes and replacing them with something
+dummy. Since replacing them with nothing and refusing to fault stuff is
+probably not going to work out well - userspace will crash&burn too much.
 
-For s3c:
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+> +
+>  	if (bochs->mmio)
+>  		iounmap(bochs->mmio);
+>  	if (bochs->ioports)
+> @@ -207,6 +212,9 @@ void bochs_hw_fini(struct drm_device *dev)
+>  void bochs_hw_setmode(struct bochs_device *bochs,
+>  		      struct drm_display_mode *mode)
+>  {
+> +	if (!bochs->ready)
+> +		return;
 
-Best regards,
-Krzysztof
+drm_dev_enter/exit is the primitive you're looking for I think. Don't hand
+roll your own racy version of this. btw changelog in the patch missing.
+Personally I'd split out the drm_dev_enter/exit in a 2nd patch, but up to
+you.
+
+The remove/release split looks correct to me now.
+-Daniel
+
+
+> +
+>  	bochs->xres = mode->hdisplay;
+>  	bochs->yres = mode->vdisplay;
+>  	bochs->bpp = 32;
+> @@ -237,6 +245,9 @@ void bochs_hw_setmode(struct bochs_device *bochs,
+>  void bochs_hw_setformat(struct bochs_device *bochs,
+>  			const struct drm_format_info *format)
+>  {
+> +	if (!bochs->ready)
+> +		return;
+> +
+>  	DRM_DEBUG_DRIVER("format %c%c%c%c\n",
+>  			 (format->format >>  0) & 0xff,
+>  			 (format->format >>  8) & 0xff,
+> @@ -264,6 +275,9 @@ void bochs_hw_setbase(struct bochs_device *bochs,
+>  	unsigned long offset;
+>  	unsigned int vx, vy, vwidth;
+>  
+> +	if (!bochs->ready)
+> +		return;
+> +
+>  	bochs->stride = stride;
+>  	offset = (unsigned long)addr +
+>  		y * bochs->stride +
+> -- 
+> 2.18.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
