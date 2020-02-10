@@ -1,36 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6032F157396
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 12:39:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7008157567
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 13:40:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83ADA6EC0C;
-	Mon, 10 Feb 2020 11:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D909C6E97B;
+	Mon, 10 Feb 2020 12:40:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4CBC46EC0C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 11:39:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F24D71FB;
- Mon, 10 Feb 2020 03:39:04 -0800 (PST)
-Received: from [10.1.195.32] (e112269-lin.cambridge.arm.com [10.1.195.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3EA253F6CF;
- Mon, 10 Feb 2020 03:39:02 -0800 (PST)
-Subject: Re: [PATCH v4 5/7] drm/panfrost: Add support for multiple power
- domains
-To: Nicolas Boichat <drinkcat@chromium.org>, Rob Herring <robh+dt@kernel.org>
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <20200207052627.130118-6-drinkcat@chromium.org>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <aa88b20d-009d-135f-629a-d656b6a60baa@arm.com>
-Date: Mon, 10 Feb 2020 11:39:01 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D17456EC19
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 12:40:51 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id u6so7548641wrt.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 04:40:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=J20aokLE/FnFgsF4J/f1w1FTiWTgMwqY6FvWt826aac=;
+ b=i+vpCT8SElm6MIPIVaan9xBwab65cXp61K2EiHSdkmqKtlkomh65hl61u0hojsEtVj
+ oh4hHjFqg+ZG5ZcTqE292BXnxsCy3+p0wLy73ranLpRLhFZHpUkGdfTAAwSHwR/uDkPO
+ v2sTUlROFZrTqDpNPL8A7iRMSIm6eUofgDLwkUQi1rbZPGumVihkEVTbWzyWz45+G4yL
+ uiAisFiOH6z+heEsm9cwuuJEnbLNwWaBpwemvr+jo3c9IW0dNwywN/CHJxQXdE7yF4PI
+ j7p7QlBhQ3aBawDW2A/D9bMZX1/+HZjCQ/3wFwYl+1ZdX3KdLJdNL6R09cSlzFPQqiQ7
+ npLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=J20aokLE/FnFgsF4J/f1w1FTiWTgMwqY6FvWt826aac=;
+ b=ijAAmGn/xHLZBrqVyx+94bzCHWnAu4LPmKKjFjKPKeLzjt4QSRoKYiwA9ONUZ/uCpM
+ 4MCdOL1JWMZ80udlwkrPMmKCo5p9uQ6GjSeQ2G9R5XHWwOm2sChdnBWND8RyittCR2PA
+ AGZ8ptobuXQLpKkdpzVZOfBi35AQ9zniRAG5/3Lc33gQ5ozjH4u+hrjL2mKmolit2NXw
+ 6wOgPSrID//8tiypU49/SSnw6pYIItcfNc4I/vo4nHx6mYAYyuHUx4+m5woCP3DMN4sX
+ JJli39bBeUSyaCwuZfaC6McKsIcXpJtlj0t6/9WsQJEkSXEx8dUXup+67xZTHNRFP4zS
+ 14Hg==
+X-Gm-Message-State: APjAAAXtqTS4VhCMg85jSQ6wiZoB8V4vu5y/f9f8bI1fDLtSP6Uhfgb9
+ BZYoKD917Yi9UfQ6j5GXDAxnig==
+X-Google-Smtp-Source: APXvYqxiuhA2Q6uJVC0Fc/mZX1zNCJf/soOjJOE+Tk/eZ5pzBG7p1xhstgbBjakfGWwT89G01GaWXg==
+X-Received: by 2002:a5d:494b:: with SMTP id r11mr1849885wrs.184.1581338450384; 
+ Mon, 10 Feb 2020 04:40:50 -0800 (PST)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id l132sm486344wmf.16.2020.02.10.04.40.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Feb 2020 04:40:49 -0800 (PST)
+Date: Mon, 10 Feb 2020 12:40:48 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2] backlight: corgi: Convert to use GPIO descriptors
+Message-ID: <20200210124048.o72zuo3tnlncoatq@holly.lan>
+References: <20200210101504.287366-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200207052627.130118-6-drinkcat@chromium.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200210101504.287366-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,275 +67,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <Mark.Rutland@arm.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- Liam Girdwood <lgirdwood@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- "hsinyi@chromium.org" <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Andrea Adami <andrea.adami@gmail.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, Lee Jones <lee.jones@linaro.org>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02/2020 05:26, Nicolas Boichat wrote:
-> When there is a single power domain per device, the core will
-> ensure the power domain is switched on (so it is technically
-> equivalent to having not power domain specified at all).
+On Mon, Feb 10, 2020 at 11:15:04AM +0100, Linus Walleij wrote:
+> The code in the Corgi backlight driver can be considerably
+> simplified by moving to GPIO descriptors and lookup tables
+> from the board files instead of passing GPIO numbers using
+> the old API.
 > 
-> However, when there are multiple domains, as in MT8183 Bifrost
-> GPU, we need to handle them in driver code.
+> Make sure to encode inversion semantics for the Akita and
+> Spitz platforms inside the GPIO lookup table and drop the
+> custom inversion semantics from the driver.
 > 
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-
-LGTM!
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-Thanks,
-
-Steve
-
+> All in-tree users are converted in this patch.
 > 
+> Cc: Andrea Adami <andrea.adami@gmail.com>
+> Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
+> ChangeLog v1->v2:
+> - Collect Robert's ACK.
+> ---
+>  arch/arm/mach-pxa/corgi.c           | 12 ++++-
+>  arch/arm/mach-pxa/spitz.c           | 34 +++++++++++----
+>  drivers/video/backlight/corgi_lcd.c | 68 ++++++++---------------------
+>  include/linux/spi/corgi_lcd.h       |  3 --
+>  4 files changed, 54 insertions(+), 63 deletions(-)
 > 
-> The downstream driver we use on chromeos-4.19 currently uses 2
-> additional devices in device tree to accomodate for this [1], but
-> I believe this solution is cleaner.
-> 
-> [1] https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/chromeos-4.19/drivers/gpu/arm/midgard/platform/mediatek/mali_kbase_runtime_pm.c#31
-> 
-> v4:
->  - Match the exact power domain names as specified in the compatible
->    struct, instead of just matching the number of power domains.
->    [Review: Ulf Hansson]
->  - Dropped print and reordered function [Review: Steven Price]
->  - nits: Run through latest version of checkpatch:
->    - Use WARN instead of BUG_ON.
->    - Drop braces for single expression if block.
-> v3:
->  - Use the compatible matching data to specify the number of power
->    domains. Note that setting 0 or 1 in num_pm_domains is equivalent
->    as the core will handle these 2 cases in the exact same way
->    (automatically, without driver intervention), and there should
->    be no adverse consequence in this case (the concern is about
->    switching on only some power domains and not others).
-> 
->  drivers/gpu/drm/panfrost/panfrost_device.c | 97 ++++++++++++++++++++--
->  drivers/gpu/drm/panfrost/panfrost_device.h | 11 +++
->  drivers/gpu/drm/panfrost/panfrost_drv.c    |  2 +
->  3 files changed, 102 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index 3720d50f6d9f965..8136babd3ba9935 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -5,6 +5,7 @@
->  #include <linux/clk.h>
->  #include <linux/reset.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
->  #include <linux/regulator/consumer.h>
->  
->  #include "panfrost_device.h"
-> @@ -120,6 +121,79 @@ static void panfrost_regulator_fini(struct panfrost_device *pfdev)
->  			pfdev->regulators);
+> diff --git a/arch/arm/mach-pxa/corgi.c b/arch/arm/mach-pxa/corgi.c
+> index f2d73289230f..c9625dcae27c 100644
+> --- a/arch/arm/mach-pxa/corgi.c
+> +++ b/arch/arm/mach-pxa/corgi.c
+> @@ -563,13 +563,20 @@ static void corgi_bl_kick_battery(void)
+>  	}
 >  }
 >  
-> +static void panfrost_pm_domain_fini(struct panfrost_device *pfdev)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(pfdev->pm_domain_devs); i++) {
-> +		if (!pfdev->pm_domain_devs[i])
-> +			break;
-> +
-> +		if (pfdev->pm_domain_links[i])
-> +			device_link_del(pfdev->pm_domain_links[i]);
-> +
-> +		dev_pm_domain_detach(pfdev->pm_domain_devs[i], true);
-> +	}
-> +}
-> +
-> +static int panfrost_pm_domain_init(struct panfrost_device *pfdev)
-> +{
-> +	int err;
-> +	int i, num_domains;
-> +
-> +	num_domains = of_count_phandle_with_args(pfdev->dev->of_node,
-> +						 "power-domains",
-> +						 "#power-domain-cells");
-> +
-> +	/*
-> +	 * Single domain is handled by the core, and, if only a single power
-> +	 * the power domain is requested, the property is optional.
-> +	 */
-> +	if (num_domains < 2 && pfdev->comp->num_pm_domains < 2)
-> +		return 0;
-> +
-> +	if (num_domains != pfdev->comp->num_pm_domains) {
-> +		dev_err(pfdev->dev,
-> +			"Incorrect number of power domains: %d provided, %d needed\n",
-> +			num_domains, pfdev->comp->num_pm_domains);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (WARN(num_domains > ARRAY_SIZE(pfdev->pm_domain_devs),
-> +			"Too many supplies in compatible structure.\n"))
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < num_domains; i++) {
-> +		pfdev->pm_domain_devs[i] =
-> +			dev_pm_domain_attach_by_name(pfdev->dev,
-> +					pfdev->comp->pm_domain_names[i]);
-> +		if (IS_ERR_OR_NULL(pfdev->pm_domain_devs[i])) {
-> +			err = PTR_ERR(pfdev->pm_domain_devs[i]) ? : -ENODATA;
-> +			pfdev->pm_domain_devs[i] = NULL;
-> +			dev_err(pfdev->dev,
-> +				"failed to get pm-domain %s(%d): %d\n",
-> +				pfdev->comp->pm_domain_names[i], i, err);
-> +			goto err;
-> +		}
-> +
-> +		pfdev->pm_domain_links[i] = device_link_add(pfdev->dev,
-> +				pfdev->pm_domain_devs[i], DL_FLAG_PM_RUNTIME |
-> +				DL_FLAG_STATELESS | DL_FLAG_RPM_ACTIVE);
-> +		if (!pfdev->pm_domain_links[i]) {
-> +			dev_err(pfdev->pm_domain_devs[i],
-> +				"adding device link failed!\n");
-> +			err = -ENODEV;
-> +			goto err;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +
-> +err:
-> +	panfrost_pm_domain_fini(pfdev);
-> +	return err;
-> +}
-> +
->  int panfrost_device_init(struct panfrost_device *pfdev)
->  {
->  	int err;
-> @@ -150,37 +224,43 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->  		goto err_out1;
->  	}
->  
-> +	err = panfrost_pm_domain_init(pfdev);
-> +	if (err)
-> +		goto err_out2;
-> +
->  	res = platform_get_resource(pfdev->pdev, IORESOURCE_MEM, 0);
->  	pfdev->iomem = devm_ioremap_resource(pfdev->dev, res);
->  	if (IS_ERR(pfdev->iomem)) {
->  		dev_err(pfdev->dev, "failed to ioremap iomem\n");
->  		err = PTR_ERR(pfdev->iomem);
-> -		goto err_out2;
-> +		goto err_out3;
->  	}
->  
->  	err = panfrost_gpu_init(pfdev);
->  	if (err)
-> -		goto err_out2;
-> +		goto err_out3;
->  
->  	err = panfrost_mmu_init(pfdev);
->  	if (err)
-> -		goto err_out3;
-> +		goto err_out4;
->  
->  	err = panfrost_job_init(pfdev);
->  	if (err)
-> -		goto err_out4;
-> +		goto err_out5;
->  
->  	err = panfrost_perfcnt_init(pfdev);
->  	if (err)
-> -		goto err_out5;
-> +		goto err_out6;
->  
->  	return 0;
-> -err_out5:
-> +err_out6:
->  	panfrost_job_fini(pfdev);
-> -err_out4:
-> +err_out5:
->  	panfrost_mmu_fini(pfdev);
-> -err_out3:
-> +err_out4:
->  	panfrost_gpu_fini(pfdev);
-> +err_out3:
-> +	panfrost_pm_domain_fini(pfdev);
->  err_out2:
->  	panfrost_reset_fini(pfdev);
->  err_out1:
-> @@ -196,6 +276,7 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
->  	panfrost_job_fini(pfdev);
->  	panfrost_mmu_fini(pfdev);
->  	panfrost_gpu_fini(pfdev);
-> +	panfrost_pm_domain_fini(pfdev);
->  	panfrost_reset_fini(pfdev);
->  	panfrost_regulator_fini(pfdev);
->  	panfrost_clk_fini(pfdev);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index c9468bc5573ac9d..c30c719a805940a 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -21,6 +21,7 @@ struct panfrost_perfcnt;
->  
->  #define NUM_JOB_SLOTS 3
->  #define MAX_REGULATORS 2
-> +#define MAX_PM_DOMAINS 3
->  
->  struct panfrost_features {
->  	u16 id;
-> @@ -61,6 +62,13 @@ struct panfrost_compatible {
->  	/* Supplies count and names. */
->  	int num_supplies;
->  	const char * const *supply_names;
-> +	/*
-> +	 * Number of power domains required, note that values 0 and 1 are
-> +	 * handled identically, as only values > 1 need special handling.
-> +	 */
-> +	int num_pm_domains;
-> +	/* Only required if num_pm_domains > 1. */
-> +	const char * const *pm_domain_names;
->  };
->  
->  struct panfrost_device {
-> @@ -73,6 +81,9 @@ struct panfrost_device {
->  	struct clk *bus_clock;
->  	struct regulator_bulk_data regulators[MAX_REGULATORS];
->  	struct reset_control *rstc;
-> +	/* pm_domains for devices with more than one. */
-> +	struct device *pm_domain_devs[MAX_PM_DOMAINS];
-> +	struct device_link *pm_domain_links[MAX_PM_DOMAINS];
->  
->  	struct panfrost_features features;
->  	const struct panfrost_compatible *comp;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 4d08507526239f2..a6e162236d67fdf 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -663,6 +663,8 @@ const char * const default_supplies[] = { "mali" };
->  static const struct panfrost_compatible default_data = {
->  	.num_supplies = ARRAY_SIZE(default_supplies),
->  	.supply_names = default_supplies,
-> +	.num_pm_domains = 1, /* optional */
-> +	.pm_domain_names = NULL,
->  };
->  
->  static const struct of_device_id dt_match[] = {
-> 
+> +static struct gpiod_lookup_table corgi_lcdcon_gpio_table = {
+> +	.dev_id = "spi0.1",
 
+How did you arrive at this dev_id?
+
+corgi_spi_devices set the bus num for corgi-lcd to 1.
+
+
+> +	.table = {
+> +		GPIO_LOOKUP("gpio-pxa", CORGI_GPIO_BACKLIGHT_CONT,
+> +			    "BL_CONT", GPIO_ACTIVE_HIGH),
+> +		{ },
+> +	},
+> +};
+> +
+>  static struct corgi_lcd_platform_data corgi_lcdcon_info = {
+>  	.init_mode		= CORGI_LCD_MODE_VGA,
+>  	.max_intensity		= 0x2f,
+>  	.default_intensity	= 0x1f,
+>  	.limit_mask		= 0x0b,
+> -	.gpio_backlight_cont	= CORGI_GPIO_BACKLIGHT_CONT,
+> -	.gpio_backlight_on	= -1,
+>  	.kick_battery		= corgi_bl_kick_battery,
+>  };
+>  
+> @@ -609,6 +616,7 @@ static struct spi_board_info corgi_spi_devices[] = {
+>  static void __init corgi_init_spi(void)
+>  {
+>  	pxa2xx_set_spi_info(1, &corgi_spi_info);
+> +	gpiod_add_lookup_table(&corgi_lcdcon_gpio_table);
+>  	spi_register_board_info(ARRAY_AND_SIZE(corgi_spi_devices));
+>  }
+>  #else
+> diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
+> index a4fdc399d152..82e80a257c0f 100644
+> --- a/arch/arm/mach-pxa/spitz.c
+> +++ b/arch/arm/mach-pxa/spitz.c
+> @@ -525,13 +525,33 @@ static void spitz_bl_kick_battery(void)
+>  	}
+>  }
+>  
+> +static struct gpiod_lookup_table spitz_lcdcon_gpio_table = {
+> +	.dev_id = "spi0.1",
+
+Similar to above, spitz_spi_devices set the bus number to 2.
+
+
+Daniel.
+
+
+> +	.table = {
+> +		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_BACKLIGHT_CONT,
+> +			    "BL_CONT", GPIO_ACTIVE_LOW),
+> +		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_BACKLIGHT_ON,
+> +			    "BL_ON", GPIO_ACTIVE_HIGH),
+> +		{ },
+> +	},
+> +};
+> +
+> +static struct gpiod_lookup_table akita_lcdcon_gpio_table = {
+> +	.dev_id = "spi0.1",
+> +	.table = {
+> +		GPIO_LOOKUP("gpio-pxa", AKITA_GPIO_BACKLIGHT_CONT,
+> +			    "BL_CONT", GPIO_ACTIVE_LOW),
+> +		GPIO_LOOKUP("gpio-pxa", AKITA_GPIO_BACKLIGHT_ON,
+> +			    "BL_ON", GPIO_ACTIVE_HIGH),
+> +		{ },
+> +	},
+> +};
+> +
+>  static struct corgi_lcd_platform_data spitz_lcdcon_info = {
+>  	.init_mode		= CORGI_LCD_MODE_VGA,
+>  	.max_intensity		= 0x2f,
+>  	.default_intensity	= 0x1f,
+>  	.limit_mask		= 0x0b,
+> -	.gpio_backlight_cont	= SPITZ_GPIO_BACKLIGHT_CONT,
+> -	.gpio_backlight_on	= SPITZ_GPIO_BACKLIGHT_ON,
+>  	.kick_battery		= spitz_bl_kick_battery,
+>  };
+>  
+> @@ -574,12 +594,10 @@ static struct pxa2xx_spi_controller spitz_spi_info = {
+>  
+>  static void __init spitz_spi_init(void)
+>  {
+> -	struct corgi_lcd_platform_data *lcd_data = &spitz_lcdcon_info;
+> -
+> -	if (machine_is_akita()) {
+> -		lcd_data->gpio_backlight_cont = AKITA_GPIO_BACKLIGHT_CONT;
+> -		lcd_data->gpio_backlight_on = AKITA_GPIO_BACKLIGHT_ON;
+> -	}
+> +	if (machine_is_akita())
+> +		gpiod_add_lookup_table(&akita_lcdcon_gpio_table);
+> +	else
+> +		gpiod_add_lookup_table(&spitz_lcdcon_gpio_table);
+>  
+>  	pxa2xx_set_spi_info(2, &spitz_spi_info);
+>  	spi_register_board_info(ARRAY_AND_SIZE(spitz_spi_devices));
+> diff --git a/drivers/video/backlight/corgi_lcd.c b/drivers/video/backlight/corgi_lcd.c
+> index 68f7592c5060..25ef0cbd7583 100644
+> --- a/drivers/video/backlight/corgi_lcd.c
+> +++ b/drivers/video/backlight/corgi_lcd.c
+> @@ -15,7 +15,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/init.h>
+>  #include <linux/delay.h>
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/fb.h>
+>  #include <linux/lcd.h>
+>  #include <linux/spi/spi.h>
+> @@ -90,9 +90,8 @@ struct corgi_lcd {
+>  	int	mode;
+>  	char	buf[2];
+>  
+> -	int	gpio_backlight_on;
+> -	int	gpio_backlight_cont;
+> -	int	gpio_backlight_cont_inverted;
+> +	struct gpio_desc *backlight_on;
+> +	struct gpio_desc *backlight_cont;
+>  
+>  	void (*kick_battery)(void);
+>  };
+> @@ -403,13 +402,13 @@ static int corgi_bl_set_intensity(struct corgi_lcd *lcd, int intensity)
+>  	corgi_ssp_lcdtg_send(lcd, DUTYCTRL_ADRS, intensity);
+>  
+>  	/* Bit 5 via GPIO_BACKLIGHT_CONT */
+> -	cont = !!(intensity & 0x20) ^ lcd->gpio_backlight_cont_inverted;
+> +	cont = !!(intensity & 0x20);
+>  
+> -	if (gpio_is_valid(lcd->gpio_backlight_cont))
+> -		gpio_set_value_cansleep(lcd->gpio_backlight_cont, cont);
+> +	if (lcd->backlight_cont)
+> +		gpiod_set_value_cansleep(lcd->backlight_cont, cont);
+>  
+> -	if (gpio_is_valid(lcd->gpio_backlight_on))
+> -		gpio_set_value_cansleep(lcd->gpio_backlight_on, intensity);
+> +	if (lcd->backlight_on)
+> +		gpiod_set_value_cansleep(lcd->backlight_on, intensity);
+>  
+>  	if (lcd->kick_battery)
+>  		lcd->kick_battery();
+> @@ -482,48 +481,17 @@ static int setup_gpio_backlight(struct corgi_lcd *lcd,
+>  				struct corgi_lcd_platform_data *pdata)
+>  {
+>  	struct spi_device *spi = lcd->spi_dev;
+> -	int err;
+> -
+> -	lcd->gpio_backlight_on = -1;
+> -	lcd->gpio_backlight_cont = -1;
+> -
+> -	if (gpio_is_valid(pdata->gpio_backlight_on)) {
+> -		err = devm_gpio_request(&spi->dev, pdata->gpio_backlight_on,
+> -					"BL_ON");
+> -		if (err) {
+> -			dev_err(&spi->dev,
+> -				"failed to request GPIO%d for backlight_on\n",
+> -				pdata->gpio_backlight_on);
+> -			return err;
+> -		}
+> -
+> -		lcd->gpio_backlight_on = pdata->gpio_backlight_on;
+> -		gpio_direction_output(lcd->gpio_backlight_on, 0);
+> -	}
+>  
+> -	if (gpio_is_valid(pdata->gpio_backlight_cont)) {
+> -		err = devm_gpio_request(&spi->dev, pdata->gpio_backlight_cont,
+> -					"BL_CONT");
+> -		if (err) {
+> -			dev_err(&spi->dev,
+> -				"failed to request GPIO%d for backlight_cont\n",
+> -				pdata->gpio_backlight_cont);
+> -			return err;
+> -		}
+> -
+> -		lcd->gpio_backlight_cont = pdata->gpio_backlight_cont;
+> -
+> -		/* spitz and akita use both GPIOs for backlight, and
+> -		 * have inverted polarity of GPIO_BACKLIGHT_CONT
+> -		 */
+> -		if (gpio_is_valid(lcd->gpio_backlight_on)) {
+> -			lcd->gpio_backlight_cont_inverted = 1;
+> -			gpio_direction_output(lcd->gpio_backlight_cont, 1);
+> -		} else {
+> -			lcd->gpio_backlight_cont_inverted = 0;
+> -			gpio_direction_output(lcd->gpio_backlight_cont, 0);
+> -		}
+> -	}
+> +	lcd->backlight_on = devm_gpiod_get_optional(&spi->dev,
+> +						    "BL_ON", GPIOD_OUT_LOW);
+> +	if (IS_ERR(lcd->backlight_on))
+> +		return PTR_ERR(lcd->backlight_on);
+> +
+> +	lcd->backlight_cont = devm_gpiod_get_optional(&spi->dev, "BL_CONT",
+> +						      GPIOD_OUT_LOW);
+> +	if (IS_ERR(lcd->backlight_cont))
+> +		return PTR_ERR(lcd->backlight_cont);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/include/linux/spi/corgi_lcd.h b/include/linux/spi/corgi_lcd.h
+> index edf4beccdadb..0b857616919c 100644
+> --- a/include/linux/spi/corgi_lcd.h
+> +++ b/include/linux/spi/corgi_lcd.h
+> @@ -11,9 +11,6 @@ struct corgi_lcd_platform_data {
+>  	int	default_intensity;
+>  	int	limit_mask;
+>  
+> -	int	gpio_backlight_on;	/* -1 if n/a */
+> -	int	gpio_backlight_cont;	/* -1 if n/a */
+> -
+>  	void (*notify)(int intensity);
+>  	void (*kick_battery)(void);
+>  };
+> -- 
+> 2.23.0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
