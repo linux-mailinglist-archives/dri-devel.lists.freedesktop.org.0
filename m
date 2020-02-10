@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F76157185
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 10:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAD0157194
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 10:25:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E08746EB9C;
-	Mon, 10 Feb 2020 09:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86CA89938;
+	Mon, 10 Feb 2020 09:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C5B46EB9C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 09:20:51 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id s144so7972163wme.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 01:20:51 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5926689938
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 09:24:54 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id u6so6680211wrt.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 01:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kqA4z/KrRYYfR7NxdfPxqdx0TKr6Kt3GCdNDwPp1nIc=;
- b=PSM5XxO4mDU5riRJblmUepHui8Q59AcsZ+zNlffUlDAm+GsX2U70gd+hffgSbJARBs
- APHLgyrWxDUGdC14rCjnLOYSOx1rXhAziMwwsGTxy6Jz8sdqT83oF8njrMDMlb4iVZi9
- XcXJAWbnWltjWMOPenvTpMOsyWub4QaEzclz8avIcFr098sVVhQbN3jCihxn8wZvs6g2
- pJpv+zn3pUv9JSt0T1bfMvIHc8YW0gSfu9+izsrjPIVXSoUosa7Jkit2Z8Mv1ayS/6Nu
- 6/+8BCyaDJ16r5tT8KBnp+kHxCpBFmVP/vojtFIhzC2WZJlHCVNG95QoNnaQG1CV45cE
- OJJQ==
+ bh=6LLNGWwnNqxNd6F2xQZE8zoYhDbdrpNBw6F4uoch4qI=;
+ b=ZLDcC7OLt3G31KAu25tSEdvNou0PhatIGyppZwEu9itBb1t4yIkP/svSC6l96YKiVL
+ xjTlS84Zy7/nCgwpwmTGFbdxD2eBTw52iqzOMxlXNYhtv9Undcr8k9mbeQuoQY08/yBk
+ Gb/v8CCIJnNE3oX5YVgoBu+S2wUVdKKeDQRSoyfjgJsPYkgp+rvvew9bxKVbdHfi6xKp
+ uC44YYDZSP2mlVAyyiTnAAoqUlXsjjwJtRRf1tk9kiKWg1t6EWpL1FXr2rcqxHxICP2d
+ 1VqmGAllGW6b37CatwNj5HVUirepg9WTlYJ06/3Le2QoD18fd9Oe6hh3IlpZQzm/Ya0v
+ 3Nhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=kqA4z/KrRYYfR7NxdfPxqdx0TKr6Kt3GCdNDwPp1nIc=;
- b=HKUhpgUBntNVX/CN/UOGPPZR6BeyFeSY8f+kr+bF4w3wgPlPmFOwGoltcm8rF10sFl
- pT8e6NkEZmXfnIIgNaCme5EZaAYsbdS3V4V9Ktphzj1tue3faCeb808xByB/CCl5VT1d
- XmyizMkJj+sgIe8G8nWGNP5awr4kVVLiB/W27jRgp3r/SPmdgVijEpJX4ABgdujXOdNs
- TGWwxCXsY/cIxgOVMUPHFX64QjYkYA7UBSgJd29ohoV08nXpu4ybXfIltithqeCbEp2L
- lPMV6l3181GhWVUJK1lrGRIQU20ZvApH54Cr9eV0cWcpUsa7UGbHeeEsfgt6KAdqtvfZ
- JXDQ==
-X-Gm-Message-State: APjAAAWJnGCmr6VhB0E9zrgyHUxjrs0q0Rc8mkHRNpfVh6b+sIax2iEU
- Au32tVX+qsVm8Wz8dJTt1yuCkw==
-X-Google-Smtp-Source: APXvYqxT5R0CRafx/m1iHFrCtOufgVnpspnTOEB1XguNXcHzVbbLzB4vuwoU12LMWvwr13z2PcFChg==
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr14047727wml.173.1581326449987; 
- Mon, 10 Feb 2020 01:20:49 -0800 (PST)
+ bh=6LLNGWwnNqxNd6F2xQZE8zoYhDbdrpNBw6F4uoch4qI=;
+ b=thwDOtUZe+vXJ0SkP9Lx/8cb23xr2Lu8gA6kEWqR+NSpDPotFr/0XqNC1FcHCFRt0w
+ IAtYLYASV3ux2DAUrJMZ42MjchEE5mxCUknQ7jexXdrfy/RQF4vO0u/YIGsWyvW3cFl6
+ AuFoGF7qVez0HJ+hZaEitukZT58ePpRQg3E7qhJNafk9nrXwdJUcB6c5eeIPJeHcn0CV
+ p9VPzfL1TsX2q3AfmHMdzMEGjoFLMuJk253oS7r1abiKFAkmwqBFZ+YtoKPRl4Z3gXfu
+ iqUUinHZPbGFlPONzmCQBtk5zqUnVsPbjPWA2rwT9s4/LMxUkCAmXsrir2fD89QUXWqt
+ W/XQ==
+X-Gm-Message-State: APjAAAVhQrUwgSiXTEUWTTq9xqnVihrzZX59QgMRQBnrvSh4BCkUsqR/
+ bqxf+J5+Jict49MSc3/9MiDewg==
+X-Google-Smtp-Source: APXvYqwWmHHZ07oJdmYmRDGOHUzm8xZAXkbqyM/BPjQx4uigstOFbyC/KKJzipZNxpU6sNepxRPLjg==
+X-Received: by 2002:adf:a35e:: with SMTP id d30mr803652wrb.33.1581326692747;
+ Mon, 10 Feb 2020 01:24:52 -0800 (PST)
 Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id c4sm14416371wml.7.2020.02.10.01.20.49
+ by smtp.gmail.com with ESMTPSA id l15sm15458585wrv.39.2020.02.10.01.24.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2020 01:20:49 -0800 (PST)
-Subject: Re: [PATCH v2 resend/trivial] drm/bridge: ti-tfp410: Update
- drm_connector_init_with_ddc() error message
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Andrzej Hajda <a.hajda@samsung.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Jiri Kosina <trivial@kernel.org>
-References: <20200115125653.5519-1-geert+renesas@glider.be>
+ Mon, 10 Feb 2020 01:24:52 -0800 (PST)
+Subject: Re: [PATCH v4 0/3] drm: bridge: adv7511: Add support for ADV7535
+To: Bogdan Togorean <bogdan.togorean@analog.com>,
+ dri-devel@lists.freedesktop.org
+References: <20200121082719.27972-1-bogdan.togorean@analog.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +104,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <5acaf4a9-ac9d-d920-1e9c-51db87d213ca@baylibre.com>
-Date: Mon, 10 Feb 2020 10:20:48 +0100
+Message-ID: <ec42e0c3-9238-a193-b1a8-57fee89dd185@baylibre.com>
+Date: Mon, 10 Feb 2020 10:24:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200115125653.5519-1-geert+renesas@glider.be>
+In-Reply-To: <20200121082719.27972-1-bogdan.togorean@analog.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,44 +123,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: mark.rutland@arm.com, robdclark@chromium.org, jernej.skrabec@siol.net,
+ jonas@kwiboo.se, airlied@linux.ie, gregkh@linuxfoundation.org,
+ wsa+renesas@sang-engineering.com, linux-kernel@vger.kernel.org,
+ a.hajda@samsung.com, robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
+ alexander.deucher@amd.com, tglx@linutronix.de, sam@ravnborg.org,
+ matt.redfearn@thinci.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/01/2020 13:56, Geert Uytterhoeven wrote:
-> The code was changed to call drm_connector_init_with_ddc() instead of
-> drm_connector_init(), but the corresponding error message was not
-> updated.
+On 21/01/2020 09:27, Bogdan Togorean wrote:
+> This patch-set add support for ADV7535 part in ADV7511 driver.
 > 
-> Fixes: cfb444552926989f ("drm/bridge: ti-tfp410: Provide ddc symlink in connector sysfs directory")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
-> v2:
->   - Add Reviewed-by.
-> ---
->  drivers/gpu/drm/bridge/ti-tfp410.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> ADV7535 and ADV7533 are pin to pin compatible parts but ADV7535
+> support TMDS clock upto 148.5Mhz and resolutions up to 1080p@60Hz.
 > 
-> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-> index 6f6d6d1e60ae9162..f195a4732e0badac 100644
-> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
-> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-> @@ -140,7 +140,8 @@ static int tfp410_attach(struct drm_bridge *bridge)
->  					  dvi->connector_type,
->  					  dvi->ddc);
->  	if (ret) {
-> -		dev_err(dvi->dev, "drm_connector_init() failed: %d\n", ret);
-> +		dev_err(dvi->dev, "drm_connector_init_with_ddc() failed: %d\n",
-> +			ret);
->  		return ret;
->  	}
->  
+> ---
+> Changes in v4:
+>  - get out ADV7533 v1p2 voltage selection of this patch set
+>  - removal CONFIG_DRM_I2C_ADV7533 from Kconfig moved to new commit
+> 
+> Bogdan Togorean (3):
+>   drm: bridge: adv7511: Remove DRM_I2C_ADV7533 Kconfig
+>   drm: bridge: adv7511: Add support for ADV7535
+>   dt-bindings: drm: bridge: adv7511: Add ADV7535 support
+> 
+>  .../bindings/display/bridge/adi,adv7511.txt   | 23 ++++++-----
+>  drivers/gpu/drm/bridge/adv7511/Kconfig        | 13 ++----
+>  drivers/gpu/drm/bridge/adv7511/Makefile       |  3 +-
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h      | 40 +------------------
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  | 20 +++++-----
+>  5 files changed, 26 insertions(+), 73 deletions(-)
 > 
 
-Applied to drm-misc-fixes
+Applying to drm-misc-next with Andrzej's r-b, patchwork missed them...
+
+Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
