@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292BE157182
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 10:18:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F76157185
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 10:20:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53C926EB9B;
-	Mon, 10 Feb 2020 09:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E08746EB9C;
+	Mon, 10 Feb 2020 09:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5806EB9B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 09:18:10 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id y17so6600111wrh.5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 01:18:10 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C5B46EB9C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 09:20:51 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id s144so7972163wme.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 01:20:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fdq4V4NNkimlLI4jl7ariiYtfszcDU04PKAsj3DHA80=;
- b=DcaipFLM5NQnOep0rmE/Cp/7DcVe49qV8cqEVbBH69V94PG2cAydY6sYMUJLONioSM
- owmhPp0dXAPrvLIC0ywBKOaNCoRCsqcn6ZcuxaD6hATDvu0nNPDg/DhBC6vsSpFOViOy
- Y2m8Ig2HP+IbO6wM/JJIijll1biXf+VipvlPGQ1NI4ekZT+6+Snmsusj+BrHHmzTRSN5
- vRCGpMyn1IVPa4auZbBWuklxq3k5GKTQfSqX//mTZ/nqINCvyp0zVW5CVPnfp1DZSEhH
- c6JJN2BsnsEEDdQ4LiFyziTijZGnMotveIzualeSiPTsQYIBAOYPHaqP1GvJGm9yLlRE
- YBmw==
+ bh=kqA4z/KrRYYfR7NxdfPxqdx0TKr6Kt3GCdNDwPp1nIc=;
+ b=PSM5XxO4mDU5riRJblmUepHui8Q59AcsZ+zNlffUlDAm+GsX2U70gd+hffgSbJARBs
+ APHLgyrWxDUGdC14rCjnLOYSOx1rXhAziMwwsGTxy6Jz8sdqT83oF8njrMDMlb4iVZi9
+ XcXJAWbnWltjWMOPenvTpMOsyWub4QaEzclz8avIcFr098sVVhQbN3jCihxn8wZvs6g2
+ pJpv+zn3pUv9JSt0T1bfMvIHc8YW0gSfu9+izsrjPIVXSoUosa7Jkit2Z8Mv1ayS/6Nu
+ 6/+8BCyaDJ16r5tT8KBnp+kHxCpBFmVP/vojtFIhzC2WZJlHCVNG95QoNnaQG1CV45cE
+ OJJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=fdq4V4NNkimlLI4jl7ariiYtfszcDU04PKAsj3DHA80=;
- b=BIBVcOQXIn0G2vYBb6mpC8a4h6FaaAVRiQvBqiCQpelsWLzRSk2Vraky6ts9XxG7Rs
- BVcgz758rFO2Ns+t8LEGxy8hMfWTT78tmWRFpMt+rltp9XTUZAcqFqTOxYaKh4oCbozR
- SytR1ZPSfTZOGM61aLM6TF5baX0IxEIHUT50VxjmDYuyHkoqr2/5q5m174MbHz+60sud
- nB/LgC7tYmKI8i9DW2GSGMERuVd7B2INeIonK5bLvkieQnMwx+SEi7eglrxyWX1QZDv7
- ZPHH2HyI0yErPG7uxZQPhUzcPSAttcq4i/m3MNX2B5k83/gApMjI6YBqAAXHsy2lZjTZ
- LtrA==
-X-Gm-Message-State: APjAAAVOJKHUyvorbUIO/ucWiSvylKhRPvDXcOSMXeLPDjDIHgSaE+/M
- BFMcTdi3/NgVxp+N2TdTqelCJA==
-X-Google-Smtp-Source: APXvYqzoWAZfQGXp3Zune4L3amEKH9Zel2n2L/0Luld6iqe1Wzp7b3/dD2Lju1+zmjlUsUfviaqmEw==
-X-Received: by 2002:adf:f012:: with SMTP id j18mr831811wro.314.1581326288873; 
- Mon, 10 Feb 2020 01:18:08 -0800 (PST)
+ bh=kqA4z/KrRYYfR7NxdfPxqdx0TKr6Kt3GCdNDwPp1nIc=;
+ b=HKUhpgUBntNVX/CN/UOGPPZR6BeyFeSY8f+kr+bF4w3wgPlPmFOwGoltcm8rF10sFl
+ pT8e6NkEZmXfnIIgNaCme5EZaAYsbdS3V4V9Ktphzj1tue3faCeb808xByB/CCl5VT1d
+ XmyizMkJj+sgIe8G8nWGNP5awr4kVVLiB/W27jRgp3r/SPmdgVijEpJX4ABgdujXOdNs
+ TGWwxCXsY/cIxgOVMUPHFX64QjYkYA7UBSgJd29ohoV08nXpu4ybXfIltithqeCbEp2L
+ lPMV6l3181GhWVUJK1lrGRIQU20ZvApH54Cr9eV0cWcpUsa7UGbHeeEsfgt6KAdqtvfZ
+ JXDQ==
+X-Gm-Message-State: APjAAAWJnGCmr6VhB0E9zrgyHUxjrs0q0Rc8mkHRNpfVh6b+sIax2iEU
+ Au32tVX+qsVm8Wz8dJTt1yuCkw==
+X-Google-Smtp-Source: APXvYqxT5R0CRafx/m1iHFrCtOufgVnpspnTOEB1XguNXcHzVbbLzB4vuwoU12LMWvwr13z2PcFChg==
+X-Received: by 2002:a7b:c935:: with SMTP id h21mr14047727wml.173.1581326449987; 
+ Mon, 10 Feb 2020 01:20:49 -0800 (PST)
 Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id e17sm14703418wrn.62.2020.02.10.01.18.08
+ by smtp.gmail.com with ESMTPSA id c4sm14416371wml.7.2020.02.10.01.20.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2020 01:18:08 -0800 (PST)
-Subject: Re: [PATCH] drm/bridge: tc358767: fix poll timeouts
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>
-References: <20191209082707.24531-1-tomi.valkeinen@ti.com>
- <CAHQ1cqHJYrDzrK9AUOGdF8uggLNHOS1pfZfbJcicPnYBXzddsA@mail.gmail.com>
- <943cfd61-8756-a2f4-5659-1f0335c7ed1e@ti.com>
+ Mon, 10 Feb 2020 01:20:49 -0800 (PST)
+Subject: Re: [PATCH v2 resend/trivial] drm/bridge: ti-tfp410: Update
+ drm_connector_init_with_ddc() error message
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrzej Hajda <a.hajda@samsung.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jiri Kosina <trivial@kernel.org>
+References: <20200115125653.5519-1-geert+renesas@glider.be>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <eb7dde70-5dec-3d08-06db-abafa2f96e3e@baylibre.com>
-Date: Mon, 10 Feb 2020 10:18:07 +0100
+Message-ID: <5acaf4a9-ac9d-d920-1e9c-51db87d213ca@baylibre.com>
+Date: Mon, 10 Feb 2020 10:20:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <943cfd61-8756-a2f4-5659-1f0335c7ed1e@ti.com>
+In-Reply-To: <20200115125653.5519-1-geert+renesas@glider.be>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,49 +125,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
- Chris Healy <cphealy@gmail.com>, Jyri Sarha <jsarha@ti.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTMvMDEvMjAyMCAxNDozMSwgVG9taSBWYWxrZWluZW4gd3JvdGU6Cj4gSGkgQW5kcnplaiwK
-PiAKPiBPbiAwOS8xMi8yMDE5IDE2OjQ1LCBBbmRyZXkgU21pcm5vdiB3cm90ZToKPj4gKyBDaHJp
-cyBIZWFseQo+Pgo+PiBPbiBNb24sIERlYyA5LCAyMDE5IGF0IDEyOjI3IEFNIFRvbWkgVmFsa2Vp
-bmVuIDx0b21pLnZhbGtlaW5lbkB0aS5jb20+IHdyb3RlOgo+Pj4KPj4+IExpbmsgdHJhaW5pbmcg
-ZmFpbHMgd2l0aDoKPj4+Cj4+PiDCoMKgIExpbmsgdHJhaW5pbmcgdGltZW91dCB3YWl0aW5nIGZv
-ciBMVF9MT09QRE9ORSEKPj4+IMKgwqAgbWFpbiBsaW5rIGVuYWJsZSBlcnJvcjogLTExMAo+Pj4K
-Pj4+IFRoaXMgaXMgY2F1c2VkIGJ5IHRvbyB0aWdodCB0aW1lb3V0cywgd2hpY2ggd2VyZSBjaGFu
-Z2VkIHJlY2VudGx5IGluCj4+PiBhYTkyMjEzZjM4OGIgKCJkcm0vYnJpZGdlOiB0YzM1ODc2Nzog
-U2ltcGxpZnkgcG9sbGluZyBpbiB0Y19saW5rX3RyYWluaW5nKCkiKS4KPj4+Cj4+PiBXaXRoIGEg
-cXVpY2sgZ2xhbmNlLCB0aGUgY29tbWl0IGRvZXMgbm90IGNoYW5nZSB0aGUgdGltZW91dHMuIEhv
-d2V2ZXIsCj4+PiB0aGUgbWV0aG9kIG9mIGRlbGF5aW5nL3NsZWVwaW5nIGlzIGRpZmZlcmVudCwg
-YW5kIGFzIHRoZSB0aW1lb3V0IGluIHRoZQo+Pj4gcHJldmlvdXMgaW1wbGVtZW50YXRpb24gd2Fz
-IG5vdCBleHBsaWNpdCwgdGhlIG5ldyB2ZXJzaW9uIGluIHByYWN0aWNlCj4+PiBoYXMgbXVjaCB0
-aWdodGVyIHRpbWVvdXQuCj4+Pgo+Pj4gVGhlIHNhbWUgY2hhbmdlIHdhcyBtYWRlIHRvIG90aGVy
-IHBhcnRzIGluIHRoZSBkcml2ZXIsIGJ1dCB0aGUgbGluawo+Pj4gdHJhaW5pbmcgdGltZW91dCBp
-cyB0aGUgb25seSBvbmUgSSBoYXZlIHNlZW4gY2F1c2luZyBpc3N1ZXMuCj4+PiBOZXZlcnRoZWxl
-c3MsIDEgdXMgc2xlZXAgaXMgbm90IHZlcnkgc2FuZSwgYW5kIHRoZSB0aW1lb3V0cyBsb29rIHBy
-ZXR0eQo+Pj4gdGlnaHQsIHNvIGxldHMgZml4IGFsbCB0aGUgdGltZW91dHMuCj4+Pgo+Pj4gT25l
-IGV4Y2VwdGlvbiB3YXMgdGhlIGF1eCBidXN5IHBvbGwsIHdoZXJlIHRoZSBwb2xsIHNsZWVwIHdh
-cyBtdWNoCj4+PiBsb25nZXIgdGhhbiBuZWNlc3NhcnkgKG9yIG9wdGltYWwpLgo+Pj4KPj4+IEkg
-bWVhc3VyZWQgdGhlIHRpbWVzIG9uIG15IHNldHVwLCBhbmQgbm93IHRoZSBzbGVlcCB0aW1lcyBh
-cmUgc2V0IHRvCj4+PiBzdWNoIHZhbHVlcyB0aGF0IHRoZXkgcmVzdWx0IGluIG11bHRpcGxlIGxv
-b3BzLCBidXQgbm90IHRvbyBtYW55IChzYXksCj4+PiA1LTEwIGxvb3BzKS4gVGhlIHRpbWVvdXRz
-IHdlcmUgYWxsIGluY3JlYXNlZCB0byAxMDBtcywgd2hpY2ggc2hvdWxkIGJlCj4+PiBtb3JlIHRo
-YW4gZW5vdWdoIGZvciBhbGwgb2YgdGhlc2UsIGJ1dCBpbiBjYXNlIG9mIGJhZCBlcnJvcnMsIHNo
-b3VsZG4ndAo+Pj4gc3RvcCB0aGUgZHJpdmVyIGFzIG11bHRpLXNlY29uZCB0aW1lb3V0cyBjb3Vs
-ZCBkby4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWlu
-ZW5AdGkuY29tPgo+Pj4gRml4ZXM6IGFhOTIyMTNmMzg4YiAoImRybS9icmlkZ2U6IHRjMzU4NzY3
-OiBTaW1wbGlmeSBwb2xsaW5nIGluIHRjX2xpbmtfdHJhaW5pbmcoKSIpCj4+Cj4+IFRlc3RlZCBv
-biBSRFUyIHdpdGggVEMzNTg3NjcvZURQIHBhbmVsLCBkb2Vzbid0IHNlZW0gdG8gYnJlYWsgYW55
-dGhpbmcKPj4gdGhlcmUsIHNvOgo+Pgo+PiBUZXN0ZWQtYnk6IEFuZHJleSBTbWlybm92IDxhbmRy
-ZXcuc21pcm5vdkBnbWFpbC5jb20+Cj4gCj4gQW5kcnplaiwgY2FuIHlvdSBwaWNrIHRoaXMgdXAg
-Zm9yIC1maXhlcz8KPiAKPiDCoFRvbWkKPiAKClJldmlld2VkLWJ5OiBOZWlsIEFybXN0cm9uZyA8
-bmFybXN0cm9uZ0BiYXlsaWJyZS5jb20+CgpBcHBsaWVkIHRvIGRybS1taXNjLWZpeGVzCgpOZWls
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 15/01/2020 13:56, Geert Uytterhoeven wrote:
+> The code was changed to call drm_connector_init_with_ddc() instead of
+> drm_connector_init(), but the corresponding error message was not
+> updated.
+> 
+> Fixes: cfb444552926989f ("drm/bridge: ti-tfp410: Provide ddc symlink in connector sysfs directory")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+> v2:
+>   - Add Reviewed-by.
+> ---
+>  drivers/gpu/drm/bridge/ti-tfp410.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+> index 6f6d6d1e60ae9162..f195a4732e0badac 100644
+> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
+> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+> @@ -140,7 +140,8 @@ static int tfp410_attach(struct drm_bridge *bridge)
+>  					  dvi->connector_type,
+>  					  dvi->ddc);
+>  	if (ret) {
+> -		dev_err(dvi->dev, "drm_connector_init() failed: %d\n", ret);
+> +		dev_err(dvi->dev, "drm_connector_init_with_ddc() failed: %d\n",
+> +			ret);
+>  		return ret;
+>  	}
+>  
+> 
+
+Applied to drm-misc-fixes
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
