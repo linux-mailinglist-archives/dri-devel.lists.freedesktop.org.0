@@ -2,34 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1F81570B5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 09:17:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BFB1570B9
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 09:18:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE356E91B;
-	Mon, 10 Feb 2020 08:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B74736E91F;
+	Mon, 10 Feb 2020 08:18:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEDB96E91B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 08:17:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: tomeu) with ESMTPSA id B7231283D5B
-Subject: Re: [PATCH v4 0/7] Add dts for mt8183 GPU (and misc panfrost patches)
-To: Nicolas Boichat <drinkcat@chromium.org>
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <5237381b-c232-7087-a3d6-78d6358d80bf@collabora.com>
- <CANMq1KCD1U7iym_fFWAd-Xa6ipxHmF_FAYxDL5WqGzDnA0KKLw@mail.gmail.com>
- <93aec9ae-00fc-bf55-1d6c-9bd715b78344@collabora.com>
- <CANMq1KC_nN4MQ8LKPCCNGPPeHRP18n3USXg6DRPousivn_J3aw@mail.gmail.com>
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Message-ID: <7e1ffa57-20c7-02cc-47f6-bfaebb772956@collabora.com>
-Date: Mon, 10 Feb 2020 09:17:42 +0100
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F15F6E91F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 08:18:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id BEA94AC6E;
+ Mon, 10 Feb 2020 08:18:52 +0000 (UTC)
+Subject: Re: [PATCH v4 18/22] drm/vc4: Convert to CRTC VBLANK callbacks
+To: Eric Anholt <eric@anholt.net>, dri-devel <dri-devel@lists.freedesktop.org>
+References: <20200123135943.24140-1-tzimmermann@suse.de>
+ <20200123135943.24140-19-tzimmermann@suse.de>
+ <CADaigPXhkzHpXhrbb_A-uLmAjkXReXhbqmZ3yta9CUnBhSp_ig@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <a874c4c9-c308-372d-4127-f2f1e2666317@suse.de>
+Date: Mon, 10 Feb 2020 09:18:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CANMq1KC_nN4MQ8LKPCCNGPPeHRP18n3USXg6DRPousivn_J3aw@mail.gmail.com>
-Content-Language: en-US
+In-Reply-To: <CADaigPXhkzHpXhrbb_A-uLmAjkXReXhbqmZ3yta9CUnBhSp_ig@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,213 +65,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1078390252=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/10/20 4:39 AM, Nicolas Boichat wrote:
-> On Fri, Feb 7, 2020 at 4:13 PM Tomeu Vizoso <tomeu.vizoso@collabora.com> wrote:
->>
->> On 2/7/20 8:42 AM, Nicolas Boichat wrote:
->>> On Fri, Feb 7, 2020 at 2:18 PM Tomeu Vizoso <tomeu.vizoso@collabora.com> wrote:
->>>>
->>>>> Some more changes are still required to get devfreq working, and of course
->>>>> I do not have a userspace driver to test this with.
->>>>
->>>> Have you tried the Panfrost tests in IGT? They are atm quite basic, but
->>>> could be interesting to check that the different HW units are correctly
->>>> powered on.
->>>
->>> I haven't, you mean this right?
->>> https://gitlab.freedesktop.org/tomeu/igt-gpu-tools/tree/panfrost
->>
->> Yes, though may be better to use the upstream repo:
->>
->> https://gitlab.freedesktop.org/drm/igt-gpu-tools
->>
->>> Any specific test you have in mind?
->>
->> All the panfrost ones, but looks like panfrost_prime:gem-prime-import is
->> failing atm:
->>
->> https://lava.collabora.co.uk/scheduler/job/2214987
-> 
-> (I first removed opp table from device tree to avoid constant spew
-> about devfreq not supporting 2 regulators, I should get around to fix
-> that...)
-> 
-> # /usr/libexec/igt-gpu-tools/panfrost_gem_new
-> IGT-Version: 1.24-gd4d574a4 (arm) (Linux: 4.19.99 aarch64)
-> Starting subtest: gem-new-4096
-> Subtest gem-new-4096: SUCCESS (0.000s)
-> Starting subtest: gem-new-0
-> Subtest gem-new-0: SUCCESS (0.000s)
-> Starting subtest: gem-new-zeroed
-> Subtest gem-new-zeroed: SUCCESS (0.001s)
-> # /usr/libexec/igt-gpu-tools/panfrost_get_param
-> IGT-Version: 1.24-gd4d574a4 (arm) (Linux: 4.19.99 aarch64)
-> Starting subtest: base-params
-> Subtest base-params: SUCCESS (0.000s)
-> Starting subtest: get-bad-param
-> Subtest get-bad-param: SUCCESS (0.000s)
-> Starting subtest: get-bad-padding
-> Subtest get-bad-padding: SUCCESS (0.000s)
-> # /usr/libexec/igt-gpu-tools/panfrost_prime
-> IGT-Version: 1.24-gd4d574a4 (arm) (Linux: 4.19.99 aarch64)
-> Starting subtest: gem-prime-import
-> (panfrost_prime:1527) ioctl_wrappers-CRITICAL: Test assertion failure
-> function prime_fd_to_handle, file
-> ../igt-gpu-tools-9999/lib/ioctl_wrappers.c:1336:
-> (panfrost_prime:1527) ioctl_wrappers-CRITICAL: Failed assertion:
-> igt_ioctl((fd), ((((2U|1U) << (((0+8)+8)+14)) | ((('d')) << (0+8)) |
-> (((0x2e)) << 0) | ((((sizeof(struct drm_prime_handle)))) <<
-> ((0+8)+8)))), (&args)) == 0
-> (panfrost_prime:1527) ioctl_wrappers-CRITICAL: Last errno: 95,
-> Operation not supported
-> (panfrost_prime:1527) ioctl_wrappers-CRITICAL: error: -1 != 0
-> Stack trace:
-> Subtest gem-prime-import failed.
-> Subtest gem-prime-import: FAIL (0.004s)
-> (but that looks expected?)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1078390252==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="BJpm3AkIi8CSM1ZWuNqvEObSen3sbVxg0"
 
-Yep, haven't gotten to investigate yet.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--BJpm3AkIi8CSM1ZWuNqvEObSen3sbVxg0
+Content-Type: multipart/mixed; boundary="V4A9FAeKcoQ6aG1uiZsEyWIdtKpBH51wx";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Eric Anholt <eric@anholt.net>, dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <a874c4c9-c308-372d-4127-f2f1e2666317@suse.de>
+Subject: Re: [PATCH v4 18/22] drm/vc4: Convert to CRTC VBLANK callbacks
+References: <20200123135943.24140-1-tzimmermann@suse.de>
+ <20200123135943.24140-19-tzimmermann@suse.de>
+ <CADaigPXhkzHpXhrbb_A-uLmAjkXReXhbqmZ3yta9CUnBhSp_ig@mail.gmail.com>
+In-Reply-To: <CADaigPXhkzHpXhrbb_A-uLmAjkXReXhbqmZ3yta9CUnBhSp_ig@mail.gmail.com>
 
-> Now the trickier ones, I guess we're either missing something, or my
-> dirty 4.19 backport is very broken:
+--V4A9FAeKcoQ6aG1uiZsEyWIdtKpBH51wx
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Damn, looks like the simple job we use to test submits doesn't work as-is 
-on your GPU.
+adding dri-devel
 
-But things seem to work otherwise, so probably the kernel driver is fully 
-functional with your changes.
-
-Cheers,
-
-Tomeu
-
-> # /usr/libexec/igt-gpu-tools/panfrost_submit
-> IGT-Version: 1.24-gd4d574a4 (arm) (Linux: 4.19.99 aarch64)
-> Starting subtest: pan-submit
-> (panfrost_submit:1643) CRITICAL: Test assertion failure function
-> __real_main86, file ../igt-gpu-tools-9999/tests/panfrost_submit.c:103:
-> (panfrost_submit:1643) CRITICAL: Failed assertion: syncobj_wait(fd,
-> &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_NSEC), 0, NULL)
-> Stack trace:
-> Subtest pan-submit failed.
-> **** DEBUG ****
-> (panfrost_submit:1643) CRITICAL: Test assertion failure function
-> __real_main86, file ../igt-gpu-tools-9999/tests/panfrost_submit.c:103:
-> (panfrost_submit:1643) CRITICAL: Failed assertion: syncobj_wait(fd,
-> &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_NSEC), 0, NULL)
-> (panfrost_submit:1643) igt_core-INFO: Stack trace:
-> ****  END  ****
-> Subtest pan-submit: FAIL (0.119s)
-> Starting subtest: pan-submit-error-no-jc
-> Subtest pan-submit-error-no-jc: SUCCESS (0.000s)
-> Starting subtest: pan-submit-error-bad-in-syncs
-> Subtest pan-submit-error-bad-in-syncs: SUCCESS (0.012s)
-> Starting subtest: pan-submit-error-bad-bo-handles
-> Subtest pan-submit-error-bad-bo-handles: SUCCESS (0.012s)
-> Starting subtest: pan-submit-error-bad-requirements
-> Subtest pan-submit-error-bad-requirements: SUCCESS (0.012s)
-> Starting subtest: pan-submit-error-bad-out-sync
-> Subtest pan-submit-error-bad-out-sync: SUCCESS (0.012s)
-> Starting subtest: pan-reset
-> (panfrost_submit:1643) CRITICAL: Test assertion failure function
-> __real_main86, file ../igt-gpu-tools-9999/tests/panfrost_submit.c:173:
-> (panfrost_submit:1643) CRITICAL: Failed assertion: syncobj_wait(fd,
-> &submit->args->out_sync, 1, abs_timeout(BAD_JOB_TIME_NSEC), 0, NULL)
-> Stack trace:
-> Subtest pan-reset failed.
-> **** DEBUG ****
-> (panfrost_submit:1643) CRITICAL: Test assertion failure function
-> __real_main86, file ../igt-gpu-tools-9999/tests/panfrost_submit.c:173:
-> (panfrost_submit:1643) CRITICAL: Failed assertion: syncobj_wait(fd,
-> &submit->args->out_sync, 1, abs_timeout(BAD_JOB_TIME_NSEC), 0, NULL)
-> (panfrost_submit:1643) igt_core-INFO: Stack trace:
-> ****  END  ****
-> Subtest pan-reset: FAIL (0.840s)
-> 
-> The pan-submit case causes an MMU fault:
-> (full log: https://gist.github.com/drinkcat/1ae36cb1b1b71f30cc4fc29759612d76)
-> 
-> [ 1215.234937] [IGT] panfrost_submit: executing
-> [ 1215.318446] [IGT] panfrost_submit: starting subtest pan-submit
-> ...
-> [ 1215.338644] panfrost 13040000.gpu: Unhandled Page fault in AS0 at
-> VA 0x000000FF00000000
->                 Reason: TODO
->                 raw fault status: 0xA002C0
->                 decoded fault status: SLAVE FAULT
->                 exception type 0xC0: UNKNOWN
->                 access type 0x2: READ
->                 source id 0xA0
-> [ 1215.444504] [IGT] panfrost_submit: exiting, ret=98
-> ...
-> [ 1215.446902] panfrost 13040000.gpu: js fault, js=0,
-> status=JOB_BUS_FAULT, head=0x300b000, tail=0x300b000
-> [ 1215.446935] panfrost 13040000.gpu: Unhandled Page fault in AS0 at
-> VA 0x000000FF00000000
-> Reason: TODO
-> raw fault status: 0xA002C0
-> decoded fault status: SLAVE FAULT
-> exception type 0xC0: UNKNOWN
-> access type 0x2: READ
-> source id 0xA0
-> 
-> pan-reset failure looks similar:
-> https://gist.github.com/drinkcat/2d336d57e6b95262d83e7a28a409bc5b
-> 
-> Thanks,
-> 
->> Cheers,
+Am 04.02.20 um 20:17 schrieb Eric Anholt:
+> vc4 changes are:
+>=20
+> Acked-by: Eric Anholt <eric@anholt.net>
+>=20
+> On Thu, Jan 23, 2020 at 6:00 AM Thomas Zimmermann <tzimmermann@suse.de>=
+ wrote:
 >>
->> Tomeu
+>> VBLANK callbacks in struct drm_driver are deprecated in favor of
+>> their equivalents in struct drm_crtc_funcs. Convert vc4 over.
 >>
->>> Thanks,
->>>
->>>> Regards,
->>>>
->>>> Tomeu
->>>>
->>>>> I believe at least patches 1, 2, and 3 can be merged. 4 and 5 are mostly
->>>>> useful in conjunction with 6 and 7 (which are not ready yet), so I'll let
->>>>> maintainers decide.
->>>>>
->>>>> Thanks!
->>>>>
->>>>> Nicolas Boichat (7):
->>>>>      dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
->>>>>      arm64: dts: mt8183: Add node for the Mali GPU
->>>>>      drm/panfrost: Improve error reporting in panfrost_gpu_power_on
->>>>>      drm/panfrost: Add support for multiple regulators
->>>>>      drm/panfrost: Add support for multiple power domains
->>>>>      RFC: drm/panfrost: Add mt8183-mali compatible string
->>>>>      RFC: drm/panfrost: devfreq: Add support for 2 regulators
->>>>>
->>>>>     .../bindings/gpu/arm,mali-bifrost.yaml        |  25 ++++
->>>>>     arch/arm64/boot/dts/mediatek/mt8183-evb.dts   |   7 +
->>>>>     arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 105 +++++++++++++++
->>>>>     drivers/gpu/drm/panfrost/panfrost_devfreq.c   |  17 +++
->>>>>     drivers/gpu/drm/panfrost/panfrost_device.c    | 123 +++++++++++++++---
->>>>>     drivers/gpu/drm/panfrost/panfrost_device.h    |  27 +++-
->>>>>     drivers/gpu/drm/panfrost/panfrost_drv.c       |  41 ++++--
->>>>>     drivers/gpu/drm/panfrost/panfrost_gpu.c       |  11 +-
->>>>>     8 files changed, 326 insertions(+), 30 deletions(-)
->>>>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/vc4/vc4_crtc.c | 1 +
+>>  drivers/gpu/drm/vc4/vc4_drv.c  | 2 --
+>>  2 files changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_=
+crtc.c
+>> index f1e7597ea17e..1208258ad3b2 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+>> @@ -1031,6 +1031,7 @@ static const struct drm_crtc_funcs vc4_crtc_func=
+s =3D {
+>>         .gamma_set =3D drm_atomic_helper_legacy_gamma_set,
+>>         .enable_vblank =3D vc4_enable_vblank,
+>>         .disable_vblank =3D vc4_disable_vblank,
+>> +       .get_vblank_timestamp =3D drm_crtc_vblank_helper_get_vblank_ti=
+mestamp,
+>>  };
+>>
+>>  static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs =3D {=
+
+>> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_d=
+rv.c
+>> index e6982a7b0c5e..76f93b662766 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+>> @@ -190,8 +190,6 @@ static struct drm_driver vc4_drm_driver =3D {
+>>         .irq_postinstall =3D vc4_irq_postinstall,
+>>         .irq_uninstall =3D vc4_irq_uninstall,
+>>
+>> -       .get_vblank_timestamp =3D drm_calc_vbltimestamp_from_scanoutpo=
+s,
+>> -
+>>  #if defined(CONFIG_DEBUG_FS)
+>>         .debugfs_init =3D vc4_debugfs_init,
+>>  #endif
+>> --
+>> 2.24.1
+>>
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--V4A9FAeKcoQ6aG1uiZsEyWIdtKpBH51wx--
+
+--BJpm3AkIi8CSM1ZWuNqvEObSen3sbVxg0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5BEdYACgkQaA3BHVML
+eiN/AQf/b2108satIBRxFEvWBUwCO1KB2dpbRMCBQa3rSrmeMm0tEPFJd9wsxTgD
+hsx/SiFe/K+i5BTU35SrUodVCTTvE9q21ChUUi1/3+Unk1cKy4zTw8lYx8HGaab6
+fDYvNexMm1Z33Im0fbrkoEYJNJzvzxAyMyNxH2JhNPfn+Q71o83W7mC6+tu2Dn0o
+RSAWSSq1s8YopAuvMxUSFxqfvjGnd9JBeRrB29EMalIg9oXTy8AA0Zur33S6EqEH
+116M8FtEF4Fvk00L5CT12hO6Wknpzk33LWXQcwDYGKUAOx1VN3R0Cq5f0kxTBts4
+kjRu8kavBfwgGAzhasypvq6Cpf/3QQ==
+=WWyS
+-----END PGP SIGNATURE-----
+
+--BJpm3AkIi8CSM1ZWuNqvEObSen3sbVxg0--
+
+--===============1078390252==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1078390252==--
