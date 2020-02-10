@@ -2,36 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710F9156D78
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 02:55:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A85156D79
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 02:56:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56116E0E4;
-	Mon, 10 Feb 2020 01:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C472A6E0DB;
+	Mon, 10 Feb 2020 01:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 794B16E0DB;
- Mon, 10 Feb 2020 01:55:52 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2020 17:55:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,423,1574150400"; 
- d="asc'?scan'208";a="405439459"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.13.14])
- by orsmga005.jf.intel.com with ESMTP; 09 Feb 2020 17:55:49 -0800
-Date: Mon, 10 Feb 2020 09:43:14 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Igor Druzhinin <igor.druzhinin@citrix.com>
-Subject: Re: [PATCH] drm/i915/gvt: more locking for ppgtt mm LRU list
-Message-ID: <20200210014314.GA28133@zhen-hp.sh.intel.com>
-References: <1580742421-25194-1-git-send-email-igor.druzhinin@citrix.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE9D6E0DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 01:56:40 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 97A4D2001E;
+ Mon, 10 Feb 2020 02:56:35 +0100 (CET)
+Date: Mon, 10 Feb 2020 02:56:34 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2 1/4] drm/tiny/repaper: Make driver OF-independent
+Message-ID: <20200210015634.GA22066@ravnborg.org>
+References: <20200131204923.48928-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1580742421-25194-1-git-send-email-igor.druzhinin@citrix.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+Content-Disposition: inline
+In-Reply-To: <20200131204923.48928-1-andriy.shevchenko@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=SJz97ENfAAAA:8
+ a=e5mUnYsNAAAA:8 a=WZHNqt2aAAAA:8 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8
+ a=aE2j6VG5sAdimHmDfK4A:9 a=wPNLvfGTeEIA:10 a=vFet0B0WnEQeilDPIY6i:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=PrHl9onO2p7xFKlKy1af:22
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,85 +47,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
- zhi.a.wang@intel.com
-Content-Type: multipart/mixed; boundary="===============1988040522=="
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ David Lechner <david@lechnology.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andy.
 
---===============1988040522==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KsGdsel6WgEHnImy"
-Content-Disposition: inline
+On Fri, Jan 31, 2020 at 10:49:22PM +0200, Andy Shevchenko wrote:
+> There is one OF call in the driver that limits its area of use.
+> Replace it to generic device_get_match_data() and get rid of OF dependenc=
+y.
+> =
 
+> While here, cast SPI driver data to certain enumerator type.
+> =
 
---KsGdsel6WgEHnImy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2020.02.03 15:07:01 +0000, Igor Druzhinin wrote:
-> When the lock was introduced in 72aabfb862e40 ("drm/i915/gvt: Add mutual
-> lock for ppgtt mm LRU list") one place got lost.
->=20
-> Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
+> Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Lechner <david@lechnology.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  drivers/gpu/drm/i915/gvt/gtt.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gt=
-t.c
-> index 34cb404..4a48280 100644
-> --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> @@ -1956,7 +1956,11 @@ void _intel_vgpu_mm_release(struct kref *mm_ref)
-> =20
->  	if (mm->type =3D=3D INTEL_GVT_MM_PPGTT) {
->  		list_del(&mm->ppgtt_mm.list);
-> +
-> +		mutex_lock(&mm->vgpu->gvt->gtt.ppgtt_mm_lock);
->  		list_del(&mm->ppgtt_mm.lru_list);
-> +		mutex_unlock(&mm->vgpu->gvt->gtt.ppgtt_mm_lock);
-> +
->  		invalidate_ppgtt_mm(mm);
+> v2: Replace cryptic macro with comment, add Rb tag (Sam)
+>  drivers/gpu/drm/tiny/repaper.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> =
+
+
+Thanks, applied this and the other three patches to drm-misc-next.
+
+	Sam
+
+> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repape=
+r.c
+> index 76d179200775..e52a19ffd7c0 100644
+> --- a/drivers/gpu/drm/tiny/repaper.c
+> +++ b/drivers/gpu/drm/tiny/repaper.c
+> @@ -17,7 +17,7 @@
+>  #include <linux/dma-buf.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+> -#include <linux/of_device.h>
+> +#include <linux/property.h>
+>  #include <linux/sched/clock.h>
+>  #include <linux/spi/spi.h>
+>  #include <linux/thermal.h>
+> @@ -40,6 +40,7 @@
+>  #define REPAPER_RID_G2_COG_ID	0x12
+>  =
+
+>  enum repaper_model {
+> +	/* 0 is reserved to avoid clashing with NULL */
+>  	E1144CS021 =3D 1,
+>  	E1190CS021,
+>  	E2200CS021,
+> @@ -995,21 +996,21 @@ static int repaper_probe(struct spi_device *spi)
+>  {
+>  	const struct drm_display_mode *mode;
+>  	const struct spi_device_id *spi_id;
+> -	const struct of_device_id *match;
+>  	struct device *dev =3D &spi->dev;
+>  	enum repaper_model model;
+>  	const char *thermal_zone;
+>  	struct repaper_epd *epd;
+>  	size_t line_buffer_size;
+>  	struct drm_device *drm;
+> +	const void *match;
+>  	int ret;
+>  =
+
+> -	match =3D of_match_device(repaper_of_match, dev);
+> +	match =3D device_get_match_data(dev);
+>  	if (match) {
+> -		model =3D (enum repaper_model)match->data;
+> +		model =3D (enum repaper_model)match;
 >  	} else {
->  		vfree(mm->ggtt_mm.virtual_ggtt);
-> --=20
+>  		spi_id =3D spi_get_device_id(spi);
+> -		model =3D spi_id->driver_data;
+> +		model =3D (enum repaper_model)spi_id->driver_data;
+>  	}
+>  =
 
-Thanks for the fix!
+>  	/* The SPI device is used to allocate dma memory */
+> -- =
 
-Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-
---=20
-Open Source Technology Center, Intel ltd.
-
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
-
---KsGdsel6WgEHnImy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXkC1MQAKCRCxBBozTXgY
-J4abAJ9rGEjuKM3P5001pSAgbWTxt3gc1gCfQm1iVfei/7raZuyFiFZ7OkbVwJE=
-=y1cr
------END PGP SIGNATURE-----
-
---KsGdsel6WgEHnImy--
-
---===============1988040522==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> 2.24.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1988040522==--
