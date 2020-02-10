@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D738157FEE
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 17:39:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23341157FF4
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 17:40:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A91A96ECBC;
-	Mon, 10 Feb 2020 16:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1916ECC0;
+	Mon, 10 Feb 2020 16:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA9C56ECBC
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 16:39:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B655E6ECC0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 16:40:06 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206475] amdgpu under load drop signal to monitor until hard reset
-Date: Mon, 10 Feb 2020 16:39:25 +0000
+Date: Mon, 10 Feb 2020 16:40:06 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206475-2300-CmTiSs8IJZ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-206475-2300-17yQMF3tW5@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206475-2300@https.bugzilla.kernel.org/>
 References: <bug-206475-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,8 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206475
 
---- Comment #3 from Marco (rodomar705@protonmail.com) ---
-Same thing with linux-amd-drm-next, dmesg attached. Any pointers to the cause?
+--- Comment #4 from Marco (rodomar705@protonmail.com) ---
+Created attachment 287277
+  --> https://bugzilla.kernel.org/attachment.cgi?id=287277&action=edit
+dmesg for amd-drm-next
 
 -- 
 You are receiving this mail because:
