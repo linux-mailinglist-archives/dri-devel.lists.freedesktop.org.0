@@ -1,32 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E474F1580C0
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 18:10:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7873B1580CC
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 18:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7DD6ECEE;
-	Mon, 10 Feb 2020 17:10:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5B346ECF3;
+	Mon, 10 Feb 2020 17:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6D396ECE6;
- Mon, 10 Feb 2020 17:10:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE0C6ECE6;
+ Mon, 10 Feb 2020 17:10:43 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2020 09:10:41 -0800
+ 10 Feb 2020 09:10:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,425,1574150400"; d="scan'208";a="233168253"
+X-IronPort-AV: E=Sophos;i="5.70,425,1574150400"; d="scan'208";a="233168256"
 Received: from helsinki.fi.intel.com ([10.237.66.159])
- by orsmga003.jf.intel.com with ESMTP; 10 Feb 2020 09:10:40 -0800
+ by orsmga003.jf.intel.com with ESMTP; 10 Feb 2020 09:10:41 -0800
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v6 09/18] drm/i915: Include DP HDR Metadata Infoframe SDP in
- the crtc state dump
-Date: Mon, 10 Feb 2020 19:10:12 +0200
-Message-Id: <20200210171021.109684-10-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v6 10/18] drm/i915: Include DP VSC SDP in the crtc state dump
+Date: Mon, 10 Feb 2020 19:10:13 +0200
+Message-Id: <20200210171021.109684-11-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200210171021.109684-1-gwan-gyeong.mun@intel.com>
 References: <20200210171021.109684-1-gwan-gyeong.mun@intel.com>
@@ -49,28 +48,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dump out the DP HDR Metadata Infoframe SDP in the normal crtc state dump.
+Dump out the DP VSC SDP in the normal crtc state dump
 
-HDMI Dynamic Range and Mastering (DRM) infoframe and DP HDR Metadata
-Infoframe SDP use the same member variable in infoframes of crtc state.
+v3: Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
+    Use drm core's DP VSC SDP logging function
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 66dbaab5867e..440e2c1c855c 100644
+index 440e2c1c855c..e3694e499b28 100644
 --- a/drivers/gpu/drm/i915/display/intel_display.c
 +++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -13161,6 +13161,9 @@ static void intel_dump_pipe_config(const struct intel_crtc_state *pipe_config,
+@@ -13006,6 +13006,16 @@ intel_dump_infoframe(struct drm_i915_private *dev_priv,
+ 	hdmi_infoframe_log(KERN_DEBUG, dev_priv->drm.dev, frame);
+ }
+ 
++static void
++intel_dump_dp_vsc_sdp(struct drm_i915_private *dev_priv,
++		      const struct drm_dp_vsc_sdp *vsc)
++{
++	if (!drm_debug_enabled(DRM_UT_KMS))
++		return;
++
++	drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, vsc);
++}
++
+ #define OUTPUT_TYPE(x) [INTEL_OUTPUT_ ## x] = #x
+ 
+ static const char * const output_type_str[] = {
+@@ -13164,6 +13174,9 @@ static void intel_dump_pipe_config(const struct intel_crtc_state *pipe_config,
  	if (pipe_config->infoframes.enable &
- 	    intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_DRM))
+ 	    intel_hdmi_infoframe_enable(HDMI_PACKET_TYPE_GAMUT_METADATA))
  		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.drm);
 +	if (pipe_config->infoframes.enable &
-+	    intel_hdmi_infoframe_enable(HDMI_PACKET_TYPE_GAMUT_METADATA))
-+		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.drm);
++	    intel_hdmi_infoframe_enable(DP_SDP_VSC))
++		intel_dump_dp_vsc_sdp(dev_priv, &pipe_config->infoframes.vsc);
  
  	drm_dbg_kms(&dev_priv->drm, "requested mode:\n");
  	drm_mode_debug_printmodeline(&pipe_config->hw.mode);
