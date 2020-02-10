@@ -2,44 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15041156C6A
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2020 21:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710F9156D78
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 02:55:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE7B6E87F;
-	Sun,  9 Feb 2020 20:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C56116E0E4;
+	Mon, 10 Feb 2020 01:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E10C86E87F
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2020 20:36:39 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206475] New: amdgpu under load drop signal to monitor until
- hard reset
-Date: Sun, 09 Feb 2020 20:36:39 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rodomar705@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-206475-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 794B16E0DB;
+ Mon, 10 Feb 2020 01:55:52 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2020 17:55:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,423,1574150400"; 
+ d="asc'?scan'208";a="405439459"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.13.14])
+ by orsmga005.jf.intel.com with ESMTP; 09 Feb 2020 17:55:49 -0800
+Date: Mon, 10 Feb 2020 09:43:14 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Igor Druzhinin <igor.druzhinin@citrix.com>
+Subject: Re: [PATCH] drm/i915/gvt: more locking for ppgtt mm LRU list
+Message-ID: <20200210014314.GA28133@zhen-hp.sh.intel.com>
+References: <1580742421-25194-1-git-send-email-igor.druzhinin@citrix.com>
 MIME-Version: 1.0
+In-Reply-To: <1580742421-25194-1-git-send-email-igor.druzhinin@citrix.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,70 +44,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ zhi.a.wang@intel.com
+Content-Type: multipart/mixed; boundary="===============1988040522=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206475
 
-            Bug ID: 206475
-           Summary: amdgpu under load drop signal to monitor until hard
-                    reset
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.5.2
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: rodomar705@protonmail.com
-        Regression: No
+--===============1988040522==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="KsGdsel6WgEHnImy"
+Content-Disposition: inline
 
-Created attachment 287265
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287265&action=edit
-dmesg for the amdgpu hardware freeze
 
-While gaming the monitor goes blank randomly, only with this error in the logs
-of the system
+--KsGdsel6WgEHnImy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-kernel: amdgpu: [powerplay] last message was failed ret is 65535
-kernel: amdgpu: [powerplay] failed to send message 200 ret is 65535 
-kernel: amdgpu: [powerplay] last message was failed ret is 65535
-kernel: amdgpu: [powerplay] failed to send message 282 ret is 65535 
-kernel: amdgpu: [powerplay] last message was failed ret is 65535
-kernel: amdgpu: [powerplay] failed to send message 201 ret is 65535
+On 2020.02.03 15:07:01 +0000, Igor Druzhinin wrote:
+> When the lock was introduced in 72aabfb862e40 ("drm/i915/gvt: Add mutual
+> lock for ppgtt mm LRU list") one place got lost.
+>=20
+> Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
+> ---
+>  drivers/gpu/drm/i915/gvt/gtt.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gt=
+t.c
+> index 34cb404..4a48280 100644
+> --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> @@ -1956,7 +1956,11 @@ void _intel_vgpu_mm_release(struct kref *mm_ref)
+> =20
+>  	if (mm->type =3D=3D INTEL_GVT_MM_PPGTT) {
+>  		list_del(&mm->ppgtt_mm.list);
+> +
+> +		mutex_lock(&mm->vgpu->gvt->gtt.ppgtt_mm_lock);
+>  		list_del(&mm->ppgtt_mm.lru_list);
+> +		mutex_unlock(&mm->vgpu->gvt->gtt.ppgtt_mm_lock);
+> +
+>  		invalidate_ppgtt_mm(mm);
+>  	} else {
+>  		vfree(mm->ggtt_mm.virtual_ggtt);
+> --=20
 
-with the occasional
-kernel: [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
-[CRTC:47:crtc-0] flip_done timed out
-kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, signaled
-seq=5275264, emitted seq=5275266
-kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process
-Hand of Fate 2. pid 682062 thread Hand of Fa:cs0 pid 682064
-kernel: amdgpu 0000:06:00.0: GPU reset begin!
+Thanks for the fix!
 
-over and over again. If I reset the system no video output is seen until the
-system is fully shut off.
+Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
 
-B450 chipset + Ryzen 5 2600 + Radeon RX580 GPU
+--=20
+Open Source Technology Center, Intel ltd.
 
-Full log is attached to this post.
+$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
 
-Can anyone at AMD give me some pointers to what the problem is?
+--KsGdsel6WgEHnImy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
+-----BEGIN PGP SIGNATURE-----
 
-Marco.
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXkC1MQAKCRCxBBozTXgY
+J4abAJ9rGEjuKM3P5001pSAgbWTxt3gc1gCfQm1iVfei/7raZuyFiFZ7OkbVwJE=
+=y1cr
+-----END PGP SIGNATURE-----
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+--KsGdsel6WgEHnImy--
+
+--===============1988040522==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1988040522==--
