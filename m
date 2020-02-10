@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08B015714A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 09:58:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF62157166
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 10:05:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6076E949;
-	Mon, 10 Feb 2020 08:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0D1B89915;
+	Mon, 10 Feb 2020 09:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F346E949
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 08:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581325092;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HsmPE0f08vRSwTiUa1OgyIPowruRH5rJHpOnRyYPQQY=;
- b=F/9qLWIGWhW+wF3pTGUdpLSku0GCA4c3gfDua+76sPMYp5UaNKPNp+lILYeHKg2Fc+C7fr
- ahfUbh4gWhsKyT0hz6vqVXI354XAd4ZeVjauP3ZFVwkbAA81VIKKTG4yTNr6C1tSaw1PSL
- 68eslrWgf+1nJjh8XuMH/1oGrtTlTpU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219--_RO1VNcN2O-sywy25y_nA-1; Mon, 10 Feb 2020 03:58:08 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAE6318B9FC3;
- Mon, 10 Feb 2020 08:58:06 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
- [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E0BF60BF3;
- Mon, 10 Feb 2020 08:58:05 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 503EB9D14; Mon, 10 Feb 2020 09:58:05 +0100 (CET)
-Date: Mon, 10 Feb 2020 09:58:05 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/2] drm/bochs: Clear struct drm_connector_funcs.dpms
-Message-ID: <20200210085805.l3ar6bf4fu47oaus@sirius.home.kraxel.org>
-References: <20200207141602.4760-1-tzimmermann@suse.de>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF61489915
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 09:05:06 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01A954rj101333;
+ Mon, 10 Feb 2020 03:05:04 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1581325504;
+ bh=XWUFr4OBNGvkW+HWPbcJjeMgzXZBpSuW9JHDJvvkFkk=;
+ h=Subject:To:References:From:Date:In-Reply-To;
+ b=If4HkNwbfg/VrE90bFoYDgTUNOXUcRurxv0Jg3BoStdHbPoIO+Rtly/gNSResn63C
+ yzFt3xpd8xCLA4bwbGr6sKf8yU0NfZkPZwyIC/c4cPGOPd+w+aN4Ebzto1vGT7OS8q
+ 6GQWNq0sQmCb0Idg5Z4NpkeHO7vTwHqvASGph1c4=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01A953r6053296
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 10 Feb 2020 03:05:03 -0600
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 10
+ Feb 2020 03:05:03 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 10 Feb 2020 03:05:02 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01A951DH055515;
+ Mon, 10 Feb 2020 03:05:01 -0600
+Subject: Re: [PATCH v2] drm/bridge: tfp410: add pclk limits
+To: Andrzej Hajda <a.hajda@samsung.com>, <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Neil Armstrong
+ <narmstrong@baylibre.com>
+References: <20200113134528.9851-1-tomi.valkeinen@ti.com>
+ <20200121094655.9092-1-tomi.valkeinen@ti.com>
+ <CGME20200210082202eucas1p25526395f284a3518d6486faefd9361cc@eucas1p2.samsung.com>
+ <123befc8-8c57-4718-c23d-1bec9cf55ef4@ti.com>
+ <58e2b0d6-0e18-d2e0-d139-835d22b3a364@samsung.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <1868bed7-b493-303a-084e-1f52520e7a04@ti.com>
+Date: Mon, 10 Feb 2020 11:05:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200207141602.4760-1-tzimmermann@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: -_RO1VNcN2O-sywy25y_nA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+In-Reply-To: <58e2b0d6-0e18-d2e0-d139-835d22b3a364@samsung.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,22 +67,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sam@ravnborg.org, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, sean@poorly.run
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2020 at 03:16:01PM +0100, Thomas Zimmermann wrote:
-> Atomic modesetting doesn't use struct drm_connector_funcs.dpms and
-> the set function, drm_helper_connector_dpms(), wouldn't support it
-> anyway. So keep the pointer to NULL.
+On 10/02/2020 10:49, Andrzej Hajda wrote:
+
+>> Is this ok to merge?
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> Yes, If I remember you have merge rights. If not, let me know.
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Yes, I have.
 
+Generally speaking, how do you manage bridge patches? If you give reviewed-by/acked-by, does it mean 
+it's good for the sender to push to drm-misc-next? Or do you usually merge bridge patches yourself?
+
+  Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
