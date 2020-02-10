@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7A6157214
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 10:50:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE89615721E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 10:52:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25FCD6EBBA;
-	Mon, 10 Feb 2020 09:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13316EBBD;
+	Mon, 10 Feb 2020 09:52:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFE856EBBA
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 09:50:33 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id y11so6754310wrt.6
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 01:50:33 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 158E66EBBB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 09:52:24 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a9so9782395wmj.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 01:52:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=subject:to:references:from:autocrypt:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VERQvzakQm+SUc0TjMstgU+qiR8Y1gY4yphY2OZ9EGM=;
- b=EfSsAX3QV1DNfZCmCuqDBNPOS10zQZnQRdZeOVdGqwFG0IfVuILbzKpmcW1NmwPwpT
- 3s7TleYQXKZEmanVquu1Z1+A4R35EFRsV1OneENQOdCQFPz8xRItmcpokgCPLMLOCoMa
- 1hY6Ze5pTZwhBZxodlutd4H6briHJrO3whMgTK4oqFsHulCU3TCxUvhU19fs7JxI3HBe
- gEcTr5igkuDOwscxkox7GuITeTFTYO+RubTKCtQSpJzbOkiVsShfO8okPzwx2NZz2HJv
- LbjOSv+ljuRTatKOn4IhFarMHOwcyTreh6VUAXfYqE+UmAaZfzSmr1UY1T6/HJ8M3cGb
- l7xg==
+ bh=BBlkT29CxaT1AtElZ8c6PTidTGbgsjgPmt6XO4tZaEA=;
+ b=eIzGQMfuNn/rw8B1k0NhxanRKdgJcwVnPTcDljE8HABSUPXtLxPc8IWrYfg3Ok2pNn
+ vP06oEhQx58Vu5E0DkWwo4E8hVogqjktt5Rarz+f9vagrIowAGG425feE1f7AHaX5tuB
+ dae7UKldZHjBDKlcZszIWVg2ZjXUfRTIeJq0PlDM42xs2L1Zzwj56eGy6K3Nx0/2I7DG
+ mGrZ+/u5ANASvxq4ghZaCHN7VbkaEeYZoEWwK+I5m1EEFytPAp6HcRFwqZOGVls+Z5R+
+ 4JFQVR8vUDcihMXcvTf8A/DzaI7j9JlIP3IYNFUA7lnkPIPbRUaHJE2j20kOo/H8A+NM
+ f91w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ h=x-gm-message-state:subject:to:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=VERQvzakQm+SUc0TjMstgU+qiR8Y1gY4yphY2OZ9EGM=;
- b=e2STfa8125Ta3DyBAZb+knr2r1qG/eqJ99j7s1WBQcH4veiSwtaO5BUgaP2KgeyDFJ
- 7fnTlh2GfWi8+bMNXlDFnUsYCEtx8pWTh+nItqXe8ZpTZOnRj6TFiolIgzNOUOkIaKAt
- M4LqFg+b1Hl8FPj6ikA2xzDASp7VU2L9uVH63Y3+SoY6xuyHTlK2is95c7uuKP9odOmE
- BurqULpTeG8rN0iwJNzWFIYdkSHqECNmKXOCjKh3CYMhYrBpiSgxHlBornu0XwO4gOlF
- Ga2x1BozNbf7XW94DzPfjenK7kqO4fftcyuT5960XF+bt2Vb6qETY+rOyUuQRHmwiMWW
- ZCqg==
-X-Gm-Message-State: APjAAAUf16PVnxwvSTKocSoZgfmbnGMxVm3/Nbo9OueCfkpfo5VEiSgx
- EYpjbq/BBtdNzxaPzonCJbb1Og==
-X-Google-Smtp-Source: APXvYqyfFIxizan/1PZVO/45DabLhFxmuPsd7wcpoGFK20hwep1pl3070xeAT7c9kVGZpJ7tUsHJYA==
-X-Received: by 2002:a5d:494f:: with SMTP id r15mr1013142wrs.143.1581328231991; 
- Mon, 10 Feb 2020 01:50:31 -0800 (PST)
+ bh=BBlkT29CxaT1AtElZ8c6PTidTGbgsjgPmt6XO4tZaEA=;
+ b=sP8QGo4GzFGHej7WZtJVA4sKcBa54UuX2Tqb8hD1kH5Mg1uwsOmGyOydeiO23MG91+
+ txuF6Py2dITRlhEE3F86ewgpW5kO2xRVPfg6Yxt/LfesyM5FDyLHgy71PcCDeXkuh7da
+ TraEQ+X+ERU4ma1mMGd7QvLFSDPpT0LNBm1VMgbAYbGmivTcIhycmDcIjJkT/rXuDKgu
+ rEAcZ1TpJoxqjav6Q2qB17uWAJjvxmiiGdPNDWWItpNnM7uFvxl+2kvYnMEOtkhjbDxI
+ 2xc88iyZaus5Q86ygLJWbQ5WhgY9UTapMBbXbE+nYIDY539lvlEw4/lEPYZXPNJsXFWg
+ Cwvg==
+X-Gm-Message-State: APjAAAWMRBx1nvW0uucrUWvH9KZuXtlt33amBQ9l+0Wmc3fmxbxo2XP+
+ rtwIVDhNwmlV6xHHqhoNV7AvhBuAHJ6kyA==
+X-Google-Smtp-Source: APXvYqz6bVmpWX134XKiHcLH/N0eQEG3/8mb53/3rDYDnGerpuGOWw3VLHA5CznMcCSsDC1Zmm2veg==
+X-Received: by 2002:a05:600c:292:: with SMTP id
+ 18mr15263999wmk.128.1581328342394; 
+ Mon, 10 Feb 2020 01:52:22 -0800 (PST)
 Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id b17sm15983521wrp.49.2020.02.10.01.50.30
+ by smtp.gmail.com with ESMTPSA id h13sm17269068wrw.54.2020.02.10.01.52.21
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2020 01:50:31 -0800 (PST)
-Subject: Re: [PATCH v4 0/2] drm/bridge: Support for Toshiba tc358768 RGB to
- DSI bridge
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, mark.rutland@arm.com,
- a.hajda@samsung.com
-References: <20200131111553.472-1-peter.ujfalusi@ti.com>
+ Mon, 10 Feb 2020 01:52:21 -0800 (PST)
+Subject: Re: [PATCH] drm/bridge: sii902x: Select SND_SOC_HDMI_CODEC if SND_SOC
+ is configured
+To: dri-devel@lists.freedesktop.org
+References: <20191129152342.29145-1-jsarha@ti.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <ac8f985b-af2c-f314-1b8b-fcfd7abd2dba@baylibre.com>
-Date: Mon, 10 Feb 2020 10:50:30 +0100
+Message-ID: <0cc59a58-4754-c25d-92cb-9e36af9dab44@baylibre.com>
+Date: Mon, 10 Feb 2020 10:52:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200131111553.472-1-peter.ujfalusi@ti.com>
+In-Reply-To: <20191129152342.29145-1-jsarha@ti.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,84 +125,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tomi.valkeinen@ti.com, Laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/01/2020 12:15, Peter Ujfalusi wrote:
-> Hi,
+On 29/11/2019 16:23, Jyri Sarha wrote:
+> To enable HDMI audio the SND_SOC_HDMI_CODEC needs to be
+> configured. Enable HDMI audio by selecting SND_SOC_HDMI_CODEC if
+> SND_SOC is configured. SND_SOC_HDMI_CODEC has no config menu entry and
+> should be selected atomatically by the drivers using it.
 > 
-> Changes since v3:
-> - bindings/example: Fixed the node name
-> - bindings/example: Added include for GPIO_ACTIVE_LOW and fixed up the gpio
-> 		    binding
-> - driver: Moved the label for goto in tc358768_calc_pll()
-> - driver: Replaced the refcounting of enabled with a simple bool as hw_enable()
->   is only called from one place (tc358768_bridge_pre_enable)
-> - driver: Added Reviewed-by from Andrzej
-> 
-> Changes since v2:
-> - Implement pre_enable and post_disbale callbacks and move code from enable and
->   disable callbacks.
-> - hw_enable/disable is removed from tc358768_dsi_host_transfer()
-> - Defines for DSI_CONFW accesses
-> - breakout from the loops  (the check for it) is moved one level up in
->   tc358768_calc_pll()
-> 
-> Changes since v1:
-> DT bindings document:
-> - Removed MaxItems for the regulators
-> - additionalProperties: false added to port@1
-> 
-> Driver:
-> - Year is now 2020
-> - Includes shorted
-> - The three letter members of the private struct documented 0 they are named as
->   in the datasheet
-> - Error handling for the IO functions is following what sil-sii8620.c does
-> - regmap regcache is disabled along with refcache_sync() and volatile callback
->   for regmap
-> - The hw enable and disable functions got separated
-> - Taken the suggested simplifactions from Andrzej for tc358768_calc_pll() and
->   tc358768_dsi_host_transfer()
-> - The driver no longer stores the drm_display_mode, it relies on
->   priv->bridge.encoder->crtc->state->adjusted_mode where it needs it
-> - tc358768_calc_pll() can be used for verification only to not modify the state
-> - refcounting added for hw enable state as a dsi transfer was shutting down the
->   bridge when it was already enabled.
-> 
-> Tested on top of drm-next + LED backlight patches + DT patches on dra7-evm with
-> osd101t2045 (panel-simple) and osd101t2587 panel drivers.
-> 
-> Cover letter from v1:
-> TC358768 is a parallel RGB to MIPI DSI bridge.
-> 
-> The initial driver supports MIPI_DSI_MODE_VIDEO, MIPI_DSI_FMT_RGB888 and
-> only write is implemented for mipi_dsi_host_ops.transfer due to lack of hardware
-> where other modes can be tested.
-> 
-> Regards,
-> Peter
+> Signed-off-by: Jyri Sarha <jsarha@ti.com>
 > ---
-> Peter Ujfalusi (2):
->   dt-bindings: display: bridge: Add documentation for Toshiba tc358768
->   drm/bridge: Add tc358768 driver
+>  drivers/gpu/drm/bridge/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->  .../display/bridge/toshiba,tc358768.yaml      |  159 +++
->  drivers/gpu/drm/bridge/Kconfig                |   10 +
->  drivers/gpu/drm/bridge/Makefile               |    1 +
->  drivers/gpu/drm/bridge/tc358768.c             | 1044 +++++++++++++++++
->  4 files changed, 1214 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
->  create mode 100644 drivers/gpu/drm/bridge/tc358768.c
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 26ff07ad287b..0a60a56ce6dc 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -118,6 +118,7 @@ config DRM_SII902X
+>  	select DRM_KMS_HELPER
+>  	select REGMAP_I2C
+>  	select I2C_MUX
+> +	select SND_SOC_HDMI_CODEC if SND_SOC
+>  	---help---
+>  	  Silicon Image sii902x bridge chip driver.
+>  
 > 
 
-
-Applying to drm-misc-next
+Applied to drm-misc-next
 
 Neil
 _______________________________________________
