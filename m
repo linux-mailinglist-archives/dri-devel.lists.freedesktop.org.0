@@ -1,46 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01786156DBA
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 03:52:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3C4156DBD
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 03:53:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F77E6E0EE;
-	Mon, 10 Feb 2020 02:51:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7FF16E10E;
+	Mon, 10 Feb 2020 02:53:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id A48F76E0EE
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 02:51:55 +0000 (UTC)
-X-UUID: cb27a5e55bcb4994ad2d0af8aa941da3-20200210
+ by gabe.freedesktop.org (Postfix) with ESMTP id 039496E10E
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 02:53:11 +0000 (UTC)
+X-UUID: 669d501fcfcc4530a26b11203217b0ac-20200210
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=EJpRwbjSh58mj6l2nQ/bNZGk/GQgl0/adoFvtAUjmAg=; 
- b=WXbLyO7IqynVOZohr4EPF3D1/xdLmqoUUlmnpd/HlqfJzAnJ/qkugrex4/rLvngLd0oJ7Ds3t3OvHWw9Y7SCtNMqcK/udTu/F8hbf2lJMtsCP2aVxFfQDTw7Ahvz/yFdepU595btttGpYGVMmyfdPqN3VU7EWej3qvlR9gVp8k0=;
-X-UUID: cb27a5e55bcb4994ad2d0af8aa941da3-20200210
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ bh=W9H3gUT21gGxakLPlN7C+OdzFLN/Tl44T7eG40NyIp0=; 
+ b=Lae74vM2lIGTQnPzJo/fh/ko34RNSZ4n9XoVN6pkcEpVpsT8Ii2WMVvVkuXVdCpP9TvwJ+CWzxE2MbQJML09lHlOdQvbVglMlbQAJ7F4sD/CvODLq3Rk+MxiTpMuIMSb5vg2EWrkxHetweCevm8ifcFM4eJoclnBBGmRgkvvK8E=;
+X-UUID: 669d501fcfcc4530a26b11203217b0ac-20200210
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
  (envelope-from <ck.hu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 141817399; Mon, 10 Feb 2020 10:51:51 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 10 Feb 2020 10:50:33 +0800
+ with ESMTP id 77091319; Mon, 10 Feb 2020 10:53:08 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 10 Feb 2020 10:52:25 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by mtkcas07.mediatek.inc
+ (172.21.101.84) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Mon, 10 Feb 2020 10:52:18 +0800
 Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 10 Feb 2020 10:52:06 +0800
-Message-ID: <1581303109.951.1.camel@mtksdaap41>
-Subject: Re: [PATCH] drm/mediatek: Ensure the cursor plane is on top of
- other overlays
+ Transport; Mon, 10 Feb 2020 10:53:24 +0800
+Message-ID: <1581303187.951.2.camel@mtksdaap41>
+Subject: Re: [PATCH] drm/mediatek: Find the cursor plane instead of hard
+ coding it
 From: CK Hu <ck.hu@mediatek.com>
-To: Sean Paul <sean@poorly.run>
-Date: Mon, 10 Feb 2020 10:51:49 +0800
-In-Reply-To: <1580441226.9516.1.camel@mtksdaap41>
-References: <20200130192511.81205-1-sean@poorly.run>
- <1580441226.9516.1.camel@mtksdaap41>
+To: Evan Benn <evanbenn@chromium.org>
+Date: Mon, 10 Feb 2020 10:53:07 +0800
+In-Reply-To: <1581064499.590.0.camel@mtksdaap41>
+References: <20200206140140.GA18465@art_vandelay>
+ <20200207152348.1.Ie0633018fc787dda6e869cae23df76ae30f2a686@changeid>
+ <1581064499.590.0.camel@mtksdaap41>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: C0506BEC4AA5A41519AE24F56027614D84231C02A31EF03E8A3004DDC58C47C22000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,27 +57,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dcastagna@chromium.org, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Matthias
- Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Sean:
+Hi, Evan:
 
-On Fri, 2020-01-31 at 11:27 +0800, CK Hu wrote:
-> Hi, Sean:
+On Fri, 2020-02-07 at 16:34 +0800, CK Hu wrote:
+> Hi, Evan:
 > 
-> On Thu, 2020-01-30 at 14:24 -0500, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> > 
-> > Currently the cursor is placed on the first overlay plane, which means
-> > it will be at the bottom of the stack when the hw does the compositing
-> > with anything other than primary plane. Since mtk doesn't support plane
-> > zpos, change the cursor location to the top-most plane.
+> On Fri, 2020-02-07 at 15:23 +1100, Evan Benn wrote:
+> > The cursor and primary planes were hard coded.
+> > Now search for them for passing to drm_crtc_init_with_planes
 > > 
 > 
 > Reviewed-by: CK Hu <ck.hu@mediatek.com>
@@ -88,40 +87,49 @@ Regards,
 CK
 
 > 
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > Signed-off-by: Evan Benn <evanbenn@chromium.org>
 > > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 8 +++++---
-> >  1 file changed, 5 insertions(+), 3 deletions(-)
+> > 
+> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
 > > 
 > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > index 0dfcd1787e651..4ac76b9613926 100644
+> > index 7b392d6c71cc..935652990afa 100644
 > > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
 > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > @@ -689,11 +689,12 @@ static int mtk_drm_crtc_num_comp_planes(struct mtk_drm_crtc *mtk_crtc,
-> >  }
+> > @@ -658,10 +658,18 @@ static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
 > >  
-> >  static inline
-> > -enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx)
-> > +enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx,
-> > +					    unsigned int num_planes)
+> >  static int mtk_drm_crtc_init(struct drm_device *drm,
+> >  			     struct mtk_drm_crtc *mtk_crtc,
+> > -			     struct drm_plane *primary,
+> > -			     struct drm_plane *cursor, unsigned int pipe)
+> > +			     unsigned int pipe)
 > >  {
-> >  	if (plane_idx == 0)
-> >  		return DRM_PLANE_TYPE_PRIMARY;
-> > -	else if (plane_idx == 1)
-> > +	else if (plane_idx == (num_planes - 1))
-> >  		return DRM_PLANE_TYPE_CURSOR;
-> >  	else
-> >  		return DRM_PLANE_TYPE_OVERLAY;
-> > @@ -712,7 +713,8 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
-> >  		ret = mtk_plane_init(drm_dev,
-> >  				&mtk_crtc->planes[mtk_crtc->layer_nr],
-> >  				BIT(pipe),
-> > -				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr),
-> > +				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr,
-> > +							num_planes),
-> >  				mtk_ddp_comp_supported_rotations(comp));
-> >  		if (ret)
+> > -	int ret;
+> > +	struct drm_plane *primary = NULL;
+> > +	struct drm_plane *cursor = NULL;
+> > +	int i, ret;
+> > +
+> > +	for (i = 0; i < mtk_crtc->layer_nr; i++) {
+> > +		if (mtk_crtc->planes[i].type == DRM_PLANE_TYPE_PRIMARY)
+> > +			primary = &mtk_crtc->planes[i];
+> > +		else if (mtk_crtc->planes[i].type == DRM_PLANE_TYPE_CURSOR)
+> > +			cursor = &mtk_crtc->planes[i];
+> > +	}
+> >  
+> >  	ret = drm_crtc_init_with_planes(drm, &mtk_crtc->base, primary, cursor,
+> >  					&mtk_crtc_funcs, NULL);
+> > @@ -830,9 +838,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
 > >  			return ret;
+> >  	}
+> >  
+> > -	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, &mtk_crtc->planes[0],
+> > -				mtk_crtc->layer_nr > 1 ? &mtk_crtc->planes[1] :
+> > -				NULL, pipe);
+> > +	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
+> >  	if (ret < 0)
+> >  		return ret;
+> >  
 > 
 
 _______________________________________________
