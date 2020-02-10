@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5F2157CF9
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 15:01:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E140157D18
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2020 15:11:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 835F36E997;
-	Mon, 10 Feb 2020 14:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 049F96EC47;
+	Mon, 10 Feb 2020 14:11:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4836E997
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 14:01:19 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id q9so402866wmj.5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 06:01:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=rvid+XoqshTLB0KwnVAoAkQ7OKkD+HjEiiSpr8oJPW4=;
- b=SOUzf71hebERAAw+YoxvyW4s57rLoKSSftmi5Af4gc9x1ZZ86ByKrgwicLWcKtoRd1
- RcvfI42mdzAWx+a4safBXNTk2JMngYyI4WyxQBhEKQpz3XfWe6cmPCZrgbl/KLt2ZaqF
- CLucSJuXoL7tcSAlJ8Aopwf2TTT6b7FPbraGxktz4LvJ6eXITzIW3MoMMjvwKRZM0Uao
- n8Ob0OrfW9l0vvZXgw78tlT/LBu4b981ch4Vi5i2AesuALxjJlH0RnsWr0zour/yPTSY
- 2w8jKFFGT+dyyi+FyLleBf3qN/AkTSKgdgo6SpXqjYGMoiHpUkOQL9VcBv9OulQy2QBc
- 86Xw==
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9856E9A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 14:11:19 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id m25so7677585ioo.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2020 06:11:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FX0VcA61hup+M1eG33dRqyta/5/xteIuWl8koiSPDi4=;
+ b=G4uXB900exoea2ii7+OFpaGuRK0OPIwrn5b/qyL1D2Q9SXUY52mV/GbNkHjMPnchAM
+ ph7SyUwqgpei3jx8lD4a2qYiY8mhLmqs3rciAPdjTSxjBZSlhSwL+K5ny5rILoVPrv3K
+ J48MqqhzBHWtUo3Y0ytkyzGLqroOVBCzNr/sxerxfodFVtmee1wXpdhLvt3EBdk3LnPN
+ 3WT9oeSCayoMbkTRIdriomu+/UmKLxQ5ZKy7yrZbimr7zSx9r6ju33sS2XOZyJiYvUUs
+ oP2DGX5M3gjG49im59BCr2dlcbr00eT7960geinWms86EIHtLSGo6OUV128LQvBM4LRW
+ S1fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rvid+XoqshTLB0KwnVAoAkQ7OKkD+HjEiiSpr8oJPW4=;
- b=Mcz+XE2OPP9Lr3oZOj5Ti1JSlafkh2YdCBjjcuRkPGkvhb1eX3PyKRtLHaoUN/b+lu
- 5F1myYFrT1dwPHwxLJpv/OuvkmIY0mPcY5SF46R9KROeWaJzGP8D0S+FyUCe7NOWzsqI
- q6TSPoXjuVYTeFF/QV6wsJTd4SM7zzkLN948fFSAs5DHUhmLffV8GZNc2jb/O+fHtKB+
- fshH7cNFjFiaoH2fSBMcFMOxVzyDXBO9MbN6bvwOhghoV5kUj2+U3XRsWBqUO5XkssYs
- 61/GTe/vvv87zdncXPOoj03Py9F14tQ4rGnqSrfW8dkkdlMGH8lsCWiTchW3OMS3Ioa/
- AbAg==
-X-Gm-Message-State: APjAAAVBLVfAMrpf9IOKO1IVkHR5cEXwCAt6i82FZBGj713tuoNXoSxY
- 8DozjjjjvxFZVP8KXYO/GiCeWw==
-X-Google-Smtp-Source: APXvYqwfVNxgUPuPqgcXJoIN5h9CFYHnODvM7xF3IDU6eY1VFeiSn1AtVzpji+0rocIKAovzSTLyNw==
-X-Received: by 2002:a1c:f001:: with SMTP id a1mr15041843wmb.76.1581343277371; 
- Mon, 10 Feb 2020 06:01:17 -0800 (PST)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id q10sm797058wme.16.2020.02.10.06.01.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Feb 2020 06:01:16 -0800 (PST)
-Date: Mon, 10 Feb 2020 14:01:14 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v3] backlight: pwm_bl: Switch to full GPIO descriptor
-Message-ID: <20200210140114.oxuqub42mwzldvbb@holly.lan>
-References: <20200210101546.287565-1-linus.walleij@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FX0VcA61hup+M1eG33dRqyta/5/xteIuWl8koiSPDi4=;
+ b=ON+uOZ3NDrHJKFrgBXr7wvxjhj8duNCY7kM6zPTKZNG8ypMsXYLpLYCuH/6pQ249sA
+ YacjAP8auYbgr/jzq8oqzG6J9xKLNr+M8Yzhxg9jqbj6qwY5JdfdPN5+eWl9Zg5I3B5A
+ VmgzRkMVBZ5G3gFsMLnX0pKWbbj8q5N1qYbxxhFiKUPKErGZuyVsIsUDgSgMSPw1645J
+ c1GcAPRFhmeQT3VCUToMqiUMiPWJ4vm4WD6LL+oAgofWH2Pi6lTsuFQAS/AYSxqq5RRV
+ ZFtkrRPm2endfddRLxathLGNBXoF8yfdYs/FX+A3m41Oay5k2VYTu/AZDyBmPFa0LfKg
+ 3VwQ==
+X-Gm-Message-State: APjAAAWCTSo3w0aD+dIzpO9DEWcWPBIWzNEg8H0Bt9mNufxb5pKl6A9/
+ YblKztspRpoXNboVX5xFJn6tw5vlSaJTyUD22Qgn/w==
+X-Google-Smtp-Source: APXvYqwvxGWSdp4d4hKFIroc+x/DYVtfIyyldKkT3VpcOseZggDqKWwOctEN63TfW1gHDPo2n3ZDqZMJVhAWtbOk4dE=
+X-Received: by 2002:a6b:f206:: with SMTP id q6mr9531130ioh.264.1581343878489; 
+ Mon, 10 Feb 2020 06:11:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200210101546.287565-1-linus.walleij@linaro.org>
+References: <20200206140140.GA18465@art_vandelay>
+ <20200207152348.1.Ie0633018fc787dda6e869cae23df76ae30f2a686@changeid>
+ <1581064499.590.0.camel@mtksdaap41> <1581303187.951.2.camel@mtksdaap41>
+In-Reply-To: <1581303187.951.2.camel@mtksdaap41>
+From: Sean Paul <sean@poorly.run>
+Date: Mon, 10 Feb 2020 09:10:42 -0500
+Message-ID: <CAMavQKLqr=a=WZKFfC2sEBcskjX+k-82a3V3XVk7LQLzpAMaBg@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Find the cursor plane instead of hard
+ coding it
+To: CK Hu <ck.hu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,469 +63,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>,
- Guan Xuetao <gxt@pku.edu.cn>
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Evan Benn <evanbenn@chromium.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2020 at 11:15:46AM +0100, Linus Walleij wrote:
-> The PWM backlight still supports passing a enable GPIO line as
-> platform data using the legacy <linux/gpio.h> API.
-> 
-> It turns out that ever board using this mechanism except one
-> is pass .enable_gpio = -1. So we drop all these cargo-culted -1's
-> from all instances of this platform data in the kernel.
-> 
-> The remaning board, Palm TC, is converted to pass a machine
-> descriptior table with the "enable" GPIO instead, and delete the
-> platform data entry for enable_gpio and the code handling it
-> and things should work smoothly with the new API.
-> 
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Guan Xuetao <gxt@pku.edu.cn>
-> Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-> Reviewed-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+On Sun, Feb 9, 2020 at 9:53 PM CK Hu <ck.hu@mediatek.com> wrote:
+>
+> Hi, Evan:
+>
+> On Fri, 2020-02-07 at 16:34 +0800, CK Hu wrote:
+> > Hi, Evan:
+> >
+> > On Fri, 2020-02-07 at 15:23 +1100, Evan Benn wrote:
+> > > The cursor and primary planes were hard coded.
+> > > Now search for them for passing to drm_crtc_init_with_planes
+> > >
+> >
+> > Reviewed-by: CK Hu <ck.hu@mediatek.com>
+>
+> Applied to mediatek-drm-fixes-5.6 [1], thanks.
+>
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Hi CK,
+Thanks for picking this up. Before you send the pull, could you please
+reverse the order of these 2 patches? Evan's should come before mine
+to prevent a regression.
 
+Sean
 
-> ---
-> ChangeLog v2->v3:
-> - Collect Robert's ACK.
-> ChangeLog v1->v2:
-> - Located a missing removal of .enable_gpio in the Palm TC
->   board file, pointed out by Daniel.
-> - Grepped to ascertain there is not a single instance of
->   the string "enable_gpio" in the affected board files.
-> ---
->  arch/arm/mach-pxa/cm-x300.c               |  1 -
->  arch/arm/mach-pxa/colibri-pxa270-income.c |  1 -
->  arch/arm/mach-pxa/ezx.c                   |  1 -
->  arch/arm/mach-pxa/hx4700.c                |  1 -
->  arch/arm/mach-pxa/lpd270.c                |  1 -
->  arch/arm/mach-pxa/magician.c              |  1 -
->  arch/arm/mach-pxa/mainstone.c             |  1 -
->  arch/arm/mach-pxa/mioa701.c               |  1 -
->  arch/arm/mach-pxa/palm27x.c               |  1 -
->  arch/arm/mach-pxa/palmtc.c                | 11 ++++++++++-
->  arch/arm/mach-pxa/palmte2.c               |  1 -
->  arch/arm/mach-pxa/pcm990-baseboard.c      |  1 -
->  arch/arm/mach-pxa/tavorevb.c              |  2 --
->  arch/arm/mach-pxa/viper.c                 |  1 -
->  arch/arm/mach-pxa/z2.c                    |  2 --
->  arch/arm/mach-pxa/zylonite.c              |  1 -
->  arch/arm/mach-s3c24xx/mach-h1940.c        |  1 -
->  arch/arm/mach-s3c24xx/mach-rx1950.c       |  1 -
->  arch/arm/mach-s3c64xx/dev-backlight.c     |  3 ---
->  arch/arm/mach-s3c64xx/mach-crag6410.c     |  1 -
->  arch/arm/mach-s3c64xx/mach-hmt.c          |  1 -
->  arch/arm/mach-s3c64xx/mach-smartq.c       |  1 -
->  arch/arm/mach-s3c64xx/mach-smdk6410.c     |  2 +-
->  arch/unicore32/kernel/puv3-nb0916.c       |  1 -
->  drivers/video/backlight/pwm_bl.c          | 19 -------------------
->  include/linux/pwm_backlight.h             |  2 --
->  26 files changed, 11 insertions(+), 49 deletions(-)
-> 
-> diff --git a/arch/arm/mach-pxa/cm-x300.c b/arch/arm/mach-pxa/cm-x300.c
-> index 425855f456f2..2e35354b61f5 100644
-> --- a/arch/arm/mach-pxa/cm-x300.c
-> +++ b/arch/arm/mach-pxa/cm-x300.c
-> @@ -312,7 +312,6 @@ static struct pwm_lookup cm_x300_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data cm_x300_backlight_data = {
->  	.max_brightness	= 100,
->  	.dft_brightness	= 100,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct platform_device cm_x300_backlight_device = {
-> diff --git a/arch/arm/mach-pxa/colibri-pxa270-income.c b/arch/arm/mach-pxa/colibri-pxa270-income.c
-> index dbad2f13706c..e5879e8b0682 100644
-> --- a/arch/arm/mach-pxa/colibri-pxa270-income.c
-> +++ b/arch/arm/mach-pxa/colibri-pxa270-income.c
-> @@ -202,7 +202,6 @@ static struct pwm_lookup income_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data income_backlight_data = {
->  	.max_brightness	= 0x3ff,
->  	.dft_brightness	= 0x1ff,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct platform_device income_backlight = {
-> diff --git a/arch/arm/mach-pxa/ezx.c b/arch/arm/mach-pxa/ezx.c
-> index ec10851b63cf..eb85950e7c0e 100644
-> --- a/arch/arm/mach-pxa/ezx.c
-> +++ b/arch/arm/mach-pxa/ezx.c
-> @@ -55,7 +55,6 @@ static struct pwm_lookup ezx_pwm_lookup[] __maybe_unused = {
->  static struct platform_pwm_backlight_data ezx_backlight_data = {
->  	.max_brightness	= 1023,
->  	.dft_brightness	= 1023,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct platform_device ezx_backlight_device = {
-> diff --git a/arch/arm/mach-pxa/hx4700.c b/arch/arm/mach-pxa/hx4700.c
-> index 238a751a8797..1d4c5db54be2 100644
-> --- a/arch/arm/mach-pxa/hx4700.c
-> +++ b/arch/arm/mach-pxa/hx4700.c
-> @@ -556,7 +556,6 @@ static struct platform_device hx4700_lcd = {
->  static struct platform_pwm_backlight_data backlight_data = {
->  	.max_brightness = 200,
->  	.dft_brightness = 100,
-> -	.enable_gpio    = -1,
->  };
->  
->  static struct platform_device backlight = {
-> diff --git a/arch/arm/mach-pxa/lpd270.c b/arch/arm/mach-pxa/lpd270.c
-> index 20e00e970385..6fc40bc06910 100644
-> --- a/arch/arm/mach-pxa/lpd270.c
-> +++ b/arch/arm/mach-pxa/lpd270.c
-> @@ -277,7 +277,6 @@ static struct pwm_lookup lpd270_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data lpd270_backlight_data = {
->  	.max_brightness	= 1,
->  	.dft_brightness	= 1,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct platform_device lpd270_backlight_device = {
-> diff --git a/arch/arm/mach-pxa/magician.c b/arch/arm/mach-pxa/magician.c
-> index 5d0591f93f4d..cd9fa465b9b2 100644
-> --- a/arch/arm/mach-pxa/magician.c
-> +++ b/arch/arm/mach-pxa/magician.c
-> @@ -401,7 +401,6 @@ static void magician_backlight_exit(struct device *dev)
->  static struct platform_pwm_backlight_data backlight_data = {
->  	.max_brightness	= 272,
->  	.dft_brightness	= 100,
-> -	.enable_gpio	= -1,
->  	.init		= magician_backlight_init,
->  	.notify		= magician_backlight_notify,
->  	.exit		= magician_backlight_exit,
-> diff --git a/arch/arm/mach-pxa/mainstone.c b/arch/arm/mach-pxa/mainstone.c
-> index 1b7882920164..d1010ec26e9f 100644
-> --- a/arch/arm/mach-pxa/mainstone.c
-> +++ b/arch/arm/mach-pxa/mainstone.c
-> @@ -256,7 +256,6 @@ static struct pwm_lookup mainstone_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data mainstone_backlight_data = {
->  	.max_brightness	= 1023,
->  	.dft_brightness	= 1023,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct platform_device mainstone_backlight_device = {
-> diff --git a/arch/arm/mach-pxa/mioa701.c b/arch/arm/mach-pxa/mioa701.c
-> index 0b8bae9610f1..d3af80317f2d 100644
-> --- a/arch/arm/mach-pxa/mioa701.c
-> +++ b/arch/arm/mach-pxa/mioa701.c
-> @@ -176,7 +176,6 @@ static struct pwm_lookup mioa701_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data mioa701_backlight_data = {
->  	.max_brightness	= 100,
->  	.dft_brightness	= 50,
-> -	.enable_gpio	= -1,
->  };
->  
->  /*
-> diff --git a/arch/arm/mach-pxa/palm27x.c b/arch/arm/mach-pxa/palm27x.c
-> index b600b63af3a6..0d246a1aebbc 100644
-> --- a/arch/arm/mach-pxa/palm27x.c
-> +++ b/arch/arm/mach-pxa/palm27x.c
-> @@ -318,7 +318,6 @@ static void palm27x_backlight_exit(struct device *dev)
->  static struct platform_pwm_backlight_data palm27x_backlight_data = {
->  	.max_brightness	= 0xfe,
->  	.dft_brightness	= 0x7e,
-> -	.enable_gpio	= -1,
->  	.init		= palm27x_backlight_init,
->  	.notify		= palm27x_backlight_notify,
->  	.exit		= palm27x_backlight_exit,
-> diff --git a/arch/arm/mach-pxa/palmtc.c b/arch/arm/mach-pxa/palmtc.c
-> index fda9deaaae02..455cb8ccaf26 100644
-> --- a/arch/arm/mach-pxa/palmtc.c
-> +++ b/arch/arm/mach-pxa/palmtc.c
-> @@ -174,6 +174,15 @@ static inline void palmtc_keys_init(void) {}
->   * Backlight
->   ******************************************************************************/
->  #if defined(CONFIG_BACKLIGHT_PWM) || defined(CONFIG_BACKLIGHT_PWM_MODULE)
-> +
-> +static struct gpiod_lookup_table palmtc_pwm_bl_gpio_table = {
-> +	.dev_id = "pwm-backlight.0",
-> +	.table = {
-> +		GPIO_LOOKUP("gpio-pxa", GPIO_NR_PALMTC_BL_POWER,
-> +			    "enable", GPIO_ACTIVE_HIGH),
-> +	},
-> +};
-> +
->  static struct pwm_lookup palmtc_pwm_lookup[] = {
->  	PWM_LOOKUP("pxa25x-pwm.1", 0, "pwm-backlight.0", NULL, PALMTC_PERIOD_NS,
->  		   PWM_POLARITY_NORMAL),
-> @@ -182,7 +191,6 @@ static struct pwm_lookup palmtc_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data palmtc_backlight_data = {
->  	.max_brightness	= PALMTC_MAX_INTENSITY,
->  	.dft_brightness	= PALMTC_MAX_INTENSITY,
-> -	.enable_gpio	= GPIO_NR_PALMTC_BL_POWER,
->  };
->  
->  static struct platform_device palmtc_backlight = {
-> @@ -195,6 +203,7 @@ static struct platform_device palmtc_backlight = {
->  
->  static void __init palmtc_pwm_init(void)
->  {
-> +	gpiod_add_lookup_table(&palmtc_pwm_bl_gpio_table);
->  	pwm_add_table(palmtc_pwm_lookup, ARRAY_SIZE(palmtc_pwm_lookup));
->  	platform_device_register(&palmtc_backlight);
->  }
-> diff --git a/arch/arm/mach-pxa/palmte2.c b/arch/arm/mach-pxa/palmte2.c
-> index 7171014fd311..e3bcf58b4e63 100644
-> --- a/arch/arm/mach-pxa/palmte2.c
-> +++ b/arch/arm/mach-pxa/palmte2.c
-> @@ -175,7 +175,6 @@ static void palmte2_backlight_exit(struct device *dev)
->  static struct platform_pwm_backlight_data palmte2_backlight_data = {
->  	.max_brightness	= PALMTE2_MAX_INTENSITY,
->  	.dft_brightness	= PALMTE2_MAX_INTENSITY,
-> -	.enable_gpio	= -1,
->  	.init		= palmte2_backlight_init,
->  	.notify		= palmte2_backlight_notify,
->  	.exit		= palmte2_backlight_exit,
-> diff --git a/arch/arm/mach-pxa/pcm990-baseboard.c b/arch/arm/mach-pxa/pcm990-baseboard.c
-> index cb1c56769fbc..bf613f88d70b 100644
-> --- a/arch/arm/mach-pxa/pcm990-baseboard.c
-> +++ b/arch/arm/mach-pxa/pcm990-baseboard.c
-> @@ -154,7 +154,6 @@ static struct pwm_lookup pcm990_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data pcm990_backlight_data = {
->  	.max_brightness	= 1023,
->  	.dft_brightness	= 1023,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct platform_device pcm990_backlight_device = {
-> diff --git a/arch/arm/mach-pxa/tavorevb.c b/arch/arm/mach-pxa/tavorevb.c
-> index 93466fa3b0fe..a15eb3b9484d 100644
-> --- a/arch/arm/mach-pxa/tavorevb.c
-> +++ b/arch/arm/mach-pxa/tavorevb.c
-> @@ -178,13 +178,11 @@ static struct platform_pwm_backlight_data tavorevb_backlight_data[] = {
->  		/* primary backlight */
->  		.max_brightness	= 100,
->  		.dft_brightness	= 100,
-> -		.enable_gpio	= -1,
->  	},
->  	[1] = {
->  		/* secondary backlight */
->  		.max_brightness	= 100,
->  		.dft_brightness	= 100,
-> -		.enable_gpio	= -1,
->  	},
->  };
->  
-> diff --git a/arch/arm/mach-pxa/viper.c b/arch/arm/mach-pxa/viper.c
-> index c06031da6676..3aa34e9a15d3 100644
-> --- a/arch/arm/mach-pxa/viper.c
-> +++ b/arch/arm/mach-pxa/viper.c
-> @@ -404,7 +404,6 @@ static void viper_backlight_exit(struct device *dev)
->  static struct platform_pwm_backlight_data viper_backlight_data = {
->  	.max_brightness	= 100,
->  	.dft_brightness	= 100,
-> -	.enable_gpio	= -1,
->  	.init		= viper_backlight_init,
->  	.notify		= viper_backlight_notify,
->  	.exit		= viper_backlight_exit,
-> diff --git a/arch/arm/mach-pxa/z2.c b/arch/arm/mach-pxa/z2.c
-> index 900cefc4c5ea..21fd76bb09cd 100644
-> --- a/arch/arm/mach-pxa/z2.c
-> +++ b/arch/arm/mach-pxa/z2.c
-> @@ -210,13 +210,11 @@ static struct platform_pwm_backlight_data z2_backlight_data[] = {
->  		/* Keypad Backlight */
->  		.max_brightness	= 1023,
->  		.dft_brightness	= 0,
-> -		.enable_gpio	= -1,
->  	},
->  	[1] = {
->  		/* LCD Backlight */
->  		.max_brightness	= 1023,
->  		.dft_brightness	= 512,
-> -		.enable_gpio	= -1,
->  	},
->  };
->  
-> diff --git a/arch/arm/mach-pxa/zylonite.c b/arch/arm/mach-pxa/zylonite.c
-> index bf2ab5bd49ec..79f0025fa17a 100644
-> --- a/arch/arm/mach-pxa/zylonite.c
-> +++ b/arch/arm/mach-pxa/zylonite.c
-> @@ -117,7 +117,6 @@ static struct pwm_lookup zylonite_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data zylonite_backlight_data = {
->  	.max_brightness	= 100,
->  	.dft_brightness	= 100,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct platform_device zylonite_backlight_device = {
-> diff --git a/arch/arm/mach-s3c24xx/mach-h1940.c b/arch/arm/mach-s3c24xx/mach-h1940.c
-> index 74d6b68e91c7..e1c372e5447b 100644
-> --- a/arch/arm/mach-s3c24xx/mach-h1940.c
-> +++ b/arch/arm/mach-s3c24xx/mach-h1940.c
-> @@ -516,7 +516,6 @@ static void h1940_backlight_exit(struct device *dev)
->  static struct platform_pwm_backlight_data backlight_data = {
->  	.max_brightness = 100,
->  	.dft_brightness = 50,
-> -	.enable_gpio    = -1,
->  	.init           = h1940_backlight_init,
->  	.notify		= h1940_backlight_notify,
->  	.exit           = h1940_backlight_exit,
-> diff --git a/arch/arm/mach-s3c24xx/mach-rx1950.c b/arch/arm/mach-s3c24xx/mach-rx1950.c
-> index 03d8f27cdc32..fde98b175c75 100644
-> --- a/arch/arm/mach-s3c24xx/mach-rx1950.c
-> +++ b/arch/arm/mach-s3c24xx/mach-rx1950.c
-> @@ -534,7 +534,6 @@ static int rx1950_backlight_notify(struct device *dev, int brightness)
->  static struct platform_pwm_backlight_data rx1950_backlight_data = {
->  	.max_brightness = 24,
->  	.dft_brightness = 4,
-> -	.enable_gpio = -1,
->  	.init = rx1950_backlight_init,
->  	.notify = rx1950_backlight_notify,
->  	.exit = rx1950_backlight_exit,
-> diff --git a/arch/arm/mach-s3c64xx/dev-backlight.c b/arch/arm/mach-s3c64xx/dev-backlight.c
-> index 799cfdf0606b..09e6da305f60 100644
-> --- a/arch/arm/mach-s3c64xx/dev-backlight.c
-> +++ b/arch/arm/mach-s3c64xx/dev-backlight.c
-> @@ -65,7 +65,6 @@ static struct samsung_bl_drvdata samsung_dfl_bl_data __initdata = {
->  	.plat_data = {
->  		.max_brightness = 255,
->  		.dft_brightness = 255,
-> -		.enable_gpio    = -1,
->  		.init           = samsung_bl_init,
->  		.exit           = samsung_bl_exit,
->  	},
-> @@ -111,8 +110,6 @@ void __init samsung_bl_set(struct samsung_bl_gpio_info *gpio_info,
->  		samsung_bl_data->dft_brightness = bl_data->dft_brightness;
->  	if (bl_data->lth_brightness)
->  		samsung_bl_data->lth_brightness = bl_data->lth_brightness;
-> -	if (bl_data->enable_gpio >= 0)
-> -		samsung_bl_data->enable_gpio = bl_data->enable_gpio;
->  	if (bl_data->init)
->  		samsung_bl_data->init = bl_data->init;
->  	if (bl_data->notify)
-> diff --git a/arch/arm/mach-s3c64xx/mach-crag6410.c b/arch/arm/mach-s3c64xx/mach-crag6410.c
-> index 8ec6a4f5eb05..da9654255e3f 100644
-> --- a/arch/arm/mach-s3c64xx/mach-crag6410.c
-> +++ b/arch/arm/mach-s3c64xx/mach-crag6410.c
-> @@ -114,7 +114,6 @@ static struct pwm_lookup crag6410_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data crag6410_backlight_data = {
->  	.max_brightness	= 1000,
->  	.dft_brightness	= 600,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct platform_device crag6410_backlight_device = {
-> diff --git a/arch/arm/mach-s3c64xx/mach-hmt.c b/arch/arm/mach-s3c64xx/mach-hmt.c
-> index bfe9881d12cc..e7080215c624 100644
-> --- a/arch/arm/mach-s3c64xx/mach-hmt.c
-> +++ b/arch/arm/mach-s3c64xx/mach-hmt.c
-> @@ -115,7 +115,6 @@ static void hmt_bl_exit(struct device *dev)
->  static struct platform_pwm_backlight_data hmt_backlight_data = {
->  	.max_brightness	= 100 * 256,
->  	.dft_brightness	= 40 * 256,
-> -	.enable_gpio	= -1,
->  	.init		= hmt_bl_init,
->  	.notify		= hmt_bl_notify,
->  	.exit		= hmt_bl_exit,
-> diff --git a/arch/arm/mach-s3c64xx/mach-smartq.c b/arch/arm/mach-s3c64xx/mach-smartq.c
-> index 829d5dbd69ee..5025db607c0f 100644
-> --- a/arch/arm/mach-s3c64xx/mach-smartq.c
-> +++ b/arch/arm/mach-s3c64xx/mach-smartq.c
-> @@ -150,7 +150,6 @@ static int smartq_bl_init(struct device *dev)
->  static struct platform_pwm_backlight_data smartq_backlight_data = {
->  	.max_brightness	= 1000,
->  	.dft_brightness	= 600,
-> -	.enable_gpio	= -1,
->  	.init		= smartq_bl_init,
->  };
->  
-> diff --git a/arch/arm/mach-s3c64xx/mach-smdk6410.c b/arch/arm/mach-s3c64xx/mach-smdk6410.c
-> index 908e5aa831c8..56f406c0c3dd 100644
-> --- a/arch/arm/mach-s3c64xx/mach-smdk6410.c
-> +++ b/arch/arm/mach-s3c64xx/mach-smdk6410.c
-> @@ -623,7 +623,7 @@ static struct pwm_lookup smdk6410_pwm_lookup[] = {
->  };
->  
->  static struct platform_pwm_backlight_data smdk6410_bl_data = {
-> -	.enable_gpio = -1,
-> +	/* Intentionally blank */
->  };
->  
->  static struct dwc2_hsotg_plat smdk6410_hsotg_pdata;
-> diff --git a/arch/unicore32/kernel/puv3-nb0916.c b/arch/unicore32/kernel/puv3-nb0916.c
-> index a3bf2ffc54dd..e251f5028396 100644
-> --- a/arch/unicore32/kernel/puv3-nb0916.c
-> +++ b/arch/unicore32/kernel/puv3-nb0916.c
-> @@ -55,7 +55,6 @@ static struct pwm_lookup nb0916_pwm_lookup[] = {
->  static struct platform_pwm_backlight_data nb0916_backlight_data = {
->  	.max_brightness	= 100,
->  	.dft_brightness	= 100,
-> -	.enable_gpio	= -1,
->  };
->  
->  static struct gpio_keys_button nb0916_gpio_keys[] = {
-> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-> index efb4efc2a13d..82b8d7594701 100644
-> --- a/drivers/video/backlight/pwm_bl.c
-> +++ b/drivers/video/backlight/pwm_bl.c
-> @@ -7,7 +7,6 @@
->  
->  #include <linux/delay.h>
->  #include <linux/gpio/consumer.h>
-> -#include <linux/gpio.h>
->  #include <linux/module.h>
->  #include <linux/kernel.h>
->  #include <linux/init.h>
-> @@ -258,8 +257,6 @@ static int pwm_backlight_parse_dt(struct device *dev,
->  			     &data->post_pwm_on_delay);
->  	of_property_read_u32(node, "pwm-off-delay-ms", &data->pwm_off_delay);
->  
-> -	data->enable_gpio = -EINVAL;
-> -
->  	/*
->  	 * Determine the number of brightness levels, if this property is not
->  	 * set a default table of brightness levels will be used.
-> @@ -502,22 +499,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
->  		goto err_alloc;
->  	}
->  
-> -	/*
-> -	 * Compatibility fallback for drivers still using the integer GPIO
-> -	 * platform data. Must go away soon.
-> -	 */
-> -	if (!pb->enable_gpio && gpio_is_valid(data->enable_gpio)) {
-> -		ret = devm_gpio_request_one(&pdev->dev, data->enable_gpio,
-> -					    GPIOF_OUT_INIT_HIGH, "enable");
-> -		if (ret < 0) {
-> -			dev_err(&pdev->dev, "failed to request GPIO#%d: %d\n",
-> -				data->enable_gpio, ret);
-> -			goto err_alloc;
-> -		}
-> -
-> -		pb->enable_gpio = gpio_to_desc(data->enable_gpio);
-> -	}
-> -
->  	/*
->  	 * If the GPIO is not known to be already configured as output, that
->  	 * is, if gpiod_get_direction returns either 1 or -EINVAL, change the
-> diff --git a/include/linux/pwm_backlight.h b/include/linux/pwm_backlight.h
-> index 8ea265a022fd..06086cb93b6f 100644
-> --- a/include/linux/pwm_backlight.h
-> +++ b/include/linux/pwm_backlight.h
-> @@ -16,8 +16,6 @@ struct platform_pwm_backlight_data {
->  	unsigned int *levels;
->  	unsigned int post_pwm_on_delay;
->  	unsigned int pwm_off_delay;
-> -	/* TODO remove once all users are switched to gpiod_* API */
-> -	int enable_gpio;
->  	int (*init)(struct device *dev);
->  	int (*notify)(struct device *dev, int brightness);
->  	void (*notify_after)(struct device *dev, int brightness);
-> -- 
-> 2.23.0
-> 
+> [1]
+> https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-fixes-5.6
+>
+> Regards,
+> CK
+>
+> >
+> > > Signed-off-by: Evan Benn <evanbenn@chromium.org>
+> > > ---
+> > >
+> > >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 18 ++++++++++++------
+> > >  1 file changed, 12 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > > index 7b392d6c71cc..935652990afa 100644
+> > > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > > @@ -658,10 +658,18 @@ static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
+> > >
+> > >  static int mtk_drm_crtc_init(struct drm_device *drm,
+> > >                          struct mtk_drm_crtc *mtk_crtc,
+> > > -                        struct drm_plane *primary,
+> > > -                        struct drm_plane *cursor, unsigned int pipe)
+> > > +                        unsigned int pipe)
+> > >  {
+> > > -   int ret;
+> > > +   struct drm_plane *primary = NULL;
+> > > +   struct drm_plane *cursor = NULL;
+> > > +   int i, ret;
+> > > +
+> > > +   for (i = 0; i < mtk_crtc->layer_nr; i++) {
+> > > +           if (mtk_crtc->planes[i].type == DRM_PLANE_TYPE_PRIMARY)
+> > > +                   primary = &mtk_crtc->planes[i];
+> > > +           else if (mtk_crtc->planes[i].type == DRM_PLANE_TYPE_CURSOR)
+> > > +                   cursor = &mtk_crtc->planes[i];
+> > > +   }
+> > >
+> > >     ret = drm_crtc_init_with_planes(drm, &mtk_crtc->base, primary, cursor,
+> > >                                     &mtk_crtc_funcs, NULL);
+> > > @@ -830,9 +838,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+> > >                     return ret;
+> > >     }
+> > >
+> > > -   ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, &mtk_crtc->planes[0],
+> > > -                           mtk_crtc->layer_nr > 1 ? &mtk_crtc->planes[1] :
+> > > -                           NULL, pipe);
+> > > +   ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
+> > >     if (ret < 0)
+> > >             return ret;
+> > >
+> >
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
