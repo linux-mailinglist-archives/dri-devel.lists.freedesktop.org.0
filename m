@@ -1,47 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D41158F5E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 14:00:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4C7159024
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 14:42:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEE4F6EA51;
-	Tue, 11 Feb 2020 13:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F28126EA63;
+	Tue, 11 Feb 2020 13:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AEB56EA51
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 13:00:38 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2020 05:00:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="221923017"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 11 Feb 2020 05:00:31 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 11 Feb 2020 15:00:30 +0200
-Date: Tue, 11 Feb 2020 15:00:30 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH] drm/tidss: dispc: Rewrite naive plane positioning code
-Message-ID: <20200211130030.GU13686@intel.com>
-References: <20200207181824.7233-1-jsarha@ti.com>
- <02abcb19-efca-27a1-6aba-220532393a81@ti.com>
- <20200207184545.GQ13686@intel.com>
- <76f083da-e05f-9dd1-a85f-c7a3a1820f6a@ti.com>
- <20200210132103.GS13686@intel.com>
- <1f396d11-2ce0-ef01-dd6e-8c563568800b@ti.com>
- <20200210160336.GT13686@intel.com>
- <5b985430-3659-68be-4834-9cc2de9daf5e@ti.com>
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA8326EA61;
+ Tue, 11 Feb 2020 13:41:56 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id t2so12466115wrr.1;
+ Tue, 11 Feb 2020 05:41:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=aLTztAKkbiINClh1/1dtfsKqGpvUdnYEQYdommfKl2g=;
+ b=UBZcnIrSqe2YgQbhrA2MeXR+Kl5wNYB4TzvGgxCjc5Jztarvzl6Q/VlnNvm7twsJ99
+ SyJjawJE3hMWiy38MH2Bv6XuGCqWRP/4nmoH4BdWb7fg+KD3XhVqESceGlpizsR4p+MN
+ N/MqRXUPDYzhZ8qP0BoYQVUv7KUE4WPjmYv1PdjmTmcEZnkBfW79r6a7FIzmSztWo6Ri
+ OgC1phGk/tDcaVsPXzhzUANQ2CF7RVi3z6ZBRE2l4gLvYJZQiYw3q7pVblyXyjAUb2Vl
+ 0ijZEvCw1jVNcpbMLLn8g69UkQx0YatHGJ3NYGR93O+a/v2BB5Qq6sefhysGZmxUjA6U
+ fEyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=aLTztAKkbiINClh1/1dtfsKqGpvUdnYEQYdommfKl2g=;
+ b=qSmpPCbNHKk3Ipak4RwhFyKoxmbvi5f2J3JaCGIeOtVORjAc5Y2bEqVot1Uul/hT4C
+ 5out99QqWncR8hxna/5WWQVTgjEWuXWpiO7xKrSg51Ga69De2EHI49m/LZ4YBAXXxedn
+ WhUOa2AR6vgeuI+4/ogVWTLojb7WRXDpwPHUwtzDTGzfadaZTbcdnj/dcFTO+cGk7s2Q
+ XrMUJhqUEosNCXBqWwlfTgYp9IfeyLxO4weeGYJPrNP+47JQF5A2E54wYPs3LXquFBYb
+ 8+M5QRaI3ckw+Dw4hqibq/HylFlBlWjOdOlX2GrWXgTC1g3qPFk4J7cwlyGif0xbzF6Z
+ Xfzg==
+X-Gm-Message-State: APjAAAWiZ/ek2PVWx4/baS6v1ICAsQvP9lAiteVhGiImTrnGRIYsLoon
+ idPGKDO7NUb2AH04+syuyE6QUUKI
+X-Google-Smtp-Source: APXvYqxnSNrWsOGcb4NZESPQHzopVnS53basUptDy6YbgBIQL/oQswl6qfQXQW+t3TUSsy2ehMhd1Q==
+X-Received: by 2002:a5d:494f:: with SMTP id r15mr8951251wrs.143.1581428515208; 
+ Tue, 11 Feb 2020 05:41:55 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id b17sm5558921wrp.49.2020.02.11.05.41.54
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Feb 2020 05:41:54 -0800 (PST)
+Subject: Re: [PATCH 4/6] drm/ttm: rework BO delayed delete.
+To: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+References: <20200210150907.20616-1-christian.koenig@amd.com>
+ <20200210150907.20616-5-christian.koenig@amd.com>
+ <865D83C5-2752-4D2C-B0F8-66CA0B1B0203@amd.com>
+ <4C763419-ABC5-4890-BFE4-02DDAD89C0BA@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <40bbab73-7258-0d89-cf41-5a57fba6015f@gmail.com>
+Date: Tue, 11 Feb 2020 14:41:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5b985430-3659-68be-4834-9cc2de9daf5e@ti.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <4C763419-ABC5-4890-BFE4-02DDAD89C0BA@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,59 +73,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: praneeth@ti.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
- Jyri Sarha <jsarha@ti.com>, sam@ravnborg.org,
- laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: christian.koenig@amd.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 11:11:34AM +0200, Tomi Valkeinen wrote:
-> Hi Ville,
-> =
+[SNIP]
+>>> +		/*
+>>> +		 * Make NO_EVICT bos immediately available to
+>>> +		 * shrinkers, now that they are queued for
+>>> +		 * destruction.
+>>> +		 */
+>>> +		if (bo->mem.placement & TTM_PL_FLAG_NO_EVICT) {
+>>> +			bo->mem.placement &= ~TTM_PL_FLAG_NO_EVICT;
+>>> +			ttm_bo_move_to_lru_tail(bo, NULL);
+>> [xh] this should be under lru lock.
 
-> On 10/02/2020 18:03, Ville Syrj=E4l=E4 wrote:
-> =
+Ah, yes good point.
 
-> > The usual approach we follow in i915 for things that affect more
-> > than one plane is is to collect that state into the crtc state.
-> > That way we get to remember it for the planes that are not part
-> > of the current commit.
-> > =
+>>
+>>> +	BUG_ON(bo->mem.mm_node != NULL);
+>>> +	ttm_tt_destroy(bo->ttm);
+>> [xh] already destroy it in ttm_bo_cleanup_memtype_use.
 
-> > And when we have state that affects more than one crtc that again
-> > get collected up one level up in what we call global state
-> > (basically drm_private_obj with less heavy handed locking scheme).
-> =
+Fixed as well.
 
-> I'm confused. Don't we always have the full state available? Why do you n=
-eed to store state into =
+Going to send that out with those two fixed in a minute.
 
-> custom crtc-state?
-> =
-
-> Here we are interested in the x, y and z positions of all the planes on a=
- crtc. Creating a custom =
-
-> state object and duplicating that information there seems a bit silly, as=
- surely that information is =
-
-> tracked by DRM?
-
-You can have it if you add all the planes to the state, which can be
-a bit expensive. Another option would to peek into the planes' states
-that aren't in the commit, but that's quite gross due to bypassing
-the normal locking rules and instead relying on the crtc mutex to
-sufficiently protect the plane states as well. And I suspect trying
-to do said peeking during the commit phase when the locks have
-already been dropped will end badly.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+Thanks,
+Christian.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
