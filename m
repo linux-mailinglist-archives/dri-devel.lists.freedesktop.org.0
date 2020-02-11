@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C96158CD4
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 11:39:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED110158CF3
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 11:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F446EA17;
-	Tue, 11 Feb 2020 10:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA886EA23;
+	Tue, 11 Feb 2020 10:53:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE39E6EA17
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 10:38:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581417535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc; bh=WRsorsLNWt5CKXnyeD76de0tKez7QGeyMkKNMQ9fWpw=;
- b=B35vPnEzBfVy3uU7JFCJdIwpDenmpYMcqvZ970xLhIvcGFz0s4+kKurAjUKdA13QwirSHI
- ulLSfE6iulLO5XG/XieBvBg23FrD+v06aJFGrc2MhZJ8fXKi4CfU0D+mGsoQB3tos8DAsD
- DK0/GRRpYvQSUjjvyeqY2m3gnnG1x+0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-FgVyUUfEOouDKTsC4KwoQw-1; Tue, 11 Feb 2020 05:38:51 -0500
-X-MC-Unique: FgVyUUfEOouDKTsC4KwoQw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45BD4106BC3C;
- Tue, 11 Feb 2020 10:38:50 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
- [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E7655C120;
- Tue, 11 Feb 2020 10:38:47 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3F88816E2D; Tue, 11 Feb 2020 11:38:46 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/virtio: add drm_driver.release callback.
-Date: Tue, 11 Feb 2020 11:38:46 +0100
-Message-Id: <20200211103846.22183-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3F66EA23;
+ Tue, 11 Feb 2020 10:53:12 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2020 02:53:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="380399238"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+ by orsmga004.jf.intel.com with ESMTP; 11 Feb 2020 02:53:11 -0800
+Received: from irsmsx602.ger.corp.intel.com (163.33.146.8) by
+ IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 11 Feb 2020 10:53:10 +0000
+Received: from irsmsx604.ger.corp.intel.com (163.33.146.137) by
+ irsmsx602.ger.corp.intel.com (163.33.146.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 11 Feb 2020 10:53:09 +0000
+Received: from irsmsx604.ger.corp.intel.com ([163.33.146.137]) by
+ IRSMSX604.ger.corp.intel.com ([163.33.146.137]) with mapi id 15.01.1713.004;
+ Tue, 11 Feb 2020 10:53:09 +0000
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Souza,
+ Jose" <jose.souza@intel.com>
+Subject: Re: [PATCH 3/4] drm/i915/display: Remove useless call
+ intel_dp_mst_encoder_cleanup()
+Thread-Topic: [PATCH 3/4] drm/i915/display: Remove useless call
+ intel_dp_mst_encoder_cleanup()
+Thread-Index: AQHVzNmxQIxBP7XEvk6NmYUeEofHSqgV+EgA
+Date: Tue, 11 Feb 2020 10:53:09 +0000
+Message-ID: <a09f01c2c73f05ccd41a27a3a76137e8c1f5c830.camel@intel.com>
+References: <20200117015837.402239-1-jose.souza@intel.com>
+ <20200117015837.402239-3-jose.souza@intel.com>
+In-Reply-To: <20200117015837.402239-3-jose.souza@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.66.163]
+Content-ID: <5CD430914CD0274BA18834CE13EF6BEF@intel.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,200 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>, gurchetansingh@chromium.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split virtio_gpu_deinit(), move the drm shutdown and release to
-virtio_gpu_release().  Drop vqs_ready variable, instead use
-drm_dev_{enter,exit,unplug} to avoid touching hardware after
-device removal.  Tidy up here and there.
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  3 ++-
- drivers/gpu/drm/virtio/virtgpu_display.c |  1 -
- drivers/gpu/drm/virtio/virtgpu_drv.c     |  6 +++++-
- drivers/gpu/drm/virtio/virtgpu_kms.c     |  7 ++++--
- drivers/gpu/drm/virtio/virtgpu_vq.c      | 27 +++++++++++++-----------
- 5 files changed, 27 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 7fd8361e1c9e..af9403e1cf78 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -32,6 +32,7 @@
- #include <linux/virtio_gpu.h>
- 
- #include <drm/drm_atomic.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
-@@ -177,7 +178,6 @@ struct virtio_gpu_device {
- 	struct virtio_gpu_queue ctrlq;
- 	struct virtio_gpu_queue cursorq;
- 	struct kmem_cache *vbufs;
--	bool vqs_ready;
- 
- 	bool disable_notify;
- 	bool pending_notify;
-@@ -219,6 +219,7 @@ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
- /* virtio_kms.c */
- int virtio_gpu_init(struct drm_device *dev);
- void virtio_gpu_deinit(struct drm_device *dev);
-+void virtio_gpu_release(struct drm_device *dev);
- int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
- void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file);
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index 7b0f0643bb2d..af953db4a0c9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -368,6 +368,5 @@ void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev)
- 
- 	for (i = 0 ; i < vgdev->num_scanouts; ++i)
- 		kfree(vgdev->outputs[i].edid);
--	drm_atomic_helper_shutdown(vgdev->ddev);
- 	drm_mode_config_cleanup(vgdev->ddev);
- }
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 8cf27af3ad53..ab4bed78e656 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -31,6 +31,7 @@
- #include <linux/pci.h>
- 
- #include <drm/drm.h>
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- 
-@@ -135,7 +136,8 @@ static void virtio_gpu_remove(struct virtio_device *vdev)
- {
- 	struct drm_device *dev = vdev->priv;
- 
--	drm_dev_unregister(dev);
-+	drm_dev_unplug(dev);
-+	drm_atomic_helper_shutdown(dev);
- 	virtio_gpu_deinit(dev);
- 	drm_dev_put(dev);
- }
-@@ -214,4 +216,6 @@ static struct drm_driver driver = {
- 	.major = DRIVER_MAJOR,
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
-+
-+	.release = virtio_gpu_release,
- };
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index c1086df49816..4009c2f97d08 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -199,7 +199,6 @@ int virtio_gpu_init(struct drm_device *dev)
- 	virtio_gpu_modeset_init(vgdev);
- 
- 	virtio_device_ready(vgdev->vdev);
--	vgdev->vqs_ready = true;
- 
- 	if (num_capsets)
- 		virtio_gpu_get_capsets(vgdev, num_capsets);
-@@ -234,12 +233,16 @@ void virtio_gpu_deinit(struct drm_device *dev)
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 
- 	flush_work(&vgdev->obj_free_work);
--	vgdev->vqs_ready = false;
- 	flush_work(&vgdev->ctrlq.dequeue_work);
- 	flush_work(&vgdev->cursorq.dequeue_work);
- 	flush_work(&vgdev->config_changed_work);
- 	vgdev->vdev->config->reset(vgdev->vdev);
- 	vgdev->vdev->config->del_vqs(vgdev->vdev);
-+}
-+
-+void virtio_gpu_release(struct drm_device *dev)
-+{
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
- 
- 	virtio_gpu_modeset_fini(vgdev);
- 	virtio_gpu_free_vbufs(vgdev);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index a682c2fcbe9a..cfe9c54f87a3 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -330,7 +330,14 @@ static void virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- {
- 	struct virtqueue *vq = vgdev->ctrlq.vq;
- 	bool notify = false;
--	int ret;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(vgdev->ddev, &idx)) {
-+		if (fence && vbuf->objs)
-+			virtio_gpu_array_unlock_resv(vbuf->objs);
-+		free_vbuf(vgdev, vbuf);
-+		return;
-+	}
- 
- 	if (vgdev->has_indirect)
- 		elemcnt = 1;
-@@ -338,14 +345,6 @@ static void virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- again:
- 	spin_lock(&vgdev->ctrlq.qlock);
- 
--	if (!vgdev->vqs_ready) {
--		spin_unlock(&vgdev->ctrlq.qlock);
--
--		if (fence && vbuf->objs)
--			virtio_gpu_array_unlock_resv(vbuf->objs);
--		return;
--	}
--
- 	if (vq->num_free < elemcnt) {
- 		spin_unlock(&vgdev->ctrlq.qlock);
- 		wait_event(vgdev->ctrlq.ack_queue, vq->num_free >= elemcnt);
-@@ -379,6 +378,7 @@ static void virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- 		else
- 			virtqueue_notify(vq);
- 	}
-+	drm_dev_exit(idx);
- }
- 
- static void virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
-@@ -460,12 +460,13 @@ static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
- {
- 	struct virtqueue *vq = vgdev->cursorq.vq;
- 	struct scatterlist *sgs[1], ccmd;
-+	int idx, ret, outcnt;
- 	bool notify;
--	int ret;
--	int outcnt;
- 
--	if (!vgdev->vqs_ready)
-+	if (!drm_dev_enter(vgdev->ddev, &idx)) {
-+		free_vbuf(vgdev, vbuf);
- 		return;
-+	}
- 
- 	sg_init_one(&ccmd, vbuf->buf, vbuf->size);
- 	sgs[0] = &ccmd;
-@@ -490,6 +491,8 @@ static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
- 
- 	if (notify)
- 		virtqueue_notify(vq);
-+
-+	drm_dev_exit(idx);
- }
- 
- /* just create gem objects for userspace and long lived objects,
--- 
-2.18.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAyMDIwLTAxLTE2IGF0IDE3OjU4IC0wODAwLCBKb3PDqSBSb2JlcnRvIGRlIFNvdXph
+IHdyb3RlOg0KPiBUaGlzIGlzIGEgZURQIGZ1bmN0aW9uIGFuZCBpdCB3aWxsIGFsd2F5cyByZXR1
+cm5zIHRydWUgZm9yIG5vbi1lRFANCj4gcG9ydHMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBKb3PD
+qSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNvbT4NCj4gLS0tDQo+ICBkcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgfCAxIC0NCj4gIDEgZmlsZSBjaGFu
+Z2VkLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9kcC5jDQo+IGluZGV4IDQwNzRkODNiMWE1Zi4uYTUwYjViNmRkMDA5IDEwMDY0NA0KPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMNCj4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+IEBAIC03NTM3LDcgKzc1Mzcs
+NiBAQCBpbnRlbF9kcF9pbml0X2Nvbm5lY3RvcihzdHJ1Y3QNCj4gaW50ZWxfZGlnaXRhbF9wb3J0
+ICppbnRlbF9kaWdfcG9ydCwNCj4gIA0KPiAgCWlmICghaW50ZWxfZWRwX2luaXRfY29ubmVjdG9y
+KGludGVsX2RwLCBpbnRlbF9jb25uZWN0b3IpKSB7DQo+ICAJCWludGVsX2RwX2F1eF9maW5pKGlu
+dGVsX2RwKTsNCj4gLQkJaW50ZWxfZHBfbXN0X2VuY29kZXJfY2xlYW51cChpbnRlbF9kaWdfcG9y
+dCk7DQo+ICAJCWdvdG8gZmFpbDsNCj4gIAl9DQo+ICANCg0KDQpDaGFuZ2UgbG9va3MgZmluZSBm
+b3IgbWUoYW55d2F5IGJldHRlciB0aGFuIG5vdykuIA0KDQpCdXQ6DQoNClRoaXMgd2hvbGUgdGhp
+bmcgbG9va3Mga2luZCBvZiBjb25mdXNpbmcgdG8gbWUuIFdoeSB3ZSBhcmUgZXZlbiBjYWxsaW5n
+DQppbnRlbF9lZHBfaW5pdF9jb25uZWN0b3IgZm9yDQpub24tZURQIHBvcnRzLCBqdXN0IHRvIGlt
+bWVkaWF0ZWx5IGdldCB0cnVlIHJldHVybmVkPyBTbyByZXR1cm5pbmcNCnN1Y2Nlc3MgbWVhbnMg
+ZWl0aGVyIHN1Y2Nlc3Mgb3IgdGhhdCB0aGlzIGlzIG5vbi1lRFAuLg0KDQpUaGlzIGNvbmZ1c2Vz
+IHRoZSBjYWxsZXIsIHRoYXQgd2UgaGF2ZSBhY3R1YWxseSBzdWNjZXNzZnVsbHkNCmluaXRpYWxp
+emVkIGVEUCwgd2hpbGUgYWN0dWFsbHkgdGhpcyBhbHNvIG1lYW5zIGhlcmUgdGhhdCBpdCBpcyBu
+b3QNCmVEUC4NCg0KV2h5IHdlIGNhbid0IGp1c3QgZG8gaXQgbGlrZToNCg0KaWYgKGludGVsX2Rw
+X2lzX2VkcChpbnRlbF9kcCkpIHsNCglpZiAoIWludGVsX2VkcF9pbml0X2Nvbm5lY3RvcihpbnRl
+bF9kcCwgaW50ZWxfY29ubmVjdG9yKSkgew0KCQlpbnRlbF9kcF9hdXhfZmluaShpbnRlbF9kcCk7
+DQogIAkJZ290byBmYWlsOw0KCX0NCn0NCg0KaXQgbG9va3MgbXVjaCBtb3JlIHVuZGVyc3RhbmRh
+YmxlIGFuZCBsZXNzIGNvbmZ1c2luZywgaS5lIGVEUCBmdW5jdGlvbnMNCmFyZSBvbmx5IGNhbGxl
+ZCBmb3IgZURQIGFuZCBubyByZXR1cm4gdmFsdWUgaGFja3MgYXJlIG5lZWRlZC4NCg0KUmV2aWV3
+ZWQtYnk6IFN0YW5pc2xhdiBMaXNvdnNraXkgPHN0YW5pc2xhdi5saXNvdnNraXlAaW50ZWwuY29t
+Pg0KDQpTdGFuDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
