@@ -2,36 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D921594C8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 17:22:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6351594E4
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 17:27:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37E036EEB6;
-	Tue, 11 Feb 2020 16:22:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40B236EEB2;
+	Tue, 11 Feb 2020 16:27:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 441DA6EEB6;
- Tue, 11 Feb 2020 16:22:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2020 08:22:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="226546586"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 11 Feb 2020 08:22:34 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 11 Feb 2020 18:22:33 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 7/7] drm: Allow drivers to leave encoder->possible_crtcs==0
-Date: Tue, 11 Feb 2020 18:22:08 +0200
-Message-Id: <20200211162208.16224-8-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200211162208.16224-1-ville.syrjala@linux.intel.com>
-References: <20200211162208.16224-1-ville.syrjala@linux.intel.com>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E66456EEA3;
+ Tue, 11 Feb 2020 16:27:18 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id k11so13117749wrd.9;
+ Tue, 11 Feb 2020 08:27:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Bb55gTYbvX5LbdEf+EUAlbMGla2WoqoUJ8i650G+fRc=;
+ b=bWg35xF/yD9pqZ9r9gAfcFYbcO01dATtpd5p/Yu+BmIBqo+lRQ7+4bsut1tsRWTfl8
+ ToapJrBfwq6ld3O/77RBF5A79hiOM6g53wO86v0uru9JZHUyJafV178juS00IiaXfjAe
+ 9pGroEiCI1KvXxFiQhXBU1zOAE3dv4jVg2ed1BQvvhevAE33L4S4WpnjFLif2zoIOgBC
+ lVi8zE6ih4CZRsKn5tpzo6dd5D1pro92eh6b1R9vnZRMtYQBvnjX9bwHlrxsLCw/KV3u
+ 6u84QJPojqmGpfz+rDkMuVWm5A5qe2jRENq8gsrIXsz6I3e+XyVF7K8vM58p/7rPxR7l
+ KyAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Bb55gTYbvX5LbdEf+EUAlbMGla2WoqoUJ8i650G+fRc=;
+ b=PwC0eEO8Ec2S6t0yVtdTSA8E4ZBNQrwvHeTyvq7qRkMJBgnq7dk28zYiwHJTL3WK+6
+ hYhWQRGI6wOjnz+yGers03MWsvgfk+xyb8Hk289j8uyWTu41xslqk8vtqqxpodlCABZF
+ 8Q68RVRiAUMh6Q8JTUdfeN5K5Flzir5ackemf9Bezkws3jFgKnkb314aYc6Fy/nkG2Bb
+ 2d++REULWq0EC1xeVEQq9wXRRHRv0Q4wFv/9zNECe3AjZrUJXrj6YIm2NuWIDQ0iA1Or
+ 5YEyHmArrQK3VIkP8r064Bt+/BFZZHBFbRhzol/wfbpkDuzDofYOpC3TOFSAMfmTwb6p
+ 1xZw==
+X-Gm-Message-State: APjAAAV+keyR0rJWN1fL+1AIklNo4BChJUryHtIluGc/4dHG/WPfzLuS
+ WQikAWYLmvndyOUxP2DT/d+h9JQjm6IJsqgd/C8=
+X-Google-Smtp-Source: APXvYqxJIVk57by6TFkLMzF0DpAckbyFa0fFzF1uA/eHJG2PTvQ3sdvui9aGi+JIzbggU7p4lUEdYv2UQenZQmQYUyM=
+X-Received: by 2002:adf:ec4c:: with SMTP id w12mr9786904wrn.124.1581438437502; 
+ Tue, 11 Feb 2020 08:27:17 -0800 (PST)
 MIME-Version: 1.0
+References: <20200210150826.35200-1-yuehaibing@huawei.com>
+In-Reply-To: <20200210150826.35200-1-yuehaibing@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 11 Feb 2020 11:27:06 -0500
+Message-ID: <CADnq5_My4OM4CvDHHWN3MxVKAon78pvbw71mO2yzer-FdxYu1w@mail.gmail.com>
+Subject: Re: [RFC PATCH -next] drm/amd/display: Remove set but not unused
+ variable 'stream_status'
+To: YueHaibing <yuehaibing@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,58 +61,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Eric Yang <Eric.Yang2@amd.com>, Yongqiang Sun <yongqiang.sun@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>, "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@linux.ie>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Martin Leung <martin.leung@amd.com>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, Anthony Koo <Anthony.Koo@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCkxl
-dCdzIHNpbXBsaWZ5IGxpZmUgb2YgZHJpdmVyIGJ5IGFsbG93aW5nIHRoZW0gdG8gbGVhdmUKZW5j
-b2Rlci0+cG9zc2libGVfY3J0Y3MgdW5zZXQgaWYgdGhleSBoYXZlIG5vIHJlc3RyaWN0aW9ucwpp
-biBjcnRjPC0+ZW5jb2RlciBsaW5rYWdlLiBXZSdsbCBqdXN0IHBvcHVsYXRlIHBvc3NpYmxlX2Ny
-dGNzCndpdGggdGhlIGZ1bGwgY3J0YyBtYXNrIHdoZW4gcmVnaXN0ZXJpbmcgdGhlIGVuY29kZXIg
-c28gdGhhdAp1c2Vyc3BhY2UgZG9lc24ndCBoYXZlIHRvIGRlYWwgd2l0aCBkcml2ZXJzIG5vdCBw
-b3B1bGF0aW5nCnRoaXMgY29ycmVjdGx5LgoKQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpTaWduZWQt
-b2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgot
-LS0KV2UgbWlnaHQgbm90IGFjdHVhbGx5IG5lZWQvd2FudCB0aGlzLCBidXQgaW5jbHVkZWQgaXQg
-aGVyZSBmb3IKZnV0dXJlIHJlZmVyZW5jZSBpZiB0aGF0IGFzc3VtcHRpb24gdHVybnMgb3V0IHRv
-IGJlIHdyb25nLgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZV9jb25maWcuYyB8IDE1ICsr
-KysrKysrKysrKysrLQogaW5jbHVkZS9kcm0vZHJtX2VuY29kZXIuaCAgICAgICAgIHwgIDQgKysr
-KwogMiBmaWxlcyBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9tb2RlX2NvbmZpZy5jIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9tb2RlX2NvbmZpZy5jCmluZGV4IDRjMWIzNTBkZGI5NS4uY2UxOGMzZGQwYmRlIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfY29uZmlnLmMKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9tb2RlX2NvbmZpZy5jCkBAIC01OTIsNiArNTkyLDE3IEBAIHN0YXRpYyB1
-MzIgZnVsbF9jcnRjX21hc2soc3RydWN0IGRybV9kZXZpY2UgKmRldikKIAlyZXR1cm4gY3J0Y19t
-YXNrOwogfQogCisvKgorICogTWFrZSBsaWZlIGVhc3kgZm9yIGRyaXZlcnMgYnkgYWxsb3dpbmcg
-dGhlbSB0byBsZWF2ZQorICogcG9zc2libGVfY3J0Y3MgdW5zZXQgaWYgdGhlcmUgYXJlIG5vdCBj
-cnRjPC0+ZW5jb2RlcgorICogcmVzdHJpY3Rpb25zLgorICovCitzdGF0aWMgdm9pZCBmaXh1cF9l
-bmNvZGVyX3Bvc3NpYmxlX2NydGNzKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikKK3sKKwlp
-ZiAoZW5jb2Rlci0+cG9zc2libGVfY3J0Y3MgPT0gMCkKKwkJZW5jb2Rlci0+cG9zc2libGVfY3J0
-Y3MgPSBmdWxsX2NydGNfbWFzayhlbmNvZGVyLT5kZXYpOworfQorCiBzdGF0aWMgdm9pZCB2YWxp
-ZGF0ZV9lbmNvZGVyX3Bvc3NpYmxlX2NydGNzKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikK
-IHsKIAl1MzIgY3J0Y19tYXNrID0gZnVsbF9jcnRjX21hc2soZW5jb2Rlci0+ZGV2KTsKQEAgLTYw
-OCw4ICs2MTksMTAgQEAgdm9pZCBkcm1fbW9kZV9jb25maWdfdmFsaWRhdGUoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldikKIHsKIAlzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXI7CiAKLQlkcm1fZm9y
-X2VhY2hfZW5jb2RlcihlbmNvZGVyLCBkZXYpCisJZHJtX2Zvcl9lYWNoX2VuY29kZXIoZW5jb2Rl
-ciwgZGV2KSB7CiAJCWZpeHVwX2VuY29kZXJfcG9zc2libGVfY2xvbmVzKGVuY29kZXIpOworCQlm
-aXh1cF9lbmNvZGVyX3Bvc3NpYmxlX2NydGNzKGVuY29kZXIpOworCX0KIAogCWRybV9mb3JfZWFj
-aF9lbmNvZGVyKGVuY29kZXIsIGRldikgewogCQl2YWxpZGF0ZV9lbmNvZGVyX3Bvc3NpYmxlX2Ns
-b25lcyhlbmNvZGVyKTsKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9lbmNvZGVyLmggYi9p
-bmNsdWRlL2RybS9kcm1fZW5jb2Rlci5oCmluZGV4IGIyMzYyNjlmNDFhYy4uYmQwMzNjNTYxOGJm
-IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fZW5jb2Rlci5oCisrKyBiL2luY2x1ZGUvZHJt
-L2RybV9lbmNvZGVyLmgKQEAgLTE0Miw2ICsxNDIsMTAgQEAgc3RydWN0IGRybV9lbmNvZGVyIHsK
-IAkgKiB0aGUgYml0cyBmb3IgYWxsICZkcm1fY3J0YyBvYmplY3RzIHRoaXMgZW5jb2RlciBjYW4g
-YmUgY29ubmVjdGVkIHRvCiAJICogYmVmb3JlIGNhbGxpbmcgZHJtX2Rldl9yZWdpc3RlcigpLgog
-CSAqCisJICogQXMgYW4gZXhjZXB0aW9uIHRvIHRoZSBhYm92ZSBydWxlIGlmIGFueSBjcnRjIGNh
-biBiZSBjb25uZWN0ZWQgdG8KKwkgKiB0aGUgZW5jb2RlciB0aGUgZHJpdmVyIGNhbiBsZWF2ZSBA
-cG9zc2libGVfY3J0Y3Mgc2V0IHRvIDAuIFRoZSBjb3JlCisJICogd2lsbCBhdXRvbWFnaWNhbGx5
-IGZpeCB0aGlzIHVwIGJ5IHNldHRpbmcgdGhlIGJpdCBmb3IgZXZlcnkgY3J0Yy4KKwkgKgogCSAq
-IFlvdSB3aWxsIGdldCBhIFdBUk4gaWYgeW91IGdldCB0aGlzIHdyb25nIGluIHRoZSBkcml2ZXIu
-CiAJICoKIAkgKiBOb3RlIHRoYXQgc2luY2UgQ1JUQyBvYmplY3RzIGNhbid0IGJlIGhvdHBsdWdn
-ZWQgdGhlIGFzc2lnbmVkIGluZGljZXMKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Feb 10, 2020 at 10:38 AM YueHaibing <yuehaibing@huawei.com> wrote:
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:
+>  In function dcn10_post_unlock_program_front_end:
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:2623:29:
+>  warning: variable stream_status set but not used [-Wunused-but-set-variable]
+>
+> commit bbf5f6c3f83b ("drm/amd/display: Split program front end part that occur outside lock")
+> involved this unused variable.
+>
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+
+Applied.  Thanks!
+
+Alex
+
+> ---
+>  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> index 42fcfee..b2ed0fa 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> @@ -2610,7 +2610,7 @@ void dcn10_post_unlock_program_front_end(
+>                 struct dc *dc,
+>                 struct dc_state *context)
+>  {
+> -       int i, j;
+> +       int i;
+>
+>         DC_LOGGER_INIT(dc->ctx->logger);
+>
+> @@ -2620,14 +2620,8 @@ void dcn10_post_unlock_program_front_end(
+>                 if (!pipe_ctx->top_pipe &&
+>                         !pipe_ctx->prev_odm_pipe &&
+>                         pipe_ctx->stream) {
+> -                       struct dc_stream_status *stream_status = NULL;
+>                         struct timing_generator *tg = pipe_ctx->stream_res.tg;
+>
+> -                       for (j = 0; j < context->stream_count; j++) {
+> -                               if (pipe_ctx->stream == context->streams[j])
+> -                                       stream_status = &context->stream_status[j];
+> -                       }
+> -
+>                         if (context->stream_status[i].plane_count == 0)
+>                                 false_optc_underflow_wa(dc, pipe_ctx->stream, tg);
+>                 }
+> --
+> 2.7.4
+>
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
