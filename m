@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5943A15A32D
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2C915A336
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:25:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E15406E983;
-	Wed, 12 Feb 2020 08:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 384B26F477;
+	Wed, 12 Feb 2020 08:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p03-ob.smtp.rzone.de (mo6-p03-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5303::10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B236F440
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 21:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581457652;
+Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5304::7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D72A6E03A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 21:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581458013;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=RzFvreAROfD8+Za4+h0pzFXVuRYDasxapojPV71TMVg=;
- b=kRxpoqkmBLEaTSdKoPOV03XpCG9f1uLcaG33PkIjjbcZTI1merJOgXSDnxctyByeCe
- SATVr6PlHIPzfKd6fNXZk9IvcJrr5nVFZ/PegKaziJdVMQy6hBl8AkAUMDmb3HL4/24P
- jYJMk6Tdpod5ESp/471tQdq8XsDkAqyMVFKsNc7TTx0FI8Fvw942Bz1UeVJ5Ze59JkVH
- R0DQVjYx1X5LqZhARYp2KIaBsmjjrxJN6yyTqZyMXyxBmANEZJ3sV4XdLmSBSL2lBYRV
- NrHzg3mqQhXOiH/45ZSFPlHSsJdIj4GOaRqhEqiXv4KecFQGUpzKoXfVup0SwS38Jpsk
- jp1A==
+ bh=l2ioSw/GBEgoEsJDqdX898kUDDw9CYiqWmti4ETUA48=;
+ b=ZZQ1/jGINoiNaXgQzjvklOAneeIHuk7qvmwKEcJM/l907yatS74VAgruvxCj2GqoI4
+ PofproPACZbJwlZy8UZE+KtmjuImDKjQcpyURmLGoCG3uuKCczlnp+qdJMSGt6hWHWe0
+ KGtHZFFZ5rTH2m+zmeVZUzAOxUx9aN8uUsfn0WKEwM6hoqMtAlOO+IB0AKY/0upB2dML
+ 5yc9V8PW+PiJC5735NLvD0v8D/C/urJvM9xqvqiaV9pWMaATyXaZbbH1XffKOr54Xxmu
+ Dvod03af6ME8CjYdmvNNt+ulv074nVs6spfW7RBOPpo635L7L55bOZITqpkUP5QHqv8u
+ EsCg==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UNf2M0P2mp10IM"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1BLfZ0EK
+ with ESMTPSA id U06217w1BLfa0EL
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Tue, 11 Feb 2020 22:41:35 +0100 (CET)
+ Tue, 11 Feb 2020 22:41:36 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  Alex Smith <alex.smith@imgtec.com>, Rob Herring <robh+dt@kernel.org>,
@@ -46,9 +46,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>,
  Richard Fontana <rfontana@redhat.com>,
  Allison Randal <allison@lohutok.net>, Stephen Boyd <swboyd@chromium.org>
-Subject: [PATCH 04/14] MIPS: DTS: jz4780: fix #includes for irq.h and gpio.h
-Date: Tue, 11 Feb 2020 22:41:21 +0100
-Message-Id: <5cc02bf80a341262362f8c73d9d5d3efde098482.1581457290.git.hns@goldelico.com>
+Subject: [PATCH 05/14] MIPS: CI20: defconfig: configure for supporting modules
+Date: Tue, 11 Feb 2020 22:41:22 +0100
+Message-Id: <b490287210e46565733209197ffdae3bc90137dc.1581457290.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1581457290.git.hns@goldelico.com>
 References: <cover.1581457290.git.hns@goldelico.com>
@@ -76,27 +76,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The constants from irq.h and gpio.h can be used in the
-jz4780.dtsi and derived DTS like ci20.dts.
+Not all drivers need to be compiled into the kernel.
+Support building and loading of kernel modules.
 
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/mips/boot/dts/ingenic/jz4780.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/mips/configs/ci20_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-index f928329b034b..112a24deff71 100644
---- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-@@ -1,6 +1,8 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <dt-bindings/clock/jz4780-cgu.h>
- #include <dt-bindings/dma/jz4780-dma.h>
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
- 
- / {
- 	#address-cells = <1>;
+diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_defconfig
+index be41df2a81fb..e0d3c9d4c2ae 100644
+--- a/arch/mips/configs/ci20_defconfig
++++ b/arch/mips/configs/ci20_defconfig
+@@ -1,4 +1,5 @@
+ # CONFIG_LOCALVERSION_AUTO is not set
++CONFIG_MODULES=y
+ CONFIG_KERNEL_XZ=y
+ CONFIG_SYSVIPC=y
+ CONFIG_POSIX_MQUEUE=y
 -- 
 2.23.0
 
