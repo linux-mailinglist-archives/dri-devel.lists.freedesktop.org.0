@@ -2,46 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD2D158C31
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 10:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C1F158C4D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 11:01:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21D36E4AD;
-	Tue, 11 Feb 2020 09:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF5FE6E4BB;
+	Tue, 11 Feb 2020 10:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81B46E4AD
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 09:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581414939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc; bh=DCZ/HZY+BrMbXg5FbkPEvwFRllXttN9dTdmpwAbOBrg=;
- b=TKRGq80Sy2gqyspsZYAbXRhFIKW0hOzjJkiHrtp2x6x/7aH9mYPSSjhLGF7DKx3lhuRPck
- QKLALgd0QGbtlUrQyFRtIHIE8q2yngdAIhnLUVvGyvS5KOsFzLxmWL2BhhuCLgcmP9+M31
- FloDElBNiZpYVO8rm+KLH3mJdrlYZfU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-R89z60rxNr6iUvaiwZOc3w-1; Tue, 11 Feb 2020 04:55:35 -0500
-X-MC-Unique: R89z60rxNr6iUvaiwZOc3w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 604CD8017DF;
- Tue, 11 Feb 2020 09:55:33 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
- [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FC5760BF1;
- Tue, 11 Feb 2020 09:55:30 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 537C616E15; Tue, 11 Feb 2020 10:55:29 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/bochs: add drm_driver.release callback.
-Date: Tue, 11 Feb 2020 10:55:29 +0100
-Message-Id: <20200211095529.30449-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8C66E4BB
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 10:01:42 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01BA1YBq032540;
+ Tue, 11 Feb 2020 04:01:34 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1581415294;
+ bh=+ZcF4yo1eln9KhwQy1Qd6OUQAx//vdRlxtfqM27rgaU=;
+ h=Subject:From:To:CC:References:Date:In-Reply-To;
+ b=sUIBpp2WaQwT6eNvNRlhL4gP6jnNvR8/vq23Q0q84jJwFfnuAEe8u8YpqIdceX2X8
+ Bq0xIvCpURcVRDx5Qah8Xi9gE+IBZ+3PL4C/yGY2LVxE8LL+0JHht42DeVRuaAWcIR
+ IdSy+AmSU0CrFYUJaZZXWCCVWZIrLWP6mO0iqnLY=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01BA1YZG119993;
+ Tue, 11 Feb 2020 04:01:34 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 11
+ Feb 2020 04:01:33 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 11 Feb 2020 04:01:33 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01BA1VLH127621;
+ Tue, 11 Feb 2020 04:01:32 -0600
+Subject: Re: [PATCH 2/3] ARM: dts: am437x-gp/epos-evm: drop unused panel
+ timings
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tony Lindgren
+ <tony@atomide.com>, Linux-OMAP <linux-omap@vger.kernel.org>
+References: <20191114093950.4101-1-tomi.valkeinen@ti.com>
+ <20191114093950.4101-3-tomi.valkeinen@ti.com>
+ <20191202130459.GH4929@pendragon.ideasonboard.com>
+ <20191211165331.GC43123@atomide.com>
+ <45dae8f7-2f5e-6948-5a05-dc8a09ace1fa@ti.com>
+ <20191212203550.GB4892@pendragon.ideasonboard.com>
+ <add3d8af-6977-68e6-fb77-2fa748c4714a@ti.com>
+Message-ID: <b39e52f1-3e73-5f26-6206-0956cf482631@ti.com>
+Date: Tue, 11 Feb 2020 12:01:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <add3d8af-6977-68e6-fb77-2fa748c4714a@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,140 +68,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Jyri Sarha <jsarha@ti.com>,
+ dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call bochs_unload via drm_driver.release to make sure we release stuff
-when it is safe to do so.  Use drm_dev_{enter,exit,unplug} to avoid
-touching hardware after device removal.  Tidy up here and there.
+On 13/01/2020 14:01, Tomi Valkeinen wrote:
+> On 12/12/2019 22:35, Laurent Pinchart wrote:
+>> Hi Tomi,
+>>
+>> On Thu, Dec 12, 2019 at 11:37:51AM +0200, Tomi Valkeinen wrote:
+>>> On 11/12/2019 18:53, Tony Lindgren wrote:
+>>>> * Laurent Pinchart <laurent.pinchart@ideasonboard.com> [191202 13:05]:
+>>>>> Hi Tomi,
+>>>>>
+>>>>> Thank you for the patch.
+>>>>>
+>>>>> On Thu, Nov 14, 2019 at 11:39:49AM +0200, Tomi Valkeinen wrote:
+>>>>>> panel-simple now handled panel osd070t1718-19ts, and we no longer need
+>>>>>> the panel timings in the DT file. So remove them.
+>>>>>
+>>>>> Should you in that case drop the panel-dpi compatible string too, as the
+>>>>> panel-dpi bindings require panel timings in DT ?
+>>>>
+>>>> Yeah sounds like if panel-dpi is no longer usable for this device it
+>>>> should be dropped from the compatible list.
+>>>
+>>> Ok, I agree.
+>>>
+>>> Looking at the dts files, panel-dpi is used in a bunch of boards. But
+>>> we even have 3 dts files with panel-dpi, without the detailed panel
+>>> model in compatible...
+>>>
+>>> Fixing those will break the compatibility with old dtbs and new
+>>> kernel, unless we add timings-from-dt to a panel driver that handles
+>>> panel-dpi.
+>>
+>> I know, and I don't have a perfect answer for this :-( I don't see a
+>> third option, it's either breaking DT backward compatibility or adding
+>> timings parsing to a panel driver (either a new panel-dpi driver or to
+>> panel-simple). What's your preferred option ?
+> 
+> Hmm, I just realized that changing these will break omapfb. It relies on panel-dpi and timings from 
+> DT...
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/bochs/bochs_drv.c |  6 +++---
- drivers/gpu/drm/bochs/bochs_hw.c  | 24 +++++++++++++++++++++++-
- 2 files changed, 26 insertions(+), 4 deletions(-)
+If no one objects, I think we should just drop the timings from the .dts, and say that these boards 
+are no longer supported with omapfb. I don't think there's much point in trying to keep omapfb 
+working fine for boards that are fully supported by omapdrm.
 
-diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/bochs_drv.c
-index 10460878414e..addb0568c1af 100644
---- a/drivers/gpu/drm/bochs/bochs_drv.c
-+++ b/drivers/gpu/drm/bochs/bochs_drv.c
-@@ -23,7 +23,6 @@ static void bochs_unload(struct drm_device *dev)
- 
- 	bochs_kms_fini(bochs);
- 	bochs_mm_fini(bochs);
--	bochs_hw_fini(dev);
- 	kfree(bochs);
- 	dev->dev_private = NULL;
- }
-@@ -69,6 +68,7 @@ static struct drm_driver bochs_driver = {
- 	.major			= 1,
- 	.minor			= 0,
- 	DRM_GEM_VRAM_DRIVER,
-+	.release                = bochs_unload,
- };
- 
- /* ---------------------------------------------------------------------- */
-@@ -148,9 +148,9 @@ static void bochs_pci_remove(struct pci_dev *pdev)
- {
- 	struct drm_device *dev = pci_get_drvdata(pdev);
- 
-+	drm_dev_unplug(dev);
- 	drm_atomic_helper_shutdown(dev);
--	drm_dev_unregister(dev);
--	bochs_unload(dev);
-+	bochs_hw_fini(dev);
- 	drm_dev_put(dev);
- }
- 
-diff --git a/drivers/gpu/drm/bochs/bochs_hw.c b/drivers/gpu/drm/bochs/bochs_hw.c
-index b615b7dfdd9d..952199cc0462 100644
---- a/drivers/gpu/drm/bochs/bochs_hw.c
-+++ b/drivers/gpu/drm/bochs/bochs_hw.c
-@@ -4,6 +4,7 @@
- 
- #include <linux/pci.h>
- 
-+#include <drm/drm_drv.h>
- #include <drm/drm_fourcc.h>
- 
- #include "bochs.h"
-@@ -194,6 +195,8 @@ void bochs_hw_fini(struct drm_device *dev)
- {
- 	struct bochs_device *bochs = dev->dev_private;
- 
-+	/* TODO: shot down existing vram mappings */
-+
- 	if (bochs->mmio)
- 		iounmap(bochs->mmio);
- 	if (bochs->ioports)
-@@ -207,6 +210,11 @@ void bochs_hw_fini(struct drm_device *dev)
- void bochs_hw_setmode(struct bochs_device *bochs,
- 		      struct drm_display_mode *mode)
- {
-+	int idx;
-+
-+	if (!drm_dev_enter(bochs->dev, &idx))
-+		return;
-+
- 	bochs->xres = mode->hdisplay;
- 	bochs->yres = mode->vdisplay;
- 	bochs->bpp = 32;
-@@ -232,11 +240,18 @@ void bochs_hw_setmode(struct bochs_device *bochs,
- 
- 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,
- 			  VBE_DISPI_ENABLED | VBE_DISPI_LFB_ENABLED);
-+
-+	drm_dev_exit(idx);
- }
- 
- void bochs_hw_setformat(struct bochs_device *bochs,
- 			const struct drm_format_info *format)
- {
-+	int idx;
-+
-+	if (!drm_dev_enter(bochs->dev, &idx))
-+		return;
-+
- 	DRM_DEBUG_DRIVER("format %c%c%c%c\n",
- 			 (format->format >>  0) & 0xff,
- 			 (format->format >>  8) & 0xff,
-@@ -256,13 +271,18 @@ void bochs_hw_setformat(struct bochs_device *bochs,
- 			  __func__, format->format);
- 		break;
- 	}
-+
-+	drm_dev_exit(idx);
- }
- 
- void bochs_hw_setbase(struct bochs_device *bochs,
- 		      int x, int y, int stride, u64 addr)
- {
- 	unsigned long offset;
--	unsigned int vx, vy, vwidth;
-+	unsigned int vx, vy, vwidth, idx;
-+
-+	if (!drm_dev_enter(bochs->dev, &idx))
-+		return;
- 
- 	bochs->stride = stride;
- 	offset = (unsigned long)addr +
-@@ -277,4 +297,6 @@ void bochs_hw_setbase(struct bochs_device *bochs,
- 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_VIRT_WIDTH, vwidth);
- 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_X_OFFSET, vx);
- 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_Y_OFFSET, vy);
-+
-+	drm_dev_exit(idx);
- }
+Hopefully soon (in five years? =) we can say that omapdrm supports all the boards, and we can 
+deprecate omapfb.
+
+  Tomi
+
 -- 
-2.18.2
-
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
