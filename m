@@ -2,37 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8833B15903E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 14:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F211159055
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 14:51:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE9446EA69;
-	Tue, 11 Feb 2020 13:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFCD36E4C9;
+	Tue, 11 Feb 2020 13:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AAD16EA69;
- Tue, 11 Feb 2020 13:47:45 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2020 05:47:39 -0800
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="226507295"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2020 05:47:36 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Wambui Karuga <wambui.karugax@gmail.com>, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: Re: [PATCH v2 11/12] drm/i915/hdmi: convert to struct drm_device
- based logging macros.
-In-Reply-To: <20200206080014.13759-12-wambui.karugax@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200206080014.13759-1-wambui.karugax@gmail.com>
- <20200206080014.13759-12-wambui.karugax@gmail.com>
-Date: Tue, 11 Feb 2020 15:47:33 +0200
-Message-ID: <87tv3xz156.fsf@intel.com>
-MIME-Version: 1.0
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B29626E4C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 13:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581429056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LA/xKvKtWDkPcF5FkG8GiNmoITjnbkXzXw85ObFsfi4=;
+ b=Cj9x6MPGdVOd9x2EWlVrrSV8QJdlIeaUnRFxCkIqlXejJI+Uc1HUTSMghEW74qfHHtwz96
+ Te3N96XAgvhOPCtggaMq3e1f2naJfMmQGJz4Am86tJBpXvqw22ZCfMW8NuN2UeGcEfj5JR
+ xOKLY/FJ5Fx07ChDNN3eX9AKynx3jfE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-3iBq8J8GN1ukYMofgze32g-1; Tue, 11 Feb 2020 08:50:52 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AAAB107ACC4;
+ Tue, 11 Feb 2020 13:50:51 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
+ [10.36.116.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD5CE10021B3;
+ Tue, 11 Feb 2020 13:50:48 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E4DFA17447; Tue, 11 Feb 2020 14:50:47 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/virtio: locking/reservation fixes
+Date: Tue, 11 Feb 2020 14:50:45 +0100
+Message-Id: <20200211135047.22261-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 3iBq8J8GN1ukYMofgze32g-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,36 +58,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, sean@poorly.run,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, gurchetansingh@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 06 Feb 2020, Wambui Karuga <wambui.karugax@gmail.com> wrote:
-> @@ -1364,11 +1372,15 @@ int intel_hdmi_hdcp_write_an_aksv(struct intel_digital_port *intel_dig_port,
->  static int intel_hdmi_hdcp_read_bksv(struct intel_digital_port *intel_dig_port,
->  				     u8 *bksv)
->  {
-> +	struct drm_i915_private *i915 =
-> +		intel_dig_port->base.base.dev->dev_private;
-
-The preferred way to get from intel_digital_port to i915 throughout is
-
-	struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
-
-I realize there are some bad examples in the file; I've posted [1] to
-fix them.
-
-BR,
-Jani.
 
 
-[1] http://patchwork.freedesktop.org/patch/msgid/20200211134427.31605-1-jani.nikula@intel.com
+Gerd Hoffmann (2):
+  drm/virtio: fix virtio_gpu_execbuffer_ioctl locking
+  drm/virtio: fix virtio_gpu_cursor_plane_update().
+
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 20 ++++++++++----------
+ drivers/gpu/drm/virtio/virtgpu_plane.c |  1 +
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.18.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
