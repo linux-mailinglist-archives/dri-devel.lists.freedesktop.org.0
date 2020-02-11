@@ -2,47 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D735D1587DC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 02:19:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1893E158815
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 03:03:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEE576E279;
-	Tue, 11 Feb 2020 01:19:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 807E66E28E;
+	Tue, 11 Feb 2020 02:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 22DE06E279
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 01:19:38 +0000 (UTC)
-X-UUID: bb4be0dbcae848f58523fcadeed9470f-20200211
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=mxKXHpMsJ5tja8hbUWbIbhD1W2Y9D1qbD+njzeGZeLo=; 
- b=Tktp5Ttsa726dao3RTS7GoXNd3YZYVkBSmBNjTBUHKgRcmtOlWHLtbpvTeZ0H+EMYjJVOfPSXOkbwQX8qcIzttInXfMIfiR9XW6jUSLcpkveZBE6B7qJcZXuFuhFpsrbnepqeSobKjpdZefnXWfoCuKQ1OBPbbkV4FsBfRWGU3s=;
-X-UUID: bb4be0dbcae848f58523fcadeed9470f-20200211
-Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 772415810; Tue, 11 Feb 2020 09:19:35 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 11 Feb 2020 09:18:52 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 11 Feb 2020 09:20:00 +0800
-Message-ID: <1581383974.3194.1.camel@mtksdaap41>
-Subject: Re: [PATCH] drm/mediatek: Find the cursor plane instead of hard
- coding it
-From: CK Hu <ck.hu@mediatek.com>
-To: Sean Paul <sean@poorly.run>
-Date: Tue, 11 Feb 2020 09:19:34 +0800
-In-Reply-To: <CAMavQKLqr=a=WZKFfC2sEBcskjX+k-82a3V3XVk7LQLzpAMaBg@mail.gmail.com>
-References: <20200206140140.GA18465@art_vandelay>
- <20200207152348.1.Ie0633018fc787dda6e869cae23df76ae30f2a686@changeid>
- <1581064499.590.0.camel@mtksdaap41> <1581303187.951.2.camel@mtksdaap41>
- <CAMavQKLqr=a=WZKFfC2sEBcskjX+k-82a3V3XVk7LQLzpAMaBg@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2666E28E
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 02:03:02 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206309] Experimental amdgpu w/ Dell E6540 with HD 8790M (MARS
+ XTX), massive performance improvement after ACPI suspend
+Date: Tue, 11 Feb 2020 02:03:02 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: changhaitravis@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206309-2300-mx1wFY2Iqc@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206309-2300@https.bugzilla.kernel.org/>
+References: <bug-206309-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,106 +52,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Evan Benn <evanbenn@chromium.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-02-10 at 09:10 -0500, Sean Paul wrote:
-> On Sun, Feb 9, 2020 at 9:53 PM CK Hu <ck.hu@mediatek.com> wrote:
-> >
-> > Hi, Evan:
-> >
-> > On Fri, 2020-02-07 at 16:34 +0800, CK Hu wrote:
-> > > Hi, Evan:
-> > >
-> > > On Fri, 2020-02-07 at 15:23 +1100, Evan Benn wrote:
-> > > > The cursor and primary planes were hard coded.
-> > > > Now search for them for passing to drm_crtc_init_with_planes
-> > > >
-> > >
-> > > Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> >
-> > Applied to mediatek-drm-fixes-5.6 [1], thanks.
-> >
-> 
-> Hi CK,
-> Thanks for picking this up. Before you send the pull, could you please
-> reverse the order of these 2 patches? Evan's should come before mine
-> to prevent a regression.
-> 
-> Sean
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=206309
 
-Hi, Sean:
+--- Comment #1 from Travis Juntara (changhaitravis@gmail.com) ---
+So I just got a Dell E-series docking station, and I've just noticed that if I
+boot while docked, I get the full performance. 
 
-Thanks for your notice. I've reversed the order.
+I'll test sometime to see if the AC power brick makes a difference, and if it
+does I'll close this out and chalk it up to a poor 3rd party power supply.
 
-Regards,
-CK
-
-> > [1]
-> > https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-fixes-5.6
-> >
-> > Regards,
-> > CK
-> >
-> > >
-> > > > Signed-off-by: Evan Benn <evanbenn@chromium.org>
-> > > > ---
-> > > >
-> > > >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 18 ++++++++++++------
-> > > >  1 file changed, 12 insertions(+), 6 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > > index 7b392d6c71cc..935652990afa 100644
-> > > > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > > @@ -658,10 +658,18 @@ static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
-> > > >
-> > > >  static int mtk_drm_crtc_init(struct drm_device *drm,
-> > > >                          struct mtk_drm_crtc *mtk_crtc,
-> > > > -                        struct drm_plane *primary,
-> > > > -                        struct drm_plane *cursor, unsigned int pipe)
-> > > > +                        unsigned int pipe)
-> > > >  {
-> > > > -   int ret;
-> > > > +   struct drm_plane *primary = NULL;
-> > > > +   struct drm_plane *cursor = NULL;
-> > > > +   int i, ret;
-> > > > +
-> > > > +   for (i = 0; i < mtk_crtc->layer_nr; i++) {
-> > > > +           if (mtk_crtc->planes[i].type == DRM_PLANE_TYPE_PRIMARY)
-> > > > +                   primary = &mtk_crtc->planes[i];
-> > > > +           else if (mtk_crtc->planes[i].type == DRM_PLANE_TYPE_CURSOR)
-> > > > +                   cursor = &mtk_crtc->planes[i];
-> > > > +   }
-> > > >
-> > > >     ret = drm_crtc_init_with_planes(drm, &mtk_crtc->base, primary, cursor,
-> > > >                                     &mtk_crtc_funcs, NULL);
-> > > > @@ -830,9 +838,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
-> > > >                     return ret;
-> > > >     }
-> > > >
-> > > > -   ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, &mtk_crtc->planes[0],
-> > > > -                           mtk_crtc->layer_nr > 1 ? &mtk_crtc->planes[1] :
-> > > > -                           NULL, pipe);
-> > > > +   ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
-> > > >     if (ret < 0)
-> > > >             return ret;
-> > > >
-> > >
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
