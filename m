@@ -2,42 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E3F1595FE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 18:14:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DC5159615
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 18:22:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FBDB6E523;
-	Tue, 11 Feb 2020 17:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B78E6EF32;
+	Tue, 11 Feb 2020 17:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13AFD6E523;
- Tue, 11 Feb 2020 17:14:55 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2020 09:14:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="347315034"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 11 Feb 2020 09:14:51 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 11 Feb 2020 19:14:51 +0200
-Date: Tue, 11 Feb 2020 19:14:51 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 7/7] drm: Allow drivers to leave
- encoder->possible_crtcs==0
-Message-ID: <20200211171450.GZ13686@intel.com>
-References: <20200211162208.16224-1-ville.syrjala@linux.intel.com>
- <20200211162208.16224-8-ville.syrjala@linux.intel.com>
- <20200211170545.GN2363188@phenom.ffwll.local>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EA406EF32
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 17:22:26 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01BHMHHh016490;
+ Tue, 11 Feb 2020 11:22:17 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1581441737;
+ bh=Ciau4l7lH9ehGuqtt4pYzI7MkoU0dWlQUVaGwzDYBzo=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=OEhJ8oasBb5W0WCyLq/KycmJH/4M+nF/2rBw+X6G9OPoTkx+4XpsIUXuApZDzutx+
+ pWvog7ugrfeBB5E2RrM3D//qi6gnuefSsPmljOgVwsKFglxW8NUMSGsd4Ev5uDEdfy
+ G9D6OrCl/mITbVKlYrpLTbXFkXaW0mKkKYnv9a8o=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01BHMHL4084821
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 11 Feb 2020 11:22:17 -0600
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 11
+ Feb 2020 11:22:17 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 11 Feb 2020 11:22:17 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01BHMEkp130466;
+ Tue, 11 Feb 2020 11:22:15 -0600
+Subject: Re: [PATCH 2/3] ARM: dts: am437x-gp/epos-evm: drop unused panel
+ timings
+To: Tony Lindgren <tony@atomide.com>
+References: <20191211165331.GC43123@atomide.com>
+ <45dae8f7-2f5e-6948-5a05-dc8a09ace1fa@ti.com>
+ <20191212203550.GB4892@pendragon.ideasonboard.com>
+ <add3d8af-6977-68e6-fb77-2fa748c4714a@ti.com>
+ <b39e52f1-3e73-5f26-6206-0956cf482631@ti.com>
+ <20200211110712.GB28355@pendragon.ideasonboard.com>
+ <3b4d10c6-7cb2-af53-3a39-31eef441bfdd@ti.com>
+ <98da360f-880b-af56-b285-4d9b39f8a342@wizzup.org>
+ <20200211160524.GE64767@atomide.com>
+ <87b1111e-af06-1e2a-8baa-c3f9a15f1874@ti.com>
+ <20200211162719.GF64767@atomide.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <d7e51d54-ffb3-2792-8bdb-73fc627fd675@ti.com>
+Date: Tue, 11 Feb 2020 19:22:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200211170545.GN2363188@phenom.ffwll.local>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200211162719.GF64767@atomide.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,125 +72,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devicetree@vger.kernel.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Merlijn Wajer <merlijn@wizzup.org>, Jyri Sarha <jsarha@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linux-OMAP <linux-omap@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 06:05:45PM +0100, Daniel Vetter wrote:
-> On Tue, Feb 11, 2020 at 06:22:08PM +0200, Ville Syrjala wrote:
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > =
+On 11/02/2020 18:27, Tony Lindgren wrote:
 
-> > Let's simplify life of driver by allowing them to leave
-> > encoder->possible_crtcs unset if they have no restrictions
-> > in crtc<->encoder linkage. We'll just populate possible_crtcs
-> > with the full crtc mask when registering the encoder so that
-> > userspace doesn't have to deal with drivers not populating
-> > this correctly.
-> > =
+>> We are still missing DSI command mode support, and moving it to the common DRM model.
+> 
+> Nope, DSI command mode support has been working just fine for
+> a while now :) And Sebastian has a WIP git tree of the common DRM
 
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > ---
-> > We might not actually need/want this, but included it here for
-> > future reference if that assumption turns out to be wrong.
-> =
+Indeed... It had been going on for so long that now my mind is stuck at dsi-command-mode-not-yet-in =).
 
-> I think this one is most definitely needed. _Lots_ of drivers get this
-> toally wrong and just leave the value blank. It's encoded as official
-> fallback in most userspace compositors.
+> model changes for it. I don't think we have devices with DSI
+> command mode working for omapfb but not for omapdrm?
 
-OK. It's been a while since I dug around so can't really remmber how
-this was being handled. I'll reorder before pushing.
+Yes, I think that is true.
 
-> =
+> What got missed for v5.6-rc1 is the LCD backlight patch though,
+> I think the only issue there is default-brightness vs more common
+> default-brightness-value usage if you have any input to that.
 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> =
+At least for some boards a power supply is needed, and I think there was no conclusion on who should 
+enable that. It didn't seem to fit in anywhere...
 
-> > ---
-> >  drivers/gpu/drm/drm_mode_config.c | 15 ++++++++++++++-
-> >  include/drm/drm_encoder.h         |  4 ++++
-> >  2 files changed, 18 insertions(+), 1 deletion(-)
-> > =
+But need to check on the latest status. I wasn't following that work closely, as JJ was working on it.
 
-> > diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mo=
-de_config.c
-> > index 4c1b350ddb95..ce18c3dd0bde 100644
-> > --- a/drivers/gpu/drm/drm_mode_config.c
-> > +++ b/drivers/gpu/drm/drm_mode_config.c
-> > @@ -592,6 +592,17 @@ static u32 full_crtc_mask(struct drm_device *dev)
-> >  	return crtc_mask;
-> >  }
-> >  =
+  Tomi
 
-> > +/*
-> > + * Make life easy for drivers by allowing them to leave
-> > + * possible_crtcs unset if there are not crtc<->encoder
-> > + * restrictions.
-> > + */
-> > +static void fixup_encoder_possible_crtcs(struct drm_encoder *encoder)
-> > +{
-> > +	if (encoder->possible_crtcs =3D=3D 0)
-> > +		encoder->possible_crtcs =3D full_crtc_mask(encoder->dev);
-> > +}
-> > +
-> >  static void validate_encoder_possible_crtcs(struct drm_encoder *encode=
-r)
-> >  {
-> >  	u32 crtc_mask =3D full_crtc_mask(encoder->dev);
-> > @@ -608,8 +619,10 @@ void drm_mode_config_validate(struct drm_device *d=
-ev)
-> >  {
-> >  	struct drm_encoder *encoder;
-> >  =
-
-> > -	drm_for_each_encoder(encoder, dev)
-> > +	drm_for_each_encoder(encoder, dev) {
-> >  		fixup_encoder_possible_clones(encoder);
-> > +		fixup_encoder_possible_crtcs(encoder);
-> > +	}
-> >  =
-
-> >  	drm_for_each_encoder(encoder, dev) {
-> >  		validate_encoder_possible_clones(encoder);
-> > diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-> > index b236269f41ac..bd033c5618bf 100644
-> > --- a/include/drm/drm_encoder.h
-> > +++ b/include/drm/drm_encoder.h
-> > @@ -142,6 +142,10 @@ struct drm_encoder {
-> >  	 * the bits for all &drm_crtc objects this encoder can be connected to
-> >  	 * before calling drm_dev_register().
-> >  	 *
-> > +	 * As an exception to the above rule if any crtc can be connected to
-> > +	 * the encoder the driver can leave @possible_crtcs set to 0. The core
-> > +	 * will automagically fix this up by setting the bit for every crtc.
-> > +	 *
-> >  	 * You will get a WARN if you get this wrong in the driver.
-> >  	 *
-> >  	 * Note that since CRTC objects can't be hotplugged the assigned indi=
-ces
-> > -- =
-
-> > 2.24.1
-> > =
-
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
