@@ -1,32 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC10D1598EA
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 19:43:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 276AC1598EB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 19:43:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE726F41E;
-	Tue, 11 Feb 2020 18:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0336F41F;
+	Tue, 11 Feb 2020 18:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F8EB6F41E
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 18:43:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E97F36F41F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 18:43:28 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2020 10:43:25 -0800
+ 11 Feb 2020 10:43:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="233543873"
+X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="233543877"
 Received: from jhli-desk1.jf.intel.com ([10.54.74.178])
- by orsmga003.jf.intel.com with ESMTP; 11 Feb 2020 10:43:25 -0800
+ by orsmga003.jf.intel.com with ESMTP; 11 Feb 2020 10:43:28 -0800
 From: Juston Li <juston.li@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 libdrm 1/2] include/drm: sync up drm.h
-Date: Tue, 11 Feb 2020 10:43:13 -0800
-Message-Id: <20200211184314.30537-1-juston.li@intel.com>
+Subject: [PATCH v7 libdrm 2/2] Add drmModeGetFB2
+Date: Tue, 11 Feb 2020 10:43:14 -0800
+Message-Id: <20200211184314.30537-2-juston.li@intel.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200211184314.30537-1-juston.li@intel.com>
+References: <20200211184314.30537-1-juston.li@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,37 +49,121 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  a) delta: Adds DRM_IOCTL_MODE_GETFB2
-  b) Generated using make headers_install
-  c) Taken from drm-next-misc:
-        commit 3ff4c24bdb1f494c217c80348f9db4896043ed81
-        Author: Lyude Paul <lyude@redhat.com>
-        Date:   Fri Jan 17 17:47:48 2020 -0500
+From: Daniel Stone <daniels@collabora.com>
 
-        drm/dp_mst: Fix indenting in drm_dp_mst_topology_mgr_set_mst()
+Add a wrapper around the getfb2 ioctl, which returns extended
+framebuffer information mirroring addfb2, including multiple planes and
+modifiers.
 
-Changes since v6:
- - clean up commit message per include/drm/README (Eric Engestrom)
+Changes since v5:
+ - style change
+
+Changes since v4:
+ - Set fb_id at init instead of memclear() and set (Eric Engestrom)
+
+Changes since v3:
+ - remove unnecessary null check in drmModeFreeFB2 (Daniel Stone)
+
+Changes since v2:
+ - getfb2 ioctl has been merged upstream
+ - sync include/drm/drm.h in a seperate patch
+
+Changes since v1:
+ - functions should be drm_public
+ - modifier should be 64 bits
+ - update ioctl number
 
 Signed-off-by: Juston Li <juston.li@intel.com>
-Acked-by: Eric Engestrom <eric@engestrom.ch>
+Signed-off-by: Daniel Stone <daniels@collabora.com>
+Reviewed-by: Eric Engestrom <eric@engestrom.ch>
 ---
- include/drm/drm.h | 2 ++
- 1 file changed, 2 insertions(+)
+ xf86drmMode.c | 35 +++++++++++++++++++++++++++++++++++
+ xf86drmMode.h | 15 +++++++++++++++
+ 2 files changed, 50 insertions(+)
 
-diff --git a/include/drm/drm.h b/include/drm/drm.h
-index ab9403397815..c7fd2a35fd7b 100644
---- a/include/drm/drm.h
-+++ b/include/drm/drm.h
-@@ -942,6 +942,8 @@ extern "C" {
- #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_transfer)
- #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_syncobj_timeline_array)
- 
-+#define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
+diff --git a/xf86drmMode.c b/xf86drmMode.c
+index 0cf7992c6e9a..2399e8ecea6f 100644
+--- a/xf86drmMode.c
++++ b/xf86drmMode.c
+@@ -1594,3 +1594,38 @@ drmModeRevokeLease(int fd, uint32_t lessee_id)
+ 		return 0;
+ 	return -errno;
+ }
 +
++drm_public drmModeFB2Ptr
++drmModeGetFB2(int fd, uint32_t fb_id)
++{
++	struct drm_mode_fb_cmd2 get = {
++		.fb_id = fb_id,
++	};
++	drmModeFB2Ptr ret;
++	int err;
++
++	err = DRM_IOCTL(fd, DRM_IOCTL_MODE_GETFB2, &get);
++	if (err != 0)
++		return NULL;
++
++	ret = drmMalloc(sizeof(drmModeFB2));
++	if (!ret)
++		return NULL;
++
++	ret->fb_id = fb_id;
++	ret->width = get.width;
++	ret->height = get.height;
++	ret->pixel_format = get.pixel_format;
++	ret->flags = get.flags;
++	ret->modifier = get.modifier[0];
++	memcpy(ret->handles, get.handles, sizeof(uint32_t) * 4);
++	memcpy(ret->pitches, get.pitches, sizeof(uint32_t) * 4);
++	memcpy(ret->offsets, get.offsets, sizeof(uint32_t) * 4);
++
++	return ret;
++}
++
++drm_public void drmModeFreeFB2(drmModeFB2Ptr ptr)
++{
++	drmFree(ptr);
++}
+diff --git a/xf86drmMode.h b/xf86drmMode.h
+index 159a39937240..fc0bbd8dcb67 100644
+--- a/xf86drmMode.h
++++ b/xf86drmMode.h
+@@ -225,6 +225,19 @@ typedef struct _drmModeFB {
+ 	uint32_t handle;
+ } drmModeFB, *drmModeFBPtr;
+ 
++typedef struct _drmModeFB2 {
++	uint32_t fb_id;
++	uint32_t width, height;
++	uint32_t pixel_format; /* fourcc code from drm_fourcc.h */
++	uint64_t modifier; /* applies to all buffers */
++	uint32_t flags;
++
++	/* per-plane GEM handle; may be duplicate entries for multiple planes */
++	uint32_t handles[4];
++	uint32_t pitches[4]; /* bytes */
++	uint32_t offsets[4]; /* bytes */
++} drmModeFB2, *drmModeFB2Ptr;
++
+ typedef struct drm_clip_rect drmModeClip, *drmModeClipPtr;
+ 
+ typedef struct _drmModePropertyBlob {
+@@ -343,6 +356,7 @@ typedef struct _drmModePlaneRes {
+ extern void drmModeFreeModeInfo( drmModeModeInfoPtr ptr );
+ extern void drmModeFreeResources( drmModeResPtr ptr );
+ extern void drmModeFreeFB( drmModeFBPtr ptr );
++extern void drmModeFreeFB2( drmModeFB2Ptr ptr );
+ extern void drmModeFreeCrtc( drmModeCrtcPtr ptr );
+ extern void drmModeFreeConnector( drmModeConnectorPtr ptr );
+ extern void drmModeFreeEncoder( drmModeEncoderPtr ptr );
+@@ -362,6 +376,7 @@ extern drmModeResPtr drmModeGetResources(int fd);
+  * Retrieve information about framebuffer bufferId
+  */
+ extern drmModeFBPtr drmModeGetFB(int fd, uint32_t bufferId);
++extern drmModeFB2Ptr drmModeGetFB2(int fd, uint32_t bufferId);
+ 
  /**
-  * Device specific ioctls should only be in their respective headers
-  * The device specific ioctl range is from 0x40 to 0x9f.
+  * Creates a new framebuffer with an buffer object as its scanout buffer.
 -- 
 2.21.1
 
