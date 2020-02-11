@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E61215A32E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4B515A347
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:26:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F38506E9CE;
-	Wed, 12 Feb 2020 08:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D13A96F48B;
+	Wed, 12 Feb 2020 08:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC2A26E2B8;
- Tue, 11 Feb 2020 20:39:38 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id d3so11549696otp.4;
- Tue, 11 Feb 2020 12:39:38 -0800 (PST)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E54DC6E26C
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 20:48:32 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id q8so13127218ljj.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 12:48:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=FkiL+nwntyVL1Depk52x54ARrFLNbJ/q2cGreWUpoIY=;
- b=guvCAd2UOUpE5ajI+DyZuXuN5tRzCg1lxnzXs01Bvu2MlthWaB0XogL0T0x015uMCv
- 0Nvd5+Ig7erzbpig7CWn1Kiws8zHYl44P3bOkicvZaw2f51Qe4Ml6z6VRCQrCpJq24EY
- DR4ynLgVuwECElLR2xmeFY2msAViOtRDcH1POsBv6CnnIHmPgLjAvG1MkNVIFWcMD8Te
- UQDPiEB+WG1wY2ilnvK8g2oK/a8t9J2lFGd1pqTUbTOmoXak/wg6m63A9+dH4OIwsiJJ
- RpARQc1c+3yEtHkG8gD7JGSh/lnpYuRTLockpE32Egd1RdTirJy3ErA0i2yfaNgW3aBD
- rM4Q==
+ :content-disposition:in-reply-to:user-agent;
+ bh=LqjAANVr3QUa9/jn5BxY1hlvgQhyJJrq1+NtVKHCduM=;
+ b=nZzuIR3P/P33cQ7XHVWp+ufjdXODTG3MtJzSO+ScRXg4S39DMRBCQDNsXJYQElGdzm
+ ouIpbn8tkV777xxbILSIJIZF6oKC3I2Si6MwizHxW4aWRfElhhY9X7dWXFdiV30DPesA
+ 1GNKe0dc6C9lmgr0F7fobbFzgGGVfLGxHD641Oigb/F9laDgG+vmMzcduEN8wahKLTnH
+ 5bPGYUt8+lVfdT1xzNP1Jau4odY8wAsRLFHNiBtyuidHzkqwt2zwqnqsPtfysLzpNrTN
+ lR1TR3goVHtpssWR2h78bQFyQerGdERIYnoz0ngcnt2Z6dcZrYi5nNurGeF7SXk0pAuJ
+ n4hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=FkiL+nwntyVL1Depk52x54ARrFLNbJ/q2cGreWUpoIY=;
- b=VuIYVujWbq3LknC3lveMJ4IsbrXN1Wun0BT7r8ckIshwk3YE+6Ud36nSPnbckcs7VU
- zG3EaJD7yZwdowk3yubiSCJW18fIZ7T6Z3S+GlHMfpWZWTcpA1Pvq3dEzjHAaRmX65S8
- Hh0brO5WQLhB6oqytqEx/Chbkgd/7QCuCxL5lSbei36QwZNecZndxwgxpbNV5euX31JK
- PLx3SXBUjzuel6eoIWfeHmPO0RUPizXYn0uQTf93vuj+axwYqmQNeAf+umbRRIruj+fF
- E843XsOxoP3ue5fUiFhOc6HRFGSGl2oitNB2Nr8Jzufu4DE7NcWPOD2F2dhZXqhiGcFV
- XGIw==
-X-Gm-Message-State: APjAAAVTv8ugubrkAj6NHBF92yOFyvJPCMdG4D7Txkr+a7vHm5f+b8Gw
- VLu7IA9AE/HlXu0G8Duj8Jo=
-X-Google-Smtp-Source: APXvYqyRcLhd1pYN0o8cVbwvTHy9UM43N0APlTdoi5+8CTIzfL2EpJ/miK1zSlKVRAdQyxB4Sxva+g==
-X-Received: by 2002:a9d:64ca:: with SMTP id n10mr6692357otl.325.1581453577909; 
- Tue, 11 Feb 2020 12:39:37 -0800 (PST)
-Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
- by smtp.gmail.com with ESMTPSA id w8sm1537795ote.80.2020.02.11.12.39.37
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 11 Feb 2020 12:39:37 -0800 (PST)
-Date: Tue, 11 Feb 2020 13:39:35 -0700
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH v2] drm/i915: Disable
- -Wtautological-constant-out-of-range-compare
-Message-ID: <20200211203935.GA16176@ubuntu-m2-xlarge-x86>
-References: <20200211050808.29463-1-natechancellor@gmail.com>
- <20200211061338.23666-1-natechancellor@gmail.com>
- <4c806435-f32d-1559-9563-ffe3fa69f0d1@daenzer.net>
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=LqjAANVr3QUa9/jn5BxY1hlvgQhyJJrq1+NtVKHCduM=;
+ b=l7CyxqZaBstaiWaJoAs8UXimVEtBsqgRSZzIWZCFb2bUR2BCx9DKdhIzQCcgQ2+bsF
+ LkvazmVxXX87bc4X+4kSdgVb6lllrfMgL7/4PIWuY8V74bs7rnRarNyFeBSYpuuBRBhO
+ XzmqfF97da3VKxrxV2qa4KnR/8XpEAmHSuHtTjqlr6kovCsnT2kozorrh5nUcTmK5F6U
+ +V8gWDX2zgubzi7I5zP6fpvs4ifIcPEdHfsebTE4eWWk4UF5Os6GOEw0tnFkNPEBkZyg
+ 6y/aJU1v4BvRTBEx0njRsBqVDQebVjqDoLGJMUwTvIe+SVFh80X/rhMom9zSV4y9KmiC
+ J8dg==
+X-Gm-Message-State: APjAAAV7m3n/vFA78b0aXYzqscovhPPCl+hrP4LI/5Lx510xlkZHboFZ
+ ewucbUvTtmh6G0DkhQEQMUA=
+X-Google-Smtp-Source: APXvYqxQouPBSnzMQ60Fpg/1V/YGZaJ3zNNtUQbG94tj5k7NHsupGdwEO3PyBcAojadIFe8aR4KdbQ==
+X-Received: by 2002:a2e:85ce:: with SMTP id h14mr5365962ljj.41.1581454111246; 
+ Tue, 11 Feb 2020 12:48:31 -0800 (PST)
+Received: from kedthinkpad ([5.20.204.163])
+ by smtp.gmail.com with ESMTPSA id r20sm2354515lfi.91.2020.02.11.12.48.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Feb 2020 12:48:30 -0800 (PST)
+Date: Tue, 11 Feb 2020 22:48:28 +0200
+From: Andrey Lebedev <andrey.lebedev@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 1/1] Support LVDS output on Allwinner A20
+Message-ID: <20200211204828.GA4361@kedthinkpad>
+References: <20200210195633.GA21832@kedthinkpad>
+ <20200211072004.46tbqixn5ftilxae@gilmour.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <4c806435-f32d-1559-9563-ffe3fa69f0d1@daenzer.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200211072004.46tbqixn5ftilxae@gilmour.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Wed, 12 Feb 2020 08:25:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,52 +69,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- clang-built-linux@googlegroups.com, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 10:41:48AM +0100, Michel D=E4nzer wrote:
-> On 2020-02-11 7:13 a.m., Nathan Chancellor wrote:
-> > A recent commit in clang added -Wtautological-compare to -Wall, which is
-> > enabled for i915 so we see the following warning:
-> > =
+Maxime, thanks for your comments. I'll update the patch, but meanwhile,
+I have some remarks/questions, see below.
 
-> > ../drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1485:22: warning:
-> > result of comparison of constant 576460752303423487 with expression of
-> > type 'unsigned int' is always false
-> > [-Wtautological-constant-out-of-range-compare]
-> >         if (unlikely(remain > N_RELOC(ULONG_MAX)))
-> >             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-> > =
+On Tue, Feb 11, 2020 at 08:20:04AM +0100, Maxime Ripard wrote:
+> > +	regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA1_REG,
+> > +			   SUN4I_TCON0_LVDS_ANA1_UPDATE,
+> > +			   SUN4I_TCON0_LVDS_ANA1_UPDATE);
+> 
+> You refer to U-Boot in your commit log, but the sequence is not quite
+> the same, why did you change it?
 
-> > This warning only happens on x86_64 but that check is relevant for
-> > 32-bit x86 so we cannot remove it.
-> =
+I actually had two reference implementations at my hand. One was u-boot
+and another - an old (abandoned) branch of Priit Laes [1] (I took the
+split-up of u-boot SUNXI_LCDC_LVDS_ANA0 constant from there).
 
-> That's suprising. AFAICT N_RELOC(ULONG_MAX) works out to the same value
-> in both cases, and remain is a 32-bit value in both cases. How can it be
-> larger than N_RELOC(ULONG_MAX) on 32-bit (but not on 64-bit)?
-> =
+This is an attempt to simplify the sequence, since I noticed that the
+same bit was being set to the same register twice [2] and removing that
+duplication didn't produce any observable regression. Priit
+implementation didn't have that bit set in the end of the sequence
+either, so I omitted it. That said, I agree that it could've been a bit
+naive on my side, and I can get it back to match u-boot version, if you
+feel that might be important.
 
+For the reference the U-Boot code is here: [3]
 
-Hi Michel,
+[1] https://github.com/plaes/linux/commit/cc8c8bab2f2f2752ba6b11632dcd0f41bac249bc#diff-014a76a5007005a7a240825a972b8c7fR127
+[2] setbits_le32(&lcdc->lvds_ana0, SUNXI_LCDC_LVDS_ANA0_UPDATE);
+[3] https://github.com/ARM-software/u-boot/blob/master/drivers/video/sunxi/lcdc.c#L60
 
-Can't this condition be true when UINT_MAX =3D=3D ULONG_MAX? clang does not
-warn on a 32-bit x86 build from what I remember. Honestly, my
-understanding of overflow is pretty shoddy, this is mostly based on what
-I have heard from others.
+> > +#define SUN4I_TCON0_LVDS_ANA1_REG		0x224
+> > +#define SUN4I_TCON0_LVDS_ANA1_INIT			(0x1f << 26 | 0x1f << 10)
+> > +#define SUN4I_TCON0_LVDS_ANA1_UPDATE			(0x1f << 16 | 0x1f << 00)
+> 
+> Having proper defines for those fields would be great too.
 
-I sent a patch trying to remove that check but had it rejected:
+If by "proper" you mean "split them up to individual bits", I would
+agree, but I can't find any actual hardware reference documentation that
+would mention the meaning of these registers.
 
-https://lore.kernel.org/lkml/20191123195321.41305-1-natechancellor@gmail.co=
-m/
+In both places (u-boot and Priit) these constants are defined the same way. 
 
-Cheers,
-Nathan
+I took the liberty to rename ANA1_INIT1 to ANA1_INIT and ANA1_INIT2 to
+ANA1_UPDATE to match Priit naming rather than u-boot, as I felt it was
+more descriptive. I have no strong opinion here though. 
+
+> Side question, this will need some DT changes too, right?
+
+Hm, I agree. I think it would be reasonable to include LVDS0/1 pins and
+sample (but disabled) lvds panel, connected to tcon to
+arch/arm/boot/dts/sun7i-a20.dtsi. Does that make sense to you? Would you
+expect dts changes in the same patch or separate?
+
+P.S. This is my first patch to the linux kernel, please forgive me my
+inexperience.
+
+-- 
+Andrey Lebedev aka -.- . -.. -.. . .-.
+Software engineer
+Homepage: http://lebedev.lt/
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
