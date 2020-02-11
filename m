@@ -1,67 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3857C159366
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 16:42:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4134159372
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 16:43:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF2F6E51D;
-	Tue, 11 Feb 2020 15:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D45016EE8B;
+	Tue, 11 Feb 2020 15:43:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C88A6EE92
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 15:42:00 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id g1so4108880wmh.4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 07:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=vUUuF+dCup8mbGiyfTagWxTJQ3SDlUkSN1wBUAZl/f0=;
- b=KtVufVh5J4YJcjWtLhCal+s7uwvEiyOJBo8YjzBJwzxnvUfF4Xw+/4Fza2ZnxY44ym
- Y+yOU0ZDS6F/ztUt9riDJo+N7NCQKtKR5TSB4ky2qUP1qnYK3AqEYHJ/I5nWFsXHKr8+
- 9mWITBY9oyrPwe69Qq0YRL0C8pbyRS8EcOCII=
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33BFC6EE8B;
+ Tue, 11 Feb 2020 15:43:29 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id a5so4137446wmb.0;
+ Tue, 11 Feb 2020 07:43:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bL6AcxWQzUTTGjspdWMov6N2q4hlEfuToYDczMSiWfs=;
+ b=rsQupxn1QhkCU4FfdFivUnvKoOrem7V79Ysc7Pasj5iI0UYJ+EGGfmbBcRzhQoPPYT
+ 6KVoJadtR2Zqc466pBglIOkfOORxMg4PeQTSAfsftEJK7bMWLWdECTU3kaat8APXf7WV
+ 75xyfJwE/K/16hnABnwpm4OB2I0q85EC4hkVkwN42zFiNj9TOFCpXNxShYCQEN4A4y5z
+ Brjy0cl01e/GPYd6dRu0mvb5u+ca5hUO3x0nm/op5s+/gtfrA8IXk20jh6kYOMX4CHXC
+ yXHZ11MDukvyuJrR4Mk2ImHIWQpy3/tx5vKa5LBhmxgGmyvBLE1cPD73WHTsNNtfYJQZ
+ ZB2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=vUUuF+dCup8mbGiyfTagWxTJQ3SDlUkSN1wBUAZl/f0=;
- b=RiktBs+42kA2noRv3TSeBUx+T3DPG7tU5TZIIkJZswiHD04A1gUQggD+ColuOIjchS
- +RZdI3149IJCHihM5H18QAZqy9MdZGboGKifcXe6mm9S4bDNQAGiWoRvA1EKu+9eMJF5
- qBMCAwYZQaTmfjkjQphy/Qq3DeGrAiP7yvQHqQt0B0rkwcpQCVTNuuBgRy24Xj6FtP2X
- P626z84UMMzCUP2JAvFUgv2atunS+9Xs3RHnEoi3eLKgLzXhwucyEDeC1temQnsq28Aj
- uCQSwVL2eJFJnuqUiVZxbEy6+j8vFXMRcq8/isr6igd767IMMYIjHcGw+1TMzhPaAHyE
- hWdw==
-X-Gm-Message-State: APjAAAUaGO+HiRhH6Ii9k/37ICyMrxWH4TVhX/DKZ7SwOkudnF4kx08y
- yKe3NQmJM32bEdevJ4rOcePKUC9Oa0Q=
-X-Google-Smtp-Source: APXvYqzX6zgLVgPd3c3Ssml00Tuhz7drQP8b7PXwnJiJAL4h9/oxBPFu2TtWf9r2mZ2WQzjZvU2JuA==
-X-Received: by 2002:a1c:3d46:: with SMTP id k67mr6489396wma.171.1581435719103; 
- Tue, 11 Feb 2020 07:41:59 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d13sm5858391wrc.64.2020.02.11.07.41.57
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bL6AcxWQzUTTGjspdWMov6N2q4hlEfuToYDczMSiWfs=;
+ b=qU9lKhEfDZ++gAsOR3aBmT+GYAJfHTTgoWH1nYMlKBkrXnNDADKQD3BwBDV2cY/bkz
+ eEIsQkJm/aveWIaf7RJlPj9Z7ea0iVVS5XEmaPDwrfTcFAg6LMy+mf+o/V2vZjT9xccb
+ Zxa6euRPeRWWaNKM/gky4iPt4wyhg6wYp/IdolF6bkGA+jupxliQ4Mt3p2xxaPuDsFNy
+ 3uwezCD7pKOiOMLyUwrhV6Y1wplj7f4JFQsP2FMEjw5TEQdtc717XaJNOwkZouWrA2sr
+ v66enxXAKvcoasZBw3NiNR1qXb1vcIgRGqLcxlk2QV6MMixUKuulKQj2JW0rrP01k1hi
+ Zw/Q==
+X-Gm-Message-State: APjAAAVgTaCPLTKyLW0jPcchO0QvcVl/bfBBerpQpRtcrSOcIjbQkh6k
+ W3EfnR2fGsjRcRW6ojjscRudw6ZT
+X-Google-Smtp-Source: APXvYqwOyQcTJe+w9x94hLlt0j5phRMAD4Asl3r+xy5J172p0JTA4ugYK1C4slADnKHfSVFTAgJheA==
+X-Received: by 2002:a1c:a796:: with SMTP id q144mr6453610wme.6.1581435807693; 
+ Tue, 11 Feb 2020 07:43:27 -0800 (PST)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:68c7:1c1:32fb:8c49])
+ by smtp.gmail.com with ESMTPSA id k13sm5364236wrx.59.2020.02.11.07.43.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 07:41:58 -0800 (PST)
-Date: Tue, 11 Feb 2020 16:41:56 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm/tidss: dispc: Rewrite naive plane positioning code
-Message-ID: <20200211154156.GH2363188@phenom.ffwll.local>
-References: <20200207181824.7233-1-jsarha@ti.com>
- <02abcb19-efca-27a1-6aba-220532393a81@ti.com>
- <20200207184545.GQ13686@intel.com>
- <76f083da-e05f-9dd1-a85f-c7a3a1820f6a@ti.com>
- <20200210132103.GS13686@intel.com>
- <1f396d11-2ce0-ef01-dd6e-8c563568800b@ti.com>
- <20200210160336.GT13686@intel.com>
- <5b985430-3659-68be-4834-9cc2de9daf5e@ti.com>
- <20200211130030.GU13686@intel.com>
- <20200211154021.GG2363188@phenom.ffwll.local>
+ Tue, 11 Feb 2020 07:43:27 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: amd-gfx@lists.freedesktop.org, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: replace dma_resv object on deleted BOs v3
+Date: Tue, 11 Feb 2020 16:43:26 +0100
+Message-Id: <20200211154326.83858-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200211154021.GG2363188@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,80 +67,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: praneeth@ti.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>,
- sam@ravnborg.org, laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 04:40:21PM +0100, Daniel Vetter wrote:
-> On Tue, Feb 11, 2020 at 03:00:30PM +0200, Ville Syrj=E4l=E4 wrote:
-> > On Tue, Feb 11, 2020 at 11:11:34AM +0200, Tomi Valkeinen wrote:
-> > > Hi Ville,
-> > > =
-
-> > > On 10/02/2020 18:03, Ville Syrj=E4l=E4 wrote:
-> > > =
-
-> > > > The usual approach we follow in i915 for things that affect more
-> > > > than one plane is is to collect that state into the crtc state.
-> > > > That way we get to remember it for the planes that are not part
-> > > > of the current commit.
-> > > > =
-
-> > > > And when we have state that affects more than one crtc that again
-> > > > get collected up one level up in what we call global state
-> > > > (basically drm_private_obj with less heavy handed locking scheme).
-> > > =
-
-> > > I'm confused. Don't we always have the full state available? Why do y=
-ou need to store state into =
-
-> > > custom crtc-state?
-> > > =
-
-> > > Here we are interested in the x, y and z positions of all the planes =
-on a crtc. Creating a custom =
-
-> > > state object and duplicating that information there seems a bit silly=
-, as surely that information is =
-
-> > > tracked by DRM?
-> > =
-
-> > You can have it if you add all the planes to the state, which can be
-> > a bit expensive. Another option would to peek into the planes' states
-> > that aren't in the commit, but that's quite gross due to bypassing
-> > the normal locking rules and instead relying on the crtc mutex to
-> > sufficiently protect the plane states as well. And I suspect trying
-> > to do said peeking during the commit phase when the locks have
-> > already been dropped will end badly.
-> =
-
-> Yup, don't peek outside of atomic_check.
-> =
-
-> Also the peeking only works for planes associated to the crtc. Either
-> because that's how the hw works (i915 has fixed plane routing).
-> =
-
-> Now if this is only about all the planes currently active on a crtc, then
-> you the helpers will already add all those plane states for you, and you
-> can just walk them in your commit function. Not exactly sure what you need
-> here.
-
-See drm_atomic_add_affected_planes() in case you're rolling your own
-stuff.
--Daniel
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+V2hlbiBub24taW1wb3J0ZWQgQk9zIGFyZSByZXN1cnJlY3RlZCBmb3IgZGVsYXllZCBkZWxldGUg
+d2UgcmVwbGFjZQp0aGUgZG1hX3Jlc3Ygb2JqZWN0IHRvIGFsbG93IGZvciBlYXN5IHJlY2xhaW1p
+bmcgb2YgdGhlIHJlc291cmNlcy4KCnYyOiBtb3ZlIHRoYXQgdG8gdHRtX2JvX2luZGl2aWR1YWxp
+emVfcmVzdgp2MzogYWRkIGEgY29tbWVudCB0byBleHBsYWluIHdoYXQncyBnb2luZyBvbgoKU2ln
+bmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpS
+ZXZpZXdlZC1ieTogeGluaHVpIHBhbiA8eGluaHVpLnBhbkBhbWQuY29tPgotLS0KIGRyaXZlcnMv
+Z3B1L2RybS90dG0vdHRtX2JvLmMgfCAxNCArKysrKysrKysrKysrLQogMSBmaWxlIGNoYW5nZWQs
+IDEzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwppbmRleCBi
+ZmM0MmE5ZTRmYjQuLjgxNzQ2MDNkMzkwZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fYm8uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCkBAIC0zOTMsNiAr
+MzkzLDE4IEBAIHN0YXRpYyBpbnQgdHRtX2JvX2luZGl2aWR1YWxpemVfcmVzdihzdHJ1Y3QgdHRt
+X2J1ZmZlcl9vYmplY3QgKmJvKQogCiAJciA9IGRtYV9yZXN2X2NvcHlfZmVuY2VzKCZiby0+YmFz
+ZS5fcmVzdiwgYm8tPmJhc2UucmVzdik7CiAJZG1hX3Jlc3ZfdW5sb2NrKCZiby0+YmFzZS5fcmVz
+dik7CisJaWYgKHIpCisJCXJldHVybiByOworCisJaWYgKGJvLT50eXBlICE9IHR0bV9ib190eXBl
+X3NnKSB7CisJCS8qIFRoaXMgd29ya3MgYmVjYXVzZSB0aGUgQk8gaXMgYWJvdXQgdG8gYmUgZGVz
+dHJveWVkIGFuZCBub2JvZHkKKwkJICogcmVmZXJlbmNlIGl0IGFueSBtb3JlLiBUaGUgb25seSB0
+cmlja3kgY2FzZSBpcyB0aGUgdHJ5bG9jayBvbgorCQkgKiB0aGUgcmVzdiBvYmplY3Qgd2hpbGUg
+aG9sZGluZyB0aGUgbHJ1X2xvY2suCisJCSAqLworCQlzcGluX2xvY2soJnR0bV9ib19nbG9iLmxy
+dV9sb2NrKTsKKwkJYm8tPmJhc2UucmVzdiA9ICZiby0+YmFzZS5fcmVzdjsKKwkJc3Bpbl91bmxv
+Y2soJnR0bV9ib19nbG9iLmxydV9sb2NrKTsKKwl9CiAKIAlyZXR1cm4gcjsKIH0KQEAgLTcyNCw3
+ICs3MzYsNyBAQCBzdGF0aWMgYm9vbCB0dG1fYm9fZXZpY3Rfc3dhcG91dF9hbGxvd2FibGUoc3Ry
+dWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKIAogCWlmIChiby0+YmFzZS5yZXN2ID09IGN0eC0+
+cmVzdikgewogCQlkbWFfcmVzdl9hc3NlcnRfaGVsZChiby0+YmFzZS5yZXN2KTsKLQkJaWYgKGN0
+eC0+ZmxhZ3MgJiBUVE1fT1BUX0ZMQUdfQUxMT1dfUkVTX0VWSUNUIHx8IGJvLT5kZWxldGVkKQor
+CQlpZiAoY3R4LT5mbGFncyAmIFRUTV9PUFRfRkxBR19BTExPV19SRVNfRVZJQ1QpCiAJCQlyZXQg
+PSB0cnVlOwogCQkqbG9ja2VkID0gZmFsc2U7CiAJCWlmIChidXN5KQotLSAKMi4xNy4xCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
