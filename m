@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A090315A349
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:26:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BFE15A346
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:26:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9E66F495;
-	Wed, 12 Feb 2020 08:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 559D26F48D;
+	Wed, 12 Feb 2020 08:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79C386F441
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 21:53:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581458016;
+ [IPv6:2a01:238:20a:202:5304::8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2446E03A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 21:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581458012;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=tc4xhvDjnfG1jLVOTwuj+X2pkCzFOljdsKLqfh9DWVg=;
- b=Y82gVjn72l61+HgGHil7Q772nN2yU1TygrJFN4h0dd1nf9BUW6z3xB100T44e1EyTn
- ITyGkFJQXAbXwkjw85g2lP03PNPiIXPi2jw6R6m3u3esKoB+QfvQvewyVDt9Z6o0MIZ2
- QWMvxvXDTKlLZRLMiuchKYqpq3AzIrQ9+IwKwIKvHF3XFVnbdQo2d7qho49ga0GmUMzV
- CUrUCMQhRPo/ZXPEJWlw3opZ2pQnIbcJwnCUl9c8IrSEaiUFOEauIuJkxCgVn1RejL1v
- RGcOHkE8DzNlvetfaG+18th5X7kHnkbq/XO2d1ct9rlPp7nkcaBl5VEWvkLltEj3o40Y
- kOAQ==
+ bh=BRx4A/2BZ9iAXxHIzvSIgcM006QIyV49GXyT24CvguM=;
+ b=IbsXHep/OSDdfCRsNIVuq5ZIVlLMw8NVgojcbF9/9fgtXlFPBrlOLpOJyyr/RbiSck
+ HUfTYqbFg1uIoT1V/8jInOXB0gq+gNvDkw5wApN8/T+rdT3LiMietii77iCvtaz4L+zp
+ cE440YVwUj+UVTwkCcGEUpw5T6MQCOccXaTjhP0TvargaA0JQBfNQ33q+3tOlwudHNpB
+ vdnuvYItaSjQ4/L8ha+9sw9YUBoKz2N4+DGSAqjt92puxiIznHeNbIdd3gACAodnswzY
+ uRPe/+8T7B9rsDgrTFFZ6KNFU1BAksmSG3Upi52CB3z0cX9O+MRHRrVIzpX/QcqDfefw
+ b+nQ==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UNf2M0P2mp10IM"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1BLfb0EM
+ with ESMTPSA id U06217w1BLfc0EN
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Tue, 11 Feb 2020 22:41:37 +0100 (CET)
+ Tue, 11 Feb 2020 22:41:38 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  Alex Smith <alex.smith@imgtec.com>, Rob Herring <robh+dt@kernel.org>,
@@ -46,10 +46,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>,
  Richard Fontana <rfontana@redhat.com>,
  Allison Randal <allison@lohutok.net>, Stephen Boyd <swboyd@chromium.org>
-Subject: [PATCH 06/14] MIPS: CI20: defconfig: compile leds-gpio driver into
- the kernel and configure for LED triggers
-Date: Tue, 11 Feb 2020 22:41:23 +0100
-Message-Id: <235c328ff497b5e14009ad9f4e12d2db9520f4d9.1581457290.git.hns@goldelico.com>
+Subject: [PATCH 07/14] MIPS: DTS: CI20: fix PMU definitions for ACT8600
+Date: Tue, 11 Feb 2020 22:41:24 +0100
+Message-Id: <aa9725056a1d2bfb490a1c912f34302de0e27fad.1581457290.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1581457290.git.hns@goldelico.com>
 References: <cover.1581457290.git.hns@goldelico.com>
@@ -77,35 +76,128 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DTS has been augmented to add some gpio-leds. We need the leds-gpio driver
-and enable the triggers.
+There is a ACT8600 on the CI20 board and the bindings of the
+ACT8865 driver have changed without updating the CI20 device
+tree. Therefore the PMU can not be probed successfully and
+is running in power-on reset state.
+
+Fix DT to match the latest act8865-regulator bindings.
 
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/mips/configs/ci20_defconfig | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ arch/mips/boot/dts/ingenic/ci20.dts | 48 ++++++++++++++++++++---------
+ 1 file changed, 33 insertions(+), 15 deletions(-)
 
-diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_defconfig
-index e0d3c9d4c2ae..30a47a7a2994 100644
---- a/arch/mips/configs/ci20_defconfig
-+++ b/arch/mips/configs/ci20_defconfig
-@@ -167,3 +167,16 @@ CONFIG_STACKTRACE=y
- # CONFIG_FTRACE is not set
- CONFIG_CMDLINE_BOOL=y
- CONFIG_CMDLINE="earlycon console=ttyS4,115200 clk_ignore_unused"
-+CONFIG_LEDS_CLASS=y
-+CONFIG_LEDS_GPIO=y
-+CONFIG_LEDS_TRIGGERS=y
-+CONFIG_LEDS_TRIGGER_MTD=y
-+CONFIG_LEDS_TRIGGER_TIMER=y
-+CONFIG_LEDS_TRIGGER_ONESHOT=y
-+CONFIG_LEDS_TRIGGER_ONESHOT=y
-+CONFIG_LEDS_TRIGGER_HEARTBEAT=y
-+CONFIG_LEDS_TRIGGER_BACKLIGHT=m
-+CONFIG_LEDS_TRIGGER_CPU=y
-+CONFIG_LEDS_TRIGGER_DEFAULT_ON=y
-+CONFIG_LEDS_TRIGGER_TRANSIENT=y
-+CONFIG_LEDS_TRIGGER_CAMERA=m
+diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
+index 37b93166bf22..e02a19db7ef1 100644
+--- a/arch/mips/boot/dts/ingenic/ci20.dts
++++ b/arch/mips/boot/dts/ingenic/ci20.dts
+@@ -148,6 +148,8 @@
+ 	pinctrl-0 = <&pins_uart4>;
+ };
+ 
++#include <dt-bindings/regulator/active-semi,8865-regulator.h>
++
+ &i2c0 {
+ 	status = "okay";
+ 
+@@ -161,65 +163,81 @@
+ 		reg = <0x5a>;
+ 		status = "okay";
+ 
++/*
++Optional input supply properties:
++- for act8600:
++  - vp1-supply: The input supply for DCDC_REG1
++  - vp2-supply: The input supply for DCDC_REG2
++  - vp3-supply: The input supply for DCDC_REG3
++  - inl-supply: The input supply for LDO_REG5, LDO_REG6, LDO_REG7 and LDO_REG8
++  SUDCDC_REG4, LDO_REG9 and LDO_REG10 do not have separate supplies.
++*/
++
+ 		regulators {
+ 			vddcore: SUDCDC1 {
+-				regulator-name = "VDDCORE";
++				regulator-name = "DCDC_REG1";
+ 				regulator-min-microvolt = <1100000>;
+ 				regulator-max-microvolt = <1100000>;
+ 				regulator-always-on;
+ 			};
+ 			vddmem: SUDCDC2 {
+-				regulator-name = "VDDMEM";
++				regulator-name = "DCDC_REG2";
+ 				regulator-min-microvolt = <1500000>;
+ 				regulator-max-microvolt = <1500000>;
+ 				regulator-always-on;
+ 			};
+ 			vcc_33: SUDCDC3 {
+-				regulator-name = "VCC33";
++				regulator-name = "DCDC_REG3";
+ 				regulator-min-microvolt = <3300000>;
+ 				regulator-max-microvolt = <3300000>;
+ 				regulator-always-on;
+ 			};
+ 			vcc_50: SUDCDC4 {
+-				regulator-name = "VCC50";
++				regulator-name = "SUDCDC_REG4";
+ 				regulator-min-microvolt = <5000000>;
+ 				regulator-max-microvolt = <5000000>;
+ 				regulator-always-on;
+ 			};
+ 			vcc_25: LDO_REG5 {
+-				regulator-name = "VCC25";
++				regulator-name = "LDO_REG5";
+ 				regulator-min-microvolt = <2500000>;
+ 				regulator-max-microvolt = <2500000>;
+ 				regulator-always-on;
+ 			};
+ 			wifi_io: LDO_REG6 {
+-				regulator-name = "WIFIIO";
++				regulator-name = "LDO_REG6";
+ 				regulator-min-microvolt = <2500000>;
+ 				regulator-max-microvolt = <2500000>;
+ 				regulator-always-on;
+ 			};
+ 			vcc_28: LDO_REG7 {
+-				regulator-name = "VCC28";
++				regulator-name = "LDO_REG7";
+ 				regulator-min-microvolt = <2800000>;
+ 				regulator-max-microvolt = <2800000>;
+ 				regulator-always-on;
+ 			};
+ 			vcc_15: LDO_REG8 {
+-				regulator-name = "VCC15";
++				regulator-name = "LDO_REG8";
+ 				regulator-min-microvolt = <1500000>;
+ 				regulator-max-microvolt = <1500000>;
+ 				regulator-always-on;
+ 			};
+-			vcc_18: LDO_REG9 {
+-				regulator-name = "VCC18";
+-				regulator-min-microvolt = <1800000>;
+-				regulator-max-microvolt = <1800000>;
++			vrtc_18: LDO_REG9 {
++				regulator-name = "LDO_REG9";
++				/* Despite the datasheet stating 3.3V for REG9 and
++				   driver expecting that, REG9 outputs 1.8V.
++				   Likely the CI20 uses a chip variant.
++				   Since it is a simple on/off LDO the exact values
++				   do not matter.
++				*/
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
+ 				regulator-always-on;
+ 			};
+ 			vcc_11: LDO_REG10 {
+-				regulator-name = "VCC11";
+-				regulator-min-microvolt = <1100000>;
+-				regulator-max-microvolt = <1100000>;
++				regulator-name = "LDO_REG10";
++				regulator-min-microvolt = <1200000>;
++				regulator-max-microvolt = <1200000>;
+ 				regulator-always-on;
+ 			};
+ 		};
 -- 
 2.23.0
 
