@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CDB158B03
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 09:07:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B096D158B49
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 09:34:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75B3889F19;
-	Tue, 11 Feb 2020 08:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24DAE6EDFA;
+	Tue, 11 Feb 2020 08:34:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 780A789F19
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 08:06:59 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id v17so10475867ljg.4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 00:06:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=WkZY1nEkHI5hrTSxuy0NQwTF53PmWe0fVC3cwv6RRww=;
- b=hyarMOlmeYW3kR4uN4KM2cG+CIrzjBIsOfe8z7yNNqQbdbO0ozeuFsW4b/L8A+FKWd
- GsyWpjl1kpFEhXVQ8YCWCXSI+9U1c7UeQ3TrAyi2LmxRnYnYTZNOBrMo4Nn+LX3scS3E
- gdLdy4UdNZS4pKZQfN9fLl26X8RHEnZZJ09ZVPT2WpLBUhs5/VMryRjOOoTELDKzf6Ta
- iT59w2DaatTTCXINs0JvXRm3k3hVTmgbzRz3IKtE+h2DXNCUEtnwwvGG0cGsz5BP6v56
- /B5VIkgfoixX+wz8yqmoscEgMF83je8QVD6s9+Rj+bBhfeaUIdxCLJWx10MueftFFX8S
- Ti7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=WkZY1nEkHI5hrTSxuy0NQwTF53PmWe0fVC3cwv6RRww=;
- b=f7FW5zPClO9zHlE+N7GTaxkI1S5mWJQrNgaPXNIq83SNyX7tdnY+1/vVkNbkjALETl
- kfaxKS20lPZyfmYvNS6IXJJ050hUeSNOUNjrGNCZ21sJMUb3/q8QolWW7fmAMZj7lbpO
- YZ4/NtMlcuWQEUBEjLDJ/z2NlUREL79QhOhrJ4FXlSe1pNeR9oTJNiO29BzC5kurMus+
- igZac4KDc7VkKhwIVDjKPv9BklhvaamVU2woYhgcjSWCK9S+o0a5SHc3OpZ9FG+x5kQD
- 9kryfEYD7VWXHwHksokUZBwpyl9HrkjEduMXKVjtE24PNoFyIM2sMPYEwSVMBzG2OqkR
- Q6OQ==
-X-Gm-Message-State: APjAAAVhBQJgzy0gkF3QYwfKZXyZgSK+80Ou0nZG9/232BeZ2vYBGoxV
- Q1hJhm9Ow0HDe9gZIDIw0MU=
-X-Google-Smtp-Source: APXvYqz6MBuWKX8tOj9jcgZCEcfzIq8Ju23MrHV0+KviEgqePDpF95F5N2YWsknXnp4gZ339wUZ5hg==
-X-Received: by 2002:a2e:9b52:: with SMTP id o18mr3409915ljj.270.1581408417849; 
- Tue, 11 Feb 2020 00:06:57 -0800 (PST)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id j7sm1643326ljg.25.2020.02.11.00.06.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 00:06:57 -0800 (PST)
-Date: Tue, 11 Feb 2020 10:06:48 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [RFC] drm: rework SET_MASTER and DROP_MASTER perm handling
-Message-ID: <20200211100648.5d876d43@eldfell.localdomain>
-In-Reply-To: <CACvgo52NO5uOnG5p360nWKiu6Bigs9bgP9x3XKMQ3vfT-APfmQ@mail.gmail.com>
-References: <20200205174839.374658-1-emil.l.velikov@gmail.com>
- <20200207132942.GY43062@phenom.ffwll.local>
- <CACvgo52NO5uOnG5p360nWKiu6Bigs9bgP9x3XKMQ3vfT-APfmQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 686306EDCE
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 07:35:57 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 855A55CA;
+ Tue, 11 Feb 2020 02:29:01 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 11 Feb 2020 02:29:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=2XAzinolYfeXzXbbLu5Jf1/tN3
+ a6jZF/BQkbt3wshz0=; b=VkPf1VuvLgWPnZUZw6fX9LXSuDM9h+0Pt1b8hzsmRd
+ GZZb5mTMCqeax3Ow+tRMtpQnr6/6pnsdYq4Hc/2Sq3//RAkety/bzDhYL0lZQLz5
+ OW5Pq5t3NLFYh9FJndlfu9bJKRGmqJ8vRBZZisncXe1O0qxZLUmeXoWrpInsr0tK
+ e5oRlJTRw83G4+c7cDse0q9Ae1pFQhJ2ft0+yt/Scgf0YL0Tn1Zzca3eXvO71rTC
+ 6MZGxiRFVBZ0ctGrOt9djhzLaHuCCFGxrAa8DMWUNhjslyeDRivf4RIJ4igjeTT/
+ 3UHCFZ1D9RS/xfQRw0BdjP03O1kadeL948agO/ays8Ow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2XAzinolYfeXzXbbL
+ u5Jf1/tN3a6jZF/BQkbt3wshz0=; b=qbHkvXgEe0KcB+QSs2nj7VG5eJ5tyPHWi
+ JWdyTt+3hLCstxAqKgUdXrHA7APggTjdpPi1PnNxluZM8OB1bZC+fZ6aPv5bu6K1
+ uoqPa4eVfw5fhlsjKPWyEhLx/tOiQLEJ4QH9fVr5zJtIj9atIJAwWp67/e7aHh4n
+ KFdW5b2l07rWvnXJHY9TCqnZH2iOQhoh5ti/GEi5EzT4SkiqLsnYLV8tVU7R3LMa
+ wSJw81pvGM+4TixAO3l8PNR8vS7f6nvmd2SravACpxlJtGGyIhEHAFaY+b940saq
+ cWB3rYhBDtmrpgrFU342uiGKO/jrDGFlUKBrGNzC/DBs4/oqEFlFw==
+X-ME-Sender: <xms:u1dCXmNGxulksOtPjq7ptNU-t0wdnoWA3WIK4_dXcBSgw-mowbt8Qw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedriedvgddutdejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+ jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucfkphepje
+ dtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+ pehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:u1dCXpPfEQsTN8KeDot1R3zoTqbY3LyJQfJRe2gg7sT_bZuzp7RCgA>
+ <xmx:u1dCXoQwqRzffF3krcN6pcSD132qpXBRObH9cB0UiMfGE149YhCEXQ>
+ <xmx:u1dCXrBJT3YkMotWYc_MSPRZjRuYGf5Cf60UiRkBaStkGW_LVRT6Vw>
+ <xmx:vVdCXtFJbQrffTeuoif7Lg7EwI8DMgBHtEGzU2pW0IYPBivNUaT4AA>
+Received: from titanium.stl.sholland.net
+ (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2C13030606E9;
+ Tue, 11 Feb 2020 02:28:59 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/4] drm/sun4i: dsi: Remove unused drv from driver context
+Date: Tue, 11 Feb 2020 01:28:55 -0600
+Message-Id: <20200211072858.30784-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
+X-Mailman-Approved-At: Tue, 11 Feb 2020 08:34:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,128 +75,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0464714695=="
+Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Samuel Holland <samuel@sholland.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0464714695==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/q0tY4z3VLfRpyAG4eu3uaJL"; protocol="application/pgp-signature"
+This member is never used, so remove it.
 
---Sig_/q0tY4z3VLfRpyAG4eu3uaJL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Fixes: 133add5b5ad4 ("drm/sun4i: Add Allwinner A31 MIPI-DSI controller support")
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 4 ----
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h | 1 -
+ 2 files changed, 5 deletions(-)
 
-On Mon, 10 Feb 2020 19:01:06 +0000
-Emil Velikov <emil.l.velikov@gmail.com> wrote:
-
-> Thanks for having a look Daniel.
->=20
-> On Fri, 7 Feb 2020 at 13:29, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Wed, Feb 05, 2020 at 05:48:39PM +0000, Emil Velikov wrote: =20
-> > > From: Emil Velikov <emil.velikov@collabora.com>
-> > >
-> > > This commit reworks the permission handling of the two ioctls. In
-> > > particular it enforced the CAP_SYS_ADMIN check only, if:
-> > >  - we're issuing the ioctl from process other than the one which open=
-ed
-> > > the node, and
-> > >  - we are, or were master in the past
-> > >
-> > > This allows for any application which cannot rely on systemd-logind
-> > > being present (for whichever reason), to drop it's master capabilities
-> > > (and regain them at later point) w/o being ran as root.
-> > >
-> > > See the comment above drm_master_check_perm() for more details.
-> > >
-> > > Cc: Adam Jackson <ajax@redhat.com>
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> > > ---
-> > > This effectively supersedes an earlier patch [1] incorporating ajax's
-> > > feedback (from IRC ages ago).
-> > >
-> > > [1] https://patchwork.freedesktop.org/patch/268977/
-> > > ---
-> > >  drivers/gpu/drm/drm_auth.c  | 59 +++++++++++++++++++++++++++++++++++=
-++
-> > >  drivers/gpu/drm/drm_ioctl.c |  4 +--
-> > >  include/drm/drm_file.h      | 11 +++++++
-> > >  3 files changed, 72 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> > > index cc9acd986c68..01d9e35c0106 100644
-> > > --- a/drivers/gpu/drm/drm_auth.c
-> > > +++ b/drivers/gpu/drm/drm_auth.c
-
-> > > +static int
-> > > +drm_master_check_perm(struct drm_device *dev, struct drm_file *file_=
-priv)
-> > > +{
-> > > +     if (file_priv->pid !=3D task_pid(current) && file_priv->was_mas=
-ter) =20
-> >
-> > Isn't this a typo? Why should we only allow this if the opener is someo=
-ne
-> > else ... that looks like the logind approach? Or is my bolean logic par=
-ser
-> > broken again.
-> > =20
-> Thanks for spotting it. Indeed that should be:
->=20
-> if (file_priv->pid =3D=3D task_pid(current) && file_priv->was_master)
->     return 0;
-
-Hi,
-
-I'm mostly just curious, why is comparing pids safe here? Maybe the
-'pid' member is not what userspace calls PID?
-
-What if a malicious process receives a DRM fd from something similar to
-logind, then the logind equivalent process dies, and the malicious
-process starts forking new processes attempting to hit the same pid the
-logind equivalent had, succeeds in that, and passes the DRM fd to that
-fork. Is the fork then effectively in control of DRM master?
-
-
-Thanks,
-pq
-
---Sig_/q0tY4z3VLfRpyAG4eu3uaJL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl5CYJgACgkQI1/ltBGq
-qqeCbg//WJG3vPhaDvc4yXEPalIJxJVON1jcSPy+3o0M3QNaBMmkk5hakRAD2MTN
-SJ+c/JD+9d8H6zgYBmKPATKV2Gmbw/Du66pVz8eS35fjeE4DAWm1jOhqiMW+xtaU
-otUM4fmxqx8oGwO2ZRThR6QpHNACfpKQ/vvdbOQhK5DsMT7unrGKgKkh9dzUcScN
-AmiJPvhdOphqYOX6fjIoPgambGnLFhokec4oSDYntPhPYv8C09spzcPl5WQRUMMe
-JnGWaa/NzHkQ8uUOEyyeJN6HJfRK7razWUKrGOUDaO8n8jH76dkIsEBlwstJk7BT
-hjx5w+owcznd17c7js77DiLuIIUM3vMKU5JTP+YT7nFxM39sGTIjaPpoxXAi1qGl
-wKfHd9oOGf7IGoMNxH+77m4pZkB3uKxzeVOYoWKrJbfxQp5gakst1UlzZBU2zNe6
-8HJO6wjEy35hrDhbkIniNEgZWQrIVlZotEkIXbeJ1sq0t8kFArMiQW2QD1ilbyhd
-FaKlIrhQPZdpzEYnf5/2Ac/mNAhixcT58Acay8QIDFFYu77vZC0s386swkm8BwuZ
-ts9FXggmd+jyGHA8ya86+Itq9kB2E8gbu4JyBB1iDxRrWBWzei+PpZ4IOO6LQ6MW
-H661s5wiq7JN8bWrKWS/cHIJ9hApwPR2Y7SHS1SQBlzYxNi7/yM=
-=2hgB
------END PGP SIGNATURE-----
-
---Sig_/q0tY4z3VLfRpyAG4eu3uaJL--
-
---===============0464714695==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index c958ca9bae63..c07290541fff 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -27,7 +27,6 @@
+ #include <drm/drm_probe_helper.h>
+ 
+ #include "sun4i_crtc.h"
+-#include "sun4i_drv.h"
+ #include "sun4i_tcon.h"
+ #include "sun6i_mipi_dsi.h"
+ 
+@@ -1022,15 +1021,12 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+ 			 void *data)
+ {
+ 	struct drm_device *drm = data;
+-	struct sun4i_drv *drv = drm->dev_private;
+ 	struct sun6i_dsi *dsi = dev_get_drvdata(dev);
+ 	int ret;
+ 
+ 	if (!dsi->panel)
+ 		return -EPROBE_DEFER;
+ 
+-	dsi->drv = drv;
+-
+ 	drm_encoder_helper_add(&dsi->encoder,
+ 			       &sun6i_dsi_enc_helper_funcs);
+ 	ret = drm_encoder_init(drm,
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+index 3f4846f581ef..61e88ea6044d 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+@@ -28,7 +28,6 @@ struct sun6i_dsi {
+ 	struct phy		*dphy;
+ 
+ 	struct device		*dev;
+-	struct sun4i_drv	*drv;
+ 	struct mipi_dsi_device	*device;
+ 	struct drm_panel	*panel;
+ };
+-- 
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0464714695==--
