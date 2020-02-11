@@ -1,54 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51013158A6E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 08:31:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9447158A9A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 08:47:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D58E6EDC7;
-	Tue, 11 Feb 2020 07:31:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8F76E31D;
+	Tue, 11 Feb 2020 07:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 305A86EDC7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 07:31:28 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01B7VPB1037395;
- Tue, 11 Feb 2020 01:31:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1581406285;
- bh=Vt5DWD81nsjcTjP5QoQqSWaW83yP3vIn9VO8P3wcfGg=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=q7aoLykptQSOHBDvreb0KB4LQNytU5DsuPpOjZ8YeBrCmiLi4HCEzM+V40aQGvfM0
- TupuuzRxur6uKYoOd+YD0ldq92LXGUUtytZrzRA/dQjNNLL8bX2ZeZ//zTkNQZmzeq
- LFsy6ktmkm4PTNwYLNv5FP20ONDGWz/cRw1cYcnw=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01B7VPvX050611
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 11 Feb 2020 01:31:25 -0600
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 11
- Feb 2020 01:31:24 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 11 Feb 2020 01:31:24 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01B7VMra130934;
- Tue, 11 Feb 2020 01:31:23 -0600
-Subject: Re: [PATCH 0/2] drm/omap: dmm_tiler: Small fixes for i878 workaround
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>, <laurent.pinchart@ideasonboard.com>
-References: <20190731094233.13890-1-peter.ujfalusi@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <d4f4c206-473d-bcfa-8f95-7eef4b711f6a@ti.com>
-Date: Tue, 11 Feb 2020 09:31:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589DC89C3F;
+ Tue, 11 Feb 2020 07:47:01 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2020 23:47:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="312993641"
+Received: from helsinki.fi.intel.com ([10.237.66.159])
+ by orsmga001.jf.intel.com with ESMTP; 10 Feb 2020 23:46:59 -0800
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v7 00/18] In order to readout DP SDPs,
+ refactors the handling of DP SDPs 
+Date: Tue, 11 Feb 2020 09:46:39 +0200
+Message-Id: <20200211074657.231405-1-gwan-gyeong.mun@intel.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <20190731094233.13890-1-peter.ujfalusi@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +41,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jsarha@ti.com, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/07/2019 12:42, Peter Ujfalusi wrote:
-> Hi,
-> 
-> two small correction on the use of DMAengine API, no functional changes
-> - Use dmaengine_prep_dma_memcpy() to prepare the memcpy
-> - do not call dma_async_issue_pending() as it is redundant
-> 
-> Regards,
-> Peter
-> ---
-> Peter Ujfalusi (2):
->    drm/omap: dmm_tiler: Use dmaengine_prep_dma_memcpy() for i878
->      workaround
->    drm/omap: dmm_tiler: Remove the dma_async_issue_pending() call
-> 
->   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
+In order to readout DP SDPs (Secondary Data Packet: DP HDR Metadata
+Infoframe SDP, DP VSC SDP), it refactors handling DP SDPs codes.
+It adds new compute routines for DP HDR Metadata Infoframe SDP
+and DP VSC SDP. 
+And new writing routines of DP SDPs (Secondary Data Packet) that uses
+computed configs.
+New reading routines of DP SDPs are added for readout.
+It adds a logging function for DP VSC SDP.
+When receiving video it is very useful to be able to log DP VSC SDP.
+This greatly simplifies debugging.
+In order to use a common VSC SDP Colorimetry calculating code on PSR,
+it uses a new psr vsc sdp compute routine.
 
-Sorry, missed these two... Picked them up now.
+v2: Minor style fix
+v3: 
+  - Add a new drm data structure for DP VSC SDP
+  - Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
+  - Move logging functions to drm core [Jani N]
+    And use drm core's DP VSC SDP logging function
+  - Explicitly disable unused DIPs (AVI, GCP, VS, SPD, DRM. They will be
+    used for HDMI), when intel_dp_set_infoframes() function will be called.
+v4:
+  - Use struct drm_device logging macros
+  - Rebased
+v5:
+  - Use intel_de_*() functions for register access
+  - Add warning where a bpc is 6 and a pixel format is RGB.
+  - Addressed review comments from Uma
+    Add kernel docs for added data structures
+    Rename enum dp_colorspace to dp_pixelformat
+    Polish commit message and comments
+    Combine the if checks of sdp.HB2 and sdp.HB3
+    Add 6bpc to packining and unpacking of VSC SDP
+v6: Fix enabled infoframe states of lspcon
+v7: Fix the wrong check of combination bpc 6 and RGB pixelformat
 
-  Tomi
+Gwan-gyeong Mun (18):
+  drm: Add DP1.4 VSC SDP Payload related Data Structures
+  drm/i915/dp: Add compute routine for DP VSC SDP
+  drm/i915/dp: Add compute routine for DP HDR Metadata Infoframe SDP
+  drm/i915/dp: Add writing of DP SDPs
+  video/hdmi: Add Unpack only function for DRM infoframe
+  drm/i915/dp: Read out DP SDPs
+  drm: Add logging function for DP VSC SDP
+  drm/i915: Include HDMI DRM infoframe in the crtc state dump
+  drm/i915: Include DP HDR Metadata Infoframe SDP in the crtc state dump
+  drm/i915: Include DP VSC SDP in the crtc state dump
+  drm/i915: Program DP SDPs with computed configs
+  drm/i915: Add state readout for DP HDR Metadata Infoframe SDP
+  drm/i915: Add state readout for DP VSC SDP
+  drm/i915: Fix enabled infoframe states of lspcon
+  drm/i915: Program DP SDPs on pipe updates
+  drm/i915: Stop sending DP SDPs on ddi disable
+  drm/i915/dp: Add compute routine for DP PSR VSC SDP
+  drm/i915/psr: Use new DP VSC SDP compute routine on PSR
+
+ drivers/gpu/drm/drm_dp_helper.c               | 174 +++++
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  19 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  62 ++
+ .../drm/i915/display/intel_display_types.h    |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 638 ++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_dp.h       |  18 +-
+ drivers/gpu/drm/i915/display/intel_lspcon.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      |  54 +-
+ drivers/gpu/drm/i915/display/intel_psr.h      |   6 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   1 +
+ drivers/video/hdmi.c                          |  58 +-
+ include/drm/drm_dp_helper.h                   | 133 ++++
+ include/linux/hdmi.h                          |   2 +
+ 13 files changed, 950 insertions(+), 218 deletions(-)
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.25.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
