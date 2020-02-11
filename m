@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5C1158D56
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 12:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CCC158D71
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 12:20:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 407266EE20;
-	Tue, 11 Feb 2020 11:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 524276E4B3;
+	Tue, 11 Feb 2020 11:20:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247B96EE20
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 11:13:25 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id w12so11838159wrt.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 03:13:25 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 894766EA2B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 11:20:36 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id t3so11862868wru.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 03:20:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=VJKGXshv9im8n13J7VytMlLDWj4BKc4K3gpa1jG75HI=;
- b=UAQMn31BcN1FYJQphT3Z1jWaUYxyNoQ/7W9yMdfDUE7ZQMDi3DL2IgDzoNBhEF2k4F
- R4RyRP3q8epWYD3TYWwR4c0lxVX1TZMoheFYmMHITJ4lBDFiFSufmE5D7Tc0BNp/GIKP
- BWAEqaIA+PH6xrGpT6ItmsBl8V6fkq86oDg7c=
+ bh=oKA580eN4gimhHoVSc3Rn2l6V9j6epembRn90vRGC20=;
+ b=JBUTnHNcMNs6ENlEPnyRfOjTSgoU7xd5T4/IhP12c+4bgPYWbGtAih5YxAy2qhGomu
+ RWTkhl2QUphSxtLuR2pbHNLlxpdfSKN5JEIXGv2XyXrkc6WRhPUIT0vRZS3TfTJC4grj
+ 2b12zBcbydzrHkyj7S1CvTXpI8GpDMfRTSSBQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=VJKGXshv9im8n13J7VytMlLDWj4BKc4K3gpa1jG75HI=;
- b=lefnlkcBIjpWtmp2nWZAyJyL6529+k9gm9OCpddYsc68QYU8urZYfBxAkfxf9S+Kh7
- l+GWuQoAgKM3Ys1SMbCaVFABUWWlr/qrIecJ+57wTlG0QOGTOq/YWboihlYyxeMEn2Ue
- to5OIWlyTcCroJh+nhDWKlTwXxvsX/XYQ/D6NB2Gdre0cGK4yrFGesGXpGQxeLyGItu0
- rI+SnkyhWQO1lhmWmSEMLwfD/LIbAivrq7kmKD4X38MDcdyv4X8mk57apZymeE3djpEj
- TPYcNHAdP0IGxRjOelFzvGS+B9X+DmZGh+6pPAp4mq9/ORbYItAybdpE5OXLD/fXIo6M
- g3jQ==
-X-Gm-Message-State: APjAAAXAgZ6SGqzrIHw1a9qtR++fEOZMv8N65XB5ExGIh0B9OkNjmh5R
- d9YdHfv+ODrDvo1DX3RGtYpIfw==
-X-Google-Smtp-Source: APXvYqzBeoe5MDEk4TQ0c7WoQXjrim/UKU53DgPdywGq1OhC4Zg1bB98YZMoMTrAIIEPd5hkOrprmw==
-X-Received: by 2002:a5d:67c7:: with SMTP id n7mr7907527wrw.319.1581419603822; 
- Tue, 11 Feb 2020 03:13:23 -0800 (PST)
+ bh=oKA580eN4gimhHoVSc3Rn2l6V9j6epembRn90vRGC20=;
+ b=rSwcqiIIYpMxAVQ/0uJMttkH4msiBNhszrb527prsriJWl26e5vNvePAk+Bij9Ww/1
+ pTkp1NtarjbFY2VBQTztb/n39Pm84azNC22WBw24Er7955hy4UA713wLU1spv/u5Eqvb
+ uYSLOVLsUs4gWYPm1oIkuzvsOJyuYAFaPzK5tFr1jqy7IaaQz6T+3nuxBxztKFggMd72
+ MZPUhvTH3Js2VHpaJtux+osj8dL8BnDFL5LrGQzxsHEXDfE6BlQO2ADIq+ty2dRThEE+
+ ddQ0shXw1nTVqaZ1gVSr8+dmoMgJXblFLXpioMcBV5zvKXDym6FDVtLuGx7CmGYSqG1t
+ dB5Q==
+X-Gm-Message-State: APjAAAUsl8jR7s7B87gb94OAe45gDlJobaQQo8URsRzwG1mjrrN4sxwU
+ eMii1WcatfRsuMsME+EqgD+4PcGFiFs=
+X-Google-Smtp-Source: APXvYqzDbi9Nn/nF4xz/aZrpTNukXfQPHTI5FerkQMw65PC9zYc7DT5BD7kwZH9XBVnRZiUXyO17Vw==
+X-Received: by 2002:a5d:4f8b:: with SMTP id d11mr7762537wru.87.1581420035116; 
+ Tue, 11 Feb 2020 03:20:35 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b10sm4721660wrw.61.2020.02.11.03.13.22
+ by smtp.gmail.com with ESMTPSA id f1sm4817887wro.85.2020.02.11.03.20.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 03:13:23 -0800 (PST)
-Date: Tue, 11 Feb 2020 12:13:21 +0100
+ Tue, 11 Feb 2020 03:20:34 -0800 (PST)
+Date: Tue, 11 Feb 2020 12:20:00 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Subject: Re: Cleanup TTMs delayed delete handling
-Message-ID: <20200211111321.GY43062@phenom.ffwll.local>
-References: <20200210150907.20616-1-christian.koenig@amd.com>
- <SN6PR12MB2800BAF6444C0BC373C13E9087180@SN6PR12MB2800.namprd12.prod.outlook.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/5] disable drm_global_mutex for most drivers, take 2
+Message-ID: <20200211112000.GA2363188@phenom.ffwll.local>
+References: <20200204150146.2006481-1-daniel.vetter@ffwll.ch>
+ <61d3ec83-862d-fe88-d618-f7728806ea9a@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <SN6PR12MB2800BAF6444C0BC373C13E9087180@SN6PR12MB2800.namprd12.prod.outlook.com>
+In-Reply-To: <61d3ec83-862d-fe88-d618-f7728806ea9a@suse.de>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,57 +66,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 11:06:53AM +0000, Pan, Xinhui wrote:
-> [AMD Official Use Only - Internal Distribution Only]
+On Mon, Feb 10, 2020 at 10:47:36AM +0100, Thomas Zimmermann wrote:
+> Hi,
+> =
 
-Uh might want to fix your email setup.
+> I smoke-tested the patchset by running X11, Weston and fbdev emulation
+> on ast and udl. No apparent problems found, so
+> =
+
+> Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Merged patches 2-5 (first one needs to wait for amdgpu/radeon patches),
+thanks everyone for review&testing.
 -Daniel
 
 > =
 
-> For patch 1/2/3/5/6
-> Reviewed-by: xinhui pan <xinhui.pan@amd.com>
-> ________________________________
-> From: Christian K=F6nig <ckoenig.leichtzumerken@gmail.com>
-> Sent: Monday, February 10, 2020 11:09:01 PM
-> To: Pan, Xinhui <Xinhui.Pan@amd.com>; amd-gfx@lists.freedesktop.org <amd-=
-gfx@lists.freedesktop.org>; dri-devel@lists.freedesktop.org <dri-devel@list=
-s.freedesktop.org>
-> Subject: Cleanup TTMs delayed delete handling
+> Best regards
+> Thomas
 > =
 
-> This series of patches cleans up TTMs delayed delete handling.
+> Am 04.02.20 um 16:01 schrieb Daniel Vetter:
+> > CI didn't like my test-with tag :-/
+> > =
+
+> > Test-with: 20200128112549.172135-1-daniel.vetter@ffwll.ch
+> > =
+
+> > Daniel Vetter (5):
+> >   drm: Complain if drivers still use the ->load callback
+> >   drm/fbdev-helper: don't force restores
+> >   drm/client: Rename _force to _locked
+> >   drm: Push drm_global_mutex locking in drm_open
+> >   drm: Nerf drm_global_mutex BKL for good drivers
+> > =
+
+> >  drivers/gpu/drm/drm_client_modeset.c | 12 +++++---
+> >  drivers/gpu/drm/drm_drv.c            | 26 +++++++++-------
+> >  drivers/gpu/drm/drm_fb_helper.c      | 16 ++--------
+> >  drivers/gpu/drm/drm_file.c           | 46 ++++++++++++++++++++++++++--
+> >  drivers/gpu/drm/drm_internal.h       |  1 +
+> >  include/drm/drm_client.h             |  7 ++++-
+> >  include/drm/drm_drv.h                |  3 ++
+> >  7 files changed, 79 insertions(+), 32 deletions(-)
+> > =
+
 > =
 
-> The core of the new handling is that we new only have a single reference =
-counter instead of two and use kref_get_unless_zero() to grab BOs from the =
-LRU during eviction.
-> =
+> -- =
 
-> This reduces the overhead of LRU moves and allows us to properly individu=
-alize the BOs reservation object during deletion to allow adding BOs for cl=
-earing memory, unmapping page tables etc..
-> =
-
-> Please review and comment,
-> Christian.
-> =
-
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
 > =
 
 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 
 
 -- =
