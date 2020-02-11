@@ -2,34 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A631158AD2
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 08:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CDB158B03
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 09:07:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04656EDED;
-	Tue, 11 Feb 2020 07:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B3889F19;
+	Tue, 11 Feb 2020 08:07:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0206EDEE;
- Tue, 11 Feb 2020 07:47:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2020 23:47:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="312993753"
-Received: from helsinki.fi.intel.com ([10.237.66.159])
- by orsmga001.jf.intel.com with ESMTP; 10 Feb 2020 23:47:34 -0800
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 18/18] drm/i915/psr: Use new DP VSC SDP compute routine on
- PSR
-Date: Tue, 11 Feb 2020 09:46:57 +0200
-Message-Id: <20200211074657.231405-19-gwan-gyeong.mun@intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200211074657.231405-1-gwan-gyeong.mun@intel.com>
-References: <20200211074657.231405-1-gwan-gyeong.mun@intel.com>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 780A789F19
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 08:06:59 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id v17so10475867ljg.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 00:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=WkZY1nEkHI5hrTSxuy0NQwTF53PmWe0fVC3cwv6RRww=;
+ b=hyarMOlmeYW3kR4uN4KM2cG+CIrzjBIsOfe8z7yNNqQbdbO0ozeuFsW4b/L8A+FKWd
+ GsyWpjl1kpFEhXVQ8YCWCXSI+9U1c7UeQ3TrAyi2LmxRnYnYTZNOBrMo4Nn+LX3scS3E
+ gdLdy4UdNZS4pKZQfN9fLl26X8RHEnZZJ09ZVPT2WpLBUhs5/VMryRjOOoTELDKzf6Ta
+ iT59w2DaatTTCXINs0JvXRm3k3hVTmgbzRz3IKtE+h2DXNCUEtnwwvGG0cGsz5BP6v56
+ /B5VIkgfoixX+wz8yqmoscEgMF83je8QVD6s9+Rj+bBhfeaUIdxCLJWx10MueftFFX8S
+ Ti7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=WkZY1nEkHI5hrTSxuy0NQwTF53PmWe0fVC3cwv6RRww=;
+ b=f7FW5zPClO9zHlE+N7GTaxkI1S5mWJQrNgaPXNIq83SNyX7tdnY+1/vVkNbkjALETl
+ kfaxKS20lPZyfmYvNS6IXJJ050hUeSNOUNjrGNCZ21sJMUb3/q8QolWW7fmAMZj7lbpO
+ YZ4/NtMlcuWQEUBEjLDJ/z2NlUREL79QhOhrJ4FXlSe1pNeR9oTJNiO29BzC5kurMus+
+ igZac4KDc7VkKhwIVDjKPv9BklhvaamVU2woYhgcjSWCK9S+o0a5SHc3OpZ9FG+x5kQD
+ 9kryfEYD7VWXHwHksokUZBwpyl9HrkjEduMXKVjtE24PNoFyIM2sMPYEwSVMBzG2OqkR
+ Q6OQ==
+X-Gm-Message-State: APjAAAVhBQJgzy0gkF3QYwfKZXyZgSK+80Ou0nZG9/232BeZ2vYBGoxV
+ Q1hJhm9Ow0HDe9gZIDIw0MU=
+X-Google-Smtp-Source: APXvYqz6MBuWKX8tOj9jcgZCEcfzIq8Ju23MrHV0+KviEgqePDpF95F5N2YWsknXnp4gZ339wUZ5hg==
+X-Received: by 2002:a2e:9b52:: with SMTP id o18mr3409915ljj.270.1581408417849; 
+ Tue, 11 Feb 2020 00:06:57 -0800 (PST)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id j7sm1643326ljg.25.2020.02.11.00.06.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Feb 2020 00:06:57 -0800 (PST)
+Date: Tue, 11 Feb 2020 10:06:48 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [RFC] drm: rework SET_MASTER and DROP_MASTER perm handling
+Message-ID: <20200211100648.5d876d43@eldfell.localdomain>
+In-Reply-To: <CACvgo52NO5uOnG5p360nWKiu6Bigs9bgP9x3XKMQ3vfT-APfmQ@mail.gmail.com>
+References: <20200205174839.374658-1-emil.l.velikov@gmail.com>
+ <20200207132942.GY43062@phenom.ffwll.local>
+ <CACvgo52NO5uOnG5p360nWKiu6Bigs9bgP9x3XKMQ3vfT-APfmQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,213 +67,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0464714695=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to use a common VSC SDP Colorimetry calculating code on PSR,
-it uses a new psr vsc sdp compute routine.
-Because PSR routine has its own scenario and timings of writing a VSC SDP,
-the current PSR routine needs to have its own drm_dp_vsc_sdp structure
-member variable on struct i915_psr.
+--===============0464714695==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/q0tY4z3VLfRpyAG4eu3uaJL"; protocol="application/pgp-signature"
 
-In order to calculate colorimetry information, intel_psr_update()
-function and intel_psr_enable() function extend a drm_connector_state
-argument.
+--Sig_/q0tY4z3VLfRpyAG4eu3uaJL
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-There are no changes to PSR mechanism.
+On Mon, 10 Feb 2020 19:01:06 +0000
+Emil Velikov <emil.l.velikov@gmail.com> wrote:
 
-v3: Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
-v4: Rebased
+> Thanks for having a look Daniel.
+>=20
+> On Fri, 7 Feb 2020 at 13:29, Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Wed, Feb 05, 2020 at 05:48:39PM +0000, Emil Velikov wrote: =20
+> > > From: Emil Velikov <emil.velikov@collabora.com>
+> > >
+> > > This commit reworks the permission handling of the two ioctls. In
+> > > particular it enforced the CAP_SYS_ADMIN check only, if:
+> > >  - we're issuing the ioctl from process other than the one which open=
+ed
+> > > the node, and
+> > >  - we are, or were master in the past
+> > >
+> > > This allows for any application which cannot rely on systemd-logind
+> > > being present (for whichever reason), to drop it's master capabilities
+> > > (and regain them at later point) w/o being ran as root.
+> > >
+> > > See the comment above drm_master_check_perm() for more details.
+> > >
+> > > Cc: Adam Jackson <ajax@redhat.com>
+> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> > > ---
+> > > This effectively supersedes an earlier patch [1] incorporating ajax's
+> > > feedback (from IRC ages ago).
+> > >
+> > > [1] https://patchwork.freedesktop.org/patch/268977/
+> > > ---
+> > >  drivers/gpu/drm/drm_auth.c  | 59 +++++++++++++++++++++++++++++++++++=
+++
+> > >  drivers/gpu/drm/drm_ioctl.c |  4 +--
+> > >  include/drm/drm_file.h      | 11 +++++++
+> > >  3 files changed, 72 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> > > index cc9acd986c68..01d9e35c0106 100644
+> > > --- a/drivers/gpu/drm/drm_auth.c
+> > > +++ b/drivers/gpu/drm/drm_auth.c
 
-Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
----
- drivers/gpu/drm/i915/display/intel_ddi.c |  4 +-
- drivers/gpu/drm/i915/display/intel_psr.c | 54 +++++++-----------------
- drivers/gpu/drm/i915/display/intel_psr.h |  6 ++-
- drivers/gpu/drm/i915/i915_drv.h          |  1 +
- 4 files changed, 22 insertions(+), 43 deletions(-)
+> > > +static int
+> > > +drm_master_check_perm(struct drm_device *dev, struct drm_file *file_=
+priv)
+> > > +{
+> > > +     if (file_priv->pid !=3D task_pid(current) && file_priv->was_mas=
+ter) =20
+> >
+> > Isn't this a typo? Why should we only allow this if the opener is someo=
+ne
+> > else ... that looks like the logind approach? Or is my bolean logic par=
+ser
+> > broken again.
+> > =20
+> Thanks for spotting it. Indeed that should be:
+>=20
+> if (file_priv->pid =3D=3D task_pid(current) && file_priv->was_master)
+>     return 0;
 
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index e21dfc0d926b..fd0e88566074 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3903,7 +3903,7 @@ static void intel_enable_ddi_dp(struct intel_encoder *encoder,
- 		intel_dp_stop_link_train(intel_dp);
- 
- 	intel_edp_backlight_on(crtc_state, conn_state);
--	intel_psr_enable(intel_dp, crtc_state);
-+	intel_psr_enable(intel_dp, crtc_state, conn_state);
- 	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
- 	intel_edp_drrs_enable(intel_dp, crtc_state);
- 
-@@ -4071,7 +4071,7 @@ static void intel_ddi_update_pipe_dp(struct intel_encoder *encoder,
- 
- 	intel_ddi_set_dp_msa(crtc_state, conn_state);
- 
--	intel_psr_update(intel_dp, crtc_state);
-+	intel_psr_update(intel_dp, crtc_state, conn_state);
- 	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
- 	intel_edp_drrs_enable(intel_dp, crtc_state);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index db3d1561e9bf..953c0286307d 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -335,39 +335,6 @@ void intel_psr_init_dpcd(struct intel_dp *intel_dp)
- 	}
- }
- 
--static void intel_psr_setup_vsc(struct intel_dp *intel_dp,
--				const struct intel_crtc_state *crtc_state)
--{
--	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
--	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
--	struct dp_sdp psr_vsc;
--
--	if (dev_priv->psr.psr2_enabled) {
--		/* Prepare VSC Header for SU as per EDP 1.4 spec, Table 6.11 */
--		memset(&psr_vsc, 0, sizeof(psr_vsc));
--		psr_vsc.sdp_header.HB0 = 0;
--		psr_vsc.sdp_header.HB1 = 0x7;
--		if (dev_priv->psr.colorimetry_support) {
--			psr_vsc.sdp_header.HB2 = 0x5;
--			psr_vsc.sdp_header.HB3 = 0x13;
--		} else {
--			psr_vsc.sdp_header.HB2 = 0x4;
--			psr_vsc.sdp_header.HB3 = 0xe;
--		}
--	} else {
--		/* Prepare VSC packet as per EDP 1.3 spec, Table 3.10 */
--		memset(&psr_vsc, 0, sizeof(psr_vsc));
--		psr_vsc.sdp_header.HB0 = 0;
--		psr_vsc.sdp_header.HB1 = 0x7;
--		psr_vsc.sdp_header.HB2 = 0x2;
--		psr_vsc.sdp_header.HB3 = 0x8;
--	}
--
--	intel_dig_port->write_infoframe(&intel_dig_port->base,
--					crtc_state,
--					DP_SDP_VSC, &psr_vsc, sizeof(psr_vsc));
--}
--
- static void hsw_psr_setup_aux(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
-@@ -859,9 +826,12 @@ static void intel_psr_enable_source(struct intel_dp *intel_dp,
- }
- 
- static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
--				    const struct intel_crtc_state *crtc_state)
-+				    const struct intel_crtc_state *crtc_state,
-+				    const struct drm_connector_state *conn_state)
- {
- 	struct intel_dp *intel_dp = dev_priv->psr.dp;
-+	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
-+	struct intel_encoder *encoder = &intel_dig_port->base;
- 	u32 val;
- 
- 	drm_WARN_ON(&dev_priv->drm, dev_priv->psr.enabled);
-@@ -900,7 +870,9 @@ static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
- 
- 	drm_dbg_kms(&dev_priv->drm, "Enabling PSR%s\n",
- 		    dev_priv->psr.psr2_enabled ? "2" : "1");
--	intel_psr_setup_vsc(intel_dp, crtc_state);
-+	intel_dp_compute_psr_vsc_sdp(intel_dp, crtc_state, conn_state,
-+				     &dev_priv->psr.vsc);
-+	intel_write_dp_vsc_sdp(encoder, crtc_state, &dev_priv->psr.vsc);
- 	intel_psr_enable_sink(intel_dp);
- 	intel_psr_enable_source(intel_dp, crtc_state);
- 	dev_priv->psr.enabled = true;
-@@ -912,11 +884,13 @@ static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
-  * intel_psr_enable - Enable PSR
-  * @intel_dp: Intel DP
-  * @crtc_state: new CRTC state
-+ * @conn_state: new CONNECTOR state
-  *
-  * This function can only be called after the pipe is fully trained and enabled.
-  */
- void intel_psr_enable(struct intel_dp *intel_dp,
--		      const struct intel_crtc_state *crtc_state)
-+		      const struct intel_crtc_state *crtc_state,
-+		      const struct drm_connector_state *conn_state)
- {
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
- 
-@@ -935,7 +909,7 @@ void intel_psr_enable(struct intel_dp *intel_dp,
- 		goto unlock;
- 	}
- 
--	intel_psr_enable_locked(dev_priv, crtc_state);
-+	intel_psr_enable_locked(dev_priv, crtc_state, conn_state);
- 
- unlock:
- 	mutex_unlock(&dev_priv->psr.lock);
-@@ -1068,13 +1042,15 @@ static void psr_force_hw_tracking_exit(struct drm_i915_private *dev_priv)
-  * intel_psr_update - Update PSR state
-  * @intel_dp: Intel DP
-  * @crtc_state: new CRTC state
-+ * @conn_state: new CONNECTOR state
-  *
-  * This functions will update PSR states, disabling, enabling or switching PSR
-  * version when executing fastsets. For full modeset, intel_psr_disable() and
-  * intel_psr_enable() should be called instead.
-  */
- void intel_psr_update(struct intel_dp *intel_dp,
--		      const struct intel_crtc_state *crtc_state)
-+		      const struct intel_crtc_state *crtc_state,
-+		      const struct drm_connector_state *conn_state)
- {
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
- 	struct i915_psr *psr = &dev_priv->psr;
-@@ -1109,7 +1085,7 @@ void intel_psr_update(struct intel_dp *intel_dp,
- 		intel_psr_disable_locked(intel_dp);
- 
- 	if (enable)
--		intel_psr_enable_locked(dev_priv, crtc_state);
-+		intel_psr_enable_locked(dev_priv, crtc_state, conn_state);
- 
- unlock:
- 	mutex_unlock(&dev_priv->psr.lock);
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.h b/drivers/gpu/drm/i915/display/intel_psr.h
-index c58a1d438808..a003fb18105a 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.h
-+++ b/drivers/gpu/drm/i915/display/intel_psr.h
-@@ -17,11 +17,13 @@ struct intel_dp;
- #define CAN_PSR(dev_priv) (HAS_PSR(dev_priv) && dev_priv->psr.sink_support)
- void intel_psr_init_dpcd(struct intel_dp *intel_dp);
- void intel_psr_enable(struct intel_dp *intel_dp,
--		      const struct intel_crtc_state *crtc_state);
-+		      const struct intel_crtc_state *crtc_state,
-+		      const struct drm_connector_state *conn_state);
- void intel_psr_disable(struct intel_dp *intel_dp,
- 		       const struct intel_crtc_state *old_crtc_state);
- void intel_psr_update(struct intel_dp *intel_dp,
--		      const struct intel_crtc_state *crtc_state);
-+		      const struct intel_crtc_state *crtc_state,
-+		      const struct drm_connector_state *conn_state);
- int intel_psr_debug_set(struct drm_i915_private *dev_priv, u64 value);
- void intel_psr_invalidate(struct drm_i915_private *dev_priv,
- 			  unsigned frontbuffer_bits,
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index a71ff233cc55..3a723715327d 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -506,6 +506,7 @@ struct i915_psr {
- 	u32 dc3co_exit_delay;
- 	struct delayed_work idle_work;
- 	bool initially_probed;
-+	struct drm_dp_vsc_sdp vsc;
- };
- 
- #define QUIRK_LVDS_SSC_DISABLE (1<<1)
--- 
-2.25.0
+Hi,
+
+I'm mostly just curious, why is comparing pids safe here? Maybe the
+'pid' member is not what userspace calls PID?
+
+What if a malicious process receives a DRM fd from something similar to
+logind, then the logind equivalent process dies, and the malicious
+process starts forking new processes attempting to hit the same pid the
+logind equivalent had, succeeds in that, and passes the DRM fd to that
+fork. Is the fork then effectively in control of DRM master?
+
+
+Thanks,
+pq
+
+--Sig_/q0tY4z3VLfRpyAG4eu3uaJL
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl5CYJgACgkQI1/ltBGq
+qqeCbg//WJG3vPhaDvc4yXEPalIJxJVON1jcSPy+3o0M3QNaBMmkk5hakRAD2MTN
+SJ+c/JD+9d8H6zgYBmKPATKV2Gmbw/Du66pVz8eS35fjeE4DAWm1jOhqiMW+xtaU
+otUM4fmxqx8oGwO2ZRThR6QpHNACfpKQ/vvdbOQhK5DsMT7unrGKgKkh9dzUcScN
+AmiJPvhdOphqYOX6fjIoPgambGnLFhokec4oSDYntPhPYv8C09spzcPl5WQRUMMe
+JnGWaa/NzHkQ8uUOEyyeJN6HJfRK7razWUKrGOUDaO8n8jH76dkIsEBlwstJk7BT
+hjx5w+owcznd17c7js77DiLuIIUM3vMKU5JTP+YT7nFxM39sGTIjaPpoxXAi1qGl
+wKfHd9oOGf7IGoMNxH+77m4pZkB3uKxzeVOYoWKrJbfxQp5gakst1UlzZBU2zNe6
+8HJO6wjEy35hrDhbkIniNEgZWQrIVlZotEkIXbeJ1sq0t8kFArMiQW2QD1ilbyhd
+FaKlIrhQPZdpzEYnf5/2Ac/mNAhixcT58Acay8QIDFFYu77vZC0s386swkm8BwuZ
+ts9FXggmd+jyGHA8ya86+Itq9kB2E8gbu4JyBB1iDxRrWBWzei+PpZ4IOO6LQ6MW
+H661s5wiq7JN8bWrKWS/cHIJ9hApwPR2Y7SHS1SQBlzYxNi7/yM=
+=2hgB
+-----END PGP SIGNATURE-----
+
+--Sig_/q0tY4z3VLfRpyAG4eu3uaJL--
+
+--===============0464714695==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0464714695==--
