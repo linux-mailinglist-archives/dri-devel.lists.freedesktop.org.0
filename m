@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BFE15A346
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:26:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41CAC15A340
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:25:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 559D26F48D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D74C6F48C;
 	Wed, 12 Feb 2020 08:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2446E03A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 21:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581458012;
+ [IPv6:2a01:238:20a:202:5304::5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD496E3DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 21:53:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581458016;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=BRx4A/2BZ9iAXxHIzvSIgcM006QIyV49GXyT24CvguM=;
- b=IbsXHep/OSDdfCRsNIVuq5ZIVlLMw8NVgojcbF9/9fgtXlFPBrlOLpOJyyr/RbiSck
- HUfTYqbFg1uIoT1V/8jInOXB0gq+gNvDkw5wApN8/T+rdT3LiMietii77iCvtaz4L+zp
- cE440YVwUj+UVTwkCcGEUpw5T6MQCOccXaTjhP0TvargaA0JQBfNQ33q+3tOlwudHNpB
- vdnuvYItaSjQ4/L8ha+9sw9YUBoKz2N4+DGSAqjt92puxiIznHeNbIdd3gACAodnswzY
- uRPe/+8T7B9rsDgrTFFZ6KNFU1BAksmSG3Upi52CB3z0cX9O+MRHRrVIzpX/QcqDfefw
- b+nQ==
+ bh=o2aaGn+CrBGGFUCI/aU8qBP4BNQ+G25EUxt570OpKBY=;
+ b=BMXXlZmFkjPzioleN+weG1RLBYvFdoxaMDaevpSBDtLbg6r8TnoJXVZgF/z1uf2SMS
+ CWgOr4rsEqBRVOBRK4GDmvxdsuX4iBzn0nAzgeHp7yEAioh6826nNScO+hZ+463XlgGp
+ GBiYnU1salVYP0UZVmFxgjgbu+44FN0wYnke8/nMktHHA+c34R+eiU6CzUiQ6qVjdq+J
+ bdPgJKl8mhgZXRY7ef0CKuBK1QVa1KnNklchvq9LBFxmsXFm2B6bQHo/nCJ5ZskSaOFx
+ h7QpVCy8YI7bHPr8PwySYHYHmeHf5kqGT2Wb+dCYw0SaddrMzEAePhfFrUyyBCXCG9R+
+ hIfA==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UNf2M0P2mp10IM"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1BLfc0EN
+ with ESMTPSA id U06217w1BLfc0EO
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
  Tue, 11 Feb 2020 22:41:38 +0100 (CET)
@@ -46,9 +46,10 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>,
  Richard Fontana <rfontana@redhat.com>,
  Allison Randal <allison@lohutok.net>, Stephen Boyd <swboyd@chromium.org>
-Subject: [PATCH 07/14] MIPS: DTS: CI20: fix PMU definitions for ACT8600
-Date: Tue, 11 Feb 2020 22:41:24 +0100
-Message-Id: <aa9725056a1d2bfb490a1c912f34302de0e27fad.1581457290.git.hns@goldelico.com>
+Subject: [PATCH 08/14] MIPS: CI20: defconfig: configure
+ CONFIG_REGULATOR_ACT8865 for PMU
+Date: Tue, 11 Feb 2020 22:41:25 +0100
+Message-Id: <123a132d735a02c1fcbf989c25551a616b1cb991.1581457290.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1581457290.git.hns@goldelico.com>
 References: <cover.1581457290.git.hns@goldelico.com>
@@ -76,128 +77,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a ACT8600 on the CI20 board and the bindings of the
-ACT8865 driver have changed without updating the CI20 device
-tree. Therefore the PMU can not be probed successfully and
-is running in power-on reset state.
-
-Fix DT to match the latest act8865-regulator bindings.
+The PMU on the CI20 board is an ACT8600 using the ACT8865 driver.
+Since it is not compiled, the PMU and the CI20 board is running in
+power-on reset state of the PMU.
 
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/mips/boot/dts/ingenic/ci20.dts | 48 ++++++++++++++++++++---------
- 1 file changed, 33 insertions(+), 15 deletions(-)
+ arch/mips/configs/ci20_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
-index 37b93166bf22..e02a19db7ef1 100644
---- a/arch/mips/boot/dts/ingenic/ci20.dts
-+++ b/arch/mips/boot/dts/ingenic/ci20.dts
-@@ -148,6 +148,8 @@
- 	pinctrl-0 = <&pins_uart4>;
- };
- 
-+#include <dt-bindings/regulator/active-semi,8865-regulator.h>
-+
- &i2c0 {
- 	status = "okay";
- 
-@@ -161,65 +163,81 @@
- 		reg = <0x5a>;
- 		status = "okay";
- 
-+/*
-+Optional input supply properties:
-+- for act8600:
-+  - vp1-supply: The input supply for DCDC_REG1
-+  - vp2-supply: The input supply for DCDC_REG2
-+  - vp3-supply: The input supply for DCDC_REG3
-+  - inl-supply: The input supply for LDO_REG5, LDO_REG6, LDO_REG7 and LDO_REG8
-+  SUDCDC_REG4, LDO_REG9 and LDO_REG10 do not have separate supplies.
-+*/
-+
- 		regulators {
- 			vddcore: SUDCDC1 {
--				regulator-name = "VDDCORE";
-+				regulator-name = "DCDC_REG1";
- 				regulator-min-microvolt = <1100000>;
- 				regulator-max-microvolt = <1100000>;
- 				regulator-always-on;
- 			};
- 			vddmem: SUDCDC2 {
--				regulator-name = "VDDMEM";
-+				regulator-name = "DCDC_REG2";
- 				regulator-min-microvolt = <1500000>;
- 				regulator-max-microvolt = <1500000>;
- 				regulator-always-on;
- 			};
- 			vcc_33: SUDCDC3 {
--				regulator-name = "VCC33";
-+				regulator-name = "DCDC_REG3";
- 				regulator-min-microvolt = <3300000>;
- 				regulator-max-microvolt = <3300000>;
- 				regulator-always-on;
- 			};
- 			vcc_50: SUDCDC4 {
--				regulator-name = "VCC50";
-+				regulator-name = "SUDCDC_REG4";
- 				regulator-min-microvolt = <5000000>;
- 				regulator-max-microvolt = <5000000>;
- 				regulator-always-on;
- 			};
- 			vcc_25: LDO_REG5 {
--				regulator-name = "VCC25";
-+				regulator-name = "LDO_REG5";
- 				regulator-min-microvolt = <2500000>;
- 				regulator-max-microvolt = <2500000>;
- 				regulator-always-on;
- 			};
- 			wifi_io: LDO_REG6 {
--				regulator-name = "WIFIIO";
-+				regulator-name = "LDO_REG6";
- 				regulator-min-microvolt = <2500000>;
- 				regulator-max-microvolt = <2500000>;
- 				regulator-always-on;
- 			};
- 			vcc_28: LDO_REG7 {
--				regulator-name = "VCC28";
-+				regulator-name = "LDO_REG7";
- 				regulator-min-microvolt = <2800000>;
- 				regulator-max-microvolt = <2800000>;
- 				regulator-always-on;
- 			};
- 			vcc_15: LDO_REG8 {
--				regulator-name = "VCC15";
-+				regulator-name = "LDO_REG8";
- 				regulator-min-microvolt = <1500000>;
- 				regulator-max-microvolt = <1500000>;
- 				regulator-always-on;
- 			};
--			vcc_18: LDO_REG9 {
--				regulator-name = "VCC18";
--				regulator-min-microvolt = <1800000>;
--				regulator-max-microvolt = <1800000>;
-+			vrtc_18: LDO_REG9 {
-+				regulator-name = "LDO_REG9";
-+				/* Despite the datasheet stating 3.3V for REG9 and
-+				   driver expecting that, REG9 outputs 1.8V.
-+				   Likely the CI20 uses a chip variant.
-+				   Since it is a simple on/off LDO the exact values
-+				   do not matter.
-+				*/
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
- 				regulator-always-on;
- 			};
- 			vcc_11: LDO_REG10 {
--				regulator-name = "VCC11";
--				regulator-min-microvolt = <1100000>;
--				regulator-max-microvolt = <1100000>;
-+				regulator-name = "LDO_REG10";
-+				regulator-min-microvolt = <1200000>;
-+				regulator-max-microvolt = <1200000>;
- 				regulator-always-on;
- 			};
- 		};
+diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_defconfig
+index 30a47a7a2994..74e5775b8a05 100644
+--- a/arch/mips/configs/ci20_defconfig
++++ b/arch/mips/configs/ci20_defconfig
+@@ -95,6 +95,7 @@ CONFIG_JZ4740_WDT=y
+ CONFIG_REGULATOR=y
+ CONFIG_REGULATOR_DEBUG=y
+ CONFIG_REGULATOR_FIXED_VOLTAGE=y
++CONFIG_REGULATOR_ACT8865=y
+ # CONFIG_VGA_CONSOLE is not set
+ # CONFIG_HID is not set
+ # CONFIG_USB_SUPPORT is not set
 -- 
 2.23.0
 
