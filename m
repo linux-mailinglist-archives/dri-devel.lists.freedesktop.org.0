@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D9C1591B6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 15:20:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E401591C1
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 15:22:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B65396EA77;
-	Tue, 11 Feb 2020 14:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6386EA88;
+	Tue, 11 Feb 2020 14:22:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96C426EA77
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 14:20:00 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id t14so3779643wmi.5
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 06:20:00 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01A8F6EA88
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 14:22:45 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id s144so2382717wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 06:22:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=Wnr+//oGH4uXMO6GDB7TwubX/nxe1+x76Hvs2NVGFuc=;
- b=GIQ8GjOqJrhLYKdgtLRlfIIfitARQxNz4LODBM0XdoUf+DS+VdY2Y9sLMV4cFvXUqg
- eDscMY7wgT8H5Jsa2+kdwu0cfcTeX/rUVrc8rw4U8dyqHg7XynQ7Bo4W4Qi0yNelAk05
- JPspZp/zNtqJX4ZkZieNqJdpzqmVjUwIPtOfQ=
+ bh=zbCpoEzMkXhuds3sawE1UyW9vC3Fj6dPXq0u004qUn4=;
+ b=KzUjILm1iSPNky6CD9uanf3G3iyYl/J28iOaqMo/AmK22/0X3/LFIPTbBn0ydkCkiQ
+ N3TUyrOKjzvrCTmwbRapoiQDmjvHM/cdxSkI7kAxwhN3rhvuh51eMXEvhkDwIyxgMbLr
+ MmDPzcI626frvOBJR1qfCVefDQp0ipbGYci1Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=Wnr+//oGH4uXMO6GDB7TwubX/nxe1+x76Hvs2NVGFuc=;
- b=pKnMwnNKp/3+Q9tCgh/ejQRewx6vbvyfglGDbVKMkkP8Fzvg1ibCJVPy1RTHQkXHXQ
- UtS/fN1QD31OhNLe06eIkgZq2SRVO4vbqg6Mjh2VxuBY51mK2PaxiaHIn0PZ+8Q8C0kr
- cLYRW6C3R6O6sG2rQn9ZtOOWBLzV2IcGT2Y+Vy61Hkgdx3yTGdgEpNQtkKS9DV4Zm7Bz
- yGReapF1efRuIqgjJ5bmJ3tWY4q+WBwKcyZ8zkSpjw7b2AxgteMkdtt5gNL7BPPHq8an
- Gvd8NsNIKICy2i9dIsfNUbeDhy3meg4vD9x6ffuezvw75L36jRfz2ZRc9RZZiKBhbOS/
- L4Kg==
-X-Gm-Message-State: APjAAAVZMY0xXn928Hl4qFthu51D5MhExexLMYlYvdbUXlgvhItoPoNT
- /tiWIUuZwAP2rtgW5f+BzDDm4A==
-X-Google-Smtp-Source: APXvYqy6L5KPAi1i0sPrc30Ft7+bqgWt2Wm5wPwnLY5tKsWvuzgkp0nY4PgfSjs3STKYXkE0grFKJA==
-X-Received: by 2002:a05:600c:34b:: with SMTP id
- u11mr5830687wmd.69.1581430799258; 
- Tue, 11 Feb 2020 06:19:59 -0800 (PST)
+ bh=zbCpoEzMkXhuds3sawE1UyW9vC3Fj6dPXq0u004qUn4=;
+ b=F/HXrBstDMWxlHPZCOb9ApxNidSFbEXHDe1lt1uf7YXhFsadT38u+qpvdh2fTQeeQ1
+ GgjIbkisGLbUWJdpOtn7xB+LjnVQIKXVv3wDwUJMPJ4x0p7eS6CVAi0rQ1z7V2CkACAg
+ o+oUaQri8VR10Ayyx8EokE4QaZ6ap9Q7YEZyqnn9LeTq6WRdJGnoJl/khIwSDci505Z6
+ NW1toDZj5tHBHYo4vLJgcw+MGcx9SfxPmdWk/9iOi3eS3EHEjBlH0vff2O2oPTB6woeB
+ IZlTn8oSYiOGCoBZd4ycKLJVIV3rB7GF4WD6VokVjEeMcuLEKWdgX4aBDW9DdUD+DFRk
+ FPZw==
+X-Gm-Message-State: APjAAAXHtlvz2WUxzPHn/7mcw9YbihrNRCCVp1quvp+dAo0OfWy59xVo
+ ATl7K/7EfyPlr6rXXo4gw6/LRQ==
+X-Google-Smtp-Source: APXvYqzYF5XCaXVSaa4gHRNv6N8Qaghaww1USAbGGjBeOKDuCJVmSMfWpAroKmZNMq/swNcVY7dXLQ==
+X-Received: by 2002:a7b:cb97:: with SMTP id m23mr5621995wmi.37.1581430964656; 
+ Tue, 11 Feb 2020 06:22:44 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q14sm5394758wrj.81.2020.02.11.06.19.58
+ by smtp.gmail.com with ESMTPSA id c4sm3869494wml.7.2020.02.11.06.22.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 06:19:58 -0800 (PST)
-Date: Tue, 11 Feb 2020 15:19:56 +0100
+ Tue, 11 Feb 2020 06:22:44 -0800 (PST)
+Date: Tue, 11 Feb 2020 15:22:42 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4] drm/bochs: add drm_driver.release callback.
-Message-ID: <20200211141956.GC2363188@phenom.ffwll.local>
+Subject: Re: [PATCH v4] drm/cirrus: add drm_driver.release callback.
+Message-ID: <20200211142242.GD2363188@phenom.ffwll.local>
 Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR QEMU'S CIRRUS DEVICE"
  <virtualization@lists.linux-foundation.org>, 
  open list <linux-kernel@vger.kernel.org>
-References: <20200211135218.22871-1-kraxel@redhat.com>
+References: <20200211135522.23654-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200211135218.22871-1-kraxel@redhat.com>
+In-Reply-To: <20200211135522.23654-1-kraxel@redhat.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,149 +73,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
  dri-devel@lists.freedesktop.org,
- "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>
+ "open list:DRM DRIVER FOR QEMU'S CIRRUS DEVICE"
+ <virtualization@lists.linux-foundation.org>, Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 02:52:18PM +0100, Gerd Hoffmann wrote:
-> Call bochs_unload via drm_driver.release to make sure we release stuff
-> when it is safe to do so.  Use drm_dev_{enter,exit,unplug} to avoid
-> touching hardware after device removal.  Tidy up here and there.
+On Tue, Feb 11, 2020 at 02:55:22PM +0100, Gerd Hoffmann wrote:
+> Move final cleanups from cirrus_pci_remove() to the new callback.
+> Add drm_atomic_helper_shutdown() call to cirrus_pci_remove().
+> 
+> Use drm_dev_{enter,exit,unplug} to avoid touching hardware after
+> device removal.
 > 
 > v4: add changelog.
-> v3: use drm_dev_*().
-> v2: move hardware deinit to pci_remove().
+> v3: use drm_dev*.
+> v2: stop touching hardware after pci_remove().
 > 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
+I think you got them all with drm_dev_enter/exit.
+
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Btw I checked around whether there's anything else that obviously needs a
-drm_dev_enter/exit, and I spotted the !bochs->mmio check in
-bochs_hw_load_edid. That one looks like cargo-cult, there's a single
-caller in the init path, so either mmio works at that point or this is
-dead code ... slightly confusing.
+Aside: everyone ignores the return value of cirrus_fb_blit_rect and
+cirrus_mode_set (with atomic those shouldn't be able to fail anymore),
+could ditch those.
 -Daniel
 
 > ---
->  drivers/gpu/drm/bochs/bochs_drv.c |  6 +++---
->  drivers/gpu/drm/bochs/bochs_hw.c  | 24 +++++++++++++++++++++++-
->  2 files changed, 26 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/cirrus/cirrus.c | 43 ++++++++++++++++++++++++++++-----
+>  1 file changed, 37 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/bochs_drv.c
-> index 10460878414e..addb0568c1af 100644
-> --- a/drivers/gpu/drm/bochs/bochs_drv.c
-> +++ b/drivers/gpu/drm/bochs/bochs_drv.c
-> @@ -23,7 +23,6 @@ static void bochs_unload(struct drm_device *dev)
+> diff --git a/drivers/gpu/drm/cirrus/cirrus.c b/drivers/gpu/drm/cirrus/cirrus.c
+> index a91fb0d7282c..d2ff63ce8eaf 100644
+> --- a/drivers/gpu/drm/cirrus/cirrus.c
+> +++ b/drivers/gpu/drm/cirrus/cirrus.c
+> @@ -151,9 +151,13 @@ static int cirrus_pitch(struct drm_framebuffer *fb)
 >  
->  	bochs_kms_fini(bochs);
->  	bochs_mm_fini(bochs);
-> -	bochs_hw_fini(dev);
->  	kfree(bochs);
->  	dev->dev_private = NULL;
+>  static void cirrus_set_start_address(struct cirrus_device *cirrus, u32 offset)
+>  {
+> +	int idx;
+>  	u32 addr;
+>  	u8 tmp;
+>  
+> +	if (!drm_dev_enter(&cirrus->dev, &idx))
+> +		return;
+> +
+>  	addr = offset >> 2;
+>  	wreg_crt(cirrus, 0x0c, (u8)((addr >> 8) & 0xff));
+>  	wreg_crt(cirrus, 0x0d, (u8)(addr & 0xff));
+> @@ -168,6 +172,8 @@ static void cirrus_set_start_address(struct cirrus_device *cirrus, u32 offset)
+>  	tmp &= 0x7f;
+>  	tmp |= (addr >> 12) & 0x80;
+>  	wreg_crt(cirrus, 0x1d, tmp);
+> +
+> +	drm_dev_exit(idx);
 >  }
-> @@ -69,6 +68,7 @@ static struct drm_driver bochs_driver = {
->  	.major			= 1,
->  	.minor			= 0,
->  	DRM_GEM_VRAM_DRIVER,
-> +	.release                = bochs_unload,
+>  
+>  static int cirrus_mode_set(struct cirrus_device *cirrus,
+> @@ -176,9 +182,12 @@ static int cirrus_mode_set(struct cirrus_device *cirrus,
+>  {
+>  	int hsyncstart, hsyncend, htotal, hdispend;
+>  	int vtotal, vdispend;
+> -	int tmp;
+> +	int tmp, idx;
+>  	int sr07 = 0, hdr = 0;
+>  
+> +	if (!drm_dev_enter(&cirrus->dev, &idx))
+> +		return -1;
+> +
+>  	htotal = mode->htotal / 8;
+>  	hsyncend = mode->hsync_end / 8;
+>  	hsyncstart = mode->hsync_start / 8;
+> @@ -264,6 +273,7 @@ static int cirrus_mode_set(struct cirrus_device *cirrus,
+>  		hdr = 0xc5;
+>  		break;
+>  	default:
+> +		drm_dev_exit(idx);
+>  		return -1;
+>  	}
+>  
+> @@ -292,6 +302,8 @@ static int cirrus_mode_set(struct cirrus_device *cirrus,
+>  
+>  	/* Unblank (needed on S3 resume, vgabios doesn't do it then) */
+>  	outb(0x20, 0x3c0);
+> +
+> +	drm_dev_exit(idx);
+>  	return 0;
+>  }
+>  
+> @@ -300,10 +312,16 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
+>  {
+>  	struct cirrus_device *cirrus = fb->dev->dev_private;
+>  	void *vmap;
+> +	int idx, ret;
+>  
+> +	ret = -ENODEV;
+> +	if (!drm_dev_enter(&cirrus->dev, &idx))
+> +		goto out;
+> +
+> +	ret = -ENOMEM;
+>  	vmap = drm_gem_shmem_vmap(fb->obj[0]);
+>  	if (!vmap)
+> -		return -ENOMEM;
+> +		goto out_dev_exit;
+>  
+>  	if (cirrus->cpp == fb->format->cpp[0])
+>  		drm_fb_memcpy_dstclip(cirrus->vram,
+> @@ -323,7 +341,12 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
+>  		WARN_ON_ONCE("cpp mismatch");
+>  
+>  	drm_gem_shmem_vunmap(fb->obj[0], vmap);
+> -	return 0;
+> +	ret = 0;
+> +
+> +out_dev_exit:
+> +	drm_dev_exit(idx);
+> +out:
+> +	return ret;
+>  }
+>  
+>  static int cirrus_fb_blit_fullscreen(struct drm_framebuffer *fb)
+> @@ -502,6 +525,14 @@ static void cirrus_mode_config_init(struct cirrus_device *cirrus)
+>  
+>  /* ------------------------------------------------------------------ */
+>  
+> +static void cirrus_release(struct drm_device *dev)
+> +{
+> +	struct cirrus_device *cirrus = dev->dev_private;
+> +
+> +	drm_mode_config_cleanup(dev);
+> +	kfree(cirrus);
+> +}
+> +
+>  DEFINE_DRM_GEM_FOPS(cirrus_fops);
+>  
+>  static struct drm_driver cirrus_driver = {
+> @@ -515,6 +546,7 @@ static struct drm_driver cirrus_driver = {
+>  
+>  	.fops		 = &cirrus_fops,
+>  	DRM_GEM_SHMEM_DRIVER_OPS,
+> +	.release         = cirrus_release,
 >  };
 >  
->  /* ---------------------------------------------------------------------- */
-> @@ -148,9 +148,9 @@ static void bochs_pci_remove(struct pci_dev *pdev)
->  {
+>  static int cirrus_pci_probe(struct pci_dev *pdev,
+> @@ -598,12 +630,11 @@ static void cirrus_pci_remove(struct pci_dev *pdev)
 >  	struct drm_device *dev = pci_get_drvdata(pdev);
+>  	struct cirrus_device *cirrus = dev->dev_private;
 >  
-> +	drm_dev_unplug(dev);
->  	drm_atomic_helper_shutdown(dev);
 > -	drm_dev_unregister(dev);
-> -	bochs_unload(dev);
-> +	bochs_hw_fini(dev);
+> -	drm_mode_config_cleanup(dev);
+> +	drm_dev_unplug(dev);
+> +	drm_atomic_helper_shutdown(dev);
+>  	iounmap(cirrus->mmio);
+>  	iounmap(cirrus->vram);
 >  	drm_dev_put(dev);
+> -	kfree(cirrus);
+>  	pci_release_regions(pdev);
 >  }
 >  
-> diff --git a/drivers/gpu/drm/bochs/bochs_hw.c b/drivers/gpu/drm/bochs/bochs_hw.c
-> index b615b7dfdd9d..952199cc0462 100644
-> --- a/drivers/gpu/drm/bochs/bochs_hw.c
-> +++ b/drivers/gpu/drm/bochs/bochs_hw.c
-> @@ -4,6 +4,7 @@
->  
->  #include <linux/pci.h>
->  
-> +#include <drm/drm_drv.h>
->  #include <drm/drm_fourcc.h>
->  
->  #include "bochs.h"
-> @@ -194,6 +195,8 @@ void bochs_hw_fini(struct drm_device *dev)
->  {
->  	struct bochs_device *bochs = dev->dev_private;
->  
-> +	/* TODO: shot down existing vram mappings */
-> +
->  	if (bochs->mmio)
->  		iounmap(bochs->mmio);
->  	if (bochs->ioports)
-> @@ -207,6 +210,11 @@ void bochs_hw_fini(struct drm_device *dev)
->  void bochs_hw_setmode(struct bochs_device *bochs,
->  		      struct drm_display_mode *mode)
->  {
-> +	int idx;
-> +
-> +	if (!drm_dev_enter(bochs->dev, &idx))
-> +		return;
-> +
->  	bochs->xres = mode->hdisplay;
->  	bochs->yres = mode->vdisplay;
->  	bochs->bpp = 32;
-> @@ -232,11 +240,18 @@ void bochs_hw_setmode(struct bochs_device *bochs,
->  
->  	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,
->  			  VBE_DISPI_ENABLED | VBE_DISPI_LFB_ENABLED);
-> +
-> +	drm_dev_exit(idx);
->  }
->  
->  void bochs_hw_setformat(struct bochs_device *bochs,
->  			const struct drm_format_info *format)
->  {
-> +	int idx;
-> +
-> +	if (!drm_dev_enter(bochs->dev, &idx))
-> +		return;
-> +
->  	DRM_DEBUG_DRIVER("format %c%c%c%c\n",
->  			 (format->format >>  0) & 0xff,
->  			 (format->format >>  8) & 0xff,
-> @@ -256,13 +271,18 @@ void bochs_hw_setformat(struct bochs_device *bochs,
->  			  __func__, format->format);
->  		break;
->  	}
-> +
-> +	drm_dev_exit(idx);
->  }
->  
->  void bochs_hw_setbase(struct bochs_device *bochs,
->  		      int x, int y, int stride, u64 addr)
->  {
->  	unsigned long offset;
-> -	unsigned int vx, vy, vwidth;
-> +	unsigned int vx, vy, vwidth, idx;
-> +
-> +	if (!drm_dev_enter(bochs->dev, &idx))
-> +		return;
->  
->  	bochs->stride = stride;
->  	offset = (unsigned long)addr +
-> @@ -277,4 +297,6 @@ void bochs_hw_setbase(struct bochs_device *bochs,
->  	bochs_dispi_write(bochs, VBE_DISPI_INDEX_VIRT_WIDTH, vwidth);
->  	bochs_dispi_write(bochs, VBE_DISPI_INDEX_X_OFFSET, vx);
->  	bochs_dispi_write(bochs, VBE_DISPI_INDEX_Y_OFFSET, vy);
-> +
-> +	drm_dev_exit(idx);
->  }
 > -- 
 > 2.18.2
 > 
