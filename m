@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330C0159490
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 17:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E38C4159496
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 17:13:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2A566E4E8;
-	Tue, 11 Feb 2020 16:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E4ED6EE9C;
+	Tue, 11 Feb 2020 16:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C2A6E4E8
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 16:13:44 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01BGDYsa130008;
- Tue, 11 Feb 2020 10:13:34 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1581437614;
- bh=+YQn6d++LnKsoiX4gIm/QgTgNjhIwQZrZR2DxKRa0/g=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=ifPYaYNneQzRaXjQmGShH9PVUTt2Ee9pN/wZkrsyi29QPdmQYdDp1sYAv0p4EbwCn
- I7yLgo2zqMsdQZqEKtQgONdQ8daBPI/donjzM4JzC7o/WKEdZqwg5YT+n3A2Dz8Niy
- BQ2Ag3WAIyD1TpBWEHYpDAqKNsYkEebcl2+mDDds=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01BGDY7w005133;
- Tue, 11 Feb 2020 10:13:34 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 11
- Feb 2020 10:13:34 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 11 Feb 2020 10:13:34 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01BGDV39125254;
- Tue, 11 Feb 2020 10:13:32 -0600
-Subject: Re: [PATCH 2/3] ARM: dts: am437x-gp/epos-evm: drop unused panel
- timings
-To: Tony Lindgren <tony@atomide.com>, Merlijn Wajer <merlijn@wizzup.org>
-References: <20191114093950.4101-3-tomi.valkeinen@ti.com>
- <20191202130459.GH4929@pendragon.ideasonboard.com>
- <20191211165331.GC43123@atomide.com>
- <45dae8f7-2f5e-6948-5a05-dc8a09ace1fa@ti.com>
- <20191212203550.GB4892@pendragon.ideasonboard.com>
- <add3d8af-6977-68e6-fb77-2fa748c4714a@ti.com>
- <b39e52f1-3e73-5f26-6206-0956cf482631@ti.com>
- <20200211110712.GB28355@pendragon.ideasonboard.com>
- <3b4d10c6-7cb2-af53-3a39-31eef441bfdd@ti.com>
- <98da360f-880b-af56-b285-4d9b39f8a342@wizzup.org>
- <20200211160524.GE64767@atomide.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <87b1111e-af06-1e2a-8baa-c3f9a15f1874@ti.com>
-Date: Tue, 11 Feb 2020 18:13:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3F76E507;
+ Tue, 11 Feb 2020 16:13:53 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id t14so4269601wmi.5;
+ Tue, 11 Feb 2020 08:13:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=b5qXSJffspK0gIHV4j3zfjqzd3AYpeWH5pDi5Wk3Aug=;
+ b=kZSU2Qe9ZnQJMNlp+m51s3hOluX5r2mw80qgV9RBzqi/blWLRZcA22G+r4W7P9Evvg
+ pQUHLVCl/v4tRpF2dzhXT17adJVzVoLDmxv2uH84Aajjn0RNBiEFuiD6cTCPPXv8dBj0
+ WlVor9sM+eIAjn0n7q8QT3eq4F5XKmwT5werlNkmIPPFes2lFNvXlBEV1kWwF+CumgYM
+ HU5xFrem9sab+A1ztd1nGIwZYResHH7hgVLOL3sp3ytJf4tFyGdG0FqiiPHMDoa40lG7
+ Vvn1D/cXZ8gKXM3a1Dnaf2hVqGiNKw9HpovoZzbe+IofL73GJ8fS4CTDB6bh/5W5EjB3
+ n0cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b5qXSJffspK0gIHV4j3zfjqzd3AYpeWH5pDi5Wk3Aug=;
+ b=JANehjcgZA+3DnaHKArz/qAjgB29kpMlhOWLhpn6RaZ1a3trW9t5rIZEienuEQ34/g
+ 3IImuXeJEWDPV+2q3J598REA6/hXWCktNB5pkmLFY2a3RkY0AAbSl51Zw4xk9a09iu63
+ IkxIC2c6pbLLOJcgKJDN1g3Blp5o16NtWjWq76kEhXSzLT7JDiMgTbm0vZRDd95Up5vj
+ sPjFl8J812BShw6I/b2vdKVmLGYQ9NWDYSBJah4X8GkkFdZqwce0BL8CEFROmmmiiBBC
+ pCeiTqWfoPi9HAMPmCpHgc3On5jrR/c22hHcR9kMSYl3NQ576t5MAN93sAGMrDHK0187
+ 4qUw==
+X-Gm-Message-State: APjAAAXS+Ohpj4bHpttHbNLQRi6nI2YeB5eaiw/73v+TkqPbi2vNEr2F
+ l06tAosnUSrXcvgvg6kv9PxLDRJazhjBtnUPcJ6Qlg==
+X-Google-Smtp-Source: APXvYqz4l/5oPRJk3RZwcpBAgXd/dQa7gZbGaffqPRR4ydtRluAXn116c16dNGtuCpeIMvH0jdsIDpAbF4iMzSarLm4=
+X-Received: by 2002:a7b:c152:: with SMTP id z18mr6256582wmi.70.1581437631848; 
+ Tue, 11 Feb 2020 08:13:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200211160524.GE64767@atomide.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200207211713.3870-1-alexander.deucher@amd.com>
+In-Reply-To: <20200207211713.3870-1-alexander.deucher@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 11 Feb 2020 11:13:40 -0500
+Message-ID: <CADnq5_NxooERCdT3N59Z4OSao6Jx7rDnqhOfFa3mtjEmFysOqg@mail.gmail.com>
+Subject: Re: [PATCH 13/15] drm/amdgpu/display: split dp connector registration
+ (v3)
+To: amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,65 +62,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
- Jyri Sarha <jsarha@ti.com>, dri-devel@lists.freedesktop.org,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/02/2020 18:05, Tony Lindgren wrote:
-> * Merlijn Wajer <merlijn@wizzup.org> [200211 12:54]:
->> Hi,
->>
->> On 11/02/2020 12:08, Tomi Valkeinen wrote:
->>> On 11/02/2020 13:07, Laurent Pinchart wrote:
->>>
->>>>> Hopefully soon (in five years? =) we can say that omapdrm supports all
->>>>> the boards, and we can deprecate omapfb.
->>>>
->>>> I'd love to send a patch to remove omapfb, but I'll let you do the
->>>> honours :-)
->>>
->>> Not before we add DSI support to omapdrm...
-> 
-> Hmm do your mean RFBI? The DSI support we already have :)
+Ping?
 
-Oh, I didn't even remember RFBI... But it is not supported in omapfb either, so it's not blocking 
-removal of omapfb.
+Alex
 
-We are still missing DSI command mode support, and moving it to the common DRM model.
-
->> This is probably known, but for devices that would like use PowerVR SGX,
->> there sometimes is only userspace available that works with omap(l)fb,
->> and not with DRM. The Nokia N900 is such an example.
->>
->> There might be a newer release of (closed) userspace coming for the
->> aging device(s), but as it stands, I don't think it's possible to do 3D
->> with PowerVR SGX on omapdrm currently.
->>
->> But I might be wrong...
-> 
-> Yes SGX is a bottleneck currently for omap3 users. And I think
-> RFBI is blocking n8x0 from moving to omapdrm and finally leaving
-> drivers/video/fbdev/omap2 behind.
-> 
-> With those blockers fixed, I'd also be happy to just get rid of
-> drivers/video/fbdev/omap2 as there should be no reason to
-> keep using it.
-
-I don't know what to do about SGX, but if someone sends patches to omapdrm to allow using SGX, I'll 
-review =).
-
-  Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+On Fri, Feb 7, 2020 at 4:17 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> Split into init and register functions to avoid a segfault
+> in some configs when the load/unload callbacks are removed.
+>
+> v2:
+> - add back accidently dropped has_aux setting
+> - set dev in late_register
+>
+> v3:
+> - fix dp cec ordering
+>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c   | 16 ++++++++++++++++
+>  drivers/gpu/drm/amd/amdgpu/atombios_dp.c         | 10 ++--------
+>  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  |  7 ++++++-
+>  3 files changed, 24 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> index ec1501e3a63a..f355d9a752d2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> @@ -1461,6 +1461,20 @@ static enum drm_mode_status amdgpu_connector_dp_mode_valid(struct drm_connector
+>         return MODE_OK;
+>  }
+>
+> +static int
+> +amdgpu_connector_late_register(struct drm_connector *connector)
+> +{
+> +       struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+> +       int r = 0;
+> +
+> +       if (amdgpu_connector->ddc_bus->has_aux) {
+> +               amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
+> +               r = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
+> +       }
+> +
+> +       return r;
+> +}
+> +
+>  static const struct drm_connector_helper_funcs amdgpu_connector_dp_helper_funcs = {
+>         .get_modes = amdgpu_connector_dp_get_modes,
+>         .mode_valid = amdgpu_connector_dp_mode_valid,
+> @@ -1475,6 +1489,7 @@ static const struct drm_connector_funcs amdgpu_connector_dp_funcs = {
+>         .early_unregister = amdgpu_connector_unregister,
+>         .destroy = amdgpu_connector_destroy,
+>         .force = amdgpu_connector_dvi_force,
+> +       .late_register = amdgpu_connector_late_register,
+>  };
+>
+>  static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
+> @@ -1485,6 +1500,7 @@ static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
+>         .early_unregister = amdgpu_connector_unregister,
+>         .destroy = amdgpu_connector_destroy,
+>         .force = amdgpu_connector_dvi_force,
+> +       .late_register = amdgpu_connector_late_register,
+>  };
+>
+>  void
+> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> index ea702a64f807..9b74cfdba7b8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> @@ -186,16 +186,10 @@ amdgpu_atombios_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m
+>
+>  void amdgpu_atombios_dp_aux_init(struct amdgpu_connector *amdgpu_connector)
+>  {
+> -       int ret;
+> -
+>         amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector->hpd.hpd;
+> -       amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
+>         amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
+> -       ret = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
+> -       if (!ret)
+> -               amdgpu_connector->ddc_bus->has_aux = true;
+> -
+> -       WARN(ret, "drm_dp_aux_register_i2c_bus() failed with error %d\n", ret);
+> +       drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
+> +       amdgpu_connector->ddc_bus->has_aux = true;
+>  }
+>
+>  /***** general DP utility functions *****/
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index 3959c942c88b..d5b9e72f2649 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -155,6 +155,11 @@ amdgpu_dm_mst_connector_late_register(struct drm_connector *connector)
+>         struct amdgpu_dm_connector *amdgpu_dm_connector =
+>                 to_amdgpu_dm_connector(connector);
+>         struct drm_dp_mst_port *port = amdgpu_dm_connector->port;
+> +       int r;
+> +
+> +       r = drm_dp_aux_register(&amdgpu_dm_connector->dm_dp_aux.aux);
+> +       if (r)
+> +               return r;
+>
+>  #if defined(CONFIG_DEBUG_FS)
+>         connector_debugfs_init(amdgpu_dm_connector);
+> @@ -484,7 +489,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
+>         aconnector->dm_dp_aux.aux.transfer = dm_dp_aux_transfer;
+>         aconnector->dm_dp_aux.ddc_service = aconnector->dc_link->ddc;
+>
+> -       drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
+> +       drm_dp_aux_init(&aconnector->dm_dp_aux.aux);
+>         drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
+>                                       &aconnector->base);
+>
+> --
+> 2.24.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
