@@ -2,59 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAF41595EF
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 18:05:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC691595FC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 18:13:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0980B6E107;
-	Tue, 11 Feb 2020 17:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF506EF2B;
+	Tue, 11 Feb 2020 17:13:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD4DC6E049
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 17:05:49 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a5so4536937wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 09:05:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=NZYdrP0qmq2maOAyC8puhD7WuaepezKmNtZG061e7uQ=;
- b=N7GAAn7aQO3CER4BDpI9SluUByTz5VRfMi/LRh4RuSXMcuaphmuTZZKq59Ec3QGK8h
- aOgKcI8D9YiB9Ywtab2+ndiQvJpV+0kUeH1KC0gfjZej0Ic7HMFV6ClyhYKN0BAXdBcg
- yJuFE+X/bmZqf1uhF3Dp3Uzcz5defGPpHz9Wk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=NZYdrP0qmq2maOAyC8puhD7WuaepezKmNtZG061e7uQ=;
- b=pr05rUg2Xy3/V6dLGagGxIFT5vWmnlvl7vB8u7YNCVWbFnBWNAIzNh89nMuVqDKaVH
- /rHRUC6MdxDYp/ijjFQjC/mUQ9NBtVtmU5BLeYfWfqk/H8mO5t/5wo4pBAFxzbNS+ZQb
- e6XyQxl3Ah6i9UNn8ALpKMqM8Vt7Vnf9Qjt4XwCxtkucf1BC96Na5NTweC33l/I5UaBO
- 9MwVTwz5PyuIjCZk+RxTCoUc0eZoUArEfo/OAT/b52L0Q/tgC9dwGyE1jTeqCPdSZJVm
- ragCcIQ2MYx+5XL4t6nnbAlhnnOhYH2ZgVc5750kaMS2obbyNqk6AoXudKPZ1d32/X6J
- WCBQ==
-X-Gm-Message-State: APjAAAVDkBqP/PNI7gKAFTraATm3fR/iCgpP7fVq3CBwst0Nrk+VMbxh
- GYe3zz8ho8GrhAY0yC/ctRaxeQ==
-X-Google-Smtp-Source: APXvYqyn8/S8Los4acJTOMFhvkYFgcEDt9zKiyyaUSeZ0iViaBr71XiNAzMyzDruuwwopRwblt+AEQ==
-X-Received: by 2002:a1c:38c7:: with SMTP id f190mr6388118wma.94.1581440748419; 
- Tue, 11 Feb 2020 09:05:48 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z10sm4233141wmk.31.2020.02.11.09.05.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 09:05:47 -0800 (PST)
-Date: Tue, 11 Feb 2020 18:05:45 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v3 7/7] drm: Allow drivers to leave
- encoder->possible_crtcs==0
-Message-ID: <20200211170545.GN2363188@phenom.ffwll.local>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B00D6E529;
+ Tue, 11 Feb 2020 17:13:36 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2020 09:13:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="280990266"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 11 Feb 2020 09:13:32 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 11 Feb 2020 19:13:31 +0200
+Date: Tue, 11 Feb 2020 19:13:31 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 5/7] drm: Validate encoder->possible_clones
+Message-ID: <20200211171331.GY13686@intel.com>
 References: <20200211162208.16224-1-ville.syrjala@linux.intel.com>
- <20200211162208.16224-8-ville.syrjala@linux.intel.com>
+ <20200211162208.16224-6-ville.syrjala@linux.intel.com>
+ <20200211170233.GL2363188@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200211162208.16224-8-ville.syrjala@linux.intel.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200211170233.GL2363188@phenom.ffwll.local>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,101 +56,186 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 06:22:08PM +0200, Ville Syrjala wrote:
-> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+On Tue, Feb 11, 2020 at 06:02:33PM +0100, Daniel Vetter wrote:
+> On Tue, Feb 11, 2020 at 06:22:06PM +0200, Ville Syrjala wrote:
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > =
+
+> > Many drivers are populating encoder->possible_clones wrong. Let's
+> > persuade them to get it right by adding some loud WARNs.
+> > =
+
+> > We'll cross check the bits between any two encoders. So either
+> > both encoders can clone with the other, or neither can.
+> > =
+
+> > We'll also complain about effectively empty possible_clones, and
+> > possible_clones containing bits for encoders that don't exist.
+> > =
+
+> > v2: encoder->possible_clones now includes the encoder itelf
+> > v3: Move to drm_mode_config_validate() (Daniel)
+> >     Document that you get a WARN when this is wrong (Daniel)
+> >     Extract full_encoder_mask()
+> > =
+
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
 > =
 
-> Let's simplify life of driver by allowing them to leave
-> encoder->possible_crtcs unset if they have no restrictions
-> in crtc<->encoder linkage. We'll just populate possible_crtcs
-> with the full crtc mask when registering the encoder so that
-> userspace doesn't have to deal with drivers not populating
-> this correctly.
+> I wonder whether we should start to have some unit tests for stuff like
+> this, like set up broken driver, make sure we have a WARN in dmesg. But
+> ideally we'd do that with the mocking stuff Kunit hopefully has soon.
 > =
 
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> ---
-> We might not actually need/want this, but included it here for
-> future reference if that assumption turns out to be wrong.
-
-I think this one is most definitely needed. _Lots_ of drivers get this
-toally wrong and just leave the value blank. It's encoded as official
-fallback in most userspace compositors.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/drm_mode_config.c | 15 ++++++++++++++-
->  include/drm/drm_encoder.h         |  4 ++++
->  2 files changed, 18 insertions(+), 1 deletion(-)
+> </idle musings>
 > =
 
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode=
-_config.c
-> index 4c1b350ddb95..ce18c3dd0bde 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -592,6 +592,17 @@ static u32 full_crtc_mask(struct drm_device *dev)
->  	return crtc_mask;
->  }
->  =
+> =
 
-> +/*
-> + * Make life easy for drivers by allowing them to leave
-> + * possible_crtcs unset if there are not crtc<->encoder
-> + * restrictions.
-> + */
-> +static void fixup_encoder_possible_crtcs(struct drm_encoder *encoder)
-> +{
-> +	if (encoder->possible_crtcs =3D=3D 0)
-> +		encoder->possible_crtcs =3D full_crtc_mask(encoder->dev);
-> +}
-> +
->  static void validate_encoder_possible_crtcs(struct drm_encoder *encoder)
->  {
->  	u32 crtc_mask =3D full_crtc_mask(encoder->dev);
-> @@ -608,8 +619,10 @@ void drm_mode_config_validate(struct drm_device *dev)
->  {
->  	struct drm_encoder *encoder;
->  =
+> > ---
+> >  drivers/gpu/drm/drm_mode_config.c | 40 +++++++++++++++++++++++++++++++
+> >  include/drm/drm_encoder.h         |  2 ++
+> >  2 files changed, 42 insertions(+)
+> > =
 
-> -	drm_for_each_encoder(encoder, dev)
-> +	drm_for_each_encoder(encoder, dev) {
->  		fixup_encoder_possible_clones(encoder);
-> +		fixup_encoder_possible_crtcs(encoder);
-> +	}
->  =
+> > diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mo=
+de_config.c
+> > index 75e357c7e84d..afc91447293a 100644
+> > --- a/drivers/gpu/drm/drm_mode_config.c
+> > +++ b/drivers/gpu/drm/drm_mode_config.c
+> > @@ -533,6 +533,17 @@ void drm_mode_config_cleanup(struct drm_device *de=
+v)
+> >  }
+> >  EXPORT_SYMBOL(drm_mode_config_cleanup);
+> >  =
 
->  	drm_for_each_encoder(encoder, dev) {
->  		validate_encoder_possible_clones(encoder);
-> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-> index b236269f41ac..bd033c5618bf 100644
-> --- a/include/drm/drm_encoder.h
-> +++ b/include/drm/drm_encoder.h
-> @@ -142,6 +142,10 @@ struct drm_encoder {
->  	 * the bits for all &drm_crtc objects this encoder can be connected to
->  	 * before calling drm_dev_register().
->  	 *
-> +	 * As an exception to the above rule if any crtc can be connected to
-> +	 * the encoder the driver can leave @possible_crtcs set to 0. The core
-> +	 * will automagically fix this up by setting the bit for every crtc.
-> +	 *
->  	 * You will get a WARN if you get this wrong in the driver.
->  	 *
->  	 * Note that since CRTC objects can't be hotplugged the assigned indices
+> > +static u32 full_encoder_mask(struct drm_device *dev)
+> > +{
+> > +	struct drm_encoder *encoder;
+> > +	u32 encoder_mask =3D 0;
+> > +
+> > +	drm_for_each_encoder(encoder, dev)
+> > +		encoder_mask |=3D drm_encoder_mask(encoder);
+> > +
+> > +	return encoder_mask;
+> > +}
+> > +
+> >  /*
+> >   * For some reason we want the encoder itself included in
+> >   * possible_clones. Make life easy for drivers by allowing them
+> > @@ -544,10 +555,39 @@ static void fixup_encoder_possible_clones(struct =
+drm_encoder *encoder)
+> >  		encoder->possible_clones =3D drm_encoder_mask(encoder);
+> >  }
+> >  =
+
+> > +static void validate_encoder_possible_clones(struct drm_encoder *encod=
+er)
+> > +{
+> > +	struct drm_device *dev =3D encoder->dev;
+> > +	u32 encoder_mask =3D full_encoder_mask(dev);
+> > +	struct drm_encoder *other;
+> > +
+> > +	drm_for_each_encoder(other, dev) {
+> > +		WARN(!(encoder->possible_clones & drm_encoder_mask(other)) !=3D
+> > +		     !(other->possible_clones & drm_encoder_mask(encoder)),
+> =
+
+> Bikeshed: !! as canonical "make this a bool value" might be slightly
+> clearer, but whatever.
+
+Can repaint.
+
+> =
+
+> > +		     "possible_clones mismatch: "
+> > +		     "[ENCODER:%d:%s] mask=3D0x%x possible_clones=3D0x%x vs. "
+> > +		     "[ENCODER:%d:%s] mask=3D0x%x possible_clones=3D0x%x\n",
+> > +		     encoder->base.id, encoder->name,
+> > +		     drm_encoder_mask(encoder), encoder->possible_clones,
+> > +		     other->base.id, other->name,
+> > +		     drm_encoder_mask(other), other->possible_clones);
+> > +	}
+> > +
+> > +	WARN((encoder->possible_clones & drm_encoder_mask(encoder)) =3D=3D 0 =
+||
+> > +	     (encoder->possible_clones & ~encoder_mask) !=3D 0,
+> > +	     "Bogus possible_clones: "
+> > +	     "[ENCODER:%d:%s] possible_clones=3D0x%x (full encoder mask=3D0x%=
+x)\n",
+> > +	     encoder->base.id, encoder->name,
+> > +	     encoder->possible_clones, encoder_mask);
+> > +}
+> =
+
+> Since it's next to each another double-checking that the fixup did add the
+> self-clone is probably too much :-)
+
+I changed the fixup to be just
+if (possible_clones =3D=3D 0)
+	possible_clones =3D drm_encoder_mask();
+
+So if the driver tries to set it up but fails and forgets the
+encoder itself this WARN will still trip.
+
+> =
+
+> > +
+> >  void drm_mode_config_validate(struct drm_device *dev)
+> >  {
+> >  	struct drm_encoder *encoder;
+> >  =
+
+> >  	drm_for_each_encoder(encoder, dev)
+> >  		fixup_encoder_possible_clones(encoder);
+> > +
+> > +	drm_for_each_encoder(encoder, dev)
+> > +		validate_encoder_possible_clones(encoder);
+> =
+
+> >  }
+> > diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+> > index 22d6cdf729f1..3741963b9587 100644
+> > --- a/include/drm/drm_encoder.h
+> > +++ b/include/drm/drm_encoder.h
+> > @@ -163,6 +163,8 @@ struct drm_encoder {
+> >  	 * any cloning it can leave @possible_clones set to 0. The core will
+> >  	 * automagically fix this up by setting the bit for the encoder itsel=
+f.
+> >  	 *
+> > +	 * You will get a WARN if you get this wrong in the driver.
+> =
+
+> Nice.
+> =
+
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> =
+
+> > +	 *
+> >  	 * Note that since encoder objects can't be hotplugged the assigned i=
+ndices
+> >  	 * are stable and hence known before registering all objects.
+> >  	 */
+> > -- =
+
+> > 2.24.1
+> > =
+
+> =
+
 > -- =
 
-> 2.24.1
-> =
-
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 -- =
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
