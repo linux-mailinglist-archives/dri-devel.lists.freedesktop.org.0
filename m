@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11D015937F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 16:44:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A56159382
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 16:44:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B00136EE95;
-	Tue, 11 Feb 2020 15:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78D8A6EE99;
+	Tue, 11 Feb 2020 15:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E78D16EE95;
- Tue, 11 Feb 2020 15:44:21 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id r21so5213973edq.0;
- Tue, 11 Feb 2020 07:44:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xlR00ADJradjotkCl4UlmMojkVu0xcxZBqzsuQumm74=;
- b=NvQExPCB8DI0IP1gFi+4sXuJgnDnc+3sGrABcCQBUhEtdW8umNWi+t6DLqUPNGUeCK
- +2Fo1BxAKf9Ge7XhKz0zsotmk3csdx0+aPVkukynRe0EUzkmvsRViU4D71ZYDFtnj86Q
- g3jqxsr8lTzrutSK3BNOyGpevnnnWU+qUZuxplWXAkvlgvm+mGS2e6uoZzslvqJ86mTS
- to4PLxgKuZS5+2D7SttIzvMzyl8v9YPdyNeLJdICpVJ2t36bCNV6O4Nkf29KFl9yrt4P
- VdHGJUulikhpW5WwkpQF3vYcZROgf72tQ09vs5ydiDKiMjgq0Cq9GM5CFHRHF8wzzW5F
- as6A==
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02C376EE98
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 15:44:32 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id w12so12979147wrt.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 07:44:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=mrqvVZsVn7mKog9esm7coIiEbXaaJCC1Rfcqj+IiqOM=;
+ b=eGIZMXSMMBGZESPC3d5T1L7ViUEpL2IcB9tW7HBQnsr6eo0QpjlO+Q4kFb/sZmLX1L
+ 6RVlHr5dRNvcDQrVwbmF8zwgXdLLVaeDc0+1yKDirD8N54Ju8PP/tuKbbODgz+DzF/en
+ l5pe3fLB4cOn4MNkgbSTKlbRdLBqf0YtOLRts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xlR00ADJradjotkCl4UlmMojkVu0xcxZBqzsuQumm74=;
- b=HNZL/olRKvphTHXZyVKjBTOz4BkuUXzZGHRwxkt5dnuP5l+x+XAkA7UR2Zj6dpJbds
- xpvXrmatIE/5W3ZPoFNhaSOTsmleiZOp0VF04w4MgTa404Bkk8/VhDgXeaPjbP1ZQVo2
- zQojOy9oyMErdma7r2DrIOXfk6SbztcX/sReNpT/Dd76R925aGQSI7wFWrFVx8JFmqUA
- xEyfnvN5mLc1DOgzEnr4WHfSNlUNbFU7RFhNkeGBqHlX0uOIG6qEnq91GCmv3H+qC/0o
- VwfGfHFMrxAPUliJxyAlxI1WBqVvt0ebVMwV6lx+gd5u3OojIDYHYgdXfslIRVDo7rdA
- sXjw==
-X-Gm-Message-State: APjAAAVJP0+AYe5vMP8hdV36jDI3WEWq/qemwFceaqIbQpFOqP0NUcDi
- 9zb0YkkDjS6cX2PvNhtPTMyW40KA44gBz5trJcbSbA==
-X-Google-Smtp-Source: APXvYqyCzdecpsQM0lw4triJNxJwSEFMbxi4XZz3qtjCH0Quta/P/aV1VGix4DQ+ffz64Nm+arwNBPjkvBa9ztigP+U=
-X-Received: by 2002:aa7:c6c5:: with SMTP id b5mr6258346eds.281.1581435860509; 
- Tue, 11 Feb 2020 07:44:20 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=mrqvVZsVn7mKog9esm7coIiEbXaaJCC1Rfcqj+IiqOM=;
+ b=JV3TzqL2gY73C6jICM5nPxIdvKRe9OLXQKLvFRCsNfxKfqAYXsgoYKdciSFLHhzH5S
+ AFBOJ59T1h7gVh6g7WEEyv7AD35dtKJ2XTX+1J+CAOsMkfzSmxMj+yZhM/OoU2GFUP3X
+ Kf6UbuZe+7SEDD3fw00/Q+uYRxSYeTvGnJ3dlPTjpohqlFgSc5ND6A71FdGngMDUD5lY
+ u6uhZ9qadWIOXd6a/ttVcbeGWyp98YyRcLXt/TlvySbUK4Kt7GAeWP5aAwZQBDsXzqFo
+ lTmSEwkUEmbtRABPRgXlmP8Nb6QqQdijo/BJRshJU1Zi2slg2KcyNRnmHxFQXqEBlPVc
+ r4Ww==
+X-Gm-Message-State: APjAAAW2/YkR871MW8oOMb+6LaYtX76uEXSY4kMyhP3dZCsr9DPMQvoq
+ oTLGyeDZ8XUTejXDngs9M2uDsA==
+X-Google-Smtp-Source: APXvYqwdMQB0ue7ACvsZYPC15pFoiUgzd/eTdfxdfCsnGlHwMqTG8gjUl279cbMLPm15eMg4GGpe3Q==
+X-Received: by 2002:adf:fa86:: with SMTP id h6mr8940823wrr.418.1581435870743; 
+ Tue, 11 Feb 2020 07:44:30 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 25sm4089987wmi.32.2020.02.11.07.44.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Feb 2020 07:44:29 -0800 (PST)
+Date: Tue, 11 Feb 2020 16:44:27 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH] drm/ttm: replace dma_resv object on deleted BOs v3
+Message-ID: <20200211154427.GJ2363188@phenom.ffwll.local>
+References: <20200211154326.83858-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <1580980321-19256-1-git-send-email-harigovi@codeaurora.org>
- <CAOCk7Nr9n-xLtWq=LEM-QFhJcY+QOuzazsoi-yjErA9od2Jwmw@mail.gmail.com>
- <2f5abc857910f70faa119fea5bda81d7@codeaurora.org>
- <CAOCk7NoCH9p9gOd7as=ty-EMeerAAhQtKZa8f2wZrDeV2LtGrw@mail.gmail.com>
- <1d201377996e16ce25acb640867e1214@codeaurora.org>
-In-Reply-To: <1d201377996e16ce25acb640867e1214@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 11 Feb 2020 07:44:09 -0800
-Message-ID: <CAF6AEGu8265DWN-XABwR1N-124m1j=EkgeNDEWZ16TVpSCZSZw@mail.gmail.com>
-Subject: Re: [Freedreno] [v1] drm/msm/dsi/pll: call vco set rate explicitly
-To: Harigovindan P <harigovi@codeaurora.org>
+Content-Disposition: inline
+In-Reply-To: <20200211154326.83858-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,82 +65,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- MSM <linux-arm-msm@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2020 at 9:58 PM <harigovi@codeaurora.org> wrote:
->
-> On 2020-02-07 19:40, Jeffrey Hugo wrote:
-> > On Fri, Feb 7, 2020 at 5:38 AM <harigovi@codeaurora.org> wrote:
-> >>
-> >> On 2020-02-06 20:29, Jeffrey Hugo wrote:
-> >> > On Thu, Feb 6, 2020 at 2:13 AM Harigovindan P <harigovi@codeaurora.org>
-> >> > wrote:
-> >> >>
-> >> >> For a given byte clock, if VCO recalc value is exactly same as
-> >> >> vco set rate value, vco_set_rate does not get called assuming
-> >> >> VCO is already set to required value. But Due to GDSC toggle,
-> >> >> VCO values are erased in the HW. To make sure VCO is programmed
-> >> >> correctly, we forcefully call set_rate from vco_prepare.
-> >> >
-> >> > Is this specific to certain SoCs? I don't think I've observed this.
-> >>
-> >> As far as Qualcomm SOCs are concerned, since pll is analog and the
-> >> value
-> >> is directly read from hardware if we get recalc value same as set rate
-> >> value, the vco_set_rate will not be invoked. We checked in our idp
-> >> device which has the same SOC but it works there since the rates are
-> >> different.
-> >
-> > This doesn't seem to be an answer to my question.  What Qualcomm SoCs
-> > does this issue apply to?  Everything implementing the 10nm pll?  One
-> > specific SoC?  I don't believe I've seen this on MSM8998, nor SDM845,
-> > so I'm interested to know what is the actual impact here.  I don't see
-> > an "IDP" SoC in the IP catalog, so I really have no idea what you are
-> > referring to.
->
->
-> This is not 10nm specific. It is applicable for other nms also.
-> Its specific to the frequency being set. If vco_recalc returns the same
-> value as being set by vco_set_rate,
-> vco_set_rate will not be invoked second time onwards.
->
-> For example: Lets take below devices:
->
-> Cheza is based on SDM845 which is 10nm only.
-> Clk frequency:206016
-> dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1236096000
-> dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1236095947
->
-> Trogdor is based on sc7180 which is also 10nm.
-> Clk frequency:69300
-> dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1663200000
-> dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1663200000
->
-> In same trogdor device, we slightly changed the clock frequency and the
-> values actually differ which will not cause any issue.
-> Clk frequency:69310
-> dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1663440000
-> dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1663439941
+On Tue, Feb 11, 2020 at 04:43:26PM +0100, Christian K=F6nig wrote:
+> When non-imported BOs are resurrected for delayed delete we replace
+> the dma_resv object to allow for easy reclaiming of the resources.
+> =
+
+> v2: move that to ttm_bo_individualize_resv
+> v3: add a comment to explain what's going on
+> =
+
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> Reviewed-by: xinhui pan <xinhui.pan@amd.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+> =
+
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index bfc42a9e4fb4..8174603d390f 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -393,6 +393,18 @@ static int ttm_bo_individualize_resv(struct ttm_buff=
+er_object *bo)
+>  =
+
+>  	r =3D dma_resv_copy_fences(&bo->base._resv, bo->base.resv);
+>  	dma_resv_unlock(&bo->base._resv);
+> +	if (r)
+> +		return r;
+> +
+> +	if (bo->type !=3D ttm_bo_type_sg) {
+> +		/* This works because the BO is about to be destroyed and nobody
+> +		 * reference it any more. The only tricky case is the trylock on
+> +		 * the resv object while holding the lru_lock.
+> +		 */
+
+I'm foolish enough to believe this is correct :-)
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> +		spin_lock(&ttm_bo_glob.lru_lock);
+> +		bo->base.resv =3D &bo->base._resv;
+> +		spin_unlock(&ttm_bo_glob.lru_lock);
+> +	}
+>  =
+
+>  	return r;
+>  }
+> @@ -724,7 +736,7 @@ static bool ttm_bo_evict_swapout_allowable(struct ttm=
+_buffer_object *bo,
+>  =
+
+>  	if (bo->base.resv =3D=3D ctx->resv) {
+>  		dma_resv_assert_held(bo->base.resv);
+> -		if (ctx->flags & TTM_OPT_FLAG_ALLOW_RES_EVICT || bo->deleted)
+> +		if (ctx->flags & TTM_OPT_FLAG_ALLOW_RES_EVICT)
+>  			ret =3D true;
+>  		*locked =3D false;
+>  		if (busy)
+> -- =
+
+> 2.17.1
+> =
 
 
-tbh, loosing state when power is off is kind of the behavior that I'd
-expect.  It kinda makes me wonder if things are not getting powered
-off all the way on some SoCs?
+-- =
 
-jhugo, are you worried that this patch will cause problems on other
-users of the 10nm pll?
-
-BR,
--R
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
