@@ -2,56 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED110158CF3
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 11:53:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67094158D1F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 11:59:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA886EA23;
-	Tue, 11 Feb 2020 10:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50E4A6EA28;
+	Tue, 11 Feb 2020 10:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3F66EA23;
- Tue, 11 Feb 2020 10:53:12 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2020 02:53:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="380399238"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
- by orsmga004.jf.intel.com with ESMTP; 11 Feb 2020 02:53:11 -0800
-Received: from irsmsx602.ger.corp.intel.com (163.33.146.8) by
- IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 11 Feb 2020 10:53:10 +0000
-Received: from irsmsx604.ger.corp.intel.com (163.33.146.137) by
- irsmsx602.ger.corp.intel.com (163.33.146.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 11 Feb 2020 10:53:09 +0000
-Received: from irsmsx604.ger.corp.intel.com ([163.33.146.137]) by
- IRSMSX604.ger.corp.intel.com ([163.33.146.137]) with mapi id 15.01.1713.004;
- Tue, 11 Feb 2020 10:53:09 +0000
-From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Souza,
- Jose" <jose.souza@intel.com>
-Subject: Re: [PATCH 3/4] drm/i915/display: Remove useless call
- intel_dp_mst_encoder_cleanup()
-Thread-Topic: [PATCH 3/4] drm/i915/display: Remove useless call
- intel_dp_mst_encoder_cleanup()
-Thread-Index: AQHVzNmxQIxBP7XEvk6NmYUeEofHSqgV+EgA
-Date: Tue, 11 Feb 2020 10:53:09 +0000
-Message-ID: <a09f01c2c73f05ccd41a27a3a76137e8c1f5c830.camel@intel.com>
-References: <20200117015837.402239-1-jose.souza@intel.com>
- <20200117015837.402239-3-jose.souza@intel.com>
-In-Reply-To: <20200117015837.402239-3-jose.souza@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.66.163]
-Content-ID: <5CD430914CD0274BA18834CE13EF6BEF@intel.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44D306EA28
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 10:59:44 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200211105942euoutp01afe551922e5254e06f05b3b9722a6fcb~yVAD2ecDC1207112071euoutp012
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 10:59:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200211105942euoutp01afe551922e5254e06f05b3b9722a6fcb~yVAD2ecDC1207112071euoutp012
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1581418782;
+ bh=Fa5qQmls/H/6geRZzZYQg6CEy4kHzChnR5WF2V9XkI4=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=ZeVBad9Cun7E32XoCcUl46nzAHUUDsBg9xTKzgLgv5+KNQl/cdNFd8T/ptYFwFBu3
+ jOYa0XpGt+SWcCKATcDpLHYCUqw7NGqRkXxZu47VBo1KhYgF1E4gdWzYBB7XwxavUR
+ aJkeMbt0gcsJci+qwL62oYYCw4JIJAkbJwCfDTk0=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200211105942eucas1p22fe3192cb50e942e15b6923a9812ad0c~yVADv1uBE2835828358eucas1p2A;
+ Tue, 11 Feb 2020 10:59:42 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 36.D3.61286.E19824E5; Tue, 11
+ Feb 2020 10:59:42 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200211105941eucas1p1a4b93e3561fe7537e3945c5e84bdbbb0~yVADbuV762125021250eucas1p14;
+ Tue, 11 Feb 2020 10:59:41 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200211105941eusmtrp1609c71ae576a69dae32f18ae9f761e11~yVADbLqLe1096010960eusmtrp1U;
+ Tue, 11 Feb 2020 10:59:41 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-be-5e42891ee2c6
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 8A.FD.08375.D19824E5; Tue, 11
+ Feb 2020 10:59:41 +0000 (GMT)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200211105940eusmtip280802aeec1ff9b4ebcd07b93192b6b8b~yVACnruOy2260322603eusmtip2h;
+ Tue, 11 Feb 2020 10:59:40 +0000 (GMT)
+Subject: Re: [PATCH] fbdev: c2p: Use BUILD_BUG() instead of custom solution
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <09dba4da-5fd7-cafb-22a3-4baffb12c155@samsung.com>
+Date: Tue, 11 Feb 2020 11:59:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <CAMuHMdWgGyt8w4zG-rf-b9uyfEx1aHV-CoLz4h_T3MpvzdniWQ@mail.gmail.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLKsWRmVeSWpSXmKPExsWy7djPc7pynU5xBguvcFhc+fqezeLZrb1M
+ Fif6PrBa7H5/n9Fi773PjA6sHocOdzB63O8+zuRxYvp3Fo/Pm+QCWKK4bFJSczLLUov07RK4
+ Ms6eeMBUsIut4kXDeeYGxpWsXYycHBICJhKfT8xm7mLk4hASWMEo8W3JRTYI5wujxMGv/9gh
+ nM+MEs9fL2aEabm6eTsrRGI5o8TOA80sEM5bRonLb84xgVQJC3hL7OtaB9TOwSEioCsx5ycT
+ SA2zwHlGift3PoMtZxOwkpjYvgpsKq+AncT7hUdYQGwWAVWJ+ScbwOKiAhESnx4cZoWoEZQ4
+ OfMJWA2nQKDE7rUX2EBsZgFxiVtP5jNB2PIS29/OAXtIQmAeu8Sl1mlQZ7tITNn0iRnCFpZ4
+ dXwLO4QtI3F6cg8LRMM6Rom/HS+gurczSiyf/I8Nospa4s65X2wg7zALaEqs36UPEXaUaFl9
+ hxUkLCHAJ3HjrSDEEXwSk7ZNZ4YI80p0tAlBVKtJbFi2gQ1mbdfOlcwTGJVmIXltFpJ3ZiF5
+ ZxbC3gWMLKsYxVNLi3PTU4sN81LL9YoTc4tL89L1kvNzNzECE83pf8c/7WD8einpEKMAB6MS
+ D29FoGOcEGtiWXFl7iFGCQ5mJRFeS2mgEG9KYmVValF+fFFpTmrxIUZpDhYlcV7jRS9jhQTS
+ E0tSs1NTC1KLYLJMHJxSDYxmv+OKmrPPPD3Hun/u9MI1cjY5Hexeu+5ePXY2a3bprx88GefW
+ 3J8x3/2cfNXnzZwrfk8JOruiqWCtm8KKb07NMSWNlZ5PJ63f37p1Y4W5S6v3bOXvp/xZTXPL
+ n3DfDix83Hnm/hOe47PP7ZhRcsi+54bocm67nkd71Vitl6aK/uDIWhv/LZ5XiaU4I9FQi7mo
+ OBEA0rLJUDADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRmVeSWpSXmKPExsVy+t/xe7qynU5xBosO61lc+fqezeLZrb1M
+ Fif6PrBa7H5/n9Fi773PjA6sHocOdzB63O8+zuRxYvp3Fo/Pm+QCWKL0bIryS0tSFTLyi0ts
+ laINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Ms6eeMBUsIut4kXDeeYGxpWs
+ XYycHBICJhJXN28Hsrk4hASWMkrsuzqbrYuRAyghI3F8fRlEjbDEn2tdbBA1rxklnm68zwyS
+ EBbwltjXtY4dpF5EQFdizk8mkBpmgYuMEts2vIIaOptJYuqnpUwgDWwCVhIT21cxgti8AnYS
+ 7xceYQGxWQRUJeafbACLiwpESBzeMQuqRlDi5MwnYDWcAoESu9deYAOxmQXUJf7Mu8QMYYtL
+ 3HoynwnClpfY/nYO8wRGoVlI2mchaZmFpGUWkpYFjCyrGEVSS4tz03OLDfWKE3OLS/PS9ZLz
+ czcxAuNq27Gfm3cwXtoYfIhRgINRiYe3ItAxTog1say4MvcQowQHs5IIr6U0UIg3JbGyKrUo
+ P76oNCe1+BCjKdBzE5mlRJPzgTGfVxJvaGpobmFpaG5sbmxmoSTO2yFwMEZIID2xJDU7NbUg
+ tQimj4mDU6qB0TT9yfbmXYsPXn4Sfde6Zvt3n0cW/6+fEXdk3yv79U/ZrN29B82Fr77/KBnm
+ xn2/j7/+4RSHyQwbHoTbvr7KEiDRnBc/zXrFcZ/O67wFG0qy5k7QtGkRnFVZue398hwpgwuq
+ v88lvOTkCZZk54z5U+E1YafGRO8C9kbhXSekPW4fkt20K3LZHyWW4oxEQy3mouJEAOGBuvPB
+ AgAA
+X-CMS-MailID: 20200211105941eucas1p1a4b93e3561fe7537e3945c5e84bdbbb0
+X-Msg-Generator: CA
+X-RootMTR: 20200211084935eucas1p2f151e2ea9157c4e6b0766bf1f7cf2f84
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200211084935eucas1p2f151e2ea9157c4e6b0766bf1f7cf2f84
+References: <20200112171521.22443-1-geert@linux-m68k.org>
+ <CAMuHMdX9M25O9MOQ5tb-cLs36E8qCf1M4YCbYN9BU+h1N3n0MQ@mail.gmail.com>
+ <CGME20200211084935eucas1p2f151e2ea9157c4e6b0766bf1f7cf2f84@eucas1p2.samsung.com>
+ <CAMuHMdWgGyt8w4zG-rf-b9uyfEx1aHV-CoLz4h_T3MpvzdniWQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,41 +108,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux/m68k <linux-m68k@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDIwLTAxLTE2IGF0IDE3OjU4IC0wODAwLCBKb3PDqSBSb2JlcnRvIGRlIFNvdXph
-IHdyb3RlOg0KPiBUaGlzIGlzIGEgZURQIGZ1bmN0aW9uIGFuZCBpdCB3aWxsIGFsd2F5cyByZXR1
-cm5zIHRydWUgZm9yIG5vbi1lRFANCj4gcG9ydHMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBKb3PD
-qSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNvbT4NCj4gLS0tDQo+ICBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgfCAxIC0NCj4gIDEgZmlsZSBjaGFu
-Z2VkLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-bnRlbF9kcC5jDQo+IGluZGV4IDQwNzRkODNiMWE1Zi4uYTUwYjViNmRkMDA5IDEwMDY0NA0KPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMNCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+IEBAIC03NTM3LDcgKzc1Mzcs
-NiBAQCBpbnRlbF9kcF9pbml0X2Nvbm5lY3RvcihzdHJ1Y3QNCj4gaW50ZWxfZGlnaXRhbF9wb3J0
-ICppbnRlbF9kaWdfcG9ydCwNCj4gIA0KPiAgCWlmICghaW50ZWxfZWRwX2luaXRfY29ubmVjdG9y
-KGludGVsX2RwLCBpbnRlbF9jb25uZWN0b3IpKSB7DQo+ICAJCWludGVsX2RwX2F1eF9maW5pKGlu
-dGVsX2RwKTsNCj4gLQkJaW50ZWxfZHBfbXN0X2VuY29kZXJfY2xlYW51cChpbnRlbF9kaWdfcG9y
-dCk7DQo+ICAJCWdvdG8gZmFpbDsNCj4gIAl9DQo+ICANCg0KDQpDaGFuZ2UgbG9va3MgZmluZSBm
-b3IgbWUoYW55d2F5IGJldHRlciB0aGFuIG5vdykuIA0KDQpCdXQ6DQoNClRoaXMgd2hvbGUgdGhp
-bmcgbG9va3Mga2luZCBvZiBjb25mdXNpbmcgdG8gbWUuIFdoeSB3ZSBhcmUgZXZlbiBjYWxsaW5n
-DQppbnRlbF9lZHBfaW5pdF9jb25uZWN0b3IgZm9yDQpub24tZURQIHBvcnRzLCBqdXN0IHRvIGlt
-bWVkaWF0ZWx5IGdldCB0cnVlIHJldHVybmVkPyBTbyByZXR1cm5pbmcNCnN1Y2Nlc3MgbWVhbnMg
-ZWl0aGVyIHN1Y2Nlc3Mgb3IgdGhhdCB0aGlzIGlzIG5vbi1lRFAuLg0KDQpUaGlzIGNvbmZ1c2Vz
-IHRoZSBjYWxsZXIsIHRoYXQgd2UgaGF2ZSBhY3R1YWxseSBzdWNjZXNzZnVsbHkNCmluaXRpYWxp
-emVkIGVEUCwgd2hpbGUgYWN0dWFsbHkgdGhpcyBhbHNvIG1lYW5zIGhlcmUgdGhhdCBpdCBpcyBu
-b3QNCmVEUC4NCg0KV2h5IHdlIGNhbid0IGp1c3QgZG8gaXQgbGlrZToNCg0KaWYgKGludGVsX2Rw
-X2lzX2VkcChpbnRlbF9kcCkpIHsNCglpZiAoIWludGVsX2VkcF9pbml0X2Nvbm5lY3RvcihpbnRl
-bF9kcCwgaW50ZWxfY29ubmVjdG9yKSkgew0KCQlpbnRlbF9kcF9hdXhfZmluaShpbnRlbF9kcCk7
-DQogIAkJZ290byBmYWlsOw0KCX0NCn0NCg0KaXQgbG9va3MgbXVjaCBtb3JlIHVuZGVyc3RhbmRh
-YmxlIGFuZCBsZXNzIGNvbmZ1c2luZywgaS5lIGVEUCBmdW5jdGlvbnMNCmFyZSBvbmx5IGNhbGxl
-ZCBmb3IgZURQIGFuZCBubyByZXR1cm4gdmFsdWUgaGFja3MgYXJlIG5lZWRlZC4NCg0KUmV2aWV3
-ZWQtYnk6IFN0YW5pc2xhdiBMaXNvdnNraXkgPHN0YW5pc2xhdi5saXNvdnNraXlAaW50ZWwuY29t
-Pg0KDQpTdGFuDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+
+On 2/11/20 9:49 AM, Geert Uytterhoeven wrote:
+> On Mon, Feb 10, 2020 at 12:16 PM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+>> On Sun, Jan 12, 2020 at 6:15 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>>> Replace the call to the custom non-existing function by a standard
+>>> BUILD_BUG() invocation.
+>>>
+>>> Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+>>> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>
+>> Thanks, applied and queued for v5.7.
+> 
+> Sorry, this is fbdev-material, not m68k-material.
+> If you mind, I can drop it from the m68k for-v5.7 branch again.
+
+I don't mind, lets keep it m68k tree (it should not cause any
+conflicts with other fbdev changes).
+
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
