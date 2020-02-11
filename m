@@ -1,56 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2BC158DE1
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 13:02:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E26D158E35
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 13:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4DC6EE3F;
-	Tue, 11 Feb 2020 12:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DB96EA2A;
+	Tue, 11 Feb 2020 12:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A756EA35
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 12:02:29 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id x123so6112645vsc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 04:02:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g3ftHL8OSjPsuNS32yUzImXKhMO8O2aRd3DUg0/FiaE=;
- b=kxW4/qPYpqG/k99L28c37FKeFJeGoll4wNTeMi5ew669QbI2nsPUGU7soFfSy+p3bB
- u7KmNR0KAs0Ml/K/Izu9n/OqItKvt/jhkcgRRgRuDcFxs00KljQz0NjuA+AbrAkia8lG
- kuAP5Bua4m5LviQo9Scr82xWdeliwUfTUvXznRdQCR7hadmj8UCaso0tAUY3pZHT5R1Z
- C9gudTijMO5GA8V2rbt1VZlxhpRm7UG2oHpoWomSeM4wfEwmfNbTdX4pHI7y2mIathTC
- Dhe4qT0Bqqfrt2MK8+Zn2ifxAXAVBZ/wkIF6Gm23qUX8BxMLDIf750w7T23I0WacNZq+
- 3MmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g3ftHL8OSjPsuNS32yUzImXKhMO8O2aRd3DUg0/FiaE=;
- b=hKm/3QK/eWpY5H2bAyzHcL4AKIsulNEMavVNmhy5ipSShUc3Bm8VD4Ms7boMOAv43O
- 0BPpXd5rsJRp1pGdXvc5c8BOpZF5aoUeBkZhw9BEoVju4D0v8VSiP3sLNd9Kzufc0jOk
- SUzXJDjDSv59R3UwCY7CVWLmuCPqWFVaAEDcXsyiGZ2Xb3vfwN2oRcLC1BoqGBjD74aX
- XyHsh5CddzWdhc3GP0Y6hMqlxKRiDpG6hncdB+TFNnFlUndTssruduAF2e3CFWChAMJ4
- FXJnd7Gmcrd54nwFCGCvcL5H9JVhL2uYc50z+iUJT19w8R3Hmgj6lZk09QzQa3eGK1oY
- pkaA==
-X-Gm-Message-State: APjAAAUtM9PxZvVqVkMky97Y/1y63I4xDVpEkfX9HJZsVNH0+Wy+CfFq
- qmyqkLr/3hYlWLz9T84s44SKTkxUn4qXZ4AoV3trTg==
-X-Google-Smtp-Source: APXvYqycjye9QRbLmi3vU1BjsqapFZh2yBO2WdJEJ31g77TfODalZvX345aBvh1/4Tv/fRmLNNh8tKWGtdNM1PCliN8=
-X-Received: by 2002:a67:2c4f:: with SMTP id s76mr9357641vss.37.1581422548962; 
- Tue, 11 Feb 2020 04:02:28 -0800 (PST)
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8661F6EA2A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 12:17:27 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01BCHMvh063234;
+ Tue, 11 Feb 2020 06:17:22 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1581423442;
+ bh=jGK4Y86DW1G5gJl7MIhFJ0Ibrhl1ukfvga5Gz49m0lE=;
+ h=From:To:CC:Subject:Date;
+ b=cp48CSgDQBjU1i5+OEVNb2TBntKmCCS4+YFBM7MzMgZCyJV/sqMu52W/gnh54eu6i
+ Vd3rw6g8fuI6UfBgaNe53Jyq2achdRNLQ/kOhWl38rg6bhpNOPeXz6H8qCuokS8U37
+ 7qELHDcLrolqpkWj5/n5y00kkMABQBSCHSq1ZK9Q=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01BCHM94048813;
+ Tue, 11 Feb 2020 06:17:22 -0600
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 11
+ Feb 2020 06:17:21 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 11 Feb 2020 06:17:21 -0600
+Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01BCHJ81092021;
+ Tue, 11 Feb 2020 06:17:19 -0600
+From: Jyri Sarha <jsarha@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <sam@ravnborg.org>
+Subject: [PATCH v3 0/2] drm/panel: simple: Rocktech RK101II01D-CT + binding
+Date: Tue, 11 Feb 2020 14:17:16 +0200
+Message-ID: <cover.1581423249.git.jsarha@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200207141602.4760-1-tzimmermann@suse.de>
- <20200207141602.4760-2-tzimmermann@suse.de>
- <20200207164147.GP43062@phenom.ffwll.local>
- <1cfe7ae4-0ea9-d2f6-6c7b-4a4714519702@suse.de>
-In-Reply-To: <1cfe7ae4-0ea9-d2f6-6c7b-4a4714519702@suse.de>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 11 Feb 2020 12:02:33 +0000
-Message-ID: <CACvgo50eaQAh7oXQqoP6=NS3NfH83e4Q7e69PS7T_u0SvSDj-g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/udl: Clear struct drm_connector_funcs.dpms
-To: Thomas Zimmermann <tzimmermann@suse.de>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,46 +56,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Sean Paul <sean@poorly.run>
+Cc: praneeth@ti.com, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
+ thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Feb 2020 at 08:10, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi
->
-> Am 07.02.20 um 17:41 schrieb Daniel Vetter:
-> > On Fri, Feb 07, 2020 at 03:16:02PM +0100, Thomas Zimmermann wrote:
-> >> Atomic modesetting doesn't use struct drm_connector_funcs.dpms and
-> >> the set function, drm_helper_connector_dpms(), wouldn't support it
-> >> anyway. So keep the pointer to NULL.
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> > On both patches:
-> >
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >
-> > I just suggested a drm_mode_config_validate() to Ville in his patch
-> > series, which runs in drm_dev_register(). Maybe we could add a check for
-> > that for atomic drivers? It's a bit a game of whack-a-mole otherwise :-)
->
-> From the 'git grep' I'd say those where the only atomic drivers to set
-> the callback. The others where non-atomic ones. OTOH, I recently thought
-> on several occasions that this or that behaviour should be enforced at
-> least by WARN_ON.
->
-Having a WARN_ON was my first idea as I saw these patches fly-by.
+Add support for Rocktech RK101II01D-CT panel to panel-simple and add
+yaml binding for it.
 
-Sure it will add some dmesg noise in the very odd corner-case.
-At the same time, it will high-light existing and future bugs so that
-we can address them promptly.
+Changes since v2:
+- No separate binding document, just add new compatible to panel-simple.yaml
 
-Emil
+Changes since first fersion:
+- Move to yaml binding
+
+Jyri Sarha (2):
+  dt-bindings: panel-simple: Add rocktech,rk101ii01d-ct compatible
+  drm/panel: simple: Add Rocktech RK101II01D-CT panel
+
+ .../bindings/display/panel/panel-simple.yaml  |  2 ++
+ drivers/gpu/drm/panel/panel-simple.c          | 32 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
