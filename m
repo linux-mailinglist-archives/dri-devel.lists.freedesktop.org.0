@@ -1,54 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6351594E4
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 17:27:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CEF15953D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 17:43:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40B236EEB2;
-	Tue, 11 Feb 2020 16:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 977226EEC1;
+	Tue, 11 Feb 2020 16:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E66456EEA3;
- Tue, 11 Feb 2020 16:27:18 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id k11so13117749wrd.9;
- Tue, 11 Feb 2020 08:27:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Bb55gTYbvX5LbdEf+EUAlbMGla2WoqoUJ8i650G+fRc=;
- b=bWg35xF/yD9pqZ9r9gAfcFYbcO01dATtpd5p/Yu+BmIBqo+lRQ7+4bsut1tsRWTfl8
- ToapJrBfwq6ld3O/77RBF5A79hiOM6g53wO86v0uru9JZHUyJafV178juS00IiaXfjAe
- 9pGroEiCI1KvXxFiQhXBU1zOAE3dv4jVg2ed1BQvvhevAE33L4S4WpnjFLif2zoIOgBC
- lVi8zE6ih4CZRsKn5tpzo6dd5D1pro92eh6b1R9vnZRMtYQBvnjX9bwHlrxsLCw/KV3u
- 6u84QJPojqmGpfz+rDkMuVWm5A5qe2jRENq8gsrIXsz6I3e+XyVF7K8vM58p/7rPxR7l
- KyAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Bb55gTYbvX5LbdEf+EUAlbMGla2WoqoUJ8i650G+fRc=;
- b=PwC0eEO8Ec2S6t0yVtdTSA8E4ZBNQrwvHeTyvq7qRkMJBgnq7dk28zYiwHJTL3WK+6
- hYhWQRGI6wOjnz+yGers03MWsvgfk+xyb8Hk289j8uyWTu41xslqk8vtqqxpodlCABZF
- 8Q68RVRiAUMh6Q8JTUdfeN5K5Flzir5ackemf9Bezkws3jFgKnkb314aYc6Fy/nkG2Bb
- 2d++REULWq0EC1xeVEQq9wXRRHRv0Q4wFv/9zNECe3AjZrUJXrj6YIm2NuWIDQ0iA1Or
- 5YEyHmArrQK3VIkP8r064Bt+/BFZZHBFbRhzol/wfbpkDuzDofYOpC3TOFSAMfmTwb6p
- 1xZw==
-X-Gm-Message-State: APjAAAV+keyR0rJWN1fL+1AIklNo4BChJUryHtIluGc/4dHG/WPfzLuS
- WQikAWYLmvndyOUxP2DT/d+h9JQjm6IJsqgd/C8=
-X-Google-Smtp-Source: APXvYqxJIVk57by6TFkLMzF0DpAckbyFa0fFzF1uA/eHJG2PTvQ3sdvui9aGi+JIzbggU7p4lUEdYv2UQenZQmQYUyM=
-X-Received: by 2002:adf:ec4c:: with SMTP id w12mr9786904wrn.124.1581438437502; 
- Tue, 11 Feb 2020 08:27:17 -0800 (PST)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2D046EEC1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 16:42:55 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2020 08:42:55 -0800
+X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="226561750"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2020 08:42:52 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/irq: remove check on dev->dev_private
+In-Reply-To: <20200211151219.GF2363188@phenom.ffwll.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200211144753.3175-1-jani.nikula@intel.com>
+ <20200211151219.GF2363188@phenom.ffwll.local>
+Date: Tue, 11 Feb 2020 18:42:49 +0200
+Message-ID: <874kvxyt12.fsf@intel.com>
 MIME-Version: 1.0
-References: <20200210150826.35200-1-yuehaibing@huawei.com>
-In-Reply-To: <20200210150826.35200-1-yuehaibing@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 11 Feb 2020 11:27:06 -0500
-Message-ID: <CADnq5_My4OM4CvDHHWN3MxVKAon78pvbw71mO2yzer-FdxYu1w@mail.gmail.com>
-Subject: Re: [RFC PATCH -next] drm/amd/display: Remove set but not unused
- variable 'stream_status'
-To: YueHaibing <yuehaibing@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,78 +43,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eric Yang <Eric.Yang2@amd.com>, Yongqiang Sun <yongqiang.sun@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@linux.ie>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Martin Leung <martin.leung@amd.com>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Anthony Koo <Anthony.Koo@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2020 at 10:38 AM YueHaibing <yuehaibing@huawei.com> wrote:
+On Tue, 11 Feb 2020, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Tue, Feb 11, 2020 at 04:47:53PM +0200, Jani Nikula wrote:
+>> There is no real reason to require drivers to set and use
+>> dev->dev_private. Indeed, the current recommendation, as documented in
+>> drm_device.h, is to embed struct drm_device in the per-device struct
+>> instead of using dev_private.
+>> 
+>> Remove the requirement for dev_private to have been set to indicate
+>> driver initialization.
 >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:
->  In function dcn10_post_unlock_program_front_end:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:2623:29:
->  warning: variable stream_status set but not used [-Wunused-but-set-variable]
+> Yeah this is nonsense. Also, drm_irq_install is purely optional
+> semi-midlayer (it's not really a midlayer for the legacy drivers, but
+> whatever, who cares about those).
 >
-> commit bbf5f6c3f83b ("drm/amd/display: Split program front end part that occur outside lock")
-> involved this unused variable.
+> Now there might be some hilarious races this papers over, but:
 >
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> - Proper drivers should only call drm_dev_register once everything is set
+>   up, including this stuff here. No race possible with anything else
+>   really.
+>
+> - Slightly more wobbly drivers, including the legacy ones, all use
+>   drm_global_mutex. This was the former BKL, which means that it was
+>   impossible for soeone to go through the load/unload/reload (between
+>   lastclose and firstopen) paths and also run the ioctl. But the ioctl had
+>   to be made unlocked because blocking there killed X:
+>
+> 	commit 8f4ff2b06afcd6f151868474a432c603057eaf56
+> 	Author: Ilija Hadzic <ihadzic@research.bell-labs.com>
+> 	Date:   Mon Oct 31 17:46:18 2011 -0400
+>
+> 	    drm: do not sleep on vblank while holding a mutex
+>
+>   The even more legacy DRM_CONTROL ioctl stayed fully locked. But the file
+>   open/close paths are still fully locked, and that's the only place
+>   legacy drivers should call drm_irq_install/uninstall, so should all
+>   still be fully ordered and protected and happy.
+>
+> Feel free to quote or not quote the above in the commit message.
+>
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> 
+>> ---
+>> 
+>> Any ideas for something else drm_irq_install() could/should check to
+>> ensure "Driver must have been initialized"?
+>> 
+>> There are only a few instances of dev_private uses in i915, also to be
+>> removed, and we could stop initializing dev_private altogether. We could
+>> in fact do that without this patch too, as we don't use
+>> drm_irq_install(). But it would be cleaner to not have any checks for
+>> driver private stuff outside of drivers.
+>
+> I hope my review above answers your question here. Patch, as-is:
+>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Applied.  Thanks!
+Many thanks, pushed to drm-misc-next with the details addded to commit
+message.
 
-Alex
+BR,
+Jani.
 
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> index 42fcfee..b2ed0fa 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> @@ -2610,7 +2610,7 @@ void dcn10_post_unlock_program_front_end(
->                 struct dc *dc,
->                 struct dc_state *context)
->  {
-> -       int i, j;
-> +       int i;
->
->         DC_LOGGER_INIT(dc->ctx->logger);
->
-> @@ -2620,14 +2620,8 @@ void dcn10_post_unlock_program_front_end(
->                 if (!pipe_ctx->top_pipe &&
->                         !pipe_ctx->prev_odm_pipe &&
->                         pipe_ctx->stream) {
-> -                       struct dc_stream_status *stream_status = NULL;
->                         struct timing_generator *tg = pipe_ctx->stream_res.tg;
->
-> -                       for (j = 0; j < context->stream_count; j++) {
-> -                               if (pipe_ctx->stream == context->streams[j])
-> -                                       stream_status = &context->stream_status[j];
-> -                       }
-> -
->                         if (context->stream_status[i].plane_count == 0)
->                                 false_optc_underflow_wa(dc, pipe_ctx->stream, tg);
->                 }
-> --
-> 2.7.4
->
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>> ---
+>>  drivers/gpu/drm/drm_irq.c | 4 ----
+>>  1 file changed, 4 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+>> index 03bce566a8c3..588be45abd7a 100644
+>> --- a/drivers/gpu/drm/drm_irq.c
+>> +++ b/drivers/gpu/drm/drm_irq.c
+>> @@ -111,10 +111,6 @@ int drm_irq_install(struct drm_device *dev, int irq)
+>>  	if (irq == 0)
+>>  		return -EINVAL;
+>>  
+>> -	/* Driver must have been initialized */
+>> -	if (!dev->dev_private)
+>> -		return -EINVAL;
+>> -
+>>  	if (dev->irq_enabled)
+>>  		return -EBUSY;
+>>  	dev->irq_enabled = true;
+>> -- 
+>> 2.20.1
+>> 
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
