@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9EE158B52
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 09:35:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A484158B59
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 09:37:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B3E6E484;
-	Tue, 11 Feb 2020 08:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC9A6EDF7;
+	Tue, 11 Feb 2020 08:37:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
  [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08DDF6E484
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 08:35:57 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id y17so11118715wrh.5
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 00:35:56 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D050A6EDF7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 08:37:37 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id w12so11152046wrt.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 00:37:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=Hsu+gXyOgop18isowZZKKs2ga2iqsZd2LEer6p5GpPQ=;
- b=IkJTmHnBqkSeqUtyUWgNsTGgarFx+e3w/pLKfpfvylxwfnqItWne0uhDNuJjsmEQPz
- eBoEqm24oNpn2kKUaXmY2H/1Y0dafzRIrS2z5zJBlBsOw7nR8uxS1iuitDxWII11t6qQ
- I+F4zEX6w7lXT5sYkbD6O7gN4/WdTkZ7s9Arw=
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=Na2M+tRUw3DCFcB3ipBiFwcqwV93zaQwJq0JYti7BI0=;
+ b=BFychGtdnTwxp2Sf7F4Rt8RgZ+OfTEpB7vJbBKJf451dCNA20TixK8NKfT3xl0SXrc
+ H2G5M+6IOPLvgRX/HF5rHWytHUKqhpIFHW/ZaxK097KnSLpQStH/GJQvOEgrmWpaKk2b
+ fQC+tl7jPlikLcNQRjCqh3V66K2hCMi6YgcHo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=Hsu+gXyOgop18isowZZKKs2ga2iqsZd2LEer6p5GpPQ=;
- b=dnWjlkJS87StryTcBC734lJnS+fxZyvJj8Ih14MRzuG+tf/qZEatUfuREhUTtLKxXp
- HzmLb1tw07blEbkEk/qLZ2y9YtB3pYpwR7Q3rtuyWGoSNGVGZ1SUG0OlyQlTLGFUAHHq
- +aHwD0GKwVaJX+BmyJ9PhCFpuOeA0kJxE0alFL7azBW96pICc8065TlkA+2GUUlszTwX
- cYgaIPQ/YqI86N+CtjSQW9bTeVVMtHYJxSUrstZzjYgI7ztqLGTyPUIp+3+ZtD8Jhydo
- /Xf3+tjUpUBYLbBNPPzXn55WejLzGEO5dhG7+GRvwMmNzJX+C+P2JB/+i7fgsAGeugpu
- kIhw==
-X-Gm-Message-State: APjAAAUp+yoZkIxzo00ll0jxbvGJmsuKZTwzowUc/Jzlc8+JzIHWLd1L
- EAmPNa/Tl9Qwuq4dRk4Zpnd/grhzMEg=
-X-Google-Smtp-Source: APXvYqx82fqKEARb5BEhakpp4jXR/7ODpujJp+tB36Tqmlvdm6DCSV3wY7lQglJNGOtDibcnh/t9Rg==
-X-Received: by 2002:a5d:56ca:: with SMTP id m10mr7476980wrw.313.1581410155601; 
- Tue, 11 Feb 2020 00:35:55 -0800 (PST)
+ :content-transfer-encoding:in-reply-to;
+ bh=Na2M+tRUw3DCFcB3ipBiFwcqwV93zaQwJq0JYti7BI0=;
+ b=lkLB07lJJ5S/g6QPHZGPyTsAwdEcDVlZcVYWwkqPCQ1zE2dhV55LUYLXE8hUBaFX1c
+ T0+mPaLjSIESBjiqzERRJKXjrH21eZz3NTM7B42VBPQb9dArLLkAzcchXhPrgFoXOYXE
+ aTP+en357947RF6HPV6q02DKKFHUGxN4b7TJGLTy5ZVRjkXMDD8Qcd+5nVf5N4TBFLQ6
+ T08mAqZUB6I2MrxsZ0AUP18toGTyDq6jbKVhUasMP9W49oGtbJ8QAHS9WBFW8c5g5Tan
+ 41ny31c0w4jKoBnlQDh6vmCQnXrIf2qODgfTyk8szEW1UJWNsHWNJlWdW6+fY2j+yRT5
+ qHqg==
+X-Gm-Message-State: APjAAAWB20jowD3k3ph1BWqUIRV2VRwylBGzUR78svSkWKy+YGuau0EU
+ kMlYyRkmnG3tOhd/rC/RaT4/pA==
+X-Google-Smtp-Source: APXvYqzvfJ8Za8TOVTfKZnBJ5oGi6BI/nCHpXb2BYNzjcWyMJFelUivBF/3aW3AvdilEpFm07Ix0SA==
+X-Received: by 2002:a5d:4c88:: with SMTP id z8mr7171037wrs.395.1581410256522; 
+ Tue, 11 Feb 2020 00:37:36 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b17sm4407581wrp.49.2020.02.11.00.35.54
+ by smtp.gmail.com with ESMTPSA id b10sm4432682wrt.90.2020.02.11.00.37.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 00:35:55 -0800 (PST)
-Date: Tue, 11 Feb 2020 09:35:53 +0100
+ Tue, 11 Feb 2020 00:37:35 -0800 (PST)
+Date: Tue, 11 Feb 2020 09:37:33 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2] drm/virtio: add drm_driver.release callback.
-Message-ID: <20200211083553.GU43062@phenom.ffwll.local>
-Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel@lists.freedesktop.org, gurchetansingh@chromium.org,
- olvaffe@gmail.com, David Airlie <airlied@linux.ie>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20200210100819.29761-1-kraxel@redhat.com>
+To: Emmanuel Vadot <manu@FreeBSD.org>
+Subject: Re: [PATCH 0/2] Dual licence some files in GPL-2.0 and MIT
+Message-ID: <20200211083733.GV43062@phenom.ffwll.local>
+Mail-Followup-To: Emmanuel Vadot <manu@FreeBSD.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@linux.ie, tzimmermann@suse.de, kraxel@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20200210153544.24750-1-manu@FreeBSD.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200210100819.29761-1-kraxel@redhat.com>
+In-Reply-To: <20200210153544.24750-1-manu@FreeBSD.org>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,132 +69,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- gurchetansingh@chromium.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kraxel@redhat.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2020 at 11:08:19AM +0100, Gerd Hoffmann wrote:
-> Split virtio_gpu_deinit(), move the drm shutdown and release to
-> virtio_gpu_release().  Also free vbufs in case we can't queue them.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_drv.h     | 1 +
->  drivers/gpu/drm/virtio/virtgpu_display.c | 1 -
->  drivers/gpu/drm/virtio/virtgpu_drv.c     | 4 ++++
->  drivers/gpu/drm/virtio/virtgpu_kms.c     | 5 +++++
->  drivers/gpu/drm/virtio/virtgpu_vq.c      | 9 ++++++++-
->  5 files changed, 18 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> index d278c8c50f39..09a485b001e7 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -217,6 +217,7 @@ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
->  /* virtio_kms.c */
->  int virtio_gpu_init(struct drm_device *dev);
->  void virtio_gpu_deinit(struct drm_device *dev);
-> +void virtio_gpu_release(struct drm_device *dev);
->  int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
->  void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file);
->  
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-> index 7b0f0643bb2d..af953db4a0c9 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-> @@ -368,6 +368,5 @@ void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev)
->  
->  	for (i = 0 ; i < vgdev->num_scanouts; ++i)
->  		kfree(vgdev->outputs[i].edid);
-> -	drm_atomic_helper_shutdown(vgdev->ddev);
->  	drm_mode_config_cleanup(vgdev->ddev);
->  }
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> index 8cf27af3ad53..664a741a3b0b 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> @@ -31,6 +31,7 @@
->  #include <linux/pci.h>
->  
->  #include <drm/drm.h>
-> +#include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
->  
-> @@ -136,6 +137,7 @@ static void virtio_gpu_remove(struct virtio_device *vdev)
->  	struct drm_device *dev = vdev->priv;
->  
->  	drm_dev_unregister(dev);
-> +	drm_atomic_helper_shutdown(dev);
->  	virtio_gpu_deinit(dev);
->  	drm_dev_put(dev);
->  }
-> @@ -214,4 +216,6 @@ static struct drm_driver driver = {
->  	.major = DRIVER_MAJOR,
->  	.minor = DRIVER_MINOR,
->  	.patchlevel = DRIVER_PATCHLEVEL,
-> +
-> +	.release = virtio_gpu_release,
->  };
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> index c1086df49816..b45d12e3db2a 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> @@ -240,6 +240,11 @@ void virtio_gpu_deinit(struct drm_device *dev)
->  	flush_work(&vgdev->config_changed_work);
->  	vgdev->vdev->config->reset(vgdev->vdev);
->  	vgdev->vdev->config->del_vqs(vgdev->vdev);
-> +}
-> +
-> +void virtio_gpu_release(struct drm_device *dev)
+On Mon, Feb 10, 2020 at 04:35:42PM +0100, Emmanuel Vadot wrote:
+> Hello all,
+> =
 
-Split lgtm, but again I think you want drm_dev_enter/exit. And maybe a
-changelog.
+> We had a discussion a while back with Noralf where he said that he wouldn=
+'t
+> mind dual licence his work under GPL-2 and MIT.
+> Those files are a problem with BSDs as we cannot include them.
+> For drm_client.c the main contributors are Noralf Tr=F8nnes and Thomas
+> Zimmermann, the other commits are just catch ups from changes elsewhere
+> (return values, struct member names, function renames etc ...).
+> For drm_format_helper the main contributors are Noralf Tr=F8nnes and
+> Gerd Hoffmann. Same comment as for drm_client.c for the other commits.
+
+Can you pls list all contributors for each file in the commit message, so
+we can make sure we're collecting all the required acks?
+
+Afaiui for official relicensing, we need everyone.
 -Daniel
 
-> +{
-> +	struct virtio_gpu_device *vgdev = dev->dev_private;
->  
->  	virtio_gpu_modeset_fini(vgdev);
->  	virtio_gpu_free_vbufs(vgdev);
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-> index cc02fc4bab2a..cc674b45f904 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-> @@ -330,6 +330,11 @@ static void virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
->  	bool notify = false;
->  	int ret;
->  
-> +	if (!vgdev->vqs_ready) {
-> +		free_vbuf(vgdev, vbuf);
-> +		return;
-> +	}
-> +
->  	if (vgdev->has_indirect)
->  		elemcnt = 1;
->  
-> @@ -462,8 +467,10 @@ static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
->  	int ret;
->  	int outcnt;
->  
-> -	if (!vgdev->vqs_ready)
-> +	if (!vgdev->vqs_ready) {
-> +		free_vbuf(vgdev, vbuf);
->  		return;
-> +	}
->  
->  	sg_init_one(&ccmd, vbuf->buf, vbuf->size);
->  	sgs[0] = &ccmd;
-> -- 
-> 2.18.1
-> 
+> =
 
--- 
+> Emmanuel Vadot (2):
+>   drm/client: Dual licence the file in GPL-2 and MIT
+>   drm/format_helper: Dual licence the file in GPL 2 and MIT
+> =
+
+>  drivers/gpu/drm/drm_client.c        | 2 +-
+>  drivers/gpu/drm/drm_format_helper.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> =
+
+> -- =
+
+> 2.25.0
+> =
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
