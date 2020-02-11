@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE25215A330
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E61215A32E
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2446E9A8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F38506E9CE;
 	Wed, 12 Feb 2020 08:25:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 302176E1BB
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 20:09:22 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id a22so14014519oid.13
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 12:09:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d79/juOKGQ3xhEKgN8cqkrkeeX6KR3FsfafPiPWnTjk=;
- b=iKL3T3KT/E0Iwsb3fnUfmhLupejJLrt0Xw5IOfw8B/SqKyHuAmgD6b5kRaiIeb6uQi
- 4hqOAy9ePuT7GdoTUwr87pkUzlBm0LRqEEFiWmTJS7vLwJwDvOy2UWIrGEpnJS5HNg6L
- UJ3OcYCcXDup4hmac0c8ZAtTXuIBB4C4CC3djbwDvtd6WU9keMA7joMyqQ4WttYi8EBN
- vrOINTqg3CqyMUDW8SXtRJMA5A2vJY60W9spolclj6hO3pOdiey4rg0CUIfOnXDULfGo
- s6RA3SPhR9ow2ObUxJ9XLAnHJ3VD73fdhMjBf6otQbBS3osn2sT48zUHMkQ908wokOCL
- r57w==
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC2A26E2B8;
+ Tue, 11 Feb 2020 20:39:38 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id d3so11549696otp.4;
+ Tue, 11 Feb 2020 12:39:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=FkiL+nwntyVL1Depk52x54ARrFLNbJ/q2cGreWUpoIY=;
+ b=guvCAd2UOUpE5ajI+DyZuXuN5tRzCg1lxnzXs01Bvu2MlthWaB0XogL0T0x015uMCv
+ 0Nvd5+Ig7erzbpig7CWn1Kiws8zHYl44P3bOkicvZaw2f51Qe4Ml6z6VRCQrCpJq24EY
+ DR4ynLgVuwECElLR2xmeFY2msAViOtRDcH1POsBv6CnnIHmPgLjAvG1MkNVIFWcMD8Te
+ UQDPiEB+WG1wY2ilnvK8g2oK/a8t9J2lFGd1pqTUbTOmoXak/wg6m63A9+dH4OIwsiJJ
+ RpARQc1c+3yEtHkG8gD7JGSh/lnpYuRTLockpE32Egd1RdTirJy3ErA0i2yfaNgW3aBD
+ rM4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d79/juOKGQ3xhEKgN8cqkrkeeX6KR3FsfafPiPWnTjk=;
- b=iO2zr0nY0n/+GE4YKrev7ZrKPSULlTVaRd2Y1f9vHLHTZnX0G0xCMmw2FybYXPs8kB
- fH4NJIfqU/426uO+Pjiyw/RriYYJeiid1biT/4wxJhokfARuNd2oKAl9ffzMlUQmiCLo
- y9S5SuX9ibVLW53SO949qgfASbc//sWS//KRirXoD9Td3T3rQ4ktZIoxJkyXUYnUJ1HG
- az/j8lAop9ZTc2gQTyDHbuIW/P0Ib5ZAfW/vOnjwHDbSWnbATxwRDAa3LbJF9JVpjzDn
- jXaRBKhFltWvPkHuDdbDxXbxkURFjGbwo5fR8SoDKwthCFwKYnmBLHedG1p4Y/jCrR5Q
- oXRQ==
-X-Gm-Message-State: APjAAAU+4wOcHohZY5/aButopmfXAdb40YoDdI8fPQC3ZgUHH8gCl0Ck
- 9zeOULShGrVEUP+mnjic40z+v+83/B+GYNlqp3G59Q==
-X-Google-Smtp-Source: APXvYqzxjGO2mFbbESSI+X8wqwDLJmq3XqFdPvI31wvyICH6y7/2J3dCeN49E5XfR2n7WblRYhIvydxmmpi6MKoWH0c=
-X-Received: by 2002:aca:ea43:: with SMTP id i64mr4107524oih.30.1581451761048; 
- Tue, 11 Feb 2020 12:09:21 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=FkiL+nwntyVL1Depk52x54ARrFLNbJ/q2cGreWUpoIY=;
+ b=VuIYVujWbq3LknC3lveMJ4IsbrXN1Wun0BT7r8ckIshwk3YE+6Ud36nSPnbckcs7VU
+ zG3EaJD7yZwdowk3yubiSCJW18fIZ7T6Z3S+GlHMfpWZWTcpA1Pvq3dEzjHAaRmX65S8
+ Hh0brO5WQLhB6oqytqEx/Chbkgd/7QCuCxL5lSbei36QwZNecZndxwgxpbNV5euX31JK
+ PLx3SXBUjzuel6eoIWfeHmPO0RUPizXYn0uQTf93vuj+axwYqmQNeAf+umbRRIruj+fF
+ E843XsOxoP3ue5fUiFhOc6HRFGSGl2oitNB2Nr8Jzufu4DE7NcWPOD2F2dhZXqhiGcFV
+ XGIw==
+X-Gm-Message-State: APjAAAVTv8ugubrkAj6NHBF92yOFyvJPCMdG4D7Txkr+a7vHm5f+b8Gw
+ VLu7IA9AE/HlXu0G8Duj8Jo=
+X-Google-Smtp-Source: APXvYqyRcLhd1pYN0o8cVbwvTHy9UM43N0APlTdoi5+8CTIzfL2EpJ/miK1zSlKVRAdQyxB4Sxva+g==
+X-Received: by 2002:a9d:64ca:: with SMTP id n10mr6692357otl.325.1581453577909; 
+ Tue, 11 Feb 2020 12:39:37 -0800 (PST)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+ by smtp.gmail.com with ESMTPSA id w8sm1537795ote.80.2020.02.11.12.39.37
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 11 Feb 2020 12:39:37 -0800 (PST)
+Date: Tue, 11 Feb 2020 13:39:35 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH v2] drm/i915: Disable
+ -Wtautological-constant-out-of-range-compare
+Message-ID: <20200211203935.GA16176@ubuntu-m2-xlarge-x86>
+References: <20200211050808.29463-1-natechancellor@gmail.com>
+ <20200211061338.23666-1-natechancellor@gmail.com>
+ <4c806435-f32d-1559-9563-ffe3fa69f0d1@daenzer.net>
 MIME-Version: 1.0
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <20200207052627.130118-6-drinkcat@chromium.org>
- <CAL_JsqLshgzmhGGa+XibosSgk6R_9DQkDf12s793UZcvbQbxKw@mail.gmail.com>
-In-Reply-To: <CAL_JsqLshgzmhGGa+XibosSgk6R_9DQkDf12s793UZcvbQbxKw@mail.gmail.com>
-From: Saravana Kannan <saravanak@google.com>
-Date: Tue, 11 Feb 2020 12:08:44 -0800
-Message-ID: <CAGETcx_3-ZoVAf+Uf0Yo86pUU1nL4S4-jrS0eZi50yvhCO985g@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] drm/panfrost: Add support for multiple power
- domains
-To: Rob Herring <robh+dt@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <4c806435-f32d-1559-9563-ffe3fa69f0d1@daenzer.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Wed, 12 Feb 2020 08:25:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,167 +72,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ clang-built-linux@googlegroups.com, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 11:44 AM Rob Herring <robh+dt@kernel.org> wrote:
->
-> +Saravana
->
-> On Thu, Feb 6, 2020 at 11:27 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
-> >
-> > When there is a single power domain per device, the core will
-> > ensure the power domain is switched on (so it is technically
-> > equivalent to having not power domain specified at all).
-> >
-> > However, when there are multiple domains, as in MT8183 Bifrost
-> > GPU, we need to handle them in driver code.
-> >
-> > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> >
-> > ---
-> >
-> > The downstream driver we use on chromeos-4.19 currently uses 2
-> > additional devices in device tree to accomodate for this [1], but
-> > I believe this solution is cleaner.
-> >
-> > [1] https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/chromeos-4.19/drivers/gpu/arm/midgard/platform/mediatek/mali_kbase_runtime_pm.c#31
-> >
-> > v4:
-> >  - Match the exact power domain names as specified in the compatible
-> >    struct, instead of just matching the number of power domains.
-> >    [Review: Ulf Hansson]
-> >  - Dropped print and reordered function [Review: Steven Price]
-> >  - nits: Run through latest version of checkpatch:
-> >    - Use WARN instead of BUG_ON.
-> >    - Drop braces for single expression if block.
-> > v3:
-> >  - Use the compatible matching data to specify the number of power
-> >    domains. Note that setting 0 or 1 in num_pm_domains is equivalent
-> >    as the core will handle these 2 cases in the exact same way
-> >    (automatically, without driver intervention), and there should
-> >    be no adverse consequence in this case (the concern is about
-> >    switching on only some power domains and not others).
-> >
-> >  drivers/gpu/drm/panfrost/panfrost_device.c | 97 ++++++++++++++++++++--
-> >  drivers/gpu/drm/panfrost/panfrost_device.h | 11 +++
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c    |  2 +
-> >  3 files changed, 102 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > index 3720d50f6d9f965..8136babd3ba9935 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > @@ -5,6 +5,7 @@
-> >  #include <linux/clk.h>
-> >  #include <linux/reset.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/pm_domain.h>
-> >  #include <linux/regulator/consumer.h>
-> >
-> >  #include "panfrost_device.h"
-> > @@ -120,6 +121,79 @@ static void panfrost_regulator_fini(struct panfrost_device *pfdev)
-> >                         pfdev->regulators);
-> >  }
-> >
-> > +static void panfrost_pm_domain_fini(struct panfrost_device *pfdev)
-> > +{
-> > +       int i;
-> > +
-> > +       for (i = 0; i < ARRAY_SIZE(pfdev->pm_domain_devs); i++) {
-> > +               if (!pfdev->pm_domain_devs[i])
-> > +                       break;
-> > +
-> > +               if (pfdev->pm_domain_links[i])
-> > +                       device_link_del(pfdev->pm_domain_links[i]);
-> > +
-> > +               dev_pm_domain_detach(pfdev->pm_domain_devs[i], true);
-> > +       }
-> > +}
-> > +
-> > +static int panfrost_pm_domain_init(struct panfrost_device *pfdev)
-> > +{
-> > +       int err;
-> > +       int i, num_domains;
-> > +
-> > +       num_domains = of_count_phandle_with_args(pfdev->dev->of_node,
-> > +                                                "power-domains",
-> > +                                                "#power-domain-cells");
-> > +
-> > +       /*
-> > +        * Single domain is handled by the core, and, if only a single power
-> > +        * the power domain is requested, the property is optional.
-> > +        */
-> > +       if (num_domains < 2 && pfdev->comp->num_pm_domains < 2)
-> > +               return 0;
-> > +
-> > +       if (num_domains != pfdev->comp->num_pm_domains) {
-> > +               dev_err(pfdev->dev,
-> > +                       "Incorrect number of power domains: %d provided, %d needed\n",
-> > +                       num_domains, pfdev->comp->num_pm_domains);
-> > +               return -EINVAL;
-> > +       }
-> > +
-> > +       if (WARN(num_domains > ARRAY_SIZE(pfdev->pm_domain_devs),
-> > +                       "Too many supplies in compatible structure.\n"))
-> > +               return -EINVAL;
-> > +
-> > +       for (i = 0; i < num_domains; i++) {
-> > +               pfdev->pm_domain_devs[i] =
-> > +                       dev_pm_domain_attach_by_name(pfdev->dev,
-> > +                                       pfdev->comp->pm_domain_names[i]);
-> > +               if (IS_ERR_OR_NULL(pfdev->pm_domain_devs[i])) {
-> > +                       err = PTR_ERR(pfdev->pm_domain_devs[i]) ? : -ENODATA;
-> > +                       pfdev->pm_domain_devs[i] = NULL;
-> > +                       dev_err(pfdev->dev,
-> > +                               "failed to get pm-domain %s(%d): %d\n",
-> > +                               pfdev->comp->pm_domain_names[i], i, err);
-> > +                       goto err;
-> > +               }
-> > +
-> > +               pfdev->pm_domain_links[i] = device_link_add(pfdev->dev,
-> > +                               pfdev->pm_domain_devs[i], DL_FLAG_PM_RUNTIME |
-> > +                               DL_FLAG_STATELESS | DL_FLAG_RPM_ACTIVE);
->
-> We're in the process of adding device links based on DT properties.
-> Shouldn't we add power domains to that? See drivers/of/property.c for
-> what's handled.
+On Tue, Feb 11, 2020 at 10:41:48AM +0100, Michel D=E4nzer wrote:
+> On 2020-02-11 7:13 a.m., Nathan Chancellor wrote:
+> > A recent commit in clang added -Wtautological-compare to -Wall, which is
+> > enabled for i915 so we see the following warning:
+> > =
 
-Rob,
+> > ../drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1485:22: warning:
+> > result of comparison of constant 576460752303423487 with expression of
+> > type 'unsigned int' is always false
+> > [-Wtautological-constant-out-of-range-compare]
+> >         if (unlikely(remain > N_RELOC(ULONG_MAX)))
+> >             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+> > =
 
-drivers/of/property.c doesn't enable the RPM_ACTIVE AND PM_RUNTIME
-flags. Wanted to start off conservative. But adding command line ops
-to change the default flags shouldn't be difficult. But before I do
-that, I want to change of_devlink to
-fw_devlink=<disabled|permissive|enabled>. May be I can extend that to
-"disabled, permissive, suspend, runtime".
+> > This warning only happens on x86_64 but that check is relevant for
+> > 32-bit x86 so we cannot remove it.
+> =
 
-Nicholas,
+> That's suprising. AFAICT N_RELOC(ULONG_MAX) works out to the same value
+> in both cases, and remain is a 32-bit value in both cases. How can it be
+> larger than N_RELOC(ULONG_MAX) on 32-bit (but not on 64-bit)?
+> =
 
-And the adding and removing of device links for power domains will be
-a 2 line change. I've been meaning to add a few more bindings like
-hwspinlocks and pinctrl. I can roll power domains support into that if
-you want.
 
--Saravana
+Hi Michel,
+
+Can't this condition be true when UINT_MAX =3D=3D ULONG_MAX? clang does not
+warn on a 32-bit x86 build from what I remember. Honestly, my
+understanding of overflow is pretty shoddy, this is mostly based on what
+I have heard from others.
+
+I sent a patch trying to remove that check but had it rejected:
+
+https://lore.kernel.org/lkml/20191123195321.41305-1-natechancellor@gmail.co=
+m/
+
+Cheers,
+Nathan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
