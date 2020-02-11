@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A484158B59
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 09:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB581158B5C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2020 09:40:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC9A6EDF7;
-	Tue, 11 Feb 2020 08:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF4FA6EE00;
+	Tue, 11 Feb 2020 08:40:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D050A6EDF7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 08:37:37 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id w12so11152046wrt.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 00:37:37 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001D56EE03
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 08:40:37 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id y11so11144146wrt.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 00:40:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=Na2M+tRUw3DCFcB3ipBiFwcqwV93zaQwJq0JYti7BI0=;
- b=BFychGtdnTwxp2Sf7F4Rt8RgZ+OfTEpB7vJbBKJf451dCNA20TixK8NKfT3xl0SXrc
- H2G5M+6IOPLvgRX/HF5rHWytHUKqhpIFHW/ZaxK097KnSLpQStH/GJQvOEgrmWpaKk2b
- fQC+tl7jPlikLcNQRjCqh3V66K2hCMi6YgcHo=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=Kj7xciG/TTqM/ZE2qXR/wKz4HZY6+8KwrA5Al7SDgrA=;
+ b=SKx0PtZvxlM7Ny2VuDUjGTMeJEDJUjAzlgU4l4S6g4oUS8UwOD/yEw3+7r2ufCzXT2
+ 7KbLa4toh71ZcUWaGR+t6bCc8MwGZGwtsPgyDxo8b0Z67Yt5sAwIC7J/dDYRhT1iqR6u
+ 7iplSLuCngUVkgGbMnvJINJw00JZ8wVxFZe9A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=Na2M+tRUw3DCFcB3ipBiFwcqwV93zaQwJq0JYti7BI0=;
- b=lkLB07lJJ5S/g6QPHZGPyTsAwdEcDVlZcVYWwkqPCQ1zE2dhV55LUYLXE8hUBaFX1c
- T0+mPaLjSIESBjiqzERRJKXjrH21eZz3NTM7B42VBPQb9dArLLkAzcchXhPrgFoXOYXE
- aTP+en357947RF6HPV6q02DKKFHUGxN4b7TJGLTy5ZVRjkXMDD8Qcd+5nVf5N4TBFLQ6
- T08mAqZUB6I2MrxsZ0AUP18toGTyDq6jbKVhUasMP9W49oGtbJ8QAHS9WBFW8c5g5Tan
- 41ny31c0w4jKoBnlQDh6vmCQnXrIf2qODgfTyk8szEW1UJWNsHWNJlWdW6+fY2j+yRT5
- qHqg==
-X-Gm-Message-State: APjAAAWB20jowD3k3ph1BWqUIRV2VRwylBGzUR78svSkWKy+YGuau0EU
- kMlYyRkmnG3tOhd/rC/RaT4/pA==
-X-Google-Smtp-Source: APXvYqzvfJ8Za8TOVTfKZnBJ5oGi6BI/nCHpXb2BYNzjcWyMJFelUivBF/3aW3AvdilEpFm07Ix0SA==
-X-Received: by 2002:a5d:4c88:: with SMTP id z8mr7171037wrs.395.1581410256522; 
- Tue, 11 Feb 2020 00:37:36 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Kj7xciG/TTqM/ZE2qXR/wKz4HZY6+8KwrA5Al7SDgrA=;
+ b=hE8UZIruttkZKXFA+wox+H0i//4g3KVV0E8hWfY06T6tAKaVCXCkjT3Ko/ReXyiUQV
+ WQEZeI3eJN55Ha47YjZBE2Zj2xq3JXgXaHlcSkD0RMBgN+R+/0VIQNi5r4sFLprMqk2P
+ 9FR8Oke1WaI7gsdjKy6uiLyari1hEqMc6qFWdyxTjuvbjASDMg3PeeuQp7norZ2J2dtK
+ yzOTSyxhx5lFCPHEcStZ8AuwzxrIwIWO+YMDn9xO5FRW3NUixvB6Va+X/n7CbB3HuI0Y
+ a+jVj0zKQMftLpw+/ri1e8nn8muyQtH3/6nxLxbs+Pytm3E9AYCxdFXcOlAmyZI78DiG
+ KSxA==
+X-Gm-Message-State: APjAAAVqO7sz2xnfQGNF8kAu3Sshwpvg/vrKeAQDa8HmYrpO4Y7Ub5/1
+ u3ZnG3qzs2PHkDExYcfs9cr8Y7Gf35k=
+X-Google-Smtp-Source: APXvYqwWYjRXIXW0f2riBsOhu1LJgABv6043dIRK6dkWp7XbxX5UdgOG78YscJSXz71DAbuOfiD9Rg==
+X-Received: by 2002:adf:f886:: with SMTP id u6mr7292938wrp.409.1581410436664; 
+ Tue, 11 Feb 2020 00:40:36 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b10sm4432682wrt.90.2020.02.11.00.37.35
+ by smtp.gmail.com with ESMTPSA id x14sm2670484wmj.42.2020.02.11.00.40.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 00:37:35 -0800 (PST)
-Date: Tue, 11 Feb 2020 09:37:33 +0100
+ Tue, 11 Feb 2020 00:40:35 -0800 (PST)
+Date: Tue, 11 Feb 2020 09:40:34 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Emmanuel Vadot <manu@FreeBSD.org>
-Subject: Re: [PATCH 0/2] Dual licence some files in GPL-2.0 and MIT
-Message-ID: <20200211083733.GV43062@phenom.ffwll.local>
-Mail-Followup-To: Emmanuel Vadot <manu@FreeBSD.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@linux.ie, tzimmermann@suse.de, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20200210153544.24750-1-manu@FreeBSD.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [Nouveau] [PATCH] drm/nouveau: Fix NULL ptr access in
+ nv50_wndw_prepare_fb()
+Message-ID: <20200211084034.GW43062@phenom.ffwll.local>
+References: <20200210230943.2874-1-jajones@nvidia.com>
+ <d40e1738-f313-e84d-8d4c-af5efd60aa93@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200210153544.24750-1-manu@FreeBSD.org>
+In-Reply-To: <d40e1738-f313-e84d-8d4c-af5efd60aa93@suse.de>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,49 +67,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kraxel@redhat.com, tzimmermann@suse.de
+Cc: nouveau@lists.freedesktop.org, James Jones <jajones@nvidia.com>,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2020 at 04:35:42PM +0100, Emmanuel Vadot wrote:
-> Hello all,
+On Tue, Feb 11, 2020 at 06:28:47AM +0100, Thomas Zimmermann wrote:
+> Hi
 > =
 
-> We had a discussion a while back with Noralf where he said that he wouldn=
-'t
-> mind dual licence his work under GPL-2 and MIT.
-> Those files are a problem with BSDs as we cannot include them.
-> For drm_client.c the main contributors are Noralf Tr=F8nnes and Thomas
-> Zimmermann, the other commits are just catch ups from changes elsewhere
-> (return values, struct member names, function renames etc ...).
-> For drm_format_helper the main contributors are Noralf Tr=F8nnes and
-> Gerd Hoffmann. Same comment as for drm_client.c for the other commits.
+> I'm surprised that prepare_fb is called with fb =3D=3D NULL. But, OK
 
-Can you pls list all contributors for each file in the commit message, so
-we can make sure we're collecting all the required acks?
+Yeah we don't filter that ... maybe an oversight? I'm not sure whether
+there's any driver that needs to do something special for when the plane
+is disabled here (since "plane off" iff "plane_state-fb =3D=3D NULL").
 
-Afaiui for official relicensing, we need everyone.
+In general I think we have an awful lot of bugs in most drivers for the
+case when the plane state is in the atomic commit, but not enabled.
 -Daniel
 
 > =
 
-> Emmanuel Vadot (2):
->   drm/client: Dual licence the file in GPL-2 and MIT
->   drm/format_helper: Dual licence the file in GPL 2 and MIT
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 > =
 
->  drivers/gpu/drm/drm_client.c        | 2 +-
->  drivers/gpu/drm/drm_format_helper.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> Thanks for the fix.
+> =
+
+> Am 11.02.20 um 00:09 schrieb James Jones:
+> > This fixes a kernel oops when loading the nouveau
+> > module with fb console enabled after the change:
+> > =
+
+> >   drm/nouveau: Remove field nvbo from struct nouveau_framebuffer
+> > =
+
+> > state->fb may be NULL in nv50_wndw_prepare_fb(),
+> > so defer initializing nvbo from its obj[] array
+> > until after the NULL check.
+> > =
+
+> > Signed-off-by: James Jones <jajones@nvidia.com>
+> > ---
+> >  drivers/gpu/drm/nouveau/dispnv50/wndw.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/=
+nouveau/dispnv50/wndw.c
+> > index 4a67a656e007..68c0dc2dc2d3 100644
+> > --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> > +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> > @@ -490,7 +490,7 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struc=
+t drm_plane_state *state)
+> >  	struct nouveau_drm *drm =3D nouveau_drm(plane->dev);
+> >  	struct nv50_wndw *wndw =3D nv50_wndw(plane);
+> >  	struct nv50_wndw_atom *asyw =3D nv50_wndw_atom(state);
+> > -	struct nouveau_bo *nvbo =3D nouveau_gem_object(fb->obj[0]);
+> > +	struct nouveau_bo *nvbo;
+> >  	struct nv50_head_atom *asyh;
+> >  	struct nv50_wndw_ctxdma *ctxdma;
+> >  	int ret;
+> > @@ -499,6 +499,7 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struc=
+t drm_plane_state *state)
+> >  	if (!asyw->state.fb)
+> >  		return 0;
+> >  =
+
+> > +	nvbo =3D nouveau_gem_object(fb->obj[0]);
+> >  	ret =3D nouveau_bo_pin(nvbo, TTM_PL_FLAG_VRAM, true);
+> >  	if (ret)
+> >  		return ret;
+> > =
+
 > =
 
 > -- =
 
-> 2.25.0
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
 > =
+
+
+
+
+
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
 
 
 -- =
