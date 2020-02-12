@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD6415BA94
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F316015BA97
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B47B789218;
-	Thu, 13 Feb 2020 08:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79B4D6F553;
+	Thu, 13 Feb 2020 08:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C416F50C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 14:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581518790;
+ [IPv6:2a01:238:20a:202:5302::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCA46F517
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 15:00:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581519605;
  s=strato-dkim-0002; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=eF0eU+wT6Jz3VQhXmG5csiS9c3rSC4Z9DeL2XQYqdFw=;
- b=Wsu/Ze9yunACzcc63wQpOl3qj5aKQEb2UUCyCUt5kvmjLFjB2sGOXhtohqQpnW20y8
- oyAcCUgPhgZOzeKdnJSiERaLGwtArNmFr6U7hGA5Nx0fAIgRLSuewvoyUxJVkvlbZGal
- clkAFGwnQycy0PyThtQAleS6ZwFrWS8HgESawp8y7oFPpm3ySjMkbZ+S81/JDqKvBRtc
- 8mNSWF/vceC4epTstkTW3WNMYpbwt2i6W78o+3PDcsJHBVIKmwMESvdsOHxE3F/dZ8Go
- s0O1b6hmbmM+qNiHh6wRpu6AaNF6qUhsVnAOrj1p/R85Z3Kp02iX4UTtkBf3/ZWjBda+
- sB6A==
+ bh=3yrlgbwpWQZTwSSfMKPtb8XHqELW1Q2VHBhevB4Ahuo=;
+ b=X235jz1KfncYhSpcUgS+6VQ+M8ewQinfTuBxLmHf7c+mkco0Knd63dXq01ZN/7ypk/
+ ZR8Beby0Wj/x/th+/JXjiKb1EwjHYnoFmjshM+IMeC74VodxOOxC8CUV/vy1Uudx7mrC
+ 9lmPQ5MgrEqASUymMXnuWWQHLi07TLjg9dzAX8lBnZS+rrw156gBTcSI6qTzBNblIZeB
+ 1mfbh/NgI84/U2UubqoIT9RXKsCSWjo73zMs9im4s+M5WHuqy+8nU0TKJc/IwZjldT2b
+ JRp6LQBmygc4tgBlEqT3xoT4QffuO60iP66P+mgtGD8ktTc8GYUjLFwgqpfQbtO26GIz
+ 8sDA==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlSbXAgODw=="
 X-RZG-CLASS-ID: mo00
 Received: from imac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1CEkJ4uk
+ with ESMTPSA id U06217w1CExt59j
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
  ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Wed, 12 Feb 2020 15:46:19 +0100 (CET)
+ Wed, 12 Feb 2020 15:59:55 +0100 (CET)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 Subject: Re: i2c: jz4780: silence log flood on txabrt
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200212094628.GB1143@ninjato>
-Date: Wed, 12 Feb 2020 15:46:19 +0100
-Message-Id: <213C52CC-E5DC-4641-BE68-3D5C4FEA1FB5@goldelico.com>
+In-Reply-To: <20200212145356.GB2492@ninjato>
+Date: Wed, 12 Feb 2020 15:59:55 +0100
+Message-Id: <0C9F4243-159B-418C-B481-4B45B210F9F6@goldelico.com>
 References: <cover.1581457290.git.hns@goldelico.com>
  <7facef52af9cff6ebe26ff321a7fd4f1ac640f74.1581457290.git.hns@goldelico.com>
  <20200212094628.GB1143@ninjato>
+ <213C52CC-E5DC-4641-BE68-3D5C4FEA1FB5@goldelico.com>
+ <20200212145356.GB2492@ninjato>
 To: Wolfram Sang <wsa@the-dreams.de>
 X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Thu, 13 Feb 2020 08:12:52 +0000
@@ -75,100 +77,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-> Am 12.02.2020 um 10:46 schrieb Wolfram Sang <wsa@the-dreams.de>:
+> Am 12.02.2020 um 15:53 schrieb Wolfram Sang <wsa@the-dreams.de>:
 > 
+> Hi,
 > 
-> The printout for txabrt is way too talkative. Reduce it to the minimum,
-> the rest can be gained by I2C core debugging and datasheet information.
-> Also, make it a debug printout, it won't help the regular user.
+>>> Sorry, normally I don't do counter patches. Yet, this time I realized
+>>> that it would be faster to actually do what I envisioned than to
+>>> describe it in words. I hope you don't feel offended.
+>> 
+>> No problem. I had thought a little about that myself, but did not
+>> dare to solve more than my problem...
 > 
-> Reported-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
-> ---
+> Glad you like it. Well, it still kinda solves your problem only, because
+> there are still too many dev_err in there, but I think this is good
+> enough for now.
 > 
-> Sorry, normally I don't do counter patches. Yet, this time I realized
-> that it would be faster to actually do what I envisioned than to
-> describe it in words. I hope you don't feel offended.
+>>> Obviously, I can't test, does it work for you?
+>> 
+>> Yes,it works.
+> 
+> Good!
+> 
+>> Do you want to push your patch yourself, or should I add it to my
+>> patch series and resubmit in a v2?
+> 
+> I'll apply the patch to my tree directly as a bugfix for 5.6. You can
+> drop the I2C list from V2 then.
 
-No problem. I had thought a little about that myself, but did not
-dare to solve more than my problem...
-
-> This driver has
-> way too many dev_err anyhow, so this may be a start.
-> 
-> Obviously, I can't test, does it work for you?
-
-Yes,it works.
-
-Do you want to push your patch yourself, or should I add it to my
-patch series and resubmit in a v2?
+Ok, fine.
 
 BR and thanks,
 Nikolaus
-
-> 
-> drivers/i2c/busses/i2c-jz4780.c | 36 ++-------------------------------
-> 1 file changed, 2 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-jz4780.c b/drivers/i2c/busses/i2c-jz4780.c
-> index 16a67a64284a..b426fc956938 100644
-> --- a/drivers/i2c/busses/i2c-jz4780.c
-> +++ b/drivers/i2c/busses/i2c-jz4780.c
-> @@ -78,25 +78,6 @@
-> 
-> #define X1000_I2C_DC_STOP		BIT(9)
-> 
-> -static const char * const jz4780_i2c_abrt_src[] = {
-> -	"ABRT_7B_ADDR_NOACK",
-> -	"ABRT_10ADDR1_NOACK",
-> -	"ABRT_10ADDR2_NOACK",
-> -	"ABRT_XDATA_NOACK",
-> -	"ABRT_GCALL_NOACK",
-> -	"ABRT_GCALL_READ",
-> -	"ABRT_HS_ACKD",
-> -	"SBYTE_ACKDET",
-> -	"ABRT_HS_NORSTRT",
-> -	"SBYTE_NORSTRT",
-> -	"ABRT_10B_RD_NORSTRT",
-> -	"ABRT_MASTER_DIS",
-> -	"ARB_LOST",
-> -	"SLVFLUSH_TXFIFO",
-> -	"SLV_ARBLOST",
-> -	"SLVRD_INTX",
-> -};
-> -
-> #define JZ4780_I2C_INTST_IGC		BIT(11)
-> #define JZ4780_I2C_INTST_ISTT		BIT(10)
-> #define JZ4780_I2C_INTST_ISTP		BIT(9)
-> @@ -576,21 +557,8 @@ static irqreturn_t jz4780_i2c_irq(int irqno, void *dev_id)
-> 
-> static void jz4780_i2c_txabrt(struct jz4780_i2c *i2c, int src)
-> {
-> -	int i;
-> -
-> -	dev_err(&i2c->adap.dev, "txabrt: 0x%08x\n", src);
-> -	dev_err(&i2c->adap.dev, "device addr=%x\n",
-> -		jz4780_i2c_readw(i2c, JZ4780_I2C_TAR));
-> -	dev_err(&i2c->adap.dev, "send cmd count:%d  %d\n",
-> -		i2c->cmd, i2c->cmd_buf[i2c->cmd]);
-> -	dev_err(&i2c->adap.dev, "receive data count:%d  %d\n",
-> -		i2c->cmd, i2c->data_buf[i2c->cmd]);
-> -
-> -	for (i = 0; i < 16; i++) {
-> -		if (src & BIT(i))
-> -			dev_dbg(&i2c->adap.dev, "I2C TXABRT[%d]=%s\n",
-> -				i, jz4780_i2c_abrt_src[i]);
-> -	}
-> +	dev_dbg(&i2c->adap.dev, "txabrt: 0x%08x, cmd: %d, send: %d, recv: %d\n",
-> +		src, i2c->cmd, i2c->cmd_buf[i2c->cmd], i2c->data_buf[i2c->cmd]);
-> }
-> 
-> static inline int jz4780_i2c_xfer_read(struct jz4780_i2c *i2c,
-> -- 
-> 2.20.1
-> 
 
 _______________________________________________
 dri-devel mailing list
