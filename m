@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F316015BA97
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9301315BA99
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79B4D6F553;
-	Thu, 13 Feb 2020 08:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B0486F558;
+	Thu, 13 Feb 2020 08:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCA46F517
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 15:00:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581519605;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=3yrlgbwpWQZTwSSfMKPtb8XHqELW1Q2VHBhevB4Ahuo=;
- b=X235jz1KfncYhSpcUgS+6VQ+M8ewQinfTuBxLmHf7c+mkco0Knd63dXq01ZN/7ypk/
- ZR8Beby0Wj/x/th+/JXjiKb1EwjHYnoFmjshM+IMeC74VodxOOxC8CUV/vy1Uudx7mrC
- 9lmPQ5MgrEqASUymMXnuWWQHLi07TLjg9dzAX8lBnZS+rrw156gBTcSI6qTzBNblIZeB
- 1mfbh/NgI84/U2UubqoIT9RXKsCSWjo73zMs9im4s+M5WHuqy+8nU0TKJc/IwZjldT2b
- JRp6LQBmygc4tgBlEqT3xoT4QffuO60iP66P+mgtGD8ktTc8GYUjLFwgqpfQbtO26GIz
- 8sDA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlSbXAgODw=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1CExt59j
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 12 Feb 2020 15:59:55 +0100 (CET)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-Subject: Re: i2c: jz4780: silence log flood on txabrt
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200212145356.GB2492@ninjato>
-Date: Wed, 12 Feb 2020 15:59:55 +0100
-Message-Id: <0C9F4243-159B-418C-B481-4B45B210F9F6@goldelico.com>
-References: <cover.1581457290.git.hns@goldelico.com>
- <7facef52af9cff6ebe26ff321a7fd4f1ac640f74.1581457290.git.hns@goldelico.com>
- <20200212094628.GB1143@ninjato>
- <213C52CC-E5DC-4641-BE68-3D5C4FEA1FB5@goldelico.com>
- <20200212145356.GB2492@ninjato>
-To: Wolfram Sang <wsa@the-dreams.de>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE8E6E0C2;
+ Wed, 12 Feb 2020 17:07:37 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id c16so2723115oic.3;
+ Wed, 12 Feb 2020 09:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=q493gbsIG2nzkYQNNXMk8303hOGd7AofSKLTmVfJkrQ=;
+ b=X6dnA0RTNXJDidnIaF7rpAQm9PvzOfyg3+2WZzhPcKSua0bjpxviNbu5jelqeJJX8d
+ ThzB5qmZwKcDpAb+0WKbvBhC02OeLM+9OSwKuLKcilti+E/82Ld5GfQGWzu8MVW7aoYF
+ BGghMfU3ghmMWNe8HA60guR6YC2DDj51kh8pBXxyUJvW91f8HY+7AMEyPlzoX19YxZeK
+ KvRigiQNTGhKmTC/v4lPIUzPXc7v0GzPmLr2H07rGqdBaf5FD2+odeIoVZ0lyrGpfj+o
+ ZaGJTlEX/ge92xgMybHE3N26Qyl7TZv1tnwirZ74cYWKTBenV6roDnTVYCrbPoqP0u9Y
+ RgDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=q493gbsIG2nzkYQNNXMk8303hOGd7AofSKLTmVfJkrQ=;
+ b=tTgWAQYRObN/Slv2PYEs1FUI5EUTkJ/2u15muPtFzU1mPLK2+KF78pYOJ3bX3MgjnX
+ C5M8qH09DwCxcE3pypoBhmuoIRSLHxadL7ElVIMXtpqPony0R5B0zgGAajbQPHmAPfYu
+ 83Iv9lG/WVoaGSIGipDndpgvaAOz4Zr74woQkaVuh+GwrIQmWwj/ofvuxQg3fMCoK/Di
+ qCFUugQve30afjf1Z9U9AiL112yMt4NH5IfbtBD06iWlJJrVk1iXFbVZOjHyN5EmZ44s
+ z86Alz52Ta5Xbw3Sh+potLfupApnFhc9vcEM7lIXdBee2f8UBSPQqxEeGCu7HSuZaFgp
+ bwbA==
+X-Gm-Message-State: APjAAAUwxDo4POrzHTXrzmrNvVntAZPXKDZby3dwkj6xKtkJCRcXY928
+ +5vIIiE3Gf1eGEVOpcBdXu4=
+X-Google-Smtp-Source: APXvYqyviBldb4Xv5YdD9F9qx1MwM9JXddB2XpOhzhuPVHIEb7x8ahgRLbCAR8qoy6oNsTdEDQrDzA==
+X-Received: by 2002:a05:6808:8ca:: with SMTP id
+ k10mr36867oij.164.1581527256335; 
+ Wed, 12 Feb 2020 09:07:36 -0800 (PST)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+ by smtp.gmail.com with ESMTPSA id w20sm343637otj.21.2020.02.12.09.07.35
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 12 Feb 2020 09:07:35 -0800 (PST)
+Date: Wed, 12 Feb 2020 10:07:34 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH v2] drm/i915: Disable
+ -Wtautological-constant-out-of-range-compare
+Message-ID: <20200212170734.GA16396@ubuntu-m2-xlarge-x86>
+References: <20200211050808.29463-1-natechancellor@gmail.com>
+ <20200211061338.23666-1-natechancellor@gmail.com>
+ <4c806435-f32d-1559-9563-ffe3fa69f0d1@daenzer.net>
+ <20200211203935.GA16176@ubuntu-m2-xlarge-x86>
+ <f3a6346b-2abf-0b6a-3d84-66e12f700b2b@daenzer.net>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <f3a6346b-2abf-0b6a-3d84-66e12f700b2b@daenzer.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Thu, 13 Feb 2020 08:12:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,58 +75,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Richard Fontana <rfontana@redhat.com>, linux-i2c@vger.kernel.org,
- Miquel Raynal <miquel.raynal@bootlin.com>, Andi Kleen <ak@linux.intel.com>,
- Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alex Smith <alex.smith@imgtec.com>,
- =?utf-8?Q?Petr_=C5=A0tetiar?= <ynezz@true.cz>, devicetree@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
- Allison Randal <allison@lohutok.net>, netdev@vger.kernel.org,
- linux-mips@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- kernel@pyra-handheld.com, "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: clang-built-linux@googlegroups.com, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Feb 12, 2020 at 09:52:52AM +0100, Michel D=E4nzer wrote:
+> On 2020-02-11 9:39 p.m., Nathan Chancellor wrote:
+> > On Tue, Feb 11, 2020 at 10:41:48AM +0100, Michel D=E4nzer wrote:
+> >> On 2020-02-11 7:13 a.m., Nathan Chancellor wrote:
+> >>> A recent commit in clang added -Wtautological-compare to -Wall, which=
+ is
+> >>> enabled for i915 so we see the following warning:
+> >>>
+> >>> ../drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1485:22: warning:
+> >>> result of comparison of constant 576460752303423487 with expression of
+> >>> type 'unsigned int' is always false
+> >>> [-Wtautological-constant-out-of-range-compare]
+> >>>         if (unlikely(remain > N_RELOC(ULONG_MAX)))
+> >>>             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+> >>>
+> >>> This warning only happens on x86_64 but that check is relevant for
+> >>> 32-bit x86 so we cannot remove it.
+> >>
+> >> That's suprising. AFAICT N_RELOC(ULONG_MAX) works out to the same value
+> >> in both cases, and remain is a 32-bit value in both cases. How can it =
+be
+> >> larger than N_RELOC(ULONG_MAX) on 32-bit (but not on 64-bit)?
+> >>
+> > =
 
-> Am 12.02.2020 um 15:53 schrieb Wolfram Sang <wsa@the-dreams.de>:
-> 
-> Hi,
-> 
->>> Sorry, normally I don't do counter patches. Yet, this time I realized
->>> that it would be faster to actually do what I envisioned than to
->>> describe it in words. I hope you don't feel offended.
->> 
->> No problem. I had thought a little about that myself, but did not
->> dare to solve more than my problem...
-> 
-> Glad you like it. Well, it still kinda solves your problem only, because
-> there are still too many dev_err in there, but I think this is good
-> enough for now.
-> 
->>> Obviously, I can't test, does it work for you?
->> 
->> Yes,it works.
-> 
-> Good!
-> 
->> Do you want to push your patch yourself, or should I add it to my
->> patch series and resubmit in a v2?
-> 
-> I'll apply the patch to my tree directly as a bugfix for 5.6. You can
-> drop the I2C list from V2 then.
+> > Hi Michel,
+> > =
 
-Ok, fine.
+> > Can't this condition be true when UINT_MAX =3D=3D ULONG_MAX?
+> =
 
-BR and thanks,
-Nikolaus
+> Oh, right, I think I was wrongly thinking long had 64 bits even on 32-bit.
+> =
 
+> =
+
+> Anyway, this suggests a possible better solution:
+> =
+
+> #if UINT_MAX =3D=3D ULONG_MAX
+> 	if (unlikely(remain > N_RELOC(ULONG_MAX)))
+> 		return -EINVAL;
+> #endif
+> =
+
+> =
+
+> Or if that can't be used for some reason, something like
+> =
+
+> 	if (unlikely((unsigned long)remain > N_RELOC(ULONG_MAX)))
+> 		return -EINVAL;
+> =
+
+> should silence the warning.
+
+I do like this one better than the former.
+
+> =
+
+> =
+
+> Either of these should be better than completely disabling the warning
+> for the whole file.
+
+Normally, I would agree but I am currently planning to leave
+-Wtautological-constant-out-of-range-compare disabled when I turn on
+-Wtautological-compare for the whole kernel because there are plenty of
+locations in the kernel where these kind of checks depend on various
+kernel configuration options and the general attitude of kernel
+developers is that this particular warning is not really helpful
+for that reason.
+
+I'll see if there is a general consensus before moving further since I
+know i915 turns on a bunch of extra warnings from the rest of the kernel
+(hence why we are in this situation).
+
+Cheers,
+Nathan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
