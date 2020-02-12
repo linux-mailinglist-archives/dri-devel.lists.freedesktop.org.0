@@ -1,70 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CFE15BA98
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD6415BA94
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB9F96F554;
-	Thu, 13 Feb 2020 08:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B47B789218;
+	Thu, 13 Feb 2020 08:12:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5606EAA9
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 12:53:52 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id B1CD9CB8;
- Wed, 12 Feb 2020 07:53:51 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 12 Feb 2020 07:53:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=FYMgNW1AABvOrAFmHBwSTNBjY0U
- QZ9+M+hZkuY1Xbi0=; b=QGtYjTjyb/d/6+hyPNWS9QgzrAZ8FRTBYoYt3mFEniY
- ZZZXsR9at9vwnKcGtFSfU3csQZATWV1I7rXgbQyAYpjsA8hMGHK9OimsmPQYYea5
- UepXMHz4/A+vu7yeIXYCvujD/XP8+3wCnTUFcKiWBahjlq3lPRnNL4HVVcT1ckeF
- iK4aMdqUA4gZwuQnT3iDQxQhKONL8QQT2hKhVa1nRB0U/LhvMpr+8sKTm9a++gUH
- Ve7OfkBAkMKJ2ZdplD0gS0vsdjxcTwkD/qfuhI5tXy37JNJYiJpjDZe/qUTD/v0B
- IUpNb2mMpID+lHpK/JaudS+n5+rA/+NE1HYv+6RCdXA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=FYMgNW
- 1AABvOrAFmHBwSTNBjY0UQZ9+M+hZkuY1Xbi0=; b=1pcWMOR7GX/4RrAmeXkRAS
- NjY5pGCmmtDNFpvdb5xce3Hge8EyUrvdTo/cwAIThrtvTdKyppVK3nbefCF+cx0x
- zFwPD89xsSDcnAT092cbNoXHVbb4OyDGQSIzLdsOy7zRRJVvRJ9Q10lBlal2oNWs
- aq+6uiJb6+kOtV9PgrhjZlQb0gmXQ+8uOhaq765PB55wfk5WXNyek5L7dkBAc8+A
- 7S7vVl0WgGaUICNwo0F3nZO+2ZeyYzUowTzBhhyrxeP2ZEKohymj/82mabpPcyg+
- IZahoOv0uzzyUDe+Rr8Jsdz6gbsi9ptRDQc8V4zWsL3m1Ka/1ffqwrje/OMwKjrw
- ==
-X-ME-Sender: <xms:WvVDXlAJe-I_Ty-M9L3IwSBtpvB52akNRSslI7bzkmPojn-V1I4LkQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrieehgdegiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
- epghhithhhuhgsrdgtohhmnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgv
- rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
- hordhtvggthh
-X-ME-Proxy: <xmx:WvVDXnzMpY8RacejKxQJeEhp0OBGgrJVrRceoR27Vv2pKjCvsPIhEQ>
- <xmx:WvVDXrllSutR1NatOir2li2gQHSiDp0J7AX1wC1-KRvMWIIFomOnAw>
- <xmx:WvVDXkGPnElIH2s8uy3FwmkI2Btv6BcZoOJp5hUQ2q9n_rsgunGF9g>
- <xmx:X_VDXsoXO7sHrtGKEhPJKoZjJZZHZq_CASuU8gWkkzm7mf_NHlgUDg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9D8363280065;
- Wed, 12 Feb 2020 07:53:46 -0500 (EST)
-Date: Wed, 12 Feb 2020 13:53:45 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andrey Lebedev <andrey.lebedev@gmail.com>
-Subject: Re: [PATCH 1/1] Support LVDS output on Allwinner A20
-Message-ID: <20200212125345.j6e3txfjqekuxh2s@gilmour.lan>
-References: <20200210195633.GA21832@kedthinkpad>
- <20200211072004.46tbqixn5ftilxae@gilmour.lan>
- <20200211204828.GA4361@kedthinkpad>
-MIME-Version: 1.0
-In-Reply-To: <20200211204828.GA4361@kedthinkpad>
+Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5302::11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C416F50C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 14:46:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581518790;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=eF0eU+wT6Jz3VQhXmG5csiS9c3rSC4Z9DeL2XQYqdFw=;
+ b=Wsu/Ze9yunACzcc63wQpOl3qj5aKQEb2UUCyCUt5kvmjLFjB2sGOXhtohqQpnW20y8
+ oyAcCUgPhgZOzeKdnJSiERaLGwtArNmFr6U7hGA5Nx0fAIgRLSuewvoyUxJVkvlbZGal
+ clkAFGwnQycy0PyThtQAleS6ZwFrWS8HgESawp8y7oFPpm3ySjMkbZ+S81/JDqKvBRtc
+ 8mNSWF/vceC4epTstkTW3WNMYpbwt2i6W78o+3PDcsJHBVIKmwMESvdsOHxE3F/dZ8Go
+ s0O1b6hmbmM+qNiHh6wRpu6AaNF6qUhsVnAOrj1p/R85Z3Kp02iX4UTtkBf3/ZWjBda+
+ sB6A==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlSbXAgODw=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
+ with ESMTPSA id U06217w1CEkJ4uk
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Wed, 12 Feb 2020 15:46:19 +0100 (CET)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+Subject: Re: i2c: jz4780: silence log flood on txabrt
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20200212094628.GB1143@ninjato>
+Date: Wed, 12 Feb 2020 15:46:19 +0100
+Message-Id: <213C52CC-E5DC-4641-BE68-3D5C4FEA1FB5@goldelico.com>
+References: <cover.1581457290.git.hns@goldelico.com>
+ <7facef52af9cff6ebe26ff321a7fd4f1ac640f74.1581457290.git.hns@goldelico.com>
+ <20200212094628.GB1143@ninjato>
+To: Wolfram Sang <wsa@the-dreams.de>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Thu, 13 Feb 2020 08:12:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,125 +56,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, wens@csie.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1163965028=="
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Richard Fontana <rfontana@redhat.com>, linux-i2c@vger.kernel.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Andi Kleen <ak@linux.intel.com>,
+ Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alex Smith <alex.smith@imgtec.com>,
+ =?utf-8?Q?Petr_=C5=A0tetiar?= <ynezz@true.cz>, devicetree@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
+ Allison Randal <allison@lohutok.net>, netdev@vger.kernel.org,
+ linux-mips@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ kernel@pyra-handheld.com, "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---===============1163965028==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pu5japc265ilzlxp"
-Content-Disposition: inline
+> Am 12.02.2020 um 10:46 schrieb Wolfram Sang <wsa@the-dreams.de>:
+> 
+> 
+> The printout for txabrt is way too talkative. Reduce it to the minimum,
+> the rest can be gained by I2C core debugging and datasheet information.
+> Also, make it a debug printout, it won't help the regular user.
+> 
+> Reported-by: H. Nikolaus Schaller <hns@goldelico.com>
+> Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
+> ---
+> 
+> Sorry, normally I don't do counter patches. Yet, this time I realized
+> that it would be faster to actually do what I envisioned than to
+> describe it in words. I hope you don't feel offended.
 
+No problem. I had thought a little about that myself, but did not
+dare to solve more than my problem...
 
---pu5japc265ilzlxp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> This driver has
+> way too many dev_err anyhow, so this may be a start.
+> 
+> Obviously, I can't test, does it work for you?
 
-Hi Andrey,
+Yes,it works.
 
-On Tue, Feb 11, 2020 at 10:48:28PM +0200, Andrey Lebedev wrote:
-> Maxime, thanks for your comments. I'll update the patch, but meanwhile,
-> I have some remarks/questions, see below.
->
-> On Tue, Feb 11, 2020 at 08:20:04AM +0100, Maxime Ripard wrote:
-> > > +	regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA1_REG,
-> > > +			   SUN4I_TCON0_LVDS_ANA1_UPDATE,
-> > > +			   SUN4I_TCON0_LVDS_ANA1_UPDATE);
-> >
-> > You refer to U-Boot in your commit log, but the sequence is not quite
-> > the same, why did you change it?
->
-> I actually had two reference implementations at my hand. One was u-boot
-> and another - an old (abandoned) branch of Priit Laes [1] (I took the
-> split-up of u-boot SUNXI_LCDC_LVDS_ANA0 constant from there).
->
-> This is an attempt to simplify the sequence, since I noticed that the
-> same bit was being set to the same register twice [2] and removing that
-> duplication didn't produce any observable regression. Priit
-> implementation didn't have that bit set in the end of the sequence
-> either, so I omitted it. That said, I agree that it could've been a bit
-> naive on my side, and I can get it back to match u-boot version, if you
-> feel that might be important.
->
-> For the reference the U-Boot code is here: [3]
->
-> [1] https://github.com/plaes/linux/commit/cc8c8bab2f2f2752ba6b11632dcd0f41bac249bc#diff-014a76a5007005a7a240825a972b8c7fR127
-> [2] setbits_le32(&lcdc->lvds_ana0, SUNXI_LCDC_LVDS_ANA0_UPDATE);
-> [3] https://github.com/ARM-software/u-boot/blob/master/drivers/video/sunxi/lcdc.c#L60
+Do you want to push your patch yourself, or should I add it to my
+patch series and resubmit in a v2?
 
-The U-Boot code has been here for a while and we know it's robust by
-now, so I'd prefer to be conservative and use it here.
+BR and thanks,
+Nikolaus
 
-> > > +#define SUN4I_TCON0_LVDS_ANA1_REG		0x224
-> > > +#define SUN4I_TCON0_LVDS_ANA1_INIT			(0x1f << 26 | 0x1f << 10)
-> > > +#define SUN4I_TCON0_LVDS_ANA1_UPDATE			(0x1f << 16 | 0x1f << 00)
-> >
-> > Having proper defines for those fields would be great too.
->
-> If by "proper" you mean "split them up to individual bits", I would
-> agree, but I can't find any actual hardware reference documentation that
-> would mention the meaning of these registers.
-
-Of course we don't.. :)
-
-It's fine to leave them as is then
-
-> In both places (u-boot and Priit) these constants are defined the same way.
->
-> I took the liberty to rename ANA1_INIT1 to ANA1_INIT and ANA1_INIT2 to
-> ANA1_UPDATE to match Priit naming rather than u-boot, as I felt it was
-> more descriptive. I have no strong opinion here though.
->
-> > Side question, this will need some DT changes too, right?
->
-> Hm, I agree. I think it would be reasonable to include LVDS0/1 pins
-
-That, but most importantly, the reset and clocks for the LVDS
-block. Also from looking at it, I'm not entirely sure that the TCON1
-has a LVDS output, do you have a board when you have been able to test
-it?
-
-> and sample (but disabled) lvds panel,
-
-That's good for the sake of the example, but it shouldn't be in the
-same patch, it won't be merged.
-
-> connected to tcon to arch/arm/boot/dts/sun7i-a20.dtsi. Does that
-> make sense to you? Would you expect dts changes in the same patch or
-> separate?
->
-> P.S. This is my first patch to the linux kernel, please forgive me my
-> inexperience.
-
-You're doing fine so far :)
-Maxime
-
---pu5japc265ilzlxp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXkP1WQAKCRDj7w1vZxhR
-xZNVAQDk7kYMe1KzSTh9h8gVCxcVbKhxx1W/v2MVlCfHsy8/BQEAtsTcaVX0N/k6
-q5+dn9ebIf4B0VB50BvQrFkvCbmxZA4=
-=VUQU
------END PGP SIGNATURE-----
-
---pu5japc265ilzlxp--
-
---===============1163965028==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> 
+> drivers/i2c/busses/i2c-jz4780.c | 36 ++-------------------------------
+> 1 file changed, 2 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-jz4780.c b/drivers/i2c/busses/i2c-jz4780.c
+> index 16a67a64284a..b426fc956938 100644
+> --- a/drivers/i2c/busses/i2c-jz4780.c
+> +++ b/drivers/i2c/busses/i2c-jz4780.c
+> @@ -78,25 +78,6 @@
+> 
+> #define X1000_I2C_DC_STOP		BIT(9)
+> 
+> -static const char * const jz4780_i2c_abrt_src[] = {
+> -	"ABRT_7B_ADDR_NOACK",
+> -	"ABRT_10ADDR1_NOACK",
+> -	"ABRT_10ADDR2_NOACK",
+> -	"ABRT_XDATA_NOACK",
+> -	"ABRT_GCALL_NOACK",
+> -	"ABRT_GCALL_READ",
+> -	"ABRT_HS_ACKD",
+> -	"SBYTE_ACKDET",
+> -	"ABRT_HS_NORSTRT",
+> -	"SBYTE_NORSTRT",
+> -	"ABRT_10B_RD_NORSTRT",
+> -	"ABRT_MASTER_DIS",
+> -	"ARB_LOST",
+> -	"SLVFLUSH_TXFIFO",
+> -	"SLV_ARBLOST",
+> -	"SLVRD_INTX",
+> -};
+> -
+> #define JZ4780_I2C_INTST_IGC		BIT(11)
+> #define JZ4780_I2C_INTST_ISTT		BIT(10)
+> #define JZ4780_I2C_INTST_ISTP		BIT(9)
+> @@ -576,21 +557,8 @@ static irqreturn_t jz4780_i2c_irq(int irqno, void *dev_id)
+> 
+> static void jz4780_i2c_txabrt(struct jz4780_i2c *i2c, int src)
+> {
+> -	int i;
+> -
+> -	dev_err(&i2c->adap.dev, "txabrt: 0x%08x\n", src);
+> -	dev_err(&i2c->adap.dev, "device addr=%x\n",
+> -		jz4780_i2c_readw(i2c, JZ4780_I2C_TAR));
+> -	dev_err(&i2c->adap.dev, "send cmd count:%d  %d\n",
+> -		i2c->cmd, i2c->cmd_buf[i2c->cmd]);
+> -	dev_err(&i2c->adap.dev, "receive data count:%d  %d\n",
+> -		i2c->cmd, i2c->data_buf[i2c->cmd]);
+> -
+> -	for (i = 0; i < 16; i++) {
+> -		if (src & BIT(i))
+> -			dev_dbg(&i2c->adap.dev, "I2C TXABRT[%d]=%s\n",
+> -				i, jz4780_i2c_abrt_src[i]);
+> -	}
+> +	dev_dbg(&i2c->adap.dev, "txabrt: 0x%08x, cmd: %d, send: %d, recv: %d\n",
+> +		src, i2c->cmd, i2c->cmd_buf[i2c->cmd], i2c->data_buf[i2c->cmd]);
+> }
+> 
+> static inline int jz4780_i2c_xfer_read(struct jz4780_i2c *i2c,
+> -- 
+> 2.20.1
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1163965028==--
