@@ -2,39 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA81115A808
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 12:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE4F15A854
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 12:53:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 993786EA91;
-	Wed, 12 Feb 2020 11:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED8F6F4C7;
+	Wed, 12 Feb 2020 11:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 401AC6EA91;
- Wed, 12 Feb 2020 11:39:09 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2020 03:39:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="347499326"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by fmsmga001.fm.intel.com with ESMTP; 12 Feb 2020 03:39:06 -0800
-Date: Wed, 12 Feb 2020 17:09:22 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 5/5] drm/i915/hdcp: conversion to struct drm_device
- based logging macros.
-Message-ID: <20200212113922.GC2939@intel.com>
-References: <20200212102942.26568-1-ramalingam.c@intel.com>
- <20200212102942.26568-6-ramalingam.c@intel.com>
- <871rr0yrby.fsf@intel.com>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8910E6EA9E;
+ Wed, 12 Feb 2020 11:53:31 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id z7so1909671wrl.13;
+ Wed, 12 Feb 2020 03:53:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=euBPmM8+R4jf6/BBnc3MfaLf4ryNWIWqWGK1qzlz2Us=;
+ b=ICGDMuLHP4Ml8VtdzIDMoekdog3m1dJcyE7zKSE5ewsSntOVNbQmqoVogefSJ2c96W
+ ZeeTIuagrGy7PcYLBuLX7xuUnr2sIfFF4Kngo5CYGBHDLOlqzJAPOaoN3LE8Tc2jrlkX
+ Hji+xJIlMA015nneOId19u+/x0JmjPhHeX5B2RJB9laqMdBsObZ+KgahKEYrsN+71pgb
+ 46/GYSshBho1sx6tdwwsxN0Ib/Fm4bXh/hOiChl14qimx4GV9SX2ezCRiHBcBoBwMIf0
+ X26qp04kEOu+juiEJFJjDMc8F9oGj2lwB07mYellbeOm9vpP63ZNT2wn4YsydOVcaV6p
+ sBrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=euBPmM8+R4jf6/BBnc3MfaLf4ryNWIWqWGK1qzlz2Us=;
+ b=gfdPGWuVZBpw2qaeC/oiSSp0G4XTbQyHgVigqzVbOXegtkRUqPB2OUp4EomSzA7IxW
+ sDspm20khSSLuDlnZ5LZNOz4u/ag5x7JKqY751Eckrv8y32f8TXHIVtSNDqf0VJRJUy3
+ mYUVwaNpDWmtbfuhETjsER0zZ+EAHQvLF00YwhjLhFuUr1vhB7/1NaLGP+hdWZa52MOD
+ 13PqcO70yG+p2vcUPZ/YJMdOs0SqcTUS9iuIrPezUmgnAjZYwXDvrAXr3n4WtOoPFdXv
+ OXXkmzcN9Kg9GVVAZIX0za+Hp471sMrC+rX50G6X3iQGQ8zJuay5J50mTZXkWP/nFQzx
+ bCtQ==
+X-Gm-Message-State: APjAAAUhtzsKxZxbZpeMjynNcsbohUnCz/9JcorfWUuOzx9xyhbVzoOm
+ uIePZWKfvdP6MzEzoIG++jg8vkd2
+X-Google-Smtp-Source: APXvYqwV83xnGmQM2+dmHDWI2U5JCt3dsKU9PNyNdhj10DyDYebdAs3BCyu0vb7Ce+HZE+Y6lgxREw==
+X-Received: by 2002:adf:e74a:: with SMTP id c10mr15787713wrn.254.1581508409860; 
+ Wed, 12 Feb 2020 03:53:29 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id q14sm299567wrj.81.2020.02.12.03.53.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 12 Feb 2020 03:53:29 -0800 (PST)
+Subject: Re: [PATCH] drm/ttm: replace dma_resv object on deleted BOs v3
+To: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+References: <20200211154326.83858-1-christian.koenig@amd.com>
+ <4DECE5E0-0C4A-4F13-89FC-8AC9A5873D04@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <2b8a9318-9b15-0967-b39e-e1579b24d84b@gmail.com>
+Date: Wed, 12 Feb 2020 12:53:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <871rr0yrby.fsf@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <4DECE5E0-0C4A-4F13-89FC-8AC9A5873D04@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,399 +71,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: christian.koenig@amd.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-02-12 at 13:31:45 +0200, Jani Nikula wrote:
-> On Wed, 12 Feb 2020, Ramalingam C <ramalingam.c@intel.com> wrote:
-> > Converts remaining instances of the printk based logging macros in
-> > i915/display/intel_hdcp.c with the struct drm_device based macros
-> > manually.
-> >
-> > This is continuation of commit 65833c463886 ("drm/i915/hdcp: conversion
-> > to struct drm_device based logging macros.")
-> >
-> > v2:
-> >   i915_dev_priv is used instead of drm_device for reusability [JaniN]
-> 
-> There's still one dev_priv added, but no big deal.
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Thanks I will fix that one instance too and use your R-b.
-
--Ram.
-> 
-> >
-> > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> > cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_hdcp.c | 108 ++++++++++++----------
-> >  1 file changed, 61 insertions(+), 47 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > index b35f50d4a0e9..c9841c82e213 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > @@ -43,6 +43,7 @@ static
-> >  int intel_hdcp_read_valid_bksv(struct intel_digital_port *intel_dig_port,
-> >  			       const struct intel_hdcp_shim *shim, u8 *bksv)
-> >  {
-> > +	struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
-> >  	int ret, i, tries = 2;
-> >  
-> >  	/* HDCP spec states that we must retry the bksv if it is invalid */
-> > @@ -54,7 +55,7 @@ int intel_hdcp_read_valid_bksv(struct intel_digital_port *intel_dig_port,
-> >  			break;
-> >  	}
-> >  	if (i == tries) {
-> > -		DRM_DEBUG_KMS("Bksv is invalid\n");
-> > +		drm_dbg_kms(&i915->drm, "Bksv is invalid\n");
-> >  		return -ENODEV;
-> >  	}
-> >  
-> > @@ -485,8 +486,8 @@ int intel_hdcp_validate_v_prime(struct intel_connector *connector,
-> >  			return ret;
-> >  		sha_idx += sizeof(sha_text);
-> >  	} else {
-> > -		DRM_DEBUG_KMS("Invalid number of leftovers %d\n",
-> > -			      sha_leftovers);
-> > +		drm_dbg_kms(&dev_priv->drm, "Invalid number of leftovers %d\n",
-> > +			    sha_leftovers);
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > @@ -514,11 +515,11 @@ int intel_hdcp_validate_v_prime(struct intel_connector *connector,
-> >  		       rep_ctl | HDCP_SHA1_COMPLETE_HASH);
-> >  	if (intel_de_wait_for_set(dev_priv, HDCP_REP_CTL,
-> >  				  HDCP_SHA1_COMPLETE, 1)) {
-> > -		DRM_ERROR("Timed out waiting for SHA1 complete\n");
-> > +		drm_err(&dev_priv->drm, "Timed out waiting for SHA1 complete\n");
-> >  		return -ETIMEDOUT;
-> >  	}
-> >  	if (!(intel_de_read(dev_priv, HDCP_REP_CTL) & HDCP_SHA1_V_MATCH)) {
-> > -		DRM_DEBUG_KMS("SHA-1 mismatch, HDCP failed\n");
-> > +		drm_dbg_kms(&dev_priv->drm, "SHA-1 mismatch, HDCP failed\n");
-> >  		return -ENXIO;
-> >  	}
-> >  
-> > @@ -537,7 +538,8 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
-> >  
-> >  	ret = intel_hdcp_poll_ksv_fifo(intel_dig_port, shim);
-> >  	if (ret) {
-> > -		DRM_DEBUG_KMS("KSV list failed to become ready (%d)\n", ret);
-> > +		drm_dbg_kms(&dev_priv->drm,
-> > +			    "KSV list failed to become ready (%d)\n", ret);
-> >  		return ret;
-> >  	}
-> >  
-> > @@ -547,7 +549,7 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
-> >  
-> >  	if (DRM_HDCP_MAX_DEVICE_EXCEEDED(bstatus[0]) ||
-> >  	    DRM_HDCP_MAX_CASCADE_EXCEEDED(bstatus[1])) {
-> > -		DRM_DEBUG_KMS("Max Topology Limit Exceeded\n");
-> > +		drm_dbg_kms(&dev_priv->drm, "Max Topology Limit Exceeded\n");
-> >  		return -EPERM;
-> >  	}
-> >  
-> > @@ -560,13 +562,14 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
-> >  	 */
-> >  	num_downstream = DRM_HDCP_NUM_DOWNSTREAM(bstatus[0]);
-> >  	if (num_downstream == 0) {
-> > -		DRM_DEBUG_KMS("Repeater with zero downstream devices\n");
-> > +		drm_dbg_kms(&dev_priv->drm,
-> > +			    "Repeater with zero downstream devices\n");
-> >  		return -EINVAL;
-> >  	}
-> >  
-> >  	ksv_fifo = kcalloc(DRM_HDCP_KSV_LEN, num_downstream, GFP_KERNEL);
-> >  	if (!ksv_fifo) {
-> > -		DRM_DEBUG_KMS("Out of mem: ksv_fifo\n");
-> > +		drm_dbg_kms(&dev_priv->drm, "Out of mem: ksv_fifo\n");
-> >  		return -ENOMEM;
-> >  	}
-> >  
-> > @@ -576,7 +579,7 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
-> >  
-> >  	if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm, ksv_fifo,
-> >  					num_downstream)) {
-> > -		DRM_ERROR("Revoked Ksv(s) in ksv_fifo\n");
-> > +		drm_err(&dev_priv->drm, "Revoked Ksv(s) in ksv_fifo\n");
-> >  		ret = -EPERM;
-> >  		goto err;
-> >  	}
-> > @@ -594,12 +597,13 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
-> >  	}
-> >  
-> >  	if (i == tries) {
-> > -		DRM_DEBUG_KMS("V Prime validation failed.(%d)\n", ret);
-> > +		drm_dbg_kms(&dev_priv->drm,
-> > +			    "V Prime validation failed.(%d)\n", ret);
-> >  		goto err;
-> >  	}
-> >  
-> > -	DRM_DEBUG_KMS("HDCP is enabled (%d downstream devices)\n",
-> > -		      num_downstream);
-> > +	drm_dbg_kms(&dev_priv->drm, "HDCP is enabled (%d downstream devices)\n",
-> > +		    num_downstream);
-> >  	ret = 0;
-> >  err:
-> >  	kfree(ksv_fifo);
-> > @@ -642,7 +646,8 @@ static int intel_hdcp_auth(struct intel_connector *connector)
-> >  		if (ret)
-> >  			return ret;
-> >  		if (!hdcp_capable) {
-> > -			DRM_DEBUG_KMS("Panel is not HDCP capable\n");
-> > +			drm_dbg_kms(&dev_priv->drm,
-> > +				    "Panel is not HDCP capable\n");
-> >  			return -EINVAL;
-> >  		}
-> >  	}
-> > @@ -659,7 +664,7 @@ static int intel_hdcp_auth(struct intel_connector *connector)
-> >  	if (intel_de_wait_for_set(dev_priv,
-> >  				  HDCP_STATUS(dev_priv, cpu_transcoder, port),
-> >  				  HDCP_STATUS_AN_READY, 1)) {
-> > -		DRM_ERROR("Timed out waiting for An\n");
-> > +		drm_err(&dev_priv->drm, "Timed out waiting for An\n");
-> >  		return -ETIMEDOUT;
-> >  	}
-> >  
-> > @@ -680,7 +685,7 @@ static int intel_hdcp_auth(struct intel_connector *connector)
-> >  		return ret;
-> >  
-> >  	if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm, bksv.shim, 1)) {
-> > -		DRM_ERROR("BKSV is revoked\n");
-> > +		drm_err(&dev_priv->drm, "BKSV is revoked\n");
-> >  		return -EPERM;
-> >  	}
-> >  
-> > @@ -706,7 +711,7 @@ static int intel_hdcp_auth(struct intel_connector *connector)
-> >  	/* Wait for R0 ready */
-> >  	if (wait_for(intel_de_read(dev_priv, HDCP_STATUS(dev_priv, cpu_transcoder, port)) &
-> >  		     (HDCP_STATUS_R0_READY | HDCP_STATUS_ENC), 1)) {
-> > -		DRM_ERROR("Timed out waiting for R0 ready\n");
-> > +		drm_err(&dev_priv->drm, "Timed out waiting for R0 ready\n");
-> >  		return -ETIMEDOUT;
-> >  	}
-> >  
-> > @@ -743,8 +748,10 @@ static int intel_hdcp_auth(struct intel_connector *connector)
-> >  	}
-> >  
-> >  	if (i == tries) {
-> > -		DRM_DEBUG_KMS("Timed out waiting for Ri prime match (%x)\n",
-> > -			      intel_de_read(dev_priv, HDCP_STATUS(dev_priv, cpu_transcoder, port)));
-> > +		drm_dbg_kms(&dev_priv->drm,
-> > +			    "Timed out waiting for Ri prime match (%x)\n",
-> > +			    intel_de_read(dev_priv, HDCP_STATUS(dev_priv,
-> > +					  cpu_transcoder, port)));
-> >  		return -ETIMEDOUT;
-> >  	}
-> >  
-> > @@ -753,7 +760,7 @@ static int intel_hdcp_auth(struct intel_connector *connector)
-> >  				  HDCP_STATUS(dev_priv, cpu_transcoder, port),
-> >  				  HDCP_STATUS_ENC,
-> >  				  ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
-> > -		DRM_ERROR("Timed out waiting for encryption\n");
-> > +		drm_err(&dev_priv->drm, "Timed out waiting for encryption\n");
-> >  		return -ETIMEDOUT;
-> >  	}
-> >  
-> > @@ -765,7 +772,7 @@ static int intel_hdcp_auth(struct intel_connector *connector)
-> >  	if (repeater_present)
-> >  		return intel_hdcp_auth_downstream(connector);
-> >  
-> > -	DRM_DEBUG_KMS("HDCP is enabled (no repeater present)\n");
-> > +	drm_dbg_kms(&dev_priv->drm, "HDCP is enabled (no repeater present)\n");
-> >  	return 0;
-> >  }
-> >  
-> > @@ -1270,7 +1277,7 @@ static int hdcp2_authentication_key_exchange(struct intel_connector *connector)
-> >  		return ret;
-> >  
-> >  	if (msgs.send_cert.rx_caps[0] != HDCP_2_2_RX_CAPS_VERSION_VAL) {
-> > -		DRM_DEBUG_KMS("cert.rx_caps dont claim HDCP2.2\n");
-> > +		drm_dbg_kms(&dev_priv->drm, "cert.rx_caps dont claim HDCP2.2\n");
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > @@ -1279,7 +1286,7 @@ static int hdcp2_authentication_key_exchange(struct intel_connector *connector)
-> >  	if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm,
-> >  					msgs.send_cert.cert_rx.receiver_id,
-> >  					1)) {
-> > -		DRM_ERROR("Receiver ID is revoked\n");
-> > +		drm_err(&dev_priv->drm, "Receiver ID is revoked\n");
-> >  		return -EPERM;
-> >  	}
-> >  
-> > @@ -1446,7 +1453,7 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
-> >  
-> >  	if (HDCP_2_2_MAX_CASCADE_EXCEEDED(rx_info[1]) ||
-> >  	    HDCP_2_2_MAX_DEVS_EXCEEDED(rx_info[1])) {
-> > -		DRM_DEBUG_KMS("Topology Max Size Exceeded\n");
-> > +		drm_dbg_kms(&dev_priv->drm, "Topology Max Size Exceeded\n");
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > @@ -1456,7 +1463,7 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
-> >  
-> >  	if (seq_num_v < hdcp->seq_num_v) {
-> >  		/* Roll over of the seq_num_v from repeater. Reauthenticate. */
-> > -		DRM_DEBUG_KMS("Seq_num_v roll over.\n");
-> > +		drm_dbg_kms(&dev_priv->drm, "Seq_num_v roll over.\n");
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > @@ -1465,7 +1472,7 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
-> >  	if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm,
-> >  					msgs.recvid_list.receiver_ids,
-> >  					device_cnt)) {
-> > -		DRM_ERROR("Revoked receiver ID(s) is in list\n");
-> > +		drm_err(&dev_priv->drm, "Revoked receiver ID(s) is in list\n");
-> >  		return -EPERM;
-> >  	}
-> >  
-> > @@ -1487,25 +1494,27 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
-> >  static int hdcp2_authenticate_sink(struct intel_connector *connector)
-> >  {
-> >  	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
-> > +	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-> >  	struct intel_hdcp *hdcp = &connector->hdcp;
-> >  	const struct intel_hdcp_shim *shim = hdcp->shim;
-> >  	int ret;
-> >  
-> >  	ret = hdcp2_authentication_key_exchange(connector);
-> >  	if (ret < 0) {
-> > -		DRM_DEBUG_KMS("AKE Failed. Err : %d\n", ret);
-> > +		drm_dbg_kms(&dev_priv->drm, "AKE Failed. Err : %d\n", ret);
-> >  		return ret;
-> >  	}
-> >  
-> >  	ret = hdcp2_locality_check(connector);
-> >  	if (ret < 0) {
-> > -		DRM_DEBUG_KMS("Locality Check failed. Err : %d\n", ret);
-> > +		drm_dbg_kms(&dev_priv->drm,
-> > +			    "Locality Check failed. Err : %d\n", ret);
-> >  		return ret;
-> >  	}
-> >  
-> >  	ret = hdcp2_session_key_exchange(connector);
-> >  	if (ret < 0) {
-> > -		DRM_DEBUG_KMS("SKE Failed. Err : %d\n", ret);
-> > +		drm_dbg_kms(&dev_priv->drm, "SKE Failed. Err : %d\n", ret);
-> >  		return ret;
-> >  	}
-> >  
-> > @@ -1520,7 +1529,8 @@ static int hdcp2_authenticate_sink(struct intel_connector *connector)
-> >  	if (hdcp->is_repeater) {
-> >  		ret = hdcp2_authenticate_repeater_topology(connector);
-> >  		if (ret < 0) {
-> > -			DRM_DEBUG_KMS("Repeater Auth Failed. Err: %d\n", ret);
-> > +			drm_dbg_kms(&dev_priv->drm,
-> > +				    "Repeater Auth Failed. Err: %d\n", ret);
-> >  			return ret;
-> >  		}
-> >  	}
-> > @@ -1651,10 +1661,10 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
-> >  		}
-> >  
-> >  		/* Clearing the mei hdcp session */
-> > -		DRM_DEBUG_KMS("HDCP2.2 Auth %d of %d Failed.(%d)\n",
-> > -			      i + 1, tries, ret);
-> > +		drm_dbg_kms(&i915->drm, "HDCP2.2 Auth %d of %d Failed.(%d)\n",
-> > +			    i + 1, tries, ret);
-> >  		if (hdcp2_deauthenticate_port(connector) < 0)
-> > -			DRM_DEBUG_KMS("Port deauth failed.\n");
-> > +			drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
-> >  	}
-> >  
-> >  	if (!ret) {
-> > @@ -1665,9 +1675,10 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
-> >  		msleep(HDCP_2_2_DELAY_BEFORE_ENCRYPTION_EN);
-> >  		ret = hdcp2_enable_encryption(connector);
-> >  		if (ret < 0) {
-> > -			DRM_DEBUG_KMS("Encryption Enable Failed.(%d)\n", ret);
-> > +			drm_dbg_kms(&i915->drm,
-> > +				    "Encryption Enable Failed.(%d)\n", ret);
-> >  			if (hdcp2_deauthenticate_port(connector) < 0)
-> > -				DRM_DEBUG_KMS("Port deauth failed.\n");
-> > +				drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
-> >  		}
-> >  	}
-> >  
-> > @@ -1676,23 +1687,24 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
-> >  
-> >  static int _intel_hdcp2_enable(struct intel_connector *connector)
-> >  {
-> > +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> >  	struct intel_hdcp *hdcp = &connector->hdcp;
-> >  	int ret;
-> >  
-> > -	DRM_DEBUG_KMS("[%s:%d] HDCP2.2 is being enabled. Type: %d\n",
-> > -		      connector->base.name, connector->base.base.id,
-> > -		      hdcp->content_type);
-> > +	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being enabled. Type: %d\n",
-> > +		    connector->base.name, connector->base.base.id,
-> > +		    hdcp->content_type);
-> >  
-> >  	ret = hdcp2_authenticate_and_encrypt(connector);
-> >  	if (ret) {
-> > -		DRM_DEBUG_KMS("HDCP2 Type%d  Enabling Failed. (%d)\n",
-> > -			      hdcp->content_type, ret);
-> > +		drm_dbg_kms(&i915->drm, "HDCP2 Type%d  Enabling Failed. (%d)\n",
-> > +			    hdcp->content_type, ret);
-> >  		return ret;
-> >  	}
-> >  
-> > -	DRM_DEBUG_KMS("[%s:%d] HDCP2.2 is enabled. Type %d\n",
-> > -		      connector->base.name, connector->base.base.id,
-> > -		      hdcp->content_type);
-> > +	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is enabled. Type %d\n",
-> > +		    connector->base.name, connector->base.base.id,
-> > +		    hdcp->content_type);
-> >  
-> >  	hdcp->hdcp2_encrypted = true;
-> >  	return 0;
-> > @@ -1700,15 +1712,16 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
-> >  
-> >  static int _intel_hdcp2_disable(struct intel_connector *connector)
-> >  {
-> > +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> >  	int ret;
-> >  
-> > -	DRM_DEBUG_KMS("[%s:%d] HDCP2.2 is being Disabled\n",
-> > -		      connector->base.name, connector->base.base.id);
-> > +	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\n",
-> > +		    connector->base.name, connector->base.base.id);
-> >  
-> >  	ret = hdcp2_disable_encryption(connector);
-> >  
-> >  	if (hdcp2_deauthenticate_port(connector) < 0)
-> > -		DRM_DEBUG_KMS("Port deauth failed.\n");
-> > +		drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
-> >  
-> >  	connector->hdcp.hdcp2_encrypted = false;
-> >  
-> > @@ -1950,12 +1963,13 @@ void intel_hdcp_component_init(struct drm_i915_private *dev_priv)
-> >  static void intel_hdcp2_init(struct intel_connector *connector,
-> >  			     const struct intel_hdcp_shim *shim)
-> >  {
-> > +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> >  	struct intel_hdcp *hdcp = &connector->hdcp;
-> >  	int ret;
-> >  
-> >  	ret = initialize_hdcp_port_data(connector, shim);
-> >  	if (ret) {
-> > -		DRM_DEBUG_KMS("Mei hdcp data init failed\n");
-> > +		drm_dbg_kms(&i915->drm, "Mei hdcp data init failed\n");
-> >  		return;
-> >  	}
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTIuMDIuMjAgdW0gMDc6MjMgc2NocmllYiBQYW4sIFhpbmh1aToKPgo+PiAyMDIw5bm0Muac
+iDEx5pelIDIzOjQz77yMQ2hyaXN0aWFuIEvDtm5pZyA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBn
+bWFpbC5jb20+IOWGmemBk++8mgo+Pgo+PiBXaGVuIG5vbi1pbXBvcnRlZCBCT3MgYXJlIHJlc3Vy
+cmVjdGVkIGZvciBkZWxheWVkIGRlbGV0ZSB3ZSByZXBsYWNlCj4+IHRoZSBkbWFfcmVzdiBvYmpl
+Y3QgdG8gYWxsb3cgZm9yIGVhc3kgcmVjbGFpbWluZyBvZiB0aGUgcmVzb3VyY2VzLgo+Pgo+PiB2
+MjogbW92ZSB0aGF0IHRvIHR0bV9ib19pbmRpdmlkdWFsaXplX3Jlc3YKPj4gdjM6IGFkZCBhIGNv
+bW1lbnQgdG8gZXhwbGFpbiB3aGF0J3MgZ29pbmcgb24KPj4KPj4gU2lnbmVkLW9mZi1ieTogQ2hy
+aXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+PiBSZXZpZXdlZC1ieTog
+eGluaHVpIHBhbiA8eGluaHVpLnBhbkBhbWQuY29tPgo+PiAtLS0KPj4gZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fYm8uYyB8IDE0ICsrKysrKysrKysrKystCj4+IDEgZmlsZSBjaGFuZ2VkLCAxMyBp
+bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+PiBpbmRl
+eCBiZmM0MmE5ZTRmYjQuLjgxNzQ2MDNkMzkwZiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3R0bS90dG1fYm8uYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4+
+IEBAIC0zOTMsNiArMzkzLDE4IEBAIHN0YXRpYyBpbnQgdHRtX2JvX2luZGl2aWR1YWxpemVfcmVz
+dihzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKQo+Pgo+PiAJciA9IGRtYV9yZXN2X2NvcHlf
+ZmVuY2VzKCZiby0+YmFzZS5fcmVzdiwgYm8tPmJhc2UucmVzdik7Cj4+IAlkbWFfcmVzdl91bmxv
+Y2soJmJvLT5iYXNlLl9yZXN2KTsKPj4gKwlpZiAocikKPj4gKwkJcmV0dXJuIHI7Cj4+ICsKPj4g
+KwlpZiAoYm8tPnR5cGUgIT0gdHRtX2JvX3R5cGVfc2cpIHsKPj4gKwkJLyogVGhpcyB3b3JrcyBi
+ZWNhdXNlIHRoZSBCTyBpcyBhYm91dCB0byBiZSBkZXN0cm95ZWQgYW5kIG5vYm9keQo+PiArCQkg
+KiByZWZlcmVuY2UgaXQgYW55IG1vcmUuIFRoZSBvbmx5IHRyaWNreSBjYXNlIGlzIHRoZSB0cnls
+b2NrIG9uCj4+ICsJCSAqIHRoZSByZXN2IG9iamVjdCB3aGlsZSBob2xkaW5nIHRoZSBscnVfbG9j
+ay4KPj4gKwkJICovCj4+ICsJCXNwaW5fbG9jaygmdHRtX2JvX2dsb2IubHJ1X2xvY2spOwo+PiAr
+CQliby0+YmFzZS5yZXN2ID0gJmJvLT5iYXNlLl9yZXN2Owo+PiArCQlzcGluX3VubG9jaygmdHRt
+X2JvX2dsb2IubHJ1X2xvY2spOwo+PiArCX0KPj4KPiBob3cgYWJvdXQgc29tZXRoaW5nIGxpa2Ug
+dGhhdC4KPiB0aGUgYmFzaWMgaWRlYSBpcyB0byBkbyB0aGUgYm8gY2xlYW51cCB3b3JrIGluIGJv
+IHJlbGVhc2UgZmlyc3QgYW5kIGF2b2lkIGFueSByYWNlIHdpdGggZXZpY3QuCj4gQXMgaW4gYm8g
+ZGllaW5nIHByb2dyZXNzLCBldmljdCBhbHNvIGp1c3QgZG8gYm8gY2xlYW51cCB3b3JrLgo+Cj4g
+SWYgYm8gaXMgYnVzeSwgbmVpdGhlciBib19yZWxlYXNlIG5vciBldmljdCAgY2FuIGRvIGNsZWFu
+dXB3b3JrICBvbiBpdC4gRm9yIHRoZSBibyByZWxlYXNlIGNhc2UsIHdlIGp1c3QgYWRkIGJvIGJh
+Y2sgdG8gbHJ1IGxpc3QuCj4gU28gd2UgY2FuIGNsZWFuIGl0IHVwICBib3RoIGluIHdvcmtxdWV1
+ZSBhbmQgc2hyaW5rZXIgYXMgdGhlIHBhc3Qgd2F5ICBkaWQuCj4KPiBAQCAtNDA1LDggKzQwNSw5
+IEBAIHN0YXRpYyBpbnQgdHRtX2JvX2luZGl2aWR1YWxpemVfcmVzdihzdHJ1Y3QgdHRtX2J1ZmZl
+cl9vYmplY3QgKmJvKQo+ICAgCj4gICAgICBpZiAoYm8tPnR5cGUgIT0gdHRtX2JvX3R5cGVfc2cp
+IHsKPiAgICAgICAgICBzcGluX2xvY2soJnR0bV9ib19nbG9iLmxydV9sb2NrKTsKPiAtICAgICAg
+IGJvLT5iYXNlLnJlc3YgPSAmYm8tPmJhc2UuX3Jlc3Y7Cj4gKyAgICAgICB0dG1fYm9fZGVsX2Zy
+b21fbHJ1KGJvKTsKPiAgICAgICAgICBzcGluX3VubG9jaygmdHRtX2JvX2dsb2IubHJ1X2xvY2sp
+Owo+ICsgICAgICAgYm8tPmJhc2UucmVzdiA9ICZiby0+YmFzZS5fcmVzdjsKPiAgICAgIH0KPiAg
+IAo+ICAgICAgcmV0dXJuIHI7Cj4gQEAgLTYwNiwxMCArNjA3LDkgQEAgc3RhdGljIHZvaWQgdHRt
+X2JvX3JlbGVhc2Uoc3RydWN0IGtyZWYgKmtyZWYpCj4gICAgICAgICAgICogc2hyaW5rZXJzLCBu
+b3cgdGhhdCB0aGV5IGFyZSBxdWV1ZWQgZm9yCj4gICAgICAgICAgICogZGVzdHJ1Y3Rpb24uCj4g
+ICAgICAgICAgICovCj4gLSAgICAgICBpZiAoYm8tPm1lbS5wbGFjZW1lbnQgJiBUVE1fUExfRkxB
+R19OT19FVklDVCkgewo+ICsgICAgICAgaWYgKGJvLT5tZW0ucGxhY2VtZW50ICYgVFRNX1BMX0ZM
+QUdfTk9fRVZJQ1QpCj4gICAgICAgICAgICAgIGJvLT5tZW0ucGxhY2VtZW50ICY9IH5UVE1fUExf
+RkxBR19OT19FVklDVDsKPiAtICAgICAgICAgICB0dG1fYm9fbW92ZV90b19scnVfdGFpbChibywg
+TlVMTCk7Cj4gLSAgICAgICB9Cj4gKyAgICAgICB0dG1fYm9fYWRkX21lbV90b19scnUoYm8sICZi
+by0+bWVtKTsKPiAgIAo+ICAgICAgICAgIGtyZWZfaW5pdCgmYm8tPmtyZWYpOwo+ICAgICAgICAg
+IGxpc3RfYWRkX3RhaWwoJmJvLT5kZGVzdHJveSwgJmJkZXYtPmRkZXN0cm95KTsKClllYWgsIHRo
+b3VnaHQgYWJvdXQgdGhhdCBhcyB3ZWxsLiBCdXQgdGhpcyBoYXMgdGhlIG1ham9yIGRyYXdiYWNr
+IHRoYXQgCnRoZSBkZWxldGVkIEJPIG1vdmVzIHRvIHRoZSBlbmQgb2YgdGhlIExSVSwgd2hpY2gg
+aXMgc29tZXRoaW5nIHdlIGRvbid0IAp3YW50LgoKSSB0aGluayB0aGUgcmVhbCBzb2x1dGlvbiB0
+byB0aGlzIHByb2JsZW0gaXMgdG8gZ28gYSBjb21wbGV0ZWx5IApkaWZmZXJlbnQgd2F5IGFuZCBy
+ZW1vdmUgdGhlIGRlbGF5ZWQgZGVsZXRlIGZlYXR1cmUgZnJvbSBUVE0gYWx0b2dldGhlci4gCklu
+c3RlYWQgdGhpcyBzaG91bGQgYmUgcGFydCBvZiBzb21lIERSTSBkb21haW4gaGFuZGxlciBjb21w
+b25lbnQuCgpJbiBvdGhlciB3b3JkcyBpdCBzaG91bGQgbm90IG1hdHRlciBpZiBhIEJPIGlzIGV2
+aWN0ZWQsIG1vdmVkIG9yIGZyZWVkLiAKV2hlbmV2ZXIgYSBwaWVjZSBvZiBtZW1vcnkgYmVjb21l
+cyBhdmFpbGFibGUgYWdhaW4gd2Uga2VlcCBhcm91bmQgYSAKZmVuY2Ugd2hpY2ggbWFya3MgdGhl
+IGVuZCBvZiB1c2luZyB0aGlzIHBpZWNlIG9mIG1lbW9yeS4KCldoZW4gdGhlbiBzb21lYm9keSBh
+c2tzIGZvciBuZXcgbWVtb3J5IHdlIHdvcmsgdGhyb3VnaCB0aGUgTFJVIGFuZCB0ZXN0IAppZiB1
+c2luZyBhIGNlcnRhaW4gcGllY2Ugb2YgbWVtb3J5IG1ha2VzIHNlbnNlIG9yIG5vdC4gSWYgd2Ug
+ZmluZCB0aGF0IGEgCkJPIG5lZWRzIHRvIGJlIGV2aWN0ZWQgZm9yIHRoaXMgd2UgcmV0dXJuIGEg
+cmVmZXJlbmNlIHRvIHRoZSBCTyBpbiAKcXVlc3Rpb24gdG8gdGhlIHVwcGVyIGxldmVsIGhhbmRs
+aW5nLgoKSWYgd2UgZmluZCB0aGF0IHdlIGNhbiBkbyB0aGUgYWxsb2NhdGlvbiBidXQgb25seSB3
+aXRoIHJlY2VudGx5IGZyZWVkIHVwIAptZW1vcnkgd2UgZ2F0aGVyIHRoZSBmZW5jZXMgYW5kIHNh
+eSB5b3UgY2FuIG9ubHkgdXNlIHRoZSBuZXdseSBhbGxvY2F0ZWQgCm1lbW9yeSBhZnRlciB3YWl0
+aW5nIGZvciB0aG9zZS4KCkhFWSEgV2FpdCBhIHNlY29uZCEgRGlkIEkganVzdCBvdXRsaW5lZCB3
+aGF0IGEgcG90ZW50aWFsIHJlcGxhY2VtZW50IHRvIApUVE0gd291bGQgbG9vayBsaWtlPwoKQ2hl
+ZXJzLApDaHJpc3RpYW4uCgo+Cj4gdGhhbmtzCj4geGluaHVpCj4KPgo+PiAJcmV0dXJuIHI7Cj4+
+IH0KPj4gQEAgLTcyNCw3ICs3MzYsNyBAQCBzdGF0aWMgYm9vbCB0dG1fYm9fZXZpY3Rfc3dhcG91
+dF9hbGxvd2FibGUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPj4KPj4gCWlmIChiby0+
+YmFzZS5yZXN2ID09IGN0eC0+cmVzdikgewo+PiAJCWRtYV9yZXN2X2Fzc2VydF9oZWxkKGJvLT5i
+YXNlLnJlc3YpOwo+PiAtCQlpZiAoY3R4LT5mbGFncyAmIFRUTV9PUFRfRkxBR19BTExPV19SRVNf
+RVZJQ1QgfHwgYm8tPmRlbGV0ZWQpCj4+ICsJCWlmIChjdHgtPmZsYWdzICYgVFRNX09QVF9GTEFH
+X0FMTE9XX1JFU19FVklDVCkKPj4gCQkJcmV0ID0gdHJ1ZTsKPj4gCQkqbG9ja2VkID0gZmFsc2U7
+Cj4+IAkJaWYgKGJ1c3kpCj4+IC0tIAo+PiAyLjE3LjEKPj4KPj4gX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPj4g
+YW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3Mu
+cHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGYW1kLWdmeCZhbXA7ZGF0YT0wMiU3QzAxJTdD
+eGluaHVpLnBhbiU0MGFtZC5jb20lN0NiMTg0ZGZmNWFhZjM0OWUyMjEwMDA4ZDdhZjA5MjYzNyU3
+QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2MzcxNzAzMjYyMDQ5
+NjYzNzUmYW1wO3NkYXRhPUtkWk4xbCUyRmtEWW9kWHhQUWdhWGFTWFV2TXoyUkh4eXNTU0Y5a3JR
+UmdwSSUzRCZhbXA7cmVzZXJ2ZWQ9MAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
