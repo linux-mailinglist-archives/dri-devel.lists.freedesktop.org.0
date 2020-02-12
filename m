@@ -1,53 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D588615AF6B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 19:08:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 020C415AF84
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 19:14:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 230126E0CC;
-	Wed, 12 Feb 2020 18:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F25716EADB;
+	Wed, 12 Feb 2020 18:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B0B6E0CC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 18:08:46 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id z8so3332904ioh.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 10:08:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CWhd4E0ng4TIrXctPssY6oyD+rYoh/12ctx3Po/IH+o=;
- b=MkFAc+TLDyn9zBU2Zm5OUo5cm3qDvxScmA8exJL873CIcAWLY/LXSsJxfVZKYnMasP
- N20LLUS7bGhBFMXOk9ZbMwZW7TG8XB8SUfgpgU1Ona1fGDgufohXWzIqTvKui+u33c75
- X+eXXgMRsSayZjGdK0cJJ86r5ynqSa9+/GWCpDe9baI1gVsFMLqSdMN3ZP0Rs6jryJ0n
- yjFZjuQmKNTu35J61FlFdqet8l7Z7UJA1Y8MrRheN5KuY41+C+41DzPe4MvjiBFhkvt9
- 13nbEKzrO0wuhXYLRYadhmX7GUzifxBSC+lTjh0IaL1TGujgTXQFdP0ONpgilU4+QS6g
- tvEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CWhd4E0ng4TIrXctPssY6oyD+rYoh/12ctx3Po/IH+o=;
- b=k3uY3IE13RC3Yf23DCdQG8t8FbiPfl/k0BNCgUIbGsK57Rkw1QxbRxrmTkefyiQYEq
- 769vrvmI+TtDVDUh4wRxyDjevCi6ebA7pANycPNl3ZiUS7HwCZiJMprGEMHe7JkWawUN
- j4L2tXZlQWu9jp7QjCXh7y6Sz9poWM8STo4834M5gtVb15cUyReuFt9IB2SGVIZzf0LZ
- hS6db6NKyvQ3gntoSHnDxh8Qeh1jomB34S9PNj1CpL+F1OknmOU5ZYSAdX7Pe9e1rSOS
- BILu+sgOMMk21uArOIi29GK+IEdiy0wy/5utsm6j3YPqolGEhljK1u4oiSOGpOgbOgHr
- pbIg==
-X-Gm-Message-State: APjAAAUyzTmSk4rPK8wKxnSxfzvatjqgzUncll5opXPEcvld/uA9wb20
- kt2AEF5CR746Hxxir1/Dw4A4iPX/pQ5oTVwtDCd9EvpQ
-X-Google-Smtp-Source: APXvYqwbj4M4HFCX7B3DGeaGPm8F2o3mjUqVWi/f8LS50pwPmz4Qex6nLS1WfVWm4QavWOmtZOxyMeKOlk0M8v2fAn0=
-X-Received: by 2002:a02:9f06:: with SMTP id z6mr19233225jal.2.1581530925479;
- Wed, 12 Feb 2020 10:08:45 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9790B6EADB
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 18:14:21 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
+ [209.85.219.43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2005D2173E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 18:14:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1581531261;
+ bh=XPutHtfrd9L6DCjKR/i4gzTwtBJqO9VVCF2dsQMhOT0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=H0t1S9X9r5QrGUd7DvAOuSUSqqXDsgdC1XTVAcFbzj4EY2h/S8r/mWZNvB10mdCQa
+ 38EaQisKKJidSQ7TOlCXmLvne+3QnPgrSM7v03v8XngdUW7peGivsjAvtTOAtfr4CA
+ wewf/BxAmAKE916HXnBmP76nvVhL3jH9qCPQp3LY=
+Received: by mail-qv1-f43.google.com with SMTP id z3so1369359qvn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 10:14:21 -0800 (PST)
+X-Gm-Message-State: APjAAAWvNo4lADQ8CQab10dohD2BcZHMaCwqsCowBNbMceNMKsZaIG5D
+ mvmp0BGbbUM/vtK3iECSAuaKcfPShMbuegLrDw==
+X-Google-Smtp-Source: APXvYqwYf7OiqvLmE/STxKkwBxfQm+rxJyw5z6FFooFuohKsTmQUlxLvZAqUvV1R4jPQEGjoiAS5DvHkVqtRkL1b//c=
+X-Received: by 2002:a05:6214:11ac:: with SMTP id
+ u12mr8482894qvv.85.1581531260167; 
+ Wed, 12 Feb 2020 10:14:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20200211135047.22261-1-kraxel@redhat.com>
-In-Reply-To: <20200211135047.22261-1-kraxel@redhat.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Wed, 12 Feb 2020 10:08:34 -0800
-Message-ID: <CAPaKu7Q1qYk-8e6420CLLtswiNyF4dUwTy5-68X1SRaSDCVXtw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm/virtio: locking/reservation fixes
-To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20200207052627.130118-1-drinkcat@chromium.org>
+ <20200207052627.130118-8-drinkcat@chromium.org>
+ <CANMq1KBL-S2DVKbCB2h_XNpfUro+pZ96-C5ft0p-8GX_tbXELQ@mail.gmail.com>
+In-Reply-To: <CANMq1KBL-S2DVKbCB2h_XNpfUro+pZ96-C5ft0p-8GX_tbXELQ@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 12 Feb 2020 12:14:08 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLuo+2G2MjiwS9cwNhMV2pGBojXFGNqEfLv3fP-Y04mfA@mail.gmail.com>
+Message-ID: <CAL_JsqLuo+2G2MjiwS9cwNhMV2pGBojXFGNqEfLv3fP-Y04mfA@mail.gmail.com>
+Subject: Re: [PATCH v4 7/7] RFC: drm/panfrost: devfreq: Add support for 2
+ regulators
+To: Nicolas Boichat <drinkcat@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +57,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fixes look reasonable.
+On Wed, Feb 12, 2020 at 2:49 AM Nicolas Boichat <drinkcat@chromium.org> wrote:
+>
+> +Viresh Kumar +Stephen Boyd for clock advice.
+>
+> On Fri, Feb 7, 2020 at 1:27 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
+> >
+> > The Bifrost GPU on MT8183 uses 2 regulators (core and SRAM) for
+> > devfreq, and provides OPP table with 2 sets of voltages.
+> >
+> > TODO: This is incomplete as we'll need add support for setting
+> > a pair of voltages as well.
+>
+> So all we need for this to work (at least apparently, that is, I can
+> change frequency) is this:
+> https://lore.kernel.org/patchwork/patch/1192945/
+> (ah well, Viresh just replied, so, probably not, I'll check that out
+> and use the correct API)
+>
+> But then there's a slight problem: panfrost_devfreq uses a bunch of
+> clk_get_rate calls, and the clock PLLs (at least on MTK platform) are
+> never fully precise, so we get back 299999955 for 300 Mhz and
+> 799999878 for 800 Mhz. That means that the kernel is unable to keep
+> devfreq stats as neither of these values are in the table:
+> [ 4802.470952] devfreq devfreq1: Couldn't update frequency transition
+> information.
+> The kbase driver fixes this by remembering the last set frequency, and
+> reporting that to devfreq. Should we do that as well or is there a
+> better fix?
+>
+> Another thing that I'm not implementing is the dance that Mediatek
+> does in their kbase driver when changing the clock (described in patch
+> 2/7):
+> ""
+> The binding we use with out-of-tree Mali drivers includes more
+> clocks, this is used for devfreq: the out-of-tree driver switches
+> clk_mux to clk_sub_parent (26Mhz), adjusts clk_main_parent, then
+> switches clk_mux back to clk_main_parent:
+> (see https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-4.19/drivers/gpu/arm/midgard/platform/mediatek/mali_kbase_runtime_pm.c#423)
+> clocks =
+>         <&topckgen CLK_TOP_MFGPLL_CK>,
+>         <&topckgen CLK_TOP_MUX_MFG>,
+>         <&clk26m>,
+>         <&mfgcfg CLK_MFG_BG3D>;
+> clock-names =
+>         "clk_main_parent",
+>         "clk_mux",
+>         "clk_sub_parent",
+>         "subsys_mfg_cg";
+> ""
+> Is there a clean/simple way to implement this in the clock
+> framework/device tree? Or should we implement something in the
+> panfrost driver?
 
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+Putting parent clocks into 'clocks' for a device is a pretty common
+abuse. The 'assigned-clocks' binding is what's used for parent clock
+setup. Not sure that's going to help here though. Is this dance
+because the parent clock frequency can't be changed cleanly? If up to
+me, I'd put that dance in the clock driver. The GPU shouldn't have to
+care.
 
-On Tue, Feb 11, 2020 at 5:50 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->
->
-> Gerd Hoffmann (2):
->   drm/virtio: fix virtio_gpu_execbuffer_ioctl locking
->   drm/virtio: fix virtio_gpu_cursor_plane_update().
->
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 20 ++++++++++----------
->  drivers/gpu/drm/virtio/virtgpu_plane.c |  1 +
->  2 files changed, 11 insertions(+), 10 deletions(-)
->
-> --
-> 2.18.2
->
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
