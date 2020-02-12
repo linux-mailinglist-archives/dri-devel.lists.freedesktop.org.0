@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4D015B447
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 00:01:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ADEA15B43A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 00:01:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0215C6EB09;
-	Wed, 12 Feb 2020 23:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3736E12B;
+	Wed, 12 Feb 2020 23:01:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC286EAFC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 23:01:12 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1D46E12F
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 23:01:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581548471;
+ s=mimecast20190719; t=1581548462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7WLsIYS6APukqpz4dC2as0jWPB7g29dh0U9M8tvQiMs=;
- b=IcqoXGsDn1ojtALpxN5llmOLs808MNAE6GM4FZH+SXdnV0ngPJHiQ5M+Q+rnDkusLEJaNb
- /mK+AG5zUTCSCub4XLPVZWlE7rXfSXffAC3joksaLVhh4jddpRs8/VCc4EF4GceLjZwJDZ
- 6G6vvqy7KS/uOGWk/no3C9R4pUKmQUY=
+ bh=LUOvcPqe2i5tg8ix9spKm1/Vxx5uEj37Q1ziBWqwxiM=;
+ b=YyAffLQrCTFEn2c4Y/S5sIQGdfLsPoH4ke84tNwyJWCWV34XZr2SDQL4NOmgs7P0E7/hhZ
+ JqnlGC8xbdVxE7dxoxz18Y0xeoYkQkRmVzVsRD7n/2U5Cz/ABxi8p0mIlvsS96oUNbA4jB
+ RQpFll6voyKPyWQXKlrGSBcIyl45GME=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-As5XGrl2OLWpVQwo5cF7Zw-1; Wed, 12 Feb 2020 18:00:58 -0500
-X-MC-Unique: As5XGrl2OLWpVQwo5cF7Zw-1
+ us-mta-240-eh0lBEsfPUKuRIDqJxJebg-1; Wed, 12 Feb 2020 18:01:00 -0500
+X-MC-Unique: eh0lBEsfPUKuRIDqJxJebg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CC8D1084430;
- Wed, 12 Feb 2020 23:00:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D80CC1800D6B;
+ Wed, 12 Feb 2020 23:00:58 +0000 (UTC)
 Received: from Ruby.bss.redhat.com (dhcp-10-20-1-196.bss.redhat.com
  [10.20.1.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DE1C5C137;
- Wed, 12 Feb 2020 23:00:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F7B55C109;
+ Wed, 12 Feb 2020 23:00:57 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: nouveau@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/nouveau/kms/nv50-: Move 8BPC limit for MST into
- nv50_mstc_get_modes()
-Date: Wed, 12 Feb 2020 18:00:37 -0500
-Message-Id: <20200212230043.170477-4-lyude@redhat.com>
+Subject: [PATCH 4/4] drm/nouveau/kms/nv50-: Share DP SST mode_valid() handling
+ with MST
+Date: Wed, 12 Feb 2020 18:00:38 -0500
+Message-Id: <20200212230043.170477-5-lyude@redhat.com>
 In-Reply-To: <20200212230043.170477-1-lyude@redhat.com>
 References: <20200212230043.170477-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -61,70 +61,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Manasi Navare <manasi.d.navare@intel.com>, Sean Paul <seanpaul@chromium.org>,
- Ben Skeggs <bskeggs@redhat.com>, Mikita Lipski <mikita.lipski@amd.com>
+ Sean Paul <seanpaul@chromium.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>, Mikita Lipski <mikita.lipski@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This just limits the BPC for MST connectors to a maximum of 8 from
-nv50_mstc_get_modes(), instead of doing so during
-nv50_msto_atomic_check(). This doesn't introduce any functional changes
-yet (other then userspace now lying about the max bpc, but we can't
-support that yet anyway so meh). But, we'll need this in a moment so
-that we can share mode validation between SST and MST which will fix
-some real world issues.
+Currently, the nv50_mstc_mode_valid() function is happy to take any and
+all modes, even the ones we can't actually support sometimes like
+interlaced modes.
+
+Luckily, the only difference between the mode validation that needs to
+be performed for MST vs. SST is that eventually we'll need to check the
+minimum PBN against the MSTB's full PBN capabilities (remember-we don't
+care about the current bw state here). Otherwise, all of the other code
+can be shared.
+
+So, we move all of the common mode validation in
+nouveau_connector_mode_valid() into a separate helper,
+nv50_dp_mode_valid(), and use that from both nv50_mstc_mode_valid() and
+nouveau_connector_mode_valid(). Note that we allow for returning the
+calculated clock that nv50_dp_mode_valid() came up with, since we'll
+eventually want to use that for PBN calculation in
+nv50_mstc_mode_valid().
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     |  9 ++++-
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 41 +++++++++++----------
+ drivers/gpu/drm/nouveau/nouveau_connector.h |  5 +++
+ drivers/gpu/drm/nouveau/nouveau_dp.c        | 27 ++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_encoder.h   |  4 ++
+ 5 files changed, 66 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 32a1c4221f1e..766b8e80a8f5 100644
+index 766b8e80a8f5..65b0655ff3c5 100644
 --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
 +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -903,15 +903,9 @@ nv50_msto_atomic_check(struct drm_encoder *encoder,
- 	if (!state->duplicated) {
- 		const int clock = crtc_state->adjusted_mode.clock;
+@@ -1051,7 +1051,14 @@ static enum drm_mode_status
+ nv50_mstc_mode_valid(struct drm_connector *connector,
+ 		     struct drm_display_mode *mode)
+ {
+-	return MODE_OK;
++	struct nv50_mstc *mstc = nv50_mstc(connector);
++	struct nouveau_encoder *outp = mstc->mstm->outp;
++
++	/* TODO: calculate the PBN from the dotclock and validate against the
++	 * MSTB's max possible PBN
++	 */
++
++	return nv50_dp_mode_valid(connector, outp, mode, NULL);
+ }
  
--		/*
--		 * XXX: Since we don't use HDR in userspace quite yet, limit
--		 * the bpc to 8 to save bandwidth on the topology. In the
--		 * future, we'll want to properly fix this by dynamically
--		 * selecting the highest possible bpc that would fit in the
--		 * topology
--		 */
--		asyh->or.bpc = min(connector->display_info.bpc, 8U);
--		asyh->dp.pbn = drm_dp_calc_pbn_mode(clock, asyh->or.bpc * 3, false);
-+		asyh->or.bpc = connector->display_info.bpc;
-+		asyh->dp.pbn = drm_dp_calc_pbn_mode(clock, asyh->or.bpc * 3,
-+						    false);
+ static int
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 97a84daf8eab..3a3e1533d3e7 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -38,6 +38,7 @@
+ #include "nouveau_reg.h"
+ #include "nouveau_drv.h"
+ #include "dispnv04/hw.h"
++#include "dispnv50/disp.h"
+ #include "nouveau_acpi.h"
+ 
+ #include "nouveau_display.h"
+@@ -1033,6 +1034,24 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
+ 		return 112000 * duallink_scale;
+ }
+ 
++enum drm_mode_status
++nouveau_conn_mode_clock_valid(const struct drm_display_mode *mode,
++			      const unsigned min_clock,
++			      const unsigned max_clock,
++			      unsigned *clock)
++{
++	if ((mode->flags & DRM_MODE_FLAG_3D_MASK) ==
++	    DRM_MODE_FLAG_3D_FRAME_PACKING)
++		*clock *= 2;
++
++	if (*clock < min_clock)
++		return MODE_CLOCK_LOW;
++	if (*clock > max_clock)
++		return MODE_CLOCK_HIGH;
++
++	return MODE_OK;
++}
++
+ static enum drm_mode_status
+ nouveau_connector_mode_valid(struct drm_connector *connector,
+ 			     struct drm_display_mode *mode)
+@@ -1041,7 +1060,6 @@ nouveau_connector_mode_valid(struct drm_connector *connector,
+ 	struct nouveau_encoder *nv_encoder = nv_connector->detected_encoder;
+ 	struct drm_encoder *encoder = to_drm_encoder(nv_encoder);
+ 	unsigned min_clock = 25000, max_clock = min_clock;
+-	unsigned clock = mode->clock;
+ 
+ 	switch (nv_encoder->dcb->type) {
+ 	case DCB_OUTPUT_LVDS:
+@@ -1064,29 +1082,14 @@ nouveau_connector_mode_valid(struct drm_connector *connector,
+ 	case DCB_OUTPUT_TV:
+ 		return get_slave_funcs(encoder)->mode_valid(encoder, mode);
+ 	case DCB_OUTPUT_DP:
+-		if (mode->flags & DRM_MODE_FLAG_INTERLACE &&
+-		    !nv_encoder->dp.caps.interlace)
+-			return MODE_NO_INTERLACE;
+-
+-		max_clock  = nv_encoder->dp.link_nr;
+-		max_clock *= nv_encoder->dp.link_bw;
+-		clock = clock * (connector->display_info.bpc * 3) / 10;
+-		break;
++		return nv50_dp_mode_valid(connector, nv_encoder, mode, NULL);
+ 	default:
+ 		BUG();
+ 		return MODE_BAD;
  	}
  
- 	slots = drm_dp_atomic_find_vcpi_slots(state, &mstm->mgr, mstc->port,
-@@ -1071,8 +1065,17 @@ nv50_mstc_get_modes(struct drm_connector *connector)
- 	if (mstc->edid)
- 		ret = drm_add_edid_modes(&mstc->connector, mstc->edid);
+-	if ((mode->flags & DRM_MODE_FLAG_3D_MASK) == DRM_MODE_FLAG_3D_FRAME_PACKING)
+-		clock *= 2;
+-
+-	if (clock < min_clock)
+-		return MODE_CLOCK_LOW;
+-
+-	if (clock > max_clock)
+-		return MODE_CLOCK_HIGH;
+-
+-	return MODE_OK;
++	return nouveau_conn_mode_clock_valid(mode, min_clock, max_clock,
++					     NULL);
+ }
  
--	if (!mstc->connector.display_info.bpc)
--		mstc->connector.display_info.bpc = 8;
-+	/*
-+	 * XXX: Since we don't use HDR in userspace quite yet, limit the bpc
-+	 * to 8 to save bandwidth on the topology. In the future, we'll want
-+	 * to properly fix this by dynamically selecting the highest possible
-+	 * bpc that would fit in the topology
-+	 */
-+	if (connector->display_info.bpc)
-+		connector->display_info.bpc =
-+			clamp(connector->display_info.bpc, 6U, 8U);
-+	else
-+		connector->display_info.bpc = 8;
+ static struct drm_encoder *
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.h b/drivers/gpu/drm/nouveau/nouveau_connector.h
+index de84fb4708c7..9e062c7adec8 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.h
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.h
+@@ -195,6 +195,11 @@ int nouveau_conn_atomic_get_property(struct drm_connector *,
+ 				     const struct drm_connector_state *,
+ 				     struct drm_property *, u64 *);
+ struct drm_display_mode *nouveau_conn_native_mode(struct drm_connector *);
++enum drm_mode_status
++nouveau_conn_mode_clock_valid(const struct drm_display_mode *,
++			      const unsigned min_clock,
++			      const unsigned max_clock,
++			      unsigned *clock);
  
- 	if (mstc->native)
- 		drm_mode_destroy(mstc->connector.dev, mstc->native);
+ #ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
+ extern int nouveau_backlight_init(struct drm_connector *);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
+index 2674f1587457..5cba2a23781d 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dp.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
+@@ -98,3 +98,30 @@ nouveau_dp_detect(struct nouveau_encoder *nv_encoder)
+ 		return NOUVEAU_DP_SST;
+ 	return ret;
+ }
++
++/* TODO:
++ * Use the minimum possible BPC here, once we add support for the max bpc
++ * property.
++ */
++enum drm_mode_status
++nv50_dp_mode_valid(struct drm_connector *connector,
++		   struct nouveau_encoder *outp,
++		   const struct drm_display_mode *mode,
++		   unsigned *out_clock)
++{
++	const unsigned min_clock = 25000;
++	unsigned max_clock, clock;
++	enum drm_mode_status ret;
++
++	if (mode->flags & DRM_MODE_FLAG_INTERLACE && !outp->dp.caps.interlace)
++		return MODE_NO_INTERLACE;
++
++	max_clock = outp->dp.link_nr * outp->dp.link_bw;
++	clock = mode->clock * (connector->display_info.bpc * 3) / 10;
++
++	ret = nouveau_conn_mode_clock_valid(mode, min_clock, max_clock,
++					    &clock);
++	if (out_clock)
++		*out_clock = clock;
++	return ret;
++}
+diff --git a/drivers/gpu/drm/nouveau/nouveau_encoder.h b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+index 2a8a7aec48c4..e6e782d81330 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_encoder.h
++++ b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+@@ -103,6 +103,10 @@ enum nouveau_dp_status {
+ };
+ 
+ int nouveau_dp_detect(struct nouveau_encoder *);
++enum drm_mode_status nv50_dp_mode_valid(struct drm_connector *,
++					struct nouveau_encoder *,
++					const struct drm_display_mode *,
++					unsigned *clock);
+ 
+ struct nouveau_connector *
+ nouveau_encoder_connector_get(struct nouveau_encoder *encoder);
 -- 
 2.24.1
 
