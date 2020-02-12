@@ -1,55 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA4F15B1D5
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 21:28:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFADA15B1E6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 21:33:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85ED89E9B;
-	Wed, 12 Feb 2020 20:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79FBB6E109;
+	Wed, 12 Feb 2020 20:32:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2306889E9B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 20:28:14 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id a22so3339825oid.13
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 12:28:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xwbr0E9LKq7zvNgEq4p9hfBo0alrSGGYq3XJgtmf2ao=;
- b=esm6wlYcZQEiT6yGb7P/K7R79JsW7yxj2ddAuFG+Cw01/7jzxWOCxWRPR+jkipIGbt
- Sn0t1cQcEZYlHfw5Q7kop3K0kRWGSkQxpE9N6RsESDPHD7mRD4lvvhguB2qqJLJPjh6Q
- Z6h8T5CqJaDmENOukNt/oRLM9ah8m8ibf+ghs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xwbr0E9LKq7zvNgEq4p9hfBo0alrSGGYq3XJgtmf2ao=;
- b=chOq8c/06O1PVlk4CDdYWrTSLAYorz57KMgAI8qjWxSjLGE9wI4taQ71aaH8nzM+w1
- W8GNm8MWypmp/U18/G54MuS18Fi985nkfNRqIW1RxQLTmdL2M+X+4EwlXoma3MWzAXCI
- UDBns0IEaG8UMUg56Lq+rxI1Y2ww4LzRmW/X9hxkrt0N/Xj2qk8it6OyPx0du5sR6/Ro
- 3jS7OvD456lxoLc7mAM37CIB0EwimBaLUMmzMQaRbb+vegoB194xyM9n0L/OQdWzEEee
- z6z4yKIBYlJAlDemLHyw8CdJwAOr4KSjYXA8J/bkj+sfQa58MvIsRQKdcD9orodFTGiu
- OC4w==
-X-Gm-Message-State: APjAAAV2Mkiv9sFShxVKNEsnpOvXgTo3dZq57DPt9wRFZyrer+zSaVv+
- sMSkiLgdfEjpD8fo3qSnyRS2i/NuFAx1rIHrr+iuCIJt
-X-Google-Smtp-Source: APXvYqz1Df7Yi6Ay6kzyeaJeJIfHIk2JMWRJ7GElcHAPxoux8w39FoBSm3gRmyNXC+JsbKFWjF3SOVkoySUY+8EOVys=
-X-Received: by 2002:a05:6808:319:: with SMTP id
- i25mr626114oie.128.1581539293420; 
- Wed, 12 Feb 2020 12:28:13 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D81A06E109
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 20:32:57 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 91BE82173E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 20:32:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1581539577;
+ bh=V9VyxKzfYIKf9VtsnordIWaam8t73E49S8DNnAueIq0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=vT1e2f7TUdqvh664uuU8BB+7xkT6nw9k5xvJ8hLssM4n2EmNS3w2G46Ual5aE2SvB
+ dJbOe8X58FwRb2Cvdvc5m08vtxQAsjUhzDrnM5NnPmCNv5/tsIT/ETOWJ5QNdNEth3
+ K1G72GJdYfy72D3u8euOZJPNmkvudVBiwDdo41/Q=
+Received: by mail-qt1-f170.google.com with SMTP id h12so2690638qtu.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 12:32:57 -0800 (PST)
+X-Gm-Message-State: APjAAAWDeor7DdTvd3sVDHFG/+ZJES8zdqljWXxOIoE8kuwfyWElzJIr
+ ewJlUjkJyUcbyxsQ3yR2zXcLkxnCHzpwIO6Vlg==
+X-Google-Smtp-Source: APXvYqz0go2FPjNTnDnmXjjdtP1WbfxbUtV3PkQip537yESGdY4MxxAo1/ie4PEdRuXCxmYV4nfdfyuy9cz4Qvvh7Z0=
+X-Received: by 2002:ac8:59:: with SMTP id i25mr21097269qtg.110.1581539576653; 
+ Wed, 12 Feb 2020 12:32:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20200212135936.31326-1-jsarha@ti.com>
- <397e6686-40de-4205-e958-8592b1c3cc6e@ti.com>
- <20200212143354.GC13686@intel.com>
- <8095e3f1-640e-5136-6419-ce2c57f24820@ti.com>
-In-Reply-To: <8095e3f1-640e-5136-6419-ce2c57f24820@ti.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 12 Feb 2020 21:28:02 +0100
-Message-ID: <CAKMK7uHEnU2LdNZ5KN5DZYzaCEFW0RTy+EpRw3ybQqkf0OLjSg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/tidss: dispc: Rewrite naive plane positioning code
-To: Jyri Sarha <jsarha@ti.com>
+References: <20200206141327.446127-1-boris.brezillon@collabora.com>
+In-Reply-To: <20200206141327.446127-1-boris.brezillon@collabora.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 12 Feb 2020 14:32:45 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKLcZ=R0kYX+Bqw=NqoqsL6En21t_gPMCHEOBkK-xN7vg@mail.gmail.com>
+Message-ID: <CAL_JsqKLcZ=R0kYX+Bqw=NqoqsL6En21t_gPMCHEOBkK-xN7vg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: perfcnt: Reserve/use the AS attached to the
+ perfcnt MMU context
+To: Boris Brezillon <boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,82 +54,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: praneeth@ti.com, dri-devel <dri-devel@lists.freedesktop.org>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Antonio Caggiano <antonio.caggiano@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Icecream95 <ixn@keemail.me>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ stable <stable@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBGZWIgMTIsIDIwMjAgYXQgNzowMSBQTSBKeXJpIFNhcmhhIDxqc2FyaGFAdGkuY29t
-PiB3cm90ZToKPgo+IE9uIDEyLzAyLzIwMjAgMTY6MzMsIFZpbGxlIFN5cmrDpGzDpCB3cm90ZToK
-PiA+IE9uIFdlZCwgRmViIDEyLCAyMDIwIGF0IDA0OjA4OjExUE0gKzAyMDAsIEp5cmkgU2FyaGEg
-d3JvdGU6Cj4gPj4gT24gMTIvMDIvMjAyMCAxNTo1OSwgSnlyaSBTYXJoYSB3cm90ZToKPiA+Pj4g
-VGhlIG9sZCBpbXBsZW1lbnRhdGlvbiBvZiBwbGFjaW5nIHBsYW5lcyBvbiB0aGUgQ1JUQyB3aGls
-ZSBjb25maWd1cmluZwo+ID4+PiB0aGUgcGxhbmVzIHdhcyBuYWl2ZSBhbmQgcmVsaWVkIG9uIHRo
-ZSBvcmRlciBpbiB3aGljaCB0aGUgcGxhbmVzIHdlcmUKPiA+Pj4gY29uZmlndXJlZCwgZW5hYmxl
-ZCwgYW5kIGRpc2FibGVkLiBUaGUgc2l0dWF0aW9uIHdoZXJlIGEgcGxhbmUncyB6cG9zCj4gPj4+
-IHdhcyBjaGFuZ2VkIG9uIHRoZSBmbHkgd2FzIGNvbXBsZXRlbHkgYnJva2VuLiBUaGUgdXN1YWwg
-c3ltcHRvbXMgb2YKPiA+Pj4gdGhpcyBwcm9ibGVtIHdhcyBzY3JhbWJsZWQgZGlzcGxheSBhbmQg
-YSBmbG9vZCBvZiBzeW5jIGxvc3QgZXJyb3JzLAo+ID4+PiB3aGVuIGEgcGxhbmUgd2FzIGFjdGl2
-ZSBpbiB0d28gbGF5ZXJzIGF0IHRoZSBzYW1lIHRpbWUsIG9yIGEgbWlzc2luZwo+ID4+PiBwbGFu
-ZSwgaW4gY2FzZSB3aGVuIGEgbGF5ZXIgd2FzIGFjY2lkZW50YWxseSBkaXNhYmxlZC4KPiA+Pj4K
-PiA+Pj4gVGhlIHJld3JpdGUgdGFrZXMgYSBtb3JlIHN0cmFpZ2h0IGZvcndhcmQgYXBwcm9hY2gg
-d2hlbiBIVyBpcwo+ID4+PiBjb25jZXJuZWQuIFRoZSBwbGFuZSBwb3NpdGlvbmluZyByZWdpc3Rl
-cnMgYXJlIGluIHRoZSBDUlRDIChhY3R1YWxseQo+ID4+PiBPVlIpIHJlZ2lzdGVyIHNwYWNlIGFu
-ZCBpdCBpcyBtb3JlIG5hdHVyYWwgdG8gY29uZmlndXJlIHRoZW0gaW4gb25lIGdvCj4gPj4+IHdo
-aWxlIGNvbmZpZ3VyaW5nIHRoZSBDUlRDLiBUbyBkbyB0aGlzIHdlIG5lZWQgdG8gbWFrZSBzdXJl
-IHdlIGhhdmUKPiA+Pj4gYWxsIHRoZSBwbGFuZXMgb24gdXBkYXRlZCBDUlRDcyBpbiB0aGUgbmV3
-IGF0b21pYyBzdGF0ZSB0byBiZQo+ID4+PiBjb21taXR0ZWQuIFRoaXMgaXMgZG9uZSBieSBjYWxs
-aW5nIGRybV9hdG9taWNfYWRkX2FmZmVjdGVkX3BsYW5lcygpIGluCj4gPj4+IGNydGNfYXRvbWlj
-X2NoZWNrKCkuCj4gPj4+Cj4gPj4+IFNpZ25lZC1vZmYtYnk6IEp5cmkgU2FyaGEgPGpzYXJoYUB0
-aS5jb20+Cj4gPj4+IC0tLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2NydGMu
-YyAgfCA1NSArKysrKysrKysrKysrKysrKysrKysrKysrKysrLQo+ID4+PiAgZHJpdmVycy9ncHUv
-ZHJtL3RpZHNzL3RpZHNzX2Rpc3BjLmMgfCA1NSArKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0t
-LQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2Rpc3BjLmggfCAgNSArKysKPiA+
-Pj4gIDMgZmlsZXMgY2hhbmdlZCwgNzkgaW5zZXJ0aW9ucygrKSwgMzYgZGVsZXRpb25zKC0pCj4g
-Pj4+Cj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlkc3MvdGlkc3NfY3J0Yy5j
-IGIvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2NydGMuYwo+ID4+PiBpbmRleCAwMzJjMzFl
-ZTI4MjAuLmY3YzVmZDEwOTRhOCAxMDA2NDQKPiA+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rp
-ZHNzL3RpZHNzX2NydGMuYwo+ID4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlkc3MvdGlkc3Nf
-Y3J0Yy5jCj4gPj4gLi4uCj4gPj4+IEBAIC0xMDgsNyArMTEwLDU0IEBAIHN0YXRpYyBpbnQgdGlk
-c3NfY3J0Y19hdG9taWNfY2hlY2soc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ID4+PiAgICAgICAg
-ICAgICByZXR1cm4gLUVJTlZBTDsKPiA+Pj4gICAgIH0KPiA+Pj4KPiA+Pj4gLSAgIHJldHVybiBk
-aXNwY192cF9idXNfY2hlY2soZGlzcGMsIGh3X3ZpZGVvcG9ydCwgc3RhdGUpOwo+ID4+PiArICAg
-cmV0ID0gZGlzcGNfdnBfYnVzX2NoZWNrKGRpc3BjLCBod192aWRlb3BvcnQsIHN0YXRlKTsKPiA+
-Pj4gKyAgIGlmIChyZXQpCj4gPj4+ICsgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPj4+ICsKPiA+
-Pj4gKyAgIC8qIEFkZCB1bmNoYW5nZWQgcGxhbmVzIG9uIHRoaXMgY3J0YyB0byBzdGF0ZSBmb3Ig
-enBvcyB1cGRhdGUuICovCj4gPj4+ICsgICByZXR1cm4gZHJtX2F0b21pY19hZGRfYWZmZWN0ZWRf
-cGxhbmVzKHN0YXRlLT5zdGF0ZSwgY3J0Yyk7Cj4gPj4KPiA+PiBJcyB0aGlzIGEgY29ycmVjdCB3
-YXkgdG8gdXNlIGRybV9hdG9taWNfYWRkX2FmZmVjdGVkX3BsYW5lcygpPwo+ID4+Cj4gPj4gSSBz
-YXcgdGhhdCBzb21lIG90aGVyIGRyaXZlcnMgaW1wbGVtZW50IHRoZWlyIG93biBtb2RlX2NvbmZp
-Zwo+ID4+IGF0b21pY19jaGVjaygpIGFuZCBoYXZlIHRoaXMgY2FsbCB0aGVyZSBpbgo+ID4+IGZv
-cl9lYWNoX25ld19jcnRjX2luX3N0YXRlKCktbG9vcCwgYnV0IEkgdGhvdWdodCBpdCBzaG91bGQg
-YmUgZmluZSB0bwo+ID4+IGNhbGwgaXQgaW4gY3J0Y19hdG9taWNfY2hlY2soKS4KPiA+Cj4gPiBZ
-b3Ugc2VlbSB0byBiZSB1c2luZyBkcm1fYXRvbWljX2hlbHBlcl9jaGVja19wbGFuZXMoKSwgd2hp
-Y2ggbWVhbnMKPiA+IGNydGMuYXRvbWljX2NoZWNrKCkgZ2V0cyBjYWxsZWQgYWZ0ZXIgcGxhbmUu
-YXRvbWljX2NoZWNrKCkuIFNvIHRoaXMKPiA+IG1pZ2h0IGJlIGdvb2Qgb3IgYmFkIGRlcGVuZGlu
-ZyBvbiB3aGV0aGVyIHlvdSdkIGxpa2UgdGhlIHBsYW5lcyB5b3UKPiA+IGFkZCBoZXJlIHRvIGdv
-IHRocm91Z2ggdGhlaXIgLmF0b21pY19jaGVjaygpIG9yIG5vdC4KPiA+Cj4KPiBTaG91bGQgaGF2
-ZSB0aG91Z2h0IG9mIHRoYXQgbXkgc2VsZi4gRXh0cmEgcGxhbmUuYXRvbWljX2NoZWNrKCkgY2Fs
-bHMgZG8KPiBub3QgZG8gYW55IGFjdHVhbCBoYXJtLCBidXQgdGhleSBhcmUgcG90ZW50aWFsbHkg
-ZXhwZW5zaXZlLiBUaGUgcGxhbmVzCj4gYXJlIHJlYWxseSBvbmx5IG5lZWRlZCB0aGVyZSBpbiB0
-aGUgY29tbWl0IHBoYXNlIChjcnRjX2VuYWJsZSgpIG9yCj4gZmx1c2goKSkuIFdlbGwsIEknbGwg
-ZG8gbXkgb3duIG1vZGVfY29uZmlnLmF0b21pY19jaGVjaygpIGFuZCBjYWxsCj4gZHJtX2F0b21p
-Y19hZGRfYWZmZWN0ZWRfcGxhbmVzKCkgaW4gYSBmb3JfZWFjaF9uZXdfY3J0Y19pbl9zdGF0ZSgp
-LWxvb3AKPiBhZnRlciBhbGwgdGhlIGNoZWNrcy4KCkFsc28sIGlmIHlvdSBkbyB1c2UgdGhlIGhl
-bHBlcnMgdGhlbiB0aGlzIHNob3VsZCBhbHJlYWR5IGhhdmUgaGFwcGVuZWQKZm9yIHlvdS4gV2hp
-Y2ggbWFrZXMgbWUgd29uZGVyIHdoeSBhbGwgdGhpcyB3b3JrLCBzbyBtYXliZSB0aGVyZSdzCnNv
-bWUgZGVwZW5kZW5jeSBiZXR3ZWVuIGFsbCB0aGUgdmFyaW91cyBjaGVjayBmdW5jdGlvbnMgeW91
-IGhhdmUgZ29pbmcKb24/IE1pZ2h0IGJlIHRpbWUgdG8gcm9sbCB5b3VyIG93biB0b3AtbGV2ZWwg
-Y2hlY2sgZnVuY3Rpb24gdGhhdCBjYWxscwpzdHVmZiBpbiB0aGUgb3JkZXIgeW91ciBodyBuZWVk
-cyB0aGluZ3MgdG8gYmUgY2hlY2tlZCwgc28gdGhhdCB5b3UKZG9uJ3QgYWRkIG5ldyBzdGF0ZXMg
-bGF0ZSBhbmQgaGF2ZSB0byBydW4gb25lIGNoZWNrIHBoYXNlIHR3aWNlICh3aGljaAppcyB0b3Rh
-bGx5IGZpbmUgd2l0aCB0aGUgaGVscGVycyBhcyBsb25nIGFzIGFsbCB5b3VyIGNoZWNrIGNhbGxi
-YWNrcwphcmUgaWRlbXBvdGVudCwgYnV0IG9mdGVuIGp1c3Qgb3ZlcmtpbGwgYW5kIGNvbmZ1c2lu
-ZykuCi1EYW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
-cnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Feb 6, 2020 at 8:13 AM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> We need to use the AS attached to the opened FD when dumping counters.
+>
+> Reported-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+> Fixes: 7282f7645d06 ("drm/panfrost: Implement per FD address spaces")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c     |  7 ++++++-
+>  drivers/gpu/drm/panfrost/panfrost_perfcnt.c | 11 ++++-------
+>  2 files changed, 10 insertions(+), 8 deletions(-)
+
+Applied to drm-misc-fixes.
+
+Rob
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
