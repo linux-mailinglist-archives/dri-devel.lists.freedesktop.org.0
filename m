@@ -2,61 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE0115A062
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 06:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CEC15A13D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 07:23:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 118EA6E81D;
-	Wed, 12 Feb 2020 05:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 214706E885;
+	Wed, 12 Feb 2020 06:23:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91CB06E819;
- Wed, 12 Feb 2020 05:11:14 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id c26so922411eds.8;
- Tue, 11 Feb 2020 21:11:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VAHsM7ERRWf6VvA2d+qJije/DfRWmaudBVFG5XXrd2k=;
- b=crulFNRxzQjKaFZ+O112GMemS/O3G1o1WhM264cFQ6NvJmYQcSVZ6O260i8ql5lIYD
- 1sc/cDEU0Xs03tQhY05wDISZIFkIrOjPvDhtprZDk1fY3V8rL4y3ZIUz3EaxHUFpniYP
- XuUhThKbDw0xAvoQ0JDLrqXXNSki1TxEmTSYSUArWRq+xiphm1OGcy8Ma5leefrcah0A
- lAR2BJDI59CR10f6FQnDoADzEvdz6E+DEaosSBv//hU2gf1pTFmnoGyrp5ZKwE6Y3HGF
- 8+NG2HX/F54m1ekcpBgFaOv2dfklQxQvTuNhLsvkFtb/hT1tHwGig2B/E3MLGQMkOrOR
- 0FoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VAHsM7ERRWf6VvA2d+qJije/DfRWmaudBVFG5XXrd2k=;
- b=o+WqCD66qcfzeprVxaTYFRKSFVPrxsE2woJHYiia1ooYsAbmjPqTNPSid5ry/vuxC0
- IRw6Mv0AIL+8D4x39qRbAbtHBG14HTL5Es5td/TPh2bxW9vPFWpvQzKs45wDkI4PvKVt
- dsTO7RP8nv2Tk3fAfIzErrIGXVfzZ5pLmtd2ZGah6rkL8ZHVUJfelIHT61/uK2Ym05D9
- //XK3wyDtrrZPY/FgK+gES0xfpFYSHI5+HzSz1FBq8OqhvlBbyaBUpBysJlDjSTgFqqv
- YyTrcnkHrZ98SOypmCAsAj0CVD+Xam5Kfrsdbt0ldAcOBNH3LIbbm1ndQDV2KCnE6Bxl
- cZDQ==
-X-Gm-Message-State: APjAAAXaGGbcL0yClQOzA6QoXV3rTs9lgFpUsU5oP/beLVivgFjSINkp
- +zDMQqK7a+mfxhhewGSAgjME5m+xB0uKyCk0NT0=
-X-Google-Smtp-Source: APXvYqxZtiQgcAOlN6AM+xiGfDaNNUSvPUiUDKseZhwzCbWU94qzlZmjKTiMQDWFRDgL/c/3Voan9QCB+OYt8M7V3Yc=
-X-Received: by 2002:a17:906:3195:: with SMTP id
- 21mr9583601ejy.207.1581484272427; 
- Tue, 11 Feb 2020 21:11:12 -0800 (PST)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2043.outbound.protection.outlook.com [40.107.243.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A76526E885;
+ Wed, 12 Feb 2020 06:23:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JB2UUFQCCdDpV0WJOeXsU0yNOMPZF6Ff19/NO46Y+VU7PkiTyc7Hr4Vn4gzQrAX9w9/k9Pc8aq8CYiYseGSeO7NySy3dllv4/8zmdx/wW5xx9nB+HLaGhsWq0D9YfTFMUHHYL2W7qlTOcZpvSfp9gfhE6T16k3BwDsbD9ogv4viJRfcFlPUTCAyKryD5LNyq3eawhQwi6Ku72icw2UWt4U2uczEqhcRfzrAV5kNISh/0Qu6yyqEFsqqeL5a3IackqWpvUZh8SE9qn021POEo3EuX8qLmGIdNl5UTXxoRICCpy5jmO7L1pT+4JbraQtDdvRE2LXuvlj/Fvl0UsByQCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x+sZwgkGTExMU8YYhQwRhIbJUSowd3lSE1GI+P0WeF8=;
+ b=MaMS941/YH1opa4HBPh3H11JQHS2nX0dlSnJfWGc5CFXwzGcHVGEHz6s8cTa55jTrE8jZF2GMBP1ADH3OYiUZ541hgj5WRnwTwhNHSOdVnxPD+oNyP8qfJQgYpD669psCamnheCtLSSCzdultXNVpNzyPCT7DuocTH734/fCyGUO/EIsG8lhQHBx7HH4QiE0/2mXeWvsm4bSNRh+NYaWUQzoy94sA6yftpxOzpjoDAUk9YhrsW0R3PC8SieDPOxRuv8LFGj7JIKpwDQTnXlrE5WXTPmMuscQGohR+WjN3El7gJwuaw6fYBBmSlin2ltPkEWLMguNSlpiAx0vyx/5mQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x+sZwgkGTExMU8YYhQwRhIbJUSowd3lSE1GI+P0WeF8=;
+ b=fWJR7iZTUoPPmEr9ycYq/hYnLUvYeTW1pSEyEPfcP6Tu/nDVvIC80Hd66x/DDzXwohn+jUVh6zbuZgsiyJN1sctqZFL5F6DBI/PK45IVVm2tJ1xpLjX4BY9FCymOfMDvhTzr5tDk+1bWI27yDbEc58eyBKSKDxBWpjLQIHlME+o=
+Received: from SN6PR12MB2800.namprd12.prod.outlook.com (52.135.101.138) by
+ SN6PR12MB2623.namprd12.prod.outlook.com (52.135.103.12) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.28; Wed, 12 Feb 2020 06:23:33 +0000
+Received: from SN6PR12MB2800.namprd12.prod.outlook.com
+ ([fe80::b99c:18c0:8685:1c10]) by SN6PR12MB2800.namprd12.prod.outlook.com
+ ([fe80::b99c:18c0:8685:1c10%5]) with mapi id 15.20.2729.021; Wed, 12 Feb 2020
+ 06:23:33 +0000
+From: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH] drm/ttm: replace dma_resv object on deleted BOs v3
+Thread-Topic: [PATCH] drm/ttm: replace dma_resv object on deleted BOs v3
+Thread-Index: AQHV4PII7pnHj7xVP0SEefuQGARHq6gXGAEA
+Date: Wed, 12 Feb 2020 06:23:33 +0000
+Message-ID: <4DECE5E0-0C4A-4F13-89FC-8AC9A5873D04@amd.com>
+References: <20200211154326.83858-1-christian.koenig@amd.com>
+In-Reply-To: <20200211154326.83858-1-christian.koenig@amd.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Xinhui.Pan@amd.com; 
+x-originating-ip: [180.167.199.185]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: af8e348a-ff62-4acd-2e1e-08d7af8415e8
+x-ms-traffictypediagnostic: SN6PR12MB2623:|SN6PR12MB2623:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR12MB2623FCD115D34F3170335FE2871B0@SN6PR12MB2623.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0311124FA9
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(199004)(189003)(8676002)(6486002)(2906002)(66556008)(66446008)(64756008)(66946007)(66476007)(71200400001)(81156014)(81166006)(33656002)(6512007)(8936002)(2616005)(76116006)(91956017)(66574012)(86362001)(6916009)(45080400002)(36756003)(54906003)(478600001)(316002)(186003)(6506007)(4326008)(966005)(26005)(5660300002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:SN6PR12MB2623;
+ H:SN6PR12MB2800.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TgPd+1CUWfcJ6/ToG7wJbs/q+ORvmrYxB2aKvP7fSFhMsNg6VKmNmx1IjALhKyansbjC351mJN2dNw7EO7rvpfgnQwFFCeXeDtVVMJuVAv0FIG90NcdbhWXiFHL5kPnoUawxoLg4RKbAp37nzeigcCimfYE/XFxsqeSDFmlD+VnjzVQ9p5TzYO6o0Kzc1zHBdi0nGUrQqi66h3GMKNsn6jbfYNfa9LybolozVaR8Fk17zixy94DtJfkbvaaMxn8idhpnq36PQRVMsG5R+wqfsrBAV2w4LW+9gDksXLbQsOHcYcVuAsJlc7zpnEsIPFX3aguy/lEt8cUiYqQn1aABLW15uwD9bGisXkZA4VP+SxBDg6beK+lBtPJM+dhul79MePV9zcMIxLEk/SJ0KNiN7xbjV82CWHoQ/qtzZEvnvvhQFY7xxbVfokq7Rb4QNAii5SrWKUN9qEbXAq4ZCzyDmrXXVJk29mjYPBcy96bu3/A7CGYjqQaWhxEoc6tD/Gi96054FJ2RLqyvnF8sr+swFw==
+x-ms-exchange-antispam-messagedata: 2yKQUlB1O4fG182b9rJPKItYu/W85A5yProM1F9LIPseYpir1PoVyN7iRRiNtavZXTLOzwJphxKPXrHeg31XUKPIEuEX15ZX2ziBzhsoMaZZoJ+EbUM3K7wp/wTcqVeGAg4GzAxF/SQ/Ei0KYLTvaw==
+Content-ID: <06A6D998AA83964EB5234FF075BEDCBB@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-References: <1580980321-19256-1-git-send-email-harigovi@codeaurora.org>
- <CAOCk7Nr9n-xLtWq=LEM-QFhJcY+QOuzazsoi-yjErA9od2Jwmw@mail.gmail.com>
- <2f5abc857910f70faa119fea5bda81d7@codeaurora.org>
- <CAOCk7NoCH9p9gOd7as=ty-EMeerAAhQtKZa8f2wZrDeV2LtGrw@mail.gmail.com>
- <1d201377996e16ce25acb640867e1214@codeaurora.org>
- <CAF6AEGu8265DWN-XABwR1N-124m1j=EkgeNDEWZ16TVpSCZSZw@mail.gmail.com>
- <CAOCk7NrH6hWiHL29_DozXcXrXhkCaZ6LTCtJUrvqtXc=nQuLrg@mail.gmail.com>
- <CAF6AEGvLOWKVCjjmqranEi9TKOpMM+BPK199wQ7f=Ez491uhcA@mail.gmail.com>
- <CAOCk7NrifMkwartV4rj_v_V4=EHeSkmb28tdBUrxoPHVSX5G5Q@mail.gmail.com>
-In-Reply-To: <CAOCk7NrifMkwartV4rj_v_V4=EHeSkmb28tdBUrxoPHVSX5G5Q@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 11 Feb 2020 21:10:59 -0800
-Message-ID: <CAF6AEGv2Ymn+4uDXsO2-P+HR9dpOotB=NRMSEsBu8_uOCJ2vBQ@mail.gmail.com>
-Subject: Re: [Freedreno] [v1] drm/msm/dsi/pll: call vco set rate explicitly
-To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af8e348a-ff62-4acd-2e1e-08d7af8415e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2020 06:23:33.3196 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JFOmcdj03NDHXP843Ne1LvEneeNY9R64OZf03nfCDGRzd5rBdn9LxrTJhg4bd/8M
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2623
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,173 +93,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
- lkml <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Harigovindan P <harigovi@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 8:05 PM Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
->
-> On Tue, Feb 11, 2020 at 5:28 PM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Tue, Feb 11, 2020 at 7:59 AM Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
-> > >
-> > > On Tue, Feb 11, 2020 at 8:44 AM Rob Clark <robdclark@gmail.com> wrote:
-> > > >
-> > > > On Mon, Feb 10, 2020 at 9:58 PM <harigovi@codeaurora.org> wrote:
-> > > > >
-> > > > > On 2020-02-07 19:40, Jeffrey Hugo wrote:
-> > > > > > On Fri, Feb 7, 2020 at 5:38 AM <harigovi@codeaurora.org> wrote:
-> > > > > >>
-> > > > > >> On 2020-02-06 20:29, Jeffrey Hugo wrote:
-> > > > > >> > On Thu, Feb 6, 2020 at 2:13 AM Harigovindan P <harigovi@codeaurora.org>
-> > > > > >> > wrote:
-> > > > > >> >>
-> > > > > >> >> For a given byte clock, if VCO recalc value is exactly same as
-> > > > > >> >> vco set rate value, vco_set_rate does not get called assuming
-> > > > > >> >> VCO is already set to required value. But Due to GDSC toggle,
-> > > > > >> >> VCO values are erased in the HW. To make sure VCO is programmed
-> > > > > >> >> correctly, we forcefully call set_rate from vco_prepare.
-> > > > > >> >
-> > > > > >> > Is this specific to certain SoCs? I don't think I've observed this.
-> > > > > >>
-> > > > > >> As far as Qualcomm SOCs are concerned, since pll is analog and the
-> > > > > >> value
-> > > > > >> is directly read from hardware if we get recalc value same as set rate
-> > > > > >> value, the vco_set_rate will not be invoked. We checked in our idp
-> > > > > >> device which has the same SOC but it works there since the rates are
-> > > > > >> different.
-> > > > > >
-> > > > > > This doesn't seem to be an answer to my question.  What Qualcomm SoCs
-> > > > > > does this issue apply to?  Everything implementing the 10nm pll?  One
-> > > > > > specific SoC?  I don't believe I've seen this on MSM8998, nor SDM845,
-> > > > > > so I'm interested to know what is the actual impact here.  I don't see
-> > > > > > an "IDP" SoC in the IP catalog, so I really have no idea what you are
-> > > > > > referring to.
-> > > > >
-> > > > >
-> > > > > This is not 10nm specific. It is applicable for other nms also.
-> > > > > Its specific to the frequency being set. If vco_recalc returns the same
-> > > > > value as being set by vco_set_rate,
-> > > > > vco_set_rate will not be invoked second time onwards.
-> > > > >
-> > > > > For example: Lets take below devices:
-> > > > >
-> > > > > Cheza is based on SDM845 which is 10nm only.
-> > > > > Clk frequency:206016
-> > > > > dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1236096000
-> > > > > dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1236095947
-> > > > >
-> > > > > Trogdor is based on sc7180 which is also 10nm.
-> > > > > Clk frequency:69300
-> > > > > dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1663200000
-> > > > > dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1663200000
-> > > > >
-> > > > > In same trogdor device, we slightly changed the clock frequency and the
-> > > > > values actually differ which will not cause any issue.
-> > > > > Clk frequency:69310
-> > > > > dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1663440000
-> > > > > dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1663439941
-> > > >
-> > > >
-> > > > tbh, loosing state when power is off is kind of the behavior that I'd
-> > > > expect.  It kinda makes me wonder if things are not getting powered
-> > > > off all the way on some SoCs?
-> > > >
-> > > > jhugo, are you worried that this patch will cause problems on other
-> > > > users of the 10nm pll?
-> > >
-> > > Essentially yes.  Conceptually it doesn't seem like this change should
-> > > cause any harm, however -
-> > >
-> > > This sounds like we are trying to work around the clk framework, which
-> > > seems wrong.  It feels like we should be able to set a clk flag for
-> > > this and make the framework deal with it.
-> > >
-> > > Also, this fix is 10nm specific, yet this issue affects all
-> > > implementations?  Seems like this should perhaps be in common code so
-> > > that we don't need to play whack-a-mole by fixing every implementation
-> > > piecemeal.
-> > >
-> > > Finally, the PLLs are notorious for not taking a configuration unless
-> > > they are running.  I admit, I haven't looked at this patch in detail
-> > > to determine if that is the case here, but there doesn't seem to be
-> > > any indication from the commit test or a comment that doing so is
-> > > actually valid in all cases.
-> >
-> > I'm not obviously seeing a clk-provider flag for this.. although I
-> > won't claim to be a clk expert so maybe I'm looking for the wrong
-> > thing..
-> >
-> > On a more practical level, I'd kinda like to get some sort of fix for
-> > v5.6, as currently suspend/resume doesn't work (or at least the
-> > display does not survive) on trogdor, which is a bit annoying.  It
-> > sounds a bit like cheza was just getting lucky (because of rate
-> > rounding?)  I'm not sure if it is the same situation on other sdm850
-> > devices (yoga c630) or sdm835 devices (are they using the 10mm pll as
-> > well?).
->
-> sdm835 is the first implementation of the 10nm PLL.  Pretty much
-> everything after (including sdm845/850) also uses the 10nm PLL.
->
-> >  I will confess to not really testing s/r on the yoga c630,
-> > although maybe someone else has (Bjorn?).
-> >
-> > Possibly this should be pushed up to the clk framework, although not
-> > sure if it has a good way to realize the clk provider has lost power?
-> > But that sounds like a better thing for v5.7 than v5.6-rc fixes.. ofc
-> > if there is a better way that I'm not seeing, I'm all ears.
->
-> There is a suspend/resume sequence in the HPG where VCO isn't lost,
-> but that assumes the GDSC isn't turned off.  If GDSC is turned off,
-> then we need to go through the entire power-up sequence again.  Feels
-> like this should be plumbed into runtime PM based on the
-> suspend/resume usecase, but that's probably more complicated then this
-> change.
-
-since gdsc is modelled as genpd, that seems to (afaict) happen all
-outside the scope of what the driver knows about.. (but I may be
-overlooking something)
-
-> Looking at the HPG for the power up sequence, it seems like we should
-> be setting the bias in the middle of the dsi_pll_commit(), so the
-> order of operations is slight off, however I somewhat doubt that will
-> have a meaningful impact and it does seem like this change is in line
-> with the spirit of the HPG.
->
-> It wasn't clear to me from the commit message what usecase triggered
-> this.  You've made it clear that its suspend/resume (it would be good
-> if that was mentioned) and that its impacting an actual target.  To
-> me, the current description seemed more theoretical and didn't
-> describe the impact that was being addressed.  Overall, it really
-> didn't answer the "why should I care if I have this change" question.
->
-> Right now, I think my concerns are cosmetic, therefore I don't have
-> reservations about it being picked up.  If you like:
->
-> Reviewed-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-
-
-hmm, yeah, I guess the commit msg didn't really make that clear.. at
-any rate, I want to see a clean solution pursued in the long run, but
-in the short term I also want to get things working (at least if it
-doesn't break any other users).  So I don't want to land this patch at
-the expense of follow-up for a cleaner solution.. but like I said, I
-would like to get s/r working for now.  So I guess I'd like to see
-some commitment from the display team to follow-up to improve this in
-the next cycle.  And suggestions welcome about how the clk framework
-could make this easier.
-
-BR,
--R
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+DQoNCj4gMjAyMOW5tDLmnIgxMeaXpSAyMzo0M++8jENocmlzdGlhbiBLw7ZuaWcgPGNrb2VuaWcu
+bGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiDlhpnpgZPvvJoNCj4gDQo+IFdoZW4gbm9uLWltcG9y
+dGVkIEJPcyBhcmUgcmVzdXJyZWN0ZWQgZm9yIGRlbGF5ZWQgZGVsZXRlIHdlIHJlcGxhY2UNCj4g
+dGhlIGRtYV9yZXN2IG9iamVjdCB0byBhbGxvdyBmb3IgZWFzeSByZWNsYWltaW5nIG9mIHRoZSBy
+ZXNvdXJjZXMuDQo+IA0KPiB2MjogbW92ZSB0aGF0IHRvIHR0bV9ib19pbmRpdmlkdWFsaXplX3Jl
+c3YNCj4gdjM6IGFkZCBhIGNvbW1lbnQgdG8gZXhwbGFpbiB3aGF0J3MgZ29pbmcgb24NCj4gDQo+
+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
+bT4NCj4gUmV2aWV3ZWQtYnk6IHhpbmh1aSBwYW4gPHhpbmh1aS5wYW5AYW1kLmNvbT4NCj4gLS0t
+DQo+IGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgfCAxNCArKysrKysrKysrKysrLQ0KPiAx
+IGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+dHRtL3R0bV9iby5jDQo+IGluZGV4IGJmYzQyYTllNGZiNC4uODE3NDYwM2QzOTBmIDEwMDY0NA0K
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS90dG0vdHRtX2JvLmMNCj4gQEAgLTM5Myw2ICszOTMsMTggQEAgc3RhdGljIGludCB0dG1f
+Ym9faW5kaXZpZHVhbGl6ZV9yZXN2KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8pDQo+IA0K
+PiAJciA9IGRtYV9yZXN2X2NvcHlfZmVuY2VzKCZiby0+YmFzZS5fcmVzdiwgYm8tPmJhc2UucmVz
+dik7DQo+IAlkbWFfcmVzdl91bmxvY2soJmJvLT5iYXNlLl9yZXN2KTsNCj4gKwlpZiAocikNCj4g
+KwkJcmV0dXJuIHI7DQo+ICsNCj4gKwlpZiAoYm8tPnR5cGUgIT0gdHRtX2JvX3R5cGVfc2cpIHsN
+Cj4gKwkJLyogVGhpcyB3b3JrcyBiZWNhdXNlIHRoZSBCTyBpcyBhYm91dCB0byBiZSBkZXN0cm95
+ZWQgYW5kIG5vYm9keQ0KPiArCQkgKiByZWZlcmVuY2UgaXQgYW55IG1vcmUuIFRoZSBvbmx5IHRy
+aWNreSBjYXNlIGlzIHRoZSB0cnlsb2NrIG9uDQo+ICsJCSAqIHRoZSByZXN2IG9iamVjdCB3aGls
+ZSBob2xkaW5nIHRoZSBscnVfbG9jay4NCj4gKwkJICovDQo+ICsJCXNwaW5fbG9jaygmdHRtX2Jv
+X2dsb2IubHJ1X2xvY2spOw0KPiArCQliby0+YmFzZS5yZXN2ID0gJmJvLT5iYXNlLl9yZXN2Ow0K
+PiArCQlzcGluX3VubG9jaygmdHRtX2JvX2dsb2IubHJ1X2xvY2spOw0KPiArCX0NCj4gDQoNCmhv
+dyBhYm91dCBzb21ldGhpbmcgbGlrZSB0aGF0Lg0KdGhlIGJhc2ljIGlkZWEgaXMgdG8gZG8gdGhl
+IGJvIGNsZWFudXAgd29yayBpbiBibyByZWxlYXNlIGZpcnN0IGFuZCBhdm9pZCBhbnkgcmFjZSB3
+aXRoIGV2aWN0Lg0KQXMgaW4gYm8gZGllaW5nIHByb2dyZXNzLCBldmljdCBhbHNvIGp1c3QgZG8g
+Ym8gY2xlYW51cCB3b3JrLg0KDQpJZiBibyBpcyBidXN5LCBuZWl0aGVyIGJvX3JlbGVhc2Ugbm9y
+IGV2aWN0ICBjYW4gZG8gY2xlYW51cHdvcmsgIG9uIGl0LiBGb3IgdGhlIGJvIHJlbGVhc2UgY2Fz
+ZSwgd2UganVzdCBhZGQgYm8gYmFjayB0byBscnUgbGlzdC4NClNvIHdlIGNhbiBjbGVhbiBpdCB1
+cCAgYm90aCBpbiB3b3JrcXVldWUgYW5kIHNocmlua2VyIGFzIHRoZSBwYXN0IHdheSAgZGlkLg0K
+DQpAQCAtNDA1LDggKzQwNSw5IEBAIHN0YXRpYyBpbnQgdHRtX2JvX2luZGl2aWR1YWxpemVfcmVz
+dihzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKQ0KIA0KICAgIGlmIChiby0+dHlwZSAhPSB0
+dG1fYm9fdHlwZV9zZykgew0KICAgICAgICBzcGluX2xvY2soJnR0bV9ib19nbG9iLmxydV9sb2Nr
+KTsNCi0gICAgICAgYm8tPmJhc2UucmVzdiA9ICZiby0+YmFzZS5fcmVzdjsNCisgICAgICAgdHRt
+X2JvX2RlbF9mcm9tX2xydShibyk7DQogICAgICAgIHNwaW5fdW5sb2NrKCZ0dG1fYm9fZ2xvYi5s
+cnVfbG9jayk7DQorICAgICAgIGJvLT5iYXNlLnJlc3YgPSAmYm8tPmJhc2UuX3Jlc3Y7DQogICAg
+fSAgIA0KIA0KICAgIHJldHVybiByOw0KQEAgLTYwNiwxMCArNjA3LDkgQEAgc3RhdGljIHZvaWQg
+dHRtX2JvX3JlbGVhc2Uoc3RydWN0IGtyZWYgKmtyZWYpDQogICAgICAgICAqIHNocmlua2Vycywg
+bm93IHRoYXQgdGhleSBhcmUgcXVldWVkIGZvciANCiAgICAgICAgICogZGVzdHJ1Y3Rpb24uDQog
+ICAgICAgICAqLyAgDQotICAgICAgIGlmIChiby0+bWVtLnBsYWNlbWVudCAmIFRUTV9QTF9GTEFH
+X05PX0VWSUNUKSB7DQorICAgICAgIGlmIChiby0+bWVtLnBsYWNlbWVudCAmIFRUTV9QTF9GTEFH
+X05PX0VWSUNUKQ0KICAgICAgICAgICAgYm8tPm1lbS5wbGFjZW1lbnQgJj0gflRUTV9QTF9GTEFH
+X05PX0VWSUNUOw0KLSAgICAgICAgICAgdHRtX2JvX21vdmVfdG9fbHJ1X3RhaWwoYm8sIE5VTEwp
+Ow0KLSAgICAgICB9DQorICAgICAgIHR0bV9ib19hZGRfbWVtX3RvX2xydShibywgJmJvLT5tZW0p
+Ow0KIA0KICAgICAgICBrcmVmX2luaXQoJmJvLT5rcmVmKTsNCiAgICAgICAgbGlzdF9hZGRfdGFp
+bCgmYm8tPmRkZXN0cm95LCAmYmRldi0+ZGRlc3Ryb3kpOw0KDQp0aGFua3MNCnhpbmh1aQ0KDQoN
+Cj4gCXJldHVybiByOw0KPiB9DQo+IEBAIC03MjQsNyArNzM2LDcgQEAgc3RhdGljIGJvb2wgdHRt
+X2JvX2V2aWN0X3N3YXBvdXRfYWxsb3dhYmxlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8s
+DQo+IA0KPiAJaWYgKGJvLT5iYXNlLnJlc3YgPT0gY3R4LT5yZXN2KSB7DQo+IAkJZG1hX3Jlc3Zf
+YXNzZXJ0X2hlbGQoYm8tPmJhc2UucmVzdik7DQo+IC0JCWlmIChjdHgtPmZsYWdzICYgVFRNX09Q
+VF9GTEFHX0FMTE9XX1JFU19FVklDVCB8fCBiby0+ZGVsZXRlZCkNCj4gKwkJaWYgKGN0eC0+Zmxh
+Z3MgJiBUVE1fT1BUX0ZMQUdfQUxMT1dfUkVTX0VWSUNUKQ0KPiAJCQlyZXQgPSB0cnVlOw0KPiAJ
+CSpsb2NrZWQgPSBmYWxzZTsNCj4gCQlpZiAoYnVzeSkNCj4gLS0gDQo+IDIuMTcuMQ0KPiANCj4g
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gYW1kLWdm
+eCBtYWlsaW5nIGxpc3QNCj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gaHR0cHM6
+Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJG
+JTJGbGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGYW1kLWdmeCZh
+bXA7ZGF0YT0wMiU3QzAxJTdDeGluaHVpLnBhbiU0MGFtZC5jb20lN0NiMTg0ZGZmNWFhZjM0OWUy
+MjEwMDA4ZDdhZjA5MjYzNyU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3
+QzAlN0M2MzcxNzAzMjYyMDQ5NjYzNzUmYW1wO3NkYXRhPUtkWk4xbCUyRmtEWW9kWHhQUWdhWGFT
+WFV2TXoyUkh4eXNTU0Y5a3JRUmdwSSUzRCZhbXA7cmVzZXJ2ZWQ9MA0KDQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
