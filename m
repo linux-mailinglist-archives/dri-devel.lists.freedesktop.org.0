@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B780615A334
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:25:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 829B815A34E
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 09:26:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5648C6E9BA;
-	Wed, 12 Feb 2020 08:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3B156F496;
+	Wed, 12 Feb 2020 08:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C7066E563
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 02:11:19 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id j16so402041otl.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 18:11:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 576A16E5B6;
+ Wed, 12 Feb 2020 04:05:24 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id z193so680314iof.1;
+ Tue, 11 Feb 2020 20:05:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n6k/Lbub/n1jxmtDamXfDiU39sk3ANWZWTNVfSZ9e5g=;
- b=wUxk6Sy9q6qoyjX1z79P+a13uxDl7LnfZY8mNFGDgLHAlzg+XIha1ypLspjBiq7hGA
- HscwnVJCrLtXWufw1he5v8VfT3HhFn4FyHWnUeTsvsjxPaEAAXBiVH0y2bC/U+NCpyPW
- 0BtVAPLHJwtrtf3dif65ZmZBB4BUJJNeT61X2XptZj0kCPVjl86sk8jl0uxD4TNa040Y
- iedDOzlawJRkS23dZ4HPD5Tv83JGGozqICZ559cUnrRv1Za8W1K53jibHXYJ97fH0ckR
- IF7Z9sw+FkJ1KG/xqorkkIHoNWCYYP0GScu1biUAByDXEN7ff8+g+wya90Fu0XzcpdDT
- 2g+w==
+ :cc; bh=Y56nAJIiZ+uAireBhRTGWvQxGWmhvKQLDXIXjtVT5qc=;
+ b=btedfg0CVADkEXOTQtcBBZceMQ0wFLGxJgZBVU5li97qjEePaciiefJvdqULLnA/49
+ zMpC5uAhdfTlJiSaJN66mnx2yTr/SbCO7ZB+gGOfzgw3TWrS3DIYJ914YDeNLbBE4nml
+ tP8/CmLp6BEGTQfO7tpkVVdTnx8LPJdfKtrsss8NR5NBcbtjZOd8MGySAcH9R7N/DemB
+ uRsmHktaR+dJEhnLRRYEv1wzCEC1OhvlxLsCqESF4fXDlRALAngz/mXIn1WIWn8YfPYB
+ TE2QfHeZSmVbFlJDvb6ayDhyvHSDsewScBKLd18k1Ow2sYeSwDq3w8sBQSZXtqG0+Fsl
+ rNKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=n6k/Lbub/n1jxmtDamXfDiU39sk3ANWZWTNVfSZ9e5g=;
- b=qCyv4t7cliGqQrw710m0p9rZP9SLLhDcQ4JMAoXzttbI5m7x9WzyC3ZgXiSf04GBOO
- hCsJGeS0ZwmtnTZ77FkqjEC+F4RJN+uk+8fEoj22c4szcmvPMuQ0DL3Z6/I5qHLtvdUr
- t1PtvNE5NzsL9/oeCPL95G4Jpe2gvJwSB9pAUxhInCfhl0qNxm2FWP9HR2MyyfEh1evV
- 2hm1AnX19F2vvVn6LHcK6H4wmfQ6cchkmaq/f6v6eB5ShCbKg1mf/PyWcfoFADKypIz+
- 4PygWQSx9++GlNmQNno1Lt5rK2X9MtznPeuAa6PdfbW89HAHALs/JevzBuwx/9rLQWxg
- /3+g==
-X-Gm-Message-State: APjAAAVkKtaT/d/9EUUCXV1o8adzuD4Ju7E1epECRIssA37gsOZuJqOx
- XgecYZ2NlLQEPQZ9rwl5c+87a5v0kNkUUmxKcUsXZw==
-X-Google-Smtp-Source: APXvYqx9WyDPh84T/dWz0V7MAkV6Fu38Ls7r23WUTJHuOaZMt9M7Cqkp1o3QjcNUD57URwJnbkv4nhKPOxGIjSTARy8=
-X-Received: by 2002:a05:6830:22ee:: with SMTP id
- t14mr7441403otc.236.1581473478420; 
- Tue, 11 Feb 2020 18:11:18 -0800 (PST)
+ bh=Y56nAJIiZ+uAireBhRTGWvQxGWmhvKQLDXIXjtVT5qc=;
+ b=gpfKvBMN3c4IkoDTvTiG3h9rXs07XUA/SjNslypo67XZpiEb/W/kmBDeFUKYIqMbYu
+ 4Onwa4Idx9YN1zYEaiTNDiPMf5z5GjwbLxLzpA8J5escO2gCiAZJDEklY1IZzo1/ofkp
+ MWlqHPXxxbXQX5qDLwAO0prkcEtRE14GjacMZ+mRl5KdtP9iPwiU5GkuXlSxXeTrj+fu
+ G+Qx6zxL/sJEtHyPsF1nKTuhNEurAjj5RXhfbyfWRYXmdm4p7AG5uFCUVQAoPZyt1X+B
+ wlih4VuMHzbV3yK8dWnNirvkxwto4fkRiJpmQsNF2/pf2JNiWpTyA0SM3bVe7HYduyU3
+ Dk7w==
+X-Gm-Message-State: APjAAAWg9oeKscPjcQAdPdRyHYcS2sf9uk/dO3oAz6WxJtJK9RdJXLBw
+ 8WT6lfpvhEZrp6Za9mbK/nIi2r7XJBsPtW2jDI4=
+X-Google-Smtp-Source: APXvYqxQ0rPC9j2U/jPbaaP/bDv1y9+TQflRxmG+XDXwohv+nLmHusAQF2PA7ecGEs6d59JFIScunvpyDxS2IxIWxPA=
+X-Received: by 2002:a5d:8c89:: with SMTP id g9mr16096170ion.178.1581480323635; 
+ Tue, 11 Feb 2020 20:05:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <20200207052627.130118-6-drinkcat@chromium.org>
- <CAL_JsqLshgzmhGGa+XibosSgk6R_9DQkDf12s793UZcvbQbxKw@mail.gmail.com>
- <CAGETcx_3-ZoVAf+Uf0Yo86pUU1nL4S4-jrS0eZi50yvhCO985g@mail.gmail.com>
- <CAL_JsqLw1fyj949KtG6wNRG_Ky6cq2wS3VH2Ku+ZykU3bSap=g@mail.gmail.com>
-In-Reply-To: <CAL_JsqLw1fyj949KtG6wNRG_Ky6cq2wS3VH2Ku+ZykU3bSap=g@mail.gmail.com>
-From: Saravana Kannan <saravanak@google.com>
-Date: Tue, 11 Feb 2020 18:10:42 -0800
-Message-ID: <CAGETcx9H09LZ7v+SrPLmtyLQBVzoVg9yRFMwYnQOLCtndWgHTw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] drm/panfrost: Add support for multiple power
- domains
-To: Rob Herring <robh+dt@kernel.org>
+References: <1580980321-19256-1-git-send-email-harigovi@codeaurora.org>
+ <CAOCk7Nr9n-xLtWq=LEM-QFhJcY+QOuzazsoi-yjErA9od2Jwmw@mail.gmail.com>
+ <2f5abc857910f70faa119fea5bda81d7@codeaurora.org>
+ <CAOCk7NoCH9p9gOd7as=ty-EMeerAAhQtKZa8f2wZrDeV2LtGrw@mail.gmail.com>
+ <1d201377996e16ce25acb640867e1214@codeaurora.org>
+ <CAF6AEGu8265DWN-XABwR1N-124m1j=EkgeNDEWZ16TVpSCZSZw@mail.gmail.com>
+ <CAOCk7NrH6hWiHL29_DozXcXrXhkCaZ6LTCtJUrvqtXc=nQuLrg@mail.gmail.com>
+ <CAF6AEGvLOWKVCjjmqranEi9TKOpMM+BPK199wQ7f=Ez491uhcA@mail.gmail.com>
+In-Reply-To: <CAF6AEGvLOWKVCjjmqranEi9TKOpMM+BPK199wQ7f=Ez491uhcA@mail.gmail.com>
+From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Date: Tue, 11 Feb 2020 21:05:12 -0700
+Message-ID: <CAOCk7NrifMkwartV4rj_v_V4=EHeSkmb28tdBUrxoPHVSX5G5Q@mail.gmail.com>
+Subject: Re: [Freedreno] [v1] drm/msm/dsi/pll: call vco set rate explicitly
+To: Rob Clark <robdclark@gmail.com>
 X-Mailman-Approved-At: Wed, 12 Feb 2020 08:25:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,196 +68,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: DTML <devicetree@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Harigovindan P <harigovi@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 5:58 PM Rob Herring <robh+dt@kernel.org> wrote:
+On Tue, Feb 11, 2020 at 5:28 PM Rob Clark <robdclark@gmail.com> wrote:
 >
-> On Tue, Feb 11, 2020 at 2:09 PM Saravana Kannan <saravanak@google.com> wrote:
+> On Tue, Feb 11, 2020 at 7:59 AM Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
 > >
-> > On Tue, Feb 11, 2020 at 11:44 AM Rob Herring <robh+dt@kernel.org> wrote:
+> > On Tue, Feb 11, 2020 at 8:44 AM Rob Clark <robdclark@gmail.com> wrote:
 > > >
-> > > +Saravana
+> > > On Mon, Feb 10, 2020 at 9:58 PM <harigovi@codeaurora.org> wrote:
+> > > >
+> > > > On 2020-02-07 19:40, Jeffrey Hugo wrote:
+> > > > > On Fri, Feb 7, 2020 at 5:38 AM <harigovi@codeaurora.org> wrote:
+> > > > >>
+> > > > >> On 2020-02-06 20:29, Jeffrey Hugo wrote:
+> > > > >> > On Thu, Feb 6, 2020 at 2:13 AM Harigovindan P <harigovi@codeaurora.org>
+> > > > >> > wrote:
+> > > > >> >>
+> > > > >> >> For a given byte clock, if VCO recalc value is exactly same as
+> > > > >> >> vco set rate value, vco_set_rate does not get called assuming
+> > > > >> >> VCO is already set to required value. But Due to GDSC toggle,
+> > > > >> >> VCO values are erased in the HW. To make sure VCO is programmed
+> > > > >> >> correctly, we forcefully call set_rate from vco_prepare.
+> > > > >> >
+> > > > >> > Is this specific to certain SoCs? I don't think I've observed this.
+> > > > >>
+> > > > >> As far as Qualcomm SOCs are concerned, since pll is analog and the
+> > > > >> value
+> > > > >> is directly read from hardware if we get recalc value same as set rate
+> > > > >> value, the vco_set_rate will not be invoked. We checked in our idp
+> > > > >> device which has the same SOC but it works there since the rates are
+> > > > >> different.
+> > > > >
+> > > > > This doesn't seem to be an answer to my question.  What Qualcomm SoCs
+> > > > > does this issue apply to?  Everything implementing the 10nm pll?  One
+> > > > > specific SoC?  I don't believe I've seen this on MSM8998, nor SDM845,
+> > > > > so I'm interested to know what is the actual impact here.  I don't see
+> > > > > an "IDP" SoC in the IP catalog, so I really have no idea what you are
+> > > > > referring to.
+> > > >
+> > > >
+> > > > This is not 10nm specific. It is applicable for other nms also.
+> > > > Its specific to the frequency being set. If vco_recalc returns the same
+> > > > value as being set by vco_set_rate,
+> > > > vco_set_rate will not be invoked second time onwards.
+> > > >
+> > > > For example: Lets take below devices:
+> > > >
+> > > > Cheza is based on SDM845 which is 10nm only.
+> > > > Clk frequency:206016
+> > > > dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1236096000
+> > > > dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1236095947
+> > > >
+> > > > Trogdor is based on sc7180 which is also 10nm.
+> > > > Clk frequency:69300
+> > > > dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1663200000
+> > > > dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1663200000
+> > > >
+> > > > In same trogdor device, we slightly changed the clock frequency and the
+> > > > values actually differ which will not cause any issue.
+> > > > Clk frequency:69310
+> > > > dsi_pll_10nm_vco_set_rate - DSI PLL0 rate=1663440000
+> > > > dsi_pll_10nm_vco_recalc_rate - DSI PLL0 returning vco rate = 1663439941
 > > >
-> > > On Thu, Feb 6, 2020 at 11:27 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
-> > > >
-> > > > When there is a single power domain per device, the core will
-> > > > ensure the power domain is switched on (so it is technically
-> > > > equivalent to having not power domain specified at all).
-> > > >
-> > > > However, when there are multiple domains, as in MT8183 Bifrost
-> > > > GPU, we need to handle them in driver code.
-> > > >
-> > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > >
-> > > > ---
-> > > >
-> > > > The downstream driver we use on chromeos-4.19 currently uses 2
-> > > > additional devices in device tree to accomodate for this [1], but
-> > > > I believe this solution is cleaner.
-> > > >
-> > > > [1] https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/chromeos-4.19/drivers/gpu/arm/midgard/platform/mediatek/mali_kbase_runtime_pm.c#31
-> > > >
-> > > > v4:
-> > > >  - Match the exact power domain names as specified in the compatible
-> > > >    struct, instead of just matching the number of power domains.
-> > > >    [Review: Ulf Hansson]
-> > > >  - Dropped print and reordered function [Review: Steven Price]
-> > > >  - nits: Run through latest version of checkpatch:
-> > > >    - Use WARN instead of BUG_ON.
-> > > >    - Drop braces for single expression if block.
-> > > > v3:
-> > > >  - Use the compatible matching data to specify the number of power
-> > > >    domains. Note that setting 0 or 1 in num_pm_domains is equivalent
-> > > >    as the core will handle these 2 cases in the exact same way
-> > > >    (automatically, without driver intervention), and there should
-> > > >    be no adverse consequence in this case (the concern is about
-> > > >    switching on only some power domains and not others).
-> > > >
-> > > >  drivers/gpu/drm/panfrost/panfrost_device.c | 97 ++++++++++++++++++++--
-> > > >  drivers/gpu/drm/panfrost/panfrost_device.h | 11 +++
-> > > >  drivers/gpu/drm/panfrost/panfrost_drv.c    |  2 +
-> > > >  3 files changed, 102 insertions(+), 8 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > > > index 3720d50f6d9f965..8136babd3ba9935 100644
-> > > > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> > > > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > > > @@ -5,6 +5,7 @@
-> > > >  #include <linux/clk.h>
-> > > >  #include <linux/reset.h>
-> > > >  #include <linux/platform_device.h>
-> > > > +#include <linux/pm_domain.h>
-> > > >  #include <linux/regulator/consumer.h>
-> > > >
-> > > >  #include "panfrost_device.h"
-> > > > @@ -120,6 +121,79 @@ static void panfrost_regulator_fini(struct panfrost_device *pfdev)
-> > > >                         pfdev->regulators);
-> > > >  }
-> > > >
-> > > > +static void panfrost_pm_domain_fini(struct panfrost_device *pfdev)
-> > > > +{
-> > > > +       int i;
-> > > > +
-> > > > +       for (i = 0; i < ARRAY_SIZE(pfdev->pm_domain_devs); i++) {
-> > > > +               if (!pfdev->pm_domain_devs[i])
-> > > > +                       break;
-> > > > +
-> > > > +               if (pfdev->pm_domain_links[i])
-> > > > +                       device_link_del(pfdev->pm_domain_links[i]);
-> > > > +
-> > > > +               dev_pm_domain_detach(pfdev->pm_domain_devs[i], true);
-> > > > +       }
-> > > > +}
-> > > > +
-> > > > +static int panfrost_pm_domain_init(struct panfrost_device *pfdev)
-> > > > +{
-> > > > +       int err;
-> > > > +       int i, num_domains;
-> > > > +
-> > > > +       num_domains = of_count_phandle_with_args(pfdev->dev->of_node,
-> > > > +                                                "power-domains",
-> > > > +                                                "#power-domain-cells");
-> > > > +
-> > > > +       /*
-> > > > +        * Single domain is handled by the core, and, if only a single power
-> > > > +        * the power domain is requested, the property is optional.
-> > > > +        */
-> > > > +       if (num_domains < 2 && pfdev->comp->num_pm_domains < 2)
-> > > > +               return 0;
-> > > > +
-> > > > +       if (num_domains != pfdev->comp->num_pm_domains) {
-> > > > +               dev_err(pfdev->dev,
-> > > > +                       "Incorrect number of power domains: %d provided, %d needed\n",
-> > > > +                       num_domains, pfdev->comp->num_pm_domains);
-> > > > +               return -EINVAL;
-> > > > +       }
-> > > > +
-> > > > +       if (WARN(num_domains > ARRAY_SIZE(pfdev->pm_domain_devs),
-> > > > +                       "Too many supplies in compatible structure.\n"))
-> > > > +               return -EINVAL;
-> > > > +
-> > > > +       for (i = 0; i < num_domains; i++) {
-> > > > +               pfdev->pm_domain_devs[i] =
-> > > > +                       dev_pm_domain_attach_by_name(pfdev->dev,
-> > > > +                                       pfdev->comp->pm_domain_names[i]);
-> > > > +               if (IS_ERR_OR_NULL(pfdev->pm_domain_devs[i])) {
-> > > > +                       err = PTR_ERR(pfdev->pm_domain_devs[i]) ? : -ENODATA;
-> > > > +                       pfdev->pm_domain_devs[i] = NULL;
-> > > > +                       dev_err(pfdev->dev,
-> > > > +                               "failed to get pm-domain %s(%d): %d\n",
-> > > > +                               pfdev->comp->pm_domain_names[i], i, err);
-> > > > +                       goto err;
-> > > > +               }
-> > > > +
-> > > > +               pfdev->pm_domain_links[i] = device_link_add(pfdev->dev,
-> > > > +                               pfdev->pm_domain_devs[i], DL_FLAG_PM_RUNTIME |
-> > > > +                               DL_FLAG_STATELESS | DL_FLAG_RPM_ACTIVE);
 > > >
-> > > We're in the process of adding device links based on DT properties.
-> > > Shouldn't we add power domains to that? See drivers/of/property.c for
-> > > what's handled.
+> > > tbh, loosing state when power is off is kind of the behavior that I'd
+> > > expect.  It kinda makes me wonder if things are not getting powered
+> > > off all the way on some SoCs?
+> > >
+> > > jhugo, are you worried that this patch will cause problems on other
+> > > users of the 10nm pll?
 > >
-> > Rob,
+> > Essentially yes.  Conceptually it doesn't seem like this change should
+> > cause any harm, however -
 > >
-> > drivers/of/property.c doesn't enable the RPM_ACTIVE AND PM_RUNTIME
-> > flags. Wanted to start off conservative.
+> > This sounds like we are trying to work around the clk framework, which
+> > seems wrong.  It feels like we should be able to set a clk flag for
+> > this and make the framework deal with it.
+> >
+> > Also, this fix is 10nm specific, yet this issue affects all
+> > implementations?  Seems like this should perhaps be in common code so
+> > that we don't need to play whack-a-mole by fixing every implementation
+> > piecemeal.
+> >
+> > Finally, the PLLs are notorious for not taking a configuration unless
+> > they are running.  I admit, I haven't looked at this patch in detail
+> > to determine if that is the case here, but there doesn't seem to be
+> > any indication from the commit test or a comment that doing so is
+> > actually valid in all cases.
 >
-> I worry that you can't add it later without potentially breaking platforms.
+> I'm not obviously seeing a clk-provider flag for this.. although I
+> won't claim to be a clk expert so maybe I'm looking for the wrong
+> thing..
 >
-> I haven't checked, but I assume these flags make runtime PM honor
-> device links? That seems like the more conservative option (more
-> reasons why a device can't suspend).
+> On a more practical level, I'd kinda like to get some sort of fix for
+> v5.6, as currently suspend/resume doesn't work (or at least the
+> display does not survive) on trogdor, which is a bit annoying.  It
+> sounds a bit like cheza was just getting lucky (because of rate
+> rounding?)  I'm not sure if it is the same situation on other sdm850
+> devices (yoga c630) or sdm835 devices (are they using the 10mm pll as
+> well?).
 
-Conservative as in, if of_devlink adds the RPM_ACTIVE flag, the
-drivers can't remove it.
+sdm835 is the first implementation of the 10nm PLL.  Pretty much
+everything after (including sdm845/850) also uses the 10nm PLL.
 
-> > But adding command line ops
-> > to change the default flags shouldn't be difficult. But before I do
-> > that, I want to change of_devlink to
-> > fw_devlink=<disabled|permissive|enabled>. May be I can extend that to
-> > "disabled, permissive, suspend, runtime".
+>  I will confess to not really testing s/r on the yoga c630,
+> although maybe someone else has (Bjorn?).
 >
-> I think any command line option should be debug primarily. It's kind
-> of a big hammer.
+> Possibly this should be pushed up to the clk framework, although not
+> sure if it has a good way to realize the clk provider has lost power?
+> But that sounds like a better thing for v5.7 than v5.6-rc fixes.. ofc
+> if there is a better way that I'm not seeing, I'm all ears.
 
-It is a big hammer. But it's better than disabling of_devlink
-altogether. There is always going to be weird hardware that won't work
-with of_devlink if all the device link flags are set. They'll need
-some fix up of drivers and/or clean up of DT. And having different
-of_devlink command line options would at least let those hardware to
-run with as much of_devlink enabled as possible while working to get
-more fixes into the kernel. That way, we can make sure we don't
-regress further while trying to improve the support.
+There is a suspend/resume sequence in the HPG where VCO isn't lost,
+but that assumes the GDSC isn't turned off.  If GDSC is turned off,
+then we need to go through the entire power-up sequence again.  Feels
+like this should be plumbed into runtime PM based on the
+suspend/resume usecase, but that's probably more complicated then this
+change.
 
-> Can drivers adjust the flags themselves? Just modify the flags rather
-> than trying to create new links?
+Looking at the HPG for the power up sequence, it seems like we should
+be setting the bias in the middle of the dsi_pll_commit(), so the
+order of operations is slight off, however I somewhat doubt that will
+have a meaningful impact and it does seem like this change is in line
+with the spirit of the HPG.
 
-They can, but only in an additive manner. And the way to do it would
-be to add a device link like usual and the framework takes care of
-combining the flags. That's why I don't set most of the flags by
-default.
+It wasn't clear to me from the commit message what usecase triggered
+this.  You've made it clear that its suspend/resume (it would be good
+if that was mentioned) and that its impacting an actual target.  To
+me, the current description seemed more theoretical and didn't
+describe the impact that was being addressed.  Overall, it really
+didn't answer the "why should I care if I have this change" question.
 
+Right now, I think my concerns are cosmetic, therefore I don't have
+reservations about it being picked up.  If you like:
 
--Saravana
+Reviewed-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
