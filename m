@@ -2,46 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA5E159ED4
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 02:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F051159EF7
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 03:08:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A04BC6E514;
-	Wed, 12 Feb 2020 01:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D9C6E546;
+	Wed, 12 Feb 2020 02:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1E36E514
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 01:58:37 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DFB2D2086A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 01:58:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581472717;
- bh=5xMV5/TVGRr+5n3CDhQK+BAq0L+GSeKCKbxA7n55/wE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=2h7KjcUk9Sp8aOwuyZi4JC/C8u8EEDPgWxCQewplP19CLItSG4UXpvP9eb+acJoOl
- F/TlUc0oQ5Ot12JROwBghL5wRhYNEa38T/MPyEHN9hM+GIbCCFf0OHqcnONKZHNUcq
- qHkRWYtjr3XzRQ9h52PLmLIwStzBoPna6fKAvWgo=
-Received: by mail-qt1-f177.google.com with SMTP id e21so420022qtp.13
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 17:58:36 -0800 (PST)
-X-Gm-Message-State: APjAAAUTDG8IZtZQn+DXJM/fbRKc1C4xrmTQn2N/AEegv3KfIGsUc804
- muLC7Z+awXXFLKgor/YiIHha3gpN7+g1/Sfy+g==
-X-Google-Smtp-Source: APXvYqzJvq766HYoGaDSEwrefuEPoAikZi/pD9TMZnClXZXfoYeHa0Z1pBt1X/JlPhjCMqHKV9W/WdNr2bG7DidQlDY=
-X-Received: by 2002:aed:2344:: with SMTP id i4mr17639114qtc.136.1581472715957; 
- Tue, 11 Feb 2020 17:58:35 -0800 (PST)
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C616E546
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 02:08:38 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id p7so574129qkh.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2020 18:08:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aO1UKgSaz5CktVcc4Y8RcygWfgexx86iGtyjlHVU3kc=;
+ b=Ra4CJUVRnDxwoRk1QHlRr35m77IrmNP+H+pxr+bZOB0DUqvHsCjOXSRfGg8rh5YTc/
+ bgIS4sXVXPWDN0WSvdb5FMIFOhtL88yKaI01xKq0D1/4ULI+kJq4x8UcjsWQePCqsrs8
+ 6+XGOuD6jIhd4dxdCqcpHLWlftWwwtVIkMYXo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aO1UKgSaz5CktVcc4Y8RcygWfgexx86iGtyjlHVU3kc=;
+ b=J4Z4L8tjHeZkiD6PW+hNYSRgbUu2bu8q5NYgm/LbEoSoP0pzZyZqqki0YIOrAWsFlg
+ 0wI2CZa4+2e/0QEwmQqS6bZsqSbCqGSzghezu5ao0r9CQX42p1Np+Gp1fxTyIhezPE9L
+ BN6kdrI+J7mJpBCtEAhjEsSeaJaaBxahtzHDaLr3y9ScegL3Q/g9Db8fTz+MBfzFVRkF
+ L3VGRvEa3g5THscbSWGbsgJkAGE6JiEY6+WkxCmDuHrUaT22yqkgXRFvIq+mjhOjtQ1p
+ s8F8nhSBvzBObfUwv3BPOTEVECai9iiCjCnXm3cf8CD/h5RfWV3hPTYrHQsxYgjSbKy7
+ JmdQ==
+X-Gm-Message-State: APjAAAUrU9JJUZ4+QwUZJmaXsuqes2q3FNABwudWkvBoSSxvkfBBP6oK
+ NdmuYTsNWUSX5PkaQJV69sw5BH3ylHaJtLYpj34caA==
+X-Google-Smtp-Source: APXvYqwbzvTmz/rK3xPb+7Zh0OWCEANWSI8B0x6aGBv3LzyJNw2pam02x3/hzeuy9xsPHf377lq3HNhZe8a4gYL9G7M=
+X-Received: by 2002:a05:620a:6d7:: with SMTP id
+ 23mr8405839qky.299.1581473317421; 
+ Tue, 11 Feb 2020 18:08:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20200207052627.130118-1-drinkcat@chromium.org>
  <20200207052627.130118-6-drinkcat@chromium.org>
  <CAL_JsqLshgzmhGGa+XibosSgk6R_9DQkDf12s793UZcvbQbxKw@mail.gmail.com>
  <CAGETcx_3-ZoVAf+Uf0Yo86pUU1nL4S4-jrS0eZi50yvhCO985g@mail.gmail.com>
 In-Reply-To: <CAGETcx_3-ZoVAf+Uf0Yo86pUU1nL4S4-jrS0eZi50yvhCO985g@mail.gmail.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 11 Feb 2020 19:58:24 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLw1fyj949KtG6wNRG_Ky6cq2wS3VH2Ku+ZykU3bSap=g@mail.gmail.com>
-Message-ID: <CAL_JsqLw1fyj949KtG6wNRG_Ky6cq2wS3VH2Ku+ZykU3bSap=g@mail.gmail.com>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Wed, 12 Feb 2020 10:08:26 +0800
+Message-ID: <CANMq1KC2LEQ2iQzGDVAi+-x4Uy1LLB8JU-grTBVTL-iRej-t4A@mail.gmail.com>
 Subject: Re: [PATCH v4 5/7] drm/panfrost: Add support for multiple power
  domains
 To: Saravana Kannan <saravanak@google.com>
@@ -60,14 +65,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Mark Rutland <mark.rutland@arm.com>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  David Airlie <airlied@linux.ie>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
  "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
@@ -78,7 +82,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2020 at 2:09 PM Saravana Kannan <saravanak@google.com> wrote:
+On Wed, Feb 12, 2020 at 4:09 AM Saravana Kannan <saravanak@google.com> wrote:
 >
 > On Tue, Feb 11, 2020 at 11:44 AM Rob Herring <robh+dt@kernel.org> wrote:
 > >
@@ -96,105 +100,7 @@ On Tue, Feb 11, 2020 at 2:09 PM Saravana Kannan <saravanak@google.com> wrote:
 > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
 > > >
 > > > ---
-> > >
-> > > The downstream driver we use on chromeos-4.19 currently uses 2
-> > > additional devices in device tree to accomodate for this [1], but
-> > > I believe this solution is cleaner.
-> > >
-> > > [1] https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/chromeos-4.19/drivers/gpu/arm/midgard/platform/mediatek/mali_kbase_runtime_pm.c#31
-> > >
-> > > v4:
-> > >  - Match the exact power domain names as specified in the compatible
-> > >    struct, instead of just matching the number of power domains.
-> > >    [Review: Ulf Hansson]
-> > >  - Dropped print and reordered function [Review: Steven Price]
-> > >  - nits: Run through latest version of checkpatch:
-> > >    - Use WARN instead of BUG_ON.
-> > >    - Drop braces for single expression if block.
-> > > v3:
-> > >  - Use the compatible matching data to specify the number of power
-> > >    domains. Note that setting 0 or 1 in num_pm_domains is equivalent
-> > >    as the core will handle these 2 cases in the exact same way
-> > >    (automatically, without driver intervention), and there should
-> > >    be no adverse consequence in this case (the concern is about
-> > >    switching on only some power domains and not others).
-> > >
-> > >  drivers/gpu/drm/panfrost/panfrost_device.c | 97 ++++++++++++++++++++--
-> > >  drivers/gpu/drm/panfrost/panfrost_device.h | 11 +++
-> > >  drivers/gpu/drm/panfrost/panfrost_drv.c    |  2 +
-> > >  3 files changed, 102 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > > index 3720d50f6d9f965..8136babd3ba9935 100644
-> > > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> > > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > > @@ -5,6 +5,7 @@
-> > >  #include <linux/clk.h>
-> > >  #include <linux/reset.h>
-> > >  #include <linux/platform_device.h>
-> > > +#include <linux/pm_domain.h>
-> > >  #include <linux/regulator/consumer.h>
-> > >
-> > >  #include "panfrost_device.h"
-> > > @@ -120,6 +121,79 @@ static void panfrost_regulator_fini(struct panfrost_device *pfdev)
-> > >                         pfdev->regulators);
-> > >  }
-> > >
-> > > +static void panfrost_pm_domain_fini(struct panfrost_device *pfdev)
-> > > +{
-> > > +       int i;
-> > > +
-> > > +       for (i = 0; i < ARRAY_SIZE(pfdev->pm_domain_devs); i++) {
-> > > +               if (!pfdev->pm_domain_devs[i])
-> > > +                       break;
-> > > +
-> > > +               if (pfdev->pm_domain_links[i])
-> > > +                       device_link_del(pfdev->pm_domain_links[i]);
-> > > +
-> > > +               dev_pm_domain_detach(pfdev->pm_domain_devs[i], true);
-> > > +       }
-> > > +}
-> > > +
-> > > +static int panfrost_pm_domain_init(struct panfrost_device *pfdev)
-> > > +{
-> > > +       int err;
-> > > +       int i, num_domains;
-> > > +
-> > > +       num_domains = of_count_phandle_with_args(pfdev->dev->of_node,
-> > > +                                                "power-domains",
-> > > +                                                "#power-domain-cells");
-> > > +
-> > > +       /*
-> > > +        * Single domain is handled by the core, and, if only a single power
-> > > +        * the power domain is requested, the property is optional.
-> > > +        */
-> > > +       if (num_domains < 2 && pfdev->comp->num_pm_domains < 2)
-> > > +               return 0;
-> > > +
-> > > +       if (num_domains != pfdev->comp->num_pm_domains) {
-> > > +               dev_err(pfdev->dev,
-> > > +                       "Incorrect number of power domains: %d provided, %d needed\n",
-> > > +                       num_domains, pfdev->comp->num_pm_domains);
-> > > +               return -EINVAL;
-> > > +       }
-> > > +
-> > > +       if (WARN(num_domains > ARRAY_SIZE(pfdev->pm_domain_devs),
-> > > +                       "Too many supplies in compatible structure.\n"))
-> > > +               return -EINVAL;
-> > > +
-> > > +       for (i = 0; i < num_domains; i++) {
-> > > +               pfdev->pm_domain_devs[i] =
-> > > +                       dev_pm_domain_attach_by_name(pfdev->dev,
-> > > +                                       pfdev->comp->pm_domain_names[i]);
-> > > +               if (IS_ERR_OR_NULL(pfdev->pm_domain_devs[i])) {
-> > > +                       err = PTR_ERR(pfdev->pm_domain_devs[i]) ? : -ENODATA;
-> > > +                       pfdev->pm_domain_devs[i] = NULL;
-> > > +                       dev_err(pfdev->dev,
-> > > +                               "failed to get pm-domain %s(%d): %d\n",
-> > > +                               pfdev->comp->pm_domain_names[i], i, err);
-> > > +                       goto err;
-> > > +               }
-> > > +
+> > > [snip]
 > > > +               pfdev->pm_domain_links[i] = device_link_add(pfdev->dev,
 > > > +                               pfdev->pm_domain_devs[i], DL_FLAG_PM_RUNTIME |
 > > > +                               DL_FLAG_STATELESS | DL_FLAG_RPM_ACTIVE);
@@ -206,27 +112,26 @@ On Tue, Feb 11, 2020 at 2:09 PM Saravana Kannan <saravanak@google.com> wrote:
 > Rob,
 >
 > drivers/of/property.c doesn't enable the RPM_ACTIVE AND PM_RUNTIME
-> flags. Wanted to start off conservative.
-
-I worry that you can't add it later without potentially breaking platforms.
-
-I haven't checked, but I assume these flags make runtime PM honor
-device links? That seems like the more conservative option (more
-reasons why a device can't suspend).
-
-> But adding command line ops
+> flags. Wanted to start off conservative. But adding command line ops
 > to change the default flags shouldn't be difficult. But before I do
 > that, I want to change of_devlink to
 > fw_devlink=<disabled|permissive|enabled>. May be I can extend that to
 > "disabled, permissive, suspend, runtime".
+>
+> Nicholas,
+>
+> And the adding and removing of device links for power domains will be
+> a 2 line change. I've been meaning to add a few more bindings like
+> hwspinlocks and pinctrl. I can roll power domains support into that if
+> you want.
 
-I think any command line option should be debug primarily. It's kind
-of a big hammer.
+Adding power domains makes sense to me, as there are a bunch of other
+users (git grep dev_pm_domain_attach_by_name).
 
-Can drivers adjust the flags themselves? Just modify the flags rather
-than trying to create new links?
-
-Rob
+This seems to be a bit orthogonal to this patch though. If your
+solution lands before this (and not something that is behind a command
+line option), then I'm happy to make use of it. Either way, happy to
+test things.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
