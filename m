@@ -2,30 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E553D15B1C6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 21:25:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBDE15B1C1
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2020 21:22:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AAE36E0FF;
-	Wed, 12 Feb 2020 20:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3277A6E0FD;
+	Wed, 12 Feb 2020 20:22:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 504 seconds by postgrey-1.36 at gabe;
- Wed, 12 Feb 2020 20:25:07 UTC
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18DF56E0FF
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 20:25:07 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id CF1E11C0370; Wed, 12 Feb 2020 21:16:38 +0100 (CET)
-Date: Wed, 12 Feb 2020 21:16:38 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Tony Lindgren <tony@atomide.com>
-Subject: Re: LED backlight on Droid 4 and others
-Message-ID: <20200212201638.GB20085@amd>
-References: <20200105183202.GA17784@duo.ucw.cz> <20200106084549.GA14821@dell>
- <20200211172900.GH64767@atomide.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6216E0FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 20:22:39 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id 66so3253299otd.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 12:22:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xmzww6qF1lYp+hV6WRAA52aNnE6EhgFR79VxQVFdEbg=;
+ b=nkbh6w7W1frgTutwoIOqB46IEt/u7BkmErIY7bDx0DdhP5QnLj69nrF4SEeakXMTW1
+ Fn2mOQDw5cRMyx+CuzHUd5/1DWCXXS1kG/kE3Zw/3MaEk2DH4XeWJb2Bg64qGVlDk2Ii
+ sMVpVOkSpc2oiKZT90/ajHC6hEg1UVHdCYnNdhEPOiaSuRn9wUwTClRdDqqCnPVrznFA
+ OdHVbL7zYdO384Dd6yhnTVnBvR+TD4WU73vEx8xz51KJDQFcJQ0bg8kqe2DiArDG7SVY
+ DLrL9u3AqEDYLEdR2//hsTNCvVabmIvGt4LrZTr+RFc1JXxcUPYv+Kiw5vWQPHi+qFfB
+ oIpg==
+X-Gm-Message-State: APjAAAUVvuL5ETqnO5+GpQmyJgicZtI/Gm5E1drBw0DfHHhkuC5c+7f5
+ Lt9eBC0ji5vPcTjVoryAJw==
+X-Google-Smtp-Source: APXvYqyU0o1Pze8wveuZDA3u/iHypwszUsk+ei4KqiNpwRNL9Jlei+NqysV33pWakfS6MC4rBmeMAQ==
+X-Received: by 2002:a9d:6b84:: with SMTP id b4mr10865483otq.190.1581538958277; 
+ Wed, 12 Feb 2020 12:22:38 -0800 (PST)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.googlemail.com with ESMTPSA id o1sm14852otl.49.2020.02.12.12.22.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2020 12:22:37 -0800 (PST)
+From: Rob Herring <robh@kernel.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/panfrost: Don't try to map on error faults
+Date: Wed, 12 Feb 2020 14:22:36 -0600
+Message-Id: <20200212202236.13095-1-robh@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200211172900.GH64767@atomide.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,95 +55,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, mpartap@gmx.net, tony@atomide.com,
- jingoohan1@gmail.com, merlijn@wizzup.org, martin_rysavy@centrum.cz,
- kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- sre@kernel.org, nekit1000@gmail.com, tomi.valkeinen@ti.com, jjhiblot@ti.com,
- linux-omap@vger.kernel.org, Lee Jones <lee.jones@linaro.org>, agx@sigxcpu.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0691466491=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 
---===============0691466491==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="QKdGvSO+nmPlgiQ/"
-Content-Disposition: inline
+If the exception type isn't a translation fault, don't try to map and
+instead go straight to a terminal fault.
 
+Otherwise, we can get flooded by kernel warnings and further faults.
 
---QKdGvSO+nmPlgiQ/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+I rewrote this some simplifying the code and somewhat following Steven's 
+suggested. Still not using defines though. No defines here was good 
+enough before IMO.
 
-Hi!
+Only compile tested.
 
-> > > It would be good to get LED backlight to work in clean way for 5.6
-> > > kernel.
-> ...
-> > > [If you have an idea what else is needed, it would be welcome; it
-> > > works for me in development tree but not in tree I'd like to
-> > > upstream.]
-> > >=20
-> > > Lee, would you be willing to take "backlight: add led-backlight
-> > > driver"? Would it help if I got "leds: Add managed API to get a LED
-> > > from a device driver" and "leds: Add of_led_get() and led_put()" into
-> > > for_next tree of the LED subsystem?
-> >=20
-> > It looks like you have an open question from Tony on v10.
-> >=20
-> > Is that patch orthogonal, or are there depend{ants,encies}?
->=20
-> Uhh looks like we messed up a bit with integration. Now droid4
-> LCD backlight can no longer be enabled at all manually in v5.6-rc1
-> without the "add led-backlight driver" patch.. Should we just
-> merge it to fix it rather than start scrambling with other
-> temporary hacks?
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 44 +++++++++++--------------
+ 1 file changed, 19 insertions(+), 25 deletions(-)
 
-We should just merge the "add led-backlight driver". Everything should
-be ready for it. I'm sorry if I broke something working, I was not
-aware it worked at all.
-
-Unfortunately, this is backlight code, not LED, so I can't just merge it.
-
-> I don't care if we use "default-brightness", or if we use
-> "default-brightness-level". The binding merged says now
-> "default-brightness", so let's go with that one. That's what
-> other LED drivers are using too.
-
-No opinion on that.
-
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---QKdGvSO+nmPlgiQ/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl5EXSYACgkQMOfwapXb+vICqQCfdtyPBlJKQO90lCtkFWlVhCoQ
-XaAAoILSfdQrM5bUUqiTeghX0xqVkkHp
-=vMQC
------END PGP SIGNATURE-----
-
---QKdGvSO+nmPlgiQ/--
-
---===============0691466491==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 763cfca886a7..4f2836bd9215 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -596,33 +596,27 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
+ 		source_id = (fault_status >> 16);
+ 
+ 		/* Page fault only */
+-		if ((status & mask) == BIT(i)) {
+-			WARN_ON(exception_type < 0xC1 || exception_type > 0xC4);
+-
++		ret = -1;
++		if ((status & mask) == BIT(i) && (exception_type & 0xF8) == 0xC0)
+ 			ret = panfrost_mmu_map_fault_addr(pfdev, i, addr);
+-			if (!ret) {
+-				mmu_write(pfdev, MMU_INT_CLEAR, BIT(i));
+-				status &= ~mask;
+-				continue;
+-			}
+-		}
+ 
+-		/* terminal fault, print info about the fault */
+-		dev_err(pfdev->dev,
+-			"Unhandled Page fault in AS%d at VA 0x%016llX\n"
+-			"Reason: %s\n"
+-			"raw fault status: 0x%X\n"
+-			"decoded fault status: %s\n"
+-			"exception type 0x%X: %s\n"
+-			"access type 0x%X: %s\n"
+-			"source id 0x%X\n",
+-			i, addr,
+-			"TODO",
+-			fault_status,
+-			(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
+-			exception_type, panfrost_exception_name(pfdev, exception_type),
+-			access_type, access_type_name(pfdev, fault_status),
+-			source_id);
++		if (ret)
++			/* terminal fault, print info about the fault */
++			dev_err(pfdev->dev,
++				"Unhandled Page fault in AS%d at VA 0x%016llX\n"
++				"Reason: %s\n"
++				"raw fault status: 0x%X\n"
++				"decoded fault status: %s\n"
++				"exception type 0x%X: %s\n"
++				"access type 0x%X: %s\n"
++				"source id 0x%X\n",
++				i, addr,
++				"TODO",
++				fault_status,
++				(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
++				exception_type, panfrost_exception_name(pfdev, exception_type),
++				access_type, access_type_name(pfdev, fault_status),
++				source_id);
+ 
+ 		mmu_write(pfdev, MMU_INT_CLEAR, mask);
+ 
+-- 
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0691466491==--
