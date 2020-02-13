@@ -2,48 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A054315CDA7
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 22:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B2515CDEE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 23:15:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 839286F886;
-	Thu, 13 Feb 2020 21:57:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 546036E030;
+	Thu, 13 Feb 2020 22:15:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C810C8800A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 21:57:54 +0000 (UTC)
-Received: from earth.universe (unknown [185.62.205.105])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6A6AD24680;
- Thu, 13 Feb 2020 21:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581631074;
- bh=R3sxgy+mdg91wW+6Haz7xIGPfOrm3a7jt0NPiy78oXs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AaThAp/E3n9sE1y/nfQxwj7a2ad1kqv6/94U62JPF+OMjk4D4LVrnnQaONZZMvUf4
- ib5SF1kl+1R3mWxD1oqEr+AD2boAjT8df9f2eCqITcNxn4f+EIGXptWFDOBK+A4ZW5
- GBmBwV3bJg+73/iwZfxW8tkDIT1Sb/o4zFsL6hpE=
-Received: by earth.universe (Postfix, from userid 1000)
- id 00D9D3C0C83; Thu, 13 Feb 2020 22:57:51 +0100 (CET)
-Date: Thu, 13 Feb 2020 22:57:51 +0100
-From: Sebastian Reichel <sre@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 2/3] ARM: dts: am437x-gp/epos-evm: drop unused panel
- timings
-Message-ID: <20200213215751.tzkma6v7nkos6r5g@earth.universe>
-References: <20191212203550.GB4892@pendragon.ideasonboard.com>
- <add3d8af-6977-68e6-fb77-2fa748c4714a@ti.com>
- <b39e52f1-3e73-5f26-6206-0956cf482631@ti.com>
- <20200211110712.GB28355@pendragon.ideasonboard.com>
- <3b4d10c6-7cb2-af53-3a39-31eef441bfdd@ti.com>
- <98da360f-880b-af56-b285-4d9b39f8a342@wizzup.org>
- <20200211160524.GE64767@atomide.com>
- <87b1111e-af06-1e2a-8baa-c3f9a15f1874@ti.com>
- <20200211162719.GF64767@atomide.com>
- <d7e51d54-ffb3-2792-8bdb-73fc627fd675@ti.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E06476E030;
+ Thu, 13 Feb 2020 22:15:04 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2020 14:15:04 -0800
+X-IronPort-AV: E=Sophos;i="5.70,438,1574150400"; d="scan'208";a="227391043"
+Received: from unknown (HELO localhost) ([10.252.53.8])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2020 14:04:58 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nathan Chancellor <natechancellor@gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Disable
+ -Wtautological-constant-out-of-range-compare
+In-Reply-To: <20200213214812.GA7980@ubuntu-m2-xlarge-x86>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200211050808.29463-1-natechancellor@gmail.com>
+ <20200211061338.23666-1-natechancellor@gmail.com>
+ <4c806435-f32d-1559-9563-ffe3fa69f0d1@daenzer.net>
+ <20200211203935.GA16176@ubuntu-m2-xlarge-x86>
+ <f3a6346b-2abf-0b6a-3d84-66e12f700b2b@daenzer.net>
+ <20200212170734.GA16396@ubuntu-m2-xlarge-x86>
+ <d81a2cfe-79b6-51d4-023e-0960c0593856@daenzer.net> <877e0qy2n8.fsf@intel.com>
+ <20200213214812.GA7980@ubuntu-m2-xlarge-x86>
+Date: Fri, 14 Feb 2020 00:05:24 +0200
+Message-ID: <87mu9mw3bv.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <d7e51d54-ffb3-2792-8bdb-73fc627fd675@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,100 +50,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
- Tony Lindgren <tony@atomide.com>, Merlijn Wajer <merlijn@wizzup.org>,
- Jyri Sarha <jsarha@ti.com>, dri-devel@lists.freedesktop.org,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1852277913=="
+Cc: clang-built-linux@googlegroups.com,
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1852277913==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7zwud3dbglg3r2xl"
-Content-Disposition: inline
-
-
---7zwud3dbglg3r2xl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Tue, Feb 11, 2020 at 07:22:14PM +0200, Tomi Valkeinen wrote:
-> On 11/02/2020 18:27, Tony Lindgren wrote:
-> > > We are still missing DSI command mode support, and moving it
-> > > to the common DRM model.
-> >=20
-> > Nope, DSI command mode support has been working just fine for
-> > a while now :) And Sebastian has a WIP git tree of the common DRM
->=20
-> Indeed... It had been going on for so long that now my mind is
-> stuck at dsi-command-mode-not-yet-in =3D).
-
-Welcome in the future :)
-
-> > model changes for it. I don't think we have devices with DSI
-> > command mode working for omapfb but not for omapdrm?
->=20
-> Yes, I think that is true.
-
-Note, that OMAP3 quirk is missing (IDK if its supported in omapfb,
-haven't used it for ages). I planned to have a look at OMAP3 once
-the patchset moving omapdrm DSI to common DRM is merged, which
-needs a non-trivial rebase.
-
-> > What got missed for v5.6-rc1 is the LCD backlight patch though,
-> > I think the only issue there is default-brightness vs more common
-> > default-brightness-value usage if you have any input to that.
->=20
-> At least for some boards a power supply is needed, and I think
-> there was no conclusion on who should enable that. It didn't seem
-> to fit in anywhere...
->=20
-> But need to check on the latest status. I wasn't following that
-> work closely, as JJ was working on it.
-
-FWIW omapdrm's DSI driver is ready for that and omapfb is not :P
-
--- Sebastian
-
---7zwud3dbglg3r2xl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl5FxlwACgkQ2O7X88g7
-+pqvXA/8Df37jp3rBllH6fS56foegeRsSHQqA9OT3z7T/hNIOJK4yQ0sRefOv72Q
-ESnuruZy3O04dvEDN+5wc0OHpoaxYlWnHDUZXD2lSWn6pqGXTKPESDfE9eV3iX/w
-UbZH39t+l2aZz76rh2Ryln58orgg1XQLzQhw2G5s9Lqr3X1olzs/oDq4WgWboEix
-XZdbtn6XrCa5kotrGoBMpVKsxgXG17Y2gHPOQnBuDYUKNM1niHIUUteUgnz9w/YH
-pomiTehfhfg7INgWYZFCiovuPPs8KX37Ut9ZJkJ3FGwDRKWk76O8PYDSdmiNfYsr
-jqdTH6aEwJVEJKnFv9GTmxknU8WuSnkP5vXFtiy/wli/pczXwKOIoGOc+M+zwvAY
-3tbNMq9eXKFHV/QnDsszJDXn32KM1CPCrns+aD7OYV8YlJZekVUXgSwQqhQ6BZWs
-qAaZGS9VHybvtgGipNr1AZazfdUel5bmu+IQvJvVxg83lR50jBhKLTzl8AHf/SS+
-4zCOa8Nzx14EQ24iRe6YZyGkb7t6KZ3BUbLpZHq1THqmJW7LCYgIn8sSKoPPvwrx
-b+vPbZVdkH7W8GJOH+wVUQQbmrm55uhS53sMFpiBK1e6GN4uIfRr5TpFSk5JrWCd
-q+Q9XM4o3Cxr6KM8ycXg5h5SoaJDtdYPIYwXMS4G4SOjb/Ob2rs=
-=YggO
------END PGP SIGNATURE-----
-
---7zwud3dbglg3r2xl--
-
---===============1852277913==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1852277913==--
+T24gVGh1LCAxMyBGZWIgMjAyMCwgTmF0aGFuIENoYW5jZWxsb3IgPG5hdGVjaGFuY2VsbG9yQGdt
+YWlsLmNvbT4gd3JvdGU6Cj4gT24gVGh1LCBGZWIgMTMsIDIwMjAgYXQgMDQ6Mzc6MTVQTSArMDIw
+MCwgSmFuaSBOaWt1bGEgd3JvdGU6Cj4+IE9uIFdlZCwgMTIgRmViIDIwMjAsIE1pY2hlbCBEw6Ru
+emVyIDxtaWNoZWxAZGFlbnplci5uZXQ+IHdyb3RlOgo+PiA+IE9uIDIwMjAtMDItMTIgNjowNyBw
+Lm0uLCBOYXRoYW4gQ2hhbmNlbGxvciB3cm90ZToKPj4gPj4gT24gV2VkLCBGZWIgMTIsIDIwMjAg
+YXQgMDk6NTI6NTJBTSArMDEwMCwgTWljaGVsIETDpG56ZXIgd3JvdGU6Cj4+ID4+PiBPbiAyMDIw
+LTAyLTExIDk6MzkgcC5tLiwgTmF0aGFuIENoYW5jZWxsb3Igd3JvdGU6Cj4+ID4+Pj4gT24gVHVl
+LCBGZWIgMTEsIDIwMjAgYXQgMTA6NDE6NDhBTSArMDEwMCwgTWljaGVsIETDpG56ZXIgd3JvdGU6
+Cj4+ID4+Pj4+IE9uIDIwMjAtMDItMTEgNzoxMyBhLm0uLCBOYXRoYW4gQ2hhbmNlbGxvciB3cm90
+ZToKPj4gPj4+Pj4+IEEgcmVjZW50IGNvbW1pdCBpbiBjbGFuZyBhZGRlZCAtV3RhdXRvbG9naWNh
+bC1jb21wYXJlIHRvIC1XYWxsLCB3aGljaCBpcwo+PiA+Pj4+Pj4gZW5hYmxlZCBmb3IgaTkxNSBz
+byB3ZSBzZWUgdGhlIGZvbGxvd2luZyB3YXJuaW5nOgo+PiA+Pj4+Pj4KPj4gPj4+Pj4+IC4uL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9leGVjYnVmZmVyLmM6MTQ4NToyMjogd2Fy
+bmluZzoKPj4gPj4+Pj4+IHJlc3VsdCBvZiBjb21wYXJpc29uIG9mIGNvbnN0YW50IDU3NjQ2MDc1
+MjMwMzQyMzQ4NyB3aXRoIGV4cHJlc3Npb24gb2YKPj4gPj4+Pj4+IHR5cGUgJ3Vuc2lnbmVkIGlu
+dCcgaXMgYWx3YXlzIGZhbHNlCj4+ID4+Pj4+PiBbLVd0YXV0b2xvZ2ljYWwtY29uc3RhbnQtb3V0
+LW9mLXJhbmdlLWNvbXBhcmVdCj4+ID4+Pj4+PiAgICAgICAgIGlmICh1bmxpa2VseShyZW1haW4g
+PiBOX1JFTE9DKFVMT05HX01BWCkpKQo+PiA+Pj4+Pj4gICAgICAgICAgICAgfn5+fn5+fn5+fn5+
+fn5+fl5+fn5+fn5+fn5+fn5+fn5+fn5+fgo+PiA+Pj4+Pj4KPj4gPj4+Pj4+IFRoaXMgd2Fybmlu
+ZyBvbmx5IGhhcHBlbnMgb24geDg2XzY0IGJ1dCB0aGF0IGNoZWNrIGlzIHJlbGV2YW50IGZvcgo+
+PiA+Pj4+Pj4gMzItYml0IHg4NiBzbyB3ZSBjYW5ub3QgcmVtb3ZlIGl0Lgo+PiA+Pj4+Pgo+PiA+
+Pj4+PiBUaGF0J3Mgc3VwcmlzaW5nLiBBRkFJQ1QgTl9SRUxPQyhVTE9OR19NQVgpIHdvcmtzIG91
+dCB0byB0aGUgc2FtZSB2YWx1ZQo+PiA+Pj4+PiBpbiBib3RoIGNhc2VzLCBhbmQgcmVtYWluIGlz
+IGEgMzItYml0IHZhbHVlIGluIGJvdGggY2FzZXMuIEhvdyBjYW4gaXQgYmUKPj4gPj4+Pj4gbGFy
+Z2VyIHRoYW4gTl9SRUxPQyhVTE9OR19NQVgpIG9uIDMyLWJpdCAoYnV0IG5vdCBvbiA2NC1iaXQp
+Pwo+PiA+Pj4+Pgo+PiA+Pj4+Cj4+ID4+Pj4gSGkgTWljaGVsLAo+PiA+Pj4+Cj4+ID4+Pj4gQ2Fu
+J3QgdGhpcyBjb25kaXRpb24gYmUgdHJ1ZSB3aGVuIFVJTlRfTUFYID09IFVMT05HX01BWD8KPj4g
+Pj4+Cj4+ID4+PiBPaCwgcmlnaHQsIEkgdGhpbmsgSSB3YXMgd3JvbmdseSB0aGlua2luZyBsb25n
+IGhhZCA2NCBiaXRzIGV2ZW4gb24gMzItYml0Lgo+PiA+Pj4KPj4gPj4+Cj4+ID4+PiBBbnl3YXks
+IHRoaXMgc3VnZ2VzdHMgYSBwb3NzaWJsZSBiZXR0ZXIgc29sdXRpb246Cj4+ID4+Pgo+PiA+Pj4g
+I2lmIFVJTlRfTUFYID09IFVMT05HX01BWAo+PiA+Pj4gCWlmICh1bmxpa2VseShyZW1haW4gPiBO
+X1JFTE9DKFVMT05HX01BWCkpKQo+PiA+Pj4gCQlyZXR1cm4gLUVJTlZBTDsKPj4gPj4+ICNlbmRp
+Zgo+PiA+Pj4KPj4gPj4+Cj4+ID4+PiBPciBpZiB0aGF0IGNhbid0IGJlIHVzZWQgZm9yIHNvbWUg
+cmVhc29uLCBzb21ldGhpbmcgbGlrZQo+PiA+Pj4KPj4gPj4+IAlpZiAodW5saWtlbHkoKHVuc2ln
+bmVkIGxvbmcpcmVtYWluID4gTl9SRUxPQyhVTE9OR19NQVgpKSkKPj4gPj4+IAkJcmV0dXJuIC1F
+SU5WQUw7Cj4+ID4+Pgo+PiA+Pj4gc2hvdWxkIHNpbGVuY2UgdGhlIHdhcm5pbmcuCj4+ID4+IAo+
+PiA+PiBJIGRvIGxpa2UgdGhpcyBvbmUgYmV0dGVyIHRoYW4gdGhlIGZvcm1lci4KPj4gPgo+PiA+
+IEZXSVcsIG9uZSBkb3duc2lkZSBvZiB0aGlzIG9uZSBjb21wYXJlZCB0byBhbGwgYWx0ZXJuYXRp
+dmVzIChwcmVzdW1hYmx5KQo+PiA+IGlzIHRoYXQgaXQgbWlnaHQgZW5kIHVwIGdlbmVyYXRpbmcg
+YWN0dWFsIGNvZGUgZXZlbiBvbiA2NC1iaXQsIHdoaWNoCj4+ID4gYWx3YXlzIGVuZHMgdXAgc2tp
+cHBpbmcgdGhlIHJldHVybi4KPj4gCj4+IEkgbGlrZSB0aGlzIGJldHRlciB0aGFuIHRoZSBVSU5U
+X01BWCA9PSBVTE9OR19NQVggY29tcGFyaXNvbiBiZWNhdXNlCj4+IHRoYXQgY3JlYXRlcyBhIGRl
+cGVuZGVuY3kgb24gdGhlIHR5cGUgb2YgcmVtYWluLgo+PiAKPj4gVGhlbiBhZ2FpbiwgYSBzdWZm
+aWNpZW50bHkgY2xldmVyIGNvbXBpbGVyIGNvdWxkIHNlZSB0aHJvdWdoIHRoZSBjYXN0LAo+PiBh
+bmQgZmxhZyB0aGUgd2FybmluZyBhbnl3YXkuLi4KPgo+IFdvdWxkIHlvdSBwcmVmZXIgYSBwYXRj
+aCB0aGF0IGFkZHMgdGhhdCBjYXN0IHJhdGhlciB0aGFuIHNpbGVuY2luZyB0aGUKPiB3YXJuaW5n
+IG91dHJpZ2h0PyBJdCBkb2VzIGFwcGVhciB0byB3b3JrIGZvciBjbGFuZy4KCkknZCB0YWtlIHRo
+ZSBjYXN0LgoKSWYgdGhhdCBmYWlscyBmb3Igd2hhdGV2ZXIgcmVhc29uLCBwZXItZmlsZQoKQ0ZM
+QUdTX2dlbS9pOTE1X2dlbV9leGVjYnVmZmVyLm8gPSAkKGNhbGwgY2MtZGlzYWJsZS13YXJuaW5n
+LCB0YXV0b2xvZ2ljYWwtY29uc3RhbnQtb3V0LW9mLXJhbmdlLWNvbXBhcmUpCgpvdmVyIHN1YmRp
+ci1jY2ZsYWdzLXkgd291bGQgYmUgcHJlZmVycmFibGUgSSB0aGluay4KCkJSLApKYW5pLgoKCgo+
+Cj4gQ2hlZXJzLAo+IE5hdGhhbgoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBH
+cmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
