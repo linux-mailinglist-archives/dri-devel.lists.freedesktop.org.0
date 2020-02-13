@@ -2,38 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B2515BB0F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 10:00:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9F615BB1A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 10:03:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B81576F56A;
-	Thu, 13 Feb 2020 09:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A13746F570;
+	Thu, 13 Feb 2020 09:03:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A576F56A;
- Thu, 13 Feb 2020 09:00:26 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2020 01:00:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,436,1574150400"; d="scan'208";a="222581907"
-Received: from unknown (HELO intel.com) ([10.223.74.178])
- by orsmga007.jf.intel.com with ESMTP; 13 Feb 2020 01:00:24 -0800
-Date: Thu, 13 Feb 2020 14:21:51 +0530
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 3/5] drm/i915: terminate reauth at stream
- management failure
-Message-ID: <20200213085151.GA11041@intel.com>
-References: <20200212102942.26568-1-ramalingam.c@intel.com>
- <20200212102942.26568-4-ramalingam.c@intel.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00A056F570
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 09:03:24 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01D93Jdq066595;
+ Thu, 13 Feb 2020 03:03:19 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1581584599;
+ bh=RzRI5ecL3NajC2+s4mctE1+fLycoX4EnxB+h8SwqT4Q=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=E1K+6brWdMMkklnJFDDa/3NpfDsSq3xFJBfWc5nY4Yh7mUYQidht9jlht+m1bkWsw
+ VVLzJ7gsiDhG4aqqap064jGoh+XmtQ8GGcRtJ46Y8cnLXka47UAtKGrfYFA3VMlrx/
+ ac82DzZCTvO85MSAnQWP1Z3k1NgcWgIo7nh1K9GQ=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01D93JFm077311
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 13 Feb 2020 03:03:19 -0600
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 13
+ Feb 2020 03:03:18 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 13 Feb 2020 03:03:18 -0600
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01D93GjO103223;
+ Thu, 13 Feb 2020 03:03:17 -0600
+Subject: Re: [PATCH v2] drm/tidss: dispc: Rewrite naive plane positioning code
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200212135936.31326-1-jsarha@ti.com>
+ <397e6686-40de-4205-e958-8592b1c3cc6e@ti.com>
+ <20200212143354.GC13686@intel.com>
+ <8095e3f1-640e-5136-6419-ce2c57f24820@ti.com>
+ <CAKMK7uHEnU2LdNZ5KN5DZYzaCEFW0RTy+EpRw3ybQqkf0OLjSg@mail.gmail.com>
+From: Jyri Sarha <jsarha@ti.com>
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
+ fNEWzMjm7eqoUBi1BUAQIReS6won0cXIEXFg9nDYQ3wNTPyh+VRjBvlb/gRJlf4MQnJDTGDP
+ S5i63HxYtOfjPMSsUSu8NvhbzayNkN5YKspJDu1cK5toRtyUn1bMzUSKDHfwpdmuCDgXZSj2
+ t+z+c6u7yx99/j4m9t0SVlaMt00p1vJJ3HJ2Pkm3IImWvtIfvCmxnOsK8hmwgNQY6PYK1Idk
+ puSRjMIGLqjZo071Z6dyDe08zv6DWL1fMoOYbAk/H4elYBaqEsdhUlDCJxZURcheQUnOMYXo
+ /kg+7TP6RqjcyXoGgqjfkqlf3hYKmyNMq0FaYmUAfeqCWGOOy3PPxR/IiACezs8mMya1XcIK
+ Hk/5JAGuwsqT80bvDFAB2XfnF+fNIie/n5SUHHejJBxngb9lFE90BsSfdcVwzNJ9gVf/TOJc
+ qJEHuUx0WPi0taO7hw9+jXV8KTHp6CQPmDSikEIlW7/tJmVDBXQx8n4RMUk4VzjE9Y/m9kHE
+ UVJ0bJYzMqECMTAP6KgzgkQCD7n8OzswC18PrK69ByGFpcm664uCAa8YiMuX92MnesKMiYPQ
+ z1rvR5riXZdplziIRjFRX+68fvhPverrvjNVmzz0bAFwfVjBsQARAQABzRpKeXJpIFNhcmhh
+ IDxqc2FyaGFAdGkuY29tPsLBeAQTAQIAIgUCVt1a3wIbAwYLCQgHAwIGFQgCCQoLBBYCAwEC
+ HgECF4AACgkQkDazUNfWGUEVVhAAmFL/21tUhZECrDrP9FWuAUuDvg+1CgrrqBj7ZxKtMaiz
+ qTcZwZdggp8bKlFaNrmsyrBsuPlAk99f7ToxufqbV5l/lAT3DdIkjb4nwN4rJkxqSU3PaUnh
+ mDMKIAp6bo1N9L+h82LE6CjI89W4ydQp5i+cOeD/kbdxbHHvxgNwrv5x4gg1JvEQLVnUSHva
+ R2kx7u2rlnq7OOyh9vU0MUq7U5enNNqdBjjBTeaOwa5xb3S2Cc9dR10mpFiy+jSSkuFOjPpc
+ fLfr/s03NGqbZ4aXvZCGjCw4jclpTJkuWPKO+Gb+a/3oJ4qpGN9pJ+48n2Tx9MdSrR4aaXHi
+ EYMrbYQz9ICJ5V80P5+yCY5PzCvqpkizP6vtKvRSi8itzsglauMZGu6GwGraMJNBgu5u+HIZ
+ nfRtJO1AAiwuupOHxe1nH05c0zBJaEP4xJHyeyDsMDh+ThwbGwQmAkrLJZtOd3rTmqlJXnuj
+ sfgQlFyC68t1YoMHukz9LHzg02xxBCaLb0KjslfwuDUTPrWtcDL1a5hccksrkHx7k9crVFA1
+ o6XWsOPGKRHOGvYyo3TU3CRygXysO41UnGG40Q3B5R8RMwRHV925LOQIwEGF/6Os8MLgFXCb
+ Lv3iJtan+PBdqO1Bv3u2fXUMbYgQ3v7jHctB8nHphwSwnHuGN7FAmto+SxzotE3OwU0EVt1a
+ 3wEQAMHwOgNaIidGN8UqhSJJWDEfF/SPSCrsd3WsJklanbDlUCB3WFP2EB4k03JroIRvs7/V
+ VMyITLQvPoKgaECbDS5U20r/Po/tmaAOEgC7m1VaWJUUEXhjYQIw7t/tSdWlo5XxZIcO4LwO
+ Kf0S4BPrQux6hDLIFL8RkDH/8lKKc44ZnSLoF1gyjc5PUt6iwgGJRRkOD8gGxCv1RcUsu1xU
+ U9lHBxdWdPmMwyXiyui1Vx7VJJyD55mqc7+qGrpDHG9yh3pUm2IWp7jVt/qw9+OE9dVwwhP9
+ GV2RmBpDmB3oSFpk7lNvLJ11VPixl+9PpmRlozMBO00wA1W017EpDHgOm8XGkq++3wsFNOmx
+ 6p631T2WuIthdCSlZ2kY32nGITWn4d8L9plgb4HnDX6smrMTy1VHVYX9vsHXzbqffDszQrHS
+ wFo5ygKhbGNXO15Ses1r7Cs/XAZk3PkFsL78eDBHbQd+MveApRB7IyfffIz7pW1R1ZmCrmAg
+ Bn36AkDXJTgUwWqGyJMd+5GHEOg1UPjR5Koxa4zFhj1jp1Fybn1t4N11cmEmWh0aGgI/zsty
+ g/qtGRnFEywBbzyrDEoV4ZJy2Q5pnZohVhpbhsyETeYKQrRnMk/dIPWg6AJx38Cl4P9PK1JX
+ 8VK661BG8GXsXJ3uZbPSu6K0+FiJy09N4IW7CPJNABEBAAHCwV8EGAECAAkFAlbdWt8CGwwA
+ CgkQkDazUNfWGUFOfRAA5K/z9DXVEl2kkuMuIWkgtuuLQ7ZwqgxGP3dMA5z3Iv/N+VNRGbaw
+ oxf+ZkTbJHEE/dWclj1TDtpET/t6BJNLaldLtJ1PborQH+0jTmGbsquemKPgaHeSU8vYLCdc
+ GV/Rz+3FN0/fRdmoq2+bIHght4T6KZJ6jsrnBhm7y6gzjMOiftH6M5GXPjU0/FsU09qsk/af
+ jbwLETaea0mlWMrLd9FC2KfVITA/f/YG2gqtUUF9WlizidyctWJqSTZn08MdzaoPItIkRUTv
+ 6Bv6rmFn0daWkHt23BLd0ZP7e7pON1rqNVljWjWQ/b/E/SzeETrehgiyDr8pP+CLlC+vSQxi
+ XtjhWjt1ItFLXxb4/HLZbb/L4gYX7zbZ3NwkON6Ifn3VU7UwqxGLmKfUwu/mFV+DXif1cKSS
+ v6vWkVQ6Go9jPsSMFxMXPA5317sZZk/v18TAkIiwFqda3/SSjwc3e8Y76/DwPvUQd36lEbva
+ uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
+ PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
+ tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
+Message-ID: <3cc04f7c-5a79-abb8-9ae2-2a2acd5baa0a@ti.com>
+Date: Thu, 13 Feb 2020 11:03:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200212102942.26568-4-ramalingam.c@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <CAKMK7uHEnU2LdNZ5KN5DZYzaCEFW0RTy+EpRw3ybQqkf0OLjSg@mail.gmail.com>
+Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,194 +107,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: praneeth@ti.com, dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-02-12 at 15:59:40 +0530, Ramalingam C wrote:
-> As per the HDCP2.2 compliance test 1B-10 expectation, when stream
-> management for a repeater fails, we retry thrice and when it fails
-> in all retries, HDCP2.2 reauthentication aborted at kernel.
-> 
-> v2:
->   seq_num_m++ is extended for steam management failures too.[Anshuman]
-> v3:
->   use drm_dbg_kms instead of DRM_DEBUG_KMS [Anshuman]
-> v4:
->   dev_priv is used as i915 [JaniN]
-> 
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_hdcp.c | 75 ++++++++++++++---------
->  1 file changed, 46 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index 30e0a3aa9d57..b24d12efae0a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -1380,7 +1380,7 @@ static int hdcp2_session_key_exchange(struct intel_connector *connector)
->  }
->  
->  static
-> -int hdcp2_propagate_stream_management_info(struct intel_connector *connector)
-> +int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
->  {
->  	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
->  	struct intel_hdcp *hdcp = &connector->hdcp;
-> @@ -1406,28 +1406,25 @@ int hdcp2_propagate_stream_management_info(struct intel_connector *connector)
->  	ret = shim->write_2_2_msg(intel_dig_port, &msgs.stream_manage,
->  				  sizeof(msgs.stream_manage));
->  	if (ret < 0)
-> -		return ret;
-> +		goto err_exit;
->  
->  	ret = shim->read_2_2_msg(intel_dig_port, HDCP_2_2_REP_STREAM_READY,
->  				 &msgs.stream_ready, sizeof(msgs.stream_ready));
->  	if (ret < 0)
-> -		return ret;
-> +		goto err_exit;
->  
->  	hdcp->port_data.seq_num_m = hdcp->seq_num_m;
->  	hdcp->port_data.streams[0].stream_type = hdcp->content_type;
-> -
->  	ret = hdcp2_verify_mprime(connector, &msgs.stream_ready);
-> -	if (ret < 0)
-> -		return ret;
->  
-> +err_exit:
->  	hdcp->seq_num_m++;
-> -
->  	if (hdcp->seq_num_m > HDCP_2_2_SEQ_NUM_MAX) {
->  		DRM_DEBUG_KMS("seq_num_m roll over.\n");
-> -		return -1;
-> +		ret = -1;
->  	}
->  
-> -	return 0;
-> +	return ret;
->  }
->  
->  static
-> @@ -1492,17 +1489,6 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
->  	return 0;
->  }
->  
-> -static int hdcp2_authenticate_repeater(struct intel_connector *connector)
-> -{
-> -	int ret;
-> -
-> -	ret = hdcp2_authenticate_repeater_topology(connector);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return hdcp2_propagate_stream_management_info(connector);
-> -}
-> -
->  static int hdcp2_authenticate_sink(struct intel_connector *connector)
->  {
->  	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
-> @@ -1537,18 +1523,13 @@ static int hdcp2_authenticate_sink(struct intel_connector *connector)
->  	}
->  
->  	if (hdcp->is_repeater) {
-> -		ret = hdcp2_authenticate_repeater(connector);
-> +		ret = hdcp2_authenticate_repeater_topology(connector);
->  		if (ret < 0) {
->  			DRM_DEBUG_KMS("Repeater Auth Failed. Err: %d\n", ret);
->  			return ret;
->  		}
->  	}
->  
-> -	hdcp->port_data.streams[0].stream_type = hdcp->content_type;
-> -	ret = hdcp2_authenticate_port(connector);
-> -	if (ret < 0)
-> -		return ret;
-> -
->  	return ret;
->  }
->  
-> @@ -1626,14 +1607,50 @@ static int hdcp2_disable_encryption(struct intel_connector *connector)
->  	return ret;
->  }
->  
-> +static int
-> +hdcp2_propagate_stream_management_info(struct intel_connector *connector)
-> +{
-> +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	int i, tries = 3, ret;
-> +
-> +	if (!connector->hdcp.is_repeater)
-> +		return 0;
-> +
-> +	for (i = 0; i < tries; i++) {
-> +		ret = _hdcp2_propagate_stream_management_info(connector);
-> +		if (!ret)
-> +			break;
-> +
-> +		drm_dbg_kms(&i915->drm,
-> +			    "HDCP2 stream management %d of %d Failed.(%d)\n",
-> +			    i + 1, tries, ret);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
->  {
-> +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct intel_hdcp *hdcp = &connector->hdcp;
->  	int ret, i, tries = 3;
->  
->  	for (i = 0; i < tries; i++) {
->  		ret = hdcp2_authenticate_sink(connector);
-> -		if (!ret)
-> -			break;
-> +		if (!ret) {
-> +			ret = hdcp2_propagate_stream_management_info(connector);
-IMHO hdcp2_propagate_stream_management_info should be called only for 
-repeater rather then early return in funciton itself (theoretically it may
-avoid a stack operation).
-but this is also ok.
-Tested this patch on HDCP compliance.
-Tested-by: Anshuman Gupta <anshuman.gupta@intel.com>
-Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
-Thanks,
-Anshuman Gupta.
-> +			if (!ret) {
-> +				hdcp->port_data.streams[0].stream_type =
-> +							hdcp->content_type;
-> +				ret = hdcp2_authenticate_port(connector);
-> +				if (!ret)
-> +					break;
-> +			} else {
-> +				drm_dbg_kms(&i915->drm,
-> +					    "HDCP2 stream management failed\n");
-> +				break;
-> +			}
-> +		}
->  
->  		/* Clearing the mei hdcp session */
->  		DRM_DEBUG_KMS("HDCP2.2 Auth %d of %d Failed.(%d)\n",
-> @@ -1642,7 +1659,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
->  			DRM_DEBUG_KMS("Port deauth failed.\n");
->  	}
->  
-> -	if (i != tries) {
-> +	if (!ret) {
->  		/*
->  		 * Ensuring the required 200mSec min time interval between
->  		 * Session Key Exchange and encryption.
-> -- 
-> 2.20.1
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTIvMDIvMjAyMCAyMjoyOCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBPbiBXZWQsIEZlYiAx
+MiwgMjAyMCBhdCA3OjAxIFBNIEp5cmkgU2FyaGEgPGpzYXJoYUB0aS5jb20+IHdyb3RlOgo+Pgo+
+PiBPbiAxMi8wMi8yMDIwIDE2OjMzLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6Cj4+PiBPbiBXZWQs
+IEZlYiAxMiwgMjAyMCBhdCAwNDowODoxMVBNICswMjAwLCBKeXJpIFNhcmhhIHdyb3RlOgo+Pj4+
+IE9uIDEyLzAyLzIwMjAgMTU6NTksIEp5cmkgU2FyaGEgd3JvdGU6Cj4+Pj4+IFRoZSBvbGQgaW1w
+bGVtZW50YXRpb24gb2YgcGxhY2luZyBwbGFuZXMgb24gdGhlIENSVEMgd2hpbGUgY29uZmlndXJp
+bmcKPj4+Pj4gdGhlIHBsYW5lcyB3YXMgbmFpdmUgYW5kIHJlbGllZCBvbiB0aGUgb3JkZXIgaW4g
+d2hpY2ggdGhlIHBsYW5lcyB3ZXJlCj4+Pj4+IGNvbmZpZ3VyZWQsIGVuYWJsZWQsIGFuZCBkaXNh
+YmxlZC4gVGhlIHNpdHVhdGlvbiB3aGVyZSBhIHBsYW5lJ3MgenBvcwo+Pj4+PiB3YXMgY2hhbmdl
+ZCBvbiB0aGUgZmx5IHdhcyBjb21wbGV0ZWx5IGJyb2tlbi4gVGhlIHVzdWFsIHN5bXB0b21zIG9m
+Cj4+Pj4+IHRoaXMgcHJvYmxlbSB3YXMgc2NyYW1ibGVkIGRpc3BsYXkgYW5kIGEgZmxvb2Qgb2Yg
+c3luYyBsb3N0IGVycm9ycywKPj4+Pj4gd2hlbiBhIHBsYW5lIHdhcyBhY3RpdmUgaW4gdHdvIGxh
+eWVycyBhdCB0aGUgc2FtZSB0aW1lLCBvciBhIG1pc3NpbmcKPj4+Pj4gcGxhbmUsIGluIGNhc2Ug
+d2hlbiBhIGxheWVyIHdhcyBhY2NpZGVudGFsbHkgZGlzYWJsZWQuCj4+Pj4+Cj4+Pj4+IFRoZSBy
+ZXdyaXRlIHRha2VzIGEgbW9yZSBzdHJhaWdodCBmb3J3YXJkIGFwcHJvYWNoIHdoZW4gSFcgaXMK
+Pj4+Pj4gY29uY2VybmVkLiBUaGUgcGxhbmUgcG9zaXRpb25pbmcgcmVnaXN0ZXJzIGFyZSBpbiB0
+aGUgQ1JUQyAoYWN0dWFsbHkKPj4+Pj4gT1ZSKSByZWdpc3RlciBzcGFjZSBhbmQgaXQgaXMgbW9y
+ZSBuYXR1cmFsIHRvIGNvbmZpZ3VyZSB0aGVtIGluIG9uZSBnbwo+Pj4+PiB3aGlsZSBjb25maWd1
+cmluZyB0aGUgQ1JUQy4gVG8gZG8gdGhpcyB3ZSBuZWVkIHRvIG1ha2Ugc3VyZSB3ZSBoYXZlCj4+
+Pj4+IGFsbCB0aGUgcGxhbmVzIG9uIHVwZGF0ZWQgQ1JUQ3MgaW4gdGhlIG5ldyBhdG9taWMgc3Rh
+dGUgdG8gYmUKPj4+Pj4gY29tbWl0dGVkLiBUaGlzIGlzIGRvbmUgYnkgY2FsbGluZyBkcm1fYXRv
+bWljX2FkZF9hZmZlY3RlZF9wbGFuZXMoKSBpbgo+Pj4+PiBjcnRjX2F0b21pY19jaGVjaygpLgo+
+Pj4+Pgo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBKeXJpIFNhcmhhIDxqc2FyaGFAdGkuY29tPgo+Pj4+
+PiAtLS0KPj4+Pj4gIGRyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19jcnRjLmMgIHwgNTUgKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKy0KPj4+Pj4gIGRyaXZlcnMvZ3B1L2RybS90aWRzcy90
+aWRzc19kaXNwYy5jIHwgNTUgKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0KPj4+Pj4gIGRy
+aXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19kaXNwYy5oIHwgIDUgKysrCj4+Pj4+ICAzIGZpbGVz
+IGNoYW5nZWQsIDc5IGluc2VydGlvbnMoKyksIDM2IGRlbGV0aW9ucygtKQo+Pj4+Pgo+Pj4+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2NydGMuYyBiL2RyaXZlcnMv
+Z3B1L2RybS90aWRzcy90aWRzc19jcnRjLmMKPj4+Pj4gaW5kZXggMDMyYzMxZWUyODIwLi5mN2M1
+ZmQxMDk0YTggMTAwNjQ0Cj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19j
+cnRjLmMKPj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2NydGMuYwo+Pj4+
+IC4uLgo+Pj4+PiBAQCAtMTA4LDcgKzExMCw1NCBAQCBzdGF0aWMgaW50IHRpZHNzX2NydGNfYXRv
+bWljX2NoZWNrKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPj4+Pj4gICAgICAgICAgICAgcmV0dXJu
+IC1FSU5WQUw7Cj4+Pj4+ICAgICB9Cj4+Pj4+Cj4+Pj4+IC0gICByZXR1cm4gZGlzcGNfdnBfYnVz
+X2NoZWNrKGRpc3BjLCBod192aWRlb3BvcnQsIHN0YXRlKTsKPj4+Pj4gKyAgIHJldCA9IGRpc3Bj
+X3ZwX2J1c19jaGVjayhkaXNwYywgaHdfdmlkZW9wb3J0LCBzdGF0ZSk7Cj4+Pj4+ICsgICBpZiAo
+cmV0KQo+Pj4+PiArICAgICAgICAgICByZXR1cm4gcmV0Owo+Pj4+PiArCj4+Pj4+ICsgICAvKiBB
+ZGQgdW5jaGFuZ2VkIHBsYW5lcyBvbiB0aGlzIGNydGMgdG8gc3RhdGUgZm9yIHpwb3MgdXBkYXRl
+LiAqLwo+Pj4+PiArICAgcmV0dXJuIGRybV9hdG9taWNfYWRkX2FmZmVjdGVkX3BsYW5lcyhzdGF0
+ZS0+c3RhdGUsIGNydGMpOwo+Pj4+Cj4+Pj4gSXMgdGhpcyBhIGNvcnJlY3Qgd2F5IHRvIHVzZSBk
+cm1fYXRvbWljX2FkZF9hZmZlY3RlZF9wbGFuZXMoKT8KPj4+Pgo+Pj4+IEkgc2F3IHRoYXQgc29t
+ZSBvdGhlciBkcml2ZXJzIGltcGxlbWVudCB0aGVpciBvd24gbW9kZV9jb25maWcKPj4+PiBhdG9t
+aWNfY2hlY2soKSBhbmQgaGF2ZSB0aGlzIGNhbGwgdGhlcmUgaW4KPj4+PiBmb3JfZWFjaF9uZXdf
+Y3J0Y19pbl9zdGF0ZSgpLWxvb3AsIGJ1dCBJIHRob3VnaHQgaXQgc2hvdWxkIGJlIGZpbmUgdG8K
+Pj4+PiBjYWxsIGl0IGluIGNydGNfYXRvbWljX2NoZWNrKCkuCj4+Pgo+Pj4gWW91IHNlZW0gdG8g
+YmUgdXNpbmcgZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfcGxhbmVzKCksIHdoaWNoIG1lYW5zCj4+
+PiBjcnRjLmF0b21pY19jaGVjaygpIGdldHMgY2FsbGVkIGFmdGVyIHBsYW5lLmF0b21pY19jaGVj
+aygpLiBTbyB0aGlzCj4+PiBtaWdodCBiZSBnb29kIG9yIGJhZCBkZXBlbmRpbmcgb24gd2hldGhl
+ciB5b3UnZCBsaWtlIHRoZSBwbGFuZXMgeW91Cj4+PiBhZGQgaGVyZSB0byBnbyB0aHJvdWdoIHRo
+ZWlyIC5hdG9taWNfY2hlY2soKSBvciBub3QuCj4+Pgo+Pgo+PiBTaG91bGQgaGF2ZSB0aG91Z2h0
+IG9mIHRoYXQgbXkgc2VsZi4gRXh0cmEgcGxhbmUuYXRvbWljX2NoZWNrKCkgY2FsbHMgZG8KPj4g
+bm90IGRvIGFueSBhY3R1YWwgaGFybSwgYnV0IHRoZXkgYXJlIHBvdGVudGlhbGx5IGV4cGVuc2l2
+ZS4gVGhlIHBsYW5lcwo+PiBhcmUgcmVhbGx5IG9ubHkgbmVlZGVkIHRoZXJlIGluIHRoZSBjb21t
+aXQgcGhhc2UgKGNydGNfZW5hYmxlKCkgb3IKPj4gZmx1c2goKSkuIFdlbGwsIEknbGwgZG8gbXkg
+b3duIG1vZGVfY29uZmlnLmF0b21pY19jaGVjaygpIGFuZCBjYWxsCj4+IGRybV9hdG9taWNfYWRk
+X2FmZmVjdGVkX3BsYW5lcygpIGluIGEgZm9yX2VhY2hfbmV3X2NydGNfaW5fc3RhdGUoKS1sb29w
+Cj4+IGFmdGVyIGFsbCB0aGUgY2hlY2tzLgo+IAo+IEFsc28sIGlmIHlvdSBkbyB1c2UgdGhlIGhl
+bHBlcnMgdGhlbiB0aGlzIHNob3VsZCBhbHJlYWR5IGhhdmUgaGFwcGVuZWQKPiBmb3IgeW91LiBX
+aGljaCBtYWtlcyBtZSB3b25kZXIgd2h5IGFsbCB0aGlzIHdvcmssIHNvIG1heWJlIHRoZXJlJ3MK
+PiBzb21lIGRlcGVuZGVuY3kgYmV0d2VlbiBhbGwgdGhlIHZhcmlvdXMgY2hlY2sgZnVuY3Rpb25z
+IHlvdSBoYXZlIGdvaW5nCj4gb24/IE1pZ2h0IGJlIHRpbWUgdG8gcm9sbCB5b3VyIG93biB0b3At
+bGV2ZWwgY2hlY2sgZnVuY3Rpb24gdGhhdCBjYWxscwoKPiBzdHVmZiBpbiB0aGUgb3JkZXIgeW91
+ciBodyBuZWVkcyB0aGluZ3MgdG8gYmUgY2hlY2tlZCwgc28gdGhhdCB5b3UKPiBkb24ndCBhZGQg
+bmV3IHN0YXRlcyBsYXRlIGFuZCBoYXZlIHRvIHJ1biBvbmUgY2hlY2sgcGhhc2UgdHdpY2UgKHdo
+aWNoCj4gaXMgdG90YWxseSBmaW5lIHdpdGggdGhlIGhlbHBlcnMgYXMgbG9uZyBhcyBhbGwgeW91
+ciBjaGVjayBjYWxsYmFja3MKPiBhcmUgaWRlbXBvdGVudCwgYnV0IG9mdGVuIGp1c3Qgb3Zlcmtp
+bGwgYW5kIGNvbmZ1c2luZykuCgpBbGwgdGhlIGRyaXZlciBzcGVjaWZpYyBjaGVja3MgYXJlIHBl
+cmZlY3RseSBpbmRlcGVuZGVudCB3aXRob3V0IGFueQpjcm9zcyBkZXBlbmRlbmNpZXMuIEFuZCB0
+aGVyZSBpcyBubyBleHRyYSBkYXRhIGluIHRoZSBwbGFuZS0gb3IKQ1JUQy1zdGF0ZSwgbm9yIGRv
+IHRoZSBkcml2ZXIgc3BlY2lmaWMgY2hlY2tzIHRvdWNoIHRoZSBzdGF0ZSBpbiBhbnkgd2F5LgoK
+SSBvbmx5IHdhbnQgYWxsIHRoZSBwbGFuZXMgb24gYSBjcnRjIHRvIGJlIHRoZXJlLCBpZiBhbnkg
+b2YgdGhlIHBsYW5lcwpvbiB0aGUgQ1JUQyBjaGFuZ2VzLCBzbyB0aGF0IEkgY2FuIHdyaXRlIHRo
+ZSBwbGFuZSBwb3NpdGlvbnMgZnJvbSB0aGUKc2NyYXRjaCBkaXJlY3RseSBmcm9tIHRoZSBhdG9t
+aWMgc3RhdGUgd2l0aCBlYWNoIGNvbW1pdC4KCkxvbmcgZXhwbGFuYXRpb24gKGlmIHlvdSBhcmUg
+aW50ZXJlc3RlZCk6CgpXaXRoIHRoZSBEU1MgSFcgdGhlIHBsYW5lcyBhcmUgcG9zaXRpb25lZCB0
+byBDUlRDcyBieSBmaWxsaW5nIGVhY2gKcGxhbmUncyBpZCBhbmQgeCx5IHBvc2l0aW9uIHRvIGNv
+cnJlY3Qgb3ZlcmxheSByZWdpc3RlciBhY2NvcmRpbmcgdG8gdGhlCnBsYW5lJ3MgenBvcyAoZWFj
+aCBvdmVybGF5IHJlZyBoYXMgaXRzIG93biBzdGF0aWMgenBvcykuCgpVc2luZyB0aGUgbmFpdmUg
+aW1wbGVtZW50YXRpb24sIHRoZXJlIGlzIGEgcHJvYmxlbSBpZiBJIGhhdmUgcGxhbmUwIGF0Cnpw
+b3MwIGFuZCBhbm90aGVyIGNvbW1pdCBjb21lcyB3aXRoIHBsYW5lMSBhdCB6cG9zMCBhbmQgcGxh
+bmUwIGRpc2FibGVkLgpJZiBwbGFuZTEgaW4gdGhlIGNvbW1pdCBpcyBoYW5kbGVkIGZpcnN0LCBp
+dCBvdmVyd3JpdGVzIHBsYW5lMCdzCnByZXZpb3VzIHBvc2l0aW9uLCBhbmQgcGxhbmUwIGhhbmRs
+ZWQgYWZ0ZXJ3YXJkcyB3aWxsIGRpc2FibGUgZnJlc2hseQpjb25maWd1cmVkIHBsYW5lMS4gVGhl
+cmUgaXMgbnVtYmVyIG9mIG90aGVyIHByb2JsZW1hdGljIGNhc2VzLgoKT2ssIEkgY2FuIGVhc2ls
+eSBmaXggdGhpcyBieSBzdG9yaW5nIHRoZSBwbGFuZSBwb3NpdGlvbnMgKHgseSwgYW5kIHopIGlu
+CnRoZSBkcml2ZXIncyBpbnRlcm5hbCBzdGF0ZSwgYW5kIHJvbGxpbmcgdGhlIHBvc2l0aW9ucyBv
+dXQgaW4gdGhlCmNydGNfZW5hYmxlKCkgb3IgLWZsdXNoKCkuIEJ1dCBJIGhhdmUgdW5kZXJzdG9v
+ZCB0aGUgYXRvbWljIGRyaXZlcnMKc2hvdWxkIGF2b2lkIGhhdmluZyBhbnkgaW50ZXJuYWwgc3Rh
+dGUuIFNvIHRoZSBvYnZpb3VzIGNob2ljZSB3b3VsZCBiZQp0byByb2xsIG91dCB0aGUgcGxhbmUg
+cG9zaXRpb25zIGRpcmVjdGx5IGZyb20gdGhlIGF0b21pYyBzdGF0ZS4gSG93ZXZlciwKdGhlcmUg
+aXMgYSBwcm9ibGVtIHdpdGggdGhhdC4KClRoZSBwcm9ibGVtIGFwcGVhcnMgd2hlbiBJIGhhdmUg
+bW9yZSB0aGFuIG9uZSBwbGFuZSBhY3RpdmUgb24gYSBjcnRjIGFuZApJIGp1c3QgbmVlZCB0byB1
+cGRhdGUgb25lIG9mIHRoZSBwbGFuZXMuIEluIHRoZSBzaXR1YXRpb24gbm90aGluZwpjaGFuZ2Vz
+IGFib3V0IHRoZSBDUlRDIGFuZCB0aGUgdW5jaGFuZ2VkIHBsYW5lcywgc28gaXQgaXMgcXVpdGUK
+dW5kZXJzdGFuZGFibGUgdGhhdCB0aGUgaGVscGVycyBkbyBub3QgYWRkIHRoZSB1bmNoYW5nZWQg
+cGxhbmVzIHRvIHRoZQphdG9taWMgc3RhdGUuIEJ1dCBpZiBJIHdhbnQgdG8gcm9sbCBvdXQgdGhl
+IG5ldyBwbGFuZSBwb3NpdGlvbnMgZnJvbSB0aGUKc2NyYXRjaCB3aXRoIGV2ZXJ5IGNvbW1pdCB0
+aGF0IHRvdWNoZXMgYW55IHBsYW5lIG9uIHRoYXQgQ1JUQywgSSBuZWVkIHRvCmhhdmUgdGhlIHVu
+Y2hhbmdlZCBwbGFuZXMgdGhlcmUuCgpTbyB0aGUgZHJtX2F0b21pY19hZGRfYWZmZWN0ZWRfcGxh
+bmVzKCktY2FsbHMgYXJlIGFkZGVkIGp1c3QgdG8gYXZvaWQKYW55IGludGVybmFsIHBsYW5lIHBv
+c2l0aW9uIHN0YXRlIGluIHRoZSBkcml2ZXIuCgpCZXN0IHJlZ2FyZHMsCkp5cmkKCi0tIApUZXhh
+cyBJbnN0cnVtZW50cyBGaW5sYW5kIE95LCBQb3Jra2FsYW5rYXR1IDIyLCAwMDE4MCBIZWxzaW5r
+aS4KWS10dW5udXMvQnVzaW5lc3MgSUQ6IDA2MTU1MjEtNC4gS290aXBhaWtrYS9Eb21pY2lsZTog
+SGVsc2lua2kKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
