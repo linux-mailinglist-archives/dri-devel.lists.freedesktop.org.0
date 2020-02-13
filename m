@@ -2,39 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D0A15D37F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7968415D37E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 546826EB4D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692656EB52;
 	Fri, 14 Feb 2020 08:08:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 638306E32B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 15:25:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3E55A328;
- Thu, 13 Feb 2020 07:25:24 -0800 (PST)
-Received: from [10.37.12.116] (unknown [10.37.12.116])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 130463F68E;
- Thu, 13 Feb 2020 07:25:13 -0800 (PST)
-Subject: Re: [PATCH v2 1/4] PM / EM: add devices to Energy Model
-To: Dietmar Eggemann <dietmar.eggemann@arm.com>,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-imx@nxp.com
-References: <20200206134640.11367-1-lukasz.luba@arm.com>
- <20200206134640.11367-2-lukasz.luba@arm.com>
- <62a54ec9-0491-367d-0a36-7ea32c449acc@arm.com>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <6b1921bb-42c8-999f-abfa-5682e73015d5@arm.com>
-Date: Thu, 13 Feb 2020 15:25:11 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0A298825B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 18:11:14 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id y6so7704505lji.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:11:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=EuxVXqo0aLZOHDOucp4vbQndf0tOU7++wA3AtEmGBpw=;
+ b=fAaIg/8ux70EQiQpgn3mUB6nFui/A2paoKIJeaWZbLEdTL5kpOBkJBUFHWxQFKCXAR
+ hdga3DG2R/MFIRy7zFfSp4ZQKb3pvJjXw9Qcx+wRmcmwNZkXJIt/MConhjPzsr4Z4MNy
+ dWu0arsyksu0AK7JqiqRgO11JmtdupXzDXpHAqpQABRIBaMXk5VdYgl43dB59tVRtRXj
+ 4uKHCwzDx4ufdChhKAmEqsFiZULQvn+btVHIwKwNlfcU6z642R4+mA0uyvG3LGNjigyi
+ MIXAJ86LhHhWEsROWucZcslFhq4C2TaNszH9lD8VwEyrKQtR1tGumGwpZNHRzWNX4grS
+ My/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=EuxVXqo0aLZOHDOucp4vbQndf0tOU7++wA3AtEmGBpw=;
+ b=e0K3App0ThjY/TZFwzPdJz/4HkpFRWCumdwtEzPotKe3Ks3JgDEStJWa/a3fLZcZLZ
+ w5qBcjsjtlaRwh3DEqvLtqPr6wltsb5fhbah8DIXmnfBP0rwEy5RGe8UKbCS1nTKzrih
+ TWfJg0qFCMTl98pKP4V56F8Zvl01uDBdvpSKDFpO7jzFpPzeEK6zipLDNI2sTzAwllcC
+ WVBM5O3poDl6Y+Kqf8RmijrGKY4qoiaEkO76cjZi1n1yLSzVmAA7dSv6e8onpEoBcH5H
+ p7Mo/nMkL1YmO9I8el2hVJnEUF+Nkl/6/dNmqpIi6BcSNC81oJ8s+A+g64G4hXPxjcio
+ Cihw==
+X-Gm-Message-State: APjAAAW266Jm31GFdIrMw+nJ6ELck5NhU/3ibyRk9D2YuByymBcoK7xN
+ 73A9PKexF2feXWGnBv+iGaI=
+X-Google-Smtp-Source: APXvYqzzT+FLUGY7cXzPsygITqUHZQgOYAok8PALBHATY6k8I9bEwK7EFmVCMYTPxGMkzKG+gNRuhA==
+X-Received: by 2002:a2e:9157:: with SMTP id q23mr11857429ljg.196.1581617472996; 
+ Thu, 13 Feb 2020 10:11:12 -0800 (PST)
+Received: from kedthinkpad ([5.20.204.163])
+ by smtp.gmail.com with ESMTPSA id d24sm1655804lfl.58.2020.02.13.10.11.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Feb 2020 10:11:12 -0800 (PST)
+Date: Thu, 13 Feb 2020 20:11:10 +0200
+From: Andrey Lebedev <andrey.lebedev@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 1/1] Support LVDS output on Allwinner A20
+Message-ID: <20200213181110.GA25367@kedthinkpad>
+References: <20200210195633.GA21832@kedthinkpad>
+ <20200211072004.46tbqixn5ftilxae@gilmour.lan>
+ <20200211204828.GA4361@kedthinkpad>
+ <20200212125345.j6e3txfjqekuxh2s@gilmour.lan>
+ <20200212224653.GA19494@kedthinkpad>
+ <20200213092433.sc2rs7el63mwvf3y@gilmour.lan>
 MIME-Version: 1.0
-In-Reply-To: <62a54ec9-0491-367d-0a36-7ea32c449acc@arm.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200213092433.sc2rs7el63mwvf3y@gilmour.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Fri, 14 Feb 2020 08:07:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,125 +73,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
- bsegall@google.com, Morten.Rasmussen@arm.com, amit.kucheria@verdurent.com,
- lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
- daniel.lezcano@linaro.org, steven.price@arm.com, cw00.choi@samsung.com,
- mingo@redhat.com, mgorman@suse.de, rui.zhang@intel.com,
- alyssa.rosenzweig@collabora.com, b.zolnierkie@samsung.com,
- s.hauer@pengutronix.de, rostedt@goodmis.org, matthias.bgg@gmail.com,
- Chris.Redpath@arm.com, airlied@linux.ie, javi.merino@arm.com,
- tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
- shawnguo@kernel.org, rjw@rjwysocki.net, agross@kernel.org,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- ionela.voinescu@arm.com
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Feb 13, 2020 at 10:24:33AM +0100, Maxime Ripard wrote:
+> > > do you have a board when you have been able to test it?
+> >
+> > Yes, I have the hardware (Cubieboard 2) at hand, but I cannot change the
+> > any physical connections on it. FWIW, it is https://openvario.org, the
+> > device we are (painfully) trying to upgrade from old kernel-3.4 with
+> > proprietary mali drivers to contemporary software.
+> 
+> What painpoints do you have?
+
+So, even though proprietary mali drivers worked well for us, they seem
+to hold us back to old kernel-3.4, and it started to get harder to avoid
+various compatibility issues with newer software. Since there seemed to
+be a good progress with OSS lima driver lately, we decided to try to
+replace mali with lima. And that naturally pulled to switch to DRM/KMS.
+
+The first painpoint is this LVDS support problem: after a week of trial
+and error, I discovered that support was simply not there. But it seemed
+that not that much was actually missing and after couple of evenings
+deep into debugging, here we are.
+
+Another one is the screen rotation: the device is installed into the
+glider' instrument panel, and some pilots prefer it in portrait
+orientation.  Under old mali setup, all that (seemingly) was required
+was setting "fbcon=rotate:n" boot arg, and both linux console and
+graphical app (https://xcsoar.org/) rotated "automagically". With new
+DRM/KMS setup, only console is rotated, all graphical apps seem to see
+the screen in its "natural" landscape orientation. Do you know if there
+is any way to leverage DMS/KMS infrastructure to make screen appear
+rotated for userspace apps (writing to /sys/class/graphics/fb0/rotate
+didn't work)?  There's of course a plan B to teach the app to rotate its
+output, but that leads to problem number 3.
+
+And the 3rd outstanding problem is that app doesn't really work under
+lima module and lima mesa driver. It starts, but renders a black window.
+I haven't dug deeply into this yet, but it is possible that some opengl
+API isn't supported in OSS drivers yet (even though app only renders 2d
+graphics).
+
+Hopefully that wasn't too much complaining for you :) If you have any
+insight on possible causes or attack vectors on any of these, that would
+help a lot. Also, please feel free to correct any of false assumptions I
+make above, I'm happy to learn more about this.
 
 
-On 2/13/20 10:59 AM, Dietmar Eggemann wrote:
-> On 06/02/2020 14:46, lukasz.luba@arm.com wrote:
->> From: Lukasz Luba <lukasz.luba@arm.com>
-> 
-> [..]
-> 
->> @@ -26,7 +28,7 @@ framework, and interested clients reading the data from it::
-> 
-> s/::/: ?
-> 
->>          | Thermal (IPA) |  | Scheduler (EAS) |  |     Other     |
->>          +---------------+  +-----------------+  +---------------+
->>                  |                   | em_pd_energy()    |
->> -               |                   | em_cpu_get()      |
->> +               |  em_get_pd()      | em_cpu_get()      |
->>                  +---------+         |         +---------+
-> 
-> em_get_pd() and em_cpu_get()? Why not em_pd_get()? em_cpu_get() is a
-> specific em_get_pd(). right?
-
-Yes. I will rename 'em_get_pd' to 'em_pd_get'
-
-> 
-> [...]
-> 
->> @@ -85,13 +89,20 @@ API.
->>   2.3 Accessing performance domains
->>   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>   
->> +There is two API functions which provide the access to the energy model:
->> +em_cpu_get() which takes CPU id as an argument and em_get_pd() with device
->> +pointer as an argument. It depends on the subsystem which interface it is
->> +going to use, but in case of CPU devices both functions return the same
->> +performance domain.
-> 
-> There is probably a reason why we need this specific function for CPU
-> devices? The reason should be described. People might ask why
-> em_get_pd() is not sufficient.
-
-True, good point. I will extend the comment in em_cpu_get().
-
-> 
-> [...]
-> 
->> - * A "performance domain" represents a group of CPUs whose performance is
->> - * scaled together. All CPUs of a performance domain must have the same
->> - * micro-architecture. Performance domains often have a 1-to-1 mapping with
->> - * CPUFreq policies.
->> + * In case of CPU device, a "performance domain" represents a group of CPUs
->> + * whose performance is scaled together. All CPUs of a performance domain
->> + * must have the same micro-architecture. Performance domains often have
->> + * a 1-to-1 mapping with CPUFreq policies.
->> + * In case of other devices the 'priv' field is unused.
->>    */
->>   struct em_perf_domain {
->> -	struct em_cap_state *table;
->> -	int nr_cap_states;
->> -	unsigned long cpus[0];
->> +	struct em_perf_state *table;
->> +	int nr_perf_states;
->> +	void *priv;
-> 
-> In case you go back to the variable length field plus type field to
-> distingush EM devices, keep cpus[0] as the name.
-
-OK, I will.
-
-> 
-> [..]
-> 
->>   /**
->> - * em_pd_energy() - Estimates the energy consumed by the CPUs of a perf. domain
->> + * em_pd_energy() - Estimates the energy consumed by the CPUs of a perf.
->> +			domain
-> 
-> Why this change?
-
-hmmm, that's odd, maybe there was 'device' then I changed it back to
-'CPUs' but forgot to move the 'domain' to the old place.
-
-> 
-> [...]
-> 
->> @@ -141,12 +210,12 @@ static struct em_perf_domain *em_create_pd(cpumask_t *span, int nr_states,
->>   		 */
->>   		opp_eff = freq / power;
->>   		if (opp_eff >= prev_opp_eff)
->> -			pr_warn("pd%d: hertz/watts ratio non-monotonically decreasing: em_cap_state %d >= em_cap_state%d\n",
->> -					cpu, i, i - 1);
->> +			dev_warn(dev, "energy_model: hertz/watts ratio non-monotonically decreasing: em_perf_state %d >= em_perf_state%d\n",
-> 
-> s/energy_model/EM ?
-
-OK, I will rename them in all places.
-
-Thank you for the review.
-
-Regards,
-Lukasz
+-- 
+Andrey Lebedev aka -.- . -.. -.. . .-.
+Software engineer
+Homepage: http://lebedev.lt/
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
