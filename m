@@ -1,63 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF7715BA93
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A7015BA90
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C53E89190;
-	Thu, 13 Feb 2020 08:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FD6C6E197;
+	Thu, 13 Feb 2020 08:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A081B6E125
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 22:46:57 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id x14so4248500ljd.13
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 14:46:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=jrYNxcmAESHKexGAddHOv9wtAKXJzgWh89e239PGRQo=;
- b=PFFtJaHKIrNlUKS6NsRZWetgbbjhBlkI0g7tnl2WGU5kaUqi+zNun/iNdoK/DEDDiS
- HNkQw6hvXdwZihxbQefigPoLmceiAnmLwudOExlfolrXpKRtXYlySM+UthcT1qsmvcW/
- zbuCIaL+5o+Ap8LUBQHJ5+Xp+LEU2psM35r/B68UVaY+CMkXphIpRo3a3FgszEnO2dsf
- yWVpHOk5hKgOE+XnVzmh4Bv26YqiKa6cn6T0wDFLu6ZUnh5lg9aVjSNs/Ic7RI4Mpj9I
- Izlj168dzT7UUt+SpupM16uiM260AIE494w59HZJZTa6fTgWRVmatKFAYvMqLwd/2GKr
- duBw==
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com
+ [IPv6:2607:f8b0:4864:20::64a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801E86E18F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 08:00:12 +0000 (UTC)
+Received: by mail-pl1-x64a.google.com with SMTP id h8so2698703plr.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 00:00:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=tSlvrP4m66P1XACDCZDaP68t1HESopkE2ZYSJ/oW5Fc=;
+ b=O0GgSTgCFWMe+CSNK993pV/PwzdGIXWDBR5X0/FBv+KHqZ7K9sI8OSrRkyU2JF0+bK
+ a0oFchkMZ4tO5BLEk4bqnVywm6K4MRwLuT6lzun7Hb0FO7W5GmcvMELg9+zjOEAdeVkm
+ bSVmoX3bkve//nZfusUDzKoQkpuWEWx2ND7zPEikUeU5mF44vV+/iie9fotkaJAoilcd
+ SmTm7Pm+KaDA+TUmnOd/MFzybL1naAUfM8Ow8c9XSDEUk43pq3NJSkxA23l228OFxcqy
+ yfEXmL17ZGL6KyDE/6ENhvek7IcRNXzWn+5PVtqvvkRRXWIdpkeQr63Cn+yXUn3o56i2
+ joAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=jrYNxcmAESHKexGAddHOv9wtAKXJzgWh89e239PGRQo=;
- b=sYImI+RB8dQ0WS0UQkKiaQdnaTJd8CWbfvhvZIJQr/mSoQhe8Gpr5e8mvk3ePrp6uU
- 3+F8s5qVx26ACMGYQ01rAAfdMTjcfga6qQLT8rFDbnm0azse47aHM6eBfg/E+1cQAM0I
- rNlWSLQvPuDHkkuAifqt2SLukpAnTPkwzQ1ADh4XL7LMfd9rrFX53xrNGwZqlpT6vt6o
- JnO3SW+nmJ4TviQxBggmTSARA53u3bmvyVHu9gwimdT8NWRnEuwHIiN4BneprjgcqtP/
- bx318+R+Yk3JQbE6WcLLwJaEweJyvofl7XJ9DKmoiiO74fp0gYU8uIgL2PLHgoLynj7E
- nhqg==
-X-Gm-Message-State: APjAAAWa+/S37Y6MARGl3M4YkmToiNlLgKRpn0vL/CNDcvT7Pt7LlQAU
- N0m5lA6vVGfMS+mQn571C+c=
-X-Google-Smtp-Source: APXvYqybqDLRJg2IrAK1fX24sksSPwXxUp90d3598YjdvkPi0K1jiArVzSr4wzrM3vq8gpEnprObzw==
-X-Received: by 2002:a2e:7818:: with SMTP id t24mr8865749ljc.195.1581547615958; 
- Wed, 12 Feb 2020 14:46:55 -0800 (PST)
-Received: from kedthinkpad ([5.20.204.163])
- by smtp.gmail.com with ESMTPSA id v7sm257086ljd.12.2020.02.12.14.46.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 14:46:55 -0800 (PST)
-Date: Thu, 13 Feb 2020 00:46:53 +0200
-From: Andrey Lebedev <andrey.lebedev@gmail.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 1/1] Support LVDS output on Allwinner A20
-Message-ID: <20200212224653.GA19494@kedthinkpad>
-References: <20200210195633.GA21832@kedthinkpad>
- <20200211072004.46tbqixn5ftilxae@gilmour.lan>
- <20200211204828.GA4361@kedthinkpad>
- <20200212125345.j6e3txfjqekuxh2s@gilmour.lan>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200212125345.j6e3txfjqekuxh2s@gilmour.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=tSlvrP4m66P1XACDCZDaP68t1HESopkE2ZYSJ/oW5Fc=;
+ b=GqrS9RHZNNf5VuB/coALXhW3AdJBSZiYoc/LRJ2BSliaL6TRoGbp5o7llvUNmZawP1
+ aZnh0LR8sVrcQLE9w1dUfD6LgttYCOQWYke+BnMhrkNOlaf6A29FZOWrauRAXms2gxe2
+ 9CNuSQcybdy08SKNuv3tJ5NQNcf+g5Y+dwEGm50aXbGtuOoGqKcBw5LmzSUnSZjbUyPr
+ 0uKK5jObwZNceBXnN+KZHjBeD6gIlc4r9vIvt1FzszhyV5qGAckF8eIrfHX7zLbhERmq
+ +c/BDUItA7lC/mEGtGI2hf6sWDma7kXapt+FlZq/WSsCdLgMUMy/nr+erH/1fbxxAKcO
+ e47Q==
+X-Gm-Message-State: APjAAAU3YGfCbYHCnVAOr6W+uRazXTOhrvayg91jqyLlk5ETC3B0CS4R
+ u2hHbcKcBfc9V00u73Nt+cMLCphkeU9N
+X-Google-Smtp-Source: APXvYqzDfbbpNkunl4GqakNBCLdfvlQrA9qA9iLtF3TS+2Mot3yuBl6sVFlx4f7nIe24WVH3YWORwiVOgN12
+X-Received: by 2002:a63:4305:: with SMTP id q5mr17607821pga.64.1581580811962; 
+ Thu, 13 Feb 2020 00:00:11 -0800 (PST)
+Date: Thu, 13 Feb 2020 15:59:57 +0800
+Message-Id: <20200213153226.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.225.g125e21ebc7-goog
+Subject: [PATCH] drm/mediatek: fix race condition for HDMI jack status
+ reporting
+From: Tzung-Bi Shih <tzungbi@google.com>
+To: broonie@kernel.org, airlied@linux.ie, daniel@ffwll.ch
 X-Mailman-Approved-At: Thu, 13 Feb 2020 08:12:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,48 +60,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, wens@csie.org,
+Cc: alsa-devel@alsa-project.org, cychiang@google.com, tzungbi@google.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, dgreid@google.com,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 12, 2020 at 01:53:45PM +0100, Maxime Ripard wrote:
-> > > Side question, this will need some DT changes too, right?
-> >
-> > Hm, I agree. I think it would be reasonable to include LVDS0/1 pins
-> 
-> That, but most importantly, the reset and clocks for the LVDS
-> block. Also from looking at it, I'm not entirely sure that the TCON1
-> has a LVDS output
+hdmi_conn_detect and mtk_hdmi_audio_hook_plugged_cb would be called
+by different threads.
 
-I also have impression that LVDS is only supported on TCON0, but that's
-mostly from this comment in sun4i_lvds.c:
+Imaging the following calling sequence:
+           Thread A                            Thread B
+--------------------------------------------------------------------
+mtk_hdmi_audio_hook_plugged_cb()
+mtk_cec_hpd_high() -> disconnected
+                                     hdmi_conn_detect()
+                                     mtk_cec_hpd_high() -> connected
+                                     plugged_cb(connected)
+plugged_cb(disconnected)
 
-	/* The LVDS encoder can only work with the TCON channel 0 */
+The latest disconnected is false reported.  Makes mtk_cec_hpd_high
+and plugged_cb atomic to fix.
 
-> do you have a board when you have been able to test it?
+plugged_cb and codec_dev are also in danger of race condition.  Instead
+of using mutex to protect them:
+- Checks NULLs first.
+- Uses WRITE_ONCE() to prevent store tearing (i.e. write to plugged_cb
+  after codec_dev).
+- Uses codec_dev as a signal to report HDMI jack status.
 
-Yes, I have the hardware (Cubieboard 2) at hand, but I cannot change the
-any physical connections on it. FWIW, it is https://openvario.org, the
-device we are (painfully) trying to upgrade from old kernel-3.4 with
-proprietary mali drivers to contemporary software.
+Fixes: 5d3c64477392 ("drm/mediatek: support HDMI jack status reporting")
 
-> > and sample (but disabled) lvds panel,
-> 
-> That's good for the sake of the example, but it shouldn't be in the
-> same patch, it won't be merged.
+Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+---
+Previous discussion: https://patchwork.kernel.org/patch/11367625/
+Previous attempt: https://patchwork.kernel.org/patch/11378413/
 
-I jave just submitted version 2 of the patches - set of 2 patches this
-time. Addressed your comments, please take a look.
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index 03aeb73005ef..b1e5d0c538fa 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -12,6 +12,7 @@
+ #include <linux/io.h>
+ #include <linux/kernel.h>
+ #include <linux/mfd/syscon.h>
++#include <linux/mutex.h>
+ #include <linux/of_platform.h>
+ #include <linux/of.h>
+ #include <linux/of_gpio.h>
+@@ -171,6 +172,7 @@ struct mtk_hdmi {
+ 	bool enabled;
+ 	hdmi_codec_plugged_cb plugged_cb;
+ 	struct device *codec_dev;
++	struct mutex update_plugged_status_lock;
+ };
+ 
+ static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
+@@ -1199,10 +1201,13 @@ static void mtk_hdmi_clk_disable_audio(struct mtk_hdmi *hdmi)
+ static enum drm_connector_status
+ mtk_hdmi_update_plugged_status(struct mtk_hdmi *hdmi)
+ {
+-	bool connected = mtk_cec_hpd_high(hdmi->cec_dev);
++	bool connected;
+ 
+-	if (hdmi->plugged_cb && hdmi->codec_dev)
++	mutex_lock(&hdmi->update_plugged_status_lock);
++	connected = mtk_cec_hpd_high(hdmi->cec_dev);
++	if (hdmi->codec_dev)
+ 		hdmi->plugged_cb(hdmi->codec_dev, connected);
++	mutex_unlock(&hdmi->update_plugged_status_lock);
+ 
+ 	return connected ?
+ 	       connector_status_connected : connector_status_disconnected;
+@@ -1669,8 +1674,12 @@ static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
+ {
+ 	struct mtk_hdmi *hdmi = data;
+ 
+-	hdmi->plugged_cb = fn;
+-	hdmi->codec_dev = codec_dev;
++	if (!fn || !codec_dev)
++		return -EINVAL;
++
++	/* Use WRITE_ONCE() to prevent store tearing. */
++	WRITE_ONCE(hdmi->plugged_cb, fn);
++	WRITE_ONCE(hdmi->codec_dev, codec_dev);
+ 	mtk_hdmi_update_plugged_status(hdmi);
+ 
+ 	return 0;
+@@ -1729,6 +1738,7 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
++	mutex_init(&hdmi->update_plugged_status_lock);
+ 	platform_set_drvdata(pdev, hdmi);
+ 
+ 	ret = mtk_hdmi_output_init(hdmi);
 -- 
-Andrey Lebedev aka -.- . -.. -.. . .-.
-Software engineer
-Homepage: http://lebedev.lt/
+2.25.0.225.g125e21ebc7-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
