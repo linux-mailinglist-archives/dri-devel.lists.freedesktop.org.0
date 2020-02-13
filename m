@@ -2,67 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926AD15D37B
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0126B15D369
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59AF86EB4A;
-	Fri, 14 Feb 2020 08:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFAC46E532;
+	Fri, 14 Feb 2020 08:08:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 308A66E1B6
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 09:43:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 4EE0721F8E;
- Thu, 13 Feb 2020 04:43:07 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 13 Feb 2020 04:43:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=mraLXR1UzZtD3bIaM15nHcYWwvQ
- LOE+cfoM1QmqErKE=; b=o8B+D7eXShRldG2XErB+8R+Wmqoa06qXCcf+BnBa+AI
- LfZQQggfxmWFW2+GvwCiMvpwdgs/LQOahAJEvCP914588AkZ2QwYON0CeEvZw0b9
- ZSNvXrrTJgptXcVYe4UU9iwNX0Pwwu0JVddpUNY1Sfm2yQ5SJNTPSGQXSxvAttPN
- j4QmaFnLP1SG82MWk3PRx+SaiKvXzdgnj4+ae764VkzGA2b+ItNFBRsOnXEztnTc
- nkRhbVOdJGqUJk1B1tNOI4BavCXfPjSjnX5UYn6n+FKYLWwQ3IityLC4SL14xteK
- MA/CzvK+882O5ccKpsZh9kJxsa3HWcV0JeFvEI+esYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=mraLXR
- 1UzZtD3bIaM15nHcYWwvQLOE+cfoM1QmqErKE=; b=EmmPIq3bT5Ve+6LefZTiyh
- ejdDpz0Gj/W0/zIjZyfBTR8R2I/f/WRHLVAETa9iBQCYFxtuWUrpUjJPykSpfLor
- pOop7sY58AOcNFzt2rFXI+WFExCYMflVMD90R7veW2dl8Y9oxvgaqar0e1a2pFAZ
- NOMhvAI+wLylBGRsjyJXU1/LIzed8WJNa7OUXMVh9nRgvFv8wOkNXyODC2+oujWD
- np8bGTGFbeHISNe9Sb7O6AH7k8CUrLr59iNdGvKGoNr1EBq2ux82fp/1Fv9/RcyU
- N2ttnu+pSkE6WjsWtiNDqAAmFvPgGGOlk8W87aIlEyB5Y/5o0ZA14M511vMvx/dg
- ==
-X-ME-Sender: <xms:KhpFXtJtYSwlwPuc5Kr4nCDqhdgJJVJ0VrNNpNjAyv6OBKJeBtMiYA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrieekgddtiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
- fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:KhpFXnaeMp-s2_3W8oVdM_ywlRLPR8QA95LPnZPSLsJRv2yJBuiTRA>
- <xmx:KhpFXu1zfEq1wI8irD8HTXkfb80zvWzZ5USE7loNaDMDkStaNrYKWg>
- <xmx:KhpFXvlzNXl5PT-Xy2KwTz5Q0BbznCtjyz6tlCkUcY2CPwh88Hvscw>
- <xmx:KxpFXpIoVcx1b4i_yvT630G23TUOI1KHxqWj0N8Rzmzj6swj-LxRTg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2C73D3280063;
- Thu, 13 Feb 2020 04:43:06 -0500 (EST)
-Date: Thu, 13 Feb 2020 10:43:04 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: andrey.lebedev@gmail.com
-Subject: Re: [PATCH v2 2/2] ARM: sun7i: dts: Add LVDS panel support on A20
-Message-ID: <20200213094304.hf3glhgmquypxpyf@gilmour.lan>
-References: <20200210195633.GA21832@kedthinkpad>
- <20200212222355.17141-2-andrey.lebedev@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B6D126EB34
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 11:00:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46A8F1FB;
+ Thu, 13 Feb 2020 03:00:07 -0800 (PST)
+Received: from [192.168.0.7] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 875E83F6CF;
+ Thu, 13 Feb 2020 03:00:00 -0800 (PST)
+Subject: Re: [PATCH v2 1/4] PM / EM: add devices to Energy Model
+To: lukasz.luba@arm.com, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-imx@nxp.com
+References: <20200206134640.11367-1-lukasz.luba@arm.com>
+ <20200206134640.11367-2-lukasz.luba@arm.com>
+From: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <62a54ec9-0491-367d-0a36-7ea32c449acc@arm.com>
+Date: Thu, 13 Feb 2020 11:59:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200212222355.17141-2-andrey.lebedev@gmail.com>
+In-Reply-To: <20200206134640.11367-2-lukasz.luba@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 14 Feb 2020 08:07:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,161 +47,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-sunxi@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrey Lebedev <andrey@lebedev.lt>, wens@csie.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0246557397=="
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
+ bsegall@google.com, Morten.Rasmussen@arm.com, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ daniel.lezcano@linaro.org, steven.price@arm.com, cw00.choi@samsung.com,
+ mingo@redhat.com, mgorman@suse.de, rui.zhang@intel.com,
+ alyssa.rosenzweig@collabora.com, b.zolnierkie@samsung.com,
+ s.hauer@pengutronix.de, rostedt@goodmis.org, matthias.bgg@gmail.com,
+ Chris.Redpath@arm.com, airlied@linux.ie, javi.merino@arm.com,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ shawnguo@kernel.org, rjw@rjwysocki.net, agross@kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ ionela.voinescu@arm.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 06/02/2020 14:46, lukasz.luba@arm.com wrote:
+> From: Lukasz Luba <lukasz.luba@arm.com>
 
---===============0246557397==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zztmkqxcnfnc34uw"
-Content-Disposition: inline
+[..]
 
+> @@ -26,7 +28,7 @@ framework, and interested clients reading the data from it::
 
---zztmkqxcnfnc34uw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+s/::/: ?
 
-On Thu, Feb 13, 2020 at 12:23:57AM +0200, andrey.lebedev@gmail.com wrote:
-> From: Andrey Lebedev <andrey@lebedev.lt>
->
-> Define pins for LVDS channels 0 and 1, configure reset line for tcon0 and
-> provide sample LVDS panel, connected to tcon0.
->
-> Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
+>         | Thermal (IPA) |  | Scheduler (EAS) |  |     Other     |
+>         +---------------+  +-----------------+  +---------------+
+>                 |                   | em_pd_energy()    |
+> -               |                   | em_cpu_get()      |
+> +               |  em_get_pd()      | em_cpu_get()      |
+>                 +---------+         |         +---------+
 
-And this prefix should be ARM: dts: sun7i ;)
+em_get_pd() and em_cpu_get()? Why not em_pd_get()? em_cpu_get() is a
+specific em_get_pd(). right?
 
-> ---
->  arch/arm/boot/dts/sun7i-a20.dtsi | 45 +++++++++++++++++++++++++++++---
->  1 file changed, 42 insertions(+), 3 deletions(-)
->
-> diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
-> index 92b5be97085d..b05fdf8df32e 100644
-> --- a/arch/arm/boot/dts/sun7i-a20.dtsi
-> +++ b/arch/arm/boot/dts/sun7i-a20.dtsi
-> @@ -47,6 +47,7 @@
->  #include <dt-bindings/dma/sun4i-a10.h>
->  #include <dt-bindings/clock/sun7i-a20-ccu.h>
->  #include <dt-bindings/reset/sun4i-a10-ccu.h>
-> +#include <dt-bindings/pinctrl/sun4i-a10.h>
->
->  / {
->  	interrupt-parent = <&gic>;
-> @@ -407,8 +408,8 @@
->  			compatible = "allwinner,sun7i-a20-tcon";
->  			reg = <0x01c0c000 0x1000>;
->  			interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-> -			resets = <&ccu RST_TCON0>;
-> -			reset-names = "lcd";
-> +			resets = <&ccu RST_TCON0>, <&ccu RST_LVDS>;
-> +			reset-names = "lcd", "lvds";
->  			clocks = <&ccu CLK_AHB_LCD0>,
->  				 <&ccu CLK_TCON0_CH0>,
->  				 <&ccu CLK_TCON0_CH1>;
-> @@ -444,6 +445,11 @@
->  					#size-cells = <0>;
->  					reg = <1>;
->
-> +					tcon0_out_lvds: endpoint@0 {
-> +						reg = <0>;
-> +						remote-endpoint = <&lvds_in_tcon0>;
-> +						allwinner,tcon-channel = <0>;
-> +					};
+[...]
 
-A new line here would be nice
+> @@ -85,13 +89,20 @@ API.
+>  2.3 Accessing performance domains
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  
+> +There is two API functions which provide the access to the energy model:
+> +em_cpu_get() which takes CPU id as an argument and em_get_pd() with device
+> +pointer as an argument. It depends on the subsystem which interface it is
+> +going to use, but in case of CPU devices both functions return the same
+> +performance domain.
 
->  					tcon0_out_hdmi: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&hdmi_in_tcon0>;
-> @@ -686,6 +692,19 @@
->  			};
->  		};
->
-> +		lvds_panel: panel@1c16500 {
-> +			compatible = "panel-lvds";
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			status = "disabled";
-> +
-> +			port {
-> +				lvds_in_tcon0: endpoint {
-> +					remote-endpoint = <&tcon0_out_lvds>;
-> +				};
-> +			};
-> +		};
-> +
+There is probably a reason why we need this specific function for CPU
+devices? The reason should be described. People might ask why
+em_get_pd() is not sufficient.
 
-There's no point in creating that panel.
+[...]
 
->  		spi2: spi@1c17000 {
->  			compatible = "allwinner,sun4i-a10-spi";
->  			reg = <0x01c17000 0x1000>;
-> @@ -872,7 +891,7 @@
->  			gmac_rgmii_pins: gmac-rgmii-pins {
->  				pins = "PA0", "PA1", "PA2",
->  				       "PA3", "PA4", "PA5", "PA6",
-> -				        "PA7", "PA8", "PA10",
-> +					"PA7", "PA8", "PA10",
->  				       "PA11", "PA12", "PA13",
->  				       "PA15", "PA16";
->  				function = "gmac";
-> @@ -1162,6 +1181,26 @@
->  				pins = "PI20", "PI21";
->  				function = "uart7";
->  			};
-> +
-> +			/omit-if-no-ref/
-> +			lcd_lvds0_pins: lcd_lvds0_pins {
+> - * A "performance domain" represents a group of CPUs whose performance is
+> - * scaled together. All CPUs of a performance domain must have the same
+> - * micro-architecture. Performance domains often have a 1-to-1 mapping with
+> - * CPUFreq policies.
+> + * In case of CPU device, a "performance domain" represents a group of CPUs
+> + * whose performance is scaled together. All CPUs of a performance domain
+> + * must have the same micro-architecture. Performance domains often have
+> + * a 1-to-1 mapping with CPUFreq policies.
+> + * In case of other devices the 'priv' field is unused.
+>   */
+>  struct em_perf_domain {
+> -	struct em_cap_state *table;
+> -	int nr_cap_states;
+> -	unsigned long cpus[0];
+> +	struct em_perf_state *table;
+> +	int nr_perf_states;
+> +	void *priv;
 
-underscores in the node names will create a dtc warning at
-compilation, you should use lcd-lvds0-pins instead.
+In case you go back to the variable length field plus type field to
+distingush EM devices, keep cpus[0] as the name.
 
-> +				allwinner,pins =
-> +					"PD0", "PD1", "PD2", "PD3", "PD4",
-> +					"PD5", "PD6", "PD7", "PD8", "PD9";
-> +				allwinner,function = "lvds0";
-> +				allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-> +				allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
+[..]
 
-Those properties are deprecated and should be replaced by pins and
-functions. allwinner,drive and allwinner,pull are at their default
-values and can be dropped.
+>  /**
+> - * em_pd_energy() - Estimates the energy consumed by the CPUs of a perf. domain
+> + * em_pd_energy() - Estimates the energy consumed by the CPUs of a perf.
+> +			domain
 
-This will create a spurious warning message for TCON1, since we
-adjusted the driver to tell it supports LVDS, but there's no LVDS
-reset line, so we need to make it finer grained.
+Why this change?
 
-Maybe adding a tcon0 / tcon1 compatible? Chen-Yu, any thought?
+[...]
 
-Maxime
+> @@ -141,12 +210,12 @@ static struct em_perf_domain *em_create_pd(cpumask_t *span, int nr_states,
+>  		 */
+>  		opp_eff = freq / power;
+>  		if (opp_eff >= prev_opp_eff)
+> -			pr_warn("pd%d: hertz/watts ratio non-monotonically decreasing: em_cap_state %d >= em_cap_state%d\n",
+> -					cpu, i, i - 1);
+> +			dev_warn(dev, "energy_model: hertz/watts ratio non-monotonically decreasing: em_perf_state %d >= em_perf_state%d\n",
 
---zztmkqxcnfnc34uw
-Content-Type: application/pgp-signature; name="signature.asc"
+s/energy_model/EM ?
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXkUaKAAKCRDj7w1vZxhR
-xWvqAQDWlCEogDZ5hH+fBXPvo6T5UizTKCW8akmEaSCXi1OH0AEAuYrejnkpB02Z
-OIBbgDk1XuTQW5eT8yzabddVdXyjego=
-=IugG
------END PGP SIGNATURE-----
-
---zztmkqxcnfnc34uw--
-
---===============0246557397==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+[...]
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0246557397==--
