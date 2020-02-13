@@ -1,50 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9537915C0AB
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 15:49:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76ACE15C0AF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 15:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4694D6F5EF;
-	Thu, 13 Feb 2020 14:49:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED246F5F4;
+	Thu, 13 Feb 2020 14:50:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B41976F5EF
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 14:49:04 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id p8so5755986oth.10
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 06:49:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vcfLm2jtEzdazoJrhRa/6IjRAeuLRNph80bHonczbjs=;
- b=ZXQD9YKcdWM/E1humUj0PqFUv1bR2pVGnWs/66SL0Pr0ocCSO9cCRjLK9aHppfnEc1
- c7+y9Rq58JHpa1PAW70q7AhsChY4KgSpPaEjH6Eyq+qvRhiSL6rRXeNYDnc+XsqzNsal
- nnXlbugr+kdCE/gvgjOJKEKA61ugdYrd7EIBY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vcfLm2jtEzdazoJrhRa/6IjRAeuLRNph80bHonczbjs=;
- b=A9PKc7QiXy77mibEXoAQ5PLGR3O3lavJd4h29wtZSvIqHijYPbTn3gWfqhfepybIjy
- LyYFTxaHB2X2/5+2jdLLTyFQY3MX6aaJqgQDh8S65qAoBBKsN1gah/GrzTmIKFCFD4fm
- +kpovbRbiIizg+2ogegAUbpzG3T6tbhiKudN+KZErvE3urDQiwT1hSUbuPQnrzmR+Evz
- jVO/OJ1cmb7Q46rl0rTNOiLJQnLGbr2Thi4uhtFkVdO8Xj9748aGr2Qwg0duOJIWOaM+
- a25xnyBLn7CakNpS0bMsGI8db+u0waNmI5mnYqoDMFysIs1yNwpE3Cycpnf9aljNgIGB
- E2QQ==
-X-Gm-Message-State: APjAAAV/p6EbL9G5HE8ULS7yv5J4H+j9hB0A3w2EJTM3fM2anImuuxr2
- 61b3g3tNzUb5lgbBvFPZR7t4ld10RdIxUCXuFH6zWA==
-X-Google-Smtp-Source: APXvYqyzwflTghR6+6u4NDALVo42W7QHaLTETE+pMSGVtE8277s0wjFRf+5vwFnO5GO0Etm0/02313JNlPIPYNF0QWU=
-X-Received: by 2002:a9d:7696:: with SMTP id j22mr14433000otl.188.1581605343955; 
- Thu, 13 Feb 2020 06:49:03 -0800 (PST)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2088.outbound.protection.outlook.com [40.107.236.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD5C6F5F4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 14:50:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Pkm+IXRqrr6p77NIDoA+TCwx+KGDoAbLKyBXkoG8bRA3xkkObj0U1dFUe+mwp9tKgpZTVYZL9/pLN+wVZSnPIhUF5Bcg0sHYt9J9SiGCG0UfG1G/zbIXy/DiAynDGSrrcw+A+Mig7b5TLwaobvLRFZYXT52jYRTx3a3bGhTw9fKnUtALWjeZA7Ncknr8xa/wrqAke4gfdpM4xIMbKz9rIKkeSKtFUmYheW/B40Ob/bhVcqaRuFxTrPa6oy8893MKxt6hUJDbzdDF59OR1LAn0R5Eo0RvbT9n3Xm0NGKaZgvgzGhcssSGA723kyXBvHd42GhGQIveEIEWiqPhDJJUxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QbO4HywrSS6vUnSyJSV3reG0uy/BId6AwSaGifO32X0=;
+ b=RzHt+ewoAE5R+p7MQcoalpbadwJzpazVB3tFpRUrX02MOFEfZPn3tyk4I320JhuitoK6K8CtMRPEBVnJ+kfuUZ5XQ9zkNAzHw9wPDFUyk7enC5SKGrSi6FV4/p8Lnovc1aNzFc6fNcpSh1eX3WYI3uQqRvosOdnzIAaB8BT4aC95svqidgwB+zOTparoz7BbpWq4UPPJfBHKPG+JgmQJOXT2vKEyNWuH8CMZoidObs453Q4ldMIi1sqwwCF6SRgD7YL2qRCRyGOWpa0idF0OQ3Z14HkQ2YYb9SrGfy1RCaayio3Zvj08X+AYGRckBOAW8bqdlKI9UE47qjuRYgqnow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QbO4HywrSS6vUnSyJSV3reG0uy/BId6AwSaGifO32X0=;
+ b=nyJWMDoplMUi6qmindGg6tVa6n+HjOu318jC1DjgR1LaQfFfdUq8bux/IExe9q0dU2L2XldJbxsEdh39nB1OvfKLjv5+XEr7JKF9tJobqs5/+kc+EPyUvikzBJf53sN5ifpyRBvtGYuvfcomfP8VBavZHEKAjUZMvlrJGieRR9Y=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Nirmoy.Das@amd.com; 
+Received: from DM5PR12MB2376.namprd12.prod.outlook.com (52.132.143.139) by
+ DM5PR12MB1659.namprd12.prod.outlook.com (10.172.40.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21; Thu, 13 Feb 2020 14:50:24 +0000
+Received: from DM5PR12MB2376.namprd12.prod.outlook.com
+ ([fe80::c06c:24da:d4c5:5ee3]) by DM5PR12MB2376.namprd12.prod.outlook.com
+ ([fe80::c06c:24da:d4c5:5ee3%6]) with mapi id 15.20.2729.024; Thu, 13 Feb 2020
+ 14:50:24 +0000
+Subject: Re: [RFC PATCH 5/6] drm/qxl: don't use ttm bo->offset
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20200213120203.29368-1-nirmoy.das@amd.com>
+ <20200213120203.29368-6-nirmoy.das@amd.com>
+ <20200213143053.tkbfd6wr5rbspzty@sirius.home.kraxel.org>
+From: Nirmoy <nirmodas@amd.com>
+Message-ID: <013434ab-b7a0-b703-bf5a-51e2873e268a@amd.com>
+Date: Thu, 13 Feb 2020 15:52:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
+In-Reply-To: <20200213143053.tkbfd6wr5rbspzty@sirius.home.kraxel.org>
+Content-Language: en-US
+X-ClientProxiedBy: FRYP281CA0018.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::28)
+ To DM5PR12MB2376.namprd12.prod.outlook.com
+ (2603:10b6:4:b9::11)
 MIME-Version: 1.0
-References: <20200213124833.35545-1-linus.walleij@linaro.org>
-In-Reply-To: <20200213124833.35545-1-linus.walleij@linaro.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 13 Feb 2020 15:48:53 +0100
-Message-ID: <CAKMK7uGDG7N1j53hPwNpnK+E=jiPDnEg3MofgC4fKmej_BUm2w@mail.gmail.com>
-Subject: Re: [PATCH] drm/pl111: Support Integrator IM-PD1 module
-To: Linus Walleij <linus.walleij@linaro.org>
+Received: from [IPv6:2003:c5:8f2a:5e00:4db9:9f42:976e:8a13]
+ (2003:c5:8f2a:5e00:4db9:9f42:976e:8a13) by
+ FRYP281CA0018.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2729.22 via Frontend Transport; Thu, 13 Feb 2020 14:50:23 +0000
+X-Originating-IP: [2003:c5:8f2a:5e00:4db9:9f42:976e:8a13]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3d0265d1-b8f2-4bf9-fc51-08d7b0940ead
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1659:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB165954E306C8475DBE3AFCE08B1A0@DM5PR12MB1659.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 031257FE13
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(346002)(366004)(396003)(136003)(39860400002)(199004)(189003)(66476007)(66556008)(66946007)(6916009)(31686004)(316002)(36756003)(53546011)(5660300002)(6486002)(8936002)(478600001)(2906002)(6666004)(8676002)(186003)(81156014)(2616005)(16526019)(81166006)(4326008)(31696002)(52116002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1659;
+ H:DM5PR12MB2376.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1TZ4EUQ0TxbpqzU1LkKiu/Ko/0YwipqSgRpjj/O2sNuUiqf6lkMA0RmjJkvj3Ms1rzyZhyBZeE5sJhQdsL359ui+OBsWb5wH1pgdyhLGyBQyHEGxcXpkAjFAu4IC8iMRfQF21MCydo+rkQRHl67p+MTWB7LBmeLFZlwB8UlGUuwUMQHXCf2+vDZziUyPmmZhgzwzZ4acUmvAN/wP8zm6bWioxQC57ke/oPVrGpakDDPwcaifK5lLd2eyIO4V4l3EdNgm38ALN41pPOEVnkJFy3nOH5hni+Kf3f04o5wf3SlVIl/8vlm3SaIGR3HG2/uyfZtMsedRW5LZWkNvhbZhkCv3Nk9PCkFn/Y4ZLzGa43oxXQnRuarpEYfx2uQlK74EbXkJ5dK2A3O20PpbbpinwNeZQ2G2b/OyP2pzFd6Ar7rqgvDc8CXNK9HMwkDOZ++p
+X-MS-Exchange-AntiSpam-MessageData: PSl3IZHQDW7BDrpnE6IB8wi8KTw+/vcQAwTUcio7dlgzXVyaQL4TDjSRKaCQlmZgBP+Xz3JVNdNY8iTH//fUY2d0g5BdC+2+V23hrTHLejX8bCiuBtBRbP6xxON/Ob5qZJoq/S7aLlexa9zkj7p7OLnHQX9168Y0cik6i/4XpP64oTpaYqVvJK8tpzQUIfL4tJcaDw+KiDucTnPu7FOfiw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d0265d1-b8f2-4bf9-fc51-08d7b0940ead
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2020 14:50:24.5355 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kBtmzAlqD7SlkzCSz1QWdZAMzZJLbE0c8rWY91nAspINpjdM79j9PmC/dR2nD7eeR9rDPWAYZvcKmmk7v5JO7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1659
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,174 +98,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Sean Paul <sean@poorly.run>, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2020 at 1:48 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> The last in-kernel user of the old framebuffer driver is the
-> IM-PD1 module for the Integrator/AP. Let's implement support for
-> this remaining user so we can migrate the last user over to
-> DRM and delete the old FB driver.
->
-> On the Integrator/AP the IM-PD1 system controller will exist
-> alongside the common Integrator system controller so make
-> sure to do a special lookup for the IM-PD1 syscon and make it
-> take precedence if found.
->
-> Tested on the Integrator/AP with the IM-PD1 mounted.
->
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-
-Looking around in the arm/mach-integrator code this seems to match
-roughly :-) I noticed there's also two more outputs for two panels,
-but not here. Do we not care about these anymore?
-
-Anyway, lgtm. Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/pl111/pl111_versatile.c | 73 +++++++++++++++++++++++++
->  1 file changed, 73 insertions(+)
->
-> diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
-> index 09aeaffb7660..4f325c410b5d 100644
-> --- a/drivers/gpu/drm/pl111/pl111_versatile.c
-> +++ b/drivers/gpu/drm/pl111/pl111_versatile.c
-> @@ -19,6 +19,7 @@ static struct regmap *versatile_syscon_map;
->   * We detect the different syscon types from the compatible strings.
->   */
->  enum versatile_clcd {
-> +       INTEGRATOR_IMPD1,
->         INTEGRATOR_CLCD_CM,
->         VERSATILE_CLCD,
->         REALVIEW_CLCD_EB,
-> @@ -65,6 +66,14 @@ static const struct of_device_id versatile_clcd_of_match[] = {
->         {},
->  };
->
-> +static const struct of_device_id impd1_clcd_of_match[] = {
-> +       {
-> +               .compatible = "arm,im-pd1-syscon",
-> +               .data = (void *)INTEGRATOR_IMPD1,
-> +       },
-> +       {},
-> +};
-> +
->  /*
->   * Core module CLCD control on the Integrator/CP, bits
->   * 8 thru 19 of the CM_CONTROL register controls a bunch
-> @@ -125,6 +134,36 @@ static void pl111_integrator_enable(struct drm_device *drm, u32 format)
->                            val);
->  }
->
-> +#define IMPD1_CTRL_OFFSET      0x18
-> +#define IMPD1_CTRL_DISP_LCD    (0 << 0)
-> +#define IMPD1_CTRL_DISP_VGA    (1 << 0)
-> +#define IMPD1_CTRL_DISP_LCD1   (2 << 0)
-> +#define IMPD1_CTRL_DISP_ENABLE (1 << 2)
-> +#define IMPD1_CTRL_DISP_MASK   (7 << 0)
-> +
-> +static void pl111_impd1_enable(struct drm_device *drm, u32 format)
-> +{
-> +       u32 val;
-> +
-> +       dev_info(drm->dev, "enable IM-PD1 CLCD connectors\n");
-> +       val = IMPD1_CTRL_DISP_VGA | IMPD1_CTRL_DISP_ENABLE;
-> +
-> +       regmap_update_bits(versatile_syscon_map,
-> +                          IMPD1_CTRL_OFFSET,
-> +                          IMPD1_CTRL_DISP_MASK,
-> +                          val);
-> +}
-> +
-> +static void pl111_impd1_disable(struct drm_device *drm)
-> +{
-> +       dev_info(drm->dev, "disable IM-PD1 CLCD connectors\n");
-> +
-> +       regmap_update_bits(versatile_syscon_map,
-> +                          IMPD1_CTRL_OFFSET,
-> +                          IMPD1_CTRL_DISP_MASK,
-> +                          0);
-> +}
-> +
->  /*
->   * This configuration register in the Versatile and RealView
->   * family is uniformly present but appears more and more
-> @@ -270,6 +309,20 @@ static const struct pl111_variant_data pl110_integrator = {
->         .fb_bpp = 16,
->  };
->
-> +/*
-> + * The IM-PD1 variant is a PL110 with a bunch of broken, or not
-> + * yet implemented features
-> + */
-> +static const struct pl111_variant_data pl110_impd1 = {
-> +       .name = "PL110 IM-PD1",
-> +       .is_pl110 = true,
-> +       .broken_clockdivider = true,
-> +       .broken_vblank = true,
-> +       .formats = pl110_integrator_pixel_formats,
-> +       .nformats = ARRAY_SIZE(pl110_integrator_pixel_formats),
-> +       .fb_bpp = 16,
-> +};
-> +
->  /*
->   * This is the in-between PL110 variant found in the ARM Versatile,
->   * supporting RGB565/BGR565
-> @@ -322,8 +375,21 @@ int pl111_versatile_init(struct device *dev, struct pl111_drm_dev_private *priv)
->                 /* Non-ARM reference designs, just bail out */
->                 return 0;
->         }
-> +
->         versatile_clcd_type = (enum versatile_clcd)clcd_id->data;
->
-> +       /*
-> +        * On the Integrator, check if we should use the IM-PD1 instead,
-> +        * if we find it, it will take precedence. This is on the Integrator/AP
-> +        * which only has this option for PL110 graphics.
-> +        */
-> +        if (versatile_clcd_type == INTEGRATOR_CLCD_CM) {
-> +               np = of_find_matching_node_and_match(NULL, impd1_clcd_of_match,
-> +                                                    &clcd_id);
-> +               if (np)
-> +                       versatile_clcd_type = (enum versatile_clcd)clcd_id->data;
-> +       }
-> +
->         /* Versatile Express special handling */
->         if (versatile_clcd_type == VEXPRESS_CLCD_V2M) {
->                 struct platform_device *pdev;
-> @@ -367,6 +433,13 @@ int pl111_versatile_init(struct device *dev, struct pl111_drm_dev_private *priv)
->                 priv->variant_display_enable = pl111_integrator_enable;
->                 dev_info(dev, "set up callbacks for Integrator PL110\n");
->                 break;
-> +       case INTEGRATOR_IMPD1:
-> +               versatile_syscon_map = map;
-> +               priv->variant = &pl110_impd1;
-> +               priv->variant_display_enable = pl111_impd1_enable;
-> +               priv->variant_display_disable = pl111_impd1_disable;
-> +               dev_info(dev, "set up callbacks for IM-PD1 PL110\n");
-> +               break;
->         case VERSATILE_CLCD:
->                 versatile_syscon_map = map;
->                 /* This can do RGB565 with external PLD */
-> --
-> 2.23.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDIvMTMvMjAgMzozMCBQTSwgR2VyZCBIb2ZmbWFubiB3cm90ZToKPj4gQEAgLTMxMSwxMCAr
+MzExLDggQEAgcXhsX2JvX3BoeXNpY2FsX2FkZHJlc3Moc3RydWN0IHF4bF9kZXZpY2UgKnFkZXYs
+IHN0cnVjdCBxeGxfYm8gKmJvLAo+PiAgIAkJKGJvLT50Ym8ubWVtLm1lbV90eXBlID09IFRUTV9Q
+TF9WUkFNKQo+PiAgIAkJPyAmcWRldi0+bWFpbl9zbG90IDogJnFkZXYtPnN1cmZhY2VzX3Nsb3Q7
+Cj4+ICAgCj4+IC0JV0FSTl9PTl9PTkNFKChiby0+dGJvLm9mZnNldCAmIHNsb3QtPmdwdV9vZmZz
+ZXQpICE9IHNsb3QtPmdwdV9vZmZzZXQpOwo+PiAtCj4+IC0JLyogVE9ETyAtIG5lZWQgdG8gaG9s
+ZCBvbmUgb2YgdGhlIGxvY2tzIHRvIHJlYWQgdGJvLm9mZnNldCAqLwo+PiAtCXJldHVybiBzbG90
+LT5oaWdoX2JpdHMgfCAoYm8tPnRiby5vZmZzZXQgLSBzbG90LT5ncHVfb2Zmc2V0ICsgb2Zmc2V0
+KTsKPj4gKwlyZXR1cm4gc2xvdC0+aGlnaF9iaXRzIHwgKChiby0+dGJvLm1lbS5zdGFydCA8PCBQ
+QUdFX1NISUZUKSArCj4+ICsJCQkJICBzbG90LT5ncHVfb2Zmc2V0ICsgb2Zmc2V0KTsKPj4gICB9
+Cj4gLS12ZXJib3NlIHBsZWFzZS4KPgo+IEkgZG9uJ3QgZ2V0IHRoZSBsb2dpYyBiZWhpbmQgdGhp
+cyBjaGFuZ2UuCgpIaSBHZXJkLAoKSSBib3Jyb3dlZCB0aGUgbG9naWMgZm9yIHJlbW92ZWQgdHRt
+IHBhcnQKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVy
+cy9ncHUvZHJtL3R0bS90dG1fYm8uYwppbmRleCAyMjkyMDVlNDk5ZGIuLjJjY2ZlYmMzYzlhMiAx
+MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYworKysgYi9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9iby5jCkBAIC0zODIsMTIgKzM4MSw2IEBAIHN0YXRpYyBpbnQgdHRtX2Jv
+X2hhbmRsZV9tb3ZlX21lbShzdHJ1Y3QgCnR0bV9idWZmZXJfb2JqZWN0ICpibywKIMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiby0+ZXZpY3RlZCA9IGZhbHNlOwogwqDCoMKgwqDCoMKg
+wqAgfQoKLcKgwqDCoMKgwqDCoCBpZiAoYm8tPm1lbS5tbV9ub2RlKQotwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBiby0+b2Zmc2V0ID0gKGJvLT5tZW0uc3RhcnQgPDwgUEFHRV9TSElGVCkg
+KwotwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJkZXYtPm1hbltiby0+bWVt
+Lm1lbV90eXBlXS5ncHVfb2Zmc2V0OwotwqDCoMKgwqDCoMKgIGVsc2UKLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgYm8tPm9mZnNldCA9IDA7Ci0KCgpNeSBhc3N1bXB0aW9uIGlzCgogIChi
+by0+dGJvLm9mZnNldCAtIHNsb3QtPmdwdV9vZmZzZXQgKyBvZmZzZXQpID09IChiby0+dGJvLm1l
+bS5zdGFydCA8PCBQQUdFX1NISUZUKSArIGJkZXYtPm1hbltiby0+bWVtLm1lbV90eXBlXS5ncHVf
+b2Zmc2V0IC0gc2xvdC0+Z3B1X29mZnNldCArIG9mZnNldCkKCi0+ID09IChiby0+dGJvLm1lbS5z
+dGFydCA8PCBQQUdFX1NISUZUKSArIG9mZnNldAoKYW5kIHdlIGxvb3NlwqAgc2xvdC0+Z3B1X29m
+ZnNldCBzbyBJIHRob3VnaHQgaXQgc2hvdWxkIGJlCgooKGJvLT50Ym8ubWVtLnN0YXJ0IDw8IFBB
+R0VfU0hJRlQpICsgc2xvdC0+Z3B1X29mZnNldCArIG9mZnNldCk7CgpDYW4geW91IHBsZWFzZSBz
+dWdnZXN0IG1lIGhvdyB0byBjYWxjdWxhdGUgdGhlIG9mZnNldMKgIGNvcnJlY3RseSBoZXJlLgoK
+ClJlZ2FyZHMsCgpOaXJtbwoKPgo+IFRoZSBvdGhlciBjaHVua3MgbG9vayBzYW5lLCBjYWxjdWxh
+dGluZyBzbG90LT5ncHVfb2Zmc2V0Cj4gaW4gc2V0dXBfc2xvdCgpIGNlcnRhaW5seSBtYWtlcyBz
+ZW5zZS4KPgo+IGNoZWVycywKPiAgICBHZXJkCj4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
