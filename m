@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DCDC15BD16
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 11:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541A515BD1F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 11:52:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6EA56E1F9;
-	Thu, 13 Feb 2020 10:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 972286E221;
+	Thu, 13 Feb 2020 10:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7F66E1F9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:50:15 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01DAnfXI105617;
- Thu, 13 Feb 2020 04:49:41 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1581590981;
- bh=O0TSlCI6XSkFaaRYZWoLggvdT+mamM3SWbqJgmBxfko=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=fRj+75VwsLvf+hBoMkqYnNF3HRSt+eSJat/XHQzO7/zQG1Y1hkyrMIt+tsk9S2yW8
- ON4bxdycIMRsNOE9S+jQH/J/e+gHXYdhxr+tKgmTA6JG2DlMG/KCTwQHQCJ1NMiDVQ
- M9rm90xBqlcrB99l6Jhd0XxkeksclEUkKAfuYUPw=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01DAnfUJ057161
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 13 Feb 2020 04:49:41 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 13
- Feb 2020 04:49:41 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 13 Feb 2020 04:49:40 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01DAncAF125343;
- Thu, 13 Feb 2020 04:49:39 -0600
-Subject: Re: [PATCH v3] drm/tidss: dispc: Rewrite naive plane positioning code
-To: Jyri Sarha <jsarha@ti.com>, <dri-devel@lists.freedesktop.org>
-References: <20200213104419.29617-1-jsarha@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <0cd1098f-fb3d-34cb-2f79-bb543ca99203@ti.com>
-Date: Thu, 13 Feb 2020 12:49:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1CAB6E22B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:52:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581591149;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0Obic0sseTn6jvI331LFZBDKTd6ij6fqSxLaca0+qqQ=;
+ b=da6YX+bZDvDoes4xhNDNNHgqfn7BJImZtrmu268zl1JfBN9bYkkViAgTwc2rHABHBK+9Y0
+ +tvhO79X5hZrsTqvHL3Udql2Efmw+hhg/WnBTIf6BWDpFcxVefIcSWlGYQ6e6oefVi1/4L
+ hyDvsDdkHBx8nRmgxb4A73NjzegCBa8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-HKb2I6-wOTKIaqyCyDEs4A-1; Thu, 13 Feb 2020 05:52:21 -0500
+X-MC-Unique: HKb2I6-wOTKIaqyCyDEs4A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B64081408;
+ Thu, 13 Feb 2020 10:52:19 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com
+ [10.36.117.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D5086683C;
+ Thu, 13 Feb 2020 10:52:19 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8B00A45B4; Thu, 13 Feb 2020 11:52:18 +0100 (CET)
+Date: Thu, 13 Feb 2020 11:52:18 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: Re: [PATCH] drm/qxl: replace zero-length array with flexible-array
+ member
+Message-ID: <20200213105218.xsjy3bv2d6c2y2mc@sirius.home.kraxel.org>
+References: <20200212193344.GA27929@embeddedor>
 MIME-Version: 1.0
-In-Reply-To: <20200213104419.29617-1-jsarha@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20200212193344.GA27929@embeddedor>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +61,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: praneeth@ti.com, peter.ujfalusi@ti.com, laurent.pinchart@ideasonboard.com
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ spice-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2020 12:44, Jyri Sarha wrote:
+On Wed, Feb 12, 2020 at 01:33:44PM -0600, Gustavo A. R. Silva wrote:
+> The current codebase makes use of the zero-length array language
+> extension to the C90 standard, but the preferred mechanism to declare
+> variable-length types such as these ones is a flexible array member[1][2],
+> introduced in C99:
+> 
+> struct foo {
+>         int stuff;
+>         struct boo array[];
+> };
+> 
+> By making use of the mechanism above, we will get a compiler warning
+> in case the flexible array does not occur last in the structure, which
+> will help us prevent some kind of undefined behavior bugs from being
+> inadvertenly introduced[3] to the codebase from now on.
+> 
+> Also, notice that, dynamic memory allocations won't be affected by
+> this change:
+> 
+> "Flexible array members have incomplete type, and so the sizeof operator
+> may not be applied. As a quirk of the original implementation of
+> zero-length arrays, sizeof evaluates to zero."[1]
+> 
+> This issue was found with the help of Coccinelle.
+> 
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://github.com/KSPP/linux/issues/21
+> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
 
-> +	/*
-> +	 * If a plane on a CRTC changes add all active planes on that
-> +	 * CRTC to the atomic state. This is needed for updating the
-> +	 * plane positions in tidss_crtc_position_planes() which is
-> +	 * called from crtc_atomic_enable() and crtc_atomic_flush().
-> +	 * The update is needed for x,y-position changes too, so
-> +	 * zpos_changed condition is not enough and we need this if
-> +	 * planes_changed is true too.
-> +	 */
-> +	for_each_new_crtc_in_state(state, crtc, cstate, i) {
-> +		if (cstate->zpos_changed || cstate->planes_changed) {
-> +			ret = drm_atomic_add_affected_planes(state, crtc);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +	}
+Pushed to drm-misc-next.
 
-I think 99.99...% of the commits are such where only planes' fb address is changed. I think 
-"planes_changed" is true for these. I wonder if it would be a sensible optimization to skip this for 
-those 99.99...% cases. Can we detect that easily?
+thanks,
+  Gerd
 
-Well, we haven't optimized for those 99.99...% cases anywhere else either, so it's possible it 
-doesn't matter.
-
-  Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
