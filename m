@@ -1,61 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF3D15D380
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 732B015D37A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD6206EB44;
-	Fri, 14 Feb 2020 08:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACCC06F8BD;
+	Fri, 14 Feb 2020 08:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7506E3EB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 20:20:01 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id q8so8121988ljb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 12:20:01 -0800 (PST)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8686F885;
+ Thu, 13 Feb 2020 21:48:15 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id 77so7132884oty.6;
+ Thu, 13 Feb 2020 13:48:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mW6PukSxckGSUCke6VTFTCVByD+nJPm6k8mdLJlJUQ8=;
- b=RC09I+Bvk9BEGM312oV5NW7pG1aKQPts5wE1yDyMZ5aunmfCjtpj/ZtkVQfg5cc4kX
- n4rUd7Uw8Ed/epLUm9Gj7Q9rrTgeNaB7fA6T6msnWDT9n49NXzqbTh4gbBQ3D4ylyM2m
- Db9pfSfadEt1TPmiY25g7eQP5kfvza19ucaRwOBa4LoatztuIsBGKZCRLtsT1qGzqb+x
- 3R1jApficdWMUC38I6zCdiYLKbYUeP7ewABAHw3uNkUlziHLUZmEa77C55CQ9fX5E8yR
- nhxT/uqgKTwmRXqalvyie7/fOEEnIe6JNxBaGyGoRwKVGvbXa2Gl0eaaV/pVBbzSbPgj
- WORA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=OA6xe4auWdZmJjRQ/wLiVug/7u1e1T2hWJ4r61PFbbI=;
+ b=Yjbihcz/pjHpfRB3FK6+kvNDhYFYbKTb1fXNAhFDe7n59LWRE2MCoGk1PeaKJHPvF4
+ RtNIcD/phGw2ZuoWRUZrK1q4zQOgagT8eH9UxHfJp8JS3HlkHgcoR5wj66yRZoz3lQG1
+ 0V2azohVyjf1jbPfBR6yNDkaJfpzXLfLX6hHZ30DyW4nRdCBdCiQ+qLLUqxQOE5Aw0RW
+ w1TU55yhMAMuOHFWgjyf4knPaW8zX8nR0V70N6aBJz1weth7/T/9DOanwwibX1hGcLqb
+ xDYSMNuXGUigliBYkNovwpJSc8hED9QlvnUIOCtqOWazNjan9pkfh6st8JLX1dn4BXGq
+ FQoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mW6PukSxckGSUCke6VTFTCVByD+nJPm6k8mdLJlJUQ8=;
- b=tZ6GNfIcGoRKidKcpOtEfL+BzXwAc+ifoe70ADLJw7ltY849LRmrnir8Tkgp0OyJOe
- 1Mqo/o5A1q/ayWZdQyBC3f5e3z0YALtGguIu/CDno+jYXplYcr3i56BmZ9Yoqa3hiY/U
- cjNbWyWNEpnzU/lH5ENidxxoBhuGabijIxI4KVqK2PBZOzO9oiihdFCeKYOEt2yuomtB
- s9R3hWUa8M0QNqyDXYLDF6JRUeLEqxmQ46toHaYNzmX6eISa/NWSNgoLJPJlfMZrHI7O
- YTB5hXSXU7Y8BIPQrlPxlXbthlSr33w3nWo6FY3ItNEvLm0AUO/coowg5R2oNsJfX6yK
- ++8A==
-X-Gm-Message-State: APjAAAVYLNeUf/3JBjcXphjNF1zYDwzgiJZDUBfYYeptd6kL0DbrHtU4
- PZU1TJlMjJ+vIwk9lO/V7d4=
-X-Google-Smtp-Source: APXvYqxw0rZXUmiJIT9xq2xe3VuahXdAUOtscc4DdIG+xn5Y17KAhRRAUvyZVKqDwcbtKuS/oxnM5w==
-X-Received: by 2002:a2e:9e19:: with SMTP id e25mr12844931ljk.179.1581625199519; 
- Thu, 13 Feb 2020 12:19:59 -0800 (PST)
-Received: from localhost.localdomain ([5.20.204.163])
- by smtp.gmail.com with ESMTPSA id s22sm2209470ljm.41.2020.02.13.12.19.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 12:19:59 -0800 (PST)
-From: Andrey Lebedev <andrey.lebedev@gmail.com>
-To: mripard@kernel.org, wens@csie.org, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] ARM: dts: sun7i: Add LVDS panel support on A20
-Date: Thu, 13 Feb 2020 22:18:57 +0200
-Message-Id: <20200213201854.810-3-andrey.lebedev@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200210195633.GA21832@kedthinkpad>
-References: <20200210195633.GA21832@kedthinkpad>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=OA6xe4auWdZmJjRQ/wLiVug/7u1e1T2hWJ4r61PFbbI=;
+ b=XVzvCNxW5u9zLIeSIPPZbyhjLYKyG6eDHG+JaTbs7p5kMCZ2fMU654HyMqoLORTwOs
+ AFXdOqXk3SXHVgZYX4WsOuFIvQ6dYNm4XTchuZhlSvSzDYdAcJUyxhDK6RElEWslk7J3
+ HjvU5vFyDbus9EEr2xKgbcte6g9jM2pujvi4YAGFXxeIPTvazHszIWQ1DNSZ6s1YHpRk
+ U57vnX3Q1/wvB4ChaG46mQO9qhF+GjIWr+ZgYlX/NJz/KQgL3D9m7wYuhjtl+pDtu7yX
+ cfqg/T5ceWxyNo/Awtud8vLIVNGmivZLmJzEeVJC33ZzhfOi0l6qwNkKBhleYsrusKfy
+ P/kg==
+X-Gm-Message-State: APjAAAW5/x86hl5obzySZ9t81p+67W+Q4olwVB9Y/zeCpOddyYJdbHIP
+ GHcNp8jYvy1ObPV2pNeZB+Q=
+X-Google-Smtp-Source: APXvYqz3P6jxWKRvESHwGthFWB57MpjdHTr6nTaZb86AI0CqwYT2Gh/3W9UwxiWywmhVURTmUZK27Q==
+X-Received: by 2002:a9d:138:: with SMTP id 53mr8087394otu.334.1581630494627;
+ Thu, 13 Feb 2020 13:48:14 -0800 (PST)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+ by smtp.gmail.com with ESMTPSA id q6sm1225527otn.73.2020.02.13.13.48.13
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 13 Feb 2020 13:48:14 -0800 (PST)
+Date: Thu, 13 Feb 2020 14:48:12 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Disable
+ -Wtautological-constant-out-of-range-compare
+Message-ID: <20200213214812.GA7980@ubuntu-m2-xlarge-x86>
+References: <20200211050808.29463-1-natechancellor@gmail.com>
+ <20200211061338.23666-1-natechancellor@gmail.com>
+ <4c806435-f32d-1559-9563-ffe3fa69f0d1@daenzer.net>
+ <20200211203935.GA16176@ubuntu-m2-xlarge-x86>
+ <f3a6346b-2abf-0b6a-3d84-66e12f700b2b@daenzer.net>
+ <20200212170734.GA16396@ubuntu-m2-xlarge-x86>
+ <d81a2cfe-79b6-51d4-023e-0960c0593856@daenzer.net>
+ <877e0qy2n8.fsf@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <877e0qy2n8.fsf@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Fri, 14 Feb 2020 08:07:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,85 +77,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrey Lebedev <andrey@lebedev.lt>, linux-sunxi@googlegroups.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: clang-built-linux@googlegroups.com,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Lebedev <andrey@lebedev.lt>
+On Thu, Feb 13, 2020 at 04:37:15PM +0200, Jani Nikula wrote:
+> On Wed, 12 Feb 2020, Michel D=E4nzer <michel@daenzer.net> wrote:
+> > On 2020-02-12 6:07 p.m., Nathan Chancellor wrote:
+> >> On Wed, Feb 12, 2020 at 09:52:52AM +0100, Michel D=E4nzer wrote:
+> >>> On 2020-02-11 9:39 p.m., Nathan Chancellor wrote:
+> >>>> On Tue, Feb 11, 2020 at 10:41:48AM +0100, Michel D=E4nzer wrote:
+> >>>>> On 2020-02-11 7:13 a.m., Nathan Chancellor wrote:
+> >>>>>> A recent commit in clang added -Wtautological-compare to -Wall, wh=
+ich is
+> >>>>>> enabled for i915 so we see the following warning:
+> >>>>>>
+> >>>>>> ../drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1485:22: warning:
+> >>>>>> result of comparison of constant 576460752303423487 with expressio=
+n of
+> >>>>>> type 'unsigned int' is always false
+> >>>>>> [-Wtautological-constant-out-of-range-compare]
+> >>>>>>         if (unlikely(remain > N_RELOC(ULONG_MAX)))
+> >>>>>>             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+> >>>>>>
+> >>>>>> This warning only happens on x86_64 but that check is relevant for
+> >>>>>> 32-bit x86 so we cannot remove it.
+> >>>>>
+> >>>>> That's suprising. AFAICT N_RELOC(ULONG_MAX) works out to the same v=
+alue
+> >>>>> in both cases, and remain is a 32-bit value in both cases. How can =
+it be
+> >>>>> larger than N_RELOC(ULONG_MAX) on 32-bit (but not on 64-bit)?
+> >>>>>
+> >>>>
+> >>>> Hi Michel,
+> >>>>
+> >>>> Can't this condition be true when UINT_MAX =3D=3D ULONG_MAX?
+> >>>
+> >>> Oh, right, I think I was wrongly thinking long had 64 bits even on 32=
+-bit.
+> >>>
+> >>>
+> >>> Anyway, this suggests a possible better solution:
+> >>>
+> >>> #if UINT_MAX =3D=3D ULONG_MAX
+> >>> 	if (unlikely(remain > N_RELOC(ULONG_MAX)))
+> >>> 		return -EINVAL;
+> >>> #endif
+> >>>
+> >>>
+> >>> Or if that can't be used for some reason, something like
+> >>>
+> >>> 	if (unlikely((unsigned long)remain > N_RELOC(ULONG_MAX)))
+> >>> 		return -EINVAL;
+> >>>
+> >>> should silence the warning.
+> >> =
 
-Define pins for LVDS channels 0 and 1, configure reset line for tcon0 and
-provide sample LVDS panel, connected to tcon0.
+> >> I do like this one better than the former.
+> >
+> > FWIW, one downside of this one compared to all alternatives (presumably)
+> > is that it might end up generating actual code even on 64-bit, which
+> > always ends up skipping the return.
+> =
 
-Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
----
- arch/arm/boot/dts/sun7i-a20.dtsi | 28 ++++++++++++++++++++++++++--
- 1 file changed, 26 insertions(+), 2 deletions(-)
+> I like this better than the UINT_MAX =3D=3D ULONG_MAX comparison because
+> that creates a dependency on the type of remain.
+> =
 
-diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
-index 92b5be97085d..3b3c366a2bee 100644
---- a/arch/arm/boot/dts/sun7i-a20.dtsi
-+++ b/arch/arm/boot/dts/sun7i-a20.dtsi
-@@ -47,6 +47,7 @@
- #include <dt-bindings/dma/sun4i-a10.h>
- #include <dt-bindings/clock/sun7i-a20-ccu.h>
- #include <dt-bindings/reset/sun4i-a10-ccu.h>
-+#include <dt-bindings/pinctrl/sun4i-a10.h>
- 
- / {
- 	interrupt-parent = <&gic>;
-@@ -407,8 +408,8 @@
- 			compatible = "allwinner,sun7i-a20-tcon";
- 			reg = <0x01c0c000 0x1000>;
- 			interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
--			resets = <&ccu RST_TCON0>;
--			reset-names = "lcd";
-+			resets = <&ccu RST_TCON0>, <&ccu RST_LVDS>;
-+			reset-names = "lcd", "lvds";
- 			clocks = <&ccu CLK_AHB_LCD0>,
- 				 <&ccu CLK_TCON0_CH0>,
- 				 <&ccu CLK_TCON0_CH1>;
-@@ -444,6 +445,11 @@
- 					#size-cells = <0>;
- 					reg = <1>;
- 
-+					tcon0_out_lvds: endpoint@0 {
-+						reg = <0>;
-+						allwinner,tcon-channel = <0>;
-+					};
-+
- 					tcon0_out_hdmi: endpoint@1 {
- 						reg = <1>;
- 						remote-endpoint = <&hdmi_in_tcon0>;
-@@ -1162,6 +1168,24 @@
- 				pins = "PI20", "PI21";
- 				function = "uart7";
- 			};
-+
-+			/omit-if-no-ref/
-+			lcd_lvds0_pins: lcd-lvds0-pins {
-+				pins =
-+					"PD0", "PD1", "PD2", "PD3", "PD4",
-+					"PD5", "PD6", "PD7", "PD8", "PD9";
-+				function = "lvds0";
-+				allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-+			};
-+
-+			/omit-if-no-ref/
-+			lcd_lvds1_pins: lcd-lvds1-pins {
-+				pins =
-+					"PD10", "PD11", "PD12", "PD13", "PD14",
-+					"PD15", "PD16", "PD17", "PD18", "PD19";
-+				function = "lvds1";
-+				allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-+			};
- 		};
- 
- 		timer@1c20c00 {
--- 
-2.20.1
+> Then again, a sufficiently clever compiler could see through the cast,
+> and flag the warning anyway...
 
+Would you prefer a patch that adds that cast rather than silencing the
+warning outright? It does appear to work for clang.
+
+Cheers,
+Nathan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
