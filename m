@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8A715D378
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B12C15D373
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68CF36F8C6;
-	Fri, 14 Feb 2020 08:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A386E9EC;
+	Fri, 14 Feb 2020 08:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEF26E422
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 22:43:33 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id d6so3887500pgn.5
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 14:43:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1uz4onwD02FQH4e/dvdb1FjZu1rFnkl+4ltvHCVnzHQ=;
- b=Mu7RaWQT57rbjsEgWQeug20f4GIX77GFzc3qAC7n2UMwytWFBLui8a1qKbHPGKy1kO
- 9qHZUeD/Ig7Ke5Azt9yZuWIB3ilP30QdJLPVilNqofkViyiWVw9yHK13NFR7WQruhaev
- K9iZutEjIZ9rx6lvKFO6X2nTrfMLXqseES2VUtMF39yTdsb2GbDCvpgsBONkdsB8nnA5
- MUo5zjOT/BmVDI9DZ/Hr6pq80Tpe5d2g9iwzD+aJyP/o8jZWLS7JhIi11/cydPIK6Nly
- ZZyDKTNDANgpYqFoT7sqnemXJg3T6yPh2tbZSI2Aim3r5vYBVqiLMFEqe5+3ngmFACR/
- q5Qw==
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABBF06E42D;
+ Thu, 13 Feb 2020 23:27:26 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id b18so7666626oie.2;
+ Thu, 13 Feb 2020 15:27:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=phnCn7mKlZPWUI9KXkv1lYA4R+8w6RQ/h4tld1EHfzY=;
+ b=tSgExaGoLaq8u6hZyZ70QjOD0b9Mo2pTA/GpwZyxT661oxJn9GDuJ43iuPoGCiWR6Q
+ pTGcUIVDI4ZFXeCBb++m1pnArVPMf5e6I1U/+cnUHFgmsvXUwpL9CuB8ilC5wEhU8d7i
+ 5RQ7cDhGxWjNcavRCyXp03xB7bqyCULjB6OmO8NisychmtVgAK+4ibK0jYdr7deMXSow
+ wquazQ+m7XdjmF0zauXHXG/fGjB1NAAENNjzYsiWJHoDvyb4IruZ/5UYiDgkQYuK5EeR
+ 73COvdUelbwqNooYGrBes6ZzhaMUj++cW7C4+olEZfDl9cZLJ32ZgWNPYSP24SB2SaZy
+ a3kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1uz4onwD02FQH4e/dvdb1FjZu1rFnkl+4ltvHCVnzHQ=;
- b=ucNpRwAHWIZhqqIWwtxwJgk97FBLd4nTbGFkAMWeVZ9KuIN77EMvMHCF+FDZNzVvAw
- D7lLGVc/Fm0Sw+A7YQpgz3dLiRXosopwbjsfydGaw3qdFJkkVuPmvkD1nVI1Z83mIsOa
- ea0YfXq0/td/Hdvb2zKrbr6i+0quSgK8fYxzejVn2xdHIaRVMAFrrPRAGTjbyWlvWKjj
- PLT4BNYKHrwzgyHSthKf1ytxeJFrbieZvy88IkTpkOvLJaRfX8sMFjnksyKXXW5y3jzJ
- ++NXtHRXZ31s6pg2T6GvndYz/U2gAWKSbb09isS1isG0F9H63K9mNlLVV6Ys+dDzcECW
- 8/+Q==
-X-Gm-Message-State: APjAAAWzfUqKIfyPXS09wmEkh9GW7Tlm22QuPLXtzrKSsQ0Kqb9QIqtP
- cNXOcKJHNFZtETrIxaIZRPncmJPf/CxtPxd+S4soAg==
-X-Google-Smtp-Source: APXvYqz+I/Aj0lLNkEM0HAfbgend/2rNUCga5zdKKKJWLstIs2KmGzFR4k/LVIzrSDVahxXfq6sw1G//SGyOO9dV1IY=
-X-Received: by 2002:a63:64c5:: with SMTP id y188mr195696pgb.10.1581633812546; 
- Thu, 13 Feb 2020 14:43:32 -0800 (PST)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=phnCn7mKlZPWUI9KXkv1lYA4R+8w6RQ/h4tld1EHfzY=;
+ b=JbI7CbAtOiTnTsy5fLfUYHpmRtVTienHH4OlMGTtCJ4FeX8yu8+20FHGPmEjsv0BqS
+ swS8A8uoZ/24Swln01PFx4i+YIGvJ+iWASDZZ6p+23AF5VD7o22/GcGY97gca35rUWt2
+ fSmNHpKQRXElX9l7uJjUCBIHftglKNmUeW6GbA4n6FxAdtgJzvfmE2LeFHG2CgZlL0H2
+ +HVXzfSJBYuoHYl5H8p40KJ5qxnb3pRdKRGXt5KegHNmkZjX4Kx8HqT8ca4uyAF6865f
+ KI/vRRZ1cuNx4j26VQ9zS3iDq3IqERpmySgpmJfBHMGDDaCrcU8Hje2narp9jPLo3DIt
+ qbqg==
+X-Gm-Message-State: APjAAAXM/0oR0ZzSDcStn2slku3+RZRY1P8o1KTkFfcP7zfH1GROyBxO
+ Z9IyTocAVdi2emhRWg+m13M=
+X-Google-Smtp-Source: APXvYqzUb4skfimU29+d3GeNL8MzppZrPxpAt5aUIZc480u59SxuAnYW5JzENtYOmXrsHln3Fw/n9Q==
+X-Received: by 2002:a54:488d:: with SMTP id r13mr5819oic.115.1581636445805;
+ Thu, 13 Feb 2020 15:27:25 -0800 (PST)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+ by smtp.gmail.com with ESMTPSA id c12sm1291127oic.27.2020.02.13.15.27.25
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 13 Feb 2020 15:27:25 -0800 (PST)
+Date: Thu, 13 Feb 2020 16:27:23 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH v2] drm/i915: Disable
+ -Wtautological-constant-out-of-range-compare
+Message-ID: <20200213232723.GA26697@ubuntu-m2-xlarge-x86>
 References: <20200211050808.29463-1-natechancellor@gmail.com>
  <20200211061338.23666-1-natechancellor@gmail.com>
  <4c806435-f32d-1559-9563-ffe3fa69f0d1@daenzer.net>
@@ -49,13 +59,11 @@ References: <20200211050808.29463-1-natechancellor@gmail.com>
  <f3a6346b-2abf-0b6a-3d84-66e12f700b2b@daenzer.net>
  <20200212170734.GA16396@ubuntu-m2-xlarge-x86>
  <d81a2cfe-79b6-51d4-023e-0960c0593856@daenzer.net>
-In-Reply-To: <d81a2cfe-79b6-51d4-023e-0960c0593856@daenzer.net>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Thu, 13 Feb 2020 14:43:21 -0800
-Message-ID: <CAKwvOdm4eS19-D3pEkKsyZw7VjJP9Jeh5gMZaszwgjrJe63yUg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/i915: Disable
- -Wtautological-constant-out-of-range-compare
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+ <CAKwvOdm4eS19-D3pEkKsyZw7VjJP9Jeh5gMZaszwgjrJe63yUg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdm4eS19-D3pEkKsyZw7VjJP9Jeh5gMZaszwgjrJe63yUg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Fri, 14 Feb 2020 08:07:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,59 +77,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  clang-built-linux <clang-built-linux@googlegroups.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Nathan Chancellor <natechancellor@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBGZWIgMTIsIDIwMjAgYXQgOToxNyBBTSBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRh
-ZW56ZXIubmV0PiB3cm90ZToKPgo+IE9uIDIwMjAtMDItMTIgNjowNyBwLm0uLCBOYXRoYW4gQ2hh
-bmNlbGxvciB3cm90ZToKPiA+IE9uIFdlZCwgRmViIDEyLCAyMDIwIGF0IDA5OjUyOjUyQU0gKzAx
-MDAsIE1pY2hlbCBEw6RuemVyIHdyb3RlOgo+ID4+IE9uIDIwMjAtMDItMTEgOTozOSBwLm0uLCBO
-YXRoYW4gQ2hhbmNlbGxvciB3cm90ZToKPiA+Pj4gT24gVHVlLCBGZWIgMTEsIDIwMjAgYXQgMTA6
-NDE6NDhBTSArMDEwMCwgTWljaGVsIETDpG56ZXIgd3JvdGU6Cj4gPj4+PiBPbiAyMDIwLTAyLTEx
-IDc6MTMgYS5tLiwgTmF0aGFuIENoYW5jZWxsb3Igd3JvdGU6Cj4gPj4+Pj4gQSByZWNlbnQgY29t
-bWl0IGluIGNsYW5nIGFkZGVkIC1XdGF1dG9sb2dpY2FsLWNvbXBhcmUgdG8gLVdhbGwsIHdoaWNo
-IGlzCj4gPj4+Pj4gZW5hYmxlZCBmb3IgaTkxNSBzbyB3ZSBzZWUgdGhlIGZvbGxvd2luZyB3YXJu
-aW5nOgo+ID4+Pj4+Cj4gPj4+Pj4gLi4vZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2Vt
-X2V4ZWNidWZmZXIuYzoxNDg1OjIyOiB3YXJuaW5nOgo+ID4+Pj4+IHJlc3VsdCBvZiBjb21wYXJp
-c29uIG9mIGNvbnN0YW50IDU3NjQ2MDc1MjMwMzQyMzQ4NyB3aXRoIGV4cHJlc3Npb24gb2YKPiA+
-Pj4+PiB0eXBlICd1bnNpZ25lZCBpbnQnIGlzIGFsd2F5cyBmYWxzZQo+ID4+Pj4+IFstV3RhdXRv
-bG9naWNhbC1jb25zdGFudC1vdXQtb2YtcmFuZ2UtY29tcGFyZV0KPiA+Pj4+PiAgICAgICAgIGlm
-ICh1bmxpa2VseShyZW1haW4gPiBOX1JFTE9DKFVMT05HX01BWCkpKQo+ID4+Pj4+ICAgICAgICAg
-ICAgIH5+fn5+fn5+fn5+fn5+fn5efn5+fn5+fn5+fn5+fn5+fn5+fn4KPiA+Pj4+Pgo+ID4+Pj4+
-IFRoaXMgd2FybmluZyBvbmx5IGhhcHBlbnMgb24geDg2XzY0IGJ1dCB0aGF0IGNoZWNrIGlzIHJl
-bGV2YW50IGZvcgo+ID4+Pj4+IDMyLWJpdCB4ODYgc28gd2UgY2Fubm90IHJlbW92ZSBpdC4KPiA+
-Pj4+Cj4gPj4+PiBUaGF0J3Mgc3VwcmlzaW5nLiBBRkFJQ1QgTl9SRUxPQyhVTE9OR19NQVgpIHdv
-cmtzIG91dCB0byB0aGUgc2FtZSB2YWx1ZQo+ID4+Pj4gaW4gYm90aCBjYXNlcywgYW5kIHJlbWFp
-biBpcyBhIDMyLWJpdCB2YWx1ZSBpbiBib3RoIGNhc2VzLiBIb3cgY2FuIGl0IGJlCj4gPj4+PiBs
-YXJnZXIgdGhhbiBOX1JFTE9DKFVMT05HX01BWCkgb24gMzItYml0IChidXQgbm90IG9uIDY0LWJp
-dCk/Cj4gPj4+Pgo+ID4+Pgo+ID4+PiBIaSBNaWNoZWwsCj4gPj4+Cj4gPj4+IENhbid0IHRoaXMg
-Y29uZGl0aW9uIGJlIHRydWUgd2hlbiBVSU5UX01BWCA9PSBVTE9OR19NQVg/Cj4gPj4KPiA+PiBP
-aCwgcmlnaHQsIEkgdGhpbmsgSSB3YXMgd3JvbmdseSB0aGlua2luZyBsb25nIGhhZCA2NCBiaXRz
-IGV2ZW4gb24gMzItYml0Lgo+ID4+Cj4gPj4KPiA+PiBBbnl3YXksIHRoaXMgc3VnZ2VzdHMgYSBw
-b3NzaWJsZSBiZXR0ZXIgc29sdXRpb246Cj4gPj4KPiA+PiAjaWYgVUlOVF9NQVggPT0gVUxPTkdf
-TUFYCj4gPj4gICAgICBpZiAodW5saWtlbHkocmVtYWluID4gTl9SRUxPQyhVTE9OR19NQVgpKSkK
-PiA+PiAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4gPj4gI2VuZGlmCj4gPj4KPiA+Pgo+
-ID4+IE9yIGlmIHRoYXQgY2FuJ3QgYmUgdXNlZCBmb3Igc29tZSByZWFzb24sIHNvbWV0aGluZyBs
-aWtlCj4gPj4KPiA+PiAgICAgIGlmICh1bmxpa2VseSgodW5zaWduZWQgbG9uZylyZW1haW4gPiBO
-X1JFTE9DKFVMT05HX01BWCkpKQo+ID4+ICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPiA+
-Pgo+ID4+IHNob3VsZCBzaWxlbmNlIHRoZSB3YXJuaW5nLgo+ID4KPiA+IEkgZG8gbGlrZSB0aGlz
-IG9uZSBiZXR0ZXIgdGhhbiB0aGUgZm9ybWVyLgo+Cj4gRldJVywgb25lIGRvd25zaWRlIG9mIHRo
-aXMgb25lIGNvbXBhcmVkIHRvIGFsbCBhbHRlcm5hdGl2ZXMgKHByZXN1bWFibHkpCj4gaXMgdGhh
-dCBpdCBtaWdodCBlbmQgdXAgZ2VuZXJhdGluZyBhY3R1YWwgY29kZSBldmVuIG9uIDY0LWJpdCwg
-d2hpY2gKPiBhbHdheXMgZW5kcyB1cCBza2lwcGluZyB0aGUgcmV0dXJuLgoKVGhlIHdhcm5pbmcg
-aXMgcG9pbnRpbmcgb3V0IHRoYXQgdGhlIGNvbmRpdGlvbmFsIGlzIGFsd2F5cyBmYWxzZSwKd2hp
-Y2ggaXMgY29ycmVjdCBvbiA2NGIuICBUaGUgY2hlY2sgaXMgb25seSBhY3RpdmUgZm9yIDMyYi4K
-aHR0cHM6Ly9nb2Rib2x0Lm9yZy96L29RcmdUXwpUaGUgY2FzdCBzaWxlbmNlcyB0aGUgd2Fybmlu
-ZyBmb3IgNjRiLiAgKE5vdGUgdGhhdCBHQ0MgYW5kIENsYW5nIGFsc28KZ2VuZXJhdGUgcHJlY2lz
-ZWx5IHRoZSBzYW1lIGluc3RydWN0aW9uIHNlcXVlbmNlcyBpbiBteSBleGFtcGxlLCBqdXN0CkdD
-QyBkb2Vzbid0IHdhcm4gb24gc3VjaCB0YXV0b2xvZ2llcykuCi0tIApUaGFua3MsCn5OaWNrIERl
-c2F1bG5pZXJzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Feb 13, 2020 at 02:43:21PM -0800, Nick Desaulniers wrote:
+> On Wed, Feb 12, 2020 at 9:17 AM Michel D=E4nzer <michel@daenzer.net> wrot=
+e:
+> >
+> > On 2020-02-12 6:07 p.m., Nathan Chancellor wrote:
+> > > On Wed, Feb 12, 2020 at 09:52:52AM +0100, Michel D=E4nzer wrote:
+> > >> On 2020-02-11 9:39 p.m., Nathan Chancellor wrote:
+> > >>> On Tue, Feb 11, 2020 at 10:41:48AM +0100, Michel D=E4nzer wrote:
+> > >>>> On 2020-02-11 7:13 a.m., Nathan Chancellor wrote:
+> > >>>>> A recent commit in clang added -Wtautological-compare to -Wall, w=
+hich is
+> > >>>>> enabled for i915 so we see the following warning:
+> > >>>>>
+> > >>>>> ../drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1485:22: warnin=
+g:
+> > >>>>> result of comparison of constant 576460752303423487 with expressi=
+on of
+> > >>>>> type 'unsigned int' is always false
+> > >>>>> [-Wtautological-constant-out-of-range-compare]
+> > >>>>>         if (unlikely(remain > N_RELOC(ULONG_MAX)))
+> > >>>>>             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+> > >>>>>
+> > >>>>> This warning only happens on x86_64 but that check is relevant for
+> > >>>>> 32-bit x86 so we cannot remove it.
+> > >>>>
+> > >>>> That's suprising. AFAICT N_RELOC(ULONG_MAX) works out to the same =
+value
+> > >>>> in both cases, and remain is a 32-bit value in both cases. How can=
+ it be
+> > >>>> larger than N_RELOC(ULONG_MAX) on 32-bit (but not on 64-bit)?
+> > >>>>
+> > >>>
+> > >>> Hi Michel,
+> > >>>
+> > >>> Can't this condition be true when UINT_MAX =3D=3D ULONG_MAX?
+> > >>
+> > >> Oh, right, I think I was wrongly thinking long had 64 bits even on 3=
+2-bit.
+> > >>
+> > >>
+> > >> Anyway, this suggests a possible better solution:
+> > >>
+> > >> #if UINT_MAX =3D=3D ULONG_MAX
+> > >>      if (unlikely(remain > N_RELOC(ULONG_MAX)))
+> > >>              return -EINVAL;
+> > >> #endif
+> > >>
+> > >>
+> > >> Or if that can't be used for some reason, something like
+> > >>
+> > >>      if (unlikely((unsigned long)remain > N_RELOC(ULONG_MAX)))
+> > >>              return -EINVAL;
+> > >>
+> > >> should silence the warning.
+> > >
+> > > I do like this one better than the former.
+> >
+> > FWIW, one downside of this one compared to all alternatives (presumably)
+> > is that it might end up generating actual code even on 64-bit, which
+> > always ends up skipping the return.
+> =
+
+> The warning is pointing out that the conditional is always false,
+> which is correct on 64b.  The check is only active for 32b.
+> https://godbolt.org/z/oQrgT_
+> The cast silences the warning for 64b.  (Note that GCC and Clang also
+> generate precisely the same instruction sequences in my example, just
+> GCC doesn't warn on such tautologies).
+
+Thanks for confirming! I'll send a patch to add the cast later tonight.
+
+Cheers,
+Nathan
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
