@@ -2,59 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D4015BCD1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 11:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAAD15BD09
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 11:46:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D6E6E1F1;
-	Thu, 13 Feb 2020 10:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30B516E1D6;
+	Thu, 13 Feb 2020 10:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7AE6E1F1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:30:15 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01DAU0ic101320;
- Thu, 13 Feb 2020 04:30:00 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1581589800;
- bh=R98a9SMu5+eMeNYgNMcwCYKDHkQAW3h7Sh9JpzS1HH8=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=pYQ3iGUH3kWGYdlbtTIeH6xKsUJ2vKa/0sh3w2A3E1yz1TXlfOISpy3LatJUQl+PQ
- lOQqMo4Md4ocehc24lodfZaIYJFDj34XxSmimIqJMzx1djMbTBFP1lK0R3KHYlKfTV
- igt6A/JYGWI5AqysnGY1FmESBIP3eyRtRuCAnD0s=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01DAU0F1080260
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 13 Feb 2020 04:30:00 -0600
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 13
- Feb 2020 04:29:59 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 13 Feb 2020 04:29:59 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01DATtZs019005;
- Thu, 13 Feb 2020 04:29:56 -0600
-Subject: Re: [PATCH v5 3/3] drm: bridge: cdns-mhdp: add j721e wrapper
-To: Yuti Amonkar <yamonkar@cadence.com>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <robh+dt@kernel.org>, <maxime@cerno.tech>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <mark.rutland@arm.com>, <a.hajda@samsung.com>,
- <narmstrong@baylibre.com>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@siol.net>
-References: <1581481604-24499-1-git-send-email-yamonkar@cadence.com>
- <1581481604-24499-4-git-send-email-yamonkar@cadence.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <42a2db9b-b1ad-55be-5631-669b6bfae9a7@ti.com>
-Date: Thu, 13 Feb 2020 12:29:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8B46E1CE;
+ Thu, 13 Feb 2020 10:46:21 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2020 02:46:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,436,1574150400"; d="scan'208";a="313694063"
+Received: from unknown (HELO intel.com) ([10.223.74.178])
+ by orsmga001.jf.intel.com with ESMTP; 13 Feb 2020 02:46:19 -0800
+Date: Thu, 13 Feb 2020 16:07:46 +0530
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: Ramalingam C <ramalingam.c@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915: dont retry stream
+ management at seq_num_m roll over
+Message-ID: <20200213103746.GB11041@intel.com>
+References: <20200212102942.26568-1-ramalingam.c@intel.com>
+ <20200212102942.26568-5-ramalingam.c@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1581481604-24499-4-git-send-email-yamonkar@cadence.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20200212102942.26568-5-ramalingam.c@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,35 +46,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: praneeth@ti.com, mparab@cadence.com, jsarha@ti.com, sjakhade@cadence.com
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/02/2020 06:26, Yuti Amonkar wrote:
-> Add j721e wrapper for mhdp, which sets up the clock and data muxes.
+On 2020-02-12 at 15:59:41 +0530, Ramalingam C wrote:
+> When roll over detected for seq_num_m, we shouldn't continue with stream
+> management with rolled over value.
 > 
-> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
+> So we are terminating the stream management retry, on roll over of the
+> seq_num_m.
+> 
+> v2:
+>   using drm_dbg_kms instead of DRM_DEBUG_KMS [Anshuman]
+> v3:
+>   dev_priv is used as i915 [JaniN]
+> 
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 > ---
->   drivers/gpu/drm/bridge/Kconfig           | 12 ++++
->   drivers/gpu/drm/bridge/Makefile          |  3 +
->   drivers/gpu/drm/bridge/cdns-mhdp-core.c  | 14 +++++
->   drivers/gpu/drm/bridge/cdns-mhdp-core.h  |  1 +
->   drivers/gpu/drm/bridge/cdns-mhdp-j721e.c | 79 ++++++++++++++++++++++++
->   drivers/gpu/drm/bridge/cdns-mhdp-j721e.h | 55 +++++++++++++++++
->   6 files changed, 164 insertions(+)
->   create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
->   create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-  Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index b24d12efae0a..b35f50d4a0e9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -1419,11 +1419,6 @@ int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+>  
+>  err_exit:
+>  	hdcp->seq_num_m++;
+> -	if (hdcp->seq_num_m > HDCP_2_2_SEQ_NUM_MAX) {
+> -		DRM_DEBUG_KMS("seq_num_m roll over.\n");
+> -		ret = -1;
+> -	}
+> -
+>  	return ret;
+>  }
+>  
+> @@ -1618,8 +1613,11 @@ hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+>  
+>  	for (i = 0; i < tries; i++) {
+>  		ret = _hdcp2_propagate_stream_management_info(connector);
+> -		if (!ret)
+> +		if (!ret || connector->hdcp.seq_num_m > HDCP_2_2_SEQ_NUM_MAX) {
+> +			if (connector->hdcp.seq_num_m > HDCP_2_2_SEQ_NUM_MAX)
+> +				drm_dbg_kms(&i915->drm, "seq_num_m roll over.\n");
+>  			break;
+> +		}
+Tested this with HDCP Comp tool.
+Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
+Tested-by: Anshuman Gupta <anshuman.gupta@intel.com>
+>  
+>  		drm_dbg_kms(&i915->drm,
+>  			    "HDCP2 stream management %d of %d Failed.(%d)\n",
+> -- 
+> 2.20.1
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
