@@ -2,39 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC2F15CE33
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 23:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E2F15CE91
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 00:18:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4436E420;
-	Thu, 13 Feb 2020 22:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 002706E424;
+	Thu, 13 Feb 2020 23:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE41E6E41D;
- Thu, 13 Feb 2020 22:39:32 +0000 (UTC)
-Received: from localhost (unknown [104.132.1.104])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 51AC22168B;
- Thu, 13 Feb 2020 22:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581633572;
- bh=O2POkiVQUM25p+6MaEzRDEnLeyBlPNXNvgjiDShqYAU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=W5fC5lPx48yZKVrNY4T0N0U2Fg7NQ2totx+JfUR6nohfmqTt0KcJf9bEoHhwecjvN
- 41Kfwu5qu9j9domk5jDJhgYakB/7mUUp/wHAE3vTXCPoDgmZ4fhCkA4N5/VfyQIJWt
- KwCDnHBLevUou9ZBGbnYSmhrmc+ngcxF/DOr3YM8=
-Date: Thu, 13 Feb 2020 14:39:31 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [Nouveau] [PATCH] nouveau: no need to check return value of
- debugfs_create functions
-Message-ID: <20200213223931.GA3877216@kroah.com>
-References: <20200209105525.GA1620170@kroah.com>
- <fdb35aa7-7e4a-c44f-94df-bd44585d4bef@nvidia.com>
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 025626E34D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 23:18:19 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id r67so3044665pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 15:18:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=73/dS5yYBUIlhAx2JNLByQ5Z37ExvWD/9c6Z4fbAvbs=;
+ b=JHRcfe2xQ5iGCsMjyooYusI8N3OcijLJf3Dx+9AU8ZQu0j0ui/eZSa+pLy02BOxci6
+ IGcB6Omi3y5M85G7I2s8Ua6TMMuLmELDKt54/KPYga3TfBN9OH6n4Brr8u172Nu5p9hT
+ J986Prj0CCtC9f3PhOzYm5VFObLdUSjKyhbuY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=73/dS5yYBUIlhAx2JNLByQ5Z37ExvWD/9c6Z4fbAvbs=;
+ b=DhAA80UjBXikF5HDicU0swZ3Xl2Zx1CT0xgONtjYASKyq/7ux+kvftTLun9CWIDnqg
+ pH1/G/h7kR3xR9syDWXU6q/6H/S7VoguxJ5oMewXWoWaicAscyqAGrTCZFysfNPTNa4E
+ zrUbjnd96tNV25h1W/zSS76aTKxPRu5WM8YCUCXt4mqkGqfvHIgTOuydKfmrDlyqsdFm
+ F76o6SZY87ilZm5CeaVCUSfuQfMm4HmbnFox1ejeUqanxZTedllJGpxYcgLOMXJXU47o
+ B243inxs/lEZQGxi6zAtCkHyECePMU8yqLdE63xYOlu/jv74Dgcd5Rta6g6saRiRSr1Z
+ TSEw==
+X-Gm-Message-State: APjAAAUd1tR2j5DI4vTXuV4pFhqLNXnEbatVcN2DVem36WcrFrfV9kKK
+ An5cfbyLVYS1eMue4wWyvUIoIFLApNw=
+X-Google-Smtp-Source: APXvYqwiWuYGidfZYxtb4M9C5/+HaA/bP+2EDX7gwW7TZwrp4Lml2Pe3Vrap2Ozhwy0Qmvp8zsrLjg==
+X-Received: by 2002:a17:902:74cc:: with SMTP id
+ f12mr312671plt.192.1581635896282; 
+ Thu, 13 Feb 2020 15:18:16 -0800 (PST)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:bc97:5740:52a7:6875])
+ by smtp.gmail.com with ESMTPSA id w17sm4253495pfi.56.2020.02.13.15.18.14
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Thu, 13 Feb 2020 15:18:14 -0800 (PST)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/5] *** Delay context create cmd ***
+Date: Thu, 13 Feb 2020 15:18:00 -0800
+Message-Id: <20200213231805.622-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <fdb35aa7-7e4a-c44f-94df-bd44585d4bef@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,36 +63,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>, kraxel@redhat.com,
+ jbates@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2020 at 02:30:09PM -0800, John Hubbard wrote:
-> On 2/9/20 2:55 AM, Greg Kroah-Hartman wrote:
-> > When calling debugfs functions, there is no need to ever check the
-> > return value.  The function can work or not, but the code logic should
-> > never do something different based on this.
-> > 
-> 
-> Should we follow that line of reasoning further, and simply return void
-> from the debugfs functions--rather than playing whack-a-mole with this
-> indefinitely?
+Let's delay enqueuing the context creation command until the first 3D
+ioctl, as we add more context types.  This series is based on kraxel's
+"[PATCH v3 0/4] drm/virtio: rework batching" patches.
 
-That is what we (well I) have been doing.  Look at all of the changes
-that have happened to include/linux/debugfs.h over the past few
-releases.  I'm slowly winnowing down the api to make it impossible to
-get wrong for this type of thing, and am almost there.
+Gurchetan Singh (5):
+  drm/virtio: use consistent names for drm_files
+  drm/virtio: factor out context create hyercall
+  drm/virtio: track whether or not a context has been initiated
+  drm/virtio: enqueue virtio_gpu_create_context after the first 3D ioctl
+  drm/virtio: add virtio_gpu_context_type
 
-DRM is the big fish left to tackle, I have submitted some patches in the
-past, but lots more cleanup needs to be done to get them into mergable
-shape.  I just need to find the time...
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  1 +
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 55 +++++++++++++++++++++-----
+ drivers/gpu/drm/virtio/virtgpu_kms.c   | 25 +++---------
+ 3 files changed, 52 insertions(+), 29 deletions(-)
 
-thanks,
+-- 
+2.25.0.265.gbab2e86ba0-goog
 
-greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
