@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A7015BA90
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5AA15BA96
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 09:13:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FD6C6E197;
-	Thu, 13 Feb 2020 08:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7FFA89220;
+	Thu, 13 Feb 2020 08:12:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com
- [IPv6:2607:f8b0:4864:20::64a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 801E86E18F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 08:00:12 +0000 (UTC)
-Received: by mail-pl1-x64a.google.com with SMTP id h8so2698703plr.11
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 00:00:12 -0800 (PST)
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
+ [IPv6:2607:f8b0:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 711A26E190
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 08:02:39 +0000 (UTC)
+Received: by mail-il1-x144.google.com with SMTP id x2so4169807ila.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 00:02:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=tSlvrP4m66P1XACDCZDaP68t1HESopkE2ZYSJ/oW5Fc=;
- b=O0GgSTgCFWMe+CSNK993pV/PwzdGIXWDBR5X0/FBv+KHqZ7K9sI8OSrRkyU2JF0+bK
- a0oFchkMZ4tO5BLEk4bqnVywm6K4MRwLuT6lzun7Hb0FO7W5GmcvMELg9+zjOEAdeVkm
- bSVmoX3bkve//nZfusUDzKoQkpuWEWx2ND7zPEikUeU5mF44vV+/iie9fotkaJAoilcd
- SmTm7Pm+KaDA+TUmnOd/MFzybL1naAUfM8Ow8c9XSDEUk43pq3NJSkxA23l228OFxcqy
- yfEXmL17ZGL6KyDE/6ENhvek7IcRNXzWn+5PVtqvvkRRXWIdpkeQr63Cn+yXUn3o56i2
- joAQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=10gKpQZri/82cKq6/v6n1q70/ykUGaRsAC3tbxvLKNg=;
+ b=VrWi7c2dKzqZsYHKurZTdMgkC4RFCLz8pRQXKliNxIOnXIQN+w/7W6XmD6fSAowzQM
+ ioOh/SrY3dOutMvt3wb5cGoy9CCd2hq9e+XJfPgkt+l6cd7VhjlSGIwQXuLnco2uNsYC
+ UypTXDK4eCxQ2pS4z1F9tocVzjWyCYt5twKT2tGFFb0FupN3d1FiybANMraeI/WOAHuO
+ Vbh4+aY3BmlkgOA8BGZ67TXc1X2ej6xK2B6Xe6W65hODbjUpqhOCOYwGzk3H7J8Q00Ki
+ OVjdyTUPZ8P7QlU9e6592dew2zas6uql7ZoBeMEedlHy4AhNyucuGZdfqAR9pwlXQ8jB
+ AoJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=tSlvrP4m66P1XACDCZDaP68t1HESopkE2ZYSJ/oW5Fc=;
- b=GqrS9RHZNNf5VuB/coALXhW3AdJBSZiYoc/LRJ2BSliaL6TRoGbp5o7llvUNmZawP1
- aZnh0LR8sVrcQLE9w1dUfD6LgttYCOQWYke+BnMhrkNOlaf6A29FZOWrauRAXms2gxe2
- 9CNuSQcybdy08SKNuv3tJ5NQNcf+g5Y+dwEGm50aXbGtuOoGqKcBw5LmzSUnSZjbUyPr
- 0uKK5jObwZNceBXnN+KZHjBeD6gIlc4r9vIvt1FzszhyV5qGAckF8eIrfHX7zLbhERmq
- +c/BDUItA7lC/mEGtGI2hf6sWDma7kXapt+FlZq/WSsCdLgMUMy/nr+erH/1fbxxAKcO
- e47Q==
-X-Gm-Message-State: APjAAAU3YGfCbYHCnVAOr6W+uRazXTOhrvayg91jqyLlk5ETC3B0CS4R
- u2hHbcKcBfc9V00u73Nt+cMLCphkeU9N
-X-Google-Smtp-Source: APXvYqzDfbbpNkunl4GqakNBCLdfvlQrA9qA9iLtF3TS+2Mot3yuBl6sVFlx4f7nIe24WVH3YWORwiVOgN12
-X-Received: by 2002:a63:4305:: with SMTP id q5mr17607821pga.64.1581580811962; 
- Thu, 13 Feb 2020 00:00:11 -0800 (PST)
-Date: Thu, 13 Feb 2020 15:59:57 +0800
-Message-Id: <20200213153226.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.25.0.225.g125e21ebc7-goog
-Subject: [PATCH] drm/mediatek: fix race condition for HDMI jack status
- reporting
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=10gKpQZri/82cKq6/v6n1q70/ykUGaRsAC3tbxvLKNg=;
+ b=IZJ7qDqXPY2fWnoDNTnrfX33uKAS7d8gz7rwO6hodhLjicLwK4mXeqWgRRMrZeJOmW
+ 3x6Gw5GzIe/bl//+gdRsOCuda/PyaU27usWxK4uORuHyYfda64ZEqK28ocv+LhREESgN
+ GWVrr7Q/7YThypc8czwATPj09+PfxblhEF5w9HfS9KNgG3tU/LD6aTLN64nuIHFM9MaC
+ 21ViDcbcx8eH2nQX9DbhR+cgs7LCqD0C25VI9tjvaLZ1ECkKEWcmI8SJHpb94cOjwnlf
+ 41Wrgfh6Co2UxaANoThqcArD/wm/MTbGcLI7zzCip5eJJxVUFWZX+EIT/mPajT5w3tbH
+ 09+w==
+X-Gm-Message-State: APjAAAW/yAnL+WtaFGaO5+GMjKL1rFY0YQis9ke+InSodxI6ZkJLbGOp
+ +P5CsfDruoPGdsvEZbn2P22NS6q/RpVPndRyioLGIw==
+X-Google-Smtp-Source: APXvYqyyqulvy1f+tDe7AmP1JblcXRQSp7dWSy72c8KxhM3n5LgVfLKIkT420HK+MTxArT2iueFQFfyI3z7Ky2ifzjI=
+X-Received: by 2002:a92:981b:: with SMTP id l27mr15162000ili.118.1581580958517; 
+ Thu, 13 Feb 2020 00:02:38 -0800 (PST)
+MIME-Version: 1.0
+References: <20200206031752.193298-1-tzungbi@google.com>
+ <20200206102509.2.I230fd59de28e73934a91cb01424e25b9e84727f4@changeid>
+ <1581495554.22603.2.camel@mtksdaap41>
+ <CA+Px+wXjC1rchzUGhYYCJVyEbm7RQNFnqf-sQNaky6d82DyLyw@mail.gmail.com>
+ <1581559033.14792.9.camel@mtksdaap41>
+In-Reply-To: <1581559033.14792.9.camel@mtksdaap41>
 From: Tzung-Bi Shih <tzungbi@google.com>
-To: broonie@kernel.org, airlied@linux.ie, daniel@ffwll.ch
+Date: Thu, 13 Feb 2020 16:02:27 +0800
+Message-ID: <CA+Px+wWAR3E8TWnPJEa62WjXQQ1Y-Ni9g1rqvPq0f_HPYYynHg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm/mediatek: support HDMI jack status reporting
+To: CK Hu <ck.hu@mediatek.com>
 X-Mailman-Approved-At: Thu, 13 Feb 2020 08:12:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,110 +65,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, cychiang@google.com, tzungbi@google.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, dgreid@google.com,
- linux-arm-kernel@lists.infradead.org
+Cc: ALSA development <alsa-devel@alsa-project.org>,
+ Jimmy Cheng-Yi Chiang <cychiang@google.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Dylan Reid <dgreid@google.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-hdmi_conn_detect and mtk_hdmi_audio_hook_plugged_cb would be called
-by different threads.
+On Thu, Feb 13, 2020 at 9:57 AM CK Hu <ck.hu@mediatek.com> wrote:
+> I'm not only consider the race condition of plugged_cb and codec_dev. I
+> also care about the atomic of mtk_cec_hpd_high() and hdmi->plugged_cb().
+> If these two function is not an atomic operation, below is an example of
+> problem:
+>
+> <Status disconnected>
+> 1. Thread A call mtk_hdmi_audio_hook_plugged_cb()
+> 2. Thread A call mtk_cec_hpd_high() and get disconnected.
+> <Status connected>
+> 3. Thread B call hdmi_conn_detect()
+> 4. Thread B call mtk_cec_hpd_high() and get connected
+> 5. Thread B callback plugged_cb() with connected
+> 6. Thread A callback plugged_cb() with disconnected (Bug here)
 
-Imaging the following calling sequence:
-           Thread A                            Thread B
---------------------------------------------------------------------
-mtk_hdmi_audio_hook_plugged_cb()
-mtk_cec_hpd_high() -> disconnected
-                                     hdmi_conn_detect()
-                                     mtk_cec_hpd_high() -> connected
-                                     plugged_cb(connected)
-plugged_cb(disconnected)
-
-The latest disconnected is false reported.  Makes mtk_cec_hpd_high
-and plugged_cb atomic to fix.
-
-plugged_cb and codec_dev are also in danger of race condition.  Instead
-of using mutex to protect them:
-- Checks NULLs first.
-- Uses WRITE_ONCE() to prevent store tearing (i.e. write to plugged_cb
-  after codec_dev).
-- Uses codec_dev as a signal to report HDMI jack status.
-
-Fixes: 5d3c64477392 ("drm/mediatek: support HDMI jack status reporting")
-
-Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
----
-Previous discussion: https://patchwork.kernel.org/patch/11367625/
-Previous attempt: https://patchwork.kernel.org/patch/11378413/
-
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 03aeb73005ef..b1e5d0c538fa 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -12,6 +12,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/mutex.h>
- #include <linux/of_platform.h>
- #include <linux/of.h>
- #include <linux/of_gpio.h>
-@@ -171,6 +172,7 @@ struct mtk_hdmi {
- 	bool enabled;
- 	hdmi_codec_plugged_cb plugged_cb;
- 	struct device *codec_dev;
-+	struct mutex update_plugged_status_lock;
- };
- 
- static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
-@@ -1199,10 +1201,13 @@ static void mtk_hdmi_clk_disable_audio(struct mtk_hdmi *hdmi)
- static enum drm_connector_status
- mtk_hdmi_update_plugged_status(struct mtk_hdmi *hdmi)
- {
--	bool connected = mtk_cec_hpd_high(hdmi->cec_dev);
-+	bool connected;
- 
--	if (hdmi->plugged_cb && hdmi->codec_dev)
-+	mutex_lock(&hdmi->update_plugged_status_lock);
-+	connected = mtk_cec_hpd_high(hdmi->cec_dev);
-+	if (hdmi->codec_dev)
- 		hdmi->plugged_cb(hdmi->codec_dev, connected);
-+	mutex_unlock(&hdmi->update_plugged_status_lock);
- 
- 	return connected ?
- 	       connector_status_connected : connector_status_disconnected;
-@@ -1669,8 +1674,12 @@ static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
- {
- 	struct mtk_hdmi *hdmi = data;
- 
--	hdmi->plugged_cb = fn;
--	hdmi->codec_dev = codec_dev;
-+	if (!fn || !codec_dev)
-+		return -EINVAL;
-+
-+	/* Use WRITE_ONCE() to prevent store tearing. */
-+	WRITE_ONCE(hdmi->plugged_cb, fn);
-+	WRITE_ONCE(hdmi->codec_dev, codec_dev);
- 	mtk_hdmi_update_plugged_status(hdmi);
- 
- 	return 0;
-@@ -1729,6 +1738,7 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	mutex_init(&hdmi->update_plugged_status_lock);
- 	platform_set_drvdata(pdev, hdmi);
- 
- 	ret = mtk_hdmi_output_init(hdmi);
--- 
-2.25.0.225.g125e21ebc7-goog
-
+Another attempt: https://patchwork.kernel.org/patch/11379979/
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
