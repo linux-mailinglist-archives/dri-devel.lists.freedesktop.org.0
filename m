@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA79115CD0E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 22:16:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D49915CD0F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 22:16:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95AA56E417;
-	Thu, 13 Feb 2020 21:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51D3D6E416;
+	Thu, 13 Feb 2020 21:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
- [IPv6:2607:f8b0:4864:20::b41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2E96E417
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 21:16:15 +0000 (UTC)
-Received: by mail-yb1-xb41.google.com with SMTP id z125so3694169ybf.9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 13:16:15 -0800 (PST)
+Received: from mail-yw1-xc30.google.com (mail-yw1-xc30.google.com
+ [IPv6:2607:f8b0:4864:20::c30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDD26E416
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 21:16:21 +0000 (UTC)
+Received: by mail-yw1-xc30.google.com with SMTP id t141so3288000ywc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 13:16:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qRrR/LDPMNdbg5VVbPW4kfAy/iroq4jdXriomyXQWuU=;
- b=PnwqKVtwfWwnhRhuWL6BZemDz6AvlFONlWRY4K7kZB4xfTlvf+ZzgSU6b37l8OGizS
- BGkgSrGoBKkXcP2RC3CQC2K/n6pYFqVrfqxcgtbDUNfStJqUVYENRljAWfHKoqP3foxD
- wwlusQ3jJ8CD7L6EdBSVJ/u/YFsW0bmToI53WQdDpSms8+FM7nmeXtbCkzC0iJ6U7vnP
- VjjCTb8iTjHDM0at0CyySBU1zDAlQJdHYu+9vqt5jk7Rh1FNGVaJ4MfLahyrMT7/oyJV
- k/GMgBlmlvu0mnZeEGyuIj8udIVUDL5NelPY+ULb/Py8Ntke1oVEpTSSZWzYi/D0K28c
- YLcA==
+ bh=mJOM/EVWcNjbJiGD2/LsLervE5XiHO1FdxViiOWZXUA=;
+ b=NNtgLkpRQvBJGLTe8qWzB6B3SAjTu2MBum9BkUJrGqXO3zFZm7JOz7dO1gJJ4RMcUA
+ o9KmZuhEexjnxO80OhgXhhGYX9Xhf3pNNLUDFA2AncTRBb5mJep1m6tXoDxxFSuJdioC
+ ppZG5E/gzD0IragEknsdSManmtvYqwcGCjttXG4TGtAYCVWA/A/52s2NwEFTm7+znpx8
+ EK8+vPX+UEuuBLgA/MH5xHiICJ1KxP1zf/pVBkRWsH0JJCEy5nujvX887zG1BOiCgKV4
+ b/P95z3WuP4Fx++s5m2ibV/X6WAoo/CMNUH4c1/okoUa5dbKi9EH0EVVhGN31DDl7CpH
+ PUvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qRrR/LDPMNdbg5VVbPW4kfAy/iroq4jdXriomyXQWuU=;
- b=mWf1EoTjjfpH+sBSbcwrDKH6EBz2gPSXmtIWTe1aUFokpJdjZ91u/sMsizWzzIKhoq
- pfnTpnVJRkS2du8vEvAtneTq71nBQF3WIVpnhK3TOrY6egDiaNV0ATRoN7lqdR6ev6Ka
- KKG6N1LwuFRdiz3KKxMmRxM90ck1tvvGkllgzoenht8AfzuYqtFNHRnzUli3TpGheG8W
- tvuUw4Ty+erEOAtb1cOak7b3eYE1W0YfXSxeN3Cm5xet5LyYT6qaZqArzkKWlXNXzN5l
- MT/myEVc5Uf6TIy+6oVV5klxYvyyZ/EqJAemRQlPIwUMVHy+9f/L26ybhC3GUQsMm5aH
- 3PfQ==
-X-Gm-Message-State: APjAAAWqkgs9eYRdtUS7LmdEq4zqyk5FIirhGhlL8ll1Bo1jw40H+m9F
- AWeeYTTRLQSXK95Qv3sydYi0KUzis+Y=
-X-Google-Smtp-Source: APXvYqzBRQYvHSmzocrz1om1yDLcxXzSpv7jqBT6niFiGpDrRrn/yPPxKe4Haz/CbsAioycSC+WJ2Q==
-X-Received: by 2002:a25:1654:: with SMTP id 81mr5296060ybw.434.1581628574144; 
- Thu, 13 Feb 2020 13:16:14 -0800 (PST)
+ bh=mJOM/EVWcNjbJiGD2/LsLervE5XiHO1FdxViiOWZXUA=;
+ b=QEVsheuZL6U1FhISYB19PW1cPxNqu1BcTp2nNM2eHGiiATKoJQpVJ4ehv5HSi0sUKC
+ 5fg2KkptbpAYRjx85Y1jQ9/cNYubJD2OcRGpSgLB0DvWitvPbZmEO39coR/9cTuM7d+M
+ 4QewYRq/RZ+pAXsJysySma0CedbbOlGfr/odoytKd3qGuE3K1Oi9ZI0Va5iWEiP9CO6r
+ xY9ElkUY0VJiFb4ErShVq7sCqQXmbHP180vZyCtsfqNy0By6w9lpGEfPbITjS+q41wQ7
+ cOzhggMLs//PFSEP1CLdSj2YO+J/4gNUX3bdM+pAxN7NQFVInXmycn1fKwAbX6RuxyKn
+ ddVw==
+X-Gm-Message-State: APjAAAULtXbd7hfwy3r9svMOy3gv9zknKajcqtscfV692OnMoeZoVHzU
+ vzmHy/gHN0oi41ekbi75mRAz6K9gNl8=
+X-Google-Smtp-Source: APXvYqzlVO2N4H2xU19PJuasKk2jc9VpOqLoXZw0tRL0opU+gbHXKp4RLkWFkfT5qbjsWeV4ElAeEA==
+X-Received: by 2002:a81:13d6:: with SMTP id 205mr4836969ywt.95.1581628580240; 
+ Thu, 13 Feb 2020 13:16:20 -0800 (PST)
 Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
- by smtp.gmail.com with ESMTPSA id g128sm1671241ywb.33.2020.02.13.13.16.13
+ by smtp.gmail.com with ESMTPSA id i17sm1613986ywg.66.2020.02.13.13.16.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 13:16:13 -0800 (PST)
+ Thu, 13 Feb 2020 13:16:19 -0800 (PST)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] drm/mst: Separate sideband packet header parsing from
- message building
-Date: Thu, 13 Feb 2020 16:15:18 -0500
-Message-Id: <20200213211523.156998-2-sean@poorly.run>
+Subject: [PATCH 2/3] drm/mst: Support simultaneous down replies
+Date: Thu, 13 Feb 2020 16:15:19 -0500
+Message-Id: <20200213211523.156998-3-sean@poorly.run>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200213211523.156998-1-sean@poorly.run>
 References: <20200213211523.156998-1-sean@poorly.run>
@@ -76,163 +75,290 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-In preparation of per-branch device down message handling, separate
-header parsing from message building. This will allow us to peek at
-figure out which branch device the message is from before starting to
-parse the message contents.
+Currently we have one down reply message servicing the mst manager, so
+we need to serialize all tx msgs to ensure we only have one message in
+flight at a time. For obvious reasons this is suboptimal (but less
+suboptimal than the free-for-all we had before serialization).
 
+This patch removes the single down_rep_recv message from manager and
+adds 2 replies in the branch structure. The 2 replies mirrors the tx_slots
+which we use to rate-limit outgoing messages and correspond to seqno in
+the packet headers.
+
+Cc: Wayne Lin <Wayne.Lin@amd.com>
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c | 102 ++++++++++++++------------
- 1 file changed, 57 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c | 80 ++++++++++++++++-----------
+ include/drm/drm_dp_mst_helper.h       | 59 ++++++++++----------
+ 2 files changed, 78 insertions(+), 61 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index a811247cecfef..e8bb39bb17a0f 100644
+index e8bb39bb17a0f..7e6a82efdfc02 100644
 --- a/drivers/gpu/drm/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -687,51 +687,45 @@ static void drm_dp_encode_sideband_reply(struct drm_dp_sideband_msg_reply_body *
- 	raw->cur_len = idx;
+@@ -3690,7 +3690,8 @@ int drm_dp_mst_topology_mgr_resume(struct drm_dp_mst_topology_mgr *mgr,
  }
+ EXPORT_SYMBOL(drm_dp_mst_topology_mgr_resume);
  
--/* this adds a chunk of msg to the builder to get the final msg */
--static bool drm_dp_sideband_msg_build(struct drm_dp_sideband_msg_rx *msg,
--				      u8 *replybuf, u8 replybuflen, bool hdr)
-+static int drm_dp_sideband_msg_set_header(struct drm_dp_sideband_msg_rx *msg,
-+					  struct drm_dp_sideband_msg_hdr *hdr,
-+					  u8 hdrlen)
+-static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up)
++static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up,
++				  struct drm_dp_mst_branch **mstb, int *seqno)
  {
--	int ret;
--	u8 crc4;
-+	/*
-+	 * ignore out-of-order messages or messages that are part of a
-+	 * failed transaction
-+	 */
-+	if (!hdr->somt && !msg->have_somt)
-+		return false;
- 
--	if (hdr) {
--		u8 hdrlen;
--		struct drm_dp_sideband_msg_hdr recv_hdr;
--		ret = drm_dp_decode_sideband_msg_hdr(&recv_hdr, replybuf, replybuflen, &hdrlen);
--		if (ret == false) {
--			print_hex_dump(KERN_DEBUG, "failed hdr", DUMP_PREFIX_NONE, 16, 1, replybuf, replybuflen, false);
--			return false;
--		}
-+	/* get length contained in this portion */
-+	msg->curchunk_idx = 0;
-+	msg->curchunk_len = hdr->msg_len;
-+	msg->curchunk_hdrlen = hdrlen;
- 
--		/*
--		 * ignore out-of-order messages or messages that are part of a
--		 * failed transaction
--		 */
--		if (!recv_hdr.somt && !msg->have_somt)
--			return false;
-+	/* we have already gotten an somt - don't bother parsing */
-+	if (hdr->somt && msg->have_somt)
-+		return false;
- 
--		/* get length contained in this portion */
--		msg->curchunk_len = recv_hdr.msg_len;
--		msg->curchunk_hdrlen = hdrlen;
-+	if (hdr->somt) {
-+		memcpy(&msg->initial_hdr, hdr,
-+		       sizeof(struct drm_dp_sideband_msg_hdr));
-+		msg->have_somt = true;
-+	}
-+	if (hdr->eomt)
-+		msg->have_eomt = true;
- 
--		/* we have already gotten an somt - don't bother parsing */
--		if (recv_hdr.somt && msg->have_somt)
--			return false;
-+	return true;
-+}
- 
--		if (recv_hdr.somt) {
--			memcpy(&msg->initial_hdr, &recv_hdr, sizeof(struct drm_dp_sideband_msg_hdr));
--			msg->have_somt = true;
--		}
--		if (recv_hdr.eomt)
--			msg->have_eomt = true;
-+/* this adds a chunk of msg to the builder to get the final msg */
-+static bool drm_dp_sideband_msg_build(struct drm_dp_sideband_msg_rx *msg,
-+				      u8 *replybuf, u8 replybuflen)
-+{
-+	u8 crc4;
- 
--		/* copy the bytes for the remainder of this header chunk */
--		msg->curchunk_idx = min(msg->curchunk_len, (u8)(replybuflen - hdrlen));
--		memcpy(&msg->chunk[0], replybuf + hdrlen, msg->curchunk_idx);
--	} else {
--		memcpy(&msg->chunk[msg->curchunk_idx], replybuf, replybuflen);
--		msg->curchunk_idx += replybuflen;
--	}
-+	memcpy(&msg->chunk[msg->curchunk_idx], replybuf, replybuflen);
-+	msg->curchunk_idx += replybuflen;
- 
- 	if (msg->curchunk_idx >= msg->curchunk_len) {
- 		/* do CRC */
-@@ -3702,25 +3696,43 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up)
+ 	int len;
  	u8 replyblock[32];
- 	int replylen, curreply;
- 	int ret;
-+	u8 hdrlen;
-+	struct drm_dp_sideband_msg_hdr hdr;
- 	struct drm_dp_sideband_msg_rx *msg;
--	int basereg = up ? DP_SIDEBAND_MSG_UP_REQ_BASE : DP_SIDEBAND_MSG_DOWN_REP_BASE;
-+	int basereg = up ? DP_SIDEBAND_MSG_UP_REQ_BASE :
-+			   DP_SIDEBAND_MSG_DOWN_REP_BASE;
-+
- 	msg = up ? &mgr->up_req_recv : &mgr->down_rep_recv;
+@@ -3702,7 +3703,8 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up)
+ 	int basereg = up ? DP_SIDEBAND_MSG_UP_REQ_BASE :
+ 			   DP_SIDEBAND_MSG_DOWN_REP_BASE;
+ 
+-	msg = up ? &mgr->up_req_recv : &mgr->down_rep_recv;
++	*mstb = NULL;
++	*seqno = -1;
  
  	len = min(mgr->max_dpcd_transaction_bytes, 16);
--	ret = drm_dp_dpcd_read(mgr->aux, basereg,
--			       replyblock, len);
-+	ret = drm_dp_dpcd_read(mgr->aux, basereg, replyblock, len);
- 	if (ret != len) {
- 		DRM_DEBUG_KMS("failed to read DPCD down rep %d %d\n", len, ret);
+ 	ret = drm_dp_dpcd_read(mgr->aux, basereg, replyblock, len);
+@@ -3719,6 +3721,21 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up)
  		return false;
  	}
--	ret = drm_dp_sideband_msg_build(msg, replyblock, len, true);
+ 
++	*seqno = hdr.seqno;
 +
-+	ret = drm_dp_decode_sideband_msg_hdr(&hdr, replyblock, len, &hdrlen);
-+	if (ret == false) {
-+		print_hex_dump(KERN_DEBUG, "failed hdr", DUMP_PREFIX_NONE, 16,
-+			       1, replyblock, len, false);
-+		DRM_DEBUG_KMS("ERROR: failed header\n");
-+		return false;
++	if (up) {
++		msg = &mgr->up_req_recv;
++	} else {
++		/* Caller is responsible for giving back this reference */
++		*mstb = drm_dp_get_mst_branch_device(mgr, hdr.lct, hdr.rad);
++		if (!*mstb) {
++			DRM_DEBUG_KMS("Got MST reply from unknown device %d\n",
++				      hdr.lct);
++			return false;
++		}
++		msg = &(*mstb)->down_rep_recv[hdr.seqno];
 +	}
 +
-+	if (!drm_dp_sideband_msg_set_header(msg, &hdr, hdrlen)) {
-+		DRM_DEBUG_KMS("sideband msg set header failed %d\n",
-+			      replyblock[0]);
-+		return false;
-+	}
-+
-+	replylen = min(msg->curchunk_len, (u8)(len - hdrlen));
-+	ret = drm_dp_sideband_msg_build(msg, replyblock + hdrlen, replylen);
- 	if (!ret) {
- 		DRM_DEBUG_KMS("sideband msg build failed %d\n", replyblock[0]);
- 		return false;
+ 	if (!drm_dp_sideband_msg_set_header(msg, &hdr, hdrlen)) {
+ 		DRM_DEBUG_KMS("sideband msg set header failed %d\n",
+ 			      replyblock[0]);
+@@ -3759,53 +3776,52 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up)
+ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+ {
+ 	struct drm_dp_sideband_msg_tx *txmsg;
+-	struct drm_dp_mst_branch *mstb;
+-	struct drm_dp_sideband_msg_hdr *hdr = &mgr->down_rep_recv.initial_hdr;
+-	int slot = -1;
++	struct drm_dp_mst_branch *mstb = NULL;
++	struct drm_dp_sideband_msg_rx *msg = NULL;
++	int seqno = -1;
+ 
+-	if (!drm_dp_get_one_sb_msg(mgr, false))
+-		goto clear_down_rep_recv;
++	if (!drm_dp_get_one_sb_msg(mgr, false, &mstb, &seqno))
++		goto out_clear_reply;
+ 
+-	if (!mgr->down_rep_recv.have_eomt)
+-		return 0;
++	msg = &mstb->down_rep_recv[seqno];
+ 
+-	mstb = drm_dp_get_mst_branch_device(mgr, hdr->lct, hdr->rad);
+-	if (!mstb) {
+-		DRM_DEBUG_KMS("Got MST reply from unknown device %d\n",
+-			      hdr->lct);
+-		goto clear_down_rep_recv;
+-	}
++	/* Multi-packet message transmission, don't clear the reply */
++	if (!msg->have_eomt)
++		goto out;
+ 
+ 	/* find the message */
+-	slot = hdr->seqno;
+ 	mutex_lock(&mgr->qlock);
+-	txmsg = mstb->tx_slots[slot];
++	txmsg = mstb->tx_slots[seqno];
+ 	/* remove from slots */
+ 	mutex_unlock(&mgr->qlock);
+ 
+ 	if (!txmsg) {
++		struct drm_dp_sideband_msg_hdr *hdr;
++		hdr = &msg->initial_hdr;
+ 		DRM_DEBUG_KMS("Got MST reply with no msg %p %d %d %02x %02x\n",
+ 			      mstb, hdr->seqno, hdr->lct, hdr->rad[0],
+-			      mgr->down_rep_recv.msg[0]);
+-		goto no_msg;
++			      msg->msg[0]);
++		goto out_clear_reply;
  	}
--	replylen = msg->curchunk_len + msg->curchunk_hdrlen;
  
--	replylen -= len;
-+	replylen = msg->curchunk_len + msg->curchunk_hdrlen - len;
- 	curreply = len;
- 	while (replylen > 0) {
- 		len = min3(replylen, mgr->max_dpcd_transaction_bytes, 16);
-@@ -3732,7 +3744,7 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up)
- 			return false;
- 		}
+-	drm_dp_sideband_parse_reply(&mgr->down_rep_recv, &txmsg->reply);
++	drm_dp_sideband_parse_reply(msg, &txmsg->reply);
  
--		ret = drm_dp_sideband_msg_build(msg, replyblock, len, false);
-+		ret = drm_dp_sideband_msg_build(msg, replyblock, len);
- 		if (!ret) {
- 			DRM_DEBUG_KMS("failed to build sideband msg\n");
- 			return false;
+-	if (txmsg->reply.reply_type == DP_SIDEBAND_REPLY_NAK)
++	if (txmsg->reply.reply_type == DP_SIDEBAND_REPLY_NAK) {
+ 		DRM_DEBUG_KMS("Got NAK reply: req 0x%02x (%s), reason 0x%02x (%s), nak data 0x%02x\n",
+ 			      txmsg->reply.req_type,
+ 			      drm_dp_mst_req_type_str(txmsg->reply.req_type),
+ 			      txmsg->reply.u.nak.reason,
+ 			      drm_dp_mst_nak_reason_str(txmsg->reply.u.nak.reason),
+ 			      txmsg->reply.u.nak.nak_data);
++		goto out_clear_reply;
++	}
+ 
+-	memset(&mgr->down_rep_recv, 0, sizeof(struct drm_dp_sideband_msg_rx));
++	memset(msg, 0, sizeof(struct drm_dp_sideband_msg_rx));
+ 	drm_dp_mst_topology_put_mstb(mstb);
+ 
+ 	mutex_lock(&mgr->qlock);
+ 	txmsg->state = DRM_DP_SIDEBAND_TX_RX;
+-	mstb->tx_slots[slot] = NULL;
++	mstb->tx_slots[seqno] = NULL;
+ 	mgr->is_waiting_for_dwn_reply = false;
+ 	mutex_unlock(&mgr->qlock);
+ 
+@@ -3813,13 +3829,15 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+ 
+ 	return 0;
+ 
+-no_msg:
+-	drm_dp_mst_topology_put_mstb(mstb);
+-clear_down_rep_recv:
++out_clear_reply:
+ 	mutex_lock(&mgr->qlock);
+ 	mgr->is_waiting_for_dwn_reply = false;
+ 	mutex_unlock(&mgr->qlock);
+-	memset(&mgr->down_rep_recv, 0, sizeof(struct drm_dp_sideband_msg_rx));
++	if (msg)
++		memset(msg, 0, sizeof(struct drm_dp_sideband_msg_rx));
++out:
++	if (mstb)
++		drm_dp_mst_topology_put_mstb(mstb);
+ 
+ 	return 0;
+ }
+@@ -3895,11 +3913,10 @@ static void drm_dp_mst_up_req_work(struct work_struct *work)
+ 
+ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ {
+-	struct drm_dp_sideband_msg_hdr *hdr = &mgr->up_req_recv.initial_hdr;
+ 	struct drm_dp_pending_up_req *up_req;
+-	bool seqno;
++	int seqno;
+ 
+-	if (!drm_dp_get_one_sb_msg(mgr, true))
++	if (!drm_dp_get_one_sb_msg(mgr, true, NULL, &seqno))
+ 		goto out;
+ 
+ 	if (!mgr->up_req_recv.have_eomt)
+@@ -3912,7 +3929,6 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 	}
+ 	INIT_LIST_HEAD(&up_req->next);
+ 
+-	seqno = hdr->seqno;
+ 	drm_dp_sideband_parse_req(&mgr->up_req_recv, &up_req->msg);
+ 
+ 	if (up_req->msg.req_type != DP_CONNECTION_STATUS_NOTIFY &&
+@@ -3946,7 +3962,7 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 			      res_stat->available_pbn);
+ 	}
+ 
+-	up_req->hdr = *hdr;
++	up_req->hdr = mgr->up_req_recv.initial_hdr;
+ 	mutex_lock(&mgr->up_req_lock);
+ 	list_add_tail(&up_req->next, &mgr->up_req_list);
+ 	mutex_unlock(&mgr->up_req_lock);
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index 5483f888712ad..7d0341f94ce1b 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -160,6 +160,31 @@ struct drm_dp_mst_port {
+ 	bool fec_capable;
+ };
+ 
++/* sideband msg header - not bit struct */
++struct drm_dp_sideband_msg_hdr {
++	u8 lct;
++	u8 lcr;
++	u8 rad[8];
++	bool broadcast;
++	bool path_msg;
++	u8 msg_len;
++	bool somt;
++	bool eomt;
++	bool seqno;
++};
++
++struct drm_dp_sideband_msg_rx {
++	u8 chunk[48];
++	u8 msg[256];
++	u8 curchunk_len;
++	u8 curchunk_idx; /* chunk we are parsing now */
++	u8 curchunk_hdrlen;
++	u8 curlen; /* total length of the msg */
++	bool have_somt;
++	bool have_eomt;
++	struct drm_dp_sideband_msg_hdr initial_hdr;
++};
++
+ /**
+  * struct drm_dp_mst_branch - MST branch device.
+  * @rad: Relative Address to talk to this branch device.
+@@ -232,24 +257,16 @@ struct drm_dp_mst_branch {
+ 	int last_seqno;
+ 	bool link_address_sent;
+ 
++	/**
++	 * @down_rep_recv: Message receiver state for down replies.
++	 */
++	struct drm_dp_sideband_msg_rx down_rep_recv[2];
++
+ 	/* global unique identifier to identify branch devices */
+ 	u8 guid[16];
+ };
+ 
+ 
+-/* sideband msg header - not bit struct */
+-struct drm_dp_sideband_msg_hdr {
+-	u8 lct;
+-	u8 lcr;
+-	u8 rad[8];
+-	bool broadcast;
+-	bool path_msg;
+-	u8 msg_len;
+-	bool somt;
+-	bool eomt;
+-	bool seqno;
+-};
+-
+ struct drm_dp_nak_reply {
+ 	u8 guid[16];
+ 	u8 reason;
+@@ -306,18 +323,6 @@ struct drm_dp_remote_i2c_write_ack_reply {
+ };
+ 
+ 
+-struct drm_dp_sideband_msg_rx {
+-	u8 chunk[48];
+-	u8 msg[256];
+-	u8 curchunk_len;
+-	u8 curchunk_idx; /* chunk we are parsing now */
+-	u8 curchunk_hdrlen;
+-	u8 curlen; /* total length of the msg */
+-	bool have_somt;
+-	bool have_eomt;
+-	struct drm_dp_sideband_msg_hdr initial_hdr;
+-};
+-
+ #define DRM_DP_MAX_SDP_STREAMS 16
+ struct drm_dp_allocate_payload {
+ 	u8 port_number;
+@@ -556,10 +561,6 @@ struct drm_dp_mst_topology_mgr {
+ 	 */
+ 	int conn_base_id;
+ 
+-	/**
+-	 * @down_rep_recv: Message receiver state for down replies.
+-	 */
+-	struct drm_dp_sideband_msg_rx down_rep_recv;
+ 	/**
+ 	 * @up_req_recv: Message receiver state for up requests.
+ 	 */
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
