@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D4315CD4B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 22:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9B415CD4C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 22:30:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28BFE6F87C;
-	Thu, 13 Feb 2020 21:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF7E6F882;
+	Thu, 13 Feb 2020 21:30:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85C7F6F882
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 21:30:49 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id j17so2983156pjz.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 13:30:49 -0800 (PST)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA80A6F87C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 21:30:50 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id p14so3723037pfn.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 13:30:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m0Qk0TKZRTg/mLnbV7CXwa6mF9/yA20wbSwGRZs+mxc=;
- b=i9fHxcvIxRp3lVOHLfQH4rR4UhTLEFc6bVpa9CoCBTAihjGmfk+b19JWOCgs1J9jY/
- gtncrN3EmtmiVdyQUu6ppCd3CLF1Gbt4fm+Mb0UiSEjvMXuaXZIVxWvYvzIZelMN7veS
- in51Dm4g+9MPeTTZvfrz7BQ5GWExlW7PBVXy+pjIZW28SluaO/mK0G5Sw1Zu1spk/gI2
- Yzm5My7i4czV+QZJkPTbTsZWw6/gyAXenTj7R1tQRYaMLusonHiIpJycp9cFe+DEAMXF
- HcQHGHXiVr2H/KiHv5Jalu4+qfJNxHdata6nRtOJ4E29Ko+Ar9QWuvb1qzsgCmLIvNYv
- oQng==
+ bh=DG+sC065wv/LqT/1QFpUrBb6eJ4oJu7xTukCQgs4qZI=;
+ b=beFPM7qyKZAOPM6XrFUgkxr4sKe18G6WJ44lZKteVhn7xUcVt+5lgnlU5reXySx0py
+ mj38GDA8/I/oNdPPwpfGsECeogJ5pkenZ8o3juAkAex8W7aWjitOXAlWG1AVn0xFr5kZ
+ a/pp5ZXlwA7K70WSGHoHQ7scvR5dgg8vAqgQEZpxoJp75LPVsA8fxCS79/cZcDll7QJf
+ +wBCpLCRvtPKLTq0Z+2yvqBopTDgRkaGbAuoZtVzWhBlBjeDALCakqi7hhftDBVtifya
+ Hv+wpjNhn9Gw4mQV7gmpOYF27rlm8tfbzi1QvbbWWJR6C5ItSRNVQ7TiTqFyXr80aSnS
+ BfZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m0Qk0TKZRTg/mLnbV7CXwa6mF9/yA20wbSwGRZs+mxc=;
- b=DU9/Jz76Gd4G8h6qNt+oHKo98995mxFhi3nFVU3cI85Ucr5HuW0tNGJ/cikIJYBMd2
- xvW67+cqE6jJz3Uyk92s1dGlVjw1cHjCdlkgeUVQ8dCygrUJ7th628sB7cdxnfHngirl
- C2a8OCj6nIXnZ1mMfdbEhKcHTpQ76ewp1xeJl40ZQRl4rg2uKsf0mVUfZrOlIki333RD
- 73YXwhFYkCTuniNxq8E+oBr7tmnPItOuAgsQZwWEWoz573GboGggb1pRj2w3FbPZOAzi
- eA4hx98DmaJmvp34YR120UGJQPlyEEqnG2EsogKKCfg4jCPT9eO7xso5I9voikGXJejB
- qn3w==
-X-Gm-Message-State: APjAAAW/mN8E2iDj7kthXwV2yVoanZNq5d8eK4LNOQfOoaa8z7+AxJQb
- IS1NX9pomwy5vDOiHTWaAQg=
-X-Google-Smtp-Source: APXvYqxP0Vd2xQ+l4UJVv5u++WttsTxvF1HxO1K3cWRSywOF3Cea0zyMRd9RzdsOYypYZd4UyQ5eTg==
-X-Received: by 2002:a17:90a:ca12:: with SMTP id
- x18mr7332600pjt.66.1581629448915; 
- Thu, 13 Feb 2020 13:30:48 -0800 (PST)
+ bh=DG+sC065wv/LqT/1QFpUrBb6eJ4oJu7xTukCQgs4qZI=;
+ b=t0icvSLaRNlMIzGYjMFlRPo8C6KEJ0s/uozlGRPWycM98F/InsZRLuaLy/JJiizjJ7
+ 8wsORMmLc+sserdA0jn5UgBFcpVTYwshEqmHLDQbwgwiFFSghvDcH+kjkkhDd6jt8uiY
+ NT5obWJl92+/j9F2geywxP9i57235s6wIxp4XJnZzc8sjosc0viLrxtAnhVXTPFVgU29
+ iKrzIchwpfLjFEIX9pdFEisgoqdj+l4526yTHSMSQ8RI7OqWygJcDeCjVIk3iZbtbUfq
+ h16H1zn01mHx1JFXY9fIwLzUUA2cm4uOS4gTubejSEVaJjb7nBcia/jf+1TwPY/F2rqr
+ nR7A==
+X-Gm-Message-State: APjAAAUZQqZADrmt+u7d1C6C9MFU4aE4fFGGQnsioM+wb8JRSPtgnMH3
+ A49zyT8Yrvx186aF/D1CWTM=
+X-Google-Smtp-Source: APXvYqyC4/eQjrcqgMEtd9bRzFz57SaLWVVcql322CjrzbZzBAKrZ5Uy6k+kTxrjDV6fGdkKFachhQ==
+X-Received: by 2002:aa7:84cd:: with SMTP id x13mr19792586pfn.130.1581629450470; 
+ Thu, 13 Feb 2020 13:30:50 -0800 (PST)
 Received: from olv0.mtv.corp.google.com
  ([2620:15c:202:201:9649:82d6:f889:b307])
- by smtp.gmail.com with ESMTPSA id s130sm4346683pfc.62.2020.02.13.13.30.48
+ by smtp.gmail.com with ESMTPSA id s130sm4346683pfc.62.2020.02.13.13.30.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 13:30:48 -0800 (PST)
+ Thu, 13 Feb 2020 13:30:50 -0800 (PST)
 From: Chia-I Wu <olvaffe@gmail.com>
 To: kvm@vger.kernel.org
-Subject: [RFC PATCH 2/3] RFC: KVM: add KVM_MEM_DMA
-Date: Thu, 13 Feb 2020 13:30:35 -0800
-Message-Id: <20200213213036.207625-3-olvaffe@gmail.com>
+Subject: [RFC PATCH 3/3] RFC: KVM: x86: support KVM_CAP_DMA_MEM
+Date: Thu, 13 Feb 2020 13:30:36 -0800
+Message-Id: <20200213213036.207625-4-olvaffe@gmail.com>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200213213036.207625-1-olvaffe@gmail.com>
 References: <20200213213036.207625-1-olvaffe@gmail.com>
@@ -76,99 +75,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the flag is set, it means the the userspace wants to do DMA
-with the memory and the guest will use an appropriate memory type to
-access the memory.  The kernel should be prepared to honor the
-guest's memory type.
+When a memslot has KVM_MEM_DMA set, we want VMX_EPT_IPAT_BIT cleared
+for the memslot.  Before that is possible, simply call
+kvm_arch_register_noncoherent_dma for the memslot.
+
+SVM does not have the ignore-pat bit.  Guest PAT is always honored.
 
 Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 Cc: Gurchetan Singh <gurchetansingh@chromium.org>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 ---
- Documentation/virt/kvm/api.rst | 17 +++++++++++------
- include/uapi/linux/kvm.h       |  2 ++
- virt/kvm/kvm_main.c            |  6 +++++-
- 3 files changed, 18 insertions(+), 7 deletions(-)
+ arch/x86/include/uapi/asm/kvm.h | 1 +
+ arch/x86/kvm/x86.c              | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 97a72a53fa4b..e6a27e6e45c2 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1237,6 +1237,7 @@ yet and must be cleared on entry.
-   /* for kvm_memory_region::flags */
-   #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
-   #define KVM_MEM_READONLY	(1UL << 1)
-+  #define KVM_MEM_DMA		(1UL << 2)
+diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
+index 503d3f42da16..578b686e3880 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -48,6 +48,7 @@
+ #define __KVM_HAVE_XSAVE
+ #define __KVM_HAVE_XCRS
+ #define __KVM_HAVE_READONLY_MEM
++#define __KVM_HAVE_DMA_MEM
  
- This ioctl allows the user to create, modify or delete a guest physical
- memory slot.  Bits 0-15 of "slot" specify the slot id and this value
-@@ -1264,12 +1265,16 @@ It is recommended that the lower 21 bits of guest_phys_addr and userspace_addr
- be identical.  This allows large pages in the guest to be backed by large
- pages in the host.
+ /* Architectural interrupt line count. */
+ #define KVM_NR_INTERRUPTS 256
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index fb5d64ebc35d..c89a4647fef6 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -3331,6 +3331,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_GET_TSC_KHZ:
+ 	case KVM_CAP_KVMCLOCK_CTRL:
+ 	case KVM_CAP_READONLY_MEM:
++	case KVM_CAP_DMA_MEM:
+ 	case KVM_CAP_HYPERV_TIME:
+ 	case KVM_CAP_IOAPIC_POLARITY_IGNORED:
+ 	case KVM_CAP_TSC_DEADLINE_TIMER:
+@@ -10045,6 +10046,11 @@ void kvm_arch_commit_memory_region(struct kvm *kvm,
+ 	 */
+ 	if (change != KVM_MR_DELETE)
+ 		kvm_mmu_slot_apply_flags(kvm, (struct kvm_memory_slot *) new);
++
++	if (change == KVM_MR_CREATE && new->flags & KVM_MEM_DMA)
++		kvm_arch_register_noncoherent_dma(kvm);
++	else if (change == KVM_MR_DELETE && old->flags & KVM_MEM_DMA)
++		kvm_arch_unregister_noncoherent_dma(kvm);
+ }
  
--The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
--KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
--writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to
--use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allows it,
--to make a new slot read-only.  In this case, writes to this memory will be
--posted to userspace as KVM_EXIT_MMIO exits.
-+The flags field supports these flags: KVM_MEM_LOG_DIRTY_PAGES,
-+KVM_MEM_READONLY, and KVM_MEM_DMA.  KVM_MEM_LOG_DIRTY_PAGES can be set to
-+instruct KVM to keep track of writes to memory within the slot.  See
-+KVM_GET_DIRTY_LOG ioctl to know how to use it.  KVM_MEM_READONLY can be set,
-+if KVM_CAP_READONLY_MEM capability allows it, to make a new slot read-only.
-+In this case, writes to this memory will be posted to userspace as
-+KVM_EXIT_MMIO exits.  KVM_MEM_DMA can be set, if KVM_CAP_DMA_MEM capability
-+allows it, to make a new slot support DMA.  It is the userspace's
-+responsibility to make sure userspace_addr points at a DMA-able memory and the
-+guest's responsibility to map guest_phys_addr with the proper memory type.
- 
- When the KVM_CAP_SYNC_MMU capability is available, changes in the backing of
- the memory region are automatically reflected into the guest.  For example, an
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 4b95f9a31a2f..578292e4b072 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -109,6 +109,7 @@ struct kvm_userspace_memory_region {
-  */
- #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
- #define KVM_MEM_READONLY	(1UL << 1)
-+#define KVM_MEM_DMA		(1UL << 2)
- 
- /* for KVM_IRQ_LINE */
- struct kvm_irq_level {
-@@ -1010,6 +1011,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_ARM_NISV_TO_USER 177
- #define KVM_CAP_ARM_INJECT_EXT_DABT 178
- #define KVM_CAP_S390_VCPU_RESETS 179
-+#define KVM_CAP_DMA_MEM 180
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 70f03ce0e5c1..a4b6c782a168 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -940,6 +940,9 @@ static int check_memory_region_flags(const struct kvm_userspace_memory_region *m
- #ifdef __KVM_HAVE_READONLY_MEM
- 	valid_flags |= KVM_MEM_READONLY;
- #endif
-+#ifdef __KVM_HAVE_DMA_MEM
-+	valid_flags |= KVM_MEM_DMA;
-+#endif
- 
- 	if (mem->flags & ~valid_flags)
- 		return -EINVAL;
-@@ -1047,7 +1050,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 		else { /* Modify an existing slot. */
- 			if ((mem->userspace_addr != old.userspace_addr) ||
- 			    (npages != old.npages) ||
--			    ((new.flags ^ old.flags) & KVM_MEM_READONLY))
-+			    ((new.flags ^ old.flags) &
-+			     (KVM_MEM_READONLY | KVM_MEM_DMA)))
- 				goto out;
- 
- 			if (base_gfn != old.base_gfn)
+ void kvm_arch_flush_shadow_all(struct kvm *kvm)
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
