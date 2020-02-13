@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB20315D362
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD7C15D371
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 517446E520;
-	Fri, 14 Feb 2020 08:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F886E9E0;
+	Fri, 14 Feb 2020 08:08:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE846E28B;
- Thu, 13 Feb 2020 11:59:36 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id p9so5914639wmc.2;
- Thu, 13 Feb 2020 03:59:36 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64B5C6E2D7;
+ Thu, 13 Feb 2020 11:59:37 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id c84so6399768wme.4;
+ Thu, 13 Feb 2020 03:59:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RYO9pjI3MdTVDV1Nsqy7e4qmWd8htYw1F2u1Jn0Byl8=;
- b=vcxvn85S8kaFPZRQ/qKocspVRND+cfMakDQGVIIHa0OMKqdDnbeb2oED8pIU0Ru8yA
- TXR2rU94ug75NsLWddf/bjcmbEImUqzgnXoXdlEiPVYkOROt2N3/ELtnNg2zhfmMlrRW
- bMzseZ8mQuK6kRcLMUKRvQp56CGQD74i33iY3v4Kq9Po+0UEQoA/ZCZd8TzK7V5n5BA9
- COQWaAqXL74w5O1V8T9NQbXurK/taNtks1tNC7vCxlAHXxdjCCQlS0hhuHPID1AFO/Hs
- 04auTWa3goHldG3HDqjkf0wll/lRrJ1oT1x4WvXnwfvACtGE/qVUzVpurljk6bJCpNjs
- v+vA==
+ bh=d0GQRE02vUXi0zNjm8nV6kYxKwm5bxqPMS742gEhTks=;
+ b=XnCVljShLXO+p8Zv7HKzmmomKCSoeMh7ewgQ+ZBdfTMq+wVDu2sIrdKpbrVv872Ft0
+ cEiPsG6QtEQacpquGZRNEbYCga4I0rAgre8p7DIDbFm7Ni9EJmy85AcwGCw6ykGT8abg
+ o3DwBtSVlPbWItMExKLOWdgZAUo2zdt6GSxHYC+JfZboootdkEO9cDP4jEmMMLNp6w3d
+ IcoKOGCLRH77mfms0K9soLPhkXl/nVemseH7fpxaF6uqG1ouWKqkNr/VMIEsmy2gHUsL
+ Q2dYDDWAlX1dGNkD3BgvKN55HMql1Qc5ir4PILCzvKhoLDJe79JaVm1sbiZpAYCiX6Gh
+ uOeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RYO9pjI3MdTVDV1Nsqy7e4qmWd8htYw1F2u1Jn0Byl8=;
- b=KzVp4AB8MwVFg7FuGuq4bc2pVVurbbZwPlvP5lkGeKwgxKOCN6U3yQ9u8/B/klZhgA
- T1jCG1DjngL/6Rzf/zebo9RjoTOsOMQlZXjbn2e5/qaZSr+gIFOlCmyBAf0DjXibJ4+n
- TWNcQ9BxSr9HWqrC5KbK4U3EMLvTBU+jyUyFotpcr2sco1JVqtkHByW8akC4s5sKuOWZ
- ++pjANAkg/8cHzOh0V0yN1gO+aY3+Pz/ru0+zpu9Pv5wMbanDjG9MQimJfyLOLbvWDxa
- ia+iwbpT6oWyqP8Ex3hOmwREzpa8rzlDg40tss1jLnTnYFFdg1Jz7l6GngeC1zI8AwQd
- ldSQ==
-X-Gm-Message-State: APjAAAUBJxyjWgyi+/vOiUEifO7ImP49Muf3+03a4Hh5/fKg7z0NIcmD
- ROBrFPCvAkU4dTMW59AT8/f5pKeReD+1SQ==
-X-Google-Smtp-Source: APXvYqywz0FBVtqeBiY690I9UiZ7XkCu9RgR6oGtTsPOORRUEnGsm93Eh/lBt7PhYNduciKUdrx39w==
-X-Received: by 2002:a1c:b7c4:: with SMTP id h187mr5766938wmf.105.1581595174509; 
- Thu, 13 Feb 2020 03:59:34 -0800 (PST)
+ bh=d0GQRE02vUXi0zNjm8nV6kYxKwm5bxqPMS742gEhTks=;
+ b=rEHD7+K2GJh+bFVUUwXF3UjYL9B/Y3/RgEp/IYaE/liUkC3x7hoNo2Fv+EKyeGusQq
+ lHsZJO0T2kHFgNVrNHDRKVLxoVP9Zf0w8mwoirfxAlciqYrTSclVYKtCI3eoogJHl0vO
+ usYZRKlyNhwRftsbLobAiIgZCIGgl4Ma0vdG4TRFjNgE3K1lvV4lu3F1YNTFX0on7jYN
+ X6EBK1Z3PfuyT8wJfdTWC+ndUszQrguCYudi0Sdx6fWemPvsLyMoudVNrgZxEaBeuR4q
+ DKZExXAoKNjTT0ROijzQF+MxmyhqfEfk570zRRlwgCxTe4vzfGfIer9Myal/BstsXReU
+ zsuQ==
+X-Gm-Message-State: APjAAAVPHHP0nq3ctUvvY5pe/g19z5zvLaJKrtFo4qw5MxtS7x/n7Yyw
+ kk4/3pLM8oq9gfEyBzStKlB4BZ4jaQHGWQ==
+X-Google-Smtp-Source: APXvYqwIgOJn6t6ycaz0hbEhIDcCp6locCgMNIGkS1xANRQbXyY1bAsiMiTzflne5BQRmOTu4VnqMw==
+X-Received: by 2002:a7b:cb97:: with SMTP id m23mr5205631wmi.37.1581595175678; 
+ Thu, 13 Feb 2020 03:59:35 -0800 (PST)
 Received: from brihaspati.fritz.box
  (p200300C58F2A5E004DB99F42976E8A13.dip0.t-ipconnect.de.
  [2003:c5:8f2a:5e00:4db9:9f42:976e:8a13])
- by smtp.gmail.com with ESMTPSA id y131sm2803985wmc.13.2020.02.13.03.59.33
+ by smtp.gmail.com with ESMTPSA id y131sm2803985wmc.13.2020.02.13.03.59.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 03:59:34 -0800 (PST)
+ Thu, 13 Feb 2020 03:59:35 -0800 (PST)
 From: Nirmoy Das <nirmoy.aiemd@gmail.com>
 X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 2/6] drm/radeon: don't use ttm bo->offset
-Date: Thu, 13 Feb 2020 13:01:59 +0100
-Message-Id: <20200213120203.29368-3-nirmoy.das@amd.com>
+Subject: [RFC PATCH 3/6] drm/vmwgfx: don't use ttm bo->offset
+Date: Thu, 13 Feb 2020 13:02:00 +0100
+Message-Id: <20200213120203.29368-4-nirmoy.das@amd.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200213120203.29368-1-nirmoy.das@amd.com>
 References: <20200213120203.29368-1-nirmoy.das@amd.com>
@@ -82,79 +82,80 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
 ---
- drivers/gpu/drm/radeon/radeon.h        |  1 +
- drivers/gpu/drm/radeon/radeon_object.h | 16 +++++++++++++++-
- drivers/gpu/drm/radeon/radeon_ttm.c    |  4 +---
- 3 files changed, 17 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         | 4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    | 2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c       | 2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 2 --
+ 4 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index d59b004f6695..97cfcc2870af 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -2823,6 +2823,7 @@ extern void radeon_ttm_set_active_vram_size(struct radeon_device *rdev, u64 size
- extern void radeon_program_register_sequence(struct radeon_device *rdev,
- 					     const u32 *registers,
- 					     const u32 array_size);
-+struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 74016a08d118..dd9fd609d37c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -258,7 +258,7 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
+ 		ret = ttm_bo_validate(bo, &placement, &ctx);
  
- /*
-  * vm
-diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
-index d23f2ed4126e..4d37571c7ff5 100644
---- a/drivers/gpu/drm/radeon/radeon_object.h
-+++ b/drivers/gpu/drm/radeon/radeon_object.h
-@@ -90,7 +90,21 @@ static inline void radeon_bo_unreserve(struct radeon_bo *bo)
-  */
- static inline u64 radeon_bo_gpu_offset(struct radeon_bo *bo)
+ 	/* For some reason we didn't end up at the start of vram */
+-	WARN_ON(ret == 0 && bo->offset != 0);
++	WARN_ON(ret == 0 && (bo->mem.start << PAGE_SHIFT) != 0);
+ 	if (!ret)
+ 		vmw_bo_pin_reserved(buf, true);
+ 
+@@ -317,7 +317,7 @@ void vmw_bo_get_guest_ptr(const struct ttm_buffer_object *bo,
  {
--	return bo->tbo.offset;
-+	struct radeon_device *rdev;
-+	u64 start = 0;
-+
-+	rdev = radeon_get_rdev(bo->tbo.bdev);
-+
-+	switch(bo->tbo.mem.mem_type) {
-+	case TTM_PL_TT:
-+		start = rdev->mc.gtt_start;
-+		break;
-+	case TTM_PL_VRAM:
-+		start = rdev->mc.vram_start;
-+		break;
-+	}
-+
-+	return (bo->tbo.mem.start << PAGE_SHIFT) + start;
- }
+ 	if (bo->mem.mem_type == TTM_PL_VRAM) {
+ 		ptr->gmrId = SVGA_GMR_FRAMEBUFFER;
+-		ptr->offset = bo->offset;
++		ptr->offset = bo->mem.start << PAGE_SHIFT;
+ 	} else {
+ 		ptr->gmrId = bo->mem.start;
+ 		ptr->offset = 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index ff86d49dc5e8..e8a3351f35cf 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -3305,7 +3305,7 @@ static void vmw_apply_relocations(struct vmw_sw_context *sw_context)
+ 		bo = &reloc->vbo->base;
+ 		switch (bo->mem.mem_type) {
+ 		case TTM_PL_VRAM:
+-			reloc->location->offset += bo->offset;
++			reloc->location->offset += bo->mem.start << PAGE_SHIFT;
+ 			reloc->location->gmrId = SVGA_GMR_FRAMEBUFFER;
+ 			break;
+ 		case VMW_PL_GMR:
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
+index e5252ef3812f..1cdc445b24c3 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
+@@ -612,7 +612,7 @@ static int vmw_fifo_emit_dummy_legacy_query(struct vmw_private *dev_priv,
  
- static inline unsigned long radeon_bo_size(struct radeon_bo *bo)
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 098bc9f40b98..b10654494262 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -56,7 +56,7 @@
- static int radeon_ttm_debugfs_init(struct radeon_device *rdev);
- static void radeon_ttm_debugfs_fini(struct radeon_device *rdev);
- 
--static struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev)
-+struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev)
- {
- 	struct radeon_mman *mman;
- 	struct radeon_device *rdev;
-@@ -87,7 +87,6 @@ static int radeon_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
- 		break;
- 	case TTM_PL_TT:
- 		man->func = &ttm_bo_manager_func;
--		man->gpu_offset = rdev->mc.gtt_start;
- 		man->available_caching = TTM_PL_MASK_CACHING;
- 		man->default_caching = TTM_PL_FLAG_CACHED;
- 		man->flags = TTM_MEMTYPE_FLAG_MAPPABLE | TTM_MEMTYPE_FLAG_CMA;
-@@ -109,7 +108,6 @@ static int radeon_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
+ 	if (bo->mem.mem_type == TTM_PL_VRAM) {
+ 		cmd->body.guestResult.gmrId = SVGA_GMR_FRAMEBUFFER;
+-		cmd->body.guestResult.offset = bo->offset;
++		cmd->body.guestResult.offset = bo->mem.start << PAGE_SHIFT;
+ 	} else {
+ 		cmd->body.guestResult.gmrId = bo->mem.start;
+ 		cmd->body.guestResult.offset = 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index d8ea3dd10af0..1e69c013b47f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -755,7 +755,6 @@ static int vmw_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
  	case TTM_PL_VRAM:
  		/* "On-card" video ram */
  		man->func = &ttm_bo_manager_func;
--		man->gpu_offset = rdev->mc.vram_start;
- 		man->flags = TTM_MEMTYPE_FLAG_FIXED |
- 			     TTM_MEMTYPE_FLAG_MAPPABLE;
- 		man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+-		man->gpu_offset = 0;
+ 		man->flags = TTM_MEMTYPE_FLAG_FIXED | TTM_MEMTYPE_FLAG_MAPPABLE;
+ 		man->available_caching = TTM_PL_FLAG_CACHED;
+ 		man->default_caching = TTM_PL_FLAG_CACHED;
+@@ -768,7 +767,6 @@ static int vmw_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
+ 		 *  slots as well as the bo size.
+ 		 */
+ 		man->func = &vmw_gmrid_manager_func;
+-		man->gpu_offset = 0;
+ 		man->flags = TTM_MEMTYPE_FLAG_CMA | TTM_MEMTYPE_FLAG_MAPPABLE;
+ 		man->available_caching = TTM_PL_FLAG_CACHED;
+ 		man->default_caching = TTM_PL_FLAG_CACHED;
 -- 
 2.25.0
 
