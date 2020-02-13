@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE4615CACC
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 19:58:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0A115CAF4
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 20:11:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8936F626;
-	Thu, 13 Feb 2020 18:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 463FB6F631;
+	Thu, 13 Feb 2020 19:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 268946F626
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 18:58:25 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id p11so2689136plq.10
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:58:25 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423466F631
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 19:11:38 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id s144so398104wme.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 11:11:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4sbfXgq71Lw3rV1MfbUqA//xkH8k/BQruTGRX8wE71Y=;
- b=XrH+dwwBkvkzUT773puDhJFzQk/18wegXBfiOuU57s/5ZyPyf5HoV5HFa2mIhDkmsD
- 6LQuJ2P6obUijyjHQdXP7wlwA2wgR7adMpcZE6V6u3nh6OVLy+HYHW5WNARYe8o3rzi8
- VkNdho5h78lDFKlXn9bWeIq/gF13GBWqPRTDCztWcrE0nkYCLMuA8U9XN7pzSBXRA8T8
- nDZ4I/5SqFsF0rvc5HTLAJmcwhBAAMljDXjKKFWfG8+AuIASLKEuS7pcPc92LpWClSNY
- 9gUyN44Yr2dPADIC6BTm1owpaQ0WvWTcKgOo5aW8JNq4dkVKKbVyBpQXnmo6JccOGY55
- SMGg==
+ bh=0EDsDdiwq5f7W72k6Nk7kffc27M29KHICkiSL1JVU7E=;
+ b=onppwLInpbb07lkma5m1g5wCPGLj9ft03H8fu0z++DX3DFKLFK3F82jjo3u2KXcmu+
+ VrVaagBk0sJQtGMZe9vME2jKsYvrz4dLQUSIMeOQw84kDiFNJldfT1049Td7jdkb4ozo
+ wIbJGhPsbPAmZC6LMclQLyiVNQxksYxFlAfpMxuJeZM/rPm4IxhOejBn9QwA73wuSVuq
+ ntn7U2rIAWoJ/N+/XjPXClGoFGJwBn7mhL+K+Hc6ogcHjuF4CxhY5ABHW8nKFtT/Im9p
+ cJYhc5Pfu0cEmrAvBARwaHCus0N+22NIIBgWuMmOzAKoeNnO9ULgEK1TIiOwi7VO9ery
+ 1FZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=4sbfXgq71Lw3rV1MfbUqA//xkH8k/BQruTGRX8wE71Y=;
- b=suU/0qf3DE/1wwA15GlX5UjFs8WkqvJi1vpXStF0AuytBg59NMn3Xei5nWRkgWRe7f
- HDBouQ9++vGbCN54Ya7bqcnRKevCPPQEhWfq/GyEkvdD6GySWu3pnEvPglvK4q8AukWk
- JRhDikhi5HDsJ740gGIgvnX0dhktBMuZt6UCLifnKf/a8Sq9IkcQLsQCZhE3ERZTIynD
- VJ5Dcmmq9+WacEYFnAdH/P8HdlGFNBnw+T+pIGUnFVqZUhMr3Ty/JZjjCikmPGNzBocE
- iAZ/p57ByzFbMCunJGr8SvcgvlZUzyUU7trm1/1KAwZgJbkAHQIbZNH6RZ0bPIs7bOMe
- jWPA==
-X-Gm-Message-State: APjAAAVxft9cvbENOO51FInVu6GNYBr5xYf6+rJnHsh1GDbCZ9UgM5XL
- elyEuQC9jNUEjPCuieTulKY=
-X-Google-Smtp-Source: APXvYqxQOJlqjdnHOmVbxzWipaSuMhxCrAsPSA51vXQledp5uG2W8ppDo60OIaUE0ZM/csyt6hv4HA==
-X-Received: by 2002:a17:90a:1e63:: with SMTP id
- w90mr6688896pjw.36.1581620304545; 
- Thu, 13 Feb 2020 10:58:24 -0800 (PST)
+ bh=0EDsDdiwq5f7W72k6Nk7kffc27M29KHICkiSL1JVU7E=;
+ b=j2DVYMXN0U8rs/ggyq9rNjNeJUDfBjuQqChZYDBIQNtj1jO/088JJMa+JCW7Xl2jta
+ KmfLazK2q4N0V8xuJnAuBOiecNDg6xKip1EfMVZ6gyfPNZsw+tX0r9yQT5ILsWhv4iSW
+ VhX0PNWjTJsjf0A7frhsn54h7hxJxydxn73Yo/CKhy0DGg6PcqwK1K4umtC0y8NFHXUV
+ l4iaMCLTangRCOohDeHd4RhOtngD26CdK7KSxRn0sC+Cu0ZpE5vCA0hh1zWlsqBGxICw
+ Dj6EMV2KduKHO4ejPDbmtq7pyZ5RGKLt0ihAWqxyjDooX9aHTlwrP6gaA+FrKtFTXili
+ KKdQ==
+X-Gm-Message-State: APjAAAUCAjyY7s0yFvS9l1SR+hZ5/goYdEDZcUBRDPS70q0kJrll57qs
+ WmZgN8/s7K5ZUApXdyeFWCM=
+X-Google-Smtp-Source: APXvYqx2s5MmQMEBXMR0enXNSoOn/QD3eR9v2XVb2TGMg485KrL3QlN9ThOn2SdVRFbQnBmNR6hnVg==
+X-Received: by 2002:a1c:a952:: with SMTP id s79mr7608280wme.83.1581621096804; 
+ Thu, 13 Feb 2020 11:11:36 -0800 (PST)
 Received: from ziggy.stardust ([37.223.145.31])
- by smtp.gmail.com with ESMTPSA id b12sm4099080pfr.26.2020.02.13.10.58.18
+ by smtp.gmail.com with ESMTPSA id o77sm4430186wme.34.2020.02.13.11.11.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Feb 2020 10:58:23 -0800 (PST)
-Subject: Re: [resend PATCH v6 04/12] drm: mediatek: Omit warning on probe
- defers
+ Thu, 13 Feb 2020 11:11:36 -0800 (PST)
+Subject: Re: [resend PATCH v6 06/12] clk: mediatek: mt2701: switch mmsys to
+ platform device probing
 To: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
  matthias.bgg@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
  ck.hu@mediatek.com, p.zabel@pengutronix.de, airlied@linux.ie,
  mturquette@baylibre.com, sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
  laurent.pinchart@ideasonboard.com
 References: <20191207224740.24536-1-matthias.bgg@kernel.org>
- <20191207224740.24536-5-matthias.bgg@kernel.org>
- <48f9ec0c-1f1e-5a6c-283b-7efc4ce1bd5e@collabora.com>
+ <20191207224740.24536-7-matthias.bgg@kernel.org>
+ <c08e8d32-6126-7be3-4f5a-1b94a175a339@collabora.com>
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFP1zgUBEAC21D6hk7//0kOmsUrE3eZ55kjc9DmFPKIz6l4NggqwQjBNRHIMh04BbCMY
@@ -132,12 +131,12 @@ Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  jzi+DzD9cvj2K6eD5j5kcKJJQactXqfJvF1Eb+OnxlB1BCLE8D1rNkPO5O742Mq3MgDmq19l
  +abzEL6QDAAxn9md8KwrA3RtucNh87cHlDXfUBKa7SRvBjTczDg+HEPNk2u3hrz1j3l2rliQ
  y1UfYx7Vk/TrdwUIJgKS8QAr8Lw9WuvY2hSqL9vEjx8VAkPWNWPwrQ==
-Message-ID: <64cca307-0045-7f82-9916-fa45095be2c2@gmail.com>
-Date: Thu, 13 Feb 2020 19:58:16 +0100
+Message-ID: <f998ae82-fbbd-c5d8-00d6-e2196eac5a5c@gmail.com>
+Date: Thu, 13 Feb 2020 20:11:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <48f9ec0c-1f1e-5a6c-283b-7efc4ce1bd5e@collabora.com>
+In-Reply-To: <c08e8d32-6126-7be3-4f5a-1b94a175a339@collabora.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -164,197 +163,118 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 09/12/2019 10:39, Enric Balletbo i Serra wrote:
+On 09/12/2019 10:58, Enric Balletbo i Serra wrote:
 > Hi Matthias,
 > 
 > On 7/12/19 23:47, matthias.bgg@kernel.org wrote:
 >> From: Matthias Brugger <mbrugger@suse.com>
 >>
->> It can happen that the mmsys clock drivers aren't probed before the
->> platform driver gets invoked. The platform driver used to print a warning
->> that the driver failed to get the clocks. Omit this error on
->> the defered probe path.
+>> Switch probing for the MMSYS to support invocation to a plain
+>> paltform device. The driver will be probed by the DRM subsystem.
 >>
 >> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
 >> ---
->>  drivers/gpu/drm/mediatek/mtk_disp_color.c |  5 ++++-
->>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c   |  5 ++++-
->>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c  |  5 ++++-
->>  drivers/gpu/drm/mediatek/mtk_dpi.c        | 12 +++++++++---
->>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c    |  4 +++-
->>  drivers/gpu/drm/mediatek/mtk_dsi.c        |  8 ++++++--
->>  drivers/gpu/drm/mediatek/mtk_hdmi.c       |  4 +++-
->>  7 files changed, 33 insertions(+), 10 deletions(-)
+>>  drivers/clk/mediatek/clk-mt2701-mm.c | 41 ++++++++++++++++++++--------
+>>  1 file changed, 29 insertions(+), 12 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_color.c b/drivers/gpu/drm/mediatek/mtk_disp_color.c
->> index 59de2a46aa49..8f0fc96ef7bc 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_disp_color.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_disp_color.c
->> @@ -118,7 +118,10 @@ static int mtk_disp_color_probe(struct platform_device *pdev)
->>  	ret = mtk_ddp_comp_init(dev, dev->of_node, &priv->ddp_comp, comp_id,
->>  				&mtk_disp_color_funcs);
->>  	if (ret) {
->> -		dev_err(dev, "Failed to initialize component: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to initialize component: %d\n",
->> +				ret);
->> +
->>  		return ret;
->>  	}
+>> diff --git a/drivers/clk/mediatek/clk-mt2701-mm.c b/drivers/clk/mediatek/clk-mt2701-mm.c
+>> index 054b597d4a73..4a9433c2b2b8 100644
+>> --- a/drivers/clk/mediatek/clk-mt2701-mm.c
+>> +++ b/drivers/clk/mediatek/clk-mt2701-mm.c
+>> @@ -4,14 +4,20 @@
+>>   * Author: Shunli Wang <shunli.wang@mediatek.com>
+>>   */
 >>  
->> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
->> index 21851756c579..7487b0182c05 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
->> @@ -285,7 +285,10 @@ static int mtk_disp_ovl_probe(struct platform_device *pdev)
->>  	ret = mtk_ddp_comp_init(dev, dev->of_node, &priv->ddp_comp, comp_id,
->>  				&mtk_disp_ovl_funcs);
->>  	if (ret) {
->> -		dev_err(dev, "Failed to initialize component: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to initialize component: %d\n",
->> +				ret);
->> +
->>  		return ret;
->>  	}
+>> +#include <linux/module.h>
+>>  #include <linux/clk-provider.h>
+>>  #include <linux/platform_device.h>
+>> +#include <linux/slab.h>
 >>  
->> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
->> index 405afef31407..835ea8f8dab9 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
->> @@ -287,7 +287,10 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
->>  	ret = mtk_ddp_comp_init(dev, dev->of_node, &priv->ddp_comp, comp_id,
->>  				&mtk_disp_rdma_funcs);
->>  	if (ret) {
->> -		dev_err(dev, "Failed to initialize component: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to initialize component: %d\n",
->> +				ret);
->> +
->>  		return ret;
->>  	}
+>>  #include "clk-mtk.h"
+>>  #include "clk-gate.h"
 >>  
->> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
->> index be6d95c5ff25..9ed32470ad02 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
->> @@ -700,21 +700,27 @@ static int mtk_dpi_probe(struct platform_device *pdev)
->>  	dpi->engine_clk = devm_clk_get(dev, "engine");
->>  	if (IS_ERR(dpi->engine_clk)) {
->>  		ret = PTR_ERR(dpi->engine_clk);
->> -		dev_err(dev, "Failed to get engine clock: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to get engine clock: %d\n", ret);
+>>  #include <dt-bindings/clock/mt2701-clk.h>
+>>  
+>> +struct clk_mt2701_mm_priv {
+>> +	struct clk_onecell_data *clk_data;
+>> +};
+>> +
+>>  static const struct mtk_gate_regs disp0_cg_regs = {
+>>  	.set_ofs = 0x0104,
+>>  	.clr_ofs = 0x0108,
+>> @@ -79,23 +85,25 @@ static const struct mtk_gate mm_clks[] = {
+>>  	GATE_DISP1(CLK_MM_TVE_FMM, "mm_tve_fmm", "mm_sel", 14),
+>>  };
+>>  
+>> -static const struct of_device_id of_match_clk_mt2701_mm[] = {
+>> -	{ .compatible = "mediatek,mt2701-mmsys", },
+>> -	{}
+>> -};
+>> -
+>>  static int clk_mt2701_mm_probe(struct platform_device *pdev)
+>>  {
+>> -	struct clk_onecell_data *clk_data;
+>>  	int r;
+>> -	struct device_node *node = pdev->dev.of_node;
+>> +	struct device_node *node = pdev->dev.parent->of_node;
+>> +	struct clk_mt2701_mm_priv *private;
+>> +
+>> +	private = devm_kzalloc(&pdev->dev, sizeof(*private), GFP_KERNEL);
+>> +	if (!private)
+>> +		return -ENOMEM;
+>>  
+>> -	clk_data = mtk_alloc_clk_data(CLK_MM_NR);
+>> +	private->clk_data = mtk_alloc_clk_data(CLK_MM_NR);
+>> +
+>> +	platform_set_drvdata(pdev, private);
+>>  
+>>  	mtk_clk_register_gates(node, mm_clks, ARRAY_SIZE(mm_clks),
+>> -						clk_data);
+>> +					private->clk_data);
+>>  
+>> -	r = of_clk_add_provider(node, of_clk_src_onecell_get, clk_data);
+>> +	r = of_clk_add_provider(node, of_clk_src_onecell_get,
+>> +					private->clk_data);
+>>  	if (r)
+>>  		dev_err(&pdev->dev,
+>>  			"could not register clock provider: %s: %d\n",
+>> @@ -104,12 +112,21 @@ static int clk_mt2701_mm_probe(struct platform_device *pdev)
+>>  	return r;
+>>  }
+>>  
+>> +static int clk_mt2701_mm_remove(struct platform_device *pdev)
+>> +{
+>> +	struct clk_mt2701_mm_priv *private = platform_get_drvdata(pdev);
+>> +
 > 
-> This is only to print an error and I think that devm_clk_get will print a
-> warning if the clk is not found. I guess that you can just remove the dev_err
-> print logic, here and below.
+> I think that private->clk_data->clks is also kallocated and need to be freed?
+> 
+> But I think that the best approach now is to switch to use devm allocations in
+> clk-mt2701-mm.c and this remove function will not be needed.
 > 
 
-I didn't follow all the paths, but at least devres_alloc in devm_clk_get isn't
-able to alloc the memory, it will silently return -ENOMEM. So I think it is OK
-to print an error message here.
+This is an API change which will affect over 50 drivers. For now I'll fix it by
+adding a kfree here. I will send a follow-up patch to fix it in the API.
 
-Regards,
+Good catch!
 Matthias
 
-> In case there is an optional clock you could use devm_clk_get_optional, not sure
-> if there is any, though.
-> 
+>> +	kfree(private->clk_data);
 >> +
->>  		return ret;
->>  	}
->>  
->>  	dpi->pixel_clk = devm_clk_get(dev, "pixel");
->>  	if (IS_ERR(dpi->pixel_clk)) {
->>  		ret = PTR_ERR(dpi->pixel_clk);
->> -		dev_err(dev, "Failed to get pixel clock: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to get pixel clock: %d\n", ret);
+>> +	return 0;
+>> +}
 >> +
-> 
-> ditto
-> 
->>  		return ret;
->>  	}
+>>  static struct platform_driver clk_mt2701_mm_drv = {
+>>  	.probe = clk_mt2701_mm_probe,
+>> +	.remove = clk_mt2701_mm_remove,
+>>  	.driver = {
+>>  		.name = "clk-mt2701-mm",
+>> -		.of_match_table = of_match_clk_mt2701_mm,
+>>  	},
+>>  };
 >>  
->>  	dpi->tvd_clk = devm_clk_get(dev, "pll");
->>  	if (IS_ERR(dpi->tvd_clk)) {
->>  		ret = PTR_ERR(dpi->tvd_clk);
->> -		dev_err(dev, "Failed to get tvdpll clock: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to get tvdpll clock: %d\n", ret);
->> +
-> 
-> ditto
-> 
->>  		return ret;
->>  	}
->>  
->> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
->> index b765181223e6..6054e2b675f9 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
->> @@ -558,7 +558,9 @@ static int mtk_ddp_probe(struct platform_device *pdev)
->>  
->>  	ddp->clk = devm_clk_get(dev, NULL);
->>  	if (IS_ERR(ddp->clk)) {
->> -		dev_err(dev, "Failed to get clock\n");
->> +		if (PTR_ERR(ddp->clk) != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to get clock\n");
->> +
-> 
-> ditto
-> 
->>  		return PTR_ERR(ddp->clk);
->>  	}
->>  
->> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
->> index 4332563df952..66d5b0fdd678 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
->> @@ -1110,14 +1110,18 @@ static int mtk_dsi_probe(struct platform_device *pdev)
->>  	dsi->engine_clk = devm_clk_get(dev, "engine");
->>  	if (IS_ERR(dsi->engine_clk)) {
->>  		ret = PTR_ERR(dsi->engine_clk);
->> -		dev_err(dev, "Failed to get engine clock: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to get engine clock: %d\n", ret);
->> +
-> 
-> ditto
-> 
->>  		return ret;
->>  	}
->>  
->>  	dsi->digital_clk = devm_clk_get(dev, "digital");
->>  	if (IS_ERR(dsi->digital_clk)) {
->>  		ret = PTR_ERR(dsi->digital_clk);
->> -		dev_err(dev, "Failed to get digital clock: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to get digital clock: %d\n", ret);
->> +
-> 
-> ditto
-> 
->>  		return ret;
->>  	}
->>  
->> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> index ce91b61364eb..62f9ca2308ee 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> @@ -1447,7 +1447,9 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
->>  
->>  	ret = mtk_hdmi_get_all_clk(hdmi, np);
->>  	if (ret) {
->> -		dev_err(dev, "Failed to get clocks: %d\n", ret);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "Failed to get clocks: %d\n", ret);
->> +
->>  		return ret;
->>  	}
->>  
+>> -builtin_platform_driver(clk_mt2701_mm_drv);
+>> +module_platform_driver(clk_mt2701_mm_drv);
 >>
 _______________________________________________
 dri-devel mailing list
