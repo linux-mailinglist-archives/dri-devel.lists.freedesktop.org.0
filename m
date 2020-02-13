@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A18515BC66
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 11:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA0F15BC8B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 11:17:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A746F597;
-	Thu, 13 Feb 2020 10:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4C76F59F;
+	Thu, 13 Feb 2020 10:17:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C796F59B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:11:36 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id y17so5909571wrh.5
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 02:11:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ksjF7yiXqkzCYnFGkiR6AVQN19nPTYSla89XvS8l2Tw=;
- b=amh5Tz5EOz149uRg+NFHeQWwEkEi32U1IXVtNh+N+McUFYUmbZKFAZOoqbUYkGngOm
- DEqBt+yZ8Lj3t11NgzMhWYDGc6vrs7UdEH/FZdMo/8ZO6v0bq48tJU+ZozMm3BoAyEBH
- DFMvsNJCrgtWwEAJ0CZW7gFRHMJRL8a0AzbR3lO9V2gNFHv99YNJkikAQviLvq/V5JKM
- 3tBfwQg2r1sx0/Vo34HGt7gni9W3qycHLCu6Emkkj6TuLVRA7fhqFBJl8PVJkTQinUwM
- I0uKRI4aaQjuHYbc2t7tiibyzKyPJ+NeaTe1wtskJLIf44VZ1QJlQEiA32Pvv8i9BqWN
- Y+Og==
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 074436F59E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:17:00 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id g3so5904156wrs.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 02:16:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=A7vpJUkiNYbnDNDfPAePFbB1d7aGKW4dVofnoCZdQb4=;
+ b=Rdxdq7BcBfNSj0wWqFV5N0p0ieoXyxeOx05kDDxD75BQwOYsSpHnF2XlIe5qHV1LOy
+ lvGlD/O+StSyIjxzzqMG31FSTy8i+jOw3pS+R0/b8CFz0LbNAvu0+CUugLB5kni4vA+n
+ F9ZtZ2Id58frGGkU/kJZqtcVuJesSAkr+MIjI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ksjF7yiXqkzCYnFGkiR6AVQN19nPTYSla89XvS8l2Tw=;
- b=P1BGZE4VQh3HdMCbyjeC121I4K9SIzVmuR/4GSLrOhMoxcjd6vwuJb5JHnt37fhrKh
- 68cqfB735PMdAihkj6D3dzocO3MXvgVRE6xDFROt2C0P9YVQahw1hMWPrJJxWwytNfMg
- oeT1JGyEczOZ3ioC9JyXsXS9XZS9RT77k19gTcDOihydx+H/yFleP9P1t89EY1XmGOqA
- QFsMHvSDtsZaBUJ03nAiQKUWIbpQikcJHaElMHrjIZ1IWgcOTo9EoFE29mSEKBbY9HUg
- k+0ezzfX4Z14u2pBiEkfytT0qrHwz7uA2IemnSG5R6TsGBTj/mDo+XD6FnZmRMiDHVcq
- Muhg==
-X-Gm-Message-State: APjAAAUIRoO67zjkD6kXgkkWvAr0m+8sFVXmk8HRHWjPqvNXRv8tDZk9
- blKovo9iSEAok3Rr1zrnj7zR6wuZc8fgzurHBrmsPQ==
-X-Google-Smtp-Source: APXvYqyiljf2syjKNxj2SOf8cb1caooNh+uZuig+1bXiBW6B6LfvuSmC2wQy2FFPRJykBw2jLxJ6TskpxsP8s5NCDCc=
-X-Received: by 2002:adf:e543:: with SMTP id z3mr20296295wrm.369.1581588695370; 
- Thu, 13 Feb 2020 02:11:35 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=A7vpJUkiNYbnDNDfPAePFbB1d7aGKW4dVofnoCZdQb4=;
+ b=ufgqzmXh80fB5OFrF8ejKbdc8ucUdlrwFfJeVvxfg7r82QB8SwiEjv/yfGxTce+U6/
+ 93cWv87s37nKfoKb5w3Q1etsnHaXMVYW24+65ESjwWAsy9ayF6sfzOvLYZnKf5ANDpwg
+ bdxMDfzT/104Cm2w/T++5Wd85tkf8GAVmRTlEdij6jHdZqGvSAdD2dgfOA2gUE0fysfv
+ yAON8iQ3Qu6DYYhcG6mbzqnRdfqf0vh+jkVlAUjIbDDUOvbaUSVfxAsb6CRnYwmE6krg
+ qawgiP/qr/j9ljZdeOkhqSXNiHgUZpjiybP0JI3eT9UIEeXoYSet7B27ceJBXVvIiv3o
+ iJLg==
+X-Gm-Message-State: APjAAAVXkt3uVGMD+k1qHzv9k4ZJdBp5KWNCOLbrWRC2/a58wkf5gPTK
+ 5S3Le1iEzdxOtBqRpKN2Ampm/Q==
+X-Google-Smtp-Source: APXvYqwU5j1U6PPMYauX20SdkyjsJYm+GG0dYRn/ED3KrM/Uf/P7l64zWxoMt4em5Rj9PHlJbYijcg==
+X-Received: by 2002:adf:a453:: with SMTP id e19mr20361243wra.305.1581589018532; 
+ Thu, 13 Feb 2020 02:16:58 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y8sm2292834wma.10.2020.02.13.02.16.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Feb 2020 02:16:57 -0800 (PST)
+Date: Thu, 13 Feb 2020 11:16:55 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: backend-drm and scanning really large resolutions
+Message-ID: <20200213101655.GT2363188@phenom.ffwll.local>
+References: <20d5d2e0af60ca486fc31fb09e6f4aa4@codeaurora.org>
+ <20200213113740.07af1263@eldfell.localdomain>
 MIME-Version: 1.0
-References: <20191223074910.1030-1-chenzhihui4@huawei.com>
-In-Reply-To: <20191223074910.1030-1-chenzhihui4@huawei.com>
-From: Xinliang Liu <xinliang.liu@linaro.org>
-Date: Thu, 13 Feb 2020 18:11:23 +0800
-Message-ID: <CAKoKPbzkfEKoqPBO2iRZFW29sKfOf4w=zyu85v5RWRP-TTqUaA@mail.gmail.com>
-Subject: Re: [PATCH] drm/hisilicon/hibmc: add gamma_set function
-To: Zhihui Chen <chenzhihui4@huawei.com>
+Content-Disposition: inline
+In-Reply-To: <20200213113740.07af1263@eldfell.localdomain>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,280 +65,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: puck.chen@hisilicon.com, baowenyi@huawei.com,
- dri-devel@lists.freedesktop.org, kong.kongxinwei@hisilicon.com,
- zourongrong@gmail.com, allan.wang@siliconmotion.com
-Content-Type: multipart/mixed; boundary="===============0943969441=="
+Cc: Xiaowen Wu <wxiaowen@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0943969441==
-Content-Type: multipart/alternative; boundary="0000000000005e6e49059e725007"
+On Thu, Feb 13, 2020 at 11:37:40AM +0200, Pekka Paalanen wrote:
+> Adding Rob back in CC, I don't know if he is subscribed to
+> wayland-devel@. You forgot to CC dri-devel@ too.
+> 
+> 
+> On Tue, 11 Feb 2020 17:18:52 -0500
+> Xiaowen Wu <wxiaowen@codeaurora.org> wrote:
+> 
+> > Hi Rob,
+> > 
+> > If the vendor driver doesn't have the hwpipe sub-object and kms plane is 
+> > one-to-one mapped to hwpipe (sspp),
+> > do you think if below approach is acceptable if we still want to 
+> > virtualize the kms plane to support 4K/8K scanout?
+> > 
+> > 1. At kms atomic check before calling drm_atomic_helper_check, depending 
+> > on scanout width of plane A in state, add idle planes B (C,D,...)
+> > into the same atomic state, backup and then modify 
+> > src_x/src_w/crtc_x/crtc_w of plane A and the affected planes B (C,D,...) 
+> > to meet scanout
+> > width limits, and set crtc/fb of the affected planes B (C,D,...) same as 
+> > plane A.
+> > 
+> > 2. At plane's state duplicate function, check if plane's 
+> > src_x/src_w/crtc_x/crtc_w are updated at step 1), if so revert the 
+> > change to
+> > plane A's backup value to allow plane A's scanout to update again. These 
+> > value will again be updated in step 1) so nothing really changes
+> > if plane A continues updating.
+> > 
+> > 3. If plane A's scanout is updated or detached from crtc, detach 
+> > affected planes B (C,D,...) in the same atomic state in step 1) and then 
+> > run step 1) again.
+> > 
+> > 4. If user want to commit plane B (C,D,...), the commit/test will fail 
+> > if planes are already used as sister plane of plane A. This failure is 
+> > same
+> > as insufficient hwpipe from plane B (C,D,...).
+> > 
+> > With above change, any downstream driver can support virtualized plane. 
+> > Also as the above approach is generic and not h/w specific, we can make
+> > it a helper function and it's up to vendor to choose if they want to use 
+> > or not, if they don't have logic like drm/msm/disp/mdp5/mdp5_plane in
+> > their downstream driver.
+> > 
+> > Conceptional above changes didn't borrow hwpipe resources from other 
+> > plane but borrow planes themselves directly, however from user point of 
+> > view
+> > they should not feel any difference.
+> > 
+> > What do you think?
 
---0000000000005e6e49059e725007
-Content-Type: text/plain; charset="UTF-8"
+The trouble with modifying the real plane states (instead of a 2nd layer
+of hw objects) is that changes the userspace visible state. Which could
+confuse the heck out of userspace. That's why in all these cases where the
+hw needs 2 things in gang mode (we have other examples where you need to
+double up clocks or crtcs or whatever in other drivers/hw) we've made a
+driver specific layer - that way you can store the stuff you exactly need,
+and not something generic.
 
-On Mon, 23 Dec 2019 at 15:50, Zhihui Chen <chenzhihui4@huawei.com> wrote:
+Maybe there is some room for generic helpers, but you'd need to prove your
+case by converting a few drivers over to this model. There's a lot
+already which virtualize planes in one way or another, but they're all
+slightly different. Thus far simply rolling your own in each driver
+proved to be quicker.
+-Daniel
 
-> add gamma_set function, and we can also use it to adjust the brightness of
-> the
-> display.
->
-> Signed-off-by: Zhihui Chen <chenzhihui4@huawei.com>
->
+> > 
+> > BR,
+> > Xiaowen Wu
+> > 
+> > 
+> > On Tue Jan 21, 2020 at 4:12 PM Rob Clark <robdclark at gmail.com> wrote:
+> > > On Fri, Jan 17, 2020 at 8:52 AM Matt Hoosier <matt.hoosier at   
+> > > gmail.com> wrote:
+> > >> 
+> > >> Hi all,
+> > >> 
+> > >> I'm confronting a situation where the hardware with which I work is 
+> > >> capable of driving connectors at 4K or 8K, but doing so requires 
+> > >> bonding the scanning of multiple planes together.
+> > >> 
+> > >> The scenario is that you'd have a big primary framebuffer whose size 
+> > >> is too large for an individual hardware scanning pipeline on the 
+> > >> display controller to traverse within its maximum allowed clock rate.
+> > >> 
+> > >> The hardware supplier's approach is to assign multiple planes, which 
+> > >> in the KMS driver map to hardware scanning pipelines, to each be 
+> > >> responsible for scanning a smaller section of the framebuffer. The 
+> > >> planes are all assigned to the same CRTC, and in concert with each 
+> > >> other they cover the whole area of the framebuffer and CRTC.
+> > >> 
+> > >> This sounds a little bit wild to me. I hadn't been aware it's even 
+> > >> legal to have more than one plane treated a the source of scanout for 
+> > >> a single framebuffer. Maybe that distinction isn't really relevant 
+> > >> nowadays with universal plane support.
+> > >>   
+> > > 
+> > > fwiw, have a look at drm/msm/disp/mdp5/mdp5_plane, which will allocate
+> > > one or two hwpipe's from the devices global atomic state, depending on
+> > > scanout width.. the hwpipe (sspp) is the physical resource behind a
+> > > plane, so essentially the kms planes are virtualized.  At some point
+> > > if you have too many wide layers, the atomic test step will fail due
+> > > to insufficient hwpipe's.  But this sort of scenario is the reason for
+> > > the test step.
+> > > 
+> > > BR,
+> > > -R
+> > >   
+> > >> I'm wondering if anybody here knows whether this a legit approach for 
+> > >> a compositor's DRM backend to take?
+> > >>   
+> > _______________________________________________
+> > wayland-devel mailing list
+> > wayland-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/wayland-devel
+> 
 
-Thanks for the patch.
-Acked-by: Xinliang Liu <xinliang.liu@linaro.org>
-Applied to drm-misc-next.
 
 
-> ---
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    | 37 +++++++++++++++++++
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h  |  5 +++
->  2 files changed, 42 insertions(+)
->
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-> index 24de937c1cb1..f1ce6cb099d0 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-> @@ -456,6 +456,42 @@ static void hibmc_crtc_disable_vblank(struct drm_crtc
-> *crtc)
->                priv->mmio + HIBMC_RAW_INTERRUPT_EN);
->  }
->
-> +static void hibmc_crtc_load_lut(struct drm_crtc *crtc)
-> +{
-> +       struct hibmc_drm_private *priv = crtc->dev->dev_private;
-> +       void __iomem   *mmio = priv->mmio;
-> +       u16 *r, *g, *b;
-> +       unsigned int reg;
-> +       int i;
-> +
-> +       r = crtc->gamma_store;
-> +       g = r + crtc->gamma_size;
-> +       b = g + crtc->gamma_size;
-> +
-> +       for (i = 0; i < crtc->gamma_size; i++) {
-> +               unsigned int offset = i << 2;
-> +               u8 red = *r++ >> 8;
-> +               u8 green = *g++ >> 8;
-> +               u8 blue = *b++ >> 8;
-> +               u32 rgb = (red << 16) | (green << 8) | blue;
-> +
-> +               writel(rgb, mmio + HIBMC_CRT_PALETTE + offset);
-> +       }
-> +
-> +       reg = readl(priv->mmio + HIBMC_CRT_DISP_CTL);
-> +       reg |= HIBMC_FIELD(HIBMC_CTL_DISP_CTL_GAMMA, 1);
-> +       writel(reg, priv->mmio + HIBMC_CRT_DISP_CTL);
-> +}
-> +
-> +static int hibmc_crtc_gamma_set(struct drm_crtc *crtc, u16 *red, u16
-> *green,
-> +                             u16 *blue, uint32_t size,
-> +                             struct drm_modeset_acquire_ctx *ctx)
-> +{
-> +       hibmc_crtc_load_lut(crtc);
-> +
-> +       return 0;
-> +}
-> +
->  static const struct drm_crtc_funcs hibmc_crtc_funcs = {
->         .page_flip = drm_atomic_helper_page_flip,
->         .set_config = drm_atomic_helper_set_config,
-> @@ -465,6 +501,7 @@ static const struct drm_crtc_funcs hibmc_crtc_funcs = {
->         .atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
->         .enable_vblank = hibmc_crtc_enable_vblank,
->         .disable_vblank = hibmc_crtc_disable_vblank,
-> +       .gamma_set = hibmc_crtc_gamma_set,
->  };
->
->  static const struct drm_crtc_helper_funcs hibmc_crtc_helper_funcs = {
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
-> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
-> index b9e20cfcfb5a..9b7e85947113 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
-> @@ -91,6 +91,9 @@
->  #define HIBMC_CRT_DISP_CTL_TIMING(x)           ((x) << 8)
->  #define HIBMC_CRT_DISP_CTL_TIMING_MASK         0x100
->
-> +#define HIBMC_CTL_DISP_CTL_GAMMA(x)            ((x) << 3)
-> +#define HIBMC_CTL_DISP_CTL_GAMMA_MASK          0x08
-> +
->  #define HIBMC_CRT_DISP_CTL_PLANE(x)            ((x) << 2)
->  #define HIBMC_CRT_DISP_CTL_PLANE_MASK          4
->
-> @@ -193,5 +196,7 @@
->  #define CRT_PLL2_HS_148MHZ                     0xB0CCCCCD
->  #define CRT_PLL2_HS_193MHZ                     0xC0872B02
->
-> +#define HIBMC_CRT_PALETTE                       0x80C00
-> +
->  #define HIBMC_FIELD(field, value) (field(value) & field##_MASK)
->  #endif
-> --
-> 2.20.1
->
->
->
+> _______________________________________________
+> wayland-devel mailing list
+> wayland-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/wayland-devel
 
---0000000000005e6e49059e725007
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, 23 Dec 2019 at 15:50, Zhihui =
-Chen &lt;<a href=3D"mailto:chenzhihui4@huawei.com">chenzhihui4@huawei.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">ad=
-d gamma_set function, and we can also use it to adjust the brightness of th=
-e<br>
-display.<br>
-<br>
-Signed-off-by: Zhihui Chen &lt;<a href=3D"mailto:chenzhihui4@huawei.com" ta=
-rget=3D"_blank">chenzhihui4@huawei.com</a>&gt;<br></blockquote><div><br></d=
-iv>Thanks for the patch.<br>Acked-by: Xinliang Liu &lt;<a href=3D"mailto:xi=
-nliang.liu@linaro.org">xinliang.liu@linaro.org</a>&gt;<br><div>Applied to d=
-rm-misc-next.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
----<br>
-=C2=A0.../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c=C2=A0 =C2=A0 | 37 ++++++++=
-+++++++++++<br>
-=C2=A0.../gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h=C2=A0 |=C2=A0 5 +++<br>
-=C2=A02 files changed, 42 insertions(+)<br>
-<br>
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/d=
-rm/hisilicon/hibmc/hibmc_drm_de.c<br>
-index 24de937c1cb1..f1ce6cb099d0 100644<br>
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c<br>
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c<br>
-@@ -456,6 +456,42 @@ static void hibmc_crtc_disable_vblank(struct drm_crtc =
-*crtc)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;mmio + HIBM=
-C_RAW_INTERRUPT_EN);<br>
-=C2=A0}<br>
-<br>
-+static void hibmc_crtc_load_lut(struct drm_crtc *crtc)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct hibmc_drm_private *priv =3D crtc-&gt;dev=
--&gt;dev_private;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0void __iomem=C2=A0 =C2=A0*mmio =3D priv-&gt;mmi=
-o;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0u16 *r, *g, *b;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int reg;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0int i;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0r =3D crtc-&gt;gamma_store;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0g =3D r + crtc-&gt;gamma_size;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0b =3D g + crtc-&gt;gamma_size;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; crtc-&gt;gamma_size; i++) =
-{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int offset=
- =3D i &lt;&lt; 2;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 red =3D *r++ &gt=
-;&gt; 8;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 green =3D *g++ &=
-gt;&gt; 8;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 blue =3D *b++ &g=
-t;&gt; 8;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 rgb =3D (red &l=
-t;&lt; 16) | (green &lt;&lt; 8) | blue;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0writel(rgb, mmio + =
-HIBMC_CRT_PALETTE + offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0reg =3D readl(priv-&gt;mmio + HIBMC_CRT_DISP_CT=
-L);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0reg |=3D HIBMC_FIELD(HIBMC_CTL_DISP_CTL_GAMMA, =
-1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0writel(reg, priv-&gt;mmio + HIBMC_CRT_DISP_CTL)=
-;<br>
-+}<br>
-+<br>
-+static int hibmc_crtc_gamma_set(struct drm_crtc *crtc, u16 *red, u16 *gree=
-n,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 *blue, uint32_t size,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_modeset_acquire_ctx *ctx)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0hibmc_crtc_load_lut(crtc);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-+}<br>
-+<br>
-=C2=A0static const struct drm_crtc_funcs hibmc_crtc_funcs =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .page_flip =3D drm_atomic_helper_page_flip,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .set_config =3D drm_atomic_helper_set_config,<b=
-r>
-@@ -465,6 +501,7 @@ static const struct drm_crtc_funcs hibmc_crtc_funcs =3D=
- {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .atomic_destroy_state =3D drm_atomic_helper_crt=
-c_destroy_state,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .enable_vblank =3D hibmc_crtc_enable_vblank,<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .disable_vblank =3D hibmc_crtc_disable_vblank,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.gamma_set =3D hibmc_crtc_gamma_set,<br>
-=C2=A0};<br>
-<br>
-=C2=A0static const struct drm_crtc_helper_funcs hibmc_crtc_helper_funcs =3D=
- {<br>
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h b/drivers/gpu=
-/drm/hisilicon/hibmc/hibmc_drm_regs.h<br>
-index b9e20cfcfb5a..9b7e85947113 100644<br>
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h<br>
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h<br>
-@@ -91,6 +91,9 @@<br>
-=C2=A0#define HIBMC_CRT_DISP_CTL_TIMING(x)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0((x) &lt;&lt; 8)<br>
-=C2=A0#define HIBMC_CRT_DISP_CTL_TIMING_MASK=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A00x100<br>
-<br>
-+#define HIBMC_CTL_DISP_CTL_GAMMA(x)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 ((x) &lt;&lt; 3)<br>
-+#define HIBMC_CTL_DISP_CTL_GAMMA_MASK=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x=
-08<br>
-+<br>
-=C2=A0#define HIBMC_CRT_DISP_CTL_PLANE(x)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 ((x) &lt;&lt; 2)<br>
-=C2=A0#define HIBMC_CRT_DISP_CTL_PLANE_MASK=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 4<br>
-<br>
-@@ -193,5 +196,7 @@<br>
-=C2=A0#define CRT_PLL2_HS_148MHZ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00xB0CCCCCD<br>
-=C2=A0#define CRT_PLL2_HS_193MHZ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00xC0872B02<br>
-<br>
-+#define HIBMC_CRT_PALETTE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x80C00<br>
-+<br>
-=C2=A0#define HIBMC_FIELD(field, value) (field(value) &amp; field##_MASK)<b=
-r>
-=C2=A0#endif<br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000005e6e49059e725007--
-
---===============0943969441==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0943969441==--
