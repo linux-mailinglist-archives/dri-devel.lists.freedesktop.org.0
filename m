@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7968415D37E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBC015D367
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692656EB52;
-	Fri, 14 Feb 2020 08:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4405D6E51B;
+	Fri, 14 Feb 2020 08:08:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0A298825B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 18:11:14 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id y6so7704505lji.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:11:14 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74ECA6E3EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 20:08:27 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id n18so8067154ljo.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 12:08:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=EuxVXqo0aLZOHDOucp4vbQndf0tOU7++wA3AtEmGBpw=;
- b=fAaIg/8ux70EQiQpgn3mUB6nFui/A2paoKIJeaWZbLEdTL5kpOBkJBUFHWxQFKCXAR
- hdga3DG2R/MFIRy7zFfSp4ZQKb3pvJjXw9Qcx+wRmcmwNZkXJIt/MConhjPzsr4Z4MNy
- dWu0arsyksu0AK7JqiqRgO11JmtdupXzDXpHAqpQABRIBaMXk5VdYgl43dB59tVRtRXj
- 4uKHCwzDx4ufdChhKAmEqsFiZULQvn+btVHIwKwNlfcU6z642R4+mA0uyvG3LGNjigyi
- MIXAJ86LhHhWEsROWucZcslFhq4C2TaNszH9lD8VwEyrKQtR1tGumGwpZNHRzWNX4grS
- My/g==
+ bh=BGyZT7dbwMQ7jRrV7OPOX8exFdqWmXNOVwOPlJZyRbk=;
+ b=Q7Nd/9vPTfJrYfCbCnUoPbPOpTzh3mz2xPJW1hQXDfbva2G/ahXsRqzD1wUuPZ0P3d
+ +VywfqW7xB0c1jzTKa7NJz6yLxoDyvNlvg34cVn9HgdBE0NIoNuEjhR1q5M5tg+WKX1s
+ VR/cE6zJ0oW3d9yoa95wrCDl733BktZ0XiN5OqGki05JxaBJP9SLsgtvO6NIKNtbC2QN
+ laeEw6HaaasnQGqEFM8QClPBWowIpVDKLEz5clAkkVrjEM5nZOWjCb0qr8FpJMzm7oWl
+ MBgsia3Si3eM8ZVXJqbn+jwHsq5CG7Hr1ZPF2HhnxEJvtGIJfwYCRkECqsnu3hYJRJai
+ b5mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=EuxVXqo0aLZOHDOucp4vbQndf0tOU7++wA3AtEmGBpw=;
- b=e0K3App0ThjY/TZFwzPdJz/4HkpFRWCumdwtEzPotKe3Ks3JgDEStJWa/a3fLZcZLZ
- w5qBcjsjtlaRwh3DEqvLtqPr6wltsb5fhbah8DIXmnfBP0rwEy5RGe8UKbCS1nTKzrih
- TWfJg0qFCMTl98pKP4V56F8Zvl01uDBdvpSKDFpO7jzFpPzeEK6zipLDNI2sTzAwllcC
- WVBM5O3poDl6Y+Kqf8RmijrGKY4qoiaEkO76cjZi1n1yLSzVmAA7dSv6e8onpEoBcH5H
- p7Mo/nMkL1YmO9I8el2hVJnEUF+Nkl/6/dNmqpIi6BcSNC81oJ8s+A+g64G4hXPxjcio
- Cihw==
-X-Gm-Message-State: APjAAAW266Jm31GFdIrMw+nJ6ELck5NhU/3ibyRk9D2YuByymBcoK7xN
- 73A9PKexF2feXWGnBv+iGaI=
-X-Google-Smtp-Source: APXvYqzzT+FLUGY7cXzPsygITqUHZQgOYAok8PALBHATY6k8I9bEwK7EFmVCMYTPxGMkzKG+gNRuhA==
-X-Received: by 2002:a2e:9157:: with SMTP id q23mr11857429ljg.196.1581617472996; 
- Thu, 13 Feb 2020 10:11:12 -0800 (PST)
+ bh=BGyZT7dbwMQ7jRrV7OPOX8exFdqWmXNOVwOPlJZyRbk=;
+ b=ptZShrm5empg5MWUiIXTfeKjU+g+8wK4Zwog06g0pgQ1cY8w6EHieGXLEiam9VYi6Y
+ nkBhtC6rProZdWlQ/LOorDCNLWVL2gZGmdYVPKwXnywgVmbu0PIgDOBLpON6FgFkKAfx
+ ARFDfSw7R8RwtmoUaSJgYRut6payK2fgtK7i1EW8adw62UFVW1rKOUQlIUIHTOTgrmFD
+ uwlFYZEXm34tCLXQEY/9bjPw9j17nDRBuTcM71bCk+DJwCGsmqsw0ED79tIiKIFRrKZi
+ ZnKAC/cMS9UqXKHxha3/agGjGI6zwnzzBKnoSJwzwSyFl/Jx1M5rh3O0zOBFYsvJwfhz
+ GcIw==
+X-Gm-Message-State: APjAAAUozXBdZEzj9llYwouqF+He7EWSZh8sWpGWelCw7mAsbDuz+m04
+ IaLtLA8U9QC3H/iEOK1Y0UOIPDHYZ4+dYQ==
+X-Google-Smtp-Source: APXvYqztD+iqwv6Xp+koxjrHW1aZ2Qay9QARoJlk+46QWn4zlAo+rJAYb4gEbYwOOYOAAItaIZGLEw==
+X-Received: by 2002:a2e:98c6:: with SMTP id s6mr12200884ljj.14.1581624505681; 
+ Thu, 13 Feb 2020 12:08:25 -0800 (PST)
 Received: from kedthinkpad ([5.20.204.163])
- by smtp.gmail.com with ESMTPSA id d24sm1655804lfl.58.2020.02.13.10.11.11
+ by smtp.gmail.com with ESMTPSA id d20sm2132164ljg.95.2020.02.13.12.08.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 10:11:12 -0800 (PST)
-Date: Thu, 13 Feb 2020 20:11:10 +0200
+ Thu, 13 Feb 2020 12:08:24 -0800 (PST)
+Date: Thu, 13 Feb 2020 22:08:23 +0200
 From: Andrey Lebedev <andrey.lebedev@gmail.com>
 To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 1/1] Support LVDS output on Allwinner A20
-Message-ID: <20200213181110.GA25367@kedthinkpad>
+Subject: Re: [PATCH v2 2/2] ARM: sun7i: dts: Add LVDS panel support on A20
+Message-ID: <20200213200823.GA28336@kedthinkpad>
 References: <20200210195633.GA21832@kedthinkpad>
- <20200211072004.46tbqixn5ftilxae@gilmour.lan>
- <20200211204828.GA4361@kedthinkpad>
- <20200212125345.j6e3txfjqekuxh2s@gilmour.lan>
- <20200212224653.GA19494@kedthinkpad>
- <20200213092433.sc2rs7el63mwvf3y@gilmour.lan>
+ <20200212222355.17141-2-andrey.lebedev@gmail.com>
+ <20200213094304.hf3glhgmquypxpyf@gilmour.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200213092433.sc2rs7el63mwvf3y@gilmour.lan>
+In-Reply-To: <20200213094304.hf3glhgmquypxpyf@gilmour.lan>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Fri, 14 Feb 2020 08:07:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,57 +70,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, wens@csie.org,
+Cc: airlied@linux.ie, linux-sunxi@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrey Lebedev <andrey@lebedev.lt>, wens@csie.org,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2020 at 10:24:33AM +0100, Maxime Ripard wrote:
-> > > do you have a board when you have been able to test it?
+On Thu, Feb 13, 2020 at 10:43:04AM +0100, Maxime Ripard wrote:
+> On Thu, Feb 13, 2020 at 12:23:57AM +0200, andrey.lebedev@gmail.com wrote:
+> > From: Andrey Lebedev <andrey@lebedev.lt>
 > >
-> > Yes, I have the hardware (Cubieboard 2) at hand, but I cannot change the
-> > any physical connections on it. FWIW, it is https://openvario.org, the
-> > device we are (painfully) trying to upgrade from old kernel-3.4 with
-> > proprietary mali drivers to contemporary software.
+> > Define pins for LVDS channels 0 and 1, configure reset line for tcon0 and
+> > provide sample LVDS panel, connected to tcon0.
+> >
+> > Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
 > 
-> What painpoints do you have?
+> And this prefix should be ARM: dts: sun7i ;)
 
-So, even though proprietary mali drivers worked well for us, they seem
-to hold us back to old kernel-3.4, and it started to get harder to avoid
-various compatibility issues with newer software. Since there seemed to
-be a good progress with OSS lima driver lately, we decided to try to
-replace mali with lima. And that naturally pulled to switch to DRM/KMS.
+Ah, thanks, I think I've got the pattern now!
 
-The first painpoint is this LVDS support problem: after a week of trial
-and error, I discovered that support was simply not there. But it seemed
-that not that much was actually missing and after couple of evenings
-deep into debugging, here we are.
+> > +			/omit-if-no-ref/
+> > +			lcd_lvds0_pins: lcd_lvds0_pins {
+> 
+> underscores in the node names will create a dtc warning at
+> compilation, you should use lcd-lvds0-pins instead.
 
-Another one is the screen rotation: the device is installed into the
-glider' instrument panel, and some pilots prefer it in portrait
-orientation.  Under old mali setup, all that (seemingly) was required
-was setting "fbcon=rotate:n" boot arg, and both linux console and
-graphical app (https://xcsoar.org/) rotated "automagically". With new
-DRM/KMS setup, only console is rotated, all graphical apps seem to see
-the screen in its "natural" landscape orientation. Do you know if there
-is any way to leverage DMS/KMS infrastructure to make screen appear
-rotated for userspace apps (writing to /sys/class/graphics/fb0/rotate
-didn't work)?  There's of course a plan B to teach the app to rotate its
-output, but that leads to problem number 3.
+You're right, I wasn't following the naming convention here. dtc doesn't
+produce any warning on this though. Fixed that anyway.
 
-And the 3rd outstanding problem is that app doesn't really work under
-lima module and lima mesa driver. It starts, but renders a black window.
-I haven't dug deeply into this yet, but it is possible that some opengl
-API isn't supported in OSS drivers yet (even though app only renders 2d
-graphics).
+> This will create a spurious warning message for TCON1, since we
+> adjusted the driver to tell it supports LVDS, but there's no LVDS
+> reset line, so we need to make it finer grained.
 
-Hopefully that wasn't too much complaining for you :) If you have any
-insight on possible causes or attack vectors on any of these, that would
-help a lot. Also, please feel free to correct any of false assumptions I
-make above, I'm happy to learn more about this.
+Yes, I can attribute two of the messages in my dmesg log [1] to this
+("Missing LVDS properties" and "LVDS output disabled". "sun4i-tcon
+1c0d000.lcd-controller" is indeed tcon1). And yes, I can see how they
+can be confusing to someone.
+
+I'd need some pointers on how to deal with that though (if we want to do
+it in this scope).
+
+[1] excerpt from kernel boot log:
+
+[    4.890975] sun4i-drm display-engine: bound 1e00000.display-frontend (ops sun4i_frontend_driver_exit [sun4i_frontend])
+[    4.902032] sun4i-drm display-engine: bound 1e20000.display-frontend (ops sun4i_frontend_driver_exit [sun4i_frontend])
+[    4.913467] sun4i-drm display-engine: bound 1e60000.display-backend (ops sun4i_backend_ops [sun4i_backend])
+[    4.923806] sun4i-drm display-engine: bound 1e40000.display-backend (ops sun4i_backend_ops [sun4i_backend])
+[    4.934451] sun4i-drm display-engine: bound 1c0c000.lcd-controller (ops sun4i_tcon_platform_driver_exit [sun4i_tcon])
+[    4.945254] sun4i-tcon 1c0d000.lcd-controller: Missing LVDS properties, Please upgrade your DT
+[    4.953935] sun4i-tcon 1c0d000.lcd-controller: LVDS output disabled
+[    4.960857] sun4i-drm display-engine: No panel or bridge found... RGB output disabled
+[    4.968845] sun4i-drm display-engine: bound 1c0d000.lcd-controller (ops sun4i_tcon_platform_driver_exit [sun4i_tcon])
+[    5.080874] sun4i-drm display-engine: bound 1c16000.hdmi (ops sun4i_hdmi_driver_exit [sun4i_drm_hdmi])
+[    5.110087] [drm] Initialized sun4i-drm 1.0.0 20150629 for display-engine on minor 0
+[    5.763064] sun4i-drm display-engine: fb0: sun4i-drmdrmfb frame buffer device
 
 
 -- 
