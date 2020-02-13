@@ -2,43 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C675F15BD34
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 11:59:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6823A15BD77
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 12:13:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12C306E25B;
-	Thu, 13 Feb 2020 10:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D73B6E20E;
+	Thu, 13 Feb 2020 11:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA5846F5A9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 10:59:24 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB4992D2;
- Thu, 13 Feb 2020 11:59:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1581591563;
- bh=aETJHvZVs1fNcN8qdYuqngR1tmemypI6PaEHJegvfKY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tNQoJpJK+cATSwkqfYR6IaVppTfQryW1+JnelH52Q2zo1SfBAUJzmTYiQgYjTEi8E
- fDZxnCKmAjNvaL5g5FdQDgz+g6gNwRwGzxKh3q8I+/6O0yoYKkQRgyqWeGuRsXhp84
- 3WXTuV1ybuDZzp/RFh5jzVdV2wg8iahFKsZWjE+8=
-Date: Thu, 13 Feb 2020 12:59:06 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH v2] drm/tidss: dispc: Rewrite naive plane positioning code
-Message-ID: <20200213105906.GC4833@pendragon.ideasonboard.com>
-References: <20200212135936.31326-1-jsarha@ti.com>
- <397e6686-40de-4205-e958-8592b1c3cc6e@ti.com>
- <20200212143354.GC13686@intel.com>
- <8095e3f1-640e-5136-6419-ce2c57f24820@ti.com>
- <CAKMK7uHEnU2LdNZ5KN5DZYzaCEFW0RTy+EpRw3ybQqkf0OLjSg@mail.gmail.com>
- <3cc04f7c-5a79-abb8-9ae2-2a2acd5baa0a@ti.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1841B6E20E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 11:13:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC9DF1FB;
+ Thu, 13 Feb 2020 03:13:31 -0800 (PST)
+Received: from [10.1.195.32] (e112269-lin.cambridge.arm.com [10.1.195.32])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4F513F6CF;
+ Thu, 13 Feb 2020 03:13:30 -0800 (PST)
+Subject: Re: [PATCH v2] drm/panfrost: Don't try to map on error faults
+To: Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+References: <20200212202236.13095-1-robh@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <9c0a0ac7-69fe-c799-c273-81e7a8cba2c7@arm.com>
+Date: Thu, 13 Feb 2020 11:13:29 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3cc04f7c-5a79-abb8-9ae2-2a2acd5baa0a@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200212202236.13095-1-robh@kernel.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,127 +41,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: praneeth@ti.com, dri-devel <dri-devel@lists.freedesktop.org>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ dri-devel@lists.freedesktop.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSnlyaSwKCk9uIFRodSwgRmViIDEzLCAyMDIwIGF0IDExOjAzOjE1QU0gKzAyMDAsIEp5cmkg
-U2FyaGEgd3JvdGU6Cj4gT24gMTIvMDIvMjAyMCAyMjoyOCwgRGFuaWVsIFZldHRlciB3cm90ZToK
-PiA+IE9uIFdlZCwgRmViIDEyLCAyMDIwIGF0IDc6MDEgUE0gSnlyaSBTYXJoYSA8anNhcmhhQHRp
-LmNvbT4gd3JvdGU6Cj4gPj4gT24gMTIvMDIvMjAyMCAxNjozMywgVmlsbGUgU3lyasOkbMOkIHdy
-b3RlOgo+ID4+PiBPbiBXZWQsIEZlYiAxMiwgMjAyMCBhdCAwNDowODoxMVBNICswMjAwLCBKeXJp
-IFNhcmhhIHdyb3RlOgo+ID4+Pj4gT24gMTIvMDIvMjAyMCAxNTo1OSwgSnlyaSBTYXJoYSB3cm90
-ZToKPiA+Pj4+PiBUaGUgb2xkIGltcGxlbWVudGF0aW9uIG9mIHBsYWNpbmcgcGxhbmVzIG9uIHRo
-ZSBDUlRDIHdoaWxlIGNvbmZpZ3VyaW5nCj4gPj4+Pj4gdGhlIHBsYW5lcyB3YXMgbmFpdmUgYW5k
-IHJlbGllZCBvbiB0aGUgb3JkZXIgaW4gd2hpY2ggdGhlIHBsYW5lcyB3ZXJlCj4gPj4+Pj4gY29u
-ZmlndXJlZCwgZW5hYmxlZCwgYW5kIGRpc2FibGVkLiBUaGUgc2l0dWF0aW9uIHdoZXJlIGEgcGxh
-bmUncyB6cG9zCj4gPj4+Pj4gd2FzIGNoYW5nZWQgb24gdGhlIGZseSB3YXMgY29tcGxldGVseSBi
-cm9rZW4uIFRoZSB1c3VhbCBzeW1wdG9tcyBvZgo+ID4+Pj4+IHRoaXMgcHJvYmxlbSB3YXMgc2Ny
-YW1ibGVkIGRpc3BsYXkgYW5kIGEgZmxvb2Qgb2Ygc3luYyBsb3N0IGVycm9ycywKPiA+Pj4+PiB3
-aGVuIGEgcGxhbmUgd2FzIGFjdGl2ZSBpbiB0d28gbGF5ZXJzIGF0IHRoZSBzYW1lIHRpbWUsIG9y
-IGEgbWlzc2luZwo+ID4+Pj4+IHBsYW5lLCBpbiBjYXNlIHdoZW4gYSBsYXllciB3YXMgYWNjaWRl
-bnRhbGx5IGRpc2FibGVkLgo+ID4+Pj4+Cj4gPj4+Pj4gVGhlIHJld3JpdGUgdGFrZXMgYSBtb3Jl
-IHN0cmFpZ2h0IGZvcndhcmQgYXBwcm9hY2ggd2hlbiBIVyBpcwo+ID4+Pj4+IGNvbmNlcm5lZC4g
-VGhlIHBsYW5lIHBvc2l0aW9uaW5nIHJlZ2lzdGVycyBhcmUgaW4gdGhlIENSVEMgKGFjdHVhbGx5
-Cj4gPj4+Pj4gT1ZSKSByZWdpc3RlciBzcGFjZSBhbmQgaXQgaXMgbW9yZSBuYXR1cmFsIHRvIGNv
-bmZpZ3VyZSB0aGVtIGluIG9uZSBnbwo+ID4+Pj4+IHdoaWxlIGNvbmZpZ3VyaW5nIHRoZSBDUlRD
-LiBUbyBkbyB0aGlzIHdlIG5lZWQgdG8gbWFrZSBzdXJlIHdlIGhhdmUKPiA+Pj4+PiBhbGwgdGhl
-IHBsYW5lcyBvbiB1cGRhdGVkIENSVENzIGluIHRoZSBuZXcgYXRvbWljIHN0YXRlIHRvIGJlCj4g
-Pj4+Pj4gY29tbWl0dGVkLiBUaGlzIGlzIGRvbmUgYnkgY2FsbGluZyBkcm1fYXRvbWljX2FkZF9h
-ZmZlY3RlZF9wbGFuZXMoKSBpbgo+ID4+Pj4+IGNydGNfYXRvbWljX2NoZWNrKCkuCj4gPj4+Pj4K
-PiA+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBKeXJpIFNhcmhhIDxqc2FyaGFAdGkuY29tPgo+ID4+Pj4+
-IC0tLQo+ID4+Pj4+ICBkcml2ZXJzL2dwdS9kcm0vdGlkc3MvdGlkc3NfY3J0Yy5jICB8IDU1ICsr
-KysrKysrKysrKysrKysrKysrKysrKysrKystCj4gPj4+Pj4gIGRyaXZlcnMvZ3B1L2RybS90aWRz
-cy90aWRzc19kaXNwYy5jIHwgNTUgKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0KPiA+Pj4+
-PiAgZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2Rpc3BjLmggfCAgNSArKysKPiA+Pj4+PiAg
-MyBmaWxlcyBjaGFuZ2VkLCA3OSBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkKPiA+Pj4+
-Pgo+ID4+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlkc3MvdGlkc3NfY3J0Yy5j
-IGIvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2NydGMuYwo+ID4+Pj4+IGluZGV4IDAzMmMz
-MWVlMjgyMC4uZjdjNWZkMTA5NGE4IDEwMDY0NAo+ID4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS90aWRzcy90aWRzc19jcnRjLmMKPiA+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlkc3Mv
-dGlkc3NfY3J0Yy5jCj4gPj4+PiAuLi4KPiA+Pj4+PiBAQCAtMTA4LDcgKzExMCw1NCBAQCBzdGF0
-aWMgaW50IHRpZHNzX2NydGNfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiA+
-Pj4+PiAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPiA+Pj4+PiAgICAgfQo+ID4+Pj4+Cj4g
-Pj4+Pj4gLSAgIHJldHVybiBkaXNwY192cF9idXNfY2hlY2soZGlzcGMsIGh3X3ZpZGVvcG9ydCwg
-c3RhdGUpOwo+ID4+Pj4+ICsgICByZXQgPSBkaXNwY192cF9idXNfY2hlY2soZGlzcGMsIGh3X3Zp
-ZGVvcG9ydCwgc3RhdGUpOwo+ID4+Pj4+ICsgICBpZiAocmV0KQo+ID4+Pj4+ICsgICAgICAgICAg
-IHJldHVybiByZXQ7Cj4gPj4+Pj4gKwo+ID4+Pj4+ICsgICAvKiBBZGQgdW5jaGFuZ2VkIHBsYW5l
-cyBvbiB0aGlzIGNydGMgdG8gc3RhdGUgZm9yIHpwb3MgdXBkYXRlLiAqLwo+ID4+Pj4+ICsgICBy
-ZXR1cm4gZHJtX2F0b21pY19hZGRfYWZmZWN0ZWRfcGxhbmVzKHN0YXRlLT5zdGF0ZSwgY3J0Yyk7
-Cj4gPj4+Pgo+ID4+Pj4gSXMgdGhpcyBhIGNvcnJlY3Qgd2F5IHRvIHVzZSBkcm1fYXRvbWljX2Fk
-ZF9hZmZlY3RlZF9wbGFuZXMoKT8KPiA+Pj4+Cj4gPj4+PiBJIHNhdyB0aGF0IHNvbWUgb3RoZXIg
-ZHJpdmVycyBpbXBsZW1lbnQgdGhlaXIgb3duIG1vZGVfY29uZmlnCj4gPj4+PiBhdG9taWNfY2hl
-Y2soKSBhbmQgaGF2ZSB0aGlzIGNhbGwgdGhlcmUgaW4KPiA+Pj4+IGZvcl9lYWNoX25ld19jcnRj
-X2luX3N0YXRlKCktbG9vcCwgYnV0IEkgdGhvdWdodCBpdCBzaG91bGQgYmUgZmluZSB0bwo+ID4+
-Pj4gY2FsbCBpdCBpbiBjcnRjX2F0b21pY19jaGVjaygpLgo+ID4+Pgo+ID4+PiBZb3Ugc2VlbSB0
-byBiZSB1c2luZyBkcm1fYXRvbWljX2hlbHBlcl9jaGVja19wbGFuZXMoKSwgd2hpY2ggbWVhbnMK
-PiA+Pj4gY3J0Yy5hdG9taWNfY2hlY2soKSBnZXRzIGNhbGxlZCBhZnRlciBwbGFuZS5hdG9taWNf
-Y2hlY2soKS4gU28gdGhpcwo+ID4+PiBtaWdodCBiZSBnb29kIG9yIGJhZCBkZXBlbmRpbmcgb24g
-d2hldGhlciB5b3UnZCBsaWtlIHRoZSBwbGFuZXMgeW91Cj4gPj4+IGFkZCBoZXJlIHRvIGdvIHRo
-cm91Z2ggdGhlaXIgLmF0b21pY19jaGVjaygpIG9yIG5vdC4KPiA+Pgo+ID4+IFNob3VsZCBoYXZl
-IHRob3VnaHQgb2YgdGhhdCBteSBzZWxmLiBFeHRyYSBwbGFuZS5hdG9taWNfY2hlY2soKSBjYWxs
-cyBkbwo+ID4+IG5vdCBkbyBhbnkgYWN0dWFsIGhhcm0sIGJ1dCB0aGV5IGFyZSBwb3RlbnRpYWxs
-eSBleHBlbnNpdmUuIFRoZSBwbGFuZXMKPiA+PiBhcmUgcmVhbGx5IG9ubHkgbmVlZGVkIHRoZXJl
-IGluIHRoZSBjb21taXQgcGhhc2UgKGNydGNfZW5hYmxlKCkgb3IKPiA+PiBmbHVzaCgpKS4gV2Vs
-bCwgSSdsbCBkbyBteSBvd24gbW9kZV9jb25maWcuYXRvbWljX2NoZWNrKCkgYW5kIGNhbGwKPiA+
-PiBkcm1fYXRvbWljX2FkZF9hZmZlY3RlZF9wbGFuZXMoKSBpbiBhIGZvcl9lYWNoX25ld19jcnRj
-X2luX3N0YXRlKCktbG9vcAo+ID4+IGFmdGVyIGFsbCB0aGUgY2hlY2tzLgo+ID4gCj4gPiBBbHNv
-LCBpZiB5b3UgZG8gdXNlIHRoZSBoZWxwZXJzIHRoZW4gdGhpcyBzaG91bGQgYWxyZWFkeSBoYXZl
-IGhhcHBlbmVkCj4gPiBmb3IgeW91LiBXaGljaCBtYWtlcyBtZSB3b25kZXIgd2h5IGFsbCB0aGlz
-IHdvcmssIHNvIG1heWJlIHRoZXJlJ3MKPiA+IHNvbWUgZGVwZW5kZW5jeSBiZXR3ZWVuIGFsbCB0
-aGUgdmFyaW91cyBjaGVjayBmdW5jdGlvbnMgeW91IGhhdmUgZ29pbmcKPiA+IG9uPyBNaWdodCBi
-ZSB0aW1lIHRvIHJvbGwgeW91ciBvd24gdG9wLWxldmVsIGNoZWNrIGZ1bmN0aW9uIHRoYXQgY2Fs
-bHMKPiAKPiA+IHN0dWZmIGluIHRoZSBvcmRlciB5b3VyIGh3IG5lZWRzIHRoaW5ncyB0byBiZSBj
-aGVja2VkLCBzbyB0aGF0IHlvdQo+ID4gZG9uJ3QgYWRkIG5ldyBzdGF0ZXMgbGF0ZSBhbmQgaGF2
-ZSB0byBydW4gb25lIGNoZWNrIHBoYXNlIHR3aWNlICh3aGljaAo+ID4gaXMgdG90YWxseSBmaW5l
-IHdpdGggdGhlIGhlbHBlcnMgYXMgbG9uZyBhcyBhbGwgeW91ciBjaGVjayBjYWxsYmFja3MKPiA+
-IGFyZSBpZGVtcG90ZW50LCBidXQgb2Z0ZW4ganVzdCBvdmVya2lsbCBhbmQgY29uZnVzaW5nKS4K
-PiAKPiBBbGwgdGhlIGRyaXZlciBzcGVjaWZpYyBjaGVja3MgYXJlIHBlcmZlY3RseSBpbmRlcGVu
-ZGVudCB3aXRob3V0IGFueQo+IGNyb3NzIGRlcGVuZGVuY2llcy4gQW5kIHRoZXJlIGlzIG5vIGV4
-dHJhIGRhdGEgaW4gdGhlIHBsYW5lLSBvcgo+IENSVEMtc3RhdGUsIG5vciBkbyB0aGUgZHJpdmVy
-IHNwZWNpZmljIGNoZWNrcyB0b3VjaCB0aGUgc3RhdGUgaW4gYW55IHdheS4KPiAKPiBJIG9ubHkg
-d2FudCBhbGwgdGhlIHBsYW5lcyBvbiBhIGNydGMgdG8gYmUgdGhlcmUsIGlmIGFueSBvZiB0aGUg
-cGxhbmVzCj4gb24gdGhlIENSVEMgY2hhbmdlcywgc28gdGhhdCBJIGNhbiB3cml0ZSB0aGUgcGxh
-bmUgcG9zaXRpb25zIGZyb20gdGhlCj4gc2NyYXRjaCBkaXJlY3RseSBmcm9tIHRoZSBhdG9taWMg
-c3RhdGUgd2l0aCBlYWNoIGNvbW1pdC4KPiAKPiBMb25nIGV4cGxhbmF0aW9uIChpZiB5b3UgYXJl
-IGludGVyZXN0ZWQpOgo+IAo+IFdpdGggdGhlIERTUyBIVyB0aGUgcGxhbmVzIGFyZSBwb3NpdGlv
-bmVkIHRvIENSVENzIGJ5IGZpbGxpbmcgZWFjaAo+IHBsYW5lJ3MgaWQgYW5kIHgseSBwb3NpdGlv
-biB0byBjb3JyZWN0IG92ZXJsYXkgcmVnaXN0ZXIgYWNjb3JkaW5nIHRvIHRoZQo+IHBsYW5lJ3Mg
-enBvcyAoZWFjaCBvdmVybGF5IHJlZyBoYXMgaXRzIG93biBzdGF0aWMgenBvcykuCj4gCj4gVXNp
-bmcgdGhlIG5haXZlIGltcGxlbWVudGF0aW9uLCB0aGVyZSBpcyBhIHByb2JsZW0gaWYgSSBoYXZl
-IHBsYW5lMCBhdAo+IHpwb3MwIGFuZCBhbm90aGVyIGNvbW1pdCBjb21lcyB3aXRoIHBsYW5lMSBh
-dCB6cG9zMCBhbmQgcGxhbmUwIGRpc2FibGVkLgo+IElmIHBsYW5lMSBpbiB0aGUgY29tbWl0IGlz
-IGhhbmRsZWQgZmlyc3QsIGl0IG92ZXJ3cml0ZXMgcGxhbmUwJ3MKPiBwcmV2aW91cyBwb3NpdGlv
-biwgYW5kIHBsYW5lMCBoYW5kbGVkIGFmdGVyd2FyZHMgd2lsbCBkaXNhYmxlIGZyZXNobHkKPiBj
-b25maWd1cmVkIHBsYW5lMS4gVGhlcmUgaXMgbnVtYmVyIG9mIG90aGVyIHByb2JsZW1hdGljIGNh
-c2VzLgo+IAo+IE9rLCBJIGNhbiBlYXNpbHkgZml4IHRoaXMgYnkgc3RvcmluZyB0aGUgcGxhbmUg
-cG9zaXRpb25zICh4LHksIGFuZCB6KSBpbgo+IHRoZSBkcml2ZXIncyBpbnRlcm5hbCBzdGF0ZSwg
-YW5kIHJvbGxpbmcgdGhlIHBvc2l0aW9ucyBvdXQgaW4gdGhlCj4gY3J0Y19lbmFibGUoKSBvciAt
-Zmx1c2goKS4gQnV0IEkgaGF2ZSB1bmRlcnN0b29kIHRoZSBhdG9taWMgZHJpdmVycwo+IHNob3Vs
-ZCBhdm9pZCBoYXZpbmcgYW55IGludGVybmFsIHN0YXRlLiBTbyB0aGUgb2J2aW91cyBjaG9pY2Ug
-d291bGQgYmUKPiB0byByb2xsIG91dCB0aGUgcGxhbmUgcG9zaXRpb25zIGRpcmVjdGx5IGZyb20g
-dGhlIGF0b21pYyBzdGF0ZS4gSG93ZXZlciwKPiB0aGVyZSBpcyBhIHByb2JsZW0gd2l0aCB0aGF0
-LgoKQXRvbWljIGRyaXZlcnMgc2hvdWxkIG5vdCBzdG9yZSBzdGF0ZSBpbiBpbnRlcm5hbCBzdHJ1
-Y3R1cmVzLCBidXQgdGhleQpjYW4gc3ViY2xhc3MgdGhlIHN0YW5kYXJkIHN0YXRlIHN0cnVjdHVy
-ZXMgYW5kIGFkZCBkYXRhIHRoZXJlLiBZb3UKY291bGQsIGluIHlvdXIgYXRvbWljX2NoZWNrIGlt
-cGxlbWVudGF0aW9uLCBjb21wdXRlIHRoZSB2YWx1ZXMgb2YgdGhlCkNSVEMgcmVnaXN0ZXJzIHRo
-YXQgZ292ZXJuIHBsYW5lIHBvc2l0aW9uaW5nLCBzdG9yZSB0aGVtIGluIHlvdXIKc3Vic2NsYXMg
-b2YgZHJtX2NydGNfc3RhdGUsIGFuZCB0aGVuIGp1c3QgYXBwbHkgdGhlbSBpbiB0aGUgQ1JUQyBh
-dG9taWMKZmx1c2guCgo+IFRoZSBwcm9ibGVtIGFwcGVhcnMgd2hlbiBJIGhhdmUgbW9yZSB0aGFu
-IG9uZSBwbGFuZSBhY3RpdmUgb24gYSBjcnRjIGFuZAo+IEkganVzdCBuZWVkIHRvIHVwZGF0ZSBv
-bmUgb2YgdGhlIHBsYW5lcy4gSW4gdGhlIHNpdHVhdGlvbiBub3RoaW5nCj4gY2hhbmdlcyBhYm91
-dCB0aGUgQ1JUQyBhbmQgdGhlIHVuY2hhbmdlZCBwbGFuZXMsIHNvIGl0IGlzIHF1aXRlCj4gdW5k
-ZXJzdGFuZGFibGUgdGhhdCB0aGUgaGVscGVycyBkbyBub3QgYWRkIHRoZSB1bmNoYW5nZWQgcGxh
-bmVzIHRvIHRoZQo+IGF0b21pYyBzdGF0ZS4gQnV0IGlmIEkgd2FudCB0byByb2xsIG91dCB0aGUg
-bmV3IHBsYW5lIHBvc2l0aW9ucyBmcm9tIHRoZQo+IHNjcmF0Y2ggd2l0aCBldmVyeSBjb21taXQg
-dGhhdCB0b3VjaGVzIGFueSBwbGFuZSBvbiB0aGF0IENSVEMsIEkgbmVlZCB0bwo+IGhhdmUgdGhl
-IHVuY2hhbmdlZCBwbGFuZXMgdGhlcmUuCj4gCj4gU28gdGhlIGRybV9hdG9taWNfYWRkX2FmZmVj
-dGVkX3BsYW5lcygpLWNhbGxzIGFyZSBhZGRlZCBqdXN0IHRvIGF2b2lkCj4gYW55IGludGVybmFs
-IHBsYW5lIHBvc2l0aW9uIHN0YXRlIGluIHRoZSBkcml2ZXIuCgotLSAKUmVnYXJkcywKCkxhdXJl
-bnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+On 12/02/2020 20:22, Rob Herring wrote:
+> From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> 
+> If the exception type isn't a translation fault, don't try to map and
+> instead go straight to a terminal fault.
+> 
+> Otherwise, we can get flooded by kernel warnings and further faults.
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> I rewrote this some simplifying the code and somewhat following Steven's 
+> suggested. Still not using defines though. No defines here was good 
+> enough before IMO.
+
+Heresy! It's a good thing you're not writing kbase code - there you
+(seemingly) need to pick a #define which is as long as possible, but
+then still wrap the code to avoid the 80 character limit... For
+example[1]. Although shifting the code right might get you extra bonus
+points, deep nesting seems to be encouraged! ;)
+
+[1]
+https://gitlab.freedesktop.org/panfrost/mali_kbase/blob/master/driver/product/kernel/drivers/gpu/arm/midgard/backend/gpu/mali_kbase_js_backend.c#L156
+
+> 
+> Only compile tested.
+
+I've done some quick testing on a Firefly RK3288. But I don't have any
+(handy) tests to trigger non-TRANSLATION_FAULT MMU faults.
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thanks,
+
+Steve
+
+> 
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c | 44 +++++++++++--------------
+>  1 file changed, 19 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index 763cfca886a7..4f2836bd9215 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -596,33 +596,27 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
+>  		source_id = (fault_status >> 16);
+>  
+>  		/* Page fault only */
+> -		if ((status & mask) == BIT(i)) {
+> -			WARN_ON(exception_type < 0xC1 || exception_type > 0xC4);
+> -
+> +		ret = -1;
+> +		if ((status & mask) == BIT(i) && (exception_type & 0xF8) == 0xC0)
+>  			ret = panfrost_mmu_map_fault_addr(pfdev, i, addr);
+> -			if (!ret) {
+> -				mmu_write(pfdev, MMU_INT_CLEAR, BIT(i));
+> -				status &= ~mask;
+> -				continue;
+> -			}
+> -		}
+>  
+> -		/* terminal fault, print info about the fault */
+> -		dev_err(pfdev->dev,
+> -			"Unhandled Page fault in AS%d at VA 0x%016llX\n"
+> -			"Reason: %s\n"
+> -			"raw fault status: 0x%X\n"
+> -			"decoded fault status: %s\n"
+> -			"exception type 0x%X: %s\n"
+> -			"access type 0x%X: %s\n"
+> -			"source id 0x%X\n",
+> -			i, addr,
+> -			"TODO",
+> -			fault_status,
+> -			(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
+> -			exception_type, panfrost_exception_name(pfdev, exception_type),
+> -			access_type, access_type_name(pfdev, fault_status),
+> -			source_id);
+> +		if (ret)
+> +			/* terminal fault, print info about the fault */
+> +			dev_err(pfdev->dev,
+> +				"Unhandled Page fault in AS%d at VA 0x%016llX\n"
+> +				"Reason: %s\n"
+> +				"raw fault status: 0x%X\n"
+> +				"decoded fault status: %s\n"
+> +				"exception type 0x%X: %s\n"
+> +				"access type 0x%X: %s\n"
+> +				"source id 0x%X\n",
+> +				i, addr,
+> +				"TODO",
+> +				fault_status,
+> +				(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
+> +				exception_type, panfrost_exception_name(pfdev, exception_type),
+> +				access_type, access_type_name(pfdev, fault_status),
+> +				source_id);
+>  
+>  		mmu_write(pfdev, MMU_INT_CLEAR, mask);
+>  
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
