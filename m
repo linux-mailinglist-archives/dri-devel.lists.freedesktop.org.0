@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E34815BB79
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 10:19:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215DA15BB83
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 10:19:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB296F57A;
-	Thu, 13 Feb 2020 09:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D08D6F57F;
+	Thu, 13 Feb 2020 09:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6434A6F57A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 09:19:26 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01D9JEOt127361;
- Thu, 13 Feb 2020 03:19:14 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1581585554;
- bh=tYWMN2YveaXfn9+798tLoVElj0lt1lXVlJG0sJnmZRw=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=qf01HFCPxB0y9gPgQFI78RamWbqiZ4CcmB9T6fsEkQYbAMYf9dCD1PCsx3rD3Jgju
- pKKUBaq3IkWKH5SSaMiKgQSu4HZyNircT5D+cqUmH+KcK6zxOFVwWxq702UCH8eKEN
- ZsoDcojWrb7rDChXtGMENnAWagonOwS1hnV6u3i0=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01D9JEGH067261
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 13 Feb 2020 03:19:14 -0600
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 13
- Feb 2020 03:19:13 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 13 Feb 2020 03:19:13 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01D9J9tq094940;
- Thu, 13 Feb 2020 03:19:10 -0600
-Subject: Re: [PATCH v5 2/3] drm: bridge: Add support for Cadence MHDP DPI/DP
- bridge
-To: Yuti Amonkar <yamonkar@cadence.com>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <robh+dt@kernel.org>, <maxime@cerno.tech>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <mark.rutland@arm.com>, <a.hajda@samsung.com>,
- <narmstrong@baylibre.com>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@siol.net>
-References: <1581481604-24499-1-git-send-email-yamonkar@cadence.com>
- <1581481604-24499-3-git-send-email-yamonkar@cadence.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <6c2188ce-a27a-bb76-4b38-5fda5f282f78@ti.com>
-Date: Thu, 13 Feb 2020 11:19:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1BC96F57F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 09:19:55 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id 77so4904715oty.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 01:19:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wwoDTheqROgUrsj1IPtXdL3z6lWUfCcMFN+IKevDAsE=;
+ b=SasXBgPdw+FAp2vK97em9s9mnd9yP7P/yNa83cILRwe73LDHiMzOMDKm5KEjlo8Xkd
+ DglGtnAcbIuu939u4lUVJQRZkEuja9aOv68jbX9SvIfdLcPTrBj69JQ2a3kZZRtAkAku
+ iTfVxW6UFxivJj7ig4NqLPtObvf4by87Scxx0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wwoDTheqROgUrsj1IPtXdL3z6lWUfCcMFN+IKevDAsE=;
+ b=bbGohlafkE8yRLsgTZeZ1XmE8Iec7znecrnJlqvv5zWmCshUPYI2JIcIPyRNa1BAn6
+ BeR1oGBNlNGea+ghH2Iw3HUIBOVhK5pzLmV70jieXuL2Qp0bxv1hmE6ZVmPy/xCq/ZjU
+ RnbMHl6SfjdJ86Z4G1SKuO23A17IeUJE5VAaKSY7AfTowHO9P7L2ZA4vd1K7/0eIqs5Y
+ +CoAl1jX58RGi5gI5cfjix/j2zseG2QYFwStAssVrS6YoC4Xs16N45uEtIPCMbwgwjml
+ +2+2QnrtmVI9RQE7SrfKRIVo/gOi7zFv1htD5jHHJITiZTxoB0IvO+GDCSLqmgnSvtX4
+ xLKg==
+X-Gm-Message-State: APjAAAVLd3fAo6nYGI5eca2BEspEzPBmgNPaEmB3uOEUa0rqpzjWeqwm
+ YSYmtE+ZYUMGoWVso0cyIis1lzB+KlNOJtyGafbtaQ==
+X-Google-Smtp-Source: APXvYqys4e67XHTeo66qdjwQ9lK2tZJdfLwPgp5UBniKW5rKOdqnY25TJ7LfURDlsDhNX6Qksj7kcY7tANWlhG/tkss=
+X-Received: by 2002:a9d:6196:: with SMTP id g22mr12927169otk.204.1581585594976; 
+ Thu, 13 Feb 2020 01:19:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1581481604-24499-3-git-send-email-yamonkar@cadence.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200212135936.31326-1-jsarha@ti.com>
+ <397e6686-40de-4205-e958-8592b1c3cc6e@ti.com>
+ <20200212143354.GC13686@intel.com>
+ <8095e3f1-640e-5136-6419-ce2c57f24820@ti.com>
+ <CAKMK7uHEnU2LdNZ5KN5DZYzaCEFW0RTy+EpRw3ybQqkf0OLjSg@mail.gmail.com>
+ <3cc04f7c-5a79-abb8-9ae2-2a2acd5baa0a@ti.com>
+In-Reply-To: <3cc04f7c-5a79-abb8-9ae2-2a2acd5baa0a@ti.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 13 Feb 2020 10:19:43 +0100
+Message-ID: <CAKMK7uFRC8gCavofePNKuNVXxUtgQn+xwpVQ+xh3xNOFwT400A@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/tidss: dispc: Rewrite naive plane positioning code
+To: Jyri Sarha <jsarha@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,315 +63,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: praneeth@ti.com, mparab@cadence.com, jsarha@ti.com, sjakhade@cadence.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: praneeth@ti.com, dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/02/2020 06:26, Yuti Amonkar wrote:
-> This patch adds new DRM driver for Cadence MHDP DPTX IP used on J721e SoC.
-> MHDP DPTX IP is the component that complies with VESA DisplayPort (DP) and
-> embedded Display Port (eDP) standards. It integrates uCPU running the
-> embedded Firmware(FW) interfaced over APB interface.
-> Basically, it takes a DPI stream as input and output it encoded in DP
-> format. Currently, it supports only SST mode.
-> 
-> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> ---
->   drivers/gpu/drm/bridge/Kconfig          |   11 +
->   drivers/gpu/drm/bridge/Makefile         |    3 +
->   drivers/gpu/drm/bridge/cdns-mhdp-core.c | 2206 +++++++++++++++++++++++
->   drivers/gpu/drm/bridge/cdns-mhdp-core.h |  380 ++++
->   4 files changed, 2600 insertions(+)
->   create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-core.c
->   create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-core.h
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 8397bf72d2f3..c66f2ef04f71 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -27,6 +27,17 @@ config DRM_CDNS_DSI
->   	  Support Cadence DPI to DSI bridge. This is an internal
->   	  bridge and is meant to be directly embedded in a SoC.
->   
-> +config DRM_CDNS_MHDP
-> +	tristate "Cadence DPI/DP bridge"
-> +	select DRM_KMS_HELPER
-> +	select DRM_PANEL_BRIDGE
-> +	depends on OF
-> +	help
-> +	  Support Cadence DPI to DP bridge. This is an internal
-> +	  bridge and is meant to be directly embedded in a SoC.
-> +	  It takes a DPI stream as input and output it encoded
-> +	  in DP format.
-> +
->   config DRM_DUMB_VGA_DAC
->   	tristate "Dumb VGA DAC Bridge support"
->   	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 1eb5376c5d68..71019088d257 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -15,6 +15,9 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
->   obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
->   obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
->   obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
-> +obj-$(CONFIG_DRM_CDNS_MHDP) += cdns-mhdp.o
->   
->   obj-y += analogix/
->   obj-y += synopsys/
-> +
-> +cdns-mhdp-objs := cdns-mhdp-core.o
-
-I think it's better to keep the two lines added in this change together, instead of having those 
-other obj-y lines in between.
-
-> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-core.c b/drivers/gpu/drm/bridge/cdns-mhdp-core.c
-> new file mode 100644
-> index 000000000000..51ed9cdee161
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-core.c
-> @@ -0,0 +1,2206 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Cadence MHDP DP bridge driver.
-> + *
-> + * Copyright: 2019 Cadence Design Systems, Inc.
-> + *
-> + * Author: Quentin Schulz <quentin.schulz@free-electrons.com>
-
-Author is Quentin, but there's no signed-off-by from him? There are also many names in 
-MODULE_AUTHOR, without signed-off-bys.
-
-I think the rule is that you should have signed-off-bys for people who have contributed. I'm not 
-sure how strict that rule is, and what to do if the people cannot be reached anymore.
-
-<snip>
-
-> +static int mhdp_probe(struct platform_device *pdev)
-> +{
-> +	const struct of_device_id *match;
-> +	struct resource *regs;
-> +	struct cdns_mhdp_device *mhdp;
-> +	struct clk *clk;
-> +	int ret;
-> +	unsigned long rate;
-> +	int irq;
-> +	u32 lanes_prop;
-> +	unsigned int link_rate;
-> +
-> +	mhdp = devm_kzalloc(&pdev->dev, sizeof(struct cdns_mhdp_device),
-> +			    GFP_KERNEL);
-> +	if (!mhdp)
-> +		return -ENOMEM;
-> +
-> +	clk = devm_clk_get(&pdev->dev, NULL);
-> +	if (IS_ERR(clk)) {
-> +		dev_err(&pdev->dev, "couldn't get clk: %ld\n", PTR_ERR(clk));
-> +		return PTR_ERR(clk);
-> +	}
-> +
-> +	mhdp->clk = clk;
-> +	mhdp->dev = &pdev->dev;
-> +	mhdp->conn_bus_flags_defaults = DRM_BUS_FLAG_DE_HIGH;
-> +	mutex_init(&mhdp->mbox_mutex);
-> +	spin_lock_init(&mhdp->start_lock);
-> +	dev_set_drvdata(&pdev->dev, mhdp);
-> +
-> +	drm_dp_aux_init(&mhdp->aux);
-> +	mhdp->aux.dev = &pdev->dev;
-> +	mhdp->aux.transfer = mhdp_transfer;
-> +
-> +	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	mhdp->regs = devm_ioremap_resource(&pdev->dev, regs);
-> +	if (IS_ERR(mhdp->regs))
-> +		return PTR_ERR(mhdp->regs);
-> +
-> +	mhdp->phy = devm_of_phy_get_by_index(&pdev->dev, pdev->dev.of_node, 0);
-> +	if (IS_ERR(mhdp->phy)) {
-> +		dev_err(&pdev->dev, "no PHY configured\n");
-> +		return PTR_ERR(mhdp->phy);
-> +	}
-> +
-> +	platform_set_drvdata(pdev, mhdp);
-> +
-> +	clk_prepare_enable(clk);
-> +
-> +	match = of_match_device(mhdp_ids, &pdev->dev);
-> +	if (!match)
-> +		return -ENODEV;
-> +	mhdp->ops = (struct mhdp_platform_ops *)match->data;
-> +
-> +	pm_runtime_enable(&pdev->dev);
-> +	ret = pm_runtime_get_sync(&pdev->dev);
-> +	if (ret < 0) {
-> +		dev_err(&pdev->dev, "pm_runtime_get_sync failed\n");
-> +		pm_runtime_disable(&pdev->dev);
-> +		goto clk_disable;
-> +	}
-> +
-> +	if (mhdp->ops && mhdp->ops->init) {
-> +		ret = mhdp->ops->init(mhdp);
-> +		if (ret != 0) {
-> +			dev_err(&pdev->dev, "MHDP platform initialization failed: %d\n",
-> +				ret);
-> +			goto runtime_put;
-> +		}
-> +	}
-> +
-> +	rate = clk_get_rate(clk);
-> +	writel(rate % 1000000, mhdp->regs + CDNS_SW_CLK_L);
-> +	writel(rate / 1000000, mhdp->regs + CDNS_SW_CLK_H);
-> +
-> +	dev_dbg(&pdev->dev, "func clk rate %lu Hz\n", rate);
-> +
-> +	writel(~0, mhdp->regs + CDNS_MB_INT_MASK);
-> +	writel(~0, mhdp->regs + CDNS_APB_INT_MASK);
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	ret = devm_request_threaded_irq(mhdp->dev, irq, NULL, mhdp_irq_handler,
-> +					IRQF_ONESHOT, "mhdp8546", mhdp);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "cannot install IRQ %d\n", irq);
-> +		ret = -EIO;
-> +		goto plat_fini;
-> +	}
-> +
-> +	/* Read source capabilities, based on PHY's device tree properties. */
-> +	ret = device_property_read_u32(&mhdp->phy->dev, "cdns,num-lanes",
-> +				       &(lanes_prop));
-> +	if (ret)
-> +		mhdp->host.lanes_cnt = CDNS_LANE_4;
-> +	else
-> +		mhdp->host.lanes_cnt = lanes_prop;
-> +
-> +	ret = device_property_read_u32(&mhdp->phy->dev, "cdns,max-bit-rate",
-> +				       &(link_rate));
-> +	if (ret)
-> +		link_rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_8_1);
-> +	else
-> +		/* PHY uses Mb/s, DRM uses tens of kb/s. */
-> +		link_rate *= 100;
-> +
-> +	mhdp->host.link_rate = link_rate;
-> +	mhdp->host.volt_swing = CDNS_VOLT_SWING(3);
-> +	mhdp->host.pre_emphasis = CDNS_PRE_EMPHASIS(3);
-> +	mhdp->host.pattern_supp = CDNS_SUPPORT_TPS(1) |
-> +				  CDNS_SUPPORT_TPS(2) | CDNS_SUPPORT_TPS(3) |
-> +				  CDNS_SUPPORT_TPS(4);
-> +	mhdp->host.lane_mapping = CDNS_LANE_MAPPING_NORMAL;
-> +	mhdp->host.fast_link = false;
-> +	mhdp->host.enhanced = true;
-> +	mhdp->host.scrambler = true;
-> +	mhdp->host.ssc = false;
-> +
-> +	/* The only currently supported format */
-> +	mhdp->display_fmt.y_only = false;
-> +	mhdp->display_fmt.color_format = DRM_COLOR_FORMAT_RGB444;
-> +	mhdp->display_fmt.bpc = 8;
-> +
-> +	mhdp->bridge.of_node = pdev->dev.of_node;
-> +	mhdp->bridge.funcs = &cdns_mhdp_bridge_funcs;
-> +
-> +	ret = phy_init(mhdp->phy);
-> +	if (ret) {
-> +		dev_err(mhdp->dev, "Failed to initialize PHY: %d\n", ret);
-> +		goto runtime_put;
-> +	}
-> +
-> +	ret = load_firmware(mhdp);
-> +	if (ret)
-> +		goto phy_exit;
-> +
-> +	drm_bridge_add(&mhdp->bridge);
-> +
-> +	return 0;
-> +
-> +phy_exit:
-> +	phy_exit(mhdp->phy);
-> +plat_fini:
-> +	if (mhdp->ops && mhdp->ops->exit)
-> +		mhdp->ops->exit(mhdp);
-> +runtime_put:
-> +	pm_runtime_put_sync(&pdev->dev);
-> +	pm_runtime_disable(&pdev->dev);
-> +clk_disable:
-> +	clk_disable_unprepare(mhdp->clk);
-> +
-> +	return ret;
-> +}
-> +
-> +MODULE_FIRMWARE(FW_NAME);
-> +
-> +static int mhdp_remove(struct platform_device *pdev)
-> +{
-> +	struct cdns_mhdp_device *mhdp = dev_get_drvdata(&pdev->dev);
-> +	unsigned int timeout = 10;
-> +	bool stop_fw = false;
-> +	int ret = 0;
-> +
-> +	if (mhdp->ops && mhdp->ops->exit)
-> +		mhdp->ops->exit(mhdp);
-> +
-> +	drm_bridge_remove(&mhdp->bridge);
-> +
-> +wait_loading:
-> +	spin_lock(&mhdp->start_lock);
-> +	if (mhdp->hw_state == MHDP_HW_LOADING && timeout-- > 0) {
-> +		spin_unlock(&mhdp->start_lock);
-> +		msleep(100);
-> +		goto wait_loading;
-> +	} else if (mhdp->hw_state == MHDP_HW_READY) {
-> +		stop_fw = true;
-> +		timeout = 1; /* We were successful even if counter reached 0 */
-> +	}
-> +	mhdp->hw_state = MHDP_HW_STOPPED;
-> +	spin_unlock(&mhdp->start_lock);
-> +
-> +	if (timeout == 0)
-> +		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
-> +			__func__);
-> +
-> +	if (stop_fw) {
-> +		ret = cdns_mhdp_set_firmware_active(mhdp, false);
-> +		if (ret)
-> +			dev_err(mhdp->dev, "%s: De-activate FW failed: %d\n",
-> +				__func__, ret);
-> +	}
-> +
-> +	phy_exit(mhdp->phy);
-> +
-> +	pm_runtime_put_sync(&pdev->dev);
-> +	pm_runtime_disable(&pdev->dev);
-> +
-> +	clk_disable_unprepare(mhdp->clk);
-> +
-> +	/* FIXME: check for missing functions */
-> +
-> +	return ret;
-> +}
-
-The sequence here does not match what's done at probe()'s error handling. It probably should.
-
-The FIXME here sounds something that has to be fixed (or removed).
-
-There were also a few FIXMEs in the code, I think think it would be good to review all those, and 
-see if they're still valid, and perhaps add a bit more explanation to each.
-
-> +/* mailbox */
-> +#define MAILBOX_RETRY_US			1000
-> +#define MAILBOX_TIMEOUT_US			5000000
-
-This is 5 seconds. It sounds pretty long time to wait in a blocking function.
-
-  Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBGZWIgMTMsIDIwMjAgYXQgMTA6MDMgQU0gSnlyaSBTYXJoYSA8anNhcmhhQHRpLmNv
+bT4gd3JvdGU6Cj4KPiBPbiAxMi8wMi8yMDIwIDIyOjI4LCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+
+ID4gT24gV2VkLCBGZWIgMTIsIDIwMjAgYXQgNzowMSBQTSBKeXJpIFNhcmhhIDxqc2FyaGFAdGku
+Y29tPiB3cm90ZToKPiA+Pgo+ID4+IE9uIDEyLzAyLzIwMjAgMTY6MzMsIFZpbGxlIFN5cmrDpGzD
+pCB3cm90ZToKPiA+Pj4gT24gV2VkLCBGZWIgMTIsIDIwMjAgYXQgMDQ6MDg6MTFQTSArMDIwMCwg
+SnlyaSBTYXJoYSB3cm90ZToKPiA+Pj4+IE9uIDEyLzAyLzIwMjAgMTU6NTksIEp5cmkgU2FyaGEg
+d3JvdGU6Cj4gPj4+Pj4gVGhlIG9sZCBpbXBsZW1lbnRhdGlvbiBvZiBwbGFjaW5nIHBsYW5lcyBv
+biB0aGUgQ1JUQyB3aGlsZSBjb25maWd1cmluZwo+ID4+Pj4+IHRoZSBwbGFuZXMgd2FzIG5haXZl
+IGFuZCByZWxpZWQgb24gdGhlIG9yZGVyIGluIHdoaWNoIHRoZSBwbGFuZXMgd2VyZQo+ID4+Pj4+
+IGNvbmZpZ3VyZWQsIGVuYWJsZWQsIGFuZCBkaXNhYmxlZC4gVGhlIHNpdHVhdGlvbiB3aGVyZSBh
+IHBsYW5lJ3MgenBvcwo+ID4+Pj4+IHdhcyBjaGFuZ2VkIG9uIHRoZSBmbHkgd2FzIGNvbXBsZXRl
+bHkgYnJva2VuLiBUaGUgdXN1YWwgc3ltcHRvbXMgb2YKPiA+Pj4+PiB0aGlzIHByb2JsZW0gd2Fz
+IHNjcmFtYmxlZCBkaXNwbGF5IGFuZCBhIGZsb29kIG9mIHN5bmMgbG9zdCBlcnJvcnMsCj4gPj4+
+Pj4gd2hlbiBhIHBsYW5lIHdhcyBhY3RpdmUgaW4gdHdvIGxheWVycyBhdCB0aGUgc2FtZSB0aW1l
+LCBvciBhIG1pc3NpbmcKPiA+Pj4+PiBwbGFuZSwgaW4gY2FzZSB3aGVuIGEgbGF5ZXIgd2FzIGFj
+Y2lkZW50YWxseSBkaXNhYmxlZC4KPiA+Pj4+Pgo+ID4+Pj4+IFRoZSByZXdyaXRlIHRha2VzIGEg
+bW9yZSBzdHJhaWdodCBmb3J3YXJkIGFwcHJvYWNoIHdoZW4gSFcgaXMKPiA+Pj4+PiBjb25jZXJu
+ZWQuIFRoZSBwbGFuZSBwb3NpdGlvbmluZyByZWdpc3RlcnMgYXJlIGluIHRoZSBDUlRDIChhY3R1
+YWxseQo+ID4+Pj4+IE9WUikgcmVnaXN0ZXIgc3BhY2UgYW5kIGl0IGlzIG1vcmUgbmF0dXJhbCB0
+byBjb25maWd1cmUgdGhlbSBpbiBvbmUgZ28KPiA+Pj4+PiB3aGlsZSBjb25maWd1cmluZyB0aGUg
+Q1JUQy4gVG8gZG8gdGhpcyB3ZSBuZWVkIHRvIG1ha2Ugc3VyZSB3ZSBoYXZlCj4gPj4+Pj4gYWxs
+IHRoZSBwbGFuZXMgb24gdXBkYXRlZCBDUlRDcyBpbiB0aGUgbmV3IGF0b21pYyBzdGF0ZSB0byBi
+ZQo+ID4+Pj4+IGNvbW1pdHRlZC4gVGhpcyBpcyBkb25lIGJ5IGNhbGxpbmcgZHJtX2F0b21pY19h
+ZGRfYWZmZWN0ZWRfcGxhbmVzKCkgaW4KPiA+Pj4+PiBjcnRjX2F0b21pY19jaGVjaygpLgo+ID4+
+Pj4+Cj4gPj4+Pj4gU2lnbmVkLW9mZi1ieTogSnlyaSBTYXJoYSA8anNhcmhhQHRpLmNvbT4KPiA+
+Pj4+PiAtLS0KPiA+Pj4+PiAgZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2NydGMuYyAgfCA1
+NSArKysrKysrKysrKysrKysrKysrKysrKysrKysrLQo+ID4+Pj4+ICBkcml2ZXJzL2dwdS9kcm0v
+dGlkc3MvdGlkc3NfZGlzcGMuYyB8IDU1ICsrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tCj4g
+Pj4+Pj4gIGRyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19kaXNwYy5oIHwgIDUgKysrCj4gPj4+
+Pj4gIDMgZmlsZXMgY2hhbmdlZCwgNzkgaW5zZXJ0aW9ucygrKSwgMzYgZGVsZXRpb25zKC0pCj4g
+Pj4+Pj4KPiA+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2Ny
+dGMuYyBiL2RyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19jcnRjLmMKPiA+Pj4+PiBpbmRleCAw
+MzJjMzFlZTI4MjAuLmY3YzVmZDEwOTRhOCAxMDA2NDQKPiA+Pj4+PiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdGlkc3MvdGlkc3NfY3J0Yy5jCj4gPj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rp
+ZHNzL3RpZHNzX2NydGMuYwo+ID4+Pj4gLi4uCj4gPj4+Pj4gQEAgLTEwOCw3ICsxMTAsNTQgQEAg
+c3RhdGljIGludCB0aWRzc19jcnRjX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2NydGMgKmNydGMs
+Cj4gPj4+Pj4gICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4gPj4+Pj4gICAgIH0KPiA+Pj4+
+Pgo+ID4+Pj4+IC0gICByZXR1cm4gZGlzcGNfdnBfYnVzX2NoZWNrKGRpc3BjLCBod192aWRlb3Bv
+cnQsIHN0YXRlKTsKPiA+Pj4+PiArICAgcmV0ID0gZGlzcGNfdnBfYnVzX2NoZWNrKGRpc3BjLCBo
+d192aWRlb3BvcnQsIHN0YXRlKTsKPiA+Pj4+PiArICAgaWYgKHJldCkKPiA+Pj4+PiArICAgICAg
+ICAgICByZXR1cm4gcmV0Owo+ID4+Pj4+ICsKPiA+Pj4+PiArICAgLyogQWRkIHVuY2hhbmdlZCBw
+bGFuZXMgb24gdGhpcyBjcnRjIHRvIHN0YXRlIGZvciB6cG9zIHVwZGF0ZS4gKi8KPiA+Pj4+PiAr
+ICAgcmV0dXJuIGRybV9hdG9taWNfYWRkX2FmZmVjdGVkX3BsYW5lcyhzdGF0ZS0+c3RhdGUsIGNy
+dGMpOwo+ID4+Pj4KPiA+Pj4+IElzIHRoaXMgYSBjb3JyZWN0IHdheSB0byB1c2UgZHJtX2F0b21p
+Y19hZGRfYWZmZWN0ZWRfcGxhbmVzKCk/Cj4gPj4+Pgo+ID4+Pj4gSSBzYXcgdGhhdCBzb21lIG90
+aGVyIGRyaXZlcnMgaW1wbGVtZW50IHRoZWlyIG93biBtb2RlX2NvbmZpZwo+ID4+Pj4gYXRvbWlj
+X2NoZWNrKCkgYW5kIGhhdmUgdGhpcyBjYWxsIHRoZXJlIGluCj4gPj4+PiBmb3JfZWFjaF9uZXdf
+Y3J0Y19pbl9zdGF0ZSgpLWxvb3AsIGJ1dCBJIHRob3VnaHQgaXQgc2hvdWxkIGJlIGZpbmUgdG8K
+PiA+Pj4+IGNhbGwgaXQgaW4gY3J0Y19hdG9taWNfY2hlY2soKS4KPiA+Pj4KPiA+Pj4gWW91IHNl
+ZW0gdG8gYmUgdXNpbmcgZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfcGxhbmVzKCksIHdoaWNoIG1l
+YW5zCj4gPj4+IGNydGMuYXRvbWljX2NoZWNrKCkgZ2V0cyBjYWxsZWQgYWZ0ZXIgcGxhbmUuYXRv
+bWljX2NoZWNrKCkuIFNvIHRoaXMKPiA+Pj4gbWlnaHQgYmUgZ29vZCBvciBiYWQgZGVwZW5kaW5n
+IG9uIHdoZXRoZXIgeW91J2QgbGlrZSB0aGUgcGxhbmVzIHlvdQo+ID4+PiBhZGQgaGVyZSB0byBn
+byB0aHJvdWdoIHRoZWlyIC5hdG9taWNfY2hlY2soKSBvciBub3QuCj4gPj4+Cj4gPj4KPiA+PiBT
+aG91bGQgaGF2ZSB0aG91Z2h0IG9mIHRoYXQgbXkgc2VsZi4gRXh0cmEgcGxhbmUuYXRvbWljX2No
+ZWNrKCkgY2FsbHMgZG8KPiA+PiBub3QgZG8gYW55IGFjdHVhbCBoYXJtLCBidXQgdGhleSBhcmUg
+cG90ZW50aWFsbHkgZXhwZW5zaXZlLiBUaGUgcGxhbmVzCj4gPj4gYXJlIHJlYWxseSBvbmx5IG5l
+ZWRlZCB0aGVyZSBpbiB0aGUgY29tbWl0IHBoYXNlIChjcnRjX2VuYWJsZSgpIG9yCj4gPj4gZmx1
+c2goKSkuIFdlbGwsIEknbGwgZG8gbXkgb3duIG1vZGVfY29uZmlnLmF0b21pY19jaGVjaygpIGFu
+ZCBjYWxsCj4gPj4gZHJtX2F0b21pY19hZGRfYWZmZWN0ZWRfcGxhbmVzKCkgaW4gYSBmb3JfZWFj
+aF9uZXdfY3J0Y19pbl9zdGF0ZSgpLWxvb3AKPiA+PiBhZnRlciBhbGwgdGhlIGNoZWNrcy4KPiA+
+Cj4gPiBBbHNvLCBpZiB5b3UgZG8gdXNlIHRoZSBoZWxwZXJzIHRoZW4gdGhpcyBzaG91bGQgYWxy
+ZWFkeSBoYXZlIGhhcHBlbmVkCj4gPiBmb3IgeW91LiBXaGljaCBtYWtlcyBtZSB3b25kZXIgd2h5
+IGFsbCB0aGlzIHdvcmssIHNvIG1heWJlIHRoZXJlJ3MKPiA+IHNvbWUgZGVwZW5kZW5jeSBiZXR3
+ZWVuIGFsbCB0aGUgdmFyaW91cyBjaGVjayBmdW5jdGlvbnMgeW91IGhhdmUgZ29pbmcKPiA+IG9u
+PyBNaWdodCBiZSB0aW1lIHRvIHJvbGwgeW91ciBvd24gdG9wLWxldmVsIGNoZWNrIGZ1bmN0aW9u
+IHRoYXQgY2FsbHMKPgo+ID4gc3R1ZmYgaW4gdGhlIG9yZGVyIHlvdXIgaHcgbmVlZHMgdGhpbmdz
+IHRvIGJlIGNoZWNrZWQsIHNvIHRoYXQgeW91Cj4gPiBkb24ndCBhZGQgbmV3IHN0YXRlcyBsYXRl
+IGFuZCBoYXZlIHRvIHJ1biBvbmUgY2hlY2sgcGhhc2UgdHdpY2UgKHdoaWNoCj4gPiBpcyB0b3Rh
+bGx5IGZpbmUgd2l0aCB0aGUgaGVscGVycyBhcyBsb25nIGFzIGFsbCB5b3VyIGNoZWNrIGNhbGxi
+YWNrcwo+ID4gYXJlIGlkZW1wb3RlbnQsIGJ1dCBvZnRlbiBqdXN0IG92ZXJraWxsIGFuZCBjb25m
+dXNpbmcpLgo+Cj4gQWxsIHRoZSBkcml2ZXIgc3BlY2lmaWMgY2hlY2tzIGFyZSBwZXJmZWN0bHkg
+aW5kZXBlbmRlbnQgd2l0aG91dCBhbnkKPiBjcm9zcyBkZXBlbmRlbmNpZXMuIEFuZCB0aGVyZSBp
+cyBubyBleHRyYSBkYXRhIGluIHRoZSBwbGFuZS0gb3IKPiBDUlRDLXN0YXRlLCBub3IgZG8gdGhl
+IGRyaXZlciBzcGVjaWZpYyBjaGVja3MgdG91Y2ggdGhlIHN0YXRlIGluIGFueSB3YXkuCj4KPiBJ
+IG9ubHkgd2FudCBhbGwgdGhlIHBsYW5lcyBvbiBhIGNydGMgdG8gYmUgdGhlcmUsIGlmIGFueSBv
+ZiB0aGUgcGxhbmVzCj4gb24gdGhlIENSVEMgY2hhbmdlcywgc28gdGhhdCBJIGNhbiB3cml0ZSB0
+aGUgcGxhbmUgcG9zaXRpb25zIGZyb20gdGhlCj4gc2NyYXRjaCBkaXJlY3RseSBmcm9tIHRoZSBh
+dG9taWMgc3RhdGUgd2l0aCBlYWNoIGNvbW1pdC4KCllvdSAvc2hvdWxkLyBnZXQgdGhpcyBhbHJl
+YWR5IHdpdGggdGhlIGF0b21pYyBoZWxwZXJzLCBubyBmdXJ0aGVyCmFjdGlvbiBuZWVkZWQuIERv
+ZXMgaXQgbm90IHdvcms/Cgo+IExvbmcgZXhwbGFuYXRpb24gKGlmIHlvdSBhcmUgaW50ZXJlc3Rl
+ZCk6Cj4KPiBXaXRoIHRoZSBEU1MgSFcgdGhlIHBsYW5lcyBhcmUgcG9zaXRpb25lZCB0byBDUlRD
+cyBieSBmaWxsaW5nIGVhY2gKPiBwbGFuZSdzIGlkIGFuZCB4LHkgcG9zaXRpb24gdG8gY29ycmVj
+dCBvdmVybGF5IHJlZ2lzdGVyIGFjY29yZGluZyB0byB0aGUKPiBwbGFuZSdzIHpwb3MgKGVhY2gg
+b3ZlcmxheSByZWcgaGFzIGl0cyBvd24gc3RhdGljIHpwb3MpLgo+Cj4gVXNpbmcgdGhlIG5haXZl
+IGltcGxlbWVudGF0aW9uLCB0aGVyZSBpcyBhIHByb2JsZW0gaWYgSSBoYXZlIHBsYW5lMCBhdAo+
+IHpwb3MwIGFuZCBhbm90aGVyIGNvbW1pdCBjb21lcyB3aXRoIHBsYW5lMSBhdCB6cG9zMCBhbmQg
+cGxhbmUwIGRpc2FibGVkLgo+IElmIHBsYW5lMSBpbiB0aGUgY29tbWl0IGlzIGhhbmRsZWQgZmly
+c3QsIGl0IG92ZXJ3cml0ZXMgcGxhbmUwJ3MKPiBwcmV2aW91cyBwb3NpdGlvbiwgYW5kIHBsYW5l
+MCBoYW5kbGVkIGFmdGVyd2FyZHMgd2lsbCBkaXNhYmxlIGZyZXNobHkKPiBjb25maWd1cmVkIHBs
+YW5lMS4gVGhlcmUgaXMgbnVtYmVyIG9mIG90aGVyIHByb2JsZW1hdGljIGNhc2VzLgo+Cj4gT2ss
+IEkgY2FuIGVhc2lseSBmaXggdGhpcyBieSBzdG9yaW5nIHRoZSBwbGFuZSBwb3NpdGlvbnMgKHgs
+eSwgYW5kIHopIGluCj4gdGhlIGRyaXZlcidzIGludGVybmFsIHN0YXRlLCBhbmQgcm9sbGluZyB0
+aGUgcG9zaXRpb25zIG91dCBpbiB0aGUKPiBjcnRjX2VuYWJsZSgpIG9yIC1mbHVzaCgpLiBCdXQg
+SSBoYXZlIHVuZGVyc3Rvb2QgdGhlIGF0b21pYyBkcml2ZXJzCj4gc2hvdWxkIGF2b2lkIGhhdmlu
+ZyBhbnkgaW50ZXJuYWwgc3RhdGUuIFNvIHRoZSBvYnZpb3VzIGNob2ljZSB3b3VsZCBiZQo+IHRv
+IHJvbGwgb3V0IHRoZSBwbGFuZSBwb3NpdGlvbnMgZGlyZWN0bHkgZnJvbSB0aGUgYXRvbWljIHN0
+YXRlLiBIb3dldmVyLAo+IHRoZXJlIGlzIGEgcHJvYmxlbSB3aXRoIHRoYXQuCgpIbSBJJ20gbm90
+IGVudGlyZWx5IGZvbGxvd2luZyB0aGUgcHJvYmxlbSwgYnV0IGlmIHlvdSBoYXZlIHNvbWUKcmVx
+dWlyZW1lbnRzIGFyb3VuZCB0aGUgb3JkZXIgaW4gd2hpY2ggeW91ciBwbGFuZXMgbmVlZCB0byBi
+ZQpjb21taXR0ZWQsIHRoZW4gcm9sbCB5b3VyIG93biBwbGFuZSBjb21taXQgY29kZS4gQXQgbGVh
+c3QgZm9yIHRoZQpwYXJ0cyBvZiB0aGUgcGxhbmUgc3RhdGUgd2hpY2ggbmVlZCB0byBiZSBjb21t
+aXR0ZWQgbGlrZSB0aGF0LiBZb3UgY2FuCnRoZW4gc3R1ZmYgdGhhdCBpbnRvIG9uZSBvZiB5b3Vy
+IGNydGMgY29tbWl0IGZ1bmN0aW9ucy4KCkFuZCBJIGd1ZXNzICJjb21taXQgcGxhbmVzIGluIG9y
+ZGVyIG9mIHpwb3MiIGlzIHByb2JhYmx5IGZhaXJseSBjb21tb24KZHJpdmVyIHJlcXVpcmVtZW50
+LCB3ZSBtaWdodCB3YW50IHRvIGhhdmUgYSBzaGFyZWQgaXRlcmF0b3IgZm9yIHRoYXQuCgpBc2lk
+ZTogRHJpdmVyIHByaXZhdGUgc3RhdGUgaXMgdG90YWxseSBmaW5lLiBKdXN0IG5lZWRzIHRvIGJl
+IGF0dGFjaGVkCnRvIG9uZSBvZiB0aGUgZHJtXypfc3RhdGUgb2JqZWN0cyAoeW91IGNhbiBoYXZl
+IHByaXZhdGUgc3RhdGUgb2JqZWN0cwp0b28pLiBXaGF0J3Mgbm90IG9rIGluIGF0b21pYyBpcyBz
+dHVmZmluZyB0aGF0IGtpbmQgb2YgZGF0YSBpbnRvIHlvdXIKZHJtX2NydGMgc3RydWN0dXJlIChv
+ciBzb21ld2hlcmUgZWxzZSBsaWtlIHRoYXQpLCB0aGF0J3Mgd2hlcmUgdGhlCnByb2JsZW1zIGhh
+cHBlbi4KCj4gVGhlIHByb2JsZW0gYXBwZWFycyB3aGVuIEkgaGF2ZSBtb3JlIHRoYW4gb25lIHBs
+YW5lIGFjdGl2ZSBvbiBhIGNydGMgYW5kCj4gSSBqdXN0IG5lZWQgdG8gdXBkYXRlIG9uZSBvZiB0
+aGUgcGxhbmVzLiBJbiB0aGUgc2l0dWF0aW9uIG5vdGhpbmcKPiBjaGFuZ2VzIGFib3V0IHRoZSBD
+UlRDIGFuZCB0aGUgdW5jaGFuZ2VkIHBsYW5lcywgc28gaXQgaXMgcXVpdGUKPiB1bmRlcnN0YW5k
+YWJsZSB0aGF0IHRoZSBoZWxwZXJzIGRvIG5vdCBhZGQgdGhlIHVuY2hhbmdlZCBwbGFuZXMgdG8g
+dGhlCj4gYXRvbWljIHN0YXRlLiBCdXQgaWYgSSB3YW50IHRvIHJvbGwgb3V0IHRoZSBuZXcgcGxh
+bmUgcG9zaXRpb25zIGZyb20gdGhlCj4gc2NyYXRjaCB3aXRoIGV2ZXJ5IGNvbW1pdCB0aGF0IHRv
+dWNoZXMgYW55IHBsYW5lIG9uIHRoYXQgQ1JUQywgSSBuZWVkIHRvCj4gaGF2ZSB0aGUgdW5jaGFu
+Z2VkIHBsYW5lcyB0aGVyZS4KPgo+IFNvIHRoZSBkcm1fYXRvbWljX2FkZF9hZmZlY3RlZF9wbGFu
+ZXMoKS1jYWxscyBhcmUgYWRkZWQganVzdCB0byBhdm9pZAo+IGFueSBpbnRlcm5hbCBwbGFuZSBw
+b3NpdGlvbiBzdGF0ZSBpbiB0aGUgZHJpdmVyLgoKQWdhaW4sIHRoaXMgc2hvdWxkIGFsbCBoYXBw
+ZW4gYWxyZWFkeS4KLURhbmllbAotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwg
+SW50ZWwgQ29ycG9yYXRpb24KKzQxICgwKSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZnds
+bC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
