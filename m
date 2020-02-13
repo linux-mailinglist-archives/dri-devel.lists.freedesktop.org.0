@@ -2,58 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0612915BBC8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 10:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A81415BC11
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 10:51:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3408C6F58C;
-	Thu, 13 Feb 2020 09:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1803C6E1B5;
+	Thu, 13 Feb 2020 09:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB4F6E1B4;
- Thu, 13 Feb 2020 09:37:46 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id v17so5798992ljg.4;
- Thu, 13 Feb 2020 01:37:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=x1uTFITKhLxzVzee+k3tQ8V59oEPfPCP93q7/PxjW3s=;
- b=I4OMJuI3Nm+eJXqs8pHkLkaTsBQvDeYWIMRKp9jFQS3XP6nOjD72BNLQ0J1kgZVAHB
- Km2z6QgBEacpFpJEIiuyodgBFFZnqta94SNopy61V8G7c4WeHoCuLZ5u1hhAVtgmHGmB
- 9ePbYihOD183kc4TZL2nL2VS9ifkh4nkAUQOu20zByE1ZuxrzwGlR3GlGLaVZoL5+TgI
- 2H8e28XsHA9qYnfYs3M9JElg7npi6d/6IY8Xw1zyx6c0PYr+XtHRsMBEUpZzVl3bs/k+
- ljPndOoZiZ/ED2ZBqnPFcjT9l+dXyIVs4geFKKXJ1hbxnySF9I2S2279d2aos21BNCKV
- tBgQ==
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89E036E1B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 09:51:16 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id s144so6679680wme.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 01:51:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AxRD0g14NHM/J+SpVc2fYE9H/KcEvjTrbN0nCouyCsM=;
+ b=hy+stD4V0kXZJPfTU0Nn+l2s+wDkYgqxGPqzozxsujvZ+E/agL7fX1mDreRFlJU4gk
+ eQxb6SKyH4/7IkkJWLpesPXM2EjMAR02BuP3ik6d9s5+8+9OpYcMi2uhW5nb0aPmiIAy
+ jJHGiPg96o08787+h2J9YhdbqqmU/E13bKOdhQOnlXF/NqAJLKJH5ZrTObpaALi4UI3i
+ +jKLolHkAJiJCJQ53wfMvingbzAOiuKK0OfHfr7Irvx7JZlnUWe6jin7PGJCx+cOq6K/
+ Hw51JS0i1zBLDscNLNuIHCCkW8MRI8dkleqmg2f95tY4R8ZCMF4iGkj4IBnc4ALAQcha
+ UFog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=x1uTFITKhLxzVzee+k3tQ8V59oEPfPCP93q7/PxjW3s=;
- b=YIvumFad7pshMtLfoggaSx3IZeyKDutlSxcxJOoJjLvtSjvdF1eGSeqtESFwhaElhf
- 1YmZwIGfKx6yWUmo/SmyjlfV5wPUQsCDS9e7VYRgGX48QhJG36vy7CVRsMddtuXH+BT4
- hMhzp1/YIDV3UxDXQnFzXRaNPKfrOy9Id9Qg80w7mmxeYdenOsZ6ILC8ePzEhDni2yYZ
- geKhtw6KtC4m04tWMkIcIFGoKDCd6jeFNu+thezKjJUMOrwWyBFusGlHWYQC9nJTNMnq
- d6MIZD73HRX605nIUaqKI+0Og8nIrcr+LB7ZPDGUjpfBgx4Ka+B6qpIiqkUMDwShnXE4
- NbnQ==
-X-Gm-Message-State: APjAAAUpd9YC4ENGRpQ0UMmFYXqX3J4eCYcsw3HsblUB+JCtTs6I2QH/
- H0V8KspI6fOTnrywTuiDzkA=
-X-Google-Smtp-Source: APXvYqzIYE2WKOubneNRJiahMwmdQ/HXGAhodg4hWIQI5vknFxHJAHcCeKRyHDKx7f0X+AOBQIVYlA==
-X-Received: by 2002:a05:651c:1bb:: with SMTP id
- c27mr10930475ljn.277.1581586664785; 
- Thu, 13 Feb 2020 01:37:44 -0800 (PST)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id g15sm1060755ljl.10.2020.02.13.01.37.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 01:37:44 -0800 (PST)
-Date: Thu, 13 Feb 2020 11:37:40 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Xiaowen Wu <wxiaowen@codeaurora.org>
-Subject: Re: backend-drm and scanning really large resolutions
-Message-ID: <20200213113740.07af1263@eldfell.localdomain>
-In-Reply-To: <20d5d2e0af60ca486fc31fb09e6f4aa4@codeaurora.org>
-References: <20d5d2e0af60ca486fc31fb09e6f4aa4@codeaurora.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=AxRD0g14NHM/J+SpVc2fYE9H/KcEvjTrbN0nCouyCsM=;
+ b=tVsSOYLkp4321A6YEztkINAu9TNB3a3Yhc4UVVHzX8C8xUo2Wozti3KhV8lemYqKZL
+ CyzP1UPDAJaT2wTiveTLE9krESLe6SV8zAtkFu17jdghrZWKTRwDBz4VEct7qw6ofYvV
+ FQ1Ktu8/OrhieRuO+6WC0RfMxUmEw+oFQQ7I6y9i9mDqjadJP8tAIIDflYz7BC29716Y
+ pKD+H7xYVujAS10tOzmSG1lOFzHx/v8a8+YYhGWCWwfNoYSQTdwxLPebsKfZcU6SizOO
+ o8E9MtttKHH09ZYhA0ltOKHnY7Smk5tOVqfjRnv5f+thMCQQdQWCXdWimlKfmMfeoCT0
+ FYHA==
+X-Gm-Message-State: APjAAAXo5KB/rJsA7WGjH2vQtorYqdsI3oiLO42Y+QqQInuTmG3f1NwE
+ MzAfesrTzvE7F9TXTfMerAbTXQ==
+X-Google-Smtp-Source: APXvYqw+4XV1nmLfa4ZQ62WE/lPnKl10ITfo8G7sqKFHuuRT3ZVYYLrerYuZnS+Vmzdlh8DBIsgueg==
+X-Received: by 2002:a7b:cc97:: with SMTP id p23mr4842060wma.89.1581587474908; 
+ Thu, 13 Feb 2020 01:51:14 -0800 (PST)
+Received: from [10.1.3.173]
+ (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id q130sm2496895wme.19.2020.02.13.01.51.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Feb 2020 01:51:13 -0800 (PST)
+Subject: Re: [PATCH v3 0/9] drm/bridge: ti-sn65dsi86: Improve support for AUO
+ B116XAK01 + other DP
+To: Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>
+References: <20191218223530.253106-1-dianders@chromium.org>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <6c592da1-c3fd-5ed8-64ef-ce4b63bf0364@baylibre.com>
+Date: Thu, 13 Feb 2020 10:51:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20191218223530.253106-1-dianders@chromium.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,162 +124,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- wayland-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1249462657=="
+Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, seanpaul@chromium.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1249462657==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/6wt5tjYq/+7Vt=rtZK6e6ou"; protocol="application/pgp-signature"
+On 18/12/2019 23:35, Douglas Anderson wrote:
+> This series contains a pile of patches that was created to support
+> hooking up the AUO B116XAK01 panel to the eDP side of the bridge.  In
+> general it should be useful for hooking up a wider variety of DP
+> panels to the bridge, especially those with lower resolution and lower
+> bits per pixel.
+> 
+> The overall result of this series:
+> * Allows panels with fewer than 4 DP lanes hooked up to work.
+> * Optimizes the link rate for panels with 6 bpp.
+> * Supports trying more than one link rate when training if the main
+>   link rate didn't work.
+> * Avoids invalid link rates.
+> 
+> It's not expected that this series will break any existing users but
+> testing is always good.
+> 
+> To support the AUO B116XAK01, we could actually stop at the ("Use
+> 18-bit DP if we can") patch since that causes the panel to run at a
+> link rate of 1.62 which works.  The patches to try more than one link
+> rate were all developed prior to realizing that I could just use
+> 18-bit mode and were validated with that patch reverted.
+> 
+> These patches were tested on sdm845-cheza atop mainline as of
+> 2019-12-13 and also on another board (the one with AUO B116XAK01) atop
+> a downstream kernel tree.
+> 
+> This patch series doesn't do anything to optimize the MIPI link and
+> only focuses on the DP link.  For instance, it's left as an exercise
+> to the reader to see if we can use the 666-packed mode on the MIPI
+> link and save some power (because we could lower the clock rate).
+> 
+> I am nowhere near a display expert and my knowledge of DP and MIPI is
+> pretty much zero.  If something about this patch series smells wrong,
+> it probably is.  Please let know and I'll try to fix it.
+> 
+> Changes in v3:
+> - Init rate_valid table, don't rely on stack being 0 (oops).
+> - Rename rate_times_200khz to rate_per_200khz.
+> - Loop over the ti_sn_bridge_dp_rate_lut table, making code smaller.
+> - Use 'true' instead of 1 for bools.
+> - Added note to commit message noting DP 1.4+ isn't well tested.
+> 
+> Changes in v2:
+> - Squash in maybe-uninitialized fix from Rob Clark.
+> - Patch ("Avoid invalid rates") replaces ("Skip non-standard DP rates")
+> 
+> Douglas Anderson (9):
+>   drm/bridge: ti-sn65dsi86: Split the setting of the dp and dsi rates
+>   drm/bridge: ti-sn65dsi86: zero is never greater than an unsigned int
+>   drm/bridge: ti-sn65dsi86: Don't use MIPI variables for DP link
+>   drm/bridge: ti-sn65dsi86: Config number of DP lanes Mo' Betta
+>   drm/bridge: ti-sn65dsi86: Read num lanes from the DP sink
+>   drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
+>   drm/bridge: ti-sn65dsi86: Group DP link training bits in a function
+>   drm/bridge: ti-sn65dsi86: Train at faster rates if slower ones fail
+>   drm/bridge: ti-sn65dsi86: Avoid invalid rates
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 259 +++++++++++++++++++++-----
+>  1 file changed, 216 insertions(+), 43 deletions(-)
+> 
 
---Sig_/6wt5tjYq/+7Vt=rtZK6e6ou
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Adding Rob back in CC, I don't know if he is subscribed to
-wayland-devel@. You forgot to CC dri-devel@ too.
-
-
-On Tue, 11 Feb 2020 17:18:52 -0500
-Xiaowen Wu <wxiaowen@codeaurora.org> wrote:
-
-> Hi Rob,
->=20
-> If the vendor driver doesn't have the hwpipe sub-object and kms plane is=
-=20
-> one-to-one mapped to hwpipe (sspp),
-> do you think if below approach is acceptable if we still want to=20
-> virtualize the kms plane to support 4K/8K scanout?
->=20
-> 1. At kms atomic check before calling drm_atomic_helper_check, depending=
-=20
-> on scanout width of plane A in state, add idle planes B (C,D,...)
-> into the same atomic state, backup and then modify=20
-> src_x/src_w/crtc_x/crtc_w of plane A and the affected planes B (C,D,...)=
-=20
-> to meet scanout
-> width limits, and set crtc/fb of the affected planes B (C,D,...) same as=
-=20
-> plane A.
->=20
-> 2. At plane's state duplicate function, check if plane's=20
-> src_x/src_w/crtc_x/crtc_w are updated at step 1), if so revert the=20
-> change to
-> plane A's backup value to allow plane A's scanout to update again. These=
-=20
-> value will again be updated in step 1) so nothing really changes
-> if plane A continues updating.
->=20
-> 3. If plane A's scanout is updated or detached from crtc, detach=20
-> affected planes B (C,D,...) in the same atomic state in step 1) and then=
-=20
-> run step 1) again.
->=20
-> 4. If user want to commit plane B (C,D,...), the commit/test will fail=20
-> if planes are already used as sister plane of plane A. This failure is=20
-> same
-> as insufficient hwpipe from plane B (C,D,...).
->=20
-> With above change, any downstream driver can support virtualized plane.=20
-> Also as the above approach is generic and not h/w specific, we can make
-> it a helper function and it's up to vendor to choose if they want to use=
-=20
-> or not, if they don't have logic like drm/msm/disp/mdp5/mdp5_plane in
-> their downstream driver.
->=20
-> Conceptional above changes didn't borrow hwpipe resources from other=20
-> plane but borrow planes themselves directly, however from user point of=20
-> view
-> they should not feel any difference.
->=20
-> What do you think?
->=20
-> BR,
-> Xiaowen Wu
->=20
->=20
-> On Tue Jan 21, 2020 at 4:12 PM Rob Clark <robdclark at gmail.com> wrote:
-> > On Fri, Jan 17, 2020 at 8:52 AM Matt Hoosier <matt.hoosier at  =20
-> > gmail.com> wrote:
-> >>=20
-> >> Hi all,
-> >>=20
-> >> I'm confronting a situation where the hardware with which I work is=20
-> >> capable of driving connectors at 4K or 8K, but doing so requires=20
-> >> bonding the scanning of multiple planes together.
-> >>=20
-> >> The scenario is that you'd have a big primary framebuffer whose size=20
-> >> is too large for an individual hardware scanning pipeline on the=20
-> >> display controller to traverse within its maximum allowed clock rate.
-> >>=20
-> >> The hardware supplier's approach is to assign multiple planes, which=20
-> >> in the KMS driver map to hardware scanning pipelines, to each be=20
-> >> responsible for scanning a smaller section of the framebuffer. The=20
-> >> planes are all assigned to the same CRTC, and in concert with each=20
-> >> other they cover the whole area of the framebuffer and CRTC.
-> >>=20
-> >> This sounds a little bit wild to me. I hadn't been aware it's even=20
-> >> legal to have more than one plane treated a the source of scanout for=
-=20
-> >> a single framebuffer. Maybe that distinction isn't really relevant=20
-> >> nowadays with universal plane support.
-> >>  =20
-> >=20
-> > fwiw, have a look at drm/msm/disp/mdp5/mdp5_plane, which will allocate
-> > one or two hwpipe's from the devices global atomic state, depending on
-> > scanout width.. the hwpipe (sspp) is the physical resource behind a
-> > plane, so essentially the kms planes are virtualized.  At some point
-> > if you have too many wide layers, the atomic test step will fail due
-> > to insufficient hwpipe's.  But this sort of scenario is the reason for
-> > the test step.
-> >=20
-> > BR,
-> > -R
-> >  =20
-> >> I'm wondering if anybody here knows whether this a legit approach for=
-=20
-> >> a compositor's DRM backend to take?
-> >>  =20
-> _______________________________________________
-> wayland-devel mailing list
-> wayland-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/wayland-devel
-
-
---Sig_/6wt5tjYq/+7Vt=rtZK6e6ou
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl5FGOUACgkQI1/ltBGq
-qqdNqRAApfGEmOL9ghGVz2cJ0gOIYrodZiWFryKQ4IUeXEnViBdIHdXDb3TDnjcq
-Ka0nBiX7I6f+z3eKV9vNj60ttvd9sktLfIWqm/znQXYuRJaU2En3PKxTVWOS8/fq
-RsIqlkeBMLT8+z8HhT66MrJuMxteyYIHS/SiqUlqnxlvXDYiB/dmvD+Ux5yzV1Zi
-XzEO8WdeKHccLrQmJT1kZXP2GPqsIQE7hlQkLj32k+07x5c3U5JvONnjkfUPgIa8
-zPgGesQ+pV2WKrmf66HWW+WLF1zpE1cNT0AJtDcEdeaJtPGQOr/3i6Quc8d7GhZt
-OD6NoPvH2GMgxdo3cdf7XGKXvJLBF6D/GXa2h4idLKoaRgr2tkEx1EfGt4QaDcdX
-Vir5RTwruglptqu7vlKhi4RgHnoBoPcutvXQhIwvNb2BmbhZFAJRCcwDz042bvQG
-sR1avVqVz6PC59eimGh0Ogv7ftTS6H55aM0zdcRbAxyDTO/YB04s8RWBp0cmfVFN
-Nyk2JKIOyqOoZ+Tq2REq9doKzN9Q1pBOz/0eKm7TfMGRwIsbxYtQpRFTzda8Safm
-584pT3OFkM7oVbhvG7LuleOop4T9tF4cnEodTxEYjOiap39SXoh7baFXcXpSjdMY
-vfNLyoVJDqEDemF+mMiDM14J+Z/9Y2GFm07beB+xJo0s7sY49xE=
-=sfYA
------END PGP SIGNATURE-----
-
---Sig_/6wt5tjYq/+7Vt=rtZK6e6ou--
-
---===============1249462657==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Applied to drm-misc-next
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1249462657==--
