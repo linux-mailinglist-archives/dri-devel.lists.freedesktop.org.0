@@ -1,117 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A81415BC11
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 10:51:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C811C15BC27
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 10:53:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1803C6E1B5;
-	Thu, 13 Feb 2020 09:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA8976F58F;
+	Thu, 13 Feb 2020 09:53:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89E036E1B5
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 09:51:16 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id s144so6679680wme.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 01:51:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AxRD0g14NHM/J+SpVc2fYE9H/KcEvjTrbN0nCouyCsM=;
- b=hy+stD4V0kXZJPfTU0Nn+l2s+wDkYgqxGPqzozxsujvZ+E/agL7fX1mDreRFlJU4gk
- eQxb6SKyH4/7IkkJWLpesPXM2EjMAR02BuP3ik6d9s5+8+9OpYcMi2uhW5nb0aPmiIAy
- jJHGiPg96o08787+h2J9YhdbqqmU/E13bKOdhQOnlXF/NqAJLKJH5ZrTObpaALi4UI3i
- +jKLolHkAJiJCJQ53wfMvingbzAOiuKK0OfHfr7Irvx7JZlnUWe6jin7PGJCx+cOq6K/
- Hw51JS0i1zBLDscNLNuIHCCkW8MRI8dkleqmg2f95tY4R8ZCMF4iGkj4IBnc4ALAQcha
- UFog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=AxRD0g14NHM/J+SpVc2fYE9H/KcEvjTrbN0nCouyCsM=;
- b=tVsSOYLkp4321A6YEztkINAu9TNB3a3Yhc4UVVHzX8C8xUo2Wozti3KhV8lemYqKZL
- CyzP1UPDAJaT2wTiveTLE9krESLe6SV8zAtkFu17jdghrZWKTRwDBz4VEct7qw6ofYvV
- FQ1Ktu8/OrhieRuO+6WC0RfMxUmEw+oFQQ7I6y9i9mDqjadJP8tAIIDflYz7BC29716Y
- pKD+H7xYVujAS10tOzmSG1lOFzHx/v8a8+YYhGWCWwfNoYSQTdwxLPebsKfZcU6SizOO
- o8E9MtttKHH09ZYhA0ltOKHnY7Smk5tOVqfjRnv5f+thMCQQdQWCXdWimlKfmMfeoCT0
- FYHA==
-X-Gm-Message-State: APjAAAXo5KB/rJsA7WGjH2vQtorYqdsI3oiLO42Y+QqQInuTmG3f1NwE
- MzAfesrTzvE7F9TXTfMerAbTXQ==
-X-Google-Smtp-Source: APXvYqw+4XV1nmLfa4ZQ62WE/lPnKl10ITfo8G7sqKFHuuRT3ZVYYLrerYuZnS+Vmzdlh8DBIsgueg==
-X-Received: by 2002:a7b:cc97:: with SMTP id p23mr4842060wma.89.1581587474908; 
- Thu, 13 Feb 2020 01:51:14 -0800 (PST)
-Received: from [10.1.3.173]
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id q130sm2496895wme.19.2020.02.13.01.51.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Feb 2020 01:51:13 -0800 (PST)
-Subject: Re: [PATCH v3 0/9] drm/bridge: ti-sn65dsi86: Improve support for AUO
- B116XAK01 + other DP
-To: Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <a.hajda@samsung.com>
-References: <20191218223530.253106-1-dianders@chromium.org>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT7CwHsEEwEKACUC
- GyMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJXDO2CAhkBAAoJEBaat7Gkz/iubGIH/iyk
- RqvgB62oKOFlgOTYCMkYpm2aAOZZLf6VKHKc7DoVwuUkjHfIRXdslbrxi4pk5VKU6ZP9AKsN
- NtMZntB8WrBTtkAZfZbTF7850uwd3eU5cN/7N1Q6g0JQihE7w4GlIkEpQ8vwSg5W7hkx3yQ6
- 2YzrUZh/b7QThXbNZ7xOeSEms014QXazx8+txR7jrGF3dYxBsCkotO/8DNtZ1R+aUvRfpKg5
- ZgABTC0LmAQnuUUf2PHcKFAHZo5KrdO+tyfL+LgTUXIXkK+tenkLsAJ0cagz1EZ5gntuheLD
- YJuzS4zN+1Asmb9kVKxhjSQOcIh6g2tw7vaYJgL/OzJtZi6JlIXOwU0EVid/pAEQAND7AFhr
- 5faf/EhDP9FSgYd/zgmb7JOpFPje3uw7jz9wFb28Cf0Y3CcncdElYoBNbRlesKvjQRL8mozV
- 9RN+IUMHdUx1akR/A4BPXNdL7StfzKWOCxZHVS+rIQ/fE3Qz/jRmT6t2ZkpplLxVBpdu95qJ
- YwSZjuwFXdC+A7MHtQXYi3UfCgKiflj4+/ITcKC6EF32KrmIRqamQwiRsDcUUKlAUjkCLcHL
- CQvNsDdm2cxdHxC32AVm3Je8VCsH7/qEPMQ+cEZk47HOR3+Ihfn1LEG5LfwsyWE8/JxsU2a1
- q44LQM2lcK/0AKAL20XDd7ERH/FCBKkNVzi+svYJpyvCZCnWT0TRb72mT+XxLWNwfHTeGALE
- +1As4jIS72IglvbtONxc2OIid3tR5rX3k2V0iud0P7Hnz/JTdfvSpVj55ZurOl2XAXUpGbq5
- XRk5CESFuLQV8oqCxgWAEgFyEapI4GwJsvfl/2Er8kLoucYO1Id4mz6N33+omPhaoXfHyLSy
- dxD+CzNJqN2GdavGtobdvv/2V0wukqj86iKF8toLG2/Fia3DxMaGUxqI7GMOuiGZjXPt/et/
- qeOySghdQ7Sdpu6fWc8CJXV2mOV6DrSzc6ZVB4SmvdoruBHWWOR6YnMz01ShFE49pPucyU1h
- Av4jC62El3pdCrDOnWNFMYbbon3vABEBAAHCwn4EGAECAAkFAlYnf6QCGwICKQkQFpq3saTP
- +K7BXSAEGQECAAYFAlYnf6QACgkQd9zb2sjISdGToxAAkOjSfGxp0ulgHboUAtmxaU3viucV
- e2Hl1BVDtKSKmbIVZmEUvx9D06IijFaEzqtKD34LXD6fjl4HIyDZvwfeaZCbJbO10j3k7FJE
- QrBtpdVqkJxme/nYlGOVzcOiKIepNkwvnHVnuVDVPcXyj2wqtsU7VZDDX41z3X4xTQwY3SO1
- 9nRO+f+i4RmtJcITgregMa2PcB0LvrjJlWroI+KAKCzoTHzSTpCXMJ1U/dEqyc87bFBdc+DI
- k8mWkPxsccdbs4t+hH0NoE3Kal9xtAl56RCtO/KgBLAQ5M8oToJVatxAjO1SnRYVN1EaAwrR
- xkHdd97qw6nbg9BMcAoa2NMc0/9MeiaQfbgW6b0reIz/haHhXZ6oYSCl15Knkr4t1o3I2Bqr
- Mw623gdiTzotgtId8VfLB2Vsatj35OqIn5lVbi2ua6I0gkI6S7xJhqeyrfhDNgzTHdQVHB9/
- 7jnM0ERXNy1Ket6aDWZWCvM59dTyu37g3VvYzGis8XzrX1oLBU/tTXqo1IFqqIAmvh7lI0Se
- gCrXz7UanxCwUbQBFjzGn6pooEHJYRLuVGLdBuoApl/I4dLqCZij2AGa4CFzrn9W0cwm3HCO
- lR43gFyz0dSkMwNUd195FrvfAz7Bjmmi19DnORKnQmlvGe/9xEEfr5zjey1N9+mt3//geDP6
- clwKBkq0JggA+RTEAELzkgPYKJ3NutoStUAKZGiLOFMpHY6KpItbbHjF2ZKIU1whaRYkHpB2
- uLQXOzZ0d7x60PUdhqG3VmFnzXSztA4vsnDKk7x2xw0pMSTKhMafpxaPQJf494/jGnwBHyi3
- h3QGG1RjfhQ/OMTX/HKtAUB2ct3Q8/jBfF0hS5GzT6dYtj0Ci7+8LUsB2VoayhNXMnaBfh+Q
- pAhaFfRZWTjUFIV4MpDdFDame7PB50s73gF/pfQbjw5Wxtes/0FnqydfId95s+eej+17ldGp
- lMv1ok7K0H/WJSdr7UwDAHEYU++p4RRTJP6DHWXcByVlpNQ4SSAiivmWiwOt490+Ac7ATQRN
- WQbPAQgAvIoM384ZRFocFXPCOBir5m2J+96R2tI2XxMgMfyDXGJwFilBNs+fpttJlt2995A8
- 0JwPj8SFdm6FBcxygmxBBCc7i/BVQuY8aC0Z/w9Vzt3Eo561r6pSHr5JGHe8hwBQUcNPd/9l
- 2ynP57YTSE9XaGJK8gIuTXWo7pzIkTXfN40Wh5jeCCspj4jNsWiYhljjIbrEj300g8RUT2U0
- FcEoiV7AjJWWQ5pi8lZJX6nmB0lc69Jw03V6mblgeZ/1oTZmOepkagwy2zLDXxihf0GowUif
- GphBDeP8elWBNK+ajl5rmpAMNRoKxpN/xR4NzBg62AjyIvigdywa1RehSTfccQARAQABwsBf
- BBgBAgAJBQJNWQbPAhsMAAoJEBaat7Gkz/iuteIH+wZuRDqK0ysAh+czshtG6JJlLW6eXJJR
- Vi7dIPpgFic2LcbkSlvB8E25Pcfz/+tW+04Urg4PxxFiTFdFCZO+prfd4Mge7/OvUcwoSub7
- ZIPo8726ZF5/xXzajahoIu9/hZ4iywWPAHRvprXaim5E/vKjcTeBMJIqZtS4u/UK3EpAX59R
- XVxVpM8zJPbk535ELUr6I5HQXnihQm8l6rt9TNuf8p2WEDxc8bPAZHLjNyw9a/CdeB97m2Tr
- zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <6c592da1-c3fd-5ed8-64ef-ce4b63bf0364@baylibre.com>
-Date: Thu, 13 Feb 2020 10:51:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC846E1B9;
+ Thu, 13 Feb 2020 09:53:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2020 01:53:27 -0800
+X-IronPort-AV: E=Sophos;i="5.70,436,1574150400"; d="scan'208";a="227182853"
+Received: from sgearyx-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.51.121])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2020 01:53:23 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+Subject: [PULL] drm-intel-next-fixes for v5.6-rc2
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 13 Feb 2020 11:53:48 +0200
+Message-ID: <878sl6yfrn.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191218223530.253106-1-dianders@chromium.org>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,81 +41,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, seanpaul@chromium.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/12/2019 23:35, Douglas Anderson wrote:
-> This series contains a pile of patches that was created to support
-> hooking up the AUO B116XAK01 panel to the eDP side of the bridge.  In
-> general it should be useful for hooking up a wider variety of DP
-> panels to the bridge, especially those with lower resolution and lower
-> bits per pixel.
-> 
-> The overall result of this series:
-> * Allows panels with fewer than 4 DP lanes hooked up to work.
-> * Optimizes the link rate for panels with 6 bpp.
-> * Supports trying more than one link rate when training if the main
->   link rate didn't work.
-> * Avoids invalid link rates.
-> 
-> It's not expected that this series will break any existing users but
-> testing is always good.
-> 
-> To support the AUO B116XAK01, we could actually stop at the ("Use
-> 18-bit DP if we can") patch since that causes the panel to run at a
-> link rate of 1.62 which works.  The patches to try more than one link
-> rate were all developed prior to realizing that I could just use
-> 18-bit mode and were validated with that patch reverted.
-> 
-> These patches were tested on sdm845-cheza atop mainline as of
-> 2019-12-13 and also on another board (the one with AUO B116XAK01) atop
-> a downstream kernel tree.
-> 
-> This patch series doesn't do anything to optimize the MIPI link and
-> only focuses on the DP link.  For instance, it's left as an exercise
-> to the reader to see if we can use the 666-packed mode on the MIPI
-> link and save some power (because we could lower the clock rate).
-> 
-> I am nowhere near a display expert and my knowledge of DP and MIPI is
-> pretty much zero.  If something about this patch series smells wrong,
-> it probably is.  Please let know and I'll try to fix it.
-> 
-> Changes in v3:
-> - Init rate_valid table, don't rely on stack being 0 (oops).
-> - Rename rate_times_200khz to rate_per_200khz.
-> - Loop over the ti_sn_bridge_dp_rate_lut table, making code smaller.
-> - Use 'true' instead of 1 for bools.
-> - Added note to commit message noting DP 1.4+ isn't well tested.
-> 
-> Changes in v2:
-> - Squash in maybe-uninitialized fix from Rob Clark.
-> - Patch ("Avoid invalid rates") replaces ("Skip non-standard DP rates")
-> 
-> Douglas Anderson (9):
->   drm/bridge: ti-sn65dsi86: Split the setting of the dp and dsi rates
->   drm/bridge: ti-sn65dsi86: zero is never greater than an unsigned int
->   drm/bridge: ti-sn65dsi86: Don't use MIPI variables for DP link
->   drm/bridge: ti-sn65dsi86: Config number of DP lanes Mo' Betta
->   drm/bridge: ti-sn65dsi86: Read num lanes from the DP sink
->   drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
->   drm/bridge: ti-sn65dsi86: Group DP link training bits in a function
->   drm/bridge: ti-sn65dsi86: Train at faster rates if slower ones fail
->   drm/bridge: ti-sn65dsi86: Avoid invalid rates
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 259 +++++++++++++++++++++-----
->  1 file changed, 216 insertions(+), 43 deletions(-)
-> 
-
-Applied to drm-misc-next
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CkhpIERhdmUgJiBEYW5pZWwgLQoKTW9zdCBvZiB0aGVzZSB3ZXJlIGFpbWVkIGF0IGEgIm5leHQg
+Zml4ZXMiIHB1bGwgYWxyZWFkeSBkdXJpbmcgdGhlIG1lcmdlCndpbmRvdywgYnV0IHRoZXJlIHdl
+cmUgaXNzdWVzIHdpdGggdGhlIGJhc2VsaW5lIEkgdXNlZCwgd2hpY2ggcmVzdWx0ZWQKaW4gYSBs
+b3Qgb2YgaXNzdWVzIGluIENJLiBJJ3ZlIHJlZ2VuZXJhdGVkIHRoaXMgc3R1ZmYgcGllY2VtZWFs
+IG5vdywKYWRkaW5nIGdyYWR1YWxseSB0byBpdCwgYW5kIGl0IHNlZW1zIGhlYWx0aHkgbm93LgoK
+RHVlIHRvIHRoZSBpc3N1ZXMgdGhpcyBpcyBtdWNoIGJpZ2dlciB0aGFuIEknZCBsaWtlLiBCdXQg
+aXQgd2FzCm9idmlvdXNseSBuZWNlc3NhcnkgdG8gdGFrZSB0aGUgdGltZSB0byBlbnN1cmUgaXQn
+cyBub3QgZ2FyYmFnZS4uLgoKQlIsCkphbmkuCgoKVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNl
+IGNvbW1pdCA5Zjg4MDMyNzE2MGZlYjY5NWRlMDNjYWEyOTYwNDg4M2IwZDAwMDg3OgoKICBNZXJn
+ZSB0YWcgJ2FtZC1kcm0tbmV4dC01LjYtMjAyMC0wMi0wNScgb2YgZ2l0Oi8vcGVvcGxlLmZyZWVk
+ZXNrdG9wLm9yZy9+YWdkNWYvbGludXggaW50byBkcm0tbmV4dCAoMjAyMC0wMi0wNyAxMjoyOToz
+NiArMTAwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6
+Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLWludGVsIHRhZ3MvZHJtLWludGVsLW5l
+eHQtZml4ZXMtMjAyMC0wMi0xMwoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDJhYWFh
+NWVlMWMzZDYyNGE1YmNhZDRlZTI1Zjk1NDU1OWM1NjViYzI6CgogIGRybS9pOTE1OiBNYXJrIHRo
+ZSByZW1vdmFsIG9mIHRoZSBpOTE1X3JlcXVlc3QgZnJvbSB0aGUgc2NoZWQubGluayAoMjAyMC0w
+Mi0xMiAxNzowNDozMyArMDIwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KZHJtL2k5MTUgZml4ZXMgZm9yIHY1LjYtcmMy
+CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tCkNocmlzIFdpbHNvbiAoMTkpOgogICAgICBkcm0vaTkxNS9wbXU6IENvcnJlY3Qg
+dGhlIHJjNiBvZmZzZXQgdXBvbiBlbmFibGluZwogICAgICBkcm0vaTkxNS9nZW06IFRha2UgbG9j
+YWwgdm1hIHJlZmVyZW5jZXMgZm9yIHRoZSBwYXJzZXIKICAgICAgZHJtL2k5MTUvc2VsZnRlc3Rz
+OiBBZGQgYSBtb2NrIGk5MTVfdm1hIHRvIHRoZSBtb2NrX3JpbmcKICAgICAgZHJtL2k5MTUvZ3Q6
+IFVzZSB0aGUgQklUIHdoZW4gY2hlY2tpbmcgdGhlIGZsYWdzLCBub3QgdGhlIGluZGV4CiAgICAg
+IGRybS9pOTE1L2V4ZWNsaXN0czogTGVhdmUgcmVzZXR0aW5nIHJpbmcgdG8gaW50ZWxfcmluZwog
+ICAgICBkcm0vaTkxNS9nZW06IFN0b3JlIG1tYXBfb2Zmc2V0cyBpbiBhbiByYnRyZWUgcmF0aGVy
+IHRoYW4gYSBwbGFpbiBsaXN0CiAgICAgIGRybS9pOTE1OiBEb24ndCBzaG93IHRoZSBibGFuayBw
+cm9jZXNzIG5hbWUgZm9yIGludGVybmFsL3NpbXVsYXRlZCBlcnJvcnMKICAgICAgZHJtL2k5MTUv
+Z2VtOiBEZXRlY3Qgb3ZlcmZsb3cgaW4gY2FsY3VsYXRpbmcgZHVtYiBidWZmZXIgc2l6ZQogICAg
+ICBkcm0vaTkxNTogQ2hlY2sgYWN0aXZpdHkgb24gaTkxNV92bWEgYWZ0ZXIgY29uZmlybWluZyBw
+aW5fY291bnQ9PTAKICAgICAgZHJtL2k5MTU6IFN0dWIgb3V0IGk5MTVfZ3B1X2NvcmVkdW1wX3B1
+dAogICAgICBkcm0vaTkxNTogVGlnaHRlbiBhdG9taWNpdHkgb2YgaTkxNV9hY3RpdmVfYWNxdWly
+ZSB2cyBpOTE1X2FjdGl2ZV9yZWxlYXNlCiAgICAgIGRybS9pOTE1L2d0OiBBY3F1aXJlIGNlLT5h
+Y3RpdmUgYmVmb3JlIGNlLT5waW5fY291bnQvY2UtPnBpbl9tdXRleAogICAgICBkcm0vaTkxNS9n
+ZW06IFRpZ2h0ZW4gY2hlY2tzIGFuZCBhY3F1aXJpbmcgdGhlIG1tYXAgb2JqZWN0CiAgICAgIGRy
+bS9pOTE1OiBLZWVwIHRyYWNrIG9mIHJlcXVlc3QgYW1vbmcgdGhlIHNjaGVkdWxpbmcgbGlzdHMK
+ICAgICAgZHJtL2k5MTUvZ3Q6IEFsbG93IHRlbXBvcmFyeSBzdXNwZW5zaW9uIG9mIGluZmxpZ2h0
+IHJlcXVlc3RzCiAgICAgIGRybS9pOTE1L2V4ZWNsaXN0czogT2ZmbGluZSBlcnJvciBjYXB0dXJl
+CiAgICAgIGRybS9pOTE1L2V4ZWNsaXN0czogVGFrZSBhIHJlZmVyZW5jZSB3aGlsZSBjYXB0dXJp
+bmcgdGhlIGd1aWx0eSByZXF1ZXN0CiAgICAgIGRybS9pOTE1L2V4ZWNsaXN0czogUmVjbGFpbSB0
+aGUgaGFuZ2luZyB2aXJ0dWFsIHJlcXVlc3QKICAgICAgZHJtL2k5MTU6IE1hcmsgdGhlIHJlbW92
+YWwgb2YgdGhlIGk5MTVfcmVxdWVzdCBmcm9tIHRoZSBzY2hlZC5saW5rCgpJZ29yIERydXpoaW5p
+biAoMik6CiAgICAgIGRybS9pOTE1L2d2dDogZml4IGhpZ2gtb3JkZXIgYWxsb2NhdGlvbiBmYWls
+dXJlIG9uIGxhdGUgbG9hZAogICAgICBkcm0vaTkxNS9ndnQ6IG1vcmUgbG9ja2luZyBmb3IgcHBn
+dHQgbW0gTFJVIGxpc3QKCkphbmkgTmlrdWxhICgxKToKICAgICAgTWVyZ2UgdGFnICdndnQtZml4
+ZXMtMjAyMC0wMi0xMicgb2YgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2d2dC1saW51eCBpbnRv
+IGRybS1pbnRlbC1uZXh0LWZpeGVzCgpKb3PDqSBSb2JlcnRvIGRlIFNvdXphICgxKToKICAgICAg
+ZHJtL2k5MTU6IEZpeCBwcmVhbGxvY2F0ZWQgYmFycmllciBsaXN0IGFwcGVuZAoKVmFuZGl0YSBL
+dWxrYXJuaSAoMSk6CiAgICAgIGRybS9pOTE1L2Jpb3M6IEZpeCB0aGUgdGltaW5nIHBhcmFtZXRl
+cnMKClZpbGxlIFN5cmrDpGzDpCAoMik6CiAgICAgIGRybS9pOTE1OiBGaXggcG9zdC1mYXN0c2V0
+IG1vZGVzZXQgY2hlY2sgZm9yIHBvcnQgc3luYwogICAgICBkcm0vaTkxNTogTWFrZSBhIGNvcHkg
+b2YgdGhlIGdndHQgdmlldyBmb3Igc2xhdmUgcGxhbmUKClZpdmVrIEthc2lyZWRkeSAoMik6CiAg
+ICAgIGRybS9pOTE1L2RzaTogTG9va3VwIHRoZSBpMmMgYnVzIGZyb20gQUNQSSBOUyBvbmx5IGlm
+IENPTkZJR19BQ1BJPXkgKHYyKQogICAgICBkcm0vaTkxNS9kc2k6IEVuc3VyZSB0aGF0IHRoZSBB
+Q1BJIGFkYXB0ZXIgbG9va3VwIG92ZXJyaWRlcyB0aGUgYnVzIG51bQoKWmhhbmcgWGlhb3h1ICgx
+KToKICAgICAgZHJtL2k5MTU6IEZpeCBpOTE1X2Vycm9yX3N0YXRlX3N0b3JlIGVycm9yIGRlZmlu
+YXRpb24KCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Jpb3MuYyAgICAgICAg
+fCAgIDYgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jICAg
+ICB8ICA0NCArKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHNpX3ZidC5j
+ICAgICB8ICA1MCArKy0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1
+ZmZlci5jICAgfCAgMzcgKystCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fbW1h
+bi5jICAgICAgICAgfCAxMjkgKysrKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkx
+NV9nZW1fb2JqZWN0LmMgICAgICAgfCAgMTggKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9p
+OTE1X2dlbV9vYmplY3QuaCAgICAgICB8ICAxMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2Vt
+L2k5MTVfZ2VtX29iamVjdF90eXBlcy5oIHwgICA2ICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9n
+dC9pbnRlbF9jb250ZXh0LmMgICAgICAgICAgfCAgNDYgKy0tCiBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9ndC9pbnRlbF9lbmdpbmVfY3MuYyAgICAgICAgfCAgMTMgKwogZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZ3QvaW50ZWxfZW5naW5lX3R5cGVzLmggICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L2d0L2ludGVsX2xyYy5jICAgICAgICAgICAgICB8IDM1NCArKysrKysrKysrKysrKysrKysr
+KysrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvbW9ja19lbmdpbmUuYyAgICAgICAgICAgIHwg
+IDE3ICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9zZWxmdGVzdF9scmMuYyAgICAgICAgICAg
+fCAyNTggKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d2dC9maXJtd2Fy
+ZS5jICAgICAgICAgICAgICB8ICAgNCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2d0dC5j
+ICAgICAgICAgICAgICAgICAgIHwgICA0ICsKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfYWN0
+aXZlLmMgICAgICAgICAgICAgICB8ICAzNSArKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVf
+YWN0aXZlLmggICAgICAgICAgICAgICB8ICAgNiArCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1
+X2dlbS5jICAgICAgICAgICAgICAgICAgfCAgIDUgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5
+MTVfZ3B1X2Vycm9yLmMgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUv
+aTkxNV9ncHVfZXJyb3IuaCAgICAgICAgICAgIHwgICA3ICstCiBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9pOTE1X3BtdS5jICAgICAgICAgICAgICAgICAgfCAgMTIgKwogZHJpdmVycy9ncHUvZHJtL2k5
+MTUvaTkxNV9yZXF1ZXN0LmMgICAgICAgICAgICAgIHwgICA2ICstCiBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9pOTE1X3JlcXVlc3QuaCAgICAgICAgICAgICAgfCAgNjAgKysrKwogZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvaTkxNV9zY2hlZHVsZXIuYyAgICAgICAgICAgIHwgIDIyICstCiBkcml2ZXJzL2dw
+dS9kcm0vaTkxNS9pOTE1X3ZtYS5jICAgICAgICAgICAgICAgICAgfCAgMTQgKy0KIDI2IGZpbGVz
+IGNoYW5nZWQsIDk5MCBpbnNlcnRpb25zKCspLCAxNzggZGVsZXRpb25zKC0pCgotLSAKSmFuaSBO
+aWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
