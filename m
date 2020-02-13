@@ -1,45 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B8215B6A9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 02:27:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 178FB15B6EA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2020 02:54:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D3606E142;
-	Thu, 13 Feb 2020 01:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A95566E14A;
+	Thu, 13 Feb 2020 01:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5A3FA6E142
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 01:26:59 +0000 (UTC)
-X-UUID: cbc872e4b40242fc8d2d3d8b23d7993f-20200213
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=yOSBqxqyM2MBNdVtLEcUpyckrLNC7q1s0wr5YIz7XTw=; 
- b=rvxiq1ffA/1uEyJ0mg3lMBWqFgHfnwv/KutQjyBKQ6Ko9WVMLOm2CKZaHGfUXI1U3qoHskVIpbzHR8l4l1ZlFufYbzVjNO6LxxAw5uUZh/p1QXjWlVdSbIbefthKeUPGQf1BVmuWkFUgYu31Q6aOzBbn3NpFB9Y46Y23yJrJuEo=;
-X-UUID: cbc872e4b40242fc8d2d3d8b23d7993f-20200213
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <bibby.hsieh@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 497296874; Thu, 13 Feb 2020 09:26:56 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 13 Feb 2020 09:26:07 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 13 Feb 2020 09:27:23 +0800
-Message-ID: <1581557213.12296.0.camel@mtksdaap41>
-Subject: Re: [PATCH 1/2] arm64: dts: mt8183: Add gce setting in display node
-From: Bibby Hsieh <bibby.hsieh@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-Date: Thu, 13 Feb 2020 09:26:53 +0800
-In-Reply-To: <1581504514.26347.4.camel@mtksdaap41>
-References: <20200212095501.12124-1-bibby.hsieh@mediatek.com>
- <1581504514.26347.4.camel@mtksdaap41>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5826E14A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 01:54:41 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id y6so4697399lji.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 17:54:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cOc0E0exyHhRFu1bIK5CHNILc1L1XJinALoe+7sJYrw=;
+ b=HT/lLtI8Bupfb/v6GkoWzQhMpcZdi+joPx52bjY3v94Yu5DAOkezI87Jf1UYDUuD8R
+ /3TOCHPTa0QughrgZqISGW+Wwhzvt2v5HYdYaWxbByMP5k1014NNI2rHKdcT5WKgSd8Z
+ TJx5NsZBoZxkNmZ8qvibha/X+jJgEMN0tjxbY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cOc0E0exyHhRFu1bIK5CHNILc1L1XJinALoe+7sJYrw=;
+ b=nKmtFoLMwzyPkrAvVnsQCSxsYfosFE/Es60n1ED4RkhFuoxVQx38uchRfwNCGy/Kir
+ g8mY+oiY0R/qjjyo94KvF5oMsf/NrFE25/Uhs8UrVsdmfZMNeDyWaqn3prdcSlhyH/2x
+ 9jf2APXzFCchtaJ/DyAdRTjLWF7IguW0HfWHA1YANV7d53n2Kk7UUHZqWpD4P6gIY9qm
+ n3TQiG0y7aBevyP1+y5pSy7PzJa+82q26gWNVMzofLJ4Q9pdKLXtoQt791RNH10X9Dj8
+ 1OO+oSTh15+8An+X5SXOA6Kvan7ad9urbktOsXbTEgbiDddd9KWtephPWo65EiiOp8gY
+ u+Cg==
+X-Gm-Message-State: APjAAAWCn/8ihLSRlzy1qzQTUelrAPoU6gtefRL92HGk0nwB3RX3tpMB
+ 9QU+Jbd5SuGqV832QUQmpq7EGFMdjs4=
+X-Google-Smtp-Source: APXvYqytCzwSRRjb5szdldNI81Fh0lrbX7H6ClNnFefyJRSohs3XzaRxsLHfXNYgs6zBxC7vSBEqdg==
+X-Received: by 2002:a2e:8e84:: with SMTP id z4mr9114257ljk.207.1581558879563; 
+ Wed, 12 Feb 2020 17:54:39 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
+ [209.85.208.174])
+ by smtp.gmail.com with ESMTPSA id x18sm334283lfe.37.2020.02.12.17.54.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Feb 2020 17:54:38 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id h23so4672184ljc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2020 17:54:38 -0800 (PST)
+X-Received: by 2002:a2e:96da:: with SMTP id d26mr9836892ljj.6.1581558878436;
+ Wed, 12 Feb 2020 17:54:38 -0800 (PST)
 MIME-Version: 1.0
-X-MTK: N
+References: <20200211235635.488-1-gurchetansingh@chromium.org>
+ <20200211235635.488-4-gurchetansingh@chromium.org>
+ <CAPaKu7QrK9PKaLdtmLd657-vnAPbisCr7EoYS9QyiQZSqevKQQ@mail.gmail.com>
+In-Reply-To: <CAPaKu7QrK9PKaLdtmLd657-vnAPbisCr7EoYS9QyiQZSqevKQQ@mail.gmail.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Wed, 12 Feb 2020 17:54:27 -0800
+X-Gmail-Original-Message-ID: <CAAfnVBkzWJzOqg7X6cAdGM14WGHdaMCcu9XA2SVoZKD7i6MdSQ@mail.gmail.com>
+Message-ID: <CAAfnVBkzWJzOqg7X6cAdGM14WGHdaMCcu9XA2SVoZKD7i6MdSQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] drm/virtio: track whether or not a context has been
+ initiated
+To: Chia-I Wu <olvaffe@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,160 +71,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: drinkcat@chromium.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tfiga@chromium.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-02-12 at 18:48 +0800, CK Hu wrote:
-> On Wed, 2020-02-12 at 17:55 +0800, Bibby Hsieh wrote:
-> > In order to use GCE function, we need add some information
-> > into display node (mboxes, mediatek,gce-client-reg, mediatek,gce-events).
-> > 
-> > Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
-> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+On Wed, Feb 12, 2020 at 10:50 AM Chia-I Wu <olvaffe@gmail.com> wrote:
+>
+> On Tue, Feb 11, 2020 at 3:56 PM Gurchetan Singh
+> <gurchetansingh@chromium.org> wrote:
+> >
+> > We only want create a new virglrenderer context after the first
+> > 3D ioctl.
+> >
+> > Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 > > ---
-> >  arch/arm64/boot/dts/mediatek/mt8183.dtsi | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > index be4428c92f35..1f0fc281bc2d 100644
-> > --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > @@ -9,6 +9,7 @@
-> >  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >  #include <dt-bindings/interrupt-controller/irq.h>
-> >  #include <dt-bindings/power/mt8183-power.h>
-> > +#include <dt-bindings/gce/mt8183-gce.h>
-> >  #include "mt8183-pinfunc.h"
-> >  
-> >  / {
-> > @@ -664,6 +665,9 @@
-> >  			reg = <0 0x14000000 0 0x1000>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			#clock-cells = <1>;
-> > +			mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST 1>,
-> 
-> I would like to remove atomic parameter, so please follow [1] to remove
-> it.
-> 
-> [1] https://patchwork.kernel.org/patch/10765419/
+> >  drivers/gpu/drm/virtio/virtgpu_drv.h   | 1 +
+> >  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 5 +++++
+> >  drivers/gpu/drm/virtio/virtgpu_kms.c   | 2 ++
+> >  3 files changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > index edaa7b8224a8..93ce69c0d9be 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > @@ -209,6 +209,7 @@ struct virtio_gpu_device {
+> >
+> >  struct virtio_gpu_fpriv {
+> >         uint32_t ctx_id;
+> > +       atomic_t context_initiated;
+> >  };
+> >  /* virtio_ioctl.c */
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> > index f1afabaa3a08..858ee153fb18 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> > @@ -44,9 +44,14 @@ void virtio_gpu_create_context(struct drm_device *dev,
+> >         if (!vgdev->has_virgl_3d)
+> >                 return;
+> >
+> > +       if (atomic_read(&vfpriv->context_initiated))
+> > +               return;
+> > +
+> >         get_task_comm(dbgname, current);
+> >         virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
+> >                                       strlen(dbgname), dbgname);
+> > +
+> > +       atomic_inc(&vfpriv->context_initiated);
+> >  }
+> This needs to be protected with a lock.
 
-Hi, CK,
+What do you think about atomic_add_unless(&vfpriv->context_initiated, 1, 1)?
 
-Yeah, I'm trying remove atomic feature.
+> ctx_id can probably be
+> generated here as well.
 
-Thanks
+If we generate the context id in virtio_gpu_create_context, we'll have
+to add error checking in all of the ioctl call-sites (since ida_alloc
+may fail).
 
-Bibby
-> 
-> Regards,
-> CK
-> 
-> > +				 <&gce 1 CMDQ_THR_PRIO_HIGHEST 1>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
-> >  		};
-> >  
-> >  		ovl0: ovl@14008000 {
-> > @@ -672,6 +676,7 @@
-> >  			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_OVL0>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x8000 0x1000>;
-> >  		};
-> >  
-> >  		ovl_2l0: ovl@14009000 {
-> > @@ -680,6 +685,7 @@
-> >  			interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
-> >  		};
-> >  
-> >  		ovl_2l1: ovl@1400a000 {
-> > @@ -688,6 +694,7 @@
-> >  			interrupts = <GIC_SPI 227 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_OVL1_2L>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
-> >  		};
-> >  
-> >  		rdma0: rdma@1400b000 {
-> > @@ -697,6 +704,7 @@
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
-> >  			mediatek,rdma_fifo_size = <5120>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
-> >  		};
-> >  
-> >  		rdma1: rdma@1400c000 {
-> > @@ -706,6 +714,7 @@
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
-> >  			mediatek,rdma_fifo_size = <2048>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
-> >  		};
-> >  
-> >  		color0: color@1400e000 {
-> > @@ -715,6 +724,7 @@
-> >  			interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_COLOR0>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
-> >  		};
-> >  
-> >  		ccorr0: ccorr@1400f000 {
-> > @@ -723,6 +733,7 @@
-> >  			interrupts = <GIC_SPI 232 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_CCORR0>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xf000 0x1000>;
-> >  		};
-> >  
-> >  		aal0: aal@14010000 {
-> > @@ -732,6 +743,7 @@
-> >  			interrupts = <GIC_SPI 233 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_AAL0>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0 0x1000>;
-> >  		};
-> >  
-> >  		gamma0: gamma@14011000 {
-> > @@ -741,6 +753,7 @@
-> >  			interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
-> >  		};
-> >  
-> >  		dither0: dither@14012000 {
-> > @@ -749,6 +762,7 @@
-> >  			interrupts = <GIC_SPI 235 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> >  			clocks = <&mmsys CLK_MM_DISP_DITHER0>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x2000 0x1000>;
-> >  		};
-> >  
-> >  		mutex: mutex@14016000 {
-> > @@ -756,6 +770,8 @@
-> >  			reg = <0 0x14016000 0 0x1000>;
-> >  			interrupts = <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>;
-> >  			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-> > +			mediatek,gce-events = <CMDQ_EVENT_MUTEX_STREAM_DONE0>,
-> > +					      <CMDQ_EVENT_MUTEX_STREAM_DONE1>;
-> >  		};
-> >  
-> >  		smi_common: smi@14019000 {
-> 
-> 
+int virtio_gpu_create_context(..)
+ret = virtio_gpu_create_context(dev, file);
+if (ret)
+    return -EINVAL
 
+vs.
+
+void virtio_gpu_create_context(..)
+virtio_gpu_create_context(..)
+
+Any strong opinions here?
+
+>
+> >
+> >  static int virtio_gpu_map_ioctl(struct drm_device *dev, void *data,
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > index e1e1c0821a35..64fe5fcbedfd 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > @@ -270,7 +270,9 @@ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
+> >                 return id;
+> >         }
+> >
+> > +
+> >         vfpriv->ctx_id = id;
+> > +       atomic_set(&vfpriv->context_initiated, 0);
+> >         file->driver_priv = vfpriv;
+> >         virtio_gpu_create_context(dev, file);
+> >
+> > --
+> > 2.25.0.225.g125e21ebc7-goog
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
