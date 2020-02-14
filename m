@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D5415E20D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:22:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C822415E20F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:22:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1772A6FB07;
-	Fri, 14 Feb 2020 16:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A796FB08;
+	Fri, 14 Feb 2020 16:22:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 848026FB04;
- Fri, 14 Feb 2020 16:22:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24326FB07;
+ Fri, 14 Feb 2020 16:22:04 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9DEDB246B7;
- Fri, 14 Feb 2020 16:22:02 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C6820246CE;
+ Fri, 14 Feb 2020 16:22:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697323;
- bh=Xosha2si2gA+YtJP6cPHMRHvPd5rRJ+tgfnyNFwyd8I=;
+ s=default; t=1581697324;
+ bh=0kT5xc+IVb1pEroXTrduFksV6+JEEfPcC8u/t3uHsk0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XAS52lBHjgXmfgpAemPHvrcZ0wosZEZ1kz15sDCsVgIy7k2/N5qPgpaotrkVFtl7a
- d4WQ+9blWlnj+fycJb7iAzaGHrLHoJz35Eu0+gW8hzc39VZB09EzXtxPeClJiOpCFQ
- wKz/b9cLBaE4gg5USE3svXAp6vhwRuuOjZC2sUnU=
+ b=hJ3uKaXVQP4peat/sz4xTW5SpzlaltWQRp1ox3VzgGHxkrKrVSziRK3e8ufCjqPvC
+ PIGIUTAi9r90O/pMdCZF6lItqOGMzm0hhtdsreI/2rqng3DrkT3kWuCbT6y89ByZ9J
+ 7mfwzor6PvQiJqhdQ/i/kXNcvWYWjI+wcIC6AFM4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 032/141] drm/amdgpu: remove 4 set but not used
- variable in amdgpu_atombios_get_connector_info_from_object_table
-Date: Fri, 14 Feb 2020 11:19:32 -0500
-Message-Id: <20200214162122.19794-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 033/141] drm/amdgpu: remove set but not used
+ variable 'dig_connector'
+Date: Fri, 14 Feb 2020 11:19:33 -0500
+Message-Id: <20200214162122.19794-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214162122.19794-1-sashal@kernel.org>
 References: <20200214162122.19794-1-sashal@kernel.org>
@@ -53,81 +53,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Alex Deucher <alexander.deucher@amd.com>, yu kuai <yukuai3@huawei.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Sasha Levin <sashal@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: yu kuai <yukuai3@huawei.com>
-
-[ Upstream commit bae028e3e521e8cb8caf2cc16a455ce4c55f2332 ]
-
-Fixes gcc '-Wunused-but-set-variable' warning:
-
-drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c: In function
-'amdgpu_atombios_get_connector_info_from_object_table':
-drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c:376:26: warning: variable
-'grph_obj_num' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c:376:13: warning: variable
-'grph_obj_id' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c:341:37: warning: variable
-'con_obj_type' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c:341:24: warning: variable
-'con_obj_num' set but not used [-Wunused-but-set-variable]
-
-They are never used, so can be removed.
-
-Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
-Signed-off-by: yu kuai <yukuai3@huawei.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-index 26afdffab5a06..ac8885562919d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-@@ -336,17 +336,9 @@ bool amdgpu_atombios_get_connector_info_from_object_table(struct amdgpu_device *
- 		path_size += le16_to_cpu(path->usSize);
- 
- 		if (device_support & le16_to_cpu(path->usDeviceTag)) {
--			uint8_t con_obj_id, con_obj_num, con_obj_type;
--
--			con_obj_id =
-+			uint8_t con_obj_id =
- 			    (le16_to_cpu(path->usConnObjectId) & OBJECT_ID_MASK)
- 			    >> OBJECT_ID_SHIFT;
--			con_obj_num =
--			    (le16_to_cpu(path->usConnObjectId) & ENUM_ID_MASK)
--			    >> ENUM_ID_SHIFT;
--			con_obj_type =
--			    (le16_to_cpu(path->usConnObjectId) &
--			     OBJECT_TYPE_MASK) >> OBJECT_TYPE_SHIFT;
- 
- 			/* Skip TV/CV support */
- 			if ((le16_to_cpu(path->usDeviceTag) ==
-@@ -371,14 +363,7 @@ bool amdgpu_atombios_get_connector_info_from_object_table(struct amdgpu_device *
- 			router.ddc_valid = false;
- 			router.cd_valid = false;
- 			for (j = 0; j < ((le16_to_cpu(path->usSize) - 8) / 2); j++) {
--				uint8_t grph_obj_id, grph_obj_num, grph_obj_type;
--
--				grph_obj_id =
--				    (le16_to_cpu(path->usGraphicObjIds[j]) &
--				     OBJECT_ID_MASK) >> OBJECT_ID_SHIFT;
--				grph_obj_num =
--				    (le16_to_cpu(path->usGraphicObjIds[j]) &
--				     ENUM_ID_MASK) >> ENUM_ID_SHIFT;
-+				uint8_t grph_obj_type=
- 				grph_obj_type =
- 				    (le16_to_cpu(path->usGraphicObjIds[j]) &
- 				     OBJECT_TYPE_MASK) >> OBJECT_TYPE_SHIFT;
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogeXUga3VhaSA8eXVrdWFpM0BodWF3ZWkuY29tPgoKWyBVcHN0cmVhbSBjb21taXQgNWJl
+YTdmZWRiN2ZlNGQ1ZTZkM2JhOWYzODVkZDM2MTlmYjAwNGNlNyBdCgpGaXhlcyBnY2MgJy1XdW51
+c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cgpkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hdG9tYmlvc19kcC5jOiBJbiBmdW5jdGlvbgrigJhhbWRncHVfYXRvbWJpb3NfZHBfZ2V0X3Bh
+bmVsX21vZGXigJk6CmRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2F0b21iaW9zX2RwLmM6MzY0
+OjM2OiB3YXJuaW5nOiB2YXJpYWJsZQrigJhkaWdfY29ubmVjdG9y4oCZIHNldCBidXQgbm90IHVz
+ZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCgpJdCBpcyBuZXZlciB1c2VkLCBzbyBjYW4g
+YmUgcmVtb3ZlZC4KCkZpeGVzOiBkMzhjZWFmOTllZDAgKCJkcm0vYW1kZ3B1OiBhZGQgY29yZSBk
+cml2ZXIgKHY0KSIpClNpZ25lZC1vZmYtYnk6IHl1IGt1YWkgPHl1a3VhaTNAaHVhd2VpLmNvbT4K
+U2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpT
+aWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYXRvbWJpb3NfZHAuYyB8IDMgLS0tCiAxIGZpbGUgY2hhbmdl
+ZCwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hdG9tYmlvc19kcC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYXRvbWJpb3NfZHAu
+YwppbmRleCBmODEwNjhiYTRjYzY3Li5kNzEyZGVlODkyNTQ1IDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hdG9tYmlvc19kcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2F0b21iaW9zX2RwLmMKQEAgLTM2MSw3ICszNjEsNiBAQCBpbnQgYW1kZ3B1X2F0
+b21iaW9zX2RwX2dldF9wYW5lbF9tb2RlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwKIAkJ
+CSAgICAgICBzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQogewogCXN0cnVjdCBhbWRn
+cHVfY29ubmVjdG9yICphbWRncHVfY29ubmVjdG9yID0gdG9fYW1kZ3B1X2Nvbm5lY3Rvcihjb25u
+ZWN0b3IpOwotCXN0cnVjdCBhbWRncHVfY29ubmVjdG9yX2F0b21fZGlnICpkaWdfY29ubmVjdG9y
+OwogCWludCBwYW5lbF9tb2RlID0gRFBfUEFORUxfTU9ERV9FWFRFUk5BTF9EUF9NT0RFOwogCXUx
+NiBkcF9icmlkZ2UgPSBhbWRncHVfY29ubmVjdG9yX2VuY29kZXJfZ2V0X2RwX2JyaWRnZV9lbmNv
+ZGVyX2lkKGNvbm5lY3Rvcik7CiAJdTggdG1wOwpAQCAtMzY5LDggKzM2OCw2IEBAIGludCBhbWRn
+cHVfYXRvbWJpb3NfZHBfZ2V0X3BhbmVsX21vZGUoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVy
+LAogCWlmICghYW1kZ3B1X2Nvbm5lY3Rvci0+Y29uX3ByaXYpCiAJCXJldHVybiBwYW5lbF9tb2Rl
+OwogCi0JZGlnX2Nvbm5lY3RvciA9IGFtZGdwdV9jb25uZWN0b3ItPmNvbl9wcml2OwotCiAJaWYg
+KGRwX2JyaWRnZSAhPSBFTkNPREVSX09CSkVDVF9JRF9OT05FKSB7CiAJCS8qIERQIGJyaWRnZSBj
+aGlwcyAqLwogCQlpZiAoZHJtX2RwX2RwY2RfcmVhZGIoJmFtZGdwdV9jb25uZWN0b3ItPmRkY19i
+dXMtPmF1eCwKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
