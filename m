@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898AC15E0E3
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:16:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E775815E0EA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:16:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B40936FAC7;
-	Fri, 14 Feb 2020 16:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9494F6FAC8;
+	Fri, 14 Feb 2020 16:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD09A6FABD;
- Fri, 14 Feb 2020 16:16:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F39A6FAC1;
+ Fri, 14 Feb 2020 16:16:39 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DC974206D7;
- Fri, 14 Feb 2020 16:16:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B3055206D7;
+ Fri, 14 Feb 2020 16:16:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581696969;
- bh=H+HW9LdC+gGzgBI2knQjxdHksSbqipHsIqlIEKwTmKU=;
+ s=default; t=1581696999;
+ bh=J82JkTofHDDCykmw5UKeVbFfNcfQzl+TMlBOTvHz5nY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hNcynozCblyBHMz2kCnU/6W6UyMIS5PfUmtXkhUlYry9S7Wo1UUq5lS2d/Lw7bevZ
- 3d9VoOJKV5n034500n1bhkqlJU9MnJ3nB1bNpsXOWEmaBbWqsCkfsQPrC/rqtqM65z
- 5M6XZoWKaFDHjRttvuyaEqE3QcN5cymDJ6Ck8sqs=
+ b=jTDpOAvgO05Ia/swvGSyuV+abbpS5yFqpeLlNYtJ1qB4NU2rWPGk3+0wEj0iH9afa
+ EpBBYjCN1BeBm0WKt88cjr8TipTFpeE60DF4VDfzvu+9F+aNZyqLJiOIczAuOIXyH8
+ zi/nIGCN4mblHdCW/jf+f85K3wosIxplZX9pJWto=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 208/252] drm/nouveau/mmu: fix comptag memory leak
-Date: Fri, 14 Feb 2020 11:11:03 -0500
-Message-Id: <20200214161147.15842-208-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 232/252] drm/nouveau/disp/nv50-: prevent oops
+ when no channel method map provided
+Date: Fri, 14 Feb 2020 11:11:27 -0500
+Message-Id: <20200214161147.15842-232-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
 References: <20200214161147.15842-1-sashal@kernel.org>
@@ -58,28 +59,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ben Skeggs <bskeggs@redhat.com>
 
-[ Upstream commit 35e4909b6a2b4005ced3c4238da60d926b78fdea ]
+[ Upstream commit 0e6176c6d286316e9431b4f695940cfac4ffe6c2 ]
 
+The implementations for most channel types contains a map of methods to
+priv registers in order to provide debugging info when a disp exception
+has been raised.
+
+This info is missing from the implementation of PIO channels as they're
+rather simplistic already, however, if an exception is raised by one of
+them, we'd end up triggering a NULL-pointer deref.  Not ideal...
+
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=206299
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/core/memory.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/core/memory.c b/drivers/gpu/drm/nouveau/nvkm/core/memory.c
-index e85a08ecd9da5..4cc186262d344 100644
---- a/drivers/gpu/drm/nouveau/nvkm/core/memory.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/core/memory.c
-@@ -91,8 +91,8 @@ nvkm_memory_tags_get(struct nvkm_memory *memory, struct nvkm_device *device,
- 	}
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
+index bcf32d92ee5a9..50e3539f33d22 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
+@@ -74,6 +74,8 @@ nv50_disp_chan_mthd(struct nv50_disp_chan *chan, int debug)
  
- 	refcount_set(&tags->refcount, 1);
-+	*ptags = memory->tags = tags;
- 	mutex_unlock(&fb->subdev.mutex);
--	*ptags = tags;
- 	return 0;
- }
+ 	if (debug > subdev->debug)
+ 		return;
++	if (!mthd)
++		return;
  
+ 	for (i = 0; (list = mthd->data[i].mthd) != NULL; i++) {
+ 		u32 base = chan->head * mthd->addr;
 -- 
 2.20.1
 
