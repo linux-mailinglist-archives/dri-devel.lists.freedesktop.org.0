@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BE015DB9B
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:50:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8252E15DB9F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:51:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B41266F985;
-	Fri, 14 Feb 2020 15:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814E46F986;
+	Fri, 14 Feb 2020 15:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD546F986;
- Fri, 14 Feb 2020 15:50:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 894E16F986
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:50:57 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DE8CB24650;
- Fri, 14 Feb 2020 15:50:37 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3782724681;
+ Fri, 14 Feb 2020 15:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695439;
- bh=tud2cv99dE6wjxlK392HtWbNS/Q2yAcd7HSkB+mD/w0=;
+ s=default; t=1581695457;
+ bh=sZBeeE6wSzHR2+hE1yzf8GFbm2+TVCvDxqIXTFh+1Xo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HBQhyUMLg3yeEvo9WxQvnhz35mhBVbWow2ss6vMICnARChOOh/Wr0qPHEnYYnNrt5
- yLdhnCyrpU0Yo+qBcSRy/cUDIW9ehJVj6yiINGEf9CCRjZLdoqtpU1sEayPBTXtu7s
- VnZvLq3Fa6xV5gqy9pFMLgg8+Xc8N8mvF+p0iabM=
+ b=xM3772z1C9pO2vUrPiD1uH+u4dGk7CnTjJqGTf04tUWLEDcIYS9qa2xgzDq4RRyGz
+ lkrtU58Vv2vbSwjzcI7bUNux3OvL+q+8yHsA4lPcvCcMl6g7uyGN2Zntt8xMagCUd3
+ RC8kxPfOY5tmk/6sm1DeWHotUcgic08lOdujxt1M=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 080/542] drm/amd/display: Clear state after
- exiting fixed active VRR state
-Date: Fri, 14 Feb 2020 10:41:12 -0500
-Message-Id: <20200214154854.6746-80-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 095/542] backlight: qcom-wled: Fix unsigned
+ comparison to zero
+Date: Fri, 14 Feb 2020 10:41:27 -0500
+Message-Id: <20200214154854.6746-95-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -50,56 +50,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Anthony Koo <Anthony.Koo@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Amanda Liu <amanda.liu@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Kiran Gunda <kgunda@codeaurora.org>, Chen Zhou <chenzhou10@huawei.com>,
+ linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Amanda Liu <amanda.liu@amd.com>
+From: Chen Zhou <chenzhou10@huawei.com>
 
-[ Upstream commit 6f8f76444baf405bacb0591d97549a71a9aaa1ac ]
+[ Upstream commit 7af43a76695db71a57203793fb9dd3c81a5783b1 ]
 
-[why]
-Upon exiting a fixed active VRR state, the state isn't cleared. This
-leads to the variable VRR range to be calculated incorrectly.
+Fixes coccicheck warning:
+./drivers/video/backlight/qcom-wled.c:1104:5-15:
+	WARNING: Unsigned expression compared with zero: string_len > 0
 
-[how]
-Set fixed active state to false when updating vrr params
+The unsigned variable string_len is assigned a return value from the call
+to of_property_count_elems_of_size(), which may return negative error code.
 
-Signed-off-by: Amanda Liu <amanda.liu@amd.com>
-Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
-Acked-by: Harry Wentland <harry.wentland@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Reviewed-by: Kiran Gunda <kgunda@codeaurora.org>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/modules/freesync/freesync.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/video/backlight/qcom-wled.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index 5437b50e9f90d..d9ea4ae690af6 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -807,6 +807,7 @@ void mod_freesync_build_vrr_params(struct mod_freesync *mod_freesync,
- 			2 * in_out_vrr->min_refresh_in_uhz)
- 		in_out_vrr->btr.btr_enabled = false;
+diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+index d46052d8ff415..3d276b30a78c9 100644
+--- a/drivers/video/backlight/qcom-wled.c
++++ b/drivers/video/backlight/qcom-wled.c
+@@ -956,8 +956,8 @@ static int wled_configure(struct wled *wled, int version)
+ 	struct wled_config *cfg = &wled->cfg;
+ 	struct device *dev = wled->dev;
+ 	const __be32 *prop_addr;
+-	u32 size, val, c, string_len;
+-	int rc, i, j;
++	u32 size, val, c;
++	int rc, i, j, string_len;
  
-+	in_out_vrr->fixed.fixed_active = false;
- 	in_out_vrr->btr.btr_active = false;
- 	in_out_vrr->btr.inserted_duration_in_us = 0;
- 	in_out_vrr->btr.frames_to_insert = 0;
-@@ -826,6 +827,7 @@ void mod_freesync_build_vrr_params(struct mod_freesync *mod_freesync,
- 		in_out_vrr->adjust.v_total_max = stream->timing.v_total;
- 	} else if (in_out_vrr->state == VRR_STATE_ACTIVE_VARIABLE &&
- 			refresh_range >= MIN_REFRESH_RANGE_IN_US) {
-+
- 		in_out_vrr->adjust.v_total_min =
- 			calc_v_total_from_refresh(stream,
- 				in_out_vrr->max_refresh_in_uhz);
+ 	const struct wled_u32_opts *u32_opts = NULL;
+ 	const struct wled_u32_opts wled3_opts[] = {
 -- 
 2.20.1
 
