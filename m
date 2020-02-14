@@ -1,69 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DABB160CDE
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9468D160D19
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C89636E7FE;
-	Mon, 17 Feb 2020 08:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C85D6E536;
+	Mon, 17 Feb 2020 08:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B916F909
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 12:32:50 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4C38D6107;
- Fri, 14 Feb 2020 07:32:49 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 14 Feb 2020 07:32:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=a91FR2Cpmv6xb
- sO27omkaVt7g4YCf2kEALjXSevqod4=; b=CHTH14YKgU8rFPIzXMeR7b2/XBRgy
- 5zGD8ifWWjOXfquUrz4uVcsbc9T2wbK5szF8R8QcWDsK4L62VeGpqcmkb6QlAMkU
- FF22u76R6E8sAjxCVVQdUdReAAL2lfZJKoRbeGFjeekeGBcbTid3bCEgUJn8DkUF
- KoRBneSUXQyzBOm1WcaiCgnLVmkKZ8TTl9IHHNcxvJxlHhFUfdN8RMktttFfArux
- GiOUtxT+EOOF7luGMe+N6M7NrUv9nOsWL3wYSRfAUrPS8aY5Zg0xR4NSPkCGlkqA
- DaXPeEt/u1KKpAnFN2N0Dc/DsZjDHc4VZvmun3E3kvADtPi8LhvbNxUsw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=a91FR2Cpmv6xbsO27omkaVt7g4YCf2kEALjXSevqod4=; b=2xxLZeRt
- zC1bobYhWc2taTidhWj0KaX6bdrH5wdNGYU7Kpt0r6w2QEC8DQJp5i+U7NaUd4d0
- JK8QHR7tpPTZbEv8n1nrBMf9uB9DCP9V1jIhhFGciQmfUrV3Vxkz9CUzP7lUGkKf
- a0kuHfoyEyem/wA6n+CoQLwynicwMcbviir04uPZ1GN9qfzzvv7ZD0t8Z/p0P9GN
- vKhzBoap/FdGCFPhURgzh7CrHKBxgnI58HPTgDIzvbBHsxaBL2yRS2Rc3/wwTBnV
- E6tmCC80hDwMtAFGV+yvjVaaV31+C274tfEXw1kHMqMllyIGjWtyE49eD76io9Vo
- kK6IkGTsGvCzqQ==
-X-ME-Sender: <xms:cZNGXg5s4RRLWKYBiRztMi-5pTngh3RU97yu8mtidMDY8_V_V8zhkg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjedtgdegvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
- fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:cZNGXsXkN1-7Vqvrv2awEL6i_MmHSpjq_jxco7Ps84uifL0blvrgWQ>
- <xmx:cZNGXv6TGp-juVwIL_-vk6uX1mUzL89eruQyTsMkE31doh7n2Oyt4g>
- <xmx:cZNGXnXxt4WMz7bVWPdgUh-xuOncbfoBMMKaEcpDfwJYEl2vaJzd1A>
- <xmx:cZNGXiImITWdYMi9dGkLHzTn7LC8nKj2b4xhYCviE9ggbwqIhsgRaQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id E0DE5328005A;
- Fri, 14 Feb 2020 07:32:48 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/sun4i: tcon: Support LVDS dual-link
-Date: Fri, 14 Feb 2020 13:32:44 +0100
-Message-Id: <20200214123244.109300-2-maxime@cerno.tech>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200214123244.109300-1-maxime@cerno.tech>
-References: <20200214123244.109300-1-maxime@cerno.tech>
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5E596EB88;
+ Fri, 14 Feb 2020 13:46:16 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id a142so9424982oii.7;
+ Fri, 14 Feb 2020 05:46:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=Z2AWHyN/sOb4PsOQdZpFIB/8+XI9oSRqPBfKZfRwFiU=;
+ b=Cvlk7S2k5FNnFaMpydJh39pH3ElahgOrWipX78FuTVFaxf29cfR+obZPVLb1Fn5iqH
+ uDLkhVA0jBDmtwTB3X4MSEOHPBJcXLKCErV9jPgOcdyYFHYwQIOqAghL8TvYQvbMz+5+
+ +4TZBxiaF5pLh4ecvXXHacUTkln64pBdi1eQAmrGBrxDjg0xOAiGNyXvOFGcvmKG7PVr
+ z/5Chh+c761a76kWqwUuerFL9V2FNYwZzYekwLn2pJQhUZr/E3Y+W7Ywdg6GW6YFdg66
+ K/YlabYQv5xVqBZYRlwXrSCgLVMw4IV5wqB0dFL5rO2FihwOIBIIJReYPygoq/8pckPK
+ 9FMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=Z2AWHyN/sOb4PsOQdZpFIB/8+XI9oSRqPBfKZfRwFiU=;
+ b=tfGfy49fkvMT4CwZBhsuDiYVid08Cm8Qv/dCT07DhoOuqEY10Ml8cu1G6zm9Mnft++
+ hPU/fP+TjZCrre0HUXYWxZYT33+zvdOvXmb+Yj8l+9IIlePf2NI8ukAkE/2q41/sXB7m
+ bTTkFi0GFyLZ4ECzKX5uZE8HeOA+TghA5/CX0IQI77Abiv37fOCBEu1afavJspCo+ghC
+ ECgpbWV7C3HUC5sBtmkLgFLjxFxYRhJcvM1zzxbH6bmfvfh9C7KpGDCRTHc0grfCM0Ob
+ waRwIUSLDF+Wja73pVfFLtFdSUSFjHsMh9utjDcz2C35KX9ffZ8+EGwex3AsI9KDn6d+
+ vlxA==
+X-Gm-Message-State: APjAAAWfNf/+ZEKNNqfwBzigc+BwmXEJltJCTnQ83Ytld2RSj/0ZGvhE
+ DXg2ZAW8Xsfx28sLMhWLsz4=
+X-Google-Smtp-Source: APXvYqzDN8yB/OO+Niqa/er7303KT4elsvbSX2QFbbWCRBEluLHYhvxVws70OxqoDU3dH4uxeKg5Hg==
+X-Received: by 2002:aca:4306:: with SMTP id q6mr1922461oia.54.1581687975994;
+ Fri, 14 Feb 2020 05:46:15 -0800 (PST)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+ by smtp.gmail.com with ESMTPSA id k17sm1885677oic.45.2020.02.14.05.46.14
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 14 Feb 2020 05:46:15 -0800 (PST)
+Date: Fri, 14 Feb 2020 06:46:13 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH] drm/i915: Cast remain to unsigned long in eb_relocate_vma
+Message-ID: <20200214134613.GA41838@ubuntu-m2-xlarge-x86>
+References: <20200214054706.33870-1-natechancellor@gmail.com>
+ <87v9o965gg.fsf@intel.com>
+ <158166913989.4660.10674824117292988120@skylake-alporthouse-com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <158166913989.4660.10674824117292988120@skylake-alporthouse-com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,75 +71,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, clang-built-linux@googlegroups.com,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some LVDS encoders in the Allwinner SoCs can output on a dual-link. Let's
-add a DT property to toggle it.
+On Fri, Feb 14, 2020 at 08:32:19AM +0000, Chris Wilson wrote:
+> Quoting Jani Nikula (2020-02-14 06:36:15)
+> > On Thu, 13 Feb 2020, Nathan Chancellor <natechancellor@gmail.com> wrote:
+> > > A recent commit in clang added -Wtautological-compare to -Wall, which=
+ is
+> > > enabled for i915 after -Wtautological-compare is disabled for the rest
+> > > of the kernel so we see the following warning on x86_64:
+> > >
+> > >  ../drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1433:22: warning:
+> > >  result of comparison of constant 576460752303423487 with expression =
+of
+> > >  type 'unsigned int' is always false
+> > >  [-Wtautological-constant-out-of-range-compare]
+> > >          if (unlikely(remain > N_RELOC(ULONG_MAX)))
+> > >             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+> > >  ../include/linux/compiler.h:78:42: note: expanded from macro 'unlike=
+ly'
+> > >  # define unlikely(x)    __builtin_expect(!!(x), 0)
+> > >                                             ^
+> > >  1 warning generated.
+> > >
+> > > It is not wrong in the case where ULONG_MAX > UINT_MAX but it does not
+> > > account for the case where this file is built for 32-bit x86, where
+> > > ULONG_MAX =3D=3D UINT_MAX and this check is still relevant.
+> > >
+> > > Cast remain to unsigned long, which keeps the generated code the same
+> > > (verified with clang-11 on x86_64 and GCC 9.2.0 on x86 and x86_64) and
+> > > the warning is silenced so we can catch more potential issues in the
+> > > future.
+> > >
+> > > Link: https://github.com/ClangBuiltLinux/linux/issues/778
+> > > Suggested-by: Michel D=E4nzer <michel@daenzer.net>
+> > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> > =
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 6 ++++++
- drivers/gpu/drm/sun4i/sun4i_tcon.h | 4 ++++
- 2 files changed, 10 insertions(+)
+> > Works for me as a workaround,
+> =
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index e616cc901b4e..ed1f09e52ef3 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -488,6 +488,9 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 	else
- 		reg |= SUN4I_TCON0_LVDS_IF_DATA_POL_NORMAL;
- 
-+	if (tcon->lvds_dual_link)
-+		reg |= SUN4I_TCON0_LVDS_IF_DUAL_LINK;
-+
- 	if (sun4i_tcon_get_pixel_depth(encoder) == 24)
- 		reg |= SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS;
- 	else
-@@ -1219,6 +1222,9 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
- 		} else {
- 			can_lvds = true;
- 		}
-+
-+		tcon->lvds_dual_link = of_property_read_bool(dev->of_node,
-+							     "allwinner,lvds-dual-link");
- 	} else {
- 		can_lvds = false;
- 	}
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index d36c304b1607..2a57d24e2772 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -98,6 +98,7 @@
- 
- #define SUN4I_TCON0_LVDS_IF_REG			0x84
- #define SUN4I_TCON0_LVDS_IF_EN				BIT(31)
-+#define SUN4I_TCON0_LVDS_IF_DUAL_LINK			BIT(30)
- #define SUN4I_TCON0_LVDS_IF_BITWIDTH_MASK		BIT(26)
- #define SUN4I_TCON0_LVDS_IF_BITWIDTH_18BITS		(1 << 26)
- #define SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS		(0 << 26)
-@@ -263,6 +264,9 @@ struct sun4i_tcon {
- 	/* Associated crtc */
- 	struct sun4i_crtc		*crtc;
- 
-+	/* Is the LVDS link a dual-channel link? */
-+	bool				lvds_dual_link;
-+
- 	int				id;
- 
- 	/* TCON list management */
--- 
-2.24.1
+> But the whole point was that the compiler could see that it was
+> impossible and not emit the code. Doesn't this break that?
+> -Chris
 
+As noted in the commit message, I ran diff <(objdump -Dr) <(objdump -Dr)
+on objects files compiled with and without the patch with clang and gcc
+for x86_64 and gcc for i386 (i386 does not build with clang) and there
+was zero difference aside from the file names.
+
+At the end of the day, I do not really care how the warning get fixed,
+just that it does since it is the only one on x86_64 defconfig.
+
+Cheers,
+Nathan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
