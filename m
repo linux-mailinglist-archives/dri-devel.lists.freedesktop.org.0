@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158B315E2E9
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:25:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E3515E2FC
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EED4B6FB53;
-	Fri, 14 Feb 2020 16:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8C16FB59;
+	Fri, 14 Feb 2020 16:26:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81FCC6FB53
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:25:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF4126FB56;
+ Fri, 14 Feb 2020 16:26:16 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AB12D24771;
- Fri, 14 Feb 2020 16:25:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 10F1D24700;
+ Fri, 14 Feb 2020 16:26:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697553;
- bh=1ncGh5Rk9EITS77TL+pGGDb/7PSP3K5PnHevgyuW3vM=;
+ s=default; t=1581697576;
+ bh=IEqL5xJdvkCDBxzC/BErSDTVMFN7oI3hvjjONr0p9Tw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XWRQTcVwg3qtJB4kaeEReNI4NSgZI86rbERLZDJIVtWwNgoCBcBPzSRRfRfRnKIrb
- Q+HZ8KqfMbV07wbid/rIsy4U6PSQ39PcPaYApPyN9dMWjw3UQhHYkDxBHSm5jZ6XgF
- WorKIXdzawfEbaTDlXWwLinSn6OipryPiy0SyAMs=
+ b=l8Wotf24Kiku2rlbig6Yt3sPhKvRFhlYm4P9Gns9jzaeEQyCImN1KocFfwSOmIWAE
+ le5aNpHvfw3yrXjDhjAd1uhqHUaytUawtGwWU10mnO1fU+PRJGkR/g9Hhc74MsmvzM
+ PNEHz/xhVW3UUfxuBE59Ne2FTZXOU+L3SBReDWZo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 071/100] drm/vmwgfx: prevent memory leak in
- vmw_cmdbuf_res_add
-Date: Fri, 14 Feb 2020 11:23:55 -0500
-Message-Id: <20200214162425.21071-71-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 090/100] drm/nouveau/disp/nv50-: prevent oops when
+ no channel method map provided
+Date: Fri, 14 Feb 2020 11:24:14 -0500
+Message-Id: <20200214162425.21071-90-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214162425.21071-1-sashal@kernel.org>
 References: <20200214162425.21071-1-sashal@kernel.org>
@@ -50,45 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Thomas Hellstrom <thellstrom@vmware.com>,
- dri-devel@lists.freedesktop.org, Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
+From: Ben Skeggs <bskeggs@redhat.com>
 
-[ Upstream commit 40efb09a7f53125719e49864da008495e39aaa1e ]
+[ Upstream commit 0e6176c6d286316e9431b4f695940cfac4ffe6c2 ]
 
-In vmw_cmdbuf_res_add if drm_ht_insert_item fails the allocated memory
-for cres should be released.
+The implementations for most channel types contains a map of methods to
+priv registers in order to provide debugging info when a disp exception
+has been raised.
 
-Fixes: 18e4a4669c50 ("drm/vmwgfx: Fix compat shader namespace")
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-Reviewed-by: Thomas Hellstrom <thellstrom@vmware.com>
-Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
+This info is missing from the implementation of PIO channels as they're
+rather simplistic already, however, if an exception is raised by one of
+them, we'd end up triggering a NULL-pointer deref.  Not ideal...
+
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=206299
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-index 1f013d45c9e9a..0c7c3005594cc 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-@@ -210,8 +210,10 @@ int vmw_cmdbuf_res_add(struct vmw_cmdbuf_res_manager *man,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
+index 01803c0679b68..d012df9fb9df0 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
+@@ -72,6 +72,8 @@ nv50_disp_chan_mthd(struct nv50_disp_chan *chan, int debug)
  
- 	cres->hash.key = user_key | (res_type << 24);
- 	ret = drm_ht_insert_item(&man->resources, &cres->hash);
--	if (unlikely(ret != 0))
-+	if (unlikely(ret != 0)) {
-+		kfree(cres);
- 		goto out_invalid_key;
-+	}
+ 	if (debug > subdev->debug)
+ 		return;
++	if (!mthd)
++		return;
  
- 	cres->state = VMW_CMDBUF_RES_ADD;
- 	cres->res = vmw_resource_reference(res);
+ 	for (i = 0; (list = mthd->data[i].mthd) != NULL; i++) {
+ 		u32 base = chan->head * mthd->addr;
 -- 
 2.20.1
 
