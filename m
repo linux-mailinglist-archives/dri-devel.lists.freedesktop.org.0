@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348C315E25E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:23:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D210A15E261
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:23:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F69B6FB2C;
-	Fri, 14 Feb 2020 16:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39336FB2E;
+	Fri, 14 Feb 2020 16:23:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B94756FB29;
- Fri, 14 Feb 2020 16:23:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D37DD6FB2F
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:23:27 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BD0A024772;
- Fri, 14 Feb 2020 16:23:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 031C624764;
+ Fri, 14 Feb 2020 16:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697406;
- bh=cmKVbbgAr5m81ZEiOmdFPQRU8WvKgIECNgEV/u5oFNQ=;
+ s=default; t=1581697407;
+ bh=1ncGh5Rk9EITS77TL+pGGDb/7PSP3K5PnHevgyuW3vM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WDlgS6Wl8Ad/hdfgUwrDv93jH5PszxVrJEkBNgEwzgjE8bWiJ3iqNyXv26rNVJZ0C
- jaU8nfHuYy9dFO5HnldkJpy1Tr3B8lSb3AUjP5eZ1jH/E4lwuMJdj9GMBGO4/CvHSg
- 4SQQGzK6ItFB0nu949rQ1+fzdGLhFNG5tYliIIcc=
+ b=hXyy75tlWb4pnMA1c92ToC5bR3NYo+eAeCS8K4KAPQPJaxOHD14yqM48oBr+equjO
+ gUfCH3ZnPlPQ8taaveNVciUWV9B0RODknRAN6l7k5DeGWMYHY8jHkaqsg9DnlOMEeu
+ nkTN7x+IBgAY+VivpCoLRx+l3N/WvAOIH0UY82/E=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 099/141] drm/nouveau: Fix copy-paste error in
- nouveau_fence_wait_uevent_handler
-Date: Fri, 14 Feb 2020 11:20:39 -0500
-Message-Id: <20200214162122.19794-99-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 100/141] drm/vmwgfx: prevent memory leak in
+ vmw_cmdbuf_res_add
+Date: Fri, 14 Feb 2020 11:20:40 -0500
+Message-Id: <20200214162122.19794-100-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214162122.19794-1-sashal@kernel.org>
 References: <20200214162122.19794-1-sashal@kernel.org>
@@ -50,42 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- YueHaibing <yuehaibing@huawei.com>, Ben Skeggs <bskeggs@redhat.com>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Thomas Hellstrom <thellstrom@vmware.com>,
+ dri-devel@lists.freedesktop.org, Navid Emamdoost <navid.emamdoost@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: YueHaibing <yuehaibing@huawei.com>
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
 
-[ Upstream commit 1eb013473bff5f95b6fe1ca4dd7deda47257b9c2 ]
+[ Upstream commit 40efb09a7f53125719e49864da008495e39aaa1e ]
 
-Like other cases, it should use rcu protected 'chan' rather
-than 'fence->channel' in nouveau_fence_wait_uevent_handler.
+In vmw_cmdbuf_res_add if drm_ht_insert_item fails the allocated memory
+for cres should be released.
 
-Fixes: 0ec5f02f0e2c ("drm/nouveau: prevent stale fence->channel pointers, and protect with rcu")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Fixes: 18e4a4669c50 ("drm/vmwgfx: Fix compat shader namespace")
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+Reviewed-by: Thomas Hellstrom <thellstrom@vmware.com>
+Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 4bb9ab892ae19..78e521d00251c 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -158,7 +158,7 @@ nouveau_fence_wait_uevent_handler(struct nvif_notify *notify)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+index 1f013d45c9e9a..0c7c3005594cc 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+@@ -210,8 +210,10 @@ int vmw_cmdbuf_res_add(struct vmw_cmdbuf_res_manager *man,
  
- 		fence = list_entry(fctx->pending.next, typeof(*fence), head);
- 		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
--		if (nouveau_fence_update(fence->channel, fctx))
-+		if (nouveau_fence_update(chan, fctx))
- 			ret = NVIF_NOTIFY_DROP;
- 	}
- 	spin_unlock_irqrestore(&fctx->lock, flags);
+ 	cres->hash.key = user_key | (res_type << 24);
+ 	ret = drm_ht_insert_item(&man->resources, &cres->hash);
+-	if (unlikely(ret != 0))
++	if (unlikely(ret != 0)) {
++		kfree(cres);
+ 		goto out_invalid_key;
++	}
+ 
+ 	cres->state = VMW_CMDBUF_RES_ADD;
+ 	cres->res = vmw_resource_reference(res);
 -- 
 2.20.1
 
