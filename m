@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7805A15DB8D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:49:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB59215DB8E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:49:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91FC86F97D;
-	Fri, 14 Feb 2020 15:49:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6EDC6F97F;
+	Fri, 14 Feb 2020 15:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C097D6F974;
- Fri, 14 Feb 2020 15:49:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24EFD6F97F
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:49:45 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D3EC4217F4;
- Fri, 14 Feb 2020 15:49:42 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0B17224685;
+ Fri, 14 Feb 2020 15:49:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695383;
- bh=gqwbBlP1p3HZ52B2xdObmey5c3N+SJaIq90toCEc2bU=;
+ s=default; t=1581695385;
+ bh=b/DkCkBjfmugWgVNNhk4QMI2Ne6zMW1uGQ9tVLzx0OE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tQL//zh0odw0nxd5sz9jATzNV8UuB9b1INxlYJOmk2Dd02JaajR6ymGPdQkBCNWkX
- NcG3XwrgwqLgi6t6rKlRmxVW7cX5jEg0x+Y+p2vQt+P0Rq3QOcUEy2YVsCURrWpLHi
- fEUkH/qV8XriUfqSSy16HpjIsbE3u5HON6fdZwk8=
+ b=xSIJLzSX3iAcTT+tq2Php8TFxjXt7N/WZkRYx8AvbXvFyw6NXYUiUyPQrAU0McSH/
+ KsCTu3P0jQHs7M7vwfJizS3bJIMCxxn0W8Am3HpfnbUk5ngsfxsu2T2iFoWxwmvwPM
+ UjRgXjpKjyCGBDLgtbMZ9zzfmBCjHAmc+fs+Y1ak=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 038/542] drm/msm/adreno: fix zap vs no-zap handling
-Date: Fri, 14 Feb 2020 10:40:30 -0500
-Message-Id: <20200214154854.6746-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 039/542] pxa168fb: Fix the function used to
+ release some memory in an error handling path
+Date: Fri, 14 Feb 2020 10:40:31 -0500
+Message-Id: <20200214154854.6746-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -49,92 +50,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
+ Lubomir Rintel <lkundrak@v3.sk>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-[ Upstream commit 15ab987c423df561e0949d77fb5043921ae59956 ]
+[ Upstream commit 3c911fe799d1c338d94b78e7182ad452c37af897 ]
 
-We can have two cases, when it comes to "zap" fw.  Either the fw
-requires zap fw to take the GPU out of secure mode at boot, or it does
-not and we can write RBBM_SECVID_TRUST_CNTL directly.  Previously we
-decided based on whether zap fw load succeeded, but this is not a great
-plan because:
+In the probe function, some resources are allocated using 'dma_alloc_wc()',
+they should be released with 'dma_free_wc()', not 'dma_free_coherent()'.
 
-1) we could have zap fw in the filesystem on a device where it is not
-   required
-2) we could have the inverse case
+We already use 'dma_free_wc()' in the remove function, but not in the
+error handling path of the probe function.
 
-Instead, shift to deciding based on whether we have a 'zap-shader' node
-in dt.  In practice, there is only one device (currently) with upstream
-dt that does not use zap (cheza), and it already has a /delete-node/ for
-the zap-shader node.
+Also, remove a useless 'PAGE_ALIGN()'. 'info->fix.smem_len' is already
+PAGE_ALIGNed.
 
-Fixes: abccb9fe3267 ("drm/msm/a6xx: Add zap shader load")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Fixes: 638772c7553f ("fb: add support of LCD display controller on pxa168/910 (base layer)")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Lubomir Rintel <lkundrak@v3.sk>
+CC: YueHaibing <yuehaibing@huawei.com>
+Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190831100024.3248-1-christophe.jaillet@wanadoo.fr
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 11 +++++++++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++++++--
- 2 files changed, 18 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/pxa168fb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index b02e2042547f6..7d9e63e20dedd 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -753,11 +753,18 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
- 		gpu->funcs->flush(gpu, gpu->rb[0]);
- 		if (!a5xx_idle(gpu, gpu->rb[0]))
- 			return -EINVAL;
--	} else {
--		/* Print a warning so if we die, we know why */
-+	} else if (ret == -ENODEV) {
-+		/*
-+		 * This device does not use zap shader (but print a warning
-+		 * just in case someone got their dt wrong.. hopefully they
-+		 * have a debug UART to realize the error of their ways...
-+		 * if you mess this up you are about to crash horribly)
-+		 */
- 		dev_warn_once(gpu->dev->dev,
- 			"Zap shader not enabled - using SECVID_TRUST_CNTL instead\n");
- 		gpu_write(gpu, REG_A5XX_RBBM_SECVID_TRUST_CNTL, 0x0);
-+	} else {
-+		return ret;
- 	}
+diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+index 1410f476e135d..1fc50fc0694bc 100644
+--- a/drivers/video/fbdev/pxa168fb.c
++++ b/drivers/video/fbdev/pxa168fb.c
+@@ -766,8 +766,8 @@ static int pxa168fb_probe(struct platform_device *pdev)
+ failed_free_clk:
+ 	clk_disable_unprepare(fbi->clk);
+ failed_free_fbmem:
+-	dma_free_coherent(fbi->dev, info->fix.smem_len,
+-			info->screen_base, fbi->fb_start_dma);
++	dma_free_wc(fbi->dev, info->fix.smem_len,
++		    info->screen_base, fbi->fb_start_dma);
+ failed_free_info:
+ 	kfree(info);
  
- 	/* Last step - yield the ringbuffer */
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index dc8ec2c94301b..686c34d706b0d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -537,12 +537,19 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 		a6xx_flush(gpu, gpu->rb[0]);
- 		if (!a6xx_idle(gpu, gpu->rb[0]))
- 			return -EINVAL;
--	} else {
--		/* Print a warning so if we die, we know why */
-+	} else if (ret == -ENODEV) {
-+		/*
-+		 * This device does not use zap shader (but print a warning
-+		 * just in case someone got their dt wrong.. hopefully they
-+		 * have a debug UART to realize the error of their ways...
-+		 * if you mess this up you are about to crash horribly)
-+		 */
- 		dev_warn_once(gpu->dev->dev,
- 			"Zap shader not enabled - using SECVID_TRUST_CNTL instead\n");
- 		gpu_write(gpu, REG_A6XX_RBBM_SECVID_TRUST_CNTL, 0x0);
- 		ret = 0;
-+	} else {
-+		return ret;
- 	}
+@@ -801,7 +801,7 @@ static int pxa168fb_remove(struct platform_device *pdev)
  
- out:
+ 	irq = platform_get_irq(pdev, 0);
+ 
+-	dma_free_wc(fbi->dev, PAGE_ALIGN(info->fix.smem_len),
++	dma_free_wc(fbi->dev, info->fix.smem_len,
+ 		    info->screen_base, info->fix.smem_start);
+ 
+ 	clk_disable_unprepare(fbi->clk);
 -- 
 2.20.1
 
