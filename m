@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAC715E1A4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:20:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2621515E1A7
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:20:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 893C16FAF7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1736FAF8;
 	Fri, 14 Feb 2020 16:20:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0205E6FAF8;
- Fri, 14 Feb 2020 16:19:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC986FAF7;
+ Fri, 14 Feb 2020 16:19:59 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1DEB224721;
- Fri, 14 Feb 2020 16:19:57 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3F6B72472E;
+ Fri, 14 Feb 2020 16:19:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697197;
- bh=A5JhqAJW0/T19P0pXEctJKdutmGn5EGnPtPBSXQsXo4=;
+ s=default; t=1581697199;
+ bh=IJrHykFkCkyR23gfxYuRwcxF8VQP6BEXnlSz/yBVNzQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fZSjkvaxBCmfn0Qk3bO+iYmUR5RYvvl06EqOiP7nIKsIdxynf9oNRj4ZGslib8+Mq
- kXrvV8QjMk82lBhoFZUpxzp8sSPRTiah4BqRIfLSf5Pdf4JncoiXvVhv8w9aQYepR5
- aSTpzDFwq6dxnWji7YhG7pwANxzPojTExDnRAnb4=
+ b=Lrj+3xUD4ARrpsByz5SzQqojbgDlxOR/m6drfAXTC4DgJ2gTAxZmI17ITlAqb4/DA
+ Rol0T7ur5TlHxlds7VyQMEvtYKZjyA5sXEtebvIg1rAPs/t2eYHxDurm2SpC4Iqhkh
+ M6iVZIg7eC235WRXAq6DdHo1JJ175dTEUuhKXgek=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 126/186] drm/nouveau/gr/gk20a,
- gm200-: add terminators to method lists read from fw
-Date: Fri, 14 Feb 2020 11:16:15 -0500
-Message-Id: <20200214161715.18113-126-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 127/186] drm/nouveau: Fix copy-paste error in
+ nouveau_fence_wait_uevent_handler
+Date: Fri, 14 Feb 2020 11:16:16 -0500
+Message-Id: <20200214161715.18113-127-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
 References: <20200214161715.18113-1-sashal@kernel.org>
@@ -51,79 +51,41 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
+ YueHaibing <yuehaibing@huawei.com>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ben Skeggs <bskeggs@redhat.com>
+From: YueHaibing <yuehaibing@huawei.com>
 
-[ Upstream commit 7adc77aa0e11f25b0e762859219c70852cd8d56f ]
+[ Upstream commit 1eb013473bff5f95b6fe1ca4dd7deda47257b9c2 ]
 
-Method init is typically ordered by class in the FW image as ThreeD,
-TwoD, Compute.
+Like other cases, it should use rcu protected 'chan' rather
+than 'fence->channel' in nouveau_fence_wait_uevent_handler.
 
-Due to a bug in parsing the FW into our internal format, we've been
-accidentally sending Twod + Compute methods to the ThreeD class, as
-well as Compute methods to the TwoD class - oops.
-
+Fixes: 0ec5f02f0e2c ("drm/nouveau: prevent stale fence->channel pointers, and protect with rcu")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/nouveau/nvkm/engine/gr/gk20a.c    | 21 ++++++++++---------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
-index de8b806b88fd9..7618b2eb4fdfd 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
-@@ -143,23 +143,24 @@ gk20a_gr_av_to_method(struct gf100_gr *gr, const char *fw_name,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 99e14e3e0fe4d..72532539369fb 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -158,7 +158,7 @@ nouveau_fence_wait_uevent_handler(struct nvif_notify *notify)
  
- 	nent = (fuc.size / sizeof(struct gk20a_fw_av));
- 
--	pack = vzalloc((sizeof(*pack) * max_classes) +
--		       (sizeof(*init) * (nent + 1)));
-+	pack = vzalloc((sizeof(*pack) * (max_classes + 1)) +
-+		       (sizeof(*init) * (nent + max_classes + 1)));
- 	if (!pack) {
- 		ret = -ENOMEM;
- 		goto end;
+ 		fence = list_entry(fctx->pending.next, typeof(*fence), head);
+ 		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+-		if (nouveau_fence_update(fence->channel, fctx))
++		if (nouveau_fence_update(chan, fctx))
+ 			ret = NVIF_NOTIFY_DROP;
  	}
- 
--	init = (void *)(pack + max_classes);
-+	init = (void *)(pack + max_classes + 1);
- 
--	for (i = 0; i < nent; i++) {
--		struct gf100_gr_init *ent = &init[i];
-+	for (i = 0; i < nent; i++, init++) {
- 		struct gk20a_fw_av *av = &((struct gk20a_fw_av *)fuc.data)[i];
- 		u32 class = av->addr & 0xffff;
- 		u32 addr = (av->addr & 0xffff0000) >> 14;
- 
- 		if (prevclass != class) {
--			pack[classidx].init = ent;
-+			if (prevclass) /* Add terminator to the method list. */
-+				init++;
-+			pack[classidx].init = init;
- 			pack[classidx].type = class;
- 			prevclass = class;
- 			if (++classidx >= max_classes) {
-@@ -169,10 +170,10 @@ gk20a_gr_av_to_method(struct gf100_gr *gr, const char *fw_name,
- 			}
- 		}
- 
--		ent->addr = addr;
--		ent->data = av->data;
--		ent->count = 1;
--		ent->pitch = 1;
-+		init->addr = addr;
-+		init->data = av->data;
-+		init->count = 1;
-+		init->pitch = 1;
- 	}
- 
- 	*ppack = pack;
+ 	spin_unlock_irqrestore(&fctx->lock, flags);
 -- 
 2.20.1
 
