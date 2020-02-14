@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F40F160D0E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B26160CF8
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF0D6E8CB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2420E6E8C9;
 	Mon, 17 Feb 2020 08:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F8A16F964
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:39:52 +0000 (UTC)
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21826E3DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:44:09 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id A94775BC;
- Fri, 14 Feb 2020 10:39:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 14 Feb 2020 10:39:49 -0500
+ by mailnew.nyi.internal (Postfix) with ESMTP id 40E905CD1;
+ Fri, 14 Feb 2020 10:44:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 14 Feb 2020 10:44:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=Xn6bkCq3IHWbARqSJQRu/yjMZ3m
- Wx6T6bFlYS9wLQ0g=; b=EjQN9ZidI4L2P/uzDEPEfpSrVu58fuXU/cNTz6HGCUq
- zOO3yJkXhVQzr1Te1yUSIWkJ5U/WenrFP5tQSqMFgNgVpB/ADeXlAH2252SL4ftP
- ginDkMxfI+fov4ksbZ1xJ6U2MotLoS6ZlFMdfgWHWskpdoUQb2xuaxqcRwkvHc14
- gDWvzgwawsyZ8DPHRCi6u3tvWQ58SvkSQCGv/8DGfVx86oBytLyPSw5JO2ZeEJ2b
- ICAGghp/y8ipq8AS9NRVpjRtYrqcCwHrg3KdMxk7QMkzXTAVcJ7+RtR4AortJLP3
- n9c6zR8j/ViYr4kH5fig1+k9dSz7HKiEzwefQizHasQ==
+ :content-type:in-reply-to; s=fm2; bh=n5v7Ksf5fN+HGYZQY4Cr6/EpGn+
+ eFDk1rQovPH6zOQU=; b=k+dQmLVjp1h/yH4XaeEmVKsC8XumRaOXMNNVI1cAaOI
+ uVDVHEwtAtIDB4hEB2Popc9ifkFA4dteIs/9nbd2RMvo40dmSBxaFJzbS+oa2gvW
+ 7UiMSSe3GRgN91WEOuZ6Xz9JOuPKjWENc3xQhOTaGEIlG/JKPEEvce0/PSa9Eg9P
+ O4uPJ7DbxXrCAyoMzCNYRZO8sxDihm+p5fR5SjPWlLvhicYiCuTjqMxjBxNJBOeN
+ viet7Cgi18ytKXsrZpVm+6cl79xYBiZ57o/axsPEEOTmJs+RWgOzXir+7xOV9XL0
+ scedVSGvykOerXakEMOaA3/iYkZ+vGvH/XMiIQOwTJQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Xn6bkC
- q3IHWbARqSJQRu/yjMZ3mWx6T6bFlYS9wLQ0g=; b=hPFiBqbM1cTH51+JkdrSzL
- 4x1MD/COSmhFILC2dxRKhT8SomRNj8VKCHIHeNQ9jWzeT14SzY8Pf2I43ewjVfVf
- mbSg7yvJKdkK1XgeicpQRWQWUsQYDfMEse4ZXMZa7KvF/1gic/iN821bVNTi/vLA
- MtT62N6VYVPcElkBvpf5Gj0RZwAM9bZKpVvRLzwc4/0fAdLqVAJwXS8cDGfIQ9s0
- EBxB018QngOdLEJOGVhjVRc5Db3fFIz7ng0cipl+DmB5WuKMgquxW1J6oz8Kdnld
- 3oljHxkYHLd/ON4v6ewJYLJb+gV+7B1lZI5duZb3MqXHvcDaePNnBwion6fI2BXA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=n5v7Ks
+ f5fN+HGYZQY4Cr6/EpGn+eFDk1rQovPH6zOQU=; b=rIA7N4TgCEXQwu43DKUW2L
+ W4++wGCiAERQclPw/7jCi/4LxxIpBDbsWUhz2Bf8azP+AUkSt+9Y3xQrHditj2pQ
+ uAJrx0xSRzp+moxYhgCPi8D5/kJkviLEKLScvhUZrcOZ8zad3RruSLo+pyGynmkH
+ u1ZfpsDKfPiBPiUaZXP4e9TvxR5yqgXJ9Md4+LyRp06TP/5nd/l9IAkhw52WJEyw
+ 2Z56cPbIW+XbzKpfH3Sqe3ukv8ojpGkZEgiF9oWYLOrs6rdAPPPV1LdD6Aeu/Cr/
+ PAOS9R1KQPhuUa614o9nCmt6ln5+zBK2QcmBLuh2pEV9kxoPyZB2mOSb1a54KT1Q
  ==
-X-ME-Sender: <xms:Q79GXlrwVuJre4U8kqRDtOCMd3GQqOdo50VDur0dbWWaU7Kv7ZSBng>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjedtgdektdcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:R8BGXrT0Z-LrkYPf54YX95PM3kh0W0mk0CCcITPa8_Hvzi8QGsl8PQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjedtgdekudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
  ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
  fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Q79GXr4nErsL___eL0NgPQTNn5Wez-0o-f1vu0Edj6iVWn6vE0knsQ>
- <xmx:Q79GXtOMQh9JBLRulso3Qz6JjPUqZEP8tEtJXy0oHU1Q_7-km5zeZQ>
- <xmx:Q79GXlORXvW7AQAy35c7eFPZF_y7J4zmXhqYJo_EOVCVXEk_IbHtug>
- <xmx:RL9GXia6RsTIyfeJd9GKeGgx-NnxNXsLZ_FlO1JJsAS2mIKXJ9vfKg>
+X-ME-Proxy: <xmx:R8BGXvvKwDo-3MEP4nIBCAsXoc1LBpljPg3kX3YUlAGQpXApwUL41g>
+ <xmx:R8BGXkNWpig5YSHaEkc9zD-IcbYVcAO5yuZtUUlZ-m-b46PgjX2C8Q>
+ <xmx:R8BGXijZhTpEesb32RwtqSX5HFkfNgzcVCAKoNw5nw-6SvAFI5TOVA>
+ <xmx:ScBGXphAPunMvxwS9HvlUFBGO3sk2OaMZiwuMs5fA-XN0hEjfpHlVw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0A3C2328005A;
- Fri, 14 Feb 2020 10:39:46 -0500 (EST)
-Date: Fri, 14 Feb 2020 16:39:45 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 20A1530606E9;
+ Fri, 14 Feb 2020 10:44:07 -0500 (EST)
+Date: Fri, 14 Feb 2020 16:44:05 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 4/4] drm/sun4i: dsi: Remove incorrect use of runtime PM
-Message-ID: <20200214153945.f5z42fovcitvdlcr@gilmour.lan>
-References: <20200211072858.30784-1-samuel@sholland.org>
- <20200211072858.30784-4-samuel@sholland.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: sun4i-tcon: Add LVDS Dual Link
+ property
+Message-ID: <20200214154405.f5zuicm6uhhiczfs@gilmour.lan>
+References: <20200214123244.109300-1-maxime@cerno.tech>
+ <20200214131025.GI4831@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200211072858.30784-4-samuel@sholland.org>
+In-Reply-To: <20200214131025.GI4831@pendragon.ideasonboard.com>
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,136 +77,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- stable@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0606748446=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1441934860=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0606748446==
+--===============1441934860==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rtmrzd3owfcaeil6"
+	protocol="application/pgp-signature"; boundary="ocew46sopze2pn2e"
 Content-Disposition: inline
 
 
---rtmrzd3owfcaeil6
+--ocew46sopze2pn2e
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Feb 11, 2020 at 01:28:58AM -0600, Samuel Holland wrote:
-> The driver currently uses runtime PM to perform some of the module
-> initialization and cleanup. This has three problems:
->
-> 1) There is no Kconfig dependency on CONFIG_PM, so if runtime PM is
->    disabled, the driver will not work at all, since the module will
->    never be initialized.
->
-> 2) The driver does not ensure that the device is suspended when
->    sun6i_dsi_probe() fails or when sun6i_dsi_remove() is called. It
->    simply disables runtime PM. From the docs of pm_runtime_disable():
->
->       The device can be either active or suspended after its runtime PM
->       has been disabled.
->
->    And indeed, the device will likely still be active if sun6i_dsi_probe
->    fails. For example, if the panel driver is not yet loaded, we have
->    the following sequence:
->
->    sun6i_dsi_probe()
->       pm_runtime_enable()
->       mipi_dsi_host_register()
->          of_mipi_dsi_device_add(child)
->             ...device_add()...
->                __device_attach()
->                  pm_runtime_get_sync(dev->parent) -> Causes resume
->                  bus_for_each_drv()
->                     __device_attach_driver() -> No match for panel
->                  pm_runtime_put(dev->parent) -> Async idle request
->       component_add()
->          __component_add()
->             try_to_bring_up_masters()
->                try_to_bring_up_master()
->                   sun4i_drv_bind()
->                      component_bind_all()
->                         component_bind()
->                            sun6i_dsi_bind() -> Fails with -EPROBE_DEFER
->       mipi_dsi_host_unregister()
->       pm_runtime_disable()
->          __pm_runtime_disable()
->             __pm_runtime_barrier() -> Idle request is still pending
->                cancel_work_sync()  -> DSI host is *not* suspended!
->
->    Since the device is not suspended, the clock and regulator are never
->    disabled. The imbalance causes a WARN at devres free time.
->
-> 3) The driver relies on being suspended when sun6i_dsi_encoder_enable()
->    is called. The resume callback has a comment that says:
->
->       Some part of it can only be done once we get a number of
->       lanes, see sun6i_dsi_inst_init
->
->    And then part of the resume callback only runs if dsi->device is not
->    NULL (that is, if sun6i_dsi_attach() has been called). However, as
->    the above call graph shows, the resume callback is guaranteed to be
->    called before sun6i_dsi_attach(); it is called before child devices
->    get their drivers attached.
->
->    Therefore, part of the controller initialization will only run if the
->    device is suspended between the calls to mipi_dsi_host_register() and
->    component_add() (which ends up calling sun6i_dsi_encoder_enable()).
->    Again, as shown by the above call graph, this is not the case. It
->    appears that the controller happens to work because it is still
->    initialized by the bootloader.
->
->    Because the connector is hardcoded to always be connected, the
->    device's runtime PM reference is not dropped until system suspend,
->    when sun4i_drv_drm_sys_suspend() ends up calling
->    sun6i_dsi_encoder_disable(). However, that is done as a system sleep
->    PM hook, and at that point the system PM core has already taken
->    another runtime PM reference, so sun6i_dsi_runtime_suspend() is
->    not called. Likewise, by the time the PM core releases its reference,
->    sun4i_drv_drm_sys_resume() has already re-enabled the encoder.
->
->    So after system suspend and resume, we have *still never called*
->    sun6i_dsi_inst_init(), and now that the rest of the display pipeline
->    has been reset, the DSI host is unable to communicate with the panel,
->    causing VBLANK timeouts.
->
-> Fix all of these issues by inlining the runtime PM hooks into the
-> encoder enable/disable functions, which are guaranteed to run after a
-> panel is attached. This allows sun6i_dsi_inst_init() to be called
-> unconditionally. Furthermore, this causes the hardware to be turned off
-> during system suspend and reinitialized on resume, which was not
-> happening before.
->
-> Fixes: 133add5b5ad4 ("drm/sun4i: Add Allwinner A31 MIPI-DSI controller support")
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Hi Laurent,
 
-Applied all 4 patches.
+On Fri, Feb 14, 2020 at 03:10:25PM +0200, Laurent Pinchart wrote:
+> Hi Maxime,
+>
+> Thank you for the patch.
+>
+> On Fri, Feb 14, 2020 at 01:32:43PM +0100, Maxime Ripard wrote:
+> > SoCs that have multiple TCONs can use the two set of pins on the first TCON
+> > to drive a dual-link display. Add a property to enable the dual link.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  .../bindings/display/allwinner,sun4i-a10-tcon.yaml         | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> > index 86ad617d2327..aa6dd8409dbc 100644
+> > --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> > +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> > @@ -105,6 +105,13 @@ properties:
+> >          - const: edp
+> >          - const: lvds
+> >
+> > +  allwinner,lvds-dual-link:
+> > +    type: boolean
+> > +    description: |
+> > +      On a SoC with two TCON with LVDS support, the first TCON can
+> > +      operate over both pins sets to output in a dual-link setup. This
+> > +      will be triggered by setting this property.
+>
+> Could you maybe provide an example of how this property is supposed to
+> be used ? I'm especially wondering what ports are used in that case and
+> how they're connected.
 
-This one failed to apply for some reason (even though the context
-looks similar) so I fixed the conflict by hand, you might want to
-double check.
+It's pretty trivial to support, it's only a property to set on the
+encoder node itself.
 
-Thanks!
+I'm not really sure what you meant by your question with the ports
+though :/
+
 Maxime
 
---rtmrzd3owfcaeil6
+--ocew46sopze2pn2e
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXka/QQAKCRDj7w1vZxhR
-xROhAP9xJDyQFSRI0tejwko7eZz6nzw0YOPs5uKx1NWyOEkIhAD/cUcrgex7M7Gq
-jRQ9ouveV4eRA7LCI3o94CXtO5B3kwY=
-=2318
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXkbARQAKCRDj7w1vZxhR
+xWgZAQCoX6IPh3nfofCSZf7uxIEwmYH/acb4D64t70G8fNoW4AEA0scufZoOcED6
+nd6GkciRxgxAXhF3LhkXYBnzHA7tnQY=
+=1YtU
 -----END PGP SIGNATURE-----
 
---rtmrzd3owfcaeil6--
+--ocew46sopze2pn2e--
 
---===============0606748446==
+--===============1441934860==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -216,4 +164,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0606748446==--
+--===============1441934860==--
