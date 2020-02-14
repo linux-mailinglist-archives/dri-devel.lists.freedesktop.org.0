@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EA215DC93
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:54:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 756ED15DC9A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:55:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 311B96F9D1;
-	Fri, 14 Feb 2020 15:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2D06F9D2;
+	Fri, 14 Feb 2020 15:55:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 652926F9D1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:54:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC7A6F9D2;
+ Fri, 14 Feb 2020 15:55:15 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1F1FE24676;
- Fri, 14 Feb 2020 15:54:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3B07024681;
+ Fri, 14 Feb 2020 15:55:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695693;
- bh=MpOLrtBpFCiszf4oe87gUXnv6QKAfqqQwxxRDU9gY+c=;
+ s=default; t=1581695715;
+ bh=5jtGsCSjRRpD360ikcBkCoYPXgSmQEYS0wrNFktcNKQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TXINiA4tQ/z7WmhSii7nfOaOxTuxWgj1sNoDbKeNEcvEjlSizmEr4FdbspK8IeP2j
- 0I8GT3fGR5twOWil88spVScnqZjVNUQsMqGUJKT+SbvC/9z0+rt+PUtytSmnhWGe7w
- ut8FOPFhr1hxrJn5Qh0aL0kK603Ns55PCNeqoQS8=
+ b=ZGFlOTcYvjDHSCq507f4c7DTSSJd/y1VNNugyc8z3Afbsu2yfPLCFbbCYSqZxghXM
+ RNifatln/Z108Y54tSdI3ER3PKK/uycyjKpPJx0wPLGBB9K1Qvw24MdGfvfkFs6w3A
+ rWyb95LnEOM5qcnxss8P/JdD6tDSgy564ZwdclBc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 276/542] fbdev: fix numbering of fbcon options
-Date: Fri, 14 Feb 2020 10:44:28 -0500
-Message-Id: <20200214154854.6746-276-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 293/542] drm/amdkfd: Fix permissions of hang_hws
+Date: Fri, 14 Feb 2020 10:44:45 -0500
+Message-Id: <20200214154854.6746-293-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -49,76 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
- Peter Rosin <peda@axentia.se>
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, shaoyunl <shaoyun.liu@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Peter Rosin <peda@axentia.se>
+From: Felix Kuehling <Felix.Kuehling@amd.com>
 
-[ Upstream commit fd933c00ebe220060e66fb136a7050a242456566 ]
+[ Upstream commit 2bdac179e217a0c0b548a8c60524977586621b19 ]
 
-Three shall be the number thou shalt count, and the number of the
-counting shall be three. Four shalt thou not count...
+Reading from /sys/kernel/debug/kfd/hang_hws would cause a kernel
+oops because we didn't implement a read callback. Set the permission
+to write-only to prevent that.
 
-One! Two! Five!
-
-Fixes: efb985f6b265 ("[PATCH] fbcon: Console Rotation - Add framebuffer console documentation")
-Signed-off-by: Peter Rosin <peda@axentia.se>
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190827110854.12574-2-peda@axentia.se
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Reviewed-by: shaoyunl  <shaoyun.liu@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/fb/fbcon.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index ebca41785abea..65ba402551374 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -127,7 +127,7 @@ C. Boot options
- 	is typically located on the same video card.  Thus, the consoles that
- 	are controlled by the VGA console will be garbled.
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debugfs.c b/drivers/gpu/drm/amd/amdkfd/kfd_debugfs.c
+index 15c523027285c..511712c2e382d 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_debugfs.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_debugfs.c
+@@ -93,7 +93,7 @@ void kfd_debugfs_init(void)
+ 			    kfd_debugfs_hqds_by_device, &kfd_debugfs_fops);
+ 	debugfs_create_file("rls", S_IFREG | 0444, debugfs_root,
+ 			    kfd_debugfs_rls_by_device, &kfd_debugfs_fops);
+-	debugfs_create_file("hang_hws", S_IFREG | 0644, debugfs_root,
++	debugfs_create_file("hang_hws", S_IFREG | 0200, debugfs_root,
+ 			    NULL, &kfd_debugfs_hang_hws_fops);
+ }
  
--4. fbcon=rotate:<n>
-+5. fbcon=rotate:<n>
- 
- 	This option changes the orientation angle of the console display. The
- 	value 'n' accepts the following:
-@@ -152,21 +152,21 @@ C. Boot options
- 	Actually, the underlying fb driver is totally ignorant of console
- 	rotation.
- 
--5. fbcon=margin:<color>
-+6. fbcon=margin:<color>
- 
- 	This option specifies the color of the margins. The margins are the
- 	leftover area at the right and the bottom of the screen that are not
- 	used by text. By default, this area will be black. The 'color' value
- 	is an integer number that depends on the framebuffer driver being used.
- 
--6. fbcon=nodefer
-+7. fbcon=nodefer
- 
- 	If the kernel is compiled with deferred fbcon takeover support, normally
- 	the framebuffer contents, left in place by the firmware/bootloader, will
- 	be preserved until there actually is some text is output to the console.
- 	This option causes fbcon to bind immediately to the fbdev device.
- 
--7. fbcon=logo-pos:<location>
-+8. fbcon=logo-pos:<location>
- 
- 	The only possible 'location' is 'center' (without quotes), and when
- 	given, the bootup logo is moved from the default top-left corner
 -- 
 2.20.1
 
