@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657B5160D01
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC84C160CCF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 008316E857;
-	Mon, 17 Feb 2020 08:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95F76E51D;
+	Mon, 17 Feb 2020 08:20:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p03-ob.smtp.rzone.de (mo6-p03-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5303::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA036FA79
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581696638;
+ [IPv6:2a01:238:20a:202:5303::11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD416FA7C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581696639;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=ZBAC50dU0uhRQKdMbm4Q/e7P7wLPrnPuOlslKb4Wgqo=;
- b=mmfUjgqCXNmQ8DepGH72zTgag014Hl6ZERiFq49SZUopHZ3cduadGtebPEa/koRhrF
- ztZ8dIDeIMpvlMUqzLamV7cq1Ls+I+gzZUPjFxGx6OznCAbqKk07fz+OvOAAkCh3gNVn
- T2uW8U00+rN4rT4nn6qavpDcvpjE9C42t04nS1MgGCW0HzUAaqZLXiQNL2HvJJwx+YHF
- XhQlAFfpoft1rHQ4GIkWL5Z2S9kkhN2nP2EG5vOBtiNLS0GsPgeWFL/6Mvdu6/5M5rC6
- AOnGbKHvIuOIRI19KOo9p8POCJrVVDQMmXOSVH7Mxfrsbu1ve7grCmE703R+QlyDV+Fs
- c6PQ==
+ bh=tz5FT9e8j/vOF6dHesX7jElKIt8MXbKvwaqQV2chsVc=;
+ b=sTkxHdnbi44r+T9fb50FsknsqnG5JiAjbiyd+/ic0kR/4bYaPaTrXxrnm570YVWI3H
+ D3UadaMDUlI6vQtuTaFYqvcytqHOcyXORaU5OtS2JbIYDsebYFtdDOZW4lQkhTq9Yatg
+ /ovxnrFMDMX8YIi1A/fej2vZJdjfe/TuZA0KaxGzd7xNi+Cre14XouMg40Ieal+r+V3L
+ e0b59oEhEZNOk8t5hxEVBPkmPRCI06qd6iNQ31vFRSMnoKvBXICP1NCq12VuZqAW5nSH
+ PiGbmNCpY4o49o6a/weHvmR717tX6p1+UxyNZwgM62pDgEGfKvW8xkXdvTzLxx4+1S5b
+ Gahw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UNf2M7OMfsfQx3"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1EGAUFl2
+ with ESMTPSA id U06217w1EGAUFl3
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
  Fri, 14 Feb 2020 17:10:30 +0100 (CET)
@@ -39,9 +39,9 @@ To: Paul Boddie <paul@boddie.org.uk>, Paul Cercueil <paul@crapouillou.net>,
  "H. Nikolaus Schaller" <hns@goldelico.com>,
  Andi Kleen <ak@linux.intel.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
  Kees Cook <keescook@chromium.org>
-Subject: [PATCH v2 07/12] MIPS: DTS: CI20: give eth0_power a defined voltage.
-Date: Fri, 14 Feb 2020 17:10:19 +0100
-Message-Id: <b72b4c86d2b390844a1ea97885c4b65204bc8872.1581696624.git.hns@goldelico.com>
+Subject: [PATCH v2 08/12] MIPS: DTS: CI20: add DT node for IR sensor
+Date: Fri, 14 Feb 2020 17:10:20 +0100
+Message-Id: <31af38e43747fbcc1248bcb83975997d1385838e.1581696624.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1581696624.git.hns@goldelico.com>
 References: <cover.1581696624.git.hns@goldelico.com>
@@ -61,32 +61,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@pyra-handheld.com, letux-kernel@openphoenux.org
+ Alex Smith <alex.smith@imgtec.com>, kernel@pyra-handheld.com,
+ letux-kernel@openphoenux.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a 3.3V power switch (DVNET3.3V ).
+From: Alex Smith <alex.smith@imgtec.com>
 
+The infrared sensor on the CI20 board is connected to a GPIO and can
+be operated by using the gpio-ir-recv driver. Add a DT node for the
+sensor to allow that driver to be used.
+
+Signed-off-by: Alex Smith <alex.smith@imgtec.com>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/mips/boot/dts/ingenic/ci20.dts | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/mips/boot/dts/ingenic/ci20.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
-index e02a19db7ef1..e1364f941c7d 100644
+index e1364f941c7d..b4a820313992 100644
 --- a/arch/mips/boot/dts/ingenic/ci20.dts
 +++ b/arch/mips/boot/dts/ingenic/ci20.dts
-@@ -56,6 +56,8 @@
- 	eth0_power: fixedregulator@0 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "eth0_power";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
- 		gpio = <&gpb 25 GPIO_ACTIVE_LOW>;
+@@ -62,6 +62,11 @@
  		enable-active-high;
  	};
+ 
++	ir: ir-receiver {
++		compatible = "gpio-ir-receiver";
++		gpios = <&gpe 3 GPIO_ACTIVE_LOW>;
++	};
++
+ 	wlan0_power: fixedregulator@1 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "wlan0_power";
 -- 
 2.23.0
 
