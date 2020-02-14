@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B66B15F7B4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 21:28:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E1015F88E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 22:15:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAE26E870;
-	Fri, 14 Feb 2020 20:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD2A6E87B;
+	Fri, 14 Feb 2020 21:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2930E6E870;
- Fri, 14 Feb 2020 20:28:54 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id a5so11274170wmb.0;
- Fri, 14 Feb 2020 12:28:54 -0800 (PST)
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1596E87B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 21:15:40 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id x2so420899ila.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 13:15:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O7pGksv/syYfMklkQS/MIxpCbqI6gBoN9ooNLnkw1E8=;
- b=N1XKAjyzrOIL2WzL1i8osQZXd6YVKxqkJSXnzZnFBy1EQOWFgDBfiObxlJ6bu7mVat
- eUdmeSjiexNOP2Prvp/0vLY5h/yLiURfC8HoGpPbpMX54OZ8mr/dUR29OBSMivfWUWXn
- iyguSO0yZXfkaIQtW7BYfxWDSegl8iR5+RdQ82QsOBT8A8FoilCfgTKeFMSqVwieUMZi
- U8o4gtsr1gm5O6AvmypSDqY/hNM0Gcg7QWEJ2WD9fhHMcr7QyfNgEhkD1woTpTAfdwvQ
- Eb3cQ7NrGnGi9ubqbT2kUO6hU52AeCwU0WutSeAT4c8nD40tE5hqBlMSInEIdyFR905L
- EXqg==
+ :cc; bh=FXJ1JTNgU2E22b70yRrhJ6SPMIz5n/Z3sdORI4L9ty8=;
+ b=jsrXdiHvNW2zQOd8aBV3t87/27otvjgZjd6NJ/B5m8BAwkxiejNryiAOp38AwF17a0
+ PvyZh1E+koXs6hGBdR+rjPQQ2yOj6W3kLJl1xZ/zNYp3wgP1WDr8USFeN5+D+kwwfyLf
+ KtLQZRiBzI0Nz3ZuaqMWBMOu9DLWMAEAPLMbxIPsa2F65EsutkvcVahd1+r76vDJEeAx
+ C38KY20+aHbktRhYavj3Wyefm/4xJOCaoTvkFcAGz+0o+eKV2pHWunW/McOVcTZyXgF7
+ F5Cx5KHHVB8R5DfETIV46Oa6IzhmTLAp6eQaJoL7ZMyd04IDhdcEsT3I3iZKGlIlTeGB
+ p1BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=O7pGksv/syYfMklkQS/MIxpCbqI6gBoN9ooNLnkw1E8=;
- b=Ht+V+9mB/hCMdvbmJsa9t5BuDoFrqmYSQjeFMWPXlCawoFWrC9V3zR/6Y8vV0z8aWO
- Q26mbiJa9rBvTlTElZ9zJVW8AJyJUl+7rFGzCcQgZwVL/RGcaGzPz5sqVU4aZzEUzZYS
- xJU/UG40YqLUA+uDqkOHxeHqr9B/SX/gIQLD8RNKZxkTCqQyIjzw4gsutYhhYXMm/vxT
- ropO/J38GLjsLfw+diMSegTn7/g7bGv776SeXn07GaJF5BVZS7ZqXrktho3kgPhFtuAa
- ubm9Q2HItw9kU+NW3P8lK410J+kUSnTGxaudKCVxFAEgFZjRJX8jdhQg/o1XP9YNzvsA
- R/sg==
-X-Gm-Message-State: APjAAAWWuF1lCEvToSas1yCP5CrFmIHTTVyyjWIKL+ICpyShzO3IjUGF
- BvW6IN3t8wFnSAJaBEfaSL9meDbtJbijUdsq2FI=
-X-Google-Smtp-Source: APXvYqzQzqb+GYycoJ++mSYmrxDPTAkYNnz/M4iHUyk2dnbs4mPvr3G0FHTH7AAXaolWev+GH/6SQNwmuJwpuYt5d/E=
-X-Received: by 2002:a05:600c:224a:: with SMTP id
- a10mr6419397wmm.143.1581712131806; 
- Fri, 14 Feb 2020 12:28:51 -0800 (PST)
+ bh=FXJ1JTNgU2E22b70yRrhJ6SPMIz5n/Z3sdORI4L9ty8=;
+ b=W8uhrPyw6M0hOOCijeI5mQkktpUn23OdiDRhMkU7ek3cMkp2934Hrf+ZQPMrZWaCO+
+ qky5PaLsagKJy932H+ulw5tVXe9vThr+26ZSqQEf7BJGRBHb1OMfzH6B5+mzTYsqChNt
+ 1M4h6+KlMkXrON+lDiEHqGgiEIk69+Msbz4GL0dZF2bJDjsUz/ARRCAE1zTEYiy34uS7
+ u7WkaUc4b+xjhfm5ZY0ssPgbhygukbY/W84Lnu99CnJLgCWlBG08m8a42oSQxlG99Mhy
+ A6MBzoB7Xz+KN0M0s2KAIKxjswAHsEtnaCcQtQeIPjdsiCh+eimrpSYPtN1XpLV7cne+
+ 5i9w==
+X-Gm-Message-State: APjAAAUbg0X9iCrpZejIBoGxXWNH1RYea2oFJCx0QoHENvR174a1yyca
+ Wk6VB/Crn2fyxBlk2YewH8iH2EZQFzb8AWcZv38=
+X-Google-Smtp-Source: APXvYqzQv0LLRRQ9ByBo7rV529L/iNIzaHjKCB6cgQtzDcXP6c42xPOa2yhHz978lz9Y+yhh+Wvkf03ZpP/XWK5tlp4=
+X-Received: by 2002:a92:9e97:: with SMTP id s23mr5105396ilk.139.1581714939721; 
+ Fri, 14 Feb 2020 13:15:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20200214155650.21203-1-Kenny.Ho@amd.com>
- <20200214155650.21203-10-Kenny.Ho@amd.com>
- <CAOFGe96N5gG+08rQCRC+diHKDAfxPFYEnVxDS8_udvjcBYgsPg@mail.gmail.com>
- <CAOWid-f62Uv=GZXX2V2BsQGM5A1JJG_qmyrOwd=KwZBx_sr-bg@mail.gmail.com>
- <20200214183401.GY2363188@phenom.ffwll.local>
- <CAOWid-caJHeXUnQv3MOi=9U+vdBLfewN+CrA-7jRrz0VXqatbQ@mail.gmail.com>
- <20200214191754.GA218629@mtj.thefacebook.com>
-In-Reply-To: <20200214191754.GA218629@mtj.thefacebook.com>
-From: Kenny Ho <y2kenny@gmail.com>
-Date: Fri, 14 Feb 2020 15:28:40 -0500
-Message-ID: <CAOWid-dA2Ad-FTZDDLOs4pperYbsru9cknSuXo_2ajpPbQH0Xg@mail.gmail.com>
-Subject: Re: [PATCH 09/11] drm, cgroup: Introduce lgpu as DRM cgroup resource
-To: Tejun Heo <tj@kernel.org>
+References: <20200213213036.207625-1-olvaffe@gmail.com>
+ <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
+ <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
+ <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
+In-Reply-To: <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 14 Feb 2020 13:15:28 -0800
+Message-ID: <CAPaKu7TDtFwF5czdpke1v7NWKf61kw_jVp-E1qQPqs-qbZYnMw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
+To: Paolo Bonzini <pbonzini@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,79 +63,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: juan.zuniga-anaya@amd.com, Kenny Ho <Kenny.Ho@amd.com>, "Kuehling,
- Felix" <felix.kuehling@amd.com>, jsparks@cray.com, nirmoy.das@amd.com,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- lkaplan@cray.com, "Greathouse, Joseph" <joseph.greathouse@amd.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>, Johannes Weiner <hannes@cmpxchg.org>,
- Alex Deucher <alexander.deucher@amd.com>, cgroups@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- damon.mcdougall@amd.com
+Cc: wanpengli@tencent.com, kvm@vger.kernel.org, joro@8bytes.org,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, vkuznets@redhat.com, jmattson@google.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tejun,
-
-On Fri, Feb 14, 2020 at 2:17 PM Tejun Heo <tj@kernel.org> wrote:
+On Fri, Feb 14, 2020 at 2:26 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> I have to agree with Daniel here. My apologies if I weren't clear
-> enough. Here's one interface I can think of:
+> On 13/02/20 23:18, Chia-I Wu wrote:
+> >
+> > The bug you mentioned was probably this one
+> >
+> >   https://bugzilla.kernel.org/show_bug.cgi?id=104091
 >
->  * compute weight: The same format as io.weight. Proportional control
->    of gpu compute.
+> Yes, indeed.
 >
->  * memory low: Please see how the system memory.low behaves. For gpus,
->    it'll need per-device entries.
+> > From what I can tell, the commit allowed the guests to create cached
+> > mappings to MMIO regions and caused MCEs.  That is different than what
+> > I need, which is to allow guests to create uncached mappings to system
+> > ram (i.e., !kvm_is_mmio_pfn) when the host userspace also has uncached
+> > mappings.  But it is true that this still allows the userspace & guest
+> > kernel to create conflicting memory types.
 >
-> Note that for both, there one number to configure and conceptually
-> it's pretty clear to everybody what that number means, which is not to
-> say that it's clear to implement but it's much better to deal with
-> that on this side of the interface than the other.
-
-Can you elaborate, per your understanding, how the lgpu weight
-attribute differ from the io.weight you suggested?  Is it merely a
-formatting/naming issue or is it the implementation details that you
-find troubling?  From my perspective, the weight attribute implements
-as you suggested back in RFCv4 (proportional control on top of a unit
-- either physical or time unit.)
-
-Perhaps more explicit questions would help me understand what you
-mean. If I remove the 'list' and 'count' attributes leaving just
-weight, is that satisfactory?  Are you saying the idea of affinity or
-named-resource is banned from cgroup entirely (even though it exists
-in the form of cpuset already and users are interested in having such
-options [i.e. userspace OpenCL] when needed?)
-
-To be clear, I am not saying no proportional control.  I am saying
-give the user the options, which is what has been implemented.
-
-> cc'ing Johannes. Do you have anything on mind regarding how gpu memory
-> configuration should look like? e.g. should it go w/ weights rather
-> than absoulte units (I don't think so given that it'll most likely
-> need limits at some point too but still and there are benefits from
-> staying consistent with system memory).
+> Right, the question is whether the MCEs were tied to MMIO regions
+> specifically and if so why.
 >
-> Also, a rather trivial high level question. Is drm a good controller
-> name given that other controller names are like cpu, memory, io?
-
-There was a discussion about naming early in the RFC (I believe
-RFCv2), the consensuses then was to use drmcg to align with the drm
-subsystem.  I have no problem renaming it to gpucg  or something
-similar if that is the last thing that's blocking acceptance.  For
-now, I would like to get some clarity on the implementation before
-having more code churn.
-
-Regards,
-Kenny
-
-
-> Thanks.
+> An interesting remark is in the footnote of table 11-7 in the SDM.
+> There, for the MTRR (EPT for us) memory type UC you can read:
 >
-> --
-> tejun
+>   The UC attribute comes from the MTRRs and the processors are not
+>   required to snoop their caches since the data could never have
+>   been cached. This attribute is preferred for performance reasons.
+>
+> There are two possibilities:
+>
+> 1) the footnote doesn't apply to UC mode coming from EPT page tables.
+> That would make your change safe.
+>
+> 2) the footnote also applies when the UC attribute comes from the EPT
+> page tables rather than the MTRRs.  In that case, the host should use
+> UC as the EPT page attribute if and only if it's consistent with the host
+> MTRRs; it would be more or less impossible to honor UC in the guest MTRRs.
+> In that case, something like the patch below would be needed.
+>
+> It is not clear from the manual why the footnote would not apply to WC; that
+> is, the manual doesn't say explicitly that the processor does not do snooping
+> for accesses to WC memory.  But I guess that must be the case, which is why I
+> used MTRR_TYPE_WRCOMB in the patch below.
+>
+> Either way, we would have an explanation of why creating cached mapping to
+> MMIO regions would, and why in practice we're not seeing MCEs for guest RAM
+> (the guest would have set WB for that memory in its MTRRs, not UC).
+>
+> One thing you didn't say: how would userspace use KVM_MEM_DMA?  On which
+> regions would it be set?
+It will be set for shmems that are mapped WC.
+
+GPU/DRM drivers allocate shmems as DMA-able gpu buffers and allow the
+userspace to map them cached or WC (I915_MMAP_WC or
+AMDGPU_GEM_CREATE_CPU_GTT_USWC for example).  When a shmem is mapped
+WC and is made available to the guest, we would like the ability to
+map the region WC in the guest.
+
+
+> Thanks,
+>
+> Paolo
+>
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index dc331fb06495..2be6f7effa1d 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -6920,8 +6920,16 @@ static u64 vmx_get_mt_mask(struct kvm_vcpu *vcpu, gfn_t gfn, bool is_mmio)
+>         }
+>
+>         cache = kvm_mtrr_get_guest_memory_type(vcpu, gfn);
+> -
+>  exit:
+> +       if (cache == MTRR_TYPE_UNCACHABLE && !is_mmio) {
+> +               /*
+> +                * We cannot set UC in the EPT page tables as it can cause
+> +                * machine check exceptions (??).  Hopefully the guest is
+> +                * using PAT.
+> +                */
+> +               cache = MTRR_TYPE_WRCOMB;
+> +       }
+> +
+>         return (cache << VMX_EPT_MT_EPTE_SHIFT) | ipat;
+>  }
+>
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
