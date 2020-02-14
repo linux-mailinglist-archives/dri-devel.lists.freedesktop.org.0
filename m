@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C00015D3E0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:34:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E1715D42C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:57:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C1C66F8BB;
-	Fri, 14 Feb 2020 08:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11AB46F8C8;
+	Fri, 14 Feb 2020 08:57:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB5056F8B2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 08:34:09 +0000 (UTC)
-X-UUID: 100062a256fe42a9903d11c14f3fc318-20200214
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=o2bK0SZqMI85CjEk1N9bVcxZhc8pa2z/qRl3UsDcAX4=; 
- b=MwkIo877uq5osuuY4vE5I56SN405iwpxerDFPZQj8b7xxan1QkfejKJ77wFjLWYaL+4A23N6ENoePZGvaPu/DflRrI81NR4MkU/OYXIf9vbcaA3TfIPt0a3wlgRgryTy5RifST2UYbXHFBranzKvm/VqpgCokT3UuuyYrTDrSFw=;
-X-UUID: 100062a256fe42a9903d11c14f3fc318-20200214
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 167469310; Fri, 14 Feb 2020 16:34:05 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 14 Feb 2020 16:34:03 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 14 Feb 2020 16:32:12 +0800
-Message-ID: <1581669243.29925.13.camel@mtksdaap41>
-Subject: Re: [PATCH] drm/mediatek: fix race condition for HDMI jack status
- reporting
-From: CK Hu <ck.hu@mediatek.com>
-To: Tzung-Bi Shih <tzungbi@google.com>
-Date: Fri, 14 Feb 2020 16:34:03 +0800
-In-Reply-To: <CA+Px+wW0BWz0-8L_UXJ-OYbwG6W9vmCWRr7kevpk0yokp+NKKg@mail.gmail.com>
-References: <20200213153226.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
- <1581664042.20487.4.camel@mtksdaap41>
- <CA+Px+wW0BWz0-8L_UXJ-OYbwG6W9vmCWRr7kevpk0yokp+NKKg@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55B6D6F8C8
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 08:57:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581670656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hcSjZSHLEnp5ZLdnGZuQU+ROR/fBtg18iFgXLEAHrB0=;
+ b=Y+26kEEor5Qn+3LZPON6IcQyu1ZLkI64AL1WJ81+LqdvRFu7n/oiHgxKXj5fuf043WIoip
+ R2J0DYUO4zHVVvJ8RRmo4spiFykc+3p1UVsRw2Kqg40I+DFbEei9WrMBAwewKdIysVJ8Fs
+ No4NjWxfQ9F5Ywk+K8t+4rQkiPEhq1s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-o3cQdsa8OY63VP8hprtgPg-1; Fri, 14 Feb 2020 03:57:31 -0500
+X-MC-Unique: o3cQdsa8OY63VP8hprtgPg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8561801E67;
+ Fri, 14 Feb 2020 08:57:29 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DD215DA88;
+ Fri, 14 Feb 2020 08:57:25 +0000 (UTC)
+Date: Fri, 14 Feb 2020 09:57:23 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] drm/virtio: fix error check
+Message-ID: <20200214095723.0c489524.cohuck@redhat.com>
+In-Reply-To: <20200214080100.1273-1-kraxel@redhat.com>
+References: <20200214080100.1273-1-kraxel@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: E4F804774C418372C14AAF9660D005786F5B43F8F573AC6B89DAE76E13F0C79D2000:8
-X-MTK: N
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,35 +58,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA development <alsa-devel@alsa-project.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Dylan Reid <dgreid@google.com>,
- linux-arm-kernel@lists.infradead.org,
- Jimmy Cheng-Yi Chiang <cychiang@google.com>
+Cc: David Airlie <airlied@linux.ie>, smitterl@redhat.com,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ gurchetansingh@chromium.org, "open
+ list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Tzung-Bi:
+On Fri, 14 Feb 2020 09:01:00 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-On Fri, 2020-02-14 at 15:35 +0800, Tzung-Bi Shih wrote:
-> On Fri, Feb 14, 2020 at 3:07 PM CK Hu <ck.hu@mediatek.com> wrote:
-> > I think sound driver could be removed for some reason, and fn should be
-> > set to NULL before sound driver removed. In this case, codec_dev != NULL
-> > and fn == NULL.
+> The >= compare op must happen in cpu byte order, doing it in
+> little endian fails on big endian machines like s390.
 > 
-> No..if you see sound/soc/codecs/hdmi-codec.c, plugged_cb is statically
-> allocated.
+> Reported-by: Sebastian Mitterle <smitterl@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_vq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> index cfe9c54f87a3..67caecde623e 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> @@ -222,7 +222,7 @@ void virtio_gpu_dequeue_ctrl_func(struct work_struct *work)
+>  		trace_virtio_gpu_cmd_response(vgdev->ctrlq.vq, resp);
+>  
+>  		if (resp->type != cpu_to_le32(VIRTIO_GPU_RESP_OK_NODATA)) {
+> -			if (resp->type >= cpu_to_le32(VIRTIO_GPU_RESP_ERR_UNSPEC)) {
+> +			if (le32_to_cpu(resp->type) >= VIRTIO_GPU_RESP_ERR_UNSPEC) {
+>  				struct virtio_gpu_ctrl_hdr *cmd;
+>  				cmd = virtio_gpu_vbuf_ctrl_hdr(entry);
+>  				DRM_ERROR_RATELIMITED("response 0x%x (command 0x%x)\n",
 
-It looks like that even though sound driver is removed, hdmi driver
-would still callback to sound core. This is so weird. After sound driver
-is removed, hdmi driver would callback with codec_dev which is invalid.
-I think this may cause some problem.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-Regards,
-CK
+Endianness continues to be fun.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
