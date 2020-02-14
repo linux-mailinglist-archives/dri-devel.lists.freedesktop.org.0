@@ -1,43 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC6015E2FE
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:26:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9937F15E2F1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:26:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6D1B6FB58;
-	Fri, 14 Feb 2020 16:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAB406FB55;
+	Fri, 14 Feb 2020 16:26:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDC46FB57;
- Fri, 14 Feb 2020 16:26:20 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 47A6A2469C;
- Fri, 14 Feb 2020 16:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697580;
- bh=1oKaykujnUc2GdiqnfC9zQ6tkK5Pxbkrgp+Nrr+5dL4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XKQ2ULfw21V0cwVkjgNNgi6VzmvKmRydjKctSgKrU3VSOPDcVumlA8SLjejF95yeU
- 7nHrMtQuQIG7KEEaOKQzZGqz6lX+/vSV+JtEnD6fox9JAh2/2mR4WDSMIYbQDxZd9N
- P+4h4RganRpUGUzG13BE7LR8uXT8fk9g758PCoig=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 093/100] radeon: insert 10ms sleep in
- dce5_crtc_load_lut
-Date: Fri, 14 Feb 2020 11:24:17 -0500
-Message-Id: <20200214162425.21071-93-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214162425.21071-1-sashal@kernel.org>
-References: <20200214162425.21071-1-sashal@kernel.org>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABD176FB55
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:25:58 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id w15so11571524wru.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 08:25:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wegwrrw07t1a7hEUYZBuMroevTYgeYXkcKsPKXsfzIQ=;
+ b=KxjiSXptqtmHkxQs7W5WAI/+L8vSj2pT29Ke4jsJYuFR9OcT5KZJEJq6fZrgttPgpj
+ hOW9Lb/MEwbmAafkG1CQONBPodYzOtPvuFlpo2VBxvg+5LyhcdwdJVrqvzIq+rx2j8H0
+ vJBBR4Z0nZC+YTPK9QrHg90rqE64Uh2xdpjZM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wegwrrw07t1a7hEUYZBuMroevTYgeYXkcKsPKXsfzIQ=;
+ b=A2lbd/saF1HRf01vnENTRhEcKZ5SoUhO6P3cX8TGF3LUAMDaHzt0r/E0rRvk9RVmpP
+ YWerR92SHHHEENPI+iOTNu8Ho5QcK/f1QavuLvxajKltAVz09XH7Vs7olxhZXgOe2Haq
+ jK2//ScRS2J4wdF2AzWYMkHeHx4JHG5FHy0NBwygOBGKXh49Llo1AFektVfZ6/2f5X4Q
+ BidFYiKbDiC2R5xhYk1UGnp9dymuNgqHLH9BlKdjrEodPt56CrRbVRey9W+z8xcccnwR
+ Ez3B2cZmR+i5zoI3DL4fCznyp/RCDGbLOO1JFVGyps0TvP5d5aNAoH6guyRLShauROjn
+ I+Rw==
+X-Gm-Message-State: APjAAAVfimEdEJpHmAZGbq9f1OXE0QPT85uiPgUMGSL/EyZL7zmNlez2
+ Hjh7VH9JnS74fmkUG7n7gQQPfA==
+X-Google-Smtp-Source: APXvYqzxA2jp7DwpYzdBaYkBw3v75jY7E1GHYEnQWg+jN7wh/scB+xHLTvr4uN/Xlp7+Q8nvd5aQ5w==
+X-Received: by 2002:adf:ecd0:: with SMTP id s16mr4684092wro.325.1581697557225; 
+ Fri, 14 Feb 2020 08:25:57 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z21sm8000736wml.5.2020.02.14.08.25.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2020 08:25:56 -0800 (PST)
+Date: Fri, 14 Feb 2020 17:25:54 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH] drm/print: Delete a few unused shouting macros
+Message-ID: <20200214162554.GW2363188@phenom.ffwll.local>
+References: <20200214090428.2929833-1-daniel.vetter@ffwll.ch>
+ <8736bdy1jg.fsf@intel.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Disposition: inline
+In-Reply-To: <8736bdy1jg.fsf@intel.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +65,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KClsgVXBzdHJlYW0g
-Y29tbWl0IGVjM2Q2NTA4MmQ3ZGFiYWQ2ZmE4ZjY2YThlZjE2NmYyZDUyMmQ2YjIgXQoKUGVyIGF0
-IGxlYXN0IG9uZSB0ZXN0ZXIgdGhpcyBpcyBlbm91Z2ggbWFnaWMgdG8gcmVjb3ZlciB0aGUgcmVn
-cmVzc2lvbgppbnRyb2R1Y2VkIGZvciBzb21lIHBlb3BsZSAoYnV0IG5vdCBhbGwpIGluCgpjb21t
-aXQgYjhlMmIwMTk5Y2MzNzc2MTdkYzIzOGY1MTA2MzUyYzA2ZGNkM2ZhMgpBdXRob3I6IFBldGVy
-IFJvc2luIDxwZWRhQGF4ZW50aWEuc2U+CkRhdGU6ICAgVHVlIEp1bCA0IDEyOjM2OjU3IDIwMTcg
-KzAyMDAKCiAgICBkcm0vZmItaGVscGVyOiBmYWN0b3Igb3V0IHBzZXVkby1wYWxldHRlCgp3aGlj
-aCBmb3IgcmFkZW9uIGhhZCB0aGUgc2lkZS1lZmZlY3Qgb2YgcmVmYWN0b3Jpbmcgb3V0IGEgc2Vl
-bWluZ2x5CnJlZHVkYW50IHdyaXRpbmcgb2YgdGhlIGNvbG9yIHBhbGV0dGUuCgoxMG1zIGluIGEg
-ZmFpcmx5IHNsb3cgbW9kZXNldCBwYXRoIGZlZWxzIGxpa2UgYW4gYWNjZXB0YWJsZSBmb3JtIG9m
-CmR1Y3QtdGFwZSwgc28gbWF5YmUgd29ydGggYSBzaG90IGFuZCBzZWUgd2hhdCBzdGlja3MuCgpD
-YzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpDYzogTWljaGVsIETD
-pG56ZXIgPG1pY2hlbC5kYWVuemVyQGFtZC5jb20+ClJlZmVyZW5jZXM6IGh0dHBzOi8vYnVnemls
-bGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTk4MTIzClNpZ25lZC1vZmYtYnk6IERhbmll
-bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBBbGV4IERl
-dWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IFNhc2hhIExl
-dmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
-bl9kaXNwbGF5LmMgfCAyICsrCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jIGIvZHJpdmVy
-cy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jCmluZGV4IGIyNmU0ZWFlN2FjNTQuLjJl
-M2JjNDhmYjFlYjcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rp
-c3BsYXkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kaXNwbGF5LmMKQEAg
-LTExMCw2ICsxMTAsOCBAQCBzdGF0aWMgdm9pZCBkY2U1X2NydGNfbG9hZF9sdXQoc3RydWN0IGRy
-bV9jcnRjICpjcnRjKQogCiAJRFJNX0RFQlVHX0tNUygiJWRcbiIsIHJhZGVvbl9jcnRjLT5jcnRj
-X2lkKTsKIAorCW1zbGVlcCgxMCk7CisKIAlXUkVHMzIoTklfSU5QVVRfQ1NDX0NPTlRST0wgKyBy
-YWRlb25fY3J0Yy0+Y3J0Y19vZmZzZXQsCiAJICAgICAgIChOSV9JTlBVVF9DU0NfR1JQSF9NT0RF
-KE5JX0lOUFVUX0NTQ19CWVBBU1MpIHwKIAkJTklfSU5QVVRfQ1NDX09WTF9NT0RFKE5JX0lOUFVU
-X0NTQ19CWVBBU1MpKSk7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Feb 14, 2020 at 11:13:23AM +0200, Jani Nikula wrote:
+> On Fri, 14 Feb 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > We want to go over to the new lowercase ones, encourage that a bit
+> > more.
+> >
+> > Cc: Jani Nikula <jani.nikula@intel.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_managed.c | 21 +++++++++++++++++++++
+> 
+> Oops?
+
+Indeed, tiny sneak peek at what I'm working on ... you mentioning devm_
+yesterday was a very successful nerd snipe :-)
+
+> 
+> >  include/drm/drm_print.h       | 26 --------------------------
+> 
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> for this file.
+
+Wrong hunk dropped and applied, thanks for taking a look.
+-Daniel
+
+> 
+> >  2 files changed, 21 insertions(+), 26 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
+> > index ea49071b16ee..7d4827b79806 100644
+> > --- a/drivers/gpu/drm/drm_managed.c
+> > +++ b/drivers/gpu/drm/drm_managed.c
+> > @@ -38,4 +38,25 @@ struct drmres {
+> >  	u8 __aligned(ARCH_KMALLOC_MINALIGN) data[];
+> >  };
+> >  
+> > +static __always_inline struct drmres * alloc_dr(drmres_release_t release,
+> > +						size_t size, gfp_t gfp, int nid)
+> > +{
+> > +	size_t tot_size;
+> > +	struct drmres *dr;
+> > +
+> > +	/* We must catch any near-SIZE_MAX cases that could overflow. */
+> > +	if (unlikely(check_add_overflow(sizeof(*dr), size, &tot_size)))
+> > +		return NULL;
+> > +
+> > +	dr = kmalloc_node_track_caller(tot_size, gfp, nid);
+> > +	if (unlikely(!dr))
+> > +		return NULL;
+> > +
+> > +	memset(dr, 0, offsetof(struct drmres, data));
+> > +
+> > +	INIT_LIST_HEAD(&dr->node.entry);
+> > +	dr->node.release = release;
+> > +	return dr;
+> > +}
+> > +
+> >  
+> > diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> > index 894a0b9437e2..fd6ba2532f50 100644
+> > --- a/include/drm/drm_print.h
+> > +++ b/include/drm/drm_print.h
+> > @@ -382,14 +382,6 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+> >  	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
+> >  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+> >  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+> > -#define DRM_DEV_DEBUG_PRIME(dev, fmt, ...)				\
+> > -	drm_dev_dbg(dev, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+> > -#define DRM_DEV_DEBUG_ATOMIC(dev, fmt, ...)				\
+> > -	drm_dev_dbg(dev, DRM_UT_ATOMIC,	fmt, ##__VA_ARGS__)
+> > -#define DRM_DEV_DEBUG_VBL(dev, fmt, ...)				\
+> > -	drm_dev_dbg(dev, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+> > -#define	DRM_DEV_DEBUG_DP(dev, fmt, ...)					\
+> > -	drm_dev_dbg(dev, DRM_UT_DP, fmt, ## __VA_ARGS__)
+> >  
+> >  #define _DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, category, fmt, ...)	\
+> >  ({									\
+> > @@ -406,18 +398,9 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+> >   * @dev: device pointer
+> >   * @fmt: printf() like format string.
+> >   */
+> > -#define DRM_DEV_DEBUG_RATELIMITED(dev, fmt, ...)			\
+> > -	_DEV_DRM_DEFINE_DEBUG_RATELIMITED(dev, DRM_UT_CORE,		\
+> > -					  fmt, ##__VA_ARGS__)
+> > -#define DRM_DEV_DEBUG_DRIVER_RATELIMITED(dev, fmt, ...)			\
+> > -	_DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, DRM_UT_DRIVER,		\
+> > -					  fmt, ##__VA_ARGS__)
+> >  #define DRM_DEV_DEBUG_KMS_RATELIMITED(dev, fmt, ...)			\
+> >  	_DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, DRM_UT_KMS,		\
+> >  					  fmt, ##__VA_ARGS__)
+> > -#define DRM_DEV_DEBUG_PRIME_RATELIMITED(dev, fmt, ...)			\
+> > -	_DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, DRM_UT_PRIME,		\
+> > -					  fmt, ##__VA_ARGS__)
+> >  
+> >  /*
+> >   * struct drm_device based logging
+> > @@ -541,18 +524,9 @@ void __drm_err(const char *format, ...);
+> >  	__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
+> >  
+> >  
+> > -#define DRM_DEBUG_RATELIMITED(fmt, ...)					\
+> > -	DRM_DEV_DEBUG_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+> > -
+> > -#define DRM_DEBUG_DRIVER_RATELIMITED(fmt, ...)				\
+> > -	DRM_DEV_DEBUG_DRIVER_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+> > -
+> >  #define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)				\
+> >  	DRM_DEV_DEBUG_KMS_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+> >  
+> > -#define DRM_DEBUG_PRIME_RATELIMITED(fmt, ...)				\
+> > -	DRM_DEV_DEBUG_PRIME_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+> > -
+> >  /*
+> >   * struct drm_device based WARNs
+> >   *
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
