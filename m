@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8252E15DB9F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:51:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF68615DBE3
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:51:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 814E46F986;
-	Fri, 14 Feb 2020 15:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A166F97A;
+	Fri, 14 Feb 2020 15:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 894E16F986
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:50:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8251A6F97A;
+ Fri, 14 Feb 2020 15:51:27 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3782724681;
- Fri, 14 Feb 2020 15:50:56 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E56DD2168B;
+ Fri, 14 Feb 2020 15:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695457;
- bh=sZBeeE6wSzHR2+hE1yzf8GFbm2+TVCvDxqIXTFh+1Xo=;
+ s=default; t=1581695487;
+ bh=v9kgbTRLSbsOE/FA6v/8+h7+wnByHJqRW7CwIyvCXio=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=xM3772z1C9pO2vUrPiD1uH+u4dGk7CnTjJqGTf04tUWLEDcIYS9qa2xgzDq4RRyGz
- lkrtU58Vv2vbSwjzcI7bUNux3OvL+q+8yHsA4lPcvCcMl6g7uyGN2Zntt8xMagCUd3
- RC8kxPfOY5tmk/6sm1DeWHotUcgic08lOdujxt1M=
+ b=e4oY3o4UhveyG5wOPUgyvjmvzXiGxNGi4QRHnn4DCuFGNXwq+JSo0JB7pJwZTWPYo
+ j6uHzZbr5JYQN5socnClFhBSGBlDxMtftH7wKRx1vRtBqyVzJ3g2EFuvXzVPqUeU23
+ 7pM7czD+MtotNmM3QtnAweCcRniTX48H3oVp2Tys=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 095/542] backlight: qcom-wled: Fix unsigned
- comparison to zero
-Date: Fri, 14 Feb 2020 10:41:27 -0500
-Message-Id: <20200214154854.6746-95-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 117/542] drm/amd/display: Retrain dongles when
+ SINK_COUNT becomes non-zero
+Date: Fri, 14 Feb 2020 10:41:49 -0500
+Message-Id: <20200214154854.6746-117-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -50,54 +50,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Kiran Gunda <kgunda@codeaurora.org>, Chen Zhou <chenzhou10@huawei.com>,
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Lee Jones <lee.jones@linaro.org>
+Cc: Sasha Levin <sashal@kernel.org>, Eric Yang <Eric.Yang2@amd.com>,
+ Wenjing Liu <Wenjing.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Louis Li <Ching-shih.Li@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chen Zhou <chenzhou10@huawei.com>
+From: Harry Wentland <harry.wentland@amd.com>
 
-[ Upstream commit 7af43a76695db71a57203793fb9dd3c81a5783b1 ]
+[ Upstream commit 3eb6d7aca53d81ce888624f09cd44dc0302161e8 ]
 
-Fixes coccicheck warning:
-./drivers/video/backlight/qcom-wled.c:1104:5-15:
-	WARNING: Unsigned expression compared with zero: string_len > 0
+[WHY]
+Two years ago the patch referenced by the Fixes tag stopped running
+dp_verify_link_cap_with_retries during DP detection when the reason
+for the detection was a short-pulse interrupt. This effectively meant
+that we were no longer doing the verify_link_cap training on active
+dongles when their SINK_COUNT changed from 0 to 1.
 
-The unsigned variable string_len is assigned a return value from the call
-to of_property_count_elems_of_size(), which may return negative error code.
+A year ago this was partly remedied with:
+commit 80adaebd2d41 ("drm/amd/display: Don't skip link training for empty dongle")
 
-Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Reviewed-by: Kiran Gunda <kgunda@codeaurora.org>
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
+This made sure that we trained the dongle on initial hotplug (without
+connected downstream devices).
+
+This is all fine and dandy if it weren't for the fact that there are
+some dongles on the market that don't like link training when SINK_COUNT
+is 0 These dongles will in fact indicate a SINK_COUNT of 0 immediately
+after hotplug, even when a downstream device is connected, and then
+trigger a shortpulse interrupt indicating a SINK_COUNT change to 1.
+
+In order to play nicely we will need our policy to not link train an
+active DP dongle when SINK_COUNT is 0 but ensure we train it when the
+SINK_COUNT changes to 1.
+
+[HOW]
+Call dp_verify_link_cap_with_retries on detection even when the detection
+is triggered from a short pulse interrupt.
+
+With this change we can also revert this commit which we'll do in a separate
+follow-up change:
+commit 80adaebd2d41 ("drm/amd/display: Don't skip link training for empty dongle")
+
+Fixes: 0301ccbaf67d ("drm/amd/display: DP Compliance 400.1.1 failure")
+Suggested-by: Louis Li <Ching-shih.Li@amd.com>
+Tested-by: Louis Li <Ching-shih.Li@amd.com>
+Cc: Wenjing Liu <Wenjing.Liu@amd.com>
+Cc: Hersen Wu <hersenxs.wu@amd.com>
+Cc: Eric Yang <Eric.Yang2@amd.com>
+Reviewed-by: Wenjing Liu <Wenjing.Liu@amd.com>
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/backlight/qcom-wled.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index d46052d8ff415..3d276b30a78c9 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -956,8 +956,8 @@ static int wled_configure(struct wled *wled, int version)
- 	struct wled_config *cfg = &wled->cfg;
- 	struct device *dev = wled->dev;
- 	const __be32 *prop_addr;
--	u32 size, val, c, string_len;
--	int rc, i, j;
-+	u32 size, val, c;
-+	int rc, i, j, string_len;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index 4619f94f0ac78..70846ae7d854d 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -968,8 +968,7 @@ static bool dc_link_detect_helper(struct dc_link *link,
+ 			same_edid = is_same_edid(&prev_sink->dc_edid, &sink->dc_edid);
  
- 	const struct wled_u32_opts *u32_opts = NULL;
- 	const struct wled_u32_opts wled3_opts[] = {
+ 		if (link->connector_signal == SIGNAL_TYPE_DISPLAY_PORT &&
+-			sink_caps.transaction_type == DDC_TRANSACTION_TYPE_I2C_OVER_AUX &&
+-			reason != DETECT_REASON_HPDRX) {
++			sink_caps.transaction_type == DDC_TRANSACTION_TYPE_I2C_OVER_AUX) {
+ 			/*
+ 			 * TODO debug why Dell 2413 doesn't like
+ 			 *  two link trainings
 -- 
 2.20.1
 
