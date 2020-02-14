@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABA315D138
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 05:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8384215D136
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 05:50:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832D8897E9;
-	Fri, 14 Feb 2020 04:50:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEC30894D4;
+	Fri, 14 Feb 2020 04:50:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id E4D19894D4
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E8996896A3
  for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 04:50:02 +0000 (UTC)
-X-UUID: ca574fb625834e9ebbcbe5af351631c6-20200214
+X-UUID: 55ec36f7826a43b88364de5223826f4e-20200214
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=mBWOERU/zDKA+rDfrRnVN4psAkj8eO03jdtXuPEI3XM=; 
- b=Y2oTBsS2MplbBWmExbtppIgLUhY2taxs3lKAQ5okXNtik3ri42eyuU0iUdE6iX7FzLmuT5Brt56P3eVi4p1n7+2Cudj9fc4fiDHaXf6W/5LEVnEHP1U4DT8MTq8r8fcBymaHelAJPZvcxXsC67hMqhBz4lvig5MU0HpqAzJo0mk=;
-X-UUID: ca574fb625834e9ebbcbe5af351631c6-20200214
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw02.mediatek.com (envelope-from <bibby.hsieh@mediatek.com>)
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=bodm7HuU1//uvOvOzppYILsbecoq1h7G7NokkwpmJMQ=; 
+ b=iSkjkCrxvIgJc8bToPkSxRVjaAAPQZHl83uUXW1lPa2841HvZZOPcKEpOVhiyWpzPuaLCqzi0+ZdMr862EzSUXfMzk13FKukMiA71fYvlo/YhakGOrBRrifZZ7Fp6nlKROYS3h4gUlw6TuUZG7mQyTKfi1vRKnGS1zw6VWjw838=;
+X-UUID: 55ec36f7826a43b88364de5223826f4e-20200214
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <bibby.hsieh@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 865570312; Fri, 14 Feb 2020 12:49:58 +0800
+ with ESMTP id 1424935915; Fri, 14 Feb 2020 12:49:58 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 14 Feb 2020 12:48:31 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 14 Feb 2020 12:49:05 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via
  Frontend Transport; Fri, 14 Feb 2020 12:49:56 +0800
@@ -33,12 +33,14 @@ From: Bibby Hsieh <bibby.hsieh@mediatek.com>
 To: David Airlie <airlied@linux.ie>, Matthias Brugger
  <matthias.bgg@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>
-Subject: [PATCH 1/3] arm64: dts: mt8183: Add gce setting in display node
-Date: Fri, 14 Feb 2020 12:49:52 +0800
-Message-ID: <20200214044954.16923-1-bibby.hsieh@mediatek.com>
+Subject: [PATCH 2/3] drm/mediatek: make sure previous message done or be
+ aborted before send
+Date: Fri, 14 Feb 2020 12:49:53 +0800
+Message-ID: <20200214044954.16923-2-bibby.hsieh@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20200214044954.16923-1-bibby.hsieh@mediatek.com>
+References: <20200214044954.16923-1-bibby.hsieh@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 20EC075C2C4993A6A789DA8C4D49A590E63C74D4653A4F2F29BBC9CDF0333D6A2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,134 +55,49 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: drinkcat@chromium.org, srv_heupstream@mediatek.com,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, linux-kernel@vger.kernel.org,
- tfiga@chromium.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-kernel@vger.kernel.org, tfiga@chromium.org,
+ Thierry Reding <thierry.reding@gmail.com>,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to use GCE function, we need add some information
-into display node (mboxes, mediatek,gce-client-reg, mediatek,gce-events).
+Mediatek CMDQ driver removed atomic parameter and implementation
+related to atomic. DRM driver need to make sure previous message
+done or be aborted before we send next message.
+
+If previous message is still waiting for event, it means the
+setting hasn't been updated into display hardware register,
+we can abort the message and send next message to update the
+newest setting into display hardware.
+If previous message already started, we have to wait it until
+transmission has been completed.
+
+So we flush mbox client before we send new message to controller
+driver.
+
+This patch depends on ptach:
+[0/3] Remove atomic_exec
+https://patchwork.kernel.org/cover/11381677/
 
 Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8183.dtsi | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index be4428c92f35..8b522b039a37 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -9,6 +9,7 @@
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/power/mt8183-power.h>
-+#include <dt-bindings/gce/mt8183-gce.h>
- #include "mt8183-pinfunc.h"
- 
- / {
-@@ -664,6 +665,9 @@
- 			reg = <0 0x14000000 0 0x1000>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			#clock-cells = <1>;
-+			mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST>,
-+				 <&gce 1 CMDQ_THR_PRIO_HIGHEST>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
- 		};
- 
- 		ovl0: ovl@14008000 {
-@@ -672,6 +676,7 @@
- 			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x8000 0x1000>;
- 		};
- 
- 		ovl_2l0: ovl@14009000 {
-@@ -680,6 +685,7 @@
- 			interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
- 		};
- 
- 		ovl_2l1: ovl@1400a000 {
-@@ -688,6 +694,7 @@
- 			interrupts = <GIC_SPI 227 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL1_2L>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
- 		};
- 
- 		rdma0: rdma@1400b000 {
-@@ -697,6 +704,7 @@
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
- 			mediatek,rdma_fifo_size = <5120>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
- 		};
- 
- 		rdma1: rdma@1400c000 {
-@@ -706,6 +714,7 @@
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
- 			mediatek,rdma_fifo_size = <2048>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
- 		};
- 
- 		color0: color@1400e000 {
-@@ -715,6 +724,7 @@
- 			interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_COLOR0>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
- 		};
- 
- 		ccorr0: ccorr@1400f000 {
-@@ -723,6 +733,7 @@
- 			interrupts = <GIC_SPI 232 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_CCORR0>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xf000 0x1000>;
- 		};
- 
- 		aal0: aal@14010000 {
-@@ -732,6 +743,7 @@
- 			interrupts = <GIC_SPI 233 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_AAL0>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0 0x1000>;
- 		};
- 
- 		gamma0: gamma@14011000 {
-@@ -741,6 +753,7 @@
- 			interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
- 		};
- 
- 		dither0: dither@14012000 {
-@@ -749,6 +762,7 @@
- 			interrupts = <GIC_SPI 235 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_DITHER0>;
-+			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x2000 0x1000>;
- 		};
- 
- 		mutex: mutex@14016000 {
-@@ -756,6 +770,8 @@
- 			reg = <0 0x14016000 0 0x1000>;
- 			interrupts = <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>;
- 			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			mediatek,gce-events = <CMDQ_EVENT_MUTEX_STREAM_DONE0>,
-+					      <CMDQ_EVENT_MUTEX_STREAM_DONE1>;
- 		};
- 
- 		smi_common: smi@14019000 {
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 3c53ea22208c..e35b66c5ba0f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -491,6 +491,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
+ 	}
+ #if IS_ENABLED(CONFIG_MTK_CMDQ)
+ 	if (mtk_crtc->cmdq_client) {
++		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
+ 		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
+ 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
+ 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
 -- 
 2.18.0
 _______________________________________________
