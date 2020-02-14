@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D57615E032
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDFA15E037
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:13:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A57016FA8F;
-	Fri, 14 Feb 2020 16:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3406FA93;
+	Fri, 14 Feb 2020 16:13:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59CED6FA8B;
- Fri, 14 Feb 2020 16:13:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A05736FA8B;
+ Fri, 14 Feb 2020 16:13:03 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 671C8246BC;
- Fri, 14 Feb 2020 16:13:01 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 97483246A1;
+ Fri, 14 Feb 2020 16:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581696782;
- bh=ClEDbmbI3v0sG4VJ6KX0ZBm8yRrAE1PhvgMQRlleNyM=;
+ s=default; t=1581696783;
+ bh=hEqE9s7hwqc0TcLQaHrv60bKO82V3yKIzTCuzVp1MNM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Dl9/60YFr7iHHmCI2+U1qCmMpdszqb1S3mrKkggY67BB9M9wPBYbLms/YOpkcOh4m
- ffRP+CdJgR4EGPmvC2VfJ4TIqxB0j0hk6LJXUyj0DfcdircZKslcdXUaoX27XPrvf5
- 0jNxf5jNr1/Hxmb1ifrgu7jdusZAE0INU+E1gtCA=
+ b=XRdfvZHi+h3n+36WffgnNhjGYETdOZBy1lSwSi8dyNCOg4/QfuTwhGD8OX5TV+POm
+ BO5xGHaiajuNJf4rZji/wYnbM5TzAFe4KZiSLxOkpUawAIGYJYnbGx/4hwvmmtzyRX
+ nMS3l017KgvWUhJeGQtymU5PB5wOgJL6eRlncXao=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 058/252] drm/amdgpu: remove set but not used
- variable 'mc_shared_chmap'
-Date: Fri, 14 Feb 2020 11:08:33 -0500
-Message-Id: <20200214161147.15842-58-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 059/252] drm/amd/powerplay: remove set but not
+ used variable 'threshold', 'state'
+Date: Fri, 14 Feb 2020 11:08:34 -0500
+Message-Id: <20200214161147.15842-59-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
 References: <20200214161147.15842-1-sashal@kernel.org>
@@ -50,41 +50,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, yu kuai <yukuai3@huawei.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Sasha Levin <sashal@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ zhengbin <zhengbin13@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogeXUga3VhaSA8eXVrdWFpM0BodWF3ZWkuY29tPgoKWyBVcHN0cmVhbSBjb21taXQgZTk4
-MDQyZGIyY2I4ZDBiNzI4Y2Q3NmUwNWI5YzJlMWM4NGI3ZjcyYiBdCgpGaXhlcyBnY2MgJy1XdW51
-c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cgpkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS9nZnhfdjhfMC5jOiBJbiBmdW5jdGlvbgrigJhnZnhfdjhfMF9ncHVfZWFybHlfaW5pdOKAmToK
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y4XzAuYzoxNzEzOjY6IHdhcm5pbmc6IHZh
-cmlhYmxlCuKAmG1jX3NoYXJlZF9jaG1hcOKAmSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1i
-dXQtc2V0LXZhcmlhYmxlXQoKRml4ZXM6IDBiZGUzYTk1ZWFhOSAoImRybS9hbWRncHU6IHNwbGl0
-IGdmeDggZ3B1IGluaXQgaW50byBzdyBhbmQgaHcgcGFydHMiKQpTaWduZWQtb2ZmLWJ5OiB5dSBr
-dWFpIDx5dWt1YWkzQGh1YXdlaS5jb20+ClNpZ25lZC1vZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxl
-eGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hh
-bEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92OF8wLmMg
-fCAzICstLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92OF8wLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjhfMC5jCmluZGV4IGUxY2I3ZmE4OWU0ZDYuLjc1
-YmM1OWQwYWQzNzEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92
-OF8wLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y4XzAuYwpAQCAtMTc4
-Myw3ICsxNzgzLDcgQEAgc3RhdGljIGludCBnZnhfdjhfMF9kb19lZGNfZ3ByX3dvcmthcm91bmRz
-KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KQogc3RhdGljIGludCBnZnhfdjhfMF9ncHVfZWFy
-bHlfaW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIHsKIAl1MzIgZ2JfYWRkcl9jb25m
-aWc7Ci0JdTMyIG1jX3NoYXJlZF9jaG1hcCwgbWNfYXJiX3JhbWNmZzsKKwl1MzIgbWNfYXJiX3Jh
-bWNmZzsKIAl1MzIgZGltbTAwX2FkZHJfbWFwLCBkaW1tMDFfYWRkcl9tYXAsIGRpbW0xMF9hZGRy
-X21hcCwgZGltbTExX2FkZHJfbWFwOwogCXUzMiB0bXA7CiAJaW50IHJldDsKQEAgLTE5MjMsNyAr
-MTkyMyw2IEBAIHN0YXRpYyBpbnQgZ2Z4X3Y4XzBfZ3B1X2Vhcmx5X2luaXQoc3RydWN0IGFtZGdw
-dV9kZXZpY2UgKmFkZXYpCiAJCWJyZWFrOwogCX0KIAotCW1jX3NoYXJlZF9jaG1hcCA9IFJSRUcz
-MihtbU1DX1NIQVJFRF9DSE1BUCk7CiAJYWRldi0+Z2Z4LmNvbmZpZy5tY19hcmJfcmFtY2ZnID0g
-UlJFRzMyKG1tTUNfQVJCX1JBTUNGRyk7CiAJbWNfYXJiX3JhbWNmZyA9IGFkZXYtPmdmeC5jb25m
-aWcubWNfYXJiX3JhbWNmZzsKIAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+From: zhengbin <zhengbin13@huawei.com>
+
+[ Upstream commit f5ac1595156a8b63812ed6fa0803ddf7207cced7 ]
+
+Fixes gcc '-Wunused-but-set-variable' warning:
+
+drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c: In function fiji_populate_single_graphic_level:
+drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c:943:11: warning: variable threshold set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c: In function fiji_populate_memory_timing_parameters:
+drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c:1504:8: warning: variable state set but not used [-Wunused-but-set-variable]
+
+They are introduced by commit 2e112b4ae3ba ("drm/amd/pp:
+remove fiji_smc/smumgr split."), but never used,
+so remove it.
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: zhengbin <zhengbin13@huawei.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c b/drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c
+index 40df5c2706cce..d517fbd6809c9 100644
+--- a/drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c
++++ b/drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c
+@@ -950,7 +950,7 @@ static int fiji_populate_single_graphic_level(struct pp_hwmgr *hwmgr,
+ {
+ 	int result;
+ 	/* PP_Clocks minClocks; */
+-	uint32_t threshold, mvdd;
++	uint32_t mvdd;
+ 	struct smu7_hwmgr *data = (struct smu7_hwmgr *)(hwmgr->backend);
+ 	struct phm_ppt_v1_information *table_info =
+ 			(struct phm_ppt_v1_information *)(hwmgr->pptable);
+@@ -983,8 +983,6 @@ static int fiji_populate_single_graphic_level(struct pp_hwmgr *hwmgr,
+ 	level->VoltageDownHyst = 0;
+ 	level->PowerThrottle = 0;
+ 
+-	threshold = clock * data->fast_watermark_threshold / 100;
+-
+ 	data->display_timing.min_clock_in_sr = hwmgr->display_config->min_core_set_clock_in_sr;
+ 
+ 	if (phm_cap_enabled(hwmgr->platform_descriptor.platformCaps, PHM_PlatformCaps_SclkDeepSleep))
+@@ -1510,7 +1508,7 @@ static int fiji_populate_memory_timing_parameters(struct pp_hwmgr *hwmgr,
+ 	uint32_t dram_timing;
+ 	uint32_t dram_timing2;
+ 	uint32_t burstTime;
+-	ULONG state, trrds, trrdl;
++	ULONG trrds, trrdl;
+ 	int result;
+ 
+ 	result = atomctrl_set_engine_dram_timings_rv770(hwmgr,
+@@ -1522,7 +1520,6 @@ static int fiji_populate_memory_timing_parameters(struct pp_hwmgr *hwmgr,
+ 	dram_timing2 = cgs_read_register(hwmgr->device, mmMC_ARB_DRAM_TIMING2);
+ 	burstTime = cgs_read_register(hwmgr->device, mmMC_ARB_BURST_TIME);
+ 
+-	state = PHM_GET_FIELD(burstTime, MC_ARB_BURST_TIME, STATE0);
+ 	trrds = PHM_GET_FIELD(burstTime, MC_ARB_BURST_TIME, TRRDS0);
+ 	trrdl = PHM_GET_FIELD(burstTime, MC_ARB_BURST_TIME, TRRDL0);
+ 
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
