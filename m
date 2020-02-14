@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7DC15E15A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:18:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC19315E17E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:19:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58CFE6FAE9;
-	Fri, 14 Feb 2020 16:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAAA76FAED;
+	Fri, 14 Feb 2020 16:19:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F7E6FAE9;
- Fri, 14 Feb 2020 16:18:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 601716FAED
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:19:08 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 68FF1246FB;
- Fri, 14 Feb 2020 16:18:33 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 54B3A2470C;
+ Fri, 14 Feb 2020 16:19:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697114;
- bh=13YwOUhm/zgYS0OzSv2ocq+cj0TP0yaw0TFlpIWVLzg=;
+ s=default; t=1581697148;
+ bh=bnfltw03A2IHCP86p8ZCdMh5HA7djESOEYSDy0tZzzs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=zZJffNy5k2bCXWamVxablHc6CKhHwYEEeC0Un/CPKe0nqsUAU2kBPmM5sZVyfbTp3
- JWJKfwNCUritDnn+7OEr0gwbYD0GeluCVOnW8tZqubOwyT5KT9QHFhyKwryqQ4tANL
- clsYdceqzJhw0h+P6dQ6Y2ErDSYguNyQExNxq7sM=
+ b=1cgmc78vVSl6Yyrpn39R3+cttQC0eL+YYjhF/Um/qgQSPS0lhdG4Zj05SWyikMMLf
+ 1hwFUG6Abp/YEy9ulmB2HHm8YA02APkVkzIXJbZC/292BqRt53XmLSbQLyKSykLfw1
+ MK7Ina2BM3AJ1/uCcBZ9JFlkqBIV8bMO8HLS7tCc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 061/186] drm/radeon: remove set but not used
- variable 'tv_pll_cntl1'
-Date: Fri, 14 Feb 2020 11:15:10 -0500
-Message-Id: <20200214161715.18113-61-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 087/186] drm/mediatek: handle events when
+ enabling/disabling crtc
+Date: Fri, 14 Feb 2020 11:15:36 -0500
+Message-Id: <20200214161715.18113-87-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
 References: <20200214161715.18113-1-sashal@kernel.org>
@@ -51,60 +51,55 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- zhengbin <zhengbin13@huawei.com>, Hulk Robot <hulkci@huawei.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: zhengbin <zhengbin13@huawei.com>
+From: Bibby Hsieh <bibby.hsieh@mediatek.com>
 
-[ Upstream commit dc9b3dbd28744510b78490dc6312848a8f918749 ]
+[ Upstream commit 411f5c1eacfebb1f6e40b653d29447cdfe7282aa ]
 
-Fixes gcc '-Wunused-but-set-variable' warning:
+The driver currently handles vblank events only when updating planes on
+an already enabled CRTC. The atomic update API however allows requesting
+an event when enabling or disabling a CRTC. This currently leads to
+event objects being leaked in the kernel and to events not being sent
+out. Fix it.
 
-drivers/gpu/drm/radeon/radeon_legacy_tv.c: In function radeon_legacy_tv_mode_set:
-drivers/gpu/drm/radeon/radeon_legacy_tv.c:538:24: warning: variable tv_pll_cntl1 set but not used [-Wunused-but-set-variable]
-
-It is introduced by commit 4ce001abafaf ("drm/radeon/kms:
-add initial radeon tv-out support."), but never used,
-so remove it.
-
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: zhengbin <zhengbin13@huawei.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
+Signed-off-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/radeon/radeon_legacy_tv.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_legacy_tv.c b/drivers/gpu/drm/radeon/radeon_legacy_tv.c
-index 611cf934b2119..840a08a69b81f 100644
---- a/drivers/gpu/drm/radeon/radeon_legacy_tv.c
-+++ b/drivers/gpu/drm/radeon/radeon_legacy_tv.c
-@@ -545,7 +545,7 @@ void radeon_legacy_tv_mode_set(struct drm_encoder *encoder,
- 	uint32_t tv_master_cntl, tv_rgb_cntl, tv_dac_cntl;
- 	uint32_t tv_modulator_cntl1, tv_modulator_cntl2;
- 	uint32_t tv_vscaler_cntl1, tv_vscaler_cntl2;
--	uint32_t tv_pll_cntl, tv_pll_cntl1, tv_ftotal;
-+	uint32_t tv_pll_cntl, tv_ftotal;
- 	uint32_t tv_y_fall_cntl, tv_y_rise_cntl, tv_y_saw_tooth_cntl;
- 	uint32_t m, n, p;
- 	const uint16_t *hor_timing;
-@@ -717,12 +717,6 @@ void radeon_legacy_tv_mode_set(struct drm_encoder *encoder,
- 		(((n >> 9) & RADEON_TV_N0HI_MASK) << RADEON_TV_N0HI_SHIFT) |
- 		((p & RADEON_TV_P_MASK) << RADEON_TV_P_SHIFT);
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 658b8dd45b834..3ea311d32fa9e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -307,6 +307,7 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
+ {
+ 	struct drm_device *drm = mtk_crtc->base.dev;
++	struct drm_crtc *crtc = &mtk_crtc->base;
+ 	int i;
  
--	tv_pll_cntl1 = (((4 & RADEON_TVPCP_MASK) << RADEON_TVPCP_SHIFT) |
--			((4 & RADEON_TVPVG_MASK) << RADEON_TVPVG_SHIFT) |
--			((1 & RADEON_TVPDC_MASK) << RADEON_TVPDC_SHIFT) |
--			RADEON_TVCLK_SRC_SEL_TVPLL |
--			RADEON_TVPLL_TEST_DIS);
--
- 	tv_dac->tv.tv_uv_adr = 0xc8;
+ 	DRM_DEBUG_DRIVER("%s\n", __func__);
+@@ -328,6 +329,13 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
+ 	mtk_disp_mutex_unprepare(mtk_crtc->mutex);
  
- 	if (tv_dac->tv_std == TV_STD_NTSC ||
+ 	pm_runtime_put(drm->dev);
++
++	if (crtc->state->event && !crtc->state->active) {
++		spin_lock_irq(&crtc->dev->event_lock);
++		drm_crtc_send_vblank_event(crtc, crtc->state->event);
++		crtc->state->event = NULL;
++		spin_unlock_irq(&crtc->dev->event_lock);
++	}
+ }
+ 
+ static void mtk_crtc_ddp_config(struct drm_crtc *crtc)
 -- 
 2.20.1
 
