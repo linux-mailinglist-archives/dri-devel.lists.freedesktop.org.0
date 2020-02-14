@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6335815DC1F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:52:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5138215DC19
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:52:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EECE6F9B7;
-	Fri, 14 Feb 2020 15:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB1E16F9AF;
+	Fri, 14 Feb 2020 15:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C72ED6F9A9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:52:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DDD16F9AC;
+ Fri, 14 Feb 2020 15:52:16 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E233C222C4;
- Fri, 14 Feb 2020 15:52:13 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1AD642468C;
+ Fri, 14 Feb 2020 15:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695534;
- bh=qnNKeNETau8gHGTsokCrvFuo+87OEkjQVC6rGRGTBTk=;
+ s=default; t=1581695536;
+ bh=t5Y/Zm4seotTIHhBofWx+0RaQMh/3PyaQzKGzUIzxro=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pYJFAsR944UG9vCeIqfUDQ+6crxqWvhJPXNK3bCb/0b4FrxPj4LFD3wdjpVFJrn5S
- 8fd8el3vf9+UaC5cdCdvUsqnHZK/QAtLN/QeOlDsUts+/9AX/2SwMHhWeNt69EmLoT
- Nq1rEdVtKY0YslmuZYnorZyVTKW7M1LEQbv8FQww=
+ b=wAiROEE5ycYD7fzTtT6Tm9C1o6XcLSnonuy0jmlPjflNiiZr7AP5RbNFZHrYet9Yk
+ Q4nOGYlr1dHhpdL6zN7g7gNvhZNf8Tcpk1JcNnT57NfrlGpl8SOHEtScinHP32gsno
+ O6G45st0+33g52QiNnX3DI7xBjSfEyGZYgU0rwmw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 154/542] drm/gma500: remove set but not used
- variable 'channel_eq'
-Date: Fri, 14 Feb 2020 10:42:26 -0500
-Message-Id: <20200214154854.6746-154-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 155/542] drm/amdkfd: remove set but not used
+ variable 'top_dev'
+Date: Fri, 14 Feb 2020 10:42:27 -0500
+Message-Id: <20200214154854.6746-155-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -50,9 +50,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhengbin <zhengbin13@huawei.com>, Hulk Robot <hulkci@huawei.com>,
- dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ amd-gfx@lists.freedesktop.org, zhengbin <zhengbin13@huawei.com>,
+ Hulk Robot <hulkci@huawei.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -60,52 +61,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: zhengbin <zhengbin13@huawei.com>
 
-[ Upstream commit a7adabeece570b8a566dd592219410456676796e ]
+[ Upstream commit d191bd678153307573d615bb42da4fcca19fe477 ]
 
 Fixes gcc '-Wunused-but-set-variable' warning:
 
-drivers/gpu/drm/gma500/cdv_intel_dp.c: In function cdv_intel_dp_complete_link_train:
-drivers/gpu/drm/gma500/cdv_intel_dp.c:1596:7: warning: variable channel_eq set but not used [-Wunused-but-set-variable]
-
-It is never used, so remove it.
+drivers/gpu/drm/amd/amdkfd/kfd_iommu.c: In function kfd_iommu_device_init:
+drivers/gpu/drm/amd/amdkfd/kfd_iommu.c:65:30: warning: variable top_dev set but not used [-Wunused-but-set-variable]
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
+Fixes: 1ae99eab34f9 ("drm/amdkfd: Initialize HSA_CAP_ATS_PRESENT capability in topology codes")
 Signed-off-by: zhengbin <zhengbin13@huawei.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/1573902268-117518-1-git-send-email-zhengbin13@huawei.com
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/gma500/cdv_intel_dp.c | 3 ---
+ drivers/gpu/drm/amd/amdkfd/kfd_iommu.c | 3 ---
  1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-index 570b59520fd13..5772b2dce0d66 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-@@ -1594,7 +1594,6 @@ cdv_intel_dp_complete_link_train(struct gma_encoder *encoder)
- {
- 	struct drm_device *dev = encoder->base.dev;
- 	struct cdv_intel_dp *intel_dp = encoder->dev_priv;
--	bool channel_eq = false;
- 	int tries, cr_tries;
- 	u32 reg;
- 	uint32_t DP = intel_dp->DP;
-@@ -1602,7 +1601,6 @@ cdv_intel_dp_complete_link_train(struct gma_encoder *encoder)
- 	/* channel equalization */
- 	tries = 0;
- 	cr_tries = 0;
--	channel_eq = false;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c b/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
+index 193e2835bd4d2..8d871514671eb 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_iommu.c
+@@ -62,9 +62,6 @@ int kfd_iommu_device_init(struct kfd_dev *kfd)
+ 	struct amd_iommu_device_info iommu_info;
+ 	unsigned int pasid_limit;
+ 	int err;
+-	struct kfd_topology_device *top_dev;
+-
+-	top_dev = kfd_topology_device_by_id(kfd->id);
  
- 	DRM_DEBUG_KMS("\n");
- 		reg = DP | DP_LINK_TRAIN_PAT_2;
-@@ -1648,7 +1646,6 @@ cdv_intel_dp_complete_link_train(struct gma_encoder *encoder)
- 
- 		if (cdv_intel_channel_eq_ok(encoder)) {
- 			DRM_DEBUG_KMS("PT2 train is done\n");
--			channel_eq = true;
- 			break;
- 		}
- 
+ 	if (!kfd->device_info->needs_iommu_device)
+ 		return 0;
 -- 
 2.20.1
 
