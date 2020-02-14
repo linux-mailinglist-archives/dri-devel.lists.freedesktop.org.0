@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDFA15E037
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:13:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0C715E03D
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:13:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE3406FA93;
-	Fri, 14 Feb 2020 16:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC726FA97;
+	Fri, 14 Feb 2020 16:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A05736FA8B;
- Fri, 14 Feb 2020 16:13:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC2546FA93;
+ Fri, 14 Feb 2020 16:13:04 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 97483246A1;
- Fri, 14 Feb 2020 16:13:02 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E5308246A4;
+ Fri, 14 Feb 2020 16:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581696783;
- bh=hEqE9s7hwqc0TcLQaHrv60bKO82V3yKIzTCuzVp1MNM=;
+ s=default; t=1581696784;
+ bh=CzjAbN0XKQeBrgO/A8BIBteoB3pvZMtiDwAODdAw5Rg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XRdfvZHi+h3n+36WffgnNhjGYETdOZBy1lSwSi8dyNCOg4/QfuTwhGD8OX5TV+POm
- BO5xGHaiajuNJf4rZji/wYnbM5TzAFe4KZiSLxOkpUawAIGYJYnbGx/4hwvmmtzyRX
- nMS3l017KgvWUhJeGQtymU5PB5wOgJL6eRlncXao=
+ b=vJnl+fSfXEhE+wPHyjklSDiNgj3C9AngXWCJxF3wF24CXIDGPk4Uu7kK+bwIa4bfy
+ ezpBLvBCVkagWhG4LLDGe9CY6CuJhrJ65ghUE56fdlXwfC30j26a7QccnQCilIknE2
+ ZtvZmaI7uMMDKKl6e4tAOeEsfP3i7YVy3Eko5cNg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 059/252] drm/amd/powerplay: remove set but not
- used variable 'threshold', 'state'
-Date: Fri, 14 Feb 2020 11:08:34 -0500
-Message-Id: <20200214161147.15842-59-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 060/252] drm/amdgpu: remove set but not used
+ variable 'amdgpu_connector'
+Date: Fri, 14 Feb 2020 11:08:35 -0500
+Message-Id: <20200214161147.15842-60-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
 References: <20200214161147.15842-1-sashal@kernel.org>
@@ -50,80 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- zhengbin <zhengbin13@huawei.com>, Hulk Robot <hulkci@huawei.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, yu kuai <yukuai3@huawei.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Sasha Levin <sashal@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: zhengbin <zhengbin13@huawei.com>
-
-[ Upstream commit f5ac1595156a8b63812ed6fa0803ddf7207cced7 ]
-
-Fixes gcc '-Wunused-but-set-variable' warning:
-
-drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c: In function fiji_populate_single_graphic_level:
-drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c:943:11: warning: variable threshold set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c: In function fiji_populate_memory_timing_parameters:
-drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c:1504:8: warning: variable state set but not used [-Wunused-but-set-variable]
-
-They are introduced by commit 2e112b4ae3ba ("drm/amd/pp:
-remove fiji_smc/smumgr split."), but never used,
-so remove it.
-
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: zhengbin <zhengbin13@huawei.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c b/drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c
-index 40df5c2706cce..d517fbd6809c9 100644
---- a/drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c
-+++ b/drivers/gpu/drm/amd/powerplay/smumgr/fiji_smumgr.c
-@@ -950,7 +950,7 @@ static int fiji_populate_single_graphic_level(struct pp_hwmgr *hwmgr,
- {
- 	int result;
- 	/* PP_Clocks minClocks; */
--	uint32_t threshold, mvdd;
-+	uint32_t mvdd;
- 	struct smu7_hwmgr *data = (struct smu7_hwmgr *)(hwmgr->backend);
- 	struct phm_ppt_v1_information *table_info =
- 			(struct phm_ppt_v1_information *)(hwmgr->pptable);
-@@ -983,8 +983,6 @@ static int fiji_populate_single_graphic_level(struct pp_hwmgr *hwmgr,
- 	level->VoltageDownHyst = 0;
- 	level->PowerThrottle = 0;
- 
--	threshold = clock * data->fast_watermark_threshold / 100;
--
- 	data->display_timing.min_clock_in_sr = hwmgr->display_config->min_core_set_clock_in_sr;
- 
- 	if (phm_cap_enabled(hwmgr->platform_descriptor.platformCaps, PHM_PlatformCaps_SclkDeepSleep))
-@@ -1510,7 +1508,7 @@ static int fiji_populate_memory_timing_parameters(struct pp_hwmgr *hwmgr,
- 	uint32_t dram_timing;
- 	uint32_t dram_timing2;
- 	uint32_t burstTime;
--	ULONG state, trrds, trrdl;
-+	ULONG trrds, trrdl;
- 	int result;
- 
- 	result = atomctrl_set_engine_dram_timings_rv770(hwmgr,
-@@ -1522,7 +1520,6 @@ static int fiji_populate_memory_timing_parameters(struct pp_hwmgr *hwmgr,
- 	dram_timing2 = cgs_read_register(hwmgr->device, mmMC_ARB_DRAM_TIMING2);
- 	burstTime = cgs_read_register(hwmgr->device, mmMC_ARB_BURST_TIME);
- 
--	state = PHM_GET_FIELD(burstTime, MC_ARB_BURST_TIME, STATE0);
- 	trrds = PHM_GET_FIELD(burstTime, MC_ARB_BURST_TIME, TRRDS0);
- 	trrdl = PHM_GET_FIELD(burstTime, MC_ARB_BURST_TIME, TRRDL0);
- 
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogeXUga3VhaSA8eXVrdWFpM0BodWF3ZWkuY29tPgoKWyBVcHN0cmVhbSBjb21taXQgNGYy
+OTIyZDEyZDZjNjNkMGY0YWE0ZTg1OWFkOTVhZWU2ZDBkNGVhMCBdCgpGaXhlcyBnY2MgJy1XdW51
+c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cgpkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfZGlzcGxheS5jOiBJbiBmdW5jdGlvbgrigJhhbWRncHVfZGlzcGxheV9jcnRjX3Nj
+YWxpbmdfbW9kZV9maXh1cOKAmToKZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rp
+c3BsYXkuYzo2OTM6Mjc6IHdhcm5pbmc6IHZhcmlhYmxlCuKAmGFtZGdwdV9jb25uZWN0b3LigJkg
+c2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCkZpeGVzOiBkMzhj
+ZWFmOTllZDAgKCJkcm0vYW1kZ3B1OiBhZGQgY29yZSBkcml2ZXIgKHY0KSIpClNpZ25lZC1vZmYt
+Ynk6IHl1IGt1YWkgPHl1a3VhaTNAaHVhd2VpLmNvbT4KU2lnbmVkLW9mZi1ieTogQWxleCBEZXVj
+aGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZp
+biA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X2Rpc3BsYXkuYyB8IDIgLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kaXNwbGF5LmMgYi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGlzcGxheS5jCmluZGV4IDY4NmEyNmRl
+NTBmOTEuLmE0OTc2N2U2MGFmMDQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV9kaXNwbGF5LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X2Rpc3BsYXkuYwpAQCAtNjY3LDcgKzY2Nyw2IEBAIGJvb2wgYW1kZ3B1X2Rpc3BsYXlfY3J0
+Y19zY2FsaW5nX21vZGVfZml4dXAoc3RydWN0IGRybV9jcnRjICpjcnRjLAogCXN0cnVjdCBhbWRn
+cHVfY3J0YyAqYW1kZ3B1X2NydGMgPSB0b19hbWRncHVfY3J0YyhjcnRjKTsKIAlzdHJ1Y3QgYW1k
+Z3B1X2VuY29kZXIgKmFtZGdwdV9lbmNvZGVyOwogCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25u
+ZWN0b3I7Ci0Jc3RydWN0IGFtZGdwdV9jb25uZWN0b3IgKmFtZGdwdV9jb25uZWN0b3I7CiAJdTMy
+IHNyY192ID0gMSwgZHN0X3YgPSAxOwogCXUzMiBzcmNfaCA9IDEsIGRzdF9oID0gMTsKIApAQCAt
+Njc5LDcgKzY3OCw2IEBAIGJvb2wgYW1kZ3B1X2Rpc3BsYXlfY3J0Y19zY2FsaW5nX21vZGVfZml4
+dXAoc3RydWN0IGRybV9jcnRjICpjcnRjLAogCQkJY29udGludWU7CiAJCWFtZGdwdV9lbmNvZGVy
+ID0gdG9fYW1kZ3B1X2VuY29kZXIoZW5jb2Rlcik7CiAJCWNvbm5lY3RvciA9IGFtZGdwdV9nZXRf
+Y29ubmVjdG9yX2Zvcl9lbmNvZGVyKGVuY29kZXIpOwotCQlhbWRncHVfY29ubmVjdG9yID0gdG9f
+YW1kZ3B1X2Nvbm5lY3Rvcihjb25uZWN0b3IpOwogCiAJCS8qIHNldCBzY2FsaW5nICovCiAJCWlm
+IChhbWRncHVfZW5jb2Rlci0+cm14X3R5cGUgPT0gUk1YX09GRikKLS0gCjIuMjAuMQoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
