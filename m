@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B47C15DE08
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41B915DE10
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:03:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D45306FA21;
-	Fri, 14 Feb 2020 16:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81ECE6E82D;
+	Fri, 14 Feb 2020 16:03:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2A36FA21
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:02:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 610A96E82D;
+ Fri, 14 Feb 2020 16:03:13 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 74F2E217F4;
- Fri, 14 Feb 2020 16:02:33 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 722362187F;
+ Fri, 14 Feb 2020 16:03:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581696154;
- bh=b/DkCkBjfmugWgVNNhk4QMI2Ne6zMW1uGQ9tVLzx0OE=;
+ s=default; t=1581696193;
+ bh=zHTUh5PHMgFWU1edZPn6wQntKg1Dv1p7HKF4+eFYTeo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fGbZ/rZ7YnQnQDN0uTxGA3bMTwi4TVvrO/+Z4q7I1OFPhm3KdDl95W9sipI+R8lL5
- wUY1riN++RyljP6vWzWoYCLDcdZ/VWKhRqqk/jiyD4N8cSMBT2jewE8F+w9eyYk+Z5
- W32j+XeM/aYmf6Qv8ooYlw2tJEndpfOvFNwzSMmE=
+ b=YCt7zg7gbabT+7dCl4yHESp/yhNmyTmrcLXj/MC6lWvIma9ofastbsWl9oHVPyda6
+ t8+Iiiee7BXHTrHOWOxdBCAAZXuV6k2Zz7sYJWHw2A1YqhuQ0K+GAi4VlHU+HGXeVP
+ mSBsrAlVA6/3HmAe3oqHO4RSfdiQwEajoa9TjE4U=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 033/459] pxa168fb: Fix the function used to
- release some memory in an error handling path
-Date: Fri, 14 Feb 2020 10:54:43 -0500
-Message-Id: <20200214160149.11681-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 061/459] drm/amdgpu/sriov: workaround on rev_id
+ for Navi12 under sriov
+Date: Fri, 14 Feb 2020 10:55:11 -0500
+Message-Id: <20200214160149.11681-61-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
 References: <20200214160149.11681-1-sashal@kernel.org>
@@ -50,64 +50,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
- Lubomir Rintel <lkundrak@v3.sk>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Tiecheng Zhou <Tiecheng.Zhou@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+From: Tiecheng Zhou <Tiecheng.Zhou@amd.com>
 
-[ Upstream commit 3c911fe799d1c338d94b78e7182ad452c37af897 ]
+[ Upstream commit df5e984c8bd414561c320d6cbbb66d53abf4c7e2 ]
 
-In the probe function, some resources are allocated using 'dma_alloc_wc()',
-they should be released with 'dma_free_wc()', not 'dma_free_coherent()'.
+guest vm gets 0xffffffff when reading RCC_DEV0_EPF0_STRAP0,
+as a consequence, the rev_id and external_rev_id are wrong.
 
-We already use 'dma_free_wc()' in the remove function, but not in the
-error handling path of the probe function.
+workaround it by hardcoding the rev_id to 0, which is the default value.
 
-Also, remove a useless 'PAGE_ALIGN()'. 'info->fix.smem_len' is already
-PAGE_ALIGNed.
+v2. add comment in the code
 
-Fixes: 638772c7553f ("fb: add support of LCD display controller on pxa168/910 (base layer)")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Reviewed-by: Lubomir Rintel <lkundrak@v3.sk>
-CC: YueHaibing <yuehaibing@huawei.com>
-Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190831100024.3248-1-christophe.jaillet@wanadoo.fr
+Signed-off-by: Tiecheng Zhou <Tiecheng.Zhou@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/pxa168fb.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/nv.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
-index 1410f476e135d..1fc50fc0694bc 100644
---- a/drivers/video/fbdev/pxa168fb.c
-+++ b/drivers/video/fbdev/pxa168fb.c
-@@ -766,8 +766,8 @@ static int pxa168fb_probe(struct platform_device *pdev)
- failed_free_clk:
- 	clk_disable_unprepare(fbi->clk);
- failed_free_fbmem:
--	dma_free_coherent(fbi->dev, info->fix.smem_len,
--			info->screen_base, fbi->fb_start_dma);
-+	dma_free_wc(fbi->dev, info->fix.smem_len,
-+		    info->screen_base, fbi->fb_start_dma);
- failed_free_info:
- 	kfree(info);
- 
-@@ -801,7 +801,7 @@ static int pxa168fb_remove(struct platform_device *pdev)
- 
- 	irq = platform_get_irq(pdev, 0);
- 
--	dma_free_wc(fbi->dev, PAGE_ALIGN(info->fix.smem_len),
-+	dma_free_wc(fbi->dev, info->fix.smem_len,
- 		    info->screen_base, info->fix.smem_start);
- 
- 	clk_disable_unprepare(fbi->clk);
+diff --git a/drivers/gpu/drm/amd/amdgpu/nv.c b/drivers/gpu/drm/amd/amdgpu/nv.c
+index de9b995b65b1a..2d780820ba00e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nv.c
++++ b/drivers/gpu/drm/amd/amdgpu/nv.c
+@@ -660,6 +660,12 @@ static int nv_common_early_init(void *handle)
+ 		adev->pg_flags = AMD_PG_SUPPORT_VCN |
+ 			AMD_PG_SUPPORT_VCN_DPG |
+ 			AMD_PG_SUPPORT_ATHUB;
++		/* guest vm gets 0xffffffff when reading RCC_DEV0_EPF0_STRAP0,
++		 * as a consequence, the rev_id and external_rev_id are wrong.
++		 * workaround it by hardcoding rev_id to 0 (default value).
++		 */
++		if (amdgpu_sriov_vf(adev))
++			adev->rev_id = 0;
+ 		adev->external_rev_id = adev->rev_id + 0xa;
+ 		break;
+ 	default:
 -- 
 2.20.1
 
