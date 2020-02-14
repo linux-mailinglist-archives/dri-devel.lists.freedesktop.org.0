@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B233F15E1D8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:21:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A436315E1DE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:21:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAB36FB01;
-	Fri, 14 Feb 2020 16:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1966FB03;
+	Fri, 14 Feb 2020 16:21:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30346FB01;
- Fri, 14 Feb 2020 16:20:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 319F16FB03
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:21:24 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C3F9D24747;
- Fri, 14 Feb 2020 16:20:56 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 44CD72469F;
+ Fri, 14 Feb 2020 16:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697257;
- bh=spD/PaRu0eGjp4G2POPcOangE+DReLIj/T8Zhj67L9M=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LCyYOnysEETEkm2c9JJMgfcJKHxkxyae7vvfOsf/LlfOWDu97HfSRqza2foBao2Qs
- L1ix1AoHQ8EA5SktLefvV56F25S0lUjtr3WbIM1ciE43wQztGSFhKd7EJq1KUdElzw
- PeHA+sD+3tQEoYozhzqYt3uZfbhd0r9P2x8xuku8=
+ s=default; t=1581697284;
+ bh=Txxg0CwDxgoAcCHfdSwCfVEMIB5RTNNnMROmmxv2NIQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=tSochnqaQk9HZ+V+pfQLu7f2M7Y/DXB+uD54lrtvDZg5SrlHzfJ4qYFiUUN8UB+Tu
+ e0O73K2Wcg2NioF2L5gK3b6GOSvq6sjoURlO5ssppGXwOdBitalpOJ/xoecfRfg1Uc
+ 0K+L2rciZrL9tv7k9ZU4CLgdEFgzZw1a/dUkbepM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 174/186] radeon: insert 10ms sleep in
- dce5_crtc_load_lut
-Date: Fri, 14 Feb 2020 11:17:03 -0500
-Message-Id: <20200214161715.18113-174-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 001/141] drm/gma500: Fixup fbdev stolen size usage
+ evaluation
+Date: Fri, 14 Feb 2020 11:19:01 -0500
+Message-Id: <20200214162122.19794-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
-References: <20200214161715.18113-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,44 +48,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KClsgVXBzdHJlYW0g
-Y29tbWl0IGVjM2Q2NTA4MmQ3ZGFiYWQ2ZmE4ZjY2YThlZjE2NmYyZDUyMmQ2YjIgXQoKUGVyIGF0
-IGxlYXN0IG9uZSB0ZXN0ZXIgdGhpcyBpcyBlbm91Z2ggbWFnaWMgdG8gcmVjb3ZlciB0aGUgcmVn
-cmVzc2lvbgppbnRyb2R1Y2VkIGZvciBzb21lIHBlb3BsZSAoYnV0IG5vdCBhbGwpIGluCgpjb21t
-aXQgYjhlMmIwMTk5Y2MzNzc2MTdkYzIzOGY1MTA2MzUyYzA2ZGNkM2ZhMgpBdXRob3I6IFBldGVy
-IFJvc2luIDxwZWRhQGF4ZW50aWEuc2U+CkRhdGU6ICAgVHVlIEp1bCA0IDEyOjM2OjU3IDIwMTcg
-KzAyMDAKCiAgICBkcm0vZmItaGVscGVyOiBmYWN0b3Igb3V0IHBzZXVkby1wYWxldHRlCgp3aGlj
-aCBmb3IgcmFkZW9uIGhhZCB0aGUgc2lkZS1lZmZlY3Qgb2YgcmVmYWN0b3Jpbmcgb3V0IGEgc2Vl
-bWluZ2x5CnJlZHVkYW50IHdyaXRpbmcgb2YgdGhlIGNvbG9yIHBhbGV0dGUuCgoxMG1zIGluIGEg
-ZmFpcmx5IHNsb3cgbW9kZXNldCBwYXRoIGZlZWxzIGxpa2UgYW4gYWNjZXB0YWJsZSBmb3JtIG9m
-CmR1Y3QtdGFwZSwgc28gbWF5YmUgd29ydGggYSBzaG90IGFuZCBzZWUgd2hhdCBzdGlja3MuCgpD
-YzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpDYzogTWljaGVsIETD
-pG56ZXIgPG1pY2hlbC5kYWVuemVyQGFtZC5jb20+ClJlZmVyZW5jZXM6IGh0dHBzOi8vYnVnemls
-bGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTk4MTIzClNpZ25lZC1vZmYtYnk6IERhbmll
-bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBBbGV4IERl
-dWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IFNhc2hhIExl
-dmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
-bl9kaXNwbGF5LmMgfCAyICsrCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jIGIvZHJpdmVy
-cy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jCmluZGV4IDRlZDgwYmY1ZDNmMGQuLmEy
-MTY0N2RjZTNiZjUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rp
-c3BsYXkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kaXNwbGF5LmMKQEAg
-LTExOSw2ICsxMTksOCBAQCBzdGF0aWMgdm9pZCBkY2U1X2NydGNfbG9hZF9sdXQoc3RydWN0IGRy
-bV9jcnRjICpjcnRjKQogCiAJRFJNX0RFQlVHX0tNUygiJWRcbiIsIHJhZGVvbl9jcnRjLT5jcnRj
-X2lkKTsKIAorCW1zbGVlcCgxMCk7CisKIAlXUkVHMzIoTklfSU5QVVRfQ1NDX0NPTlRST0wgKyBy
-YWRlb25fY3J0Yy0+Y3J0Y19vZmZzZXQsCiAJICAgICAgIChOSV9JTlBVVF9DU0NfR1JQSF9NT0RF
-KE5JX0lOUFVUX0NTQ19CWVBBU1MpIHwKIAkJTklfSU5QVVRfQ1NDX09WTF9NT0RFKE5JX0lOUFVU
-X0NTQ19CWVBBU1MpKSk7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+[ Upstream commit fd1a5e521c3c083bb43ea731aae0f8b95f12b9bd ]
+
+psbfb_probe performs an evaluation of the required size from the stolen
+GTT memory, but gets it wrong in two distinct ways:
+- The resulting size must be page-size-aligned;
+- The size to allocate is derived from the surface dimensions, not the fb
+  dimensions.
+
+When two connectors are connected with different modes, the smallest will
+be stored in the fb dimensions, but the size that needs to be allocated must
+match the largest (surface) dimensions. This is what is used in the actual
+allocation code.
+
+Fix this by correcting the evaluation to conform to the two points above.
+It allows correctly switching to 16bpp when one connector is e.g. 1920x1080
+and the other is 1024x768.
+
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191107153048.843881-1-paul.kocialkowski@bootlin.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/gma500/framebuffer.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
+index 3a44e705db538..d224fc12b7571 100644
+--- a/drivers/gpu/drm/gma500/framebuffer.c
++++ b/drivers/gpu/drm/gma500/framebuffer.c
+@@ -516,6 +516,7 @@ static int psbfb_probe(struct drm_fb_helper *helper,
+ 		container_of(helper, struct psb_fbdev, psb_fb_helper);
+ 	struct drm_device *dev = psb_fbdev->psb_fb_helper.dev;
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
++	unsigned int fb_size;
+ 	int bytespp;
+ 
+ 	bytespp = sizes->surface_bpp / 8;
+@@ -525,8 +526,11 @@ static int psbfb_probe(struct drm_fb_helper *helper,
+ 	/* If the mode will not fit in 32bit then switch to 16bit to get
+ 	   a console on full resolution. The X mode setting server will
+ 	   allocate its own 32bit GEM framebuffer */
+-	if (ALIGN(sizes->fb_width * bytespp, 64) * sizes->fb_height >
+-	                dev_priv->vram_stolen_size) {
++	fb_size = ALIGN(sizes->surface_width * bytespp, 64) *
++		  sizes->surface_height;
++	fb_size = ALIGN(fb_size, PAGE_SIZE);
++
++	if (fb_size > dev_priv->vram_stolen_size) {
+                 sizes->surface_bpp = 16;
+                 sizes->surface_depth = 16;
+         }
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
