@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281ED15DF1A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:07:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7AF15DF1B
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:07:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CEFF6FA61;
-	Fri, 14 Feb 2020 16:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE596FA63;
+	Fri, 14 Feb 2020 16:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AA866FA61
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:07:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B95596FA64
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:07:25 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1E9DE24684;
- Fri, 14 Feb 2020 16:07:22 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CC589206D7;
+ Fri, 14 Feb 2020 16:07:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581696443;
- bh=dvE44OfBTrD5yaVr32CYxZ9E+07kwMmWlVXEWMen15s=;
+ s=default; t=1581696445;
+ bh=qylBH5YcfQTK+S1FKPcZxOPzCVgqwh/KiSNuFJFHugE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FVi2wnq5lGMJnLMHWmcHHeWd/MTMYYFehQHYuv2HkylExjU4NYHtu9d3TXfUabMW9
- +QU+h0idUAtBw8/wEk/QjC5Hw0tUxbiUKZ9qRzSiylHeVCiL5OZJPtS69m/4PLg0fI
- /QaHTA8VsCTEvCB9g3iArjYC/bfNOgoDY9b9eSSU=
+ b=yncwJVfKq/DEX/v9h+m4yFMnBe30NExowgyQPVALEHR+GqgXNUEVuH9LM/jxaYs0F
+ yVFUyVhT+J/17PTkwcJ75ROnEvfNyd8HaWe0xFevauQYC3vDfvGzQlkC+95N4o/Y66
+ rT7oNYY5wPGuaNgsYGCfY+Ioj4vFKd7zb5Mbi2XU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 258/459] drm: remove the newline for CRC source
- name.
-Date: Fri, 14 Feb 2020 10:58:28 -0500
-Message-Id: <20200214160149.11681-258-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 260/459] drm/gma500: remove set but not used
+ variables 'hist_reg'
+Date: Fri, 14 Feb 2020 10:58:30 -0500
+Message-Id: <20200214160149.11681-260-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
 References: <20200214160149.11681-1-sashal@kernel.org>
@@ -50,54 +50,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Dingchen Zhang <dingchen.zhang@amd.com>,
- Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Chen Zhou <chenzhou10@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+ dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dingchen Zhang <dingchen.zhang@amd.com>
+From: Chen Zhou <chenzhou10@huawei.com>
 
-[ Upstream commit 72a848f5c46bab4c921edc9cbffd1ab273b2be17 ]
+[ Upstream commit 72f775611daf3ce20358388facbaf11f22899fa2 ]
 
-userspace may transfer a newline, and this terminating newline
-is replaced by a '\0' to avoid followup issues.
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-'len-1' is the index to replace the newline of CRC source name.
+drivers/gpu/drm/gma500/psb_irq.c: In function psb_irq_turn_off_dpst:
+drivers/gpu/drm/gma500/psb_irq.c:473:6:
+	warning: variable hist_reg set but not used [-Wunused-but-set-variable]
 
-v3: typo fix (Sam)
-
-v2: update patch subject, body and format. (Sam)
-
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Harry Wentland <Harry.Wentland@amd.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Dingchen Zhang <dingchen.zhang@amd.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190610134751.14356-1-dingchen.zhang@amd.com
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191227114811.14907-1-chenzhou10@huawei.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_debugfs_crc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/gma500/psb_irq.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_debugfs_crc.c b/drivers/gpu/drm/drm_debugfs_crc.c
-index be1b7ba92ffe1..6a626c82e264b 100644
---- a/drivers/gpu/drm/drm_debugfs_crc.c
-+++ b/drivers/gpu/drm/drm_debugfs_crc.c
-@@ -140,8 +140,8 @@ static ssize_t crc_control_write(struct file *file, const char __user *ubuf,
- 	if (IS_ERR(source))
- 		return PTR_ERR(source);
+diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+index dc6a73ab9777c..f29061061debf 100644
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -458,12 +458,11 @@ void psb_irq_turn_off_dpst(struct drm_device *dev)
+ {
+ 	struct drm_psb_private *dev_priv =
+ 	    (struct drm_psb_private *) dev->dev_private;
+-	u32 hist_reg;
+ 	u32 pwm_reg;
  
--	if (source[len] == '\n')
--		source[len] = '\0';
-+	if (source[len - 1] == '\n')
-+		source[len - 1] = '\0';
+ 	if (gma_power_begin(dev, false)) {
+ 		PSB_WVDC32(0x00000000, HISTOGRAM_INT_CONTROL);
+-		hist_reg = PSB_RVDC32(HISTOGRAM_INT_CONTROL);
++		PSB_RVDC32(HISTOGRAM_INT_CONTROL);
  
- 	ret = crtc->funcs->verify_crc_source(crtc, source, &values_cnt);
- 	if (ret)
+ 		psb_disable_pipestat(dev_priv, 0, PIPE_DPST_EVENT_ENABLE);
+ 
 -- 
 2.20.1
 
