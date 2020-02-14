@@ -1,69 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B26160CF8
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B0E160CFD
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2420E6E8C9;
-	Mon, 17 Feb 2020 08:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FAE96E833;
+	Mon, 17 Feb 2020 08:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F21826E3DA
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:44:09 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 40E905CD1;
- Fri, 14 Feb 2020 10:44:09 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 14 Feb 2020 10:44:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=n5v7Ksf5fN+HGYZQY4Cr6/EpGn+
- eFDk1rQovPH6zOQU=; b=k+dQmLVjp1h/yH4XaeEmVKsC8XumRaOXMNNVI1cAaOI
- uVDVHEwtAtIDB4hEB2Popc9ifkFA4dteIs/9nbd2RMvo40dmSBxaFJzbS+oa2gvW
- 7UiMSSe3GRgN91WEOuZ6Xz9JOuPKjWENc3xQhOTaGEIlG/JKPEEvce0/PSa9Eg9P
- O4uPJ7DbxXrCAyoMzCNYRZO8sxDihm+p5fR5SjPWlLvhicYiCuTjqMxjBxNJBOeN
- viet7Cgi18ytKXsrZpVm+6cl79xYBiZ57o/axsPEEOTmJs+RWgOzXir+7xOV9XL0
- scedVSGvykOerXakEMOaA3/iYkZ+vGvH/XMiIQOwTJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=n5v7Ks
- f5fN+HGYZQY4Cr6/EpGn+eFDk1rQovPH6zOQU=; b=rIA7N4TgCEXQwu43DKUW2L
- W4++wGCiAERQclPw/7jCi/4LxxIpBDbsWUhz2Bf8azP+AUkSt+9Y3xQrHditj2pQ
- uAJrx0xSRzp+moxYhgCPi8D5/kJkviLEKLScvhUZrcOZ8zad3RruSLo+pyGynmkH
- u1ZfpsDKfPiBPiUaZXP4e9TvxR5yqgXJ9Md4+LyRp06TP/5nd/l9IAkhw52WJEyw
- 2Z56cPbIW+XbzKpfH3Sqe3ukv8ojpGkZEgiF9oWYLOrs6rdAPPPV1LdD6Aeu/Cr/
- PAOS9R1KQPhuUa614o9nCmt6ln5+zBK2QcmBLuh2pEV9kxoPyZB2mOSb1a54KT1Q
- ==
-X-ME-Sender: <xms:R8BGXrT0Z-LrkYPf54YX95PM3kh0W0mk0CCcITPa8_Hvzi8QGsl8PQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjedtgdekudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
- fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:R8BGXvvKwDo-3MEP4nIBCAsXoc1LBpljPg3kX3YUlAGQpXApwUL41g>
- <xmx:R8BGXkNWpig5YSHaEkc9zD-IcbYVcAO5yuZtUUlZ-m-b46PgjX2C8Q>
- <xmx:R8BGXijZhTpEesb32RwtqSX5HFkfNgzcVCAKoNw5nw-6SvAFI5TOVA>
- <xmx:ScBGXphAPunMvxwS9HvlUFBGO3sk2OaMZiwuMs5fA-XN0hEjfpHlVw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 20A1530606E9;
- Fri, 14 Feb 2020 10:44:07 -0500 (EST)
-Date: Fri, 14 Feb 2020 16:44:05 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: sun4i-tcon: Add LVDS Dual Link
- property
-Message-ID: <20200214154405.f5zuicm6uhhiczfs@gilmour.lan>
-References: <20200214123244.109300-1-maxime@cerno.tech>
- <20200214131025.GI4831@pendragon.ideasonboard.com>
+Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5302::4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4BD16FA7A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581696635;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+ Subject:Sender;
+ bh=ZPKJi9DpktAlJ6/TPMniw8POBwTJ4LOZk0WaWGAQMpk=;
+ b=cNING9GKYxQNVKetxHQbzxOBlTE7Y+173t+oiCmcqgsmPhinGduhI8vP06TAJA175U
+ ClCxu5xvTNmXmEKtXOPClWfbZI/cHWF2OJKLck2JET84ERaWq45d756+xNyiJkkRvEBg
+ tbovHWmYDvUFLAezTWQ0rRdFxAKKOX000tb4IUvrZX1rADb79QCBR8dmaDKZf3ndaBh7
+ uizSBuqRreJiogu8+HIB8B9RBpZIMe3n+pvTnozkZt50yJFVDOLVlZQfRMoFGdT4ZmbP
+ MkVa8GZLszagoDyiFmeMxbv/Em5yn37wH4kqWKhEuEMhZldPfyia4FMF28t9exQkLwCY
+ tvXg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UNf2M7OMfsfQx3"
+X-RZG-CLASS-ID: mo00
+Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
+ with ESMTPSA id U06217w1EGAPFkv
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Fri, 14 Feb 2020 17:10:25 +0100 (CET)
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+To: Paul Boddie <paul@boddie.org.uk>, Paul Cercueil <paul@crapouillou.net>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Andi Kleen <ak@linux.intel.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Kees Cook <keescook@chromium.org>
+Subject: [PATCH v2 00/12] MIPS: Fixes and improvements for CI20 board (JZ4780)
+Date: Fri, 14 Feb 2020 17:10:12 +0100
+Message-Id: <cover.1581696624.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20200214131025.GI4831@pendragon.ideasonboard.com>
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,91 +57,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1441934860=="
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@pyra-handheld.com, letux-kernel@openphoenux.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+V2:
+* dropped "net: davicom: dm9000: allow to pass MAC address through mac_addr module parameter"
+  from this series because it goes through the netdev tree
+  (suggested by Andrew Lunn <andrew@lunn.ch>)
+* added a "fixes:" for "MIPS: DTS: CI20: fix PMU definitions for ACT8600"
+  and "MIPS: DTS: CI20: fix interrupt for pcf8563 RTC"
+  (suggested by Andreas Kemnade <andreas@kemnade.info>)
+* "i2c: jz4780: silence log flood on txabrt" dropped because it is
+  replaced by a new version in v5.6 by Wolfram Sang <wsa@the-dreams.de>
 
---===============1441934860==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ocew46sopze2pn2e"
-Content-Disposition: inline
+PATCH V1 2020-02-11 22:41:43:
+This patch set provides several improvements for the CI20 board:
+
+* suppress warnings from i2c if device is not responding
+* make ingenic-drm found through DT
+* allow davicom dm9000 ethernet controller to use MAC address provided by U-Boot
+* fix #include in jz4780.dtsi
+* configure for loadable kernel modules
+* add DTS for IR sensor and SW1 button
+* configure so that LEDs, IR sensor, SW1 button have drivers
+* fix DTS for ACT8600 PMU and configure driver
+* fix interrupt of nxp,pcf8563
+
+There is another patch set in our queue to add HDMI support on top of this work.
+
+Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 
 
---ocew46sopze2pn2e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Alex Smith (1):
+  MIPS: DTS: CI20: add DT node for IR sensor
 
-Hi Laurent,
+H. Nikolaus Schaller (11):
+  drm: ingenic-drm: add MODULE_DEVICE_TABLE
+  MIPS: DTS: jz4780: add #includes for irq.h and gpio.h
+  MIPS: CI20: defconfig: configure for supporting modules
+  MIPS: CI20: defconfig: compile leds-gpio driver into the kernel and
+    configure for LED triggers
+  MIPS: DTS: CI20: fix PMU definitions for ACT8600
+  MIPS: CI20: defconfig: configure CONFIG_REGULATOR_ACT8865 for PMU
+  MIPS: DTS: CI20: give eth0_power a defined voltage.
+  MIPS: CI20: defconfig: compile gpio-ir driver
+  MIPS: DTS: CI20: add DT node for SW1 as Enter button
+  MIPS: CI20: defconfig: configure for CONFIG_KEYBOARD_GPIO=m
+  MIPS: DTS: CI20: fix interrupt for pcf8563 RTC
 
-On Fri, Feb 14, 2020 at 03:10:25PM +0200, Laurent Pinchart wrote:
-> Hi Maxime,
->
-> Thank you for the patch.
->
-> On Fri, Feb 14, 2020 at 01:32:43PM +0100, Maxime Ripard wrote:
-> > SoCs that have multiple TCONs can use the two set of pins on the first TCON
-> > to drive a dual-link display. Add a property to enable the dual link.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  .../bindings/display/allwinner,sun4i-a10-tcon.yaml         | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> > index 86ad617d2327..aa6dd8409dbc 100644
-> > --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> > +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> > @@ -105,6 +105,13 @@ properties:
-> >          - const: edp
-> >          - const: lvds
-> >
-> > +  allwinner,lvds-dual-link:
-> > +    type: boolean
-> > +    description: |
-> > +      On a SoC with two TCON with LVDS support, the first TCON can
-> > +      operate over both pins sets to output in a dual-link setup. This
-> > +      will be triggered by setting this property.
->
-> Could you maybe provide an example of how this property is supposed to
-> be used ? I'm especially wondering what ports are used in that case and
-> how they're connected.
+ arch/mips/boot/dts/ingenic/ci20.dts    | 71 ++++++++++++++++++++------
+ arch/mips/boot/dts/ingenic/jz4780.dtsi |  2 +
+ arch/mips/configs/ci20_defconfig       | 21 ++++++++
+ drivers/gpu/drm/ingenic/ingenic-drm.c  |  2 +
+ 4 files changed, 80 insertions(+), 16 deletions(-)
 
-It's pretty trivial to support, it's only a property to set on the
-encoder node itself.
-
-I'm not really sure what you meant by your question with the ports
-though :/
-
-Maxime
-
---ocew46sopze2pn2e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXkbARQAKCRDj7w1vZxhR
-xWgZAQCoX6IPh3nfofCSZf7uxIEwmYH/acb4D64t70G8fNoW4AEA0scufZoOcED6
-nd6GkciRxgxAXhF3LhkXYBnzHA7tnQY=
-=1YtU
------END PGP SIGNATURE-----
-
---ocew46sopze2pn2e--
-
---===============1441934860==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.23.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1441934860==--
