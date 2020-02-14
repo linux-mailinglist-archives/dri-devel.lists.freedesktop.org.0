@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1A915D353
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F9615D394
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:13:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48CDA6E4F4;
-	Fri, 14 Feb 2020 08:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33D596E544;
+	Fri, 14 Feb 2020 08:13:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4225D6E4F4
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 08:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581667268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc; bh=40VP33gu2neJNp1TOhQHNjH0xuCUDhYDqToHmrgnVbw=;
- b=i+eY5lEBq9/YWot8u/zOD4gq98Php3D+Gk/kSH05acuevySPz5iUytunUhdcGB/kLDGkk0
- DFLtIzscnyZot/MUFIrc3QEzeun+GQ7BUbwz+MmP6bnUuUKhWnXkQzkvyRtlGnoe7M1yxz
- RjFFE4ofo3TufMadL4DtUAPzZzsj8Ro=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-CvIYS2qUOgyUWJS3UebuyA-1; Fri, 14 Feb 2020 03:01:06 -0500
-X-MC-Unique: CvIYS2qUOgyUWJS3UebuyA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CD1113E2;
- Fri, 14 Feb 2020 08:01:04 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com
- [10.36.117.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3391988854;
- Fri, 14 Feb 2020 08:01:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6DEC3939B; Fri, 14 Feb 2020 09:01:00 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: fix error check
-Date: Fri, 14 Feb 2020 09:01:00 +0100
-Message-Id: <20200214080100.1273-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88A726E544
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 08:13:48 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a6so9581635wme.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 00:13:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KrKw9honv00Gv8PUmJW+4mJo3k/0Qys+gOsebcCfF3M=;
+ b=IX2UBSpq1ijj5Y60vXHR/kdmzhsOietgGnxiq1gYG4nzdE6hJ/f05q2wQeWyDKFGQi
+ NbP4zV2N/O8hI2f7LxyznqyKHwopIS1aXW191cAZLNd+V6e636ho7u1kTkMVEFtb8gXc
+ tbM8X6JBUIE3Hy3gX6VeDa4XZFhIL0Nn86fOA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KrKw9honv00Gv8PUmJW+4mJo3k/0Qys+gOsebcCfF3M=;
+ b=TuDnceFeZarWML2hdS5y7rAWvclXTUgyFa2/Tg6RCSBkDyAu6rQoiFMcelUNGKxchP
+ dXnsu0gwxYJ9aw58UvnrhuN+MHxQ5CGMWGygAyN1EY2Sc7EX+k/1A1/z3pPE59o0Z0Rs
+ hoov1DnjptfgLOgucPxMMHR3szJz+sVQugPk5xoGKWJQ9yyofRfFXnSxtzsqQqDUIHLD
+ ErJKTGlCvS6a9ftawAyambTXN7XxvuvS5yeBEbXX41Wq0GzHSn7qAMp8plQu6nF2E7+o
+ feOznXnmgueF3Vdtheim4u6s1svBuUbo72Sh7UEobsD4/43TwdlSExtKYLYOmNk3AJzJ
+ zhow==
+X-Gm-Message-State: APjAAAV4l2h4EiAxl/Htr4HT53SeQHRmJnml6ZI5Arr9bw94PhMOeOru
+ Aw8iTSAtuS3RgigCzX71mFeYNu6GTQQ=
+X-Google-Smtp-Source: APXvYqwgBlhz6TgJgw3WBLM+g4Rs5LWptPoKrq4nGEPSDiZ6cvJTbnX9RLc/6mwecYS0f8LkUeCC3w==
+X-Received: by 2002:a7b:c386:: with SMTP id s6mr3167407wmj.105.1581668026253; 
+ Fri, 14 Feb 2020 00:13:46 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q130sm6878847wme.19.2020.02.14.00.13.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2020 00:13:45 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/atomic-helper: fix kerneldoc
+Date: Fri, 14 Feb 2020 09:13:40 +0100
+Message-Id: <20200214081340.2772853-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,40 +61,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, smitterl@redhat.com, cohuck@redhat.com,
- open list <linux-kernel@vger.kernel.org>, gurchetansingh@chromium.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
-MIME-Version: 1.0
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The >= compare op must happen in cpu byte order, doing it in
-little endian fails on big endian machines like s390.
+Just a tiny copypasta mistake.
 
-Reported-by: Sebastian Mitterle <smitterl@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Fixes: 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_vq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic_state_helper.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index cfe9c54f87a3..67caecde623e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -222,7 +222,7 @@ void virtio_gpu_dequeue_ctrl_func(struct work_struct *work)
- 		trace_virtio_gpu_cmd_response(vgdev->ctrlq.vq, resp);
- 
- 		if (resp->type != cpu_to_le32(VIRTIO_GPU_RESP_OK_NODATA)) {
--			if (resp->type >= cpu_to_le32(VIRTIO_GPU_RESP_ERR_UNSPEC)) {
-+			if (le32_to_cpu(resp->type) >= VIRTIO_GPU_RESP_ERR_UNSPEC) {
- 				struct virtio_gpu_ctrl_hdr *cmd;
- 				cmd = virtio_gpu_vbuf_ctrl_hdr(entry);
- 				DRM_ERROR_RATELIMITED("response 0x%x (command 0x%x)\n",
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index 33141d2cdad4..8fce6a115dfe 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -635,7 +635,6 @@ EXPORT_SYMBOL(__drm_atomic_helper_bridge_reset);
+  * drm_atomic_helper_bridge_reset() - Allocate and initialize a bridge state
+  *				      to its default
+  * @bridge: the bridge this state refers to
+- * @state: bridge state to initialize
+  *
+  * Allocates the bridge state and initializes it to default values. This helper
+  * is meant to be used as a bridge &drm_bridge_funcs.atomic_reset hook for
 -- 
-2.18.2
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
