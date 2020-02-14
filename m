@@ -2,52 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C17315D4A0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 10:22:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5B015D4D5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 10:35:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9829A6F8E8;
-	Fri, 14 Feb 2020 09:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0AF6E57E;
+	Fri, 14 Feb 2020 09:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 256106F8E8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 09:22:49 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01E9Mg3w113503;
- Fri, 14 Feb 2020 03:22:42 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1581672162;
- bh=pIyaS5ys8ohp+Z+ExkY5QFJRkuhfYRBSJTMw3mE1fgs=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=IrSmm8TVtrW84YYCRBXCTPEbgbQOSYNyE3oZNGJ2WfIvu4VgAZiobdbCoXXJlSyIN
- ExB3loQb5rDxuSLHdEgWMMHw3xVZr4Fi0liwlEJeLPTb9pLwT85lnX2cqKXl4uHa41
- pucLrFhGSTBG3DPwpUByzUcQeRbi0tyvBCclv4oc=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01E9MgcK026731
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 14 Feb 2020 03:22:42 -0600
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 14
- Feb 2020 03:22:41 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 14 Feb 2020 03:22:41 -0600
-Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01E9MJj8086345;
- Fri, 14 Feb 2020 03:22:30 -0600
-From: Jyri Sarha <jsarha@ti.com>
-To: <dri-devel@lists.freedesktop.org>, <ssantosh@kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH resend 2/2] ARM: dts: keystone-k2g-evm: add HDMI video support
-Date: Fri, 14 Feb 2020 11:22:15 +0200
-Message-ID: <f6f51177e44a36db2ba9f3411ee26db387c38e2f.1581671951.git.jsarha@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1581671951.git.jsarha@ti.com>
-References: <cover.1581671951.git.jsarha@ti.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF976E57E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 09:35:28 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73600504;
+ Fri, 14 Feb 2020 10:35:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1581672926;
+ bh=L1QMvkTmDy5Uvz2VqDZr+3R1vRelki8DxUq1A1PCZ6g=;
+ h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=Bt4h8YURtgThJGeR4azMdlK/U1ru7BtnUjr7XIDQyyeH+PYPQj1GP5MoDK11S/RoH
+ 0QEMaxq9+N0hwKLLickz45txI97uCWj1c3/z1+IryBNGJq2YfzGEaX3wL3H8D26Nk1
+ Kxm+poZZYaBEvlR41B6O1VeShWMPQSiqg4ZLqn5w=
+Subject: Re: [PATCH v5] dt-bindings: display: renesas: du: Document optional
+ reset properties
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+References: <20200214082623.4893-1-geert+renesas@glider.be>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <78fd5397-8294-7bc5-de5d-1b71d78a96a4@ideasonboard.com>
+Date: Fri, 14 Feb 2020 09:35:22 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20200214082623.4893-1-geert+renesas@glider.be>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,155 +52,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, praneeth@ti.com, robh+dt@kernel.org,
- peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- laurent.pinchart@ideasonboard.com
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DT nodes for HDMI video support for K2G EVM. The HDMI uses SiI9022
-DPI as HDMI encoder. The DSS DPI is connected to SiI9022 HDMI
-encoder's video input and encoder's output goes to HDMI connector.
+Hi Geert,
 
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
----
- arch/arm/boot/dts/keystone-k2g-evm.dts | 101 +++++++++++++++++++++++++
- 1 file changed, 101 insertions(+)
+On 14/02/2020 08:26, Geert Uytterhoeven wrote:
+> Document the optional properties for describing module resets, to
+> support resetting display channels on R-Car Gen2 and Gen3.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 
-diff --git a/arch/arm/boot/dts/keystone-k2g-evm.dts b/arch/arm/boot/dts/keystone-k2g-evm.dts
-index b7f10bf94576..db640bab8c1d 100644
---- a/arch/arm/boot/dts/keystone-k2g-evm.dts
-+++ b/arch/arm/boot/dts/keystone-k2g-evm.dts
-@@ -45,6 +45,19 @@
- 		regulator-max-microvolt = <1800000>;
- 		regulator-always-on;
- 	};
-+
-+	hdmi: connector {
-+		compatible = "hdmi-connector";
-+		label = "hdmi";
-+
-+		type = "a";
-+
-+		port {
-+			hdmi_connector_in: endpoint {
-+				remote-endpoint = <&sii9022_out>;
-+			};
-+		};
-+	};
- };
- 
- &k2g_pinctrl {
-@@ -89,6 +102,13 @@
- 		>;
- 	};
- 
-+	i2c1_pins: pinmux_i2c1_pins {
-+		pinctrl-single,pins = <
-+			K2G_CORE_IOPAD(0x1384) (BUFFER_CLASS_B | PIN_PULLUP | MUX_MODE0)	/* i2c1_scl.i2c1_scl */
-+			K2G_CORE_IOPAD(0x1388) (BUFFER_CLASS_B | PIN_PULLUP | MUX_MODE0)	/* i2c1_sda.i2c1_sda */
-+		>;
-+	};
-+
- 	ecap0_pins: ecap0_pins {
- 		pinctrl-single,pins = <
- 			K2G_CORE_IOPAD(0x1374) (BUFFER_CLASS_B | MUX_MODE4)	/* pr1_mdio_data.ecap0_in_apwm0_out */
-@@ -160,6 +180,40 @@
- 			K2G_CORE_IOPAD(0x1188) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0)	/* MDIO_DATA.MDIO_DATA */
- 		>;
- 	};
-+
-+	vout_pins: pinmux_vout_pins {
-+		pinctrl-single,pins = <
-+			K2G_CORE_IOPAD(0x1078) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata23.dssdata23 */
-+			K2G_CORE_IOPAD(0x107c) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata22.dssdata22 */
-+			K2G_CORE_IOPAD(0x1080) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata21.dssdata21 */
-+			K2G_CORE_IOPAD(0x1084) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata20.dssdata20 */
-+			K2G_CORE_IOPAD(0x1088) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata19.dssdata19 */
-+			K2G_CORE_IOPAD(0x108c) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata18.dssdata18 */
-+			K2G_CORE_IOPAD(0x1090) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata17.dssdata17 */
-+			K2G_CORE_IOPAD(0x1094) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata16.dssdata16 */
-+			K2G_CORE_IOPAD(0x1098) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata15.dssdata15 */
-+			K2G_CORE_IOPAD(0x109c) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata14.dssdata14 */
-+			K2G_CORE_IOPAD(0x10a0) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata13.dssdata13 */
-+			K2G_CORE_IOPAD(0x10a4) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata12.dssdata12 */
-+			K2G_CORE_IOPAD(0x10a8) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata11.dssdata11 */
-+			K2G_CORE_IOPAD(0x10ac) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata10.dssdata10 */
-+			K2G_CORE_IOPAD(0x10b0) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata9.dssdata9 */
-+			K2G_CORE_IOPAD(0x10b4) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata8.dssdata8 */
-+			K2G_CORE_IOPAD(0x10b8) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata7.dssdata7 */
-+			K2G_CORE_IOPAD(0x10bc) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata6.dssdata6 */
-+			K2G_CORE_IOPAD(0x10c0) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata5.dssdata5 */
-+			K2G_CORE_IOPAD(0x10c4) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata4.dssdata4 */
-+			K2G_CORE_IOPAD(0x10c8) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata3.dssdata3 */
-+			K2G_CORE_IOPAD(0x10cc) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata2.dssdata2 */
-+			K2G_CORE_IOPAD(0x10d0) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata1.dssdata1 */
-+			K2G_CORE_IOPAD(0x10d4) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssdata0.dssdata0 */
-+			K2G_CORE_IOPAD(0x10d8) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssvsync.dssvsync */
-+			K2G_CORE_IOPAD(0x10dc) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dsshsync.dsshsync */
-+			K2G_CORE_IOPAD(0x10e0) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dsspclk.dsspclk */
-+			K2G_CORE_IOPAD(0x10e4) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssde.dssde */
-+			K2G_CORE_IOPAD(0x10e8) (BUFFER_CLASS_B | PULL_DISABLE | MUX_MODE0) /* dssfid.dssfid */
-+		>;
-+	};
- };
- 
- &uart0 {
-@@ -357,3 +411,50 @@
- 	pinctrl-0 = <&emac_pins>;
- 	status = "okay";
- };
-+
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1_pins>;
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	sii9022: sii9022@3b {
-+		#sound-dai-cells = <0>;
-+		compatible = "sil,sii9022";
-+		reg = <0x3b>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				sii9022_in: endpoint {
-+					remote-endpoint = <&dpi_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				sii9022_out: endpoint {
-+					remote-endpoint = <&hdmi_connector_in>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&dss {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&vout_pins>;
-+	status = "ok";
-+
-+	port {
-+		dpi_out: endpoint {
-+			remote-endpoint = <&sii9022_in>;
-+			data-lines = <24>;
-+		};
-+	};
-+};
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> ---
+> Who's taking this kind of patches?
+> V1 was submmitted in March 2017.
+
+Hrm ... presumably through the DRM subsystem trees?
+
+Or just for Laurent to pick up ...
+--
+KB
+
+
+> 
+> v5:
+>   - Rebase on top of renesas,cmms and renesas,vsps patches,
+> 
+> v4:
+>   - Use "All but R8A7779" instead of "R8A779[0123456]", to reduce future
+>     churn,
+> 
+> v3:
+>   - Add Acked-by,
+>   - Drop LVDS resets, as LVDS is now covered by a separate binding,
+>   - Update the example.
+> 
+> v2:
+>   - s/phandles/phandle/.
+> ---
+>  .../devicetree/bindings/display/renesas,du.txt         | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+> index eb4ae41fe41f83c7..51cd4d1627703a15 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> @@ -50,6 +50,14 @@ Required Properties:
+>      VSP instance that serves the DU channel, and the channel index identifies
+>      the LIF instance in that VSP.
+>  
+> +Optional properties:
+> +  - resets: A list of phandle + reset-specifier pairs, one for each entry in
+> +    the reset-names property.
+> +  - reset-names: Names of the resets. This property is model-dependent.
+> +    - All but R8A7779 use one reset for a group of one or more successive
+> +      channels. The resets must be named "du.x" with "x" being the numerical
+> +      index of the lowest channel in the group.
+> +
+>  Required nodes:
+>  
+>  The connections to the DU output video ports are modeled using the OF graph
+> @@ -96,6 +104,8 @@ Example: R8A7795 (R-Car H3) ES2.0 DU
+>  			 <&cpg CPG_MOD 722>,
+>  			 <&cpg CPG_MOD 721>;
+>  		clock-names = "du.0", "du.1", "du.2", "du.3";
+> +		resets = <&cpg 724>, <&cpg 722>;
+> +		reset-names = "du.0", "du.2";
+>  		renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
+>  		renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+>  
+> 
 
 _______________________________________________
 dri-devel mailing list
