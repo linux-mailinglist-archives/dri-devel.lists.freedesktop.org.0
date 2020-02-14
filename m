@@ -2,37 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A147160CDA
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0B4160D08
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 437DA6E558;
-	Mon, 17 Feb 2020 08:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1366E8B8;
+	Mon, 17 Feb 2020 08:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04D046E867
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 19:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1581709398; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wZkIWoT3qotVQAzgQYaq41IW6DjnXJ58Og2TKl+UxYc=;
- b=CylmmngXMjnDLNsYuyOHJWaCyYN0prjTB1gjlXLjqUQdJiqu7vagPSkN3rR0aPj+wUsXg+
- 9Mb3yvg0l7sdZBsY3pTeC6M1N39ROw6FHsBzknaIEO29dIOPcUAwkiD1AMdfbWLTgzR0fp
- wDSRW6INz8BjS/H4ShcERbCgE415yNA=
-Date: Fri, 14 Feb 2020 16:42:57 -0300
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 03/12] MIPS: CI20: defconfig: configure for supporting
- modules
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <1581709377.3.9@crapouillou.net>
-In-Reply-To: <AD9439FF-9DEF-4B9A-8A01-F11B626708C1@goldelico.com>
-References: <cover.1581696624.git.hns@goldelico.com>
- <db4db9e0b024aa3051a6f1f7be07323418d1d453.1581696624.git.hns@goldelico.com>
- <1581707415.3.7@crapouillou.net>
- <AD9439FF-9DEF-4B9A-8A01-F11B626708C1@goldelico.com>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 396056E877
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 20:48:53 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id b17so12168865wmb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 12:48:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=by2xd4xQmUHlU9s/C95WpmrUhX2m+ztyFaDW+ePPigQ=;
+ b=UCK3dCriT7/8DChoNsIE9klpclhewfP+byj/lcpxFKeokvg47rKoszURR8QihMXMJT
+ fgCML7aTZQfzFOPnXhwwrFzTqnGtNKYiNum5LYoYD2M4LnF+F4vJycMs+yHeoQZnRZQO
+ HY2Yz2gH3bPVzbTKeydlGkOC27vzJ9sXRevBxXZEP6oPFREWdzFCIkeKDUiQrX7gEgv+
+ Xdua7WuafmFFjVi54WBGRaS9rag1Y8qvLNO/a51GeD0AhCasNFmbTgjC0XW993CMQyRZ
+ jbYDuE8GmJj6f/MDc4f5L4P+YGv8uF+5eF2FBHwc2TRmW3MF4SuDkFHbtJ4Il04gWrlV
+ 7RHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=by2xd4xQmUHlU9s/C95WpmrUhX2m+ztyFaDW+ePPigQ=;
+ b=BUEG9R7U52tTKZsV5qSsoJc905x6eQPtD0wxFbRBztd9S4Ll6Ub20hsIrFRBlf1jGT
+ DbxmCgbOhZwgiS94j9p0gsiQFYrL28S0E9sf9TLLWgcJgL2FZIGtbCW8pRuWXfU6JC+G
+ B/RbjSjI1LlZooyztcnTj2roymy/fWlEu3SQmmjEhD9wiltFpLowpOP6U3Pd3xFB7ZP7
+ OA/MzxLVHP8mTjysqXjLwmMmsTH/KIXADyvJdF8fK3GlfkK2S16Zz+LB9GC0gt7lMYE/
+ sdcOCoiDet2rYS/BwrWvtKwKKag0OAM4ENt5UbOsKHNHiZws0QA9SHyRt/kXznqRIHq5
+ WBgg==
+X-Gm-Message-State: APjAAAVCoQ65IwOWg9OVSMv00Xx6w9Xi75keYBJGMfEl7HYczq2cQD24
+ YIgMCoKqDyb2YUImPYGJGA==
+X-Google-Smtp-Source: APXvYqzwAXoPMm6yxZjN1IBJNGbtvAo3jdUpnfTX/lXQ9UtXXmeGE+mbP3YSkWpi9jHpOybW+N36XQ==
+X-Received: by 2002:a1c:9e89:: with SMTP id h131mr6379803wme.161.1581713331767; 
+ Fri, 14 Feb 2020 12:48:51 -0800 (PST)
+Received: from ninjahost.lan (host-2-102-13-223.as13285.net. [2.102.13.223])
+ by smtp.googlemail.com with ESMTPSA id y12sm8660782wmj.6.2020.02.14.12.48.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2020 12:48:51 -0800 (PST)
+From: Jules Irenge <jbi.octave@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 16/30] drm/vkms: Add missing annotation for
+ vkms_crtc_atomic_begin()
+Date: Fri, 14 Feb 2020 20:47:27 +0000
+Message-Id: <20200214204741.94112-17-jbi.octave@gmail.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200214204741.94112-1-jbi.octave@gmail.com>
+References: <0/30>
+ <20200214204741.94112-1-jbi.octave@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,112 +69,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Paul Boddie <paul@boddie.org.uk>, Kees Cook <keescook@chromium.org>,
- Paul Burton <paulburton@kernel.org>, David Airlie <airlied@linux.ie>,
- kernel@pyra-handheld.com, linux-mips@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
- Andi Kleen <ak@linux.intel.com>, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- letux-kernel@openphoenux.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Jules Irenge <jbi.octave@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, boqun.feng@gmail.com,
+ "open list:DRM DRIVER FOR VIRTUAL KERNEL MODESETTING VKMS"
+ <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Sparse reports a warning at vkms_crtc_atomic_begin()
 
+warning: context imbalance in vkms_crtc_atomic_begin()
+	 - wrong count at exit
 
-Le ven., f=E9vr. 14, 2020 at 20:30, H. Nikolaus Schaller =
+The root cause is the missing annotation at vkms_crtc_atomic_begin()
+Add the missing __acquires(&vkms_output->lock) annotation
 
-<hns@goldelico.com> a =E9crit :
-> Hi Paul,
-> =
+Signed-off-by: Jules Irenge <jbi.octave@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_crtc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->>  Am 14.02.2020 um 20:10 schrieb Paul Cercueil <paul@crapouillou.net>:
->> =
-
->>  Hi Nikolaus,
->> =
-
->>  Patches 03-12 only touch the same two files - ci20.dts and =
-
->> ci20_defconfig.
->> =
-
->>  Unless someone strongly disagrees, I'd suggest to squash all =
-
->> patches that touch each file together (except the ones with a Fixes =
-
->> tag), I don't think we really need that much granularity here.
-> =
-
-> It comes more from having developed these things quite independently =
-
-> and only collected for submission...
-> =
-
-> One patch I don't know how to handle: "MIPS: DTS: CI20: add DT node =
-
-> for IR sensor".
-> It is from 2015 and has a different author (some Alex Smith but the =
-
-> mail address seems to be broken).
-> This information and attribution will be lost if we squash them.
-
-Ah, alright. Then I guess keep this one separate.
-
--Paul
-
-> =
-
-> But I can do for V3 and will also fix the fixes tags by adding cc: =
-
-> stable :)
-> =
-
-> BR and thanks,
-> Nikolaus
-> =
-
-> =
-
->> =
-
->>  -Paul
->> =
-
->> =
-
->>  Le ven., f=E9vr. 14, 2020 at 17:10, H. Nikolaus Schaller =
-
->> <hns@goldelico.com> a =E9crit :
->>>  Not all drivers need to be compiled into the kernel.
->>>  Support building and loading of kernel modules.
->>>  Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->>>  ---
->>>  arch/mips/configs/ci20_defconfig | 1 +
->>>  1 file changed, 1 insertion(+)
->>>  diff --git a/arch/mips/configs/ci20_defconfig =
-
->>> b/arch/mips/configs/ci20_defconfig
->>>  index be41df2a81fb..e0d3c9d4c2ae 100644
->>>  --- a/arch/mips/configs/ci20_defconfig
->>>  +++ b/arch/mips/configs/ci20_defconfig
->>>  @@ -1,4 +1,5 @@
->>>  # CONFIG_LOCALVERSION_AUTO is not set
->>>  +CONFIG_MODULES=3Dy
->>>  CONFIG_KERNEL_XZ=3Dy
->>>  CONFIG_SYSVIPC=3Dy
->>>  CONFIG_POSIX_MQUEUE=3Dy
->>>  --
->>>  2.23.0
->> =
-
->> =
-
-> =
-
-
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 74f703b8d22a..7513be6444ae 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -219,6 +219,7 @@ static void vkms_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
+ static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
+ 				   struct drm_crtc_state *old_crtc_state)
++	__acquires(&vkms_output->lock)
+ {
+ 	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
+ 
+-- 
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
