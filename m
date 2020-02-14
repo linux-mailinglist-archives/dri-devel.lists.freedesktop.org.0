@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CD115F8D5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 22:40:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB43715F903
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 22:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9435A6E882;
-	Fri, 14 Feb 2020 21:40:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FFB16FBAF;
+	Fri, 14 Feb 2020 21:54:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6374F6E882
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 21:40:28 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.6-rc2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B8E06FBAF;
+ Fri, 14 Feb 2020 21:54:29 +0000 (UTC)
+Received: from localhost (unknown [65.119.211.164])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 25E892187F;
+ Fri, 14 Feb 2020 21:54:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581716428;
- bh=V6ishEWu7VDWMflxPRIPVYneSY4aw7KtvqZHI4s+X/c=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=1a9aGdLX3JlvKUWjX0JxMYmLd213dwgn09iICZQ35ZWVNXOfpqil5aAgRKL2uxjpv
- TMTHbjEoYy/nMfuGcYqHCwuX/qXJqcMfNJIEggs/Ap4nFRQPUZVYQVj+NIfuL3Bvh/
- A1+F9rVzlqcoR7JcQBuJhfWgXM6x9HrE+2FKr02w=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tzpGGiPB7oOkhjEn9MifjjVQ4TdH4GTtJeBf74SBn-NKg@mail.gmail.com>
-References: <CAPM=9tzpGGiPB7oOkhjEn9MifjjVQ4TdH4GTtJeBf74SBn-NKg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tzpGGiPB7oOkhjEn9MifjjVQ4TdH4GTtJeBf74SBn-NKg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2020-02-14
-X-PR-Tracked-Commit-Id: 6f4134b30b6ee33e2fd4d602099e6c5e60d0351a
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3f0d329371c08dfa3227f1716e522f3a8a081155
-Message-Id: <158171642816.8400.15995893936760198591.pr-tracker-bot@kernel.org>
-Date: Fri, 14 Feb 2020 21:40:28 +0000
-To: Dave Airlie <airlied@gmail.com>
+ s=default; t=1581717269;
+ bh=8Ebtq9A+AtuBJOntDicY0rR/lJZViC+UEAZu9rPpKl0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bfTkxxCddELi/TRjJNFHtsLoMFRKSS2M5KOPK0vmRFNwlLhU3dVWR5NktoePPI9G7
+ mCzQaKFCMTzVTLG4oWgN7FjE3mXEmB8ddwhuQzoT2uWOoeTVopyUfEY6DuWmCkPhKC
+ Hl5wVH0o+iSLC12EnoniR4le08s+RvzlN06NvtDs=
+Date: Fri, 14 Feb 2020 16:44:29 -0500
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH AUTOSEL 5.5 155/542] drm/amdkfd: remove set but not used
+ variable 'top_dev'
+Message-ID: <20200214214429.GA4193448@kroah.com>
+References: <20200214154854.6746-1-sashal@kernel.org>
+ <20200214154854.6746-155-sashal@kernel.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200214154854.6746-155-sashal@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,28 +47,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
+Cc: dri-devel@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ zhengbin <zhengbin13@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 14 Feb 2020 14:15:53 +1000:
+On Fri, Feb 14, 2020 at 10:42:27AM -0500, Sasha Levin wrote:
+> From: zhengbin <zhengbin13@huawei.com>
+> 
+> [ Upstream commit d191bd678153307573d615bb42da4fcca19fe477 ]
+> 
+> Fixes gcc '-Wunused-but-set-variable' warning:
+> 
+> drivers/gpu/drm/amd/amdkfd/kfd_iommu.c: In function kfd_iommu_device_init:
+> drivers/gpu/drm/amd/amdkfd/kfd_iommu.c:65:30: warning: variable top_dev set but not used [-Wunused-but-set-variable]
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 1ae99eab34f9 ("drm/amdkfd: Initialize HSA_CAP_ATS_PRESENT capability in topology codes")
+> Signed-off-by: zhengbin <zhengbin13@huawei.com>
+> Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/amdkfd/kfd_iommu.c | 3 ---
+>  1 file changed, 3 deletions(-)
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-02-14
+Unless all of these "unused bt set variable" patches are needed for
+"real" fixes, there's no need to add them here as we are NOT building
+the kernel with that option enabled any time soon from what I can tell.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3f0d329371c08dfa3227f1716e522f3a8a081155
+So you can drop a ton of these patches from all of these AUTOSEL
+branches please.
 
-Thank you!
+thanks,
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+greg kh
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
