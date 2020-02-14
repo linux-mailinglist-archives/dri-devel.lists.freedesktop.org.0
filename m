@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD3D15E121
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:17:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47CD415E141
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:18:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C332C6FAD3;
-	Fri, 14 Feb 2020 16:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB476FAD4;
+	Fri, 14 Feb 2020 16:18:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D26DF6FAD3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:17:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81D836FA0B;
+ Fri, 14 Feb 2020 16:18:15 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B396B246E1;
- Fri, 14 Feb 2020 16:17:33 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 90F60246F8;
+ Fri, 14 Feb 2020 16:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697054;
- bh=8Tg0HQeU8QFKYHVtVIxc5GOOIl8RtN1hrGNhC1kUx4Q=;
+ s=default; t=1581697095;
+ bh=xJg2/+8a3kimda2ACtyICgbF1VdFKEy1dqOZoifXZvs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Hu3sFqQjzfKKLPuvdQg8zPPrw/BIDcHCKT+JZ8SOBFb3PCuapE3eafC5IrDaVf4rQ
- 3ImWYdnLFu/4rwYR/C8M8yye3Y60cjonW2YMkFSUCTuS7Dtph3FjiL8l/6b4VrO0Vb
- 5OcnyyueMWQ4nPe0fP9Xb6LM0giBt1g19QaUus6E=
+ b=ruhKhHpiYVPo4xz//IAEXPV18hIFb7lRkFwzCWB+RP8EYO8uncBvrYcvDxwZnLT3I
+ G91K3Mp52bj6cPaqXh4OspzrWXE1AcLT2/rPUlPGgHqLwjDH9T+P75v/i7Yn9OrYC+
+ GI766GLMEbd3AfHM2OQlH6OF+EjR/hdiVuDdpi+A=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 014/186] pxa168fb: Fix the function used to
- release some memory in an error handling path
-Date: Fri, 14 Feb 2020 11:14:23 -0500
-Message-Id: <20200214161715.18113-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 046/186] drm/amdgpu: remove 4 set but not used
+ variable in amdgpu_atombios_get_connector_info_from_object_table
+Date: Fri, 14 Feb 2020 11:14:55 -0500
+Message-Id: <20200214161715.18113-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
 References: <20200214161715.18113-1-sashal@kernel.org>
@@ -50,64 +50,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
- Lubomir Rintel <lkundrak@v3.sk>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Alex Deucher <alexander.deucher@amd.com>, yu kuai <yukuai3@huawei.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+From: yu kuai <yukuai3@huawei.com>
 
-[ Upstream commit 3c911fe799d1c338d94b78e7182ad452c37af897 ]
+[ Upstream commit bae028e3e521e8cb8caf2cc16a455ce4c55f2332 ]
 
-In the probe function, some resources are allocated using 'dma_alloc_wc()',
-they should be released with 'dma_free_wc()', not 'dma_free_coherent()'.
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-We already use 'dma_free_wc()' in the remove function, but not in the
-error handling path of the probe function.
+drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c: In function
+'amdgpu_atombios_get_connector_info_from_object_table':
+drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c:376:26: warning: variable
+'grph_obj_num' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c:376:13: warning: variable
+'grph_obj_id' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c:341:37: warning: variable
+'con_obj_type' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c:341:24: warning: variable
+'con_obj_num' set but not used [-Wunused-but-set-variable]
 
-Also, remove a useless 'PAGE_ALIGN()'. 'info->fix.smem_len' is already
-PAGE_ALIGNed.
+They are never used, so can be removed.
 
-Fixes: 638772c7553f ("fb: add support of LCD display controller on pxa168/910 (base layer)")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Reviewed-by: Lubomir Rintel <lkundrak@v3.sk>
-CC: YueHaibing <yuehaibing@huawei.com>
-Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190831100024.3248-1-christophe.jaillet@wanadoo.fr
+Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
+Signed-off-by: yu kuai <yukuai3@huawei.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/pxa168fb.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
-index d059d04c63acd..20195d3dbf088 100644
---- a/drivers/video/fbdev/pxa168fb.c
-+++ b/drivers/video/fbdev/pxa168fb.c
-@@ -769,8 +769,8 @@ static int pxa168fb_probe(struct platform_device *pdev)
- failed_free_clk:
- 	clk_disable_unprepare(fbi->clk);
- failed_free_fbmem:
--	dma_free_coherent(fbi->dev, info->fix.smem_len,
--			info->screen_base, fbi->fb_start_dma);
-+	dma_free_wc(fbi->dev, info->fix.smem_len,
-+		    info->screen_base, fbi->fb_start_dma);
- failed_free_info:
- 	kfree(info);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+index cc4e18dcd8b6f..4779740421a88 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+@@ -336,17 +336,9 @@ bool amdgpu_atombios_get_connector_info_from_object_table(struct amdgpu_device *
+ 		path_size += le16_to_cpu(path->usSize);
  
-@@ -804,7 +804,7 @@ static int pxa168fb_remove(struct platform_device *pdev)
+ 		if (device_support & le16_to_cpu(path->usDeviceTag)) {
+-			uint8_t con_obj_id, con_obj_num, con_obj_type;
+-
+-			con_obj_id =
++			uint8_t con_obj_id =
+ 			    (le16_to_cpu(path->usConnObjectId) & OBJECT_ID_MASK)
+ 			    >> OBJECT_ID_SHIFT;
+-			con_obj_num =
+-			    (le16_to_cpu(path->usConnObjectId) & ENUM_ID_MASK)
+-			    >> ENUM_ID_SHIFT;
+-			con_obj_type =
+-			    (le16_to_cpu(path->usConnObjectId) &
+-			     OBJECT_TYPE_MASK) >> OBJECT_TYPE_SHIFT;
  
- 	irq = platform_get_irq(pdev, 0);
- 
--	dma_free_wc(fbi->dev, PAGE_ALIGN(info->fix.smem_len),
-+	dma_free_wc(fbi->dev, info->fix.smem_len,
- 		    info->screen_base, info->fix.smem_start);
- 
- 	clk_disable_unprepare(fbi->clk);
+ 			/* Skip TV/CV support */
+ 			if ((le16_to_cpu(path->usDeviceTag) ==
+@@ -371,14 +363,7 @@ bool amdgpu_atombios_get_connector_info_from_object_table(struct amdgpu_device *
+ 			router.ddc_valid = false;
+ 			router.cd_valid = false;
+ 			for (j = 0; j < ((le16_to_cpu(path->usSize) - 8) / 2); j++) {
+-				uint8_t grph_obj_id, grph_obj_num, grph_obj_type;
+-
+-				grph_obj_id =
+-				    (le16_to_cpu(path->usGraphicObjIds[j]) &
+-				     OBJECT_ID_MASK) >> OBJECT_ID_SHIFT;
+-				grph_obj_num =
+-				    (le16_to_cpu(path->usGraphicObjIds[j]) &
+-				     ENUM_ID_MASK) >> ENUM_ID_SHIFT;
++				uint8_t grph_obj_type=
+ 				grph_obj_type =
+ 				    (le16_to_cpu(path->usGraphicObjIds[j]) &
+ 				     OBJECT_TYPE_MASK) >> OBJECT_TYPE_SHIFT;
 -- 
 2.20.1
 
