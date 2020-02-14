@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCAE15CF23
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 01:38:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6D215CFA6
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 03:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4010A6F8A5;
-	Fri, 14 Feb 2020 00:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C70B6F8AE;
+	Fri, 14 Feb 2020 02:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459566F8A5
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 00:37:58 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1581640678; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=hcsoCO8xW0CaLKJYkahvzO5VfFo0gI9i9riFH8X0OP0=;
- b=IRNO9bFjFKi1xjDzuz41y7HVriUXrsGYR3wYbOTgRqpupI1tjGVU14tyHNDyicJf/HcM1LXV
- 3xeJ9qM85Z9RltlMy4Ez5yi6whi5OOm0wwly3YUnTaN9WA+G6QZP7GORP0SvOmidZw8LHrHO
- 4jwX9Fut6OgY2sZxP0ebNrCOfIw=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e45ebe3.7f0e2ff83490-smtp-out-n03;
- Fri, 14 Feb 2020 00:37:55 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id B8A83C4479C; Fri, 14 Feb 2020 00:37:54 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,URIBL_BLOCKED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: chandanu)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E0753C43383;
- Fri, 14 Feb 2020 00:37:53 +0000 (UTC)
+Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [216.200.240.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7021F6E053
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 02:02:59 +0000 (UTC)
+X-UUID: bd4dd24d56574b39878d2be9792b1aaf-20200213
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=5kuuBKwpTdX0p4HJiRAoqn7HWcPfUW5EtfpYL3ZhCNs=; 
+ b=t2l4dAhY+2Fng+4k5/ovqJsy1gYRA9OXtImVPDXaON1Zp4etcAr0r9Hc3MJF869tohF8vm+gODwMd25Ugs0Yx8wW0RWQ4/ob0R9niL7MhYVk34jMBD4vOKE4X7BpJrrI3e3idHell2kQKZQ0OK62kSJTGWZwtzvqdlcheRkHu00=;
+X-UUID: bd4dd24d56574b39878d2be9792b1aaf-20200213
+Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (musrelay.mediatek.com ESMTP with TLS)
+ with ESMTP id 1788984706; Thu, 13 Feb 2020 18:02:50 -0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ MTKMBS62N1.mediatek.inc (172.29.193.41) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 13 Feb 2020 17:53:01 -0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 14 Feb 2020 09:52:11 +0800
+Message-ID: <1581645161.22833.6.camel@mtksdaap41>
+Subject: Re: [PATCH v7 11/13] clk: mediatek: mt8183: switch mmsys to
+ platform device probing
+From: CK Hu <ck.hu@mediatek.com>
+To: <matthias.bgg@kernel.org>
+Date: Fri, 14 Feb 2020 09:52:41 +0800
+In-Reply-To: <20200213201953.15268-12-matthias.bgg@kernel.org>
+References: <20200213201953.15268-1-matthias.bgg@kernel.org>
+ <20200213201953.15268-12-matthias.bgg@kernel.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Date: Thu, 13 Feb 2020 16:37:53 -0800
-From: chandanu@codeaurora.org
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: Re: [DPU PATCH v3 3/5] drm/msm/dp: add displayPort driver support
-In-Reply-To: <3130b7844837a8caaa10f9f4f5633eab@codeaurora.org>
-References: <1575294437-6129-1-git-send-email-chandanu@codeaurora.org>
- <0101016ec6df0d33-edb8acfc-a6f1-486e-a8db-38ec498951ed-000000@us-west-2.amazonses.com>
- <CAF6AEGtHkPSx8xU+CdomDtOqLr-cC2bgfHngWWZzx=8STAsQtA@mail.gmail.com>
- <3130b7844837a8caaa10f9f4f5633eab@codeaurora.org>
-Message-ID: <9f595103b30f2785a2beb74c8e0392f7@codeaurora.org>
-X-Sender: chandanu@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,154 +53,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hoegsberg@google.com, abhinavk@codeaurora.org,
- varar@codeaurora.org, seanpaul@chromium.org, freedreno@lists.freedesktop.org
+Cc: mark.rutland@arm.com, airlied@linux.ie, mturquette@baylibre.com,
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, linux-clk@vger.kernel.org,
+ drinkcat@chromium.org, Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, sean.wang@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Matthias Brugger <mbrugger@suse.com>,
+ sboyd@kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ enric.balletbo@collabora.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Matthias:
 
-Hello Rob,
-We removed the bridge object for DisplayPort due to review comments in 
-patch set 1.
-
-Added more details below.
-
-> -------- Original Message --------
-> Subject: Re: [DPU PATCH v3 3/5] drm/msm/dp: add displayPort driver 
-> support
-> Date: 2019-12-02 08:48
-> From: Rob Clark <robdclark@gmail.com>
-> To: Chandan Uddaraju <chandanu@codeaurora.org>
-> Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
-> <devicetree@vger.kernel.org>, linux-arm-msm
-> <linux-arm-msm@vger.kernel.org>, Abhinav Kumar
-> <abhinavk@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
-> dri-devel <dri-devel@lists.freedesktop.org>, "Kristian H. Kristensen"
-> <hoegsberg@google.com>, freedreno <freedreno@lists.freedesktop.org>
+On Thu, 2020-02-13 at 21:19 +0100, matthias.bgg@kernel.org wrote:
+> From: Matthias Brugger <mbrugger@suse.com>
 > 
-> On Mon, Dec 2, 2019 at 5:48 AM Chandan Uddaraju 
-> <chandanu@codeaurora.org> wrote:
->> 
->> Add the needed displayPort files to enable DP driver
->> on msm target.
->> 
->> "dp_display" module is the main module that calls into
->> other sub-modules. "dp_drm" file represents the interface
->> between DRM framework and DP driver.
->> 
->> changes in v2:
->> -- Update copyright markings on all relevant files.
->> -- Change pr_err() to DRM_ERROR()
->> -- Use APIs directly instead of function pointers.
->> -- Use drm_display_mode structure to store link parameters in the 
->> driver.
->> -- Use macros for register definitions instead of hardcoded values.
->> -- Replace writel_relaxed/readl_relaxed with writel/readl
->>    and remove memory barriers.
->> -- Remove unnecessary NULL checks.
->> -- Use drm helper functions for dpcd read/write.
->> -- Use DRM_DEBUG_DP for debug msgs.
->> 
->> changes in V3:
->> -- Removed changes in dpu_io_util.[ch]
->> -- Added locking around "is_connected" flag and removed atomic_set()
->> -- Removed the argument validation checks in all the static functions
->>    except initialization functions and few API calls across msm/dp 
->> files
->> -- Removed hardcoded values for register reads/writes
->> -- Removed vreg related generic structures.
->> -- Added return values where ever necessary.
->> -- Updated dp_ctrl_on function.
->> -- Calling the ctrl specific catalog functions directly instead of
->>    function pointers.
->> -- Added seperate change that adds standard value in drm_dp_helper 
->> file.
->> -- Added separate change in this list that is used to initialize
->>    displayport in DPU driver.
->> -- Added change to use drm_dp_get_adjust_request_voltage() function.
->> 
->> Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
->> ---
+> Switch probing for the MMSYS to support invocation to a
+> plain paltform device. The driver will be probed by the DRM subsystem.
 > 
-> [snip]
+> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
 > 
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index f96e142..29ac7d3 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -967,6 +967,9 @@ static void dpu_encoder_virt_mode_set(struct 
->> drm_encoder *drm_enc,
->> 
->>         trace_dpu_enc_mode_set(DRMID(drm_enc));
->> 
->> +       if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && 
->> priv->dp)
->> +               msm_dp_display_mode_set(priv->dp, drm_enc, mode, 
->> adj_mode);
->> +
+> ---
 > 
-> for better or for worse, DSI and HDMI backends create an internal
-> drm_bridge object to avoid all of these shunts over from the encoder.
-> We might be still the only driver to do this, but IMHO it is better
-> than making each encoder know about each backend, so we might as well
-> stick with that.
+> Changes in v7:
+> - free clk_data->clks as well
+> - get rid of private data structure
 > 
-> (same goes for the other 'if (drm_enc->encoder_type == 
-> DRM_MODE_ENCODER_TMDS)'s)
+> Changes in v6: None
+> Changes in v5: None
+> Changes in v4: None
+> Changes in v3: None
+> Changes in v2: None
 > 
-
-We had the below comments from Sean Paul to remove the bridge object in 
-patch set 1 of this change.
-
-**********  ******************
-> +static const struct drm_bridge_funcs dp_bridge_ops = {
-> +	.mode_fixup   = dp_bridge_mode_fixup,
-> +	.pre_enable   = dp_bridge_pre_enable,
-> +	.enable       = dp_bridge_enable,
-> +	.disable      = dp_bridge_disable,
-> +	.post_disable = dp_bridge_post_disable,
-> +	.mode_set     = dp_bridge_mode_set,
-> +};
-
-I'm not convinced you need any of this. The only advantage a bridge gets 
-you is
-to be involved in modeset. However the only thing you do in modeset is 
-save the
-mode (which is only used in enable). So why not just use the mode from 
-the
-crtc's state when encoder->enable is called?
-
-That allows you to delete all of the bridge stuff here.
-
+>  drivers/clk/mediatek/clk-mt8183-mm.c | 30 ++++++++++++++++++----------
+>  1 file changed, 20 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/clk/mediatek/clk-mt8183-mm.c b/drivers/clk/mediatek/clk-mt8183-mm.c
+> index 720c696b506d..7576cd231be3 100644
+> --- a/drivers/clk/mediatek/clk-mt8183-mm.c
+> +++ b/drivers/clk/mediatek/clk-mt8183-mm.c
+> @@ -3,8 +3,10 @@
+>  // Copyright (c) 2018 MediaTek Inc.
+>  // Author: Weiyi Lu <weiyi.lu@mediatek.com>
+>  
+> +#include <linux/module.h>
+>  #include <linux/clk-provider.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/slab.h>
+>  
+>  #include "clk-mtk.h"
+>  #include "clk-gate.h"
+> @@ -85,27 +87,35 @@ static const struct mtk_gate mm_clks[] = {
+>  static int clk_mt8183_mm_probe(struct platform_device *pdev)
+>  {
+>  	struct clk_onecell_data *clk_data;
+> -	struct device_node *node = pdev->dev.of_node;
+> +	struct device_node *node = pdev->dev.parent->of_node;
 > +
-> +int dp_connector_post_init(struct drm_connector *connector, void 
-> *display)
+> +	clk_data = devm_kzalloc(&pdev->dev, sizeof(*clk_data), GFP_KERNEL);
+
+I think this is redundant.
+
+> +	if (!clk_data)
+> +		return -ENOMEM;
+>  
+>  	clk_data = mtk_alloc_clk_data(CLK_MM_NR_CLK);
+> +	platform_set_drvdata(pdev, clk_data);
+>  
+> -	mtk_clk_register_gates(node, mm_clks, ARRAY_SIZE(mm_clks),
+> -			clk_data);
+> +	mtk_clk_register_gates(node, mm_clks, ARRAY_SIZE(mm_clks), clk_data);
+>  
+>  	return of_clk_add_provider(node, of_clk_src_onecell_get, clk_data);
+>  }
+>  
+> -static const struct of_device_id of_match_clk_mt8183_mm[] = {
+> -	{ .compatible = "mediatek,mt8183-mmsys", },
+> -	{}
+> -};
+> +static int clk_mt8183_mm_remove(struct platform_device *pdev)
 > +{
-> +	struct msm_dp *dp_display = display;
+> +	struct clk_onecell_data *clk_data = platform_get_drvdata(pdev);
 > +
-> +	if (!dp_display)
-> +		return -EINVAL;
+> +	kfree(clk_data->clks);
+> +	kfree(clk_data);
 
-*******************************  ****************
+These two statement looks like a reverse of mtk_alloc_clk_data() and
+exist in many files. It is worth to have a function (maybe
+mtk_free_clk_data()) to do this.
 
-thanks
-Chandan
+In addition, should we undo what is done in clk_mt8183_mm_probe() such
+as mtk_clk_register_gates() and of_clk_add_provider()?
 
-> BR,
-> -R
-> 
-> 
->>         list_for_each_entry(conn_iter, connector_list, head)
->>                 if (conn_iter->encoder == drm_enc)
->>                         conn = conn_iter;
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Regards,
+CK
+
+> +
+> +	return 0;
+> +}
+>  
+>  static struct platform_driver clk_mt8183_mm_drv = {
+>  	.probe = clk_mt8183_mm_probe,
+> +	.remove = clk_mt8183_mm_remove,
+>  	.driver = {
+>  		.name = "clk-mt8183-mm",
+> -		.of_match_table = of_match_clk_mt8183_mm,
+>  	},
+>  };
+> -
+> -builtin_platform_driver(clk_mt8183_mm_drv);
+> +module_platform_driver(clk_mt8183_mm_drv);
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
