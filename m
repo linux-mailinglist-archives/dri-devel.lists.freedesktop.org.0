@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6CF15D364
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4804A15D37D
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 09:08:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B45E6E526;
-	Fri, 14 Feb 2020 08:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 637E86EB4E;
+	Fri, 14 Feb 2020 08:08:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F4E6E441;
- Fri, 14 Feb 2020 06:30:37 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id b18so8455643oie.2;
- Thu, 13 Feb 2020 22:30:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ntwhmb838HNdG68VgBkMbYUyn9XVt7puNK0dtc2mxiU=;
- b=Bl2+RkZv0uKfnpwqzGIIxsKeThJkZXZ76VITQy9giZ6bgEBu0UV9/krz+5ZD7iRrHd
- /CoK51Nxbh2tquNgg0zTxh2q1hdt3NNU7A/fxgt8EcnYN3MPsTw1HLaPjRxZ7NC16/FH
- IDjt5ByQBiqH3d3tI9HIvlQHf2iQNmUwvG0Wk8JOFBczVwsx7iM6LVAmrWDQH8YZFhTG
- y5I6hGBQwm4WwgQzD6yX85fJO/Es1hEEyQerjlTe40XRO8x4FCsh7VrcBiV9ktIloURp
- MBv8JOvEoD2D+GMtAhl2GSfaWZlJEmc/+Hz1W1zXy6xkyYs/nzU+bRMp6yT/aoN2Luxz
- QWxQ==
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4B96E45F
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 07:35:27 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id g12so7298950ild.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2020 23:35:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=I1eG2NiwnMHcD+8ZEBk/TQZkr1ocwevoK5Q1stsGPh0=;
+ b=UZ6fDAw4oN8KlRZPMnBhJd0Ev8dZAqA7G1U4REXYuJiWgp0PEusoKpzvbadHqnAz/M
+ KuGdLZbhYZ1znnKIXK1Dvcdh+8gFSkQq1PS3X2WfvZ/h91VHULyySwO0TTPA/H4LgRxR
+ KiY61A4PCh63xBcYTtdEEow9lR9sIb0KkJ1E4V7ei5bxq4/XqhxVv1ZftYgq8/Zgb/rt
+ ZH/X8w3p0MKGOrspJqJm4+U+8EBBU7ghgaJkhkORbSfzHDTqMxihRLzWwt2y4YrjlvDk
+ l9myA1r5rLq84wDBjMMRPmYwWrpLwKsCG5Udq8zQeW1I5ivieU3AxYA805kVSpDOu3S/
+ Yfzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ntwhmb838HNdG68VgBkMbYUyn9XVt7puNK0dtc2mxiU=;
- b=CgMy7m1nAHMvUuWQHdR5aQvr5b3fMKkbMMc/WnOurXTEb5COIEtfXShsOBXYnm4zxz
- Z47xWha+liazBbK9Bo7WQeaXrZcWZyE9jQ1boLhDjAI6V4T+G9tM0QG31SyK5D6svuiB
- slNLuJ3JgwJeAJ4ndeojPcU3ck4gaIZl5uG7pEWA4l4ZwcNQMDGpiOKATUljqmTvssA8
- 6rjstXX/9ve19cHb5hP/sad2jqjfI4q98AHBgJrFphoy3OV1vEsSR1P/Ia1/QZeA+ewq
- Sprdr+NkHP0jvLNF9sx5A5S2+Od+2NT3Tz9hJsOky5LpVreaqoXMJCoEPqXwDA45igKE
- 8LfA==
-X-Gm-Message-State: APjAAAW6YZfvhRuOz7SpJWcms9sCND2W7Uac0v/WsiXzhdwaWOAxQ4TY
- jLy5/AvBquJRVxG0+SCwQG8=
-X-Google-Smtp-Source: APXvYqxxXnIoySUdm4W+GhJ2vz7rNqEhAKOFi0tphwN1shGVUp6HVae+n1bLo3B19UkUchCoRll9/g==
-X-Received: by 2002:aca:6542:: with SMTP id j2mr873096oiw.69.1581661836582;
- Thu, 13 Feb 2020 22:30:36 -0800 (PST)
-Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
- by smtp.gmail.com with ESMTPSA id c123sm1483599oib.34.2020.02.13.22.30.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 22:30:36 -0800 (PST)
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "David (ChunMing) Zhou" <David1.Zhou@amd.com>
-Subject: [PATCH] drm/amd/display: Don't take the address of
- skip_scdc_overwrite in dc_link_detect_helper
-Date: Thu, 13 Feb 2020 23:29:51 -0700
-Message-Id: <20200214062950.14151-1-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.25.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=I1eG2NiwnMHcD+8ZEBk/TQZkr1ocwevoK5Q1stsGPh0=;
+ b=AvQwSaF/64FfKZXgV35Nyiv2cB3kQGniagypKjE2k+kPYCqG8Af8mhZ+U8VV+vOjVf
+ zRwlDFQBArnc+PUbbtsukdc7dtFOisB67+6F3iyINfencJ69XTAKRshfPR2Dq2+Vziab
+ eLYwZOo47sXYo76qmISI0OMOnuETBOJywkKsu3B5WKSHBjTdcNaZ0oSrLhbr0dUKQyi7
+ 0B/0JqGbaC/HuD9Rrr+E6V+rOxZ8hjjTNn3r6eyrmp2HsfHrvTcI65jUNQvPfkfLQFGT
+ bcjwGtiIMquQuvmMdlV8c+0Xgb0c/VkdQVlf0FhrkGhwUpd5U8K/ngCPv4GcZ6scFHen
+ 3D1g==
+X-Gm-Message-State: APjAAAXim1Kslb1GLVlcuygv9dPpLBFmzUM3uuJgypceIjL1lhBohEvA
+ NelX2UtgYDbAOwjepPaYEMfGJyyo3viygZYQtQ6apA==
+X-Google-Smtp-Source: APXvYqzd5x9vUof79ss9P8ZSwc9sQuJX+BQLK7R4MtTtWZfQ+G1G0z3XtZitNmw0tqejxBn+XcigB+3jeNXBx5X/tnM=
+X-Received: by 2002:a92:9c52:: with SMTP id h79mr1618052ili.213.1581665726341; 
+ Thu, 13 Feb 2020 23:35:26 -0800 (PST)
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
+References: <20200213153226.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
+ <1581664042.20487.4.camel@mtksdaap41>
+In-Reply-To: <1581664042.20487.4.camel@mtksdaap41>
+From: Tzung-Bi Shih <tzungbi@google.com>
+Date: Fri, 14 Feb 2020 15:35:15 +0800
+Message-ID: <CA+Px+wW0BWz0-8L_UXJ-OYbwG6W9vmCWRr7kevpk0yokp+NKKg@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: fix race condition for HDMI jack status
+ reporting
+To: CK Hu <ck.hu@mediatek.com>
 X-Mailman-Approved-At: Fri, 14 Feb 2020 08:07:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,59 +63,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: clang-built-linux@googlegroups.com,
- Nathan Chancellor <natechancellor@gmail.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: ALSA development <alsa-devel@alsa-project.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Dylan Reid <dgreid@google.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Jimmy Cheng-Yi Chiang <cychiang@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang warns:
+On Fri, Feb 14, 2020 at 3:07 PM CK Hu <ck.hu@mediatek.com> wrote:
+> I think sound driver could be removed for some reason, and fn should be
+> set to NULL before sound driver removed. In this case, codec_dev != NULL
+> and fn == NULL.
 
-../drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:980:36:
-warning: address of 'sink->edid_caps.panel_patch.skip_scdc_overwrite'
-will always evaluate to 'true' [-Wpointer-bool-conversion]
-                if (&sink->edid_caps.panel_patch.skip_scdc_overwrite)
-                ~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-1 warning generated.
-
-This is probably not what was intended so remove the address of
-operator, which matches how skip_scdc_overwrite is handled in the rest
-of the driver.
-
-While we're here, drop an extra newline after this if block.
-
-Fixes: a760fc1bff03 ("drm/amd/display: add monitor patch to disable SCDC read/write")
-Link: https://github.com/ClangBuiltLinux/linux/issues/879
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
----
-
-As an aside, I don't see skip_scdc_overwrite assigned a value anywhere,
-is this working as intended?
-
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index 24d99849be5e..a3bfa05c545e 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -977,10 +977,9 @@ static bool dc_link_detect_helper(struct dc_link *link,
- 		if ((prev_sink != NULL) && ((edid_status == EDID_THE_SAME) || (edid_status == EDID_OK)))
- 			same_edid = is_same_edid(&prev_sink->dc_edid, &sink->dc_edid);
- 
--		if (&sink->edid_caps.panel_patch.skip_scdc_overwrite)
-+		if (sink->edid_caps.panel_patch.skip_scdc_overwrite)
- 			link->ctx->dc->debug.hdmi20_disable = true;
- 
--
- 		if (link->connector_signal == SIGNAL_TYPE_DISPLAY_PORT &&
- 			sink_caps.transaction_type == DDC_TRANSACTION_TYPE_I2C_OVER_AUX) {
- 			/*
--- 
-2.25.0
-
+No..if you see sound/soc/codecs/hdmi-codec.c, plugged_cb is statically
+allocated.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
