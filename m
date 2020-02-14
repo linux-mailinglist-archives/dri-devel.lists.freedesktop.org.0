@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389E115E21A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:22:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DD415E21E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 385AE6FB10;
-	Fri, 14 Feb 2020 16:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38C56FB16;
+	Fri, 14 Feb 2020 16:22:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF4AC6FB10
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:22:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89F9D6FB12
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:22:13 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DFB78246E3;
- Fri, 14 Feb 2020 16:22:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1C964246E2;
+ Fri, 14 Feb 2020 16:22:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697330;
- bh=97idC7HR8p/LOff1a/Sz0B0Sg2Vysa5wF7lpSwiKO1w=;
+ s=default; t=1581697332;
+ bh=TC/KpPcIPU52VDqpKV9ZMspVLevk1JgSEAKgRSDF0mk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WXfdZA0nxAz7ovJ1nscOZgKkWS9SYkUQRdmH+2doNg1llMma7bCc6Mtau4Jf/Nin9
- xO3dFRRD5zOebq+7uc+Hg1Ad4YSDzYsJq5p9CZy2bvna1rQb1u6wmd67Xoun5U2zVx
- sHE3Imve+ahkXgsIUjIvlhSj27PhR/TyeQ7fkTHI=
+ b=fdzy4aJQVLqdUVlbDUzfm5VuWfE7yR9rG0fgLT1OcqIshCHoTantsVuMvfw4uJhLS
+ vyJxV7nV++JqtBGH34ajpI4iM/BcaRk9xSFUYGb3Q1iCX8mLtkgeNr7gWMqgibQ29h
+ cgQ5C+cDSsE8ON60RkKt3LoWUCjM/jifNnyBjgDc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 038/141] drm/gma500: remove set but not used
- variable 'htotal'
-Date: Fri, 14 Feb 2020 11:19:38 -0500
-Message-Id: <20200214162122.19794-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 039/141] drm/gma500: remove set but not used
+ variable 'error'
+Date: Fri, 14 Feb 2020 11:19:39 -0500
+Message-Id: <20200214162122.19794-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214162122.19794-1-sashal@kernel.org>
 References: <20200214162122.19794-1-sashal@kernel.org>
@@ -60,40 +60,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: zhengbin <zhengbin13@huawei.com>
 
-[ Upstream commit dfa703b6f91818fa9f652c00e3589c104c518930 ]
+[ Upstream commit a5eb29a9d2fc03d07af7d02f6c2e7ae1e6d985f9 ]
 
 Fixes gcc '-Wunused-but-set-variable' warning:
 
-drivers/gpu/drm/gma500/oaktrail_hdmi.c: In function htotal_calculate:
-drivers/gpu/drm/gma500/oaktrail_hdmi.c:160:6: warning: variable htotal set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/gma500/psb_irq.c: In function psb_sgx_interrupt:
+drivers/gpu/drm/gma500/psb_irq.c:210:6: warning: variable error set but not used [-Wunused-but-set-variable]
 
-It is introduced by commit 39ec748f7174 ("gma600: Enable HDMI support"),
-but never used, so remove it.
+It is introduced by commit 64a4aff283ac ("drm/gma500:
+Add support for SGX interrupts"), but never used, so remove it.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: zhengbin <zhengbin13@huawei.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/1573828027-122323-2-git-send-email-zhengbin13@huawei.com
+Link: https://patchwork.freedesktop.org/patch/msgid/1573828027-122323-3-git-send-email-zhengbin13@huawei.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/gma500/oaktrail_hdmi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/gma500/psb_irq.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/oaktrail_hdmi.c b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-index 8b2eb32ee988b..6b403c3586fa0 100644
---- a/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-@@ -157,9 +157,7 @@ static void oaktrail_hdmi_audio_disable(struct drm_device *dev)
- 
- static unsigned int htotal_calculate(struct drm_display_mode *mode)
+diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+index 78eb109028091..f75f199c84311 100644
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -207,7 +207,6 @@ static void psb_sgx_interrupt(struct drm_device *dev, u32 stat_1, u32 stat_2)
  {
--	u32 htotal, new_crtc_htotal;
--
--	htotal = (mode->crtc_hdisplay - 1) | ((mode->crtc_htotal - 1) << 16);
-+	u32 new_crtc_htotal;
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	u32 val, addr;
+-	int error = false;
  
- 	/*
- 	 * 1024 x 768  new_crtc_htotal = 0x1024;
+ 	if (stat_1 & _PSB_CE_TWOD_COMPLETE)
+ 		val = PSB_RSGX32(PSB_CR_2D_BLIT_STATUS);
+@@ -242,7 +241,6 @@ static void psb_sgx_interrupt(struct drm_device *dev, u32 stat_1, u32 stat_2)
+ 
+ 			DRM_ERROR("\tMMU failing address is 0x%08x.\n",
+ 				  (unsigned int)addr);
+-			error = true;
+ 		}
+ 	}
+ 
 -- 
 2.20.1
 
