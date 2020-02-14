@@ -2,51 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B3415FA24
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 23:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0871315FAAC
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 00:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30F516FBD0;
-	Fri, 14 Feb 2020 22:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 825C56E88E;
+	Fri, 14 Feb 2020 23:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
  [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44EEB6FBD0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 22:59:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E28B76E88E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 23:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581721185;
+ s=mimecast20190719; t=1581723201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0pGuMWChJi6Xa7DEXY53QXCC5ld+3Dx8o2IOvHbPSiY=;
- b=C7caTKW5EQPllejghx0WsIWTjUFiNQCdc/B4AdehPcboNaAtWGMmtoeuMziAksJMoD1XzW
- dcwP6wewUaTZVieMJZRn+jCh9UMG5+/2IB9ufc9+KHQcVG2r3/gUbkZo89fPdcW55+Qd+F
- PuyoMSfch4EFThezCEfq+t6S0dXVbOo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-Fa_9wl4dM6OJSPBD2JeHOw-1; Fri, 14 Feb 2020 17:59:41 -0500
-X-MC-Unique: Fa_9wl4dM6OJSPBD2JeHOw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD38C13E4;
- Fri, 14 Feb 2020 22:59:39 +0000 (UTC)
-Received: from Ruby.bss.redhat.com (dhcp-10-20-1-196.bss.redhat.com
- [10.20.1.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6F0860499;
- Fri, 14 Feb 2020 22:59:38 +0000 (UTC)
+ bh=gYgJ6y+yDMGEFggLNrMdmHbrmUq+or1djnNs8xR5Ll4=;
+ b=KE/53wIWyXnsjgupgznQ340GcOQU61VCwF7lg7QMmHXzSw+SUYVlsaCiGf6GZdM4GNeZLJ
+ zi244QoR+1a87gpnhT0lanaaUVg831qNpFUP4V4DZHPXMSchh3TbGpEJ2KjfxhNAn39DLz
+ qS7wXaMx5KyJ9PPWsLPgx9/aYr3p/ME=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-eCQRUDN8OuqhCjt-lGLJtQ-1; Fri, 14 Feb 2020 18:33:19 -0500
+Received: by mail-qv1-f70.google.com with SMTP id d7so6732376qvq.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:33:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=gYgJ6y+yDMGEFggLNrMdmHbrmUq+or1djnNs8xR5Ll4=;
+ b=FZZe9Em7I7DKCrtYJP7wHmXX4nuPPp7xog8DxGWjxOjiHUZsZmhO+xSAR3PMXkz4HB
+ ea1u0DqlafV5lz18/Vo9fcRmIN8dpnfO7ynXZfR3rVtTv9OdOhUunLzyZzfRjgu7W+Zu
+ FJrhMibIMIa/s2E3Rl/nqFYDf//rTwdf4AP4U7QThBC/i2YNqF/Jmn+kllv++hlbJJqg
+ SbUZ36fYrlMsBnUOEkIay/MO+uwyAazv+Q195Fz+4JzPX3vud6fknvEveLsGtxP/9K+j
+ QduRgNw/B1Qv7s79QYZMFoR/o7SuhSnkZuT9wlirjwYdHoq0bO92ZyYYIyfEdSJEgFhB
+ eBSQ==
+X-Gm-Message-State: APjAAAUVpBGFLKWEbe2c0j5DMIkaQSOIrX7mmtOoaTg8jCWvjV7JmWej
+ 3BaFB9nu9UNkzp8Eer/B+eMFyEVuNQCbVB1RE6F3i5H2KT2wfIKb787fHS4gmF/y006k2QVIoc6
+ 1FFFtJnnNnShM+eRWCv+u4tYfqbN0
+X-Received: by 2002:a37:a58a:: with SMTP id o132mr4755590qke.481.1581723199377; 
+ Fri, 14 Feb 2020 15:33:19 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzm0eXgSwuc3vb77TM+YM7Madh1v38ousgqEKqSKO5tEZ309bCFVz6JSfzZWyQHoBlgGc0qpg==
+X-Received: by 2002:a37:a58a:: with SMTP id o132mr4755579qke.481.1581723199151; 
+ Fri, 14 Feb 2020 15:33:19 -0800 (PST)
+Received: from dhcp-10-20-1-196.bss.redhat.com ([144.121.20.162])
+ by smtp.gmail.com with ESMTPSA id p18sm4235702qkp.47.2020.02.14.15.33.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2020 15:33:18 -0800 (PST)
+Message-ID: <b8dbe33bc62d9cd678b5af8cde2570f6c5754aeb.camel@redhat.com>
+Subject: Re: [PATCH 0/3] drm/mst: Add support for simultaneous down replies
 From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH v2 5/5] drm/nouveau/kms/nv50-: Share DP SST mode_valid()
- handling with MST
-Date: Fri, 14 Feb 2020 17:58:56 -0500
-Message-Id: <20200214225910.695210-6-lyude@redhat.com>
-In-Reply-To: <20200214225910.695210-1-lyude@redhat.com>
-References: <20200214225910.695210-1-lyude@redhat.com>
+To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
+Date: Fri, 14 Feb 2020 18:33:17 -0500
+In-Reply-To: <20200213211523.156998-1-sean@poorly.run>
+References: <20200213211523.156998-1-sean@poorly.run>
+Organization: Red Hat
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: eCQRUDN8OuqhCjt-lGLJtQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,212 +77,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Manasi Navare <manasi.d.navare@intel.com>,
- Sean Paul <seanpaul@chromium.org>, Ben Skeggs <bskeggs@redhat.com>,
- Mikita Lipski <mikita.lipski@amd.com>
+Cc: Sean Paul <seanpaul@chromium.org>, Wayne.Lin@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the nv50_mstc_mode_valid() function is happy to take any and
-all modes, even the ones we can't actually support sometimes like
-interlaced modes.
+On Thu, 2020-02-13 at 16:15 -0500, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> Hey all,
+> Earlier this week on my 5.5 kernel (I can't seem to get a 5.6 kernel to
+> behave on any of my devices), I ran into the multi-reply problem that
+> Wayne fixed in January. Without realizing there was already a fix
+> upstream, I went about solving it in different way. It wasn't until
+> rebasing the patches on 5.6 for the list that I realized there was
+> already a solution.
+> 
+> At any rate, I think this way of handling things might be a bit more
+> performant. I'm not super happy with the cleanliness of the code, I
+> think this series should make things easier to read, but I don't think I
+> achieved that. So suggestions are welcome on how to break this apart.
 
-Luckily, the only difference between the mode validation that needs to
-be performed for MST vs. SST is that eventually we'll need to check the
-minimum PBN against the MSTB's full PBN capabilities (remember-we don't
-care about the current bw state here). Otherwise, all of the other code
-can be shared.
+Honestly it looks a bit cleaner to me. Sideband message parsing in MST is
+pretty complex, so I'd think the code's probably always going to be messy to
+some extent.
 
-So, we move all of the common mode validation in
-nouveau_connector_mode_valid() into a separate helper,
-nv50_dp_mode_valid(), and use that from both nv50_mstc_mode_valid() and
-nouveau_connector_mode_valid(). Note that we allow for returning the
-calculated clock that nv50_dp_mode_valid() came up with, since we'll
-eventually want to use that for PBN calculation in
-nv50_mstc_mode_valid().
+My only suggestion with cleaning things up - maybe we should stop calling it
+building a sideband reply, and call it re-assembling one? Seems a little less
+confusing, since we're really just taking the rx chunks and reassembling them
+into a full sideband message. I know at least I constantly find myself
+forgetting those functions are for rx and not tx.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c     |  9 ++++-
- drivers/gpu/drm/nouveau/nouveau_connector.c | 41 +++++++++++----------
- drivers/gpu/drm/nouveau/nouveau_connector.h |  5 +++
- drivers/gpu/drm/nouveau/nouveau_dp.c        | 31 ++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_encoder.h   |  4 ++
- 5 files changed, 70 insertions(+), 20 deletions(-)
+So, I will give my r-b for the whole series, but...
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 020058811831..684e2c081ea2 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -1051,7 +1051,14 @@ static enum drm_mode_status
- nv50_mstc_mode_valid(struct drm_connector *connector,
- 		     struct drm_display_mode *mode)
- {
--	return MODE_OK;
-+	struct nv50_mstc *mstc = nv50_mstc(connector);
-+	struct nouveau_encoder *outp = mstc->mstm->outp;
-+
-+	/* TODO: calculate the PBN from the dotclock and validate against the
-+	 * MSTB's max possible PBN
-+	 */
-+
-+	return nv50_dp_mode_valid(connector, outp, mode, NULL);
- }
- 
- static int
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 6dae00da5d7e..a82a51661ca1 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -38,6 +38,7 @@
- #include "nouveau_reg.h"
- #include "nouveau_drv.h"
- #include "dispnv04/hw.h"
-+#include "dispnv50/disp.h"
- #include "nouveau_acpi.h"
- 
- #include "nouveau_display.h"
-@@ -1033,6 +1034,24 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
- 		return 112000 * duallink_scale;
- }
- 
-+enum drm_mode_status
-+nouveau_conn_mode_clock_valid(const struct drm_display_mode *mode,
-+			      const unsigned min_clock,
-+			      const unsigned max_clock,
-+			      unsigned *clock)
-+{
-+	if ((mode->flags & DRM_MODE_FLAG_3D_MASK) ==
-+	    DRM_MODE_FLAG_3D_FRAME_PACKING)
-+		*clock *= 2;
-+
-+	if (*clock < min_clock)
-+		return MODE_CLOCK_LOW;
-+	if (*clock > max_clock)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
- static enum drm_mode_status
- nouveau_connector_mode_valid(struct drm_connector *connector,
- 			     struct drm_display_mode *mode)
-@@ -1041,7 +1060,6 @@ nouveau_connector_mode_valid(struct drm_connector *connector,
- 	struct nouveau_encoder *nv_encoder = nv_connector->detected_encoder;
- 	struct drm_encoder *encoder = to_drm_encoder(nv_encoder);
- 	unsigned min_clock = 25000, max_clock = min_clock;
--	unsigned clock = mode->clock;
- 
- 	switch (nv_encoder->dcb->type) {
- 	case DCB_OUTPUT_LVDS:
-@@ -1064,29 +1082,14 @@ nouveau_connector_mode_valid(struct drm_connector *connector,
- 	case DCB_OUTPUT_TV:
- 		return get_slave_funcs(encoder)->mode_valid(encoder, mode);
- 	case DCB_OUTPUT_DP:
--		if (mode->flags & DRM_MODE_FLAG_INTERLACE &&
--		    !nv_encoder->caps.dp_interlace)
--			return MODE_NO_INTERLACE;
--
--		max_clock  = nv_encoder->dp.link_nr;
--		max_clock *= nv_encoder->dp.link_bw;
--		clock = clock * (connector->display_info.bpc * 3) / 10;
--		break;
-+		return nv50_dp_mode_valid(connector, nv_encoder, mode, NULL);
- 	default:
- 		BUG();
- 		return MODE_BAD;
- 	}
- 
--	if ((mode->flags & DRM_MODE_FLAG_3D_MASK) == DRM_MODE_FLAG_3D_FRAME_PACKING)
--		clock *= 2;
--
--	if (clock < min_clock)
--		return MODE_CLOCK_LOW;
--
--	if (clock > max_clock)
--		return MODE_CLOCK_HIGH;
--
--	return MODE_OK;
-+	return nouveau_conn_mode_clock_valid(mode, min_clock, max_clock,
-+					     NULL);
- }
- 
- static struct drm_encoder *
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.h b/drivers/gpu/drm/nouveau/nouveau_connector.h
-index de84fb4708c7..9e062c7adec8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.h
-@@ -195,6 +195,11 @@ int nouveau_conn_atomic_get_property(struct drm_connector *,
- 				     const struct drm_connector_state *,
- 				     struct drm_property *, u64 *);
- struct drm_display_mode *nouveau_conn_native_mode(struct drm_connector *);
-+enum drm_mode_status
-+nouveau_conn_mode_clock_valid(const struct drm_display_mode *,
-+			      const unsigned min_clock,
-+			      const unsigned max_clock,
-+			      unsigned *clock);
- 
- #ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
- extern int nouveau_backlight_init(struct drm_connector *);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index 2674f1587457..8a0f7994e1ae 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -98,3 +98,34 @@ nouveau_dp_detect(struct nouveau_encoder *nv_encoder)
- 		return NOUVEAU_DP_SST;
- 	return ret;
- }
-+
-+/* TODO:
-+ * - Use the minimum possible BPC here, once we add support for the max bpc
-+ *   property.
-+ * - Validate the mode against downstream port caps (see
-+ *   drm_dp_downstream_max_clock())
-+ * - Validate against the DP caps advertised by the GPU (we don't check these
-+ *   yet)
-+ */
-+enum drm_mode_status
-+nv50_dp_mode_valid(struct drm_connector *connector,
-+		   struct nouveau_encoder *outp,
-+		   const struct drm_display_mode *mode,
-+		   unsigned *out_clock)
-+{
-+	const unsigned min_clock = 25000;
-+	unsigned max_clock, clock;
-+	enum drm_mode_status ret;
-+
-+	if (mode->flags & DRM_MODE_FLAG_INTERLACE && !outp->caps.dp_interlace)
-+		return MODE_NO_INTERLACE;
-+
-+	max_clock = outp->dp.link_nr * outp->dp.link_bw;
-+	clock = mode->clock * (connector->display_info.bpc * 3) / 10;
-+
-+	ret = nouveau_conn_mode_clock_valid(mode, min_clock, max_clock,
-+					    &clock);
-+	if (out_clock)
-+		*out_clock = clock;
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/nouveau/nouveau_encoder.h b/drivers/gpu/drm/nouveau/nouveau_encoder.h
-index 3217f587eceb..de51733b0476 100644
---- a/drivers/gpu/drm/nouveau/nouveau_encoder.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_encoder.h
-@@ -104,6 +104,10 @@ enum nouveau_dp_status {
- };
- 
- int nouveau_dp_detect(struct nouveau_encoder *);
-+enum drm_mode_status nv50_dp_mode_valid(struct drm_connector *,
-+					struct nouveau_encoder *,
-+					const struct drm_display_mode *,
-+					unsigned *clock);
- 
- struct nouveau_connector *
- nouveau_encoder_connector_get(struct nouveau_encoder *encoder);
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+...I think we should definitely look more into what Wayne's talking about
+before pushing this, and see if it's widespread enough of an issue to be a
+concern. It does kind of suck how slow MST probing can be, so I'd wonder if we
+could try your idea of rate limiting. My one concern there is I'm not actually
+sure if there's anything in the DP MST protocol that indicates how many
+messages a hub can handle at the same time - it's always supposed to just be
+two iirc.
+
+> Thanks,
+> 
+> Sean
+> 
+> Sean Paul (3):
+>   drm/mst: Separate sideband packet header parsing from message building
+>   drm/mst: Support simultaneous down replies
+>   drm/dp_mst: Remove single tx msg restriction.
+> 
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 196 ++++++++++++++------------
+>  include/drm/drm_dp_mst_helper.h       |  65 ++++-----
+>  2 files changed, 137 insertions(+), 124 deletions(-)
+> 
 -- 
-2.24.1
+Cheers,
+	Lyude Paul (she/her)
+	Associate Software Engineer at Red Hat
 
 _______________________________________________
 dri-devel mailing list
