@@ -1,54 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EA615D679
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 12:20:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B5F15D6D9
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 12:49:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25C896E5B0;
-	Fri, 14 Feb 2020 11:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1D506E5C1;
+	Fri, 14 Feb 2020 11:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 572AF6E5B0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 11:20:39 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01EBKYbD009795;
- Fri, 14 Feb 2020 05:20:34 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1581679234;
- bh=yyxufp4ClepYXqtupiRreNrQdGJxfUzwaZKSjII8xrg=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=WOGHuDXDMNFmer7CYZkAqWzMMMDUWMmkkOl8krDHRL+yCG9ns8UPH6Au/ChGdnLJD
- vq/jPWhI+gBIDOq8SLaW3TxPBnMx/OiKm3vz2NxIgU+axf3PEbznr2puzjp1eDgSiA
- e0ViZd+EjSawxSZ/Qya4Ao6+7tL+uffVrtiCTCGE=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01EBKYOH074259
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 14 Feb 2020 05:20:34 -0600
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 14
- Feb 2020 05:20:33 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 14 Feb 2020 05:20:33 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01EBKVmI090381;
- Fri, 14 Feb 2020 05:20:32 -0600
-Subject: Re: [PATCH v4] drm/tidss: dispc: Rewrite naive plane positioning code
-To: Jyri Sarha <jsarha@ti.com>, <dri-devel@lists.freedesktop.org>
-References: <20200213193717.24551-1-jsarha@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <a615dc2a-f142-fa23-10f1-94d3c2d2fbdf@ti.com>
-Date: Fri, 14 Feb 2020 13:20:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4B7D6E5C1;
+ Fri, 14 Feb 2020 11:49:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2020 03:49:38 -0800
+X-IronPort-AV: E=Sophos;i="5.70,440,1574150400"; d="scan'208";a="227578838"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2020 03:49:34 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH] drm/i915: Cast remain to unsigned long in eb_relocate_vma
+In-Reply-To: <158166913989.4660.10674824117292988120@skylake-alporthouse-com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200214054706.33870-1-natechancellor@gmail.com>
+ <87v9o965gg.fsf@intel.com>
+ <158166913989.4660.10674824117292988120@skylake-alporthouse-com>
+Date: Fri, 14 Feb 2020 13:49:31 +0200
+Message-ID: <87o8u1wfqs.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200213193717.24551-1-jsarha@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,379 +47,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: praneeth@ti.com, peter.ujfalusi@ti.com, laurent.pinchart@ideasonboard.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, clang-built-linux@googlegroups.com,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2020 21:37, Jyri Sarha wrote:
-> The old implementation of placing planes on the CRTC while configuring
-> the planes was naive and relied on the order in which the planes were
-> configured, enabled, and disabled. The situation where a plane's zpos
-> was changed on the fly was completely broken. The usual symptoms of
-> this problem was scrambled display and a flood of sync lost errors,
-> when a plane was active in two layers at the same time, or a missing
-> plane, in case when a layer was accidentally disabled.
-> 
-> The rewrite takes a more straight forward approach when HW is
-> concerned. The plane positioning registers are in the CRTC (or
-> actually OVR) register space and it is more natural to configure them
-> in a one go when configuring the CRTC. To do this we need make sure we
-> have all the planes on the updated CRTCs in the new atomic state. The
-> untouched planes on CRTCs that need plane position update are added to
-> the atomic state in tidss_atomic_check().
-
-The subject needs updating. This is a fix for a bug, and subject needs to reflect that.
-
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> ---
->   drivers/gpu/drm/tidss/tidss_crtc.c  | 55 +++++++++++++++++++++++++++++
->   drivers/gpu/drm/tidss/tidss_crtc.h  |  2 ++
->   drivers/gpu/drm/tidss/tidss_dispc.c | 55 +++++++++++------------------
->   drivers/gpu/drm/tidss/tidss_dispc.h |  5 +++
->   drivers/gpu/drm/tidss/tidss_kms.c   | 49 ++++++++++++++++++++++++-
->   5 files changed, 130 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> index 032c31ee2820..631ec61b086a 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -17,6 +17,7 @@
->   #include "tidss_dispc.h"
->   #include "tidss_drv.h"
->   #include "tidss_irq.h"
-> +#include "tidss_plane.h"
->   
->   /* Page flip and frame done IRQs */
->   
-> @@ -111,6 +112,54 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crtc,
->   	return dispc_vp_bus_check(dispc, hw_videoport, state);
->   }
->   
-> +/*
-> + * This needs all affected planes to be present in the atomic
-> + * state. The untouched planes are added to the state in
-> + * tidss_atomic_check().
-> + */
-> +static void tidss_crtc_position_planes(struct tidss_device *tidss,
-> +				       struct drm_crtc *crtc,
-> +				       struct drm_crtc_state *old_state,
-> +				       bool newmodeset)
-> +{
-> +	struct drm_atomic_state *ostate = old_state->state;
-> +	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
-> +	struct drm_crtc_state *cstate = crtc->state;
-> +	int zpos;
-> +
-> +	if (!newmodeset && !cstate->zpos_changed &&
-> +	    !to_tidss_crtc_state(cstate)->plane_pos_changed)
-> +		return;
-> +
-> +	for (zpos = 0; zpos < tidss->feat->num_planes; zpos++) {
-> +		struct drm_plane_state *pstate;
-> +		struct drm_plane *plane;
-> +		bool zpos_taken = false;
-> +		int i;
-> +
-> +		for_each_new_plane_in_state(ostate, plane, pstate, i) {
-> +			if (pstate->crtc != crtc || !pstate->visible)
-> +				continue;
-> +
-> +			if (pstate->normalized_zpos == zpos) {
-> +				zpos_taken = true;
-> +				break;
-> +			}
-> +		}
-> +
-> +		if (zpos_taken) {
-> +			struct tidss_plane *tplane = to_tidss_plane(plane);
-> +
-> +			dispc_ovr_set_plane(tidss->dispc, tplane->hw_plane_id,
-> +					    tcrtc->hw_videoport,
-> +					    pstate->crtc_x, pstate->crtc_y,
-> +					    zpos);
-> +		}
-> +		dispc_ovr_enable_layer(tidss->dispc, tcrtc->hw_videoport, zpos,
-> +				       zpos_taken);
-> +	}
-> +}
-
-Nitpicking, but... I think the "zpos" above is really "layer". Even the params, to which you pass 
-"zpos", in the ovr functions are named "layer".
-
-"zpos_taken" sounds like it's reserved and not available for us, or something like that. Maybe 
-"layer_active" conveys better that we're just collecting which layers are active and which are not.
-
-> +
->   static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
->   				    struct drm_crtc_state *old_crtc_state)
->   {
-> @@ -146,6 +195,9 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
->   	/* Write vp properties to HW if needed. */
->   	dispc_vp_setup(tidss->dispc, tcrtc->hw_videoport, crtc->state, false);
->   
-> +	/* Update plane positions if needed. */
-> +	tidss_crtc_position_planes(tidss, crtc, old_crtc_state, false);
-> +
->   	WARN_ON(drm_crtc_vblank_get(crtc) != 0);
->   
->   	spin_lock_irqsave(&ddev->event_lock, flags);
-> @@ -183,6 +235,7 @@ static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
->   		return;
->   
->   	dispc_vp_setup(tidss->dispc, tcrtc->hw_videoport, crtc->state, true);
-> +	tidss_crtc_position_planes(tidss, crtc, old_state, true);
->   
->   	/* Turn vertical blanking interrupt reporting on. */
->   	drm_crtc_vblank_on(crtc);
-> @@ -318,6 +371,8 @@ static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
->   
->   	__drm_atomic_helper_crtc_duplicate_state(crtc, &state->base);
->   
-> +	state->plane_pos_changed = false;
-> +
->   	state->bus_format = current_state->bus_format;
->   	state->bus_flags = current_state->bus_flags;
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.h b/drivers/gpu/drm/tidss/tidss_crtc.h
-> index df9d90b1ad2d..09e773666228 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.h
-> @@ -32,6 +32,8 @@ struct tidss_crtc_state {
->   	/* Must be first. */
->   	struct drm_crtc_state base;
->   
-> +	bool plane_pos_changed;
-> +
->   	u32 bus_format;
->   	u32 bus_flags;
->   };
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index eeb160dc047b..e79dad246b1e 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -281,11 +281,6 @@ struct dss_vp_data {
->   	u32 *gamma_table;
->   };
->   
-> -struct dss_plane_data {
-> -	u32 zorder;
-> -	u32 hw_videoport;
-> -};
-> -
->   struct dispc_device {
->   	struct tidss_device *tidss;
->   	struct device *dev;
-> @@ -307,8 +302,6 @@ struct dispc_device {
->   
->   	struct dss_vp_data vp_data[TIDSS_MAX_PORTS];
->   
-> -	struct dss_plane_data plane_data[TIDSS_MAX_PLANES];
-> -
->   	u32 *fourccs;
->   	u32 num_fourccs;
->   
-> @@ -1247,7 +1240,7 @@ int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
->   /* OVR */
->   static void dispc_k2g_ovr_set_plane(struct dispc_device *dispc,
->   				    u32 hw_plane, u32 hw_videoport,
-> -				    u32 x, u32 y, u32 zpos)
-> +				    u32 x, u32 y, u32 layer)
->   {
->   	/* On k2g there is only one plane and no need for ovr */
->   	dispc_vid_write(dispc, hw_plane, DISPC_VID_K2G_POSITION,
-> @@ -1256,44 +1249,43 @@ static void dispc_k2g_ovr_set_plane(struct dispc_device *dispc,
->   
->   static void dispc_am65x_ovr_set_plane(struct dispc_device *dispc,
->   				      u32 hw_plane, u32 hw_videoport,
-> -				      u32 x, u32 y, u32 zpos)
-> +				      u32 x, u32 y, u32 layer)
->   {
-> -	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(zpos),
-> +	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer),
->   			hw_plane, 4, 1);
-> -	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(zpos),
-> +	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer),
->   			x, 17, 6);
-> -	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(zpos),
-> +	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer),
->   			y, 30, 19);
->   }
->   
->   static void dispc_j721e_ovr_set_plane(struct dispc_device *dispc,
->   				      u32 hw_plane, u32 hw_videoport,
-> -				      u32 x, u32 y, u32 zpos)
-> +				      u32 x, u32 y, u32 layer)
->   {
-> -	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(zpos),
-> +	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer),
->   			hw_plane, 4, 1);
-> -	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES2(zpos),
-> +	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES2(layer),
->   			x, 13, 0);
-> -	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES2(zpos),
-> +	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES2(layer),
->   			y, 29, 16);
->   }
->   
-> -static void dispc_ovr_set_plane(struct dispc_device *dispc,
-> -				u32 hw_plane, u32 hw_videoport,
-> -				u32 x, u32 y, u32 zpos)
-> +void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
-> +			 u32 hw_videoport, u32 x, u32 y, u32 layer)
->   {
->   	switch (dispc->feat->subrev) {
->   	case DISPC_K2G:
->   		dispc_k2g_ovr_set_plane(dispc, hw_plane, hw_videoport,
-> -					x, y, zpos);
-> +					x, y, layer);
->   		break;
->   	case DISPC_AM65X:
->   		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
-> -					  x, y, zpos);
-> +					  x, y, layer);
->   		break;
->   	case DISPC_J721E:
->   		dispc_j721e_ovr_set_plane(dispc, hw_plane, hw_videoport,
-> -					  x, y, zpos);
-> +					  x, y, layer);
->   		break;
->   	default:
->   		WARN_ON(1);
-> @@ -1301,10 +1293,13 @@ static void dispc_ovr_set_plane(struct dispc_device *dispc,
->   	}
->   }
->   
-> -static void dispc_ovr_enable_plane(struct dispc_device *dispc,
-> -				   u32 hw_videoport, u32 zpos, bool enable)
-> +void dispc_ovr_enable_layer(struct dispc_device *dispc,
-> +			    u32 hw_videoport, u32 layer, bool enable)
->   {
-> -	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(zpos),
-> +	if (dispc->feat->subrev == DISPC_K2G)
-> +		return;
-> +
-> +	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer),
->   			!!enable, 0, 0);
->   }
->   
-> @@ -2070,21 +2065,11 @@ int dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
->   		VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, 0,
->   				28, 28);
->   
-> -	dispc_ovr_set_plane(dispc, hw_plane, hw_videoport,
-> -			    state->crtc_x, state->crtc_y,
-> -			    state->normalized_zpos);
-> -
-> -	dispc->plane_data[hw_plane].zorder = state->normalized_zpos;
-> -	dispc->plane_data[hw_plane].hw_videoport = hw_videoport;
-> -
->   	return 0;
->   }
->   
->   int dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable)
->   {
-> -	dispc_ovr_enable_plane(dispc, dispc->plane_data[hw_plane].hw_videoport,
-> -			       dispc->plane_data[hw_plane].zorder, enable);
-> -
->   	VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, !!enable, 0, 0);
->   
->   	return 0;
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-> index e65e6a2bb821..a4a68249e44b 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-> @@ -94,6 +94,11 @@ extern const struct dispc_features dispc_j721e_feats;
->   void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask);
->   dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc);
->   
-> +void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
-> +			 u32 hw_videoport, u32 x, u32 y, u32 layer);
-> +void dispc_ovr_enable_layer(struct dispc_device *dispc,
-> +			    u32 hw_videoport, u32 layer, bool enable);
-> +
->   void dispc_vp_prepare(struct dispc_device *dispc, u32 hw_videoport,
->   		      const struct drm_crtc_state *state);
->   void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index 5311e0f1c551..24b3f02b90c6 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -47,9 +47,56 @@ static const struct drm_mode_config_helper_funcs mode_config_helper_funcs = {
->   	.atomic_commit_tail = tidss_atomic_commit_tail,
->   };
->   
-> +static int tidss_atomic_check(struct drm_device *ddev,
-> +			      struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *opstate;
-> +	struct drm_plane_state *npstate;
-> +	struct drm_plane *plane;
-> +	struct drm_crtc_state *cstate;
-> +	struct drm_crtc *crtc;
-> +	int ret, i;
-> +
-> +	ret = drm_atomic_helper_check(ddev, state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * If a plane on a CRTC changes add all active planes on that
-
-Only if the plane's position (x/y/z) changes.
-
-> +	 * CRTC to the atomic state. This is needed for updating the
-> +	 * plane positions in tidss_crtc_position_planes() which is
-> +	 * called from crtc_atomic_enable() and crtc_atomic_flush().
-> +	 * The update is needed for x,y-position changes too, so
-> +	 * zpos_changed condition is not enough and we need add the
-> +	 * our own plane_pos_changed flag.
-
-Strictly speaking, we don't need to add all active planes if only plane's x/y pos changes. In that 
-case it's enough to just update the OVR layer's x & y.
-
-And when a plane is enabled or disabled, we need to update OVR. Does the code handled that? Keeping 
-plane's x/y/z pos the same, but enabling and disabling it. I think both zpos_changed and pos_changed 
-could be false in that case.
-
-> +	 */
-> +	for_each_oldnew_plane_in_state(state, plane, opstate, npstate, i) {
-> +		if (npstate->crtc && npstate->visible &&
-> +		    (!opstate->crtc ||
-> +		     opstate->crtc_x != npstate->crtc_x ||
-> +		     opstate->crtc_y != npstate->crtc_y)) {
-
-The above becomes a bit easier to read if you first:
-
-if (!npstate->crtc || !npstate->visible)
-	continue;
-
-> +			cstate = drm_atomic_get_crtc_state(state,
-> +							   npstate->crtc);
-> +			if (IS_ERR(cstate))
-> +				return PTR_ERR(cstate);
-> +			to_tidss_crtc_state(cstate)->plane_pos_changed = true;
-> +		}
-> +	}
-
-Add blank line here.
-
-> +	for_each_new_crtc_in_state(state, crtc, cstate, i) {
-> +		if (to_tidss_crtc_state(cstate)->plane_pos_changed ||
-> +		    cstate->zpos_changed) {
-> +			ret = drm_atomic_add_affected_planes(state, crtc);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +	}
-
-  Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCAxNCBGZWIgMjAyMCwgQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28u
+dWs+IHdyb3RlOgo+IFF1b3RpbmcgSmFuaSBOaWt1bGEgKDIwMjAtMDItMTQgMDY6MzY6MTUpCj4+
+IE9uIFRodSwgMTMgRmViIDIwMjAsIE5hdGhhbiBDaGFuY2VsbG9yIDxuYXRlY2hhbmNlbGxvckBn
+bWFpbC5jb20+IHdyb3RlOgo+PiA+IEEgcmVjZW50IGNvbW1pdCBpbiBjbGFuZyBhZGRlZCAtV3Rh
+dXRvbG9naWNhbC1jb21wYXJlIHRvIC1XYWxsLCB3aGljaCBpcwo+PiA+IGVuYWJsZWQgZm9yIGk5
+MTUgYWZ0ZXIgLVd0YXV0b2xvZ2ljYWwtY29tcGFyZSBpcyBkaXNhYmxlZCBmb3IgdGhlIHJlc3QK
+Pj4gPiBvZiB0aGUga2VybmVsIHNvIHdlIHNlZSB0aGUgZm9sbG93aW5nIHdhcm5pbmcgb24geDg2
+XzY0Ogo+PiA+Cj4+ID4gIC4uL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9leGVj
+YnVmZmVyLmM6MTQzMzoyMjogd2FybmluZzoKPj4gPiAgcmVzdWx0IG9mIGNvbXBhcmlzb24gb2Yg
+Y29uc3RhbnQgNTc2NDYwNzUyMzAzNDIzNDg3IHdpdGggZXhwcmVzc2lvbiBvZgo+PiA+ICB0eXBl
+ICd1bnNpZ25lZCBpbnQnIGlzIGFsd2F5cyBmYWxzZQo+PiA+ICBbLVd0YXV0b2xvZ2ljYWwtY29u
+c3RhbnQtb3V0LW9mLXJhbmdlLWNvbXBhcmVdCj4+ID4gICAgICAgICAgaWYgKHVubGlrZWx5KHJl
+bWFpbiA+IE5fUkVMT0MoVUxPTkdfTUFYKSkpCj4+ID4gICAgICAgICAgICAgfn5+fn5+fn5+fn5+
+fn5+fl5+fn5+fn5+fn5+fn5+fn5+fn5+fgo+PiA+ICAuLi9pbmNsdWRlL2xpbnV4L2NvbXBpbGVy
+Lmg6Nzg6NDI6IG5vdGU6IGV4cGFuZGVkIGZyb20gbWFjcm8gJ3VubGlrZWx5Jwo+PiA+ICAjIGRl
+ZmluZSB1bmxpa2VseSh4KSAgICBfX2J1aWx0aW5fZXhwZWN0KCEhKHgpLCAwKQo+PiA+ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgo+PiA+ICAxIHdhcm5pbmcg
+Z2VuZXJhdGVkLgo+PiA+Cj4+ID4gSXQgaXMgbm90IHdyb25nIGluIHRoZSBjYXNlIHdoZXJlIFVM
+T05HX01BWCA+IFVJTlRfTUFYIGJ1dCBpdCBkb2VzIG5vdAo+PiA+IGFjY291bnQgZm9yIHRoZSBj
+YXNlIHdoZXJlIHRoaXMgZmlsZSBpcyBidWlsdCBmb3IgMzItYml0IHg4Niwgd2hlcmUKPj4gPiBV
+TE9OR19NQVggPT0gVUlOVF9NQVggYW5kIHRoaXMgY2hlY2sgaXMgc3RpbGwgcmVsZXZhbnQuCj4+
+ID4KPj4gPiBDYXN0IHJlbWFpbiB0byB1bnNpZ25lZCBsb25nLCB3aGljaCBrZWVwcyB0aGUgZ2Vu
+ZXJhdGVkIGNvZGUgdGhlIHNhbWUKPj4gPiAodmVyaWZpZWQgd2l0aCBjbGFuZy0xMSBvbiB4ODZf
+NjQgYW5kIEdDQyA5LjIuMCBvbiB4ODYgYW5kIHg4Nl82NCkgYW5kCj4+ID4gdGhlIHdhcm5pbmcg
+aXMgc2lsZW5jZWQgc28gd2UgY2FuIGNhdGNoIG1vcmUgcG90ZW50aWFsIGlzc3VlcyBpbiB0aGUK
+Pj4gPiBmdXR1cmUuCj4+ID4KPj4gPiBMaW5rOiBodHRwczovL2dpdGh1Yi5jb20vQ2xhbmdCdWls
+dExpbnV4L2xpbnV4L2lzc3Vlcy83NzgKPj4gPiBTdWdnZXN0ZWQtYnk6IE1pY2hlbCBEw6RuemVy
+IDxtaWNoZWxAZGFlbnplci5uZXQ+Cj4+ID4gU2lnbmVkLW9mZi1ieTogTmF0aGFuIENoYW5jZWxs
+b3IgPG5hdGVjaGFuY2VsbG9yQGdtYWlsLmNvbT4KPj4gCj4+IFdvcmtzIGZvciBtZSBhcyBhIHdv
+cmthcm91bmQsCj4KPiBCdXQgdGhlIHdob2xlIHBvaW50IHdhcyB0aGF0IHRoZSBjb21waWxlciBj
+b3VsZCBzZWUgdGhhdCBpdCB3YXMKPiBpbXBvc3NpYmxlIGFuZCBub3QgZW1pdCB0aGUgY29kZS4g
+RG9lc24ndCB0aGlzIGJyZWFrIHRoYXQ/CgpJdCBzZWVtcyB0aGF0IGdvYWwgYW5kIHRoZSB3YXJu
+aW5nIGFyZSBmdW5kYW1lbnRhbGx5IGluY29tcGF0aWJsZS4KCkJhY2sgdG8gdGhlIG9yaWdpbmFs
+IHBhdGNoPwoKQlIsCkphbmkuCgoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBH
+cmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
