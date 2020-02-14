@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CCF15E237
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:22:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B5115E24E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:23:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94A626FB2B;
-	Fri, 14 Feb 2020 16:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 632336FB28;
+	Fri, 14 Feb 2020 16:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B4EC6FB28
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:22:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8763B6FB28
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:23:04 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 95B1F2475F;
- Fri, 14 Feb 2020 16:22:49 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9B03124761;
+ Fri, 14 Feb 2020 16:23:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697370;
- bh=JktK7OZ+PguGwXAN1oQ8D/VTtnD5HyaZVu3gKZGgxaM=;
+ s=default; t=1581697384;
+ bh=IBGB+xDX7Tk9f82+ViaLQcfskmpjmicN/oxDPAoTq6I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HS99IKXjl9dANYiaf7VomzrYQCBwl0DE300TgVuI04mHeqOXgZSE1pxqNBwPDI8PT
- HoTXpkQRxulVsgvyJfQJlp1eidEQtM4MmQkEfNk1JQMebjPufwUCBm7JutOv3HNU5Y
- QpKihuHiqSoO4ZEWxUv9Lv8aFMqwjckSEmzJ/Xyo=
+ b=vVhTtt7WjUDxmZgra30XBy4MRMBKuRb/COeshJC3Z4aEsj+IsOYuzAFVFoTun8/6s
+ 2vYG0CvqEbpaLcLNvdoUXNQIjZI0Ar65e7Y4pAVmwFxQg7dnVIJEQ1jJqTMyMpUn3L
+ Hhk0Vrw5Lglq2Ewm+OHlye/g1c2EFaqIw/RfFPkI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 069/141] drm/mediatek: handle events when
- enabling/disabling crtc
-Date: Fri, 14 Feb 2020 11:20:09 -0500
-Message-Id: <20200214162122.19794-69-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 080/141] drm/gma500: remove set but not used
+ variables 'hist_reg'
+Date: Fri, 14 Feb 2020 11:20:20 -0500
+Message-Id: <20200214162122.19794-80-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214162122.19794-1-sashal@kernel.org>
 References: <20200214162122.19794-1-sashal@kernel.org>
@@ -50,56 +50,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Chen Zhou <chenzhou10@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+ dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bibby Hsieh <bibby.hsieh@mediatek.com>
+From: Chen Zhou <chenzhou10@huawei.com>
 
-[ Upstream commit 411f5c1eacfebb1f6e40b653d29447cdfe7282aa ]
+[ Upstream commit 72f775611daf3ce20358388facbaf11f22899fa2 ]
 
-The driver currently handles vblank events only when updating planes on
-an already enabled CRTC. The atomic update API however allows requesting
-an event when enabling or disabling a CRTC. This currently leads to
-event objects being leaked in the kernel and to events not being sent
-out. Fix it.
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
-Signed-off-by: CK Hu <ck.hu@mediatek.com>
+drivers/gpu/drm/gma500/psb_irq.c: In function psb_irq_turn_off_dpst:
+drivers/gpu/drm/gma500/psb_irq.c:473:6:
+	warning: variable hist_reg set but not used [-Wunused-but-set-variable]
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191227114811.14907-1-chenzhou10@huawei.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/gma500/psb_irq.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 01a21dd835b57..1ed60da76a0ce 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -306,6 +306,7 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
- static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
+diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+index f75f199c84311..518d7b4456bf1 100644
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -471,12 +471,11 @@ void psb_irq_turn_off_dpst(struct drm_device *dev)
  {
- 	struct drm_device *drm = mtk_crtc->base.dev;
-+	struct drm_crtc *crtc = &mtk_crtc->base;
- 	int i;
+ 	struct drm_psb_private *dev_priv =
+ 	    (struct drm_psb_private *) dev->dev_private;
+-	u32 hist_reg;
+ 	u32 pwm_reg;
  
- 	DRM_DEBUG_DRIVER("%s\n", __func__);
-@@ -327,6 +328,13 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
- 	mtk_disp_mutex_unprepare(mtk_crtc->mutex);
+ 	if (gma_power_begin(dev, false)) {
+ 		PSB_WVDC32(0x00000000, HISTOGRAM_INT_CONTROL);
+-		hist_reg = PSB_RVDC32(HISTOGRAM_INT_CONTROL);
++		PSB_RVDC32(HISTOGRAM_INT_CONTROL);
  
- 	pm_runtime_put(drm->dev);
-+
-+	if (crtc->state->event && !crtc->state->active) {
-+		spin_lock_irq(&crtc->dev->event_lock);
-+		drm_crtc_send_vblank_event(crtc, crtc->state->event);
-+		crtc->state->event = NULL;
-+		spin_unlock_irq(&crtc->dev->event_lock);
-+	}
- }
+ 		psb_disable_pipestat(dev_priv, 0, PIPE_DPST_EVENT_ENABLE);
  
- static void mtk_drm_crtc_enable(struct drm_crtc *crtc)
 -- 
 2.20.1
 
