@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B25B160CF3
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9CA160D14
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4CE76E80B;
-	Mon, 17 Feb 2020 08:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFDD16E8CE;
+	Mon, 17 Feb 2020 08:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE8EF6E22C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 21:32:35 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id 9so7688178lfq.10
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 13:32:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=np/+CHub7b4xrNqQ++17moPhUZmzbtSmWAE2SuSfLfA=;
- b=B+3D3Fr9fp2L8JIlyYjiARCg+VUwJKh8pcltjW9zgfjJreA561DuChf5aFwk+yToN5
- taetHjw1m38ZTyDTzBxqPvATUeqHw9P2TyoN9nsLMAi+agsYeszeGgg7dLHZCNTHjBhr
- o9HgVZ6dfNgYfMub7WkAJ8MEakqA0jU61cIiw1Ob+bHF8tiGjdJwobVV4GERQVylGJ2P
- RttRcRX51aGMcPa2ZGE/51xSCZtlKcBFWLox8y2iZPZnvGy8j7I1ebmr5pdZ4VfKOw4d
- 38roiq1My6HBHbJoJwg3vKrbGElAB6TowKexk9NvCM8z4AAGBuY8iUwq75HCnWRetGeq
- MKUg==
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A74836FBAE
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 21:57:00 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id z193so12190607iof.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 13:57:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1PA1kP0Xz589wmg2zHjrpiwU87UdZjJrCtqyOsFzXpo=;
+ b=PPxHAKJ5l6o0WOWqFV+IhQhx0nRSZ4jCWhgkCXggtSpnNXkOcnre3+AJjA6j6T1C1B
+ xyuDXuT5F5uScex12T5FQGrkDI4OL4PcSs9mljuF4G6xEppfHMArG8avsbw2XHus+iW7
+ OU4yrP7I68CH8Ll/0PTSbbSTFYthQF/omCNgc3MqnYpvJ2841fSmEzeTIK5FMaFHYO1R
+ fq/PZFqGvKxu4LDoGKu6yEF/Su9wkTt61rBMjozYndfTrA34ACTqowRDkm98HjBGevq6
+ 3xdR0ba1fZG4oHPCOZXxTucz6f/xTQJdDYjlXpHtjKELLYZYtLAXRza4a3NNoDMy3h8W
+ JErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=np/+CHub7b4xrNqQ++17moPhUZmzbtSmWAE2SuSfLfA=;
- b=YD31lhMSA1nLG0Mv6AqUHPXjanRTMs+xaS9T3PTBVU9UaAmShmaTjpkeFwYbWBBzou
- ovhs+XJHkSitjz1hmavG4kL+w+VIFzfm8Cf8N1XQ0aXld7WWpCmzyYPHfxM6BoYj/Lwt
- quTQjc900iYs2irr/J3gSrkuQqxecl+UmM9jwqPB9EuNcCmvd7MFmUYp19+JH3c1Jt7i
- EuzXzWno4Ju1GmGZVdV1gJzAhqJRADOjJPdTg0sueNwxYUok8X7xIjMlZyyz8MKiI3qQ
- ClrNnrhjIg7lKCWevJ3B/iaz7QSJSF3/oK3WbcZa4Tz10YcY/bUanr/riJMIe4FOXZrf
- +hgg==
-X-Gm-Message-State: APjAAAU4+sREF8ZlvhFU9orRpXeMgXwjFkT4UorVweoixaWXct/N2lUJ
- g06UGgBtpqKsQl0h2G4oGKmg6KzYcRAZVQ==
-X-Google-Smtp-Source: APXvYqxYoqJHHcd8WPhpV5wl6PeAaiGp/qlJKawsyE6qvH17IIwViq6kgR8pFjFMNE4SMneeLHjbdw==
-X-Received: by 2002:ac2:5f59:: with SMTP id 25mr2557234lfz.193.1581715954023; 
- Fri, 14 Feb 2020 13:32:34 -0800 (PST)
-Received: from kedthinkpad ([5.20.204.163])
- by smtp.gmail.com with ESMTPSA id r15sm4083374ljh.11.2020.02.14.13.32.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2020 13:32:33 -0800 (PST)
-Date: Fri, 14 Feb 2020 23:32:31 +0200
-From: Andrey Lebedev <andrey.lebedev@gmail.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 2/2] ARM: sun7i: dts: Add LVDS panel support on A20
-Message-ID: <20200214213231.GA6583@kedthinkpad>
-References: <20200210195633.GA21832@kedthinkpad>
- <20200212222355.17141-2-andrey.lebedev@gmail.com>
- <20200213094304.hf3glhgmquypxpyf@gilmour.lan>
- <20200213200823.GA28336@kedthinkpad>
- <20200214075218.huxdhmd4qfoakat2@gilmour.lan>
- <20200214084358.GA25266@kedthinkpad>
- <20200214085351.2whnfyulrmyex2va@gilmour.lan>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1PA1kP0Xz589wmg2zHjrpiwU87UdZjJrCtqyOsFzXpo=;
+ b=OPHM0AuM6JsQjUrcSzkEy3fDYWZzoNLZZqkzjiyYlgFhccJnpMHtwuGjogr+Og5CFD
+ emet5QUvkjW8l91RlWl3Nau5dRcT5s/YOTLqJncBQN+bDTIMJp3TvnJ7IrP4uERr+7fX
+ waqEeaUuAvR2diRajoMoma2NNLp6fNlF6uAq8octEfSenH8HK0dgYTCSiBz4mFblzU2W
+ 1DzG9FYMCcZ3cv1JCgl80paCAKeTNMFLs9TdGATdBjljvNzaISXHdCdJtMQy79rGb44u
+ A9b30Tqob1KOJwP4vik6nZTihF84Kh9c5YHa76ZWDwu7JR3vLy0lLnR4dF+qco5oBIua
+ V2hA==
+X-Gm-Message-State: APjAAAUBEihFGS1bAqeB3uREfHlbyCQSKGYWmBURxEo5Oz4+0wdjm4ug
+ Z+UaxyruDD1eC7c6qlQIA2j6k73MwGaPpRbM9AY0yA==
+X-Google-Smtp-Source: APXvYqxmbEDsw3y1HMEDCJX3GrbJH5bKgojg1u4BCEEeXlFQ0gDdkvT7pJ5ZZN7C0FxkmtfKVtmPCaP24jPDo5bcOPw=
+X-Received: by 2002:a5e:8e4c:: with SMTP id r12mr3862733ioo.119.1581717419703; 
+ Fri, 14 Feb 2020 13:56:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200214085351.2whnfyulrmyex2va@gilmour.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200213213036.207625-1-olvaffe@gmail.com>
+ <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
+ <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
+ <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
+ <20200214195229.GF20690@linux.intel.com>
+ <CAPaKu7Q4gehyhEgG_Nw=tiZiTh+7A8-uuXq1w4he6knp6NWErQ@mail.gmail.com>
+In-Reply-To: <CAPaKu7Q4gehyhEgG_Nw=tiZiTh+7A8-uuXq1w4he6knp6NWErQ@mail.gmail.com>
+From: Jim Mattson <jmattson@google.com>
+Date: Fri, 14 Feb 2020 13:56:48 -0800
+Message-ID: <CALMp9eRwTxdqxAcobZ7sYbD=F8Kga=jR3kaz-OEYdA9fV0AoKQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
+To: Chia-I Wu <olvaffe@gmail.com>
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,154 +66,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-sunxi@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrey Lebedev <andrey@lebedev.lt>, wens@csie.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Wanpeng Li <wanpengli@tencent.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, kvm list <kvm@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2020 at 09:53:51AM +0100, Maxime Ripard wrote:
-> On Fri, Feb 14, 2020 at 10:43:58AM +0200, Andrey Lebedev wrote:
-> > On Fri, Feb 14, 2020 at 08:52:18AM +0100, Maxime Ripard wrote:
-> > > > > This will create a spurious warning message for TCON1, since we
-> > > > > adjusted the driver to tell it supports LVDS, but there's no LVDS
-> > > > > reset line, so we need to make it finer grained.
+On Fri, Feb 14, 2020 at 1:47 PM Chia-I Wu <olvaffe@gmail.com> wrote:
+>
+> On Fri, Feb 14, 2020 at 11:52 AM Sean Christopherson
+> <sean.j.christopherson@intel.com> wrote:
+> >
+> > On Fri, Feb 14, 2020 at 11:26:06AM +0100, Paolo Bonzini wrote:
+> > > On 13/02/20 23:18, Chia-I Wu wrote:
 > > > >
-> > > > Yes, I can attribute two of the messages in my dmesg log [1] to this
-> > > > ("Missing LVDS properties" and "LVDS output disabled". "sun4i-tcon
-> > > > 1c0d000.lcd-controller" is indeed tcon1). And yes, I can see how they
-> > > > can be confusing to someone.
+> > > > The bug you mentioned was probably this one
 > > > >
-> > > > I'd need some pointers on how to deal with that though (if we want to do
-> > > > it in this scope).
+> > > >   https://bugzilla.kernel.org/show_bug.cgi?id=104091
 > > >
-> > > Like I was mentionning, you could introduce a new compatible for each
-> > > TCON (tcon0 and tcon1) and only set the support_lvds flag for tcon0
+> > > Yes, indeed.
+> > >
+> > > > From what I can tell, the commit allowed the guests to create cached
+> > > > mappings to MMIO regions and caused MCEs.  That is different than what
+> > > > I need, which is to allow guests to create uncached mappings to system
+> > > > ram (i.e., !kvm_is_mmio_pfn) when the host userspace also has uncached
+> > > > mappings.  But it is true that this still allows the userspace & guest
+> > > > kernel to create conflicting memory types.
 > >
-> > Can you give me an idea how that compatible might look like?
+> > This is ok.
 > >
-> > 		tcon0: lcd-controller@1c0c000 {
-> > 			compatible = "allwinner,sun7i-a20-tcon", "allwinner,lvds";
+> > > Right, the question is whether the MCEs were tied to MMIO regions
+> > > specifically and if so why.
 > >
-> > or
+> > 99.99999% likelihood the answer is "yes".  Cacheable accesses to non-existent
+> > memory and most (all?) MMIO regions will cause a #MC.  This includes
+> > speculative accesses.
 > >
-> > 		tcon0: lcd-controller@1c0c000 {
-> > 			compatible = "allwinner,sun7i-a20-tcon", "allwinner,tcon0";
+> > Commit fd717f11015f ("KVM: x86: apply guest MTRR virtualization on host
+> > reserved pages") explicitly had a comment "1. MMIO: trust guest MTRR",
+> > which is basically a direct avenue to generating #MCs.
 > >
-> > ? Or something completely different?
-> 
-> Something like
-> 
-> &tcon0 {
->     compatible = "allwinner,sun7i-a20-tcon0", "allwinner,sun7i-a20-tcon";
-> };
-> 
-> &tcon1 {
->     compatible = "allwinner,sun7i-a20-tcon1", "allwinner,sun7i-a20-tcon";
-> };
-> 
+> > IIRC, WC accesses to non-existent memory will also cause #MC, but KVM has
+> > bigger problems if it has PRESENT EPTEs pointing at garbage.
+> >
+> > > An interesting remark is in the footnote of table 11-7 in the SDM.
+> > > There, for the MTRR (EPT for us) memory type UC you can read:
+> > >
+> > >   The UC attribute comes from the MTRRs and the processors are not
+> > >   required to snoop their caches since the data could never have
+> > >   been cached. This attribute is preferred for performance reasons.
+> > >
+> > > There are two possibilities:
+> > >
+> > > 1) the footnote doesn't apply to UC mode coming from EPT page tables.
+> > > That would make your change safe.
+> > >
+> > > 2) the footnote also applies when the UC attribute comes from the EPT
+> > > page tables rather than the MTRRs.  In that case, the host should use
+> > > UC as the EPT page attribute if and only if it's consistent with the host
+> > > MTRRs; it would be more or less impossible to honor UC in the guest MTRRs.
+> > > In that case, something like the patch below would be needed.
+> >
+> > (2), the EPTs effectively replace the MTRRs.  The expectation being that
+> > the VMM will use always use EPT memtypes consistent with the MTRRs.
+> This is my understanding as well.
+>
+> > > It is not clear from the manual why the footnote would not apply to WC; that
+> > > is, the manual doesn't say explicitly that the processor does not do snooping
+> > > for accesses to WC memory.  But I guess that must be the case, which is why I
+> > > used MTRR_TYPE_WRCOMB in the patch below.
+> >
+> > A few paragraphs below table 11-12 states:
+> >
+> >   In particular, a WC page must never be aliased to a cacheable page because
+> >   WC writes may not check the processor caches.
+> >
+> > > Either way, we would have an explanation of why creating cached mapping to
+> > > MMIO regions would, and why in practice we're not seeing MCEs for guest RAM
+> > > (the guest would have set WB for that memory in its MTRRs, not UC).
+> >
+> > Aliasing (physical) RAM with different memtypes won't cause #MC, just
+> > memory corruption.
+>
+> What we need potentially gives the userspace (the guest kernel, to be
+> exact) the ability to create conflicting memory types.  If we can be
+> sure that the worst scenario is for a guest to corrupt its own memory,
+> by only allowing aliases on physical ram, that seems alright.
+>
+> AFAICT, it is currently allowed on ARM (verified) and AMD (not
+> verified, but svm_get_mt_mask returns 0 which supposedly means the NPT
+> does not restrict what the guest PAT can do).  This diff would do the
+> trick for Intel without needing any uapi change:
 
-Hi Maxime, here is what I came up with, please take a look. If the
-approach is right, I'll split it up and include into the patch set.
-
-From f3e45c958a9551a52ac26435785bdb572e54d8db Mon Sep 17 00:00:00 2001
-From: Andrey Lebedev <andrey@lebedev.lt>
-Date: Fri, 14 Feb 2020 23:21:59 +0200
-Subject: [PATCH] Mark tcon0 to be the only tcon capable of LVDS on sun7i-a20
-
-This allows to avoid warnings about reset line not provided for tcon1.
-
-Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
----
- arch/arm/boot/dts/sun7i-a20.dtsi   |  2 +-
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 22 +++++++++++++++++++++-
- drivers/gpu/drm/sun4i/sun4i_tcon.h |  2 ++
- 3 files changed, 24 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
-index 3b3c366a2bee..bab59fc4d9b1 100644
---- a/arch/arm/boot/dts/sun7i-a20.dtsi
-+++ b/arch/arm/boot/dts/sun7i-a20.dtsi
-@@ -405,7 +405,7 @@
- 		};
- 
- 		tcon0: lcd-controller@1c0c000 {
--			compatible = "allwinner,sun7i-a20-tcon";
-+			compatible = "allwinner,sun7i-a20-tcon0", "allwinner,sun7i-a20-tcon";
- 			reg = <0x01c0c000 0x1000>;
- 			interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
- 			resets = <&ccu RST_TCON0>, <&ccu RST_LVDS>;
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 800a9bd86112..cb2040aec436 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1107,6 +1107,25 @@ static struct sunxi_engine *sun4i_tcon_find_engine(struct sun4i_drv *drv,
- 	return sun4i_tcon_find_engine_traverse(drv, node, 0);
- }
- 
-+/*
-+ * Check if given tcon supports LVDS
-+ *
-+ * Some of the sunxi SoC variants contain several timing controllers, but only
-+ * one of them can be used to drive LVDS screen. In this case such tcon is
-+ * identified in respective quirks struct: lvds_compatible_tcon property will
-+ * hold "compatible" string of the tcon, that supports LVDS.
-+ *
-+ * If lvds_compatible_tcon is not set, all tcons are considered capable of
-+ * driving LVDS.
-+ */
-+static bool sun4i_tcon_lvds_compat(struct device *dev, struct sun4i_tcon *tcon)
-+{
-+	if (tcon->quirks->lvds_compatible_tcon == NULL)
-+		return true;
-+	return of_device_is_compatible(dev->of_node,
-+	                               tcon->quirks->lvds_compatible_tcon);
-+}
-+
- static int sun4i_tcon_bind(struct device *dev, struct device *master,
- 			   void *data)
- {
-@@ -1161,7 +1180,7 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
- 		return ret;
- 	}
- 
--	if (tcon->quirks->supports_lvds) {
-+	if (tcon->quirks->supports_lvds && sun4i_tcon_lvds_compat(dev, tcon)) {
- 		/*
- 		 * This can only be made optional since we've had DT
- 		 * nodes without the LVDS reset properties.
-@@ -1481,6 +1500,7 @@ static const struct sun4i_tcon_quirks sun6i_a31s_quirks = {
- 
- static const struct sun4i_tcon_quirks sun7i_a20_quirks = {
- 	.supports_lvds		= true,
-+	.lvds_compatible_tcon	= "allwinner,sun7i-a20-tcon0",
- 	.has_channel_0		= true,
- 	.has_channel_1		= true,
- 	.dclk_min_div		= 4,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index cfbf4e6c1679..bc87d28ee341 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -235,6 +235,8 @@ struct sun4i_tcon_quirks {
- 	bool	needs_de_be_mux; /* sun6i needs mux to select backend */
- 	bool    needs_edp_reset; /* a80 edp reset needed for tcon0 access */
- 	bool	supports_lvds;   /* Does the TCON support an LVDS output? */
-+	/* "compatible" string of TCON that exclusively supports LVDS */
-+	const char *lvds_compatible_tcon;
- 	u8	dclk_min_div;	/* minimum divider for TCON0 DCLK */
- 
- 	/* callback to handle tcon muxing options */
--- 
-2.20.1
-
-
--- 
-Andrey Lebedev aka -.- . -.. -.. . .-.
-Software engineer
-Homepage: http://lebedev.lt/
+I would be concerned about Intel CPU errata such as SKX40 and SKX59.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
