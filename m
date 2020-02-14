@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0F615DC32
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:52:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D3F15DC35
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:53:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B27FD6F9C9;
-	Fri, 14 Feb 2020 15:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 213A06F9BE;
+	Fri, 14 Feb 2020 15:52:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFAF06F9C6
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:52:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48A026F9BE;
+ Fri, 14 Feb 2020 15:52:47 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E366A24673;
- Fri, 14 Feb 2020 15:52:33 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5EBAA222C4;
+ Fri, 14 Feb 2020 15:52:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695554;
- bh=0H9o+zn/rO8CvUSKr63eVb30rG8pTCghBnbta8SAEAk=;
+ s=default; t=1581695567;
+ bh=vMAIxQCEcBteBvTjRTi8zaQHQRbcimfsWflvIWcKtRU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kF66+g9IONO5Bc4zxX8AizsQdVcQW66mlml4DvLkBB2hBQGdzCgqg214SkFT1KbQU
- MVN8BZrvYjYI0IBXzjJ2oYiQSIr0lX+Ue2JQh58NNhL5G8LDgl0Ovv6JfJCWCjd/rw
- FN+QfAIBh8Iad/kVjBlLAicyCnvvUzpHR11QliRY=
+ b=vDL04vJppJ0l+GABfBMUIv6b6NtLE2FsRO9U0wMUGo9gTfxkZId1yqNmCYbYSt1SA
+ VIicDTk8+PyuIvvX7uVIohyZIK4hneJaJBgaHMVlZ2g5XhvY4pjj4Caq2+W/L5H8wy
+ GLBvvxFABO79+xCE/Aw0g/zxdwG+PWAZDME+Xoho=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 169/542] drm/panel: simple: Add Logic PD Type 28
- display support
-Date: Fri, 14 Feb 2020 10:42:41 -0500
-Message-Id: <20200214154854.6746-169-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 179/542] Revert "drm/amdgpu: enable VCN DPG on
+ Raven and Raven2"
+Date: Fri, 14 Feb 2020 10:42:51 -0500
+Message-Id: <20200214154854.6746-179-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -50,89 +50,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Thong Thai <thong.thai@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Adam Ford <aford173@gmail.com>
+From: Thong Thai <thong.thai@amd.com>
 
-[ Upstream commit 0d35408afbeb603bc9972ae91e4dd2638bcffe52 ]
+[ Upstream commit d515959125f24767d02e82587a11e444eeba0e7b ]
 
-Previously, there was an omap panel-dpi driver that would
-read generic timings from the device tree and set the display
-timing accordingly.  This driver was removed so the screen
-no longer functions.  This patch modifies the panel-simple
-file to setup the timings to the same values previously used.
+This reverts commit a4840d91c984f93b2acdcd44441d624bbc1af0d2.
 
-Fixes: 8bf4b1621178 ("drm/omap: Remove panel-dpi driver")
+Reverting due to power efficiency issues seen on Raven 1 and 2
+when DPG mode is enabled.
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191016135147.7743-1-aford173@gmail.com
+Signed-off-by: Thong Thai <thong.thai@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 37 ++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/soc15.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 5d487686d25c5..72f69709f3493 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2061,6 +2061,40 @@ static const struct drm_display_mode mitsubishi_aa070mc01_mode = {
- 	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/soc15.c b/drivers/gpu/drm/amd/amdgpu/soc15.c
+index 8e1640bc07aff..04ea7cd692955 100644
+--- a/drivers/gpu/drm/amd/amdgpu/soc15.c
++++ b/drivers/gpu/drm/amd/amdgpu/soc15.c
+@@ -1145,9 +1145,7 @@ static int soc15_common_early_init(void *handle)
+ 				AMD_CG_SUPPORT_SDMA_LS |
+ 				AMD_CG_SUPPORT_VCN_MGCG;
  
-+static const struct drm_display_mode logicpd_type_28_mode = {
-+	.clock = 9000,
-+	.hdisplay = 480,
-+	.hsync_start = 480 + 3,
-+	.hsync_end = 480 + 3 + 42,
-+	.htotal = 480 + 3 + 42 + 2,
-+
-+	.vdisplay = 272,
-+	.vsync_start = 272 + 2,
-+	.vsync_end = 272 + 2 + 11,
-+	.vtotal = 272 + 2 + 11 + 3,
-+	.vrefresh = 60,
-+	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
-+};
-+
-+static const struct panel_desc logicpd_type_28 = {
-+	.modes = &logicpd_type_28_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 105,
-+		.height = 67,
-+	},
-+	.delay = {
-+		.prepare = 200,
-+		.enable = 200,
-+		.unprepare = 200,
-+		.disable = 200,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
-+		     DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE,
-+};
-+
- static const struct panel_desc mitsubishi_aa070mc01 = {
- 	.modes = &mitsubishi_aa070mc01_mode,
- 	.num_modes = 1,
-@@ -3287,6 +3321,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "lg,lp129qe",
- 		.data = &lg_lp129qe,
-+	}, {
-+		.compatible = "logicpd,type28",
-+		.data = &logicpd_type_28,
- 	}, {
- 		.compatible = "mitsubishi,aa070mc01-ca1",
- 		.data = &mitsubishi_aa070mc01,
+-			adev->pg_flags = AMD_PG_SUPPORT_SDMA |
+-				AMD_PG_SUPPORT_VCN |
+-				AMD_PG_SUPPORT_VCN_DPG;
++			adev->pg_flags = AMD_PG_SUPPORT_SDMA | AMD_PG_SUPPORT_VCN;
+ 		} else if (adev->pdev->device == 0x15d8) {
+ 			adev->cg_flags = AMD_CG_SUPPORT_GFX_MGCG |
+ 				AMD_CG_SUPPORT_GFX_MGLS |
+@@ -1190,9 +1188,7 @@ static int soc15_common_early_init(void *handle)
+ 				AMD_CG_SUPPORT_SDMA_LS |
+ 				AMD_CG_SUPPORT_VCN_MGCG;
+ 
+-			adev->pg_flags = AMD_PG_SUPPORT_SDMA |
+-				AMD_PG_SUPPORT_VCN |
+-				AMD_PG_SUPPORT_VCN_DPG;
++			adev->pg_flags = AMD_PG_SUPPORT_SDMA | AMD_PG_SUPPORT_VCN;
+ 		}
+ 		break;
+ 	case CHIP_ARCTURUS:
 -- 
 2.20.1
 
