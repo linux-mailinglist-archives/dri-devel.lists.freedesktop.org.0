@@ -2,42 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1849815E285
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA5D215E231
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:22:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 602F86FB32;
-	Fri, 14 Feb 2020 16:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60EC76FB26;
+	Fri, 14 Feb 2020 16:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB716FB30;
- Fri, 14 Feb 2020 16:24:06 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2BF562477F;
- Fri, 14 Feb 2020 16:24:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581697446;
- bh=BdlkV4m/ydm7xhD5IRtDvesmAsLhifXiarptBB8b99Y=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fk2T9VxLMoYU71g9xMGZA2qdh3cU6srIeCWmEgewKW9ZgzSv0pWnz6M1EQQBXlj28
- YJAvWlVyEiJuIF1U0R5eu73+Bzsc4F/9PcXExDLMByKilj/Ob4XtGrIhnL33Oxca5M
- qX3nfQhr+sdGfZVCCrFuu3JB3m5pNV7kvZTwJE/4=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 131/141] radeon: insert 10ms sleep in
- dce5_crtc_load_lut
-Date: Fri, 14 Feb 2020 11:21:11 -0500
-Message-Id: <20200214162122.19794-131-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214162122.19794-1-sashal@kernel.org>
-References: <20200214162122.19794-1-sashal@kernel.org>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BE87D6FB19
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:22:29 +0000 (UTC)
+X-UUID: 5c86b13085f6448bb26c2de4c3496cdc-20200215
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=jz50ovHuZ2AHAX6u5vv4PbRhypnsxyFahZczIki6Y+E=; 
+ b=YFofNpbvXaSGOcwur6pHAuRri8d4esErOX8+TM0/XglRKiFQiwvWboVD0cVMZbcO4eEg2Bdu3tvLWNbuHdZoNaqJMwcHCdjwAIJky3BCpeSYZXezShWXG87N07MBXE51OUsM5wvD2SrQ7ifnP7mUs3ps5CjZZY0WwXbPVfnDd3Y=;
+X-UUID: 5c86b13085f6448bb26c2de4c3496cdc-20200215
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1937256230; Sat, 15 Feb 2020 00:22:25 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Sat, 15 Feb 2020 00:21:35 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Sat, 15 Feb 2020 00:22:21 +0800
+Message-ID: <1581697343.12471.4.camel@mtksdaap41>
+Subject: Re: [PATCH v7 01/13] dt-bindings: arm: move mmsys description to
+ display
+From: CK Hu <ck.hu@mediatek.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>
+Date: Sat, 15 Feb 2020 00:22:23 +0800
+In-Reply-To: <022e8f64-b414-67a5-722e-bdd7c00230ff@collabora.com>
+References: <20200213201953.15268-1-matthias.bgg@kernel.org>
+ <20200213201953.15268-2-matthias.bgg@kernel.org>
+ <1581662577.17949.3.camel@mtksdaap41>
+ <2bda2dd7-9ed2-8b4c-897e-e585ccfa1fa5@gmail.com>
+ <022e8f64-b414-67a5-722e-bdd7c00230ff@collabora.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +57,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mark.rutland@arm.com, airlied@linux.ie, mturquette@baylibre.com,
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, linux-clk@vger.kernel.org,
+ drinkcat@chromium.org, Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
+ mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, frank-w@public-files.de, sean.wang@mediatek.com,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ linux-arm-kernel@lists.infradead.org, Matthias Brugger <mbrugger@suse.com>,
+ sboyd@kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ matthias.bgg@kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KClsgVXBzdHJlYW0g
-Y29tbWl0IGVjM2Q2NTA4MmQ3ZGFiYWQ2ZmE4ZjY2YThlZjE2NmYyZDUyMmQ2YjIgXQoKUGVyIGF0
-IGxlYXN0IG9uZSB0ZXN0ZXIgdGhpcyBpcyBlbm91Z2ggbWFnaWMgdG8gcmVjb3ZlciB0aGUgcmVn
-cmVzc2lvbgppbnRyb2R1Y2VkIGZvciBzb21lIHBlb3BsZSAoYnV0IG5vdCBhbGwpIGluCgpjb21t
-aXQgYjhlMmIwMTk5Y2MzNzc2MTdkYzIzOGY1MTA2MzUyYzA2ZGNkM2ZhMgpBdXRob3I6IFBldGVy
-IFJvc2luIDxwZWRhQGF4ZW50aWEuc2U+CkRhdGU6ICAgVHVlIEp1bCA0IDEyOjM2OjU3IDIwMTcg
-KzAyMDAKCiAgICBkcm0vZmItaGVscGVyOiBmYWN0b3Igb3V0IHBzZXVkby1wYWxldHRlCgp3aGlj
-aCBmb3IgcmFkZW9uIGhhZCB0aGUgc2lkZS1lZmZlY3Qgb2YgcmVmYWN0b3Jpbmcgb3V0IGEgc2Vl
-bWluZ2x5CnJlZHVkYW50IHdyaXRpbmcgb2YgdGhlIGNvbG9yIHBhbGV0dGUuCgoxMG1zIGluIGEg
-ZmFpcmx5IHNsb3cgbW9kZXNldCBwYXRoIGZlZWxzIGxpa2UgYW4gYWNjZXB0YWJsZSBmb3JtIG9m
-CmR1Y3QtdGFwZSwgc28gbWF5YmUgd29ydGggYSBzaG90IGFuZCBzZWUgd2hhdCBzdGlja3MuCgpD
-YzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpDYzogTWljaGVsIETD
-pG56ZXIgPG1pY2hlbC5kYWVuemVyQGFtZC5jb20+ClJlZmVyZW5jZXM6IGh0dHBzOi8vYnVnemls
-bGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTk4MTIzClNpZ25lZC1vZmYtYnk6IERhbmll
-bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBBbGV4IERl
-dWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IFNhc2hhIExl
-dmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
-bl9kaXNwbGF5LmMgfCAyICsrCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jIGIvZHJpdmVy
-cy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jCmluZGV4IDU5ZDYyMjc1YTY1OWQuLmM4
-ODIwY2Q4OTNkNDkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rp
-c3BsYXkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kaXNwbGF5LmMKQEAg
-LTExMCw2ICsxMTAsOCBAQCBzdGF0aWMgdm9pZCBkY2U1X2NydGNfbG9hZF9sdXQoc3RydWN0IGRy
-bV9jcnRjICpjcnRjKQogCiAJRFJNX0RFQlVHX0tNUygiJWRcbiIsIHJhZGVvbl9jcnRjLT5jcnRj
-X2lkKTsKIAorCW1zbGVlcCgxMCk7CisKIAlXUkVHMzIoTklfSU5QVVRfQ1NDX0NPTlRST0wgKyBy
-YWRlb25fY3J0Yy0+Y3J0Y19vZmZzZXQsCiAJICAgICAgIChOSV9JTlBVVF9DU0NfR1JQSF9NT0RF
-KE5JX0lOUFVUX0NTQ19CWVBBU1MpIHwKIAkJTklfSU5QVVRfQ1NDX09WTF9NT0RFKE5JX0lOUFVU
-X0NTQ19CWVBBU1MpKSk7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+Hi, Matthias & Enric:
+
+On Fri, 2020-02-14 at 13:19 +0100, Enric Balletbo i Serra wrote:
+> Hi CK,
+> 
+> On 14/2/20 11:01, Matthias Brugger wrote:
+> > 
+> > 
+> > On 14/02/2020 07:42, CK Hu wrote:
+> >> Hi, Matthias:
+> >>
+> >> On Thu, 2020-02-13 at 21:19 +0100, matthias.bgg@kernel.org wrote:
+> >>> From: Matthias Brugger <mbrugger@suse.com>
+> >>>
+> >>> The mmsys block provides registers and clocks for the display
+> >>> subsystem. The binding description should therefore live together with
+> >>> the rest of the display descriptions. Move it to display/mediatek.
+> >>>
+> >>
+> >> Yes, for the upstreamed driver, only display (DRM) use mmsys clock. For
+> >> some MDP patches [1] in progress, MDP also use mmsys clock. So we just
+> >> consider what's upstreamed now?
+> > 
+> 
+> Let me jump into the discussion, and sorry if my question is silly because I'm
+> just starting to look at this code.
+> 
+> IMO we should consider all the cases to find a proper fix on all this, and if
+> MDP uses also mmsys clocks this approach will not work. I think the main problem
+> here and the big question is what exactly is the MMSYS block, is an independent
+> clock controller that provides clocks to DRM and other blocks? or is hardly tied
+> to the DRM block in some way?
+> 
+> Could you give us a block schema on how the things are interconnected?
+> 
+> If is an independent clock controller I think there was a mistake when the first
+> drm driver was pushed by using the compatible = "mediatek,mt8173-mmsys" as id
+> for that driver.
+> 
+
+I correct my mistake first. In mt8173, mdp has already upstreamed [1].
+
+There are many partitions in Mediatek SoC. mmsys is one of these
+partition. There are many function blocks in mmsys such as OVL, RDMA,
+RSZ, WROT, .... Some data routing between these blocks are fixed but
+some are changeable. For application, we group them into display path
+and mdp path. Clock gating register of these blocks are in the range of
+0x14000000 ~ 0x14000fff. The routing control register of these blocks
+are also in the range of 0x14000000 ~ 0x14000fff. So the control
+function belong to mmsys partition but not belong to specific function
+block would in the register range of 0x14000000 ~ 0x14000fff. I think
+there could be two definition of mmsys device. One is that mmsys device
+is the whole mmsys partiotion, so OVL, RDMA, ... would be sub device of
+it. Another is that mmsys just control register of 0x14000000 ~
+0x14000fff, so it's part of mmsys partition like OVL, RDMA, .....
+Currently we define mmsys as the latter one. I've no idea how to map
+mmsys into current Linux hardware category, but I think it is not just a
+display device.
+
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/mediatek/mt8173.dtsi?h=v5.6-rc1
+
+Regards,
+CK
+
+> Thanks,
+>  Enric
+> 
+> 
+> > I'm not sure if I understand you correctly. Are you proposing to keep the
+> > binding description in arm/mediatek?
+> > 
+> > Regards,
+> > Matthias
+> > 
+> >>
+> >> [1] https://patchwork.kernel.org/patch/11140747/
+> >>
+> >> Regards,
+> >> CK
+> >>
+> >>> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> >>>
+> >>> ---
+> >>>
+> >>> Changes in v7:
+> >>> - move the binding description
+> >>>
+> >>> Changes in v6: None
+> >>> Changes in v5: None
+> >>> Changes in v4: None
+> >>> Changes in v3: None
+> >>> Changes in v2: None
+> >>>
+> >>>  .../bindings/{arm => display}/mediatek/mediatek,mmsys.txt         | 0
+> >>>  1 file changed, 0 insertions(+), 0 deletions(-)
+> >>>  rename Documentation/devicetree/bindings/{arm => display}/mediatek/mediatek,mmsys.txt (100%)
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,mmsys.txt
+> >>> similarity index 100%
+> >>> rename from Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
+> >>> rename to Documentation/devicetree/bindings/display/mediatek/mediatek,mmsys.txt
+> >>
+> >> _______________________________________________
+> >> linux-arm-kernel mailing list
+> >> linux-arm-kernel@lists.infradead.org
+> >> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> >>
+> 
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
