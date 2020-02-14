@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6021315DCFB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE11E15DCFC
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:56:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F886F9E2;
-	Fri, 14 Feb 2020 15:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 756556F9E3;
+	Fri, 14 Feb 2020 15:56:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 788F06F9DF;
- Fri, 14 Feb 2020 15:56:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6EF6F9E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:56:42 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A5D6424676;
- Fri, 14 Feb 2020 15:56:37 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8FFAC2067D;
+ Fri, 14 Feb 2020 15:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695798;
- bh=sMUNR4yGWZ+2fKyLeI7Zo66jkrR7W2W8hwkVr/geNGk=;
+ s=default; t=1581695802;
+ bh=QeBSYpadQfSDA4Xgw0Sen4+eBJpHM7k+4D5WCwfz2ps=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WETvc97kfZgS4iTiETjW1T1arwxeBxNe7Yi1G/zPsAyk76751yxdfBvTZeeSunaW6
- zxuKDFnu5I1LYatNKxB8ICkYR6bw0DHTL5LFzwoovk9mQsJsjwHNraW46SRCHxSyw3
- xYKng0P/yU7JErkVTh7EQnGi/Hg5uCYhBxCBnuSM=
+ b=2K1PJ/RP9BLulO8iCSuMdKGPMV/wtuxd0PJ517dQNfJK2kpaiA0i2AH7l+n8lObz3
+ 6TCyHf2uIGqUkDpUr9h2LtLB9yeHouJJWNZF83znRY8jyYBpldphoVvWz9R71u2M3y
+ b0l7g44jgqUh8Jk3hVTqoE1N/B95bXvdrzbTqrpw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 359/542] drm/nouveau/fault/gv100-: fix memory leak
- on module unload
-Date: Fri, 14 Feb 2020 10:45:51 -0500
-Message-Id: <20200214154854.6746-359-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 362/542] drm/vmwgfx: prevent memory leak in
+ vmw_cmdbuf_res_add
+Date: Fri, 14 Feb 2020 10:45:54 -0500
+Message-Id: <20200214154854.6746-362-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -50,35 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Thomas Hellstrom <thellstrom@vmware.com>,
+ dri-devel@lists.freedesktop.org, Navid Emamdoost <navid.emamdoost@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ben Skeggs <bskeggs@redhat.com>
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
 
-[ Upstream commit 633cc9beeb6f9b5fa2f17a2a9d0e2790cb6c3de7 ]
+[ Upstream commit 40efb09a7f53125719e49864da008495e39aaa1e ]
 
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+In vmw_cmdbuf_res_add if drm_ht_insert_item fails the allocated memory
+for cres should be released.
+
+Fixes: 18e4a4669c50 ("drm/vmwgfx: Fix compat shader namespace")
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+Reviewed-by: Thomas Hellstrom <thellstrom@vmware.com>
+Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c
-index ca251560d3e09..bb4a4266897c3 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c
-@@ -146,6 +146,7 @@ nvkm_fault_dtor(struct nvkm_subdev *subdev)
- 	struct nvkm_fault *fault = nvkm_fault(subdev);
- 	int i;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+index 4ac55fc2bf970..44d858ce4ce7f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+@@ -209,8 +209,10 @@ int vmw_cmdbuf_res_add(struct vmw_cmdbuf_res_manager *man,
  
-+	nvkm_notify_fini(&fault->nrpfb);
- 	nvkm_event_fini(&fault->event);
+ 	cres->hash.key = user_key | (res_type << 24);
+ 	ret = drm_ht_insert_item(&man->resources, &cres->hash);
+-	if (unlikely(ret != 0))
++	if (unlikely(ret != 0)) {
++		kfree(cres);
+ 		goto out_invalid_key;
++	}
  
- 	for (i = 0; i < fault->buffer_nr; i++) {
+ 	cres->state = VMW_CMDBUF_RES_ADD;
+ 	cres->res = vmw_resource_reference(res);
 -- 
 2.20.1
 
