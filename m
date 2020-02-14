@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34952160CE5
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD571160CFC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29C2C6E5C3;
-	Mon, 17 Feb 2020 08:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9476E8A8;
+	Mon, 17 Feb 2020 08:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71AEA6E863
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 19:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581708290;
+ [IPv6:2a01:238:20a:202:5302::6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3F536E863
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 19:31:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581708668;
  s=strato-dkim-0002; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=e3Rzzpo7xk9J4ECQBBols/BtjcoyLgBQyjDXgkqJ5t4=;
- b=b4ZLVR4MOkvOX7w0HP+X8TbahBlY0qjWGpdD+v73v0VUbJns729AqfNSb/N/0hyQZx
- V+O7AhOVFNl12M1TbnwUuzsUHHEHIa7C494OJcmEo7KKHt6IZy8Ja6O0kZHykcrMoigf
- UggfLYd6RPP8wP7BhU72danniTWmaGehaFtGZKr//yF0yDpOYLBKgmR0rP3CR0JuZIas
- WlU5wkSpIZ2ErmMaC9yZnWL6dGjJkdUWUtBl+29iqPz9UtUvmSVKWxU3RqvXfqLa8+TV
- c5p+SzU8xmmcozDLyNHxacMgHv4HP+gSXkVOJtcGWFplPuI0aAeho6RlgW4U3Bvq7101
- apVg==
+ bh=CVamlJG5fFjEwwaf0KaFiIJGPYXsc97AfdP/JIkpP98=;
+ b=EReKxRPau45EdLMLC/wEXJ1rmzzUz/3PhwCj6jkgGp2w6Ku0RU2mkUNw2nEXPtfIfa
+ WhxOa3RcRlLv4WgsQZQxXH1CB3n7HjVDE2oMZ2Q1bXFbMkG8e/ZNQMzzooxiZOjf/yx6
+ rHBbLFBybaynnzlizVfYIbQpkV/alqkrvTQFlInhCDvHoAfnNHNaAZiqXyk85F2/yAD0
+ rbDEyBIwUPZkZh0Nc5eODdMV2KqwG862JNQCRTLJELjk31LOJfGuHTfELWKEbjDewZHW
+ m0duHzAKB0JyG14G1AAhXUBUzvoTWjUq62nL3iZlKHfIiG+HZ6JKCN+9NK7/6RP0Eh3Y
+ mQ+w==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGH/PuwDOspHA="
 X-RZG-CLASS-ID: mo00
 Received: from imac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1EJOlGBd
+ with ESMTPSA id U06217w1EJV0GDZ
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
  ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Fri, 14 Feb 2020 20:24:47 +0100 (CET)
+ Fri, 14 Feb 2020 20:31:00 +0100 (CET)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-Subject: Re: [PATCH v2 01/12] drm: ingenic-drm: add MODULE_DEVICE_TABLE
+Subject: Re: [PATCH v2 03/12] MIPS: CI20: defconfig: configure for supporting
+ modules
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <1581707177.3.6@crapouillou.net>
-Date: Fri, 14 Feb 2020 20:24:45 +0100
-Message-Id: <B5B39A33-B8C4-4503-91CB-BFB344558B5D@goldelico.com>
+In-Reply-To: <1581707415.3.7@crapouillou.net>
+Date: Fri, 14 Feb 2020 20:30:59 +0100
+Message-Id: <AD9439FF-9DEF-4B9A-8A01-F11B626708C1@goldelico.com>
 References: <cover.1581696624.git.hns@goldelico.com>
- <1b5475c88032b3851c6d33443e688b432af42a9f.1581696624.git.hns@goldelico.com>
- <1581707177.3.6@crapouillou.net>
+ <db4db9e0b024aa3051a6f1f7be07323418d1d453.1581696624.git.hns@goldelico.com>
+ <1581707415.3.7@crapouillou.net>
 To: Paul Cercueil <paul@crapouillou.net>
 X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
@@ -69,56 +70,62 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Paul,
 
-> Am 14.02.2020 um 20:06 schrieb Paul Cercueil <paul@crapouillou.net>:
+> Am 14.02.2020 um 20:10 schrieb Paul Cercueil <paul@crapouillou.net>:
 > =
 
 > Hi Nikolaus,
 > =
 
-> Please rebase this patch on top of drm-misc-next and send it apart - it s=
-hould go through the DRM tree.
+> Patches 03-12 only touch the same two files - ci20.dts and ci20_defconfig.
+> =
+
+> Unless someone strongly disagrees, I'd suggest to squash all patches that=
+ touch each file together (except the ones with a Fixes tag), I don't think=
+ we really need that much granularity here.
+
+It comes more from having developed these things quite independently and on=
+ly collected for submission...
+
+One patch I don't know how to handle: "MIPS: DTS: CI20: add DT node for IR =
+sensor".
+It is from 2015 and has a different author (some Alex Smith but the mail ad=
+dress seems to be broken).
+This information and attribution will be lost if we squash them.
+
+But I can do for V3 and will also fix the fixes tags by adding cc: stable :)
+
+BR and thanks,
+Nikolaus
+
+
+> =
+
+> -Paul
 > =
 
 > =
 
 > Le ven., f=E9vr. 14, 2020 at 17:10, H. Nikolaus Schaller <hns@goldelico.c=
 om> a =E9crit :
->> Add MODULE_DEVICE_TABLE so that the driver can load by
->> matching the device tree if compiled as module.
+>> Not all drivers need to be compiled into the kernel.
+>> Support building and loading of kernel modules.
 >> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 >> ---
->> drivers/gpu/drm/ingenic/ingenic-drm.c | 2 ++
->> 1 file changed, 2 insertions(+)
->> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ing=
-enic/ingenic-drm.c
->> index 6d47ef7b148c..d8617096dd8e 100644
->> --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
->> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
->> @@ -844,6 +844,8 @@ static const struct of_device_id ingenic_drm_of_matc=
-h[] =3D {
->> 	{ /* sentinel */ },
->> };
->> +MODULE_DEVICE_TABLE(of, ingenic_drm_of_match);
-> =
-
-> Also please remove the blank line above MODULE_DEVICE_TABLE.
-> =
-
-> Cheers,
-> -Paul
-
-Ok.
-
-BR and thanks,
-Nikolaus
-
-> =
-
->> +
->> static struct platform_driver ingenic_drm_driver =3D {
->> 	.driver =3D {
->> 		.name =3D "ingenic-drm",
+>> arch/mips/configs/ci20_defconfig | 1 +
+>> 1 file changed, 1 insertion(+)
+>> diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_d=
+efconfig
+>> index be41df2a81fb..e0d3c9d4c2ae 100644
+>> --- a/arch/mips/configs/ci20_defconfig
+>> +++ b/arch/mips/configs/ci20_defconfig
+>> @@ -1,4 +1,5 @@
+>> # CONFIG_LOCALVERSION_AUTO is not set
+>> +CONFIG_MODULES=3Dy
+>> CONFIG_KERNEL_XZ=3Dy
+>> CONFIG_SYSVIPC=3Dy
+>> CONFIG_POSIX_MQUEUE=3Dy
 >> --
 >> 2.23.0
 > =
