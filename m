@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4642015F518
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 19:37:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A77715F618
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 19:49:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5995E6FB8A;
-	Fri, 14 Feb 2020 18:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 583846FB90;
+	Fri, 14 Feb 2020 18:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB48C6FB84
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 18:36:59 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1581705421; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=Lve/8NkQ1+pW/USqTTKmFAidSUSOjj1HUCuP/rW4dNg=;
- b=ppVgsScurk+wKIFhV6qqP5d4rx6+xxAEwAqT2eync5a+RqK7hCtYVl5Orp8TM/mu1w/mZId8
- wLkgATbmR1nFLiuZrSEjVtMs0/NBkadarj5b1R6e2PtvJb5rA7Web7YSnE49l+QE7dCflKJy
- YKugiP37f/qq9oO21TQnnvhba7c=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e46e8c6.7f0c65b508f0-smtp-out-n01;
- Fri, 14 Feb 2020 18:36:54 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id EC391C447A4; Fri, 14 Feb 2020 18:36:53 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D597FC4479C;
- Fri, 14 Feb 2020 18:36:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D597FC4479C
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH] drm/msm/a5xx: Always set an OPP supported hardware value
-Date: Fri, 14 Feb 2020 11:36:44 -0700
-Message-Id: <1581705404-5124-1-git-send-email-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4C36FB89
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 18:49:40 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id e9so4279833pjr.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 10:49:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=Z9X+mnbPdiAT3gi0kBtvocX45hqfGLXwGRWm7XiWrUQ=;
+ b=fiI9CoPovHs74fmaFmlOCZw+PBp/qyX6P9JdrzpnP5akcLRhqwvvQHZCkXeNg27/P9
+ B0OGzoMmcNxWD9DcINrkF7JnQM4nNUjE/5vVWFOQskW4tj4YgXhlcvetn50Uw0hx+GBL
+ mdFjE0+85VM45BpsczLNE11gS4Gl5UCjOmCAY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Z9X+mnbPdiAT3gi0kBtvocX45hqfGLXwGRWm7XiWrUQ=;
+ b=IbT3o6LBIiiZwxv1GVjRcEhPmgEcj8DvQbQYse0nkCtJSRdBrlCqEhsb7FqG7Vzpkc
+ oRzOlaRU/kO1WUGpESw2eBer0eBO+eyMLWkutVGQ9J0trmDu5ieFOIYph7LCfWsHVTml
+ oLox5wceO/3AtYJb75AjKvpoKqmP21lx3iVvKkyqLtk5cZSOm4UnISTCkc3N50rQIugg
+ +NwFctji1rEnlXuMjM8g7Kl4GWXkrdcfIbbg86HYvkK1SLf4XdyS9WUEe3Evz8MGFcs0
+ 919Zc9F5edScEhgedSyHBmO8INYzuQ//XCqcYbBdlTuHbx+/nq4I7q6xU/7gl9UyVkXc
+ dNjw==
+X-Gm-Message-State: APjAAAXJdsmH5gDvBSptctQYymMPD2rX274By8ZCFY0NllOpnY1V8qIx
+ aSHSO9FQr5UGSKQwMy1ihVzr/A==
+X-Google-Smtp-Source: APXvYqynq99jlrl1qDm8z7d+FI9VC6ZSrWYeVFxihmLzWem1+jdU3ObIhzmt20oiM2H6je9jvHluKg==
+X-Received: by 2002:a17:902:6ac2:: with SMTP id
+ i2mr4611111plt.221.1581706179645; 
+ Fri, 14 Feb 2020 10:49:39 -0800 (PST)
+Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
+ by smtp.gmail.com with ESMTPSA id h3sm7530961pfo.102.2020.02.14.10.49.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Feb 2020 10:49:38 -0800 (PST)
+Date: Fri, 14 Feb 2020 10:49:37 -0800
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Harigovindan P <harigovi@codeaurora.org>
+Subject: Re: [v2] arm64: dts: sc7180: add dsi controller and phy entries for
+ idp dts
+Message-ID: <20200214184937.GA15781@google.com>
+References: <20200211113735.6840-1-harigovi@codeaurora.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200211113735.6840-1-harigovi@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,77 +66,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Dooks <ben.dooks@codethink.co.uk>,
- Thomas Gleixner <tglx@linutronix.de>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>, Sean Paul <sean@poorly.run>,
- Wen Yang <wen.yang99@zte.com.cn>
-MIME-Version: 1.0
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the opp table specifies opp-supported-hw as a property but the driver
-has not set a supported hardware value the OPP subsystem will reject
-all the table entries.
+On Tue, Feb 11, 2020 at 05:07:35PM +0530, Harigovindan P wrote:
 
-Set a "default" value that will match the default table entries but not
-conflict with any possible real bin values. Also fix a small memory leak
-and free the buffer allocated by nvmem_cell_read().
+> subject: arm64: dts: sc7180: add dsi controller and phy entries for idp dts
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
+nit: 'dts' at the end is redundant, the prefixes make it clear that this
+is about DT entries.
 
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+Also the message isn't really concise. The main entries for the DSI
+controller and the PHY are in sc7180.dtsi. I would suggest to drop
+any mentions of DSI controller and PHYs, and just say something like
+'Add nodes for IDP display'. In the body you could mention that the
+display is the Visionox RM69299.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index 7d9e63e..724024a 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -1446,18 +1446,31 @@ static const struct adreno_gpu_funcs funcs = {
- static void check_speed_bin(struct device *dev)
- {
- 	struct nvmem_cell *cell;
--	u32 bin, val;
-+	u32 val;
+> Adding dsi controller and phy entries for idp dt.
+> 
+> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+> ---
+> 
+> Changes in v1:
+> 	- Added dsi controller and dsi phy entries for idp dts
+
+Changes in v1 is pointless, it's the first patch
+
+> Changes in v2:
+> 	- Adding dependency patchwork series
+> 	- Removing suspend configuration
+> 	- Adding blank before curly brace
+> 
+> This patch depends on following patchwork series:
+> 
+> https://patchwork.kernel.org/patch/11364687/
+> https://patchwork.kernel.org/patch/11366303/
+> 
+>  arch/arm64/boot/dts/qcom/sc7180-idp.dts | 55 +++++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> index 388f50ad4fde..6ccf8c3603ab 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> +++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> @@ -7,6 +7,7 @@
+>  
+>  /dts-v1/;
+>  
+> +#include <dt-bindings/gpio/gpio.h>
+>  #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+>  #include "sc7180.dtsi"
+>  #include "pm6150.dtsi"
+> @@ -232,6 +233,49 @@ vreg_bob: bob {
+>  	};
+>  };
+>  
+> +&dsi0 {
+> +	status = "okay";
+> +
+> +	vdda-supply = <&vreg_l3c_1p2>;
+> +
+> +	panel@0 {
+> +		compatible = "visionox,rm69299-1080p-display";
+> +		reg = <0>;
+> +
+> +		vdda-supply = <&vreg_l8c_1p8>;
+> +		vdd3p3-supply = <&vreg_l18a_2p8>;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&disp_pins>;
+> +
+> +		reset-gpios = <&pm6150l_gpio 3 GPIO_ACTIVE_HIGH>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			port@0 {
+> +				reg = <0>;
+> +				panel0_in: endpoint {
+> +					remote-endpoint = <&dsi0_out>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +
+> +	ports {
+> +		port@1 {
+> +			endpoint {
+> +				remote-endpoint = <&panel0_in>;
+> +				data-lanes = <0 1 2 3>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&dsi_phy {
+> +	status = "okay";
+> +};
+> +
+>  &qspi {
+>  	status = "okay";
+>  	pinctrl-names = "default";
+> @@ -289,6 +333,17 @@ &usb_1_qmpphy {
+>  
+>  /* PINCTRL - additions to nodes defined in sc7180.dtsi */
+>  
+> +&pm6150l_gpio {
+> +	disp_pins: disp-pins {
+> +		pins = "gpio3";
+> +		function = "func1";
+> +		qcom,drive-strength = <2>;
+> +		power-source = <0>;
+> +		bias-disable;
+> +		output-low;
+> +	};
+> +};
+> +
+>  &qspi_clk {
+>  	pinconf {
+>  		pins = "gpio63";
+
+To get the display actually to work you also need this:
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+index 88919da1510b03..fdbcb56dfa81f9 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
++++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+@@ -276,6 +276,14 @@
+        status = "okay";
+ };
+
++&mdp {
++       status = "okay";
++};
 +
-+	/*
-+	 * If the OPP table specifies a opp-supported-hw property then we have
-+	 * to set something with dev_pm_opp_set_supported_hw() or the table
-+	 * doesn't get populated so pick an arbitrary value that should
-+	 * ensure the default frequencies are selected but not conflict with any
-+	 * actual bins
-+	 */
-+	val = 0x80;
- 
- 	cell = nvmem_cell_get(dev, "speed_bin");
- 
--	/* If a nvmem cell isn't defined, nothing to do */
--	if (IS_ERR(cell))
--		return;
-+	if (!IS_ERR(cell)) {
-+		void *buf = nvmem_cell_read(cell, NULL);
++&mdss {
++       status = "okay";
++};
 +
-+		if (!IS_ERR(buf)) {
-+			u8 bin = *((u8 *) buf);
- 
--	bin = *((u32 *) nvmem_cell_read(cell, NULL));
--	nvmem_cell_put(cell);
-+			val = (1 << bin);
-+			kfree(buf);
-+		}
- 
--	val = (1 << bin);
-+		nvmem_cell_put(cell);
-+	}
- 
- 	dev_pm_opp_set_supported_hw(dev, &val, 1);
- }
--- 
-2.7.4
+ &qspi {
+        status = "okay";
+        pinctrl-names = "default";
+
+Maybe just add this to this patch?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
