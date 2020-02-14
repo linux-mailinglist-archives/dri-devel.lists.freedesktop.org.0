@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9FAC15DC23
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7842A15DC34
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:53:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 700DF6F9B3;
-	Fri, 14 Feb 2020 15:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 575976F9C8;
+	Fri, 14 Feb 2020 15:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE3986F9B4;
- Fri, 14 Feb 2020 15:52:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBBBA6F9B3;
+ Fri, 14 Feb 2020 15:52:25 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AF47624676;
- Fri, 14 Feb 2020 15:52:23 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0009424673;
+ Fri, 14 Feb 2020 15:52:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695544;
- bh=Zyh3gxQCNHNRIhs5e1XYrjc0NPYFdY4P2QPnyJn75c0=;
+ s=default; t=1581695545;
+ bh=Q4JZlLKaoaY9EBcVmw7f8lt78ZDUSaFNgPHucgZNZJU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=x07HsUGBggJefPForajyuyOuI56xL1899vS6E2KLvJjNdFotKIVgBkFxB6YkaBp8P
- bPIBD5STnuJ8SEKc6Ppsd21JIGSi069/o8jN+AIqEZNHPsNM9MBKV+TyU+iWitMWp8
- Cth9gRTk/Iy4xtslFdD2e03KTxqHFRcz7l7HFnCk=
+ b=pZoHZLTb72yCe7pJzQUDwH0R/4bclyKl06kw8UoK0lKcxKkP0MRS+n8EM8qJukELR
+ 05V8GkepKuAnR/l4qn00TU86dV8qnCu+azTwjYM73KbYMcGX9sssu//ZmJXmXMP9S0
+ 0apJJ4wNR+vaBomio5EHFiO/6Ex+sJR5x4Y4bXcY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 161/542] drm/radeon: remove set but not used
- variable 'size', 'relocs_chunk'
-Date: Fri, 14 Feb 2020 10:42:33 -0500
-Message-Id: <20200214154854.6746-161-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 162/542] drm/radeon: remove set but not used
+ variable 'backbias_response_time'
+Date: Fri, 14 Feb 2020 10:42:34 -0500
+Message-Id: <20200214154854.6746-162-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -60,88 +60,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: zhengbin <zhengbin13@huawei.com>
 
-[ Upstream commit e9f782dd22c0e17874b8b8e12aafcd3a06810dd0 ]
+[ Upstream commit ac52caecbcf2c30ce95b2536c1caf2643c49b91c ]
 
 Fixes gcc '-Wunused-but-set-variable' warning:
 
-drivers/gpu/drm/radeon/r600_cs.c: In function r600_cs_track_validate_cb:
-drivers/gpu/drm/radeon/r600_cs.c:353:22: warning: variable size set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/radeon/r600_cs.c: In function r600_cs_track_validate_db:
-drivers/gpu/drm/radeon/r600_cs.c:520:27: warning: variable size set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/radeon/r600_cs.c: In function r600_dma_cs_next_reloc:
-drivers/gpu/drm/radeon/r600_cs.c:2345:26: warning: variable relocs_chunk set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/radeon/si_dpm.c: In function si_program_response_times:
+drivers/gpu/drm/radeon/si_dpm.c:3640:29: warning: variable backbias_response_time set but not used [-Wunused-but-set-variable]
 
-The first 'size' is not used since commit f30df2fad0c9 ("drm/radeon/r600:
-fix tiling issues in CS checker.")
-
-The second 'size' is introduced by commit 88f50c80748b ("drm/radeon/kms:
-add htile support to the cs checker v3"), but never used, so remove it.
-
-'relocs_chunk' is not used since commit 9305ede6afe2 ("radeon/kms:
-fix dma relocation checking")
+It is introduced by commit a9e61410921b ("drm/radeon/kms:
+add dpm support for SI (v7)"), but never used, so remove it.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: zhengbin <zhengbin13@huawei.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/radeon/r600_cs.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/radeon/si_dpm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r600_cs.c
-index d6c28a5d77abb..49e8266461f85 100644
---- a/drivers/gpu/drm/radeon/r600_cs.c
-+++ b/drivers/gpu/drm/radeon/r600_cs.c
-@@ -350,7 +350,7 @@ static void r600_cs_track_init(struct r600_cs_track *track)
- static int r600_cs_track_validate_cb(struct radeon_cs_parser *p, int i)
- {
- 	struct r600_cs_track *track = p->track;
--	u32 slice_tile_max, size, tmp;
-+	u32 slice_tile_max, tmp;
- 	u32 height, height_align, pitch, pitch_align, depth_align;
- 	u64 base_offset, base_align;
- 	struct array_mode_checker array_check;
-@@ -360,7 +360,6 @@ static int r600_cs_track_validate_cb(struct radeon_cs_parser *p, int i)
- 	/* When resolve is used, the second colorbuffer has always 1 sample. */
- 	unsigned nsamples = track->is_resolve && i == 1 ? 1 : track->nsamples;
+diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
+index a0b382a637a64..8148a7883de43 100644
+--- a/drivers/gpu/drm/radeon/si_dpm.c
++++ b/drivers/gpu/drm/radeon/si_dpm.c
+@@ -3640,14 +3640,13 @@ static int si_notify_smc_display_change(struct radeon_device *rdev,
  
--	size = radeon_bo_size(track->cb_color_bo[i]) - track->cb_color_bo_offset[i];
- 	format = G_0280A0_FORMAT(track->cb_color_info[i]);
- 	if (!r600_fmt_is_valid_color(format)) {
- 		dev_warn(p->dev, "%s:%d cb invalid format %d for %d (0x%08X)\n",
-@@ -517,7 +516,7 @@ static int r600_cs_track_validate_cb(struct radeon_cs_parser *p, int i)
- static int r600_cs_track_validate_db(struct radeon_cs_parser *p)
+ static void si_program_response_times(struct radeon_device *rdev)
  {
- 	struct r600_cs_track *track = p->track;
--	u32 nviews, bpe, ntiles, size, slice_tile_max, tmp;
-+	u32 nviews, bpe, ntiles, slice_tile_max, tmp;
- 	u32 height_align, pitch_align, depth_align;
- 	u32 pitch = 8192;
- 	u32 height = 8192;
-@@ -564,7 +563,6 @@ static int r600_cs_track_validate_db(struct radeon_cs_parser *p)
- 		}
- 		ib[track->db_depth_size_idx] = S_028000_SLICE_TILE_MAX(tmp - 1) | (track->db_depth_size & 0x3FF);
- 	} else {
--		size = radeon_bo_size(track->db_bo);
- 		/* pitch in pixels */
- 		pitch = (G_028000_PITCH_TILE_MAX(track->db_depth_size) + 1) * 8;
- 		slice_tile_max = G_028000_SLICE_TILE_MAX(track->db_depth_size) + 1;
-@@ -2342,7 +2340,6 @@ int r600_cs_parse(struct radeon_cs_parser *p)
- int r600_dma_cs_next_reloc(struct radeon_cs_parser *p,
- 			   struct radeon_bo_list **cs_reloc)
- {
--	struct radeon_cs_chunk *relocs_chunk;
- 	unsigned idx;
+-	u32 voltage_response_time, backbias_response_time, acpi_delay_time, vbi_time_out;
++	u32 voltage_response_time, acpi_delay_time, vbi_time_out;
+ 	u32 vddc_dly, acpi_dly, vbi_dly;
+ 	u32 reference_clock;
  
- 	*cs_reloc = NULL;
-@@ -2350,7 +2347,6 @@ int r600_dma_cs_next_reloc(struct radeon_cs_parser *p,
- 		DRM_ERROR("No relocation chunk !\n");
- 		return -EINVAL;
- 	}
--	relocs_chunk = p->chunk_relocs;
- 	idx = p->dma_reloc_idx;
- 	if (idx >= p->nrelocs) {
- 		DRM_ERROR("Relocs at %d after relocations chunk end %d !\n",
+ 	si_write_smc_soft_register(rdev, SI_SMC_SOFT_REGISTER_mvdd_chg_time, 1);
+ 
+ 	voltage_response_time = (u32)rdev->pm.dpm.voltage_response_time;
+-	backbias_response_time = (u32)rdev->pm.dpm.backbias_response_time;
+ 
+ 	if (voltage_response_time == 0)
+ 		voltage_response_time = 1000;
 -- 
 2.20.1
 
