@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B97C15DCF2
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:56:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FCA15DCF4
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:56:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA186F9D7;
-	Fri, 14 Feb 2020 15:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46F5E6F9DA;
+	Fri, 14 Feb 2020 15:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F15876F9D7;
- Fri, 14 Feb 2020 15:56:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7526F9DA;
+ Fri, 14 Feb 2020 15:56:35 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 19B802187F;
- Fri, 14 Feb 2020 15:56:33 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3B19C206D7;
+ Fri, 14 Feb 2020 15:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695793;
- bh=XF+uKzWVjCkasEVsHuILsvLeJGCAQ0To9bSluYuOIk4=;
+ s=default; t=1581695794;
+ bh=38p9MvRGjy//9Vx20f5bGwTQYOMD8UNHHMDJnca5RVU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sP52La0EXKDondHuyiWvqIPkNnGhW0V4WCm48U5kLYK3fWbx5hZ8IVabgvsEew+a1
- XDrdgJcTtr+/tN4nu+82+aAtJjus6rgwrWAt0K9Tcw9Xv95XHRO7Fn62E3Y7US0AXp
- w3lfGKNN4uLmpGXs7692CtCBXLT8veRMpTtKkTa4=
+ b=JfZdzOEvF053zPYeyvWR2WVe6DU3keu2PO+PxYiZPLKpYFfm7zzcvdMh91QYYnXMn
+ QsNDynEhSxVAJAKmctvsjAKQw1a6o8v17hOKqHDVNMogzC79U5fityfV8sJMPK7jk+
+ KTfi1wbWwjX95xTaReZu0F6nQqIxWDNoY/vD8pi0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 355/542] drm/nouveau/secboot/gm20b: initialize
- pointer in gm20b_secboot_new()
-Date: Fri, 14 Feb 2020 10:45:47 -0500
-Message-Id: <20200214154854.6746-355-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 356/542] drm/nouveau/gr/gk20a,
+ gm200-: add terminators to method lists read from fw
+Date: Fri, 14 Feb 2020 10:45:48 -0500
+Message-Id: <20200214154854.6746-356-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -51,53 +51,79 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Ben Skeggs <bskeggs@redhat.com>
 
-[ Upstream commit 3613a9bea95a1470dd42e4ed1cc7d86ebe0a2dc0 ]
+[ Upstream commit 7adc77aa0e11f25b0e762859219c70852cd8d56f ]
 
-We accidentally set "psb" which is a no-op instead of "*psb" so it
-generates a static checker warning.  We should probably set it before
-the first error return so that it's always initialized.
+Method init is typically ordered by class in the FW image as ThreeD,
+TwoD, Compute.
 
-Fixes: 923f1bd27bf1 ("drm/nouveau/secboot/gm20b: add secure boot support")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Due to a bug in parsing the FW into our internal format, we've been
+accidentally sending Twod + Compute methods to the ThreeD class, as
+well as Compute methods to the TwoD class - oops.
+
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ .../gpu/drm/nouveau/nvkm/engine/gr/gk20a.c    | 21 ++++++++++---------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-index df8b919dcf09b..ace6fefba4280 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-@@ -108,6 +108,7 @@ gm20b_secboot_new(struct nvkm_device *device, int index,
- 	struct gm200_secboot *gsb;
- 	struct nvkm_acr *acr;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
+index 500cb08dd6080..b57ab5cea9a10 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
+@@ -143,23 +143,24 @@ gk20a_gr_av_to_method(struct gf100_gr *gr, const char *fw_name,
  
-+	*psb = NULL;
- 	acr = acr_r352_new(BIT(NVKM_SECBOOT_FALCON_FECS) |
- 			   BIT(NVKM_SECBOOT_FALCON_PMU));
- 	if (IS_ERR(acr))
-@@ -116,10 +117,8 @@ gm20b_secboot_new(struct nvkm_device *device, int index,
- 	acr->optional_falcons = BIT(NVKM_SECBOOT_FALCON_PMU);
+ 	nent = (fuc.size / sizeof(struct gk20a_fw_av));
  
- 	gsb = kzalloc(sizeof(*gsb), GFP_KERNEL);
--	if (!gsb) {
--		psb = NULL;
-+	if (!gsb)
- 		return -ENOMEM;
--	}
- 	*psb = &gsb->base;
+-	pack = vzalloc((sizeof(*pack) * max_classes) +
+-		       (sizeof(*init) * (nent + 1)));
++	pack = vzalloc((sizeof(*pack) * (max_classes + 1)) +
++		       (sizeof(*init) * (nent + max_classes + 1)));
+ 	if (!pack) {
+ 		ret = -ENOMEM;
+ 		goto end;
+ 	}
  
- 	ret = nvkm_secboot_ctor(&gm20b_secboot, acr, device, index, &gsb->base);
+-	init = (void *)(pack + max_classes);
++	init = (void *)(pack + max_classes + 1);
+ 
+-	for (i = 0; i < nent; i++) {
+-		struct gf100_gr_init *ent = &init[i];
++	for (i = 0; i < nent; i++, init++) {
+ 		struct gk20a_fw_av *av = &((struct gk20a_fw_av *)fuc.data)[i];
+ 		u32 class = av->addr & 0xffff;
+ 		u32 addr = (av->addr & 0xffff0000) >> 14;
+ 
+ 		if (prevclass != class) {
+-			pack[classidx].init = ent;
++			if (prevclass) /* Add terminator to the method list. */
++				init++;
++			pack[classidx].init = init;
+ 			pack[classidx].type = class;
+ 			prevclass = class;
+ 			if (++classidx >= max_classes) {
+@@ -169,10 +170,10 @@ gk20a_gr_av_to_method(struct gf100_gr *gr, const char *fw_name,
+ 			}
+ 		}
+ 
+-		ent->addr = addr;
+-		ent->data = av->data;
+-		ent->count = 1;
+-		ent->pitch = 1;
++		init->addr = addr;
++		init->data = av->data;
++		init->count = 1;
++		init->pitch = 1;
+ 	}
+ 
+ 	*ppack = pack;
 -- 
 2.20.1
 
