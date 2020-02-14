@@ -2,40 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBB415F72D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 20:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9AD15F773
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 21:07:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815096FB95;
-	Fri, 14 Feb 2020 19:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6A176FB9C;
+	Fri, 14 Feb 2020 20:07:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCB9E6FB95
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 19:52:30 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2020 11:52:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,441,1574150400"; d="scan'208";a="228586264"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com)
- ([10.54.74.202])
- by fmsmga008.fm.intel.com with ESMTP; 14 Feb 2020 11:52:29 -0800
-Date: Fri, 14 Feb 2020 11:52:29 -0800
-From: Sean Christopherson <sean.j.christopherson@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
-Message-ID: <20200214195229.GF20690@linux.intel.com>
-References: <20200213213036.207625-1-olvaffe@gmail.com>
- <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
- <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
- <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54B446E86C;
+ Fri, 14 Feb 2020 20:07:17 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id k11so12325567wrd.9;
+ Fri, 14 Feb 2020 12:07:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vd6W0wjDcFJCl/ABzyCdJXEUtR9Unm1DtVjv55fqtuk=;
+ b=svIlGFKvH9Xc0P603FWA9KJK9E8DHvqZq1VOJWP69/Wgg4LhwWeYwTBaHRHx1Zq0lm
+ zjcV4AvoQKlB9zyc53b1sMRx7+8IxdDeh3/qBmufSgGM6LJ5cGeADy5011egqFgXwwg3
+ QZQ2IDM9b0Dvxlh4/gFnA+Sj2cVVXZf9A5E3Fj+hOzrUYBhDHAwzF0pOMYxSwxDGKuKA
+ sq8/SfEE/HfcGORhM9klnuTHPxTAMgvSL2KCLYVDgbD+Gn3V812XpE8T0rBm22kvoySB
+ J5Y4QXTS8LJ2VAsgJlQGtxjrVXoKiu8GIym3AKc7g57xmlzUvMvpfg2GXulAJlLO63X/
+ LUEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vd6W0wjDcFJCl/ABzyCdJXEUtR9Unm1DtVjv55fqtuk=;
+ b=p5kmDCF1Q7H+UvI1Fm2quFnp9aJUkcObgGYChcvelYBMoYnMGmHnQywcriWGRcIi6e
+ UJqvfY3M4fNJ1UlYkyIlWpFaljZpNENcNFo+s+rTV7hb9j60eXs/bjgFbN/KVqkt3uPf
+ jRc8ozvHdCs1JNj349SxPgueAzEgFA9fXYLs2a6El2ayV0LdReqEP8GP/LnzTVoTjYw2
+ YEbhaGpjJv/exqdNG7B3uZQliGTtXr9+FlHIu+Z4fmBJdxO5ITJ4IYcdUiupDR1hZ32M
+ 5mjGdGIJ5rLPMj6uKI6j7db/v96+n4J8bRB28yo6dylvUt8Q3/Gka9uMD/ocU17yc8ZE
+ QzdA==
+X-Gm-Message-State: APjAAAXg1Z/FPVeLE0kRhzJfALsePPJF6qHS8o0hrwHW8rVeOw81yrc5
+ 4DCBTC69D+Y4Er3qRV3VnNka4gr1SLrwjoj5WXw=
+X-Google-Smtp-Source: APXvYqxM5Zmz3lGNP5hYzb0HjFcAfb6cX66LDslQJjh7ecQydS16T1AaYzUdOWRDlk1Ops67yvYg8cIcgPxIqMsrOus=
+X-Received: by 2002:a05:6000:1183:: with SMTP id
+ g3mr5775729wrx.374.1581710835710; 
+ Fri, 14 Feb 2020 12:07:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20200207211713.3870-1-alexander.deucher@amd.com>
+ <20200214073934.GV2363188@phenom.ffwll.local>
+ <CADnq5_PW7QwUk6TdaWiY3i=udua1REkw0HDQZ3eBwk4Xg24OSg@mail.gmail.com>
+ <20200214183514.GZ2363188@phenom.ffwll.local>
+In-Reply-To: <20200214183514.GZ2363188@phenom.ffwll.local>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 14 Feb 2020 15:07:04 -0500
+Message-ID: <CADnq5_Pr90Qvkn2XezPciA_La=5W_ng=QZ_5_tcfM5qteKo=Wg@mail.gmail.com>
+Subject: Re: [PATCH 13/15] drm/amdgpu/display: split dp connector registration
+ (v3)
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,119 +65,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wanpengli@tencent.com, kvm@vger.kernel.org, joro@8bytes.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, vkuznets@redhat.com, jmattson@google.com
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2020 at 11:26:06AM +0100, Paolo Bonzini wrote:
-> On 13/02/20 23:18, Chia-I Wu wrote:
-> > 
-> > The bug you mentioned was probably this one
-> > 
-> >   https://bugzilla.kernel.org/show_bug.cgi?id=104091
-> 
-> Yes, indeed.
-> 
-> > From what I can tell, the commit allowed the guests to create cached
-> > mappings to MMIO regions and caused MCEs.  That is different than what
-> > I need, which is to allow guests to create uncached mappings to system
-> > ram (i.e., !kvm_is_mmio_pfn) when the host userspace also has uncached
-> > mappings.  But it is true that this still allows the userspace & guest
-> > kernel to create conflicting memory types.
+On Fri, Feb 14, 2020 at 1:35 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Fri, Feb 14, 2020 at 12:39:22PM -0500, Alex Deucher wrote:
+> > On Fri, Feb 14, 2020 at 2:39 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Fri, Feb 07, 2020 at 04:17:13PM -0500, Alex Deucher wrote:
+> > > > Split into init and register functions to avoid a segfault
+> > > > in some configs when the load/unload callbacks are removed.
+> > > >
+> > > > v2:
+> > > > - add back accidently dropped has_aux setting
+> > > > - set dev in late_register
+> > > >
+> > > > v3:
+> > > > - fix dp cec ordering
+> > >
+> > > Why did you move this back out of the late_register callback when going
+> > > from v2->v3? In i915 we register the cec stuff from ->late_register, like
+> >
+> > I got a bunch of complaints from the cec code when I had it switched
+> > the other way.  They went away when I moved it back.  I don't remember
+> > the exact messages off hand.
+>
+> Would be interesting to learn want went wrong, just in case there's a core
+> bug here somewhere that prevents drivers from tdtr. But definitely no
+> reason to hold off this patch.
 
-This is ok. 
+I'll repo it next week and send it out for posterity.  Thanks for the review.
 
-> Right, the question is whether the MCEs were tied to MMIO regions 
-> specifically and if so why.
+Alex
 
-99.99999% likelihood the answer is "yes".  Cacheable accesses to non-existent
-memory and most (all?) MMIO regions will cause a #MC.  This includes
-speculative accesses.
-
-Commit fd717f11015f ("KVM: x86: apply guest MTRR virtualization on host
-reserved pages") explicitly had a comment "1. MMIO: trust guest MTRR",
-which is basically a direct avenue to generating #MCs.
-
-IIRC, WC accesses to non-existent memory will also cause #MC, but KVM has
-bigger problems if it has PRESENT EPTEs pointing at garbage. 
-
-> An interesting remark is in the footnote of table 11-7 in the SDM.  
-> There, for the MTRR (EPT for us) memory type UC you can read:
-> 
->   The UC attribute comes from the MTRRs and the processors are not 
->   required to snoop their caches since the data could never have
->   been cached. This attribute is preferred for performance reasons.
-> 
-> There are two possibilities:
-> 
-> 1) the footnote doesn't apply to UC mode coming from EPT page tables.
-> That would make your change safe.
-> 
-> 2) the footnote also applies when the UC attribute comes from the EPT
-> page tables rather than the MTRRs.  In that case, the host should use
-> UC as the EPT page attribute if and only if it's consistent with the host
-> MTRRs; it would be more or less impossible to honor UC in the guest MTRRs.
-> In that case, something like the patch below would be needed.
-
-(2), the EPTs effectively replace the MTRRs.  The expectation being that
-the VMM will use always use EPT memtypes consistent with the MTRRs.
-
-> It is not clear from the manual why the footnote would not apply to WC; that
-> is, the manual doesn't say explicitly that the processor does not do snooping
-> for accesses to WC memory.  But I guess that must be the case, which is why I
-> used MTRR_TYPE_WRCOMB in the patch below.
-
-A few paragraphs below table 11-12 states:
-
-  In particular, a WC page must never be aliased to a cacheable page because
-  WC writes may not check the processor caches.
-
-> Either way, we would have an explanation of why creating cached mapping to
-> MMIO regions would, and why in practice we're not seeing MCEs for guest RAM
-> (the guest would have set WB for that memory in its MTRRs, not UC).
-
-Aliasing (physical) RAM with different memtypes won't cause #MC, just
-memory corruption.
- 
-> One thing you didn't say: how would userspace use KVM_MEM_DMA?  On which
-> regions would it be set?
-> 
-> Thanks,
-> 
-> Paolo
-> 
-> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index dc331fb06495..2be6f7effa1d 100644
-> --- a/arch/x86/kvm/vmx/vmx.c
-> +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -6920,8 +6920,16 @@ static u64 vmx_get_mt_mask(struct kvm_vcpu *vcpu, gfn_t gfn, bool is_mmio)
->  	}
->  
->  	cache = kvm_mtrr_get_guest_memory_type(vcpu, gfn);
-> -
->  exit:
-> +	if (cache == MTRR_TYPE_UNCACHABLE && !is_mmio) {
-> +		/*
-> +		 * We cannot set UC in the EPT page tables as it can cause
-> +		 * machine check exceptions (??).  Hopefully the guest is
-> +		 * using PAT.
-> +		 */
-> +		cache = MTRR_TYPE_WRCOMB;
-
-This is unnecessary.  Setting UC in the EPT tables will never directly lead
-to #MC.  Forcing WC is likely more dangerous.
-
-> +	}
-> +
->  	return (cache << VMX_EPT_MT_EPTE_SHIFT) | ipat;
->  }
->  
-> 
+> -Daniel
+>
+> >
+> > Alex
+> >
+> > > anything else userspace visible. Maybe follow-up patch (the idea behind
+> > > removing the ->load callback is to close all the driver load races,
+> > > instead of only open("/dev/dri/0"), which is protected by
+> > > drm_global_mutex). On this:
+> > >
+> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > >
+> > > Cheers, Daniel
+> > >
+> > > >
+> > > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > > > ---
+> > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c   | 16 ++++++++++++++++
+> > > >  drivers/gpu/drm/amd/amdgpu/atombios_dp.c         | 10 ++--------
+> > > >  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  |  7 ++++++-
+> > > >  3 files changed, 24 insertions(+), 9 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> > > > index ec1501e3a63a..f355d9a752d2 100644
+> > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> > > > @@ -1461,6 +1461,20 @@ static enum drm_mode_status amdgpu_connector_dp_mode_valid(struct drm_connector
+> > > >       return MODE_OK;
+> > > >  }
+> > > >
+> > > > +static int
+> > > > +amdgpu_connector_late_register(struct drm_connector *connector)
+> > > > +{
+> > > > +     struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+> > > > +     int r = 0;
+> > > > +
+> > > > +     if (amdgpu_connector->ddc_bus->has_aux) {
+> > > > +             amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
+> > > > +             r = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
+> > > > +     }
+> > > > +
+> > > > +     return r;
+> > > > +}
+> > > > +
+> > > >  static const struct drm_connector_helper_funcs amdgpu_connector_dp_helper_funcs = {
+> > > >       .get_modes = amdgpu_connector_dp_get_modes,
+> > > >       .mode_valid = amdgpu_connector_dp_mode_valid,
+> > > > @@ -1475,6 +1489,7 @@ static const struct drm_connector_funcs amdgpu_connector_dp_funcs = {
+> > > >       .early_unregister = amdgpu_connector_unregister,
+> > > >       .destroy = amdgpu_connector_destroy,
+> > > >       .force = amdgpu_connector_dvi_force,
+> > > > +     .late_register = amdgpu_connector_late_register,
+> > > >  };
+> > > >
+> > > >  static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
+> > > > @@ -1485,6 +1500,7 @@ static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
+> > > >       .early_unregister = amdgpu_connector_unregister,
+> > > >       .destroy = amdgpu_connector_destroy,
+> > > >       .force = amdgpu_connector_dvi_force,
+> > > > +     .late_register = amdgpu_connector_late_register,
+> > > >  };
+> > > >
+> > > >  void
+> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> > > > index ea702a64f807..9b74cfdba7b8 100644
+> > > > --- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> > > > +++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> > > > @@ -186,16 +186,10 @@ amdgpu_atombios_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m
+> > > >
+> > > >  void amdgpu_atombios_dp_aux_init(struct amdgpu_connector *amdgpu_connector)
+> > > >  {
+> > > > -     int ret;
+> > > > -
+> > > >       amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector->hpd.hpd;
+> > > > -     amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
+> > > >       amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
+> > > > -     ret = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
+> > > > -     if (!ret)
+> > > > -             amdgpu_connector->ddc_bus->has_aux = true;
+> > > > -
+> > > > -     WARN(ret, "drm_dp_aux_register_i2c_bus() failed with error %d\n", ret);
+> > > > +     drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
+> > > > +     amdgpu_connector->ddc_bus->has_aux = true;
+> > > >  }
+> > > >
+> > > >  /***** general DP utility functions *****/
+> > > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > > > index 3959c942c88b..d5b9e72f2649 100644
+> > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > > > @@ -155,6 +155,11 @@ amdgpu_dm_mst_connector_late_register(struct drm_connector *connector)
+> > > >       struct amdgpu_dm_connector *amdgpu_dm_connector =
+> > > >               to_amdgpu_dm_connector(connector);
+> > > >       struct drm_dp_mst_port *port = amdgpu_dm_connector->port;
+> > > > +     int r;
+> > > > +
+> > > > +     r = drm_dp_aux_register(&amdgpu_dm_connector->dm_dp_aux.aux);
+> > > > +     if (r)
+> > > > +             return r;
+> > > >
+> > > >  #if defined(CONFIG_DEBUG_FS)
+> > > >       connector_debugfs_init(amdgpu_dm_connector);
+> > > > @@ -484,7 +489,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
+> > > >       aconnector->dm_dp_aux.aux.transfer = dm_dp_aux_transfer;
+> > > >       aconnector->dm_dp_aux.ddc_service = aconnector->dc_link->ddc;
+> > > >
+> > > > -     drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
+> > > > +     drm_dp_aux_init(&aconnector->dm_dp_aux.aux);
+> > > >       drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
+> > > >                                     &aconnector->base);
+> > > >
+> > > > --
+> > > > 2.24.1
+> > > >
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
