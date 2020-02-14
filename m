@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA7915E0B4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:15:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4158315E0C8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:15:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3E66FAC3;
-	Fri, 14 Feb 2020 16:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD296FAC6;
+	Fri, 14 Feb 2020 16:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADDFD6FABD
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:15:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4329B6FAC4;
+ Fri, 14 Feb 2020 16:15:39 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B74E6246E2;
- Fri, 14 Feb 2020 16:15:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0E60C246F2;
+ Fri, 14 Feb 2020 16:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581696926;
- bh=Ces36Xuxm/J0MsYy3dOMzXQo+/rdaggAr3cJHw5nClQ=;
+ s=default; t=1581696939;
+ bh=yzoiKmt3nAhRVtfsDr9a8b1lx8fMEShoEFhjBaCQzqo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UyZF22T/IsWhgnT70DKMXm1tPrgek2QtHqtS5G525YuUxCTuKJoReFBo74azvDQLY
- wfJUjgELEeHj9wqpLqR0z/8dPwydZ0tXSbBYG10VlmuQzV61fg6OMOln9RjDraVaW1
- mPT30D4AVZ3Wv8Az1k2QlGif2S3k1Xv4pJZIYdgg=
+ b=EiYQZ+no92DsJUaJqDmI+k5PTnBNU4JWikS9ySV2BtzGVPKk5lC2nZnM5kO50YMZj
+ 64ils+SW8zaIi8o9g4qH1fL24sbtt0EwQ/NwFnt3CN/CxYYK2/DieGxo/Y0PV2O9X8
+ 4lMkHONjBnYuz/A61i5TLW2DaAt7aOrjCnLysvyw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 173/252] drm/vmwgfx: prevent memory leak in
- vmw_cmdbuf_res_add
-Date: Fri, 14 Feb 2020 11:10:28 -0500
-Message-Id: <20200214161147.15842-173-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 182/252] drm/amd/display: fixup DML dependencies
+Date: Fri, 14 Feb 2020 11:10:37 -0500
+Message-Id: <20200214161147.15842-182-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
 References: <20200214161147.15842-1-sashal@kernel.org>
@@ -50,45 +49,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Thomas Hellstrom <thellstrom@vmware.com>,
- dri-devel@lists.freedesktop.org, Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, Anthony Koo <Anthony.Koo@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
+From: Jun Lei <Jun.Lei@amd.com>
 
-[ Upstream commit 40efb09a7f53125719e49864da008495e39aaa1e ]
+[ Upstream commit 34ad0230062c39cdcba564d16d122c0fb467a7d6 ]
 
-In vmw_cmdbuf_res_add if drm_ht_insert_item fails the allocated memory
-for cres should be released.
+[why]
+Need to fix DML portability issues to enable SW unit testing around DML
 
-Fixes: 18e4a4669c50 ("drm/vmwgfx: Fix compat shader namespace")
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-Reviewed-by: Thomas Hellstrom <thellstrom@vmware.com>
-Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
+[how]
+Move calcs into dc include folder since multiple components reference it
+Remove relative paths to external dependencies
+
+Signed-off-by: Jun Lei <Jun.Lei@amd.com>
+Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
+Acked-by: Harry Wentland <harry.wentland@amd.com>
+Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dml/dml_common_defs.c          | 2 +-
+ drivers/gpu/drm/amd/display/dc/dml/dml_inline_defs.h          | 2 +-
+ drivers/gpu/drm/amd/display/dc/{calcs => inc}/dcn_calc_math.h | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename drivers/gpu/drm/amd/display/dc/{calcs => inc}/dcn_calc_math.h (100%)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-index 3b75af9bf85f3..f27bd7cff579d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-@@ -210,8 +210,10 @@ int vmw_cmdbuf_res_add(struct vmw_cmdbuf_res_manager *man,
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dml_common_defs.c b/drivers/gpu/drm/amd/display/dc/dml/dml_common_defs.c
+index b953b02a15121..723af0b2dda04 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dml_common_defs.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dml_common_defs.c
+@@ -24,7 +24,7 @@
+  */
  
- 	cres->hash.key = user_key | (res_type << 24);
- 	ret = drm_ht_insert_item(&man->resources, &cres->hash);
--	if (unlikely(ret != 0))
-+	if (unlikely(ret != 0)) {
-+		kfree(cres);
- 		goto out_invalid_key;
-+	}
+ #include "dml_common_defs.h"
+-#include "../calcs/dcn_calc_math.h"
++#include "dcn_calc_math.h"
  
- 	cres->state = VMW_CMDBUF_RES_ADD;
- 	cres->res = vmw_resource_reference(res);
+ #include "dml_inline_defs.h"
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dml_inline_defs.h b/drivers/gpu/drm/amd/display/dc/dml/dml_inline_defs.h
+index e8ce08567cd8e..e4f595a3038c4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dml_inline_defs.h
++++ b/drivers/gpu/drm/amd/display/dc/dml/dml_inline_defs.h
+@@ -27,7 +27,7 @@
+ #define __DML_INLINE_DEFS_H__
+ 
+ #include "dml_common_defs.h"
+-#include "../calcs/dcn_calc_math.h"
++#include "dcn_calc_math.h"
+ #include "dml_logger.h"
+ 
+ static inline double dml_min(double a, double b)
+diff --git a/drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_math.h b/drivers/gpu/drm/amd/display/dc/inc/dcn_calc_math.h
+similarity index 100%
+rename from drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_math.h
+rename to drivers/gpu/drm/amd/display/dc/inc/dcn_calc_math.h
 -- 
 2.20.1
 
