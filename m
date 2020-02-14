@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACB415DDA4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA45B15DB94
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:50:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8FDE6FA11;
-	Fri, 14 Feb 2020 16:00:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEC8C6F970;
+	Fri, 14 Feb 2020 15:50:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF5946FA0C;
- Fri, 14 Feb 2020 16:00:13 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F2FC524676;
- Fri, 14 Feb 2020 16:00:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581696013;
- bh=Vu3XjvYbCgw86NCz8BhfJsyxkHdSDYwpHnwGfWUj6ss=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mwfKHBvdUzAcwqzWxKfulrh6zG+sLG/AEBZymi9/z+QoEcx3TEAGH/wmcozmklKFi
- Oyljqv/IYz9gPUD1VHdgB640SwP6Qh6d40PWs1xeWXvH1kq/tuqzGWQBqcpvJRqcBH
- N0IxiKGbQef7/v29uCZdG9/cVzw2sbcPzdZsSJmg=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 530/542] drm/amdgpu/smu10: fix
- smu10_get_clock_by_type_with_voltage
-Date: Fri, 14 Feb 2020 10:48:42 -0500
-Message-Id: <20200214154854.6746-530-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
-References: <20200214154854.6746-1-sashal@kernel.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 424A96F970
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:50:13 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07FB3504;
+ Fri, 14 Feb 2020 16:50:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1581695411;
+ bh=6e+7bDY3r6ByJjLewqsOYs1CXdUi6zcETKuRnQBHL7k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tENrtjOXqdlpx50ctrWpO/Dg2MQeaiNWYQhupv8mEaBBfuywVE7lM/FfglyaNbuGc
+ bqwnwcNiyyIwiokEJPu650Sqy1LRLG4LvdFZALYdyQjxrFFVykTAW4mJ6sKQjl4GW7
+ 4ymkm46zbNfqTCj1z6HEcTHGVv+ea4AC1zuuIq/Q=
+Date: Fri, 14 Feb 2020 17:49:53 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 1/2] dt-bindings: display: sun4i-tcon: Add LVDS Dual Link
+ property
+Message-ID: <20200214154953.GJ4831@pendragon.ideasonboard.com>
+References: <20200214123244.109300-1-maxime@cerno.tech>
+ <20200214131025.GI4831@pendragon.ideasonboard.com>
+ <20200214154405.f5zuicm6uhhiczfs@gilmour.lan>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Disposition: inline
+In-Reply-To: <20200214154405.f5zuicm6uhhiczfs@gilmour.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,50 +49,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Evan Quan <evan.quan@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+Hi Maxime,
 
-[ Upstream commit 1064ad4aeef94f51ca230ac639a9e996fb7867a0 ]
+On Fri, Feb 14, 2020 at 04:44:05PM +0100, Maxime Ripard wrote:
+> On Fri, Feb 14, 2020 at 03:10:25PM +0200, Laurent Pinchart wrote:
+> > On Fri, Feb 14, 2020 at 01:32:43PM +0100, Maxime Ripard wrote:
+> > > SoCs that have multiple TCONs can use the two set of pins on the first TCON
+> > > to drive a dual-link display. Add a property to enable the dual link.
+> > >
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > ---
+> > >  .../bindings/display/allwinner,sun4i-a10-tcon.yaml         | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> > > index 86ad617d2327..aa6dd8409dbc 100644
+> > > --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> > > @@ -105,6 +105,13 @@ properties:
+> > >          - const: edp
+> > >          - const: lvds
+> > >
+> > > +  allwinner,lvds-dual-link:
+> > > +    type: boolean
+> > > +    description: |
+> > > +      On a SoC with two TCON with LVDS support, the first TCON can
+> > > +      operate over both pins sets to output in a dual-link setup. This
+> > > +      will be triggered by setting this property.
+> >
+> > Could you maybe provide an example of how this property is supposed to
+> > be used ? I'm especially wondering what ports are used in that case and
+> > how they're connected.
+> 
+> It's pretty trivial to support, it's only a property to set on the
+> encoder node itself.
+> 
+> I'm not really sure what you meant by your question with the ports
+> though :/
 
-Cull out 0 clocks to avoid a warning in DC.
+I assume that, in the single-link case, you have two TCON instances that
+operate independently, each of them with one port that models an LVDS
+connection to a panel. In the dual-link mode, how does that look like ?
+Does the TCON instance that operate in dual-link mode have two ports in
+DT ? There are two physical ports, so I think it makes sense to always
+have two ports in DT. That's what we're doing for the LVDS encoders on
+R-Car Gen3, in order to specify in DT which LVDS input of the dual-link
+panel is connected to which LVDS output of the SoC. That allows
+configuring the LVDS encoder to send the even and odd pixels on the
+right port.
 
-Bug: https://gitlab.freedesktop.org/drm/amd/issues/963
-Reviewed-by: Evan Quan <evan.quan@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
-index 627a42e8fd318..fed3fc4bb57a9 100644
---- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
-@@ -1080,9 +1080,11 @@ static int smu10_get_clock_by_type_with_voltage(struct pp_hwmgr *hwmgr,
- 
- 	clocks->num_levels = 0;
- 	for (i = 0; i < pclk_vol_table->count; i++) {
--		clocks->data[i].clocks_in_khz = pclk_vol_table->entries[i].clk  * 10;
--		clocks->data[i].voltage_in_mv = pclk_vol_table->entries[i].vol;
--		clocks->num_levels++;
-+		if (pclk_vol_table->entries[i].clk) {
-+			clocks->data[clocks->num_levels].clocks_in_khz = pclk_vol_table->entries[i].clk  * 10;
-+			clocks->data[clocks->num_levels].voltage_in_mv = pclk_vol_table->entries[i].vol;
-+			clocks->num_levels++;
-+		}
- 	}
- 
- 	return 0;
 -- 
-2.20.1
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
