@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBBE15DE33
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0785715DE50
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 17:04:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5626E82E;
-	Fri, 14 Feb 2020 16:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 992546FA23;
+	Fri, 14 Feb 2020 16:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4D06FA19;
- Fri, 14 Feb 2020 16:03:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86C016FA20;
+ Fri, 14 Feb 2020 16:04:03 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D6BBF2187F;
- Fri, 14 Feb 2020 16:03:23 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4571C24654;
+ Fri, 14 Feb 2020 16:04:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581696205;
- bh=kXOCbXtX884i/0EwkkynxVIHBuW1afWpJr5gJ0/prvE=;
+ s=default; t=1581696243;
+ bh=NZZ++dKabZITguBBZrDnUclhdXCvf46rq0sMNW0akCU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eIRNsu5v1n5yyVWB+D8PWh0X/fAlbz5dDZOX4WwxZVJq5MRqho+VVLu+VVHk4Ce3d
- JwvvnyfsEBf/gxWxwL8I/U0Tcra/h9pZoexlB7EobMcHExaUti9OhBrXUcNgc2VBip
- Hg16r8gIQ3UlfSl+qKq72JDqgPMcLsKli+WSw18E=
+ b=ioM3+H28YgHdNvd0lyqDqvXbsSqyJb9ZNMWLwOYyFl3etkLQ1PjMlgUdbsQndXPEv
+ 1dnDAx+146dELEEtaKSskXyRLvhMY029iJ64IKtHhMMSeGIY+3ApAY4hugDUkTFomV
+ SC6xDUR/hddtmYvfcIjcq0bhChv6qdrPn0ueXsHo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 070/459] drm/amd/display: Clear state after
- exiting fixed active VRR state
-Date: Fri, 14 Feb 2020 10:55:20 -0500
-Message-Id: <20200214160149.11681-70-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 101/459] drm/amd/display: Retrain dongles when
+ SINK_COUNT becomes non-zero
+Date: Fri, 14 Feb 2020 10:55:51 -0500
+Message-Id: <20200214160149.11681-101-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
 References: <20200214160149.11681-1-sashal@kernel.org>
@@ -50,56 +50,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Anthony Koo <Anthony.Koo@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Amanda Liu <amanda.liu@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Eric Yang <Eric.Yang2@amd.com>,
+ Wenjing Liu <Wenjing.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Louis Li <Ching-shih.Li@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Amanda Liu <amanda.liu@amd.com>
+From: Harry Wentland <harry.wentland@amd.com>
 
-[ Upstream commit 6f8f76444baf405bacb0591d97549a71a9aaa1ac ]
+[ Upstream commit 3eb6d7aca53d81ce888624f09cd44dc0302161e8 ]
 
-[why]
-Upon exiting a fixed active VRR state, the state isn't cleared. This
-leads to the variable VRR range to be calculated incorrectly.
+[WHY]
+Two years ago the patch referenced by the Fixes tag stopped running
+dp_verify_link_cap_with_retries during DP detection when the reason
+for the detection was a short-pulse interrupt. This effectively meant
+that we were no longer doing the verify_link_cap training on active
+dongles when their SINK_COUNT changed from 0 to 1.
 
-[how]
-Set fixed active state to false when updating vrr params
+A year ago this was partly remedied with:
+commit 80adaebd2d41 ("drm/amd/display: Don't skip link training for empty dongle")
 
-Signed-off-by: Amanda Liu <amanda.liu@amd.com>
-Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
-Acked-by: Harry Wentland <harry.wentland@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+This made sure that we trained the dongle on initial hotplug (without
+connected downstream devices).
+
+This is all fine and dandy if it weren't for the fact that there are
+some dongles on the market that don't like link training when SINK_COUNT
+is 0 These dongles will in fact indicate a SINK_COUNT of 0 immediately
+after hotplug, even when a downstream device is connected, and then
+trigger a shortpulse interrupt indicating a SINK_COUNT change to 1.
+
+In order to play nicely we will need our policy to not link train an
+active DP dongle when SINK_COUNT is 0 but ensure we train it when the
+SINK_COUNT changes to 1.
+
+[HOW]
+Call dp_verify_link_cap_with_retries on detection even when the detection
+is triggered from a short pulse interrupt.
+
+With this change we can also revert this commit which we'll do in a separate
+follow-up change:
+commit 80adaebd2d41 ("drm/amd/display: Don't skip link training for empty dongle")
+
+Fixes: 0301ccbaf67d ("drm/amd/display: DP Compliance 400.1.1 failure")
+Suggested-by: Louis Li <Ching-shih.Li@amd.com>
+Tested-by: Louis Li <Ching-shih.Li@amd.com>
+Cc: Wenjing Liu <Wenjing.Liu@amd.com>
+Cc: Hersen Wu <hersenxs.wu@amd.com>
+Cc: Eric Yang <Eric.Yang2@amd.com>
+Reviewed-by: Wenjing Liu <Wenjing.Liu@amd.com>
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/modules/freesync/freesync.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index 0978c698f0f85..7d67cb2c61f04 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -803,6 +803,7 @@ void mod_freesync_build_vrr_params(struct mod_freesync *mod_freesync,
- 			2 * in_out_vrr->min_refresh_in_uhz)
- 		in_out_vrr->btr.btr_enabled = false;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index c0f1c62c59b42..3aedc724241ef 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -948,8 +948,7 @@ bool dc_link_detect(struct dc_link *link, enum dc_detect_reason reason)
+ 			same_edid = is_same_edid(&prev_sink->dc_edid, &sink->dc_edid);
  
-+	in_out_vrr->fixed.fixed_active = false;
- 	in_out_vrr->btr.btr_active = false;
- 	in_out_vrr->btr.inserted_duration_in_us = 0;
- 	in_out_vrr->btr.frames_to_insert = 0;
-@@ -822,6 +823,7 @@ void mod_freesync_build_vrr_params(struct mod_freesync *mod_freesync,
- 		in_out_vrr->adjust.v_total_max = stream->timing.v_total;
- 	} else if (in_out_vrr->state == VRR_STATE_ACTIVE_VARIABLE &&
- 			refresh_range >= MIN_REFRESH_RANGE_IN_US) {
-+
- 		in_out_vrr->adjust.v_total_min =
- 			calc_v_total_from_refresh(stream,
- 				in_out_vrr->max_refresh_in_uhz);
+ 		if (link->connector_signal == SIGNAL_TYPE_DISPLAY_PORT &&
+-			sink_caps.transaction_type == DDC_TRANSACTION_TYPE_I2C_OVER_AUX &&
+-			reason != DETECT_REASON_HPDRX) {
++			sink_caps.transaction_type == DDC_TRANSACTION_TYPE_I2C_OVER_AUX) {
+ 			/*
+ 			 * TODO debug why Dell 2413 doesn't like
+ 			 *  two link trainings
 -- 
 2.20.1
 
