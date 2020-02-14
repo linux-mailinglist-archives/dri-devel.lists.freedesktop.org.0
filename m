@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9AD15F773
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 21:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B66B15F7B4
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 21:28:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A176FB9C;
-	Fri, 14 Feb 2020 20:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAE26E870;
+	Fri, 14 Feb 2020 20:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54B446E86C;
- Fri, 14 Feb 2020 20:07:17 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id k11so12325567wrd.9;
- Fri, 14 Feb 2020 12:07:17 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2930E6E870;
+ Fri, 14 Feb 2020 20:28:54 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a5so11274170wmb.0;
+ Fri, 14 Feb 2020 12:28:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vd6W0wjDcFJCl/ABzyCdJXEUtR9Unm1DtVjv55fqtuk=;
- b=svIlGFKvH9Xc0P603FWA9KJK9E8DHvqZq1VOJWP69/Wgg4LhwWeYwTBaHRHx1Zq0lm
- zjcV4AvoQKlB9zyc53b1sMRx7+8IxdDeh3/qBmufSgGM6LJ5cGeADy5011egqFgXwwg3
- QZQ2IDM9b0Dvxlh4/gFnA+Sj2cVVXZf9A5E3Fj+hOzrUYBhDHAwzF0pOMYxSwxDGKuKA
- sq8/SfEE/HfcGORhM9klnuTHPxTAMgvSL2KCLYVDgbD+Gn3V812XpE8T0rBm22kvoySB
- J5Y4QXTS8LJ2VAsgJlQGtxjrVXoKiu8GIym3AKc7g57xmlzUvMvpfg2GXulAJlLO63X/
- LUEA==
+ :cc; bh=O7pGksv/syYfMklkQS/MIxpCbqI6gBoN9ooNLnkw1E8=;
+ b=N1XKAjyzrOIL2WzL1i8osQZXd6YVKxqkJSXnzZnFBy1EQOWFgDBfiObxlJ6bu7mVat
+ eUdmeSjiexNOP2Prvp/0vLY5h/yLiURfC8HoGpPbpMX54OZ8mr/dUR29OBSMivfWUWXn
+ iyguSO0yZXfkaIQtW7BYfxWDSegl8iR5+RdQ82QsOBT8A8FoilCfgTKeFMSqVwieUMZi
+ U8o4gtsr1gm5O6AvmypSDqY/hNM0Gcg7QWEJ2WD9fhHMcr7QyfNgEhkD1woTpTAfdwvQ
+ Eb3cQ7NrGnGi9ubqbT2kUO6hU52AeCwU0WutSeAT4c8nD40tE5hqBlMSInEIdyFR905L
+ EXqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vd6W0wjDcFJCl/ABzyCdJXEUtR9Unm1DtVjv55fqtuk=;
- b=p5kmDCF1Q7H+UvI1Fm2quFnp9aJUkcObgGYChcvelYBMoYnMGmHnQywcriWGRcIi6e
- UJqvfY3M4fNJ1UlYkyIlWpFaljZpNENcNFo+s+rTV7hb9j60eXs/bjgFbN/KVqkt3uPf
- jRc8ozvHdCs1JNj349SxPgueAzEgFA9fXYLs2a6El2ayV0LdReqEP8GP/LnzTVoTjYw2
- YEbhaGpjJv/exqdNG7B3uZQliGTtXr9+FlHIu+Z4fmBJdxO5ITJ4IYcdUiupDR1hZ32M
- 5mjGdGIJ5rLPMj6uKI6j7db/v96+n4J8bRB28yo6dylvUt8Q3/Gka9uMD/ocU17yc8ZE
- QzdA==
-X-Gm-Message-State: APjAAAXg1Z/FPVeLE0kRhzJfALsePPJF6qHS8o0hrwHW8rVeOw81yrc5
- 4DCBTC69D+Y4Er3qRV3VnNka4gr1SLrwjoj5WXw=
-X-Google-Smtp-Source: APXvYqxM5Zmz3lGNP5hYzb0HjFcAfb6cX66LDslQJjh7ecQydS16T1AaYzUdOWRDlk1Ops67yvYg8cIcgPxIqMsrOus=
-X-Received: by 2002:a05:6000:1183:: with SMTP id
- g3mr5775729wrx.374.1581710835710; 
- Fri, 14 Feb 2020 12:07:15 -0800 (PST)
+ bh=O7pGksv/syYfMklkQS/MIxpCbqI6gBoN9ooNLnkw1E8=;
+ b=Ht+V+9mB/hCMdvbmJsa9t5BuDoFrqmYSQjeFMWPXlCawoFWrC9V3zR/6Y8vV0z8aWO
+ Q26mbiJa9rBvTlTElZ9zJVW8AJyJUl+7rFGzCcQgZwVL/RGcaGzPz5sqVU4aZzEUzZYS
+ xJU/UG40YqLUA+uDqkOHxeHqr9B/SX/gIQLD8RNKZxkTCqQyIjzw4gsutYhhYXMm/vxT
+ ropO/J38GLjsLfw+diMSegTn7/g7bGv776SeXn07GaJF5BVZS7ZqXrktho3kgPhFtuAa
+ ubm9Q2HItw9kU+NW3P8lK410J+kUSnTGxaudKCVxFAEgFZjRJX8jdhQg/o1XP9YNzvsA
+ R/sg==
+X-Gm-Message-State: APjAAAWWuF1lCEvToSas1yCP5CrFmIHTTVyyjWIKL+ICpyShzO3IjUGF
+ BvW6IN3t8wFnSAJaBEfaSL9meDbtJbijUdsq2FI=
+X-Google-Smtp-Source: APXvYqzQzqb+GYycoJ++mSYmrxDPTAkYNnz/M4iHUyk2dnbs4mPvr3G0FHTH7AAXaolWev+GH/6SQNwmuJwpuYt5d/E=
+X-Received: by 2002:a05:600c:224a:: with SMTP id
+ a10mr6419397wmm.143.1581712131806; 
+ Fri, 14 Feb 2020 12:28:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20200207211713.3870-1-alexander.deucher@amd.com>
- <20200214073934.GV2363188@phenom.ffwll.local>
- <CADnq5_PW7QwUk6TdaWiY3i=udua1REkw0HDQZ3eBwk4Xg24OSg@mail.gmail.com>
- <20200214183514.GZ2363188@phenom.ffwll.local>
-In-Reply-To: <20200214183514.GZ2363188@phenom.ffwll.local>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 14 Feb 2020 15:07:04 -0500
-Message-ID: <CADnq5_Pr90Qvkn2XezPciA_La=5W_ng=QZ_5_tcfM5qteKo=Wg@mail.gmail.com>
-Subject: Re: [PATCH 13/15] drm/amdgpu/display: split dp connector registration
- (v3)
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200214155650.21203-1-Kenny.Ho@amd.com>
+ <20200214155650.21203-10-Kenny.Ho@amd.com>
+ <CAOFGe96N5gG+08rQCRC+diHKDAfxPFYEnVxDS8_udvjcBYgsPg@mail.gmail.com>
+ <CAOWid-f62Uv=GZXX2V2BsQGM5A1JJG_qmyrOwd=KwZBx_sr-bg@mail.gmail.com>
+ <20200214183401.GY2363188@phenom.ffwll.local>
+ <CAOWid-caJHeXUnQv3MOi=9U+vdBLfewN+CrA-7jRrz0VXqatbQ@mail.gmail.com>
+ <20200214191754.GA218629@mtj.thefacebook.com>
+In-Reply-To: <20200214191754.GA218629@mtj.thefacebook.com>
+From: Kenny Ho <y2kenny@gmail.com>
+Date: Fri, 14 Feb 2020 15:28:40 -0500
+Message-ID: <CAOWid-dA2Ad-FTZDDLOs4pperYbsru9cknSuXo_2ajpPbQH0Xg@mail.gmail.com>
+Subject: Re: [PATCH 09/11] drm, cgroup: Introduce lgpu as DRM cgroup resource
+To: Tejun Heo <tj@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,173 +67,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
+Cc: juan.zuniga-anaya@amd.com, Kenny Ho <Kenny.Ho@amd.com>, "Kuehling,
+ Felix" <felix.kuehling@amd.com>, jsparks@cray.com, nirmoy.das@amd.com,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+ lkaplan@cray.com, "Greathouse, Joseph" <joseph.greathouse@amd.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>, Johannes Weiner <hannes@cmpxchg.org>,
+ Alex Deucher <alexander.deucher@amd.com>, cgroups@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ damon.mcdougall@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2020 at 1:35 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Feb 14, 2020 at 12:39:22PM -0500, Alex Deucher wrote:
-> > On Fri, Feb 14, 2020 at 2:39 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Fri, Feb 07, 2020 at 04:17:13PM -0500, Alex Deucher wrote:
-> > > > Split into init and register functions to avoid a segfault
-> > > > in some configs when the load/unload callbacks are removed.
-> > > >
-> > > > v2:
-> > > > - add back accidently dropped has_aux setting
-> > > > - set dev in late_register
-> > > >
-> > > > v3:
-> > > > - fix dp cec ordering
-> > >
-> > > Why did you move this back out of the late_register callback when going
-> > > from v2->v3? In i915 we register the cec stuff from ->late_register, like
-> >
-> > I got a bunch of complaints from the cec code when I had it switched
-> > the other way.  They went away when I moved it back.  I don't remember
-> > the exact messages off hand.
->
-> Would be interesting to learn want went wrong, just in case there's a core
-> bug here somewhere that prevents drivers from tdtr. But definitely no
-> reason to hold off this patch.
+Hi Tejun,
 
-I'll repo it next week and send it out for posterity.  Thanks for the review.
-
-Alex
-
-> -Daniel
+On Fri, Feb 14, 2020 at 2:17 PM Tejun Heo <tj@kernel.org> wrote:
 >
-> >
-> > Alex
-> >
-> > > anything else userspace visible. Maybe follow-up patch (the idea behind
-> > > removing the ->load callback is to close all the driver load races,
-> > > instead of only open("/dev/dri/0"), which is protected by
-> > > drm_global_mutex). On this:
-> > >
-> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > >
-> > > Cheers, Daniel
-> > >
-> > > >
-> > > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> > > > ---
-> > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c   | 16 ++++++++++++++++
-> > > >  drivers/gpu/drm/amd/amdgpu/atombios_dp.c         | 10 ++--------
-> > > >  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  |  7 ++++++-
-> > > >  3 files changed, 24 insertions(+), 9 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > > > index ec1501e3a63a..f355d9a752d2 100644
-> > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > > > @@ -1461,6 +1461,20 @@ static enum drm_mode_status amdgpu_connector_dp_mode_valid(struct drm_connector
-> > > >       return MODE_OK;
-> > > >  }
-> > > >
-> > > > +static int
-> > > > +amdgpu_connector_late_register(struct drm_connector *connector)
-> > > > +{
-> > > > +     struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
-> > > > +     int r = 0;
-> > > > +
-> > > > +     if (amdgpu_connector->ddc_bus->has_aux) {
-> > > > +             amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
-> > > > +             r = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
-> > > > +     }
-> > > > +
-> > > > +     return r;
-> > > > +}
-> > > > +
-> > > >  static const struct drm_connector_helper_funcs amdgpu_connector_dp_helper_funcs = {
-> > > >       .get_modes = amdgpu_connector_dp_get_modes,
-> > > >       .mode_valid = amdgpu_connector_dp_mode_valid,
-> > > > @@ -1475,6 +1489,7 @@ static const struct drm_connector_funcs amdgpu_connector_dp_funcs = {
-> > > >       .early_unregister = amdgpu_connector_unregister,
-> > > >       .destroy = amdgpu_connector_destroy,
-> > > >       .force = amdgpu_connector_dvi_force,
-> > > > +     .late_register = amdgpu_connector_late_register,
-> > > >  };
-> > > >
-> > > >  static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
-> > > > @@ -1485,6 +1500,7 @@ static const struct drm_connector_funcs amdgpu_connector_edp_funcs = {
-> > > >       .early_unregister = amdgpu_connector_unregister,
-> > > >       .destroy = amdgpu_connector_destroy,
-> > > >       .force = amdgpu_connector_dvi_force,
-> > > > +     .late_register = amdgpu_connector_late_register,
-> > > >  };
-> > > >
-> > > >  void
-> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-> > > > index ea702a64f807..9b74cfdba7b8 100644
-> > > > --- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-> > > > +++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-> > > > @@ -186,16 +186,10 @@ amdgpu_atombios_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m
-> > > >
-> > > >  void amdgpu_atombios_dp_aux_init(struct amdgpu_connector *amdgpu_connector)
-> > > >  {
-> > > > -     int ret;
-> > > > -
-> > > >       amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector->hpd.hpd;
-> > > > -     amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector->base.kdev;
-> > > >       amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
-> > > > -     ret = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
-> > > > -     if (!ret)
-> > > > -             amdgpu_connector->ddc_bus->has_aux = true;
-> > > > -
-> > > > -     WARN(ret, "drm_dp_aux_register_i2c_bus() failed with error %d\n", ret);
-> > > > +     drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
-> > > > +     amdgpu_connector->ddc_bus->has_aux = true;
-> > > >  }
-> > > >
-> > > >  /***** general DP utility functions *****/
-> > > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > > > index 3959c942c88b..d5b9e72f2649 100644
-> > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > > > @@ -155,6 +155,11 @@ amdgpu_dm_mst_connector_late_register(struct drm_connector *connector)
-> > > >       struct amdgpu_dm_connector *amdgpu_dm_connector =
-> > > >               to_amdgpu_dm_connector(connector);
-> > > >       struct drm_dp_mst_port *port = amdgpu_dm_connector->port;
-> > > > +     int r;
-> > > > +
-> > > > +     r = drm_dp_aux_register(&amdgpu_dm_connector->dm_dp_aux.aux);
-> > > > +     if (r)
-> > > > +             return r;
-> > > >
-> > > >  #if defined(CONFIG_DEBUG_FS)
-> > > >       connector_debugfs_init(amdgpu_dm_connector);
-> > > > @@ -484,7 +489,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
-> > > >       aconnector->dm_dp_aux.aux.transfer = dm_dp_aux_transfer;
-> > > >       aconnector->dm_dp_aux.ddc_service = aconnector->dc_link->ddc;
-> > > >
-> > > > -     drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
-> > > > +     drm_dp_aux_init(&aconnector->dm_dp_aux.aux);
-> > > >       drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
-> > > >                                     &aconnector->base);
-> > > >
-> > > > --
-> > > > 2.24.1
-> > > >
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
+> I have to agree with Daniel here. My apologies if I weren't clear
+> enough. Here's one interface I can think of:
+>
+>  * compute weight: The same format as io.weight. Proportional control
+>    of gpu compute.
+>
+>  * memory low: Please see how the system memory.low behaves. For gpus,
+>    it'll need per-device entries.
+>
+> Note that for both, there one number to configure and conceptually
+> it's pretty clear to everybody what that number means, which is not to
+> say that it's clear to implement but it's much better to deal with
+> that on this side of the interface than the other.
+
+Can you elaborate, per your understanding, how the lgpu weight
+attribute differ from the io.weight you suggested?  Is it merely a
+formatting/naming issue or is it the implementation details that you
+find troubling?  From my perspective, the weight attribute implements
+as you suggested back in RFCv4 (proportional control on top of a unit
+- either physical or time unit.)
+
+Perhaps more explicit questions would help me understand what you
+mean. If I remove the 'list' and 'count' attributes leaving just
+weight, is that satisfactory?  Are you saying the idea of affinity or
+named-resource is banned from cgroup entirely (even though it exists
+in the form of cpuset already and users are interested in having such
+options [i.e. userspace OpenCL] when needed?)
+
+To be clear, I am not saying no proportional control.  I am saying
+give the user the options, which is what has been implemented.
+
+> cc'ing Johannes. Do you have anything on mind regarding how gpu memory
+> configuration should look like? e.g. should it go w/ weights rather
+> than absoulte units (I don't think so given that it'll most likely
+> need limits at some point too but still and there are benefits from
+> staying consistent with system memory).
+>
+> Also, a rather trivial high level question. Is drm a good controller
+> name given that other controller names are like cpu, memory, io?
+
+There was a discussion about naming early in the RFC (I believe
+RFCv2), the consensuses then was to use drmcg to align with the drm
+subsystem.  I have no problem renaming it to gpucg  or something
+similar if that is the last thing that's blocking acceptance.  For
+now, I would like to get some clarity on the implementation before
+having more code churn.
+
+Regards,
+Kenny
+
+
+> Thanks.
 >
 > --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> tejun
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
