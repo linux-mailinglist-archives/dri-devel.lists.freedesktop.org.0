@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF68615DBE3
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:51:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B1115DBF1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:51:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3A166F97A;
-	Fri, 14 Feb 2020 15:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8686D6F98B;
+	Fri, 14 Feb 2020 15:51:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8251A6F97A;
- Fri, 14 Feb 2020 15:51:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB966F98B;
+ Fri, 14 Feb 2020 15:51:45 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E56DD2168B;
- Fri, 14 Feb 2020 15:51:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 578F02465D;
+ Fri, 14 Feb 2020 15:51:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695487;
- bh=v9kgbTRLSbsOE/FA6v/8+h7+wnByHJqRW7CwIyvCXio=;
+ s=default; t=1581695505;
+ bh=mEbUikUJPdO2aLyeQBlvtyjvsrmBOXxH5GFU6k+4vuM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=e4oY3o4UhveyG5wOPUgyvjmvzXiGxNGi4QRHnn4DCuFGNXwq+JSo0JB7pJwZTWPYo
- j6uHzZbr5JYQN5socnClFhBSGBlDxMtftH7wKRx1vRtBqyVzJ3g2EFuvXzVPqUeU23
- 7pM7czD+MtotNmM3QtnAweCcRniTX48H3oVp2Tys=
+ b=cGqHRBgH3dtHRinDlTUa/2iD1OY39U7gAQYLDmCBNTSy/mz5+GVLLao2AgmzYBe57
+ edP9J0e9KRRSrzOADlSFe1RukPwkeaUeghZOP3Vb/LGB6qIYWw7b5e0/SZwEMUWfQG
+ n+R96c+9oA4ppSZacNAdqgNEYF8dSyLRZqREweow=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 117/542] drm/amd/display: Retrain dongles when
- SINK_COUNT becomes non-zero
-Date: Fri, 14 Feb 2020 10:41:49 -0500
-Message-Id: <20200214154854.6746-117-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 131/542] drm/amdkfd: Fix a bug in SDMA RLC queue
+ counting under HWS mode
+Date: Fri, 14 Feb 2020 10:42:03 -0500
+Message-Id: <20200214154854.6746-131-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -50,78 +50,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Eric Yang <Eric.Yang2@amd.com>,
- Wenjing Liu <Wenjing.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
- Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Louis Li <Ching-shih.Li@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Yong Zhao <Yong.Zhao@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Harry Wentland <harry.wentland@amd.com>
+From: Yong Zhao <Yong.Zhao@amd.com>
 
-[ Upstream commit 3eb6d7aca53d81ce888624f09cd44dc0302161e8 ]
+[ Upstream commit f38abc15d157b7b31fa7f651dc8bf92858c963f8 ]
 
-[WHY]
-Two years ago the patch referenced by the Fixes tag stopped running
-dp_verify_link_cap_with_retries during DP detection when the reason
-for the detection was a short-pulse interrupt. This effectively meant
-that we were no longer doing the verify_link_cap training on active
-dongles when their SINK_COUNT changed from 0 to 1.
+The sdma_queue_count increment should be done before
+execute_queues_cpsch(), which calls pm_calc_rlib_size() where
+sdma_queue_count is used to calculate whether over_subscription is
+triggered.
 
-A year ago this was partly remedied with:
-commit 80adaebd2d41 ("drm/amd/display: Don't skip link training for empty dongle")
+With the previous code, when a SDMA queue is created,
+compute_queue_count in pm_calc_rlib_size() is one more than the
+actual compute queue number, because the queue_count has been
+incremented while sdma_queue_count has not. This patch fixes that.
 
-This made sure that we trained the dongle on initial hotplug (without
-connected downstream devices).
-
-This is all fine and dandy if it weren't for the fact that there are
-some dongles on the market that don't like link training when SINK_COUNT
-is 0 These dongles will in fact indicate a SINK_COUNT of 0 immediately
-after hotplug, even when a downstream device is connected, and then
-trigger a shortpulse interrupt indicating a SINK_COUNT change to 1.
-
-In order to play nicely we will need our policy to not link train an
-active DP dongle when SINK_COUNT is 0 but ensure we train it when the
-SINK_COUNT changes to 1.
-
-[HOW]
-Call dp_verify_link_cap_with_retries on detection even when the detection
-is triggered from a short pulse interrupt.
-
-With this change we can also revert this commit which we'll do in a separate
-follow-up change:
-commit 80adaebd2d41 ("drm/amd/display: Don't skip link training for empty dongle")
-
-Fixes: 0301ccbaf67d ("drm/amd/display: DP Compliance 400.1.1 failure")
-Suggested-by: Louis Li <Ching-shih.Li@amd.com>
-Tested-by: Louis Li <Ching-shih.Li@amd.com>
-Cc: Wenjing Liu <Wenjing.Liu@amd.com>
-Cc: Hersen Wu <hersenxs.wu@amd.com>
-Cc: Eric Yang <Eric.Yang2@amd.com>
-Reviewed-by: Wenjing Liu <Wenjing.Liu@amd.com>
-Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Yong Zhao <Yong.Zhao@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index 4619f94f0ac78..70846ae7d854d 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -968,8 +968,7 @@ static bool dc_link_detect_helper(struct dc_link *link,
- 			same_edid = is_same_edid(&prev_sink->dc_edid, &sink->dc_edid);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index 984c2f2b24b60..d128a8bbe19d0 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -1225,16 +1225,18 @@ static int create_queue_cpsch(struct device_queue_manager *dqm, struct queue *q,
  
- 		if (link->connector_signal == SIGNAL_TYPE_DISPLAY_PORT &&
--			sink_caps.transaction_type == DDC_TRANSACTION_TYPE_I2C_OVER_AUX &&
--			reason != DETECT_REASON_HPDRX) {
-+			sink_caps.transaction_type == DDC_TRANSACTION_TYPE_I2C_OVER_AUX) {
- 			/*
- 			 * TODO debug why Dell 2413 doesn't like
- 			 *  two link trainings
+ 	list_add(&q->list, &qpd->queues_list);
+ 	qpd->queue_count++;
++
++	if (q->properties.type == KFD_QUEUE_TYPE_SDMA)
++		dqm->sdma_queue_count++;
++	else if (q->properties.type == KFD_QUEUE_TYPE_SDMA_XGMI)
++		dqm->xgmi_sdma_queue_count++;
++
+ 	if (q->properties.is_active) {
+ 		dqm->queue_count++;
+ 		retval = execute_queues_cpsch(dqm,
+ 				KFD_UNMAP_QUEUES_FILTER_DYNAMIC_QUEUES, 0);
+ 	}
+ 
+-	if (q->properties.type == KFD_QUEUE_TYPE_SDMA)
+-		dqm->sdma_queue_count++;
+-	else if (q->properties.type == KFD_QUEUE_TYPE_SDMA_XGMI)
+-		dqm->xgmi_sdma_queue_count++;
+ 	/*
+ 	 * Unconditionally increment this counter, regardless of the queue's
+ 	 * type or whether the queue is active.
 -- 
 2.20.1
 
