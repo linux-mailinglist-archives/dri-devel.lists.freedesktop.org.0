@@ -1,78 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DB6160CF5
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C9E160D00
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD3C76E88A;
-	Mon, 17 Feb 2020 08:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE2936E8AD;
+	Mon, 17 Feb 2020 08:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2933 seconds by postgrey-1.36 at gabe;
- Fri, 14 Feb 2020 18:30:12 UTC
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC546FB7E
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 18:30:12 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01EHdOCr069590;
- Fri, 14 Feb 2020 17:41:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=KmIo45/8rqTg+TK1KulK6p+LZsxnvdRAU4LsG4AGcFA=;
- b=yewe0/WD7pxSXUGJYSzccmoQh5jmPWdrnBPN2j2OMmFa1XrlxWAKzUpMdDrgq8Es6qRS
- mIRAS3dyhyMiRtdb0Zl7lqaMNMgIvXcwNc4+/OH1Hl6Tt/vpCj3cx9XUZQ1PPhpb6LCW
- vWBC/SL3ljjb5zcjXEw7d7n0kqk1dRbeCx/Ky67WK3zPD8LK7agSdjsWLeeFn7NaTkyI
- rmTpv1xqDamLAF4+zoDr17fSTtEbRJRY904qqbURjWa/P+dp3JOeE0ZVhvnFHs0FaipU
- vgp5xwHmPMLNM82Yfhkj/dyWGQLBLaTeigtWj9ux1XOk2mxpssdAqs8mxhWlTC8G2GES Lg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 2y2p3t2q6h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Feb 2020 17:41:02 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01EHbIHs132568;
- Fri, 14 Feb 2020 17:41:02 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 2y4k9mwvdy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Feb 2020 17:41:02 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01EHews6020773;
- Fri, 14 Feb 2020 17:40:58 GMT
-Received: from [10.209.227.41] (/10.209.227.41)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 14 Feb 2020 09:40:58 -0800
-Subject: Re: [PATCH resend 0/2] dts: keystone-k2g-evm: Display support
-To: Jyri Sarha <jsarha@ti.com>, dri-devel@lists.freedesktop.org,
- ssantosh@kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org
-References: <cover.1581671951.git.jsarha@ti.com>
-From: santosh.shilimkar@oracle.com
-Organization: Oracle Corporation
-Message-ID: <6749076a-cbc1-d8e2-bc35-2e2a9ad80a6d@oracle.com>
-Date: Fri, 14 Feb 2020 09:40:55 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <cover.1581671951.git.jsarha@ti.com>
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9531
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- suspectscore=0 spamscore=0
- adultscore=0 bulkscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002140133
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9531
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0 malwarescore=0
- suspectscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1011
- impostorscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002140133
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 771516FB66;
+ Fri, 14 Feb 2020 17:57:08 +0000 (UTC)
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37]
+ helo=localhost) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>)
+ id 1j2fD2-0005g2-9K; Fri, 14 Feb 2020 17:57:01 +0000
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: jani.nikula@linux.intel.com, ville.syrjala@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
+Subject: [PATCH v4] drm/i915: Init lspcon after HPD in intel_dp_detect()
+Date: Sat, 15 Feb 2020 01:56:27 +0800
+Message-Id: <20200214175646.25532-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,33 +38,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, praneeth@ti.com, robh+dt@kernel.org,
- peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- laurent.pinchart@ideasonboard.com
+Cc: intel-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/14/20 1:22 AM, Jyri Sarha wrote:
-> Resend because the earlier recipient list was wrong.
-> 
-> Now that drm/tidss is queued for mainline, lets add display support for
-> k2g-evm. There is no hurry since tidss is out only in v5.7, but it
-> should not harm to have the dts changes in place before that.
-> 
-> Jyri Sarha (2):
->    ARM: dts: keystone-k2g: Add DSS node
->    ARM: dts: keystone-k2g-evm: add HDMI video support
-> 
->   arch/arm/boot/dts/keystone-k2g-evm.dts | 101 +++++++++++++++++++++++++
->   arch/arm/boot/dts/keystone-k2g.dtsi    |  22 ++++++
->   2 files changed, 123 insertions(+)
-> 
-Ok. Will add this to the next queue.
+On HP 800 G4 DM, if HDMI cable isn't plugged before boot, the HDMI port
+becomes useless and never responds to cable hotplugging:
+[    3.031904] [drm:lspcon_init [i915]] *ERROR* Failed to probe lspcon
+[    3.031945] [drm:intel_ddi_init [i915]] *ERROR* LSPCON init failed on port D
 
-Regards,
-Santosh
+Seems like the lspcon chip on the system in question only gets powered
+after the cable is plugged.
+
+So let's call lspcon_init() dynamically to properly initialize the
+lspcon chip and make HDMI port work.
+
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+v4:
+ - Trust VBT in intel_infoframe_init().
+ - Init lspcon in intel_dp_detect().
+
+v3:
+ - Make sure it's handled under long HPD case.
+
+v2: 
+ - Move lspcon_init() inside of intel_dp_hpd_pulse().
+
+ drivers/gpu/drm/i915/display/intel_ddi.c  | 17 +----------------
+ drivers/gpu/drm/i915/display/intel_dp.c   | 13 ++++++++++++-
+ drivers/gpu/drm/i915/display/intel_hdmi.c |  2 +-
+ 3 files changed, 14 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 33f1dc3d7c1a..ca717434b406 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -4741,7 +4741,7 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+ 		&dev_priv->vbt.ddi_port_info[port];
+ 	struct intel_digital_port *intel_dig_port;
+ 	struct intel_encoder *encoder;
+-	bool init_hdmi, init_dp, init_lspcon = false;
++	bool init_hdmi, init_dp;
+ 	enum phy phy = intel_port_to_phy(dev_priv, port);
+ 
+ 	init_hdmi = port_info->supports_dvi || port_info->supports_hdmi;
+@@ -4754,7 +4754,6 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+ 		 * is initialized before lspcon.
+ 		 */
+ 		init_dp = true;
+-		init_lspcon = true;
+ 		init_hdmi = false;
+ 		DRM_DEBUG_KMS("VBT says port %c has lspcon\n", port_name(port));
+ 	}
+@@ -4833,20 +4832,6 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+ 			goto err;
+ 	}
+ 
+-	if (init_lspcon) {
+-		if (lspcon_init(intel_dig_port))
+-			/* TODO: handle hdmi info frame part */
+-			DRM_DEBUG_KMS("LSPCON init success on port %c\n",
+-				port_name(port));
+-		else
+-			/*
+-			 * LSPCON init faied, but DP init was success, so
+-			 * lets try to drive as DP++ port.
+-			 */
+-			DRM_ERROR("LSPCON init failed on port %c\n",
+-				port_name(port));
+-	}
+-
+ 	intel_infoframe_init(intel_dig_port);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index c7424e2a04a3..43117aa86292 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5663,8 +5663,19 @@ intel_dp_detect(struct drm_connector *connector,
+ 	/* Can't disconnect eDP */
+ 	if (intel_dp_is_edp(intel_dp))
+ 		status = edp_detect(intel_dp);
+-	else if (intel_digital_port_connected(encoder))
++	else if (intel_digital_port_connected(encoder)) {
++		if (intel_bios_is_lspcon_present(dev_priv, dig_port->base.port) &&
++		    !dig_port->lspcon.active) {
++			if (lspcon_init(dig_port))
++				DRM_DEBUG_KMS("LSPCON init success on port %c\n",
++					      port_name(dig_port->base.port));
++			else
++				DRM_DEBUG_KMS("LSPCON init failed on port %c\n",
++					      port_name(dig_port->base.port));
++		}
++
+ 		status = intel_dp_detect_dpcd(intel_dp);
++	}
+ 	else
+ 		status = connector_status_disconnected;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 93ac0f296852..27a5aa8cefc9 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -3100,7 +3100,7 @@ void intel_infoframe_init(struct intel_digital_port *intel_dig_port)
+ 		intel_dig_port->set_infoframes = g4x_set_infoframes;
+ 		intel_dig_port->infoframes_enabled = g4x_infoframes_enabled;
+ 	} else if (HAS_DDI(dev_priv)) {
+-		if (intel_dig_port->lspcon.active) {
++		if (intel_bios_is_lspcon_present(dev_priv, intel_dig_port->base.port)) {
+ 			intel_dig_port->write_infoframe = lspcon_write_infoframe;
+ 			intel_dig_port->read_infoframe = lspcon_read_infoframe;
+ 			intel_dig_port->set_infoframes = lspcon_set_infoframes;
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
