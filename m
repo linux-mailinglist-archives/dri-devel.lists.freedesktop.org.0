@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB7C15DB89
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:49:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A81715DB8B
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:49:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD45C6F97C;
-	Fri, 14 Feb 2020 15:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 499C26F974;
+	Fri, 14 Feb 2020 15:49:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E6D26F974;
- Fri, 14 Feb 2020 15:49:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89C9D6F974
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 15:49:42 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E404224650;
- Fri, 14 Feb 2020 15:49:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id BC64A2086A;
+ Fri, 14 Feb 2020 15:49:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695372;
- bh=w72o9lcZbaZku5BCWTjN8fzU+n6bQrTtcghNJBGySBw=;
+ s=default; t=1581695382;
+ bh=GM6SWoSqzW6VjK+HK2Fz5Drs/r7qVg46S6Jp0irKb0g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0/EytJ1FBGpi+CzroumUQWiU1E+lQZU19a8zwNTS/kFG+zePcj4gurTCJPolErIOQ
- ondLQH43Qi6GzN19EQYoAWemqaTeRpzUKyDxit45IB//J2hf3p3dCbZ/N/4h3z2vw1
- NUSsTS5Cnd9meR+mQXV0IwWxe4ST69ZfdH+WrE78=
+ b=iJWSuM+3BulvVOc23Y3Xl9xyMNE3aIapePFQnrTFLwTN4h9Y9iJryQCWAGLnYTFDr
+ jYF5sQbIJlp1MbUnVZ//7E/ryOksWIMCXafyNZtv500h5gTPgiFwn8ieRac4O4tSmA
+ Z4U+m91TdkTu29TP99WbTUDgErxPGc/Yqf6UlchE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 029/542] drm/amd/display: Map ODM memory correctly
- when doing ODM combine
-Date: Fri, 14 Feb 2020 10:40:21 -0500
-Message-Id: <20200214154854.6746-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 037/542] drm/mipi_dbi: Fix off-by-one bugs in
+ mipi_dbi_blank()
+Date: Fri, 14 Feb 2020 10:40:29 -0500
+Message-Id: <20200214154854.6746-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -50,100 +50,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Nikola Cornij <nikola.cornij@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nikola Cornij <nikola.cornij@amd.com>
-
-[ Upstream commit ec5b356c58941bb8930858155d9ce14ceb3d30a0 ]
-
-[why]
-Up to 4 ODM memory pieces are required per ODM combine and cannot
-overlap, i.e. each ODM "session" has to use its own memory pieces.
-The ODM-memory mapping is currently broken for generic case.
-
-The maximum number of memory pieces is ASIC-dependent, but it's always
-big enough to satisfy maximum number of ODM combines. Memory pieces
-are mapped as a bit-map, i.e. one memory piece corresponds to one bit.
-The OPTC doing ODM needs to select memory pieces by setting the
-corresponding bits, making sure there's no overlap with other OPTC
-instances that might be doing ODM.
-
-The current mapping works only for OPTC instance indexes smaller than
-3. For instance indexes 3 and up it practically maps no ODM memory,
-causing black, gray or white screen in display configs that include
-ODM on OPTC instance 3 or up.
-
-[how]
-Statically map two unique ODM memory pieces for each OPTC instance
-and piece them together when programming ODM combine mode.
-
-Signed-off-by: Nikola Cornij <nikola.cornij@amd.com>
-Reviewed-by: Jun Lei <Jun.Lei@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../gpu/drm/amd/display/dc/dcn20/dcn20_optc.c    | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c
-index 3b613fb93ef80..0162d3ffe268f 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c
-@@ -233,12 +233,13 @@ void optc2_set_odm_combine(struct timing_generator *optc, int *opp_id, int opp_c
- 		struct dc_crtc_timing *timing)
- {
- 	struct optc *optc1 = DCN10TG_FROM_TG(optc);
--	/* 2 pieces of memory required for up to 5120 displays, 4 for up to 8192 */
- 	int mpcc_hactive = (timing->h_addressable + timing->h_border_left + timing->h_border_right)
- 			/ opp_cnt;
--	int memory_mask = mpcc_hactive <= 2560 ? 0x3 : 0xf;
-+	uint32_t memory_mask;
- 	uint32_t data_fmt = 0;
- 
-+	ASSERT(opp_cnt == 2);
-+
- 	/* TODO: In pseudocode but does not affect maximus, delete comment if we dont need on asic
- 	 * REG_SET(OTG_GLOBAL_CONTROL2, 0, GLOBAL_UPDATE_LOCK_EN, 1);
- 	 * Program OTG register MASTER_UPDATE_LOCK_DB_X/Y to the position before DP frame start
-@@ -246,9 +247,17 @@ void optc2_set_odm_combine(struct timing_generator *optc, int *opp_id, int opp_c
- 	 *		MASTER_UPDATE_LOCK_DB_X, 160,
- 	 *		MASTER_UPDATE_LOCK_DB_Y, 240);
- 	 */
-+
-+	/* 2 pieces of memory required for up to 5120 displays, 4 for up to 8192,
-+	 * however, for ODM combine we can simplify by always using 4.
-+	 * To make sure there's no overlap, each instance "reserves" 2 memories and
-+	 * they are uniquely combined here.
-+	 */
-+	memory_mask = 0x3 << (opp_id[0] * 2) | 0x3 << (opp_id[1] * 2);
-+
- 	if (REG(OPTC_MEMORY_CONFIG))
- 		REG_SET(OPTC_MEMORY_CONFIG, 0,
--			OPTC_MEM_SEL, memory_mask << (optc->inst * 4));
-+			OPTC_MEM_SEL, memory_mask);
- 
- 	if (timing->pixel_encoding == PIXEL_ENCODING_YCBCR422)
- 		data_fmt = 1;
-@@ -257,7 +266,6 @@ void optc2_set_odm_combine(struct timing_generator *optc, int *opp_id, int opp_c
- 
- 	REG_UPDATE(OPTC_DATA_FORMAT_CONTROL, OPTC_DATA_FORMAT, data_fmt);
- 
--	ASSERT(opp_cnt == 2);
- 	REG_SET_3(OPTC_DATA_SOURCE_SELECT, 0,
- 			OPTC_NUM_OF_INPUT_SEGMENT, 1,
- 			OPTC_SEG0_SRC_SEL, opp_id[0],
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4KClsgVXBz
+dHJlYW0gY29tbWl0IDJjZTE4MjQ5YWY1YTI4MDMxYjNmOTA5Y2ZhZmNjYzg4ZWE5NjZjOWQgXQoK
+V2hlbiBjb25maWd1cmluZyB0aGUgZnJhbWUgbWVtb3J5IHdpbmRvdywgdGhlIGxhc3QgY29sdW1u
+IGFuZCByb3cKbnVtYmVycyBhcmUgd3JpdHRlbiB0byB0aGUgY29sdW1uIHJlc3AuIHBhZ2UgYWRk
+cmVzcyByZWdpc3RlcnMuICBUaGVzZQpudW1iZXJzIGFyZSB0aHVzIG9uZSBsZXNzIHRoYW4gdGhl
+IGFjdHVhbCB3aW5kb3cgd2lkdGggcmVzcC4gaGVpZ2h0LgoKV2hpbGUgdGhpcyBpcyBoYW5kbGVk
+IGNvcnJlY3RseSBpbiBtaXBpX2RiaV9mYl9kaXJ0eSgpIHNpbmNlIGNvbW1pdAowM2NlYjFjOGRm
+ZDFlMjkzICgiZHJtL3Rpbnlkcm06IEZpeCBzZXR0aW5nIG9mIHRoZSBjb2x1bW4vcGFnZSBlbmQK
+YWRkcmVzc2VzLiIpLCBpdCBpcyBub3QgaW4gbWlwaV9kYmlfYmxhbmsoKS4gIFRoZSBsYXR0ZXIg
+c3RpbGwgZm9yZ2V0cwp0byBzdWJ0cmFjdCBvbmUgd2hlbiBjYWxjdWxhdGluZyB0aGUgbW9zdCBz
+aWduaWZpY2FudCBieXRlcyBvZiB0aGUKY29sdW1uIGFuZCByb3cgbnVtYmVycywgdGh1cyBwcm9n
+cmFtbWluZyB3cm9uZyB2YWx1ZXMgd2hlbiB0aGUgZGlzcGxheQp3aWR0aCBvciBoZWlnaHQgaXMg
+YSBtdWx0aXBsZSBvZiAyNTYuCgpGaXhlczogMDJkZDk1ZmUzMTY5MzYyNiAoImRybS90aW55ZHJt
+OiBBZGQgTUlQSSBEQkkgc3VwcG9ydCIpClNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5dHRlcmhvZXZl
+biA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+ClNpZ25lZC1vZmYtYnk6IE5vcmFsZiBUcsO4bm5l
+cyA8bm9yYWxmQHRyb25uZXMub3JnPgpMaW5rOiBodHRwczovL3BhdGNod29yay5mcmVlZGVza3Rv
+cC5vcmcvcGF0Y2gvbXNnaWQvMjAxOTEyMzAxMzA2MDQuMzEwMDYtMS1nZWVydCtyZW5lc2FzQGds
+aWRlci5iZQpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0t
+LQogZHJpdmVycy9ncHUvZHJtL2RybV9taXBpX2RiaS5jIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdl
+ZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fbWlwaV9kYmkuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbWlwaV9kYmkuYwpp
+bmRleCBlMzQwNThjNzIxYmVjLi4xNmJmZjFiZTRiOGFjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX21pcGlfZGJpLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9taXBpX2RiaS5j
+CkBAIC0zNjcsOSArMzY3LDkgQEAgc3RhdGljIHZvaWQgbWlwaV9kYmlfYmxhbmsoc3RydWN0IG1p
+cGlfZGJpX2RldiAqZGJpZGV2KQogCW1lbXNldChkYmlkZXYtPnR4X2J1ZiwgMCwgbGVuKTsKIAog
+CW1pcGlfZGJpX2NvbW1hbmQoZGJpLCBNSVBJX0RDU19TRVRfQ09MVU1OX0FERFJFU1MsIDAsIDAs
+Ci0JCQkgKHdpZHRoID4+IDgpICYgMHhGRiwgKHdpZHRoIC0gMSkgJiAweEZGKTsKKwkJCSAoKHdp
+ZHRoIC0gMSkgPj4gOCkgJiAweEZGLCAod2lkdGggLSAxKSAmIDB4RkYpOwogCW1pcGlfZGJpX2Nv
+bW1hbmQoZGJpLCBNSVBJX0RDU19TRVRfUEFHRV9BRERSRVNTLCAwLCAwLAotCQkJIChoZWlnaHQg
+Pj4gOCkgJiAweEZGLCAoaGVpZ2h0IC0gMSkgJiAweEZGKTsKKwkJCSAoKGhlaWdodCAtIDEpID4+
+IDgpICYgMHhGRiwgKGhlaWdodCAtIDEpICYgMHhGRik7CiAJbWlwaV9kYmlfY29tbWFuZF9idWYo
+ZGJpLCBNSVBJX0RDU19XUklURV9NRU1PUllfU1RBUlQsCiAJCQkgICAgICh1OCAqKWRiaWRldi0+
+dHhfYnVmLCBsZW4pOwogCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
