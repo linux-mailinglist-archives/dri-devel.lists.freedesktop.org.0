@@ -2,35 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A54D15F0C5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 18:59:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C889C15F4EF
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 19:25:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F24AA6E853;
-	Fri, 14 Feb 2020 17:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2A56FB78;
+	Fri, 14 Feb 2020 18:25:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14D556E853
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 17:59:24 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 0040780477;
- Fri, 14 Feb 2020 18:59:20 +0100 (CET)
-Date: Fri, 14 Feb 2020 18:59:19 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: drm/print: clean up RATELIMITED macros
-Message-ID: <20200214175919.GA14492@ravnborg.org>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A57B6E854
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 18:25:11 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id y11so11990958wrt.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 10:25:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=2v+GbDgoBeXkfNQ+uPKJ4b5v6lv/LCiGoeI5/c1pCwk=;
+ b=egbkHbC31/YhDg1VmB5sT3a5h0Kd7EKe0qtYoL4U/ny71evn0bseAzLeKOqEEG0YPs
+ g4FPsCzY2SHlrNVtlkq6L5/JwNrT52GXKeWzuUXkODzWvc1EdEbU6W8ZSNxsHm18+Fki
+ icj3t5cRrP4ZGZWNYCCGYWVDv1gIOCpJtFBs0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=2v+GbDgoBeXkfNQ+uPKJ4b5v6lv/LCiGoeI5/c1pCwk=;
+ b=BdCOxQDw9sB8cOj5lwzUlyid0YGrL4Rq/di3zkFQSAh5Hd5CtfbGqPYtgUyioisrQo
+ O/0mBRETH2nPAzpZPF4NwS/ySx0c7Zd13JcfrTpbf8z8hk600hqkKhzYDMrVqzmj2nlo
+ YtVqKsETD+8pghpy6GHwjHjXUZNmQJNjCH1uYS9XyPVj+jLg7TDDtryDWBjNH7ESRXmi
+ pj8npRb3cnjhOfG+deMxhPYKFaRJDKThfC18iomfq8LILj9rVemkNBQjcwNCKn8nrz7o
+ JSqxhEdr8sFOQAkPDinl+vAKnt6aJmC5B4RxrnQpZOujdAu9MzvttTzU1W8qUXYhMWQ0
+ lYvQ==
+X-Gm-Message-State: APjAAAUo8dtoxzixAIrT6ddVPqeDipslpg+l/evvLENVGPxGRJfx02oN
+ Wc32oYs9ArWjdBL2/owdHeBRrkozxiw=
+X-Google-Smtp-Source: APXvYqxvnSdhkfrz6JtmNai++r29ZoWmc0+KBKkFhTTQh97u0Qh45uAjpdW1mvHJ+nElDGQ1b6Sokw==
+X-Received: by 2002:adf:dd52:: with SMTP id u18mr5202104wrm.131.1581704709694; 
+ Fri, 14 Feb 2020 10:25:09 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g21sm7939394wmh.17.2020.02.14.10.25.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2020 10:25:09 -0800 (PST)
+Date: Fri, 14 Feb 2020 19:25:07 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+Subject: Re: [PATCH RESEND] drm/mcde: Fix Sphinx formatting
+Message-ID: <20200214182507.GX2363188@phenom.ffwll.local>
+Mail-Followup-To: Jonathan =?iso-8859-1?Q?Neusch=E4fer?=
+ <j.neuschaefer@gmx.net>, dri-devel@lists.freedesktop.org,
+ Linus Walleij <linus.walleij@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org
+References: <20200214163815.25442-1-j.neuschaefer@gmx.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=QyXUC8HyAAAA:8
- a=sqZNHU-3SF4bKGkxWHMA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <20200214163815.25442-1-j.neuschaefer@gmx.net>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,75 +69,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From 6fdc9c030ba88e6d0d8abc319f3dfe83751d5900 Mon Sep 17 00:00:00 2001
-From: Sam Ravnborg <sam@ravnborg.org>
-Date: Fri, 14 Feb 2020 18:54:42 +0100
-Subject: [PATCH v1 1/1] drm/print: clean up RATELIMITED macros
+On Fri, Feb 14, 2020 at 05:38:15PM +0100, Jonathan Neusch=E4fer wrote:
+> - Format the pipe diagram as a monospace block.
+> - Fix formatting of the list. Without the empty line, the first dash is
+>   not parsed as a bullet point.
+> =
 
-Drop a few indirections, making the code simpler.
-This also drops a RATELIMITED variant that is not in use.
+> Signed-off-by: Jonathan Neusch=E4fer <j.neuschaefer@gmx.net>
+> ---
+> Previous copy: https://lore.kernel.org/lkml/20191002153827.23026-2-j.neus=
+chaefer@gmx.net/
+> =
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
----
- include/drm/drm_print.h | 27 +++++++--------------------
- 1 file changed, 7 insertions(+), 20 deletions(-)
+> It seems that this patch got lost, somehow.
 
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index fd6ba2532f50..ca7cee8e728a 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -383,25 +383,6 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
- 	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
- 
--#define _DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, category, fmt, ...)	\
--({									\
--	static DEFINE_RATELIMIT_STATE(_rs,				\
--				      DEFAULT_RATELIMIT_INTERVAL,	\
--				      DEFAULT_RATELIMIT_BURST);		\
--	if (__ratelimit(&_rs))						\
--		drm_dev_dbg(dev, category, fmt, ##__VA_ARGS__);		\
--})
--
--/**
-- * Rate limited debug output. Like DRM_DEBUG() but won't flood the log.
-- *
-- * @dev: device pointer
-- * @fmt: printf() like format string.
-- */
--#define DRM_DEV_DEBUG_KMS_RATELIMITED(dev, fmt, ...)			\
--	_DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, DRM_UT_KMS,		\
--					  fmt, ##__VA_ARGS__)
--
- /*
-  * struct drm_device based logging
-  *
-@@ -525,7 +506,13 @@ void __drm_err(const char *format, ...);
- 
- 
- #define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)				\
--	DRM_DEV_DEBUG_KMS_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
-+({									\
-+	static DEFINE_RATELIMIT_STATE(_rs,				\
-+				      DEFAULT_RATELIMIT_INTERVAL,       \
-+				      DEFAULT_RATELIMIT_BURST);         \
-+	if (__ratelimit(&_rs))						\
-+		drm_dev_dbg(NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__);	\
-+})
- 
- /*
-  * struct drm_device based WARNs
--- 
-2.20.1
+Occasionally happens with the committer model we have, especially for
+smaller drivers. Thanks for resending, applied to drm-misc-next now.
+-Daniel
 
+> ---
+>  drivers/gpu/drm/mcde/mcde_drv.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_=
+drv.c
+> index 9a09eba53182..c535abed4765 100644
+> --- a/drivers/gpu/drm/mcde/mcde_drv.c
+> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
+> @@ -20,11 +20,11 @@
+>   * input formats including most variants of RGB and YUV.
+>   *
+>   * The hardware has four display pipes, and the layout is a little
+> - * bit like this:
+> + * bit like this::
+>   *
+> - * Memory     -> Overlay -> Channel -> FIFO -> 5 formatters -> DSI/DPI
+> - * External      0..5       0..3       A,B,    3 x DSI         bridge
+> - * source 0..9                         C0,C1   2 x DPI
+> + *   Memory     -> Overlay -> Channel -> FIFO -> 5 formatters -> DSI/DPI
+> + *   External      0..5       0..3       A,B,    3 x DSI         bridge
+> + *   source 0..9                         C0,C1   2 x DPI
+>   *
+>   * FIFOs A and B are for LCD and HDMI while FIFO CO/C1 are for
+>   * panels with embedded buffer.
+> @@ -43,6 +43,7 @@
+>   * to change as we exploit more of the hardware capabilities.
+>   *
+>   * TODO:
+> + *
+>   * - Enabled damaged rectangles using drm_plane_enable_fb_damage_clips()
+>   *   so we can selectively just transmit the damaged area to a
+>   *   command-only display.
+> --
+> 2.20.1
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
