@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978B415DC0A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:52:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 154FD15DC0C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2020 16:52:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0728F6F9A3;
-	Fri, 14 Feb 2020 15:52:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40FD66F9A2;
+	Fri, 14 Feb 2020 15:52:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E976F99E;
- Fri, 14 Feb 2020 15:52:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9844C6F9A1;
+ Fri, 14 Feb 2020 15:52:07 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7547F24673;
- Fri, 14 Feb 2020 15:52:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A1F31222C4;
+ Fri, 14 Feb 2020 15:52:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695526;
- bh=i0s+C8qHpiEsBD8BAnRqp9HW0tJMGETCCnpdyVGRr4s=;
+ s=default; t=1581695527;
+ bh=WKtH/RZTRwM7WT0NeLzaocPcyIhA+2QbGqT+MfxqYcM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oEWQXPGasCZLhq17fQpmk2U84ItmGxENVmh4TGraDJH0KM/x9uKcrtRsWurxKjBOa
- SMbr9rGKaPvYFor9HhdkZnt7l5arMc7JE1NM2pbBUumaSfsXC0cbcW1EV5JysCmhdY
- e0ZFzEnpgoMWR2QCXOV+1d3RONPK6Yl/GIzq2jko=
+ b=hwD2w8Q+1nZ0BK8KMggi8Iu9Z0mqZaTj6jnhlvCtla8lwZyjeqWC8zK4qPnZzV4Fm
+ CeYVc4SZP5qDJu+EQ0ORltFNiI0HIqkSzUxOfchLBUFUSaNOEQKgToW5xxeRTzVPkA
+ GfWy8lUlF0gzFjnpLZRwVf1RvOYpWj53dzYHiSjk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 147/542] drm/amdgpu: remove set but not used
- variable 'amdgpu_connector'
-Date: Fri, 14 Feb 2020 10:42:19 -0500
-Message-Id: <20200214154854.6746-147-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 148/542] drm/amdgpu: remove set but not used
+ variable 'count'
+Date: Fri, 14 Feb 2020 10:42:20 -0500
+Message-Id: <20200214154854.6746-148-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -58,34 +58,31 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogeXUga3VhaSA8eXVrdWFpM0BodWF3ZWkuY29tPgoKWyBVcHN0cmVhbSBjb21taXQgNGYy
-OTIyZDEyZDZjNjNkMGY0YWE0ZTg1OWFkOTVhZWU2ZDBkNGVhMCBdCgpGaXhlcyBnY2MgJy1XdW51
-c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cgpkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS9hbWRncHVfZGlzcGxheS5jOiBJbiBmdW5jdGlvbgrigJhhbWRncHVfZGlzcGxheV9jcnRjX3Nj
-YWxpbmdfbW9kZV9maXh1cOKAmToKZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rp
-c3BsYXkuYzo2OTM6Mjc6IHdhcm5pbmc6IHZhcmlhYmxlCuKAmGFtZGdwdV9jb25uZWN0b3LigJkg
-c2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCkZpeGVzOiBkMzhj
-ZWFmOTllZDAgKCJkcm0vYW1kZ3B1OiBhZGQgY29yZSBkcml2ZXIgKHY0KSIpClNpZ25lZC1vZmYt
-Ynk6IHl1IGt1YWkgPHl1a3VhaTNAaHVhd2VpLmNvbT4KU2lnbmVkLW9mZi1ieTogQWxleCBEZXVj
-aGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZp
-biA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X2Rpc3BsYXkuYyB8IDIgLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kaXNwbGF5LmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGlzcGxheS5jCmluZGV4IDNjYWRiMGI3
-NmYyMjEuLjRlNjk5MDcxZDE0NDMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9kaXNwbGF5LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X2Rpc3BsYXkuYwpAQCAtNjkwLDcgKzY5MCw2IEBAIGJvb2wgYW1kZ3B1X2Rpc3BsYXlfY3J0
-Y19zY2FsaW5nX21vZGVfZml4dXAoc3RydWN0IGRybV9jcnRjICpjcnRjLAogCXN0cnVjdCBhbWRn
-cHVfY3J0YyAqYW1kZ3B1X2NydGMgPSB0b19hbWRncHVfY3J0YyhjcnRjKTsKIAlzdHJ1Y3QgYW1k
-Z3B1X2VuY29kZXIgKmFtZGdwdV9lbmNvZGVyOwogCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25u
-ZWN0b3I7Ci0Jc3RydWN0IGFtZGdwdV9jb25uZWN0b3IgKmFtZGdwdV9jb25uZWN0b3I7CiAJdTMy
-IHNyY192ID0gMSwgZHN0X3YgPSAxOwogCXUzMiBzcmNfaCA9IDEsIGRzdF9oID0gMTsKIApAQCAt
-NzAyLDcgKzcwMSw2IEBAIGJvb2wgYW1kZ3B1X2Rpc3BsYXlfY3J0Y19zY2FsaW5nX21vZGVfZml4
-dXAoc3RydWN0IGRybV9jcnRjICpjcnRjLAogCQkJY29udGludWU7CiAJCWFtZGdwdV9lbmNvZGVy
-ID0gdG9fYW1kZ3B1X2VuY29kZXIoZW5jb2Rlcik7CiAJCWNvbm5lY3RvciA9IGFtZGdwdV9nZXRf
-Y29ubmVjdG9yX2Zvcl9lbmNvZGVyKGVuY29kZXIpOwotCQlhbWRncHVfY29ubmVjdG9yID0gdG9f
-YW1kZ3B1X2Nvbm5lY3Rvcihjb25uZWN0b3IpOwogCiAJCS8qIHNldCBzY2FsaW5nICovCiAJCWlm
-IChhbWRncHVfZW5jb2Rlci0+cm14X3R5cGUgPT0gUk1YX09GRikKLS0gCjIuMjAuMQoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+RnJvbTogeXUga3VhaSA8eXVrdWFpM0BodWF3ZWkuY29tPgoKWyBVcHN0cmVhbSBjb21taXQgYTFi
+ZDA3OWZjYTYyMTllMThiYjA4OTJmMGE3MjI4YTc2ZGQ2MjkyYyBdCgpGaXhlcyBnY2MgJy1XdW51
+c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cgpkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtm
+ZC9rZmRfZGV2aWNlLmM6IEluIGZ1bmN0aW9uCuKAmGtnZDJrZmRfcG9zdF9yZXNldOKAmToKZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX2RldmljZS5jOjc0NToxMTogd2FybmluZzoKdmFy
+aWFibGUg4oCYY291bnTigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJp
+YWJsZV0KCidjb3VudCcgaXMgbmV2ZXIgdXNlZCwgc28gY2FuIGJlIHJlbW92ZWQuIFRodXMgJ2F0
+b21pY19kZWNfcmV0dXJuJwpjYW4gYmUgcmVwbGFjZWQgYXMgJ2F0b21pY19kZWMnCgpGaXhlczog
+ZTQyMDUxZDIxMzNiICgiZHJtL2FtZGtmZDogSW1wbGVtZW50IEdQVSByZXNldCBoYW5kbGVycyBp
+biBLRkQiKQpTaWduZWQtb2ZmLWJ5OiB5dSBrdWFpIDx5dWt1YWkzQGh1YXdlaS5jb20+ClNpZ25l
+ZC1vZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KU2lnbmVk
+LW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2UuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIg
+aW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9r
+ZmRfZGV2aWNlLmMKaW5kZXggNGZhODgzNGNlN2NiMC4uMjA5YmZjODQ5MzUyYiAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX2RldmljZS5jCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2UuYwpAQCAtNzQyLDcgKzc0Miw3IEBAIGludCBr
+Z2Qya2ZkX3ByZV9yZXNldChzdHJ1Y3Qga2ZkX2RldiAqa2ZkKQogCiBpbnQga2dkMmtmZF9wb3N0
+X3Jlc2V0KHN0cnVjdCBrZmRfZGV2ICprZmQpCiB7Ci0JaW50IHJldCwgY291bnQ7CisJaW50IHJl
+dDsKIAogCWlmICgha2ZkLT5pbml0X2NvbXBsZXRlKQogCQlyZXR1cm4gMDsKQEAgLTc1MCw3ICs3
+NTAsNyBAQCBpbnQga2dkMmtmZF9wb3N0X3Jlc2V0KHN0cnVjdCBrZmRfZGV2ICprZmQpCiAJcmV0
+ID0ga2ZkX3Jlc3VtZShrZmQpOwogCWlmIChyZXQpCiAJCXJldHVybiByZXQ7Ci0JY291bnQgPSBh
+dG9taWNfZGVjX3JldHVybigma2ZkX2xvY2tlZCk7CisJYXRvbWljX2RlYygma2ZkX2xvY2tlZCk7
+CiAKIAlhdG9taWNfc2V0KCZrZmQtPnNyYW1fZWNjX2ZsYWcsIDApOwogCi0tIAoyLjIwLjEKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
