@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FE715FFF4
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 20:09:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC01715FFF5
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 20:11:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD3CA6E8FE;
-	Sat, 15 Feb 2020 19:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E03E76E909;
+	Sat, 15 Feb 2020 19:11:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
  [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAC026E8FE
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 19:09:52 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id i6so12373507otr.7
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 11:09:52 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 740EB6E909
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 19:11:15 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id z9so12382673oth.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 11:11:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jtaBwvuDqYXbgEkrcmnkNq+aJksvx3qYuStrUFf1nPk=;
- b=c9PMTdkBLuUK+HHuum3wcIS9llgNeY4RsZ/Xp5xrMgg9deWfIEXOdddxfc44Iog3+A
- NBeeegjUT2AyL2SKZFjkGxiGyFx+0NRJg4SaqQ9p78SGQhdTMl5veugxQ3dcc/XeIBzS
- DhwtCu+6dQqiWs51SXeqe14q4scl4B2JCcGSg=
+ :cc:content-transfer-encoding;
+ bh=DIjwda0bD9jiEv5pqKh3c8MTLKpMyxL2Dw5EU5R/+Yc=;
+ b=e93UN9uuUsW40UlCW0zCtpXEy1TeSaIOdaLIMKF6M5LGlXvUTQrxwH7UAvsNclSYyT
+ JNsZf6C0bRw3DKD9lCyC1FOFzd1T6MbttxCJLHArHywNb4nHxknokrXGguxg2yupYNt7
+ enGAeDyzwQD4skEa3ZAj7Yvuce+vpijjT4EXc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jtaBwvuDqYXbgEkrcmnkNq+aJksvx3qYuStrUFf1nPk=;
- b=EjmZ9+PnfcmCCPsB8SBNIuehyiQDbEmQkgQgsp/8NUnjjVKMqAzVjh4fiaJhrNDkrn
- dPM99SbIPQf+/x/lQ+a3G5KgtlT+vhTbTjSOkWwo5j9EMe1fIp9gC1sqc4+iyKqak9rW
- ZjspAQ+QHPng6GPI6aUOtcLPYYnFZGQDwEOk7v0NPS5ThMvMDuY47tDV/+iGJzQZxW90
- Z9OG8JJ8bwRn8EK3CSpAGGEoc1Chtm/ucZ2uk1gLCai9PrARNocBFrWHluYMmf49LX7d
- yIE1a+VStnD3vZG9sIWoU4/hcY5CL+lYxYEP8ZUL7oTtnvjoN3XdZxBfNXSHygqggCx5
- PEBw==
-X-Gm-Message-State: APjAAAWWTJ/w9mfnoF+BH4aDL+uhe8iWEtnXPdokW6gHt/H4rfomrcQh
- irqXbiwvpn8Tht6nGiE4EFSU/5EGkkK4ihIk0bYokTJB
-X-Google-Smtp-Source: APXvYqyDF8Tbp54BZWvvBmE3A/+h/8Q7nSKhtUVAtR/vETVSPr1LfkZzbANNc8095CPUNr4taE8MgYztSQmocATgYJk=
-X-Received: by 2002:a9d:7f11:: with SMTP id j17mr7186456otq.281.1581793791767; 
- Sat, 15 Feb 2020 11:09:51 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DIjwda0bD9jiEv5pqKh3c8MTLKpMyxL2Dw5EU5R/+Yc=;
+ b=tQSfG9ZzhEszGRXAx+Oyk4ui1xlFAXIVCnAHGAp2Di7b3f3hJZrdOJSQOcpgZGM9H0
+ ROq7vg0DT0Qpp8RJQ+XMfl/l61Ftcrx+ux57Dn0kk8rJVC7QdPTjwOe9xePdNS7xZlqA
+ xM+0U5dRsBj+QaTF8aUTdERA044mzyK+bZVDDelO1dV/gSBBmGcvd3sY7l6tKH9fij3f
+ 2ChUBW094yJ54x2a9mQQliTlB1+SCcYXuETzSYO9+KCpJoUGKbU2TwNlp9av0wJuW9Jh
+ 4kCG5z1Gc8vfLjjyragrHxWqoZim+2VzRKLhJin45L9UIU1iFa8wVVo04mn0FH/zfISS
+ hYOA==
+X-Gm-Message-State: APjAAAXtgCKekpp/mYXfg29EVs/V0gBXzSZsaDNQXNDZA42YPD29TLiU
+ jTNre8OtcT8KsG5uKidsALzSLvXmIRHSGmgBUG7Fbw==
+X-Google-Smtp-Source: APXvYqz5+gRFR7qAO5xcpC3y526r3jbx1F7sVdd0dKNSCFln6AWi/X8OH6iYKejfRUcEI/y8xRvGFy59rr1Pg2VSFMk=
+X-Received: by 2002:a9d:7f11:: with SMTP id j17mr7190666otq.281.1581793874798; 
+ Sat, 15 Feb 2020 11:11:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20200215173342.GA7458@ravnborg.org>
-In-Reply-To: <20200215173342.GA7458@ravnborg.org>
+References: <20200215183503.GA17310@ravnborg.org>
+In-Reply-To: <20200215183503.GA17310@ravnborg.org>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Sat, 15 Feb 2020 20:09:40 +0100
-Message-ID: <CAKMK7uHweW=yhM=zjzfohL4ki-YoxOO=nfoONY8VDGm7FSdP2w@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] drm: drop unused drm_crtc callback
+Date: Sat, 15 Feb 2020 20:11:03 +0100
+Message-ID: <CAKMK7uFp5AzCxSeRg=ZibVnD0e8EhrsxYnuLeicUgp3gCr3Lpg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] drm: drop unused drm_display_mode.private
 To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,93 +58,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sean Paul <seanpaul@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 15, 2020 at 6:33 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> struct drm_encoder_helper_funcs included a callback
-> named drm_crtc.
->
-> There are no users left - so drop it.
-> There was one reference in drm_crtc_helper.c,
-> which checked if the value was not NULL.
-> As it was never assigned this check could be dropped.
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->
-> Stumbled upon this and dediced to check if it was used.
-> Build tested with allyesconfig, allmodconfig for relevant architectures.
-
-Nice catch!
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->
->         Sam
->
->
->  drivers/gpu/drm/drm_crtc_helper.c        |  4 ----
->  include/drm/drm_modeset_helper_vtables.h | 16 ----------------
->  2 files changed, 20 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-> index 93a4eec429e8..a4d36aca45ea 100644
-> --- a/drivers/gpu/drm/drm_crtc_helper.c
-> +++ b/drivers/gpu/drm/drm_crtc_helper.c
-> @@ -244,10 +244,6 @@ drm_crtc_prepare_encoders(struct drm_device *dev)
->                 /* Disable unused encoders */
->                 if (encoder->crtc == NULL)
->                         drm_encoder_disable(encoder);
-> -               /* Disable encoders whose CRTC is about to change */
-> -               if (encoder_funcs->get_crtc &&
-> -                   encoder->crtc != (*encoder_funcs->get_crtc)(encoder))
-> -                       drm_encoder_disable(encoder);
->         }
->  }
->
-> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> index 0afaf58da40d..7c20b1c8b6a7 100644
-> --- a/include/drm/drm_modeset_helper_vtables.h
-> +++ b/include/drm/drm_modeset_helper_vtables.h
-> @@ -692,22 +692,6 @@ struct drm_encoder_helper_funcs {
->                                 struct drm_crtc_state *crtc_state,
->                                 struct drm_connector_state *conn_state);
->
-> -       /**
-> -        * @get_crtc:
-> -        *
-> -        * This callback is used by the legacy CRTC helpers to work around
-> -        * deficiencies in its own book-keeping.
-> -        *
-> -        * Do not use, use atomic helpers instead, which get the book keeping
-> -        * right.
-> -        *
-> -        * FIXME:
-> -        *
-> -        * Currently only nouveau is using this, and as soon as nouveau is
-> -        * atomic we can ditch this hook.
-> -        */
-> -       struct drm_crtc *(*get_crtc)(struct drm_encoder *encoder);
-> -
->         /**
->          * @detect:
->          *
-> --
-> 2.20.1
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBGZWIgMTUsIDIwMjAgYXQgNzozNSBQTSBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9y
+Zy5vcmc+IHdyb3RlOgo+Cj4gZHJtX2Rpc3BsYXlfbW9kZS5wcml2YXRlIHdhcyBvbmx5IHJlZmVy
+ZW5jZWQgaW4gb25lIHBsYWNlIHdoZXJlCj4gaXMgd2FzIGNvcGllZCBidXQgbmV2ZXIgYXNzaWdu
+ZWQuCj4KPiBEcm9wIHRoZSBjb3B5IGFuZCBkcm9wIHRoZSBmaWVsZCBpbiBkcm1fZGlzcGxheV9t
+b2RlLgo+IEFkanVzdCB0aGUgY29tbWVudCBvZiBwcml2YXRlX2ZsYWdzIGFzIGlzIHJlZmVycmVk
+IHRvIHRoZSBjb21tZW50IGZvcgo+IHByaXZhdGUuCj4KPiBTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2
+bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gQ2M6IFNlYW4gUGF1bCA8c2VhbnBhdWxAY2hyb21p
+dW0ub3JnPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IENj
+OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IC0tLQo+
+Cj4gQWdhaW4sIHNvbWV0aGluZyBJIGp1c3Qgc3R1bWJsZWQgdXBvbi4KPiBJIGFsc28gY2hlY2tl
+ZCBwcml2YXRlX2ZsYWdzIC0gaXQgaXMgdXNlZCBpbiBhIGZldyBtb2R1bGVzLgo+IEFuZCBpdCBs
+b29rZWQgbGVnaXQuCj4KPiBCdWlsZCB0ZXN0ZWQgd2l0aCBhbGxtb2Rjb25maWcsIGFsbHllc2Nv
+bmZpZywgYWxsbm9jb25maWcgZm9yIHJlbGV2YW50Cj4gYXJjaGl0ZWN0dXJlcy4KCklpcmMgaTkx
+NSB1c2VkIHRoaXMsIGJlZm9yZSB3ZSB3ZW50IGZ1bGwgb3ZlcmRyaXZlIHdpdGggZW50aXJlIGF0
+b21pYwpzdGF0ZSBzdHJ1Y3R1cmUgc3ViY2xhc3NpbmcgOi0pCgpSZXZpZXdlZC1ieTogRGFuaWVs
+IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KCj4KPiAgICAgICAgIFNhbQo+Cj4KPiAg
+ZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2VuY29kZXIuYyB8ICAxIC0KPiAgaW5j
+bHVkZS9kcm0vZHJtX21vZGVzLmggICAgICAgICAgICAgICAgICAgICB8IDExICsrLS0tLS0tLS0t
+Cj4gIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlvbnMoLSkKPgo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfZW5jb2Rlci5j
+IGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2VuY29kZXIuYwo+IGluZGV4IGY5
+NmUxNDJjNDM2MS4uNjE5NzI2MWUyMmMxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9t
+c20vZGlzcC9kcHUxL2RwdV9lbmNvZGVyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rp
+c3AvZHB1MS9kcHVfZW5jb2Rlci5jCj4gQEAgLTUxNiw3ICs1MTYsNiBAQCBzdGF0aWMgdm9pZCBf
+ZHB1X2VuY29kZXJfYWRqdXN0X21vZGUoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwK
+PiAgICAgICAgICAgICAgICAgaWYgKGN1cl9tb2RlLT52ZGlzcGxheSA9PSBhZGpfbW9kZS0+dmRp
+c3BsYXkgJiYKPiAgICAgICAgICAgICAgICAgICAgIGN1cl9tb2RlLT5oZGlzcGxheSA9PSBhZGpf
+bW9kZS0+aGRpc3BsYXkgJiYKPiAgICAgICAgICAgICAgICAgICAgIGRybV9tb2RlX3ZyZWZyZXNo
+KGN1cl9tb2RlKSA9PSBkcm1fbW9kZV92cmVmcmVzaChhZGpfbW9kZSkpIHsKPiAtICAgICAgICAg
+ICAgICAgICAgICAgICBhZGpfbW9kZS0+cHJpdmF0ZSA9IGN1cl9tb2RlLT5wcml2YXRlOwo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgIGFkal9tb2RlLT5wcml2YXRlX2ZsYWdzIHw9IGN1cl9tb2Rl
+LT5wcml2YXRlX2ZsYWdzOwo+ICAgICAgICAgICAgICAgICB9Cj4gICAgICAgICB9Cj4gZGlmZiAt
+LWdpdCBhL2luY2x1ZGUvZHJtL2RybV9tb2Rlcy5oIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVzLmgK
+PiBpbmRleCBlOTQ2ZTIwYzYxZDguLjk5MTM0ZDRmMzVlYiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRl
+L2RybS9kcm1fbW9kZXMuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlcy5oCj4gQEAgLTM3
+MSwyMCArMzcxLDEzIEBAIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHsKPiAgICAgICAgIGludCBj
+cnRjX3Z0b3RhbDsKPgo+ICAgICAgICAgLyoqCj4gLSAgICAgICAgKiBAcHJpdmF0ZToKPiArICAg
+ICAgICAqIEBwcml2YXRlX2ZsYWdzOgo+ICAgICAgICAgICoKPiAtICAgICAgICAqIFBvaW50ZXIg
+Zm9yIGRyaXZlciBwcml2YXRlIGRhdGEuIFRoaXMgY2FuIG9ubHkgYmUgdXNlZCBmb3IgbW9kZQo+
+ICsgICAgICAgICogRHJpdmVyIHByaXZhdGUgZmxhZ3MuIHByaXZhdGVfZmxhZ3MgY2FuIG9ubHkg
+YmUgdXNlZCBmb3IgbW9kZQo+ICAgICAgICAgICogb2JqZWN0cyBwYXNzZWQgdG8gZHJpdmVycyBp
+biBtb2Rlc2V0IG9wZXJhdGlvbnMuIEl0IHNob3VsZG4ndCBiZSB1c2VkCj4gICAgICAgICAgKiBi
+eSBhdG9taWMgZHJpdmVycyBzaW5jZSB0aGV5IGNhbiBzdG9yZSBhbnkgYWRkaXRpb25hbCBkYXRh
+IGJ5Cj4gICAgICAgICAgKiBzdWJjbGFzc2luZyBzdGF0ZSBzdHJ1Y3R1cmVzLgo+ICAgICAgICAg
+ICovCj4gLSAgICAgICBpbnQgKnByaXZhdGU7Cj4gLQo+IC0gICAgICAgLyoqCj4gLSAgICAgICAg
+KiBAcHJpdmF0ZV9mbGFnczoKPiAtICAgICAgICAqCj4gLSAgICAgICAgKiBTaW1pbGFyIHRvIEBw
+cml2YXRlLCBidXQganVzdCBhbiBpbnRlZ2VyLgo+IC0gICAgICAgICovCj4gICAgICAgICBpbnQg
+cHJpdmF0ZV9mbGFnczsKPgo+ICAgICAgICAgLyoqCj4gLS0KPiAyLjIwLjEKPgoKCi0tIApEYW5p
+ZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5
+IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
