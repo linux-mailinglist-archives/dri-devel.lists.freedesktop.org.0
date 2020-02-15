@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DA315FE51
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 13:21:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCABD15FE54
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 13:23:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08D746E20B;
-	Sat, 15 Feb 2020 12:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5AF16E211;
+	Sat, 15 Feb 2020 12:23:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4FDD6E20B
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 12:21:36 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r11so14105451wrq.10
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 04:21:36 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588A96E211
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 12:23:14 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id a6so13731480wme.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 04:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=bnqvK6ZJoVnVdqtPxqhk4utKspx6JMigFnvktxputLw=;
- b=fCn9JRDSpHqnCG/rc/S4LMhrJpvfI52XFl698EUZJVZD7eVnt5Jr6w+JxlB1TNu1nA
- PqU49ZUFCvq+8LpuB1hxBKtrth/1tAeHs83QkabrBjR+V1Vk4/tNiKsbB0VFs9IkXbw1
- UtSp3+sMxqxCu5wxfT9OCz09jwfvXdm4bIpio=
+ bh=twMZzL2TC1CoRlCRo2zfH0+zID2DF84OKfkXAsBJ6/g=;
+ b=lOAWXDGMjofyAdZFu71FSuq8XqHEoAl0PuGTYHuKJAJ3hj0fCGkuiyfZFopVkgxZbx
+ JNKWb0WA+6+TQZ6zjb8klh7gtp9tvCBtphvWzsT2KVz/0FA6Wne1dKQfq6UhKCNW6176
+ LN3pyHCfuWGJv8f+OoToN5bAUcfoXWMdTTbxI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=bnqvK6ZJoVnVdqtPxqhk4utKspx6JMigFnvktxputLw=;
- b=V9LUfVDYh9iNER8SgWk6MRqKpfIaRSKILsyQip+roN3CCT4pqmA2VvIpqT0eiTebTm
- EkC+aj/kCqtyHLEdsHzPl+6jnbmv8ct94294OHua72pyxQaOSTz9Us9aDvWyJt+kM1NC
- 59FLO+yxI4Uz2U4XY60XHFwsOj9IUrNuRQrZiIMgcShX8yyLyASTNVPezBHOjiCPaLes
- x2m2gS0C5rz3YNsrYZvqLhnIyTTjoKXGbzkYomkcdut4De/U9MtDENP+1RjegBKeHIcH
- CJ91bWgBQmfujw1YLyz34XHKS9Vr0TPE1JuRWKqLQghutkS4UoAB/xlcS4wDlfPwMUN6
- VN0A==
-X-Gm-Message-State: APjAAAXgHpaUGY7MkXXzpKcr+oiDqLs1+vHfzH/d4yf2GE8WgDGJ29a4
- G/lQG3GKSziOVkNYAi4aDoLtYQ==
-X-Google-Smtp-Source: APXvYqwRlHC7KnJz/95AhhhrwTLLlg+M9taFyhstDbCv0tf19h+LI73wRejbMYL+bku/AUDTSoKG/A==
-X-Received: by 2002:adf:97d6:: with SMTP id t22mr9806739wrb.407.1581769294888; 
- Sat, 15 Feb 2020 04:21:34 -0800 (PST)
+ bh=twMZzL2TC1CoRlCRo2zfH0+zID2DF84OKfkXAsBJ6/g=;
+ b=rZGEkXQHCGeD8OaSw3eB+lBlDdM5ZrfvqCAAuCypPB8PyLGiUyq0cJnwfTtOgtiBS8
+ VEHkdb3pSLk7o8kD47UCG2jDsPzEwIGFFVK59NsnhGJyWD3C4KJE/C2kkVWnP9J+kcMo
+ in7dNeAcRO5xos90LB9GG3VgIH1PtOPhvusm31tpc7LEAR+UmjuqDRQ5Auy5NYl9fC1w
+ CZ/AVvn8xZLsaoLX+9h9Ptba5hTD5rK0/8gMzfjj969Nf9VZxiV8t2tax5AxbTVX/qfr
+ occHZxeil4877p9i8FGv2oZiLYkLWpSe8gHwMoDR68hD//1wv+hcW4dsSz9JMCURvs7O
+ 3BjA==
+X-Gm-Message-State: APjAAAVVf1mTOKt2UCAIjfy5bo9BxMBb8sgxjpzQoeXiDT2nB2IsFMWR
+ Cg1SdhwiejkNdFtgxcuq2PmZpA==
+X-Google-Smtp-Source: APXvYqzKprT47wY72IAe/AV/eb2Wcc8IOAmHGXJpZmz/pI361HiP9u4u1lJoJR0XEqJ41oF9cXYTKA==
+X-Received: by 2002:a1c:a78b:: with SMTP id q133mr10540475wme.28.1581769392926; 
+ Sat, 15 Feb 2020 04:23:12 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 4sm11216619wmg.22.2020.02.15.04.21.32
+ by smtp.gmail.com with ESMTPSA id g7sm11360723wrq.21.2020.02.15.04.23.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2020 04:21:34 -0800 (PST)
-Date: Sat, 15 Feb 2020 13:21:31 +0100
+ Sat, 15 Feb 2020 04:23:12 -0800 (PST)
+Date: Sat, 15 Feb 2020 13:23:10 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH] drm/atomic-helper: fix kerneldoc
-Message-ID: <20200215122131.GA2363188@phenom.ffwll.local>
-References: <20200214081340.2772853-1-daniel.vetter@ffwll.ch>
- <20200215101936.0ca2c4d1@collabora.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: drm/print: clean up RATELIMITED macros
+Message-ID: <20200215122310.GB2363188@phenom.ffwll.local>
+References: <20200214175919.GA14492@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200215101936.0ca2c4d1@collabora.com>
+In-Reply-To: <20200214175919.GA14492@ravnborg.org>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,48 +64,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 15, 2020 at 10:19:36AM +0100, Boris Brezillon wrote:
-> On Fri, 14 Feb 2020 09:13:40 +0100
-> Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+On Fri, Feb 14, 2020 at 06:59:19PM +0100, Sam Ravnborg wrote:
+> From 6fdc9c030ba88e6d0d8abc319f3dfe83751d5900 Mon Sep 17 00:00:00 2001
+> From: Sam Ravnborg <sam@ravnborg.org>
+> Date: Fri, 14 Feb 2020 18:54:42 +0100
+> Subject: [PATCH v1 1/1] drm/print: clean up RATELIMITED macros
 > 
-> > Just a tiny copypasta mistake.
-> > 
-> > Fixes: 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
-> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Drop a few indirections, making the code simpler.
+> This also drops a RATELIMITED variant that is not in use.
 > 
-> Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
 
-Thanks for taking a look, patch applied.
--Daniel
+Lots of turtles here :-)
 
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  include/drm/drm_print.h | 27 +++++++--------------------
+>  1 file changed, 7 insertions(+), 20 deletions(-)
 > 
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_atomic_state_helper.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > index 33141d2cdad4..8fce6a115dfe 100644
-> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > @@ -635,7 +635,6 @@ EXPORT_SYMBOL(__drm_atomic_helper_bridge_reset);
-> >   * drm_atomic_helper_bridge_reset() - Allocate and initialize a bridge state
-> >   *				      to its default
-> >   * @bridge: the bridge this state refers to
-> > - * @state: bridge state to initialize
-> >   *
-> >   * Allocates the bridge state and initializes it to default values. This helper
-> >   * is meant to be used as a bridge &drm_bridge_funcs.atomic_reset hook for
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index fd6ba2532f50..ca7cee8e728a 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -383,25 +383,6 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+>  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+>  
+> -#define _DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, category, fmt, ...)	\
+> -({									\
+> -	static DEFINE_RATELIMIT_STATE(_rs,				\
+> -				      DEFAULT_RATELIMIT_INTERVAL,	\
+> -				      DEFAULT_RATELIMIT_BURST);		\
+> -	if (__ratelimit(&_rs))						\
+> -		drm_dev_dbg(dev, category, fmt, ##__VA_ARGS__);		\
+> -})
+> -
+> -/**
+> - * Rate limited debug output. Like DRM_DEBUG() but won't flood the log.
+> - *
+> - * @dev: device pointer
+> - * @fmt: printf() like format string.
+> - */
+> -#define DRM_DEV_DEBUG_KMS_RATELIMITED(dev, fmt, ...)			\
+> -	_DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, DRM_UT_KMS,		\
+> -					  fmt, ##__VA_ARGS__)
+> -
+>  /*
+>   * struct drm_device based logging
+>   *
+> @@ -525,7 +506,13 @@ void __drm_err(const char *format, ...);
+>  
+>  
+>  #define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)				\
+> -	DRM_DEV_DEBUG_KMS_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+> +({									\
+> +	static DEFINE_RATELIMIT_STATE(_rs,				\
+> +				      DEFAULT_RATELIMIT_INTERVAL,       \
+> +				      DEFAULT_RATELIMIT_BURST);         \
+> +	if (__ratelimit(&_rs))						\
+> +		drm_dev_dbg(NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__);	\
+> +})
+>  
+>  /*
+>   * struct drm_device based WARNs
+> -- 
+> 2.20.1
 > 
 
 -- 
