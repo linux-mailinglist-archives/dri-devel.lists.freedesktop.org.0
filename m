@@ -2,44 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645A115FEDF
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 15:42:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FDC15FF82
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 18:33:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D01306E210;
-	Sat, 15 Feb 2020 14:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D94C96E21B;
+	Sat, 15 Feb 2020 17:33:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 831926E210
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 14:42:24 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 200695] Blank screen on RX 580 with amdgpu.dc=1 enabled (no
- displays detected)
-Date: Sat, 15 Feb 2020 14:42:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: magicmyth@magicmyth.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-200695-2300-NE58MTWFGj@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-200695-2300@https.bugzilla.kernel.org/>
-References: <bug-200695-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E322E6E21B
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 17:33:45 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id C71F120021;
+ Sat, 15 Feb 2020 18:33:43 +0100 (CET)
+Date: Sat, 15 Feb 2020 18:33:42 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v1 1/1] drm: drop unused drm_crtc callback
+Message-ID: <20200215173342.GA7458@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=C6ZuiBmJ15vxEN2zucAA:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,26 +47,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=200695
+struct drm_encoder_helper_funcs included a callback
+named drm_crtc.
 
-Adam (magicmyth@magicmyth.com) changed:
+There are no users left - so drop it.
+There was one reference in drm_crtc_helper.c,
+which checked if the value was not NULL.
+As it was never assigned this check could be dropped.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |magicmyth@magicmyth.com
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
 
---- Comment #36 from Adam (magicmyth@magicmyth.com) ---
-I've run into this issue now when moving a Radeon RX 580 card into a Intel Z77
-system with a 2500K. The same card has worked perfectly with DC enabled on AMD
-B350 and X470 motherboards. It is only this Asus P8Z77-V LX motherboard that
-has demonstrated the issue. I tested with both Legacy and UEFI boot modes with
-the same result.
+Stumbled upon this and dediced to check if it was used.
+Build tested with allyesconfig, allmodconfig for relevant architectures.
 
-The testing has been done with both Linux 5.3 and 5.4 kernels from Ubuntu.
+	Sam
 
+
+ drivers/gpu/drm/drm_crtc_helper.c        |  4 ----
+ include/drm/drm_modeset_helper_vtables.h | 16 ----------------
+ 2 files changed, 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
+index 93a4eec429e8..a4d36aca45ea 100644
+--- a/drivers/gpu/drm/drm_crtc_helper.c
++++ b/drivers/gpu/drm/drm_crtc_helper.c
+@@ -244,10 +244,6 @@ drm_crtc_prepare_encoders(struct drm_device *dev)
+ 		/* Disable unused encoders */
+ 		if (encoder->crtc == NULL)
+ 			drm_encoder_disable(encoder);
+-		/* Disable encoders whose CRTC is about to change */
+-		if (encoder_funcs->get_crtc &&
+-		    encoder->crtc != (*encoder_funcs->get_crtc)(encoder))
+-			drm_encoder_disable(encoder);
+ 	}
+ }
+ 
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index 0afaf58da40d..7c20b1c8b6a7 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -692,22 +692,6 @@ struct drm_encoder_helper_funcs {
+ 				struct drm_crtc_state *crtc_state,
+ 				struct drm_connector_state *conn_state);
+ 
+-	/**
+-	 * @get_crtc:
+-	 *
+-	 * This callback is used by the legacy CRTC helpers to work around
+-	 * deficiencies in its own book-keeping.
+-	 *
+-	 * Do not use, use atomic helpers instead, which get the book keeping
+-	 * right.
+-	 *
+-	 * FIXME:
+-	 *
+-	 * Currently only nouveau is using this, and as soon as nouveau is
+-	 * atomic we can ditch this hook.
+-	 */
+-	struct drm_crtc *(*get_crtc)(struct drm_encoder *encoder);
+-
+ 	/**
+ 	 * @detect:
+ 	 *
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.20.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
