@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7DC15FBD4
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 01:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9C915FC55
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Feb 2020 03:29:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052016E89A;
-	Sat, 15 Feb 2020 00:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D366E0DD;
+	Sat, 15 Feb 2020 02:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E98C36E89A
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 00:58:05 +0000 (UTC)
-Received: by mail-qv1-xf42.google.com with SMTP id l14so5132158qvu.12
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 16:58:05 -0800 (PST)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C81D6E0DD
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Feb 2020 02:29:22 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id a13so12779831ljm.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 18:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1cKFrJvxjBZmwV8fx4PYPqMr+d+UV5RB12ZA7bxHkY0=;
- b=TeSq9Nlzf7M/ZtJ8VOaje5NhgoW8Yeqrn8llHTbkbSXb5O/a1WCI5M5AZcp131CFwf
- 13Arnsb5ipnKvw44LV/bDy99jaw3XQ6+lrSgP3r47jcFBAANti4hct/FKSVSzETMGn1s
- g5c5h0yzaGpiilE+3o2Xg2CjsUeE+cvpiSA/k=
+ :cc; bh=XtZdxSn5euEJn/aRCp6b/ogPBNRDU00+tWLI/C0o2PI=;
+ b=ZggSIXfi/5JHR0u/lm99Dh3+LtX0euPM671Ei0O8F7/Mipe0OfCGwoZf5to/RcMbQ/
+ kIW+t7brmH71Rsc6M7DBekVBiJxceutNu1A7gV37fDoZ/XV8MC6lv4VYsMF9rH+shn4O
+ wNSO5r4ZNVNPKH1NbLChFD2gWY9wynsKvAPhI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1cKFrJvxjBZmwV8fx4PYPqMr+d+UV5RB12ZA7bxHkY0=;
- b=QBl1e3pdGx6gJPkNj5oQ9NCtYf2IFol1NahGzJK/qwZoD8jtN+/FFzFVGqKUxyISCN
- C68NDAF0S/UOzLi5yWIQ4MfhMmwXnr5Wvp9DF4iCa1KYMZ/HHaGXTUIGdCM6TI2Ry6bY
- 7lQM6i8Hxg2zNdPtlS1uTtV+xMpblG6M5eeAA8nA1+uImEhTDDdr/TPHyG8tOrbp73nP
- 3eFBJaJgYXKToWkIP2MGNdGLCtcKvyGy3zi/UzTDJqY50EZ/laRO/jo2qzN9t/OwhUWU
- EEttYnA2oodDlPgQt3f7V3pD/W/egj2HGSGk4YuSG+yeA48Fd4QOQ/wUo2oQ2MkQkRBB
- +bSg==
-X-Gm-Message-State: APjAAAWlYnksDoYMSSa5GcwYiJCASNpDl4KgjqCKOzlB4DU0rWUyPsT2
- 6fANsctQUSI6J3MMwCaJSSl5RiSX6jWXgB742s/fsA==
-X-Google-Smtp-Source: APXvYqzCBMYNJm+5z3VItZNU8GREjvs8qxBPDVO54pJ2EWZ9LKE1F+BAhKKuBrQstARpdGDLibG5Ehxxqpzcf4gxABI=
-X-Received: by 2002:a05:6214:531:: with SMTP id
- x17mr4638090qvw.156.1581728284775; 
- Fri, 14 Feb 2020 16:58:04 -0800 (PST)
+ bh=XtZdxSn5euEJn/aRCp6b/ogPBNRDU00+tWLI/C0o2PI=;
+ b=iM07Jm5YcnHrtiS3vFYWmMIQUdIomWvDLGsV992yqbm/olAG3p+49kt/nvN55b/uWk
+ k53VmuFYC5VhPdTUNlI56WeP940yPX+GB95FV/2S1ytv9r6Pj6dXMa+HwrZAaEpRG8u5
+ rIxFNyrPtt2bRetfecTmGMmr3JOsIJaX4j5zhUR3oKGzB7qKdQ8hkyMXzMMvpMjBd8Nt
+ YeSPVbQGWSjMgmklmXrdsXrwaCkJRKhIxB5No/R0S2+Rs4kzAHNqCr9mzZH5sxbUemIe
+ 04uzq5K/XqCpsKJxYLsyQ0VJJUi14hAhMRrE0V2/tuukRE0HzRAxMVwtpCCOeLNyF2ro
+ FOKA==
+X-Gm-Message-State: APjAAAXPiJZHkPfb1Ocvf+cHJs9eeW/746Vn8d38C0b7IGekFw0ADSpi
+ NDSz1Q9Lhj9ixPdnfgexY6iLeeLJ4c4=
+X-Google-Smtp-Source: APXvYqyNsrX1A1XwakR1cqIPUte4jMdnXnT0/m9ZK5r7qQ0SJbhSshGn3o/455gB9Yv8Nq/sPQ854Q==
+X-Received: by 2002:a2e:9e4c:: with SMTP id g12mr3651264ljk.15.1581733760614; 
+ Fri, 14 Feb 2020 18:29:20 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com.
+ [209.85.208.176])
+ by smtp.gmail.com with ESMTPSA id t29sm3616103lfg.84.2020.02.14.18.29.20
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Feb 2020 18:29:20 -0800 (PST)
+Received: by mail-lj1-f176.google.com with SMTP id q8so12731295ljj.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Feb 2020 18:29:20 -0800 (PST)
+X-Received: by 2002:a2e:995a:: with SMTP id r26mr3910885ljj.78.1581733759664; 
+ Fri, 14 Feb 2020 18:29:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20200213145416.890080-1-enric.balletbo@collabora.com>
- <20200213145416.890080-2-enric.balletbo@collabora.com>
- <CA+E=qVffVzZwRTk9K7=xhWn-AOKExkew0aPcyL_W1nokx-mDdg@mail.gmail.com>
-In-Reply-To: <CA+E=qVffVzZwRTk9K7=xhWn-AOKExkew0aPcyL_W1nokx-mDdg@mail.gmail.com>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Sat, 15 Feb 2020 08:57:53 +0800
-Message-ID: <CANMq1KCAp6fYEqX3udxUXi+zEgjSy_FddDngDwriB8D-gAj=YQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7688: Add anx7688 bridge driver
- support
-To: Vasily Khoruzhick <anarsoul@gmail.com>
+References: <20200213231805.622-1-gurchetansingh@chromium.org>
+ <20200213231805.622-4-gurchetansingh@chromium.org>
+ <CAPaKu7QTTSWmts2embnRrfNcnHqnPrK9dGuLNpuiQx82MX0nNQ@mail.gmail.com>
+In-Reply-To: <CAPaKu7QTTSWmts2embnRrfNcnHqnPrK9dGuLNpuiQx82MX0nNQ@mail.gmail.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Fri, 14 Feb 2020 18:29:08 -0800
+X-Gmail-Original-Message-ID: <CAAfnVB=MrO7KwYnUbVoG=TOqQMeFiZM3R2KgH=N7A5Ceq=Raaw@mail.gmail.com>
+Message-ID: <CAAfnVB=MrO7KwYnUbVoG=TOqQMeFiZM3R2KgH=N7A5Ceq=Raaw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] drm/virtio: track whether or not a context has been
+ initiated
+To: Chia-I Wu <olvaffe@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,61 +71,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Torsten Duwe <duwe@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Collabora Kernel ML <kernel@collabora.com>, Icenowy Zheng <icenowy@aosc.io>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, jbates@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 15, 2020 at 5:36 AM Vasily Khoruzhick <anarsoul@gmail.com> wrote:
+On Fri, Feb 14, 2020 at 11:27 AM Chia-I Wu <olvaffe@gmail.com> wrote:
 >
-> On Thu, Feb 13, 2020 at 6:54 AM Enric Balletbo i Serra
-> <enric.balletbo@collabora.com> wrote:
+> On Thu, Feb 13, 2020 at 3:18 PM Gurchetan Singh
+> <gurchetansingh@chromium.org> wrote:
 > >
-> > From: Nicolas Boichat <drinkcat@chromium.org>
+> > Use an atomic variable to track whether a context has been
+> > initiated.
 > >
-> > ANX7688 is a HDMI to DP converter (as well as USB-C port controller),
-> > that has an internal microcontroller.
+> > v2: Fix possible race (@olv)
 > >
-> > The only reason a Linux kernel driver is necessary is to reject
-> > resolutions that require more bandwidth than what is available on
-> > the DP side. DP bandwidth and lane count are reported by the bridge
-> > via 2 registers on I2C.
->
-> It is true only for your particular platform where usb-c part is
-> managed by firmware. Pinephone has the same anx7688 but linux will
-> need a driver that manages usb-c in addition to DP.
->
-> I'd suggest making it MFD driver from the beginning, or at least make
-> proper bindings so we don't have to rework it and introduce binding
-> incompatibilities in future.
+> > Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> > ---
+> >  drivers/gpu/drm/virtio/virtgpu_drv.h   | 1 +
+> >  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 3 +++
+> >  drivers/gpu/drm/virtio/virtgpu_kms.c   | 1 +
+> >  3 files changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > index 72c1d9b59dfe..ca505984f8ab 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > @@ -209,6 +209,7 @@ struct virtio_gpu_device {
+> >
+> >  struct virtio_gpu_fpriv {
+> >         uint32_t ctx_id;
+> > +       atomic_t context_initiated;
+> >  };
+> >
+> >  /* virtio_ioctl.c */
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> > index 896c3f419a6d..a98884462944 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> > @@ -44,6 +44,9 @@ void virtio_gpu_create_context(struct drm_device *dev,
+> >         if (!vgdev->has_virgl_3d)
+> >                 return;
+> >
+> > +       if (!atomic_add_unless(&vfpriv->context_initiated, 1, 1))
+> > +               return;
+> > +
+> How does this work?  When thread A and B enter this function at the
+> same time, and thread B returns early, it is possible that thread B
+> queues other commands before thread A has the chance to queue
+> virtio_gpu_cmd_context_create.
 
-If that helps for the binding, ANX7688 is indeed a MFD (TCPC, HDMI to
-DP converter, USB-C mux between USB 3.0 lanes and the DP output of the
-embedded converter), with 2 I2C addresses:
-- 0x2c is the TCPC/mux, used by the Embedded Controller [1] on Chrome
-OS, and the code in this patch (my understanding is that lane count/BW
-registers in the kernel driver below may only be available to FW on
-Chromebooks).
-- 0x28:
-    - Used to update the embedded FW in the anx7688 (on Chrome OS we
-do this in depthcharge [2]). This is a EEPROM-based FW (so even
-without implementing this, it'll usually "just work").
-    - Used to workaround some TCPC issues (see [1] again).
+Good catch, I'll add a spinlock in v3.
 
-[1] EC driver: https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/master/driver/tcpm/anx7688.c
-[2] depthcharge driver to update ANX7688 FW:
-https://chromium.googlesource.com/chromiumos/platform/depthcharge/+/master/src/drivers/ec/anx7688/anx7688.c
+>
+> >         get_task_comm(dbgname, current);
+> >         virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
+> >                                       strlen(dbgname), dbgname);
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > index 282558576527..25248bad3fc4 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > @@ -263,6 +263,7 @@ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
+> >         }
+> >
+> >         vfpriv->ctx_id = handle + 1;
+> > +       atomic_set(&vfpriv->context_initiated, 0);
+> >         file->driver_priv = vfpriv;
+> >         virtio_gpu_create_context(dev, file);
+> >         return 0;
+> > --
+> > 2.25.0.265.gbab2e86ba0-goog
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
