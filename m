@@ -2,41 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D701160490
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 16:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EBF160503
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 18:27:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 145E86E402;
-	Sun, 16 Feb 2020 15:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 596CA6E456;
+	Sun, 16 Feb 2020 17:27:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBCD6E402
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 15:39:52 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 936E32AF;
- Sun, 16 Feb 2020 16:39:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1581867590;
- bh=qtVmjZUERQqF72Lotw7qtEbfnEUtqINjN7CAEbieN/E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sPvyRWD/4x98X1ZRVG/Pg02S6j384zWnUYS6WZKmzdhpFG6TigXsiZEz1tvh+g4VC
- g7KGIwoKM/WA2qSLBZ0xrzsNcZGsn2bRzsAgRWS+uQa2Yx85PUgE+2zyy30rexa9fE
- lXSUBvSSKzTg3Ih23Q7yITuFOZP+GnOFtZwzFvH0=
-Date: Sun, 16 Feb 2020 17:39:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v5 17/52] drm: Add helper to create a connector for a
- chain of bridges
-Message-ID: <20200216153932.GE28645@pendragon.ideasonboard.com>
-References: <20200124035445.1830-1-laurent.pinchart@ideasonboard.com>
- <20200124035445.1830-18-laurent.pinchart@ideasonboard.com>
- <a3e8855c-ebb2-b72b-0e16-8f34a45df5a3@ti.com>
+Received: from asav22.altibox.net (asav22.altibox.net [109.247.116.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC9E26E452
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 17:27:02 +0000 (UTC)
+Received: from localhost.localdomain (unknown [81.166.168.211])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: noralf.tronnes@ebnett.no)
+ by asav22.altibox.net (Postfix) with ESMTPSA id 43359200E1;
+ Sun, 16 Feb 2020 18:21:38 +0100 (CET)
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: broonie@kernel.org,
+	balbi@kernel.org,
+	lee.jones@linaro.org
+Subject: [RFC 0/9] Regmap over USB for Multifunction USB Device (gpio, display,
+ ...)
+Date: Sun, 16 Feb 2020 18:21:08 +0100
+Message-Id: <20200216172117.49832-1-noralf@tronnes.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a3e8855c-ebb2-b72b-0e16-8f34a45df5a3@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ZvHD1ezG c=1 sm=1 tr=0
+ a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+ a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=0GFqvFEQP_9VLyYywQIA:9
+ a=QEXdDO2ut3YA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,74 +45,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-On Tue, Jan 28, 2020 at 01:19:53PM +0200, Tomi Valkeinen wrote:
-> On 24/01/2020 05:54, Laurent Pinchart wrote:
-> 
-> > +struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> > +						struct drm_encoder *encoder)
-> > +{
-> > +	struct drm_bridge_connector *bridge_connector;
-> > +	struct drm_connector *connector;
-> > +	struct i2c_adapter *ddc = NULL;
-> > +	struct drm_bridge *bridge;
-> > +	int connector_type;
-> > +
-> > +	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
-> > +	if (!bridge_connector)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	bridge_connector->encoder = encoder;
-> > +
-> > +	/*
-> > +	 * TODO: Handle doublescan_allowed, stereo_allowed and
-> > +	 * ycbcr_420_allowed.
-> > +	 */
-> > +	connector = &bridge_connector->base;
-> > +	connector->interlace_allowed = true;
-> > +
-> > +	/*
-> > +	 * Initialise connector status handling. First locate the furthest
-> > +	 * bridges in the pipeline that support HPD and output detection. Then
-> > +	 * initialise the connector polling mode, using HPD if available and
-> > +	 * falling back to polling if supported. If neither HPD nor output
-> > +	 * detection are available, we don't support hotplug detection at all.
-> > +	 */
-> > +	connector_type = DRM_MODE_CONNECTOR_Unknown;
-> > +	drm_for_each_bridge_in_chain(encoder, bridge) {
-> > +		if (bridge->interlace_allowed)
-> > +			connector->interlace_allowed = false;
-> 
-> This doesn't work on Beagle-xM's venc output.
-> 
-> The above test should be !bridge->interlace_allowed.
-
-I wonder how this passed my tests :-S I'll fix it in v6.
-
-> But that doesn't solve it fully. We have VENC and display-connector as bridges in the beagle's VENC 
-> output path. Only VENC is marked as interlace_allowed.
-> 
-> Setting "conn->bridge.interlace_allowed = true;" in display_connector_probe got the VENC output 
-> working. But what's the correct fix here? set interlace_allowed based on connector type?
-
-All the supported connector types (Composite, DVII, HDMIA, SVIDEO and
-VGA) support interlaced modes, so I think we can just set the flag
-unconditionally.
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpBIHdoaWxlIGJhY2sgSSBoYWQgdGhlIGlkZWEgdG8gdHVybiBhIFJhc3BiZXJyeSBQaSBa
+ZXJvIGludG8gYSAkNQpVU0IgdG8gSERNSS9TRFRWL0RTSS9EUEkgZGlzcGxheSBhZGFwdGVyLgoK
+VGhpbmtpbmcgYWJvdXQgaG93IHRvIHJlcHJlc2VudCB0aGUgZGlzcGxheSB0byB0aGUgZHJpdmVy
+IEkgcmVhbGlzZWQKdGhhdCBoYXJkd2FyZSB1c2UgcmVnaXN0ZXJzIGFzIEFQSS4gQW5kIExpbnV4
+IGRvZXMgaGF2ZSBhIGdlbmVyaWMKcmVnaXN0ZXIgYWJzdHJhY3Rpb246IHJlZ21hcC4gRnVydGhl
+cm1vcmUgdGhpcyBtZWFucyB0aGF0IGlmIEkgY2FuIGRvIGEKcmVnbWFwIG92ZXIgVVNCIGltcGxl
+bWVudGF0aW9uLCBpdCB3aWxsIGJlIGVhc3kgdG8gZG8gb3RoZXIgZnVuY3Rpb25zCmxpa2UgZ3Bp
+bywgYWRjIGFuZCBvdGhlcnMuIEFmdGVyIGEgZmV3IGl0ZXJhdGlvbnMgdHJ5aW5nIHRvIHVuZGVy
+c3RhbmQKdGhlIFVTQiBzdWJzeXN0ZW0gYW5kIHNhdGlzZnlpbmcgZHJpdmVyIHJlcXVpcmVtZW50
+cywgSSBub3cgaGF2ZQpzb21ldGhpbmcgdGhhdCBsb29rcyBwcm9taXNpbmcuCgpJJ20gc2VuZGlu
+ZyBvdXQgYW4gZWFybHkgdmVyc2lvbiBob3BpbmcgdG8gZ2V0IGZlZWRiYWNrIGVzcGVjaWFsbHkg
+b24KdGhlIGNvcmUgcGFydHMgdGhhdCBoYW5kbGVzIHJlZ21hcCBhbmQgaW50ZXJydXB0cy4KCk92
+ZXJ2aWV3OgoKICAgICAgICAgIFVTQiBIb3N0ICAgICAgICAgIDogICAgICAgICBVU0IgRGV2aWNl
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA6CiAgICAgICAgICAgIC0tLS0tLS0tLS0tLS0t
+ICA6ICAtLS0tLS0tLS0tLS0tLS0tLS0KLS0tLS0tLS0tLSAgfCBtZmQ6IG11ZCAgIHwgIDogIHwg
+Zl9tdWQgICAgICAgICAgfCAgLS0tLS0tLS0tLQp8IERyaXZlciB8ICAtLS0tLS0tLS0tLS0tLSAg
+OiAgfCAgICAgICAgICAgICAgICB8ICB8IERyaXZlciB8Ci0tLS0tLS0tLS0gIHwgcmVnbWFwLXVz
+YiB8ICA6ICB8IChtdWRfcmVnbWFwKSAgIHwgIC0tLS0tLS0tLS0KICAgICAgICAgICAgLS0tLS0t
+LS0tLS0tLS0gIDogIC0tLS0tLS0tLS0tLS0tLS0tLQoKCkkndmUgYXR0YWNoZWQgMiBkcml2ZXJz
+OgotIGdwaW8vcGluY3RybDogaXMgbW9yZSBvciBsZXNzIGZpbmlzaGVkCi0gZGlzcGxheTogbmVl
+ZHMgYSBsb3QgbW9yZSB3b3JrCgoKVVNCMyBkZXZpY2UKSSd2ZSBvbmx5IHRlc3RlZCB0aGlzIHdp
+dGggdXNiMiBkZXZpY2VzIChQaSwgQkJCKSBzbyBJIHNob3VsZCBnZXQgbXlzZWxmCmEgdXNiMyBn
+YWRnZXQgY2FwYWJsZSBib2FyZC4gTXkgc2VhcmNoaW5nIGRpZG4ndCB0dXJuIHVwIG11Y2gsIHNv
+IHRoaXMKc2VlbXMgdG8gYmUgcXVpdGUgcmFyZS4gUk9DSzk2MCBoYXMgVVNCIDMuMCB0eXBlIEMg
+T1RHIGJ1dCB0aGUgcHJpY2UgaXMKJDEzOSB3aGljaCBpcyBhIGJpdCBleHBlbnNpdmUgZm9yIHRo
+aXMgaG9iYnkgcHJvamVjdC4gRG9lcyBhbnlvbmUga25vdwpvZiBhIGNoZWFwIGJvYXJkPwoKTm9y
+YWxmLgoKCk5vcmFsZiBUcsO4bm5lcyAoOSk6CiAgcmVnbWFwOiBBZGQgVVNCIHN1cHBvcnQKICBt
+ZmQ6IEFkZCBkcml2ZXIgZm9yIE11bHRpZnVuY3Rpb24gVVNCIERldmljZQogIHVzYjogZ2FkZ2V0
+OiBmdW5jdGlvbjogQWRkIE11bHRpZnVuY3Rpb24gVVNCIERldmljZSBzdXBwb3J0CiAgcGluY3Ry
+bDogQWRkIE11bHRpZnVuY3Rpb24gVVNCIERldmljZSBwaW5jdHJsIGRyaXZlcgogIHVzYjogZ2Fk
+Z2V0OiBmdW5jdGlvbjogbXVkOiBBZGQgZ3BpbyBzdXBwb3J0CiAgcmVnbWFwOiBTcGVlZCB1cCBf
+cmVnbWFwX3Jhd193cml0ZV9pbXBsKCkgZm9yIGxhcmdlIGJ1ZmZlcnMKICBkcm06IEFkZCBNdWx0
+aWZ1bmN0aW9uIFVTQiBEZXZpY2UgZGlzcGxheSBkcml2ZXIKICBkcm0vY2xpZW50OiBBZGQgZHJt
+X2NsaWVudF9pbml0X2Zyb21faWQoKSBhbmQgZHJtX2NsaWVudF9tb2Rlc2V0X3NldCgpCiAgdXNi
+OiBnYWRnZXQ6IGZ1bmN0aW9uOiBtdWQ6IEFkZCBkaXNwbGF5IHN1cHBvcnQKCiBkcml2ZXJzL2Jh
+c2UvcmVnbWFwL0tjb25maWcgICAgICAgICAgICAgIHwgICAgOCArLQogZHJpdmVycy9iYXNlL3Jl
+Z21hcC9NYWtlZmlsZSAgICAgICAgICAgICB8ICAgIDEgKwogZHJpdmVycy9iYXNlL3JlZ21hcC9y
+ZWdtYXAtdXNiLmMgICAgICAgICB8IDEwMjYgKysrKysrKysrKysrKysrKysrCiBkcml2ZXJzL2Jh
+c2UvcmVnbWFwL3JlZ21hcC5jICAgICAgICAgICAgIHwgICAxMCArLQogZHJpdmVycy9ncHUvZHJt
+L0tjb25maWcgICAgICAgICAgICAgICAgICB8ICAgIDIgKwogZHJpdmVycy9ncHUvZHJtL01ha2Vm
+aWxlICAgICAgICAgICAgICAgICB8ICAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnQu
+YyAgICAgICAgICAgICB8ICAgMzcgKwogZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnRfbW9kZXNl
+dC5jICAgICB8ICAgNTIgKwogZHJpdmVycy9ncHUvZHJtL211ZC9LY29uZmlnICAgICAgICAgICAg
+ICB8ICAgMTggKwogZHJpdmVycy9ncHUvZHJtL211ZC9NYWtlZmlsZSAgICAgICAgICAgICB8ICAg
+IDQgKwogZHJpdmVycy9ncHUvZHJtL211ZC9tdWRfZHJtLmMgICAgICAgICAgICB8IDExOTggKysr
+KysrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL211ZC9tdWRfZHJtLmggICAgICAg
+ICAgICB8ICAxMzcgKysrCiBkcml2ZXJzL2dwdS9kcm0vbXVkL211ZF9kcm1fZ2FkZ2V0LmMgICAg
+IHwgIDg4OSArKysrKysrKysrKysrKysrCiBkcml2ZXJzL21mZC9LY29uZmlnICAgICAgICAgICAg
+ICAgICAgICAgIHwgICAgOCArCiBkcml2ZXJzL21mZC9NYWtlZmlsZSAgICAgICAgICAgICAgICAg
+ICAgIHwgICAgMSArCiBkcml2ZXJzL21mZC9tdWQuYyAgICAgICAgICAgICAgICAgICAgICAgIHwg
+IDU4MCArKysrKysrKysrKwogZHJpdmVycy9waW5jdHJsL0tjb25maWcgICAgICAgICAgICAgICAg
+ICB8ICAgIDkgKwogZHJpdmVycy9waW5jdHJsL01ha2VmaWxlICAgICAgICAgICAgICAgICB8ICAg
+IDEgKwogZHJpdmVycy9waW5jdHJsL3BpbmN0cmwtbXVkLmMgICAgICAgICAgICB8ICA2NTcgKysr
+KysrKysrKysrCiBkcml2ZXJzL3BpbmN0cmwvcGluY3RybC1tdWQuaCAgICAgICAgICAgIHwgICA4
+OSArKwogZHJpdmVycy91c2IvZ2FkZ2V0L0tjb25maWcgICAgICAgICAgICAgICB8ICAgMzYgKwog
+ZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL01ha2VmaWxlICAgICB8ICAgIDYgKwogZHJpdmVy
+cy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL2ZfbXVkLmMgICAgICB8ICA5MTMgKysrKysrKysrKysrKysr
+KysKIGRyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX211ZC5oICAgICAgfCAgMjEwICsrKysK
+IGRyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX211ZF9kcm0uYyAgfCAgMTgxICsrKysKIGRy
+aXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX211ZF9waW5zLmMgfCAgOTYyICsrKysrKysrKysr
+KysrKysrCiBkcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vbXVkX3JlZ21hcC5jIHwgIDkzNiAr
+KysrKysrKysrKysrKysrKwogaW5jbHVkZS9kcm0vZHJtX2NsaWVudC5oICAgICAgICAgICAgICAg
+ICB8ICAgIDQgKwogaW5jbHVkZS9saW51eC9tZmQvbXVkLmggICAgICAgICAgICAgICAgICB8ICAg
+MTYgKwogaW5jbHVkZS9saW51eC9yZWdtYXAuaCAgICAgICAgICAgICAgICAgICB8ICAgMjMgKwog
+aW5jbHVkZS9saW51eC9yZWdtYXBfdXNiLmggICAgICAgICAgICAgICB8ICAgOTcgKysKIDMxIGZp
+bGVzIGNoYW5nZWQsIDgxMDcgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBkcml2ZXJzL2Jhc2UvcmVnbWFwL3JlZ21hcC11c2IuYwogY3JlYXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9tdWQvS2NvbmZpZwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMvZ3B1L2RybS9tdWQvTWFrZWZpbGUKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
+dS9kcm0vbXVkL211ZF9kcm0uYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9t
+dWQvbXVkX2RybS5oCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL211ZC9tdWRf
+ZHJtX2dhZGdldC5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZmQvbXVkLmMKIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3BpbmN0cmwvcGluY3RybC1tdWQuYwogY3JlYXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvcGluY3RybC9waW5jdHJsLW11ZC5oCiBjcmVhdGUgbW9kZSAxMDA2NDQg
+ZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL2ZfbXVkLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBk
+cml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vZl9tdWQuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX211ZF9kcm0uYwogY3JlYXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX211ZF9waW5zLmMKIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vbXVkX3JlZ21hcC5jCiBjcmVhdGUgbW9k
+ZSAxMDA2NDQgaW5jbHVkZS9saW51eC9tZmQvbXVkLmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNs
+dWRlL2xpbnV4L3JlZ21hcF91c2IuaAoKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
