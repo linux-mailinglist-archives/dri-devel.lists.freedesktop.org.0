@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EB5160488
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 16:33:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D701160490
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 16:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D076E042;
-	Sun, 16 Feb 2020 15:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 145E86E402;
+	Sun, 16 Feb 2020 15:39:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 385F56E042
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 15:33:35 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBCD6E402
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 15:39:52 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FF742AF;
- Sun, 16 Feb 2020 16:33:33 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 936E32AF;
+ Sun, 16 Feb 2020 16:39:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1581867213;
- bh=UwjoSQbzdBP1f/alysPDptK1b0h5/YPxmlv920b3QuQ=;
+ s=mail; t=1581867590;
+ bh=qtVmjZUERQqF72Lotw7qtEbfnEUtqINjN7CAEbieN/E=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=H1nzhNo/u6R+fv7VOii4nq3lzmTGUwIjEvMzJysT8Z5E4Xd5n/jpEdQwwWs3UdmLS
- Hag0XOC7vObfBgClP6S/zpdeNutnzui3LnEoqAcGw1cbWcB9GwIQPVs7Z6rkWKCBKn
- G8vKm6SAoNJ3DBOujoxjgAi7w3aKDVaMyaX0F6xs=
-Date: Sun, 16 Feb 2020 17:33:15 +0200
+ b=sPvyRWD/4x98X1ZRVG/Pg02S6j384zWnUYS6WZKmzdhpFG6TigXsiZEz1tvh+g4VC
+ g7KGIwoKM/WA2qSLBZ0xrzsNcZGsn2bRzsAgRWS+uQa2Yx85PUgE+2zyy30rexa9fE
+ lXSUBvSSKzTg3Ih23Q7yITuFOZP+GnOFtZwzFvH0=
+Date: Sun, 16 Feb 2020 17:39:32 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Yuti Amonkar <yamonkar@cadence.com>
-Subject: Re: [PATCH v5 1/3] dt-bindings: drm/bridge: Document Cadence MHDP
- bridge bindings.
-Message-ID: <20200216153315.GD28645@pendragon.ideasonboard.com>
-References: <1581481604-24499-1-git-send-email-yamonkar@cadence.com>
- <1581481604-24499-2-git-send-email-yamonkar@cadence.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v5 17/52] drm: Add helper to create a connector for a
+ chain of bridges
+Message-ID: <20200216153932.GE28645@pendragon.ideasonboard.com>
+References: <20200124035445.1830-1-laurent.pinchart@ideasonboard.com>
+ <20200124035445.1830-18-laurent.pinchart@ideasonboard.com>
+ <a3e8855c-ebb2-b72b-0e16-8f34a45df5a3@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1581481604-24499-2-git-send-email-yamonkar@cadence.com>
+In-Reply-To: <a3e8855c-ebb2-b72b-0e16-8f34a45df5a3@ti.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,174 +49,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- praneeth@ti.com, narmstrong@baylibre.com, airlied@linux.ie,
- tomi.valkeinen@ti.com, jonas@kwiboo.se, jsarha@ti.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, robh+dt@kernel.org, maxime@cerno.tech,
- sjakhade@cadence.com, mparab@cadence.com
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yuti,
+Hi Tomi,
 
-Thank you for the patch.
-
-On Wed, Feb 12, 2020 at 05:26:42AM +0100, Yuti Amonkar wrote:
-> Document the bindings used for the Cadence MHDP DPI/DP bridge in
-> yaml format.
+On Tue, Jan 28, 2020 at 01:19:53PM +0200, Tomi Valkeinen wrote:
+> On 24/01/2020 05:54, Laurent Pinchart wrote:
 > 
-> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/display/bridge/cdns,mhdp.yaml    | 125 ++++++++++++++++++
->  1 file changed, 125 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
+> > +struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+> > +						struct drm_encoder *encoder)
+> > +{
+> > +	struct drm_bridge_connector *bridge_connector;
+> > +	struct drm_connector *connector;
+> > +	struct i2c_adapter *ddc = NULL;
+> > +	struct drm_bridge *bridge;
+> > +	int connector_type;
+> > +
+> > +	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
+> > +	if (!bridge_connector)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	bridge_connector->encoder = encoder;
+> > +
+> > +	/*
+> > +	 * TODO: Handle doublescan_allowed, stereo_allowed and
+> > +	 * ycbcr_420_allowed.
+> > +	 */
+> > +	connector = &bridge_connector->base;
+> > +	connector->interlace_allowed = true;
+> > +
+> > +	/*
+> > +	 * Initialise connector status handling. First locate the furthest
+> > +	 * bridges in the pipeline that support HPD and output detection. Then
+> > +	 * initialise the connector polling mode, using HPD if available and
+> > +	 * falling back to polling if supported. If neither HPD nor output
+> > +	 * detection are available, we don't support hotplug detection at all.
+> > +	 */
+> > +	connector_type = DRM_MODE_CONNECTOR_Unknown;
+> > +	drm_for_each_bridge_in_chain(encoder, bridge) {
+> > +		if (bridge->interlace_allowed)
+> > +			connector->interlace_allowed = false;
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
-> new file mode 100644
-> index 000000000000..e7f84ed1d2da
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
-> @@ -0,0 +1,125 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/display/bridge/cdns,mhdp.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Cadence MHDP bridge
-> +
-> +maintainers:
-> +  - Swapnil Jakhade <sjakhade@cadence.com>
-> +  - Yuti Amonkar <yamonkar@cadence.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cdns,mhdp8546
-> +      - ti,j721e-mhdp8546
-> +
-> +  reg:
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - description:
-> +          Register block of mhdptx apb registers upto PHY mapped area(AUX_CONFIG_P).
-> +          The AUX and PMA registers are mapped to associated phy driver.
-> +      - description:
-> +          Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
-> +
-> +  reg-names:
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - const: mhdptx
-> +      - const: j721e-intg
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description:
-> +      DP bridge clock, it's used by the IP to know how to translate a number of
-> +      clock cycles into a time (which is used to comply with DP standard timings
-> +      and delays).
-> +
-> +  phys:
-> +    description: Phandle to the DisplyPort phy.
-> +
-> +  ports:
-> +    type: object
-> +    description:
-> +      Ports as described in Documentation/devicetree/bindings/graph.txt
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        description:
-> +          input port representing the DP bridge input
+> This doesn't work on Beagle-xM's venc output.
+> 
+> The above test should be !bridge->interlace_allowed.
 
-s/input port/Input port/ and s/bridge input/bridge input./
+I wonder how this passed my tests :-S I'll fix it in v6.
 
-> +
-> +      port@1:
-> +        type: object
-> +        description:
-> +          output port representing the DP bridge output.
+> But that doesn't solve it fully. We have VENC and display-connector as bridges in the beagle's VENC 
+> output path. Only VENC is marked as interlace_allowed.
+> 
+> Setting "conn->bridge.interlace_allowed = true;" in display_connector_probe got the VENC output 
+> working. But what's the correct fix here? set interlace_allowed based on connector type?
 
-s/output port/Output port/
-
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +      - '#address-cells'
-> +      - '#size-cells'
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,j721e-mhdp8546
-> +    then:
-> +      properties:
-> +        reg:
-> +          minItems: 2
-> +        reg-names:
-> +          minItems: 2
-> +
-> +required:
-> +  - compatible
-> +  - clocks
-> +  - reg
-> +  - reg-names
-> +  - phys
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    mhdp: dp-bridge@f0fb000000 {
-> +        compatible = "cdns,mhdp8546";
-> +        reg = <0xf0 0xfb000000 0x0 0x1000000>;
-> +        reg-names = "mhdptx";
-> +        clocks = <&mhdp_clock>;
-> +        phys = <&dp_phy>;
-> +
-> +        ports {
-> +              #address-cells = <1>;
-> +              #size-cells = <0>;
-> +
-> +              port@0 {
-> +                     reg = <0>;
-> +                     dp_bridge_input: endpoint {
-> +                        remote-endpoint = <&xxx_dpi_output>;
-> +                     };
-> +              };
-> +
-> +              port@1 {
-> +                     reg = <1>;
-> +                     dp_bridge_output: endpoint {
-> +                        remote-endpoint = <&xxx_dp_connector_input>;
-> +                     };
-> +              };
-> +        };
-> +    };
-> +...
-
-Really good bindings ! With the above comments addressed, as well as he
-one in reply to Tomi's review,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+All the supported connector types (Composite, DVII, HDMIA, SVIDEO and
+VGA) support interlaced modes, so I think we can just set the flag
+unconditionally.
 
 -- 
 Regards,
