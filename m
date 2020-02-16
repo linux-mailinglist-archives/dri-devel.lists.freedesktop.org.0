@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E0F160693
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40E4160681
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A67FD6E4B7;
-	Sun, 16 Feb 2020 21:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFDF86E4A7;
+	Sun, 16 Feb 2020 21:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA386E47A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C20D36E47A
  for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:04:01 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E785840DD;
- Sun, 16 Feb 2020 22:03:56 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6C912D2;
+ Sun, 16 Feb 2020 22:03:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1581887037;
- bh=lRyU2TK3l0jt8veQ0MUa6MKlCynn7Yd4Am2WdS82RsQ=;
+ s=mail; t=1581887038;
+ bh=wUVHxrFfWX8Nki/HeW1vs4j8hIhK6yq1C4AidZTHFDE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iTRv/BxrfzmDfK/TZBUekwBgv09gzouEp/h/A+pneTtaNZfecIgGj1FgFnXW0kOsX
- T7ChEIJfvraxKTbQAdHycNBR2XabZZ4d21M6DPGDRRA5D2cXWvsqpTnyxegpQnIChu
- GBdJDtwu0gafyCbdyOmzZ7vfQ91gePALKLHD75xs=
+ b=mONf/oskWM5zB7OwVMVkp+/J+uRdapYTwp+X26H327N7sgVXKtR7qZb+9pz97dt1t
+ 9fPx6yTdgN4m4V4JL0mvAKz9Xn7c2P4t+9yX89OZeDFIllqKlflFZ/Mi6Qr7eSBsCg
+ W5Om++bWc2LXMBULQVVXQtW7DsTI4uvyjtxQxyM0=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 32/51] drm/omap: hdmi4: Implement drm_bridge .hpd_notify()
- operation
-Date: Sun, 16 Feb 2020 23:02:49 +0200
-Message-Id: <20200216210308.17312-33-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v6 33/51] drm/omap: dss: Remove .set_hdmi_mode() and
+ .set_infoframe() operations
+Date: Sun, 16 Feb 2020 23:02:50 +0200
+Message-Id: <20200216210308.17312-34-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
 References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
@@ -54,43 +54,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HDMI4 encoder is transitioning to the drm_bridge API, implement the
-last missing operation.
+The omapdss_hdmi_ops .set_hdmi_mode() and .set_infoframe() operations
+operations are not used anymore, remove them.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi4.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/omapdrm/dss/omapdss.h  |  3 ---
+ drivers/gpu/drm/omapdrm/omap_encoder.c | 26 --------------------------
+ 2 files changed, 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index a8d13a081a9a..73f1fab346e9 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -553,6 +553,15 @@ static void hdmi4_bridge_disable(struct drm_bridge *bridge,
- 	mutex_unlock(&hdmi->lock);
- }
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index 269e143d57be..30a12cf91cbb 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -287,9 +287,6 @@ struct omap_dss_writeback_info {
  
-+static void hdmi4_bridge_hpd_notify(struct drm_bridge *bridge,
-+				    enum drm_connector_status status)
-+{
-+	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-+
-+	if (status == connector_status_disconnected)
-+		hdmi4_cec_set_phys_addr(&hdmi->core, CEC_PHYS_ADDR_INVALID);
-+}
-+
- static struct edid *hdmi4_bridge_read_edid(struct omap_hdmi *hdmi,
- 					   struct drm_connector *connector)
- {
-@@ -575,6 +584,7 @@ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.atomic_enable = hdmi4_bridge_enable,
- 	.atomic_disable = hdmi4_bridge_disable,
-+	.hpd_notify = hdmi4_bridge_hpd_notify,
- 	.get_edid = hdmi4_bridge_get_edid,
+ struct omapdss_hdmi_ops {
+ 	void (*lost_hotplug)(struct omap_dss_device *dssdev);
+-	int (*set_hdmi_mode)(struct omap_dss_device *dssdev, bool hdmi_mode);
+-	int (*set_infoframe)(struct omap_dss_device *dssdev,
+-		const struct hdmi_avi_infoframe *avi);
  };
  
+ struct omapdss_dsi_ops {
+diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
+index b232acd3bc3d..18a79dde6815 100644
+--- a/drivers/gpu/drm/omapdrm/omap_encoder.c
++++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
+@@ -69,28 +69,6 @@ static void omap_encoder_update_videomode_flags(struct videomode *vm,
+ 	}
+ }
+ 
+-static void omap_encoder_hdmi_mode_set(struct drm_connector *connector,
+-				       struct drm_encoder *encoder,
+-				       struct drm_display_mode *adjusted_mode)
+-{
+-	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
+-	struct omap_dss_device *dssdev = omap_encoder->output;
+-	bool hdmi_mode = connector->display_info.is_hdmi;
+-
+-	if (dssdev->ops && dssdev->ops->hdmi.set_hdmi_mode)
+-		dssdev->ops->hdmi.set_hdmi_mode(dssdev, hdmi_mode);
+-
+-	if (hdmi_mode && dssdev->ops && dssdev->ops->hdmi.set_infoframe) {
+-		struct hdmi_avi_infoframe avi;
+-		int r;
+-
+-		r = drm_hdmi_avi_infoframe_from_display_mode(&avi, connector,
+-							     adjusted_mode);
+-		if (r == 0)
+-			dssdev->ops->hdmi.set_infoframe(dssdev, &avi);
+-	}
+-}
+-
+ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+ 				  struct drm_display_mode *mode,
+ 				  struct drm_display_mode *adjusted_mode)
+@@ -142,10 +120,6 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+ 		if (dssdev->ops && dssdev->ops->set_timings)
+ 			dssdev->ops->set_timings(dssdev, adjusted_mode);
+ 	}
+-
+-	/* Set the HDMI mode and HDMI infoframe if applicable. */
+-	if (output->type == OMAP_DISPLAY_TYPE_HDMI)
+-		omap_encoder_hdmi_mode_set(connector, encoder, adjusted_mode);
+ }
+ 
+ static void omap_encoder_disable(struct drm_encoder *encoder)
 -- 
 Regards,
 
