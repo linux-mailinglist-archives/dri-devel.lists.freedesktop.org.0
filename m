@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB8F160675
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42493160676
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B8A76E487;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D40036E483;
 	Sun, 16 Feb 2020 21:03:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA76D6E2A9
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:03:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11B736E27F
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:03:43 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 302652D2;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C15EDE2B;
  Sun, 16 Feb 2020 22:03:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1581887019;
- bh=+bjrK0V/Nh57IrixRUshgP/GW2hT6yNbeSvdYptFAqk=;
+ s=mail; t=1581887020;
+ bh=P6XDyQzbdwGxWmGwmnv0gSEEAMKZE1p0ayBFLQeiiYg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j5p3e0ejvPWPEFoqB+D/BTVZBd/V0qdF5oFqm+xKZZ5+jzm1mkBkkwK3GePHAXoom
- N1YXjyyE2Q9Jv6r9vsCSYO0d5qDAMgNxWMD7+C4IsYDqEexrbcE2j1f0JReEyXtDFu
- H817ZWtZPYrKyHzXsPUWCRUTHIKLOIJg6NArTrT8=
+ b=pZOS0IlR7Yu5ccBzXaGiwoTVTR3HFOBPYQhI9UQZOAjv6OQcV8zb4VZYnqsGpsiQ5
+ aSAT36hn/VQJ5ui9a7cK4sZQ44yX+ftAkztnhGBsxV7twnbtH6zPtnmzkec3QeoVpE
+ gZWdWRVlhFHBcMeaRC/RAEH6e5Z1+ndkiT7wDpU4=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 09/51] drm/bridge: simple-bridge: Add support for non-VGA
- bridges
-Date: Sun, 16 Feb 2020 23:02:26 +0200
-Message-Id: <20200216210308.17312-10-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v6 10/51] drm/bridge: simple-bridge: Add support for enable
+ GPIO
+Date: Sun, 16 Feb 2020 23:02:27 +0200
+Message-Id: <20200216210308.17312-11-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
 References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
@@ -54,10 +54,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a new simple_bridge_info structure that stores information about
-the bridge model, and store the bridge timings in there, along with the
-connector type. Use that new structure for of_device_id data. This
-enables support for non-VGA bridges.
+If an enable GPIO is declared in the firmware, assert it when enabling
+the bridge and deassert it when disabling it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
@@ -66,100 +64,72 @@ Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
-Changes since v1:
-
-- Renamed simple_bridge_info.type field to connector_type
----
- drivers/gpu/drm/bridge/simple-bridge.c | 41 ++++++++++++++++++--------
- 1 file changed, 29 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/bridge/simple-bridge.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index 00d810c99193..20866c1230de 100644
+index 20866c1230de..70e6092bdf6c 100644
 --- a/drivers/gpu/drm/bridge/simple-bridge.c
 +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -17,10 +17,17 @@
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
+@@ -6,6 +6,7 @@
+  * Maxime Ripard <maxime.ripard@free-electrons.com>
+  */
  
-+struct simple_bridge_info {
-+	const struct drm_bridge_timings *timings;
-+	unsigned int connector_type;
-+};
-+
- struct simple_bridge {
- 	struct drm_bridge	bridge;
- 	struct drm_connector	connector;
++#include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
+ #include <linux/of_graph.h>
+@@ -30,6 +31,7 @@ struct simple_bridge {
  
-+	const struct simple_bridge_info *info;
-+
  	struct i2c_adapter	*ddc;
  	struct regulator	*vdd;
++	struct gpio_desc	*enable;
  };
-@@ -120,7 +127,7 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
- 				 &simple_bridge_con_helper_funcs);
- 	ret = drm_connector_init_with_ddc(bridge->dev, &sbridge->connector,
- 					  &simple_bridge_con_funcs,
--					  DRM_MODE_CONNECTOR_VGA,
-+					  sbridge->info->connector_type,
- 					  sbridge->ddc);
- 	if (ret) {
- 		DRM_ERROR("Failed to initialize connector\n");
-@@ -190,6 +197,8 @@ static int simple_bridge_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	platform_set_drvdata(pdev, sbridge);
  
-+	sbridge->info = of_device_get_match_data(&pdev->dev);
+ static inline struct simple_bridge *
+@@ -143,19 +145,23 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+ static void simple_bridge_enable(struct drm_bridge *bridge)
+ {
+ 	struct simple_bridge *sbridge = drm_bridge_to_simple_bridge(bridge);
+-	int ret = 0;
++	int ret;
+ 
+-	if (sbridge->vdd)
++	if (sbridge->vdd) {
+ 		ret = regulator_enable(sbridge->vdd);
++		if (ret)
++			DRM_ERROR("Failed to enable vdd regulator: %d\n", ret);
++	}
+ 
+-	if (ret)
+-		DRM_ERROR("Failed to enable vdd regulator: %d\n", ret);
++	gpiod_set_value_cansleep(sbridge->enable, 1);
+ }
+ 
+ static void simple_bridge_disable(struct drm_bridge *bridge)
+ {
+ 	struct simple_bridge *sbridge = drm_bridge_to_simple_bridge(bridge);
+ 
++	gpiod_set_value_cansleep(sbridge->enable, 0);
 +
- 	sbridge->vdd = devm_regulator_get_optional(&pdev->dev, "vdd");
- 	if (IS_ERR(sbridge->vdd)) {
- 		int ret = PTR_ERR(sbridge->vdd);
-@@ -213,7 +222,7 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 	if (sbridge->vdd)
+ 		regulator_disable(sbridge->vdd);
+ }
+@@ -208,6 +214,14 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 		dev_dbg(&pdev->dev, "No vdd regulator found: %d\n", ret);
+ 	}
  
- 	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
- 	sbridge->bridge.of_node = pdev->dev.of_node;
--	sbridge->bridge.timings = of_device_get_match_data(&pdev->dev);
-+	sbridge->bridge.timings = sbridge->info->timings;
- 
- 	drm_bridge_add(&sbridge->bridge);
- 
-@@ -273,19 +282,27 @@ static const struct drm_bridge_timings ti_ths8135_bridge_timings = {
- static const struct of_device_id simple_bridge_match[] = {
- 	{
- 		.compatible = "dumb-vga-dac",
--		.data = NULL,
--	},
--	{
-+		.data = &(const struct simple_bridge_info) {
-+			.connector_type = DRM_MODE_CONNECTOR_VGA,
-+		},
-+	}, {
- 		.compatible = "adi,adv7123",
--		.data = &default_bridge_timings,
--	},
--	{
-+		.data = &(const struct simple_bridge_info) {
-+			.timings = &default_bridge_timings,
-+			.connector_type = DRM_MODE_CONNECTOR_VGA,
-+		},
-+	}, {
- 		.compatible = "ti,ths8135",
--		.data = &ti_ths8135_bridge_timings,
--	},
--	{
-+		.data = &(const struct simple_bridge_info) {
-+			.timings = &ti_ths8135_bridge_timings,
-+			.connector_type = DRM_MODE_CONNECTOR_VGA,
-+		},
-+	}, {
- 		.compatible = "ti,ths8134",
--		.data = &ti_ths8134_bridge_timings,
-+		.data = &(const struct simple_bridge_info) {
-+			.timings = &ti_ths8134_bridge_timings,
-+			.connector_type = DRM_MODE_CONNECTOR_VGA,
-+		},
- 	},
- 	{},
- };
++	sbridge->enable = devm_gpiod_get_optional(&pdev->dev, "enable",
++						  GPIOD_OUT_LOW);
++	if (IS_ERR(sbridge->enable)) {
++		if (PTR_ERR(sbridge->enable) != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "Unable to retrieve enable GPIO\n");
++		return PTR_ERR(sbridge->enable);
++	}
++
+ 	sbridge->ddc = simple_bridge_retrieve_ddc(&pdev->dev);
+ 	if (IS_ERR(sbridge->ddc)) {
+ 		if (PTR_ERR(sbridge->ddc) == -ENODEV) {
 -- 
 Regards,
 
