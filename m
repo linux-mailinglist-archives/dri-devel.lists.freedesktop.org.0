@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13FE416068F
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAD2160692
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 674DC6E4C4;
-	Sun, 16 Feb 2020 21:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 552756E4CB;
+	Sun, 16 Feb 2020 21:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E916E4A7
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:04:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A0806E4AF
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:04:08 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F339122D;
- Sun, 16 Feb 2020 22:04:05 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A0BFDBD;
+ Sun, 16 Feb 2020 22:04:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1581887046;
- bh=PyDimOAmzBZSbrlgVQ8SE7w1zf9Nog3ZFBVlqkLi/7M=;
+ bh=gdfNIg0sj7u5Etbv41BA46NZOh1LrAwICMfAtS1vC0A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VWG6wxQ9h/RYrWqXv3Tj5Y1RYfUoQd0MTbkjwr1rIi01RH30C5RaPfMXqOBstq2LG
- YB3YfJ1TbFyPp2nEGOWTaLISzq1ahgXj2rgfa0vi5q+i+3e429+gTtQ+ip0KeExZdA
- vBWpcH5gy+9resfQ7fGuhuaBiQKpXeIlE45jhd5w=
+ b=dWzy51TcHCZy6lvSbD6OTUSnsP6OWphcHDw4fsQGFgzCwMrZlc/XLhkrhikWiDZ6G
+ ZvmDfPsRiAHqUUayCAfkotSOlXFCrfNSr5jSAm7lcOq4ZC/3rj3lAWF/GUOQMh/cYB
+ A+DdNubqX4OjT/NGPxn69DRhfflBsagOHI+PMo0M=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 40/51] drm/omap: hdmi4: Simplify EDID read
-Date: Sun, 16 Feb 2020 23:02:57 +0200
-Message-Id: <20200216210308.17312-41-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v6 41/51] drm/omap: hdmi5: Simplify EDID read
+Date: Sun, 16 Feb 2020 23:02:58 +0200
+Message-Id: <20200216210308.17312-42-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
 References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
@@ -60,14 +60,14 @@ together.
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi4.c | 96 ++++++++++++-----------------
- 1 file changed, 40 insertions(+), 56 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c | 86 ++++++++++++-----------------
+ 1 file changed, 35 insertions(+), 51 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index 96ef7bd52199..2578c95570f6 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -309,55 +309,6 @@ void hdmi4_core_disable(struct hdmi_core_data *core)
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+index 6cb709c775d6..4d4c1fabd0a1 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+@@ -307,50 +307,6 @@ static void hdmi_core_disable(struct omap_hdmi *hdmi)
  	mutex_unlock(&hdmi->lock);
  }
  
@@ -77,15 +77,15 @@ index 96ef7bd52199..2578c95570f6 100644
 -				       struct drm_connector *connector),
 -		  struct drm_connector *connector)
 -{
--	struct edid *edid = NULL;
--	unsigned int cec_addr;
+-	struct edid *edid;
 -	bool need_enable;
+-	int idlemode;
 -	int r;
 -
 -	need_enable = hdmi->core_enabled == false;
 -
 -	if (need_enable) {
--		r = hdmi4_core_enable(&hdmi->core);
+-		r = hdmi_core_enable(hdmi);
 -		if (r)
 -			return NULL;
 -	}
@@ -94,58 +94,53 @@ index 96ef7bd52199..2578c95570f6 100644
 -	r = hdmi_runtime_get(hdmi);
 -	BUG_ON(r);
 -
--	r = hdmi4_core_ddc_init(&hdmi->core);
--	if (r)
--		goto done;
+-	idlemode = REG_GET(hdmi->wp.base, HDMI_WP_SYSCONFIG, 3, 2);
+-	/* No-idle mode */
+-	REG_FLD_MOD(hdmi->wp.base, HDMI_WP_SYSCONFIG, 1, 3, 2);
+-
+-	hdmi5_core_ddc_init(&hdmi->core);
 -
 -	edid = read(hdmi, connector);
 -
--done:
+-	hdmi5_core_ddc_uninit(&hdmi->core);
+-
+-	REG_FLD_MOD(hdmi->wp.base, HDMI_WP_SYSCONFIG, idlemode, 3, 2);
+-
 -	hdmi_runtime_put(hdmi);
 -	mutex_unlock(&hdmi->lock);
 -
--	if (edid && edid->extensions) {
--		unsigned int len = (edid->extensions + 1) * EDID_LENGTH;
--
--		cec_addr = cec_get_edid_phys_addr((u8 *)edid, len, NULL);
--	} else {
--		cec_addr = CEC_PHYS_ADDR_INVALID;
--	}
--
--	hdmi4_cec_set_phys_addr(&hdmi->core, cec_addr);
--
 -	if (need_enable)
--		hdmi4_core_disable(&hdmi->core);
+-		hdmi_core_disable(hdmi);
 -
--	return edid;
+-	return (struct edid *)edid;
 -}
 -
  /* -----------------------------------------------------------------------------
   * DRM Bridge Operations
   */
-@@ -485,18 +436,51 @@ static void hdmi4_bridge_hpd_notify(struct drm_bridge *bridge,
- 		hdmi4_cec_set_phys_addr(&hdmi->core, CEC_PHYS_ADDR_INVALID);
+@@ -469,18 +425,46 @@ static void hdmi5_bridge_disable(struct drm_bridge *bridge,
+ 	mutex_unlock(&hdmi->lock);
  }
  
--static struct edid *hdmi4_bridge_read_edid(struct omap_hdmi *hdmi,
+-static struct edid *hdmi5_bridge_read_edid(struct omap_hdmi *hdmi,
 -					   struct drm_connector *connector)
 -{
--	return drm_do_get_edid(connector, hdmi4_core_ddc_read, &hdmi->core);
+-	return drm_do_get_edid(connector, hdmi5_core_ddc_read, &hdmi->core);
 -}
 -
- static struct edid *hdmi4_bridge_get_edid(struct drm_bridge *bridge,
+ static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
  					  struct drm_connector *connector)
  {
  	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-+	struct edid *edid = NULL;
-+	unsigned int cec_addr;
++	struct edid *edid;
 +	bool need_enable;
++	int idlemode;
 +	int r;
 +
 +	need_enable = hdmi->core_enabled == false;
 +
 +	if (need_enable) {
-+		r = hdmi4_core_enable(&hdmi->core);
++		r = hdmi_core_enable(hdmi);
 +		if (r)
 +			return NULL;
 +	}
@@ -153,35 +148,30 @@ index 96ef7bd52199..2578c95570f6 100644
 +	mutex_lock(&hdmi->lock);
 +	r = hdmi_runtime_get(hdmi);
 +	BUG_ON(r);
-+
-+	r = hdmi4_core_ddc_init(&hdmi->core);
-+	if (r)
-+		goto done;
-+
-+	edid = drm_do_get_edid(connector, hdmi4_core_ddc_read, &hdmi->core);
  
--	return hdmi_do_read_edid(hdmi, hdmi4_bridge_read_edid, connector);
-+done:
+-	return hdmi_do_read_edid(hdmi, hdmi5_bridge_read_edid, connector);
++	idlemode = REG_GET(hdmi->wp.base, HDMI_WP_SYSCONFIG, 3, 2);
++	/* No-idle mode */
++	REG_FLD_MOD(hdmi->wp.base, HDMI_WP_SYSCONFIG, 1, 3, 2);
++
++	hdmi5_core_ddc_init(&hdmi->core);
++
++	edid = drm_do_get_edid(connector, hdmi5_core_ddc_read, &hdmi->core);
++
++	hdmi5_core_ddc_uninit(&hdmi->core);
++
++	REG_FLD_MOD(hdmi->wp.base, HDMI_WP_SYSCONFIG, idlemode, 3, 2);
++
 +	hdmi_runtime_put(hdmi);
 +	mutex_unlock(&hdmi->lock);
 +
-+	if (edid && edid->extensions) {
-+		unsigned int len = (edid->extensions + 1) * EDID_LENGTH;
-+
-+		cec_addr = cec_get_edid_phys_addr((u8 *)edid, len, NULL);
-+	} else {
-+		cec_addr = CEC_PHYS_ADDR_INVALID;
-+	}
-+
-+	hdmi4_cec_set_phys_addr(&hdmi->core, cec_addr);
-+
 +	if (need_enable)
-+		hdmi4_core_disable(&hdmi->core);
++		hdmi_core_disable(hdmi);
 +
-+	return edid;
++	return (struct edid *)edid;
  }
  
- static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
+ static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
 -- 
 Regards,
 
