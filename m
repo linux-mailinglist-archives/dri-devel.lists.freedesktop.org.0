@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2AD16067B
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E30D16067A
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 173A86E489;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23CDD6E491;
 	Sun, 16 Feb 2020 21:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0855E6E46F
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ECC16E47A
  for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:03:50 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20DC22AF;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AED482D2;
  Sun, 16 Feb 2020 22:03:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1581887028;
- bh=OZvLR1PfBH+K46Z+Udf9JyPqR4Ngx+rfxEi1heNRwqU=;
+ s=mail; t=1581887029;
+ bh=09X1p2b4wFlWTcwqnjMacDVw3nkWBvrNdXQY5w5jIFM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kEdtLZAXnNLYyZtdTtN5VtrKj883gU+F6Mqa6w4+ZeQnzqNhw/tXnFC2tqDJSA0UU
- AabldB5mnx6GqY8sN8ypoFaOwGBLnwPOWdkuknEj5K2g2vJijvRo8PYojy92Y2/P79
- qaLHR060ddjgOhaAZnlv3qbfVbVCE4ePPhahu7xo=
+ b=cU5dLnpiamf6WDzy4a4YGo1NC0mi6hvhETQhvzcJPCX2HRMIu43Gm26tvZPqug2Q6
+ G023lCeUNhpTX3xB4mA2EMSYwT5zhf5qo4RfFuS5MXY7meAGM8sdJ1vVHN2610JfB8
+ aM1WigaSoZ5F0zz/Gb9QLEZP/+ClDRZy0TZaK5a8=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 17/51] drm: Add helper to create a connector for a chain of
- bridges
-Date: Sun, 16 Feb 2020 23:02:34 +0200
-Message-Id: <20200216210308.17312-18-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v6 18/51] drm/omap: dss: Cleanup DSS ports on initialisation
+ failure
+Date: Sun, 16 Feb 2020 23:02:35 +0200
+Message-Id: <20200216210308.17312-19-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
 References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
@@ -54,486 +54,111 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most bridge drivers create a DRM connector to model the connector at the
-output of the bridge. This model is historical and has worked pretty
-well so far, but causes several issues:
+When the DSS initialises its output DPI and SDI ports, failures don't
+clean up previous successfully initialised ports. This can lead to
+resource leak or memory corruption. Fix it.
 
-- It prevents supporting more complex display pipelines where DRM
-connector operations are split over multiple components. For instance a
-pipeline with a bridge connected to the DDC signals to read EDID data,
-and another one connected to the HPD signal to detect connection and
-disconnection, will not be possible to support through this model.
-
-- It requires every bridge driver to implement similar connector
-handling code, resulting in code duplication.
-
-- It assumes that a bridge will either be wired to a connector or to
-another bridge, but doesn't support bridges that can be used in both
-positions very well (although there is some ad-hoc support for this in
-the analogix_dp bridge driver).
-
-In order to solve these issues, ownership of the connector needs to be
-moved to the display controller driver.
-
-To avoid code duplication in display controller drivers, add a new
-helper to create and manage a DRM connector backed by a chain of
-bridges. All connector operations are delegating to the appropriate
-bridge in the chain.
-
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
-Changes since v5:
+ drivers/gpu/drm/omapdrm/dss/dss.c | 43 +++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 17 deletions(-)
 
-- Fix the interlace_allowed flag logic
-
-Changes since v4:
-
-- Set the connector interlace_allowed flag based on interlaced support
-  in bridges
-
-Changes since v2:
-
-- Fixed typo in documentation
-- Rebased on top of Boris' drm_bridge chaining rework
-- Pass drm_encoder instead of brm_bridge to drm_bridge_connector_init()
-
-Changes since v1:
-
-- Removed the unused MAX_EDID macro
-- Removed the unused drm_bridge_connector.hdmi_mode field
-- Use drm_connector_init_with_ddc()
----
- drivers/gpu/drm/Makefile               |   3 +-
- drivers/gpu/drm/drm_bridge_connector.c | 378 +++++++++++++++++++++++++
- include/drm/drm_bridge_connector.h     |  18 ++
- 3 files changed, 398 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/drm_bridge_connector.c
- create mode 100644 include/drm/drm_bridge_connector.h
-
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index ca0ca775d37f..7f72ef5e7811 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -39,7 +39,8 @@ obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
- drm_ttm_helper-y := drm_gem_ttm_helper.o
- obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
+diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
+index 225ec808b01a..67b92b5d8dd7 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dss.c
++++ b/drivers/gpu/drm/omapdrm/dss/dss.c
+@@ -1151,46 +1151,38 @@ static const struct dss_features dra7xx_dss_feats = {
+ 	.has_lcd_clk_src	=	true,
+ };
  
--drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper.o \
-+drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o drm_dp_helper.o \
-+		drm_dsc.o drm_probe_helper.o \
- 		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
- 		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
- 		drm_simple_kms_helper.o drm_modeset_helper.o \
-diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-new file mode 100644
-index 000000000000..a102755afde8
---- /dev/null
-+++ b/drivers/gpu/drm/drm_bridge_connector.c
-@@ -0,0 +1,378 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+ */
+-static int dss_init_ports(struct dss_device *dss)
++static void __dss_uninit_ports(struct dss_device *dss, unsigned int num_ports)
+ {
+ 	struct platform_device *pdev = dss->pdev;
+ 	struct device_node *parent = pdev->dev.of_node;
+ 	struct device_node *port;
+ 	unsigned int i;
+-	int r;
+ 
+-	for (i = 0; i < dss->feat->num_ports; i++) {
++	for (i = 0; i < num_ports; i++) {
+ 		port = of_graph_get_port_by_id(parent, i);
+ 		if (!port)
+ 			continue;
+ 
+ 		switch (dss->feat->ports[i]) {
+ 		case OMAP_DISPLAY_TYPE_DPI:
+-			r = dpi_init_port(dss, pdev, port, dss->feat->model);
+-			if (r)
+-				return r;
++			dpi_uninit_port(port);
+ 			break;
+-
+ 		case OMAP_DISPLAY_TYPE_SDI:
+-			r = sdi_init_port(dss, pdev, port);
+-			if (r)
+-				return r;
++			sdi_uninit_port(port);
+ 			break;
+-
+ 		default:
+ 			break;
+ 		}
+ 	}
+-
+-	return 0;
+ }
+ 
+-static void dss_uninit_ports(struct dss_device *dss)
++static int dss_init_ports(struct dss_device *dss)
+ {
+ 	struct platform_device *pdev = dss->pdev;
+ 	struct device_node *parent = pdev->dev.of_node;
+ 	struct device_node *port;
+-	int i;
++	unsigned int i;
++	int r;
+ 
+ 	for (i = 0; i < dss->feat->num_ports; i++) {
+ 		port = of_graph_get_port_by_id(parent, i);
+@@ -1199,15 +1191,32 @@ static void dss_uninit_ports(struct dss_device *dss)
+ 
+ 		switch (dss->feat->ports[i]) {
+ 		case OMAP_DISPLAY_TYPE_DPI:
+-			dpi_uninit_port(port);
++			r = dpi_init_port(dss, pdev, port, dss->feat->model);
++			if (r)
++				goto error;
+ 			break;
 +
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
+ 		case OMAP_DISPLAY_TYPE_SDI:
+-			sdi_uninit_port(port);
++			r = sdi_init_port(dss, pdev, port);
++			if (r)
++				goto error;
+ 			break;
 +
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_edid.h>
-+#include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_probe_helper.h>
+ 		default:
+ 			break;
+ 		}
+ 	}
 +
-+/**
-+ * DOC: overview
-+ *
-+ * The DRM bridge connector helper object provides a DRM connector
-+ * implementation that wraps a chain of &struct drm_bridge. The connector
-+ * operations are fully implemented based on the operations of the bridges in
-+ * the chain, and don't require any intervention from the display controller
-+ * driver at runtime.
-+ *
-+ * To use the helper, display controller drivers create a bridge connector with
-+ * a call to drm_bridge_connector_init(). This associates the newly created
-+ * connector with the chain of bridges passed to the function and registers it
-+ * with the DRM device. At that point the connector becomes fully usable, no
-+ * further operation is needed.
-+ *
-+ * The DRM bridge connector operations are implemented based on the operations
-+ * provided by the bridges in the chain. Each connector operation is delegated
-+ * to the bridge closest to the connector (at the end of the chain) that
-+ * provides the relevant functionality.
-+ *
-+ * To make use of this helper, all bridges in the chain shall report bridge
-+ * operation flags (&drm_bridge->ops) and bridge output type
-+ * (&drm_bridge->type), and none of them may create a DRM connector directly.
-+ */
-+
-+/**
-+ * struct drm_bridge_connector - A connector backed by a chain of bridges
-+ */
-+struct drm_bridge_connector {
-+	/**
-+	 * @base: The base DRM connector
-+	 */
-+	struct drm_connector base;
-+	/**
-+	 * @encoder:
-+	 *
-+	 * The encoder at the start of the bridges chain.
-+	 */
-+	struct drm_encoder *encoder;
-+	/**
-+	 * @bridge_edid:
-+	 *
-+	 * The last bridge in the chain (closest to the connector) that provides
-+	 * EDID read support, if any (see &DRM_BRIDGE_OP_EDID).
-+	 */
-+	struct drm_bridge *bridge_edid;
-+	/**
-+	 * @bridge_hpd:
-+	 *
-+	 * The last bridge in the chain (closest to the connector) that provides
-+	 * hot-plug detection notification, if any (see &DRM_BRIDGE_OP_HPD).
-+	 */
-+	struct drm_bridge *bridge_hpd;
-+	/**
-+	 * @bridge_detect:
-+	 *
-+	 * The last bridge in the chain (closest to the connector) that provides
-+	 * connector detection, if any (see &DRM_BRIDGE_OP_DETECT).
-+	 */
-+	struct drm_bridge *bridge_detect;
-+	/**
-+	 * @bridge_modes:
-+	 *
-+	 * The last bridge in the chain (closest to the connector) that provides
-+	 * connector modes detection, if any (see &DRM_BRIDGE_OP_MODES).
-+	 */
-+	struct drm_bridge *bridge_modes;
-+};
-+
-+#define to_drm_bridge_connector(x) \
-+	container_of(x, struct drm_bridge_connector, base)
-+
-+/* -----------------------------------------------------------------------------
-+ * Bridge Connector Hot-Plug Handling
-+ */
-+
-+static void drm_bridge_connector_hpd_notify(struct drm_connector *connector,
-+					    enum drm_connector_status status)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *bridge;
-+
-+	/* Notify all bridges in the pipeline of hotplug events. */
-+	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge) {
-+		if (bridge->funcs->hpd_notify)
-+			bridge->funcs->hpd_notify(bridge, status);
-+	}
-+}
-+
-+static void drm_bridge_connector_hpd_cb(void *cb_data,
-+					enum drm_connector_status status)
-+{
-+	struct drm_bridge_connector *drm_bridge_connector = cb_data;
-+	struct drm_connector *connector = &drm_bridge_connector->base;
-+	struct drm_device *dev = connector->dev;
-+	enum drm_connector_status old_status;
-+
-+	mutex_lock(&dev->mode_config.mutex);
-+	old_status = connector->status;
-+	connector->status = status;
-+	mutex_unlock(&dev->mode_config.mutex);
-+
-+	if (old_status == status)
-+		return;
-+
-+	drm_bridge_connector_hpd_notify(connector, status);
-+
-+	drm_kms_helper_hotplug_event(dev);
-+}
-+
-+/**
-+ * drm_bridge_connector_enable_hpd - Enable hot-plug detection for the connector
-+ * @connector: The DRM bridge connector
-+ *
-+ * This function enables hot-plug detection for the given bridge connector.
-+ * This is typically used by display drivers in their resume handler.
-+ */
-+void drm_bridge_connector_enable_hpd(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *hpd = bridge_connector->bridge_hpd;
-+
-+	if (hpd)
-+		drm_bridge_hpd_enable(hpd, drm_bridge_connector_hpd_cb,
-+				      bridge_connector);
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_connector_enable_hpd);
-+
-+/**
-+ * drm_bridge_connector_disable_hpd - Disable hot-plug detection for the
-+ * connector
-+ * @connector: The DRM bridge connector
-+ *
-+ * This function disables hot-plug detection for the given bridge connector.
-+ * This is typically used by display drivers in their suspend handler.
-+ */
-+void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *hpd = bridge_connector->bridge_hpd;
-+
-+	if (hpd)
-+		drm_bridge_hpd_disable(hpd);
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_connector_disable_hpd);
-+
-+/* -----------------------------------------------------------------------------
-+ * Bridge Connector Functions
-+ */
-+
-+static enum drm_connector_status
-+drm_bridge_connector_detect(struct drm_connector *connector, bool force)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *detect = bridge_connector->bridge_detect;
-+	enum drm_connector_status status;
-+
-+	if (detect) {
-+		status = detect->funcs->detect(detect);
-+
-+		drm_bridge_connector_hpd_notify(connector, status);
-+	} else {
-+		switch (connector->connector_type) {
-+		case DRM_MODE_CONNECTOR_DPI:
-+		case DRM_MODE_CONNECTOR_LVDS:
-+		case DRM_MODE_CONNECTOR_DSI:
-+			status = connector_status_connected;
-+			break;
-+		default:
-+			status = connector_status_unknown;
-+			break;
-+		}
-+	}
-+
-+	return status;
-+}
-+
-+static void drm_bridge_connector_destroy(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+
-+	if (bridge_connector->bridge_hpd) {
-+		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
-+
-+		drm_bridge_hpd_disable(hpd);
-+	}
-+
-+	drm_connector_unregister(connector);
-+	drm_connector_cleanup(connector);
-+
-+	kfree(bridge_connector);
-+}
-+
-+static const struct drm_connector_funcs drm_bridge_connector_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.detect = drm_bridge_connector_detect,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_bridge_connector_destroy,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Bridge Connector Helper Functions
-+ */
-+
-+static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
-+					       struct drm_bridge *bridge)
-+{
-+	enum drm_connector_status status;
-+	struct edid *edid;
-+	int n;
-+
-+	status = drm_bridge_connector_detect(connector, false);
-+	if (status != connector_status_connected)
-+		goto no_edid;
-+
-+	edid = bridge->funcs->get_edid(bridge, connector);
-+	if (!edid || !drm_edid_is_valid(edid)) {
-+		kfree(edid);
-+		goto no_edid;
-+	}
-+
-+	drm_connector_update_edid_property(connector, edid);
-+	n = drm_add_edid_modes(connector, edid);
-+
-+	kfree(edid);
-+	return n;
-+
-+no_edid:
-+	drm_connector_update_edid_property(connector, NULL);
 +	return 0;
++
++error:
++	__dss_uninit_ports(dss, i);
++	return r;
 +}
 +
-+static int drm_bridge_connector_get_modes(struct drm_connector *connector)
++static void dss_uninit_ports(struct dss_device *dss)
 +{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *bridge;
-+
-+	/*
-+	 * If display exposes EDID, then we parse that in the normal way to
-+	 * build table of supported modes.
-+	 */
-+	bridge = bridge_connector->bridge_edid;
-+	if (bridge)
-+		return drm_bridge_connector_get_modes_edid(connector, bridge);
-+
-+	/*
-+	 * Otherwise if the display pipeline reports modes (e.g. with a fixed
-+	 * resolution panel or an analog TV output), query it.
-+	 */
-+	bridge = bridge_connector->bridge_modes;
-+	if (bridge)
-+		return bridge->funcs->get_modes(bridge, connector);
-+
-+	/*
-+	 * We can't retrieve modes, which can happen for instance for a DVI or
-+	 * VGA output with the DDC bus unconnected. The KMS core will add the
-+	 * default modes.
-+	 */
-+	return 0;
-+}
-+
-+static const struct drm_connector_helper_funcs drm_bridge_connector_helper_funcs = {
-+	.get_modes = drm_bridge_connector_get_modes,
-+	/* No need for .mode_valid(), the bridges are checked by the core. */
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Bridge Connector Initialisation
-+ */
-+
-+/**
-+ * drm_bridge_connector_init - Initialise a connector for a chain of bridges
-+ * @drm: the DRM device
-+ * @encoder: the encoder where the bridge chain starts
-+ *
-+ * Allocate, initialise and register a &drm_bridge_connector with the @drm
-+ * device. The connector is associated with a chain of bridges that starts at
-+ * the @encoder. All bridges in the chain shall report bridge operation flags
-+ * (&drm_bridge->ops) and bridge output type (&drm_bridge->type), and none of
-+ * them may create a DRM connector directly.
-+ *
-+ * Returns a pointer to the new connector on success, or a negative error
-+ * pointer otherwise.
-+ */
-+struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-+						struct drm_encoder *encoder)
-+{
-+	struct drm_bridge_connector *bridge_connector;
-+	struct drm_connector *connector;
-+	struct i2c_adapter *ddc = NULL;
-+	struct drm_bridge *bridge;
-+	int connector_type;
-+
-+	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
-+	if (!bridge_connector)
-+		return ERR_PTR(-ENOMEM);
-+
-+	bridge_connector->encoder = encoder;
-+
-+	/*
-+	 * TODO: Handle doublescan_allowed, stereo_allowed and
-+	 * ycbcr_420_allowed.
-+	 */
-+	connector = &bridge_connector->base;
-+	connector->interlace_allowed = true;
-+
-+	/*
-+	 * Initialise connector status handling. First locate the furthest
-+	 * bridges in the pipeline that support HPD and output detection. Then
-+	 * initialise the connector polling mode, using HPD if available and
-+	 * falling back to polling if supported. If neither HPD nor output
-+	 * detection are available, we don't support hotplug detection at all.
-+	 */
-+	connector_type = DRM_MODE_CONNECTOR_Unknown;
-+	drm_for_each_bridge_in_chain(encoder, bridge) {
-+		if (!bridge->interlace_allowed)
-+			connector->interlace_allowed = false;
-+
-+		if (bridge->ops & DRM_BRIDGE_OP_EDID)
-+			bridge_connector->bridge_edid = bridge;
-+		if (bridge->ops & DRM_BRIDGE_OP_HPD)
-+			bridge_connector->bridge_hpd = bridge;
-+		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
-+			bridge_connector->bridge_detect = bridge;
-+		if (bridge->ops & DRM_BRIDGE_OP_MODES)
-+			bridge_connector->bridge_modes = bridge;
-+
-+		if (!drm_bridge_get_next_bridge(bridge))
-+			connector_type = bridge->type;
-+
-+		if (bridge->ddc)
-+			ddc = bridge->ddc;
-+	}
-+
-+	if (connector_type == DRM_MODE_CONNECTOR_Unknown) {
-+		kfree(bridge_connector);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	drm_connector_init_with_ddc(drm, connector, &drm_bridge_connector_funcs,
-+				    connector_type, ddc);
-+	drm_connector_helper_add(connector, &drm_bridge_connector_helper_funcs);
-+
-+	if (bridge_connector->bridge_hpd)
-+		connector->polled = DRM_CONNECTOR_POLL_HPD;
-+	else if (bridge_connector->bridge_detect)
-+		connector->polled = DRM_CONNECTOR_POLL_CONNECT
-+				  | DRM_CONNECTOR_POLL_DISCONNECT;
-+
-+	return connector;
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
-diff --git a/include/drm/drm_bridge_connector.h b/include/drm/drm_bridge_connector.h
-new file mode 100644
-index 000000000000..33f6c3bbdb4a
---- /dev/null
-+++ b/include/drm/drm_bridge_connector.h
-@@ -0,0 +1,18 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+ */
-+
-+#ifndef __DRM_BRIDGE_CONNECTOR_H__
-+#define __DRM_BRIDGE_CONNECTOR_H__
-+
-+struct drm_connector;
-+struct drm_device;
-+struct drm_encoder;
-+
-+void drm_bridge_connector_enable_hpd(struct drm_connector *connector);
-+void drm_bridge_connector_disable_hpd(struct drm_connector *connector);
-+struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-+						struct drm_encoder *encoder);
-+
-+#endif /* __DRM_BRIDGE_CONNECTOR_H__ */
++	__dss_uninit_ports(dss, dss->feat->num_ports);
+ }
+ 
+ static int dss_video_pll_probe(struct dss_device *dss)
 -- 
 Regards,
 
