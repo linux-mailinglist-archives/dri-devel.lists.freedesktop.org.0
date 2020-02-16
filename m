@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6E5160696
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A75160680
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:04:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 541386E4C9;
-	Sun, 16 Feb 2020 21:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D29F6E4A2;
+	Sun, 16 Feb 2020 21:04:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D31486E47A
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:03:51 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A69BD6E47A
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:03:52 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C3C3E1D;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DAC62122D;
  Sun, 16 Feb 2020 22:03:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1581887029;
- bh=QbhAwNSi/hveDJ5+S7Y5NdmlGXxsSahTwbVpBV/HcP8=;
+ s=mail; t=1581887030;
+ bh=6nXqbmN16IjqR41s66OSd6D2iDHURL/MPQbiBJvDOCY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KiwqFscTxuu6hXJgwWF+/K9FyliEwFc9WNYaG62ja/KKKgCdoI6iEsPWInUp5qqX/
- 8V0+Gr1y24wU73sHytkRl72ztyDX5J7053jhfvMiGtXLU/WPN1sl9nhroXytM2SUuW
- yU6maJfImq16osoFGPl/GrttpEcRCc5V7nGEy3OU=
+ b=pg9Y0bFkX5lqdS8DDcVdMvGJ1mrHvOao5ur+cS9siJoNPWdvIFq90MTnM58nv2h8v
+ rGa8bv5Fxbyj3BvjCCoxB6xS4/maN7wI6ZK7Vui04srVQo+Xbib8A5aYhOHQ6gwogV
+ 45AGSwCDCVjPOxIkDgcYJ3ot/pIj9x48j4JH4aXk=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 19/51] drm/omap: Simplify HDMI mode and infoframe
- configuration
-Date: Sun, 16 Feb 2020 23:02:36 +0200
-Message-Id: <20200216210308.17312-20-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v6 20/51] drm/omap: Factor out display type to connector type
+ conversion
+Date: Sun, 16 Feb 2020 23:02:37 +0200
+Message-Id: <20200216210308.17312-21-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
 References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
@@ -54,88 +54,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the omap_connector_get_hdmi_mode() function as the HDMI mode can
-be accessed directly from the connector's display info.
+Move the code that computes the DRM connector type for the
+omapdss_device display type to a new omapdss_device_connector_type()
+function for later reuse.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/omapdrm/omap_connector.c | 11 -----------
- drivers/gpu/drm/omapdrm/omap_connector.h |  1 -
- drivers/gpu/drm/omapdrm/omap_encoder.c   |  4 +---
- 3 files changed, 1 insertion(+), 15 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/base.c       | 23 +++++++++++++++++++++++
+ drivers/gpu/drm/omapdrm/dss/omapdss.h    |  1 +
+ drivers/gpu/drm/omapdrm/omap_connector.c | 19 +------------------
+ 3 files changed, 25 insertions(+), 18 deletions(-)
 
+diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
+index a1970b9db6ab..cae5687822e2 100644
+--- a/drivers/gpu/drm/omapdrm/dss/base.c
++++ b/drivers/gpu/drm/omapdrm/dss/base.c
+@@ -285,6 +285,29 @@ void omapdss_device_post_disable(struct omap_dss_device *dssdev)
+ }
+ EXPORT_SYMBOL_GPL(omapdss_device_post_disable);
+ 
++unsigned int omapdss_device_connector_type(enum omap_display_type type)
++{
++	switch (type) {
++	case OMAP_DISPLAY_TYPE_HDMI:
++		return DRM_MODE_CONNECTOR_HDMIA;
++	case OMAP_DISPLAY_TYPE_DVI:
++		return DRM_MODE_CONNECTOR_DVID;
++	case OMAP_DISPLAY_TYPE_DSI:
++		return DRM_MODE_CONNECTOR_DSI;
++	case OMAP_DISPLAY_TYPE_DPI:
++	case OMAP_DISPLAY_TYPE_DBI:
++		return DRM_MODE_CONNECTOR_DPI;
++	case OMAP_DISPLAY_TYPE_VENC:
++		/* TODO: This could also be composite */
++		return DRM_MODE_CONNECTOR_SVIDEO;
++	case OMAP_DISPLAY_TYPE_SDI:
++		return DRM_MODE_CONNECTOR_LVDS;
++	default:
++		return DRM_MODE_CONNECTOR_Unknown;
++	}
++}
++EXPORT_SYMBOL_GPL(omapdss_device_connector_type);
++
+ /* -----------------------------------------------------------------------------
+  * Components Handling
+  */
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index 79f6b195c7cf..c5672e5174c5 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -479,6 +479,7 @@ void omapdss_device_pre_enable(struct omap_dss_device *dssdev);
+ void omapdss_device_enable(struct omap_dss_device *dssdev);
+ void omapdss_device_disable(struct omap_dss_device *dssdev);
+ void omapdss_device_post_disable(struct omap_dss_device *dssdev);
++unsigned int omapdss_device_connector_type(enum omap_display_type type);
+ 
+ int omap_dss_get_num_overlay_managers(void);
+ 
 diff --git a/drivers/gpu/drm/omapdrm/omap_connector.c b/drivers/gpu/drm/omapdrm/omap_connector.c
-index 94cded387174..88dbf3fa473f 100644
+index 88dbf3fa473f..38c7a79c5d4a 100644
 --- a/drivers/gpu/drm/omapdrm/omap_connector.c
 +++ b/drivers/gpu/drm/omapdrm/omap_connector.c
-@@ -21,7 +21,6 @@ struct omap_connector {
- 	struct drm_connector base;
- 	struct omap_dss_device *output;
- 	struct omap_dss_device *hpd;
--	bool hdmi_mode;
- };
+@@ -296,24 +296,7 @@ static int omap_connector_get_type(struct omap_dss_device *output)
+ 	type = display->type;
+ 	omapdss_device_put(display);
  
- static void omap_connector_hpd_notify(struct drm_connector *connector,
-@@ -84,13 +83,6 @@ void omap_connector_disable_hpd(struct drm_connector *connector)
- 		hpd->ops->unregister_hpd_cb(hpd);
+-	switch (type) {
+-	case OMAP_DISPLAY_TYPE_HDMI:
+-		return DRM_MODE_CONNECTOR_HDMIA;
+-	case OMAP_DISPLAY_TYPE_DVI:
+-		return DRM_MODE_CONNECTOR_DVID;
+-	case OMAP_DISPLAY_TYPE_DSI:
+-		return DRM_MODE_CONNECTOR_DSI;
+-	case OMAP_DISPLAY_TYPE_DPI:
+-	case OMAP_DISPLAY_TYPE_DBI:
+-		return DRM_MODE_CONNECTOR_DPI;
+-	case OMAP_DISPLAY_TYPE_VENC:
+-		/* TODO: This could also be composite */
+-		return DRM_MODE_CONNECTOR_SVIDEO;
+-	case OMAP_DISPLAY_TYPE_SDI:
+-		return DRM_MODE_CONNECTOR_LVDS;
+-	default:
+-		return DRM_MODE_CONNECTOR_Unknown;
+-	}
++	return omapdss_device_connector_type(type);
  }
  
--bool omap_connector_get_hdmi_mode(struct drm_connector *connector)
--{
--	struct omap_connector *omap_connector = to_omap_connector(connector);
--
--	return omap_connector->hdmi_mode;
--}
--
- static struct omap_dss_device *
- omap_connector_find_device(struct drm_connector *connector,
- 			   enum omap_dss_device_ops_flag op)
-@@ -167,7 +159,6 @@ static void omap_connector_destroy(struct drm_connector *connector)
- static int omap_connector_get_modes_edid(struct drm_connector *connector,
- 					 struct omap_dss_device *dssdev)
- {
--	struct omap_connector *omap_connector = to_omap_connector(connector);
- 	enum drm_connector_status status;
- 	void *edid;
- 	int n;
-@@ -189,8 +180,6 @@ static int omap_connector_get_modes_edid(struct drm_connector *connector,
- 	drm_connector_update_edid_property(connector, edid);
- 	n = drm_add_edid_modes(connector, edid);
- 
--	omap_connector->hdmi_mode = drm_detect_hdmi_monitor(edid);
--
- 	kfree(edid);
- 	return n;
- 
-diff --git a/drivers/gpu/drm/omapdrm/omap_connector.h b/drivers/gpu/drm/omapdrm/omap_connector.h
-index 13607bda33d8..4aa5608f4bbe 100644
---- a/drivers/gpu/drm/omapdrm/omap_connector.h
-+++ b/drivers/gpu/drm/omapdrm/omap_connector.h
-@@ -21,7 +21,6 @@ struct omap_dss_device;
- struct drm_connector *omap_connector_init(struct drm_device *dev,
- 					  struct omap_dss_device *output,
- 					  struct drm_encoder *encoder);
--bool omap_connector_get_hdmi_mode(struct drm_connector *connector);
- void omap_connector_enable_hpd(struct drm_connector *connector);
- void omap_connector_disable_hpd(struct drm_connector *connector);
- enum drm_mode_status omap_connector_mode_fixup(struct omap_dss_device *dssdev,
-diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
-index 4f2165a37795..cb5aa01d2f87 100644
---- a/drivers/gpu/drm/omapdrm/omap_encoder.c
-+++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
-@@ -76,9 +76,7 @@ static void omap_encoder_hdmi_mode_set(struct drm_connector *connector,
- {
- 	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
- 	struct omap_dss_device *dssdev = omap_encoder->output;
--	bool hdmi_mode;
--
--	hdmi_mode = omap_connector_get_hdmi_mode(connector);
-+	bool hdmi_mode = connector->display_info.is_hdmi;
- 
- 	if (dssdev->ops->hdmi.set_hdmi_mode)
- 		dssdev->ops->hdmi.set_hdmi_mode(dssdev, hdmi_mode);
+ /* initialize connector */
 -- 
 Regards,
 
