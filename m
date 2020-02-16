@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D70160485
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 16:31:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EB5160488
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 16:33:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 643126E37C;
-	Sun, 16 Feb 2020 15:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25D076E042;
+	Sun, 16 Feb 2020 15:33:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 397F06E37C
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 15:31:51 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 385F56E042
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 15:33:35 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A1FA2AF;
- Sun, 16 Feb 2020 16:31:49 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FF742AF;
+ Sun, 16 Feb 2020 16:33:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1581867109;
- bh=wkLIu4j7lLxmGRHi0s8UFm+/t4pQH4kBC7+pExlS9VM=;
+ s=mail; t=1581867213;
+ bh=UwjoSQbzdBP1f/alysPDptK1b0h5/YPxmlv920b3QuQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ABN5TfgUB+4vT+uhP5katKsn+/Z4Fj5s8bz0Elp0fdPM1cgXNSMJBfmJbGDvqJlG1
- wa2G+elKSDX7qK5w3Fbc+m5CUD7HSnTSlhO6WDIdEUoUQdw/3iWwx3ww6oXMGHyJJ6
- XsyLcz1PMY9fhmbzX80awgQkY2n3rvJoZCWvmyjQ=
-Date: Sun, 16 Feb 2020 17:31:32 +0200
+ b=H1nzhNo/u6R+fv7VOii4nq3lzmTGUwIjEvMzJysT8Z5E4Xd5n/jpEdQwwWs3UdmLS
+ Hag0XOC7vObfBgClP6S/zpdeNutnzui3LnEoqAcGw1cbWcB9GwIQPVs7Z6rkWKCBKn
+ G8vKm6SAoNJ3DBOujoxjgAi7w3aKDVaMyaX0F6xs=
+Date: Sun, 16 Feb 2020 17:33:15 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Yuti Amonkar <yamonkar@cadence.com>
 Subject: Re: [PATCH v5 1/3] dt-bindings: drm/bridge: Document Cadence MHDP
  bridge bindings.
-Message-ID: <20200216153132.GC28645@pendragon.ideasonboard.com>
+Message-ID: <20200216153315.GD28645@pendragon.ideasonboard.com>
 References: <1581481604-24499-1-git-send-email-yamonkar@cadence.com>
  <1581481604-24499-2-git-send-email-yamonkar@cadence.com>
- <b97283b0-e4a5-4b96-e509-b9b5cdd78991@ti.com>
- <20200216152840.GB28645@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200216152840.GB28645@pendragon.ideasonboard.com>
+In-Reply-To: <1581481604-24499-2-git-send-email-yamonkar@cadence.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,7 +50,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
  praneeth@ti.com, narmstrong@baylibre.com, airlied@linux.ie,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, jonas@kwiboo.se, jsarha@ti.com,
+ tomi.valkeinen@ti.com, jonas@kwiboo.se, jsarha@ti.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  a.hajda@samsung.com, robh+dt@kernel.org, maxime@cerno.tech,
  sjakhade@cadence.com, mparab@cadence.com
@@ -63,89 +61,161 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Yuti,
 
-On Sun, Feb 16, 2020 at 05:28:40PM +0200, Laurent Pinchart wrote:
-> On Thu, Feb 13, 2020 at 11:16:51AM +0200, Tomi Valkeinen wrote:
-> > On 12/02/2020 06:26, Yuti Amonkar wrote:
-> > > Document the bindings used for the Cadence MHDP DPI/DP bridge in
-> > > yaml format.
-> > > 
-> > > Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > >   .../bindings/display/bridge/cdns,mhdp.yaml    | 125 ++++++++++++++++++
-> > >   1 file changed, 125 insertions(+)
-> > >   create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
-> > > new file mode 100644
-> > > index 000000000000..e7f84ed1d2da
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
-> > > @@ -0,0 +1,125 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: "http://devicetree.org/schemas/display/bridge/cdns,mhdp.yaml#"
-> > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> > > +
-> > > +title: Cadence MHDP bridge
-> > > +
-> > > +maintainers:
-> > > +  - Swapnil Jakhade <sjakhade@cadence.com>
-> > > +  - Yuti Amonkar <yamonkar@cadence.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - cdns,mhdp8546
-> > > +      - ti,j721e-mhdp8546
-> > > +
-> > > +  reg:
-> > > +    minItems: 1
-> > > +    maxItems: 2
-> > > +    items:
-> > > +      - description:
-> > > +          Register block of mhdptx apb registers upto PHY mapped area(AUX_CONFIG_P).
-> > 
-> > "up to". Add space before (.
-> > 
-> > > +          The AUX and PMA registers are mapped to associated phy driver.
-> 
-> I wouldn't mention driver here, as that's a software concept unrelated
-> to DT bindings. You could write "The AUX and PMA registers are not part
-> of this range, they are instead included in the associated PHY.".
-> 
-> > > +      - description:
-> > > +          Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
-> > > +
-> > > +  reg-names:
-> > > +    minItems: 1
-> > > +    maxItems: 2
-> > > +    items:
-> > > +      - const: mhdptx
-> > > +      - const: j721e-intg
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> > > +    description:
-> > > +      DP bridge clock, it's used by the IP to know how to translate a number of
-> 
-> s/it's //
-> 
-> > > +      clock cycles into a time (which is used to comply with DP standard timings
-> > > +      and delays).
-> > > +
-> > > +  phys:
-> > > +    description: Phandle to the DisplyPort phy.
-> > 
-> > "Display"
-> 
-> And s/Phandle/phandle/, and s/phy/PHY/.
-> 
-> Shouldn't this bridge also have port nodes ?
+Thank you for the patch.
 
-Oops, sorry, I missed that Tomi's reply has removed part of the original
-patch. Please disregard this last comment, I'll reply to the original.
+On Wed, Feb 12, 2020 at 05:26:42AM +0100, Yuti Amonkar wrote:
+> Document the bindings used for the Cadence MHDP DPI/DP bridge in
+> yaml format.
+> 
+> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/display/bridge/cdns,mhdp.yaml    | 125 ++++++++++++++++++
+>  1 file changed, 125 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
+> new file mode 100644
+> index 000000000000..e7f84ed1d2da
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
+> @@ -0,0 +1,125 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/display/bridge/cdns,mhdp.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Cadence MHDP bridge
+> +
+> +maintainers:
+> +  - Swapnil Jakhade <sjakhade@cadence.com>
+> +  - Yuti Amonkar <yamonkar@cadence.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - cdns,mhdp8546
+> +      - ti,j721e-mhdp8546
+> +
+> +  reg:
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - description:
+> +          Register block of mhdptx apb registers upto PHY mapped area(AUX_CONFIG_P).
+> +          The AUX and PMA registers are mapped to associated phy driver.
+> +      - description:
+> +          Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
+> +
+> +  reg-names:
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - const: mhdptx
+> +      - const: j721e-intg
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description:
+> +      DP bridge clock, it's used by the IP to know how to translate a number of
+> +      clock cycles into a time (which is used to comply with DP standard timings
+> +      and delays).
+> +
+> +  phys:
+> +    description: Phandle to the DisplyPort phy.
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      Ports as described in Documentation/devicetree/bindings/graph.txt
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description:
+> +          input port representing the DP bridge input
+
+s/input port/Input port/ and s/bridge input/bridge input./
+
+> +
+> +      port@1:
+> +        type: object
+> +        description:
+> +          output port representing the DP bridge output.
+
+s/output port/Output port/
+
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +      - '#address-cells'
+> +      - '#size-cells'
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,j721e-mhdp8546
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 2
+> +        reg-names:
+> +          minItems: 2
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - reg
+> +  - reg-names
+> +  - phys
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    mhdp: dp-bridge@f0fb000000 {
+> +        compatible = "cdns,mhdp8546";
+> +        reg = <0xf0 0xfb000000 0x0 0x1000000>;
+> +        reg-names = "mhdptx";
+> +        clocks = <&mhdp_clock>;
+> +        phys = <&dp_phy>;
+> +
+> +        ports {
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              port@0 {
+> +                     reg = <0>;
+> +                     dp_bridge_input: endpoint {
+> +                        remote-endpoint = <&xxx_dpi_output>;
+> +                     };
+> +              };
+> +
+> +              port@1 {
+> +                     reg = <1>;
+> +                     dp_bridge_output: endpoint {
+> +                        remote-endpoint = <&xxx_dp_connector_input>;
+> +                     };
+> +              };
+> +        };
+> +    };
+> +...
+
+Really good bindings ! With the above comments addressed, as well as he
+one in reply to Tomi's review,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 -- 
 Regards,
