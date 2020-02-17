@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C62161801
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 17:33:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3647C161815
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 17:38:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDCDA6E907;
-	Mon, 17 Feb 2020 16:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50F376E990;
+	Mon, 17 Feb 2020 16:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B90CD6E907
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 16:33:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDA766E990
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 16:38:33 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206575] [amdgpu] [drm] No video signal on resume from suspend,
  R9 380
-Date: Mon, 17 Feb 2020 16:33:50 +0000
+Date: Mon, 17 Feb 2020 16:38:33 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: low
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: veox+kernel@veox.pw
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-206575-2300-YWZ3sjKCRg@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206575-2300-UvuHPUKSyy@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206575-2300@https.bugzilla.kernel.org/>
 References: <bug-206575-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,14 +59,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206575
 
-Alex Deucher (alexdeucher@gmail.com) changed:
+--- Comment #5 from Noel Maersk (veox+kernel@veox.pw) ---
+I'm not able to bisect at current moment. Will try by end of workweek.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
+-----
 
---- Comment #4 from Alex Deucher (alexdeucher@gmail.com) ---
-Can you bisect?
+User `muncrief` has recently reported something similar in a different bug
+report, here:
+
+https://bugzilla.kernel.org/show_bug.cgi?id=204241#c48
+
+... for Radeon R9 390, ever since linux 5.5-rc1. They were suggested opening a
+new issue, but a search on bugzilla shows they never did.
 
 -- 
 You are receiving this mail because:
