@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D09160CCE
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3798160D16
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A96E6E524;
-	Mon, 17 Feb 2020 08:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046C76E8D9;
+	Mon, 17 Feb 2020 08:20:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com
- [IPv6:2607:f8b0:4864:20::54a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 811C26E47B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 03:17:11 +0000 (UTC)
-Received: by mail-pg1-x54a.google.com with SMTP id b22so10829457pgs.4
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 19:17:11 -0800 (PST)
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 902226E446
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 03:21:29 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id z193so16890050iof.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 19:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=E5BCGldRe7eFAGLQVFmcBimFYUghF+IzwiWzbxZYe7o=;
- b=NS+hvD7VZRtKE2R/Xq1U75r1q6HgBSXd3k2OLQjZfHV8YaUAHr1smXbLENNirFdHsj
- PtSomq4XOq1mVdmGlECgRU5iTiJHjiRBYDjMPhCsUSgwRhxV1WnmYjht+97oXpYXp5a3
- kZHl4MHCDRntHydqUWIj6KHo0KmUBhC5b1yTRVfM5/0q/UXBC//Xx9Gtpc6ekyaG1Hk0
- eZpoybGZzoHdV2kgPX9L3vVhZ3WvtqnE0cvx+IktBq2MYvS0Yx6UgWqflya9nUMrr63U
- 98DLX1iN+RwZH0ZxFfNuSUFkcM55pIzjwkxZsvbbBH25fTgYKgHTKKIUHPcW9YIXIKlb
- /MUg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+kmg82PrP5LICQsxhHiVbN5R5NBrtOLNvQPwne/NGOA=;
+ b=t5eF1GPF6GoODdlqsDLhBm9YZ93XeswOThOt26rhz68lYQtokb/vXMws9molPaNGgn
+ YCzOzoa4OJo6ampwllRBwhc5V2yPxbfiAVCz+I1MVhcXgH0sClaKrchJASLbszzXDUc5
+ PcKhaD5sp2Sny4fXmTCuj6e69ZrN5k6XoHp1YwNl2Xe3sHsf1drXgW6CMzXCk6358oVS
+ f5+s2M0Hr2BmZ3zq8SGg3NkgrcKyQNCwtu34tk6FDP+xLSk5ABatZ9hwybmW6g0VRCur
+ 0g3whXZ0pdOD5SUi4ogFS8o8RGJpUzUaOmyI1a4Pj/3IQUZLw9vKtn8equ5zxAKJwZA6
+ EfAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=E5BCGldRe7eFAGLQVFmcBimFYUghF+IzwiWzbxZYe7o=;
- b=rS+2XF6NATSzz3WH0Td05bcTIWWkwNCS8R7oCP1zE+ZBF+MFil54nOasJgPcDaqSYc
- eCSpWrVqLgZbgJB2w9p3QSxOq5+s+hnLWMIag9nFdXAyLnmLoXUp94PxoMQxKBGFuQm1
- YCpDvhBkGxXeaS0LYxxjmz3X2RW3kEch+Zo1OzQBb5VOfPLHSiWQHCgKSm5fPmlRt6qf
- TfcxTlRvmRWOoVLz2XpMeWN8KViEde3/95z1/8m+h9MdIqQy9eGn7cXumMjeuRCql/yf
- WnPZ8MuYqS4D5XlIZ5BzX+1SzVcNjPgD5fdJTrLWncFke1QvJ1NlKal8vNkpxil9kWwR
- OqiA==
-X-Gm-Message-State: APjAAAV4npmYNgvEW705klG8wmGazTLx86vNvWleof7ffZiW8WStMUJG
- 9FCvyDH73EoXbWsXIf3fL1rlarzRG4YO
-X-Google-Smtp-Source: APXvYqwFBo1TW5OKjVbnTeWNYS7iTLxNwp5AqpuvTgk8sGrNAAP3BgmmBO1Yc/QvcgfKirYdziuDCiuk48HH
-X-Received: by 2002:a63:de54:: with SMTP id y20mr15796824pgi.79.1581909431033; 
- Sun, 16 Feb 2020 19:17:11 -0800 (PST)
-Date: Mon, 17 Feb 2020 11:16:53 +0800
-In-Reply-To: <20200217031653.52345-1-tzungbi@google.com>
-Message-Id: <20200217105513.2.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
-Mime-Version: 1.0
-References: <20200217031653.52345-1-tzungbi@google.com>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH v2 2/2] drm/mediatek: fix race condition for HDMI jack status
- reporting
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+kmg82PrP5LICQsxhHiVbN5R5NBrtOLNvQPwne/NGOA=;
+ b=SHstfM6igX8Pad2GdTEzX0xN68rzSLQeoJo8CuGItwSVLzXQ/UU8YF9q3EQ97T6mk/
+ TmmKba+Vo5Pn1GdImNSI7p/Oz00nIS/teg5XARasg3q4hn3GhadjwoebFciNFugdfEAK
+ Y9f+X1iplmpg1X5O1Ptho0UJRZQK8ermHSzBWJbdFaHilDiQadoC5cv4p99L0C0lTqWy
+ MLl4ANQv0A1L4T7Y3FjeYd332dm4B42QkZbqnjO7K4TWdvkvxln+pO/McYn4H28+Pq6/
+ n76Ye45RtLvV/+H8lL8NTfw8NcOhSSwjTNgA3mW/D+GuJC1JEJmKUFGcihvWGdEEODiF
+ CvJw==
+X-Gm-Message-State: APjAAAV7bhNIdE63q3ej65kDzT0sC2lO+qVzt4hO0zJuJU1s1TV/K+XU
+ qAP5K50NItuanKZtPBPI2UoTG7W2oGsgNiy0GxxUYg==
+X-Google-Smtp-Source: APXvYqyaPVYhmq/h7UBs6n0tcjgftHnCsB9jpo4a+DwPuDtd3EIywxxxx8zFkzSw8qKGVwWf4dYIvkD+9m0g64cglr8=
+X-Received: by 2002:a05:6638:538:: with SMTP id
+ j24mr10587053jar.12.1581909688631; 
+ Sun, 16 Feb 2020 19:21:28 -0800 (PST)
+MIME-Version: 1.0
+References: <20200213153226.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
+ <1581664042.20487.4.camel@mtksdaap41>
+ <CA+Px+wW0BWz0-8L_UXJ-OYbwG6W9vmCWRr7kevpk0yokp+NKKg@mail.gmail.com>
+ <1581669243.29925.13.camel@mtksdaap41>
+ <CA+Px+wUacX+HbgLTSjAuq0feoeYNb5pp=1w8C4_zm=0jGVcHUw@mail.gmail.com>
+In-Reply-To: <CA+Px+wUacX+HbgLTSjAuq0feoeYNb5pp=1w8C4_zm=0jGVcHUw@mail.gmail.com>
 From: Tzung-Bi Shih <tzungbi@google.com>
-To: broonie@kernel.org, airlied@linux.ie, daniel@ffwll.ch
+Date: Mon, 17 Feb 2020 11:21:17 +0800
+Message-ID: <CA+Px+wXQGh3rX54TE8Ks8tfFhHPQXUV2PhK2qzME_LFQ+USUQg@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: fix race condition for HDMI jack status
+ reporting
+To: CK Hu <ck.hu@mediatek.com>
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,97 +67,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, cychiang@google.com, tzungbi@google.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, dgreid@google.com,
- linux-arm-kernel@lists.infradead.org
+Cc: ALSA development <alsa-devel@alsa-project.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Dylan Reid <dgreid@google.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Jimmy Cheng-Yi Chiang <cychiang@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-hdmi_conn_detect and mtk_hdmi_audio_hook_plugged_cb would be called
-by different threads.
+On Sat, Feb 15, 2020 at 7:59 AM Tzung-Bi Shih <tzungbi@google.com> wrote:
+>
+> On Fri, Feb 14, 2020 at 4:34 PM CK Hu <ck.hu@mediatek.com> wrote:
+> > It looks like that even though sound driver is removed, hdmi driver
+> > would still callback to sound core. This is so weird. After sound driver
+> > is removed, hdmi driver would callback with codec_dev which is invalid.
+> > I think this may cause some problem.
+>
+> Will do some tests and get back to you.
 
-Imaging the following calling sequence:
-           Thread A                            Thread B
---------------------------------------------------------------------
-mtk_hdmi_audio_hook_plugged_cb()
-mtk_cec_hpd_high() -> disconnected
-                                     hdmi_conn_detect()
-                                     mtk_cec_hpd_high() -> connected
-                                     plugged_cb(connected)
-plugged_cb(disconnected)
-
-The latest disconnected is false reported.  Makes mtk_cec_hpd_high
-and plugged_cb atomic to fix.
-
-Also uses the same lock to protect read/write of plugged_cb and codec_dev.
-
-Fixes: 5d3c64477392 ("drm/mediatek: support HDMI jack status reporting")
-Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
----
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 03aeb73005ef..d80017e3d84a 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -12,6 +12,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/mutex.h>
- #include <linux/of_platform.h>
- #include <linux/of.h>
- #include <linux/of_gpio.h>
-@@ -171,6 +172,7 @@ struct mtk_hdmi {
- 	bool enabled;
- 	hdmi_codec_plugged_cb plugged_cb;
- 	struct device *codec_dev;
-+	struct mutex update_plugged_status_lock;
- };
- 
- static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
-@@ -1199,10 +1201,13 @@ static void mtk_hdmi_clk_disable_audio(struct mtk_hdmi *hdmi)
- static enum drm_connector_status
- mtk_hdmi_update_plugged_status(struct mtk_hdmi *hdmi)
- {
--	bool connected = mtk_cec_hpd_high(hdmi->cec_dev);
-+	bool connected;
- 
-+	mutex_lock(&hdmi->update_plugged_status_lock);
-+	connected = mtk_cec_hpd_high(hdmi->cec_dev);
- 	if (hdmi->plugged_cb && hdmi->codec_dev)
- 		hdmi->plugged_cb(hdmi->codec_dev, connected);
-+	mutex_unlock(&hdmi->update_plugged_status_lock);
- 
- 	return connected ?
- 	       connector_status_connected : connector_status_disconnected;
-@@ -1669,8 +1674,11 @@ static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
- {
- 	struct mtk_hdmi *hdmi = data;
- 
-+	mutex_lock(&hdmi->update_plugged_status_lock);
- 	hdmi->plugged_cb = fn;
- 	hdmi->codec_dev = codec_dev;
-+	mutex_unlock(&hdmi->update_plugged_status_lock);
-+
- 	mtk_hdmi_update_plugged_status(hdmi);
- 
- 	return 0;
-@@ -1729,6 +1737,7 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	mutex_init(&hdmi->update_plugged_status_lock);
- 	platform_set_drvdata(pdev, hdmi);
- 
- 	ret = mtk_hdmi_output_init(hdmi);
--- 
-2.25.0.265.gbab2e86ba0-goog
-
+Please see https://patchwork.kernel.org/cover/11385055/ for the
+proposed solution.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
