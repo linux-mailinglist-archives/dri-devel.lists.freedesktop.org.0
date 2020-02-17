@@ -1,54 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157FB160872
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 04:06:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE12160924
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 04:44:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C07436E433;
-	Mon, 17 Feb 2020 03:06:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 389C06E486;
+	Mon, 17 Feb 2020 03:44:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A35136E3DF;
- Mon, 17 Feb 2020 03:06:14 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id t14so16771805wmi.5;
- Sun, 16 Feb 2020 19:06:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cx8bYfsqZHEBN+LcrqEn91kHMUPX248+/kSe0EtzOjI=;
- b=ruwYXZteNffd+ZcnR8MnG6XKuHjOgL3w4AuJMJEoEFkjuSRH0t2BcQ8JHOmh0hX6qF
- G2n5wDARowKxOfJ42ZT1x2+IkdCe2CG18H0qEF9iAa4MPDApqdUYbtQO6S3rdakzjfZt
- sK0puqA0Zg/N62ywd9xmVgHgqTJUDI8rC8Nx0kq6VIlcWNtMqUnX0tFgNgzSlBDHZoyu
- sO+rpdNkalcNOWzZV6vy3VKKttAcfFhJRQtR8KMbyQhSu8ckJ2AuxsKIuOHCEozDO20e
- NQUZwa0RP7Y8/dV9o9yn/nV2Y0l3X4LZTMC/o+U4GGHlGl+Ny+hHPSG863AbslxCi6ly
- o8MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cx8bYfsqZHEBN+LcrqEn91kHMUPX248+/kSe0EtzOjI=;
- b=PSGc9UUcu24VlzsPUVS7+OQfC4bU6NYiJCDjAGMLd4YYFBWPQv8nNsTphqHs4kwQCc
- JtF1JdppbpweXT2K+/Tr+rN4k/CzocYNXGe/EkWNBvHGOt6CfYfY0ZnhgO7s6T/1A+Yd
- 4sE18nxj8JfmxO0EknDB84ODw5QV+ZtdyqqCRVEn3wCPB3RcXlv6vAeQPwvDCjY3Jx2c
- gQWmUB8PcheCPa5iFN/LZaJvY7zf/mfkdrblWAzdUOPfejsY6xsZWaA0xpNN/pFAD4HP
- H/LmWzb6IKIUfqghwncyswOTbQHTw47/n4RuPDUVoZ/CtGKdZl1iCAUVLeLgxuow8WWg
- sLjA==
-X-Gm-Message-State: APjAAAVP+e0zJselh03axHWtwn2CcubVm9TKHb8kbapoR8uTx/hRsBU5
- VjUCm4Hb67pXX0C4JggoWT6pepWDj1nRdnKU+WA=
-X-Google-Smtp-Source: APXvYqyAj/3k/mEe/d98HCwptA/CAFJaPIjw4KXgpMOHvjOEibSODQv5nvA+mZW6Hg2aGgIiorGJjDCtj1Zjxg7UPGw=
-X-Received: by 2002:a7b:cbcf:: with SMTP id n15mr19043442wmi.21.1581908773251; 
- Sun, 16 Feb 2020 19:06:13 -0800 (PST)
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 92E126E44C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 03:44:23 +0000 (UTC)
+X-UUID: 2a26b73339d345c0ab84a9d7e89edf7a-20200217
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=t94t8oVrB/2x1V0xqotqa7NVwVrZU5xruUOUaNPm/Ck=; 
+ b=gFbOVRIfs89aOPosJ7mvekkKq5sEBx1Hdsy8fEb3HeB6MnqVWYt6cN6wxDemI+95zAVePzF+g+tXzbrccuA9GvEhEkAeRlo1oN/wmQJ8JS1M9RhCIDqmjWTnkZMCBVG63ZVrnkSN360Ee5sLf2zTLVWd52v1lvMl/CLEKxl/ngg=;
+X-UUID: 2a26b73339d345c0ab84a9d7e89edf7a-20200217
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 2037310682; Mon, 17 Feb 2020 11:44:19 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 17 Feb 2020 11:44:18 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 17 Feb 2020 11:43:55 +0800
+Message-ID: <1581911058.12629.1.camel@mtksdaap41>
+Subject: Re: [PATCH v2 2/2] drm/mediatek: fix race condition for HDMI jack
+ status reporting
+From: CK Hu <ck.hu@mediatek.com>
+To: Tzung-Bi Shih <tzungbi@google.com>
+Date: Mon, 17 Feb 2020 11:44:18 +0800
+In-Reply-To: <20200217105513.2.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
+References: <20200217031653.52345-1-tzungbi@google.com>
+ <20200217105513.2.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-References: <20200215035026.3180698-1-anarsoul@gmail.com>
- <CAKGbVbvEDYJ19KVWXN0k-5niXLjmPYvxGJQ2-3GWTyYyFkH0Gw@mail.gmail.com>
-In-Reply-To: <CAKGbVbvEDYJ19KVWXN0k-5niXLjmPYvxGJQ2-3GWTyYyFkH0Gw@mail.gmail.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Mon, 17 Feb 2020 11:06:02 +0800
-Message-ID: <CAKGbVbvPPowjVixjyfBF=z=6y5GDEsV3d-2pzdRWK7pt3ewRew@mail.gmail.com>
-Subject: Re: [PATCH] drm/lima: fix recovering from PLBU out of memory
-To: Vasily Khoruzhick <anarsoul@gmail.com>
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +53,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, lima@lists.freedesktop.org
+Cc: alsa-devel@alsa-project.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, broonie@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, dgreid@google.com,
+ linux-arm-kernel@lists.infradead.org, cychiang@google.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-applied to drm-misc-next.
+Hi, Tzhung-Bi:
 
-On Mon, Feb 17, 2020 at 9:20 AM Qiang Yu <yuq825@gmail.com> wrote:
->
-> Looks good for me, patch is:
-> Reviewed-by: Qiang Yu <yuq825@gmail.com>
->
-> Regards,
-> Qiang
->
-> On Sat, Feb 15, 2020 at 11:50 AM Vasily Khoruzhick <anarsoul@gmail.com> wrote:
-> >
-> > It looks like on PLBU_OUT_OF_MEM interrupt we need to resume from where we
-> > stopped, i.e. new PLBU heap start is old end. Also update end address
-> > in GP frame to grow heap on 2nd and subsequent out of memory interrupts.
-> >
-> > Fixes: 2081e8dcf1ee ("drm/lima: recover task by enlarging heap buffer")
-> > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> > ---
-> >  drivers/gpu/drm/lima/lima_gp.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/lima/lima_gp.c b/drivers/gpu/drm/lima/lima_gp.c
-> > index d1e7826c2d74..325604262def 100644
-> > --- a/drivers/gpu/drm/lima/lima_gp.c
-> > +++ b/drivers/gpu/drm/lima/lima_gp.c
-> > @@ -224,8 +224,13 @@ static int lima_gp_task_recover(struct lima_sched_pipe *pipe)
-> >         }
-> >
-> >         gp_write(LIMA_GP_INT_MASK, LIMA_GP_IRQ_MASK_USED);
-> > +       /* Resume from where we stopped, i.e. new start is old end */
-> > +       gp_write(LIMA_GP_PLBU_ALLOC_START_ADDR,
-> > +                f[LIMA_GP_PLBU_ALLOC_END_ADDR >> 2]);
-> > +       f[LIMA_GP_PLBU_ALLOC_END_ADDR >> 2] =
-> > +               f[LIMA_GP_PLBU_ALLOC_START_ADDR >> 2] + task->heap->heap_size;
-> >         gp_write(LIMA_GP_PLBU_ALLOC_END_ADDR,
-> > -                f[LIMA_GP_PLBU_ALLOC_START_ADDR >> 2] + task->heap->heap_size);
-> > +                f[LIMA_GP_PLBU_ALLOC_END_ADDR >> 2]);
-> >         gp_write(LIMA_GP_CMD, LIMA_GP_CMD_UPDATE_PLBU_ALLOC);
-> >         return 0;
-> >  }
-> > --
-> > 2.25.0
-> >
+On Mon, 2020-02-17 at 11:16 +0800, Tzung-Bi Shih wrote:
+> hdmi_conn_detect and mtk_hdmi_audio_hook_plugged_cb would be called
+> by different threads.
+> 
+> Imaging the following calling sequence:
+>            Thread A                            Thread B
+> --------------------------------------------------------------------
+> mtk_hdmi_audio_hook_plugged_cb()
+> mtk_cec_hpd_high() -> disconnected
+>                                      hdmi_conn_detect()
+>                                      mtk_cec_hpd_high() -> connected
+>                                      plugged_cb(connected)
+> plugged_cb(disconnected)
+> 
+> The latest disconnected is false reported.  Makes mtk_cec_hpd_high
+> and plugged_cb atomic to fix.
+> 
+> Also uses the same lock to protect read/write of plugged_cb and codec_dev.
+> 
+> Fixes: 5d3c64477392 ("drm/mediatek: support HDMI jack status reporting")
+
+This patch looks good to me, but please merge this patch with the patch
+it fix.
+
+Regards,
+CK
+
+> Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> index 03aeb73005ef..d80017e3d84a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/syscon.h>
+> +#include <linux/mutex.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/of.h>
+>  #include <linux/of_gpio.h>
+> @@ -171,6 +172,7 @@ struct mtk_hdmi {
+>  	bool enabled;
+>  	hdmi_codec_plugged_cb plugged_cb;
+>  	struct device *codec_dev;
+> +	struct mutex update_plugged_status_lock;
+>  };
+>  
+>  static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
+> @@ -1199,10 +1201,13 @@ static void mtk_hdmi_clk_disable_audio(struct mtk_hdmi *hdmi)
+>  static enum drm_connector_status
+>  mtk_hdmi_update_plugged_status(struct mtk_hdmi *hdmi)
+>  {
+> -	bool connected = mtk_cec_hpd_high(hdmi->cec_dev);
+> +	bool connected;
+>  
+> +	mutex_lock(&hdmi->update_plugged_status_lock);
+> +	connected = mtk_cec_hpd_high(hdmi->cec_dev);
+>  	if (hdmi->plugged_cb && hdmi->codec_dev)
+>  		hdmi->plugged_cb(hdmi->codec_dev, connected);
+> +	mutex_unlock(&hdmi->update_plugged_status_lock);
+>  
+>  	return connected ?
+>  	       connector_status_connected : connector_status_disconnected;
+> @@ -1669,8 +1674,11 @@ static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
+>  {
+>  	struct mtk_hdmi *hdmi = data;
+>  
+> +	mutex_lock(&hdmi->update_plugged_status_lock);
+>  	hdmi->plugged_cb = fn;
+>  	hdmi->codec_dev = codec_dev;
+> +	mutex_unlock(&hdmi->update_plugged_status_lock);
+> +
+>  	mtk_hdmi_update_plugged_status(hdmi);
+>  
+>  	return 0;
+> @@ -1729,6 +1737,7 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> +	mutex_init(&hdmi->update_plugged_status_lock);
+>  	platform_set_drvdata(pdev, hdmi);
+>  
+>  	ret = mtk_hdmi_output_init(hdmi);
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
