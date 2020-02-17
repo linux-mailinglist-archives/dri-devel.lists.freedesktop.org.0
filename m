@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D991606AE
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Feb 2020 22:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E84F01607A6
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 02:20:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD3E56E497;
-	Sun, 16 Feb 2020 21:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF5186E3DB;
+	Mon, 17 Feb 2020 01:20:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D9B6E497
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 21:12:15 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 200695] Blank screen on RX 580 with amdgpu.dc=1 enabled (no
- displays detected)
-Date: Sun, 16 Feb 2020 21:12:14 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: babgozdtb@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-200695-2300-qXyY94L6jk@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-200695-2300@https.bugzilla.kernel.org/>
-References: <bug-200695-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8646E3DB;
+ Mon, 17 Feb 2020 01:20:39 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id s10so15505490wmh.3;
+ Sun, 16 Feb 2020 17:20:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZuOsBWqGR/J6P3qYbyUpxOiY4OTNviM6Oswc2b07mTA=;
+ b=gVRAktaILye8n+mbqfmhURirjsVfqG2q4nOtT/GeqUkCOd1kd/Uj34DA2Q1JFf7a57
+ 73e/yvG9aa7ZbNEryLbR1xaYweLxVAQ9f8XLKOxBndaTaCj01ovebid95IMiJD0iLAV3
+ /Va+PEzoe1p1jFSSOa5P/gZcho8td6rHI8jszCmi2YC6eQAC5Cw7KMiDzaaJRb5vazEh
+ /c5Z2hGuODsqbR2+gZjfwku567RASslLZJ8id5E/oRX9LnPvwYCSzcBvBXlOXDs9KYw9
+ 7XtWvCXlDER99H1dJebmqoy08cdDPjgmibojAh5Cwwqt4PR4hLJ5N9OYaSb7T99zlNXJ
+ 9k5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZuOsBWqGR/J6P3qYbyUpxOiY4OTNviM6Oswc2b07mTA=;
+ b=T80fdODtTfjbhZDtRqRphGFpoyLXvO+yrtFSMr/kLE1haSPxpFh5e1MlT//Y4j1hN5
+ /hYkoQ1UZEW2OLWq8BDZShZ+6YBUgiqZrfYLpIjN/7SNPqOBXVYxFRufI/moLQ3tK2yV
+ Han1WCKXDWpbl1usk6+H+uqcaVjdZhBq9ezGRKk6lVcwu3hVU4W+H8kjaRdpB8aycsoz
+ dysnQiH+pmgLq6u/EdHr/7xBZfG8fuN1IsSLs65wb1M7Bry8amaAmqKJciHaKdqOfMaA
+ jbYOlGKZRslm4ZvVQOSZUKe0ao4zb3zMzZi7sJSL8Gu75voVcda/iybeKQRsWBFEsy6z
+ 8uaA==
+X-Gm-Message-State: APjAAAUz/F3rAloiYyr7/g46VjBqxU/aCDLc1akiMAhR8H4unKVyaLgP
+ rPs0yvuRu9vnvaSgcn+V9zWlIH0yX10xr126SYI=
+X-Google-Smtp-Source: APXvYqx6PBWOpIYIYZLMR1Nb2Yc4mw9pfeBqzDwp/d/kSibSFsfc1P+NGYm2h5IY/YBNVroxq/ho+kWtTgAodNjYPi8=
+X-Received: by 2002:a7b:cd92:: with SMTP id y18mr14505338wmj.133.1581902437832; 
+ Sun, 16 Feb 2020 17:20:37 -0800 (PST)
 MIME-Version: 1.0
+References: <20200215035026.3180698-1-anarsoul@gmail.com>
+In-Reply-To: <20200215035026.3180698-1-anarsoul@gmail.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Mon, 17 Feb 2020 09:20:26 +0800
+Message-ID: <CAKGbVbvEDYJ19KVWXN0k-5niXLjmPYvxGJQ2-3GWTyYyFkH0Gw@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: fix recovering from PLBU out of memory
+To: Vasily Khoruzhick <anarsoul@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,49 +60,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, lima@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=200695
+Looks good for me, patch is:
+Reviewed-by: Qiang Yu <yuq825@gmail.com>
 
-babgozd (babgozdtb@outlook.com) changed:
+Regards,
+Qiang
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |babgozdtb@outlook.com
-
---- Comment #38 from babgozd (babgozdtb@outlook.com) ---
-(In reply to Adam from comment #37)
-> As several comments mention different behavior between the different
-> connector types I found a spare DVI cable and tried connecting to the same
-> monitor via that input and it worked! So once logged in I plugged in the
-> HDMI cable and switched input and it worked just fine (monitor was glitchy
-> at first but once I disabled DVI output in monitor configuration it worked
-> perfectly). To confirm this was indeed working with the DC code path I
-> tested audio over HDMI and it worked just fine (and does not work with DC
-> disabled, as expected). So I rebooted with both the DVI and HDMI in and the
-> output over HDMI worked all through boot. I then disconnected the DVI and
-> rebooted and the HDMI continues to work so far. Unfortunately I don't have a
-> displayport monitor around to test if that behaves as weirdly. Just to be
-> clear, I had tried to make this monitor work for a couple weeks over HDMI
-> and the only thing that worked was amdgpu.dc=0 until I plugged in the DVI
-> connector so this was not a one off fail.
-> 
-> I forgot to mention before that when the HDMI output was not working with DC
-> my Xorg logs also showed no monitor detected.
-> 
-> I can attach the two different Xorg logs if that helps?
-I am following this thread since it has created. My R9 380 with DVI-I output is
-connected to my VGA monitor with DVI-I male to VGA female adapter and I am
-getting black/blank screen while booting with amdgpu.dc=1 which is default
-since kernel 4.17. It is fine with amdgpu.dc=0. I can provide logs too if any
-kernel contributor wants to investigate the problem any further.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+On Sat, Feb 15, 2020 at 11:50 AM Vasily Khoruzhick <anarsoul@gmail.com> wrote:
+>
+> It looks like on PLBU_OUT_OF_MEM interrupt we need to resume from where we
+> stopped, i.e. new PLBU heap start is old end. Also update end address
+> in GP frame to grow heap on 2nd and subsequent out of memory interrupts.
+>
+> Fixes: 2081e8dcf1ee ("drm/lima: recover task by enlarging heap buffer")
+> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> ---
+>  drivers/gpu/drm/lima/lima_gp.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/lima/lima_gp.c b/drivers/gpu/drm/lima/lima_gp.c
+> index d1e7826c2d74..325604262def 100644
+> --- a/drivers/gpu/drm/lima/lima_gp.c
+> +++ b/drivers/gpu/drm/lima/lima_gp.c
+> @@ -224,8 +224,13 @@ static int lima_gp_task_recover(struct lima_sched_pipe *pipe)
+>         }
+>
+>         gp_write(LIMA_GP_INT_MASK, LIMA_GP_IRQ_MASK_USED);
+> +       /* Resume from where we stopped, i.e. new start is old end */
+> +       gp_write(LIMA_GP_PLBU_ALLOC_START_ADDR,
+> +                f[LIMA_GP_PLBU_ALLOC_END_ADDR >> 2]);
+> +       f[LIMA_GP_PLBU_ALLOC_END_ADDR >> 2] =
+> +               f[LIMA_GP_PLBU_ALLOC_START_ADDR >> 2] + task->heap->heap_size;
+>         gp_write(LIMA_GP_PLBU_ALLOC_END_ADDR,
+> -                f[LIMA_GP_PLBU_ALLOC_START_ADDR >> 2] + task->heap->heap_size);
+> +                f[LIMA_GP_PLBU_ALLOC_END_ADDR >> 2]);
+>         gp_write(LIMA_GP_CMD, LIMA_GP_CMD_UPDATE_PLBU_ALLOC);
+>         return 0;
+>  }
+> --
+> 2.25.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
