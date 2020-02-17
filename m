@@ -2,144 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37963161092
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 12:02:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77111610A4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 12:08:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FB26E91D;
-	Mon, 17 Feb 2020 11:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 752B56E921;
+	Mon, 17 Feb 2020 11:07:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2082.outbound.protection.outlook.com [40.107.20.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A716E91D
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 11:02:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wUmyWZ01GBGKmN8OLQ6yL8Am6WSe8pftKBeg19A7y+U=;
- b=sC19wl0l/zf8m8IlmGr0MroXLaVCjTSz4foEGdCzykZ31wslHNLU681yDYm9OkMtJWF98scCf3QUyiWGSWVD3cIaaD4XIVMVeq1yPJon8nQDlA++4NBFXIW1UGN9Cs6P3/klzstGSHYFi+EDHvmLgkrJXg11XXwuGsyZzP9jgm4=
-Received: from VI1PR08CA0220.eurprd08.prod.outlook.com (2603:10a6:802:15::29)
- by DBBPR08MB4267.eurprd08.prod.outlook.com (2603:10a6:10:cb::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.24; Mon, 17 Feb
- 2020 11:02:41 +0000
-Received: from VE1EUR03FT012.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e09::206) by VI1PR08CA0220.outlook.office365.com
- (2603:10a6:802:15::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.22 via Frontend
- Transport; Mon, 17 Feb 2020 11:02:39 +0000
-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
- dmarc=bestguesspass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT012.mail.protection.outlook.com (10.152.18.211) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.18 via Frontend Transport; Mon, 17 Feb 2020 11:02:39 +0000
-Received: ("Tessian outbound 1f9bda537fdc:v42");
- Mon, 17 Feb 2020 11:02:39 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 1889b03efc910df2
-X-CR-MTA-TID: 64aa7808
-Received: from 1b0820487fee.2
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 56DBB04B-1B06-49FA-A233-028DC4390195.1; 
- Mon, 17 Feb 2020 11:02:34 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 1b0820487fee.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Mon, 17 Feb 2020 11:02:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KrIu1V0Wj/ZfVbDj9QG8ITUvPwQupxMd800ZvIqAed65CeeGGzIp+8o2UBPueg+dhNb1xidYBXldOBUenu8jOscVy7yvyb0xkyjZJ/aVPSbGxEVltLCM+8DDX3hBlydQmxnp0KfseG4SI1eXSo0YB0bR3Ss1eqyiRG4r9fu0+yf48zfpB46w8jTZsDGjLe2KfSrVjp8rJMhhQhxImJF4VolvJ4MCntih4bFBfrSIdy8wdocaUiMmwTWIObBIUV0kdbrR8cYYkY+RDMaLoL5bybUs8Tb/2XxyuBeufjMPxGvKcJovZiFeLgp0p3Dhj2OlX7jgx1TFmOJrCMP0Zm8pjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wUmyWZ01GBGKmN8OLQ6yL8Am6WSe8pftKBeg19A7y+U=;
- b=del/Y+EhvCyg3lOqqrLjUH1mNJT5CeOW/v4HOGnT13QBohJXOEfoifAmJDvbP6IyZ5H03u2WiMzOjee6kjiBpIpxDNewxERWYOWj32lleLXn7wqqsuyI+mCkTYKF9Xf9SBJhS6ac0EH69lhOh8HvRSqsCHzMyCR3nJwpEruQKZK8ggf3rS9cj66esgT22rrvtStbiqhzFHjZmKdzpDtrxeS+VZX0BEPezM42QVCwOdK0mfqRsNcBMfjuAZzz88iKg4cHs00Fv2+i57Vo2g7t7LQSSJX17lhq5gR5UPb2hdCg3lNsLNBYUzxvGuvdF06KrrKTI5jPWGHVDmg0RFvMlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wUmyWZ01GBGKmN8OLQ6yL8Am6WSe8pftKBeg19A7y+U=;
- b=sC19wl0l/zf8m8IlmGr0MroXLaVCjTSz4foEGdCzykZ31wslHNLU681yDYm9OkMtJWF98scCf3QUyiWGSWVD3cIaaD4XIVMVeq1yPJon8nQDlA++4NBFXIW1UGN9Cs6P3/klzstGSHYFi+EDHvmLgkrJXg11XXwuGsyZzP9jgm4=
-Authentication-Results-Original: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-Received: from VE1PR08MB5006.eurprd08.prod.outlook.com (10.255.159.31) by
- VE1PR08MB4798.eurprd08.prod.outlook.com (10.255.112.83) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.25; Mon, 17 Feb 2020 11:02:30 +0000
-Received: from VE1PR08MB5006.eurprd08.prod.outlook.com
- ([fe80::101d:3c1a:50cd:520]) by VE1PR08MB5006.eurprd08.prod.outlook.com
- ([fe80::101d:3c1a:50cd:520%7]) with mapi id 15.20.2729.032; Mon, 17 Feb 2020
- 11:02:30 +0000
-Date: Mon, 17 Feb 2020 19:02:22 +0800
-From: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: Re: [PATCHv4,05/36] drm/gem-fb-helper: Add generic afbc size checks
-Message-ID: <20200217110222.GA5929@jamwan02-TSP300>
-References: <20191213155907.16581-6-andrzej.p@collabora.com>
-Content-Disposition: inline
-In-Reply-To: <20191213155907.16581-6-andrzej.p@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: HK2PR02CA0193.apcprd02.prod.outlook.com
- (2603:1096:201:21::29) To VE1PR08MB5006.eurprd08.prod.outlook.com
- (2603:10a6:803:113::31)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B379389FE6;
+ Mon, 17 Feb 2020 11:07:57 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id t23so16701654wmi.1;
+ Mon, 17 Feb 2020 03:07:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=wzvL+rjE1WkA/3/Z7f9cRh0Jjy12goVTTjMnopAzGk0=;
+ b=rLMc66DdYLlsKazTWok4/ClMKr2gZReTHf3h7T7VZFbzo60k+FFUWeuLFfwFBFJUuv
+ 2maZR+fiIIg+weyi9dvYoVmoFjAwnFT4puVkzQcGTIOAlSnwKxiHpZYdvY1Zf/bNuF4o
+ P/URXtmvW6Qfcnn7eT4iN0qnBPwCCxLTzeqZ3N9VAkOjdoiW/H675IrBlxuLU2N3JRpH
+ vllkWfcakGQtYTbPgCCTy1C1Jji4D99fkN7ZJqEOK5xx/hWdgdl7uWJqv9stXXdw1H0Q
+ z3ZBb3YNq1HTwPa76IiZGHTkqvJa6alUr1VBcjOfO+ailtPmZFHA5Q0aYOUSkKC2bfAC
+ QYtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=wzvL+rjE1WkA/3/Z7f9cRh0Jjy12goVTTjMnopAzGk0=;
+ b=jZcW8+6S3gkbudrTRByRK/MoG9xtdjCA05eHgWOe9R8bsFJa+m24T10WzoXXQQG+8r
+ q0t1762XEJ9/5nV1vK13iimsyYb32lEIrZPlApT2r6Ey03r9l2aclKlsW5KCaPRx5kwG
+ NbyO6f4dJtF6K+FckFmV3zVKeTUFBO+ZQtPtEEnx2Hq5/4CemvtaEDX3RIfMUuC5E5p6
+ e5rFb9e527KklX/1aWzsEM4VvuOX2o2Tbm8924Ur9DxNaNzv9HS78la6ZZZxMOHZZa8S
+ qNeih7O8glg6wf6N5Ner48oVm7aVL/kUAy3J8pRTThEOj56Os157m9rW0nUIKsU48IZY
+ frFA==
+X-Gm-Message-State: APjAAAVfdckJaXO0Qc1K0UnYjJTTXvemxMc6buDvnMUr9xIy1oD6/tgi
+ r0W/HKzMjxHNlsbuxZEz4TU=
+X-Google-Smtp-Source: APXvYqxcUYa9xJN61trgscRPxyalMcMa5ZMXPNePJhqcS/n9vB0p1rnzRZ3NeY95VJ51SwdHMi5z+Q==
+X-Received: by 2002:a1c:6389:: with SMTP id
+ x131mr21267559wmb.174.1581937676266; 
+ Mon, 17 Feb 2020 03:07:56 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id z21sm183201wml.5.2020.02.17.03.07.55
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Feb 2020 03:07:55 -0800 (PST)
+Subject: Re: [PATCH 1/7] drm/amdgpu: move ttm bo->offset to amdgpu_bo
+To: Nirmoy Das <nirmoy.aiemd@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200217101841.7437-1-nirmoy.das@amd.com>
+ <20200217101841.7437-2-nirmoy.das@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <f54dd770-578a-f241-91dc-6fec17e89b15@gmail.com>
+Date: Mon, 17 Feb 2020 12:07:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Received: from localhost (113.29.88.7) by
- HK2PR02CA0193.apcprd02.prod.outlook.com (2603:1096:201:21::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.23 via Frontend Transport; Mon, 17 Feb 2020 11:02:29 +0000
-X-Originating-IP: [113.29.88.7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: bb2ced25-4ebe-459e-f859-08d7b398e787
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4798:|VE1PR08MB4798:|DBBPR08MB4267:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DBBPR08MB4267D5348101AF52FFD7D1DDB3160@DBBPR08MB4267.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;OLM:8273;
-X-Forefront-PRVS: 0316567485
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
- SFS:(10009020)(4636009)(7916004)(39860400002)(136003)(376002)(366004)(346002)(396003)(189003)(199004)(52116002)(6496006)(4326008)(86362001)(1076003)(8936002)(33656002)(478600001)(6666004)(2906002)(33716001)(956004)(6486002)(54906003)(26005)(6916009)(55236004)(316002)(66556008)(16526019)(81156014)(81166006)(66946007)(9686003)(8676002)(66476007)(5660300002)(186003)(41533002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VE1PR08MB4798;
- H:VE1PR08MB5006.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: GmQWYqT6MSXMzuoYZS0/ug1bdlrBLoGmzpPEBYz0rj0oWHRt0Nej2Pu9keI0PEICzXA6HcIqVlQkztZLvfzBNrlHcbTaUzM+bTdFzzJP3GfIt4mULwUsS4atsCzBVhoSe6k0yBbqXzQmSkFPU5vlL6vJLGYRCbzrRqtHnEo3wG0ZItpXlbBonjS++X2s/km1G0MMlYZC9qPnNL6ih2cuNMLX5Ehe70uxNHEqRq0QSJ/QybFBHN0saslJByszICdWKMG5gZoOKB/ukK34T5zZg3ianTIuvQAByPM3na1wx7iYeUWocJFeWlZkqMIid9xqaOef9XE1sKzqr21stZ9VDe17zA5lZg7zw03Ru0JfSsKbuda76PyqVlgdW7PYo0WwUtw5sqnN8xG/ZofdikM9nAHKJ5nGKLv7kXozabIBhxW+jumbaCeWX/umRB/Jb/guo4dJ/EFfeIcDDkCsZTvyt/MVe0W6+l3qQAtUeCUzkRtxjBtnDfuB8lssAJtxjuOb
-X-MS-Exchange-AntiSpam-MessageData: 1AfodQpIkYnzDnvvdZJg3aV+AcZZC29Q1qNwwJlnFY6cTasQ8G0N199LuAaLueV/7JCCXcWWVfyNrra8ydMiRozo1HlRd+MZoM0MU4W295zz+XOT10ClbXFFk1g9r3Gqq/ef76RYTX8IZn3FmaiFxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4798
-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT012.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
- EFV:NLI; SFV:NSPM;
- SFS:(10009020)(4636009)(7916004)(396003)(136003)(39860400002)(376002)(346002)(199004)(189003)(316002)(36906005)(9686003)(54906003)(6496006)(6486002)(4326008)(26005)(336012)(956004)(6862004)(16526019)(186003)(33656002)(5660300002)(356004)(6666004)(81156014)(81166006)(70586007)(1076003)(33716001)(2906002)(70206006)(478600001)(86362001)(26826003)(8936002)(8676002)(41533002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DBBPR08MB4267;
- H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:Pass; LANG:en;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; A:1; MX:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 257281b3-077d-49ba-7714-08d7b398e1ce
-X-Forefront-PRVS: 0316567485
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UgUuUMv2CjWfw/rPORT5FlLFzb/A32dCE+czr0/x819tVHDlJrHZER4nM+12V97mhOORLU/C0l0DkKVK0z3h0cWcgiHgSC8Ni7hXdWv/D557iQ+p3h6GDxdXTm4Vxuzi+E6fCXrabmAo6EE2bmMaQ+LVGODc5AWfBm5qb8KsYHXtyVuMog2QW4ooHVRkycSbpas34ocOyb/DnEwH7uyHaFP8yYUj/2NSqY0omNxRWae5Ayc4M7ufxof9gETWYingMedxbNnTMHnh3+i4qbUTAlVMSzfY3BudVecs6M9T81Wk0sqr+mKQ35o33OyqnpnArkbm6beWLYGK9qjWti6rKt4XiBZYKtDJo9Fb7GVSzPD5JhWiIOVEDm6rIAqXi8pfEYmFM7dLRo87IqpBCKpWFkeK/M2Kool9PG8utUNUG1xghveB4wEpavT0aWA2hsd5bJ2WHh5AkeiZE3SmIDc+ITPGeF96BEzY5RHzftuhytsp5i7unJCpCQoGIkwP7LpA
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2020 11:02:39.5742 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb2ced25-4ebe-459e-f859-08d7b398e787
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4267
+In-Reply-To: <20200217101841.7437-2-nirmoy.das@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,233 +72,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd@arm.com, kernel@collabora.com,
- Mihail Atanassov <mihail.atanassov@arm.com>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, Ayan Halder <Ayan.Halder@arm.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: christian.koenig@amd.com
+Cc: thellstrom@vmware.com, airlied@linux.ie, kenny.ho@amd.com,
+ brian.welty@intel.com, amd-gfx@lists.freedesktop.org, nirmoy.das@amd.com,
+ linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
+ alexander.deucher@amd.com, Huang Rui <ray.huang@amd.com>, sean@poorly.run,
+ christian.koenig@amd.com, kraxel@redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej:
-
-On Fri, Dec 13, 2019 at 04:58:36PM +0100, Andrzej Pietrasiewicz wrote:
-> Extend the size-checking special function to handle afbc.
-> 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
->  drivers/gpu/drm/drm_fourcc.c                 | 10 +++-
->  drivers/gpu/drm/drm_framebuffer.c            |  3 +
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 60 ++++++++++++++++++--
->  include/drm/drm_gem_framebuffer_helper.h     | 16 ++++++
->  4 files changed, 82 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> index d14dd7c86020..9ac2175c5bee 100644
-> --- a/drivers/gpu/drm/drm_fourcc.c
-> +++ b/drivers/gpu/drm/drm_fourcc.c
-> @@ -323,8 +323,14 @@ drm_get_format_info(struct drm_device *dev,
->  {
->  	const struct drm_format_info *info = NULL;
->  
-> -	if (dev->mode_config.funcs->get_format_info)
-> -		info = dev->mode_config.funcs->get_format_info(mode_cmd);
-> +	/* bypass driver callback if afbc */
-> +	if (!drm_is_afbc(mode_cmd->modifier[0]))
-> +		if (dev->mode_config.funcs->get_format_info) {
-> +			const struct drm_mode_config_funcs *funcs;
-> +
-> +			funcs = dev->mode_config.funcs;
-> +			info = funcs->get_format_info(mode_cmd);
-> +		}
->  
->  	if (!info)
->  		info = drm_format_info(mode_cmd->pixel_format);
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-> index 57564318ceea..33b741cc73e8 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -204,6 +204,9 @@ static int framebuffer_check(struct drm_device *dev,
->  		unsigned int block_size = info->char_per_block[i];
->  		u64 min_pitch = drm_format_info_min_pitch(info, i, width);
->  
-> +		if (drm_is_afbc(r->modifier[i]))
-> +			block_size = 0;
-> +
->  		if (!block_size && (r->modifier[i] == DRM_FORMAT_MOD_LINEAR)) {
->  			DRM_DEBUG_KMS("Format requires non-linear modifier for plane %d\n", i);
->  			return -EINVAL;
-> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> index 4201dc1f32a5..e20f4d00b0a5 100644
-> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> @@ -21,6 +21,11 @@
->  #include <drm/drm_modeset_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->  
-> +#define AFBC_HEADER_SIZE		16
-> +#define AFBC_TH_LAYOUT_ALIGNMENT	8
-> +#define AFBC_SUPERBLOCK_PIXELS		256
-> +#define AFBC_SUPERBLOCK_ALIGNMENT	128
-> +
->  /**
->   * DOC: overview
->   *
-> @@ -200,6 +205,40 @@ int drm_gem_fb_lookup(struct drm_device *dev,
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_fb_lookup);
->  
-> +static int drm_gem_afbc_min_size(struct drm_device *dev,
-> +				 const struct drm_mode_fb_cmd2 *mode_cmd,
-> +				 struct drm_afbc *afbc)
-> +{
-> +	u32 n_blocks;
-> +
-> +	if (!drm_afbc_get_superblock_wh(mode_cmd->modifier[0],
-> +					&afbc->block_width,
-> +					&afbc->block_height)) {
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* tiled header afbc */
-> +	if (mode_cmd->modifier[0] & AFBC_FORMAT_MOD_TILED) {
-> +		afbc->block_width *= AFBC_TH_LAYOUT_ALIGNMENT;
-> +		afbc->block_height *= AFBC_TH_LAYOUT_ALIGNMENT;
-> +	}
-> +
-> +	afbc->aligned_width = ALIGN(mode_cmd->width, afbc->block_width);
-> +	afbc->aligned_height = ALIGN(mode_cmd->height, afbc->block_height);
-> +	afbc->offset = mode_cmd->offsets[0];
-> +
-> +	n_blocks = (afbc->aligned_width * afbc->aligned_height)
-> +		 / AFBC_SUPERBLOCK_PIXELS;
-> +	afbc->offset_payload = ALIGN(n_blocks * AFBC_HEADER_SIZE,
-> +				     afbc->alignment_header);
-
-After check the references in malidp, rockchip and komeda, seems this
-afbc->alignment_header is dedicated for komeda only.
-
-This is not true. Per afbc HW spec alignment is essential for
-all afbc usage. according to the spec the requiremnt are:
-
-  AFBC1.0/1.1: 64 byte alignment both for header and body buffer.
-  AFBC1.2 (tiled header enabled): 4096 alignment.
-
-So this alignement is not a vendor specific value, but afbc feature
-requirement, can be determined by afbc modifier.
-(malidp and komeda obeys this spec, not sure about Rockchip, but I
-think it should be)
-
-But you may see, komeda uses 1024 (not 64) for none-tiled-header afbc,
-that's because GPU(MALI) changed this value to 1024 for bus
-performance (sorry I don't know the detail), and komeda changed to
-1024 to follow.
-
-Back to display alignment, I think we can just follow the spec, use 64
-for none-tiled-header, 4096 for tiled-header, but no need to caller to
-pass a value.
-
-> +
-> +	afbc->afbc_size = afbc->offset_payload + n_blocks *
-> +			  ALIGN(afbc->bpp * AFBC_SUPERBLOCK_PIXELS / 8,
-> +				AFBC_SUPERBLOCK_ALIGNMENT);
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * drm_gem_fb_size_check_special() - Helper function for use in
->   *				     &drm_mode_config_funcs.fb_create
-> @@ -218,6 +257,7 @@ int drm_gem_fb_size_check_special(struct drm_device *dev,
->  				  const struct drm_size_check *check,
->  				  struct drm_gem_object **objs)
->  {
-> +#define CHECK_HAS(field) (check && check->field)
->  	const struct drm_format_info *info;
->  	int i;
->  
-> @@ -231,24 +271,34 @@ int drm_gem_fb_size_check_special(struct drm_device *dev,
->  		unsigned int min_size;
->  		u32 pitch = mode_cmd->pitches[i];
->  
-> -		if (check && check->use_pitch_multiplier)
-> +		if (CHECK_HAS(use_pitch_multiplier))
->  			if ((pitch * check->pitch_multiplier[i]) %
->  			    check->pitch_modulo)
->  				return -EINVAL;
->  
-> -		if (check && check->use_min_size)
-> +		if (CHECK_HAS(use_min_size)) {
->  			min_size = check->min_size[i];
-> -		else
-> +		} else if (CHECK_HAS(data) &&
-> +				drm_is_afbc(mode_cmd->modifier[0])) {
-> +			struct drm_afbc *afbc;
-> +			int ret;
-> +
-> +			afbc = check->data;
-> +			ret = drm_gem_afbc_min_size(dev, mode_cmd, afbc);
-> +			if (ret < 0)
-> +				return ret;
-> +			min_size = ret;
-> +		} else {
->  			min_size = (height - 1) * pitch
->  				 + drm_format_info_min_pitch(info, i, width)
->  				 + mode_cmd->offsets[i];
-> -
-> +		}
->  		if (objs[i]->size < min_size)
->  			return -EINVAL;
->  	}
->  
->  	return 0;
-> -
-> +#undef CHECK_HAS
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_fb_size_check_special);
->  
-> diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
-> index 74304a268694..3d6015194b3c 100644
-> --- a/include/drm/drm_gem_framebuffer_helper.h
-> +++ b/include/drm/drm_gem_framebuffer_helper.h
-> @@ -22,6 +22,22 @@ struct drm_size_check {
->  	u32 pitch_multiplier[4];
->  	u32 pitch_modulo;
->  	bool use_pitch_multiplier;
-> +	void *data;
-> +};
-> +
-> +/**
-> + * struct drm_afbc - AFBC-specific data.
-> + */
-> +struct drm_afbc {
-> +	u32 block_width;
-> +	u32 block_height;
-> +	u32 aligned_width;
-> +	u32 aligned_height;
-> +	u32 offset;
-> +	u32 alignment_header;
-> +	u32 afbc_size;
-> +	u32 offset_payload;
-> +	u32 bpp;
-
-Seems we can remove this bpp if we set the block_size (4x4) for these afbc
-only formats like DRM_FORMAT_YUV420_8BIT/10BIT in drm_format_info, and then
-we can calculate the bpp like the pitch calculation, then no need
-caller to specify bpp anymore, and vendor specific get_bpp() likes in malidp
-and komeda also can be removed.
-
-for this change maybe we can put it into a new series.
-
-Thanks
-James
-
->  };
->  
->  struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTcuMDIuMjAgdW0gMTE6MTggc2NocmllYiBOaXJtb3kgRGFzOgo+IEdQVSBhZGRyZXNzIHNo
+b3VsZCBiZWxvbmcgdG8gZHJpdmVyIG5vdCBpbiBtZW1vcnkgbWFuYWdlbWVudC4KPiBUaGlzIHBh
+dGNoIG1vdmVzIHR0bSBiby5vZmZzZXQgYW5kIGdwdV9vZmZzZXQgY2FsY3VsYXRpb24gdG8gYW1k
+Z3B1IGRyaXZlci4KPgo+IFNpZ25lZC1vZmYtYnk6IE5pcm1veSBEYXMgPG5pcm1veS5kYXNAYW1k
+LmNvbT4KPiBBY2tlZC1ieTogSHVhbmcgUnVpIDxyYXkuaHVhbmdAYW1kLmNvbT4KClJldmlld2Vk
+LWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cgo+IC0tLQo+
+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5jIHwgMjIgKysrKysr
+KysrKysrKystLQo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5o
+IHwgIDEgKwo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jICAgIHwg
+MjkgKysrKysrKysrKysrKysrKy0tLS0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X3R0bS5oICAgIHwgIDEgKwo+ICAgNCBmaWxlcyBjaGFuZ2VkLCA0NCBpbnNlcnRpb25z
+KCspLCA5IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV9vYmplY3QuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9vYmplY3QuYwo+IGluZGV4IGUzZjE2YjQ5ZTk3MC4uMDRlNzhmNzgzNjM4IDEwMDY0NAo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuYwo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuYwo+IEBAIC05MTcsNyArOTE3
+LDcgQEAgaW50IGFtZGdwdV9ib19waW5fcmVzdHJpY3RlZChzdHJ1Y3QgYW1kZ3B1X2JvICpibywg
+dTMyIGRvbWFpbiwKPiAgIAkJYm8tPnBpbl9jb3VudCsrOwo+ICAgCj4gICAJCWlmIChtYXhfb2Zm
+c2V0ICE9IDApIHsKPiAtCQkJdTY0IGRvbWFpbl9zdGFydCA9IGJvLT50Ym8uYmRldi0+bWFuW21l
+bV90eXBlXS5ncHVfb2Zmc2V0Owo+ICsJCQl1NjQgZG9tYWluX3N0YXJ0ID0gYW1kZ3B1X3R0bV9k
+b21haW5fc3RhcnQoYWRldiwgbWVtX3R5cGUpOwo+ICAgCQkJV0FSTl9PTl9PTkNFKG1heF9vZmZz
+ZXQgPAo+ICAgCQkJCSAgICAgKGFtZGdwdV9ib19ncHVfb2Zmc2V0KGJvKSAtIGRvbWFpbl9zdGFy
+dCkpOwo+ICAgCQl9Cj4gQEAgLTE0NDUsNyArMTQ0NSwyNSBAQCB1NjQgYW1kZ3B1X2JvX2dwdV9v
+ZmZzZXQoc3RydWN0IGFtZGdwdV9ibyAqYm8pCj4gICAJV0FSTl9PTl9PTkNFKGJvLT50Ym8ubWVt
+Lm1lbV90eXBlID09IFRUTV9QTF9WUkFNICYmCj4gICAJCSAgICAgIShiby0+ZmxhZ3MgJiBBTURH
+UFVfR0VNX0NSRUFURV9WUkFNX0NPTlRJR1VPVVMpKTsKPiAgIAo+IC0JcmV0dXJuIGFtZGdwdV9n
+bWNfc2lnbl9leHRlbmQoYm8tPnRiby5vZmZzZXQpOwo+ICsJcmV0dXJuIGFtZGdwdV9ib19ncHVf
+b2Zmc2V0X25vX2NoZWNrKGJvKTsKPiArfQo+ICsKPiArLyoqCj4gKyAqIGFtZGdwdV9ib19ncHVf
+b2Zmc2V0X25vX2NoZWNrIC0gcmV0dXJuIEdQVSBvZmZzZXQgb2YgYm8KPiArICogQGJvOglhbWRn
+cHUgb2JqZWN0IGZvciB3aGljaCB3ZSBxdWVyeSB0aGUgb2Zmc2V0Cj4gKyAqCj4gKyAqIFJldHVy
+bnM6Cj4gKyAqIGN1cnJlbnQgR1BVIG9mZnNldCBvZiB0aGUgb2JqZWN0IHdpdGhvdXQgcmFpc2lu
+ZyB3YXJuaW5ncy4KPiArICovCj4gK3U2NCBhbWRncHVfYm9fZ3B1X29mZnNldF9ub19jaGVjayhz
+dHJ1Y3QgYW1kZ3B1X2JvICpibykKPiArewo+ICsJc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYg
+PSBhbWRncHVfdHRtX2FkZXYoYm8tPnRiby5iZGV2KTsKPiArCXVpbnQ2NF90IG9mZnNldDsKPiAr
+Cj4gKyAgICAgICAgb2Zmc2V0ID0gKGJvLT50Ym8ubWVtLnN0YXJ0IDw8IFBBR0VfU0hJRlQpICsK
+PiArCQkgYW1kZ3B1X3R0bV9kb21haW5fc3RhcnQoYWRldiwgYm8tPnRiby5tZW0ubWVtX3R5cGUp
+Owo+ICsKPiArCXJldHVybiBhbWRncHVfZ21jX3NpZ25fZXh0ZW5kKG9mZnNldCk7Cj4gICB9Cj4g
+ICAKPiAgIC8qKgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfb2JqZWN0LmggYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmgK
+PiBpbmRleCAzNmRlYzUxZDFlZjEuLjFkODZiNGM3YTFmMiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmgKPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmgKPiBAQCAtMjc5LDYgKzI3OSw3IEBAIHZvaWQg
+YW1kZ3B1X2JvX2ZlbmNlKHN0cnVjdCBhbWRncHVfYm8gKmJvLCBzdHJ1Y3QgZG1hX2ZlbmNlICpm
+ZW5jZSwKPiAgIAkJICAgICBib29sIHNoYXJlZCk7Cj4gICBpbnQgYW1kZ3B1X2JvX3N5bmNfd2Fp
+dChzdHJ1Y3QgYW1kZ3B1X2JvICpibywgdm9pZCAqb3duZXIsIGJvb2wgaW50cik7Cj4gICB1NjQg
+YW1kZ3B1X2JvX2dwdV9vZmZzZXQoc3RydWN0IGFtZGdwdV9ibyAqYm8pOwo+ICt1NjQgYW1kZ3B1
+X2JvX2dwdV9vZmZzZXRfbm9fY2hlY2soc3RydWN0IGFtZGdwdV9ibyAqYm8pOwo+ICAgaW50IGFt
+ZGdwdV9ib192YWxpZGF0ZShzdHJ1Y3QgYW1kZ3B1X2JvICpibyk7Cj4gICBpbnQgYW1kZ3B1X2Jv
+X3Jlc3RvcmVfc2hhZG93KHN0cnVjdCBhbWRncHVfYm8gKnNoYWRvdywKPiAgIAkJCSAgICAgc3Ry
+dWN0IGRtYV9mZW5jZSAqKmZlbmNlKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X3R0bS5jCj4gaW5kZXggM2FiNDZkNDY0N2U0Li5lMzI5YTEwOGU3NjAgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gQEAgLTk3LDcgKzk3LDYgQEAgc3RhdGlj
+IGludCBhbWRncHVfaW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWlu
+dDMyX3QgdHlwZSwKPiAgIAljYXNlIFRUTV9QTF9UVDoKPiAgIAkJLyogR1RUIG1lbW9yeSAgKi8K
+PiAgIAkJbWFuLT5mdW5jID0gJmFtZGdwdV9ndHRfbWdyX2Z1bmM7Cj4gLQkJbWFuLT5ncHVfb2Zm
+c2V0ID0gYWRldi0+Z21jLmdhcnRfc3RhcnQ7Cj4gICAJCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcg
+PSBUVE1fUExfTUFTS19DQUNISU5HOwo+ICAgCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9Q
+TF9GTEFHX0NBQ0hFRDsKPiAgIAkJbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFC
+TEUgfCBUVE1fTUVNVFlQRV9GTEFHX0NNQTsKPiBAQCAtMTA1LDcgKzEwNCw2IEBAIHN0YXRpYyBp
+bnQgYW1kZ3B1X2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQz
+Ml90IHR5cGUsCj4gICAJY2FzZSBUVE1fUExfVlJBTToKPiAgIAkJLyogIk9uLWNhcmQiIHZpZGVv
+IHJhbSAqLwo+ICAgCQltYW4tPmZ1bmMgPSAmYW1kZ3B1X3ZyYW1fbWdyX2Z1bmM7Cj4gLQkJbWFu
+LT5ncHVfb2Zmc2V0ID0gYWRldi0+Z21jLnZyYW1fc3RhcnQ7Cj4gICAJCW1hbi0+ZmxhZ3MgPSBU
+VE1fTUVNVFlQRV9GTEFHX0ZJWEVEIHwKPiAgIAkJCSAgICAgVFRNX01FTVRZUEVfRkxBR19NQVBQ
+QUJMRTsKPiAgIAkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9GTEFHX1VOQ0FDSEVE
+IHwgVFRNX1BMX0ZMQUdfV0M7Cj4gQEAgLTExNiw3ICsxMTQsNiBAQCBzdGF0aWMgaW50IGFtZGdw
+dV9pbml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBl
+LAo+ICAgCWNhc2UgQU1ER1BVX1BMX09BOgo+ICAgCQkvKiBPbi1jaGlwIEdEUyBtZW1vcnkqLwo+
+ICAgCQltYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsKPiAtCQltYW4tPmdwdV9vZmZz
+ZXQgPSAwOwo+ICAgCQltYW4tPmZsYWdzID0gVFRNX01FTVRZUEVfRkxBR19GSVhFRCB8IFRUTV9N
+RU1UWVBFX0ZMQUdfQ01BOwo+ICAgCQltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX0ZM
+QUdfVU5DQUNIRUQ7Cj4gICAJCW1hbi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfVU5D
+QUNIRUQ7Cj4gQEAgLTI2NCw3ICsyNjEsNyBAQCBzdGF0aWMgdWludDY0X3QgYW1kZ3B1X21tX25v
+ZGVfYWRkcihzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCj4gICAJaWYgKG1tX25v
+ZGUtPnN0YXJ0ICE9IEFNREdQVV9CT19JTlZBTElEX09GRlNFVCkgewo+ICAgCQlhZGRyID0gbW1f
+bm9kZS0+c3RhcnQgPDwgUEFHRV9TSElGVDsKPiAtCQlhZGRyICs9IGJvLT5iZGV2LT5tYW5bbWVt
+LT5tZW1fdHlwZV0uZ3B1X29mZnNldDsKPiArCQlhZGRyICs9IGFtZGdwdV90dG1fZG9tYWluX3N0
+YXJ0KGFtZGdwdV90dG1fYWRldihiby0+YmRldiksIG1lbS0+bWVtX3R5cGUpOwo+ICAgCX0KPiAg
+IAlyZXR1cm4gYWRkcjsKPiAgIH0KPiBAQCAtNzUxLDYgKzc0OCwyNyBAQCBzdGF0aWMgdW5zaWdu
+ZWQgbG9uZyBhbWRncHVfdHRtX2lvX21lbV9wZm4oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpi
+bywKPiAgIAkJKG9mZnNldCA+PiBQQUdFX1NISUZUKTsKPiAgIH0KPiAgIAo+ICsvKioKPiArICog
+YW1kZ3B1X3R0bV9kb21haW5fc3RhcnQgLSBSZXR1cm5zIEdQVSBzdGFydCBhZGRyZXNzCj4gKyAq
+IEBhZGV2OiBhbWRncHUgZGV2aWNlIG9iamVjdAo+ICsgKiBAdHlwZTogdHlwZSBvZiB0aGUgbWVt
+b3J5Cj4gKyAqCj4gKyAqIFJldHVybnM6Cj4gKyAqIEdQVSBzdGFydCBhZGRyZXNzIG9mIGEgbWVt
+b3J5IGRvbWFpbgo+ICsgKi8KPiArCj4gK3VpbnQ2NF90IGFtZGdwdV90dG1fZG9tYWluX3N0YXJ0
+KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LCB1aW50MzJfdCB0eXBlKQo+ICt7Cj4gKwlzd2l0
+Y2godHlwZSkgewo+ICsJY2FzZSBUVE1fUExfVFQ6Cj4gKwkJcmV0dXJuIGFkZXYtPmdtYy5nYXJ0
+X3N0YXJ0Owo+ICsJY2FzZSBUVE1fUExfVlJBTToKPiArCQlyZXR1cm4gYWRldi0+Z21jLnZyYW1f
+c3RhcnQ7Cj4gKwl9Cj4gKwo+ICsJcmV0dXJuIDA7Cj4gK30KPiArCj4gICAvKgo+ICAgICogVFRN
+IGJhY2tlbmQgZnVuY3Rpb25zLgo+ICAgICovCj4gQEAgLTExNjIsOSArMTE4MCw2IEBAIGludCBh
+bWRncHVfdHRtX2FsbG9jX2dhcnQoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykKPiAgIAkJ
+Ym8tPm1lbSA9IHRtcDsKPiAgIAl9Cj4gICAKPiAtCWJvLT5vZmZzZXQgPSAoYm8tPm1lbS5zdGFy
+dCA8PCBQQUdFX1NISUZUKSArCj4gLQkJYm8tPmJkZXYtPm1hbltiby0+bWVtLm1lbV90eXBlXS5n
+cHVfb2Zmc2V0Owo+IC0KPiAgIAlyZXR1cm4gMDsKPiAgIH0KPiAgIAo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmggYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfdHRtLmgKPiBpbmRleCAwZGRkZWRjMDZhZTMuLjJjOTBhOTVjNGIy
+NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmgK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmgKPiBAQCAtMTAy
+LDYgKzEwMiw3IEBAIGludCBhbWRncHVfZmlsbF9idWZmZXIoc3RydWN0IGFtZGdwdV9ibyAqYm8s
+Cj4gICBpbnQgYW1kZ3B1X21tYXAoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0
+cnVjdCAqdm1hKTsKPiAgIGludCBhbWRncHVfdHRtX2FsbG9jX2dhcnQoc3RydWN0IHR0bV9idWZm
+ZXJfb2JqZWN0ICpibyk7Cj4gICBpbnQgYW1kZ3B1X3R0bV9yZWNvdmVyX2dhcnQoc3RydWN0IHR0
+bV9idWZmZXJfb2JqZWN0ICp0Ym8pOwo+ICt1aW50NjRfdCBhbWRncHVfdHRtX2RvbWFpbl9zdGFy
+dChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwgdWludDMyX3QgdHlwZSk7Cj4gICAKPiAgICNp
+ZiBJU19FTkFCTEVEKENPTkZJR19EUk1fQU1ER1BVX1VTRVJQVFIpCj4gICBpbnQgYW1kZ3B1X3R0
+bV90dF9nZXRfdXNlcl9wYWdlcyhzdHJ1Y3QgYW1kZ3B1X2JvICpibywgc3RydWN0IHBhZ2UgKipw
+YWdlcyk7CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
