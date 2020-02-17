@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5450161D14
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 23:04:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C1C161D17
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 23:04:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FAC56E0A6;
-	Mon, 17 Feb 2020 22:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C9996E101;
+	Mon, 17 Feb 2020 22:04:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 68DD66E0A6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 22:04:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5BCC96E0D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 22:04:14 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC783106F;
- Mon, 17 Feb 2020 14:03:59 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F24EA106F;
+ Mon, 17 Feb 2020 14:04:13 -0800 (PST)
 Received: from localhost (unknown [10.37.6.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F72E3F703;
- Mon, 17 Feb 2020 14:03:59 -0800 (PST)
-Date: Mon, 17 Feb 2020 22:03:57 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 76E393F703;
+ Mon, 17 Feb 2020 14:04:13 -0800 (PST)
+Date: Mon, 17 Feb 2020 22:04:12 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Tzung-Bi Shih <tzungbi@google.com>
-Subject: Applied "drm/mediatek: fix race condition for HDMI jack status
- reporting" to the asoc tree
-In-Reply-To: <20200217105513.2.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
-Message-Id: <applied-20200217105513.2.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
+Subject: Applied "ASoC: hdmi-codec: set plugged_cb to NULL when component
+ removing" to the asoc tree
+In-Reply-To: <20200217105513.1.Icc323daaf71ad02f191fd8d91136b01b61eca5e3@changeid>
+Message-Id: <applied-20200217105513.1.Icc323daaf71ad02f191fd8d91136b01b61eca5e3@changeid>
 X-Patchwork-Hint: ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,7 +50,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The patch
 
-   drm/mediatek: fix race condition for HDMI jack status reporting
+   ASoC: hdmi-codec: set plugged_cb to NULL when component removing
 
 has been applied to the asoc tree at
 
@@ -75,94 +75,44 @@ to this mail.
 Thanks,
 Mark
 
-From f07980d4ed60fbb35857b655c94b111f4ddf2abf Mon Sep 17 00:00:00 2001
+From 4aadf4b49ec7d80c5db842ca28479d07108c9484 Mon Sep 17 00:00:00 2001
 From: Tzung-Bi Shih <tzungbi@google.com>
-Date: Mon, 17 Feb 2020 11:16:53 +0800
-Subject: [PATCH] drm/mediatek: fix race condition for HDMI jack status
- reporting
+Date: Mon, 17 Feb 2020 11:16:52 +0800
+Subject: [PATCH] ASoC: hdmi-codec: set plugged_cb to NULL when component
+ removing
 
-hdmi_conn_detect and mtk_hdmi_audio_hook_plugged_cb would be called
-by different threads.
+Sets plugged_cb to NULL when component removing to notify its consumers
+: no further plugged status report is required.
 
-Imaging the following calling sequence:
-           Thread A                            Thread B
---------------------------------------------------------------------
-mtk_hdmi_audio_hook_plugged_cb()
-mtk_cec_hpd_high() -> disconnected
-                                     hdmi_conn_detect()
-                                     mtk_cec_hpd_high() -> connected
-                                     plugged_cb(connected)
-plugged_cb(disconnected)
-
-The latest disconnected is false reported.  Makes mtk_cec_hpd_high
-and plugged_cb atomic to fix.
-
-Also uses the same lock to protect read/write of plugged_cb and codec_dev.
-
-Fixes: 5d3c64477392 ("drm/mediatek: support HDMI jack status reporting")
 Signed-off-by: Tzung-Bi Shih <tzungbi@google.com>
-Acked-by: CK Hu <ck.hu@mediatek.com>
-Link: https://lore.kernel.org/r/20200217105513.2.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid
+Link: https://lore.kernel.org/r/20200217105513.1.Icc323daaf71ad02f191fd8d91136b01b61eca5e3@changeid
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ sound/soc/codecs/hdmi-codec.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 03aeb73005ef..d80017e3d84a 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -12,6 +12,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/mutex.h>
- #include <linux/of_platform.h>
- #include <linux/of.h>
- #include <linux/of_gpio.h>
-@@ -171,6 +172,7 @@ struct mtk_hdmi {
- 	bool enabled;
- 	hdmi_codec_plugged_cb plugged_cb;
- 	struct device *codec_dev;
-+	struct mutex update_plugged_status_lock;
- };
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index 543363102d03..bc2903d27e6e 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -779,7 +779,17 @@ static int hdmi_of_xlate_dai_id(struct snd_soc_component *component,
+ 	return ret;
+ }
  
- static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
-@@ -1199,10 +1201,13 @@ static void mtk_hdmi_clk_disable_audio(struct mtk_hdmi *hdmi)
- static enum drm_connector_status
- mtk_hdmi_update_plugged_status(struct mtk_hdmi *hdmi)
- {
--	bool connected = mtk_cec_hpd_high(hdmi->cec_dev);
-+	bool connected;
- 
-+	mutex_lock(&hdmi->update_plugged_status_lock);
-+	connected = mtk_cec_hpd_high(hdmi->cec_dev);
- 	if (hdmi->plugged_cb && hdmi->codec_dev)
- 		hdmi->plugged_cb(hdmi->codec_dev, connected);
-+	mutex_unlock(&hdmi->update_plugged_status_lock);
- 
- 	return connected ?
- 	       connector_status_connected : connector_status_disconnected;
-@@ -1669,8 +1674,11 @@ static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
- {
- 	struct mtk_hdmi *hdmi = data;
- 
-+	mutex_lock(&hdmi->update_plugged_status_lock);
- 	hdmi->plugged_cb = fn;
- 	hdmi->codec_dev = codec_dev;
-+	mutex_unlock(&hdmi->update_plugged_status_lock);
++static void hdmi_remove(struct snd_soc_component *component)
++{
++	struct hdmi_codec_priv *hcp = snd_soc_component_get_drvdata(component);
 +
- 	mtk_hdmi_update_plugged_status(hdmi);
- 
- 	return 0;
-@@ -1729,6 +1737,7 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	mutex_init(&hdmi->update_plugged_status_lock);
- 	platform_set_drvdata(pdev, hdmi);
- 
- 	ret = mtk_hdmi_output_init(hdmi);
++	if (hcp->hcd.ops->hook_plugged_cb)
++		hcp->hcd.ops->hook_plugged_cb(component->dev->parent,
++					      hcp->hcd.data, NULL, NULL);
++}
++
+ static const struct snd_soc_component_driver hdmi_driver = {
++	.remove			= hdmi_remove,
+ 	.dapm_widgets		= hdmi_widgets,
+ 	.num_dapm_widgets	= ARRAY_SIZE(hdmi_widgets),
+ 	.of_xlate_dai_id	= hdmi_of_xlate_dai_id,
 -- 
 2.20.1
 
