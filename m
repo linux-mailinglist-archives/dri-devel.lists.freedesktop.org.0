@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CD2160E61
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 10:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF70160E67
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 10:23:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 979AF6E8D5;
-	Mon, 17 Feb 2020 09:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7FF889D8A;
+	Mon, 17 Feb 2020 09:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0195C6E8D5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 09:22:43 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id s10so16347215wmh.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 01:22:43 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 316A389D8A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 09:23:39 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id a6so17578429wme.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 01:23:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=0MJ9mYVn3G+0Y6gozggeB2/7f2ojGRQ4vXr5eXZZkSs=;
- b=kRIOu8TLbx48j0ycRcv+OzuVAfYNtMG0yMFEIGVEhyXkU8aeWdKqXdqLJpb6Emlg4v
- X+IVqbc3reLCaknAS5EpsYtqRYA+de+wPq/mAwD/eS7Vt2jlbfeMMLhr42FNo1OOzY+q
- RL74Iz+2EpI1de9uJoPdu0uY3V0qDuRAh54NQ=
+ bh=SDHbQZgAe/0wL32buiu3qydqxJ8NuP7my4bW9GtwyNI=;
+ b=TDUJAUElH15Ig5PUX0uQnd7Je+MaIxgpE9mNwdl28erTED/vHRD+5mMVEPXbi5h0gM
+ ubg/8CdzH01TMJY8yfJje7gnvp7n4CtivS1TB1qYuK1eqcsdjVoaUt+MKxHMIFp5FQri
+ TXbpwGPXQNPeGZCtPUhkKEFyVFcjppP49cnRw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=0MJ9mYVn3G+0Y6gozggeB2/7f2ojGRQ4vXr5eXZZkSs=;
- b=jUpzv0efBq/GsxaSK7pBgUXh4Xwt4wCjlmwzNqI5I4IvIlfR/N+OuCY4+rdlQBleTd
- qlS1jNmYdNon1hDtOAFF9Nhf6kd4SzXh2u6R97lf9AvY7VqjdqHZ2nlB0JaE33E97ruE
- 12Vwlf8Ky5e4tbG0y4cLQs/pBgo9kuTYacD5pRUahrapBq1Bxq2WYBTVIa8jMC/qGhOE
- ksd+aTM67O0oo5YrvaToAOxIi+ZTvxqMqV1gvRjpLDCCR27kmbbNhpz3cJhQGq+qCjWO
- JgbRmg5Pe6DvD8xR7hmhdkGa6xMNjhAJvZauTcJEhaz8dC+otmxJg8b/5QIvfoYisaTN
- 0mLw==
-X-Gm-Message-State: APjAAAWHWVwnEWqZxq51hLcudqfltX1co7ShA/UWEprMpZW3ntH4Qbe2
- hlFFi42DVpfI//PihPH4kKA1TA==
-X-Google-Smtp-Source: APXvYqwbM/g597tD4jVwPqmaPV5/c6mdZQcQQl+UP9i9dh/f1xFcOr12VG4/lclqaFQPgyifaRbf0Q==
-X-Received: by 2002:a05:600c:292:: with SMTP id
- 18mr22237092wmk.128.1581931362358; 
- Mon, 17 Feb 2020 01:22:42 -0800 (PST)
+ bh=SDHbQZgAe/0wL32buiu3qydqxJ8NuP7my4bW9GtwyNI=;
+ b=FOShjmzUf7IQXilNuolauwUJcGyw8gd6P4V2YXLibRjI9fRwbT45f88ndupN3lCMNn
+ PHGVJFPuXWaRIQqJCPIRuU1P7oOZiJ+rkPRuUdWI63CmPU4Q3rf2aU+n5WdgN5oBNXhA
+ n+DDLbado/COaEWEB5AhmpGNzety8orWcKi9iKH8ne4Z1+/m8hoGxxt5oVfRqYrQVjCP
+ yGT8rDq8eM58jRDhl7fxNpg5WujvCyTf/UrHf1b6TG6ROFT39z5NsVSJdL3M47I4P0kA
+ wpj02p3EgDdR+XG5n7Y60WTAaxWMAoPbuImwGY1Lp/oaKIKV56dJ+mHAAawRqmS7H/Yl
+ 64QA==
+X-Gm-Message-State: APjAAAWXVGYvwGiTQMQle4qvDfEgqtf45h9qYURhFs4HE0QfQgEt895o
+ xWR88fWdnGJO6ny+9uiHBR8S/w==
+X-Google-Smtp-Source: APXvYqxUSEO3oqlrl6mAlIwlwYFDGhy1hib1i902OAkCcuqbn3UGYx27uFW44njViswwDRL6MBQi5Q==
+X-Received: by 2002:a05:600c:21da:: with SMTP id
+ x26mr21112207wmj.4.1581931417627; 
+ Mon, 17 Feb 2020 01:23:37 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h13sm53933wrw.54.2020.02.17.01.22.41
+ by smtp.gmail.com with ESMTPSA id j15sm97557wrp.9.2020.02.17.01.23.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 01:22:41 -0800 (PST)
-Date: Mon, 17 Feb 2020 10:22:39 +0100
+ Mon, 17 Feb 2020 01:23:37 -0800 (PST)
+Date: Mon, 17 Feb 2020 10:23:35 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Maya Rashish <maya@NetBSD.org>
 Subject: Re: [PATCH] Correct typos in comments
-Message-ID: <20200217092239.GC2363188@phenom.ffwll.local>
+Message-ID: <20200217092335.GD2363188@phenom.ffwll.local>
 References: <20200214112938.GA26876@homeworld.netbsd.org>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -74,18 +74,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Fri, Feb 14, 2020 at 11:29:38AM +0000, Maya Rashish wrote:
 > Signed-off-by: Maya Rashish <maya@NetBSD.org>
 > Co-authored-by: Thomas Klausner <wiz@NetBSD.org>
+
+Also, we need a s-o-b from every co-author, because of the dco:
+
+https://developercertificate.org/
+
+Thanks, Daniel
+
 > ---
 >  drivers/gpu/drm/amd/include/atombios.h     | 20 ++++++++++----------
 >  drivers/gpu/drm/amd/include/atomfirmware.h |  4 ++--
 >  drivers/gpu/drm/radeon/atombios.h          |  8 ++++----
 >  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        |  2 +-
-
-Can you please split this up per-driver, and prefix the commit message
-with the usual driver prefix? git log drivers/gpu/drm/$driver will tell
-you what it usually is.
-
-Thanks, Daniel
-
 >  4 files changed, 17 insertions(+), 17 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd/include/atombios.h
