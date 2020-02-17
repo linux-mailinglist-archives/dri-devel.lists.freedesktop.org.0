@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77851618D7
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 18:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4DC1618D8
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 18:32:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D67216E07D;
-	Mon, 17 Feb 2020 17:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B0C6E0C8;
+	Mon, 17 Feb 2020 17:32:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B16E6E07D
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 17:31:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8486E0C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 17:32:19 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205915] AMDGPU: Screen flicker after resume from suspend
-Date: Mon, 17 Feb 2020 17:31:33 +0000
+Date: Mon, 17 Feb 2020 17:32:18 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205915-2300-RYyuWFFVgq@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.ispatch attachments.mimetype
+Message-ID: <bug-205915-2300-75FAsl0cPP@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205915-2300@https.bugzilla.kernel.org/>
 References: <bug-205915-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -51,25 +51,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU5MTUKCi0tLSBD
-b21tZW50ICMxMiBmcm9tIE1hbnVlbCBVbGxtYW5uIChsYWJyZUBwb3N0ZW8uZGUpIC0tLQpDcmVh
-dGVkIGF0dGFjaG1lbnQgMjg3NDQ5CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9h
-dHRhY2htZW50LmNnaT9pZD0yODc0NDkmYWN0aW9uPWVkaXQKQ2FsbCBvcHRpbWl6ZSBiYW5kd2lk
-dGggYWdhaW4uCgpJIHBpbm5lZCB0aGUgaXNzdWUgZG93biB0byB0aGUgZm91ciBsaW5lcywgd2hp
-Y2ggY2FsbCBvcHRpbWl6ZV9iYW5kd2lkdGguClVuZm9ydHVuYXRlbHkgdGhlIGNvbW1pdCBtZXNz
-YWdlIGluZGljYXRlcywgdGhhdCBpdHMgcmVtb3ZhbCBmaXhlZCBvdGhlcgppc3N1ZXMsIHNvIGl0
-IGNhbiBub3QgYmUgc2ltcGx5IHB1dCBiYWNrIGluLgoKTWF5YmUgdGhpcyBvbmUgaXMgYWxzbyB2
-ZW5kb3Igc3BlY2lmaWMgdm9sdGFnZSBsb3dlcmluZy4gQXJlIHRoZXJlIHNvbWUgc3lzCm5vZGVz
-LCB3aGljaCBleHBvc2UgdmVuZG9yIGFkYXB0YXRpb25zPyBJ4oCZdmUgZ290IG9uZSBmcm9tIE1T
-SSBbMV0gd2l0aCAxMzAgV2F0dApURFAuCgpbMV06Cmh0dHBzOi8vdXMubXNpLmNvbS9HcmFwaGlj
-cy1jYXJkL1JhZGVvbi1SWC01NTAwLVhULUdBTUlORy1YLThHL1NwZWNpZmljYXRpb24KCi0tIApZ
-b3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUg
-YXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=205915
+
+Manuel Ullmann (labre@posteo.de) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #287449|0                           |1
+           is patch|                            |
+ Attachment #287449|application/mbox            |text/plain
+          mime type|                            |
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
