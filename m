@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED81D1621BF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 08:55:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD981621C6
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 08:56:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 326F76E15C;
-	Tue, 18 Feb 2020 07:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFDC6E167;
+	Tue, 18 Feb 2020 07:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B11A6E978;
- Mon, 17 Feb 2020 15:02:15 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id n10so18176232wrm.1;
- Mon, 17 Feb 2020 07:02:15 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33DFB6E981;
+ Mon, 17 Feb 2020 15:02:18 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z7so20092903wrl.13;
+ Mon, 17 Feb 2020 07:02:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8Quwm0G/LPRvhYcMVajShysZzepUfBcFiZH554x5CIA=;
- b=ZIoKyYsyis5oKCP8oNupoyeCO7/eAm/cAVvfyyV3jHBo3E0EHe3b/DsdcxG/hbybPx
- 0yJyp6frpqPLEtF/8wwN6MNVEULKBaSHiC9ggJMSeN1R5Ty5JRiX2fXHSJ5mggib9AbB
- Ab2wmyLZBN/Vbd7oEFIWURSI0NNXkYCrI/LGRmvrKFp5blTkuBONNVTRLqoMJnCb3M9W
- ozNRqFzWhbZanva4KuXdJO1TYHi8Gjev5CJUmEPzUcx5QQr/c3UwyzlgC+I+TKqaW2Mk
- mS6MVI1rF2n+yOtJd9Ekp8KTGAxLDZ0SsPSJhTggx23Ih2ssq/a9aw/QcVTPEQFtNGUy
- zrhg==
+ bh=Vs9pAsIPyDEOW/NNb3UJYtJC8LXr2Zm3bruWbPceTS8=;
+ b=a0enNHoWS/Cq69OOlNsRnrRLA+yFNiz7gL4um9spRTqDSWtDQKV2Cz/G0Gjcag6wCv
+ sB5aSe/NKFiiccks8PswpCuwQsaE1RuqtXhSG81cmf36+iYrbZ5MuSUX7joJTTJqIWUn
+ BduDccsYaJuytgAIm/xld8CRbAQPSymGylS2OoandqLhVq6g7/ZquOFi2ieuEHmOjdgv
+ PlyjTRZM5cmezjGZseJVFIH6i6r01P6bMezDz6UYKHqIHFQwUsrsfDvvBYMIbJEQNvmm
+ VM57NTxW7eaTJlqao+RDHfDKr/w7x+4pjosZ7wX0vw2ONpVfgf+CgNxK6QO1FAPKV/sU
+ 8U0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8Quwm0G/LPRvhYcMVajShysZzepUfBcFiZH554x5CIA=;
- b=qm+mLmitP1zAnslTvKLJIEWOV9Kc3C227bf8iMIvxp+bRrVoPe0JI+NjjwSbLwsTbI
- x/Dugyk/UMg06+S68FTUtIZjTJl0TbPs0mBnV6eVCoeg4teuulhN66X35YPIteYQVFVk
- 7ix0dzn4pLzY1R1X21+S50WHML2TADQ1pDNDhX6lj38oSW2Hze0NDAb1OccENG1g8Uqr
- Pu97mnxcMl291/upXJ41zlJKMYo7xJtqZ3T81bJwv6fJgzwgG5X/9sNgQ81T1m2SEjh1
- kZxIZQbB/RlJHQQywx/TQyew7xBglI7bTDi/l96rKEha+i2Z4DJwCq8aBCiD6ohSx0CY
- d9/Q==
-X-Gm-Message-State: APjAAAVDtTV0WnZyV1QW06azExxNBBrKPK0PUa5M+eLgj1CffFonP+WF
- 6Q5TLVuvubaB71wjaGl6jvH1a71f4+CpZg==
-X-Google-Smtp-Source: APXvYqxFiLz+/s1//DSQkf1mgFI5VxAUe1/eIIpMK8gpKPQB/EVGTKYEcunByvS2bcSBzEOS1RCQ2Q==
-X-Received: by 2002:a5d:5183:: with SMTP id k3mr22323875wrv.414.1581951733662; 
- Mon, 17 Feb 2020 07:02:13 -0800 (PST)
+ bh=Vs9pAsIPyDEOW/NNb3UJYtJC8LXr2Zm3bruWbPceTS8=;
+ b=qJLc81Rp7NRPeAdJZfx7Zd5Y/Ydxg9/Q0/IvxQLHIQmI1O+NhuATCR/IM1i1gmutke
+ +G6bV6MEBiwPS5CKYVqA2p2xLdjtY4ZU1niiBoTFCZEdfYH+VV5+dGdntoCtUrAZh23i
+ r5B3WUkwX689kuXssWT/6ZKNoUjn9UMX1NJUxb9s60/j0VCqY2/enxS/eA+0tubxYXrS
+ IASvRfPPzNhaQNzX/fBgTNb9ipGwzeK0UHM3KzEOcTwbU6nwnmRh5UzNYy4DLn55xRoI
+ 1iDYENNSj/yaV1KjGo0VvPP/sXuTb6cfv5EsSBLKbfH8h9VGiwoHQL4i4hdnnNHTM2e/
+ SyEg==
+X-Gm-Message-State: APjAAAVigjnDEECc2HP1OcOGZl884ocQKTZdTSI9yHCT+zeHErRDcUod
+ 4fwJfksGOXH3hNX41nCXyMKs3EUeX1FAww==
+X-Google-Smtp-Source: APXvYqzNJdePKICzejsOQxv04YZ2wBF69IS7Uz6jyyxxNDwKGtywavKzKZkzN6JQ7hfkXaKbZGlVEg==
+X-Received: by 2002:a5d:4052:: with SMTP id w18mr22373918wrp.112.1581951736547; 
+ Mon, 17 Feb 2020 07:02:16 -0800 (PST)
 Received: from brihaspati.fritz.box (pD9566D64.dip0.t-ipconnect.de.
  [217.86.109.100])
- by smtp.gmail.com with ESMTPSA id j15sm1441099wrp.9.2020.02.17.07.02.12
+ by smtp.gmail.com with ESMTPSA id j15sm1441099wrp.9.2020.02.17.07.02.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 07:02:13 -0800 (PST)
+ Mon, 17 Feb 2020 07:02:16 -0800 (PST)
 From: Nirmoy Das <nirmoy.aiemd@gmail.com>
 X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset
-Date: Mon, 17 Feb 2020 16:04:25 +0100
-Message-Id: <20200217150427.49994-7-nirmoy.das@amd.com>
+Subject: [PATCH 7/8] drm/bochs: use drm_gem_vram_offset to get bo offset
+Date: Mon, 17 Feb 2020 16:04:26 +0100
+Message-Id: <20200217150427.49994-8-nirmoy.das@amd.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200217150427.49994-1-nirmoy.das@amd.com>
 References: <20200217150427.49994-1-nirmoy.das@amd.com>
@@ -79,26 +79,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Calculate GPU offset within vram-helper without depending on
-bo->offset
+Switch over to GEM VRAM's implementation to retrieve bo->offset
 
 Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 2 +-
+ drivers/gpu/drm/bochs/bochs_kms.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 92a11bb42365..e7ef4cd8116d 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -214,7 +214,7 @@ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo)
- {
- 	if (WARN_ON_ONCE(!gbo->pin_count))
- 		return (s64)-ENODEV;
--	return gbo->bo.offset;
-+	return gbo->bo.mem.start << PAGE_SHIFT;
+diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
+index 8066d7d370d5..b8e1079f077e 100644
+--- a/drivers/gpu/drm/bochs/bochs_kms.c
++++ b/drivers/gpu/drm/bochs/bochs_kms.c
+@@ -38,7 +38,7 @@ static void bochs_plane_update(struct bochs_device *bochs,
+ 			 state->crtc_x,
+ 			 state->crtc_y,
+ 			 state->fb->pitches[0],
+-			 state->fb->offsets[0] + gbo->bo.offset);
++			 state->fb->offsets[0] + drm_gem_vram_offset(gbo));
+ 	bochs_hw_setformat(bochs, state->fb->format);
  }
- EXPORT_SYMBOL(drm_gem_vram_offset);
  
 -- 
 2.25.0
