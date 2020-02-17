@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9521621CB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 08:56:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647D81621C3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 08:55:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 546C66E16F;
-	Tue, 18 Feb 2020 07:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7C96E162;
+	Tue, 18 Feb 2020 07:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE11589B0D
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 15:41:15 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a9so18954420wmj.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 07:41:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=556jZPK8Ln3qyMHoFnra5q+K0qfU/YwU5Nw6Aae+qSY=;
- b=ebSOobPAYTfm2SFuYNP5SBLHSOZxKMF0XUXrOnV6s6UX7fzQNW7s1ZFIPs/qhlDMKA
- aPLGSHIUH0720Ztqotj6iPs6Yme49UDIXnaup04lUoweD4a24uE2garU5w5KE1CS1DA4
- MZxD3AjAENeWCdA9LtpaNTtSrkwHpNspFMPQdEfZolIw6WD8MvM5qMltMrTFg4CwTAAa
- aP4JZjwnJqu0hFALewUWR2bCfDoGr69gP4UYaLe80B5CYgLcNxb0acndzHMcMm6phCSZ
- gBVWlzhHWdoH3FFmhmPXqzG/25RPG3awBC7oyA7Ga66em9xIsonwI5MfVZo86I70CnGd
- anAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=556jZPK8Ln3qyMHoFnra5q+K0qfU/YwU5Nw6Aae+qSY=;
- b=KBfkmLeHiEUFoNUueTJcddZToHQg5y/gcOGuAOGqiPhNotUC4VPk9UfDEHXT3qiYAO
- JNBuD/FTOXZzp9dxVa2YG8ZrPQkIDRvLk/NRmVQv+9M1I6g6R8nHeScV+AtnhVI32eSA
- +lm4iNoI2eyV0AczycxfphsupDfKG5J3ndP/AQssQgsxc6QlUimy3zRVtkhG0l7XibzT
- Wmv5DNCU+6maQvkuPFNtRxJAB2GTj2w3FxGS9P6wTj3ZMdsi26M/xBKTsooErlIn7kD2
- Un5ZSWzblZLxueJEVlTd4qdWimGkSiEDA+zrD++8zS4SEMo7+sBNzo4UpuYDBXBJ3bMc
- OVSw==
-X-Gm-Message-State: APjAAAWHiQwYXQSPB/LyWmDtEDlj2ZJL8ObWuCVhNSJr76+Dw0mOiiAp
- LjVJPfM61GzkgAm+ys22pmNfwA==
-X-Google-Smtp-Source: APXvYqwp9OHTWaAU+Fqq1Q9B0XP8Yhr13ODlIppYq+8Cyk59QWRoG10yzWaBn5eWZeCNm23S6aj0iA==
-X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr22849920wmk.172.1581954074099; 
- Mon, 17 Feb 2020 07:41:14 -0800 (PST)
-Received: from jamesh-VirtualBox.pitowers.org
- ([2a00:1098:3142:14:9260:684f:13fd:35ee])
- by smtp.gmail.com with ESMTPSA id h2sm1546370wrt.45.2020.02.17.07.41.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 07:41:13 -0800 (PST)
-From: James Hughes <james.hughes@raspberrypi.com>
-To: eric@anholt.net, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] GPU: DRM: VC4/V3D Replace wait_for macros in to remove use of
- msleep
-Date: Mon, 17 Feb 2020 15:31:45 +0000
-Message-Id: <20200217153145.13780-1-james.hughes@raspberrypi.com>
-X-Mailer: git-send-email 2.17.1
+Received: from www413.your-server.de (www413.your-server.de [88.198.28.140])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829976E992;
+ Mon, 17 Feb 2020 16:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=cyberus-technology.de; s=default1911; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wM+WMx5GZe3Z8Q3hi+JoMsNWtzyRkvlLkOKoDdwnhsY=; b=l5NSzXm+D91U9EP7T82tIeKiu
+ 8mjmRM8SiTAssK1Pq8yBYRJcBSZYOy14I/45sRVq1HcdnWJNc1a1VaYyxNGrWovP82NHplBh/UYm6
+ A+AtVxtyD+WswN3f6aem2X8cIroRHt9d8yKkRg1ew4XpX2UF0qe7p040yW8PoH7+QKjcTFNpqpvsZ
+ tyTqjbR8DIwh91eyspu2mqnMxw7+tKB+d8+y5woqtPpHpicPlAyv+ZqhsfINKiaaveEKF4OB/1KZ/
+ yF20bU5icHU2X1/aBMSv+eO7yUO0M3I9FF3fS2SlXsltAMbOzRPObo0Nn3dh3u8SobBw2qmOJpfCo
+ tAAlOOfKw==;
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+ by www413.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+ (Exim 4.89_1)
+ (envelope-from <julian.stecklina@cyberus-technology.de>)
+ id 1j3jQG-0004Hx-Hi; Mon, 17 Feb 2020 17:39:04 +0100
+Received: from [2a02:8106:231:700:6975:3446:3ada:292d]
+ (helo=localhost.localdomain)
+ by sslproxy03.your-server.de with esmtpsa (TLSv1:ECDHE-RSA-AES256-SHA:256)
+ (Exim 4.92) (envelope-from <julian.stecklina@cyberus-technology.de>)
+ id 1j3jQG-000Je8-9n; Mon, 17 Feb 2020 17:39:04 +0100
+From: Julian Stecklina <julian.stecklina@cyberus-technology.de>
+To: intel-gvt-dev@lists.freedesktop.org
+Subject: [PATCH v2 RESEND] drm/i915/gvt: make gvt oblivious of kvmgt data
+ structures
+Date: Mon, 17 Feb 2020 17:38:58 +0100
+Message-Id: <20200217163858.26496-1-julian.stecklina@cyberus-technology.de>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+X-Authenticated-Sender: julian.stecklina@cyberus-technology.de
+X-Virus-Scanned: Clear (ClamAV 0.102.1/25726/Mon Feb 17 15:01:07 2020)
 X-Mailman-Approved-At: Tue, 18 Feb 2020 07:55:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,151 +57,829 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Hughes <james.hughes@raspberrypi.com>
-MIME-Version: 1.0
+Cc: thomas.prescher@cyberus-technology.de,
+ Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hang.yuan@intel.com, zhiyuan.lv@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The wait_for macro's for Broadcom VC4 and V3D drivers used msleep
-which is inappropriate due to its inaccuracy at low values (minimum
-wait time is about 30ms on the Raspberry Pi).
+Instead of defining KVMGT per-device state in struct intel_vgpu
+directly, add an indirection. This makes the GVT code oblivious of
+what state KVMGT needs to keep.
 
-This patch replaces the macro with the one from the Intel i915 version
-which uses usleep_range to provide more accurate waits.
+The intention here is to eventually make it possible to build
+hypervisor backends for the mediator, without having to touch the
+mediator itself. This is a first step.
 
-Signed-off-by: James Hughes <james.hughes@raspberrypi.com>
+v2:
+- rebased onto gvt-staging (no conflicts)
+
+Signed-off-by: Julian Stecklina <julian.stecklina@cyberus-technology.de>
+Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.h | 41 ++++++++++++++++++++++-----------
- drivers/gpu/drm/vc4/vc4_drv.h | 43 +++++++++++++++++++++--------------
- 2 files changed, 54 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/i915/gvt/gvt.h   |  32 +---
+ drivers/gpu/drm/i915/gvt/kvmgt.c | 287 +++++++++++++++++++------------
+ 2 files changed, 184 insertions(+), 135 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 7b4f3b5a086e..069fefe16d28 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -267,27 +267,42 @@ struct v3d_csd_job {
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
+index 9fe9decc0d86..8cf292a8d6bd 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.h
++++ b/drivers/gpu/drm/i915/gvt/gvt.h
+@@ -196,31 +196,8 @@ struct intel_vgpu {
+ 
+ 	struct dentry *debugfs;
+ 
+-#if IS_ENABLED(CONFIG_DRM_I915_GVT_KVMGT)
+-	struct {
+-		struct mdev_device *mdev;
+-		struct vfio_region *region;
+-		int num_regions;
+-		struct eventfd_ctx *intx_trigger;
+-		struct eventfd_ctx *msi_trigger;
+-
+-		/*
+-		 * Two caches are used to avoid mapping duplicated pages (eg.
+-		 * scratch pages). This help to reduce dma setup overhead.
+-		 */
+-		struct rb_root gfn_cache;
+-		struct rb_root dma_addr_cache;
+-		unsigned long nr_cache_entries;
+-		struct mutex cache_lock;
+-
+-		struct notifier_block iommu_notifier;
+-		struct notifier_block group_notifier;
+-		struct kvm *kvm;
+-		struct work_struct release_work;
+-		atomic_t released;
+-		struct vfio_device *vfio_device;
+-	} vdev;
+-#endif
++	/* Hypervisor-specific device state. */
++	void *vdev;
+ 
+ 	struct list_head dmabuf_obj_list_head;
+ 	struct mutex dmabuf_lock;
+@@ -229,6 +206,11 @@ struct intel_vgpu {
+ 	u32 scan_nonprivbb;
  };
  
- /**
-- * _wait_for - magic (register) wait macro
-+ * __wait_for - magic wait macro
-  *
-- * Does the right thing for modeset paths when run under kdgb or similar atomic
-- * contexts. Note that it's important that we check the condition again after
-- * having timed out, since the timeout could be due to preemption or similar and
-- * we've never had a chance to check the condition before the timeout.
-+ * Macro to help avoid open coding check/wait/timeout patterns. Note that it's
-+ * important that we check the condition again after having timed out, since the
-+ * timeout could be due to preemption or similar and we've never had a chance to
-+ * check the condition before the timeout.
-  */
--#define wait_for(COND, MS) ({ \
--	unsigned long timeout__ = jiffies + msecs_to_jiffies(MS) + 1;	\
--	int ret__ = 0;							\
--	while (!(COND)) {						\
--		if (time_after(jiffies, timeout__)) {			\
--			if (!(COND))					\
--				ret__ = -ETIMEDOUT;			\
-+#define __wait_for(OP, COND, US, Wmin, Wmax) ({ \
-+	const ktime_t end__ = ktime_add_ns(ktime_get_raw(), 1000ll * (US)); \
-+	long wait__ = (Wmin); /* recommended min for usleep is 10 us */	\
-+	int ret__;							\
-+	might_sleep();							\
-+	for (;;) {							\
-+		const bool expired__ = ktime_after(ktime_get_raw(), end__); \
-+		OP;							\
-+		/* Guarantee COND check prior to timeout */		\
-+		barrier();						\
-+		if (COND) {						\
-+			ret__ = 0;					\
- 			break;						\
- 		}							\
--		msleep(1);					\
-+		if (expired__) {					\
-+			ret__ = -ETIMEDOUT;				\
-+			break;						\
-+		}							\
-+		usleep_range(wait__, wait__ * 2);			\
-+		if (wait__ < (Wmax))					\
-+			wait__ <<= 1;					\
- 	}								\
- 	ret__;								\
- })
- 
-+#define _wait_for(COND, US, Wmin, Wmax)	__wait_for(, (COND), (US), (Wmin), \
-+						   (Wmax))
-+#define wait_for(COND, MS)		_wait_for((COND), (MS) * 1000, 10, 1000)
++static inline void *intel_vgpu_vdev(struct intel_vgpu *vgpu)
++{
++	return vgpu->vdev;
++}
 +
- static inline unsigned long nsecs_to_jiffies_timeout(const u64 n)
- {
- 	/* nsecs_to_jiffies64() does not guard against overflow */
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 7956f6ed9b6a..c59be5e1d52b 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -629,32 +629,41 @@ struct vc4_validated_shader_info {
+ /* validating GM healthy status*/
+ #define vgpu_is_vm_unhealthy(ret_val) \
+ 	(((ret_val) == -EBADRQC) || ((ret_val) == -EFAULT))
+diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+index 85e59c502ab5..9a435bc1a2f0 100644
+--- a/drivers/gpu/drm/i915/gvt/kvmgt.c
++++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+@@ -108,6 +108,36 @@ struct gvt_dma {
+ 	struct kref ref;
  };
  
- /**
-- * _wait_for - magic (register) wait macro
-+ * __wait_for - magic wait macro
-  *
-- * Does the right thing for modeset paths when run under kdgb or similar atomic
-- * contexts. Note that it's important that we check the condition again after
-- * having timed out, since the timeout could be due to preemption or similar and
-- * we've never had a chance to check the condition before the timeout.
-+ * Macro to help avoid open coding check/wait/timeout patterns. Note that it's
-+ * important that we check the condition again after having timed out, since the
-+ * timeout could be due to preemption or similar and we've never had a chance to
-+ * check the condition before the timeout.
-  */
--#define _wait_for(COND, MS, W) ({ \
--	unsigned long timeout__ = jiffies + msecs_to_jiffies(MS) + 1;	\
--	int ret__ = 0;							\
--	while (!(COND)) {						\
--		if (time_after(jiffies, timeout__)) {			\
--			if (!(COND))					\
--				ret__ = -ETIMEDOUT;			\
-+#define __wait_for(OP, COND, US, Wmin, Wmax) ({ \
-+	const ktime_t end__ = ktime_add_ns(ktime_get_raw(), 1000ll * (US)); \
-+	long wait__ = (Wmin); /* recommended min for usleep is 10 us */	\
-+	int ret__;							\
-+	might_sleep();							\
-+	for (;;) {							\
-+		const bool expired__ = ktime_after(ktime_get_raw(), end__); \
-+		OP;							\
-+		/* Guarantee COND check prior to timeout */		\
-+		barrier();						\
-+		if (COND) {						\
-+			ret__ = 0;					\
- 			break;						\
- 		}							\
--		if (W && drm_can_sleep())  {				\
--			msleep(W);					\
--		} else {						\
--			cpu_relax();					\
-+		if (expired__) {					\
-+			ret__ = -ETIMEDOUT;				\
-+			break;						\
- 		}							\
-+		usleep_range(wait__, wait__ * 2);			\
-+		if (wait__ < (Wmax))					\
-+			wait__ <<= 1;					\
- 	}								\
- 	ret__;								\
- })
++struct kvmgt_vdev {
++	struct intel_vgpu *vgpu;
++	struct mdev_device *mdev;
++	struct vfio_region *region;
++	int num_regions;
++	struct eventfd_ctx *intx_trigger;
++	struct eventfd_ctx *msi_trigger;
++
++	/*
++	 * Two caches are used to avoid mapping duplicated pages (eg.
++	 * scratch pages). This help to reduce dma setup overhead.
++	 */
++	struct rb_root gfn_cache;
++	struct rb_root dma_addr_cache;
++	unsigned long nr_cache_entries;
++	struct mutex cache_lock;
++
++	struct notifier_block iommu_notifier;
++	struct notifier_block group_notifier;
++	struct kvm *kvm;
++	struct work_struct release_work;
++	atomic_t released;
++	struct vfio_device *vfio_device;
++};
++
++static inline struct kvmgt_vdev *kvmgt_vdev(struct intel_vgpu *vgpu)
++{
++	return intel_vgpu_vdev(vgpu);
++}
++
+ static inline bool handle_valid(unsigned long handle)
+ {
+ 	return !!(handle & ~0xff);
+@@ -129,7 +159,7 @@ static void gvt_unpin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
+ 	for (npage = 0; npage < total_pages; npage++) {
+ 		unsigned long cur_gfn = gfn + npage;
  
--#define wait_for(COND, MS) _wait_for(COND, MS, 1)
-+#define _wait_for(COND, US, Wmin, Wmax)	__wait_for(, (COND), (US), (Wmin), \
-+						   (Wmax))
-+#define wait_for(COND, MS)		_wait_for((COND), (MS) * 1000, 10, 1000)
+-		ret = vfio_unpin_pages(mdev_dev(vgpu->vdev.mdev), &cur_gfn, 1);
++		ret = vfio_unpin_pages(mdev_dev(kvmgt_vdev(vgpu)->mdev), &cur_gfn, 1);
+ 		WARN_ON(ret != 1);
+ 	}
+ }
+@@ -152,7 +182,7 @@ static int gvt_pin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
+ 		unsigned long cur_gfn = gfn + npage;
+ 		unsigned long pfn;
  
- /* vc4_bo.c */
- struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size);
+-		ret = vfio_pin_pages(mdev_dev(vgpu->vdev.mdev), &cur_gfn, 1,
++		ret = vfio_pin_pages(mdev_dev(kvmgt_vdev(vgpu)->mdev), &cur_gfn, 1,
+ 				     IOMMU_READ | IOMMU_WRITE, &pfn);
+ 		if (ret != 1) {
+ 			gvt_vgpu_err("vfio_pin_pages failed for gfn 0x%lx, ret %d\n",
+@@ -219,7 +249,7 @@ static void gvt_dma_unmap_page(struct intel_vgpu *vgpu, unsigned long gfn,
+ static struct gvt_dma *__gvt_cache_find_dma_addr(struct intel_vgpu *vgpu,
+ 		dma_addr_t dma_addr)
+ {
+-	struct rb_node *node = vgpu->vdev.dma_addr_cache.rb_node;
++	struct rb_node *node = kvmgt_vdev(vgpu)->dma_addr_cache.rb_node;
+ 	struct gvt_dma *itr;
+ 
+ 	while (node) {
+@@ -237,7 +267,7 @@ static struct gvt_dma *__gvt_cache_find_dma_addr(struct intel_vgpu *vgpu,
+ 
+ static struct gvt_dma *__gvt_cache_find_gfn(struct intel_vgpu *vgpu, gfn_t gfn)
+ {
+-	struct rb_node *node = vgpu->vdev.gfn_cache.rb_node;
++	struct rb_node *node = kvmgt_vdev(vgpu)->gfn_cache.rb_node;
+ 	struct gvt_dma *itr;
+ 
+ 	while (node) {
+@@ -258,6 +288,7 @@ static int __gvt_cache_add(struct intel_vgpu *vgpu, gfn_t gfn,
+ {
+ 	struct gvt_dma *new, *itr;
+ 	struct rb_node **link, *parent = NULL;
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 
+ 	new = kzalloc(sizeof(struct gvt_dma), GFP_KERNEL);
+ 	if (!new)
+@@ -270,7 +301,7 @@ static int __gvt_cache_add(struct intel_vgpu *vgpu, gfn_t gfn,
+ 	kref_init(&new->ref);
+ 
+ 	/* gfn_cache maps gfn to struct gvt_dma. */
+-	link = &vgpu->vdev.gfn_cache.rb_node;
++	link = &vdev->gfn_cache.rb_node;
+ 	while (*link) {
+ 		parent = *link;
+ 		itr = rb_entry(parent, struct gvt_dma, gfn_node);
+@@ -281,11 +312,11 @@ static int __gvt_cache_add(struct intel_vgpu *vgpu, gfn_t gfn,
+ 			link = &parent->rb_right;
+ 	}
+ 	rb_link_node(&new->gfn_node, parent, link);
+-	rb_insert_color(&new->gfn_node, &vgpu->vdev.gfn_cache);
++	rb_insert_color(&new->gfn_node, &vdev->gfn_cache);
+ 
+ 	/* dma_addr_cache maps dma addr to struct gvt_dma. */
+ 	parent = NULL;
+-	link = &vgpu->vdev.dma_addr_cache.rb_node;
++	link = &vdev->dma_addr_cache.rb_node;
+ 	while (*link) {
+ 		parent = *link;
+ 		itr = rb_entry(parent, struct gvt_dma, dma_addr_node);
+@@ -296,46 +327,51 @@ static int __gvt_cache_add(struct intel_vgpu *vgpu, gfn_t gfn,
+ 			link = &parent->rb_right;
+ 	}
+ 	rb_link_node(&new->dma_addr_node, parent, link);
+-	rb_insert_color(&new->dma_addr_node, &vgpu->vdev.dma_addr_cache);
++	rb_insert_color(&new->dma_addr_node, &vdev->dma_addr_cache);
+ 
+-	vgpu->vdev.nr_cache_entries++;
++	vdev->nr_cache_entries++;
+ 	return 0;
+ }
+ 
+ static void __gvt_cache_remove_entry(struct intel_vgpu *vgpu,
+ 				struct gvt_dma *entry)
+ {
+-	rb_erase(&entry->gfn_node, &vgpu->vdev.gfn_cache);
+-	rb_erase(&entry->dma_addr_node, &vgpu->vdev.dma_addr_cache);
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
++
++	rb_erase(&entry->gfn_node, &vdev->gfn_cache);
++	rb_erase(&entry->dma_addr_node, &vdev->dma_addr_cache);
+ 	kfree(entry);
+-	vgpu->vdev.nr_cache_entries--;
++	vdev->nr_cache_entries--;
+ }
+ 
+ static void gvt_cache_destroy(struct intel_vgpu *vgpu)
+ {
+ 	struct gvt_dma *dma;
+ 	struct rb_node *node = NULL;
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 
+ 	for (;;) {
+-		mutex_lock(&vgpu->vdev.cache_lock);
+-		node = rb_first(&vgpu->vdev.gfn_cache);
++		mutex_lock(&vdev->cache_lock);
++		node = rb_first(&vdev->gfn_cache);
+ 		if (!node) {
+-			mutex_unlock(&vgpu->vdev.cache_lock);
++			mutex_unlock(&vdev->cache_lock);
+ 			break;
+ 		}
+ 		dma = rb_entry(node, struct gvt_dma, gfn_node);
+ 		gvt_dma_unmap_page(vgpu, dma->gfn, dma->dma_addr, dma->size);
+ 		__gvt_cache_remove_entry(vgpu, dma);
+-		mutex_unlock(&vgpu->vdev.cache_lock);
++		mutex_unlock(&vdev->cache_lock);
+ 	}
+ }
+ 
+ static void gvt_cache_init(struct intel_vgpu *vgpu)
+ {
+-	vgpu->vdev.gfn_cache = RB_ROOT;
+-	vgpu->vdev.dma_addr_cache = RB_ROOT;
+-	vgpu->vdev.nr_cache_entries = 0;
+-	mutex_init(&vgpu->vdev.cache_lock);
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
++
++	vdev->gfn_cache = RB_ROOT;
++	vdev->dma_addr_cache = RB_ROOT;
++	vdev->nr_cache_entries = 0;
++	mutex_init(&vdev->cache_lock);
+ }
+ 
+ static void kvmgt_protect_table_init(struct kvmgt_guest_info *info)
+@@ -409,16 +445,18 @@ static void kvmgt_protect_table_del(struct kvmgt_guest_info *info,
+ static size_t intel_vgpu_reg_rw_opregion(struct intel_vgpu *vgpu, char *buf,
+ 		size_t count, loff_t *ppos, bool iswrite)
+ {
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 	unsigned int i = VFIO_PCI_OFFSET_TO_INDEX(*ppos) -
+ 			VFIO_PCI_NUM_REGIONS;
+-	void *base = vgpu->vdev.region[i].data;
++	void *base = vdev->region[i].data;
+ 	loff_t pos = *ppos & VFIO_PCI_OFFSET_MASK;
+ 
+-	if (pos >= vgpu->vdev.region[i].size || iswrite) {
++
++	if (pos >= vdev->region[i].size || iswrite) {
+ 		gvt_vgpu_err("invalid op or offset for Intel vgpu OpRegion\n");
+ 		return -EINVAL;
+ 	}
+-	count = min(count, (size_t)(vgpu->vdev.region[i].size - pos));
++	count = min(count, (size_t)(vdev->region[i].size - pos));
+ 	memcpy(buf, base + pos, count);
+ 
+ 	return count;
+@@ -512,7 +550,7 @@ static size_t intel_vgpu_reg_rw_edid(struct intel_vgpu *vgpu, char *buf,
+ 	unsigned int i = VFIO_PCI_OFFSET_TO_INDEX(*ppos) -
+ 			VFIO_PCI_NUM_REGIONS;
+ 	struct vfio_edid_region *region =
+-		(struct vfio_edid_region *)vgpu->vdev.region[i].data;
++		(struct vfio_edid_region *)kvmgt_vdev(vgpu)->region[i].data;
+ 	loff_t pos = *ppos & VFIO_PCI_OFFSET_MASK;
+ 
+ 	if (pos < region->vfio_edid_regs.edid_offset) {
+@@ -544,32 +582,34 @@ static int intel_vgpu_register_reg(struct intel_vgpu *vgpu,
+ 		const struct intel_vgpu_regops *ops,
+ 		size_t size, u32 flags, void *data)
+ {
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 	struct vfio_region *region;
+ 
+-	region = krealloc(vgpu->vdev.region,
+-			(vgpu->vdev.num_regions + 1) * sizeof(*region),
++	region = krealloc(vdev->region,
++			(vdev->num_regions + 1) * sizeof(*region),
+ 			GFP_KERNEL);
+ 	if (!region)
+ 		return -ENOMEM;
+ 
+-	vgpu->vdev.region = region;
+-	vgpu->vdev.region[vgpu->vdev.num_regions].type = type;
+-	vgpu->vdev.region[vgpu->vdev.num_regions].subtype = subtype;
+-	vgpu->vdev.region[vgpu->vdev.num_regions].ops = ops;
+-	vgpu->vdev.region[vgpu->vdev.num_regions].size = size;
+-	vgpu->vdev.region[vgpu->vdev.num_regions].flags = flags;
+-	vgpu->vdev.region[vgpu->vdev.num_regions].data = data;
+-	vgpu->vdev.num_regions++;
++	vdev->region = region;
++	vdev->region[vdev->num_regions].type = type;
++	vdev->region[vdev->num_regions].subtype = subtype;
++	vdev->region[vdev->num_regions].ops = ops;
++	vdev->region[vdev->num_regions].size = size;
++	vdev->region[vdev->num_regions].flags = flags;
++	vdev->region[vdev->num_regions].data = data;
++	vdev->num_regions++;
+ 	return 0;
+ }
+ 
+ static int kvmgt_get_vfio_device(void *p_vgpu)
+ {
+ 	struct intel_vgpu *vgpu = (struct intel_vgpu *)p_vgpu;
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 
+-	vgpu->vdev.vfio_device = vfio_device_get_from_dev(
+-		mdev_dev(vgpu->vdev.mdev));
+-	if (!vgpu->vdev.vfio_device) {
++	vdev->vfio_device = vfio_device_get_from_dev(
++		mdev_dev(vdev->mdev));
++	if (!vdev->vfio_device) {
+ 		gvt_vgpu_err("failed to get vfio device\n");
+ 		return -ENODEV;
+ 	}
+@@ -637,10 +677,12 @@ static int kvmgt_set_edid(void *p_vgpu, int port_num)
+ 
+ static void kvmgt_put_vfio_device(void *vgpu)
+ {
+-	if (WARN_ON(!((struct intel_vgpu *)vgpu)->vdev.vfio_device))
++	struct kvmgt_vdev *vdev = kvmgt_vdev((struct intel_vgpu *)vgpu);
++
++	if (WARN_ON(!vdev->vfio_device))
+ 		return;
+ 
+-	vfio_device_put(((struct intel_vgpu *)vgpu)->vdev.vfio_device);
++	vfio_device_put(vdev->vfio_device);
+ }
+ 
+ static int intel_vgpu_create(struct kobject *kobj, struct mdev_device *mdev)
+@@ -669,9 +711,9 @@ static int intel_vgpu_create(struct kobject *kobj, struct mdev_device *mdev)
+ 		goto out;
+ 	}
+ 
+-	INIT_WORK(&vgpu->vdev.release_work, intel_vgpu_release_work);
++	INIT_WORK(&kvmgt_vdev(vgpu)->release_work, intel_vgpu_release_work);
+ 
+-	vgpu->vdev.mdev = mdev;
++	kvmgt_vdev(vgpu)->mdev = mdev;
+ 	mdev_set_drvdata(mdev, vgpu);
+ 
+ 	gvt_dbg_core("intel_vgpu_create succeeded for mdev: %s\n",
+@@ -696,9 +738,10 @@ static int intel_vgpu_remove(struct mdev_device *mdev)
+ static int intel_vgpu_iommu_notifier(struct notifier_block *nb,
+ 				     unsigned long action, void *data)
+ {
+-	struct intel_vgpu *vgpu = container_of(nb,
+-					struct intel_vgpu,
+-					vdev.iommu_notifier);
++	struct kvmgt_vdev *vdev = container_of(nb,
++					       struct kvmgt_vdev,
++					       iommu_notifier);
++	struct intel_vgpu *vgpu = vdev->vgpu;
+ 
+ 	if (action == VFIO_IOMMU_NOTIFY_DMA_UNMAP) {
+ 		struct vfio_iommu_type1_dma_unmap *unmap = data;
+@@ -708,7 +751,7 @@ static int intel_vgpu_iommu_notifier(struct notifier_block *nb,
+ 		iov_pfn = unmap->iova >> PAGE_SHIFT;
+ 		end_iov_pfn = iov_pfn + unmap->size / PAGE_SIZE;
+ 
+-		mutex_lock(&vgpu->vdev.cache_lock);
++		mutex_lock(&vdev->cache_lock);
+ 		for (; iov_pfn < end_iov_pfn; iov_pfn++) {
+ 			entry = __gvt_cache_find_gfn(vgpu, iov_pfn);
+ 			if (!entry)
+@@ -718,7 +761,7 @@ static int intel_vgpu_iommu_notifier(struct notifier_block *nb,
+ 					   entry->size);
+ 			__gvt_cache_remove_entry(vgpu, entry);
+ 		}
+-		mutex_unlock(&vgpu->vdev.cache_lock);
++		mutex_unlock(&vdev->cache_lock);
+ 	}
+ 
+ 	return NOTIFY_OK;
+@@ -727,16 +770,16 @@ static int intel_vgpu_iommu_notifier(struct notifier_block *nb,
+ static int intel_vgpu_group_notifier(struct notifier_block *nb,
+ 				     unsigned long action, void *data)
+ {
+-	struct intel_vgpu *vgpu = container_of(nb,
+-					struct intel_vgpu,
+-					vdev.group_notifier);
++	struct kvmgt_vdev *vdev = container_of(nb,
++					       struct kvmgt_vdev,
++					       group_notifier);
+ 
+ 	/* the only action we care about */
+ 	if (action == VFIO_GROUP_NOTIFY_SET_KVM) {
+-		vgpu->vdev.kvm = data;
++		vdev->kvm = data;
+ 
+ 		if (!data)
+-			schedule_work(&vgpu->vdev.release_work);
++			schedule_work(&vdev->release_work);
+ 	}
+ 
+ 	return NOTIFY_OK;
+@@ -745,15 +788,16 @@ static int intel_vgpu_group_notifier(struct notifier_block *nb,
+ static int intel_vgpu_open(struct mdev_device *mdev)
+ {
+ 	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 	unsigned long events;
+ 	int ret;
+ 
+-	vgpu->vdev.iommu_notifier.notifier_call = intel_vgpu_iommu_notifier;
+-	vgpu->vdev.group_notifier.notifier_call = intel_vgpu_group_notifier;
++	vdev->iommu_notifier.notifier_call = intel_vgpu_iommu_notifier;
++	vdev->group_notifier.notifier_call = intel_vgpu_group_notifier;
+ 
+ 	events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
+ 	ret = vfio_register_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY, &events,
+-				&vgpu->vdev.iommu_notifier);
++				&vdev->iommu_notifier);
+ 	if (ret != 0) {
+ 		gvt_vgpu_err("vfio_register_notifier for iommu failed: %d\n",
+ 			ret);
+@@ -762,7 +806,7 @@ static int intel_vgpu_open(struct mdev_device *mdev)
+ 
+ 	events = VFIO_GROUP_NOTIFY_SET_KVM;
+ 	ret = vfio_register_notifier(mdev_dev(mdev), VFIO_GROUP_NOTIFY, &events,
+-				&vgpu->vdev.group_notifier);
++				&vdev->group_notifier);
+ 	if (ret != 0) {
+ 		gvt_vgpu_err("vfio_register_notifier for group failed: %d\n",
+ 			ret);
+@@ -781,50 +825,52 @@ static int intel_vgpu_open(struct mdev_device *mdev)
+ 
+ 	intel_gvt_ops->vgpu_activate(vgpu);
+ 
+-	atomic_set(&vgpu->vdev.released, 0);
++	atomic_set(&vdev->released, 0);
+ 	return ret;
+ 
+ undo_group:
+ 	vfio_unregister_notifier(mdev_dev(mdev), VFIO_GROUP_NOTIFY,
+-					&vgpu->vdev.group_notifier);
++					&vdev->group_notifier);
+ 
+ undo_iommu:
+ 	vfio_unregister_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY,
+-					&vgpu->vdev.iommu_notifier);
++					&vdev->iommu_notifier);
+ out:
+ 	return ret;
+ }
+ 
+ static void intel_vgpu_release_msi_eventfd_ctx(struct intel_vgpu *vgpu)
+ {
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 	struct eventfd_ctx *trigger;
+ 
+-	trigger = vgpu->vdev.msi_trigger;
++	trigger = vdev->msi_trigger;
+ 	if (trigger) {
+ 		eventfd_ctx_put(trigger);
+-		vgpu->vdev.msi_trigger = NULL;
++		vdev->msi_trigger = NULL;
+ 	}
+ }
+ 
+ static void __intel_vgpu_release(struct intel_vgpu *vgpu)
+ {
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 	struct kvmgt_guest_info *info;
+ 	int ret;
+ 
+ 	if (!handle_valid(vgpu->handle))
+ 		return;
+ 
+-	if (atomic_cmpxchg(&vgpu->vdev.released, 0, 1))
++	if (atomic_cmpxchg(&vdev->released, 0, 1))
+ 		return;
+ 
+ 	intel_gvt_ops->vgpu_release(vgpu);
+ 
+-	ret = vfio_unregister_notifier(mdev_dev(vgpu->vdev.mdev), VFIO_IOMMU_NOTIFY,
+-					&vgpu->vdev.iommu_notifier);
++	ret = vfio_unregister_notifier(mdev_dev(vdev->mdev), VFIO_IOMMU_NOTIFY,
++					&vdev->iommu_notifier);
+ 	WARN(ret, "vfio_unregister_notifier for iommu failed: %d\n", ret);
+ 
+-	ret = vfio_unregister_notifier(mdev_dev(vgpu->vdev.mdev), VFIO_GROUP_NOTIFY,
+-					&vgpu->vdev.group_notifier);
++	ret = vfio_unregister_notifier(mdev_dev(vdev->mdev), VFIO_GROUP_NOTIFY,
++					&vdev->group_notifier);
+ 	WARN(ret, "vfio_unregister_notifier for group failed: %d\n", ret);
+ 
+ 	/* dereference module reference taken at open */
+@@ -835,7 +881,7 @@ static void __intel_vgpu_release(struct intel_vgpu *vgpu)
+ 
+ 	intel_vgpu_release_msi_eventfd_ctx(vgpu);
+ 
+-	vgpu->vdev.kvm = NULL;
++	vdev->kvm = NULL;
+ 	vgpu->handle = 0;
+ }
+ 
+@@ -848,10 +894,10 @@ static void intel_vgpu_release(struct mdev_device *mdev)
+ 
+ static void intel_vgpu_release_work(struct work_struct *work)
+ {
+-	struct intel_vgpu *vgpu = container_of(work, struct intel_vgpu,
+-					vdev.release_work);
++	struct kvmgt_vdev *vdev = container_of(work, struct kvmgt_vdev,
++					       release_work);
+ 
+-	__intel_vgpu_release(vgpu);
++	__intel_vgpu_release(vdev->vgpu);
+ }
+ 
+ static u64 intel_vgpu_get_bar_addr(struct intel_vgpu *vgpu, int bar)
+@@ -933,12 +979,13 @@ static ssize_t intel_vgpu_rw(struct mdev_device *mdev, char *buf,
+ 			size_t count, loff_t *ppos, bool is_write)
+ {
+ 	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 	unsigned int index = VFIO_PCI_OFFSET_TO_INDEX(*ppos);
+ 	u64 pos = *ppos & VFIO_PCI_OFFSET_MASK;
+ 	int ret = -EINVAL;
+ 
+ 
+-	if (index >= VFIO_PCI_NUM_REGIONS + vgpu->vdev.num_regions) {
++	if (index >= VFIO_PCI_NUM_REGIONS + vdev->num_regions) {
+ 		gvt_vgpu_err("invalid index: %u\n", index);
+ 		return -EINVAL;
+ 	}
+@@ -967,11 +1014,11 @@ static ssize_t intel_vgpu_rw(struct mdev_device *mdev, char *buf,
+ 	case VFIO_PCI_ROM_REGION_INDEX:
+ 		break;
+ 	default:
+-		if (index >= VFIO_PCI_NUM_REGIONS + vgpu->vdev.num_regions)
++		if (index >= VFIO_PCI_NUM_REGIONS + vdev->num_regions)
+ 			return -EINVAL;
+ 
+ 		index -= VFIO_PCI_NUM_REGIONS;
+-		return vgpu->vdev.region[index].ops->rw(vgpu, buf, count,
++		return vdev->region[index].ops->rw(vgpu, buf, count,
+ 				ppos, is_write);
+ 	}
+ 
+@@ -1224,7 +1271,7 @@ static int intel_vgpu_set_msi_trigger(struct intel_vgpu *vgpu,
+ 			gvt_vgpu_err("eventfd_ctx_fdget failed\n");
+ 			return PTR_ERR(trigger);
+ 		}
+-		vgpu->vdev.msi_trigger = trigger;
++		kvmgt_vdev(vgpu)->msi_trigger = trigger;
+ 	} else if ((flags & VFIO_IRQ_SET_DATA_NONE) && !count)
+ 		intel_vgpu_release_msi_eventfd_ctx(vgpu);
+ 
+@@ -1276,6 +1323,7 @@ static long intel_vgpu_ioctl(struct mdev_device *mdev, unsigned int cmd,
+ 			     unsigned long arg)
+ {
+ 	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 	unsigned long minsz;
+ 
+ 	gvt_dbg_core("vgpu%d ioctl, cmd: %d\n", vgpu->id, cmd);
+@@ -1294,7 +1342,7 @@ static long intel_vgpu_ioctl(struct mdev_device *mdev, unsigned int cmd,
+ 		info.flags = VFIO_DEVICE_FLAGS_PCI;
+ 		info.flags |= VFIO_DEVICE_FLAGS_RESET;
+ 		info.num_regions = VFIO_PCI_NUM_REGIONS +
+-				vgpu->vdev.num_regions;
++				vdev->num_regions;
+ 		info.num_irqs = VFIO_PCI_NUM_IRQS;
+ 
+ 		return copy_to_user((void __user *)arg, &info, minsz) ?
+@@ -1385,22 +1433,22 @@ static long intel_vgpu_ioctl(struct mdev_device *mdev, unsigned int cmd,
+ 					.header.version = 1 };
+ 
+ 				if (info.index >= VFIO_PCI_NUM_REGIONS +
+-						vgpu->vdev.num_regions)
++						vdev->num_regions)
+ 					return -EINVAL;
+ 				info.index =
+ 					array_index_nospec(info.index,
+ 							VFIO_PCI_NUM_REGIONS +
+-							vgpu->vdev.num_regions);
++							vdev->num_regions);
+ 
+ 				i = info.index - VFIO_PCI_NUM_REGIONS;
+ 
+ 				info.offset =
+ 					VFIO_PCI_INDEX_TO_OFFSET(info.index);
+-				info.size = vgpu->vdev.region[i].size;
+-				info.flags = vgpu->vdev.region[i].flags;
++				info.size = vdev->region[i].size;
++				info.flags = vdev->region[i].flags;
+ 
+-				cap_type.type = vgpu->vdev.region[i].type;
+-				cap_type.subtype = vgpu->vdev.region[i].subtype;
++				cap_type.type = vdev->region[i].type;
++				cap_type.subtype = vdev->region[i].subtype;
+ 
+ 				ret = vfio_info_add_capability(&caps,
+ 							&cap_type.header,
+@@ -1740,13 +1788,15 @@ static int kvmgt_guest_init(struct mdev_device *mdev)
+ {
+ 	struct kvmgt_guest_info *info;
+ 	struct intel_vgpu *vgpu;
++	struct kvmgt_vdev *vdev;
+ 	struct kvm *kvm;
+ 
+ 	vgpu = mdev_get_drvdata(mdev);
+ 	if (handle_valid(vgpu->handle))
+ 		return -EEXIST;
+ 
+-	kvm = vgpu->vdev.kvm;
++	vdev = kvmgt_vdev(vgpu);
++	kvm = vdev->kvm;
+ 	if (!kvm || kvm->mm != current->mm) {
+ 		gvt_vgpu_err("KVM is required to use Intel vGPU\n");
+ 		return -ESRCH;
+@@ -1774,7 +1824,7 @@ static int kvmgt_guest_init(struct mdev_device *mdev)
+ 	info->debugfs_cache_entries = debugfs_create_ulong(
+ 						"kvmgt_nr_cache_entries",
+ 						0444, vgpu->debugfs,
+-						&vgpu->vdev.nr_cache_entries);
++						&vdev->nr_cache_entries);
+ 	return 0;
+ }
+ 
+@@ -1791,9 +1841,17 @@ static bool kvmgt_guest_exit(struct kvmgt_guest_info *info)
+ 	return true;
+ }
+ 
+-static int kvmgt_attach_vgpu(void *vgpu, unsigned long *handle)
++static int kvmgt_attach_vgpu(void *p_vgpu, unsigned long *handle)
+ {
+-	/* nothing to do here */
++	struct intel_vgpu *vgpu = (struct intel_vgpu *)p_vgpu;
++
++	vgpu->vdev = kzalloc(sizeof(struct kvmgt_vdev), GFP_KERNEL);
++
++	if (!vgpu->vdev)
++		return -ENOMEM;
++
++	kvmgt_vdev(vgpu)->vgpu = vgpu;
++
+ 	return 0;
+ }
+ 
+@@ -1801,29 +1859,34 @@ static void kvmgt_detach_vgpu(void *p_vgpu)
+ {
+ 	int i;
+ 	struct intel_vgpu *vgpu = (struct intel_vgpu *)p_vgpu;
++	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+ 
+-	if (!vgpu->vdev.region)
++	if (!vdev->region)
+ 		return;
+ 
+-	for (i = 0; i < vgpu->vdev.num_regions; i++)
+-		if (vgpu->vdev.region[i].ops->release)
+-			vgpu->vdev.region[i].ops->release(vgpu,
+-					&vgpu->vdev.region[i]);
+-	vgpu->vdev.num_regions = 0;
+-	kfree(vgpu->vdev.region);
+-	vgpu->vdev.region = NULL;
++	for (i = 0; i < vdev->num_regions; i++)
++		if (vdev->region[i].ops->release)
++			vdev->region[i].ops->release(vgpu,
++					&vdev->region[i]);
++	vdev->num_regions = 0;
++	kfree(vdev->region);
++	vdev->region = NULL;
++
++	kfree(vdev);
+ }
+ 
+ static int kvmgt_inject_msi(unsigned long handle, u32 addr, u16 data)
+ {
+ 	struct kvmgt_guest_info *info;
+ 	struct intel_vgpu *vgpu;
++	struct kvmgt_vdev *vdev;
+ 
+ 	if (!handle_valid(handle))
+ 		return -ESRCH;
+ 
+ 	info = (struct kvmgt_guest_info *)handle;
+ 	vgpu = info->vgpu;
++	vdev = kvmgt_vdev(vgpu);
+ 
+ 	/*
+ 	 * When guest is poweroff, msi_trigger is set to NULL, but vgpu's
+@@ -1834,10 +1897,10 @@ static int kvmgt_inject_msi(unsigned long handle, u32 addr, u16 data)
+ 	 * enabled by guest. so if msi_trigger is null, success is still
+ 	 * returned and don't inject interrupt into guest.
+ 	 */
+-	if (vgpu->vdev.msi_trigger == NULL)
++	if (vdev->msi_trigger == NULL)
+ 		return 0;
+ 
+-	if (eventfd_signal(vgpu->vdev.msi_trigger, 1) == 1)
++	if (eventfd_signal(vdev->msi_trigger, 1) == 1)
+ 		return 0;
+ 
+ 	return -EFAULT;
+@@ -1863,26 +1926,26 @@ static unsigned long kvmgt_gfn_to_pfn(unsigned long handle, unsigned long gfn)
+ static int kvmgt_dma_map_guest_page(unsigned long handle, unsigned long gfn,
+ 		unsigned long size, dma_addr_t *dma_addr)
+ {
+-	struct kvmgt_guest_info *info;
+ 	struct intel_vgpu *vgpu;
++	struct kvmgt_vdev *vdev;
+ 	struct gvt_dma *entry;
+ 	int ret;
+ 
+ 	if (!handle_valid(handle))
+ 		return -EINVAL;
+ 
+-	info = (struct kvmgt_guest_info *)handle;
+-	vgpu = info->vgpu;
++	vgpu = ((struct kvmgt_guest_info *)handle)->vgpu;
++	vdev = kvmgt_vdev(vgpu);
+ 
+-	mutex_lock(&info->vgpu->vdev.cache_lock);
++	mutex_lock(&vdev->cache_lock);
+ 
+-	entry = __gvt_cache_find_gfn(info->vgpu, gfn);
++	entry = __gvt_cache_find_gfn(vgpu, gfn);
+ 	if (!entry) {
+ 		ret = gvt_dma_map_page(vgpu, gfn, dma_addr, size);
+ 		if (ret)
+ 			goto err_unlock;
+ 
+-		ret = __gvt_cache_add(info->vgpu, gfn, *dma_addr, size);
++		ret = __gvt_cache_add(vgpu, gfn, *dma_addr, size);
+ 		if (ret)
+ 			goto err_unmap;
+ 	} else if (entry->size != size) {
+@@ -1894,7 +1957,7 @@ static int kvmgt_dma_map_guest_page(unsigned long handle, unsigned long gfn,
+ 		if (ret)
+ 			goto err_unlock;
+ 
+-		ret = __gvt_cache_add(info->vgpu, gfn, *dma_addr, size);
++		ret = __gvt_cache_add(vgpu, gfn, *dma_addr, size);
+ 		if (ret)
+ 			goto err_unmap;
+ 	} else {
+@@ -1902,19 +1965,20 @@ static int kvmgt_dma_map_guest_page(unsigned long handle, unsigned long gfn,
+ 		*dma_addr = entry->dma_addr;
+ 	}
+ 
+-	mutex_unlock(&info->vgpu->vdev.cache_lock);
++	mutex_unlock(&vdev->cache_lock);
+ 	return 0;
+ 
+ err_unmap:
+ 	gvt_dma_unmap_page(vgpu, gfn, *dma_addr, size);
+ err_unlock:
+-	mutex_unlock(&info->vgpu->vdev.cache_lock);
++	mutex_unlock(&vdev->cache_lock);
+ 	return ret;
+ }
+ 
+ static int kvmgt_dma_pin_guest_page(unsigned long handle, dma_addr_t dma_addr)
+ {
+ 	struct kvmgt_guest_info *info;
++	struct kvmgt_vdev *vdev;
+ 	struct gvt_dma *entry;
+ 	int ret = 0;
+ 
+@@ -1922,14 +1986,15 @@ static int kvmgt_dma_pin_guest_page(unsigned long handle, dma_addr_t dma_addr)
+ 		return -ENODEV;
+ 
+ 	info = (struct kvmgt_guest_info *)handle;
++	vdev = kvmgt_vdev(info->vgpu);
+ 
+-	mutex_lock(&info->vgpu->vdev.cache_lock);
++	mutex_lock(&vdev->cache_lock);
+ 	entry = __gvt_cache_find_dma_addr(info->vgpu, dma_addr);
+ 	if (entry)
+ 		kref_get(&entry->ref);
+ 	else
+ 		ret = -ENOMEM;
+-	mutex_unlock(&info->vgpu->vdev.cache_lock);
++	mutex_unlock(&vdev->cache_lock);
+ 
+ 	return ret;
+ }
+@@ -1945,19 +2010,21 @@ static void __gvt_dma_release(struct kref *ref)
+ 
+ static void kvmgt_dma_unmap_guest_page(unsigned long handle, dma_addr_t dma_addr)
+ {
+-	struct kvmgt_guest_info *info;
++	struct intel_vgpu *vgpu;
++	struct kvmgt_vdev *vdev;
+ 	struct gvt_dma *entry;
+ 
+ 	if (!handle_valid(handle))
+ 		return;
+ 
+-	info = (struct kvmgt_guest_info *)handle;
++	vgpu = ((struct kvmgt_guest_info *)handle)->vgpu;
++	vdev = kvmgt_vdev(vgpu);
+ 
+-	mutex_lock(&info->vgpu->vdev.cache_lock);
+-	entry = __gvt_cache_find_dma_addr(info->vgpu, dma_addr);
++	mutex_lock(&vdev->cache_lock);
++	entry = __gvt_cache_find_dma_addr(vgpu, dma_addr);
+ 	if (entry)
+ 		kref_put(&entry->ref, __gvt_dma_release);
+-	mutex_unlock(&info->vgpu->vdev.cache_lock);
++	mutex_unlock(&vdev->cache_lock);
+ }
+ 
+ static int kvmgt_rw_gpa(unsigned long handle, unsigned long gpa,
 -- 
-2.17.1
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
