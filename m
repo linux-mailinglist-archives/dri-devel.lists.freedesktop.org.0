@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558661617EC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 17:30:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 528611617EF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 17:30:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29EC86E988;
-	Mon, 17 Feb 2020 16:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67A236E98D;
+	Mon, 17 Feb 2020 16:30:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E136E988
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 16:30:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C129B6E98D
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 16:30:49 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206575] [amdgpu] [drm] No video signal on resume from suspend,
  R9 380
-Date: Mon, 17 Feb 2020 16:30:10 +0000
+Date: Mon, 17 Feb 2020 16:30:49 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_regression
-Message-ID: <bug-206575-2300-yOn9pggKel@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-206575-2300-q72oVYb1TV@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206575-2300@https.bugzilla.kernel.org/>
 References: <bug-206575-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,11 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206575
 
-Noel Maersk (veox+kernel@veox.pw) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Regression|No                          |Yes
+--- Comment #3 from Noel Maersk (veox+kernel@veox.pw) ---
+Created attachment 287447
+  --> https://bugzilla.kernel.org/attachment.cgi?id=287447&action=edit
+lspci output
 
 -- 
 You are receiving this mail because:
