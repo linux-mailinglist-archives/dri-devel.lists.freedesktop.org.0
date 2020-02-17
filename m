@@ -1,56 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FEF160D15
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:22:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A72160CEA
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Feb 2020 09:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBD7C6E8D6;
-	Mon, 17 Feb 2020 08:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1036E595;
+	Mon, 17 Feb 2020 08:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB69A6E44C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 03:55:29 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id h8so4504899iob.2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Feb 2020 19:55:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MDRwOw0qxHT8lr0hMdZ3Qai+ub8w2eSiYOEUSVqxsao=;
- b=gxFKXkh2sDRFMwdMCiVPpZM94a7Wqh//+i/PPGKzGqg109MExjedklZrYzYfEB1dOn
- 1RSy4HwVcYyZEyQT2/50sKFaxsQXYw/KUtPQSDP0SgMbgkHZYACNmTy3pk+RfjP8wJ8H
- vIQbzTSkumfZSiOX1QkrO62yBG89y3JCzRkpualHWXG0WOZs2WCVsNdPN/uMBuN1PInl
- oqcehkB6H/Yc1VLJ3pAYtnF9A9V2mJze/G9H/eo22rOrbk+WDlH62AIzov8o++KQFpd7
- KP75BTi8ZU1s49FOmVefZoWDFS4sgNo3WYKRPRPKOjsYYbG/apbzhJqjc7u5AOkSY0o2
- u4qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MDRwOw0qxHT8lr0hMdZ3Qai+ub8w2eSiYOEUSVqxsao=;
- b=LE3W4zEy1nTkMnm8IbY3jHraAgSN5HqJ4aN3lpXtb0KPMhhbZYTtTYhkck4ARqR22i
- peXjsYV/TzVe9xCWD5y4W9bjw9UEi1CCbi0IHk1fTdlciIb3a67mxkawAEcGCe6bdiga
- hunNghk1hUq/zn5FNMSHGZlArbM6yYNmLVytwLvqUbwEpDjIBzhpM0qw3vfPDreWGhXW
- YYDzpH6Zg3Kz2cUXpQs7k3U5YM/eKMMKVbNss0v9PxyPol0JKFNCYsH37rztTv0Nr5RE
- Mdfa15oLyNEA1CDB0lcvj222WjH/78CrGLTwIQYRk5qHczRTPFY1BerCXE5xSx+pL7yW
- df0g==
-X-Gm-Message-State: APjAAAVubSupT5KhudtMUVvEDPKlBP1VHqSZC/1j2BOX/oBegWXXKkgR
- /XBpRJsr/wLpGHNmiI2J577wx/x8MlMeSoEaerFxGg==
-X-Google-Smtp-Source: APXvYqzvM4FCMTrCi0v8wV4k9sbQWYIUffnsL+Kp3MW2/ZQ6XXOz2og41iziG0mONHGsGItgPmiMVNuzIdWL8NvO3J8=
-X-Received: by 2002:a02:2101:: with SMTP id e1mr11084540jaa.29.1581911728799; 
- Sun, 16 Feb 2020 19:55:28 -0800 (PST)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB2B96E4AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 06:09:14 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 005A950C;
+ Mon, 17 Feb 2020 01:09:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 17 Feb 2020 01:09:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=lzWvnnSAvszDDjSboHP99evSnh
+ TQIWH2Dw0zyXVLRx8=; b=kQNDEUGjcAUwdSTl2keQT54cQ1ODJzIGlHSxA/34Cp
+ sKNpP+FB/E54+FnwfGuLHKupUyRRcXc7QcSww6/sNbnhBnodgrbuWXbWOaqtoxcx
+ IHQCkqQ0mOK25xpc912arh+bcrNMCYsr2Uzp78kUv0OfasrGtWJRDrQvAmMEJq/O
+ zAme+b3HAUgoTs4fP3Azlk6kN8GJjxSJ0NzKR5FGBHITdNY7xnHJEvybwY8lppd7
+ 9JHsGbdAYHCx9GxFCdEL4oLz6plI/fkqQZazSNZVHBWLxIKEls4TO5DwuhCd47F8
+ elsEtld9/L936yvL+GqFj2RMSrVGz6kE1z2j0SmxzzUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=lzWvnnSAvszDDjSbo
+ HP99evSnhTQIWH2Dw0zyXVLRx8=; b=b+basvKj3oT1MeXlur2bpnXvouWW/abcf
+ SfUGqCZQTgsxHZnGOxE7k9V01rxyp0Dx/1ZG+rBuZ87aHiWg7lsFPwY6qA36aW7C
+ jaWsXPOqtLE2Ja75WEcZqDyNnea0rIko8TTt3+s2aiIH0L1lwIs1hRAw6gEFpcd/
+ aE1Tez5qYX4/0p3e5skv46zo3/yY9hO9suG7cESNNfexTnygsirQN2IO5e+1kqDk
+ h9XNKIA9ICfd0fR8M7xamNh6vt2it3cSdRxw2UNt0zHQBXV5Z9fv5cb7JH550kUb
+ HiEJBojfemjbI5hAckeyC6vztn/tjGuFmrObLxP1/h8WrFB7ZPrlg==
+X-ME-Sender: <xms:BC5KXn5mVWAhFXWLE0c7lv3dRb13JkS2bnHb7Y6XwmRcFz0qsMvINQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjeehgdeludcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
+ ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecukfhppeejtd
+ drudefhedrudegkedrudehudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+ mhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:BC5KXkdfzAuz8-iTRIAC09RnaB260csLavkkCDQIdAEekDX1umrgBw>
+ <xmx:BC5KXrazGnIiNzrEgXp4rpeIoBSJupk5SGk7Z3QmU5z4YsvHnDRYcA>
+ <xmx:BC5KXmHf6K2lzpjyf47M3qMbAqZad8UDrq84XFyQwbCM0qhZs0z8Ww>
+ <xmx:By5KXkyTWgMMHDbZ3vAHUR-XdyhYduHZEtZQ30qCKR_3p7ot3NbbLQ>
+Received: from titanium.stl.sholland.net
+ (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B48E8328005A;
+ Mon, 17 Feb 2020 01:09:07 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/sun4i: dsi: Avoid hotplug race with DRM driver bind
+Date: Mon, 17 Feb 2020 00:09:06 -0600
+Message-Id: <20200217060906.15152-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200217031653.52345-1-tzungbi@google.com>
- <20200217105513.2.I477092c2f104fd589133436c3ae4590e6fc6323b@changeid>
- <1581911058.12629.1.camel@mtksdaap41>
-In-Reply-To: <1581911058.12629.1.camel@mtksdaap41>
-From: Tzung-Bi Shih <tzungbi@google.com>
-Date: Mon, 17 Feb 2020 11:55:17 +0800
-Message-ID: <CA+Px+wWRn1-t2fd+bD-PGRVjyLaAHqm1wF3W3T_GMUh0GXkA_A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/mediatek: fix race condition for HDMI jack
- status reporting
-To: CK Hu <ck.hu@mediatek.com>
 X-Mailman-Approved-At: Mon, 17 Feb 2020 08:20:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,26 +75,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA development <alsa-devel@alsa-project.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Dylan Reid <dgreid@google.com>,
- linux-arm-kernel@lists.infradead.org,
- Jimmy Cheng-Yi Chiang <cychiang@google.com>
+Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Samuel Holland <samuel@sholland.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 17, 2020 at 11:44 AM CK Hu <ck.hu@mediatek.com> wrote:
-> On Mon, 2020-02-17 at 11:16 +0800, Tzung-Bi Shih wrote:
-> > Fixes: 5d3c64477392 ("drm/mediatek: support HDMI jack status reporting")
->
-> This patch looks good to me, but please merge this patch with the patch
-> it fix.
+We need to make sure that the DRM driver is fully registered before
+allowing the panel to be attached. Otherwise, we may trigger a hotplug
+event before sun4i_framebuffer_init() sets up drm->mode_config.funcs,
+causing a NULL pointer dereference.
 
-5d3c64477392 ("drm/mediatek: support HDMI jack status reporting") has
-applied to ASoC for-next branch.  This is a fixup patch.
+Fixes: 1a2703bd7356 ("drm/sun4i: dsi: Allow binding the host without a panel")
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+
+This fixes a bug in my previous patch series, that I didn't catch until
+it was already merged.
+
+---
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index 9aa78c73873c..9cc1bb69fcda 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -970,7 +970,7 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+ 
+ 	if (IS_ERR(panel))
+ 		return PTR_ERR(panel);
+-	if (!dsi->drm)
++	if (!dsi->drm || !dsi->drm->registered)
+ 		return -EPROBE_DEFER;
+ 
+ 	dsi->panel = panel;
+-- 
+2.24.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
