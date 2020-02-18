@@ -1,54 +1,107 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEE5162109
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 07:44:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC2C16211F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 07:49:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D900E6E131;
-	Tue, 18 Feb 2020 06:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E9C6E133;
+	Tue, 18 Feb 2020 06:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 722926E131
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 06:44:32 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id a22so19055636oid.13
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 22:44:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FT11jeSmH6tQPN5GArYAoRK5jaG+XhxXvSNFBzIwWB4=;
- b=LKEwxLbITVRZrkfHn7T+I2iyTpXe1bwVs/E6vDUfDRlaqvdSpLC7CTLUscBIqENZSi
- cZfdzdmhmotEDmftTeywvppv0rrBD5j8U8PidLqqY2Y6sOtKB0Sq0Tufez6oqpkx9eiY
- HcrduBmPxCk6BJbXIEr8LtNP+vOf7bFcrGpBw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FT11jeSmH6tQPN5GArYAoRK5jaG+XhxXvSNFBzIwWB4=;
- b=RTlq/EPEoMi2ylqZDJ9vWSYGjtvnqDBHfjmDwd+sz7mmjdd6N55+sjiRR3vaAAwM+e
- BBuswIWJD4EykqVanlsA2p1s1AZ48uXJRCZzf4l9BngDXrpKZx3fzOLNjbD/eALqyBLg
- DnmgYJ/G/wlRsjWph+ivvMYDrbqw8qa4c+HgizalwbwfDY6fSykXPWSkUKbz7fXDx7E0
- gHPIx7MK8LiUm1Dwac6krtiBVgvZLX0x/sECMBTfLW7T+OhdbWLbXu74TBQsdQw3aXdi
- s9fri2rI6G+pv1k6GJMURAjtvps/pZ3glBjkKRd08i62t8I/5aazYbby+XdAdlN/oyw6
- M+fA==
-X-Gm-Message-State: APjAAAVevTXYWrXbyTj/M0s5RHcJrgvb3GBTWpRAF3HqzvZArRukx74D
- b3T6lhjAPbrW58k7cKGtsZ5SRB+S3aM+7Zna1C/+Ww==
-X-Google-Smtp-Source: APXvYqxi8stacZsxjisx8zhbNzhWdrcZnqeQssi0Ah4Y4MK5hSKqeQ1j1n8ovWeNRyHXxiSnthyaIZeKs9NWSJt2Xds=
-X-Received: by 2002:aca:af09:: with SMTP id y9mr315589oie.101.1582008271340;
- Mon, 17 Feb 2020 22:44:31 -0800 (PST)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E026E133
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 06:49:20 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2020 22:49:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,455,1574150400"; d="scan'208";a="229391342"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by fmsmga008.fm.intel.com with ESMTP; 17 Feb 2020 22:49:19 -0800
+Received: from fmsmsx153.amr.corp.intel.com (10.18.125.6) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 17 Feb 2020 22:49:19 -0800
+Received: from FMSEDG002.ED.cps.intel.com (10.1.192.134) by
+ FMSMSX153.amr.corp.intel.com (10.18.125.6) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 17 Feb 2020 22:49:19 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.177)
+ by edgegateway.intel.com (192.55.55.69) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Mon, 17 Feb 2020 22:49:19 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CZbuTmJfarY1Xqm6J93Kd/V0qHNU2LAytU9bO/bXbsicANQLTJOGmgNm2Kub6QVw1JPSze7jDhqRRQyve5mI0beDTBCa0kwHKM7s/ldCy5gfeifh95o1nwosIld01PnGgQVMi+7oClAa/Eg8a2EvqTkYuPBLLUPhN2l7J9rH1bkq8nDbljhlzNAUlKSrkvuWqgWIwCHnyvFxMCQL3XYuinThuLATRl/JzhVGOseR54E8cjAaWfch7EksrOl4ILwFIrnQatsmxwgyEvholvlF4CQxpIKhqjK6as/GvmZnOaa1y5VjqexZd7i0EfCWAGayKNXsTjnufQ3nX7RKa1gxFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QB5ZxAkx+g68UYonRZFkYgougmM/NNg6p80iaJUyY4c=;
+ b=f7blFqQqWgSVVTQG4W2b1RI0lDIHivHLZP9Kpwp8SBRA5lazbWj9/ZUoXNwMet2mL2DoTfX6v5XO3jEKqC1czm6OYl32YtRMrKw807DxAMLX92yKYPXBq6W5RUlJP0g7nudzyoFEDqSHjayYQB2rwkedwbOtI2gT+yEjN8tXmPLBXSqqihhwoc89VnVipWUQTKKtMlCs8KhI3vbqpmw/usH3SpH3Kady8ShCbrt9EQ53Ua+XDwIJVbA03v8sCtFRbmSez1ZFqxMdIjDxUk05q6erakm9KcgHJepjYXgxzleS3hF1j7IPNj/YoKrlpKLV9tVDNkX4+1/K4vGbh8oOcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QB5ZxAkx+g68UYonRZFkYgougmM/NNg6p80iaJUyY4c=;
+ b=RhgzDgisL1WVomAYlHEh33JN5RgMfGRm/Gq1qFw+6lkYaLeE1jiYhuzArURNJb7XASwMqFxm2EZxu1U3ZixAwPo9ENX3DdskSAaLZ526NMxDoTaEVH3g3OR4uKYC3yhnu+Sjf/QTFUSi/SeByk/vpAWffHs6gi9euCXOOK2mqWY=
+Received: from DM6PR11MB3211.namprd11.prod.outlook.com (20.176.120.27) by
+ DM6PR11MB4561.namprd11.prod.outlook.com (20.180.255.148) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2729.22; Tue, 18 Feb 2020 06:49:17 +0000
+Received: from DM6PR11MB3211.namprd11.prod.outlook.com
+ ([fe80::71c5:efdc:c87a:456c]) by DM6PR11MB3211.namprd11.prod.outlook.com
+ ([fe80::71c5:efdc:c87a:456c%3]) with mapi id 15.20.2729.032; Tue, 18 Feb 2020
+ 06:49:16 +0000
+From: "Lee, Shawn C" <shawn.c.lee@intel.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: RE: [PATCH] drm/edid: temporary workaround to pass HDMI 2.0
+ compliance HF1-13
+Thread-Topic: [PATCH] drm/edid: temporary workaround to pass HDMI 2.0
+ compliance HF1-13
+Thread-Index: AQHV5XcHeXazymxV40K0GaosV+TLRKgfeReAgAEIiFA=
+Date: Tue, 18 Feb 2020 06:49:16 +0000
+Message-ID: <DM6PR11MB3211B45594F9D33039E3A192A3110@DM6PR11MB3211.namprd11.prod.outlook.com>
+References: <20200217174139.3018-1-shawn.c.lee@intel.com>
+ <20200217145327.GO13686@intel.com>
+In-Reply-To: <20200217145327.GO13686@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.2.0.6
+dlp-product: dlpe-windows
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=shawn.c.lee@intel.com; 
+x-originating-ip: [192.55.52.214]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cfa8915a-f4bd-4eb5-924d-08d7b43eac6c
+x-ms-traffictypediagnostic: DM6PR11MB4561:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB4561E10F698B61E2874D0A88A3110@DM6PR11MB4561.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 031763BCAF
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(396003)(39860400002)(136003)(346002)(376002)(199004)(189003)(33656002)(186003)(5660300002)(66946007)(66556008)(64756008)(9686003)(52536014)(66446008)(55016002)(26005)(66476007)(316002)(76116006)(6506007)(2906002)(54906003)(110136005)(66574012)(478600001)(86362001)(81156014)(8676002)(71200400001)(4326008)(81166006)(8936002)(8796002)(7696005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR11MB4561;
+ H:DM6PR11MB3211.namprd11.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Qko0bSEy8u7YJ8FwTyyFz4Y3gPMtdyhiToC0GWtsvqDoOyyN8I5mGNYbmLrMlk9Twypn3IcDoraj0L67kUPm/IUjiDvPcOOqEek+Q3Xc2YSZjkVIRpAYBtqcxuKGYPSoFew+BoKPbwH8BDlPeCLeu3zXX/a5L9o/iseY0BqmXpu/IxMsUp9kms7B1rQPfioTjQhUI9Ff6jKE7msAvDKQs+fQ2RvBD1X5jpdGNbbr9BCueXxLfTINxWvBKv0Xw14KorHlE6KQLn3IEp6zZOoozmBkbB7k/S6pCR616GOPGya7iOkZo+FEXr2SwOlMa6g2UqBKYMhP0Pnmd3GajhEtXv+q5Ju4JZ2Ann9XBEGZeBKN1lch6zdEMNjNRPjaD0f8ldqk9QPNZdZdGE/DKichAk754qEvdMoUsHdRADsBk1yDni+u3rx8AlRFy+lJbOXk
+x-ms-exchange-antispam-messagedata: zoOYk8I/YRBwdsKzTV4d2gkp8HuMiKQ0a+3ZHMFEj1dDgeuSFnRZzKgj4zY03vSNHbaGRM65i/NDmlovF8twkhLbyBOlsUvaRVAc+R+8yS38XzdnXoTGS9vegoL0pEgz2gyUpT7FaccfQuDqfF/3EQ==
 MIME-Version: 1.0
-References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
- <20200216210308.17312-5-laurent.pinchart@ideasonboard.com>
- <20200217095308.GK2363188@phenom.ffwll.local>
- <20200218012127.GR4830@pendragon.ideasonboard.com>
-In-Reply-To: <20200218012127.GR4830@pendragon.ideasonboard.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 18 Feb 2020 07:44:19 +0100
-Message-ID: <CAKMK7uHsrNQCOO7kPQXkCjCtLyB8A1x80Y63XzV2VizSxhMptg@mail.gmail.com>
-Subject: Re: [PATCH v6 04/51] drm/bridge: Add connector-related bridge
- operations and data
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfa8915a-f4bd-4eb5-924d-08d7b43eac6c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2020 06:49:16.8863 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7wfRMXgSfaBR9A+Qy84thdn8+q6+VKAmhnrf8UmUHTe7ZpqR7Bc1HLU9iBAL1+QNcJqSfhWVR+s8+Xy1wkjLhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4561
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,584 +114,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <bbrezillon@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: "20200217174139.3018-1-shawn.c.lee@intel.com"
+ <20200217174139.3018-1-shawn.c.lee@intel.com>
+Cc: "Nikula, Jani" <jani.nikula@intel.com>, "Chiou,
+ Cooper" <cooper.chiou@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 18, 2020 at 2:21 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Daniel,
->
-> On Mon, Feb 17, 2020 at 10:53:08AM +0100, Daniel Vetter wrote:
-> > On Sun, Feb 16, 2020 at 11:02:21PM +0200, Laurent Pinchart wrote:
-> > > To support implementation of DRM connectors on top of DRM bridges
-> > > instead of by bridges, the drm_bridge needs to expose new operations and
-> > > data:
-> > >
-> > > - Output detection, hot-plug notification, mode retrieval and EDID
-> > >   retrieval operations
-> > > - Bitmask of supported operations
-> > > - Bridge output type
-> > > - I2C adapter for DDC access
-> > >
-> > > Add and document these.
-> > >
-> > > Three new bridge helper functions are also added to handle hot plug
-> > > notification in a way that is as transparent as possible for the
-> > > bridges.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> > > ---
-> > > Changes since v3:
-> > >
-> > > - Fix typos
-> > >
-> > > Changes since v2:
-> > >
-> > > - Add wrappers around the .detect(), .get_modes() and .get_edid()
-> > >   operations
-> > > - Warn bridge drivers about valid usage of the connector argument to
-> > >   .get_modes() and .get_edid()
-> > >
-> > > Changes since v1:
-> > >
-> > > - Make .hpd_enable() and .hpd_disable() optional
-> > > - Rename .lost_hotplug() to .hpd_notify()
-> > > - Add ddc field to drm_bridge
-> > > ---
-> > >  drivers/gpu/drm/drm_bridge.c | 162 +++++++++++++++++++++++++++++
-> > >  include/drm/drm_bridge.h     | 192 ++++++++++++++++++++++++++++++++++-
-> > >  2 files changed, 353 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > > index 68ab933ee430..78d26a9a3ee6 100644
-> > > --- a/drivers/gpu/drm/drm_bridge.c
-> > > +++ b/drivers/gpu/drm/drm_bridge.c
-> > > @@ -71,6 +71,8 @@ static LIST_HEAD(bridge_list);
-> > >   */
-> > >  void drm_bridge_add(struct drm_bridge *bridge)
-> > >  {
-> > > +   mutex_init(&bridge->hpd_mutex);
-> > > +
-> > >     mutex_lock(&bridge_lock);
-> > >     list_add_tail(&bridge->list, &bridge_list);
-> > >     mutex_unlock(&bridge_lock);
-> > > @@ -87,6 +89,8 @@ void drm_bridge_remove(struct drm_bridge *bridge)
-> > >     mutex_lock(&bridge_lock);
-> > >     list_del_init(&bridge->list);
-> > >     mutex_unlock(&bridge_lock);
-> > > +
-> > > +   mutex_destroy(&bridge->hpd_mutex);
-> > >  }
-> > >  EXPORT_SYMBOL(drm_bridge_remove);
-> > >
-> > > @@ -919,6 +923,164 @@ int drm_atomic_bridge_chain_check(struct drm_bridge *bridge,
-> > >  }
-> > >  EXPORT_SYMBOL(drm_atomic_bridge_chain_check);
-> > >
-> > > +/**
-> > > + * drm_bridge_detect - check if anything is attached to the bridge output
-> > > + * @bridge: bridge control structure
-> > > + *
-> > > + * If the bridge supports output detection, as reported by the
-> > > + * DRM_BRIDGE_OP_DETECT bridge ops flag, call &drm_bridge_funcs.detect for the
-> > > + * bridge and return the connection status. Otherwise return
-> > > + * connector_status_unknown.
-> > > + *
-> > > + * RETURNS:
-> > > + * The detection status on success, or connector_status_unknown if the bridge
-> > > + * doesn't support output detection.
-> > > + */
-> > > +enum drm_connector_status drm_bridge_detect(struct drm_bridge *bridge)
-> > > +{
-> > > +   if (!(bridge->ops & DRM_BRIDGE_OP_DETECT))
-> > > +           return connector_status_unknown;
-> > > +
-> > > +   return bridge->funcs->detect(bridge);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_detect);
-> > > +
-> > > +/**
-> > > + * drm_bridge_get_modes - fill all modes currently valid for the sink into the
-> > > + * @connector
-> > > + * @bridge: bridge control structure
-> > > + * @connector: the connector to fill with modes
-> > > + *
-> > > + * If the bridge supports output modes retrieval, as reported by the
-> > > + * DRM_BRIDGE_OP_MODES bridge ops flag, call &drm_bridge_funcs.get_modes to
-> > > + * fill the connector with all valid modes and return the number of modes
-> > > + * added. Otherwise return 0.
-> > > + *
-> > > + * RETURNS:
-> > > + * The number of modes added to the connector.
-> > > + */
-> > > +int drm_bridge_get_modes(struct drm_bridge *bridge,
-> > > +                    struct drm_connector *connector)
-> > > +{
-> > > +   if (!(bridge->ops & DRM_BRIDGE_OP_MODES))
-> > > +           return 0;
-> > > +
-> > > +   return bridge->funcs->get_modes(bridge, connector);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
-> > > +
-> > > +/**
-> > > + * drm_bridge_get_edid - get the EDID data of the connected display
-> > > + * @bridge: bridge control structure
-> > > + * @connector: the connector to read EDID for
-> > > + *
-> > > + * If the bridge supports output EDID retrieval, as reported by the
-> > > + * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.get_edid to
-> > > + * get the EDID and return it. Otherwise return ERR_PTR(-ENOTSUPP).
-> > > + *
-> > > + * RETURNS:
-> > > + * The retrieved EDID on success, or an error pointer otherwise.
-> > > + */
-> > > +struct edid *drm_bridge_get_edid(struct drm_bridge *bridge,
-> > > +                            struct drm_connector *connector)
-> > > +{
-> > > +   if (!(bridge->ops & DRM_BRIDGE_OP_EDID))
-> > > +           return ERR_PTR(-ENOTSUPP);
-> > > +
-> > > +   return bridge->funcs->get_edid(bridge, connector);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_get_edid);
-> > > +
-> > > +/**
-> > > + * drm_bridge_hpd_enable - enable hot plug detection for the bridge
-> > > + * @bridge: bridge control structure
-> > > + * @cb: hot-plug detection callback
-> > > + * @data: data to be passed to the hot-plug detection callback
-> > > + *
-> > > + * Call &drm_bridge_funcs.hpd_enable if implemented and register the given @cb
-> > > + * and @data as hot plug notification callback. From now on the @cb will be
-> > > + * called with @data when an output status change is detected by the bridge,
-> > > + * until hot plug notification gets disabled with drm_bridge_hpd_disable().
-> > > + *
-> > > + * Hot plug detection is supported only if the DRM_BRIDGE_OP_HPD flag is set in
-> > > + * bridge->ops. This function shall not be called when the flag is not set.
-> > > + *
-> > > + * Only one hot plug detection callback can be registered at a time, it is an
-> > > + * error to call this function when hot plug detection is already enabled for
-> > > + * the bridge.
-> > > + */
-> > > +void drm_bridge_hpd_enable(struct drm_bridge *bridge,
-> > > +                      void (*cb)(void *data,
-> > > +                                 enum drm_connector_status status),
-> > > +                      void *data)
-> > > +{
-> > > +   if (!bridge || !(bridge->ops & DRM_BRIDGE_OP_HPD))
-> >
-> > Supplying a NULL bridge is a caller bug imo, and you're inconsistent in
-> > handling this. Imo just drop.
->
-> Sounds good to me, I'll drop it.
->
-> > > +           return;
-> > > +
-> > > +   mutex_lock(&bridge->hpd_mutex);
-> > > +
-> > > +   if (WARN(bridge->hpd_cb, "Hot plug detection already enabled\n"))
-> > > +           goto unlock;
-> > > +
-> > > +   bridge->hpd_cb = cb;
-> > > +   bridge->hpd_data = data;
-> > > +
-> > > +   if (bridge->funcs->hpd_enable)
-> > > +           bridge->funcs->hpd_enable(bridge);
-> > > +
-> > > +unlock:
-> > > +   mutex_unlock(&bridge->hpd_mutex);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_hpd_enable);
-> > > +
-> > > +/**
-> > > + * drm_bridge_hpd_disable - disable hot plug detection for the bridge
-> > > + * @bridge: bridge control structure
-> > > + *
-> > > + * Call &drm_bridge_funcs.hpd_disable if implemented and unregister the hot
-> > > + * plug detection callback previously registered with drm_bridge_hpd_enable().
-> > > + * Once this function returns the callback will not be called by the bridge
-> > > + * when an output status change occurs.
-> > > + *
-> > > + * Hot plug detection is supported only if the DRM_BRIDGE_OP_HPD flag is set in
-> > > + * bridge->ops. This function shall not be called when the flag is not set.
-> > > + */
-> > > +void drm_bridge_hpd_disable(struct drm_bridge *bridge)
-> > > +{
-> > > +   if (!bridge || !(bridge->ops & DRM_BRIDGE_OP_HPD))
-> > > +           return;
-> > > +
-> > > +   mutex_lock(&bridge->hpd_mutex);
-> > > +   if (bridge->funcs->hpd_disable)
-> > > +           bridge->funcs->hpd_disable(bridge);
-> > > +
-> > > +   bridge->hpd_cb = NULL;
-> > > +   bridge->hpd_data = NULL;
-> > > +   mutex_unlock(&bridge->hpd_mutex);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_hpd_disable);
-> > > +
-> > > +/**
-> > > + * drm_bridge_hpd_notify - notify hot plug detection events
-> > > + * @bridge: bridge control structure
-> > > + * @status: output connection status
-> > > + *
-> > > + * Bridge drivers shall call this function to report hot plug events when they
-> > > + * detect a change in the output status, when hot plug detection has been
-> > > + * enabled by drm_bridge_hpd_enable().
-> > > + *
-> > > + * This function shall be called in a context that can sleep.
-> > > + */
-> > > +void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> > > +                      enum drm_connector_status status)
-> > > +{
-> > > +   mutex_lock(&bridge->hpd_mutex);
-> > > +   if (bridge->hpd_cb)
-> > > +           bridge->hpd_cb(bridge->hpd_data, status);
-> > > +   mutex_unlock(&bridge->hpd_mutex);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
-> > > +
-> > >  #ifdef CONFIG_OF
-> > >  /**
-> > >   * of_drm_find_bridge - find the bridge corresponding to the device node in
-> > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > > index 45626ecf20f8..ba9b7c84f11e 100644
-> > > --- a/include/drm/drm_bridge.h
-> > > +++ b/include/drm/drm_bridge.h
-> > > @@ -23,8 +23,9 @@
-> > >  #ifndef __DRM_BRIDGE_H__
-> > >  #define __DRM_BRIDGE_H__
-> > >
-> > > -#include <linux/list.h>
-> > >  #include <linux/ctype.h>
-> > > +#include <linux/list.h>
-> > > +#include <linux/mutex.h>
-> > >
-> > >  #include <drm/drm_atomic.h>
-> > >  #include <drm/drm_encoder.h>
-> > > @@ -33,7 +34,10 @@
-> > >
-> > >  struct drm_bridge;
-> > >  struct drm_bridge_timings;
-> > > +struct drm_connector;
-> > >  struct drm_panel;
-> > > +struct edid;
-> > > +struct i2c_adapter;
-> > >
-> > >  /**
-> > >   * struct drm_bridge_funcs - drm_bridge control functions
-> > > @@ -488,6 +492,119 @@ struct drm_bridge_funcs {
-> > >      * giving the reason of the failure otherwise.
-> > >      */
-> > >     struct drm_bridge_state *(*atomic_reset)(struct drm_bridge *bridge);
-> > > +
-> > > +   /**
-> > > +    * @detect:
-> > > +    *
-> > > +    * Check if anything is attached to the bridge output.
-> > > +    *
-> > > +    * This callback is optional, if not implemented the bridge will be
-> > > +    * considered as always having a component attached to its output.
-> > > +    * Bridges that implement this callback shall set the
-> > > +    * DRM_BRIDGE_OP_DETECT flag in their &drm_bridge->ops.
-> > > +    *
-> > > +    * RETURNS:
-> > > +    *
-> > > +    * drm_connector_status indicating the bridge output status.
-> > > +    */
-> > > +   enum drm_connector_status (*detect)(struct drm_bridge *bridge);
-> > > +
-> > > +   /**
-> > > +    * @get_modes:
-> > > +    *
-> > > +    * Fill all modes currently valid for the sink into the &drm_connector
-> > > +    * with drm_mode_probed_add().
-> > > +    *
-> > > +    * The @get_modes callback is mostly intended to support non-probeable
-> > > +    * displays such as many fixed panels. Bridges that support reading
-> > > +    * EDID shall leave @get_modes unimplemented and implement the
-> > > +    * &drm_bridge_funcs->get_edid callback instead.
-> > > +    *
-> > > +    * This callback is optional. Bridges that implement it shall set the
-> > > +    * DRM_BRIDGE_OP_MODES flag in their &drm_bridge->ops.
-> > > +    *
-> > > +    * The connector parameter shall be used for the sole purpose of
-> > > +    * filling modes, and shall not be stored internally by bridge drivers
-> > > +    * for future usage.
-> > > +    *
-> > > +    * RETURNS:
-> > > +    *
-> > > +    * The number of modes added by calling drm_mode_probed_add().
-> > > +    */
-> > > +   int (*get_modes)(struct drm_bridge *bridge,
-> > > +                    struct drm_connector *connector);
-> > > +
-> > > +   /**
-> > > +    * @get_edid:
-> > > +    *
-> > > +    * Read and parse the EDID data of the connected display.
-> > > +    *
-> > > +    * The @get_edid callback is the preferred way of reporting mode
-> > > +    * information for a display connected to the bridge output. Bridges
-> > > +    * that support reading EDID shall implement this callback and leave
-> > > +    * the @get_modes callback unimplemented.
-> > > +    *
-> > > +    * The caller of this operation shall first verify the output
-> > > +    * connection status and refrain from reading EDID from a disconnected
-> > > +    * output.
-> > > +    *
-> > > +    * This callback is optional. Bridges that implement it shall set the
-> > > +    * DRM_BRIDGE_OP_EDID flag in their &drm_bridge->ops.
-> > > +    *
-> > > +    * The connector parameter shall be used for the sole purpose of EDID
-> > > +    * retrieval and parsing, and shall not be stored internally by bridge
-> > > +    * drivers for future usage.
-> > > +    *
-> > > +    * RETURNS:
-> > > +    *
-> > > +    * An edid structure newly allocated with kmalloc() (or similar) on
-> > > +    * success, or NULL otherwise. The caller is responsible for freeing
-> > > +    * the returned edid structure with kfree().
-> > > +    */
-> > > +   struct edid *(*get_edid)(struct drm_bridge *bridge,
-> > > +                            struct drm_connector *connector);
-> > > +
-> > > +   /**
-> > > +    * @hpd_notify:
-> > > +    *
-> > > +    * Notify the bridge of hot plug detection.
-> > > +    *
-> > > +    * This callback is optional, it may be implemented by bridges that
-> > > +    * need to be notified of display connection or disconnection for
-> > > +    * internal reasons. One use case is to reset the internal state of CEC
-> > > +    * controllers for HDMI bridges.
-> > > +    */
-> > > +   void (*hpd_notify)(struct drm_bridge *bridge,
-> > > +                      enum drm_connector_status status);
-> > > +
-> > > +   /**
-> > > +    * @hpd_enable:
-> > > +    *
-> > > +    * Enable hot plug detection. From now on the bridge shall call
-> > > +    * drm_bridge_hpd_notify() each time a change is detected in the output
-> > > +    * connection status, until hot plug detection gets disabled with
-> > > +    * @hpd_disable.
-> > > +    *
-> > > +    * This callback is optional and shall only be implemented by bridges
-> > > +    * that support hot-plug notification without polling. Bridges that
-> > > +    * implement it shall also implement the @hpd_disable callback and set
-> > > +    * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
-> > > +    */
-> > > +   void (*hpd_enable)(struct drm_bridge *bridge);
-> > > +
-> > > +   /**
-> > > +    * @hpd_disable:
-> > > +    *
-> > > +    * Disable hot plug detection. Once this function returns the bridge
-> > > +    * shall not call drm_bridge_hpd_notify() when a change in the output
-> > > +    * connection status occurs.
-> > > +    *
-> > > +    * This callback is optional and shall only be implemented by bridges
-> > > +    * that support hot-plug notification without polling. Bridges that
-> > > +    * implement it shall also implement the @hpd_enable callback and set
-> > > +    * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
-> > > +    */
-> > > +   void (*hpd_disable)(struct drm_bridge *bridge);
-> > >  };
-> > >
-> > >  /**
-> > > @@ -526,6 +643,39 @@ struct drm_bridge_timings {
-> > >     bool dual_link;
-> > >  };
-> > >
-> > > +/**
-> > > + * enum drm_bridge_ops - Bitmask of operations supported by the bridge
-> > > + */
-> > > +enum drm_bridge_ops {
-> > > +   /**
-> > > +    * @DRM_BRIDGE_OP_DETECT: The bridge can detect displays connected to
-> > > +    * its output. Bridges that set this flag shall implement the
-> > > +    * &drm_bridge_funcs->detect callback.
-> > > +    */
-> > > +   DRM_BRIDGE_OP_DETECT = BIT(0),
-> > > +   /**
-> > > +    * @DRM_BRIDGE_OP_EDID: The bridge can retrieve the EDID of the display
-> > > +    * connected to its output. Bridges that set this flag shall implement
-> > > +    * the &drm_bridge_funcs->get_edid callback.
-> > > +    */
-> > > +   DRM_BRIDGE_OP_EDID = BIT(1),
-> > > +   /**
-> > > +    * @DRM_BRIDGE_OP_HPD: The bridge can detect hot-plug and hot-unplug
-> > > +    * without requiring polling. Bridges that set this flag shall
-> > > +    * implement the &drm_bridge_funcs->hpd_enable and
-> > > +    * &drm_bridge_funcs->hpd_disable callbacks if they support enabling
-> > > +    * and disabling hot-plug detection dynamically.
-> > > +    */
-> > > +   DRM_BRIDGE_OP_HPD = BIT(2),
-> > > +   /**
-> > > +    * @DRM_BRIDGE_OP_MODES: The bridge can retrieve the modes supported
-> > > +    * by the display at its output. This does not include reading EDID
-> > > +    * which is separately covered by @DRM_BRIDGE_OP_EDID. Bridges that set
-> > > +    * this flag shall implement the &drm_bridge_funcs->get_modes callback.
-> > > +    */
-> > > +   DRM_BRIDGE_OP_MODES = BIT(3),
-> > > +};
-> >
-> > I still don't like this one here, since most of them are tracking
-> > redundant information. If you don't like just checking for the hook
-> > directly wrap it in a helper, e.g.
-> >
-> > bool drm_bridge_supports_detect(bridge)
-> > {
-> >       return bridge->ops->detect;
-> > }
->
-> It seems I've done a really bad job explaining why the flags are
-> required, so let me try again :-)
->
-> There's a difference between supporting an operation in a driver, and
-> supporting it in a given system. When a bridge hardware supports reading
-> EDID, or detecting hotplug, the driver will implement this and expose
-> the corresponding operation in drm_bridge_funcs by setting the function
-> pointers appropriately.
->
-> However, this doesn't mean that the DDC lines are wired to the bridge on
-> a particular board, they could be connected to an I2C controller of the
-> SoC. Same for the HPD line, it could be connected to a GPIO instead of a
-> dedicated pin of the bridge. This board-specific information is reported
-> by the firmware (ACPI or DT), parsed by the bridge driver, and reflected
-> in the drm_bridge_ops flags.
->
-> drm_bridge_funcs and drm_bridge_ops are thus different, the latter
-> supplements the former. We could merge the two by setting the
-> corresponding function pointer in drm_bridge_funcs to NULL when the
-> drm_bridge_ops flag isn't set. This would however require allocating
-> drm_bridge_funcs dynamically (either by embedding it into a
-> driver-specific structure, or allocating it dynamically directly)
-> instead of using a global static const struct, and this is considered to
-> be a security issue as it allows a potential attacker to overwrite
-> function pointers (there have been quite a lot of security patches
-> merged that move function pointers to .rodata or otherwise const
-> memory).
 
-Hm so I'm pretty sure you've explained this to me already (at least!)
-once in the past, and your favorite context-free & stateless reviewer
-didn't bother to remember :-)
+On Tue, Feb 18, Ville Syrj=E4l=E4 wrote:
+>On Tue, Feb 18, 2020 at 01:41:39AM +0800, Lee Shawn C wrote:
+>> Test case HF1-13 for HDMI 2.0 compliance would ask DUT to downgrade =
 
-I think it's time to improve the intro DOC: section with a few special
-notes on chaining bridges. That didn't happen ever since the original
-bridge stuff landed, and that non-working idea from years ago evolved
-a lot with all this work now. I think adding an entire sub-section or
-separate DOC comment for this, which maybe also links to the
-connector-bridge helper and kinda ties the entire story you guys
-developed together would be really good. Otherwise I'm pretty sure
-this is not going to be the last time you have to explain this to
-someone ...
+>> output resolution to 720x480 or 720x576 (lower than 3.4Gbps).
+>> And check scrambling feature was disabled as well.
+>> =
 
-Cheers, Daniel
+>> But QD980 report it can support low rate scrambling. The vendor =
 
-> > hpd seems to be special, since a bridge can support hotplug but not have
-> > the enable_hpd/disable_hpd hooks. Which smells somewhat fishy, since if
-> > you have multiple bridges with hpd, how do you make sure you get hpd
-> > events only from the right one?
->
-> On a given board HPD should only be generated by one bridge in practice.
-> If we ever encounter systems where multiple bridges can generate HPD for
-> the same external HPD event, I think we can deal with them at that time.
->
-> > Aside from that just having a
-> >
-> >       bool supports_hpd;
-> >
-> > seems a lot simpler.
->
-> If we only needed DRM_BRIDGE_OP_HPD, I agree that a bool would be
-> simpler, but as explained above we need the other ones too :-)
->
-> > Yes I know that the drm DRIVER_FOO flags don't work like that, and I'm
-> > kinda unhappy about them since forever. Managed to delete most of them
-> > even :-)
-> >
-> > > +
-> > >  /**
-> > >   * struct drm_bridge - central DRM bridge control structure
-> > >   */
-> > > @@ -554,6 +704,33 @@ struct drm_bridge {
-> > >     const struct drm_bridge_funcs *funcs;
-> > >     /** @driver_private: pointer to the bridge driver's internal context */
-> > >     void *driver_private;
-> > > +   /** @ops: bitmask of operations supported by the bridge */
-> > > +   enum drm_bridge_ops ops;
-> > > +   /**
-> > > +    * @type: Type of the connection at the bridge output
-> > > +    * (DRM_MODE_CONNECTOR_*). For bridges at the end of this chain this
-> > > +    * identifies the type of connected display.
-> > > +    */
-> > > +   int type;
-> > > +   /**
-> > > +    * @ddc: Associated I2C adapter for DDC access, if any.
-> > > +    */
-> > > +   struct i2c_adapter *ddc;
-> > > +   /** private: */
-> > > +   /**
-> > > +    * @hpd_mutex: Protects the @hpd_cb and @hpd_data fields.
-> > > +    */
-> > > +   struct mutex hpd_mutex;
-> > > +   /**
-> > > +    * @hpd_cb: Hot plug detection callback, registered with
-> > > +    * drm_bridge_hpd_enable().
-> > > +    */
-> > > +   void (*hpd_cb)(void *data, enum drm_connector_status status);
-> > > +   /**
-> > > +    * @hpd_data: Private data passed to the Hot plug detection callback
-> > > +    * @hpd_cb.
-> > > +    */
-> > > +   void *hpd_data;
-> > >  };
-> > >
-> > >  static inline struct drm_bridge *
-> > > @@ -660,6 +837,19 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
-> > >                                     u32 output_fmt,
-> > >                                     unsigned int *num_input_fmts);
-> > >
-> > > +enum drm_connector_status drm_bridge_detect(struct drm_bridge *bridge);
-> > > +int drm_bridge_get_modes(struct drm_bridge *bridge,
-> > > +                    struct drm_connector *connector);
-> > > +struct edid *drm_bridge_get_edid(struct drm_bridge *bridge,
-> > > +                            struct drm_connector *connector);
-> > > +void drm_bridge_hpd_enable(struct drm_bridge *bridge,
-> > > +                      void (*cb)(void *data,
-> > > +                                 enum drm_connector_status status),
-> > > +                      void *data);
-> > > +void drm_bridge_hpd_disable(struct drm_bridge *bridge);
-> > > +void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> > > +                      enum drm_connector_status status);
-> > > +
-> > >  #ifdef CONFIG_DRM_PANEL_BRIDGE
-> > >  struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel);
-> > >  struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
->
-> --
-> Regards,
->
-> Laurent Pinchart
+>> specific data block byte[6] was 0x88. If driver enabled scrambling =
 
+>> rely on this info. Then HF1-13 would not get pass because DUT have to =
 
+>> disable scrambling to run this case.
+>
+>Sounds like a broken test to me.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Yes! We will try to contact the vendor (Teledyne LeCroy) to analyze.
+Like what we mention the patch title. This is just a temporary
+workaround to pass this case.
+
+Best regards,
+Shawn
+
+>
+>> =
+
+>> Cc: Jani Nikula <jani.nikula@intel.com>
+>> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+>> Cc: Clint Taylor <clinton.a.taylor@intel.com>
+>> Cc: Cooper Chiou <cooper.chiou@intel.com>
+>> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 13 ++++++++++---
+>>  1 file changed, 10 insertions(+), 3 deletions(-)
+>> =
+
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c =
+
+>> index 99769d6c9f84..0b4badc20c35 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -85,6 +85,8 @@
+>>  #define EDID_QUIRK_FORCE_10BPC			(1 << 11)
+>>  /* Non desktop display (i.e. HMD) */
+>>  #define EDID_QUIRK_NON_DESKTOP			(1 << 12)
+>> +/* Do not enable low rates scrambling */
+>> +#define EDID_QUIRK_DISABLE_LOW_RATE_SCRAMBLING	(1 << 13)
+>>  =
+
+>>  struct detailed_mode_closure {
+>>  	struct drm_connector *connector;
+>> @@ -214,6 +216,9 @@ static const struct edid_quirk {
+>>  =
+
+>>  	/* OSVR HDK and HDK2 VR Headsets */
+>>  	{ "SVR", 0x1019, EDID_QUIRK_NON_DESKTOP },
+>> +
+>> +	/* Quantumdata 980 test platform */
+>> +	{ "QDI", 0x03D4, EDID_QUIRK_DISABLE_LOW_RATE_SCRAMBLING },
+>>  };
+>>  =
+
+>>  /*
+>> @@ -4710,10 +4715,11 @@ static void =
+
+>> drm_parse_ycbcr420_deep_color_info(struct drm_connector *connector,  }
+>>  =
+
+>>  static void drm_parse_hdmi_forum_vsdb(struct drm_connector *connector,
+>> -				 const u8 *hf_vsdb)
+>> +				 const u8 *hf_vsdb, const struct edid *edid)
+>>  {
+>>  	struct drm_display_info *display =3D &connector->display_info;
+>>  	struct drm_hdmi_info *hdmi =3D &display->hdmi;
+>> +	u32 quirks =3D edid_get_quirks(edid);
+>>  =
+
+>>  	display->has_hdmi_infoframe =3D true;
+>>  =
+
+>> @@ -4747,7 +4753,8 @@ static void drm_parse_hdmi_forum_vsdb(struct drm_c=
+onnector *connector,
+>>  			scdc->scrambling.supported =3D true;
+>>  =
+
+>>  			/* Few sinks support scrambling for clocks < 340M */
+>> -			if ((hf_vsdb[6] & 0x8))
+>> +			if ((hf_vsdb[6] & 0x8) &&
+>> +			    !(quirks & EDID_QUIRK_DISABLE_LOW_RATE_SCRAMBLING))
+>>  				scdc->scrambling.low_rates =3D true;
+>>  		}
+>>  	}
+>> @@ -4870,7 +4877,7 @@ static void drm_parse_cea_ext(struct drm_connector=
+ *connector,
+>>  		if (cea_db_is_hdmi_vsdb(db))
+>>  			drm_parse_hdmi_vsdb_video(connector, db);
+>>  		if (cea_db_is_hdmi_forum_vsdb(db))
+>> -			drm_parse_hdmi_forum_vsdb(connector, db);
+>> +			drm_parse_hdmi_forum_vsdb(connector, db, edid);
+>>  		if (cea_db_is_y420cmdb(db))
+>>  			drm_parse_y420cmdb_bitmap(connector, db);
+>>  		if (cea_db_is_vcdb(db))
+>> --
+>> 2.17.1
+>
+>--
+>Ville Syrj=E4l=E4
+>Intel
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
