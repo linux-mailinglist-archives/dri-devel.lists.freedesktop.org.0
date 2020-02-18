@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5524D163EDD
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 09:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E71F163EE7
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 09:21:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C69686EB18;
-	Wed, 19 Feb 2020 08:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1D66EB29;
+	Wed, 19 Feb 2020 08:20:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0AE6EA56;
- Tue, 18 Feb 2020 17:28:44 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id q9so3606228wmj.5;
- Tue, 18 Feb 2020 09:28:44 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1160D6EA52;
+ Tue, 18 Feb 2020 17:28:50 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id u6so25025160wrt.0;
+ Tue, 18 Feb 2020 09:28:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oxzxVwtma/sV1OQLWFOvLbYDQnp164egmH9oHWBKQVY=;
- b=SI/uH1xIfGPD62vOdOEf7CHgVLuavz+9UnHb0QSFE1QC7srr+PLLyPC4Wouwv/q3wb
- EghJWSRtEEmtL06aNjYJVegEuXoSCBPSXvT3hz3216Jrcleq1EXIeFyThIdSwhUGjg7s
- lakD2jP63CuPYBsWpVDEOLF2orsp6BAHUtYZ4Jl+QY89p7I+M9n6X24EPrZxgCgvvbv6
- 2SGkyWXj8erV/x2GssFTXboxcMLFMuxpAdTa/8mAdRc5h2Q/TjPTkdA3YODmdPinCsRj
- J/pLbAl0iEq8OrEsBQSsZkb6Gl5CoLoZzsnVOPM6qnVstc1X9cZth1qHLRtNCEhdrG6F
- Yd1w==
+ bh=RQKZJvHf1WtLQUnnQ+YYr8z0U0bnUL/X5oP4lbmCs/g=;
+ b=of1bnSomwHNCr/K4IwVeC844d2lNrG7EeEsYbcslvaQOYTyn6ONlfHSBA/bDDBcsgw
+ Fr292hw7tiOAcRcAg9S8LuNfeHmlaYQ0bP2vEF4rX4oGw01MQ1Pas0LFZrpIVOvetzBe
+ e3r1Cj5ZrC32v8GmGAMIrk2dmXsbojIb1aZAGrQzBJsv1KVhaZQM6+xXpKCF1BZlGku3
+ hc+nI4Mw1AB4noQRq7YvpeJLzVMMtK1pGm7KpHMlAzyoUl/eWD7pyKX8LvRfyoBPbQIo
+ YwM8VZSeZWzArpoMW5cJvhDFavE/qu9/YQUBRLMCTXPiqGPikviiKQ9uCyiv0TGlC6GI
+ vlEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oxzxVwtma/sV1OQLWFOvLbYDQnp164egmH9oHWBKQVY=;
- b=ZTIGn7spS4o+rIgtRvq+pwLEiXF6l+J6ouwHdusYMpXhNhZG8kehaSRbVkPAX6mOtv
- 4uvcDiMYcgZvKbd9C1Y5LZeQGzMPFCiM/XbAa6PkYI2pZFmQkN56KOnJvUKNEWVsP22U
- HMDJhrCr5RGGnu3lxoOd935EHHqPM0EmwQqNouWfLfoiQHOrusG3FDskhHVcwxUuEw++
- HvZbHn6J6SFXXZow68vZVn4zualy8s7rO0z+RC9yLrA+cXsg2kqhHMDnruWCZksvxWrh
- ss8sZJgmfGrqrqtrR+rUtbJr68bavBq0Qamco4i5EWyUp/9oCXQHWGaudZSuOh20mD/S
- HHJQ==
-X-Gm-Message-State: APjAAAWK/B3BFUZcuzUlTlKnvBdo3uXLfZR/KAH+xwFtpbRHGOWa+GGT
- WAns3fszvx2EcSIMy8nOWmk=
-X-Google-Smtp-Source: APXvYqzYLL3egDD8D+n9GtknUJLIOCGz2zsS+wJ285OUyyD0DtU9qnJklm62Ceb7raBfb6FtI0omRw==
-X-Received: by 2002:a1c:a952:: with SMTP id s79mr4442372wme.83.1582046923100; 
- Tue, 18 Feb 2020 09:28:43 -0800 (PST)
+ bh=RQKZJvHf1WtLQUnnQ+YYr8z0U0bnUL/X5oP4lbmCs/g=;
+ b=k7+vyKTyN3esKhuYyL4OzFtYOed9beQFfkbWT9Y3CJOIL0bNqqhVzBtj+CbhT08jzT
+ DVY8m6gvkMoLt3W77kpUpDDVPFkOvuJh40nN3k7bJfjC3KYGZYKMVWE3ltkI6TNQGXB0
+ 4JOlV26oOVJ8pWXTJBfc36zsHcA8Z1T1VBLb1KPXWEovPdyMGc+jOMnAiMAt2xFRWOWU
+ po7owO6NGG3xEC4aDCMK+TyTcO8donzTKbgijMK8B47VoQ4TaaaIq81rZfndwFoAzdOf
+ 6vlvAdKREUnm/XRYdPkRDBo92eGJEUxf/SIcLN8afy6UAYEbNhpgTqkX08FIvj6vWvED
+ OwtQ==
+X-Gm-Message-State: APjAAAXGIsJiTeV+XJBQeIU+ZAc+HbL8o8l/m0vqUxPn0XRYIT5Z8ozd
+ keB/MR7HTG/ZlRU9iofARWQ=
+X-Google-Smtp-Source: APXvYqwCmwWwQooLJukyapOJfGjMEKhOTHvMcsMfWr+K1Mn4hamrwPeP1liVlfVU3P2zF5Jk8xifdQ==
+X-Received: by 2002:adf:e641:: with SMTP id b1mr30114961wrn.34.1582046928676; 
+ Tue, 18 Feb 2020 09:28:48 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id t13sm6998757wrw.19.2020.02.18.09.28.39
+ by smtp.googlemail.com with ESMTPSA id t13sm6998757wrw.19.2020.02.18.09.28.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 09:28:42 -0800 (PST)
+ Tue, 18 Feb 2020 09:28:48 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
-To: linux+etnaviv@armlinux.org.uk, l.stach@pengutronix.de,
- christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/etnaviv: remove check for return value of drm_debugfs
- function
-Date: Tue, 18 Feb 2020 20:28:15 +0300
-Message-Id: <20200218172821.18378-4-wambui.karugax@gmail.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/i915: make i915_debugfs_register return void.
+Date: Tue, 18 Feb 2020 20:28:16 +0300
+Message-Id: <20200218172821.18378-5-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200218172821.18378-1-wambui.karugax@gmail.com>
 References: <20200218172821.18378-1-wambui.karugax@gmail.com>
@@ -69,48 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As there is no need to check the return value if
-drm_debugfs_create_files, remove the check and error handling in
-etnaviv_debugfs_init and have the function return 0 directly.
+As drm_debugfs_create_files should return void, remove its use as the
+return value of i915_debugfs_register and have i915_debugfs_register
+return void.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/i915/i915_debugfs.c | 8 ++++----
+ drivers/gpu/drm/i915/i915_debugfs.h | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 6b43c1c94e8f..a65d30a48a9d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -233,19 +233,11 @@ static struct drm_info_list etnaviv_debugfs_list[] = {
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+index e5eea915bd0d..4a3c58f9fc1e 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.c
++++ b/drivers/gpu/drm/i915/i915_debugfs.c
+@@ -2391,7 +2391,7 @@ static const struct i915_debugfs_files {
+ 	{"i915_guc_log_relay", &i915_guc_log_relay_fops},
+ };
  
- static int etnaviv_debugfs_init(struct drm_minor *minor)
+-int i915_debugfs_register(struct drm_i915_private *dev_priv)
++void i915_debugfs_register(struct drm_i915_private *dev_priv)
  {
--	struct drm_device *dev = minor->dev;
--	int ret;
--
--	ret = drm_debugfs_create_files(etnaviv_debugfs_list,
--			ARRAY_SIZE(etnaviv_debugfs_list),
--			minor->debugfs_root, minor);
-+	drm_debugfs_create_files(etnaviv_debugfs_list,
-+				 ARRAY_SIZE(etnaviv_debugfs_list),
-+				 minor->debugfs_root, minor);
+ 	struct drm_minor *minor = dev_priv->drm.primary;
+ 	int i;
+@@ -2408,7 +2408,7 @@ int i915_debugfs_register(struct drm_i915_private *dev_priv)
+ 				    i915_debugfs_files[i].fops);
+ 	}
  
--	if (ret) {
--		dev_err(dev->dev, "could not install etnaviv_debugfs_list\n");
--		return ret;
--	}
--
--	return ret;
-+	return 0;
+-	return drm_debugfs_create_files(i915_debugfs_list,
+-					I915_DEBUGFS_ENTRIES,
+-					minor->debugfs_root, minor);
++	drm_debugfs_create_files(i915_debugfs_list,
++				 I915_DEBUGFS_ENTRIES,
++				 minor->debugfs_root, minor);
  }
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.h b/drivers/gpu/drm/i915/i915_debugfs.h
+index 6da39c76ab5e..1de2736f1248 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.h
++++ b/drivers/gpu/drm/i915/i915_debugfs.h
+@@ -12,10 +12,10 @@ struct drm_i915_private;
+ struct seq_file;
+ 
+ #ifdef CONFIG_DEBUG_FS
+-int i915_debugfs_register(struct drm_i915_private *dev_priv);
++void i915_debugfs_register(struct drm_i915_private *dev_priv);
+ void i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj);
+ #else
+-static inline int i915_debugfs_register(struct drm_i915_private *dev_priv) { return 0; }
++static inline void i915_debugfs_register(struct drm_i915_private *dev_priv) {}
+ static inline void i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj) {}
  #endif
  
 -- 
