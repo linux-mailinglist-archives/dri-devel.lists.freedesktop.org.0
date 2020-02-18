@@ -1,116 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6D21629D7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 16:51:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2061629DC
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 16:52:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5616EA16;
-	Tue, 18 Feb 2020 15:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 657136EA34;
+	Tue, 18 Feb 2020 15:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6F066EA16
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 15:51:40 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id e8so2053625wrm.5
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 07:51:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HR+J1GKh8KEVRvSpA7pRnb1Q64TKe4bvlZ03aKr96uk=;
- b=Hpyh0JL4IipEny/oIz/GOw5gdERvWpMPFxoG1edPXWKba4By0fOHC8NU2eEpHtigYM
- QCu7WwAVtzimKT/26wNLqO2ugni2pTVqC1/+kvbR6gavVlRiiqcNL1MLt8pQTxow1DZN
- QNT+7OKIJO5QU7LOaEBFJHcl44HbI5zkDEOvYb/XOgpsneDLaGVSi+sdOlYJkgrMKu6/
- l7kaLhHaPctKpyAFI+trDPsFC17+cjIjPdddlTl37Zdiaw4VFcug9GjPDvYFRP7W1JZs
- u5NwnJIdcq4Paiw6unDQOGFdCMmznch7w3dQmUdyhPjgYsH49uS2nVfn/x+/+nzrBdjB
- ZeGQ==
+Received: from mail-yw1-xc41.google.com (mail-yw1-xc41.google.com
+ [IPv6:2607:f8b0:4864:20::c41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26D506EA34
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 15:52:09 +0000 (UTC)
+Received: by mail-yw1-xc41.google.com with SMTP id f204so9563246ywc.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 07:52:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=v5vHn3Os7WWsEgEP1KnEtuaW7bx9mfHhpBQ1zH27IXM=;
+ b=KZ3BQezk60LYh4XdToYlzb59RJX/mThA3bLXxke1gIKO68D6MPAfI4wqvdNovFoaJy
+ LB2xxTqR5P9vCY29fQRTaTLYQaxpgnM+o2KlPQbDo9ANs2P+LcyZY1/YAYCupboTt/3a
+ 3ZFuBBaomsJt4f3uzw2FWea0EcCGqrGoQCabdLLyEUV+etBUn4Uas0demK44BAf7lRHX
+ 1wHx4CNtrhx5jvTkCiCW3a3UKFcWfXqWWs4ljK5WtO05n9mRNBp9wKLlA562T05Qkr5n
+ kAKzRED6JugVG4EbtvSnvZvgpdIDQcwqmOF00exKLWHHi2Q9juyFVUUVWgBu164YQe2Q
+ efVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=HR+J1GKh8KEVRvSpA7pRnb1Q64TKe4bvlZ03aKr96uk=;
- b=i5TkAzrw//g3r8T+Em76t1VqJXK7oH34iFQrF5abWIDzMeKDIRkzL9Pni9aKNpp9We
- MXbP6ASST3IN7khnCp584MCdBr7DIIrYpQzH/VHcpJAkJ0C+meop+62YcDTDzotYjOup
- 01cyJxxg3RgkTePdxSaO527A6M3CwrQuy69K6uV8ryjXjo71cN6Ru5WQi++kMhmbLSFI
- Xi3ypQMKFkj6QdkNVhd6JDupg2dvwkbrmL8U7VwQ43Y0akHwzcj0RwyHqNp9fECfdOuI
- PAkrOPTaJ+mt9/ADULKFy41cb2squcNs2CZVF+aetK9wLdIW1ma3QEIhjFmO6nLn96EL
- uu5g==
-X-Gm-Message-State: APjAAAXIjLFPrcqE8sfn7a/QHboqWM4Tj6Vap9byhtk+usxgu1vA71Ny
- MDN3SS5/PDnLevoEQAWCAbUS+KP1gKRhIg==
-X-Google-Smtp-Source: APXvYqzMJC6VDaSWRfNKYpE4fpTyHRi86/HkJ/1WhzhRBJI8jX3vSaZF2f3qDlBXmM3ysg/0iA1d3A==
-X-Received: by 2002:a5d:4847:: with SMTP id n7mr29382524wrs.30.1582041099133; 
- Tue, 18 Feb 2020 07:51:39 -0800 (PST)
-Received: from [10.1.3.173]
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id y8sm3807967wma.10.2020.02.18.07.51.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Feb 2020 07:51:38 -0800 (PST)
-Subject: Re: [PATCH v2] drm/bridge: Fix the bridge kernel doc
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20200218151503.595825-1-boris.brezillon@collabora.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <b5e637b3-3525-62ac-2754-1e8324d168fd@baylibre.com>
-Date: Tue, 18 Feb 2020 16:51:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=v5vHn3Os7WWsEgEP1KnEtuaW7bx9mfHhpBQ1zH27IXM=;
+ b=Di3mmg/EoIHtTeUnF04Vw5Hq+AWZa88qAsPbMQgN2CfHXHC8rQpjrMvW9FV0yhshH4
+ NpHP8LzYkmo0YkOZ9iJV2Ga61X11cZSrUMa5hc+CuSJFbWjFrXxgF8UXB/+desIBPLyl
+ sG2zSiRWinphj4ZJR7qlnXxlgeaa72EZjI+CNkcS6Au52CJJ9S2omTfHQBxAdEvFHLdF
+ jdQDZSSzCtP4f7zSz7yE7SseKBQXGoo5BKIr6qE5UdvcmKs7w9iO6oAxs9Sheht0LGZ/
+ a2vMHX0Yom4AIGdwPaVbrmTpTWCzuyJCAMKcZw+4Y+QY7bARvC6aboFPiKtv1paoERJK
+ j3bQ==
+X-Gm-Message-State: APjAAAVxA25LUQbnUzhbVNoMzIRkq3QiuW3xj5T67nHua6u0m+OH8ETA
+ OCVxpzLHxh+j0ytfG+HAuD88ZQ==
+X-Google-Smtp-Source: APXvYqwNGsjz7wGXtGfS3DCO/wND13uJUToFnIZOPE4rjfMLY8VPeD0m92QdC/FuHn3pirgyz7FipQ==
+X-Received: by 2002:a81:34d2:: with SMTP id
+ b201mr18281962ywa.479.1582041128159; 
+ Tue, 18 Feb 2020 07:52:08 -0800 (PST)
+Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
+ by smtp.gmail.com with ESMTPSA id s68sm1802920ywg.69.2020.02.18.07.52.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 07:52:07 -0800 (PST)
+Date: Tue, 18 Feb 2020 10:52:06 -0500
+From: Sean Paul <sean@poorly.run>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>
+Subject: Re: [PATCH 3/3] drm/dp_mst: Remove single tx msg restriction.
+Message-ID: <20200218155206.GD253734@art_vandelay>
+References: <20200213211523.156998-1-sean@poorly.run>
+ <20200213211523.156998-4-sean@poorly.run>
+ <DM6PR12MB41370FD384070CC319FAFE65FC150@DM6PR12MB4137.namprd12.prod.outlook.com>
+ <CAMavQKL25TUtnZUKh0aFBqAg+CCo9keEw-Zg0atdjZUFKKtM9A@mail.gmail.com>
+ <DM6PR12MB41370AABE5D8D994E75D5F7AFC160@DM6PR12MB4137.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20200218151503.595825-1-boris.brezillon@collabora.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <DM6PR12MB41370AABE5D8D994E75D5F7AFC160@DM6PR12MB4137.namprd12.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,105 +72,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/02/2020 16:15, Boris Brezillon wrote:
-> Commit 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
-> introduced new helpers and hooks but the kernel was slightly broken.
-> Fix that now.
+On Mon, Feb 17, 2020 at 07:08:37AM +0000, Lin, Wayne wrote:
+> [AMD Public Use]
 > 
-> v2:
-> * Fix the drm_atomic_add_encoder_bridges() doc
 > 
-> Fixes: 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/drm_atomic.c |  5 +++--
->  include/drm/drm_atomic.h     |  2 +-
->  include/drm/drm_bridge.h     | 15 ++++++++-------
->  3 files changed, 12 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 65c46ed049c5..9ccfbf213d72 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1098,8 +1098,9 @@ EXPORT_SYMBOL(drm_atomic_get_new_bridge_state);
->   *
->   * This function adds all bridges attached to @encoder. This is needed to add
->   * bridge states to @state and make them available when
-> - * &bridge_funcs.atomic_{check,pre_enable,enable,disable_post_disable}() are
-> - * called
-> + * &drm_bridge_funcs.atomic_check(), &drm_bridge_funcs.atomic_pre_enable(),
-> + * &drm_bridge_funcs.atomic_enable(),
-> + * &drm_bridge_funcs.atomic_disable_post_disable() are called.
->   *
->   * Returns:
->   * 0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 52d65a055491..7b6cb4774e7d 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -1016,7 +1016,7 @@ struct drm_bus_cfg {
->  	 * @format: format used on this bus (one of the MEDIA_BUS_FMT_* format)
->  	 *
->  	 * This field should not be directly modified by drivers
-> -	 * (&drm_atomic_bridge_chain_select_bus_fmts() takes care of the bus
-> +	 * (drm_atomic_bridge_chain_select_bus_fmts() takes care of the bus
->  	 * format negotiation).
->  	 */
->  	u32 format;
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 45626ecf20f8..999faaaab9a1 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -349,9 +349,9 @@ struct drm_bridge_funcs {
->  	 * Duplicate the current bridge state object (which is guaranteed to be
->  	 * non-NULL).
->  	 *
-> -	 * The atomic_duplicate_state() is optional. When not implemented the
-> -	 * core allocates a drm_bridge_state object and calls
-> -	 * &__drm_atomic_helper_bridge_duplicate_state() to initialize it.
-> +	 * The atomic_duplicate_state() hook is optional. When not implemented
-> +	 * the core allocates a drm_bridge_state object and calls
-> +	 * __drm_atomic_helper_bridge_duplicate_state() to initialize it.
->  	 *
->  	 * RETURNS:
->  	 * A valid drm_bridge_state object or NULL if the allocation fails.
-> @@ -407,11 +407,11 @@ struct drm_bridge_funcs {
->  	 * Formats listed in the returned array should be listed in decreasing
->  	 * preference order (the core will try all formats until it finds one
->  	 * that works). When the format is not supported NULL should be
-> -	 * returned and *num_output_fmts should be set to 0.
-> +	 * returned and num_output_fmts should be set to 0.
->  	 *
->  	 * This method is called on all elements of the bridge chain as part of
->  	 * the bus format negotiation process that happens in
-> -	 * &drm_atomic_bridge_chain_select_bus_fmts().
-> +	 * drm_atomic_bridge_chain_select_bus_fmts().
->  	 * This method is optional. When not implemented, the core will bypass
->  	 * bus format negotiation on this element of the bridge without
->  	 * failing, and the previous element in the chain will be passed
-> @@ -478,9 +478,10 @@ struct drm_bridge_funcs {
->  	 *
->  	 * Note that the atomic_reset() semantics is not exactly matching the
->  	 * reset() semantics found on other components (connector, plane, ...).
-> -	 * 1/ The reset operation happens when the bridge is attached, not when
-> +	 *
-> +	 * 1. The reset operation happens when the bridge is attached, not when
->  	 *    drm_mode_config_reset() is called
-> -	 * 2/ It's meant to be used exclusively on bridges that have been
-> +	 * 2. It's meant to be used exclusively on bridges that have been
->  	 *    converted to the ATOMIC API
->  	 *
->  	 * RETURNS:
+> > -----Original Message-----
+> > From: Sean Paul <sean@poorly.run>
+> > Sent: Saturday, February 15, 2020 12:09 AM
+> > To: Lin, Wayne <Wayne.Lin@amd.com>
+> > Cc: dri-devel@lists.freedesktop.org; lyude@redhat.com; Sean Paul
+> > <seanpaul@chromium.org>; Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
+> > David Airlie <airlied@linux.ie>
+> > Subject: Re: [PATCH 3/3] drm/dp_mst: Remove single tx msg restriction.
+> > 
+> > On Fri, Feb 14, 2020 at 12:58 AM Lin, Wayne <Wayne.Lin@amd.com> wrote:
+> > >
+> > > [AMD Public Use]
+> > >
+> > > Hi Paul,
+> > >
+> > > Thanks for the mail!
+> > >
+> > > I tried to solve this problem by having restriction on sending one msg at a
+> > time due to hub/dock compatibility problems.
+> > > From my experience, some branch devices don't handle well on
+> > > interleaved replies (Dock from HP I think)
+> > 
+> > Hi Wayne,
+> > Hmm, that's interesting, do you have a part number of the failing dock so I can
+> > test it?
+> > 
+> Hi Paul,
 > 
+> Sorry but it's been quite a while. I can't exactly tell the part number. 
+> If I remember correctly, when the specific branch device receives interleaved replies,
+> it just doesn't reply to any requests.
+> 
+> > > As the result of that, correct me if I'm wrong, I remember most gpu vendors
+> > just send one down request at a time now in windows environment.
+> > > I would suggest the original solution :)
+> > 
+> > I can't really say what happens on the Windows side of the world, but I suppose
+> > that makes sense if this is a widespread issue with docks. I do worry about the
+> > performance hit.
+> > 
+> > If indeed this is a problem, could we ratelimit per branch device instead of
+> > globally? Even that would be better than serializing everything.
+> > 
+> Since the problem was because some branch devices can't simultaneously handle 
+> two replies, I'm afraid that we might still encounter the same problem?
+>  
 
-Applied to drm-misc-next
+Hi Wayne,
+Thanks for clarifying. I'm a bit hesitant to scrap this idea without solid
+evidence that this is a common problem. Do you have any hubs around AMD that
+you could try my patchset with? Perhaps we could get some hard data? I'm happy
+to test things on my end, but I probably shouldn't just start buying a bunch of
+random HP docks in hopes one of them exhibits the issue :)
 
-Neil
+To add anecdote to anecdote, everything on my desk seems to work with
+interleaved replies.
+
+Since HDCP spec requires the host to verify each channel's encryption every <2s,
+we're going to be increasing the amount of sideband traffic a fair amount, so I
+would like to ensure we're doing everything possible to maximize our sideband
+bandwidth.
+
+Sean
+
+> Thanks!
+> > Sean
+> > 
+> > >
+> > > Thanks!
+> > > > -----Original Message-----
+> > > > From: Sean Paul <sean@poorly.run>
+> > > > Sent: Friday, February 14, 2020 5:15 AM
+> > > > To: dri-devel@lists.freedesktop.org
+> > > > Cc: lyude@redhat.com; Lin, Wayne <Wayne.Lin@amd.com>; Sean Paul
+> > > > <seanpaul@chromium.org>; Maarten Lankhorst
+> > > > <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+> > > > <mripard@kernel.org>; David Airlie <airlied@linux.ie>
+> > > > Subject: [PATCH 3/3] drm/dp_mst: Remove single tx msg restriction.
+> > > >
+> > > > From: Sean Paul <seanpaul@chromium.org>
+> > > >
+> > > > Now that we can support multiple simultaneous replies, remove the
+> > > > restrictions placed on sending new tx msgs.
+> > > >
+> > > > This patch essentially just reverts commit
+> > > >   5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
+> > now
+> > > > that the problem is solved in a different way.
+> > > >
+> > > > Cc: Wayne Lin <Wayne.Lin@amd.com>
+> > > > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_dp_mst_topology.c | 14 ++------------
+> > > >  include/drm/drm_dp_mst_helper.h       |  6 ------
+> > > >  2 files changed, 2 insertions(+), 18 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > index 7e6a82efdfc02..cbf0bb0ddeb84 100644
+> > > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > @@ -1203,8 +1203,6 @@ static int drm_dp_mst_wait_tx_reply(struct
+> > > > drm_dp_mst_branch *mstb,
+> > > >                   txmsg->state == DRM_DP_SIDEBAND_TX_SENT) {
+> > > >                       mstb->tx_slots[txmsg->seqno] = NULL;
+> > > >               }
+> > > > -             mgr->is_waiting_for_dwn_reply = false;
+> > > > -
+> > > >       }
+> > > >  out:
+> > > >       if (unlikely(ret == -EIO) && drm_debug_enabled(DRM_UT_DP)) {
+> > > > @@
+> > > > -1214,7 +1212,6 @@ static int drm_dp_mst_wait_tx_reply(struct
+> > > > drm_dp_mst_branch *mstb,
+> > > >       }
+> > > >       mutex_unlock(&mgr->qlock);
+> > > >
+> > > > -     drm_dp_mst_kick_tx(mgr);
+> > > >       return ret;
+> > > >  }
+> > > >
+> > > > @@ -2797,11 +2794,9 @@ static void
+> > > > process_single_down_tx_qlock(struct
+> > > > drm_dp_mst_topology_mgr *mgr)
+> > > >       ret = process_single_tx_qlock(mgr, txmsg, false);
+> > > >       if (ret == 1) {
+> > > >               /* txmsg is sent it should be in the slots now */
+> > > > -             mgr->is_waiting_for_dwn_reply = true;
+> > > >               list_del(&txmsg->next);
+> > > >       } else if (ret) {
+> > > >               DRM_DEBUG_KMS("failed to send msg in q %d\n", ret);
+> > > > -             mgr->is_waiting_for_dwn_reply = false;
+> > > >               list_del(&txmsg->next);
+> > > >               if (txmsg->seqno != -1)
+> > > >                       txmsg->dst->tx_slots[txmsg->seqno] = NULL;
+> > @@
+> > > > -2841,8
+> > > > +2836,7 @@ static void drm_dp_queue_down_tx(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > >               drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
+> > > >       }
+> > > >
+> > > > -     if (list_is_singular(&mgr->tx_msg_downq) &&
+> > > > -         !mgr->is_waiting_for_dwn_reply)
+> > > > +     if (list_is_singular(&mgr->tx_msg_downq))
+> > > >               process_single_down_tx_qlock(mgr);
+> > > >       mutex_unlock(&mgr->qlock);
+> > > >  }
+> > > > @@ -3822,7 +3816,6 @@ static int drm_dp_mst_handle_down_rep(struct
+> > > > drm_dp_mst_topology_mgr *mgr)
+> > > >       mutex_lock(&mgr->qlock);
+> > > >       txmsg->state = DRM_DP_SIDEBAND_TX_RX;
+> > > >       mstb->tx_slots[seqno] = NULL;
+> > > > -     mgr->is_waiting_for_dwn_reply = false;
+> > > >       mutex_unlock(&mgr->qlock);
+> > > >
+> > > >       wake_up_all(&mgr->tx_waitq);
+> > > > @@ -3830,9 +3823,6 @@ static int drm_dp_mst_handle_down_rep(struct
+> > > > drm_dp_mst_topology_mgr *mgr)
+> > > >       return 0;
+> > > >
+> > > >  out_clear_reply:
+> > > > -     mutex_lock(&mgr->qlock);
+> > > > -     mgr->is_waiting_for_dwn_reply = false;
+> > > > -     mutex_unlock(&mgr->qlock);
+> > > >       if (msg)
+> > > >               memset(msg, 0, sizeof(struct
+> > drm_dp_sideband_msg_rx));
+> > > >  out:
+> > > > @@ -4670,7 +4660,7 @@ static void drm_dp_tx_work(struct work_struct
+> > > > *work)
+> > > >       struct drm_dp_mst_topology_mgr *mgr = container_of(work,
+> > > > struct drm_dp_mst_topology_mgr, tx_work);
+> > > >
+> > > >       mutex_lock(&mgr->qlock);
+> > > > -     if (!list_empty(&mgr->tx_msg_downq)
+> > > > && !mgr->is_waiting_for_dwn_reply)
+> > > > +     if (!list_empty(&mgr->tx_msg_downq))
+> > > >               process_single_down_tx_qlock(mgr);
+> > > >       mutex_unlock(&mgr->qlock);
+> > > >  }
+> > > > diff --git a/include/drm/drm_dp_mst_helper.h
+> > > > b/include/drm/drm_dp_mst_helper.h index
+> > 7d0341f94ce1b..fcc30e64c8e7e
+> > > > 100644
+> > > > --- a/include/drm/drm_dp_mst_helper.h
+> > > > +++ b/include/drm/drm_dp_mst_helper.h
+> > > > @@ -619,12 +619,6 @@ struct drm_dp_mst_topology_mgr {
+> > > >        * &drm_dp_sideband_msg_tx.state once they are queued
+> > > >        */
+> > > >       struct mutex qlock;
+> > > > -
+> > > > -     /**
+> > > > -      * @is_waiting_for_dwn_reply: indicate whether is waiting for
+> > down
+> > > > reply
+> > > > -      */
+> > > > -     bool is_waiting_for_dwn_reply;
+> > > > -
+> > > >       /**
+> > > >        * @tx_msg_downq: List of pending down replies.
+> > > >        */
+> > > > --
+> > > > Sean Paul, Software Engineer, Google / Chromium OS
+> > > --
+> > > Wayne Lin
+> --
+> Best regards,
+> Wayne Lin
+
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
