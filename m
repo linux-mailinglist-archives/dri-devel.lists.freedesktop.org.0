@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB71E1628DD
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 15:49:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D54162922
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 16:15:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 803776E30E;
-	Tue, 18 Feb 2020 14:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42E146E31E;
+	Tue, 18 Feb 2020 15:15:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D03D6E30E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 14:49:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD20E6E31E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 15:15:08 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E910E2940B9;
- Tue, 18 Feb 2020 14:49:15 +0000 (GMT)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 60826294266;
+ Tue, 18 Feb 2020 15:15:07 +0000 (GMT)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: Fix the bridge kernel doc
-Date: Tue, 18 Feb 2020 15:49:13 +0100
-Message-Id: <20200218144913.593165-1-boris.brezillon@collabora.com>
+Subject: [PATCH v2] drm/bridge: Fix the bridge kernel doc
+Date: Tue, 18 Feb 2020 16:15:03 +0100
+Message-Id: <20200218151503.595825-1-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,6 +48,9 @@ Commit 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
 introduced new helpers and hooks but the kernel was slightly broken.
 Fix that now.
 
+v2:
+* Fix the drm_atomic_add_encoder_bridges() doc
+
 Fixes: 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
@@ -57,7 +60,7 @@ Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
  3 files changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 65c46ed049c5..e2093abae526 100644
+index 65c46ed049c5..9ccfbf213d72 100644
 --- a/drivers/gpu/drm/drm_atomic.c
 +++ b/drivers/gpu/drm/drm_atomic.c
 @@ -1098,8 +1098,9 @@ EXPORT_SYMBOL(drm_atomic_get_new_bridge_state);
@@ -66,9 +69,9 @@ index 65c46ed049c5..e2093abae526 100644
   * bridge states to @state and make them available when
 - * &bridge_funcs.atomic_{check,pre_enable,enable,disable_post_disable}() are
 - * called
-+ * &bridge_funcs.atomic_check(), &bridge_funcs.atomic_pre_enable,
-+ * &bridge_funcs.atomic_enable, &bridge_funcs.atomic_disable_post_disable}()
-+ * are called
++ * &drm_bridge_funcs.atomic_check(), &drm_bridge_funcs.atomic_pre_enable(),
++ * &drm_bridge_funcs.atomic_enable(),
++ * &drm_bridge_funcs.atomic_disable_post_disable() are called.
   *
   * Returns:
   * 0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
