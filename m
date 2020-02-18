@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C447D1636DA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 00:06:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F2B1636E2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 00:07:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF7A96EADE;
-	Tue, 18 Feb 2020 23:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2FD06EAE2;
+	Tue, 18 Feb 2020 23:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
  [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB12E6EADF
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 23:06:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF396EAE2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 23:07:54 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1582067192; h=In-Reply-To: Content-Type: MIME-Version:
+ s=smtp; t=1582067274; h=In-Reply-To: Content-Type: MIME-Version:
  References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=c/Gl/+xaod6PXrjWKtPB7ywUhpAOGRUPvcwLQULGdyg=;
- b=toTVb7sJ+cWSxHu3T7oGCcA/Jx1L4kQgJOctoZXodiCkq+cJc95T8CU1ffjgrQWlxoDBlaoV
- 5JTtjL8r+kW5QEODAWsm4FT3E7XiHv+RX5Ogi5r/Z6vL6MTyla5YPZ7DGWaMSnoT5iWiMoxA
- ntulsEgzhmcFOrvhLbZy3t3n03Q=
+ bh=8iLC/MIWsGLNObQpdCKpF6XJIjNHls01CTFBxBKRpuE=;
+ b=Dtu7aYMXAmBfono0BlS6pSWLFscUshpsgAyIEZP8pGkedxdluvb69p8qlXFDO1zF1R+wuZ1f
+ tpsDbL2EoqYNWz5EQfIfYln1niHyzZWuF+7XK9a/0cJ7lbfbEy8Kdunef0CkBOzZZyikvr2F
+ IwliwDugxQrShzC6KpJzA8Onz2A=
 X-Mailgun-Sending-Ip: 104.130.122.26
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e4c6df7.7fc5368d6998-smtp-out-n03;
- Tue, 18 Feb 2020 23:06:31 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e4c6e49.7fcf28a536c0-smtp-out-n02;
+ Tue, 18 Feb 2020 23:07:53 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 6E3AEC447A3; Tue, 18 Feb 2020 23:06:31 +0000 (UTC)
+ id AA0AEC4479F; Tue, 18 Feb 2020 23:07:53 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,30 +38,30 @@ Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D5598C4479C;
- Tue, 18 Feb 2020 23:06:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D5598C4479C
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 27CFFC43383;
+ Tue, 18 Feb 2020 23:07:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 27CFFC43383
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Tue, 18 Feb 2020 16:06:27 -0700
+Date: Tue, 18 Feb 2020 16:07:50 -0700
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm: devcoredump should dump
- MSM_SUBMIT_BO_DUMP buffers
-Message-ID: <20200218230627.GA8715@jcrouse1-lnx.qualcomm.com>
+Subject: Re: [PATCH v2] drm/msm: devcoredump should dump MSM_SUBMIT_BO_DUMP
+ buffers
+Message-ID: <20200218230750.GB8715@jcrouse1-lnx.qualcomm.com>
 Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
  dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
  David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  open list <linux-kernel@vger.kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>
-References: <20200218210021.1066100-1-robdclark@gmail.com>
+ Sean Paul <sean@poorly.run>
+References: <20200218212012.1067236-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200218210021.1066100-1-robdclark@gmail.com>
+In-Reply-To: <20200218212012.1067236-1-robdclark@gmail.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,7 +85,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 18, 2020 at 01:00:21PM -0800, Rob Clark wrote:
+On Tue, Feb 18, 2020 at 01:20:12PM -0800, Rob Clark wrote:
 > From: Rob Clark <robdclark@chromium.org>
 > 
 > Also log buffers with the DUMP flag set, to ensure we capture all useful
@@ -93,8 +93,10 @@ On Tue, Feb 18, 2020 at 01:00:21PM -0800, Rob Clark wrote:
 > 
 > Otherwise we miss out on the contents of "state object" cmdstream
 > buffers.
+> 
+> v2: add missing 'inline'
 
-One nit, but with that:
+I should have checked my inbox before responding to v1.
 
 Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 
@@ -106,7 +108,7 @@ Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 >  3 files changed, 34 insertions(+), 12 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-> index 9e0953c2b7ce..22b4ccd7bb28 100644
+> index 9e0953c2b7ce..dcee0e223ed8 100644
 > --- a/drivers/gpu/drm/msm/msm_gem.h
 > +++ b/drivers/gpu/drm/msm/msm_gem.h
 > @@ -160,4 +160,14 @@ struct msm_gem_submit {
@@ -116,10 +118,7 @@ Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 > +/* helper to determine of a buffer in submit should be dumped, used for both
 > + * devcoredump and debugfs cmdstream dumping:
 > + */
-> +static bool
-
-Static inline? Surprised you didn't get an unused warning or two.
-
+> +static inline bool
 > +should_dump(struct msm_gem_submit *submit, int idx)
 > +{
 > +	extern bool rd_full;
@@ -201,9 +200,9 @@ Static inline? Surprised you didn't get an unused warning or two.
 > 2.24.1
 > 
 > _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
