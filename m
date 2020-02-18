@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183A81621A2
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 08:46:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D912E1621A7
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 08:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 425246E148;
-	Tue, 18 Feb 2020 07:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAEBE6E149;
+	Tue, 18 Feb 2020 07:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id E0D956E148
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 07:45:57 +0000 (UTC)
-X-UUID: 4fadde57aa054d20aad8d6f7bbe5b0e5-20200218
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 34A066E149
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 07:46:44 +0000 (UTC)
+X-UUID: 729695ee8e884b638f224bd5a485de69-20200218
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=gXxsoIz5rNgYDJa/BekJBxJDDBHJBtuzwIcBZe8U+9w=; 
- b=FmX6aLHYDs7Nl8uGTBxV8IdSnL78tk1vdeim1IE3sKkhAKqRpEjvBl8oYkpjj8Jk+CbfsCHpU9ZMDzFNWUnfbrwXwVC59j/d4Dcty8v7HMP66DPRLCvYYeMfA37v0VYEkHfDVrAyS6D+twUJZRdzvmYtQKwIHwM5iktRBwuYpk0=;
-X-UUID: 4fadde57aa054d20aad8d6f7bbe5b0e5-20200218
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
+ bh=g5TmMK5xtaVwCyccKk6B3PT0J4POGsB8eAQQZd7hA8o=; 
+ b=HD7TFrvS6QC6Drlf77grZ51MNyFDbKjPzyk/JZWI7CRHiSbSg7oCO6b/oSx4fJoCbx0bk/AlUNiQyynHV+uoluE2iLBPc3LQp6P/N53YrOxpoGQ1dAAIy1Gb4munRdwCCMWiubHm07o1ARpMbctJt76bjdpObTDYTjfxy8IP++I=;
+X-UUID: 729695ee8e884b638f224bd5a485de69-20200218
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1359645357; Tue, 18 Feb 2020 15:45:53 +0800
+ with ESMTP id 108004550; Tue, 18 Feb 2020 15:46:38 +0800
 Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 18 Feb 2020 15:45:07 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 18 Feb 2020 15:45:47 +0800
 Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 18 Feb 2020 15:45:28 +0800
-Message-ID: <1582011952.15399.0.camel@mtksdaap41>
-Subject: Re: [PATCH 1/2] drm/mediatek: add plane check in async_check function
+ Transport; Tue, 18 Feb 2020 15:46:14 +0800
+Message-ID: <1582011997.15399.1.camel@mtksdaap41>
+Subject: Re: [PATCH 2/2] drm/mediatek: add fb swap in async_update
 From: CK Hu <ck.hu@mediatek.com>
 To: Bibby Hsieh <bibby.hsieh@mediatek.com>
-Date: Tue, 18 Feb 2020 15:45:52 +0800
-In-Reply-To: <1581566078.12071.0.camel@mtksdaap41>
+Date: Tue, 18 Feb 2020 15:46:37 +0800
+In-Reply-To: <1581566763.12071.1.camel@mtksdaap41>
 References: <20200213012353.26815-1-bibby.hsieh@mediatek.com>
- <1581566078.12071.0.camel@mtksdaap41>
+ <20200213012353.26815-2-bibby.hsieh@mediatek.com>
+ <1581566763.12071.1.camel@mtksdaap41>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 X-MTK: N
@@ -65,13 +66,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi, Bibby:
 
-On Thu, 2020-02-13 at 11:54 +0800, CK Hu wrote:
+On Thu, 2020-02-13 at 12:06 +0800, CK Hu wrote:
 > Hi, Bibby:
 > 
 > On Thu, 2020-02-13 at 09:23 +0800, Bibby Hsieh wrote:
-> > MTK do rotation checking and transferring in layer check function,
-> > but we do not check that in atomic_check,
-> > so add back in atomic_check function.
+> > Besides x, y position, width and height,
+> > fb also need updating in async update.
 > > 
 > 
 > Reviewed-by: CK Hu <ck.hu@mediatek.com>
@@ -82,7 +82,6 @@ Applied to mediatek-drm-fixes-5.6 [1], thanks.
 [1]
 https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-fixes-5.6
 
-
 Regards,
 CK
 
@@ -90,33 +89,21 @@ CK
 > > 
 > > Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
 > > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_plane.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
+> >  drivers/gpu/drm/mediatek/mtk_drm_plane.c | 1 +
+> >  1 file changed, 1 insertion(+)
 > > 
 > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> > index 189744d34f53..d32b494ff1de 100644
+> > index d32b494ff1de..e084c36fdd8a 100644
 > > --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
 > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> > @@ -81,6 +81,7 @@ static int mtk_plane_atomic_async_check(struct drm_plane *plane,
-> >  					struct drm_plane_state *state)
-> >  {
-> >  	struct drm_crtc_state *crtc_state;
-> > +	int ret;
+> > @@ -122,6 +122,7 @@ static void mtk_plane_atomic_async_update(struct drm_plane *plane,
+> >  	plane->state->src_y = new_state->src_y;
+> >  	plane->state->src_h = new_state->src_h;
+> >  	plane->state->src_w = new_state->src_w;
+> > +	swap(plane->state->fb, new_state->fb);
+> >  	state->pending.async_dirty = true;
 > >  
-> >  	if (plane != state->crtc->cursor)
-> >  		return -EINVAL;
-> > @@ -91,6 +92,11 @@ static int mtk_plane_atomic_async_check(struct drm_plane *plane,
-> >  	if (!plane->state->fb)
-> >  		return -EINVAL;
-> >  
-> > +	ret = mtk_drm_crtc_plane_check(state->crtc, plane,
-> > +				       to_mtk_plane_state(state));
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >  	if (state->state)
-> >  		crtc_state = drm_atomic_get_existing_crtc_state(state->state,
-> >  								state->crtc);
+> >  	mtk_drm_crtc_async_update(new_state->crtc, plane, new_state);
 > 
 
 _______________________________________________
