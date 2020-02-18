@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5CCD1635CB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 23:06:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE1D1635CC
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 23:06:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABB9A6EAA1;
-	Tue, 18 Feb 2020 22:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DD766EAB0;
+	Tue, 18 Feb 2020 22:06:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1606EAA1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 22:06:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6956EAB0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 22:06:35 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205915] AMDGPU: Screen flicker after resume from suspend
-Date: Tue, 18 Feb 2020 22:06:32 +0000
+Subject: [Bug 206393] amdgpu: garbled screen after resume
+Date: Tue, 18 Feb 2020 22:06:35 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,9 +33,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205915-2300-7TGbOgZZZH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205915-2300@https.bugzilla.kernel.org/>
-References: <bug-205915-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-206393-2300-9DlRWEvUWa@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206393-2300@https.bugzilla.kernel.org/>
+References: <bug-206393-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205915
+https://bugzilla.kernel.org/show_bug.cgi?id=206393
 
---- Comment #14 from Alex Deucher (alexdeucher@gmail.com) ---
+--- Comment #6 from Alex Deucher (alexdeucher@gmail.com) ---
 See also:
 https://bugzilla.kernel.org/show_bug.cgi?id=205915
 https://bugzilla.kernel.org/show_bug.cgi?id=206393
