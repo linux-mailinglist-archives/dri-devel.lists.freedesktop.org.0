@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1023163394
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 21:57:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C922D1633B8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 22:02:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAEC989E63;
-	Tue, 18 Feb 2020 20:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD6D6EA88;
+	Tue, 18 Feb 2020 21:02:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDE489E63
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 20:57:26 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id p14so11262715pfn.4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 12:57:26 -0800 (PST)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1354A6EA86;
+ Tue, 18 Feb 2020 21:02:47 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id d9so8564700plo.11;
+ Tue, 18 Feb 2020 13:02:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7G02odti0in1pq50CWlLcK4M4B/JV9odEsJqdHdLviE=;
- b=KHoVLGc755Nz6QKqLcJzGCgRBp+XXAiXHMpAaVBedqGguP4caPbh3yUqoHbxMMDRhZ
- LuCujhgxmDMzq2G+oZSoadDw/WHfbdzPUn4k34rX+Q0rOtxp/xSOCSg3mpURlTXk9jD4
- 7PGYe7gsEODmAYge8vu4b3lJ/qUFPc/QDHc/GxtKJDkb70eWqZSa8lP1/mhQcmcSmSJa
- weLvEenZ0VJddUoUwme/2uDnrM2G0V43DED0oOQ97gdsf+DhXzmidMpXn2AJqC737cTG
- nBenUWs8zdSWxuUWWZJZNOTAr7rzVoM0Ek74SdvHtWJKvD1n/A83THFEAl/zMrsbaZmF
- DR6g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DX0d2fwy150Oxn2ueh8crPmbORULTUPrpK6kQzqonD4=;
+ b=IqW2leGHHi3LHUpLpxvIlPeA+jlREzFt6Lxa/7yLlAeviAl+ufoEQmcpu6LDBSE70A
+ TaVP5DNUawV0W7v8nUuGPMiBfQ/pOoHzOrsG1fzPAQ89YGINUO9069cKpuOM6wljAMfl
+ CGknWlktXpy+R3AqaUQuvcOLVaB9dxfWIsdBCqltxhQDggFLotDpA9jYDTOhK09cL1TN
+ ldqho9+4XLsPa0xbFHt0+Wsw3VCtRzfW0v+5G08sfB2Hl4v4RvxX2SZc5edQ3HYSDakO
+ 5byJgwku+2riUAzcXKo12lL9ED/DWStdv+S7p6pMNAgtFZSmTXYYJ0nYCqDZOZcvNRsw
+ Kl6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7G02odti0in1pq50CWlLcK4M4B/JV9odEsJqdHdLviE=;
- b=jlY5oF98PYkT4r9FO2HmyOxDgRTKN7Ga33CDFGD1WOo1Tzu1PmJm/Dtv+r2drMah8F
- 5+5DzqsnvXPIe1+P5F4dV+BE0UXPV+UrvcIABG0OAcbfSM8Z63u6A2WmAg2MbA+RRAOi
- IGFE8Y123y/bhGdJ61B3hWjFfVoCFc84iw8u7J0s/rAY1n9T8lWzw3juJGl1SzuEJ7/x
- 7UsHUuW44tojxI3hVvsQZtAhjmHcrJ8vqIuDlviZaGUZdqO6nQsXGYrLOZxpvhXoexP+
- JgU+NQ6mdnGqPOwPIKekMMmfDpHBRiLU/46SgoECmAYkqUFTau6UPxNmkTqbvUH9sV3Q
- ax4A==
-X-Gm-Message-State: APjAAAXsfX0y256+XR9FG2WhsiJEDaL67sGUEMIwDbUB8YiAFOxgBzc8
- gHqwi68j5SBi+MbeNyn7rP3qg8S+hBsboxsNwEie1hWr+ac=
-X-Google-Smtp-Source: APXvYqxl/xUw4Bt2Rq0VgN9BTwXuXH3FcqqjT11pvZykTUXjHtCX1r2J07POGReBKNUY6CQFRQxMEFp6g/kg8c3TWBQ=
-X-Received: by 2002:a65:5242:: with SMTP id q2mr23952408pgp.74.1582059445708; 
- Tue, 18 Feb 2020 12:57:25 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DX0d2fwy150Oxn2ueh8crPmbORULTUPrpK6kQzqonD4=;
+ b=hlASVHc+SoUQDw14ZGMZeNpYMswJKrSSdgNLPUn+y5gmYLUQxAZYrDNgLquU26tYr+
+ KEeTizPSFmOb9wYMBWdVCP55uiCzKAng22cfOAYj5no64RU3Dd+bBuVumgQffbJU77s1
+ ftNatKVW4BBZz83HHvxMp3GOf2QDqXqyO7fhiVVMSP9a2rXPQf29kMqik24a1ru8zhnd
+ T+mEQNQfElejQvRz856PfailivTvQA0mdKFlyKSOZKSiAY7n2bJsA2w1xcncUG7/fYhp
+ wlGGDPejE+KKkvnn0do4EH+aOSAFacE1ZlDUhVgAGbi1lR2uj3dhR1KviwkhmHrfLeeH
+ FCyw==
+X-Gm-Message-State: APjAAAX0tb63Y3FFTIEC5aBWsElLbNrsyouvxnW4TEp9ATHH1UaXJuY5
+ NsvGMcqADumXTVH4jPqRtRv2Cpv8
+X-Google-Smtp-Source: APXvYqwue7exCr+5C0zzAWXFn99tXZVUV+OlMvWLfTE4f5M3BY4CD19tzbkBbBy8OO5MYaKzHi8F3A==
+X-Received: by 2002:a17:90a:c705:: with SMTP id
+ o5mr4833444pjt.67.1582059766099; 
+ Tue, 18 Feb 2020 13:02:46 -0800 (PST)
+Received: from localhost ([100.118.89.211])
+ by smtp.gmail.com with ESMTPSA id u12sm5431970pgr.3.2020.02.18.13.02.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 13:02:45 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: devcoredump should dump MSM_SUBMIT_BO_DUMP buffers
+Date: Tue, 18 Feb 2020 13:00:21 -0800
+Message-Id: <20200218210021.1066100-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200216172117.49832-1-noralf@tronnes.org>
-In-Reply-To: <20200216172117.49832-1-noralf@tronnes.org>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 18 Feb 2020 22:57:15 +0200
-Message-ID: <CAHp75Vc6=V=cXM0mmh88V6XLmJT6kFnJCS547vgxX0zBG+cTZQ@mail.gmail.com>
-Subject: Re: [RFC 0/9] Regmap over USB for Multifunction USB Device (gpio,
- display, ...)
-To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +65,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>, USB <linux-usb@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBGZWIgMTYsIDIwMjAgYXQgNzozMCBQTSBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0
-cm9ubmVzLm9yZz4gd3JvdGU6Cj4KPiBIaSwKPgo+IEEgd2hpbGUgYmFjayBJIGhhZCB0aGUgaWRl
-YSB0byB0dXJuIGEgUmFzcGJlcnJ5IFBpIFplcm8gaW50byBhICQ1Cj4gVVNCIHRvIEhETUkvU0RU
-Vi9EU0kvRFBJIGRpc3BsYXkgYWRhcHRlci4KPgo+IFRoaW5raW5nIGFib3V0IGhvdyB0byByZXBy
-ZXNlbnQgdGhlIGRpc3BsYXkgdG8gdGhlIGRyaXZlciBJIHJlYWxpc2VkCj4gdGhhdCBoYXJkd2Fy
-ZSB1c2UgcmVnaXN0ZXJzIGFzIEFQSS4gQW5kIExpbnV4IGRvZXMgaGF2ZSBhIGdlbmVyaWMKPiBy
-ZWdpc3RlciBhYnN0cmFjdGlvbjogcmVnbWFwLiBGdXJ0aGVybW9yZSB0aGlzIG1lYW5zIHRoYXQg
-aWYgSSBjYW4gZG8gYQo+IHJlZ21hcCBvdmVyIFVTQiBpbXBsZW1lbnRhdGlvbiwgaXQgd2lsbCBi
-ZSBlYXN5IHRvIGRvIG90aGVyIGZ1bmN0aW9ucwo+IGxpa2UgZ3BpbywgYWRjIGFuZCBvdGhlcnMu
-IEFmdGVyIGEgZmV3IGl0ZXJhdGlvbnMgdHJ5aW5nIHRvIHVuZGVyc3RhbmQKPiB0aGUgVVNCIHN1
-YnN5c3RlbSBhbmQgc2F0aXNmeWluZyBkcml2ZXIgcmVxdWlyZW1lbnRzLCBJIG5vdyBoYXZlCj4g
-c29tZXRoaW5nIHRoYXQgbG9va3MgcHJvbWlzaW5nLgo+Cj4gSSdtIHNlbmRpbmcgb3V0IGFuIGVh
-cmx5IHZlcnNpb24gaG9waW5nIHRvIGdldCBmZWVkYmFjayBlc3BlY2lhbGx5IG9uCj4gdGhlIGNv
-cmUgcGFydHMgdGhhdCBoYW5kbGVzIHJlZ21hcCBhbmQgaW50ZXJydXB0cy4KPgo+IE92ZXJ2aWV3
-Ogo+Cj4gICAgICAgICAgIFVTQiBIb3N0ICAgICAgICAgIDogICAgICAgICBVU0IgRGV2aWNlCj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIDoKPiAgICAgICAgICAgICAtLS0tLS0tLS0tLS0t
-LSAgOiAgLS0tLS0tLS0tLS0tLS0tLS0tCj4gLS0tLS0tLS0tLSAgfCBtZmQ6IG11ZCAgIHwgIDog
-IHwgZl9tdWQgICAgICAgICAgfCAgLS0tLS0tLS0tLQo+IHwgRHJpdmVyIHwgIC0tLS0tLS0tLS0t
-LS0tICA6ICB8ICAgICAgICAgICAgICAgIHwgIHwgRHJpdmVyIHwKPiAtLS0tLS0tLS0tICB8IHJl
-Z21hcC11c2IgfCAgOiAgfCAobXVkX3JlZ21hcCkgICB8ICAtLS0tLS0tLS0tCj4gICAgICAgICAg
-ICAgLS0tLS0tLS0tLS0tLS0gIDogIC0tLS0tLS0tLS0tLS0tLS0tLQo+Cj4KPiBJJ3ZlIGF0dGFj
-aGVkIDIgZHJpdmVyczoKPiAtIGdwaW8vcGluY3RybDogaXMgbW9yZSBvciBsZXNzIGZpbmlzaGVk
-Cj4gLSBkaXNwbGF5OiBuZWVkcyBhIGxvdCBtb3JlIHdvcmsKCkNhbiByZWdtYXAtdXNiIGJlIHVz
-ZWQgZm9yIGRyaXZlcnMvbWZkL2RsbjIuYyBmb3IgZXhhbXBsZT8KCi0tIApXaXRoIEJlc3QgUmVn
-YXJkcywKQW5keSBTaGV2Y2hlbmtvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+From: Rob Clark <robdclark@chromium.org>
+
+Also log buffers with the DUMP flag set, to ensure we capture all useful
+cmdstream in crashdump state with modern mesa.
+
+Otherwise we miss out on the contents of "state object" cmdstream
+buffers.
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem.h | 10 ++++++++++
+ drivers/gpu/drm/msm/msm_gpu.c | 28 +++++++++++++++++++++++-----
+ drivers/gpu/drm/msm/msm_rd.c  |  8 +-------
+ 3 files changed, 34 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 9e0953c2b7ce..22b4ccd7bb28 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -160,4 +160,14 @@ struct msm_gem_submit {
+ 	} bos[0];
+ };
+ 
++/* helper to determine of a buffer in submit should be dumped, used for both
++ * devcoredump and debugfs cmdstream dumping:
++ */
++static bool
++should_dump(struct msm_gem_submit *submit, int idx)
++{
++	extern bool rd_full;
++	return rd_full || (submit->bos[idx].flags & MSM_SUBMIT_BO_DUMP);
++}
++
+ #endif /* __MSM_GEM_H__ */
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 18f3a5c53ffb..615c5cda5389 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -355,16 +355,34 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
+ 	state->cmd = kstrdup(cmd, GFP_KERNEL);
+ 
+ 	if (submit) {
+-		int i;
+-
+-		state->bos = kcalloc(submit->nr_cmds,
++		int i, nr = 0;
++
++		/* count # of buffers to dump: */
++		for (i = 0; i < submit->nr_bos; i++)
++			if (should_dump(submit, i))
++				nr++;
++		/* always dump cmd bo's, but don't double count them: */
++		for (i = 0; i < submit->nr_cmds; i++)
++			if (!should_dump(submit, submit->cmd[i].idx))
++				nr++;
++
++		state->bos = kcalloc(nr,
+ 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
+ 
++		for (i = 0; i < submit->nr_bos; i++) {
++			if (should_dump(submit, i)) {
++				msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
++					submit->bos[i].iova, submit->bos[i].flags);
++			}
++		}
++
+ 		for (i = 0; state->bos && i < submit->nr_cmds; i++) {
+ 			int idx = submit->cmd[i].idx;
+ 
+-			msm_gpu_crashstate_get_bo(state, submit->bos[idx].obj,
+-				submit->bos[idx].iova, submit->bos[idx].flags);
++			if (!should_dump(submit, submit->cmd[i].idx)) {
++				msm_gpu_crashstate_get_bo(state, submit->bos[idx].obj,
++					submit->bos[idx].iova, submit->bos[idx].flags);
++			}
+ 		}
+ 	}
+ 
+diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
+index af7ceb246c7c..732f65df5c4f 100644
+--- a/drivers/gpu/drm/msm/msm_rd.c
++++ b/drivers/gpu/drm/msm/msm_rd.c
+@@ -43,7 +43,7 @@
+ #include "msm_gpu.h"
+ #include "msm_gem.h"
+ 
+-static bool rd_full = false;
++bool rd_full = false;
+ MODULE_PARM_DESC(rd_full, "If true, $debugfs/.../rd will snapshot all buffer contents");
+ module_param_named(rd_full, rd_full, bool, 0600);
+ 
+@@ -336,12 +336,6 @@ static void snapshot_buf(struct msm_rd_state *rd,
+ 	msm_gem_put_vaddr(&obj->base);
+ }
+ 
+-static bool
+-should_dump(struct msm_gem_submit *submit, int idx)
+-{
+-	return rd_full || (submit->bos[idx].flags & MSM_SUBMIT_BO_DUMP);
+-}
+-
+ /* called under struct_mutex */
+ void msm_rd_dump_submit(struct msm_rd_state *rd, struct msm_gem_submit *submit,
+ 		const char *fmt, ...)
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
