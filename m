@@ -2,95 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBDE162BAE
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 18:10:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A660E162C4C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 18:15:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D01766E0ED;
-	Tue, 18 Feb 2020 17:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7AF6E351;
+	Tue, 18 Feb 2020 17:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F080892AC;
- Tue, 18 Feb 2020 17:10:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H3h0ML2ABFqjBGnKUH8VT8scIa11plpPMvqIt6UYaQ3FvGuoGWJhRlDEEnsAkLXyhxA+FWjio1u0sjn03EiWVAW7pB2vqsYSksWyDLTbam6M9DOOnxgyJf5l5PZ9nVc20rsJmUO0waC5+SXyYWfYDTHgt4LPiCvcfGMPZgqV/zs5J3C5IVrmXkPqJsywRbiRdBlLqBPhAyek3BMxGcTJafe+tcwSyoiA29+Ryv46TozgLtSacNIU8HkZLQzUItWFZf7ttSMvda58Y7hbWJlgvhbABwpt1GWfBFHFbA91yZB6RVhGsbLiUHbRmM2bQtWiiWojvTv0dDwyFx5OG8y74A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/pbN1UEdYGmv1ApkMrSodX6ZyR+6+Mq7LC0XGoIe474=;
- b=NFSau0Wr8xsLjQq28jLiYnTdJJLc2QoBVV9z4xpO1P7TbtncVCMJy4YH/S0MIRR43HzvZmF/pk59Ps7dFycWsTC0lNzgl/Fj2MvhqsfWQLnXe+HCVZPWDcHcIcim/93q0amfKBvTc1GfCp5e1w2NGHZVu3j5oCw0nFuhDJ1fCgDJKDWN1pEXaHX0Gqyimn6+Ew/8jI6MZsIK9xb2dPcirtwWcnwCkxlA1Z3Zu8CoLPR/nyqzFXk3TekJwifkYiE3cxwP007EHvFXO8GdMrUHw0wI1jmho7zKGgHNKJGVqKLFFNeapNpvyNXObZ3ASw9x0sVsglXQ0AJ+tBV9r9G+AQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/pbN1UEdYGmv1ApkMrSodX6ZyR+6+Mq7LC0XGoIe474=;
- b=gzMrd6HM9dQY0Of9jMESP184FWPRPi1VgGjIpPotNBPmJL5YDghDQF8of68LwdmJlXRwN5q/URoV08bjFkrP9bus+rtMk3iePFNswr1rOBc1K6ss+iM4v0x466AO9SugL9/wEhzZn0OJocLBJLwwjSeBcCeRx6sTvdDzkMkyoSA=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Nirmoy.Das@amd.com; 
-Received: from DM5PR12MB2376.namprd12.prod.outlook.com (52.132.143.139) by
- DM5PR12MB1450.namprd12.prod.outlook.com (10.172.33.136) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.25; Tue, 18 Feb 2020 17:10:35 +0000
-Received: from DM5PR12MB2376.namprd12.prod.outlook.com
- ([fe80::ac12:6413:cd14:4904]) by DM5PR12MB2376.namprd12.prod.outlook.com
- ([fe80::ac12:6413:cd14:4904%4]) with mapi id 15.20.2750.016; Tue, 18 Feb 2020
- 17:10:35 +0000
-Subject: Re: [PATCH 8/8] drm/ttm: do not keep GPU dependent addresses
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Nirmoy Das
- <nirmoy.aiemd@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200217150427.49994-1-nirmoy.das@amd.com>
- <20200217150427.49994-9-nirmoy.das@amd.com>
- <c3a20c1b-0520-1995-7445-9e3f3ea77394@suse.de>
- <9db59846-90b4-2b9a-8200-69297112693a@amd.com>
-From: Nirmoy <nirmodas@amd.com>
-Message-ID: <edc985f1-8856-4d1a-8960-efe4d21b960d@amd.com>
-Date: Tue, 18 Feb 2020 18:13:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-In-Reply-To: <9db59846-90b4-2b9a-8200-69297112693a@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: ZRAP278CA0018.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::28) To DM5PR12MB2376.namprd12.prod.outlook.com
- (2603:10b6:4:b9::11)
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1147D6E351
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 17:15:55 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id w17so10848707ybm.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 09:15:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ZsHnnQknMDvDZ+Jc5/5zgbiOYf9jw7tORlt8ck31SXk=;
+ b=dPQaJG3GBpeqjal0fOhHj5+raNQNspr8XTNOf6mOH4wTSUBAYVd5Fc9QicCv4U1jrR
+ 0o0oR53vgXv7cjNUc2JSyrXrcvXOgEEyruSgQrMJer4AUhwC3MUUu7CPT3BOb7Gjg0e1
+ 3GVqtNrq5/PnLiN7QQi+wz7tcNIoyyO0ggjkYcBT75K+3FTehmQwgrhN2NJD3zitawAi
+ +iqxHlgNBGpz7Z0Lb+f5/Fri90Mu+953a/tDkv0rbkUMX0iBd9uOQkNnTPp+TW0SCyru
+ M/IFsZHc9rUI2WLz1upsXkVIb43Bzdbqwtxaft9faOC8BZJTiiWgq5Vr5/pqRn6PCWiJ
+ Xwrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ZsHnnQknMDvDZ+Jc5/5zgbiOYf9jw7tORlt8ck31SXk=;
+ b=Aqj81Mxrrb/i2C+0UmI1rDkiriB8+pXt+Ze+qRXbnfPy9vm+Ge6cTSZcN2A+pjz9qE
+ DYqP5ZQLmIBFbFfgAIX4KtKzpAcGggpDJwfuTDlqiKWLUTTLNoYjl2JpMfQ7cka4mniW
+ jw0vvtpgHo+gijbQMvK+cjf72mcMU9J2Tkm4y9PnYiqhgJrT8SsS51jCaOGMu9G4vZFf
+ euB6Ent6fdLdNGCvubEkKMdoZGR4wrlWoliE+qPT9ieZ4F79PEFX+Viw2+WbUn4vraAz
+ YbbOzHTQMU84j1uRl8dhTB/Ub9P94gXhVtnmCxF9TXABwYU/YmbveIyehgjsY65olU9l
+ J1mQ==
+X-Gm-Message-State: APjAAAXxgJVubsj6PC7HnAFduWVT/i+k7SrqcJQjFPHbvv9v1NeiDNnV
+ h7+8R4ysdK5/tXqPltldfQOvDA==
+X-Google-Smtp-Source: APXvYqyVNOAZyTiQD5E5/HmEBSOb1LwYLPt17D5EYDdeNBLE1BiEOKT2b6DolT7cvKCmzCevEf3DWA==
+X-Received: by 2002:a25:38c1:: with SMTP id
+ f184mr18282792yba.522.1582046154153; 
+ Tue, 18 Feb 2020 09:15:54 -0800 (PST)
+Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
+ by smtp.gmail.com with ESMTPSA id s130sm1903171ywg.11.2020.02.18.09.15.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 09:15:53 -0800 (PST)
+Date: Tue, 18 Feb 2020 12:15:22 -0500
+From: Sean Paul <sean@poorly.run>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>
+Subject: Re: [PATCH 3/3] drm/dp_mst: Remove single tx msg restriction.
+Message-ID: <20200218171522.GF253734@art_vandelay>
+References: <20200213211523.156998-1-sean@poorly.run>
+ <20200213211523.156998-4-sean@poorly.run>
+ <DM6PR12MB41370FD384070CC319FAFE65FC150@DM6PR12MB4137.namprd12.prod.outlook.com>
+ <CAMavQKL25TUtnZUKh0aFBqAg+CCo9keEw-Zg0atdjZUFKKtM9A@mail.gmail.com>
+ <DM6PR12MB41370AABE5D8D994E75D5F7AFC160@DM6PR12MB4137.namprd12.prod.outlook.com>
+ <20200218155206.GD253734@art_vandelay>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2003:c5:8f2c:e900:7512:2832:6401:b174]
- (2003:c5:8f2c:e900:7512:2832:6401:b174) by
- ZRAP278CA0018.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.17 via Frontend Transport; Tue, 18 Feb 2020 17:10:31 +0000
-X-Originating-IP: [2003:c5:8f2c:e900:7512:2832:6401:b174]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 283e9075-832f-4ba4-f766-08d7b49577cf
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1450:|DM5PR12MB1450:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB14505F1C309D7759BDB731E28B110@DM5PR12MB1450.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 031763BCAF
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(39860400002)(376002)(366004)(136003)(396003)(199004)(189003)(5660300002)(2906002)(2616005)(316002)(6666004)(8936002)(4326008)(31686004)(8676002)(81156014)(66574012)(52116002)(6486002)(81166006)(478600001)(36756003)(66476007)(66556008)(53546011)(31696002)(16526019)(7416002)(110136005)(66946007)(186003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1450;
- H:DM5PR12MB2376.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fkfIpFwCDqfouZL0oaF4EAosEL3GeOLks+3cixGVw+vIpQ7lP0kEfobkBTJzkGeU+iryak589jdN4XuhSyuCA9GS8cAIalNE1PrWVj4/MpRvUVwh0d/D0JogltsIPypkSAeEghWNYYq2tKN0Tq1cP6ViAjHLhautpLRBAjUF6AUSXnZFBjyvQNVKiW8C5ybm8K3jBOhh3Bpyfwit0/M+jYtgKwhDta0NXOJDDCkWUHu/YBHSYbx9cKVJx8Hm721RMcOZXDLSV2vmjdUdwRXXPI9HcNDxc/k3EqwA4MMJeh1B/Lj6KenkVeJoiI/TaKBhshR63dBR+Zvq2Qn3T2b7vm08VmMJ0dufUmWDJMIJw5klQ3T0qxGmYPGyzocMMfPKUpqDopHKDY5Oe4KU0Tlk3Pohopl51jdK3Wr5PUUb/ry33UitZehBuBwBUkR6R4pb
-X-MS-Exchange-AntiSpam-MessageData: VPCzzUUZwCCsKC2bywEdXCyRGR1pOk9bcezY7kDXiAFnbIXKLqvh7xtn2KBnPmh7toZSfLq5kqROV1C9lGNsLM5+RfAsDkNjmc7It7gEfbGBPQco2/FczDT9E+9p3HVLAQoRWLtnKfhdcX6UJ6eiKJzqItd96Fm0WwKObuOKAiPYKFPx2DAQk9JU7xG3D6hBhXtUn1w7KfIcbsV15brkjQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 283e9075-832f-4ba4-f766-08d7b49577cf
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2020 17:10:35.2617 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u2lfe4iT9FFTzRlDCHsY3kxIW05ZR9ZEqyZaNDz8k/3LvlpwPd6fzqojP+4ztKDnKozIPp9EhxhDuoZsmiYJmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1450
+Content-Disposition: inline
+In-Reply-To: <20200218155206.GD253734@art_vandelay>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,101 +73,257 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thellstrom@vmware.com, airlied@linux.ie, kenny.ho@amd.com,
- amd-gfx@lists.freedesktop.org, nirmoy.das@amd.com,
- linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
- nouveau@lists.freedesktop.org, alexander.deucher@amd.com, sean@poorly.run,
- kraxel@redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDIvMTgvMjAgMTo0NCBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiBBbSAxOC4wMi4y
-MCB1bSAxMzo0MCBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+PiBIaQo+Pgo+PiBBbSAxNy4w
-Mi4yMCB1bSAxNjowNCBzY2hyaWViIE5pcm1veSBEYXM6Cj4+PiBHUFUgYWRkcmVzcyBoYW5kbGlu
-ZyBpcyBkZXZpY2Ugc3BlY2lmaWMgYW5kIHNob3VsZCBiZSBoYW5kbGUgYnkgaXRzIAo+Pj4gZGV2
-aWNlCj4+PiBkcml2ZXIuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogTmlybW95IERhcyA8bmlybW95
-LmRhc0BhbWQuY29tPgo+Pj4gLS0tCj4+PiDCoCBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
-wqDCoMKgIHwgNyAtLS0tLS0tCj4+PiDCoCBpbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5owqDC
-oMKgIHwgMiAtLQo+Pj4gwqAgaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCB8IDEgLQo+
-Pj4gwqAgMyBmaWxlcyBjaGFuZ2VkLCAxMCBkZWxldGlvbnMoLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyAKPj4+IGIvZHJpdmVycy9ncHUvZHJtL3R0
-bS90dG1fYm8uYwo+Pj4gaW5kZXggMTUxZWRmZDhkZTc3Li5kNTg4NWNkNjA5YTMgMTAwNjQ0Cj4+
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4+PiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9iby5jCj4+PiBAQCAtODUsNyArODUsNiBAQCBzdGF0aWMgdm9pZCB0dG1f
-bWVtX3R5cGVfZGVidWcoc3RydWN0IAo+Pj4gdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IGRy
-bV9wcmludGVyICpwCj4+PiDCoMKgwqDCoMKgIGRybV9wcmludGYocCwgIsKgwqDCoCBoYXNfdHlw
-ZTogJWRcbiIsIG1hbi0+aGFzX3R5cGUpOwo+Pj4gwqDCoMKgwqDCoCBkcm1fcHJpbnRmKHAsICLC
-oMKgwqAgdXNlX3R5cGU6ICVkXG4iLCBtYW4tPnVzZV90eXBlKTsKPj4+IMKgwqDCoMKgwqAgZHJt
-X3ByaW50ZihwLCAiwqDCoMKgIGZsYWdzOiAweCUwOFhcbiIsIG1hbi0+ZmxhZ3MpOwo+Pj4gLcKg
-wqDCoCBkcm1fcHJpbnRmKHAsICLCoMKgwqAgZ3B1X29mZnNldDogMHglMDhsbFhcbiIsIG1hbi0+
-Z3B1X29mZnNldCk7Cj4+PiDCoMKgwqDCoMKgIGRybV9wcmludGYocCwgIsKgwqDCoCBzaXplOiAl
-bGx1XG4iLCBtYW4tPnNpemUpOwo+Pj4gwqDCoMKgwqDCoCBkcm1fcHJpbnRmKHAsICLCoMKgwqAg
-YXZhaWxhYmxlX2NhY2hpbmc6IDB4JTA4WFxuIiwgCj4+PiBtYW4tPmF2YWlsYWJsZV9jYWNoaW5n
-KTsKPj4+IMKgwqDCoMKgwqAgZHJtX3ByaW50ZihwLCAiwqDCoMKgIGRlZmF1bHRfY2FjaGluZzog
-MHglMDhYXG4iLCAKPj4+IG1hbi0+ZGVmYXVsdF9jYWNoaW5nKTsKPj4+IEBAIC0zNDUsMTIgKzM0
-NCw2IEBAIHN0YXRpYyBpbnQgdHRtX2JvX2hhbmRsZV9tb3ZlX21lbShzdHJ1Y3QgCj4+PiB0dG1f
-YnVmZmVyX29iamVjdCAqYm8sCj4+PiDCoCBtb3ZlZDoKPj4+IMKgwqDCoMKgwqAgYm8tPmV2aWN0
-ZWQgPSBmYWxzZTsKPj4+IMKgIC3CoMKgwqAgaWYgKGJvLT5tZW0ubW1fbm9kZSkKPj4+IC3CoMKg
-wqDCoMKgwqDCoCBiby0+b2Zmc2V0ID0gKGJvLT5tZW0uc3RhcnQgPDwgUEFHRV9TSElGVCkgKwo+
-Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYmRldi0+bWFuW2JvLT5tZW0ubWVtX3R5cGVdLmdw
-dV9vZmZzZXQ7Cj4+PiAtwqDCoMKgIGVsc2UKPj4+IC3CoMKgwqDCoMKgwqDCoCBiby0+b2Zmc2V0
-ID0gMDsKPj4+IC0KPj4gQWZ0ZXIgbW92aW5nIHRoaXMgaW50byB1c2VycywgdGhlIGVsc2UgYnJh
-bmNoIGhhcyBiZWVuIGxvc3QuIElzCj4+ICdiby0+bWVtLm1tX25vZGUnIGFsd2F5cyB0cnVlPwo+
-Cj4gQXQgbGVhc3QgZm9yIHRoZSBhbWRncHUgYW5kIHJhZGVvbiB1c2UgY2FzZXMsIHllcy4KPgo+
-IEJ1dCB0aGF0IGlzIGEgcmF0aGVyIGdvb2QgcXVlc3Rpb24gSSBtZWFuIGZvciBpdCBpcyBpbGxl
-Z2FsIHRvIGdldCB0aGUgCj4gR1BVIEJPIGFkZHJlc3MgaWYgaXQgaXMgaW5hY2Nlc3NpYmxlIChl
-LmcuIGluIHRoZSBzeXN0ZW0gZG9tYWluKS4KPgo+IENvdWxkIGJlIHRoYXQgc29tZSBkcml2ZXIg
-cmVsaWVkIG9uIHRoZSBiZWhhdmlvciB0byBnZXQgMCBmb3IgdGhlIAo+IHN5c3RlbSBkb21haW4g
-aGVyZS4KCkkgd29uZGVyIGhvdyB0byB2ZXJpZnkgdGhhdCA/CgpJZiBJIHVuZGVyc3RhbmQgY29y
-cmVjdGx5OgoKMSBxeGwgdXNlcyBiby0+b2Zmc2V0IG9ubHkgaW4gcXhsX2JvX3BoeXNpY2FsX2Fk
-ZHJlc3MoKSB3aGljaCBpcyBub3QgaW7CoCAKc3lzdGVtIGRvbWFpbi4KCjIgdW5mb3J0dW5hdGVs
-eSBJIGNhbid0IHNheSB0aGUgc2FtZSBmb3IgYm9jaHMgYnV0IGl0IHdvcmtzIHdpdGggdGhpcyAK
-cGF0Y2ggc2VyaWVzIHNvIEkgdGhpbmsgYm9jaHMgaXMgZmluZSBhcyB3ZWxsLgoKMyB2bXdnZngg
-dXNlcyBiby0+b2Zmc2V0IG9ubHkgd2hlbiBiby0+bWVtLm1lbV90eXBlID09IFRUTV9QTF9WUkFN
-IHNvIAp2bXdnZnggc2hvdWxkIGJlIGZpbmUuCgo0IGFtZGdwdSBhbmQgcmFkZW9uIHJ1bnMgd2l0
-aCAnYm8tPm1lbS5tbV9ub2RlJyBhbHdheXMgdHJ1ZQoKSSBhbSBub3Qgc3VyZSBhYm91dMKgIG5v
-dXZlYXUgYXMgYm8tPm9mZnNldCBpcyBiZWluZyB1c2VkIGluIG1hbnkgcGxhY2VzLgoKSSBjb3Vs
-ZCBwcm9iYWJseSBtaXJyb3IgdGhlIHJlbW92ZWQgbG9naWMgdG8gbm91dmVhdSBhcwoKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYyAKYi9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKaW5kZXggZjgwMTVlMDMxOGQ3Li41YTZhMmFmOTEz
-MTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKQEAgLTEzMTcsNiArMTMxNywx
-MCBAQCBub3V2ZWF1X2JvX21vdmVfbnRmeShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgCipibywg
-Ym9vbCBldmljdCwKIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsaXN0X2Zvcl9lYWNo
-X2VudHJ5KHZtYSwgJm52Ym8tPnZtYV9saXN0LCBoZWFkKSB7CiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG5vdXZlYXVfdm1hX21hcCh2bWEsIG1lbSk7CiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBpZiAoYm8tPm1lbS5tbV9ub2RlKQorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgbnZiby0+b2Zmc2V0ID0gKG5ld19yZWctPnN0YXJ0IDw8IFBBR0VfU0hJ
-RlQpOworwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbHNlCivCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBudmJvLT5vZmZzZXQgPSAwOwogwqDCoMKgwqDC
-oMKgwqAgfSBlbHNlIHsKIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsaXN0X2Zvcl9l
-YWNoX2VudHJ5KHZtYSwgJm52Ym8tPnZtYV9saXN0LCBoZWFkKSB7CiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFdBUk5fT04odHRtX2JvX3dhaXQoYm8sIGZh
-bHNlLCBmYWxzZSkpOwoKUmVnYXJkcywKCk5pcm1veQoKCj4KPiBSZWdhcmRzLAo+IENocmlzdGlh
-bi4KPgo+Pgo+PiBCZXN0IHJlZ2FyZHMKPj4gVGhvbWFzCj4+Cj4+PiDCoMKgwqDCoMKgIGN0eC0+
-Ynl0ZXNfbW92ZWQgKz0gYm8tPm51bV9wYWdlcyA8PCBQQUdFX1NISUZUOwo+Pj4gwqDCoMKgwqDC
-oCByZXR1cm4gMDsKPj4+IMKgIGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2Fw
-aS5oIAo+Pj4gYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCj4+PiBpbmRleCBiOWJjMWIw
-MDE0MmUuLmQ2ZjM5ZWU1YmY1ZCAxMDA2NDQKPj4+IC0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1f
-Ym9fYXBpLmgKPj4+ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKPj4+IEBAIC0y
-MTMsOCArMjEzLDYgQEAgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0IHsKPj4+IMKgwqDCoMKgwqDC
-oCAqIGVpdGhlciBvZiB0aGVzZSBsb2NrcyBoZWxkLgo+Pj4gwqDCoMKgwqDCoMKgICovCj4+PiDC
-oCAtwqDCoMKgIHVpbnQ2NF90IG9mZnNldDsgLyogR1BVIGFkZHJlc3Mgc3BhY2UgaXMgaW5kZXBl
-bmRlbnQgb2YgQ1BVIAo+Pj4gd29yZCBzaXplICovCj4+PiAtCj4+PiDCoMKgwqDCoMKgIHN0cnVj
-dCBzZ190YWJsZSAqc2c7Cj4+PiDCoCB9Owo+Pj4gwqAgZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJt
-L3R0bS90dG1fYm9fZHJpdmVyLmggCj4+PiBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVy
-LmgKPj4+IGluZGV4IGM5ZTBmZDA5ZjRiMi4uYzhjZTZjMTgxYWJlIDEwMDY0NAo+Pj4gLS0tIGEv
-aW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+Pj4gKysrIGIvaW5jbHVkZS9kcm0vdHRt
-L3R0bV9ib19kcml2ZXIuaAo+Pj4gQEAgLTE3Nyw3ICsxNzcsNiBAQCBzdHJ1Y3QgdHRtX21lbV90
-eXBlX21hbmFnZXIgewo+Pj4gwqDCoMKgwqDCoCBib29sIGhhc190eXBlOwo+Pj4gwqDCoMKgwqDC
-oCBib29sIHVzZV90eXBlOwo+Pj4gwqDCoMKgwqDCoCB1aW50MzJfdCBmbGFnczsKPj4+IC3CoMKg
-wqAgdWludDY0X3QgZ3B1X29mZnNldDsgLyogR1BVIGFkZHJlc3Mgc3BhY2UgaXMgaW5kZXBlbmRl
-bnQgb2YgQ1BVIAo+Pj4gd29yZCBzaXplICovCj4+PiDCoMKgwqDCoMKgIHVpbnQ2NF90IHNpemU7
-Cj4+PiDCoMKgwqDCoMKgIHVpbnQzMl90IGF2YWlsYWJsZV9jYWNoaW5nOwo+Pj4gwqDCoMKgwqDC
-oCB1aW50MzJfdCBkZWZhdWx0X2NhY2hpbmc7Cj4+Pgo+Cl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Feb 18, 2020 at 10:52:06AM -0500, Sean Paul wrote:
+> On Mon, Feb 17, 2020 at 07:08:37AM +0000, Lin, Wayne wrote:
+> > [AMD Public Use]
+> > 
+> > 
+> > 
+> > > -----Original Message-----
+> > > From: Sean Paul <sean@poorly.run>
+> > > Sent: Saturday, February 15, 2020 12:09 AM
+> > > To: Lin, Wayne <Wayne.Lin@amd.com>
+> > > Cc: dri-devel@lists.freedesktop.org; lyude@redhat.com; Sean Paul
+> > > <seanpaul@chromium.org>; Maarten Lankhorst
+> > > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
+> > > David Airlie <airlied@linux.ie>
+> > > Subject: Re: [PATCH 3/3] drm/dp_mst: Remove single tx msg restriction.
+> > > 
+> > > On Fri, Feb 14, 2020 at 12:58 AM Lin, Wayne <Wayne.Lin@amd.com> wrote:
+> > > >
+> > > > [AMD Public Use]
+> > > >
+> > > > Hi Paul,
+> > > >
+> > > > Thanks for the mail!
+> > > >
+> > > > I tried to solve this problem by having restriction on sending one msg at a
+> > > time due to hub/dock compatibility problems.
+> > > > From my experience, some branch devices don't handle well on
+> > > > interleaved replies (Dock from HP I think)
+> > > 
+> > > Hi Wayne,
+> > > Hmm, that's interesting, do you have a part number of the failing dock so I can
+> > > test it?
+> > > 
+> > Hi Paul,
+> > 
+> > Sorry but it's been quite a while. I can't exactly tell the part number. 
+> > If I remember correctly, when the specific branch device receives interleaved replies,
+> > it just doesn't reply to any requests.
+> > 
+> > > > As the result of that, correct me if I'm wrong, I remember most gpu vendors
+> > > just send one down request at a time now in windows environment.
+> > > > I would suggest the original solution :)
+> > > 
+> > > I can't really say what happens on the Windows side of the world, but I suppose
+> > > that makes sense if this is a widespread issue with docks. I do worry about the
+> > > performance hit.
+> > > 
+> > > If indeed this is a problem, could we ratelimit per branch device instead of
+> > > globally? Even that would be better than serializing everything.
+> > > 
+> > Since the problem was because some branch devices can't simultaneously handle 
+> > two replies, I'm afraid that we might still encounter the same problem?
+> >  
+> 
+> Hi Wayne,
+> Thanks for clarifying. I'm a bit hesitant to scrap this idea without solid
+> evidence that this is a common problem. Do you have any hubs around AMD that
+> you could try my patchset with?
+
+Oh, if you can test the set, you'll also need this patch as well :-)
+
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -3814,7 +3814,9 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up,
+        int basereg = up ? DP_SIDEBAND_MSG_UP_REQ_BASE :
+                           DP_SIDEBAND_MSG_DOWN_REP_BASE;
+
+-       *mstb = NULL;
++       if (mstb)
++               *mstb = NULL;
++
+        *seqno = -1;
+
+        len = min(mgr->max_dpcd_transaction_bytes, 16);
+
+
+> Perhaps we could get some hard data? I'm happy
+> to test things on my end, but I probably shouldn't just start buying a bunch of
+> random HP docks in hopes one of them exhibits the issue :)
+> 
+> To add anecdote to anecdote, everything on my desk seems to work with
+> interleaved replies.
+> 
+> Since HDCP spec requires the host to verify each channel's encryption every <2s,
+> we're going to be increasing the amount of sideband traffic a fair amount, so I
+> would like to ensure we're doing everything possible to maximize our sideband
+> bandwidth.
+> 
+> Sean
+> 
+> > Thanks!
+> > > Sean
+> > > 
+> > > >
+> > > > Thanks!
+> > > > > -----Original Message-----
+> > > > > From: Sean Paul <sean@poorly.run>
+> > > > > Sent: Friday, February 14, 2020 5:15 AM
+> > > > > To: dri-devel@lists.freedesktop.org
+> > > > > Cc: lyude@redhat.com; Lin, Wayne <Wayne.Lin@amd.com>; Sean Paul
+> > > > > <seanpaul@chromium.org>; Maarten Lankhorst
+> > > > > <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+> > > > > <mripard@kernel.org>; David Airlie <airlied@linux.ie>
+> > > > > Subject: [PATCH 3/3] drm/dp_mst: Remove single tx msg restriction.
+> > > > >
+> > > > > From: Sean Paul <seanpaul@chromium.org>
+> > > > >
+> > > > > Now that we can support multiple simultaneous replies, remove the
+> > > > > restrictions placed on sending new tx msgs.
+> > > > >
+> > > > > This patch essentially just reverts commit
+> > > > >   5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
+> > > now
+> > > > > that the problem is solved in a different way.
+> > > > >
+> > > > > Cc: Wayne Lin <Wayne.Lin@amd.com>
+> > > > > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > > > > ---
+> > > > >  drivers/gpu/drm/drm_dp_mst_topology.c | 14 ++------------
+> > > > >  include/drm/drm_dp_mst_helper.h       |  6 ------
+> > > > >  2 files changed, 2 insertions(+), 18 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > > b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > > index 7e6a82efdfc02..cbf0bb0ddeb84 100644
+> > > > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > > @@ -1203,8 +1203,6 @@ static int drm_dp_mst_wait_tx_reply(struct
+> > > > > drm_dp_mst_branch *mstb,
+> > > > >                   txmsg->state == DRM_DP_SIDEBAND_TX_SENT) {
+> > > > >                       mstb->tx_slots[txmsg->seqno] = NULL;
+> > > > >               }
+> > > > > -             mgr->is_waiting_for_dwn_reply = false;
+> > > > > -
+> > > > >       }
+> > > > >  out:
+> > > > >       if (unlikely(ret == -EIO) && drm_debug_enabled(DRM_UT_DP)) {
+> > > > > @@
+> > > > > -1214,7 +1212,6 @@ static int drm_dp_mst_wait_tx_reply(struct
+> > > > > drm_dp_mst_branch *mstb,
+> > > > >       }
+> > > > >       mutex_unlock(&mgr->qlock);
+> > > > >
+> > > > > -     drm_dp_mst_kick_tx(mgr);
+> > > > >       return ret;
+> > > > >  }
+> > > > >
+> > > > > @@ -2797,11 +2794,9 @@ static void
+> > > > > process_single_down_tx_qlock(struct
+> > > > > drm_dp_mst_topology_mgr *mgr)
+> > > > >       ret = process_single_tx_qlock(mgr, txmsg, false);
+> > > > >       if (ret == 1) {
+> > > > >               /* txmsg is sent it should be in the slots now */
+> > > > > -             mgr->is_waiting_for_dwn_reply = true;
+> > > > >               list_del(&txmsg->next);
+> > > > >       } else if (ret) {
+> > > > >               DRM_DEBUG_KMS("failed to send msg in q %d\n", ret);
+> > > > > -             mgr->is_waiting_for_dwn_reply = false;
+> > > > >               list_del(&txmsg->next);
+> > > > >               if (txmsg->seqno != -1)
+> > > > >                       txmsg->dst->tx_slots[txmsg->seqno] = NULL;
+> > > @@
+> > > > > -2841,8
+> > > > > +2836,7 @@ static void drm_dp_queue_down_tx(struct
+> > > > > drm_dp_mst_topology_mgr *mgr,
+> > > > >               drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
+> > > > >       }
+> > > > >
+> > > > > -     if (list_is_singular(&mgr->tx_msg_downq) &&
+> > > > > -         !mgr->is_waiting_for_dwn_reply)
+> > > > > +     if (list_is_singular(&mgr->tx_msg_downq))
+> > > > >               process_single_down_tx_qlock(mgr);
+> > > > >       mutex_unlock(&mgr->qlock);
+> > > > >  }
+> > > > > @@ -3822,7 +3816,6 @@ static int drm_dp_mst_handle_down_rep(struct
+> > > > > drm_dp_mst_topology_mgr *mgr)
+> > > > >       mutex_lock(&mgr->qlock);
+> > > > >       txmsg->state = DRM_DP_SIDEBAND_TX_RX;
+> > > > >       mstb->tx_slots[seqno] = NULL;
+> > > > > -     mgr->is_waiting_for_dwn_reply = false;
+> > > > >       mutex_unlock(&mgr->qlock);
+> > > > >
+> > > > >       wake_up_all(&mgr->tx_waitq);
+> > > > > @@ -3830,9 +3823,6 @@ static int drm_dp_mst_handle_down_rep(struct
+> > > > > drm_dp_mst_topology_mgr *mgr)
+> > > > >       return 0;
+> > > > >
+> > > > >  out_clear_reply:
+> > > > > -     mutex_lock(&mgr->qlock);
+> > > > > -     mgr->is_waiting_for_dwn_reply = false;
+> > > > > -     mutex_unlock(&mgr->qlock);
+> > > > >       if (msg)
+> > > > >               memset(msg, 0, sizeof(struct
+> > > drm_dp_sideband_msg_rx));
+> > > > >  out:
+> > > > > @@ -4670,7 +4660,7 @@ static void drm_dp_tx_work(struct work_struct
+> > > > > *work)
+> > > > >       struct drm_dp_mst_topology_mgr *mgr = container_of(work,
+> > > > > struct drm_dp_mst_topology_mgr, tx_work);
+> > > > >
+> > > > >       mutex_lock(&mgr->qlock);
+> > > > > -     if (!list_empty(&mgr->tx_msg_downq)
+> > > > > && !mgr->is_waiting_for_dwn_reply)
+> > > > > +     if (!list_empty(&mgr->tx_msg_downq))
+> > > > >               process_single_down_tx_qlock(mgr);
+> > > > >       mutex_unlock(&mgr->qlock);
+> > > > >  }
+> > > > > diff --git a/include/drm/drm_dp_mst_helper.h
+> > > > > b/include/drm/drm_dp_mst_helper.h index
+> > > 7d0341f94ce1b..fcc30e64c8e7e
+> > > > > 100644
+> > > > > --- a/include/drm/drm_dp_mst_helper.h
+> > > > > +++ b/include/drm/drm_dp_mst_helper.h
+> > > > > @@ -619,12 +619,6 @@ struct drm_dp_mst_topology_mgr {
+> > > > >        * &drm_dp_sideband_msg_tx.state once they are queued
+> > > > >        */
+> > > > >       struct mutex qlock;
+> > > > > -
+> > > > > -     /**
+> > > > > -      * @is_waiting_for_dwn_reply: indicate whether is waiting for
+> > > down
+> > > > > reply
+> > > > > -      */
+> > > > > -     bool is_waiting_for_dwn_reply;
+> > > > > -
+> > > > >       /**
+> > > > >        * @tx_msg_downq: List of pending down replies.
+> > > > >        */
+> > > > > --
+> > > > > Sean Paul, Software Engineer, Google / Chromium OS
+> > > > --
+> > > > Wayne Lin
+> > --
+> > Best regards,
+> > Wayne Lin
+> 
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
