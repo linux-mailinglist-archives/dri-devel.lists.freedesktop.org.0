@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24151635E7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 23:16:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6F6163697
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 23:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F29E6EABE;
-	Tue, 18 Feb 2020 22:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE36E6E41D;
+	Tue, 18 Feb 2020 22:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1EA36EABE
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 22:16:44 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id D4B7680535;
- Tue, 18 Feb 2020 23:16:39 +0100 (CET)
-Date: Tue, 18 Feb 2020 23:16:38 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 4/5] dt-bindings: display: add data-mapping to panel-dpi
-Message-ID: <20200218221638.GA27927@ravnborg.org>
-References: <20200216181513.28109-1-sam@ravnborg.org>
- <20200216181513.28109-5-sam@ravnborg.org>
- <CAL_Jsq+AbXEiLCYiAvwr5qzbSnuo9G8bTwAM3G9J4cPYz1_FMw@mail.gmail.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86BEA6E41D
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 22:58:10 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2020 14:58:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,458,1574150400"; d="scan'208";a="282926429"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com)
+ ([10.54.74.202])
+ by FMSMGA003.fm.intel.com with ESMTP; 18 Feb 2020 14:58:09 -0800
+Date: Tue, 18 Feb 2020 14:58:09 -0800
+From: Sean Christopherson <sean.j.christopherson@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
+Message-ID: <20200218225809.GL28156@linux.intel.com>
+References: <20200213213036.207625-1-olvaffe@gmail.com>
+ <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
+ <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
+ <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
+ <20200214195229.GF20690@linux.intel.com>
+ <CAPaKu7Q4gehyhEgG_Nw=tiZiTh+7A8-uuXq1w4he6knp6NWErQ@mail.gmail.com>
+ <CALMp9eRwTxdqxAcobZ7sYbD=F8Kga=jR3kaz-OEYdA9fV0AoKQ@mail.gmail.com>
+ <20200214220341.GJ20690@linux.intel.com>
+ <d3a6fac6-3831-3b8e-09b6-bfff4592f235@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+AbXEiLCYiAvwr5qzbSnuo9G8bTwAM3G9J4cPYz1_FMw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=VQIv7C4PpHhCiZb-sUYA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <d3a6fac6-3831-3b8e-09b6-bfff4592f235@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,63 +53,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steffen Trumtrar <s.trumtrar@pengutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Jim Mattson <jmattson@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 18, 2020 at 02:13:45PM -0600, Rob Herring wrote:
-> On Sun, Feb 16, 2020 at 12:15 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> >
-> > Add data-mapping property that can be used to specify
-> > the media format used for the connection betwwen the
-> > display controller (connector) and the panel.
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+On Tue, Feb 18, 2020 at 05:28:51PM +0100, Paolo Bonzini wrote:
+> On 14/02/20 23:03, Sean Christopherson wrote:
+> >> On Fri, Feb 14, 2020 at 1:47 PM Chia-I Wu <olvaffe@gmail.com> wrote:
+> >>> AFAICT, it is currently allowed on ARM (verified) and AMD (not
+> >>> verified, but svm_get_mt_mask returns 0 which supposedly means the NPT
+> >>> does not restrict what the guest PAT can do).  This diff would do the
+> >>> trick for Intel without needing any uapi change:
+> >> I would be concerned about Intel CPU errata such as SKX40 and SKX59.
+> > The part KVM cares about, #MC, is already addressed by forcing UC for MMIO.
+> > The data corruption issue is on the guest kernel to correctly use WC
+> > and/or non-temporal writes.
 > 
-> Missing blank line.
-> 
-> > ---
-> >  .../devicetree/bindings/display/panel/panel-dpi.yaml | 12 +++++++++++-
-> >  1 file changed, 11 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > index 40079fc24a63..6a03d2449701 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > @@ -21,6 +21,16 @@ properties:
-> >        - {}
-> >        - const: panel-dpi
-> >
-> > +  data-mapping:
-> > +    enum:
-> > +      - rgb24
-> > +      - rgb565
-> > +      - bgr666
-> > +      - lvds666
-> 
-> Doesn't lvds666 come from i.MX IPU which as I remember has built-in
-> LVDS block? I'd think this format would be implicit when using the
-> LVDS block and panel. It doesn't seem this is actually used anywhere
-> either.
-I must admit that I just copied this list from Oleksandrs original
-patch. The MEDIA type it identifies(MEDIA_BUS_FMT_RGB666_1X24_CPADHI) looks special.
-I will drop lvds666 while applying, unless I get other feedback.
-(Note: travelling, earliest in the weekend)
+> What about coherency across live migration?  The userspace process would
+> use cached accesses, and also a WBINVD could potentially corrupt guest
+> memory.
 
-Btw. anyway I can add data-mapping to panel-common - and then list the
-allowed enum values in each binding?
-
-I would love to have a central definition of data-mapping, and then let
-the users only allow the relevant subset so we catch errors in DT files
-early.
-
-	Sam
+Haven't given it an iota of thought.  My comments were purely in the
+context of the SKX40 and SKX59 errata, which are silly bugs that no real
+world software will ever hit, e.g. no sane software is going to split a
+MASKMOV instruction across address spaces.  Hitting SKX59 would further
+require the kernel to map MMIO as WB directly adjacent to RAM, which is
+beyond crazy.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
