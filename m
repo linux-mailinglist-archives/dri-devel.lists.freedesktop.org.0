@@ -1,32 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7791621B7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 08:55:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 183A81621A2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 08:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D83D16E14F;
-	Tue, 18 Feb 2020 07:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 425246E148;
+	Tue, 18 Feb 2020 07:46:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4AA6E10B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Feb 2020 23:00:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id D5DBB28B55B
-Received: by earth.universe (Postfix, from userid 1000)
- id 952973C0C81; Tue, 18 Feb 2020 00:00:13 +0100 (CET)
-Date: Tue, 18 Feb 2020 00:00:13 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v6 00/51] drm/omap: Replace custom display drivers with
- drm_bridge and drm_panel
-Message-ID: <20200217230013.eqrt5jn3p5kvhljk@earth.universe>
-References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E0D956E148
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 07:45:57 +0000 (UTC)
+X-UUID: 4fadde57aa054d20aad8d6f7bbe5b0e5-20200218
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=gXxsoIz5rNgYDJa/BekJBxJDDBHJBtuzwIcBZe8U+9w=; 
+ b=FmX6aLHYDs7Nl8uGTBxV8IdSnL78tk1vdeim1IE3sKkhAKqRpEjvBl8oYkpjj8Jk+CbfsCHpU9ZMDzFNWUnfbrwXwVC59j/d4Dcty8v7HMP66DPRLCvYYeMfA37v0VYEkHfDVrAyS6D+twUJZRdzvmYtQKwIHwM5iktRBwuYpk0=;
+X-UUID: 4fadde57aa054d20aad8d6f7bbe5b0e5-20200218
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1359645357; Tue, 18 Feb 2020 15:45:53 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 18 Feb 2020 15:45:07 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 18 Feb 2020 15:45:28 +0800
+Message-ID: <1582011952.15399.0.camel@mtksdaap41>
+Subject: Re: [PATCH 1/2] drm/mediatek: add plane check in async_check function
+From: CK Hu <ck.hu@mediatek.com>
+To: Bibby Hsieh <bibby.hsieh@mediatek.com>
+Date: Tue, 18 Feb 2020 15:45:52 +0800
+In-Reply-To: <1581566078.12071.0.camel@mtksdaap41>
+References: <20200213012353.26815-1-bibby.hsieh@mediatek.com>
+ <1581566078.12071.0.camel@mtksdaap41>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
-X-Mailman-Approved-At: Tue, 18 Feb 2020 07:55:25 +0000
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,95 +52,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
-Content-Type: multipart/mixed; boundary="===============0480289614=="
+Cc: drinkcat@chromium.org, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tfiga@chromium.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Bibby:
 
---===============0480289614==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zrgnrk4rxb2p2aye"
-Content-Disposition: inline
+On Thu, 2020-02-13 at 11:54 +0800, CK Hu wrote:
+> Hi, Bibby:
+> 
+> On Thu, 2020-02-13 at 09:23 +0800, Bibby Hsieh wrote:
+> > MTK do rotation checking and transferring in layer check function,
+> > but we do not check that in atomic_check,
+> > so add back in atomic_check function.
+> > 
+> 
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> 
+
+Applied to mediatek-drm-fixes-5.6 [1], thanks.
+
+[1]
+https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-fixes-5.6
 
 
---zrgnrk4rxb2p2aye
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Regards,
+CK
 
-Hi,
-
-On Sun, Feb 16, 2020 at 11:02:17PM +0200, Laurent Pinchart wrote:
-> This patch series is the sixth attempt to (nearly, see [1])
-> complete the rework of the omapdrm driver to move to drm_bridge
-> and drm_panel.
->=20
-> Version 2, available at [2], explains in its long cover letter the
-> rationale for the changes. I won't duplicate it here as it is
-> still valid as-is.
->=20
-> Compared to v5, available at [3], this version has been rebased on
-> top of drm-misc-next, and minor bugs have been fixed, including
-> interlaced modes support with VENC.
->=20
-> The patches can be found at
->=20
->         git://linuxtv.org/pinchartl/media.git omapdrm/bridge/devel
->=20
-> [1] The only notable exception is the omapdrm-specific DSI panel
-> driver that implements a large number of custom operations. This
-> is being addressed separately.
->=20
-> [2] https://patchwork.kernel.org/cover/11102445/
-> [3] https://patchwork.kernel.org/cover/11349617/
-
-The series is
-
-Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
-Testing was done on Droid 4, DSI command mode panel is still
-working. I had to add the following patch because of the base
-you chose for the branch. Might make sense to use 5.6-rc1 instead.
-
-https://lore.kernel.org/lkml/CAHk-=3Dwh8VLe3AEKhz=3D1bzSO=3D1fv4EM71EhufxuC=
-=3DGp=3D+bLhXoA@mail.gmail.com/
-
--- Sebastian
-
---zrgnrk4rxb2p2aye
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl5LGuwACgkQ2O7X88g7
-+prU4RAAo4jgeDqZjVIeZT3LGCOkVNeBWL6C1LFfjxOApLtu1FC9f0KbDnpvVfao
-/0PSgJaA6KeEjp0zhhGkbD0ucpcaS+YKDUPzsyqz8MoiRzr6dPlg+Af8VvdjgwLx
-h+9Atl5kLQPBvPMssjOh0LhFLuWKynzI/66tP/nCQ5/M8i4prBkNZlKvlsFxlsE3
-ZzEqBesV3nOvtGFXsUrqwponocUv7+WGfFAU7ovJXD26C+Ek1u1+TByUHDU+zt8A
-lldsTzN8ErwYpUkbtUJ+gxHwtFjhD+3d6jgZrjiVVUX7DdmXRG6LzWwg/Kb1k0MM
-sMDujByPaMtBe22uzHOPzNJwMxqE2QeKkYNgG1JmAcIbvYboZeMJ83TuGLGacmcV
-cE62Pq8bvyLwtSzBMz0U6MwuzIxBI8v7+Bk/+50yHk2MbgEp8mIMQW4MzLVqGT8s
-+I7/l+L+R7lF8gNSXaQJd27FLeko76l44mFP52f9zaFtAQ6WqgNIpTq1KAWBW8jj
-4biRqAaIKIESgI6N/lR0NIMUm3neDrbq9B2JLPc/uTh+D+MIN0/alOq74MWwMs3S
-9xHp0kONSfuhp2toP6VACq6nfccW9leHrL1KXGdCgxCcmWe5tAqw/PsVMRy70e8u
-zCmetBbuBKWfyP9OMWURnDj+W717v0Sl8OiUCFD3jSro57SqzmA=
-=8P3S
------END PGP SIGNATURE-----
-
---zrgnrk4rxb2p2aye--
-
---===============0480289614==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> > Fixes: 920fffcc8912 ("drm/mediatek: update cursors by using async atomic update")
+> > 
+> > Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_drm_plane.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> > index 189744d34f53..d32b494ff1de 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> > @@ -81,6 +81,7 @@ static int mtk_plane_atomic_async_check(struct drm_plane *plane,
+> >  					struct drm_plane_state *state)
+> >  {
+> >  	struct drm_crtc_state *crtc_state;
+> > +	int ret;
+> >  
+> >  	if (plane != state->crtc->cursor)
+> >  		return -EINVAL;
+> > @@ -91,6 +92,11 @@ static int mtk_plane_atomic_async_check(struct drm_plane *plane,
+> >  	if (!plane->state->fb)
+> >  		return -EINVAL;
+> >  
+> > +	ret = mtk_drm_crtc_plane_check(state->crtc, plane,
+> > +				       to_mtk_plane_state(state));
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >  	if (state->state)
+> >  		crtc_state = drm_atomic_get_existing_crtc_state(state->state,
+> >  								state->crtc);
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0480289614==--
