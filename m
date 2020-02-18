@@ -1,55 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C931627D7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 15:15:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB71E1628DD
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 15:49:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8D0D6EA14;
-	Tue, 18 Feb 2020 14:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 803776E30E;
+	Tue, 18 Feb 2020 14:49:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 303E56EA14
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 14:14:56 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id c16so20227484oic.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 06:14:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hujydpLDAIwrQEmjt1moUxKixDzmIxfIWJaumohuz2g=;
- b=K9LdXn685lyoQKi12Lal8eKFtSVF7O6kGgeme9bWuIGw2C/AaTib0jfa9KosLkaM5D
- 3VMESgody7G0LQMX8ACqLGMfERvyMBlyEaR96uTEpAYMdfi8ZzKtAW1ba3Lh8f65UByw
- dpyVr0qMlsKPd0TT23MLxHtjNbkiKXMbEZNF8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hujydpLDAIwrQEmjt1moUxKixDzmIxfIWJaumohuz2g=;
- b=G+xTvprryxqHE5DkbKY3hddB3XnpIKwNXVlUixs7m61/9DqTMlL2/veScPke6IprY8
- 9657IW+5yomv9x4DYhZai2emB83epH1wRL3FDWzMtPHUMdnbVEVezhx7XatuQNGOYsSl
- QKJJS2wdLIvHbNCopSDMDoy2o9nIZnNPvlV6mzKuQuNiCGrtfvDrYDpy1ZcwutW8om8r
- VTntOUmMp5Cyp5UZe/jiW9IIfLcIildpxAfbjRVNv60+97D/kFtrSwybA4R5+qhiPcFI
- 0atqeaywXGReggT2bvRYFVWJfhsCzNKl6VgZRdv24yjIUpDqzO6MINZ7KWuL59FXcQKi
- CBsg==
-X-Gm-Message-State: APjAAAWM1COdx8rcKyAbbp2Ho1oU/Db7BwYnKdXAwNRgd82S+K+7fZja
- HOf38fBpCjmHAo2wkF5OO+Gm6EejYgqUdfhR91Swig==
-X-Google-Smtp-Source: APXvYqxmhP/i2CWA/jLwh/X5PQyBCOK06TIIexdtLpaooBTFKMia+m5jnBCXaOMn+y8Wem2t7DpcOrgTUON6RMqg5CE=
-X-Received: by 2002:a05:6808:319:: with SMTP id
- i25mr1373711oie.128.1582035295462; 
- Tue, 18 Feb 2020 06:14:55 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D03D6E30E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 14:49:17 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E910E2940B9;
+ Tue, 18 Feb 2020 14:49:15 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/bridge: Fix the bridge kernel doc
+Date: Tue, 18 Feb 2020 15:49:13 +0100
+Message-Id: <20200218144913.593165-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20191029104049.9011-1-christian.koenig@amd.com>
- <20191029104049.9011-2-christian.koenig@amd.com>
- <20191105102045.GC10326@phenom.ffwll.local>
- <cb607ed5-eaeb-5332-d1de-77cae8512c1d@gmail.com>
-In-Reply-To: <cb607ed5-eaeb-5332-d1de-77cae8512c1d@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 18 Feb 2020 15:14:44 +0100
-Message-ID: <CAKMK7uHuD1PP4uX2868=oY7mbpfWr76bjjFd9GreP=fm+b17gA@mail.gmail.com>
-Subject: Re: [PATCH 1/5] dma-buf: add dynamic DMA-buf handling v14
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,91 +37,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBGZWIgMTgsIDIwMjAgYXQgMjoyMCBQTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
-LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAwNS4xMS4xOSB1bSAxMToy
-MCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiBPbiBUdWUsIE9jdCAyOSwgMjAxOSBhdCAxMTo0
-MDo0NUFNICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4gW1NOSVBdCj4gPj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgYi9kcml2ZXJzL2RtYS1idWYvZG1h
-LWJ1Zi5jCj4gPj4gaW5kZXggZDM3N2I0Y2E2NmJmLi5jZTI5M2NlZTc2ZWQgMTAwNjQ0Cj4gPj4g
-LS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+ID4+ICsrKyBiL2RyaXZlcnMvZG1hLWJ1
-Zi9kbWEtYnVmLmMKPiA+PiBAQCAtNTI5LDYgKzUyOSwxMCBAQCBzdHJ1Y3QgZG1hX2J1ZiAqZG1h
-X2J1Zl9leHBvcnQoY29uc3Qgc3RydWN0IGRtYV9idWZfZXhwb3J0X2luZm8gKmV4cF9pbmZvKQo+
-ID4+ICAgICAgICAgICAgICAgICAgZXhwX2luZm8tPm9wcy0+ZHluYW1pY19tYXBwaW5nKSkKPiA+
-PiAgICAgICAgICAgICAgcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4gPj4KPiA+PiArICAgIGlm
-IChXQVJOX09OKCFleHBfaW5mby0+b3BzLT5keW5hbWljX21hcHBpbmcgJiYKPiA+PiArICAgICAg
-ICAgICAgICAgIChleHBfaW5mby0+b3BzLT5waW4gfHwgZXhwX2luZm8tPm9wcy0+dW5waW4pKSkK
-PiA+PiArICAgICAgICAgICAgcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4gPiBJbW8gbWFrZSB0
-aGlzIHN0cm9uZ2VyLCBoYXZlIGEgZHluYW1pYyBtYXBwaW5nIGlmZiB0aGVyZSdzIGJvdGggYSBw
-aW4gYW5kCj4gPiB1bnBpbiBmdW5jdGlvbi4gT3RoZXJ3aXNlIHRoaXMgZG9lc24ndCBtYWtlIGEg
-bG90IG9mIHNlbnNlIHRvIG1lLgo+Cj4gSSB3YW50IHRvIGF2b2lkIHRoYXQgZm9yIHRoZSBpbml0
-aWFsIGltcGxlbWVudGF0aW9uLiBTbyBmYXIgZHluYW1pYyBvbmx5Cj4gbWVhbnQgdGhhdCB3ZSBo
-YXZlIHRoZSBuZXcgbG9ja2luZyBzZW1hbnRpY3MuCj4KPiBXZSBjb3VsZCBtYWtlIHRoYXQgbWFu
-ZGF0b3J5IGFmdGVyIHRoaXMgcGF0Y2ggc2V0IHdoZW4gYW1kZ3B1IGlzCj4gbWlncmF0ZWQgYW5k
-IGhhcyBpbXBsZW1lbnRlZCB0aGUgbmVjZXNzYXJ5IGNhbGxiYWNrcy4KCk9rIGlmIHdlIGdvIHdp
-dGggQ09ORklHX0VYUEVSSU1FTlRBTF9EWU5fRE1BQlVGIG9yIHdoYXRldmVyIGl0J3MgZ29pbmcK
-dG8gYmUgY2FsbGVkIEknbSB0b3RhbGx5IG9rIGlmIHdlIGp1c3Qgbm90ZSB0aGlzIHNvbWV3aGVy
-ZSBhcyBhIEZJWE1FCihtYXliZSBqdXN0IGlubGluZSBpbiBhIGNvZGUgY29tbWVudCBuZXh0IHRv
-IHRoZSBtYWluICNpZmRlZiBpbgpkbWEtYnVmLmguIFNhbWUgZm9yIGFsbCB5b3VyIG90aGVyIGNv
-bW1lbnRzIGJlbG93LgoKQ2hlZXJzLCBEYW5pZWwKCj4KPiA+PiBbU05JUF0KPiA+PiBAQCAtODIx
-LDEzICs4NzcsMjMgQEAgc3RydWN0IHNnX3RhYmxlICpkbWFfYnVmX21hcF9hdHRhY2htZW50KHN0
-cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCwKPiA+PiAgICAgICAgICAgICAgcmV0dXJu
-IGF0dGFjaC0+c2d0Owo+ID4+ICAgICAgfQo+ID4+Cj4gPj4gLSAgICBpZiAoZG1hX2J1Zl9pc19k
-eW5hbWljKGF0dGFjaC0+ZG1hYnVmKSkKPiA+PiArICAgIGlmIChkbWFfYnVmX2lzX2R5bmFtaWMo
-YXR0YWNoLT5kbWFidWYpKSB7Cj4gPj4gICAgICAgICAgICAgIGRtYV9yZXN2X2Fzc2VydF9oZWxk
-KGF0dGFjaC0+ZG1hYnVmLT5yZXN2KTsKPiA+PiArICAgICAgICAgICAgaWYgKCFhdHRhY2gtPmlt
-cG9ydGVyX29wcy0+bW92ZV9ub3RpZnkpIHsKPiA+IEltbyBqdXN0IHJlcXVpcmUgLT5tb3ZlX25v
-dGlmeSBmb3IgaW1wb3J0ZXJzIHRoYXQgZ2l2ZSB5b3UgYW4gb3BzCj4gPiBmdW5jdGlvbi4gRG9l
-c24ndCByZWFsbHkgbWFrZSBzZW5zZSB0byBhbGxvdyBkeW5hbWljIHdpdGhvdXQgc3VwcG9ydAo+
-ID4gLT5tb3ZlX25vdGlmeS4KPgo+IFNhbWUgdGhpbmcgaGVyZS4gV2UgY291bGQgbWFrZSB0aGF0
-IG1hbmRhdG9yeSBhbmQgY2xlYW4gaXQgdXAgYWZ0ZXIKPiBtaWdyYXRpbmcgYW1kZ3B1Lgo+Cj4g
-Pj4gW1NOSVBdCj4gPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5j
-bHVkZS9saW51eC9kbWEtYnVmLmgKPiA+PiBpbmRleCBhZjczZjgzNWM1MWMuLjc0NTZiYjkzNzYz
-NSAxMDA2NDQKPiA+PiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaAo+ID4+ICsrKyBiL2lu
-Y2x1ZGUvbGludXgvZG1hLWJ1Zi5oCj4gPj4gQEAgLTkzLDE0ICs5Myw0MCBAQCBzdHJ1Y3QgZG1h
-X2J1Zl9vcHMgewo+ID4+ICAgICAgICovCj4gPj4gICAgICB2b2lkICgqZGV0YWNoKShzdHJ1Y3Qg
-ZG1hX2J1ZiAqLCBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICopOwo+ID4+Cj4gPj4gKyAgICAv
-KioKPiA+PiArICAgICAqIEBwaW46Cj4gPj4gKyAgICAgKgo+ID4+ICsgICAgICogVGhpcyBpcyBj
-YWxsZWQgYnkgZG1hX2J1Zl9waW4gYW5kIGxldHMgdGhlIGV4cG9ydGVyIGtub3cgdGhhdCB0aGUK
-PiA+PiArICAgICAqIERNQS1idWYgY2FuJ3QgYmUgbW92ZWQgYW55IG1vcmUuCj4gPiBJIHRoaW5r
-IHdlIHNob3VsZCBhZGQgYSB3YXJuaW5nIGhlcmUgdGhhdCBwaW5uaW5nIGlzIG9ubHkgb2sgZm9y
-IGxpbWl0ZWQKPiA+IHVzZS1jYXNlcyAobGlrZSBzY2Fub3V0IG9yIHNpbWlsYXIpLCBhbmQgbm90
-IGFzIHBhcnQgb2YgZ2VuZXJhbCBidWZmZXIKPiA+IG1hbmFnZW1lbnQuCj4gPgo+ID4gaTkxNSB1
-c2VzIHRlbXBvcmFyeSBwaW5zIHRocm91Z2ggaXQncyBleGVjYnVmIG1hbmFnZW1lbnQgKGFuZCBl
-dmVyeXdoZXJlCj4gPiBlbHNlKSwgc28gd2UgaGF2ZSBhIF9sb3RfIG9mIHBlb3BsZSBpbiBkcmkt
-ZGV2ZWwgd2l0aCBxdWl0ZSBkaWZmZXJlbnQKPiA+IGlkZWFzIG9mIHdoYXQgdGhpcyBtaWdodCBi
-ZSBmb3IgOi0pCj4KPiBZZWFoLCB0aGF0IGlzIGFsc28gYSBnb29kIGlkZWEgZm9yIHVzLiBXcm90
-ZSBhIG9uZSBsaW5lciwgYnV0IHlvdSBtaWdodAo+IHdhbnQgdG8gZG91YmxlIGNoZWNrIHRoZSB3
-b3JkaW5nLgo+Cj4gPj4gW1NOSVBdCj4gPj4gQEAgLTE0MSw5ICsxNjcsNiBAQCBzdHJ1Y3QgZG1h
-X2J1Zl9vcHMgewo+ID4+ICAgICAgICoKPiA+PiAgICAgICAqIFRoaXMgaXMgY2FsbGVkIGJ5IGRt
-YV9idWZfdW5tYXBfYXR0YWNobWVudCgpIGFuZCBzaG91bGQgdW5tYXAgYW5kCj4gPj4gICAgICAg
-KiByZWxlYXNlIHRoZSAmc2dfdGFibGUgYWxsb2NhdGVkIGluIEBtYXBfZG1hX2J1ZiwgYW5kIGl0
-IGlzIG1hbmRhdG9yeS4KPiA+PiAtICAgICAqIEl0IHNob3VsZCBhbHNvIHVucGluIHRoZSBiYWNr
-aW5nIHN0b3JhZ2UgaWYgdGhpcyBpcyB0aGUgbGFzdCBtYXBwaW5nCj4gPj4gLSAgICAgKiBvZiB0
-aGUgRE1BIGJ1ZmZlciwgaXQgdGhlIGV4cG9ydGVyIHN1cHBvcnRzIGJhY2tpbmcgc3RvcmFnZQo+
-ID4+IC0gICAgICogbWlncmF0aW9uLgo+ID4gVGhpcyBpcyBzdGlsbCB2YWxpZCBmb3Igbm9uLWR5
-bmFtaWMgZXhwb3J0ZXJzLiBJbW8ga2VlcCBidXQgY2xhcmlmeSB0aGF0Lgo+Cj4gT0ssIGNoYW5n
-ZWQuCj4KPiA+PiBbU05JUF0KPiA+PiBAQCAtNDM4LDE2ICs0OTEsMTkgQEAgc3RhdGljIGlubGlu
-ZSBib29sIGRtYV9idWZfaXNfZHluYW1pYyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQo+ID4+ICAg
-c3RhdGljIGlubGluZSBib29sCj4gPj4gICBkbWFfYnVmX2F0dGFjaG1lbnRfaXNfZHluYW1pYyhz
-dHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gpCj4gPj4gICB7Cj4gPj4gLSAgICByZXR1
-cm4gYXR0YWNoLT5keW5hbWljX21hcHBpbmc7Cj4gPj4gKyAgICByZXR1cm4gISFhdHRhY2gtPmlt
-cG9ydGVyX29wczsKPiA+IEhtIHdoeSBub3QgZG8gdGhlIHNhbWUgZm9yIGV4cG9ydGVycywgYW5k
-IG1ha2UgdGhlbSBkeW5hbWljIGlmZiB0aGV5IGhhdmUKPiA+IHBpbi91bnBpbj8KPgo+IFNhbWUg
-dGhpbmcgYXMgYmVmb3JlLCB0byBtaWdyYXRlIGFtZGdwdSB0byB0aGUgbmV3IGludGVyZmFjZSBm
-aXJzdCBhbmQKPiB0aGVuIG1ha2UgaXQgbWFuZGF0b3J5Lgo+Cj4gSSB0aGluayBJIHdpbGwganVz
-dCB3cml0ZSBhIGNsZWFudXAgcGF0Y2ggaW50byB0aGUgc2VyaWVzIHdoaWNoIGNvbWVzCj4gYWZ0
-ZXIgdGhlIGFtZGdwdSBjaGFuZ2VzLgo+Cj4gVGhhbmtzLAo+IENocmlzdGlhbi4KCgoKLS0gCkRh
-bmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkg
-NzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Commit 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
+introduced new helpers and hooks but the kernel was slightly broken.
+Fix that now.
+
+Fixes: 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/drm_atomic.c |  5 +++--
+ include/drm/drm_atomic.h     |  2 +-
+ include/drm/drm_bridge.h     | 15 ++++++++-------
+ 3 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 65c46ed049c5..e2093abae526 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1098,8 +1098,9 @@ EXPORT_SYMBOL(drm_atomic_get_new_bridge_state);
+  *
+  * This function adds all bridges attached to @encoder. This is needed to add
+  * bridge states to @state and make them available when
+- * &bridge_funcs.atomic_{check,pre_enable,enable,disable_post_disable}() are
+- * called
++ * &bridge_funcs.atomic_check(), &bridge_funcs.atomic_pre_enable,
++ * &bridge_funcs.atomic_enable, &bridge_funcs.atomic_disable_post_disable}()
++ * are called
+  *
+  * Returns:
+  * 0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index 52d65a055491..7b6cb4774e7d 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -1016,7 +1016,7 @@ struct drm_bus_cfg {
+ 	 * @format: format used on this bus (one of the MEDIA_BUS_FMT_* format)
+ 	 *
+ 	 * This field should not be directly modified by drivers
+-	 * (&drm_atomic_bridge_chain_select_bus_fmts() takes care of the bus
++	 * (drm_atomic_bridge_chain_select_bus_fmts() takes care of the bus
+ 	 * format negotiation).
+ 	 */
+ 	u32 format;
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 45626ecf20f8..999faaaab9a1 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -349,9 +349,9 @@ struct drm_bridge_funcs {
+ 	 * Duplicate the current bridge state object (which is guaranteed to be
+ 	 * non-NULL).
+ 	 *
+-	 * The atomic_duplicate_state() is optional. When not implemented the
+-	 * core allocates a drm_bridge_state object and calls
+-	 * &__drm_atomic_helper_bridge_duplicate_state() to initialize it.
++	 * The atomic_duplicate_state() hook is optional. When not implemented
++	 * the core allocates a drm_bridge_state object and calls
++	 * __drm_atomic_helper_bridge_duplicate_state() to initialize it.
+ 	 *
+ 	 * RETURNS:
+ 	 * A valid drm_bridge_state object or NULL if the allocation fails.
+@@ -407,11 +407,11 @@ struct drm_bridge_funcs {
+ 	 * Formats listed in the returned array should be listed in decreasing
+ 	 * preference order (the core will try all formats until it finds one
+ 	 * that works). When the format is not supported NULL should be
+-	 * returned and *num_output_fmts should be set to 0.
++	 * returned and num_output_fmts should be set to 0.
+ 	 *
+ 	 * This method is called on all elements of the bridge chain as part of
+ 	 * the bus format negotiation process that happens in
+-	 * &drm_atomic_bridge_chain_select_bus_fmts().
++	 * drm_atomic_bridge_chain_select_bus_fmts().
+ 	 * This method is optional. When not implemented, the core will bypass
+ 	 * bus format negotiation on this element of the bridge without
+ 	 * failing, and the previous element in the chain will be passed
+@@ -478,9 +478,10 @@ struct drm_bridge_funcs {
+ 	 *
+ 	 * Note that the atomic_reset() semantics is not exactly matching the
+ 	 * reset() semantics found on other components (connector, plane, ...).
+-	 * 1/ The reset operation happens when the bridge is attached, not when
++	 *
++	 * 1. The reset operation happens when the bridge is attached, not when
+ 	 *    drm_mode_config_reset() is called
+-	 * 2/ It's meant to be used exclusively on bridges that have been
++	 * 2. It's meant to be used exclusively on bridges that have been
+ 	 *    converted to the ATOMIC API
+ 	 *
+ 	 * RETURNS:
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
