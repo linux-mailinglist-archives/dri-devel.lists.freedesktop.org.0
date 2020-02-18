@@ -1,48 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC521634FF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 22:31:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF00A163510
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Feb 2020 22:33:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 992BD6EA95;
-	Tue, 18 Feb 2020 21:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732AC6E3FC;
+	Tue, 18 Feb 2020 21:33:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4186E417
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 21:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=TPmsarhSMXCj8/dzvasFTlIDQfD072W6X2xvTvgEZbw=; b=a3IZXPKHmQ8XgvNMghLQCjcNMS
- cnBIQFzY9FK45CyIi3otsUEqT99xV+SHEPdt/Qcvi5F77KjXpp1+Hl+MTUV/SNL64diiyGjTOAiGG
- NcY7ddQ4N8XpXyzRc6B7eQgDtHWCekIk6MlTf77I5hYZZ7Ju6+KpnberyslQLk1Ey3FlDJ/3BYfzQ
- 9Gf7rC0CmiET2txHVZ2OD+6tSUF3zlvP+K+meGc6imZQnEDOeVMjQiwCNbl4UxemScIUUHjIZzP6q
- jiyUCTB5tj9PLXJGQVq4HkBYEWVVAp+z4lUR/tmXRu/VJyOtWe9hZSK+R3GavH4NXZHFXU86etkw1
- N2N2tZZA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:53174
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1j4ASP-0006RE-7F; Tue, 18 Feb 2020 22:31:05 +0100
-Subject: Re: [RFC 0/9] Regmap over USB for Multifunction USB Device (gpio,
- display, ...)
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-References: <20200216172117.49832-1-noralf@tronnes.org>
- <CAHp75Vc6=V=cXM0mmh88V6XLmJT6kFnJCS547vgxX0zBG+cTZQ@mail.gmail.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <cda21859-0bd2-2a7f-c74a-360ef7aabadb@tronnes.org>
-Date: Tue, 18 Feb 2020 22:31:02 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA6E46E3FC
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 21:33:02 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206575] [amdgpu] [drm] No video signal on resume from suspend,
+ R9 380
+Date: Tue, 18 Feb 2020 21:33:02 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: veox+kernel@veox.pw
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206575-2300-tXNNM00MqH@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206575-2300@https.bugzilla.kernel.org/>
+References: <bug-206575-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vc6=V=cXM0mmh88V6XLmJT6kFnJCS547vgxX0zBG+cTZQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,45 +52,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>, USB <linux-usb@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMTguMDIuMjAyMCAyMS41Nywgc2tyZXYgQW5keSBTaGV2Y2hlbmtvOgo+IE9uIFN1biwg
-RmViIDE2LCAyMDIwIGF0IDc6MzAgUE0gTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5v
-cmc+IHdyb3RlOgo+Pgo+PiBIaSwKPj4KPj4gQSB3aGlsZSBiYWNrIEkgaGFkIHRoZSBpZGVhIHRv
-IHR1cm4gYSBSYXNwYmVycnkgUGkgWmVybyBpbnRvIGEgJDUKPj4gVVNCIHRvIEhETUkvU0RUVi9E
-U0kvRFBJIGRpc3BsYXkgYWRhcHRlci4KPj4KPj4gVGhpbmtpbmcgYWJvdXQgaG93IHRvIHJlcHJl
-c2VudCB0aGUgZGlzcGxheSB0byB0aGUgZHJpdmVyIEkgcmVhbGlzZWQKPj4gdGhhdCBoYXJkd2Fy
-ZSB1c2UgcmVnaXN0ZXJzIGFzIEFQSS4gQW5kIExpbnV4IGRvZXMgaGF2ZSBhIGdlbmVyaWMKPj4g
-cmVnaXN0ZXIgYWJzdHJhY3Rpb246IHJlZ21hcC4gRnVydGhlcm1vcmUgdGhpcyBtZWFucyB0aGF0
-IGlmIEkgY2FuIGRvIGEKPj4gcmVnbWFwIG92ZXIgVVNCIGltcGxlbWVudGF0aW9uLCBpdCB3aWxs
-IGJlIGVhc3kgdG8gZG8gb3RoZXIgZnVuY3Rpb25zCj4+IGxpa2UgZ3BpbywgYWRjIGFuZCBvdGhl
-cnMuIEFmdGVyIGEgZmV3IGl0ZXJhdGlvbnMgdHJ5aW5nIHRvIHVuZGVyc3RhbmQKPj4gdGhlIFVT
-QiBzdWJzeXN0ZW0gYW5kIHNhdGlzZnlpbmcgZHJpdmVyIHJlcXVpcmVtZW50cywgSSBub3cgaGF2
-ZQo+PiBzb21ldGhpbmcgdGhhdCBsb29rcyBwcm9taXNpbmcuCj4+Cj4+IEknbSBzZW5kaW5nIG91
-dCBhbiBlYXJseSB2ZXJzaW9uIGhvcGluZyB0byBnZXQgZmVlZGJhY2sgZXNwZWNpYWxseSBvbgo+
-PiB0aGUgY29yZSBwYXJ0cyB0aGF0IGhhbmRsZXMgcmVnbWFwIGFuZCBpbnRlcnJ1cHRzLgo+Pgo+
-PiBPdmVydmlldzoKPj4KPj4gICAgICAgICAgIFVTQiBIb3N0ICAgICAgICAgIDogICAgICAgICBV
-U0IgRGV2aWNlCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA6Cj4+ICAgICAgICAgICAg
-IC0tLS0tLS0tLS0tLS0tICA6ICAtLS0tLS0tLS0tLS0tLS0tLS0KPj4gLS0tLS0tLS0tLSAgfCBt
-ZmQ6IG11ZCAgIHwgIDogIHwgZl9tdWQgICAgICAgICAgfCAgLS0tLS0tLS0tLQo+PiB8IERyaXZl
-ciB8ICAtLS0tLS0tLS0tLS0tLSAgOiAgfCAgICAgICAgICAgICAgICB8ICB8IERyaXZlciB8Cj4+
-IC0tLS0tLS0tLS0gIHwgcmVnbWFwLXVzYiB8ICA6ICB8IChtdWRfcmVnbWFwKSAgIHwgIC0tLS0t
-LS0tLS0KPj4gICAgICAgICAgICAgLS0tLS0tLS0tLS0tLS0gIDogIC0tLS0tLS0tLS0tLS0tLS0t
-LQo+Pgo+Pgo+PiBJJ3ZlIGF0dGFjaGVkIDIgZHJpdmVyczoKPj4gLSBncGlvL3BpbmN0cmw6IGlz
-IG1vcmUgb3IgbGVzcyBmaW5pc2hlZAo+PiAtIGRpc3BsYXk6IG5lZWRzIGEgbG90IG1vcmUgd29y
-awo+IAo+IENhbiByZWdtYXAtdXNiIGJlIHVzZWQgZm9yIGRyaXZlcnMvbWZkL2RsbjIuYyBmb3Ig
-ZXhhbXBsZT8KPiAKCk5vLCBhcHBhcmVudGx5IGRsbi0yIHVzZXMgY3VzdG9tIHByb3RvY29sIHN0
-cnVjdHMgZm9yIGVhY2ggZnVuY3Rpb24gd2l0aAphIGNvbW1vbiBoZWFkZXIuIHJlZ21hcC11c2Ig
-aXMgYSByZWdpc3RlciBhYnN0cmFjdGlvbiB3aXRoIHRoZSBhYmlsaXR5CnRvIGJ1bGsgcmVhZC93
-cml0ZSBtdWx0aXBsZSByZWdpc3RlcnMgaW4gb25lIHRyYW5zZmVyLgoKSSBzZWUgdGhhdCBkbG4t
-MiBkb2VzIGEgbG90IG9mIHdoYXQgSSdtIGFpbWluZyBmb3IgZXhjZXB0IHRoYXQgaXQKZG9lc24n
-dCBoYXZlIHRoZSBkaXNwbGF5IHBhcnQuCgpOb3JhbGYuCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=206575
+
+--- Comment #7 from Noel Maersk (veox+kernel@veox.pw) ---
+`git bisect log` output at:
+https://gist.github.com/veox/36aeb77acfbcaea9c4ba1cc70052329a
+
+Had to `skip` a few because of system instability on v5.5.4 (cause unknown,
+likely
+unrelated to this bug); switched to v5.4.20 halfway-in to avoid.
+
+Result as follows (e-mails changed).
+
+
+1ea8751bd28d1ec2b36a56ec6bc1ac28903d09b4 is the first bad commit
+commit 1ea8751bd28d1ec2b36a56ec6bc1ac28903d09b4
+Author: Noah Abradjian <spam@gmail.com>
+Date:   Fri Sep 27 16:30:57 2019 -0400
+
+    drm/amd/display: Make clk mgr the only dto update point
+
+    [Why]
+
+    * Clk Mgr DTO update point did not cover all needed updates, as it included
+a
+      check for plane_state which does not exist yet when the updater is called
+on
+      driver startup
+    * This resulted in another update path in the pipe programming sequence,
+based
+      on a dppclk update flag
+    * However, this alternate path allowed for stray DTO updates, some of which
+would
+      occur in the wrong order during dppclk lowering and cause underflow
+
+    [How]
+
+    * Remove plane_state check and use of plane_res.dpp->inst, getting rid
+      of sequence dependencies (this results in extra dto programming for
+unused
+      pipes but that doesn't cause issues and is a small cost)
+    * Allow DTOs to be updated even if global clock is equal, to account for
+      edge case exposed by diags tests
+    * Remove update_dpp_dto call in pipe programming sequence (leave update to
+      dppclk_control there, as that update is necessary and shouldn't occur in
+clk
+      mgr)
+    * Remove call to optimize_bandwidth when committing state, as it is not
+needed
+      and resulted in sporadic underflows even with other fixes in place
+
+    Signed-off-by: Noah Abradjian <spam@gmail.com>
+    Reviewed-by: Jun Lei <spam@gmail.com>
+    Acked-by: Leo Li <spam@gmail.com>
+    Signed-off-by: Alex Deucher <spam@gmail.com>
+
+ .../gpu/drm/amd/display/dc/clk_mgr/dcn20/dcn20_clk_mgr.c   | 14 +++++++++-----
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c  |  3 ++-
+ drivers/gpu/drm/amd/display/dc/core/dc.c                   |  4 ----
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c         |  8 +-------
+ 4 files changed, 12 insertions(+), 17 deletions(-)
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
