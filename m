@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498E416488D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 16:28:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C5C16489D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 16:30:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 816A76EC23;
-	Wed, 19 Feb 2020 15:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C01B6EC25;
+	Wed, 19 Feb 2020 15:29:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA316E0DF
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 15:28:09 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id w6so524400otk.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 07:28:09 -0800 (PST)
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98A546EC25
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 15:29:55 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id w6so530454otk.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 07:29:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i/f38oqt5/FLpzjdTdnMTXjrQCdMVaM5ZjRcR5p/Nso=;
- b=M61bWDxGKhYRqnHGOlsy2usrIDGaHJm+wiqgtgPcco7nxN+dKiMTEqmWJN9IVpeGuF
- 0VW0RjYoCaXzddbz3BncE6F1LjdUqv6GQJHq58UaNEFyyFlEalzwYsEunmRTkLPkRgko
- 6/EPBf2IkO5Ci8e+jkx0db7coiMUBUd5d6TWk=
+ :cc; bh=ef9L7t8Zi2ozv+lyQPsML7iJbsJTkVAOn/7nOem6/jM=;
+ b=TGRJpbVdvZtsuwghUO55XmH2A+E8zpcpjRu1MCcUYOGj1GSxkEI8UojFU5/3fGv9ub
+ 5MXdClzQs/OAAwTUcaK1gOPf8elCSD5E3AZikpvKgJY3jEr0hKVaOMCm6Hi+aR3NQDPl
+ lsG+qpi7yi+wbtPBsW7zQa8r1PIRzRhnrxaDM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=i/f38oqt5/FLpzjdTdnMTXjrQCdMVaM5ZjRcR5p/Nso=;
- b=ElDEznRfPZuvFKArHIgcpJA/Cn5QotBBBHmXFOz2hek2JRocixo6SVQQhNrD7wIbS8
- 2q3uFebn9ZUYqkEUBWrJ3yPzUanPU2GAewEob4r1P32WwO8iyE3BL/t5LGc2zHmkZhA8
- cOtZgI4RzrZydAR4TUtr5c2vrjuaP9Cjo+emHAFCf7kUS4bDKFxD4o6aVf96xS/Qdl7E
- aZy6PIDYq67IcSDTkz4F7Wt7qoVGqWlazHRp7BBG98w+7f8bJsmGbOqBc3oYVvSu+7z2
- t2+3IOnw38zzb/MbPSft4GCcNb+VgAWh7LOf5qaMAywLJtFnIvecMHrD+f5FOfjrqghh
- nJGA==
-X-Gm-Message-State: APjAAAXCsyrucX/YkohhIylr5r5xsGYRrA0qE7rzDAwaCttomzYD8nKS
- /jquIojAGy1RLPxGdbSAtxQBf6mjdMP1le0GwWyiOQ==
-X-Google-Smtp-Source: APXvYqyddeKiwOQ/ovdnTp/bGSEJVEaFpXewMdMeRvrK+uH7uS+D/56moMuiHOAdst5cdcU54o6dEITV+XXiazq4es4=
-X-Received: by 2002:a9d:7f11:: with SMTP id j17mr21289407otq.281.1582126088255; 
- Wed, 19 Feb 2020 07:28:08 -0800 (PST)
+ bh=ef9L7t8Zi2ozv+lyQPsML7iJbsJTkVAOn/7nOem6/jM=;
+ b=l0Im71i1E8S7WcGBZ12IFVMIJ4pWpM/TVi0otFGiqI1M14db00aZQwEhrpMKGgU8h+
+ nSsBFz/GntRbQx5tfYZn2wj2mV+Md0AEyV6TTqwr7iEa9D05GKU0NorkCPvuE0R7Tloy
+ lAgbEFpMS5yxM4CR0fmzIYZT8ONuyPEUI3j3bo86EA0+UQsut2Ulr6IrCj7KmxGcPvxe
+ b5sS+PYFwHGsqeAx1hVJqzRYMliXd8enLd5SBFk+aH6jh6IWjMOodLZ1cpApUVYVvx3T
+ ZNwU/mDcDfrebTBpGDIPNg4tltoJR9zcQ9PsYhUO4iRBoECt9fqQ/m4ebRLZyh8BUfaa
+ MWdg==
+X-Gm-Message-State: APjAAAUzGnOs1veAdcIncL9R5lDuI6W94X7WVeTdzZVh6H4BXN9sOkJP
+ 5vdagstZGw624zpQfUlO4Sr3eU+fNUi6Ia30pFfMxKO7
+X-Google-Smtp-Source: APXvYqzPlpJWc5OhvhrnTPzyxIFSNGNA2ySP1y/nqze9J5V79MpSaSxDaAHxD+SPGu5gv9Pfe0dNR0JpH0BolPG/isk=
+X-Received: by 2002:a05:6830:2015:: with SMTP id
+ e21mr19330421otp.106.1582126194901; 
+ Wed, 19 Feb 2020 07:29:54 -0800 (PST)
 MIME-Version: 1.0
 References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-23-daniel.vetter@ffwll.ch>
- <20200219143537.GM5070@pendragon.ideasonboard.com>
-In-Reply-To: <20200219143537.GM5070@pendragon.ideasonboard.com>
+ <20200219102122.1607365-20-daniel.vetter@ffwll.ch>
+ <20200219141116.GJ5070@pendragon.ideasonboard.com>
+ <CAKMK7uGek38Xt_CpYC09eaYrLVfLHf_YZiVLY9sVeN+4N9NA0w@mail.gmail.com>
+ <20200219143918.GN5070@pendragon.ideasonboard.com>
+In-Reply-To: <20200219143918.GN5070@pendragon.ideasonboard.com>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 19 Feb 2020 16:27:57 +0100
-Message-ID: <CAKMK7uEhvT2MWfcwQDVpUZ86bgV78CMoj9wCPbeb+kLk8s9yJA@mail.gmail.com>
-Subject: Re: [PATCH 22/52] drm: Use drmm_ for drm_dev_init cleanup
+Date: Wed, 19 Feb 2020 16:29:43 +0100
+Message-ID: <CAKMK7uGrgDoXn5KyM9Hn9EawSx=CuNgY6-+qLK-EScx3yQTFzA@mail.gmail.com>
+Subject: Re: [PATCH 19/52] drm/<drivers>: Use drmm_add_final_kfree
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,139 +62,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2020 at 3:35 PM Laurent Pinchart
+On Wed, Feb 19, 2020 at 3:39 PM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > Hi Daniel,
 >
-> Thank you for the patch.
->
-> On Wed, Feb 19, 2020 at 11:20:52AM +0100, Daniel Vetter wrote:
-> > Well for the simple stuff at least, vblank, gem and minor cleanup I
-> > want to further split up as a demonstration.
+> On Wed, Feb 19, 2020 at 03:30:59PM +0100, Daniel Vetter wrote:
+> > On Wed, Feb 19, 2020 at 3:11 PM Laurent Pinchart wrote:
+> > > On Wed, Feb 19, 2020 at 11:20:49AM +0100, Daniel Vetter wrote:
+> > > > These are the leftover drivers that didn't have a ->release hook that
+> > > > needed to be updated.
+> > > >
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
+> > > > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > > > Cc: Mihail Atanassov <mihail.atanassov@arm.com>
+> > > > Cc: Russell King <linux@armlinux.org.uk>
+> > > > Cc: Hans de Goede <hdegoede@redhat.com>
+> > > > ---
+> > > >  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 2 ++
+> > > >  drivers/gpu/drm/armada/armada_drv.c             | 2 ++
+> > > >  drivers/gpu/drm/vboxvideo/vbox_drv.c            | 2 ++
+> > > >  3 files changed, 6 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > > > index 442d4656150a..16dfd5cdb66c 100644
+> > > > --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > > > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > > > @@ -14,6 +14,7 @@
+> > > >  #include <drm/drm_gem_cma_helper.h>
+> > > >  #include <drm/drm_gem_framebuffer_helper.h>
+> > > >  #include <drm/drm_irq.h>
+> > > > +#include <drm/drm_managed.h>
+> > > >  #include <drm/drm_probe_helper.h>
+> > > >  #include <drm/drm_vblank.h>
+> > > >
+> > > > @@ -271,6 +272,7 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
+> > > >       err = drm_dev_init(drm, &komeda_kms_driver, mdev->dev);
+> > > >       if (err)
+> > > >               goto free_kms;
+> > > > +     drmm_add_final_kfree(drm, kms);
+> > >
+> > > Instead of sprinkling calls to drmm_add_final_kfree() everywhere,
+> > > wouldn't it be better to pass the parent pointer to drm_dev_init() ?
 > >
-> > v2: We need to clear drm_device->dev otherwise the debug drm printing
-> > after our cleanup hook (e.g. in drm_manged_release) will chase
-> > released memory and result in a use-after-free. Not really pretty, but
-> > oh well.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_drv.c | 48 ++++++++++++++++++++-------------------
-> >  1 file changed, 25 insertions(+), 23 deletions(-)
+> > Would lead to a horrendous monster patch, and even with this splitting
+> > there were a few corner cases.
 >
-> Is the managed API overhead, coupled with the fact that the code size
-> doesn't get reduced, worth it for core code ?
+> It could be generated by coccinelle, with the semantic patch included in
+> the commit message, so that regenerating it should be possible when
+> merging if conflict arise.
 
-I've mostly done this as an example, to show how if you do this
-consistently, you can drop a few if (is_it_set_up) checks and remove
-the onion unwinding with lots of gotos. I do think it's worth it from
-that pov, since long-term I want to get to a world where everything
-related to drm_device gets unwound with drmm_ actions. The logging
-output becomes fairly nice if you enable it :-)
+It's not that easy, because drivers are buggy. So you need to review
+the remove/release implementation for all of them (which I've done) to
+make sure you're not making things worse with some additional
+use-after-free or something else horrible. That's why this is so much
+split up.
 
-But yeah stand-alone it's not a good pitch. Heck even the overall
-patch series is still a net loss I think, simply because this is just
-the bare minimum to get started.
+So automated patch for this is out of the window imo.
 -Daniel
 
-> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index 782fd5d6f8b2..1f7ab88d9435 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -580,6 +580,23 @@ static void drm_fs_inode_free(struct inode *inode)
-> >   *    used.
-> >   */
+> > My plan is to add a devm_drm_dev_alloc
+> > pattern which combines the usual pattern that most drivers use, see
+> > the last patch for all these glorious ideas.
+>
+> OK I will.
+>
+> > So yeah I hope this will all go away (or mostly at least), but for
+> > bisecting I didn't come up with a better idea to get this all off the
+> > ground unfortunately.
 > >
-> > +static void drm_dev_init_release(struct drm_device *dev, void *res)
-> > +{
-> > +     drm_legacy_ctxbitmap_cleanup(dev);
-> > +     drm_legacy_remove_map_hash(dev);
-> > +     drm_fs_inode_free(dev->anon_inode);
-> > +
-> > +     put_device(dev->dev);
-> > +     /* Prevent use-after-free in drm_managed_release when debugging is
-> > +      * enabled. Slightly awkward, but can't really be helped. */
-> > +     dev->dev = NULL;
-> > +     mutex_destroy(&dev->master_mutex);
-> > +     mutex_destroy(&dev->clientlist_mutex);
-> > +     mutex_destroy(&dev->filelist_mutex);
-> > +     mutex_destroy(&dev->struct_mutex);
-> > +     drm_legacy_destroy_members(dev);
-> > +}
-> > +
-> >  /**
-> >   * drm_dev_init - Initialise new DRM device
-> >   * @dev: DRM device
-> > @@ -647,11 +664,15 @@ int drm_dev_init(struct drm_device *dev,
-> >       mutex_init(&dev->clientlist_mutex);
-> >       mutex_init(&dev->master_mutex);
-> >
-> > +     ret = drmm_add_action(dev, drm_dev_init_release, NULL);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> >       dev->anon_inode = drm_fs_inode_new();
-> >       if (IS_ERR(dev->anon_inode)) {
-> >               ret = PTR_ERR(dev->anon_inode);
-> >               DRM_ERROR("Cannot allocate anonymous inode: %d\n", ret);
-> > -             goto err_free;
-> > +             goto err;
-> >       }
-> >
-> >       if (drm_core_check_feature(dev, DRIVER_RENDER)) {
-> > @@ -688,19 +709,12 @@ int drm_dev_init(struct drm_device *dev,
-> >       if (drm_core_check_feature(dev, DRIVER_GEM))
-> >               drm_gem_destroy(dev);
-> >  err_ctxbitmap:
-> > -     drm_legacy_ctxbitmap_cleanup(dev);
-> > -     drm_legacy_remove_map_hash(dev);
-> >  err_minors:
-> >       drm_minor_free(dev, DRM_MINOR_PRIMARY);
-> >       drm_minor_free(dev, DRM_MINOR_RENDER);
-> > -     drm_fs_inode_free(dev->anon_inode);
-> > -err_free:
-> > -     put_device(dev->dev);
-> > -     mutex_destroy(&dev->master_mutex);
-> > -     mutex_destroy(&dev->clientlist_mutex);
-> > -     mutex_destroy(&dev->filelist_mutex);
-> > -     mutex_destroy(&dev->struct_mutex);
-> > -     drm_legacy_destroy_members(dev);
-> > +err:
-> > +     drm_managed_release(dev);
-> > +
-> >       return ret;
-> >  }
-> >  EXPORT_SYMBOL(drm_dev_init);
-> > @@ -763,20 +777,8 @@ void drm_dev_fini(struct drm_device *dev)
-> >       if (drm_core_check_feature(dev, DRIVER_GEM))
-> >               drm_gem_destroy(dev);
-> >
-> > -     drm_legacy_ctxbitmap_cleanup(dev);
-> > -     drm_legacy_remove_map_hash(dev);
-> > -     drm_fs_inode_free(dev->anon_inode);
-> > -
-> >       drm_minor_free(dev, DRM_MINOR_PRIMARY);
-> >       drm_minor_free(dev, DRM_MINOR_RENDER);
-> > -
-> > -     put_device(dev->dev);
-> > -
-> > -     mutex_destroy(&dev->master_mutex);
-> > -     mutex_destroy(&dev->clientlist_mutex);
-> > -     mutex_destroy(&dev->filelist_mutex);
-> > -     mutex_destroy(&dev->struct_mutex);
-> > -     drm_legacy_destroy_members(dev);
-> >  }
-> >  EXPORT_SYMBOL(drm_dev_fini);
-> >
+> > > >
+> > > >       drm->dev_private = mdev;
+> > > >
+> > > > diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
+> > > > index 197dca3fc84c..dd9ed71ed942 100644
+> > > > --- a/drivers/gpu/drm/armada/armada_drv.c
+> > > > +++ b/drivers/gpu/drm/armada/armada_drv.c
+> > > > @@ -12,6 +12,7 @@
+> > > >  #include <drm/drm_atomic_helper.h>
+> > > >  #include <drm/drm_drv.h>
+> > > >  #include <drm/drm_ioctl.h>
+> > > > +#include <drm/drm_managed.h>
+> > > >  #include <drm/drm_prime.h>
+> > > >  #include <drm/drm_probe_helper.h>
+> > > >  #include <drm/drm_fb_helper.h>
+> > > > @@ -103,6 +104,7 @@ static int armada_drm_bind(struct device *dev)
+> > > >               kfree(priv);
+> > > >               return ret;
+> > > >       }
+> > > > +     drmm_add_final_kfree(&priv->drm, priv);
+> > > >
+> > > >       /* Remove early framebuffers */
+> > > >       ret = drm_fb_helper_remove_conflicting_framebuffers(NULL,
+> > > > diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> > > > index 8512d970a09f..13eaae7921f5 100644
+> > > > --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> > > > +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> > > > @@ -17,6 +17,7 @@
+> > > >  #include <drm/drm_fb_helper.h>
+> > > >  #include <drm/drm_file.h>
+> > > >  #include <drm/drm_ioctl.h>
+> > > > +#include <drm/drm_managed.h>
+> > > >
+> > > >  #include "vbox_drv.h"
+> > > >
+> > > > @@ -54,6 +55,7 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+> > > >       vbox->ddev.pdev = pdev;
+> > > >       vbox->ddev.dev_private = vbox;
+> > > >       pci_set_drvdata(pdev, vbox);
+> > > > +     drmm_add_final_kfree(&vbox->ddev, vbox);
+> > > >       mutex_init(&vbox->hw_mutex);
+> > > >
+> > > >       ret = pci_enable_device(pdev);
 >
 > --
 > Regards,
