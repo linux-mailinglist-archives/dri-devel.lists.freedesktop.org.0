@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D51A1649E2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:18:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD96D1649E7
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:18:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 156CC6EC47;
-	Wed, 19 Feb 2020 16:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0964B6EC4E;
+	Wed, 19 Feb 2020 16:18:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF33893EA;
- Wed, 19 Feb 2020 13:50:54 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id t23so735705wmi.1;
- Wed, 19 Feb 2020 05:50:54 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 995906EBF9;
+ Wed, 19 Feb 2020 13:50:56 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id c9so606291wrw.8;
+ Wed, 19 Feb 2020 05:50:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JAxgNVMs+kqprjwWCPzpoZ2SvD2juEYl06fjrgdXxKc=;
- b=m/Me70o0UM66u0UgY/fm83Y0jPS+JX/e7pKtjWhfrZf9ey+LtKiWXW4srkYJNcwg9H
- Qv4IHEvRB3ly/lRHJ8dz86jVbqfRsRoiPvCl3ms33qMKZdHvev2QDtsLF4yOvGV4RF6h
- Gip6ZljzOtlHFhZWvZwriBKvhPR8ankNvtDe/19ClIOM2RU9Nf3VP7doON4T9WTvdAHx
- 9H/vXGikxSnQyGp5KxeWNPoanTp97UppC367Vkhp46QXZSsLxCp9Xp5puLBkGVOnfAae
- jysBseirMilMzg6VrfnmWqN+6afFALXzCSERuYbM9J9vwxt+gkO+viEZIstdLdNP1Icd
- IkyQ==
+ bh=1BQ3RLCCPj8Vx5ymm6Uw4hsRHsW/TZRnV/QBxLYgzPE=;
+ b=K6PePbxrFjWbY03tih5qY6w88t4RI3CnQQWh6Bpio3HdR0POP9J1PZwyjxERD+zJYR
+ hA6Sh9ajIlAQpUpY1raNQDzxFaGKgPMol5Hd7FfSynBF9D1VR0hYvCaXqyj6+Co83FUG
+ GK+GLQE0ywdD7xOvU/hNI2rFI6N6MR6ymHHtJsPnRibK0NKrZSzerUHihyXpnpPKTIwf
+ GeBx6uWr71leEaZ0336KWakBAfABTSnAhtebLX9oOu4hbkxYdBvsdQLV0CJNT2wIYIhp
+ bHLp2qNqKghZLZ5dEhGUO+jJ9ZMF6ax55UAuknqZUi3zbn33yAVy4+MwiAz4U0XmP/qP
+ DEVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JAxgNVMs+kqprjwWCPzpoZ2SvD2juEYl06fjrgdXxKc=;
- b=F0Wfy1CC5H7e0FnoWH4IkAgfumeRvsnitBhTqQXvbKUoCmXMMdFZ8h6ZyKtoWLHSjz
- A7ePaKUG8OituhwXZaXCj6AtOtpJF2VbWRvEio6VZpTp0howYtM/g5ymiNhK38ZPTstO
- fYY8rwMdHt8tZRyOmlP32M5hB4Qf821Eu99azGutZ8/5cWQCFSuudYvtMZfmpzbFyyUi
- rjYa2OaG836qTWYYWTNqBiWpST5VJokM4XuIkZmeymT0ALl0sM/fEIEhBqe9H6Chrrhd
- wST/g3m0fifEBdTjbnl8PebyOvrOnqj0cpOfdp36DHcC02TxOnFB6PnVbELLO5Q16dG8
- 2opg==
-X-Gm-Message-State: APjAAAULhFL3ZkC3e4GOOveq8I4gGq3fW15C9EIOKWKeX/SoxaO0F8mR
- kytyDvBJ2GExlFI4zmPZ2k1cBhsPxINDAg==
-X-Google-Smtp-Source: APXvYqzkBhzxuAntsMEoWQsylI5pZMxyufrOsGJ57gDo5SYSX3dUN82M8BNnI0VHD3pmw+pBvFoLZA==
-X-Received: by 2002:a05:600c:248:: with SMTP id 8mr10247517wmj.1.1582120252762; 
- Wed, 19 Feb 2020 05:50:52 -0800 (PST)
+ bh=1BQ3RLCCPj8Vx5ymm6Uw4hsRHsW/TZRnV/QBxLYgzPE=;
+ b=dawViytkcb18ZE5LG6pxWeipdeRicZw1xBBZTZaGApNEWQduldtVIrLTNHke0pZazD
+ +lP1IaumNSPuPJ94LS1uF1SwHJFKdEPZi4z1dKnw3XzNAsuaDgA45FoTQbY00bI4kbiv
+ UKW+Uu7ilo+7kgCMJdSe3agQ9heWyGg08zel/EouJzLFjKWK67bMOCUbb1rnn6SpFKTI
+ P2zI5w0KhXJqIHZewj7xJFrdsVxZ1JkBnpCgbwf2Wq4xbScVJ0fphm3ERhkldqVXNKzb
+ vzIfSCK3JGOTBjeqH+T0TBBEuc1JIvITVG53uTYokug3ZaeprPgHI1RwMnKta8k0+9gP
+ 0g2Q==
+X-Gm-Message-State: APjAAAXiKajpckRbIFDByyV15mGbRQxmd3JBNK/VVRI4WqV3KrILjvc0
+ PwcuIgEhD3V5sJAWTkHkX+ye9UdAgpTX4g==
+X-Google-Smtp-Source: APXvYqwrxRMqCWIUMRToOvWkusgU3QGsOnPV/TQM3PpZjWapGBRqrbuZrAhmeWchZZTsO0FLN3aAhw==
+X-Received: by 2002:adf:fa86:: with SMTP id h6mr35535578wrr.418.1582120254836; 
+ Wed, 19 Feb 2020 05:50:54 -0800 (PST)
 Received: from brihaspati.fritz.box (p5DE53754.dip0.t-ipconnect.de.
  [93.229.55.84])
- by smtp.gmail.com with ESMTPSA id y1sm3061881wrq.16.2020.02.19.05.50.51
+ by smtp.gmail.com with ESMTPSA id y1sm3061881wrq.16.2020.02.19.05.50.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 05:50:52 -0800 (PST)
+ Wed, 19 Feb 2020 05:50:54 -0800 (PST)
 From: Nirmoy Das <nirmoy.aiemd@gmail.com>
 X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/8] drm/bochs: use drm_gem_vram_offset to get bo offset v2
-Date: Wed, 19 Feb 2020 14:53:21 +0100
-Message-Id: <20200219135322.56463-8-nirmoy.das@amd.com>
+Subject: [PATCH 8/8] drm/ttm: do not keep GPU dependent addresses
+Date: Wed, 19 Feb 2020 14:53:22 +0100
+Message-Id: <20200219135322.56463-9-nirmoy.das@amd.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200219135322.56463-1-nirmoy.das@amd.com>
 References: <20200219135322.56463-1-nirmoy.das@amd.com>
@@ -79,41 +79,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch over to GEM VRAM's implementation to retrieve bo->offset
+GPU address handling is device specific and should be handle by its device
+driver.
 
 Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
 ---
- drivers/gpu/drm/bochs/bochs_kms.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_bo.c    | 7 -------
+ include/drm/ttm/ttm_bo_api.h    | 2 --
+ include/drm/ttm/ttm_bo_driver.h | 1 -
+ 3 files changed, 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
-index 8066d7d370d5..18d2ec34534d 100644
---- a/drivers/gpu/drm/bochs/bochs_kms.c
-+++ b/drivers/gpu/drm/bochs/bochs_kms.c
-@@ -29,16 +29,21 @@ static void bochs_plane_update(struct bochs_device *bochs,
- 			       struct drm_plane_state *state)
- {
- 	struct drm_gem_vram_object *gbo;
-+	s64 gpu_addr;
-
- 	if (!state->fb || !bochs->stride)
- 		return;
-
- 	gbo = drm_gem_vram_of_gem(state->fb->obj[0]);
-+	gpu_addr = drm_gem_vram_offset(gbo);
-+	if (WARN_ON_ONCE(gpu_addr < 0))
-+		return; /* Bug: we didn't pin the BO to VRAM in prepare_fb. */
-+
- 	bochs_hw_setbase(bochs,
- 			 state->crtc_x,
- 			 state->crtc_y,
- 			 state->fb->pitches[0],
--			 state->fb->offsets[0] + gbo->bo.offset);
-+			 state->fb->offsets[0] + gpu_addr);
- 	bochs_hw_setformat(bochs, state->fb->format);
- }
-
---
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 151edfd8de77..d5885cd609a3 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -85,7 +85,6 @@ static void ttm_mem_type_debug(struct ttm_bo_device *bdev, struct drm_printer *p
+ 	drm_printf(p, "    has_type: %d\n", man->has_type);
+ 	drm_printf(p, "    use_type: %d\n", man->use_type);
+ 	drm_printf(p, "    flags: 0x%08X\n", man->flags);
+-	drm_printf(p, "    gpu_offset: 0x%08llX\n", man->gpu_offset);
+ 	drm_printf(p, "    size: %llu\n", man->size);
+ 	drm_printf(p, "    available_caching: 0x%08X\n", man->available_caching);
+ 	drm_printf(p, "    default_caching: 0x%08X\n", man->default_caching);
+@@ -345,12 +344,6 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ moved:
+ 	bo->evicted = false;
+ 
+-	if (bo->mem.mm_node)
+-		bo->offset = (bo->mem.start << PAGE_SHIFT) +
+-		    bdev->man[bo->mem.mem_type].gpu_offset;
+-	else
+-		bo->offset = 0;
+-
+ 	ctx->bytes_moved += bo->num_pages << PAGE_SHIFT;
+ 	return 0;
+ 
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index b9bc1b00142e..d6f39ee5bf5d 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -213,8 +213,6 @@ struct ttm_buffer_object {
+ 	 * either of these locks held.
+ 	 */
+ 
+-	uint64_t offset; /* GPU address space is independent of CPU word size */
+-
+ 	struct sg_table *sg;
+ };
+ 
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index c9e0fd09f4b2..c8ce6c181abe 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -177,7 +177,6 @@ struct ttm_mem_type_manager {
+ 	bool has_type;
+ 	bool use_type;
+ 	uint32_t flags;
+-	uint64_t gpu_offset; /* GPU address space is independent of CPU word size */
+ 	uint64_t size;
+ 	uint32_t available_caching;
+ 	uint32_t default_caching;
+-- 
 2.25.0
 
 _______________________________________________
