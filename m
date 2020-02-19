@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEDF16598A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2B516598F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3A4B6ECFA;
-	Thu, 20 Feb 2020 08:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12DF6ED00;
+	Thu, 20 Feb 2020 08:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
  [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2CB6EC65
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 18:10:00 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id q8so1323146ljj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:10:00 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6F856EC68
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 18:10:01 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id e18so1309460ljn.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:10:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DwVZSFEq0W28DM18hDTvCj9e8HcEAgSZLjRA5gyrBFU=;
- b=QtVchtL/9CNa6r0223jyMYNh/PWgurYiZxsAUUmtGt1/2v8ziOxqSz9ztKW7UtdF6f
- 4Ee5G+NSWfAs+MWRUFb+gR8xlyEbjJu5eNusMVNK3mb65uLWBMQ3T4u1GDZZ/SG2SCA0
- ED132ZbJmWiIGlEd3tmSBCPN2YSKlaizsSoNNi2wUiLAtOIA2u9+kLlc9Xz0yb1KvB7W
- 6KcWyQZUcgha5gIquLzQ8XMighG9XdCwFgZjDr8i/3ebgcOziFXhIumdzJNBFg9zm9kA
- Wdexk/BiMyWccLWiLG7blXW3XMsgpUNBckRfZ9iS4moX/qNrNjCwaQlx6xZhVbpy9EBk
- 2XwQ==
+ bh=VHRaRIY6VC0lr/bsxS9DFYm2vnnWlx5lRwPcPyEFXY8=;
+ b=gPoKimKTfqXeaHb/8TGnGKiKadlA4zsOW1otR4I/sil7LU1xLql4X/Z5B+MFOfsTop
+ w/ibtafB1NiWhq7Xv+8ILNm+hTBM7E5IUfN32t5XlIVVJZnNzZudtvHPYZsBq5discGm
+ LiJIoaqOEoHn0bJVztnhrUFEPj05q727TXZxPFRHiCZOVpOeq27877/zTFYAKzu2BpGd
+ DsfcQMHPnzI39piTrkm80ut5XZ+iY96UV+eMlAofUXDvtjNFZHAEg9M8pXTNOvGpkBNv
+ pDB11JGdX4pDVm+AyNGSP4d3Q8pDUUU40G41Spc9gd35dTl7Mgia6V15oP6akiDPas1S
+ 8cMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DwVZSFEq0W28DM18hDTvCj9e8HcEAgSZLjRA5gyrBFU=;
- b=mMnkKvr43R3ZAd0jpPl+DvRgEwUEV2C/ASlUnUy2yF7jqbJpBhZo7dF1bd0ZQkf5IW
- TExOELwq1lUBe48ViysaYt59rxyULR7NV/CkLuQiixLSNDOcPKgWm6qUXf8pzQSgRiPb
- v7IoZ13EnibGePIe2w0Dlm044z5cPqgz/NVUjevW1Z9siAvt9mv/bbrj1ZbwGvq+zmKa
- w2+6vCfcNHjAmt3Rjluj7caoNr/2/gZRAVUuwOCg+NxW6OafudVU50KZNPQD+R1AMWUR
- /MYl4f+9oih/JsclrYzf4T0GpQXzBDw/HUkEb02C2mbPosGQOeSQzIJ8xddJ8xYRLaGw
- rh1Q==
-X-Gm-Message-State: APjAAAX4uC0Rtgdl63kFxVcD/EjJLqUnPSyXruI7b4F6/OStpkU2AqDc
- 5Mzi30pVS+n+DkyXs3xeYF0Ys1k+nIcpOQ==
-X-Google-Smtp-Source: APXvYqydV08tRFu0OfU6LEqWQW2vgQYiGMwoLKXox2Fx/uXq/7ZBu7hmRYFXopQpUkIZ3NHs276hZw==
-X-Received: by 2002:a2e:8544:: with SMTP id u4mr16464588ljj.31.1582135798567; 
- Wed, 19 Feb 2020 10:09:58 -0800 (PST)
+ bh=VHRaRIY6VC0lr/bsxS9DFYm2vnnWlx5lRwPcPyEFXY8=;
+ b=NTpMx5b087x/KHki+kxSW1qmUPfRo4D/xy+Ljf/SlCPQ1/CNuv+6crpFHfSxZkFjQk
+ iNzPEfYHc55FwAKwnKZ3TQqQQ0l/YvGsZX6MqCEbGexWXlDEjkMqAnolxfH6O9DUFTrJ
+ wa5uIe9sH4vJ7sQfawFk7bB7qHbzEa552y0yyGr9dkOrVnMvCUeG/2h7VaGb3aB6pqLw
+ XJzPagdaEfn+lKvV2bj2R19H3ScvnZUs5eg/6yx7G0CHS7xQPwSUZ560pAJlBglqji50
+ RHKAom1zQkwI6j7T3Vpivsks0mkfRDDJTWtO9Czk5MEqaKag+X76HE1aP8YrNIVmmVqw
+ DPsQ==
+X-Gm-Message-State: APjAAAVOt4frrZQZoLAfAtBgJ0xNmneN/tIZhfqVJJ1BJZMaYFBlT66P
+ guqe0N5U0G1jlX2wg9v4q64=
+X-Google-Smtp-Source: APXvYqxvm4JywuwtvNksBuTIyRXNkm+Tp130I25jlGLt/f+T62qAbvOhoYaS6P/K1V7awdKdjw1/Hg==
+X-Received: by 2002:a2e:3608:: with SMTP id d8mr16524098lja.152.1582135800094; 
+ Wed, 19 Feb 2020 10:10:00 -0800 (PST)
 Received: from localhost.localdomain ([5.20.204.163])
- by smtp.gmail.com with ESMTPSA id 14sm183942lfz.47.2020.02.19.10.09.57
+ by smtp.gmail.com with ESMTPSA id 14sm183942lfz.47.2020.02.19.10.09.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 10:09:57 -0800 (PST)
+ Wed, 19 Feb 2020 10:09:59 -0800 (PST)
 From: Andrey Lebedev <andrey.lebedev@gmail.com>
 To: mripard@kernel.org, wens@csie.org, airlied@linux.ie, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] drm/sun4i: tcon: Introduce LVDS setup routine setting
-Date: Wed, 19 Feb 2020 20:08:54 +0200
-Message-Id: <20200219180858.4806-2-andrey.lebedev@gmail.com>
+Subject: [PATCH 2/5] drm/sun4i: tcon: Separate quirks for tcon0 and tcon1 on
+ A20
+Date: Wed, 19 Feb 2020 20:08:55 +0200
+Message-Id: <20200219180858.4806-3-andrey.lebedev@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200219180858.4806-1-andrey.lebedev@gmail.com>
 References: <20200210195633.GA21832@kedthinkpad>
@@ -78,129 +79,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andrey Lebedev <andrey@lebedev.lt>
 
-Different sunxi flavors require slightly different sequence for enabling
-LVDS output. This allows to differentiate between them.
+Timing controllers on A20 are not equivalent: tcon0 on A20 supports
+LVDS output and tcon1 does not. Separate the capabilities by
+introducing independent set of quirks for each of the tcons.
 
 Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 68 ++++++++++++++++--------------
- drivers/gpu/drm/sun4i/sun4i_tcon.h |  3 ++
- 2 files changed, 39 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index c81cdce6ed55..cc6b05ca2c69 100644
+index cc6b05ca2c69..b7234eef3c7b 100644
 --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
 +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -114,46 +114,48 @@ static void sun4i_tcon_channel_set_status(struct sun4i_tcon *tcon, int channel,
- 	}
- }
- 
-+static void sun6i_tcon_setup_lvds_phy(struct sun4i_tcon *tcon,
-+				      const struct drm_encoder *encoder)
-+{
-+	u8 val;
-+
-+	regmap_write(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
-+		     SUN6I_TCON0_LVDS_ANA0_C(2) |
-+		     SUN6I_TCON0_LVDS_ANA0_V(3) |
-+		     SUN6I_TCON0_LVDS_ANA0_PD(2) |
-+		     SUN6I_TCON0_LVDS_ANA0_EN_LDO);
-+	udelay(2);
-+
-+	regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
-+			   SUN6I_TCON0_LVDS_ANA0_EN_MB,
-+			   SUN6I_TCON0_LVDS_ANA0_EN_MB);
-+	udelay(2);
-+
-+	regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
-+			   SUN6I_TCON0_LVDS_ANA0_EN_DRVC,
-+			   SUN6I_TCON0_LVDS_ANA0_EN_DRVC);
-+
-+	if (sun4i_tcon_get_pixel_depth(encoder) == 18)
-+		val = 7;
-+	else
-+		val = 0xf;
-+
-+	regmap_write_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
-+			  SUN6I_TCON0_LVDS_ANA0_EN_DRVD(0xf),
-+			  SUN6I_TCON0_LVDS_ANA0_EN_DRVD(val));
-+
-+}
-+
- static void sun4i_tcon_lvds_set_status(struct sun4i_tcon *tcon,
- 				       const struct drm_encoder *encoder,
- 				       bool enabled)
- {
- 	if (enabled) {
--		u8 val;
--
- 		regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_IF_REG,
- 				   SUN4I_TCON0_LVDS_IF_EN,
- 				   SUN4I_TCON0_LVDS_IF_EN);
--
--		/*
--		 * As their name suggest, these values only apply to the A31
--		 * and later SoCs. We'll have to rework this when merging
--		 * support for the older SoCs.
--		 */
--		regmap_write(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
--			     SUN6I_TCON0_LVDS_ANA0_C(2) |
--			     SUN6I_TCON0_LVDS_ANA0_V(3) |
--			     SUN6I_TCON0_LVDS_ANA0_PD(2) |
--			     SUN6I_TCON0_LVDS_ANA0_EN_LDO);
--		udelay(2);
--
--		regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
--				   SUN6I_TCON0_LVDS_ANA0_EN_MB,
--				   SUN6I_TCON0_LVDS_ANA0_EN_MB);
--		udelay(2);
--
--		regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
--				   SUN6I_TCON0_LVDS_ANA0_EN_DRVC,
--				   SUN6I_TCON0_LVDS_ANA0_EN_DRVC);
--
--		if (sun4i_tcon_get_pixel_depth(encoder) == 18)
--			val = 7;
--		else
--			val = 0xf;
--
--		regmap_write_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
--				  SUN6I_TCON0_LVDS_ANA0_EN_DRVD(0xf),
--				  SUN6I_TCON0_LVDS_ANA0_EN_DRVD(val));
-+		if (tcon->quirks->setup_lvds_phy)
-+			tcon->quirks->setup_lvds_phy(tcon, encoder);
- 	} else {
- 		regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_IF_REG,
- 				   SUN4I_TCON0_LVDS_IF_EN, 0);
-@@ -1465,12 +1467,14 @@ static const struct sun4i_tcon_quirks sun8i_a33_quirks = {
- 	.has_channel_0		= true,
- 	.has_lvds_alt		= true,
- 	.dclk_min_div		= 1,
-+	.setup_lvds_phy		= sun6i_tcon_setup_lvds_phy,
- };
- 
- static const struct sun4i_tcon_quirks sun8i_a83t_lcd_quirks = {
- 	.supports_lvds		= true,
- 	.has_channel_0		= true,
- 	.dclk_min_div		= 1,
-+	.setup_lvds_phy		= sun6i_tcon_setup_lvds_phy,
- };
- 
- static const struct sun4i_tcon_quirks sun8i_a83t_tv_quirks = {
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index a62ec826ae71..2974e59ef9f2 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -228,6 +228,9 @@ struct sun4i_tcon_quirks {
- 
- 	/* callback to handle tcon muxing options */
- 	int	(*set_mux)(struct sun4i_tcon *, const struct drm_encoder *);
-+	/* handler for LVDS setup routine */
-+	void	(*setup_lvds_phy)(struct sun4i_tcon *tcon,
-+				  const struct drm_encoder *encoder);
- };
- 
- struct sun4i_tcon {
+@@ -1508,6 +1508,8 @@ const struct of_device_id sun4i_tcon_of_table[] = {
+ 	{ .compatible = "allwinner,sun5i-a13-tcon", .data = &sun5i_a13_quirks },
+ 	{ .compatible = "allwinner,sun6i-a31-tcon", .data = &sun6i_a31_quirks },
+ 	{ .compatible = "allwinner,sun6i-a31s-tcon", .data = &sun6i_a31s_quirks },
++	{ .compatible = "allwinner,sun7i-a20-tcon0", .data = &sun7i_a20_quirks },
++	{ .compatible = "allwinner,sun7i-a20-tcon1", .data = &sun7i_a20_quirks },
+ 	{ .compatible = "allwinner,sun7i-a20-tcon", .data = &sun7i_a20_quirks },
+ 	{ .compatible = "allwinner,sun8i-a23-tcon", .data = &sun8i_a33_quirks },
+ 	{ .compatible = "allwinner,sun8i-a33-tcon", .data = &sun8i_a33_quirks },
 -- 
 2.20.1
 
