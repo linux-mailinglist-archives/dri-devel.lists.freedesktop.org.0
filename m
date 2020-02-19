@@ -1,54 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC8116598B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:46:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D27165981
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:45:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC236ECF9;
-	Thu, 20 Feb 2020 08:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 234186ECF5;
+	Thu, 20 Feb 2020 08:45:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3616ECA3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 20:40:11 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id i19so663180pfa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 12:40:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8gwGT1WNIBzKVtCka08FuXOrluIa39BPEkwi6FL8QcY=;
- b=IbPGXHiDH3ev5nqRzbcAPF7P+AbPGcpowswLJjb8l8ZWQumB8iRhxftJQ449G73wBu
- LDM9F0mRnGxtlZ/EnpIcXQETbubuLFIcz+5vW+ZsvAypkc/5sXwrUu8C2SG7zQ6s4SnY
- Ep1jzdGe/CztQhKU7TIXisjsumWGLlKtOphLg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8gwGT1WNIBzKVtCka08FuXOrluIa39BPEkwi6FL8QcY=;
- b=PuWk/byb0/6w29t31inBFr4AQ0wJIj3AeOOnW7x7izaUdHXp8MmnT6dbugwb8dAE5B
- WhmE4Qm60QLwqorwqN+iHgpIZK/+cuvzR9Ptuq0JE8BXzn5vdVUkBFvLFQ4wRJ7Lkr3p
- IsHOjPRLK4w6wasw52CR2zVd5z+7FFF3NJiBZmIwylJED03pUzE6vK6Ngujcbs7Nvcfc
- ZEH4Sb+o7uWieo/cEo925+yLZp4PAndJS5Ria5F0leqlrPvQ7DtaIskXmnc/yi3YMfpp
- r+YiOUoFp7VMYZsoP3zk9GIpwIta3/R5Hxby3iBF++FhMzFxp63/XuLfIyGgIJMRzwdY
- GzbQ==
-X-Gm-Message-State: APjAAAXQG6dW1QESUsj7oUVvyfzKonC9KucZAHihRNDFyXelijB9aSbY
- oy+NkIBZHThncPg/Np8azPpyNETwD7nO+g==
-X-Google-Smtp-Source: APXvYqydd76zU5MRQe+1mSq61cRIpfGsPiC1TTDlz4itbETb3xQysZO8XrR55Nm/wngYP+0HJVMq3w==
-X-Received: by 2002:a62:1402:: with SMTP id 2mr28816369pfu.126.1582144810556; 
- Wed, 19 Feb 2020 12:40:10 -0800 (PST)
-Received: from jbates.mtv.corp.google.com ([2620:15c:f:10:e2ce:42d4:ecca:69c4])
- by smtp.gmail.com with ESMTPSA id a10sm574086pgm.81.2020.02.19.12.40.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 12:40:10 -0800 (PST)
-From: John Bates <jbates@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: fix virtio-gpu resource id creation race
-Date: Wed, 19 Feb 2020 12:40:02 -0800
-Message-Id: <20200219204002.220744-1-jbates@chromium.org>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A38256ECB6
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 21:15:18 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 09A4980F3;
+ Wed, 19 Feb 2020 21:16:00 +0000 (UTC)
+Date: Wed, 19 Feb 2020 13:15:13 -0800
+From: Tony Lindgren <tony@atomide.com>
+To: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH] backlight: add led-backlight driver
+Message-ID: <20200219211513.GE37466@atomide.com>
+References: <20200219191412.GA15905@amd> <20200219194540.GD37466@atomide.com>
+ <20200219205322.GA1227@duo.ucw.cz>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200219205322.GA1227@duo.ucw.cz>
 X-Mailman-Approved-At: Thu, 20 Feb 2020 08:45:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,43 +38,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, John Bates <jbates@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: daniel.thompson@linaro.org, mpartap@gmx.net, jingoohan1@gmail.com,
+ merlijn@wizzup.org, martin_rysavy@centrum.cz,
+ kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ sre@kernel.org, nekit1000@gmail.com, tomi.valkeinen@ti.com, jjhiblot@ti.com,
+ linux-omap@vger.kernel.org, Lee Jones <lee.jones@linaro.org>, agx@sigxcpu.org,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous code was not thread safe and caused
-undefined behavior from spurious duplicate resource IDs.
-In this patch, an atomic_t is used instead. We no longer
-see any duplicate IDs in tests with this change.
+* Pavel Machek <pavel@ucw.cz> [200219 20:54]:
+> Hi!
+> 
+> > > This patch adds a led-backlight driver (led_bl), which is similar to
+> > > pwm_bl except the driver uses a LED class driver to adjust the
+> > > brightness in the HW. Multiple LEDs can be used for a single backlight.
+> > > 
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> > > Acked-by: Pavel Machek <pavel@ucw.cz>
+> > > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > > Acked-by: Lee Jones <lee.jones@linaro.org>
+> > > Acked-by: Tony Lindgren <tony@atomide.com>
+> > > Tested-by: Tony Lindgren <tony@atomide.com>
+> > > Signed-off-by: Pavel Machek <pavel@ucw.cz>
+> > > ---
+> > >  drivers/video/backlight/Kconfig  |   7 ++
+> > >  drivers/video/backlight/Makefile |   1 +
+> > >  drivers/video/backlight/led_bl.c | 260 +++++++++++++++++++++++++++++++++++++++
+> > >  3 files changed, 268 insertions(+)
+> > >  create mode 100644 drivers/video/backlight/led_bl.c
+> 
+> > > Here's the version of the driver I have. AFAICT
+> > > default-brightness-level handling is ok, so does not need to be
+> > > changed.
+> > > 
+> > > Lee, it would be easiest for me if you could apply it to your tree and
+> > > push, but given enough time I can push it to Linus, too.
+> > 
+> > Oh you're using quoted-printable for patches.. Got it applied now,
+> > and it still works. Below is also the related dts change that
+> > I tested with.
+> > 
+> > Feel free to pick the dts change too, naturally that should
+> > not be applied before the driver.
+> > 
+> > If you guys instead want me to pick these both into my fixes
+> > branch, just let me know and I'll do the explaining why these
+> > are needed as fixes. Basically we no longer have a way to enable
+> > the LCD backlight for droid4 manually starting with v5.6-rc1
+> > unlike earlier.
+> 
+> If you are willing to do that, it looks like good solution from my
+> point of view.
 
-Signed-off-by: John Bates <jbates@chromium.org>
----
+OK. I'll apply them but won't push out yet in case Lee is already
+applying the driver change..
 
- drivers/gpu/drm/virtio/virtgpu_object.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Pavel, care to ack the dts patch?
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 017a9e0fc3bb..b11c1fce1770 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -42,8 +42,8 @@ static int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
- 		 * "f91a9dd35715 Fix unlinking resources from hash
- 		 * table." (Feb 2019) fixes the bug.
- 		 */
--		static int handle;
--		handle++;
-+		static atomic_t seqno;
-+		int handle = atomic_inc_return(&seqno);
- 		*resid = handle + 1;
- 	} else {
- 		int handle = ida_alloc(&vgdev->resource_ida, GFP_KERNEL);
--- 
-2.25.0.265.gbab2e86ba0-goog
+Regards,
 
+Tony
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
