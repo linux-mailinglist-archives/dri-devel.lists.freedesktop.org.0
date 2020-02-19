@@ -2,59 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521FC164492
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 13:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3A916448F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 13:44:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCFE6E5CF;
-	Wed, 19 Feb 2020 12:46:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 116446EBC2;
+	Wed, 19 Feb 2020 12:44:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 032B56E5CF;
- Wed, 19 Feb 2020 12:46:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 7E7C2B1E4;
- Wed, 19 Feb 2020 12:45:58 +0000 (UTC)
-Subject: Re: [PATCH 05/52] drm/mipi_dbi: Use drmm_add_final_kfree in all
- drivers
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-6-daniel.vetter@ffwll.ch>
- <afebd4b0-686d-0912-17e7-fd442ec5c3ab@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <2f9ac775-bc88-c805-85da-41be3e07789c@suse.de>
-Date: Wed, 19 Feb 2020 13:45:54 +0100
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on20617.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eae::617])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4798C6EBBF;
+ Wed, 19 Feb 2020 12:44:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n3l91Jm36+kAuYVyHz60SNcMpsQKkakAlsPuEq9GJ4+tsnr3A2YdtzB0FIeM26RWfY7LsJjHQ6k0FK4u1c4NtLHOsbRU2XVoTUOkApHg7BqHhmT3Ki4uOLsBKcaLL6L+aurms2RHXxXh8SV5CgH7nLi/J5umSUG/csbG+YbNMhp3DRXFIHTLel8tOfXhiJira5C8bXPSV06zt2mII6Db/dayFLeJyJRYMVNxufAFyF3hDWs3GFtG/PMLzYIx0Rk43vFfnvwuxortjP897uck3y2W3cWVg+K/70yEho+dsAiAk2c0aZy2+2aYsHtaP1C76RG1ZnaEtFhPJehBKu1qBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S4lDVZdL32FnPOOvgbyaHy0Q6YrElNksRM6qJpF6UYs=;
+ b=oKVIV6uJaN+H6qNS3KsWdnpyFYHn8b1MQUSgW6b2YHGhyqWAq1577As2P6UcgvBxVTT7nh08Zt76aQ1z7xeMQgHbdfEdJoqxvh/SSVmM6yazLHn5sbwj9qqeOUj/iyh3ES+GHb4Z/D5DP32yVNU85yrepXvDOUOknkWIhKFfWZztrYq6efBIo8hgwdOZn+xpeRlHT82AYv2JdVZNeEqWczT6aBczpE6xnvaQDiNz0LOBnDWg2fHlxRk2YweMD5qjxGdNI9pTNbgB5Dp9u9i2m104kIjjVBh0NwsCxX3MzF3H/vF/mImmaHu+0Q402ryHOPjewNQ+RFXdW1n3NsGiVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S4lDVZdL32FnPOOvgbyaHy0Q6YrElNksRM6qJpF6UYs=;
+ b=JH/s+iJa0cBCBr8lJWT7Et78Oh0Qte/GcimflG9AQ8uv00J/PrVjWTze4Z0Ud+l6qTu20GO5cfwjFn2z3/Hwtu4o7B2EvQP2VLBR8zem8nnUAexOuFaYvKacu/Rn1Edr8ljs1LIL/sk4SOPObAeaHyz8LLkwExgtfqIb8hXyo+w=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Nirmoy.Das@amd.com; 
+Received: from DM5PR12MB2376.namprd12.prod.outlook.com (52.132.143.139) by
+ DM5PR12MB1721.namprd12.prod.outlook.com (10.175.88.137) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.17; Wed, 19 Feb 2020 12:44:27 +0000
+Received: from DM5PR12MB2376.namprd12.prod.outlook.com
+ ([fe80::ac12:6413:cd14:4904]) by DM5PR12MB2376.namprd12.prod.outlook.com
+ ([fe80::ac12:6413:cd14:4904%4]) with mapi id 15.20.2750.016; Wed, 19 Feb 2020
+ 12:44:27 +0000
+Subject: Re: [Nouveau] [PATCH 8/8] drm/ttm: do not keep GPU dependent addresses
+To: Daniel Vetter <daniel@ffwll.ch>, christian.koenig@amd.com
+References: <20200217150427.49994-1-nirmoy.das@amd.com>
+ <20200217150427.49994-9-nirmoy.das@amd.com>
+ <c3a20c1b-0520-1995-7445-9e3f3ea77394@suse.de>
+ <9db59846-90b4-2b9a-8200-69297112693a@amd.com>
+ <edc985f1-8856-4d1a-8960-efe4d21b960d@amd.com>
+ <5b8db944-5a55-8161-6ab6-98490cfb0562@suse.de>
+ <f8534965-ea14-bbac-bd34-06b951766a7c@amd.com>
+ <48a5e3e2-cb9d-8328-1529-3558601ba860@suse.de>
+ <31b0cac7-82c7-60ad-830b-66f7838a1047@gmail.com>
+ <20200218190639.GM2363188@phenom.ffwll.local>
+From: Nirmoy <nirmodas@amd.com>
+Message-ID: <32ab9058-b755-a4f4-f5fa-8e856a0e32dd@amd.com>
+Date: Wed, 19 Feb 2020 13:47:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
+In-Reply-To: <20200218190639.GM2363188@phenom.ffwll.local>
+Content-Language: en-US
+X-ClientProxiedBy: AM4PR05CA0010.eurprd05.prod.outlook.com (2603:10a6:205::23)
+ To DM5PR12MB2376.namprd12.prod.outlook.com
+ (2603:10b6:4:b9::11)
 MIME-Version: 1.0
-In-Reply-To: <afebd4b0-686d-0912-17e7-fd442ec5c3ab@suse.de>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2003:c5:8f26:f200:3b0d:d092:ed30:1c36]
+ (2003:c5:8f26:f200:3b0d:d092:ed30:1c36) by
+ AM4PR05CA0010.eurprd05.prod.outlook.com (2603:10a6:205::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.18 via Frontend Transport; Wed, 19 Feb 2020 12:44:24 +0000
+X-Originating-IP: [2003:c5:8f26:f200:3b0d:d092:ed30:1c36]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 851a9aa0-1b94-4956-0ebb-08d7b539747c
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1721:|DM5PR12MB1721:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1721635E25999C3A97338E608B100@DM5PR12MB1721.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 0318501FAE
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(376002)(346002)(136003)(396003)(39860400002)(189003)(199004)(2616005)(66556008)(7416002)(31696002)(4326008)(66946007)(66476007)(6486002)(36756003)(6636002)(52116002)(966005)(2906002)(8936002)(81156014)(53546011)(8676002)(478600001)(45080400002)(316002)(54906003)(66574012)(186003)(81166006)(16526019)(6666004)(5660300002)(31686004);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1721;
+ H:DM5PR12MB2376.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vjCbx3Z1nGT2FfnINad/8G4ikI7E/ITDphpRtVW7qIp1slGsi8W+FLrlwzCyiI/gBpa0ODCkIcYfrfinYNbrmKgcgx6Sniriw3fAfPsd4yVv3szJeJw0Il0vBDaytUlBpul6feAvIROZpnXOP8BeLSyBjkkDzdWBt8Cg0jBvKWcR3raYMwDiTia5FPPkUaRAT+hmJPzxbiBdEzPA2otX5YBhzvnB2EiD4UY2TTEFnY9VL6YK4ZTTQc3Q7kZF8QliiI6XfWvGY8gxro52WYq41cpV6xfDnpv3ByLJiThaIc8s1J78TIOMaFLljl5RZyvihlaXjwqF78MXzZtFTf8x4JoNsIdfxy/TDwnarxs2/NL+KN1HD4OjR6afm6KW9aSGSYIwmGZF4boQqtal8NwpvxbnAwTaqdDuG04ioFpzzuAQJm10tmI9mhh3CRUz4PC/+bDH5sTyj1hUnokCEJg9g61BBzMEP5ihbpiJpaCnQBJ9KfELnSd8ny11sGoshnIKS0FWoqmVSkBVgI8af8BCyA==
+X-MS-Exchange-AntiSpam-MessageData: IPzOQRr7wgPunEWWLJYZ+k2R3ZpKZhmXv/RMRyxgEKYXDEHtcFGWekH/O3/cmKrw7BiMkaVkqEJj6HmrCGcR1CmOV5JxKrr3K9MvK4ivg5+51/jV5kxyHLPjsv1GAPY3PcHcO/2NApikGfYhOrzs4RZlkm+wOF5Y9WPv7eeE8+oEhFxF34v7eOaB5BwzjkGE7JxVcXhLttyHjuvvE79f4A==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 851a9aa0-1b94-4956-0ebb-08d7b539747c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2020 12:44:27.0413 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BuMf9dbjPsLDGxmqRaJy3IsASDY9ycMNoq/TMFIyHzs2EaSB1x3RPVgQkPS6u/eoYn1T1jw03zcIGxWrCMtTiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1721
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,341 +108,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============1596649332=="
+Cc: thellstrom@vmware.com, kraxel@redhat.com, airlied@linux.ie,
+ kenny.ho@amd.com, dri-devel@lists.freedesktop.org, bskeggs@redhat.com,
+ nirmoy.das@amd.com, linux-graphics-maintainer@vmware.com,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ nouveau@lists.freedesktop.org, alexander.deucher@amd.com, sean@poorly.run,
+ Nirmoy Das <nirmoy.aiemd@gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1596649332==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="cFO68nJCpMNQP38gtaamNrhlilM3KNeRD"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cFO68nJCpMNQP38gtaamNrhlilM3KNeRD
-Content-Type: multipart/mixed; boundary="qW2Dy9AVefryHHJFZtj84pQjWswVUZTKO";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <2f9ac775-bc88-c805-85da-41be3e07789c@suse.de>
-Subject: Re: [PATCH 05/52] drm/mipi_dbi: Use drmm_add_final_kfree in all
- drivers
-References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-6-daniel.vetter@ffwll.ch>
- <afebd4b0-686d-0912-17e7-fd442ec5c3ab@suse.de>
-In-Reply-To: <afebd4b0-686d-0912-17e7-fd442ec5c3ab@suse.de>
-
---qW2Dy9AVefryHHJFZtj84pQjWswVUZTKO
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Am 19.02.20 um 12:47 schrieb Thomas Zimmermann:
-> Hi Daniel,
->=20
-> good idea. I guess it's the simple encoder's fault. :) I only read
-> briefly over the whole thing.
->=20
-> Am 19.02.20 um 11:20 schrieb Daniel Vetter:
->> They all share mipi_dbi_release so we need to switch them all
->> together. With this we can drop the final kfree from the release
->> function.
->>
->> Aside, I think we could perhaps have a tiny additional helper for
->> these mipi_dbi drivers, the first few lines around devm_drm_dev_init
->> are all the same (except for the drm_driver pointer).
->>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: David Airlie <airlied@linux.ie>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Eric Anholt <eric@anholt.net>
->> Cc: David Lechner <david@lechnology.com>
->> Cc: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
->> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->> ---
->>  drivers/gpu/drm/drm_mipi_dbi.c  | 3 ---
->>  drivers/gpu/drm/tiny/hx8357d.c  | 2 ++
->>  drivers/gpu/drm/tiny/ili9225.c  | 2 ++
->>  drivers/gpu/drm/tiny/ili9341.c  | 2 ++
->>  drivers/gpu/drm/tiny/ili9486.c  | 2 ++
->>  drivers/gpu/drm/tiny/mi0283qt.c | 2 ++
->>  drivers/gpu/drm/tiny/st7586.c   | 2 ++
->>  drivers/gpu/drm/tiny/st7735r.c  | 2 ++
->>  8 files changed, 14 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi=
-_dbi.c
->> index 558baf989f5a..069603dfcd10 100644
->> --- a/drivers/gpu/drm/drm_mipi_dbi.c
->> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
->> @@ -588,13 +588,10 @@ EXPORT_SYMBOL(mipi_dbi_dev_init);
->>   */
->>  void mipi_dbi_release(struct drm_device *drm)
->>  {
->> -	struct mipi_dbi_dev *dbidev =3D drm_to_mipi_dbi_dev(drm);
->> -
->>  	DRM_DEBUG_DRIVER("\n");
->> =20
->>  	drm_mode_config_cleanup(drm);
->>  	drm_dev_fini(drm);
->> -	kfree(dbidev);
->>  }
->>  EXPORT_SYMBOL(mipi_dbi_release);
->> =20
->> diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8=
-357d.c
->> index 9af8ff84974f..42bc5dadcb1c 100644
->> --- a/drivers/gpu/drm/tiny/hx8357d.c
->> +++ b/drivers/gpu/drm/tiny/hx8357d.c
->> @@ -21,6 +21,7 @@
->>  #include <drm/drm_fb_helper.h>
->>  #include <drm/drm_gem_cma_helper.h>
->>  #include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_managed.h>
->>  #include <drm/drm_mipi_dbi.h>
->>  #include <drm/drm_modeset_helper.h>
->>  #include <video/mipi_display.h>
->> @@ -236,6 +237,7 @@ static int hx8357d_probe(struct spi_device *spi)
->>  		kfree(dbidev);
->>  		return ret;
->>  	}
->> +	drmm_add_final_kfree(drm, dbidev);
->=20
-> I'd prefer something else than drmm_add_final_kfree().
->=20
-> From what I understand, drmmadd_add_final_kfree() is required so that
-> the device instance itself gets free. But wiring up garbage collection
-> manually is easy to forget and a somewhat odd design. If we have to do
-> that, there's little benefit over calling kfree in the release callback=
-=2E
->=20
-> Instead, could drivers rather be converted to drm_dev_alloc() where
-> possible?
->=20
-> For the other cases, could there be a dedicated allocator function that=
-
-> invokes drmm_add_final_kfree()? Like that
->=20
->   void*
->   __drmm_kzalloc_dev(size_t size, size_t dev_off)
->   {
->       void *parent =3D kzalloc(size)
->=20
->       drm_device *dev =3D (parent + dev_off)
->=20
->       __drmm_add_final_kfree(dev, parent);
->=20
->       return parent;
->   }
->=20
->   /*
->    * takes the name of driver's device structure and the
->    * name of the drm device structure embedded within
->    */
->   drmm_kzalloc(parent_type, base)
->     (parent_type*)__drm_kzalloc_dev(sizeof(parent_type),
-> 			offsetof(parent_type, base));
-
-This is supposed to be a #define statement
-
->=20
-> Best regards
-> Thomas
->=20
->> =20
->>  	drm_mode_config_init(drm);
->> =20
->> diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili=
-9225.c
->> index 802fb8dde1b6..aae88dc5b3f7 100644
->> --- a/drivers/gpu/drm/tiny/ili9225.c
->> +++ b/drivers/gpu/drm/tiny/ili9225.c
->> @@ -24,6 +24,7 @@
->>  #include <drm/drm_fourcc.h>
->>  #include <drm/drm_gem_cma_helper.h>
->>  #include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_managed.h>
->>  #include <drm/drm_mipi_dbi.h>
->>  #include <drm/drm_rect.h>
->> =20
->> @@ -387,6 +388,7 @@ static int ili9225_probe(struct spi_device *spi)
->>  		kfree(dbidev);
->>  		return ret;
->>  	}
->> +	drmm_add_final_kfree(drm, dbidev);
->> =20
->>  	drm_mode_config_init(drm);
->> =20
->> diff --git a/drivers/gpu/drm/tiny/ili9341.c b/drivers/gpu/drm/tiny/ili=
-9341.c
->> index 33b51dc7faa8..7d40cb4ff72b 100644
->> --- a/drivers/gpu/drm/tiny/ili9341.c
->> +++ b/drivers/gpu/drm/tiny/ili9341.c
->> @@ -20,6 +20,7 @@
->>  #include <drm/drm_fb_helper.h>
->>  #include <drm/drm_gem_cma_helper.h>
->>  #include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_managed.h>
->>  #include <drm/drm_mipi_dbi.h>
->>  #include <drm/drm_modeset_helper.h>
->>  #include <video/mipi_display.h>
->> @@ -194,6 +195,7 @@ static int ili9341_probe(struct spi_device *spi)
->>  		kfree(dbidev);
->>  		return ret;
->>  	}
->> +	drmm_add_final_kfree(drm, dbidev);
->> =20
->>  	drm_mode_config_init(drm);
->> =20
->> diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili=
-9486.c
->> index 5084b38c1a71..7d735fc67498 100644
->> --- a/drivers/gpu/drm/tiny/ili9486.c
->> +++ b/drivers/gpu/drm/tiny/ili9486.c
->> @@ -19,6 +19,7 @@
->>  #include <drm/drm_fb_helper.h>
->>  #include <drm/drm_gem_cma_helper.h>
->>  #include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_managed.h>
->>  #include <drm/drm_mipi_dbi.h>
->>  #include <drm/drm_modeset_helper.h>
->> =20
->> @@ -208,6 +209,7 @@ static int ili9486_probe(struct spi_device *spi)
->>  		kfree(dbidev);
->>  		return ret;
->>  	}
->> +	drmm_add_final_kfree(drm, dbidev);
->> =20
->>  	drm_mode_config_init(drm);
->> =20
->> diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi=
-0283qt.c
->> index e2cfd9a17143..8555a56bce8c 100644
->> --- a/drivers/gpu/drm/tiny/mi0283qt.c
->> +++ b/drivers/gpu/drm/tiny/mi0283qt.c
->> @@ -18,6 +18,7 @@
->>  #include <drm/drm_fb_helper.h>
->>  #include <drm/drm_gem_cma_helper.h>
->>  #include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_managed.h>
->>  #include <drm/drm_mipi_dbi.h>
->>  #include <drm/drm_modeset_helper.h>
->>  #include <video/mipi_display.h>
->> @@ -198,6 +199,7 @@ static int mi0283qt_probe(struct spi_device *spi)
->>  		kfree(dbidev);
->>  		return ret;
->>  	}
->> +	drmm_add_final_kfree(drm, dbidev);
->> =20
->>  	drm_mode_config_init(drm);
->> =20
->> diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st75=
-86.c
->> index 9ef559dd3191..427c2561f5f4 100644
->> --- a/drivers/gpu/drm/tiny/st7586.c
->> +++ b/drivers/gpu/drm/tiny/st7586.c
->> @@ -21,6 +21,7 @@
->>  #include <drm/drm_format_helper.h>
->>  #include <drm/drm_gem_cma_helper.h>
->>  #include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_managed.h>
->>  #include <drm/drm_mipi_dbi.h>
->>  #include <drm/drm_rect.h>
->> =20
->> @@ -328,6 +329,7 @@ static int st7586_probe(struct spi_device *spi)
->>  		kfree(dbidev);
->>  		return ret;
->>  	}
->> +	drmm_add_final_kfree(drm, dbidev);
->> =20
->>  	drm_mode_config_init(drm);
->> =20
->> diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7=
-735r.c
->> index 18b925df6e51..b447235c3d47 100644
->> --- a/drivers/gpu/drm/tiny/st7735r.c
->> +++ b/drivers/gpu/drm/tiny/st7735r.c
->> @@ -21,6 +21,7 @@
->>  #include <drm/drm_fb_helper.h>
->>  #include <drm/drm_gem_cma_helper.h>
->>  #include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_managed.h>
->>  #include <drm/drm_mipi_dbi.h>
->> =20
->>  #define ST7735R_FRMCTR1		0xb1
->> @@ -209,6 +210,7 @@ static int st7735r_probe(struct spi_device *spi)
->>  		kfree(dbidev);
->>  		return ret;
->>  	}
->> +	drmm_add_final_kfree(drm, dbidev);
->> =20
->>  	drm_mode_config_init(drm);
->> =20
->>
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---qW2Dy9AVefryHHJFZtj84pQjWswVUZTKO--
-
---cFO68nJCpMNQP38gtaamNrhlilM3KNeRD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5NLgIACgkQaA3BHVML
-eiOgCAgAtF0Shc+AktyNgGbjjCwxzdT3BwIzSN1y98+5ggT1lsDp4jlKwr+RCXsz
-nkyRqytsfU8quOzZxdG9XesZOjah2+lIhA02gDqCmf/dqtfXKV7WKfd7sqoRw6CD
-A6YKe1E4vUSmKM51tJ5Hwxi/RuWkhtoH0I9mPBMMnO48X76Tx47X+Fy4YAp0uXda
-9zCxNyZHguz1Rgcwjx0bVRE+Bq9m9HHyV2lZxwNU3hmd5mivh3uv17opMUrTA4Q8
-LaV4tfUMbTBLvHyrwCqWANgAk2qmWOJvik0JKXKs3H7SeonbjkmkBv6YnAbuVGra
-AtqGW4n25FLIffDDReMAF9xEIYxuzg==
-=YWEI
------END PGP SIGNATURE-----
-
---cFO68nJCpMNQP38gtaamNrhlilM3KNeRD--
-
---===============1596649332==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1596649332==--
+Ck9uIDIvMTgvMjAgODowNiBQTSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBPbiBUdWUsIEZlYiAx
+OCwgMjAyMCBhdCAwNzozNzo0NFBNICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+PiBB
+bSAxOC4wMi4yMCB1bSAxOToyOCBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+Pj4gSGkKPj4+
+Cj4+PiBBbSAxOC4wMi4yMCB1bSAxOToyMyBzY2hyaWViIENocmlzdGlhbiBLw7ZuaWc6Cj4+Pj4g
+QW0gMTguMDIuMjAgdW0gMTk6MTYgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPj4+Pj4gSGkK
+Pj4+Pj4KPj4+Pj4gQW0gMTguMDIuMjAgdW0gMTg6MTMgc2NocmllYiBOaXJtb3k6Cj4+Pj4+PiBP
+biAyLzE4LzIwIDE6NDQgUE0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+Pj4+Pj4gQW0gMTgu
+MDIuMjAgdW0gMTM6NDAgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPj4+Pj4+Pj4gSGkKPj4+
+Pj4+Pj4KPj4+Pj4+Pj4gQW0gMTcuMDIuMjAgdW0gMTY6MDQgc2NocmllYiBOaXJtb3kgRGFzOgo+
+Pj4+Pj4+Pj4gR1BVIGFkZHJlc3MgaGFuZGxpbmcgaXMgZGV2aWNlIHNwZWNpZmljIGFuZCBzaG91
+bGQgYmUgaGFuZGxlIGJ5IGl0cwo+Pj4+Pj4+Pj4gZGV2aWNlCj4+Pj4+Pj4+PiBkcml2ZXIuCj4+
+Pj4+Pj4+Pgo+Pj4+Pj4+Pj4gU2lnbmVkLW9mZi1ieTogTmlybW95IERhcyA8bmlybW95LmRhc0Bh
+bWQuY29tPgo+Pj4+Pj4+Pj4gLS0tCj4+Pj4+Pj4+PiAgIMKgwqAgZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fYm8uY8KgwqDCoCB8IDcgLS0tLS0tLQo+Pj4+Pj4+Pj4gICDCoMKgIGluY2x1ZGUvZHJt
+L3R0bS90dG1fYm9fYXBpLmjCoMKgwqAgfCAyIC0tCj4+Pj4+Pj4+PiAgIMKgwqAgaW5jbHVkZS9k
+cm0vdHRtL3R0bV9ib19kcml2ZXIuaCB8IDEgLQo+Pj4+Pj4+Pj4gICDCoMKgIDMgZmlsZXMgY2hh
+bmdlZCwgMTAgZGVsZXRpb25zKC0pCj4+Pj4+Pj4+Pgo+Pj4+Pj4+Pj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPj4+Pj4+Pj4+IGIvZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fYm8uYwo+Pj4+Pj4+Pj4gaW5kZXggMTUxZWRmZDhkZTc3Li5kNTg4NWNkNjA5YTMgMTAw
+NjQ0Cj4+Pj4+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4+Pj4+Pj4+
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4+Pj4+Pj4+PiBAQCAtODUsNyAr
+ODUsNiBAQCBzdGF0aWMgdm9pZCB0dG1fbWVtX3R5cGVfZGVidWcoc3RydWN0Cj4+Pj4+Pj4+PiB0
+dG1fYm9fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgZHJtX3ByaW50ZXIgKnAKPj4+Pj4+Pj4+ICAgwqDC
+oMKgwqDCoMKgIGRybV9wcmludGYocCwgIsKgwqDCoCBoYXNfdHlwZTogJWRcbiIsIG1hbi0+aGFz
+X3R5cGUpOwo+Pj4+Pj4+Pj4gICDCoMKgwqDCoMKgwqAgZHJtX3ByaW50ZihwLCAiwqDCoMKgIHVz
+ZV90eXBlOiAlZFxuIiwgbWFuLT51c2VfdHlwZSk7Cj4+Pj4+Pj4+PiAgIMKgwqDCoMKgwqDCoCBk
+cm1fcHJpbnRmKHAsICLCoMKgwqAgZmxhZ3M6IDB4JTA4WFxuIiwgbWFuLT5mbGFncyk7Cj4+Pj4+
+Pj4+PiAtwqDCoMKgIGRybV9wcmludGYocCwgIsKgwqDCoCBncHVfb2Zmc2V0OiAweCUwOGxsWFxu
+IiwgbWFuLT5ncHVfb2Zmc2V0KTsKPj4+Pj4+Pj4+ICAgwqDCoMKgwqDCoMKgIGRybV9wcmludGYo
+cCwgIsKgwqDCoCBzaXplOiAlbGx1XG4iLCBtYW4tPnNpemUpOwo+Pj4+Pj4+Pj4gICDCoMKgwqDC
+oMKgwqAgZHJtX3ByaW50ZihwLCAiwqDCoMKgIGF2YWlsYWJsZV9jYWNoaW5nOiAweCUwOFhcbiIs
+Cj4+Pj4+Pj4+PiBtYW4tPmF2YWlsYWJsZV9jYWNoaW5nKTsKPj4+Pj4+Pj4+ICAgwqDCoMKgwqDC
+oMKgIGRybV9wcmludGYocCwgIsKgwqDCoCBkZWZhdWx0X2NhY2hpbmc6IDB4JTA4WFxuIiwKPj4+
+Pj4+Pj4+IG1hbi0+ZGVmYXVsdF9jYWNoaW5nKTsKPj4+Pj4+Pj4+IEBAIC0zNDUsMTIgKzM0NCw2
+IEBAIHN0YXRpYyBpbnQgdHRtX2JvX2hhbmRsZV9tb3ZlX21lbShzdHJ1Y3QKPj4+Pj4+Pj4+IHR0
+bV9idWZmZXJfb2JqZWN0ICpibywKPj4+Pj4+Pj4+ICAgwqDCoCBtb3ZlZDoKPj4+Pj4+Pj4+ICAg
+wqDCoMKgwqDCoMKgIGJvLT5ldmljdGVkID0gZmFsc2U7Cj4+Pj4+Pj4+PiAgIMKgwqAgLcKgwqDC
+oCBpZiAoYm8tPm1lbS5tbV9ub2RlKQo+Pj4+Pj4+Pj4gLcKgwqDCoMKgwqDCoMKgIGJvLT5vZmZz
+ZXQgPSAoYm8tPm1lbS5zdGFydCA8PCBQQUdFX1NISUZUKSArCj4+Pj4+Pj4+PiAtwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBiZGV2LT5tYW5bYm8tPm1lbS5tZW1fdHlwZV0uZ3B1X29mZnNldDsKPj4+
+Pj4+Pj4+IC3CoMKgwqAgZWxzZQo+Pj4+Pj4+Pj4gLcKgwqDCoMKgwqDCoMKgIGJvLT5vZmZzZXQg
+PSAwOwo+Pj4+Pj4+Pj4gLQo+Pj4+Pj4+PiBBZnRlciBtb3ZpbmcgdGhpcyBpbnRvIHVzZXJzLCB0
+aGUgZWxzZSBicmFuY2ggaGFzIGJlZW4gbG9zdC4gSXMKPj4+Pj4+Pj4gJ2JvLT5tZW0ubW1fbm9k
+ZScgYWx3YXlzIHRydWU/Cj4+Pj4+Pj4gQXQgbGVhc3QgZm9yIHRoZSBhbWRncHUgYW5kIHJhZGVv
+biB1c2UgY2FzZXMsIHllcy4KPj4+Pj4+Pgo+Pj4+Pj4+IEJ1dCB0aGF0IGlzIGEgcmF0aGVyIGdv
+b2QgcXVlc3Rpb24gSSBtZWFuIGZvciBpdCBpcyBpbGxlZ2FsIHRvIGdldCB0aGUKPj4+Pj4+PiBH
+UFUgQk8gYWRkcmVzcyBpZiBpdCBpcyBpbmFjY2Vzc2libGUgKGUuZy4gaW4gdGhlIHN5c3RlbSBk
+b21haW4pLgo+Pj4+Pj4+Cj4+Pj4+Pj4gQ291bGQgYmUgdGhhdCBzb21lIGRyaXZlciByZWxpZWQg
+b24gdGhlIGJlaGF2aW9yIHRvIGdldCAwIGZvciB0aGUKPj4+Pj4+PiBzeXN0ZW0gZG9tYWluIGhl
+cmUuCj4+Pj4+PiBJIHdvbmRlciBob3cgdG8gdmVyaWZ5IHRoYXQgPwo+Pj4+Pj4KPj4+Pj4+IElm
+IEkgdW5kZXJzdGFuZCBjb3JyZWN0bHk6Cj4+Pj4+Pgo+Pj4+Pj4gMSBxeGwgdXNlcyBiby0+b2Zm
+c2V0IG9ubHkgaW4gcXhsX2JvX3BoeXNpY2FsX2FkZHJlc3MoKSB3aGljaCBpcyBub3QgaW4KPj4+
+Pj4+IHN5c3RlbSBkb21haW4uCj4+Pj4+Pgo+Pj4+Pj4gMiB1bmZvcnR1bmF0ZWx5IEkgY2FuJ3Qg
+c2F5IHRoZSBzYW1lIGZvciBib2NocyBidXQgaXQgd29ya3Mgd2l0aCB0aGlzCj4+Pj4+PiBwYXRj
+aCBzZXJpZXMgc28gSSB0aGluayBib2NocyBpcyBmaW5lIGFzIHdlbGwuCj4+Pj4+Pgo+Pj4+Pj4g
+MyB2bXdnZnggdXNlcyBiby0+b2Zmc2V0IG9ubHkgd2hlbiBiby0+bWVtLm1lbV90eXBlID09IFRU
+TV9QTF9WUkFNIHNvCj4+Pj4+PiB2bXdnZnggc2hvdWxkIGJlIGZpbmUuCj4+Pj4+Pgo+Pj4+Pj4g
+NCBhbWRncHUgYW5kIHJhZGVvbiBydW5zIHdpdGggJ2JvLT5tZW0ubW1fbm9kZScgYWx3YXlzIHRy
+dWUKPj4+Pj4+Cj4+Pj4+PiBJIGFtIG5vdCBzdXJlIGFib3V0wqAgbm91dmVhdSBhcyBiby0+b2Zm
+c2V0IGlzIGJlaW5nIHVzZWQgaW4gbWFueSBwbGFjZXMuCj4+Pj4+Pgo+Pj4+Pj4gSSBjb3VsZCBw
+cm9iYWJseSBtaXJyb3IgdGhlIHJlbW92ZWQgbG9naWMgdG8gbm91dmVhdSBhcwo+Pj4+PiBJIHN1
+Z2dlc3QgdG8gaW50cm9kdWNlIGEgdHRtIGhlbHBlciB0aGF0IGNvbnRhaW5zIHRoZSBvcmlnaW5h
+bCBicmFuY2hpbmcKPj4+Pj4gYW5kIHVzZSBpdCBldmVyeXdoZXJlLiBTb21ldGhpbmcgbGlrZQo+
+Pj4+Pgo+Pj4+PiAgIMKgwqAgczY0IHR0bV9ib19vZmZzZXQoc3RydWN0IHR0bV9idWZmZXJfb2Jq
+ZWN0ICpibykKPj4+Pj4gICDCoMKgIHsKPj4+Pj4gICDCoMKgwqDCoMKgIGlmIChXQVJOX09OX09O
+Q0UoIWJvLT5tZW0ubW1fbm9kZSkpCj4+Pj4+ICAgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAw
+Owo+Pj4+PiAgIMKgwqDCoMKgwqAgcmV0dXJuIGJvLT5tZW0uc3RhcnQgPDwgUEFHRV9TSElGVDsK
+Pj4+Pj4gICDCoMKgIH0KPj4+Pj4KPj4+Pj4gQ291bGQgYmUgc3RhdGljIGlubGluZS4gVGhlIHdh
+cm5pbmcgc2hvdWxkIHBvaW50IHRvIGJyb2tlbiBkcml2ZXJzLiBUaGlzCj4+Pj4+IGFsc28gZ2V0
+cyByaWQgb2YgdGhlIHVnbHkgc2hpZnQgaW4gdGhlIGRyaXZlcnMuCj4+Pj4gQmlnIE5BSyBvbiB0
+aGlzLiBUaGF0IGlzIGV4YWN0bHkgd2hhdCB3ZSBzaG91bGQgTk9UIGRvLgo+Pj4+Cj4+Pj4gU2Vl
+IHRoZSBzaGlmdCBiZWxvbmdzIGludG8gdGhlIGRyaXZlciwgYmVjYXVzZSBpdCBpcyBkcml2ZXIg
+ZGVwZW5kZW50IGlmCj4+Pj4gd2Ugd29yayB3aXRoIHBhZ2Ugb3IgYnl0ZSBvZmZzZXRzLgo+Pj4+
+Cj4+Pj4gRm9yIGFtZGdwdSB3ZSBmb3IgZXhhbXBsZSB3YW50IHRvIHdvcmsgd2l0aCBieXRlIG9m
+ZnNldHMgYW5kIFRUTSBzaG91bGQKPj4+PiBub3QgbWFrZSBhbnkgYXNzdW1wdGlvbiBhYm91dCB3
+aGF0IGJvLT5tZW0uc3RhcnQgYWN0dWFsbHkgY29udGFpbnMuCj4+PiBPSy4gV2hhdCBhYm91dCBz
+b21ldGhpbmcgbGlrZSB0dG1fYm9fcGdfb2Zmc2V0KCk/IFNhbWUgY29kZSB3aXRob3V0IHRoZQo+
+Pj4gc2hpZnQuIFdvdWxkIGFsc28gbWFrZSBpdCBjbGVhciB0aGF0IGl0J3MgYSBwYWdlIG9mZnNl
+dC4KPj4gVGhhdCBpcyBhIHJhdGhlciBnb29kIGlkZWEuIFdlIGNvdWxkIG5hbWUgdGhhdCB0dG1f
+Ym9fbWFuX29mZnNldCgpIGFuZCBwdXQKPj4gaXQgaW50byB0dG1fYm9fbWFuYWdlci5jIG5leHQg
+dG8gdGhlIG1hbmFnZXIgd2hpY2ggYWxsb2NhdGVzIHRoZW0uCj4+Cj4+IEl0J3MganVzdCB0aGF0
+IHRoaXMgbWFuYWdlciBpcyBub3QgdXNlZCBieSBldmVyeWJvZHksIHNvIGFtZGdwdSwgcmFkZW9u
+IGFuZAo+PiBub3V2ZWF1IHdvdWxkIHN0aWxsIG5lZWQgYSBzZXBhcmF0ZSBmdW5jdGlvbi4KPiBM
+ZXQgbWUgcGlsZSBvbiB3aXRoIG15IGJpa2VzaGVkIGNvbG9yIGNob2ljZSA6LSkKPgo+IEknZCBk
+byB0aGlzIGEgd3JhcHBlciwgYnV0IGZvciBkcml2ZXJzIGluZGl2aWR1YWxseS4gQW5kIG9ubHkg
+Zm9yIHRob3NlIHdlCj4gaGF2ZW4ndCBhdWRpdGVkIHlldCwgb3Igd2hlcmUgd2UgdGhpbmsgdGhl
+IFdBUk5fT04gYWN0dWFsbHkgcHJvdmlkZXMKPiB2YWx1ZS4gU28gbWF5YmUgaW4gdnJhbSBoZWxw
+ZXJzLCBzaW5jZSB0aGF0IG1pZ2h0IGJlIHVzZWQgYnkgc29tZSBkcml2ZXJzCj4gdGhhdCBnZXQg
+c3R1ZmYgd3JvbmcuIE9yIG1heWJlIG5vdmVhdSBpc24ndCBhdWRpdGVkIHlldC4KCkkgbGlrZSB0
+aGlzIGlkZWEgbW9yZS4gSSB3aWxsIG1vZGlmeSBhbmQgcmVzZW5kIHBhdGNoZXMgd2l0aCBhYm92
+ZSAKc3VnZ2VzdGlvbnMuCgo+IFRoYXQgYWxzbyBzaWRlc3RlcHMgdGhlICJ3aGF0IHNob3VsZCB3
+ZSBjYWxsIHRoaXMsIGRyaXZlcnMgYXJlIGRpZmZlcmVudD8iCj4gcHJvYmxlbS4KPgo+IEFueXdh
+eSBmZWVsIGZyZWUgdG8gaWdub3JlIG1lLCByZWFsbHkganVzdCBhIGJpa2VzaGVkIGF0IHRoaXMg
+cG9pbnQuCj4KPiBDaGVlcnMsIERhbmllbAo+Cj4+IENocmlzdGlhbi4KPj4KPj4+IEJlc3QgcmVn
+YXJkcwo+Pj4gVGhvbWFzCj4+Pgo+Pj4+IFJlZ2FyZHMsCj4+Pj4gQ2hyaXN0aWFuLgo+Pj4+Cj4+
+Pj4+IEJlc3QgcmVnYXJkcwo+Pj4+PiBUaG9tYXMKPj4+Pj4KPj4+Pj4KPj4+Pj4+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPj4+Pj4+IGIvZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jCj4+Pj4+PiBpbmRleCBmODAxNWUwMzE4ZDcu
+LjVhNmEyYWY5MTMxOCAxMDA2NDQKPj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L25vdXZlYXVfYm8uYwo+Pj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVh
+dV9iby5jCj4+Pj4+PiBAQCAtMTMxNyw2ICsxMzE3LDEwIEBAIG5vdXZlYXVfYm9fbW92ZV9udGZ5
+KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdAo+Pj4+Pj4gKmJvLCBib29sIGV2aWN0LAo+Pj4+Pj4g
+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsaXN0X2Zvcl9lYWNoX2VudHJ5KHZt
+YSwgJm52Ym8tPnZtYV9saXN0LCBoZWFkKSB7Cj4+Pj4+PiAgIMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBub3V2ZWF1X3ZtYV9tYXAodm1hLCBtZW0pOwo+
+Pj4+Pj4gICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4+Pj4+PiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoYm8tPm1lbS5tbV9ub2RlKQo+Pj4+Pj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG52Ym8tPm9mZnNldCA9IChu
+ZXdfcmVnLT5zdGFydCA8PCBQQUdFX1NISUZUKTsKPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGVsc2UKPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBudmJvLT5vZmZzZXQgPSAwOwo+Pj4+Pj4gICDCoMKgwqDCoMKgwqDCoMKgIH0g
+ZWxzZSB7Cj4+Pj4+PiAgIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGxpc3RfZm9y
+X2VhY2hfZW50cnkodm1hLCAmbnZiby0+dm1hX2xpc3QsIGhlYWQpIHsKPj4+Pj4+ICAgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFdBUk5fT04odHRtX2Jv
+X3dhaXQoYm8sIGZhbHNlLCBmYWxzZSkpOwo+Pj4+Pj4KPj4+Pj4+IFJlZ2FyZHMsCj4+Pj4+Pgo+
+Pj4+Pj4gTmlybW95Cj4+Pj4+Pgo+Pj4+Pj4KPj4+Pj4+PiBSZWdhcmRzLAo+Pj4+Pj4+IENocmlz
+dGlhbi4KPj4+Pj4+Pgo+Pj4+Pj4+PiBCZXN0IHJlZ2FyZHMKPj4+Pj4+Pj4gVGhvbWFzCj4+Pj4+
+Pj4+Cj4+Pj4+Pj4+PiAgIMKgwqDCoMKgwqDCoCBjdHgtPmJ5dGVzX21vdmVkICs9IGJvLT5udW1f
+cGFnZXMgPDwgUEFHRV9TSElGVDsKPj4+Pj4+Pj4+ICAgwqDCoMKgwqDCoMKgIHJldHVybiAwOwo+
+Pj4+Pj4+Pj4gICDCoMKgIGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5o
+Cj4+Pj4+Pj4+PiBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKPj4+Pj4+Pj4+IGluZGV4
+IGI5YmMxYjAwMTQyZS4uZDZmMzllZTViZjVkIDEwMDY0NAo+Pj4+Pj4+Pj4gLS0tIGEvaW5jbHVk
+ZS9kcm0vdHRtL3R0bV9ib19hcGkuaAo+Pj4+Pj4+Pj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0
+bV9ib19hcGkuaAo+Pj4+Pj4+Pj4gQEAgLTIxMyw4ICsyMTMsNiBAQCBzdHJ1Y3QgdHRtX2J1ZmZl
+cl9vYmplY3Qgewo+Pj4+Pj4+Pj4gICDCoMKgwqDCoMKgwqDCoCAqIGVpdGhlciBvZiB0aGVzZSBs
+b2NrcyBoZWxkLgo+Pj4+Pj4+Pj4gICDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4+Pj4+Pj4gICDCoMKg
+IC3CoMKgwqAgdWludDY0X3Qgb2Zmc2V0OyAvKiBHUFUgYWRkcmVzcyBzcGFjZSBpcyBpbmRlcGVu
+ZGVudCBvZiBDUFUKPj4+Pj4+Pj4+IHdvcmQgc2l6ZSAqLwo+Pj4+Pj4+Pj4gLQo+Pj4+Pj4+Pj4g
+ICDCoMKgwqDCoMKgwqAgc3RydWN0IHNnX3RhYmxlICpzZzsKPj4+Pj4+Pj4+ICAgwqDCoCB9Owo+
+Pj4+Pj4+Pj4gICDCoMKgIGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZl
+ci5oCj4+Pj4+Pj4+PiBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKPj4+Pj4+Pj4+
+IGluZGV4IGM5ZTBmZDA5ZjRiMi4uYzhjZTZjMTgxYWJlIDEwMDY0NAo+Pj4+Pj4+Pj4gLS0tIGEv
+aW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+Pj4+Pj4+Pj4gKysrIGIvaW5jbHVkZS9k
+cm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+Pj4+Pj4+Pj4gQEAgLTE3Nyw3ICsxNzcsNiBAQCBzdHJ1
+Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgewo+Pj4+Pj4+Pj4gICDCoMKgwqDCoMKgwqAgYm9vbCBo
+YXNfdHlwZTsKPj4+Pj4+Pj4+ICAgwqDCoMKgwqDCoMKgIGJvb2wgdXNlX3R5cGU7Cj4+Pj4+Pj4+
+PiAgIMKgwqDCoMKgwqDCoCB1aW50MzJfdCBmbGFnczsKPj4+Pj4+Pj4+IC3CoMKgwqAgdWludDY0
+X3QgZ3B1X29mZnNldDsgLyogR1BVIGFkZHJlc3Mgc3BhY2UgaXMgaW5kZXBlbmRlbnQgb2YgQ1BV
+Cj4+Pj4+Pj4+PiB3b3JkIHNpemUgKi8KPj4+Pj4+Pj4+ICAgwqDCoMKgwqDCoMKgIHVpbnQ2NF90
+IHNpemU7Cj4+Pj4+Pj4+PiAgIMKgwqDCoMKgwqDCoCB1aW50MzJfdCBhdmFpbGFibGVfY2FjaGlu
+ZzsKPj4+Pj4+Pj4+ICAgwqDCoMKgwqDCoMKgIHVpbnQzMl90IGRlZmF1bHRfY2FjaGluZzsKPj4+
+Pj4+Pj4+Cj4+Pj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwo+Pj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4+Pj4gZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwo+Pj4+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlv
+bi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGbGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJG
+bWFpbG1hbiUyRmxpc3RpbmZvJTJGZHJpLWRldmVsJmFtcDtkYXRhPTAyJTdDMDElN0NOaXJtb3ku
+RGFzJTQwYW1kLmNvbSU3Q2IwMjc5ZGUxNTI4ZjQ0ZTE2YWE1MDhkN2I0YTViMTkyJTdDM2RkODk2
+MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzE3NjQ5NjA2NzY2MDg2MSZh
+bXA7c2RhdGE9b0RFaWxMb0N5bWxjTXhYSjJtblZXd1R4cWxvUWxXMFNQM0hEUG1RUlNWYyUzRCZh
+bXA7cmVzZXJ2ZWQ9MAo+Pj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4+IGRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPj4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9u
+Lm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZt
+YWlsbWFuJTJGbGlzdGluZm8lMkZkcmktZGV2ZWwmYW1wO2RhdGE9MDIlN0MwMSU3Q05pcm1veS5E
+YXMlNDBhbWQuY29tJTdDYjAyNzlkZTE1MjhmNDRlMTZhYTUwOGQ3YjRhNWIxOTIlN0MzZGQ4OTYx
+ZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3MTc2NDk2MDY3NjYwODYxJmFt
+cDtzZGF0YT1vREVpbExvQ3ltbGNNeFhKMm1uVld3VHhxbG9RbFcwU1AzSERQbVFSU1ZjJTNEJmFt
+cDtyZXNlcnZlZD0wCj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwo+Pj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPj4+IGFtZC1nZnhAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCj4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2su
+Y29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJG
+bGlzdGluZm8lMkZhbWQtZ2Z4JmFtcDtkYXRhPTAyJTdDMDElN0NOaXJtb3kuRGFzJTQwYW1kLmNv
+bSU3Q2IwMjc5ZGUxNTI4ZjQ0ZTE2YWE1MDhkN2I0YTViMTkyJTdDM2RkODk2MWZlNDg4NGU2MDhl
+MTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzE3NjQ5NjA2NzY2MDg2MSZhbXA7c2RhdGE9WE5E
+cFpJaiUyRndEYkhPSEJMMjVHJTJGSHBTOUpFVE4lMkYzN0gzNUU2dDRxNGpvVSUzRCZhbXA7cmVz
+ZXJ2ZWQ9MAo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xwo+PiBOb3V2ZWF1IG1haWxpbmcgbGlzdAo+PiBOb3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9y
+Zwo+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9
+aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8l
+MkZub3V2ZWF1JmFtcDtkYXRhPTAyJTdDMDElN0NOaXJtb3kuRGFzJTQwYW1kLmNvbSU3Q2IwMjc5
+ZGUxNTI4ZjQ0ZTE2YWE1MDhkN2I0YTViMTkyJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0
+ZTE4M2QlN0MwJTdDMCU3QzYzNzE3NjQ5NjA2NzY2MDg2MSZhbXA7c2RhdGE9NmxuNUI4MXJiUmRW
+RU42dFJrOEtNbUl4MDRWUEp3MTBkd1pkcUlZTWtTbyUzRCZhbXA7cmVzZXJ2ZWQ9MAo+Cl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
