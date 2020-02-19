@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE9E163A0D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 03:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A20163AA5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 04:02:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39193899C7;
-	Wed, 19 Feb 2020 02:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F24789BAB;
+	Wed, 19 Feb 2020 03:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82DC3899C7
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:21:08 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id j15so11924989pgm.6
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 18:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bZNJEt6yj/GGHl6HuTnyWkX+8LhCyEYZPq0uREyoYJY=;
- b=XK/Ocbbu3Dp0qH+vP7RVqbjDVd4W9YGtEiJkHsMYF18AjIY3Oy/qIIDBhcseaK3apQ
- B4yF8k9PqnsaWy4Yi4g/0Mj9YbqGteRNi3eJEdiv+1GDl7CVqbyYvmux4qdU6NnEKTP4
- DG3eOtDE1WhM42NYvXJpxNypg7o/OJbBjSp1g=
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9DD89BAB
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 03:02:03 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id 66so21731815otd.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 19:02:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bZNJEt6yj/GGHl6HuTnyWkX+8LhCyEYZPq0uREyoYJY=;
- b=p1Zg1ouHvzYC1Bj4mI638IsdMvuvVj74P4/vBNj0VIAKzUdQslOF1s93SqrbcsXvZC
- Itmmv+OMvgbaoeohpBOGK3xbIiDnGmzrzm0U2mb/tdAzePK22uZCjJwPLLFaqwhQqb6Q
- YeyskareUqgxSTc+PbsS7PvBHCPPBsAhxuL1ei91bWJKtZejKXdFWoerPOBGkR3OvrI6
- Bjs58Iufx6XIjVCFvjtzfyZSN1UJT7NtXj91jHysL1G1Yee/TCrl7Jw/ynZJh0RqrZhO
- 3C3O1nJ2O2vbQEmaV6c+TrI52VTH/b6CFqyaox7m3559FphHw5Q2/cBExpfduiSAerKi
- S7Wg==
-X-Gm-Message-State: APjAAAW2g0Llmk7rkXFLnTU5H3p0FhpvFQ3q8g0kco0VgoZGKSQH+N9v
- T1O8e7ZMDn35cVxijsiN24c9FPq0u+c=
-X-Google-Smtp-Source: APXvYqwvukoGyAfvyMol3rGoxiPK6ycUkWtQG7asRQdw8+xogWt8iL1Q3H0dWSH1oQ6CDOOBRJXT1w==
-X-Received: by 2002:a65:404d:: with SMTP id h13mr24821270pgp.156.1582078867777; 
- Tue, 18 Feb 2020 18:21:07 -0800 (PST)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id n2sm335481pfq.50.2020.02.18.18.21.06
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Tue, 18 Feb 2020 18:21:07 -0800 (PST)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5 v4] drm/virtio: track whether or not a context has been
- initiated
-Date: Tue, 18 Feb 2020 18:21:02 -0800
-Message-Id: <20200219022102.1750-1-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200219020301.1424-3-gurchetansingh@chromium.org>
-References: <20200219020301.1424-3-gurchetansingh@chromium.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=rFMkjGpB5P5Yuyv7sMOcWjIo25hp6v2dU13cY3mBC+g=;
+ b=EuOWUOe+U5kKJnkqry8J4R22ewZ/KfDqC/z+UhBL5TawRZSiRN+4mJZwDoWNLsVVGL
+ BgycR5TtXgMkDRoBO0nbmPQIa4mj+5Sr5Icn+q0P36lbqzkBjZubtclVqyuD4dcsf4j1
+ qZGs9sfGaHVZud/PsCVRWIgcTQqEeRB5oLiAFGCLpTgtD+AvIhy3AqZm9q87eHvPthq9
+ 3/l0YrW/adNYnr2eOaN0xWtdI3eJwVxPolB4NADLE+0dG80VCkmIG13rle0y1bmxGWwW
+ ZL0pZnFy69te2TNuvGDyQ7cVqZy1pkXpJIVlonubWnJXBZWL3sZoPILBiR3/kY3GuLyr
+ Nmaw==
+X-Gm-Message-State: APjAAAW0DPeXevxM34/rbV7sX1wnQRWrVBOoODBC7LnsJ7dkW67wiHZP
+ JKZt3ldoRSU6kaLawSwQOg==
+X-Google-Smtp-Source: APXvYqyVd0GEkqGJFCg+0jQjwfkr57L6CDJVWGnKS41CanYOhCgraDFMbXd01paM8WkuNqUqCyvUPA==
+X-Received: by 2002:a05:6830:140f:: with SMTP id
+ v15mr18148994otp.218.1582081322305; 
+ Tue, 18 Feb 2020 19:02:02 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id h15sm197130otq.67.2020.02.18.19.02.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 19:02:01 -0800 (PST)
+Received: (nullmailer pid 14184 invoked by uid 1000);
+ Wed, 19 Feb 2020 03:02:00 -0000
+Date: Tue, 18 Feb 2020 21:02:00 -0600
+From: Rob Herring <robh@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v3 4/5] dt-bindings: display: add data-mapping to panel-dpi
+Message-ID: <20200219030200.GA9263@bogus>
+References: <20200216181513.28109-1-sam@ravnborg.org>
+ <20200216181513.28109-5-sam@ravnborg.org>
+ <CAL_Jsq+AbXEiLCYiAvwr5qzbSnuo9G8bTwAM3G9J4cPYz1_FMw@mail.gmail.com>
+ <20200218221638.GA27927@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200218221638.GA27927@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,77 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: devicetree@vger.kernel.org, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steffen Trumtrar <s.trumtrar@pengutronix.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use a boolean variable to track whether a context has been
-initiated.
+On Tue, Feb 18, 2020 at 11:16:38PM +0100, Sam Ravnborg wrote:
+> On Tue, Feb 18, 2020 at 02:13:45PM -0600, Rob Herring wrote:
+> > On Sun, Feb 16, 2020 at 12:15 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> > >
+> > > Add data-mapping property that can be used to specify
+> > > the media format used for the connection betwwen the
+> > > display controller (connector) and the panel.
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > 
+> > Missing blank line.
+> > 
+> > > ---
+> > >  .../devicetree/bindings/display/panel/panel-dpi.yaml | 12 +++++++++++-
+> > >  1 file changed, 11 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > > index 40079fc24a63..6a03d2449701 100644
+> > > --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > > @@ -21,6 +21,16 @@ properties:
+> > >        - {}
+> > >        - const: panel-dpi
+> > >
+> > > +  data-mapping:
+> > > +    enum:
+> > > +      - rgb24
+> > > +      - rgb565
+> > > +      - bgr666
+> > > +      - lvds666
+> > 
+> > Doesn't lvds666 come from i.MX IPU which as I remember has built-in
+> > LVDS block? I'd think this format would be implicit when using the
+> > LVDS block and panel. It doesn't seem this is actually used anywhere
+> > either.
+> I must admit that I just copied this list from Oleksandrs original
+> patch. The MEDIA type it identifies(MEDIA_BUS_FMT_RGB666_1X24_CPADHI) looks special.
+> I will drop lvds666 while applying, unless I get other feedback.
+> (Note: travelling, earliest in the weekend)
 
-v3: Fix possible race via spinlock (@olv)
-v4: Fix commit message
+Okay, with that:
 
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 2 ++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 8 ++++++++
- drivers/gpu/drm/virtio/virtgpu_kms.c   | 2 ++
- 3 files changed, 12 insertions(+)
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 72c1d9b59dfe..99d94a87c28b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -209,6 +209,8 @@ struct virtio_gpu_device {
- 
- struct virtio_gpu_fpriv {
- 	uint32_t ctx_id;
-+	bool context_initiated;
-+	spinlock_t context_lock;
- };
- 
- /* virtio_ioctl.c */
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index de04f80f737d..82312664f2e4 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -44,10 +44,18 @@ void virtio_gpu_create_context(struct drm_device *dev,
- 	if (!vgdev->has_virgl_3d)
- 		return;
- 
-+	spin_lock(&vfpriv->context_lock);
-+	if (vfpriv->context_initiated)
-+		goto out_unlock;
-+
- 	get_task_comm(dbgname, current);
- 	virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
- 				      strlen(dbgname), dbgname);
- 	virtio_gpu_notify(vgdev);
-+	vfpriv->context_initiated = true;
-+
-+out_unlock:
-+	spin_unlock(&vfpriv->context_lock);
- }
- 
- static int virtio_gpu_map_ioctl(struct drm_device *dev, void *data,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index f7e3712502ca..f4a9aa0048d2 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -258,6 +258,8 @@ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
- 	if (!vfpriv)
- 		return -ENOMEM;
- 
-+	spin_lock_init(&vfpriv->context_lock);
-+
- 	handle = ida_alloc(&vgdev->ctx_id_ida, GFP_KERNEL);
- 	if (handle < 0) {
- 		kfree(vfpriv);
--- 
-2.25.0.265.gbab2e86ba0-goog
+> 
+> Btw. anyway I can add data-mapping to panel-common - and then list the
+> allowed enum values in each binding?
 
+That would be good. It should be defined explicitly that it's a single 
+string as that's implicit currently.
+ 
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
