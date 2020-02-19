@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EA0164176
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 11:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219CE16417D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 11:22:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35B5C6EB3A;
-	Wed, 19 Feb 2020 10:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA92B6EB42;
+	Wed, 19 Feb 2020 10:21:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D1E36EB35
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:21:41 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id y11so27503484wrt.6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:21:41 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1A016EB2E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:21:42 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id y11so27503568wrt.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:21:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r7QCkQeecG9kafjeTwFxIc7eZTrQc7j4K5sRgGQdigI=;
- b=QoaCQPR2ztg7b76dfjHiO9evENwhP19ZHSbNi27ipV+8WVhFaQr2PZSmyo8VBMiQYT
- 78iWk+vjNA0LAqHp1EG4cYoe7L92TtLYapTMpf0T3tQ2BhdDXX3hSbdsVFuKvRftXfbF
- eMAj7yn7CYfszBI5P304EgppceiWSDsWOxfOs=
+ bh=jGkQy6GARMrTdcko1Rer3WUnvLpzhV0C66wlxAxhWNE=;
+ b=I0KTH0UkBAvrOSijIO4+h7syZUN60LJupdfC6Nj/MjoFy01AeAyKX6hS3qK8A/nkPH
+ Z+KpeWnSVlILc6CexbTKyKQ81hlEAbn+VNwRgcLRub/S6F6bJGGQvb756PmOCyEiI3fQ
+ VFPwmZfHfBlC3fQjWz4WQdz70krfrRUgkgv8s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r7QCkQeecG9kafjeTwFxIc7eZTrQc7j4K5sRgGQdigI=;
- b=DvpS+h/6rAfZQmh3dNMa4+JzIJ6HXUNBCS/ItYdpH4t+netIgglwipAekNeZAsSooU
- mgFDOYeCGKDnHyBAb2BReZ8mQzU9EtABDkeLS3RRgeXSmLPyEU3vkb5YMmyfrzMcGqzB
- UhZZijd6hGp3v+cmLg/ALmVpMDhyGdS6C83crF1HxxL5Yj5DODvAx9IrEKKvEgpS2R3F
- ekQJ5GQ3Ub4LpprKxKb4XiQxX2ik6nZR7kAffc0JWgwZUXul1+hg+9ybUSw0/BnE9B46
- QjPv+oaZ+3x3v9G9tUVqwYEHgP+7O3JDTIPo0L06Rs8pqhW9omjUf3cxMJKYImEyJKBp
- 23NA==
-X-Gm-Message-State: APjAAAWIoII3zsl7l2oSgOhrCnDIapyz+ouPAGCigiGoYfzds+F1E8pY
- KdAdPdcZMxC6VqnteGFWgDVQGkIRVMc=
-X-Google-Smtp-Source: APXvYqwBXsZIAyeJd/WLgc6LlIvGApWTV56ZDFjc86v9Mjkff2StbKixXt5A1pf0P0ajeHog0GulRA==
-X-Received: by 2002:adf:eec3:: with SMTP id a3mr33084079wrp.337.1582107699768; 
- Wed, 19 Feb 2020 02:21:39 -0800 (PST)
+ bh=jGkQy6GARMrTdcko1Rer3WUnvLpzhV0C66wlxAxhWNE=;
+ b=e9sHmfiGSNsF23hnFFvScWVdrSODj1Y4xXvR9UY43zBsqRiBz6mQ2bjaxKsWZwnbTX
+ aCYP0+1BHtZ2TWYgraSwqliCseFJSDuv5uTTAb+bc9mgkcjCoNWsUdxsgPYR6mAlUXPh
+ Ac55jY0Jc2vnwkv5jK+nsnh/JbvnmAH5W26qSb8Uqp1ykPW6lTHZUTMHQQOZJbBBuyih
+ 2316RJd6QWfs/YvzVuo/jOW/LZsbjIqxCwfN/Ut6dpWvCBctUKEW0eXSjJC9bvVO1mHa
+ Oh5fpFePf16z6EgjiLnZ+kTbzMEwDUzrkZK0BqDVdl4Of0XW7XcHaEwr4p69MeJ8TeZx
+ 6vQA==
+X-Gm-Message-State: APjAAAWvhRBDCOcazh2ldVMEa0enQp7cTDc1NwD5hDN9djheYnSzuQ/h
+ xRy1DEJYpD8xbUwbaSSSx7u6PZWYZqE=
+X-Google-Smtp-Source: APXvYqxytavNXoCPEGoURGrJpjzYeGuccrYtk5frvOQ50HTSIjjncj6zXH9yKZW8W08f70W0KjTN+g==
+X-Received: by 2002:a5d:5452:: with SMTP id w18mr33447398wrv.333.1582107701051; 
+ Wed, 19 Feb 2020 02:21:41 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s23sm2370339wra.15.2020.02.19.02.21.38
+ by smtp.gmail.com with ESMTPSA id s23sm2370339wra.15.2020.02.19.02.21.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 02:21:39 -0800 (PST)
+ Wed, 19 Feb 2020 02:21:40 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 07/52] drm/udl: Use drmm_add_final_kfree
-Date: Wed, 19 Feb 2020 11:20:37 +0100
-Message-Id: <20200219102122.1607365-8-daniel.vetter@ffwll.ch>
+Subject: [PATCH 08/52] drm/qxl: Use drmm_add_final_kfree
+Date: Wed, 19 Feb 2020 11:20:38 +0100
+Message-Id: <20200219102122.1607365-9-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
 References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
@@ -63,37 +63,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: spice-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2l0aCB0aGlzIHdlIGNhbiBkcm9wIHRoZSBmaW5hbCBrZnJlZSBmcm9tIHRoZSByZWxlYXNlIGZ1
-bmN0aW9uLgoKdjI6IFdlIG5lZWQgZHJtX2Rldl9wdXQgdG8gdW5yb2xsIHRoZSBkcml2ZXIgY3Jl
-YXRpb24gKG9uY2UKZHJtX2Rldl9pbml0IGFuZCBkcm1tX2FkZF9maW5hbF9rZnJlZSBzdWNlZWRl
-ZCksIG90aGVyd2lzZQp0aGUgZHJtbV8gbWFnaWMgZG9lc24ndCBoYXBwZW4uCgpTaWduZWQtb2Zm
-LWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IERhdmUgQWly
-bGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CkNjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4K
-Q2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpDYzogRW1pbCBWZWxp
-a292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGZmd2xsLmNoPgpDYzogIk5vcmFsZiBUcsO4bm5lcyIgPG5vcmFsZkB0cm9ubmVzLm9y
-Zz4KQ2M6IFRob21hcyBHbGVpeG5lciA8dGdseEBsaW51dHJvbml4LmRlPgpDYzogU2FtIFJhdm5i
-b3JnIDxzYW1AcmF2bmJvcmcub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5j
-IHwgMyArLS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYyBiL2RyaXZlcnMvZ3B1
-L2RybS91ZGwvdWRsX2Rydi5jCmluZGV4IGQ1Yjg5NzExYWIxZS4uNmE1NTk0OTQ2MDk2IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9k
-cm0vdWRsL3VkbF9kcnYuYwpAQCAtODEsOCArODEsNyBAQCBzdGF0aWMgc3RydWN0IHVkbF9kZXZp
-Y2UgKnVkbF9kcml2ZXJfY3JlYXRlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRlcmZhY2UpCiAK
-IAlyID0gdWRsX2luaXQodWRsKTsKIAlpZiAocikgewotCQlkcm1fZGV2X2ZpbmkoJnVkbC0+ZHJt
-KTsKLQkJa2ZyZWUodWRsKTsKKwkJZHJtX2Rldl9wdXQoJnVkbC0+ZHJtKTsKIAkJcmV0dXJuIEVS
-Ul9QVFIocik7CiAJfQogCi0tIAoyLjI0LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+With this we can drop the final kfree from the release function.
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: virtualization@lists.linux-foundation.org
+Cc: spice-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/qxl/qxl_drv.c | 2 --
+ drivers/gpu/drm/qxl/qxl_kms.c | 2 ++
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index 4fda3f9b29f4..09102e2efabc 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -144,8 +144,6 @@ static void qxl_drm_release(struct drm_device *dev)
+ 	 */
+ 	qxl_modeset_fini(qdev);
+ 	qxl_device_fini(qdev);
+-	dev->dev_private = NULL;
+-	kfree(qdev);
+ }
+ 
+ static void
+diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+index 70b20ee4741a..09d7b5f6d172 100644
+--- a/drivers/gpu/drm/qxl/qxl_kms.c
++++ b/drivers/gpu/drm/qxl/qxl_kms.c
+@@ -27,6 +27,7 @@
+ #include <linux/pci.h>
+ 
+ #include <drm/drm_drv.h>
++#include <drm/drm_managed.h>
+ #include <drm/drm_probe_helper.h>
+ 
+ #include "qxl_drv.h"
+@@ -121,6 +122,7 @@ int qxl_device_init(struct qxl_device *qdev,
+ 	qdev->ddev.pdev = pdev;
+ 	pci_set_drvdata(pdev, &qdev->ddev);
+ 	qdev->ddev.dev_private = qdev;
++	drmm_add_final_kfree(&qdev->ddev, qdev);
+ 
+ 	mutex_init(&qdev->gem.mutex);
+ 	mutex_init(&qdev->update_area_mutex);
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
