@@ -2,61 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DAAD165986
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F49165980
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:45:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7279A6ECF7;
-	Thu, 20 Feb 2020 08:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E45E26ECF2;
+	Thu, 20 Feb 2020 08:45:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3A866EC69
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 18:10:05 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id h23so1346992ljc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:10:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=w8AByD+ELp+U0fkzTE0l2V9pOyhi/BIhszCAehVAQ1E=;
- b=mm4oywX2Nv0gEUy5q5BvavEnr/9cwOu5HwoESNSpYK9r5qLMd3qpGpucotlo0pJcKC
- bHsU5KbAYFVhaQRRgPJx6Cdn6diDXHkl5KsHi062Tp48Sz9XJaH5qpshjYYP9OvgTtPh
- vz+mVfsRNZZ4D86DoWA2h/RUpqhboXlxuYEJpXJfeXPuPmAP8MQzfqBR4fkF91h76dJ7
- XfCOSzF+gF7Ww7kbsxqJU+p+Ahq5oqM79Mym4v2xpMotE4w2iaxTzC1Ecd5UIRlXxAvf
- dZJUhriRCRKhcbEHYvnjaPXRTki6XPCvezD3RMJ6baXq/Im1N432midsBFMY/6muy9JH
- QtFw==
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1566EC71
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 18:38:44 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id r5so946489qtt.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:38:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=8Doxcme7+jrZwJS6ST/rzTNwpMBSbirxVwxv1qEdw5s=;
+ b=rYeKImttZI7x6bzjER2czevU8xhzoiO0fHOwBWL2BT4hsGECSGmyqPgoGTV4CucsBZ
+ uTnJoXNwR7UAglw3UPw1NxLU5ddpTksdSVtT5QjXF1AnurYfoBBc8IdvY2YodtGt8z0M
+ QacjY8wuodiTGBs0IVVATW2YMRzBMkLiyZHVjGvvF9BNoW9pjzl8ft6Qnc6yAvcSuxDs
+ UzhfJPLoXJgkQP5KuxvV/2RNezt7UtdUOKjQ2fR59CK2Jo345MJFsX4yD2NmH1oVRyhb
+ ArUtmfikqkqsHkSnUBKIK5mbtPTvuTR16p7k9MSKdETJT+ebL/CRLYK+ZgbmmphjUcH0
+ eXwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=w8AByD+ELp+U0fkzTE0l2V9pOyhi/BIhszCAehVAQ1E=;
- b=NzCmPduk2WgXegn5g0BmHdJHjme6OTfUEDJdtK7vh26N538VFYGRGNJL/b6cuve/CS
- abQshgNHHHCjefWgGQrgx/IsG4LEGm3uwuOKIc+NH2HtsZ6jeW+nzuZA/AmwpooyJm3E
- k22BGaXVnpQONF11cNQv2CVdH9sGooT+AyoS1ag/AfhM6v/b1NlV5lKsccPU8KaeabH8
- pmrt/m185Z+Gu2u6W8MqKN+pNoIw4pza41mM3WMjwB+zVFrXtPureqSjgzlFzwF5ZAtY
- SuVYj8fHxSSoMLp8IQ5DkwNBww7H9jN1HFHoK6YkEgBL4szHSf7JFvhC3XAWGFunreC/
- b3+A==
-X-Gm-Message-State: APjAAAUK5H0/4/v19MkOK0lMI504KxX49jFUE6OWKqaxyS0JrfNFcLES
- nqxklkn0y9uq4eLXDTzyw8Yl2EyItau86w==
-X-Google-Smtp-Source: APXvYqyoVOZJlYrqDiLelfLZ1O5stc2hez55EF10msHTP4C74OoJ7WA8VlAgqemf1FjjzI2fqSOVRA==
-X-Received: by 2002:a2e:8702:: with SMTP id m2mr16967294lji.278.1582135804086; 
- Wed, 19 Feb 2020 10:10:04 -0800 (PST)
-Received: from localhost.localdomain ([5.20.204.163])
- by smtp.gmail.com with ESMTPSA id 14sm183942lfz.47.2020.02.19.10.10.03
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8Doxcme7+jrZwJS6ST/rzTNwpMBSbirxVwxv1qEdw5s=;
+ b=jFsCPdGlTm/zUrVEkENcSNjQj8seOV/i+ESFgL1GLRnQWBq6+o3Bkovu4cHKwGcFIC
+ 7pxvTICzZu0n3D+XKmCeknayp3tgyupb1OzKXu9pwsfsrv0QbbgKjqhhTCShP0+QR0BR
+ mlqu7iy+AJVsS/TeCft+L4Uz4myM1V9DslM+Wz1idN3RE+EXvaSoHdDAaEOO8E/08jWh
+ K8TYXbIIr1vXe33U4W0KGz3X4n7OSxMDrasJSGxhbe+wD31hPY80e8m8V2EzKSLN2Sc9
+ DZkUdjaahdx5dZcsel6ETP/WoV6IyAQVzXXlFX5jmCBMaRn+jgqlgTFETIDtMAvOS5Dl
+ dU6A==
+X-Gm-Message-State: APjAAAVTTozDBqUDWo8Ti6YWyQsLQeRh2e1bLvfQ3ucO3Ja+YnDtrRax
+ LDWUXD4IXzwhE1azwAYzYepk+A==
+X-Google-Smtp-Source: APXvYqzKQY+wCwO5dOV01Ah7jfljGDG/Ul5zVw7kKLgCnfZrY8hsRus06+mtT0cEH4YRMtnIpYneFg==
+X-Received: by 2002:ac8:1ca:: with SMTP id b10mr22890647qtg.314.1582137523279; 
+ Wed, 19 Feb 2020 10:38:43 -0800 (PST)
+Received: from localhost ([2620:10d:c091:500::2:3bde])
+ by smtp.gmail.com with ESMTPSA id z1sm402480qtq.69.2020.02.19.10.38.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 10:10:03 -0800 (PST)
-From: Andrey Lebedev <andrey.lebedev@gmail.com>
-To: mripard@kernel.org, wens@csie.org, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] drm/sun4i: tcon: Support LVDS output on Allwinner A20
-Date: Wed, 19 Feb 2020 20:08:58 +0200
-Message-Id: <20200219180858.4806-6-andrey.lebedev@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200219180858.4806-1-andrey.lebedev@gmail.com>
-References: <20200210195633.GA21832@kedthinkpad>
- <20200219180858.4806-1-andrey.lebedev@gmail.com>
+ Wed, 19 Feb 2020 10:38:41 -0800 (PST)
+Date: Wed, 19 Feb 2020 13:38:41 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Kenny Ho <y2kenny@gmail.com>
+Subject: Re: [PATCH 09/11] drm, cgroup: Introduce lgpu as DRM cgroup resource
+Message-ID: <20200219183841.GA54486@cmpxchg.org>
+References: <20200214155650.21203-1-Kenny.Ho@amd.com>
+ <20200214155650.21203-10-Kenny.Ho@amd.com>
+ <CAOFGe96N5gG+08rQCRC+diHKDAfxPFYEnVxDS8_udvjcBYgsPg@mail.gmail.com>
+ <CAOWid-f62Uv=GZXX2V2BsQGM5A1JJG_qmyrOwd=KwZBx_sr-bg@mail.gmail.com>
+ <20200214183401.GY2363188@phenom.ffwll.local>
+ <CAOWid-caJHeXUnQv3MOi=9U+vdBLfewN+CrA-7jRrz0VXqatbQ@mail.gmail.com>
+ <20200214191754.GA218629@mtj.thefacebook.com>
+ <20200219161850.GB13406@cmpxchg.org>
+ <CAOWid-e=7V4TUqK_h5Gs9dUXqH-Vgr-Go8c1dCkMux98Vdd1sQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAOWid-e=7V4TUqK_h5Gs9dUXqH-Vgr-Go8c1dCkMux98Vdd1sQ@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 20 Feb 2020 08:45:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,119 +76,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrey Lebedev <andrey@lebedev.lt>, linux-sunxi@googlegroups.com
+Cc: juan.zuniga-anaya@amd.com, Kenny Ho <Kenny.Ho@amd.com>, "Kuehling,
+ Felix" <felix.kuehling@amd.com>, jsparks@cray.com, nirmoy.das@amd.com,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ lkaplan@cray.com, Alex Deucher <alexander.deucher@amd.com>, "Greathouse,
+ Joseph" <joseph.greathouse@amd.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ damon.mcdougall@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Lebedev <andrey@lebedev.lt>
+On Wed, Feb 19, 2020 at 11:28:48AM -0500, Kenny Ho wrote:
+> On Wed, Feb 19, 2020 at 11:18 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+> >
+> > Yes, I'd go with absolute units when it comes to memory, because it's
+> > not a renewable resource like CPU and IO, and so we do have cliff
+> > behavior around the edge where you transition from ok to not-enough.
+> >
+> > memory.low is a bit in flux right now, so if anything is unclear
+> > around its semantics, please feel free to reach out.
+> 
+> I am not familiar with the discussion, would you point me to a
+> relevant thread please?
 
-A20 SoC (found in Cubieboard 2 among others) requires different LVDS set
-up procedure than A33. Timing controller (tcon) driver only implements
-sun6i-style procedure, that doesn't work on A20 (sun7i).
+Here is a cleanup patch, not yet merged, that documents the exact
+semantics and behavioral considerations:
 
-Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 37 +++++++++++++++++++++++++++++-
- drivers/gpu/drm/sun4i/sun4i_tcon.h | 11 +++++++++
- 2 files changed, 47 insertions(+), 1 deletion(-)
+https://lore.kernel.org/linux-mm/20191213192158.188939-3-hannes@cmpxchg.org/
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index b7234eef3c7b..09ee6e8c6914 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -114,6 +114,30 @@ static void sun4i_tcon_channel_set_status(struct sun4i_tcon *tcon, int channel,
- 	}
- }
- 
-+static void sun4i_tcon_setup_lvds_phy(struct sun4i_tcon *tcon,
-+				      const struct drm_encoder *encoder)
-+{
-+	regmap_write(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
-+		     SUN4I_TCON0_LVDS_ANA0_CK_EN |
-+		     SUN4I_TCON0_LVDS_ANA0_REG_V |
-+		     SUN4I_TCON0_LVDS_ANA0_REG_C |
-+		     SUN4I_TCON0_LVDS_ANA0_EN_MB |
-+		     SUN4I_TCON0_LVDS_ANA0_PD |
-+		     SUN4I_TCON0_LVDS_ANA0_DCHS);
-+
-+	udelay(2); /* delay at least 1200 ns */
-+	regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA1_REG,
-+			   SUN4I_TCON0_LVDS_ANA1_INIT,
-+			   SUN4I_TCON0_LVDS_ANA1_INIT);
-+	udelay(1); /* delay at least 120 ns */
-+	regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA1_REG,
-+			   SUN4I_TCON0_LVDS_ANA1_UPDATE,
-+			   SUN4I_TCON0_LVDS_ANA1_UPDATE);
-+	regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_ANA0_REG,
-+			   SUN4I_TCON0_LVDS_ANA0_EN_MB,
-+			   SUN4I_TCON0_LVDS_ANA0_EN_MB);
-+}
-+
- static void sun6i_tcon_setup_lvds_phy(struct sun4i_tcon *tcon,
- 				      const struct drm_encoder *encoder)
- {
-@@ -1455,7 +1479,18 @@ static const struct sun4i_tcon_quirks sun6i_a31s_quirks = {
- 	.dclk_min_div		= 1,
- };
- 
-+static const struct sun4i_tcon_quirks sun7i_a20_tcon0_quirks = {
-+	.supports_lvds		= true,
-+	.has_channel_0		= true,
-+	.has_channel_1		= true,
-+	.dclk_min_div		= 4,
-+	/* Same display pipeline structure as A10 */
-+	.set_mux		= sun4i_a10_tcon_set_mux,
-+	.setup_lvds_phy		= sun4i_tcon_setup_lvds_phy,
-+};
-+
- static const struct sun4i_tcon_quirks sun7i_a20_quirks = {
-+	.supports_lvds		= false,
- 	.has_channel_0		= true,
- 	.has_channel_1		= true,
- 	.dclk_min_div		= 4,
-@@ -1508,7 +1543,7 @@ const struct of_device_id sun4i_tcon_of_table[] = {
- 	{ .compatible = "allwinner,sun5i-a13-tcon", .data = &sun5i_a13_quirks },
- 	{ .compatible = "allwinner,sun6i-a31-tcon", .data = &sun6i_a31_quirks },
- 	{ .compatible = "allwinner,sun6i-a31s-tcon", .data = &sun6i_a31s_quirks },
--	{ .compatible = "allwinner,sun7i-a20-tcon0", .data = &sun7i_a20_quirks },
-+	{ .compatible = "allwinner,sun7i-a20-tcon0", .data = &sun7i_a20_tcon0_quirks },
- 	{ .compatible = "allwinner,sun7i-a20-tcon1", .data = &sun7i_a20_quirks },
- 	{ .compatible = "allwinner,sun7i-a20-tcon", .data = &sun7i_a20_quirks },
- 	{ .compatible = "allwinner,sun8i-a23-tcon", .data = &sun8i_a33_quirks },
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index 2974e59ef9f2..cfbf4e6c1679 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -193,6 +193,13 @@
- #define SUN4I_TCON_MUX_CTRL_REG			0x200
- 
- #define SUN4I_TCON0_LVDS_ANA0_REG		0x220
-+#define SUN4I_TCON0_LVDS_ANA0_DCHS			BIT(16)
-+#define SUN4I_TCON0_LVDS_ANA0_PD			(BIT(20) | BIT(21))
-+#define SUN4I_TCON0_LVDS_ANA0_EN_MB			BIT(22)
-+#define SUN4I_TCON0_LVDS_ANA0_REG_C			(BIT(24) | BIT(25))
-+#define SUN4I_TCON0_LVDS_ANA0_REG_V			(BIT(26) | BIT(27))
-+#define SUN4I_TCON0_LVDS_ANA0_CK_EN			(BIT(29) | BIT(28))
-+
- #define SUN6I_TCON0_LVDS_ANA0_EN_MB			BIT(31)
- #define SUN6I_TCON0_LVDS_ANA0_EN_LDO			BIT(30)
- #define SUN6I_TCON0_LVDS_ANA0_EN_DRVC			BIT(24)
-@@ -201,6 +208,10 @@
- #define SUN6I_TCON0_LVDS_ANA0_V(x)			(((x) & 3) << 8)
- #define SUN6I_TCON0_LVDS_ANA0_PD(x)			(((x) & 3) << 4)
- 
-+#define SUN4I_TCON0_LVDS_ANA1_REG		0x224
-+#define SUN4I_TCON0_LVDS_ANA1_INIT			(0x1f << 26 | 0x1f << 10)
-+#define SUN4I_TCON0_LVDS_ANA1_UPDATE			(0x1f << 16 | 0x1f << 00)
-+
- #define SUN4I_TCON1_FILL_CTL_REG		0x300
- #define SUN4I_TCON1_FILL_BEG0_REG		0x304
- #define SUN4I_TCON1_FILL_END0_REG		0x308
--- 
-2.20.1
+But the high-level idea is this: you assign each cgroup or cgroup
+subtree a chunk of the resource that it's guaranteed to be able to
+consume. It *can* consume beyond that threshold if available, but that
+overage may get reclaimed again if somebody else needs it instead.
 
+This allows you to do a ballpark distribution of the resource between
+different workloads, while the kernel retains the ability to optimize
+allocation of spare resources - because in practice, workload demand
+varies over time, workloads disappear and new ones start up etc.
+
+> In addition, is there some kind of order of preference for
+> implementing low vs high vs max?
+
+If you implement only one allocation model, the preference would be on
+memory.low. Limits are rigid and per definition waste resources, so in
+practice we're moving away from them.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
