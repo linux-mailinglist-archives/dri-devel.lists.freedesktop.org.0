@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924AD164193
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF6E164192
 	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 11:22:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044F86EB57;
-	Wed, 19 Feb 2020 10:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 828B76EB53;
+	Wed, 19 Feb 2020 10:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296B96EB49
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:21:56 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id y11so27504309wrt.6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:21:56 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71C4A6EB53
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:21:58 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id q9so5841135wmj.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:21:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Sa4rjpnCRZG+mOP4kDfMIWoFaaDOaBg9gqo9dI0sc2U=;
- b=Gi2GHazPDdFTZa2h5IdRNrbFQXPoVWYdWO612VtEBojcHO0nAk+T5gpWWqwXQuCuVS
- gALMrtF5PsctCQ/Yg3uJz+tKASPJNNy+3gwqweMaJl4p5unpqY61OyC3+MYYGa2zq85f
- rUhtQ/NL9EV5uMICXNWp78mCVtfk9PQs5eLU0=
+ bh=ONYCQId/Lp3FCDlAAvJmwBxOy0NZM9plHkZx81NotgQ=;
+ b=dLvy7HOYJEWzccfOHnoIHn6w5B78MOhJFrIzKsw1ILVAQC4Cv7xQP+bgZW+MEAykXO
+ zYQJ3gdC0lLKVZNne15tFwR7KROY6bD0e9iW03WBUaWzDnzKoEiaQlYAlysSgYucq08h
+ aPIb6BZOkMRVL4ukJToIz27niAVj2tuZQfNko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Sa4rjpnCRZG+mOP4kDfMIWoFaaDOaBg9gqo9dI0sc2U=;
- b=Ggq6oez02KxwcIpvvTZmdNtgA3FG2xhnzED9TQs2+7rdY+Yuc5IpayUWiEA+GvT1R+
- 3oCS8RvoamxXkigyNPB1OGrksXt1ZF63i+NsAzOXPTD56afAT/QlZtYg2Snce58UVEVh
- IwqY/DxZYwvthVAc0dgcHgIpdzXBfIFYeBZtZXC3Qru4QC7ZtTusk7jdbaKJTiulSLXe
- kWe5Bs/lmrhELy8C8ZihfTSyqPV349VPl+leRuvVrIpCHskD3UjHNCPQuaYnEnIX6fh/
- m/WkfhqFMlE2zK+GoKAduHBiMlYq3My+67v4PkuRGpQ0iBdtTeuqP3LR+tHDUipFFQDE
- MhKQ==
-X-Gm-Message-State: APjAAAWRqS5AdTJuL0r0ZU0l9h1JnxtzJIAYqjgIF7nEJTr1okpsObf/
- g0bhkCGpGCFckccaqzWqgdLtTUPZBIc=
-X-Google-Smtp-Source: APXvYqz1YUAbxGnkyfNIyzDr+HACETVcceFqFK7UPjo62jLlEQlfDJAkCOIWgd7B1XhmLJnfjdtROg==
-X-Received: by 2002:a5d:4a04:: with SMTP id m4mr35546339wrq.104.1582107714490; 
- Wed, 19 Feb 2020 02:21:54 -0800 (PST)
+ bh=ONYCQId/Lp3FCDlAAvJmwBxOy0NZM9plHkZx81NotgQ=;
+ b=cdTH/yJyuE1jxwzL4qNPb914HTy4pmRTPetrWNsHQ6dogg8jUGWlMwJQAM8wMn2vsC
+ wc6HP8vFbZoc3nXsJROEkRI91Tcqkempl+lz2hVQgqL8pMhDOUWGf+87jjbYKxJ8xGHi
+ kvI9CtXNvr909hyW80m9r50sWVLBZ+Oh0yN29Wqv3WWzrOmS7OmpxllretfbeujD8VCM
+ JfMF/fBHx7eFADIchpL672AHXMw4WORT5reohIsSjjw8yytyqdVC0YxXTqr7YtVIO1PQ
+ JWu7JfTtduUodlIViCYu2rcXPh9psnUtXhFcfZEvNE5ezTbj23oglYwhSLx5loPwYBIb
+ 2fvQ==
+X-Gm-Message-State: APjAAAXnu/kYVOZGHBogLncpIyrUGSOBIFymLU6kl8E6hEYVUrkrMOgh
+ LAUwERLEgA5boTyDP4YyRdC3lZi/iZY=
+X-Google-Smtp-Source: APXvYqyaYGuOwJBys7PJ/5pzLfTzLMagXB278Iye0GFbqs8U8fauGZFExXcZt+FrJltEXKpct9Kvjw==
+X-Received: by 2002:a1c:720a:: with SMTP id n10mr9068721wmc.103.1582107715664; 
+ Wed, 19 Feb 2020 02:21:55 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s23sm2370339wra.15.2020.02.19.02.21.53
+ by smtp.gmail.com with ESMTPSA id s23sm2370339wra.15.2020.02.19.02.21.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 02:21:53 -0800 (PST)
+ Wed, 19 Feb 2020 02:21:54 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 19/52] drm/<drivers>: Use drmm_add_final_kfree
-Date: Wed, 19 Feb 2020 11:20:49 +0100
-Message-Id: <20200219102122.1607365-20-daniel.vetter@ffwll.ch>
+Subject: [PATCH 20/52] drm: Cleanups after drmm_add_final_kfree rollout
+Date: Wed, 19 Feb 2020 11:20:50 +0100
+Message-Id: <20200219102122.1607365-21-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
 References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
@@ -65,91 +65,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
- Hans de Goede <hdegoede@redhat.com>,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These are the leftover drivers that didn't have a ->release hook that
-needed to be updated.
+A few things:
+- Update the example driver in the documentation.
+- We can drop the old kfree in drm_dev_release.
+- Add a WARN_ON check in drm_dev_register to make sure everyone calls
+  drmm_add_final_kfree and there's no leaks.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Mihail Atanassov <mihail.atanassov@arm.com>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 2 ++
- drivers/gpu/drm/armada/armada_drv.c             | 2 ++
- drivers/gpu/drm/vboxvideo/vbox_drv.c            | 2 ++
- 3 files changed, 6 insertions(+)
+ drivers/gpu/drm/drm_drv.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-index 442d4656150a..16dfd5cdb66c 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-@@ -14,6 +14,7 @@
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_irq.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-@@ -271,6 +272,7 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
- 	err = drm_dev_init(drm, &komeda_kms_driver, mdev->dev);
- 	if (err)
- 		goto free_kms;
-+	drmm_add_final_kfree(drm, kms);
- 
- 	drm->dev_private = mdev;
- 
-diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-index 197dca3fc84c..dd9ed71ed942 100644
---- a/drivers/gpu/drm/armada/armada_drv.c
-+++ b/drivers/gpu/drm/armada/armada_drv.c
-@@ -12,6 +12,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_ioctl.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_prime.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_fb_helper.h>
-@@ -103,6 +104,7 @@ static int armada_drm_bind(struct device *dev)
- 		kfree(priv);
- 		return ret;
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 9e62e28bbc62..1ee606b4a4f9 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -297,8 +297,6 @@ void drm_minor_release(struct drm_minor *minor)
+  *
+  *		drm_mode_config_cleanup(drm);
+  *		drm_dev_fini(drm);
+- *		kfree(priv->userspace_facing);
+- *		kfree(priv);
+  *	}
+  *
+  *	static struct drm_driver driver_drm_driver = {
+@@ -326,10 +324,11 @@ void drm_minor_release(struct drm_minor *minor)
+  *			kfree(drm);
+  *			return ret;
+  *		}
++ *		drmm_add_final_kfree(drm, priv);
+  *
+  *		drm_mode_config_init(drm);
+  *
+- *		priv->userspace_facing = kzalloc(..., GFP_KERNEL);
++ *		priv->userspace_facing = drmm_kzalloc(..., GFP_KERNEL);
+  *		if (!priv->userspace_facing)
+  *			return -ENOMEM;
+  *
+@@ -834,10 +833,6 @@ static void drm_dev_release(struct kref *ref)
+ 		dev->driver->release(dev);
+ 	} else {
+ 		drm_dev_fini(dev);
+-		if (!dev->managed.final_kfree) {
+-			WARN_ON(!list_empty(&dev->managed.resources));
+-			kfree(dev);
+-		}
  	}
-+	drmm_add_final_kfree(&priv->drm, priv);
  
- 	/* Remove early framebuffers */
- 	ret = drm_fb_helper_remove_conflicting_framebuffers(NULL,
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-index 8512d970a09f..13eaae7921f5 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-@@ -17,6 +17,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
-+#include <drm/drm_managed.h>
+ 	drm_managed_release(dev);
+@@ -960,6 +955,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+ 	struct drm_driver *driver = dev->driver;
+ 	int ret;
  
- #include "vbox_drv.h"
++	WARN_ON(!dev->managed.final_kfree);
++
+ 	if (drm_dev_needs_global_mutex(dev))
+ 		mutex_lock(&drm_global_mutex);
  
-@@ -54,6 +55,7 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	vbox->ddev.pdev = pdev;
- 	vbox->ddev.dev_private = vbox;
- 	pci_set_drvdata(pdev, vbox);
-+	drmm_add_final_kfree(&vbox->ddev, vbox);
- 	mutex_init(&vbox->hw_mutex);
- 
- 	ret = pci_enable_device(pdev);
 -- 
 2.24.1
 
