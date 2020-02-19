@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA3D164D88
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 19:19:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AED2164DA2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 19:28:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 573DF6E84C;
-	Wed, 19 Feb 2020 18:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 007036E84A;
+	Wed, 19 Feb 2020 18:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 911EE6E84C;
- Wed, 19 Feb 2020 18:19:35 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C932724656;
- Wed, 19 Feb 2020 18:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582136375;
- bh=6agED8rKeCuF9TXKp9r9dKjwj/0bduzxeRiUoIs5Y8Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WdnGH9plUdxsj8yJHmZyC9j11xkmMS2WkTPEv5lEaDopKw/vhq/JjBpgIiRTa4lbB
- P0Z4MW2A6ijaotV2Q9BJMwaDCx8a49uWE/ViRKurkmWK2GCCt/t35CzE06vDOph8Ev
- KKldR63Ub2mK6XFOeuVk2JPcaLYHwTgwNCjSnoFY=
-Date: Wed, 19 Feb 2020 19:19:32 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 03/52] drm: add managed resources tied to drm_device
-Message-ID: <20200219181932.GA2852663@kroah.com>
-References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-4-daniel.vetter@ffwll.ch>
- <20200219132847.GD5070@pendragon.ideasonboard.com>
- <20200219133302.GA2837131@kroah.com>
- <CAKMK7uHHMmqZ6FrK3r6J3SXV8FmsJ=+QfeNHRtodZboV5CwQyw@mail.gmail.com>
- <20200219170046.GA2846129@kroah.com>
- <20200219173652.GF5070@pendragon.ideasonboard.com>
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
+ [IPv6:2607:f8b0:4864:20::944])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9C96E84A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 18:28:49 +0000 (UTC)
+Received: by mail-ua1-x944.google.com with SMTP id g13so578226uab.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:28:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MYZKhugRysOg1Vxn3QHVWrw8OHPKwmzxw9dn5xyapEc=;
+ b=EKFsGsfarmKTWhkP2NIWV2cAn+D1nL8c0Sv3uBX0K1GsTVPc4Xz92olWdvSX3s5uq3
+ D+y/4Rrfxp9l7EsqhGZznd6rH5C62fUlUu7MotV5Xnet0aRktgwcbHXswaKzm2Q8wu7w
+ 79bLXwHN9tbAuTkFY9TJfJ7psfDtKKGy2S0up6JT13Tz+sw3YG/BWq2sWxgk26Mo/W33
+ RpAEdIvbJsUd55YfrJdF2Iw4HUVutZEN+xJtvz61hiyYLoemc87OFAh7BcGkGYWcLofW
+ /+dnHhG9l/MpREHjEff3Q31LmIJ2bEF6OcJP9RKs5Y2yw0+oPqMBtydlHs+oac7pAs93
+ vWYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MYZKhugRysOg1Vxn3QHVWrw8OHPKwmzxw9dn5xyapEc=;
+ b=LyIHeFdKq9+7jhW9fKiteIeJ3qdB+oDxwDqUeUNSqyIUKAY0+ZEPR3lhsXiYEnqO2q
+ 6ZNhl9FEWcHIucCxVgDoUs+dR3xdOEwJoAg7PpJ0n2wuu1ZNJjHEF1++3SFU32fO7WnG
+ fFLRWGJjAE2VQM+qmKKIYqXvimUo0Y0IzpKKV40ktVd8L8/cLB6vIGLqps+YF34q+cvX
+ Qk9BySRGFqp7b1lAMAbdCNUtIEVpzk2uOpMq1wBC7AR8ZRddBy7rKNiOPRKpla/dqHyq
+ yprYGiItvUYkTlZecYKEDV5N948ns3kWXUNZfZDj4BqDN55WVYIygC5FZnmCTB8ctt2X
+ oNXA==
+X-Gm-Message-State: APjAAAVFg/hvS6bUJLf+Zj+bHXjPS0o9SvJkNGIJs0W8n/0TnYOYnW81
+ sUxPSS65Xk8zLRTcY6RL1t52lpXTE4PpZRT6HOw=
+X-Google-Smtp-Source: APXvYqzuxMyeOil9QlFxgVAbWfXfifOAwJn5VBHvRNHpxFn3Tt3qNyCyztwqP+g72j7pb8i7mxqcOEDSiy0oLI3N4M0=
+X-Received: by 2002:ab0:5bc6:: with SMTP id z6mr14875950uae.46.1582136928350; 
+ Wed, 19 Feb 2020 10:28:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200219173652.GF5070@pendragon.ideasonboard.com>
+References: <20200219175640.809-1-gurchetansingh@chromium.org>
+ <20200219175640.809-4-gurchetansingh@chromium.org>
+In-Reply-To: <20200219175640.809-4-gurchetansingh@chromium.org>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Wed, 19 Feb 2020 18:28:38 +0000
+Message-ID: <CACvgo50b1U+hyZ-CXCJ3VXCh-EMFDrC6F0ye5UnVFKzPC_D1qQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5 v5] drm/virtio: enqueue virtio_gpu_create_context
+ after the first 3D ioctl
+To: Gurchetan Singh <gurchetansingh@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,121 +62,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, jbates@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2020 at 07:36:52PM +0200, Laurent Pinchart wrote:
-> Hi Greg,
-> 
-> On Wed, Feb 19, 2020 at 06:00:46PM +0100, Greg Kroah-Hartman wrote:
-> > On Wed, Feb 19, 2020 at 03:22:49PM +0100, Daniel Vetter wrote:
-> > > On Wed, Feb 19, 2020 at 2:33 PM Greg Kroah-Hartman wrote:
-> > > > On Wed, Feb 19, 2020 at 03:28:47PM +0200, Laurent Pinchart wrote:
-> > > > > On Wed, Feb 19, 2020 at 11:20:33AM +0100, Daniel Vetter wrote:
-> > > > > > We have lots of these. And the cleanup code tends to be of dubious
-> > > > > > quality. The biggest wrong pattern is that developers use devm_, which
-> > > > > > ties the release action to the underlying struct device, whereas
-> > > > > > all the userspace visible stuff attached to a drm_device can long
-> > > > > > outlive that one (e.g. after a hotunplug while userspace has open
-> > > > > > files and mmap'ed buffers). Give people what they want, but with more
-> > > > > > correctness.
-> > > > > >
-> > > > > > Mostly copied from devres.c, with types adjusted to fit drm_device and
-> > > > > > a few simplifications - I didn't (yet) copy over everything. Since
-> > > > > > the types don't match code sharing looked like a hopeless endeavour.
-> > > > > >
-> > > > > > For now it's only super simplified, no groups, you can't remove
-> > > > > > actions (but kfree exists, we'll need that soon). Plus all specific to
-> > > > > > drm_device ofc, including the logging. Which I didn't bother to make
-> > > > > > compile-time optional, since none of the other drm logging is compile
-> > > > > > time optional either.
-> > > > > >
-> > > > > > One tricky bit here is the chicken&egg between allocating your
-> > > > > > drm_device structure and initiliazing it with drm_dev_init. For
-> > > > > > perfect onion unwinding we'd need to have the action to kfree the
-> > > > > > allocation registered before drm_dev_init registers any of its own
-> > > > > > release handlers. But drm_dev_init doesn't know where exactly the
-> > > > > > drm_device is emebedded into the overall structure, and by the time it
-> > > > > > returns it'll all be too late. And forcing drivers to be able clean up
-> > > > > > everything except the one kzalloc is silly.
-> > > > > >
-> > > > > > Work around this by having a very special final_kfree pointer. This
-> > > > > > also avoids troubles with the list head possibly disappearing from
-> > > > > > underneath us when we release all resources attached to the
-> > > > > > drm_device.
-> > > > >
-> > > > > This is all a very good idea ! Many subsystems are plagged by drivers
-> > > > > using devm_k*alloc to allocate data accessible by userspace. Since the
-> > > > > introduction of devm_*, we've likely reduced the number of memory leaks,
-> > > > > but I'm pretty sure we've increased the risk of crashes as I've seen
-> > > > > some drivers that used .release() callbacks correctly being naively
-> > > > > converted to incorrect devm_* usage :-(
-> > > > >
-> > > > > This leads me to a question: if other subsystems have the same problem,
-> > > > > could we turn this implementation into something more generic ? It
-> > > > > doesn't have to be done right away and shouldn't block merging this
-> > > > > series, but I think it would be very useful.
-> > > >
-> > > > It shouldn't be that hard to tie this into a drv_m() type of a thing
-> > > > (driver_memory?)
-> > > >
-> > > > And yes, I think it's much better than devm_* for the obvious reasons of
-> > > > this being needed here.
-> > > 
-> > > There's two reasons I went with copypasta instead of trying to share code:
-> > > - Type checking, I definitely don't want people to mix up devm_ with
-> > > drmm_. But even if we do a drv_m that subsystems could embed we do
-> > > have quite a few different types of component drivers (and with
-> > > drm_panel and drm_bridge even standardized), and I don't want people
-> > > to be able to pass the wrong kind of struct to e.g. a managed
-> > > drmm_connector_init - it really needs to be the drm_device, not a
-> > > panel or bridge or something else.
-> > 
-> > Fair enough, that makes sense.
-> > 
-> > > - We could still share the code as a kind of implementation/backend
-> > > library. But it's not much, and with embedding I could use the drm
-> > > device logging stuff which is kinda nice. But if there's more demand
-> > > for this I can definitely see the point in sharing this, as Laurent
-> > > pointed out with the tiny optimization with not allocating a NULL void
-> > > * that I've done (and screwed up) it's not entirely trivial code.
-> > 
-> > I think moving over time to having this be a backend library is good.
-> > But no rush/issues here with this going in now, it solves a real need
-> > and we can refactor it later on to try to make it more "bus/class"
-> > generic as needed.
-> 
-> >From a type checking point of view, it would then be nice to have a
-> structure that models a device node, other than just struct device that
-> is shared by all types of devices. As someone who was involve in the
-> creation of the device model we have today, and thus know the history,
-> what's your opinion on that ?
+On Wed, 19 Feb 2020 at 17:57, Gurchetan Singh
+<gurchetansingh@chromium.org> wrote:
+>
+> For old userspace, initialization will still be implicit.
+>
+> For backwards compatibility, enqueue virtio_gpu_cmd_context_create after
+> the first 3D ioctl.
+>
+> v3: staticify virtio_gpu_create_context
+>     remove notify to batch vm-exit
+>
+Similar to 2/5 I suspect we have nested has_virgl_3d checking.
 
-My opinion is that 'struct device' was created just for that exact
-thing.  If "all you want" is a device node, it is trivial to use:
-	device_create();
-or device_create_varargs() or device_create_with_groups()
-and then use device_destroy() when you are done with it.
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 --
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 10 +++++++---
+>  drivers/gpu/drm/virtio/virtgpu_kms.c   |  1 -
+>  3 files changed, 7 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index 0596d9618554..9fdc3b4cef48 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -216,8 +216,6 @@ struct virtio_gpu_fpriv {
+>  /* virtio_ioctl.c */
+>  #define DRM_VIRTIO_NUM_IOCTLS 10
+>  extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
+> -void virtio_gpu_create_context(struct drm_device *dev,
+> -                              struct drm_file *file);
+>
+>  /* virtio_kms.c */
+>  int virtio_gpu_init(struct drm_device *dev);
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> index c1a6cb4ec375..2c182922ec78 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -33,8 +33,8 @@
+>
+>  #include "virtgpu_drv.h"
+>
+> -void virtio_gpu_create_context(struct drm_device *dev,
+> -                              struct drm_file *file)
+> +static void virtio_gpu_create_context(struct drm_device *dev,
+> +                                     struct drm_file *file)
+>  {
+In this function...
 
-yes, it can do much more complex things, as needed, but the basics are
-there, so use it in a simple way if you want to, no objection from me.
+>         struct virtio_gpu_device *vgdev = dev->dev_private;
+>         struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
+> @@ -51,7 +51,6 @@ void virtio_gpu_create_context(struct drm_device *dev,
+>         get_task_comm(dbgname, current);
+>         virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
+>                                       strlen(dbgname), dbgname);
+> -       virtio_gpu_notify(vgdev);
+>         vfpriv->context_initiated = true;
+>
+>  out_unlock:
+> @@ -99,6 +98,7 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
+>
+... and this caller, just a couple of lines above.
 
-If there are things that are missing with it, please let me know.
+>         exbuf->fence_fd = -1;
+>
+> +       virtio_gpu_create_context(dev, file);
+>         if (exbuf->flags & VIRTGPU_EXECBUF_FENCE_FD_IN) {
+>                 struct dma_fence *in_fence;
+>
+> @@ -250,6 +250,7 @@ static int virtio_gpu_resource_create_ioctl(struct drm_device *dev, void *data,
+>                         return -EINVAL;
+>         }
+>
+Unrelated: might be a good idea to sort the has_virgl_3d == false
+EINVAL handling like the has_virgl_3d == true hunk just below. Bonus
+points for a comment explaining we don't check for the bind and flags
+arguments.
 
-But creating a new structure/way for this, no, we do not want to go back
-to the 2.4 and older kernel methods where it was all totally disjointed
-and messy.
+> +       virtio_gpu_create_context(dev, file);
+>         params.format = rc->format;
+>         params.width = rc->width;
+>         params.height = rc->height;
+> @@ -323,6 +324,7 @@ static int virtio_gpu_transfer_from_host_ioctl(struct drm_device *dev,
+>         if (vgdev->has_virgl_3d == false)
+>                 return -ENOSYS;
+>
+... and this caller.
 
-thanks,
+> +       virtio_gpu_create_context(dev, file);
+>         objs = virtio_gpu_array_from_handles(file, &args->bo_handle, 1);
+>         if (objs == NULL)
+>                 return -ENOENT;
+> @@ -371,6 +373,7 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
+>                          args->box.w, args->box.h, args->box.x, args->box.y,
+>                          objs, NULL);
+>         } else {
+... and this caller, just a couple of lines above.
 
-greg k-h
+With the trivial comments addressed:
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
