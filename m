@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260A11641AF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 11:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9AD1641C9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 11:23:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C2386EB5F;
-	Wed, 19 Feb 2020 10:22:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 728526EB9A;
+	Wed, 19 Feb 2020 10:22:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4E16EB63
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:22:19 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id w15so27529116wru.4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:22:19 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD2086EB63
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:22:20 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id b17so6180391wmb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:22:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YSnq2pVWW+HKeYXXYM7BB1vTVqLVzuXFgXE6h06xFu0=;
- b=liIx7CqvQUzNFoG4ELSAG3R9vmPB0o85DvqOnShuce4VgyiZn/mciQMBO1AhL0XJWg
- OjqpsJYMUaXd2uAVaUgmLW7I9Q0LCxuoUwB16ZRnK4xIZT3Zr6KbI1h43R1iQxSf1gxa
- lNBDHZGDLOUpLkxXfaGxaExMwBJNCUM1/5Zs0=
+ bh=Ra/jYUSiXamgYu/JamVQr8pWXrAQtMQY8c7jRMMc6pY=;
+ b=S8G+9qlagL5yIxvDS2Cmne8waOo0yaG0iNuzqxZupk4N2TnpZOeD9Y+aBIzJ89UiyC
+ yMXxqMPId9KcRWO43mwxgBpTIwZx/8M+Ez3vr0pbRlhmimOiJemxIuG0PsCnUqm+hYYV
+ hasVGlBcvKMJ2cVFWasJDiqAsucEUXpFD26Zw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YSnq2pVWW+HKeYXXYM7BB1vTVqLVzuXFgXE6h06xFu0=;
- b=lnYUhqa35hjXGivdeY35hhWOTIEcMe7VBM6dZZjeKZ2EUw9aLqu4lujFu4HaRFBn0K
- 7yULcvUpunM04c0sEVMXXXMcc7oFp/GykyDT4bgoT0TDe+kn0CHcJZ01N3YfXgvbpycA
- OarKa8mevCCYhAqoZFFhhGyzk0HddIywXMkBV73VPOsmnHnkM9mSb8Lj/yPR8/w/9Y+0
- GG1075xh4PB7XcrsZIqzR+wU/WdRMzhWgGcV3qQmPBt8bfnyxJI4KN3DDYLU3xUPLIoJ
- kC75QSV4gvr2CjLG8b9Y5Sy0DvEbaD/VM7L4d1E4Fr/laIhZ8bmYtJhfU2yrvig+16hS
- kgtg==
-X-Gm-Message-State: APjAAAViX19yhsDONHJtsW8jtVCGTVxkoCSp1DrRlb42M3+KDIAf7KHf
- Q0hhL74ude1AU1jlA1SrIHh+JtmHFEk=
-X-Google-Smtp-Source: APXvYqy/e8jWrTjkXr2HY+OkVTrZXl8KRtvIPL5iL9prazJwu6GqRHfncrGgKjSWy6Dh2gzsPrnj6A==
-X-Received: by 2002:adf:f5cb:: with SMTP id k11mr34513767wrp.63.1582107738038; 
- Wed, 19 Feb 2020 02:22:18 -0800 (PST)
+ bh=Ra/jYUSiXamgYu/JamVQr8pWXrAQtMQY8c7jRMMc6pY=;
+ b=YF6y3dXWnNT/BdhOPXV5o8DngtzdKI+ljgY8WlI+i4UiA3kwDmeuRV6eshi3/SZ27h
+ yth1kxhtCziWh/W978r5sm6Bu4s/1K6OqnzWrvBAfZif/ZxcDke27JnA1UvMvf2jNymc
+ SK7zPiWu8W0u1qJA2rMnBvANxlVOIQpxDe5iZY/9dk7rXO0j56486zyfQCyJBJ0rA7RC
+ I2fg0o6C1s94NVjP8Ug0/SwrlDUJCAAtYIVIWBeO8gCfiZO4PdDUO2HRHITtVlXERjhf
+ Ypy91n2flXeVpXLeDQBZIq6S9IX4jzxi4tPkGRyc9LrIrYiFvqHlscq3Z8bJZ4bsqDi3
+ i/2Q==
+X-Gm-Message-State: APjAAAX2ambkXEFXxPXFJ6TN/LCub5oSE6phmy2E0F1r7Zq4rT0+0vPR
+ vTyp172d/hyiYBlgVoPamR5xu0OnAmU=
+X-Google-Smtp-Source: APXvYqyXrsEWE44mHqV6H9DQnZaeWEEjB0A4IvWm1mBkRUT8/uZfDnbxEm/1kdjWKDQVjddy+Vgj8A==
+X-Received: by 2002:a7b:c3d1:: with SMTP id t17mr9100246wmj.27.1582107739143; 
+ Wed, 19 Feb 2020 02:22:19 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s23sm2370339wra.15.2020.02.19.02.22.16
+ by smtp.gmail.com with ESMTPSA id s23sm2370339wra.15.2020.02.19.02.22.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 02:22:17 -0800 (PST)
+ Wed, 19 Feb 2020 02:22:18 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 39/52] drm/stm: Drop explicit drm_mode_config_cleanup call
-Date: Wed, 19 Feb 2020 11:21:09 +0100
-Message-Id: <20200219102122.1607365-40-daniel.vetter@ffwll.ch>
+Subject: [PATCH 40/52] drm/shmob: Drop explicit drm_mode_config_cleanup call
+Date: Wed, 19 Feb 2020 11:21:10 +0100
+Message-Id: <20200219102122.1607365-41-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
 References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
@@ -63,14 +63,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Vincent Abriou <vincent.abriou@st.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- Alexandre Torgue <alexandre.torgue@st.com>
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -82,60 +80,51 @@ Aside: Another driver with a bit much devm_kzalloc, which should
 probably use drmm_kzalloc instead ...
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Yannick Fertre <yannick.fertre@st.com>
-Cc: Philippe Cornu <philippe.cornu@st.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Vincent Abriou <vincent.abriou@st.com>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@st.com>
-Cc: linux-stm32@st-md-mailman.stormreply.com
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/gpu/drm/stm/drv.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c | 2 --
+ drivers/gpu/drm/shmobile/shmob_drm_kms.c | 6 +++++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index ea9fcbdc68b3..5b374531dd8c 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -88,7 +88,9 @@ static int drv_load(struct drm_device *ddev)
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+index b8c0930959c7..ae9d6b8d3ca8 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+@@ -192,7 +192,6 @@ static int shmob_drm_remove(struct platform_device *pdev)
  
- 	ddev->dev_private = (void *)ldev;
+ 	drm_dev_unregister(ddev);
+ 	drm_kms_helper_poll_fini(ddev);
+-	drm_mode_config_cleanup(ddev);
+ 	drm_irq_uninstall(ddev);
+ 	drm_dev_put(ddev);
  
--	drm_mode_config_init(ddev);
-+	ret = drm_mode_config_init(ddev);
+@@ -288,7 +287,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
+ 	drm_irq_uninstall(ddev);
+ err_modeset_cleanup:
+ 	drm_kms_helper_poll_fini(ddev);
+-	drm_mode_config_cleanup(ddev);
+ err_free_drm_dev:
+ 	drm_dev_put(ddev);
+ 
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+index c51197b6fd85..e6e34bb75ba0 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+@@ -126,7 +126,11 @@ static const struct drm_mode_config_funcs shmob_drm_mode_config_funcs = {
+ 
+ int shmob_drm_modeset_init(struct shmob_drm_device *sdev)
+ {
+-	drm_mode_config_init(sdev->ddev);
++	int ret;
++
++	ret = drm_mode_config_init(sdev->ddev);
 +	if (ret)
 +		return ret;
  
- 	/*
- 	 * set max width and height as default value.
-@@ -103,7 +105,7 @@ static int drv_load(struct drm_device *ddev)
- 
- 	ret = ltdc_load(ddev);
- 	if (ret)
--		goto err;
-+		return ret;
- 
- 	drm_mode_config_reset(ddev);
- 	drm_kms_helper_poll_init(ddev);
-@@ -111,9 +113,6 @@ static int drv_load(struct drm_device *ddev)
- 	platform_set_drvdata(pdev, ddev);
- 
- 	return 0;
--err:
--	drm_mode_config_cleanup(ddev);
--	return ret;
- }
- 
- static void drv_unload(struct drm_device *ddev)
-@@ -122,7 +121,6 @@ static void drv_unload(struct drm_device *ddev)
- 
- 	drm_kms_helper_poll_fini(ddev);
- 	ltdc_unload(ddev);
--	drm_mode_config_cleanup(ddev);
- }
- 
- static __maybe_unused int drv_suspend(struct device *dev)
+ 	shmob_drm_crtc_create(sdev);
+ 	shmob_drm_encoder_create(sdev);
 -- 
 2.24.1
 
