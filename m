@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54821652B7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 23:51:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF601652F4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 00:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5B9C6E889;
-	Wed, 19 Feb 2020 22:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 674006E883;
+	Wed, 19 Feb 2020 23:12:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93A2B6E889
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 22:51:49 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id d10so2117194ljl.9
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 14:51:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qF+TpbZHrOUGgQZVKOV7JZekNV17t91t70D78UaeuV8=;
- b=qE0lGCYEV/tXSremxFtO+b+1kn4LhCpKcL0pKd+sbzRFgl9GsEEDGGR2mBR7igtDgm
- 8hVsj9f55arrsH3V4lKT7BeGkN2EPQrMlGnp+oqflal0Nx2+apHfIwyohwS/RWfEAZyR
- pYDsC2a0X2pJCRiiAOZPpnhbP8VG/bnBMxeVJOOZFHg3yUo1PKkkKAcOxfi5j5cslOk5
- AU75vS7GFewOBoyz1/NNBPlXp2seG/oVoDbDJDWC2eduZ8U4MD3T4ptt/32u/p3gvk2+
- fPemF52qrudx4/VNDAtZ9jDG8kYF5mlxjy7ySceAV0NUlXxM5WdvpTlDVlkM5yppHAeA
- NT9w==
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0B466E883
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 23:12:20 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id q84so25628574oic.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 15:12:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qF+TpbZHrOUGgQZVKOV7JZekNV17t91t70D78UaeuV8=;
- b=En8k10gBdilxUiPmaCwHnCgPOBmrpPHwdEK4O543wvsq8to+LMQKjgXz5WFjkA989S
- psKdwgCTjPVS7Tyc7WLkKIDxxPj8w81Ix1LyHMySP3vhBxvYdI18+p+AXiCxi2hiyHhX
- QWbVESnzdIFl5wbz67zlc4ZdJHlQeyd+j8qMkYzNzhmwTHAcufkL9zQuvUymaY4/xXLX
- SjypShVvX/SHcyA09bR3RMlS99jJIrasw9gg8Ju6fw4Nm4yb+FIY6aNkMPWq8jzscft0
- 7LYg4ZHNC7OHQB0yQ2XlxhVBjKp2CqnRFcQtZMImUgLbvJti5gtQ8AAaE92FDgOYtCNu
- +iNw==
-X-Gm-Message-State: APjAAAWh4yj67sDe5/+g4WEF4SFpWAABD7cymTgLc3Khx5xaiOxOOQv5
- cQfLIuijkZ4dwk7aA0ni934G8VTbBR8tf9ByXrAG4OHrpzaqtA==
-X-Google-Smtp-Source: APXvYqxzBylDBrYSY6Fo3SoinIImzJQsM7dJ2yDo7/RG1hZiJWszXYIePRhb84fn6Fc+TKHWfSqdrs8ymxAOohv4gaQ=
-X-Received: by 2002:a2e:9a51:: with SMTP id k17mr16119136ljj.206.1582152708042; 
- Wed, 19 Feb 2020 14:51:48 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=CLPRmzON2R02+/ZY31sqBcy//1vfhbocYVY0OJmPA7Q=;
+ b=RsaRjE91uTjlFVnRajA1rKBciu+7asImASOv0kADqrmKLpJDd561hNeEgNEiI4AUjG
+ p26cHJS96+JDUBZwAdQrYajdZqd0328mCH4Zs/u/DbuhOx4xiTRKAXPtc/6dvO3l955t
+ gtpQ5c3glzOFxv9djiWsDpTzLI7UWYY+peBxoHNmx3/h6CA360EhJ7Qc8ktCRrps4pCn
+ aVqYpvk1Kcz4KsojGt7+5nGMpcENFJkenlWtrseRn0Yygp0yEhRmvuO7eSESDcTm1jV0
+ N8QQiVaNdbfZ0kmAPC1hl3F6NcWs+12oslkjNqVJgz+KLrKmNXP4xvNJjfcfN1FXekVy
+ EwqQ==
+X-Gm-Message-State: APjAAAVNfqYDIgzsGDyRpZ5ZmcYgbjWqWyG40pd5t2cknfxU4QaNfsqE
+ jehozMS54y6g3I220OXH1Q==
+X-Google-Smtp-Source: APXvYqyH6dHK8cr/NZ+DC/49bIcKPOlYG+691fjOnLj0uJTTKRot/Tcf71eVud11ZtmHjyKBDuPNUA==
+X-Received: by 2002:a54:4418:: with SMTP id k24mr77122oiw.46.1582153940062;
+ Wed, 19 Feb 2020 15:12:20 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id h15sm420269otq.67.2020.02.19.15.12.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2020 15:12:19 -0800 (PST)
+Received: (nullmailer pid 17648 invoked by uid 1000);
+ Wed, 19 Feb 2020 23:12:18 -0000
+Date: Wed, 19 Feb 2020 17:12:18 -0600
+From: Rob Herring <robh@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 2/4] dt-bindings: panel: lvds: Add properties for clock
+ and data polarities
+Message-ID: <20200219231218.GA24409@bogus>
+References: <cover.b12a054012ce067fa2094894147f953ab816d8d0.1581682983.git-series.maxime@cerno.tech>
+ <620a740cec4186177ce346b092d4ba451e1420dc.1581682983.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20200217153145.13780-1-james.hughes@raspberrypi.com>
-In-Reply-To: <20200217153145.13780-1-james.hughes@raspberrypi.com>
-From: Eric Anholt <eric@anholt.net>
-Date: Wed, 19 Feb 2020 14:51:37 -0800
-Message-ID: <CADaigPXfS4o-QQVPsp1axNz+hAATJqA-vzupC0VRWceJNEZNEg@mail.gmail.com>
-Subject: Re: [PATCH] GPU: DRM: VC4/V3D Replace wait_for macros in to remove
- use of msleep
-To: James Hughes <james.hughes@raspberrypi.com>
+Content-Disposition: inline
+In-Reply-To: <620a740cec4186177ce346b092d4ba451e1420dc.1581682983.git-series.maxime@cerno.tech>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,36 +62,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 17, 2020 at 7:41 AM James Hughes
-<james.hughes@raspberrypi.com> wrote:
->
-> The wait_for macro's for Broadcom VC4 and V3D drivers used msleep
-> which is inappropriate due to its inaccuracy at low values (minimum
-> wait time is about 30ms on the Raspberry Pi).
->
-> This patch replaces the macro with the one from the Intel i915 version
-> which uses usleep_range to provide more accurate waits.
->
-> Signed-off-by: James Hughes <james.hughes@raspberrypi.com>
+On Fri, Feb 14, 2020 at 01:24:39PM +0100, Maxime Ripard wrote:
+> Some LVDS encoders can support multiple polarities on the data and
+> clock lanes, and similarly some panels require a given polarity on
+> their inputs. Add a property on the panel to configure the encoder
+> properly.
 
-To apply this, we're going to want to split the patch up between v3d
-(with a fixes tag to the introduction of the driver, since it's a
-pretty critical fix) and vc4 (where it's used in KMS, and we're pretty
-sure we want it but changing timing like this in KMS paths is risky so
-we don't want to backport to stable).  And adjust the commit messages
-to have consistent prefixes to the rest of the commits to those
-drivers.
+If the panel requires a specific setting, then that can be implied by 
+the panel's compatible. Does Boris' format constraint solving series 
+help here?
 
-I've been fighting with the drm maintainer tools today to try to apply
-the patch, with no luck.   I'll keep trying, and if I succeed, I'll
-push it.
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
