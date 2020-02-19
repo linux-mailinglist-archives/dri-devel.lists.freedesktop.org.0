@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FB71639C6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 03:03:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E901639C7
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 03:03:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A480E6EAFA;
-	Wed, 19 Feb 2020 02:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD736EAFB;
+	Wed, 19 Feb 2020 02:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAEA76EAFA
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:03:09 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id 6so11914653pgk.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 18:03:09 -0800 (PST)
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 665666EAFA
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:03:11 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id y5so11651275pfb.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Feb 2020 18:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YdtSg4I83FV4TfRtEYBqKUl/YbqEjTde4tXPeXzE12E=;
- b=U0SyoHYIVdNKB59W01s1RrmJHk6A+CleIAdt9bLIIA6/rLqRpBugDAV31Ba8DpHN3G
- Osj2DqkvPm+Ij8np/wyMsGF0IOGq17VyWWo6zk9bTOC4YoUGgNCRHBSOETN7Sn0le4Gu
- maZ4cdbmGtTFBzf+cfj1i5O1ZicJBNt5bCGvw=
+ bh=0c4EZlTw5QpZUw23jKFl/TjKgaMoAwFQY+84nYAo5Qw=;
+ b=EvIhNvt+qZlNLgUuv5kuqGJlwWAnRwC+zBLrlnf+1whdN5k4souqtU20l6W1xAd90y
+ XuJH4IeFeWQjKJlVzOEXu8Kjs+UH+7aoUCelmA8xG5zVKCi5SOrj0GU229HSV9PwNNxY
+ 5550tXY05ysh/9CVLtrq/bnKs1Be0kGj1AAfU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YdtSg4I83FV4TfRtEYBqKUl/YbqEjTde4tXPeXzE12E=;
- b=oNTggrxD8labu32W1Vjb88IqCAbblcArBIHWMy4U7G3D2TFM4C4I2QP0TG/eFDPyER
- 04KHHnCkebTCtvA3N03/WTkWi0Obsmzd/F2ot4ih0EP9vZbEDsaVIEhwR7TX+rC1LFlJ
- D2v+JwoHm/e7N8qWTm5thKNMFlTQ96Gayccw66iwqr3MModOHljby8AJywqjXeXL/6jU
- ey9RqINnUYn7mhG8xuMmtyH2S433UKKq1XyVhYVdxF4nA/xvJ6n3yuHd1Bf17EiY3ln0
- VEMSUQ4CiElOwM1k97C9stM8Acrd0f4zmbngDLFTrgoNBvXNn5jLx/MXaoW1hscxFs3K
- ICQQ==
-X-Gm-Message-State: APjAAAUREXmsTLiq+EXyNxbSCj1flwDydmGp8Jh9WKRSW+EG3qlHemdb
- hmBmdMBMzGbOVvQYNci6pXGPbQRqXw4=
-X-Google-Smtp-Source: APXvYqxfW1AAaXLgP/Owhe7+RgXYD6dlXmrzI83CseaiKTQ94dtgZENTK/H9xpHtWpRz9lpu/73r0w==
-X-Received: by 2002:a63:1a50:: with SMTP id a16mr25184578pgm.389.1582077788973; 
- Tue, 18 Feb 2020 18:03:08 -0800 (PST)
+ bh=0c4EZlTw5QpZUw23jKFl/TjKgaMoAwFQY+84nYAo5Qw=;
+ b=MNCHrfANiPYK0rW1CqX1hcKgyE/wwokOC36vMiY+21ho46e3Eq0OKP28rhBSv12FSo
+ Dj0e2kiYZAAJTafkR+WzF3qpn0Mu3Mg5AiaZH+PQAH6aOlWnPL69FWj2ntbI2bkJ6Tf8
+ CHHOLiN8Ua42Eage7oXjlw7GyYfYhZdAtDUFGBbcMgIfzMiqLc5WfjXMdybe1fGko9Oy
+ 8z4We9+1LtzFe3IuaWIA9cicd3QTNbk6rO+khJcjLuHP26qfsbeZGM+JANkE8TpzJ3nY
+ AthS4jbg7GDGceP4V6cgJT87xBUrDW05ms6749H5l/N6T5dyKxxhiHsPjMTnK90b6v/b
+ L4Sg==
+X-Gm-Message-State: APjAAAXkGXR+zUYIYAY3ksXhz9bqrZTZkSFUR5V+kLRuWVf6KTo106oz
+ YUQ4ciRVY3e99inZ6leYWKbRnHyl9Qg=
+X-Google-Smtp-Source: APXvYqyGpoHHI+Uvg/V2W3eMH7qmP6lIjsRSeYhUjVBX//0tEMzrcSZwGFdCrOKgUEAgkXpcY12gxg==
+X-Received: by 2002:a62:188:: with SMTP id 130mr24761218pfb.249.1582077790722; 
+ Tue, 18 Feb 2020 18:03:10 -0800 (PST)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id 3sm216430pjg.27.2020.02.18.18.03.08
+ by smtp.gmail.com with ESMTPSA id 3sm216430pjg.27.2020.02.18.18.03.09
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Tue, 18 Feb 2020 18:03:08 -0800 (PST)
+ Tue, 18 Feb 2020 18:03:10 -0800 (PST)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/5 v3] drm/virtio: factor out context create hyercall
-Date: Tue, 18 Feb 2020 18:02:58 -0800
-Message-Id: <20200219020301.1424-2-gurchetansingh@chromium.org>
+Subject: [PATCH 3/5 v3] drm/virtio: track whether or not a context has been
+ initiated
+Date: Tue, 18 Feb 2020 18:02:59 -0800
+Message-Id: <20200219020301.1424-3-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219020301.1424-1-gurchetansingh@chromium.org>
 References: <20200219020301.1424-1-gurchetansingh@chromium.org>
@@ -70,120 +71,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We currently create an OpenGL context when opening the DRM fd
-if 3D is available.
+Use an atomic variable to track whether a context has been
+initiated.
 
-We may need other context types (VK,..) in the future, and the plan
-is to have explicit initialization for that.
-
-For explicit initialization to work, we need to factor out
-virtio_gpu_create_context from driver initialization.
-
-v2: Move context handle initialization too (@olv)
+v3: Fix possible race via spinlock (@olv)
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 ++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 17 +++++++++++++++++
- drivers/gpu/drm/virtio/virtgpu_kms.c   | 26 ++++++--------------------
- 3 files changed, 25 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.h   | 2 ++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 8 ++++++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c   | 2 ++
+ 3 files changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 2f6c4ccbfd14..72c1d9b59dfe 100644
+index 72c1d9b59dfe..99d94a87c28b 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -214,6 +214,8 @@ struct virtio_gpu_fpriv {
- /* virtio_ioctl.c */
- #define DRM_VIRTIO_NUM_IOCTLS 10
- extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
-+void virtio_gpu_create_context(struct drm_device *dev,
-+			       struct drm_file *file);
+@@ -209,6 +209,8 @@ struct virtio_gpu_device {
  
- /* virtio_kms.c */
- int virtio_gpu_init(struct drm_device *dev);
+ struct virtio_gpu_fpriv {
+ 	uint32_t ctx_id;
++	bool context_initiated;
++	spinlock_t context_lock;
+ };
+ 
+ /* virtio_ioctl.c */
 diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index baad7e1c9505..de04f80f737d 100644
+index de04f80f737d..82312664f2e4 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -33,6 +33,23 @@
+@@ -44,10 +44,18 @@ void virtio_gpu_create_context(struct drm_device *dev,
+ 	if (!vgdev->has_virgl_3d)
+ 		return;
  
- #include "virtgpu_drv.h"
- 
-+void virtio_gpu_create_context(struct drm_device *dev,
-+			       struct drm_file *file)
-+{
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
-+	char dbgname[TASK_COMM_LEN];
++	spin_lock(&vfpriv->context_lock);
++	if (vfpriv->context_initiated)
++		goto out_unlock;
 +
-+	/* can't create contexts without 3d renderer */
-+	if (!vgdev->has_virgl_3d)
-+		return;
+ 	get_task_comm(dbgname, current);
+ 	virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
+ 				      strlen(dbgname), dbgname);
+ 	virtio_gpu_notify(vgdev);
++	vfpriv->context_initiated = true;
 +
-+	get_task_comm(dbgname, current);
-+	virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
-+				      strlen(dbgname), dbgname);
-+	virtio_gpu_notify(vgdev);
-+}
-+
- static int virtio_gpu_map_ioctl(struct drm_device *dev, void *data,
- 				struct drm_file *file)
- {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index ad3b673f5796..f7e3712502ca 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -52,19 +52,6 @@ static void virtio_gpu_config_changed_work_func(struct work_struct *work)
- 		      events_clear, &events_clear);
++out_unlock:
++	spin_unlock(&vfpriv->context_lock);
  }
  
--static int virtio_gpu_context_create(struct virtio_gpu_device *vgdev,
--				      uint32_t nlen, const char *name)
--{
--	int handle = ida_alloc(&vgdev->ctx_id_ida, GFP_KERNEL);
--
--	if (handle < 0)
--		return handle;
--	handle += 1;
--	virtio_gpu_cmd_context_create(vgdev, handle, nlen, name);
--	virtio_gpu_notify(vgdev);
--	return handle;
--}
--
- static void virtio_gpu_context_destroy(struct virtio_gpu_device *vgdev,
- 				      uint32_t ctx_id)
- {
-@@ -260,8 +247,7 @@ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
- {
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_fpriv *vfpriv;
--	int id;
--	char dbgname[TASK_COMM_LEN];
-+	int handle;
- 
- 	/* can't create contexts without 3d renderer */
- 	if (!vgdev->has_virgl_3d)
-@@ -272,15 +258,15 @@ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
+ static int virtio_gpu_map_ioctl(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index f7e3712502ca..f4a9aa0048d2 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -258,6 +258,8 @@ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
  	if (!vfpriv)
  		return -ENOMEM;
  
--	get_task_comm(dbgname, current);
--	id = virtio_gpu_context_create(vgdev, strlen(dbgname), dbgname);
--	if (id < 0) {
-+	handle = ida_alloc(&vgdev->ctx_id_ida, GFP_KERNEL);
-+	if (handle < 0) {
++	spin_lock_init(&vfpriv->context_lock);
++
+ 	handle = ida_alloc(&vgdev->ctx_id_ida, GFP_KERNEL);
+ 	if (handle < 0) {
  		kfree(vfpriv);
--		return id;
-+		return handle;
- 	}
- 
--	vfpriv->ctx_id = id;
-+	vfpriv->ctx_id = handle + 1;
- 	file->driver_priv = vfpriv;
-+	virtio_gpu_create_context(dev, file);
- 	return 0;
- }
- 
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
