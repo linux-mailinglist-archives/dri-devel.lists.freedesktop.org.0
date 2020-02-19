@@ -1,42 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D7D164AEE
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:49:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2158C164B19
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:54:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 426608915E;
-	Wed, 19 Feb 2020 16:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC0289F82;
+	Wed, 19 Feb 2020 16:54:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31A5E89138
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 16:48:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C4B7563;
- Wed, 19 Feb 2020 17:48:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582130936;
- bh=/NCJBqhwDAR6YDS6oa/BRPHnFnk3elvzrzCS9GPuf0I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fl1Gj/28pj7LawlvHF2l7kEbfqGW+IufCXIXE0i1vlVRxyxM9y9V/Q6j8FnAEMYSs
- ohkTZmu1oW4AQsY0BxxSIcSda6uRUu1MbRLj+RLqzI583c9IsH2JCxapJVqsqr62lN
- Wsd4MqboKPQD4xhovfIno8ENp6dlnwr3/19QgqLw=
-Date: Wed, 19 Feb 2020 18:48:38 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v5] dt-bindings: display: renesas: du: Document optional
- reset properties
-Message-ID: <20200219164838.GC5070@pendragon.ideasonboard.com>
-References: <20200214082623.4893-1-geert+renesas@glider.be>
- <20200219160410.GX5070@pendragon.ideasonboard.com>
- <CAMuHMdVEW1pjg=mf55dzi0uJ6f-qQCGXzzvTikffX+JAeJQEsQ@mail.gmail.com>
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47F2989FA7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 16:54:11 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id j16so813484otl.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 08:54:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6UrZQKtM3Beb679EC+19/+hO/NlOBI48NPL+U2VsCDg=;
+ b=TnsisiE2KFYhFZYeJ2814/+rW5sfuhZh2Vam5hoKlO+sNq3sFjekVAEdk55RpHonfS
+ CnKNq7VPP43VlxgEIged97gRUpZ4j0jiF54vWh6VSJiyxKwTUyQdeFU/B4F6kAiM6cKy
+ VPFKUvajh0/oCbYnIjgGLZwvohwj89//9Ng64=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6UrZQKtM3Beb679EC+19/+hO/NlOBI48NPL+U2VsCDg=;
+ b=STa+2VCNqC+Zao37nv5xAlZkqc1nG4dkFeqBUA/0GyG6r8ixqkkQ9HyQ5vBHr7ZtWP
+ xETJf3rW2GvK8vAqzdyJ0ECK35w6a1ekJt/1dIp44TF6H/Z+ggbxnw7J2o08I/mnUvzM
+ UE3now/Uygyw7CU6zF8gShowqgEkNHgoEVJ3V498UI/0D8ImPTXRpMNAU2qhTBa5LTPu
+ MGSRjbxAPYLORbp4HTYeYnQemOROtJTP5hUzJSyghCAzGX+NgO95qHRHJiHFHRPIjIJX
+ VWTUdtHsnA4A2JminxQxGouubY4AUV5/9iWx18lUtHY57vmdj0N1ZdNKeUxE7CTcfDOY
+ ChTQ==
+X-Gm-Message-State: APjAAAVzjiSrw9jZQydQVvlswe+GJ/ICnX3wUc45JaxtUqkDI9USpQw7
+ rTtfMk4x5tQHzglUm48S0dP3r2S+nBL40wnglUBx/A==
+X-Google-Smtp-Source: APXvYqzF2QBY/N6SOyZZkgW+OpZvNlcloQwDJ9h537f4aAKVkCoRNTgUrL8i0SBE/Z0rloou3g1ieAVcoahSevYwaN4=
+X-Received: by 2002:a9d:6196:: with SMTP id g22mr20721773otk.204.1582131250349; 
+ Wed, 19 Feb 2020 08:54:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVEW1pjg=mf55dzi0uJ6f-qQCGXzzvTikffX+JAeJQEsQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
+ <20200219102122.1607365-4-daniel.vetter@ffwll.ch>
+ <20200219132847.GD5070@pendragon.ideasonboard.com>
+ <20200219133302.GA2837131@kroah.com>
+ <CAKMK7uHHMmqZ6FrK3r6J3SXV8FmsJ=+QfeNHRtodZboV5CwQyw@mail.gmail.com>
+ <CACvgo52qxstEeXBgNvrck9zPZUYsOUbjQ9=a_C3x9u74gTA85w@mail.gmail.com>
+ <CAKMK7uE0wAR9DsmL9gPYJCeAzRw8kEE5eGwXRoVpxb4ByHtehA@mail.gmail.com>
+ <20200219164634.GB5070@pendragon.ideasonboard.com>
+In-Reply-To: <20200219164634.GB5070@pendragon.ideasonboard.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 19 Feb 2020 17:53:59 +0100
+Message-ID: <CAKMK7uG+PuiN9a+UnXOPMxDGp16ptAvmZrZSdKxFzsmNqkCosw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 03/52] drm: add managed resources tied to
+ drm_device
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,80 +65,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
-
-On Wed, Feb 19, 2020 at 05:36:57PM +0100, Geert Uytterhoeven wrote:
-> On Wed, Feb 19, 2020 at 5:04 PM Laurent Pinchart wrote:
-> > On Fri, Feb 14, 2020 at 09:26:23AM +0100, Geert Uytterhoeven wrote:
-> > > Document the optional properties for describing module resets, to
-> > > support resetting display channels on R-Car Gen2 and Gen3.
+On Wed, Feb 19, 2020 at 5:46 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Daniel,
+>
+> On Wed, Feb 19, 2020 at 05:22:38PM +0100, Daniel Vetter wrote:
+> > On Wed, Feb 19, 2020 at 5:09 PM Emil Velikov wrote:
+> > > On Wed, 19 Feb 2020 at 14:23, Daniel Vetter wrote:
+> > >> On Wed, Feb 19, 2020 at 2:33 PM Greg Kroah-Hartman wrote:
+> > >>> On Wed, Feb 19, 2020 at 03:28:47PM +0200, Laurent Pinchart wrote:
+> > >>>> On Wed, Feb 19, 2020 at 11:20:33AM +0100, Daniel Vetter wrote:
+> > >>>>> We have lots of these. And the cleanup code tends to be of dubious
+> > >>>>> quality. The biggest wrong pattern is that developers use devm_, which
+> > >>>>> ties the release action to the underlying struct device, whereas
+> > >>>>> all the userspace visible stuff attached to a drm_device can long
+> > >>>>> outlive that one (e.g. after a hotunplug while userspace has open
+> > >>>>> files and mmap'ed buffers). Give people what they want, but with more
+> > >>>>> correctness.
+> > >>>>>
+> > >>>>> Mostly copied from devres.c, with types adjusted to fit drm_device and
+> > >>>>> a few simplifications - I didn't (yet) copy over everything. Since
+> > >>>>> the types don't match code sharing looked like a hopeless endeavour.
+> > >>>>>
+> > >>>>> For now it's only super simplified, no groups, you can't remove
+> > >>>>> actions (but kfree exists, we'll need that soon). Plus all specific to
+> > >>>>> drm_device ofc, including the logging. Which I didn't bother to make
+> > >>>>> compile-time optional, since none of the other drm logging is compile
+> > >>>>> time optional either.
+> > >>>>>
+> > >>>>> One tricky bit here is the chicken&egg between allocating your
+> > >>>>> drm_device structure and initiliazing it with drm_dev_init. For
+> > >>>>> perfect onion unwinding we'd need to have the action to kfree the
+> > >>>>> allocation registered before drm_dev_init registers any of its own
+> > >>>>> release handlers. But drm_dev_init doesn't know where exactly the
+> > >>>>> drm_device is emebedded into the overall structure, and by the time it
+> > >>>>> returns it'll all be too late. And forcing drivers to be able clean up
+> > >>>>> everything except the one kzalloc is silly.
+> > >>>>>
+> > >>>>> Work around this by having a very special final_kfree pointer. This
+> > >>>>> also avoids troubles with the list head possibly disappearing from
+> > >>>>> underneath us when we release all resources attached to the
+> > >>>>> drm_device.
+> > >>>>
+> > >>>> This is all a very good idea ! Many subsystems are plagged by drivers
+> > >>>> using devm_k*alloc to allocate data accessible by userspace. Since the
+> > >>>> introduction of devm_*, we've likely reduced the number of memory leaks,
+> > >>>> but I'm pretty sure we've increased the risk of crashes as I've seen
+> > >>>> some drivers that used .release() callbacks correctly being naively
+> > >>>> converted to incorrect devm_* usage :-(
+> > >>>>
+> > >>>> This leads me to a question: if other subsystems have the same problem,
+> > >>>> could we turn this implementation into something more generic ? It
+> > >>>> doesn't have to be done right away and shouldn't block merging this
+> > >>>> series, but I think it would be very useful.
+> > >>>
+> > >>> It shouldn't be that hard to tie this into a drv_m() type of a thing
+> > >>> (driver_memory?)
+> > >>>
+> > >>> And yes, I think it's much better than devm_* for the obvious reasons of
+> > >>> this being needed here.
+> > >>
+> > >> There's two reasons I went with copypasta instead of trying to share code:
+> > >> - Type checking, I definitely don't want people to mix up devm_ with
+> > >> drmm_. But even if we do a drv_m that subsystems could embed we do
+> > >> have quite a few different types of component drivers (and with
+> > >> drm_panel and drm_bridge even standardized), and I don't want people
+> > >> to be able to pass the wrong kind of struct to e.g. a managed
+> > >> drmm_connector_init - it really needs to be the drm_device, not a
+> > >> panel or bridge or something else.
+> > >>
+> > >> - We could still share the code as a kind of implementation/backend
+> > >> library. But it's not much, and with embedding I could use the drm
+> > >> device logging stuff which is kinda nice. But if there's more demand
+> > >> for this I can definitely see the point in sharing this, as Laurent
+> > >> pointed out with the tiny optimization with not allocating a NULL void
+> > >> * that I've done (and screwed up) it's not entirely trivial code.
 > > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Acked-by: Rob Herring <robh@kernel.org>
-> 
-> > > --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > @@ -50,6 +50,14 @@ Required Properties:
-> > >      VSP instance that serves the DU channel, and the channel index identifies
-> > >      the LIF instance in that VSP.
+> > > My 2c as they say, although closer to a brain dump :-)
 > > >
-> > > +Optional properties:
-> > > +  - resets: A list of phandle + reset-specifier pairs, one for each entry in
-> > > +    the reset-names property.
-> > > +  - reset-names: Names of the resets. This property is model-dependent.
-> > > +    - All but R8A7779 use one reset for a group of one or more successive
-> > > +      channels. The resets must be named "du.x" with "x" being the numerical
-> > > +      index of the lowest channel in the group.
+> > > On one hand the drm_device has an embedded struct device. On the other
+> > > drm_device preserves state which outlives the embedded struct device.
+> > >
+> > > Would it make sense to keep drm_device better related to the
+> > > underlying device? Effectively moving the $misc state to drm_driver.
+> > > This idea does raise another question - struct drm_driver unlike many
+> > > other struct $foo_driver, does not embedded device_driver :-(
+> > > So if one is to cover the above two, then the embedding concerns will
+> > > be elevated.
 > >
-> > I've now reviewed the patches that add those properties to our .dtsi
-> > files, and I wonder how we should handle the two SoCs that have DU0, DU1
-> > and DU3, but not DU2. The reset resource is tied to a group of two
-> > channels, so we would use du.0 and du.2 respectively, but that conflicts
-> > with the above text.
-> >
-> > I'm trying to think about the implementation on the driver side, where
-> > group resources are associated with a group object, whose index is
-> > computed by dividing the channel number by 2. We could have a special
-> > case in group initialization that uses du.3 instead of du.2 for the
-> > second group.
-> >
-> > What do you think ? Probably overkill, and we should go for du.3 ?
-> 
-> The "division by 2" rule is valid for R-Car Gen3, but not for R-Car
-> Gen2, where there is only a single reset for all channels.
-> 
-> Originally we had "du.0-1" and "du.2-3" (hmm, somehow I missed adding
-> this to the changelog for the bindings,  but it is present in the
-> changelog for the DTS files), but after switching to "du.0" and "du.2",
-> I always envisioned implementing this by finding a "du.x" reset by
-> looping from the current channel index to 0.  That algorithm works for all
-> supported SoCs (irrespective of naming the second reset on R-Car H3-N
-> and M3-N "du.2" or "du.3" ;-)
-> 
-> As per your comment about single resets, we could drop reset-names on
-> R-Car Gen2, but doing so would mean another special case in the driver.
+> > drm_driver isn't a bus device driver in the linux driver model sense,
+> > but an uapi thing that sits on top of some underlying device. So maybe
+> > better to rename drm_driver to drm_interface_driver, and drm_device to
+> > drm_interface. But that would be giantic churn and probably lots of
+> > confusion. We do require a link between drm_device->struct device
+> > nowadays, but that's just to guarantee userspace can find the
+> > drm_device in sysfs somewhere and make sense of what it actually
+> > drives.
+>
+> If we wanted to rename drm_driver to align with the rest of the kernel,
+> it should probably be drm_device_ops, with the non-ops fields being
+> moved to a separate structure.
+>
+> I don't mind churn (but I agree it may not be worth it), but even if we
+> don't rename the structure, I think it would be very useful to remove
+> the non-const fields, in order to allow storing the structure as a
+> global static const struct. Function pointers in non-const memory can be
+> a security issue. As far as I can tell, the only blocker is the
+> legacy_dev_list field.
 
-Probably not worth it indeed. We can handle all this in the driver,
-let's keep it as-is.
+Oh man ... we could make the legacy_dev_list depend on
+CONFIG_DRM_LEGACY and the INIT_LIST_HEAD also depend upon
+DRIVER_LEGACY and then at least all the new drivers could make their
+drm_driver structure const. Or something along those lines.
+
+Properly ditching legacy_dev_list is probably not worth it, since
+those drivers tend to be all root exploits anyway :-)
+
+Cheers, Daniel
+
+> > That's also why the lifetimes for the two things are totally
+> > different. The device driver an all it's resources are tied to the
+> > underlying physical device, and resources can be released when that
+> > driver<->device link is broken (either unbind or hotunplug). That's
+> > what devm_ does. The drm_driver/drm_device otoh is tied to the
+> > userspace api, and can only disappear once all the userspace handles
+> > have been cleaned up and released.
+>
+> And so they're tied to the lifetime of the struct device that models the
+> userspace interface. Shame they're both called device :-)
+>
+> > And we have an enormous amount of those, with all the mmaps, and
+> > shared fd for dma-buf, sync_file, synobj and whatever else. The
+> > drm_device can only be cleaned up once userspace has closed all these
+> > things, or we'll go boom somewhere. The only connection is that the
+> > userspace interface drives the underlying hw (as long as it's still
+> > there) and the hw side holds a reference on the uapi side
+> > (drm_dev_get/put) to make sure the userspace side doesn't go poof and
+> > disappear when no one has the /dev node open :-)
+> >
+> > But aside from these links they're completely separate worlds, and
+> > mixing up the lifetimes results in all kinds of bad things happening.
+> > Ofc normally these two things exist at the same time, but hotunplug
+> > makes things very interesting here. And traditionally we've handled it
+> > badly, if at all in drm.
+> >
+> > > WRT type safety, with the embedded work sorted, one could introduce
+> > > trivial helpers for drmm_connector_init and friends.
+> > >
+> > > In another email you've also raised the question of API diversity and
+> > > reviews, I believe. IMHO one could start with a bare minimum set and
+> > > extend as needed.
+> > > Based on the prompt response from Greg, I suspect review won't be an issue.
+> >
+> > The drmm_ stuff in here is the bare minimum we need to get started. I
+> > expect lots of stuff will be added, but those are all just going to be
+> > convenience functions on top of the drmm_add_action primitive.
+> >
+> > > If people agree with my analysis and considering the size/complexity
+> > > of drm_device <> drm_driver reshuffle, we could add a TODO task.
+> > > I suspect the underlying work will be larger than the current 52 patch
+> > > set, so doing it in one go will be PITA.
+> >
+> > I'm not following what you want to shuffle. drm_driver is entirely
+> > static and kinda global, drm_device is the per-instance structure we
+> > have. And here we mean per-userspace uapi interface instance. So I
+> > guess I'm confused what you want to do?
+> >
+> > > * Based on the following quick greps
+> > > $git grep -W "struct [a-zA-Z0-9-]*_driver {" -- include/ | grep -w
+> > > "struct device_driver\>.*;"  | wc -l
+> > > 56
+> > > $git cgrep "struct [a-zA-Z0-9-]*_driver {" -- include/ | wc -l
+> > > 71
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
