@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E528416486F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 16:25:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498E416488D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 16:28:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 000EC6E81E;
-	Wed, 19 Feb 2020 15:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 816A76EC23;
+	Wed, 19 Feb 2020 15:28:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4530C6EC20
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 15:24:55 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id r16so506037otd.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 07:24:55 -0800 (PST)
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA316E0DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 15:28:09 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id w6so524400otk.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 07:28:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qYhTUrrqc0aLy+KOWkzKXyYiFD3OiQz8nR4EBQhR2MQ=;
- b=YYXCWoS/O3lwoqOnriNrI0nnKjLXig8xjLg1dPM4g4apQg8la80sjEaj2II6A8Lkng
- 4hDjOyou6Jw43+fp3Cmy8u9aFzek4SHaJGqNdcd/62UvQmYU7O4ZbzKd7GBZsc9gfRb2
- obggNzcSt85e6r374iBK5U8h+7ZMKxbUUUFeI=
+ :cc; bh=i/f38oqt5/FLpzjdTdnMTXjrQCdMVaM5ZjRcR5p/Nso=;
+ b=M61bWDxGKhYRqnHGOlsy2usrIDGaHJm+wiqgtgPcco7nxN+dKiMTEqmWJN9IVpeGuF
+ 0VW0RjYoCaXzddbz3BncE6F1LjdUqv6GQJHq58UaNEFyyFlEalzwYsEunmRTkLPkRgko
+ 6/EPBf2IkO5Ci8e+jkx0db7coiMUBUd5d6TWk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qYhTUrrqc0aLy+KOWkzKXyYiFD3OiQz8nR4EBQhR2MQ=;
- b=Y3r6UhZA7d9BWEVdcEKAoFPGwyG2H0Pv9a3+t8lB3yOTlPx49W+hjTIZRz3r5UXELT
- USKXBepGZLGhOo22lnJZVOhhMs3GBqxs/8TuntnEXykzz3t6NIgogXN+wTsf4gb0NOSs
- Y8OEn1fpKbZW9bKk1Q4PsxWYez1AUe12L1j/df9vAQcFOrotESWvxK2O6Qb4uEIqLWPB
- K1R4SIQyvH8YLJByNVJSNImjW4BESqTl3upYgeUUClUdGHzfAye0YvnxDitRh71J1Tyi
- 6GzpuWFmzMrDXLUtMHRy7BTTgEXLkBFrX/b3plUnM/dre6rBaOYFeFl7GksDFf7dkhbq
- yogw==
-X-Gm-Message-State: APjAAAUAcYk0CZSLBwpjD6vbOnh1K2f3SfPjzNOzBLBmTQp/uBaWHwmj
- AZXEo3kbsH2+nQ44yHKGRuGHqnxhr/u5eH5yYYKH1w==
-X-Google-Smtp-Source: APXvYqzzmLKI5olmUYDKGNYNd+676QwGsmwy/g9Z33JvLCyh2VU+peD3DX1CWR9wXdvcuaIGdVrRj+sWqszyHt7zp+4=
-X-Received: by 2002:a9d:7f11:: with SMTP id j17mr21278221otq.281.1582125894477; 
- Wed, 19 Feb 2020 07:24:54 -0800 (PST)
+ bh=i/f38oqt5/FLpzjdTdnMTXjrQCdMVaM5ZjRcR5p/Nso=;
+ b=ElDEznRfPZuvFKArHIgcpJA/Cn5QotBBBHmXFOz2hek2JRocixo6SVQQhNrD7wIbS8
+ 2q3uFebn9ZUYqkEUBWrJ3yPzUanPU2GAewEob4r1P32WwO8iyE3BL/t5LGc2zHmkZhA8
+ cOtZgI4RzrZydAR4TUtr5c2vrjuaP9Cjo+emHAFCf7kUS4bDKFxD4o6aVf96xS/Qdl7E
+ aZy6PIDYq67IcSDTkz4F7Wt7qoVGqWlazHRp7BBG98w+7f8bJsmGbOqBc3oYVvSu+7z2
+ t2+3IOnw38zzb/MbPSft4GCcNb+VgAWh7LOf5qaMAywLJtFnIvecMHrD+f5FOfjrqghh
+ nJGA==
+X-Gm-Message-State: APjAAAXCsyrucX/YkohhIylr5r5xsGYRrA0qE7rzDAwaCttomzYD8nKS
+ /jquIojAGy1RLPxGdbSAtxQBf6mjdMP1le0GwWyiOQ==
+X-Google-Smtp-Source: APXvYqyddeKiwOQ/ovdnTp/bGSEJVEaFpXewMdMeRvrK+uH7uS+D/56moMuiHOAdst5cdcU54o6dEITV+XXiazq4es4=
+X-Received: by 2002:a9d:7f11:: with SMTP id j17mr21289407otq.281.1582126088255; 
+ Wed, 19 Feb 2020 07:28:08 -0800 (PST)
 MIME-Version: 1.0
 References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-22-daniel.vetter@ffwll.ch>
- <20200219142806.GL5070@pendragon.ideasonboard.com>
-In-Reply-To: <20200219142806.GL5070@pendragon.ideasonboard.com>
+ <20200219102122.1607365-23-daniel.vetter@ffwll.ch>
+ <20200219143537.GM5070@pendragon.ideasonboard.com>
+In-Reply-To: <20200219143537.GM5070@pendragon.ideasonboard.com>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 19 Feb 2020 16:24:42 +0100
-Message-ID: <CAKMK7uF+_CGAiLhd772HBEmgsdH9RgBV9F_cmvOfZZrCR7-Q4w@mail.gmail.com>
-Subject: Re: [PATCH 21/52] drm: Handle dev->unique with drmm_
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg KH <gregkh@linuxfoundation.org>
+Date: Wed, 19 Feb 2020 16:27:57 +0100
+Message-ID: <CAKMK7uEhvT2MWfcwQDVpUZ86bgV78CMoj9wCPbeb+kLk8s9yJA@mail.gmail.com>
+Subject: Re: [PATCH 22/52] drm: Use drmm_ for drm_dev_init cleanup
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,107 +67,131 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2020 at 3:28 PM Laurent Pinchart
+On Wed, Feb 19, 2020 at 3:35 PM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > Hi Daniel,
 >
 > Thank you for the patch.
 >
-> On Wed, Feb 19, 2020 at 11:20:51AM +0100, Daniel Vetter wrote:
-> > We need to add a drmm_kstrdup for this, but let's start somewhere.
+> On Wed, Feb 19, 2020 at 11:20:52AM +0100, Daniel Vetter wrote:
+> > Well for the simple stuff at least, vblank, gem and minor cleanup I
+> > want to further split up as a demonstration.
 > >
-> > This is not exactly perfect onion unwinding, but it's jsut a kfree so
-> > doesn't really matter at all.
+> > v2: We need to clear drm_device->dev otherwise the debug drm printing
+> > after our cleanup hook (e.g. in drm_manged_release) will chase
+> > released memory and result in a use-after-free. Not really pretty, but
+> > oh well.
 > >
 > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > > ---
-> >  drivers/gpu/drm/drm_drv.c     |  5 ++---
-> >  drivers/gpu/drm/drm_managed.c | 16 ++++++++++++++++
-> >  include/drm/drm_managed.h     |  1 +
-> >  3 files changed, 19 insertions(+), 3 deletions(-)
-> >
+> >  drivers/gpu/drm/drm_drv.c | 48 ++++++++++++++++++++-------------------
+> >  1 file changed, 25 insertions(+), 23 deletions(-)
+>
+> Is the managed API overhead, coupled with the fact that the code size
+> doesn't get reduced, worth it for core code ?
+
+I've mostly done this as an example, to show how if you do this
+consistently, you can drop a few if (is_it_set_up) checks and remove
+the onion unwinding with lots of gotos. I do think it's worth it from
+that pov, since long-term I want to get to a world where everything
+related to drm_device gets unwound with drmm_ actions. The logging
+output becomes fairly nice if you enable it :-)
+
+But yeah stand-alone it's not a good pitch. Heck even the overall
+patch series is still a net loss I think, simply because this is just
+the bare minimum to get started.
+-Daniel
+
 > > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index 1ee606b4a4f9..782fd5d6f8b2 100644
+> > index 782fd5d6f8b2..1f7ab88d9435 100644
 > > --- a/drivers/gpu/drm/drm_drv.c
 > > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -777,7 +777,6 @@ void drm_dev_fini(struct drm_device *dev)
-> >       mutex_destroy(&dev->filelist_mutex);
-> >       mutex_destroy(&dev->struct_mutex);
-> >       drm_legacy_destroy_members(dev);
-> > -     kfree(dev->unique);
+> > @@ -580,6 +580,23 @@ static void drm_fs_inode_free(struct inode *inode)
+> >   *    used.
+> >   */
+> >
+> > +static void drm_dev_init_release(struct drm_device *dev, void *res)
+> > +{
+> > +     drm_legacy_ctxbitmap_cleanup(dev);
+> > +     drm_legacy_remove_map_hash(dev);
+> > +     drm_fs_inode_free(dev->anon_inode);
+> > +
+> > +     put_device(dev->dev);
+> > +     /* Prevent use-after-free in drm_managed_release when debugging is
+> > +      * enabled. Slightly awkward, but can't really be helped. */
+> > +     dev->dev = NULL;
+> > +     mutex_destroy(&dev->master_mutex);
+> > +     mutex_destroy(&dev->clientlist_mutex);
+> > +     mutex_destroy(&dev->filelist_mutex);
+> > +     mutex_destroy(&dev->struct_mutex);
+> > +     drm_legacy_destroy_members(dev);
+> > +}
+> > +
+> >  /**
+> >   * drm_dev_init - Initialise new DRM device
+> >   * @dev: DRM device
+> > @@ -647,11 +664,15 @@ int drm_dev_init(struct drm_device *dev,
+> >       mutex_init(&dev->clientlist_mutex);
+> >       mutex_init(&dev->master_mutex);
+> >
+> > +     ret = drmm_add_action(dev, drm_dev_init_release, NULL);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> >       dev->anon_inode = drm_fs_inode_new();
+> >       if (IS_ERR(dev->anon_inode)) {
+> >               ret = PTR_ERR(dev->anon_inode);
+> >               DRM_ERROR("Cannot allocate anonymous inode: %d\n", ret);
+> > -             goto err_free;
+> > +             goto err;
+> >       }
+> >
+> >       if (drm_core_check_feature(dev, DRIVER_RENDER)) {
+> > @@ -688,19 +709,12 @@ int drm_dev_init(struct drm_device *dev,
+> >       if (drm_core_check_feature(dev, DRIVER_GEM))
+> >               drm_gem_destroy(dev);
+> >  err_ctxbitmap:
+> > -     drm_legacy_ctxbitmap_cleanup(dev);
+> > -     drm_legacy_remove_map_hash(dev);
+> >  err_minors:
+> >       drm_minor_free(dev, DRM_MINOR_PRIMARY);
+> >       drm_minor_free(dev, DRM_MINOR_RENDER);
+> > -     drm_fs_inode_free(dev->anon_inode);
+> > -err_free:
+> > -     put_device(dev->dev);
+> > -     mutex_destroy(&dev->master_mutex);
+> > -     mutex_destroy(&dev->clientlist_mutex);
+> > -     mutex_destroy(&dev->filelist_mutex);
+> > -     mutex_destroy(&dev->struct_mutex);
+> > -     drm_legacy_destroy_members(dev);
+> > +err:
+> > +     drm_managed_release(dev);
+> > +
+> >       return ret;
+> >  }
+> >  EXPORT_SYMBOL(drm_dev_init);
+> > @@ -763,20 +777,8 @@ void drm_dev_fini(struct drm_device *dev)
+> >       if (drm_core_check_feature(dev, DRIVER_GEM))
+> >               drm_gem_destroy(dev);
+> >
+> > -     drm_legacy_ctxbitmap_cleanup(dev);
+> > -     drm_legacy_remove_map_hash(dev);
+> > -     drm_fs_inode_free(dev->anon_inode);
+> > -
+> >       drm_minor_free(dev, DRM_MINOR_PRIMARY);
+> >       drm_minor_free(dev, DRM_MINOR_RENDER);
+> > -
+> > -     put_device(dev->dev);
+> > -
+> > -     mutex_destroy(&dev->master_mutex);
+> > -     mutex_destroy(&dev->clientlist_mutex);
+> > -     mutex_destroy(&dev->filelist_mutex);
+> > -     mutex_destroy(&dev->struct_mutex);
+> > -     drm_legacy_destroy_members(dev);
 > >  }
 > >  EXPORT_SYMBOL(drm_dev_fini);
 > >
-> > @@ -1063,8 +1062,8 @@ EXPORT_SYMBOL(drm_dev_unregister);
-> >   */
-> >  int drm_dev_set_unique(struct drm_device *dev, const char *name)
-> >  {
-> > -     kfree(dev->unique);
-> > -     dev->unique = kstrdup(name, GFP_KERNEL);
-> > +     drmm_kfree(dev, dev->unique);
-> > +     dev->unique = drmm_kstrdup(dev, name, GFP_KERNEL);
-> >
-> >       return dev->unique ? 0 : -ENOMEM;
-> >  }
-> > diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-> > index ee7c7253af61..d8a484e19830 100644
-> > --- a/drivers/gpu/drm/drm_managed.c
-> > +++ b/drivers/gpu/drm/drm_managed.c
-> > @@ -147,6 +147,22 @@ void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
-> >  }
-> >  EXPORT_SYMBOL(drmm_kmalloc);
-> >
-> > +char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp)
->
-> Do we need support for gfp_t other than GFP_KERNEL ? Given that the
-> memory will be released when the drm_device is destroyed, GFP_ATOMIC
-> would seem of dubious use to me, and we may want to not make it possible
-> to use it.
-
-Hm .. I just copied the devm_ functions with struct drm_device
-substituting struct device. I agree there's not going to be a use-case
-for anything else than GFP_KERNEL. If there ever will be, I guess we
-could add a __drm_kmallock for that case.
-
-The downside of dropping the gfp argument is that drmm_ wont be a
-drop-in replacament for devm_k*alloc functions anymore. Adding Greg,
-maybe he has a good idea about what we should be doing here?
-
-Personally I'd be happy to drop the gfp argument, it feels somewhat
-pointless for these.
--Daniel
-
-
-> > +{
-> > +     size_t size;
-> > +     char *buf;
-> > +
-> > +     if (!s)
-> > +             return NULL;
-> > +
-> > +     size = strlen(s) + 1;
-> > +     buf = drmm_kmalloc(dev, size, gfp);
-> > +     if (buf)
-> > +             memcpy(buf, s, size);
-> > +     return buf;
-> > +}
-> > +EXPORT_SYMBOL_GPL(drmm_kstrdup);
-> > +
-> >  void drmm_kfree(struct drm_device *dev, void *data)
-> >  {
-> >       struct drmres *dr = NULL, *tmp;
-> > diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> > index 75f2c8932c69..240edd395e88 100644
-> > --- a/include/drm/drm_managed.h
-> > +++ b/include/drm/drm_managed.h
-> > @@ -21,5 +21,6 @@ static inline void *drmm_kzalloc(struct drm_device *dev, size_t size, gfp_t gfp)
-> >  {
-> >       return drmm_kmalloc(dev, size, gfp | __GFP_ZERO);
-> >  }
-> > +char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp);
-> >
-> >  void drmm_kfree(struct drm_device *dev, void *data);
 >
 > --
 > Regards,
