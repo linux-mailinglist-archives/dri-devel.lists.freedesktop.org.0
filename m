@@ -1,54 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE75164758
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 15:44:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B5F164765
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 15:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343076E7EF;
-	Wed, 19 Feb 2020 14:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 235C96EC14;
+	Wed, 19 Feb 2020 14:47:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD536EC0B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 14:43:55 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id r16so366973otd.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 06:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0+r/IxJFrHXvbsJ7Lw6LBNQtd5OOT3On2BoQEMsYzxc=;
- b=g3/Ul/pC00V3oEf9+jMnYuni1ix46TAfWjiM5mUoqPed3jovuOxpnZiltZsXWKwyQ6
- v3+MD6bymdT6NgOU3+5t9hm5dNSFWyT6kZM73i8fr45EOvS5CRE0+Ge3HBXDLcL8RmtQ
- VTtvtWPkL1s1hmCCB7vxKvrvaVqAfYk5Q7s+E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0+r/IxJFrHXvbsJ7Lw6LBNQtd5OOT3On2BoQEMsYzxc=;
- b=SSPWl4czPE1XQMUfUQovibHA0uBCxwTNAyRlKJRIVh8WWfrWwIqKsxDFa5nlJtOL/l
- jyMMxWTlxNn/X+QyVJ7m6ubl6deMsqhB2aWOP+z6hB9JvoU9U0ZNqtdfNXuTrpSMVUZ2
- 5VlEyczgGKRjXk5xaSTik7SNaGqTuT7474WI+PJuHmwP2EGPo48J1tciArAFi+h0ZYg5
- Qd/YSrc27etm91bX2yxO/nBhdmZJbXrp9njtXFxbHS5BxIS9Mn6W6V016xZj9zhzEAWF
- n+YxNjmCV5B0iuPMqw9tZ1v9sjyiLFYaZJlAWn3Iq2nGQHp1X6OYoJvFykho7lS/nCmk
- 7iWQ==
-X-Gm-Message-State: APjAAAW1IQrlw1sQ2UumZMlH1kmOPjwVnutScFiBSRGI54IS2jtxUXSf
- lGmBvnEZeqPAvC67SQlhQ8R6pnyC8RTNsc3HEF9UbA==
-X-Google-Smtp-Source: APXvYqxPQaHe0ajM9EaFYWOKeO1qx5rLjG9Ri2SplUUGh2oAO+P037hMuCCLkPI/S/kkV1vTWPuw83Yfi6xG3YezsC4=
-X-Received: by 2002:a05:6830:2015:: with SMTP id
- e21mr19176597otp.106.1582123434662; 
- Wed, 19 Feb 2020 06:43:54 -0800 (PST)
-MIME-Version: 1.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A06E76EC14;
+ Wed, 19 Feb 2020 14:47:31 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BC0B2F9;
+ Wed, 19 Feb 2020 15:47:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1582123650;
+ bh=eqexCJDLlnsAwkC1kGAH9CP2qRlZIuaQ5DtnMSCDxjg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kr0vW0BE9nJMICt8kFpE/CDPd8NXTwaxI6I4dGq9ngZEf8DBu4Gl3qErdbTqA/RQw
+ Oh2Xlkw5ka7pJRjsu6IY4RQdFaEU+rGppR0QdvQqnXLgAx7T/azn1XRMGlSxw/vIuu
+ mj6xH4Z3F8s0tM/8TEJEFDTAcc0BnE3VaDUZAb7o=
+Date: Wed, 19 Feb 2020 16:47:11 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 23/52] drm: manage drm_minor cleanup with drmm_
+Message-ID: <20200219144711.GO5070@pendragon.ideasonboard.com>
 References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-8-daniel.vetter@ffwll.ch>
- <20200219134211.GF5070@pendragon.ideasonboard.com>
-In-Reply-To: <20200219134211.GF5070@pendragon.ideasonboard.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 19 Feb 2020 15:43:43 +0100
-Message-ID: <CAKMK7uHCZ1cDRC1oeGp6crmPfdrx28Z9K4X3x-A26uSyZFrrhg@mail.gmail.com>
-Subject: Re: [PATCH 07/52] drm/udl: Use drmm_add_final_kfree
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ <20200219102122.1607365-24-daniel.vetter@ffwll.ch>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200219102122.1607365-24-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,49 +47,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBGZWIgMTksIDIwMjAgYXQgMjo0MiBQTSBMYXVyZW50IFBpbmNoYXJ0CjxsYXVyZW50
-LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgo+Cj4gSGkgRGFuaWVsLAo+Cj4gVGhh
-bmsgeW91IGZvciB0aGUgcGF0Y2guCj4KPiBPbiBXZWQsIEZlYiAxOSwgMjAyMCBhdCAxMToyMDoz
-N0FNICswMTAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4gV2l0aCB0aGlzIHdlIGNhbiBkcm9w
-IHRoZSBmaW5hbCBrZnJlZSBmcm9tIHRoZSByZWxlYXNlIGZ1bmN0aW9uLgo+ID4KPiA+IHYyOiBX
-ZSBuZWVkIGRybV9kZXZfcHV0IHRvIHVucm9sbCB0aGUgZHJpdmVyIGNyZWF0aW9uIChvbmNlCj4g
-PiBkcm1fZGV2X2luaXQgYW5kIGRybW1fYWRkX2ZpbmFsX2tmcmVlIHN1Y2VlZGVkKSwgb3RoZXJ3
-aXNlCj4gPiB0aGUgZHJtbV8gbWFnaWMgZG9lc24ndCBoYXBwZW4uCj4gPgo+ID4gU2lnbmVkLW9m
-Zi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4KPiBEaWQgeW91
-IG1lYW4gdG8gc3F1YXNoIHRoaXMgd2l0aCB0aGUgcHJldmlvdXMgY29tbWl0ID8KClVoIHllcyBp
-bmRlZWQuIFdpbGwgc3F1YXNoLgotRGFuaWVsCgo+Cj4gPiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxp
-ZWRAcmVkaGF0LmNvbT4KPiA+IENjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4KPiA+IENj
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+IENjOiBFbWlsIFZl
-bGlrb3YgPGVtaWwubC52ZWxpa292QGdtYWlsLmNvbT4KPiA+IENjOiBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4gQ2M6ICJOb3JhbGYgVHLDuG5uZXMiIDxub3JhbGZA
-dHJvbm5lcy5vcmc+Cj4gPiBDYzogVGhvbWFzIEdsZWl4bmVyIDx0Z2x4QGxpbnV0cm9uaXguZGU+
-Cj4gPiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+ID4gLS0tCj4gPiAgZHJp
-dmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMgfCAzICstLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYwo+
-ID4gaW5kZXggZDViODk3MTFhYjFlLi42YTU1OTQ5NDYwOTYgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91
-ZGxfZHJ2LmMKPiA+IEBAIC04MSw4ICs4MSw3IEBAIHN0YXRpYyBzdHJ1Y3QgdWRsX2RldmljZSAq
-dWRsX2RyaXZlcl9jcmVhdGUoc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGVyZmFjZSkKPiA+Cj4g
-PiAgICAgICByID0gdWRsX2luaXQodWRsKTsKPiA+ICAgICAgIGlmIChyKSB7Cj4gPiAtICAgICAg
-ICAgICAgIGRybV9kZXZfZmluaSgmdWRsLT5kcm0pOwo+ID4gLSAgICAgICAgICAgICBrZnJlZSh1
-ZGwpOwo+ID4gKyAgICAgICAgICAgICBkcm1fZGV2X3B1dCgmdWRsLT5kcm0pOwo+ID4gICAgICAg
-ICAgICAgICByZXR1cm4gRVJSX1BUUihyKTsKPiA+ICAgICAgIH0KPiA+Cj4KPiAtLQo+IFJlZ2Fy
-ZHMsCj4KPiBMYXVyZW50IFBpbmNoYXJ0CgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
-Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9i
-bG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hi Daniel,
+
+Thank you for the patch.
+
+On Wed, Feb 19, 2020 at 11:20:53AM +0100, Daniel Vetter wrote:
+> The cleanup here is somewhat tricky, since we can't tell apart the
+> allocated minor index from 0. So register a cleanup action first, and
+> if the index allocation fails, unregister that cleanup action again to
+> avoid bad mistakes.
+> 
+> The kdev for the minor already handles NULL, so no problem there.
+> 
+> Hence add drmm_remove_action() to the drm_managed library.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/drm_drv.c     | 74 +++++++++++++----------------------
+>  drivers/gpu/drm/drm_managed.c | 28 +++++++++++++
+>  include/drm/drm_managed.h     |  4 ++
+>  3 files changed, 59 insertions(+), 47 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 1f7ab88d9435..03a1fb377830 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -93,19 +93,35 @@ static struct drm_minor **drm_minor_get_slot(struct drm_device *dev,
+>  	}
+>  }
+>  
+> +static void drm_minor_alloc_release(struct drm_device *dev, void *data)
+> +{
+> +	struct drm_minor *minor = data;
+> +	unsigned long flags;
+> +
+> +	put_device(minor->kdev);
+> +
+> +	spin_lock_irqsave(&drm_minor_lock, flags);
+> +	idr_remove(&drm_minors_idr, minor->index);
+> +	spin_unlock_irqrestore(&drm_minor_lock, flags);
+> +}
+> +
+>  static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
+>  {
+>  	struct drm_minor *minor;
+>  	unsigned long flags;
+>  	int r;
+>  
+> -	minor = kzalloc(sizeof(*minor), GFP_KERNEL);
+> +	minor = drmm_kzalloc(dev, sizeof(*minor), GFP_KERNEL);
+>  	if (!minor)
+>  		return -ENOMEM;
+>  
+>  	minor->type = type;
+>  	minor->dev = dev;
+>  
+> +	r = drmm_add_action(dev, drm_minor_alloc_release, minor);
+> +	if (r)
+> +		return r;
+> +
+>  	idr_preload(GFP_KERNEL);
+>  	spin_lock_irqsave(&drm_minor_lock, flags);
+>  	r = idr_alloc(&drm_minors_idr,
+> @@ -116,47 +132,18 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
+>  	spin_unlock_irqrestore(&drm_minor_lock, flags);
+>  	idr_preload_end();
+>  
+> -	if (r < 0)
+> -		goto err_free;
+> +	if (r < 0) {
+> +		drmm_remove_action(dev, drm_minor_alloc_release, minor);
+> +		return r;
+> +	}
+>  
+>  	minor->index = r;
+> -
+>  	minor->kdev = drm_sysfs_minor_alloc(minor);
+> -	if (IS_ERR(minor->kdev)) {
+> -		r = PTR_ERR(minor->kdev);
+> -		goto err_index;
+> -	}
+> +	if (IS_ERR(minor->kdev))
+> +		return PTR_ERR(minor->kdev);
+>  
+>  	*drm_minor_get_slot(dev, type) = minor;
+>  	return 0;
+> -
+> -err_index:
+> -	spin_lock_irqsave(&drm_minor_lock, flags);
+> -	idr_remove(&drm_minors_idr, minor->index);
+> -	spin_unlock_irqrestore(&drm_minor_lock, flags);
+
+The need to do the drmm_remove_action() dance, with the need for
+drmm_remove_action() in the first place, just to remove those three
+lines of manual cleanup really seems overkill to me. Automation is nice,
+but not everything is a nail even if all you have is a hammer.
+
+> -err_free:
+> -	kfree(minor);
+> -	return r;
+> -}
+> -
+> -static void drm_minor_free(struct drm_device *dev, unsigned int type)
+> -{
+> -	struct drm_minor **slot, *minor;
+> -	unsigned long flags;
+> -
+> -	slot = drm_minor_get_slot(dev, type);
+> -	minor = *slot;
+> -	if (!minor)
+> -		return;
+> -
+> -	put_device(minor->kdev);
+> -
+> -	spin_lock_irqsave(&drm_minor_lock, flags);
+> -	idr_remove(&drm_minors_idr, minor->index);
+> -	spin_unlock_irqrestore(&drm_minor_lock, flags);
+> -
+> -	kfree(minor);
+> -	*slot = NULL;
+>  }
+>  
+>  static int drm_minor_register(struct drm_device *dev, unsigned int type)
+> @@ -678,16 +665,16 @@ int drm_dev_init(struct drm_device *dev,
+>  	if (drm_core_check_feature(dev, DRIVER_RENDER)) {
+>  		ret = drm_minor_alloc(dev, DRM_MINOR_RENDER);
+>  		if (ret)
+> -			goto err_minors;
+> +			goto err;
+>  	}
+>  
+>  	ret = drm_minor_alloc(dev, DRM_MINOR_PRIMARY);
+>  	if (ret)
+> -		goto err_minors;
+> +		goto err;
+>  
+>  	ret = drm_legacy_create_map_hash(dev);
+>  	if (ret)
+> -		goto err_minors;
+> +		goto err;
+>  
+>  	drm_legacy_ctxbitmap_init(dev);
+>  
+> @@ -695,7 +682,7 @@ int drm_dev_init(struct drm_device *dev,
+>  		ret = drm_gem_init(dev);
+>  		if (ret) {
+>  			DRM_ERROR("Cannot initialize graphics execution manager (GEM)\n");
+> -			goto err_ctxbitmap;
+> +			goto err;
+>  		}
+>  	}
+>  
+> @@ -708,10 +695,6 @@ int drm_dev_init(struct drm_device *dev,
+>  err_setunique:
+>  	if (drm_core_check_feature(dev, DRIVER_GEM))
+>  		drm_gem_destroy(dev);
+> -err_ctxbitmap:
+> -err_minors:
+> -	drm_minor_free(dev, DRM_MINOR_PRIMARY);
+> -	drm_minor_free(dev, DRM_MINOR_RENDER);
+>  err:
+>  	drm_managed_release(dev);
+>  
+> @@ -776,9 +759,6 @@ void drm_dev_fini(struct drm_device *dev)
+>  
+>  	if (drm_core_check_feature(dev, DRIVER_GEM))
+>  		drm_gem_destroy(dev);
+> -
+> -	drm_minor_free(dev, DRM_MINOR_PRIMARY);
+> -	drm_minor_free(dev, DRM_MINOR_RENDER);
+>  }
+>  EXPORT_SYMBOL(drm_dev_fini);
+>  
+> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
+> index d8a484e19830..fb44fe65c2cd 100644
+> --- a/drivers/gpu/drm/drm_managed.c
+> +++ b/drivers/gpu/drm/drm_managed.c
+> @@ -132,6 +132,34 @@ int __drmm_add_action(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(__drmm_add_action);
+>  
+> +void drmm_remove_action(struct drm_device *dev,
+> +			drmres_release_t action,
+> +			void *data)
+> +{
+> +	struct drmres *dr = NULL, *tmp;
+> +	unsigned long flags;
+> +
+> +	if (!data)
+> +		return;
+> +
+> +	spin_lock_irqsave(&dev->managed.lock, flags);
+> +	list_for_each_entry(tmp, &dev->managed.resources, node.entry) {
+> +		if (tmp->node.release == action &&
+> +		    * (void **) tmp->data == data) {
+
+As before, &tmp->data, and let's rename tmp.
+
+> +			dr = tmp;
+> +			del_dr(dev, dr);
+> +			break;
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&dev->managed.lock, flags);
+> +
+> +	if (WARN_ON(!dr))
+> +		return;
+> +
+> +	kfree(dr);
+> +}
+> +EXPORT_SYMBOL(drmm_remove_action);
+> +
+>  void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+>  {
+>  	struct drmres *dr;
+> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
+> index 240edd395e88..df30f9355902 100644
+> --- a/include/drm/drm_managed.h
+> +++ b/include/drm/drm_managed.h
+> @@ -14,6 +14,10 @@ int __must_check __drmm_add_action(struct drm_device *dev,
+>  				   drmres_release_t action,
+>  				   void *data, const char *name);
+>  
+> +void drmm_remove_action(struct drm_device *dev,
+> +			drmres_release_t action,
+> +			void *data);
+> +
+>  void drmm_add_final_kfree(struct drm_device *dev, void *parent);
+>  
+>  void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp) __malloc;
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
