@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CD21641CC
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 11:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D181641D8
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 11:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05FE86EB6A;
-	Wed, 19 Feb 2020 10:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93EEC6EBA5;
+	Wed, 19 Feb 2020 10:22:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3429C6EB5F
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8E876EB63
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:22:15 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id c84so6137443wme.4
+Received: by mail-wm1-x343.google.com with SMTP id p9so5871749wmc.2
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 02:22:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9HvFBn5C1ybJ3Jl6cvECGju7iOD2DUuUpqtaZAjKhPo=;
- b=PJzH6ke5ACy+gnyH1H0O/EOH30mw1GGgrDUmk5BBrZ/PUN2lMzraTEUZ80YFeUJy4i
- BT0R8EBhS9ae4DJVQVeEUw4g7yETEV2yMkMheO3s0PZmlK2E8r1Rt8aaMMGH+iMrxZ2+
- 6Km7jEfY3B17urqmHlHLEOm/FfWvNqws8o+K8=
+ bh=38Blbfc4kB8T8l7OCqbZglHsB4iJ9JWjkG+yj6B0Qss=;
+ b=Xu3nNg15XkOilo3dt5CyNg3+977nZIP1w4Jaz/WfxgGvVXHnd0k90r7hamLe1yYVE3
+ ijq8oeSq7bF7pahssFqjqAgXNVFrVMwY0egkHdE2D1hGrrKg+Q/N/bwx/tuKSaEon5u6
+ pxViTsiGSqVQeFZeu4ceGarxsSjCvhJYeDjdU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9HvFBn5C1ybJ3Jl6cvECGju7iOD2DUuUpqtaZAjKhPo=;
- b=k2Ao2IKJtkchRsD2LJgEfRbnjtf/NNd25Jbxww6dB4Z7B1ttcOXGEed/M4vpuKGaR/
- zWR5QJ29nZ/VHEMO1ghu3Ct6ghy7HayVlenfcdYRt1AomwZVL+00sjzAWZaCNymyoAus
- oHcEwk5u7cd0/qYvsEFYnP/fFLwSsYKPlfDUV220ibqStolMNX15Q08XDjHxEf472spS
- z1FxKhrBbcrtV2hxGGO9apsQIJv1l6h19w7m7Sc1oo7eLtYtGEg+kv0jANqKjV0Ik0Li
- UUoZiGjkYoe8E7sgyuwa0jdxxfibicGR3gkkxQmClpMpZrFyU/YHOu3xlQZkU/bPTJJ6
- Gyvw==
-X-Gm-Message-State: APjAAAUWNRw+y3Q+qyX3RpLoH9d6glq6Rbuf2rMKGu1Yw+QZEqV5oksc
- 0iGeCIIrebzuyBCle2lNRIe04AC6BRo=
-X-Google-Smtp-Source: APXvYqwwkb8pYBRO6k0sbQ0TfL7rK6fN22BCq0dEtf+gNB0N9I1n8/PTpRHwumXVfIV0/n6efkAHzg==
-X-Received: by 2002:a1c:4905:: with SMTP id w5mr4798090wma.129.1582107733246; 
- Wed, 19 Feb 2020 02:22:13 -0800 (PST)
+ bh=38Blbfc4kB8T8l7OCqbZglHsB4iJ9JWjkG+yj6B0Qss=;
+ b=SNO1oUUa02dA0mKt54MG2ZnudWcYXJjr8U9An4wCgis6N2i8yyTXo186yp/bya40bK
+ K68FlY8KxCOmTI2ItWsFgnU1pZM+pfxL1+kNNbiSGPBI7Tee92vM0b9ncNBZi/800aYN
+ DVo1XAYZC5v/HNw2kr/6nA40DCILI8T8zm8awCiLR4xS15x0VinFbVVt+KmzJxFeDu0Z
+ UZ5giPLyAEklxQWcpCzMe4wPBAiDig7+XWGN3zhiVhtDx+0PotKT/5oebDafGYSUFGoW
+ mFa1vG+pjbxhjCskkhzx2TAiAplGqSb83F9BucbrWhL0IL0Oon98NHh3pWw3n1T/628Y
+ iK7Q==
+X-Gm-Message-State: APjAAAUCoNiNxvj/Al6HtqNHWNyYjx6tvdtO0Q3penou8CFn/XM1NjcU
+ E0kXrCofogIyDWmJJsFbcFKhs11xHDM=
+X-Google-Smtp-Source: APXvYqxAPlJT1DmcMESZqUXbzXBT1FCIxjztmcFvS5Csf4oUkO02P88WzNkqkLPZfzwnYZKzD8h6tA==
+X-Received: by 2002:a05:600c:414e:: with SMTP id
+ h14mr1664783wmm.179.1582107734285; 
+ Wed, 19 Feb 2020 02:22:14 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s23sm2370339wra.15.2020.02.19.02.22.11
+ by smtp.gmail.com with ESMTPSA id s23sm2370339wra.15.2020.02.19.02.22.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 02:22:12 -0800 (PST)
+ Wed, 19 Feb 2020 02:22:13 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 35/52] drm/meson: Drop explicit drm_mode_config_cleanup call
-Date: Wed, 19 Feb 2020 11:21:05 +0100
-Message-Id: <20200219102122.1607365-36-daniel.vetter@ffwll.ch>
+Subject: [PATCH 36/52] drm/pl111: Drop explicit drm_mode_config_cleanup call
+Date: Wed, 19 Feb 2020 11:21:06 +0100
+Message-Id: <20200219102122.1607365-37-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
 References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
@@ -63,12 +64,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Kevin Hilman <khilman@baylibre.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -80,36 +78,56 @@ Aside: This driver gets its devm_ stuff all wrong wrt drm_device and
 anything hanging off that. Not the only one unfortunately.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Kevin Hilman <khilman@baylibre.com>
-Cc: linux-amlogic@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Eric Anholt <eric@anholt.net>
 ---
- drivers/gpu/drm/meson/meson_drv.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/pl111/pl111_drv.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index b5f5eb7b4bb9..ae94d14ab7bc 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -284,7 +284,9 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	/* Remove early framebuffers (ie. simplefb) */
- 	meson_remove_framebuffers();
+diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+index aa8aa8d9e405..87b9b32c90a8 100644
+--- a/drivers/gpu/drm/pl111/pl111_drv.c
++++ b/drivers/gpu/drm/pl111/pl111_drv.c
+@@ -90,10 +90,13 @@ static int pl111_modeset_init(struct drm_device *dev)
+ 	struct drm_panel *panel = NULL;
+ 	struct drm_bridge *bridge = NULL;
+ 	bool defer = false;
+-	int ret = 0;
++	int ret;
+ 	int i;
  
--	drm_mode_config_init(drm);
-+	ret = drm_mode_config_init(drm);
+-	drm_mode_config_init(dev);
++	ret = drm_mode_config_init(dev);
 +	if (ret)
-+		goto free_drm;
- 	drm->mode_config.max_width = 3840;
- 	drm->mode_config.max_height = 2160;
- 	drm->mode_config.funcs = &meson_mode_config_funcs;
-@@ -379,7 +381,6 @@ static void meson_drv_unbind(struct device *dev)
++		return ret;
++
+ 	mode_config = &dev->mode_config;
+ 	mode_config->funcs = &mode_config_funcs;
+ 	mode_config->min_width = 1;
+@@ -154,7 +157,7 @@ static int pl111_modeset_init(struct drm_device *dev)
+ 						    DRM_MODE_CONNECTOR_Unknown);
+ 		if (IS_ERR(bridge)) {
+ 			ret = PTR_ERR(bridge);
+-			goto out_config;
++			goto finish;
+ 		}
+ 	} else if (bridge) {
+ 		dev_info(dev->dev, "Using non-panel bridge\n");
+@@ -197,8 +200,6 @@ static int pl111_modeset_init(struct drm_device *dev)
+ out_bridge:
+ 	if (panel)
+ 		drm_panel_bridge_remove(bridge);
+-out_config:
+-	drm_mode_config_cleanup(dev);
+ finish:
+ 	return ret;
+ }
+@@ -343,7 +344,6 @@ static int pl111_amba_remove(struct amba_device *amba_dev)
  	drm_dev_unregister(drm);
- 	drm_irq_uninstall(drm);
- 	drm_kms_helper_poll_fini(drm);
+ 	if (priv->panel)
+ 		drm_panel_bridge_remove(priv->bridge);
 -	drm_mode_config_cleanup(drm);
  	drm_dev_put(drm);
- }
+ 	of_reserved_mem_device_release(dev);
  
 -- 
 2.24.1
