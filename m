@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69481640D5
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 10:53:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AD416411A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 11:01:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F25BA6E0A1;
-	Wed, 19 Feb 2020 09:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02D296E55E;
+	Wed, 19 Feb 2020 10:01:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 735F36E0A1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 09:52:59 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8656E55E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:00:58 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2020 01:52:59 -0800
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2020 02:00:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,459,1574150400"; d="scan'208";a="283066758"
+X-IronPort-AV: E=Sophos;i="5.70,459,1574150400"; d="scan'208";a="283068554"
 Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2020 01:52:59 -0800
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2020 02:00:58 -0800
+Received: from fmsmsx155.amr.corp.intel.com (10.18.116.71) by
  FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 19 Feb 2020 01:52:58 -0800
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 19 Feb 2020 01:52:56 -0800
-Received: from shsmsx105.ccr.corp.intel.com (10.239.4.158) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 19 Feb 2020 01:52:56 -0800
+ id 14.3.439.0; Wed, 19 Feb 2020 02:00:57 -0800
+Received: from shsmsx152.ccr.corp.intel.com (10.239.6.52) by
+ FMSMSX155.amr.corp.intel.com (10.18.116.71) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 19 Feb 2020 02:00:57 -0800
 Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.5]) by
- SHSMSX105.ccr.corp.intel.com ([169.254.11.138]) with mapi id 14.03.0439.000;
- Wed, 19 Feb 2020 17:52:54 +0800
+ SHSMSX152.ccr.corp.intel.com ([169.254.6.158]) with mapi id 14.03.0439.000;
+ Wed, 19 Feb 2020 18:00:55 +0800
 From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, "Christopherson, Sean J"
- <sean.j.christopherson@intel.com>, Jim Mattson <jmattson@google.com>
+To: Chia-I Wu <olvaffe@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Subject: RE: [RFC PATCH 0/3] KVM: x86: honor guest memory type
 Thread-Topic: [RFC PATCH 0/3] KVM: x86: honor guest memory type
-Thread-Index: AQHV4rTrI5AbOd4/PkCv4vZnvR6EuagZISQAgAAKbYCAAMs9AIAAnj+AgAAgCACAAAK0AIAAAeyAgAXrxoCAAaZGgA==
-Date: Wed, 19 Feb 2020 09:52:53 +0000
-Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D78D6F4@SHSMSX104.ccr.corp.intel.com>
+Thread-Index: AQHV4rTrI5AbOd4/PkCv4vZnvR6EuagZISQAgAAKbYCAAMs9AIAAtW4AgAejUqA=
+Date: Wed, 19 Feb 2020 10:00:54 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D78D724@SHSMSX104.ccr.corp.intel.com>
 References: <20200213213036.207625-1-olvaffe@gmail.com>
  <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
  <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
  <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
- <20200214195229.GF20690@linux.intel.com>
- <CAPaKu7Q4gehyhEgG_Nw=tiZiTh+7A8-uuXq1w4he6knp6NWErQ@mail.gmail.com>
- <CALMp9eRwTxdqxAcobZ7sYbD=F8Kga=jR3kaz-OEYdA9fV0AoKQ@mail.gmail.com>
- <20200214220341.GJ20690@linux.intel.com>
- <d3a6fac6-3831-3b8e-09b6-bfff4592f235@redhat.com>
-In-Reply-To: <d3a6fac6-3831-3b8e-09b6-bfff4592f235@redhat.com>
+ <CAPaKu7TDtFwF5czdpke1v7NWKf61kw_jVp-E1qQPqs-qbZYnMw@mail.gmail.com>
+In-Reply-To: <CAPaKu7TDtFwF5czdpke1v7NWKf61kw_jVp-E1qQPqs-qbZYnMw@mail.gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNDFhNjgyZmEtNmE0YS00YzkzLWE2NGItNzRlZGFhNGQ2ZmFmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiRDhHM3RyOEF3dHhNQlFwcGRWZ1FUK1Jrb1RQNHB3SkxuTUhaS2lrUStIczlFVkEzZVJ2aHpudnQ4Z1pUVlRoSiJ9
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMjdlMmMwYzAtMDE2Yi00MjMzLWJmMDgtNzM3MTQ2NTRhNmE3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZmI0YklaRVZUdFdFa3AzOHdMcjE2RlVZRWtFQ1VLcGlhWTA0a2hScDBtTVwvUE9adDlGZEU5d1ZZVllobEF4a2oifQ==
 dlp-product: dlpe-windows
 dlp-version: 11.2.0.6
 dlp-reaction: no-action
@@ -76,47 +66,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>, Joerg
- Roedel <joro@8bytes.org>, ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, "Christopherson,
+ Sean J" <sean.j.christopherson@intel.com>, Gerd
+ Hoffmann <kraxel@redhat.com>, "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "jmattson@google.com" <jmattson@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> From: Paolo Bonzini
-> Sent: Wednesday, February 19, 2020 12:29 AM
+> From: Chia-I Wu
+> Sent: Saturday, February 15, 2020 5:15 AM
 > 
-> On 14/02/20 23:03, Sean Christopherson wrote:
-> >> On Fri, Feb 14, 2020 at 1:47 PM Chia-I Wu <olvaffe@gmail.com> wrote:
-> >>> AFAICT, it is currently allowed on ARM (verified) and AMD (not
-> >>> verified, but svm_get_mt_mask returns 0 which supposedly means the
-> NPT
-> >>> does not restrict what the guest PAT can do).  This diff would do the
-> >>> trick for Intel without needing any uapi change:
-> >> I would be concerned about Intel CPU errata such as SKX40 and SKX59.
-> > The part KVM cares about, #MC, is already addressed by forcing UC for
-> MMIO.
-> > The data corruption issue is on the guest kernel to correctly use WC
-> > and/or non-temporal writes.
+> On Fri, Feb 14, 2020 at 2:26 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > On 13/02/20 23:18, Chia-I Wu wrote:
+> > >
+> > > The bug you mentioned was probably this one
+> > >
+> > >   https://bugzilla.kernel.org/show_bug.cgi?id=104091
+> >
+> > Yes, indeed.
+> >
+> > > From what I can tell, the commit allowed the guests to create cached
+> > > mappings to MMIO regions and caused MCEs.  That is different than what
+> > > I need, which is to allow guests to create uncached mappings to system
+> > > ram (i.e., !kvm_is_mmio_pfn) when the host userspace also has
+> uncached
+> > > mappings.  But it is true that this still allows the userspace & guest
+> > > kernel to create conflicting memory types.
+> >
+> > Right, the question is whether the MCEs were tied to MMIO regions
+> > specifically and if so why.
+> >
+> > An interesting remark is in the footnote of table 11-7 in the SDM.
+> > There, for the MTRR (EPT for us) memory type UC you can read:
+> >
+> >   The UC attribute comes from the MTRRs and the processors are not
+> >   required to snoop their caches since the data could never have
+> >   been cached. This attribute is preferred for performance reasons.
+> >
+> > There are two possibilities:
+> >
+> > 1) the footnote doesn't apply to UC mode coming from EPT page tables.
+> > That would make your change safe.
+> >
+> > 2) the footnote also applies when the UC attribute comes from the EPT
+> > page tables rather than the MTRRs.  In that case, the host should use
+> > UC as the EPT page attribute if and only if it's consistent with the host
+> > MTRRs; it would be more or less impossible to honor UC in the guest
+> MTRRs.
+> > In that case, something like the patch below would be needed.
+> >
+> > It is not clear from the manual why the footnote would not apply to WC;
+> that
+> > is, the manual doesn't say explicitly that the processor does not do
+> snooping
+> > for accesses to WC memory.  But I guess that must be the case, which is
+> why I
+> > used MTRR_TYPE_WRCOMB in the patch below.
+> >
+> > Either way, we would have an explanation of why creating cached mapping
+> to
+> > MMIO regions would, and why in practice we're not seeing MCEs for guest
+> RAM
+> > (the guest would have set WB for that memory in its MTRRs, not UC).
+> >
+> > One thing you didn't say: how would userspace use KVM_MEM_DMA?  On
+> which
+> > regions would it be set?
+> It will be set for shmems that are mapped WC.
 > 
-> What about coherency across live migration?  The userspace process would
-> use cached accesses, and also a WBINVD could potentially corrupt guest
-> memory.
-> 
+> GPU/DRM drivers allocate shmems as DMA-able gpu buffers and allow the
+> userspace to map them cached or WC (I915_MMAP_WC or
+> AMDGPU_GEM_CREATE_CPU_GTT_USWC for example).  When a shmem is
+> mapped
+> WC and is made available to the guest, we would like the ability to
+> map the region WC in the guest.
 
-In such case the userspace process possibly should conservatively use
-UC mapping, as if for MMIO regions on a passthrough device. However
-there remains a problem. the definition of KVM_MEM_DMA implies 
-favoring guest setting, which could be whatever type in concept. Then
-assuming UC is also problematic. I'm not sure whether inventing another
-interface to query effective memory type from KVM is a good idea. There
-is no guarantee that the guest will use same type for every page in the
-same slot, then such interface might be messy. Alternatively, maybe
-we could just have an interface for KVM userspace to force memory type
-for a given slot, if it is mainly used in para-virtualized scenarios (e.g. 
-virtio-gpu) where the guest is enlightened to use a forced type (e.g. WC)?
+Curious... How is such slot exposed to the guest? A reserved memory
+region? Is it static or might be dynamically added?
 
 Thanks
 Kevin
