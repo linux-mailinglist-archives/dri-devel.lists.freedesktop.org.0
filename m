@@ -2,25 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86475164EA3
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 20:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC56C164EBB
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 20:18:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F979899F3;
-	Wed, 19 Feb 2020 19:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9046EC86;
+	Wed, 19 Feb 2020 19:18:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB639899F3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 19:14:15 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id B82421C013D; Wed, 19 Feb 2020 20:14:13 +0100 (CET)
-Date: Wed, 19 Feb 2020 20:14:12 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Tony Lindgren <tony@atomide.com>
-Subject: [PATCH] backlight: add led-backlight driver
-Message-ID: <20200219191412.GA15905@amd>
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
+ [IPv6:2607:f8b0:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D31FE6EC86
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 19:18:22 +0000 (UTC)
+Received: by mail-il1-x144.google.com with SMTP id t17so21489981ilm.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 11:18:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GJl0CckjkVM5Ej8zE2nXpZ3nX05lCdBimnp/iAWaQl4=;
+ b=cwOBuz4ROINxU6xKvl23iHrFOzdM7yE++ABRlzzM/Vj2MupamkxZprcj9R0gzFTZhu
+ XK7J+BjI+2TGpT7+fgRdxWbGhxtcC9KmAKR/UefMpTdDkXHnv7qn7LN+kL73+wjq01ZY
+ hG/woWGgny807R59TLGntfMs25a/9p732gD7w0fHtQJ5lOEsJORVMeC+1KjplZNorOYU
+ HEsh3++n4XPz9IewQsy650UiNeS6xldwUSaF/9/Ci+sWEI8VpPw3/dz85FH4y1GN31uU
+ I1r1qeMP6OdSoKaDUq6pbRYR3e706Kf5HqAvnaWCUi3qeubqzjhBJEKVeMnVxv4z2EGk
+ RElw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GJl0CckjkVM5Ej8zE2nXpZ3nX05lCdBimnp/iAWaQl4=;
+ b=ZHkSJFOCzZUDiPGLZyDoUaaTQXUNpqyL4YM8ZNwwJrKNhYX493HsdxgyNxEIOyrNs9
+ iiANnHloLNOPRmaw7T2XwYjSMXopmUTNQhygjQfwYxhcJ6SwBTvQejMwwRpvHrXOQriv
+ a9xmdNzchKZNG5htJBwYN0KYPMTE40M8K79v/31c854smgIaEslpCfCZlb0sjjjWn7Xg
+ UQT1hIB6nHRU5KYXwMNM9wiwOi8qA6/oardSq8PPhJQy0xv0ECUufyNcpm/u6NIu+frg
+ GjXI3ooNXkCCLQvKNJyRqrCBVQrLS/R9MR3OvAWrY+dYSWTdksIcUhX3IYV17rBq7GSA
+ LOag==
+X-Gm-Message-State: APjAAAXIOjZgrMybtv2ABoincOVOxv6YF5x0OBCZX2ptVeeXO94hLR4K
+ L8XWXSjxrxmVclKhFHPB1Fw/Jr8FQvRHN7S8biY=
+X-Google-Smtp-Source: APXvYqz+Q2jI3ODZaWrHgysp+IersghNISxtRmuHW+Zd4VyGxbH1iUYoGdQbclinQPe2XNstLdxlA7jsGNSfvOgbSoM=
+X-Received: by 2002:a92:9a56:: with SMTP id t83mr25800871ili.200.1582139902063; 
+ Wed, 19 Feb 2020 11:18:22 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <20200213213036.207625-1-olvaffe@gmail.com>
+ <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
+ <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
+ <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
+ <CAPaKu7TDtFwF5czdpke1v7NWKf61kw_jVp-E1qQPqs-qbZYnMw@mail.gmail.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D78D724@SHSMSX104.ccr.corp.intel.com>
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D78D724@SHSMSX104.ccr.corp.intel.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Wed, 19 Feb 2020 11:18:10 -0800
+Message-ID: <CAPaKu7Qa6yzRxB10ufNxu+F5S3_GkwofKCm66aB9H4rdWj8fFQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
+To: "Tian, Kevin" <kevin.tian@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -33,385 +65,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, mpartap@gmx.net, jingoohan1@gmail.com,
- merlijn@wizzup.org, martin_rysavy@centrum.cz,
- kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- sre@kernel.org, nekit1000@gmail.com, tomi.valkeinen@ti.com, jjhiblot@ti.com,
- linux-omap@vger.kernel.org, Lee Jones <lee.jones@linaro.org>, agx@sigxcpu.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============1231823097=="
+Cc: "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, "Christopherson,
+ Sean J" <sean.j.christopherson@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "jmattson@google.com" <jmattson@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Feb 19, 2020 at 2:00 AM Tian, Kevin <kevin.tian@intel.com> wrote:
+>
+> > From: Chia-I Wu
+> > Sent: Saturday, February 15, 2020 5:15 AM
+> >
+> > On Fri, Feb 14, 2020 at 2:26 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> > >
+> > > On 13/02/20 23:18, Chia-I Wu wrote:
+> > > >
+> > > > The bug you mentioned was probably this one
+> > > >
+> > > >   https://bugzilla.kernel.org/show_bug.cgi?id=104091
+> > >
+> > > Yes, indeed.
+> > >
+> > > > From what I can tell, the commit allowed the guests to create cached
+> > > > mappings to MMIO regions and caused MCEs.  That is different than what
+> > > > I need, which is to allow guests to create uncached mappings to system
+> > > > ram (i.e., !kvm_is_mmio_pfn) when the host userspace also has
+> > uncached
+> > > > mappings.  But it is true that this still allows the userspace & guest
+> > > > kernel to create conflicting memory types.
+> > >
+> > > Right, the question is whether the MCEs were tied to MMIO regions
+> > > specifically and if so why.
+> > >
+> > > An interesting remark is in the footnote of table 11-7 in the SDM.
+> > > There, for the MTRR (EPT for us) memory type UC you can read:
+> > >
+> > >   The UC attribute comes from the MTRRs and the processors are not
+> > >   required to snoop their caches since the data could never have
+> > >   been cached. This attribute is preferred for performance reasons.
+> > >
+> > > There are two possibilities:
+> > >
+> > > 1) the footnote doesn't apply to UC mode coming from EPT page tables.
+> > > That would make your change safe.
+> > >
+> > > 2) the footnote also applies when the UC attribute comes from the EPT
+> > > page tables rather than the MTRRs.  In that case, the host should use
+> > > UC as the EPT page attribute if and only if it's consistent with the host
+> > > MTRRs; it would be more or less impossible to honor UC in the guest
+> > MTRRs.
+> > > In that case, something like the patch below would be needed.
+> > >
+> > > It is not clear from the manual why the footnote would not apply to WC;
+> > that
+> > > is, the manual doesn't say explicitly that the processor does not do
+> > snooping
+> > > for accesses to WC memory.  But I guess that must be the case, which is
+> > why I
+> > > used MTRR_TYPE_WRCOMB in the patch below.
+> > >
+> > > Either way, we would have an explanation of why creating cached mapping
+> > to
+> > > MMIO regions would, and why in practice we're not seeing MCEs for guest
+> > RAM
+> > > (the guest would have set WB for that memory in its MTRRs, not UC).
+> > >
+> > > One thing you didn't say: how would userspace use KVM_MEM_DMA?  On
+> > which
+> > > regions would it be set?
+> > It will be set for shmems that are mapped WC.
+> >
+> > GPU/DRM drivers allocate shmems as DMA-able gpu buffers and allow the
+> > userspace to map them cached or WC (I915_MMAP_WC or
+> > AMDGPU_GEM_CREATE_CPU_GTT_USWC for example).  When a shmem is
+> > mapped
+> > WC and is made available to the guest, we would like the ability to
+> > map the region WC in the guest.
+>
+> Curious... How is such slot exposed to the guest? A reserved memory
+> region? Is it static or might be dynamically added?
+The plan is for virtio-gpu device to reserve a huge memory region in
+the guest.  Memslots may be added dynamically or statically to back
+the region.
 
---===============1231823097==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
-Content-Disposition: inline
+Dynamic: the host adds a 16MB GPU allocation as a memslot at a time.
+The guest kernel suballocates from the 16MB pool.
+
+Static: the host creates a huge PROT_NONE memfd and adds it as a
+memslot.  GPU allocations are mremap()ed into the memfd region to
+provide the real mapping.
+
+These options are considered because the number of memslots are
+limited: 32 on ARM and 509 on x86.  If the number of memslots could be
+made larger (4096 or more), we would also consider adding each
+individual GPU allocation as a memslot.
+
+These are actually questions we need feedback.  Besides, GPU
+allocations can be assumed to be kernel dma-bufs in this context.  I
+wonder if it makes sense to have a variation of
+KVM_SET_USER_MEMORY_REGION that takes dma-bufs.
 
 
---Kj7319i9nmIyA2yE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-=46rom: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-This patch adds a led-backlight driver (led_bl), which is similar to
-pwm_bl except the driver uses a LED class driver to adjust the
-brightness in the HW. Multiple LEDs can be used for a single backlight.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Acked-by: Lee Jones <lee.jones@linaro.org>
-Acked-by: Tony Lindgren <tony@atomide.com>
-Tested-by: Tony Lindgren <tony@atomide.com>
-Signed-off-by: Pavel Machek <pavel@ucw.cz>
----
- drivers/video/backlight/Kconfig  |   7 ++
- drivers/video/backlight/Makefile |   1 +
- drivers/video/backlight/led_bl.c | 260 +++++++++++++++++++++++++++++++++++=
-++++
- 3 files changed, 268 insertions(+)
- create mode 100644 drivers/video/backlight/led_bl.c
-
-Hi!
-
-Here's the version of the driver I have. AFAICT
-default-brightness-level handling is ok, so does not need to be
-changed.
-
-Lee, it would be easiest for me if you could apply it to your tree and
-push, but given enough time I can push it to Linus, too.
-
-Thanks,
-								Pavel
-
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kcon=
-fig
-index 403707a3e503..0093bbd0d326 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -456,6 +456,13 @@ config BACKLIGHT_RAVE_SP
- 	help
- 	  Support for backlight control on RAVE SP device.
-=20
-+config BACKLIGHT_LED
-+	tristate "Generic LED based Backlight Driver"
-+	depends on LEDS_CLASS && OF
-+	help
-+	  If you have a LCD backlight adjustable by LED class driver, say Y
-+	  to enable this driver.
-+
- endif # BACKLIGHT_CLASS_DEVICE
-=20
- endmenu
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Mak=
-efile
-index 6f8777037c37..0c1a1524627a 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -57,3 +57,4 @@ obj-$(CONFIG_BACKLIGHT_TPS65217)	+=3D tps65217_bl.o
- obj-$(CONFIG_BACKLIGHT_WM831X)		+=3D wm831x_bl.o
- obj-$(CONFIG_BACKLIGHT_ARCXCNN) 	+=3D arcxcnn_bl.o
- obj-$(CONFIG_BACKLIGHT_RAVE_SP)		+=3D rave-sp-backlight.o
-+obj-$(CONFIG_BACKLIGHT_LED)		+=3D led_bl.o
-diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led=
-_bl.c
-new file mode 100644
-index 000000000000..3f66549997c8
---- /dev/null
-+++ b/drivers/video/backlight/led_bl.c
-@@ -0,0 +1,260 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2015-2019 Texas Instruments Incorporated -  http://www.ti=
-=2Ecom/
-+ * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-+ *
-+ * Based on pwm_bl.c
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+struct led_bl_data {
-+	struct device		*dev;
-+	struct backlight_device	*bl_dev;
-+	struct led_classdev	**leds;
-+	bool			enabled;
-+	int			nb_leds;
-+	unsigned int		*levels;
-+	unsigned int		default_brightness;
-+	unsigned int		max_brightness;
-+};
-+
-+static void led_bl_set_brightness(struct led_bl_data *priv, int level)
-+{
-+	int i;
-+	int bkl_brightness;
-+
-+	if (priv->levels)
-+		bkl_brightness =3D priv->levels[level];
-+	else
-+		bkl_brightness =3D level;
-+
-+	for (i =3D 0; i < priv->nb_leds; i++)
-+		led_set_brightness(priv->leds[i], bkl_brightness);
-+
-+	priv->enabled =3D true;
-+}
-+
-+static void led_bl_power_off(struct led_bl_data *priv)
-+{
-+	int i;
-+
-+	if (!priv->enabled)
-+		return;
-+
-+	for (i =3D 0; i < priv->nb_leds; i++)
-+		led_set_brightness(priv->leds[i], LED_OFF);
-+
-+	priv->enabled =3D false;
-+}
-+
-+static int led_bl_update_status(struct backlight_device *bl)
-+{
-+	struct led_bl_data *priv =3D bl_get_data(bl);
-+	int brightness =3D bl->props.brightness;
-+
-+	if (bl->props.power !=3D FB_BLANK_UNBLANK ||
-+	    bl->props.fb_blank !=3D FB_BLANK_UNBLANK ||
-+	    bl->props.state & BL_CORE_FBBLANK)
-+		brightness =3D 0;
-+
-+	if (brightness > 0)
-+		led_bl_set_brightness(priv, brightness);
-+	else
-+		led_bl_power_off(priv);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops led_bl_ops =3D {
-+	.update_status	=3D led_bl_update_status,
-+};
-+
-+static int led_bl_get_leds(struct device *dev,
-+			   struct led_bl_data *priv)
-+{
-+	int i, nb_leds, ret;
-+	struct device_node *node =3D dev->of_node;
-+	struct led_classdev **leds;
-+	unsigned int max_brightness;
-+	unsigned int default_brightness;
-+
-+	ret =3D of_count_phandle_with_args(node, "leds", NULL);
-+	if (ret < 0) {
-+		dev_err(dev, "Unable to get led count\n");
-+		return -EINVAL;
-+	}
-+
-+	nb_leds =3D ret;
-+	if (nb_leds < 1) {
-+		dev_err(dev, "At least one LED must be specified!\n");
-+		return -EINVAL;
-+	}
-+
-+	leds =3D devm_kzalloc(dev, sizeof(struct led_classdev *) * nb_leds,
-+			    GFP_KERNEL);
-+	if (!leds)
-+		return -ENOMEM;
-+
-+	for (i =3D 0; i < nb_leds; i++) {
-+		leds[i] =3D devm_of_led_get(dev, i);
-+		if (IS_ERR(leds[i]))
-+			return PTR_ERR(leds[i]);
-+	}
-+
-+	/* check that the LEDs all have the same brightness range */
-+	max_brightness =3D leds[0]->max_brightness;
-+	for (i =3D 1; i < nb_leds; i++) {
-+		if (max_brightness !=3D leds[i]->max_brightness) {
-+			dev_err(dev, "LEDs must have identical ranges\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	/* get the default brightness from the first LED from the list */
-+	default_brightness =3D leds[0]->brightness;
-+
-+	priv->nb_leds =3D nb_leds;
-+	priv->leds =3D leds;
-+	priv->max_brightness =3D max_brightness;
-+	priv->default_brightness =3D default_brightness;
-+
-+	return 0;
-+}
-+
-+static int led_bl_parse_levels(struct device *dev,
-+			   struct led_bl_data *priv)
-+{
-+	struct device_node *node =3D dev->of_node;
-+	int num_levels;
-+	u32 value;
-+	int ret;
-+
-+	if (!node)
-+		return -ENODEV;
-+
-+	num_levels =3D of_property_count_u32_elems(node, "brightness-levels");
-+	if (num_levels > 1) {
-+		int i;
-+		unsigned int db;
-+		u32 *levels =3D NULL;
-+
-+		levels =3D devm_kzalloc(dev, sizeof(u32) * num_levels,
-+				      GFP_KERNEL);
-+		if (!levels)
-+			return -ENOMEM;
-+
-+		ret =3D of_property_read_u32_array(node, "brightness-levels",
-+						levels,
-+						num_levels);
-+		if (ret < 0)
-+			return ret;
-+
-+		/*
-+		 * Try to map actual LED brightness to backlight brightness
-+		 * level
-+		 */
-+		db =3D priv->default_brightness;
-+		for (i =3D 0 ; i < num_levels; i++) {
-+			if ((i && db > levels[i-1]) && db <=3D levels[i])
-+				break;
-+		}
-+		priv->default_brightness =3D i;
-+		priv->max_brightness =3D num_levels - 1;
-+		priv->levels =3D levels;
-+	} else if (num_levels >=3D 0)
-+		dev_warn(dev, "Not enough levels defined\n");
-+
-+	ret =3D of_property_read_u32(node, "default-brightness-level", &value);
-+	if (!ret && value <=3D priv->max_brightness)
-+		priv->default_brightness =3D value;
-+	else if (!ret  && value > priv->max_brightness)
-+		dev_warn(dev, "Invalid default brightness. Ignoring it\n");
-+
-+	return 0;
-+}
-+
-+static int led_bl_probe(struct platform_device *pdev)
-+{
-+	struct backlight_properties props;
-+	struct led_bl_data *priv;
-+	int ret, i;
-+
-+	priv =3D devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+
-+	priv->dev =3D &pdev->dev;
-+
-+	ret =3D led_bl_get_leds(&pdev->dev, priv);
-+	if (ret)
-+		return ret;
-+
-+	ret =3D led_bl_parse_levels(&pdev->dev, priv);
-+	if (ret < 0) {
-+		dev_err(&pdev->dev, "Failed to parse DT data\n");
-+		return ret;
-+	}
-+
-+	memset(&props, 0, sizeof(struct backlight_properties));
-+	props.type =3D BACKLIGHT_RAW;
-+	props.max_brightness =3D priv->max_brightness;
-+	props.brightness =3D priv->default_brightness;
-+	props.power =3D (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
-+		      FB_BLANK_UNBLANK;
-+	priv->bl_dev =3D backlight_device_register(dev_name(&pdev->dev),
-+			&pdev->dev, priv, &led_bl_ops, &props);
-+	if (IS_ERR(priv->bl_dev)) {
-+		dev_err(&pdev->dev, "Failed to register backlight\n");
-+		return PTR_ERR(priv->bl_dev);
-+	}
-+
-+	for (i =3D 0; i < priv->nb_leds; i++)
-+		led_sysfs_disable(priv->leds[i]);
-+
-+	backlight_update_status(priv->bl_dev);
-+
-+	return 0;
-+}
-+
-+static int led_bl_remove(struct platform_device *pdev)
-+{
-+	struct led_bl_data *priv =3D platform_get_drvdata(pdev);
-+	struct backlight_device *bl =3D priv->bl_dev;
-+	int i;
-+
-+	backlight_device_unregister(bl);
-+
-+	led_bl_power_off(priv);
-+	for (i =3D 0; i < priv->nb_leds; i++)
-+		led_sysfs_enable(priv->leds[i]);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id led_bl_of_match[] =3D {
-+	{ .compatible =3D "led-backlight" },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, led_bl_of_match);
-+
-+static struct platform_driver led_bl_driver =3D {
-+	.driver		=3D {
-+		.name		=3D "led-backlight",
-+		.of_match_table	=3D of_match_ptr(led_bl_of_match),
-+	},
-+	.probe		=3D led_bl_probe,
-+	.remove		=3D led_bl_remove,
-+};
-+
-+module_platform_driver(led_bl_driver);
-+
-+MODULE_DESCRIPTION("LED based Backlight Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:led-backlight");
---=20
-2.11.0
-
---Kj7319i9nmIyA2yE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl5NiQQACgkQMOfwapXb+vKB3wCeNwgawbpJG+QvA2Rqz79yDUXe
-9tMAnRooOFUO1I1Z5s5okmpqlDzsz9qJ
-=zfbl
------END PGP SIGNATURE-----
-
---Kj7319i9nmIyA2yE--
-
---===============1231823097==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>
+> Thanks
+> Kevin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1231823097==--
