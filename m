@@ -1,67 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610B1165989
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:45:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E10816597D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:45:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C382F6ECFB;
-	Thu, 20 Feb 2020 08:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8DA6ECEE;
+	Thu, 20 Feb 2020 08:45:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4441C89150
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 16:21:28 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id a2so597445qko.12
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 08:21:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1IjE5f3DRWrL7DyNrD/EPrz9NqvpJo1LzwPmSu0Loyo=;
- b=Y0xUdyvI/KOwgnUyUAXVRQts2j2UDpi0MSoQ8O0ZIpFCbCbLaplKvU5pIrb49CIcHK
- Oko/yr/AtoCn2I7wP1Yz/l85vKpPmPYS2VLT7dy7v+KArYcmNL6mvY79eopcTfkaMHlR
- 6ad0zsqSYvukfQwQMDKXW3o2M1y+7ZLCHho3eH9+XHp9GDKhBElQTtLcwPW1OzZqDG+o
- ey+6JO61zvRaKvwJ1VNS2Jvb4aETsOQDmV7IiKJxQwWThbSwQ3VPR/0SGwTsSc5081+r
- p4IwL9I721gfQnwgUof/i3OQS3UBN6v3KV2bdrPVFgNPBL/Fy8ditUJoByLUoc/wDrIn
- VXEQ==
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3FE16EC65
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 18:09:58 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id z5so830710lfd.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 10:09:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BzO//zfGvvmDXWFrnnBIQSHTy0ns1CXRccR7GcbPRlo=;
+ b=JUP4ZDsbz/nmLgQNFKk7ZZas36mU5d/63thVdthtw/+JDzFZLmm9Vj+mqjzrSmschw
+ YeksJAFYmxokDcgysmGHTfXsO1dvAp4X3RkAM/LTau78Zl4JXaagptPoIM5sLuCnoR1/
+ 6SVcUuwkb3URjB/vNyQs+ScYqRbjB5A3ZvCVU/WNFaQ6AZbCIuvu/d7zFsR+CHemuo/1
+ /J0m3A2dlLsN9LGRdWNnJLdcnekETD9HMfDuuRkUH/8KVdzir+9mXlGmaigPhZfexv3Q
+ kWqGXwKbEA1h1pOGvwi+PSsa885Ip0sRniQ8kS6jEBG7R1m3tD4vphMjWc3mC25hkdzu
+ /uhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1IjE5f3DRWrL7DyNrD/EPrz9NqvpJo1LzwPmSu0Loyo=;
- b=Jzv7l1JI+2i/aTRpTJ0/PvJ3/eegi9/HFHX+vlcDGrtnz+s7b3mddQHHeu02e8Qh2a
- BhIYP5dx26M/xRLl19eZSwenXZkvodaKfQxHJAaSbqnnj7/ZX6E8u5pF3Ut0jNHLyGHj
- VOi2k/W1Ug+XB/2c7V//vI1t8eBQSryCPByjbOBrODZh/jv+mTslGHDxOeS1Vtvv1kF0
- zaKgx8j99OyeFiccrYA4ohp+vP4L+g3qWLOSW0l4K6sYnAhAyHFrWvg/sHRtdiTgUM26
- nHp2fZ9PeeDy3vC4sVjtF02ZMXoG4SNGUBMqSzH0sE8auTBFJGIauXhTme2QeF6MV4n2
- lnsw==
-X-Gm-Message-State: APjAAAWQ0xVcR78lV+9gg04aF51aIWIUvW51o8ywKHrhPaEbsZ4nLPX7
- B8674J0WmV6+nhVsftHoYxw/Ow==
-X-Google-Smtp-Source: APXvYqx3pDhfMLHjqJZav0TSJad25iHzflnIoh0HNoBZKgS2hYkzGuQm5PMiuKy/xxFf6JF9qCXKSw==
-X-Received: by 2002:ae9:ed41:: with SMTP id c62mr23816689qkg.403.1582129287358; 
- Wed, 19 Feb 2020 08:21:27 -0800 (PST)
-Received: from localhost ([2620:10d:c091:500::2:3bde])
- by smtp.gmail.com with ESMTPSA id n4sm210781qti.55.2020.02.19.08.21.26
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BzO//zfGvvmDXWFrnnBIQSHTy0ns1CXRccR7GcbPRlo=;
+ b=FIlSRAB8NBFXJ/4h7nxJmZ8/rkCTeMTv5C8QPjR4Jk6l3UJGlZdeDB3W0JLHyAXRWM
+ aBxwEKoEdlv2Pa0hEOcNN5i8ZnmCiyCLs3Q22n8mFjuippRKve+Jl2O9HNXxilHwaFW0
+ yeKQH20Rt1NSRWmsgzd0zMCtW6Kbn1+/C19FhtNuB1jJm9P/LydHGE9e9JrUGGeGhhRk
+ ovQw0004LifDYz6lS0sKMyBvql4Muk1pypZFQj962JFzrndUOlGr13DE58mjBoeZ7ErQ
+ mte90ZtigAp7ksvU39i4wGKNETjIz9esXZYlUTtF6YrIsoFyuoG7TFbnUstDQsveKSgF
+ L/Ww==
+X-Gm-Message-State: APjAAAUQ1PfWcBcRyPj1x7BU89+NU873TfG16/hMmox+wdQip3N8Lt+1
+ aBitIMo1RbQbuTEHvl918HK7GHpGzmSHqg==
+X-Google-Smtp-Source: APXvYqx/ns6qi730SvnAx7FkLa5GwKNXVqSyJ3M9ldEtC/E9MqH1QWbqSJudFSiqcFW6FXpQjYj21w==
+X-Received: by 2002:ac2:5596:: with SMTP id v22mr14129478lfg.200.1582135797136; 
+ Wed, 19 Feb 2020 10:09:57 -0800 (PST)
+Received: from localhost.localdomain ([5.20.204.163])
+ by smtp.gmail.com with ESMTPSA id 14sm183942lfz.47.2020.02.19.10.09.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 08:21:26 -0800 (PST)
-Date: Wed, 19 Feb 2020 11:21:25 -0500
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Kenny Ho <y2kenny@gmail.com>
-Subject: Re: [PATCH 09/11] drm, cgroup: Introduce lgpu as DRM cgroup resource
-Message-ID: <20200219162125.GC13406@cmpxchg.org>
-References: <20200214155650.21203-1-Kenny.Ho@amd.com>
- <20200214155650.21203-10-Kenny.Ho@amd.com>
- <CAOFGe96N5gG+08rQCRC+diHKDAfxPFYEnVxDS8_udvjcBYgsPg@mail.gmail.com>
- <CAOWid-f62Uv=GZXX2V2BsQGM5A1JJG_qmyrOwd=KwZBx_sr-bg@mail.gmail.com>
- <20200214183401.GY2363188@phenom.ffwll.local>
- <CAOWid-caJHeXUnQv3MOi=9U+vdBLfewN+CrA-7jRrz0VXqatbQ@mail.gmail.com>
- <20200214191754.GA218629@mtj.thefacebook.com>
- <CAOWid-dA2Ad-FTZDDLOs4pperYbsru9cknSuXo_2ajpPbQH0Xg@mail.gmail.com>
+ Wed, 19 Feb 2020 10:09:56 -0800 (PST)
+From: Andrey Lebedev <andrey.lebedev@gmail.com>
+To: mripard@kernel.org, wens@csie.org, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: PATCH v4
+Date: Wed, 19 Feb 2020 20:08:53 +0200
+Message-Id: <20200219180858.4806-1-andrey.lebedev@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200210195633.GA21832@kedthinkpad>
+References: <20200210195633.GA21832@kedthinkpad>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAOWid-dA2Ad-FTZDDLOs4pperYbsru9cknSuXo_2ajpPbQH0Xg@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 20 Feb 2020 08:45:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,36 +69,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: juan.zuniga-anaya@amd.com, Kenny Ho <Kenny.Ho@amd.com>, "Kuehling,
- Felix" <felix.kuehling@amd.com>, jsparks@cray.com, nirmoy.das@amd.com,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- lkaplan@cray.com, Alex Deucher <alexander.deucher@amd.com>, "Greathouse,
- Joseph" <joseph.greathouse@amd.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- damon.mcdougall@amd.com
+Cc: linux-sunxi@googlegroups.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2020 at 03:28:40PM -0500, Kenny Ho wrote:
-> On Fri, Feb 14, 2020 at 2:17 PM Tejun Heo <tj@kernel.org> wrote:
-> > Also, a rather trivial high level question. Is drm a good controller
-> > name given that other controller names are like cpu, memory, io?
-> 
-> There was a discussion about naming early in the RFC (I believe
-> RFCv2), the consensuses then was to use drmcg to align with the drm
-> subsystem.  I have no problem renaming it to gpucg  or something
-> similar if that is the last thing that's blocking acceptance.  For
-> now, I would like to get some clarity on the implementation before
-> having more code churn.
+Address all outstanding review comments.
 
-As far as precedence goes, we named the other controllers after the
-resources they control rather than the subsystem: cpu instead of
-scheduler, memory instead of mm, io instead of block layer etc.
+Maxime, please confirm I've got "document the new
+compatibles" part right.
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
