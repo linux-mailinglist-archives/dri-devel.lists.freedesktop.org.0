@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00BA71649EA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:18:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A091E1649DE
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:18:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A30AA6EC4C;
-	Wed, 19 Feb 2020 16:18:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18D1C89DA4;
+	Wed, 19 Feb 2020 16:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 522F26EBF7;
- Wed, 19 Feb 2020 13:50:51 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id w15so637184wru.4;
- Wed, 19 Feb 2020 05:50:51 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9953A6EBF8;
+ Wed, 19 Feb 2020 13:50:52 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a5so739628wmb.0;
+ Wed, 19 Feb 2020 05:50:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n5R88FGnPjhsQadJtsU+Gi9+2LMayu3HLn44l5p9s88=;
- b=FDhB5dADnQpunlTNlf9946ku9SoWZXYYB2CeG8BOhSVd5ozLn2wLlmKkHn7TmGhrLy
- H3xKrxmVhew9ySyFu5cqVCV0Ft7fxr8yiw1mnfaFiuVHirV7+NuOjy8CIgQjZxBqGlQu
- 7Iz9FweJ+NZWPeuvZUMZCM/igpx4shxXyMH+qMyF3w2UWZxtg92+KdSR6TEd56zaC21w
- xKDAP4xu9Z5LHwmmWjZ+hm57Hkscgm6u/c4+Vwka0ytKeJtiBy3ACcTjY3/84hF6KW76
- 1Feqo2Soc0AmLFhZbSBLCIEKWePRLekTB0Cp7R90q1l81GKnY6M/A7lzmmhB2nYGpYTa
- 4ScQ==
+ bh=AolbXk2Fq1YBeMjbbUIDV5EfiVXR8mlZoIKExVmKJBk=;
+ b=VhH50M4meNxnkB1EPYKHUpA1IM9ih8BDfO2AM94Wx2tcQM0illVMIgAUXsBkSdNiKV
+ xXbruD5QQtFxs4fHEj5jRWO5IOq8DYKQEATgJDZpeP0QHo0yKEquEvRq4I1C9PttdkBg
+ l5LljPhnCsVgZIZPmGir1xERNUgC92PXL8kS0O0efm4UZHL/2RJBe5E9b4s8kMpUkT13
+ 57bdWyTugNChFxEfYcbmeY+PoJh3m9elYnBdK4EjIefuJKF/PTJsdQUhebFRff5HSe8l
+ 3locYDa9GTCSa0t3dFqBnppe1HstAE5/b6wcMp0VD6L/b1bhkn+NcP8/0MlPSmCUzQIG
+ TErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=n5R88FGnPjhsQadJtsU+Gi9+2LMayu3HLn44l5p9s88=;
- b=WvkgpxL6WnOPEQ0hZHaRKXyUxDzhj+lGMAdOnJa9gbE1MgS8wK/vRYWHVdiSypmEcx
- jDvKXq3om6xs0HsPB3+aozPQuy6C5rDkLlW6mcJV2r+x0/Wa48VlIGv/kC9eDlJxNpaz
- 1jZdV85olRqiZ9eF+dpn7IbzUwv+G+d6HQKYEtSwjbn2I2ejjHTwmSdTx5daQ+GIxYZT
- WRIFgbyGsQWY0qFMOYqX1L6XjVcM00/NvTl0ngbhLy27JX4mp0Sjgug2pukAAhRMqZCM
- fOIYF7C5keeivGfh2Y8617FbnX94PDVG2LtpULW72PfP5NkP7InRFhF5QTb6gXtpgkuR
- ALMQ==
-X-Gm-Message-State: APjAAAX6s8/pSACXEsTNhgy3SYBBnIF8g8WO1rsSE5lun2Cm16pkW9QK
- iaqpN4Fl1X7DRmrBqEEbZXy2PjaRPVT/rA==
-X-Google-Smtp-Source: APXvYqx67oTjjObdvaY3VYuFUBZ3SmHOv889hszmN5z478qhFvSt+0EIh8Ev/Vd0Y5pgdZQ5/MQuAA==
-X-Received: by 2002:a5d:6789:: with SMTP id v9mr38091600wru.55.1582120249549; 
- Wed, 19 Feb 2020 05:50:49 -0800 (PST)
+ bh=AolbXk2Fq1YBeMjbbUIDV5EfiVXR8mlZoIKExVmKJBk=;
+ b=bNcJpSpRAZvMyRTyDSdC3vSnO0AfQk1nDq4XaTCNZd4eiS7Cj1g27GWI4v6Cn1qZzv
+ XbFKt42EJZxrSbca4+V85z1Pn+IMBCXNewp7cTHpIDP9uoa4qbE4Lb7D9XHDh+PLeEaG
+ ZakfkwKQcMWmakz3b7ptOCo3m+H5gzABZ6jix9nZeYr92GlqhNu4cl+qt9Zwi2JMdJAi
+ Jd8qCvwDqCfamSb9hkj7ryKx24J+rYbR9hWtMktHPwrAPn/a9SXVbTUtMBGumjty0frH
+ z+uE/NuEDrwAeTtHVa+tOHjVKMUr9c+7mQp1SPGynrf0NkU15fnbYjafyZtVOTmzsRfy
+ /kmQ==
+X-Gm-Message-State: APjAAAV7+u4btvA4lejhDI7pAxdQ7PH8YT+28dZJuTiiPMYzw4jed6UZ
+ 80lFxDeMxrr6v3YXUfG456qtJuLYwGUQRA==
+X-Google-Smtp-Source: APXvYqxH2Xap7PnOtG3CBUOE+VMnOjDBlPdPBYuTKs2p0y6Gqu6uGyG96jtLtIjZQWqf6787jsSpyg==
+X-Received: by 2002:a1c:1fc5:: with SMTP id f188mr10651308wmf.55.1582120250856; 
+ Wed, 19 Feb 2020 05:50:50 -0800 (PST)
 Received: from brihaspati.fritz.box (p5DE53754.dip0.t-ipconnect.de.
  [93.229.55.84])
- by smtp.gmail.com with ESMTPSA id y1sm3061881wrq.16.2020.02.19.05.50.48
+ by smtp.gmail.com with ESMTPSA id y1sm3061881wrq.16.2020.02.19.05.50.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 05:50:48 -0800 (PST)
+ Wed, 19 Feb 2020 05:50:50 -0800 (PST)
 From: Nirmoy Das <nirmoy.aiemd@gmail.com>
 X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/8] drm/qxl: don't use ttm bo->offset
-Date: Wed, 19 Feb 2020 14:53:19 +0100
-Message-Id: <20200219135322.56463-6-nirmoy.das@amd.com>
+Subject: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v2
+Date: Wed, 19 Feb 2020 14:53:20 +0100
+Message-Id: <20200219135322.56463-7-nirmoy.das@amd.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200219135322.56463-1-nirmoy.das@amd.com>
 References: <20200219135322.56463-1-nirmoy.das@amd.com>
@@ -74,78 +74,58 @@ Cc: thellstrom@vmware.com, airlied@linux.ie, kenny.ho@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
  alexander.deucher@amd.com, sean@poorly.run, christian.koenig@amd.com,
  kraxel@redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCByZW1vdmVzIHNsb3QtPmdwdV9vZmZzZXQgd2hpY2ggaXMgbm90IHJlcXVpcmVk
-IGFzClZSQU0gYW5kIFBSSVYgc2xvdCBhcmUgaW4gc2VwYXJhdGUgUENJIGJhcgoKVGhpcyBwYXRj
-aCBhbHNvIHJlbW92ZXMgdW51c2VkIHF4bF9ib19ncHVfb2Zmc2V0KCkKClNpZ25lZC1vZmYtYnk6
-IE5pcm1veSBEYXMgPG5pcm1veS5kYXNAYW1kLmNvbT4KQWNrZWQtYnk6IENocmlzdGlhbiBLw7Zu
-aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQWNrZWQtYnk6IEdlcmQgSG9mZm1hbm4gPGty
-YXhlbEByZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5oICAgIHwg
-NiArKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2ttcy5jICAgIHwgNSArKy0tLQogZHJp
-dmVycy9ncHUvZHJtL3F4bC9xeGxfb2JqZWN0LmggfCA1IC0tLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-cXhsL3F4bF90dG0uYyAgICB8IDkgLS0tLS0tLS0tCiA0IGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0
-aW9ucygrKSwgMjEgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4
-bC9xeGxfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kcnYuaAppbmRleCAyN2U0NWEy
-ZDZiNTIuLmRmNTgxZjBlNjY5OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxf
-ZHJ2LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmgKQEAgLTEzNCw3ICsxMzQs
-NiBAQCBzdHJ1Y3QgcXhsX21lbXNsb3QgewogCXVpbnQ2NF90CXN0YXJ0X3BoeXNfYWRkcjsKIAl1
-aW50NjRfdAlzaXplOwogCXVpbnQ2NF90CWhpZ2hfYml0czsKLQl1aW50NjRfdCAgICAgICAgZ3B1
-X29mZnNldDsKIH07CiAKIGVudW0gewpAQCAtMzExLDEwICszMTAsOSBAQCBxeGxfYm9fcGh5c2lj
-YWxfYWRkcmVzcyhzdHJ1Y3QgcXhsX2RldmljZSAqcWRldiwgc3RydWN0IHF4bF9ibyAqYm8sCiAJ
-CShiby0+dGJvLm1lbS5tZW1fdHlwZSA9PSBUVE1fUExfVlJBTSkKIAkJPyAmcWRldi0+bWFpbl9z
-bG90IDogJnFkZXYtPnN1cmZhY2VzX3Nsb3Q7CiAKLQlXQVJOX09OX09OQ0UoKGJvLT50Ym8ub2Zm
-c2V0ICYgc2xvdC0+Z3B1X29mZnNldCkgIT0gc2xvdC0+Z3B1X29mZnNldCk7CisgICAgICAgLyog
-VE9ETyAtIG5lZWQgdG8gaG9sZCBvbmUgb2YgdGhlIGxvY2tzIHRvIHJlYWQgYm8tPnRiby5tZW0u
-c3RhcnQgKi8KIAotCS8qIFRPRE8gLSBuZWVkIHRvIGhvbGQgb25lIG9mIHRoZSBsb2NrcyB0byBy
-ZWFkIHRiby5vZmZzZXQgKi8KLQlyZXR1cm4gc2xvdC0+aGlnaF9iaXRzIHwgKGJvLT50Ym8ub2Zm
-c2V0IC0gc2xvdC0+Z3B1X29mZnNldCArIG9mZnNldCk7CisJcmV0dXJuIHNsb3QtPmhpZ2hfYml0
-cyB8ICgoYm8tPnRiby5tZW0uc3RhcnQgPDwgUEFHRV9TSElGVCkgKyBvZmZzZXQpOwogfQogCiAv
-KiBxeGxfZGlzcGxheS5jICovCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9r
-bXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2ttcy5jCmluZGV4IDcwYjIwZWU0NzQxYS4u
-N2E1YmY1NDRmMzRkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9rbXMuYwor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9rbXMuYwpAQCAtODYsMTEgKzg2LDEwIEBAIHN0
-YXRpYyB2b2lkIHNldHVwX3Nsb3Qoc3RydWN0IHF4bF9kZXZpY2UgKnFkZXYsCiAJaGlnaF9iaXRz
-IDw8PSAoNjQgLSAocWRldi0+cm9tLT5zbG90X2dlbl9iaXRzICsgcWRldi0+cm9tLT5zbG90X2lk
-X2JpdHMpKTsKIAlzbG90LT5oaWdoX2JpdHMgPSBoaWdoX2JpdHM7CiAKLQlEUk1fSU5GTygic2xv
-dCAlZCAoJXMpOiBiYXNlIDB4JTA4bHgsIHNpemUgMHglMDhseCwgZ3B1X29mZnNldCAweCVseFxu
-IiwKKwlEUk1fSU5GTygic2xvdCAlZCAoJXMpOiBiYXNlIDB4JTA4bHgsIHNpemUgMHglMDhseFxu
-IiwKIAkJIHNsb3QtPmluZGV4LCBzbG90LT5uYW1lLAogCQkgKHVuc2lnbmVkIGxvbmcpc2xvdC0+
-c3RhcnRfcGh5c19hZGRyLAotCQkgKHVuc2lnbmVkIGxvbmcpc2xvdC0+c2l6ZSwKLQkJICh1bnNp
-Z25lZCBsb25nKXNsb3QtPmdwdV9vZmZzZXQpOworCQkgKHVuc2lnbmVkIGxvbmcpc2xvdC0+c2l6
-ZSk7CiB9CiAKIHZvaWQgcXhsX3JlaW5pdF9tZW1zbG90cyhzdHJ1Y3QgcXhsX2RldmljZSAqcWRl
-dikKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX29iamVjdC5oIGIvZHJpdmVy
-cy9ncHUvZHJtL3F4bC9xeGxfb2JqZWN0LmgKaW5kZXggOGFlNTRiYTc4NTdjLi4yMWZhODEwNDhm
-NGYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX29iamVjdC5oCisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9xeGwvcXhsX29iamVjdC5oCkBAIC00OCwxMSArNDgsNiBAQCBzdGF0aWMg
-aW5saW5lIHZvaWQgcXhsX2JvX3VucmVzZXJ2ZShzdHJ1Y3QgcXhsX2JvICpibykKIAl0dG1fYm9f
-dW5yZXNlcnZlKCZiby0+dGJvKTsKIH0KIAotc3RhdGljIGlubGluZSB1NjQgcXhsX2JvX2dwdV9v
-ZmZzZXQoc3RydWN0IHF4bF9ibyAqYm8pCi17Ci0JcmV0dXJuIGJvLT50Ym8ub2Zmc2V0OwotfQot
-CiBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGxvbmcgcXhsX2JvX3NpemUoc3RydWN0IHF4bF9ibyAq
-Ym8pCiB7CiAJcmV0dXJuIGJvLT50Ym8ubnVtX3BhZ2VzIDw8IFBBR0VfU0hJRlQ7CmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwv
-cXhsX3R0bS5jCmluZGV4IDYyYTVlNDI0OTcxYi4uNjM1ZDAwMGU3OTM0IDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4
-bF90dG0uYwpAQCAtNTEsMTEgKzUxLDYgQEAgc3RhdGljIHN0cnVjdCBxeGxfZGV2aWNlICpxeGxf
-Z2V0X3FkZXYoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYpCiBzdGF0aWMgaW50IHF4bF9pbml0
-X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBlLAogCQkJ
-ICAgICBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbikKIHsKLQlzdHJ1Y3QgcXhsX2Rl
-dmljZSAqcWRldiA9IHF4bF9nZXRfcWRldihiZGV2KTsKLQl1bnNpZ25lZCBpbnQgZ3B1X29mZnNl
-dF9zaGlmdCA9Ci0JCTY0IC0gKHFkZXYtPnJvbS0+c2xvdF9nZW5fYml0cyArIHFkZXYtPnJvbS0+
-c2xvdF9pZF9iaXRzICsgOCk7Ci0Jc3RydWN0IHF4bF9tZW1zbG90ICpzbG90OwotCiAJc3dpdGNo
-ICh0eXBlKSB7CiAJY2FzZSBUVE1fUExfU1lTVEVNOgogCQkvKiBTeXN0ZW0gbWVtb3J5ICovCkBA
-IC02NiwxMSArNjEsNyBAQCBzdGF0aWMgaW50IHF4bF9pbml0X21lbV90eXBlKHN0cnVjdCB0dG1f
-Ym9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBlLAogCWNhc2UgVFRNX1BMX1ZSQU06CiAJY2Fz
-ZSBUVE1fUExfUFJJVjoKIAkJLyogIk9uLWNhcmQiIHZpZGVvIHJhbSAqLwotCQlzbG90ID0gKHR5
-cGUgPT0gVFRNX1BMX1ZSQU0pID8KLQkJCSZxZGV2LT5tYWluX3Nsb3QgOiAmcWRldi0+c3VyZmFj
-ZXNfc2xvdDsKLQkJc2xvdC0+Z3B1X29mZnNldCA9ICh1aW50NjRfdCl0eXBlIDw8IGdwdV9vZmZz
-ZXRfc2hpZnQ7CiAJCW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOwotCQltYW4tPmdw
-dV9vZmZzZXQgPSBzbG90LT5ncHVfb2Zmc2V0OwogCQltYW4tPmZsYWdzID0gVFRNX01FTVRZUEVf
-RkxBR19GSVhFRCB8CiAJCQkgICAgIFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEU7CiAJCW1hbi0+
-YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwotLSAKMi4yNS4wCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Calculate GEM VRAM bo's offset within vram-helper without depending on
+bo->offset
+
+Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+---
+ drivers/gpu/drm/drm_gem_vram_helper.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index 92a11bb42365..3edf5f241c15 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -198,6 +198,21 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo)
+ }
+ EXPORT_SYMBOL(drm_gem_vram_mmap_offset);
+
++/**
++ * drm_gem_vram_pg_offset() - Returns a GEM VRAM object's page offset
++ * @gbo:	the GEM VRAM object
++ *
++ * Returns:
++ * The buffer object's page offset, or
++ * 0 with a warning when memory manager node of the buffer object is NULL
++ * */
++static s64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
++{
++	if (WARN_ON_ONCE(!gbo->bo.mem.mm_node))
++		return 0;
++	return gbo->bo.mem.start;
++}
++
+ /**
+  * drm_gem_vram_offset() - \
+ 	Returns a GEM VRAM object's offset in video memory
+@@ -214,7 +229,7 @@ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo)
+ {
+ 	if (WARN_ON_ONCE(!gbo->pin_count))
+ 		return (s64)-ENODEV;
+-	return gbo->bo.offset;
++	return drm_gem_vram_pg_offset(gbo) << PAGE_SHIFT;
+ }
+ EXPORT_SYMBOL(drm_gem_vram_offset);
+
+--
+2.25.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
