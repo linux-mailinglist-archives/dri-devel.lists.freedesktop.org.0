@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA09F164A57
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:29:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D645164A93
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:37:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84D68890E8;
-	Wed, 19 Feb 2020 16:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADCA688905;
+	Wed, 19 Feb 2020 16:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7F1088AD9;
- Wed, 19 Feb 2020 16:29:02 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id y11so1268203wrt.6;
- Wed, 19 Feb 2020 08:29:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ge/4+ByC0/Mud4KiwRUU53N7gO/qK6WBDI8vObP1gB8=;
- b=nDEVLs/IIZtpORix+sjwoMjmtO3ZAlRhhQOEfU0Q3KD5K86wBr1q0mJXuabDlIvOQn
- bWxkMy74M7+LpTozg1bTdVroNdJeMZB86wLHLvmgqG6hPqBEbJLuSIxO98UyMi2CO2Cg
- F/qVeSmjj3CsDqfixTLub97ue2qI8iicYlfld0biO2Ij6QI08x5vVOTJ2cc6XWa9oaIt
- KWkrOo9yjogrswdLtiCsg4MTzFw6YueFqqNbfHkDY73ocDk8GXU2a2GGvtFWVfqqp1NX
- WZOgptcWjxiTjC17ZwO0BXYsXIiY9nsntQ3a1wjPCFgL1BLE9yWYBAi5JGRkGUCdWl/j
- qdbA==
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B19F688905
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 16:37:09 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id j132so24394514oih.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 08:37:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ge/4+ByC0/Mud4KiwRUU53N7gO/qK6WBDI8vObP1gB8=;
- b=FghdL++QU0G/dY+5yx8Z9a9TWy4EBcwQfd1mjm1sYdUcvyTwVClvyepy97BT2wMUdD
- gqN6UTkaQgEfRanhDfFHUFshicAqTH7sypTISJVm45oS9zAferRfeNqRb8Xh3cjt9u64
- DU4mZweJPYFoA2HT1PSoq78XQ3SMHgGp2LjJiO7YbEpCxis5QxAIxk/2acp4cWKJ424i
- 5fmAe8x5dXxAql9U7ev7wukwJN57lBJKQUwIdchgns6dy3Vgq9ig49+WstcGsSB29An2
- W0ypTBEQNsvzYl7XElE82MzpOyq2WCP+bB8ZxIjoDqWHXP9zkAcGDOrYWOhltV23mSyL
- xqXw==
-X-Gm-Message-State: APjAAAV4duUCJjxgcRT0IzH+0GtvnRSIidDHfMU6vZn/Jw2CpxW9rg0P
- oVhwklLtrlzT86+eugzETsNPz0zmg/ZUbyhPceg=
-X-Google-Smtp-Source: APXvYqyP+L9+XOLBDf5SEUNbZhoITOmxettkhcIIuxzCeHf43MW2BeliuAzIc4CO4JF7Ah7P3g9oJtkoiotJv45DS9Y=
-X-Received: by 2002:adf:cd03:: with SMTP id w3mr37455254wrm.191.1582129741265; 
- Wed, 19 Feb 2020 08:29:01 -0800 (PST)
+ bh=7rRoePCXLenJKJs25759T+dJnc77Ex7N5JA7PK6Z3+Q=;
+ b=Wwf90s/R23UCbRhfGS22sWeYcuAehMIIkDiw8Dqvv0ZMpfewQcPKI01lncDKqOoCrq
+ chD1Rb82EbLlqK68BCeLFdXN7LgwmhkNaljckXkpA9PLl26eRAuvWUfh0NNoNJD5UJ+e
+ /X3CwaIKcRXqrmxYXaMMUcLkwt0GLWD+XHoqDX9KEi8NwCLOcY+FC6NHhq0LnRoaIh8C
+ ezFCzx9koPNaur4QZeEQrR6rbo59YVbLlrjHhYhPX/M2rBw9+mZ8YgLwDnoJkHpZLdIQ
+ CJdpc6L8s5Zmgo3tvIVlDtucIbagpnwptboyY87gBlHAd/LmgNyxs4nh9p46cUJRys++
+ V2Gw==
+X-Gm-Message-State: APjAAAVy2ox7l00HfpiwWEDQJ394Ejp+FkHs8j4bhYQebmc8rS1kD5sY
+ a5EbzAMBKKcSD0sqN90BW4xoXP6q5Fts418r6vg=
+X-Google-Smtp-Source: APXvYqx08pSGJcuoMLIaR52zuY8+/osu9/5KPYAmb+0hdBw22ViVlz/NPC2E9/o34osIcYjKCbe3wLnFRo24kXZb+IM=
+X-Received: by 2002:aca:48cd:: with SMTP id v196mr5348791oia.102.1582130228412; 
+ Wed, 19 Feb 2020 08:37:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20200214155650.21203-1-Kenny.Ho@amd.com>
- <20200214155650.21203-10-Kenny.Ho@amd.com>
- <CAOFGe96N5gG+08rQCRC+diHKDAfxPFYEnVxDS8_udvjcBYgsPg@mail.gmail.com>
- <CAOWid-f62Uv=GZXX2V2BsQGM5A1JJG_qmyrOwd=KwZBx_sr-bg@mail.gmail.com>
- <20200214183401.GY2363188@phenom.ffwll.local>
- <CAOWid-caJHeXUnQv3MOi=9U+vdBLfewN+CrA-7jRrz0VXqatbQ@mail.gmail.com>
- <20200214191754.GA218629@mtj.thefacebook.com>
- <20200219161850.GB13406@cmpxchg.org>
-In-Reply-To: <20200219161850.GB13406@cmpxchg.org>
-From: Kenny Ho <y2kenny@gmail.com>
-Date: Wed, 19 Feb 2020 11:28:48 -0500
-Message-ID: <CAOWid-e=7V4TUqK_h5Gs9dUXqH-Vgr-Go8c1dCkMux98Vdd1sQ@mail.gmail.com>
-Subject: Re: [PATCH 09/11] drm, cgroup: Introduce lgpu as DRM cgroup resource
-To: Johannes Weiner <hannes@cmpxchg.org>
+References: <20200214082623.4893-1-geert+renesas@glider.be>
+ <20200219160410.GX5070@pendragon.ideasonboard.com>
+In-Reply-To: <20200219160410.GX5070@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 19 Feb 2020 17:36:57 +0100
+Message-ID: <CAMuHMdVEW1pjg=mf55dzi0uJ6f-qQCGXzzvTikffX+JAeJQEsQ@mail.gmail.com>
+Subject: Re: [PATCH v5] dt-bindings: display: renesas: du: Document optional
+ reset properties
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,36 +53,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: juan.zuniga-anaya@amd.com, Kenny Ho <Kenny.Ho@amd.com>, "Kuehling,
- Felix" <felix.kuehling@amd.com>, jsparks@cray.com, nirmoy.das@amd.com,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- lkaplan@cray.com, Alex Deucher <alexander.deucher@amd.com>, "Greathouse,
- Joseph" <joseph.greathouse@amd.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- damon.mcdougall@amd.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Airlie <airlied@linux.ie>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2020 at 11:18 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
->
-> Yes, I'd go with absolute units when it comes to memory, because it's
-> not a renewable resource like CPU and IO, and so we do have cliff
-> behavior around the edge where you transition from ok to not-enough.
->
-> memory.low is a bit in flux right now, so if anything is unclear
-> around its semantics, please feel free to reach out.
+Hi Laurent,
 
-I am not familiar with the discussion, would you point me to a
-relevant thread please?  In addition, is there some kind of order of
-preference for implementing low vs high vs max?
+On Wed, Feb 19, 2020 at 5:04 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Fri, Feb 14, 2020 at 09:26:23AM +0100, Geert Uytterhoeven wrote:
+> > Document the optional properties for describing module resets, to
+> > support resetting display channels on R-Car Gen2 and Gen3.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Acked-by: Rob Herring <robh@kernel.org>
 
-Regards,
-Kenny
+> > --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> > +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> > @@ -50,6 +50,14 @@ Required Properties:
+> >      VSP instance that serves the DU channel, and the channel index identifies
+> >      the LIF instance in that VSP.
+> >
+> > +Optional properties:
+> > +  - resets: A list of phandle + reset-specifier pairs, one for each entry in
+> > +    the reset-names property.
+> > +  - reset-names: Names of the resets. This property is model-dependent.
+> > +    - All but R8A7779 use one reset for a group of one or more successive
+> > +      channels. The resets must be named "du.x" with "x" being the numerical
+> > +      index of the lowest channel in the group.
+>
+> I've now reviewed the patches that add those properties to our .dtsi
+> files, and I wonder how we should handle the two SoCs that have DU0, DU1
+> and DU3, but not DU2. The reset resource is tied to a group of two
+> channels, so we would use du.0 and du.2 respectively, but that conflicts
+> with the above text.
+>
+> I'm trying to think about the implementation on the driver side, where
+> group resources are associated with a group object, whose index is
+> computed by dividing the channel number by 2. We could have a special
+> case in group initialization that uses du.3 instead of du.2 for the
+> second group.
+>
+> What do you think ? Probably overkill, and we should go for du.3 ?
+
+The "division by 2" rule is valid for R-Car Gen3, but not for R-Car
+Gen2, where there is only a single reset for all channels.
+
+Originally we had "du.0-1" and "du.2-3" (hmm, somehow I missed adding
+this to the changelog for the bindings,  but it is present in the
+changelog for the DTS files), but after switching to "du.0" and "du.2",
+I always envisioned implementing this by finding a "du.x" reset by
+looping from the current channel index to 0.  That algorithm works for all
+supported SoCs (irrespective of naming the second reset on R-Car H3-N
+and M3-N "du.2" or "du.3" ;-)
+
+As per your comment about single resets, we could drop reset-names on
+R-Car Gen2, but doing so would mean another special case in the driver.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
