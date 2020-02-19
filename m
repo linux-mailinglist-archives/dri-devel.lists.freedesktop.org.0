@@ -1,59 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C60F1649E5
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:18:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E2B1649E3
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:18:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F94D6EC4A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD9646EC4B;
 	Wed, 19 Feb 2020 16:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3708C6E7F1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 14:13:40 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r11so685902wrq.10
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 06:13:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=k+5x80NuD9V+Qnk21e0mDSFOMaIC5Iytof66uYIbXss=;
- b=vSIEsdExWZ2FbdPu0MU7VTcU7IF3oIQ32l2NuuFLX8Pl5KvjA2twy0JNbXU9P3gDHq
- pOIyRNd5icecIFJ6CN41j4lbT0HN7PdIOQQfHknbRaNqaij9+c0i4d0iJg+IQGvonXEU
- /9FRusWgtIxolCOpZiznjI7l95lFAo6SYHdMTkHOSWXGeE5QQ4xXAyjQIBJ7H28zG08w
- aF36mTgygaz9dlKMUJ1bBVY4y30cpm+aMCHoCls0t+A8d56qFO9jks3oTHVBldvNsVj2
- Eafka6pMIzGAL5iq4nWphoxSq1ILpTyXY8Snp3fTPCd08FppMLnwh55Ef5rUYg9R1hKi
- SLYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=k+5x80NuD9V+Qnk21e0mDSFOMaIC5Iytof66uYIbXss=;
- b=MYnZXGwpNF65Jpqq6z0lkUgWAIXnB8cXSjH+eBqs04kP9dnNorkErx4UX4m1VDwwpT
- jqdVvhw+p/lGUU8XD8gl5m0Rroescbt4qA8LNIXDs3Lip9jI36C6rmOPcm5dVGH8lpVb
- GJnB/vOxB9T9D6sUsrYO3Tqy4jdeyRYIILVgrQo6VtBPwGbmcNWGTWULNubXMIgBL/aY
- 7FYpWlzh6+4CcKIfQUpevR8wU2cUIZFRlBQpkIznxUJa1QmFYRYjduIa9kDXOqJhxLMD
- +RpU3EJOHQ8zZaVkbyUFAGk804PQEbJ3NF3BQtjF4klIlbKzn/3FVoi6x6OQK5InqIn8
- 21YA==
-X-Gm-Message-State: APjAAAVM7LVxESl532ciRPGPapFu+Kh3h7nP7JCClQIVoijAuk+EQhLp
- FAOOYbisFepMGbNaZN0vySFu2w==
-X-Google-Smtp-Source: APXvYqzMstRSs0CuhMEXF+cVCctS5nCVYxs4zXGgDEYIyjt2Wlt/zX0aqBTexiTEeZ2jMvRmxr7YRg==
-X-Received: by 2002:adf:f406:: with SMTP id g6mr36762230wro.189.1582121618880; 
- Wed, 19 Feb 2020 06:13:38 -0800 (PST)
-Received: from robin.baylibre.local
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id g25sm7999695wmh.3.2020.02.19.06.13.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 06:13:38 -0800 (PST)
-From: Phong LE <ple@baylibre.com>
-To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH] drm/mediatek: component type MTK_DISP_OVL_2L is not correctly
- handled
-Date: Wed, 19 Feb 2020 15:13:24 +0100
-Message-Id: <20200219141324.29299-1-ple@baylibre.com>
-X-Mailer: git-send-email 2.17.1
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F170189E1B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 15:58:01 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3B4A92219C;
+ Wed, 19 Feb 2020 10:57:59 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 19 Feb 2020 10:57:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=yR7ZFP5jnyQYDGWXj4DoIv/8TgX
+ gvbgn3+/o7E/ImuY=; b=TTjtDNdYCwxvj6idPJY+4wBNWdnb+DCfxk2To/mlIGs
+ tAip1rxCYFFiM6LAMPslY0DnHccbnApmApk/UT8mffvie5K3BrJmV7yNvOeJlRGb
+ YN5Kk4QU8cX8/JwT8074n5wp0uOA5PmgJhpmPa6ZbS/ikfaL2eYu2+uG+ctpTvie
+ SjjT4ZQemE+nQpogagIZHt9s1lkdCXHCFbPhQBnlXShn6R0AZYSpNyJqJAfg2XlT
+ 8Zcl5KF9EygpvaQgv9hh7icq+LYaxWtaIZ358kQwY12ZFPp2FZDzBfToZBUs7o+b
+ 3/ALpcRrPUp0coEOnzjQXHWAYO7ZrZrg0+1p4uwzbcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=yR7ZFP
+ 5jnyQYDGWXj4DoIv/8TgXgvbgn3+/o7E/ImuY=; b=xrMle4Tk8VgE87uyNspfTD
+ 2hBU7zcs8WE9gFdgzEgY/rind5W/t/PTx+3CWjPHWXWtaTjEnGyZE7/8JNbcxBjS
+ c6dhaD8SDpz2/9W570IsuRPK9iE7QyzxJfhAeWPFkUGMT7wiNalHBxlqwAhJhYbj
+ k4Er3R3gGNVrA0uyyp6I8TXYIOiNcNy/O0Xjgh9SvfYnQBJWwtjOeQ2BBXVrOwg5
+ f87BZ4EmpoUuzWyT6jvv820mBl4hHroVeLm+9s2ceOpgQwxfq9kda4zzyb+2LuZg
+ UgWTpehb7RVlLgUjNR4LbECnERLs5mnViaKfQxVn9aa7AHcGMiQK4Y7PIzph7QzA
+ ==
+X-ME-Sender: <xms:BFtNXkoWWu9lBepEpMfiXGXNyOySUG20wKHfkzi8dl1erT5-_im8-A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkedtgdekfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:BFtNXhJvJoMDZ0HaE1S5qRV0DmIhfo9D-qwRAtZIotGg7v8ziu7--A>
+ <xmx:BFtNXsYXvL5yIfgaWx4zpQrECCz2rTQbaxTeT_6KJRAJtqJNjT4mNg>
+ <xmx:BFtNXl6YWhDDl8Br25JCv6loIDrsiwH0Q-3tjka0YGwZneh33VSUDw>
+ <xmx:B1tNXmxSRsn1QcEl5mwSz8hMDeTsUHlrpwKuLro09sFzzEo0cAsQXg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 5E3CA328005A;
+ Wed, 19 Feb 2020 10:57:56 -0500 (EST)
+Date: Wed, 19 Feb 2020 16:57:54 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] drm/sun4i: dsi: Avoid hotplug race with DRM driver bind
+Message-ID: <20200219155754.vajepubw64hxfmum@gilmour.lan>
+References: <20200217060906.15152-1-samuel@sholland.org>
+MIME-Version: 1.0
+In-Reply-To: <20200217060906.15152-1-samuel@sholland.org>
 X-Mailman-Approved-At: Wed, 19 Feb 2020 16:18:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,40 +75,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Phong LE <ple@baylibre.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ stable@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1425594430=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The larb device remains NULL if the type is MTK_DISP_OVL_2L.
-A kernel panic is raised when a crtc uses mtk_smi_larb_get or
-mtk_smi_larb_put.
 
-Signed-off-by: Phong LE <ple@baylibre.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
- 1 file changed, 1 insertion(+)
+--===============1425594430==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="54gv4v2726dkjnkb"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 1f5a112bb034..57c88de9a329 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -471,6 +471,7 @@ int mtk_ddp_comp_init(struct device *dev, struct device_node *node,
- 	/* Only DMA capable components need the LARB property */
- 	comp->larb_dev = NULL;
- 	if (type != MTK_DISP_OVL &&
-+	    type != MTK_DISP_OVL_2L &&
- 	    type != MTK_DISP_RDMA &&
- 	    type != MTK_DISP_WDMA)
- 		return 0;
--- 
-2.17.1
+
+--54gv4v2726dkjnkb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Feb 17, 2020 at 12:09:06AM -0600, Samuel Holland wrote:
+> We need to make sure that the DRM driver is fully registered before
+> allowing the panel to be attached. Otherwise, we may trigger a hotplug
+> event before sun4i_framebuffer_init() sets up drm->mode_config.funcs,
+> causing a NULL pointer dereference.
+>
+> Fixes: 1a2703bd7356 ("drm/sun4i: dsi: Allow binding the host without a panel")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+
+Thanks for following up on this, I've applied it
+
+Maxime
+
+--54gv4v2726dkjnkb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXk1bAgAKCRDj7w1vZxhR
+xePFAQCYhA+x3yuXQWCrT9byki6JCFoJ0+xYDdlmkViFi6k1LgD7BAzzLGu8/hS1
+PLrGCLHwJ0LBV1vFqXuLFHhBB7lBOwc=
+=BDH/
+-----END PGP SIGNATURE-----
+
+--54gv4v2726dkjnkb--
+
+--===============1425594430==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1425594430==--
