@@ -2,28 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F883165990
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:46:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA3B165991
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:46:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 604106ECF8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB216ECFF;
 	Thu, 20 Feb 2020 08:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 665286EC92
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 19:45:45 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id CC44580F3;
- Wed, 19 Feb 2020 19:46:27 +0000 (UTC)
-Date: Wed, 19 Feb 2020 11:45:40 -0800
-From: Tony Lindgren <tony@atomide.com>
-To: Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH] backlight: add led-backlight driver
-Message-ID: <20200219194540.GD37466@atomide.com>
-References: <20200219191412.GA15905@amd>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A00E6E85F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 20:17:10 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id p9so2093056wmc.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 12:17:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=hackillinois.org; s=google;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=Je/scCDM4kOFoevjJku7WB/rYuRYjG6e8ZgV1ygvlM8=;
+ b=RGOkzFKERdIQOYXzalx9p3NHWiqGzGj+X1hVWn7OV8UFCkW5QiFBEbXocRZU0ImYFM
+ Lgp7XhWZV0Ocsx7LOfPHTHl42QJUMxLz44DPxRcpCOAKaFCx5ZCPfNSynOH7bHJMHLbo
+ 2t3T08/0j7wuL+QATOh/5FbT6gzjBCqGAx2HY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=Je/scCDM4kOFoevjJku7WB/rYuRYjG6e8ZgV1ygvlM8=;
+ b=bA4M3Be88LKylWSDY8kS0y3sAo7v5D0VNaWeUUFooHrdOSF7dwhDGSCKabhf+Fh8KB
+ q9VLha5EBSalejD9SOEdZxbE7z3jlrqVyHT8FxJS2/4tcfskVcwGjRYFlIo4i9eH3682
+ 1UaBdEbiYOIxFY6/yfYRJZ8dX/+YT4tQNFZXro4DT+jX4UM+paV6d18rAgGvjutL8N0S
+ eqb4Ny5B0+kevFqSxNLzj/knhLOQrsnycltKgBkml9HwOGLgLaxzpyvwu65eoSVUO0Ku
+ Y2ecHclaTxzDiEFugggvaZQ7ZCqUb8P2MK+VXNaBwVUmO9UvR3EFx6vZr32j4qdmPa7f
+ 1BdQ==
+X-Gm-Message-State: APjAAAUFUWlHMIhxe64LYnMzCuEh1nUzmHgzRPsXVl7SqbrEfdcnA4/9
+ W8R4+cmZD2s8znSp0zBUzs1f9BR3c5joRg47r/3t+1itN9hkyB4Z
+X-Google-Smtp-Source: APXvYqxfUCeXbO2JAGohkTIfo2KtvLOdn24b+ELxgNI7bIix7uvbxxlO54oUOnU86mLVSEhpI5IjLqbPitBN90RieeI=
+X-Received: by 2002:a1c:9a0d:: with SMTP id c13mr4308455wme.41.1582143428888; 
+ Wed, 19 Feb 2020 12:17:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200219191412.GA15905@amd>
+From: Misha Patel <misha.patel@hackillinois.org>
+Date: Wed, 19 Feb 2020 14:16:57 -0600
+Message-ID: <CAJOGcdBb_yDBCjtDPfvac8tOhZ0biWLxOugfOxxKGo8zWxuDwQ@mail.gmail.com>
+Subject: Open Source Hackathon Mentorship Invitation
+To: dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Thu, 20 Feb 2020 08:45:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,147 +56,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, mpartap@gmx.net, jingoohan1@gmail.com,
- merlijn@wizzup.org, martin_rysavy@centrum.cz,
- kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- sre@kernel.org, nekit1000@gmail.com, tomi.valkeinen@ti.com, jjhiblot@ti.com,
- linux-omap@vger.kernel.org, Lee Jones <lee.jones@linaro.org>, agx@sigxcpu.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0635465093=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Pavel Machek <pavel@ucw.cz> [200219 19:15]:
-> From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> 
-> This patch adds a led-backlight driver (led_bl), which is similar to
-> pwm_bl except the driver uses a LED class driver to adjust the
-> brightness in the HW. Multiple LEDs can be used for a single backlight.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Acked-by: Lee Jones <lee.jones@linaro.org>
-> Acked-by: Tony Lindgren <tony@atomide.com>
-> Tested-by: Tony Lindgren <tony@atomide.com>
-> Signed-off-by: Pavel Machek <pavel@ucw.cz>
-> ---
->  drivers/video/backlight/Kconfig  |   7 ++
->  drivers/video/backlight/Makefile |   1 +
->  drivers/video/backlight/led_bl.c | 260 +++++++++++++++++++++++++++++++++++++++
->  3 files changed, 268 insertions(+)
->  create mode 100644 drivers/video/backlight/led_bl.c
-> 
-> Hi!
-> 
-> Here's the version of the driver I have. AFAICT
-> default-brightness-level handling is ok, so does not need to be
-> changed.
-> 
-> Lee, it would be easiest for me if you could apply it to your tree and
-> push, but given enough time I can push it to Linus, too.
+--===============0635465093==
+Content-Type: multipart/alternative; boundary="000000000000101559059ef379b9"
 
-Oh you're using quoted-printable for patches.. Got it applied now,
-and it still works. Below is also the related dts change that
-I tested with.
+--000000000000101559059ef379b9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Feel free to pick the dts change too, naturally that should
-not be applied before the driver.
+Hello,
 
-If you guys instead want me to pick these both into my fixes
-branch, just let me know and I'll do the explaining why these
-are needed as fixes. Basically we no longer have a way to enable
-the LCD backlight for droid4 manually starting with v5.6-rc1
-unlike earlier.
+My name is Misha Patel and I=E2=80=99m reaching out on behalf of the HackIl=
+linois
+Outreach team. HackIllinois is a 36-hour collegiate Open Source hackathon
+that takes place annually at the University of Illinois Urbana-Champaign.
+This year, it will be from February 28th-March 1st, 2020. Our mission is to
+introduce college students to Open Source, while giving back to the
+community. We strive to create a collaborative environment in which our
+attendees can learn from and work with developers to make their own
+contributions. In past years, we=E2=80=99ve had developers from prominent p=
+rojects
+such as npm, Rust, and Apache come to mentor students from our pool of 900+
+attendees.
 
-Regards,
+We=E2=80=99d love it if you could pass along this message to the X.Org Foun=
+dation
+community or any individuals you believe would be interested. We will
+provide meals throughout the event and can reimburse for travel and lodging
+up to a certain amount depending on where in the US people are coming from.
+More information on mentorship can be found at hackillinois.org/mentor. You
+can also visit opensource.hackillinois.org to see what kinds of projects
+were represented at our event last year.
 
-Tony
+Best,
+Misha Patel
+HackIllinois 2020 Outreach Director
 
-8< ------------------
-From tony Mon Sep 17 00:00:00 2001
-From: Tony Lindgren <tony@atomide.com>
-Date: Wed, 19 Feb 2020 11:25:27 -0800
-Subject: [PATCH] ARM: dts: droid4: Configure LED backlight for lm3532
+--000000000000101559059ef379b9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With the LED backlight changes merged, we still need the dts configured
-to have backlight working for droid4. Based on an earlier patch from
-Pavel Machek <pavel@ucw.cz>, let's configure the backlight but update
-the value range to be more usable.
+<div dir=3D"ltr"><font face=3D"arial, sans-serif">Hello,<br><br>My name is =
+Misha Patel and I=E2=80=99m reaching out on behalf of the HackIllinois Outr=
+each team. HackIllinois is a 36-hour collegiate Open Source hackathon that =
+takes place annually at the University of Illinois Urbana-Champaign. This y=
+ear, it will be from February 28th-March 1st, 2020. Our mission is to intro=
+duce college students to Open Source, while giving back to the community. W=
+e strive to create a collaborative environment in which our attendees can l=
+earn from and work with developers to make their own contributions. In past=
+ years, we=E2=80=99ve had developers from prominent projects such as npm, R=
+ust, and Apache come to mentor students from our pool of 900+ attendees. <b=
+r><br>We=E2=80=99d love it if you could pass along this message to the X.Or=
+g Foundation community or any individuals you believe would be interested. =
+We will provide meals throughout the event and can reimburse for travel and=
+ lodging up to a certain amount depending on where in the US people are com=
+ing from. More information on mentorship can be found at <a href=3D"http://=
+hackillinois.org/mentor" target=3D"_blank">hackillinois.org/mentor</a>. You=
+ can also visit <a href=3D"http://opensource.hackillinois.org" target=3D"_b=
+lank">opensource.hackillinois.org</a> to see what kinds of projects were re=
+presented at our event last year.<br></font><div><font face=3D"arial, sans-=
+serif"><br></font></div><div><font face=3D"arial, sans-serif">Best,</font><=
+/div><div><font face=3D"arial, sans-serif">Misha Patel</font></div><div><fo=
+nt face=3D"arial, sans-serif">HackIllinois 2020 Outreach Director=C2=A0</fo=
+nt></div></div>
 
-We have a range of 256 register values split into 8 steps, so we can
-generate the brightness levels backwards with:
+--000000000000101559059ef379b9--
 
-$ for i in 0 1 2 3 4 5 6 7; do echo "255 - ${i} * (256 / 8)" | bc; done
+--===============0635465093==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-To avoid more confusion why the LCD backlight is still not on, let's
-also enable LED backlight as a loadable module for omap2plus_defconfig.
-
-Cc: Merlijn Wajer <merlijn@wizzup.org>
-Cc: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Tony Lindgren <tony@atomide.com>
----
- arch/arm/boot/dts/motorola-mapphone-common.dtsi | 13 +++++++++++--
- arch/arm/configs/omap2plus_defconfig            |  1 +
- 2 files changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm/boot/dts/motorola-mapphone-common.dtsi b/arch/arm/boot/dts/motorola-mapphone-common.dtsi
---- a/arch/arm/boot/dts/motorola-mapphone-common.dtsi
-+++ b/arch/arm/boot/dts/motorola-mapphone-common.dtsi
-@@ -182,6 +182,14 @@ vibrator {
- 		pwm-names = "enable", "direction";
- 		direction-duty-cycle-ns = <10000000>;
- 	};
-+
-+	backlight: backlight {
-+		compatible = "led-backlight";
-+
-+		leds = <&backlight_led>;
-+		brightness-levels = <31 63 95 127 159 191 223 255>;
-+		default-brightness-level = <6>;
-+	};
- };
- 
- &dss {
-@@ -205,6 +213,8 @@ lcd0: display {
- 		vddi-supply = <&lcd_regulator>;
- 		reset-gpios = <&gpio4 5 GPIO_ACTIVE_HIGH>;	/* gpio101 */
- 
-+		backlight = <&backlight>;
-+
- 		width-mm = <50>;
- 		height-mm = <89>;
- 
-@@ -393,12 +403,11 @@ led-controller@38 {
- 		ramp-up-us = <1024>;
- 		ramp-down-us = <8193>;
- 
--		led@0 {
-+		backlight_led: led@0 {
- 			reg = <0>;
- 			led-sources = <2>;
- 			ti,led-mode = <0>;
- 			label = ":backlight";
--			linux,default-trigger = "backlight";
- 		};
- 
- 		led@1 {
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -375,6 +375,7 @@ CONFIG_BACKLIGHT_GENERIC=m
- CONFIG_BACKLIGHT_PWM=m
- CONFIG_BACKLIGHT_PANDORA=m
- CONFIG_BACKLIGHT_GPIO=m
-+CONFIG_BACKLIGHT_LED=m
- CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_FRAMEBUFFER_CONSOLE_ROTATION=y
- CONFIG_LOGO=y
--- 
-2.25.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0635465093==--
