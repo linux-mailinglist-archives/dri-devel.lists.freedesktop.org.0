@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD96D1649E7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C60F1649E5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 17:18:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0964B6EC4E;
-	Wed, 19 Feb 2020 16:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F94D6EC4A;
+	Wed, 19 Feb 2020 16:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
  [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 995906EBF9;
- Wed, 19 Feb 2020 13:50:56 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id c9so606291wrw.8;
- Wed, 19 Feb 2020 05:50:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1BQ3RLCCPj8Vx5ymm6Uw4hsRHsW/TZRnV/QBxLYgzPE=;
- b=K6PePbxrFjWbY03tih5qY6w88t4RI3CnQQWh6Bpio3HdR0POP9J1PZwyjxERD+zJYR
- hA6Sh9ajIlAQpUpY1raNQDzxFaGKgPMol5Hd7FfSynBF9D1VR0hYvCaXqyj6+Co83FUG
- GK+GLQE0ywdD7xOvU/hNI2rFI6N6MR6ymHHtJsPnRibK0NKrZSzerUHihyXpnpPKTIwf
- GeBx6uWr71leEaZ0336KWakBAfABTSnAhtebLX9oOu4hbkxYdBvsdQLV0CJNT2wIYIhp
- bHLp2qNqKghZLZ5dEhGUO+jJ9ZMF6ax55UAuknqZUi3zbn33yAVy4+MwiAz4U0XmP/qP
- DEVg==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3708C6E7F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 14:13:40 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id r11so685902wrq.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 06:13:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=k+5x80NuD9V+Qnk21e0mDSFOMaIC5Iytof66uYIbXss=;
+ b=vSIEsdExWZ2FbdPu0MU7VTcU7IF3oIQ32l2NuuFLX8Pl5KvjA2twy0JNbXU9P3gDHq
+ pOIyRNd5icecIFJ6CN41j4lbT0HN7PdIOQQfHknbRaNqaij9+c0i4d0iJg+IQGvonXEU
+ /9FRusWgtIxolCOpZiznjI7l95lFAo6SYHdMTkHOSWXGeE5QQ4xXAyjQIBJ7H28zG08w
+ aF36mTgygaz9dlKMUJ1bBVY4y30cpm+aMCHoCls0t+A8d56qFO9jks3oTHVBldvNsVj2
+ Eafka6pMIzGAL5iq4nWphoxSq1ILpTyXY8Snp3fTPCd08FppMLnwh55Ef5rUYg9R1hKi
+ SLYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1BQ3RLCCPj8Vx5ymm6Uw4hsRHsW/TZRnV/QBxLYgzPE=;
- b=dawViytkcb18ZE5LG6pxWeipdeRicZw1xBBZTZaGApNEWQduldtVIrLTNHke0pZazD
- +lP1IaumNSPuPJ94LS1uF1SwHJFKdEPZi4z1dKnw3XzNAsuaDgA45FoTQbY00bI4kbiv
- UKW+Uu7ilo+7kgCMJdSe3agQ9heWyGg08zel/EouJzLFjKWK67bMOCUbb1rnn6SpFKTI
- P2zI5w0KhXJqIHZewj7xJFrdsVxZ1JkBnpCgbwf2Wq4xbScVJ0fphm3ERhkldqVXNKzb
- vzIfSCK3JGOTBjeqH+T0TBBEuc1JIvITVG53uTYokug3ZaeprPgHI1RwMnKta8k0+9gP
- 0g2Q==
-X-Gm-Message-State: APjAAAXiKajpckRbIFDByyV15mGbRQxmd3JBNK/VVRI4WqV3KrILjvc0
- PwcuIgEhD3V5sJAWTkHkX+ye9UdAgpTX4g==
-X-Google-Smtp-Source: APXvYqwrxRMqCWIUMRToOvWkusgU3QGsOnPV/TQM3PpZjWapGBRqrbuZrAhmeWchZZTsO0FLN3aAhw==
-X-Received: by 2002:adf:fa86:: with SMTP id h6mr35535578wrr.418.1582120254836; 
- Wed, 19 Feb 2020 05:50:54 -0800 (PST)
-Received: from brihaspati.fritz.box (p5DE53754.dip0.t-ipconnect.de.
- [93.229.55.84])
- by smtp.gmail.com with ESMTPSA id y1sm3061881wrq.16.2020.02.19.05.50.53
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=k+5x80NuD9V+Qnk21e0mDSFOMaIC5Iytof66uYIbXss=;
+ b=MYnZXGwpNF65Jpqq6z0lkUgWAIXnB8cXSjH+eBqs04kP9dnNorkErx4UX4m1VDwwpT
+ jqdVvhw+p/lGUU8XD8gl5m0Rroescbt4qA8LNIXDs3Lip9jI36C6rmOPcm5dVGH8lpVb
+ GJnB/vOxB9T9D6sUsrYO3Tqy4jdeyRYIILVgrQo6VtBPwGbmcNWGTWULNubXMIgBL/aY
+ 7FYpWlzh6+4CcKIfQUpevR8wU2cUIZFRlBQpkIznxUJa1QmFYRYjduIa9kDXOqJhxLMD
+ +RpU3EJOHQ8zZaVkbyUFAGk804PQEbJ3NF3BQtjF4klIlbKzn/3FVoi6x6OQK5InqIn8
+ 21YA==
+X-Gm-Message-State: APjAAAVM7LVxESl532ciRPGPapFu+Kh3h7nP7JCClQIVoijAuk+EQhLp
+ FAOOYbisFepMGbNaZN0vySFu2w==
+X-Google-Smtp-Source: APXvYqzMstRSs0CuhMEXF+cVCctS5nCVYxs4zXGgDEYIyjt2Wlt/zX0aqBTexiTEeZ2jMvRmxr7YRg==
+X-Received: by 2002:adf:f406:: with SMTP id g6mr36762230wro.189.1582121618880; 
+ Wed, 19 Feb 2020 06:13:38 -0800 (PST)
+Received: from robin.baylibre.local
+ (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id g25sm7999695wmh.3.2020.02.19.06.13.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 05:50:54 -0800 (PST)
-From: Nirmoy Das <nirmoy.aiemd@gmail.com>
-X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 8/8] drm/ttm: do not keep GPU dependent addresses
-Date: Wed, 19 Feb 2020 14:53:22 +0100
-Message-Id: <20200219135322.56463-9-nirmoy.das@amd.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200219135322.56463-1-nirmoy.das@amd.com>
-References: <20200219135322.56463-1-nirmoy.das@amd.com>
-MIME-Version: 1.0
+ Wed, 19 Feb 2020 06:13:38 -0800 (PST)
+From: Phong LE <ple@baylibre.com>
+To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH] drm/mediatek: component type MTK_DISP_OVL_2L is not correctly
+ handled
+Date: Wed, 19 Feb 2020 15:13:24 +0100
+Message-Id: <20200219141324.29299-1-ple@baylibre.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Wed, 19 Feb 2020 16:18:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,78 +67,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thellstrom@vmware.com, airlied@linux.ie, kenny.ho@amd.com,
- brian.welty@intel.com, amd-gfx@lists.freedesktop.org, nirmoy.das@amd.com,
- linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
- alexander.deucher@amd.com, sean@poorly.run, christian.koenig@amd.com,
- kraxel@redhat.com
+Cc: Phong LE <ple@baylibre.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GPU address handling is device specific and should be handle by its device
-driver.
+The larb device remains NULL if the type is MTK_DISP_OVL_2L.
+A kernel panic is raised when a crtc uses mtk_smi_larb_get or
+mtk_smi_larb_put.
 
-Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+Signed-off-by: Phong LE <ple@baylibre.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c    | 7 -------
- include/drm/ttm/ttm_bo_api.h    | 2 --
- include/drm/ttm/ttm_bo_driver.h | 1 -
- 3 files changed, 10 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 151edfd8de77..d5885cd609a3 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -85,7 +85,6 @@ static void ttm_mem_type_debug(struct ttm_bo_device *bdev, struct drm_printer *p
- 	drm_printf(p, "    has_type: %d\n", man->has_type);
- 	drm_printf(p, "    use_type: %d\n", man->use_type);
- 	drm_printf(p, "    flags: 0x%08X\n", man->flags);
--	drm_printf(p, "    gpu_offset: 0x%08llX\n", man->gpu_offset);
- 	drm_printf(p, "    size: %llu\n", man->size);
- 	drm_printf(p, "    available_caching: 0x%08X\n", man->available_caching);
- 	drm_printf(p, "    default_caching: 0x%08X\n", man->default_caching);
-@@ -345,12 +344,6 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- moved:
- 	bo->evicted = false;
- 
--	if (bo->mem.mm_node)
--		bo->offset = (bo->mem.start << PAGE_SHIFT) +
--		    bdev->man[bo->mem.mem_type].gpu_offset;
--	else
--		bo->offset = 0;
--
- 	ctx->bytes_moved += bo->num_pages << PAGE_SHIFT;
- 	return 0;
- 
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index b9bc1b00142e..d6f39ee5bf5d 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -213,8 +213,6 @@ struct ttm_buffer_object {
- 	 * either of these locks held.
- 	 */
- 
--	uint64_t offset; /* GPU address space is independent of CPU word size */
--
- 	struct sg_table *sg;
- };
- 
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index c9e0fd09f4b2..c8ce6c181abe 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -177,7 +177,6 @@ struct ttm_mem_type_manager {
- 	bool has_type;
- 	bool use_type;
- 	uint32_t flags;
--	uint64_t gpu_offset; /* GPU address space is independent of CPU word size */
- 	uint64_t size;
- 	uint32_t available_caching;
- 	uint32_t default_caching;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index 1f5a112bb034..57c88de9a329 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -471,6 +471,7 @@ int mtk_ddp_comp_init(struct device *dev, struct device_node *node,
+ 	/* Only DMA capable components need the LARB property */
+ 	comp->larb_dev = NULL;
+ 	if (type != MTK_DISP_OVL &&
++	    type != MTK_DISP_OVL_2L &&
+ 	    type != MTK_DISP_RDMA &&
+ 	    type != MTK_DISP_WDMA)
+ 		return 0;
 -- 
-2.25.0
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
