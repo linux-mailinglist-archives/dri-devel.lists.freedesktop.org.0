@@ -1,51 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BAEA164743
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 15:41:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE75164758
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 15:44:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A98B6EC0A;
-	Wed, 19 Feb 2020 14:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 343076E7EF;
+	Wed, 19 Feb 2020 14:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 453AA6EC0A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 14:41:19 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id a142so23985819oii.7
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 06:41:19 -0800 (PST)
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD536EC0B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 14:43:55 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id r16so366973otd.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 06:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6LKfyG4rH5EfpUi30c13AAPS68NmIvHHD02r+L3Dggw=;
- b=Mv8cfHSCpmPx/g0LYMDekwaCn69z3efbzziY08NWuOY78CgrsRsDwCVF+ztFn/7oPY
- ON7Wshq6eIYsoKgWLit0FvgWf4xkie9bTslnKV0miqIxsbvvW0YoLZ/ogbQlhtJkQmcZ
- oNzlMdqtVgnVSoenvyqwQ1RP+owHeeccqjKdY=
+ :cc:content-transfer-encoding;
+ bh=0+r/IxJFrHXvbsJ7Lw6LBNQtd5OOT3On2BoQEMsYzxc=;
+ b=g3/Ul/pC00V3oEf9+jMnYuni1ix46TAfWjiM5mUoqPed3jovuOxpnZiltZsXWKwyQ6
+ v3+MD6bymdT6NgOU3+5t9hm5dNSFWyT6kZM73i8fr45EOvS5CRE0+Ge3HBXDLcL8RmtQ
+ VTtvtWPkL1s1hmCCB7vxKvrvaVqAfYk5Q7s+E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6LKfyG4rH5EfpUi30c13AAPS68NmIvHHD02r+L3Dggw=;
- b=JOd8f0IznfuvUO44ztr5N1kYVX7NKkP7g3z0hycH2Co5R5bhILEuNONIq6VQK37V75
- HkR2l7Gfo8O8N0FPj9gPBe09lFi73QPCa0wl/7vKDhiZO4/QUEEpuLjlxCbZSHk51FRI
- KYfpN9CLOXHZMOeEoBDlUbpM7l+EZ/M7KXgSAj0JajIt8Pz1h36b2CcJyNBW2Z2E8b9Q
- xgWpPXvGEP2zNp9GoUCcFUYUdZtTrqgNDS/6BBD9KGZCpRash8dGAAnOlF/uh6lEKjSw
- Ues+DCAsHFAM7C+LeBdHflT5wyTse5X+pUWTwcpoMJ0Mj6PXZC1IK+a5cTtoSEK3hgpM
- lfPQ==
-X-Gm-Message-State: APjAAAWaG+QEgRhhBLPKTKOaA5O9QDrjT645n11cMy69UyVsVmqlIbOf
- QYKbb+xFZEpm65H+YcWpTEgb1uWbyvKa7A2mfJRAXwAN
-X-Google-Smtp-Source: APXvYqzNdGME456SKaX1Qim+QM5UpqgJb+dI/Qyuquzzy/Wv6p4Q5iaWqcJ8xiUHqXbl8HJmb+Jx+OGTTm/maWHpKZI=
-X-Received: by 2002:aca:2407:: with SMTP id n7mr4859370oic.14.1582123278554;
- Wed, 19 Feb 2020 06:41:18 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0+r/IxJFrHXvbsJ7Lw6LBNQtd5OOT3On2BoQEMsYzxc=;
+ b=SSPWl4czPE1XQMUfUQovibHA0uBCxwTNAyRlKJRIVh8WWfrWwIqKsxDFa5nlJtOL/l
+ jyMMxWTlxNn/X+QyVJ7m6ubl6deMsqhB2aWOP+z6hB9JvoU9U0ZNqtdfNXuTrpSMVUZ2
+ 5VlEyczgGKRjXk5xaSTik7SNaGqTuT7474WI+PJuHmwP2EGPo48J1tciArAFi+h0ZYg5
+ Qd/YSrc27etm91bX2yxO/nBhdmZJbXrp9njtXFxbHS5BxIS9Mn6W6V016xZj9zhzEAWF
+ n+YxNjmCV5B0iuPMqw9tZ1v9sjyiLFYaZJlAWn3Iq2nGQHp1X6OYoJvFykho7lS/nCmk
+ 7iWQ==
+X-Gm-Message-State: APjAAAW1IQrlw1sQ2UumZMlH1kmOPjwVnutScFiBSRGI54IS2jtxUXSf
+ lGmBvnEZeqPAvC67SQlhQ8R6pnyC8RTNsc3HEF9UbA==
+X-Google-Smtp-Source: APXvYqxPQaHe0ajM9EaFYWOKeO1qx5rLjG9Ri2SplUUGh2oAO+P037hMuCCLkPI/S/kkV1vTWPuw83Yfi6xG3YezsC4=
+X-Received: by 2002:a05:6830:2015:: with SMTP id
+ e21mr19176597otp.106.1582123434662; 
+ Wed, 19 Feb 2020 06:43:54 -0800 (PST)
 MIME-Version: 1.0
 References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-5-daniel.vetter@ffwll.ch>
- <20200219133900.GE5070@pendragon.ideasonboard.com>
-In-Reply-To: <20200219133900.GE5070@pendragon.ideasonboard.com>
+ <20200219102122.1607365-8-daniel.vetter@ffwll.ch>
+ <20200219134211.GF5070@pendragon.ideasonboard.com>
+In-Reply-To: <20200219134211.GF5070@pendragon.ideasonboard.com>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 19 Feb 2020 15:41:07 +0100
-Message-ID: <CAKMK7uFACJa15K6OfnPFj2nP_WQ=a1tWAe09BJ3Mt+KX-VQ1-g@mail.gmail.com>
-Subject: Re: [PATCH 04/52] drm: Set final_kfree in drm_dev_alloc
+Date: Wed, 19 Feb 2020 15:43:43 +0100
+Message-ID: <CAKMK7uHCZ1cDRC1oeGp6crmPfdrx28Z9K4X3x-A26uSyZFrrhg@mail.gmail.com>
+Subject: Re: [PATCH 07/52] drm/udl: Use drmm_add_final_kfree
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,146 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>,
+Cc: Sean Paul <sean@poorly.run>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, xen-devel@lists.xenproject.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2020 at 2:39 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Daniel,
->
-> Thank you for the patch.
->
-> On Wed, Feb 19, 2020 at 11:20:34AM +0100, Daniel Vetter wrote:
-> > I also did a full review of all callers, and only the xen driver
-> > forgot to call drm_dev_put in the failure path. Fix that up too.
->
-> I'd split this patch in two then, with the Xen first coming first, and
-> with an explanation in the commit message of the second patch about why
-> you call drmm_add_final_kfree() in drm_dev_alloc().
->
-> > v2: I noticed that xen has a drm_driver.release hook, and uses
-> > drm_dev_alloc(). We need to remove the kfree from
-> > xen_drm_drv_release().
-> >
-> > bochs also has a release hook, but leaked the drm_device ever since
-> >
-> > commit 0a6659bdc5e8221da99eebb176fd9591435e38de
-> > Author: Gerd Hoffmann <kraxel@redhat.com>
-> > Date:   Tue Dec 17 18:04:46 2013 +0100
-> >
-> >     drm/bochs: new driver
-> >
-> > This patch here fixes that leak.
-> >
-> > Same for virtio, started leaking with
-> >
-> > commit b1df3a2b24a917f8853d43fe9683c0e360d2c33a
-> > Author: Gerd Hoffmann <kraxel@redhat.com>
-> > Date:   Tue Feb 11 14:58:04 2020 +0100
-> >
-> >     drm/virtio: add drm_driver.release callback.
-> >
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> > Cc: xen-devel@lists.xenproject.org
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> > Cc: xen-devel@lists.xenproject.org
-> > ---
-> >  drivers/gpu/drm/drm_drv.c           | 3 +++
-> >  drivers/gpu/drm/xen/xen_drm_front.c | 2 +-
-> >  2 files changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index 3e5627d6eba6..9e62e28bbc62 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -39,6 +39,7 @@
-> >  #include <drm/drm_color_mgmt.h>
-> >  #include <drm/drm_drv.h>
-> >  #include <drm/drm_file.h>
-> > +#include <drm/drm_managed.h>
-> >  #include <drm/drm_mode_object.h>
-> >  #include <drm/drm_print.h>
-> >
-> > @@ -819,6 +820,8 @@ struct drm_device *drm_dev_alloc(struct drm_driver *driver,
-> >               return ERR_PTR(ret);
-> >       }
-> >
-> > +     drmm_add_final_kfree(dev, dev);
->
-> drmm_add_final_kfree() can only be called once. Does this mean that a
-> driver using drm_dev_alloc() isn't allowed to use drmm_add_final_kfree()
-> to tract its own private structure ?
-
-There is only _one_ final kfree() for the structure containing
-drm_device. Anything else you can just allocate with drmm_kzalloc, and
-it will be cleaned up before. The chicken/egg doesn't just exist
-around init time with drm_device, but also at cleanup time - the list
-of cleanup actions is stored in drm_device, plus the logging macros
-also need a drm_device. Which means we really, really, really need to
-make sure that the drm_device is the very last thing that goes away.
-Hence this special case. I was semi-tempted to drill through the slab
-debug layer and add a check that the drm_device pointer in the
-final_kfree is actually within the slab allocation block. Just to make
-sure people use this correctly, and not just as a "hey here's a random
-kmalloc block I want you to release, thxokbye". Because doing that
-would cause a few use-after-free (or a leak).
--Daniel
-
->
-> > +
-> >       return dev;
-> >  }
-> >  EXPORT_SYMBOL(drm_dev_alloc);
-> > diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/xen_drm_front.c
-> > index 4be49c1aef51..d22b5da38935 100644
-> > --- a/drivers/gpu/drm/xen/xen_drm_front.c
-> > +++ b/drivers/gpu/drm/xen/xen_drm_front.c
-> > @@ -461,7 +461,6 @@ static void xen_drm_drv_release(struct drm_device *dev)
-> >       drm_mode_config_cleanup(dev);
-> >
-> >       drm_dev_fini(dev);
-> > -     kfree(dev);
-> >
-> >       if (front_info->cfg.be_alloc)
-> >               xenbus_switch_state(front_info->xb_dev,
-> > @@ -561,6 +560,7 @@ static int xen_drm_drv_init(struct xen_drm_front_info *front_info)
-> >  fail_modeset:
-> >       drm_kms_helper_poll_fini(drm_dev);
-> >       drm_mode_config_cleanup(drm_dev);
-> > +     drm_dev_put(drm_dev);
-> >  fail:
-> >       kfree(drm_info);
-> >       return ret;
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBGZWIgMTksIDIwMjAgYXQgMjo0MiBQTSBMYXVyZW50IFBpbmNoYXJ0CjxsYXVyZW50
+LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgo+Cj4gSGkgRGFuaWVsLAo+Cj4gVGhh
+bmsgeW91IGZvciB0aGUgcGF0Y2guCj4KPiBPbiBXZWQsIEZlYiAxOSwgMjAyMCBhdCAxMToyMDoz
+N0FNICswMTAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4gV2l0aCB0aGlzIHdlIGNhbiBkcm9w
+IHRoZSBmaW5hbCBrZnJlZSBmcm9tIHRoZSByZWxlYXNlIGZ1bmN0aW9uLgo+ID4KPiA+IHYyOiBX
+ZSBuZWVkIGRybV9kZXZfcHV0IHRvIHVucm9sbCB0aGUgZHJpdmVyIGNyZWF0aW9uIChvbmNlCj4g
+PiBkcm1fZGV2X2luaXQgYW5kIGRybW1fYWRkX2ZpbmFsX2tmcmVlIHN1Y2VlZGVkKSwgb3RoZXJ3
+aXNlCj4gPiB0aGUgZHJtbV8gbWFnaWMgZG9lc24ndCBoYXBwZW4uCj4gPgo+ID4gU2lnbmVkLW9m
+Zi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4KPiBEaWQgeW91
+IG1lYW4gdG8gc3F1YXNoIHRoaXMgd2l0aCB0aGUgcHJldmlvdXMgY29tbWl0ID8KClVoIHllcyBp
+bmRlZWQuIFdpbGwgc3F1YXNoLgotRGFuaWVsCgo+Cj4gPiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxp
+ZWRAcmVkaGF0LmNvbT4KPiA+IENjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4KPiA+IENj
+OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+IENjOiBFbWlsIFZl
+bGlrb3YgPGVtaWwubC52ZWxpa292QGdtYWlsLmNvbT4KPiA+IENjOiBEYW5pZWwgVmV0dGVyIDxk
+YW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4gQ2M6ICJOb3JhbGYgVHLDuG5uZXMiIDxub3JhbGZA
+dHJvbm5lcy5vcmc+Cj4gPiBDYzogVGhvbWFzIEdsZWl4bmVyIDx0Z2x4QGxpbnV0cm9uaXguZGU+
+Cj4gPiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+ID4gLS0tCj4gPiAgZHJp
+dmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMgfCAzICstLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYwo+
+ID4gaW5kZXggZDViODk3MTFhYjFlLi42YTU1OTQ5NDYwOTYgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91
+ZGxfZHJ2LmMKPiA+IEBAIC04MSw4ICs4MSw3IEBAIHN0YXRpYyBzdHJ1Y3QgdWRsX2RldmljZSAq
+dWRsX2RyaXZlcl9jcmVhdGUoc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGVyZmFjZSkKPiA+Cj4g
+PiAgICAgICByID0gdWRsX2luaXQodWRsKTsKPiA+ICAgICAgIGlmIChyKSB7Cj4gPiAtICAgICAg
+ICAgICAgIGRybV9kZXZfZmluaSgmdWRsLT5kcm0pOwo+ID4gLSAgICAgICAgICAgICBrZnJlZSh1
+ZGwpOwo+ID4gKyAgICAgICAgICAgICBkcm1fZGV2X3B1dCgmdWRsLT5kcm0pOwo+ID4gICAgICAg
+ICAgICAgICByZXR1cm4gRVJSX1BUUihyKTsKPiA+ICAgICAgIH0KPiA+Cj4KPiAtLQo+IFJlZ2Fy
+ZHMsCj4KPiBMYXVyZW50IFBpbmNoYXJ0CgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
+Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9i
+bG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
