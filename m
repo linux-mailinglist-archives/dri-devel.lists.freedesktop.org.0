@@ -1,37 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDEB16501F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 21:36:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7933916504A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 21:53:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 117C56ECB7;
-	Wed, 19 Feb 2020 20:36:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C71E6E866;
+	Wed, 19 Feb 2020 20:53:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D016ECB6;
- Wed, 19 Feb 2020 20:36:32 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2020 12:36:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,461,1574150400"; d="scan'208";a="283208383"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 19 Feb 2020 12:36:29 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 19 Feb 2020 22:36:29 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/12] drm: pahole struct drm_display_mode
-Date: Wed, 19 Feb 2020 22:35:44 +0200
-Message-Id: <20200219203544.31013-13-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
-References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E85B6E866
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 20:53:26 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 804FC1C013C; Wed, 19 Feb 2020 21:53:23 +0100 (CET)
+Date: Wed, 19 Feb 2020 21:53:23 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Tony Lindgren <tony@atomide.com>
+Subject: Re: [PATCH] backlight: add led-backlight driver
+Message-ID: <20200219205322.GA1227@duo.ucw.cz>
+References: <20200219191412.GA15905@amd> <20200219194540.GD37466@atomide.com>
 MIME-Version: 1.0
+In-Reply-To: <20200219194540.GD37466@atomide.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,107 +35,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: daniel.thompson@linaro.org, mpartap@gmx.net, jingoohan1@gmail.com,
+ merlijn@wizzup.org, martin_rysavy@centrum.cz,
+ kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ sre@kernel.org, nekit1000@gmail.com, tomi.valkeinen@ti.com, jjhiblot@ti.com,
+ linux-omap@vger.kernel.org, Lee Jones <lee.jones@linaro.org>, agx@sigxcpu.org,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============1130984565=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClJl
-b3JnYW5pemUgZHJtX2Rpc3BsYXlfbW9kZSB0byBlbGltaW5hdGUgYWxsIHRoZSBob2xlcy4KV2Un
-bGwgcHV0IGFsbCB0aGUgYWN0dWFsIHRpbWluZ3MgdG8gdGhlIHN0YXJ0IG9mIHRoZQpzdHJ1Y3Qg
-YW5kIGFsbCB0aGUgZXh0cmEganVuayB0byB0aGUgZW5kLgoKR2V0cyB0aGUgc2l6ZSBkb3duIHRv
-IDEzNiBieXRlcyBvbiA2NGJpdCBhbmQgMTIwIGJ5dGVzIG9uCjMyYml0LiBXaXRoIGEgYml0IG1v
-cmUgd29yayB3ZSBzaG91bGQgYmUgYWJsZSB0byBnZXQgdGhpcwpiZWxvdyB0aGUgdHdvIGNhY2hl
-bGluZSBtYXJrIGV2ZW4gb24gNjRiaXQuCgpTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6Qg
-PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgotLS0KIGluY2x1ZGUvZHJtL2RybV9tb2Rl
-cy5oIHwgMTM5ICsrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0KIDEgZmls
-ZSBjaGFuZ2VkLCA3MCBpbnNlcnRpb25zKCspLCA2OSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
-YS9pbmNsdWRlL2RybS9kcm1fbW9kZXMuaCBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlcy5oCmluZGV4
-IGRhZGIwZjNlNWIwYi4uZmRlZDgxMzA2YTQ3IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1f
-bW9kZXMuaAorKysgYi9pbmNsdWRlL2RybS9kcm1fbW9kZXMuaApAQCAtMjIyLDU2ICsyMjIsNiBA
-QCBlbnVtIGRybV9tb2RlX3N0YXR1cyB7CiAgKiBGb3IgcHJpbnRpbmcgeW91IGNhbiB1c2UgJURS
-TV9NT0RFX0ZNVCBhbmQgRFJNX01PREVfQVJHKCkuCiAgKi8KIHN0cnVjdCBkcm1fZGlzcGxheV9t
-b2RlIHsKLQkvKioKLQkgKiBAaGVhZDoKLQkgKgotCSAqIHN0cnVjdCBsaXN0X2hlYWQgZm9yIG1v
-ZGUgbGlzdHMuCi0JICovCi0Jc3RydWN0IGxpc3RfaGVhZCBoZWFkOwotCi0JLyoqCi0JICogQG5h
-bWU6Ci0JICoKLQkgKiBIdW1hbi1yZWFkYWJsZSBuYW1lIG9mIHRoZSBtb2RlLCBmaWxsZWQgb3V0
-IHdpdGggZHJtX21vZGVfc2V0X25hbWUoKS4KLQkgKi8KLQljaGFyIG5hbWVbRFJNX0RJU1BMQVlf
-TU9ERV9MRU5dOwotCi0JLyoqCi0JICogQHN0YXR1czoKLQkgKgotCSAqIFN0YXR1cyBvZiB0aGUg
-bW9kZSwgdXNlZCB0byBmaWx0ZXIgb3V0IG1vZGVzIG5vdCBzdXBwb3J0ZWQgYnkgdGhlCi0JICog
-aGFyZHdhcmUuIFNlZSBlbnVtICZkcm1fbW9kZV9zdGF0dXMuCi0JICovCi0JZW51bSBkcm1fbW9k
-ZV9zdGF0dXMgc3RhdHVzOwotCi0JLyoqCi0JICogQHR5cGU6Ci0JICoKLQkgKiBBIGJpdG1hc2sg
-b2YgZmxhZ3MsIG1vc3RseSBhYm91dCB0aGUgc291cmNlIG9mIGEgbW9kZS4gUG9zc2libGUgZmxh
-Z3MKLQkgKiBhcmU6Ci0JICoKLQkgKiAgLSBEUk1fTU9ERV9UWVBFX1BSRUZFUlJFRDogUHJlZmVy
-cmVkIG1vZGUsIHVzdWFsbHkgdGhlIG5hdGl2ZQotCSAqICAgIHJlc29sdXRpb24gb2YgYW4gTENE
-IHBhbmVsLiBUaGVyZSBzaG91bGQgb25seSBiZSBvbmUgcHJlZmVycmVkCi0JICogICAgbW9kZSBw
-ZXIgY29ubmVjdG9yIGF0IGFueSBnaXZlbiB0aW1lLgotCSAqICAtIERSTV9NT0RFX1RZUEVfRFJJ
-VkVSOiBNb2RlIGNyZWF0ZWQgYnkgdGhlIGRyaXZlciwgd2hpY2ggaXMgYWxsIG9mCi0JICogICAg
-dGhlbSByZWFsbHkuIERyaXZlcnMgbXVzdCBzZXQgdGhpcyBiaXQgZm9yIGFsbCBtb2RlcyB0aGV5
-IGNyZWF0ZQotCSAqICAgIGFuZCBleHBvc2UgdG8gdXNlcnNwYWNlLgotCSAqICAtIERSTV9NT0RF
-X1RZUEVfVVNFUkRFRjogTW9kZSBkZWZpbmVkIHZpYSBrZXJuZWwgY29tbWFuZCBsaW5lCi0JICoK
-LQkgKiBQbHVzIGEgYmlnIGxpc3Qgb2YgZmxhZ3Mgd2hpY2ggc2hvdWxkbid0IGJlIHVzZWQgYXQg
-YWxsLCBidXQgYXJlCi0JICogc3RpbGwgYXJvdW5kIHNpbmNlIHRoZXNlIGZsYWdzIGFyZSBhbHNv
-IHVzZWQgaW4gdGhlIHVzZXJzcGFjZSBBQkkuCi0JICogV2Ugbm8gbG9uZ2VyIGFjY2VwdCBtb2Rl
-cyB3aXRoIHRoZXNlIHR5cGVzIHRob3VnaDoKLQkgKgotCSAqICAtIERSTV9NT0RFX1RZUEVfQlVJ
-TFRJTjogTWVhbnQgZm9yIGhhcmQtY29kZWQgbW9kZXMsIHVudXNlZC4KLQkgKiAgICBVc2UgRFJN
-X01PREVfVFlQRV9EUklWRVIgaW5zdGVhZC4KLQkgKiAgLSBEUk1fTU9ERV9UWVBFX0RFRkFVTFQ6
-IEFnYWluIGEgbGVmdG92ZXIsIHVzZQotCSAqICAgIERSTV9NT0RFX1RZUEVfUFJFRkVSUkVEIGlu
-c3RlYWQuCi0JICogIC0gRFJNX01PREVfVFlQRV9DTE9DS19DIGFuZCBEUk1fTU9ERV9UWVBFX0NS
-VENfQzogRGVmaW5lIGxlZnRvdmVycwotCSAqICAgIHdoaWNoIGFyZSBzdHVjayBhcm91bmQgZm9y
-IGh5c3RlcmljYWwgcmFpc2lucyBvbmx5LiBObyBvbmUgaGFzIGFuCi0JICogICAgaWRlYSB3aGF0
-IHRoZXkgd2VyZSBtZWFudCBmb3IuIERvbid0IHVzZS4KLQkgKi8KLQl1OCB0eXBlOwotCiAJLyoq
-CiAJICogQGNsb2NrOgogCSAqCkBAIC0zMjQsMjIgKzI3NCw2IEBAIHN0cnVjdCBkcm1fZGlzcGxh
-eV9tb2RlIHsKIAkgKi8KIAl1MzIgZmxhZ3M7CiAKLQkvKioKLQkgKiBAd2lkdGhfbW06Ci0JICoK
-LQkgKiBBZGRyZXNzYWJsZSBzaXplIG9mIHRoZSBvdXRwdXQgaW4gbW0sIHByb2plY3RvcnMgc2hv
-dWxkIHNldCB0aGlzIHRvCi0JICogMC4KLQkgKi8KLQl1MTYgd2lkdGhfbW07Ci0KLQkvKioKLQkg
-KiBAaGVpZ2h0X21tOgotCSAqCi0JICogQWRkcmVzc2FibGUgc2l6ZSBvZiB0aGUgb3V0cHV0IGlu
-IG1tLCBwcm9qZWN0b3JzIHNob3VsZCBzZXQgdGhpcyB0bwotCSAqIDAuCi0JICovCi0JdTE2IGhl
-aWdodF9tbTsKLQogCS8qKgogCSAqIEBjcnRjX2Nsb2NrOgogCSAqCkBAIC0zNzAsNiArMzA0LDUw
-IEBAIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHsKIAl1MTYgY3J0Y192c3luY19lbmQ7CiAJdTE2
-IGNydGNfdnRvdGFsOwogCisJLyoqCisJICogQHdpZHRoX21tOgorCSAqCisJICogQWRkcmVzc2Fi
-bGUgc2l6ZSBvZiB0aGUgb3V0cHV0IGluIG1tLCBwcm9qZWN0b3JzIHNob3VsZCBzZXQgdGhpcyB0
-bworCSAqIDAuCisJICovCisJdTE2IHdpZHRoX21tOworCisJLyoqCisJICogQGhlaWdodF9tbToK
-KwkgKgorCSAqIEFkZHJlc3NhYmxlIHNpemUgb2YgdGhlIG91dHB1dCBpbiBtbSwgcHJvamVjdG9y
-cyBzaG91bGQgc2V0IHRoaXMgdG8KKwkgKiAwLgorCSAqLworCXUxNiBoZWlnaHRfbW07CisKKwkv
-KioKKwkgKiBAdHlwZToKKwkgKgorCSAqIEEgYml0bWFzayBvZiBmbGFncywgbW9zdGx5IGFib3V0
-IHRoZSBzb3VyY2Ugb2YgYSBtb2RlLiBQb3NzaWJsZSBmbGFncworCSAqIGFyZToKKwkgKgorCSAq
-ICAtIERSTV9NT0RFX1RZUEVfUFJFRkVSUkVEOiBQcmVmZXJyZWQgbW9kZSwgdXN1YWxseSB0aGUg
-bmF0aXZlCisJICogICAgcmVzb2x1dGlvbiBvZiBhbiBMQ0QgcGFuZWwuIFRoZXJlIHNob3VsZCBv
-bmx5IGJlIG9uZSBwcmVmZXJyZWQKKwkgKiAgICBtb2RlIHBlciBjb25uZWN0b3IgYXQgYW55IGdp
-dmVuIHRpbWUuCisJICogIC0gRFJNX01PREVfVFlQRV9EUklWRVI6IE1vZGUgY3JlYXRlZCBieSB0
-aGUgZHJpdmVyLCB3aGljaCBpcyBhbGwgb2YKKwkgKiAgICB0aGVtIHJlYWxseS4gRHJpdmVycyBt
-dXN0IHNldCB0aGlzIGJpdCBmb3IgYWxsIG1vZGVzIHRoZXkgY3JlYXRlCisJICogICAgYW5kIGV4
-cG9zZSB0byB1c2Vyc3BhY2UuCisJICogIC0gRFJNX01PREVfVFlQRV9VU0VSREVGOiBNb2RlIGRl
-ZmluZWQgdmlhIGtlcm5lbCBjb21tYW5kIGxpbmUKKwkgKgorCSAqIFBsdXMgYSBiaWcgbGlzdCBv
-ZiBmbGFncyB3aGljaCBzaG91bGRuJ3QgYmUgdXNlZCBhdCBhbGwsIGJ1dCBhcmUKKwkgKiBzdGls
-bCBhcm91bmQgc2luY2UgdGhlc2UgZmxhZ3MgYXJlIGFsc28gdXNlZCBpbiB0aGUgdXNlcnNwYWNl
-IEFCSS4KKwkgKiBXZSBubyBsb25nZXIgYWNjZXB0IG1vZGVzIHdpdGggdGhlc2UgdHlwZXMgdGhv
-dWdoOgorCSAqCisJICogIC0gRFJNX01PREVfVFlQRV9CVUlMVElOOiBNZWFudCBmb3IgaGFyZC1j
-b2RlZCBtb2RlcywgdW51c2VkLgorCSAqICAgIFVzZSBEUk1fTU9ERV9UWVBFX0RSSVZFUiBpbnN0
-ZWFkLgorCSAqICAtIERSTV9NT0RFX1RZUEVfREVGQVVMVDogQWdhaW4gYSBsZWZ0b3ZlciwgdXNl
-CisJICogICAgRFJNX01PREVfVFlQRV9QUkVGRVJSRUQgaW5zdGVhZC4KKwkgKiAgLSBEUk1fTU9E
-RV9UWVBFX0NMT0NLX0MgYW5kIERSTV9NT0RFX1RZUEVfQ1JUQ19DOiBEZWZpbmUgbGVmdG92ZXJz
-CisJICogICAgd2hpY2ggYXJlIHN0dWNrIGFyb3VuZCBmb3IgaHlzdGVyaWNhbCByYWlzaW5zIG9u
-bHkuIE5vIG9uZSBoYXMgYW4KKwkgKiAgICBpZGVhIHdoYXQgdGhleSB3ZXJlIG1lYW50IGZvci4g
-RG9uJ3QgdXNlLgorCSAqLworCXU4IHR5cGU7CisKIAkvKioKIAkgKiBAcHJpdmF0ZV9mbGFnczoK
-IAkgKgpAQCAtMzgxLDExICszNTksMTEgQEAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgewogCXU4
-IHByaXZhdGVfZmxhZ3M7CiAKIAkvKioKLQkgKiBAcGljdHVyZV9hc3BlY3RfcmF0aW86CisJICog
-QGhlYWQ6CiAJICoKLQkgKiBGaWVsZCBmb3Igc2V0dGluZyB0aGUgSERNSSBwaWN0dXJlIGFzcGVj
-dCByYXRpbyBvZiBhIG1vZGUuCisJICogc3RydWN0IGxpc3RfaGVhZCBmb3IgbW9kZSBsaXN0cy4K
-IAkgKi8KLQllbnVtIGhkbWlfcGljdHVyZV9hc3BlY3QgcGljdHVyZV9hc3BlY3RfcmF0aW87CisJ
-c3RydWN0IGxpc3RfaGVhZCBoZWFkOwogCiAJLyoqCiAJICogQGV4cG9ydF9oZWFkOgpAQCAtMzk5
-LDYgKzM3NywyOSBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSB7CiAJICogYXZvaWQgb3Zlcmhl
-YWQgb2YgcHJvdGVjdGluZyBpdCBieSBtb2RlX2NvbmZpZy5tdXRleC4KIAkgKi8KIAlzdHJ1Y3Qg
-bGlzdF9oZWFkIGV4cG9ydF9oZWFkOworCisJLyoqCisJICogQG5hbWU6CisJICoKKwkgKiBIdW1h
-bi1yZWFkYWJsZSBuYW1lIG9mIHRoZSBtb2RlLCBmaWxsZWQgb3V0IHdpdGggZHJtX21vZGVfc2V0
-X25hbWUoKS4KKwkgKi8KKwljaGFyIG5hbWVbRFJNX0RJU1BMQVlfTU9ERV9MRU5dOworCisJLyoq
-CisJICogQHN0YXR1czoKKwkgKgorCSAqIFN0YXR1cyBvZiB0aGUgbW9kZSwgdXNlZCB0byBmaWx0
-ZXIgb3V0IG1vZGVzIG5vdCBzdXBwb3J0ZWQgYnkgdGhlCisJICogaGFyZHdhcmUuIFNlZSBlbnVt
-ICZkcm1fbW9kZV9zdGF0dXMuCisJICovCisJZW51bSBkcm1fbW9kZV9zdGF0dXMgc3RhdHVzOwor
-CisJLyoqCisJICogQHBpY3R1cmVfYXNwZWN0X3JhdGlvOgorCSAqCisJICogRmllbGQgZm9yIHNl
-dHRpbmcgdGhlIEhETUkgcGljdHVyZSBhc3BlY3QgcmF0aW8gb2YgYSBtb2RlLgorCSAqLworCWVu
-dW0gaGRtaV9waWN0dXJlX2FzcGVjdCBwaWN0dXJlX2FzcGVjdF9yYXRpbzsKKwogfTsKIAogLyoq
-Ci0tIAoyLjI0LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+
+--===============1130984565==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
+Content-Disposition: inline
+
+
+--UugvWAfsgieZRqgk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> > This patch adds a led-backlight driver (led_bl), which is similar to
+> > pwm_bl except the driver uses a LED class driver to adjust the
+> > brightness in the HW. Multiple LEDs can be used for a single backlight.
+> >=20
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> > Acked-by: Pavel Machek <pavel@ucw.cz>
+> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > Acked-by: Lee Jones <lee.jones@linaro.org>
+> > Acked-by: Tony Lindgren <tony@atomide.com>
+> > Tested-by: Tony Lindgren <tony@atomide.com>
+> > Signed-off-by: Pavel Machek <pavel@ucw.cz>
+> > ---
+> >  drivers/video/backlight/Kconfig  |   7 ++
+> >  drivers/video/backlight/Makefile |   1 +
+> >  drivers/video/backlight/led_bl.c | 260 +++++++++++++++++++++++++++++++=
+++++++++
+> >  3 files changed, 268 insertions(+)
+> >  create mode 100644 drivers/video/backlight/led_bl.c
+
+> > Here's the version of the driver I have. AFAICT
+> > default-brightness-level handling is ok, so does not need to be
+> > changed.
+> >=20
+> > Lee, it would be easiest for me if you could apply it to your tree and
+> > push, but given enough time I can push it to Linus, too.
+>=20
+> Oh you're using quoted-printable for patches.. Got it applied now,
+> and it still works. Below is also the related dts change that
+> I tested with.
+>=20
+> Feel free to pick the dts change too, naturally that should
+> not be applied before the driver.
+>=20
+> If you guys instead want me to pick these both into my fixes
+> branch, just let me know and I'll do the explaining why these
+> are needed as fixes. Basically we no longer have a way to enable
+> the LCD backlight for droid4 manually starting with v5.6-rc1
+> unlike earlier.
+
+If you are willing to do that, it looks like good solution from my
+point of view.
+
+Thanks,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--UugvWAfsgieZRqgk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXk2gQgAKCRAw5/Bqldv6
+8r5AAKC+AwUw3ENNYRcBhsb1uvxfuPaG+QCeOluKPDkiJcP+0psjlCyM4oMe06k=
+=iDlU
+-----END PGP SIGNATURE-----
+
+--UugvWAfsgieZRqgk--
+
+--===============1130984565==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1130984565==--
