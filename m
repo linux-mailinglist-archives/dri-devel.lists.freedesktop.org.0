@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E9E164CBB
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 18:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8C1164CC3
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Feb 2020 18:52:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3286EC5F;
-	Wed, 19 Feb 2020 17:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAE616E84B;
+	Wed, 19 Feb 2020 17:51:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 691746EC5F;
- Wed, 19 Feb 2020 17:51:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09CAF6E84B;
+ Wed, 19 Feb 2020 17:51:59 +0000 (UTC)
 Received: from localhost.localdomain (unknown [194.230.155.125])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0A50C2467A;
- Wed, 19 Feb 2020 17:51:36 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C3EF324672;
+ Wed, 19 Feb 2020 17:51:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582134708;
- bh=GncZJES9Pi+VGkKtqPts7U7bz/5zDiGW+ajpMZK1gUg=;
+ s=default; t=1582134718;
+ bh=2gDbrtlrI3Wh9HVURrYGxvGcl+OexnI7Xd0KupjKyjg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nps+RvDLKubC92VpmGQNWlndGFmfjWMGeb/g/eNgFR+xzszyfLi3xXawp++hyqb4m
- ORI6JWrkg6Q0W5ZsjhcSlCeeWNf6wixSeJxFI9h33iYowSawPTurEgX2Wj3C+53d5H
- P0IAjNbkxQCAyEjUuRHhnl2u9svOTEBYnry5h4XA=
+ b=edkRajat2UNJS10RWJb/1RntpeeJvXzGEKSl8t+0qmueFy60wVKSkZY9k3um0UCWK
+ BDJJRT4tj0OYJkV5EJS//0rfJOrz9S0kvr3zdTuqdKL9Dv8NVW/B+Iz2qn1Os5BqCU
+ brhDmyKjHMktBxYrUCddp3CdipBpPeIOiqI/MDPs=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Richard Henderson <rth@twiddle.net>,
  Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
@@ -53,10 +53,10 @@ To: Richard Henderson <rth@twiddle.net>,
  linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
  linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
  linux-arch@vger.kernel.org
-Subject: [RESEND PATCH v2 4/9] virtio: pci: Constify ioreadX() iomem argument
- (as in generic implementation)
-Date: Wed, 19 Feb 2020 18:50:02 +0100
-Message-Id: <20200219175007.13627-5-krzk@kernel.org>
+Subject: [RESEND PATCH v2 5/9] arc: Constify ioreadX() iomem argument (as in
+ generic implementation)
+Date: Wed, 19 Feb 2020 18:50:03 +0100
+Message-Id: <20200219175007.13627-6-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200219175007.13627-1-krzk@kernel.org>
 References: <20200219175007.13627-1-krzk@kernel.org>
@@ -82,45 +82,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 The ioreadX() helpers have inconsistent interface.  On some architectures
 void *__iomem address argument is a pointer to const, on some not.
 
-Implementations of ioreadX() do not modify the memory under the address
-so they can be converted to a "const" version for const-safety and
-consistency among architectures.
+Implementations of ioreadX() do not modify the memory under the
+address so they can be converted to a "const" version for const-safety
+and consistency among architectures.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
 
 ---
 
 Changes since v1:
-1. Add Geert's review.
+1. Add Alexey's ack.
 ---
- drivers/virtio/virtio_pci_modern.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arc/plat-axs10x/axs10x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/virtio/virtio_pci_modern.c b/drivers/virtio/virtio_pci_modern.c
-index 7abcc50838b8..fc58db4ab6c3 100644
---- a/drivers/virtio/virtio_pci_modern.c
-+++ b/drivers/virtio/virtio_pci_modern.c
-@@ -26,16 +26,16 @@
-  * method, i.e. 32-bit accesses for 32-bit fields, 16-bit accesses
-  * for 16-bit fields and 8-bit accesses for 8-bit fields.
-  */
--static inline u8 vp_ioread8(u8 __iomem *addr)
-+static inline u8 vp_ioread8(const u8 __iomem *addr)
- {
- 	return ioread8(addr);
- }
--static inline u16 vp_ioread16 (__le16 __iomem *addr)
-+static inline u16 vp_ioread16 (const __le16 __iomem *addr)
- {
- 	return ioread16(addr);
- }
+diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
+index 63ea5a606ecd..180c260a8221 100644
+--- a/arch/arc/plat-axs10x/axs10x.c
++++ b/arch/arc/plat-axs10x/axs10x.c
+@@ -84,7 +84,7 @@ static void __init axs10x_print_board_ver(unsigned int creg, const char *str)
+ 		unsigned int val;
+ 	} board;
  
--static inline u32 vp_ioread32(__le32 __iomem *addr)
-+static inline u32 vp_ioread32(const __le32 __iomem *addr)
- {
- 	return ioread32(addr);
+-	board.val = ioread32((void __iomem *)creg);
++	board.val = ioread32((const void __iomem *)creg);
+ 	pr_info("AXS: %s FPGA Date: %u-%u-%u\n", str, board.d, board.m,
+ 		board.y);
  }
+@@ -95,7 +95,7 @@ static void __init axs10x_early_init(void)
+ 	char mb[32];
+ 
+ 	/* Determine motherboard version */
+-	if (ioread32((void __iomem *) CREG_MB_CONFIG) & (1 << 28))
++	if (ioread32((const void __iomem *) CREG_MB_CONFIG) & (1 << 28))
+ 		mb_rev = 3;	/* HT-3 (rev3.0) */
+ 	else
+ 		mb_rev = 2;	/* HT-2 (rev2.0) */
 -- 
 2.17.1
 
