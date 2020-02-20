@@ -1,39 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5522716667C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:42:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AB8166688
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:46:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF2D6E21C;
-	Thu, 20 Feb 2020 18:42:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75FE289CD7;
+	Thu, 20 Feb 2020 18:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F87E6E21C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 18:42:36 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4F9289CD7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 18:46:14 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1582224390; h=Content-Type: MIME-Version: Message-ID: Date:
+ Subject: To: From: Sender;
+ bh=aubYGhPIepdsqXsSzHOAT4/niHaZQbjgPeotFzZIp7w=;
+ b=tMoWYpRQT+cAMJ5SfHZsl6IHxftqOQGa6bx8hPNnYkxoAfpMZOQ08io2lYPoFk68CE7x+Zja
+ RrXOS1Stm7yKrl8UwaBVy2C+GOW3KqVdspOm5ycdaoh1EUuQ7aNQhXuNPVijIcCbZKeOm7ch
+ BdL3c6RlURN0SBVzEmK/KLHvQKA=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e4ed3e7.7f8252242f10-smtp-out-n02;
+ Thu, 20 Feb 2020 18:45:59 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id B9A8DC4479F; Thu, 20 Feb 2020 18:45:58 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,HTML_MESSAGE,
+ SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from JEYKUMAR1 (i-global254.qualcomm.com [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id F22EF80A60;
- Thu, 20 Feb 2020 19:42:31 +0100 (CET)
-Date: Thu, 20 Feb 2020 19:42:30 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 1/4] drm/simple-kms: Add drm_simple_encoder_{init,
- create}()
-Message-ID: <20200220184230.GA18993@ravnborg.org>
-References: <20200218084815.2137-1-tzimmermann@suse.de>
- <20200218084815.2137-2-tzimmermann@suse.de>
+ (No client certificate requested) (Authenticated sender: jsanka)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D6CD3C43383;
+ Thu, 20 Feb 2020 18:45:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D6CD3C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jsanka@codeaurora.org
+From: <jsanka@codeaurora.org>
+To: "'Sean Paul'" <seanpaul@chromium.org>, "'Rob Clark'" <robdclark@gmail.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Support for early wakeup in DRM
+Date: Thu, 20 Feb 2020 10:45:57 -0800
+Message-ID: <00e901d5e81d$fd609ac0$f821d040$@codeaurora.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200218084815.2137-2-tzimmermann@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10
- a=cNTKbyX6Oi9ivAK1HFkA:9 a=wPNLvfGTeEIA:10
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AdXoHfy9XNgzjYeuQouCBuTEDJRhEg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,211 +66,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, kraxel@redhat.com,
- alexander.deucher@amd.com, spice-devel@lists.freedesktop.org,
- emil.velikov@collabora.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="===============1236610591=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas.
+This is a multipart message in MIME format.
 
-On Tue, Feb 18, 2020 at 09:48:12AM +0100, Thomas Zimmermann wrote:
-> This patch makes the internal encoder implementation of the simple
-> KMS helpers available to drivers.
-> =
+--===============1236610591==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_00EA_01D5E7DA.EF3DCFF0"
+Content-Language: en-us
 
-> These simple-encoder helpers initialize an encoder with an empty
-> implementation. This covers the requirements of most of the existing
-> DRM drivers. A call to drm_simple_encoder_create() allocates and
-> initializes an encoder instance, a call to drm_simple_encoder_init()
-> initializes a pre-allocated instance.
-> =
+This is a multipart message in MIME format.
 
-> v2:
-> 	* move simple encoder to KMS helpers
-> 	* remove name argument; simplifies implementation
-> 	* don't allocate with devm_ interfaces; unsafe with DRM
-> =
+------=_NextPart_000_00EA_01D5E7DA.EF3DCFF0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_simple_kms_helper.c | 83 ++++++++++++++++++++++++-
->  include/drm/drm_simple_kms_helper.h     |  7 +++
->  2 files changed, 87 insertions(+), 3 deletions(-)
-> =
+Hello All, 
 
-> diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/dr=
-m_simple_kms_helper.c
-> index 15fb516ae2d8..745c2f34c42b 100644
-> --- a/drivers/gpu/drm/drm_simple_kms_helper.c
-> +++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-> @@ -26,12 +26,90 @@
->   * entity. Some flexibility for code reuse is provided through a separat=
-ely
->   * allocated &drm_connector object and supporting optional &drm_bridge
->   * encoder drivers.
-> + *
-> + * Many drivers use an encoder with an empty implementation. Such encode=
-rs
-> + * fulfill the minimum requirements of the display pipeline, but don't a=
-dd
-> + * additional functionality. The simple-encoder functions
-> + * drm_simple_encoder_init() and drm_simple_encoder_create() provide an
-> + * appropriate implementation.
-This paragraph reads a bit strange to me - I read this as a
-justification for addding a generic encoded that can be used by exisitg
-drivers.
+I am seeking recommendations for DRM compatible methods of updating the HW
+other than frame commit path. When exiting idle/runtime_suspend, the driver
+votes for a bunch of resources including power/clk/bandwidth as a part of
+first commit handling. This usually adds a few millisecond delay before
+processing the frame. The requirement is to find possible ways to reduce
+this delay by providing an early intimation to the framework to "prepare"
+the HW by voting for the resources and keep the HW ready to process an
+imminent frame commit. Especially in performance oriented Automotive world,
+these delays are very time critical and we are working on ways to mitigate
+them.  
 
-How about something like this:
+ 
 
-Many drivers requires a very simple encoder that only fullfill
-the minimum requirements of the display pipeline and do not add
-any extra functionslity.
-The simple-encoder functions drm_simple_encoder_init() and
-drm_simple_encoder_create() provides an imp=E5lmentation of such
-a simple encoder.
-The simple encoder includes automatically release of resources.
+DRM framework converges all the parameters affecting the HW in terms of DRM
+properties in a single COMMIT call. To address the above issue, we need a
+parallel channel which should allow the framework to make necessary changes
+to the HW without violating the master access privileges. 
 
-And then leave it to the changelog to tell what should be done in
-existing drivers.
+ 
+
+Before resorting to custom downstream ways, I want to check with the
+community for folks who might have encountered and resolved such issues.
+
+ 
+
+Thanks and Regards,
+
+Jeykumar S
+
+Qualcomm Inc.
+
+ 
 
 
+------=_NextPart_000_00EA_01D5E7DA.EF3DCFF0
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
->   */
->  =
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Latha;
+	panose-1:2 0 4 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle18
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal>Hello All, <o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-indent:.5in'>I am seeking recommendations for DRM =
+compatible methods of updating the HW other than frame commit path. When =
+exiting idle/runtime_suspend, the driver votes for a bunch of resources =
+including power/clk/bandwidth as a part of first commit handling. This =
+usually adds a few millisecond delay before processing the frame. The =
+requirement is to find possible ways to reduce this delay by providing =
+an early intimation to the framework to &#8220;prepare&#8221; the HW by =
+voting for the resources and keep the HW ready to process an imminent =
+frame commit. Especially in performance oriented Automotive world, these =
+delays are very time critical and we are working on ways to mitigate =
+them. &nbsp;<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-indent:.5in'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-indent:.5in'>DRM framework converges all the parameters =
+affecting the HW in terms of DRM properties in a single COMMIT call. To =
+address the above issue, we need a parallel channel which should allow =
+the framework to make necessary changes to the HW without violating the =
+master access privileges. <o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-indent:.5in'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-indent:.5in'>Before resorting to custom downstream ways, I =
+want to check with the community for folks who might have encountered =
+and resolved such issues.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-indent:.5in'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks and Regards,<o:p></o:p></p><p =
+class=3DMsoNormal>Jeykumar S<o:p></o:p></p><p class=3DMsoNormal>Qualcomm =
+Inc.<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_00EA_01D5E7DA.EF3DCFF0--
 
-> -static const struct drm_encoder_funcs drm_simple_kms_encoder_funcs =3D {
-> +static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup =
-=3D {
->  	.destroy =3D drm_encoder_cleanup,
->  };
->  =
+--===============1236610591==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-> +/**
-> + * drm_simple_encoder_init - Initialize a preallocated encoder
-> + * @dev: drm device
-> + * @funcs: callbacks for this encoder
-> + * @encoder_type: user visible type of the encoder
-> + *
-> + * Initialises a preallocated encoder that has no further functionality.=
- The
-> + * encoder will be released automatically. Settings for possible CRTC and
-> + * clones are left to their initial values. The encoder will be cleaned =
-up
-> + * automatically as part of the mode-setting cleanup.
-> + *
-> + * Also see drm_simple_encoder_create().
-s/Also see/See also/??
-
-
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int drm_simple_encoder_init(struct drm_device *dev,
-> +			    struct drm_encoder *encoder,
-> +			    int encoder_type)
-> +{
-> +	return drm_encoder_init(dev, encoder,
-> +				&drm_simple_encoder_funcs_cleanup,
-> +				encoder_type, NULL);
-> +}
-> +EXPORT_SYMBOL(drm_simple_encoder_init);
-> +
-> +static void drm_encoder_destroy(struct drm_encoder *encoder)
-> +{
-> +	drm_encoder_cleanup(encoder);
-> +	kfree(encoder);
-> +}
-> +
-> +static const struct drm_encoder_funcs drm_simple_encoder_funcs_destroy =
-=3D {
-> +	.destroy =3D drm_encoder_destroy,
-> +};
-> +
-> +/**
-> + * drm_simple_encoder_create - Allocate and initialize an encoder
-> + * @dev: drm device
-> + * @encoder_type: user visible type of the encoder
-> + *
-> + * Allocates and initialises an encoder that has no further functionalit=
-y. The
-> + * encoder will be destroyed automatically as part of the mode-setting c=
-leanup.
-> + *
-> + * See drm_simple_encoder_init() for more information.
-> + *
-> + * Returns:
-> + * The encoder on success, a pointer-encoder error code on failure.
-                                pointer-encoded?
-
-
-
-> + */
-> +struct drm_encoder *drm_simple_encoder_create(struct drm_device *dev,
-> +					      int encoder_type)
-> +{
-> +	struct drm_encoder *encoder;
-> +	int ret;
-> +
-> +	encoder =3D kzalloc(sizeof(*encoder), GFP_KERNEL);
-> +	if (!encoder)
-> +		return ERR_PTR(-ENOMEM);
-> +	ret =3D drm_encoder_init(dev, encoder,
-> +			       &drm_simple_encoder_funcs_destroy,
-> +			       encoder_type, NULL);
-> +	if (ret)
-> +		goto err_kfree;
-> +
-> +	return encoder;
-> +
-> +err_kfree:
-> +	kfree(encoder);
-> +	return ERR_PTR(ret);
-> +}
-> +EXPORT_SYMBOL(drm_simple_encoder_create);
-> +
->  static enum drm_mode_status
->  drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
->  			       const struct drm_display_mode *mode)
-> @@ -288,8 +366,7 @@ int drm_simple_display_pipe_init(struct drm_device *d=
-ev,
->  		return ret;
->  =
-
->  	encoder->possible_crtcs =3D drm_crtc_mask(crtc);
-> -	ret =3D drm_encoder_init(dev, encoder, &drm_simple_kms_encoder_funcs,
-> -			       DRM_MODE_ENCODER_NONE, NULL);
-> +	ret =3D drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_NONE);
->  	if (ret || !connector)
->  		return ret;
->  =
-
-> diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple=
-_kms_helper.h
-> index e253ba7bea9d..54d5066d90c7 100644
-> --- a/include/drm/drm_simple_kms_helper.h
-> +++ b/include/drm/drm_simple_kms_helper.h
-> @@ -181,4 +181,11 @@ int drm_simple_display_pipe_init(struct drm_device *=
-dev,
->  			const uint64_t *format_modifiers,
->  			struct drm_connector *connector);
->  =
-
-> +int drm_simple_encoder_init(struct drm_device *dev,
-> +			    struct drm_encoder *encoder,
-> +			    int encoder_type);
-> +
-> +struct drm_encoder *drm_simple_encoder_create(struct drm_device *dev,
-> +					      int encoder_type);
-> +
->  #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */
-
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1236610591==--
