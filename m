@@ -2,53 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0973165982
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D918216594A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:35:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F056ECF4;
-	Thu, 20 Feb 2020 08:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3304D6E1E2;
+	Thu, 20 Feb 2020 08:35:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
- [IPv6:2607:f8b0:4864:20::b42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 887746E898
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 00:20:01 +0000 (UTC)
-Received: by mail-yb1-xb42.google.com with SMTP id l75so1299091ybf.6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Feb 2020 16:20:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=36F2lNaF38y0LbuRM+I7nJGoQSvwKtFiTPSapZtRDic=;
- b=JXcYfoKcZzSNA9AQDYVMEIA93tqD1wadWd3C/e6uB7XzuPAb3nOSUtN+V50JEGuu/S
- UxjoTxvxlLCTW5zYVRSaPhxIz7QU36Ub0xdbV2ZllCFJzggayfmFJdwX1XWhGx5UN1cT
- aPfapxCN/d8TbTCnYuBmNn4zoxc9m024gmpZLFbisFmSOpVkoH/cxa5tteS72GQZdXWO
- DmFNq+u5i3BQxA+3/6AdtFHy+RFMd0OlBjM/WbTixzHwH15flK1yE4UzGwfuW+yg/1GF
- U6ePKAvsxxBLANFpqy2OeK0CJxJDvwnWo5+x6EGN/elA/urFevdvrnK9T+yTvsuadwVK
- f2Lw==
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA1A16ECF6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:35:53 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id dw13so576896pjb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 00:35:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SW6+8bpFonKNb3f2YyuDTFneOp+QYGUKG8MU+Huhr84=;
+ b=NLfDvpmphz84eNv17aBMiiqAMqVRvSFWjee1gd8DwTcU5WUsDFqZ9aP2ecjx9QMRwb
+ PALAwf/6OlcTq/DyByk0h/aL5jR0Qh9kpipz1wKr+X5OrLfG1xso5chKqEDsvCEN1+7N
+ AdybVWlhDI15pIfmzvZVQv43ua+uIFoDZJrZDz5Ua0Fiypghs7qmCxakm12iLhqx6prn
+ MIqA8+HOleqP7N+mT+fe3/JnCtSTQM8pLAUuVj3WkfTo14VvtQavoi6qzUSIhv5TJqXr
+ s9lBrcXILDs5wdYQKHBFMZkvh68Wg1UutoTVS4mSTxrtUs7NPiittk0I5xDEDo1a1I/C
+ KxLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=36F2lNaF38y0LbuRM+I7nJGoQSvwKtFiTPSapZtRDic=;
- b=py95vbWmiqELaAd8RSUzC/IVNrldg/VBhpviaq0k5BsQ7Ir8gjTVM+DMCkjG/SXLH3
- 5/+nPt0a21OGseYB5RyiWJihzxIfss2tuQJGWeCqIMq8anEyZJ0Zzu8qHAbvmwIi9WrC
- BS2z0wNEVdINaso/PoxCpYlOwa0ouVcjcrxjMYLK73G9L29JZ3dsw93KDZ5y1hl4Lgne
- gO2V8WMqg/ZhZ2ElTyTh8MdcWXnkQToXmQWjYVkzuBMHYNH9Ph7iiuqutwYwgI836Pr+
- 8LIDY43Wgwf/e6KC0gw95ZM6YnoQ4KlEIrPQyXVE9j9S2ZMTHowc2WFTQEQvqjFrm9Z4
- TAEA==
-X-Gm-Message-State: APjAAAVfWYZmaNMVoFyXYTqI772b9ytAvYzmYTvhRiJ7T/pGbQmn+U/O
- 7bkFZKWMF6XPSBKh4x1qq2bhg1rjn0erK7Tut9wZLLha5MA=
-X-Google-Smtp-Source: APXvYqzYdr4CRBlF12Uukp4K/XNMoJNs2x/vQYLri4tzxVIHNQpJ6jec1DkNEseAoqCxSELUaeoKlN8PKJDifTUVCIA=
-X-Received: by 2002:a5b:b51:: with SMTP id b17mr24801951ybr.298.1582158000391; 
- Wed, 19 Feb 2020 16:20:00 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SW6+8bpFonKNb3f2YyuDTFneOp+QYGUKG8MU+Huhr84=;
+ b=cvFLbXhGAW0EPiSEfLcAVDCKl33RfPeFWMY1/r1vSG4UoV9YiGizTMizfpxnkuqHKC
+ mzWrNmoleFu1oNoTjp3WBXKFGts6KO1tyPy7nYavwpYdTDr4f9AVYGvlloS1r/x1chqs
+ feUJlYEIPP2FLNqE+c4uJ4FxfO75txgasfUeRbopgRPAOq5w+SZmPfIL20VPQ8ZuuSFb
+ BNBwGAbso4nxU07tgar70xTA2AQcl+bU6Qzgdc8LcPO6+VHanXyLztUdsVuIRoYFoFKy
+ 2ux5f8vp9aWPB8LvvtVLIHdl2VokyS08RB2Vsnzd69gE2xlJl0jor+XfwJrnSGxKYJcG
+ uCdw==
+X-Gm-Message-State: APjAAAUmJ2vxITRpY7my5phHqMxIqyafolLlmJjZ0nv9kbwo6sIY8gLp
+ bzAPOg4wuT52Lbqfh3O4kwk=
+X-Google-Smtp-Source: APXvYqwUjt36D32iUpxvkzgCrZ5Cy1bNz6qVcLjbq7xSe6oYStvEJ3BdJs2uPheTayNx6ML7KG+AaA==
+X-Received: by 2002:a17:902:8bc7:: with SMTP id
+ r7mr30187510plo.12.1582187753221; 
+ Thu, 20 Feb 2020 00:35:53 -0800 (PST)
+Received: from anarsoul-thinkpad.lan (216-71-213-236.dyn.novuscom.net.
+ [216.71.213.236])
+ by smtp.gmail.com with ESMTPSA id l13sm2319038pjq.23.2020.02.20.00.35.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Feb 2020 00:35:52 -0800 (PST)
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Maxime Ripard <maxime@cerno.tech>, Chen-Yu Tsai <wens@csie.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Icenowy Zheng <icenowy@aosc.io>, Torsten Duwe <duwe@suse.de>,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Stephan Gerhold <stephan@gerhold.net>, Mark Brown <broonie@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/6] Add LCD support for Pine64 Pinebook 1080p
+Date: Thu, 20 Feb 2020 00:35:02 -0800
+Message-Id: <20200220083508.792071-1-anarsoul@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <20200219204002.220744-1-jbates@chromium.org>
-In-Reply-To: <20200219204002.220744-1-jbates@chromium.org>
-From: John Bates <jbates@google.com>
-Date: Wed, 19 Feb 2020 16:19:48 -0800
-Message-ID: <CALTgcPkPmg12rE286fUxyZQO2s5qJuud=BD-4GnrtY8sVB6OSA@mail.gmail.com>
-Subject: Re: [PATCH] drm/virtio: fix virtio-gpu resource id creation race
-To: John Bates <jbates@chromium.org>
-X-Mailman-Approved-At: Thu, 20 Feb 2020 08:45:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,115 +80,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0474983453=="
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0474983453==
-Content-Type: multipart/alternative; boundary="00000000000097f81e059ef6dd41"
+Since ANX6345 driver has been merged we can add support for Pinebook LCD
 
---00000000000097f81e059ef6dd41
-Content-Type: text/plain; charset="UTF-8"
+This is a follow up on [1] which attempted to add support for all the
+A64-based Pinebooks.
 
-On Wed, Feb 19, 2020 at 12:40 PM John Bates <jbates@chromium.org> wrote:
+Since patches for 768p were dropped we don't need edp-connector binding
+discussed in [1] and its earlier versions and we can use panel-simple
+binding as everyone else does.
 
-> The previous code was not thread safe and caused
-> undefined behavior from spurious duplicate resource IDs.
-> In this patch, an atomic_t is used instead. We no longer
-> see any duplicate IDs in tests with this change.
->
-> Signed-off-by: John Bates <jbates@chromium.org>
-> ---
->
->  drivers/gpu/drm/virtio/virtgpu_object.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c
-> b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index 017a9e0fc3bb..b11c1fce1770 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -42,8 +42,8 @@ static int virtio_gpu_resource_id_get(struct
-> virtio_gpu_device *vgdev,
->                  * "f91a9dd35715 Fix unlinking resources from hash
->                  * table." (Feb 2019) fixes the bug.
->                  */
-> -               static int handle;
-> -               handle++;
-> +               static atomic_t seqno;
-> +               int handle = atomic_inc_return(&seqno);
->                 *resid = handle + 1;
->         } else {
->                 int handle = ida_alloc(&vgdev->resource_ida, GFP_KERNEL);
-> --
-> 2.25.0.265.gbab2e86ba0-goog
->
->
+If we ever going to add support for 768p we can do it through dt-overlay
+with appropriate panel node or by teaching bootloader to patch dtb with
+correct panel compatible.
 
---00000000000097f81e059ef6dd41
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Similar approach was chosen in [2]
 
-<div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Feb 19, 2020 at 12:40 PM John Bates &lt;<a hre=
-f=3D"mailto:jbates@chromium.org">jbates@chromium.org</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">The previous code was n=
-ot thread safe and caused<br>
-undefined behavior from spurious duplicate resource IDs.<br>
-In this patch, an atomic_t is used instead. We no longer<br>
-see any duplicate IDs in tests with this change.<br>
-<br>
-Signed-off-by: John Bates &lt;<a href=3D"mailto:jbates@chromium.org" target=
-=3D"_blank">jbates@chromium.org</a>&gt;<br>
----<br>
-<br>
-=C2=A0drivers/gpu/drm/virtio/virtgpu_object.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virt=
-io/virtgpu_object.c<br>
-index 017a9e0fc3bb..b11c1fce1770 100644<br>
---- a/drivers/gpu/drm/virtio/virtgpu_object.c<br>
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c<br>
-@@ -42,8 +42,8 @@ static int virtio_gpu_resource_id_get(struct virtio_gpu_d=
-evice *vgdev,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* &quot;f91a9=
-dd35715 Fix unlinking resources from hash<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* table.&quot=
-; (Feb 2019) fixes the bug.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0static int handle;<=
-br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0handle++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0static atomic_t seq=
-no;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int handle =3D atom=
-ic_inc_return(&amp;seqno);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *resid =3D handle +=
- 1;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int handle =3D ida_=
-alloc(&amp;vgdev-&gt;resource_ida, GFP_KERNEL);<br>
--- <br>
-2.25.0.265.gbab2e86ba0-goog<br>
-<br>
-</blockquote></div>
+[1] https://patchwork.kernel.org/cover/10814169/
+[2] https://patchwork.kernel.org/patch/11277765/
 
---00000000000097f81e059ef6dd41--
+Icenowy Zheng (1):
+  arm64: allwinner: a64: enable LCD-related hardware for Pinebook
 
---===============0474983453==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Samuel Holland (1):
+  drm/bridge: anx6345: Fix getting anx6345 regulators
+
+Vasily Khoruzhick (4):
+  drm/bridge: anx6345: Clean up error handling in probe()
+  dt-bindings: Add Guangdong Neweast Optoelectronics CO. LTD vendor
+    prefix
+  dt-bindings: display: simple: Add NewEast Optoelectronics WJFH116008A
+    compatible
+  drm/panel: simple: Add NewEast Optoelectronics CO., LTD WJFH116008A
+    panel support
+
+ .../bindings/display/panel/panel-simple.yaml  |  2 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ .../dts/allwinner/sun50i-a64-pinebook.dts     | 69 ++++++++++++++++++-
+ .../drm/bridge/analogix/analogix-anx6345.c    | 12 ++--
+ drivers/gpu/drm/panel/panel-simple.c          | 47 +++++++++++++
+ 5 files changed, 123 insertions(+), 9 deletions(-)
+
+-- 
+2.25.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0474983453==--
