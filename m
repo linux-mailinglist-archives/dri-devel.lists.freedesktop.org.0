@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F1816682A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 21:15:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7783A16686E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 21:35:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D10EF6EE0E;
-	Thu, 20 Feb 2020 20:15:03 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B1D6EE08
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 20:15:02 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id c84so3438653wme.4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 12:15:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=FgSsJPrG7i3H1/P1wfClm4Sm/Z2WH9l2hJI5jyBGgD0=;
- b=HHqosREl8dN4QjAFRLYj7nHOEtXkMhcO46Pt0D6Gbjhl6hOTbB/IDpmrVXYuXkAgNP
- 9hiIQEQYB4TvlP1CByHq5b6DfX9ZjBuUHSNvgOyso6Dj95SMTKWIcq30JwiJ2LMU3OSv
- hN4DmnAxXVou7gD1+LMuF8qky5HB/xsZzKkKY=
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58C306EE53;
+	Thu, 20 Feb 2020 20:35:13 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C44956EE53
+ for <dri-devel@freedesktop.org>; Thu, 20 Feb 2020 20:35:11 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id v19so28907258oic.12
+ for <dri-devel@freedesktop.org>; Thu, 20 Feb 2020 12:35:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FgSsJPrG7i3H1/P1wfClm4Sm/Z2WH9l2hJI5jyBGgD0=;
- b=pBl32aGWVEeK261U9/ikRgzVmkQokGm7aWGL5TM4qsVvtOuvMC8HUh/5A6124r+fJN
- cu3l7dtPRsVaLpVpnPI+u6fR5z0S6SZvrw4/+sbywxKrTNZOsZcYs82bAb0YrvcT2NLV
- 8hcpJf/UUV67FXcm1iqMtQErMT0CPNEwOn/CvkYXJIhKVaUolBPYq3qLhg/vpKE1bNEu
- SufePiXHAi/Lh6ZQH58JKg5Jltdl3Xoy6HbXH3XYwCxIg2BJecTIEQL6PyLTcNKM73Ap
- DovBouH/l2z9kwxo0UL99Rj2Q7+lNIMjtaUaZSsssFRxvX9subAig5fATBXb9QbWOOp5
- C2UQ==
-X-Gm-Message-State: APjAAAWWtdzRJlYMZjQiNS1erfEhFPinEe+agNZf49SYNmVY1WE6ysi0
- M5WqYpTwslY1z0X26Kpa7n8HlA==
-X-Google-Smtp-Source: APXvYqyGHvsM2LdvWnjpzNh3zGB9gq3OQpdnC/EfNAUdMmS+m3NYGg26WGyzD6yKRi5lM6RROUGGfQ==
-X-Received: by 2002:a1c:541b:: with SMTP id i27mr6619725wmb.137.1582229700772; 
- Thu, 20 Feb 2020 12:15:00 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 16sm570510wmi.0.2020.02.20.12.14.59
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=dj2rW5WH1XuuP/JPuEpJptUF9hTbGtr1qjFfIR5yvb8=;
+ b=j1vH7p4nqmwi/oR1Hvqp4pxgbWTRswNofF9rdV8RQ/hu82E+gIfNuyLdeLx/g3U3P1
+ 9FEMZ0xAznzdKyjAbXJWXrSXdhqXlwXTKJDJgXx9e5//1gftDc0YJmxv5hxrpsfH+Me6
+ aXSgcx4Jpxputn+hh4TrUeG2oRpXzFMTJzYmOlOVS6R95ZKl00TyOdu6mosHgRTgUjJ9
+ cszJJwfbHv1CqJoDDcC48o7H8IHlEIuOYqH/wMIc5mjP/p0iHgETwmH4lpaJJToWHxrq
+ z26LV6M3St6MGKLl+oHpbzSQjjTXFpWnj4uSsHX9OCsL4a29jI0q9pNY9T6/MEdHRcql
+ SRMw==
+X-Gm-Message-State: APjAAAU4swK8O/E5IsrylBVSzw6yU2Eso6PntW9JrpurV1uADJa0xFHK
+ +dpU1zlnT15dsKxjvGyO0w==
+X-Google-Smtp-Source: APXvYqxwJ/2yGaYe0f1ffh3BnhSHPhuRw7WYXDEqylBf6OGb/cfcQC8kdGy9BeTH3mgWz4ApoOvUbg==
+X-Received: by 2002:a05:6808:249:: with SMTP id m9mr3532186oie.5.1582230910787; 
+ Thu, 20 Feb 2020 12:35:10 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id e5sm182426otk.74.2020.02.20.12.35.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 12:14:59 -0800 (PST)
-Date: Thu, 20 Feb 2020 21:14:58 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: jsanka@codeaurora.org
-Subject: Re: Support for early wakeup in DRM
-Message-ID: <20200220201458.GB2363188@phenom.ffwll.local>
-References: <00e901d5e81d$fd609ac0$f821d040$@codeaurora.org>
+ Thu, 20 Feb 2020 12:35:10 -0800 (PST)
+Received: (nullmailer pid 15161 invoked by uid 1000);
+ Thu, 20 Feb 2020 20:35:09 -0000
+Date: Thu, 20 Feb 2020 14:35:09 -0600
+From: Rob Herring <robh@kernel.org>
+To: Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH] dt-bindings: arm-smmu: update the list of clocks
+Message-ID: <20200220203509.GA14697@bogus>
+References: <1582186342-3484-1-git-send-email-smasetty@codeaurora.org>
+ <1582186342-3484-2-git-send-email-smasetty@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <00e901d5e81d$fd609ac0$f821d040$@codeaurora.org>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <1582186342-3484-2-git-send-email-smasetty@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,65 +61,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: 'Sean Paul' <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, mka@chromium.org, dri-devel@freedesktop.org,
+ bjorn.andersson@linaro.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2020 at 10:45:57AM -0800, jsanka@codeaurora.org wrote:
-> Hello All, 
+On Thu, 20 Feb 2020 13:42:22 +0530, Sharat Masetty wrote:
+> This patch adds a clock definition needed for powering on the GPU TBUs
+> and the GPU TCU.
 > 
-> I am seeking recommendations for DRM compatible methods of updating the HW
-> other than frame commit path. When exiting idle/runtime_suspend, the driver
-> votes for a bunch of resources including power/clk/bandwidth as a part of
-> first commit handling. This usually adds a few millisecond delay before
-> processing the frame. The requirement is to find possible ways to reduce
-> this delay by providing an early intimation to the framework to "prepare"
-> the HW by voting for the resources and keep the HW ready to process an
-> imminent frame commit. Especially in performance oriented Automotive world,
-> these delays are very time critical and we are working on ways to mitigate
-> them.  
-> 
->  
-> 
-> DRM framework converges all the parameters affecting the HW in terms of DRM
-> properties in a single COMMIT call. To address the above issue, we need a
-> parallel channel which should allow the framework to make necessary changes
-> to the HW without violating the master access privileges. 
-> 
->  
-> 
-> Before resorting to custom downstream ways, I want to check with the
-> community for folks who might have encountered and resolved such issues.
-
-Just enable the display, which will grab all the clocks and everything?
-Once the display is on a commit should be possible on the next frame, at
-least for well-working drivers.
--Daniel
-
-> 
->  
-> 
-> Thanks and Regards,
-> 
-> Jeykumar S
-> 
-> Qualcomm Inc.
-> 
->  
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> ---
+>  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+My bot found errors running 'make dt_binding_check' on your patch:
 
+Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iommu/arm,smmu.example.dt.yaml: iommu@d00000: clock-names: ['bus', 'iface'] is too short
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iommu/arm,smmu.example.dt.yaml: iommu@d00000: clocks: [[4294967295, 123], [4294967295, 124]] is too short
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+See https://patchwork.ozlabs.org/patch/1241297
+Please check and re-submit.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
