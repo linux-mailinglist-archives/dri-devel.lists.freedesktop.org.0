@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A6A165E99
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 14:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB7A165ECF
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 14:30:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C77F6E211;
-	Thu, 20 Feb 2020 13:21:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079546ED82;
+	Thu, 20 Feb 2020 13:30:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
- [IPv6:2607:f8b0:4864:20::e41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6FE16E211;
- Thu, 20 Feb 2020 13:21:15 +0000 (UTC)
-Received: by mail-vs1-xe41.google.com with SMTP id p14so2617571vsq.6;
- Thu, 20 Feb 2020 05:21:15 -0800 (PST)
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
+ [IPv6:2607:f8b0:4864:20::a42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 154616ED82
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 13:30:20 +0000 (UTC)
+Received: by mail-vk1-xa42.google.com with SMTP id i4so1176916vkc.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 05:30:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bfeBaMQJowqKuBPGq1jCQAdcuUQhER5bpvMHDL+36js=;
- b=BPh/X7y1X/TI/zK0D9FrYesuumhGCUl/3ZP797zljG8et+TMR663KhE8jk3vsOZ+WS
- VTVlfYRviNsatSa+dQ3LgfJrOR2agEtTG4Rg9+jEYX9a8AvLpZgksgkTvOlql3CTRc90
- +YA44oDhPaFyV0FqAKx00v0flMifBuaQrfu7khqGfJbj34AZFha/zFxBkDr99ejrexnW
- 6m5CRns0DSUUEj1EsRIBv6pm9V3krFvcxeQDqJSkxDthTsUCuuP3TN6KEqNdLAwScyeJ
- SsG0j4Wwaapn2wKO8MJdn6LC88RVY0MpPf0i+F4bqMXngl4cFIMCwiYzoICps7ui1mbO
- lwbg==
+ :cc; bh=TvGvEaKUY5OAPmEKr66mKxrQdN9rSuIrkimiK1/BRZY=;
+ b=iVTti6eRBqRs2PbLbxop7G6mJ0hPCqQEbZDPHde3oDJRJCZMkVOGyyywrTcmax/Qvu
+ jhliBAuxcnDr1yaEHydNX5n1qE0RYhWtKMAprlR0IW0IFxNHCH7aLW4GF4u3dPHHK6vA
+ a+QJYJTx8T8yUqXbwcTeUP3HJPdxxX8LEzWJbzesH/Q6zYMBsqyjFjS1LMpcFhATWiy5
+ MSpGss7jNI22HoZm19YVaG10iElhAoyeVuJA+mZmH6+nfhTgvpcWXWpj3mqwVG2edsZB
+ bYIf3c/4lX58IRhZnYDSlJF7FBMOeZq5cWIsbI2Vs0JcHJcZZKD97S7oyy63BkEO44e6
+ jmVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bfeBaMQJowqKuBPGq1jCQAdcuUQhER5bpvMHDL+36js=;
- b=TKqUaLADdeWJecle7+gY/o2k580FWADIHbUpBc3LcbtY6/z5MzWVgVOFm+LrySFR5g
- aFBiw0CoSdXVxLiuAFy6RUk4ALtryfPW2e3+R21dFoh2z0ynCX2jIJ13ZtdidVEgJlBE
- SqZGUywAzgC34Ool/me4w4xpa4O8ZvnxBvUZlUQVqqALSdJRmCIXahqm36e+eY5/jvPj
- Sk77psc0DVtULcnP1uS+VSpPxUqGBBZogAnfmX2YWkqYflSZza2SI0bmxD1OrAGiZ9Kf
- wUfDFPqTrZv4OuAQDsetctM2Aupjux6JYiyn3sGrzooc5+2/cKpSmuoiuZLs/3G3bEQv
- G9+w==
-X-Gm-Message-State: APjAAAWlouSOHKUXVrlVY/6KV60ofWBxGibT1WrET8YaFTgCuvkq7iyX
- 3athjGbGcJOnTNBfGlUdTeqoLjl8WsbsPJKzGeqv0Ux8
-X-Google-Smtp-Source: APXvYqxD+HRo/XEOFOJrweIejogYdtGxnUbH1wLlnsFF6xybVoN8GJpnTLLs+EXbzo20xqOXqPkw3JFIoNwwjsnzVZg=
-X-Received: by 2002:a67:f102:: with SMTP id n2mr17351565vsk.138.1582204874889; 
- Thu, 20 Feb 2020 05:21:14 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=TvGvEaKUY5OAPmEKr66mKxrQdN9rSuIrkimiK1/BRZY=;
+ b=O9tiK0E4fD+WYy96vfo4CRHWtZaeaOCyXHI0urbjvhXm7+pG5gcqxPW09PGO7Hco0K
+ H65Rjj5QQVOYTUs0O3Oh3UC5kUdyyoaxbchqqR/qQbN2dewr/8pDi6aR3QcAJd6VSM6H
+ mZXynVJ2L+rpIuKQyim7CYxI7/nm31oyU5my9henyI93+FMrrZ7NoJLVs70UCaQ4x1ec
+ Zzt4k0qSYLfJVk47V8yIEZUcm8dDetDKe0XQTAVKKqA937UUxAjhsLNj2rYYyPDr7OoK
+ gDc9JlUCY+G3BjXtNqQUwrcFrCnDbrXzMKSuMsrH57w/WJmZePdHAYfUmf83N0slsDiJ
+ 66GA==
+X-Gm-Message-State: APjAAAXvpewPKSTH3BdrXzG9hJEjGkcB/gm9Nni3Mn1BTuvdUuXAB+xY
+ F7uR5HWLbe4byRuj6QC55bKwUJR0No4AujaTIAGZbqX3
+X-Google-Smtp-Source: APXvYqyJwdIL0uwCo6xu40i+gTCRDxPro0Xgek8AZdsypmy/HVIfoqp9CqrUU127zg055vlW7g4gNcPvUN4FALZx3RA=
+X-Received: by 2002:a05:6122:1185:: with SMTP id
+ x5mr14223653vkn.38.1582205419240; 
+ Thu, 20 Feb 2020 05:30:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
-In-Reply-To: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
+References: <20200219204002.220744-1-jbates@chromium.org>
+In-Reply-To: <20200219204002.220744-1-jbates@chromium.org>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 20 Feb 2020 13:21:03 +0000
-Message-ID: <CACvgo50pCb4OafEs9tLm7YEPqHc+BtDAvagRnwjXtZeQDNwUwg@mail.gmail.com>
-Subject: Re: [PATCH 00/12] drm: Put drm_display_mode on diet
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Date: Thu, 20 Feb 2020 13:30:07 +0000
+Message-ID: <CACvgo52oabauyoz81Q1rpp46kf4F_mYZeBb5oSOvW3tsfQT7nQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: fix virtio-gpu resource id creation race
+To: John Bates <jbates@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,76 +61,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxOSBGZWIgMjAyMCBhdCAyMDozNSwgVmlsbGUgU3lyamFsYQo8dmlsbGUuc3lyamFs
-YUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+Cj4gRnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxs
-ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPgo+IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIGlz
-IGV4dHJlbWVseSBmYXQuIFB1dCBpdCBvbiBkaWV0Lgo+Cj4gU29tZSBzdGF0cyBmb3IgdGhlIHdo
-b2xlIHNlcmllczoKPgo+IDY0Yml0IHNpemVvZihzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSk6Cj4g
-MjAwIC0+IDEzNiBieXRlcyAoLTMyJSkKPgo+IDY0Yml0IGJsb2F0LW8tbWV0ZXIgLWMgZHJtLmtv
-Ogo+IGFkZC9yZW1vdmU6IDEvMCBncm93L3NocmluazogMjkvNDcgdXAvZG93bjogODkzLy0xNTQ0
-ICgtNjUxKQo+IEZ1bmN0aW9uICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9s
-ZCAgICAgbmV3ICAgZGVsdGEKPiAuLi4KPiBUb3RhbDogQmVmb3JlPTE4OTQzMCwgQWZ0ZXI9MTg4
-Nzc5LCBjaGcgLTAuMzQlCj4gYWRkL3JlbW92ZTogMC8wIGdyb3cvc2hyaW5rOiAwLzAgdXAvZG93
-bjogMC8wICgwKQo+IERhdGEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IG9sZCAgICAgbmV3ICAgZGVsdGEKPiBUb3RhbDogQmVmb3JlPTExNjY3LCBBZnRlcj0xMTY2Nywg
-Y2hnICswLjAwJQo+IGFkZC9yZW1vdmU6IDAvMCBncm93L3NocmluazogMC81IHVwL2Rvd246IDAv
-LTE2ODk2ICgtMTY4OTYpCj4gUk8gRGF0YSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgb2xkICAgICBuZXcgICBkZWx0YQo+IGVkaWRfNGtfbW9kZXMgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgMTAwMCAgICAgNjgwICAgIC0zMjAKPiBlZGlkX2VzdF9tb2RlcyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIDM0MDAgICAgMjMxMiAgIC0xMDg4Cj4gZWRpZF9jZWFf
-bW9kZXNfMTkzICAgICAgICAgICAgICAgICAgICAgICAgICA1NDAwICAgIDM2NzIgICAtMTcyOAo+
-IGRybV9kbXRfbW9kZXMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAxNzYwMCAgIDExOTY4
-ICAgLTU2MzIKPiBlZGlkX2NlYV9tb2Rlc18xICAgICAgICAgICAgICAgICAgICAgICAgICAgMjU0
-MDAgICAxNzI3MiAgIC04MTI4Cj4gVG90YWw6IEJlZm9yZT03MTIzOSwgQWZ0ZXI9NTQzNDMsIGNo
-ZyAtMjMuNzIlCj4KPgo+IDY0Yml0IGJsb2F0LW8tbWV0ZXIgZHJtLmtvOgo+IGFkZC9yZW1vdmU6
-IDEvMCBncm93L3NocmluazogMjkvNTIgdXAvZG93bjogODkzLy0xODQ0MCAoLTE3NTQ3KQo+IC4u
-Lgo+IFRvdGFsOiBCZWZvcmU9MjcyMzM2LCBBZnRlcj0yNTQ3ODksIGNoZyAtNi40NCUKPgo+Cj4g
-MzJiaXQgc2l6ZW9mKHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlKToKPiAxODQgLT4gMTIwIGJ5dGVz
-ICgtMzQlKQo+Cj4gMzJiaXQgYmxvYXQtby1tZXRlciAtYyBkcm0ua28KPiBhZGQvcmVtb3ZlOiAx
-LzAgZ3Jvdy9zaHJpbms6IDE5LzIxIHVwL2Rvd246IDc0My8tMTM2OCAoLTYyNSkKPiBGdW5jdGlv
-biAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBvbGQgICAgIG5ldyAgIGRlbHRh
-Cj4gLi4uCj4gVG90YWw6IEJlZm9yZT0xNzIzNTksIEFmdGVyPTE3MTczNCwgY2hnIC0wLjM2JQo+
-IGFkZC9yZW1vdmU6IDAvMCBncm93L3NocmluazogMC8wIHVwL2Rvd246IDAvMCAoMCkKPiBEYXRh
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBvbGQgICAgIG5ldyAgIGRl
-bHRhCj4gVG90YWw6IEJlZm9yZT00MjI3LCBBZnRlcj00MjI3LCBjaGcgKzAuMDAlCj4gYWRkL3Jl
-bW92ZTogMC8wIGdyb3cvc2hyaW5rOiAwLzUgdXAvZG93bjogMC8tMTY4OTYgKC0xNjg5NikKPiBS
-TyBEYXRhICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBvbGQgICAgIG5ldyAg
-IGRlbHRhCj4gZWRpZF80a19tb2RlcyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgOTIw
-ICAgICA2MDAgICAgLTMyMAo+IGVkaWRfZXN0X21vZGVzICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgMzEyOCAgICAyMDQwICAgLTEwODgKPiBlZGlkX2NlYV9tb2Rlc18xOTMgICAgICAgICAg
-ICAgICAgICAgICAgICAgIDQ5NjggICAgMzI0MCAgIC0xNzI4Cj4gZHJtX2RtdF9tb2RlcyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIDE2MTkyICAgMTA1NjAgICAtNTYzMgo+IGVkaWRfY2Vh
-X21vZGVzXzEgICAgICAgICAgICAgICAgICAgICAgICAgICAyMzM2OCAgIDE1MjQwICAgLTgxMjgK
-PiBUb3RhbDogQmVmb3JlPTU5MjMwLCBBZnRlcj00MjMzNCwgY2hnIC0yOC41MyUKPgo+IDMyYml0
-IGJsb2F0LW8tbWV0ZXIgZHJtLmtvOgo+IGFkZC9yZW1vdmU6IDEvMCBncm93L3NocmluazogMTkv
-MjYgdXAvZG93bjogNzQzLy0xODI2NCAoLTE3NTIxKQo+IC4uLgo+IFRvdGFsOiBCZWZvcmU9MjM1
-ODE2LCBBZnRlcj0yMTgyOTUsIGNoZyAtNy40MyUKPgo+Cj4gU29tZSBpZGVhcyBmb3IgZnVydGhl
-ciByZWR1Y3Rpb246Cj4gLSBDb252ZXJ0IG1vZGUtPm5hbWUgdG8gYSBwb2ludGVyIChzYXZlcyAy
-NC8yOCBieXRlcyBpbiB0aGUKPiAgIHN0cnVjdCBidXQgd291bGQgb2Z0ZW4gcmVxdWlyZSBhIGhl
-YXAgYWxsb2MgZm9yIHRoZSBuYW1lICh0aG91Z2gKPiAgIHR5cGljYWwgbW9kZSBuYW1lIGlzIDwx
-MCBieXRlcyBzbyBzdGlsbCBvdmVyYWxsIHdpbiBwZXJoYXBzKQo+IC0gR2V0IHJpZCBvZiBtb2Rl
-LT5uYW1lIGVudGlyZWx5PyBJIGd1ZXNzIHNldGNydGMgJiBjby4gaXMgdGhlIG9ubHkKPiAgIHBs
-YWNlIHdoZXJlIHdlIGhhdmUgdG8gcHJlc2VydmUgdGhlIHVzZXIgcHJvdmlkZWQgbmFtZSwgZWxz
-ZXdoZXJlCj4gICBjb3VsZCBwZWhhcHMganVzdCBnZW5lcmF0ZSBvbiBkZW1hbmQ/IE5vdCBzdXJl
-IGhvdyB0cmlja3kgdGhpcwo+ICAgd291bGQgZ2V0LgoKVGhlIHNlcmllcyBkb2VzIHNvbWUgZ3Jl
-YXQgd29yaywgd2l0aCBmdXR1cmUgd29yayByZWFjaGluZyB0aGUgY2FjaGUKbGluZSBmb3IgNjRi
-aXQuCkRvaW5nIG11Y2ggbW9yZSB0aGFuIHRoYXQgbWlnaHQgYmUgYW4gb3ZlcmtpbGwgSU1ITy4K
-CkluIHBhcnRpY3VsYXIsIGlmIHdlIGNoYW5nZSBEUk1fRElTUExBWV9NT0RFX0xFTiB0byAyNCB3
-ZSBnZXQgdGhlcmUsCmF2b2lkaW5nIHRoZSBoZWFwIGFsbG9jL2NhbGMgb24gZGVtYW5kIGZ1bi4K
-V2hpbGUgYWxzbyBlbnN1cmluZyB0aGUgbmFtZSBpcyBzdWZmaWNpZW50bHkgbGFyZ2UgZm9yIHRo
-ZSBuZXh0IGRlY2FkZSBvciBzby4KCkZyb20gZHJtX21vZGVfc2V0X25hbWUoKToKCnNucHJpbnRm
-KG1vZGUtPm5hbWUsIERSTV9ESVNQTEFZX01PREVfTEVOLCAiJWR4JWQlcyIsCiAgICBtb2RlLT5o
-ZGlzcGxheSwgbW9kZS0+dmRpc3BsYXksIGludGVybGFjZWQgPyAiaSIgOiAiIik7CgoKV2UgY2hh
-bmdlIHRoZSBoL3YgZGlzcGxheSBmcm9tICgxMF4xNSktMSB0byAoMTBeMTEpLTEgd2hpY2ggc2Vl
-bXMgcmVhc29uYWJsZS4KCk5vdGU6IGhhdmVuJ3QgY2hlY2tlZCBpZiBuYW1lIGluY2x1ZGVzIHRo
-ZSB0ZXJtaW5hdGluZyBcMCwgc28gdGFrZQpudW1iZXJzIHdpdGggYSBncmFpbiBvZiBzYWx0LgoK
-LUVtaWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi John,
+
+On Thu, 20 Feb 2020 at 08:45, John Bates <jbates@chromium.org> wrote:
+>
+> The previous code was not thread safe and caused
+> undefined behavior from spurious duplicate resource IDs.
+> In this patch, an atomic_t is used instead. We no longer
+> see any duplicate IDs in tests with this change.
+>
+> Signed-off-by: John Bates <jbates@chromium.org>
+Adding a fixes tag like below makes it easier to track. Especially for
+Greg and team who are working on stable kernels.
+
+Fixes: 3e93bc2a58aa ("drm/virtio: make resource id workaround runtime
+switchable.")
+
+HTH
+Emil
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
