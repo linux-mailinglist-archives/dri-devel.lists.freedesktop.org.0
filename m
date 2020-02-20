@@ -1,56 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84606165C20
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 11:51:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D09165C18
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 11:48:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98EB06ED22;
-	Thu, 20 Feb 2020 10:51:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC9B96ED21;
+	Thu, 20 Feb 2020 10:48:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8362D6ED22
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 10:51:03 +0000 (UTC)
-Received: by mail-vk1-xa44.google.com with SMTP id w4so1044821vkd.5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 02:51:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kxfpH7hofI2dT1EmNwZZMlMZMqhtSme6d7SbXx3CYq0=;
- b=Np8DJaVuBXgINq398uI6JEI2yyXyGAh82e7JU+kt0/8soFTOF7YQwPC5PE0wGnizng
- ue5XDE3A+y5lsbRnJzClaOJx6v6ZFg1wgwpYORYjNPerLUsWeb29Yh35FoYYmmI6JAj1
- ZT2DAkdxv3Tiwb4WTCwqVqCinjAbA81UN604IN7J28r4b538GGiRZaoVmlD2tYfIvJmU
- /rHaEx693IcAHpxrikt9vHfdi//+DyrLKz4trG/Dd/Mb2gekSeNATFmbId4UH+odFZaL
- AJ4PR9y1fLZytpGX/rKF5f5KDyk52m9bfbwHZFakl1bsfjT0OqJxfx8EhXy6WM53xPBQ
- QC2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kxfpH7hofI2dT1EmNwZZMlMZMqhtSme6d7SbXx3CYq0=;
- b=GyOa+9QtnRCx5+OvUcEiSlR9ZoBvgBa+M4qdEzb2D9isAYK83E2FQFvp2j7ITFNpP+
- lrH5lyoBOnABC4WgBVms0lMFnasxi8cbRYoutl8600TTd2hqfq/jDqjrAAzP/Cq5amwT
- 7ahWAtpZzPusqO6n2WyCyXb8YOR6NffHl9x3Ogy8lOZM95O8abGRULNKhtLKwQd3HOmy
- 4EuzR8M//WoW7xlmxB6q1QVmv47yDElmKItc7xT3TjYWyKX/qb2IwSQugIHoRTM6sBNK
- 6jurJO1KwslP3+VhSLQyUbhzPLJslEOX0DrfbO09g/ObyCWLLMpuOtTGKB3ltxyA6PTG
- 68Pw==
-X-Gm-Message-State: APjAAAWOzc9V2JuY7X3e/+QeAJGlYbct9PT5t5GHWCxAWC10Hg6u/of7
- COnNjyGwnv+KM+54mfdJo9pYqwJqNieMzOFpiLbn/cI8X2JqLQ==
-X-Google-Smtp-Source: APXvYqyHQqwt0fFFU50KayafdANVX58ZyOixQ8mFOe6NZ0nt1CDX7R20BmOadWkafwXoQFVKDWu+YMxD5wBWkSmoyOQ=
-X-Received: by 2002:a62:1a09:: with SMTP id a9mr31501241pfa.64.1582195381200; 
- Thu, 20 Feb 2020 02:43:01 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 309276ED21
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 10:48:03 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5AC8F294D60;
+ Thu, 20 Feb 2020 10:48:01 +0000 (GMT)
+Date: Thu, 20 Feb 2020 11:47:57 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCHv5 01/34] drm/core: Add afbc helper functions
+Message-ID: <20200220114757.1b972bbd@collabora.com>
+In-Reply-To: <20191217145020.14645-2-andrzej.p@collabora.com>
+References: <20191213173350.GJ624164@phenom.ffwll.local>
+ <20191217145020.14645-1-andrzej.p@collabora.com>
+ <20191217145020.14645-2-andrzej.p@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200220074637.7578-1-njoshi1@lenovo.com>
-In-Reply-To: <20200220074637.7578-1-njoshi1@lenovo.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 20 Feb 2020 12:42:53 +0200
-Message-ID: <CAHp75VcJmEOu1-b7F2UAsv=Gujb=pPLzjz2ye9t4=Q68+ors-w@mail.gmail.com>
-Subject: Re: [PATCH] thinkpad_acpi: Add sysfs entry for lcdshadow feature
-To: Nitin Joshi <nitjoshi@gmail.com>, Mat King <mathewk@google.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Rajat Jain <rajatja@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +43,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nitin Joshi <njoshi1@lenovo.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
- Andy Shevchenko <andy@infradead.org>, Darren Hart <dvhart@infradead.org>,
- mpearson@lenovo.com, Benjamin Berg <bberg@redhat.com>
+Cc: kernel@collabora.com, Mihail Atanassov <mihail.atanassov@arm.com>,
+ David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ James Wang <james.qian.wang@arm.com>, Ayan Halder <Ayan.Halder@arm.com>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2020 at 9:48 AM Nitin Joshi <nitjoshi@gmail.com> wrote:
->
->   This feature is supported on some Thinkpad products like T490s, Thinkpad
->   X1 yoga 4th Gen etc . The lcdshadow feature can be enabled and disabled
->   when user press "Fn" + "D" key. Currently, no user feedback is given for
->   this action. Adding as sysfs entry allows userspace to show an On Screen
->   Display whenever the setting changes.
->
->   Summary of changes is mentioned below :
->
->  - Added TP_HKEY_EV_LCDSHADOW_CHANGED for consistency inside the driver
->  - Added unmapped LCDSHADOW to keymap
->  - Added lcdshadow_get function to read value using ACPI
->  - Added lcdshadow_refresh function to re-read value and send notification
->  - Added sysfs group creation to tpaci_lcdshadow_init
->  - Added lcdshadow_exit to remove sysfs group again
->  - Implemented lcdshadow_enable_show/lcdshadow_enable_store
->  - Added handler to tpacpi_driver_event to update refresh lcdshadow
->  - Explicitly call tpacpi_driver_event for extended keyset
+On Tue, 17 Dec 2019 15:49:47 +0100
+Andrzej Pietrasiewicz <andrzej.p@collabora.com> wrote:
 
-Adding custom PrivacyGuard support to this driver was my mistake,
-There is a discussion [1] how to do this in generic way to cover other
-possible users.
-I Cc this to people from that discussion.
+> +/**
+> + * drm_afbc_get_superblock_wh - extract afbc block width/height from modifier
+> + * @modifier: the modifier to be looked at
+> + * @w: address of a place to store the block width
+> + * @h: address of a place to store the block height
+> + *
+> + * Returns: true if the modifier describes a supported block size
+> + */
+> +bool drm_afbc_get_superblock_wh(u64 modifier, u32 *w, u32 *h)
 
-[1]: https://lore.kernel.org/dri-devel/CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail.gmail.com/
+You should probably take the multiplane case into account now.
+Maybe introduce the following struct and pass a pointer to such
+a struct instead of the w/h pointers:
+
+	struct afbc_block_size {
+		struct {
+			u32 w;
+			u32 h;
+		} plane[2];
+	};
+
+Note that you could also directly return a
+const struct afbc_block_size * and consider the NULL case as
+'invalid format'.
+
+> +{
+> +	switch (modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK) {
+> +	case AFBC_FORMAT_MOD_BLOCK_SIZE_16x16:
+> +		*w = 16;
+> +		*h = 16;
+> +		break;
+> +	case AFBC_FORMAT_MOD_BLOCK_SIZE_32x8:
+> +		*w = 32;
+> +		*h = 8;
+> +		break;
+> +	case AFBC_FORMAT_MOD_BLOCK_SIZE_64x4:
+> +		/* fall through */
+> +	case AFBC_FORMAT_MOD_BLOCK_SIZE_32x8_64x4:
+> +		/* fall through */
+
+I guess display controllers might support a subset of what's actually
+defined in the spec, so maybe it makes sense to pass a 'const u8
+*supported_block_sizes' and then do something like:
+
+	block_size_id = modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK;
+
+	for (i = 0; i < num_supported_block_sizes; i++) {
+		if (supported_block_sizes[i] == block_size_id)
+			break;
+	}
+
+	if (i == num_supported_block_sizes)
+		return false;
+
+The above switch-case can also be replaced by an array of structs
+encoding the block size:
+
+	static const struct afbc_block_size block_sizes[] = {
+		[AFBC_FORMAT_MOD_BLOCK_SIZE_16x16] = { { 16, 16 } },
+		[AFBC_FORMAT_MOD_BLOCK_SIZE_32x8] = { { 32, 8 } },
+		[AFBC_FORMAT_MOD_BLOCK_SIZE_64x4] = { { 64, 4 } },
+		[AFBC_FORMAT_MOD_BLOCK_SIZE_32x8_64x4] = { { 32, 8 }, { 64, 4} },
+	};
+
+	*block_size = block_sizes[block_size_id];
+
+	return true;
+
+> +	default:
+> +		DRM_DEBUG_KMS("Invalid AFBC_FORMAT_MOD_BLOCK_SIZE: %lld.\n",
+> +			      modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK);
+> +		return false;
+> +	}
+> +	return true;
+> +}
+
+To sum-up, this would give something like (not even compile-tested):
+
+struct afbc_block_size {
+	struct {
+		u32 width;
+		u32 height;
+	} plane[2];
+};
+
+static const struct afbc_block_size superblock_sizes[] = {
+	[AFBC_FORMAT_MOD_BLOCK_SIZE_16x16] = { { 16, 16 } },
+	[AFBC_FORMAT_MOD_BLOCK_SIZE_32x8] = { { 32, 8 } },
+	[AFBC_FORMAT_MOD_BLOCK_SIZE_64x4] = { { 64, 4 } },
+	[AFBC_FORMAT_MOD_BLOCK_SIZE_32x8_64x4] = { { 32, 8 }, { 64, 4} },
+};
+
+const struct afbc_block_size *
+drm_afbc_get_superblock_info(u64 modifier,
+			     const u8 *supported_sb_sizes,
+			     unsigned int num_supported_sb_sizes)
+{
+	u8 block_size_id = modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK;
 
 
---
-With Best Regards,
-Andy Shevchenko
+	if (!block_size_id ||
+	    block_size_id >= ARRAY_SIZE(superblock_sizes)) {
+		DRM_DEBUG_KMS("Invalid AFBC_FORMAT_MOD_BLOCK_SIZE: %lld.\n",
+			      modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK);
+		return NULL;
+	}
+
+	for (i = 0; i < num_supported_sb_sizes; i++) {
+		if (supported_sb_sizes[i] == block_size_id)
+			break;
+	}
+
+	if (i == num_supported_sb_sizes) {
+		DRM_DEBUG_KMS("Unsupported AFBC_FORMAT_MOD_BLOCK_SIZE: %lld.\n",
+			      modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK);
+		return NULL;
+	}
+
+	return &superblock_sizes[block_size_id];
+}
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
