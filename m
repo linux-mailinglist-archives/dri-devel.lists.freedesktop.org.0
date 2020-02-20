@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E97165F37
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 14:53:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47144165F3F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 14:54:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C7F6ED90;
-	Thu, 20 Feb 2020 13:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8B26ED92;
+	Thu, 20 Feb 2020 13:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C93B76ED90
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 13:53:20 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24FE06ED92
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 13:54:26 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63B1CE7C;
- Thu, 20 Feb 2020 14:53:18 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B11C0E7C;
+ Thu, 20 Feb 2020 14:54:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582206798;
- bh=bIqv4ZGZOGT3b6xmaqujXh3xaygrfzUiArc2j1fuRB0=;
+ s=mail; t=1582206864;
+ bh=F8M+8/bvGBDpaLEWtPUpT7cWpYWV2PjhtbCfde8TQkU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Y/aOJcazvIBhp5356NPaYzBh8ptng3KYAzVlkyNIahWk4GT+WfCiq+Uv781MXXdHy
- wmwvMnJXDs1t/Mwf7e/OEdrwWCpQmsstG307HQv5+Cn7yXMtFU8Ptp5zHZMPPw9LOJ
- VCrPmcpkEf4a+liOR16kPm7uV/zJy8w1+qv8Efp8=
-Date: Thu, 20 Feb 2020 15:52:59 +0200
+ b=aAV/sQ1S2bRXdyxMQKd7Xhnopq2eBnDtfKKEtJdIOi36sLNMAE3Fhwu39bR3mmUk4
+ BjhuJMhjgWLnFvquPxL3LUjnwhoYBRBt0RmNWwuzmOE1Q3B7Wd+ppXh/4r0CF8FocO
+ l/nmTzyX4UGYsatpFc+I7ihQLnsgctPexKiNdl6c=
+Date: Thu, 20 Feb 2020 15:54:06 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: Re: [PATCH 2/6] drm/bridge: anx6345: Clean up error handling in
- probe()
-Message-ID: <20200220135259.GC4998@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 4/6] dt-bindings: display: simple: Add NewEast
+ Optoelectronics WJFH116008A compatible
+Message-ID: <20200220135406.GD4998@pendragon.ideasonboard.com>
 References: <20200220083508.792071-1-anarsoul@gmail.com>
- <20200220083508.792071-3-anarsoul@gmail.com>
+ <20200220083508.792071-5-anarsoul@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200220083508.792071-3-anarsoul@gmail.com>
+In-Reply-To: <20200220083508.792071-5-anarsoul@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,59 +65,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vasily,
-
-Thank you for the patch.
-
-On Thu, Feb 20, 2020 at 12:35:04AM -0800, Vasily Khoruzhick wrote:
-> devm_regulator_get() returns either a dummy regulator or -EPROBE_DEFER,
-> we don't need to print scary message in either case.
+On Thu, Feb 20, 2020 at 12:35:06AM -0800, Vasily Khoruzhick wrote:
+> This commit adds compatible for NewEast Optoelectronics WJFH116008A panel
+> to panel-simple binding
 > 
 > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> index 0d8d083b0207..0204bbe4f0a0 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> @@ -713,17 +713,13 @@ static int anx6345_i2c_probe(struct i2c_client *client,
->  
->  	/* 1.2V digital core power regulator  */
->  	anx6345->dvdd12 = devm_regulator_get(dev, "dvdd12");
-> -	if (IS_ERR(anx6345->dvdd12)) {
-> -		DRM_ERROR("dvdd12-supply not found\n");
-> +	if (IS_ERR(anx6345->dvdd12))
->  		return PTR_ERR(anx6345->dvdd12);
-> -	}
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index 8fe60ee2531c..721de94cc80a 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -43,6 +43,8 @@ properties:
+>        - satoz,sat050at40h12r2
+>          # Sharp LS020B1DD01D 2.0" HQVGA TFT LCD panel
+>        - sharp,ls020b1dd01d
+> +        # NewEast Optoelectronics CO., LTD WJFH116008A eDP TFT LCD panel
+> +      - neweast,wjfh116008a
 
-There could be other errors such as -EBUSY or -EPERM. The following
-would ensure a message gets printed in those cases, while avoiding
-spamming the kernel log in the EPROBE_DEFER case.
-
-	if (IS_ERR(anx6345->dvdd12)) {
-		if (PTR_ERR(anx6345->dvdd12) != -EPROBE_DEFER)
-			DRM_ERROR("Failed to get dvdd12 supply (%d)\n",
-				  PTR_ERR(anx6345->dvdd12));
-		return PTR_ERR(anx6345->dvdd12);
-	}
-
-But maybe it's overkill ? With or without that change (for the second
-regulator below too),
+Please keep the entries alphabetically sorted. With this fixed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  	/* 2.5V digital core power regulator  */
->  	anx6345->dvdd25 = devm_regulator_get(dev, "dvdd25");
-> -	if (IS_ERR(anx6345->dvdd25)) {
-> -		DRM_ERROR("dvdd25-supply not found\n");
-> +	if (IS_ERR(anx6345->dvdd25))
->  		return PTR_ERR(anx6345->dvdd25);
-> -	}
 >  
->  	/* GPIO for chip reset */
->  	anx6345->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+>    backlight: true
+>    enable-gpios: true
 
 -- 
 Regards,
