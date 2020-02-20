@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9601616629D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 17:28:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDC216638D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 17:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9F26EDF1;
-	Thu, 20 Feb 2020 16:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59AFC6E8ED;
+	Thu, 20 Feb 2020 16:54:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 103A16EDE4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 16:28:06 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id g3so5281818wrs.12
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:28:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ISULOS1UCLwuUa+INumyziDbxt+K8PYtRxwNxV5Yeuk=;
- b=WnGMAtLQ1BCCTXE8agBqLSu7tjqnUQwlOXNdcOZG2WTgrTtohRfd8yhgJCyiPDgKQI
- wN08QRu1F3FR90NjleYoaYGezlCcIhHHkoehPdMnvONU9rvphpFYJ+Fxd3To2wGYSaE3
- vzBlUxcpKnIT9oWUz5obkww8uadktK+qcroSva/9Xd8zusJ+dojUTKEVlaua2E4SxJ/F
- XelhtSVlFvyc3XNghhxDOp8lvp6uAJjYi7H5HeYBWdYkiv58+PbQvOWuENMsj/L9QCNf
- RaNPJAReYGQB11JHGItGH5CFvDsjLMZpc793/9S61khy8uFo3wndq2QJO4xwoneLytsM
- 6e9g==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2C9C6E8ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 16:54:27 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id p9so2769036wmc.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:54:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=HCV4RTyFbRjUlkR+2znmEPZvQhzJ01ZJC4KPRDbRdiA=;
+ b=ci3XSzl5/9FLoby42AB2NrmejJncBGvT8ZGrlZNvzh7Z9s4ih5d2++c0QleQyF1JMw
+ 12Qdt4FM/Y1ipQFNixmF+GLb1c9pfrsaI9FGkHOoIHm2EjYQuEXk4Bxw/AlTjPNnMZdU
+ QVdfxRJPLmqxjYaxfoaQ02j8g/qQhsxQXHidY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ISULOS1UCLwuUa+INumyziDbxt+K8PYtRxwNxV5Yeuk=;
- b=ao2oCCgT0JmYeDzuYLBAyODKhhKbO8Ca4+SaOKcb2y5W6ruq6hvixfcwegewN5lRLP
- XTWWn0M2oD1IILx4prWf0JAkUSVNNRl4cPf1k+S5+LcTz9fQKGviMuqr9BmkJLo9mOHy
- ajSGfOEyTtOBo22gbA6Vfq36EgzXd+709A5JMNsQTZHxPXu6gPK25FUxZ+rQX4pbXJY0
- vW4ggeRIWRDN9AjGJY9kgfnpOuneazSXAT/AV4QqgQwbe65541ElU+3IxgbZH99ESmav
- HYRpo6KoQxvoTmFfH/UeWkPbC/QR7dsRQuJfnjlV9vewOhlsFqaLF5JJICVLpcPL1mVO
- e9Ug==
-X-Gm-Message-State: APjAAAWrFtLTjeNpS8EvjCo80Q8FHNRJKQ5DpkoXcCukj6K/ZypNTHKA
- YAGwkkjcbBBYqWFBRQwthVBFCw==
-X-Google-Smtp-Source: APXvYqxL/EWFzZJxLrQYyiTxEjHsa/zv6PsPU+Zr4bJ3TNKvl9R1Dwl2SnSUK47XjyKwAsiW7r0ZwQ==
-X-Received: by 2002:a05:6000:1201:: with SMTP id
- e1mr43848428wrx.386.1582216085318; 
- Thu, 20 Feb 2020 08:28:05 -0800 (PST)
-Received: from bender.baylibre.local
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id c15sm104164wrt.1.2020.02.20.08.28.04
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HCV4RTyFbRjUlkR+2znmEPZvQhzJ01ZJC4KPRDbRdiA=;
+ b=BzSn8CIAlSkL7wF8UD8Ybk/XUpN6HhC3qKHbvRHOb+uBJiigc6Z1VtQ5/gIjBIQIUM
+ mdI1MXxsv5vR4bspRcHg2l2Y/159oiigPo0oNrrYoXxzdPUtT9Nzq5OP66tNOaTpqnfp
+ UnsoT/wSnXL4e4cxjid1FBHw3nFs3BIGhkS2vsaa07Ge8xpVZu5pwqoYlNlzA0wFwn43
+ ALK+HzXpcNzxmAmarLn1p/L0hfn9TD2YJBISwiQ6DIO9qJ+MWAtmCsgnhSR+wPCHA1EN
+ WrvAakDKFYqX9h2IYWmMB4BrlfhOg7EL2wumF7TNNmbRCAJUhP4Clsya5kAk0WPP89tv
+ g3dw==
+X-Gm-Message-State: APjAAAW4tv8KlPv3uNAwIB9u4ASVqZ0P0FS041rZoF8Kj2ZwX5tcj+c+
+ TU5eyHpl3aiqytoqAab505DT4w==
+X-Google-Smtp-Source: APXvYqwWXxHzWvd29NPGMaVofLvxn5ZPBr+Z/UeGxiWtnFSNMVcN/dl3DyfVydEQCISmLc+yy7bTCA==
+X-Received: by 2002:a7b:c847:: with SMTP id c7mr5261308wml.3.1582217666505;
+ Thu, 20 Feb 2020 08:54:26 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c9sm5028514wmc.47.2020.02.20.08.54.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 08:28:04 -0800 (PST)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/meson: crtc: handle commit of Amlogic FBC frames
-Date: Thu, 20 Feb 2020 17:27:58 +0100
-Message-Id: <20200220162758.13524-5-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200220162758.13524-1-narmstrong@baylibre.com>
-References: <20200220162758.13524-1-narmstrong@baylibre.com>
+ Thu, 20 Feb 2020 08:54:25 -0800 (PST)
+Date: Thu, 20 Feb 2020 17:54:23 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCHv5 00/34] Add AFBC support for Rockchip
+Message-ID: <20200220165423.GR2363188@phenom.ffwll.local>
+References: <20191213173350.GJ624164@phenom.ffwll.local>
+ <20191217145020.14645-1-andrzej.p@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191217145020.14645-1-andrzej.p@collabora.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,167 +65,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
+ David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sandy Huang <hjc@rock-chips.com>, James Wang <james.qian.wang@arm.com>,
+ dri-devel@lists.freedesktop.org, Mihail Atanassov <mihail.atanassov@arm.com>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the VD1 Amlogic FBC decoder is now configured by the overlay driver,
-commit the right registers to decode the Amlogic FBC frame.
+On Tue, Dec 17, 2019 at 03:49:46PM +0100, Andrzej Pietrasiewicz wrote:
+> This series adds AFBC support for Rockchip. It is inspired by:
+> 
+> https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/factory-gru-9017.B-chromeos-4.4/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> 
+> This is the fifth iteration of the afbc series. Between v3 and v4 a lot of
+> rework has been done, the main goal of which was to move all afbc-related
+> checks to helpers, so that core does not deal with it.
+> 
+> A new struct drm_afbc_framebuffer is added, which stores afbc-related
+> driver-specific data. Because of that, in drivers that wish to
+> use this feature, the struct must be allocated directly in the driver
+> code rather than inside helpers, so the first portion of the patchset
+> does the necessary refactoring.
+> 
+> Then, there are 3 users of afbc: komeda, malidp and, finally, rockchip,
+> the latter being the ultimate purpose of this work and the 3 subsequent
+> portions of the patchset move komeda and malidp to generic helpers and add
+> afbc support to rockchip.
+> 
+> The idea is to make all afbc users follow a similar pattern. In fb_create()
+> they allocate struct drm_afbc_framebuffer, do their specific checks which
+> can be done before object lookups, do object lookups and a special version
+> of a size check, which understands struct drm_afbc_framebuffer, followed
+> by any other driver-specific checks and initializing the gem object.
+> The helpers for the common parts are factored out so that drivers
+> can use them.
+> 
+> The komeda driver has been the farthest away from such a pattern, so it
+> required most changes. However, due to the fact that I don't have any
+> komeda hardware I did the changes to komeda in an incremental fashion with
+> a series of (usually) very small, easy to understand steps. malidp was
+> pretty straightforward, and rockchip's afbc checks follow the pattern.
+> 
+> I kindly ask for reviewing the series. I need to mention that my ultimate
+> goal is merging afbc for rockchip and I don't have other hardware, so some
+> help from malidp and komeda developers/maintainers would be appreciated.
+> 
+> @Liviu, @James, @Mihail, @Brian: a kind request to you to have a look and
+> test the patchset, as I don't have appropriate hardware.
+> 
+> Rebased onto drm-misc-next.
+> 
+> v4..v5:
+> - used proper way of subclassing drm_framebuffer (Daniel Vetter)
+> - added documentation to exported functions (Liviu Dudau)
+> - reordered new functions in drm_gem_framebuffer_helper.c to make a saner
+> diff (Liviu Dudau)
+> - used "2" suffix instead of "_special" for the special version of size
+> checks (Liviu Dudau)
+> - dropped unnecessarily added condition in drm_get_format_info() (Liviu
+> Dudau)
+> - dropped "block_size = 0;" trick in framebuffer_check() (Daniel Vetter)
+> - relaxed sticking to 80 characters per line rule in some cases
+> 
+> v3..v4:
+> 
+> - addressed (some) comments from Daniel Stone, Ezequiel Garcia, Daniel
+> Vetter and James Qian Wang - thank you for input
+> - refactored helpers to ease accommodating drivers with afbc needs
+> - moved afbc checks to helpers
+> - converted komeda, malidp and (the newly added) rockchip to use the afbc
+> helpers
+> - eliminated a separate, dedicated source code file
+> 
+> v2..v3:
+> 
+> - addressed (some) comments from Daniel Stone, Liviu Dudau, Daniel Vetter
+> and Brian Starkey - thank you all
+> 
+> In this iteration some rework has been done. The checking logic is now moved
+> to framebuffer_check() so it is common to all drivers. But the common part
+> is not good for komeda, so this series is not good for merging yet.
+> I kindly ask for feedback whether the changes are in the right direction.
+> I also kindly ask for input on how to accommodate komeda.
+> 
+> The CONFIG_DRM_AFBC option has been eliminated in favour of adding
+> drm_afbc.c to drm_kms_helper.
+> 
+> v1..v2:
+> 
+> - addressed comments from Daniel Stone, Ayan Halder, Mihail Atanassov
+> - coding style fixes** BLURB HERE ***
+> 
+> 
+> Andrzej Pietrasiewicz (34):
+>   drm/core: Add afbc helper functions
+>   drm/gem-fb-helper: Allow drivers to allocate struct drm_framebuffer on
+>     their own
+>   drm/gem-fb-helper: Add special version of drm_gem_fb_size_check
+>   drm/gem-fb-helper: Add generic afbc size checks
+>   drm/komeda: Use afbc helper
+>   drm/komeda: Move checking src coordinates to komeda_fb_create
+>   drm/komeda: Use the already available local variable
+>   drm/komeda: Retrieve drm_format_info once
+>   drm/komeda: Explicitly require 1 plane for AFBC
+>   drm/komeda: Move pitches comparison to komeda_fb_create
+>   drm/komeda: Provide and use komeda_fb_get_pixel_addr variant not
+>     requiring a fb
+>   drm/komeda: Factor out object lookups for non-afbc case
+>   drm/komeda: Make komeda_fb_none_size_check independent from
+>     framebuffer
+>   drm/komeda: Factor out object lookups for afbc case
+>   drm/komeda: Free komeda_fb_afbc_size_check from framebuffer dependency
+>   drm/komeda: Simplify error handling
+>   drm/komeda: Move object lookup before size checks
+>   drm/komeda: Move object assignments to framebuffer to after size
+>     checks
+>   drm/komeda: Make the size checks independent from framebuffer
+>     structure
+>   drm/komeda: Move helper invocation to after size checks
+>   drm/komeda: Use helper for common tasks
+>   drm/komeda: Use return value of drm_gem_fb_lookup
+>   drm/komeda: Use special helper for non-afbc size checks
+>   drm/komeda: Factor in the invocation of special helper
+>   drm/komeda: Use special helper for afbc case size check
+>   drm/komeda: Factor in the invocation of special helper, afbc case
+>   drm/komeda: Move special helper invocation outside if-else
+>   drm/komeda: Move to helper checking afbc buffer size
+>   drm/arm/malidp: Make verify funcitons invocations independent
+>   drm/arm/malidp: Integrate verify functions
+>   drm/arm/malidp: Factor in afbc framebuffer verification
+>   drm/arm/malidp: Use generic helpers for afbc checks
+>   drm/rockchip: Use helper for common task
+>   drm/rockchip: Add support for afbc
+> 
+>  .../arm/display/komeda/d71/d71_component.c    |   6 +-
+>  .../arm/display/komeda/komeda_framebuffer.c   | 273 ++++++++---------
+>  .../arm/display/komeda/komeda_framebuffer.h   |  21 +-
+>  .../display/komeda/komeda_pipeline_state.c    |  14 +-
+>  drivers/gpu/drm/arm/malidp_drv.c              | 155 ++++------
+>  drivers/gpu/drm/drm_fourcc.c                  |  53 ++++
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c  | 287 ++++++++++++++----
+>  drivers/gpu/drm/rockchip/rockchip_drm_fb.c    | 111 ++++++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c   | 147 ++++++++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |  12 +
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c   |  83 ++++-
+>  include/drm/drm_fourcc.h                      |   4 +
+>  include/drm/drm_framebuffer.h                 |  50 +++
+>  include/drm/drm_gem_framebuffer_helper.h      |  34 +++
+>  14 files changed, 907 insertions(+), 343 deletions(-)
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/gpu/drm/meson/meson_crtc.c | 118 +++++++++++++++++++++--------
- 1 file changed, 88 insertions(+), 30 deletions(-)
+I think this isn't achieving it's goal. Even if we take out the rockchip
+enabling patch at the ent it's still like 200 lines more for something
+that's supposed to unify and clean code up.
 
-diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
-index e66b6271ff58..d6dcfd654e9c 100644
---- a/drivers/gpu/drm/meson/meson_crtc.c
-+++ b/drivers/gpu/drm/meson/meson_crtc.c
-@@ -291,6 +291,10 @@ static void meson_crtc_enable_vd1(struct meson_drm *priv)
- 			    VPP_VD1_PREBLEND | VPP_VD1_POSTBLEND |
- 			    VPP_COLOR_MNG_ENABLE,
- 			    priv->io_base + _REG(VPP_MISC));
-+
-+	writel_bits_relaxed(VIU_CTRL0_AFBC_TO_VD1,
-+			    priv->viu.vd1_afbc ? VIU_CTRL0_AFBC_TO_VD1 : 0,
-+			    priv->io_base + _REG(VIU_MISC_CTRL0));
- }
- 
- static void meson_g12a_crtc_enable_vd1(struct meson_drm *priv)
-@@ -300,6 +304,10 @@ static void meson_g12a_crtc_enable_vd1(struct meson_drm *priv)
- 		       VD_BLEND_POSTBLD_SRC_VD1 |
- 		       VD_BLEND_POSTBLD_PREMULT_EN,
- 		       priv->io_base + _REG(VD1_BLEND_SRC_CTRL));
-+
-+	writel_relaxed(priv->viu.vd1_afbc ?
-+		       (VD1_AXI_SEL_AFBC | AFBC_VD1_SEL) : 0,
-+		       priv->io_base + _REG(VD1_AFBCD0_MISC_CTRL));
- }
- 
- void meson_crtc_irq(struct meson_drm *priv)
-@@ -383,36 +391,86 @@ void meson_crtc_irq(struct meson_drm *priv)
- 	/* Update the VD1 registers */
- 	if (priv->viu.vd1_enabled && priv->viu.vd1_commit) {
- 
--		switch (priv->viu.vd1_planes) {
--		case 3:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_2,
--					    priv->viu.vd1_addr2,
--					    priv->viu.vd1_stride2,
--					    priv->viu.vd1_height2,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
--		/* fallthrough */
--		case 2:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_1,
--					    priv->viu.vd1_addr1,
--					    priv->viu.vd1_stride1,
--					    priv->viu.vd1_height1,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
--		/* fallthrough */
--		case 1:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_0,
--					    priv->viu.vd1_addr0,
--					    priv->viu.vd1_stride0,
--					    priv->viu.vd1_height0,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
-+		if (priv->viu.vd1_afbc) {
-+			writel_relaxed(priv->viu.vd1_afbc_head_addr,
-+				       priv->io_base +
-+				       _REG(AFBC_HEAD_BADDR));
-+			writel_relaxed(priv->viu.vd1_afbc_body_addr,
-+				       priv->io_base +
-+				       _REG(AFBC_BODY_BADDR));
-+			writel_relaxed(priv->viu.vd1_afbc_en,
-+				       priv->io_base +
-+				       _REG(AFBC_ENABLE));
-+			writel_relaxed(priv->viu.vd1_afbc_mode,
-+				       priv->io_base +
-+				       _REG(AFBC_MODE));
-+			writel_relaxed(priv->viu.vd1_afbc_size_in,
-+				       priv->io_base +
-+				       _REG(AFBC_SIZE_IN));
-+			writel_relaxed(priv->viu.vd1_afbc_dec_def_color,
-+				       priv->io_base +
-+				       _REG(AFBC_DEC_DEF_COLOR));
-+			writel_relaxed(priv->viu.vd1_afbc_conv_ctrl,
-+				       priv->io_base +
-+				       _REG(AFBC_CONV_CTRL));
-+			writel_relaxed(priv->viu.vd1_afbc_size_out,
-+				       priv->io_base +
-+				       _REG(AFBC_SIZE_OUT));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_ctrl,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_CTRL));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_w,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_W));
-+			writel_relaxed(priv->viu.vd1_afbc_mif_hor_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_MIF_HOR_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_mif_ver_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_MIF_VER_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_pixel_hor_scope,
-+				       priv->io_base+
-+				       _REG(AFBC_PIXEL_HOR_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_pixel_ver_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_PIXEL_VER_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_h,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_H));
-+		} else {
-+			switch (priv->viu.vd1_planes) {
-+			case 3:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_2,
-+						    priv->viu.vd1_addr2,
-+						    priv->viu.vd1_stride2,
-+						    priv->viu.vd1_height2,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			/* fallthrough */
-+			case 2:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_1,
-+						    priv->viu.vd1_addr1,
-+						    priv->viu.vd1_stride1,
-+						    priv->viu.vd1_height1,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			/* fallthrough */
-+			case 1:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_0,
-+						    priv->viu.vd1_addr0,
-+						    priv->viu.vd1_stride0,
-+						    priv->viu.vd1_height0,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			}
-+
-+			writel_relaxed(0, priv->io_base + _REG(AFBC_ENABLE));
- 		}
- 
- 		writel_relaxed(priv->viu.vd1_if0_gen_reg,
+Plus it looks enormously complicated, something that I missed in my
+previous quick glance. Hence proposal for all the things you're going to
+add to drm core/helpers, and not a bit more :-)
+
+int
+drm_gem_fb_init_with_funcs(struct drm_framebuffer *fb,
+			   struct drm_device *dev, struct drm_file *file,
+			   const struct drm_mode_fb_cmd2 *mode_cmd,
+			   const struct drm_framebuffer_funcs *funcs);
+
+This is going to do _exactly_ what drm_gem_fb_create_with_funcs already
+does, except it doesn't do the kzalloc (so that would need to be moved out
+so we can share code). No other additional sub-parts exposed, I think
+that's just not worth it in this case. So none of this size check stuff.
+
+2nd piece, your drm_afbc_framebuffer as in patch 4, with the subclassing.
+
+3rd piece, again in drm_gem_framebuffer_helper.c:
+
+int drm_gem_afbc_init(struct drm_afbc_framebuffer *afbc_fb);
+
+Drivers are supposed to call this after they've a) allocated their fb
+structure, containing the drm_afbc_framebuffer somewhere and b) called
+drm_gem_fb_init_with_funcs(). This function is going to fill out all the
+additional fields, and this function is also going to do all the size
+validation and everything else.
+
+Nothing else, so no finer split up of helper check functions, or of afbc
+computation functions, or of anything else. That mix of split-out stuff
+and mix of computed values in drm_afbc_framebuffer but also functions that
+compute afbc values from modifiers and fb sizes seems to just lead to a
+huge confusion and not actually to a code reduction. So
+- none of the functions exported in patch 1, just stuff them into
+  drm_gem_framebuffer_helper.c.
+- none of the helper subfunctions you export in patch 2, or adapt in patch
+  3
+- Also not this size check structure with the data pointer you add in
+  patch 4.
+
+The bikeshed I'm still seeing here is whether drm_afbc_framebuffer and the
+drm_gem_afbc_init() function should be considered core stuff or not, I
+guess you can make an argument for either.
+
+This should also make conversion easier since as a first steps you'd do:
+
+- Put the new drm_afbc_framebuffer in place and adjust all tha
+  fb_to_komeda functions and upcasting (this should be mechanically)
+
+- Add the call to drm_gem_afbc_init().
+
+- Starting using the new values in drm_afbc_framebuffer and slowly delete
+  code
+
+- Optional, but would be nice to do: Convert driver over to
+  drm_gem_fb_init_with_funcs().
+
+Thoughts?
+
+Cheers, Daniel
 -- 
-2.22.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
