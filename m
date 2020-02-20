@@ -1,39 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A421654BC
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 02:56:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBF216544E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 02:36:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 990936ECC9;
-	Thu, 20 Feb 2020 01:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63EDF89B9F;
+	Thu, 20 Feb 2020 01:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C94016E89F;
- Thu, 20 Feb 2020 01:56:22 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2020 17:56:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,462,1574150400"; d="scan'208";a="224697213"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 19 Feb 2020 17:56:20 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
- (envelope-from <lkp@intel.com>)
- id 1j4b4d-00013B-T0; Thu, 20 Feb 2020 09:56:19 +0800
-Date: Thu, 20 Feb 2020 09:09:34 +0800
-From: kbuild test robot <lkp@intel.com>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [drm-intel:topic/core-for-CI 18/21] init/Kconfig:77: symbol BROKEN
- is selected by DRM_I915_DEBUG
-Message-ID: <202002200910.2hKiML2U%lkp@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 25B7789B9F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 01:36:13 +0000 (UTC)
+X-UUID: 8822993177144f7cae617536a7168d95-20200220
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=M86BLgqozbH/Kl6AgJIXd8CaALScxACbiWE+AGXHu0M=; 
+ b=Cj+GpElCDUUggrUPzXSWal+0LBXA/Js6cHOFqPE/HSfaiaFT5cQVqGJOVhIk4xx0Y8hcHvzyj1y6Q9oTXDtHHS3Uj3fqXFw9iZpkhY6n4ouBXRHWRSCrFNfZ8aENxznZvMCINcJKXhRTUIxqURVMkFU95xxb1IPgavATLujoa7g=;
+X-UUID: 8822993177144f7cae617536a7168d95-20200220
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 23207877; Thu, 20 Feb 2020 09:36:09 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 20 Feb 2020 09:36:08 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 20 Feb 2020 09:35:31 +0800
+Message-ID: <1582162568.24713.0.camel@mtksdaap41>
+Subject: Re: [PATCH] drm/mediatek: component type MTK_DISP_OVL_2L is not
+ correctly handled
+From: CK Hu <ck.hu@mediatek.com>
+To: Phong LE <ple@baylibre.com>
+Date: Thu, 20 Feb 2020 09:36:08 +0800
+In-Reply-To: <20200219141324.29299-1-ple@baylibre.com>
+References: <20200219141324.29299-1-ple@baylibre.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,66 +52,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel topic/core-for-CI
-head:   2a97892fdbae277a104d6ba0b90f8a47cbe53681
-commit: 0db409f2a5a4ec41dba541c21d6fa294c8a4dfd4 [18/21] Revert "drm/i915: Don't select BROKEN"
-config: powerpc-ksi8560_defconfig
-compiler: powerpc-linux-gcc (GCC) 7.5.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git checkout 0db409f2a5a4ec41dba541c21d6fa294c8a4dfd4
-        GCC_VERSION=7.5.0 make.cross ARCH=powerpc  85xx/ksi8560_defconfig
-        GCC_VERSION=7.5.0 make.cross ARCH=powerpc 
+Hi, Phong:
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+On Wed, 2020-02-19 at 15:13 +0100, Phong LE wrote:
+> The larb device remains NULL if the type is MTK_DISP_OVL_2L.
+> A kernel panic is raised when a crtc uses mtk_smi_larb_get or
+> mtk_smi_larb_put.
+> 
 
-All errors (new ones prefixed by >>):
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
->> arch/powerpc/platforms/embedded6xx/Kconfig:2:error: recursive dependency detected!
->> arch/powerpc/platforms/embedded6xx/Kconfig:2: symbol EMBEDDED6xx depends on BROKEN_ON_SMP
->> init/Kconfig:80: symbol BROKEN_ON_SMP depends on BROKEN
->> init/Kconfig:77: symbol BROKEN is selected by DRM_I915_DEBUG
->> drivers/gpu/drm/i915/Kconfig.debug:19: symbol DRM_I915_DEBUG depends on DRM_I915
->> drivers/gpu/drm/i915/Kconfig:2: symbol DRM_I915 depends on DRM
->> drivers/gpu/drm/Kconfig:8: symbol DRM depends on AGP
->> drivers/char/agp/Kconfig:2: symbol AGP depends on PCI
->> drivers/pci/Kconfig:16: symbol PCI depends on HAVE_PCI
->> drivers/pci/Kconfig:7: symbol HAVE_PCI is selected by FORCE_PCI
->> drivers/pci/Kconfig:11: symbol FORCE_PCI is selected by MVME5100
->> arch/powerpc/platforms/embedded6xx/Kconfig:51: symbol MVME5100 depends on EMBEDDED6xx
-   For a resolution refer to Documentation/kbuild/kconfig-language.rst
-   subsection "Kconfig recursive dependency limitations"
+> Signed-off-by: Phong LE <ple@baylibre.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> index 1f5a112bb034..57c88de9a329 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -471,6 +471,7 @@ int mtk_ddp_comp_init(struct device *dev, struct device_node *node,
+>  	/* Only DMA capable components need the LARB property */
+>  	comp->larb_dev = NULL;
+>  	if (type != MTK_DISP_OVL &&
+> +	    type != MTK_DISP_OVL_2L &&
+>  	    type != MTK_DISP_RDMA &&
+>  	    type != MTK_DISP_WDMA)
+>  		return 0;
 
-vim +77 init/Kconfig
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  76  
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @77  config BROKEN
-^1da177e4c3f41 Linus Torvalds 2005-04-16  78  	bool
-^1da177e4c3f41 Linus Torvalds 2005-04-16  79  
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @80  config BROKEN_ON_SMP
-^1da177e4c3f41 Linus Torvalds 2005-04-16  81  	bool
-^1da177e4c3f41 Linus Torvalds 2005-04-16  82  	depends on BROKEN || !SMP
-^1da177e4c3f41 Linus Torvalds 2005-04-16  83  	default y
-^1da177e4c3f41 Linus Torvalds 2005-04-16  84  
-
-:::::: The code at line 77 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
