@@ -1,71 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0DA167BB9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6651E167BA7
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:14:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC096F40B;
-	Fri, 21 Feb 2020 11:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 227F06F3E8;
+	Fri, 21 Feb 2020 11:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9716EE10
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 17:22:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5B66EE14
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 17:23:26 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 8147D21DC4;
- Thu, 20 Feb 2020 12:22:25 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 20 Feb 2020 12:22:25 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id BBB4021E29;
+ Thu, 20 Feb 2020 12:23:25 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 20 Feb 2020 12:23:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=Y/LbR6Gks9hLwTyOoP+fgUalI9X
- hENSr9+HkBd7I4X0=; b=rsy8BLO9wTPt5VT1koKQ++7YX/JqNw2f4K45TBjw61K
- NtrqK/J1EBgQYnqC7YFDQPkqZud22SIAPgJcoWT1ILayHtkQybaoMehemsVvBOBi
- 7i4cjcDq32I/E6S7ES4KB9TOOHVCGcgp/fyVvtwoQCfFifhSp5kciq5ibEkWYDe1
- vBeJnDgdYC4kOTn0TAxST6lK9Q06nJmiz3J9CNHN5WTPfhIOA/RYaKUvmMSP7adg
- 6V/I3RyaRAUirYnz7zoHoz/3c16LsVMd7iYu8/WazO0hySSg26lrRksqXVPUTR0A
- mrA0PIKjrsYYowLE9VSNMolVdQtSiK7ArAhC/FN9x9Q==
+ :content-type:in-reply-to; s=fm2; bh=vbvI29EQ0v8H6J4KfL2LWXgZy9K
+ YsqNtddfsF3hvK68=; b=ajY+f6+oQcGeRKarwVpE9Yi1OOem4Ka7HuzwJqJwqyn
+ nRWtiEhP6XHwd0kci0kCV+LE3tGIdAOR79YosPBczTLT3pa3r5Pr9c+nH0VLz3Cm
+ azkXzJSb33yaxX1fIFuTeu290KZKyjUs+CHNwmXuvRz1wM5QaSVf2uvyfLqlcGgh
+ 4KD5uHZGi3FQKSZ6lbMCzD4H5uY9zdZsmj2SVerUEFTTdMb+4gxNzE7ojqhFOCe9
+ Gd1CRT0asFYI5DXTLors4fH7Zf+F8NKXedLaP4O1ZOgPWMNuaf2jVdpnNScLy+An
+ XltbPA70DuvRE6AyvUTzf52EYBlmPqRaVQnEasdUz0w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Y/LbR6
- Gks9hLwTyOoP+fgUalI9XhENSr9+HkBd7I4X0=; b=R6+adF2rysmiZatF269DgT
- q08nniKYJWkj3UoyZ3iJ+fY3LO725EKt5QN4tZKZDzjX6/k7+2GW7Spq18637cD7
- U4AQd2t8kfp8TD5J/wEARU4iKSzOEpVC2/0PLbenrhZL82ERj3vWnSIATeOoEwpL
- iwUGrGk2vslNFmYqiMW68Y97o29byM5cAEAeVBPpIYYTEmJaFy8+zz9/oo02k9Yp
- FK+jow0+EK7+VqaIExL5nUyzcCtsXsyWzSH6x9gamO0KCyCJmEKXbX4adHxHPpLX
- ixd0C4lGZKHLmllIMh8GwRnX3gVCU4Q70qnrgdbLG6s8AepecQpqApSTbkNjGJ4g
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vbvI29
+ EQ0v8H6J4KfL2LWXgZy9KYsqNtddfsF3hvK68=; b=fiZBiIh2MzQrDMzZaPhzVZ
+ XUs09j+V726JW9G8OmfADC8oJT1dVdLoNkbvMkrylFXB8SUBK3/O/CfM7iw7xWB7
+ TDPkz1XL7Dv6/au5VA1OsQU8LLcNWMvWP6vRCB/yGHJFBteA1VNSdOma5H7VTsPu
+ QYYV6GCJIMETbYphucDpRSaWA8R1bH00B5eoWy8kPMuEqxtS99wLRvfzh3pJ1X9Y
+ QvWpfZ1vt5ywJ7gdQy5QckmelIHiKY1uSWvPvuPaYtgPirWzGSuLSeqN716teg+C
+ tpsv8cmP5+w/7NMlAloMv6/90u8iH2oCNy2MOLO6xx/hA1z2fZxnRNk0LCBPrrqA
  ==
-X-ME-Sender: <xms:UcBOXsPtVx0Kka06Pp2MdvillpDUXARbRezhJYZRxRyd50uUz3e8fg>
+X-ME-Sender: <xms:jMBOXpoTszGApMQqaWMuP_TfBQNkNYyb7fCcmlslDqMVV_o3_ctncQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkedvgddutddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
- drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghi
+ drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:UcBOXsBjQCEDGuAQPtHvcaGoQYDBDoTV055YxBXU0LEHR3T7Flnw0A>
- <xmx:UcBOXsVVdXtbCRvybu_vV20qG23UUQWSRJ_Qd1v8pAfqkFgtpAX1uw>
- <xmx:UcBOXgcCgwQTIL6hBrah-yD2DId9vI6gCTT-bv9kTSOCkSnuzrcR5Q>
- <xmx:UcBOXsQNGzQYx5UzJP61oxMDyeIbxa33Yk2aL31PWJoqbHgwtnGR8Q>
+X-ME-Proxy: <xmx:jMBOXsYSqqXSTc0ZkfbaHClmHG83dM5_0KmNul_PJGIWZui7_nB51g>
+ <xmx:jMBOXqAhxezaAXxV1RwoHrTTdvhQV4eEgvP8moiqpgTfrREUqbYT4A>
+ <xmx:jMBOXme_vgWaV1dFv66xNiuIeJbqfyeqrI7CphkbP4KYUmwL0cj7gw>
+ <xmx:jcBOXhG6PMBYwIQkIavaIA1kfyU_zcpnZ2Wa5cc_hmrbfrxRkYZztw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 331E03060BE4;
- Thu, 20 Feb 2020 12:22:25 -0500 (EST)
-Date: Thu, 20 Feb 2020 18:22:23 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7E5D3328005D;
+ Thu, 20 Feb 2020 12:23:24 -0500 (EST)
+Date: Thu, 20 Feb 2020 18:23:23 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrey Lebedev <andrey.lebedev@gmail.com>
-Subject: Re: [PATCH 2/5] drm/sun4i: tcon: Separate quirks for tcon0 and tcon1
- on A20
-Message-ID: <20200220172223.xoy6e3njmsb2vcon@gilmour.lan>
+Subject: Re: [PATCH 3/5] ARM: dts: sun7i: Add LVDS panel support on A20
+Message-ID: <20200220172323.lgeb4zqmbg6kcvr6@gilmour.lan>
 References: <20200210195633.GA21832@kedthinkpad>
  <20200219180858.4806-1-andrey.lebedev@gmail.com>
- <20200219180858.4806-3-andrey.lebedev@gmail.com>
+ <20200219180858.4806-4-andrey.lebedev@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200219180858.4806-3-andrey.lebedev@gmail.com>
-X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:23 +0000
+In-Reply-To: <20200219180858.4806-4-andrey.lebedev@gmail.com>
+X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,62 +81,89 @@ Cc: airlied@linux.ie, linux-sunxi@googlegroups.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Andrey Lebedev <andrey@lebedev.lt>, wens@csie.org,
  linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1523170163=="
+Content-Type: multipart/mixed; boundary="===============0165228480=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1523170163==
+--===============0165228480==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="bi7wpjn7s3dhfi3c"
+	protocol="application/pgp-signature"; boundary="d6sfey5dsbwbndvm"
 Content-Disposition: inline
 
 
---bi7wpjn7s3dhfi3c
+--d6sfey5dsbwbndvm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Feb 19, 2020 at 08:08:55PM +0200, Andrey Lebedev wrote:
+On Wed, Feb 19, 2020 at 08:08:56PM +0200, Andrey Lebedev wrote:
 > From: Andrey Lebedev <andrey@lebedev.lt>
 >
-> Timing controllers on A20 are not equivalent: tcon0 on A20 supports
-> LVDS output and tcon1 does not. Separate the capabilities by
-> introducing independent set of quirks for each of the tcons.
+> Define pins for LVDS channels 0 and 1, configure reset line for tcon0 and
+> provide sample LVDS panel, connected to tcon0.
 >
 > Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
 > ---
->  drivers/gpu/drm/sun4i/sun4i_tcon.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  arch/arm/boot/dts/sun7i-a20.dtsi | 30 ++++++++++++++++++++++++++----
+>  1 file changed, 26 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index cc6b05ca2c69..b7234eef3c7b 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -1508,6 +1508,8 @@ const struct of_device_id sun4i_tcon_of_table[] = {
->  	{ .compatible = "allwinner,sun5i-a13-tcon", .data = &sun5i_a13_quirks },
->  	{ .compatible = "allwinner,sun6i-a31-tcon", .data = &sun6i_a31_quirks },
->  	{ .compatible = "allwinner,sun6i-a31s-tcon", .data = &sun6i_a31s_quirks },
-> +	{ .compatible = "allwinner,sun7i-a20-tcon0", .data = &sun7i_a20_quirks },
-> +	{ .compatible = "allwinner,sun7i-a20-tcon1", .data = &sun7i_a20_quirks },
+> diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
+> index 92b5be97085d..d50263c1ca9a 100644
+> --- a/arch/arm/boot/dts/sun7i-a20.dtsi
+> +++ b/arch/arm/boot/dts/sun7i-a20.dtsi
+> @@ -47,6 +47,7 @@
+>  #include <dt-bindings/dma/sun4i-a10.h>
+>  #include <dt-bindings/clock/sun7i-a20-ccu.h>
+>  #include <dt-bindings/reset/sun4i-a10-ccu.h>
+> +#include <dt-bindings/pinctrl/sun4i-a10.h>
+>
+>  / {
+>  	interrupt-parent = <&gic>;
+> @@ -404,11 +405,12 @@
+>  		};
+>
+>  		tcon0: lcd-controller@1c0c000 {
+> -			compatible = "allwinner,sun7i-a20-tcon";
+> +			compatible = "allwinner,sun7i-a20-tcon0",
+> +				     "allwinner,sun7i-a20-tcon";
+>  			reg = <0x01c0c000 0x1000>;
+>  			interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+> -			resets = <&ccu RST_TCON0>;
+> -			reset-names = "lcd";
+> +			resets = <&ccu RST_TCON0>, <&ccu RST_LVDS>;
+> +			reset-names = "lcd", "lvds";
+>  			clocks = <&ccu CLK_AHB_LCD0>,
+>  				 <&ccu CLK_TCON0_CH0>,
+>  				 <&ccu CLK_TCON0_CH1>;
+> @@ -444,6 +446,11 @@
+>  					#size-cells = <0>;
+>  					reg = <1>;
+>
+> +					tcon0_out_lvds: endpoint@0 {
+> +						reg = <0>;
+> +						allwinner,tcon-channel = <0>;
+> +					};
+> +
 
-It wasn't ordered alphabetically, I've fixed it up while applying.
-
+This isn't necessarily true. The endpoint would be the same for an RGB
+panel for example. I've followed what we're doing elsewhere and
+removed that endpoint entirely while applying, thanks!
 Maxime
 
---bi7wpjn7s3dhfi3c
+--d6sfey5dsbwbndvm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXk7ATwAKCRDj7w1vZxhR
-xaxkAQC4slxXfrNAlNDduUqdbx09RyWm5i9BjI+oi87n++Sj7wEA+3wqikR7D1eY
-1FTAfdjEbPqk07Awe1jmsHs2OYbK2gQ=
-=Um74
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXk7AiwAKCRDj7w1vZxhR
+xbrdAP9X63/5hBLxm5f2JSxXpC2INrkCYBsgrd+YWuJGEwqb2wEAmkyx5BXcSBsi
++JmpgeKEkfyHNnXY6iu8ddp9SayGMgI=
+=1aoH
 -----END PGP SIGNATURE-----
 
---bi7wpjn7s3dhfi3c--
+--d6sfey5dsbwbndvm--
 
---===============1523170163==
+--===============0165228480==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -148,4 +174,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1523170163==--
+--===============0165228480==--
