@@ -2,41 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9211166A0A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 22:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDDC166A4F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 23:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 102F76EE7F;
-	Thu, 20 Feb 2020 21:45:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB076E237;
+	Thu, 20 Feb 2020 22:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3AEF6EE80
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 21:45:50 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02334563;
- Thu, 20 Feb 2020 22:45:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582235149;
- bh=saOAq2rxyUxr9aIR6EtrIu3b9JsfyA1QhvU72hxnwnQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qEBjxrzdj9dpbLGuenGyVQDjsx5bJiD3uGplP6O0wb2ESM8c3/vY6eqi4/56Z7rPk
- ZxndGU1SEhXyC565MMQpNZMsknYdTk6sR6MO2NME3orRLshDVPH54zGTkwq+zjmbhw
- R3yF0i60fssx7+PM1VARbikUq0+I5R5eE17KbXNc=
-Date: Thu, 20 Feb 2020 23:45:30 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sebastian Reichel <sre@kernel.org>
-Subject: Re: [PATCH v6 49/51] drm/omap: dss: Remove unused omap_dss_device
- operations
-Message-ID: <20200220214530.GS4998@pendragon.ideasonboard.com>
-References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
- <20200216210308.17312-50-laurent.pinchart@ideasonboard.com>
- <20200220213938.4rbbkn7pax6ywbnk@earth.universe>
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B95976E237
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 22:24:08 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id n21so181281ioo.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 14:24:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tsmcUsdlHKDCw+VMlkQEni+reRDwiML4gVNPgDLEcIc=;
+ b=YTgATJsIaaWc3wzV72PET63d49kA2ZpVIRFcnPSAp+4y5BP5SXpT0Ov0c8fTU+o8o7
+ rUPRDxG/KyzGlSf2MUSxZ/PJ0Pw8OFM1yr5gCyj7Bnwz0sIaK1YerMAZ6+NtFvhOSh6C
+ 3SFIsbFbF0u5iLxRggv1s5FJ8f/GeZh/ZEKgQRSn53aOksyVfo5ms4QHejunntIr4l/a
+ 6hBzlJGfvfRHCv8NRMaLT6wjX753nnO91xAOnaw8uptTEjlIv4xP6D+UQbzbqQx1tjfh
+ QK7upsQTI3zQMVJBrsenpeFa4QsOazjuo/pklumENIkXSAS9qkW79ZYdOEikdbAJlvRs
+ CH2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tsmcUsdlHKDCw+VMlkQEni+reRDwiML4gVNPgDLEcIc=;
+ b=SD8Z0c6kNZ+RNDAlhFxUynKJyues1tgxyZnZPAmfavAiuCIb8UAw80ObtazlYAoiMw
+ CTgf2VWLjhlyUobgwgbInxqcSIXby1yY1rHmtvqYNlswDaKA1TZytZ/DLqK9gYfoegPX
+ VcesR/WgQjliS8VO1Ol+QTqnpNdcdzH5JUqnD0wwQlotff6v/8jihh+vBsj5gZpeVgvg
+ 0swGLumCshxd+vYhBWgI5oIwEnZNmyIr7Spf6eZde+ikUqxt0stWH+w+XBKD14YYjQJ/
+ DavnMQHERW64KpQvG3d0VTzr84/gutOEed3wVzQxq4Fy7dUM1q+ntGdH+MKfWMbgsZH5
+ WVaQ==
+X-Gm-Message-State: APjAAAUKPqpW359UVyQb2//XQiR7PyiuoRL9hxo6MB5FWHkU6L3gnyxR
+ pfiO8Nz6B6FXomNes/6/N+DNSen/zSVGROVeeo4=
+X-Google-Smtp-Source: APXvYqyUbRTNVwg05BeiCaPkZCozjLSPUT452+epOUvICtRc8VU4uC01VSD9I8LdpJYpdG/8h2/rGc4xdkpa3waEIgY=
+X-Received: by 2002:a02:c856:: with SMTP id r22mr27413243jao.67.1582237447925; 
+ Thu, 20 Feb 2020 14:24:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200220213938.4rbbkn7pax6ywbnk@earth.universe>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200213213036.207625-1-olvaffe@gmail.com>
+ <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
+ <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
+ <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
+ <20200214195229.GF20690@linux.intel.com>
+ <CAPaKu7Q4gehyhEgG_Nw=tiZiTh+7A8-uuXq1w4he6knp6NWErQ@mail.gmail.com>
+ <CALMp9eRwTxdqxAcobZ7sYbD=F8Kga=jR3kaz-OEYdA9fV0AoKQ@mail.gmail.com>
+ <20200214220341.GJ20690@linux.intel.com>
+ <d3a6fac6-3831-3b8e-09b6-bfff4592f235@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D78D6F4@SHSMSX104.ccr.corp.intel.com>
+ <CAPaKu7RyTbuTPf0Tp=0DAD80G-RySLrON8OQsHJzhAYDh7zHuA@mail.gmail.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D78EE65@SHSMSX104.ccr.corp.intel.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D78EF58@SHSMSX104.ccr.corp.intel.com>
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D78EF58@SHSMSX104.ccr.corp.intel.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 20 Feb 2020 14:23:51 -0800
+Message-ID: <CAPaKu7RFY3nar9hmAdx6RYdZFPK3Cdg1O3cS+OvsEOT=yupyrQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
+To: "Tian, Kevin" <kevin.tian@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,35 +72,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
+Cc: Wanpeng Li <wanpengli@tencent.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, kvm list <kvm@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, "Christopherson,
+ Sean J" <sean.j.christopherson@intel.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
+On Wed, Feb 19, 2020 at 6:38 PM Tian, Kevin <kevin.tian@intel.com> wrote:
+>
+> > From: Tian, Kevin
+> > Sent: Thursday, February 20, 2020 10:05 AM
+> >
+> > > From: Chia-I Wu <olvaffe@gmail.com>
+> > > Sent: Thursday, February 20, 2020 3:37 AM
+> > >
+> > > On Wed, Feb 19, 2020 at 1:52 AM Tian, Kevin <kevin.tian@intel.com> wrote:
+> > > >
+> > > > > From: Paolo Bonzini
+> > > > > Sent: Wednesday, February 19, 2020 12:29 AM
+> > > > >
+> > > > > On 14/02/20 23:03, Sean Christopherson wrote:
+> > > > > >> On Fri, Feb 14, 2020 at 1:47 PM Chia-I Wu <olvaffe@gmail.com>
+> > wrote:
+> > > > > >>> AFAICT, it is currently allowed on ARM (verified) and AMD (not
+> > > > > >>> verified, but svm_get_mt_mask returns 0 which supposedly means
+> > > the
+> > > > > NPT
+> > > > > >>> does not restrict what the guest PAT can do).  This diff would do the
+> > > > > >>> trick for Intel without needing any uapi change:
+> > > > > >> I would be concerned about Intel CPU errata such as SKX40 and
+> > SKX59.
+> > > > > > The part KVM cares about, #MC, is already addressed by forcing UC
+> > for
+> > > > > MMIO.
+> > > > > > The data corruption issue is on the guest kernel to correctly use WC
+> > > > > > and/or non-temporal writes.
+> > > > >
+> > > > > What about coherency across live migration?  The userspace process
+> > > would
+> > > > > use cached accesses, and also a WBINVD could potentially corrupt guest
+> > > > > memory.
+> > > > >
+> > > >
+> > > > In such case the userspace process possibly should conservatively use
+> > > > UC mapping, as if for MMIO regions on a passthrough device. However
+> > > > there remains a problem. the definition of KVM_MEM_DMA implies
+> > > > favoring guest setting, which could be whatever type in concept. Then
+> > > > assuming UC is also problematic. I'm not sure whether inventing another
+> > > > interface to query effective memory type from KVM is a good idea. There
+> > > > is no guarantee that the guest will use same type for every page in the
+> > > > same slot, then such interface might be messy. Alternatively, maybe
+> > > > we could just have an interface for KVM userspace to force memory type
+> > > > for a given slot, if it is mainly used in para-virtualized scenarios (e.g.
+> > > > virtio-gpu) where the guest is enlightened to use a forced type (e.g. WC)?
+> > > KVM forcing the memory type for a given slot should work too.  But the
+> > > ignore-guest-pat bit seems to be Intel-specific.  We will need to
+> > > define how the second-level page attributes combine with the guest
+> > > page attributes somehow.
+> >
+> > oh, I'm not aware of that difference. without an ipat-equivalent
+> > capability, I'm not sure how to forcing random type here. If you look at
+> > table 11-7 in Intel SDM, none of MTRR (EPT) memory type can lead to
+> > consistent effective type when combining with random PAT value. So
+> >  it is definitely a dead end.
+> >
+> > >
+> > > KVM should in theory be able to tell that the userspace region is
+> > > mapped with a certain memory type and can force the same memory type
+> > > onto the guest.  The userspace does not need to be involved.  But that
+> > > sounds very slow?  This may be a dumb question, but would it help to
+> > > add KVM_SET_DMA_BUF and let KVM negotiate the memory type with the
+> > > in-kernel GPU drivers?
+> > >
+> > >
+> >
+> > KVM_SET_DMA_BUF looks more reasonable. But I guess we don't need
+> > KVM to be aware of such negotiation. We can continue your original
+> > proposal to have KVM simply favor guest memory type (maybe still call
+> > KVM_MEM_DMA). On the other hand, Qemu should just mmap on the
+> > fd handle of the dmabuf passed from the virtio-gpu device backend,  e.g.
+> > to conduct migration. That way the mmap request is finally served by
+> > DRM and underlying GPU drivers, with proper type enforced automatically.
+> >
+>
+> Thinking more possibly we don't need introduce new interface to KVM.
+> As long as Qemu uses dmabuf interface to mmap the specific region,
+> KVM can simply check memory type in host page table given hva of a
+> memslot. If the type is UC or WC, it implies that userspace wants a
+> non-coherent mapping which should be reflected in the guest side too.
+> In such case, KVM can go to non-cohenrent DMA path and favor guest
+> memory type automatically.
+Sorry, I mixed two things together.
 
-On Thu, Feb 20, 2020 at 10:39:38PM +0100, Sebastian Reichel wrote:
-> On Sun, Feb 16, 2020 at 11:03:06PM +0200, Laurent Pinchart wrote:
-> > The omap_dss_device .pre_enable(), .post_disable() and .set_timings()
-> > are not used anymore. Remove them.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > ---
-> 
-> Actually it would be good to postpone this patch a bit, since 
-> I need those functions as intermediate step for converting DSI
-> code (I'm currently rebasing my series on yours).
+Userspace access to dmabuf mmap must be guarded by
+DMA_BUF_SYNC_{START,END} ioctls.  It is possible that the GPU driver
+always picks a WB mapping and let the ioctls flush/invalidate CPU
+caches.  We actually want the guest memory type to match vkMapMemory's
+memory type, which can be different from dmabuf mmap's memory type.
+It is not enough for KVM to inspect the hva's memory type.
 
-I'm fine with that. I'll move the patch to the end of the series
-(nothing depends on it) and postpone it for now.
+KVM_SET_DMA_BUF, if supported, is a signal to KVM that the guest
+memory type should be honored (or forced if there is a new op in
+dma_buf_ops that tells KVM which memory type to force).  KVM_MEM_DMA
+flag in this RFC sends the same signal.  Unless KVM_SET_DMA_BUF gives
+the userspace other features such as setting unlimited number of
+dmabufs to subregions of a memslot, it is not very useful.
 
--- 
-Regards,
+If uapi change is to be avoided, it is the easiest that guest memory
+type is always honored unless it causes #MC (i.e.,is_mmio==true).
 
-Laurent Pinchart
+
+>
+> Thanks
+> Kevin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
