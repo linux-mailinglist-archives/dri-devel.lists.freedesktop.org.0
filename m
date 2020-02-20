@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C871D1666DF
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 20:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5151666EE
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 20:14:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6EFB6EE4E;
-	Thu, 20 Feb 2020 19:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6C8E6E227;
+	Thu, 20 Feb 2020 19:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A53D16EE4E;
- Thu, 20 Feb 2020 19:10:50 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 585E580A88;
- Thu, 20 Feb 2020 20:10:48 +0100 (CET)
-Date: Thu, 20 Feb 2020 20:10:47 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 4/4] drm/qxl: Use simple encoder
-Message-ID: <20200220191047.GC20011@ravnborg.org>
-References: <20200218084815.2137-1-tzimmermann@suse.de>
- <20200218084815.2137-5-tzimmermann@suse.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 185286EDDD
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 19:14:01 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB488563;
+ Thu, 20 Feb 2020 20:13:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1582226039;
+ bh=gZwjMsgBdJ7cjOIuVKbX6JBxZRJ2zvDLN5OL1pMq0pg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=czF5MdgufJzCiszRL1sU1Ozt2MmetdJqtVdmjRVXR0QP+c3m3hi1POi7GG0BlvFEA
+ 9JtwgcdNWL69VLGeJ0/evIOOnR7Ia8YaYQed97bbT5WrnBJct73C/UF3tRj4Kr03js
+ xNn2/BXtmr5Moc6jHPkuH/iaz62vo9Xjt5FvoKqU=
+Date: Thu, 20 Feb 2020 21:13:39 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 1/2] dt-bindings: display: sun4i-tcon: Add LVDS Dual Link
+ property
+Message-ID: <20200220191339.GJ4998@pendragon.ideasonboard.com>
+References: <20200214123244.109300-1-maxime@cerno.tech>
+ <20200214131025.GI4831@pendragon.ideasonboard.com>
+ <20200214154405.f5zuicm6uhhiczfs@gilmour.lan>
+ <20200214154953.GJ4831@pendragon.ideasonboard.com>
+ <20200217174253.mj53us4bb7h2lyca@gilmour.lan>
+ <20200217181006.GE4830@pendragon.ideasonboard.com>
+ <20200220175307.qool442lm7qjqb5h@gilmour.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200218084815.2137-5-tzimmermann@suse.de>
+In-Reply-To: <20200220175307.qool442lm7qjqb5h@gilmour.lan>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=wMNakxb3kf32nlJXWIsA:9 a=dtiwrycrY4r5epML:21 a=rIm5waDK4KQ2vjO9:21
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,93 +53,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, kraxel@redhat.com,
- alexander.deucher@amd.com, spice-devel@lists.freedesktop.org,
- emil.velikov@collabora.com
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas.
+Hi Maxime,
 
-On Tue, Feb 18, 2020 at 09:48:15AM +0100, Thomas Zimmermann wrote:
-> The qxl driver uses an empty implementation for its encoder. Replace
-> the code with the generic simple encoder.
+On Thu, Feb 20, 2020 at 06:53:07PM +0100, Maxime Ripard wrote:
+> On Mon, Feb 17, 2020 at 08:10:06PM +0200, Laurent Pinchart wrote:
+> > On Mon, Feb 17, 2020 at 06:42:53PM +0100, Maxime Ripard wrote:
+> >> On Fri, Feb 14, 2020 at 05:49:53PM +0200, Laurent Pinchart wrote:
+> >>> On Fri, Feb 14, 2020 at 04:44:05PM +0100, Maxime Ripard wrote:
+> >>>> On Fri, Feb 14, 2020 at 03:10:25PM +0200, Laurent Pinchart wrote:
+> >>>>> On Fri, Feb 14, 2020 at 01:32:43PM +0100, Maxime Ripard wrote:
+> >>>>>> SoCs that have multiple TCONs can use the two set of pins on the first TCON
+> >>>>>> to drive a dual-link display. Add a property to enable the dual link.
+> >>>>>>
+> >>>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>>>>> ---
+> >>>>>>  .../bindings/display/allwinner,sun4i-a10-tcon.yaml         | 7 +++++++
+> >>>>>>  1 file changed, 7 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> >>>>>> index 86ad617d2327..aa6dd8409dbc 100644
+> >>>>>> --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> >>>>>> +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> >>>>>> @@ -105,6 +105,13 @@ properties:
+> >>>>>>          - const: edp
+> >>>>>>          - const: lvds
+> >>>>>>
+> >>>>>> +  allwinner,lvds-dual-link:
+> >>>>>> +    type: boolean
+> >>>>>> +    description: |
+> >>>>>> +      On a SoC with two TCON with LVDS support, the first TCON can
+> >>>>>> +      operate over both pins sets to output in a dual-link setup. This
+> >>>>>> +      will be triggered by setting this property.
+> >>>>>
+> >>>>> Could you maybe provide an example of how this property is supposed to
+> >>>>> be used ? I'm especially wondering what ports are used in that case and
+> >>>>> how they're connected.
+> >>>>
+> >>>> It's pretty trivial to support, it's only a property to set on the
+> >>>> encoder node itself.
+> >>>>
+> >>>> I'm not really sure what you meant by your question with the ports
+> >>>> though :/
+> >>>
+> >>> I assume that, in the single-link case, you have two TCON instances that
+> >>> operate independently, each of them with one port that models an LVDS
+> >>> connection to a panel.
+> >>
+> >> Indeed,
+> >>
+> >>> In the dual-link mode, how does that look like ? Does the TCON
+> >>> instance that operate in dual-link mode have two ports in DT ? There
+> >>> are two physical ports, so I think it makes sense to always have two
+> >>> ports in DT. That's what we're doing for the LVDS encoders on R-Car
+> >>> Gen3, in order to specify in DT which LVDS input of the dual-link
+> >>> panel is connected to which LVDS output of the SoC. That allows
+> >>> configuring the LVDS encoder to send the even and odd pixels on the
+> >>> right port.
+> >>
+> >> As far as I can tell, you can't control that in our TCON. It just on
+> >> more lanes, that's it. Also, we currently have multiple ports, to map
+> >> another feature of the TCON, which is that it can drive directly a
+> >> panel, or will send its output to the HDMI / TV encoders. Adding
+> >> another port in that will break the current binding we have.
+> >
+> > This will create one issue though, in that the dual-link sinks are
+> > supposed to have two input ports, in order to expose the odd and even
+> > pixels ordering. If you have a single ouput port in your TCON, how will
+> > you interface with such sinks ?
 > 
-> v2:
-> 	* rebase onto new simple-encoder interface
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-I looked at best_encoder - but could not see we could do anything.
-So from browsing the code:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> I guess we could create multiple endpoints in the same port? That's
+> not going to be trivial either though given the current binding we
+> have :/
 
-	Sam
+That's however not really how endpoints are supposed to be used.
 
-> ---
->  drivers/gpu/drm/qxl/qxl_display.c | 18 +++---------------
->  1 file changed, 3 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-> index ab4f8dd00400..9c0e1add59fb 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -31,6 +31,7 @@
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_plane_helper.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
->  
->  #include "qxl_drv.h"
->  #include "qxl_object.h"
-> @@ -1007,9 +1008,6 @@ static struct drm_encoder *qxl_best_encoder(struct drm_connector *connector)
->  	return &qxl_output->enc;
->  }
->  
-> -static const struct drm_encoder_helper_funcs qxl_enc_helper_funcs = {
-> -};
-> -
->  static const struct drm_connector_helper_funcs qxl_connector_helper_funcs = {
->  	.get_modes = qxl_conn_get_modes,
->  	.mode_valid = qxl_conn_mode_valid,
-> @@ -1059,15 +1057,6 @@ static const struct drm_connector_funcs qxl_connector_funcs = {
->  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->  };
->  
-> -static void qxl_enc_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
-> -static const struct drm_encoder_funcs qxl_enc_funcs = {
-> -	.destroy = qxl_enc_destroy,
-> -};
-> -
->  static int qxl_mode_create_hotplug_mode_update_property(struct qxl_device *qdev)
->  {
->  	if (qdev->hotplug_mode_update_property)
-> @@ -1098,15 +1087,14 @@ static int qdev_output_init(struct drm_device *dev, int num_output)
->  	drm_connector_init(dev, &qxl_output->base,
->  			   &qxl_connector_funcs, DRM_MODE_CONNECTOR_VIRTUAL);
->  
-> -	drm_encoder_init(dev, &qxl_output->enc, &qxl_enc_funcs,
-> -			 DRM_MODE_ENCODER_VIRTUAL, NULL);
-> +	drm_simple_encoder_init(dev, &qxl_output->enc,
-> +				DRM_MODE_ENCODER_VIRTUAL);
->  
->  	/* we get HPD via client monitors config */
->  	connector->polled = DRM_CONNECTOR_POLL_HPD;
->  	encoder->possible_crtcs = 1 << num_output;
->  	drm_connector_attach_encoder(&qxl_output->base,
->  					  &qxl_output->enc);
-> -	drm_encoder_helper_add(encoder, &qxl_enc_helper_funcs);
->  	drm_connector_helper_add(connector, &qxl_connector_helper_funcs);
->  
->  	drm_object_attach_property(&connector->base,
-> -- 
-> 2.25.0
+Let's try to find a solution. Could you show me a DT example that
+explains why having two ports would create backward-compatibility issues
+?
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
