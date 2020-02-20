@@ -2,141 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119F5167BD6
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A96167BBB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B916F42C;
-	Fri, 21 Feb 2020 11:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E26D6F400;
+	Fri, 21 Feb 2020 11:14:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.bemta24.messagelabs.com (mail1.bemta24.messagelabs.com
- [67.219.250.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 947FB6E8E7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 15:14:50 +0000 (UTC)
-Received: from [100.112.135.241] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
- by server-4.bemta.az-b.us-west-2.aws.symcld.net id 21/AA-41136-862AE4E5;
- Thu, 20 Feb 2020 15:14:48 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA1VTfUxTVxzt7Xt97xXp9gSUK5sGGpYhoV0LG3k
- qurkR8ticGw6VyOYso9KatrC2QNnIwuJwpsiHghlUoLXABojC2BwfRXCADoGAKegIyoiIDPAD
- J1MREPYeD932z805v3Puuecm9xKIWwnuRShNRqVep9CIMRc0bt0kLtlv375XNuTwpSZy2gB1L
- H8RoVp+h1T3nSGc6n84hVHmkzLqYEk1Rp1oC6EKx04D6oe+akCV/12AU32NhRjVYZlFqcm2AY
- w61TSOUOWV+eAtkm6wDOG0rTaRnjsP6J/K/enrV5swuvhSBN1SVIXTwxm/8WmHbZpPTzVfwej
- p2nUfrtgjUOti4k37BKrF8wOChBofk+P4DJIGZrzNwIVwIxcBHDsyjnNkHMCun0cRjqTz4Z30
- M3wzEDJkHsCSU56sAMgyBBZmVuEcuYhCe0X3MqkBMGN2GrAEJR0ILC1M43NhuXzYc2gA48gIg
- ENXzuJsMkb6QeuJApQVPMgcxvV93tJ+hBxEoCW9WsC63Mk98FuzgxEIxhUNm62hHAyEQ2e2sA
- 6UfAW2fteGs2MRuQ8et5q44qnw7sGypaOEZATMzq/DWAzI1fBxZ9XS5RDSEw6OWpcwJElY2tS
- LcHgVnLi5IOD8O+HguSMCbu4NG7Mblv1rodOaATj8PqyoqlueB8Bf+vNQDofAC3/aULYaJH3h
- QmsKN46HHQ8r0BwQZPlPCwvjQsj1sLrxNW7sA/MybuAsFpEr4aWCUdQG0EoQHKNXx6mMWoVaI
- 5HLZBK5PFAiDwqUBEsVX0hipIkGSbLSYJQEShXJBqkhRfuZJlaqUxprAfNGYxO+wepB7+kpaS
- tYQ/DFq0S7s7fvdXshJj42RaUwqD7VJ2qUhlbwMkGIochsY7SVemWc0rRfrWFe+jMZEq5iD9G
- ElZFFhgSF1qCO46ROsIHImSiyI8S9JyXM2l5UZkfcUF28TunlKUpg80h2gypR9zzu2d9xgrVe
- 7iLA4/HcXBOUeq3a+H99EngSQOwuimJTXNU64/NTJ5lCfKbQlPs2tpBR8a/klcaH87P3d3Ruq
- G91hqYcTR3O/Ss0Uu5zaHzE5aOF0qDDsuvRG28mhTnmr222XqzeuqVmLvX2o5ie0k2vhn3p4Z
- T5+Y2PnR0WWng9X/mvGTzA67pftj5gR2XSH5KZkk/sSdGR5pDDZaQs+vI7n/u+3r5JqdG2K8Y
- C3kj5evXYe5bw25SPd+dO+oET74rO0sdGvbnN9cKKX+dq8hpCYz1Hi7NvXa7nh7VkVW7Oqhmu
- ExYJX3pa/2iX6cdehHf3Wlxke3DUSP/RD158es4r/N2iAUta9y1xcG7nyeS+vExHfTH2JOftj
- Zl25+77/fe0EX61NolGrtZXXe1QH9jV9vhBuGVr8w2hBX4sRg0qhdwf0RsU/wAXs/vFtgQAAA
- ==
-X-Env-Sender: mpearson@lenovo.com
-X-Msg-Ref: server-32.tower-346.messagelabs.com!1582211682!75939!1
-X-Originating-IP: [103.30.234.7]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.44.25; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 11895 invoked from network); 20 Feb 2020 15:14:45 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.7)
- by server-32.tower-346.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 20 Feb 2020 15:14:45 -0000
-Received: from reswpmail01.lenovo.com (unknown [10.62.32.20])
- (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by Forcepoint Email with ESMTPS id 44D522E4C184FFB761FA;
- Thu, 20 Feb 2020 23:14:39 +0800 (CST)
-Received: from reswpmail02.lenovo.com (10.62.32.21) by reswpmail01.lenovo.com
- (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1779.2; Thu, 20 Feb
- 2020 10:14:31 -0500
-Received: from va32wusexedge01.lenovo.com (10.62.123.116) by
- reswpmail02.lenovo.com (10.62.32.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1779.2
- via Frontend Transport; Thu, 20 Feb 2020 07:14:31 -0800
-Received: from APC01-PU1-obe.outbound.protection.outlook.com (104.47.126.57)
- by mail.lenovo.com (10.62.123.116) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1779.2; Thu, 20 Feb 2020 23:14:30 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kc5u79maBXN3IoVNeWaba8o1mc2pPZpSOKQDxFCodcUR5SfSwTGzzBBYKn8/PTjOIh2qGd2pfVuuZUFQQeO+mL+SskGhhspxtvL0kqNmCEFTimlcn8xZ3cSTFakTP8x/AxHR/t7R/LIkB9EpTaQ+5Z0iUp05gGeEs2Dt5a1kOQ0yUrxJt2wZxg8OhAlBAoyXi4gBizTQUoaNnqO+TwNcaL0yGphxN5fIANLebjUx9POhln2x35yTC07IoMAU6TJRC+TTrovFahQkFq/YJZ6Kgtrfk90A2JewW2U2dLcqUiiEBhSh81D5sP57xNcgrYqanzdJ0X6XJ7TGVFpJ97CvBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uGWowALbmCst9N7V+BOIDhQPc21SXUxxPEtCbFvYGtU=;
- b=VdlJ5uaLEV4lg3y7kzyAqMlDY5UkQ3eKeYTShgaPhUqU8aLGpxfFOf/3qujxqOmjNh3mN4vJPnSb0I5jrGeUPyM8Y27GSwglQDqTO4fGQTMbUgsTg2Lr0XvsIq3Ws4sKsEI8QCE4ptCigSRg0N179izSLQ/MTyrwNWGDBH1AGDaQ6ezDUY2PNFvvPlBW9YObYFQB0iqXdpCGmj51WJk5ZGT+xnj0Atk4GAA7LkfRJG6/HUe0I8VNxuY9ZzefGhvyzLqLC8PWgq7roYqENkRR2xXljWAJP+P1DA0SVU0jWeVdNxZ3r7DhkSXXogZDvvOmFHmTHQ6ZVRdqp+86XbIf6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lenovo.com; dmarc=pass action=none header.from=lenovo.com;
- dkim=pass header.d=lenovo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=LenovoBeijing.onmicrosoft.com; s=selector2-LenovoBeijing-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uGWowALbmCst9N7V+BOIDhQPc21SXUxxPEtCbFvYGtU=;
- b=nHEtHXgKN0ei5F5XHmEdUfmIRGjcGUIR9BbQG50xLij+1rWPxJ5g7ev5nElgluAuEzeEkyKENFPyr9DFQ8X4JJNotPBSrFl1Fu9GeI2tHJblnQN7O4LOB6dEbE3oQE7T7U/1miwjzP9h7RS+/PGN2KmIcN+k9PaIw6kYKs3kcDY=
-Received: from HK2PR0302MB2593.apcprd03.prod.outlook.com (10.170.146.17) by
- HK2PR0302MB2609.apcprd03.prod.outlook.com (10.170.149.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.9; Thu, 20 Feb 2020 15:14:26 +0000
-Received: from HK2PR0302MB2593.apcprd03.prod.outlook.com
- ([fe80::20bc:254b:6c9:b694]) by HK2PR0302MB2593.apcprd03.prod.outlook.com
- ([fe80::20bc:254b:6c9:b694%10]) with mapi id 15.20.2750.016; Thu, 20 Feb 2020
- 15:14:26 +0000
-From: Mark Pearson <mpearson@lenovo.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>, Nitin Joshi
- <nitjoshi@gmail.com>, Mat King <mathewk@google.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Rajat Jain <rajatja@google.com>
-Subject: RE: [External]  Re: [PATCH] thinkpad_acpi: Add sysfs entry for
- lcdshadow feature
-Thread-Topic: [External]  Re: [PATCH] thinkpad_acpi: Add sysfs entry for
- lcdshadow feature
-Thread-Index: AQHV59qPOpC1IkCjDkm9hRYaaz1mrqgkLFhg
-Date: Thu, 20 Feb 2020 15:14:25 +0000
-Message-ID: <HK2PR0302MB25937E2946BF38583B3A905DBD130@HK2PR0302MB2593.apcprd03.prod.outlook.com>
-References: <20200220074637.7578-1-njoshi1@lenovo.com>
- <CAHp75VcJmEOu1-b7F2UAsv=Gujb=pPLzjz2ye9t4=Q68+ors-w@mail.gmail.com>
-In-Reply-To: <CAHp75VcJmEOu1-b7F2UAsv=Gujb=pPLzjz2ye9t4=Q68+ors-w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.48.229.69]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 58a4cd3c-0015-4f89-5271-08d7b61792db
-x-ms-traffictypediagnostic: HK2PR0302MB2609:
-x-ld-processed: 5c7d0b28-bdf8-410c-aa93-4df372b16203,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK2PR0302MB2609F81AF71A1235858D9B04BD130@HK2PR0302MB2609.apcprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 031996B7EF
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(376002)(136003)(346002)(396003)(39860400002)(199004)(189003)(7696005)(9686003)(5660300002)(52536014)(966005)(8676002)(81166006)(55016002)(33656002)(7416002)(478600001)(81156014)(54906003)(110136005)(71200400001)(26005)(66476007)(66946007)(76116006)(66556008)(66446008)(64756008)(186003)(86362001)(316002)(53546011)(4326008)(8936002)(6506007)(2906002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:HK2PR0302MB2609;
- H:HK2PR0302MB2593.apcprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: lenovo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PAUMAejA6vHWKqRV6Y7VlrX6zJqpsOIik1JmxpvSyg1DrVjF1ER+50oOmJJ2kIgzyMg2BUMt67GWNkXnot/Zc5uNd2KU9inyXDMCpyQBZ25xf2Kye+Dk7ByMQI7xyEY652wi7K8RwiQvntWzLiK7oSahKuMFN9vUUXnkuQUfWabenmwmN3C7DRzzZG+puKqcdMOoMD6drbQOZc+gPRo9HMMqduyoAmBzM8yEKO/2MCiAj1hw2tLh78D8TXb6zqhFrdBXNSiHV+tpoSyQa+9O6HGGpkkFjw+zfGJiypNPfDGiQAVtCa4TgHKncexrS9GzWwKivUjrWwXZBC3N8Hqqh2QCqVsEvgLLS7MqBKIF/asOgL3aJZXKjuN6ZZDWlS10wzuvKvNIPzJB5nmdzMe5bAl6Bo9nZPry2WrYEhCFwgS6CEQ0wtSH1CxE8+CBde9V9JGSEzkW7caOH3IKdd3TzLfwct59/r/uLE/I18FgUxatqemmsq/4qZTQ+KYII8UuWxrumb0NHgMJ4fpoDpzSqw==
-x-ms-exchange-antispam-messagedata: GD0kU7ARgXwv61Z+GmxJ6AYbKvmaoC0fZg/dICMaoiJo8g/MsVVFUffrMiNH9hqjQeIEvk/HRLC/sU+7pNGUzs1u4a8VfQqlNC1ncwbpb47ZSOJQ9YuE8ZyNQ7iFsc/3QN+2wqEp/lKAAc1JGzdiYA==
+Received: from sender4-of-o58.zoho.com (sender4-of-o58.zoho.com
+ [136.143.188.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A863B6EE04;
+ Thu, 20 Feb 2020 17:19:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1582219169; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=TykvQRtLa6qKlvUpanYdzcziqL4aJysJiSaEO3f43+VQQVZNXKt+NaL/h3fNlqejjxzOTw/BEpn5L1JUEN9t/jGnUgoNHpnFscjpSYnuS9i5adRJ4nOaUZmyClIK0+CeYjktaZo91DiYT5H7AmTNmp9f4CMbjDhCvVICrrtC+ek=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1582219169;
+ h=Content-Type:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=z3eev3rxdU7OtsSnvVilC23PC1pkssIitHEb4D8Hojw=; 
+ b=SgH5iM3wn55HVdhB4YGYZ8omjvBHsnkqMu6rX5MYSzwIOjBsl79E+Kq9guq9nEctcAUQ5uTAi41GVX+QASLAYOZK+mQ0Z1ISYYTXxEy5l1GJI+kI3bKgg4sRCwhbo+iv+8zJASiXAjRHsDCBXf1khnNMcex/i/DedPnK0z2VbX0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=qubes-os.org;
+ spf=pass  smtp.mailfrom=frederic.pierret@qubes-os.org;
+ dmarc=pass header.from=<frederic.pierret@qubes-os.org>
+ header.from=<frederic.pierret@qubes-os.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1582219169; 
+ s=s; d=qubes-os.org; i=frederic.pierret@qubes-os.org;
+ h=Subject:From:To:References:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type;
+ bh=z3eev3rxdU7OtsSnvVilC23PC1pkssIitHEb4D8Hojw=;
+ b=dxG7rdJcYmWHT/KkvqLHVFgOiYsAEmpT8DnTrTFMy90rAiAlAvXp4vSjJgm96reZ
+ avFTQquYqJgqlBFdhY7DVhnTUjFqD0JmXP7JNtGOkSy4PKyngryqanimVf7urB6Tyl6
+ iWk+gygYCf2eAotV5SNJl/Tc6NGz1zfvi0zRSn4M=
+Received: from [10.137.0.45] (82.102.18.6 [82.102.18.6]) by mx.zohomail.com
+ with SMTPS id 1582219167645457.9527982400665;
+ Thu, 20 Feb 2020 09:19:27 -0800 (PST)
+Subject: Re: [PATCH] nv50_disp_chan_mthd: ensure mthd is not NULL
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQaWVycmV0?= <frederic.pierret@qubes-os.org>
+To: bskeggs@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <dac89843-5258-5bed-ee86-7038e94e56da@qubes-os.org>
+Message-ID: <c94ce223-56d5-e31a-2a2c-59defb988b28@qubes-os.org>
+Date: Thu, 20 Feb 2020 18:19:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58a4cd3c-0015-4f89-5271-08d7b61792db
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2020 15:14:25.8565 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: k5qn2QB5seEfTIUEKFsqsVPDMDB86jtAQEy5pI5aScyaoXtWwRkluE7ssoTb9B8+5QRPGps83HGAgfF0DNGs3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR0302MB2609
-X-OriginatorOrg: lenovo.com
+In-Reply-To: <dac89843-5258-5bed-ee86-7038e94e56da@qubes-os.org>
+X-Zoho-Virus-Status: 1
+X-ZohoMailClient: External
 X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -150,70 +63,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Berg <bberg@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>, Thinkpad-acpi
- devel ML <ibm-acpi-devel@lists.sourceforge.net>,
- Andy Shevchenko <andy@infradead.org>, Darren Hart <dvhart@infradead.org>,
- Nitin Joshi1 <njoshi1@lenovo.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0952740634=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0952740634==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="w32BqMJ8HV23tU4jg2Bb4RtNFGXOHFoba"
 
-> -----Original Message-----
-> From: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Sent: Thursday, February 20, 2020 5:43 AM
-> 
-> On Thu, Feb 20, 2020 at 9:48 AM Nitin Joshi <nitjoshi@gmail.com> wrote:
-> >
-> >   This feature is supported on some Thinkpad products like T490s, Thinkpad
-> >   X1 yoga 4th Gen etc . The lcdshadow feature can be enabled and disabled
-> >   when user press "Fn" + "D" key. Currently, no user feedback is given for
-> >   this action. Adding as sysfs entry allows userspace to show an On Screen
-> >   Display whenever the setting changes.
-> >
-> >   Summary of changes is mentioned below :
-> >
-> >  - Added TP_HKEY_EV_LCDSHADOW_CHANGED for consistency inside the
-> driver
-> >  - Added unmapped LCDSHADOW to keymap
-> >  - Added lcdshadow_get function to read value using ACPI
-> >  - Added lcdshadow_refresh function to re-read value and send notification
-> >  - Added sysfs group creation to tpaci_lcdshadow_init
-> >  - Added lcdshadow_exit to remove sysfs group again
-> >  - Implemented lcdshadow_enable_show/lcdshadow_enable_store
-> >  - Added handler to tpacpi_driver_event to update refresh lcdshadow
-> >  - Explicitly call tpacpi_driver_event for extended keyset
-> 
-> Adding custom PrivacyGuard support to this driver was my mistake,
-> There is a discussion [1] how to do this in generic way to cover other
-> possible users.
-> I Cc this to people from that discussion.
-> 
-> [1]: https://lore.kernel.org/dri-
-> devel/CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail
-> .gmail.com/
-> 
-Thanks for the pointer to that thread - really useful and interesting, we weren't aware there was an ongoing exercise to do this.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--w32BqMJ8HV23tU4jg2Bb4RtNFGXOHFoba
+Content-Type: multipart/mixed; boundary="8CHATbdN7dX0VKeJHOzRWHdG37WhI5eiD"
 
-I work with Nitin as part of the Linux team at Lenovo. We're trying to get more directly and actively involved in the open source community to improve the Linux experience on Lenovo devices and of course want to make sure we contribute the right way. We're all still pretty new so pointers and help are very much appreciated (we've been getting some great support from the distros to get us started).
+--8CHATbdN7dX0VKeJHOzRWHdG37WhI5eiD
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-For this particular issue what is the best way to contribute and get involved? We'd like to make it so ePrivacy can be used more easily from Linux. I agree a more generic way of controlling it would be good.
-I looked at the proposed patch from Rajat (https://lkml.org/lkml/2019/10/22/967) - it seems like a good solution to me. We can help with testing that on our platforms if that would be useful.
+Hi,
+Is anything missing here? How can I get this merged?
 
-I need to understand how we connect that implementation with the ACPI controls we have (as I believe what we have are thinkpad specific and not to a drm spec; we need to confirm that). We also have the ACPI events that notify if ePrivacy was changed by the hotkeys and that seems like something that should be done in thinkpad_acpi.c and not the drm code. Not sure if the two need to be connected somehow (or if handling the event is actually not important and polling is acceptable)?
+Best regards,
+Fr=C3=A9d=C3=A9ric Pierret
 
-As a note Nitin has been working with the Red Hat folk and is looking at the user space aspect of this (in particularl gnome settings) as well.
+On 2020-02-08 20:43, Fr=C3=A9d=C3=A9ric Pierret wrote:
+> Pointer to structure array is assumed not NULL by default. It has
+> the consequence to raise a kernel panic when it's not the case.
+>=20
+> Basically, running at least a RTX2080TI on Xen makes a bad mmio error
+> which causes having 'mthd' pointer to be NULL in 'channv50.c'. From the=
 
-Thanks
-Mark Pearson
+> code, it's assumed to be not NULL by accessing directly 'mthd->data[0]'=
+
+> which is the reason of the kernel panic. Simply check if the pointer
+> is not NULL before continuing.
+>=20
+> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D206299
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Fr=C3=A9d=C3=A9ric Pierret (fepitre) <frederic.pierret@q=
+ubes-os.org>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c b/driv=
+ers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
+> index bcf32d92ee5a..50e3539f33d2 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/channv50.c
+> @@ -74,6 +74,8 @@ nv50_disp_chan_mthd(struct nv50_disp_chan *chan, int =
+debug)
+> =20
+>  	if (debug > subdev->debug)
+>  		return;
+> +	if (!mthd)
+> +		return;
+> =20
+>  	for (i =3D 0; (list =3D mthd->data[i].mthd) !=3D NULL; i++) {
+>  		u32 base =3D chan->head * mthd->addr;
+>=20
+
+
+--8CHATbdN7dX0VKeJHOzRWHdG37WhI5eiD--
+
+--w32BqMJ8HV23tU4jg2Bb4RtNFGXOHFoba
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEn6ZLkvlecGvyjiymSEAQtc3FduIFAl5Ov5wACgkQSEAQtc3F
+duLSHw/+P2mgoCNKTxx7otQopMCHby1vNGeAhUhLrEBEcyH+s8HUw0PKa+sMcibJ
+VBNFWivU/COlSowQWklTL3E21wTZNf7Wjw4Bn6R/G7GHYbEdHo/8o7kwcPT8+2J6
+eF+AttjMc2wYlqiGea0PULs3plbDpJBtJXVzQG//5TVZXiVNF1RF+sCH0jyqfLfn
+axvuE8I8kJO/yN6gstsumDzBdXA6TtgzVyJDs2KHm3P5z7OdECk9/UJDtp70Gsr7
+bfBcAneBZNCPAekqB1VOl5399OYEINbRlyycb1CKtfkqW0Ydk24dsA2ymw9lairn
+yi/3gOAI+cmSsuWK9xFBRgjtXmrduBhD68UtLGno5JA4qoKhYryGHyIhf5EGbQvA
+aBTVrdvRQwlu9sipUvUYWeVHZ/nn7D3n3RVUXZ/lf8svoVfl4AeMqhI3+poDrG2C
+cNHRiW8pwh/g6qoYbZjvCkI/A4gftqGQGZwJf+IvOGZz7+cO16d9KUA9nYQY7wRq
+f7hVRbA5TgM62VI05uWLmdUGnbmNJh8T698dm2q/ghf2TIt6pbxPfCjEUtw8a0jH
+Pp0u0kvclJ5pFAdOXHSqxs9tdZEbmMrdj1APXn6GhYY0cjaf59o08bJ9+AQtxFgB
+OfX8vtDOrtQR7ROHp/rKpRy1qX1wB6ZIQnAIan93/vD26Dxl9lY=
+=V2u5
+-----END PGP SIGNATURE-----
+
+--w32BqMJ8HV23tU4jg2Bb4RtNFGXOHFoba--
+
+--===============0952740634==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0952740634==--
