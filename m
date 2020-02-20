@@ -2,54 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29396165DD6
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 13:48:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7D0165DD8
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 13:49:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 978D36ED75;
-	Thu, 20 Feb 2020 12:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACBC6ED74;
+	Thu, 20 Feb 2020 12:49:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
- [IPv6:2607:f8b0:4864:20::944])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3776ED71;
- Thu, 20 Feb 2020 12:48:29 +0000 (UTC)
-Received: by mail-ua1-x944.google.com with SMTP id 73so1506671uac.6;
- Thu, 20 Feb 2020 04:48:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=v+YfUmjm0rRy2NDyPsLEzuhKAGEV0AjX6YKssyACe9c=;
- b=W55WhTSfZOhdAAYakJSrRWddwAzjM8FLlyanWSJvS8cYoiA7mMlxMvNXfuJ/Szj833
- NmlmApKybyED66Qi1dX5o2qRxy4CJBTmB0P2uYdhbE8gAQVhKKHbzUw2lQZkRdvWJW8k
- ZO0Yj8QCcu1G4SYknwHbH4l+seWMH+zuQMXoKDZL1UlSIzwvm3jeDcFSG1a49DZTysEo
- xIfpQ6btbwu3WO5QBLzvSOa0zJXncclbDovzOjospSYFaWi8qdrpTuxaqFCgCbDG58YZ
- nuQfROs6Ere2BgS8Xm+fMhTElySjCZAa9RLGFK3fghMxVhdh/KFRZL7/Lh4KalLwk2hQ
- qicA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=v+YfUmjm0rRy2NDyPsLEzuhKAGEV0AjX6YKssyACe9c=;
- b=fusSOZPyzzvfEunFVBUR+ignyAN7hoY5smaPg2I5UozAgsbZe4vJVJEFoqG4aqb69I
- 5fZ86YeZR0JwPE7jpJ1oOs+zWkOeE/pNSTJ3rQOJ0arlZ/Xcfo1A8HszPg4S5wqwMxRr
- je3TdZIxRqiKMeyIJRdCjkzGF6j+1BNsZfIL1VUjs+eoOktpEKo4SaET7GwGfED5opYX
- Gy9/rd7Zqu5p/RVEAB+ZqborEHxxmpw07GDWg3VY6Oa5vYyY6Ka+9U0DeOSoZp6SkDkE
- hLGdnmANMgkS+abpPI3L6iplXn0IxlnNd0sBoD6i2CdLGyhU1fS23f44TM8S2Bj01330
- DWOg==
-X-Gm-Message-State: APjAAAWQbvuAQpc229AYIVtZ7KF003sq7GHJNrBCdjLP66WNKRgOjv3P
- WQmwkHHcsVZD05RwStWPT8WKOiuRk4aPIc1atH23TQ==
-X-Google-Smtp-Source: APXvYqxzW5keSaDGmiOLZG/q6yKwp1ZY9HoQFBkCgyrbDDWix9sZIkAtWPoDNZ2erqvy7rXnks7tKmMq39edRLaxRy8=
-X-Received: by 2002:ab0:5bc6:: with SMTP id z6mr16939866uae.46.1582202908669; 
- Thu, 20 Feb 2020 04:48:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
- <20200219203544.31013-7-ville.syrjala@linux.intel.com>
-In-Reply-To: <20200219203544.31013-7-ville.syrjala@linux.intel.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 20 Feb 2020 12:48:17 +0000
-Message-ID: <CACvgo50PDBc03+J+8ePSid8D8iXHF_f94cNsAE0OAOpaoF+n+g@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 06/12] drm: Shrink {width,height}_mm to u16
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42E9F6ED74;
+ Thu, 20 Feb 2020 12:49:29 +0000 (UTC)
+Received: from localhost (unknown [137.135.114.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id DA58024673;
+ Thu, 20 Feb 2020 12:49:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1582202969;
+ bh=ehB71jOxEuEltq0UpVyPGKXSoFbLZXbr+DTyz9vEYuw=;
+ h=Date:From:To:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:
+ In-Reply-To:References:From;
+ b=YlBZMzcR7CdOAWMZywqRdpEvoAx+xiwUb7+xFEChlaUR2KuPbzKtfW1BAE8MP29zu
+ 7vlMJYUKPWkbtngrUjc9sCQuz4mqoWIEakjIrmDcEwyri9G0cOVqsEiU3OhdY2iHI1
+ eQKIEySHibR37mdVzJB+zTduHXHpY6Oo3OIUkwyA=
+Date: Thu, 20 Feb 2020 12:49:28 +0000
+From: Sasha Levin <sashal@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+To: Sean Paul <sean@poorly.run>
+To: Sean Paul <seanpaul@chromium.org>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v4 01/14] drm/i915: Fix sha_text population code
+In-Reply-To: <20200218220242.107265-2-sean@poorly.run>
+References: <20200218220242.107265-2-sean@poorly.run>
+Message-Id: <20200220124928.DA58024673@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,37 +47,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: , intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <seanpaul@chromium.org>, stable@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, juston.li@intel.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxOSBGZWIgMjAyMCBhdCAyMDozNiwgVmlsbGUgU3lyamFsYQo8dmlsbGUuc3lyamFs
-YUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+Cj4gRnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxs
-ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPgo+IEluc3RlYWQgb2Ygc3VwcG9ydGluZyB+MjAw
-MGttIHdpZGUgZGlzcGxheWVzIGxldCdzIGxpbWl0IG91cnNlbHZlcwo+IHRvIH42NW0uIFRoYXQg
-c2VlbXMgcGxlbnR5IGJpZyBlbm91Z2ggdG8gbWUuCj4KPiBFdmVuIHdpdGggRURJRF9RVUlSS19E
-RVRBSUxFRF9JTl9DTSBFRElEcyBzZWVtIHRvIGJlIGxpbWl0ZWQgdG8KPiAxMCoweGZmZiB3aGlj
-aCBmaXRzIGludG8gdGhlIDE2IGJpdHMuCj4KPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rs
-w6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IC0tLQo+ICBpbmNsdWRlL2RybS9k
-cm1fbW9kZXMuaCB8IDQgKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAy
-IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9tb2Rlcy5oIGIv
-aW5jbHVkZS9kcm0vZHJtX21vZGVzLmgKPiBpbmRleCA1MmU4Y2E2MTNlNGIuLjJiYjJiMWE4NTky
-YSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fbW9kZXMuaAo+ICsrKyBiL2luY2x1ZGUv
-ZHJtL2RybV9tb2Rlcy5oCj4gQEAgLTMzMCw3ICszMzAsNyBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlf
-bW9kZSB7Cj4gICAgICAgICAgKiBBZGRyZXNzYWJsZSBzaXplIG9mIHRoZSBvdXRwdXQgaW4gbW0s
-IHByb2plY3RvcnMgc2hvdWxkIHNldCB0aGlzIHRvCj4gICAgICAgICAgKiAwLgo+ICAgICAgICAg
-ICovCj4gLSAgICAgICBpbnQgd2lkdGhfbW07Cj4gKyAgICAgICB1MTYgd2lkdGhfbW07Cj4KPiAg
-ICAgICAgIC8qKgo+ICAgICAgICAgICogQGhlaWdodF9tbToKPiBAQCAtMzM4LDcgKzMzOCw3IEBA
-IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHsKPiAgICAgICAgICAqIEFkZHJlc3NhYmxlIHNpemUg
-b2YgdGhlIG91dHB1dCBpbiBtbSwgcHJvamVjdG9ycyBzaG91bGQgc2V0IHRoaXMgdG8KPiAgICAg
-ICAgICAqIDAuCj4gICAgICAgICAgKi8KPiAtICAgICAgIGludCBoZWlnaHRfbW07Cj4gKyAgICAg
-ICB1MTYgaGVpZ2h0X21tOwo+CkZ3aXcgd2UgY291bGQgZG8gdGhlIHNhbWUgZm9yIHN0cnVjdCBk
-cm1fZGlzcGxheV9pbmZvLCBhbHRob3VnaCB3ZQpzaG91bGQgYmUgY2FyZWZ1bGwgc2luY2UgdGhh
-dCBpbmZvIHNldHMgcGFzc2VkIHRvIHVzZXJzcGFjZS4KClJlZ2FyZGxlc3MsIHRoaXMgcGF0Y2gg
-aXM6ClJldmlld2VkLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29t
-PgoKLUVtaWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi,
+
+[This is an automated email]
+
+This commit has been processed because it contains a "Fixes:" tag,
+fixing commit: ee5e5e7a5e0f ("drm/i915: Add HDCP framework + base implementation").
+
+The bot has tested the following trees: v5.5.4, v5.4.20, v4.19.104.
+
+v5.5.4: Failed to apply! Possible dependencies:
+    65833c463886 ("drm/i915/hdcp: conversion to struct drm_device based logging macros.")
+    667944ad77f1 ("drm/i915/hdcp: use intel_de_*() functions for register access")
+
+v5.4.20: Failed to apply! Possible dependencies:
+    65833c463886 ("drm/i915/hdcp: conversion to struct drm_device based logging macros.")
+    667944ad77f1 ("drm/i915/hdcp: use intel_de_*() functions for register access")
+    692059318c0f ("drm/i915/hdcp: Enable HDCP 1.4 and 2.2 on Gen12+")
+
+v4.19.104: Failed to apply! Possible dependencies:
+    04707f971636 ("drm/i915: Initialize HDCP2.2")
+    09d56393c1d8 ("drm/i915: hdcp1.4 CP_IRQ handling and SW encryption tracking")
+    2f80d7bd8d93 ("drm/i915: drop all drmP.h includes")
+    33b7f3ee6e00 ("drm/i915: Add CRTC output format YCBCR 4:2:0")
+    340a44bef234 ("drm/i915/icl: program MG_DP_MODE")
+    342ac601df64 ("drm/i915: hdcp_check_link only on CP_IRQ")
+    47658556da85 ("drm/i915/dp: Do not grab crtc modeset lock in intel_dp_detect()")
+    667944ad77f1 ("drm/i915/hdcp: use intel_de_*() functions for register access")
+    668b6c176c33 ("drm/i915: Add YCBCR 4:2:0/4:4:4 support for LSPCON")
+    7b610f1fbed2 ("drm/i915/dp: Add DSC params and DSC config to intel_crtc_state")
+    9055aac76589 ("drm/i915: MEI interface implementation")
+    9844bc87cb7a ("drm/i915/dp: Fix duplication of DEVICE_SERVICE_IRQ handling")
+    bdc93fe0eb82 ("drm/i915/debugfs: hdcp capability of a sink")
+    cbfa8ac835cb ("drm/i915/dp: Kill intel_dp->detect_done flag")
+    d3dacc70797b ("drm/i915: wrapping all hdcp var into intel_hdcp")
+    d5acd97f5571 ("drm/i915/dp: Use a local variable for intel_encoder *")
+    d78aa650670d ("drm: Add drm/drm_util.h header file")
+    de25eb7f3075 ("drm/i915: introduce dp_to_i915() helper")
+    f106d1005ac7 ("drm/i915: Pullout the bksv read and validation")
+
+
+NOTE: The patch will not be queued to stable trees until it is upstream.
+
+How should we proceed with this patch?
+
+-- 
+Thanks,
+Sasha
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
