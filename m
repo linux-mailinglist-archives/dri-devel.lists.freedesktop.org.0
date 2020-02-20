@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D918216594A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:35:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A3A16594B
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:36:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3304D6E1E2;
-	Thu, 20 Feb 2020 08:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 445258937C;
+	Thu, 20 Feb 2020 08:35:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA1A16ECF6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:35:53 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id dw13so576896pjb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 00:35:53 -0800 (PST)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC67189E5B
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:35:54 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id d9so1580067pgu.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 00:35:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SW6+8bpFonKNb3f2YyuDTFneOp+QYGUKG8MU+Huhr84=;
- b=NLfDvpmphz84eNv17aBMiiqAMqVRvSFWjee1gd8DwTcU5WUsDFqZ9aP2ecjx9QMRwb
- PALAwf/6OlcTq/DyByk0h/aL5jR0Qh9kpipz1wKr+X5OrLfG1xso5chKqEDsvCEN1+7N
- AdybVWlhDI15pIfmzvZVQv43ua+uIFoDZJrZDz5Ua0Fiypghs7qmCxakm12iLhqx6prn
- MIqA8+HOleqP7N+mT+fe3/JnCtSTQM8pLAUuVj3WkfTo14VvtQavoi6qzUSIhv5TJqXr
- s9lBrcXILDs5wdYQKHBFMZkvh68Wg1UutoTVS4mSTxrtUs7NPiittk0I5xDEDo1a1I/C
- KxLA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=HWD5EoDnyMEVvpGTdgYdYgLmYJyVRNy3T597G1z67yk=;
+ b=u2FtSKFX4CacAKc8xWvJmhxD5qhhvbDyLNtsCKVsbW1YAKLuZBig5n/p3kq7e8EU11
+ A2acQdgTcIYY9/kwND534EI9ZMMShoCdkmAQpIPWxLnz962zv2gfqDQq/4K6ylaR9Jbo
+ SyrMJL+10pzYzYGLSs/1D1e0s6OEJazqdlzokcnEWs7xeO1Ss6ibEz9huIEXImHUxqtM
+ Ej1JkK/PfA1iy+ho3uFebNt8Xh+0xOR8p/omxgOGvMiXm7Vj42KJnX4CsdB651XJjT1g
+ /kyf+TQlbPI6znulHlYcWYzg6BnCPDZY0DiAujkZHHj8DM9QToA0H/ofmXjyMrjpL3DE
+ sU/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SW6+8bpFonKNb3f2YyuDTFneOp+QYGUKG8MU+Huhr84=;
- b=cvFLbXhGAW0EPiSEfLcAVDCKl33RfPeFWMY1/r1vSG4UoV9YiGizTMizfpxnkuqHKC
- mzWrNmoleFu1oNoTjp3WBXKFGts6KO1tyPy7nYavwpYdTDr4f9AVYGvlloS1r/x1chqs
- feUJlYEIPP2FLNqE+c4uJ4FxfO75txgasfUeRbopgRPAOq5w+SZmPfIL20VPQ8ZuuSFb
- BNBwGAbso4nxU07tgar70xTA2AQcl+bU6Qzgdc8LcPO6+VHanXyLztUdsVuIRoYFoFKy
- 2ux5f8vp9aWPB8LvvtVLIHdl2VokyS08RB2Vsnzd69gE2xlJl0jor+XfwJrnSGxKYJcG
- uCdw==
-X-Gm-Message-State: APjAAAUmJ2vxITRpY7my5phHqMxIqyafolLlmJjZ0nv9kbwo6sIY8gLp
- bzAPOg4wuT52Lbqfh3O4kwk=
-X-Google-Smtp-Source: APXvYqwUjt36D32iUpxvkzgCrZ5Cy1bNz6qVcLjbq7xSe6oYStvEJ3BdJs2uPheTayNx6ML7KG+AaA==
-X-Received: by 2002:a17:902:8bc7:: with SMTP id
- r7mr30187510plo.12.1582187753221; 
- Thu, 20 Feb 2020 00:35:53 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HWD5EoDnyMEVvpGTdgYdYgLmYJyVRNy3T597G1z67yk=;
+ b=W8hep26b7S424qzL5Yxrfpjsz/QWPwbKn9XfB/OD9VM5R8M6SMN49RrwsMOqnGafmk
+ ETKC5Za/0JVdxhgss+8Pknvh2vZbpOnScmh2/14tCpWdqaIfiQNxp2rf10XB0UelGFzf
+ wKsUeN0e6zO23a3JxXiKnPqUbYvyI8q2p6noXABQ6i9kvK1FWuW3dETknICJ2QNTiVms
+ zNCqsNPwdPBKvCosZn951gyAt0jotl/LoXLaoZX7KPBiiLUxiTxXARafIWmC68FMJmcI
+ lXIZaxVQuukkb4cwMUgqv4BCrg9uBvtbv87jp7vbfmsrFrmKFpqJkJjNP/OV9LXUSN6o
+ S/HQ==
+X-Gm-Message-State: APjAAAWf4VdG39Z4B2Xlxvpn9hgz5UJrhczg1E4wH+eutJsIUxOJ0kTb
+ q/WsscyveVRqKkQu+lzV5yo=
+X-Google-Smtp-Source: APXvYqzs7/Gqt1xQfGHj7U15rIDiPo8TglS71njYt+orbfTk1syKkenp7pbBfokhD2s4o1o8orXINg==
+X-Received: by 2002:a63:2c50:: with SMTP id s77mr13673718pgs.182.1582187754273; 
+ Thu, 20 Feb 2020 00:35:54 -0800 (PST)
 Received: from anarsoul-thinkpad.lan (216-71-213-236.dyn.novuscom.net.
  [216.71.213.236])
- by smtp.gmail.com with ESMTPSA id l13sm2319038pjq.23.2020.02.20.00.35.51
+ by smtp.gmail.com with ESMTPSA id l13sm2319038pjq.23.2020.02.20.00.35.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 00:35:52 -0800 (PST)
+ Thu, 20 Feb 2020 00:35:53 -0800 (PST)
 From: Vasily Khoruzhick <anarsoul@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -63,10 +62,12 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Stephen Rothwell <sfr@canb.auug.org.au>,
  Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 0/6] Add LCD support for Pine64 Pinebook 1080p
-Date: Thu, 20 Feb 2020 00:35:02 -0800
-Message-Id: <20200220083508.792071-1-anarsoul@gmail.com>
+Subject: [PATCH 1/6] drm/bridge: anx6345: Fix getting anx6345 regulators
+Date: Thu, 20 Feb 2020 00:35:03 -0800
+Message-Id: <20200220083508.792071-2-anarsoul@gmail.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200220083508.792071-1-anarsoul@gmail.com>
+References: <20200220083508.792071-1-anarsoul@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,46 +87,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since ANX6345 driver has been merged we can add support for Pinebook LCD
+From: Samuel Holland <samuel@sholland.org>
 
-This is a follow up on [1] which attempted to add support for all the
-A64-based Pinebooks.
+We don't need to pass '-supply' suffix to devm_get_regulator()
 
-Since patches for 768p were dropped we don't need edp-connector binding
-discussed in [1] and its earlier versions and we can use panel-simple
-binding as everyone else does.
+Fixes: 6aa192698089 ("drm/bridge: Add Analogix anx6345 support")
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+---
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If we ever going to add support for 768p we can do it through dt-overlay
-with appropriate panel node or by teaching bootloader to patch dtb with
-correct panel compatible.
-
-Similar approach was chosen in [2]
-
-[1] https://patchwork.kernel.org/cover/10814169/
-[2] https://patchwork.kernel.org/patch/11277765/
-
-Icenowy Zheng (1):
-  arm64: allwinner: a64: enable LCD-related hardware for Pinebook
-
-Samuel Holland (1):
-  drm/bridge: anx6345: Fix getting anx6345 regulators
-
-Vasily Khoruzhick (4):
-  drm/bridge: anx6345: Clean up error handling in probe()
-  dt-bindings: Add Guangdong Neweast Optoelectronics CO. LTD vendor
-    prefix
-  dt-bindings: display: simple: Add NewEast Optoelectronics WJFH116008A
-    compatible
-  drm/panel: simple: Add NewEast Optoelectronics CO., LTD WJFH116008A
-    panel support
-
- .../bindings/display/panel/panel-simple.yaml  |  2 +
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
- .../dts/allwinner/sun50i-a64-pinebook.dts     | 69 ++++++++++++++++++-
- .../drm/bridge/analogix/analogix-anx6345.c    | 12 ++--
- drivers/gpu/drm/panel/panel-simple.c          | 47 +++++++++++++
- 5 files changed, 123 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+index 56f55c53abfd..0d8d083b0207 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+@@ -712,14 +712,14 @@ static int anx6345_i2c_probe(struct i2c_client *client,
+ 		DRM_DEBUG("No panel found\n");
+ 
+ 	/* 1.2V digital core power regulator  */
+-	anx6345->dvdd12 = devm_regulator_get(dev, "dvdd12-supply");
++	anx6345->dvdd12 = devm_regulator_get(dev, "dvdd12");
+ 	if (IS_ERR(anx6345->dvdd12)) {
+ 		DRM_ERROR("dvdd12-supply not found\n");
+ 		return PTR_ERR(anx6345->dvdd12);
+ 	}
+ 
+ 	/* 2.5V digital core power regulator  */
+-	anx6345->dvdd25 = devm_regulator_get(dev, "dvdd25-supply");
++	anx6345->dvdd25 = devm_regulator_get(dev, "dvdd25");
+ 	if (IS_ERR(anx6345->dvdd25)) {
+ 		DRM_ERROR("dvdd25-supply not found\n");
+ 		return PTR_ERR(anx6345->dvdd25);
 -- 
 2.25.0
 
