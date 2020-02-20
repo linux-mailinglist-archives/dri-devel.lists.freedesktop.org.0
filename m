@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72F116594E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:36:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF9916594D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:36:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 319A789B12;
-	Thu, 20 Feb 2020 08:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492E489168;
+	Thu, 20 Feb 2020 08:36:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
  [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABCC9891AA
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:35:55 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id e9so578905pjr.4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 00:35:55 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27CF89B12
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:35:56 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id q39so585219pjc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 00:35:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wYQONlA9lvcFld0G+NwhV5rBbyIu6fNUKkg/bhapB14=;
- b=N+fgwF/6e6JTKFlrJgQIRnbOLpsKCtZYnIYWWcKNnfKNY9CCUMr6V9Gw9TGF6pjJIB
- EHSAyjOJyfeCwqQkmI4hUnJOnoferabWuW52Jemsyz3ozxX45q3P64AnHJpigGKXMWzg
- wBZNL9EgTQWFnkbTSNbeoeGpldgIni5ogrZfMmarImqShr+dejWNmNW96uI2OQSM/DiG
- TbWyOd6OuhzcE+KwC0rYa/X8GMZFSoOWT0/63ZQIGG5D9x0EvG1IvBxr9J8jYpAcdO0a
- 4Za6FD12Z2xqA0PCoc8lNH2bo+yCBkGwRyZmRXN6uApIHstunbaeA/WX/yObPRwoUFUG
- f+NQ==
+ bh=6yNbKzpeTLMCoypRqoVy0w4NUhztDzPf4ESyfJztWiY=;
+ b=Xs6bb2CzAuqxLioQuMk3z0BoJURSkm/VFyMgk9MekRXbneDMAJLoLqZESX5gWejMsr
+ Cu7uvtcGmvwcOVjgLW4vs2M/GRrVL+l7AfAYWZ/0Xpni1Z+vJn5DH72vdIhcfRiv98CM
+ a0CUL5GVb9Mi1Ef9jPNFdQY7D5wyTTq0Ac42FR4kmum21oWkHRf4YVMGzG7T6ul1IEqW
+ ZvKcVueUE7XXr7/C5jY6QTZZEBHSEw7TUfxdKoNmytHRRWBfGSmb/wUrF9hMiFY5fzBH
+ Gcr++v6mKxXTsQ4RW6kPbt0XoggG3huxZOk6c/KuE/jt3PawEPB26YBYomLeWiw0zIdw
+ ghAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wYQONlA9lvcFld0G+NwhV5rBbyIu6fNUKkg/bhapB14=;
- b=oFy9V+Gtyrgrd0hb7hIfA60+fXxnf/xXXCb02YC+ydR3PjkmqLys3BTd9AjQrHL19U
- wa52oD5NHxseyXbG4X55f5wdABArGJgK0yYkD858KqzVzVCtmYOPT+JjlRUagbimS8Xb
- 3whnQnzTM4IZ6IPenYNX9727mCEtDmsM3eyjc9Ez5iZtHkMeRn5lBHsKdYXaazSFVfT/
- LIHpmJLzCOkZ0buvfI/9Xo/HCLdie8NHGPaux2o9p7Xmd1i9TVU8dJ3nZs4GBgloYu50
- /I2IhFn14DWK/xJsCiN141l7fZOQpZbaRKQ7zzpC1AEgackbFtaLUbnavZ2WAmHk81Ev
- cKOA==
-X-Gm-Message-State: APjAAAWqXZl6uWw+hp7PupSR4Go55xMom6LVv/qdf52UOqICKCTugOyA
- jGeRVTan6D0VTz357/Q6x+M=
-X-Google-Smtp-Source: APXvYqwAMzlg3ox1kckOd8OArhVChc+fFh1B8FYzsDIg77886p2/0Fs+/up3ECkbKsMtzNNlm8jUUQ==
-X-Received: by 2002:a17:90a:c216:: with SMTP id
- e22mr2300961pjt.134.1582187755353; 
- Thu, 20 Feb 2020 00:35:55 -0800 (PST)
+ bh=6yNbKzpeTLMCoypRqoVy0w4NUhztDzPf4ESyfJztWiY=;
+ b=RMF5Xg4gvmk9gxQ5OSWVRpc1QyBMgmqIoLc7eSUVnKBpTbIbvq8FIpYJeWnjOguEQu
+ Ho9sO/N0bSER0O7yKqFQmxnwbktZ2wphujAN4NqVkOQIp0HDE0V4N8PxJCFTImvhx7QM
+ hEx8ZSartqGK7mnAgcC5LahEBnFhUc4btt+bxpAXNPXJBrzloOh9zGMNw4k1os5g17Zs
+ 0rAcvS5DLvYYda/lR2TSCNJpttTwO7HCLwKFXWVUPPo7iGdpK+j9wiAib8/R4M6EhyaF
+ 5EfaAYFOb8aNKCZ8Wev/Jx0PWPmQh/onS1EZpltTTgqeEFumrDOna2M0y/mJQ39riAYt
+ AQAA==
+X-Gm-Message-State: APjAAAUA0kvPiAHouQs8noxVRpmgtSpeu3fGW0ijYLiB6EPTZ0pa2dVw
+ AdhD+rl+xBETRKFSX7+qCBA=
+X-Google-Smtp-Source: APXvYqwKXY5bZ3GJFQYNZpSue+9Mt0J+NmUuqTaB2YessGYgmYwqmvpscnAZijk3U3VpNUJFWCzGNw==
+X-Received: by 2002:a17:90a:ba91:: with SMTP id
+ t17mr2349862pjr.74.1582187756393; 
+ Thu, 20 Feb 2020 00:35:56 -0800 (PST)
 Received: from anarsoul-thinkpad.lan (216-71-213-236.dyn.novuscom.net.
  [216.71.213.236])
- by smtp.gmail.com with ESMTPSA id l13sm2319038pjq.23.2020.02.20.00.35.54
+ by smtp.gmail.com with ESMTPSA id l13sm2319038pjq.23.2020.02.20.00.35.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 00:35:54 -0800 (PST)
+ Thu, 20 Feb 2020 00:35:55 -0800 (PST)
 From: Vasily Khoruzhick <anarsoul@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -63,9 +63,10 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Stephen Rothwell <sfr@canb.auug.org.au>,
  Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/6] drm/bridge: anx6345: Clean up error handling in probe()
-Date: Thu, 20 Feb 2020 00:35:04 -0800
-Message-Id: <20200220083508.792071-3-anarsoul@gmail.com>
+Subject: [PATCH 3/6] dt-bindings: Add Guangdong Neweast Optoelectronics CO.
+ LTD vendor prefix
+Date: Thu, 20 Feb 2020 00:35:05 -0800
+Message-Id: <20200220083508.792071-4-anarsoul@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200220083508.792071-1-anarsoul@gmail.com>
 References: <20200220083508.792071-1-anarsoul@gmail.com>
@@ -88,38 +89,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_regulator_get() returns either a dummy regulator or -EPROBE_DEFER,
-we don't need to print scary message in either case.
+Add vendor prefix for Guangdong Neweast Optoelectronics CO. LTD
 
 Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
 ---
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-index 0d8d083b0207..0204bbe4f0a0 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-@@ -713,17 +713,13 @@ static int anx6345_i2c_probe(struct i2c_client *client,
- 
- 	/* 1.2V digital core power regulator  */
- 	anx6345->dvdd12 = devm_regulator_get(dev, "dvdd12");
--	if (IS_ERR(anx6345->dvdd12)) {
--		DRM_ERROR("dvdd12-supply not found\n");
-+	if (IS_ERR(anx6345->dvdd12))
- 		return PTR_ERR(anx6345->dvdd12);
--	}
- 
- 	/* 2.5V digital core power regulator  */
- 	anx6345->dvdd25 = devm_regulator_get(dev, "dvdd25");
--	if (IS_ERR(anx6345->dvdd25)) {
--		DRM_ERROR("dvdd25-supply not found\n");
-+	if (IS_ERR(anx6345->dvdd25))
- 		return PTR_ERR(anx6345->dvdd25);
--	}
- 
- 	/* GPIO for chip reset */
- 	anx6345->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 6456a6dfd83d..a390a793422b 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -665,6 +665,8 @@ patternProperties:
+     description: Nexbox
+   "^nextthing,.*":
+     description: Next Thing Co.
++  "^neweast,.*":
++    description: Guangdong Neweast Optoelectronics CO., LT
+   "^newhaven,.*":
+     description: Newhaven Display International
+   "^ni,.*":
 -- 
 2.25.0
 
