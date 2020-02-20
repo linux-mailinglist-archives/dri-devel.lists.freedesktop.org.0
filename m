@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A3A16594B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72F116594E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:36:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 445258937C;
-	Thu, 20 Feb 2020 08:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 319A789B12;
+	Thu, 20 Feb 2020 08:36:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC67189E5B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:35:54 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id d9so1580067pgu.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 00:35:54 -0800 (PST)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABCC9891AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 08:35:55 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id e9so578905pjr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 00:35:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HWD5EoDnyMEVvpGTdgYdYgLmYJyVRNy3T597G1z67yk=;
- b=u2FtSKFX4CacAKc8xWvJmhxD5qhhvbDyLNtsCKVsbW1YAKLuZBig5n/p3kq7e8EU11
- A2acQdgTcIYY9/kwND534EI9ZMMShoCdkmAQpIPWxLnz962zv2gfqDQq/4K6ylaR9Jbo
- SyrMJL+10pzYzYGLSs/1D1e0s6OEJazqdlzokcnEWs7xeO1Ss6ibEz9huIEXImHUxqtM
- Ej1JkK/PfA1iy+ho3uFebNt8Xh+0xOR8p/omxgOGvMiXm7Vj42KJnX4CsdB651XJjT1g
- /kyf+TQlbPI6znulHlYcWYzg6BnCPDZY0DiAujkZHHj8DM9QToA0H/ofmXjyMrjpL3DE
- sU/Q==
+ bh=wYQONlA9lvcFld0G+NwhV5rBbyIu6fNUKkg/bhapB14=;
+ b=N+fgwF/6e6JTKFlrJgQIRnbOLpsKCtZYnIYWWcKNnfKNY9CCUMr6V9Gw9TGF6pjJIB
+ EHSAyjOJyfeCwqQkmI4hUnJOnoferabWuW52Jemsyz3ozxX45q3P64AnHJpigGKXMWzg
+ wBZNL9EgTQWFnkbTSNbeoeGpldgIni5ogrZfMmarImqShr+dejWNmNW96uI2OQSM/DiG
+ TbWyOd6OuhzcE+KwC0rYa/X8GMZFSoOWT0/63ZQIGG5D9x0EvG1IvBxr9J8jYpAcdO0a
+ 4Za6FD12Z2xqA0PCoc8lNH2bo+yCBkGwRyZmRXN6uApIHstunbaeA/WX/yObPRwoUFUG
+ f+NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HWD5EoDnyMEVvpGTdgYdYgLmYJyVRNy3T597G1z67yk=;
- b=W8hep26b7S424qzL5Yxrfpjsz/QWPwbKn9XfB/OD9VM5R8M6SMN49RrwsMOqnGafmk
- ETKC5Za/0JVdxhgss+8Pknvh2vZbpOnScmh2/14tCpWdqaIfiQNxp2rf10XB0UelGFzf
- wKsUeN0e6zO23a3JxXiKnPqUbYvyI8q2p6noXABQ6i9kvK1FWuW3dETknICJ2QNTiVms
- zNCqsNPwdPBKvCosZn951gyAt0jotl/LoXLaoZX7KPBiiLUxiTxXARafIWmC68FMJmcI
- lXIZaxVQuukkb4cwMUgqv4BCrg9uBvtbv87jp7vbfmsrFrmKFpqJkJjNP/OV9LXUSN6o
- S/HQ==
-X-Gm-Message-State: APjAAAWf4VdG39Z4B2Xlxvpn9hgz5UJrhczg1E4wH+eutJsIUxOJ0kTb
- q/WsscyveVRqKkQu+lzV5yo=
-X-Google-Smtp-Source: APXvYqzs7/Gqt1xQfGHj7U15rIDiPo8TglS71njYt+orbfTk1syKkenp7pbBfokhD2s4o1o8orXINg==
-X-Received: by 2002:a63:2c50:: with SMTP id s77mr13673718pgs.182.1582187754273; 
- Thu, 20 Feb 2020 00:35:54 -0800 (PST)
+ bh=wYQONlA9lvcFld0G+NwhV5rBbyIu6fNUKkg/bhapB14=;
+ b=oFy9V+Gtyrgrd0hb7hIfA60+fXxnf/xXXCb02YC+ydR3PjkmqLys3BTd9AjQrHL19U
+ wa52oD5NHxseyXbG4X55f5wdABArGJgK0yYkD858KqzVzVCtmYOPT+JjlRUagbimS8Xb
+ 3whnQnzTM4IZ6IPenYNX9727mCEtDmsM3eyjc9Ez5iZtHkMeRn5lBHsKdYXaazSFVfT/
+ LIHpmJLzCOkZ0buvfI/9Xo/HCLdie8NHGPaux2o9p7Xmd1i9TVU8dJ3nZs4GBgloYu50
+ /I2IhFn14DWK/xJsCiN141l7fZOQpZbaRKQ7zzpC1AEgackbFtaLUbnavZ2WAmHk81Ev
+ cKOA==
+X-Gm-Message-State: APjAAAWqXZl6uWw+hp7PupSR4Go55xMom6LVv/qdf52UOqICKCTugOyA
+ jGeRVTan6D0VTz357/Q6x+M=
+X-Google-Smtp-Source: APXvYqwAMzlg3ox1kckOd8OArhVChc+fFh1B8FYzsDIg77886p2/0Fs+/up3ECkbKsMtzNNlm8jUUQ==
+X-Received: by 2002:a17:90a:c216:: with SMTP id
+ e22mr2300961pjt.134.1582187755353; 
+ Thu, 20 Feb 2020 00:35:55 -0800 (PST)
 Received: from anarsoul-thinkpad.lan (216-71-213-236.dyn.novuscom.net.
  [216.71.213.236])
- by smtp.gmail.com with ESMTPSA id l13sm2319038pjq.23.2020.02.20.00.35.53
+ by smtp.gmail.com with ESMTPSA id l13sm2319038pjq.23.2020.02.20.00.35.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 00:35:53 -0800 (PST)
+ Thu, 20 Feb 2020 00:35:54 -0800 (PST)
 From: Vasily Khoruzhick <anarsoul@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -62,9 +63,9 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Stephen Rothwell <sfr@canb.auug.org.au>,
  Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/6] drm/bridge: anx6345: Fix getting anx6345 regulators
-Date: Thu, 20 Feb 2020 00:35:03 -0800
-Message-Id: <20200220083508.792071-2-anarsoul@gmail.com>
+Subject: [PATCH 2/6] drm/bridge: anx6345: Clean up error handling in probe()
+Date: Thu, 20 Feb 2020 00:35:04 -0800
+Message-Id: <20200220083508.792071-3-anarsoul@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200220083508.792071-1-anarsoul@gmail.com>
 References: <20200220083508.792071-1-anarsoul@gmail.com>
@@ -87,38 +88,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Samuel Holland <samuel@sholland.org>
+devm_regulator_get() returns either a dummy regulator or -EPROBE_DEFER,
+we don't need to print scary message in either case.
 
-We don't need to pass '-supply' suffix to devm_get_regulator()
-
-Fixes: 6aa192698089 ("drm/bridge: Add Analogix anx6345 support")
-Signed-off-by: Samuel Holland <samuel@sholland.org>
 Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
 ---
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-index 56f55c53abfd..0d8d083b0207 100644
+index 0d8d083b0207..0204bbe4f0a0 100644
 --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
 +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-@@ -712,14 +712,14 @@ static int anx6345_i2c_probe(struct i2c_client *client,
- 		DRM_DEBUG("No panel found\n");
+@@ -713,17 +713,13 @@ static int anx6345_i2c_probe(struct i2c_client *client,
  
  	/* 1.2V digital core power regulator  */
--	anx6345->dvdd12 = devm_regulator_get(dev, "dvdd12-supply");
-+	anx6345->dvdd12 = devm_regulator_get(dev, "dvdd12");
- 	if (IS_ERR(anx6345->dvdd12)) {
- 		DRM_ERROR("dvdd12-supply not found\n");
+ 	anx6345->dvdd12 = devm_regulator_get(dev, "dvdd12");
+-	if (IS_ERR(anx6345->dvdd12)) {
+-		DRM_ERROR("dvdd12-supply not found\n");
++	if (IS_ERR(anx6345->dvdd12))
  		return PTR_ERR(anx6345->dvdd12);
- 	}
+-	}
  
  	/* 2.5V digital core power regulator  */
--	anx6345->dvdd25 = devm_regulator_get(dev, "dvdd25-supply");
-+	anx6345->dvdd25 = devm_regulator_get(dev, "dvdd25");
- 	if (IS_ERR(anx6345->dvdd25)) {
- 		DRM_ERROR("dvdd25-supply not found\n");
+ 	anx6345->dvdd25 = devm_regulator_get(dev, "dvdd25");
+-	if (IS_ERR(anx6345->dvdd25)) {
+-		DRM_ERROR("dvdd25-supply not found\n");
++	if (IS_ERR(anx6345->dvdd25))
  		return PTR_ERR(anx6345->dvdd25);
+-	}
+ 
+ 	/* GPIO for chip reset */
+ 	anx6345->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
 -- 
 2.25.0
 
