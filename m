@@ -2,27 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434F6167BBF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8E8167BCC
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA016F40A;
-	Fri, 21 Feb 2020 11:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 826286F41E;
+	Fri, 21 Feb 2020 11:15:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 761E16EE07
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 17:21:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33BF66EE07
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 17:22:02 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id CCF2F29527F
+ (Authenticated sender: eballetbo) with ESMTPSA id 4856A295285
 From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 To: robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
  p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
  sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
  laurent.pinchart@ideasonboard.com
-Subject: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
-Date: Thu, 20 Feb 2020 18:21:41 +0100
-Message-Id: <20200220172147.919996-1-enric.balletbo@collabora.com>
+Subject: [PATCH v8 1/6] drm/mediatek: Use regmap for register access
+Date: Thu, 20 Feb 2020 18:21:42 +0100
+Message-Id: <20200220172147.919996-2-enric.balletbo@collabora.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200220172147.919996-1-enric.balletbo@collabora.com>
+References: <20200220172147.919996-1-enric.balletbo@collabora.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,18 +44,16 @@ Cc: Kate Stewart <kstewart@linuxfoundation.org>,
  Minghsiu Tsai <minghsiu.tsai@mediatek.com>, dri-devel@lists.freedesktop.org,
  Richard Fontana <rfontana@redhat.com>,
  Collabora Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
- Nicolas Boichat <drinkcat@chromium.org>, Weiyi Lu <weiyi.lu@mediatek.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, wens@csie.org,
+ Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
  linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
- Owen Chen <owen.chen@mediatek.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, frank-w@public-files.de,
- Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
- Houlong Wei <houlong.wei@mediatek.com>, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
  Thomas Gleixner <tglx@linutronix.de>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Allison Randal <allison@lohutok.net>, Matthias Brugger <mbrugger@suse.com>,
- Fabien Parent <fparent@baylibre.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
  linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
 Content-Type: text/plain; charset="us-ascii"
@@ -61,111 +61,205 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear all,
+From: Matthias Brugger <mbrugger@suse.com>
 
-Those patches are intended to solve an old standing issue on some
-Mediatek devices (mt8173, mt2701 and mt2712) in a slightly different way
-to the precedent series.
+The mmsys memory space is shared between the drm and the
+clk driver. Use regmap to access it.
 
-Up to now both drivers, clock and drm are probed with the same device tree
-compatible. But only the first driver get probed, which in effect breaks
-graphics on those devices.
+Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
 
-The version eight of the series tries to solve the problem with a
-different approach than the previous series but similar to how is solved
-on other Mediatek devices.
-
-The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
-control clock gates (which is used in the clk driver) and some registers
-to set the routing and enable the differnet blocks of the display
-and MDP (Media Data Path) subsystem. On this series the clk driver is
-not a pure clock controller but a system controller that can provide
-access to the shared registers between the different drivers that need
-it (mediatek-drm and mediatek-mdp). And the biggest change is, that in
-this version, clk driver is the entry point (parent) which will trigger
-the probe of the corresponding mediatek-drm driver and pass its MMSYS
-platform data for display configuration.
-
-All this series was tested on the Acer R13 Chromebook only.
-
-For reference, here are the links to the old discussions:
-
-* v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
-* v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
-* v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
-* v4:
-  * https://patchwork.kernel.org/patch/10530871/
-  * https://patchwork.kernel.org/patch/10530883/
-  * https://patchwork.kernel.org/patch/10530885/
-  * https://patchwork.kernel.org/patch/10530911/
-  * https://patchwork.kernel.org/patch/10530913/
-* v3:
-  * https://patchwork.kernel.org/patch/10367857/
-  * https://patchwork.kernel.org/patch/10367861/
-  * https://patchwork.kernel.org/patch/10367877/
-  * https://patchwork.kernel.org/patch/10367875/
-  * https://patchwork.kernel.org/patch/10367885/
-  * https://patchwork.kernel.org/patch/10367883/
-  * https://patchwork.kernel.org/patch/10367889/
-  * https://patchwork.kernel.org/patch/10367907/
-  * https://patchwork.kernel.org/patch/10367909/
-  * https://patchwork.kernel.org/patch/10367905/
-* v2: No relevant discussion, see v3
-* v1:
-  * https://patchwork.kernel.org/patch/10016497/
-  * https://patchwork.kernel.org/patch/10016499/
-  * https://patchwork.kernel.org/patch/10016505/
-  * https://patchwork.kernel.org/patch/10016507/
-
-Best regards,
- Enric
-
-Changes in v8:
-- Be a builtin_platform_driver like other mediatek mmsys drivers.
-- New patches introduced in this series.
-
+Changes in v8: None
 Changes in v7:
 - Add R-by from CK
-- Add R-by from CK
-- Fix check of return value of of_clk_get
-- Fix identation
-- Free clk_data->clks as well
-- Get rid of private data structure
 
-Enric Balletbo i Serra (2):
-  drm/mediatek: Move MMSYS configuration to include/linux/platform_data
-  clk/drm: mediatek: Fix mediatek-drm device probing
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.c  | 50 +++++++++++--------------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.h  |  4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 13 ++-----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h  |  2 +-
+ 5 files changed, 30 insertions(+), 43 deletions(-)
 
-Matthias Brugger (4):
-  drm/mediatek: Use regmap for register access
-  drm/mediatek: Omit warning on probe defers
-  media: mtk-mdp: Check return value of of_clk_get
-  clk: mediatek: mt8173: Switch MMSYS to platform driver
-
- drivers/clk/mediatek/Kconfig                  |   6 +
- drivers/clk/mediatek/Makefile                 |   1 +
- drivers/clk/mediatek/clk-mt2701-mm.c          |  30 +++
- drivers/clk/mediatek/clk-mt2712-mm.c          |  44 +++++
- drivers/clk/mediatek/clk-mt8173-mm.c          | 172 ++++++++++++++++++
- drivers/clk/mediatek/clk-mt8173.c             | 104 -----------
- drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
- drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   4 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp.c        |  53 +++---
- drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   4 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  56 +-----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 113 +-----------
- drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
- drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.c |   6 +
- include/linux/platform_data/mtk_mmsys.h       |  73 ++++++++
- 20 files changed, 401 insertions(+), 317 deletions(-)
- create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
- create mode 100644 include/linux/platform_data/mtk_mmsys.h
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 5ee74d7ce35c..a236499123aa 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -28,7 +28,7 @@
+  * @enabled: records whether crtc_enable succeeded
+  * @planes: array of 4 drm_plane structures, one for each overlay plane
+  * @pending_planes: whether any plane has pending changes to be applied
+- * @config_regs: memory mapped mmsys configuration register space
++ * @config_regs: regmap mapped mmsys configuration register space
+  * @mutex: handle to one of the ten disp_mutex streams
+  * @ddp_comp_nr: number of components in ddp_comp
+  * @ddp_comp: array of pointers the mtk_ddp_comp structures used by this crtc
+@@ -50,7 +50,7 @@ struct mtk_drm_crtc {
+ 	u32				cmdq_event;
+ #endif
+ 
+-	void __iomem			*config_regs;
++	struct regmap			*config_regs;
+ 	struct mtk_disp_mutex		*mutex;
+ 	unsigned int			ddp_comp_nr;
+ 	struct mtk_ddp_comp		**ddp_comp;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+index 13035c906035..302753744cc6 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+@@ -383,61 +383,53 @@ static unsigned int mtk_ddp_sel_in(enum mtk_ddp_comp_id cur,
+ 	return value;
+ }
+ 
+-static void mtk_ddp_sout_sel(void __iomem *config_regs,
++static void mtk_ddp_sout_sel(struct regmap *config_regs,
+ 			     enum mtk_ddp_comp_id cur,
+ 			     enum mtk_ddp_comp_id next)
+ {
+ 	if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+-		writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+-			       config_regs + DISP_REG_CONFIG_OUT_SEL);
++		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
++				BLS_TO_DSI_RDMA1_TO_DPI1);
+ 	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+-		writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+-			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+-		writel_relaxed(DSI_SEL_IN_RDMA,
+-			       config_regs + DISP_REG_CONFIG_DSI_SEL);
+-		writel_relaxed(DPI_SEL_IN_BLS,
+-			       config_regs + DISP_REG_CONFIG_DPI_SEL);
++		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
++				BLS_TO_DPI_RDMA1_TO_DSI);
++		regmap_write(config_regs, DISP_REG_CONFIG_DSI_SEL,
++				DSI_SEL_IN_RDMA);
++		regmap_write(config_regs, DISP_REG_CONFIG_DPI_SEL,
++				DPI_SEL_IN_BLS);
+ 	}
+ }
+ 
+-void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
++void mtk_ddp_add_comp_to_path(struct regmap *config_regs,
+ 			      enum mtk_ddp_comp_id cur,
+ 			      enum mtk_ddp_comp_id next)
+ {
+-	unsigned int addr, value, reg;
++	unsigned int addr, value;
+ 
+ 	value = mtk_ddp_mout_en(cur, next, &addr);
+-	if (value) {
+-		reg = readl_relaxed(config_regs + addr) | value;
+-		writel_relaxed(reg, config_regs + addr);
+-	}
++	if (value)
++		regmap_update_bits(config_regs, addr, value, value);
+ 
+ 	mtk_ddp_sout_sel(config_regs, cur, next);
+ 
+ 	value = mtk_ddp_sel_in(cur, next, &addr);
+-	if (value) {
+-		reg = readl_relaxed(config_regs + addr) | value;
+-		writel_relaxed(reg, config_regs + addr);
+-	}
++	if (value)
++		regmap_update_bits(config_regs, addr, value, value);
+ }
+ 
+-void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
++void mtk_ddp_remove_comp_from_path(struct regmap *config_regs,
+ 				   enum mtk_ddp_comp_id cur,
+ 				   enum mtk_ddp_comp_id next)
+ {
+-	unsigned int addr, value, reg;
++	unsigned int addr, value;
+ 
+ 	value = mtk_ddp_mout_en(cur, next, &addr);
+-	if (value) {
+-		reg = readl_relaxed(config_regs + addr) & ~value;
+-		writel_relaxed(reg, config_regs + addr);
+-	}
++	if (value)
++		regmap_update_bits(config_regs, addr, value, 0);
+ 
+ 	value = mtk_ddp_sel_in(cur, next, &addr);
+-	if (value) {
+-		reg = readl_relaxed(config_regs + addr) & ~value;
+-		writel_relaxed(reg, config_regs + addr);
+-	}
++	if (value)
++		regmap_update_bits(config_regs, addr, value, 0);
+ }
+ 
+ struct mtk_disp_mutex *mtk_disp_mutex_get(struct device *dev, unsigned int id)
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+index 827be424a148..01ff8b68881f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+@@ -12,10 +12,10 @@ struct regmap;
+ struct device;
+ struct mtk_disp_mutex;
+ 
+-void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
++void mtk_ddp_add_comp_to_path(struct regmap *config_regs,
+ 			      enum mtk_ddp_comp_id cur,
+ 			      enum mtk_ddp_comp_id next);
+-void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
++void mtk_ddp_remove_comp_from_path(struct regmap *config_regs,
+ 				   enum mtk_ddp_comp_id cur,
+ 				   enum mtk_ddp_comp_id next);
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 0563c6813333..b68837ea02b3 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/component.h>
+ #include <linux/iommu.h>
++#include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_address.h>
+ #include <linux/of_platform.h>
+@@ -425,7 +426,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct mtk_drm_private *private;
+-	struct resource *mem;
+ 	struct device_node *node;
+ 	struct component_match *match = NULL;
+ 	int ret;
+@@ -437,14 +437,9 @@ static int mtk_drm_probe(struct platform_device *pdev)
+ 
+ 	private->data = of_device_get_match_data(dev);
+ 
+-	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	private->config_regs = devm_ioremap_resource(dev, mem);
+-	if (IS_ERR(private->config_regs)) {
+-		ret = PTR_ERR(private->config_regs);
+-		dev_err(dev, "Failed to ioremap mmsys-config resource: %d\n",
+-			ret);
+-		return ret;
+-	}
++	private->config_regs = syscon_node_to_regmap(dev->of_node);
++	if (IS_ERR(private->config_regs))
++		return PTR_ERR(private->config_regs);
+ 
+ 	/* Iterate over sibling DISP function blocks */
+ 	for_each_child_of_node(dev->of_node->parent, node) {
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+index 17bc99b9f5d4..03201080688d 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+@@ -39,7 +39,7 @@ struct mtk_drm_private {
+ 
+ 	struct device_node *mutex_node;
+ 	struct device *mutex_dev;
+-	void __iomem *config_regs;
++	struct regmap *config_regs;
+ 	struct device_node *comp_node[DDP_COMPONENT_ID_MAX];
+ 	struct mtk_ddp_comp *ddp_comp[DDP_COMPONENT_ID_MAX];
+ 	const struct mtk_mmsys_driver_data *data;
 -- 
 2.25.0
 
