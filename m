@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E245167B00
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 11:43:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3EC167BAE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:14:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C6B6E270;
-	Fri, 21 Feb 2020 10:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C04A6F3F1;
+	Fri, 21 Feb 2020 11:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 073846E270
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 10:43:38 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01LAhW1o094026;
- Fri, 21 Feb 2020 04:43:32 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1582281812;
- bh=AEQZl1stVNCyYiQ2uYf0+iWIzY42kDBnkpNU3d42SXQ=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=wNdjBGFCM8Ky8PtqwENmYr/oSgd194UBZVXt+MqEK9Ie47yDKpkS/z0OC5+rUzixP
- cECFlCe9Z4c0dTKflBxLDq2/ti6FCfSOT7a7k4o0WkTjNkD6+kf3kuCZISJhl1lmFf
- AcmDuodRcysxdOVR1NYaXg3x5VPkvK2IHPM2mrrg=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01LAhWdp014099
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 21 Feb 2020 04:43:32 -0600
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 21
- Feb 2020 04:43:31 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 21 Feb 2020 04:43:31 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01LAhTtK025236;
- Fri, 21 Feb 2020 04:43:30 -0600
-Subject: Re: [PATCH 3/3] drm/panel: simple: fix osd070t1718_19ts sync drive
- edge
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20191114093950.4101-1-tomi.valkeinen@ti.com>
- <20191114093950.4101-4-tomi.valkeinen@ti.com>
- <20191202130717.GI4929@pendragon.ideasonboard.com>
- <a9cf515c-dbdd-e70d-5a89-1211c1049d16@ti.com>
- <20200214213902.GA22233@ravnborg.org>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <b36c42ea-3162-7462-7a51-c7b63620404f@ti.com>
-Date: Fri, 21 Feb 2020 12:43:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E22186ED05
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 09:03:47 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id q9so1105171wmj.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 01:03:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rjbvQtNqioDF7ju5/qowPwbp/hzQgZZy37V1zQzWfsk=;
+ b=SQ6eKHukuamIGMVRbS8GF+jTMkGasoLwr2dxpvjE1WA2nEKfNRWGsQo13/V21Bq87R
+ gEertchuFUrSwTLc1i7U6pYPNkJxWFT3KU8JGs9WjzxDMkNlQgxM2QuQqkF7HV8ZB5yI
+ yRYU1PpEVm3z/iP8U2Kwkyyy2M1NuTwfS0S0xLHJphw42GQGbo4wbEqjHX6dph0ahaMi
+ rKPuTiFO2zjfY5CRuOt9kOuaX8WrRN3yYVMDFFcpxO59BfOCCgkIu8UTWkv7z5B2TM0q
+ uT7XcKrQhKR7AZMWl0kYAOyPuQCwNKetUDIX31kelyLrEuzts7nu8FtTiPCuw4k3XX4j
+ P5QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rjbvQtNqioDF7ju5/qowPwbp/hzQgZZy37V1zQzWfsk=;
+ b=hVwcc/J+ajO3o0MxjyVWO1cLZuCoy6+6RB+pc8yep3WSE6VMB1v8Hr4nmzI77KGm7x
+ tWvU9RDvd+01ldIZNav9UaNbZUh7Dh0YkcCElIjOaMsf7WjO9G2MUhCojp+sfvytjKNN
+ 2kGm7OtuplsOBtErrMg7bf85OUlRYfU//r74PXhi1yG0Kr3L0Nd29Nqn1BrC0L+Jysa9
+ uabhM6wIo1/eP9L8ni33XMyX74Hlo1g1gggHLWjUknN2dfbXCh8F7K7gLGguERemfa7T
+ 1t0zcDxSOn6jPIyOC80puec9qOm2GZZ8MypEkufc5phwa0onF9yxAZe91pA+GxKznqnF
+ kCoQ==
+X-Gm-Message-State: APjAAAXP/pnlbUHncxUsVoZKmBDRlrwPdjxfo8CSE9+nOzPqVv4ZefVD
+ Vlk55TiVnFLCelOLJmacLygBhGOJNTVfew==
+X-Google-Smtp-Source: APXvYqwkxjG6hjf0R8OUpCHYYgwzw7QXfmrl8aICf909ypJ/C+oNeSw0Cy3C1ORynwimGjSUcTZQqQ==
+X-Received: by 2002:a1c:e246:: with SMTP id z67mr3354892wmg.52.1582189426247; 
+ Thu, 20 Feb 2020 01:03:46 -0800 (PST)
+Received: from localhost.localdomain ([213.146.143.36])
+ by smtp.gmail.com with ESMTPSA id 4sm3496201wmg.22.2020.02.20.01.03.45
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Feb 2020 01:03:45 -0800 (PST)
+From: Xinliang Liu <xinliang.liu@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] MAINTAINERS: Update myself email address
+Date: Thu, 20 Feb 2020 09:03:28 +0000
+Message-Id: <20200220090328.25932-1-xinliang.liu@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200214213902.GA22233@ravnborg.org>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,77 +67,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
- Jyri Sarha <jsarha@ti.com>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: xinliang.liu@linaro.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Update myself email address.
+Add John Stultz as a reviewer. Thanks John.
+Update git tree to drm-misc
 
-On 14/02/2020 23:39, Sam Ravnborg wrote:
-> Hi Tomi.
-> 
-> On Mon, Feb 10, 2020 at 10:15:33AM +0200, Tomi Valkeinen wrote:
->> Hi Thierry,
->>
->> On 02/12/2019 15:07, Laurent Pinchart wrote:
->>> Hi Tomi,
->>>
->>> Thank you for the patch.
->>>
->>> On Thu, Nov 14, 2019 at 11:39:50AM +0200, Tomi Valkeinen wrote:
->>>> The panel datasheet says that the panel samples at falling edge, but
->>>> does not say anything about h/v sync signals. Testing shows that if the
->>>> sync signals are driven on falling edge, the picture on the panel will
->>>> be slightly shifted right.
->>>>
->>>> Setting sync drive edge to the same as data drive edge fixes this issue.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->>>
->>> I don't have access to the documentation, but this makes sense, so
->>>
->>> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>
->>>> ---
->>>>    drivers/gpu/drm/panel/panel-simple.c | 3 ++-
->>>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
->>>> index 5d487686d25c..0784536ae6af 100644
->>>> --- a/drivers/gpu/drm/panel/panel-simple.c
->>>> +++ b/drivers/gpu/drm/panel/panel-simple.c
->>>> @@ -2397,7 +2397,8 @@ static const struct panel_desc osddisplays_osd070t1718_19ts = {
->>>>    		.height = 91,
->>>>    	},
->>>>    	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
->>>> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
->>>> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
->>>> +		DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
->>>>    	.connector_type = DRM_MODE_CONNECTOR_DPI,
->>>>    };
->>
->> Can this be merged?
-> 
-> I have lost the original mail.
-> Can you re-send or provide a patchwork pointer or similar.
-> Then I will apply.
+Signed-off-by: Xinliang Liu <xinliang.liu@linaro.org>
+---
+ MAINTAINERS | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Here are lore and patchwork links. Note that the first two patches in the series have already been handled.
-
-https://lore.kernel.org/dri-devel/20191114093950.rT5m86Xh0-a9FZGq7JipQ3O3vldctJYcvRdhxUMGBVE@z/#t
-
-https://patchwork.freedesktop.org/series/69459/
-
- Tomi
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 978766c6715e..befc3c0afc75 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5600,12 +5600,13 @@ S:	Maintained
+ F:	drivers/gpu/drm/gma500/
+ 
+ DRM DRIVERS FOR HISILICON
+-M:	Xinliang Liu <z.liuxinliang@hisilicon.com>
++M:	Xinliang Liu <xinliang.liu@linaro.org>
+ M:	Rongrong Zou <zourongrong@gmail.com>
++R:	John Stultz <john.stultz@linaro.org>
+ R:	Xinwei Kong <kong.kongxinwei@hisilicon.com>
+ R:	Chen Feng <puck.chen@hisilicon.com>
+ L:	dri-devel@lists.freedesktop.org
+-T:	git git://github.com/xin3liang/linux.git
++T:	git git://anongit.freedesktop.org/drm/drm-misc
+ S:	Maintained
+ F:	drivers/gpu/drm/hisilicon/
+ F:	Documentation/devicetree/bindings/display/hisilicon/
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.20.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
