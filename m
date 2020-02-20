@@ -1,59 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CB8165D8D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 13:28:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F05B8165D9D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 13:30:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F8C6ED5D;
-	Thu, 20 Feb 2020 12:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED7C6ED57;
+	Thu, 20 Feb 2020 12:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E716E8F0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 12:27:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 671093F556;
- Thu, 20 Feb 2020 13:27:40 +0100 (CET)
-Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=SKxrnhUx; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sLxsJd7K9FHK; Thu, 20 Feb 2020 13:27:39 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id EB91B3F53F;
- Thu, 20 Feb 2020 13:27:38 +0100 (CET)
-Received: from localhost.localdomain.localdomain
- (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 77660360583;
- Thu, 20 Feb 2020 13:27:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1582201655; bh=d3uNyLKw48xuV68YqfMiAD6rvtipwLNrPQp1cWs0/Mo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SKxrnhUxqzaObcE5DXdP+bkEYdQ2JjCOZByAGUWt56iJ2BcvUH8227Cxdwva23T7F
- 7idqkrd5npoOqssssjBuNT/NTyNyCmmaH/Ori21/b85ekoHasloLR5HevxoFu5dLsm
- xuEJqoiSoZnIuLUSwS6gkYpBMmu+LGLEJp3lwhBY=
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m=20=28VMware=29?=
- <thomas_os@shipmail.org>
-To: linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v4 9/9] drm/vmwgfx: Hook up the helpers to align buffer objects
-Date: Thu, 20 Feb 2020 13:27:19 +0100
-Message-Id: <20200220122719.4302-10-thomas_os@shipmail.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200220122719.4302-1-thomas_os@shipmail.org>
-References: <20200220122719.4302-1-thomas_os@shipmail.org>
-MIME-Version: 1.0
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0319E6ED57
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 12:30:24 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200220123023euoutp0192092178c3d111a68ac56c82f60398c9~1HCzqafu91369713697euoutp01p
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 12:30:23 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200220123023euoutp0192092178c3d111a68ac56c82f60398c9~1HCzqafu91369713697euoutp01p
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1582201823;
+ bh=p5CpTRZbsYtK0QYL0iltTMJJUAAyPjK8ae5FCrxPunI=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=SrMwNnlsIJoZyXQfNu8LgEOHF+lcLe1OIHDR7zm3uOlJ/gFFyI7RiyT8gfJZ2TtSg
+ 8UEd1cFly0PN+6C3/dTl0xyTWuUGUaS5+dVygBquIjtBHkE8DRdO/bUjXJJtEGZq4D
+ ZOpAuhtjSqvXQYOxMECBylLfvo+el6Y8fESL0X7M=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200220123023eucas1p2f100ff0bbda584a91c58756d7be9bd29~1HCzcMg3f1885918859eucas1p2O;
+ Thu, 20 Feb 2020 12:30:23 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id F4.A3.61286.EDB7E4E5; Thu, 20
+ Feb 2020 12:30:23 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200220123022eucas1p21d015e2880680ae1c16e4b2a1d0ebb18~1HCzFR1jy0175401754eucas1p2l;
+ Thu, 20 Feb 2020 12:30:22 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200220123022eusmtrp1e2bd3573e6b7837c03c3d570b76627d9~1HCzEsiyG2842728427eusmtrp1H;
+ Thu, 20 Feb 2020 12:30:22 +0000 (GMT)
+X-AuditID: cbfec7f2-ef1ff7000001ef66-80-5e4e7bde8f07
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id BD.D3.07950.EDB7E4E5; Thu, 20
+ Feb 2020 12:30:22 +0000 (GMT)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200220123022eusmtip155bf8d78f81beb88588fc75f1eb07143~1HCyphCju2555725557eusmtip1B;
+ Thu, 20 Feb 2020 12:30:22 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH] drm/exynos: dsi: fix workaround for the legacy clock name
+Date: Thu, 20 Feb 2020 13:30:12 +0100
+Message-Id: <20200220123012.19179-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRmVeSWpSXmKPExsWy7djPc7r3q/3iDJ4cY7K4te4cq8XGGetZ
+ La58fc9mMen+BBaLGef3MVmsPXKX3WLG5JdsDuwe97uPM3n0bVnF6PF5k1wAcxSXTUpqTmZZ
+ apG+XQJXRs/uC2wFj8Urnlz+y9bAuEuki5GTQ0LARGLhrvNsXYxcHEICKxgl7k5/ygjhfGGU
+ uPS9AyrzmVHiyKJjbDAti1+sYoZILAdK/N6N0PLw20YmkCo2AUOJrrddYB0iAm4STYdnsoIU
+ MQtcZ5T49mMRO0hCWMBL4sqiq0AJDg4WAVWJdZfjQUxeAVuJ/7f0IZbJS6zecABsmYTACTaJ
+ t+evs0MkXCSWHvoKdZGwxKvjW6DiMhKnJ/ewQDQ0Ax10bi07hNPDKHG5aQYjRJW1xJ1zv9hA
+ tjELaEqs3wW1zVHi5cHrLCBhCQE+iRtvBUHCzEDmpG3TmSHCvBIdbUIQ1WoSs46vg1t78MIl
+ ZgjbQ6KndRY4GIQEYiWefnrHNoFRbhbCrgWMjKsYxVNLi3PTU4sN81LL9YoTc4tL89L1kvNz
+ NzECI//0v+OfdjB+vZR0iFGAg1GJh/eDum+cEGtiWXFl7iFGCQ5mJRFeNR6/OCHelMTKqtSi
+ /Pii0pzU4kOM0hwsSuK8xotexgoJpCeWpGanphakFsFkmTg4pRoYJ2Qv/9Zz6aBEd+T3DTYu
+ 4iICl+9u2PJAt9h77e7GdZonbqXn/HtrLXz4fcy5RId2lePOqsvOf16Wenubu+H3rotc+vP8
+ C70jfvA9/Ptmzo/cl6En40W38ywpsD950GrHg0yvTrWtJ489mloa+Gn20k97Vm35XrAsWei5
+ g9IMr3eL2pv7NqZ3BSqxFGckGmoxFxUnAgDDZjXk+AIAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFLMWRmVeSWpSXmKPExsVy+t/xu7r3qv3iDA7PVbe4te4cq8XGGetZ
+ La58fc9mMen+BBaLGef3MVmsPXKX3WLG5JdsDuwe97uPM3n0bVnF6PF5k1wAc5SeTVF+aUmq
+ QkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJeRs/uC2wFj8Urnlz+
+ y9bAuEuki5GTQ0LARGLxi1XMXYxcHEICSxklZtzeywSRkJE4Oa2BFcIWlvhzrYsNougTo8Sb
+ Gb1sIAk2AUOJrrddYLaIgIdE87fj7CBFzAK3GSWWfpjHApIQFvCSuLLoKtAkDg4WAVWJdZfj
+ QUxeAVuJ/7f0IebLS6zecIB5AiPPAkaGVYwiqaXFuem5xUZ6xYm5xaV56XrJ+bmbGIHhtu3Y
+ zy07GLveBR9iFOBgVOLhnaHqGyfEmlhWXJl7iFGCg1lJhFeNxy9OiDclsbIqtSg/vqg0J7X4
+ EKMp0OqJzFKiyfnAWMgriTc0NTS3sDQ0NzY3NrNQEuftEDgYIySQnliSmp2aWpBaBNPHxMEp
+ 1cBoXr+7Vsb2t+Oyxf+Wb+IrN1jQODuAy8nZ8MCc1s5OduVHBj/lnu498OnZEqnJh/03Jjbf
+ /PDmF+es45Jm0+QX9cb8f3Q4tvmVgcbTRbMMGwXYjzL4nuDP29Pi+pJhhkCgfODTKk7Z9Y+m
+ x/6a+Spi+xYLheKCD+LecjkiNQuir7hu15PmTNuuxFKckWioxVxUnAgAAzj1gE0CAAA=
+X-CMS-MailID: 20200220123022eucas1p21d015e2880680ae1c16e4b2a1d0ebb18
+X-Msg-Generator: CA
+X-RootMTR: 20200220123022eucas1p21d015e2880680ae1c16e4b2a1d0ebb18
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200220123022eucas1p21d015e2880680ae1c16e4b2a1d0ebb18
+References: <CGME20200220123022eucas1p21d015e2880680ae1c16e4b2a1d0ebb18@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,83 +98,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>, Michal Hocko <mhocko@suse.com>,
- pv-drivers@vmware.com, Roland Scheidegger <sroland@vmware.com>,
- Dan Williams <dan.j.williams@intel.com>, Ralph Campbell <rcampbell@nvidia.com>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- linux-graphics-maintainer@vmware.com,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGhvbWFzIEhlbGxzdHJvbSA8dGhlbGxzdHJvbUB2bXdhcmUuY29tPgoKU3RhcnQgdXNp
-bmcgdGhlIGhlbHBlcnMgdGhhdCBhbGlnbiBidWZmZXIgb2JqZWN0IHVzZXItc3BhY2UgYWRkcmVz
-c2VzIGFuZApidWZmZXIgb2JqZWN0IHZyYW0gYWRkcmVzc2VzIHRvIGh1Z2UgcGFnZSBib3VuZGFy
-aWVzLgpUaGlzIGlzIHRvIGltcHJvdmUgdGhlIGNoYW5jZXMgb2YgYWxsb3dpbmcgaHVnZSBwYWdl
-LXRhYmxlIGVudHJpZXMuCgpDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9u
-Lm9yZz4KQ2M6IE1pY2hhbCBIb2NrbyA8bWhvY2tvQHN1c2UuY29tPgpDYzogIk1hdHRoZXcgV2ls
-Y294IChPcmFjbGUpIiA8d2lsbHlAaW5mcmFkZWFkLm9yZz4KQ2M6ICJLaXJpbGwgQS4gU2h1dGVt
-b3YiIDxraXJpbGwuc2h1dGVtb3ZAbGludXguaW50ZWwuY29tPgpDYzogUmFscGggQ2FtcGJlbGwg
-PHJjYW1wYmVsbEBudmlkaWEuY29tPgpDYzogIkrDqXLDtG1lIEdsaXNzZSIgPGpnbGlzc2VAcmVk
-aGF0LmNvbT4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
-PgpDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+ClNpZ25lZC1vZmYt
-Ynk6IFRob21hcyBIZWxsc3Ryb20gPHRoZWxsc3Ryb21Adm13YXJlLmNvbT4KUmV2aWV3ZWQtYnk6
-IFJvbGFuZCBTY2hlaWRlZ2dlciA8c3JvbGFuZEB2bXdhcmUuY29tPgpBY2tlZC1ieTogQ2hyaXN0
-aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZmlsZS5jICAgICAgICAgICAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X2Rydi5jICAgICAgICB8IDEzICsrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X2Rydi5oICAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X3R0bV9idWZmZXIuYyB8ICAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDE2IGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2ZpbGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jCmluZGV4IDQwZmFlMzU2ZDIwMi4u
-MWRmMmZjYTYwOGMzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYwpAQCAtOTMyLDMgKzkzMiw0IEBAIHVuc2lnbmVk
-IGxvbmcgZHJtX2dldF91bm1hcHBlZF9hcmVhKHN0cnVjdCBmaWxlICpmaWxlLAogCXJldHVybiBj
-dXJyZW50LT5tbS0+Z2V0X3VubWFwcGVkX2FyZWEoZmlsZSwgdWFkZHIsIGxlbiwgcGdvZmYsIGZs
-YWdzKTsKIH0KICNlbmRpZiAvKiBDT05GSUdfVFJBTlNQQVJFTlRfSFVHRVBBR0UgKi8KK0VYUE9S
-VF9TWU1CT0xfR1BMKGRybV9nZXRfdW5tYXBwZWRfYXJlYSk7CmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
-Z2Z4X2Rydi5jCmluZGV4IGU5NjIwNDhmNjVkMi4uNTQ1MmNhYmI0YTJlIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-dm13Z2Z4L3Ztd2dmeF9kcnYuYwpAQCAtMTIxNSw2ICsxMjE1LDE4IEBAIHN0YXRpYyB2b2lkIHZt
-d19yZW1vdmUoc3RydWN0IHBjaV9kZXYgKnBkZXYpCiAJZHJtX3B1dF9kZXYoZGV2KTsKIH0KIAor
-c3RhdGljIHVuc2lnbmVkIGxvbmcKK3Ztd19nZXRfdW5tYXBwZWRfYXJlYShzdHJ1Y3QgZmlsZSAq
-ZmlsZSwgdW5zaWduZWQgbG9uZyB1YWRkciwKKwkJICAgICAgdW5zaWduZWQgbG9uZyBsZW4sIHVu
-c2lnbmVkIGxvbmcgcGdvZmYsCisJCSAgICAgIHVuc2lnbmVkIGxvbmcgZmxhZ3MpCit7CisJc3Ry
-dWN0IGRybV9maWxlICpmaWxlX3ByaXYgPSBmaWxlLT5wcml2YXRlX2RhdGE7CisJc3RydWN0IHZt
-d19wcml2YXRlICpkZXZfcHJpdiA9IHZtd19wcml2KGZpbGVfcHJpdi0+bWlub3ItPmRldik7CisK
-KwlyZXR1cm4gZHJtX2dldF91bm1hcHBlZF9hcmVhKGZpbGUsIHVhZGRyLCBsZW4sIHBnb2ZmLCBm
-bGFncywKKwkJCQkgICAgICZkZXZfcHJpdi0+dm1hX21hbmFnZXIpOworfQorCiBzdGF0aWMgaW50
-IHZtd2dmeF9wbV9ub3RpZmllcihzdHJ1Y3Qgbm90aWZpZXJfYmxvY2sgKm5iLCB1bnNpZ25lZCBs
-b25nIHZhbCwKIAkJCSAgICAgIHZvaWQgKnB0cikKIHsKQEAgLTEzODYsNiArMTM5OCw3IEBAIHN0
-YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIHZtd2dmeF9kcml2ZXJfZm9wcyA9IHsK
-IAkuY29tcGF0X2lvY3RsID0gdm13X2NvbXBhdF9pb2N0bCwKICNlbmRpZgogCS5sbHNlZWsgPSBu
-b29wX2xsc2VlaywKKwkuZ2V0X3VubWFwcGVkX2FyZWEgPSB2bXdfZ2V0X3VubWFwcGVkX2FyZWEs
-CiB9OwogCiBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZHJpdmVyID0gewpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vdm13
-Z2Z4L3Ztd2dmeF9kcnYuaAppbmRleCAwNjI2NzE4NGFhMGEuLjllYTE0NWNmZmEzZCAxMDA2NDQK
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmgKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmgKQEAgLTkyOSw2ICs5MjksNyBAQCBleHRlcm4gaW50
-IHZtd19tbWFwKHN0cnVjdCBmaWxlICpmaWxwLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSk7
-CiAKIGV4dGVybiB2b2lkIHZtd192YWxpZGF0aW9uX21lbV9pbml0X3R0bShzdHJ1Y3Qgdm13X3By
-aXZhdGUgKmRldl9wcml2LAogCQkJCQlzaXplX3QgZ3Jhbik7CisKIC8qKgogICogVFRNIGJ1ZmZl
-ciBvYmplY3QgZHJpdmVyIC0gdm13Z2Z4X3R0bV9idWZmZXIuYwogICovCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMKaW5kZXggZDhlYTNkZDEwYWYwLi4zNGM3MjFh
-YjNmZjMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZm
-ZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMKQEAg
-LTc1NCw3ICs3NTQsNyBAQCBzdGF0aWMgaW50IHZtd19pbml0X21lbV90eXBlKHN0cnVjdCB0dG1f
-Ym9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBlLAogCQlicmVhazsKIAljYXNlIFRUTV9QTF9W
-UkFNOgogCQkvKiAiT24tY2FyZCIgdmlkZW8gcmFtICovCi0JCW1hbi0+ZnVuYyA9ICZ0dG1fYm9f
-bWFuYWdlcl9mdW5jOworCQltYW4tPmZ1bmMgPSAmdm13X3RocF9mdW5jOwogCQltYW4tPmdwdV9v
-ZmZzZXQgPSAwOwogCQltYW4tPmZsYWdzID0gVFRNX01FTVRZUEVfRkxBR19GSVhFRCB8IFRUTV9N
-RU1UWVBFX0ZMQUdfTUFQUEFCTEU7CiAJCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExf
-RkxBR19DQUNIRUQ7Ci0tIAoyLjIxLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Writing to the built-in strings arrays doesn't work if driver is loaded
+as kernel module. This is also considered as a bad pattern. Fix this by
+adding a call to clk_get() with legacy clock name. This fixes following
+kernel oops if driver is loaded as module:
+
+Unable to handle kernel paging request at virtual address bf047978
+ pgd = (ptrval)
+ [bf047978] *pgd=59344811, *pte=5903c6df, *ppte=5903c65f
+ Internal error: Oops: 80f [#1] SMP ARM
+ Modules linked in: mc exynosdrm(+) analogix_dp rtc_s3c exynos_ppmu i2c_gpio
+ CPU: 1 PID: 212 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200219 #326
+ videodev: Linux video capture interface: v2.00
+ Hardware name: Samsung Exynos (Flattened Device Tree)
+ PC is at exynos_dsi_probe+0x1f0/0x384 [exynosdrm]
+ LR is at exynos_dsi_probe+0x1dc/0x384 [exynosdrm]
+ ...
+ Process systemd-udevd (pid: 212, stack limit = 0x(ptrval))
+ ...
+ [<bf03cf14>] (exynos_dsi_probe [exynosdrm]) from [<c09b1ca0>] (platform_drv_probe+0x6c/0xa4)
+ [<c09b1ca0>] (platform_drv_probe) from [<c09afcb8>] (really_probe+0x210/0x350)
+ [<c09afcb8>] (really_probe) from [<c09aff74>] (driver_probe_device+0x60/0x1a0)
+ [<c09aff74>] (driver_probe_device) from [<c09b0254>] (device_driver_attach+0x58/0x60)
+ [<c09b0254>] (device_driver_attach) from [<c09b02dc>] (__driver_attach+0x80/0xbc)
+ [<c09b02dc>] (__driver_attach) from [<c09ade00>] (bus_for_each_dev+0x68/0xb4)
+ [<c09ade00>] (bus_for_each_dev) from [<c09aefd8>] (bus_add_driver+0x130/0x1e8)
+ [<c09aefd8>] (bus_add_driver) from [<c09b0d64>] (driver_register+0x78/0x110)
+ [<c09b0d64>] (driver_register) from [<bf038558>] (exynos_drm_init+0xe8/0x11c [exynosdrm])
+ [<bf038558>] (exynos_drm_init [exynosdrm]) from [<c0302fa8>] (do_one_initcall+0x50/0x220)
+ [<c0302fa8>] (do_one_initcall) from [<c03dd02c>] (do_init_module+0x60/0x210)
+ [<c03dd02c>] (do_init_module) from [<c03dbf44>] (load_module+0x1c0c/0x2310)
+ [<c03dbf44>] (load_module) from [<c03dc85c>] (sys_finit_module+0xac/0xbc)
+ [<c03dc85c>] (sys_finit_module) from [<c0301000>] (ret_fast_syscall+0x0/0x54)
+ Exception stack(0xd979bfa8 to 0xd979bff0)
+ ...
+ ---[ end trace db16efe05faab470 ]---
+
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index 33628d85edad..08a8ce3f499c 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1787,9 +1787,10 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 		dsi->clks[i] = devm_clk_get(dev, clk_names[i]);
+ 		if (IS_ERR(dsi->clks[i])) {
+ 			if (strcmp(clk_names[i], "sclk_mipi") == 0) {
+-				strcpy(clk_names[i], OLD_SCLK_MIPI_CLK_NAME);
+-				i--;
+-				continue;
++				dsi->clks[i] = devm_clk_get(dev,
++							OLD_SCLK_MIPI_CLK_NAME);
++				if (!IS_ERR(dsi->clks[i]))
++					continue;
+ 			}
+ 
+ 			dev_info(dev, "failed to get the clock: %s\n",
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
