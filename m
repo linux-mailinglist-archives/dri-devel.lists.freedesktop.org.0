@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5931916668B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:47:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B72A1166699
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:51:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59876EE48;
-	Thu, 20 Feb 2020 18:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB5B06E21F;
+	Thu, 20 Feb 2020 18:50:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB606EE48;
- Thu, 20 Feb 2020 18:47:06 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2020 10:47:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,465,1574150400"; d="scan'208";a="224951915"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 20 Feb 2020 10:47:03 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 20 Feb 2020 20:47:02 +0200
-Date: Thu, 20 Feb 2020 20:47:02 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH 09/12] drm: Shrink drm_display_mode timings
-Message-ID: <20200220184702.GJ13686@intel.com>
-References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
- <20200219203544.31013-10-ville.syrjala@linux.intel.com>
- <20200220181908.GX2363188@phenom.ffwll.local>
+X-Greylist: delayed 498 seconds by postgrey-1.36 at gabe;
+ Thu, 20 Feb 2020 18:50:55 UTC
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE9E36E21F;
+ Thu, 20 Feb 2020 18:50:55 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 720B680A6C;
+ Thu, 20 Feb 2020 19:50:52 +0100 (CET)
+Date: Thu, 20 Feb 2020 19:50:50 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 1/4] drm/simple-kms: Add drm_simple_encoder_{init,
+ create}()
+Message-ID: <20200220185050.GB18993@ravnborg.org>
+References: <20200218084815.2137-1-tzimmermann@suse.de>
+ <20200218084815.2137-2-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200220181908.GX2363188@phenom.ffwll.local>
-X-Patchwork-Hint: comment
+In-Reply-To: <20200218084815.2137-2-tzimmermann@suse.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8
+ a=rZJ61xx7pMjLQKeYT08A:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,146 +48,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, kraxel@redhat.com,
+ alexander.deucher@amd.com, spice-devel@lists.freedesktop.org,
+ emil.velikov@collabora.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2020 at 07:19:08PM +0100, Daniel Vetter wrote:
-> On Wed, Feb 19, 2020 at 10:35:41PM +0200, Ville Syrjala wrote:
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > =
+Hi Thomas.
 
-> > Store the timings (apart from the clock) as u16. The uapi mode
-> > struct already uses u16 for everything so using something bigger
-> > internally doesn't really help us.
-> > =
+On Tue, Feb 18, 2020 at 09:48:12AM +0100, Thomas Zimmermann wrote:
+> This patch makes the internal encoder implementation of the simple
+> KMS helpers available to drivers.
+> 
+> These simple-encoder helpers initialize an encoder with an empty
+> implementation. This covers the requirements of most of the existing
+> DRM drivers. A call to drm_simple_encoder_create() allocates and
+> initializes an encoder instance, a call to drm_simple_encoder_init()
+> initializes a pre-allocated instance.
+> 
+> v2:
+> 	* move simple encoder to KMS helpers
+> 	* remove name argument; simplifies implementation
+> 	* don't allocate with devm_ interfaces; unsafe with DRM
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_simple_kms_helper.c | 83 ++++++++++++++++++++++++-
+>  include/drm/drm_simple_kms_helper.h     |  7 +++
+>  2 files changed, 87 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
+> index 15fb516ae2d8..745c2f34c42b 100644
+> --- a/drivers/gpu/drm/drm_simple_kms_helper.c
+> +++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+> @@ -26,12 +26,90 @@
+>   * entity. Some flexibility for code reuse is provided through a separately
+>   * allocated &drm_connector object and supporting optional &drm_bridge
+>   * encoder drivers.
+> + *
+> + * Many drivers use an encoder with an empty implementation. Such encoders
+> + * fulfill the minimum requirements of the display pipeline, but don't add
+> + * additional functionality. The simple-encoder functions
+> + * drm_simple_encoder_init() and drm_simple_encoder_create() provide an
+> + * appropriate implementation.
+>   */
+>  
+> -static const struct drm_encoder_funcs drm_simple_kms_encoder_funcs = {
+> +static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
+>  	.destroy = drm_encoder_cleanup,
+>  };
+>  
+> +/**
+> + * drm_simple_encoder_init - Initialize a preallocated encoder
+> + * @dev: drm device
+> + * @funcs: callbacks for this encoder
+> + * @encoder_type: user visible type of the encoder
+> + *
+> + * Initialises a preallocated encoder that has no further functionality. The
+> + * encoder will be released automatically.
+I got confused here. The comment says the encoder is automatically
+released. But in this case we have a preallocated encoder (maybe
+embedded in ast_private or something.
+So the encoder is - as I understnad it - not released. But it is cleaned
+up as it is also documented in the next sentences.
 
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> =
+Sorry if I am dense, just returned from some travelling...
 
-> Makes sense I guess. This could mean some implicit pointer math is now no
-> longer auto-upgraded to big enough integers though ...
+	Sam
 
-u16 promotes to int. So can't really see how this would go wrong. Well,
-unless someone is using these to store some larger intermediate values.
 
-> =
-
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> =
-
-> > ---
-> >  drivers/gpu/drm/drm_modes.c |  7 ------
-> >  include/drm/drm_modes.h     | 46 ++++++++++++++++++-------------------
-> >  2 files changed, 23 insertions(+), 30 deletions(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> > index 0e7c9ba241c4..cc9fc52f9f7c 100644
-> > --- a/drivers/gpu/drm/drm_modes.c
-> > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -1917,13 +1917,6 @@ EXPORT_SYMBOL(drm_mode_create_from_cmdline_mode);
-> >  void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
-> >  			       const struct drm_display_mode *in)
-> >  {
-> > -	WARN(in->hdisplay > USHRT_MAX || in->hsync_start > USHRT_MAX ||
-> > -	     in->hsync_end > USHRT_MAX || in->htotal > USHRT_MAX ||
-> > -	     in->hskew > USHRT_MAX || in->vdisplay > USHRT_MAX ||
-> > -	     in->vsync_start > USHRT_MAX || in->vsync_end > USHRT_MAX ||
-> > -	     in->vtotal > USHRT_MAX || in->vscan > USHRT_MAX,
-> > -	     "timing values too large for mode info\n");
-> > -
-> >  	out->clock =3D in->clock;
-> >  	out->hdisplay =3D in->hdisplay;
-> >  	out->hsync_start =3D in->hsync_start;
-> > diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-> > index b28c0234fcd7..b585074945b5 100644
-> > --- a/include/drm/drm_modes.h
-> > +++ b/include/drm/drm_modes.h
-> > @@ -278,16 +278,16 @@ struct drm_display_mode {
-> >  	 * Pixel clock in kHz.
-> >  	 */
-> >  	int clock;		/* in kHz */
-> > -	int hdisplay;
-> > -	int hsync_start;
-> > -	int hsync_end;
-> > -	int htotal;
-> > -	int hskew;
-> > -	int vdisplay;
-> > -	int vsync_start;
-> > -	int vsync_end;
-> > -	int vtotal;
-> > -	int vscan;
-> > +	u16 hdisplay;
-> > +	u16 hsync_start;
-> > +	u16 hsync_end;
-> > +	u16 htotal;
-> > +	u16 hskew;
-> > +	u16 vdisplay;
-> > +	u16 vsync_start;
-> > +	u16 vsync_end;
-> > +	u16 vtotal;
-> > +	u16 vscan;
-> >  	/**
-> >  	 * @flags:
-> >  	 *
-> > @@ -356,19 +356,19 @@ struct drm_display_mode {
-> >  	 * difference is exactly a factor of 10.
-> >  	 */
-> >  	int crtc_clock;
-> > -	int crtc_hdisplay;
-> > -	int crtc_hblank_start;
-> > -	int crtc_hblank_end;
-> > -	int crtc_hsync_start;
-> > -	int crtc_hsync_end;
-> > -	int crtc_htotal;
-> > -	int crtc_hskew;
-> > -	int crtc_vdisplay;
-> > -	int crtc_vblank_start;
-> > -	int crtc_vblank_end;
-> > -	int crtc_vsync_start;
-> > -	int crtc_vsync_end;
-> > -	int crtc_vtotal;
-> > +	u16 crtc_hdisplay;
-> > +	u16 crtc_hblank_start;
-> > +	u16 crtc_hblank_end;
-> > +	u16 crtc_hsync_start;
-> > +	u16 crtc_hsync_end;
-> > +	u16 crtc_htotal;
-> > +	u16 crtc_hskew;
-> > +	u16 crtc_vdisplay;
-> > +	u16 crtc_vblank_start;
-> > +	u16 crtc_vblank_end;
-> > +	u16 crtc_vsync_start;
-> > +	u16 crtc_vsync_end;
-> > +	u16 crtc_vtotal;
-> >  =
-
-> >  	/**
-> >  	 * @private_flags:
-> > -- =
-
-> > 2.24.1
-> > =
-
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+Settings for possible CRTC and
+> + * clones are left to their initial values. The encoder will be cleaned up
+> + * automatically as part of the mode-setting cleanup.
+> + *
+> + * Also see drm_simple_encoder_create().
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drm_simple_encoder_init(struct drm_device *dev,
+> +			    struct drm_encoder *encoder,
+> +			    int encoder_type)
+> +{
+> +	return drm_encoder_init(dev, encoder,
+> +				&drm_simple_encoder_funcs_cleanup,
+> +				encoder_type, NULL);
+> +}
+> +EXPORT_SYMBOL(drm_simple_encoder_init);
+> +
+> +static void drm_encoder_destroy(struct drm_encoder *encoder)
+> +{
+> +	drm_encoder_cleanup(encoder);
+> +	kfree(encoder);
+> +}
+> +
+> +static const struct drm_encoder_funcs drm_simple_encoder_funcs_destroy = {
+> +	.destroy = drm_encoder_destroy,
+> +};
+> +
+> +/**
+> + * drm_simple_encoder_create - Allocate and initialize an encoder
+> + * @dev: drm device
+> + * @encoder_type: user visible type of the encoder
+> + *
+> + * Allocates and initialises an encoder that has no further functionality. The
+> + * encoder will be destroyed automatically as part of the mode-setting cleanup.
+> + *
+> + * See drm_simple_encoder_init() for more information.
+> + *
+> + * Returns:
+> + * The encoder on success, a pointer-encoder error code on failure.
+> + */
+> +struct drm_encoder *drm_simple_encoder_create(struct drm_device *dev,
+> +					      int encoder_type)
+> +{
+> +	struct drm_encoder *encoder;
+> +	int ret;
+> +
+> +	encoder = kzalloc(sizeof(*encoder), GFP_KERNEL);
+> +	if (!encoder)
+> +		return ERR_PTR(-ENOMEM);
+> +	ret = drm_encoder_init(dev, encoder,
+> +			       &drm_simple_encoder_funcs_destroy,
+> +			       encoder_type, NULL);
+> +	if (ret)
+> +		goto err_kfree;
+> +
+> +	return encoder;
+> +
+> +err_kfree:
+> +	kfree(encoder);
+> +	return ERR_PTR(ret);
+> +}
+> +EXPORT_SYMBOL(drm_simple_encoder_create);
+> +
+>  static enum drm_mode_status
+>  drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
+>  			       const struct drm_display_mode *mode)
+> @@ -288,8 +366,7 @@ int drm_simple_display_pipe_init(struct drm_device *dev,
+>  		return ret;
+>  
+>  	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> -	ret = drm_encoder_init(dev, encoder, &drm_simple_kms_encoder_funcs,
+> -			       DRM_MODE_ENCODER_NONE, NULL);
+> +	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_NONE);
+>  	if (ret || !connector)
+>  		return ret;
+>  
+> diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
+> index e253ba7bea9d..54d5066d90c7 100644
+> --- a/include/drm/drm_simple_kms_helper.h
+> +++ b/include/drm/drm_simple_kms_helper.h
+> @@ -181,4 +181,11 @@ int drm_simple_display_pipe_init(struct drm_device *dev,
+>  			const uint64_t *format_modifiers,
+>  			struct drm_connector *connector);
+>  
+> +int drm_simple_encoder_init(struct drm_device *dev,
+> +			    struct drm_encoder *encoder,
+> +			    int encoder_type);
+> +
+> +struct drm_encoder *drm_simple_encoder_create(struct drm_device *dev,
+> +					      int encoder_type);
+> +
+>  #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */
+> -- 
+> 2.25.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
