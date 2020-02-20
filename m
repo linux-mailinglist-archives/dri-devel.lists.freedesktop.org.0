@@ -2,43 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C21166667
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D5516666D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:40:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D7FC6E21A;
-	Thu, 20 Feb 2020 18:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D68A6EE44;
+	Thu, 20 Feb 2020 18:40:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B49126E21A
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 18:36:21 +0000 (UTC)
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
- [50.39.105.78])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 67C332465D;
- Thu, 20 Feb 2020 18:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582223781;
- bh=vrlr8Yaqzkj9ziXbvSzTa5UcFiN65AQ7Ci7jczR5isA=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=aZOo1UB7NpW8BSawzs7dZGEoVH4N1bUITwekfRWZjJY7ZPihXzJCYpbpEAAffrQ4n
- y6kiFKN9rO73DEQ+s12+otJ8e/X7pIK7Lk0RfWa9Ws8rmC7I75n5N+PlJQY+lojkC7
- xMjRiSrcprMWCzDMv87T9zb4dcqn7L2QAwix5ow8=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id 314ED352034E; Thu, 20 Feb 2020 10:36:21 -0800 (PST)
-Date: Thu, 20 Feb 2020 10:36:21 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: drm_dp_mst_topology.c and old compilers
-Message-ID: <20200220183621.GW2935@paulmck-ThinkPad-P72>
-References: <20200220004232.GA28048@paulmck-ThinkPad-P72>
- <CADnq5_OJSHV5XotA6hORgQSrC4A-ZFzfXN_NRMGYFka+MTyjGg@mail.gmail.com>
- <158218553821.8112.10047864129562395990@skylake-alporthouse-com>
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39C276EE44
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 18:40:52 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id c16so5812762ioh.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 10:40:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2s51MiHzgQaPN//35RjJcvytweOlOXi+IR77LYRzRUs=;
+ b=WQ0Mua4MkpgQ4gA22HGfM2M1BSwlmm+u4G53PRKZuhYIvfSrX+TwZfqWhxaSWzZgVE
+ w5v5OAIwUoa19QEXXxLyuwKDsOaMfyFaJXz+XKxhgFBKoqBhvoqGFWkpEkOVACPyaVK2
+ SdP6tQ3hbO/cL5+4WEqhhS64BPbivURcQy/4vZlWW+W6r2mXUlG5gCoiPXvKylkGiC7n
+ 0KT2WZ90R68rq7tVAyWM2UCyxehjCTYjyiumnUaDR5NEX+qO0E8WuPCGu5N1e12dFUME
+ v8I2v78TzTu/hfQdBxiEiMn7wXcnFxiPIxJfHpHHTK7EtWpSXmnuJ/u8nux1hPrpXn2Z
+ J5HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2s51MiHzgQaPN//35RjJcvytweOlOXi+IR77LYRzRUs=;
+ b=UnWtTzplPfjrsZSx5BWuGnPYFhFDYwZ/ezG02UxCC3KzOH5upqA4iGcqXv7p6tr5HR
+ vHqrOUq423vy5HnVw6uyVeDZsC02+/UltdPBb1iO01QTb1We/NEDHgpkXek87gMmf0rf
+ WRsUuTrtdfywI7gzer3SM6+RvRw42fyxHKqSF9S9rNaDQlYrrtlzzNw7nyerTyCPLkJN
+ IB5X1a3Iuazo3HIASOeQT78JEClll/7LPwpBORlvfM7fHMmkvGfy7Zmke8L5TEddomGi
+ NfDr+SHvIzbtPIW3PDqJDKfi8+foS1B3Z0nXtXSFuosy5i2lVNgmVOZUQj9z3XAsaiia
+ iZVQ==
+X-Gm-Message-State: APjAAAVAQRAH1VP7Spuoh1/p/Y2V27wizlaKy1fTXEDunEcMQ/BaRiWA
+ Czg26nx1/rwt8yjIn9tCbcBM7GBjhmk3jg0TxXk=
+X-Google-Smtp-Source: APXvYqxhRpVUo1si6a1JW2JsNN1rAHL3IWCutONCT9yhuvhW7JGecZ1qIlC1+FnYBLwgKC+qfldtjwG+AZZ0w5jvbpU=
+X-Received: by 2002:a5d:8555:: with SMTP id b21mr25728594ios.200.1582224051378; 
+ Thu, 20 Feb 2020 10:40:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <158218553821.8112.10047864129562395990@skylake-alporthouse-com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <VI1PR0802MB22374AD8B80182D2F186ABB483130@VI1PR0802MB2237.eurprd08.prod.outlook.com>
+In-Reply-To: <VI1PR0802MB22374AD8B80182D2F186ABB483130@VI1PR0802MB2237.eurprd08.prod.outlook.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 20 Feb 2020 10:40:40 -0800
+Message-ID: <CAPaKu7Rqbw=v7Cr4ksh+C1FMHEcCK=yZ9DARLMmTH38Gt_-F+A@mail.gmail.com>
+Subject: Re: [Bug] virtio-gpu broken with qemu/kvm on arm64 on kernel 5.5+
+To: Guillaume Gardet <Guillaume.Gardet@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,70 +60,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, nd <nd@arm.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Catalin Marinas <Catalin.Marinas@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2020 at 07:58:58AM +0000, Chris Wilson wrote:
-> Quoting Alex Deucher (2020-02-20 02:52:32)
-> > On Wed, Feb 19, 2020 at 7:42 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >
-> > > Hello!
-> > >
-> > > A box with GCC 4.8.3 compiler didn't like drm_dp_mst_topology.c.  The
-> > > following (lightly tested) patch makes it happy and seems OK for newer
-> > > compilers as well.
-> > >
-> > > Is this of interest?
-> > 
-> > How about a memset instead?  That should be consistent across compilers.
-> 
-> The kernel has adopted the gccism: struct drm_dp_desc desc = {};
-> git grep '= {}' | wc -l: 2046
-> git grep '= { }' | wc -l: 694
-> -Chris
+On Thu, Feb 20, 2020 at 4:44 AM Guillaume Gardet
+<Guillaume.Gardet@arm.com> wrote:
+>
+> Hi,
+>
+> With (guest) kernel 5.5+ with qemu/kvm on arm64, I get lots of display corruptions leading to this kind of screen:
+> https://openqa.opensuse.org/tests/1174521#step/yast2_i/24
+Looking at the screenshot, it seems cacheline-related?
 
-And this works well, a big "thank you!" to all three of you!
+There was a change of memory type
 
-Please see below for the updated patch.
+  https://lists.freedesktop.org/archives/dri-devel/2019-August/233456.html
 
-							Thanx, Paul
+While the guest memory type is ignored on Intel, it is honored on ARM.
+This attempt to fix it
 
-------------------------------------------------------------------------
+  https://lists.freedesktop.org/archives/dri-devel/2019-December/248271.html
 
-commit 78c0e53a98a9772a99e46806f8fcbe1140d667a4
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Wed Feb 19 16:42:47 2020 -0800
+does not seem to land.
 
-    EXP drm: Make drm_dp_mst_dsc_aux_for_port() safe for old compilers
-    
-    Older compilers either want two extra pairs of curly braces around the
-    initializer for local variable desc, or they want a single pair of curly
-    braces with nothing inside.  Current Linux-kernel practice favors the
-    latter, so this commit makes it so.
-    
-    Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
-    Suggested-by: Joe Perches <joe@perches.com>
-    Suggested-by: Christoph Hellwig <hch@infradead.org>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 20cdaf3..b123f60 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -5396,7 +5396,7 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
- {
- 	struct drm_dp_mst_port *immediate_upstream_port;
- 	struct drm_dp_mst_port *fec_port;
--	struct drm_dp_desc desc = { 0 };
-+	struct drm_dp_desc desc = { };
- 	u8 endpoint_fec;
- 	u8 endpoint_dsc;
- 
+>
+> I git bisected it to commit c66df701e783bc666593e6e665f13670760883ee
+> **********
+> drm/virtio: switch from ttm to gem shmem helpers
+>
+>   virtio-gpu basically needs a sg_table for the bo, to tell the host where
+>   the backing pages for the object are.  So the gem shmem helpers are a
+>   perfect fit.  Some drm_gem_object_funcs need thin wrappers to update the
+>   host state, but otherwise the helpers handle everything just fine.
+>
+>   Once the fencing was sorted the switch was surprisingly easy and for the
+>   most part just removing the ttm code.
+>
+>   v4: fix drm_gem_object_funcs name.
+>
+>   Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>   Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>   Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+>   Link: http://patchwork.freedesktop.org/patch/msgid/20190829103301.3539-15-kraxel@redhat.com
+> **********
+>
+> I also tested kernel 5.6-rc2 which has the same bug.
+> Without kvm, the display is fine.
+>
+> Regards,
+> Guillaume
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
