@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0EB167BB1
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:14:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE559167BB5
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B876F3F3;
-	Fri, 21 Feb 2020 11:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60BBC6F3F7;
+	Fri, 21 Feb 2020 11:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA6836EE86
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 22:53:24 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id u12so2649570pgb.10
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 14:53:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8y6ifayNVQgnY1tMWDMsipu9ODJDdQDstWHm3fHcGfE=;
- b=gm84h6pKQS5YcoJK1K02t1lcWnOmqtleExEez3+nHq9i2/vFclcKm2uvPhs5T0cUHj
- cXpHlL6CbniFWvdE+UifQ2gSKUfjopys7YEPbCpneUzuuobUpneYDSRJ4EV6tD26oePF
- QPE5wLbRV4bfKDtBOZ5GmgZXoCWADW3ya+3XI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8y6ifayNVQgnY1tMWDMsipu9ODJDdQDstWHm3fHcGfE=;
- b=cp/UfTslN/M271CCvgxz18pXgQPeq3CxxIyjq6nBVJjlDx0QEgIcnJ7iRl6OK0K6f8
- 3XOcpiiXbNyb9QgJtCTPcHN4RjfP00NMTd2UIF0ZrYePd9W7HP7WIZnZt0eVuuUk7dOc
- T6wJRFyqoXuKfjmNnIIyxYKq9hzwGJOxQjRy79wauGLOxlhDOA/twfkGKFAjmmZaWhA/
- DT3uC92kDMQ2oDocHfyEivPUFXiZLFTB4aPDcY52StCu5/ypf8dVmZxtGXwcdZy0rNQ7
- ZFxRd87KaK2/xdjd2wReK68OgE0ZwxQjuC/ictGVXXzLRnf1MVS3vlggHoNL5sZdnxun
- moYA==
-X-Gm-Message-State: APjAAAWPmgKDdAomfyC9l5pRs79KOTxCIA2sCe9kZbA+FnRDK7GYPUMA
- p4sM9htKdziJUm1ox18OHzrt0GLQSdOVNg==
-X-Google-Smtp-Source: APXvYqwDPd/m6joXZ6fiCV1otqXEu+uHzw6PhQzfEAO+MWtPxMuJxkjuuAjL2YYJFBlnKOoZE+v3eA==
-X-Received: by 2002:a63:504f:: with SMTP id q15mr35267581pgl.8.1582239204098; 
- Thu, 20 Feb 2020 14:53:24 -0800 (PST)
-Received: from jbates.mtv.corp.google.com ([2620:15c:f:10:e2ce:42d4:ecca:69c4])
- by smtp.gmail.com with ESMTPSA id 144sm641900pfc.45.2020.02.20.14.53.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 14:53:23 -0800 (PST)
-From: John Bates <jbates@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/virtio: fix resource id creation race
-Date: Thu, 20 Feb 2020 14:53:19 -0800
-Message-Id: <20200220225319.45621-1-jbates@chromium.org>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0368489E8C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 23:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=B9aSlxx7wx7w6JgLrqupsTcq3VAPuxTbkmWcCtYGRVU=; b=DBC8QHhVOjtp6ibn9AOlSwONWa
+ KS+1mQxLjWZ1bi5hyXU/HxnJJwr3OJQUSwQCDAtI7+eoLSgn4iNjY2MhDzDP5n8GYn0FvCNJCttJQ
+ rzKiBZcNL/0HJ8S7fG5sVQlps4VT5UOhSQScg+usFQZfMgH4c+qokRCncDFOblytGeiad8VvhuHWM
+ m5TZoAk/xEjg7RR957H7+0JnmNmSWKZnToH/oDiHO4hUdf+EJ8swHkdE81GLLywKdWUgeyOqJaYBb
+ WZ8O4Njk0F3VrCdwmLZyr23M+MYDcHnvxj+3k5AemtVQ0OK2yhmdgHvB0lOfiIhILLv0qlqtwe5Kl
+ BHd46h3w==;
+Received: from [2601:1c0:6280:3f0::19c2]
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j4vYF-0007k0-KU; Thu, 20 Feb 2020 23:48:15 +0000
+Subject: Re: [PATCH v8 1/6] drm/mediatek: Use regmap for register access
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
+ p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
+ sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
+ laurent.pinchart@ideasonboard.com
+References: <20200220172147.919996-1-enric.balletbo@collabora.com>
+ <20200220172147.919996-2-enric.balletbo@collabora.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <0b2046b9-90de-c894-7502-993b5df12e7a@infradead.org>
+Date: Thu, 20 Feb 2020 15:48:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:23 +0000
+In-Reply-To: <20200220172147.919996-2-enric.balletbo@collabora.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +55,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, John Bates <jbates@chromium.org>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>,
+ Collabora Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
+ Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Allison Randal <allison@lohutok.net>, Matthias Brugger <mbrugger@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ matthias.bgg@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous code was not thread safe and caused
-undefined behavior from spurious duplicate resource IDs.
-In this patch, an atomic_t is used instead. We no longer
-see any duplicate IDs in tests with this change.
+On 2/20/20 9:21 AM, Enric Balletbo i Serra wrote:
+> From: Matthias Brugger <mbrugger@suse.com>
+> 
+> The mmsys memory space is shared between the drm and the
+> clk driver. Use regmap to access it.
+> 
+> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
+> 
+> Changes in v8: None
+> Changes in v7:
+> - Add R-by from CK
+> 
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  4 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c  | 50 +++++++++++--------------
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h  |  4 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 13 ++-----
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h  |  2 +-
+>  5 files changed, 30 insertions(+), 43 deletions(-)
 
-Fixes: 16065fcdd19d ("drm/virtio: do NOT reuse resource ids")
-Signed-off-by: John Bates <jbates@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_object.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi. Just a quick question:
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 017a9e0fc3bb..890121a45625 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -42,8 +42,8 @@ static int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
- 		 * "f91a9dd35715 Fix unlinking resources from hash
- 		 * table." (Feb 2019) fixes the bug.
- 		 */
--		static int handle;
--		handle++;
-+		static atomic_t seqno = ATOMIC_INIT(0);
-+		int handle = atomic_inc_return(&seqno);
- 		*resid = handle + 1;
- 	} else {
- 		int handle = ida_alloc(&vgdev->resource_ida, GFP_KERNEL);
+Do you need to select REGMAP or one of its derivatives to make sure
+that the proper interfaces are available for this driver?
+
+thanks.
 -- 
-2.25.0.265.gbab2e86ba0-goog
+~Randy
 
 _______________________________________________
 dri-devel mailing list
