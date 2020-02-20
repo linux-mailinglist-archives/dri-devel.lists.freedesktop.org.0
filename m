@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE59166501
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 18:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340871665BD
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:02:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC006EDEA;
-	Thu, 20 Feb 2020 17:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17EBD6EE24;
+	Thu, 20 Feb 2020 18:02:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6616EDE7;
- Thu, 20 Feb 2020 17:36:20 +0000 (UTC)
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 43C992071E;
- Thu, 20 Feb 2020 17:36:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582220179;
- bh=jExt8zvCnhq4nFkDrelFYPJX4O9YBfHtIRXodwOMU3s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tgrdWxtdEFjf0cEtDH+b/WTPMQh/HuCjY2inNVVEdq3JhfiCB6pUjaEOmxrOIlP9I
- 9rj6vkB9GFOgFTuHtxmY0+Dvg0wdsBAKr/J0KNPnSFVcpp74eEU1v5DcwhoZlG7sEk
- 90oIMGs9Tt53R+FlMcAWz8kjBwWUUowcwfiBf170=
-Date: Thu, 20 Feb 2020 12:36:18 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH AUTOSEL 5.5 408/542] drm/amdgpu: add the lost mutex_init
- back
-Message-ID: <20200220173618.GI1734@sasha-vm>
-References: <20200214154854.6746-1-sashal@kernel.org>
- <20200214154854.6746-408-sashal@kernel.org>
- <CADnq5_MMLNtb=3LLHsYnXtONQf4NWNgV226w2=OFk3JpCRj3sA@mail.gmail.com>
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B5D6EE24;
+ Thu, 20 Feb 2020 18:02:30 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id dw13so1194933pjb.4;
+ Thu, 20 Feb 2020 10:02:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ftBWuGNfX8JZVFhSKwA+KUVSKGZwfK/v4xpQCMt5JjU=;
+ b=Z7GTb5OmY58dJNwVcxhr2Zj89JXbSLjrDt4/98xY5f4eLOjssVN04Amn+cXaYaGh5l
+ DqGzKkLXy6FQdjPU5cvEewJ6TExOsg4coQmE8aLyUVNiZJeKgREQ+EioOVrzQafZWyNX
+ wNvlAJ5Fb9NdNKVQ2I3U1JQne5b6IWABjyuRdWxbKtJQ4G74F9KFxf5vOCsvr/b0qplb
+ +hwhkPo4ggypZi/5u5PXoEK2bsl6sK5/+2swDHR2TOMLOfl4pp+W/C1jTXyYfH5WCyBb
+ NIlAzn4HpQm5ASJ6q5OHtRY32pO3LRQSAlUXhWyTEECClcAPOwqaIqQ4Ktfhudf/VTO2
+ S/dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ftBWuGNfX8JZVFhSKwA+KUVSKGZwfK/v4xpQCMt5JjU=;
+ b=OfOcf1OPdISS4wPTm2Wx3Xujb7gNhC1m+sAtBnKY494NRLvUKrRbj+HFs+w7dodF3Y
+ EkpXgdkqaRSUqJ7ZZU+lCPjtZ0vDwStXYalJsrSCRFvgMwXGOoUA3X5IUnwSxtZZxMHL
+ SAGAzoJnAsmCMxR+ycDbLfTDUW6uiaUYU5PZlzk+x3uV3e5XiOfYxFjD7smt1yeJ0RWZ
+ 0wfSYWMgfkgv+7/7BERHKLvj2tg5zBD8wrZLvtfQ6iGARdXrdH402W6g73sDhpeCgodC
+ DtvMin7/aQjAf0UP/qDOqoa4//3sPTpk1zsQZZ1gxRj8TzXsO4jlV7a7zZuNQ6eIYBiT
+ UiAw==
+X-Gm-Message-State: APjAAAVI/af2zRpJ0AC8vWW0pd/KXrvdxUTer/nC46Y22fFxX2AtBWfV
+ R0Pm7TYc1une08NBUT35cbOfd0o7
+X-Google-Smtp-Source: APXvYqyP5wnC/UIA6uYZG1iIuCpdhd4BbS2S2UPeJf7Xo5CCRsLnOqSay/+AmWkBoDqxi6cI3omECg==
+X-Received: by 2002:a17:90a:8001:: with SMTP id
+ b1mr4948972pjn.39.1582221749423; 
+ Thu, 20 Feb 2020 10:02:29 -0800 (PST)
+Received: from localhost ([100.118.89.211])
+ by smtp.gmail.com with ESMTPSA id l69sm2019pgd.1.2020.02.20.10.02.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Feb 2020 10:02:28 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/a6xx: Fix CP_MEMPOOL state name
+Date: Thu, 20 Feb 2020 10:00:09 -0800
+Message-Id: <20200220180013.1120750-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADnq5_MMLNtb=3LLHsYnXtONQf4NWNgV226w2=OFk3JpCRj3sA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,57 +65,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Feifei Xu <Feifei.Xu@amd.com>, xinhui pan <xinhui.pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 14, 2020 at 11:22:27AM -0500, Alex Deucher wrote:
->On Fri, Feb 14, 2020 at 10:57 AM Sasha Levin <sashal@kernel.org> wrote:
->>
->> From: "Pan, Xinhui" <Xinhui.Pan@amd.com>
->>
->> [ Upstream commit bd0522112332663e386df1b8642052463ea9b3b9 ]
->>
->> Initialize notifier_lock.
->>
->> Bug: https://gitlab.freedesktop.org/drm/amd/issues/1016
->> Reviewed-by: Feifei Xu <Feifei.Xu@amd.com>
->> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
->> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
->> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_device.c
->> index 332b9c24a2cd0..a2f788ad7e1c6 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -2797,6 +2797,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
->>         mutex_init(&adev->notifier_lock);
->>         mutex_init(&adev->virt.dpm_mutex);
->>         mutex_init(&adev->psp.mutex);
->> +       mutex_init(&adev->notifier_lock);
->>
->
->This patch is not relevant here.  The same mutex is already
->initialized 3 lines above.
+From: Rob Clark <robdclark@chromium.org>
 
-Now dropped, thank you.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- =
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+index 68cccfa2870a..bbbec8d26870 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+@@ -370,7 +370,7 @@ static const struct a6xx_indexed_registers {
+ };
+ 
+ static const struct a6xx_indexed_registers a6xx_cp_mempool_indexed = {
+-	"CP_MEMPOOOL", REG_A6XX_CP_MEM_POOL_DBG_ADDR,
++	"CP_MEMPOOL", REG_A6XX_CP_MEM_POOL_DBG_ADDR,
+ 		REG_A6XX_CP_MEM_POOL_DBG_DATA, 0x2060,
+ };
+ 
+-- 
+2.24.1
 
-Thanks,
-Sasha
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
