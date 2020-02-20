@@ -1,93 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D719316662A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:26:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C21166667
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 19:36:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D62306E21B;
-	Thu, 20 Feb 2020 18:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D7FC6E21A;
+	Thu, 20 Feb 2020 18:36:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr770042.outbound.protection.outlook.com [40.107.77.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EEE56E21B;
- Thu, 20 Feb 2020 18:26:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dze05zmmSB2W33GSt1COguRkHcJl1N5n+/ZrYxMn7WUFYFINqZktsoE/ost1DYvcrsf/U+p20KqNB4vwPSkHSaol1oawZ1YrmDKLkCft5kg9Ba84JyxEKyJV3kr/H0f2MLkZajVUraG1FZn4mwXhaddDvaQWER4z+Bi1Inn0hI7O13TCbs8yWP1QbQJ0mNGy8sfLUc9B0pb81QZ3VOOEoLCqPllWzwmvwMEw5wEslE7joRF6SAbqVH0sjprhun+khIwFsk7yOQJd277QI7KX7k+wYxzTyo64Yp/UHn9sEWndpBDjmBBGCSz4iDVWUUFNJ7qXo34QQMpz07XxdTZFqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eHLB39TGmxH7hXPyv9oL2ck+Swv+fv/u0hTQbap5u7s=;
- b=J7YJrdkpajqpZbm2m26EVTcO3JAHUKtyhQgJHwUF355w3YP9cjz1YxY/qzmw22804coSQr4GXGFtjfCgAPTcGJ0goURCIUAlNWSdBbNe+rlPU+jtqZgVBlN4af7eNKWL7pIJNxPDkTo3psAtJzxhlleAwe7vPTVW8tF/8kGbaEgv3T+Fh6JmWdVsXb/6FSgNfSVC4PCtfAeXr2FIk5ulK2X+5SUEmSQOSzHDeZm6hC5sswxozAKSmLIBAkKBYBpII/N4CWS7fFOE0xNG4DDqKfOIBQe8pc8En8cR6AVQ9bK6FJMkLG2t5GYFjvXjSWc9QSDG99p3GWT6XSv4i686lQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eHLB39TGmxH7hXPyv9oL2ck+Swv+fv/u0hTQbap5u7s=;
- b=gRe9F11kj9cXQw2rDPLXIbIlIWlv2UwjCKDfppD+r/qF+6TXqD2bi24Svg5yCHSBEU5wN3lmw/ywxLQJaVg0EG7RATRNnJsi+K+RB2RkftaKbrcV7YMfQShUnoyx3WtLLO1hQl0l9StiSmOCvucbywU8SSU1C4a+hURlSkOuSFo=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Nirmoy.Das@amd.com; 
-Received: from DM5PR12MB2376.namprd12.prod.outlook.com (52.132.143.139) by
- DM5PR12MB1323.namprd12.prod.outlook.com (10.168.237.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.25; Thu, 20 Feb 2020 18:26:48 +0000
-Received: from DM5PR12MB2376.namprd12.prod.outlook.com
- ([fe80::ac12:6413:cd14:4904]) by DM5PR12MB2376.namprd12.prod.outlook.com
- ([fe80::ac12:6413:cd14:4904%4]) with mapi id 15.20.2750.016; Thu, 20 Feb 2020
- 18:26:48 +0000
-Subject: Re: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v2
-To: Daniel Vetter <daniel@ffwll.ch>, Nirmoy Das <nirmoy.aiemd@gmail.com>
-References: <20200219135322.56463-1-nirmoy.das@amd.com>
- <20200219135322.56463-7-nirmoy.das@amd.com>
- <20200220180955.GT2363188@phenom.ffwll.local>
-From: Nirmoy <nirmodas@amd.com>
-Message-ID: <fae55ba8-5bfb-2f27-b708-f946141df039@amd.com>
-Date: Thu, 20 Feb 2020 19:29:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-In-Reply-To: <20200220180955.GT2363188@phenom.ffwll.local>
-Content-Language: en-US
-X-ClientProxiedBy: AM3PR04CA0139.eurprd04.prod.outlook.com (2603:10a6:207::23)
- To DM5PR12MB2376.namprd12.prod.outlook.com
- (2603:10b6:4:b9::11)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B49126E21A
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 18:36:21 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
+ [50.39.105.78])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 67C332465D;
+ Thu, 20 Feb 2020 18:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1582223781;
+ bh=vrlr8Yaqzkj9ziXbvSzTa5UcFiN65AQ7Ci7jczR5isA=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=aZOo1UB7NpW8BSawzs7dZGEoVH4N1bUITwekfRWZjJY7ZPihXzJCYpbpEAAffrQ4n
+ y6kiFKN9rO73DEQ+s12+otJ8e/X7pIK7Lk0RfWa9Ws8rmC7I75n5N+PlJQY+lojkC7
+ xMjRiSrcprMWCzDMv87T9zb4dcqn7L2QAwix5ow8=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+ id 314ED352034E; Thu, 20 Feb 2020 10:36:21 -0800 (PST)
+Date: Thu, 20 Feb 2020 10:36:21 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: drm_dp_mst_topology.c and old compilers
+Message-ID: <20200220183621.GW2935@paulmck-ThinkPad-P72>
+References: <20200220004232.GA28048@paulmck-ThinkPad-P72>
+ <CADnq5_OJSHV5XotA6hORgQSrC4A-ZFzfXN_NRMGYFka+MTyjGg@mail.gmail.com>
+ <158218553821.8112.10047864129562395990@skylake-alporthouse-com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2003:c5:8f2c:5d00:8d2:968:f382:8499]
- (2003:c5:8f2c:5d00:8d2:968:f382:8499) by
- AM3PR04CA0139.eurprd04.prod.outlook.com (2603:10a6:207::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.18 via Frontend Transport; Thu, 20 Feb 2020 18:26:44 +0000
-X-Originating-IP: [2003:c5:8f2c:5d00:8d2:968:f382:8499]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 83e95570-90fe-4eff-f3b4-08d7b6327255
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1323:|DM5PR12MB1323:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1323D96670E157146A111C1B8B130@DM5PR12MB1323.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 031996B7EF
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(39860400002)(396003)(136003)(366004)(376002)(199004)(189003)(110136005)(52116002)(5660300002)(316002)(31696002)(36756003)(16526019)(186003)(2616005)(66556008)(4326008)(31686004)(66476007)(66946007)(478600001)(53546011)(8676002)(6486002)(2906002)(81166006)(8936002)(81156014)(6666004)(7416002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1323;
- H:DM5PR12MB2376.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kA29s+ohJRODrNhmLdNy7KJmInWaz0+yIYW3a2CMpJ1gJVUHrjvRLnUbyPt6kvhemfdw1MQ9N72Qh3zNXMj2M7aubuEpVkeOOBVm/TZa7ivn0MpkJlPPxrRzMzNcF+Rl5EKMHmPcK602/h9F376bE/z9xfcmza7VgEROKmFdyh+OnSY7Qi75RyxvBEzPt5NWW7Gq/INrBieUu+cdoxmG6ePqW9yoym0P1aM9FPsWORcRjlGKRpKaBMPr4YBmdqi92siSRJ/fZeDCJPJxSEUkiF2A6Md3l4Iv53V66RQzx2+CM+7tz2Z/tieVFOWIhprCDoZOGzZsxEfSsZa+D6KB7VZp3a+fhqavkoe9GaDpsxzM1sa1x8DeoelV9JFelRJXW+JTcNiP19o+ErUjGpSGaNF2NXNeLz55XwhcXxOakQuWmnXJ25y99jjMQe60duUD
-X-MS-Exchange-AntiSpam-MessageData: /LmmdlabjZ5eBt6rVMWXahyX63lgSJ/tcBoH1cHvspQuq2/RYatC9nbxyRQaV6gUc0WBkV5gwM0xA5ytikG/dnMT/Vui2jHLFz+Hf8tff4eCFYygcXceofs3eofmAxG6C+HUBoQL1VnXHQMYyVYJxoS60ts8dZQ+qBZhr6IvdCw3UqX4W420AUCYrvpxlQ7mfpPXHsah8xdNNc+0gsRCUA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83e95570-90fe-4eff-f3b4-08d7b6327255
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2020 18:26:48.2198 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rnFxwIFvof1OQCJoIbJ/NJW2OUQPqSTyBEYTqzVaHxxZgUrzFAo/MAAPvsjcyDZAurqehKYHeqgMZI9cIUz4gA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1323
+Content-Disposition: inline
+In-Reply-To: <158218553821.8112.10047864129562395990@skylake-alporthouse-com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,79 +51,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thellstrom@vmware.com, amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- kenny.ho@amd.com, brian.welty@intel.com, dri-devel@lists.freedesktop.org,
- nirmoy.das@amd.com, linux-graphics-maintainer@vmware.com, kraxel@redhat.com,
- alexander.deucher@amd.com, sean@poorly.run, christian.koenig@amd.com,
- bskeggs@redhat.com
+Reply-To: paulmck@kernel.org
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Feb 20, 2020 at 07:58:58AM +0000, Chris Wilson wrote:
+> Quoting Alex Deucher (2020-02-20 02:52:32)
+> > On Wed, Feb 19, 2020 at 7:42 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > >
+> > > Hello!
+> > >
+> > > A box with GCC 4.8.3 compiler didn't like drm_dp_mst_topology.c.  The
+> > > following (lightly tested) patch makes it happy and seems OK for newer
+> > > compilers as well.
+> > >
+> > > Is this of interest?
+> > 
+> > How about a memset instead?  That should be consistent across compilers.
+> 
+> The kernel has adopted the gccism: struct drm_dp_desc desc = {};
+> git grep '= {}' | wc -l: 2046
+> git grep '= { }' | wc -l: 694
+> -Chris
 
-On 2/20/20 7:09 PM, Daniel Vetter wrote:
-> On Wed, Feb 19, 2020 at 02:53:20PM +0100, Nirmoy Das wrote:
->> Calculate GEM VRAM bo's offset within vram-helper without depending on
->> bo->offset
->>
->> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
->> ---
->>   drivers/gpu/drm/drm_gem_vram_helper.c | 17 ++++++++++++++++-
->>   1 file changed, 16 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
->> index 92a11bb42365..3edf5f241c15 100644
->> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->> @@ -198,6 +198,21 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo)
->>   }
->>   EXPORT_SYMBOL(drm_gem_vram_mmap_offset);
->>
->> +/**
->> + * drm_gem_vram_pg_offset() - Returns a GEM VRAM object's page offset
->> + * @gbo:	the GEM VRAM object
->> + *
->> + * Returns:
->> + * The buffer object's page offset, or
->> + * 0 with a warning when memory manager node of the buffer object is NULL
->> + * */
-> We generally don't add full formal kerneldoc for internal functions like
-> this. It won't get pulled into generated docs and generally just bitrots.
-> Just informal comment if it's really tricky, but the function name here is
-> clear enough I think.
+And this works well, a big "thank you!" to all three of you!
 
-Thanks for you review Daniel, I will remove that comment.
+Please see below for the updated patch.
 
+							Thanx, Paul
 
-Nirmoy
+------------------------------------------------------------------------
 
-> So with the comment removed:
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
->> +static s64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
->> +{
->> +	if (WARN_ON_ONCE(!gbo->bo.mem.mm_node))
->> +		return 0;
->> +	return gbo->bo.mem.start;
->> +}
->> +
->>   /**
->>    * drm_gem_vram_offset() - \
->>   	Returns a GEM VRAM object's offset in video memory
->> @@ -214,7 +229,7 @@ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo)
->>   {
->>   	if (WARN_ON_ONCE(!gbo->pin_count))
->>   		return (s64)-ENODEV;
->> -	return gbo->bo.offset;
->> +	return drm_gem_vram_pg_offset(gbo) << PAGE_SHIFT;
->>   }
->>   EXPORT_SYMBOL(drm_gem_vram_offset);
->>
->> --
->> 2.25.0
->>
+commit 78c0e53a98a9772a99e46806f8fcbe1140d667a4
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Wed Feb 19 16:42:47 2020 -0800
+
+    EXP drm: Make drm_dp_mst_dsc_aux_for_port() safe for old compilers
+    
+    Older compilers either want two extra pairs of curly braces around the
+    initializer for local variable desc, or they want a single pair of curly
+    braces with nothing inside.  Current Linux-kernel practice favors the
+    latter, so this commit makes it so.
+    
+    Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
+    Suggested-by: Joe Perches <joe@perches.com>
+    Suggested-by: Christoph Hellwig <hch@infradead.org>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 20cdaf3..b123f60 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -5396,7 +5396,7 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
+ {
+ 	struct drm_dp_mst_port *immediate_upstream_port;
+ 	struct drm_dp_mst_port *fec_port;
+-	struct drm_dp_desc desc = { 0 };
++	struct drm_dp_desc desc = { };
+ 	u8 endpoint_fec;
+ 	u8 endpoint_dsc;
+ 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
