@@ -1,70 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC69E167BC5
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AFA167BAB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:14:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730606F3FE;
-	Fri, 21 Feb 2020 11:14:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C242C6F3FA;
+	Fri, 21 Feb 2020 11:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5D706EE21
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 17:57:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8206EE24
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 18:00:14 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 1A6C8A41;
- Thu, 20 Feb 2020 12:57:32 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id B66DD56C7;
+ Thu, 20 Feb 2020 13:00:13 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 20 Feb 2020 12:57:32 -0500
+ by compute3.internal (MEProxy); Thu, 20 Feb 2020 13:00:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=wXvR2MOzGGKMeex/rwCGSt8o0uR
- MlmGZ+1htdhsNHVY=; b=FSixFcAeLhxoF0aMmTSsOSCcuHNvzK2b/uENeMaYkai
- aTwkNC+U9KiGSozW1N7u1MImfDF6vueb+FnJ9v0i+FOXWRyqIa3beGiQQuUTb5wF
- j+mA3nGrpNBKvhDr2dx1W9AKH36zVV82ZIS5NRwgNNWf7P+uokKWB3rJTiX+0TIS
- 2OUslNvZYKRu7LJdn0y3IF/CXxv/CeTYOs94VGGXXdy8MhUeDyf/Q/NsmdDc58Ra
- c2s6msJhE9Z8z3pMMTv3W3LPwah7WpC5QzLSARoSJ3QKG/B1IOqtq2vI87Wm8ec5
- EFk4tkrMDWAl/ixyqkZLI2bVBMEYo0NYqHdkOryenbA==
+ :content-type:in-reply-to; s=fm2; bh=3iVZpI1OxXxQS2+5cTW4IrNcV5c
+ F9OxDP+rQ8UJEwO8=; b=xROZRlrvRLpbuKTf7VVAF515Y3a3vu7WPZ7jx0QgY6F
+ tvZAHye/3hKTvCHKfHoz6SDsGab9+J4J6C4dmLzEdqFW5XT1YyONXJQb0SrI5myB
+ pMJOn6wCcO8pnyDEGyPwLa1zEN0osN1ECGqUa+Hf5AJNxYgyP3PNGW4yU8JOSrIb
+ WgCvL02SkA0ZukAYD4YbQjxzRCDmQILIhJ2ZnWeVZZ7ZkH2utSZ7+kOGelXV+rqD
+ kMzAx3cZ2sKybmJaji6baVN3//M8HQy27x0nyAM/x3aKPXgTubCmXzFqvY1C8Bgi
+ ++fAJoBKlIy6uFRAryEIHTHkmvS+mfflUJIL4mLA1UQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=wXvR2M
- OzGGKMeex/rwCGSt8o0uRMlmGZ+1htdhsNHVY=; b=0nGLSUnVDW/VMUcgt2BawK
- xswGcY8U5iAG/QBsP+afDXx1XYg70g3XSGK7BoF6AIrw2lOxqWdcdFCZ1ar0XEkh
- 9wH9zc7dVS62gKop1r9mjSLec0fjW4GeZZHpP2rI8i4E91uNmfJXa8+JwuG3l5Fx
- IKzgsF4vJyD1mhrQyXC7RxHaol54YcRScX/ROfj3tLUmGTCYLRVFJPjxoSGfj7P+
- nojvaxrIKnGY1/2b3pBOmitWda4qe20DSiAdLub8j682h671/Z5S07upvZ1A4hZa
- 8bFggf+Cz+iqWPBa6GQJlLLOnrocr88SiSlqt9fpgqR25TEubCBYxfJsNqWjxmug
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3iVZpI
+ 1OxXxQS2+5cTW4IrNcV5cF9OxDP+rQ8UJEwO8=; b=JhT8mtKHS1kel2Jve1v6Cm
+ tzEFJQmKFJLY2lXkDtCG5h8CIYx48fcHj9gfzYyyNzIFfQZmqH0sdAERvmQsTyl2
+ Q3BtlHbbGV8dT21vB9nGQcHKmopPktYTeGsNEWCfmzFRiAdK3xL8RM/DkpPYOI0N
+ VYv+0la9bb4e7vgljOAdrrMf6pjWH9drLsFrHOvvcJhvICkdISEt5eWEtw5KmOOO
+ te2GMzaTzNqNu6XdLrPblyrW3w//ReNcdWATBsBodhkt/j7gnB9lCXbwW3fPiv08
+ x4AoYMIiJHShR9XIoLAxzZnCaGnNuE6+FL7BpSmZMryzE11IkG+WD+eyTmqEOUOQ
  ==
-X-ME-Sender: <xms:ishOXlXOEgfsMi6848XIHWWUltCnrx29K_fKr55njtnzc8K9kDWZew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkedvgddutdelucetufdoteggodetrfdotf
+X-ME-Sender: <xms:KclOXglDO_oxqApfDRUGzu17fuwLMsP6-OANHX6HAg7BeUDIYBttuQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkedvgdduuddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
  drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ishOXkWdoSgqt2HIcRZQnZ60R1ygMg4IAL1JueheI8jXmC-kte1mRw>
- <xmx:ishOXl_rN6h0hRN7zhFeYfvZnNtLPqJYIaaiAj7397by2QmGoWZ7kg>
- <xmx:ishOXkaGvA8c7M7IFtuoZ1uOLcPRgUXf1jKan9xr9FXPtZcfPPIYkQ>
- <xmx:jMhOXtESZmyQrq5gR0B_rWD0mb4JMGwh_lYgGqt-zMV3XO9XnvNuTg>
+X-ME-Proxy: <xmx:KclOXnSYkxXSwxoSDl7CV6KgxF34YCtKGpbSXUkQaJtRori60SgNkw>
+ <xmx:KclOXsApPiLw8ZwHDPH49U7BUCGT8NsqBUrhvj1Cr4Kcq_4Nkgk-hA>
+ <xmx:KclOXmTKxFPmLQeR09YROPaScynFunYEZgqLKM5L0yaesI-J4erFPw>
+ <xmx:LclOXrHApIyF1i4BfvXVZ7k3EqIpb0XQ3AubpxKTGEe90K3CWTlgUg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id F27E63060BD1;
- Thu, 20 Feb 2020 12:57:29 -0500 (EST)
-Date: Thu, 20 Feb 2020 18:57:28 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 92F9A3060D1A;
+ Thu, 20 Feb 2020 13:00:09 -0500 (EST)
+Date: Thu, 20 Feb 2020 19:00:08 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 2/4] dt-bindings: panel: lvds: Add properties for clock
- and data polarities
-Message-ID: <20200220175728.6wuipezjp23coevq@gilmour.lan>
+Subject: Re: [PATCH 1/4] drm/connector: Add data polarity flags
+Message-ID: <20200220180008.mfl2pfcea6rafmt5@gilmour.lan>
 References: <cover.b12a054012ce067fa2094894147f953ab816d8d0.1581682983.git-series.maxime@cerno.tech>
- <620a740cec4186177ce346b092d4ba451e1420dc.1581682983.git-series.maxime@cerno.tech>
- <20200214161156.GA18287@ravnborg.org>
+ <b541006fa0a1c34ac5f668dc561aa1598f8fd86c.1581682983.git-series.maxime@cerno.tech>
+ <20200214161359.GB18287@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20200214161156.GA18287@ravnborg.org>
+In-Reply-To: <20200214161359.GB18287@ravnborg.org>
 X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,118 +83,72 @@ Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
  Sean Paul <seanpaul@chromium.org>, Thierry Reding <thierry.reding@gmail.com>,
  Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
  linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0213797906=="
+Content-Type: multipart/mixed; boundary="===============0089146491=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0213797906==
+--===============0089146491==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jmue7eu7rmn5vtgj"
+	protocol="application/pgp-signature"; boundary="djjcychys4abfub2"
 Content-Disposition: inline
 
 
---jmue7eu7rmn5vtgj
+--djjcychys4abfub2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Feb 14, 2020 at 05:11:56PM +0100, Sam Ravnborg wrote:
+On Fri, Feb 14, 2020 at 05:13:59PM +0100, Sam Ravnborg wrote:
 > Hi Maxime.
 >
-> On Fri, Feb 14, 2020 at 01:24:39PM +0100, Maxime Ripard wrote:
-> > Some LVDS encoders can support multiple polarities on the data and
-> > clock lanes, and similarly some panels require a given polarity on
-> > their inputs. Add a property on the panel to configure the encoder
-> > properly.
+> On Fri, Feb 14, 2020 at 01:24:38PM +0100, Maxime Ripard wrote:
+> > Some LVDS encoders can change the polarity of the data signals being
+> > sent. Add a DRM bus flag to reflect this.
 > >
 > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> Not a fan of this binding...
-> In display-timing.txt we have a specification/description of
-> the panel-timing node.
->
-> The panel-timing node already include information such as:
-> - hsync-active:
-> - vsync-active:
-> - de-active:
-> - pixelclk-active:
-> - syncclk-active:
->
-> But clock-active-low and data-active-low refer to the bus
-> more than an individual timing.
-> So maybe OK not to have it in a panel-timing node.
-> But then it would IMO be better to include
-> this in the display-timing node - so we make
-> this available and standard for all users of the
-> display-timing node.
->
-> I will dig up my patchset to make proper bindings for panel-timing and
-> display-timing this weeked and resend them.
-> Then we can discuss if this goes on top or this is specific for the
-> lvds binding.
-
-That makes sense, I'll wait for them to be merged then :)
-
->
 > > ---
-> >  Documentation/devicetree/bindings/display/panel/lvds.yaml | 10 ++++++++-
-> >  1 file changed, 10 insertions(+)
+> >  include/drm/drm_connector.h | 4 ++++
+> >  1 file changed, 4 insertions(+)
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > index d0083301acbe..4a1111a1ab38 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > @@ -90,6 +90,16 @@ properties:
-> >        CTL2: Data Enable
-> >        CTL3: 0
-> >
-> > +  clock-active-low:
-> > +    type: boolean
-> > +    description: >
+> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > index 221910948b37..9a08fe6ab7c2 100644
+> > --- a/include/drm/drm_connector.h
+> > +++ b/include/drm/drm_connector.h
+> > @@ -330,6 +330,8 @@ enum drm_panel_orientation {
+> >   *					edge of the pixel clock
+> >   * @DRM_BUS_FLAG_SHARP_SIGNALS:		Set if the Sharp-specific signals
+> >   *					(SPL, CLS, PS, REV) must be used
+> > + * @DRM_BUS_FLAG_DATA_LOW:		The Data signals are active low
+> > + * @DRM_BUS_FLAG_DATA_HIGH:		The Data signals are active high
+> Reading the description of these falgs always confuses me.
+> In this case if neither bit 9 nor bit 10 is set then the data signals
+> are netiher active low nor active high.
+> So what can I then expect?
 >
-> Should this be "|" and not ">"?
-> Did this pass dt_binding_check?
+> We have the same logic loophole for DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE
+> and DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE.
+> So it is not new, but can we do better here?
 
-Yes. > means that this is a multi-line string that will drop the \n
-between each line, while | will keep it
+Honestly, I don't really get it either. I *think* this is to handle
+the sampling / output inversion properly which wouldn't be possible if
+this was only a bit set or not.
 
-For a string like this, I believe it makes more sense to let whatever
-is using to handle the wrapping, but I don't really have a strong
-opinion :)
-
->
-> > +      If set, reverse the clock polarity on the clock lane.
-> This text could be a bit more specific. If this is set then
-> what?
-> And it seems strange that a clock is active low.
-> For a clock we often talk about raising or falling edge.
->
-> > +
-> > +  data-active-low:
-> > +    type: boolean
-> > +    description: >
-> Same comment with ">"
->
-> > +      If set, reverse the bit polarity on all data lanes.
-> Same comment about a more explicit description.
-
-I'll try to come up with something better. Thanks!
 Maxime
 
---jmue7eu7rmn5vtgj
+--djjcychys4abfub2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXk7IiAAKCRDj7w1vZxhR
-xcZiAQDFmtyS5WHek/hmzjWFFwIPRkMeuRUG6dZvUn8HIDH6uQD9EvR2HxBQfUVQ
-a2jdAtufNDa8xmkO5CE+KyDuJBeH6wA=
-=puow
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXk7JKAAKCRDj7w1vZxhR
+xQxeAPwLFn41l30eKqukNP84sFPMXbLHQVADj+Faro+XxhjBGQEA4Y58gz6z1NXr
+ic+uREN12TeqDmmfkPeNrnAd17ffFQ8=
+=EVQZ
 -----END PGP SIGNATURE-----
 
---jmue7eu7rmn5vtgj--
+--djjcychys4abfub2--
 
---===============0213797906==
+--===============0089146491==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -206,4 +159,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0213797906==--
+--===============0089146491==--
