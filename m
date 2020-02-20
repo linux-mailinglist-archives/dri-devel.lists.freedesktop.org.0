@@ -1,32 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF981658DD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 08:59:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E36D21658EB
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 09:12:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D766ECE7;
-	Thu, 20 Feb 2020 07:59:05 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A04336ECE7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 07:59:03 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 20283602-1500050 for multiple; Thu, 20 Feb 2020 07:59:01 +0000
-MIME-Version: 1.0
-To: Alex Deucher <alexdeucher@gmail.com>, paulmck@kernel.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <CADnq5_OJSHV5XotA6hORgQSrC4A-ZFzfXN_NRMGYFka+MTyjGg@mail.gmail.com>
-References: <20200220004232.GA28048@paulmck-ThinkPad-P72>
- <CADnq5_OJSHV5XotA6hORgQSrC4A-ZFzfXN_NRMGYFka+MTyjGg@mail.gmail.com>
-Message-ID: <158218553821.8112.10047864129562395990@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: drm_dp_mst_topology.c and old compilers
-Date: Thu, 20 Feb 2020 07:58:58 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id 124F46ECEA;
+	Thu, 20 Feb 2020 08:12:38 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D27F6ECEA
+ for <dri-devel@freedesktop.org>; Thu, 20 Feb 2020 08:12:36 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1582186356; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=i+t2cEc4TpYTUmqn4gGiieRNuDS6TI54tYK32tMiCPE=;
+ b=dcFb/5SFiGiGAebYwbHLgEYx1TJaUS22FqR1/H8u5t1QWRFSkKshlsCdz+DICo4mVd3LpTqe
+ GHKjdpPRMHsegvqojhGzkNkQEEX76gh6Ru+Ay/bDBj434P2TSy3pBcv/dg7h0ksu/npHNvR0
+ 0HYtWHT5oe6A9TQTrj/79NgoOss=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e4e3f73.7f5b24b9f340-smtp-out-n03;
+ Thu, 20 Feb 2020 08:12:35 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1C8D4C433A2; Thu, 20 Feb 2020 08:12:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from smasetty-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: smasetty)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4179BC43383;
+ Thu, 20 Feb 2020 08:12:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4179BC43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=smasetty@codeaurora.org
+From: Sharat Masetty <smasetty@codeaurora.org>
+To: freedreno@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] Update arm,smmu.yaml bindings doc
+Date: Thu, 20 Feb 2020 13:42:21 +0530
+Message-Id: <1582186342-3484-1-git-send-email-smasetty@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,30 +63,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: dianders@chromium.org, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
+ bjorn.andersson@linaro.org, mka@chromium.org, dri-devel@freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Alex Deucher (2020-02-20 02:52:32)
-> On Wed, Feb 19, 2020 at 7:42 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > Hello!
-> >
-> > A box with GCC 4.8.3 compiler didn't like drm_dp_mst_topology.c.  The
-> > following (lightly tested) patch makes it happy and seems OK for newer
-> > compilers as well.
-> >
-> > Is this of interest?
-> 
-> How about a memset instead?  That should be consistent across compilers.
+Patch [1] adds a "mem_iface_clock" in the clocks list for smmu device.
+This patch updates the yaml doc file for smmu by adding the definition
+for this new clock.
 
-The kernel has adopted the gccism: struct drm_dp_desc desc = {};
-git grep '= {}' | wc -l: 2046
-git grep '= { }' | wc -l: 694
--Chris
+1: https://patchwork.freedesktop.org/patch/352718/
+
+Sharat Masetty (1):
+  dt-bindings: arm-smmu: update clocks and bindings for sc7180 SoC
+
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
+
+--
+1.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
