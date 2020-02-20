@@ -1,33 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F7D165C91
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 12:14:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E84FF165C9F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 12:20:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2FC6ED2E;
-	Thu, 20 Feb 2020 11:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3176E8C0;
+	Thu, 20 Feb 2020 11:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD26E6ED26;
- Thu, 20 Feb 2020 11:14:54 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2020 03:14:54 -0800
-X-IronPort-AV: E=Sophos;i="5.70,464,1574150400"; d="scan'208";a="224831717"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2020 03:14:49 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 20 Feb 2020 13:14:46 +0200
-Message-ID: <87y2sxtsrd.fsf@intel.com>
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56A346E8C0;
+ Thu, 20 Feb 2020 11:20:17 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id 7so2397692vsr.10;
+ Thu, 20 Feb 2020 03:20:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=swab1ZDqFn3orZ1qK4MWOi3W0t7vuqtBo3QjNvIfb80=;
+ b=uNhSdcIA1CjnLH8xBTqjdwF/jnXAzBCcrn/2n+FuUptwqWikAGsHoTHfktHYUHrH2S
+ lk9ur7812XQwZH9K2NR3dG0810SHTuteOpi13CQPphtIQIlF2RhqEspaz9lpFudRgRgX
+ LAa7Z6iriNSYj5v8zskR0AU2mxHVlTB6ec86IkBTccgCM+0+xa9UcdbNGTS1cr+yn9lr
+ XwmTVBEwSA92PguS78c65kRDWXBukItHGfuoGIMg3YdQcGD6v4J6eWrw9Ml6FvwPRBLO
+ 7iPe5GZpznFJktwPYr5MpAUhnDHRQFJ95nSGGZT6u3qMqluiOJEoqujBBI3Cu+TLf+H3
+ LHBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=swab1ZDqFn3orZ1qK4MWOi3W0t7vuqtBo3QjNvIfb80=;
+ b=JbV0ypfEEtXzsTy2Wlv7yXxZe730/hU4Yiw9Q4QH2oOO3lBhP/L/IrPojMvMP5Zyfn
+ NgL2w26ndCHxfafFBp8Za6V4djKwM4qMqWmsi5zh2MyNjCegn3TfP3aHOzdP2hLbod9r
+ y2ANm8uVVKQiSHIpvGq5+L1rxztXPpvrilH2Egjbtx+cjUxvfeyh0z+DZg5BLtodZ3xP
+ AJXBtUdcYGQ4N5QDmiPxAVBtGIgjdU4FMTpQ43QfFuGUDpqHXPxpROzJAjlM1mJhv+bo
+ osJagsmi8f7aRztmNnveYQORR86JVrCYoVSlupuBtsM2AoEEB4Yjr7bkr7HPSlUs9fcz
+ PvRA==
+X-Gm-Message-State: APjAAAXHiqTknh/D4o1siXEJqAT650WPIKi9tyn1UXG6OmuN/JE9Fv3k
+ fkNSfevUtFMaJv3IZi7LPWfGlCWWdYh3wn9lVtPUDW9k
+X-Google-Smtp-Source: APXvYqzWK6Yu7CHHAmXyNXFloJxWFjfldTbZwdsKmROBCHRg29O3/IxOID6wzhpqS22idYeSIw56yRZW9ZLnv6ZLgvU=
+X-Received: by 2002:a05:6102:7a4:: with SMTP id
+ x4mr16019947vsg.85.1582197616477; 
+ Thu, 20 Feb 2020 03:20:16 -0800 (PST)
 MIME-Version: 1.0
+References: <20191107151725.10507-1-ville.syrjala@linux.intel.com>
+ <20191107151725.10507-5-ville.syrjala@linux.intel.com>
+In-Reply-To: <20191107151725.10507-5-ville.syrjala@linux.intel.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Thu, 20 Feb 2020 11:20:05 +0000
+Message-ID: <CACvgo53oWVf2=DGCopMrk0kjqZ+5ULXApEfj99xWZxD8vSUyMA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 04/12] drm/i915: Add i9xx_lut_8()
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,108 +63,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi Dave & Daniel -
-
-Due to issues in s2idle in v5.6-rc2, I've gotten CI results on these
-with two hack reverts on top, and I threw them out just before making
-the pull request. I had to revert:
-
-fdde0ff8590b ("ACPI: PM: s2idle: Prevent spurious SCIs from waking up the system")
-e3728b50cd9b ("ACPI: PM: s2idle: Avoid possible race related to the EC GPE")
-
-I've been told the issues have been reported, hopefully we'll get the
-fixes in Linus' upstream soon too.
-
-drm-intel-fixes-2020-02-20:
-drm/i915 fixes for v5.6-rc3:
-- Workaround missing Display Stream Compression (DSC) state readout by
-  forcing modeset when its enabled at probe
-- Fix EHL port clock voltage level requirements
-- Fix queuing retire workers on the virtual engine
-- Fix use of partially initialized waiters
-- Stop using drm_pci_alloc/drm_pci/free
-- Fix rewind of RING_TAIL by forcing a context reload
-- Fix locking on resetting ring->head
-- Propagate our bug filing URL change to stable kernels
-
-BR,
-Jani.
-
-The following changes since commit 11a48a5a18c63fd7621bb050228cebf13566e4d8:
-
-  Linux 5.6-rc2 (2020-02-16 13:16:59 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2020-02-20
-
-for you to fetch changes up to 15de9cb5c9c83a23be92b8f7a1178cead1486587:
-
-  drm/i915/gt: Avoid resetting ring->head outside of its timeline mutex (2020-02-18 09:53:18 +0200)
-
-----------------------------------------------------------------
-drm/i915 fixes for v5.6-rc3:
-- Workaround missing Display Stream Compression (DSC) state readout by
-  forcing modeset when its enabled at probe
-- Fix EHL port clock voltage level requirements
-- Fix queuing retire workers on the virtual engine
-- Fix use of partially initialized waiters
-- Stop using drm_pci_alloc/drm_pci/free
-- Fix rewind of RING_TAIL by forcing a context reload
-- Fix locking on resetting ring->head
-- Propagate our bug filing URL change to stable kernels
-
-----------------------------------------------------------------
-Chris Wilson (7):
-      drm/i915/gem: Require per-engine reset support for non-persistent contexts
-      drm/i915: Initialise basic fence before acquiring seqno
-      drm/i915/gt: Prevent queuing retire workers on the virtual engine
-      drm/i915/gt: Protect defer_request() from new waiters
-      drm/i915: Wean off drm_pci_alloc/drm_pci_free
-      drm/i915/execlists: Always force a context reload when rewinding RING_TAIL
-      drm/i915/gt: Avoid resetting ring->head outside of its timeline mutex
-
-Jani Nikula (3):
-      MAINTAINERS: Update drm/i915 bug filing URL
-      drm/i915: Update drm/i915 bug filing URL
-      drm/i915/dsc: force full modeset whenever DSC is enabled at probe
-
-Matt Roper (1):
-      drm/i915/ehl: Update port clock voltage level requirements
-
- MAINTAINERS                                      |  2 +-
- drivers/gpu/drm/i915/Kconfig                     |  5 +-
- drivers/gpu/drm/i915/display/intel_ddi.c         |  4 +-
- drivers/gpu/drm/i915/display/intel_display.c     | 20 ++++-
- drivers/gpu/drm/i915/gem/i915_gem_context.c      | 16 ++++
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h |  3 -
- drivers/gpu/drm/i915/gem/i915_gem_phys.c         | 98 ++++++++++++------------
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c      |  3 +
- drivers/gpu/drm/i915/gt/intel_gt_requests.c      |  3 +
- drivers/gpu/drm/i915/gt/intel_lrc.c              | 61 +++++++--------
- drivers/gpu/drm/i915/gt/intel_ring.c             |  1 +
- drivers/gpu/drm/i915/gt/intel_ring.h             |  8 ++
- drivers/gpu/drm/i915/gt/intel_ring_types.h       |  7 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c           |  2 +-
- drivers/gpu/drm/i915/i915_gem.c                  |  8 +-
- drivers/gpu/drm/i915/i915_gpu_error.c            |  3 +-
- drivers/gpu/drm/i915/i915_request.c              | 21 +++--
- drivers/gpu/drm/i915/i915_scheduler.c            |  6 +-
- drivers/gpu/drm/i915/i915_utils.c                |  5 +-
- 19 files changed, 168 insertions(+), 108 deletions(-)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCA3IE5vdiAyMDE5IGF0IDE1OjE3LCBWaWxsZSBTeXJqYWxhCjx2aWxsZS5zeXJqYWxh
+QGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4KPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxl
+LnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Cj4gV2UgaGF2ZSBhIG5pY2UgbGl0dGxlIGhlbHBl
+ciB0byBjb21wdXRlIGEgc2luZ2xlIExVVCBlbnRyeQo+IGZvciBldmVyeXRoaW5nIGV4Y2VwdCB0
+aGUgOGJwYyBsZWdhY3kgZ2FtbWEgbW9kZS4gTGV0J3MKPiBjb21wbGV0ZSB0aGUgc2V0Lgo+CkF0
+IGEgbGF0ZXIgc3RhZ2Ugb25lIGNvdWxkIHJlbmFtZSB0aGlzICYgdGhlIDEwYml0IG9uZSwgbW92
+aW5nIHRoZW0gdG8KaW5jbHVkZS9kcm0vLgpUaGVyZSBhcmUgb3RoZXIgZHJpdmVycyBkb2luZyB0
+aGUgc2FtZSB0aGluZy4uLiBub3Qgc3VyZSBpZiB0aGF0J3MKd29ydGggaXQgdGhvdWdoLgoKUmV2
+aWV3ZWQtYnk6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+CgotRW1p
+bApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
