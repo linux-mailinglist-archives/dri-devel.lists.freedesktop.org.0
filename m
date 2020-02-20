@@ -2,71 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0E9165F9A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 15:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F62D165FB3
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Feb 2020 15:28:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E79146ED9F;
-	Thu, 20 Feb 2020 14:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91C776EDA3;
+	Thu, 20 Feb 2020 14:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63F2C6ED9F;
- Thu, 20 Feb 2020 14:19:12 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01KECeAT007106; Thu, 20 Feb 2020 15:19:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=QlUGZTuoMUc1dwxoiAQCd8zB3lydhgaADIc3eS00b2c=;
- b=P7zQBCq3dQOJ00O+HCLfz3PkPBCWwNSUBlVlmmXq8yRe1tiDAxqX6+JMul47IWrpwNy/
- z6bFwUw/hdl4DqdDjFWShaV9ZBo330+QoWpSTWXll3zPPsQwUIln1jJiPCb9/sGQ/7GZ
- EUFOhilZrORiWSHmahVpjW97+bE2crtb36sobXrDmA25ucnkHz5+j2wHEvGW/kkyNx5e
- aNXRuA0oiACwZl8rGhfCZwL7AXMWIsDz/YldS8RBXsMOxjWOQVjjI3/uAwrBY+ndjNCa
- lmIm2XVF1u+9ZybQy/+/hCO3gyAQ+8hajeM+kIHDLXsPiBIUKCPHdyVHlvIDa+aFkcFx 6g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 2y8ub5shpu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Feb 2020 15:19:04 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A2E7D100034;
- Thu, 20 Feb 2020 15:18:58 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6DC342B973E;
- Thu, 20 Feb 2020 15:18:58 +0100 (CET)
-Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG3NODE1.st.com
- (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Feb
- 2020 15:18:58 +0100
-Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
- SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
- 15.00.1473.003; Thu, 20 Feb 2020 15:18:57 +0100
-From: Philippe CORNU <philippe.cornu@st.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 39/52] drm/stm: Drop explicit drm_mode_config_cleanup call
-Thread-Topic: [PATCH 39/52] drm/stm: Drop explicit drm_mode_config_cleanup call
-Thread-Index: AQHV5w53JBGcuh+ck0uFR4jzroqrEKgkEnuA
-Date: Thu, 20 Feb 2020 14:18:57 +0000
-Message-ID: <30ed80c9-8b18-8e23-a26b-2c406d43c90d@st.com>
-References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-40-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200219102122.1607365-40-daniel.vetter@ffwll.ch>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.47]
-Content-ID: <8C828A7F0F981D489FD421A3FF938F65@st.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E53E6EDA3;
+ Thu, 20 Feb 2020 14:28:03 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2020 06:28:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,464,1574150400"; d="scan'208";a="349178297"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga001.fm.intel.com with SMTP; 20 Feb 2020 06:28:00 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 20 Feb 2020 16:27:59 +0200
+Date: Thu, 20 Feb 2020 16:27:59 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 00/12] drm: Put drm_display_mode on diet
+Message-ID: <20200220142759.GA13686@intel.com>
+References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
+ <CACvgo50pCb4OafEs9tLm7YEPqHc+BtDAvagRnwjXtZeQDNwUwg@mail.gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-20_04:2020-02-19,
- 2020-02-20 signatures=0
+Content-Disposition: inline
+In-Reply-To: <CACvgo50pCb4OafEs9tLm7YEPqHc+BtDAvagRnwjXtZeQDNwUwg@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,90 +49,108 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Yannick FERTRE <yannick.fertre@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Daniel
- Vetter <daniel.vetter@intel.com>, Vincent ABRIOU <vincent.abriou@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Alexandre TORGUE <alexandre.torgue@st.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Thu, Feb 20, 2020 at 01:21:03PM +0000, Emil Velikov wrote:
+> On Wed, 19 Feb 2020 at 20:35, Ville Syrjala
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> >
+> > struct drm_display_mode is extremely fat. Put it on diet.
+> >
+> > Some stats for the whole series:
+> >
+> > 64bit sizeof(struct drm_display_mode):
+> > 200 -> 136 bytes (-32%)
+> >
+> > 64bit bloat-o-meter -c drm.ko:
+> > add/remove: 1/0 grow/shrink: 29/47 up/down: 893/-1544 (-651)
+> > Function                                     old     new   delta
+> > ...
+> > Total: Before=3D189430, After=3D188779, chg -0.34%
+> > add/remove: 0/0 grow/shrink: 0/0 up/down: 0/0 (0)
+> > Data                                         old     new   delta
+> > Total: Before=3D11667, After=3D11667, chg +0.00%
+> > add/remove: 0/0 grow/shrink: 0/5 up/down: 0/-16896 (-16896)
+> > RO Data                                      old     new   delta
+> > edid_4k_modes                               1000     680    -320
+> > edid_est_modes                              3400    2312   -1088
+> > edid_cea_modes_193                          5400    3672   -1728
+> > drm_dmt_modes                              17600   11968   -5632
+> > edid_cea_modes_1                           25400   17272   -8128
+> > Total: Before=3D71239, After=3D54343, chg -23.72%
+> >
+> >
+> > 64bit bloat-o-meter drm.ko:
+> > add/remove: 1/0 grow/shrink: 29/52 up/down: 893/-18440 (-17547)
+> > ...
+> > Total: Before=3D272336, After=3D254789, chg -6.44%
+> >
+> >
+> > 32bit sizeof(struct drm_display_mode):
+> > 184 -> 120 bytes (-34%)
+> >
+> > 32bit bloat-o-meter -c drm.ko
+> > add/remove: 1/0 grow/shrink: 19/21 up/down: 743/-1368 (-625)
+> > Function                                     old     new   delta
+> > ...
+> > Total: Before=3D172359, After=3D171734, chg -0.36%
+> > add/remove: 0/0 grow/shrink: 0/0 up/down: 0/0 (0)
+> > Data                                         old     new   delta
+> > Total: Before=3D4227, After=3D4227, chg +0.00%
+> > add/remove: 0/0 grow/shrink: 0/5 up/down: 0/-16896 (-16896)
+> > RO Data                                      old     new   delta
+> > edid_4k_modes                                920     600    -320
+> > edid_est_modes                              3128    2040   -1088
+> > edid_cea_modes_193                          4968    3240   -1728
+> > drm_dmt_modes                              16192   10560   -5632
+> > edid_cea_modes_1                           23368   15240   -8128
+> > Total: Before=3D59230, After=3D42334, chg -28.53%
+> >
+> > 32bit bloat-o-meter drm.ko:
+> > add/remove: 1/0 grow/shrink: 19/26 up/down: 743/-18264 (-17521)
+> > ...
+> > Total: Before=3D235816, After=3D218295, chg -7.43%
+> >
+> >
+> > Some ideas for further reduction:
+> > - Convert mode->name to a pointer (saves 24/28 bytes in the
+> >   struct but would often require a heap alloc for the name (though
+> >   typical mode name is <10 bytes so still overall win perhaps)
+> > - Get rid of mode->name entirely? I guess setcrtc & co. is the only
+> >   place where we have to preserve the user provided name, elsewhere
+> >   could pehaps just generate on demand? Not sure how tricky this
+> >   would get.
+> =
 
-On 2/19/20 11:21 AM, Daniel Vetter wrote:
-> It's right above the drm_dev_put().
-> 
-> Aside: Another driver with a bit much devm_kzalloc, which should
-> probably use drmm_kzalloc instead ...
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Yannick Fertre <yannick.fertre@st.com>
-> Cc: Philippe Cornu <philippe.cornu@st.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Vincent Abriou <vincent.abriou@st.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@st.com>
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->   drivers/gpu/drm/stm/drv.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-> index ea9fcbdc68b3..5b374531dd8c 100644
-> --- a/drivers/gpu/drm/stm/drv.c
-> +++ b/drivers/gpu/drm/stm/drv.c
-> @@ -88,7 +88,9 @@ static int drv_load(struct drm_device *ddev)
->   
->   	ddev->dev_private = (void *)ldev;
->   
-> -	drm_mode_config_init(ddev);
-> +	ret = drm_mode_config_init(ddev);
-> +	if (ret)
-> +		return ret;
->   
->   	/*
->   	 * set max width and height as default value.
-> @@ -103,7 +105,7 @@ static int drv_load(struct drm_device *ddev)
->   
->   	ret = ltdc_load(ddev);
->   	if (ret)
-> -		goto err;
-> +		return ret;
->   
->   	drm_mode_config_reset(ddev);
->   	drm_kms_helper_poll_init(ddev);
-> @@ -111,9 +113,6 @@ static int drv_load(struct drm_device *ddev)
->   	platform_set_drvdata(pdev, ddev);
->   
->   	return 0;
-> -err:
-> -	drm_mode_config_cleanup(ddev);
-> -	return ret;
->   }
->   
->   static void drv_unload(struct drm_device *ddev)
-> @@ -122,7 +121,6 @@ static void drv_unload(struct drm_device *ddev)
->   
->   	drm_kms_helper_poll_fini(ddev);
->   	ltdc_unload(ddev);
-> -	drm_mode_config_cleanup(ddev);
->   }
->   
->   static __maybe_unused int drv_suspend(struct device *dev)
-> 
+> The series does some great work, with future work reaching the cache
+> line for 64bit.
+> Doing much more than that might be an overkill IMHO.
+> =
 
-Thank you for your patch,
-For this stm part,
-Acked-by: Philippe Cornu <philippe.cornu@st.com>
+> In particular, if we change DRM_DISPLAY_MODE_LEN to 24 we get there,
+> avoiding the heap alloc/calc on demand fun.
+> While also ensuring the name is sufficiently large for the next decade or=
+ so.
 
-note: we will handle devm_kzalloc() asap, thanks.
+Unfortunately it's part of the uabi. So can't change it without some
+risk of userspace breakage.
 
-Philippe :-)
+The least demanding option is probably to nuke export_head. We need
+one bit to replace it, which we can get by either:
+- stealing from eg. mode->type, or perhaps mode->private_flags
+- nuke private_flags outright and replace it with a bool for this
+  purpose
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
