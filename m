@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6079D168077
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 15:39:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7204D168087
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 15:43:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798096F460;
-	Fri, 21 Feb 2020 14:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23AE76F461;
+	Fri, 21 Feb 2020 14:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB7E96F460
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 14:39:39 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 2D5D6AD61;
- Fri, 21 Feb 2020 14:39:37 +0000 (UTC)
-Subject: Re: [RESEND2][PATCH] drm/bridge: analogix-anx6345: Fix drm_dp_link
- helper removal
-To: Torsten Duwe <duwe@lst.de>, Vasily Khoruzhick <anarsoul@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <treding@nvidia.com>
-References: <20200221140455.8713068BFE@verein.lst.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <b30435c7-95c5-e21e-ea05-cd3ada20d150@suse.de>
-Date: Fri, 21 Feb 2020 15:39:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CED36F461
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 14:43:08 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id r137so1779469oie.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 06:43:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZHMsAfOo1o7x5MRiVUZtkpLZaK6MTsqL/9lr+DEhsvI=;
+ b=el2f/KTFxe961EaU2kuYAfcxZYg8Q8Yer6ZUKMeEQ334xEa455bgaG1jBPKU/DaAR4
+ DXBGkyOJhWwq6CJPsDCpwCZJu+kd8/+NyooPhFPtPuOLMdRhumTJufjMfkZXXib7tY04
+ BV73sF/LO1c3AQAAGc0w4Zwhkkxt/LbOqmnR0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZHMsAfOo1o7x5MRiVUZtkpLZaK6MTsqL/9lr+DEhsvI=;
+ b=KcVYjXWVVBxN3WaMaWQnpu5UdRVmdqTk4rzS7ZuB1k1F1Z+s1NiiIE33u+dtcuOWP6
+ rw7Lfx6hzd1T4GywO9bHPPnV4JdC88G+yyPPo6aAVN5kifCX5hIc6Lcy+r/U7pIAo0Gc
+ rnIy9hTp6ngmYOWz3xdVRPPzTWnGTkb2owtw+/+LEutwzUjJUHAenjDGEwf5YoUg9ft7
+ Jfc/ITOPffdSYeo5LiifkOKnZiLmMxUcmcf9urrzLJH+v7hNlXisoSZHekixgafiOngJ
+ tkJzjc0QmVIJdMxnuY6pyDSwCr1+caFvn7kbi4vTT0afZ2e9spyMBXX69B/ciw1Vqu2W
+ KiyA==
+X-Gm-Message-State: APjAAAVJNRENcOT7w8xsxuCnHck9mcV3ycNdcRULjkSnwQMSK8pn+a70
+ 6Wf/zJLw5/7GjZtEiXMPYk3MilVqz3SSq/aFH9GLWw==
+X-Google-Smtp-Source: APXvYqymizZi/dUeDqlmrxb0W9cAlTvQs99yiTAoVGBCbSaprG7a4bC37p7cPO5B6hlFV71sQELkzqLrJbCMi2ds08I=
+X-Received: by 2002:aca:af09:: with SMTP id y9mr2147634oie.101.1582296187526; 
+ Fri, 21 Feb 2020 06:43:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200221140455.8713068BFE@verein.lst.de>
+References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
+ <CACvgo50pCb4OafEs9tLm7YEPqHc+BtDAvagRnwjXtZeQDNwUwg@mail.gmail.com>
+ <20200220142759.GA13686@intel.com> <20200220153426.GC13686@intel.com>
+ <871rqoyy42.fsf@intel.com> <20200221114309.GM13686@intel.com>
+In-Reply-To: <20200221114309.GM13686@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 21 Feb 2020 15:42:56 +0100
+Message-ID: <CAKMK7uGTpEHuBA09FuUA5ihPLtw7s+6=YBfQ2A4i=8Q-4SsRjA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 00/12] drm: Put drm_display_mode on diet
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,153 +61,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maxime Ripard <maxime@cerno.tech>
-Content-Type: multipart/mixed; boundary="===============0294892705=="
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0294892705==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="iNL8dBvkdSfxzpFwLTSyJG72RlD3VPuZF"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iNL8dBvkdSfxzpFwLTSyJG72RlD3VPuZF
-Content-Type: multipart/mixed; boundary="j0E8z9krGoeKb5OwbMm0uVkVcgF5buyIV";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Torsten Duwe <duwe@lst.de>, Vasily Khoruzhick <anarsoul@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <treding@nvidia.com>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman
- <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maxime Ripard <maxime@cerno.tech>
-Message-ID: <b30435c7-95c5-e21e-ea05-cd3ada20d150@suse.de>
-Subject: Re: [RESEND2][PATCH] drm/bridge: analogix-anx6345: Fix drm_dp_link
- helper removal
-References: <20200221140455.8713068BFE@verein.lst.de>
-In-Reply-To: <20200221140455.8713068BFE@verein.lst.de>
-
---j0E8z9krGoeKb5OwbMm0uVkVcgF5buyIV
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Torsten
-
-Am 21.02.20 um 15:04 schrieb Torsten Duwe:
-> drm_dp_link_rate_to_bw_code and ...bw_code_to_link_rate simply divide b=
-y
-> and multiply with 27000, respectively. Avoid an overflow in the u8 dpcd=
-[0]
-> and the multiply+divide alltogether.
->=20
-> fixes: e1cff82c1097bda2478 ("fix anx6345 compilation for v5.5")
-
-You have to create the fixes tag and related cc tags with 'dim fixes',
-available at [1]. For this patch, the output is
-
-Fixes: e1cff82c1097 ("drm/bridge: fix anx6345 compilation for v5.5")
-Cc: Torsten Duwe <duwe@suse.de>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Torsten Duwe <duwe@lst.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Icenowy Zheng <icenowy@aosc.io>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-
-> Signed-off-by: Torsten Duwe <duwe@suse.de>
-
-You signed off with your SUSE email address, but sent the mail from
-lst.de. I don't know if it's strictly not allowed, but that's at least
-confusing to the tools.
-
-Best regards
-Thomas
-
-[1] https://gitlab.freedesktop.org/drm/maintainer-tools/
-
-> ---
-> https://patchwork.freedesktop.org/patch/343004/
-> https://lists.freedesktop.org/archives/dri-devel/2020-January/253535.ht=
-ml
->=20
-> Can someone please review this? It's equivalent to commit
-> 3e138a63d6674a4567a018a31 which just made it into drm-tip.
->=20
-> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> @@ -210,10 +210,9 @@ static int anx6345_dp_link_training(struct anx6345=
- *anx6345)
->  	if (err)
->  		return err;
-> =20
-> -	dpcd[0] =3D drm_dp_max_link_rate(anx6345->dpcd);
-> -	dpcd[0] =3D drm_dp_link_rate_to_bw_code(dpcd[0]);
->  	err =3D regmap_write(anx6345->map[I2C_IDX_DPTX],
-> -			   SP_DP_MAIN_LINK_BW_SET_REG, dpcd[0]);
-> +			   SP_DP_MAIN_LINK_BW_SET_REG,
-> +			   anx6345->dpcd[DP_MAX_LINK_RATE]);
->  	if (err)
->  		return err;
-> =20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---j0E8z9krGoeKb5OwbMm0uVkVcgF5buyIV--
-
---iNL8dBvkdSfxzpFwLTSyJG72RlD3VPuZF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5P66QACgkQaA3BHVML
-eiMJJgf/Q4Q71uHAIhlTLKYMa70/rddH1fptpa8TRjfq5TXpLQLXwQieUEior3nu
-xUA6pVai/8rbiHOOjsdGjgqGW5KBHxL6v5B+Rri4vULVmOnV1/KK7XxuLgTCaIra
-n3ygHgI5fovbu9vcZUuxHLh267XOQqPO8/ad88PIcvvu9SI2dRgySwE+vxraLDK5
-TxmEAwvDcchriSTCJMLKYXDqvZbhYMGjbWt1JceJ0h3w7xBHOuqtyvrZyToborWE
-p1vdTyC+wHwy5Htil4dIGGHW9Jymmta/2ZaI7hudWMJ5sfQSbzN6vFiDiugE6Gle
-WOJSsznZ8sMwPFb+hmqs4lPcPYxlyg==
-=Qr+b
------END PGP SIGNATURE-----
-
---iNL8dBvkdSfxzpFwLTSyJG72RlD3VPuZF--
-
---===============0294892705==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0294892705==--
+T24gRnJpLCBGZWIgMjEsIDIwMjAgYXQgMTI6NDMgUE0gVmlsbGUgU3lyasOkbMOkCjx2aWxsZS5z
+eXJqYWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4KPiBPbiBGcmksIEZlYiAyMSwgMjAyMCBh
+dCAwMTozMjoyOVBNICswMjAwLCBKYW5pIE5pa3VsYSB3cm90ZToKPiA+IE9uIFRodSwgMjAgRmVi
+IDIwMjAsIFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+IHdy
+b3RlOgo+ID4gPiBMb29rcyBsaWtlIGdldHRpbmcgcmlkIG9mIHByaXZhdGVfZmxhZ3MgaXMgZ29p
+bmcgdG8gYmUgcHJldHR5Cj4gPiA+IHN0cmFpZ2h0Zm9yd2FyZC4gSSdsbCBwb3N0IHBhdGNoZXMg
+Zm9yIHRoYXQgb25jZSB0aGlzIGZpcnN0IHNlcmllcwo+ID4gPiBsYW5kcy4KPiA+Cj4gPiBHb2lu
+ZyBhbGwgaW4gb24gY3J0YyBzdGF0ZT8gSSBzdXBwb3NlIG1pZ3JhdGluZyBhd2F5IGZyb20gcHJp
+dmF0ZV9mbGFncwo+ID4gY291bGQgZWFzaWx5IHN0YXJ0IGluIGk5MTUgYmVmb3JlIHRoYXQuIFNl
+ZW1zIHJhdGhlciBpbmRlcGVuZGVudC4KPiA+Cj4gPiBJIGd1ZXNzIGl0J3MgX19pbnRlbF9nZXRf
+Y3J0Y19zY2FubGluZSgpIGFuZDoKPiA+Cj4gPiAgICAgICB2YmxhbmsgPSAmY3J0Yy0+YmFzZS5k
+ZXYtPnZibGFua1tkcm1fY3J0Y19pbmRleCgmY3J0Yy0+YmFzZSldOwo+ID4gICAgICAgbW9kZSA9
+ICZ2YmxhbmstPmh3bW9kZTsKPiA+Cj4gPiAgICAgICBpZiAobW9kZS0+cHJpdmF0ZV9mbGFncyAm
+IEk5MTVfTU9ERV9GTEFHX0dFVF9TQ0FOTElORV9GUk9NX1RJTUVTVEFNUCkKPiA+Cj4gPiB0aGF0
+IGdpdmVzIG1lIHRoZSBjcmVlcHMgaW4gcmV2aWV3aW5nIGFsbCB0aGF0Lgo+ID4KPiA+IFRoZXJl
+J3MgYWxzbyBbMV0gYWRkaW5nIG5ldyB1c2VzIGZvciBwcml2YXRlX2ZsYWdzOyBJIHRoaW5rIHRo
+ZXJlIHdlcmUKPiA+IGlzc3VlcyBpbiBnZXR0aW5nIGF0IHRoZSByaWdodCBjcnRjIHN0YXRlIG9u
+IHNvbWUgb2YgdGhvc2UgcGF0aHMsIGJ1dCBJCj4gPiBmb3JnZXQgdGhlIGV4YWN0IGRldGFpbHMu
+IElkZWFzPwo+Cj4gSSdtIGp1c3QgZ29pbmcgdG8gbW92ZSB0aGVtIHRvIHRoZSBjcnRjX3N0YXRl
+IGFuZCBwdXQgYSBjb3B5IGludG8gdGhlCj4gY3J0YyBpdHNlbGYgZm9yIHRoZSB2YmxhbmsgY29k
+ZS4gUHJldHR5IG11Y2ggYSAxOjEgcmVwbGFjZW1lbnQuCj4gU2F2ZXMgbWUgZnJvbSBoYXZpbmcg
+dG8gdGhpbmsgOykKCkkndmUgbG9va2VkIHRocm91Z2ggdGhlIHBhdGNoZXMsIGFuZCBkaWRuJ3Qg
+c3BvdCBhbnkgcGxhY2Ugd2hlcmUgd2UKY291bGRuJ3QganVzdCBnZXQgYXQgdGhlIGZ1bGwgY3J0
+YyBzdGF0ZS4gTWlnaHQgbmVlZCBzb21lIGNydGMtPnN0YXRlCmRlcmVmZXJlbmNpbmcgYW5kIHVw
+Y2FzdGluZyBhbmQgbWFraW5nIHN1cmUgc3R1ZmYgaXMgb3JkZXJlZCBjb3JyZWN0bHkKd2l0aCBl
+bmFibGUvZGlzYWJsZSBwYXRocyBvZiBjcnRjLCBidXQgbm90aGluZyB0byBqdW1wIG92ZXIuCgpX
+YXMgdGhpcyBtYXliZSBwcmVkYXRpbmcgdGhlIHN3aXRjaCBvZiB0aGUgdmJsYW5rIGNhbGxiYWNr
+cyBvdmVyIGZyb20KZHJtX2RyaXZlciB0byBkcm1fY3J0Y19mdW5jcywgYW5kIGluIHRoZSBmb3Jt
+ZXIgaXQncyBpbmRlZWQgbm90CnN1cGVyLW9idmlvdXMgdGhhdCB5b3UgY2FuIGp1c3QgbG9vayBh
+dCB0aGUgY3J0Yz8gQW55d2F5LCBkaWRuJ3QgbG9vawpsaWtlIGl0IG5lZWRzIHByaXZhdGUgZmxh
+Z3MgYXQgYWxsIGZyb20gYSBxdWljayBzY2FuLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNv
+ZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAt
+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
