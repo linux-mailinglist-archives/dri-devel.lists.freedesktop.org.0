@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA79166AB3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 00:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA7A166B75
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 01:20:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF5F06E0CF;
-	Thu, 20 Feb 2020 23:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 659666EE89;
+	Fri, 21 Feb 2020 00:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E87DD6E0CF
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 23:03:12 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id b15so124966iln.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 15:03:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 896A36E1A8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 00:19:59 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id l136so312362oig.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 16:19:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JxVlzNJVkCyeMSQKW9npW1RB3SKjuELrNiHYWTlDZDg=;
- b=EsYReQDpvGun4xFsx5A4ahEFsbqsSHgQ5iFq0VbG41xAMq775UfN0JmHV3mEEMptIT
- yOmKqK3Y9aL6QnmrQpqGiOQINGg00W8V9+M74bBx1F4c94K+RHTaLpwBC4fN4M9RBwB9
- lLCtGUEvK/A3JqOLUsR7jNLpegvTu3lXlAF9Bg3jpwuTr2bJ98qv2RZqMTEUYGwXtB9a
- SFmQla2O//M8H7GGj90k1QD6eyKNxjbR20J0KQve5ySKe2zJgCGtxzF6OISytnNZskAj
- rAawV/UwJGm6+ocKOwsCGed+MsWGFrEYOPKfwdXmNxIFSEOEe3UMi0poSWl7y0O9+vh5
- u7Iw==
+ :cc; bh=IHr5qo3B7v5uxs0wZA0fZW6J9zqGy3IdsKd+NBLqxdQ=;
+ b=Hz3Wvel0TrnLWu2KOGBLM37xIzOel8u9Z3LL3LKWhQ5uDvm2hmCI+8lAaq9dDcnzK0
+ mmF29yC6bk6kCEp7Rp8Xphv7SaNuWSCpytm5t0gbTsUTgWYqT1kGf0Uk4snguMx7ktEB
+ CUaU4UXvlG8DiQPZ0fLoxZ7q8pzZGa6twCkjkNgfUTBep5MTIzKNPNNZmjXvVmIuajDT
+ x1oGn/KBMPVd010kg/4IBE9Z7pYnop4ImXcsjGIsjF1rqOEZh0XzY3XCKZGRIyEUPwgM
+ dnOCLimGwLQYnIXwqYXRG3zAdpZoXpkT5LDSWOlqz/mbvst5M1heaxiNSpmi3QJ6N3pL
+ qeqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JxVlzNJVkCyeMSQKW9npW1RB3SKjuELrNiHYWTlDZDg=;
- b=YuWBLxmZym3msK7/XabqZC5mf6c8gVEnk6DmTdItzQNGmnX7TY+54csQE9cCxE6VHh
- Vam91N3DjQOmQDzTMy42NrXaf2jMgLoKoCQWbxmeUo88L752Mm/xPNlC0HFNopBcBndL
- EutipP/NC52mnUc8/ZVX2ZxzueqATBwhG2TLYuUC0auVnMv9FvEnXGeHVSzkxWMFsnCW
- QPtFRWyJhXLsFZBj8gSMHwZEcgFkrg1uoT5ZLqYwtxb3T0CJBXHQ3tbdaNpQYycV7pRw
- tFXmYosjWP0rMl0Mk8IitX/n+L0VLWs8E0tfZ/OregY9YpSgcFfBa2urQ9UDIbsoJjXZ
- xXrg==
-X-Gm-Message-State: APjAAAVj1ya0fwZChJYVDl4OPSUNR7LLziTBoGpG96p+tlqAxZawiMVu
- JilAC8AVGscw1UExAes3QkgB6iXkt2qh9jWltqE=
-X-Google-Smtp-Source: APXvYqzMPuAyNzktcWJra0GFFiZ/suQa3sAPE5wWwOYoVSw9+0TKoBSYPnfllb1LgSXfE2iL0PIQJT28OjARNfuHvQc=
-X-Received: by 2002:a92:4a0a:: with SMTP id m10mr32718868ilf.84.1582239792221; 
- Thu, 20 Feb 2020 15:03:12 -0800 (PST)
+ bh=IHr5qo3B7v5uxs0wZA0fZW6J9zqGy3IdsKd+NBLqxdQ=;
+ b=XRAPFxTGAxcFilmZ4tS7LCavbGdgHIn8v6cs2gSmRqX2SBQySBIRLU65ww/+Fu+n0e
+ U049RbYEpiHhZj3IoS/FqIxsaPjY13u6AY8Fjy8mshcYmItQtXTPDVsgUjW2JXKk1+rq
+ O2gP5eIRDZNY3Q4TZ/nsP3WpDNaNct9Vl59/oz0CQMT78cQ42/OZd1NnoIk9VpPlnhmP
+ aelcqFgfrgkptkRTnqaHMkQtxOkQ953PtaoSPD6dGEa4JssQt7w3mKEKrEl0kKcJEznv
+ yY/SJjGU1u/qP8kcKnZtYkCJZcnDA84tIY98Ffa5TFqpIMLHgarXjM/8GrQfbdMJ9/s0
+ TuhA==
+X-Gm-Message-State: APjAAAXsIEvk66soG1ALvQwJXqvmL/pZr+u0En2CKUOJ2PDWkhqpm/5N
+ VtlUIB5odyWnZTW8Q0aGtRQMMFe064FxC66PYafzBQ==
+X-Google-Smtp-Source: APXvYqxyLS/9yBWFyxJu7nngbozjCnxStnGWdAIgQ8O7CZoqSKHHSFq255QaoTFU0a3hJMPv5SrYAZQF8EZ/aFXEwgA=
+X-Received: by 2002:aca:c0c5:: with SMTP id q188mr3935454oif.169.1582244398771; 
+ Thu, 20 Feb 2020 16:19:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20200213213036.207625-1-olvaffe@gmail.com>
- <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
- <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
- <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
- <CAPaKu7TDtFwF5czdpke1v7NWKf61kw_jVp-E1qQPqs-qbZYnMw@mail.gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D78D724@SHSMSX104.ccr.corp.intel.com>
- <CAPaKu7Qa6yzRxB10ufNxu+F5S3_GkwofKCm66aB9H4rdWj8fFQ@mail.gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D78EEA2@SHSMSX104.ccr.corp.intel.com>
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D78EEA2@SHSMSX104.ccr.corp.intel.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 20 Feb 2020 15:02:59 -0800
-Message-ID: <CAPaKu7SMn22z0NPCt080fujt+OEt4n-fREyTud6584jySGOFpA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
-To: "Tian, Kevin" <kevin.tian@intel.com>
+References: <1582223216-23459-1-git-send-email-jcrouse@codeaurora.org>
+In-Reply-To: <1582223216-23459-1-git-send-email-jcrouse@codeaurora.org>
+From: John Stultz <john.stultz@linaro.org>
+Date: Thu, 20 Feb 2020 16:19:46 -0800
+Message-ID: <CALAqxLW3PHtdFY20AStETme7sp-YLMLXBhqRyjOeLkQDSFOeVQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] msm/gpu/a6xx: use the DMA-API for GMU memory
+ allocations
+To: Jordan Crouse <jcrouse@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,40 +61,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "wanpengli@tencent.com" <wanpengli@tencent.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "joro@8bytes.org" <joro@8bytes.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, "Christopherson,
- Sean J" <sean.j.christopherson@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>,
- "jmattson@google.com" <jmattson@google.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <sean@poorly.run>, lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2020 at 6:13 PM Tian, Kevin <kevin.tian@intel.com> wrote:
-> > > Curious... How is such slot exposed to the guest? A reserved memory
-> > > region? Is it static or might be dynamically added?
-> > The plan is for virtio-gpu device to reserve a huge memory region in
-> > the guest.  Memslots may be added dynamically or statically to back
-> > the region.
+On Thu, Feb 20, 2020 at 10:27 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+> When CONFIG_INIT_ON_ALLOC_DEFAULT_ON the GMU memory allocator runs afoul of
+> cache coherency issues because it is mapped as write-combine without clearing
+> the cache after it was zeroed.
 >
-> so the region is marked as E820_RESERVED to prevent guest kernel
-> from using it for other purpose and then virtio-gpu device will report
-> virtio-gpu driver of the exact location of the region through its own
-> interface?
-The current plan is that the virtio-gpu device will have a bar for the
-region, which is like the vram aperture on real GPUs.  The virtio-gpu
-driver manages the region like managing vram.
+> Rather than duplicate the hacky workaround we use in the GEM allocator for the
+> same reason it turns out that we don't need to have a bespoke memory allocator
+> for the GMU anyway. It uses a flat, global address space and there are only
+> two relatively minor allocations anyway. In short, this is essentially what the
+> DMA API was created for so replace a bunch of memory management code with two
+> calls to allocate and free DMA memory and we're fine.
+>
+> The only wrinkle is that the memory allocations need to be in a very specific
+> location in the GMU virtual address space so in order to get the iova allocator
+> to do the right thing we need to specify the dma-ranges property in the device
+> tree for the GMU node. Since we've not yet converted the GMU bindings over to
+> YAML two patches quickly turn into four but at the end of it we have at least
+> one bindings file converted to YAML and 99 less lines of code to worry about.
+>
+> v2: Fix the example bindings for dma-ranges - the third item is the size
+> Pass false to of_dma_configure so that it fails probe if the DMA region is not
+> set up.
 
-When the guest userspace allocates from vram, the guest kernel
-reserves an unused range from the region and tells the host the
-offset.  The host allocates a real GPU buffer, maps the buffer, and
-add a memslot with gpa==bar_base+offset (or mremap).  When the guest
-userspace mmap, the guest kernel does a io_remap_pfn_range.
+This set still works for me as well. Thanks so much!
+Tested-by: John Stultz <john.stultz@linaro.org>
+
+thanks
+-john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
