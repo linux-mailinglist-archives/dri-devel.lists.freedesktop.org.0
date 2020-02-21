@@ -1,39 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1488D167BA6
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:14:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF6F4167BB8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD0196F38A;
-	Fri, 21 Feb 2020 11:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28E996F3F2;
+	Fri, 21 Feb 2020 11:14:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A0C6EEC0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 08:56:16 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A9C6B24B492927AD0DB8;
- Fri, 21 Feb 2020 16:56:13 +0800 (CST)
-Received: from [127.0.0.1] (10.57.60.129) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Fri, 21 Feb 2020
- 16:56:05 +0800
-Subject: Re: [PATCH] drm/hisilicon: Fixed pcie resource conflict using the
- general API
-To: Thomas Zimmermann <tzimmermann@suse.de>, Xinliang Liu
- <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>
-References: <1582264523-61170-1-git-send-email-tiantao6@hisilicon.com>
- <CAKoKPbztX8--gWgLDYJFQX1=Wf1jiFKx+H2_RFN90fxOpr_RdQ@mail.gmail.com>
- <e65e3728-406e-ff9c-a8ef-6829666fa573@suse.de>
-From: "tiantao (H)" <tiantao6@huawei.com>
-Message-ID: <4a8ba960-34c5-d044-900d-5cd0e9ec310e@huawei.com>
-Date: Fri, 21 Feb 2020 16:56:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27EAF6EEBF
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 08:57:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 986C728CC36
+Subject: Re: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
+To: CK Hu <ck.hu@mediatek.com>
+References: <20200220172147.919996-1-enric.balletbo@collabora.com>
+ <1582259996.1846.7.camel@mtksdaap41>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <7a87b486-1622-7f27-f5af-427b94a14c00@collabora.com>
+Date: Fri, 21 Feb 2020 09:56:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <e65e3728-406e-ff9c-a8ef-6829666fa573@suse.de>
-X-Originating-IP: [10.57.60.129]
-X-CFilter-Loop: Reflected
+In-Reply-To: <1582259996.1846.7.camel@mtksdaap41>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,67 +39,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, puck.chen@hisilicon.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linuxarm@huawei.com, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
+ mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-clk@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
+ Weiyi Lu <weiyi.lu@mediatek.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ wens@csie.org, linux-arm-kernel@lists.infradead.org,
+ mtk01761 <wendell.lin@mediatek.com>, Owen Chen <owen.chen@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Allison Randal <allison@lohutok.net>, Matthias Brugger <mbrugger@suse.com>,
+ Fabien Parent <fparent@baylibre.com>, sboyd@kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U29ycnksbXkgbWlzdGFrZS4gSSBzZW50IHRoZSB3cm9uZyBwYXRjaCwgcGxlYXNlIGlnbm9yZSB0
-aGUgcGF0Y2ggYmVsb3cKCuWcqCAyMDIwLzIvMjEgMTY6NTIsIFRob21hcyBaaW1tZXJtYW5uIOWG
-memBkzoKPiBIaQo+IAo+IEFtIDIxLjAyLjIwIHVtIDA4OjA2IHNjaHJpZWIgWGlubGlhbmcgTGl1
-Ogo+PiBIaSB0YW8sCj4+IEFyZSB5b3Ugc2VuZGluZyBhIHdyb25nIHBhdGNoPwo+PiBGdW5jdGlv
-biBoaWJtY19yZW1vdmVfZnJhbWVidWZmZXJzIGlzIGFkZGVkIGJ5IHlvdXIgcHJpb3IgcmV2aWV3
-aW5nIHBhdGNoLgo+PiBQbGVhc2Ugc2VuZCBwYXRjaCBiYXNlZCBvbsKgZHJtLW1pc2MtbmV4dCBi
-cmFuY2hbMV0gb3IgbGludXgtbmV4dC4KPiAKPiBUaGVyZSdzIGRybV9mYl9oZWxwZXJfcmVtb3Zl
-X2NvbmZsaWN0aW5nX3BjaV9mcmFtZWJ1ZmZlcnMoKSB3aGljaAo+IGFscmVhZHkgaW1wbGVtZW50
-cyB0aGUgZnVuY3Rpb25hbGl0eS4gSSBhc2tlZCB0byB0cnkgdXNpbmcgaXQgaW5zdGVhZCBvZgo+
-IGNyZWF0aW5nIGFuIG93biBpbXBsZW1lbnRhdGlvbi4KPiAKPiBCZXN0IHJlZ2FyZHMKPiBUaG9t
-YXMKPiAKPj4KPj4gVGhhbmtzLAo+PiAtWGlubGlhbmcKPj4KPj4gWzFdwqBodHRwczovL2Fub25n
-aXQuZnJlZWRlc2t0b3Aub3JnL2dpdC9kcm0tbWlzYy5naXQKPj4KPj4gT24gRnJpLCAyMSBGZWIg
-MjAyMCBhdCAxMzo1NiwgVGlhbiBUYW8gPHRpYW50YW82QGhpc2lsaWNvbi5jb20KPj4gPG1haWx0
-bzp0aWFudGFvNkBoaXNpbGljb24uY29tPj4gd3JvdGU6Cj4+Cj4+ICAgICAgdGhlIGtlcm5lbCBw
-cm92aWRlIHRoZSBkcm1fZmJfaGVscGVyX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZm
-ZXIKPj4gICAgICB0byByZW12b2UgdGhlIHBjaWUgcmVzb3VyY2UgY29uZmxpY3QsdGhlcmUgaXMg
-bm8gbmVlZCB0byBkcml2ZXIgaXQKPj4gICAgICBhZ2Fpbi4KPj4KPj4gICAgICBTaWduZWQtb2Zm
-LWJ5OiBUaWFuIFRhbyA8dGlhbnRhbzZAaGlzaWxpY29uLmNvbQo+PiAgICAgIDxtYWlsdG86dGlh
-bnRhbzZAaGlzaWxpY29uLmNvbT4+Cj4+ICAgICAgLS0tCj4+ICAgICAgwqBkcml2ZXJzL2dwdS9k
-cm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuYyB8IDIyCj4+ICAgICAgKysrKystLS0t
-LS0tLS0tLS0tLS0tLQo+PiAgICAgIMKgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwg
-MTcgZGVsZXRpb25zKC0pCj4+Cj4+ICAgICAgZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9o
-aXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jCj4+ICAgICAgYi9kcml2ZXJzL2dwdS9kcm0v
-aGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuYwo+PiAgICAgIGluZGV4IDdlYmU4MzEuLjBm
-N2RiYTcgMTAwNjQ0Cj4+ICAgICAgLS0tIGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJt
-Yy9oaWJtY19kcm1fZHJ2LmMKPj4gICAgICArKysgYi9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29u
-L2hpYm1jL2hpYm1jX2RybV9kcnYuYwo+PiAgICAgIEBAIC00NywyMiArNDcsNiBAQCBzdGF0aWMg
-aXJxcmV0dXJuX3QgaGlibWNfZHJtX2ludGVycnVwdChpbnQgaXJxLAo+PiAgICAgIHZvaWQgKmFy
-ZykKPj4gICAgICDCoCDCoCDCoCDCoCByZXR1cm4gSVJRX0hBTkRMRUQ7Cj4+ICAgICAgwqB9Cj4+
-Cj4+ICAgICAgLXN0YXRpYyB2b2lkIGhpYm1jX3JlbW92ZV9mcmFtZWJ1ZmZlcnMoc3RydWN0IHBj
-aV9kZXYgKnBkZXYpCj4+ICAgICAgLXsKPj4gICAgICAtwqAgwqAgwqAgwqBzdHJ1Y3QgYXBlcnR1
-cmVzX3N0cnVjdCAqYXA7Cj4+ICAgICAgLQo+PiAgICAgIC3CoCDCoCDCoCDCoGFwID0gYWxsb2Nf
-YXBlcnR1cmVzKDEpOwo+PiAgICAgIC3CoCDCoCDCoCDCoGlmICghYXApCj4+ICAgICAgLcKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgcmV0dXJuOwo+PiAgICAgIC0KPj4gICAgICAtwqAgwqAgwqAgwqBh
-cC0+cmFuZ2VzWzBdLmJhc2UgPSBwY2lfcmVzb3VyY2Vfc3RhcnQocGRldiwgMCk7Cj4+ICAgICAg
-LcKgIMKgIMKgIMKgYXAtPnJhbmdlc1swXS5zaXplID0gcGNpX3Jlc291cmNlX2xlbihwZGV2LCAw
-KTsKPj4gICAgICAtCj4+ICAgICAgLcKgIMKgIMKgIMKgZHJtX2ZiX2hlbHBlcl9yZW1vdmVfY29u
-ZmxpY3RpbmdfZnJhbWVidWZmZXJzKGFwLAo+PiAgICAgICJoaWJtY2RybWZiIiwgZmFsc2UpOwo+
-PiAgICAgIC0KPj4gICAgICAtwqAgwqAgwqAgwqBrZnJlZShhcCk7Cj4+ICAgICAgLX0KPj4gICAg
-ICAtCj4+ICAgICAgwqBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgaGlibWNfZHJpdmVyID0gewo+
-PiAgICAgIMKgIMKgIMKgIMKgIC5kcml2ZXJfZmVhdHVyZXPCoCDCoCDCoCDCoCA9IERSSVZFUl9H
-RU0gfCBEUklWRVJfTU9ERVNFVCB8Cj4+ICAgICAgRFJJVkVSX0FUT01JQywKPj4gICAgICDCoCDC
-oCDCoCDCoCAuZm9wc8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgPSAmaGlibWNfZm9wcywK
-Pj4gICAgICBAQCAtMzQzLDcgKzMyNywxMSBAQCBzdGF0aWMgaW50IGhpYm1jX3BjaV9wcm9iZShz
-dHJ1Y3QgcGNpX2RldiAqcGRldiwKPj4gICAgICDCoCDCoCDCoCDCoCBzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2Owo+PiAgICAgIMKgIMKgIMKgIMKgIGludCByZXQ7Cj4+Cj4+ICAgICAgLcKgIMKgIMKg
-IMKgaGlibWNfcmVtb3ZlX2ZyYW1lYnVmZmVycyhwZGV2KTsKPj4gICAgICArwqAgwqAgwqAgwqBy
-ZXQgPSBkcm1fZmJfaGVscGVyX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZmZXJzKHBk
-ZXYsCj4+ICAgICAgKwo+PiAgICAgIMKgImhpYm1jZHJtZmIiKTsKPj4gICAgICArwqAgwqAgwqAg
-wqBpZiAocmV0KQo+PiAgICAgICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHJldHVybiByZXQ7Cj4+
-ICAgICAgKwo+Pgo+PiAgICAgIMKgIMKgIMKgIMKgIGRldiA9IGRybV9kZXZfYWxsb2MoJmhpYm1j
-X2RyaXZlciwgJnBkZXYtPmRldik7Cj4+ICAgICAgwqAgwqAgwqAgwqAgaWYgKElTX0VSUihkZXYp
-KSB7Cj4+ICAgICAgLS0KPj4gICAgICAyLjcuNAo+Pgo+IAoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi CK,
+
+Thanks for your quick answer.
+
+On 21/2/20 5:39, CK Hu wrote:
+> Hi, Enric:
+> 
+> On Thu, 2020-02-20 at 18:21 +0100, Enric Balletbo i Serra wrote:
+>> Dear all,
+>>
+>> Those patches are intended to solve an old standing issue on some
+>> Mediatek devices (mt8173, mt2701 and mt2712) in a slightly different way
+>> to the precedent series.
+>>
+>> Up to now both drivers, clock and drm are probed with the same device tree
+>> compatible. But only the first driver get probed, which in effect breaks
+>> graphics on those devices.
+>>
+>> The version eight of the series tries to solve the problem with a
+>> different approach than the previous series but similar to how is solved
+>> on other Mediatek devices.
+>>
+>> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
+>> control clock gates (which is used in the clk driver) and some registers
+>> to set the routing and enable the differnet blocks of the display
+>> and MDP (Media Data Path) subsystem. On this series the clk driver is
+>> not a pure clock controller but a system controller that can provide
+>> access to the shared registers between the different drivers that need
+>> it (mediatek-drm and mediatek-mdp). And the biggest change is, that in
+>> this version, clk driver is the entry point (parent) which will trigger
+>> the probe of the corresponding mediatek-drm driver and pass its MMSYS
+>> platform data for display configuration.
+> 
+> When mmsys is a system controller, I prefer to place mmsys in
+> drivers/soc/mediatek, and it share registers for clock, display, and mdp
+> driver. This means the probe function is placed in
+> drivers/soc/mediatek ,its display clock function, mdp clock function are
+> placed in drivers/clk, display routing are placed in drivers/gpu/drm,
+> and mdp routing are placed in dirvers/video.
+> 
+
+I understand what you mean but I am not sure this makes the code clearer and
+useful. The driver in drivers/soc/mediatek will be a simple dummy implementation
+of a "simple-mfd" device (a driver that simply matches with
+"mediatek,mt8173-mmsys" and instantiates the "clk-mt8173-mm" and the
+"mediatek-drm" driver (note that mediatek-mdp" is already instantiated via
+device-tree).
+
+It'd be nice had a proper device-tree with a "simple-mfd" for mmsys from the
+beginning representing how really hardwware is, but I think that, change this
+now, will break backward compatibility.
+
+IMHO I think that considering the clk driver as entry point is fine, but this is
+something that the clock maintainers should decide.
+
+Also note that this is not only a MT8173 problem I am seeing the same problem on
+all other Mediatek SoCs.
+
+Thanks.
+
+> Regards,
+> CK
+> 
+>>
+>> All this series was tested on the Acer R13 Chromebook only.
+>>
+>> For reference, here are the links to the old discussions:
+>>
+>> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
+>> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
+>> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
+>> * v4:
+>>   * https://patchwork.kernel.org/patch/10530871/
+>>   * https://patchwork.kernel.org/patch/10530883/
+>>   * https://patchwork.kernel.org/patch/10530885/
+>>   * https://patchwork.kernel.org/patch/10530911/
+>>   * https://patchwork.kernel.org/patch/10530913/
+>> * v3:
+>>   * https://patchwork.kernel.org/patch/10367857/
+>>   * https://patchwork.kernel.org/patch/10367861/
+>>   * https://patchwork.kernel.org/patch/10367877/
+>>   * https://patchwork.kernel.org/patch/10367875/
+>>   * https://patchwork.kernel.org/patch/10367885/
+>>   * https://patchwork.kernel.org/patch/10367883/
+>>   * https://patchwork.kernel.org/patch/10367889/
+>>   * https://patchwork.kernel.org/patch/10367907/
+>>   * https://patchwork.kernel.org/patch/10367909/
+>>   * https://patchwork.kernel.org/patch/10367905/
+>> * v2: No relevant discussion, see v3
+>> * v1:
+>>   * https://patchwork.kernel.org/patch/10016497/
+>>   * https://patchwork.kernel.org/patch/10016499/
+>>   * https://patchwork.kernel.org/patch/10016505/
+>>   * https://patchwork.kernel.org/patch/10016507/
+>>
+>> Best regards,
+>>  Enric
+>>
+>> Changes in v8:
+>> - Be a builtin_platform_driver like other mediatek mmsys drivers.
+>> - New patches introduced in this series.
+>>
+>> Changes in v7:
+>> - Add R-by from CK
+>> - Add R-by from CK
+>> - Fix check of return value of of_clk_get
+>> - Fix identation
+>> - Free clk_data->clks as well
+>> - Get rid of private data structure
+>>
+>> Enric Balletbo i Serra (2):
+>>   drm/mediatek: Move MMSYS configuration to include/linux/platform_data
+>>   clk/drm: mediatek: Fix mediatek-drm device probing
+>>
+>> Matthias Brugger (4):
+>>   drm/mediatek: Use regmap for register access
+>>   drm/mediatek: Omit warning on probe defers
+>>   media: mtk-mdp: Check return value of of_clk_get
+>>   clk: mediatek: mt8173: Switch MMSYS to platform driver
+>>
+>>  drivers/clk/mediatek/Kconfig                  |   6 +
+>>  drivers/clk/mediatek/Makefile                 |   1 +
+>>  drivers/clk/mediatek/clk-mt2701-mm.c          |  30 +++
+>>  drivers/clk/mediatek/clk-mt2712-mm.c          |  44 +++++
+>>  drivers/clk/mediatek/clk-mt8173-mm.c          | 172 ++++++++++++++++++
+>>  drivers/clk/mediatek/clk-mt8173.c             | 104 -----------
+>>  drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
+>>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
+>>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
+>>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c        |  53 +++---
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  56 +-----
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 113 +-----------
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+>>  drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
+>>  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
+>>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c |   6 +
+>>  include/linux/platform_data/mtk_mmsys.h       |  73 ++++++++
+>>  20 files changed, 401 insertions(+), 317 deletions(-)
+>>  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
+>>  create mode 100644 include/linux/platform_data/mtk_mmsys.h
+>>
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
