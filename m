@@ -2,54 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C25B1686D7
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 19:41:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDD8168728
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 20:01:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4996E110;
-	Fri, 21 Feb 2020 18:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8EA46E480;
+	Fri, 21 Feb 2020 19:01:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE9EF6E110
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 18:41:05 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id f5so2450003ilq.5
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 10:41:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dVPlcvNxwx9ZkHS9f2hEWtvziykNwBPT78iqxEtnB8s=;
- b=W/Xs7ojIqaiVfFgz1JozgRSCx9Xorm7HfK3vxIkt0eH5m+QMMN1E+Ft83fwx6bAEL0
- W3oFAs+IZYaphnFpE7zKEYQ1SUQezKWhBO6asB+zO1kzm8FQZDmmPvj1Gs/JniOBur7g
- 2cCqtJzEwV7Nz284Vkj47KD41dn0JcWf/yJ1v2BmCma2DZVTmjy1P22+uABw4yCzTMez
- mT7CbRCCEz8iH9+js+l09Y1UFb7V8n5MIw7Lm3+iQLMrFwIS6vCbq4dtaxf2h0Tvn23D
- qQ/POf11DGLpzoH7oNBMb3QabjvZVOqbKcF+hLKSfVrhxpAOsJJp5PVPr5WAT0evBiU/
- AFVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dVPlcvNxwx9ZkHS9f2hEWtvziykNwBPT78iqxEtnB8s=;
- b=hTcQT6c7wprNZONiNnSsVnT5st/i+PddwjSK+qRqRKycEXYSLYDgl9C09yNeKsaFNC
- ZbrP8TpUGUzP4Lq5dM90P9EvhG6sJ6t2XhGSZlEV9dWnQ7IowiAovcLwczwwS3DMiSac
- kXeKm9M2F5X6Y90QLLWB2mHgXtljp9DLl0MJqdG4E951QxT8AyKPvdTUiwx3M+HaiKOT
- zYpONXJEs+l+NToWvS5/tufBoUvakUt45E5C5vxNXqsBAPafDm3pN2b+xTRgKNEbiZ4i
- mpRb8KrTHuvbgrL5TXwuEfUHVKdjQa7WKMrSJ354we4wdcTLh/Q5iEq2IyYNKB458ecB
- LNoQ==
-X-Gm-Message-State: APjAAAVMI2o5ri9/p0uE0Km3f4HrYkul0lPcW5kmxTf4ouuxPGosgrxs
- BRZ8s9a82IcscdMsUQv05LXBTOmXnBgzb7F2ujQ=
-X-Google-Smtp-Source: APXvYqxdEG5HGWeFUff/aWEuEdpbB8sDRBhfZT2zh46Kt6vQOkU2J71Cb2dTE3mppzkZlArCA4ihBJ3jFjQKwAcN2Zk=
-X-Received: by 2002:a92:4a0a:: with SMTP id m10mr39059215ilf.84.1582310465029; 
- Fri, 21 Feb 2020 10:41:05 -0800 (PST)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE2E6E480;
+ Fri, 21 Feb 2020 19:01:02 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id A1E9C8066D;
+ Fri, 21 Feb 2020 20:00:58 +0100 (CET)
+Date: Fri, 21 Feb 2020 20:00:57 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 3/4] drm/mgag200: Use simple encoder
+Message-ID: <20200221190057.GA27701@ravnborg.org>
+References: <20200218084815.2137-1-tzimmermann@suse.de>
+ <20200218084815.2137-4-tzimmermann@suse.de>
+ <20200220185642.GA20011@ravnborg.org>
+ <3044661c-7552-e685-37b3-88865f97a991@suse.de>
 MIME-Version: 1.0
-References: <VI1PR0802MB22374AD8B80182D2F186ABB483130@VI1PR0802MB2237.eurprd08.prod.outlook.com>
- <CAPaKu7Rqbw=v7Cr4ksh+C1FMHEcCK=yZ9DARLMmTH38Gt_-F+A@mail.gmail.com>
- <VI1PR0802MB22377E26E3ACB09F0527BE1583120@VI1PR0802MB2237.eurprd08.prod.outlook.com>
-In-Reply-To: <VI1PR0802MB22377E26E3ACB09F0527BE1583120@VI1PR0802MB2237.eurprd08.prod.outlook.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 21 Feb 2020 10:40:54 -0800
-Message-ID: <CAPaKu7Snxz=AwRMeDPokuHmZyQrptmySS9tUtsW4f7GwgJ06Tw@mail.gmail.com>
-Subject: Re: [Bug] virtio-gpu broken with qemu/kvm on arm64 on kernel 5.5+
-To: Guillaume Gardet <Guillaume.Gardet@arm.com>
+Content-Disposition: inline
+In-Reply-To: <3044661c-7552-e685-37b3-88865f97a991@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=B5t_mNtYuAhHjmY7mtcA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +47,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Catalin Marinas <Catalin.Marinas@arm.com>,
- nd <nd@arm.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, kraxel@redhat.com,
+ alexander.deucher@amd.com, spice-devel@lists.freedesktop.org,
+ emil.velikov@collabora.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2020 at 2:06 AM Guillaume Gardet
-<Guillaume.Gardet@arm.com> wrote:
->
-> Hi,
->
-> > -----Original Message-----
-> > From: Chia-I Wu <olvaffe@gmail.com>
-> > Sent: 20 February 2020 19:41
-> > To: Guillaume Gardet <Guillaume.Gardet@arm.com>
-> > Cc: dri-devel@lists.freedesktop.org; Gerd Hoffmann <kraxel@redhat.com>;
-> > Daniel Vetter <daniel.vetter@ffwll.ch>; Catalin Marinas
-> > <Catalin.Marinas@arm.com>; nd <nd@arm.com>
-> > Subject: Re: [Bug] virtio-gpu broken with qemu/kvm on arm64 on kernel 5.5+
-> >
-> > On Thu, Feb 20, 2020 at 4:44 AM Guillaume Gardet <Guillaume.Gardet@arm.com>
-> > wrote:
-> > >
-> > > Hi,
-> > >
-> > > With (guest) kernel 5.5+ with qemu/kvm on arm64, I get lots of display
-> > corruptions leading to this kind of screen:
-> > > https://openqa.opensuse.org/tests/1174521#step/yast2_i/24
-> > Looking at the screenshot, it seems cacheline-related?
->
-> It could be.
->
-> >
-> > There was a change of memory type
-> >
-> >   https://lists.freedesktop.org/archives/dri-devel/2019-August/233456.html
-> >
-> > While the guest memory type is ignored on Intel, it is honored on ARM.
-> > This attempt to fix it
-> >
-> >   https://lists.freedesktop.org/archives/dri-devel/2019-December/248271.html
-> >
-> > does not seem to land.
->
-> I applied this patch on top of 5.5.4, but it does not fix the problem.
-> Maybe more similar changes are required?
-The patch looks legit.  Maybe the memory type is not the root cause?
+Hi Thomas.
+
+On Fri, Feb 21, 2020 at 08:48:48AM +0100, Thomas Zimmermann wrote:
+> Hi Sam
+> 
+> thanks for reviewing the patch set.
+> 
+> Am 20.02.20 um 19:56 schrieb Sam Ravnborg:
+> > Hi Thomas.
+> > 
+> > On Tue, Feb 18, 2020 at 09:48:14AM +0100, Thomas Zimmermann wrote:
+> >> The mgag200 driver uses an empty implementation for its encoder. Replace
+> >> the code with the generic simple encoder.
+> >>
+> >> v2:
+> >> 	* rebase onto new simple-encoder interface
+> >>
+> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >> ---
+> >>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  7 ---
+> >>  drivers/gpu/drm/mgag200/mgag200_mode.c | 61 ++------------------------
+> >>  2 files changed, 3 insertions(+), 65 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> >> index aa32aad222c2..9bb9e8e14539 100644
+> >> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+> >> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> >> @@ -95,7 +95,6 @@
+> >>  #define MATROX_DPMS_CLEARED (-1)
+> >>  
+> >>  #define to_mga_crtc(x) container_of(x, struct mga_crtc, base)
+> >> -#define to_mga_encoder(x) container_of(x, struct mga_encoder, base)
+> >>  #define to_mga_connector(x) container_of(x, struct mga_connector, base)
+> >>  
+> >>  struct mga_crtc {
+> >> @@ -110,12 +109,6 @@ struct mga_mode_info {
+> >>  	struct mga_crtc *crtc;
+> >>  };
+> >>  
+> >> -struct mga_encoder {
+> >> -	struct drm_encoder base;
+> >> -	int last_dpms;
+> >> -};
+> >> -
+> >> -
+> >>  struct mga_i2c_chan {
+> >>  	struct i2c_adapter adapter;
+> >>  	struct drm_device *dev;
+> > 
+> > Any particular reason why the drm_encoder is not embedded in struct
+> > mga_device?
+> > 
+> > I found it more elegant - like you did it for ast in the previous patch.
+> 
+> I think I wanted something that uses drm_simple_encoder_create(). But I
+> can change that. The embedded variant is indeed better.
+
+You should consider to drop drm_simple_encoder_create() until there
+is a driver that really needs it.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
