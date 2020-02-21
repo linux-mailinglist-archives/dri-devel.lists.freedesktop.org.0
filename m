@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D481686C1
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 19:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C25B1686D7
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 19:41:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A7E6E107;
-	Fri, 21 Feb 2020 18:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4996E110;
+	Fri, 21 Feb 2020 18:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81A3D6E107
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 18:37:27 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id x1so3403533iop.7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 10:37:27 -0800 (PST)
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
+ [IPv6:2607:f8b0:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE9EF6E110
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 18:41:05 +0000 (UTC)
+Received: by mail-il1-x144.google.com with SMTP id f5so2450003ilq.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 10:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5KIFkzcRxxxbL40fHIg8b82jUb9ZF6NPqoXzSqpl30I=;
- b=ivUXFCDCeSQkftsFoJCHtTUMZuNNg4+gGIe+pfHKX/yEcXsJ5z8lPgSWPmMnJJQhxB
- eLVVD9wnoqpWviKMKpEQHgBwWJ3LcVj6DzpIeqbzBISOri9QE2uYFBHmR2k9T1unFCec
- CvECtUe211tTaZ7bgFSK2QDQb2k6V5TqznyoFKBOsaj8dNH1nUaHadv4+t9sx4+MP6lF
- 5h6fN3RiAEJu7o0Ehe3o1lMgy6Hd4k9jAnXoTT1k+olExovalcMFLz2HAIBa2W4yrtfm
- iPg5FYtf7Fii0jghrPtInC3L+XdDD+J6R+D635cYXX0zu0Np0jfrsm8qkfNTajdlkVe1
- F/Sg==
+ :cc; bh=dVPlcvNxwx9ZkHS9f2hEWtvziykNwBPT78iqxEtnB8s=;
+ b=W/Xs7ojIqaiVfFgz1JozgRSCx9Xorm7HfK3vxIkt0eH5m+QMMN1E+Ft83fwx6bAEL0
+ W3oFAs+IZYaphnFpE7zKEYQ1SUQezKWhBO6asB+zO1kzm8FQZDmmPvj1Gs/JniOBur7g
+ 2cCqtJzEwV7Nz284Vkj47KD41dn0JcWf/yJ1v2BmCma2DZVTmjy1P22+uABw4yCzTMez
+ mT7CbRCCEz8iH9+js+l09Y1UFb7V8n5MIw7Lm3+iQLMrFwIS6vCbq4dtaxf2h0Tvn23D
+ qQ/POf11DGLpzoH7oNBMb3QabjvZVOqbKcF+hLKSfVrhxpAOsJJp5PVPr5WAT0evBiU/
+ AFVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5KIFkzcRxxxbL40fHIg8b82jUb9ZF6NPqoXzSqpl30I=;
- b=fY+1qdZwiLxQO0Ib7x/k2DKPp6DyWYdWrKZ0rBzOOm2R/ip0K3zw0wDADSdRGKKDHa
- kT88K4p8NqofAeMEL6/FGTUV4ZqZc0q3qehQP2RM3Ni6dXVofKX8MjkIFHCKcF9xjzwh
- po/aCEop1I7sVVfbGR1m5KbVm1wnjiJ+9abP7uCSTS7k9L7wn9qEfF8vZbrh+ZxQ8rEo
- 2IZZYtY6VbxhDQVtjiUed/mKzW91z17KIrbUf7N+C+u/JRMIAxdgwTcEj/Zad1g+xamz
- 8gytXa42Nen0UTGELWOgbHwnIlrTFVLh0WFKjLfnwZByF3VhPutSPBNfEZlpYp6h+4uz
- YjEw==
-X-Gm-Message-State: APjAAAVQS3360wJMayaNNDc1/dx5uBlZ+6VIfRLVZgXo35k2UVbyi2H7
- SzC2xHpWOV+MgtbKUxJH/EuxFasYBnCpI+0Ztno=
-X-Google-Smtp-Source: APXvYqx2C4hinK+2pMOQNrGEYmS8FDmU2woCvrc3mLkZwd3Tqf1SgxESGPRz8CaHdx9dGcd+MyVafsk+cV55iFpx4+w=
-X-Received: by 2002:a5d:8146:: with SMTP id f6mr31460123ioo.93.1582310246750; 
- Fri, 21 Feb 2020 10:37:26 -0800 (PST)
+ bh=dVPlcvNxwx9ZkHS9f2hEWtvziykNwBPT78iqxEtnB8s=;
+ b=hTcQT6c7wprNZONiNnSsVnT5st/i+PddwjSK+qRqRKycEXYSLYDgl9C09yNeKsaFNC
+ ZbrP8TpUGUzP4Lq5dM90P9EvhG6sJ6t2XhGSZlEV9dWnQ7IowiAovcLwczwwS3DMiSac
+ kXeKm9M2F5X6Y90QLLWB2mHgXtljp9DLl0MJqdG4E951QxT8AyKPvdTUiwx3M+HaiKOT
+ zYpONXJEs+l+NToWvS5/tufBoUvakUt45E5C5vxNXqsBAPafDm3pN2b+xTRgKNEbiZ4i
+ mpRb8KrTHuvbgrL5TXwuEfUHVKdjQa7WKMrSJ354we4wdcTLh/Q5iEq2IyYNKB458ecB
+ LNoQ==
+X-Gm-Message-State: APjAAAVMI2o5ri9/p0uE0Km3f4HrYkul0lPcW5kmxTf4ouuxPGosgrxs
+ BRZ8s9a82IcscdMsUQv05LXBTOmXnBgzb7F2ujQ=
+X-Google-Smtp-Source: APXvYqxdEG5HGWeFUff/aWEuEdpbB8sDRBhfZT2zh46Kt6vQOkU2J71Cb2dTE3mppzkZlArCA4ihBJ3jFjQKwAcN2Zk=
+X-Received: by 2002:a92:4a0a:: with SMTP id m10mr39059215ilf.84.1582310465029; 
+ Fri, 21 Feb 2020 10:41:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20200220225319.45621-1-jbates@chromium.org>
-In-Reply-To: <20200220225319.45621-1-jbates@chromium.org>
+References: <VI1PR0802MB22374AD8B80182D2F186ABB483130@VI1PR0802MB2237.eurprd08.prod.outlook.com>
+ <CAPaKu7Rqbw=v7Cr4ksh+C1FMHEcCK=yZ9DARLMmTH38Gt_-F+A@mail.gmail.com>
+ <VI1PR0802MB22377E26E3ACB09F0527BE1583120@VI1PR0802MB2237.eurprd08.prod.outlook.com>
+In-Reply-To: <VI1PR0802MB22377E26E3ACB09F0527BE1583120@VI1PR0802MB2237.eurprd08.prod.outlook.com>
 From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 21 Feb 2020 10:37:15 -0800
-Message-ID: <CAPaKu7TH+f9w04ouW1qsj9u_rZ22XK_QrmniicC-KUY6p=HeCA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/virtio: fix resource id creation race
-To: John Bates <jbates@chromium.org>
+Date: Fri, 21 Feb 2020 10:40:54 -0800
+Message-ID: <CAPaKu7Snxz=AwRMeDPokuHmZyQrptmySS9tUtsW4f7GwgJ06Tw@mail.gmail.com>
+Subject: Re: [Bug] virtio-gpu broken with qemu/kvm on arm64 on kernel 5.5+
+To: Guillaume Gardet <Guillaume.Gardet@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Catalin Marinas <Catalin.Marinas@arm.com>,
+ nd <nd@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2020 at 3:14 AM John Bates <jbates@chromium.org> wrote:
+On Fri, Feb 21, 2020 at 2:06 AM Guillaume Gardet
+<Guillaume.Gardet@arm.com> wrote:
 >
-> The previous code was not thread safe and caused
-> undefined behavior from spurious duplicate resource IDs.
-> In this patch, an atomic_t is used instead. We no longer
-> see any duplicate IDs in tests with this change.
+> Hi,
 >
-> Fixes: 16065fcdd19d ("drm/virtio: do NOT reuse resource ids")
-> Signed-off-by: John Bates <jbates@chromium.org>
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_object.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> > -----Original Message-----
+> > From: Chia-I Wu <olvaffe@gmail.com>
+> > Sent: 20 February 2020 19:41
+> > To: Guillaume Gardet <Guillaume.Gardet@arm.com>
+> > Cc: dri-devel@lists.freedesktop.org; Gerd Hoffmann <kraxel@redhat.com>;
+> > Daniel Vetter <daniel.vetter@ffwll.ch>; Catalin Marinas
+> > <Catalin.Marinas@arm.com>; nd <nd@arm.com>
+> > Subject: Re: [Bug] virtio-gpu broken with qemu/kvm on arm64 on kernel 5.5+
+> >
+> > On Thu, Feb 20, 2020 at 4:44 AM Guillaume Gardet <Guillaume.Gardet@arm.com>
+> > wrote:
+> > >
+> > > Hi,
+> > >
+> > > With (guest) kernel 5.5+ with qemu/kvm on arm64, I get lots of display
+> > corruptions leading to this kind of screen:
+> > > https://openqa.opensuse.org/tests/1174521#step/yast2_i/24
+> > Looking at the screenshot, it seems cacheline-related?
 >
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index 017a9e0fc3bb..890121a45625 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -42,8 +42,8 @@ static int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
->                  * "f91a9dd35715 Fix unlinking resources from hash
->                  * table." (Feb 2019) fixes the bug.
->                  */
-> -               static int handle;
-> -               handle++;
-> +               static atomic_t seqno = ATOMIC_INIT(0);
-> +               int handle = atomic_inc_return(&seqno);
->                 *resid = handle + 1;
-resid 1 is (was) discriminated :D
-
->         } else {
->                 int handle = ida_alloc(&vgdev->resource_ida, GFP_KERNEL);
-> --
-> 2.25.0.265.gbab2e86ba0-goog
+> It could be.
 >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+> > There was a change of memory type
+> >
+> >   https://lists.freedesktop.org/archives/dri-devel/2019-August/233456.html
+> >
+> > While the guest memory type is ignored on Intel, it is honored on ARM.
+> > This attempt to fix it
+> >
+> >   https://lists.freedesktop.org/archives/dri-devel/2019-December/248271.html
+> >
+> > does not seem to land.
+>
+> I applied this patch on top of 5.5.4, but it does not fix the problem.
+> Maybe more similar changes are required?
+The patch looks legit.  Maybe the memory type is not the root cause?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
