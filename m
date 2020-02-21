@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E755168461
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 18:06:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA7D16848B
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 18:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05E726F4D7;
-	Fri, 21 Feb 2020 17:05:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCC46F4DB;
+	Fri, 21 Feb 2020 17:12:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCB89897F3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 17:05:54 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id n10so2867986wrm.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 09:05:54 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEFB6F4DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 17:12:21 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id p9so2548933wmc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 09:12:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=dUuNla3jpllDy4gEFZfQvdrbUqSGwx8uTgRq0Se7E54=;
- b=NJ0AsUqG4ev4ssM2NJGf/EJevaS2SCRfxupobkmmrIv/5AJljaRqnXr/g71mO84DQz
- z19lBK8WpR724N0QjIOCaeHMTmVZPupHaDVSzXYFafvVqecbIx+lXeXdr7/tf/YKdUvT
- Vg7sJv34l4KVOMuhsreEgkObSSPY4rPAJywAU=
+ bh=W4iZC+yldKbThcgQoxl7ZMaq/zfRNhuImiLwVU86XqM=;
+ b=hWzAmmzC7uKbADEddQNrp79szcznpBKiO7GcuMwqQLq/bD4m+0JmGOpzSgjdIdqO6F
+ /GsGMFp4l65cjCo/7etafOZGqzw8ribxPqDVp4l4Pwt050alRQkx0UpqlyyBKgzmw5hq
+ kbgf6yLkrC4D8W8KrVwSIzlx7rgQ1p7SE4HfI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=dUuNla3jpllDy4gEFZfQvdrbUqSGwx8uTgRq0Se7E54=;
- b=TeQ+5/lHMrSechuoQBLcRpA1lshtPCABrkjX91q3xV2CRpD8R2CmIz+gT9GalyPEo7
- 1BtiMAPidDgHbi3uHBFIn12XrQLuDtTMgWhUDchi0bpd+/TsJlqKAfnE/J+PUU7PJDYd
- 6Y51vtWq5CDFkfL2R7ur2Ooq0VWRBvtSkVaOZh8je7akqITSz9rEkmtRVJtuUgHyAlx0
- 6M2XKhznN2nPfPWz/b1cXVyNS0k00aZgsYPPRIVg3etSXtP+PjnpJ23LvsG2ogn2K72x
- 1cykDIqC2V0/lTM45VyJ92Og5hHC87TwPbgqunKRZRnMSB0sbLUii3dhASDzmBrzMS8B
- muIw==
-X-Gm-Message-State: APjAAAVU5LdPIuU8OSrgkkOQWnA5L8cLdiaXdbIs80+ISnpCSxS6uzdT
- snpD1ZdHz+IgMzfouzB4TPeNuw==
-X-Google-Smtp-Source: APXvYqy4LKSE+F8K5WAucj6buemWavhenTX1odQ9p9mUVlmKlDfErd1kEts4o2mq0CmnrAx5JqDT5w==
-X-Received: by 2002:adf:e5c2:: with SMTP id a2mr47743352wrn.85.1582304753097; 
- Fri, 21 Feb 2020 09:05:53 -0800 (PST)
+ bh=W4iZC+yldKbThcgQoxl7ZMaq/zfRNhuImiLwVU86XqM=;
+ b=EeQi/yKaH67/eIiSVY5wz/KAlWNas98VX821KG0mou9kea8IsTTtG6RXSPGyEx/WeW
+ /FCyHGzR3+0wR3XWpXT8LRzfr12QvbLDZ2Du3htEbieRXQWlexTU0SQMo2xkX1cRoy+p
+ OQaFEPCxfMXwjcDK7EWzP4BF+k/LkfmD3vGjmNmUz0SGiZtk6+CoYzEGHsNHxtROV5Mf
+ nit2Gm/s2G3wKDmKXBqe6UQ7hs8OU5FdK1FKc+pWmB1eP0tX7NXkN2G4Bmz69p+sNF4T
+ dLOj5LV7mZHJQ3tbjnoVAveR0t5H0wl9XRYmp8uqgxs3/hvbGMeA7AowWrcW5R/WVweL
+ D6xw==
+X-Gm-Message-State: APjAAAXpYFi17x1Qw/tOL7PHqnvBMb8GxsWI6Mmcpwpt2nLyEc4YAFC3
+ /putFyLM8f2mjnKIm3vo+5PeYw==
+X-Google-Smtp-Source: APXvYqxAYCyE/XE71GCQqlTcLFbGUi5tMyvN+41EC2LeyvQg6gcHa8KHqus2wMXqMFkcO5tL7xhp+g==
+X-Received: by 2002:a1c:41c4:: with SMTP id o187mr4818391wma.24.1582305139822; 
+ Fri, 21 Feb 2020 09:12:19 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z8sm4546377wrq.22.2020.02.21.09.05.51
+ by smtp.gmail.com with ESMTPSA id v5sm4662683wrv.86.2020.02.21.09.12.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 09:05:52 -0800 (PST)
-Date: Fri, 21 Feb 2020 18:05:50 +0100
+ Fri, 21 Feb 2020 09:12:18 -0800 (PST)
+Date: Fri, 21 Feb 2020 18:12:17 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v6 04/51] drm/bridge: Add connector-related bridge
- operations and data
-Message-ID: <20200221170550.GC2363188@phenom.ffwll.local>
-References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
- <20200216210308.17312-5-laurent.pinchart@ideasonboard.com>
- <20200217095308.GK2363188@phenom.ffwll.local>
- <20200218012127.GR4830@pendragon.ideasonboard.com>
- <CAKMK7uHsrNQCOO7kPQXkCjCtLyB8A1x80Y63XzV2VizSxhMptg@mail.gmail.com>
- <20200221142324.GG4955@pendragon.ideasonboard.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28VMware=29?= <thomas_os@shipmail.org>
+Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
+Message-ID: <20200221171217.GD2363188@phenom.ffwll.local>
+References: <20200217154509.2265-6-christian.koenig@amd.com>
+ <20200217175518.GL2363188@phenom.ffwll.local>
+ <f8ac7cbc-7c90-7119-735c-9f55adb6fa7f@shipmail.org>
+ <CAKMK7uHG3EkEPbAQ3UEHHLcfmR+0NPq0wZuBX+s2-WCFdso8ew@mail.gmail.com>
+ <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
+ <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org>
+ <20200220180459.GS2363188@phenom.ffwll.local>
+ <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org>
+ <20200220200831.GA2363188@phenom.ffwll.local>
+ <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200221142324.GG4955@pendragon.ideasonboard.com>
+In-Reply-To: <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,696 +74,494 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <bbrezillon@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Sam Ravnborg <sam@ravnborg.org>
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 21, 2020 at 04:23:24PM +0200, Laurent Pinchart wrote:
-> Hi Daniel,
-> =
+On Thu, Feb 20, 2020 at 11:51:07PM +0100, Thomas Hellstr=F6m (VMware) wrote:
+> On 2/20/20 9:08 PM, Daniel Vetter wrote:
+> > On Thu, Feb 20, 2020 at 08:46:27PM +0100, Thomas Hellstr=F6m (VMware) w=
+rote:
+> > > On 2/20/20 7:04 PM, Daniel Vetter wrote:
+> > > > On Thu, Feb 20, 2020 at 10:39:06AM +0100, Thomas Hellstr=F6m (VMwar=
+e) wrote:
+> > > > > On 2/19/20 7:42 AM, Thomas Hellstr=F6m (VMware) wrote:
+> > > > > > On 2/18/20 10:01 PM, Daniel Vetter wrote:
+> > > > > > > On Tue, Feb 18, 2020 at 9:17 PM Thomas Hellstr=F6m (VMware)
+> > > > > > > <thomas_os@shipmail.org> wrote:
+> > > > > > > > On 2/17/20 6:55 PM, Daniel Vetter wrote:
+> > > > > > > > > On Mon, Feb 17, 2020 at 04:45:09PM +0100, Christian K=F6n=
+ig wrote:
+> > > > > > > > > > Implement the importer side of unpinned DMA-buf handlin=
+g.
+> > > > > > > > > > =
 
-> On Tue, Feb 18, 2020 at 07:44:19AM +0100, Daniel Vetter wrote:
-> > On Tue, Feb 18, 2020 at 2:21 AM Laurent Pinchart wrote:
-> > > On Mon, Feb 17, 2020 at 10:53:08AM +0100, Daniel Vetter wrote:
-> > >> On Sun, Feb 16, 2020 at 11:02:21PM +0200, Laurent Pinchart wrote:
-> > >>> To support implementation of DRM connectors on top of DRM bridges
-> > >>> instead of by bridges, the drm_bridge needs to expose new operation=
-s and
-> > >>> data:
-> > >>>
-> > >>> - Output detection, hot-plug notification, mode retrieval and EDID
-> > >>>   retrieval operations
-> > >>> - Bitmask of supported operations
-> > >>> - Bridge output type
-> > >>> - I2C adapter for DDC access
-> > >>>
-> > >>> Add and document these.
-> > >>>
-> > >>> Three new bridge helper functions are also added to handle hot plug
-> > >>> notification in a way that is as transparent as possible for the
-> > >>> bridges.
-> > >>>
-> > >>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > >>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> > >>> ---
-> > >>> Changes since v3:
-> > >>>
-> > >>> - Fix typos
-> > >>>
-> > >>> Changes since v2:
-> > >>>
-> > >>> - Add wrappers around the .detect(), .get_modes() and .get_edid()
-> > >>>   operations
-> > >>> - Warn bridge drivers about valid usage of the connector argument to
-> > >>>   .get_modes() and .get_edid()
-> > >>>
-> > >>> Changes since v1:
-> > >>>
-> > >>> - Make .hpd_enable() and .hpd_disable() optional
-> > >>> - Rename .lost_hotplug() to .hpd_notify()
-> > >>> - Add ddc field to drm_bridge
-> > >>> ---
-> > >>>  drivers/gpu/drm/drm_bridge.c | 162 +++++++++++++++++++++++++++++
-> > >>>  include/drm/drm_bridge.h     | 192 +++++++++++++++++++++++++++++++=
-+++-
-> > >>>  2 files changed, 353 insertions(+), 1 deletion(-)
-> > >>>
-> > >>> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bri=
-dge.c
-> > >>> index 68ab933ee430..78d26a9a3ee6 100644
-> > >>> --- a/drivers/gpu/drm/drm_bridge.c
-> > >>> +++ b/drivers/gpu/drm/drm_bridge.c
-> > >>> @@ -71,6 +71,8 @@ static LIST_HEAD(bridge_list);
-> > >>>   */
-> > >>>  void drm_bridge_add(struct drm_bridge *bridge)
-> > >>>  {
-> > >>> +   mutex_init(&bridge->hpd_mutex);
-> > >>> +
-> > >>>     mutex_lock(&bridge_lock);
-> > >>>     list_add_tail(&bridge->list, &bridge_list);
-> > >>>     mutex_unlock(&bridge_lock);
-> > >>> @@ -87,6 +89,8 @@ void drm_bridge_remove(struct drm_bridge *bridge)
-> > >>>     mutex_lock(&bridge_lock);
-> > >>>     list_del_init(&bridge->list);
-> > >>>     mutex_unlock(&bridge_lock);
-> > >>> +
-> > >>> +   mutex_destroy(&bridge->hpd_mutex);
-> > >>>  }
-> > >>>  EXPORT_SYMBOL(drm_bridge_remove);
-> > >>>
-> > >>> @@ -919,6 +923,164 @@ int drm_atomic_bridge_chain_check(struct drm_=
-bridge *bridge,
-> > >>>  }
-> > >>>  EXPORT_SYMBOL(drm_atomic_bridge_chain_check);
-> > >>>
-> > >>> +/**
-> > >>> + * drm_bridge_detect - check if anything is attached to the bridge=
- output
-> > >>> + * @bridge: bridge control structure
-> > >>> + *
-> > >>> + * If the bridge supports output detection, as reported by the
-> > >>> + * DRM_BRIDGE_OP_DETECT bridge ops flag, call &drm_bridge_funcs.de=
-tect for the
-> > >>> + * bridge and return the connection status. Otherwise return
-> > >>> + * connector_status_unknown.
-> > >>> + *
-> > >>> + * RETURNS:
-> > >>> + * The detection status on success, or connector_status_unknown if=
- the bridge
-> > >>> + * doesn't support output detection.
-> > >>> + */
-> > >>> +enum drm_connector_status drm_bridge_detect(struct drm_bridge *bri=
-dge)
-> > >>> +{
-> > >>> +   if (!(bridge->ops & DRM_BRIDGE_OP_DETECT))
-> > >>> +           return connector_status_unknown;
-> > >>> +
-> > >>> +   return bridge->funcs->detect(bridge);
-> > >>> +}
-> > >>> +EXPORT_SYMBOL_GPL(drm_bridge_detect);
-> > >>> +
-> > >>> +/**
-> > >>> + * drm_bridge_get_modes - fill all modes currently valid for the s=
-ink into the
-> > >>> + * @connector
-> > >>> + * @bridge: bridge control structure
-> > >>> + * @connector: the connector to fill with modes
-> > >>> + *
-> > >>> + * If the bridge supports output modes retrieval, as reported by t=
-he
-> > >>> + * DRM_BRIDGE_OP_MODES bridge ops flag, call &drm_bridge_funcs.get=
-_modes to
-> > >>> + * fill the connector with all valid modes and return the number o=
-f modes
-> > >>> + * added. Otherwise return 0.
-> > >>> + *
-> > >>> + * RETURNS:
-> > >>> + * The number of modes added to the connector.
-> > >>> + */
-> > >>> +int drm_bridge_get_modes(struct drm_bridge *bridge,
-> > >>> +                    struct drm_connector *connector)
-> > >>> +{
-> > >>> +   if (!(bridge->ops & DRM_BRIDGE_OP_MODES))
-> > >>> +           return 0;
-> > >>> +
-> > >>> +   return bridge->funcs->get_modes(bridge, connector);
-> > >>> +}
-> > >>> +EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
-> > >>> +
-> > >>> +/**
-> > >>> + * drm_bridge_get_edid - get the EDID data of the connected display
-> > >>> + * @bridge: bridge control structure
-> > >>> + * @connector: the connector to read EDID for
-> > >>> + *
-> > >>> + * If the bridge supports output EDID retrieval, as reported by the
-> > >>> + * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.get_=
-edid to
-> > >>> + * get the EDID and return it. Otherwise return ERR_PTR(-ENOTSUPP).
-> > >>> + *
-> > >>> + * RETURNS:
-> > >>> + * The retrieved EDID on success, or an error pointer otherwise.
-> > >>> + */
-> > >>> +struct edid *drm_bridge_get_edid(struct drm_bridge *bridge,
-> > >>> +                            struct drm_connector *connector)
-> > >>> +{
-> > >>> +   if (!(bridge->ops & DRM_BRIDGE_OP_EDID))
-> > >>> +           return ERR_PTR(-ENOTSUPP);
-> > >>> +
-> > >>> +   return bridge->funcs->get_edid(bridge, connector);
-> > >>> +}
-> > >>> +EXPORT_SYMBOL_GPL(drm_bridge_get_edid);
-> > >>> +
-> > >>> +/**
-> > >>> + * drm_bridge_hpd_enable - enable hot plug detection for the bridge
-> > >>> + * @bridge: bridge control structure
-> > >>> + * @cb: hot-plug detection callback
-> > >>> + * @data: data to be passed to the hot-plug detection callback
-> > >>> + *
-> > >>> + * Call &drm_bridge_funcs.hpd_enable if implemented and register t=
-he given @cb
-> > >>> + * and @data as hot plug notification callback. From now on the @c=
-b will be
-> > >>> + * called with @data when an output status change is detected by t=
-he bridge,
-> > >>> + * until hot plug notification gets disabled with drm_bridge_hpd_d=
-isable().
-> > >>> + *
-> > >>> + * Hot plug detection is supported only if the DRM_BRIDGE_OP_HPD f=
-lag is set in
-> > >>> + * bridge->ops. This function shall not be called when the flag is=
- not set.
-> > >>> + *
-> > >>> + * Only one hot plug detection callback can be registered at a tim=
-e, it is an
-> > >>> + * error to call this function when hot plug detection is already =
-enabled for
-> > >>> + * the bridge.
-> > >>> + */
-> > >>> +void drm_bridge_hpd_enable(struct drm_bridge *bridge,
-> > >>> +                      void (*cb)(void *data,
-> > >>> +                                 enum drm_connector_status status),
-> > >>> +                      void *data)
-> > >>> +{
-> > >>> +   if (!bridge || !(bridge->ops & DRM_BRIDGE_OP_HPD))
-> > >>
-> > >> Supplying a NULL bridge is a caller bug imo, and you're inconsistent=
- in
-> > >> handling this. Imo just drop.
-> > >
-> > > Sounds good to me, I'll drop it.
-> > >
-> > >>> +           return;
-> > >>> +
-> > >>> +   mutex_lock(&bridge->hpd_mutex);
-> > >>> +
-> > >>> +   if (WARN(bridge->hpd_cb, "Hot plug detection already enabled\n"=
-))
-> > >>> +           goto unlock;
-> > >>> +
-> > >>> +   bridge->hpd_cb =3D cb;
-> > >>> +   bridge->hpd_data =3D data;
-> > >>> +
-> > >>> +   if (bridge->funcs->hpd_enable)
-> > >>> +           bridge->funcs->hpd_enable(bridge);
-> > >>> +
-> > >>> +unlock:
-> > >>> +   mutex_unlock(&bridge->hpd_mutex);
-> > >>> +}
-> > >>> +EXPORT_SYMBOL_GPL(drm_bridge_hpd_enable);
-> > >>> +
-> > >>> +/**
-> > >>> + * drm_bridge_hpd_disable - disable hot plug detection for the bri=
-dge
-> > >>> + * @bridge: bridge control structure
-> > >>> + *
-> > >>> + * Call &drm_bridge_funcs.hpd_disable if implemented and unregiste=
-r the hot
-> > >>> + * plug detection callback previously registered with drm_bridge_h=
-pd_enable().
-> > >>> + * Once this function returns the callback will not be called by t=
-he bridge
-> > >>> + * when an output status change occurs.
-> > >>> + *
-> > >>> + * Hot plug detection is supported only if the DRM_BRIDGE_OP_HPD f=
-lag is set in
-> > >>> + * bridge->ops. This function shall not be called when the flag is=
- not set.
-> > >>> + */
-> > >>> +void drm_bridge_hpd_disable(struct drm_bridge *bridge)
-> > >>> +{
-> > >>> +   if (!bridge || !(bridge->ops & DRM_BRIDGE_OP_HPD))
-> > >>> +           return;
-> > >>> +
-> > >>> +   mutex_lock(&bridge->hpd_mutex);
-> > >>> +   if (bridge->funcs->hpd_disable)
-> > >>> +           bridge->funcs->hpd_disable(bridge);
-> > >>> +
-> > >>> +   bridge->hpd_cb =3D NULL;
-> > >>> +   bridge->hpd_data =3D NULL;
-> > >>> +   mutex_unlock(&bridge->hpd_mutex);
-> > >>> +}
-> > >>> +EXPORT_SYMBOL_GPL(drm_bridge_hpd_disable);
-> > >>> +
-> > >>> +/**
-> > >>> + * drm_bridge_hpd_notify - notify hot plug detection events
-> > >>> + * @bridge: bridge control structure
-> > >>> + * @status: output connection status
-> > >>> + *
-> > >>> + * Bridge drivers shall call this function to report hot plug even=
-ts when they
-> > >>> + * detect a change in the output status, when hot plug detection h=
-as been
-> > >>> + * enabled by drm_bridge_hpd_enable().
-> > >>> + *
-> > >>> + * This function shall be called in a context that can sleep.
-> > >>> + */
-> > >>> +void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> > >>> +                      enum drm_connector_status status)
-> > >>> +{
-> > >>> +   mutex_lock(&bridge->hpd_mutex);
-> > >>> +   if (bridge->hpd_cb)
-> > >>> +           bridge->hpd_cb(bridge->hpd_data, status);
-> > >>> +   mutex_unlock(&bridge->hpd_mutex);
-> > >>> +}
-> > >>> +EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
-> > >>> +
-> > >>>  #ifdef CONFIG_OF
-> > >>>  /**
-> > >>>   * of_drm_find_bridge - find the bridge corresponding to the devic=
-e node in
-> > >>> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > >>> index 45626ecf20f8..ba9b7c84f11e 100644
-> > >>> --- a/include/drm/drm_bridge.h
-> > >>> +++ b/include/drm/drm_bridge.h
-> > >>> @@ -23,8 +23,9 @@
-> > >>>  #ifndef __DRM_BRIDGE_H__
-> > >>>  #define __DRM_BRIDGE_H__
-> > >>>
-> > >>> -#include <linux/list.h>
-> > >>>  #include <linux/ctype.h>
-> > >>> +#include <linux/list.h>
-> > >>> +#include <linux/mutex.h>
-> > >>>
-> > >>>  #include <drm/drm_atomic.h>
-> > >>>  #include <drm/drm_encoder.h>
-> > >>> @@ -33,7 +34,10 @@
-> > >>>
-> > >>>  struct drm_bridge;
-> > >>>  struct drm_bridge_timings;
-> > >>> +struct drm_connector;
-> > >>>  struct drm_panel;
-> > >>> +struct edid;
-> > >>> +struct i2c_adapter;
-> > >>>
-> > >>>  /**
-> > >>>   * struct drm_bridge_funcs - drm_bridge control functions
-> > >>> @@ -488,6 +492,119 @@ struct drm_bridge_funcs {
-> > >>>      * giving the reason of the failure otherwise.
-> > >>>      */
-> > >>>     struct drm_bridge_state *(*atomic_reset)(struct drm_bridge *bri=
-dge);
-> > >>> +
-> > >>> +   /**
-> > >>> +    * @detect:
-> > >>> +    *
-> > >>> +    * Check if anything is attached to the bridge output.
-> > >>> +    *
-> > >>> +    * This callback is optional, if not implemented the bridge wil=
-l be
-> > >>> +    * considered as always having a component attached to its outp=
-ut.
-> > >>> +    * Bridges that implement this callback shall set the
-> > >>> +    * DRM_BRIDGE_OP_DETECT flag in their &drm_bridge->ops.
-> > >>> +    *
-> > >>> +    * RETURNS:
-> > >>> +    *
-> > >>> +    * drm_connector_status indicating the bridge output status.
-> > >>> +    */
-> > >>> +   enum drm_connector_status (*detect)(struct drm_bridge *bridge);
-> > >>> +
-> > >>> +   /**
-> > >>> +    * @get_modes:
-> > >>> +    *
-> > >>> +    * Fill all modes currently valid for the sink into the &drm_co=
-nnector
-> > >>> +    * with drm_mode_probed_add().
-> > >>> +    *
-> > >>> +    * The @get_modes callback is mostly intended to support non-pr=
-obeable
-> > >>> +    * displays such as many fixed panels. Bridges that support rea=
-ding
-> > >>> +    * EDID shall leave @get_modes unimplemented and implement the
-> > >>> +    * &drm_bridge_funcs->get_edid callback instead.
-> > >>> +    *
-> > >>> +    * This callback is optional. Bridges that implement it shall s=
-et the
-> > >>> +    * DRM_BRIDGE_OP_MODES flag in their &drm_bridge->ops.
-> > >>> +    *
-> > >>> +    * The connector parameter shall be used for the sole purpose of
-> > >>> +    * filling modes, and shall not be stored internally by bridge =
-drivers
-> > >>> +    * for future usage.
-> > >>> +    *
-> > >>> +    * RETURNS:
-> > >>> +    *
-> > >>> +    * The number of modes added by calling drm_mode_probed_add().
-> > >>> +    */
-> > >>> +   int (*get_modes)(struct drm_bridge *bridge,
-> > >>> +                    struct drm_connector *connector);
-> > >>> +
-> > >>> +   /**
-> > >>> +    * @get_edid:
-> > >>> +    *
-> > >>> +    * Read and parse the EDID data of the connected display.
-> > >>> +    *
-> > >>> +    * The @get_edid callback is the preferred way of reporting mode
-> > >>> +    * information for a display connected to the bridge output. Br=
-idges
-> > >>> +    * that support reading EDID shall implement this callback and =
-leave
-> > >>> +    * the @get_modes callback unimplemented.
-> > >>> +    *
-> > >>> +    * The caller of this operation shall first verify the output
-> > >>> +    * connection status and refrain from reading EDID from a disco=
-nnected
-> > >>> +    * output.
-> > >>> +    *
-> > >>> +    * This callback is optional. Bridges that implement it shall s=
-et the
-> > >>> +    * DRM_BRIDGE_OP_EDID flag in their &drm_bridge->ops.
-> > >>> +    *
-> > >>> +    * The connector parameter shall be used for the sole purpose o=
-f EDID
-> > >>> +    * retrieval and parsing, and shall not be stored internally by=
- bridge
-> > >>> +    * drivers for future usage.
-> > >>> +    *
-> > >>> +    * RETURNS:
-> > >>> +    *
-> > >>> +    * An edid structure newly allocated with kmalloc() (or similar=
-) on
-> > >>> +    * success, or NULL otherwise. The caller is responsible for fr=
-eeing
-> > >>> +    * the returned edid structure with kfree().
-> > >>> +    */
-> > >>> +   struct edid *(*get_edid)(struct drm_bridge *bridge,
-> > >>> +                            struct drm_connector *connector);
-> > >>> +
-> > >>> +   /**
-> > >>> +    * @hpd_notify:
-> > >>> +    *
-> > >>> +    * Notify the bridge of hot plug detection.
-> > >>> +    *
-> > >>> +    * This callback is optional, it may be implemented by bridges =
-that
-> > >>> +    * need to be notified of display connection or disconnection f=
-or
-> > >>> +    * internal reasons. One use case is to reset the internal stat=
-e of CEC
-> > >>> +    * controllers for HDMI bridges.
-> > >>> +    */
-> > >>> +   void (*hpd_notify)(struct drm_bridge *bridge,
-> > >>> +                      enum drm_connector_status status);
-> > >>> +
-> > >>> +   /**
-> > >>> +    * @hpd_enable:
-> > >>> +    *
-> > >>> +    * Enable hot plug detection. From now on the bridge shall call
-> > >>> +    * drm_bridge_hpd_notify() each time a change is detected in th=
-e output
-> > >>> +    * connection status, until hot plug detection gets disabled wi=
-th
-> > >>> +    * @hpd_disable.
-> > >>> +    *
-> > >>> +    * This callback is optional and shall only be implemented by b=
-ridges
-> > >>> +    * that support hot-plug notification without polling. Bridges =
-that
-> > >>> +    * implement it shall also implement the @hpd_disable callback =
-and set
-> > >>> +    * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
-> > >>> +    */
-> > >>> +   void (*hpd_enable)(struct drm_bridge *bridge);
-> > >>> +
-> > >>> +   /**
-> > >>> +    * @hpd_disable:
-> > >>> +    *
-> > >>> +    * Disable hot plug detection. Once this function returns the b=
-ridge
-> > >>> +    * shall not call drm_bridge_hpd_notify() when a change in the =
-output
-> > >>> +    * connection status occurs.
-> > >>> +    *
-> > >>> +    * This callback is optional and shall only be implemented by b=
-ridges
-> > >>> +    * that support hot-plug notification without polling. Bridges =
-that
-> > >>> +    * implement it shall also implement the @hpd_enable callback a=
-nd set
-> > >>> +    * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
-> > >>> +    */
-> > >>> +   void (*hpd_disable)(struct drm_bridge *bridge);
-> > >>>  };
-> > >>>
-> > >>>  /**
-> > >>> @@ -526,6 +643,39 @@ struct drm_bridge_timings {
-> > >>>     bool dual_link;
-> > >>>  };
-> > >>>
-> > >>> +/**
-> > >>> + * enum drm_bridge_ops - Bitmask of operations supported by the br=
-idge
-> > >>> + */
-> > >>> +enum drm_bridge_ops {
-> > >>> +   /**
-> > >>> +    * @DRM_BRIDGE_OP_DETECT: The bridge can detect displays connec=
-ted to
-> > >>> +    * its output. Bridges that set this flag shall implement the
-> > >>> +    * &drm_bridge_funcs->detect callback.
-> > >>> +    */
-> > >>> +   DRM_BRIDGE_OP_DETECT =3D BIT(0),
-> > >>> +   /**
-> > >>> +    * @DRM_BRIDGE_OP_EDID: The bridge can retrieve the EDID of the=
- display
-> > >>> +    * connected to its output. Bridges that set this flag shall im=
-plement
-> > >>> +    * the &drm_bridge_funcs->get_edid callback.
-> > >>> +    */
-> > >>> +   DRM_BRIDGE_OP_EDID =3D BIT(1),
-> > >>> +   /**
-> > >>> +    * @DRM_BRIDGE_OP_HPD: The bridge can detect hot-plug and hot-u=
-nplug
-> > >>> +    * without requiring polling. Bridges that set this flag shall
-> > >>> +    * implement the &drm_bridge_funcs->hpd_enable and
-> > >>> +    * &drm_bridge_funcs->hpd_disable callbacks if they support ena=
-bling
-> > >>> +    * and disabling hot-plug detection dynamically.
-> > >>> +    */
-> > >>> +   DRM_BRIDGE_OP_HPD =3D BIT(2),
-> > >>> +   /**
-> > >>> +    * @DRM_BRIDGE_OP_MODES: The bridge can retrieve the modes supp=
-orted
-> > >>> +    * by the display at its output. This does not include reading =
-EDID
-> > >>> +    * which is separately covered by @DRM_BRIDGE_OP_EDID. Bridges =
-that set
-> > >>> +    * this flag shall implement the &drm_bridge_funcs->get_modes c=
-allback.
-> > >>> +    */
-> > >>> +   DRM_BRIDGE_OP_MODES =3D BIT(3),
-> > >>> +};
-> > >>
-> > >> I still don't like this one here, since most of them are tracking
-> > >> redundant information. If you don't like just checking for the hook
-> > >> directly wrap it in a helper, e.g.
-> > >>
-> > >> bool drm_bridge_supports_detect(bridge)
-> > >> {
-> > >>       return bridge->ops->detect;
-> > >> }
-> > >
-> > > It seems I've done a really bad job explaining why the flags are
-> > > required, so let me try again :-)
-> > >
-> > > There's a difference between supporting an operation in a driver, and
-> > > supporting it in a given system. When a bridge hardware supports read=
-ing
-> > > EDID, or detecting hotplug, the driver will implement this and expose
-> > > the corresponding operation in drm_bridge_funcs by setting the functi=
-on
-> > > pointers appropriately.
-> > >
-> > > However, this doesn't mean that the DDC lines are wired to the bridge=
- on
-> > > a particular board, they could be connected to an I2C controller of t=
-he
-> > > SoC. Same for the HPD line, it could be connected to a GPIO instead o=
+> > > > > > > > > > v2: update page tables immediately
+> > > > > > > > > > =
+
+> > > > > > > > > > Signed-off-by: Christian K=F6nig <christian.koenig@amd.=
+com>
+> > > > > > > > > > ---
+> > > > > > > > > >   =A0=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | =
+66
+> > > > > > > > > > ++++++++++++++++++++-
+> > > > > > > > > >   =A0=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_object.c=A0 =
+|=A0 6 ++
+> > > > > > > > > >   =A0=A0 2 files changed, 71 insertions(+), 1 deletion(=
+-)
+> > > > > > > > > > =
+
+> > > > > > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > > > > > > > > > b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > > > > > > > > > index 770baba621b3..48de7624d49c 100644
+> > > > > > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > > > > > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > > > > > > > > > @@ -453,7 +453,71 @@ amdgpu_dma_buf_create_obj(struct
+> > > > > > > > > > drm_device *dev, struct dma_buf *dma_buf)
+> > > > > > > > > >   =A0=A0=A0=A0=A0 return ERR_PTR(ret);
+> > > > > > > > > >   =A0=A0 }
+> > > > > > > > > > =
+
+> > > > > > > > > > +/**
+> > > > > > > > > > + * amdgpu_dma_buf_move_notify - &attach.move_notify im=
+plementation
+> > > > > > > > > > + *
+> > > > > > > > > > + * @attach: the DMA-buf attachment
+> > > > > > > > > > + *
+> > > > > > > > > > + * Invalidate the DMA-buf attachment, making sure that
+> > > > > > > > > > the we re-create the
+> > > > > > > > > > + * mapping before the next use.
+> > > > > > > > > > + */
+> > > > > > > > > > +static void
+> > > > > > > > > > +amdgpu_dma_buf_move_notify(struct dma_buf_attachment *=
+attach)
+> > > > > > > > > > +{
+> > > > > > > > > > +=A0=A0=A0 struct drm_gem_object *obj =3D attach->impor=
+ter_priv;
+> > > > > > > > > > +=A0=A0=A0 struct ww_acquire_ctx *ticket =3D dma_resv_l=
+ocking_ctx(obj->resv);
+> > > > > > > > > > +=A0=A0=A0 struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(ob=
+j);
+> > > > > > > > > > +=A0=A0=A0 struct amdgpu_device *adev =3D amdgpu_ttm_ad=
+ev(bo->tbo.bdev);
+> > > > > > > > > > +=A0=A0=A0 struct ttm_operation_ctx ctx =3D { false, fa=
+lse };
+> > > > > > > > > > +=A0=A0=A0 struct ttm_placement placement =3D {};
+> > > > > > > > > > +=A0=A0=A0 struct amdgpu_vm_bo_base *bo_base;
+> > > > > > > > > > +=A0=A0=A0 int r;
+> > > > > > > > > > +
+> > > > > > > > > > +=A0=A0=A0 if (bo->tbo.mem.mem_type =3D=3D TTM_PL_SYSTE=
+M)
+> > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return;
+> > > > > > > > > > +
+> > > > > > > > > > +=A0=A0=A0 r =3D ttm_bo_validate(&bo->tbo, &placement, =
+&ctx);
+> > > > > > > > > > +=A0=A0=A0 if (r) {
+> > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DRM_ERROR("Failed to=
+ invalidate DMA-buf
+> > > > > > > > > > import (%d))\n", r);
+> > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return;
+> > > > > > > > > > +=A0=A0=A0 }
+> > > > > > > > > > +
+> > > > > > > > > > +=A0=A0=A0 for (bo_base =3D bo->vm_bo; bo_base; bo_base=
+ =3D bo_base->next) {
+> > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct amdgpu_vm *vm=
+ =3D bo_base->vm;
+> > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct dma_resv *res=
+v =3D vm->root.base.bo->tbo.base.resv;
+> > > > > > > > > > +
+> > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ticket) {
+> > > > > > > > > Yeah so this is kinda why I've been a total pain about the
+> > > > > > > > > exact semantics
+> > > > > > > > > of the move_notify hook. I think we should flat-out requi=
+re
+> > > > > > > > > that importers
+> > > > > > > > > _always_ have a ticket attach when they call this, and th=
+at
+> > > > > > > > > they can cope
+> > > > > > > > > with additional locks being taken (i.e. full EDEADLCK) ha=
+ndling.
+> > > > > > > > > =
+
+> > > > > > > > > Simplest way to force that contract is to add a dummy 2nd
+> > > > > > > > > ww_mutex lock to
+> > > > > > > > > the dma_resv object, which we then can take #ifdef
+> > > > > > > > > CONFIG_WW_MUTEX_SLOWPATH_DEBUG. Plus mabye a WARN_ON(!tic=
+ket).
+> > > > > > > > > =
+
+> > > > > > > > > Now the real disaster is how we handle deadlocks. Two iss=
+ues:
+> > > > > > > > > =
+
+> > > > > > > > > - Ideally we'd keep any lock we've taken locked until the
+> > > > > > > > > end, it helps
+> > > > > > > > >   =A0=A0=A0 needless backoffs. I've played around a bit w=
+ith that
+> > > > > > > > > but not even poc
+> > > > > > > > >   =A0=A0=A0 level, just an idea:
+> > > > > > > > > =
+
+> > > > > > > > > https://cgit.freedesktop.org/~danvet/drm/commit/?id=3Db17=
+99c5a0f02df9e1bb08d27be37331255ab7582
+> > > > > > > > > =
+
+> > > > > > > > > =
+
+> > > > > > > > >   =A0=A0=A0 Idea is essentially to track a list of object=
+s we had to
+> > > > > > > > > lock as part of
+> > > > > > > > >   =A0=A0=A0 the ttm_bo_validate of the main object.
+> > > > > > > > > =
+
+> > > > > > > > > - Second one is if we get a EDEADLCK on one of these
+> > > > > > > > > sublocks (like the
+> > > > > > > > >   =A0=A0=A0 one here). We need to pass that up the entire=
+ callchain,
+> > > > > > > > > including a
+> > > > > > > > >   =A0=A0=A0 temporary reference (we have to drop locks to=
+ do the
+> > > > > > > > > ww_mutex_lock_slow
+> > > > > > > > >   =A0=A0=A0 call), and need a custom callback to drop tha=
+t temporary reference
+> > > > > > > > >   =A0=A0=A0 (since that's all driver specific, might even=
+ be
+> > > > > > > > > internal ww_mutex and
+> > > > > > > > >   =A0=A0=A0 not anything remotely looking like a normal d=
+ma_buf).
+> > > > > > > > > This probably
+> > > > > > > > >   =A0=A0=A0 needs the exec util helpers from ttm, but at =
+the
+> > > > > > > > > dma_resv level, so that
+> > > > > > > > >   =A0=A0=A0 we can do something like this:
+> > > > > > > > > =
+
+> > > > > > > > > struct dma_resv_ticket {
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0 struct ww_acquire_ctx base;
+> > > > > > > > > =
+
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0 /* can be set by anyone (including o=
+ther drivers)
+> > > > > > > > > that got hold of
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0=A0 * this ticket and had to acquire =
+some new lock. This
+> > > > > > > > > lock might
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0=A0 * protect anything, including dri=
+ver-internal stuff, and isn't
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0=A0 * required to be a dma_buf or eve=
+n just a dma_resv. */
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0 struct ww_mutex *contended_lock;
+> > > > > > > > > =
+
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0 /* callback which the driver (which =
+might be a dma-buf exporter
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0=A0 * and not matching the driver tha=
+t started this
+> > > > > > > > > locking ticket)
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0=A0 * sets together with @contended_l=
+ock, for the main
+> > > > > > > > > driver to drop
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0=A0 * when it calls dma_resv_unlock o=
+n the contended_lock. */
+> > > > > > > > >   =A0=A0=A0=A0=A0=A0 void (drop_ref*)(struct ww_mutex *co=
+ntended_lock);
+> > > > > > > > > };
+> > > > > > > > > =
+
+> > > > > > > > > This is all supremely nasty (also ttm_bo_validate would n=
+eed to be
+> > > > > > > > > improved to handle these sublocks and random new objects
+> > > > > > > > > that could force
+> > > > > > > > > a ww_mutex_lock_slow).
+> > > > > > > > > =
+
+> > > > > > > > Just a short comment on this:
+> > > > > > > > =
+
+> > > > > > > > Neither the currently used wait-die or the wound-wait algor=
+ithm
+> > > > > > > > *strictly* requires a slow lock on the contended lock. For
+> > > > > > > > wait-die it's
+> > > > > > > > just very convenient since it makes us sleep instead of spi=
+nning with
+> > > > > > > > -EDEADLK on the contended lock. For wound-wait IIRC one cou=
+ld just
+> > > > > > > > immediately restart the whole locking transaction after an
+> > > > > > > > -EDEADLK, and
+> > > > > > > > the transaction would automatically end up waiting on the c=
+ontended
+> > > > > > > > lock, provided the mutex lock stealing is not allowed. Ther=
+e is however
+> > > > > > > > a possibility that the transaction will be wounded again on=
+ another
+> > > > > > > > lock, taken before the contended lock, but I think there ar=
+e ways to
+> > > > > > > > improve the wound-wait algorithm to reduce that probability.
+> > > > > > > > =
+
+> > > > > > > > So in short, choosing the wound-wait algorithm instead of w=
+ait-die and
+> > > > > > > > perhaps modifying the ww mutex code somewhat would probably=
+ help
+> > > > > > > > passing
+> > > > > > > > an -EDEADLK up the call chain without requiring passing the=
+ contended
+> > > > > > > > lock, as long as each locker releases its own locks when re=
+ceiving an
+> > > > > > > > -EDEADLK.
+> > > > > > > Hm this is kinda tempting, since rolling out the full backoff=
+ tricker
+> > > > > > > across driver boundaries is going to be real painful.
+> > > > > > > =
+
+> > > > > > > What I'm kinda worried about is the debug/validation checks w=
+e're
+> > > > > > > losing with this. The required backoff has this nice property=
+ that
+> > > > > > > ww_mutex debug code can check that we've fully unwound everyt=
+hing when
+> > > > > > > we should, that we've blocked on the right lock, and that we'=
+re
+> > > > > > > restarting everything without keeling over. Without that I th=
+ink we
+> > > > > > > could end up with situations where a driver in the middle fee=
+ls like
+> > > > > > > handling the EDEADLCK, which might go well most of the times =
+(the
+> > > > > > > deadlock will probably be mostly within a given driver, not a=
+cross).
+> > > > > > > Right up to the point where someone creates a deadlock across=
+ drivers,
+> > > > > > > and the lack of full rollback will be felt.
+> > > > > > > =
+
+> > > > > > > So not sure whether we can still keep all these debug/validat=
+ion
+> > > > > > > checks, or whether this is a step too far towards clever tric=
+ks.
+> > > > > > I think we could definitely find a way to keep debugging to mak=
+e sure
+> > > > > > everything is unwound before attempting to restart the locking
+> > > > > > transaction. But the debug check that we're restarting on the c=
+ontended
+> > > > > > lock only really makes sense for wait-die, (and we could easily=
+ keep it
+> > > > > > for wait-die). The lock returning -EDEADLK for wound-wait may a=
+ctually
+> > > > > > not be the contending lock but an arbitrary lock that the wound=
+ed
+> > > > > > transaction attempts to take after it is wounded.
+> > > > > > =
+
+> > > > > > So in the end IMO this is a tradeoff between added (possibly se=
+vere)
+> > > > > > locking complexity into dma-buf and not being able to switch ba=
+ck to
+> > > > > > wait-die efficiently if we need / want to do that.
+> > > > > > =
+
+> > > > > > /Thomas
+> > > > > And as a consequence an interface *could* be:
+> > > > > =
+
+> > > > > *) We introduce functions
+> > > > > =
+
+> > > > > void ww_acquire_relax(struct ww_acquire_ctx *ctx);
+> > > > > int ww_acquire_relax_interruptible(struct ww_acquire_ctx *ctx);
+> > > > > =
+
+> > > > > that can be used instead of ww_mutex_lock_slow() in the absence o=
 f a
-> > > dedicated pin of the bridge. This board-specific information is repor=
-ted
-> > > by the firmware (ACPI or DT), parsed by the bridge driver, and reflec=
-ted
-> > > in the drm_bridge_ops flags.
-> > >
-> > > drm_bridge_funcs and drm_bridge_ops are thus different, the latter
-> > > supplements the former. We could merge the two by setting the
-> > > corresponding function pointer in drm_bridge_funcs to NULL when the
-> > > drm_bridge_ops flag isn't set. This would however require allocating
-> > > drm_bridge_funcs dynamically (either by embedding it into a
-> > > driver-specific structure, or allocating it dynamically directly)
-> > > instead of using a global static const struct, and this is considered=
+> > > > > contending lock to avoid spinning on -EDEADLK. While trying to ta=
+ke the
+> > > > > contending lock is probably the best choice there are various sec=
+ond best
+> > > > > approaches that can be explored, for example waiting on the conte=
+nding
+> > > > > acquire to finish or in the wound-wait case, perhaps do nothing. =
+These
+> > > > > functions will also help us keep the debugging.
+> > > > Hm ... I guess this could work. Trouble is, it only gets rid of the
+> > > > slowpath locking book-keeping headaches, we still have quite a few =
+others.
+> > > > =
+
+> > > > > *) A function returning -EDEADLK to a caller *must* have already =
+released
+> > > > > its own locks.
+> > > > So this ties to another question, as in should these callbacks have=
  to
-> > > be a security issue as it allows a potential attacker to overwrite
-> > > function pointers (there have been quite a lot of security patches
-> > > merged that move function pointers to .rodata or otherwise const
-> > > memory).
+> > > > drops the locks thei acquire (much simpler code) or not (less thras=
+hing,
+> > > > if we drop locks we might end up in a situation where threads thrash
+> > > > around instead of realizing quicker that they're actually deadlocki=
+ng and
+> > > > one of them should stop and back off).
+> > > Hmm.. Could you describe such a thrashing case with an example?
+> > Ignoring cross device fun and all that, just a simplified example of why
+> > holding onto locks you've acquired for eviction is useful, at least in a
+> > slow path.
 > > =
 
-> > Hm so I'm pretty sure you've explained this to me already (at least!)
-> > once in the past, and your favorite context-free & stateless reviewer
-> > didn't bother to remember :-)
+> > - one thread trying to do an execbuf with a huge bo
 > > =
 
-> > I think it's time to improve the intro DOC: section with a few special
-> > notes on chaining bridges. That didn't happen ever since the original
-> > bridge stuff landed, and that non-working idea from years ago evolved
-> > a lot with all this work now. I think adding an entire sub-section or
-> > separate DOC comment for this, which maybe also links to the
-> > connector-bridge helper and kinda ties the entire story you guys
-> > developed together would be really good. Otherwise I'm pretty sure
-> > this is not going to be the last time you have to explain this to
-> > someone ...
+> > vs.
+> > =
+
+> > - an entire pile of thread that try to do execbuf with just a few small=
+ bo
+> > =
+
+> > First thread is in the eviction loop, selects a bo, wins against all the
+> > other thread since it's been doing this forever already, gets the bo mo=
+ved
+> > out, unlocks.
+> > =
+
+> > Since it's competing against lots of other threads with small bo, it'll
+> > have to do that a lot of times. Often enough to create a contiguous hol=
+e.
+> > If you have a smarter allocator that tries to create that hole more
+> > actively, just assume that the single huge bo is a substantial part of
+> > total vram.
+> > =
+
+> > The other threads will be quicker in cramming new stuff in, even if they
+> > occasionally lose the ww dance against the single thread. So the big
+> > thread livelocks.
+> > =
+
+> > If otoh the big thread would keep onto all the locks, eventually it have
+> > the entire vram locked, and every other thread is guaranteed to lose
+> > against it in the ww dance and queue up behind. And it could finally but
+> > its huge bo into vram and execute.
 > =
 
-> Why =F4 why did I have to start the DRM/KMS documentation effort years
-> ago, to see it biting me back now ? :-)
+> Hmm, yes this indeed explains why it's beneficial in some cases to keep a
+> number of=A0 locks held across certain operations, but I still fail to se=
+e why
+> we would like *all* locks held across the entire transaction? In the above
+> case I'd envision us ending up with something like:
+> =
 
-/me checks the list of nasty documentation slackers ...
+> int validate(ctx, bo)
+> {
+> =
 
-You're already on the list for lack of writeback stuff :-P
+> =A0=A0=A0 for_each_suitable_bo_to_evict(ebo) {
+> =A0=A0=A0 =A0=A0=A0 r =3D lock(ctx, ebo);
+> =A0=A0=A0 =A0=A0=A0 if (r =3D=3D EDEADLK)
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 goto out_unlock;
+> =
 
-> I'll give it a go. It may not cover the whole bridge API though,
-> depending on how much time I can spend, but will definitely cover this
-> and put it in context.
+> =A0=A0=A0 =A0=A0=A0 r =3D move_notify(ctx, ebo);// locks and unlocks GPU =
+VM bo.
 
-I think just an updated section on chaining and what's the new design
-should be good enough, with some pointers to relevant functions. Bonus
-points if you can draw a nice diagram for an example :-)
+Yeah I think for move_notify the "keep the locks" thing is probably not
+what we want. That's more for when you have to evict stuff and similar
+things like that (which hopefully no driver needs to do in their
+->move_notify). But for placing buffers we kinda want to keep things, and
+that's also a cross-driver thing (eventually at least I think).
 
-I think the ingredients are all there, so just a few paragraphs at most
-(plus nice picture).
+> =A0=A0=A0 =A0=A0=A0 if (r =3D=3D EDEADLK)
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 goto out_unlock;
+> =A0=A0=A0 =A0=A0=A0 evict();
+> =A0=A0=A0 }
+> =
+
+> =A0=A0=A0 place_bo(bo);
+> =A0=A0=A0 //Repeat until success.
+> =
+
+> =
+
+> out_unlock:
+> =A0=A0=A0 for_each_locked_bo(ebo)
+> =A0=A0=A0 =A0=A0=A0 unlock(ctx, ebo);
+
+So that this unlock loop would need to be moved up to higher levels
+perhaps. This here would solve the example of a single big bo, but if you
+have multiple then you still end up with a lot of thrashing until the
+younger thread realizes that it needs to back off.
+
+> }
+> =
+
+> =
+
+> void command_submission()
+> {
+> =A0=A0=A0 acquire_init(ctx);
+> =
+
+> restart:
+> =A0=A0=A0 for_each_bo_in_cs(bo) {
+> =A0=A0=A0 =A0=A0=A0 r =3D lock(ctx, bo);
+> =A0=A0=A0 =A0=A0=A0 if (r =3D=3D -EDEADLK)
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 goto out_unreserve;
+> =A0=A0=A0 }
+> =
+
+> =A0=A0=A0 for_each_bo_in_cs(bo) {
+> =A0=A0=A0 =A0=A0=A0 r =3D validate(ctx, bo);
+> =A0=A0=A0 =A0=A0=A0 if (r =3D=3D -EDEADLK)
+> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 goto out_unreserve;
+> =A0=A0=A0 };
+> =
+
+> =A0=A0=A0 cs();
+> =
+
+> =A0=A0=A0 for_each_bo_in_cs(bo)
+> =A0=A0=A0 =A0=A0=A0 unlock(ctx, bo);
+> =
+
+> =A0=A0=A0 acquire_fini(ctx);
+> =A0=A0=A0 return 0;
+> =
+
+> out_unreserve:
+> =A0=A0=A0 for_each_locked_bo()
+> =A0=A0=A0 =A0=A0=A0 unlock(ctx, bo);
+> =
+
+> =A0=A0=A0 acquire_relax();
+> =A0=A0=A0 goto restart;
+> }
+> > =
+
+> > Vary example for multi-gpu and more realism, but that's roughly it.
+> > =
+
+> > Aside, a lot of the stuff Christian has been doing in ttm is to improve
+> > the chances that the competing threads will hit one of the locked objec=
+ts
+> > of the big thread, and at least back off a bit. That's at least my
+> > understanding of what's been happening.
+> > -Daniel
+> =
+
+> OK unserstood. For vmwgfx the crude simplistic idea to avoid that situati=
+on
+> has been to have an rwsem around command submission: When the thread with
+> the big bo has run a full LRU worth of eviction without succeeding it wou=
+ld
+> get annoyed and take the rwsem in write mode, blocking competing threads.
+> But that would of course never work in a dma-buf setting, and IIRC the
+> implementation is not complete either....
+
+Yeah the Great Plan (tm) is to fully rely on ww_mutex slowly degenerating
+into essentially a global lock. But only when there's actual contention
+and thrashing.
 -Daniel
-
-> =
-
-> > >> hpd seems to be special, since a bridge can support hotplug but not =
-have
-> > >> the enable_hpd/disable_hpd hooks. Which smells somewhat fishy, since=
- if
-> > >> you have multiple bridges with hpd, how do you make sure you get hpd
-> > >> events only from the right one?
-> > >
-> > > On a given board HPD should only be generated by one bridge in practi=
-ce.
-> > > If we ever encounter systems where multiple bridges can generate HPD =
-for
-> > > the same external HPD event, I think we can deal with them at that ti=
-me.
-> > >
-> > >> Aside from that just having a
-> > >>
-> > >>       bool supports_hpd;
-> > >>
-> > >> seems a lot simpler.
-> > >
-> > > If we only needed DRM_BRIDGE_OP_HPD, I agree that a bool would be
-> > > simpler, but as explained above we need the other ones too :-)
-> > >
-> > >> Yes I know that the drm DRIVER_FOO flags don't work like that, and I=
-'m
-> > >> kinda unhappy about them since forever. Managed to delete most of th=
-em
-> > >> even :-)
-> > >>
-> > >>> +
-> > >>>  /**
-> > >>>   * struct drm_bridge - central DRM bridge control structure
-> > >>>   */
-> > >>> @@ -554,6 +704,33 @@ struct drm_bridge {
-> > >>>     const struct drm_bridge_funcs *funcs;
-> > >>>     /** @driver_private: pointer to the bridge driver's internal co=
-ntext */
-> > >>>     void *driver_private;
-> > >>> +   /** @ops: bitmask of operations supported by the bridge */
-> > >>> +   enum drm_bridge_ops ops;
-> > >>> +   /**
-> > >>> +    * @type: Type of the connection at the bridge output
-> > >>> +    * (DRM_MODE_CONNECTOR_*). For bridges at the end of this chain=
- this
-> > >>> +    * identifies the type of connected display.
-> > >>> +    */
-> > >>> +   int type;
-> > >>> +   /**
-> > >>> +    * @ddc: Associated I2C adapter for DDC access, if any.
-> > >>> +    */
-> > >>> +   struct i2c_adapter *ddc;
-> > >>> +   /** private: */
-> > >>> +   /**
-> > >>> +    * @hpd_mutex: Protects the @hpd_cb and @hpd_data fields.
-> > >>> +    */
-> > >>> +   struct mutex hpd_mutex;
-> > >>> +   /**
-> > >>> +    * @hpd_cb: Hot plug detection callback, registered with
-> > >>> +    * drm_bridge_hpd_enable().
-> > >>> +    */
-> > >>> +   void (*hpd_cb)(void *data, enum drm_connector_status status);
-> > >>> +   /**
-> > >>> +    * @hpd_data: Private data passed to the Hot plug detection cal=
-lback
-> > >>> +    * @hpd_cb.
-> > >>> +    */
-> > >>> +   void *hpd_data;
-> > >>>  };
-> > >>>
-> > >>>  static inline struct drm_bridge *
-> > >>> @@ -660,6 +837,19 @@ drm_atomic_helper_bridge_propagate_bus_fmt(str=
-uct drm_bridge *bridge,
-> > >>>                                     u32 output_fmt,
-> > >>>                                     unsigned int *num_input_fmts);
-> > >>>
-> > >>> +enum drm_connector_status drm_bridge_detect(struct drm_bridge *bri=
-dge);
-> > >>> +int drm_bridge_get_modes(struct drm_bridge *bridge,
-> > >>> +                    struct drm_connector *connector);
-> > >>> +struct edid *drm_bridge_get_edid(struct drm_bridge *bridge,
-> > >>> +                            struct drm_connector *connector);
-> > >>> +void drm_bridge_hpd_enable(struct drm_bridge *bridge,
-> > >>> +                      void (*cb)(void *data,
-> > >>> +                                 enum drm_connector_status status),
-> > >>> +                      void *data);
-> > >>> +void drm_bridge_hpd_disable(struct drm_bridge *bridge);
-> > >>> +void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> > >>> +                      enum drm_connector_status status);
-> > >>> +
-> > >>>  #ifdef CONFIG_DRM_PANEL_BRIDGE
-> > >>>  struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel);
-> > >>>  struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *pa=
-nel,
-> =
-
-> -- =
-
-> Regards,
-> =
-
-> Laurent Pinchart
-
 -- =
 
 Daniel Vetter
