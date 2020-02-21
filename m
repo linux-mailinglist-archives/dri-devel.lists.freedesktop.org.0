@@ -2,37 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8B116A1F8
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D017616A1DA
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:20:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BCB96E25B;
-	Mon, 24 Feb 2020 09:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59AEF89498;
+	Mon, 24 Feb 2020 09:20:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 356 seconds by postgrey-1.36 at gabe;
+ Fri, 21 Feb 2020 16:33:47 UTC
 Received: from shell.v3.sk (unknown [167.172.186.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDA56F4CA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BBAD6F4C9
  for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 16:33:47 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 2A0AFE0082;
- Fri, 21 Feb 2020 16:28:06 +0000 (UTC)
+ by zimbra.v3.sk (Postfix) with ESMTP id EDBFFE0096;
+ Fri, 21 Feb 2020 16:28:07 +0000 (UTC)
 Received: from shell.v3.sk ([127.0.0.1])
  by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id Vbl7OdqyVYxv; Fri, 21 Feb 2020 16:28:03 +0000 (UTC)
+ with ESMTP id 8qfWogf1RC98; Fri, 21 Feb 2020 16:28:04 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 17F6CE008D;
+ by zimbra.v3.sk (Postfix) with ESMTP id D974CE008F;
  Fri, 21 Feb 2020 16:28:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at zimbra.v3.sk
 Received: from shell.v3.sk ([127.0.0.1])
  by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id wxR4J0kW-ibR; Fri, 21 Feb 2020 16:28:02 +0000 (UTC)
+ with ESMTP id aAS8xQ4YYizT; Fri, 21 Feb 2020 16:28:03 +0000 (UTC)
 Received: from furthur.lan (unknown [109.183.109.54])
- by zimbra.v3.sk (Postfix) with ESMTPSA id 0FB3ADFFFE;
+ by zimbra.v3.sk (Postfix) with ESMTPSA id A219CDFC1D;
  Fri, 21 Feb 2020 16:28:02 +0000 (UTC)
 From: Lubomir Rintel <lkundrak@v3.sk>
 To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: [PATCH v2 1/3] dt-bindings: Add vendor prefix for Chrontel, Inc.
-Date: Fri, 21 Feb 2020 17:27:41 +0100
-Message-Id: <20200221162743.14141-2-lkundrak@v3.sk>
+Subject: [PATCH v2 2/3] dt-bindings: display: Add Chrontel CH7033 Video
+ Encoder binding
+Date: Fri, 21 Feb 2020 17:27:42 +0100
+Message-Id: <20200221162743.14141-3-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200221162743.14141-1-lkundrak@v3.sk>
 References: <20200221162743.14141-1-lkundrak@v3.sk>
@@ -61,32 +64,112 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Chrontel makes encoders for video displays and perhaps other stuff.
-Their web site is http://www.chrontel.com/.
+Add binding document for the Chrontel CH7033 VGA/DVI/HDMI Encoder.
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 Changes since v1:
-- Collect Rob's ack
+- Dual licensed with BSD-2-Clause
+- Collected Rob's reviewed-by tag
 
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../display/bridge/chrontel,ch7033.yaml       | 86 +++++++++++++++++++
+ 1 file changed, 86 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index ac4804d0a9917..9c31cb4844aea 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -179,6 +179,8 @@ patternProperties:
-     description: ChipOne
-   "^chipspark,.*":
-     description: ChipSPARK
-+  "^chrontel,.*":
-+    description: Chrontel, Inc.
-   "^chrp,.*":
-     description: Common Hardware Reference Platform
-   "^chunghwa,.*":
+diff --git a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+new file mode 100644
+index 0000000000000..dc97f34fbfe0f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+@@ -0,0 +1,86 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2019 Lubomir Rintel <lkundrak@v3.sk>
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/chrontel,ch7033.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Chrontel CH7033 Video Encoder Device Tree Bindings
++
++maintainers:
++  - Lubomir Rintel <lkundrak@v3.sk>
++
++properties:
++  compatible:
++    const: chrontel,ch7033
++
++  reg:
++    maxItems: 1
++    description: I2C address of the device
++
++  ports:
++    type: object
++
++    properties:
++      port@0:
++        type: object
++        description: |
++          Video port for RGB input.
++
++      port@1:
++        type: object
++        description: |
++          DVI port, should be connected to a node compatible with the
++          dvi-connector binding.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    dvi-connector {
++        compatible = "dvi-connector";
++        ddc-i2c-bus = <&twsi5>;
++        hpd-gpios = <&gpio 62 GPIO_ACTIVE_LOW>;
++        digital;
++        analog;
++
++        port {
++            dvi_in: endpoint {
++                remote-endpoint = <&encoder_out>;
++            };
++        };
++    };
++
++    vga-dvi-encoder@76 {
++        compatible = "chrontel,ch7033";
++        reg = <0x76>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                endpoint {
++                    remote-endpoint = <&lcd0_rgb_out>;
++                };
++            };
++
++            encoder_out: port@1 {
++                reg = <1>;
++                endpoint {
++                    remote-endpoint = <&dvi_in>;
++                };
++            };
++
++        };
++    };
 -- 
 2.24.1
 
