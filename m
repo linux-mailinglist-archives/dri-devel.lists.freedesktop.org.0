@@ -1,34 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F821683B9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 17:38:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6C41683BA
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 17:38:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90C76F4CE;
-	Fri, 21 Feb 2020 16:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 221676F4D0;
+	Fri, 21 Feb 2020 16:38:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA6E76F43D;
- Fri, 21 Feb 2020 12:28:23 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id DF8D1A7198EF02918178;
- Fri, 21 Feb 2020 20:28:19 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 21 Feb 2020 20:28:11 +0800
-From: Chen Zhou <chenzhou10@huawei.com>
-To: <evan.quan@amd.com>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <David1.Zhou@amd.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/amd/powerplay: Use bitwise instead of arithmetic
- operator for flags
-Date: Fri, 21 Feb 2020 20:21:39 +0800
-Message-ID: <20200221122139.148664-1-chenzhou10@huawei.com>
-X-Mailer: git-send-email 2.20.1
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 965A26E2B2;
+ Fri, 21 Feb 2020 13:24:49 +0000 (UTC)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id EBBF3C503326C0296B72;
+ Fri, 21 Feb 2020 21:24:45 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Fri, 21 Feb 2020
+ 21:24:38 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <tony.cheng@amd.com>, <Rodrigo.Siqueira@amd.com>, <Eric.Yang2@amd.com>,
+ <yongqiang.sun@amd.com>, <joseph.gravenor@amd.com>, <jaehyun.chung@amd.com>,
+ <yuehaibing@huawei.com>, <Bhawanpreet.Lakha@amd.com>
+Subject: [PATCH -next] drm/amd/display: remove set but not used variable
+ 'mc_vm_apt_default'
+Date: Fri, 21 Feb 2020 21:24:33 +0800
+Message-ID: <20200221132433.16532-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
+X-Originating-IP: [10.133.213.239]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 21 Feb 2020 16:38:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,47 +46,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chenzhou10@huawei.com, kenneth.feng@amd.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This silences the following coccinelle warning:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_hubp.c:
+ In function hubp21_set_vm_system_aperture_settings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_hubp.c:343:23:
+ warning: variable mc_vm_apt_default set but not used [-Wunused-but-set-variable]
 
-"WARNING: sum of probable bitmasks, consider |"
+It is never used, so remove it.
 
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-index 92a65e3d..f29f95b 100644
---- a/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-@@ -3382,7 +3382,7 @@ static int vega10_populate_and_upload_sclk_mclk_dpm_levels(
- 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
+index aa7b0e7..d285ba6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
+@@ -340,13 +340,9 @@ void hubp21_set_vm_system_aperture_settings(struct hubp *hubp,
+ {
+ 	struct dcn21_hubp *hubp21 = TO_DCN21_HUBP(hubp);
  
- 	if (data->need_update_dpm_table &
--			(DPMTABLE_OD_UPDATE_SCLK + DPMTABLE_UPDATE_SCLK + DPMTABLE_UPDATE_SOCCLK)) {
-+			(DPMTABLE_OD_UPDATE_SCLK | DPMTABLE_UPDATE_SCLK | DPMTABLE_UPDATE_SOCCLK)) {
- 		result = vega10_populate_all_graphic_levels(hwmgr);
- 		PP_ASSERT_WITH_CODE((0 == result),
- 				"Failed to populate SCLK during PopulateNewDPMClocksStates Function!",
-@@ -3390,7 +3390,7 @@ static int vega10_populate_and_upload_sclk_mclk_dpm_levels(
- 	}
+-	PHYSICAL_ADDRESS_LOC mc_vm_apt_default;
+ 	PHYSICAL_ADDRESS_LOC mc_vm_apt_low;
+ 	PHYSICAL_ADDRESS_LOC mc_vm_apt_high;
  
- 	if (data->need_update_dpm_table &
--			(DPMTABLE_OD_UPDATE_MCLK + DPMTABLE_UPDATE_MCLK)) {
-+			(DPMTABLE_OD_UPDATE_MCLK | DPMTABLE_UPDATE_MCLK)) {
- 		result = vega10_populate_all_memory_levels(hwmgr);
- 		PP_ASSERT_WITH_CODE((0 == result),
- 				"Failed to populate MCLK during PopulateNewDPMClocksStates Function!",
+-	// The format of default addr is 48:12 of the 48 bit addr
+-	mc_vm_apt_default.quad_part = apt->sys_default.quad_part >> 12;
+-
+ 	// The format of high/low are 48:18 of the 48 bit addr
+ 	mc_vm_apt_low.quad_part = apt->sys_low.quad_part >> 18;
+ 	mc_vm_apt_high.quad_part = apt->sys_high.quad_part >> 18;
 -- 
 2.7.4
+
 
 _______________________________________________
 dri-devel mailing list
