@@ -1,56 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F3716850B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 18:33:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6105B168589
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 18:49:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19E3A6F4E8;
-	Fri, 21 Feb 2020 17:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1BF6E44E;
+	Fri, 21 Feb 2020 17:49:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEF86F4EB
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 17:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582306404;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ab9bcmse2JqLimkMfEvJYChivOMxMBsAXUmydjuif9k=;
- b=dLDPP8GkQcA3vzbBTdRnBvIuGKOwjrjLfT9WGP4BpfQjm28iRYaNVaqkbvuUmvOfJr+awm
- C6hMH3Cnjdf4tPTYb2cTingKXxuTEtF1c3E+iiIPdu4R5l7cbpZitKNfuJwVZJAbIMtirg
- sDCEaghlVTqstk3WMCu1FQYD2O254/M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-y4q0QgDzPqGVzDSgPhzGSQ-1; Fri, 21 Feb 2020 12:33:19 -0500
-X-MC-Unique: y4q0QgDzPqGVzDSgPhzGSQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353EFDBE5;
- Fri, 21 Feb 2020 17:33:18 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-116-191.ams2.redhat.com
- [10.36.116.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB35087B08;
- Fri, 21 Feb 2020 17:33:16 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <seanpaul@chromium.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH resend] drm: Add DRM_MODE_TYPE_USERDEF flag to probed modes
- matching a video= argument
-Date: Fri, 21 Feb 2020 18:33:13 +0100
-Message-Id: <20200221173313.510235-2-hdegoede@redhat.com>
-In-Reply-To: <20200221173313.510235-1-hdegoede@redhat.com>
-References: <20200221173313.510235-1-hdegoede@redhat.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 111066E44E;
+ Fri, 21 Feb 2020 17:49:39 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2020 09:49:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,469,1574150400"; d="scan'208";a="225284790"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 21 Feb 2020 09:49:35 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 21 Feb 2020 19:49:34 +0200
+Date: Fri, 21 Feb 2020 19:49:34 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH 00/12] drm: Put drm_display_mode on diet
+Message-ID: <20200221174934.GT13686@intel.com>
+References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
+ <CACvgo50pCb4OafEs9tLm7YEPqHc+BtDAvagRnwjXtZeQDNwUwg@mail.gmail.com>
+ <20200220142759.GA13686@intel.com>
+ <20200220153426.GC13686@intel.com> <871rqoyy42.fsf@intel.com>
+ <20200221114309.GM13686@intel.com>
+ <CAKMK7uGTpEHuBA09FuUA5ihPLtw7s+6=YBfQ2A4i=8Q-4SsRjA@mail.gmail.com>
+ <20200221154031.GQ13686@intel.com>
+ <20200221160904.GS13686@intel.com>
+ <20200221171657.GE2363188@phenom.ffwll.local>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20200221171657.GE2363188@phenom.ffwll.local>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,60 +55,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_helper_probe_add_cmdline_mode() prefers using a probed mode matching
-a video= argument over calculating our own timings for the user specified
-mode using CVT or GTF.
+On Fri, Feb 21, 2020 at 06:16:57PM +0100, Daniel Vetter wrote:
+> On Fri, Feb 21, 2020 at 06:09:04PM +0200, Ville Syrj=E4l=E4 wrote:
+> > On Fri, Feb 21, 2020 at 05:40:31PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > On Fri, Feb 21, 2020 at 03:42:56PM +0100, Daniel Vetter wrote:
+> > > > On Fri, Feb 21, 2020 at 12:43 PM Ville Syrj=E4l=E4
+> > > > <ville.syrjala@linux.intel.com> wrote:
+> > > > >
+> > > > > On Fri, Feb 21, 2020 at 01:32:29PM +0200, Jani Nikula wrote:
+> > > > > > On Thu, 20 Feb 2020, Ville Syrj=E4l=E4 <ville.syrjala@linux.int=
+el.com> wrote:
+> > > > > > > Looks like getting rid of private_flags is going to be pretty
+> > > > > > > straightforward. I'll post patches for that once this first s=
+eries
+> > > > > > > lands.
+> > > > > >
+> > > > > > Going all in on crtc state? I suppose migrating away from priva=
+te_flags
+> > > > > > could easily start in i915 before that. Seems rather independen=
+t.
+> > > > > >
+> > > > > > I guess it's __intel_get_crtc_scanline() and:
+> > > > > >
+> > > > > >       vblank =3D &crtc->base.dev->vblank[drm_crtc_index(&crtc->=
+base)];
+> > > > > >       mode =3D &vblank->hwmode;
+> > > > > >
+> > > > > >       if (mode->private_flags & I915_MODE_FLAG_GET_SCANLINE_FRO=
+M_TIMESTAMP)
+> > > > > >
+> > > > > > that gives me the creeps in reviewing all that.
+> > > > > >
+> > > > > > There's also [1] adding new uses for private_flags; I think the=
+re were
+> > > > > > issues in getting at the right crtc state on some of those path=
+s, but I
+> > > > > > forget the exact details. Ideas?
+> > > > >
+> > > > > I'm just going to move them to the crtc_state and put a copy into=
+ the
+> > > > > crtc itself for the vblank code. Pretty much a 1:1 replacement.
+> > > > > Saves me from having to think ;)
+> > > > =
 
-But userspace code which is auto-configuring the mode may want to know that
-the user has specified that mode on the kernel commandline so that it can
-pick that mode over the mode which is marked as DRM_MODE_TYPE_PREFERRED.
+> > > > I've looked through the patches, and didn't spot any place where we
+> > > > couldn't just get at the full crtc state. Might need some crtc->sta=
+te
+> > > > dereferencing and upcasting and making sure stuff is ordered correc=
+tly
+> > > > with enable/disable paths of crtc, but nothing to jump over.
+> > > =
 
-This commit sets the DRM_MODE_TYPE_USERDEF flag on the matching mode, just
-as we would do on the user-specified mode when no matching probed mode is
-found.
+> > > swap_state() could easily race with the irq handler. I guess
+> > > practically unlikely the old crtc state would disappear before
+> > > the irq handler is done, but still seems somewhat dubious.
+> > =
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/drm_probe_helper.c | 2 ++
- include/drm/drm_modes.h            | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+> > And I guess the bigger problem is that swap_state() happens way too
+> > early. So crtc->state would be pointing to bogus stuff while we're
+> > disabling the crtc.
+> =
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 576b4b7dcd89..466dfbba8256 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -159,6 +159,8 @@ static int drm_helper_probe_add_cmdline_mode(struct drm_connector *connector)
- 				continue;
- 		}
- 
-+		/* Mark the matching mode as being preferred by the user */
-+		mode->type |= DRM_MODE_TYPE_USERDEF;
- 		return 0;
- 	}
- 
-diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-index e946e20c61d8..c7efb7487e9b 100644
---- a/include/drm/drm_modes.h
-+++ b/include/drm/drm_modes.h
-@@ -256,7 +256,8 @@ struct drm_display_mode {
- 	 *  - DRM_MODE_TYPE_DRIVER: Mode created by the driver, which is all of
- 	 *    them really. Drivers must set this bit for all modes they create
- 	 *    and expose to userspace.
--	 *  - DRM_MODE_TYPE_USERDEF: Mode defined via kernel command line
-+	 *  - DRM_MODE_TYPE_USERDEF: Mode defined or selected via the kernel
-+	 *    command line.
- 	 *
- 	 * Plus a big list of flags which shouldn't be used at all, but are
- 	 * still around since these flags are also used in the userspace ABI.
--- 
-2.25.0
+> Uh, so we're essentially piggy-packing some random i915 state on top of
+> the hw timing stuff the vblank handler does, and hope that this is
+> race-free enough to not matter?
+> =
 
+> I think the right solution there would be to have a proper
+> spinlock_irqsafe for this stuff that the dsi TE handler needs, and through
+> that make sure that we're actually not going boom. At least it looked like
+> there's also irq handling bits outside of the vblank code, so the vblank
+> locking is not going to safe the day.
+
+I haven't actually looked at the DSI TE stuff so far, so no
+idea what's going on there.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
