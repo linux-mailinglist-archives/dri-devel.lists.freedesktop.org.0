@@ -2,36 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A9916891D
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 22:18:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B230C168927
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 22:21:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D596F581;
-	Fri, 21 Feb 2020 21:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E1889DB0;
+	Fri, 21 Feb 2020 21:21:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6726F581
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 21:18:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C47E989DB0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 21:21:21 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 73F1420083;
- Fri, 21 Feb 2020 22:17:57 +0100 (CET)
-Date: Fri, 21 Feb 2020 22:17:56 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 6670620083;
+ Fri, 21 Feb 2020 22:21:19 +0100 (CET)
+Date: Fri, 21 Feb 2020 22:21:18 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Kevin Tang <kevin3.tang@gmail.com>
-Subject: Re: [PATCH RFC v3 0/6] Add Unisoc's drm kms module
-Message-ID: <20200221211756.GB3456@ravnborg.org>
+Subject: Re: [PATCH RFC v3 1/6] dt-bindings: display: add Unisoc's drm master
+ bindings
+Message-ID: <20200221212118.GC3456@ravnborg.org>
 References: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
+ <1582271336-3708-2-git-send-email-kevin3.tang@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
+In-Reply-To: <1582271336-3708-2-git-send-email-kevin3.tang@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=AmJ3NbpF4YMwtd5JfE4A:9 a=CjuIK1q_8ugA:10
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=icsG72s9AAAA:8
+ a=pGLkceISAAAA:8 a=KKAkSRfTAAAA:8 a=gEfo2CItAAAA:8 a=VwQbUJbxAAAA:8
+ a=7CQSdrXTAAAA:8 a=crxGqJoGa4JPo5xfP4sA:9 a=58J9oS6OoW3ROaZk:21
+ a=itk5MRJ4zDJvAorz:21 a=CjuIK1q_8ugA:10 a=T89tl0cgrjxRNoSN2Dv0:22
+ a=cvBusfyB2V15izCimMoJ:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=a-qgeE7W1pNrGK8U0ZQC:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,46 +60,84 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Kevin.
 
-On Fri, Feb 21, 2020 at 03:48:50PM +0800, Kevin Tang wrote:
-> ChangeList:
-> v1:
-> 1. only upstream modeset and atomic at first commit. 
-> 2. remove some unused code;
-> 3. use alpha and blend_mode properties;
-> 3. add yaml support;
-> 4. remove auto-adaptive panel driver;
-> 5. bugfix
+On Fri, Feb 21, 2020 at 03:48:51PM +0800, Kevin Tang wrote:
+> From: Kevin Tang <kevin.tang@unisoc.com>
 > 
-> v2:
-> 1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
-> 2. remove gem drivers, use generic CMA handlers
-> 3. remove redundant "module_init", all the sub modules loading by KMS
+> The Unisoc DRM master device is a virtual device needed to list all
+> DPU devices or other display interface nodes that comprise the
+> graphics subsystem
 > 
-> v3:
-> 1. multi crtc&encoder design have problem, so rollback to v1
+> Cc: Orson Zhai <orsonzhai@gmail.com>
+> Cc: Baolin Wang <baolin.wang@linaro.org>
+> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+> Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
+> ---
+>  .../devicetree/bindings/display/sprd/drm.yaml      | 38 ++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/sprd/drm.yaml
 > 
-> Kevin Tang (6):
->   dt-bindings: display: add Unisoc's drm master bindings
->   drm/sprd: add Unisoc's drm kms master
->   dt-bindings: display: add Unisoc's dpu bindings
->   drm/sprd: add Unisoc's drm display controller driver
->   dt-bindings: display: add Unisoc's mipi dsi&dphy bindings
->   drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-> 
->  .../devicetree/bindings/display/sprd/dphy.yaml     |   78 ++
->  .../devicetree/bindings/display/sprd/dpu.yaml      |   85 ++
->  .../devicetree/bindings/display/sprd/drm.yaml      |   38 +
->  .../devicetree/bindings/display/sprd/dsi.yaml      |  101 ++
-Good to see you are using DT Schema format.
-Consider to drop the sprd directory and then use
-filename with "sprd-" prefix.
-sprd.yaml
-sprd-dphy.yaml
-sprd-dpu.yaml
-sprd-dsi.yaml
+> diff --git a/Documentation/devicetree/bindings/display/sprd/drm.yaml b/Documentation/devicetree/bindings/display/sprd/drm.yaml
+> new file mode 100644
+> index 0000000..1614ca6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/sprd/drm.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/sprd/drm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Unisoc DRM master device
+> +
+> +maintainers:
+> +  - David Airlie <airlied@linux.ie>
+> +  - Daniel Vetter <daniel@ffwll.ch>
+> +  - Rob Herring <robh+dt@kernel.org>
+> +  - Mark Rutland <mark.rutland@arm.com>
+
+Rob is king of a super-maintainer.
+He should not be listed unless he has special
+relations to sprd.
+David + Daniel - likewise. Unless they are closely related to sprd drop
+them.
+
+> +
+> +description: |
+> +  The Unisoc DRM master device is a virtual device needed to list all
+> +  DPU devices or other display interface nodes that comprise the
+> +  graphics subsystem.
+
+I wonder why you name it "Unisoc" when all other places references sprd.
+
+
+> +
+> +properties:
+> +  compatible:
+> +    const: sprd,display-subsystem
+> +
+> +  ports:
+> +    description:
+> +      Should contain a list of phandles pointing to display interface port
+> +      of DPU devices.
+> +
+> +required:
+> +  - compatible
+> +  - ports
+So you want to force the driver to support ports - and no panel
+referenced directly?
+
+> +
+> +examples:
+> +  - |
+> +    display-subsystem {
+> +        compatible = "sprd,display-subsystem";
+> +        ports = <&dpu_out>;
+> +    };
+> \ No newline at end of file
+Please fix.
 
 	Sam
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
