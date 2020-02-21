@@ -2,46 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975F716827F
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 16:59:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811C7168323
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 17:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612C06E046;
-	Fri, 21 Feb 2020 15:59:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 120AE6F4C6;
+	Fri, 21 Feb 2020 16:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C946E402
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 15:59:40 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2020 07:59:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,468,1574150400"; d="scan'208";a="225252206"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com)
- ([10.54.74.202])
- by orsmga007.jf.intel.com with ESMTP; 21 Feb 2020 07:59:39 -0800
-Date: Fri, 21 Feb 2020 07:59:39 -0800
-From: Sean Christopherson <sean.j.christopherson@intel.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
-Message-ID: <20200221155939.GG12665@linux.intel.com>
-References: <d3a6fac6-3831-3b8e-09b6-bfff4592f235@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D78D6F4@SHSMSX104.ccr.corp.intel.com>
- <CAPaKu7RyTbuTPf0Tp=0DAD80G-RySLrON8OQsHJzhAYDh7zHuA@mail.gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D78EE65@SHSMSX104.ccr.corp.intel.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D78EF58@SHSMSX104.ccr.corp.intel.com>
- <CAPaKu7RFY3nar9hmAdx6RYdZFPK3Cdg1O3cS+OvsEOT=yupyrQ@mail.gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D792415@SHSMSX104.ccr.corp.intel.com>
- <CAPaKu7RHu5rz1Dvkvp4SDrZ0fAYq37xwRqUsdAiOmRTOz2sFTw@mail.gmail.com>
- <CAPaKu7RaF3+amPwdVBLj6q1na7JWUYuuWDN5XPwNYFB8Hpqi+w@mail.gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D79359E@SHSMSX104.ccr.corp.intel.com>
+X-Greylist: delayed 1350 seconds by postgrey-1.36 at gabe;
+ Fri, 21 Feb 2020 16:19:53 UTC
+Received: from gateway24.websitewelcome.com (gateway24.websitewelcome.com
+ [192.185.50.252])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A494E6F4C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 16:19:53 +0000 (UTC)
+Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
+ by gateway24.websitewelcome.com (Postfix) with ESMTP id B61337A363
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 09:57:22 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id 5Ag6jKxw08vkB5Ag6jHAHj; Fri, 21 Feb 2020 09:57:22 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+ Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=WtMzr2gjoX6df0EoQz24CcYsj+i/bg0u7qsVYdxv5ak=; b=FhvXqQUtu/kbV+Vrnk71BG8yZl
+ 0TSU2YZiZPuLm929TonrbWh+9w4cqnRMB47gz6qXSDLBweYpn9jQ+EjXxYW/M5bcxnogAtcQqyQcT
+ d9YOOfhiTjG1h/fi3IibqqqRun0NUq+ZHlwKQZa8WF1W2O438fbUpOSn0SFF5xQGz3i5HQoQ0UFmX
+ 1o4m7QN23g9FgLM7f75UPYJm5fMx6rIzxCe4Df7P2QFM8aOXA9Ml7jH9RJH7sBkjxlO1tdJ73WDIu
+ G/2bBwvnZdm9s6uI2vLVmlN8cuWvlEiicixYHyVO2UPgWMqlvYp+ALBiFytrjN6JVHyz9MPmuV3z3
+ EJXGFXrQ==;
+Received: from [200.68.140.54] (port=6638 helo=embeddedor)
+ by gator4166.hostgator.com with esmtpa (Exim 4.92)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1j5Ag4-003vD4-K4; Fri, 21 Feb 2020 09:57:20 -0600
+Date: Fri, 21 Feb 2020 10:00:05 -0600
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH] video: Replace zero-length array with flexible-array member
+Message-ID: <20200221160005.GA13552@embeddedor>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D79359E@SHSMSX104.ccr.corp.intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 200.68.140.54
+X-Source-L: No
+X-Exim-ID: 1j5Ag4-003vD4-K4
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [200.68.140.54]:6638
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 30
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,46 +75,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2020 at 09:39:05PM -0800, Tian, Kevin wrote:
-> > From: Chia-I Wu <olvaffe@gmail.com>
-> > Sent: Friday, February 21, 2020 12:51 PM
-> > If you think it is the best for KVM to inspect hva to determine the memory
-> > type with page granularity, that is reasonable and should work for us too.
-> > The userspace can do something (e.g., add a GPU driver dependency to the
-> > hypervisor such that the dma-buf is imported as a GPU memory and mapped
-> > using
-> > vkMapMemory) or I can work with dma-buf maintainers to see if dma-buf's
-> > semantics can be changed.
-> 
-> I think you need consider the live migration requirement as Paolo pointed out.
-> The migration thread needs to read/write the region, then it must use the
-> same type as GPU process and guest to read/write the region. In such case, 
-> the hva mapped by Qemu should have the desired type as the guest. However,
-> adding GPU driver dependency to Qemu might trigger some concern. I'm not
-> sure whether there is generic mechanism though, to share dmabuf fd between GPU
-> process and Qemu while allowing Qemu to follow the desired type w/o using
-> vkMapMemory...
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-Alternatively, KVM could make KVM_MEM_DMA and KVM_MEM_LOG_DIRTY_PAGES
-mutually exclusive, i.e. force a transition to WB memtype for the guest
-(with appropriate zapping) when migration is activated.  I think that
-would work?
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-> Note this is orthogonal to whether introducing a new uapi or implicitly checking
-> hva to favor guest memory type. It's purely about Qemu itself. Ideally anyone 
-> with the desire to access a dma-buf object should follow the expected semantics.
-> It's interesting that dma-buf sub-system doesn't provide a centralized 
-> synchronization about memory type between multiple mmap paths. 
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
+
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
+
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ drivers/video/fbdev/mmp/hw/mmp_ctrl.h | 2 +-
+ drivers/video/fbdev/ssd1307fb.c       | 2 +-
+ include/video/mmp_disp.h              | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
+index 335d4983dc52..167585a889d3 100644
+--- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
++++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
+@@ -1406,7 +1406,7 @@ struct mmphw_ctrl {
+ 
+ 	/*pathes*/
+ 	int path_num;
+-	struct mmphw_path_plat path_plats[0];
++	struct mmphw_path_plat path_plats[];
+ };
+ 
+ static inline int overlay_is_vid(struct mmp_overlay *overlay)
+diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
+index 142535267fec..fb2640fe575a 100644
+--- a/drivers/video/fbdev/ssd1307fb.c
++++ b/drivers/video/fbdev/ssd1307fb.c
+@@ -89,7 +89,7 @@ struct ssd1307fb_par {
+ 
+ struct ssd1307fb_array {
+ 	u8	type;
+-	u8	data[0];
++	u8	data[];
+ };
+ 
+ static const struct fb_fix_screeninfo ssd1307fb_fix = {
+diff --git a/include/video/mmp_disp.h b/include/video/mmp_disp.h
+index 1f9bc133e230..77252cb46361 100644
+--- a/include/video/mmp_disp.h
++++ b/include/video/mmp_disp.h
+@@ -231,7 +231,7 @@ struct mmp_path {
+ 
+ 	/* layers */
+ 	int overlay_num;
+-	struct mmp_overlay overlays[0];
++	struct mmp_overlay overlays[];
+ };
+ 
+ extern struct mmp_path *mmp_get_path(const char *name);
+-- 
+2.25.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
