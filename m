@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C620B1688DD
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 22:05:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 424A71688E0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 22:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC6F6F55D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF6526F558;
 	Fri, 21 Feb 2020 21:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F9DF6F54B
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 21:04:11 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id q9so3152613wmj.5
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 13:04:11 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E42596F53E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 21:04:12 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z7so3506277wrl.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 13:04:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iLLeF/pcS2m0P07OactkBBXJHNqJyrXQylwma878fiQ=;
- b=dZvQAWtJrTUdGkd8z7Pky417+Nnqxp/a8eptR5aka3oVE7lvIqxcRSXIHB2Z4Z4nCC
- n5rjrEnwgLzeOUZTELlCoUpVeccx9y9x5nXaXvlaB5Ef3CaPYQYWEdoo/NXx6Wsh3ucT
- Q5I/Wy1kFXU9EssCdZnIvpALdLcPZFpHtXq98=
+ bh=IUEc+CrkOe8AtWKYGxoHD/G/uVCfJzR2tmcYXyOAXL4=;
+ b=M82rh1lRgfSb9Oha5Ptds/9KVdq0j3HCk4c/g+FRjTsowXzvpLqEVQBYxb616k5pPH
+ zvrQ/EBt/j455M6dqG11vs3SZxhWMfI78fZwtv8AxhTfOlYkNPZBR8hnbKKVBMjn1sss
+ QiFStVgEjZMyuF6j8Bz3iF/VxPJTujHRZIGGk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iLLeF/pcS2m0P07OactkBBXJHNqJyrXQylwma878fiQ=;
- b=NwH1VtLvyluCWb92iJpeYrZCB3qr9HM26NnwNuZ5pmw0z3siORKDzi07hJgalk1exR
- KdeEZ22y3ypSmV3/4eCPPhfkdmKs1lh2GMbMKC2QTZnLVTnCRz6bmQoagzBp1Qhh4SKr
- 3HEY27DjsKn51vzrmbHh8LaqHcmhV5zUUmq0sIfkixtFIRiF4hsQEdPiBrlea5FBYpyh
- Vlh/4YcT5gWPT/Zi3WaQi3yhV0vsrb5wbw/TBVt+kATjW85eC0tzCTfKh3toBCdrG2z4
- QuS/LAfiDckjwK3bifjCCD647aJWEcd/TJMtI+8aiiXvMJ7xBDdzR2/0FegVrAr91TRu
- bpAA==
-X-Gm-Message-State: APjAAAXaHb1Q7+Nlh7gJG7UHS5StzLXF2UXsb8zr5jUhHx1GAJQBuSkB
- 8jx/xar63nIw5Vd2zltX/USBHeTUmHQ=
-X-Google-Smtp-Source: APXvYqz7dZJWx7G0kOHGWOrmVMdb0fOabNyOcClFP590NPvcxEkIoGn3zNaGySAL6Z/6gemdvDeZMA==
-X-Received: by 2002:a7b:c8d2:: with SMTP id f18mr5391751wml.47.1582319049997; 
- Fri, 21 Feb 2020 13:04:09 -0800 (PST)
+ bh=IUEc+CrkOe8AtWKYGxoHD/G/uVCfJzR2tmcYXyOAXL4=;
+ b=I71cBXfmaesBJugR+L8SmikryI6HsC/G7HlVo9ctg2wS0RmerbBH9V+Do3kOIG+ZGU
+ 3kYCBlakt2v4XM/tAztt+BVc0PonYtZPsX1oSLYyBwrkwEoXn3U/7QARv0vuorFpcW7e
+ 44YwwenzOj0iFCEGBevW9Rhoq3V45LO7v0BZnEqh5tnOVD7X6d05rh6keIND8JLCWE4l
+ mPxAaykGu3DGOCzo0bUb0r9K6JqrGICxSXl2XR2uwM9NLqR9uvbQ/Fi1MZGqpCDgo+oO
+ 52H072iL4BXApal8r0WQgQCpUQyRZ+UmsbwmeN/a5N2oQ9g0Hmr9vcqsjDeiqaAHFx1k
+ 0vTQ==
+X-Gm-Message-State: APjAAAXDYXlqkuX6x8qOsVHRl172GAbc59dpjETcTb3/73BsAoErq03f
+ KfzQc4cG3nIakrRSnoEucS6egulOrh0=
+X-Google-Smtp-Source: APXvYqwNxPEpZ+BBk+HmSCqGTqDkYWx44KDkkHpj6DWyy+J3Bjta8dXI4383amw4lW89UCn0CbpBVQ==
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr49649112wrv.259.1582319051170; 
+ Fri, 21 Feb 2020 13:04:11 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z6sm5483930wrw.36.2020.02.21.13.04.09
+ by smtp.gmail.com with ESMTPSA id z6sm5483930wrw.36.2020.02.21.13.04.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 13:04:09 -0800 (PST)
+ Fri, 21 Feb 2020 13:04:10 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 32/51] drm/mcde: Drop explicit drm_mode_config_cleanup call
-Date: Fri, 21 Feb 2020 22:03:00 +0100
-Message-Id: <20200221210319.2245170-33-daniel.vetter@ffwll.ch>
+Subject: [PATCH 33/51] drm/mcde: More devm_drm_dev_init
+Date: Fri, 21 Feb 2020 22:03:01 +0100
+Message-Id: <20200221210319.2245170-34-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
 References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
@@ -63,98 +63,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allows us to drop the drm_driver.release callback.
+Auto-unwind ftw, now possible with the fixed drm_device related
+management.
 
-This is made possible by a preceeding patch which added a drmm_
-cleanup action to drm_mode_config_init(), hence all we need to do to
-ensure that drm_mode_config_cleanup() is run on final drm_device
-cleanup is check the new error code for _init().
-
-v2: Explain why this cleanup is possible (Laurent).
+Aside, clk/regulator seem to be missing devm versions for a bunch of
+functions, preventing a pile of these simpler drivers from outright
+losing their ->remove hook.
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/mcde/mcde_drv.c | 22 ++++++----------------
- 1 file changed, 6 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/mcde/mcde_drv.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index a543ebf3d541..b8ca99995e51 100644
+index b8ca99995e51..3e92a44397cf 100644
 --- a/drivers/gpu/drm/mcde/mcde_drv.c
 +++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -184,13 +184,13 @@ static int mcde_modeset_init(struct drm_device *drm)
- 	ret = drm_vblank_init(drm, 1);
+@@ -312,7 +312,7 @@ static int mcde_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	mcde->dev = dev;
+ 
+-	ret = drm_dev_init(&mcde->drm, &mcde_drm_driver, dev);
++	ret = devm_drm_dev_init(dev, &mcde->drm, &mcde_drm_driver);
  	if (ret) {
- 		dev_err(drm->dev, "failed to init vblank\n");
--		goto out_config;
+ 		kfree(mcde);
+ 		return ret;
+@@ -331,12 +331,12 @@ static int mcde_probe(struct platform_device *pdev)
+ 	if (IS_ERR(mcde->epod)) {
+ 		ret = PTR_ERR(mcde->epod);
+ 		dev_err(dev, "can't get EPOD regulator\n");
+-		goto dev_unref;
 +		return ret;
  	}
- 
- 	ret = mcde_display_init(drm);
+ 	ret = regulator_enable(mcde->epod);
  	if (ret) {
- 		dev_err(drm->dev, "failed to init display\n");
--		goto out_config;
+ 		dev_err(dev, "can't enable EPOD regulator\n");
+-		goto dev_unref;
 +		return ret;
  	}
+ 	mcde->vana = devm_regulator_get(dev, "vana");
+ 	if (IS_ERR(mcde->vana)) {
+@@ -487,8 +487,6 @@ static int mcde_probe(struct platform_device *pdev)
+ 	regulator_disable(mcde->vana);
+ regulator_epod_off:
+ 	regulator_disable(mcde->epod);
+-dev_unref:
+-	drm_dev_put(drm);
+ 	return ret;
  
- 	/*
-@@ -204,7 +204,7 @@ static int mcde_modeset_init(struct drm_device *drm)
- 						    mcde->bridge);
- 	if (ret) {
- 		dev_err(drm->dev, "failed to attach display output bridge\n");
--		goto out_config;
-+		return ret;
- 	}
- 
- 	drm_mode_config_reset(drm);
-@@ -212,17 +212,6 @@ static int mcde_modeset_init(struct drm_device *drm)
- 	drm_fbdev_generic_setup(drm, 32);
+ }
+@@ -502,7 +500,6 @@ static int mcde_remove(struct platform_device *pdev)
+ 	clk_disable_unprepare(mcde->mcde_clk);
+ 	regulator_disable(mcde->vana);
+ 	regulator_disable(mcde->epod);
+-	drm_dev_put(drm);
  
  	return 0;
--
--out_config:
--	drm_mode_config_cleanup(drm);
--	return ret;
--}
--
--static void mcde_release(struct drm_device *drm)
--{
--	struct mcde *mcde = drm->dev_private;
--
--	drm_mode_config_cleanup(drm);
  }
- 
- DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
-@@ -230,7 +219,6 @@ DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
- static struct drm_driver mcde_drm_driver = {
- 	.driver_features =
- 		DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
--	.release = mcde_release,
- 	.lastclose = drm_fb_helper_lastclose,
- 	.ioctls = NULL,
- 	.fops = &drm_fops,
-@@ -258,7 +246,9 @@ static int mcde_drm_bind(struct device *dev)
- 	struct drm_device *drm = dev_get_drvdata(dev);
- 	int ret;
- 
--	drm_mode_config_init(drm);
-+	ret = drm_mode_config_init(drm);
-+	if (ret)
-+		return ret;
- 
- 	ret = component_bind_all(drm->dev, drm);
- 	if (ret) {
 -- 
 2.24.1
 
