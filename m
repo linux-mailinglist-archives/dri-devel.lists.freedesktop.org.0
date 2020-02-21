@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0759F1688B3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 22:04:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD761688A9
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 22:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4474D6F544;
-	Fri, 21 Feb 2020 21:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 652BB6F53B;
+	Fri, 21 Feb 2020 21:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 781506F531
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 21:03:49 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id u6so3559611wrt.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 13:03:49 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84B906F52D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 21:03:50 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id s10so3166529wmh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 13:03:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jfKWZZU6Yo+Zwjdd+Cefvuzj8Pr73ZnaVy/LVnilzqI=;
- b=bRcFNSGcJ0GbNy4AQUm+iJKRR5RlxRTnzHWWWzV8bB2qvUoUbwJEFzAb4YC6PQtc1t
- 7C0+7vOf1QtNRJ2yqC8Xl2rCSEUURlLBjHL76owUR90MCv3t1yM1m12dSdm0makPrrHp
- 2IoXN4Ye+zXkLbyd/K9J39zSIR2uNsOuY1640=
+ bh=mt0LsOXPHC2Mb9wycvJ+FxYXLYhKToWbMHDbBuIFXi8=;
+ b=OwAeQBHoXmiqL3qM86BYvSS3mnCumn3/StXzTr+Vtds22QcaVo1o7AFJ84T+zcxoBu
+ K5ZW3TEsMs87VyFy/0nbRZIZNnteigaSa+cbYw62oAsp346lzKGDQ6VIqqZYM4BswuNm
+ bXYD3fZyZs7zhUopDumdB46088eRTH8MXrHWY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jfKWZZU6Yo+Zwjdd+Cefvuzj8Pr73ZnaVy/LVnilzqI=;
- b=GDeCfdkMkIUtoegDEuEIZ5NggacRxMmUzug6U4YHAtGzFYJEfQ4qwJ5WoLgLBsrBtU
- 6z5AdWaIEPwp5lBASh3kpmoNyc32OpceIp9i1Wgoiwxb5AheauugoYujhEbLC3C/+aIo
- nLqSyMiJm1AnxmTlISIX8dV0sy4JJVA+m3cH7e2YRez7ww7dQSyzKBdAu+RQI2VHgY/Z
- bGglBm7MT81pxpd1lCy0j2H5/IqWZ5Q1D+exjOJNjQ2A5rdisxHWh4jxd5ookz+zF/b5
- HWguw3XRq07pj48XkeF09iJx+fg8lAwVoYkvQbYOFBaNS8xDUBKm1dAn7coPZf5UVn7Z
- h3Lw==
-X-Gm-Message-State: APjAAAUhM27xbMNJPWIp4LUoGGyTeGSukmr0EktA7y9i+zJL+9HtHcTl
- tdxEza/eGetK933hJgU3t74S2KJRXkQ=
-X-Google-Smtp-Source: APXvYqyzrMi2ROtAfdIlgbylKaoeHtR5Ts6udb0KEliPEhi2azE7M6n/pXPR7HWKCjyuczZVjnXe1Q==
-X-Received: by 2002:a5d:6292:: with SMTP id k18mr49905345wru.256.1582319027775; 
- Fri, 21 Feb 2020 13:03:47 -0800 (PST)
+ bh=mt0LsOXPHC2Mb9wycvJ+FxYXLYhKToWbMHDbBuIFXi8=;
+ b=YASqP1zARaALokwEs2i+qCK8rdp7W4tTovkML5Hi+GeE5CFybz3wzKgTyrFA1FUfD9
+ uMWSOWTpXg1+2t235fbny67Dz7juUoBCvs/QdgTn3jSxuxoRBTsQ7cBW0wdho5zcj7Df
+ C/cgbfw2NzE8Lz0iVHC++rn1zg9TPJyR2Hp0dCpRLLTr5RcnFPD5BdVUtltAE6/E2zh8
+ YxmduK2uymJNB+WDc2fWCGOE3F09PWUTs5ctasBKPtbkLCJQiZF8dVYWEnyejH+x9HP9
+ FvP8MNA4f4PrWp/awl+aLXciMpvFaCHPtYFjxkBz53kMFiWA/bHrk6Hv1WAC/tURhcJe
+ Y+lA==
+X-Gm-Message-State: APjAAAUruIu4hH2GoyTWjru5HowW3es6EmvGFAZAxRhnORYYbTmffeMx
+ mhUfZ0609MDuMODy/r20Aw/Ifg/gr3A=
+X-Google-Smtp-Source: APXvYqz2IOfRGizBBQqJEEbmC6Q2Got/tMih3FC8thww8AbrFTm4Vu1e4ml0JQkFYQDcWLGqPZ/YQg==
+X-Received: by 2002:a1c:e388:: with SMTP id a130mr5606572wmh.176.1582319028854; 
+ Fri, 21 Feb 2020 13:03:48 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z6sm5483930wrw.36.2020.02.21.13.03.45
+ by smtp.gmail.com with ESMTPSA id z6sm5483930wrw.36.2020.02.21.13.03.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 13:03:45 -0800 (PST)
+ Fri, 21 Feb 2020 13:03:48 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 14/51] drm/vkms: Use drmm_add_final_kfree
-Date: Fri, 21 Feb 2020 22:02:42 +0100
-Message-Id: <20200221210319.2245170-15-daniel.vetter@ffwll.ch>
+Subject: [PATCH 15/51] drm/repaper: Use drmm_add_final_kfree
+Date: Fri, 21 Feb 2020 22:02:43 +0100
+Message-Id: <20200221210319.2245170-16-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
 References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
@@ -63,103 +63,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With this we can drop the final kfree from the release function.
-
-v2: After drm_dev_init/drmm_add_final_kfree we need to clean up
-everything through a drm_dev_put. Rework the unwind code to match
-that.
-
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- drivers/gpu/drm/vkms/vkms_drv.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 860de052e820..2f35fe789343 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -21,6 +21,7 @@
- #include <drm/drm_file.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_ioctl.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-@@ -158,13 +159,14 @@ static int __init vkms_init(void)
- 			   &vkms_device->platform->dev);
- 	if (ret)
- 		goto out_unregister;
-+	drmm_add_final_kfree(&vkms_device->drm, vkms_device);
- 
- 	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
- 					   DMA_BIT_MASK(64));
- 
- 	if (ret) {
- 		DRM_ERROR("Could not initialize DMA support\n");
--		goto out_fini;
-+		goto out_put;
- 	}
- 
- 	vkms_device->drm.irq_enabled = true;
-@@ -172,25 +174,25 @@ static int __init vkms_init(void)
- 	ret = drm_vblank_init(&vkms_device->drm, 1);
- 	if (ret) {
- 		DRM_ERROR("Failed to vblank\n");
--		goto out_fini;
-+		goto out_put;
- 	}
- 
- 	ret = vkms_modeset_init(vkms_device);
- 	if (ret)
--		goto out_fini;
-+		goto out_put;
- 
- 	ret = drm_dev_register(&vkms_device->drm, 0);
- 	if (ret)
--		goto out_fini;
-+		goto out_put;
- 
- 	return 0;
- 
--out_fini:
--	drm_dev_fini(&vkms_device->drm);
-+out_put:
-+	drm_dev_put(&vkms_device->drm);
-+	return ret;
- 
- out_unregister:
- 	platform_device_unregister(vkms_device->platform);
--
- out_free:
- 	kfree(vkms_device);
- 	return ret;
-@@ -205,8 +207,6 @@ static void __exit vkms_exit(void)
- 
- 	drm_dev_unregister(&vkms_device->drm);
- 	drm_dev_put(&vkms_device->drm);
--
--	kfree(vkms_device);
- }
- 
- module_init(vkms_init);
--- 
-2.24.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+V2l0aCB0aGlzIHdlIGNhbiBkcm9wIHRoZSBmaW5hbCBrZnJlZSBmcm9tIHRoZSByZWxlYXNlIGZ1
+bmN0aW9uLgoKUmV2aWV3ZWQtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3Jn
+PgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4K
+Q2M6ICJOb3JhbGYgVHLDuG5uZXMiIDxub3JhbGZAdHJvbm5lcy5vcmc+Ci0tLQogZHJpdmVycy9n
+cHUvZHJtL3RpbnkvcmVwYXBlci5jIHwgNSArKy0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
+aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlu
+eS9yZXBhcGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9yZXBhcGVyLmMKaW5kZXggZjVlYmNh
+ZjdlZTNhLi5kZjU2NTRlZjUzZWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3Jl
+cGFwZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9yZXBhcGVyLmMKQEAgLTMxLDYgKzMx
+LDcgQEAKICNpbmNsdWRlIDxkcm0vZHJtX2Zvcm1hdF9oZWxwZXIuaD4KICNpbmNsdWRlIDxkcm0v
+ZHJtX2dlbV9jbWFfaGVscGVyLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9nZW1fZnJhbWVidWZmZXJf
+aGVscGVyLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9tYW5hZ2VkLmg+CiAjaW5jbHVkZSA8ZHJtL2Ry
+bV9tb2Rlcy5oPgogI2luY2x1ZGUgPGRybS9kcm1fcmVjdC5oPgogI2luY2x1ZGUgPGRybS9kcm1f
+cHJvYmVfaGVscGVyLmg+CkBAIC05MTAsMTMgKzkxMSwxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
+IGRybV9tb2RlX2NvbmZpZ19mdW5jcyByZXBhcGVyX21vZGVfY29uZmlnX2Z1bmNzID0gewogCiBz
+dGF0aWMgdm9pZCByZXBhcGVyX3JlbGVhc2Uoc3RydWN0IGRybV9kZXZpY2UgKmRybSkKIHsKLQlz
+dHJ1Y3QgcmVwYXBlcl9lcGQgKmVwZCA9IGRybV90b19lcGQoZHJtKTsKLQogCURSTV9ERUJVR19E
+UklWRVIoIlxuIik7CiAKIAlkcm1fbW9kZV9jb25maWdfY2xlYW51cChkcm0pOwogCWRybV9kZXZf
+ZmluaShkcm0pOwotCWtmcmVlKGVwZCk7CiB9CiAKIHN0YXRpYyBjb25zdCB1aW50MzJfdCByZXBh
+cGVyX2Zvcm1hdHNbXSA9IHsKQEAgLTEwMjQsNiArMTAyMiw3IEBAIHN0YXRpYyBpbnQgcmVwYXBl
+cl9wcm9iZShzdHJ1Y3Qgc3BpX2RldmljZSAqc3BpKQogCQlrZnJlZShlcGQpOwogCQlyZXR1cm4g
+cmV0OwogCX0KKwlkcm1tX2FkZF9maW5hbF9rZnJlZShkcm0sIGVwZCk7CiAKIAlkcm1fbW9kZV9j
+b25maWdfaW5pdChkcm0pOwogCWRybS0+bW9kZV9jb25maWcuZnVuY3MgPSAmcmVwYXBlcl9tb2Rl
+X2NvbmZpZ19mdW5jczsKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
