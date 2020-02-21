@@ -2,54 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0063C167BC2
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF09B167BC6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:15:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E76C36F403;
-	Fri, 21 Feb 2020 11:14:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDB106F417;
+	Fri, 21 Feb 2020 11:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E81A76EEB0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 07:49:03 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id v23so574661pgk.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 23:49:03 -0800 (PST)
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA66A6EEB2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 07:49:06 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id 4so759402pfz.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Feb 2020 23:49:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=OK5QR972nKe83ja7vFw4PScqgofVWYqnjcZMFqqtFHM=;
- b=mwwv8UHF7HJf5WY4yLevMY3IG6ENI49aercwQ2Yl9FFyzEDARpP7dhT4blU8nwEfcg
- GjKxyz9Tn4VfGausA9k7XmZ0fqLQ/tuQRuvzy+lCCXIBALIlCbpcqBO+Vgdc+D/Zh52j
- LcbzVd+AM8RwMnEi1Cam6hURXU3eh4/X9N59I8Ah/BO6jCmAqKbp1kJOh7EXyQOPY59W
- wUU316emL1Nxm5RWYuHrgnVDRpPCQjgrKDnXqFan371heERGeMHwij5P21GLA75T6FuC
- bfxDILU7m+0O6LhKh9uGE88BSFT4ri3cJ0Sxrl4ZWk2efWEjwmsDLoANOsJe2a1iUhFD
- L9CA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=InvFUNRiPxXOxYMHgJ0FZcGWdDLWenQO6uankp4X5co=;
+ b=cH/zAuRygLTMG5vrXLh0wRpvYslN0/4eyqLnEeEXbOuFqjKLYJZ4wXZDafrsK1t2nD
+ NJPOaztBE/WnSneu7MnJ/S+IOwRQyQQr8k4Ysq/Fe445TcDqi8e4KnNr61GGsd3Lmaeo
+ tD4eRVCtWw8s5Pwg4fJWwjXl2ERLdyccnuofZ7HliCVa73JDx1Se5x16ep5dxSj2g/AG
+ xKdwewHFN4V61X4jt/SiKOpjN7xyDxk6tMK9LJO31uwxfiR4ufK3S45/prJwzfdlMY8l
+ qdJWX8NRes7TGzzfZtTDFHAm6C5kTlrVofd9xCXLx+wlOXQK20RRzEkyBKSPixaFxxuH
+ FDWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=OK5QR972nKe83ja7vFw4PScqgofVWYqnjcZMFqqtFHM=;
- b=DCNeJoQiBnFFxvfnSW0WODy00QV+j2SX2s7xnY6GfPRihSoQFTJE/o49Ww5mWxFHXt
- FekiSgP7FSY0i9nKlDRvD8Hu/m7LvWIRHIprb4ORDj0y1eh1tVHQy0rnvwW9vMa4JmKa
- xQjf8v0H86Jin9k+XjeEGljfBm2Vq6rBAu6+gKfo9a01OzGlE1uWoOlTxBJQDHQvlEbd
- xuTIXXCHmLgN8GEhrBn5psBazG0vtUVh6cbrAhwe4lscZZkEY6bwG/PY+3bLsw615KND
- 6pfYsT8E4OKnCSjUuZx58wgFHXwEQtcD/19f1Z0V0VjRWecd+Hu3dPzWhxC8IaXuDr5j
- XbFA==
-X-Gm-Message-State: APjAAAXSVVnczis24kCFcmFpjeknSsCvoZxyj0A+k6HGaKpv53FIZ8z7
- d8QCJ90725y6wa0rNaqg6V4=
-X-Google-Smtp-Source: APXvYqyVK4MW60zAdN5pTw3l6mI8blbOp0QqUPIeROkNy2b6AlXliCMgxdpShbHsfXfYjio7fSpifQ==
-X-Received: by 2002:aa7:96b7:: with SMTP id g23mr35201332pfk.108.1582271343499; 
- Thu, 20 Feb 2020 23:49:03 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=InvFUNRiPxXOxYMHgJ0FZcGWdDLWenQO6uankp4X5co=;
+ b=ldJM759UZirfiqk90BVw788dTWI7vPxdCJ0vfmTKpxGmT090pEKFXvHvtkHeUrpQye
+ /fBa7ENamFZ5PWzzPrYI1EsvsrKu+UPr62IptL1LZIYXva6mnT03MKj71tppHTX7bKN3
+ Hm4gmBtGFVRCWMhhYFCJfd8IsoNpkgjqW5HEQMKGeVWcFunRRs9e6oyTWM64EzsS0bLu
+ kZ65Fhd6f21p3AbI9naLrP7nTn277ufxH/ryVcZ6l1OYgXQmpoa38c7aAAoUcsHjpDXO
+ Up59UwakuIV3KtbaU00+tJMSTakJ6pA0fxUnH7kZgP7Iaw6OL8vkwsk5feDT7nydhvVv
+ QMkA==
+X-Gm-Message-State: APjAAAWhiMw0m9vYdFvNeWZIpIlFoZrWt+Tl2LBNGAjWfRmyyFFzf7k2
+ 12TzpIP4859S03DG+k3D5Sg=
+X-Google-Smtp-Source: APXvYqzrktlCrULOant8+rekVokatvRDsgDVLBnEil8PQxbkujjyDkYWFqsKwTCWKS7ERFp5nwkHUQ==
+X-Received: by 2002:a63:42c2:: with SMTP id
+ p185mr39122753pga.268.1582271346641; 
+ Thu, 20 Feb 2020 23:49:06 -0800 (PST)
 Received: from nj08008nbu.spreadtrum.com ([117.18.48.82])
- by smtp.gmail.com with ESMTPSA id d1sm1444653pgj.79.2020.02.20.23.49.00
+ by smtp.gmail.com with ESMTPSA id d1sm1444653pgj.79.2020.02.20.23.49.03
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 20 Feb 2020 23:49:03 -0800 (PST)
+ Thu, 20 Feb 2020 23:49:06 -0800 (PST)
 From: Kevin Tang <kevin3.tang@gmail.com>
 To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
  mark.rutland@arm.com, kevin3.tang@gmail.com
-Subject: [PATCH RFC v3 0/6] Add Unisoc's drm kms module
-Date: Fri, 21 Feb 2020 15:48:50 +0800
-Message-Id: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
+Subject: [PATCH RFC v3 1/6] dt-bindings: display: add Unisoc's drm master
+ bindings
+Date: Fri, 21 Feb 2020 15:48:51 +0800
+Message-Id: <1582271336-3708-2-git-send-email-kevin3.tang@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
+References: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
 X-Mailman-Approved-At: Fri, 21 Feb 2020 11:14:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,97 +76,66 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ChangeList:
-v1:
-1. only upstream modeset and atomic at first commit. 
-2. remove some unused code;
-3. use alpha and blend_mode properties;
-3. add yaml support;
-4. remove auto-adaptive panel driver;
-5. bugfix
+From: Kevin Tang <kevin.tang@unisoc.com>
 
-v2:
-1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
-2. remove gem drivers, use generic CMA handlers
-3. remove redundant "module_init", all the sub modules loading by KMS
+The Unisoc DRM master device is a virtual device needed to list all
+DPU devices or other display interface nodes that comprise the
+graphics subsystem
 
-v3:
-1. multi crtc&encoder design have problem, so rollback to v1
-
-Kevin Tang (6):
-  dt-bindings: display: add Unisoc's drm master bindings
-  drm/sprd: add Unisoc's drm kms master
-  dt-bindings: display: add Unisoc's dpu bindings
-  drm/sprd: add Unisoc's drm display controller driver
-  dt-bindings: display: add Unisoc's mipi dsi&dphy bindings
-  drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-
- .../devicetree/bindings/display/sprd/dphy.yaml     |   78 ++
- .../devicetree/bindings/display/sprd/dpu.yaml      |   85 ++
- .../devicetree/bindings/display/sprd/drm.yaml      |   38 +
- .../devicetree/bindings/display/sprd/dsi.yaml      |  101 ++
- drivers/gpu/drm/Kconfig                            |    2 +
- drivers/gpu/drm/Makefile                           |    1 +
- drivers/gpu/drm/sprd/Kconfig                       |   14 +
- drivers/gpu/drm/sprd/Makefile                      |   15 +
- drivers/gpu/drm/sprd/disp_lib.c                    |   59 +
- drivers/gpu/drm/sprd/disp_lib.h                    |   21 +
- drivers/gpu/drm/sprd/dphy/Makefile                 |    7 +
- drivers/gpu/drm/sprd/dphy/pll/Makefile             |    3 +
- drivers/gpu/drm/sprd/dphy/pll/megacores_sharkle.c  |  628 +++++++++
- drivers/gpu/drm/sprd/dphy/sprd_dphy_api.c          |  254 ++++
- drivers/gpu/drm/sprd/dphy/sprd_dphy_hal.h          |  329 +++++
- drivers/gpu/drm/sprd/dpu/Makefile                  |    7 +
- drivers/gpu/drm/sprd/dpu/dpu_r2p0.c                |  787 +++++++++++
- drivers/gpu/drm/sprd/dsi/Makefile                  |    7 +
- drivers/gpu/drm/sprd/dsi/core/Makefile             |    3 +
- drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c      | 1169 ++++++++++++++++
- drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.h      | 1417 ++++++++++++++++++++
- drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c  |  375 ++++++
- drivers/gpu/drm/sprd/dsi/sprd_dsi_api.c            |  544 ++++++++
- drivers/gpu/drm/sprd/dsi/sprd_dsi_api.h            |   28 +
- drivers/gpu/drm/sprd/dsi/sprd_dsi_hal.h            | 1102 +++++++++++++++
- drivers/gpu/drm/sprd/sprd_dphy.c                   |  225 ++++
- drivers/gpu/drm/sprd/sprd_dphy.h                   |   99 ++
- drivers/gpu/drm/sprd/sprd_dpu.c                    |  678 ++++++++++
- drivers/gpu/drm/sprd/sprd_dpu.h                    |  130 ++
- drivers/gpu/drm/sprd/sprd_drm.c                    |  295 ++++
- drivers/gpu/drm/sprd/sprd_drm.h                    |   20 +
- drivers/gpu/drm/sprd/sprd_dsi.c                    |  655 +++++++++
- drivers/gpu/drm/sprd/sprd_dsi.h                    |  192 +++
- 33 files changed, 9368 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/sprd/dphy.yaml
- create mode 100644 Documentation/devicetree/bindings/display/sprd/dpu.yaml
+Cc: Orson Zhai <orsonzhai@gmail.com>
+Cc: Baolin Wang <baolin.wang@linaro.org>
+Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
+---
+ .../devicetree/bindings/display/sprd/drm.yaml      | 38 ++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/sprd/drm.yaml
- create mode 100644 Documentation/devicetree/bindings/display/sprd/dsi.yaml
- create mode 100644 drivers/gpu/drm/sprd/Kconfig
- create mode 100644 drivers/gpu/drm/sprd/Makefile
- create mode 100644 drivers/gpu/drm/sprd/disp_lib.c
- create mode 100644 drivers/gpu/drm/sprd/disp_lib.h
- create mode 100644 drivers/gpu/drm/sprd/dphy/Makefile
- create mode 100644 drivers/gpu/drm/sprd/dphy/pll/Makefile
- create mode 100644 drivers/gpu/drm/sprd/dphy/pll/megacores_sharkle.c
- create mode 100644 drivers/gpu/drm/sprd/dphy/sprd_dphy_api.c
- create mode 100644 drivers/gpu/drm/sprd/dphy/sprd_dphy_hal.h
- create mode 100644 drivers/gpu/drm/sprd/dpu/Makefile
- create mode 100644 drivers/gpu/drm/sprd/dpu/dpu_r2p0.c
- create mode 100644 drivers/gpu/drm/sprd/dsi/Makefile
- create mode 100644 drivers/gpu/drm/sprd/dsi/core/Makefile
- create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c
- create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.h
- create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c
- create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_api.c
- create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_api.h
- create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_hal.h
- create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.h
- create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
- create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
- create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
 
+diff --git a/Documentation/devicetree/bindings/display/sprd/drm.yaml b/Documentation/devicetree/bindings/display/sprd/drm.yaml
+new file mode 100644
+index 0000000..1614ca6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sprd/drm.yaml
+@@ -0,0 +1,38 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sprd/drm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Unisoc DRM master device
++
++maintainers:
++  - David Airlie <airlied@linux.ie>
++  - Daniel Vetter <daniel@ffwll.ch>
++  - Rob Herring <robh+dt@kernel.org>
++  - Mark Rutland <mark.rutland@arm.com>
++
++description: |
++  The Unisoc DRM master device is a virtual device needed to list all
++  DPU devices or other display interface nodes that comprise the
++  graphics subsystem.
++
++properties:
++  compatible:
++    const: sprd,display-subsystem
++
++  ports:
++    description:
++      Should contain a list of phandles pointing to display interface port
++      of DPU devices.
++
++required:
++  - compatible
++  - ports
++
++examples:
++  - |
++    display-subsystem {
++        compatible = "sprd,display-subsystem";
++        ports = <&dpu_out>;
++    };
+\ No newline at end of file
 -- 
 2.7.4
 
