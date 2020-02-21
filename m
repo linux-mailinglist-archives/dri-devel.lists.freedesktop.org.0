@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C96168880
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 22:03:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3421F168882
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 22:03:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 148656F512;
-	Fri, 21 Feb 2020 21:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385806F515;
+	Fri, 21 Feb 2020 21:03:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E27ED6F510
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 21:03:26 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id s10so3165657wmh.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 13:03:26 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E278B6F514
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 21:03:30 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id n3so3156293wmk.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 13:03:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yQ847dbuGk//IYhoIGlTqqpS57T3U5f59EsRW/VcUWc=;
- b=WfpL7qnn9d+/NnveOKcEgQ41Sew5cDCTyl0aHBsh6f0Cxf6/hN1+4ozONUA8KKDRrk
- 2yYqHdjBKH1ZoWPSzFXd9zOSFrPsknnU3gm3vPaKx/TO9X81ofLYE1EXMZV1EsczheIT
- qR3GvJPLMY3nDnfqpWbfoQwAM67D2AAwmQqfk=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=s9Dt4ZAHYBWy2uNMICh4RsHo7p4PctnYq6F5Xys1W4s=;
+ b=OisuFAV5oDBmQKeBs0UymzgY5td1J8RHr3pQvLxZPvhJnjEa25O4P2jGhMG2IYrRL+
+ qqhzgiJfmXLL3fdEueCsvcSP3jBQmnBoDVV1Yz5y4WJedmJBAAzz8/ZISg0m/0rOs93D
+ GmsNiYIv8PriLG8PGMAYrligQpoh3/yXfRFaE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yQ847dbuGk//IYhoIGlTqqpS57T3U5f59EsRW/VcUWc=;
- b=lshi1Tj3d2n6nH8oFwbSv0hv4DGuHKU/jKP4060yiSyAtjYie4vM7t1JD17TRf9GkO
- 4U3vmh+8HYXPP8fMVcSniwPSIGiXw0n22SH5zUkoTkk+LdnQ1SDg+PyIJUPwBqDZav5D
- axBnwRBzgm/fU1UdXnf1J2Ldy57yvqlmDbQu7XGxyItMxXUFz10l+woRlPtSdFpi9zjE
- zQoGuAtCus2PKrLeEQCGE2J4nctEQkW+yw4DgiiQjcoYvVmK7wn9cwk+Zbf0ZxAsFa4S
- 3NEcJ8n5jBuYbAVDR8XXCYGCPhGvXZHeEW+NtIHg1ChIuQR4xClIfEYABmdWvre8i7W7
- +rhw==
-X-Gm-Message-State: APjAAAVfHdrED0ryIXyb1R6TSWFQxDswVj1IAGGl5WEu3VwmjT6/UlHh
- EVuxD50U1prPEp5RhfBXpdDx5KjdHFc=
-X-Google-Smtp-Source: APXvYqyy4SrRrZtEajgHGEGzMZCweYFJgAZ0KFe1kM3hC5O3tb3na8126VjepkOaiwRpiojFJmZolQ==
-X-Received: by 2002:a1c:b0c3:: with SMTP id z186mr5532977wme.36.1582319005160; 
- Fri, 21 Feb 2020 13:03:25 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=s9Dt4ZAHYBWy2uNMICh4RsHo7p4PctnYq6F5Xys1W4s=;
+ b=C90kT6+xtk1O8k+4vLNeRQpAT42AmFN1UjJ4LsyxEHpax2nNEy6XcRqIU3HfFW0rMc
+ RotAFUCxzY+tn+aRAoZAhluxhzm4rKg5ob8O0a1Pxw65RakzfFQBFrz6BxUT9Yf1QJrD
+ FjbmanZaJUZunlsGqcyYmCFz/gHwD4KJcjN1bktxJdaYNDcn2pKedbRBI4AwwpHRBfSX
+ QJUPGfYiMxn1LdfIYg2Zbyy8u2vRNQbDijSycmVDaM0zCoUMhj6KbmJQ8xuUejPuJPSF
+ X+1J7uGhK44UlKKlP2peTJL7ot4H5svy/xmTN6hw5sDGuF8QvLkcVwZJH1zUXCT7IRJh
+ jJ0Q==
+X-Gm-Message-State: APjAAAVRxj6wf3nQfHetwJuik55+YQd1hR4KUWX49imJxQzOSh7p0Y3d
+ 6HfThv57nggLLFC3NwldPknViLoCCVA=
+X-Google-Smtp-Source: APXvYqzu33NHGHJEAZjKXzUtN7bRj7hzr3IZyM1qrp8yQSBh8JIdkgH8hUKTBDoienQiI/4TPDI/2A==
+X-Received: by 2002:a1c:1984:: with SMTP id 126mr5904804wmz.78.1582319009321; 
+ Fri, 21 Feb 2020 13:03:29 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z6sm5483930wrw.36.2020.02.21.13.03.24
+ by smtp.gmail.com with ESMTPSA id z6sm5483930wrw.36.2020.02.21.13.03.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 13:03:24 -0800 (PST)
+ Fri, 21 Feb 2020 13:03:25 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 00/51] drm managed resources, v2
-Date: Fri, 21 Feb 2020 22:02:28 +0100
-Message-Id: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH 01/51] mm/sl[uo]b: export __kmalloc_track(_node)_caller
+Date: Fri, 21 Feb 2020 22:02:29 +0100
+Message-Id: <20200221210319.2245170-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
+References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,152 +63,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: linux-mm@kvack.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Pekka Enberg <penberg@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ David Rientjes <rientjes@google.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Christoph Lameter <cl@linux.com>, Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+slab does this already, and I want to use this in a memory allocation
+tracker in drm for stuff that's tied to the lifetime of a drm_device,
+not the underlying struct device. Kinda like devres, but for drm.
 
-Reading instructions still the same, first the doc patch at the end, then
-the other stuff.
+Acked-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: Pekka Enberg <penberg@kernel.org>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org
+--
+I plan to merge this through drm-misc-next (with Andrew's ack) once
+the remainder of the drm series is in shape.
+-Daniel
+---
+ mm/slob.c | 2 ++
+ mm/slub.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-_Lots_ of small changes all over, a few fixes, mostly polish. I think this
-should fix the "oops we've broken debugfs" issue that CI spotted on i915.
-I think that was due to the totally busted pointer math breaking drm_minor
-cleanup and hence debugfs cleanup somewhat. At least with this updated
-series here now I can't repro the issue anymore.
-
-Up to patch 27 there's pretty strict dependencies, so that stuff needs to
-land first and in order. If you got review time, most appreciated for
-those patches (plus the doc patch at the end ofc).
-
-Once those are in I can start with the devm_drm_dev_alloc macro that I
-promised to hide the somewhat unsightly drmm_add_final_kfree.
-
-Testing, review, all very much welcome as usual!
-
-Cheers, Daniel
-
-Daniel Vetter (51):
-  mm/sl[uo]b: export __kmalloc_track(_node)_caller
-  drm/i915: Don't clear drvdata in ->release
-  drm: add managed resources tied to drm_device
-  drm: Set final_kfree in drm_dev_alloc
-  drm/mipi_dbi: Use drmm_add_final_kfree in all drivers
-  drm/udl: Use drmm_add_final_kfree
-  drm/qxl: Use drmm_add_final_kfree
-  drm/i915: Use drmm_add_final_kfree
-  drm/cirrus: Use drmm_add_final_kfree
-  drm/v3d: Use drmm_add_final_kfree
-  drm/tidss: Use drmm_add_final_kfree
-  drm/mcde: Use drmm_add_final_kfree
-  drm/vgem: Use drmm_add_final_kfree
-  drm/vkms: Use drmm_add_final_kfree
-  drm/repaper: Use drmm_add_final_kfree
-  drm/inigenic: Use drmm_add_final_kfree
-  drm/gm12u320: Use drmm_add_final_kfree
-  drm/<drivers>: Use drmm_add_final_kfree
-  drm: Cleanups after drmm_add_final_kfree rollout
-  drm: Handle dev->unique with drmm_
-  drm: Use drmm_ for drm_dev_init cleanup
-  drm: manage drm_minor cleanup with drmm_
-  drm: Manage drm_gem_init with drmm_
-  drm: Manage drm_vblank_cleanup with drmm_
-  drm: Garbage collect drm_dev_fini
-  drm: Manage drm_mode_config_init with drmm_
-  drm/bochs: Remove leftover drm_atomic_helper_shutdown
-  drm/bochs: Drop explicit drm_mode_config_cleanup
-  drm/cirrus: Drop explicit drm_mode_config_cleanup call
-  drm/cirrus: Fully embrace devm_
-  drm/ingenic: Drop explicit drm_mode_config_cleanup call
-  drm/mcde: Drop explicit drm_mode_config_cleanup call
-  drm/mcde: More devm_drm_dev_init
-  drm/meson: Drop explicit drm_mode_config_cleanup call
-  drm/pl111: Drop explicit drm_mode_config_cleanup call
-  drm/rcar-du: Drop explicit drm_mode_config_cleanup call
-  drm/rockchip: Drop explicit drm_mode_config_cleanup call
-  drm/stm: Drop explicit drm_mode_config_cleanup call
-  drm/shmob: Drop explicit drm_mode_config_cleanup call
-  drm/mtk: Drop explicit drm_mode_config_cleanup call
-  drm/tidss: Drop explicit drm_mode_config_cleanup call
-  drm/gm12u320: More drmm_
-  drm/gm12u320: Use devm_drm_dev_init
-  drm/gm12u320: Use helpers for shutdown/suspend/resume
-  drm/gm12u320: Simplify upload work
-  drm/repaper: Drop explicit drm_mode_config_cleanup call
-  drm/mipi-dbi: Move drm_mode_config_init into mipi library
-  drm/mipi-dbi: Drop explicit drm_mode_config_cleanup call
-  drm/udl: Drop explicit drm_mode_config_cleanup call
-  drm/udl: drop drm_driver.release hook
-  drm: Add docs for managed resources
-
- Documentation/gpu/drm-internals.rst           |  12 +
- drivers/gpu/drm/Makefile                      |   3 +-
- .../gpu/drm/arm/display/komeda/komeda_kms.c   |   2 +
- drivers/gpu/drm/armada/armada_drv.c           |   2 +
- drivers/gpu/drm/bochs/bochs.h                 |   1 -
- drivers/gpu/drm/bochs/bochs_drv.c             |   6 +-
- drivers/gpu/drm/bochs/bochs_kms.c             |  15 +-
- drivers/gpu/drm/cirrus/cirrus.c               |  74 ++---
- drivers/gpu/drm/drm_drv.c                     | 219 ++++++-------
- drivers/gpu/drm/drm_gem.c                     |  21 +-
- drivers/gpu/drm/drm_internal.h                |   5 +-
- drivers/gpu/drm/drm_managed.c                 | 294 ++++++++++++++++++
- drivers/gpu/drm/drm_mipi_dbi.c                |  24 +-
- drivers/gpu/drm/drm_mode_config.c             |  13 +-
- drivers/gpu/drm/drm_vblank.c                  |  31 +-
- drivers/gpu/drm/i915/i915_drv.c               |  21 +-
- drivers/gpu/drm/i915/i915_drv.h               |   3 +
- .../gpu/drm/i915/selftests/mock_gem_device.c  |  20 +-
- drivers/gpu/drm/ingenic/ingenic-drm.c         |  17 +-
- drivers/gpu/drm/mcde/mcde_drv.c               |  35 +--
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |   9 +-
- drivers/gpu/drm/meson/meson_drv.c             |   5 +-
- drivers/gpu/drm/pl111/pl111_drv.c             |  12 +-
- drivers/gpu/drm/qxl/qxl_drv.c                 |   2 -
- drivers/gpu/drm/qxl/qxl_kms.c                 |   2 +
- drivers/gpu/drm/rcar-du/rcar_du_drv.c         |   1 -
- drivers/gpu/drm/rcar-du/rcar_du_kms.c         |   4 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  10 +-
- drivers/gpu/drm/shmobile/shmob_drm_drv.c      |   2 -
- drivers/gpu/drm/shmobile/shmob_drm_kms.c      |   6 +-
- drivers/gpu/drm/stm/drv.c                     |  10 +-
- drivers/gpu/drm/tidss/tidss_drv.c             |  10 +-
- drivers/gpu/drm/tidss/tidss_kms.c             |  19 +-
- drivers/gpu/drm/tidss/tidss_kms.h             |   1 -
- drivers/gpu/drm/tiny/gm12u320.c               | 225 +++++---------
- drivers/gpu/drm/tiny/hx8357d.c                |   5 +-
- drivers/gpu/drm/tiny/ili9225.c                |   5 +-
- drivers/gpu/drm/tiny/ili9341.c                |   5 +-
- drivers/gpu/drm/tiny/ili9486.c                |   5 +-
- drivers/gpu/drm/tiny/mi0283qt.c               |   5 +-
- drivers/gpu/drm/tiny/repaper.c                |  14 +-
- drivers/gpu/drm/tiny/st7586.c                 |   5 +-
- drivers/gpu/drm/tiny/st7735r.c                |   5 +-
- drivers/gpu/drm/udl/udl_drv.c                 |  14 +-
- drivers/gpu/drm/udl/udl_drv.h                 |   2 -
- drivers/gpu/drm/udl/udl_main.c                |  10 -
- drivers/gpu/drm/udl/udl_modeset.c             |  21 +-
- drivers/gpu/drm/v3d/v3d_drv.c                 |  38 +--
- drivers/gpu/drm/vboxvideo/vbox_drv.c          |   2 +
- drivers/gpu/drm/vgem/vgem_drv.c               |  15 +-
- drivers/gpu/drm/vkms/vkms_drv.c               |  19 +-
- drivers/gpu/drm/xen/xen_drm_front.c           |   4 +-
- include/drm/drm_device.h                      |  12 +
- include/drm/drm_drv.h                         |   9 +-
- include/drm/drm_managed.h                     | 116 +++++++
- include/drm/drm_mipi_dbi.h                    |   1 -
- include/drm/drm_mode_config.h                 |   2 +-
- include/drm/drm_print.h                       |   6 +
- mm/slob.c                                     |   2 +
- mm/slub.c                                     |   2 +
- 60 files changed, 858 insertions(+), 602 deletions(-)
- create mode 100644 drivers/gpu/drm/drm_managed.c
- create mode 100644 include/drm/drm_managed.h
-
+diff --git a/mm/slob.c b/mm/slob.c
+index fa53e9f73893..ac2aecfbc7a8 100644
+--- a/mm/slob.c
++++ b/mm/slob.c
+@@ -524,6 +524,7 @@ void *__kmalloc_track_caller(size_t size, gfp_t gfp, unsigned long caller)
+ {
+ 	return __do_kmalloc_node(size, gfp, NUMA_NO_NODE, caller);
+ }
++EXPORT_SYMBOL(__kmalloc_track_caller);
+ 
+ #ifdef CONFIG_NUMA
+ void *__kmalloc_node_track_caller(size_t size, gfp_t gfp,
+@@ -531,6 +532,7 @@ void *__kmalloc_node_track_caller(size_t size, gfp_t gfp,
+ {
+ 	return __do_kmalloc_node(size, gfp, node, caller);
+ }
++EXPORT_SYMBOL(__kmalloc_node_track_caller);
+ #endif
+ 
+ void kfree(const void *block)
+diff --git a/mm/slub.c b/mm/slub.c
+index be2854b5b1c9..7271fb235ed8 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -4358,6 +4358,7 @@ void *__kmalloc_track_caller(size_t size, gfp_t gfpflags, unsigned long caller)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(__kmalloc_track_caller);
+ 
+ #ifdef CONFIG_NUMA
+ void *__kmalloc_node_track_caller(size_t size, gfp_t gfpflags,
+@@ -4388,6 +4389,7 @@ void *__kmalloc_node_track_caller(size_t size, gfp_t gfpflags,
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(__kmalloc_node_track_caller);
+ #endif
+ 
+ #ifdef CONFIG_SYSFS
 -- 
 2.24.1
 
