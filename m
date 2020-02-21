@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9733A167C2E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:32:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF77167C5F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73D0A6E283;
-	Fri, 21 Feb 2020 11:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4CD6F425;
+	Fri, 21 Feb 2020 11:43:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5BB6E284;
- Fri, 21 Feb 2020 11:32:26 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F026F423;
+ Fri, 21 Feb 2020 11:43:13 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2020 03:32:26 -0800
-X-IronPort-AV: E=Sophos;i="5.70,468,1574150400"; d="scan'208";a="229824756"
-Received: from jmiler-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.38.187])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2020 03:32:24 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Emil
- Velikov <emil.l.velikov@gmail.com>
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2020 03:43:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,468,1574150400"; d="scan'208";a="225195571"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 21 Feb 2020 03:43:09 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 21 Feb 2020 13:43:09 +0200
+Date: Fri, 21 Feb 2020 13:43:09 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
 Subject: Re: [Intel-gfx] [PATCH 00/12] drm: Put drm_display_mode on diet
-In-Reply-To: <20200220153426.GC13686@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <20200221114309.GM13686@intel.com>
 References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
  <CACvgo50pCb4OafEs9tLm7YEPqHc+BtDAvagRnwjXtZeQDNwUwg@mail.gmail.com>
- <20200220142759.GA13686@intel.com> <20200220153426.GC13686@intel.com>
-Date: Fri, 21 Feb 2020 13:32:29 +0200
-Message-ID: <871rqoyy42.fsf@intel.com>
+ <20200220142759.GA13686@intel.com>
+ <20200220153426.GC13686@intel.com> <871rqoyy42.fsf@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <871rqoyy42.fsf@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,28 +52,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
  ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMCBGZWIgMjAyMCwgVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4gd3JvdGU6Cj4gTG9va3MgbGlrZSBnZXR0aW5nIHJpZCBvZiBwcml2YXRlX2Zs
-YWdzIGlzIGdvaW5nIHRvIGJlIHByZXR0eQo+IHN0cmFpZ2h0Zm9yd2FyZC4gSSdsbCBwb3N0IHBh
-dGNoZXMgZm9yIHRoYXQgb25jZSB0aGlzIGZpcnN0IHNlcmllcwo+IGxhbmRzLgoKR29pbmcgYWxs
-IGluIG9uIGNydGMgc3RhdGU/IEkgc3VwcG9zZSBtaWdyYXRpbmcgYXdheSBmcm9tIHByaXZhdGVf
-ZmxhZ3MKY291bGQgZWFzaWx5IHN0YXJ0IGluIGk5MTUgYmVmb3JlIHRoYXQuIFNlZW1zIHJhdGhl
-ciBpbmRlcGVuZGVudC4KCkkgZ3Vlc3MgaXQncyBfX2ludGVsX2dldF9jcnRjX3NjYW5saW5lKCkg
-YW5kOgoKCXZibGFuayA9ICZjcnRjLT5iYXNlLmRldi0+dmJsYW5rW2RybV9jcnRjX2luZGV4KCZj
-cnRjLT5iYXNlKV07Cgltb2RlID0gJnZibGFuay0+aHdtb2RlOwoKCWlmIChtb2RlLT5wcml2YXRl
-X2ZsYWdzICYgSTkxNV9NT0RFX0ZMQUdfR0VUX1NDQU5MSU5FX0ZST01fVElNRVNUQU1QKQoKdGhh
-dCBnaXZlcyBtZSB0aGUgY3JlZXBzIGluIHJldmlld2luZyBhbGwgdGhhdC4KClRoZXJlJ3MgYWxz
-byBbMV0gYWRkaW5nIG5ldyB1c2VzIGZvciBwcml2YXRlX2ZsYWdzOyBJIHRoaW5rIHRoZXJlIHdl
-cmUKaXNzdWVzIGluIGdldHRpbmcgYXQgdGhlIHJpZ2h0IGNydGMgc3RhdGUgb24gc29tZSBvZiB0
-aG9zZSBwYXRocywgYnV0IEkKZm9yZ2V0IHRoZSBleGFjdCBkZXRhaWxzLiBJZGVhcz8KCkJSLApK
-YW5pLgoKClsxXSBodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvc2VyaWVzLzY5Mjkw
-LwoKCgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Feb 21, 2020 at 01:32:29PM +0200, Jani Nikula wrote:
+> On Thu, 20 Feb 2020, Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com> wr=
+ote:
+> > Looks like getting rid of private_flags is going to be pretty
+> > straightforward. I'll post patches for that once this first series
+> > lands.
+> =
+
+> Going all in on crtc state? I suppose migrating away from private_flags
+> could easily start in i915 before that. Seems rather independent.
+> =
+
+> I guess it's __intel_get_crtc_scanline() and:
+> =
+
+> 	vblank =3D &crtc->base.dev->vblank[drm_crtc_index(&crtc->base)];
+> 	mode =3D &vblank->hwmode;
+> =
+
+> 	if (mode->private_flags & I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP)
+> =
+
+> that gives me the creeps in reviewing all that.
+> =
+
+> There's also [1] adding new uses for private_flags; I think there were
+> issues in getting at the right crtc state on some of those paths, but I
+> forget the exact details. Ideas?
+
+I'm just going to move them to the crtc_state and put a copy into the
+crtc itself for the vblank code. Pretty much a 1:1 replacement. =
+
+Saves me from having to think ;)
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
