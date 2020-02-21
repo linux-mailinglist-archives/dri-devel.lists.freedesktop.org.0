@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B6B167C3A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86A6167C3D
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 12:33:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286696F41B;
-	Fri, 21 Feb 2020 11:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF2B6F421;
+	Fri, 21 Feb 2020 11:33:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3D79D6E284
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 11:33:38 +0000 (UTC)
-X-UUID: e7882cf78e704a66978959e01bcd9da8-20200221
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C957C6F420
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 11:33:44 +0000 (UTC)
+X-UUID: a8dc2fe4bf9842d09d12808d4b6a7848-20200221
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=WqPXsEqYilGj+Se9aLiobnNaBsVbzCQKOya7+P5P4dk=; 
- b=kXK6lRaunl7/UWOwtZbJMinLn9Pk7NfLiwoe+htins+csdOl4IeXIFEe82u1oJ6R8mIrUVlCrBxTdM4HXQAsxN02J3XyMszYOcOBAtMMEbOHv01Cp13WpS59BTWZz2+GS7iPsxMdX0RPczaVkkk0eCyoSFHxFirEE8pwsBceTlc=;
-X-UUID: e7882cf78e704a66978959e01bcd9da8-20200221
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=zFZhXk7fCqXKk9Mb/Rx6jZKFuJRDTSRGsr1lm/b+5DU=; 
+ b=ovexBTzC48RueZbJWZ+GrTK/Hn7xV7SIeRvMI8QvWXNouMt+mRI45xOOZMYQ56YgnItVtHVPx1zQqPqEX1FFtOoCoPOg33SJiApGb4RuZWKPH2JfBYn4NurRWrdJ9285hC2nn+3Utvb/YNqgZ/b69tpbPMRtvVBZTv8zN/Ik6Go=;
+X-UUID: a8dc2fe4bf9842d09d12808d4b6a7848-20200221
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1701413800; Fri, 21 Feb 2020 19:28:34 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Fri, 21 Feb 2020 19:27:13 +0800
+ with ESMTP id 1467076355; Fri, 21 Feb 2020 19:28:39 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33DR.mediatek.inc
+ (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Fri, 21 Feb 2020 19:23:59 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Fri, 21 Feb 2020 19:27:32 +0800
+ 15.0.1395.4 via Frontend Transport; Fri, 21 Feb 2020 19:27:34 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 0/4] add mt8183 dpi driver
-Date: Fri, 21 Feb 2020 19:28:24 +0800
-Message-ID: <20200221112828.55837-1-jitao.shi@mediatek.com>
+Subject: [PATCH v6 1/4] dt-bindings: display: mediatek: update dpi supported
+ chips
+Date: Fri, 21 Feb 2020 19:28:25 +0800
+Message-ID: <20200221112828.55837-2-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200221112828.55837-1-jitao.shi@mediatek.com>
+References: <20200221112828.55837-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 65587B8808C753827096943E733EBABAA07D4FF1005ED706468AEEA59267476E2000:8
+X-TM-SNTS-SMTP: 45350EF9107AC20D662E832B95D598681BBB945A8E95C707967860581846053F2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,31 +66,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes since v5:
- - fine tune the dt-bindings commit message.
+Add decriptions about supported chips, including MT2701 & MT8173 &
+mt8183
 
-Changes since v4:
- - move pin mode control and dual edge control to deveice tree.
- - update dt-bindings document for pin mode swap and dual edge control.
+1. Add more chips support. ex. MT2701 & MT8173 & MT8183
+2. Add property "dpi_pin_mode_swap" and "pinctrl-names" gpio mode dpi mode and
+   gpio oupput-low to avoid leakage current.
+3. Add property "dpi_dual_edge" to config the dpi pin output mode dual edge or
+   single edge sample data.
 
-Changes since v3:
- - add dpi pin mode control when dpi on or off.
- - update dpi dual edge comment.
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ .../bindings/display/mediatek/mediatek,dpi.txt        | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Changes since v2:
- - update dt-bindings document for mt8183 dpi.
- - separate dual edge modfication as independent patch.
-
-Jitao Shi (4):
-  dt-bindings: display: mediatek: update dpi supported chips
-  drm/mediatek: dpi dual edge support
-  drm/mediatek: add mt8183 dpi clock factor
-  drm/mediatek: set dpi pin mode to gpio low to avoid leakage current
-
- .../display/mediatek/mediatek,dpi.txt         | 11 +++
- drivers/gpu/drm/mediatek/mtk_dpi.c            | 69 ++++++++++++++++++-
- 2 files changed, 79 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+index b6a7e7397b8b..cd6a1469c8b7 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+@@ -7,6 +7,7 @@ output bus.
+ 
+ Required properties:
+ - compatible: "mediatek,<chip>-dpi"
++  the supported chips are mt2701 , mt8173 and mt8183.
+ - reg: Physical base address and length of the controller's registers
+ - interrupts: The interrupt signal from the function block.
+ - clocks: device clocks
+@@ -16,6 +17,11 @@ Required properties:
+   Documentation/devicetree/bindings/graph.txt. This port should be connected
+   to the input port of an attached HDMI or LVDS encoder chip.
+ 
++Optional properties:
++- dpi_pin_mode_swap: Swap the pin mode between dpi mode and gpio mode.
++- pinctrl-names: Contain "gpiomode" and "dpimode".
++- dpi_dual_edge: Control the RGB 24bit data on 12 pins or 24 pins.
++
+ Example:
+ 
+ dpi0: dpi@1401d000 {
+@@ -26,6 +32,11 @@ dpi0: dpi@1401d000 {
+ 		 <&mmsys CLK_MM_DPI_ENGINE>,
+ 		 <&apmixedsys CLK_APMIXED_TVDPLL>;
+ 	clock-names = "pixel", "engine", "pll";
++	dpi_dual_edge;
++	dpi_pin_mode_swap;
++	pinctrl-names = "gpiomode", "dpimode";
++	pinctrl-0 = <&dpi_pin_gpio>;
++	pinctrl-1 = <&dpi_pin_func>;
+ 
+ 	port {
+ 		dpi0_out: endpoint {
 -- 
 2.21.0
 _______________________________________________
