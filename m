@@ -2,35 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0935C167D3B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 13:15:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B24167D52
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 13:20:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE17A6E28A;
-	Fri, 21 Feb 2020 12:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFD76F433;
+	Fri, 21 Feb 2020 12:20:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67EC26E28A
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 12:15:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 6A6FFFB03;
- Fri, 21 Feb 2020 13:15:35 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RhGsRqo6q9nO; Fri, 21 Feb 2020 13:15:33 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 1978B405CD; Fri, 21 Feb 2020 13:15:33 +0100 (CET)
-Date: Fri, 21 Feb 2020 13:15:33 +0100
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Laurentiu Palcu <laurentiu.palcu@nxp.com>
-Subject: Re: [PATCH v3 0/4] Add support for iMX8MQ Display Controller Subsystem
-Message-ID: <20200221121533.GA11663@bogon.m.sigxcpu.org>
-References: <1575625964-27102-1-git-send-email-laurentiu.palcu@nxp.com>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99CBD6F433
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 12:20:42 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01LCKaA8069814;
+ Fri, 21 Feb 2020 06:20:36 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1582287636;
+ bh=BvhKtLSDx/GvrobT+0Oomzjvh6oZiucUhl3EhrVRW9M=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=xmSJp7khWEbO3JbhrlLkG+yO8iQF5Hf5TKzbw1oad+ZiamVCh/CrF9Hyj9x/iYDb7
+ scXQZOGmU6LNARJFvf22p8GPZQiUQBo4O7xgyNqTN7GseZsodZ9TZe4B+rwiJ/XD8Z
+ TKElDk5BpR2QldDQVBowiPlIsMt1chZki02AISfE=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01LCKaWi021887
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 21 Feb 2020 06:20:36 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 21
+ Feb 2020 06:20:30 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 21 Feb 2020 06:20:30 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01LCKSSv096468;
+ Fri, 21 Feb 2020 06:20:29 -0600
+Subject: Re: [PATCH v6 48/51] drm/omap: Hardcode omap_connector type to DSI
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
+ <20200216210308.17312-49-laurent.pinchart@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <834375c8-7a12-bd22-a5cb-a415682f0ba3@ti.com>
+Date: Fri, 21 Feb 2020 14:20:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1575625964-27102-1-git-send-email-laurentiu.palcu@nxp.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200216210308.17312-49-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,125 +63,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, lukas@mntmn.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurentiu,
-On Fri, Dec 06, 2019 at 11:52:37AM +0200, Laurentiu Palcu wrote:
-> Hi,
-> =
+On 16/02/2020 23:03, Laurent Pinchart wrote:
+> The omap_connector implementation is now used for DSI only. Hardcode its
+> type and drop unused code.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>   drivers/gpu/drm/omapdrm/dss/base.c       | 23 ------------------
+>   drivers/gpu/drm/omapdrm/dss/omapdss.h    |  1 -
+>   drivers/gpu/drm/omapdrm/omap_connector.c | 31 ++----------------------
+>   3 files changed, 2 insertions(+), 53 deletions(-)
 
-> This patchset adds initial DCSS support for iMX8MQ chip. Initial support
-> includes only graphics plane support (no video planes), no HDR10 capabili=
-ties,
-> no graphics decompression (only linear, tiled and super-tiled buffers all=
-owed).
-> =
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-> Support for the rest of the features will be added incrementally, in subs=
-equent
-> patches.
-> =
+  Tomi
 
-> The patchset was tested with both HDP driver (not yet upstreamed) and MIP=
-I-DSI
-> (drivers already on the dri-devel ML).
-
-I've been testing this with the HDP parts pulled out of NXPs vendor tree
-for a while so
-
-Tested-by: Guido G=FCnther <agx@sigxcpu.org>
-
-Cheers,
- -- Guido
-
-> =
-
-> Thanks,
-> Laurentiu
-> =
-
-> Changes in v3:
->  * rebased to latest linux-next and made it compile as drmP.h was
->    removed;
->  * removed the patch adding the VIDEO2_PLL clock. It's already applied;
->  * removed an unnecessary 50ms sleep in the dcss_dtg_sync_set();
->  * fixed a a spurious hang reported by Lukas Hartmann and encountered
->    by me several times;
->  * mask DPR and DTG interrupts by default, as they may come enabled from
->    U-boot;
-> =
-
-> Changes in v2:
->  * Removed '0x' in node's unit-address both in DT and yaml;
->  * Made the address region size lowercase, to be consistent;
->  * Removed some left-over references to P010;
->  * Added a Kconfig dependency of DRM && ARCH_MXC. This will also silence =
-compilation
->    issues reported by kbuild for other architectures;
-> =
-
-> =
-
-> Laurentiu Palcu (4):
->   drm/imx: compile imx directory by default
->   drm/imx: Add initial support for DCSS on iMX8MQ
->   dt-bindings: display: imx: add bindings for DCSS
->   arm64: dts: imx8mq: add DCSS node
-> =
-
->  .../bindings/display/imx/nxp,imx8mq-dcss.yaml      |  86 +++
->  arch/arm64/boot/dts/freescale/imx8mq.dtsi          |  25 +
->  drivers/gpu/drm/Makefile                           |   2 +-
->  drivers/gpu/drm/imx/Kconfig                        |   2 +
->  drivers/gpu/drm/imx/Makefile                       |   1 +
->  drivers/gpu/drm/imx/dcss/Kconfig                   |   8 +
->  drivers/gpu/drm/imx/dcss/Makefile                  |   6 +
->  drivers/gpu/drm/imx/dcss/dcss-blkctl.c             |  75 ++
->  drivers/gpu/drm/imx/dcss/dcss-crtc.c               | 224 ++++++
->  drivers/gpu/drm/imx/dcss/dcss-ctxld.c              | 447 +++++++++++
->  drivers/gpu/drm/imx/dcss/dcss-dev.c                | 286 +++++++
->  drivers/gpu/drm/imx/dcss/dcss-dev.h                | 195 +++++
->  drivers/gpu/drm/imx/dcss/dcss-dpr.c                | 550 ++++++++++++++
->  drivers/gpu/drm/imx/dcss/dcss-drv.c                | 181 +++++
->  drivers/gpu/drm/imx/dcss/dcss-dtg.c                | 442 +++++++++++
->  drivers/gpu/drm/imx/dcss/dcss-kms.c                | 322 ++++++++
->  drivers/gpu/drm/imx/dcss/dcss-kms.h                |  52 ++
->  drivers/gpu/drm/imx/dcss/dcss-plane.c              | 418 +++++++++++
->  drivers/gpu/drm/imx/dcss/dcss-scaler.c             | 826 +++++++++++++++=
-++++++
->  drivers/gpu/drm/imx/dcss/dcss-ss.c                 | 179 +++++
->  20 files changed, 4326 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx=
-8mq-dcss.yaml
->  create mode 100644 drivers/gpu/drm/imx/dcss/Kconfig
->  create mode 100644 drivers/gpu/drm/imx/dcss/Makefile
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-blkctl.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-crtc.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-ctxld.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dev.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dev.h
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dpr.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-drv.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dtg.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-kms.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-kms.h
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-plane.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-scaler.c
->  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-ss.c
-> =
-
-> -- =
-
-> 2.7.4
-> =
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
