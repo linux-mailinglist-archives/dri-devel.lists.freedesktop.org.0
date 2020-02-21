@@ -1,39 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E514716830C
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 17:15:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C17301683BB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 17:38:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8E426F4BC;
-	Fri, 21 Feb 2020 16:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ADEE6F4CF;
+	Fri, 21 Feb 2020 16:38:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5BD66F4BC;
- Fri, 21 Feb 2020 16:15:23 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id E67A380659;
- Fri, 21 Feb 2020 17:15:21 +0100 (CET)
-Date: Fri, 21 Feb 2020 17:15:20 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 11/12] drm: Shrink mode->private_flags
-Message-ID: <20200221161520.GB20663@ravnborg.org>
-References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
- <20200219203544.31013-12-ville.syrjala@linux.intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4267C6E28E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 11:37:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id C43CB278760
+Subject: Re: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
+To: CK Hu <ck.hu@mediatek.com>, Matthias Brugger <mbrugger@suse.com>
+References: <20200220172147.919996-1-enric.balletbo@collabora.com>
+ <1582259996.1846.7.camel@mtksdaap41>
+ <7a87b486-1622-7f27-f5af-427b94a14c00@collabora.com>
+ <1582277229.25992.9.camel@mtksdaap41>
+ <1393a8c5-065f-cccb-2563-8b159c951d4b@suse.com>
+ <1582283518.5889.10.camel@mtksdaap41>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <6deab0a4-44a6-a15f-ac01-374f818b267c@collabora.com>
+Date: Fri, 21 Feb 2020 12:37:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200219203544.31013-12-ville.syrjala@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=QyXUC8HyAAAA:8
- a=e5mUnYsNAAAA:8 a=cZvafouAKGbra6wC748A:9 a=wPNLvfGTeEIA:10
- a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <1582283518.5889.10.camel@mtksdaap41>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 21 Feb 2020 16:38:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,58 +43,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
+ mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-clk@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
+ Weiyi Lu <weiyi.lu@mediatek.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ wens@csie.org, linux-arm-kernel@lists.infradead.org,
+ mtk01761 <wendell.lin@mediatek.com>, Owen Chen <owen.chen@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Allison Randal <allison@lohutok.net>, Fabien Parent <fparent@baylibre.com>,
+ sboyd@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2020 at 10:35:43PM +0200, Ville Syrjala wrote:
-> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> =
+Hi CK and Matthias,
 
-> gma500 needs 4 bits (to store a pixel multiplier) in the
-> mode->private_flags, i915 currently has three bits defined.
-> No one else uses this. Reduce the size to u8.
-> =
+On 21/2/20 12:11, CK Hu wrote:
+> Hi, Matthias:
+> 
+> On Fri, 2020-02-21 at 11:24 +0100, Matthias Brugger wrote:
+>>
+>> On 21/02/2020 10:27, CK Hu wrote:
+>>> Hi, Enric:
+>>>
+>>> On Fri, 2020-02-21 at 09:56 +0100, Enric Balletbo i Serra wrote:
+>>>> Hi CK,
+>>>>
+>>>> Thanks for your quick answer.
+>>>>
+>>>> On 21/2/20 5:39, CK Hu wrote:
+>>>>> Hi, Enric:
+>>>>>
+>>>>> On Thu, 2020-02-20 at 18:21 +0100, Enric Balletbo i Serra wrote:
+>>>>>> Dear all,
+>>>>>>
+>>>>>> Those patches are intended to solve an old standing issue on some
+>>>>>> Mediatek devices (mt8173, mt2701 and mt2712) in a slightly different way
+>>>>>> to the precedent series.
+>>>>>>
+>>>>>> Up to now both drivers, clock and drm are probed with the same device tree
+>>>>>> compatible. But only the first driver get probed, which in effect breaks
+>>>>>> graphics on those devices.
+>>>>>>
+>>>>>> The version eight of the series tries to solve the problem with a
+>>>>>> different approach than the previous series but similar to how is solved
+>>>>>> on other Mediatek devices.
+>>>>>>
+>>>>>> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
+>>>>>> control clock gates (which is used in the clk driver) and some registers
+>>>>>> to set the routing and enable the differnet blocks of the display
+>>>>>> and MDP (Media Data Path) subsystem. On this series the clk driver is
+>>>>>> not a pure clock controller but a system controller that can provide
+>>>>>> access to the shared registers between the different drivers that need
+>>>>>> it (mediatek-drm and mediatek-mdp). And the biggest change is, that in
+>>>>>> this version, clk driver is the entry point (parent) which will trigger
+>>>>>> the probe of the corresponding mediatek-drm driver and pass its MMSYS
+>>>>>> platform data for display configuration.
+>>>>>
+>>>>> When mmsys is a system controller, I prefer to place mmsys in
+>>>>> drivers/soc/mediatek, and it share registers for clock, display, and mdp
+>>>>> driver. This means the probe function is placed in
+>>>>> drivers/soc/mediatek ,its display clock function, mdp clock function are
+>>>>> placed in drivers/clk, display routing are placed in drivers/gpu/drm,
+>>>>> and mdp routing are placed in dirvers/video.
+>>>>>
+>>>>
+>>>> I understand what you mean but I am not sure this makes the code clearer and
+>>>> useful. The driver in drivers/soc/mediatek will be a simple dummy implementation
+>>>> of a "simple-mfd" device (a driver that simply matches with
+>>>> "mediatek,mt8173-mmsys" and instantiates the "clk-mt8173-mm" and the
+>>>> "mediatek-drm" driver (note that mediatek-mdp" is already instantiated via
+>>>> device-tree).
+>>>>
+>>>
+>>> It's clear that mmsys is neither a pure clock controller nor a pure
+>>> routing controller for display and mdp. 
+>>>
+>>>> It'd be nice had a proper device-tree with a "simple-mfd" for mmsys from the
+>>>> beginning representing how really hardwware is, but I think that, change this
+>>>> now, will break backward compatibility.
+>>>
+>>> Maybe this is a solution. Current device tree would work only on old
+>>> kernel version with a bug, so this mean there is no any device tree
+>>> works on kernel version without bug. Why do we compatible with such
+>>> device tree?
+>>>
+>>
 
-> Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+So the only reason why current DT worked at some point is because there was a
+kernel bug?
 
-There seems to be talk about dropping use of private_flags
-from i915 and gma500 (IIRC).
-So maybe drop this patch as we are about to get rid of
-private_flags - which is much better?
+If that's the case I think we shouldn't worry about break DT compatibility (I'm
+sorry for those that having a buggy kernel makes display working)
 
-	Sam
+>> The idea behind this is, that the device-tree could be passed by some boot
+>> firmware, so that the OS do not care about it. For this we need a stable DTS as
+>> otherwise newer kernel with older FW would break.
+>>
+>> DTS is supposed to be just a different description of the HW like ACPI. So it
+>> has to be compatible (newer kernel with older DTS and if possible vice versa).
+> 
+> In my view, there is no FW (except some bug-inside FW) which works on
+> this dts, so this dts is in a initial state. I think the compatibility
+> is based on that dts correctly describe the HW. If we find this dts does
+> not correctly describe the HW and it's in a initial state, should we
+> still make it compatible?
+> 
 
-> ---
->  include/drm/drm_modes.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> =
+In this case I think we don't need to worry about buggy kernels, the only thing
+that we need to take in consideration is that mmsys is instantiated on both (the
+old DT and the new DT), we shouldn't expect display working (because never
+worked, right?)
 
-> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-> index b585074945b5..dadb0f3e5b0b 100644
-> --- a/include/drm/drm_modes.h
-> +++ b/include/drm/drm_modes.h
-> @@ -378,7 +378,7 @@ struct drm_display_mode {
->  	 * by atomic drivers since they can store any additional data by
->  	 * subclassing state structures.
->  	 */
-> -	int private_flags;
-> +	u8 private_flags;
->  =
+With that in mind, I agree that is a good opportunity to fix properly the HW
+topology.
 
->  	/**
->  	 * @picture_aspect_ratio:
-> -- =
+What thing that worries me is that I see this pattern on all Mediatek SoCs, does
+this mean that display was never well supported for Mediatek SoCs?
 
-> 2.24.1
-> =
+Thanks.
 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> If you have better solution, just let's forget this.
+> 
+> Regards,
+> CK
+> 
+>>
+>> Regards,
+>> Matthias
+>>
+>>> Regards,
+>>> CK
+>>>
+>>>>
+>>>> IMHO I think that considering the clk driver as entry point is fine, but this is
+>>>> something that the clock maintainers should decide.
+>>>>
+>>>> Also note that this is not only a MT8173 problem I am seeing the same problem on
+>>>> all other Mediatek SoCs.
+>>>>
+>>>> Thanks.
+>>>>
+>>>>> Regards,
+>>>>> CK
+>>>>>
+>>>>>>
+>>>>>> All this series was tested on the Acer R13 Chromebook only.
+>>>>>>
+>>>>>> For reference, here are the links to the old discussions:
+>>>>>>
+>>>>>> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
+>>>>>> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
+>>>>>> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
+>>>>>> * v4:
+>>>>>>   * https://patchwork.kernel.org/patch/10530871/
+>>>>>>   * https://patchwork.kernel.org/patch/10530883/
+>>>>>>   * https://patchwork.kernel.org/patch/10530885/
+>>>>>>   * https://patchwork.kernel.org/patch/10530911/
+>>>>>>   * https://patchwork.kernel.org/patch/10530913/
+>>>>>> * v3:
+>>>>>>   * https://patchwork.kernel.org/patch/10367857/
+>>>>>>   * https://patchwork.kernel.org/patch/10367861/
+>>>>>>   * https://patchwork.kernel.org/patch/10367877/
+>>>>>>   * https://patchwork.kernel.org/patch/10367875/
+>>>>>>   * https://patchwork.kernel.org/patch/10367885/
+>>>>>>   * https://patchwork.kernel.org/patch/10367883/
+>>>>>>   * https://patchwork.kernel.org/patch/10367889/
+>>>>>>   * https://patchwork.kernel.org/patch/10367907/
+>>>>>>   * https://patchwork.kernel.org/patch/10367909/
+>>>>>>   * https://patchwork.kernel.org/patch/10367905/
+>>>>>> * v2: No relevant discussion, see v3
+>>>>>> * v1:
+>>>>>>   * https://patchwork.kernel.org/patch/10016497/
+>>>>>>   * https://patchwork.kernel.org/patch/10016499/
+>>>>>>   * https://patchwork.kernel.org/patch/10016505/
+>>>>>>   * https://patchwork.kernel.org/patch/10016507/
+>>>>>>
+>>>>>> Best regards,
+>>>>>>  Enric
+>>>>>>
+>>>>>> Changes in v8:
+>>>>>> - Be a builtin_platform_driver like other mediatek mmsys drivers.
+>>>>>> - New patches introduced in this series.
+>>>>>>
+>>>>>> Changes in v7:
+>>>>>> - Add R-by from CK
+>>>>>> - Add R-by from CK
+>>>>>> - Fix check of return value of of_clk_get
+>>>>>> - Fix identation
+>>>>>> - Free clk_data->clks as well
+>>>>>> - Get rid of private data structure
+>>>>>>
+>>>>>> Enric Balletbo i Serra (2):
+>>>>>>   drm/mediatek: Move MMSYS configuration to include/linux/platform_data
+>>>>>>   clk/drm: mediatek: Fix mediatek-drm device probing
+>>>>>>
+>>>>>> Matthias Brugger (4):
+>>>>>>   drm/mediatek: Use regmap for register access
+>>>>>>   drm/mediatek: Omit warning on probe defers
+>>>>>>   media: mtk-mdp: Check return value of of_clk_get
+>>>>>>   clk: mediatek: mt8173: Switch MMSYS to platform driver
+>>>>>>
+>>>>>>  drivers/clk/mediatek/Kconfig                  |   6 +
+>>>>>>  drivers/clk/mediatek/Makefile                 |   1 +
+>>>>>>  drivers/clk/mediatek/clk-mt2701-mm.c          |  30 +++
+>>>>>>  drivers/clk/mediatek/clk-mt2712-mm.c          |  44 +++++
+>>>>>>  drivers/clk/mediatek/clk-mt8173-mm.c          | 172 ++++++++++++++++++
+>>>>>>  drivers/clk/mediatek/clk-mt8173.c             | 104 -----------
+>>>>>>  drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
+>>>>>>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
+>>>>>>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
+>>>>>>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
+>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   4 +-
+>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c        |  53 +++---
+>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   4 +-
+>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  56 +-----
+>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 113 +-----------
+>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+>>>>>>  drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
+>>>>>>  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
+>>>>>>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c |   6 +
+>>>>>>  include/linux/platform_data/mtk_mmsys.h       |  73 ++++++++
+>>>>>>  20 files changed, 401 insertions(+), 317 deletions(-)
+>>>>>>  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
+>>>>>>  create mode 100644 include/linux/platform_data/mtk_mmsys.h
+>>>>>>
+>>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Linux-mediatek mailing list
+>>>> Linux-mediatek@lists.infradead.org
+>>>> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+>>>
+>>
+>> _______________________________________________
+>> Linux-mediatek mailing list
+>> Linux-mediatek@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
