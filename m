@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766FD1670C4
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 08:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF831674C3
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 09:28:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0A96EEAF;
-	Fri, 21 Feb 2020 07:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05C026E25A;
+	Fri, 21 Feb 2020 08:28:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9016EEAF;
- Fri, 21 Feb 2020 07:48:56 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 342C7AD5C;
- Fri, 21 Feb 2020 07:48:54 +0000 (UTC)
-Subject: Re: [PATCH v2 3/4] drm/mgag200: Use simple encoder
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200218084815.2137-1-tzimmermann@suse.de>
- <20200218084815.2137-4-tzimmermann@suse.de>
- <20200220185642.GA20011@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <3044661c-7552-e685-37b3-88865f97a991@suse.de>
-Date: Fri, 21 Feb 2020 08:48:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
+ [IPv6:2607:f8b0:4864:20::943])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E2876E25A;
+ Fri, 21 Feb 2020 08:28:18 +0000 (UTC)
+Received: by mail-ua1-x943.google.com with SMTP id g13so367333uab.7;
+ Fri, 21 Feb 2020 00:28:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kpZqkjJzq7maU5wRD/SzaYqTKkPoc6vJaalUsryW+8I=;
+ b=RWVYOsnefJ75cq6QAR9uBhrSY2wGv/IxxoO4tFK384goCjUffuRjVzizn58R9YvaW7
+ X31yruFrt6MSw7clKgt3OEMjdI5ShxL4K0YTbH5Ev0+WURhB/7lqvARcxgGxLiwCez/A
+ a034X2eq+189Iip0KOY7CbfjU8yQ10KCa/N8afzgU4F0HtIdeQh+Cz7oOWbg9n2YkfvT
+ IrZoeMlGPqk3uSUW1wdg/roL8/1BRqxR+UpPfbWMu7IVJAgT3ghT1TRxn59CgD53xBIQ
+ EJZ4o2oteTWqO68IOwZc6gMq2B2gIadDTXUEXU+G/TnheC3jxEeatzIbdYddSgIJQxoB
+ 3DMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kpZqkjJzq7maU5wRD/SzaYqTKkPoc6vJaalUsryW+8I=;
+ b=cN2SpsSfq+3Bz71MtIiviwd+q4m9A1FxYCpOwQWQ3Q30eXFfR1fY3/5Upyq3xqLWQv
+ RtWZ2OQyTxAtEuwOzqTuFG27miO5ASlRS684qZeFTaOa8t5tBbcPYhGW/Lobse5rssLg
+ 1Jix2LwOzKhjLdiOd6E+VwcWvPjdrU0UoH4mfFcs4guxletxZcnaLKAse+6T7kz/UWOj
+ u7IQOrK9QG8SqE7kCxnmuVeJARiBy6xKHg6HzlM8E1UXZKL+7cF0pbF7+TWk9JUKbreT
+ Ma38vXmJteQKzqizuFctfeyRH+ROc/KLGHqHV8chsg7oHkQogLYDWGT7/K3AxSQ4eaej
+ YW9w==
+X-Gm-Message-State: APjAAAW+1qCJhmluB7m3PY48zENsyB7sMaSm8xbrAF0Qaj7j1wymPt51
+ kukDaBTAYYv6BaPbtSB3M6oYD47ynAKnWYnHbfg=
+X-Google-Smtp-Source: APXvYqxmLNkqW8mBwz0Iwb261cEY9aqyNNS8+/2m7CnN8EFRUA4/6WuhWMOyAGVA8CFlptNzcQE7DsGzQPkFHHDQR/k=
+X-Received: by 2002:ab0:3395:: with SMTP id y21mr9862260uap.124.1582273697648; 
+ Fri, 21 Feb 2020 00:28:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200220185642.GA20011@ravnborg.org>
+References: <20200106104339.215511-1-christian.gmeiner@gmail.com>
+In-Reply-To: <20200106104339.215511-1-christian.gmeiner@gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 21 Feb 2020 09:28:06 +0100
+Message-ID: <CAH9NwWcW-kq_GzhsfZboLKfGZj6=40Qi6Pf8-WoO4J6VOqzgoQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: rework perfmon query infrastructure
+To: LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,248 +60,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, kraxel@redhat.com,
- alexander.deucher@amd.com, spice-devel@lists.freedesktop.org,
- emil.velikov@collabora.com
-Content-Type: multipart/mixed; boundary="===============1378906466=="
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>, stable@vger.kernel.org,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1378906466==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="DUBWN9ElGP8OsLUD5XE3WCTOucgrt5Zs9"
+Am Mo., 6. Jan. 2020 um 11:43 Uhr schrieb Christian Gmeiner
+<christian.gmeiner@gmail.com>:
+>
+> Report the correct perfmon domains and signals depending
+> on the supported feature flags.
+>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Fixes: 9e2c2e273012 ("drm/etnaviv: add infrastructure to query perf counter")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 57 ++++++++++++++++++++---
+>  1 file changed, 50 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> index 8adbf2861bff..7ae8f347ca06 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> @@ -32,6 +32,7 @@ struct etnaviv_pm_domain {
+>  };
+>
+>  struct etnaviv_pm_domain_meta {
+> +       unsigned int feature;
+>         const struct etnaviv_pm_domain *domains;
+>         u32 nr_domains;
+>  };
+> @@ -410,36 +411,78 @@ static const struct etnaviv_pm_domain doms_vg[] = {
+>
+>  static const struct etnaviv_pm_domain_meta doms_meta[] = {
+>         {
+> +               .feature = chipFeatures_PIPE_3D,
+>                 .nr_domains = ARRAY_SIZE(doms_3d),
+>                 .domains = &doms_3d[0]
+>         },
+>         {
+> +               .feature = chipFeatures_PIPE_2D,
+>                 .nr_domains = ARRAY_SIZE(doms_2d),
+>                 .domains = &doms_2d[0]
+>         },
+>         {
+> +               .feature = chipFeatures_PIPE_VG,
+>                 .nr_domains = ARRAY_SIZE(doms_vg),
+>                 .domains = &doms_vg[0]
+>         }
+>  };
+>
+> +static unsigned int num_pm_domains(const struct etnaviv_gpu *gpu)
+> +{
+> +       unsigned int num = 0, i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
+> +               const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
+> +
+> +               if (gpu->identity.features & meta->feature)
+> +                       num += meta->nr_domains;
+> +       }
+> +
+> +       return num;
+> +}
+> +
+> +static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+> +       unsigned int index)
+> +{
+> +       const struct etnaviv_pm_domain *domain = NULL;
+> +       unsigned int offset = 0, i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
+> +               const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
+> +
+> +               if (!(gpu->identity.features & meta->feature))
+> +                       continue;
+> +
+> +               if (meta->nr_domains < (index - offset)) {
+> +                       offset += meta->nr_domains;
+> +                       continue;
+> +               }
+> +
+> +               domain = meta->domains + (index - offset);
+> +       }
+> +
+> +       BUG_ON(!domain);
+> +
+> +       return domain;
+> +}
+> +
+>  int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+>         struct drm_etnaviv_pm_domain *domain)
+>  {
+> -       const struct etnaviv_pm_domain_meta *meta = &doms_meta[domain->pipe];
+> +       const unsigned int nr_domains = num_pm_domains(gpu);
+>         const struct etnaviv_pm_domain *dom;
+>
+> -       if (domain->iter >= meta->nr_domains)
+> +       if (domain->iter >= nr_domains)
+>                 return -EINVAL;
+>
+> -       dom = meta->domains + domain->iter;
+> +       dom = pm_domain(gpu, domain->iter);
+>
+>         domain->id = domain->iter;
+>         domain->nr_signals = dom->nr_signals;
+>         strncpy(domain->name, dom->name, sizeof(domain->name));
+>
+>         domain->iter++;
+> -       if (domain->iter == meta->nr_domains)
+> +       if (domain->iter == nr_domains)
+>                 domain->iter = 0xff;
+>
+>         return 0;
+> @@ -448,14 +491,14 @@ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+>  int etnaviv_pm_query_sig(struct etnaviv_gpu *gpu,
+>         struct drm_etnaviv_pm_signal *signal)
+>  {
+> -       const struct etnaviv_pm_domain_meta *meta = &doms_meta[signal->pipe];
+> +       const unsigned int nr_domains = num_pm_domains(gpu);
+>         const struct etnaviv_pm_domain *dom;
+>         const struct etnaviv_pm_signal *sig;
+>
+> -       if (signal->domain >= meta->nr_domains)
+> +       if (signal->domain >= nr_domains)
+>                 return -EINVAL;
+>
+> -       dom = meta->domains + signal->domain;
+> +       dom = pm_domain(gpu, signal->domain);
+>
+>         if (signal->iter >= dom->nr_signals)
+>                 return -EINVAL;
+> --
+> 2.24.1
+>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---DUBWN9ElGP8OsLUD5XE3WCTOucgrt5Zs9
-Content-Type: multipart/mixed; boundary="Z9QfqVzg1HcrcJJFQy30vOtUHaPfVRzvn";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, kraxel@redhat.com, noralf@tronnes.org,
- alexander.deucher@amd.com, emil.velikov@collabora.com,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org
-Message-ID: <3044661c-7552-e685-37b3-88865f97a991@suse.de>
-Subject: Re: [PATCH v2 3/4] drm/mgag200: Use simple encoder
-References: <20200218084815.2137-1-tzimmermann@suse.de>
- <20200218084815.2137-4-tzimmermann@suse.de>
- <20200220185642.GA20011@ravnborg.org>
-In-Reply-To: <20200220185642.GA20011@ravnborg.org>
+ping
 
---Z9QfqVzg1HcrcJJFQy30vOtUHaPfVRzvn
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-Hi Sam
-
-thanks for reviewing the patch set.
-
-Am 20.02.20 um 19:56 schrieb Sam Ravnborg:
-> Hi Thomas.
->=20
-> On Tue, Feb 18, 2020 at 09:48:14AM +0100, Thomas Zimmermann wrote:
->> The mgag200 driver uses an empty implementation for its encoder. Repla=
-ce
->> the code with the generic simple encoder.
->>
->> v2:
->> 	* rebase onto new simple-encoder interface
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  7 ---
->>  drivers/gpu/drm/mgag200/mgag200_mode.c | 61 ++-----------------------=
--
->>  2 files changed, 3 insertions(+), 65 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/m=
-gag200/mgag200_drv.h
->> index aa32aad222c2..9bb9e8e14539 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
->> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
->> @@ -95,7 +95,6 @@
->>  #define MATROX_DPMS_CLEARED (-1)
->> =20
->>  #define to_mga_crtc(x) container_of(x, struct mga_crtc, base)
->> -#define to_mga_encoder(x) container_of(x, struct mga_encoder, base)
->>  #define to_mga_connector(x) container_of(x, struct mga_connector, bas=
-e)
->> =20
->>  struct mga_crtc {
->> @@ -110,12 +109,6 @@ struct mga_mode_info {
->>  	struct mga_crtc *crtc;
->>  };
->> =20
->> -struct mga_encoder {
->> -	struct drm_encoder base;
->> -	int last_dpms;
->> -};
->> -
->> -
->>  struct mga_i2c_chan {
->>  	struct i2c_adapter adapter;
->>  	struct drm_device *dev;
->=20
-> Any particular reason why the drm_encoder is not embedded in struct
-> mga_device?
->=20
-> I found it more elegant - like you did it for ast in the previous patch=
-=2E
-
-I think I wanted something that uses drm_simple_encoder_create(). But I
-can change that. The embedded variant is indeed better.
-
-Best regards
-Thomas
-
->=20
-> I also noted there is one more unused "last_dpms" - but it is outside
-> the scope of this patch to remove it.
->=20
-> 	Sam
->=20
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/=
-mgag200/mgag200_mode.c
->> index 62a8e9ccb16d..957ea1057b6c 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -15,6 +15,7 @@
->>  #include <drm/drm_fourcc.h>
->>  #include <drm/drm_plane_helper.h>
->>  #include <drm/drm_probe_helper.h>
->> +#include <drm/drm_simple_kms_helper.h>
->> =20
->>  #include "mgag200_drv.h"
->> =20
->> @@ -1449,72 +1450,16 @@ static void mga_crtc_init(struct mga_device *m=
-dev)
->>  	drm_crtc_helper_add(&mga_crtc->base, &mga_helper_funcs);
->>  }
->> =20
->> -/*
->> - * The encoder comes after the CRTC in the output pipeline, but befor=
-e
->> - * the connector. It's responsible for ensuring that the digital
->> - * stream is appropriately converted into the output format. Setup is=
-
->> - * very simple in this case - all we have to do is inform qemu of the=
-
->> - * colour depth in order to ensure that it displays appropriately
->> - */
->> -
->> -/*
->> - * These functions are analagous to those in the CRTC code, but are i=
-ntended
->> - * to handle any encoder-specific limitations
->> - */
->> -static void mga_encoder_mode_set(struct drm_encoder *encoder,
->> -				struct drm_display_mode *mode,
->> -				struct drm_display_mode *adjusted_mode)
->> -{
->> -
->> -}
->> -
->> -static void mga_encoder_dpms(struct drm_encoder *encoder, int state)
->> -{
->> -	return;
->> -}
->> -
->> -static void mga_encoder_prepare(struct drm_encoder *encoder)
->> -{
->> -}
->> -
->> -static void mga_encoder_commit(struct drm_encoder *encoder)
->> -{
->> -}
->> -
->> -static void mga_encoder_destroy(struct drm_encoder *encoder)
->> -{
->> -	struct mga_encoder *mga_encoder =3D to_mga_encoder(encoder);
->> -	drm_encoder_cleanup(encoder);
->> -	kfree(mga_encoder);
->> -}
->> -
->> -static const struct drm_encoder_helper_funcs mga_encoder_helper_funcs=
- =3D {
->> -	.dpms =3D mga_encoder_dpms,
->> -	.mode_set =3D mga_encoder_mode_set,
->> -	.prepare =3D mga_encoder_prepare,
->> -	.commit =3D mga_encoder_commit,
->> -};
->> -
->> -static const struct drm_encoder_funcs mga_encoder_encoder_funcs =3D {=
-
->> -	.destroy =3D mga_encoder_destroy,
->> -};
->> -
->>  static struct drm_encoder *mga_encoder_init(struct drm_device *dev)
->>  {
->>  	struct drm_encoder *encoder;
->> -	struct mga_encoder *mga_encoder;
->> =20
->> -	mga_encoder =3D kzalloc(sizeof(struct mga_encoder), GFP_KERNEL);
->> -	if (!mga_encoder)
->> +	encoder =3D drm_simple_encoder_create(dev, DRM_MODE_ENCODER_DAC);
->> +	if (IS_ERR(encoder))
->>  		return NULL;
->> =20
->> -	encoder =3D &mga_encoder->base;
->>  	encoder->possible_crtcs =3D 0x1;
->> =20
->> -	drm_encoder_init(dev, encoder, &mga_encoder_encoder_funcs,
->> -			 DRM_MODE_ENCODER_DAC, NULL);
->> -	drm_encoder_helper_add(encoder, &mga_encoder_helper_funcs);
->> -
->>  	return encoder;
->>  }
->> =20
->> --=20
->> 2.25.0
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---Z9QfqVzg1HcrcJJFQy30vOtUHaPfVRzvn--
-
---DUBWN9ElGP8OsLUD5XE3WCTOucgrt5Zs9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5Pi2MACgkQaA3BHVML
-eiMSbggAkKW4IPwzooc5SmxndNtmXeGJBR7GSbpTrkC93svgAJek8UbcW8W1L2fT
-xhwoCFC3AqyDHX85Bvw4FVOXQW7jeozq0TeOrMZ8L2rIZMXgXJSOqU+9fILF7hfN
-nTRQnh26fPvM+gf30BK7OxIEU29+xP3Qgk6YtybUkxZ085ye9WNdDwolSOUaCU+m
-Jo+gsNnaGESGyznHsDI+AFA6BqFoSVon6YtI0Gh0h4dKRW8jdIKJnGvGiaAY2eqn
-iZJoOb2X6ViMHwTDTkV6DCwZbtiNSLpWqjtcfLAEtmuCtQqJd14CAS2Grkq0nmi/
-+EzQZc6CBEzUofFnXoi+FJ+njNaI0A==
-=Pd8i
------END PGP SIGNATURE-----
-
---DUBWN9ElGP8OsLUD5XE3WCTOucgrt5Zs9--
-
---===============1378906466==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1378906466==--
