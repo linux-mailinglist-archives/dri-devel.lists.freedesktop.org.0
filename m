@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FFD51678FD
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 10:09:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D613416795A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Feb 2020 10:27:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD726EF22;
-	Fri, 21 Feb 2020 09:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEDB56EF23;
+	Fri, 21 Feb 2020 09:27:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72F7A6EEC1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 09:08:55 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id t3so1080783wru.7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 01:08:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ISULOS1UCLwuUa+INumyziDbxt+K8PYtRxwNxV5Yeuk=;
- b=pahC2mJoXh8wRpsQW3z6MRPhFZ48wI4PBusGzip2wSTL4343A+K/DiCgAi+D5W12yB
- zLmBLGSftm/vkPTDvdYIko9Zc3ymwOLg7Q/y+eBdY3Y2N1MkiVAiSNd1arYd9zedRI+h
- 8j5YhhAox4I6Y3okI64il5v67MAiWw7Ij5kD1no3UAKfcgXLAdXxSbxrMhR0hL2/1UgF
- X2eK5RoD0ZWptmDj4mlrpPTqToRrzJcrUcVBIUiBvSRbupVVxAGLKIv1BaUO2fRM7U/a
- 0Plg+uBl5ATK/FK0vejMWnX+iKfQ0AAuIyVlDV6wAQtdhPgex6iHXKhbC8bJzpt0D7o6
- 23eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ISULOS1UCLwuUa+INumyziDbxt+K8PYtRxwNxV5Yeuk=;
- b=fLiW3Y9kxqbAyYTCCd6lreMpCMulTUZAJkdeOOf8byCalS3mj/hK/dTohSXsgrI9QL
- qPBVdEOzsKjsPybIfCO4XBF5RczZGWW/QK6lkTBX8WRGwAwrPi7BoQ09cdNy7176cLxG
- G5tTQMb/xi2oY0iZAGaTlhqts8zNpKzcN9IXsTwS6pIOtYk8S5UIOhjI5J9GNIQ2qFaD
- lYkIL6pGHd0cQichOBYFU9KI5gCTbeB4pzcGkSlxRSLch8pB/DF23t+FgBcX+ZsuW5r6
- yPWWHz94W99cu5wLm+n+jTxohr7nnJnLZ9YEwLHaA4rD393sdcXisELBpRZMzmRmR4tE
- NYtg==
-X-Gm-Message-State: APjAAAUk8luyJ/XGr3AqsKFP3LI2tqxbv6o/iEtYEqNA2S8iCxqVX75J
- aV6Wq7EjnKwQWPw2otNR+17U7A==
-X-Google-Smtp-Source: APXvYqyCuOvGTZE/AybZ/gDHe4QEN8i+qZ4WSIQkyZ28ryol7htc0w2Gv8nV5eA51FhpQ1L2JtzRQA==
-X-Received: by 2002:a5d:4a91:: with SMTP id o17mr45217966wrq.232.1582276133906; 
- Fri, 21 Feb 2020 01:08:53 -0800 (PST)
-Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:4ca8:b25b:98e4:858])
- by smtp.gmail.com with ESMTPSA id
- h5sm3173288wmf.8.2020.02.21.01.08.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 01:08:52 -0800 (PST)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/meson: crtc: handle commit of Amlogic FBC frames
-Date: Fri, 21 Feb 2020 10:08:45 +0100
-Message-Id: <20200221090845.7397-5-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200221090845.7397-1-narmstrong@baylibre.com>
-References: <20200221090845.7397-1-narmstrong@baylibre.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DB7296EF23
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Feb 2020 09:27:15 +0000 (UTC)
+X-UUID: 38f491a289a34d71a6578ab7c82cb42a-20200221
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=xtQVmXJH4GNtdqJc6//nA3nfWidVuWpS9hv2OZGn7I4=; 
+ b=Z22Ylokvgnb5mQAbC5uzOOjkFyVjnRLONGCj/MjLm5uE7uNgxKkcidqA5JFqr9//3uDFJitPn211/tgiB4jDIgJJMLX2nK3hqJqyTqXFtU6XaljmnL70/HBSKyyHAHQKDzh31AcfSce2PaNbeOR5CEAQfo6xl0Cn/hwbO3cndWQ=;
+X-UUID: 38f491a289a34d71a6578ab7c82cb42a-20200221
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1067637433; Fri, 21 Feb 2020 17:27:11 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 21 Feb 2020 17:25:22 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 21 Feb 2020 17:27:39 +0800
+Message-ID: <1582277229.25992.9.camel@mtksdaap41>
+Subject: Re: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
+From: CK Hu <ck.hu@mediatek.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Date: Fri, 21 Feb 2020 17:27:09 +0800
+In-Reply-To: <7a87b486-1622-7f27-f5af-427b94a14c00@collabora.com>
+References: <20200220172147.919996-1-enric.balletbo@collabora.com>
+ <1582259996.1846.7.camel@mtksdaap41>
+ <7a87b486-1622-7f27-f5af-427b94a14c00@collabora.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,166 +53,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
+ mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-clk@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
+ Weiyi Lu <weiyi.lu@mediatek.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ wens@csie.org, Allison Randal <allison@lohutok.net>,
+ mtk01761 <wendell.lin@mediatek.com>, Owen Chen <owen.chen@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Thomas
+ Gleixner <tglx@linutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Matthias Brugger <mbrugger@suse.com>,
+ Fabien Parent <fparent@baylibre.com>, sboyd@kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the VD1 Amlogic FBC decoder is now configured by the overlay driver,
-commit the right registers to decode the Amlogic FBC frame.
+Hi, Enric:
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/gpu/drm/meson/meson_crtc.c | 118 +++++++++++++++++++++--------
- 1 file changed, 88 insertions(+), 30 deletions(-)
+On Fri, 2020-02-21 at 09:56 +0100, Enric Balletbo i Serra wrote:
+> Hi CK,
+> 
+> Thanks for your quick answer.
+> 
+> On 21/2/20 5:39, CK Hu wrote:
+> > Hi, Enric:
+> > 
+> > On Thu, 2020-02-20 at 18:21 +0100, Enric Balletbo i Serra wrote:
+> >> Dear all,
+> >>
+> >> Those patches are intended to solve an old standing issue on some
+> >> Mediatek devices (mt8173, mt2701 and mt2712) in a slightly different way
+> >> to the precedent series.
+> >>
+> >> Up to now both drivers, clock and drm are probed with the same device tree
+> >> compatible. But only the first driver get probed, which in effect breaks
+> >> graphics on those devices.
+> >>
+> >> The version eight of the series tries to solve the problem with a
+> >> different approach than the previous series but similar to how is solved
+> >> on other Mediatek devices.
+> >>
+> >> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
+> >> control clock gates (which is used in the clk driver) and some registers
+> >> to set the routing and enable the differnet blocks of the display
+> >> and MDP (Media Data Path) subsystem. On this series the clk driver is
+> >> not a pure clock controller but a system controller that can provide
+> >> access to the shared registers between the different drivers that need
+> >> it (mediatek-drm and mediatek-mdp). And the biggest change is, that in
+> >> this version, clk driver is the entry point (parent) which will trigger
+> >> the probe of the corresponding mediatek-drm driver and pass its MMSYS
+> >> platform data for display configuration.
+> > 
+> > When mmsys is a system controller, I prefer to place mmsys in
+> > drivers/soc/mediatek, and it share registers for clock, display, and mdp
+> > driver. This means the probe function is placed in
+> > drivers/soc/mediatek ,its display clock function, mdp clock function are
+> > placed in drivers/clk, display routing are placed in drivers/gpu/drm,
+> > and mdp routing are placed in dirvers/video.
+> > 
+> 
+> I understand what you mean but I am not sure this makes the code clearer and
+> useful. The driver in drivers/soc/mediatek will be a simple dummy implementation
+> of a "simple-mfd" device (a driver that simply matches with
+> "mediatek,mt8173-mmsys" and instantiates the "clk-mt8173-mm" and the
+> "mediatek-drm" driver (note that mediatek-mdp" is already instantiated via
+> device-tree).
+> 
 
-diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
-index e66b6271ff58..d6dcfd654e9c 100644
---- a/drivers/gpu/drm/meson/meson_crtc.c
-+++ b/drivers/gpu/drm/meson/meson_crtc.c
-@@ -291,6 +291,10 @@ static void meson_crtc_enable_vd1(struct meson_drm *priv)
- 			    VPP_VD1_PREBLEND | VPP_VD1_POSTBLEND |
- 			    VPP_COLOR_MNG_ENABLE,
- 			    priv->io_base + _REG(VPP_MISC));
-+
-+	writel_bits_relaxed(VIU_CTRL0_AFBC_TO_VD1,
-+			    priv->viu.vd1_afbc ? VIU_CTRL0_AFBC_TO_VD1 : 0,
-+			    priv->io_base + _REG(VIU_MISC_CTRL0));
- }
- 
- static void meson_g12a_crtc_enable_vd1(struct meson_drm *priv)
-@@ -300,6 +304,10 @@ static void meson_g12a_crtc_enable_vd1(struct meson_drm *priv)
- 		       VD_BLEND_POSTBLD_SRC_VD1 |
- 		       VD_BLEND_POSTBLD_PREMULT_EN,
- 		       priv->io_base + _REG(VD1_BLEND_SRC_CTRL));
-+
-+	writel_relaxed(priv->viu.vd1_afbc ?
-+		       (VD1_AXI_SEL_AFBC | AFBC_VD1_SEL) : 0,
-+		       priv->io_base + _REG(VD1_AFBCD0_MISC_CTRL));
- }
- 
- void meson_crtc_irq(struct meson_drm *priv)
-@@ -383,36 +391,86 @@ void meson_crtc_irq(struct meson_drm *priv)
- 	/* Update the VD1 registers */
- 	if (priv->viu.vd1_enabled && priv->viu.vd1_commit) {
- 
--		switch (priv->viu.vd1_planes) {
--		case 3:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_2,
--					    priv->viu.vd1_addr2,
--					    priv->viu.vd1_stride2,
--					    priv->viu.vd1_height2,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
--		/* fallthrough */
--		case 2:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_1,
--					    priv->viu.vd1_addr1,
--					    priv->viu.vd1_stride1,
--					    priv->viu.vd1_height1,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
--		/* fallthrough */
--		case 1:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_0,
--					    priv->viu.vd1_addr0,
--					    priv->viu.vd1_stride0,
--					    priv->viu.vd1_height0,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
-+		if (priv->viu.vd1_afbc) {
-+			writel_relaxed(priv->viu.vd1_afbc_head_addr,
-+				       priv->io_base +
-+				       _REG(AFBC_HEAD_BADDR));
-+			writel_relaxed(priv->viu.vd1_afbc_body_addr,
-+				       priv->io_base +
-+				       _REG(AFBC_BODY_BADDR));
-+			writel_relaxed(priv->viu.vd1_afbc_en,
-+				       priv->io_base +
-+				       _REG(AFBC_ENABLE));
-+			writel_relaxed(priv->viu.vd1_afbc_mode,
-+				       priv->io_base +
-+				       _REG(AFBC_MODE));
-+			writel_relaxed(priv->viu.vd1_afbc_size_in,
-+				       priv->io_base +
-+				       _REG(AFBC_SIZE_IN));
-+			writel_relaxed(priv->viu.vd1_afbc_dec_def_color,
-+				       priv->io_base +
-+				       _REG(AFBC_DEC_DEF_COLOR));
-+			writel_relaxed(priv->viu.vd1_afbc_conv_ctrl,
-+				       priv->io_base +
-+				       _REG(AFBC_CONV_CTRL));
-+			writel_relaxed(priv->viu.vd1_afbc_size_out,
-+				       priv->io_base +
-+				       _REG(AFBC_SIZE_OUT));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_ctrl,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_CTRL));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_w,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_W));
-+			writel_relaxed(priv->viu.vd1_afbc_mif_hor_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_MIF_HOR_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_mif_ver_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_MIF_VER_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_pixel_hor_scope,
-+				       priv->io_base+
-+				       _REG(AFBC_PIXEL_HOR_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_pixel_ver_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_PIXEL_VER_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_h,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_H));
-+		} else {
-+			switch (priv->viu.vd1_planes) {
-+			case 3:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_2,
-+						    priv->viu.vd1_addr2,
-+						    priv->viu.vd1_stride2,
-+						    priv->viu.vd1_height2,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			/* fallthrough */
-+			case 2:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_1,
-+						    priv->viu.vd1_addr1,
-+						    priv->viu.vd1_stride1,
-+						    priv->viu.vd1_height1,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			/* fallthrough */
-+			case 1:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_0,
-+						    priv->viu.vd1_addr0,
-+						    priv->viu.vd1_stride0,
-+						    priv->viu.vd1_height0,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			}
-+
-+			writel_relaxed(0, priv->io_base + _REG(AFBC_ENABLE));
- 		}
- 
- 		writel_relaxed(priv->viu.vd1_if0_gen_reg,
--- 
-2.22.0
+It's clear that mmsys is neither a pure clock controller nor a pure
+routing controller for display and mdp. 
+
+> It'd be nice had a proper device-tree with a "simple-mfd" for mmsys from the
+> beginning representing how really hardwware is, but I think that, change this
+> now, will break backward compatibility.
+
+Maybe this is a solution. Current device tree would work only on old
+kernel version with a bug, so this mean there is no any device tree
+works on kernel version without bug. Why do we compatible with such
+device tree?
+
+Regards,
+CK
+
+> 
+> IMHO I think that considering the clk driver as entry point is fine, but this is
+> something that the clock maintainers should decide.
+> 
+> Also note that this is not only a MT8173 problem I am seeing the same problem on
+> all other Mediatek SoCs.
+> 
+> Thanks.
+> 
+> > Regards,
+> > CK
+> > 
+> >>
+> >> All this series was tested on the Acer R13 Chromebook only.
+> >>
+> >> For reference, here are the links to the old discussions:
+> >>
+> >> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
+> >> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
+> >> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
+> >> * v4:
+> >>   * https://patchwork.kernel.org/patch/10530871/
+> >>   * https://patchwork.kernel.org/patch/10530883/
+> >>   * https://patchwork.kernel.org/patch/10530885/
+> >>   * https://patchwork.kernel.org/patch/10530911/
+> >>   * https://patchwork.kernel.org/patch/10530913/
+> >> * v3:
+> >>   * https://patchwork.kernel.org/patch/10367857/
+> >>   * https://patchwork.kernel.org/patch/10367861/
+> >>   * https://patchwork.kernel.org/patch/10367877/
+> >>   * https://patchwork.kernel.org/patch/10367875/
+> >>   * https://patchwork.kernel.org/patch/10367885/
+> >>   * https://patchwork.kernel.org/patch/10367883/
+> >>   * https://patchwork.kernel.org/patch/10367889/
+> >>   * https://patchwork.kernel.org/patch/10367907/
+> >>   * https://patchwork.kernel.org/patch/10367909/
+> >>   * https://patchwork.kernel.org/patch/10367905/
+> >> * v2: No relevant discussion, see v3
+> >> * v1:
+> >>   * https://patchwork.kernel.org/patch/10016497/
+> >>   * https://patchwork.kernel.org/patch/10016499/
+> >>   * https://patchwork.kernel.org/patch/10016505/
+> >>   * https://patchwork.kernel.org/patch/10016507/
+> >>
+> >> Best regards,
+> >>  Enric
+> >>
+> >> Changes in v8:
+> >> - Be a builtin_platform_driver like other mediatek mmsys drivers.
+> >> - New patches introduced in this series.
+> >>
+> >> Changes in v7:
+> >> - Add R-by from CK
+> >> - Add R-by from CK
+> >> - Fix check of return value of of_clk_get
+> >> - Fix identation
+> >> - Free clk_data->clks as well
+> >> - Get rid of private data structure
+> >>
+> >> Enric Balletbo i Serra (2):
+> >>   drm/mediatek: Move MMSYS configuration to include/linux/platform_data
+> >>   clk/drm: mediatek: Fix mediatek-drm device probing
+> >>
+> >> Matthias Brugger (4):
+> >>   drm/mediatek: Use regmap for register access
+> >>   drm/mediatek: Omit warning on probe defers
+> >>   media: mtk-mdp: Check return value of of_clk_get
+> >>   clk: mediatek: mt8173: Switch MMSYS to platform driver
+> >>
+> >>  drivers/clk/mediatek/Kconfig                  |   6 +
+> >>  drivers/clk/mediatek/Makefile                 |   1 +
+> >>  drivers/clk/mediatek/clk-mt2701-mm.c          |  30 +++
+> >>  drivers/clk/mediatek/clk-mt2712-mm.c          |  44 +++++
+> >>  drivers/clk/mediatek/clk-mt8173-mm.c          | 172 ++++++++++++++++++
+> >>  drivers/clk/mediatek/clk-mt8173.c             | 104 -----------
+> >>  drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
+> >>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
+> >>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
+> >>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
+> >>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   4 +-
+> >>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c        |  53 +++---
+> >>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   4 +-
+> >>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  56 +-----
+> >>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 113 +-----------
+> >>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+> >>  drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
+> >>  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
+> >>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c |   6 +
+> >>  include/linux/platform_data/mtk_mmsys.h       |  73 ++++++++
+> >>  20 files changed, 401 insertions(+), 317 deletions(-)
+> >>  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
+> >>  create mode 100644 include/linux/platform_data/mtk_mmsys.h
+> >>
+> > 
+> 
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
 
 _______________________________________________
 dri-devel mailing list
