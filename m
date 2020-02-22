@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208FB168C0F
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 03:43:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 141B1168C11
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 03:43:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19C656F5BB;
-	Sat, 22 Feb 2020 02:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE136F5BD;
+	Sat, 22 Feb 2020 02:43:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA636F5BB;
- Sat, 22 Feb 2020 02:43:05 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id j9so2251875pfa.8;
- Fri, 21 Feb 2020 18:43:05 -0800 (PST)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC946F5BC;
+ Sat, 22 Feb 2020 02:43:19 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id t14so1661426plr.8;
+ Fri, 21 Feb 2020 18:43:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=jl6vr7UWR0nnpM8j/ALbDa2/HAnUrEfvjRx7BLpgwYw=;
- b=NtDPTxevIBnoMdTW3rjzbt0kL5qDit08F8JctPGl7mU8+1oCqFfSc/dRRxwqb5Yfjc
- e1xuWvjWkhya7TLAEFLMeEFE5a0GN5nmUVEFpYfZAga4R1J5n8KkZpCOT7aolnAd1o8s
- o6slOXW+/PHgkuIjrkkXyX4IYlgpPT3MYBk6M+DtL5CpG/5X1i+M10y0vscxnXTuO8JD
- /IG2Z1nzdCwoOhqfSI7NfivJm2LX70Mk0vAbkFTabw5oPoXhGRzN3FK9hs9LRU5rM3VS
- KX07rlavU59H39HUCBUYhzJmXzxx1EROVLaUYngzeDVXxUxTL64QtGwXmdIA8JLvXb3P
- 7Khg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=3U1IC2Bl/UEMV+oLQmV3uNw3C939JxbUINaVIeDLDNQ=;
+ b=rQhBDedbrOzT0cgipChJyyR/MxNWkwqoJ6gQ7VoSmSWpB7bLpHx/DzcL5dg7d4Pj3E
+ i5TfyeY9vXJHPDpe5vghaEMXfbyH+UOr7Yb2ZWKuxbYIxNcu0hdr70XK9wWyGhTQT/+t
+ f8Tlp6voxJu0Sxwdou69wd0T2yMJAaqqeyDAEZXHNDOi4C1QZzaxbf54LevuEzeaZJ7f
+ jbnL2mc2NScRBF361itdRKi/Sky/+/lVGr9T5KRjFcQY4e7nxRdpP7qeIS+v+mHfTm/h
+ LK02EqcAmJypgE2phkAUcuYEZirDXpqzvdL5AU93Uk2gnpPvA7W9BuX/9/uc/JOxkuKs
+ REiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=jl6vr7UWR0nnpM8j/ALbDa2/HAnUrEfvjRx7BLpgwYw=;
- b=Nx7y1c0akZvhIIuqdYhwIw+R+jIHsdfiCH+2sGP342g4cNdTBWsXFxiOy8IsGCXEvw
- T/4x1PtTGLa2RebY1OBW6JpBZoaCWkkKkfpp1FeO3ZzrcMf9A2UGc7z8UhnZxKlX6RhQ
- zQzjUdka1xQGMZU0d8rtfpmRWnjl3ANtaAmOGftTV81XQqM8Ny/wec+HdzAvzph4E7P3
- +YJHYh84W0ols7tdip1EajKRgNGnZk5sjatqmH8PADbO4UCyFsBg/82uVNb9BFB7yc3L
- kEqzuRzSX8f7O2PtGuAEpKov3Ips3Dm1MSY1LN/5NjzeOMf9fIEtJn93jHP/yQyb3rC4
- NtgQ==
-X-Gm-Message-State: APjAAAXB4W2KOCN0SK5++4qsL0eGmzRwTjYdHOZ2U3MLMMMtJgDemiFX
- 9u6TQlAp9UgJh8olXvYfGaQW23Lgnf3H5Q==
-X-Google-Smtp-Source: APXvYqy3WAqsqAKTzVMWBPhW5HWtSgR93gIGuiEy7UjIU9pIYHENaSDLgKKgO/g7L0uZNQCZBuFlZA==
-X-Received: by 2002:a63:5fcf:: with SMTP id
- t198mr40852962pgb.383.1582339384736; 
- Fri, 21 Feb 2020 18:43:04 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=3U1IC2Bl/UEMV+oLQmV3uNw3C939JxbUINaVIeDLDNQ=;
+ b=QdnrxGgY5yBuO09w5uHdf9wXtxSmli2V7kxiy9hd63yUKQSK/vk1bVIDyzNYHhkZfG
+ /vYa12nWh5pLgYw246bFdNUVddsoREi4sdxRJLk6X7bWPbUBxBaiyK5he2DtxJkh7N48
+ pdNuDc7COwZzbGpxsSHjtW470gsMq8Ti/ZsVIRM/J5dTx4o9/BLUwMp/wDryhsSD1rqd
+ ZoJKlL2JBPHW1osW7SXD6wYKx2UHqCKb8x86/0eLF5NHpH8cLEpHcqNoTSoafflvmQZA
+ IWYMkcYUX1+aqQmVBHY6HybqTjKR37f1jUGRhgSf3zO1YY4h6izMDbeXQtNK7BzvZ3nq
+ LnSQ==
+X-Gm-Message-State: APjAAAVLAaw55tskoV4tMqbob7d63BbCRICAJ1dgUgfH9UR2K8bddNqx
+ UN3wiENe9plTLQQhdowyryZRdrQbRrl8YQ==
+X-Google-Smtp-Source: APXvYqxNM5qCTESDav5Xk2PWTAnHpQ9gfkwwclrwc9m3JNKxIiyHmW8jd2qRBSF8WVf9E5l0dar5fQ==
+X-Received: by 2002:a17:902:6bc3:: with SMTP id
+ m3mr40066110plt.27.1582339398714; 
+ Fri, 21 Feb 2020 18:43:18 -0800 (PST)
 Received: from localhost.localdomain ([103.219.195.110])
- by smtp.gmail.com with ESMTPSA id u13sm3797317pjn.29.2020.02.21.18.43.01
+ by smtp.gmail.com with ESMTPSA id u13sm3797317pjn.29.2020.02.21.18.43.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 18:43:03 -0800 (PST)
+ Fri, 21 Feb 2020 18:43:18 -0800 (PST)
 From: Qiang Yu <yuq825@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/5] drm/lima: add error debug functionality
-Date: Sat, 22 Feb 2020 10:42:05 +0800
-Message-Id: <20200222024210.18697-1-yuq825@gmail.com>
+Subject: [PATCH 1/5] drm/lima: save process info for debug usage
+Date: Sat, 22 Feb 2020 10:42:06 +0800
+Message-Id: <20200222024210.18697-2-yuq825@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200222024210.18697-1-yuq825@gmail.com>
+References: <20200222024210.18697-1-yuq825@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +75,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Save task error state when it fail and export to user by
-sysfs as a binary file which can be dumped and replayed
-by lima_dump tool at:
-https://gitlab.freedesktop.org/lima/lima_dump
+When task fail, we can find its process with this information.
 
-Qiang Yu (5):
-  drm/lima: save process info for debug usage
-  drm/lima: add max_error_tasks module parameter
-  drm/lima: save task info dump when task fail
-  drm/lima: add error sysfs to export error task dump
-  drm/lima: add LIMA_BO_FLAG_FORCE_VA
+Signed-off-by: Qiang Yu <yuq825@gmail.com>
+---
+ drivers/gpu/drm/lima/lima_ctx.c | 3 +++
+ drivers/gpu/drm/lima/lima_ctx.h | 5 +++++
+ 2 files changed, 8 insertions(+)
 
- drivers/gpu/drm/lima/lima_ctx.c    |   3 +
- drivers/gpu/drm/lima/lima_ctx.h    |   5 ++
- drivers/gpu/drm/lima/lima_device.c |  13 +++
- drivers/gpu/drm/lima/lima_device.h |   8 ++
- drivers/gpu/drm/lima/lima_drv.c    | 123 +++++++++++++++++++++++++--
- drivers/gpu/drm/lima/lima_drv.h    |   1 +
- drivers/gpu/drm/lima/lima_dump.h   |  77 +++++++++++++++++
- drivers/gpu/drm/lima/lima_gem.c    |   7 +-
- drivers/gpu/drm/lima/lima_gem.h    |   4 +-
- drivers/gpu/drm/lima/lima_sched.c  | 128 +++++++++++++++++++++++++++++
- drivers/gpu/drm/lima/lima_sched.h  |   7 ++
- drivers/gpu/drm/lima/lima_vm.c     |  13 ++-
- include/uapi/drm/lima_drm.h        |   9 +-
- 13 files changed, 385 insertions(+), 13 deletions(-)
- create mode 100644 drivers/gpu/drm/lima/lima_dump.h
-
+diff --git a/drivers/gpu/drm/lima/lima_ctx.c b/drivers/gpu/drm/lima/lima_ctx.c
+index 22fff6caa961..891d5cd5019a 100644
+--- a/drivers/gpu/drm/lima/lima_ctx.c
++++ b/drivers/gpu/drm/lima/lima_ctx.c
+@@ -27,6 +27,9 @@ int lima_ctx_create(struct lima_device *dev, struct lima_ctx_mgr *mgr, u32 *id)
+ 	if (err < 0)
+ 		goto err_out0;
+ 
++	ctx->pid = task_pid_nr(current);
++	get_task_comm(ctx->pname, current);
++
+ 	return 0;
+ 
+ err_out0:
+diff --git a/drivers/gpu/drm/lima/lima_ctx.h b/drivers/gpu/drm/lima/lima_ctx.h
+index 6154e5c9bfe4..74e2be09090f 100644
+--- a/drivers/gpu/drm/lima/lima_ctx.h
++++ b/drivers/gpu/drm/lima/lima_ctx.h
+@@ -5,6 +5,7 @@
+ #define __LIMA_CTX_H__
+ 
+ #include <linux/xarray.h>
++#include <linux/sched.h>
+ 
+ #include "lima_device.h"
+ 
+@@ -13,6 +14,10 @@ struct lima_ctx {
+ 	struct lima_device *dev;
+ 	struct lima_sched_context context[lima_pipe_num];
+ 	atomic_t guilty;
++
++	/* debug info */
++	char pname[TASK_COMM_LEN];
++	pid_t pid;
+ };
+ 
+ struct lima_ctx_mgr {
 -- 
 2.17.1
 
