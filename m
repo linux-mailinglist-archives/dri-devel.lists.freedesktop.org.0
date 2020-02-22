@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FB2168C24
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 04:13:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 253F2168DD6
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 10:00:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C04A6F5CF;
-	Sat, 22 Feb 2020 03:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7DBF6E513;
+	Sat, 22 Feb 2020 09:00:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D42DE6F5CF
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 03:13:51 +0000 (UTC)
-Received: from earth.universe (unknown [185.62.205.105])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5F4382071E;
- Sat, 22 Feb 2020 03:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582341231;
- bh=qqc5a2A48bBmq7FKUsHPnKPHkB9Am2kUBn6ekht3ZRg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z1xrvlmhRgVH0RRmqmW/zbZnOmsbgeA4c0XmGziNp6fw5d3HR7jk4XVsZwtpCaCf5
- ZE9IhKMgrDDMPK3bySlMlfeDgBkgWtiGW/GrEubQZNfbQeniz5ld154c+bNSooTT52
- 0bTgJ5oX1kUYRhjtT2gH6vuqNmW0QKleXMDkLMc8=
-Received: by earth.universe (Postfix, from userid 1000)
- id E1ED33C0C83; Sat, 22 Feb 2020 04:13:48 +0100 (CET)
-Date: Sat, 22 Feb 2020 04:13:48 +0100
-From: Sebastian Reichel <sre@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v6 49/51] drm/omap: dss: Remove unused omap_dss_device
- operations
-Message-ID: <20200222031348.ozzn2zyhr57n4aka@earth.universe>
-References: <20200216210308.17312-1-laurent.pinchart@ideasonboard.com>
- <20200216210308.17312-50-laurent.pinchart@ideasonboard.com>
- <20200220213938.4rbbkn7pax6ywbnk@earth.universe>
- <20200220214530.GS4998@pendragon.ideasonboard.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49B026E513;
+ Sat, 22 Feb 2020 09:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=QtOz5Yqndfg4b3crCuadwzvowf+vDC2E5h6k4EWHytI=; b=DpH4PMwIppLr6/X5/tooSLY7BT
+ vxbKby3+VAM0XUPcsmazZqb7SY83m8ex3rjxnFhCcs/YFiUv+BVkVfe5BQvtmZKr9BpYUQt6Gz9FD
+ WztETKG0mq+h2t9VlU1aO3ivFnTENOAa23jTwpxPUKQBUKF4c6OMlCmGeF4Le5uRcoj6BXY9M7E7K
+ mklR4r7fBXphre/H7RlKsk+x24wnkOB2uaZvz2FtWcJhG7IFWbrIFwHR/Lwgp3LOXcAE6N3wo4dWA
+ nMQ52CJN0npwrXw+Tet31VHIIhvCdCkbZ9utTcpHchmXCPPbmVv5jC86fkEKoncwxx5Ri6txt5Lim
+ Uj+nwA/A==;
+Received: from [80.156.29.194] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j5Qdz-0007Ht-DL; Sat, 22 Feb 2020 09:00:15 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
+ (envelope-from <mchehab@bombadil.infradead.org>)
+ id 1j5Qdx-001N4f-NW; Sat, 22 Feb 2020 10:00:13 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: [PATCH 7/7] docs: gpu: i915.rst: fix warnings due to file renames
+Date: Sat, 22 Feb 2020 10:00:07 +0100
+Message-Id: <ab08b73be87b66700f244a4e41db8a5e7e768916.1582361738.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1582361737.git.mchehab+huawei@kernel.org>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200220214530.GS4998@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,89 +50,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
-Content-Type: multipart/mixed; boundary="===============2122692200=="
+Cc: dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ intel-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fix two warnings due to file rename:
 
---===============2122692200==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eruvl65yn35ewvh7"
-Content-Disposition: inline
+	WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function csr support for dmc ./drivers/gpu/drm/i915/intel_csr.c' failed with return code 1
+	WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -internal ./drivers/gpu/drm/i915/intel_csr.c' failed with return code 2
 
+Fixes: 06d3ff6e7451 ("drm/i915: move intel_csr.[ch] under display/")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/gpu/i915.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---eruvl65yn35ewvh7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Thu, Feb 20, 2020 at 11:45:30PM +0200, Laurent Pinchart wrote:
-> On Thu, Feb 20, 2020 at 10:39:38PM +0100, Sebastian Reichel wrote:
-> > On Sun, Feb 16, 2020 at 11:03:06PM +0200, Laurent Pinchart wrote:
-> > > The omap_dss_device .pre_enable(), .post_disable() and .set_timings()
-> > > are not used anymore. Remove them.
-> > >=20
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > > ---
-> >=20
-> > Actually it would be good to postpone this patch a bit, since=20
-> > I need those functions as intermediate step for converting DSI
-> > code (I'm currently rebasing my series on yours).
->=20
-> I'm fine with that. I'll move the patch to the end of the series
-> (nothing depends on it) and postpone it for now.
-
-Great, Thanks. I got my DSI cleanup patches working on top of your
-series:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-n900.git/log/?h=
-=3Domapdrm/bridge/devel-with-dsi
-
-I added a similar patch towards the end, which removes all
-of the omap_dss_device ops:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-n900.git/commit/?=
-h=3Domapdrm/bridge/devel-with-dsi&id=3D4269becc2bf39631a4ae5aba8e21f4aab83f=
-c837
-
--- Sebastian
-
---eruvl65yn35ewvh7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl5QnGkACgkQ2O7X88g7
-+pqVLRAAmgyiLfBC9VQcPuC//0H9PaegihZ+P8pwp5ahNVPF/DayZN1zJzl++FKg
-u/xVRFyfynf2b8ETjbdRLJegY7sqy/cNhinrTr2jUc03k6ctyD9Ue6KLMrvlJYHu
-l//U8wJxpzSEnVsWJxY3PVy53oko1WQTZJXCXSvxRUynMcBd570VDj++hIQAV7QU
-tYP8COdRqspOTXemv0HzGC356btgl+DEO3G6uZFL0oXobFqmm40yogUTSgTst4Vu
-TGTuVsti6T4TCMF/gQI8opTsPDmde7zZgIcH+JFmx4UiNJwMqMzuqUIhOAHI9E3d
-VNmXb84rxWtaR1VRHYtomuzvTYbSv478UwJSoc1+Djg0zbPorSrtmyEChha9jGfc
-pUnzWWP8C5MU0c+4LPqmjHXtu0//6kClZ8nJ8i7yaAFKmSWTQ6hqhKYRoZOfpUuL
-WZmseDIkuMdWj3hS5lGH2ImCB/TFyPgPnjt93/92d5eGgYI7EjHz70w153WJ5xLb
-uk2gRw/nRdm43gA0GyhcMD2PYVTtkU4l32yeD5/UQIu3jti8iA5nCLkBieWWE1l+
-l7UUDn4yxKUwVdn/SGPgk2NruH6qHPIyz5d61flbHVkZNVNg4MNYuH+hjUx5ZU7o
-oX7OioNDmBNNtd4YnBFq7tLxi4AC0L5UOATvnRmM/DRLwENIA9s=
-=D8AH
------END PGP SIGNATURE-----
-
---eruvl65yn35ewvh7--
-
---===============2122692200==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+index e539c42a3e78..cc74e24ca3b5 100644
+--- a/Documentation/gpu/i915.rst
++++ b/Documentation/gpu/i915.rst
+@@ -207,10 +207,10 @@ DPIO
+ CSR firmware support for DMC
+ ----------------------------
+ 
+-.. kernel-doc:: drivers/gpu/drm/i915/intel_csr.c
++.. kernel-doc:: drivers/gpu/drm/i915/display/intel_csr.c
+    :doc: csr support for dmc
+ 
+-.. kernel-doc:: drivers/gpu/drm/i915/intel_csr.c
++.. kernel-doc:: drivers/gpu/drm/i915/display/intel_csr.c
+    :internal:
+ 
+ Video BIOS Table (VBT)
+-- 
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2122692200==--
