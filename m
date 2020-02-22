@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD43168E18
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 10:50:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A30168E22
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 11:07:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 182E96E595;
-	Sat, 22 Feb 2020 09:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 976D96E5A9;
+	Sat, 22 Feb 2020 10:07:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 033F76E595
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 09:50:50 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id j20so4414414otq.3
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 01:50:50 -0800 (PST)
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD04D6E5A9
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 10:07:41 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id d62so4239993oia.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 02:07:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e5S/nZCr4nqEYxH5Y3wrkaNYijjYpxHWH5hGO1LnRQ4=;
- b=BoawQScHyiFG89p7KByW4b9ul7MXcbq2KFCxaQBmHZsXUaIQVsUMVaaBtxIhNYQXs1
- uHS+8wLAiYPdeGIrmVqUmlUt4P6s6NhYO01d+yOhKr++D52TjEaF2OgvgL0WiXAFdaXr
- Fp7Izvk1q6TLrcYd/AayTWFyiLLznQjQzZAtk=
+ :cc; bh=gX5aU4Op+sd5cS8vefDKZ5kSmTYkiuc5xXZniwnPNs0=;
+ b=bQ0sRxsm7X6ug8MSJOKsoV7Fc1pW8ONcueV7VfrXd2001Kfa24/zKCK8d3nGyQ/wue
+ hpd27iHZlJOVltdAzLhp2lqZ1tAdQcDoWRxbtq3K1sf7ytqe/UpAgolj6Cn1jfv6xlXh
+ IoZYqAsvROnYF1VKmFPo5qmZF+gEiSDyAYGTY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=e5S/nZCr4nqEYxH5Y3wrkaNYijjYpxHWH5hGO1LnRQ4=;
- b=VNKoLLcRhe7XY/REUGHxqhOQsCDk7rRK2P/qTjDhWdwFryiE/m8Tjm8n9+V2xnKDAg
- 1creEouHFH6fRgyB6M9OAkTfqvpr/qcFXGG+haKwTGYrblouGTp4HQ2Qk4k1uKLNKLOn
- evqubqUjoMRyQ7w2Zd73Rq2uLFyngLMS+UBGFO3qi4tFOnu2g0EhUIf7Rf8PKIZsnvCJ
- N7eqGbA1Q0RI+tRx9GXDTfQ/kQHxHLWb/ksmkFrdPyaSDB7OMNbww+2MedWy+2bf9fzG
- rXhbT6L0PJLfXFEX5Z1StZEEc0/d81TNpqado0Z6codw1zpcc0VQn1EhMB8exwwks5kE
- z2ng==
-X-Gm-Message-State: APjAAAWReuQNSZGUXJ0iBeGGkx52b8JU4W/ZtbQLxRhLIyzzwAI4R02x
- Jz8P/Uw5CjAOsO/DwxeZBL5Er5CngWFmE6PQ9cqFag==
-X-Google-Smtp-Source: APXvYqwWbAZQEYMHHWhS1aboYiXY2Mf9+ysoQmEML4yKTNEkgCGF5c1t/bJGb8p9rybjNZxZhghXt+84r19k6af2c2Q=
-X-Received: by 2002:a05:6830:18f1:: with SMTP id
- d17mr31777824otf.303.1582365050206; 
- Sat, 22 Feb 2020 01:50:50 -0800 (PST)
+ bh=gX5aU4Op+sd5cS8vefDKZ5kSmTYkiuc5xXZniwnPNs0=;
+ b=Jw2RR087CYWgvkiVLAgIWV7gjeF8/x0eWpC8f6l9PqN7cnUUPQBDXlJB/BCGISYndt
+ soeIOUlrpOyGkqJgMy3eVckPkCh7Or/8enDl5mF3QphW/e6RRJs2cOLu/OP/IOxdr+Jc
+ cp4IsRtQkEptgtjLHT5wMWp9+toHa7YIwT9+m2qej08PRbf5Fpwm4djWu2XEz5NZ6ZKG
+ KFM4L8FSx8GUFcMgfyz0eBtHfVJJ8XBfPZHVhG3rGXNOuAxV53SvglBuJlCPHsHykLx3
+ t6IoJW20GIOKWtbLGPx7uxLDonyGstXUSwXpCFzBM3oI/hgmS8+Im4+h31jB/Voq45Y9
+ UT/Q==
+X-Gm-Message-State: APjAAAUHiM9y7r0nYW0B2OYnu1xVYbp3kCCiLSwkodCjMeqApm9CG7yP
+ p8LJ06q7G9ZD3LMKTMhub5tXvnpo+sp14wrvrju/dQ==
+X-Google-Smtp-Source: APXvYqyAx6WTnOQMihnDaBROATu4RCrU5QuuliGHSNfXRNCyRN+zLyUNuJ8eSQlvLO4saJffF6u+3nkKQNG4iZwQHMg=
+X-Received: by 2002:a05:6808:319:: with SMTP id
+ i25mr5708575oie.128.1582366060760; 
+ Sat, 22 Feb 2020 02:07:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
- <20200221210319.2245170-3-daniel.vetter@ffwll.ch>
- <158232098048.7320.8539611385294752480@skylake-alporthouse-com>
- <CAKMK7uHoQM=mK1tMkw3-+v_O6qbmAjrObQXjzYn2154zwQi5qA@mail.gmail.com>
-In-Reply-To: <CAKMK7uHoQM=mK1tMkw3-+v_O6qbmAjrObQXjzYn2154zwQi5qA@mail.gmail.com>
+References: <20200222090321.swxvqnwjqynqeh46@smtp.gmail.com>
+In-Reply-To: <20200222090321.swxvqnwjqynqeh46@smtp.gmail.com>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Sat, 22 Feb 2020 10:50:39 +0100
-Message-ID: <CAKMK7uHSesXLupwWmvZgCK4h6t3goHF76vqcgZXbu9Rw1Sw51A@mail.gmail.com>
-Subject: Re: [PATCH 02/51] drm/i915: Don't clear drvdata in ->release
-To: Chris Wilson <chris@chris-wilson.co.uk>
+Date: Sat, 22 Feb 2020 11:07:29 +0100
+Message-ID: <CAKMK7uHo3ec915Tt=0A84VGJ113FxOQi+aCc=9Vfxbu8ew=60A@mail.gmail.com>
+Subject: Re: Looking for guidance to reproduce a bug in drm/vkms reported by
+ syzkaller
+To: Melissa Wen <melissa.srw@gmail.com>, 
+ syzbot <syzbot+e7ad70d406e74d8fc9d0@syzkaller.appspotmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +60,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 22, 2020 at 10:48 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+On Sat, Feb 22, 2020 at 10:03 AM Melissa Wen <melissa.srw@gmail.com> wrote:
 >
-> On Fri, Feb 21, 2020 at 10:36 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > Quoting Daniel Vetter (2020-02-21 21:02:30)
-> > > For two reasons:
-> > >
-> > > - The driver core clears this already for us after we're unloaded in
-> > >   __device_release_driver().
-> >
-> > Even if we abort before loading?
-> >
-> > History notes that i915_pci_remove was called with a stale pointer on
-> > error.
+> Hi,
 >
-> So even if there's a bug we still have the problem that clearing the
-> pci_drvdata in our drm_driver->release hook is way too late. You could
-> already have bound a new driver to the underlying device. So if driver
-> core doesn't clear drvdata on bind failure and we need to clear this
-> ourselves, then this line here could actually clear the drvdata of the
-> next driver instance bound to the pci device. Not that that's ever
-> going to happen outside of very contrived testing.
+> I am trying to reproduce a syzkaller bug found in the vkms:
+> - WARNING in vkms_gem_free_object
+> - https://groups.google.com/forum/#!msg/syzkaller-bugs/_oARhriB1SA/PelnW1BqAwAJ
 >
-> But looking at really_probe() in base/dd.c we do clear drvdata on
-> failure. So no idea how/why that stale drvdata came to be. Anyway
-> that's kinda why I cc'ed Greg, so he could confirm that this is
-> correct.
+> However, I was not very successful in this task. As I don't know how to deal
+> with syzkaller and I am not sure if I am following the right steps, it would be
+> great if someone can give me some tips and guidance.
+>
+> First, looking at the bug history at:
+> - https://syzkaller.appspot.com/bug?extid=e7ad70d406e74d8fc9d0,
+> it seems like the bug still exists. Am I right?
+>
+> Second, here is a report of what I tried to do:
+> Note: For testing, I use a VM (QEMU) with Debian 10 with a kernel compiled at
+> - https://cgit.freedesktop.org/drm/drm-misc (branch drm-misc-next)
+>
+> 1 - Using the usual .config for my VM, I compiled and installed the kernel and,
+> as root, ran the C program provided by syzkaller:
+> - https://syzkaller.appspot.com/x/repro.c?x=15e27c53600000
+> Nothing happened.
+>
+> 2 - Then, I checked the debug/panic/hacking/drm/i915 debugging/vkms settings on
+> the .config reported by syzkaller:
+> - https://syzkaller.appspot.com/x/.config?x=7cf4eed5fe42c31a
+> and enabled the same things in my .config.
+> I compiled and installed the kernel and ran the C program.
+> Nothing happened.
+>
+> 3 - So, I reverted my current branch to the commit that generated the bug
+> (as reported: 94e2ec3f7fef86506293a448273b2b4ee21e6195) and used the kernel on
+> that state.
+> Nothing happened.
+>
+> 4 - I decided to use the syzkaller .config without modifications and
+> adaptations for my VM (although I didn't think it felt right). I compiled,
+> installed... some boot problems happened, but the kernel worked. I ran the C
+> program and nothing.
+>
+> So I gave up... for a while :)
+>
+> Does anyone have any advice for me?
 
-Looking at git history, this was fixed in driver core in
-
-commit 0998d0631001288a5974afc0b2a5f568bcdecb4d
-Author: Hans de Goede <hdegoede@redhat.com>
-Date:   Wed May 23 00:09:34 2012 +0200
-
-    device-core: Ensure drvdata = NULL when no driver is bound
-
-I'll add that to the commit message.
+Adding the syzbot people (you can just grab the mail address from the
+report, should go to the right place), maybe they have some ideas what
+would help in reproducing the bug. I never tried to repro a syzbot bug
+before yet, so not really useful experience from my side :-/
 -Daniel
+
+> I have already searched for information on the Internet, but I am still stuck.
+>
+> The last thing that I noted is that syzkaller stopped providing a C program of
+> this bug for crashes after the beginning of the year (I also don't know if it
+> is something important).
+>
+> Thanks in advance,
+>
+> Melissa Wen
+
+
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
