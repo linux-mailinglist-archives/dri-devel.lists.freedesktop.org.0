@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A016168FA1
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 16:03:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36ACB168FA4
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 16:03:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBA986E948;
-	Sat, 22 Feb 2020 15:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD1006E92B;
+	Sat, 22 Feb 2020 15:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 556046E924
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 15:02:18 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE306E92F
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 15:02:19 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 209F83812;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4E6040E2;
  Sat, 22 Feb 2020 16:02:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582383734;
- bh=4uat+PxQ7JOb4PuMvDcsXVvchwHqjKsSUtJAQaUBynY=;
+ s=mail; t=1582383735;
+ bh=LQZNWi8Y1ASFbssZwkiLg/54+qkEBujEOliKMOaHeDc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aLmXqTPV02r6pwkoCa9AsVMBVLFY12jBqKcW+lx7w6oBQToFu0bO1VX8Wzvtk5+cm
- uY3IJwx1jChDGsARti+VyAiU1OYZT5/MeYXWmNrgYIr1LDh1GCgzWtIV94hKz5hRov
- hVbguMBjoKDL7Qs4Z7sUruiavoE+/j1o/g016ZC0=
+ b=eReZ1A8B6eYMMaRM5C1P8f0ZeSRkmE/xIkeDGhhmJ0VQsdAj2qCihfmGJQuNRyoSB
+ eZcTC1UEwr1dw/Dx68LnlQFhuvoSOcHFiC8VENtsxyeH2CHdXgbzPSBuEFFNC4ELYo
+ Yhz73/4pe0sYKuEkmWPD/Zs7CnjHNoMw7LufjE1k=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 51/54] drm/omap: Hardcode omap_connector type to DSI
-Date: Sat, 22 Feb 2020 17:01:03 +0200
-Message-Id: <20200222150106.22919-52-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v7 52/54] drm/omap: dss: Inline the omapdss_display_get()
+ function
+Date: Sat, 22 Feb 2020 17:01:04 +0200
+Message-Id: <20200222150106.22919-53-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200222150106.22919-1-laurent.pinchart@ideasonboard.com>
 References: <20200222150106.22919-1-laurent.pinchart@ideasonboard.com>
@@ -53,121 +54,71 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The omap_connector implementation is now used for DSI only. Hardcode its
-type and drop unused code.
+Inline the omapdss_display_get() in its only caller to simplify the
+code.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/omapdrm/dss/base.c       | 23 ------------------
- drivers/gpu/drm/omapdrm/dss/omapdss.h    |  1 -
- drivers/gpu/drm/omapdrm/omap_connector.c | 31 ++----------------------
- 3 files changed, 2 insertions(+), 53 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/display.c | 9 ---------
+ drivers/gpu/drm/omapdrm/dss/omapdss.h | 1 -
+ drivers/gpu/drm/omapdrm/omap_drv.c    | 7 ++++---
+ 3 files changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
-index 2db3bd2f19db..455b410f7401 100644
---- a/drivers/gpu/drm/omapdrm/dss/base.c
-+++ b/drivers/gpu/drm/omapdrm/dss/base.c
-@@ -286,29 +286,6 @@ void omapdss_device_post_disable(struct omap_dss_device *dssdev)
+diff --git a/drivers/gpu/drm/omapdrm/dss/display.c b/drivers/gpu/drm/omapdrm/dss/display.c
+index 8a3f61f5825f..3b82158b1bfd 100644
+--- a/drivers/gpu/drm/omapdrm/dss/display.c
++++ b/drivers/gpu/drm/omapdrm/dss/display.c
+@@ -40,15 +40,6 @@ void omapdss_display_init(struct omap_dss_device *dssdev)
  }
- EXPORT_SYMBOL_GPL(omapdss_device_post_disable);
+ EXPORT_SYMBOL_GPL(omapdss_display_init);
  
--unsigned int omapdss_device_connector_type(enum omap_display_type type)
+-struct omap_dss_device *omapdss_display_get(struct omap_dss_device *output)
 -{
--	switch (type) {
--	case OMAP_DISPLAY_TYPE_HDMI:
--		return DRM_MODE_CONNECTOR_HDMIA;
--	case OMAP_DISPLAY_TYPE_DVI:
--		return DRM_MODE_CONNECTOR_DVID;
--	case OMAP_DISPLAY_TYPE_DSI:
--		return DRM_MODE_CONNECTOR_DSI;
--	case OMAP_DISPLAY_TYPE_DPI:
--	case OMAP_DISPLAY_TYPE_DBI:
--		return DRM_MODE_CONNECTOR_DPI;
--	case OMAP_DISPLAY_TYPE_VENC:
--		/* TODO: This could also be composite */
--		return DRM_MODE_CONNECTOR_SVIDEO;
--	case OMAP_DISPLAY_TYPE_SDI:
--		return DRM_MODE_CONNECTOR_LVDS;
--	default:
--		return DRM_MODE_CONNECTOR_Unknown;
--	}
--}
--EXPORT_SYMBOL_GPL(omapdss_device_connector_type);
+-	while (output->next)
+-		output = output->next;
 -
- /* -----------------------------------------------------------------------------
-  * Components Handling
-  */
+-	return omapdss_device_get(output);
+-}
+-EXPORT_SYMBOL_GPL(omapdss_display_get);
+-
+ int omapdss_display_get_modes(struct drm_connector *connector,
+ 			      const struct videomode *vm)
+ {
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index cb79e05c902d..2e5453df2293 100644
+index 2e5453df2293..315a356fa0c0 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -454,7 +454,6 @@ void omapdss_device_pre_enable(struct omap_dss_device *dssdev);
- void omapdss_device_enable(struct omap_dss_device *dssdev);
- void omapdss_device_disable(struct omap_dss_device *dssdev);
- void omapdss_device_post_disable(struct omap_dss_device *dssdev);
--unsigned int omapdss_device_connector_type(enum omap_display_type type);
- 
- int omap_dss_get_num_overlay_managers(void);
- 
-diff --git a/drivers/gpu/drm/omapdrm/omap_connector.c b/drivers/gpu/drm/omapdrm/omap_connector.c
-index baa31ed1f993..528764566b17 100644
---- a/drivers/gpu/drm/omapdrm/omap_connector.c
-+++ b/drivers/gpu/drm/omapdrm/omap_connector.c
-@@ -24,22 +24,7 @@ struct omap_connector {
- static enum drm_connector_status omap_connector_detect(
- 		struct drm_connector *connector, bool force)
- {
--	enum drm_connector_status status;
--
--	switch (connector->connector_type) {
--	case DRM_MODE_CONNECTOR_DPI:
--	case DRM_MODE_CONNECTOR_LVDS:
--	case DRM_MODE_CONNECTOR_DSI:
--		status = connector_status_connected;
--		break;
--	default:
--		status = connector_status_unknown;
--		break;
--	}
--
--	VERB("%s: %d (force=%d)", connector->name, status, force);
--
--	return status;
-+	return connector_status_connected;
+@@ -436,7 +436,6 @@ static inline bool omapdss_is_initialized(void)
  }
  
- static void omap_connector_destroy(struct drm_connector *connector)
-@@ -138,18 +123,6 @@ static const struct drm_connector_helper_funcs omap_connector_helper_funcs = {
- 	.mode_valid = omap_connector_mode_valid,
- };
+ void omapdss_display_init(struct omap_dss_device *dssdev);
+-struct omap_dss_device *omapdss_display_get(struct omap_dss_device *output);
+ int omapdss_display_get_modes(struct drm_connector *connector,
+ 			      const struct videomode *vm);
  
--static int omap_connector_get_type(struct omap_dss_device *output)
--{
--	struct omap_dss_device *display;
--	enum omap_display_type type;
--
--	display = omapdss_display_get(output);
--	type = display->type;
--	omapdss_device_put(display);
--
--	return omapdss_device_connector_type(type);
--}
--
- /* initialize connector */
- struct drm_connector *omap_connector_init(struct drm_device *dev,
- 					  struct omap_dss_device *output,
-@@ -171,7 +144,7 @@ struct drm_connector *omap_connector_init(struct drm_device *dev,
- 	connector->doublescan_allowed = 0;
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index e6a065030523..cdafd7ef1c32 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -207,11 +207,12 @@ static int omap_display_id(struct omap_dss_device *output)
+ 	struct device_node *node = NULL;
  
- 	drm_connector_init(dev, connector, &omap_connector_funcs,
--			   omap_connector_get_type(output));
-+			   DRM_MODE_CONNECTOR_DSI);
- 	drm_connector_helper_add(connector, &omap_connector_helper_funcs);
+ 	if (output->next) {
+-		struct omap_dss_device *display;
++		struct omap_dss_device *display = output;
++
++		while (display->next)
++			display = display->next;
  
- 	return connector;
+-		display = omapdss_display_get(output);
+ 		node = display->dev->of_node;
+-		omapdss_device_put(display);
+ 	} else if (output->bridge) {
+ 		struct drm_bridge *bridge = output->bridge;
+ 
 -- 
 Regards,
 
