@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744AE168F74
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 16:01:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7939168F72
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 16:01:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 941346E917;
-	Sat, 22 Feb 2020 15:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECCDE6E096;
+	Sat, 22 Feb 2020 15:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCCF46E0F0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96636E915
  for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 15:01:42 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7695A2E;
- Sat, 22 Feb 2020 16:01:39 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AFDCAE6;
+ Sat, 22 Feb 2020 16:01:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582383700;
- bh=TfSC1Q2+MZsj5WCyMVBGp+VxlKd0JJWFC53lEpvt4Gc=;
+ s=mail; t=1582383701;
+ bh=uQlOc5YU9VxgMkvwoASpETFsT9mSxY0IQLClgBsB4Ik=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YqgajeJBPKmWNZn/KS/+3y1YSEGuIzpLUou463Xw9l1/t3TUUVwWVnrKGt6+F46JH
- MA1w+1ZjYK/ZC7UzYg8ZxoAliomVo4uCJInDuti656o2sx1OA9gsufkNxtHxHEz7ig
- TSeNJruWT+ByzXFCHJ2ibdmp3AoWGomrJRcyijh0=
+ b=t9+bxF808UeIaV8APxtEq7WgfqawNgWiEyoSLY05aLlJdjHOSKsUjhiqPUtHtpkfv
+ UqbwufxnlZkFmQrO8mZwxv3AkcabqLjNk2OOgGAI+bYAFVj2DDnrA3mIwDq5mHrTj+
+ SZ8PBKd/jFnhoNuVqcFajgIxhorO90yUcV3C4weU=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 02/54] drm/connector: Add helper to get a connector type
- name
-Date: Sat, 22 Feb 2020 17:00:14 +0200
-Message-Id: <20200222150106.22919-3-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v7 03/54] drm/edid: Add flag to drm_display_info to identify
+ HDMI sinks
+Date: Sat, 22 Feb 2020 17:00:15 +0200
+Message-Id: <20200222150106.22919-4-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200222150106.22919-1-laurent.pinchart@ideasonboard.com>
 References: <20200222150106.22919-1-laurent.pinchart@ideasonboard.com>
@@ -49,72 +49,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
  Sebastian Reichel <sebastian.reichel@collabora.com>,
  Boris Brezillon <bbrezillon@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_connector.c contains a map of connector types (DRM_MODE_CONNECTOR_*)
-to name strings, but doesn't expose it. This leads to drivers having to
-store a similar map.
-
-Add a new drm_get_connector_type_name() helper function that return a
-name string for a connector type.
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- drivers/gpu/drm/drm_connector.c | 15 +++++++++++++++
- include/drm/drm_connector.h     |  1 +
- 2 files changed, 16 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index f632ca05960e..644f0ad10671 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -111,6 +111,21 @@ void drm_connector_ida_destroy(void)
- 		ida_destroy(&drm_connector_enum_list[i].ida);
- }
- 
-+/**
-+ * drm_get_connector_type_name - return a string for connector type
-+ * @type: The connector type (DRM_MODE_CONNECTOR_*)
-+ *
-+ * Returns: the name of the connector type, or NULL if the type is not valid.
-+ */
-+const char *drm_get_connector_type_name(unsigned int type)
-+{
-+	if (type < ARRAY_SIZE(drm_connector_enum_list))
-+		return drm_connector_enum_list[type].name;
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL(drm_get_connector_type_name);
-+
- /**
-  * drm_connector_get_cmdline_mode - reads the user's cmdline mode
-  * @connector: connector to quwery
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index b3815371c271..c3bd5262db9c 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1518,6 +1518,7 @@ drm_connector_is_unregistered(struct drm_connector *connector)
- 		DRM_CONNECTOR_UNREGISTERED;
- }
- 
-+const char *drm_get_connector_type_name(unsigned int connector_type);
- const char *drm_get_connector_status_name(enum drm_connector_status status);
- const char *drm_get_subpixel_order_name(enum subpixel_order order);
- const char *drm_get_dpms_name(int val);
--- 
-Regards,
-
-Laurent Pinchart
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIGRybV9kaXNwbGF5X2luZm8gc3RydWN0dXJlIGNvbnRhaW5zIG1hbnkgZmllbGRzIHJlbGF0
+ZWQgdG8gSERNSQpzaW5rcywgYnV0IG5vbmUgdGhhdCBpZGVudGlmaWVzIGlmIGEgc2luayBjb21w
+bGlhbnQgd2l0aCBDRUEtODYxIChFRElEKQpzaGFsbCBiZSB0cmVhdGVkIGFzIGFuIEhETUkgc2lu
+ayBvciBhIERWSSBzaW5rLiBBZGQgc3VjaCBhIGZsYWcsIGFuZApwb3B1bGF0ZSBpdCBhY2NvcmRp
+bmcgdG8gc2VjdGlvbiA4LjMuMyAoIkRWSS9IRE1JIERldmljZQpEaXNjcmltaW5hdGlvbiIpIG9m
+IHRoZSBIRE1JIHYxLjMgc3BlY2lmaWNhdGlvbi4KClNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGlu
+Y2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KUmV2aWV3ZWQtYnk6IEFu
+ZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+ClJldmlld2VkLWJ5OiBWaWxsZSBTeXJq
+w6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogRGFuaWVs
+IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KUmV2aWV3ZWQtYnk6IEJvcmlzIEJyZXpp
+bGxvbiA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+CkFja2VkLWJ5OiBTYW0gUmF2bmJv
+cmcgPHNhbUByYXZuYm9yZy5vcmc+ClRlc3RlZC1ieTogU2ViYXN0aWFuIFJlaWNoZWwgPHNlYmFz
+dGlhbi5yZWljaGVsQGNvbGxhYm9yYS5jb20+ClJldmlld2VkLWJ5OiBTZWJhc3RpYW4gUmVpY2hl
+bCA8c2ViYXN0aWFuLnJlaWNoZWxAY29sbGFib3JhLmNvbT4KLS0tCkNoYW5nZXMgc2luY2UgdjE6
+CgotIExpbmsgdGhlIGlzX2hkbWkgZmllbGQgZG9jIHdpdGggZHJtX2RldGVjdF9oZG1pX21vbml0
+b3IoKQotIEFkZCBhIGNvbnZlcnNpb24gdGFzayBpbiB0b2RvLnJzdAotLS0KIERvY3VtZW50YXRp
+b24vZ3B1L3RvZG8ucnN0ICB8IDE0ICsrKysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vZHJt
+X2VkaWQuYyAgfCAgNiArKysrKysKIGluY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCB8ICA4ICsr
+KysrKysrCiAzIGZpbGVzIGNoYW5nZWQsIDI4IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9E
+b2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0Cmlu
+ZGV4IDM3MGFjNjc4MTA2ZS4uY2NmNWU4ZTM0MjIyIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9u
+L2dwdS90b2RvLnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdApAQCAtNDA3LDYg
+KzQwNywyMCBAQCBDb250YWN0OiBEYW5pZWwgVmV0dGVyCiAKIExldmVsOiBJbnRlcm1lZGlhdGUK
+IAorUmVwbGFjZSBkcm1fZGV0ZWN0X2hkbWlfbW9uaXRvcigpIHdpdGggZHJtX2Rpc3BsYXlfaW5m
+by5pc19oZG1pCistLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0KKworT25jZSBFRElEIGlzIHBhcnNlZCwgdGhlIG1vbml0b3IgSERN
+SSBzdXBwb3J0IGluZm9ybWF0aW9uIGlzIGF2YWlsYWJsZSB0aHJvdWdoCitkcm1fZGlzcGxheV9p
+bmZvLmlzX2hkbWkuIE1hbnkgZHJpdmVycyBzdGlsbCBjYWxsIGRybV9kZXRlY3RfaGRtaV9tb25p
+dG9yKCkgdG8KK3JldHJpZXZlIHRoZSBzYW1lIGluZm9ybWF0aW9uLCB3aGljaCBpcyBsZXNzIGVm
+ZmljaWVudC4KKworQXVkaXQgZWFjaCBpbmRpdmlkdWFsIGRyaXZlciBjYWxsaW5nIGRybV9kZXRl
+Y3RfaGRtaV9tb25pdG9yKCkgYW5kIHN3aXRjaCB0bworZHJtX2Rpc3BsYXlfaW5mby5pc19oZG1p
+IGlmIGFwcGxpY2FibGUuCisKK0NvbnRhY3Q6IExhdXJlbnQgUGluY2hhcnQsIHJlc3BlY3RpdmUg
+ZHJpdmVyIG1haW50YWluZXJzCisKK0xldmVsOiBJbnRlcm1lZGlhdGUKKwogQ29yZSByZWZhY3Rv
+cmluZ3MKID09PT09PT09PT09PT09PT09CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fZWRpZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMKaW5kZXggNWYzYmMzNDg2ZmRl
+Li5hZDQxNzY0YTRlYmUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCkBAIC00NjQ3LDYgKzQ2NDcsOSBAQCBFWFBP
+UlRfU1lNQk9MKGRybV9hdl9zeW5jX2RlbGF5KTsKICAqCiAgKiBQYXJzZSB0aGUgQ0VBIGV4dGVu
+c2lvbiBhY2NvcmRpbmcgdG8gQ0VBLTg2MS1CLgogICoKKyAqIERyaXZlcnMgdGhhdCBoYXZlIGFk
+ZGVkIHRoZSBtb2RlcyBwYXJzZWQgZnJvbSBFRElEIHRvIGRybV9kaXNwbGF5X2luZm8KKyAqIHNo
+b3VsZCB1c2UgJmRybV9kaXNwbGF5X2luZm8uaXNfaGRtaSBpbnN0ZWFkIG9mIGNhbGxpbmcgdGhp
+cyBmdW5jdGlvbi4KKyAqCiAgKiBSZXR1cm46IFRydWUgaWYgdGhlIG1vbml0b3IgaXMgSERNSSwg
+ZmFsc2UgaWYgbm90IG9yIHVua25vd24uCiAgKi8KIGJvb2wgZHJtX2RldGVjdF9oZG1pX21vbml0
+b3Ioc3RydWN0IGVkaWQgKmVkaWQpCkBAIC00ODgxLDYgKzQ4ODQsOCBAQCBkcm1fcGFyc2VfaGRt
+aV92c2RiX3ZpZGVvKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIGNvbnN0IHU4ICpk
+YikKIAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfaW5mbyAqaW5mbyA9ICZjb25uZWN0b3ItPmRpc3BsYXlf
+aW5mbzsKIAl1OCBsZW4gPSBjZWFfZGJfcGF5bG9hZF9sZW4oZGIpOwogCisJaW5mby0+aXNfaGRt
+aSA9IHRydWU7CisKIAlpZiAobGVuID49IDYpCiAJCWluZm8tPmR2aV9kdWFsID0gZGJbNl0gJiAx
+OwogCWlmIChsZW4gPj0gNykKQEAgLTQ5NDksNiArNDk1NCw3IEBAIGRybV9yZXNldF9kaXNwbGF5
+X2luZm8oc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKIAlpbmZvLT5jZWFfcmV2ID0g
+MDsKIAlpbmZvLT5tYXhfdG1kc19jbG9jayA9IDA7CiAJaW5mby0+ZHZpX2R1YWwgPSBmYWxzZTsK
+KwlpbmZvLT5pc19oZG1pID0gZmFsc2U7CiAJaW5mby0+aGFzX2hkbWlfaW5mb2ZyYW1lID0gZmFs
+c2U7CiAJaW5mby0+cmdiX3F1YW50X3JhbmdlX3NlbGVjdGFibGUgPSBmYWxzZTsKIAltZW1zZXQo
+JmluZm8tPmhkbWksIDAsIHNpemVvZihpbmZvLT5oZG1pKSk7CmRpZmYgLS1naXQgYS9pbmNsdWRl
+L2RybS9kcm1fY29ubmVjdG9yLmggYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKaW5kZXgg
+YzNiZDUyNjJkYjljLi4wZGY3YTk1Y2E1ZDkgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9j
+b25uZWN0b3IuaAorKysgYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKQEAgLTQzNCw2ICs0
+MzQsMTQgQEAgc3RydWN0IGRybV9kaXNwbGF5X2luZm8gewogCSAqLwogCWJvb2wgZHZpX2R1YWw7
+CiAKKwkvKioKKwkgKiBAaXNfaGRtaTogVHJ1ZSBpZiB0aGUgc2luayBpcyBhbiBIRE1JIGRldmlj
+ZS4KKwkgKgorCSAqIFRoaXMgZmllbGQgc2hhbGwgYmUgdXNlZCBpbnN0ZWFkIG9mIGNhbGxpbmcK
+KwkgKiBkcm1fZGV0ZWN0X2hkbWlfbW9uaXRvcigpIHdoZW4gcG9zc2libGUuCisJICovCisJYm9v
+bCBpc19oZG1pOworCiAJLyoqCiAJICogQGhhc19oZG1pX2luZm9mcmFtZTogRG9lcyB0aGUgc2lu
+ayBzdXBwb3J0IHRoZSBIRE1JIGluZm9mcmFtZT8KIAkgKi8KLS0gClJlZ2FyZHMsCgpMYXVyZW50
+IFBpbmNoYXJ0CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
