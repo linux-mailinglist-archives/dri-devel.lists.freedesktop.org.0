@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C4116911D
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 18:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444991691B5
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 21:10:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73FAD6E970;
-	Sat, 22 Feb 2020 17:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 099BD6E0FC;
+	Sat, 22 Feb 2020 20:10:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D516E970
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 17:59:49 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id s10so5009837wmh.3
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 09:59:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=l/hiq2wE3AFaF2ygI/KnMXlnSq+FuxYQMZMmaRfBwBo=;
- b=TXAaOBHGNwLPwxf9umORTGoD+wHuERkNpErrg7SVFJTfhSgErBc94aP7sryl8xg9lU
- J1UwkZ98CHwpiCvmND2nCY2rcTG+FvLLJci6WnyNViYM6Eyyt9wYF5O/arO9jyqnFfEw
- ZlSatOVnzhdWAWpWVS+QPdE5A7LyiUdPEkP/s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=l/hiq2wE3AFaF2ygI/KnMXlnSq+FuxYQMZMmaRfBwBo=;
- b=QVX8zITPA1fpM4y8+4/srfuywTBnF2ATVDYXYiFkdY9PCKf8wR2qAJfoykBBD6chwV
- 0h+0VCmknRTqi/byRvXfmfo4uskR6tRcFwk6+QENEkt26BXxqoZKOIGBd67UVx3CsAoN
- ucPIOvMUFkY++BMoLyZBAKvoEhcy9OMgM4FehSIsX5TwP2d5I41DEATFU4g/8mjKWz+e
- U+Xq39/q7qvN1ue3EtN6u4/bbSqk1COkzpYPw0TgYIfRvH2JlIN7fK+e70Jn35HSW8r8
- 59qX3FMQ2k4Ohk2+wuExGUkVqY3dXhYe1imZpm6HCuNbQI8H4pBcniktuUkTQ15vszUr
- K5FQ==
-X-Gm-Message-State: APjAAAW9chpxvgrO86y5Lj8DBx1CVIZQIq+i4JRNz3s3U5vrUX135dHo
- rIHV4ffL0TRBCgSOYFXKrc2J7Q==
-X-Google-Smtp-Source: APXvYqy2XKMUEp+M15s+7MthxSkjnMZAiczdBdaJIEM5WZxoMFQhW1mt/vhq55jzB//N5M+HMrNfnw==
-X-Received: by 2002:a1c:8156:: with SMTP id c83mr11051840wmd.164.1582394388302; 
- Sat, 22 Feb 2020 09:59:48 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y17sm9315846wrs.82.2020.02.22.09.59.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Feb 2020 09:59:47 -0800 (PST)
-Date: Sat, 22 Feb 2020 18:59:45 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH/RFC 3/3] drm: rcar_du: Constify drm_driver
-Message-ID: <20200222175945.GL2363188@phenom.ffwll.local>
-References: <20200222152430.2984-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200222152430.2984-4-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 320B66E0FC
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 20:10:40 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1582402240; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=iG2jrwDbtGUA5S6usoYXE9DxxAXtYIcnxCaCERIz/Lk=;
+ b=xV7+puK+IM2BQ0/+QnzIE/ekRxoatO4RMKVa41a+Aryv+xULrj4QAvbHc81BLanl+kN2BeeE
+ ohYjpnM7H4rpVBR40wTb7cD5/HrkSeh1IjnToprw+0SWzy3GNhuCwpBUu7yary4sWybH9Vmo
+ jzp8l+aiFsDfWbExVcGM9l8DVwk=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e518abf.7fc04e0d2490-smtp-out-n01;
+ Sat, 22 Feb 2020 20:10:39 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 26562C4479C; Sat, 22 Feb 2020 20:10:38 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: jsanka)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 72CDDC433A2;
+ Sat, 22 Feb 2020 20:10:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200222152430.2984-4-laurent.pinchart+renesas@ideasonboard.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+Date: Sat, 22 Feb 2020 12:10:37 -0800
+From: jsanka@codeaurora.org
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: Support for early wakeup in DRM
+In-Reply-To: <20200221172022.GF2363188@phenom.ffwll.local>
+References: <00e901d5e81d$fd609ac0$f821d040$@codeaurora.org>
+ <20200220201458.GB2363188@phenom.ffwll.local>
+ <f4f899ae9b035e2eb5ddc89e3c1a120b@codeaurora.org>
+ <20200221172022.GF2363188@phenom.ffwll.local>
+Message-ID: <a72999e6205eb85608c55908d84c5317@codeaurora.org>
+X-Sender: jsanka@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,52 +64,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: 'Sean Paul' <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 22, 2020 at 05:24:30PM +0200, Laurent Pinchart wrote:
-> The drm_driver structure is never modified, make it const. The improves
-> security by avoiding writable function pointers.
+On 2020-02-21 09:20, Daniel Vetter wrote:
+> On Thu, Feb 20, 2020 at 01:24:00PM -0800, jsanka@codeaurora.org wrote:
+>> On 2020-02-20 12:14, Daniel Vetter wrote:
+>> > On Thu, Feb 20, 2020 at 10:45:57AM -0800, jsanka@codeaurora.org wrote:
+>> > > Hello All,
+>> > >
+>> > > I am seeking recommendations for DRM compatible methods of updating
+>> > > the
+>> > HW
+>> > > other than frame commit path. When exiting idle/runtime_suspend, the
+>> > driver
+>> > > votes for a bunch of resources including power/clk/bandwidth as a
+> part
+>> > of
+>> > > first commit handling. This usually adds a few millisecond delay
+>> > > before
+>> > > processing the frame. The requirement is to find possible ways to
+>> > > reduce
+>> > > this delay by providing an early intimation to the framework to
+>> > "prepare"
+>> > > the HW by voting for the resources and keep the HW ready to process
+> an
+>> > > imminent frame commit. Especially in performance oriented Automotive
+>> > world,
+>> > > these delays are very time critical and we are working on ways to
+>> > mitigate
+>> > > them.
+>> > >
+>> > >
+>> > >
+>> > > DRM framework converges all the parameters affecting the HW in terms
+>> > > of
+>> > DRM
+>> > > properties in a single COMMIT call. To address the above issue, we
+>> > > need
+>> > a
+>> > > parallel channel which should allow the framework to make necessary
+>> > changes
+>> > > to the HW without violating the master access privileges.
+>> > >
+>> > >
+>> > >
+>> > > Before resorting to custom downstream ways, I want to check with the
+>> > > community for folks who might have encountered and resolved such
+>> > > issues.
+>> >
+>> > Just enable the display, which will grab all the clocks and
+> everything?
+>> > Once the display is on a commit should be possible on the next frame,
+> at
+>> > least for well-working drivers.
+>> > -Daniel
+>> >
+>> I believe even to turn on the display, DRM will need an explicit 
+>> commit
+>> (probably without any planes/pixel buffers). For cases like smart
+> panels,
+>> where we can keep the panel on(panel internal RAM refresh) and power
+>> collapse the display HW, resuming back with an explicit commit will 
+>> push
+> a
+>> black (or default color programmed in the HW) frame causing a glitch.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-I wonder whether there's some magic somewhere we could do to enlist the
-cocci army to create the constify patches for us ...
-
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 654e2dd08146..039eee3ef661 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -474,7 +474,7 @@ MODULE_DEVICE_TABLE(of, rcar_du_of_table);
->  
->  DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
->  
-> -static struct drm_driver rcar_du_driver = {
-> +static const struct drm_driver rcar_du_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.gem_free_object_unlocked = drm_gem_cma_free_object,
->  	.gem_vm_ops		= &drm_gem_cma_vm_ops,
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+> Uh, you might want to look into the self-refresh helpers, which do this
+> without black frames and stuff.
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I believe you are referring to Sean's PSR changes: 
+https://patchwork.freedesktop.org/series/57366/
+Will take a look.
+
+Thanks and Regards,
+Jeykumar S.
+
+> But yeah if there's really a gap here (and not just you folks 
+> creatively
+> abusing atomic kms in ways that it was not meant to be used) then we 
+> can
+> add a property that forbids power optimization and guarantee that you 
+> can
+> do the next screen update immediately. And then we can merge that with 
+> all
+> the usual requirements (driver implementation that works, open source
+> userspace, igt testcase, the full deal).
+> 
+> But it still feels like you're trying to do something automatically 
+> that's
+> not meant to work like this.
+> 
+> Cheers, Daniel
+> 
+>> 
+>> Thanks and Regards,
+>> Jeykumar S.
+>> > >
+>> > >
+>> > >
+>> > > Thanks and Regards,
+>> > >
+>> > > Jeykumar S
+>> > >
+>> > > Qualcomm Inc.
+>> > >
+>> > >
+>> > >
+>> >
+>> > > _______________________________________________
+>> > > dri-devel mailing list
+>> > > dri-devel@lists.freedesktop.org
+>> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
