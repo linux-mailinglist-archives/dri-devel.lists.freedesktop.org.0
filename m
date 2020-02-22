@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E65116907A
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 17:50:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF2D16907B
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Feb 2020 17:50:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16EA66E073;
-	Sat, 22 Feb 2020 16:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC846E083;
+	Sat, 22 Feb 2020 16:50:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD366E073
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 16:50:24 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 165236E083
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Feb 2020 16:50:39 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8141733E;
- Sat, 22 Feb 2020 17:50:21 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C70733E;
+ Sat, 22 Feb 2020 17:50:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582390222;
- bh=BbL+t5YqOD5IzQuL+k24L3VwrE9H7MSPMK57JxJd950=;
+ s=mail; t=1582390237;
+ bh=siMrKil08DFYYz9fjUu+FMm/FgzgZpsa4TdOeIPzk20=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NN0aO3JIfdyO5fw+ELjXlhK33bNJSLY/2J2ApUmax+ooHoW4MfdzlzHR4JKRlse1/
- B4GHRIPFnLG2eXuleo5q/2x98vutGDsO6i4g9T8/me0mwD66f1F5G5LHWMpBXSWWtK
- 2L7MIF1F7VLqEo6N0JLRfFhlMtW1+P5yUenX+X8A=
+ b=DfiYcKQ4+WvahDBxpiiSFCHyDTC1u/Y986eJsNlIHoxvI3FGjwRmTkVrZnIFonKEy
+ mMdmPqFFFM8dZvFUzQkv9BLXOi3Mbgas7YuE6EHJzot27z60kVVTfKlzTtu2yg90NE
+ 1jbDjEpjXhSp19mK9dvug6TDjkUdPeeDN5m58SHw=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v7.1 09/54] drm/bridge: Extend bridge API to disable connector
- creation
-Date: Sat, 22 Feb 2020 18:49:57 +0200
-Message-Id: <20200222164957.18417-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v7.1 20/54] drm: Add helper to create a connector for a chain
+ of bridges
+Date: Sat, 22 Feb 2020 18:50:14 +0200
+Message-Id: <20200222165014.18472-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200222150106.22919-10-laurent.pinchart@ideasonboard.com>
-References: <20200222150106.22919-10-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20200222150106.22919-21-laurent.pinchart@ideasonboard.com>
+References: <20200222150106.22919-21-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,1387 +72,525 @@ another bridge, but doesn't support bridges that can be used in both
 positions very well (although there is some ad-hoc support for this in
 the analogix_dp bridge driver).
 
-In order to solve these issues, ownership of the connector should be
-moved to the display controller driver (where it can be implemented
-using helpers provided by the core).
+In order to solve these issues, ownership of the connector needs to be
+moved to the display controller driver.
 
-Extend the bridge API to allow disabling connector creation in bridge
-drivers as a first step towards the new model. The new flags argument to
-the bridge .attach() operation allows instructing the bridge driver to
-skip creating a connector. Unconditionally set the new flags argument to
-0 for now to keep the existing behaviour, and modify all existing bridge
-drivers to return an error when connector creation is not requested as
-they don't support this feature yet.
-
-The change is based on the following semantic patch, with manual review
-and edits.
-
-@ rule1 @
-identifier funcs;
-identifier fn;
-@@
- struct drm_bridge_funcs funcs = {
- 	...,
- 	.attach = fn
- };
-
-@ depends on rule1 @
-identifier rule1.fn;
-identifier bridge;
-statement S, S1;
-@@
- int fn(
- 	struct drm_bridge *bridge
-+	, enum drm_bridge_attach_flags flags
- )
- {
- 	... when != S
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	S1
- 	...
- }
-
-@ depends on rule1 @
-identifier rule1.fn;
-identifier bridge, flags;
-expression E1, E2, E3;
-@@
- int fn(
- 	struct drm_bridge *bridge,
- 	enum drm_bridge_attach_flags flags
- ) {
- <...
- drm_bridge_attach(E1, E2, E3
-+	, flags
- )
- ...>
- }
-
-@@
-expression E1, E2, E3;
-@@
- drm_bridge_attach(E1, E2, E3
-+	, 0
- )
+To avoid code duplication in display controller drivers, add a new
+helper to create and manage a DRM connector backed by a chain of
+bridges. All connector operations are delegating to the appropriate
+bridge in the chain.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
 Changes since v7:
 
-- Properly annotate DRM_BRIDGE_ATTACH_NO_CONNECTOR with %
-
-Changes since v6:
-
-- Update the drm_bridge overview documentation
+- Add a mention of drm_bridge_connector_init() in the bridge overview
+  documentation
 
 Changes since v5:
 
-- Handle parade-ps8640, tc358768 and tidss
+- Fix the interlace_allowed flag logic
 
-Changes since v3:
+Changes since v4:
 
-- Print error message when DRM_BRIDGE_ATTACH_NO_CONNECTOR can't be
-  honoured
-- Fix semantic patch to correctly handle drm_bridge_attach() calls from
-  within a bridge .attach() handler
-- Include drm_print.h in tc358767.c and rcar_lvds.c
+- Set the connector interlace_allowed flag based on interlaced support
+  in bridges
 
 Changes since v2:
 
-- Update commit message to the new flags argument
-- Replace a leftover 'true' with 0
-- Update msm edp and hdmi
+- Fixed typo in documentation
+- Rebased on top of Boris' drm_bridge chaining rework
+- Pass drm_encoder instead of brm_bridge to drm_bridge_connector_init()
 
 Changes since v1:
 
-- Replace the create_connector boolean with a flags bitmask
-- Update ingenic driver
-- Add semantic patch to commit message
+- Removed the unused MAX_EDID macro
+- Removed the unused drm_bridge_connector.hdmi_mode field
+- Use drm_connector_init_with_ddc()
 ---
- drivers/gpu/drm/arc/arcpgu_hdmi.c             |  2 +-
- .../gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c  |  2 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  |  8 +++++++-
- .../drm/bridge/analogix/analogix-anx6345.c    |  8 +++++++-
- .../drm/bridge/analogix/analogix-anx78xx.c    |  8 +++++++-
- .../drm/bridge/analogix/analogix_dp_core.c    | 10 ++++++++--
- drivers/gpu/drm/bridge/cdns-dsi.c             |  6 ++++--
- drivers/gpu/drm/bridge/dumb-vga-dac.c         |  8 +++++++-
- drivers/gpu/drm/bridge/lvds-codec.c           |  5 +++--
- .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  |  8 +++++++-
- drivers/gpu/drm/bridge/nxp-ptn3460.c          |  8 +++++++-
- drivers/gpu/drm/bridge/panel.c                |  8 +++++++-
- drivers/gpu/drm/bridge/parade-ps8622.c        |  8 +++++++-
- drivers/gpu/drm/bridge/parade-ps8640.c        |  5 +++--
- drivers/gpu/drm/bridge/sii902x.c              |  8 +++++++-
- drivers/gpu/drm/bridge/sil-sii8620.c          |  3 ++-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 10 ++++++++--
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c |  8 +++++---
- drivers/gpu/drm/bridge/tc358764.c             |  8 +++++++-
- drivers/gpu/drm/bridge/tc358767.c             |  9 ++++++++-
- drivers/gpu/drm/bridge/tc358768.c             |  6 ++++--
- drivers/gpu/drm/bridge/thc63lvd1024.c         |  5 +++--
- drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  8 +++++++-
- drivers/gpu/drm/bridge/ti-tfp410.c            |  8 +++++++-
- drivers/gpu/drm/drm_bridge.c                  | 20 +++++++++++++++++--
- drivers/gpu/drm/drm_simple_kms_helper.c       |  2 +-
- drivers/gpu/drm/exynos/exynos_dp.c            |  3 ++-
- drivers/gpu/drm/exynos/exynos_drm_dsi.c       |  4 ++--
- drivers/gpu/drm/exynos/exynos_hdmi.c          |  2 +-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c     |  2 +-
- drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c  |  2 +-
- drivers/gpu/drm/i2c/tda998x_drv.c             | 10 ++++++++--
- drivers/gpu/drm/imx/imx-ldb.c                 |  2 +-
- drivers/gpu/drm/imx/parallel-display.c        |  4 ++--
- drivers/gpu/drm/ingenic/ingenic-drm.c         |  2 +-
- drivers/gpu/drm/mcde/mcde_dsi.c               |  5 +++--
- drivers/gpu/drm/mediatek/mtk_dpi.c            |  2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c            |  2 +-
- drivers/gpu/drm/mediatek/mtk_hdmi.c           | 10 ++++++++--
- drivers/gpu/drm/msm/dsi/dsi_manager.c         |  4 ++--
- drivers/gpu/drm/msm/edp/edp.c                 |  2 +-
- drivers/gpu/drm/msm/edp/edp_bridge.c          |  2 +-
- drivers/gpu/drm/msm/hdmi/hdmi.c               |  2 +-
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c        |  2 +-
- drivers/gpu/drm/omapdrm/omap_drv.c            |  2 +-
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c     |  2 +-
- drivers/gpu/drm/rcar-du/rcar_lvds.c           | 11 ++++++++--
- drivers/gpu/drm/rockchip/rockchip_lvds.c      |  2 +-
- drivers/gpu/drm/rockchip/rockchip_rgb.c       |  2 +-
- drivers/gpu/drm/sti/sti_dvo.c                 |  2 +-
- drivers/gpu/drm/sti/sti_hda.c                 |  2 +-
- drivers/gpu/drm/sti/sti_hdmi.c                |  2 +-
- drivers/gpu/drm/stm/ltdc.c                    |  2 +-
- drivers/gpu/drm/sun4i/sun4i_lvds.c            |  2 +-
- drivers/gpu/drm/sun4i/sun4i_rgb.c             |  2 +-
- drivers/gpu/drm/tidss/tidss_kms.c             |  2 +-
- drivers/gpu/drm/tilcdc/tilcdc_external.c      |  2 +-
- drivers/gpu/drm/vc4/vc4_dpi.c                 |  2 +-
- drivers/gpu/drm/vc4/vc4_dsi.c                 |  2 +-
- include/drm/drm_bridge.h                      | 20 ++++++++++++++++---
- 60 files changed, 231 insertions(+), 79 deletions(-)
+ Documentation/gpu/drm-kms-helpers.rst  |  12 +
+ drivers/gpu/drm/Makefile               |   3 +-
+ drivers/gpu/drm/drm_bridge.c           |   6 +
+ drivers/gpu/drm/drm_bridge_connector.c | 379 +++++++++++++++++++++++++
+ include/drm/drm_bridge_connector.h     |  18 ++
+ 5 files changed, 417 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/drm_bridge_connector.c
+ create mode 100644 include/drm/drm_bridge_connector.h
 
-diff --git a/drivers/gpu/drm/arc/arcpgu_hdmi.c b/drivers/gpu/drm/arc/arcpgu_hdmi.c
-index 8fd7094beece..52839934f2fb 100644
---- a/drivers/gpu/drm/arc/arcpgu_hdmi.c
-+++ b/drivers/gpu/drm/arc/arcpgu_hdmi.c
-@@ -40,7 +40,7 @@ int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np)
- 		return ret;
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index fe155c6ae175..ee730457bf4e 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -145,6 +145,12 @@ Bridge Operations
+ .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+    :doc: bridge operations
  
- 	/* Link drm_bridge to encoder */
--	ret = drm_bridge_attach(encoder, bridge, NULL);
-+	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
- 	if (ret)
- 		drm_encoder_cleanup(encoder);
- 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-index 121b62682d80..e2019fe97fff 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-@@ -114,7 +114,7 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
- 	}
- 
- 	if (bridge) {
--		ret = drm_bridge_attach(&output->encoder, bridge, NULL);
-+		ret = drm_bridge_attach(&output->encoder, bridge, NULL, 0);
- 		if (!ret)
- 			return 0;
- 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index a275e6c91bd7..87b58c1acff4 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -847,11 +847,17 @@ static void adv7511_bridge_mode_set(struct drm_bridge *bridge,
- 	adv7511_mode_set(adv, mode, adj_mode);
- }
- 
--static int adv7511_bridge_attach(struct drm_bridge *bridge)
-+static int adv7511_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
- {
- 	struct adv7511 *adv = bridge_to_adv7511(bridge);
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
++Bridge Connector Helper
++-----------------------
 +
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Parent encoder object not found");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-index 0d8d083b0207..5139c3724890 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-@@ -520,11 +520,17 @@ static const struct drm_connector_funcs anx6345_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static int anx6345_bridge_attach(struct drm_bridge *bridge)
-+static int anx6345_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
- {
- 	struct anx6345 *anx6345 = bridge_to_anx6345(bridge);
- 	int err;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
++.. kernel-doc:: drivers/gpu/drm/drm_bridge_connector.c
++   :doc: overview
 +
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Parent encoder object not found");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index 864423f59d66..0d5a5ad0c9ee 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -886,11 +886,17 @@ static const struct drm_connector_funcs anx78xx_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
  
--static int anx78xx_bridge_attach(struct drm_bridge *bridge)
-+static int anx78xx_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
- {
- 	struct anx78xx *anx78xx = bridge_to_anx78xx(bridge);
- 	int err;
+ Bridge Helper Reference
+ -------------------------
+@@ -155,6 +161,12 @@ Bridge Helper Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+    :export:
  
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
++Bridge Connector Helper Reference
++---------------------------------
 +
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Parent encoder object not found");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index dfb59a5fefea..9ded2cef57dd 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1216,13 +1216,19 @@ static const struct drm_connector_funcs analogix_dp_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static int analogix_dp_bridge_attach(struct drm_bridge *bridge)
-+static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
-+				     enum drm_bridge_attach_flags flags)
- {
- 	struct analogix_dp_device *dp = bridge->driver_private;
- 	struct drm_encoder *encoder = dp->encoder;
- 	struct drm_connector *connector = NULL;
- 	int ret = 0;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
++.. kernel-doc:: drivers/gpu/drm/drm_bridge_connector.c
++   :export:
 +
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Parent encoder object not found");
- 		return -ENODEV;
-@@ -1598,7 +1604,7 @@ static int analogix_dp_create_bridge(struct drm_device *drm_dev,
- 	bridge->driver_private = dp;
- 	bridge->funcs = &analogix_dp_bridge_funcs;
+ Panel-Bridge Helper Reference
+ -----------------------------
  
--	ret = drm_bridge_attach(dp->encoder, bridge, NULL);
-+	ret = drm_bridge_attach(dp->encoder, bridge, NULL, 0);
- 	if (ret) {
- 		DRM_ERROR("failed to attach drm bridge\n");
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
-index b7c97f060241..69c3892caee5 100644
---- a/drivers/gpu/drm/bridge/cdns-dsi.c
-+++ b/drivers/gpu/drm/bridge/cdns-dsi.c
-@@ -644,7 +644,8 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index ca0ca775d37f..7f72ef5e7811 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -39,7 +39,8 @@ obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+ drm_ttm_helper-y := drm_gem_ttm_helper.o
+ obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
  
--static int cdns_dsi_bridge_attach(struct drm_bridge *bridge)
-+static int cdns_dsi_bridge_attach(struct drm_bridge *bridge,
-+				  enum drm_bridge_attach_flags flags)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -656,7 +657,8 @@ static int cdns_dsi_bridge_attach(struct drm_bridge *bridge)
- 		return -ENOTSUPP;
- 	}
- 
--	return drm_bridge_attach(bridge->encoder, output->bridge, bridge);
-+	return drm_bridge_attach(bridge->encoder, output->bridge, bridge,
-+				 flags);
- }
- 
- static enum drm_mode_status
-diff --git a/drivers/gpu/drm/bridge/dumb-vga-dac.c b/drivers/gpu/drm/bridge/dumb-vga-dac.c
-index cc33dc411b9e..ad5b5a849e43 100644
---- a/drivers/gpu/drm/bridge/dumb-vga-dac.c
-+++ b/drivers/gpu/drm/bridge/dumb-vga-dac.c
-@@ -100,11 +100,17 @@ static const struct drm_connector_funcs dumb_vga_con_funcs = {
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
--static int dumb_vga_attach(struct drm_bridge *bridge)
-+static int dumb_vga_attach(struct drm_bridge *bridge,
-+			   enum drm_bridge_attach_flags flags)
- {
- 	struct dumb_vga *vga = drm_bridge_to_dumb_vga(bridge);
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Missing encoder\n");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-index 5f04cc11227e..37dbf0c70ccf 100644
---- a/drivers/gpu/drm/bridge/lvds-codec.c
-+++ b/drivers/gpu/drm/bridge/lvds-codec.c
-@@ -21,13 +21,14 @@ struct lvds_codec {
- 	u32 connector_type;
- };
- 
--static int lvds_codec_attach(struct drm_bridge *bridge)
-+static int lvds_codec_attach(struct drm_bridge *bridge,
-+			     enum drm_bridge_attach_flags flags)
- {
- 	struct lvds_codec *lvds_codec = container_of(bridge,
- 						     struct lvds_codec, bridge);
- 
- 	return drm_bridge_attach(bridge->encoder, lvds_codec->panel_bridge,
--				 bridge);
-+				 bridge, flags);
- }
- 
- static void lvds_codec_enable(struct drm_bridge *bridge)
-diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-index e8a49f6146c6..6200f12a37e6 100644
---- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-+++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-@@ -206,13 +206,19 @@ static irqreturn_t ge_b850v3_lvds_irq_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
--static int ge_b850v3_lvds_attach(struct drm_bridge *bridge)
-+static int ge_b850v3_lvds_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
- {
- 	struct drm_connector *connector = &ge_b850v3_lvds_ptr->connector;
- 	struct i2c_client *stdp4028_i2c
- 			= ge_b850v3_lvds_ptr->stdp4028_i2c;
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Parent encoder object not found");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index 57ff01339559..438e566ce0a4 100644
---- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-+++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -236,11 +236,17 @@ static const struct drm_connector_funcs ptn3460_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static int ptn3460_bridge_attach(struct drm_bridge *bridge)
-+static int ptn3460_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
- {
- 	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Parent encoder object not found");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index fa764f9a91b6..81017b4afe25 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -53,12 +53,18 @@ static const struct drm_connector_funcs panel_bridge_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static int panel_bridge_attach(struct drm_bridge *bridge)
-+static int panel_bridge_attach(struct drm_bridge *bridge,
-+			       enum drm_bridge_attach_flags flags)
- {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
- 	struct drm_connector *connector = &panel_bridge->connector;
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Missing encoder\n");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/bridge/parade-ps8622.c
-index 10c47c008b40..d789ea2a7fb9 100644
---- a/drivers/gpu/drm/bridge/parade-ps8622.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8622.c
-@@ -476,11 +476,17 @@ static const struct drm_connector_funcs ps8622_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static int ps8622_attach(struct drm_bridge *bridge)
-+static int ps8622_attach(struct drm_bridge *bridge,
-+			 enum drm_bridge_attach_flags flags)
- {
- 	struct ps8622_bridge *ps8622 = bridge_to_ps8622(bridge);
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Parent encoder object not found");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index c6c06688aff2..d3a53442d449 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -187,7 +187,8 @@ static void ps8640_post_disable(struct drm_bridge *bridge)
- 		DRM_ERROR("cannot disable regulators %d\n", ret);
- }
- 
--static int ps8640_bridge_attach(struct drm_bridge *bridge)
-+static int ps8640_bridge_attach(struct drm_bridge *bridge,
-+				enum drm_bridge_attach_flags flags)
- {
- 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
- 	struct device *dev = &ps_bridge->page[0]->dev;
-@@ -234,7 +235,7 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge)
- 
- 	/* Attach the panel-bridge to the dsi bridge */
- 	return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
--				 &ps_bridge->bridge);
-+				 &ps_bridge->bridge, flags);
- 
- err_dsi_attach:
- 	mipi_dsi_device_unregister(dsi);
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index b70e8c5cf2e1..6dad025f8da7 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -399,12 +399,18 @@ static void sii902x_bridge_mode_set(struct drm_bridge *bridge,
- 	mutex_unlock(&sii902x->mutex);
- }
- 
--static int sii902x_bridge_attach(struct drm_bridge *bridge)
-+static int sii902x_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
- {
- 	struct sii902x *sii902x = bridge_to_sii902x(bridge);
- 	struct drm_device *drm = bridge->dev;
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	drm_connector_helper_add(&sii902x->connector,
- 				 &sii902x_connector_helper_funcs);
- 
-diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-index 4c0eef406eb1..92acd336aa89 100644
---- a/drivers/gpu/drm/bridge/sil-sii8620.c
-+++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-@@ -2202,7 +2202,8 @@ static inline struct sii8620 *bridge_to_sii8620(struct drm_bridge *bridge)
- 	return container_of(bridge, struct sii8620, bridge);
- }
- 
--static int sii8620_attach(struct drm_bridge *bridge)
-+static int sii8620_attach(struct drm_bridge *bridge,
-+			  enum drm_bridge_attach_flags flags)
- {
- 	struct sii8620 *ctx = bridge_to_sii8620(bridge);
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 67fca439bbfb..9bad194cfd0a 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2371,7 +2371,8 @@ static const struct drm_connector_helper_funcs dw_hdmi_connector_helper_funcs =
- 	.atomic_check = dw_hdmi_connector_atomic_check,
- };
- 
--static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
-+static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 	struct drm_encoder *encoder = bridge->encoder;
-@@ -2379,6 +2380,11 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
- 	struct cec_connector_info conn_info;
- 	struct cec_notifier *notifier;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	connector->interlace_allowed = 1;
- 	connector->polled = DRM_CONNECTOR_POLL_HPD;
- 
-@@ -3076,7 +3082,7 @@ struct dw_hdmi *dw_hdmi_bind(struct platform_device *pdev,
- 	if (IS_ERR(hdmi))
- 		return hdmi;
- 
--	ret = drm_bridge_attach(encoder, &hdmi->bridge, NULL);
-+	ret = drm_bridge_attach(encoder, &hdmi->bridge, NULL, 0);
- 	if (ret) {
- 		dw_hdmi_remove(hdmi);
- 		DRM_ERROR("Failed to initialize bridge with drm\n");
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 12823ae91065..5ef0f154aa7b 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -936,7 +936,8 @@ dw_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 	return mode_status;
- }
- 
--static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge)
-+static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge,
-+				     enum drm_bridge_attach_flags flags)
- {
- 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
- 
-@@ -949,7 +950,8 @@ static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge)
- 	bridge->encoder->encoder_type = DRM_MODE_ENCODER_DSI;
- 
- 	/* Attach the panel-bridge to the dsi bridge */
--	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge);
-+	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge,
-+				 flags);
- }
- 
- static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
-@@ -1120,7 +1122,7 @@ int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder)
- {
- 	int ret;
- 
--	ret = drm_bridge_attach(encoder, &dsi->bridge, NULL);
-+	ret = drm_bridge_attach(encoder, &dsi->bridge, NULL, 0);
- 	if (ret) {
- 		DRM_ERROR("Failed to initialize bridge with drm\n");
- 		return ret;
-diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge/tc358764.c
-index 96207fcfde19..283e4a8dd923 100644
---- a/drivers/gpu/drm/bridge/tc358764.c
-+++ b/drivers/gpu/drm/bridge/tc358764.c
-@@ -349,12 +349,18 @@ static void tc358764_enable(struct drm_bridge *bridge)
- 		dev_err(ctx->dev, "error enabling panel (%d)\n", ret);
- }
- 
--static int tc358764_attach(struct drm_bridge *bridge)
-+static int tc358764_attach(struct drm_bridge *bridge,
-+			   enum drm_bridge_attach_flags flags)
- {
- 	struct tc358764 *ctx = bridge_to_tc358764(bridge);
- 	struct drm_device *drm = bridge->dev;
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	ctx->connector.polled = DRM_CONNECTOR_POLL_HPD;
- 	ret = drm_connector_init(drm, &ctx->connector,
- 				 &tc358764_connector_funcs,
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 3709e5ace724..402a690d1fe5 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -31,6 +31,7 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
- /* Registers */
-@@ -1403,13 +1404,19 @@ static const struct drm_connector_funcs tc_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static int tc_bridge_attach(struct drm_bridge *bridge)
-+static int tc_bridge_attach(struct drm_bridge *bridge,
-+			    enum drm_bridge_attach_flags flags)
- {
- 	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 	struct tc_data *tc = bridge_to_tc(bridge);
- 	struct drm_device *drm = bridge->dev;
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	/* Create DP/eDP connector */
- 	drm_connector_helper_add(&tc->connector, &tc_connector_helper_funcs);
- 	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs,
-diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index da7af03256f6..1b39e8d37834 100644
---- a/drivers/gpu/drm/bridge/tc358768.c
-+++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -511,7 +511,8 @@ static const struct mipi_dsi_host_ops tc358768_dsi_host_ops = {
- 	.transfer = tc358768_dsi_host_transfer,
- };
- 
--static int tc358768_bridge_attach(struct drm_bridge *bridge)
-+static int tc358768_bridge_attach(struct drm_bridge *bridge,
-+				  enum drm_bridge_attach_flags flags)
- {
- 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
- 
-@@ -520,7 +521,8 @@ static int tc358768_bridge_attach(struct drm_bridge *bridge)
- 		return -ENOTSUPP;
- 	}
- 
--	return drm_bridge_attach(bridge->encoder, priv->output.bridge, bridge);
-+	return drm_bridge_attach(bridge->encoder, priv->output.bridge, bridge,
-+				 flags);
- }
- 
- static enum drm_mode_status
-diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
-index 3d74129b2995..97d8129760e9 100644
---- a/drivers/gpu/drm/bridge/thc63lvd1024.c
-+++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
-@@ -42,11 +42,12 @@ static inline struct thc63_dev *to_thc63(struct drm_bridge *bridge)
- 	return container_of(bridge, struct thc63_dev, bridge);
- }
- 
--static int thc63_attach(struct drm_bridge *bridge)
-+static int thc63_attach(struct drm_bridge *bridge,
-+			enum drm_bridge_attach_flags flags)
- {
- 	struct thc63_dev *thc63 = to_thc63(bridge);
- 
--	return drm_bridge_attach(bridge->encoder, thc63->next, bridge);
-+	return drm_bridge_attach(bridge->encoder, thc63->next, bridge, flags);
- }
- 
- static enum drm_mode_status thc63_mode_valid(struct drm_bridge *bridge,
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 6ce60a64b603..6ad688b320ae 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -266,7 +266,8 @@ static int ti_sn_bridge_parse_regulators(struct ti_sn_bridge *pdata)
- 				       pdata->supplies);
- }
- 
--static int ti_sn_bridge_attach(struct drm_bridge *bridge)
-+static int ti_sn_bridge_attach(struct drm_bridge *bridge,
-+			       enum drm_bridge_attach_flags flags)
- {
- 	int ret, val;
- 	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
-@@ -277,6 +278,11 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge)
- 						   .node = NULL,
- 						 };
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	ret = drm_connector_init(bridge->dev, &pdata->connector,
- 				 &ti_sn_bridge_connector_funcs,
- 				 DRM_MODE_CONNECTOR_eDP);
-diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-index 108e8cd7ab68..193c9368f664 100644
---- a/drivers/gpu/drm/bridge/ti-tfp410.c
-+++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-@@ -118,11 +118,17 @@ static const struct drm_connector_funcs tfp410_con_funcs = {
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
--static int tfp410_attach(struct drm_bridge *bridge)
-+static int tfp410_attach(struct drm_bridge *bridge,
-+			 enum drm_bridge_attach_flags flags)
- {
- 	struct tfp410 *dvi = drm_bridge_to_tfp410(bridge);
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	if (!bridge->encoder) {
- 		dev_err(dvi->dev, "Missing encoder\n");
- 		return -ENODEV;
+-drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper.o \
++drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o drm_dp_helper.o \
++		drm_dsc.o drm_probe_helper.o \
+ 		drm_plane_helper.o drm_dp_mst_topology.o drm_atomic_helper.o \
+ 		drm_kms_helper_common.o drm_dp_dual_mode_helper.o \
+ 		drm_simple_kms_helper.o drm_modeset_helper.o \
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 5a8f7d7e05f3..96eace94fea8 100644
+index dae33fc1b05b..9be11f383440 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -149,6 +149,7 @@ static const struct drm_private_state_funcs drm_bridge_priv_state_funcs = {
-  * @encoder: DRM encoder
-  * @bridge: bridge to attach
-  * @previous: previous bridge in the chain (optional)
-+ * @flags: DRM_BRIDGE_ATTACH_* flags
+@@ -79,6 +79,12 @@
+  * requires no intervention from the driver. For other drivers, the relevant
+  * DRM bridge chain functions shall be called manually.
   *
-  * Called by a kms driver to link the bridge to an encoder's chain. The previous
-  * argument specifies the previous bridge in the chain. If NULL, the bridge is
-@@ -166,7 +167,8 @@ static const struct drm_private_state_funcs drm_bridge_priv_state_funcs = {
-  * Zero on success, error code on failure
-  */
- int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
--		      struct drm_bridge *previous)
-+		      struct drm_bridge *previous,
-+		      enum drm_bridge_attach_flags flags)
- {
- 	int ret;
- 
-@@ -188,7 +190,7 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 		list_add(&bridge->chain_node, &encoder->bridge_chain);
- 
- 	if (bridge->funcs->attach) {
--		ret = bridge->funcs->attach(bridge);
-+		ret = bridge->funcs->attach(bridge, flags);
- 		if (ret < 0)
- 			goto err_reset_bridge;
- 	}
-@@ -312,6 +314,20 @@ void drm_bridge_detach(struct drm_bridge *bridge)
-  *   allows providing a single static const &drm_bridge_funcs instance in
-  *   bridge drivers, improving security by storing function pointers in
-  *   read-only memory.
++ * Bridges also participate in implementing the &drm_connector at the end of
++ * the bridge chain. Display drivers may use the drm_bridge_connector_init()
++ * helper to create the &drm_connector, or implement it manually on top of the
++ * connector-related operations exposed by the bridge (see the overview
++ * documentation of bridge operations for more details).
 + *
-+ *   In order to ease transition, bridge drivers may support both the old and
-+ *   new models by making connector creation optional and implementing the
-+ *   connected-related bridge operations. Connector creation is then controlled
-+ *   by the flags argument to the drm_bridge_attach() function. Display drivers
-+ *   that support the new model and create connectors themselves shall set the
-+ *   %DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, and bridge drivers shall then skip
-+ *   connector creation. For intermediate bridges in the chain, the flag shall
-+ *   be passed to the drm_bridge_attach() call for the downstream bridge.
-+ *   Bridge drivers that implement the new model only shall return an error
-+ *   from their &drm_bridge_funcs.attach handler when the
-+ *   %DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is not set. New display drivers
-+ *   should use the new model, and convert the bridge drivers they use if
-+ *   needed, in order to gradually transition to the new model.
-  */
- 
- /**
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 15fb516ae2d8..8ff4504161d5 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -229,7 +229,7 @@ static const struct drm_plane_funcs drm_simple_kms_plane_funcs = {
- int drm_simple_display_pipe_attach_bridge(struct drm_simple_display_pipe *pipe,
- 					  struct drm_bridge *bridge)
- {
--	return drm_bridge_attach(&pipe->encoder, bridge, NULL);
-+	return drm_bridge_attach(&pipe->encoder, bridge, NULL, 0);
- }
- EXPORT_SYMBOL(drm_simple_display_pipe_attach_bridge);
- 
-diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
-index 4785885c0f4f..d23d3502ca91 100644
---- a/drivers/gpu/drm/exynos/exynos_dp.c
-+++ b/drivers/gpu/drm/exynos/exynos_dp.c
-@@ -106,7 +106,8 @@ static int exynos_dp_bridge_attach(struct analogix_dp_plat_data *plat_data,
- 
- 	/* Pre-empt DP connector creation if there's a bridge */
- 	if (dp->ptn_bridge) {
--		ret = drm_bridge_attach(&dp->encoder, dp->ptn_bridge, bridge);
-+		ret = drm_bridge_attach(&dp->encoder, dp->ptn_bridge, bridge,
-+					0);
- 		if (ret) {
- 			DRM_DEV_ERROR(dp->dev,
- 				      "Failed to attach bridge to drm\n");
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 33628d85edad..669d3857502a 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1540,7 +1540,7 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
- 
- 	out_bridge  = of_drm_find_bridge(device->dev.of_node);
- 	if (out_bridge) {
--		drm_bridge_attach(encoder, out_bridge, NULL);
-+		drm_bridge_attach(encoder, out_bridge, NULL, 0);
- 		dsi->out_bridge = out_bridge;
- 		list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
- 	} else {
-@@ -1717,7 +1717,7 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
- 	if (dsi->in_bridge_node) {
- 		in_bridge = of_drm_find_bridge(dsi->in_bridge_node);
- 		if (in_bridge)
--			drm_bridge_attach(encoder, in_bridge, NULL);
-+			drm_bridge_attach(encoder, in_bridge, NULL, 0);
- 	}
- 
- 	return mipi_dsi_host_register(&dsi->dsi_host);
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index 9ff921f43a93..3e5f1a77286d 100644
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -960,7 +960,7 @@ static int hdmi_create_connector(struct drm_encoder *encoder)
- 	drm_connector_attach_encoder(connector, encoder);
- 
- 	if (hdata->bridge) {
--		ret = drm_bridge_attach(encoder, hdata->bridge, NULL);
-+		ret = drm_bridge_attach(encoder, hdata->bridge, NULL, 0);
- 		if (ret)
- 			DRM_DEV_ERROR(hdata->dev, "Failed to attach bridge\n");
- 	}
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-index 9598ee3cc4d2..cff344367f81 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-@@ -151,5 +151,5 @@ int fsl_dcu_create_outputs(struct fsl_dcu_drm_device *fsl_dev)
- 		return fsl_dcu_attach_panel(fsl_dev, panel);
- 	}
- 
--	return drm_bridge_attach(&fsl_dev->encoder, bridge, NULL);
-+	return drm_bridge_attach(&fsl_dev->encoder, bridge, NULL, 0);
- }
-diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-index bdcf9c6ae9e9..f31068d74b18 100644
---- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-@@ -777,7 +777,7 @@ static int dsi_bridge_init(struct drm_device *dev, struct dw_dsi *dsi)
- 	int ret;
- 
- 	/* associate the bridge to dsi encoder */
--	ret = drm_bridge_attach(encoder, bridge, NULL);
-+	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
- 	if (ret) {
- 		DRM_ERROR("failed to attach external bridge\n");
- 		return ret;
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index a63790d32d75..c3332209f27a 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1356,10 +1356,16 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
- 
- /* DRM bridge functions */
- 
--static int tda998x_bridge_attach(struct drm_bridge *bridge)
-+static int tda998x_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
- {
- 	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	return tda998x_connector_init(priv, bridge->dev);
- }
- 
-@@ -2022,7 +2028,7 @@ static int tda998x_encoder_init(struct device *dev, struct drm_device *drm)
- 	if (ret)
- 		goto err_encoder;
- 
--	ret = drm_bridge_attach(&priv->encoder, &priv->bridge, NULL);
-+	ret = drm_bridge_attach(&priv->encoder, &priv->bridge, NULL, 0);
- 	if (ret)
- 		goto err_bridge;
- 
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index 8cb2665b2c74..4da22a94790c 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -446,7 +446,7 @@ static int imx_ldb_register(struct drm_device *drm,
- 
- 	if (imx_ldb_ch->bridge) {
- 		ret = drm_bridge_attach(&imx_ldb_ch->encoder,
--					imx_ldb_ch->bridge, NULL);
-+					imx_ldb_ch->bridge, NULL, 0);
- 		if (ret) {
- 			DRM_ERROR("Failed to initialize bridge with drm\n");
- 			return ret;
-diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index 142acff5ab37..08fafa4bf8c2 100644
---- a/drivers/gpu/drm/imx/parallel-display.c
-+++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -292,7 +292,7 @@ static int imx_pd_register(struct drm_device *drm,
- 			 DRM_MODE_ENCODER_NONE, NULL);
- 
- 	imxpd->bridge.funcs = &imx_pd_bridge_funcs;
--	drm_bridge_attach(encoder, &imxpd->bridge, NULL);
-+	drm_bridge_attach(encoder, &imxpd->bridge, NULL, 0);
- 
- 	if (!imxpd->next_bridge) {
- 		drm_connector_helper_add(&imxpd->connector,
-@@ -307,7 +307,7 @@ static int imx_pd_register(struct drm_device *drm,
- 
- 	if (imxpd->next_bridge) {
- 		ret = drm_bridge_attach(encoder, imxpd->next_bridge,
--					&imxpd->bridge);
-+					&imxpd->bridge, 0);
- 		if (ret < 0) {
- 			dev_err(imxpd->dev, "failed to attach bridge: %d\n",
- 				ret);
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
-index 6d47ef7b148c..9dfe7cb530e1 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
-@@ -737,7 +737,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	ret = drm_bridge_attach(&priv->encoder, bridge, NULL);
-+	ret = drm_bridge_attach(&priv->encoder, bridge, NULL, 0);
- 	if (ret) {
- 		dev_err(dev, "Unable to attach bridge");
- 		return ret;
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index bb6528b01cd0..7af5ebb0c436 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -986,7 +986,8 @@ static void mcde_dsi_bridge_disable(struct drm_bridge *bridge)
- 	clk_disable_unprepare(d->lp_clk);
- }
- 
--static int mcde_dsi_bridge_attach(struct drm_bridge *bridge)
-+static int mcde_dsi_bridge_attach(struct drm_bridge *bridge,
-+				  enum drm_bridge_attach_flags flags)
- {
- 	struct mcde_dsi *d = bridge_to_mcde_dsi(bridge);
- 	struct drm_device *drm = bridge->dev;
-@@ -998,7 +999,7 @@ static int mcde_dsi_bridge_attach(struct drm_bridge *bridge)
- 	}
- 
- 	/* Attach the DSI bridge to the output (panel etc) bridge */
--	ret = drm_bridge_attach(bridge->encoder, d->bridge_out, bridge);
-+	ret = drm_bridge_attach(bridge->encoder, d->bridge_out, bridge, flags);
- 	if (ret) {
- 		dev_err(d->dev, "failed to attach the DSI bridge\n");
- 		return ret;
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 01fa8b8d763d..14fbe1c09ce9 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -607,7 +607,7 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- 	/* Currently DPI0 is fixed to be driven by OVL1 */
- 	dpi->encoder.possible_crtcs = BIT(1);
- 
--	ret = drm_bridge_attach(&dpi->encoder, dpi->bridge, NULL);
-+	ret = drm_bridge_attach(&dpi->encoder, dpi->bridge, NULL, 0);
- 	if (ret) {
- 		dev_err(dev, "Failed to attach bridge: %d\n", ret);
- 		goto err_cleanup;
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 5fa1073cf26b..0ede69830a9d 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -904,7 +904,7 @@ static int mtk_dsi_create_conn_enc(struct drm_device *drm, struct mtk_dsi *dsi)
- 
- 	/* If there's a bridge, attach to it and let it create the connector */
- 	if (dsi->bridge) {
--		ret = drm_bridge_attach(&dsi->encoder, dsi->bridge, NULL);
-+		ret = drm_bridge_attach(&dsi->encoder, dsi->bridge, NULL, 0);
- 		if (ret) {
- 			DRM_ERROR("Failed to attach bridge to drm\n");
- 			goto err_encoder_cleanup;
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 5e4a4dbda443..a8b20557539b 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1297,11 +1297,17 @@ static void mtk_hdmi_hpd_event(bool hpd, struct device *dev)
-  * Bridge callbacks
-  */
- 
--static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge)
-+static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
-+				  enum drm_bridge_attach_flags flags)
- {
- 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
- 	int ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
-+
- 	ret = drm_connector_init_with_ddc(bridge->encoder->dev, &hdmi->conn,
- 					  &mtk_hdmi_connector_funcs,
- 					  DRM_MODE_CONNECTOR_HDMIA,
-@@ -1326,7 +1332,7 @@ static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge)
- 
- 	if (hdmi->next_bridge) {
- 		ret = drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
--					bridge);
-+					bridge, flags);
- 		if (ret) {
- 			dev_err(hdmi->dev,
- 				"Failed to attach external bridge: %d\n", ret);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 104115d112eb..6af26ab5b09d 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -684,7 +684,7 @@ struct drm_bridge *msm_dsi_manager_bridge_init(u8 id)
- 	bridge = &dsi_bridge->base;
- 	bridge->funcs = &dsi_mgr_bridge_funcs;
- 
--	ret = drm_bridge_attach(encoder, bridge, NULL);
-+	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
- 	if (ret)
- 		goto fail;
- 
-@@ -713,7 +713,7 @@ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
- 	encoder = msm_dsi->encoder;
- 
- 	/* link the internal dsi bridge to the external bridge */
--	drm_bridge_attach(encoder, ext_bridge, int_bridge);
-+	drm_bridge_attach(encoder, ext_bridge, int_bridge, 0);
- 
- 	/*
- 	 * we need the drm_connector created by the external bridge
-diff --git a/drivers/gpu/drm/msm/edp/edp.c b/drivers/gpu/drm/msm/edp/edp.c
-index ad4e963ccd9b..a78d6077802b 100644
---- a/drivers/gpu/drm/msm/edp/edp.c
-+++ b/drivers/gpu/drm/msm/edp/edp.c
-@@ -178,7 +178,7 @@ int msm_edp_modeset_init(struct msm_edp *edp, struct drm_device *dev,
- 		goto fail;
- 	}
- 
--	ret = drm_bridge_attach(encoder, edp->bridge, NULL);
-+	ret = drm_bridge_attach(encoder, edp->bridge, NULL, 0);
- 	if (ret)
- 		goto fail;
- 
-diff --git a/drivers/gpu/drm/msm/edp/edp_bridge.c b/drivers/gpu/drm/msm/edp/edp_bridge.c
-index b65b5cc2dba2..c69a37e0c708 100644
---- a/drivers/gpu/drm/msm/edp/edp_bridge.c
-+++ b/drivers/gpu/drm/msm/edp/edp_bridge.c
-@@ -97,7 +97,7 @@ struct drm_bridge *msm_edp_bridge_init(struct msm_edp *edp)
- 	bridge = &edp_bridge->base;
- 	bridge->funcs = &edp_bridge_funcs;
- 
--	ret = drm_bridge_attach(edp->encoder, bridge, NULL);
-+	ret = drm_bridge_attach(edp->encoder, bridge, NULL, 0);
- 	if (ret)
- 		goto fail;
- 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 1a9b6289637d..3a8646535c14 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -327,7 +327,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
- 		goto fail;
- 	}
- 
--	ret = drm_bridge_attach(encoder, hdmi->bridge, NULL);
-+	ret = drm_bridge_attach(encoder, hdmi->bridge, NULL, 0);
- 	if (ret)
- 		goto fail;
- 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index ba81338a9bf8..6e380db9287b 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -287,7 +287,7 @@ struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi)
- 	bridge = &hdmi_bridge->base;
- 	bridge->funcs = &msm_hdmi_bridge_funcs;
- 
--	ret = drm_bridge_attach(hdmi->encoder, bridge, NULL);
-+	ret = drm_bridge_attach(hdmi->encoder, bridge, NULL, 0);
- 	if (ret)
- 		goto fail;
- 
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index d2750f60f519..390e0662a8b8 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -297,7 +297,7 @@ static int omap_modeset_init(struct drm_device *dev)
- 
- 		if (pipe->output->bridge) {
- 			ret = drm_bridge_attach(pipe->encoder,
--						pipe->output->bridge, NULL);
-+						pipe->output->bridge, NULL, 0);
- 			if (ret < 0)
- 				return ret;
- 		}
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index 3cd83a030a04..c07c6a88aff0 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -121,7 +121,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 	 * Attach the bridge to the encoder. The bridge will create the
- 	 * connector.
- 	 */
--	ret = drm_bridge_attach(encoder, bridge, NULL);
-+	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
- 	if (ret) {
- 		drm_encoder_cleanup(encoder);
- 		return ret;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 06432c881e07..ab0d49618cf9 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -23,6 +23,7 @@
- #include <drm/drm_bridge.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
- #include "rcar_lvds.h"
-@@ -643,7 +644,8 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
- 	return true;
- }
- 
--static int rcar_lvds_attach(struct drm_bridge *bridge)
-+static int rcar_lvds_attach(struct drm_bridge *bridge,
-+			    enum drm_bridge_attach_flags flags)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 	struct drm_connector *connector = &lvds->connector;
-@@ -653,7 +655,12 @@ static int rcar_lvds_attach(struct drm_bridge *bridge)
- 	/* If we have a next bridge just attach it. */
- 	if (lvds->next_bridge)
- 		return drm_bridge_attach(bridge->encoder, lvds->next_bridge,
--					 bridge);
-+					 bridge, flags);
-+
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		DRM_ERROR("Fix bridge driver to make connector optional!");
-+		return -EINVAL;
-+	}
- 
- 	/* Otherwise if we have a panel, create a connector. */
- 	if (!lvds->panel)
-diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-index f25a36743cbd..449a62908d21 100644
---- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-@@ -646,7 +646,7 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
- 			goto err_free_connector;
- 		}
- 	} else {
--		ret = drm_bridge_attach(encoder, lvds->bridge, NULL);
-+		ret = drm_bridge_attach(encoder, lvds->bridge, NULL, 0);
- 		if (ret) {
- 			DRM_DEV_ERROR(drm_dev->dev,
- 				      "failed to attach bridge: %d\n", ret);
-diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-index ae730275a34f..3e2484985955 100644
---- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-@@ -144,7 +144,7 @@ struct rockchip_rgb *rockchip_rgb_init(struct device *dev,
- 
- 	rgb->bridge = bridge;
- 
--	ret = drm_bridge_attach(encoder, rgb->bridge, NULL);
-+	ret = drm_bridge_attach(encoder, rgb->bridge, NULL, 0);
- 	if (ret) {
- 		DRM_DEV_ERROR(drm_dev->dev,
- 			      "failed to attach bridge: %d\n", ret);
-diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-index b2778ec1cdd7..3d04bfca21a0 100644
---- a/drivers/gpu/drm/sti/sti_dvo.c
-+++ b/drivers/gpu/drm/sti/sti_dvo.c
-@@ -467,7 +467,7 @@ static int sti_dvo_bind(struct device *dev, struct device *master, void *data)
- 	bridge->of_node = dvo->dev.of_node;
- 	drm_bridge_add(bridge);
- 
--	err = drm_bridge_attach(encoder, bridge, NULL);
-+	err = drm_bridge_attach(encoder, bridge, NULL, 0);
- 	if (err) {
- 		DRM_ERROR("Failed to attach bridge\n");
- 		return err;
-diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index 2bb32009d117..f3f28d79b0e4 100644
---- a/drivers/gpu/drm/sti/sti_hda.c
-+++ b/drivers/gpu/drm/sti/sti_hda.c
-@@ -701,7 +701,7 @@ static int sti_hda_bind(struct device *dev, struct device *master, void *data)
- 
- 	bridge->driver_private = hda;
- 	bridge->funcs = &sti_hda_bridge_funcs;
--	drm_bridge_attach(encoder, bridge, NULL);
-+	drm_bridge_attach(encoder, bridge, NULL, 0);
- 
- 	connector->encoder = encoder;
- 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 64ed102033c8..18eaf786ffa4 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -1281,7 +1281,7 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
- 
- 	bridge->driver_private = hdmi;
- 	bridge->funcs = &sti_hdmi_bridge_funcs;
--	drm_bridge_attach(encoder, bridge, NULL);
-+	drm_bridge_attach(encoder, bridge, NULL, 0);
- 
- 	connector->encoder = encoder;
- 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 99bf93e8b36f..df585fe64f61 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -1109,7 +1109,7 @@ static int ltdc_encoder_init(struct drm_device *ddev, struct drm_bridge *bridge)
- 
- 	drm_encoder_helper_add(encoder, &ltdc_encoder_helper_funcs);
- 
--	ret = drm_bridge_attach(encoder, bridge, NULL);
-+	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
- 	if (ret) {
- 		drm_encoder_cleanup(encoder);
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/sun4i/sun4i_lvds.c b/drivers/gpu/drm/sun4i/sun4i_lvds.c
-index 65b7a8739666..26e5c7ceb8ff 100644
---- a/drivers/gpu/drm/sun4i/sun4i_lvds.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_lvds.c
-@@ -156,7 +156,7 @@ int sun4i_lvds_init(struct drm_device *drm, struct sun4i_tcon *tcon)
- 	}
- 
- 	if (bridge) {
--		ret = drm_bridge_attach(encoder, bridge, NULL);
-+		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
- 		if (ret) {
- 			dev_err(drm->dev, "Couldn't attach our bridge\n");
- 			goto err_cleanup_connector;
-diff --git a/drivers/gpu/drm/sun4i/sun4i_rgb.c b/drivers/gpu/drm/sun4i/sun4i_rgb.c
-index b27f16af50f5..3b23d5be3cf3 100644
---- a/drivers/gpu/drm/sun4i/sun4i_rgb.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_rgb.c
-@@ -253,7 +253,7 @@ int sun4i_rgb_init(struct drm_device *drm, struct sun4i_tcon *tcon)
- 	}
- 
- 	if (rgb->bridge) {
--		ret = drm_bridge_attach(encoder, rgb->bridge, NULL);
-+		ret = drm_bridge_attach(encoder, rgb->bridge, NULL, 0);
- 		if (ret) {
- 			dev_err(drm->dev, "Couldn't attach our bridge\n");
- 			goto err_cleanup_connector;
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index 5311e0f1c551..3b6f8d54a016 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -172,7 +172,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
- 			return PTR_ERR(enc);
- 		}
- 
--		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL);
-+		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL, 0);
- 		if (ret) {
- 			dev_err(tidss->dev, "bridge attach failed: %d\n", ret);
- 			return ret;
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-index 51d034e095f4..28b7f703236e 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-@@ -95,7 +95,7 @@ int tilcdc_attach_bridge(struct drm_device *ddev, struct drm_bridge *bridge)
- 
- 	priv->external_encoder->possible_crtcs = BIT(0);
- 
--	ret = drm_bridge_attach(priv->external_encoder, bridge, NULL);
-+	ret = drm_bridge_attach(priv->external_encoder, bridge, NULL, 0);
- 	if (ret) {
- 		dev_err(ddev->dev, "drm_bridge_attach() failed %d\n", ret);
- 		return ret;
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index c586325de2a5..6dfede03396e 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -252,7 +252,7 @@ static int vc4_dpi_init_bridge(struct vc4_dpi *dpi)
- 		bridge = drm_panel_bridge_add_typed(panel,
- 						    DRM_MODE_CONNECTOR_DPI);
- 
--	return drm_bridge_attach(dpi->encoder, bridge, NULL);
-+	return drm_bridge_attach(dpi->encoder, bridge, NULL, 0);
- }
- 
- static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
-diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index fd8a2eb60505..d99b1d526651 100644
---- a/drivers/gpu/drm/vc4/vc4_dsi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -1619,7 +1619,7 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
- 			 DRM_MODE_ENCODER_DSI, NULL);
- 	drm_encoder_helper_add(dsi->encoder, &vc4_dsi_encoder_helper_funcs);
- 
--	ret = drm_bridge_attach(dsi->encoder, dsi->bridge, NULL);
-+	ret = drm_bridge_attach(dsi->encoder, dsi->bridge, NULL, 0);
- 	if (ret) {
- 		dev_err(dev, "bridge attach failed: %d\n", ret);
- 		return ret;
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 018e195c4808..ea2aa5ebae34 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -39,6 +39,17 @@ struct drm_panel;
- struct edid;
- struct i2c_adapter;
- 
-+/**
-+ * enum drm_bridge_attach_flags - Flags for &drm_bridge_funcs.attach
+  * &drm_bridge, like &drm_panel, aren't &drm_mode_object entities like planes,
+  * CRTCs, encoders or connectors and hence are not visible to userspace. They
+  * just provide additional hooks to get the desired output at the end of the
+diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+new file mode 100644
+index 000000000000..c6994fe673f3
+--- /dev/null
++++ b/drivers/gpu/drm/drm_bridge_connector.c
+@@ -0,0 +1,379 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 + */
-+enum drm_bridge_attach_flags {
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_device.h>
++#include <drm/drm_edid.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_probe_helper.h>
++
++/**
++ * DOC: overview
++ *
++ * The DRM bridge connector helper object provides a DRM connector
++ * implementation that wraps a chain of &struct drm_bridge. The connector
++ * operations are fully implemented based on the operations of the bridges in
++ * the chain, and don't require any intervention from the display controller
++ * driver at runtime.
++ *
++ * To use the helper, display controller drivers create a bridge connector with
++ * a call to drm_bridge_connector_init(). This associates the newly created
++ * connector with the chain of bridges passed to the function and registers it
++ * with the DRM device. At that point the connector becomes fully usable, no
++ * further operation is needed.
++ *
++ * The DRM bridge connector operations are implemented based on the operations
++ * provided by the bridges in the chain. Each connector operation is delegated
++ * to the bridge closest to the connector (at the end of the chain) that
++ * provides the relevant functionality.
++ *
++ * To make use of this helper, all bridges in the chain shall report bridge
++ * operation flags (&drm_bridge->ops) and bridge output type
++ * (&drm_bridge->type), as well as the DRM_BRIDGE_ATTACH_NO_CONNECTOR attach
++ * flag (none of the bridges shall create a DRM connector directly).
++ */
++
++/**
++ * struct drm_bridge_connector - A connector backed by a chain of bridges
++ */
++struct drm_bridge_connector {
 +	/**
-+	 * @DRM_BRIDGE_ATTACH_NO_CONNECTOR: When this flag is set the bridge
-+	 * shall not create a drm_connector.
++	 * @base: The base DRM connector
 +	 */
-+	DRM_BRIDGE_ATTACH_NO_CONNECTOR = BIT(0),
++	struct drm_connector base;
++	/**
++	 * @encoder:
++	 *
++	 * The encoder at the start of the bridges chain.
++	 */
++	struct drm_encoder *encoder;
++	/**
++	 * @bridge_edid:
++	 *
++	 * The last bridge in the chain (closest to the connector) that provides
++	 * EDID read support, if any (see &DRM_BRIDGE_OP_EDID).
++	 */
++	struct drm_bridge *bridge_edid;
++	/**
++	 * @bridge_hpd:
++	 *
++	 * The last bridge in the chain (closest to the connector) that provides
++	 * hot-plug detection notification, if any (see &DRM_BRIDGE_OP_HPD).
++	 */
++	struct drm_bridge *bridge_hpd;
++	/**
++	 * @bridge_detect:
++	 *
++	 * The last bridge in the chain (closest to the connector) that provides
++	 * connector detection, if any (see &DRM_BRIDGE_OP_DETECT).
++	 */
++	struct drm_bridge *bridge_detect;
++	/**
++	 * @bridge_modes:
++	 *
++	 * The last bridge in the chain (closest to the connector) that provides
++	 * connector modes detection, if any (see &DRM_BRIDGE_OP_MODES).
++	 */
++	struct drm_bridge *bridge_modes;
 +};
 +
- /**
-  * struct drm_bridge_funcs - drm_bridge control functions
-  */
-@@ -47,7 +58,8 @@ struct drm_bridge_funcs {
- 	 * @attach:
- 	 *
- 	 * This callback is invoked whenever our bridge is being attached to a
--	 * &drm_encoder.
-+	 * &drm_encoder. The flags argument tunes the behaviour of the attach
-+	 * operation (see DRM_BRIDGE_ATTACH_*).
- 	 *
- 	 * The @attach callback is optional.
- 	 *
-@@ -55,7 +67,8 @@ struct drm_bridge_funcs {
- 	 *
- 	 * Zero on success, error code on failure.
- 	 */
--	int (*attach)(struct drm_bridge *bridge);
-+	int (*attach)(struct drm_bridge *bridge,
-+		      enum drm_bridge_attach_flags flags);
- 
- 	/**
- 	 * @detach:
-@@ -757,7 +770,8 @@ void drm_bridge_add(struct drm_bridge *bridge);
- void drm_bridge_remove(struct drm_bridge *bridge);
- struct drm_bridge *of_drm_find_bridge(struct device_node *np);
- int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
--		      struct drm_bridge *previous);
-+		      struct drm_bridge *previous,
-+		      enum drm_bridge_attach_flags flags);
- 
- /**
-  * drm_bridge_get_next_bridge() - Get the next bridge in the chain
++#define to_drm_bridge_connector(x) \
++	container_of(x, struct drm_bridge_connector, base)
++
++/* -----------------------------------------------------------------------------
++ * Bridge Connector Hot-Plug Handling
++ */
++
++static void drm_bridge_connector_hpd_notify(struct drm_connector *connector,
++					    enum drm_connector_status status)
++{
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++	struct drm_bridge *bridge;
++
++	/* Notify all bridges in the pipeline of hotplug events. */
++	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge) {
++		if (bridge->funcs->hpd_notify)
++			bridge->funcs->hpd_notify(bridge, status);
++	}
++}
++
++static void drm_bridge_connector_hpd_cb(void *cb_data,
++					enum drm_connector_status status)
++{
++	struct drm_bridge_connector *drm_bridge_connector = cb_data;
++	struct drm_connector *connector = &drm_bridge_connector->base;
++	struct drm_device *dev = connector->dev;
++	enum drm_connector_status old_status;
++
++	mutex_lock(&dev->mode_config.mutex);
++	old_status = connector->status;
++	connector->status = status;
++	mutex_unlock(&dev->mode_config.mutex);
++
++	if (old_status == status)
++		return;
++
++	drm_bridge_connector_hpd_notify(connector, status);
++
++	drm_kms_helper_hotplug_event(dev);
++}
++
++/**
++ * drm_bridge_connector_enable_hpd - Enable hot-plug detection for the connector
++ * @connector: The DRM bridge connector
++ *
++ * This function enables hot-plug detection for the given bridge connector.
++ * This is typically used by display drivers in their resume handler.
++ */
++void drm_bridge_connector_enable_hpd(struct drm_connector *connector)
++{
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++	struct drm_bridge *hpd = bridge_connector->bridge_hpd;
++
++	if (hpd)
++		drm_bridge_hpd_enable(hpd, drm_bridge_connector_hpd_cb,
++				      bridge_connector);
++}
++EXPORT_SYMBOL_GPL(drm_bridge_connector_enable_hpd);
++
++/**
++ * drm_bridge_connector_disable_hpd - Disable hot-plug detection for the
++ * connector
++ * @connector: The DRM bridge connector
++ *
++ * This function disables hot-plug detection for the given bridge connector.
++ * This is typically used by display drivers in their suspend handler.
++ */
++void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
++{
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++	struct drm_bridge *hpd = bridge_connector->bridge_hpd;
++
++	if (hpd)
++		drm_bridge_hpd_disable(hpd);
++}
++EXPORT_SYMBOL_GPL(drm_bridge_connector_disable_hpd);
++
++/* -----------------------------------------------------------------------------
++ * Bridge Connector Functions
++ */
++
++static enum drm_connector_status
++drm_bridge_connector_detect(struct drm_connector *connector, bool force)
++{
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++	struct drm_bridge *detect = bridge_connector->bridge_detect;
++	enum drm_connector_status status;
++
++	if (detect) {
++		status = detect->funcs->detect(detect);
++
++		drm_bridge_connector_hpd_notify(connector, status);
++	} else {
++		switch (connector->connector_type) {
++		case DRM_MODE_CONNECTOR_DPI:
++		case DRM_MODE_CONNECTOR_LVDS:
++		case DRM_MODE_CONNECTOR_DSI:
++			status = connector_status_connected;
++			break;
++		default:
++			status = connector_status_unknown;
++			break;
++		}
++	}
++
++	return status;
++}
++
++static void drm_bridge_connector_destroy(struct drm_connector *connector)
++{
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++
++	if (bridge_connector->bridge_hpd) {
++		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
++
++		drm_bridge_hpd_disable(hpd);
++	}
++
++	drm_connector_unregister(connector);
++	drm_connector_cleanup(connector);
++
++	kfree(bridge_connector);
++}
++
++static const struct drm_connector_funcs drm_bridge_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.detect = drm_bridge_connector_detect,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_bridge_connector_destroy,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++/* -----------------------------------------------------------------------------
++ * Bridge Connector Helper Functions
++ */
++
++static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
++					       struct drm_bridge *bridge)
++{
++	enum drm_connector_status status;
++	struct edid *edid;
++	int n;
++
++	status = drm_bridge_connector_detect(connector, false);
++	if (status != connector_status_connected)
++		goto no_edid;
++
++	edid = bridge->funcs->get_edid(bridge, connector);
++	if (!edid || !drm_edid_is_valid(edid)) {
++		kfree(edid);
++		goto no_edid;
++	}
++
++	drm_connector_update_edid_property(connector, edid);
++	n = drm_add_edid_modes(connector, edid);
++
++	kfree(edid);
++	return n;
++
++no_edid:
++	drm_connector_update_edid_property(connector, NULL);
++	return 0;
++}
++
++static int drm_bridge_connector_get_modes(struct drm_connector *connector)
++{
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++	struct drm_bridge *bridge;
++
++	/*
++	 * If display exposes EDID, then we parse that in the normal way to
++	 * build table of supported modes.
++	 */
++	bridge = bridge_connector->bridge_edid;
++	if (bridge)
++		return drm_bridge_connector_get_modes_edid(connector, bridge);
++
++	/*
++	 * Otherwise if the display pipeline reports modes (e.g. with a fixed
++	 * resolution panel or an analog TV output), query it.
++	 */
++	bridge = bridge_connector->bridge_modes;
++	if (bridge)
++		return bridge->funcs->get_modes(bridge, connector);
++
++	/*
++	 * We can't retrieve modes, which can happen for instance for a DVI or
++	 * VGA output with the DDC bus unconnected. The KMS core will add the
++	 * default modes.
++	 */
++	return 0;
++}
++
++static const struct drm_connector_helper_funcs drm_bridge_connector_helper_funcs = {
++	.get_modes = drm_bridge_connector_get_modes,
++	/* No need for .mode_valid(), the bridges are checked by the core. */
++};
++
++/* -----------------------------------------------------------------------------
++ * Bridge Connector Initialisation
++ */
++
++/**
++ * drm_bridge_connector_init - Initialise a connector for a chain of bridges
++ * @drm: the DRM device
++ * @encoder: the encoder where the bridge chain starts
++ *
++ * Allocate, initialise and register a &drm_bridge_connector with the @drm
++ * device. The connector is associated with a chain of bridges that starts at
++ * the @encoder. All bridges in the chain shall report bridge operation flags
++ * (&drm_bridge->ops) and bridge output type (&drm_bridge->type), and none of
++ * them may create a DRM connector directly.
++ *
++ * Returns a pointer to the new connector on success, or a negative error
++ * pointer otherwise.
++ */
++struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
++						struct drm_encoder *encoder)
++{
++	struct drm_bridge_connector *bridge_connector;
++	struct drm_connector *connector;
++	struct i2c_adapter *ddc = NULL;
++	struct drm_bridge *bridge;
++	int connector_type;
++
++	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
++	if (!bridge_connector)
++		return ERR_PTR(-ENOMEM);
++
++	bridge_connector->encoder = encoder;
++
++	/*
++	 * TODO: Handle doublescan_allowed, stereo_allowed and
++	 * ycbcr_420_allowed.
++	 */
++	connector = &bridge_connector->base;
++	connector->interlace_allowed = true;
++
++	/*
++	 * Initialise connector status handling. First locate the furthest
++	 * bridges in the pipeline that support HPD and output detection. Then
++	 * initialise the connector polling mode, using HPD if available and
++	 * falling back to polling if supported. If neither HPD nor output
++	 * detection are available, we don't support hotplug detection at all.
++	 */
++	connector_type = DRM_MODE_CONNECTOR_Unknown;
++	drm_for_each_bridge_in_chain(encoder, bridge) {
++		if (!bridge->interlace_allowed)
++			connector->interlace_allowed = false;
++
++		if (bridge->ops & DRM_BRIDGE_OP_EDID)
++			bridge_connector->bridge_edid = bridge;
++		if (bridge->ops & DRM_BRIDGE_OP_HPD)
++			bridge_connector->bridge_hpd = bridge;
++		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
++			bridge_connector->bridge_detect = bridge;
++		if (bridge->ops & DRM_BRIDGE_OP_MODES)
++			bridge_connector->bridge_modes = bridge;
++
++		if (!drm_bridge_get_next_bridge(bridge))
++			connector_type = bridge->type;
++
++		if (bridge->ddc)
++			ddc = bridge->ddc;
++	}
++
++	if (connector_type == DRM_MODE_CONNECTOR_Unknown) {
++		kfree(bridge_connector);
++		return ERR_PTR(-EINVAL);
++	}
++
++	drm_connector_init_with_ddc(drm, connector, &drm_bridge_connector_funcs,
++				    connector_type, ddc);
++	drm_connector_helper_add(connector, &drm_bridge_connector_helper_funcs);
++
++	if (bridge_connector->bridge_hpd)
++		connector->polled = DRM_CONNECTOR_POLL_HPD;
++	else if (bridge_connector->bridge_detect)
++		connector->polled = DRM_CONNECTOR_POLL_CONNECT
++				  | DRM_CONNECTOR_POLL_DISCONNECT;
++
++	return connector;
++}
++EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
+diff --git a/include/drm/drm_bridge_connector.h b/include/drm/drm_bridge_connector.h
+new file mode 100644
+index 000000000000..33f6c3bbdb4a
+--- /dev/null
++++ b/include/drm/drm_bridge_connector.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++ */
++
++#ifndef __DRM_BRIDGE_CONNECTOR_H__
++#define __DRM_BRIDGE_CONNECTOR_H__
++
++struct drm_connector;
++struct drm_device;
++struct drm_encoder;
++
++void drm_bridge_connector_enable_hpd(struct drm_connector *connector);
++void drm_bridge_connector_disable_hpd(struct drm_connector *connector);
++struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
++						struct drm_encoder *encoder);
++
++#endif /* __DRM_BRIDGE_CONNECTOR_H__ */
 -- 
 Regards,
 
