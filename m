@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189EA16933D
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 03:22:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D7016933E
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 03:22:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73BB96E9A6;
-	Sun, 23 Feb 2020 02:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A96C16E9A8;
+	Sun, 23 Feb 2020 02:21:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF486E9A2;
- Sun, 23 Feb 2020 02:21:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15EA26E9A4;
+ Sun, 23 Feb 2020 02:21:53 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DAFA0214DB;
- Sun, 23 Feb 2020 02:21:50 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3650D227BF;
+ Sun, 23 Feb 2020 02:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582424511;
- bh=2REOLpkCJd4hYNiNITF5nO4LqXdwtJyusVRdt6oSl5Q=;
+ s=default; t=1582424513;
+ bh=nu12upa2YBED248NaTn+dMF9VDPyyAVLRlkgIW0kpbc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C53XMo2VkjduZurMvNdBbfDvQwoeLR1HUTQrwyn4JPBeNcEYTkCvS/hZbn5oZGfSR
- 6nOdn5bkUovA315d0G4hQ39H7+01XHQn93zftvfRhMJ0LE0XbBmr8ZuNPgEvf8bkEF
- 2GZFVSnyQz6yvlg2dy5tx/7NX/f7Gb77pJ4cMDtg=
+ b=kFusnh3CzMkuJE20xiQaISpWKQAVIlxUn7/8LiscWMEwLj7i8gxgjLIn9LvwlyJEf
+ OgwGAep4d4kehdnTv63b4xPqQtKSW5zpAyKyGshYsDYAQa8U+8bW0OE9iZWez8Coj9
+ xfFozAzjDADh/MosncP3NYR1Na1/Od8YqrUL0PEg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 26/58] drm/amd/display: Add initialitions for PLL2
- clock source
-Date: Sat, 22 Feb 2020 21:20:47 -0500
-Message-Id: <20200223022119.707-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 27/58] amdgpu: Prevent build errors regarding
+ soft/hard-float FP ABI tags
+Date: Sat, 22 Feb 2020 21:20:48 -0500
+Message-Id: <20200223022119.707-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200223022119.707-1-sashal@kernel.org>
 References: <20200223022119.707-1-sashal@kernel.org>
@@ -50,67 +50,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Isabel Zhang <isabel.zhang@amd.com>,
- Eric Yang <eric.yang2@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Kolesa <daniel@octaforge.org>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Isabel Zhang <isabel.zhang@amd.com>
+From: Daniel Kolesa <daniel@octaforge.org>
 
-[ Upstream commit c134c3cabae46a56ab2e1f5e5fa49405e1758838 ]
+[ Upstream commit 416611d9b6eebaeae58ed26cc7d23131c69126b1 ]
 
-[Why]
-Starting from 14nm, the PLL is built into the PHY and the PLL is mapped
-to PHY on 1 to 1 basis. In the code, the DP port is mapped to a PLL that was not
-initialized. This causes DP to HDMI dongle to not light up the display.
+On PowerPC, the compiler will tag object files with whether they
+use hard or soft float FP ABI and whether they use 64 or 128-bit
+long double ABI. On systems with 64-bit long double ABI, a tag
+will get emitted whenever a double is used, as on those systems
+a long double is the same as a double. This will prevent linkage
+as other files are being compiled with hard-float.
 
-[How]
-Initializations added for PLL2 when creating resources.
+On ppc64, this code will never actually get used for the time
+being, as the only currently existing hardware using it are the
+Renoir APUs. Therefore, until this is testable and can be fixed
+properly, at least make sure the build will not fail.
 
-Signed-off-by: Isabel Zhang <isabel.zhang@amd.com>
-Reviewed-by: Eric Yang <eric.yang2@amd.com>
-Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Signed-off-by: Daniel Kolesa <daniel@octaforge.org>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 6 ++++++
+ drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index b29b2c99a564e..554062859866d 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -57,6 +57,7 @@
- #include "dcn20/dcn20_dccg.h"
- #include "dcn21_hubbub.h"
- #include "dcn10/dcn10_resource.h"
-+#include "dce110/dce110_resource.h"
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile b/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
+index b864869cc7e3e..6fa7422c51da5 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
+@@ -91,6 +91,12 @@ ifdef CONFIG_DRM_AMD_DC_DCN2_1
+ ###############################################################################
+ CLK_MGR_DCN21 = rn_clk_mgr.o rn_clk_mgr_vbios_smu.o
  
- #include "dcn20/dcn20_dwb.h"
- #include "dcn20/dcn20_mmhubbub.h"
-@@ -866,6 +867,7 @@ static const struct dc_debug_options debug_defaults_diags = {
- enum dcn20_clk_src_array_id {
- 	DCN20_CLK_SRC_PLL0,
- 	DCN20_CLK_SRC_PLL1,
-+	DCN20_CLK_SRC_PLL2,
- 	DCN20_CLK_SRC_TOTAL_DCN21
- };
++# prevent build errors regarding soft-float vs hard-float FP ABI tags
++# this code is currently unused on ppc64, as it applies to Renoir APUs only
++ifdef CONFIG_PPC64
++CFLAGS_$(AMDDALPATH)/dc/clk_mgr/dcn21/rn_clk_mgr.o := $(call cc-option,-mno-gnu-attribute)
++endif
++
+ AMD_DAL_CLK_MGR_DCN21 = $(addprefix $(AMDDALPATH)/dc/clk_mgr/dcn21/,$(CLK_MGR_DCN21))
  
-@@ -1736,6 +1738,10 @@ static bool construct(
- 			dcn21_clock_source_create(ctx, ctx->dc_bios,
- 				CLOCK_SOURCE_COMBO_PHY_PLL1,
- 				&clk_src_regs[1], false);
-+	pool->base.clock_sources[DCN20_CLK_SRC_PLL2] =
-+			dcn21_clock_source_create(ctx, ctx->dc_bios,
-+				CLOCK_SOURCE_COMBO_PHY_PLL2,
-+				&clk_src_regs[2], false);
- 
- 	pool->base.clk_src_count = DCN20_CLK_SRC_TOTAL_DCN21;
- 
+ AMD_DISPLAY_FILES += $(AMD_DAL_CLK_MGR_DCN21)
 -- 
 2.20.1
 
