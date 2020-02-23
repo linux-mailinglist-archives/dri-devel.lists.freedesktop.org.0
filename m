@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82ED4169381
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 03:23:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AFD169395
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 03:24:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9960C6E9A7;
-	Sun, 23 Feb 2020 02:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ADA16E9A9;
+	Sun, 23 Feb 2020 02:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC14E6E9A7;
- Sun, 23 Feb 2020 02:23:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1C826E9A9;
+ Sun, 23 Feb 2020 02:24:14 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B570422464;
- Sun, 23 Feb 2020 02:23:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B9CCE21741;
+ Sun, 23 Feb 2020 02:24:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582424622;
- bh=cYSfgZd9T+dzm+OcBHz1MeNEfhjfIMoU3/02Frk8i3Y=;
+ s=default; t=1582424654;
+ bh=sQGY4kSrX0cPAf2T7dj+zWFO/aCKuHm4icQiAjsujVk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fRCd9AINmbPIz3gfcLNUTra3NacPtOWSQkKXbB2E5oU6kD4teDc1c3zvQSItt5F/Q
- vtVfmbSY0ccOnNAAtQzzHcXvjXNFT7HWVJVNeAQxvkJBwRoC1YxYYhcsfVIXFjltZ5
- XHZAR023va9h0CDVM3mtWUpnyDDxM+is10i6psXA=
+ b=SKPxcVHJBcWRRCAslqT5pNC18FlMVf5GZ2VIOc+6cNl4IvRdfW5PHg4ZX4CCPrnGj
+ MxxReEHH8b6zpu/dwEMiipu3oQ5jtuFgwzMy193IXSLQTktD5lIn3E/kJmw6TgtEQR
+ IDFFVkIuIk1gE2zw71nD0xx6xkkjY65nO4ew38vw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 02/25] drm/msm: Set dma maximum segment size for
+Subject: [PATCH AUTOSEL 4.14 02/21] drm/msm: Set dma maximum segment size for
  mdss
-Date: Sat, 22 Feb 2020 21:23:16 -0500
-Message-Id: <20200223022339.1885-2-sashal@kernel.org>
+Date: Sat, 22 Feb 2020 21:23:52 -0500
+Message-Id: <20200223022411.2159-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200223022339.1885-1-sashal@kernel.org>
-References: <20200223022339.1885-1-sashal@kernel.org>
+In-Reply-To: <20200223022411.2159-1-sashal@kernel.org>
+References: <20200223022411.2159-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -129,12 +129,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index dbfd2c006f740..6f81de85fb860 100644
+index 77c45a2ebd833..d9c0687435a05 100644
 --- a/drivers/gpu/drm/msm/msm_drv.c
 +++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -492,6 +492,14 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+@@ -420,6 +420,14 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
  	if (ret)
- 		goto err_msm_uninit;
+ 		goto fail;
  
 +	if (!dev->dma_parms) {
 +		dev->dma_parms = devm_kzalloc(dev, sizeof(*dev->dma_parms),
