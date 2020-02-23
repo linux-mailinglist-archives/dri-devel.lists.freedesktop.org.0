@@ -1,98 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAD8169983
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 19:51:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F2B169A22
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 21:59:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBF66E0EF;
-	Sun, 23 Feb 2020 18:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2ACA6E122;
+	Sun, 23 Feb 2020 20:59:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C97356E0EF
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 18:50:59 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01NIorBv036145;
- Sun, 23 Feb 2020 12:50:53 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1582483853;
- bh=UGTne4IFprG0vSiEG2YJT534/J+Te2PsPW5pAxQbgGw=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=O/TyNQ9B76XAXnagjvNCfU3xMpiEcGrQaKKRBR1YYtosR7uZ5w2R9IzD+90+Caz45
- yXihi/Nz9ljpFEWEslm70f1oXBUnxK0RKaWfDs1ws8GGzPwxjpNKMg10vAuyfU2NAk
- KOa7++mDOvMuS7Z3kL48Ag63aNjJnwGCgnYIkO50=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01NIormG035944;
- Sun, 23 Feb 2020 12:50:53 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Sun, 23
- Feb 2020 12:50:52 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Sun, 23 Feb 2020 12:50:52 -0600
-Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01NIoose016464;
- Sun, 23 Feb 2020 12:50:51 -0600
-Subject: Re: [PATCH 41/51] drm/tidss: Drop explicit drm_mode_config_cleanup
- call
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
- <20200221210319.2245170-42-daniel.vetter@ffwll.ch>
-From: Jyri Sarha <jsarha@ti.com>
-Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <3697c192-3274-259a-d0f6-fa3f60273f43@ti.com>
-Date: Sun, 23 Feb 2020 20:50:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E832C6E122
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 20:59:43 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id h9so6892024otj.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 12:59:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yLerEjQyKf5kmZPFmeSynvzmvw9OGsBrsA5dtIaOS1o=;
+ b=jYw/UvDkD/iCvN0cYrck0oS3/SKfZUngYndn54iGw0m9TB1QBNp6J3IN3tFmZlzHKN
+ 92Felhy7bgNvQEjQ/JN9ge9/EElH/lZqFcmn9KxhOuYb4OTvy2aPti85lwIpVLAPcwSL
+ JXNLJi8klEY7FP3Uuv86zKDjQWRPTNjv7iHaw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yLerEjQyKf5kmZPFmeSynvzmvw9OGsBrsA5dtIaOS1o=;
+ b=XEzGuf5Yp0EcaVdE3f9gxJWRIwVQa39amo1vWoeFZZY784HJ4m7d2nWsbD2tbAXn1Z
+ FNAnm6Z5/c0/0dbH1Wxft2aiguM5oX7oGwUmvijHiUTHnVxOpLpo07D1/EpRXtwfzZ9g
+ KLhUSYMbis2UXTi/3IRCz5opRN4HgxUMWmbIgwrtq03e/kcm2yvAZT5WYaC9njAJU5r6
+ cWMWspTFQUpTu64DGtzbI9jnbNnUkfp0wzQdxnETaMzYJbwUKYspJ5Po6H3g57rnnMbj
+ kRkHkUbrjo0ncxziHF6Sdg59twgtVjdkoqqQYw8Ob+OcxPk3+Nr5MlvSW89CjDN5J0H9
+ W8Bw==
+X-Gm-Message-State: APjAAAXujF9Q5WuCkC7OJuN8ag+o95c/MnWyBEqJdB3r8ZDekk7BkqzO
+ ApC4M21kFjJjkzsQni8VjvqCDxZIsqQBX5f/G+OsOw==
+X-Google-Smtp-Source: APXvYqyGJWW/yU3lj3vs+yyHCrwnN4qbgs2YaW9Rs5GjVnHZZ2Jf0UcWdn7pvq+7appAtc7PZ8TvlOMKk/UdtW5No1M=
+X-Received: by 2002:a9d:7696:: with SMTP id j22mr39757561otl.188.1582491583142; 
+ Sun, 23 Feb 2020 12:59:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200221210319.2245170-42-daniel.vetter@ffwll.ch>
-Content-Language: en-GB
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200216172117.49832-1-noralf@tronnes.org>
+ <20200216172117.49832-9-noralf@tronnes.org>
+ <20200217093836.GH2363188@phenom.ffwll.local>
+ <393a8dcf-e01b-715c-551b-5108e42ebefc@tronnes.org>
+In-Reply-To: <393a8dcf-e01b-715c-551b-5108e42ebefc@tronnes.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Sun, 23 Feb 2020 21:59:32 +0100
+Message-ID: <CAKMK7uH0e4gqYja3igPm8oScJxkJkGDZfoA0Pbs9qgwnsW+moA@mail.gmail.com>
+Subject: Re: [RFC 8/9] drm/client: Add drm_client_init_from_id() and
+ drm_client_modeset_set()
+To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,131 +62,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: balbi@kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+ USB list <linux-usb@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/02/2020 23:03, Daniel Vetter wrote:
-> It's right above the drm_dev_put().
-> 
-> This is made possible by a preceeding patch which added a drmm_
-> cleanup action to drm_mode_config_init(), hence all we need to do to
-> ensure that drm_mode_config_cleanup() is run on final drm_device
-> cleanup is check the new error code for _init().
-> 
-> Aside: Another driver with a bit much devm_kzalloc, which should
-> probably use drmm_kzalloc instead ...
-> 
-> I'm pretty sure this one blows up already under KASAN because it's
-> using devm_drm_dev_init, and later on devm_kzalloc. Hence the memory
-> will get freed before the final drm_dev_put (all from the devres
-> code), but the cleanup in that final drm_dev_put will access the just
-> freed memory.
-> 
-> Unfortunately fixing this properly needs slightly more work, namely
-> drmm_ versions for all the drm objects (planes, crtc, ...), so that
-> the cleanup actually happens before even drmm_kzalloc would release
-> the underlying memory. Not quite there yet.
-> 
-> v2: Explain why this cleanup is possible (Laurent).
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jyri Sarha <jsarha@ti.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Acked-by: Jyri Sarha <jsarha@ti.com>
-
-> ---
->  drivers/gpu/drm/tidss/tidss_drv.c |  4 ----
->  drivers/gpu/drm/tidss/tidss_kms.c | 19 +++++--------------
->  drivers/gpu/drm/tidss/tidss_kms.h |  1 -
->  3 files changed, 5 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-> index 460d5e9d0cf4..ad449d104306 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -103,11 +103,7 @@ static const struct dev_pm_ops tidss_pm_ops = {
->  
->  static void tidss_release(struct drm_device *ddev)
->  {
-> -	struct tidss_device *tidss = ddev->dev_private;
-> -
->  	drm_kms_helper_poll_fini(ddev);
-> -
-> -	tidss_modeset_cleanup(tidss);
->  }
->  
->  DEFINE_DRM_GEM_CMA_FOPS(tidss_fops);
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index 5311e0f1c551..87e07e0e4eae 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -208,7 +208,9 @@ int tidss_modeset_init(struct tidss_device *tidss)
->  
->  	dev_dbg(tidss->dev, "%s\n", __func__);
->  
-> -	drm_mode_config_init(ddev);
-> +	ret = drm_mode_config_init(ddev);
-> +	if (ret)
-> +		return ret;
->  
->  	ddev->mode_config.min_width = 8;
->  	ddev->mode_config.min_height = 8;
-> @@ -220,11 +222,11 @@ int tidss_modeset_init(struct tidss_device *tidss)
->  
->  	ret = tidss_dispc_modeset_init(tidss);
->  	if (ret)
-> -		goto err_mode_config_cleanup;
-> +		return ret;
->  
->  	ret = drm_vblank_init(ddev, tidss->num_crtcs);
->  	if (ret)
-> -		goto err_mode_config_cleanup;
-> +		return ret;
->  
->  	/* Start with vertical blanking interrupt reporting disabled. */
->  	for (i = 0; i < tidss->num_crtcs; ++i)
-> @@ -235,15 +237,4 @@ int tidss_modeset_init(struct tidss_device *tidss)
->  	dev_dbg(tidss->dev, "%s done\n", __func__);
->  
->  	return 0;
-> -
-> -err_mode_config_cleanup:
-> -	drm_mode_config_cleanup(ddev);
-> -	return ret;
-> -}
-> -
-> -void tidss_modeset_cleanup(struct tidss_device *tidss)
-> -{
-> -	struct drm_device *ddev = &tidss->ddev;
-> -
-> -	drm_mode_config_cleanup(ddev);
->  }
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.h b/drivers/gpu/drm/tidss/tidss_kms.h
-> index dda5625d0128..99aaff099f22 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.h
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.h
-> @@ -10,6 +10,5 @@
->  struct tidss_device;
->  
->  int tidss_modeset_init(struct tidss_device *tidss);
-> -void tidss_modeset_cleanup(struct tidss_device *tidss);
->  
->  #endif
-> 
-
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU3VuLCBGZWIgMjMsIDIwMjAgYXQgNjo0MyBQTSBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0
+cm9ubmVzLm9yZz4gd3JvdGU6Cj4gRGVuIDE3LjAyLjIwMjAgMTAuMzgsIHNrcmV2IERhbmllbCBW
+ZXR0ZXI6Cj4gPiBPbiBTdW4sIEZlYiAxNiwgMjAyMCBhdCAwNjoyMToxNlBNICswMTAwLCBOb3Jh
+bGYgVHLDuG5uZXMgd3JvdGU6Cj4gPj4gZHJtX2NsaWVudF9pbml0X2Zyb21faWQoKSBwcm92aWRl
+cyBhIHdheSBmb3IgY2xpZW50cyB0byBhZGQgYSBjbGllbnQgYmFzZWQKPiA+PiBvbiB0aGUgbWlu
+b3IuIGRybV9jbGllbnRfbW9kZXNldF9zZXQoKSBwcm92aWRlcyBhIHdheSB0byBzZXQgdGhlIG1v
+ZGVzZXQKPiA+PiBmb3IgY2xpZW50cyB0aGF0IGhhbmRsZXMgY29ubmVjdG9ycyBhbmQgZGlzcGxh
+eSBtb2RlIG9uIHRoZWlyIG93bi4KPiA+Pgo+ID4+IFNpZ25lZC1vZmYtYnk6IE5vcmFsZiBUcsO4
+bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgo+ID4+IC0tLQo+ID4+ICBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX2NsaWVudC5jICAgICAgICAgfCAzNyArKysrKysrKysrKysrKysrKysrKwo+ID4+ICBkcml2
+ZXJzL2dwdS9kcm0vZHJtX2NsaWVudF9tb2Rlc2V0LmMgfCA1MiArKysrKysrKysrKysrKysrKysr
+KysrKysrKysrCj4gPj4gIGluY2x1ZGUvZHJtL2RybV9jbGllbnQuaCAgICAgICAgICAgICB8ICA0
+ICsrKwo+ID4+ICAzIGZpbGVzIGNoYW5nZWQsIDkzIGluc2VydGlvbnMoKykKPiA+Pgo+ID4+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9jbGllbnQuYwo+ID4+IGluZGV4IGQ5YTJlMzY5NTUyNS4uZGJkNzNmZThkOTg3IDEwMDY0
+NAo+ID4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50LmMKPiA+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jCj4gPj4gQEAgLTExMiw2ICsxMTIsNDMgQEAgaW50IGRy
+bV9jbGllbnRfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZHJtX2NsaWVudF9k
+ZXYgKmNsaWVudCwKPiA+PiAgfQo+ID4+ICBFWFBPUlRfU1lNQk9MKGRybV9jbGllbnRfaW5pdCk7
+Cj4gPj4KPiA+PiArLyoqCj4gPj4gKyAqIGRybV9jbGllbnRfaW5pdF9mcm9tX2lkIC0gSW5pdGlh
+bGlzZSBhIERSTSBjbGllbnQKPiA+PiArICogQG1pbm9yX2lkOiBEUk0gbWlub3IgaWQKPiA+PiAr
+ICogQGNsaWVudDogRFJNIGNsaWVudAo+ID4+ICsgKiBAbmFtZTogQ2xpZW50IG5hbWUKPiA+PiAr
+ICogQGZ1bmNzOiBEUk0gY2xpZW50IGZ1bmN0aW9ucyAob3B0aW9uYWwpCj4gPj4gKyAqCj4gPj4g
+KyAqIFRoaXMgZnVuY3Rpb24gbG9va3MgdXAgdGhlIGRybV9kZXZpY2UgdXNpbmcgdGhlIG1pbm9y
+IGlkIGFuZCBpbml0aWFsaXplcyB0aGUgY2xpZW50Lgo+ID4+ICsgKiBJdCBhbHNvIHJlZ2lzdGVy
+ZXMgdGhlIGNsaWVudCB0byBhdm9pZCBhIHBvc3NpYmxlIHJhY2Ugd2l0aCBEUk0gZGV2aWNlIHVu
+cmVnaXN0ZXIuCj4gPgo+ID4gSSB0aGluayBhbm90aGVyIHNlbnRlbmNlIGhlcmUgd291bGQgYmUg
+Z29vZCwgZXhwbGFpbmluZyB0aGF0IHRoaXMgaXMgZm9yCj4gPiBkcml2ZXJzIG91dHNpZGUgb2Yg
+ZHJtIHRvIGV4cG9zZSBhIHNwZWNpZmljIGRybSBkcml2ZXIgaW4gc29tZSBmYXNoaW9uLAo+ID4g
+YW5kIGp1c3Qgb3V0cmlnaHQgbWVudGlvbiB5b3VyIHVzZS1jYXNlIGFzIGFuIGV4YW1wbGUuCj4g
+Pgo+ID4gSSdtIGFsc28gbm90IHN1cmUgd2hldGhlciBsb29rdXAtYnktbWlub3IgaXMgdGhlIGdy
+ZWF0ZXN0IHRoaW5nIGZvcgo+ID4ga2VybmVsLWludGVybmFsIGxvb2t1cHMgbGlrZSB0aGlzLCBt
+YXliZSBHcmVnIGhhcyBzb21lIGlkZWE/Cj4gPgo+Cj4gV2hhdCBhbHRlcm5hdGl2ZXMgZG8geW91
+IHNlZT8gUGFyZW50IGRldmljZSBuYW1lPwo+Cj4gSSBkaWQgYSBzY2FuIHRvIHNlZSB3aGF0IG90
+aGVycyBhcmUgZG9pbmcsIGFuZCBtb3N0IGhhdmUgYSBjb25zdW1lciBuYW1lCj4gbG9va3VwIG9u
+IHRoZSBzdHJ1Y3QgZGV2aWNlIChEZXZpY2UgVHJlZSBvciBsb29rdXAgdGFibGVzKToKCkkgdGhp
+bmsgdGhvc2UgYXJlIGFsbCBmb3Igb3RoZXIgcHVycG9zZXMuIFdoYXQgd2Ugd2FudCBoZXJlIGlz
+IHRoYXQKc29tZSBpbnRlcmZhY2UgdGhpbmdzIGJpbmRzIHRvIHNvbWV0aGluZyBlbHNlLiBJIHdh
+cyB0aGlua2luZyBzeXNmcwpwYXRocyB0byB0aGUgdW5kZXJseWluZyBzdHJ1Y3QgZGV2aWNlIChp
+LmUuIHRoZSBvbmUgaW4KZHJtX2RldmljZS0+ZGV2KSBtaWdodCBiZSBuZWF0ZXIsIHNpbmNlIHRo
+YXQncyBtb3JlIHVuaXF1ZS4gVXNpbmcKbWlub3JzIHdlIGdldCB0aGF0IGVudGlyZSB0cm91Ymxl
+IG9mIGhhdmluZyBkdXBsaWNhdGVzIChhbmQgaW4gdGhlCnBhc3QgdHJpcGxpY2F0cmVzKSBkdWUg
+dG8gb3VyIHVhcGktZmxhdm9ycy4gQnV0IGluIHN5c2ZzIHRoZXJlJ3Mgb25seQpvbmUgdW5kZXJs
+eWluZyBkZXZpY2UuCgpBbnl3YXkgaWYgdGhlcmUncyBubyBwcmVjZWRlbmNlIGFuZCBHcmVnIGRv
+ZXNuJ3QgaGF2ZSBpZGVhcyBlaXRoZXIKdGhlbiBJIGd1ZXNzIHdlIGNhbiBqdXN0IGdvIHdpdGgg
+bWlub3IgaWRzLiBJdCdzIGFib3V0IGFzIGdvb2QgYXMKYW55dGhpbmcgZWxzZSByZWFsbHkuCi1E
+YW5pZWwKCj4KPiBzdHJ1Y3QgcmVzZXRfY29udHJvbCAqX19yZXNldF9jb250cm9sX2dldChzdHJ1
+Y3QgZGV2aWNlICpkZXYsIGNvbnN0IGNoYXIKPiAqaWQsCj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgaW50IGluZGV4LCBib29sIHNoYXJlZCwKPiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBib29sIG9wdGlvbmFsLCBib29sIGFjcXVp
+cmVkKTsKPgo+IHN0cnVjdCBpaW9fY2hhbm5lbCAqaWlvX2NoYW5uZWxfZ2V0KHN0cnVjdCBkZXZp
+Y2UgKmRldiwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBjaGFy
+ICpjb25zdW1lcl9jaGFubmVsKTsKPgo+IHN0cnVjdCByZWd1bGF0b3IgKl9fbXVzdF9jaGVjayBy
+ZWd1bGF0b3JfZ2V0KHN0cnVjdCBkZXZpY2UgKmRldiwKPiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBjaGFyICppZCk7Cj4KPiBzdHJ1Y3QgcHdtX2Rl
+dmljZSAqcHdtX2dldChzdHJ1Y3QgZGV2aWNlICpkZXYsIGNvbnN0IGNoYXIgKmNvbl9pZCkKPgo+
+IHN0cnVjdCBncGlvX2Rlc2MgKl9fbXVzdF9jaGVjayBncGlvZF9nZXQoc3RydWN0IGRldmljZSAq
+ZGV2LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3QgY2hh
+ciAqY29uX2lkLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW51
+bSBncGlvZF9mbGFncyBmbGFncyk7Cj4KPiBTUEkgYW5kIEkyQyB1c2UgdGhlIGJ1cyBpbmRleCBh
+cyBsb29rdXA6Cj4KPiBleHRlcm4gc3RydWN0IGkyY19hZGFwdGVyICppMmNfZ2V0X2FkYXB0ZXIo
+aW50IG5yKTsKPgo+IGV4dGVybiBzdHJ1Y3Qgc3BpX2NvbnRyb2xsZXIgKnNwaV9idXNudW1fdG9f
+bWFzdGVyKHUxNiBidXNudW0pOwo+Cj4KPiBOb3JhbGYuCj4KPiA+PiArICoKPiA+PiArICogU2Vl
+IGRybV9jbGllbnRfaW5pdCgpIGFuZCBkcm1fY2xpZW50X3JlZ2lzdGVyKCkuCj4gPj4gKyAqCj4g
+Pj4gKyAqIFJldHVybnM6Cj4gPj4gKyAqIFplcm8gb24gc3VjY2VzcyBvciBuZWdhdGl2ZSBlcnJv
+ciBjb2RlIG9uIGZhaWx1cmUuCj4gPj4gKyAqLwo+ID4+ICtpbnQgZHJtX2NsaWVudF9pbml0X2Zy
+b21faWQodW5zaWduZWQgaW50IG1pbm9yX2lkLCBzdHJ1Y3QgZHJtX2NsaWVudF9kZXYgKmNsaWVu
+dCwKPiA+PiArICAgICAgICAgICAgICAgICAgICAgICAgY29uc3QgY2hhciAqbmFtZSwgY29uc3Qg
+c3RydWN0IGRybV9jbGllbnRfZnVuY3MgKmZ1bmNzKQo+ID4+ICt7Cj4gPj4gKyAgICBzdHJ1Y3Qg
+ZHJtX21pbm9yICptaW5vcjsKPiA+PiArICAgIGludCByZXQ7Cj4gPj4gKwo+ID4+ICsgICAgbWlu
+b3IgPSBkcm1fbWlub3JfYWNxdWlyZShtaW5vcl9pZCk7Cj4gPj4gKyAgICBpZiAoSVNfRVJSKG1p
+bm9yKSkKPiA+PiArICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIobWlub3IpOwo+ID4+ICsKPiA+
+PiArICAgIG11dGV4X2xvY2soJm1pbm9yLT5kZXYtPmNsaWVudGxpc3RfbXV0ZXgpOwo+ID4+ICsg
+ICAgcmV0ID0gZHJtX2NsaWVudF9pbml0KG1pbm9yLT5kZXYsIGNsaWVudCwgbmFtZSwgZnVuY3Mp
+Owo+ID4+ICsgICAgaWYgKCFyZXQpCj4gPj4gKyAgICAgICAgICAgIGxpc3RfYWRkKCZjbGllbnQt
+Pmxpc3QsICZtaW5vci0+ZGV2LT5jbGllbnRsaXN0KTsKPiA+PiArICAgIG11dGV4X3VubG9jaygm
+bWlub3ItPmRldi0+Y2xpZW50bGlzdF9tdXRleCk7Cj4gPj4gKwo+ID4+ICsgICAgZHJtX21pbm9y
+X3JlbGVhc2UobWlub3IpOwo+ID4+ICsKPiA+PiArICAgIHJldHVybiByZXQ7Cj4gPj4gK30KPiA+
+PiArRVhQT1JUX1NZTUJPTChkcm1fY2xpZW50X2luaXRfZnJvbV9pZCk7Cj4gPj4gKwo+ID4+ICAv
+KioKPiA+PiAgICogZHJtX2NsaWVudF9yZWdpc3RlciAtIFJlZ2lzdGVyIGNsaWVudAo+ID4+ICAg
+KiBAY2xpZW50OiBEUk0gY2xpZW50CgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2lu
+ZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9n
+LmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
