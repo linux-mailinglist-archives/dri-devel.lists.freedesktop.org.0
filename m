@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F6816A1DC
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446A016A1E6
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:21:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20ED289362;
-	Mon, 24 Feb 2020 09:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89C836E223;
+	Mon, 24 Feb 2020 09:20:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3383D6E05D
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 13:46:54 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id m9so1216433qke.4
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 05:46:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ArU+lGZMvOVDmABUiOLeV8ceRgccVuY5MMSzaTRRRuQ=;
- b=Zr4zJsqRpNBjrvPZbU3gZBRsHGBnPWkkU556BPadYsupE5qvhI5yb/FkrMrrFPIiWG
- /80pRhgJtHAWdGbUaL98hwATcvxnXoJOnLxJ2O6AcGgS7VTMAH55JKckLWqSZTANHC7R
- XX6Q4Y1eioNxBBA02Qh7O0gkb/XEwuax83zslBkN8C4mhQEDdFJBLkvwHopi9W4QghUj
- VR3gKN9dhP97TjxD82FyJtOaBXH3HngXWJj/1BwxwKjX2xw3gK5M1VjT5C6owHKefnyk
- 2ifxBfIknkRXDi+mBqkaw5nmapIfjX1wQ00/CpX9+y0+2uoYsfjKHgBCfYu2jOOe2C2l
- +3uw==
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E89F6E0DC
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 17:30:13 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id p67so12629424ili.23
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 09:30:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ArU+lGZMvOVDmABUiOLeV8ceRgccVuY5MMSzaTRRRuQ=;
- b=Y5TQy452+TgSqBa8bv2YIQjSRwB0LDOtEepSO+SvgNwCmLvIFsKRg3dGmmzkpD3YKi
- jspK1BImiHzeLAbUJMEgIMrwd+s+taYl/czSjM2IBL6nG3/JnCHpsCaCbOn/S27Ypw4l
- YPk1m/tR7GphrJFyS5OdxORmDbE/Wn/+SzS1o5pSIJK1NcWLRqqfR0MCpmVdMI6HjIvh
- O+sUe9us8FvmtvT3qadqQuwiyr/9qkCy4ncqmZCumTfPunghuHOn3YuzTpUO7dJiDVfe
- 0iaTdtsQrwHokZIoY1YsyEsXAR9e51K5mah5AZeKIsGqnCAUQVlhJPHLF3Ze0Ted/KPF
- rGpw==
-X-Gm-Message-State: APjAAAXRfbijS/hn4g2z4EOpYh/69BLse68HuUJo5vx8GdTmxNwpb1Iu
- 0NMsQ+5+nVXpueAAz2rmFTjK9rQZdCdDl1N13Bo=
-X-Google-Smtp-Source: APXvYqxe4uORfqDfGbQJUsn4ZHDF4LOS1kERSKrq7y6tJKq7MaCvrHeXv1TBlbq5i6RYsaOjTV5u6AgNePJpgwYOoLs=
-X-Received: by 2002:a05:620a:20c1:: with SMTP id
- f1mr25676563qka.229.1582465613364; 
- Sun, 23 Feb 2020 05:46:53 -0800 (PST)
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=R7hdqwHw5eeNO6TxhG5nNkBVCSV9QlKOYXhwkg+mFF4=;
+ b=WVSX5vlEkEGWNaeHUiUAfajsX0AOtVZaOBObts4jrK+NEAVa/M7gPEUYQW7rOG7zC+
+ 8qfFSgAI0bryNDebnQse9Rn4+CO6MrcOow3dzJkbrM7XeIFmfMl8ciiEgyYMsBuIzus8
+ 1cG8kmPVBzhcO13rBrx9GJaOe1pvCSdckbxeTFVQQ1EpeOHpvyKXgWJ7+krMweOXPGYK
+ L4k236lcJdKgdmgdDWz2r8oJUHnZDn28Z/6+rJSdOTdv4aPAedrm1O0kVeZcMeVyQs4I
+ 7Io1eoh2FhHD/EYrdPWterKWUjmQhHTHk0LAfoYW7hcK0iWnxTSqDes/P4nOup31Ejdu
+ +RxA==
+X-Gm-Message-State: APjAAAWzOtzeWccsry1/I2wE+dJgN7bD7hdpDpZW16aqdCKMvFC7smSH
+ CJAOoAMsv+TF7Lmn+R/glM2vXuPN9BQ7ov2kp++KHGthplq3
+X-Google-Smtp-Source: APXvYqy4iLo3RVULMi3CTSwi49Esqx+pcgimJdeqKMBPmV+C9TwdSokxPkYzwsPWOYE4QbyPVJO1ScaLlStwh5B53y36BlfwMOOQ
 MIME-Version: 1.0
-References: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
- <1582271336-3708-4-git-send-email-kevin3.tang@gmail.com>
- <20200221213921.GE3456@ravnborg.org>
-In-Reply-To: <20200221213921.GE3456@ravnborg.org>
-From: tang pengchuan <kevin3.tang@gmail.com>
-Date: Sun, 23 Feb 2020 21:46:42 +0800
-Message-ID: <CAFPSGXYkgHtMmiD6FzWQxuDgx7nWn9K=WaFNBpJUR6JwQQJdhw@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 3/6] dt-bindings: display: add Unisoc's dpu bindings
-To: Sam Ravnborg <sam@ravnborg.org>
+X-Received: by 2002:a92:af99:: with SMTP id v25mr55751208ill.289.1582479012287; 
+ Sun, 23 Feb 2020 09:30:12 -0800 (PST)
+Date: Sun, 23 Feb 2020 09:30:12 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000064653f059f419b58@google.com>
+Subject: KASAN: use-after-free Read in bit_putcs
+From: syzbot <syzbot+b308f5fd049fbbc6e74f@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Mon, 24 Feb 2020 09:20:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,344 +53,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, Baolin Wang <baolin.wang@linaro.org>,
- David Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, robh+dt@kernel.org,
- Orson Zhai <orsonzhai@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1080301405=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1080301405==
-Content-Type: multipart/alternative; boundary="000000000000c1027a059f3e7c2e"
+Hello,
 
---000000000000c1027a059f3e7c2e
-Content-Type: text/plain; charset="UTF-8"
+syzbot found the following crash on:
 
-On Sat, Feb 22, 2020 at 5:39 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+HEAD commit:    0a44cac8 Merge tag 'dma-mapping-5.6' of git://git.infradea..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11bfb74ee00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a61f2164c515c07f
+dashboard link: https://syzkaller.appspot.com/bug?extid=b308f5fd049fbbc6e74f
+compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
 
-> Hi Kevin.
->
-> On Fri, Feb 21, 2020 at 03:48:53PM +0800, Kevin Tang wrote:
-> > From: Kevin Tang <kevin.tang@unisoc.com>
-> >
-> > DPU (Display Processor Unit) is the Display Controller for the Unisoc
-> SoCs
-> > which transfers the image data from a video memory buffer to an internal
-> > LCD interface.
-> >
-> > Cc: Orson Zhai <orsonzhai@gmail.com>
-> > Cc: Baolin Wang <baolin.wang@linaro.org>
-> > Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> > Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-> > ---
-> >  .../devicetree/bindings/display/sprd/dpu.yaml      | 85
-> ++++++++++++++++++++++
-> >  1 file changed, 85 insertions(+)
-> >  create mode 100644
-> Documentation/devicetree/bindings/display/sprd/dpu.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/sprd/dpu.yaml
-> b/Documentation/devicetree/bindings/display/sprd/dpu.yaml
-> > new file mode 100644
-> > index 0000000..7695d94
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/sprd/dpu.yaml
-> > @@ -0,0 +1,85 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/sprd/dpu.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Unisoc SoC Display Processor Unit (DPU)
-> > +
-> > +maintainers:
-> > +  - David Airlie <airlied@linux.ie>
-> > +  - Daniel Vetter <daniel@ffwll.ch>
-> > +  - Rob Herring <robh+dt@kernel.org>
-> > +  - Mark Rutland <mark.rutland@arm.com>
-> > +
-> > +description: |
-> > +  DPU (Display Processor Unit) is the Display Controller for the Unisoc
-> SoCs
-> > +  which transfers the image data from a video memory buffer to an
-> internal
-> > +  LCD interface.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sprd,sharkl3-dpu
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description:
-> > +      Physical base address and length of the DPU registers set
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +    description:
-> > +      The interrupt signal from DPU
-> > +
-> > +  clocks:
-> > +    minItems: 2
-> Should this be maxItems: 2?
-> That would imply minItems: 2.
->
-We need minItems: 2, one is for display controller, one is for dpi clock
+Unfortunately, I don't have any reproducer for this crash yet.
 
->
->
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: clk_src_128m
-> > +      - const: clk_src_384m
-> > +
-> > +  power-domains:
-> > +    description: A phandle to DPU power domain node.
-> > +
-> > +  iommus:
-> > +    description: A phandle to DPU iommu node.
-> > +
-> > +  port:
-> > +    type: object
-> > +    description:
-> > +      A port node with endpoint definitions as defined in
-> > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > +      That port should be the output endpoint, usually output to
-> > +      the associated DSI.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/sprd,sc9860-clk.h>
-> > +    dpu: dpu@0x63000000 {
-> > +          compatible = "sprd,sharkl3-dpu";
-> > +          reg = <0x0 0x63000000 0x0 0x1000>;
-> > +          interrupts = <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;
-> > +          clock-names = "clk_src_128m",
-> > +                     "clk_src_384m";
-> > +
-> > +          clocks = <&pll CLK_TWPLL_128M>,
-> > +                <&pll CLK_TWPLL_384M>;
-> > +
-> > +          dpu_port: port {
-> > +                  dpu_out: endpoint {
-> > +                          remote-endpoint = <&dsi_in>;
-> > +                  };
-> > +          };
-> > +    };
-> Did this example pass dt_binding_check with no warnings?
-> I wonder how the reg property could avoid generating warnings as the
-> upper node do not have #address_cells, #node_cells
->
-Yes, pass dt_binding_check with no warnings
-Because our display controller is under ahb bus or apb bus, parent node
-have defined "address-cells" and "size-cells"
-So subdev is omitted
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+b308f5fd049fbbc6e74f@syzkaller.appspotmail.com
 
->
->         Sam
->
+==================================================================
+BUG: KASAN: use-after-free in __fb_pad_aligned_buffer include/linux/fb.h:655 [inline]
+BUG: KASAN: use-after-free in bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
+BUG: KASAN: use-after-free in bit_putcs+0x13ee/0x1cc0 drivers/video/fbdev/core/bitblit.c:185
+Read of size 1 at addr ffff8880a8087c10 by task syz-executor.2/5278
 
---000000000000c1027a059f3e7c2e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+CPU: 1 PID: 5278 Comm: syz-executor.2 Not tainted 5.6.0-rc2-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x1fb/0x318 lib/dump_stack.c:118
+ print_address_description+0x74/0x5c0 mm/kasan/report.c:374
+ __kasan_report+0x149/0x1c0 mm/kasan/report.c:506
+ kasan_report+0x26/0x50 mm/kasan/common.c:641
+ __asan_report_load1_noabort+0x14/0x20 mm/kasan/generic_report.c:132
+ __fb_pad_aligned_buffer include/linux/fb.h:655 [inline]
+ bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
+ bit_putcs+0x13ee/0x1cc0 drivers/video/fbdev/core/bitblit.c:185
+ fbcon_putcs+0x7b4/0xad0 drivers/video/fbdev/core/fbcon.c:1360
+ do_update_region+0x462/0x600 drivers/tty/vt/vt.c:677
+ redraw_screen+0xcc5/0x1830 drivers/tty/vt/vt.c:1011
+ vc_do_resize+0x12af/0x1af0 drivers/tty/vt/vt.c:1284
+ vc_resize+0x4f/0x60 drivers/tty/vt/vt.c:1304
+ vt_ioctl+0x2fa8/0x3a70 drivers/tty/vt/vt_ioctl.c:887
+ tty_ioctl+0xee6/0x15c0 drivers/tty/tty_io.c:2660
+ vfs_ioctl fs/ioctl.c:47 [inline]
+ ksys_ioctl fs/ioctl.c:763 [inline]
+ __do_sys_ioctl fs/ioctl.c:772 [inline]
+ __se_sys_ioctl+0x113/0x190 fs/ioctl.c:770
+ __x64_sys_ioctl+0x7b/0x90 fs/ioctl.c:770
+ do_syscall_64+0xf7/0x1c0 arch/x86/entry/common.c:294
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x45c449
+Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f74261f2c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f74261f36d4 RCX: 000000000045c449
+RDX: 0000000020000080 RSI: 000000000000560a RDI: 0000000000000003
+RBP: 000000000076bf20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00000000ffffffff
+R13: 000000000000066b R14: 00000000004c8fe0 R15: 000000000076bf2c
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 22, 2020 at 5:39 AM Sam R=
-avnborg &lt;<a href=3D"mailto:sam@ravnborg.org">sam@ravnborg.org</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Kevin.<b=
-r>
-<br>
-On Fri, Feb 21, 2020 at 03:48:53PM +0800, Kevin Tang wrote:<br>
-&gt; From: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com" target=
-=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
-&gt; <br>
-&gt; DPU (Display Processor Unit) is the Display Controller for the Unisoc =
-SoCs<br>
-&gt; which transfers the image data from a video memory buffer to an intern=
-al<br>
-&gt; LCD interface.<br>
-&gt; <br>
-&gt; Cc: Orson Zhai &lt;<a href=3D"mailto:orsonzhai@gmail.com" target=3D"_b=
-lank">orsonzhai@gmail.com</a>&gt;<br>
-&gt; Cc: Baolin Wang &lt;<a href=3D"mailto:baolin.wang@linaro.org" target=
-=3D"_blank">baolin.wang@linaro.org</a>&gt;<br>
-&gt; Cc: Chunyan Zhang &lt;<a href=3D"mailto:zhang.lyra@gmail.com" target=
-=3D"_blank">zhang.lyra@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com"=
- target=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../devicetree/bindings/display/sprd/dpu.yaml=C2=A0 =C2=A0 =C2=
-=A0 | 85 ++++++++++++++++++++++<br>
-&gt;=C2=A0 1 file changed, 85 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 Documentation/devicetree/bindings/display/spr=
-d/dpu.yaml<br>
-&gt; <br>
-&gt; diff --git a/Documentation/devicetree/bindings/display/sprd/dpu.yaml b=
-/Documentation/devicetree/bindings/display/sprd/dpu.yaml<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..7695d94<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/Documentation/devicetree/bindings/display/sprd/dpu.yaml<br>
-&gt; @@ -0,0 +1,85 @@<br>
-&gt; +# SPDX-License-Identifier: GPL-2.0<br>
-&gt; +%YAML 1.2<br>
-&gt; +---<br>
-&gt; +$id: <a href=3D"http://devicetree.org/schemas/display/sprd/dpu.yaml#"=
- rel=3D"noreferrer" target=3D"_blank">http://devicetree.org/schemas/display=
-/sprd/dpu.yaml#</a><br>
-&gt; +$schema: <a href=3D"http://devicetree.org/meta-schemas/core.yaml#" re=
-l=3D"noreferrer" target=3D"_blank">http://devicetree.org/meta-schemas/core.=
-yaml#</a><br>
-&gt; +<br>
-&gt; +title: Unisoc SoC Display Processor Unit (DPU)<br>
-&gt; +<br>
-&gt; +maintainers:<br>
-&gt; +=C2=A0 - David Airlie &lt;<a href=3D"mailto:airlied@linux.ie" target=
-=3D"_blank">airlied@linux.ie</a>&gt;<br>
-&gt; +=C2=A0 - Daniel Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch" target=
-=3D"_blank">daniel@ffwll.ch</a>&gt;<br>
-&gt; +=C2=A0 - Rob Herring &lt;<a href=3D"mailto:robh%2Bdt@kernel.org" targ=
-et=3D"_blank">robh+dt@kernel.org</a>&gt;<br>
-&gt; +=C2=A0 - Mark Rutland &lt;<a href=3D"mailto:mark.rutland@arm.com" tar=
-get=3D"_blank">mark.rutland@arm.com</a>&gt;<br>
-&gt; +<br>
-&gt; +description: |<br>
-&gt; +=C2=A0 DPU (Display Processor Unit) is the Display Controller for the=
- Unisoc SoCs<br>
-&gt; +=C2=A0 which transfers the image data from a video memory buffer to a=
-n internal<br>
-&gt; +=C2=A0 LCD interface.<br>
-&gt; +<br>
-&gt; +properties:<br>
-&gt; +=C2=A0 compatible:<br>
-&gt; +=C2=A0 =C2=A0 const: sprd,sharkl3-dpu<br>
-&gt; +<br>
-&gt; +=C2=A0 reg:<br>
-&gt; +=C2=A0 =C2=A0 maxItems: 1<br>
-&gt; +=C2=A0 =C2=A0 description:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 Physical base address and length of the DPU regi=
-sters set<br>
-&gt; +<br>
-&gt; +=C2=A0 interrupts:<br>
-&gt; +=C2=A0 =C2=A0 maxItems: 1<br>
-&gt; +=C2=A0 =C2=A0 description:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 The interrupt signal from DPU<br>
-&gt; +<br>
-&gt; +=C2=A0 clocks:<br>
-&gt; +=C2=A0 =C2=A0 minItems: 2<br>
-Should this be maxItems: 2?<br>
-That would imply minItems: 2.<br></blockquote><div>We need minItems: 2, one=
- is for display controller, one is for dpi clock</div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
-<br>
-<br>
-&gt; +<br>
-&gt; +=C2=A0 clock-names:<br>
-&gt; +=C2=A0 =C2=A0 items:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 - const: clk_src_128m<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 - const: clk_src_384m<br>
-&gt; +<br>
-&gt; +=C2=A0 power-domains:<br>
-&gt; +=C2=A0 =C2=A0 description: A phandle to DPU power domain node.<br>
-&gt; +<br>
-&gt; +=C2=A0 iommus:<br>
-&gt; +=C2=A0 =C2=A0 description: A phandle to DPU iommu node.<br>
-&gt; +<br>
-&gt; +=C2=A0 port:<br>
-&gt; +=C2=A0 =C2=A0 type: object<br>
-&gt; +=C2=A0 =C2=A0 description:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 A port node with endpoint definitions as defined=
- in<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 Documentation/devicetree/bindings/media/video-in=
-terfaces.txt.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 That port should be the output endpoint, usually=
- output to<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 the associated DSI.<br>
-&gt; +<br>
-&gt; +required:<br>
-&gt; +=C2=A0 - compatible<br>
-&gt; +=C2=A0 - reg<br>
-&gt; +=C2=A0 - interrupts<br>
-&gt; +=C2=A0 - clocks<br>
-&gt; +=C2=A0 - clock-names<br>
-&gt; +=C2=A0 - port<br>
-&gt; +<br>
-&gt; +additionalProperties: false<br>
-&gt; +<br>
-&gt; +examples:<br>
-&gt; +=C2=A0 - |<br>
-&gt; +=C2=A0 =C2=A0 #include &lt;dt-bindings/interrupt-controller/arm-gic.h=
-&gt;<br>
-&gt; +=C2=A0 =C2=A0 #include &lt;dt-bindings/clock/sprd,sc9860-clk.h&gt;<br=
->
-&gt; +=C2=A0 =C2=A0 dpu: dpu@0x63000000 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 compatible =3D &quot;sprd,sharkl3-=
-dpu&quot;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x0 0x63000000 0x0 0x1=
-000&gt;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 interrupts =3D &lt;GIC_SPI 46 IRQ_=
-TYPE_LEVEL_HIGH&gt;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock-names =3D &quot;clk_src_128m=
-&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0&quot;clk_src_384m&quot;;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clocks =3D &lt;&amp;pll CLK_TWPLL_=
-128M&gt;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;&amp;pll =
-CLK_TWPLL_384M&gt;;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dpu_port: port {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dpu_ou=
-t: endpoint {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 remote-endpoint =3D &lt;&amp;dsi_in&gt;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
-&gt; +=C2=A0 =C2=A0 };<br>
-Did this example pass dt_binding_check with no warnings?<br>
-I wonder how the reg property could avoid generating warnings as the<br>
-upper node do not have #address_cells, #node_cells<br></blockquote><div>Yes=
-, pass dt_binding_check with no warnings
+Allocated by task 2919:
+ save_stack mm/kasan/common.c:72 [inline]
+ set_track mm/kasan/common.c:80 [inline]
+ __kasan_kmalloc+0x118/0x1c0 mm/kasan/common.c:515
+ kasan_kmalloc+0x9/0x10 mm/kasan/common.c:529
+ __do_kmalloc_node mm/slab.c:3616 [inline]
+ __kmalloc_node_track_caller+0x4d/0x60 mm/slab.c:3630
+ __kmalloc_reserve net/core/skbuff.c:142 [inline]
+ __alloc_skb+0xe8/0x500 net/core/skbuff.c:210
+ alloc_skb include/linux/skbuff.h:1051 [inline]
+ _sctp_make_chunk+0x60/0x460 net/sctp/sm_make_chunk.c:1394
+ sctp_make_data net/sctp/sm_make_chunk.c:1426 [inline]
+ sctp_make_datafrag_empty+0xa3/0x5b0 net/sctp/sm_make_chunk.c:740
+ sctp_datamsg_from_user+0x7a8/0x1020 net/sctp/chunk.c:262
+ sctp_sendmsg_to_asoc+0x7a9/0x1500 net/sctp/socket.c:1844
+ sctp_sendmsg+0x15a1/0x3570 net/sctp/socket.c:2016
+ inet_sendmsg+0x147/0x310 net/ipv4/af_inet.c:807
+ sock_sendmsg_nosec net/socket.c:652 [inline]
+ sock_sendmsg net/socket.c:672 [inline]
+ ____sys_sendmsg+0x4f7/0x7f0 net/socket.c:2343
+ ___sys_sendmsg net/socket.c:2397 [inline]
+ __sys_sendmsg+0x1ed/0x290 net/socket.c:2430
+ __do_sys_sendmsg net/socket.c:2439 [inline]
+ __se_sys_sendmsg net/socket.c:2437 [inline]
+ __x64_sys_sendmsg+0x7f/0x90 net/socket.c:2437
+ do_syscall_64+0xf7/0x1c0 arch/x86/entry/common.c:294
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
-</div><div>Because our display controller is under ahb bus or apb bus, pare=
-nt node have defined &quot;<span style=3D"color:rgb(0,0,0)">address-cells</=
-span>&quot; and &quot;<span style=3D"color:rgb(0,0,0)">size-cells</span>&qu=
-ot;</div><div>So subdev is omitted</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Sam<br>
-</blockquote></div></div>
+Freed by task 2919:
+ save_stack mm/kasan/common.c:72 [inline]
+ set_track mm/kasan/common.c:80 [inline]
+ kasan_set_free_info mm/kasan/common.c:337 [inline]
+ __kasan_slab_free+0x12e/0x1e0 mm/kasan/common.c:476
+ kasan_slab_free+0xe/0x10 mm/kasan/common.c:485
+ __cache_free mm/slab.c:3426 [inline]
+ kfree+0x10d/0x220 mm/slab.c:3757
+ skb_free_head net/core/skbuff.c:592 [inline]
+ skb_release_data+0x72f/0x8c0 net/core/skbuff.c:612
+ skb_release_all net/core/skbuff.c:666 [inline]
+ __kfree_skb+0x59/0x1c0 net/core/skbuff.c:680
+ consume_skb+0x72/0x110 net/core/skbuff.c:839
+ sctp_chunk_destroy net/sctp/sm_make_chunk.c:1454 [inline]
+ sctp_chunk_put+0x17b/0x200 net/sctp/sm_make_chunk.c:1481
+ sctp_chunk_free+0x59/0x60 net/sctp/sm_make_chunk.c:1468
+ sctp_outq_sack+0x1169/0x16a0 net/sctp/outqueue.c:1352
+ sctp_cmd_process_sack net/sctp/sm_sideeffect.c:798 [inline]
+ sctp_cmd_interpreter net/sctp/sm_sideeffect.c:1354 [inline]
+ sctp_side_effects net/sctp/sm_sideeffect.c:1185 [inline]
+ sctp_do_sm+0x18f3/0x5840 net/sctp/sm_sideeffect.c:1156
+ sctp_assoc_bh_rcv+0x494/0x770 net/sctp/associola.c:1044
+ sctp_inq_push+0x1ab/0x1d0 net/sctp/inqueue.c:80
+ sctp_backlog_rcv+0x16c/0x4b0 net/sctp/input.c:344
+ sk_backlog_rcv include/net/sock.h:938 [inline]
+ __release_sock+0x1c1/0x4b0 net/core/sock.c:2437
+ release_sock+0x65/0x1c0 net/core/sock.c:2953
+ sctp_wait_for_connect+0x2f6/0x590 net/sctp/socket.c:9280
+ sctp_sendmsg_to_asoc+0x11ba/0x1500 net/sctp/socket.c:1870
+ sctp_sendmsg+0x15a1/0x3570 net/sctp/socket.c:2016
+ inet_sendmsg+0x147/0x310 net/ipv4/af_inet.c:807
+ sock_sendmsg_nosec net/socket.c:652 [inline]
+ sock_sendmsg net/socket.c:672 [inline]
+ ____sys_sendmsg+0x4f7/0x7f0 net/socket.c:2343
+ ___sys_sendmsg net/socket.c:2397 [inline]
+ __sys_sendmsg+0x1ed/0x290 net/socket.c:2430
+ __do_sys_sendmsg net/socket.c:2439 [inline]
+ __se_sys_sendmsg net/socket.c:2437 [inline]
+ __x64_sys_sendmsg+0x7f/0x90 net/socket.c:2437
+ do_syscall_64+0xf7/0x1c0 arch/x86/entry/common.c:294
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
---000000000000c1027a059f3e7c2e--
+The buggy address belongs to the object at ffff8880a8087c00
+ which belongs to the cache kmalloc-512 of size 512
+The buggy address is located 16 bytes inside of
+ 512-byte region [ffff8880a8087c00, ffff8880a8087e00)
+The buggy address belongs to the page:
+page:ffffea0002a021c0 refcount:1 mapcount:0 mapping:ffff8880aa400a80 index:0x0
+flags: 0xfffe0000000200(slab)
+raw: 00fffe0000000200 ffffea0002431688 ffffea000259d648 ffff8880aa400a80
+raw: 0000000000000000 ffff8880a8087000 0000000100000004 0000000000000000
+page dumped because: kasan: bad access detected
 
---===============1080301405==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Memory state around the buggy address:
+ ffff8880a8087b00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff8880a8087b80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff8880a8087c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                         ^
+ ffff8880a8087c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8880a8087d00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
 
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1080301405==--
