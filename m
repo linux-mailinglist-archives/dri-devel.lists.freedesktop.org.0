@@ -1,48 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E304169857
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 16:18:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7090516987C
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 16:45:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 450186E086;
-	Sun, 23 Feb 2020 15:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6DA86E091;
+	Sun, 23 Feb 2020 15:45:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 642B46E086;
- Sun, 23 Feb 2020 15:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sobtpscSSrCdiLnAEKO7aas6A+JhgExPn4xPYcREPJw=; b=JAnu5JbsrKYrEjIPWCJ4GirgTz
- X3AOP87lKuwdy59N4GnU0hCttR4AxEhReJ6sajy0+E6+5qqhu5EW96FT+PsDSPWSCbnwUpBT9hBXL
- suCBboqw68Chf5Sx6gkloCRz1wXWuAcS3D6Bk6QEAQBf59aXSzpQKqnpSkBV/IQEf7MvWNizicbdv
- v72SsoF8OZSi7CDwizQM94taoKsPupFXhwai+KBfNtTU9C2RXohubedYzZQFRgcmIctZrxAH7GCfM
- uVl5bQOBx6ddPN8uLYo/59ajY4y2cjUBHBIeyVK83iR6rcc5wdKCkk1TxBs++aArp140fnWRh4tEB
- /ezVj5Wg==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:49497
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1j5t14-0004cj-3N; Sun, 23 Feb 2020 16:17:58 +0100
-Subject: Re: [PATCH 26/51] drm: Manage drm_mode_config_init with drmm_
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
- <20200221210319.2245170-27-daniel.vetter@ffwll.ch>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <da1d2b63-e556-6da7-aec9-3543b8b2f63b@tronnes.org>
-Date: Sun, 23 Feb 2020 16:17:52 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 316FA6E091;
+ Sun, 23 Feb 2020 15:45:18 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id b17so6823419wmb.0;
+ Sun, 23 Feb 2020 07:45:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=inzn9KgooBAx5M8NGIgtozNP6e9nFtoEVn58fHfHS9U=;
+ b=hYw76MzTFFctGmd2sCZFPBrCelb2cowVUlYA/AM1Mvij3bAAMGhlNYI0rXUyDABN1Z
+ 3xnZU9YMt1g+8dxTLcHslrSYtN5qhEKRhjfGJjKacSGiPP2zDpUV6GpuaBsjENJ5rp55
+ 0avPNo7K+rwCSa4uwE970DBGcopjfo26u+SjVLwGhH7MMCFk9TzZNgGma7wEJ07pI0L7
+ 0Kln0X7vwiTJduenaOPAj0ddeX47KooxkTj5sNpoZLc5xD5l+sK34dEtrWWnL+II+aaT
+ bu5X7itzmxjo3NBXoW1/JcihM6tqGVze2sSaY8eNYVgJ7JP2g1QLDt6FRNZqVMGHqZ48
+ 04ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=inzn9KgooBAx5M8NGIgtozNP6e9nFtoEVn58fHfHS9U=;
+ b=qgmbYe5EYCKlnZci1sn88sbWSH2kerhtnEJlFkbO99BTiGv7stFGWWVuNSBf6iwjfr
+ oRIe8Vh7vP3dq8o5AcYqMG+xOMujTtWeo9I9mL09U2Kg+TI0xtNzdoQYzy1aRb6PZXI+
+ K6Z1+wkpf56S3jwKLxALLWzJVJEjg0jwhgs7l6mZ/W2XqPASvsBP9R6ayRY8wNTDREPZ
+ 8KiIHzmGpSbvXUAvUoQFffaoz6d1kxtHeYUQmKv5qgoSHg2RDhoUoIlM432bSElpOdF5
+ fULDywGO2DrWg2SpD/d6FKvT1x1/yvGCwvi934fIlXxVWlzpiRzAy2C3X0cFkbZhWH7A
+ NApQ==
+X-Gm-Message-State: APjAAAXzlOdNGxrtQ8unYZ7uBy71wkQoXs6Q9TCN8DmQJcCxhborGcQY
+ rQ4d7nodvStvjYigIOLpmLM=
+X-Google-Smtp-Source: APXvYqxhJh1O9a4M4aCqcycel5moNklWx8r/xJq6nuMHEP0zx83oOzF3CBVTxvvIT9/L5THTkiHlGw==
+X-Received: by 2002:a7b:c14e:: with SMTP id z14mr16451275wmi.58.1582472716864; 
+ Sun, 23 Feb 2020 07:45:16 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id w7sm13097479wmi.9.2020.02.23.07.45.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 23 Feb 2020 07:45:16 -0800 (PST)
+Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+References: <20200217154509.2265-6-christian.koenig@amd.com>
+ <20200217175518.GL2363188@phenom.ffwll.local>
+ <f8ac7cbc-7c90-7119-735c-9f55adb6fa7f@shipmail.org>
+ <CAKMK7uHG3EkEPbAQ3UEHHLcfmR+0NPq0wZuBX+s2-WCFdso8ew@mail.gmail.com>
+ <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
+ <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org>
+ <20200220180459.GS2363188@phenom.ffwll.local>
+ <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org>
+ <20200220200831.GA2363188@phenom.ffwll.local>
+ <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org>
+ <20200221171217.GD2363188@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com>
+Date: Sun, 23 Feb 2020 16:45:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200221210319.2245170-27-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200221171217.GD2363188@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,95 +81,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: christian.koenig@amd.com
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjEuMDIuMjAyMCAyMi4wMiwgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBkcm1fbW9kZV9j
-b25maWdfY2xlYW51cCBpcyBpZGVtcG90ZW50LCBzbyBubyBoYXJtIGluIGNhbGxpbmcgdGhpcwo+
-IHR3aWNlLiBUaGlzIGFsbG93cyB1cyB0byBncmFkdWFsbHkgc3dpdGNoIGRyaXZlcnMgb3ZlciBi
-eSByZW1vdmluZwo+IGV4cGxpY2l0IGRybV9tb2RlX2NvbmZpZ19jbGVhbnVwIGNhbGxzLgo+IAo+
-IFdpdGggdGhpcyBzdGVwIGl0J3Mgbm90IGFsc28gcG9zc2libGUgdGhhdCAoYXQgbGVhc3QgZm9y
-IHNpbXBsZQo+IGRyaXZlcnMpIGF1dG9tYXRpYyByZXNvdXJjZSBjbGVhbnVwIGNhbiBiZSBkb25l
-IGNvcnJlY3RseSB3aXRob3V0IGEKPiBkcm1fZHJpdmVyLT5yZWxlYXNlIGhvb2suIFRoZXJlZm9y
-ZSBhbGxvdyB0aGlzIG5vdyBpbgo+IGRldm1fZHJtX2Rldl9pbml0KCkuCj4gCj4gQWxzbyB3aXRo
-IGRybW1fIGV4cGxpY2l0IGRybV9kcml2ZXItPnJlbGVhc2UgaG9va3MgYXJlIGtpbmRhIG5vdCB0
-aGUKPiBiZXN0IG9wdGlvbiwgc28gZGVwcmVjYXRlIHRoYXQgaG9vayB0byBkaXNjb3VyYWdlIGZ1
-dHVyZSB1c2Vycy4KPiAKPiB2MjogRml4dXAgdGhlIGV4YW1wbGUgaW4gdGhlIGtlcm5lbGRvYyB0
-b28uCj4gCj4gdjM6Cj4gLSBGb3IgcGFyYW5vaWEsIGRvdWJsZSBjaGVjayB0aGF0IG1pbm9yLT5k
-ZXYgPT0gZGV2IGluIHRoZSByZWxlYXNlCj4gICBob29rLCBiZWNhdXNlIEkgYm90Y2hlZCB0aGUg
-cG9pbnRlciBtYXRoIGluIHRoZSBkcm1tIGxpYnJhcnkuCj4gLSBDYWxsIGRybV9tb2RlX2NvbmZp
-Z19jbGVhbnVwIHdoZW4gZHJtbV9hZGRfYWN0aW9uIGZhaWxzLCB3ZSdkIGJlCj4gICBtaXNzaW5n
-IHNvbWUgbXV0ZXhfZGVzdHJveSBhbmQgaWRhX2NsZWFudXAgb3RoZXJ3aXNlIChMYXVyZW50KQo+
-IAo+IHY0OiBBZGQgYSBkcm1tX2FkZF9hY3Rpb25fb3JfcmVzZXQgKGxpa2UgZGV2bV8gaGFzKSB0
-byBlbmNhcHN1bGF0ZSB0aGlzCj4gcGF0dGVybiAoTm9yYWxmKS4KPiAKPiBDYzogTGF1cmVudCBQ
-aW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+IENjOiAiTm9yYWxm
-IFRyw7hubmVzIiA8bm9yYWxmQHRyb25uZXMub3JnPgo+IENjOiBTYW0gUmF2bmJvcmcgPHNhbUBy
-YXZuYm9yZy5vcmc+Cj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-Pgo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29t
-Pgo+IC0tLQoKPHNuaXA+Cgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX21hbmFn
-ZWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbWFuYWdlZC5jCj4gaW5kZXggNjI2NjU2MzY5ZjBi
-Li42Mzc2YmUwMWJiYzggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9tYW5hZ2Vk
-LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21hbmFnZWQuYwo+IEBAIC0xMzQsNiArMTM0
-LDIwIEBAIGludCBfX2RybW1fYWRkX2FjdGlvbihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICB9
-Cj4gIEVYUE9SVF9TWU1CT0woX19kcm1tX2FkZF9hY3Rpb24pOwo+ICAKPiAraW50IF9fZHJtbV9h
-ZGRfYWN0aW9uX29yX3Jlc2V0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gKwkJCSAgICAgICBk
-cm1yZXNfcmVsZWFzZV90IGFjdGlvbiwKPiArCQkJICAgICAgIHZvaWQgKmRhdGEsIGNvbnN0IGNo
-YXIgKm5hbWUpCj4gK3sKPiArCWludCByZXQ7Cj4gKwo+ICsJcmV0ID0gX19kcm1tX2FkZF9hY3Rp
-b24oZGV2LCBhY3Rpb24sIGRhdGEsIG5hbWUpOwo+ICsJaWYgKHJldCkKPiArCQlhY3Rpb24oZGV2
-LCBkYXRhKTsKPiArCj4gKwlyZXR1cm4gcmV0Owo+ICt9Cj4gK0VYUE9SVF9TWU1CT0woX19kcm1t
-X2FkZF9hY3Rpb25fb3JfcmVzZXQpOwo+ICsKPiAgdm9pZCBkcm1tX3JlbW92ZV9hY3Rpb24oc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiwKPiAgCQkJZHJtcmVzX3JlbGVhc2VfdCBhY3Rpb24sCj4gIAkJ
-CXZvaWQgKmRhdGEpCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZV9jb25m
-aWcuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZV9jb25maWcuYwo+IGluZGV4IDA4ZTZlZmY2
-YTE3OS4uNmY3MDA1YmM1OTdmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9k
-ZV9jb25maWcuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZV9jb25maWcuYwo+IEBA
-IC0yNSw2ICsyNSw3IEBACj4gICNpbmNsdWRlIDxkcm0vZHJtX2Rydi5oPgo+ICAjaW5jbHVkZSA8
-ZHJtL2RybV9lbmNvZGVyLmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX2ZpbGUuaD4KPiArI2luY2x1
-ZGUgPGRybS9kcm1fbWFuYWdlZC5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9tb2RlX2NvbmZpZy5o
-Pgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPgo+ICAjaW5jbHVkZSA8bGludXgvZG1hLXJl
-c3YuaD4KPiBAQCAtMzczLDYgKzM3NCwxMSBAQCBzdGF0aWMgaW50IGRybV9tb2RlX2NyZWF0ZV9z
-dGFuZGFyZF9wcm9wZXJ0aWVzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gIAlyZXR1cm4gMDsK
-PiAgfQo+ICAKPiArc3RhdGljIHZvaWQgZHJtX21vZGVfY29uZmlnX2luaXRfcmVsZWFzZShzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpwdHIpCj4gK3sKPiArCWRybV9tb2RlX2NvbmZpZ19j
-bGVhbnVwKGRldik7Cj4gK30KPiArCj4gIC8qKgo+ICAgKiBkcm1fbW9kZV9jb25maWdfaW5pdCAt
-IGluaXRpYWxpemUgRFJNIG1vZGVfY29uZmlndXJhdGlvbiBzdHJ1Y3R1cmUKPiAgICogQGRldjog
-RFJNIGRldmljZQo+IEBAIC0zODQsOCArMzkwLDEwIEBAIHN0YXRpYyBpbnQgZHJtX21vZGVfY3Jl
-YXRlX3N0YW5kYXJkX3Byb3BlcnRpZXMoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiAgICogcHJv
-YmxlbSwgc2luY2UgdGhpcyBzaG91bGQgaGFwcGVuIHNpbmdsZSB0aHJlYWRlZCBhdCBpbml0IHRp
-bWUuIEl0IGlzIHRoZQo+ICAgKiBkcml2ZXIncyBwcm9ibGVtIHRvIGVuc3VyZSB0aGlzIGd1YXJh
-bnRlZS4KPiAgICoKPiArICogQ2xlYW51cCBpcyBhdXRvbWF0aWNhbGx5IGhhbmRsZWQgdGhyb3Vn
-aCByZWdpc3RlcmluZyBkcm1fbW9kZV9jb25maWdfY2xlYW51cAo+ICsgKiB3aXRoIGRybW1fYWRk
-X2FjdGlvbigpLgo+ICAgKi8KPiAtdm9pZCBkcm1fbW9kZV9jb25maWdfaW5pdChzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2KQo+ICtpbnQgZHJtX21vZGVfY29uZmlnX2luaXQoc3RydWN0IGRybV9kZXZp
-Y2UgKmRldikKPiAgewo+ICAJbXV0ZXhfaW5pdCgmZGV2LT5tb2RlX2NvbmZpZy5tdXRleCk7Cj4g
-IAlkcm1fbW9kZXNldF9sb2NrX2luaXQoJmRldi0+bW9kZV9jb25maWcuY29ubmVjdGlvbl9tdXRl
-eCk7Cj4gQEAgLTQ0Myw2ICs0NTEsOSBAQCB2b2lkIGRybV9tb2RlX2NvbmZpZ19pbml0KHN0cnVj
-dCBkcm1fZGV2aWNlICpkZXYpCj4gIAkJZHJtX21vZGVzZXRfYWNxdWlyZV9maW5pKCZtb2Rlc2V0
-X2N0eCk7Cj4gIAkJZG1hX3Jlc3ZfZmluaSgmcmVzdik7Cj4gIAl9Cj4gKwo+ICsJcmV0dXJuIGRy
-bW1fYWRkX2FjdGlvbl9vcl9yZXNldChkZXYsIGRybV9tb2RlX2NvbmZpZ19pbml0X3JlbGVhc2Us
-Cj4gKwkJCQkJTlVMTCk7Cj4gIH0KPiAgRVhQT1JUX1NZTUJPTChkcm1fbW9kZV9jb25maWdfaW5p
-dCk7Cj4gIAo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fbWFuYWdlZC5oIGIvaW5jbHVk
-ZS9kcm0vZHJtX21hbmFnZWQuaAo+IGluZGV4IDJiMWJhMmFkNTU4Mi4uNjg0Zjg4NGI2Y2VhIDEw
-MDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9tYW5hZ2VkLmgKPiArKysgYi9pbmNsdWRlL2Ry
-bS9kcm1fbWFuYWdlZC5oCj4gQEAgLTE4LDYgKzE4LDEzIEBAIGludCBfX211c3RfY2hlY2sgX19k
-cm1tX2FkZF9hY3Rpb24oc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiAgCQkJCSAgIGRybXJlc19y
-ZWxlYXNlX3QgYWN0aW9uLAo+ICAJCQkJICAgdm9pZCAqZGF0YSwgY29uc3QgY2hhciAqbmFtZSk7
-Cj4gIAo+ICsjZGVmaW5lIGRybW1fYWRkX2FjdGlvbl9vcl9yZXNldChkZXYsIGFjdGlvbiwgZGF0
-YSkgXAo+ICsJX19kcm1tX2FkZF9hY3Rpb24oZGV2LCBhY3Rpb24sIGRhdGEsICNhY3Rpb24pCgpD
-b3B5LXBhc3RlIGVycm9yIGhlcmUsIHlvdSB3YW50IF9fZHJtbV9hZGRfYWN0aW9uX29yX3Jlc2V0
-KCkuCgpBcGFydCBmcm9tIHRoYXQgaXQgbG9va3MgZ29vZDoKCkFja2VkLWJ5OiBOb3JhbGYgVHLD
-uG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KCj4gKwo+ICtpbnQgX19tdXN0X2NoZWNrIF9fZHJt
-bV9hZGRfYWN0aW9uX29yX3Jlc2V0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gKwkJCQkJICAg
-IGRybXJlc19yZWxlYXNlX3QgYWN0aW9uLAo+ICsJCQkJCSAgICB2b2lkICpkYXRhLCBjb25zdCBj
-aGFyICpuYW1lKTsKPiArCj4gIHZvaWQgZHJtbV9yZW1vdmVfYWN0aW9uKHN0cnVjdCBkcm1fZGV2
-aWNlICpkZXYsCj4gIAkJCWRybXJlc19yZWxlYXNlX3QgYWN0aW9uLAo+ICAJCQl2b2lkICpkYXRh
-KTsKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Am 21.02.20 um 18:12 schrieb Daniel Vetter:
+> [SNIP]
+> Yeah the Great Plan (tm) is to fully rely on ww_mutex slowly degenerating
+> into essentially a global lock. But only when there's actual contention
+> and thrashing.
+
+Yes exactly. A really big problem in TTM is currently that we drop the 
+lock after evicting BOs because they tend to move in again directly 
+after that.
+
+ From practice I can also confirm that there is exactly zero benefit 
+from dropping locks early and reacquire them for example for the VM page 
+tables. That's just makes it more likely that somebody needs to roll 
+back and this is what we need to avoid in the first place.
+
+Contention on BO locks during command submission is perfectly fine as 
+long as this is as lightweight as possible while we don't have trashing. 
+When we have trashing multi submission performance is best archived to 
+just favor a single process to finish its business and block everybody else.
+
+Because of this I would actually vote for forbidding to release 
+individual ww_mutex() locks in a context.
+
+Regards,
+Christian.
+
+> -Daniel
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
