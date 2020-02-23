@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D7016933E
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 03:22:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B5C169359
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Feb 2020 03:22:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96C16E9A8;
-	Sun, 23 Feb 2020 02:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4B76E99E;
+	Sun, 23 Feb 2020 02:22:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15EA26E9A4;
- Sun, 23 Feb 2020 02:21:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2786E99E;
+ Sun, 23 Feb 2020 02:22:39 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3650D227BF;
- Sun, 23 Feb 2020 02:21:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id EB51822525;
+ Sun, 23 Feb 2020 02:22:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582424513;
- bh=nu12upa2YBED248NaTn+dMF9VDPyyAVLRlkgIW0kpbc=;
+ s=default; t=1582424559;
+ bh=jgup64UFrKiSacTUai/nnQoGjwFMsP91KXVuOUvxR9Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kFusnh3CzMkuJE20xiQaISpWKQAVIlxUn7/8LiscWMEwLj7i8gxgjLIn9LvwlyJEf
- OgwGAep4d4kehdnTv63b4xPqQtKSW5zpAyKyGshYsDYAQa8U+8bW0OE9iZWez8Coj9
- xfFozAzjDADh/MosncP3NYR1Na1/Od8YqrUL0PEg=
+ b=OmGkbQ2y9TWq03qLjmP4zrBPPwY3BTjCuEb3ZxargYLs3tVhoSIv4KWXW0xQr+nW2
+ DWcnz7yMww+i8G/JtqS3F2KRSCnjyxa9PRR/JN3qA5sTDVIZ2Lgr+u0IrAD7nx07BC
+ DwVyPaBdR4dSwbcCw5lztUj5FLDs657VSxCDQYDk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 27/58] amdgpu: Prevent build errors regarding
- soft/hard-float FP ABI tags
-Date: Sat, 22 Feb 2020 21:20:48 -0500
-Message-Id: <20200223022119.707-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 02/50] drm/msm: Set dma maximum segment size for
+ mdss
+Date: Sat, 22 Feb 2020 21:21:47 -0500
+Message-Id: <20200223022235.1404-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200223022119.707-1-sashal@kernel.org>
-References: <20200223022119.707-1-sashal@kernel.org>
+In-Reply-To: <20200223022235.1404-1-sashal@kernel.org>
+References: <20200223022235.1404-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,54 +50,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Kolesa <daniel@octaforge.org>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Sean Paul <seanpaul@chromium.org>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Kolesa <daniel@octaforge.org>
+From: Sean Paul <seanpaul@chromium.org>
 
-[ Upstream commit 416611d9b6eebaeae58ed26cc7d23131c69126b1 ]
+[ Upstream commit db735fc4036bbe1fbe606819b5f0ff26cc76cdff ]
 
-On PowerPC, the compiler will tag object files with whether they
-use hard or soft float FP ABI and whether they use 64 or 128-bit
-long double ABI. On systems with 64-bit long double ABI, a tag
-will get emitted whenever a double is used, as on those systems
-a long double is the same as a double. This will prevent linkage
-as other files are being compiled with hard-float.
+Turning on CONFIG_DMA_API_DEBUG_SG results in the following error:
 
-On ppc64, this code will never actually get used for the time
-being, as the only currently existing hardware using it are the
-Renoir APUs. Therefore, until this is testable and can be fixed
-properly, at least make sure the build will not fail.
+[   12.078665] msm ae00000.mdss: DMA-API: mapping sg segment longer than device claims to support [len=3526656] [max=65536]
+[   12.089870] WARNING: CPU: 6 PID: 334 at /mnt/host/source/src/third_party/kernel/v4.19/kernel/dma/debug.c:1301 debug_dma_map_sg+0x1dc/0x318
+[   12.102655] Modules linked in: joydev
+[   12.106442] CPU: 6 PID: 334 Comm: frecon Not tainted 4.19.0 #2
+[   12.112450] Hardware name: Google Cheza (rev3+) (DT)
+[   12.117566] pstate: 60400009 (nZCv daif +PAN -UAO)
+[   12.122506] pc : debug_dma_map_sg+0x1dc/0x318
+[   12.126995] lr : debug_dma_map_sg+0x1dc/0x318
+[   12.131487] sp : ffffff800cc3ba80
+[   12.134913] x29: ffffff800cc3ba80 x28: 0000000000000000
+[   12.140395] x27: 0000000000000004 x26: 0000000000000004
+[   12.145868] x25: ffffff8008e55b18 x24: 0000000000000000
+[   12.151337] x23: 00000000ffffffff x22: ffffff800921c000
+[   12.156809] x21: ffffffc0fa75b080 x20: ffffffc0f7195090
+[   12.162280] x19: ffffffc0f1c53280 x18: 0000000000000000
+[   12.167749] x17: 0000000000000000 x16: 0000000000000000
+[   12.173218] x15: 0000000000000000 x14: 0720072007200720
+[   12.178689] x13: 0720072007200720 x12: 0720072007200720
+[   12.184161] x11: 0720072007200720 x10: 0720072007200720
+[   12.189641] x9 : ffffffc0f1fc6b60 x8 : 0000000000000000
+[   12.195110] x7 : ffffff8008132ce0 x6 : 0000000000000000
+[   12.200585] x5 : 0000000000000000 x4 : ffffff8008134734
+[   12.206058] x3 : ffffff800cc3b830 x2 : ffffffc0f1fc6240
+[   12.211532] x1 : 25045a74f48a7400 x0 : 25045a74f48a7400
+[   12.217006] Call trace:
+[   12.219535]  debug_dma_map_sg+0x1dc/0x318
+[   12.223671]  get_pages+0x19c/0x20c
+[   12.227177]  msm_gem_fault+0x64/0xfc
+[   12.230874]  __do_fault+0x3c/0x140
+[   12.234383]  __handle_mm_fault+0x70c/0xdb8
+[   12.238603]  handle_mm_fault+0xac/0xc4
+[   12.242473]  do_page_fault+0x1bc/0x3d4
+[   12.246342]  do_translation_fault+0x54/0x88
+[   12.250652]  do_mem_abort+0x60/0xf0
+[   12.254250]  el0_da+0x20/0x24
+[   12.257317] irq event stamp: 67260
+[   12.260828] hardirqs last  enabled at (67259): [<ffffff8008132d0c>] console_unlock+0x214/0x608
+[   12.269693] hardirqs last disabled at (67260): [<ffffff8008080e0c>] do_debug_exception+0x5c/0x178
+[   12.278820] softirqs last  enabled at (67256): [<ffffff8008081664>] __do_softirq+0x4d4/0x520
+[   12.287510] softirqs last disabled at (67249): [<ffffff80080be574>] irq_exit+0xa8/0x100
+[   12.295742] ---[ end trace e63cfc40c313ffab ]---
 
-Signed-off-by: Daniel Kolesa <daniel@octaforge.org>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+The root of the problem is that the default segment size for sgt is
+(UINT_MAX & PAGE_MASK), and the default segment size for device dma is
+64K. As such, if you compare the 2, you would deduce that the sg segment
+will overflow the device's capacity. In reality, the hardware can
+accommodate the larger sg segments, it's just not initializing its max
+segment properly. This patch initializes the max segment size for the
+mdss device, which gets rid of that pesky warning.
+
+Reported-by: Stephen Boyd <swboyd@chromium.org>
+Tested-by: Stephen Boyd <swboyd@chromium.org>
+Tested-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200121111813.REPOST.1.I92c66a35fb13f368095b05287bdabdbe88ca6922@changeid
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/msm/msm_drv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile b/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
-index b864869cc7e3e..6fa7422c51da5 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
-@@ -91,6 +91,12 @@ ifdef CONFIG_DRM_AMD_DC_DCN2_1
- ###############################################################################
- CLK_MGR_DCN21 = rn_clk_mgr.o rn_clk_mgr_vbios_smu.o
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index c84f0a8b3f2ce..b73fbb65e14b2 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -441,6 +441,14 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+ 	if (ret)
+ 		goto err_msm_uninit;
  
-+# prevent build errors regarding soft-float vs hard-float FP ABI tags
-+# this code is currently unused on ppc64, as it applies to Renoir APUs only
-+ifdef CONFIG_PPC64
-+CFLAGS_$(AMDDALPATH)/dc/clk_mgr/dcn21/rn_clk_mgr.o := $(call cc-option,-mno-gnu-attribute)
-+endif
++	if (!dev->dma_parms) {
++		dev->dma_parms = devm_kzalloc(dev, sizeof(*dev->dma_parms),
++					      GFP_KERNEL);
++		if (!dev->dma_parms)
++			return -ENOMEM;
++	}
++	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
 +
- AMD_DAL_CLK_MGR_DCN21 = $(addprefix $(AMDDALPATH)/dc/clk_mgr/dcn21/,$(CLK_MGR_DCN21))
+ 	msm_gem_shrinker_init(ddev);
  
- AMD_DISPLAY_FILES += $(AMD_DAL_CLK_MGR_DCN21)
+ 	switch (get_mdp_ver(pdev)) {
 -- 
 2.20.1
 
