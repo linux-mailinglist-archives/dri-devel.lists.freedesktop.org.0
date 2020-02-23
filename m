@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E16D16A1D3
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1E416A1E7
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:21:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBB758926F;
-	Mon, 24 Feb 2020 09:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764E489817;
+	Mon, 24 Feb 2020 09:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.netbsd.org (mail.NetBSD.org [IPv6:2001:470:a085:999::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55E4C6E104
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 20:40:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 343306E101
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Feb 2020 20:40:42 +0000 (UTC)
 Received: by mail.netbsd.org (Postfix, from userid 1508)
- id 81BCD84D5A; Sun, 23 Feb 2020 20:40:27 +0000 (UTC)
-Date: Sun, 23 Feb 2020 20:40:27 +0000
+ id EF6C584D5A; Sun, 23 Feb 2020 20:40:41 +0000 (UTC)
+Date: Sun, 23 Feb 2020 20:40:41 +0000
 From: Maya Rashish <coypu@sdf.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/radeon: Correct typos in comments
-Message-ID: <20200223204027.GA27975@homeworld.netbsd.org>
+Subject: [PATCH 3/3] drm/vmwgfx: Correct typo in comment
+Message-ID: <20200223204041.GA27186@homeworld.netbsd.org>
 MIME-Version: 1.0
 Content-Disposition: inline
 User-Agent: Mutt/1.12.2 (2019-09-21)
@@ -44,43 +44,22 @@ Signed-off-by: Maya Rashish <coypu@sdf.org>
 Signed-off-by: Thomas Klausner <wiz@NetBSD.org>
 Co-authored-by: Thomas Klausner <wiz@NetBSD.org>
 ---
- drivers/gpu/drm/radeon/atombios.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/atombios.h
-index 4b86e8b45009..e118d4bec807 100644
---- a/drivers/gpu/drm/radeon/atombios.h
-+++ b/drivers/gpu/drm/radeon/atombios.h
-@@ -1711,9 +1711,9 @@ typedef struct _PIXEL_CLOCK_PARAMETERS_V6
- #define PIXEL_CLOCK_V6_MISC_HDMI_BPP_MASK           0x0c
- #define PIXEL_CLOCK_V6_MISC_HDMI_24BPP              0x00
- #define PIXEL_CLOCK_V6_MISC_HDMI_36BPP              0x04
--#define PIXEL_CLOCK_V6_MISC_HDMI_36BPP_V6           0x08    //for V6, the correct defintion for 36bpp should be 2 for 36bpp(2:1)
-+#define PIXEL_CLOCK_V6_MISC_HDMI_36BPP_V6           0x08    //for V6, the correct definition for 36bpp should be 2 for 36bpp(2:1)
- #define PIXEL_CLOCK_V6_MISC_HDMI_30BPP              0x08
--#define PIXEL_CLOCK_V6_MISC_HDMI_30BPP_V6           0x04    //for V6, the correct defintion for 30bpp should be 1 for 36bpp(5:4)
-+#define PIXEL_CLOCK_V6_MISC_HDMI_30BPP_V6           0x04    //for V6, the correct definition for 30bpp should be 1 for 36bpp(5:4)
- #define PIXEL_CLOCK_V6_MISC_HDMI_48BPP              0x0c
- #define PIXEL_CLOCK_V6_MISC_REF_DIV_SRC             0x10
- #define PIXEL_CLOCK_V6_MISC_GEN_DPREFCLK            0x40
-@@ -2036,7 +2036,7 @@ typedef struct _LVDS_ENCODER_CONTROL_PARAMETERS
- typedef struct _LVDS_ENCODER_CONTROL_PARAMETERS_V2
- {
-   USHORT usPixelClock;  // in 10KHz; for bios convenient
--  UCHAR  ucMisc;        // see PANEL_ENCODER_MISC_xx defintions below
-+  UCHAR  ucMisc;        // see PANEL_ENCODER_MISC_xx definitions below
-   UCHAR  ucAction;      // 0: turn off encoder
-                         // 1: setup and turn on encoder
-   UCHAR  ucTruncate;    // bit0=0: Disable truncate
-@@ -3732,7 +3732,7 @@ typedef struct _ATOM_DPCD_INFO
- #define ATOM_DPCD_MAX_LANE_MASK    0x1F
- 
- /**************************************************************************/
--// VRAM usage and their defintions
-+// VRAM usage and their definitions
- 
- // One chunk of VRAM used by Bios are for HWICON surfaces,EDID data.
- // Current Mode timing and Dail Timing and/or STD timing data EACH device. They can be broken down as below.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index f47d5710cc95..5195c19d25a4 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -2016,7 +2016,7 @@ void vmw_disable_vblank(struct drm_device *dev, unsigned int pipe)
+  * plugin and generate DRM uevent
+  * @dev_priv: device private
+  * @num_rects: number of drm_rect in rects
+- * @rects: toplogy to update
++ * @rects: topology to update
+  */
+ static int vmw_du_update_layout(struct vmw_private *dev_priv,
+ 				unsigned int num_rects, struct drm_rect *rects)
 -- 
 2.21.0
 
