@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCCA16BC46
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:51:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E418416BC59
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:51:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E52AA6EA24;
-	Tue, 25 Feb 2020 08:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14E296EA37;
+	Tue, 25 Feb 2020 08:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9536E81E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 17:39:17 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id j9so5703080pfa.8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 09:39:17 -0800 (PST)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 688F66E81E
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 17:40:52 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id j15so5515546pgm.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 09:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QEO8rTktMvRi8FtiFiyJa1SjpwFUmvt+6z/DR6CHzlc=;
- b=BkOYsO85JBCOFoHCw2dvRsiIEv//20PB4jPPY6MkUNR+zbwfatSCClbHttFb1wPQ09
- JvwXCZYPxBOlLsRS4pzV7kdXeZPgfbddAJBmtB56tle1mFh5PzsgaHDk/gMsL9Qb/6Vz
- cPU5+ioBfq81FSe4FUzea6IX7B0bxg2EorNVnIIqre1jKxcNigHkOd2oNQl2qvWLXZA0
- f3l4Sr5+7+fKkiKpbyJtwFeeAn85FMjleZ9wnhQI/2w3fNwdlncPrBIHc2XHBAzKWZhb
- isAjE2igvzqjF3+VZWvHnP6Lmcro9RB69BSlChTNj2IwDFZQ+EF5MMUXK5L8CjpMW02B
- sqpw==
+ bh=+MzVlJLpy0Myu6XtjU+oJu/3L77UvEbkJbcHWndy0Mw=;
+ b=IUS3pY1l9zVYZ+tFKN38Bpv8qVINuwxCKkZ39IQeABEv+SgMtv+eR41iYTi/zjUU/P
+ xqy7G8pn/unCdRYHZIug7nIzZkzKltl1TioC0e0H02pDmuNcyi2JKoKQlsZzkfVpEUNa
+ 5Umm3QFfkTxgUyTsFpCteaha9/THoo5jwWJz46pfrCeaZD++PYj9OUrE45vleWZzaoDR
+ wlUWfupYOAXJDreZQaDuaoOJLov3xsSj/37Jyj1g6KZg94YI2RP+es+D1BAAGMwcGYrt
+ 2ieoMuqR36kyPu/gcgAx4bCFRrgfFfl3aZjVqNm1gZ0b5hXaN1hgAED9Dnn4eEfeIzmf
+ 7TBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=QEO8rTktMvRi8FtiFiyJa1SjpwFUmvt+6z/DR6CHzlc=;
- b=uiMTlxq45ymsd8MgabJxs15bFbmOuha7hPJjQft0aUUAV0A6HvQEtY7Gq9uK6twIYF
- TFJ+/USs1sr+6Q/rTYFciNBTe5GhBNusuyG+V+CKol3a5/j0SAIaCbHmrqgqi4//NRDd
- V3PmHnN5OBaxOMbu8j4ascn1zP9UgzQQSGRlivY8AzCy77ad8UCnSUVat8YUBvOqUbyy
- 2CsrHz5x8oiyt3MCddUUWtsf/r87jgeR/zXM3CP2YFWmbfdQJVnCFKkH3LjlP6EdEET7
- cvZNWTGXLCXvg2JwUa7NW/ADIlOh/yCoxDoi58Ux5mAGDr+5faYtS9UbAkXNMNb6wybe
- DsKA==
-X-Gm-Message-State: APjAAAUbVaVNijowA4anNTiXa0Qc0FHtcb06dJb0Gg09f1nF96w3qfte
- /GXnHNcS+VRzFRQ4pG2CTBw=
-X-Google-Smtp-Source: APXvYqyfgF/YFSdXOWoBOSqpXVi5iH4JEg2sA5QjqwWDlhCicysDKINzvP95J4Eb/cQ6Qjbi7SZPvA==
-X-Received: by 2002:a65:56c6:: with SMTP id w6mr55910617pgs.167.1582565957016; 
- Mon, 24 Feb 2020 09:39:17 -0800 (PST)
+ bh=+MzVlJLpy0Myu6XtjU+oJu/3L77UvEbkJbcHWndy0Mw=;
+ b=X1IMLydt5OM4cbaBHNVeSWVuVqAg7IWubQbf+Kb8UVpZ0POTxVn2OVxkVHUwSKUsE5
+ oPLFxgKlX/+R0c9bsD1x0bF53MScIWk/TxTC8KOXgFS7ibguVph+4lptXLsd+iCzJlZy
+ rJlLBxNL8+6XXXPoDGxgBgkg2g2rfRKFfTGRPEgKouafW8gZMy06M9651j3pPwOOmInx
+ L5ovPYs7j3LVbeFl0zwZy/waud4GMPWqb455gmiCPNWV3TYgElONZS3LI4RSG1JJLyfe
+ sehYTRyW61Z/sOOxVfUr5TXdJtgaUu3n05LakF0jdM8KxAT8s5uGLcVHaSqbmRIjTL+h
+ 2ZZA==
+X-Gm-Message-State: APjAAAVwo3KfKfpmgSRzt8O/ArVbCWJxv7Ml1bTTxweTbPH9s4YcnEIK
+ btHiT3PkMvV/yjv1d+GJ1Nf1BMTX
+X-Google-Smtp-Source: APXvYqxRc5TdrIdfYjLIUgdJXNPXUlnhYtY2UdOofyCCjYFE+t0Aixa7rsG+uPt36ghvj2a76AQiMg==
+X-Received: by 2002:a63:2ad7:: with SMTP id
+ q206mr51629358pgq.194.1582566051946; 
+ Mon, 24 Feb 2020 09:40:51 -0800 (PST)
 Received: from [10.67.50.18] ([192.19.223.252])
- by smtp.googlemail.com with ESMTPSA id g13sm13389828pgh.82.2020.02.24.09.39.15
+ by smtp.googlemail.com with ESMTPSA id e28sm3038730pgn.21.2020.02.24.09.40.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2020 09:39:15 -0800 (PST)
-Subject: Re: [PATCH 04/89] i2c: brcmstb: Allow to compile it on BCM2835
+ Mon, 24 Feb 2020 09:40:51 -0800 (PST)
+Subject: Re: [PATCH 01/89] dt-bindings: i2c: brcmstb: Convert the BRCMSTB
+ binding to a schema
 To: Maxime Ripard <maxime@cerno.tech>,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
 References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <0ec2a26c7492b1ef6554d3bdada7a6fb8b41ab1c.1582533919.git-series.maxime@cerno.tech>
+ <6649111e9c585f267762bb6c6dd96128e5cfb4ba.1582533919.git-series.maxime@cerno.tech>
 From: Florian Fainelli <f.fainelli@gmail.com>
 Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
  xsDiBEjPuBIRBACW9MxSJU9fvEOCTnRNqG/13rAGsj+vJqontvoDSNxRgmafP8d3nesnqPyR
@@ -107,12 +109,12 @@ Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
  HvsHIcv4lxCWkFXkwsuWqzEKK6kxVpRDoEQPDj+Oy/ZJ5fYuMbkdHrlegwoQ64LrqdmiVVPC
  TwQYEQIADwIbDAUCVF/S8QUJHlwd3wAKCRBhV5kVtWN2Do+FAJ956xSz2XpDHql+Wg/2qv3b
  G10n8gCguORqNGMsVRxrlLs7/himep7MrCc=
-Message-ID: <86695f21-367e-7dbc-bdd5-b908f798118d@gmail.com>
-Date: Mon, 24 Feb 2020 09:39:14 -0800
+Message-ID: <eb977d8f-66ee-ae71-bf5c-2a187bde6874@gmail.com>
+Date: Mon, 24 Feb 2020 09:40:49 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <0ec2a26c7492b1ef6554d3bdada7a6fb8b41ab1c.1582533919.git-series.maxime@cerno.tech>
+In-Reply-To: <6649111e9c585f267762bb6c6dd96128e5cfb4ba.1582533919.git-series.maxime@cerno.tech>
 Content-Language: en-US
 X-Mailman-Approved-At: Tue, 25 Feb 2020 08:50:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,28 +129,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
+Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
  Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Wolfram Sang <wsa@the-dreams.de>, Kamal Dasu <kdasu.kdev@gmail.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-i2c@vger.kernel.org
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2/24/20 1:06 AM, Maxime Ripard wrote:
-> The BCM2711, supported by ARCH_BCM2835, also has a controller by the
-> brcmstb driver so let's allow it to be compiled on that platform.
+> Switch the DT binding to a YAML schema to enable the DT validation.
 > 
 > Cc: Kamal Dasu <kdasu.kdev@gmail.com>
 > Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
 > Cc: Wolfram Sang <wsa@the-dreams.de>
 > Cc: bcm-kernel-feedback-list@broadcom.com
 > Cc: linux-i2c@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Acked-by: Florian Fainelli <f.fainelli@gmail.com>
