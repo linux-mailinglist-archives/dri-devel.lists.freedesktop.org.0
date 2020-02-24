@@ -2,35 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E782116A52B
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 12:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BC316A5A5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 13:02:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC706E0AA;
-	Mon, 24 Feb 2020 11:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD3F6E420;
+	Mon, 24 Feb 2020 12:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B525D6E0AA
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 11:41:40 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 20330508-1500050 for multiple; Mon, 24 Feb 2020 11:40:40 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C70576E420
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 12:02:00 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201497] [amdgpu]: '*ERROR* No EDID read' is back in 4.19
+Date: Mon, 24 Feb 2020 12:01:59 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: yalterz@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201497-2300-XSlrIGZlee@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201497-2300@https.bugzilla.kernel.org/>
+References: <bug-201497-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: Emmanuel Vadot <manu@FreeBSD.org>, Jani Nikula <jani.nikula@intel.com>,
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- efremov@linux.com, kraxel@redhat.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, noralf@tronnes.org,
- sam@ravnborg.org, tzimmermann@suse.de
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <877e0n66qi.fsf@intel.com>
-References: <20200215180911.18299-1-manu@FreeBSD.org>
- <20200215180911.18299-2-manu@FreeBSD.org> <877e0n66qi.fsf@intel.com>
-Message-ID: <158254443806.15220.5582277260130009235@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH v2 1/2] drm/client: Dual licence the file in GPL-2 and MIT
-Date: Mon, 24 Feb 2020 11:40:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,26 +51,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emmanuel Vadot <manu@FreeBSD.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBKYW5pIE5pa3VsYSAoMjAyMC0wMi0xNSAxODozMzowOSkKPiBPbiBTYXQsIDE1IEZl
-YiAyMDIwLCBFbW1hbnVlbCBWYWRvdCA8bWFudUBGcmVlQlNELm9yZz4gd3JvdGU6Cj4gPiBGcm9t
-OiBFbW1hbnVlbCBWYWRvdCA8bWFudUBGcmVlQlNELk9yZz4KPiA+Cj4gPiBDb250cmlidXRvcnMg
-Zm9yIHRoaXMgZmlsZSBhcmUgOgo+ID4gQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24u
-Y28udWs+Cj4gPiBEZW5pcyBFZnJlbW92IDxlZnJlbW92QGxpbnV4LmNvbT4KPiA+IEphbmkgTmlr
-dWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Cj4gPiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtl
-cm5lbC5vcmc+Cj4gPiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KPiA+IFNh
-bSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiA+IFRob21hcyBaaW1tZXJtYW5uIDx0emlt
-bWVybWFubkBzdXNlLmRlPgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEVtbWFudWVsIFZhZG90IDxt
-YW51QEZyZWVCU0Qub3JnPgo+IAo+IEkndmUgb25seSBjb252ZXJ0ZWQgc29tZSBsb2dnaW5nLgo+
-IAo+IEFja2VkLWJ5OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgoKQm9udXMg
-YWNrIGZyb20gYW5vdGhlciBJbnRlbCBlbXBsb3llZSB0byBjb3ZlciBhbGwgSW50ZWwgY29weXJp
-Z2h0IGluCnRoaXMgZmlsZSwKQWNrZWQtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2ls
-c29uLmNvLnVrPgotQ2hyaXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=201497
+
+--- Comment #15 from Ivan Molodetskikh (yalterz@gmail.com) ---
+I managed to force the kernel to use the EDID extracted via get-edid on kernel
+4.18 thanks to https://bugzilla.kernel.org/show_bug.cgi?id=199799#c4 . The
+trick was to add video=DP-4:e to the kernel parameters, so in my case the
+complete addition looks like:
+
+drm.edid_firmware=DP-4:edid/ASUS_VG248QE.bin video=DP-4:e
+
+ASUS_VG248QE.bin was extracted with get-edid on kernel 4.18 and placed in
+/usr/lib/firmware/edid/. With this in place, I can use my monitor fine on the
+latest kernel (5.5.5).
+
+Without this, I have the exact same issue on 5.5.5.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
