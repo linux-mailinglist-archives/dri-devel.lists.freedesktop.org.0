@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7ADE16BC77
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5771D16BC6E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B64E6EA3C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29E826EA3B;
 	Tue, 25 Feb 2020 08:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 139746E82C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 17:48:37 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id j17so12932319edp.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 09:48:36 -0800 (PST)
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 167ED6E845
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 18:15:36 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id dw13so99139pjb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 10:15:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z+KZXMS6j42BojKvkiav0VXiRWw9IxLJElIvzW43DQY=;
- b=aVGCobCqf2sWOQzEqSAW4JCob1J7OcSBugENcmhWXqcxmbGYgDGSNfhSXqmI+CwcC3
- 8MFcWUm1lUF2elGspd9V4ho3/PSJyrbxne/tvLbSSuquR4g9E3ewd2pYFCr+sjfVY4Or
- RKikPQnAVCt8I5bsPK3oBfqDpfAAo4pH3PDDQQjlbitXoGI2VKApwyBl8vJRBDTeGkf3
- eREbdkPlC9V4DF34hslgPZHOGiGK76X6sDpIAibkbtEyvemgIY1SuRDFT9eJFQ3oK4Aw
- AThy3HQjCuUhBNXF+ONKGv1OapczKnW2nBMe+xE5S57PiH8SVB1Vd3OjL5CrADQPInLp
- s7cg==
+ bh=fJhsYyg52KEQFxdF5LUz4fdLllNaM/cKk6C26PfTras=;
+ b=nO3hmZKq4+B+N1ySv7dfrjSYxJzMtGz6ApdSURpYzbEFua6YJtLiCFGdPghlKL5TYX
+ H9QOi3Xph8IlAxdwhAakkoBhsG/BpW6P06xsmQGj0OiIuSR8Ec38lr5bB7Czbrl51TVH
+ FcxNJ2yll87ADXPLveTzxTYftSjHdSub7chQPtAe28+QYqOVvlSiqUx45BFqmWITwTD0
+ TXeL6Fa+VHynNKcFQES82l8jY9A7G4RFsehrrb0MXLdlpeSBrsI6jgeuOBeMufHb2ik5
+ RUGYimxLX0o7zHCrhJ7qNgykckEZ9BrfIEqWV28E8xMj73hSTg7O477TUApr8wEbCmH3
+ MItg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Z+KZXMS6j42BojKvkiav0VXiRWw9IxLJElIvzW43DQY=;
- b=VFOODXpOZ0JW3bzdUe9l6y265hvGw9Eg7mw0Oxvs1DvAXMN3thTmSh1JMtGYDhF8nR
- O6aefnGe5mfMUaPp+v9DkZYgzYbzG+5BlpURiUz/J95SiFp63hqTLNjoMADEgRYYFp/N
- BufLc1zzUmQ4oYvxgNn0ez0iE3iHvhYRReYVkPKjrZCm+5ihNk/SzS5Jp7vyfxFj3lHI
- sQ4qguRLspTNoM7Dn55bvExnMuG8ZWZi4v6pS85Zz/MnKkhZMamQM9RamcxQReqi+KXC
- kFkQu/lVGNFBhKG4JRKDwi36mzSQ1vSk4lqvoyJtKpo2DBC9veY9SttuAK+8e9HEuh+S
- udtQ==
-X-Gm-Message-State: APjAAAX6r6Z03kWoU5FYjGMuQgw7zUww2QdCMBXO5jDspJWic7HuLcPg
- aiVHhyDpLgItS5IuTpEMUcA=
-X-Google-Smtp-Source: APXvYqz7i5Pc/5H53tWitQMIaIwBEIzHzproXsr4EugsBJJuMu/ktD2Wu69Zq4vnQ09DUeWodGqgSw==
-X-Received: by 2002:a50:875c:: with SMTP id 28mr48180095edv.271.1582566515662; 
- Mon, 24 Feb 2020 09:48:35 -0800 (PST)
+ bh=fJhsYyg52KEQFxdF5LUz4fdLllNaM/cKk6C26PfTras=;
+ b=O5q0Nw0n223ccc2B+8hv1yRdMD0LvmDndpvX4xkjCpvqRG0EY/OxEf9L/7xk1Bi6Hg
+ GPOwE5229C4fXn3FnSw7xd0pEdii4Ys6xtkH+Gntbjzg6UkR6124gX15zpWUlh59bdNJ
+ qi3e2nNWMtJYQEWv2tL6QboG6RPNnxKC8yySM9lNgm1obznmXA19yjxqUw7Sz4oUPGrt
+ 2r/JkJTWhyXmIa1lu4hLX8VUDGefZTtqryZyMHe6msLpeI7FpfVwqQEyDzHGtOvsUD6D
+ kBGfa2xbfpqXdFT2udl5Z3q5znCyyGjwXip5I2M6QlJJGo0Jm1fccx6uiEy9DOMwW4kG
+ ca4Q==
+X-Gm-Message-State: APjAAAUo2AdYkH/YKV0y9YEREb9g3T0U6A3+hKz+PeYVewljMkQ7Gxlk
+ CbZb7guKfWP4qIu3WUEF368=
+X-Google-Smtp-Source: APXvYqwgLTBfB+f6ozUIqoz0L93wvs95kxHBkO3CFa+IDQQBb/6V/+oRBUOKnAMlknf0pX5yrmgQmg==
+X-Received: by 2002:a17:90b:941:: with SMTP id dw1mr377657pjb.21.1582568135602; 
+ Mon, 24 Feb 2020 10:15:35 -0800 (PST)
 Received: from [10.67.50.18] ([192.19.223.252])
- by smtp.googlemail.com with ESMTPSA id f13sm1016733edq.26.2020.02.24.09.48.27
+ by smtp.googlemail.com with ESMTPSA id o19sm476208pjr.2.2020.02.24.10.15.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2020 09:48:34 -0800 (PST)
-Subject: Re: [PATCH 02/89] dt-bindings: i2c: brcmstb: Add BCM2711 BSC/AUTO-I2C
- binding
+ Mon, 24 Feb 2020 10:15:35 -0800 (PST)
+Subject: Re: [PATCH 22/89] clk: bcm: rpi: Discover the firmware clocks
 To: Maxime Ripard <maxime@cerno.tech>,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
 References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <9e427ff22fa40b7146b44aee6468559499deb1f1.1582533919.git-series.maxime@cerno.tech>
+ <d197ab836d84b89b94ff1927872126767d921e94.1582533919.git-series.maxime@cerno.tech>
 From: Florian Fainelli <f.fainelli@gmail.com>
 Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
  xsDiBEjPuBIRBACW9MxSJU9fvEOCTnRNqG/13rAGsj+vJqontvoDSNxRgmafP8d3nesnqPyR
@@ -108,12 +107,12 @@ Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
  HvsHIcv4lxCWkFXkwsuWqzEKK6kxVpRDoEQPDj+Oy/ZJ5fYuMbkdHrlegwoQ64LrqdmiVVPC
  TwQYEQIADwIbDAUCVF/S8QUJHlwd3wAKCRBhV5kVtWN2Do+FAJ956xSz2XpDHql+Wg/2qv3b
  G10n8gCguORqNGMsVRxrlLs7/himep7MrCc=
-Message-ID: <fb3e10e0-9d87-66c0-ad4c-fa8474f6fac0@gmail.com>
-Date: Mon, 24 Feb 2020 09:48:17 -0800
+Message-ID: <2814be76-4006-4651-0a84-6dfaf2064e4a@gmail.com>
+Date: Mon, 24 Feb 2020 10:15:32 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <9e427ff22fa40b7146b44aee6468559499deb1f1.1582533919.git-series.maxime@cerno.tech>
+In-Reply-To: <d197ab836d84b89b94ff1927872126767d921e94.1582533919.git-series.maxime@cerno.tech>
 Content-Language: en-US
 X-Mailman-Approved-At: Tue, 25 Feb 2020 08:50:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -128,43 +127,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Wolfram Sang <wsa@the-dreams.de>, Kamal Dasu <kdasu.kdev@gmail.com>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-clk@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2/24/20 1:06 AM, Maxime Ripard wrote:
-> The HDMI blocks in the BCM2771 have an i2c controller to retrieve the
-> EDID. This block is split into two parts, the BSC and the AUTO_I2C,
-> lying in two separate register areas.
+> The firmware has an interface to discover the clocks it exposes.
 > 
-> The AUTO_I2C block has a mailbox-like interface and will take away the
-> BSC control from the CPU if enabled. However, the BSC is the actually
-> the same controller than the one supported by the brcmstb driver, and
-> the AUTO_I2C doesn't really bring any immediate benefit.
+> Let's use it to discover, register the clocks in the clocks framework and
+> then expose them through the device tree for consumers to use them.
 > 
-> We can model it in the DT as a single device with two register range,
-> which will allow us to use or or the other in the driver without
-> changing anything in the DT.
-> 
-> Cc: Kamal Dasu <kdasu.kdev@gmail.com>
-> Cc: Florian Fainelli <f.fainelli@gmail.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: bcm-kernel-feedback-list@broadcom.com
-> Cc: linux-i2c@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-clk@vger.kernel.org
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+That seems like a re-implementaiton of SCMI without all of its
+protocols, without being able to use the existing drivers, maybe a
+firmware update should be considered so standard drivers can be leveraged?
 -- 
 Florian
 _______________________________________________
