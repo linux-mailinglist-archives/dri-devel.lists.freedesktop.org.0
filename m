@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EE016B410
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 23:32:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CAA16B41A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 23:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 191506E999;
-	Mon, 24 Feb 2020 22:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A84A6E9AE;
+	Mon, 24 Feb 2020 22:34:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D746E999
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 22:32:02 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744986E9AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 22:34:24 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81378E89;
- Mon, 24 Feb 2020 23:32:00 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74EA310CA;
+ Mon, 24 Feb 2020 23:34:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582583520;
- bh=jtnl65Hr+bnftvPmBVfUadMRLZSEnfG5ViWMnjRZp4Q=;
+ s=mail; t=1582583663;
+ bh=Lz6gfaLcR4zUsewQHWvaxEutcbYD0+HKXxn05yO4svE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=etBpV2HKWNIkC6SnIBViMTcVal7FgsZewpgy7XyLZLypptycZ1GaBBlCsQUCLMEvi
- WuRIIXf2oATg5r1E/qMwx/+NjlpO1c/FDEv7VP3YPQMVjx8N4KSR14uEs9UcTkGNZl
- Ng6ENPmw+emhKN1h3H1NRMavaXWgsvrbWwo5CkaI=
-Date: Tue, 25 Feb 2020 00:31:39 +0200
+ b=Dv9ULSM0lv7dd9u3oAQbXhFggbQcrl5iBUadpIc0CcEMEZwd2a3YWPS4GPTCQdy+p
+ B/t+8CvhxxDxva+8YP85zyIPsv+wdI913q7hZDZXU5t1wJ1CAgJ9ifbDdmRkp9J8g3
+ nTag4T2MLDKr3rG+qeMayBw0hfdFb4pK6T5kNgUk=
+Date: Tue, 25 Feb 2020 00:34:00 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v10 09/12] dt-bindings: display: bridge: lvds-codec: Add
- new bus-width prop
-Message-ID: <20200224223139.GA29578@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v10 10/12] drm/bridge: panel: Propage bus format/flags
+Message-ID: <20200224223400.GB29578@pendragon.ideasonboard.com>
 References: <20200128135514.108171-1-boris.brezillon@collabora.com>
- <20200128135514.108171-10-boris.brezillon@collabora.com>
+ <20200128135514.108171-11-boris.brezillon@collabora.com>
+ <20200131182505.51366470@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200128135514.108171-10-boris.brezillon@collabora.com>
+In-Reply-To: <20200131182505.51366470@collabora.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,65 +66,66 @@ Hi Boris,
 
 Thank you for the patch.
 
-On Tue, Jan 28, 2020 at 02:55:11PM +0100, Boris Brezillon wrote:
-> Add the bus-width property to describe the input bus format.
+On Fri, Jan 31, 2020 at 06:25:05PM +0100, Boris Brezillon wrote:
+> And the typo (Propage -> Propagate) is still there :-(. Fixing it right
+> now so I don't forget.
 > 
-> v10:
-> * Add changelog to the commit message
-> * Add Rob's R-b
-> 
-> v8 -> v9:
-> * No changes
-> 
-> v7:
-> * Rebase on top of lvds-codec changes
-> * Drop the data-mapping property
-> 
-> v4 -> v6:
-> * Not part of the series
-> 
-> v3:
-> * New patch
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/display/bridge/lvds-codec.yaml    | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> index 8f373029f5d2..7c4e42f4de61 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> @@ -55,6 +55,14 @@ properties:
->          description: |
->            For LVDS encoders, port 0 is the parallel input
->            For LVDS decoders, port 0 is the LVDS input
-> +        properties:
-> +          bus-width:
-> +            allOf:
-> +              - $ref: /schemas/types.yaml#/definitions/uint32
-> +              - enum: [18, 24]
-> +              - default: 24
-> +          description:
-> +            Number of data lines used to transmit the RGB data.
+> On Tue, 28 Jan 2020 14:55:12 +0100 Boris Brezillon wrote:
+> > So that the previous bridge element in the chain knows which input
+> > format the panel bridge expects.
 
-This is a bit unclear. First of all, depending on whether the node is an
-LVDS encoder or decoder, port@0 is either a parallel input or an LVDS
-input. The property mentiones RGB data, does it mean it apply to LVDS
-encoders only ? Or should it be in port@1 for LVDS decoders ?
+I've been told multiple times by Tomi that the commit message should be
+readable by itself, not just as a continuation of the subject line. I
+was annoyed in the beginning, as I had to change my habits, but I think
+it's an actual improvement. You may want to pay attention to that too in
+the future.
 
-Then, I'm not sure what the property describes. Is it the number of data
-lanes that the chip has ? Or the number of lanes routed on the board ?
-Should it be specified only if the number of lanes on the board is
-different than the maximum number of lanes of the hardware ? A more
-detailed description is needed.
+> > v10:
+> > * Add changelog to the commit message
+> > 
+> > v8 -> v9:
+> > * No changes
+> > 
+> > v7:
+> > * Set atomic state hooks explicitly
+> > 
+> > v4 -> v6:
+> > * Not part of the series
+> > 
+> > v3:
+> > * Adjust things to match the new bus-format negotiation approach
+> > * Use drm_atomic_helper_bridge_propagate_bus_fmt
+> > * Don't implement ->atomic_check() (the core now takes care of bus
+> >   flags propagation)
+> > 
+> > v2:
+> > * Adjust things to match the new bus-format negotiation approach
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Updating the example would also be useful.
+With the typo fixed,
 
->  
->        port@1:
->          type: object
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> > ---
+> >  drivers/gpu/drm/bridge/panel.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> > index f66777e24968..dcc72bd7df30 100644
+> > --- a/drivers/gpu/drm/bridge/panel.c
+> > +++ b/drivers/gpu/drm/bridge/panel.c
+> > @@ -127,6 +127,10 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+> >  	.enable = panel_bridge_enable,
+> >  	.disable = panel_bridge_disable,
+> >  	.post_disable = panel_bridge_post_disable,
+> > +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> > +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> > +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> > +	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
+> >  };
+> >  
+> >  /**
 
 -- 
 Regards,
