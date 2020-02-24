@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC7916BC62
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD5716BC86
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 236EA6EA39;
-	Tue, 25 Feb 2020 08:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E11A36EA55;
+	Tue, 25 Feb 2020 08:51:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73BF56E9BD
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:21:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A80916E9C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:21:43 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 386F92935D0
+ with ESMTPSA id 3F0132935D4
 Received: by earth.universe (Postfix, from userid 1000)
- id 5817D3C0CA4; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
+ id 5E3E03C0CA5; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sre@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2 33/56] drm/omap: dsi: Reverse direction of the DSS device
- enable/disable operations
-Date: Tue, 25 Feb 2020 00:21:03 +0100
-Message-Id: <20200224232126.3385250-34-sebastian.reichel@collabora.com>
+Subject: [PATCHv2 34/56] drm/omap: dsi: drop custom panel capability support
+Date: Tue, 25 Feb 2020 00:21:04 +0100
+Message-Id: <20200224232126.3385250-35-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
 References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
@@ -51,201 +50,132 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Complete the direction reversal of the DSS device enable/disable
-operations started by 19b4200d8f4b ("drm/omap: Reverse direction
-of the DSS device enable/disable operations").
-
-This effectively drops the requirement of calling DSS specific
-code from the DSI panel driver moving it a bit further to a
-standard drm_panel driver.
+Due to previous changes the DSI encoder gets the capabilities
+via DSI client's mode_flags and no longer needs the omapdss
+specific caps. The core code now checks if the DSI encoder
+is actually configured into command mode instead of just checking
+the panel capabilities.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 75 ++++++++++---------
- drivers/gpu/drm/omapdrm/omap_encoder.c        | 24 ++----
- 2 files changed, 46 insertions(+), 53 deletions(-)
+ drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c |  3 ---
+ drivers/gpu/drm/omapdrm/dss/dsi.c               |  8 ++++++++
+ drivers/gpu/drm/omapdrm/dss/omapdss.h           |  8 +-------
+ drivers/gpu/drm/omapdrm/omap_crtc.c             | 17 ++++++++---------
+ 4 files changed, 17 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-index 5a2a8cee9186..6f559c1b0bf6 100644
+index 6f559c1b0bf6..30be9e4ab908 100644
 --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
 +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-@@ -288,27 +288,6 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
- 	struct omap_dss_device *src = ddata->src;
- 	u8 id1, id2, id3;
- 	int r;
--	struct omap_dss_dsi_config dsi_config = {
--		.vm = &ddata->vm,
--		.hs_clk_min = 150000000,
--		.hs_clk_max = 300000000,
--		.lp_clk_min = 7000000,
--		.lp_clk_max = 10000000,
--	};
--
--	r = regulator_bulk_enable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
--	if (r) {
--		dev_err(&ddata->dsi->dev, "failed to enable supplies: %d\n", r);
--		return r;
--	}
--
--	r = src->ops->dsi.set_config(src, &dsi_config);
--	if (r) {
--		dev_err(&ddata->dsi->dev, "failed to configure DSI\n");
--		goto err_regulators;
--	}
--
--	src->ops->enable(src);
+@@ -602,9 +602,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+ 	dssdev->of_port = 0;
+ 	dssdev->ops_flags = OMAP_DSS_DEVICE_OP_MODES;
  
- 	dsicm_hw_reset(ddata);
- 
-@@ -363,12 +342,6 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
- 
- 	dsicm_hw_reset(ddata);
- 
--	src->ops->disable(src);
--err_regulators:
--	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
--	if (r)
--		dev_err(&ddata->dsi->dev, "failed to disable supplies: %d\n", r);
+-	dssdev->caps = OMAP_DSS_DISPLAY_CAP_MANUAL_UPDATE |
+-		OMAP_DSS_DISPLAY_CAP_TEAR_ELIM;
 -
- 	return r;
+ 	omapdss_display_init(dssdev);
+ 	omapdss_device_register(dssdev);
+ 
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index b0e796f90fca..42f995da21a5 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -4732,6 +4732,13 @@ static bool dsi_vm_calc(struct dsi_data *dsi,
+ 			dsi_vm_calc_pll_cb, ctx);
  }
  
-@@ -377,6 +350,8 @@ static void dsicm_power_off(struct panel_drv_data *ddata)
- 	struct omap_dss_device *src = ddata->src;
- 	int r;
- 
-+	ddata->enabled = false;
-+
- 	src->ops->dsi.disable_video_output(src, ddata->dsi->channel);
- 
- 	r = mipi_dsi_dcs_set_display_off(ddata->dsi);
-@@ -388,14 +363,6 @@ static void dsicm_power_off(struct panel_drv_data *ddata)
- 				"error disabling panel, issuing HW reset\n");
- 		dsicm_hw_reset(ddata);
- 	}
--
--	src->ops->disable(src);
--
--	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
--	if (r)
--		dev_err(&ddata->dsi->dev, "failed to disable supplies: %d\n", r);
--
--	ddata->enabled = false;
- }
- 
- static int dsicm_connect(struct omap_dss_device *src,
-@@ -415,6 +382,30 @@ static void dsicm_disconnect(struct omap_dss_device *src,
- 	ddata->src = NULL;
- }
- 
-+static void dsicm_pre_enable(struct omap_dss_device *dssdev)
++static bool dsi_is_video_mode(struct omap_dss_device *dssdev)
 +{
-+	struct panel_drv_data *ddata = to_panel_data(dssdev);
-+	struct omap_dss_device *src = ddata->src;
-+	int r;
-+	struct omap_dss_dsi_config dsi_config = {
-+		.vm = &ddata->vm,
-+		.hs_clk_min = 150000000,
-+		.hs_clk_max = 300000000,
-+		.lp_clk_min = 7000000,
-+		.lp_clk_max = 10000000,
-+	};
++	struct dsi_data *dsi = to_dsi_data(dssdev);
 +
-+	r = regulator_bulk_enable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
-+	if (r) {
-+		dev_err(&ddata->dsi->dev, "failed to enable supplies: %d\n", r);
-+	}
-+
-+	r = src->ops->dsi.set_config(src, &dsi_config);
-+	if (r) {
-+		dev_err(&ddata->dsi->dev, "failed to configure DSI\n");
-+	}
++	return (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE);
 +}
 +
- static void dsicm_enable(struct omap_dss_device *dssdev)
+ static int dsi_set_config(struct omap_dss_device *dssdev,
+ 		const struct omap_dss_dsi_config *config)
  {
- 	struct panel_drv_data *ddata = to_panel_data(dssdev);
-@@ -449,6 +440,16 @@ static void dsicm_disable(struct omap_dss_device *dssdev)
- 	mutex_unlock(&ddata->lock);
+@@ -4951,6 +4958,7 @@ static const struct omap_dss_device_ops dsi_ops = {
+ 		.disable_video_output = dsi_disable_video_output,
+ 
+ 		.update = dsi_update_all,
++		.is_video_mode = dsi_is_video_mode,
+ 	},
+ };
+ 
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index d7081086c2b1..430e915d2759 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -122,11 +122,6 @@ enum omap_dss_dsi_mode {
+ 	OMAP_DSS_DSI_VIDEO_MODE,
+ };
+ 
+-enum omap_display_caps {
+-	OMAP_DSS_DISPLAY_CAP_MANUAL_UPDATE	= 1 << 0,
+-	OMAP_DSS_DISPLAY_CAP_TEAR_ELIM		= 1 << 1,
+-};
+-
+ enum omap_dss_display_state {
+ 	OMAP_DSS_DISPLAY_DISABLED = 0,
+ 	OMAP_DSS_DISPLAY_ACTIVE,
+@@ -281,6 +276,7 @@ struct omap_dss_writeback_info {
+ 
+ struct omapdss_dsi_ops {
+ 	int (*update)(struct omap_dss_device *dssdev);
++	bool (*is_video_mode)(struct omap_dss_device *dssdev);
+ 
+ 	/* legacy API used by omapdss panels */
+ 	int (*set_config)(struct omap_dss_device *dssdev,
+@@ -353,8 +349,6 @@ struct omap_dss_device {
+ 	unsigned long ops_flags;
+ 	u32 bus_flags;
+ 
+-	enum omap_display_caps caps;
+-
+ 	enum omap_dss_display_state state;
+ 
+ 	/* OMAP DSS output specific fields */
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index c924d77207fb..af62f6075602 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -495,8 +495,7 @@ static enum drm_mode_status omap_crtc_mode_valid(struct drm_crtc *crtc,
+ 	 * valid DISPC mode. DSI will calculate and configure the
+ 	 * proper DISPC mode later.
+ 	 */
+-	if (omap_crtc->pipe->output->next == NULL ||
+-	    omap_crtc->pipe->output->next->type != OMAP_DISPLAY_TYPE_DSI) {
++	if (omap_crtc->pipe->output->type != OMAP_DISPLAY_TYPE_DSI) {
+ 		r = priv->dispc_ops->mgr_check_timings(priv->dispc,
+ 						       omap_crtc->channel,
+ 						       &vm);
+@@ -548,17 +547,17 @@ static void omap_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ static bool omap_crtc_is_manually_updated(struct drm_crtc *crtc)
+ {
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+-	struct omap_dss_device *display = omap_crtc->pipe->output->next;
++	struct omap_dss_device *dssdev = omap_crtc->pipe->output;
+ 
+-	if (!display)
++	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI ||
++	    !dssdev->ops->dsi.is_video_mode)
+ 		return false;
+ 
+-	if (display->caps & OMAP_DSS_DISPLAY_CAP_MANUAL_UPDATE) {
+-		DBG("detected manually updated display!");
+-		return true;
+-	}
++	if (dssdev->ops->dsi.is_video_mode(dssdev))
++		return false;
+ 
+-	return false;
++	DBG("detected manually updated display!");
++	return true;
  }
  
-+static void dsicm_post_disable(struct omap_dss_device *dssdev)
-+{
-+	struct panel_drv_data *ddata = to_panel_data(dssdev);
-+	int r;
-+
-+	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
-+	if (r)
-+		dev_err(&ddata->dsi->dev, "failed to disable supplies: %d\n", r);
-+}
-+
- static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
- {
- 	struct mipi_dsi_device *dsi = ddata->dsi;
-@@ -502,8 +503,10 @@ static const struct omap_dss_device_ops dsicm_ops = {
- 	.connect	= dsicm_connect,
- 	.disconnect	= dsicm_disconnect,
- 
-+	.pre_enable	= dsicm_pre_enable,
- 	.enable		= dsicm_enable,
- 	.disable	= dsicm_disable,
-+	.post_disable	= dsicm_post_disable,
- 
- 	.get_modes	= dsicm_get_modes,
- 	.check_timings	= dsicm_check_timings,
-@@ -666,8 +669,6 @@ static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
- 
- 	omapdss_device_unregister(dssdev);
- 
--	if (omapdss_device_is_enabled(dssdev))
--		dsicm_disable(dssdev);
- 	omapdss_device_disconnect(ddata->src, dssdev);
- 
- 	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
-diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
-index 18a79dde6815..10abe4d01b0b 100644
---- a/drivers/gpu/drm/omapdrm/omap_encoder.c
-+++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
-@@ -137,15 +137,11 @@ static void omap_encoder_disable(struct drm_encoder *encoder)
- 	omapdss_device_disable(dssdev->next);
- 
- 	/*
--	 * Disable the internal encoder. This will disable the DSS output. The
--	 * DSI is treated as an exception as DSI pipelines still use the legacy
--	 * flow where the pipeline output controls the encoder.
-+	 * Disable the internal encoder. This will disable the DSS output.
- 	 */
--	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
--		if (dssdev->ops && dssdev->ops->disable)
--			dssdev->ops->disable(dssdev);
--		dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
--	}
-+	if (dssdev->ops && dssdev->ops->disable)
-+		dssdev->ops->disable(dssdev);
-+	dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
- 
- 	/*
- 	 * Perform the post-disable operations on the chain of external devices
-@@ -166,15 +162,11 @@ static void omap_encoder_enable(struct drm_encoder *encoder)
- 	omapdss_device_pre_enable(dssdev->next);
- 
- 	/*
--	 * Enable the internal encoder. This will enable the DSS output. The
--	 * DSI is treated as an exception as DSI pipelines still use the legacy
--	 * flow where the pipeline output controls the encoder.
-+	 * Enable the internal encoder. This will enable the DSS output.
- 	 */
--	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
--		if (dssdev->ops && dssdev->ops->enable)
--			dssdev->ops->enable(dssdev);
--		dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
--	}
-+	if (dssdev->ops && dssdev->ops->enable)
-+		dssdev->ops->enable(dssdev);
-+	dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
- 
- 	/*
- 	 * Enable the chain of external devices, starting at the one at the
+ static int omap_crtc_atomic_check(struct drm_crtc *crtc,
 -- 
 2.25.0
 
