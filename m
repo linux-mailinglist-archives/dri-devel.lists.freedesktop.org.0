@@ -2,35 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1C216A7C5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 14:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3CA16A802
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 15:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4A26E4F4;
-	Mon, 24 Feb 2020 13:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A99896E1F8;
+	Mon, 24 Feb 2020 14:13:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E039E6E4F4
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 13:59:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B4E630E;
- Mon, 24 Feb 2020 05:59:13 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E0DB23F534;
- Mon, 24 Feb 2020 05:59:12 -0800 (PST)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id A1951682F2C; Mon, 24 Feb 2020 13:59:11 +0000 (GMT)
-Date: Mon, 24 Feb 2020 13:59:11 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Wambui Karuga <wambui.karugax@gmail.com>
-Subject: Re: [PATCH] drm/arm: make hdlcd_debugfs_init return 0
-Message-ID: <20200224135911.GJ364558@e110455-lin.cambridge.arm.com>
-References: <20200218172821.18378-1-wambui.karugax@gmail.com>
- <20200218172821.18378-2-wambui.karugax@gmail.com>
+X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Feb 2020 14:13:17 UTC
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2376E1F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 14:13:17 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e53d8840000>; Mon, 24 Feb 2020 06:07:00 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 24 Feb 2020 06:08:16 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 24 Feb 2020 06:08:16 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Feb
+ 2020 14:08:16 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
+ Frontend Transport; Mon, 24 Feb 2020 14:08:15 +0000
+Received: from thunderball.nvidia.com (Not Verified[10.21.140.91]) by
+ rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5e53d8cd0006>; Mon, 24 Feb 2020 06:08:15 -0800
+From: Jon Hunter <jonathanh@nvidia.com>
+To: Milo Kim <milo.kim@ti.com>, Lee Jones <lee.jones@linaro.org>, Daniel
+ Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>
+Subject: [PATCH] backlight: lp855x: Ensure regulators are disabled on probe
+ failure
+Date: Mon, 24 Feb 2020 14:07:48 +0000
+Message-ID: <20200224140748.2182-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200218172821.18378-2-wambui.karugax@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1582553221; bh=B1HKOxHeQwu3ZxgJLvSfafO1owYsd38lFNvB2Oh8gBc=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=dfYQwx0mO6RJmMGe7fpG0nnF6C6SYW/OpD7TyRQeoyteFGeIJhOSMuxqEYkC9lFWj
+ 2uad1OlFcRaUI0yvXdCukRm48GOmMaVMXf7QMBvnUX5Oft7CGuwYZrTn1QWqIpqWPE
+ Abm9c01J5GaoP4lHvpfttdAMP2lbj6duakNL9EtSQjpQrl2SzAeQ2Mgyngx8ShXQ4k
+ RQpUxzzm4BvtcyNiXd4IkA643Oi5tuduyVjDGhdIUhjL9mFvPOZLQQXw+qMS+8y00d
+ yR+/eSweKp58FmATdtd92Dy1FiU1fIWRtKRpsuCtWCZsxy9UteQ7akapIqAY8jPEL8
+ BhVUHDVDBZcBQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,47 +64,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiBUdWUsIEZlYiAxOCwgMjAyMCBhdCAwODoyODoxM1BNICswMzAwLCBXYW1idWkgS2Fy
-dWdhIHdyb3RlOgo+IEFzIGRybV9kZWJ1Z2ZzX2NyZWF0ZV9maWxlcyBzaG91bGQgcmV0dXJuIHZv
-aWQsIHJlbW92ZSBpdHMgdXNlIGFzIGEKPiByZXR1cm4gdmFsdWUgaW4gaGRsY2RfZGVidWdmc19p
-bml0IGFuZCBoYXZlIHRoZSBsYXR0ZXIgZnVuY3Rpb24gcmV0dXJuIDAKPiBkaXJlY3RseS4KPiAK
-PiBTaWduZWQtb2ZmLWJ5OiBXYW1idWkgS2FydWdhIDx3YW1idWkua2FydWdheEBnbWFpbC5jb20+
-Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMgfCA2ICsrKystLQo+ICAx
-IGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJt
-L2FybS9oZGxjZF9kcnYuYwo+IGluZGV4IDJlMDUzODE1YjU0YS4uYmQwYWQ2ZjQ2YTk3IDEwMDY0
-NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMKPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5jCj4gQEAgLTIyNiw4ICsyMjYsMTAgQEAgc3RhdGljIHN0
-cnVjdCBkcm1faW5mb19saXN0IGhkbGNkX2RlYnVnZnNfbGlzdFtdID0gewo+ICAKPiAgc3RhdGlj
-IGludCBoZGxjZF9kZWJ1Z2ZzX2luaXQoc3RydWN0IGRybV9taW5vciAqbWlub3IpCj4gIHsKPiAt
-CXJldHVybiBkcm1fZGVidWdmc19jcmVhdGVfZmlsZXMoaGRsY2RfZGVidWdmc19saXN0LAo+IC0J
-CUFSUkFZX1NJWkUoaGRsY2RfZGVidWdmc19saXN0KSwJbWlub3ItPmRlYnVnZnNfcm9vdCwgbWlu
-b3IpOwo+ICsJZHJtX2RlYnVnZnNfY3JlYXRlX2ZpbGVzKGhkbGNkX2RlYnVnZnNfbGlzdCwKPiAr
-CQkJCSBBUlJBWV9TSVpFKGhkbGNkX2RlYnVnZnNfbGlzdCksCj4gKwkJCQkgbWlub3ItPmRlYnVn
-ZnNfcm9vdCwgbWlub3IpOwo+ICsJcmV0dXJuIDA7Cj4gIH0KPiAgI2VuZGlmCj4KPiAtLSAKPiAy
-LjI1LjAKPgoKVGhhbmtzIGZvciB5b3VyIHBhdGNoISBJIGhhZCB0byBnbyBpbnRvIHRoZSBNTCBh
-bmQgZmluZCBvdXQgdGhlIHNlcmllcyB3aGVyZSB0aGlzCnBhdGNoIGJlbG9uZ3MgdG8gYW5kIHNl
-ZW4gdGhhdCB5b3UgaGF2ZSBhbHJlYWR5IHJlY2VpdmVkIHNvbWUgZmVlZGJhY2ssIGJ1dCBJIHRo
-aW5rCmEgc3VtbWFyeSBpcyB3b3J0aDoKCi0geW91IHNob3VsZCBsb29rIGlmIGl0IGlzIHBvc3Np
-YmxlIHRvIG1ha2UgLmRlYnVnZnNfaW5pdCBob29rIHJldHVybiB2b2lkLCBpdCB3b3VsZAogIHNp
-bXBsaWZ5IHRoZSBjbGVhbnVwIGluIHRoZSBkcml2ZXJzIGJ5IG5vdCBoYXZpbmcgdG8gcmV0dXJu
-IDAuCi0geW91IHNob3VsZCBwdXQgaW4gZWFjaCBkcml2ZXIgcGF0Y2ggYSBub3RlIHRoYXQgZHJt
-X2RlYnVnZnNfY3JlYXRlX2ZpbGVzKCkgYWx3YXlzCiAgcmV0dXJucyAwIHNpbmNlIDk4N2Q2NWQw
-MTM1NiAoZHJtOiBkZWJ1Z2ZzOiBtYWtlIGRybV9kZWJ1Z2ZzX2NyZWF0ZV9maWxlcygpIG5ldmVy
-IGZhaWwpCiAgc28gdGhhdCBwZW9wbGUgZG9uJ3QgaGF2ZSB0byBodW50IGluIHRoZSBnaXQgaGlz
-dG9yeSBmb3IgY2x1ZXMuCi0gTWFrZSBhbGwgdGhlIGNoYW5nZXMgaW50byBhIHNlcmllcwoKV2l0
-aCB0aGF0LCB5b3UgY2FuIGhhdmUgbXkgQWNrZWQtYnk6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRh
-dUBhcm0uY29tPgoKQmVzdCByZWdhcmRzLApMaXZpdQoKLS0gCj09PT09PT09PT09PT09PT09PT09
-CnwgSSB3b3VsZCBsaWtlIHRvIHwKfCBmaXggdGhlIHdvcmxkLCAgfAp8IGJ1dCB0aGV5J3JlIG5v
-dCB8CnwgZ2l2aW5nIG1lIHRoZSAgIHwKIFwgc291cmNlIGNvZGUhICAvCiAgLS0tLS0tLS0tLS0t
-LS0tCiAgICDCr1xfKOODhClfL8KvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+If probing the LP885x backlight fails after the regulators have been
+enabled, then the following warning is seen when releasing the
+regulators ...
+
+ WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
+ Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
+ CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
+ Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
+
+ ...
+
+ Call trace:
+  _regulator_put.part.28+0x158/0x160
+  regulator_put+0x34/0x50
+  devm_regulator_release+0x10/0x18
+  release_nodes+0x12c/0x230
+  devres_release_all+0x34/0x50
+  really_probe+0x1c0/0x370
+  driver_probe_device+0x58/0x100
+  device_driver_attach+0x6c/0x78
+  __driver_attach+0xb0/0xf0
+  bus_for_each_dev+0x68/0xc8
+  driver_attach+0x20/0x28
+  bus_add_driver+0x160/0x1f0
+  driver_register+0x60/0x110
+  i2c_register_driver+0x40/0x80
+  lp855x_driver_init+0x20/0x1000 [lp855x_bl]
+  do_one_initcall+0x58/0x1a0
+  do_init_module+0x54/0x1d0
+  load_module+0x1d80/0x21c8
+  __do_sys_finit_module+0xe8/0x100
+  __arm64_sys_finit_module+0x18/0x20
+  el0_svc_common.constprop.3+0xb0/0x168
+  do_el0_svc+0x20/0x98
+  el0_sync_handler+0xf4/0x1b0
+  el0_sync+0x140/0x180
+
+Fix this by ensuring that the regulators are disabled, if enabled, on
+probe failure.
+
+Finally, ensure that the vddio regulator is disabled in the driver
+remove handler.
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ drivers/video/backlight/lp855x_bl.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
+index f68920131a4a..e94932c69f54 100644
+--- a/drivers/video/backlight/lp855x_bl.c
++++ b/drivers/video/backlight/lp855x_bl.c
+@@ -456,7 +456,7 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
+ 		ret = regulator_enable(lp->enable);
+ 		if (ret < 0) {
+ 			dev_err(lp->dev, "failed to enable vddio: %d\n", ret);
+-			return ret;
++			goto disable_supply;
+ 		}
+ 
+ 		/*
+@@ -471,24 +471,34 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
+ 	ret = lp855x_configure(lp);
+ 	if (ret) {
+ 		dev_err(lp->dev, "device config err: %d", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
+ 
+ 	ret = lp855x_backlight_register(lp);
+ 	if (ret) {
+ 		dev_err(lp->dev,
+ 			"failed to register backlight. err: %d\n", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
+ 
+ 	ret = sysfs_create_group(&lp->dev->kobj, &lp855x_attr_group);
+ 	if (ret) {
+ 		dev_err(lp->dev, "failed to register sysfs. err: %d\n", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
+ 
+ 	backlight_update_status(lp->bl);
++
+ 	return 0;
++
++disable_vddio:
++	if (lp->enable)
++		regulator_disable(lp->enable);
++disable_supply:
++	if (lp->supply)
++		regulator_disable(lp->supply);
++
++	return ret;
+ }
+ 
+ static int lp855x_remove(struct i2c_client *cl)
+@@ -497,6 +507,8 @@ static int lp855x_remove(struct i2c_client *cl)
+ 
+ 	lp->bl->props.brightness = 0;
+ 	backlight_update_status(lp->bl);
++	if (lp->enable)
++		regulator_disable(lp->enable);
+ 	if (lp->supply)
+ 		regulator_disable(lp->supply);
+ 	sysfs_remove_group(&lp->dev->kobj, &lp855x_attr_group);
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
