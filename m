@@ -1,74 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5F616B1D3
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 22:11:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAE516B2D5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 22:41:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7C76E984;
-	Mon, 24 Feb 2020 21:11:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A376E85F;
+	Mon, 24 Feb 2020 21:41:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9686E984;
- Mon, 24 Feb 2020 21:11:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 57E073F405;
- Mon, 24 Feb 2020 22:11:07 +0100 (CET)
-Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=p6641goU; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id L0CohpgLZcrE; Mon, 24 Feb 2020 22:11:06 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 377FD3F3F8;
- Mon, 24 Feb 2020 22:11:03 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 711BB360161;
- Mon, 24 Feb 2020 22:11:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1582578663; bh=zRGhG19geIcw0C2+kLiix3NQfLVNZmZoqSBS7rSc4Ug=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=p6641goUrGWQh44HhUU5w0CEXG3IlDRWl8Gs5V7EOJEJSW9tCqBh1trALmXY8F7A4
- AADbseN5Ya2uzLEUpa8NwECJFpYta78yGKw7rUj7R0nuKs/QdHIuevLNRRKLkSvARp
- d7PjqKBist5TE7dZSZ/vULfnwMqmCutHyb1FAnW0=
-Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20200217154509.2265-6-christian.koenig@amd.com>
- <20200217175518.GL2363188@phenom.ffwll.local>
- <f8ac7cbc-7c90-7119-735c-9f55adb6fa7f@shipmail.org>
- <CAKMK7uHG3EkEPbAQ3UEHHLcfmR+0NPq0wZuBX+s2-WCFdso8ew@mail.gmail.com>
- <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
- <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org>
- <20200220180459.GS2363188@phenom.ffwll.local>
- <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org>
- <20200220200831.GA2363188@phenom.ffwll.local>
- <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org>
- <20200221171217.GD2363188@phenom.ffwll.local>
- <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com>
- <8f29b152-9c7b-3427-efa2-4a39f0daced8@shipmail.org>
- <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <73b6d3db-4263-5bad-5d56-dbaacba000b3@shipmail.org>
-Date: Mon, 24 Feb 2020 22:11:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67F2A6E85F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 21:41:03 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A658E89;
+ Mon, 24 Feb 2020 22:41:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1582580461;
+ bh=6UaiBtvarQObo5GVB4HcCJiDttMhyMzcSXEvJoXq8XM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eBr+n6mTr9e7xtb+hpHkJCa6be4Q+cES9DbDZuI3Qcswwh317v5Em1cKrc7NAthom
+ shY1X2A1yl586f/Kn2MWmxyM92wnuE5BK1wADoDeJgQmQDhPZWSoKyFDxR3aPzpI1N
+ o3OkzkHDkThtkCJqn3fIk2QCPl3qF8sXzJPlPc20=
+Date: Mon, 24 Feb 2020 23:40:08 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tony Lindgren <tony@atomide.com>
+Subject: Re: [PATCH 1/3] drm/omap: Prepare DSS for probing without legacy
+ platform data
+Message-ID: <20200224214008.GD16163@pendragon.ideasonboard.com>
+References: <20200224191230.30972-1-tony@atomide.com>
+ <20200224191230.30972-2-tony@atomide.com>
 MIME-Version: 1.0
-In-Reply-To: <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200224191230.30972-2-tony@atomide.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,113 +48,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
+ Suman Anna <s-anna@ti.com>, Dave Gerlach <d-gerlach@ti.com>,
+ Keerthy <j-keerthy@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Andrew F . Davis" <afd@ti.com>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Faiz Abbas <faiz_abbas@ti.com>, Jyri Sarha <jsarha@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMi8yNC8yMCA3OjQ2IFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IEFtIDIzLjAyLjIw
-IHVtIDE3OjU0IHNjaHJpZWIgVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSk6Cj4+IE9uIDIvMjMv
-MjAgNDo0NSBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4+IEFtIDIxLjAyLjIwIHVtIDE4
-OjEyIHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPj4+PiBbU05JUF0KPj4+PiBZZWFoIHRoZSBHcmVh
-dCBQbGFuICh0bSkgaXMgdG8gZnVsbHkgcmVseSBvbiB3d19tdXRleCBzbG93bHkgCj4+Pj4gZGVn
-ZW5lcmF0aW5nCj4+Pj4gaW50byBlc3NlbnRpYWxseSBhIGdsb2JhbCBsb2NrLiBCdXQgb25seSB3
-aGVuIHRoZXJlJ3MgYWN0dWFsIAo+Pj4+IGNvbnRlbnRpb24KPj4+PiBhbmQgdGhyYXNoaW5nLgo+
-Pj4KPj4+IFllcyBleGFjdGx5LiBBIHJlYWxseSBiaWcgcHJvYmxlbSBpbiBUVE0gaXMgY3VycmVu
-dGx5IHRoYXQgd2UgZHJvcCAKPj4+IHRoZSBsb2NrIGFmdGVyIGV2aWN0aW5nIEJPcyBiZWNhdXNl
-IHRoZXkgdGVuZCB0byBtb3ZlIGluIGFnYWluIAo+Pj4gZGlyZWN0bHkgYWZ0ZXIgdGhhdC4KPj4+
-Cj4+PiBGcm9tIHByYWN0aWNlIEkgY2FuIGFsc28gY29uZmlybSB0aGF0IHRoZXJlIGlzIGV4YWN0
-bHkgemVybyBiZW5lZml0IAo+Pj4gZnJvbSBkcm9wcGluZyBsb2NrcyBlYXJseSBhbmQgcmVhY3F1
-aXJlIHRoZW0gZm9yIGV4YW1wbGUgZm9yIHRoZSBWTSAKPj4+IHBhZ2UgdGFibGVzLiBUaGF0J3Mg
-anVzdCBtYWtlcyBpdCBtb3JlIGxpa2VseSB0aGF0IHNvbWVib2R5IG5lZWRzIHRvIAo+Pj4gcm9s
-bCBiYWNrIGFuZCB0aGlzIGlzIHdoYXQgd2UgbmVlZCB0byBhdm9pZCBpbiB0aGUgZmlyc3QgcGxh
-Y2UuCj4+Cj4+IElmIHlvdSBoYXZlIGEgYmVuY2htYXJraW5nIHNldHVwIGF2YWlsYWJsZSBpdCB3
-b3VsZCBiZSB2ZXJ5IAo+PiBpbnRlcmVzdGluZyBmb3IgZnV0dXJlIHJlZmVyZW5jZSB0byBzZWUg
-aG93IGNoYW5naW5nIGZyb20gV0QgdG8gV1cgCj4+IG11dGV4ZXMgYWZmZWN0cyB0aGUgcm9sbCBi
-YWNrIGZyZXF1ZW5jeS4gV1cgaXMga25vd24gdG8gY2F1c2UgCj4+IHJvbGxiYWNrcyBtdWNoIGxl
-c3MgZnJlcXVlbnRseSBidXQgdGhlcmUgaXMgbW9yZSB3b3JrIGFzc29jaWF0ZWQgd2l0aCAKPj4g
-ZWFjaCByb2xsYmFjay4KPgo+IE5vdCBvZiBoYW5kLiBUbyBiZSBob25lc3QgSSBzdGlsbCBoYXZl
-IGEgaGFyZCB0aW1lIHRvIGdldCBhIGdyaXAgb24gCj4gdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiBX
-RCBhbmQgV1cgZnJvbSB0aGUgYWxnb3JpdGhtIHBvaW50IG9mIHZpZXcuIFNvIAo+IEkgY2FuJ3Qg
-anVkZ2UgdGhhdCBkaWZmZXJlbmNlIGF0IGFsbC4KCk9LLiBJIGRvbid0IHRoaW5rIGEgZGV0YWls
-ZWQgdW5kZXJzdGFuZGluZyBvZiB0aGUgYWxnb3JpdGhtcyBpcyBzdHJpY3RseSAKbmVjZXNzYXJ5
-LCB0aG91Z2guIElmIHdlIGhhZCBoYWQgYSBnb29kIHRlc3RjYXNlIHdlJ2QganVzdCBoYXZlIHRv
-IApjaGFuZ2UgREVGSU5FX1dEX0NMQVNTIGluIGRtYS1yZXN2LmMgdG8gREVGSU5FX1dXX0NMQVNT
-IGFuZCBiZW5jaG1hcmsgCnJlbGV2YW50IGZpZ3VyZXMuCgoKPgo+Pj4gQ29udGVudGlvbiBvbiBC
-TyBsb2NrcyBkdXJpbmcgY29tbWFuZCBzdWJtaXNzaW9uIGlzIHBlcmZlY3RseSBmaW5lIAo+Pj4g
-YXMgbG9uZyBhcyB0aGlzIGlzIGFzIGxpZ2h0d2VpZ2h0IGFzIHBvc3NpYmxlIHdoaWxlIHdlIGRv
-bid0IGhhdmUgCj4+PiB0cmFzaGluZy4gV2hlbiB3ZSBoYXZlIHRyYXNoaW5nIG11bHRpIHN1Ym1p
-c3Npb24gcGVyZm9ybWFuY2UgaXMgYmVzdCAKPj4+IGFyY2hpdmVkIHRvIGp1c3QgZmF2b3IgYSBz
-aW5nbGUgcHJvY2VzcyB0byBmaW5pc2ggaXRzIGJ1c2luZXNzIGFuZCAKPj4+IGJsb2NrIGV2ZXJ5
-Ym9keSBlbHNlLgo+Pgo+PiBIbW0uIFNvdW5kcyBsaWtlIHdlIG5lZWQgYSBwZXItbWFuYWdlciB3
-d19yd3NlbSBwcm90ZWN0aW5nIG1hbmFnZXIgCj4+IGFsbG9jYXRpb24sIHRha2VuIGluIHdyaXRl
-LW1vZGUgdGhlbiB0aGVyZSdzIHRocmFzaGluZy4gSW4gcmVhZC1tb2RlIAo+PiBvdGhlcndpc2Uu
-IFRoYXQgd291bGQgbGltaXQgdGhlIGFtb3VudCBvZiAidW5uZWNlc3NhcnkiIGxvY2tzIHdlJ2Qg
-Cj4+IGhhdmUgdG8ga2VlcCBhbmQgcmVkdWNlIHVud2FudGVkIHNpZGUtZWZmZWN0cywgKHNlZSBi
-ZWxvdyk6Cj4KPiBXZWxsIHBlci1tYW5hZ2VyICh5b3UgbWVhbiBwZXIgZG9tYWluIGhlcmUgZG9u
-J3QgeW91PykKeWVzLgo+IGRvZXNuJ3Qgc291bmQgbGlrZSB0aGF0IHVzZWZ1bCBiZWNhdXNlIHdl
-IHJhcmVseSB1c2Ugb25seSBvbmUgZG9tYWluLAoKV2VsbCB0aGUgZGlmZmVyZW5jZSB0byBrZWVw
-aW5nIGFsbCBsb2NrcyB3b3VsZCBib2lsIGRvd24gdG86CiJJbnN0ZWFkIG9mIGtlZXBpbmcgYWxs
-IGxvY2tzIG9mIGFsbCBib3Mgd2UgZXZpY3QgZnJvbSB0aHJhc2hpbmcgCmRvbWFpbnMsIGtlZXAg
-bG9ja3Mgb2YgYWxsIHRocmFzaGluZyBkb21haW5zIGluIHdyaXRlIG1vZGUiLiBUaGlzIG1lYW5z
-IAp0aGF0IGZvciBkb21haW5zIHRoYXQgYXJlIG5vdCB0aHJhc2hpbmcsIHdlJ2QganVzdCBrZWVw
-IHJlYWQgbG9ja3MuCgoKPiBidXQgSSdtIGFjdHVhbGx5IHF1ZXN0aW9uaW5nIGZvciBxdWl0ZSBh
-IHdoaWxlIGlmIHRoZSBwZXIgQk8gbG9jayAKPiBzY2hlbWUgd2FzIHRoZSByaWdodCBhcHByb2Fj
-aC4KPgo+IFNlZSBmcm9tIHRoZSBwZXJmb3JtYW5jZSBhc3BlY3QgdGhlIGNsb3Nlc3QgdG8gaWRl
-YWwgc29sdXRpb24gSSBjYW4gCj4gdGhpbmsgb2Ygd291bGQgYmUgYSB3d19yd3NlbSBwZXIgdXNl
-ciBvZiBhIHJlc291cmNlLgo+Cj4gSW4gb3RoZXIgd29yZHMgd2UgZG9uJ3QgbG9jayBCT3MsIGJ1
-dCBpbnN0ZWFkIGEgbGlzdCBvZiBhbGwgdGhlaXIgCj4gdXNlcnMgYW5kIHdoZW4geW91IHdhbnQg
-dG8gZXZpY3QgYSBCTyB5b3UgbmVlZCB0byB3YWxrIHRoYXQgbGlzdCBhbmQgCj4gaW5mb3JtIGFs
-bCB1c2VycyB0aGF0IHRoZSBCTyB3aWxsIGJlIG1vdmluZy4KPgo+IER1cmluZyBjb21tYW5kIHN1
-Ym1pc3Npb24geW91IHRoZW4gaGF2ZSB0aGUgZmFzdCBwYXRoIHdoaWNoIHJhdGhlciAKPiBqdXN0
-IGdyYWJzIHRoZSByZWFkIHNpZGUgb2YgdGhlIHVzZXIgbG9jayBhbmQgY2hlY2sgaWYgYWxsIEJP
-cyBhcmUgCj4gc3RpbGwgaW4gdGhlIGV4cGVjdGVkIHBsYWNlLgo+Cj4gSWYgc29tZSBCT3Mgd2Vy
-ZSBldmljdGVkIHlvdSBiYWNrIG9mZiBhbmQgc3RhcnQgdGhlIHNsb3cgcGF0aCwgZS5nLiAKPiBt
-YXliZSBldmVuIGNvcHkgYWRkaXRpb25hbCBkYXRhIGZyb20gdXNlcnNwYWNlIHRoZW4gZ3JhYiB0
-aGUgd3JpdGUgCj4gc2lkZSBvZiB0aGUgbG9jayBldGMuLiBldGMuLi4KPgo+IFRoYXQgYXBwcm9h
-Y2ggaXMgc2ltaWxhciB0byB3aGF0IHdlIHVzZSBpbiBhbWRncHUgd2l0aCB0aGUgcGVyLVZNIEJP
-cywgCj4gYnV0IGdvZXMgYSBzdGVwIGZ1cnRoZXIuIFByb2JsZW0gaXMgdGhhdCB3ZSBhcmUgc28g
-dXNlZCB0byBwZXIgQk8gCj4gbG9ja3MgaW4gdGhlIGtlcm5lbCB0aGF0IHRoaXMgaXMgcHJvYmFi
-bHkgbm90IGRvYWJsZSBhbnkgbW9yZS4KCkkgdGhpbmsgd2UgbmVlZCBzb21lLXNvcnQgb2YgcGVy
-LWJvIGxvY2sgdG8gcHJvdGVjdCBibyBtZXRhZGF0YS4gQnV0IAp5ZXMsIHJlbHlpbmcgc29sZWx5
-IG9uIHRoZW0gdG8gcmVzb2x2ZSBvdGhlciByZXNvdXJjZSAoZG9tYWluKSAKY29udGVudGlvbiBt
-YXkgbm90IGJlIChvciByYXRoZXIgcHJvYmFibHkgaXNuJ3QpIHRoZSByaWdodCBjaG9pY2UuCgo+
-Cj4+PiBCZWNhdXNlIG9mIHRoaXMgSSB3b3VsZCBhY3R1YWxseSB2b3RlIGZvciBmb3JiaWRkaW5n
-IHRvIHJlbGVhc2UgCj4+PiBpbmRpdmlkdWFsIHd3X211dGV4KCkgbG9ja3MgaW4gYSBjb250ZXh0
-Lgo+Pgo+PiBZZXMsIEkgc2VlIHRoZSBwcm9ibGVtLgo+Pgo+PiBCdXQgbXkgZmlyc3QgcmVhY3Rp
-b24gaXMgdGhhdCB0aGlzIG1pZ2h0IGhhdmUgdW5kZXJzaXJhYmxlIAo+PiBzaWRlLWVmZmVjdHMu
-IExldCdzIHNheSBzb21lYm9keSB3YW50ZWQgdG8gc3dhcCB0aGUgZXZpY3RlZCBCT3Mgb3V0Pwo+
-Cj4gUGxlYXNlIGV4cGxhaW4gZnVydGhlciwgSSBvZmYgaGFuZCBkb24ndCBzZWUgdGhlIHByb2Js
-ZW0gaGVyZS4KCkxldHMgc2F5IHRocmVhZCBBIGV2aWN0cyBhIGxvdCBvZiB0aHJlYWQgQidzIGJv
-cywgYW5kIGtlZXBzIHRoZSBsb2NrcyBvZiAKdGhvc2UgYm9zIGZvciBhIHByb2xvbmdlZCB0aW1l
-LiBUaGVuIHRocmVhZCBDIG5lZWRzIG1lbW9yeSBhbmQgd2FudHMgdG8gCnN3YXAgb3V0IHRocmVh
-ZCBCJ3MgYm9zLiBJdCBjYW4ndCwgb3IgYXQgbGVhc3Qgbm90IGR1cmluZyBhIGNlcnRhaW4gCmRl
-bGF5IGJlY2F1c2UgdGhyZWFkIEEgdW5uZWNlc3NhcmlseSBob2xkcyB0aGUgbG9ja3MuCgo+Cj4g
-SW4gZ2VuZXJhbCBJIGFjdHVhbGx5IHdhbnRlZCB0byByZS13b3JrIFRUTSBpbiBhIHdheSB0aGF0
-IEJPcyBpbiB0aGUgCj4gU1lTVEVNL1NXQVBBQkxFIGRvbWFpbiBhcmUgYWx3YXlzIGJhY2tlZCBi
-eSBhIHNobWVtIGZpbGUgaW5zdGVhZCBvZiAKPiB0aGUgc3RydWN0IHBhZ2UgYXJyYXkgd2UgY3Vy
-cmVudGx5IGhhdmUuCgpUaGF0IHdvdWxkIHByb2JhYmx5IHdvcmsgd2VsbCBpZiB0aGVyZSBhcmUg
-bm8gU1lTVEVNK3dyaXRlLWNvbWJpbmVkIAp1c2VycyBhbnltb3JlLiBUeXBpY2FsbHkgaW4gdGhl
-IG9sZCBBR1AgZGF5cywgeW91IHdvdWxkbid0IGNoYW5nZSAKY2FjaGluZyBtb2RlIHdoZW4gZXZp
-Y3RpbmcgZnJvbSB3cml0ZS1jb21iaW5lIEFHUCB0byBTWVNURU0gYmVjYXVzZSBvZiAKdGhlIGRl
-YWQgc2xvdyB3YmludmQoKSBvcGVyYXRpb24uCj4KPj4gT3IgY3B1LXdyaXRlcyB0byB0aGVtIGNh
-dXNpbmcgZmF1bHRzLCB0aGF0IG1pZ2h0IGFsc28gYmxvY2sgdGhlIAo+PiBtbV9zZW0sIHdoaWNo
-IGluIHR1cm4gYmxvY2tzIGh1Z2VwYWdlZD8KPgo+IE1obSwgSSBhbHNvIG9ubHkgaGF2ZSBhIGhp
-Z2hlciBsZXZlbCB2aWV3IGhvdyBodWdlcGFnZWQgd29ya3Mgc28gd2h5IAo+IGRvZXMgaXQgZ3Jh
-YnMgdGhlIG1tX3NlbSBvbiB0aGUgd3JpdGUgc2lkZT8KCklmIEkgdW5kZXJzdGFuZCBpdCBjb3Jy
-ZWN0bHksIGl0J3MgbmVlZGVkIHdoZW4gY29sbGFwc2luZyBQTUQgCmRpcmVjdG9yaWVzIHRvIGh1
-Z2UgUE1EIHBhZ2VzLiBCdXQgdGhpcyB3YXMgbWVyZWx5IGFuIGV4YW1wbGUuIEZvciB0aGlzIApw
-YXJ0aWN1bGFyIGNhc2UgdGhlIFJFVFJZIG1lY2hhbmlzbSBpbiB0aGUgVFRNIGZhdWx0IGhhbmRs
-ZXIgd2UndmUgCmRpc2N1c3NlZCBiZWZvcmUgd2lsbCB0cnkgcmVhc29uYWJseSBoYXJkIHRvIHJl
-bGVhc2UgdGhlIG1tYXBfc2VtIHdoZW4gCnNsZWVwaW5nIG9uIGEgYm8gbG9jay4KClRoYW5rcywK
-VGhvbWFzCgoKCj4KPiBUaGFua3MsCj4gQ2hyaXN0aWFuLgo+Cj4+Cj4+IFN0aWxsIGl0J3MgYSBm
-YWlybHkgc2ltcGxlIHNvbHV0aW9uIHRvIGEgcHJvYmxlbSB0aGF0IHNlZW1zIG90aGVyd2lzZSAK
-Pj4gaGFyZCB0byBzb2x2ZSBlZmZpY2llbnRseS4KPj4KPj4gVGhhbmtzLAo+PiBUaG9tYXMKPj4K
-Pj4KPj4+Cj4+PiBSZWdhcmRzLAo+Pj4gQ2hyaXN0aWFuLgo+Pj4KPj4+PiAtRGFuaWVsCj4+Cj4+
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Tony,
+
+Thank you for the patch.
+
+On Mon, Feb 24, 2020 at 11:12:28AM -0800, Tony Lindgren wrote:
+> In order to probe display subsystem (DSS) components with ti-sysc
+> interconnect target module without legacy platform data and using
+> devicetree, we need to update dss probing a bit.
+> 
+> In the device tree, we will be defining the data also for the interconnect
+> target modules as DSS really is a private interconnect. There is some
+> information about that in 4460 TRM in "Figure 10-3. DSS Integration" for
+> example where it mentions "32-bit interconnect (SLX)".
+> 
+> The changes we need to make are:
+> 
+> 1. Parse also device tree subnodes for the compatible property fixup
+> 
+> 2. Update the component code to consider device tree subnodes
+> 
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Jyri Sarha <jsarha@ti.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> 
+> This is needed for dropping DSS platform data that I'll be posting
+> seprately. If this looks OK, can you guys please test and ack?
+> 
+> ---
+>  drivers/gpu/drm/omapdrm/dss/dss.c             | 25 ++++++++++++++++---
+>  .../gpu/drm/omapdrm/dss/omapdss-boot-init.c   | 25 +++++++++++++------
+>  2 files changed, 39 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
+> --- a/drivers/gpu/drm/omapdrm/dss/dss.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dss.c
+> @@ -1339,9 +1339,15 @@ static int dss_component_compare(struct device *dev, void *data)
+>  	return dev == child;
+>  }
+>  
+> +struct dss_component_match_data {
+> +	struct device *dev;
+> +	struct component_match **match;
+> +};
+> +
+>  static int dss_add_child_component(struct device *dev, void *data)
+>  {
+> -	struct component_match **match = data;
+> +	struct dss_component_match_data *cmatch = data;
+> +	struct component_match **match = cmatch->match;
+>  
+>  	/*
+>  	 * HACK
+> @@ -1352,7 +1358,17 @@ static int dss_add_child_component(struct device *dev, void *data)
+>  	if (strstr(dev_name(dev), "rfbi"))
+>  		return 0;
+>  
+> -	component_match_add(dev->parent, match, dss_component_compare, dev);
+> +	/*
+> +	 * Handle possible interconnect target modules defined within the DSS.
+> +	 * The DSS components can be children of an interconnect target module
+> +	 * after the device tree has been updated for the module data.
+> +	 * See also omapdss_boot_init() for compatible fixup.
+> +	 */
+> +	if (strstr(dev_name(dev), "target-module"))
+> +		return device_for_each_child(dev, cmatch,
+> +					     dss_add_child_component);
+> +
+> +	component_match_add(cmatch->dev, match, dss_component_compare, dev);
+>  
+>  	return 0;
+>  }
+> @@ -1395,6 +1411,7 @@ static int dss_probe_hardware(struct dss_device *dss)
+>  static int dss_probe(struct platform_device *pdev)
+>  {
+>  	const struct soc_device_attribute *soc;
+> +	struct dss_component_match_data cmatch;
+>  	struct component_match *match = NULL;
+>  	struct resource *dss_mem;
+>  	struct dss_device *dss;
+> @@ -1472,7 +1489,9 @@ static int dss_probe(struct platform_device *pdev)
+>  
+>  	omapdss_gather_components(&pdev->dev);
+>  
+> -	device_for_each_child(&pdev->dev, &match, dss_add_child_component);
+> +	cmatch.dev = &pdev->dev;
+> +	cmatch.match = &match;
+> +	device_for_each_child(&pdev->dev, &cmatch, dss_add_child_component);
+>  
+>  	r = component_master_add_with_match(&pdev->dev, &dss_component_ops, match);
+>  	if (r)
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+> @@ -183,9 +183,24 @@ static const struct of_device_id omapdss_of_fixups_whitelist[] __initconst = {
+>  	{},
+>  };
+>  
+> +static void __init omapdss_find_children(struct device_node *np)
+> +{
+> +	struct device_node *child;
+> +
+> +	for_each_available_child_of_node(np, child) {
+> +		if (!of_find_property(child, "compatible", NULL))
+> +			continue;
+> +
+> +		omapdss_walk_device(child, true);
+> +
+> +		if (of_device_is_compatible(child, "ti,sysc"))
+> +			omapdss_find_children(child);
+> +	}
+> +}
+> +
+>  static int __init omapdss_boot_init(void)
+>  {
+> -	struct device_node *dss, *child;
+> +	struct device_node *dss;
+>  
+>  	INIT_LIST_HEAD(&dss_conv_list);
+>  
+> @@ -195,13 +210,7 @@ static int __init omapdss_boot_init(void)
+>  		return 0;
+>  
+>  	omapdss_walk_device(dss, true);
+> -
+> -	for_each_available_child_of_node(dss, child) {
+> -		if (!of_find_property(child, "compatible", NULL))
+> -			continue;
+> -
+> -		omapdss_walk_device(child, true);
+> -	}
+> +	omapdss_find_children(dss);
+>  
+>  	while (!list_empty(&dss_conv_list)) {
+>  		struct dss_conv_node *n;
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
