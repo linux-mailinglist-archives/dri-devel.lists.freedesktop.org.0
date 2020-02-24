@@ -1,31 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DA216A43B
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 11:45:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AE416A46D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 11:57:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 980D96E427;
-	Mon, 24 Feb 2020 10:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEF36E428;
+	Mon, 24 Feb 2020 10:57:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0E4A6E427
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 10:44:57 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2005)
- id 18C1568AFE; Mon, 24 Feb 2020 11:44:53 +0100 (CET)
-Date: Mon, 24 Feb 2020 11:44:52 +0100
-From: Torsten Duwe <duwe@lst.de>
-To: Icenowy Zheng <icenowy@aosc.io>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/bridge: analogix-anx6345: fix set of link bandwidth
-Message-ID: <20200224104452.GA31184@lst.de>
-References: <20200221165127.813325-1-icenowy@aosc.io>
- <20200221171328.GC6928@lst.de> <1E7BDB0F-639B-42BB-A4B4-A4C8CF94EBE0@aosc.io>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85ABB6E428
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 10:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582541829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/1CCPaVc2aLA8NjqXCPZT0Ga6w227BL2pWYhrzftV6o=;
+ b=Z6vgo9GjVuXXTNbukTnEgOdraeg9JgyvDI2xUZknZRqdc5BPFVT0n/gINM4MIz+oJ21iGy
+ FnC6AnskbXrYU6j/Muej1bhsDyPOt/3IN85lacSBRUBQ4V1iynCd15AMSRRnJjzUxB7hjQ
+ sxCcOLBnHAopUcklobBu/awPmecxyVE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-KkcF6BPkPU6Cx1I_E9QGyw-1; Mon, 24 Feb 2020 05:57:07 -0500
+X-MC-Unique: KkcF6BPkPU6Cx1I_E9QGyw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6E9613F6;
+ Mon, 24 Feb 2020 10:57:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-87.ams2.redhat.com
+ [10.36.116.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44C691001B2D;
+ Mon, 24 Feb 2020 10:57:05 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 517B21747F; Mon, 24 Feb 2020 11:57:04 +0100 (CET)
+Date: Mon, 24 Feb 2020 11:57:04 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [RFC PATCH 0/3] KVM: x86: honor guest memory type
+Message-ID: <20200224105704.55tv3ulirnse53j4@sirius.home.kraxel.org>
+References: <20200213213036.207625-1-olvaffe@gmail.com>
+ <8fdb85ea-6441-9519-ae35-eaf91ffe8741@redhat.com>
+ <CAPaKu7T8VYXTMc1_GOzJnwBaZSG214qNoqRr8c7Z4Lb3B7dtTg@mail.gmail.com>
+ <b82cd76c-0690-c13b-cf2c-75d7911c5c61@redhat.com>
+ <CAPaKu7TDtFwF5czdpke1v7NWKf61kw_jVp-E1qQPqs-qbZYnMw@mail.gmail.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D78D724@SHSMSX104.ccr.corp.intel.com>
+ <CAPaKu7Qa6yzRxB10ufNxu+F5S3_GkwofKCm66aB9H4rdWj8fFQ@mail.gmail.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D78EEA2@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1E7BDB0F-639B-42BB-A4B4-A4C8CF94EBE0@aosc.io>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D78EEA2@SHSMSX104.ccr.corp.intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,68 +67,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, "Christopherson,
+ Sean J" <sean.j.christopherson@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "jmattson@google.com" <jmattson@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBGZWIgMjIsIDIwMjAgYXQgMTA6NDM6MDJBTSArMDgwMCwgSWNlbm93eSBaaGVuZyB3
-cm90ZToKPiAKPiAKPiDkuo4gMjAyMOW5tDLmnIgyMuaXpSBHTVQrMDg6MDAg5LiK5Y2IMToxMzoy
-OCwgVG9yc3RlbiBEdXdlIDxkdXdlQGxzdC5kZT4g5YaZ5YiwOgo+ID5PbiBTYXQsIEZlYiAyMiwg
-MjAyMCBhdCAxMjo1MToyN0FNICswODAwLCBJY2Vub3d5IFpoZW5nIHdyb3RlOgo+ID4+IEN1cnJl
-bnQgY29kZSB0cmllcyB0byBzdG9yZSB0aGUgbGluayByYXRlIChpbiBicHMsIHdoaWNoIGlzIGEg
-YmlnCj4gPj4gbnVtYmVyKSBpbiBhIHU4LCB3aGljaCBzdXJlbHkgb3ZlcmZsb3cuIFRoZW4gaXQn
-cyBjb252ZXJ0ZWQgYmFjayB0bwo+ID4+IGJhbmR3aWR0aCBjb2RlICh3aGljaCBpcyB0aHVzIDAp
-IGFuZCB3cml0dGVuIHRvIHRoZSBjaGlwLgo+ID4+IAo+ID4+IFRoZSBjb2RlIHNvbWV0aW1lcyB3
-b3JrcyBiZWNhdXNlIHRoZSBjaGlwIHdpbGwgYXV0b21hdGljYWxseSBmYWxsYmFjawo+ID50bwo+
-ID4+IHRoZSBsb3dlc3QgcG9zc2libGUgRFAgbGluayByYXRlICgxLjYyR2Jwcykgd2hlbiBnZXQg
-dGhlIGludmFsaWQKPiA+dmFsdWUuCj4gPj4gSG93ZXZlciwgb24gdGhlIGVEUCBwYW5lbCBvZiBP
-bGltZXggVEVSRVMtSSwgd2hpY2ggd2FudHMgMi43R2Jwcwo+ID5saW5rLAo+ID4+IGl0IGZhaWxl
-ZC4KPiA+PiAKPiA+PiBBcyB3ZSBoYWQgYWxyZWFkeSByZWFkIHRoZSBsaW5rIGJhbmR3aWR0aCBh
-cyBiYW5kd2lkdGggY29kZSBpbgo+ID5lYXJsaWVyCj4gPj4gY29kZSAodG8gY2hlY2sgd2hldGhl
-ciBpdCBpcyBzdXBwb3J0ZWQpLCB1c2UgaXQgd2hlbiBzZXR0aW5nCj4gPmJhbmR3aWR0aCwKPiA+
-PiBpbnN0ZWFkIG9mIGNvbnZlcnRpbmcgaXQgdG8gbGluayByYXRlIGFuZCB0aGVuIGNvbnZlcnRp
-bmcgYmFjay4KPiA+PiAKPiA+PiBGaXhlczogZTFjZmY4MmMxMDk3ICgiZHJtL2JyaWRnZTogZml4
-IGFueDYzNDUgY29tcGlsYXRpb24gZm9yIHY1LjUiKQo+ID4+IFNpZ25lZC1vZmYtYnk6IEljZW5v
-d3kgWmhlbmcgPGljZW5vd3lAYW9zYy5pbz4KPiA+PiAtLS0KPiA+PiAgZHJpdmVycy9ncHUvZHJt
-L2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeC1hbng2MzQ1LmMgfCAzICstLQo+ID4+ICAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCj4gPj4gCj4gPj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW5hbG9naXgtYW54NjM0NS5j
-Cj4gPmIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeC1hbng2MzQ1LmMK
-PiA+PiBpbmRleCA1NmY1NWM1M2FiZmQuLjJkZmEyZmQyYTIzYiAxMDA2NDQKPiA+PiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FuYWxvZ2l4LWFueDYzNDUuYwo+ID4+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW5hbG9naXgtYW54NjM0NS5jCj4g
-Pj4gQEAgLTIxMCw4ICsyMTAsNyBAQCBzdGF0aWMgaW50IGFueDYzNDVfZHBfbGlua190cmFpbmlu
-ZyhzdHJ1Y3QKPiA+YW54NjM0NSAqYW54NjM0NSkKPiA+PiAgCWlmIChlcnIpCj4gPj4gIAkJcmV0
-dXJuIGVycjsKPiA+PiAgCj4gPj4gLQlkcGNkWzBdID0gZHJtX2RwX21heF9saW5rX3JhdGUoYW54
-NjM0NS0+ZHBjZCk7Cj4gPj4gLQlkcGNkWzBdID0gZHJtX2RwX2xpbmtfcmF0ZV90b19id19jb2Rl
-KGRwY2RbMF0pOwo+ID4+ICsJZHBjZFswXSA9IGRwX2J3Owo+ID4KPiA+V2h5IGRvIHlvdSBtYWtl
-IHRoaXMgYXNzaWdubWVudCBhbmQgbm90IHVzZSBkcF9idyBkaXJlY3RseSBpbiB0aGUgY2FsbD8K
-PiAKPiBCZWNhdXNlIHRoZSBkcGNkIGFycmF5IGlzIHRoZW4gd3JpdHRlbiBhcyBhIGNvbnRpbm91
-cyBhcnJheQo+IGJhY2sgdG8gRFBDRC4KCkJ1dCB0aGUgY3VycmVudCBjb2RlIG5ldmVyIGNoYW5n
-ZXMgdGhpcyB2YWx1ZT8KQW55d2F5LCBhcyB0aGlzIG1pZ2h0IGNoYW5nZSBpbiB0aGUgZnV0dXJl
-LCBJIHN1cHBvcnQgeW91ciB2ZXJzaW9uOwpJIHdhbnQgdG8gc2VlIHRoaXMgZml4ZWQuCgpSZXZp
-ZXdlZC1ieTogVG9yc3RlbiBEdXdlIDxkdXdlQHN1c2UuZGU+CkZpeGVzOiBlMWNmZjgyYzEwOTcg
-KCJkcm0vYnJpZGdlOiBmaXggYW54NjM0NSBjb21waWxhdGlvbiBmb3IgdjUuNSIpCkNjOiBNYXhp
-bWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVjaD4KQ2M6IFRvcnN0ZW4gRHV3ZSA8ZHV3ZUBsc3Qu
-ZGU+CkNjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CkNjOiBMaW51cyBXYWxsZWlq
-IDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+CkNjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4KQ2M6IEljZW5vd3kgWmhlbmcgPGljZW5vd3lAYW9zYy5pbz4KQ2M6IFN0
-ZXBoZW4gUm90aHdlbGwgPHNmckBjYW5iLmF1dWcub3JnLmF1PgoKPiA+Cj4gPj4gIAllcnIgPSBy
-ZWdtYXBfd3JpdGUoYW54NjM0NS0+bWFwW0kyQ19JRFhfRFBUWF0sCj4gPj4gIAkJCSAgIFNQX0RQ
-X01BSU5fTElOS19CV19TRVRfUkVHLCBkcGNkWzBdKTsKPiA+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5eXl5eXgo+ID4+ICAJaWYgKGVycikK
-PiA+PiAtLSAKPiA+PiAyLjI0LjEKPiA+Cj4gPkJUVywgbXkgdmVyc2lvbiBpcyBvbmx5IGEgYml0
-IG1vcmUgdmVyYm9zZToKPiA+Cj4gPmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9w
-YXRjaC8zNTQzNDQvCj4gPgo+ID4JVG9yc3Rlbgo+IAo+IC0tIAo+IOS9v+eUqCBLLTkgTWFpbCDl
-j5HpgIHoh6rmiJHnmoRBbmRyb2lk6K6+5aSH44CCCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+  Hi,
+
+> > The plan is for virtio-gpu device to reserve a huge memory region in
+> > the guest.  Memslots may be added dynamically or statically to back
+> > the region.
+> 
+> so the region is marked as E820_RESERVED to prevent guest kernel 
+> from using it for other purpose and then virtio-gpu device will report
+> virtio-gpu driver of the exact location of the region through its own
+> interface?
+
+It's large pci bar, to reserve address space, using (recently added)
+virtio shared memory support.  dma-bufs are mapped dynamically as
+sub-regions into that pci bar.
+
+At kvm level that'll end up as one memory slot per dma-buf.
+
+cheers,
+  Gerd
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
