@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EF716AE6E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 19:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8252E16AF6F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 19:41:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815CD6E839;
-	Mon, 24 Feb 2020 18:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 538CB89A62;
+	Mon, 24 Feb 2020 18:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
  [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9F236E839
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 18:14:44 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id 59so9557948otp.12
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 10:14:44 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B10389A62
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 18:41:09 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id 66so9645360otd.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 10:41:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=4nmmGful+MegUr8aRgRCB1gCieEuCvrSiIBlqsABDmE=;
- b=BobaDc5cHaJzSRklLcyHy1uOaYgb5OYn5arlGlaJtSqP3omhj0NghoSM9qbMTOLQqo
- Y282spXaAvKrkvZlhMBvdv/rlknFbAIUBaj5dyTcX88AHgHw/AZcnRLnWPSuJPg/egBq
- 4zODV1QNqJK7JhK0QKP+B5JQk7KX90mhuIGSXBWuOqaaqtm0NVNNQ3+qhGy81n018ise
- xNhJvDdV7oX1yvGVt1x9PngWMclksMsKiY6hkkUsbgQul4ZNO+XYN+lPtfp4jHJg7qkn
- Q/7FvxW9r3iP3OKGyeiGgE0fTHXqL2to0GlG5Kk/KbP+MdqL0IjJVZ5kZJvVBUYL1i3y
- 7zHg==
-X-Gm-Message-State: APjAAAWkIm+VIRRpPoBNvPdgyIb0GIXJT1NndT5ZwgKfpicSDwpAMInH
- VJRkXKM4smuqYLRoRZcnbA==
-X-Google-Smtp-Source: APXvYqzSAV62BhNi363gv0daEbhuDKzBdde3JmEZAlbjVYZ9GcAmP/tY+ZpDRe7P2Ti1DpLoIK6ciQ==
-X-Received: by 2002:a9d:68d9:: with SMTP id i25mr29162204oto.135.1582568083899; 
- Mon, 24 Feb 2020 10:14:43 -0800 (PST)
+ bh=+sVRf7GGeylhrZHXm0oszIDVdS6Xo7uktXxhGGTwofg=;
+ b=J93KYuaUDLgswMbvfEhvbJhSFNDKcAg/lpY1xXQMriSyqxc3tp8IPAtb8sIQXG8oJm
+ l99ybwBT+6VHB4023nDQTMHbpsL0/j+OwBmnGPYiPupyPa5UYC0BCYqa+O+1edznmudC
+ bbtubTl9K4lQwplC25OVuUu3UyebZ7qby6qlSo9072weZUSW0eRI9KnU4fKknCAMrxnW
+ BdvuUBujC/RqIop+JcpG6ED8UM+W3AHJXXiBIDn63VRyAHLZNmbeEmUhE8ojvWkcGRha
+ IdJlOE0FeBNTuwSiZp7FoC7m3qk6T8iVBRDyEWwkaFu7VgGznKwLb+JaDfafbPTxGU/U
+ AtzQ==
+X-Gm-Message-State: APjAAAVi5CBMiwjiq5owOl/D6+758AU25m9JQUsy5qwRe0Vq6GAH/QS7
+ XulRfjkL3dmzwtJ8TgV+SA==
+X-Google-Smtp-Source: APXvYqwOcQ+Wis2rH/zphuGcXoi5E6fO/77Hc1wq8cqj519RKyKMhXx/ovrxEJoXA98US2+hSw3maw==
+X-Received: by 2002:a9d:6e02:: with SMTP id e2mr42973744otr.194.1582569668643; 
+ Mon, 24 Feb 2020 10:41:08 -0800 (PST)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id 60sm4761700otu.45.2020.02.24.10.14.41
+ by smtp.gmail.com with ESMTPSA id i6sm4685288oto.62.2020.02.24.10.41.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 10:14:43 -0800 (PST)
-Received: (nullmailer pid 24218 invoked by uid 1000);
- Mon, 24 Feb 2020 18:14:41 -0000
-Date: Mon, 24 Feb 2020 12:14:41 -0600
+ Mon, 24 Feb 2020 10:41:08 -0800 (PST)
+Received: (nullmailer pid 5865 invoked by uid 1000);
+ Mon, 24 Feb 2020 18:41:07 -0000
+Date: Mon, 24 Feb 2020 12:41:07 -0600
 From: Rob Herring <robh@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to renames
-Message-ID: <20200224181441.GA23262@bogus>
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
- <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 29/89] dt-bindings: display: Convert VC4 bindings to
+ schemas
+Message-ID: <20200224184107.GA4189@bogus>
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <bf8aa2deea50cc3599caeb9ed1a07556353415df.1582533919.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+In-Reply-To: <bf8aa2deea50cc3599caeb9ed1a07556353415df.1582533919.git-series.maxime@cerno.tech>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,66 +62,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Yoder <stuyoder@gmail.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Pavel Machek <pavel@ucw.cz>, linux-clk@vger.kernel.org,
- linux-leds@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
- Amit Kucheria <amit.kucheria@verdurent.com>, linux-aspeed@lists.ozlabs.org,
- Jonathan Corbet <corbet@lwn.net>, Kevin Hilman <khilman@baylibre.com>,
- openbmc@lists.ozlabs.org, Daniel Lezcano <daniel.lezcano@linaro.org>,
- linux-stm32@st-md-mailman.stormreply.com,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Joel Stanley <joel@jms.id.au>,
- Zhang Rui <rui.zhang@intel.com>, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>, linux-gpio@vger.kernel.org,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Laurentiu Tudor <laurentiu.tudor@nxp.com>, Stephen Boyd <sboyd@kernel.org>,
- Andy Gross <agross@kernel.org>, Andrew Jeffery <andrew@aj.id.au>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Sudeep Holla <sudeep.holla@arm.com>, Dan Murphy <dmurphy@ti.com>
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 22, 2020 at 10:00:02AM +0100, Mauro Carvalho Chehab wrote:
-> Several DT references got broken due to txt->yaml conversion.
+On Mon, 24 Feb 2020 10:06:31 +0100, Maxime Ripard wrote:
+> The BCM283x SoCs have a display pipeline composed of several controllers
+> with device tree bindings that are supported by Linux.
 > 
-> Those are auto-fixed by running:
+> Now that we have the DT validation in place, let's split into separate
+> files and convert the device tree bindings for those controllers to
+> schemas.
 > 
-> 	scripts/documentation-file-ref-check --fix
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Reviewed-by: Dan Murphy <dmurphy@ti.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  Documentation/devicetree/bindings/arm/arm,scmi.txt        | 2 +-
->  Documentation/devicetree/bindings/arm/arm,scpi.txt        | 2 +-
->  .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt         | 2 +-
->  .../devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt  | 2 +-
->  .../devicetree/bindings/arm/msm/qcom,idle-state.txt       | 2 +-
->  Documentation/devicetree/bindings/arm/omap/mpu.txt        | 2 +-
->  Documentation/devicetree/bindings/arm/psci.yaml           | 2 +-
->  .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml       | 2 +-
->  .../devicetree/bindings/display/tilcdc/tilcdc.txt         | 2 +-
->  Documentation/devicetree/bindings/leds/common.yaml        | 2 +-
->  .../devicetree/bindings/leds/register-bit-led.txt         | 2 +-
->  .../devicetree/bindings/memory-controllers/ti/emif.txt    | 2 +-
->  Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt   | 2 +-
->  .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml          | 2 +-
->  .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml          | 2 +-
->  .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml          | 2 +-
->  .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml  | 2 +-
->  .../devicetree/bindings/reset/st,stm32mp1-rcc.txt         | 2 +-
->  .../devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml  | 2 +-
->  MAINTAINERS                                               | 8 ++++----
->  20 files changed, 23 insertions(+), 23 deletions(-)
+>  Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt              | 174 +------------------------------------------------------------------------
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml         |  66 +++++++++++++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml        |  73 ++++++++++++++++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml        |  75 +++++++++++++++++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml         |  37 +++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml |  40 +++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml         |  37 +++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml         |  42 +++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml         |  34 ++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml         |  44 ++++++++++++++++++-
+>  MAINTAINERS                                                             |   2 +-
+>  11 files changed, 449 insertions(+), 175 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml
+> 
 
-Applied.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Rob
+warning: no schema found in file: Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml: ignoring, error in schema: properties
+Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml: properties: '#clock-cells' is a dependency of 'clock-output-names'
+Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.example.dts] Error 1
+Makefile:1263: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
+See https://patchwork.ozlabs.org/patch/1242907
+Please check and re-submit.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
