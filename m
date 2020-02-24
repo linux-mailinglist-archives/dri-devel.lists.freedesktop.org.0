@@ -1,99 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F032169C9A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 04:22:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEC7169E09
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 06:52:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF31E6E04E;
-	Mon, 24 Feb 2020 03:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBBC56E06D;
+	Mon, 24 Feb 2020 05:52:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2083.outbound.protection.outlook.com [40.107.243.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013FA89B0B;
- Mon, 24 Feb 2020 03:21:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cfq5Lmt4VV1yKsLAiZUND3zBRZx9lI2JgzRS1VBSTpBSpfKqRwPZSG/bsYAfry6rBBRIf54YxHfoCKU62nEySGxsdk1G7vjfg1sTYjJnjzCaZn71fsCVEr8bRAkf+KaWtKIrqGOok+dLrV5nEWOxnq74HKLo9NsBEm/T8p4PzLwg78m9IVt1SRnljTc0MxIcirHcVN+SrPcvr9snvsZc89R5OInjpYGKJFdLWWa9q0RAj6EDZ+j56P0jdECiypRXameK10oIZWkfIR2t7ZukeDmopGygIWwhOyXcqCZkyLHTEiH5pjkv7U0T2tNI4s2TmQ4gujYb3MSv1SZwhpJJJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LYiK360nRyA7aqtzCF9gPYS3mFfa9ATdkvebWnxZjzk=;
- b=cOtLgeuq2b1ZWJkPeCnKMhDY/laClEu9HkRcSAPNpseMMODhUjML8xI+N+ZAzl5D1wGq8KFY3k0i93YDTmAaVr5pLEa6MyqlGkvLLuKvml6NgucRiNK72MiIuVhMxZr8GGe+ig3o5Ry6ciZyBiR1ILPcM/ClthCDpe9ml3cxvZhr4uW3WY/luP+cJuPBF1y8OMeVBAzmyJhNNuJjd2mw7y2N48mOXbZ2pWHFQJQB+w96ON2Rq5YqzEOwTlr3FB1HmN7GSHB0U/5ifer1IwnWQQjau8FmmPWnJ6LjvoLeCg/3aw9QbY1TTBPrNeMreZItD3U7ICPjBh12AiwpGbLx4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LYiK360nRyA7aqtzCF9gPYS3mFfa9ATdkvebWnxZjzk=;
- b=njT8+Bu9Lsn4NFlnKqzQGqud5xDYy15TxMV0h9bhC+jDWvwTAXUbjZG9l3NBHO50kk21YMpvm10VcfbWyfnJJMeyZJez5AgzKtCI4WUXUIKRml1hqBcVtLW4af9wLRCK8XJCUA74hT4Jxb44liK9/p6h/KHMsqzif11tqxra3do=
-Received: from MN2PR12MB3344.namprd12.prod.outlook.com (2603:10b6:208:c5::10)
- by MN2PR12MB3805.namprd12.prod.outlook.com (2603:10b6:208:15a::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.21; Mon, 24 Feb
- 2020 03:21:49 +0000
-Received: from MN2PR12MB3344.namprd12.prod.outlook.com
- ([fe80::69c7:b493:690:2173]) by MN2PR12MB3344.namprd12.prod.outlook.com
- ([fe80::69c7:b493:690:2173%3]) with mapi id 15.20.2729.033; Mon, 24 Feb 2020
- 03:21:49 +0000
-From: "Quan, Evan" <Evan.Quan@amd.com>
-To: Chen Zhou <chenzhou10@huawei.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Zhou, David(ChunMing)" <David1.Zhou@amd.com>, "airlied@linux.ie"
- <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: RE: [PATCH -next] drm/amd/powerplay: Use bitwise instead of
- arithmetic operator for flags
-Thread-Topic: [PATCH -next] drm/amd/powerplay: Use bitwise instead of
- arithmetic operator for flags
-Thread-Index: AQHV6LJreIpz8B8T80OFeSAr9vQubqgpsZ2w
-Date: Mon, 24 Feb 2020 03:21:49 +0000
-Message-ID: <MN2PR12MB33447575BAF26E919965AB5CE4EC0@MN2PR12MB3344.namprd12.prod.outlook.com>
-References: <20200221122139.148664-1-chenzhou10@huawei.com>
-In-Reply-To: <20200221122139.148664-1-chenzhou10@huawei.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=5cc58c55-68c2-4342-86f5-000040c15cb1;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Use Only - Unrestricted;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-02-24T03:21:30Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Evan.Quan@amd.com; 
-x-originating-ip: [180.167.199.189]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b553474c-0bda-4a81-fb1b-08d7b8d8af6f
-x-ms-traffictypediagnostic: MN2PR12MB3805:|MN2PR12MB3805:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR12MB38056BEE928F8768BB4F34C8E4EC0@MN2PR12MB3805.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 032334F434
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(39860400002)(136003)(366004)(346002)(376002)(189003)(199004)(33656002)(4326008)(81156014)(8676002)(186003)(6506007)(53546011)(7696005)(86362001)(26005)(81166006)(8936002)(66476007)(66446008)(64756008)(76116006)(66946007)(66556008)(52536014)(5660300002)(110136005)(54906003)(55016002)(9686003)(478600001)(2906002)(71200400001)(316002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3805;
- H:MN2PR12MB3344.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /Qx5shFwmHgQHVt0kQxKy9JULCvq2Cq4cJKr6Xuwk2zex+b1bmFM6SoAuCnjT8kZ6AVGegGdUmurBJTe3H6J0Lu8eUyklYOl17JzNZ/JON+wDu7QPDNSayRTcinfYTjGDAh6I3NF99dcUy4jVRhX6CIxU59WdPj4zRSNjmROEuaweeYcyup3OkxoK/fV5cS64ssGZ+0nOpWfd/1Uqi18i6l/cs3Zm64D8iRUQETAFU48fdtTN+g2oIC8kF83gWA370kpv94/SN6luR7Fh1eVOSk6ZM89sRPqSk0Qs6BBpAqUAVJAUI+aEQtLYpncaBq/tKVJqSS4V5tJvGR207FIi/pTfBG9nq8leckkn0YyRvbYqdB6BWXpeKlQMwbQkYdre88tKRrZ/11LoYNzREfBRiiAm1TPpK8T8yGkKkrrNf617BWqtLRpDS/6twHu3pJi
-x-ms-exchange-antispam-messagedata: 8mP70oeWnmlNrp08F9V4w6pjW+hKF/Obww2tMqJltb7TsTYm56CGAIXjkIa4GYTeBYp7ECKbw7X/zeWGBs9E+knbqGJfIjA24/pNzuPaWgXBgi9Td0lKnANadS3imScMdIJK1UouvvgnWMWtMI2LYw==
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 221EA6E06D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 05:52:31 +0000 (UTC)
+X-UUID: a73ced289e50495cab3d5cb7625c82bc-20200224
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=MgR5hqOB+Pl8hI5WFalVP9Mi+aEEm/a6WvQwaKs1ckk=; 
+ b=KFKkhEtfeUFqX93c1GJEF5KGcpT+cQWmJzicHS7Vw6C+BjF/mXWjdPqjBPzqO/Tj/0XOgqqhU/C48T+erXBOYJr9s3ejnwQNr7XE0N0X0c1mWbbtM+tE57zBOXglTrvas6R38kJ2YvLQS9/WRpz0+IuwKA10onFbfV9VTVb5I6U=;
+X-UUID: a73ced289e50495cab3d5cb7625c82bc-20200224
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 954896136; Mon, 24 Feb 2020 13:52:26 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 24 Feb 2020 13:53:19 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 24 Feb 2020 13:52:41 +0800
+Message-ID: <1582523544.25316.2.camel@mtksdaap41>
+Subject: Re: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
+From: CK Hu <ck.hu@mediatek.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Date: Mon, 24 Feb 2020 13:52:24 +0800
+In-Reply-To: <d9ad35c0-57df-ebb2-67e8-4aae55dd2fcb@collabora.com>
+References: <20200220172147.919996-1-enric.balletbo@collabora.com>
+ <1582259996.1846.7.camel@mtksdaap41>
+ <7a87b486-1622-7f27-f5af-427b94a14c00@collabora.com>
+ <1582277229.25992.9.camel@mtksdaap41>
+ <1393a8c5-065f-cccb-2563-8b159c951d4b@suse.com>
+ <1582283518.5889.10.camel@mtksdaap41>
+ <6deab0a4-44a6-a15f-ac01-374f818b267c@collabora.com>
+ <6eb9da70-9a0c-27fc-6c31-3ac62ede5a35@suse.com>
+ <d9ad35c0-57df-ebb2-67e8-4aae55dd2fcb@collabora.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b553474c-0bda-4a81-fb1b-08d7b8d8af6f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2020 03:21:49.1363 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9WypD+Ky7YGYBWqfdCeEFJHZUvBTuFadsQ9AqbSzl8fcrvspwMueCtGUN4nRdEx1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3805
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,57 +59,380 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Feng, Kenneth" <Kenneth.Feng@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
+ mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-clk@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>, Weiyi
+ Lu <weiyi.lu@mediatek.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ wens@csie.org, Allison Randal <allison@lohutok.net>,
+ mtk01761 <wendell.lin@mediatek.com>, Owen Chen <owen.chen@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Matthias Brugger <mbrugger@suse.com>, Fabien Parent <fparent@baylibre.com>,
+ sboyd@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks. Reviewed-by: Evan Quan <evan.quan@amd.com>
 
------Original Message-----
-From: Chen Zhou <chenzhou10@huawei.com> 
-Sent: Friday, February 21, 2020 8:22 PM
-To: Quan, Evan <Evan.Quan@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Zhou, David(ChunMing) <David1.Zhou@amd.com>; airlied@linux.ie; daniel@ffwll.ch
-Cc: Feng, Kenneth <Kenneth.Feng@amd.com>; amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; chenzhou10@huawei.com
-Subject: [PATCH -next] drm/amd/powerplay: Use bitwise instead of arithmetic operator for flags
+Hi,
 
-This silences the following coccinelle warning:
+On Fri, 2020-02-21 at 18:10 +0100, Enric Balletbo i Serra wrote:
+> Hi,
+> 
+> On 21/2/20 12:53, Matthias Brugger wrote:
+> > 
+> > 
+> > On 21/02/2020 12:37, Enric Balletbo i Serra wrote:
+> >> Hi CK and Matthias,
+> >>
+> >> On 21/2/20 12:11, CK Hu wrote:
+> >>> Hi, Matthias:
+> >>>
+> >>> On Fri, 2020-02-21 at 11:24 +0100, Matthias Brugger wrote:
+> >>>>
+> >>>> On 21/02/2020 10:27, CK Hu wrote:
+> >>>>> Hi, Enric:
+> >>>>>
+> >>>>> On Fri, 2020-02-21 at 09:56 +0100, Enric Balletbo i Serra wrote:
+> >>>>>> Hi CK,
+> >>>>>>
+> >>>>>> Thanks for your quick answer.
+> >>>>>>
+> >>>>>> On 21/2/20 5:39, CK Hu wrote:
+> >>>>>>> Hi, Enric:
+> >>>>>>>
+> >>>>>>> On Thu, 2020-02-20 at 18:21 +0100, Enric Balletbo i Serra wrote:
+> >>>>>>>> Dear all,
+> >>>>>>>>
+> >>>>>>>> Those patches are intended to solve an old standing issue on some
+> >>>>>>>> Mediatek devices (mt8173, mt2701 and mt2712) in a slightly different way
+> >>>>>>>> to the precedent series.
+> >>>>>>>>
+> >>>>>>>> Up to now both drivers, clock and drm are probed with the same device tree
+> >>>>>>>> compatible. But only the first driver get probed, which in effect breaks
+> >>>>>>>> graphics on those devices.
+> >>>>>>>>
+> >>>>>>>> The version eight of the series tries to solve the problem with a
+> >>>>>>>> different approach than the previous series but similar to how is solved
+> >>>>>>>> on other Mediatek devices.
+> >>>>>>>>
+> >>>>>>>> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
+> >>>>>>>> control clock gates (which is used in the clk driver) and some registers
+> >>>>>>>> to set the routing and enable the differnet blocks of the display
+> >>>>>>>> and MDP (Media Data Path) subsystem. On this series the clk driver is
+> >>>>>>>> not a pure clock controller but a system controller that can provide
+> >>>>>>>> access to the shared registers between the different drivers that need
+> >>>>>>>> it (mediatek-drm and mediatek-mdp). And the biggest change is, that in
+> >>>>>>>> this version, clk driver is the entry point (parent) which will trigger
+> >>>>>>>> the probe of the corresponding mediatek-drm driver and pass its MMSYS
+> >>>>>>>> platform data for display configuration.
+> >>>>>>>
+> >>>>>>> When mmsys is a system controller, I prefer to place mmsys in
+> >>>>>>> drivers/soc/mediatek, and it share registers for clock, display, and mdp
+> >>>>>>> driver. This means the probe function is placed in
+> >>>>>>> drivers/soc/mediatek ,its display clock function, mdp clock function are
+> >>>>>>> placed in drivers/clk, display routing are placed in drivers/gpu/drm,
+> >>>>>>> and mdp routing are placed in dirvers/video.
+> >>>>>>>
+> >>>>>>
+> >>>>>> I understand what you mean but I am not sure this makes the code clearer and
+> >>>>>> useful. The driver in drivers/soc/mediatek will be a simple dummy implementation
+> >>>>>> of a "simple-mfd" device (a driver that simply matches with
+> >>>>>> "mediatek,mt8173-mmsys" and instantiates the "clk-mt8173-mm" and the
+> >>>>>> "mediatek-drm" driver (note that mediatek-mdp" is already instantiated via
+> >>>>>> device-tree).
+> >>>>>>
+> >>>>>
+> >>>>> It's clear that mmsys is neither a pure clock controller nor a pure
+> >>>>> routing controller for display and mdp. 
+> >>>>>
+> >>>>>> It'd be nice had a proper device-tree with a "simple-mfd" for mmsys from the
+> >>>>>> beginning representing how really hardwware is, but I think that, change this
+> >>>>>> now, will break backward compatibility.
+> >>>>>
+> >>>>> Maybe this is a solution. Current device tree would work only on old
+> >>>>> kernel version with a bug, so this mean there is no any device tree
+> >>>>> works on kernel version without bug. Why do we compatible with such
+> >>>>> device tree?
+> >>>>>
+> >>>>
+> >>
+> >> So the only reason why current DT worked at some point is because there was a
+> >> kernel bug?
+> >>
+> > 
+> > I'd say you can call it a kernel bug:
+> > https://patchwork.kernel.org/patch/10367877/#22078767
+> > 
+> > 
+> >> If that's the case I think we shouldn't worry about break DT compatibility (I'm
+> >> sorry for those that having a buggy kernel makes display working)
+> >>
+> >>>> The idea behind this is, that the device-tree could be passed by some boot
+> >>>> firmware, so that the OS do not care about it. For this we need a stable DTS as
+> >>>> otherwise newer kernel with older FW would break.
+> >>>>
+> >>>> DTS is supposed to be just a different description of the HW like ACPI. So it
+> >>>> has to be compatible (newer kernel with older DTS and if possible vice versa).
+> >>>
+> >>> In my view, there is no FW (except some bug-inside FW) which works on
+> >>> this dts, so this dts is in a initial state. I think the compatibility
+> >>> is based on that dts correctly describe the HW. If we find this dts does
+> >>> not correctly describe the HW and it's in a initial state, should we
+> >>> still make it compatible?
+> >>>
+> >>
+> >> In this case I think we don't need to worry about buggy kernels, the only thing
+> >> that we need to take in consideration is that mmsys is instantiated on both (the
+> >> old DT and the new DT), we shouldn't expect display working (because never
+> >> worked, right?)
+> >>
+> >> With that in mind, I agree that is a good opportunity to fix properly the HW
+> >> topology.
+> >>
+> >> What thing that worries me is that I see this pattern on all Mediatek SoCs, does
+> >> this mean that display was never well supported for Mediatek SoCs?
+> >>
+> > 
+> > That's exactly the case. Actually there were some patches for mt762x (can't
+> > remember if mt7623 or mt7622) whcih got pushed back, because we would need to
+> > fix the mmsys problem first.
+> > 
+> > Ok, so if we come to the conclusion that this actually only worked because of a
+> > bug, then we can remodel the whole thing.
+> > In this case, I think the best would be to do what CK proposed:
+> > https://patchwork.kernel.org/patch/11381201/#23158169
+> > 
+> > Making everything below 0x14000000 a subdevice of mmsys (mdp, ovl, rdma, you
+> > name it).
+> > 
+> 
+> 
+> I see the MMSYS space as config registers to route the different ports in the
+> drm and video subsystem, so, as phandle of the display (drivers/gpur/drm) and
+> video (drivers/video) subsystem. What about something like this?
+> 
+> mmsys: syscon@14000000 {
+> 	compatible = "mediatek,mt8173-mmsys", "syscon";
+> 	reg = <0 0x14000000 0 0x1000>;
+> 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+> 	assigned-clocks = <&topckgen CLK_TOP_MM_SEL>;
+> 	assigned-clock-rates = <400000000>;
+> 	#clock-cells = <1>;
+> };
+> 
+> Basically is what we have with
+> 
+> * [PATCH v8 4/6] clk: mediatek: mt8173: Switch MMSYS to platform driver
+> 
+> And
+> 
+> display-subsystem {
+> 	compatible = "mediatek,display-subsystem";
+> 	mediatek,mmsys = <&mmsys>; /* phandle to the routing config registers */
+> 	ports = <&ovl0>, <&ovl1>, < ... >
+> }
+> 
+> We are introducing a new compatible that is not describing hardware but how
+> hardware is grouped, which I think is fine.
+> 
+> The mediatek-drm driver will need a bit of rework but not much I guess.
+> 
+> What is still not clear to me is the mdp part because doesn't seem to have an
+> entry point like the display part, instead it uses one port as entry point.
+> 
+> 	mdp_rdma0: rdma@14001000 {
+> 		compatible = "mediatek,mt8173-mdp-rdma",
+> 			     "mediatek,mt8173-mdp";
+> 
+> AFAICS that driver is not touching MMSYS config registers to route the mdp path,
+> only is getting the clocks, but I assume it will do in the future. In such case,
+> maybe we could do something similar to the display-subsystem node?
+> 
 
-"WARNING: sum of probable bitmasks, consider |"
+Your proposal is to probe clock driver by mmsys device and probe display driver by another device. You have two choice to probe display driver: one is to create a virtual device that group display devices and probe display driver by this device. Another one is to choose one display device, such as OVL, to probe display driver.
 
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
----
- drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I do not like a virtual device solution. In some Mediatek SoC, the routing is so flexible that one function block could be placed in display pipe or mdp pipe by different routing.
 
-diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-index 92a65e3d..f29f95b 100644
---- a/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-@@ -3382,7 +3382,7 @@ static int vega10_populate_and_upload_sclk_mclk_dpm_levels(
- 	}
- 
- 	if (data->need_update_dpm_table &
--			(DPMTABLE_OD_UPDATE_SCLK + DPMTABLE_UPDATE_SCLK + DPMTABLE_UPDATE_SOCCLK)) {
-+			(DPMTABLE_OD_UPDATE_SCLK | DPMTABLE_UPDATE_SCLK | 
-+DPMTABLE_UPDATE_SOCCLK)) {
- 		result = vega10_populate_all_graphic_levels(hwmgr);
- 		PP_ASSERT_WITH_CODE((0 == result),
- 				"Failed to populate SCLK during PopulateNewDPMClocksStates Function!", @@ -3390,7 +3390,7 @@ static int vega10_populate_and_upload_sclk_mclk_dpm_levels(
- 	}
- 
- 	if (data->need_update_dpm_table &
--			(DPMTABLE_OD_UPDATE_MCLK + DPMTABLE_UPDATE_MCLK)) {
-+			(DPMTABLE_OD_UPDATE_MCLK | DPMTABLE_UPDATE_MCLK)) {
- 		result = vega10_populate_all_memory_levels(hwmgr);
- 		PP_ASSERT_WITH_CODE((0 == result),
- 				"Failed to populate MCLK during PopulateNewDPMClocksStates Function!",
---
-2.7.4
+mmsys device control the display routing and display clock. OVL control. display overlay function. Both devices control partial display function, so probing display driver by which one looks the same for me.
+
+I prefer to probe display driver by mmsys device because it has more information of display pipe line and OVL just focus on overlay function. Only when it's difficult to probe display driver by mmsys device, we have to probe display driver by OVL.
+
+I think mmsys is really a multi-function device, and the device tree description may look like:
+
+mmsys: system-controller@14000000 {
+	compatible = "mediatek,mt8173-mmsys", "syscon", "simple-mfd";
+	reg = <0 0x14000000 0 0x1000>;
+	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+	assigned-clocks = <&topckgen CLK_TOP_MM_SEL>;
+	assigned-clock-rates = <400000000>;
+	#clock-cells = <1>;
+
+	route {
+		compatible = "mediatek,mt8173-mmsys-route";
+	};
+
+	clock {
+		compatible = "mediatek,mt8173-mmsys-clk";
+	};
+};
+
+But from mt6797 register map [1], mmsys have many function such as fake engine, memory delay, reset,....
+Should we break each function into a sub device?
+Or we do not break any function (include clock and routing) into sub device?
+Or just break these two function into device, remove "simple-mfd" from mmsys, so the rest control is in mmsys top device?
+
+[1] https://www.96boards.org/documentation/consumer/mediatekx20/additional-docs/docs/MT6797_Register_Table_Part_2.pdf
+
+Regards,
+CK
+
+
+> Regards,
+>  Enric
+> 
+> 
+> > Regards,
+> > Matthias
+> > 
+> >> Thanks.
+> >>
+> >>> If you have better solution, just let's forget this.
+> >>>
+> >>> Regards,
+> >>> CK
+> >>>
+> >>>>
+> >>>> Regards,
+> >>>> Matthias
+> >>>>
+> >>>>> Regards,
+> >>>>> CK
+> >>>>>
+> >>>>>>
+> >>>>>> IMHO I think that considering the clk driver as entry point is fine, but this is
+> >>>>>> something that the clock maintainers should decide.
+> >>>>>>
+> >>>>>> Also note that this is not only a MT8173 problem I am seeing the same problem on
+> >>>>>> all other Mediatek SoCs.
+> >>>>>>
+> >>>>>> Thanks.
+> >>>>>>
+> >>>>>>> Regards,
+> >>>>>>> CK
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> All this series was tested on the Acer R13 Chromebook only.
+> >>>>>>>>
+> >>>>>>>> For reference, here are the links to the old discussions:
+> >>>>>>>>
+> >>>>>>>> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
+> >>>>>>>> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
+> >>>>>>>> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
+> >>>>>>>> * v4:
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10530871/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10530883/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10530885/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10530911/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10530913/
+> >>>>>>>> * v3:
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367857/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367861/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367877/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367875/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367885/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367883/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367889/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367907/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367909/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10367905/
+> >>>>>>>> * v2: No relevant discussion, see v3
+> >>>>>>>> * v1:
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10016497/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10016499/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10016505/
+> >>>>>>>>   * https://patchwork.kernel.org/patch/10016507/
+> >>>>>>>>
+> >>>>>>>> Best regards,
+> >>>>>>>>  Enric
+> >>>>>>>>
+> >>>>>>>> Changes in v8:
+> >>>>>>>> - Be a builtin_platform_driver like other mediatek mmsys drivers.
+> >>>>>>>> - New patches introduced in this series.
+> >>>>>>>>
+> >>>>>>>> Changes in v7:
+> >>>>>>>> - Add R-by from CK
+> >>>>>>>> - Add R-by from CK
+> >>>>>>>> - Fix check of return value of of_clk_get
+> >>>>>>>> - Fix identation
+> >>>>>>>> - Free clk_data->clks as well
+> >>>>>>>> - Get rid of private data structure
+> >>>>>>>>
+> >>>>>>>> Enric Balletbo i Serra (2):
+> >>>>>>>>   drm/mediatek: Move MMSYS configuration to include/linux/platform_data
+> >>>>>>>>   clk/drm: mediatek: Fix mediatek-drm device probing
+> >>>>>>>>
+> >>>>>>>> Matthias Brugger (4):
+> >>>>>>>>   drm/mediatek: Use regmap for register access
+> >>>>>>>>   drm/mediatek: Omit warning on probe defers
+> >>>>>>>>   media: mtk-mdp: Check return value of of_clk_get
+> >>>>>>>>   clk: mediatek: mt8173: Switch MMSYS to platform driver
+> >>>>>>>>
+> >>>>>>>>  drivers/clk/mediatek/Kconfig                  |   6 +
+> >>>>>>>>  drivers/clk/mediatek/Makefile                 |   1 +
+> >>>>>>>>  drivers/clk/mediatek/clk-mt2701-mm.c          |  30 +++
+> >>>>>>>>  drivers/clk/mediatek/clk-mt2712-mm.c          |  44 +++++
+> >>>>>>>>  drivers/clk/mediatek/clk-mt8173-mm.c          | 172 ++++++++++++++++++
+> >>>>>>>>  drivers/clk/mediatek/clk-mt8173.c             | 104 -----------
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   4 +-
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c        |  53 +++---
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   4 +-
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  56 +-----
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 113 +-----------
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
+> >>>>>>>>  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
+> >>>>>>>>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c |   6 +
+> >>>>>>>>  include/linux/platform_data/mtk_mmsys.h       |  73 ++++++++
+> >>>>>>>>  20 files changed, 401 insertions(+), 317 deletions(-)
+> >>>>>>>>  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
+> >>>>>>>>  create mode 100644 include/linux/platform_data/mtk_mmsys.h
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>
+> >>>>>> _______________________________________________
+> >>>>>> Linux-mediatek mailing list
+> >>>>>> Linux-mediatek@lists.infradead.org
+> >>>>>> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> >>>>>
+> >>>>
+> >>>> _______________________________________________
+> >>>> Linux-mediatek mailing list
+> >>>> Linux-mediatek@lists.infradead.org
+> >>>> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> >>>
+> > 
+> 
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+
 
 _______________________________________________
 dri-devel mailing list
