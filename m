@@ -1,61 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1CD16A3CE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 11:23:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE9916A3EC
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 11:31:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3D26E41B;
-	Mon, 24 Feb 2020 10:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABE36E418;
+	Mon, 24 Feb 2020 10:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF916E41B
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 10:23:02 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id c9so9702777wrw.8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 02:23:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=fQRJvQWg1mssixJXovxZ3IkUS/2s75lvnZU1Yia+Grw=;
- b=ZYQ7ZbcKQa+m/upCgLCvsV4l91hPSWyCnhKP1AlcyyuMPxnQ/dQjccddpKUx3j+Vy7
- SflErcSk4Vx3vpqyZEYXmIzdU/habh32tnwSKd/6yHHRaIngMYESCgbXEapkbhf906+b
- n4uK55VmY+doBM3GzEYJ6pdYUBJ9eNLupUVMiggz+IpVQt43V2/F2VZR5dyyzO8/jHcF
- Fv450c5cThgxAi4koK46McRM8YvVrJVSCx6p1KvCMZ/h9bW2WT3Ka+L84rk82wPGHawF
- HVftrf7sdcJvDyzc7vQRbhitA8ZyXN2PJiZtuwdcv7mWNMSaS+zuNTMjpq0CrxfqUMrn
- linQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=fQRJvQWg1mssixJXovxZ3IkUS/2s75lvnZU1Yia+Grw=;
- b=EEUX7UgMilm8bX1lr/F/O4SdWhVzBgbrGMTWgEgoVmqI2DoGrJzn5U60gato+o1GKD
- 9n2I06dc+kPsPuaVZf+RW2+7lSyZFv52SkcDtUMOMQd62RC9JQH/aWe9HLgjvyLsVHNP
- KM1HT+NUYs1Ylfe0EgKqMuqq45le+ji52D/ZZzRBX8Se/UjvZhAHfdL0lPq1GpJC8YY3
- +X2OfJkCSqk0Gc7/LpK4AnkD8Lnwd/HLPHcUISyVvcaOWTejpYnI7WVDVS4VqKzqT20n
- RvX8IgyNRiAy5sTYx11wGg85GC6X8Eb6cDe1Xv25hJQaJtLmuFrDUkcFyP4UBYzmtMj/
- HHdQ==
-X-Gm-Message-State: APjAAAVwKi4GiuEZxsNSoxvD9xzVBgSBEGDk5h4dKkZhAYWVDqHK3em5
- cLXte9WGfKavOBwxVCxF5GhcYw==
-X-Google-Smtp-Source: APXvYqxE9hP5mm5Ydc2KSwrNjx98paaJPPLNdrn5L9Z79TKF1e/KjIAGOvBWGCT2PqJycJom43N/NA==
-X-Received: by 2002:adf:c404:: with SMTP id v4mr15204430wrf.53.1582539781481; 
- Mon, 24 Feb 2020 02:23:01 -0800 (PST)
-Received: from dell ([2.31.163.122])
- by smtp.gmail.com with ESMTPSA id k7sm17455250wmi.19.2020.02.24.02.23.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 02:23:00 -0800 (PST)
-Date: Mon, 24 Feb 2020 10:23:32 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v3] backlight: pwm_bl: Switch to full GPIO descriptor
-Message-ID: <20200224102332.GM3494@dell>
-References: <20200210101546.287565-1-linus.walleij@linaro.org>
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C10656E418;
+ Mon, 24 Feb 2020 10:31:45 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OAVImf169236;
+ Mon, 24 Feb 2020 10:31:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=vm2BUHNE+rpmkpN2Az3/A1jgSzhKYXcojpJsMycW6Zw=;
+ b=k+ZSB0dJiE20BHsYwCnMsFjRhKBSV4cIoK+uzK9EMQNYHVKoeuku7Ln1h41qlGlrGKwU
+ a56/o71y11iBJDWuHijH/vsjReJNvE+mlWFMx0a+/P7tj2eHM8oasxl4pQfeIiFOxpuu
+ DTdYGHbpSFvYOM3fU6uRufcJ5Q1Ej7xnlzSSWSWm0PXWEqQVhqW8YzRhW6FEQiqKgrPt
+ 4B2b6HEPLyV6U/sYXdbDUbgZxVIi2bLq+7sxG8K6KdTJMUc+Es173/D08236yMUmyF07
+ lxira0aOWIWu/dI1sfCaDX0mVriFUJ+kNiedQogLS1edBrZOMRvCzu4PPXDEK38PaSx0 2A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 2yauqu6ffe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Feb 2020 10:31:39 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OAV0hL193596;
+ Mon, 24 Feb 2020 10:31:38 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 2ybduu2w23-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Feb 2020 10:31:38 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OAVZ2A031820;
+ Mon, 24 Feb 2020 10:31:36 GMT
+Received: from kili.mountain (/129.205.23.165)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 24 Feb 2020 02:31:35 -0800
+Date: Mon, 24 Feb 2020 13:31:20 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: [PATCH] drm/amdgpu/display: clean up some indenting
+Message-ID: <20200224103120.zrvgqaokmoehs5y7@kili.mountain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200210101546.287565-1-linus.walleij@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailer: git-send-email haha only kidding
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9540
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0
+ mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002240090
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9540
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ bulkscore=0
+ clxscore=1011 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 mlxlogscore=999 spamscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002240090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,65 +77,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- dri-devel@lists.freedesktop.org, Guan Xuetao <gxt@pku.edu.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leo Li <sunpeng.li@amd.com>, David Francis <David.Francis@amd.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAxMCBGZWIgMjAyMCwgTGludXMgV2FsbGVpaiB3cm90ZToKCj4gVGhlIFBXTSBiYWNr
-bGlnaHQgc3RpbGwgc3VwcG9ydHMgcGFzc2luZyBhIGVuYWJsZSBHUElPIGxpbmUgYXMKPiBwbGF0
-Zm9ybSBkYXRhIHVzaW5nIHRoZSBsZWdhY3kgPGxpbnV4L2dwaW8uaD4gQVBJLgo+IAo+IEl0IHR1
-cm5zIG91dCB0aGF0IGV2ZXIgYm9hcmQgdXNpbmcgdGhpcyBtZWNoYW5pc20gZXhjZXB0IG9uZQo+
-IGlzIHBhc3MgLmVuYWJsZV9ncGlvID0gLTEuIFNvIHdlIGRyb3AgYWxsIHRoZXNlIGNhcmdvLWN1
-bHRlZCAtMSdzCj4gZnJvbSBhbGwgaW5zdGFuY2VzIG9mIHRoaXMgcGxhdGZvcm0gZGF0YSBpbiB0
-aGUga2VybmVsLgo+IAo+IFRoZSByZW1hbmluZyBib2FyZCwgUGFsbSBUQywgaXMgY29udmVydGVk
-IHRvIHBhc3MgYSBtYWNoaW5lCj4gZGVzY3JpcHRpb3IgdGFibGUgd2l0aCB0aGUgImVuYWJsZSIg
-R1BJTyBpbnN0ZWFkLCBhbmQgZGVsZXRlIHRoZQo+IHBsYXRmb3JtIGRhdGEgZW50cnkgZm9yIGVu
-YWJsZV9ncGlvIGFuZCB0aGUgY29kZSBoYW5kbGluZyBpdAo+IGFuZCB0aGluZ3Mgc2hvdWxkIHdv
-cmsgc21vb3RobHkgd2l0aCB0aGUgbmV3IEFQSS4KPiAKPiBDYzogS3J6eXN6dG9mIEtvemxvd3Nr
-aSA8a3J6a0BrZXJuZWwub3JnPgo+IENjOiBHdWFuIFh1ZXRhbyA8Z3h0QHBrdS5lZHUuY24+Cj4g
-QWNrZWQtYnk6IFJvYmVydCBKYXJ6bWlrIDxyb2JlcnQuamFyem1pa0BmcmVlLmZyPgo+IFJldmll
-d2VkLWJ5OiBCYXJ0b3N6IEdvbGFzemV3c2tpIDxiZ29sYXN6ZXdza2lAYmF5bGlicmUuY29tPgo+
-IFNpZ25lZC1vZmYtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4K
-CkFyZSB3ZSB3YWl0aW5nIG9uIGFueW9uZSBlbHNlPwoKPiAtLS0KPiBDaGFuZ2VMb2cgdjItPnYz
-Ogo+IC0gQ29sbGVjdCBSb2JlcnQncyBBQ0suCj4gQ2hhbmdlTG9nIHYxLT52MjoKPiAtIExvY2F0
-ZWQgYSBtaXNzaW5nIHJlbW92YWwgb2YgLmVuYWJsZV9ncGlvIGluIHRoZSBQYWxtIFRDCj4gICBi
-b2FyZCBmaWxlLCBwb2ludGVkIG91dCBieSBEYW5pZWwuCj4gLSBHcmVwcGVkIHRvIGFzY2VydGFp
-biB0aGVyZSBpcyBub3QgYSBzaW5nbGUgaW5zdGFuY2Ugb2YKPiAgIHRoZSBzdHJpbmcgImVuYWJs
-ZV9ncGlvIiBpbiB0aGUgYWZmZWN0ZWQgYm9hcmQgZmlsZXMuCj4gLS0tCj4gIGFyY2gvYXJtL21h
-Y2gtcHhhL2NtLXgzMDAuYyAgICAgICAgICAgICAgIHwgIDEgLQo+ICBhcmNoL2FybS9tYWNoLXB4
-YS9jb2xpYnJpLXB4YTI3MC1pbmNvbWUuYyB8ICAxIC0KPiAgYXJjaC9hcm0vbWFjaC1weGEvZXp4
-LmMgICAgICAgICAgICAgICAgICAgfCAgMSAtCj4gIGFyY2gvYXJtL21hY2gtcHhhL2h4NDcwMC5j
-ICAgICAgICAgICAgICAgIHwgIDEgLQo+ICBhcmNoL2FybS9tYWNoLXB4YS9scGQyNzAuYyAgICAg
-ICAgICAgICAgICB8ICAxIC0KPiAgYXJjaC9hcm0vbWFjaC1weGEvbWFnaWNpYW4uYyAgICAgICAg
-ICAgICAgfCAgMSAtCj4gIGFyY2gvYXJtL21hY2gtcHhhL21haW5zdG9uZS5jICAgICAgICAgICAg
-IHwgIDEgLQo+ICBhcmNoL2FybS9tYWNoLXB4YS9taW9hNzAxLmMgICAgICAgICAgICAgICB8ICAx
-IC0KPiAgYXJjaC9hcm0vbWFjaC1weGEvcGFsbTI3eC5jICAgICAgICAgICAgICAgfCAgMSAtCj4g
-IGFyY2gvYXJtL21hY2gtcHhhL3BhbG10Yy5jICAgICAgICAgICAgICAgIHwgMTEgKysrKysrKysr
-Ky0KPiAgYXJjaC9hcm0vbWFjaC1weGEvcGFsbXRlMi5jICAgICAgICAgICAgICAgfCAgMSAtCj4g
-IGFyY2gvYXJtL21hY2gtcHhhL3BjbTk5MC1iYXNlYm9hcmQuYyAgICAgIHwgIDEgLQo+ICBhcmNo
-L2FybS9tYWNoLXB4YS90YXZvcmV2Yi5jICAgICAgICAgICAgICB8ICAyIC0tCj4gIGFyY2gvYXJt
-L21hY2gtcHhhL3ZpcGVyLmMgICAgICAgICAgICAgICAgIHwgIDEgLQo+ICBhcmNoL2FybS9tYWNo
-LXB4YS96Mi5jICAgICAgICAgICAgICAgICAgICB8ICAyIC0tCj4gIGFyY2gvYXJtL21hY2gtcHhh
-L3p5bG9uaXRlLmMgICAgICAgICAgICAgIHwgIDEgLQo+ICBhcmNoL2FybS9tYWNoLXMzYzI0eHgv
-bWFjaC1oMTk0MC5jICAgICAgICB8ICAxIC0KPiAgYXJjaC9hcm0vbWFjaC1zM2MyNHh4L21hY2gt
-cngxOTUwLmMgICAgICAgfCAgMSAtCj4gIGFyY2gvYXJtL21hY2gtczNjNjR4eC9kZXYtYmFja2xp
-Z2h0LmMgICAgIHwgIDMgLS0tCj4gIGFyY2gvYXJtL21hY2gtczNjNjR4eC9tYWNoLWNyYWc2NDEw
-LmMgICAgIHwgIDEgLQo+ICBhcmNoL2FybS9tYWNoLXMzYzY0eHgvbWFjaC1obXQuYyAgICAgICAg
-ICB8ICAxIC0KPiAgYXJjaC9hcm0vbWFjaC1zM2M2NHh4L21hY2gtc21hcnRxLmMgICAgICAgfCAg
-MSAtCj4gIGFyY2gvYXJtL21hY2gtczNjNjR4eC9tYWNoLXNtZGs2NDEwLmMgICAgIHwgIDIgKy0K
-PiAgYXJjaC91bmljb3JlMzIva2VybmVsL3B1djMtbmIwOTE2LmMgICAgICAgfCAgMSAtCj4gIGRy
-aXZlcnMvdmlkZW8vYmFja2xpZ2h0L3B3bV9ibC5jICAgICAgICAgIHwgMTkgLS0tLS0tLS0tLS0t
-LS0tLS0tLQo+ICBpbmNsdWRlL2xpbnV4L3B3bV9iYWNrbGlnaHQuaCAgICAgICAgICAgICB8ICAy
-IC0tCj4gIDI2IGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDQ5IGRlbGV0aW9ucygt
-KQoKLS0gCkxlZSBKb25lcyBb5p2O55C85pavXQpMaW5hcm8gU2VydmljZXMgVGVjaG5pY2FsIExl
-YWQKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCkZvbGxv
-dyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+These lines were accidentally indented 4 spaces more than they should
+be.
+
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 4cb3eb7c6745..408405d9f30c 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2138,10 +2138,10 @@ static void handle_hpd_rx_irq(void *param)
+ 		}
+ 	}
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+-	    if (hpd_irq_data.bytes.device_service_irq.bits.CP_IRQ) {
+-		    if (adev->dm.hdcp_workqueue)
+-			    hdcp_handle_cpirq(adev->dm.hdcp_workqueue,  aconnector->base.index);
+-	    }
++	if (hpd_irq_data.bytes.device_service_irq.bits.CP_IRQ) {
++		if (adev->dm.hdcp_workqueue)
++			hdcp_handle_cpirq(adev->dm.hdcp_workqueue,  aconnector->base.index);
++	}
+ #endif
+ 	if ((dc_link->cur_link_settings.lane_count != LANE_COUNT_UNKNOWN) ||
+ 	    (dc_link->type == dc_connection_mst_branch))
+-- 
+2.11.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
