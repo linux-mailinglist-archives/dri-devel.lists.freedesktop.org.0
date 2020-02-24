@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE7B16BC8A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDDF16BC67
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED8286EA4F;
-	Tue, 25 Feb 2020 08:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6656EA43;
+	Tue, 25 Feb 2020 08:51:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797316E9C3
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D93C6E9C7
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:21:44 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 5B4C0293F3E
+ with ESMTPSA id 61824293F4B
 Received: by earth.universe (Postfix, from userid 1000)
- id CD4BD3C0CBB; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
+ id D35E23C0CBC; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sre@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2 54/56] ARM: omap2plus_defconfig: Update for moved DSI
- command mode panel
-Date: Tue, 25 Feb 2020 00:21:24 +0100
-Message-Id: <20200224232126.3385250-55-sebastian.reichel@collabora.com>
+Subject: [PATCHv2 55/56] drm/panel/panel-dsi-cm: support rotation property
+Date: Tue, 25 Feb 2020 00:21:25 +0100
+Message-Id: <20200224232126.3385250-56-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
 References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
@@ -50,28 +50,71 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI command mode panel is no longer specific
-to OMAP and thus the config option has been renamed
-slightly.
+Add support for the rotation property described by the
+common panel bindings. The information is forwarded to
+userspace using the orientation property.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- arch/arm/configs/omap2plus_defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-dsi-cm.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
-index b9698e217aa7..31ac2315f47c 100644
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -350,7 +350,7 @@ CONFIG_DRM_OMAP=m
- CONFIG_OMAP5_DSS_HDMI=y
- CONFIG_OMAP2_DSS_SDI=y
- CONFIG_OMAP2_DSS_DSI=y
--CONFIG_DRM_OMAP_PANEL_DSI_CM=m
-+CONFIG_DRM_PANEL_DSI_CM=m
- CONFIG_DRM_TILCDC=m
- CONFIG_DRM_PANEL_SIMPLE=m
- CONFIG_DRM_DISPLAY_CONNECTOR=m
+diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
+index fef9ba5319c2..b043ebb9c247 100644
+--- a/drivers/gpu/drm/panel/panel-dsi-cm.c
++++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
+@@ -58,6 +58,7 @@ struct panel_drv_data {
+ 
+ 	int width_mm;
+ 	int height_mm;
++	enum drm_panel_orientation panel_orientation;
+ 
+ 	/* runtime variables */
+ 	bool enabled;
+@@ -458,6 +459,7 @@ static int dsicm_get_modes(struct drm_panel *panel,
+ 
+ 	connector->display_info.width_mm = ddata->width_mm;
+ 	connector->display_info.height_mm = ddata->height_mm;
++	connector->display_info.panel_orientation = ddata->panel_orientation;
+ 
+ 	drm_mode_probed_add(connector, mode);
+ 
+@@ -479,7 +481,7 @@ static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+ 	struct panel_drv_data *ddata = mipi_dsi_get_drvdata(dsi);
+ 	struct display_timing timing;
+ 	struct videomode vm;
+-	int err;
++	int err, rotation;
+ 
+ 	vm.hactive = 864;
+ 	vm.vactive = 480;
+@@ -509,6 +511,26 @@ static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+ 	ddata->height_mm = 0;
+ 	of_property_read_u32(node, "height-mm", &ddata->height_mm);
+ 
++	rotation = -1;
++	of_property_read_u32(node, "rotation", &rotation);
++	switch (rotation) {
++		case 0:
++			ddata->panel_orientation = DRM_MODE_PANEL_ORIENTATION_NORMAL;
++			break;
++		case 90:
++			ddata->panel_orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP;
++			break;
++		case 180:
++			ddata->panel_orientation = DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP;
++			break;
++		case 270:
++			ddata->panel_orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP;
++			break;
++		default:
++			ddata->panel_orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
++			break;
++	}
++
+ 	ddata->supplies[0].supply = "vpnl";
+ 	ddata->supplies[1].supply = "vddi";
+ 	err = devm_regulator_bulk_get(&dsi->dev, DCS_REGULATOR_SUPPLY_NUM,
 -- 
 2.25.0
 
