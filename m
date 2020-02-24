@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D1016BC49
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF0B16BC7B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9686EA29;
-	Tue, 25 Feb 2020 08:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A092589EEB;
+	Tue, 25 Feb 2020 08:51:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA396E9C7
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:21:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 65C4F293EFF
-Received: by earth.universe (Postfix, from userid 1000)
- id D8A813C0CBD; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Sebastian Reichel <sre@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2 56/56] ARM: dts: omap4-droid4: add panel orientation
-Date: Tue, 25 Feb 2020 00:21:26 +0100
-Message-Id: <20200224232126.3385250-57-sebastian.reichel@collabora.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
-References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A6BFE6E9BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:43:38 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 1D4DF8030;
+ Mon, 24 Feb 2020 23:44:21 +0000 (UTC)
+Date: Mon, 24 Feb 2020 15:43:33 -0800
+From: Tony Lindgren <tony@atomide.com>
+To: Sebastian Reichel <sre@kernel.org>
+Subject: Re: [PATCH 1/3] drm/omap: Prepare DSS for probing without legacy
+ platform data
+Message-ID: <20200224234333.GD37466@atomide.com>
+References: <20200224191230.30972-1-tony@atomide.com>
+ <20200224191230.30972-2-tony@atomide.com>
+ <20200224233111.gkctx27usfxj2wgz@earth.universe>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200224233111.gkctx27usfxj2wgz@earth.universe>
 X-Mailman-Approved-At: Tue, 25 Feb 2020 08:50:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,38 +40,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
+Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
+ Suman Anna <s-anna@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Gerlach <d-gerlach@ti.com>, Keerthy <j-keerthy@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Andrew F . Davis" <afd@ti.com>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, Faiz Abbas <faiz_abbas@ti.com>,
+ Jyri Sarha <jsarha@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Roger Quadros <rogerq@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add information about panel orientation, so that the
-system boots into a properly rotated shell.
+* Sebastian Reichel <sre@kernel.org> [200224 23:32]:
+> Hi,
+> 
+> On Mon, Feb 24, 2020 at 11:12:28AM -0800, Tony Lindgren wrote:
+> > In order to probe display subsystem (DSS) components with ti-sysc
+> > interconnect target module without legacy platform data and using
+> > devicetree, we need to update dss probing a bit.
+> > 
+> > In the device tree, we will be defining the data also for the interconnect
+> > target modules as DSS really is a private interconnect. There is some
+> > information about that in 4460 TRM in "Figure 10-3. DSS Integration" for
+> > example where it mentions "32-bit interconnect (SLX)".
+> > 
+> > The changes we need to make are:
+> > 
+> > 1. Parse also device tree subnodes for the compatible property fixup
+> > 
+> > 2. Update the component code to consider device tree subnodes
+> > 
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: Jyri Sarha <jsarha@ti.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > Signed-off-by: Tony Lindgren <tony@atomide.com>
+> > ---
+> > 
+> > This is needed for dropping DSS platform data that I'll be posting
+> > seprately. If this looks OK, can you guys please test and ack?
+> > 
+> > ---
+> 
+> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> 
+> FWIW, I dropped omapdss-boot-init.c in my patch series updating DSI
+> code to use common panel infrastructure, so this will conflict.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- arch/arm/boot/dts/motorola-mapphone-common.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+Hey that's great :) Sounds like we can set up an immutable branch
+for just this $subject patch against v5.6-rc1 to resolve the
+conflict. I can set it up for Tomi or Tomi can set it up for me,
+whichever Tomi prefers.
 
-diff --git a/arch/arm/boot/dts/motorola-mapphone-common.dtsi b/arch/arm/boot/dts/motorola-mapphone-common.dtsi
-index 622383ec6a75..ec77b20470d2 100644
---- a/arch/arm/boot/dts/motorola-mapphone-common.dtsi
-+++ b/arch/arm/boot/dts/motorola-mapphone-common.dtsi
-@@ -208,6 +208,7 @@ lcd0: panel@0 {
- 
- 		width-mm = <50>;
- 		height-mm = <89>;
-+		rotation = <90>;
- 
- 		panel-timing {
- 			clock-frequency = <0>;		/* Calculated by dsi */
--- 
-2.25.0
+Regards,
 
+Tony
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
