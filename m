@@ -2,34 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBBE16A968
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 16:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E88F16A96C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 16:07:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90C5D6E52D;
-	Mon, 24 Feb 2020 15:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF096E544;
+	Mon, 24 Feb 2020 15:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 66B936E52D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 15:06:15 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD3641FB;
- Mon, 24 Feb 2020 07:06:14 -0800 (PST)
-Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF20F3F534;
- Mon, 24 Feb 2020 07:06:12 -0800 (PST)
-Subject: Re: [PATCH 3/3] drm/panel: add panel driver for Elida KD35T133 panels
-To: Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org
-References: <20200223150711.194482-1-heiko@sntech.de>
- <20200223150711.194482-3-heiko@sntech.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <ec42b04a-4727-cbd4-d0c4-21a8def8abd0@arm.com>
-Date: Mon, 24 Feb 2020 15:06:11 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 709E86E530
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 15:07:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582556826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=681jXBfpvkeMn+8IkGv2w7NC1OBiIb6XNY3qIXELzTY=;
+ b=WyPnkIBMvmP9QgHJNuVVjostNSeLntN3/PguppP+MMfk1MNU5TmbAW9lgIs9+DUJGXfljN
+ WviELfiQHyLyTY4hkG+rOuHPtwwE4QLQUAAAR0LmX8owL7z66C9wMNEsq2vN99DnExpcbK
+ T4OSgzf3SlQ5z6VjPVcBqSGzxENGHN4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-ol3-RPfZN1eGDcZQGg7Fkg-1; Mon, 24 Feb 2020 10:07:03 -0500
+X-MC-Unique: ol3-RPfZN1eGDcZQGg7Fkg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D16813E4;
+ Mon, 24 Feb 2020 15:07:02 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-87.ams2.redhat.com
+ [10.36.116.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F61D5D9E5;
+ Mon, 24 Feb 2020 15:07:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D646A16E16; Mon, 24 Feb 2020 16:07:00 +0100 (CET)
+Date: Mon, 24 Feb 2020 16:07:00 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: John Bates <jbates@chromium.org>
+Subject: Re: [PATCH v2] drm/virtio: fix resource id creation race
+Message-ID: <20200224150700.ikyu5rptpl4scf7c@sirius.home.kraxel.org>
+References: <20200220225319.45621-1-jbates@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200223150711.194482-3-heiko@sntech.de>
-Content-Language: en-GB
+In-Reply-To: <20200220225319.45621-1-jbates@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,33 +63,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>, robh+dt@kernel.org,
- linux-rockchip@lists.infradead.org, thierry.reding@gmail.com, sam@ravnborg.org,
- christoph.muellner@theobroma-systems.com
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/02/2020 3:07 pm, Heiko Stuebner wrote:
-[...]
-> +#define dsi_generic_write_seq(dsi, cmd, seq...) do {			\
-> +		static const u8 d[] = { seq };				\
-> +		int ret;						\
-> +		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
+On Thu, Feb 20, 2020 at 02:53:19PM -0800, John Bates wrote:
+> The previous code was not thread safe and caused
+> undefined behavior from spurious duplicate resource IDs.
+> In this patch, an atomic_t is used instead. We no longer
+> see any duplicate IDs in tests with this change.
+> 
+> Fixes: 16065fcdd19d ("drm/virtio: do NOT reuse resource ids")
+> Signed-off-by: John Bates <jbates@chromium.org>
 
-Nit: in the rocktech driver, dsi_generic_write_seq() is wrapping 
-mipi_dsi_generic_write() which seems logically self-consistent. 
-Therefore shouldn't this wrapper be called something like 
-dsi_dcs_write_seq()? I have no idea what any of this actually means, but 
-the dissonance is enough to make my reviewer-sense tingle ;)
+Pushed to drm-misc-fixes.
 
-Robin.
+thanks,
+  Gerd
 
-> +		if (ret < 0)						\
-> +			return ret;					\
-> +	} while (0)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
