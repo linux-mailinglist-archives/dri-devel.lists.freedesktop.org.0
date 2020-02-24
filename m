@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3991016BBCE
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D2B16BC53
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:51:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 102D26EA07;
-	Tue, 25 Feb 2020 08:24:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DAB86EA32;
+	Tue, 25 Feb 2020 08:51:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 398 seconds by postgrey-1.36 at gabe;
- Tue, 25 Feb 2020 08:24:52 UTC
-Received: from mx.blih.net (mx.blih.net [212.83.155.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB526EA07
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 08:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bidouilliste.com;
- s=mx; t=1582618691;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C0tcNFyVSsvx4uBxNJ3TEZd+6Xexrm+/hZD6rEjDx54=;
- b=O2bTX0JNfY45haLEpKC8/F3DIkMGLDTYBe/RcW0POYHl+h+maQ8bCqBeDPIrFCD1YUQYeQ
- DCX/9dT0oiOxiWL6fmcofK8pJ4R+hzW/RvA59osWcks6awF07oxBWm2cWEUitxK3tH5rdp
- dfmTukNqQCSoyrGJCHLIr9Lr4l09ON0=
-Received: from tails.home (lfbn-idf2-1-900-181.w86-238.abo.wanadoo.fr
- [86.238.131.181]) by mx.blih.net (OpenSMTPD) with ESMTPSA id d2c06a04
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 25 Feb 2020 08:18:11 +0000 (UTC)
-Date: Tue, 25 Feb 2020 09:18:10 +0100
-From: Emmanuel Vadot <manu@bidouilliste.com>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH v2 1/2] drm/client: Dual licence the file in GPL-2 and MIT
-Message-Id: <20200225091810.1de39ea4e0d578d363420412@bidouilliste.com>
-In-Reply-To: <158254443806.15220.5582277260130009235@skylake-alporthouse-com>
-References: <20200215180911.18299-1-manu@FreeBSD.org>
- <20200215180911.18299-2-manu@FreeBSD.org>
- <877e0n66qi.fsf@intel.com>
- <158254443806.15220.5582277260130009235@skylake-alporthouse-com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; amd64-portbld-freebsd13.0)
-Mime-Version: 1.0
+Received: from mail.siol.net (mailoutvs56.siol.net [185.57.226.247])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65D216E81A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 17:39:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTP id 4ED395236B9;
+ Mon, 24 Feb 2020 18:39:09 +0100 (CET)
+X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+ by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new,
+ port 10032)
+ with ESMTP id ffxPlucRGbIH; Mon, 24 Feb 2020 18:39:09 +0100 (CET)
+Received: from mail.siol.net (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTPS id 03FBE5236BE;
+ Mon, 24 Feb 2020 18:39:09 +0100 (CET)
+Received: from localhost.localdomain (cpe-194-152-20-232.static.triera.net
+ [194.152.20.232]) (Authenticated sender: 031275009)
+ by mail.siol.net (Postfix) with ESMTPSA id 689AB5236B9;
+ Mon, 24 Feb 2020 18:39:07 +0100 (CET)
+From: Jernej Skrabec <jernej.skrabec@siol.net>
+To: mripard@kernel.org,
+	wens@csie.org
+Subject: [PATCH 0/7] drm/sun4i: de2/de3 format fixes and updates
+Date: Mon, 24 Feb 2020 18:38:54 +0100
+Message-Id: <20200224173901.174016-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+X-Mailman-Approved-At: Tue, 25 Feb 2020 08:50:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,52 +48,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, Jani Nikula <jani.nikula@intel.com>,
- linux-kernel@vger.kernel.org, efremov@linux.com,
- Emmanuel Vadot <manu@FreeBSD.Org>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, sam@ravnborg.org, kraxel@redhat.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: jernej.skrabec@siol.net, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Feb 2020 11:40:38 +0000
-Chris Wilson <chris@chris-wilson.co.uk> wrote:
+Currently VI layer code reported wrong formats for DE2 and DE3. First
+three patches are fixes. Next two patches do code refactoring to remove
+redundant information, which is already included elsewhere. Last two
+patches are more cosmetic.
 
-> Quoting Jani Nikula (2020-02-15 18:33:09)
-> > On Sat, 15 Feb 2020, Emmanuel Vadot <manu@FreeBSD.org> wrote:
-> > > From: Emmanuel Vadot <manu@FreeBSD.Org>
-> > >
-> > > Contributors for this file are :
-> > > Chris Wilson <chris@chris-wilson.co.uk>
-> > > Denis Efremov <efremov@linux.com>
-> > > Jani Nikula <jani.nikula@intel.com>
-> > > Maxime Ripard <mripard@kernel.org>
-> > > Noralf Tr=F8nnes <noralf@tronnes.org>
-> > > Sam Ravnborg <sam@ravnborg.org>
-> > > Thomas Zimmermann <tzimmermann@suse.de>
-> > >
-> > > Signed-off-by: Emmanuel Vadot <manu@FreeBSD.org>
-> > =
+Note: It can be argued if patch 2 is really a fix. Consider that if only
+patch 1 and 3 go into stable, wrong formats will be reported for DE3 VI
+layers.
 
-> > I've only converted some logging.
-> > =
+Please take a look.
 
-> > Acked-by: Jani Nikula <jani.nikula@intel.com>
-> =
+Best regards,
+Jernej
 
-> Bonus ack from another Intel employee to cover all Intel copyright in
-> this file,
-> Acked-by: Chris Wilson <chris@chris-wilson.co.uk>
-> -Chris
+Jernej Skrabec (7):
+  drm/sun4i: de2/de3: Remove unsupported VI layer formats
+  drm/sun4i: Add separate DE3 VI layer formats
+  drm/sun4i: Fix DE2 VI layer format support
+  drm/sun4i: de2: rgb field in de2 format struct is redundant
+  drm/sun4i: de2: csc_mode in de2 format struct is mostly redundant
+  drm/sun4i: de2: Don't return de2_fmt_info struct
+  drm/sun4i: Sort includes in VI and UI layer code
 
- Thanks Chris,
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 159 ++++++++++++-------------
+ drivers/gpu/drm/sun4i/sun8i_mixer.h    |  21 ++--
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c |  14 ++-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 106 ++++++++++++++---
+ 4 files changed, 183 insertions(+), 117 deletions(-)
 
- Daniel, if I'm counting right this was the last ack needed.
+-- 
+2.25.1
 
--- =
-
-Emmanuel Vadot <manu@bidouilliste.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
