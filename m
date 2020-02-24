@@ -2,36 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB35E16A1EE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB10E16A2D9
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:41:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1BB86E2BC;
-	Mon, 24 Feb 2020 09:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D34B36E34C;
+	Mon, 24 Feb 2020 09:41:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7ABE6E071
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 06:02:23 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 7BBA65D9DB5044CD82B9;
- Mon, 24 Feb 2020 14:02:20 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 24 Feb 2020 14:02:13 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <puck.chen@hisilicon.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <tzimmermann@suse.de>, <kraxel@redhat.com>, <alexander.deucher@amd.com>,
- <tglx@linutronix.de>, <dri-devel@lists.freedesktop.org>,
- <xinliang.liu@linaro.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/hisilicon: Fixed pcie resource conflict between drm
- and firmware
-Date: Mon, 24 Feb 2020 14:01:52 +0800
-Message-ID: <1582524112-5628-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD1686E1D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 09:04:30 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2020 01:04:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,479,1574150400"; d="scan'208";a="231071247"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by fmsmga008.fm.intel.com with ESMTP; 24 Feb 2020 01:04:28 -0800
+Received: from andy by smile with local (Exim 4.93)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1j69fC-004Lg6-74; Mon, 24 Feb 2020 11:04:30 +0200
+Date: Mon, 24 Feb 2020 11:04:30 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3] drm: shmobile: Reduce include dependencies
+Message-ID: <20200224090430.GT10400@smile.fi.intel.com>
+References: <20200206111232.75309-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Mon, 24 Feb 2020 09:20:26 +0000
+Content-Disposition: inline
+In-Reply-To: <20200206111232.75309-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Mailman-Approved-At: Mon, 24 Feb 2020 09:39:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,44 +51,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-use the drm_fb_helper_remove_conflicting_pci_framebuffer to remove
-the framebuffer initialized by fireware/bootloader to avoid resource
-conflict.
+On Thu, Feb 06, 2020 at 01:12:32PM +0200, Andy Shevchenko wrote:
+> This file doesn't need everything provided by <linux/kernel.h>.
+> All it needs are some types, which are provided by <drm/drm_mode.h>.
+> 
+> Drop unneeded <linux/kernel.h> completely.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Any comments on this?
 
----
-v2: 	use the general API to remove the conflict resource instead of rolling
-	our own.
----
----
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> v3: Drop header completely (Laurent)
+>  include/linux/platform_data/shmob_drm.h | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/include/linux/platform_data/shmob_drm.h b/include/linux/platform_data/shmob_drm.h
+> index fe815d7d9f58..d661399b217d 100644
+> --- a/include/linux/platform_data/shmob_drm.h
+> +++ b/include/linux/platform_data/shmob_drm.h
+> @@ -10,8 +10,6 @@
+>  #ifndef __SHMOB_DRM_H__
+>  #define __SHMOB_DRM_H__
+>  
+> -#include <linux/kernel.h>
+> -
+>  #include <drm/drm_mode.h>
+>  
+>  enum shmob_drm_clk_source {
+> -- 
+> 2.24.1
+> 
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 4a8a4cf..7518980 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -327,6 +327,11 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 	struct drm_device *dev;
- 	int ret;
- 
-+	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev,
-+							"hibmcdrmfb");
-+	if (ret)
-+		return ret;
-+
- 	dev = drm_dev_alloc(&hibmc_driver, &pdev->dev);
- 	if (IS_ERR(dev)) {
- 		DRM_ERROR("failed to allocate drm_device\n");
 -- 
-2.7.4
+With Best Regards,
+Andy Shevchenko
+
 
 _______________________________________________
 dri-devel mailing list
