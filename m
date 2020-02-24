@@ -1,47 +1,146 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED43016A681
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 13:54:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA8816A69A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 13:59:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC5F66E47A;
-	Mon, 24 Feb 2020 12:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAC626E48E;
+	Mon, 24 Feb 2020 12:59:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E48326E47A;
- Mon, 24 Feb 2020 12:54:11 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id p8so8539488oth.10;
- Mon, 24 Feb 2020 04:54:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KuIMkn3CNjUmXT9na5O6u952ZSxUT8pEly8T96UQHaU=;
- b=bU2upSL2aUwk3r43ud2g/Me3njxddX6qs5qUdYCh0WKFDEPIDlVW6k14A9DufbqptD
- 8+JzgC2FDq91jUgwfFuer1eyrkbkyXJo2bs4BLxqQespsnOttmKZkPfOvbMdsIqDEZEJ
- vmmW7pJsPVpFj5tfw5f7xxRkaOxgfmldYW3CcLtaaeq/XrSdHhcoGfCJyUr/GT+5XjOz
- tVX6kQ2srczlt4x8/oKsj9M9pFSTZmdQTHB2rUALyatnNKg10KngVovbBlUFnh3kXipw
- 7N9gam4dNUZWC5PrB6lQmzBJu/7mJTWKbzD9X5qR+R2HlghgWPDlw/S+Xlermn3toCD0
- /vqQ==
-X-Gm-Message-State: APjAAAVUKA9tzO4niwUkKeLGHHYeWhIMEo5HCr/1AStw5VCWHTsVoCdW
- UsWRY47UZDCE1ebBl1nYPFm6YlKsL25RiEBQelM=
-X-Google-Smtp-Source: APXvYqwtZk2+zO66egcnUYHRtozVqcTMGUrrNpS9RZJQahGOv8qXCcCp9UcRypG9zsmrMsbFU1zCpBady1p1pO44v4k=
-X-Received: by 2002:a9d:7984:: with SMTP id h4mr40460889otm.297.1582548851139; 
- Mon, 24 Feb 2020 04:54:11 -0800 (PST)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-eopbgr80045.outbound.protection.outlook.com [40.107.8.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07B4C6E48E
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 12:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CPKfcjEtGmhim1jfeveDMBmTq5ZTdwepQbUgvdoRTwE=;
+ b=0h0DubpXTZMkhmECCPqnGwQl7cTJD9snWHvH0kemLpqBFVfKdVKt5Id+XjsXORpio/56lAcLyIZWJO0rgzgLAOAxxEAfNLHct2jPKMItJ21pXZpt2E30c7/2qHhzwfWMVA0zC6BduqWOekEBiNYzMSIG0eKBz81uHR6hen75w3M=
+Received: from VI1PR08CA0144.eurprd08.prod.outlook.com (2603:10a6:800:d5::22)
+ by AM0PR08MB5091.eurprd08.prod.outlook.com (2603:10a6:208:15e::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.17; Mon, 24 Feb
+ 2020 12:59:13 +0000
+Received: from DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:f400:7e0a::204) by VI1PR08CA0144.outlook.office365.com
+ (2603:10a6:800:d5::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.18 via Frontend
+ Transport; Mon, 24 Feb 2020 12:59:12 +0000
+Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5EUR03FT033.mail.protection.outlook.com (10.152.20.76) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.17 via Frontend Transport; Mon, 24 Feb 2020 12:59:12 +0000
+Received: ("Tessian outbound 846b976b3941:v42");
+ Mon, 24 Feb 2020 12:59:12 +0000
+X-CR-MTA-TID: 64aa7808
+Received: from b3947bd5956c.2
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ B41BC74F-A90E-450F-B1C8-C3D700DC902D.1; 
+ Mon, 24 Feb 2020 12:59:07 +0000
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id b3947bd5956c.2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Mon, 24 Feb 2020 12:59:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fmcEozAaTqSt7upXQfCfWcRekFulM6bCpRceGjwk/KRFZ2e5KJRo2Uc3pkhK+C7fCesIBqpF8Pzr8vUcsG6UegekY1XwO/qAHFXWyTwP7h6ACWb92HfVD/XdOWeosAAwxXcT/oe72R1UbX42TSVy8uF7taGzjusyYrA+JgxHQpOeo+HpNQI7XIaO0dXVgqujWcdn1eAwJF6mv26E+00BtT80ogfZ/Su2dp1fkDD7kw4ZJA+dXpTwXL0s1ktepjlctgfToFED5SM2oHS/3KO04GFS5qxGy70Ox6BBFy1v8L6R1BHi7iZ9Sp2QbdF/5wSGtUe5iD633fheRqC/FM6Z+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CPKfcjEtGmhim1jfeveDMBmTq5ZTdwepQbUgvdoRTwE=;
+ b=TiQ/T5Vlucz+XLlpiKQUdff/1ekOh5QtzDQ4QMbceXhcFt/U9YgOnhlgVw7qzc7wLIx9tmcKHL4A9tNpmnfcpqY/IzhOkdU3YhLGEzeYI6VgQ186CCWLNV3GGNnVV/eo7TOb2p76uVxXovKYonis58b9jI7X7JyLN6vx6MybjPtXMiBfi4ihRzaLsfVX2rmESFr6UlN/DXdTVZia1bPBs+s8SrcAtfgov/MRu9XSZWiKhQySyP01xq5WRohHAkhqxa7L/czVhF0jOBWf6E5WWrc1NnoESyphuFjzze43xWk1NXsqxpIj2So/pHz2gBLYWIzB2AbrdyK8lqBmzlRiuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CPKfcjEtGmhim1jfeveDMBmTq5ZTdwepQbUgvdoRTwE=;
+ b=0h0DubpXTZMkhmECCPqnGwQl7cTJD9snWHvH0kemLpqBFVfKdVKt5Id+XjsXORpio/56lAcLyIZWJO0rgzgLAOAxxEAfNLHct2jPKMItJ21pXZpt2E30c7/2qHhzwfWMVA0zC6BduqWOekEBiNYzMSIG0eKBz81uHR6hen75w3M=
+Received: from VI1PR0802MB2237.eurprd08.prod.outlook.com (10.172.12.145) by
+ VI1PR0802MB2542.eurprd08.prod.outlook.com (10.172.255.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.21; Mon, 24 Feb 2020 12:59:05 +0000
+Received: from VI1PR0802MB2237.eurprd08.prod.outlook.com
+ ([fe80::74dc:6713:1819:a113]) by VI1PR0802MB2237.eurprd08.prod.outlook.com
+ ([fe80::74dc:6713:1819:a113%9]) with mapi id 15.20.2750.021; Mon, 24 Feb 2020
+ 12:59:05 +0000
+From: Guillaume Gardet <Guillaume.Gardet@arm.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Subject: RE: [Bug] virtio-gpu broken with qemu/kvm on arm64 on kernel 5.5+
+Thread-Topic: [Bug] virtio-gpu broken with qemu/kvm on arm64 on kernel 5.5+
+Thread-Index: AdXn61yFYQwTcGDvSs6HxocaeVOz6gAMeNQAACAl4YAAEibPAAAMzTeAAH2qipA=
+Date: Mon, 24 Feb 2020 12:59:04 +0000
+Message-ID: <VI1PR0802MB2237E9434683CE980CA7163B83EC0@VI1PR0802MB2237.eurprd08.prod.outlook.com>
+References: <VI1PR0802MB22374AD8B80182D2F186ABB483130@VI1PR0802MB2237.eurprd08.prod.outlook.com>
+ <CAPaKu7Rqbw=v7Cr4ksh+C1FMHEcCK=yZ9DARLMmTH38Gt_-F+A@mail.gmail.com>
+ <VI1PR0802MB22377E26E3ACB09F0527BE1583120@VI1PR0802MB2237.eurprd08.prod.outlook.com>
+ <CAPaKu7Snxz=AwRMeDPokuHmZyQrptmySS9tUtsW4f7GwgJ06Tw@mail.gmail.com>
+ <CAAfnVBnsXW7sdOp=b6gxSczntBOa5O9JUaxMHqUE_CKN9kQe9Q@mail.gmail.com>
+In-Reply-To: <CAAfnVBnsXW7sdOp=b6gxSczntBOa5O9JUaxMHqUE_CKN9kQe9Q@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ts-tracking-id: a6e5cc6d-b9c7-4160-814b-182bc8ed75b3.1
+x-checkrecipientchecked: true
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=Guillaume.Gardet@arm.com; 
+x-originating-ip: [2a01:e0a:d7:1620:891c:366d:c423:a9d]
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a5ad7a10-75c7-41b7-fc81-08d7b929589b
+X-MS-TrafficTypeDiagnostic: VI1PR0802MB2542:|VI1PR0802MB2542:|AM0PR08MB5091:
+x-ms-exchange-transport-forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB50918CA6E09A57CCDD9CF3BB83EC0@AM0PR08MB5091.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:6108;OLM:6108;
+x-forefront-prvs: 032334F434
+X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(376002)(346002)(366004)(39860400002)(396003)(199004)(189003)(2906002)(52536014)(66946007)(76116006)(64756008)(66446008)(71200400001)(66476007)(66556008)(966005)(33656002)(81166006)(81156014)(478600001)(8936002)(86362001)(66574012)(7696005)(54906003)(55016002)(186003)(9686003)(8676002)(6916009)(53546011)(4326008)(6506007)(5660300002)(316002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR0802MB2542;
+ H:VI1PR0802MB2237.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: knuIQ58iSPUgHQGmm/l5h8RhJJy27GEVlOneTBfZF7URFH6cV/DQ4fIsjEhWghftE/6Ti1OAL9ooB+IMBk6fori1ZXB6aJTlYc0Gm5O5mTAbhxkmQHrxnWZ6UCb2OgrXiKzqeN0liLZDwFQ5Bedia6JhHDEvL7Ass4Xu38b43DuW+7otiZ0LWoGD8N5sBgce1J+gj7s/KtK4SetMD1+ynS7hwfJkevhEzhjOYkvp7JC3QWnvTSXdKbmdOi3n/oPTnZusWKnK+BqVZPMCUOaiZYQM3Y+14OHSw5yKjVS2xYqyW7rbjEEEFdG+Wh/mo1s2VisKtbJy8NL3XOLxjaHD3TDJOnYX4qIHAR3HhGWYOhFJuPiZZjmqifaYtfgwZAfDpj0l2cCTypWBUmLr8y04LiwombS8sPCVuCqshQS17tVqk9KX9mPx8oJ8Axo94WjT4V0CeQgzTVHw+gRrs6wR+Srt5sjFxI8vyttyB26Rrko1lHQiKJnL+qT1ZtRlk2fFW76J6rEf1gLdcCTfzYCEbw==
+x-ms-exchange-antispam-messagedata: uvEILKfrTfdu4a5pH/s5HULs/PdxZnvUD11fdEHEp6Kh9Rlv28nXKgLp+AvBHHLc9yacKdfUFJfUGglxDSnP4ljY636CmUvdWKQ5MwiCGaqyKJdXdG58E1tyBsbNf4EAg/LVADEDA8fsgw8wQPjLaFMwpzX529mgZQQ6SdymRBkbvpU0c0mkHSjhzQ35ccYzjibdtrRsWrTroki0RY3IUg==
 MIME-Version: 1.0
-References: <20200219175007.13627-1-krzk@kernel.org>
- <20200219175007.13627-10-krzk@kernel.org>
- <518a9023-f802-17b3-fca5-582400bc34ae@gmail.com> <20200224124744.GA1949@pi3>
-In-Reply-To: <20200224124744.GA1949@pi3>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Feb 2020 13:54:00 +0100
-Message-ID: <CAMuHMdVev0PLF=8bD3nHrhcU9UgM-DAgdQpXi09PgvAxdbt24A@mail.gmail.com>
-Subject: Re: [RESEND PATCH v2 9/9] ath5k: Constify ioreadX() iomem argument
- (as in generic implementation)
-To: Krzysztof Kozlowski <krzk@kernel.org>
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2542
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Guillaume.Gardet@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
+ EFV:NLI; SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(376002)(396003)(136003)(346002)(189003)(199004)(4326008)(6862004)(5660300002)(8936002)(33656002)(55016002)(26826003)(81166006)(478600001)(9686003)(26005)(81156014)(6506007)(8676002)(52536014)(107886003)(53546011)(66574012)(336012)(86362001)(966005)(356004)(54906003)(2906002)(7696005)(186003)(316002)(70586007)(70206006);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:AM0PR08MB5091;
+ H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:Pass; LANG:en;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; MX:1; A:1; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 549e5803-127c-4634-7d60-08d7b929541b
+X-Forefront-PRVS: 032334F434
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Hh/plb3i5LYdlwE1rNh+HN4Yj99LquIUrx6SeAtYeSoNOo2v7fHue1Ww+a+x4SE7f3bULkIP7ZLOXqILrKwtrWvY8j+WbuGnQ8awK7Du6taAQkDZEJd4V9bIBZorVqQSM0KDsQfQwi6ut3bXi0hXW5lef2ivkhoUq5e30/FtyqTSz33ZMIZaqwJ0upOa8UIKUv4dNrlPHbE1isprgBU26ImG/fG9wt5YZpcQXLZLmyhua0aiE6xCMG/GPOnsS9vSCrUOt3p6ypfLY3048o59FN77LPEGkZr1Ouej0Ly64RxvKRvT+zzd6LuY7kzd77Umv8slWmxM8J6dagCyCgu2mXFnXYeW2YLJ4moI6Jc3jiBXHo2UCPjIH78dNVrLwVbOgekTuW0qe0I+ptPbskWzoFODNFV8oM/xdC+Bua1fU/j7mdzng2QIQEWSk3s8X+ABahkbiuY5rKFrml0TC08cPDj+Ucm4eY8BBd1KrOYEuc2PIL9YOjKCqZ3Xj5sIHc4RNhtJEntggWK+UnpnJ/Ouag==
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2020 12:59:12.7569 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5ad7a10-75c7-41b7-fc81-08d7b929589b
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,81 +153,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>, Jiri Slaby <jirislaby@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
- Jason Wang <jasowang@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- netdev <netdev@vger.kernel.org>, Paul Mackerras <paulus@samba.org>,
- Linux-Arch <linux-arch@vger.kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
- Linux-sh list <linux-sh@vger.kernel.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Ben Skeggs <bskeggs@redhat.com>,
- nouveau@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- Matt Turner <mattst88@gmail.com>, arcml <linux-snps-arc@lists.infradead.org>,
- Nick Kossifidis <mickflemm@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, alpha <linux-alpha@vger.kernel.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
- Richard Henderson <rth@twiddle.net>,
- Parisc List <linux-parisc@vger.kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Jon Mason <jdmason@kudzu.us>,
- linux-ntb@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Catalin Marinas <Catalin.Marinas@arm.com>,
+ nd <nd@arm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgS3J6eXN6dG9mLAoKT24gTW9uLCBGZWIgMjQsIDIwMjAgYXQgMTo0NyBQTSBLcnp5c3p0b2Yg
-S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+IHdyb3RlOgo+IE9uIFRodSwgRmViIDIwLCAyMDIw
-IGF0IDEwOjQ4OjMzQU0gKzAxMDAsIEppcmkgU2xhYnkgd3JvdGU6Cj4gPiBPbiAxOS4gMDIuIDIw
-LCAxODo1MCwgS3J6eXN6dG9mIEtvemxvd3NraSB3cm90ZToKPiA+ID4gVGhlIGlvcmVhZFgoKSBo
-ZWxwZXJzIGhhdmUgaW5jb25zaXN0ZW50IGludGVyZmFjZS4gIE9uIHNvbWUgYXJjaGl0ZWN0dXJl
-cwo+ID4gPiB2b2lkICpfX2lvbWVtIGFkZHJlc3MgYXJndW1lbnQgaXMgYSBwb2ludGVyIHRvIGNv
-bnN0LCBvbiBzb21lIG5vdC4KPiA+ID4KPiA+ID4gSW1wbGVtZW50YXRpb25zIG9mIGlvcmVhZFgo
-KSBkbyBub3QgbW9kaWZ5IHRoZSBtZW1vcnkgdW5kZXIgdGhlIGFkZHJlc3MKPiA+ID4gc28gdGhl
-eSBjYW4gYmUgY29udmVydGVkIHRvIGEgImNvbnN0IiB2ZXJzaW9uIGZvciBjb25zdC1zYWZldHkg
-YW5kCj4gPiA+IGNvbnNpc3RlbmN5IGFtb25nIGFyY2hpdGVjdHVyZXMuCj4gPiA+Cj4gPiA+IFNp
-Z25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4KPiA+ID4g
-QWNrZWQtYnk6IEthbGxlIFZhbG8gPGt2YWxvQGNvZGVhdXJvcmEub3JnPgo+ID4gPiAtLS0KPiA+
-ID4gIGRyaXZlcnMvbmV0L3dpcmVsZXNzL2F0aC9hdGg1ay9haGIuYyB8IDEwICsrKysrLS0tLS0K
-PiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4g
-PiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC93aXJlbGVzcy9hdGgvYXRoNWsvYWhi
-LmMgYi9kcml2ZXJzL25ldC93aXJlbGVzcy9hdGgvYXRoNWsvYWhiLmMKPiA+ID4gaW5kZXggMmM5
-Y2VjOGI1M2Q5Li44YmQwMWRmMzY5ZmIgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvbmV0L3dp
-cmVsZXNzL2F0aC9hdGg1ay9haGIuYwo+ID4gPiArKysgYi9kcml2ZXJzL25ldC93aXJlbGVzcy9h
-dGgvYXRoNWsvYWhiLmMKPiA+ID4gQEAgLTEzOCwxOCArMTM4LDE4IEBAIHN0YXRpYyBpbnQgYXRo
-X2FoYl9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gPgo+ID4gPiAgICAg
-aWYgKGJjZmctPmRldmlkID49IEFSNUtfU1JFVl9BUjIzMTVfUjYpIHsKPiA+ID4gICAgICAgICAg
-ICAgLyogRW5hYmxlIFdNQUMgQUhCIGFyYml0cmF0aW9uICovCj4gPiA+IC0gICAgICAgICAgIHJl
-ZyA9IGlvcmVhZDMyKCh2b2lkIF9faW9tZW0gKikgQVI1S19BUjIzMTVfQUhCX0FSQl9DVEwpOwo+
-ID4gPiArICAgICAgICAgICByZWcgPSBpb3JlYWQzMigoY29uc3Qgdm9pZCBfX2lvbWVtICopIEFS
-NUtfQVIyMzE1X0FIQl9BUkJfQ1RMKTsKPiA+Cj4gPiBXaGlsZSBJIHVuZGVyc3RhbmQgd2h5IHRo
-ZSBwYXJhbWV0ZXIgb2YgaW9yZWFkMzIgc2hvdWxkIGJlIGNvbnN0LCBJCj4gPiBkb24ndCBzZWUg
-YSByZWFzb24gZm9yIHRoZXNlIGNhc3RzIG9uIHRoZSB1c2Vycycgc2lkZS4gV2hhdCBkb2VzIGl0
-Cj4gPiBicmluZyBleGNlcHQgbG9uZ2VyIGNvZGUgdG8gcmVhZD8KPgo+IEJlY2F1c2UgdGhlIGFy
-Z3VtZW50IGlzIGFuIGludDoKPgo+IGRyaXZlcnMvbmV0L3dpcmVsZXNzL2F0aC9hdGg1ay9haGIu
-YzogSW4gZnVuY3Rpb24g4oCYYXRoX2FoYl9wcm9iZeKAmToKPiBkcml2ZXJzL25ldC93aXJlbGVz
-cy9hdGgvYXRoNWsvYWhiLmM6MTQxOjE4OiB3YXJuaW5nOiBwYXNzaW5nIGFyZ3VtZW50IDEgb2Yg
-4oCYaW9yZWFkMzLigJkgbWFrZXMgcG9pbnRlciBmcm9tIGludGVnZXIgd2l0aG91dCBhIGNhc3Qg
-Wy1XaW50LWNvbnZlcnNpb25dCj4gICAgcmVnID0gaW9yZWFkMzIoQVI1S19BUjIzMTVfQUhCX0FS
-Ql9DVEwpOwoKVGhhdCdzIGFuIGFyZ3VtZW50IGZvciBrZWVwaW5nIHRoZSBjYXN0IHRvICJ2b2lk
-IF9faW9tZW0gKiIsIG5vdCBmb3IKYWRkaW5nIHRoZSAiY29uc3QiLCByaWdodD8KCkdye29ldGpl
-LGVldGluZ31zLAoKICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQKCi0tIApHZWVydCBVeXR0
-ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxp
-bnV4LW02OGsub3JnCgpJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBl
-b3BsZSwgSSBjYWxsIG15c2VsZiBhIGhhY2tlci4gQnV0CndoZW4gSSdtIHRhbGtpbmcgdG8gam91
-cm5hbGlzdHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nIGxpa2UgdGhhdC4K
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcwpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+
+> -----Original Message-----
+> From: Gurchetan Singh <gurchetansingh@chromium.org>
+> Sent: 22 February 2020 01:47
+> To: Guillaume Gardet <Guillaume.Gardet@arm.com>
+> Cc: dri-devel@lists.freedesktop.org; Gerd Hoffmann <kraxel@redhat.com>;
+> Daniel Vetter <daniel.vetter@ffwll.ch>; Catalin Marinas
+> <Catalin.Marinas@arm.com>; nd <nd@arm.com>; Chia-I Wu
+> <olvaffe@gmail.com>
+> Subject: Re: [Bug] virtio-gpu broken with qemu/kvm on arm64 on kernel 5.5+
+> 
+> On Fri, Feb 21, 2020 at 10:41 AM Chia-I Wu <olvaffe@gmail.com> wrote:
+> >
+> > On Fri, Feb 21, 2020 at 2:06 AM Guillaume Gardet
+> > <Guillaume.Gardet@arm.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > > -----Original Message-----
+> > > > From: Chia-I Wu <olvaffe@gmail.com>
+> > > > Sent: 20 February 2020 19:41
+> > > > To: Guillaume Gardet <Guillaume.Gardet@arm.com>
+> > > > Cc: dri-devel@lists.freedesktop.org; Gerd Hoffmann
+> > > > <kraxel@redhat.com>; Daniel Vetter <daniel.vetter@ffwll.ch>;
+> > > > Catalin Marinas <Catalin.Marinas@arm.com>; nd <nd@arm.com>
+> > > > Subject: Re: [Bug] virtio-gpu broken with qemu/kvm on arm64 on
+> > > > kernel 5.5+
+> > > >
+> > > > On Thu, Feb 20, 2020 at 4:44 AM Guillaume Gardet
+> > > > <Guillaume.Gardet@arm.com>
+> > > > wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > With (guest) kernel 5.5+ with qemu/kvm on arm64, I get lots of
+> > > > > display
+> > > > corruptions leading to this kind of screen:
+> > > > > https://openqa.opensuse.org/tests/1174521#step/yast2_i/24
+> > > > Looking at the screenshot, it seems cacheline-related?
+> > >
+> > > It could be.
+> > >
+> > > >
+> > > > There was a change of memory type
+> > > >
+> > > >
+> > > > https://lists.freedesktop.org/archives/dri-devel/2019-August/23345
+> > > > 6.html
+> > > >
+> > > > While the guest memory type is ignored on Intel, it is honored on ARM.
+> > > > This attempt to fix it
+> > > >
+> > > >
+> > > > https://lists.freedesktop.org/archives/dri-devel/2019-December/248
+> > > > 271.html
+> > > >
+> > > > does not seem to land.
+> > >
+> > > I applied this patch on top of 5.5.4, but it does not fix the problem.
+> > > Maybe more similar changes are required?
+> > The patch looks legit.  Maybe the memory type is not the root cause?
+> 
+> Perhaps try the entire series?
+> 
+> https://patchwork.kernel.org/cover/11300619/
+
+Applied entire series on top of 5.5.6, but still the same problem.
+
+Guillaume
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
