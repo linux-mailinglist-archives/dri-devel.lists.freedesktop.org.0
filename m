@@ -1,42 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C28416A70A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 14:14:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6DA16A71D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 14:16:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 568686E4C4;
-	Mon, 24 Feb 2020 13:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4E489D4A;
+	Mon, 24 Feb 2020 13:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9E76E4C1;
- Mon, 24 Feb 2020 13:14:30 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2020 05:14:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,480,1574150400"; d="scan'208";a="255575855"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 24 Feb 2020 05:14:21 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 24 Feb 2020 15:14:20 +0200
-Date: Mon, 24 Feb 2020 15:14:20 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 04/12] drm: Nuke mode->vrefresh
-Message-ID: <20200224131420.GW13686@intel.com>
-References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
- <20200219203544.31013-5-ville.syrjala@linux.intel.com>
- <20200222123240.GD28287@ravnborg.org>
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8844489CDD;
+ Mon, 24 Feb 2020 13:16:38 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id t12so5615210vso.13;
+ Mon, 24 Feb 2020 05:16:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YOTOEEcJr7rQLnFDlUYMQgFpypdNN6QFoaJIjORW4cs=;
+ b=KnUz2hwBsJD+dNwgbike0bztFldk0jHTSM0g54BzXJ7jxPwEKfhKTHbSvDKYr2pepH
+ /nujD+M8kpmeNGA07Ryu+uhgeSvtRZyfg93KTnscqq1AqEYnShSsObmAWcz8m1WvsWmF
+ xpMaA+EocRrnu0ZhldEjprmvh4PQNeWhA53EEvh5QUcIw0MjKDlar0neN+BPbxzGWag8
+ o4F65HaTGkdzsv/hTJEy7yMNGWMUgFPojeEOwMGmdlaaqaxN7uBuR24zpzxwCnwGqYlF
+ sNbCxOtO9MYAU/5HSLfvhhis8Sl3mLv190x5aW6mTkz5rkLVDh9k8Kymd9UNZIvBzUNf
+ O/nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YOTOEEcJr7rQLnFDlUYMQgFpypdNN6QFoaJIjORW4cs=;
+ b=lqOiLm0BH52FoqwWsdanMLAjyrXv0/lLohi4dHYegMzugUyt/VnR2o36cnIdmf1NX5
+ ERd2ai1cPFg0Gsvl3tkzy708vf2sDGf/yObo0F4zdxN8sQUwIH0hSt8ZfWXGXO3bmjPP
+ TmWxYnB3CLCnqePMnr458ePBZxrEVsiNcNM6Y4fnvz/fW58C/YjgGRhsODbWuycc8Uwz
+ vKLv+GwbHtBnO9UwT/y+dlW+03VF/tzonZBnzGIneKIChi1IvRAYUOD9yZfvIa7gcIe6
+ xqozzjWcZW5DPcX9Tj5MGWOw7Xn/OvYdP8gf/8Aob6lM1FitElOcM01swCqW1sbiu+5G
+ xpNg==
+X-Gm-Message-State: APjAAAXxdSW9WnCwbWw7a9VSyj88INbGBz79RMIC1lzIdlQ8wZDTeQra
+ R+WXFuSgmOUcZFm7OyhqrSPdUxvQeke9wfV6w7o=
+X-Google-Smtp-Source: APXvYqxrIe3+OqZ+A1GsOx/kQ9OY1tQILX3AgVcfwTMKFdaFdrQnqMBaVBWtNo53Pw0AQNC42G6qdvHRI17em09EAvw=
+X-Received: by 2002:a05:6102:535:: with SMTP id
+ m21mr24976628vsa.95.1582550197643; 
+ Mon, 24 Feb 2020 05:16:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200222123240.GD28287@ravnborg.org>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200106151655.311413-1-christian.gmeiner@gmail.com>
+In-Reply-To: <20200106151655.311413-1-christian.gmeiner@gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 24 Feb 2020 14:16:26 +0100
+Message-ID: <CAH9NwWeWZ8BSZ6wNhWZtiLxuNQzAYb5ZKX0_+3XWu2ieqhJLBw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] update hwdw for gc400
+To: LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,84 +61,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, nouveau@lists.freedesktop.org,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Thomas Hellstrom <thellstrom@vmware.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>, Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Icenowy Zheng <icenowy@aosc.io>, Jonas Karlman <jonas@kwiboo.se>,
- intel-gfx@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- Vincent Abriou <vincent.abriou@st.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Purism Kernel Team <kernel@puri.sm>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 22, 2020 at 01:32:40PM +0100, Sam Ravnborg wrote:
-> Hi Ville.
-> =
+gentle ping
 
-> Nice patch - and diffstat looks good:
-> >  63 files changed, 217 insertions(+), 392 deletions(-)
-> =
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-> There is an item in the Documentation/gpu/todo.rst that
-> describes this.
-> Could you drop this from todo.rst in this patch too.
-
-Yeah, missed the TODO. Looks like there's one for hsync
-removal as well.
-
-> =
-
-> > diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcd=
-e_dsi.c
-> > index bb6528b01cd0..6dca5344c0b3 100644
-> > --- a/drivers/gpu/drm/mcde/mcde_dsi.c
-> > +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-> > @@ -538,7 +538,7 @@ static void mcde_dsi_setup_video_mode(struct mcde_d=
-si *d,
-> >  	 */
-> >  	/* (ps/s) / (pixels/s) =3D ps/pixels */
-> >  	pclk =3D DIV_ROUND_UP_ULL(1000000000000,
-> > -				(mode->vrefresh * mode->htotal * mode->vtotal));
-> > +				(drm_mode_vrefresh(mode) * mode->htotal * mode->vtotal));
-> >  	dev_dbg(d->dev, "picoseconds between two pixels: %llu\n",
-> >  		pclk);
-> >  =
-
-> =
-
-> This just caught my eye while browsing the patch.
-> It looks like a backward way to get the clock.
-
-Yep. I'll cook up a patch to switch this to ->clock.
-
-> =
-
-> But patch is fine, it was just a drive-by comment.
-> =
-
-> Whole patch is:
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> (with or without removal of todo item added)
-> =
-
-> 	Sam
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
