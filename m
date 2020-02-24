@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D92716BC75
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA7C16BC58
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:51:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F4E6EA4C;
-	Tue, 25 Feb 2020 08:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A20A89FC8;
+	Tue, 25 Feb 2020 08:51:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3DFFA893D0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 19:12:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D51E96E8CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 19:12:48 +0000 (UTC)
 Received: from hillo.muru.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTP id A8B9A81B7;
- Mon, 24 Feb 2020 19:13:29 +0000 (UTC)
+ by muru.com (Postfix) with ESMTP id 0F8C481DB;
+ Mon, 24 Feb 2020 19:13:31 +0000 (UTC)
 From: Tony Lindgren <tony@atomide.com>
 To: linux-omap@vger.kernel.org
-Subject: [PATCH 2/3] bus: ti-sysc: Detect display subsystem related devices
-Date: Mon, 24 Feb 2020 11:12:29 -0800
-Message-Id: <20200224191230.30972-3-tony@atomide.com>
+Subject: [PATCH 3/3] bus: ti-sysc: Implement display subsystem reset quirk
+Date: Mon, 24 Feb 2020 11:12:30 -0800
+Message-Id: <20200224191230.30972-4-tony@atomide.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200224191230.30972-1-tony@atomide.com>
 References: <20200224191230.30972-1-tony@atomide.com>
@@ -51,84 +51,194 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to prepare probing display subsystem (DSS) with ti-sysc
-interconnect target module driver and device tree data, let's
-detect DSS related modules.
+The display subsystem (DSS) needs the child outputs disabled for reset.
+In order to prepare to probe DSS without legacy platform data, let's
+implement sysc_pre_reset_quirk_dss() similar to what we have for the
+platform data with omap_dss_reset().
 
-We need to also add reset quirk handling for DSS, but until that's
-done, let's just enable the optional clock quirks for DSS and
-omap4 HDMI. The rest is just naming of modules if CONFIG_DEBUG
-is set.
+Note that we cannot directly use the old omap_dss_reset() without
+platform data callbacks and updating omap_dss_reset() to understand
+struct device. And we will be dropping omap_dss_reset() anyways when
+all the SoCs are probing with device tree, so let's not mess with the
+legacy code at all.
 
 Cc: Jyri Sarha <jsarha@ti.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Signed-off-by: Tony Lindgren <tony@atomide.com>
 ---
- drivers/bus/ti-sysc.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/bus/ti-sysc.c                 | 131 +++++++++++++++++++++++++-
+ include/linux/platform_data/ti-sysc.h |   1 +
+ 2 files changed, 129 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/bus/ti-sysc.c b/drivers/bus/ti-sysc.c
 --- a/drivers/bus/ti-sysc.c
 +++ b/drivers/bus/ti-sysc.c
-@@ -1302,10 +1302,18 @@ static const struct sysc_revision_quirk sysc_revision_quirks[] = {
- 		   SYSC_MODULE_QUIRK_AESS),
+@@ -1303,11 +1303,11 @@ static const struct sysc_revision_quirk sysc_revision_quirks[] = {
  	SYSC_QUIRK("dcan", 0x48480000, 0x20, -ENODEV, -ENODEV, 0xa3170504, 0xffffffff,
  		   SYSC_QUIRK_CLKDM_NOAUTO),
-+	SYSC_QUIRK("dss", 0x4832a000, 0, 0x10, 0x14, 0x00000020, 0xffffffff,
-+		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
-+	SYSC_QUIRK("dss", 0x58000000, 0, -ENODEV, 0x14, 0x00000040, 0xffffffff,
-+		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
-+	SYSC_QUIRK("dss", 0x58000000, 0, -ENODEV, 0x14, 0x00000061, 0xffffffff,
-+		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
+ 	SYSC_QUIRK("dss", 0x4832a000, 0, 0x10, 0x14, 0x00000020, 0xffffffff,
+-		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
++		   SYSC_QUIRK_OPT_CLKS_IN_RESET | SYSC_MODULE_QUIRK_DSS_RESET),
+ 	SYSC_QUIRK("dss", 0x58000000, 0, -ENODEV, 0x14, 0x00000040, 0xffffffff,
+-		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
++		   SYSC_QUIRK_OPT_CLKS_IN_RESET | SYSC_MODULE_QUIRK_DSS_RESET),
+ 	SYSC_QUIRK("dss", 0x58000000, 0, -ENODEV, 0x14, 0x00000061, 0xffffffff,
+-		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
++		   SYSC_QUIRK_OPT_CLKS_IN_RESET | SYSC_MODULE_QUIRK_DSS_RESET),
  	SYSC_QUIRK("dwc3", 0x48880000, 0, 0x10, -ENODEV, 0x500a0200, 0xffffffff,
  		   SYSC_QUIRK_CLKDM_NOAUTO),
  	SYSC_QUIRK("dwc3", 0x488c0000, 0, 0x10, -ENODEV, 0x500a0200, 0xffffffff,
- 		   SYSC_QUIRK_CLKDM_NOAUTO),
-+	SYSC_QUIRK("hdmi", 0, 0, 0x10, -ENODEV, 0x50030200, 0xffffffff,
-+		   SYSC_QUIRK_OPT_CLKS_NEEDED),
- 	SYSC_QUIRK("hdq1w", 0, 0, 0x14, 0x18, 0x00000006, 0xffffffff,
- 		   SYSC_MODULE_QUIRK_HDQ1W),
- 	SYSC_QUIRK("hdq1w", 0, 0, 0x14, 0x18, 0x0000000a, 0xffffffff,
-@@ -1342,13 +1350,21 @@ static const struct sysc_revision_quirk sysc_revision_quirks[] = {
- 		   0xffff00f0, 0),
- 	SYSC_QUIRK("dcan", 0, 0x20, -ENODEV, -ENODEV, 0xa3170504, 0xffffffff, 0),
- 	SYSC_QUIRK("dcan", 0, 0x20, -ENODEV, -ENODEV, 0x4edb1902, 0xffffffff, 0),
-+	SYSC_QUIRK("dispc", 0x4832a400, 0, 0x10, 0x14, 0x00000030, 0xffffffff, 0),
-+	SYSC_QUIRK("dispc", 0x58001000, 0, 0x10, 0x14, 0x00000040, 0xffffffff, 0),
-+	SYSC_QUIRK("dispc", 0x58001000, 0, 0x10, 0x14, 0x00000051, 0xffffffff, 0),
- 	SYSC_QUIRK("dmic", 0, 0, 0x10, -ENODEV, 0x50010000, 0xffffffff, 0),
-+	SYSC_QUIRK("dsi", 0x58004000, 0, 0x10, 0x14, 0x00000030, 0xffffffff, 0),
-+	SYSC_QUIRK("dsi", 0x58005000, 0, 0x10, 0x14, 0x00000030, 0xffffffff, 0),
-+	SYSC_QUIRK("dsi", 0x58005000, 0, 0x10, 0x14, 0x00000040, 0xffffffff, 0),
-+	SYSC_QUIRK("dsi", 0x58009000, 0, 0x10, 0x14, 0x00000040, 0xffffffff, 0),
- 	SYSC_QUIRK("dwc3", 0, 0, 0x10, -ENODEV, 0x500a0200, 0xffffffff, 0),
- 	SYSC_QUIRK("d2d", 0x4a0b6000, 0, 0x10, 0x14, 0x00000010, 0xffffffff, 0),
- 	SYSC_QUIRK("d2d", 0x4a0cd000, 0, 0x10, 0x14, 0x00000010, 0xffffffff, 0),
- 	SYSC_QUIRK("epwmss", 0, 0, 0x4, -ENODEV, 0x47400001, 0xffffffff, 0),
- 	SYSC_QUIRK("gpu", 0, 0x1fc00, 0x1fc10, -ENODEV, 0, 0, 0),
- 	SYSC_QUIRK("gpu", 0, 0xfe00, 0xfe10, -ENODEV, 0x40000000 , 0xffffffff, 0),
-+	SYSC_QUIRK("hdmi", 0, 0, 0x10, -ENODEV, 0x50031d00, 0xffffffff, 0),
- 	SYSC_QUIRK("hsi", 0, 0, 0x10, 0x14, 0x50043101, 0xffffffff, 0),
- 	SYSC_QUIRK("iss", 0, 0, 0x10, -ENODEV, 0x40000101, 0xffffffff, 0),
- 	SYSC_QUIRK("lcdc", 0, 0, 0x54, -ENODEV, 0x4f201000, 0xffffffff, 0),
-@@ -1366,6 +1382,8 @@ static const struct sysc_revision_quirk sysc_revision_quirks[] = {
- 	SYSC_QUIRK("prcm", 0, 0, -ENODEV, -ENODEV, 0x40000100, 0xffffffff, 0),
- 	SYSC_QUIRK("prcm", 0, 0, -ENODEV, -ENODEV, 0x00004102, 0xffffffff, 0),
- 	SYSC_QUIRK("prcm", 0, 0, -ENODEV, -ENODEV, 0x40000400, 0xffffffff, 0),
-+	SYSC_QUIRK("rfbi", 0x4832a800, 0, 0x10, 0x14, 0x00000010, 0xffffffff, 0),
-+	SYSC_QUIRK("rfbi", 0x58002000, 0, 0x10, 0x14, 0x00000010, 0xffffffff, 0),
- 	SYSC_QUIRK("scm", 0, 0, 0x10, -ENODEV, 0x40000900, 0xffffffff, 0),
- 	SYSC_QUIRK("scm", 0, 0, -ENODEV, -ENODEV, 0x4e8b0100, 0xffffffff, 0),
- 	SYSC_QUIRK("scm", 0, 0, -ENODEV, -ENODEV, 0x4f000100, 0xffffffff, 0),
-@@ -1383,6 +1401,7 @@ static const struct sysc_revision_quirk sysc_revision_quirks[] = {
- 	SYSC_QUIRK("usbhstll", 0, 0, 0x10, 0x14, 0x00000008, 0xffffffff, 0),
- 	SYSC_QUIRK("usb_host_hs", 0, 0, 0x10, 0x14, 0x50700100, 0xffffffff, 0),
- 	SYSC_QUIRK("usb_host_hs", 0, 0, 0x10, -ENODEV, 0x50700101, 0xffffffff, 0),
-+	SYSC_QUIRK("venc", 0x58003000, 0, -ENODEV, -ENODEV, 0x00000002, 0xffffffff, 0),
- 	SYSC_QUIRK("vfpe", 0, 0, 0x104, -ENODEV, 0x4d001200, 0xffffffff, 0),
- #endif
+@@ -1468,6 +1468,128 @@ static void sysc_init_revision_quirks(struct sysc *ddata)
+ 	}
+ }
+ 
++/*
++ * DSS needs dispc outputs disabled to reset modules. Returns mask of
++ * enabled DSS interrupts. Eventually we may be able to do this on
++ * dispc init rather than top-level DSS init.
++ */
++static u32 sysc_quirk_dispc(struct sysc *ddata, int dispc_offset,
++			    bool disable)
++{
++	bool lcd_en, digit_en, lcd2_en = false, lcd3_en = false;
++	const int lcd_en_mask = BIT(0), digit_en_mask = BIT(1);
++	int manager_count;
++	bool framedonetv_irq;
++	u32 val, irq_mask = 0;
++
++	switch (sysc_soc->soc) {
++	case SOC_2420 ... SOC_3630:
++		manager_count = 2;
++		framedonetv_irq = false;
++		break;
++	case SOC_4430 ... SOC_4470:
++		manager_count = 3;
++		break;
++	case SOC_5430:
++	case SOC_DRA7:
++		manager_count = 4;
++		break;
++	case SOC_AM4:
++		manager_count = 1;
++		break;
++	case SOC_UNKNOWN:
++	default:
++		return 0;
++	};
++
++	/* Remap the whole module range to be able to reset dispc outputs */
++	devm_iounmap(ddata->dev, ddata->module_va);
++	ddata->module_va = devm_ioremap(ddata->dev,
++					ddata->module_pa,
++					ddata->module_size);
++	if (!ddata->module_va)
++		return -EIO;
++
++	/* DISP_CONTROL */
++	val = sysc_read(ddata, dispc_offset + 0x40);
++	lcd_en = val & lcd_en_mask;
++	digit_en = val & digit_en_mask;
++	if (lcd_en)
++		irq_mask |= BIT(0);			/* FRAMEDONE */
++	if (digit_en) {
++		if (framedonetv_irq)
++			irq_mask |= BIT(24);		/* FRAMEDONETV */
++		else
++			irq_mask |= BIT(2) | BIT(3);	/* EVSYNC bits */
++	}
++	if (disable & (lcd_en | digit_en))
++		sysc_write(ddata, dispc_offset + 0x40,
++			   val & ~(lcd_en_mask | digit_en_mask));
++
++	if (manager_count <= 2)
++		return irq_mask;
++
++	/* DISPC_CONTROL2 */
++	val = sysc_read(ddata, dispc_offset + 0x238);
++	lcd2_en = val & lcd_en_mask;
++	if (lcd2_en)
++		irq_mask |= BIT(22);			/* FRAMEDONE2 */
++	if (disable && lcd2_en)
++		sysc_write(ddata, dispc_offset + 0x238,
++			   val & ~lcd_en_mask);
++
++	if (manager_count <= 3)
++		return irq_mask;
++
++	/* DISPC_CONTROL3 */
++	val = sysc_read(ddata, dispc_offset + 0x848);
++	lcd3_en = val & lcd_en_mask;
++	if (lcd3_en)
++		irq_mask |= BIT(30);			/* FRAMEDONE3 */
++	if (disable && lcd3_en)
++		sysc_write(ddata, dispc_offset + 0x848,
++			   val & ~lcd_en_mask);
++
++	return irq_mask;
++}
++
++/* DSS needs child outputs disabled and SDI registers cleared for reset */
++static void sysc_pre_reset_quirk_dss(struct sysc *ddata)
++{
++	const int dispc_offset = 0x1000;
++	int error;
++	u32 irq_mask, val;
++
++	/* Get enabled outputs */
++	irq_mask = sysc_quirk_dispc(ddata, dispc_offset, false);
++	if (!irq_mask)
++		return;
++
++	/* Clear IRQSTATUS */
++	sysc_write(ddata, 0x1000 + 0x18, irq_mask);
++
++	/* Disable outputs */
++	val = sysc_quirk_dispc(ddata, dispc_offset, true);
++
++	/* Poll IRQSTATUS */
++	error = readl_poll_timeout(ddata->module_va + dispc_offset + 0x18,
++				   val, val != irq_mask, 100, 50);
++	if (error)
++		dev_warn(ddata->dev, "%s: timed out %08x !+ %08x\n",
++			 __func__, val, irq_mask);
++
++	if (sysc_soc->soc == SOC_3430) {
++		/* Clear DSS_SDI_CONTROL */
++		sysc_write(ddata, dispc_offset + 0x44, 0);
++
++		/* Clear DSS_PLL_CONTROL */
++		sysc_write(ddata, dispc_offset + 0x48, 0);
++	}
++
++	/* Clear DSS_CONTROL to switch DSS clock sources to PRCM if not */
++	sysc_write(ddata, dispc_offset + 0x40, 0);
++}
++
+ /* 1-wire needs module's internal clocks enabled for reset */
+ static void sysc_pre_reset_quirk_hdq1w(struct sysc *ddata)
+ {
+@@ -1606,6 +1728,9 @@ static void sysc_init_module_quirks(struct sysc *ddata)
+ 	if (ddata->cfg.quirks & SYSC_MODULE_QUIRK_AESS)
+ 		ddata->module_enable_quirk = sysc_module_enable_quirk_aess;
+ 
++	if (ddata->cfg.quirks & SYSC_MODULE_QUIRK_DSS_RESET)
++		ddata->pre_reset_quirk = sysc_pre_reset_quirk_dss;
++
+ 	if (ddata->cfg.quirks & SYSC_MODULE_QUIRK_RTC_UNLOCK) {
+ 		ddata->module_unlock_quirk = sysc_module_unlock_quirk_rtc;
+ 		ddata->module_lock_quirk = sysc_module_lock_quirk_rtc;
+diff --git a/include/linux/platform_data/ti-sysc.h b/include/linux/platform_data/ti-sysc.h
+--- a/include/linux/platform_data/ti-sysc.h
++++ b/include/linux/platform_data/ti-sysc.h
+@@ -49,6 +49,7 @@ struct sysc_regbits {
+ 	s8 emufree_shift;
  };
+ 
++#define SYSC_MODULE_QUIRK_DSS_RESET	BIT(23)
+ #define SYSC_MODULE_QUIRK_RTC_UNLOCK	BIT(22)
+ #define SYSC_QUIRK_CLKDM_NOAUTO		BIT(21)
+ #define SYSC_QUIRK_FORCE_MSTANDBY	BIT(20)
 -- 
 2.25.1
 _______________________________________________
