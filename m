@@ -1,97 +1,102 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F07616B046
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 20:31:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D5216B0AA
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 20:56:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86AC9899F3;
-	Mon, 24 Feb 2020 19:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB8696E914;
+	Mon, 24 Feb 2020 19:56:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 325 seconds by postgrey-1.36 at gabe;
- Mon, 24 Feb 2020 19:31:25 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 349976E902
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 19:31:25 +0000 (UTC)
-Received: from [192.168.1.183] ([37.4.249.121]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MtwlO-1jPEJt2n8e-00uMPE; Mon, 24 Feb 2020 20:25:49 +0100
-Subject: Re: [PATCH 16/89] clk: bcm: rpi: Add clock id to data
-To: Maxime Ripard <maxime@cerno.tech>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Eric Anholt <eric@anholt.net>
-References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <3028e04887c7b8a6ffc150c016aa63281461b434.1582533919.git-series.maxime@cerno.tech>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- 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 AQ==
-Message-ID: <67855a10-f7cb-b6b3-7b9f-d9c9baa5f105@i2se.com>
-Date: Mon, 24 Feb 2020 20:25:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3D316E914
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 19:56:04 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01OJtmIA100541;
+ Mon, 24 Feb 2020 13:55:48 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1582574148;
+ bh=5EZSCYZdGBjozcsaC9QQrK8HU/bPCm18odpZrO4+Qgw=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=Al3+ThOCQpknRXvsgpCsJ8ZvFEhgh2WfOJUTkY1CJizZ3dlCnGnX5fPXX+F1rPr4v
+ h7rv7Rw0opdlFmRJjcDcM9jtRL9Tm/47Jps2XOBAGZUcB4IOgUwVGPpcJP0FgEaxM8
+ Mhd8n0u+8o70ZUaZL1JTbTMmk+6P1viqoXNz+3y0=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01OJtmdH068576
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 24 Feb 2020 13:55:48 -0600
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 24
+ Feb 2020 13:55:47 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 24 Feb 2020 13:55:47 -0600
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01OJteqe098862;
+ Mon, 24 Feb 2020 13:55:41 -0600
+Subject: Re: [PATCH v4 3/3] drm: bridge: cdns-mhdp: add j721e wrapper
+To: Yuti Amonkar <yamonkar@cadence.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <robh+dt@kernel.org>, <maxime@cerno.tech>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <mark.rutland@arm.com>, <a.hajda@samsung.com>,
+ <narmstrong@baylibre.com>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@siol.net>
+References: <1580970588-21596-1-git-send-email-yamonkar@cadence.com>
+ <1580970588-21596-4-git-send-email-yamonkar@cadence.com>
+From: Jyri Sarha <jsarha@ti.com>
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
+ fNEWzMjm7eqoUBi1BUAQIReS6won0cXIEXFg9nDYQ3wNTPyh+VRjBvlb/gRJlf4MQnJDTGDP
+ S5i63HxYtOfjPMSsUSu8NvhbzayNkN5YKspJDu1cK5toRtyUn1bMzUSKDHfwpdmuCDgXZSj2
+ t+z+c6u7yx99/j4m9t0SVlaMt00p1vJJ3HJ2Pkm3IImWvtIfvCmxnOsK8hmwgNQY6PYK1Idk
+ puSRjMIGLqjZo071Z6dyDe08zv6DWL1fMoOYbAk/H4elYBaqEsdhUlDCJxZURcheQUnOMYXo
+ /kg+7TP6RqjcyXoGgqjfkqlf3hYKmyNMq0FaYmUAfeqCWGOOy3PPxR/IiACezs8mMya1XcIK
+ Hk/5JAGuwsqT80bvDFAB2XfnF+fNIie/n5SUHHejJBxngb9lFE90BsSfdcVwzNJ9gVf/TOJc
+ qJEHuUx0WPi0taO7hw9+jXV8KTHp6CQPmDSikEIlW7/tJmVDBXQx8n4RMUk4VzjE9Y/m9kHE
+ UVJ0bJYzMqECMTAP6KgzgkQCD7n8OzswC18PrK69ByGFpcm664uCAa8YiMuX92MnesKMiYPQ
+ z1rvR5riXZdplziIRjFRX+68fvhPverrvjNVmzz0bAFwfVjBsQARAQABzRpKeXJpIFNhcmhh
+ IDxqc2FyaGFAdGkuY29tPsLBeAQTAQIAIgUCVt1a3wIbAwYLCQgHAwIGFQgCCQoLBBYCAwEC
+ HgECF4AACgkQkDazUNfWGUEVVhAAmFL/21tUhZECrDrP9FWuAUuDvg+1CgrrqBj7ZxKtMaiz
+ qTcZwZdggp8bKlFaNrmsyrBsuPlAk99f7ToxufqbV5l/lAT3DdIkjb4nwN4rJkxqSU3PaUnh
+ mDMKIAp6bo1N9L+h82LE6CjI89W4ydQp5i+cOeD/kbdxbHHvxgNwrv5x4gg1JvEQLVnUSHva
+ R2kx7u2rlnq7OOyh9vU0MUq7U5enNNqdBjjBTeaOwa5xb3S2Cc9dR10mpFiy+jSSkuFOjPpc
+ fLfr/s03NGqbZ4aXvZCGjCw4jclpTJkuWPKO+Gb+a/3oJ4qpGN9pJ+48n2Tx9MdSrR4aaXHi
+ EYMrbYQz9ICJ5V80P5+yCY5PzCvqpkizP6vtKvRSi8itzsglauMZGu6GwGraMJNBgu5u+HIZ
+ nfRtJO1AAiwuupOHxe1nH05c0zBJaEP4xJHyeyDsMDh+ThwbGwQmAkrLJZtOd3rTmqlJXnuj
+ sfgQlFyC68t1YoMHukz9LHzg02xxBCaLb0KjslfwuDUTPrWtcDL1a5hccksrkHx7k9crVFA1
+ o6XWsOPGKRHOGvYyo3TU3CRygXysO41UnGG40Q3B5R8RMwRHV925LOQIwEGF/6Os8MLgFXCb
+ Lv3iJtan+PBdqO1Bv3u2fXUMbYgQ3v7jHctB8nHphwSwnHuGN7FAmto+SxzotE3OwU0EVt1a
+ 3wEQAMHwOgNaIidGN8UqhSJJWDEfF/SPSCrsd3WsJklanbDlUCB3WFP2EB4k03JroIRvs7/V
+ VMyITLQvPoKgaECbDS5U20r/Po/tmaAOEgC7m1VaWJUUEXhjYQIw7t/tSdWlo5XxZIcO4LwO
+ Kf0S4BPrQux6hDLIFL8RkDH/8lKKc44ZnSLoF1gyjc5PUt6iwgGJRRkOD8gGxCv1RcUsu1xU
+ U9lHBxdWdPmMwyXiyui1Vx7VJJyD55mqc7+qGrpDHG9yh3pUm2IWp7jVt/qw9+OE9dVwwhP9
+ GV2RmBpDmB3oSFpk7lNvLJ11VPixl+9PpmRlozMBO00wA1W017EpDHgOm8XGkq++3wsFNOmx
+ 6p631T2WuIthdCSlZ2kY32nGITWn4d8L9plgb4HnDX6smrMTy1VHVYX9vsHXzbqffDszQrHS
+ wFo5ygKhbGNXO15Ses1r7Cs/XAZk3PkFsL78eDBHbQd+MveApRB7IyfffIz7pW1R1ZmCrmAg
+ Bn36AkDXJTgUwWqGyJMd+5GHEOg1UPjR5Koxa4zFhj1jp1Fybn1t4N11cmEmWh0aGgI/zsty
+ g/qtGRnFEywBbzyrDEoV4ZJy2Q5pnZohVhpbhsyETeYKQrRnMk/dIPWg6AJx38Cl4P9PK1JX
+ 8VK661BG8GXsXJ3uZbPSu6K0+FiJy09N4IW7CPJNABEBAAHCwV8EGAECAAkFAlbdWt8CGwwA
+ CgkQkDazUNfWGUFOfRAA5K/z9DXVEl2kkuMuIWkgtuuLQ7ZwqgxGP3dMA5z3Iv/N+VNRGbaw
+ oxf+ZkTbJHEE/dWclj1TDtpET/t6BJNLaldLtJ1PborQH+0jTmGbsquemKPgaHeSU8vYLCdc
+ GV/Rz+3FN0/fRdmoq2+bIHght4T6KZJ6jsrnBhm7y6gzjMOiftH6M5GXPjU0/FsU09qsk/af
+ jbwLETaea0mlWMrLd9FC2KfVITA/f/YG2gqtUUF9WlizidyctWJqSTZn08MdzaoPItIkRUTv
+ 6Bv6rmFn0daWkHt23BLd0ZP7e7pON1rqNVljWjWQ/b/E/SzeETrehgiyDr8pP+CLlC+vSQxi
+ XtjhWjt1ItFLXxb4/HLZbb/L4gYX7zbZ3NwkON6Ifn3VU7UwqxGLmKfUwu/mFV+DXif1cKSS
+ v6vWkVQ6Go9jPsSMFxMXPA5317sZZk/v18TAkIiwFqda3/SSjwc3e8Y76/DwPvUQd36lEbva
+ uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
+ PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
+ tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
+Message-ID: <9b85c5d5-d226-5fa4-a685-b360a71c5036@ti.com>
+Date: Mon, 24 Feb 2020 21:55:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <3028e04887c7b8a6ffc150c016aa63281461b434.1582533919.git-series.maxime@cerno.tech>
-Content-Language: en-US
-X-Provags-ID: V03:K1:VyhJqVob3VPakCj8Qddgqy69jJ7bigJ2KWHq95khrpoutJh2CXf
- Gs4yA0dcF2YUSCQANMZjrZk1jGzJjrWXSL7DOplNN61MHOJ6QPgzVTzMBeaEf44HpHFKzIj
- u6wr9+J46+NgOs7NuI/vOmGM4TojTNlYv55ne10dlXq1Bm8anDDp6ppXKuW7WjuXfhl59LK
- oAM3uvuntavUCgHUaZE5w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:c48PFu5u18M=:7reaeDvcCjNN6Ojjmf99ie
- ldf6ie4yVEQfrXXh04HqtAaj/cDH+bl9vwwUGi7Z3k1enjSU1RlrgGHuZleKNPc/K4jcdujo4
- vBQgCLOacHyLpN8yyg5Bk1zSPkcRJP/zRxod7oE9yrxqKvBLCQG5kOtk34FeaapuLgJkxnF2X
- LPMsIWRjoxZCXUhpanMkSi5UX6SjLKNWfFq+yjnSaP1uC+S9m+i+WyrZmi6GukbTys2CChqSV
- COMMnI8RXECve7EZKJ7/cuOxEJj6m8LwGymVVsdN6TVb/A6o+cSzauQq8YCjrxdD+xuaKsgxO
- Td8TtRCjFeM4scjfpmDgr7KJid2oJ5NemoRYF/7s/IGHW4gTPd4UifjPldxBSKM+0mlx+Yh2I
- LFETQhZwluzMpYc4FW5fp3GfvKTidiuEqcxxA68cafd8iW63hnr+GNMZeYHdYVsBy6U2WVvYq
- 40Cdg/P9HmVGGCAi4wpVmjhKMkUaWTFHE/U7XQiZ7HQZMigQsSpQ2Jcf0CQryJZAdog5AUe7P
- rPval6D3bvdO+u7nYkzAvAbuq43USlA2iRICqbnaG5nGO/s74sWUkgxEU/v/5+tmzGoKMgRl8
- YcPeENN9UpIJVLeU6Vg6fcDyaoiHNWtFuQEzKiK2Yrs0mMq4Njy9+7xPrWRxRLP6wblJWkEvd
- ZcXoEX9nhhanFwpfQJcJgm8768xiAi+KJIBUNJODdMm0uUyADBEmS2H2B6sSXf+iQ2eLjstWW
- 8/ypNziWRaAxAELT3qEByXuf+7O6746eF5lXlmwBDLO4Zes4rF9lIjp2jLZKueRqSm9L9wWgv
- W43dyofgYjm2fZONbKCLBh4tdByJ7FalM4DyzADiNsMP/JcWqZpCvUJoxMI35YFWX92i2nB
+In-Reply-To: <1580970588-21596-4-git-send-email-yamonkar@cadence.com>
+Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,35 +109,259 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: praneeth@ti.com, mparab@cadence.com, tomi.valkeinen@ti.com,
+ sjakhade@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On 06/02/2020 08:29, Yuti Amonkar wrote:
+> Add j721e wrapper for mhdp, which sets up the clock and data muxes.
+> 
+> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
+> ---
+>  drivers/gpu/drm/bridge/Kconfig           | 12 ++++
+>  drivers/gpu/drm/bridge/Makefile          |  3 +
+>  drivers/gpu/drm/bridge/cdns-mhdp-core.c  | 14 +++++
+>  drivers/gpu/drm/bridge/cdns-mhdp-core.h  |  1 +
+>  drivers/gpu/drm/bridge/cdns-mhdp-j721e.c | 79 ++++++++++++++++++++++++
+>  drivers/gpu/drm/bridge/cdns-mhdp-j721e.h | 55 +++++++++++++++++
+>  6 files changed, 164 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
+>  create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
+> 
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index c66f2ef04f71..32e3bc5edae8 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -38,6 +38,18 @@ config DRM_CDNS_MHDP
+>  	  It takes a DPI stream as input and output it encoded
+>  	  in DP format.
+>  
+> +if DRM_CDNS_MHDP
+> +
+> +config DRM_CDNS_MHDP_J721E
+> +	bool "J721E Cadence DPI/DP wrapper support"
+> +	default y
+> +	help
+> +	  Support J721E Cadence DPI/DP wrapper. This is a wrapper
+> +	  which adds support for J721E related platform ops. It
+> +	  initializes the J721e Display Port and sets up the
+> +	  clock and data muxes.
+> +endif
+> +
+>  config DRM_DUMB_VGA_DAC
+>  	tristate "Dumb VGA DAC Bridge support"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 71019088d257..7e6c64f9021f 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -21,3 +21,6 @@ obj-y += analogix/
+>  obj-y += synopsys/
+>  
+>  cdns-mhdp-objs := cdns-mhdp-core.o
+> +ifeq ($(CONFIG_DRM_CDNS_MHDP_J721E),y)
+> +	cdns-mhdp-objs += cdns-mhdp-j721e.o
+> +endif
+> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-core.c b/drivers/gpu/drm/bridge/cdns-mhdp-core.c
+> index 51ed9cdee161..8483b6b1023b 100644
+> --- a/drivers/gpu/drm/bridge/cdns-mhdp-core.c
+> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-core.c
+> @@ -36,8 +36,22 @@
+>  
+>  #include "cdns-mhdp-core.h"
+>  
+> +#include "cdns-mhdp-j721e.h"
+> +
+> +#ifdef CONFIG_DRM_CDNS_MHDP_J721E
+> +static const struct mhdp_platform_ops mhdp_ti_j721e_ops = {
+> +	.init = cdns_mhdp_j721e_init,
+> +	.exit = cdns_mhdp_j721e_fini,
+> +	.enable = cdns_mhdp_j721e_enable,
+> +	.disable = cdns_mhdp_j721e_disable,
+> +};
+> +#endif
+> +
+>  static const struct of_device_id mhdp_ids[] = {
+>  	{ .compatible = "cdns,mhdp8546", },
+> +#ifdef CONFIG_DRM_CDNS_MHDP_J721E
+> +	{ .compatible = "ti,j721e-mhdp8546", .data = &mhdp_ti_j721e_ops },
+> +#endif
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, mhdp_ids);
+> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-core.h b/drivers/gpu/drm/bridge/cdns-mhdp-core.h
+> index 2f3b67987832..67a99eab5db3 100644
+> --- a/drivers/gpu/drm/bridge/cdns-mhdp-core.h
+> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-core.h
+> @@ -335,6 +335,7 @@ struct mhdp_platform_ops {
+>  
+>  struct cdns_mhdp_device {
+>  	void __iomem *regs;
+> +	void __iomem *j721e_regs;
+>  
+>  	struct device *dev;
+>  	struct clk *clk;
+> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
+> new file mode 100644
+> index 000000000000..a87faf55c065
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
+> @@ -0,0 +1,79 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * TI j721e Cadence MHDP DP wrapper
+> + *
+> + * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
+> + * Author: Jyri Sarha <jsarha@ti.com
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 as
+> + * published by the Free Software Foundation.
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/io.h>
+> +
+> +#include "cdns-mhdp-j721e.h"
+> +
+> +#define	REVISION			0x00
+> +#define	DPTX_IPCFG			0x04
+> +#define	ECC_MEM_CFG			0x08
+> +#define	DPTX_DSC_CFG			0x0c
+> +#define	DPTX_SRC_CFG			0x10
+> +#define	DPTX_VIF_SECURE_MODE_CFG	0x14
+> +#define	DPTX_VIF_CONN_STATUS		0x18
+> +#define	PHY_CLK_STATUS			0x1c
+> +
+> +#define DPTX_SRC_AIF_EN			BIT(16)
+> +#define DPTX_SRC_VIF_3_IN30B		BIT(11)
+> +#define DPTX_SRC_VIF_2_IN30B		BIT(10)
+> +#define DPTX_SRC_VIF_1_IN30B		BIT(9)
+> +#define DPTX_SRC_VIF_0_IN30B		BIT(8)
+> +#define DPTX_SRC_VIF_3_SEL_DPI5		BIT(7)
+> +#define DPTX_SRC_VIF_3_SEL_DPI3		0
+> +#define DPTX_SRC_VIF_2_SEL_DPI4		BIT(6)
+> +#define DPTX_SRC_VIF_2_SEL_DPI2		0
+> +#define DPTX_SRC_VIF_1_SEL_DPI3		BIT(5)
+> +#define DPTX_SRC_VIF_1_SEL_DPI1		0
+> +#define DPTX_SRC_VIF_0_SEL_DPI2		BIT(4)
+> +#define DPTX_SRC_VIF_0_SEL_DPI0		0
+> +#define DPTX_SRC_VIF_3_EN		BIT(3)
+> +#define DPTX_SRC_VIF_2_EN		BIT(2)
+> +#define DPTX_SRC_VIF_1_EN		BIT(1)
+> +#define DPTX_SRC_VIF_0_EN		BIT(0)
+> +
+> +/* TODO turn DPTX_IPCFG fw_mem_clk_en at pm_runtime_suspend. */
+> +
+> +int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp)
+> +{
+> +	struct platform_device *pdev = to_platform_device(mhdp->dev);
+> +	struct resource *regs;
+> +
+> +	regs = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> +	mhdp->j721e_regs = devm_ioremap_resource(&pdev->dev, regs);
+> +	if (IS_ERR(mhdp->j721e_regs))
+> +		return PTR_ERR(mhdp->j721e_regs);
+> +
+> +	return 0;
+> +}
+> +
+> +void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp)
+> +{
+> +}
+> +
+> +void cdns_mhdp_j721e_enable(struct cdns_mhdp_device *mhdp)
+> +{
+> +	/*
+> +	 * Eneble VIF_0 and select DPI2 as its input. DSS0 DPI0 is connected
+> +	 * to eDP DPI2. This is the only supported SST configuration on
+> +	 * J721E.
+> +	 */
+> +	writel(DPTX_SRC_VIF_0_EN | DPTX_SRC_VIF_0_SEL_DPI2,
+> +	       mhdp->j721e_regs + DPTX_SRC_CFG);
+> +}
+> +
+> +void cdns_mhdp_j721e_disable(struct cdns_mhdp_device *mhdp)
+> +{
+> +	/* Put everything to defaults  */
+> +	writel(0, mhdp->j721e_regs + DPTX_DSC_CFG);
+> +}
+> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
+> new file mode 100644
+> index 000000000000..de0e4e82b58c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
+> @@ -0,0 +1,55 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * TI j721e Cadence MHDP DP wrapper
+> + *
+> + * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
+> + * Author: Jyri Sarha <jsarha@ti.com
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 as
+> + * published by the Free Software Foundation.
+> + */
+> +
+> +#ifndef CDNS_MHDP_J721E_H
+> +#define CDNS_MHDP_J721E_H
+> +
+> +#include <linux/platform_device.h>
+> +#include "cdns-mhdp-core.h"
+> +
+> +struct cdns_mhdp_j721e_wrap;
+> +
+> +#ifdef CONFIG_DRM_CDNS_MHDP_J721E
+> +
+> +int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp);
+> +
+> +void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp);
+> +
+> +void cdns_mhdp_j721e_enable(struct cdns_mhdp_device *mhdp);
+> +
+> +void cdns_mhdp_j721e_disable(struct cdns_mhdp_device *mhdp);
+> +
+> +#else
+> +
+> +static inline
+> +int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline
+> +void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp)
+> +{
+> +}
+> +
+> +static inline
+> +void cdns_mhdp_j721e_sst_enable(struct cdns_mhdp_device *mhdp);
+                                                                 ^
+The semicolon must be removed.
 
-Am 24.02.20 um 10:06 schrieb Maxime Ripard:
-> The driver has really only supported one clock so far and has hardcoded the
-> ID used in communications with the firmware in all the functions
-> implementing the clock framework hooks. Let's store that in the clock data
-> structure so that we can support more clocks later on.
+BR,
+Jyri
 
-thank you for this series. I looked through it but i couldn't find an
-explanation why we need to expose firmware clocks via DT instead of
-extending clk-bcm2835. The whole pllb / clk-raspberrypi stuff was an
-exception to get cpufreq working. I prefer to keep it an exception.
+> +{
+> +}
+> +
+> +static inline
+> +void cdns_mhdp_j721e_sst_disable(struct cdns_mhdp_device *mhdp)
+> +{
+> +}
+> +#endif /* CONFIG_DRM_CDNS_MHDP_J721E */
+> +
+> +#endif /* !CDNS_MHDP_J721E_H */
+> 
 
-Regards
-Stefan
 
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
