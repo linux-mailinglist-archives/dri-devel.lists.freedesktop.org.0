@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6C216BC36
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB0B16BC6B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 400CE6E8B6;
-	Tue, 25 Feb 2020 08:50:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20E2D6EA46;
+	Tue, 25 Feb 2020 08:51:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 336266E9B6
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:28:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 414A16E9B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:28:33 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id EB72F2935F2
+ with ESMTPSA id 31017293602
 Received: by earth.universe (Postfix, from userid 1000)
- id 8B4963C0CAD; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
+ id 8FDDE3C0CAE; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sre@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2 42/56] drm/omap: remove global dss_device variable
-Date: Tue, 25 Feb 2020 00:21:12 +0100
-Message-Id: <20200224232126.3385250-43-sebastian.reichel@collabora.com>
+Subject: [PATCHv2 43/56] drm/omap: bind components with drm_device argument
+Date: Tue, 25 Feb 2020 00:21:13 +0100
+Message-Id: <20200224232126.3385250-44-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
 References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
@@ -49,129 +49,139 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We can simply provide the device to the omapdrm driver
-via pdata. omapdss_is_initialized() is no longer required
-(even before this patch), since omapdrm device is only
-registered after the pointer is initialized.
+This fixes the omapdrm driver to call component_bind_all()
+with drm_device as data argument as recommended in the
+DRM component helper usage text.
+
+After this patch DRM functionality can be implemented directly
+in the components resulting in a simpler driver stack by removing
+one layer of abstraction.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/gpu/drm/omapdrm/dss/base.c    | 14 --------------
- drivers/gpu/drm/omapdrm/dss/dss.c     |  9 ++++-----
- drivers/gpu/drm/omapdrm/dss/omapdss.h |  9 +++------
- drivers/gpu/drm/omapdrm/omap_drv.c    |  6 ++----
- 4 files changed, 9 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/dss.c     | 27 +++++++++++++++++----------
+ drivers/gpu/drm/omapdrm/dss/omapdss.h |  3 +++
+ drivers/gpu/drm/omapdrm/omap_drv.c    | 15 +++++++++++----
+ 3 files changed, 31 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
-index 455b410f7401..8e08c49b4f97 100644
---- a/drivers/gpu/drm/omapdrm/dss/base.c
-+++ b/drivers/gpu/drm/omapdrm/dss/base.c
-@@ -16,20 +16,6 @@
- #include "dss.h"
- #include "omapdss.h"
- 
--static struct dss_device *dss_device;
--
--struct dss_device *omapdss_get_dss(void)
--{
--	return dss_device;
--}
--EXPORT_SYMBOL(omapdss_get_dss);
--
--void omapdss_set_dss(struct dss_device *dss)
--{
--	dss_device = dss;
--}
--EXPORT_SYMBOL(omapdss_set_dss);
--
- struct dispc_device *dispc_get_dispc(struct dss_device *dss)
- {
- 	return dss->dispc;
 diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-index b76fc2b56227..4438947326ea 100644
+index 4438947326ea..a0b37d9b62ea 100644
 --- a/drivers/gpu/drm/omapdrm/dss/dss.c
 +++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-@@ -1305,6 +1305,7 @@ static int dss_bind(struct device *dev)
+@@ -1301,26 +1301,35 @@ static const struct soc_device_attribute dss_soc_devices[] = {
+ 	{ /* sentinel */ }
+ };
+ 
++int dss_bind_components(struct dss_device *dss, struct drm_device *drm_dev)
++{
++	struct platform_device *pdev = dss->pdev;
++
++	return component_bind_all(&pdev->dev, drm_dev);
++}
++EXPORT_SYMBOL(dss_bind_components);
++
++void dss_unbind_components(struct dss_device *dss, struct drm_device *drm_dev)
++{
++	struct platform_device *pdev = dss->pdev;
++
++	component_unbind_all(&pdev->dev, drm_dev);
++}
++EXPORT_SYMBOL(dss_unbind_components);
++
+ static int dss_bind(struct device *dev)
  {
  	struct dss_device *dss = dev_get_drvdata(dev);
  	struct platform_device *drm_pdev;
-+	struct dss_pdata pdata;
- 	int r;
- 
- 	r = component_bind_all(dev, NULL);
-@@ -1313,9 +1314,9 @@ static int dss_bind(struct device *dev)
+ 	struct dss_pdata pdata;
+-	int r;
+-
+-	r = component_bind_all(dev, NULL);
+-	if (r)
+-		return r;
  
  	pm_set_vt_switch(0);
  
--	omapdss_set_dss(dss);
--
--	drm_pdev = platform_device_register_simple("omapdrm", 0, NULL, 0);
-+	pdata.dss = dss;
-+	drm_pdev = platform_device_register_data(NULL, "omapdrm", 0,
-+						 &pdata, sizeof(pdata));
- 	if (IS_ERR(drm_pdev)) {
- 		component_unbind_all(dev, NULL);
+ 	pdata.dss = dss;
+ 	drm_pdev = platform_device_register_data(NULL, "omapdrm", 0,
+ 						 &pdata, sizeof(pdata));
+-	if (IS_ERR(drm_pdev)) {
+-		component_unbind_all(dev, NULL);
++	if (IS_ERR(drm_pdev))
  		return PTR_ERR(drm_pdev);
-@@ -1332,8 +1333,6 @@ static void dss_unbind(struct device *dev)
+-	}
+ 
+ 	dss->drm_pdev = drm_pdev;
+ 
+@@ -1332,8 +1341,6 @@ static void dss_unbind(struct device *dev)
+ 	struct dss_device *dss = dev_get_drvdata(dev);
  
  	platform_device_unregister(dss->drm_pdev);
- 
--	omapdss_set_dss(NULL);
 -
- 	component_unbind_all(dev, NULL);
+-	component_unbind_all(dev, NULL);
  }
  
+ static const struct component_master_ops dss_component_ops = {
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 10e6ae666dfa..9f8aefaadefe 100644
+index 9f8aefaadefe..45f5c46712eb 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -355,12 +355,9 @@ struct omap_dss_device {
- 	unsigned int of_port;
- };
+@@ -526,4 +526,7 @@ const struct dispc_ops *dispc_get_ops(struct dss_device *dss);
+ bool omapdss_stack_is_ready(void);
+ void omapdss_gather_components(struct device *dev);
  
--struct dss_device *omapdss_get_dss(void);
--void omapdss_set_dss(struct dss_device *dss);
--static inline bool omapdss_is_initialized(void)
--{
--	return !!omapdss_get_dss();
--}
-+struct dss_pdata {
-+	struct dss_device *dss;
-+};
- 
- void omapdss_display_init(struct omap_dss_device *dssdev);
- int omapdss_display_get_modes(struct drm_connector *connector,
++int dss_bind_components(struct dss_device *dss, struct drm_device *drm_dev);
++void dss_unbind_components(struct dss_device *dss, struct drm_device *drm_dev);
++
+ #endif /* __OMAP_DRM_DSS_H */
 diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index cdafd7ef1c32..579f9d80fec9 100644
+index 579f9d80fec9..c47e63e94a2e 100644
 --- a/drivers/gpu/drm/omapdrm/omap_drv.c
 +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -594,6 +594,7 @@ static const struct soc_device_attribute omapdrm_soc_devices[] = {
- static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
- {
- 	const struct soc_device_attribute *soc;
-+	struct dss_pdata *pdata = dev->platform_data;
- 	struct drm_device *ddev;
- 	unsigned int i;
- 	int ret;
-@@ -609,7 +610,7 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+@@ -237,8 +237,6 @@ static int omap_modeset_init(struct drm_device *dev)
+ 	if (!omapdss_stack_is_ready())
+ 		return -EPROBE_DEFER;
+ 
+-	drm_mode_config_init(dev);
+-
+ 	ret = omap_modeset_init_properties(dev);
+ 	if (ret < 0)
+ 		return ret;
+@@ -605,10 +603,15 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+ 	ddev = drm_dev_alloc(&omap_drm_driver, dev);
+ 	if (IS_ERR(ddev))
+ 		return PTR_ERR(ddev);
+-
+-	priv->ddev = ddev;
  	ddev->dev_private = priv;
  
++	drm_mode_config_init(ddev);
++
++	ret = dss_bind_components(pdata->dss, ddev);
++	if (ret)
++		goto err_ddev_deinit;
++
++	priv->ddev = ddev;
  	priv->dev = dev;
--	priv->dss = omapdss_get_dss();
-+	priv->dss = pdata->dss;
+ 	priv->dss = pdata->dss;
  	priv->dispc = dispc_get_dispc(priv->dss);
- 	priv->dispc_ops = dispc_get_ops(priv->dss);
+@@ -673,6 +676,8 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+ 	destroy_workqueue(priv->wq);
+ 	omap_disconnect_pipelines(ddev);
+ 	omap_crtc_pre_uninit(priv);
++	dss_unbind_components(priv->dss, ddev);
++err_ddev_deinit:
+ 	drm_dev_put(ddev);
+ 	return ret;
+ }
+@@ -700,6 +705,8 @@ static void omapdrm_cleanup(struct omap_drm_private *priv)
+ 	omap_disconnect_pipelines(ddev);
+ 	omap_crtc_pre_uninit(priv);
  
-@@ -707,9 +708,6 @@ static int pdev_probe(struct platform_device *pdev)
- 	struct omap_drm_private *priv;
- 	int ret;
++	dss_unbind_components(priv->dss, ddev);
++
+ 	drm_dev_put(ddev);
+ }
  
--	if (omapdss_is_initialized() == false)
--		return -EPROBE_DEFER;
--
- 	ret = dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to set the DMA mask\n");
 -- 
 2.25.0
 
