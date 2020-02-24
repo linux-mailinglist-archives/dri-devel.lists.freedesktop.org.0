@@ -1,30 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E988C16BC50
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:51:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBCA16BC7C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E58CC89F35;
-	Tue, 25 Feb 2020 08:51:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 591C06EA58;
+	Tue, 25 Feb 2020 08:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EDC96E9B4
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 991336E9B5
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:21:34 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 108A528A938
+ with ESMTPSA id 39E76291458
 Received: by earth.universe (Postfix, from userid 1000)
- id 8F5AD3C0C83; Tue, 25 Feb 2020 00:21:30 +0100 (CET)
+ id 9489E3C0C84; Tue, 25 Feb 2020 00:21:30 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sre@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2 00/56] drm/omap: Convert DSI code to use drm_mipi_dsi and
- drm_panel
-Date: Tue, 25 Feb 2020 00:20:30 +0100
-Message-Id: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
+Subject: [PATCHv2 01/56] ARM: dts: omap: add channel to DSI panels
+Date: Tue, 25 Feb 2020 00:20:31 +0100
+Message-Id: <20200224232126.3385250-2-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
+References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 25 Feb 2020 08:50:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,138 +50,163 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This updates the existing omapdrm DSI code, so that it uses
-common drm_mipi_dsi API and drm_panel.
+The standard binding for DSI requires, that the channel number
+of the panel is encoded in DT. This adds the channel number in
+all OMAP3-5 boards, in preparation for using common infrastructure.
 
-The patchset has been tested with Droid 4 using Linux console, X.org and
-Weston. The patchset is based on Laurent Pinchartl's patch series [0]
-and removes the last custom panel driver, so quite a few cleanups on the
-omapdrm codebase were possible.
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ .../devicetree/bindings/display/panel/panel-dsi-cm.txt      | 4 +++-
+ arch/arm/boot/dts/motorola-mapphone-common.dtsi             | 3 ++-
+ arch/arm/boot/dts/omap3-n950.dts                            | 3 ++-
+ arch/arm/boot/dts/omap3.dtsi                                | 3 +++
+ arch/arm/boot/dts/omap4-sdp.dts                             | 6 ++++--
+ arch/arm/boot/dts/omap4.dtsi                                | 6 ++++++
+ arch/arm/boot/dts/omap5.dtsi                                | 6 ++++++
+ 7 files changed, 26 insertions(+), 5 deletions(-)
 
-[0] [PATCH v7 00/54] drm/omap: Replace custom display drivers with drm_bridge and drm_panel
-    https://lore.kernel.org/dri-devel/20200222150106.22919-1-laurent.pinchart@ideasonboard.com/
-    git://linuxtv.org/pinchartl/media.git omapdrm/bridge/devel
-
-I pushed this patchset into the following branch:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-n900.git omapdrm/bridge/devel-with-dsi
-
-The previous version of this patchset has been sent quite some time ago.
-This version has been rebased and required cleaning up most of the
-hacks. I do not have a detailed changelog, but quite a few things
-changed. I decided against doing anything special for the DT change
-(adding DSI channel number), since only 3 devices are affected. It is
-quite likely, that all developers of those devices update DT together
-with kernel for those devices. My suggestion is to merge the first two
-patches ASAP and backport to stable, since it does not affect old
-kernels and the change is rather small.
-
-RFCv1: https://lore.kernel.org/dri-devel/20191117023946.VjCC3yE08DMx7JIKxNagPoT5et7WTnKGVV6MtOtB9Ro@z/
-
--- Sebastian
-
-Sebastian Reichel (56):
-  ARM: dts: omap: add channel to DSI panels
-  ARM: dts: omap4-droid4: add panel compatible
-  Revert "drm/omap: dss: Remove unused omap_dss_device operations"
-  omap/drm: drop unused dsi.configure_pins
-  drm/omap: dsi: use MIPI_DSI_FMT_* instead of OMAP_DSS_DSI_FMT_*
-  drm/omap: constify write buffers
-  drm/omap: dsi: add generic transfer function
-  drm/omap: panel-dsi-cm: convert to transfer API
-  drm/omap: dsi: unexport specific data transfer functions
-  drm/omap: dsi: drop virtual channel logic
-  drm/omap: dsi: simplify write function
-  drm/omap: dsi: simplify read functions
-  drm/omap: dsi: switch dsi_vc_send_long/short to mipi_dsi_msg
-  drm/omap: dsi: introduce mipi_dsi_host
-  drm/omap: panel-dsi-cm: use DSI helpers
-  drm/omap: dsi: request VC via mipi_dsi_attach
-  drm/omap: panel-dsi-cm: drop hardcoded VC
-  drm/omap: panel-dsi-cm: use common MIPI DCS 1.3 defines
-  drm/omap: dsi: drop unused memory_read()
-  drm/omap: dsi: drop unused get_te()
-  drm/omap: dsi: drop unused enable_te()
-  drm/omap: dsi: drop useless sync()
-  drm/omap: dsi: use pixel-format and mode from attach
-  drm/omap: panel-dsi-cm: use bulk regulator API
-  drm/omap: dsi: lp/hs switching support for transfer()
-  drm/omap: dsi: move TE GPIO handling into core
-  drm/omap: dsi: drop custom enable_te() API
-  drm/omap: dsi: do bus locking in host driver
-  drm/omap: dsi: untangle ulps ops from enable/disable
-  drm/dsi: add MIPI_DSI_MODE_ULPS_IDLE
-  drm/omap: dsi: do ULPS in host driver
-  drm/omap: dsi: move panel refresh function to host
-  drm/omap: dsi: Reverse direction of the DSS device enable/disable
-    operations
-  drm/omap: dsi: drop custom panel capability support
-  drm/omap: dsi: convert to drm_panel
-  drm/omap: drop omapdss-boot-init
-  drm/omap: dsi: implement check timings
-  drm/omap: panel-dsi-cm: use DEVICE_ATTR_RO
-  drm/omap: panel-dsi-cm: support unbinding
-  drm/omap: panel-dsi-cm: fix remove()
-  drm/omap: dsi: return proper error code from dsi_update_all()
-  drm/omap: remove global dss_device variable
-  drm/omap: bind components with drm_device argument
-  drm/panel: Move OMAP's DSI command mode panel driver
-  drm/omap: dsi: Register a drm_bridge
-  drm/omap: remove legacy DSS device operations
-  drm/omap: remove unused omap_connector
-  drm/omap: simplify omap_display_id
-  drm/omap: drop unused DSS next pointer
-  drm/omap: drop empty omap_encoder helper functions
-  drm/omap: drop DSS ops_flags
-  drm/omap: drop dssdev display field
-  drm/omap: simplify DSI manual update code
-  ARM: omap2plus_defconfig: Update for moved DSI command mode panel
-  drm/panel/panel-dsi-cm: support rotation property
-  ARM: dts: omap4-droid4: add panel orientation
-
- .../bindings/display/panel/panel-dsi-cm.txt   |    4 +-
- .../boot/dts/motorola-mapphone-common.dtsi    |    6 +-
- arch/arm/boot/dts/omap3-n950.dts              |    3 +-
- arch/arm/boot/dts/omap3.dtsi                  |    3 +
- arch/arm/boot/dts/omap4-sdp.dts               |    6 +-
- arch/arm/boot/dts/omap4.dtsi                  |    6 +
- arch/arm/boot/dts/omap5.dtsi                  |    6 +
- arch/arm/configs/omap2plus_defconfig          |    2 +-
- drivers/gpu/drm/omapdrm/Kconfig               |    1 -
- drivers/gpu/drm/omapdrm/Makefile              |    2 -
- drivers/gpu/drm/omapdrm/displays/Kconfig      |   10 -
- drivers/gpu/drm/omapdrm/displays/Makefile     |    2 -
- .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 1387 -----------------
- drivers/gpu/drm/omapdrm/dss/Kconfig           |    4 +-
- drivers/gpu/drm/omapdrm/dss/Makefile          |    2 -
- drivers/gpu/drm/omapdrm/dss/base.c            |   58 +-
- drivers/gpu/drm/omapdrm/dss/dsi.c             | 1034 +++++++-----
- drivers/gpu/drm/omapdrm/dss/dss.c             |   44 +-
- .../gpu/drm/omapdrm/dss/omapdss-boot-init.c   |  220 ---
- drivers/gpu/drm/omapdrm/dss/omapdss.h         |  141 +-
- drivers/gpu/drm/omapdrm/dss/output.c          |   13 +-
- drivers/gpu/drm/omapdrm/dss/venc.c            |    1 -
- drivers/gpu/drm/omapdrm/omap_connector.c      |  157 --
- drivers/gpu/drm/omapdrm/omap_connector.h      |   28 -
- drivers/gpu/drm/omapdrm/omap_crtc.c           |   35 +-
- drivers/gpu/drm/omapdrm/omap_drv.c            |   49 +-
- drivers/gpu/drm/omapdrm/omap_drv.h            |    1 -
- drivers/gpu/drm/omapdrm/omap_encoder.c        |   59 +-
- drivers/gpu/drm/panel/Kconfig                 |    9 +
- drivers/gpu/drm/panel/Makefile                |    1 +
- drivers/gpu/drm/panel/panel-dsi-cm.c          |  674 ++++++++
- include/drm/drm_mipi_dsi.h                    |    2 +
- 32 files changed, 1465 insertions(+), 2505 deletions(-)
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/Kconfig
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/Makefile
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
- delete mode 100644 drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
- delete mode 100644 drivers/gpu/drm/omapdrm/omap_connector.c
- delete mode 100644 drivers/gpu/drm/omapdrm/omap_connector.h
- create mode 100644 drivers/gpu/drm/panel/panel-dsi-cm.c
-
-
-base-commit: 54ba965bb3873eca6098ddf04e3a8d7bba1b5557
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
+index dce48eb9db57..f92d5c9adfc5 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
++++ b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
+@@ -3,6 +3,7 @@ Generic MIPI DSI Command Mode Panel
+ 
+ Required properties:
+ - compatible: "panel-dsi-cm"
++- reg: DSI channel number
+ 
+ Optional properties:
+ - label: a symbolic name for the panel
+@@ -15,9 +16,10 @@ Required nodes:
+ Example
+ -------
+ 
+-lcd0: display {
++lcd0: panel@0 {
+ 	compatible = "tpo,taal", "panel-dsi-cm";
+ 	label = "lcd0";
++	reg = <0>;
+ 
+ 	reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
+ 
+diff --git a/arch/arm/boot/dts/motorola-mapphone-common.dtsi b/arch/arm/boot/dts/motorola-mapphone-common.dtsi
+index 85665506f4f8..a5e4ba7c8dab 100644
+--- a/arch/arm/boot/dts/motorola-mapphone-common.dtsi
++++ b/arch/arm/boot/dts/motorola-mapphone-common.dtsi
+@@ -199,8 +199,9 @@ dsi1_out_ep: endpoint {
+ 		};
+ 	};
+ 
+-	lcd0: display {
++	lcd0: panel@0 {
+ 		compatible = "panel-dsi-cm";
++		reg = <0>;
+ 		label = "lcd0";
+ 		vddi-supply = <&lcd_regulator>;
+ 		reset-gpios = <&gpio4 5 GPIO_ACTIVE_HIGH>;	/* gpio101 */
+diff --git a/arch/arm/boot/dts/omap3-n950.dts b/arch/arm/boot/dts/omap3-n950.dts
+index 31d47a1fad84..80cf4e1177da 100644
+--- a/arch/arm/boot/dts/omap3-n950.dts
++++ b/arch/arm/boot/dts/omap3-n950.dts
+@@ -225,8 +225,9 @@ dsi_out_ep: endpoint {
+ 		};
+ 	};
+ 
+-	lcd0: display {
++	lcd0: panel@0 {
+ 		compatible = "nokia,himalaya", "panel-dsi-cm";
++		reg = <0>;
+ 		label = "lcd0";
+ 
+ 		pinctrl-names = "default";
+diff --git a/arch/arm/boot/dts/omap3.dtsi b/arch/arm/boot/dts/omap3.dtsi
+index 634ea16a711e..409d434a9b18 100644
+--- a/arch/arm/boot/dts/omap3.dtsi
++++ b/arch/arm/boot/dts/omap3.dtsi
+@@ -820,6 +820,9 @@ dsi: encoder@4804fc00 {
+ 				ti,hwmods = "dss_dsi1";
+ 				clocks = <&dss1_alwon_fck>, <&dss2_alwon_fck>;
+ 				clock-names = "fck", "sys_clk";
++
++				#address-cells = <1>;
++				#size-cells = <0>;
+ 			};
+ 
+ 			rfbi: encoder@48050800 {
+diff --git a/arch/arm/boot/dts/omap4-sdp.dts b/arch/arm/boot/dts/omap4-sdp.dts
+index 91480ac1f328..8a8307517dab 100644
+--- a/arch/arm/boot/dts/omap4-sdp.dts
++++ b/arch/arm/boot/dts/omap4-sdp.dts
+@@ -662,8 +662,9 @@ dsi1_out_ep: endpoint {
+ 		};
+ 	};
+ 
+-	lcd0: display {
++	lcd0: panel@0 {
+ 		compatible = "tpo,taal", "panel-dsi-cm";
++		reg = <0>;
+ 		label = "lcd0";
+ 
+ 		reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;	/* 102 */
+@@ -687,8 +688,9 @@ dsi2_out_ep: endpoint {
+ 		};
+ 	};
+ 
+-	lcd1: display {
++	lcd1: panel@0 {
+ 		compatible = "tpo,taal", "panel-dsi-cm";
++		reg = <0>;
+ 		label = "lcd1";
+ 
+ 		reset-gpios = <&gpio4 8 GPIO_ACTIVE_HIGH>;	/* 104 */
+diff --git a/arch/arm/boot/dts/omap4.dtsi b/arch/arm/boot/dts/omap4.dtsi
+index 9a87440d0b9d..a75734065cac 100644
+--- a/arch/arm/boot/dts/omap4.dtsi
++++ b/arch/arm/boot/dts/omap4.dtsi
+@@ -465,6 +465,9 @@ dsi1: encoder@58004000 {
+ 				clocks = <&l3_dss_clkctrl OMAP4_DSS_CORE_CLKCTRL 8>,
+ 					 <&l3_dss_clkctrl OMAP4_DSS_CORE_CLKCTRL 10>;
+ 				clock-names = "fck", "sys_clk";
++
++				#address-cells = <1>;
++				#size-cells = <0>;
+ 			};
+ 
+ 			dsi2: encoder@58005000 {
+@@ -479,6 +482,9 @@ dsi2: encoder@58005000 {
+ 				clocks = <&l3_dss_clkctrl OMAP4_DSS_CORE_CLKCTRL 8>,
+ 					 <&l3_dss_clkctrl OMAP4_DSS_CORE_CLKCTRL 10>;
+ 				clock-names = "fck", "sys_clk";
++
++				#address-cells = <1>;
++				#size-cells = <0>;
+ 			};
+ 
+ 			hdmi: encoder@58006000 {
+diff --git a/arch/arm/boot/dts/omap5.dtsi b/arch/arm/boot/dts/omap5.dtsi
+index d0ecf54d5a23..5c7462e04716 100644
+--- a/arch/arm/boot/dts/omap5.dtsi
++++ b/arch/arm/boot/dts/omap5.dtsi
+@@ -333,6 +333,9 @@ dsi1: encoder@58004000 {
+ 				clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 8>,
+ 					 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
+ 				clock-names = "fck", "sys_clk";
++
++				#address-cells = <1>;
++				#size-cells = <0>;
+ 			};
+ 
+ 			dsi2: encoder@58005000 {
+@@ -347,6 +350,9 @@ dsi2: encoder@58005000 {
+ 				clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 8>,
+ 					 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
+ 				clock-names = "fck", "sys_clk";
++
++				#address-cells = <1>;
++				#size-cells = <0>;
+ 			};
+ 
+ 			hdmi: encoder@58060000 {
 -- 
 2.25.0
 
