@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E6816A2AF
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845FD16A29F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:40:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C39B6E35D;
-	Mon, 24 Feb 2020 09:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E13746E326;
+	Mon, 24 Feb 2020 09:39:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41FCB6E20E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4190D6E1F9
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 09:09:00 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id A7151580;
- Mon, 24 Feb 2020 04:08:57 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 24 Feb 2020 04:08:58 -0500
+ by mailnew.west.internal (Postfix) with ESMTP id E69695C7;
+ Mon, 24 Feb 2020 04:08:58 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 24 Feb 2020 04:09:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=TaGtmbCmLF2Fo
- LaNLgYEVhUrtAG5EI8ELKtGohVOro0=; b=BUvdZv5wWbBsyN+nVxMcymEYKnG/i
- wumVPJ1GGKyeY9X98f7lFwy/vqAo/3ILVZij8Zh+y5Xfo0ygANooo9z0+g2sO59f
- p+OQgAUMplLubLWDJasuSHAoF92w95eXqoIzrU41x9JIXrk/5lcq71j684ILXVY3
- TzC1/FaoqAitEJTWJCPVqt0tVto+aO6bpoX+OjdhBbpjK68VW4s8KZ1ZZFm3u2g6
- gVO3BJ86kuPkl7n05ln+w1cuntEhkaPj3xcfXq7j6jjwfRXviScqkza7u1lqEoxK
- CLyhnf381uQs+oXE6Of/IQXptxoHnXzyjZfWZk2V2544Z7YUydfFMm8Lw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=HvoZm/CXRFjaX
+ 9itj5UKgqnwKV1jLHEaQ0lrY8kkzVk=; b=MGDZcc/Aq+Rw4qJP/RvJzxTT9zuhi
+ Vw+TSvutgz7J4MvR9+z/TbcjkJv4Zi88/MjjG+cIgUqJsI6OO5SuD6cRd72CXOQt
+ JxLhFehkvSPlU3Yt2PPeUezeD8RxbQ4PMvq33YaFO0gZSq09wVLDMkWB1nol/HYU
+ zKJ+4w2Txt1LtjjDqVyb3jQFYTc1pLhDQ9m90nKDOGn1+VeU5CEZEEQYc8WGeWrs
+ 7hP4oZ1/foDhV2db+JDIY7KrI6OJfLakLunHY9SQXPmBh3y2zqRDAd6eP4pWny2o
+ sIHXd8Voz0Vo+ngIbUWFwe980Mbxc4t/nPmSzlPgrB4vfa38Dqd5m32wA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=TaGtmbCmLF2FoLaNLgYEVhUrtAG5EI8ELKtGohVOro0=; b=nYqUxtdB
- ucZ+FoExm9RSKGYxVbpWe0m+/9MAZNY1asuA+zyCxTqj7ONdleIeo2INZ1KF7HhB
- 04Jbl3M5h7czA9pwT94y8hedIiyzfYupFmkFmtK65NIC/nPt9TtgSX1FSjHtKedP
- D2otDpQHJ7rQ/Sn/3UxlmFiM8XQQ0H0y6El+kBLAUsy4OGhsWyNkrOb8jomkV5J/
- Cl6ISglAwA/f3mY0ss8KqWsc+BKz8uhe8FilbTD4soKTpFbw8gcAFnmLWiowuCM3
- K/RiUa3Fkk3nYizxIgHnXkJaIU8RWwjGeuteRgxaJPDcFVEefb/v4E3hXfTTZf8J
- IpmddzCpoQb5JQ==
-X-ME-Sender: <xms:qZJTXibiV2JmdrenwtVxvc563scseREJr743WVaIpYFcl4SKVOWXcA>
+ fm2; bh=HvoZm/CXRFjaX9itj5UKgqnwKV1jLHEaQ0lrY8kkzVk=; b=c+QKLXSW
+ +lO4HtiCmhypK+Tn77ju2BGiGE7BW8mK1MP50t1b4EQ6lLOqGGTBV82mAINI5Xpa
+ c9BFIe4wm1tirltt+UcyDrTn4jy2fCDSd35PXwpblyEdb6Db9fl2WK3BFnvJTyOc
+ A1N9YrBqwqUynzJ2lVZ+9dBnXsg0KFQDzRf35dfQldUZDPyjbvBrF6pi6rzYIEZ2
+ VLaFWgRTTe7Z6O93/VZyloD70+j1TC08nV35OS9x/KY3NqoBrnGvhX5r2+qNyS4H
+ OL8rqQSdRQX5KiS2uFMc11sSQa2J73YBVw4OQf0pS44k5UL224UO9p7Xgo6pgxjJ
+ W1g1YvEbQGr0Zw==
+X-ME-Sender: <xms:qpJTXui9P-ESxQHWQI0LBhgMVPCVH-_TflmnM0T37CJ4nj8eXhQIeg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrledtucetufdoteggodetrfdotffvucfrrh
  hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
- lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
- ephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcutfhi
- phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltddrkeelrd
- eikedrjeeinecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhho
- mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qZJTXqp3oFJPciVBlxgdDC9h8a9BxU9CNpJfmxjZpPpAIM0IxWCmtw>
- <xmx:qZJTXupOIe_jrq_5DGf-EojaB-WYHmzJqgH7j6BhDxEulCViWIlHpw>
- <xmx:qZJTXs3LFZ6uvQdFooOTqbYPSW5tcpeMuQ1pZlzXj6ril02CcB9OhQ>
- <xmx:qZJTXg8U8qKaPUjruZQXyaa_vKRq4r35zf92rmA2zyp9TFlP99K29hnE-9s>
+ lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegovehorg
+ hsthgrlhdqhfeguddvqddtvdculdduhedtmdenucfjughrpefhvffufffkofgjfhgggfes
+ tdekredtredttdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvg
+ estggvrhhnohdrthgvtghhqeenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhg
+ necukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenucfrrg
+ hrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:qpJTXptRT016RRkMhbPQfof06Wfpic8DS3Pheb28o5RxhTaMcZ1pyw>
+ <xmx:qpJTXuzKfIDjKvfhnyFsq8vH8PHwy67PHK6l2qfL59Ixa8tVZi1GGw>
+ <xmx:qpJTXuYQ-EYI7Ph_T6fUEUFtwoVw5M2SOelNa6j3CuwQXXR9bbteHQ>
+ <xmx:qpJTXqIMbS5I4ZHSFhuiDyYWNPNy0FtWfuosE_chf1Ddj-TKPAbvkKnsV_4>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id C2E4930610E8;
- Mon, 24 Feb 2020 04:08:56 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2D4A3328005A;
+ Mon, 24 Feb 2020 04:08:58 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH 05/89] clk: Return error code when of provider pointer is NULL
-Date: Mon, 24 Feb 2020 10:06:07 +0100
-Message-Id: <ab03d578775df76c12e1dcff5d5cc5c1eb4d6fa7.1582533919.git-series.maxime@cerno.tech>
+Subject: [PATCH 06/89] dt-bindings: clock: Add a binding for the RPi Firmware
+ clocks
+Date: Mon, 24 Feb 2020 10:06:08 +0100
+Message-Id: <9166f3acdc2a64e3f3ca1cd2e283005ee2df37c9.1582533919.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
 References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
@@ -77,79 +79,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
+ linux-clk@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The clock framework DT provider helpers don't check the pointers in the
-array registered by the clock provider before returning it.
-
-This means that if the array is sparse, we will end up returning a NULL
-pointer while the caller expects an error pointer, resulting in a crash.
-
-Let's test the pointer returned and properly return an error if the pointer
-is NULL.
+The firmare running on the RPi VideoCore can be used to discover and
+change the various clocks running in the BCM2711. Since devices will
+need to use them through the DT, let's add a pretty simple binding.
 
 Cc: Michael Turquette <mturquette@baylibre.com>
 Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>
 Cc: linux-clk@vger.kernel.org
+Cc: devicetree@vger.kernel.org
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/clk.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/clock/raspberrypi,firmware-clocks.yaml | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/clock/raspberrypi,firmware-clocks.yaml
 
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index f0f2b599fd7e..8532b5ed1060 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -4318,13 +4318,18 @@ struct clk *of_clk_src_onecell_get(struct of_phandle_args *clkspec, void *data)
- {
- 	struct clk_onecell_data *clk_data = data;
- 	unsigned int idx = clkspec->args[0];
-+	struct clk *clk;
- 
- 	if (idx >= clk_data->clk_num) {
- 		pr_err("%s: invalid clock index %u\n", __func__, idx);
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	return clk_data->clks[idx];
-+	clk = clk_data->clks[idx];
-+	if (!clk)
-+		return ERR_PTR(-ENODEV);
+diff --git a/Documentation/devicetree/bindings/clock/raspberrypi,firmware-clocks.yaml b/Documentation/devicetree/bindings/clock/raspberrypi,firmware-clocks.yaml
+new file mode 100644
+index 000000000000..d37bc311321d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/clock/raspberrypi,firmware-clocks.yaml
+@@ -0,0 +1,39 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/clock/raspberrypi,firmware-clocks.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	return clk;
- }
- EXPORT_SYMBOL_GPL(of_clk_src_onecell_get);
- 
-@@ -4333,13 +4338,18 @@ of_clk_hw_onecell_get(struct of_phandle_args *clkspec, void *data)
- {
- 	struct clk_hw_onecell_data *hw_data = data;
- 	unsigned int idx = clkspec->args[0];
-+	struct clk_hw *hw;
- 
- 	if (idx >= hw_data->num) {
- 		pr_err("%s: invalid index %u\n", __func__, idx);
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	return hw_data->hws[idx];
-+	hw = hw_data->hws[idx];
-+	if (!hw)
-+		return ERR_PTR(-ENODEV);
++title: RaspberryPi Firmware Clocks Device Tree Bindings
 +
-+	return hw;
- }
- EXPORT_SYMBOL_GPL(of_clk_hw_onecell_get);
- 
++maintainers:
++  - Maxime Ripard <mripard@kernel.org>
++
++properties:
++  "#clock-cells":
++    const: 1
++
++  compatible:
++    const: raspberrypi,firmware-clocks
++
++  raspberrypi,firmware:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: >
++      Phandle to the mailbox node to communicate with the firmware.
++
++required:
++  - "#clock-cells"
++  - compatible
++  - raspberrypi,firmware
++
++additionalProperties: false
++
++examples:
++  - |
++    firmware_clocks: firmware-clocks {
++        compatible = "raspberrypi,firmware-clocks";
++        raspberrypi,firmware = <&firmware>;
++        #clock-cells = <1>;
++    };
++
++...
 -- 
 git-series 0.9.1
 _______________________________________________
