@@ -1,56 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E88F16A96C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 16:07:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA6316A996
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 16:15:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF096E544;
-	Mon, 24 Feb 2020 15:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2CE6E392;
+	Mon, 24 Feb 2020 15:15:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 709E86E530
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 15:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582556826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=681jXBfpvkeMn+8IkGv2w7NC1OBiIb6XNY3qIXELzTY=;
- b=WyPnkIBMvmP9QgHJNuVVjostNSeLntN3/PguppP+MMfk1MNU5TmbAW9lgIs9+DUJGXfljN
- WviELfiQHyLyTY4hkG+rOuHPtwwE4QLQUAAAR0LmX8owL7z66C9wMNEsq2vN99DnExpcbK
- T4OSgzf3SlQ5z6VjPVcBqSGzxENGHN4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-ol3-RPfZN1eGDcZQGg7Fkg-1; Mon, 24 Feb 2020 10:07:03 -0500
-X-MC-Unique: ol3-RPfZN1eGDcZQGg7Fkg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D16813E4;
- Mon, 24 Feb 2020 15:07:02 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-87.ams2.redhat.com
- [10.36.116.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F61D5D9E5;
- Mon, 24 Feb 2020 15:07:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D646A16E16; Mon, 24 Feb 2020 16:07:00 +0100 (CET)
-Date: Mon, 24 Feb 2020 16:07:00 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: John Bates <jbates@chromium.org>
-Subject: Re: [PATCH v2] drm/virtio: fix resource id creation race
-Message-ID: <20200224150700.ikyu5rptpl4scf7c@sirius.home.kraxel.org>
-References: <20200220225319.45621-1-jbates@chromium.org>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C58C26E392
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 15:15:33 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1j6FSF-0004iJ-1C; Mon, 24 Feb 2020 15:15:31 +0000
+From: Colin King <colin.king@canonical.com>
+To: Jyri Sarha <jsarha@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/tidss: fix spelling mistake "bufer" -> "buffer"
+Date: Mon, 24 Feb 2020 15:15:30 +0000
+Message-Id: <20200224151530.360369-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <20200220225319.45621-1-jbates@chromium.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,26 +39,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2020 at 02:53:19PM -0800, John Bates wrote:
-> The previous code was not thread safe and caused
-> undefined behavior from spurious duplicate resource IDs.
-> In this patch, an atomic_t is used instead. We no longer
-> see any duplicate IDs in tests with this change.
-> 
-> Fixes: 16065fcdd19d ("drm/virtio: do NOT reuse resource ids")
-> Signed-off-by: John Bates <jbates@chromium.org>
+From: Colin Ian King <colin.king@canonical.com>
 
-Pushed to drm-misc-fixes.
+There is a spelling mistake in a dev_dbg message. Fix it.
 
-thanks,
-  Gerd
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/tidss/tidss_dispc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index eeb160dc047b..d49f2d6d57df 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -1699,7 +1699,7 @@ static int dispc_vid_calc_scaling(struct dispc_device *dispc,
+ 
+ 		if (sp->xinc > f->xinc_max) {
+ 			dev_dbg(dispc->dev,
+-				"%s: Too wide input bufer %u > %u\n", __func__,
++				"%s: Too wide input buffer %u > %u\n", __func__,
+ 				state->src_w >> 16, in_width_max * f->xinc_max);
+ 			return -EINVAL;
+ 		}
+-- 
+2.25.0
 
 _______________________________________________
 dri-devel mailing list
