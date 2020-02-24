@@ -1,28 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FECD16AC50
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 17:55:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8154416AC4D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 17:55:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EEA96E5CE;
-	Mon, 24 Feb 2020 16:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EAC56E5CA;
+	Mon, 24 Feb 2020 16:54:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F576E451
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 12:27:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 00068293775
-Date: Mon, 24 Feb 2020 07:27:05 -0500
-From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2] drm/panfrost: Don't try to map on error faults
-Message-ID: <20200224122705.GA3363@kevin>
-References: <20200212202236.13095-1-robh@kernel.org>
+X-Greylist: delayed 358 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Feb 2020 13:13:31 UTC
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B33576E4A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 13:13:31 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01OD7CsK028839;
+ Mon, 24 Feb 2020 07:07:12 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1582549632;
+ bh=Tx9NLTynxh7HMA5VHJWXsAof1AdXnE/KAs53Nqq7E70=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=J8OaXTwY6rJidCznLf2G/vSUju+4HU3kRW0QV+CMkL2fpPxI5mFwt5l1u7GY1i0cK
+ fhdwF15G4WtYxb0NBQQmKRDL/VCrdAXaZORkAKh4uNPMzhrjf4desB5yiRBKSQYI5e
+ lr23otClWqEaN2djtLEvvM3O3oRjPmZTJi+w6edQ=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01OD7CFB102821
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 24 Feb 2020 07:07:12 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 24
+ Feb 2020 07:07:11 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 24 Feb 2020 07:07:12 -0600
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01OD7B3m002482;
+ Mon, 24 Feb 2020 07:07:11 -0600
+Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to renames
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+ <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+From: Dan Murphy <dmurphy@ti.com>
+Message-ID: <e9ae8125-3f8f-5f8c-c19c-34ac1bb5c982@ti.com>
+Date: Mon, 24 Feb 2020 07:02:01 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200212202236.13095-1-robh@kernel.org>
+In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Mon, 24 Feb 2020 16:54:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -36,143 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Content-Type: multipart/mixed; boundary="===============0309992502=="
+Cc: Stuart Yoder <stuyoder@gmail.com>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-leds@vger.kernel.org, Amit Kucheria <amit.kucheria@verdurent.com>,
+ linux-aspeed@lists.ozlabs.org, Jonathan Corbet <corbet@lwn.net>,
+ Kevin Hilman <khilman@baylibre.com>, openbmc@lists.ozlabs.org,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Joel Stanley <joel@jms.id.au>,
+ Zhang Rui <rui.zhang@intel.com>, devicetree@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@st.com>, linux-pm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Jyri Sarha <jsarha@ti.com>,
+ linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurentiu Tudor <laurentiu.tudor@nxp.com>, Stephen Boyd <sboyd@kernel.org>,
+ Andy Gross <agross@kernel.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Sudeep Holla <sudeep.holla@arm.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Mauro
 
---===============0309992502==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LQksG6bCIzRHxTLp"
-Content-Disposition: inline
-
-
---LQksG6bCIzRHxTLp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Acked-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-
-On Wed, Feb 12, 2020 at 02:22:36PM -0600, Rob Herring wrote:
-> From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
->=20
-> If the exception type isn't a translation fault, don't try to map and
-> instead go straight to a terminal fault.
->=20
-> Otherwise, we can get flooded by kernel warnings and further faults.
->=20
-> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On 2/22/20 3:00 AM, Mauro Carvalho Chehab wrote:
+> Several DT references got broken due to txt->yaml conversion.
+>
+> Those are auto-fixed by running:
+>
+> 	scripts/documentation-file-ref-check --fix
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
-> I rewrote this some simplifying the code and somewhat following Steven's=
-=20
-> suggested. Still not using defines though. No defines here was good=20
-> enough before IMO.
->=20
-> Only compile tested.
->=20
->  drivers/gpu/drm/panfrost/panfrost_mmu.c | 44 +++++++++++--------------
->  1 file changed, 19 insertions(+), 25 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_mmu.c
-> index 763cfca886a7..4f2836bd9215 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -596,33 +596,27 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(=
-int irq, void *data)
->  		source_id =3D (fault_status >> 16);
-> =20
->  		/* Page fault only */
-> -		if ((status & mask) =3D=3D BIT(i)) {
-> -			WARN_ON(exception_type < 0xC1 || exception_type > 0xC4);
-> -
-> +		ret =3D -1;
-> +		if ((status & mask) =3D=3D BIT(i) && (exception_type & 0xF8) =3D=3D 0x=
-C0)
->  			ret =3D panfrost_mmu_map_fault_addr(pfdev, i, addr);
-> -			if (!ret) {
-> -				mmu_write(pfdev, MMU_INT_CLEAR, BIT(i));
-> -				status &=3D ~mask;
-> -				continue;
-> -			}
-> -		}
-> =20
-> -		/* terminal fault, print info about the fault */
-> -		dev_err(pfdev->dev,
-> -			"Unhandled Page fault in AS%d at VA 0x%016llX\n"
-> -			"Reason: %s\n"
-> -			"raw fault status: 0x%X\n"
-> -			"decoded fault status: %s\n"
-> -			"exception type 0x%X: %s\n"
-> -			"access type 0x%X: %s\n"
-> -			"source id 0x%X\n",
-> -			i, addr,
-> -			"TODO",
-> -			fault_status,
-> -			(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
-> -			exception_type, panfrost_exception_name(pfdev, exception_type),
-> -			access_type, access_type_name(pfdev, fault_status),
-> -			source_id);
-> +		if (ret)
-> +			/* terminal fault, print info about the fault */
-> +			dev_err(pfdev->dev,
-> +				"Unhandled Page fault in AS%d at VA 0x%016llX\n"
-> +				"Reason: %s\n"
-> +				"raw fault status: 0x%X\n"
-> +				"decoded fault status: %s\n"
-> +				"exception type 0x%X: %s\n"
-> +				"access type 0x%X: %s\n"
-> +				"source id 0x%X\n",
-> +				i, addr,
-> +				"TODO",
-> +				fault_status,
-> +				(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
-> +				exception_type, panfrost_exception_name(pfdev, exception_type),
-> +				access_type, access_type_name(pfdev, fault_status),
-> +				source_id);
-> =20
->  		mmu_write(pfdev, MMU_INT_CLEAR, mask);
-> =20
-> --=20
-> 2.20.1
->=20
+>   Documentation/devicetree/bindings/arm/arm,scmi.txt        | 2 +-
+>   Documentation/devicetree/bindings/arm/arm,scpi.txt        | 2 +-
+>   .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt         | 2 +-
+>   .../devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt  | 2 +-
+>   .../devicetree/bindings/arm/msm/qcom,idle-state.txt       | 2 +-
+>   Documentation/devicetree/bindings/arm/omap/mpu.txt        | 2 +-
+>   Documentation/devicetree/bindings/arm/psci.yaml           | 2 +-
+>   .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml       | 2 +-
+>   .../devicetree/bindings/display/tilcdc/tilcdc.txt         | 2 +-
+>   Documentation/devicetree/bindings/leds/common.yaml        | 2 +-
 
---LQksG6bCIzRHxTLp
-Content-Type: application/pgp-signature; name="signature.asc"
+For LEDs
 
------BEGIN PGP SIGNATURE-----
+Reviewed-by: Dan Murphy <dmurphy@ti.com>
 
-iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl5TwRQACgkQ/v5QWgr1
-WA1Hog//TrLApFg1MbWFYQX8Y/weTKYo4RLc+VHaQ///TZ4caRYQ9fJ1JCjuW7Jh
-ud8LA79XswB+sdgvVxhMsWWfQcQGT5jfeSl2QXQNRXtIyXyf3R8rPBht3OQ/FyCo
-fhrwdfQDEBDZA2/rsvAmZ/UUZVGA4Dp2ph6F/6gORK6Y5fCi81INGj3SGMZQCt/A
-HO9OksOe+uV03bXo5KFnULw7Q25oPp80sMCZUFxOq0eHMZObTzMZqA13HxEYnrnb
-uCfV58MAB8fIqd2M5M0fIpgmCNfOGm/2Gkg+Kof9RLOLjPUeQqRj5ss8QunDWw1L
-EATJFXeaWQiLaoPBJx/Q4i3uuVKQ0c/QkbqLN4otFHLTaLrdsAqhkVeASFUSOdJL
-CpmEISk5pCX27hHCwcWyj22SGuzE8zDhFvQNMYquKgVqhLEZdH1CHQf1jQazyxsz
-xLr/4e74IjkwpBB6gWZduLRHAqEhsooDLGoz94W5LDvOpOR0FT5pTgxgiU2MhFf7
-aPu/nZQ7Fb/L0oqAGyyholv8KpLoTNI80LEqXdm1ntSceCQyvfTr8nMDJvC0uMiC
-xYlu9yMDwY6vvQXt4bVuFr3WoToFlvlmgD3piTKXUYShUdDN9gs7UDdCvhiB0aXo
-leDlW9VjcKbl76HNXbAOw7amcQqeTkcOSLw4kt859VeQnwVhtJE=
-=GEiC
------END PGP SIGNATURE-----
-
---LQksG6bCIzRHxTLp--
-
---===============0309992502==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0309992502==--
