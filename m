@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9792916BC40
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FD416BC38
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:50:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9EED6EA1A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01BC56EA1C;
 	Tue, 25 Feb 2020 08:50:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs31.siol.net [185.57.226.222])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2429C6E81C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 17:39:16 +0000 (UTC)
+Received: from mail.siol.net (mailoutvs39.siol.net [185.57.226.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 718C26E820
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 17:39:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 6BA325236FE;
- Mon, 24 Feb 2020 18:39:14 +0100 (CET)
+ by mail.siol.net (Postfix) with ESMTP id B5E49523735;
+ Mon, 24 Feb 2020 18:39:16 +0100 (CET)
 X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
 Received: from mail.siol.net ([127.0.0.1])
  by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new,
  port 10032)
- with ESMTP id bqT9S_aBDHSX; Mon, 24 Feb 2020 18:39:14 +0100 (CET)
+ with ESMTP id VgrH-4XPApOv; Mon, 24 Feb 2020 18:39:16 +0100 (CET)
 Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id ED0725236BB;
- Mon, 24 Feb 2020 18:39:13 +0100 (CET)
+ by mail.siol.net (Postfix) with ESMTPS id 52FC25236BB;
+ Mon, 24 Feb 2020 18:39:16 +0100 (CET)
 Received: from localhost.localdomain (cpe-194-152-20-232.static.triera.net
  [194.152.20.232]) (Authenticated sender: 031275009)
- by mail.siol.net (Postfix) with ESMTPSA id AD65E5236FE;
- Mon, 24 Feb 2020 18:39:11 +0100 (CET)
+ by mail.siol.net (Postfix) with ESMTPSA id 0463C5236EE;
+ Mon, 24 Feb 2020 18:39:14 +0100 (CET)
 From: Jernej Skrabec <jernej.skrabec@siol.net>
 To: mripard@kernel.org,
 	wens@csie.org
-Subject: [PATCH 2/7] drm/sun4i: Add separate DE3 VI layer formats
-Date: Mon, 24 Feb 2020 18:38:56 +0100
-Message-Id: <20200224173901.174016-3-jernej.skrabec@siol.net>
+Subject: [PATCH 3/7] drm/sun4i: Fix DE2 VI layer format support
+Date: Mon, 24 Feb 2020 18:38:57 +0100
+Message-Id: <20200224173901.174016-4-jernej.skrabec@siol.net>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200224173901.174016-1-jernej.skrabec@siol.net>
 References: <20200224173901.174016-1-jernej.skrabec@siol.net>
@@ -57,186 +57,166 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DE3 VI layers support alpha blending, but DE2 VI layers do not.
-Additionally, DE3 VI layers support 10-bit RGB and YUV formats.
+DE2 VI layer doesn't support blending which means alpha channel is
+ignored. Replace all formats with alpha with "don't care" (X) channel.
 
-Make a separate list for DE3.
-
-Fixes: c50519e6db4d ("drm/sun4i: Add basic support for DE3")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 36 ++++++++++++++++
- drivers/gpu/drm/sun4i/sun8i_mixer.h    | 11 +++++
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 58 ++++++++++++++++++++++++--
- 3 files changed, 102 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 56 ++++++++++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 22 +++++-----
+ 2 files changed, 67 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 3a78dbbceb8a..655445bfe64a 100644
+index 655445bfe64a..4a64f7ae437a 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -148,6 +148,30 @@ static const struct de2_fmt_info de2_formats[] = {
+@@ -106,48 +106,104 @@ static const struct de2_fmt_info de2_formats[] = {
  		.rgb = true,
  		.csc = SUN8I_CSC_MODE_OFF,
  	},
 +	{
-+		.drm_fmt = DRM_FORMAT_ARGB2101010,
-+		.de2_fmt = SUN8I_MIXER_FBFMT_ARGB2101010,
-+		.rgb = true,
-+		.csc = SUN8I_CSC_MODE_OFF,
-+	},
-+	{
-+		.drm_fmt = DRM_FORMAT_ABGR2101010,
-+		.de2_fmt = SUN8I_MIXER_FBFMT_ABGR2101010,
-+		.rgb = true,
-+		.csc = SUN8I_CSC_MODE_OFF,
-+	},
-+	{
-+		.drm_fmt = DRM_FORMAT_RGBA1010102,
-+		.de2_fmt = SUN8I_MIXER_FBFMT_RGBA1010102,
-+		.rgb = true,
-+		.csc = SUN8I_CSC_MODE_OFF,
-+	},
-+	{
-+		.drm_fmt = DRM_FORMAT_BGRA1010102,
-+		.de2_fmt = SUN8I_MIXER_FBFMT_BGRA1010102,
++		/* for DE2 VI layer which ignores alpha */
++		.drm_fmt = DRM_FORMAT_XRGB4444,
++		.de2_fmt = SUN8I_MIXER_FBFMT_ARGB4444,
 +		.rgb = true,
 +		.csc = SUN8I_CSC_MODE_OFF,
 +	},
  	{
- 		.drm_fmt = DRM_FORMAT_UYVY,
- 		.de2_fmt = SUN8I_MIXER_FBFMT_UYVY,
-@@ -232,6 +256,18 @@ static const struct de2_fmt_info de2_formats[] = {
- 		.rgb = false,
- 		.csc = SUN8I_CSC_MODE_YVU2RGB,
+ 		.drm_fmt = DRM_FORMAT_ABGR4444,
+ 		.de2_fmt = SUN8I_MIXER_FBFMT_ABGR4444,
+ 		.rgb = true,
+ 		.csc = SUN8I_CSC_MODE_OFF,
  	},
 +	{
-+		.drm_fmt = DRM_FORMAT_P010,
-+		.de2_fmt = SUN8I_MIXER_FBFMT_P010_YUV,
-+		.rgb = false,
-+		.csc = SUN8I_CSC_MODE_YUV2RGB,
++		/* for DE2 VI layer which ignores alpha */
++		.drm_fmt = DRM_FORMAT_XBGR4444,
++		.de2_fmt = SUN8I_MIXER_FBFMT_ABGR4444,
++		.rgb = true,
++		.csc = SUN8I_CSC_MODE_OFF,
 +	},
+ 	{
+ 		.drm_fmt = DRM_FORMAT_RGBA4444,
+ 		.de2_fmt = SUN8I_MIXER_FBFMT_RGBA4444,
+ 		.rgb = true,
+ 		.csc = SUN8I_CSC_MODE_OFF,
+ 	},
 +	{
-+		.drm_fmt = DRM_FORMAT_P210,
-+		.de2_fmt = SUN8I_MIXER_FBFMT_P210_YUV,
-+		.rgb = false,
-+		.csc = SUN8I_CSC_MODE_YUV2RGB,
++		/* for DE2 VI layer which ignores alpha */
++		.drm_fmt = DRM_FORMAT_RGBX4444,
++		.de2_fmt = SUN8I_MIXER_FBFMT_RGBA4444,
++		.rgb = true,
++		.csc = SUN8I_CSC_MODE_OFF,
 +	},
- };
- 
- const struct de2_fmt_info *sun8i_mixer_format_info(u32 format)
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index c6cc94057faf..345b28b0a80a 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -93,6 +93,10 @@
- #define SUN8I_MIXER_FBFMT_ABGR1555	17
- #define SUN8I_MIXER_FBFMT_RGBA5551	18
- #define SUN8I_MIXER_FBFMT_BGRA5551	19
-+#define SUN8I_MIXER_FBFMT_ARGB2101010	20
-+#define SUN8I_MIXER_FBFMT_ABGR2101010	21
-+#define SUN8I_MIXER_FBFMT_RGBA1010102	22
-+#define SUN8I_MIXER_FBFMT_BGRA1010102	23
- 
- #define SUN8I_MIXER_FBFMT_YUYV		0
- #define SUN8I_MIXER_FBFMT_UYVY		1
-@@ -109,6 +113,13 @@
- /* format 12 is semi-planar YUV411 UVUV */
- /* format 13 is semi-planar YUV411 VUVU */
- #define SUN8I_MIXER_FBFMT_YUV411	14
-+/* format 15 doesn't exist */
-+/* format 16 is P010 YVU */
-+#define SUN8I_MIXER_FBFMT_P010_YUV	17
-+/* format 18 is P210 YVU */
-+#define SUN8I_MIXER_FBFMT_P210_YUV	19
-+/* format 20 is packed YVU444 10-bit */
-+/* format 21 is packed YUV444 10-bit */
- 
- /*
-  * Sub-engines listed bellow are unused for now. The EN registers are here only
+ 	{
+ 		.drm_fmt = DRM_FORMAT_BGRA4444,
+ 		.de2_fmt = SUN8I_MIXER_FBFMT_BGRA4444,
+ 		.rgb = true,
+ 		.csc = SUN8I_CSC_MODE_OFF,
+ 	},
++	{
++		/* for DE2 VI layer which ignores alpha */
++		.drm_fmt = DRM_FORMAT_BGRX4444,
++		.de2_fmt = SUN8I_MIXER_FBFMT_BGRA4444,
++		.rgb = true,
++		.csc = SUN8I_CSC_MODE_OFF,
++	},
+ 	{
+ 		.drm_fmt = DRM_FORMAT_ARGB1555,
+ 		.de2_fmt = SUN8I_MIXER_FBFMT_ARGB1555,
+ 		.rgb = true,
+ 		.csc = SUN8I_CSC_MODE_OFF,
+ 	},
++	{
++		/* for DE2 VI layer which ignores alpha */
++		.drm_fmt = DRM_FORMAT_XRGB1555,
++		.de2_fmt = SUN8I_MIXER_FBFMT_ARGB1555,
++		.rgb = true,
++		.csc = SUN8I_CSC_MODE_OFF,
++	},
+ 	{
+ 		.drm_fmt = DRM_FORMAT_ABGR1555,
+ 		.de2_fmt = SUN8I_MIXER_FBFMT_ABGR1555,
+ 		.rgb = true,
+ 		.csc = SUN8I_CSC_MODE_OFF,
+ 	},
++	{
++		/* for DE2 VI layer which ignores alpha */
++		.drm_fmt = DRM_FORMAT_XBGR1555,
++		.de2_fmt = SUN8I_MIXER_FBFMT_ABGR1555,
++		.rgb = true,
++		.csc = SUN8I_CSC_MODE_OFF,
++	},
+ 	{
+ 		.drm_fmt = DRM_FORMAT_RGBA5551,
+ 		.de2_fmt = SUN8I_MIXER_FBFMT_RGBA5551,
+ 		.rgb = true,
+ 		.csc = SUN8I_CSC_MODE_OFF,
+ 	},
++	{
++		/* for DE2 VI layer which ignores alpha */
++		.drm_fmt = DRM_FORMAT_RGBX5551,
++		.de2_fmt = SUN8I_MIXER_FBFMT_RGBA5551,
++		.rgb = true,
++		.csc = SUN8I_CSC_MODE_OFF,
++	},
+ 	{
+ 		.drm_fmt = DRM_FORMAT_BGRA5551,
+ 		.de2_fmt = SUN8I_MIXER_FBFMT_BGRA5551,
+ 		.rgb = true,
+ 		.csc = SUN8I_CSC_MODE_OFF,
+ 	},
++	{
++		/* for DE2 VI layer which ignores alpha */
++		.drm_fmt = DRM_FORMAT_BGRX5551,
++		.de2_fmt = SUN8I_MIXER_FBFMT_BGRA5551,
++		.rgb = true,
++		.csc = SUN8I_CSC_MODE_OFF,
++	},
+ 	{
+ 		.drm_fmt = DRM_FORMAT_ARGB2101010,
+ 		.de2_fmt = SUN8I_MIXER_FBFMT_ARGB2101010,
 diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 6a244d6fafd9..6c0084a3c3d7 100644
+index 6c0084a3c3d7..b8398ca18b0f 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -436,24 +436,76 @@ static const u32 sun8i_vi_layer_formats[] = {
- 	DRM_FORMAT_YVU422,
+@@ -398,26 +398,26 @@ static const struct drm_plane_funcs sun8i_vi_layer_funcs = {
  };
  
-+static const u32 sun8i_vi_layer_de3_formats[] = {
-+	DRM_FORMAT_ABGR1555,
-+	DRM_FORMAT_ABGR2101010,
-+	DRM_FORMAT_ABGR4444,
-+	DRM_FORMAT_ABGR8888,
-+	DRM_FORMAT_ARGB1555,
-+	DRM_FORMAT_ARGB2101010,
-+	DRM_FORMAT_ARGB4444,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_BGR565,
-+	DRM_FORMAT_BGR888,
-+	DRM_FORMAT_BGRA1010102,
-+	DRM_FORMAT_BGRA5551,
-+	DRM_FORMAT_BGRA4444,
-+	DRM_FORMAT_BGRA8888,
-+	DRM_FORMAT_BGRX8888,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_RGB888,
-+	DRM_FORMAT_RGBA1010102,
-+	DRM_FORMAT_RGBA4444,
-+	DRM_FORMAT_RGBA5551,
-+	DRM_FORMAT_RGBA8888,
-+	DRM_FORMAT_RGBX8888,
-+	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_XRGB8888,
-+
-+	DRM_FORMAT_NV16,
-+	DRM_FORMAT_NV12,
-+	DRM_FORMAT_NV21,
-+	DRM_FORMAT_NV61,
-+	DRM_FORMAT_P010,
-+	DRM_FORMAT_P210,
-+	DRM_FORMAT_UYVY,
-+	DRM_FORMAT_VYUY,
-+	DRM_FORMAT_YUYV,
-+	DRM_FORMAT_YVYU,
-+	DRM_FORMAT_YUV411,
-+	DRM_FORMAT_YUV420,
-+	DRM_FORMAT_YUV422,
-+	DRM_FORMAT_YVU411,
-+	DRM_FORMAT_YVU420,
-+	DRM_FORMAT_YVU422,
-+};
-+
- struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 					       struct sun8i_mixer *mixer,
- 					       int index)
- {
- 	u32 supported_encodings, supported_ranges;
-+	unsigned int plane_cnt, format_count;
- 	struct sun8i_vi_layer *layer;
--	unsigned int plane_cnt;
-+	const u32 *formats;
- 	int ret;
+ /*
+- * While all RGB formats are supported, VI planes don't support
+- * alpha blending, so there is no point having formats with alpha
+- * channel if their opaque analog exist.
++ * While DE2 VI layer supports same RGB formats as UI layer, alpha
++ * channel is ignored. This structure lists all unique variants
++ * where alpha channel is replaced with "don't care" (X) channel.
+  */
+ static const u32 sun8i_vi_layer_formats[] = {
+-	DRM_FORMAT_ABGR1555,
+-	DRM_FORMAT_ABGR4444,
+-	DRM_FORMAT_ARGB1555,
+-	DRM_FORMAT_ARGB4444,
+ 	DRM_FORMAT_BGR565,
+ 	DRM_FORMAT_BGR888,
+-	DRM_FORMAT_BGRA5551,
+-	DRM_FORMAT_BGRA4444,
++	DRM_FORMAT_BGRX4444,
++	DRM_FORMAT_BGRX5551,
+ 	DRM_FORMAT_BGRX8888,
+ 	DRM_FORMAT_RGB565,
+ 	DRM_FORMAT_RGB888,
+-	DRM_FORMAT_RGBA4444,
+-	DRM_FORMAT_RGBA5551,
++	DRM_FORMAT_RGBX4444,
++	DRM_FORMAT_RGBX5551,
+ 	DRM_FORMAT_RGBX8888,
++	DRM_FORMAT_XBGR1555,
++	DRM_FORMAT_XBGR4444,
+ 	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_XRGB4444,
+ 	DRM_FORMAT_XRGB8888,
  
- 	layer = devm_kzalloc(drm->dev, sizeof(*layer), GFP_KERNEL);
- 	if (!layer)
- 		return ERR_PTR(-ENOMEM);
- 
-+	if (mixer->cfg->is_de3) {
-+		formats = sun8i_vi_layer_de3_formats;
-+		format_count = ARRAY_SIZE(sun8i_vi_layer_de3_formats);
-+	} else {
-+		formats = sun8i_vi_layer_formats;
-+		format_count = ARRAY_SIZE(sun8i_vi_layer_formats);
-+	}
-+
- 	/* possible crtcs are set later */
- 	ret = drm_universal_plane_init(drm, &layer->plane, 0,
- 				       &sun8i_vi_layer_funcs,
--				       sun8i_vi_layer_formats,
--				       ARRAY_SIZE(sun8i_vi_layer_formats),
-+				       formats, format_count,
- 				       NULL, DRM_PLANE_TYPE_OVERLAY, NULL);
- 	if (ret) {
- 		dev_err(drm->dev, "Couldn't initialize layer\n");
+ 	DRM_FORMAT_NV16,
 -- 
 2.25.1
 
