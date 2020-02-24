@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C7816B5C9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 00:38:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1334C16B5E9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 00:43:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 299C36E9B8;
-	Mon, 24 Feb 2020 23:38:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC876E9BC;
+	Mon, 24 Feb 2020 23:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 954B76E9B8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:38:43 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 091766E9BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:43:12 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BA3DE89;
- Tue, 25 Feb 2020 00:38:42 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A97DE89;
+ Tue, 25 Feb 2020 00:43:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582587522;
- bh=gQik+6A83Y5v/DI1YfW29cbToK9kZ2L+cXWvkS/IwZM=;
+ s=mail; t=1582587790;
+ bh=80gMHTLwFKBxDpHK29md8YKw+Hgbxum55GlsHvnjbdk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A07WiEFpnj809ZTJAF9/jhzS4h24ARnnAALjBp87OamDJfgbDwJmzAObkARHODwxm
- YaQdMp8p/k19pbhsnfCUzsmHUO9rMNAAXbjqi/m+m9NfbkdwX/lXDLn5Nr65MLTPba
- EeE1DHKzqJq7GYOTD7K1bunWrdmyuOo1pLoZYlGw=
-Date: Tue, 25 Feb 2020 01:38:21 +0200
+ b=fazrMM8OSWF50yIkGzTrcJXseI4/EsJUjLAjdPOAzcIoPAY3X9l3gddXFj/5pzI2b
+ khZk/DG3VEze5CqEh5Ryiiu5x68hQQatLiaG7Qis1H4BSyk8b5LMbHibgVzpoEQtgR
+ lZHFBztbkJnHLIdL97jkfA1hkyUM0DjnDnCR6UsE=
+Date: Tue, 25 Feb 2020 01:42:49 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCHv2 01/56] ARM: dts: omap: add channel to DSI panels
-Message-ID: <20200224233821.GH16163@pendragon.ideasonboard.com>
+Subject: Re: [PATCHv2 04/56] omap/drm: drop unused dsi.configure_pins
+Message-ID: <20200224234249.GI16163@pendragon.ideasonboard.com>
 References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
- <20200224232126.3385250-2-sebastian.reichel@collabora.com>
+ <20200224232126.3385250-5-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200224232126.3385250-2-sebastian.reichel@collabora.com>
+In-Reply-To: <20200224232126.3385250-5-sebastian.reichel@collabora.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,167 +60,79 @@ Hi Sebastian,
 
 Thank you for the patch.
 
-On Tue, Feb 25, 2020 at 12:20:31AM +0100, Sebastian Reichel wrote:
-> The standard binding for DSI requires, that the channel number
-> of the panel is encoded in DT. This adds the channel number in
-> all OMAP3-5 boards, in preparation for using common infrastructure.
+On Tue, Feb 25, 2020 at 12:20:34AM +0100, Sebastian Reichel wrote:
+> The panel-dsi-cm's ddata->pin_config is always NULL, so this
+> callback is never called. Instead the DSI encoder gets the pin
+> configuration directly from DT.
 > 
 > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > ---
->  .../devicetree/bindings/display/panel/panel-dsi-cm.txt      | 4 +++-
->  arch/arm/boot/dts/motorola-mapphone-common.dtsi             | 3 ++-
->  arch/arm/boot/dts/omap3-n950.dts                            | 3 ++-
->  arch/arm/boot/dts/omap3.dtsi                                | 3 +++
->  arch/arm/boot/dts/omap4-sdp.dts                             | 6 ++++--
->  arch/arm/boot/dts/omap4.dtsi                                | 6 ++++++
->  arch/arm/boot/dts/omap5.dtsi                                | 6 ++++++
->  7 files changed, 26 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c | 11 -----------
+>  drivers/gpu/drm/omapdrm/dss/dsi.c               |  1 -
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h           |  2 --
+>  3 files changed, 14 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
-> index dce48eb9db57..f92d5c9adfc5 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
-> @@ -3,6 +3,7 @@ Generic MIPI DSI Command Mode Panel
+> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> index 3484b5d4a91c..e7fe5d702337 100644
+> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> @@ -68,8 +68,6 @@ struct panel_drv_data {
+>  	int width_mm;
+>  	int height_mm;
 >  
->  Required properties:
->  - compatible: "panel-dsi-cm"
-> +- reg: DSI channel number
+> -	struct omap_dsi_pin_config pin_config;
+> -
+>  	/* runtime variables */
+>  	bool enabled;
 >  
->  Optional properties:
->  - label: a symbolic name for the panel
-> @@ -15,9 +16,10 @@ Required nodes:
->  Example
->  -------
+> @@ -623,15 +621,6 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+>  		}
+>  	}
 >  
-> -lcd0: display {
-> +lcd0: panel@0 {
->  	compatible = "tpo,taal", "panel-dsi-cm";
->  	label = "lcd0";
-> +	reg = <0>;
+> -	if (ddata->pin_config.num_pins > 0) {
+> -		r = src->ops->dsi.configure_pins(src, &ddata->pin_config);
+> -		if (r) {
+> -			dev_err(&ddata->pdev->dev,
+> -				"failed to configure DSI pins\n");
+> -			goto err_vddi;
+> -		}
+> -	}
+> -
+>  	r = src->ops->dsi.set_config(src, &dsi_config);
+>  	if (r) {
+>  		dev_err(&ddata->pdev->dev, "failed to configure DSI\n");
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index 79ddfbfd1b58..8c39823a8295 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -4892,7 +4892,6 @@ static const struct omap_dss_device_ops dsi_ops = {
 >  
->  	reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
+>  		.enable_hs = dsi_vc_enable_hs,
 >  
+> -		.configure_pins = dsi_configure_pins,
+>  		.set_config = dsi_set_config,
+>  
+>  		.enable_video_output = dsi_enable_video_output,
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> index cbbe10b2b60d..b0424daaceed 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> @@ -292,8 +292,6 @@ struct omapdss_dsi_ops {
 
-While at it, how about converting this to yaml ?
+I think you can drop the definition of the omap_dsi_pin_config structure
+earlier in this file too, as well as the OMAP_DSS_MAX_DSI_PINS macro.
+With this fixed,
 
-> diff --git a/arch/arm/boot/dts/motorola-mapphone-common.dtsi b/arch/arm/boot/dts/motorola-mapphone-common.dtsi
-> index 85665506f4f8..a5e4ba7c8dab 100644
-> --- a/arch/arm/boot/dts/motorola-mapphone-common.dtsi
-> +++ b/arch/arm/boot/dts/motorola-mapphone-common.dtsi
-> @@ -199,8 +199,9 @@ dsi1_out_ep: endpoint {
->  		};
->  	};
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  	/* bus configuration */
+>  	int (*set_config)(struct omap_dss_device *dssdev,
+>  			const struct omap_dss_dsi_config *cfg);
+> -	int (*configure_pins)(struct omap_dss_device *dssdev,
+> -			const struct omap_dsi_pin_config *pin_cfg);
 >  
-> -	lcd0: display {
-> +	lcd0: panel@0 {
->  		compatible = "panel-dsi-cm";
-> +		reg = <0>;
->  		label = "lcd0";
->  		vddi-supply = <&lcd_regulator>;
->  		reset-gpios = <&gpio4 5 GPIO_ACTIVE_HIGH>;	/* gpio101 */
-> diff --git a/arch/arm/boot/dts/omap3-n950.dts b/arch/arm/boot/dts/omap3-n950.dts
-> index 31d47a1fad84..80cf4e1177da 100644
-> --- a/arch/arm/boot/dts/omap3-n950.dts
-> +++ b/arch/arm/boot/dts/omap3-n950.dts
-> @@ -225,8 +225,9 @@ dsi_out_ep: endpoint {
->  		};
->  	};
->  
-> -	lcd0: display {
-> +	lcd0: panel@0 {
->  		compatible = "nokia,himalaya", "panel-dsi-cm";
-> +		reg = <0>;
->  		label = "lcd0";
->  
->  		pinctrl-names = "default";
-> diff --git a/arch/arm/boot/dts/omap3.dtsi b/arch/arm/boot/dts/omap3.dtsi
-> index 634ea16a711e..409d434a9b18 100644
-> --- a/arch/arm/boot/dts/omap3.dtsi
-> +++ b/arch/arm/boot/dts/omap3.dtsi
-> @@ -820,6 +820,9 @@ dsi: encoder@4804fc00 {
->  				ti,hwmods = "dss_dsi1";
->  				clocks = <&dss1_alwon_fck>, <&dss2_alwon_fck>;
->  				clock-names = "fck", "sys_clk";
-> +
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
->  			};
->  
->  			rfbi: encoder@48050800 {
-> diff --git a/arch/arm/boot/dts/omap4-sdp.dts b/arch/arm/boot/dts/omap4-sdp.dts
-> index 91480ac1f328..8a8307517dab 100644
-> --- a/arch/arm/boot/dts/omap4-sdp.dts
-> +++ b/arch/arm/boot/dts/omap4-sdp.dts
-> @@ -662,8 +662,9 @@ dsi1_out_ep: endpoint {
->  		};
->  	};
->  
-> -	lcd0: display {
-> +	lcd0: panel@0 {
->  		compatible = "tpo,taal", "panel-dsi-cm";
-> +		reg = <0>;
->  		label = "lcd0";
->  
->  		reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;	/* 102 */
-> @@ -687,8 +688,9 @@ dsi2_out_ep: endpoint {
->  		};
->  	};
->  
-> -	lcd1: display {
-> +	lcd1: panel@0 {
->  		compatible = "tpo,taal", "panel-dsi-cm";
-> +		reg = <0>;
->  		label = "lcd1";
->  
->  		reset-gpios = <&gpio4 8 GPIO_ACTIVE_HIGH>;	/* 104 */
-> diff --git a/arch/arm/boot/dts/omap4.dtsi b/arch/arm/boot/dts/omap4.dtsi
-> index 9a87440d0b9d..a75734065cac 100644
-> --- a/arch/arm/boot/dts/omap4.dtsi
-> +++ b/arch/arm/boot/dts/omap4.dtsi
-> @@ -465,6 +465,9 @@ dsi1: encoder@58004000 {
->  				clocks = <&l3_dss_clkctrl OMAP4_DSS_CORE_CLKCTRL 8>,
->  					 <&l3_dss_clkctrl OMAP4_DSS_CORE_CLKCTRL 10>;
->  				clock-names = "fck", "sys_clk";
-> +
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
->  			};
->  
->  			dsi2: encoder@58005000 {
-> @@ -479,6 +482,9 @@ dsi2: encoder@58005000 {
->  				clocks = <&l3_dss_clkctrl OMAP4_DSS_CORE_CLKCTRL 8>,
->  					 <&l3_dss_clkctrl OMAP4_DSS_CORE_CLKCTRL 10>;
->  				clock-names = "fck", "sys_clk";
-> +
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
->  			};
->  
->  			hdmi: encoder@58006000 {
-> diff --git a/arch/arm/boot/dts/omap5.dtsi b/arch/arm/boot/dts/omap5.dtsi
-> index d0ecf54d5a23..5c7462e04716 100644
-> --- a/arch/arm/boot/dts/omap5.dtsi
-> +++ b/arch/arm/boot/dts/omap5.dtsi
-> @@ -333,6 +333,9 @@ dsi1: encoder@58004000 {
->  				clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 8>,
->  					 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
->  				clock-names = "fck", "sys_clk";
-> +
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
->  			};
->  
->  			dsi2: encoder@58005000 {
-> @@ -347,6 +350,9 @@ dsi2: encoder@58005000 {
->  				clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 8>,
->  					 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
->  				clock-names = "fck", "sys_clk";
-> +
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
->  			};
->  
->  			hdmi: encoder@58060000 {
+>  	void (*enable_hs)(struct omap_dss_device *dssdev, int channel,
+>  			bool enable);
 
 -- 
 Regards,
