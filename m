@@ -1,28 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF5A16BC95
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:53:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3F616BC47
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:51:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C166EA69;
-	Tue, 25 Feb 2020 08:51:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A47CE6EA2A;
+	Tue, 25 Feb 2020 08:50:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54FBE6E9B8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:21:40 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 524406E9B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:28:31 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id A8BB0293A90
+ with ESMTPSA id 0E43B28A938
 Received: by earth.universe (Postfix, from userid 1000)
- id 19D623C0C99; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
+ id 1ED443C0C9A; Tue, 25 Feb 2020 00:21:31 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sre@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2 22/56] drm/omap: dsi: drop useless sync()
-Date: Tue, 25 Feb 2020 00:20:52 +0100
-Message-Id: <20200224232126.3385250-23-sebastian.reichel@collabora.com>
+Subject: [PATCHv2 23/56] drm/omap: dsi: use pixel-format and mode from attach
+Date: Tue, 25 Feb 2020 00:20:53 +0100
+Message-Id: <20200224232126.3385250-24-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
 References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
@@ -49,79 +50,81 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI sync() function only locks the bus and then releases
-it again. Currently the only invocation is directly before
-update(), which locks the bus anyways.
+In order to reduce the amount of custom functionality, this moves
+handling of pixel format and DSI mode from set_config() to dsi
+attach.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- .../gpu/drm/omapdrm/displays/panel-dsi-cm.c    | 18 ------------------
- drivers/gpu/drm/omapdrm/dss/omapdss.h          |  1 -
- drivers/gpu/drm/omapdrm/omap_crtc.c            |  3 ---
- 3 files changed, 22 deletions(-)
+ .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   |  2 --
+ drivers/gpu/drm/omapdrm/dss/dsi.c             | 20 +++++++++++++------
+ 2 files changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-index 64f493c722c0..a45df247aad1 100644
+index a45df247aad1..199eac88a777 100644
 --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
 +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-@@ -845,23 +845,6 @@ static int dsicm_update(struct omap_dss_device *dssdev,
- 	return r;
- }
- 
--static int dsicm_sync(struct omap_dss_device *dssdev)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--	struct omap_dss_device *src = ddata->src;
--
--	dev_dbg(&ddata->dsi->dev, "sync\n");
--
--	mutex_lock(&ddata->lock);
--	src->ops->dsi.bus_lock(src);
--	src->ops->dsi.bus_unlock(src);
--	mutex_unlock(&ddata->lock);
--
--	dev_dbg(&ddata->dsi->dev, "sync done\n");
--
--	return 0;
--}
--
- static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+@@ -550,8 +550,6 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+ 	u8 id1, id2, id3;
+ 	int r;
+ 	struct omap_dss_dsi_config dsi_config = {
+-		.mode = OMAP_DSS_DSI_CMD_MODE,
+-		.pixel_format = MIPI_DSI_FMT_RGB888,
+ 		.vm = &ddata->vm,
+ 		.hs_clk_min = 150000000,
+ 		.hs_clk_max = 300000000,
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index 64407f4651af..6c625b6d6d6b 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -4583,18 +4583,19 @@ static int dsi_set_config(struct omap_dss_device *dssdev,
  {
- 	struct omap_dss_device *src = ddata->src;
-@@ -950,7 +933,6 @@ static const struct omap_dss_device_ops dsicm_ops = {
+ 	struct dsi_data *dsi = to_dsi_data(dssdev);
+ 	struct dsi_clk_calc_ctx ctx;
++	struct omap_dss_dsi_config cfg = *config;
+ 	bool ok;
+ 	int r;
  
- static const struct omap_dss_driver dsicm_dss_driver = {
- 	.update		= dsicm_update,
--	.sync		= dsicm_sync,
- };
+ 	mutex_lock(&dsi->lock);
  
- static int dsicm_probe_of(struct mipi_dsi_device *dsi)
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index e6832bf22ed0..2c6c32240e20 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -384,7 +384,6 @@ struct omap_dss_device {
- struct omap_dss_driver {
- 	int (*update)(struct omap_dss_device *dssdev,
- 			       u16 x, u16 y, u16 w, u16 h);
--	int (*sync)(struct omap_dss_device *dssdev);
- };
+-	dsi->pix_fmt = config->pixel_format;
+-	dsi->mode = config->mode;
++	cfg.mode = dsi->mode;
++	cfg.pixel_format = dsi->pix_fmt;
  
- struct dss_device *omapdss_get_dss(void);
-diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-index fce7e944a280..3f78ce2f85a1 100644
---- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-+++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-@@ -379,9 +379,6 @@ static void omap_crtc_manual_display_update(struct work_struct *data)
- 		return;
+-	if (config->mode == OMAP_DSS_DSI_VIDEO_MODE)
+-		ok = dsi_vm_calc(dsi, config, &ctx);
++	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE)
++		ok = dsi_vm_calc(dsi, &cfg, &ctx);
+ 	else
+-		ok = dsi_cm_calc(dsi, config, &ctx);
++		ok = dsi_cm_calc(dsi, &cfg, &ctx);
+ 
+ 	if (!ok) {
+ 		DSSERR("failed to find suitable DSI clock settings\n");
+@@ -4605,7 +4606,7 @@ static int dsi_set_config(struct omap_dss_device *dssdev,
+ 	dsi_pll_calc_dsi_fck(dsi, &ctx.dsi_cinfo);
+ 
+ 	r = dsi_lp_clock_calc(ctx.dsi_cinfo.clkout[HSDIV_DSI],
+-		config->lp_clk_min, config->lp_clk_max, &dsi->user_lp_cinfo);
++		cfg.lp_clk_min, cfg.lp_clk_max, &dsi->user_lp_cinfo);
+ 	if (r) {
+ 		DSSERR("failed to find suitable DSI LP clock settings\n");
+ 		goto err;
+@@ -4784,6 +4785,13 @@ int omap_dsi_host_attach(struct mipi_dsi_host *host,
  	}
  
--	if (dssdrv->sync)
--		dssdrv->sync(dssdev);
--
- 	ret = dssdrv->update(dssdev, 0, 0, mode->hdisplay, mode->vdisplay);
- 	if (ret < 0) {
- 		spin_lock_irq(&dev->event_lock);
+ 	dsi->vc[channel].dest = client;
++
++	dsi->pix_fmt = client->format;
++	if (client->mode_flags & MIPI_DSI_MODE_VIDEO)
++		dsi->mode = OMAP_DSS_DSI_VIDEO_MODE;
++	else
++		dsi->mode = OMAP_DSS_DSI_CMD_MODE;
++
+ 	return 0;
+ }
+ 
 -- 
 2.25.0
 
