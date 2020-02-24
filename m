@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC07116A2A0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4685316A2B3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Feb 2020 10:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C2E6E332;
-	Mon, 24 Feb 2020 09:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B5B6E38A;
+	Mon, 24 Feb 2020 09:39:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E660B6E221
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 09:09:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 387586E220
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 09:09:24 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id C34CF60E;
- Mon, 24 Feb 2020 04:09:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 24 Feb 2020 04:09:22 -0500
+ by mailnew.west.internal (Postfix) with ESMTP id 3F09E60A;
+ Mon, 24 Feb 2020 04:09:23 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 24 Feb 2020 04:09:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=DwriZRHRN7fN7
- mhHrJdEKvtb3nQZcEd0mgRQMVSwm/Y=; b=g5yDTxoj8S6kyr6YkHEMf6zhkqMYw
- X/hsZAJnTYpW/02DOjvTpoXhDxSJjJ+9R38OQaJoDjKW2BqbbHt0zjYFEg10Uf1H
- oCSnPOAEDiLQVu0HnrjbAVaGznXipSJHjuuPdPmDsDuPsi5fyIEgY2t/ZQrz1NKY
- n4UX8M1ShIHmhvdd40MuhmtB9PM/H32vkIC7TQkSdsky7WSGlwDhcJx+6KQij5pQ
- TfIEWojkAMLSIUWokAf+5xqMhHTUaItIEFczm+1g9eDpTW3Ln5aWxO9SA/shWmvF
- 1IihAxnEI67NS82Olc6EyO05AvG2HNtkdCkPAWHE3GFYjm46IICi7xcmw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=TS5KQbCSo9nqw
+ zFlRo9+6nosro4Q4hmS5FkRXvdZ5Nw=; b=R6wAQSQ6TZ4vaX1/NSarfT9jtNVtu
+ 67fIqbY/wMNcxyK9ij5TFJ2AfFI+b2ElnAV9CtFpjxEWPCCZLf/zx6yGYQWvMzyE
+ 93/WpKd+JHOgxXlCNoV7LzYDOZs4CJ+I7DvrGRW7M1mGZFE9eoz415fIwPMxAHuS
+ 2dkV4EC187bnb22WM0mnqqHres8CUkqKDLmHfgv+QUAuoppfcavGwg1yM+PPa3Mc
+ jfiev7dKG8XcvbqH+29ot6iO8v+nsMphp7N7xPf5vWuY0qpdagp+9vVN9lqi58Lz
+ C8l8IxWJIp4WrUUKHPkeuXcWHr9ZBK/Uq62Ulgeas92DiFVSwEaC2RJpw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=DwriZRHRN7fN7mhHrJdEKvtb3nQZcEd0mgRQMVSwm/Y=; b=Srvnlj1K
- Kxj/m1XJXkyCSWasG+E6ij6xxmoBO4dsmBDqqeZxYQMSKC1m0a8nuO11TO5cpAX9
- ZVh0ujUsk+R18ueIUCH/3IR/Ky3oQ9IFeyWKlq8Q4M4+nGC0oyX9slRROQ1mDx7P
- CUEQhAkS6fyfrt/adZul1NavZhNV3MQqC+MggvYwQu5VfmMr5VYFBRhmUYxLDy+O
- 8haSarBhdGp67sY/BZecMg2rEqqPqNvcc2PwRlOw6zRgezyQY32jVYqxM55/w5Pr
- vGbp/zYNxOmJCbFG4A2tb2SbnssJg7PApEW3WlwuybPzOz0yZKBNReJFP59hWM/d
- 60hJy8Fdph/pPw==
-X-ME-Sender: <xms:wZJTXpfi4TORHzfU00ftYVtX0zgquzWiqLvPXgGIdOcfe53c--i0sA>
+ fm2; bh=TS5KQbCSo9nqwzFlRo9+6nosro4Q4hmS5FkRXvdZ5Nw=; b=YWujkwc0
+ LBM+r6oGNIOJRkiP01sZXQ7j8+aBq3l7HqLGp/pjhyysrjVCTiPBVWuGKt7b8ZQ4
+ +0FQMWFMKdhR/52TAmNNwanGCs17Xze9A2q7LAhRL0GEPew7gbJU9aUl/JFUmNqj
+ jZ4weYsXlqrIZwZIzpZ+4sHkmv/mbuTOS0+X72Q2uElLk9mc5k5mcZyvfAMmPnRz
+ exaTFtuE8mtOG/2EAuzUgNH+BM6yF9VhlqCWhWc2hp+hLnXw/Fd3tu5kU80+F48b
+ TsbiJoZDopdRHgbbqlMNDWGO46DZch3WBzKgb3QginScecmBzELqes6p7ankEo/i
+ 81QG9mp3noES/g==
+X-ME-Sender: <xms:wpJTXiV6u9P-Mg91f9eHLtp7WqUB1bL2qIu34l9SoVboNPOm5C9kqA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrledtucetufdoteggodetrfdotffvucfrrh
  hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
  lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
@@ -46,20 +46,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrledtucetufdoteggodetrfdotf
  phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltddrkeelrd
  eikedrjeeinecuvehluhhsthgvrhfuihiivgepudejnecurfgrrhgrmhepmhgrihhlfhhr
  ohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:wZJTXjQtOglB95qFwblcXsCWP7ZIT-0qjP7-xRYaN-guU2DqkXo4-Q>
- <xmx:wZJTXoex8IxFHOCS2SRYIjibQ1zvztreNMfb4jPeOoCzlvA10SCzig>
- <xmx:wZJTXj7uwPL-zrYJOCNmIYsWGefee-Gs56OYQsb6g0e3U8PNzfT_bQ>
- <xmx:wZJTXrYacj5H5ZbCVpp5wgA5f3TKO4lLE1_urUcra4UKROaUpUbPQK4qKAo>
+X-ME-Proxy: <xmx:wpJTXgnHGEbiDBHra7wUZOll1UGY9d2Z0fT_OW4x2s2fqxxhP2FmQQ>
+ <xmx:wpJTXquJ5RcRq7H22rtUIhy-xJVAf4DCx0CbAfz9usp9tGgL5BId4Q>
+ <xmx:wpJTXhhc87sQ-PH-YLNJzP2aKLNtbziLRlg0V45F3RsVROqKUzqEZw>
+ <xmx:wpJTXlaci1rG_v0tNkUQ3Ss_bprE3-fBSvmLcXCoQDEFvBI9tIa0EofDNiQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0D5743280064;
- Mon, 24 Feb 2020 04:09:20 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7ED733060BD1;
+ Mon, 24 Feb 2020 04:09:22 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH 22/89] clk: bcm: rpi: Discover the firmware clocks
-Date: Mon, 24 Feb 2020 10:06:24 +0100
-Message-Id: <d197ab836d84b89b94ff1927872126767d921e94.1582533919.git-series.maxime@cerno.tech>
+Subject: [PATCH 23/89] ARM: dts: bcm2711: Add firmware clocks node
+Date: Mon, 24 Feb 2020 10:06:25 +0100
+Message-Id: <8398a0655c7e544db5e8cc71e2338fe7aa222035.1582533919.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
 References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
@@ -78,10 +78,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
  linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
@@ -89,166 +87,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The firmware has an interface to discover the clocks it exposes.
+Now that we have a clock driver for the clocks exposed by the firmware,
+let's add the device tree nodes for it.
 
-Let's use it to discover, register the clocks in the clocks framework and
-then expose them through the device tree for consumers to use them.
-
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/bcm/clk-raspberrypi.c          | 105 +++++++++++++++++++---
- include/soc/bcm2835/raspberrypi-firmware.h |   5 +-
- 2 files changed, 98 insertions(+), 12 deletions(-)
+ arch/arm/boot/dts/bcm2711.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index 3f21888a3e3e..bf6a1e2dc099 100644
---- a/drivers/clk/bcm/clk-raspberrypi.c
-+++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -285,6 +285,95 @@ static struct clk_hw *raspberrypi_register_pllb_arm(struct raspberrypi_clk *rpi)
- 	return &raspberrypi_clk_pllb_arm.hw;
- }
+diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
+index d1e684d0acfd..4742e1a77a65 100644
+--- a/arch/arm/boot/dts/bcm2711.dtsi
++++ b/arch/arm/boot/dts/bcm2711.dtsi
+@@ -12,6 +12,12 @@
  
-+static long raspberrypi_fw_dumb_round_rate(struct clk_hw *hw,
-+					   unsigned long rate,
-+					   unsigned long *parent_rate)
-+{
-+	return rate;
-+}
-+
-+static const struct clk_ops raspberrypi_firmware_clk_ops = {
-+	.is_prepared	= raspberrypi_fw_is_prepared,
-+	.recalc_rate	= raspberrypi_fw_get_rate,
-+	.round_rate	= raspberrypi_fw_dumb_round_rate,
-+	.set_rate	= raspberrypi_fw_set_rate,
-+};
-+
-+static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
-+					       unsigned int parent,
-+					       unsigned int id)
-+{
-+	struct raspberrypi_clk_data *data;
-+	struct clk_init_data init = {};
-+	int ret;
-+
-+	if (id == RPI_FIRMWARE_ARM_CLK_ID) {
-+		struct clk_hw *hw;
-+
-+		hw = raspberrypi_register_pllb(rpi);
-+		if (IS_ERR(hw)) {
-+			dev_err(rpi->dev, "Failed to initialize pllb, %ld\n",
-+				PTR_ERR(hw));
-+			return hw;
-+		}
-+
-+		hw = raspberrypi_register_pllb_arm(rpi);
-+		if (IS_ERR(hw))
-+			return hw;
-+
-+		return hw;
-+	}
-+
-+	data = devm_kzalloc(rpi->dev, sizeof(data), GFP_KERNEL);
-+	if (!data)
-+		return ERR_PTR(-ENOMEM);
-+	data->rpi = rpi;
-+	data->id = id;
-+
-+	init.name = devm_kasprintf(rpi->dev, GFP_KERNEL, "fw-clk-%u", id);
-+	init.ops = &raspberrypi_firmware_clk_ops;
-+	init.flags = CLK_GET_RATE_NOCACHE | CLK_IGNORE_UNUSED;
-+
-+	data->hw.init = &init;
-+
-+	ret = devm_clk_hw_register(rpi->dev, &data->hw);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return &data->hw;
-+}
-+
-+static int raspberrypi_discover_clocks(struct raspberrypi_clk *rpi,
-+				       struct clk_hw_onecell_data *data)
-+{
-+	struct rpi_firmware_get_clocks_response *clks;
-+	size_t clks_size = NUM_FW_CLKS * sizeof(*clks);
-+	int ret;
-+
-+	clks = devm_kzalloc(rpi->dev, clks_size, GFP_KERNEL);
-+	if (!clks)
-+		return -ENOMEM;
-+
-+	ret = rpi_firmware_property(rpi->firmware, RPI_FIRMWARE_GET_CLOCKS,
-+				    clks, clks_size);
-+	if (ret)
-+		return ret;
-+
-+	while (clks->id) {
-+		struct clk_hw *hw;
-+
-+		hw = raspberrypi_clk_register(rpi, clks->parent, clks->id);
-+		if (IS_ERR(hw))
-+			return PTR_ERR(hw);
-+
-+		data->hws[clks->id] = hw;
-+		data->num = clks->id + 1;
-+		clks++;
-+	}
-+
-+	return 0;
-+}
-+
- static int raspberrypi_clk_probe(struct platform_device *pdev)
- {
- 	struct clk_hw_onecell_data *clk_data;
-@@ -292,7 +381,7 @@ static int raspberrypi_clk_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct rpi_firmware *firmware;
- 	struct raspberrypi_clk *rpi;
--	struct clk_hw *hw;
-+	int ret;
+ 	interrupt-parent = <&gicv2>;
  
- 	firmware_node = of_parse_phandle(dev->of_node, "raspberrypi,firmware", 0);
- 	if (!firmware_node) {
-@@ -317,17 +406,9 @@ static int raspberrypi_clk_probe(struct platform_device *pdev)
- 	if (!clk_data)
- 		return -ENOMEM;
- 
--	hw = raspberrypi_register_pllb(rpi);
--	if (IS_ERR(hw)) {
--		dev_err(dev, "Failed to initialize pllb, %ld\n", PTR_ERR(hw));
--		return PTR_ERR(hw);
--	}
--
--	hw = raspberrypi_register_pllb_arm(rpi);
--	if (IS_ERR(hw))
--		return PTR_ERR(hw);
--	clk_data->hws[RPI_FIRMWARE_ARM_CLK_ID] = hw;
--	clk_data->num = RPI_FIRMWARE_ARM_CLK_ID + 1;
-+	ret = raspberrypi_discover_clocks(rpi, clk_data);
-+	if (ret)
-+		return ret;
- 
- 	ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_onecell_get,
- 					  clk_data);
-diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
-index 7800e12ee042..e5b7a41bba6b 100644
---- a/include/soc/bcm2835/raspberrypi-firmware.h
-+++ b/include/soc/bcm2835/raspberrypi-firmware.h
-@@ -135,6 +135,11 @@ enum rpi_firmware_property_tag {
- 	RPI_FIRMWARE_GET_DMA_CHANNELS =                       0x00060001,
- };
- 
-+struct rpi_firmware_get_clocks_response {
-+	__le32	parent;
-+	__le32	id;
-+};
++	firmware_clocks: firmware-clocks {
++		compatible = "raspberrypi,firmware-clocks";
++		raspberrypi,firmware = <&firmware>;
++		#clock-cells = <1>;
++	};
 +
- #if IS_ENABLED(CONFIG_RASPBERRYPI_FIRMWARE)
- int rpi_firmware_property(struct rpi_firmware *fw,
- 			  u32 tag, void *data, size_t len);
+ 	soc {
+ 		/*
+ 		 * Defined ranges:
 -- 
 git-series 0.9.1
 _______________________________________________
