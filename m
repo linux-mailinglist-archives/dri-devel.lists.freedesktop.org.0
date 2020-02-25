@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4650D16EDBB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:17:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C1F16EDBE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:17:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48D266EB7A;
-	Tue, 25 Feb 2020 18:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3D96EB7B;
+	Tue, 25 Feb 2020 18:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
- [209.85.167.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F120E6EB7A
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:17:32 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id a142so237922oii.7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 10:17:32 -0800 (PST)
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28FC66EB7B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:17:55 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id w6so454565otk.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 10:17:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=M0E7HviNSBsG8AdRJKzEgXOr8kHrjfuX94agJUStr7g=;
- b=bhAv/kqRVjYOLYLRrHj3Eemu9dRTrbbmIJ+xPKQ6qYB+TdwfCk0WhXQo4c2PROlqno
- q+XqAMXETLwMnWFsYbY0f6u47IJeXaRn0HYriX/T6tYYZ4MCSVqSO7NRLJs8E/GHJHph
- hoByHJVvHj5NeifPRk7n1saWuG+hF5JP7bDAWsGJRPv1gBdJC7sEABA1j7BYfTGnnULJ
- niXjtdWq4Gax3RsfOgGyaT7pa3xo5fhTY7+W6kNBPGMIHYzFmPgZXqko6W3IblJP1bGI
- N13Tjfs3XQ2wcNPgUiMcUB9HT0lhBY+aL/qRJgntmMCtPSGmScIXwv6Qy6dZE9CY9txl
- tozw==
-X-Gm-Message-State: APjAAAUNYyDyYxv8lxx0fkq9eF28xD9U82EvTnsx/7Dmb6TWZRS+FIOK
- L7AO05HWDok2pP9vYVbHXA==
-X-Google-Smtp-Source: APXvYqz1dylt8yKJtPhfpv45+IE1rLmfphrTF+EPA04MjmfXy9gQm/1y+8I9VO0b52zpWHhUF1c3oQ==
-X-Received: by 2002:aca:b9c2:: with SMTP id j185mr181742oif.112.1582654652267; 
- Tue, 25 Feb 2020 10:17:32 -0800 (PST)
+ bh=cfeiAYk0sz6jKgpfGcPq2AbGtANcSLd4G7ZU9zGmlGY=;
+ b=jstAgPxckk59YmXuWZHVcJiRyknKj9sFtSJxcoDbwM2WswXQU/r9OtTLauTCe5trm7
+ lIwqFLVoLNZnvWePrNW9tL4tQPvenXxi9YWx1HT65HGs2tXVRjJ9QOMCRi09I6XW2lFe
+ SztkaJW7BWysPDhBrmyd/CH+EM62B5qzQmYVoDtYZGnTw64SVkOsC3iwT/grqayKOFKi
+ 2Is9HWlHdIpgfY9lyUH/M05eju/Q9K9ZpJZ6zfBi5FtSqdhZzrC82apxPW8OJG1ZVwf5
+ ManamcGR/SqiOVa7S6kzbd3rfvwptbRf27AsFYUiQ9EnXVfEJXs/m6JE1+Ox0IKuJR24
+ 2FGQ==
+X-Gm-Message-State: APjAAAWplZDvkK3V+wiCBh6n7fcMKu9FZb3vIeGbrrCCUJbAf4Lt74Fl
+ L8mDzMoZaluC87dtZ+5Vgqi7lic=
+X-Google-Smtp-Source: APXvYqyfQgGOrT9ThsnJbQjUHaKtSnLHIPJhsBT8XMy6vzVDDAHDLigOB2OIEY8iBbOVlcXyZ2O+tw==
+X-Received: by 2002:a05:6830:1657:: with SMTP id
+ h23mr2287541otr.299.1582654674415; 
+ Tue, 25 Feb 2020 10:17:54 -0800 (PST)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id v25sm5890424otk.51.2020.02.25.10.17.31
+ by smtp.gmail.com with ESMTPSA id i7sm5569162oib.42.2020.02.25.10.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 10:17:31 -0800 (PST)
-Received: (nullmailer pid 4562 invoked by uid 1000);
- Tue, 25 Feb 2020 18:17:30 -0000
-Date: Tue, 25 Feb 2020 12:17:30 -0600
+ Tue, 25 Feb 2020 10:17:53 -0800 (PST)
+Received: (nullmailer pid 5252 invoked by uid 1000);
+ Tue, 25 Feb 2020 18:17:53 -0000
+Date: Tue, 25 Feb 2020 12:17:53 -0600
 From: Rob Herring <robh@kernel.org>
 To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 26/89] dt-bindings: clock: Add BCM2711 DVP binding
-Message-ID: <20200225181730.GA4511@bogus>
+Subject: Re: [PATCH 30/89] dt-bindings: display: vc4: dpi: Add missing
+ clock-names property
+Message-ID: <20200225181753.GA5213@bogus>
 References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <106e8a589a79eb70668b03d7160994c6a09a92c4.1582533919.git-series.maxime@cerno.tech>
+ <042c8f676d3d863b55092bb58c1f15db95370782.1582533919.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <106e8a589a79eb70668b03d7160994c6a09a92c4.1582533919.git-series.maxime@cerno.tech>
+In-Reply-To: <042c8f676d3d863b55092bb58c1f15db95370782.1582533919.git-series.maxime@cerno.tech>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,18 +74,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Feb 2020 10:06:28 +0100, Maxime Ripard wrote:
-> The BCM2711 has a unit controlling the HDMI0 and HDMI1 clock and reset
-> signals. Let's add a binding for it.
+On Mon, 24 Feb 2020 10:06:32 +0100, Maxime Ripard wrote:
+> While the device tree and the driver expected a clock-names property, it
+> wasn't explicitly documented in the previous binding. Make sure it is now.
 > 
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
 > Cc: Rob Herring <robh+dt@kernel.org>
 > Cc: devicetree@vger.kernel.org
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  Documentation/devicetree/bindings/clock/brcm,bcm2711-dvp.yaml | 47 +++++++-
->  1 file changed, 47 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/brcm,bcm2711-dvp.yaml
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
