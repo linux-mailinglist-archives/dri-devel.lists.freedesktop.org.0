@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9156D16ECEC
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 18:44:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4751F16ED91
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:11:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3588C6EB65;
-	Tue, 25 Feb 2020 17:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 088836E8F7;
+	Tue, 25 Feb 2020 18:11:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC6B6EB64
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 17:44:04 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id l5so11552035wrx.4
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 09:44:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=PzvK6EDQquxDjvxYudkNLwfN8HySHKUIb3bNyy91jcw=;
- b=AbJS1+yX/SOdDXUsaoTsJg9grNZxTs+MNKagxElWMF96f8Cj9Y1ymNCD6NJEmylcLy
- AYJFxBn97EYyqiE5Tpxit+Eoa9hFCLsULCX00wLjOAy/psXowxOiVjifUOU4Uar6Jogz
- j4CJH1yhYuNipt5+LjkHgX8EWPWktF4ANFfno=
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB5CE6E8F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:11:51 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id p8so368605oth.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 10:11:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PzvK6EDQquxDjvxYudkNLwfN8HySHKUIb3bNyy91jcw=;
- b=UD/K/J+rR2mq18D1lpGubKGwZqC8c0UoIdMLsjBFo4ur2JsoGf6HuJnS2NIgbPTzcJ
- 1SRmxeMqjNWLQe38U9BHupdmsy2Otxh6QLIECF4f2Q59IcjiwaJNMbeJcdYlgY2u2P6J
- KnSxQuPzZLUOPeCyvDTE7aK3DYq3hdLMk1YUBinWu5mdz+8kcOZWwDmJJALdcH4cPWsK
- iQaVzZAsWq0lNxQ7ayItKl9mX3HG9DVGkjKBq6cG+Ri/U2n9plc0Aav0Gyg7D8+y+jER
- 0b4NZgYWVxaWXKBEIzWA81NBLGbDS/5/acm9KOKO5ME7dYqipuVY0O4o8C6l8nKQfR5m
- 6W2w==
-X-Gm-Message-State: APjAAAXRiVbAkwdE/HLwKXbJDUccAFtsFv1QivrZZVpOajeZF/s4JA8F
- dfKYudCsQIae6H3IH8mSzYazew==
-X-Google-Smtp-Source: APXvYqzMsMPYwbBdDmhH8RB9IS6E1fulWmap9jYTXKewjYg/u9Pbhqsggz4wzqzEaeFCklmUx99YKA==
-X-Received: by 2002:adf:ed42:: with SMTP id u2mr253724wro.345.1582652643173;
- Tue, 25 Feb 2020 09:44:03 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z21sm4885590wml.5.2020.02.25.09.44.02
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=UrnALHtlDEqFTXIUDbXk3KceoADMu/thuZsi/4q8zwI=;
+ b=ox0+tww6lSUF1eJ5fUltfszx7Tt0iXTahaQcJ0J/EKscbctf9KWBQZUqpYCsbttCyX
+ tylD5Pax1zMrVVJ8cBCNsyjqDe6ddLZPPzvrEGNxaIA898EETk+0D4EJBhn6mH7k1qFu
+ lnAcpEzIhA+bMeXbcSDf+FIPh2yAejFjxoPn6JFCqRW2AXrBLEOHoVhaGXef4SfIgkk1
+ Jbs55pqKUyk7aP93YKrpbXvtTxse8vAMPc3PbPERXX98UDJ8HbfEMHr+8a0SO+9sZphK
+ 34fOyh4fpcnnbK2eicbzH1T4bRNg/xDFmn3zhHGubcGX0rXlEa/Nhpc1zjTSj1Pa49jr
+ rujg==
+X-Gm-Message-State: APjAAAU/1ZEtJlrfXP+Kwe/8DPf/x/8XHcb3yqjktkOioBycEUcT5iWz
+ AqbkRbh9e6BsSf1kb0YtPg==
+X-Google-Smtp-Source: APXvYqzyFO1ShWEDFoKd1t5wCvom/ANQ8PxbXA4NrIRJbZXlbnjudZWkRF22V9hDbNbZ1b7itBeVOg==
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr46001282otd.91.1582654310875; 
+ Tue, 25 Feb 2020 10:11:50 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id n25sm5527623oic.6.2020.02.25.10.11.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 09:44:02 -0800 (PST)
-Date: Tue, 25 Feb 2020 18:44:00 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/3] Add separate non-KMS state; constify struct drm_driver
-Message-ID: <20200225174400.GP2363188@phenom.ffwll.local>
-References: <20200225155902.9751-1-tzimmermann@suse.de>
+ Tue, 25 Feb 2020 10:11:49 -0800 (PST)
+Received: (nullmailer pid 28247 invoked by uid 1000);
+ Tue, 25 Feb 2020 18:11:48 -0000
+Date: Tue, 25 Feb 2020 12:11:48 -0600
+From: Rob Herring <robh@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 1/3 v2] dt-bindings: Add vendor prefix for Hydis
+ technologies
+Message-ID: <20200225181148.GA28196@bogus>
+References: <20200223121841.26836-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200225155902.9751-1-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200223121841.26836-1-linus.walleij@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,82 +62,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, bskeggs@redhat.com, alexander.deucher@amd.com,
- sam@ravnborg.org, emil.velikov@collabora.com
+Cc: devicetree@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2020 at 04:58:59PM +0100, Thomas Zimmermann wrote:
-> This patchset moves legacy, non-KMS driver state from struct drm_driver
-> into struct drm_legacy_state. Only non-KMS drivers provide an instance
-> of the latter structure. One special case is nouveau, which supports
-> legacy interfaces. It also provides an instance of the legacy state if
-> the legacy interfaces have been enabled (i.e., defines the config option
-> CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT)
+On Sun, 23 Feb 2020 13:18:39 +0100, Linus Walleij wrote:
+> This vendor has produced a number of display panels,
+> including HVA40WV1.
 > 
-> I reviewed all call sites of legacy state and functions to verify that
-> DRIVER_LEGACY or DRIVER_KMS_LEGACY_CONTEXT is set on the device; or that
-> DRIVER_MODESET is not set.
-> 
-> With the mutable KMS state removed, instances of struct drm_driver can
-> be declared as constant. The patchset modifies the DRM core accordingly.
-> Individual drivers can follow later on.
-
-Bikeshed: We very much have modern non-KMS drivers (vgem, etnaviv, v3d,
-panfrost, ...). non-KMS != legacy, which is what you're talking about
-here.
-
-Other thing, and it's a bit raining on your parade: I don't see the point.
-Sprinkling a few more #ifdef CONFIG_DRM_LEGACY over the relevant parts
-sounds like a reasonable idea. But this is a lot of churn for drivers
-which are all pretty much dead, and just waiting for their eventual
-removal. And from a compile-testing pov of making sure modern drivers
-don't use any of the deprecated stuff wrapping it in CONFIG_DRM_LEGACY
-should be plenty enough.
-
-And from a "make stuff const" I think Laurent's much more minimal series
-also gets us there for all the drivers we care about.
--Daniel
-
-> 
-> Thomas Zimmermann (3):
->   drm: Add separate state structure for legacy, non-KMS drivers
->   drm: Move non-kms driver state into struct drm_legacy_state
->   drm: Constify struct drm_driver in DRM core
-> 
->  drivers/gpu/drm/drm_bufs.c            | 10 +++++-----
->  drivers/gpu/drm/drm_context.c         |  9 +++++----
->  drivers/gpu/drm/drm_drv.c             | 12 ++++++++----
->  drivers/gpu/drm/drm_file.c            |  4 ++--
->  drivers/gpu/drm/drm_legacy_misc.c     |  6 +++---
->  drivers/gpu/drm/drm_lock.c            |  7 ++++---
->  drivers/gpu/drm/drm_pci.c             | 16 ++++++++++------
->  drivers/gpu/drm/drm_vblank.c          | 11 ++++++-----
->  drivers/gpu/drm/i810/i810_drv.c       | 10 +++++++---
->  drivers/gpu/drm/mga/mga_drv.c         | 16 ++++++++++------
->  drivers/gpu/drm/nouveau/nouveau_drm.c |  8 ++++++++
->  drivers/gpu/drm/r128/r128_drv.c       | 16 ++++++++++------
->  drivers/gpu/drm/savage/savage_drv.c   | 12 ++++++++----
->  drivers/gpu/drm/sis/sis_drv.c         |  8 ++++++--
->  drivers/gpu/drm/tdfx/tdfx_drv.c       |  6 +++++-
->  drivers/gpu/drm/via/via_drv.c         | 16 ++++++++++------
->  include/drm/drm_device.h              |  2 +-
->  include/drm/drm_drv.h                 | 21 +++++----------------
->  include/drm/drm_legacy.h              | 27 +++++++++++++++++++++++----
->  include/drm/drm_pci.h                 |  4 ++--
->  20 files changed, 138 insertions(+), 83 deletions(-)
-> 
-> --
-> 2.25.0
+> Cc: devicetree@vger.kernel.org
+> Cc: Stephan Gerhold <stephan@gerhold.net>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v2:
+> - New patch adding this vendor.
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
