@@ -2,32 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7636516F91A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F067D16F915
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7846E1EE;
-	Wed, 26 Feb 2020 08:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2F9B6E175;
+	Wed, 26 Feb 2020 08:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90E1A89854
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:53:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 3C3E9294C05
-Received: by earth.universe (Postfix, from userid 1000)
- id E7EE93C0C83; Tue, 25 Feb 2020 12:53:41 +0100 (CET)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Sebastian Reichel <sre@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2 57/56] dt-bindings: display: panel-dsi-cm: convert to YAML
-Date: Tue, 25 Feb 2020 12:53:41 +0100
-Message-Id: <20200225115341.3558245-1-sebastian.reichel@collabora.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
-References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB7D89854
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:54:54 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 30432F54;
+ Tue, 25 Feb 2020 06:54:52 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 25 Feb 2020 06:54:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=lvoHNJn8/1mSkGt8qSqiHAjZPp5
+ MXiSJe0WVvgh674k=; b=MH3zs33PkZK6hswA21Dh+lxvYjqD2cRCABhSTrTGzKq
+ 7Yq+LL7WkqAeiHocCtgr/B9ISD85nutz4uIvbhm/OtQPGTvdmMB8OY+F/FpVR67+
+ bmQ9egDc6yPAy2JqiBbpt/TtFq3IWBmqqktjv4ObRIbCd4+ETbNRn3ewPDyMj+D+
+ mRKFaklJeU9SgHavwBHFXLMPLBCkoiZNzpJgw3B0JYrJaASxdAlblPV6Cuaznj7T
+ yAVC53IRBbagYtkfhuOL7MZ08l3ckTglxth/ucvwS9X8zAjOHvpzuDQuuYYmuF2R
+ eWBW9MQWOxOm2GLuALoM4OXqGxiRsl/89d3/CHXcUzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=lvoHNJ
+ n8/1mSkGt8qSqiHAjZPp5MXiSJe0WVvgh674k=; b=gU4w4TPVvpxwey1c97+EwV
+ jxXGojUFb7MQ5kYvuflkhiMb6eGifIL859TBvb6VhFfdh6qZJaHhHtgAFdfPfJvu
+ tyVizHBpwQHYJtmQh5+yzLqbb+C8CrqfCwtpyGAd+EEfBnPLPLvpStVc2X8q0Hbh
+ P32YBN4XrUaf0RM4zVSjAlXydbymlC0l1tfwOiRntv6/JOiLANNNG0wAFSdxrkO9
+ dxooq9HA94Ud0PQqWfxqeBtG5OlR3vpfUqSqWrbsLWlzI2+5zCmZaMn43x3SaEh4
+ KQYwzFbG7B10vxDWzSlQ9VlAf1h41qih7tKBrhtoq0j/H7sAJWw7Q/Wz/3sJu+TA
+ ==
+X-ME-Sender: <xms:CgtVXn1Q3KK04CS1Whc9ICLs9NtDPY7RQ1A1AoDex1Ag6ey8S5LLdg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrledvgdefvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
+ epohiilhgrsghsrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgv
+ rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
+ hordhtvggthh
+X-ME-Proxy: <xmx:CgtVXivf9h2Utp-X-BX46SHe91Ue4VA3H040s4oWhKRJTiS-9acP8w>
+ <xmx:CgtVXuQMYjgP5h0rveXOxa1Bcl-hQtRXhqKdNvmSqWj9H1o6bZrgSQ>
+ <xmx:CgtVXmvrEZFXawthdB6Ix2x5ZG80bObg6oK75zjLvwYlL5IIjt9Tzw>
+ <xmx:CwtVXnw8qLT5g_iw5cSYbkYF2aN_9D9RkvLZyZ-BGGPh-C7ny7DwTZFMmyk>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id C32F0328005D;
+ Tue, 25 Feb 2020 06:54:49 -0500 (EST)
+Date: Tue, 25 Feb 2020 12:54:47 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 29/89] dt-bindings: display: Convert VC4 bindings to
+ schemas
+Message-ID: <20200225115447.yntzkh3vfnw67ial@gilmour.lan>
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <bf8aa2deea50cc3599caeb9ed1a07556353415df.1582533919.git-series.maxime@cerno.tech>
+ <20200224184107.GA4189@bogus>
 MIME-Version: 1.0
+In-Reply-To: <20200224184107.GA4189@bogus>
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,170 +79,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0232362690=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert panel-dsi-cm bindings to YAML and add
-missing properties while at it.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- .../bindings/display/panel/panel-dsi-cm.txt   | 31 ------
- .../bindings/display/panel/panel-dsi-cm.yaml  | 97 +++++++++++++++++++
- 2 files changed, 97 insertions(+), 31 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
+--===============0232362690==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wp3itnu4schr4cfa"
+Content-Disposition: inline
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
-deleted file mode 100644
-index f92d5c9adfc5..000000000000
---- a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Generic MIPI DSI Command Mode Panel
--===================================
--
--Required properties:
--- compatible: "panel-dsi-cm"
--- reg: DSI channel number
--
--Optional properties:
--- label: a symbolic name for the panel
--- reset-gpios: panel reset gpio
--- te-gpios: panel TE gpio
--
--Required nodes:
--- Video port for DSI input
--
--Example
---------
--
--lcd0: panel@0 {
--	compatible = "tpo,taal", "panel-dsi-cm";
--	label = "lcd0";
--	reg = <0>;
--
--	reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
--
--	port {
--		lcd0_in: endpoint {
--			remote-endpoint = <&dsi1_out_ep>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
-new file mode 100644
-index 000000000000..ca61171ae145
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
-@@ -0,0 +1,97 @@
-+# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/panel-dsi-cm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: DSI command mode panels
-+
-+maintainers:
-+  - Tomi Valkeinen <tomi.valkeinen@ti.com>
-+  - Sebastian Reichel <sre@kernel.org>
-+
-+description: |
-+  This binding file is a collection of the DSI panels that
-+  are usually driven in command mode. If no backlight is
-+  referenced via the optional backlight property, the DSI
-+  panel is assumed to have native backlight support.
-+  The panel may use an OF graph binding for the association
-+  to the display, or it may be a direct child node of the
-+  display.
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+
-+  compatible:
-+    enum:
-+      # compatible must be listed in alphabetical order, ordered by compatible.
-+      # The description in the comment is mandatory for each compatible.
-+      - motorola,droid4-panel, panel-dsi-cm
-+      - nokia,himalaya, panel-dsi-cm
-+      - tpo,taal, panel-dsi-cm
-+
-+  reg:
-+    maxItems: 1
-+    description: DSI virtual channel
-+
-+  te-gpios:
-+    maxItems: 1
-+    description:
-+      Specifier for a GPIO connected to the panel TE (tearing event) signal.
-+      The GPIO informs the system, that data should be sent to the display
-+      on rising edges of the GPIO to avoid (or reduce) tearing effects.
-+      Falling edge can be supported by inverting the GPIO specifier polarity
-+      flag.
-+
-+  vddi-supply:
-+    description:
-+      Display panels require power to be supplied. While several panels need
-+      more than one power supply with panel-specific constraints governing the
-+      order and timings of the power supplies, in many cases a single power
-+      supply is sufficient, either because the panel has a single power rail, or
-+      because all its power rails can be driven by the same supply. In that case
-+      the vddi-supply property specifies the supply powering the panel as a
-+      phandle to a regulator.
-+
-+  vpnl-supply:
-+    description:
-+      When the display panel needs a second power supply, this property can be
-+      used in addition to vddi-supply. Both supplies will be enabled at the
-+      same time before the panel is being accessed.
-+
-+  width-mm: true
-+  height-mm: true
-+  label: true
-+  rotation: true
-+  panel-timing: true
-+  port: true
-+  reset-gpios: true
-+  backlight: true
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - port
-+  - reg
-+
-+examples:
-+  - |
-+    dsi1@12345678 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      panel@0 {
-+        compatible = "tpo,taal", "panel-dsi-cm";
-+        label = "lcd0";
-+        reg = <0>;
-+        reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
-+
-+        port {
-+          panel: endpoint {
-+            remote-endpoint = <&dsi1_out_ep>;
-+          };
-+        };
-+      };
-+    };
--- 
-2.25.0
+
+--wp3itnu4schr4cfa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Rob,
+
+On Mon, Feb 24, 2020 at 12:41:07PM -0600, Rob Herring wrote:
+> On Mon, 24 Feb 2020 10:06:31 +0100, Maxime Ripard wrote:
+> > The BCM283x SoCs have a display pipeline composed of several controllers
+> > with device tree bindings that are supported by Linux.
+> >
+> > Now that we have the DT validation in place, let's split into separate
+> > files and convert the device tree bindings for those controllers to
+> > schemas.
+> >
+> > Cc: Rob Herring <robh+dt@kernel.org>
+> > Cc: devicetree@vger.kernel.org
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt              | 174 +------------------------------------------------------------------------
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml         |  66 +++++++++++++++++++++++++++-
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml        |  73 ++++++++++++++++++++++++++++++-
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml        |  75 +++++++++++++++++++++++++++++++-
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml         |  37 +++++++++++++++-
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml |  40 +++++++++++++++++-
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml         |  37 +++++++++++++++-
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml         |  42 +++++++++++++++++-
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml         |  34 ++++++++++++++-
+> >  Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml         |  44 ++++++++++++++++++-
+> >  MAINTAINERS                                                             |   2 +-
+> >  11 files changed, 449 insertions(+), 175 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml
+> >
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> warning: no schema found in file: Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml: ignoring, error in schema: properties
+> Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml: properties: '#clock-cells' is a dependency of 'clock-output-names'
+> Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.example.dts' failed
+> make[1]: *** [Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.example.dts] Error 1
+> Makefile:1263: recipe for target 'dt_binding_check' failed
+> make: *** [dt_binding_check] Error 2
+>
+> See https://patchwork.ozlabs.org/patch/1242907
+> Please check and re-submit.
+
+Yeah, that was fixed in patch 31 ("dt-bindings: display: vc4: dsi: Add
+missing clock properties"). I'm not quite sure what the preferred
+approach here would be: I did a conversion as is of the binding, and
+then fixed it, or do you prefer having it all in the same patch?
+
+Maxime
+
+--wp3itnu4schr4cfa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXlULBwAKCRDj7w1vZxhR
+xdnfAP9sNPtWNQ6W0xCqTbTlfp9MnBZuqQzk+Z/xn3MFn69Q4QD9E4K0DZnqtYy5
+BaU9UsY7nt+gVJzpuPEq8oP11EYmNgc=
+=j/4G
+-----END PGP SIGNATURE-----
+
+--wp3itnu4schr4cfa--
+
+--===============0232362690==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0232362690==--
