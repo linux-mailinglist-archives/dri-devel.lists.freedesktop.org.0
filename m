@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EDE16EEF1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 20:27:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE4916EF33
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 20:41:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A74892E0;
-	Tue, 25 Feb 2020 19:27:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9BE36E227;
+	Tue, 25 Feb 2020 19:41:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52387892E0;
- Tue, 25 Feb 2020 19:27:37 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2020 11:27:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,485,1574150400"; d="scan'208";a="317179148"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 25 Feb 2020 11:27:21 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 25 Feb 2020 21:27:20 +0200
-Date: Tue, 25 Feb 2020 21:27:20 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH 04/12] drm: Nuke mode->vrefresh
-Message-ID: <20200225192720.GG13686@intel.com>
-References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
- <CGME20200219203620eucas1p24b4990a91e758dbcf3e9b943669b0c8f@eucas1p2.samsung.com>
- <20200219203544.31013-5-ville.syrjala@linux.intel.com>
- <0f278771-79ce-fe23-e72c-3935dbe82d24@samsung.com>
- <20200225112114.GA13686@intel.com>
- <3ca785f2-9032-aaf9-0965-8657d31116ba@samsung.com>
- <20200225154506.GF13686@intel.com>
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDBB6E227;
+ Tue, 25 Feb 2020 19:41:15 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id e10so755781edv.9;
+ Tue, 25 Feb 2020 11:41:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ag9UfCbOttlLWSx+g2xd6gLmO4m6wnF3cbni4nCtO7Y=;
+ b=V8TrvqBbaJHYBRfkST5wos2DdVNXVbzpHvUlruLy78zRsXEOLIchDDhCTiFkeTlipa
+ UnbsoiETIP2R9mNBKUk2MHJgGwBWrBjvXvs3Oeu3SclB/Kgz2W4Rf1aJXitnIeFLjdGk
+ Wr7JyIqIfoQ6s9Z7gsVEjvkhKvz0N7aO5KHyHcFnJbjk9NQP9b/PLkIosYu0h/FG+sMv
+ smOBeGaolT3N+BzP3SYTKCkF5w0iBAfUGO8kK0nzkuqi+Ri+/rkB8e0p02toyLxsgmVO
+ wrHshvXwyq6TnpYIGcUlyCL5x7HvDiOHIEz6rSbKsu88m2olWhnyXEaOrUSLJsep53mw
+ KETA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ag9UfCbOttlLWSx+g2xd6gLmO4m6wnF3cbni4nCtO7Y=;
+ b=mxCHTscLAPUX4yhbIcZeiSzdxJjq1lr++jr0OkDcmT+L7Nwytif31iFSroOvJT9RZz
+ IXtemqgZuozZPC5Us4hUXjvExXWhwb2K3569C9rHTKdWHhRuHv7k7nDx2DiBwpmbFISw
+ g1iOzVwywUveadq61b8oPWNYmxf9NboZ2/aN6kWyXS5KqTy9Lm2B/I/vwyVG8o+0gwwr
+ FimnOC1ZK7sEM1h+tR360XCwA+KoYeVXW3w4xcj00ATQ10CGroFDr6oQnGe+UURrWKos
+ wyBqs3SCiL5Jfy8IXviPH1JqaCr+5lYHvl2tVWiL7Ix2EOQE80RwirBLT0+kxh5NSRet
+ Ebig==
+X-Gm-Message-State: APjAAAUj60lZ9s5uYcGIIPnu/eBF9M8yhjyRt28qqp0iHlcK+ymPmP2/
+ x7V0CH5Q8wg+KutZSYji1i5cuiuJ9w0xJAbwTSw=
+X-Google-Smtp-Source: APXvYqzq12vZfTdfYHSsHJzicdcHsX7ksLKD0D4k9tbOBcL5ZakgsvyPPnbhVC7JEh5rajsfyPGJRZXVBqHGOurrABs=
+X-Received: by 2002:a50:e3c5:: with SMTP id c5mr576813edm.7.1582659673599;
+ Tue, 25 Feb 2020 11:41:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200225154506.GF13686@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200219104148.1.I0183a464f2788d41e6902f3535941f69c594b4c1@changeid>
+ <20200219104148.2.I2c848e8f8ab1bcd4042d8ebcf35de737cceec5fe@changeid>
+ <158265922943.177367.14293328114795800228@swboyd.mtv.corp.google.com>
+In-Reply-To: <158265922943.177367.14293328114795800228@swboyd.mtv.corp.google.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 25 Feb 2020 11:41:06 -0800
+Message-ID: <CAF6AEGu6Ys_t38uXNw3-Po1jaQmW3pOvAiZ73axpiAgCjvtC=g@mail.gmail.com>
+Subject: Re: [PATCH 2/4] drm/msm/dpu: Refactor rm iterator
+To: Stephen Boyd <swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,361 +62,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Josh Wu <josh.wu@atmel.com>,
- Bhuvanchandra DV <bhuvanchandra.dv@toradex.com>,
- Neil Armstrong <narmstrong@baylibre.com>, nouveau@lists.freedesktop.org,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Paul Kocialkowski <contact@paulk.fr>, dri-devel@lists.freedesktop.org,
- Gustaf =?iso-8859-1?Q?Lindstr=F6m?= <gl@axentia.se>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Hellstrom <thellstrom@vmware.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>, Jonathan Marek <jonathan@marek.ca>,
- Stefan Mavrodiev <stefan@olimex.com>, Adam Ford <aford173@gmail.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, "H. Nikolaus Schaller" <hns@goldelico.com>,
- Robert Chiras <robert.chiras@nxp.com>, Heiko Schocher <hs@denx.de>,
- Icenowy Zheng <icenowy@aosc.io>, Jonas Karlman <jonas@kwiboo.se>,
- intel-gfx@lists.freedesktop.org, Randy Li <ayaka@soulik.info>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Riccardo Bortolato <bortolato@navaltechitalia>,
- linux-amlogic@lists.infradead.org, Vincent Abriou <vincent.abriou@st.com>,
- Andreas Pretzsch <apr@cn-eng.de>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Alex Gonzalez <alex.gonzalez@digi.com>, Purism Kernel Team <kernel@puri.sm>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Christoph Fritz <chf.fritz@googlemail.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Eugen Hristev <eugen.hristev@microchip.com>,
- Giulio Benetti <giulio.benetti@micronovasrl.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Fritz Koenig <frkoenig@google.com>, Shubhashree Dhar <dhar@codeaurora.org>,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, zhengbin <zhengbin13@huawei.com>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Drew Davenport <ddavenport@chromium.org>, Sean Paul <sean@poorly.run>,
+ Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2020 at 05:45:06PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Tue, Feb 25, 2020 at 04:19:27PM +0100, Andrzej Hajda wrote:
-> > On 25.02.2020 12:21, Ville Syrj=E4l=E4 wrote:
-> > > On Mon, Feb 24, 2020 at 03:14:54PM +0100, Andrzej Hajda wrote:
-> > >> On 19.02.2020 21:35, Ville Syrjala wrote:
-> > >>> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > >>>
-> > >>> Get rid of mode->vrefresh and just calculate it on demand. Saves
-> > >>> a bit of space and avoids the cached value getting out of sync
-> > >>> with reality.
-> > >>>
-> > >>> Mostly done with cocci, with the following manual fixups:
-> > >>> - Remove the now empty loop in drm_helper_probe_single_connector_mo=
-des()
-> > >>> - Fix __MODE() macro in ch7006_mode.c
-> > >>> - Fix DRM_MODE_ARG() macro in drm_modes.h
-> > >>> - Remove leftover comment from samsung_s6d16d0_mode
-> > >> ...
-> > >>> diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/=
-gpu/drm/panel/panel-arm-versatile.c
-> > >>> index 41444a73c980..47b37fef7ee8 100644
-> > >>> --- a/drivers/gpu/drm/panel/panel-arm-versatile.c
-> > >>> +++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
-> > >>> @@ -143,7 +143,6 @@ static const struct versatile_panel_type versat=
-ile_panels[] =3D {
-> > >>>  			.vsync_start =3D 240 + 5,
-> > >>>  			.vsync_end =3D 240 + 5 + 6,
-> > >>>  			.vtotal =3D 240 + 5 + 6 + 5,
-> > >>> -			.vrefresh =3D 116,
-> > >>
-> > >> Are you sure vrefresh calculated (from totals and clock) is different
-> > >> than this field? If not, we risk regressions.
-> > >>
-> > >> This case is OK, but there is plenty other cases.
-> > > IIRC I did spot check a few of them. But which code exactly do you th=
-ink
-> > > is abusing vrefresh and thus could break?
-> > =
+On Tue, Feb 25, 2020 at 11:33 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Drew Davenport (2020-02-19 09:42:25)
+> > Make iterator implementation private, and add function to
+> > query resources assigned to an encoder.
+> >
+> > Signed-off-by: Drew Davenport <ddavenport@chromium.org>
+>
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > index f8ac3bf60fd60..6cadeff456f09 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -957,11 +957,11 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+> >         struct drm_connector *conn = NULL, *conn_iter;
+> >         struct drm_crtc *drm_crtc;
+> >         struct dpu_crtc_state *cstate;
+> > -       struct dpu_rm_hw_iter hw_iter;
+> >         struct msm_display_topology topology;
+> > -       struct dpu_hw_ctl *hw_ctl[MAX_CHANNELS_PER_ENC] = { NULL };
+> > -       struct dpu_hw_mixer *hw_lm[MAX_CHANNELS_PER_ENC] = { NULL };
+> > -       int num_lm = 0, num_ctl = 0;
+> > +       struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
+> > +       struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
+> > +       struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+> > +       int num_lm, num_ctl, num_pp;
+>
+> All these should be unsigned too?
+>
+> >         int i, j, ret;
+> >
+> >         if (!drm_enc) {
+> > @@ -1005,42 +1005,31 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+> >                 return;
+> >         }
+> >
+> > -       dpu_rm_init_hw_iter(&hw_iter, drm_enc->base.id, DPU_HW_BLK_PINGPONG);
+> > -       for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+> > -               dpu_enc->hw_pp[i] = NULL;
+> > -               if (!dpu_rm_get_hw(&dpu_kms->rm, &hw_iter))
+> > -                       break;
+> > -               dpu_enc->hw_pp[i] = (struct dpu_hw_pingpong *) hw_iter.hw;
+> > -       }
+> > -
+> > -       dpu_rm_init_hw_iter(&hw_iter, drm_enc->base.id, DPU_HW_BLK_CTL);
+> > -       for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+> > -               if (!dpu_rm_get_hw(&dpu_kms->rm, &hw_iter))
+> > -                       break;
+> > -               hw_ctl[i] = (struct dpu_hw_ctl *)hw_iter.hw;
+>
+> Why cast? Isn't it void pointer?
 
-> > =
+Comments on code that the patch removes is a new thing :-P
 
-> > I guess suspect/potential victim is every code which uses
-> > drm_mode_vrefresh - after this patch the function can return different
-> > value(if there are differences between provided and calculated vrefresh=
-).
-> > =
+BR,
+-R
 
-> > Quick examples where output of this function matters:
-> > =
-
-> > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/msm/disp=
-/dpu1/dpu_encoder_phys_cmd.c#L387
-> =
-
-> Already looks quite sketchy due to rounding.
-> =
-
-> > =
-
-> > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/pa=
-nel-sharp-lq101r1sx01.c#L42
-> =
-
-> msleep() is in no way accurate so looks rather sketchy as well.
-> =
-
-> > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/tilcdc/t=
-ilcdc_crtc.c#L810
-> =
-
-> Another thing that suffers from rounding issues.
-> =
-
-> So to me these all look like code that someone should fix regardless.
-
-OK, so I went ahead a wrote a bit of cocci [1] to find the bad apples.
-
-Unfortunately it found a lot of strange stuff:
-panel-sony-acx424akp.c:51/sony_acx424akp_vid_mode: 60 vs. 727 (.clock=3D330=
-000 .htotal=3D480 + 15 + 0 + 15 .vtotal=3D864 + 14 + 1 + 11)
-panel-sony-acx424akp.c:71/sony_acx424akp_cmd_mode: 60 vs. 711 (.clock=3D420=
-160 .htotal=3D480 + 154 + 16 + 32 .vtotal=3D864 + 1 + 1 + 1)
-panel-ilitek-ili9322.c:543/srgb_320x240_mode: 60 vs. 10168 (.clock=3D245350=
-0 .htotal=3D320 + 359 + 1 + 241 .vtotal=3D262)
-panel-ilitek-ili9322.c:587/yuv_640x320_mode: 60 vs. 7768 (.clock=3D2454000 =
-.htotal=3D640 + 252 + 1 + 28 .vtotal=3D320 + 4 + 1 + 18)
-panel-ilitek-ili9322.c:616/itu_r_bt_656_640_mode: 60 vs. 5358 (.clock=3D245=
-4000 .htotal=3D640 + 3 + 1 + 272 .vtotal=3D500)
-panel-ilitek-ili9322.c:557/srgb_360x240_mode: 60 vs. 16178 (.clock=3D270000=
-0 .htotal=3D360 + 35 + 1 + 241 .vtotal=3D262)
-panel-ilitek-ili9322.c:601/yuv_720x360_mode: 60 vs. 7071 (.clock=3D2700000 =
-.htotal=3D720 + 252 + 1 + 24 .vtotal=3D360 + 4 + 1 + 18)
-panel-ilitek-ili9322.c:631/itu_r_bt_656_720_mode: 60 vs. 5422 (.clock=3D270=
-0000 .htotal=3D720 + 3 + 1 + 272 .vtotal=3D500)
-panel-ilitek-ili9322.c:572/prgb_320x240_mode: 60 vs. 59725 (.clock=3D640000=
-0 .htotal=3D320 + 38 + 1 + 50 .vtotal=3D262)
-panel-lg-lg4573.c:200/default_mode: 60 vs. 57 (.clock=3D27000 .htotal=3D480=
- + 10 + 59 + 10 .vtotal=3D800 + 15 + 15 + 15)
-panel-sitronix-st7789v.c:159/default_mode: 60 vs. 70 (.clock=3D7000 .htotal=
-=3D240 + 38 + 10 + 10 .vtotal=3D320 + 8 + 4 + 4)
-panel-arm-versatile.c:161/versatile_panels[]: 60 vs. 61 (.clock=3D25000 .ht=
-otal=3D640 + 24 + 96 + 24 .vtotal=3D480 + 11 + 2 + 32)
-panel-arm-versatile.c:208/versatile_panels[]: 116 vs. 59 (.clock=3D5400 .ht=
-otal=3D240 + 10 + 10 + 20 .vtotal=3D320 + 2 + 2 + 2)
-panel-arm-versatile.c:184/versatile_panels[]: 390 vs. 1523 (.clock=3D62500 =
-.htotal=3D176 + 2 + 3 + 3 .vtotal=3D220 + 0 + 2 + 1)
-panel-leadtek-ltk500hd1829.c:380/default_mode: 60 vs. 36 (.clock=3D41600 .h=
-total=3D720 + 50 + 50 + 50 .vtotal=3D1280 + 30 + 4 + 12)
-panel-feixin-k101-im2ba02.c:394/k101_im2ba02_default_mode: 60 vs. 62 (.cloc=
-k=3D70000 .htotal=3D800 + 20 + 20 + 20 .vtotal=3D1280 + 16 + 4 + 4)
-panel-simple.c:1305/edt_etm043080dh6gp_mode: 60 vs. 67 (.clock=3D10870 .hto=
-tal=3D480 + 8 + 4 + 41 .vtotal=3D288 + 2 + 4 + 10)
-panel-simple.c:3881/lg_acx467akm_7_mode: 60 vs. 72 (.clock=3D150000 .htotal=
-=3D1080 + 2 + 2 + 2 .vtotal=3D1920 + 2 + 2 + 2)
-panel-simple.c:2509/ortustech_com37h3m_mode: 60 vs. 67 (.clock=3D22153 .hto=
-tal=3D480 + 8 + 10 + 10 .vtotal=3D640 + 4 + 3 + 4)
-panel-simple.c:2480/ontat_yx700wv03_mode: 60 vs. 59 (.clock=3D29500 .htotal=
-=3D992 .vtotal=3D500)
-panel-simple.c:1451/foxlink_fl500wvr00_a0t_mode: 60 vs. 55 (.clock=3D32260 =
-.htotal=3D800 + 168 + 64 + 88 .vtotal=3D480 + 37 + 2 + 8)
-panel-simple.c:2589/pda_91_00156_a0_mode: 60 vs. 68 (.clock=3D33300 .htotal=
-=3D800 + 1 + 64 + 64 .vtotal=3D480 + 1 + 23 + 22)
-panel-simple.c:2969/shelly_sca07010_bfn_lnn_mode: 60 vs. 68 (.clock=3D33300=
- .htotal=3D800 + 1 + 64 + 64 .vtotal=3D480 + 1 + 23 + 22)
-panel-simple.c:1682/innolux_at070tn92_mode: 60 vs. 58 (.clock=3D33333 .htot=
-al=3D800 + 210 + 20 + 46 .vtotal=3D480 + 22 + 23 + 10)
-panel-simple.c:3260/vl050_8048nt_c01_mode: 60 vs. 58 (.clock=3D33333 .htota=
-l=3D800 + 210 + 20 + 46 .vtotal=3D480 + 22 + 10 + 23)
-panel-simple.c:1098/cdtech_s070wv95_ct16_mode: 60 vs. 72 (.clock=3D35000 .h=
-total=3D800 + 40 + 40 + 48 .vtotal=3D480 + 29 + 13 + 3)
-panel-simple.c:788/auo_g104sn02_mode: 60 vs. 52 (.clock=3D40000 .htotal=3D8=
-00 + 40 + 216 + 128 .vtotal=3D600 + 10 + 35 + 2)
-panel-simple.c:3201/tpk_f10a_0102_mode: 60 vs. 54 (.clock=3D45000 .htotal=
-=3D1024 + 176 + 5 + 88 .vtotal=3D600 + 20 + 5 + 25)
-panel-simple.c:2841/sharp_lq035q7db03_mode: 60 vs. 61 (.clock=3D5500 .htota=
-l=3D240 + 16 + 7 + 5 .vtotal=3D320 + 9 + 1 + 7)
-panel-simple.c:1279/edt_et035012dm6_mode: 60 vs. 61 (.clock=3D6500 .htotal=
-=3D320 + 20 + 68 .vtotal=3D240 + 4 + 4 + 14)
-panel-simple.c:2321/netron_dy_e231732_mode: 60 vs. 65 (.clock=3D66000 .htot=
-al=3D1024 + 160 + 70 + 90 .vtotal=3D600 + 127 + 20 + 3)
-panel-simple.c:1122/chunghwa_claa070wp03xg_mode: 60 vs. 57 (.clock=3D66770 =
-.htotal=3D800 + 49 + 33 + 17 .vtotal=3D1280 + 1 + 7 + 15)
-panel-simple.c:3824/lg_lh500wx1_sd03_mode: 60 vs. 61 (.clock=3D67000 .htota=
-l=3D720 + 12 + 4 + 112 .vtotal=3D1280 + 8 + 4 + 12)
-panel-simple.c:764/auo_g101evn010_mode: 60 vs. 58 (.clock=3D68930 .htotal=
-=3D1280 + 82 + 2 + 84 .vtotal=3D800 + 8 + 2 + 6)
-panel-simple.c:1169/chunghwa_claa101wb01_mode: 60 vs. 59 (.clock=3D69300 .h=
-total=3D1366 + 48 + 32 + 20 .vtotal=3D768 + 16 + 8 + 16)
-panel-simple.c:2002/lemaker_bl035_rgb_002_mode: 60 vs. 65 (.clock=3D7000 .h=
-total=3D320 + 20 + 30 + 38 .vtotal=3D240 + 4 + 3 + 15)
-panel-simple.c:2918/sharp_lq150x1lg11_mode: 60 vs. 65 (.clock=3D71100 .htot=
-al=3D1024 + 168 + 64 + 88 .vtotal=3D768 + 37 + 2 + 8)
-panel-simple.c:2214/logicpd_type_28_mode: 60 vs. 59 (.clock=3D9000 .htotal=
-=3D480 + 3 + 42 + 2 .vtotal=3D272 + 2 + 11 + 3)
-panel-simple.c:1525/giantplus_gpg482739qs5_mode: 60 vs. 59 (.clock=3D9000 .=
-htotal=3D480 + 5 + 1 + 40 .vtotal=3D272 + 8 + 1 + 8)
-panel-simple.c:1073/cdtech_s043wq26h_ct7_mode: 60 vs. 57 (.clock=3D9000 .ht=
-otal=3D480 + 5 + 5 + 40 .vtotal=3D272 + 8 + 8 + 8)
-panel-simple.c:2613/qd43003c0_40_mode: 60 vs. 59 (.clock=3D9000 .htotal=3D4=
-80 + 8 + 4 + 39 .vtotal=3D272 + 4 + 10 + 2)
-panel-simple.c:3124/ti_nspire_classic_lcd_mode[]: 60 vs. 123 (.clock=3D1000=
-0 .htotal=3D320 + 6 + 6 + 6 .vtotal=3D240 + 0 + 1 + 0)
-panel-simple.c:3096/ti_nspire_cx_lcd_mode[]: 60 vs. 93 (.clock=3D10000 .hto=
-tal=3D320 + 50 + 6 + 38 .vtotal=3D240 + 3 + 1 + 17)
-
-I presume a bunch of those are just lazyness, but there some
-real oddballs in the mix for sure. CCing everyone...
-
-[1]
-@find_substruct@
-identifier P, C;
-@@
-struct P {
-...
-	struct drm_display_mode C;
-...
-};
-
-@submode@
-identifier find_substruct.P, find_substruct.C, M;
-expression CLK, HT, VT, VREF;
-position POS;
-@@
-struct P M =3D {
-...,
-.C =3D {
-	.clock =3D CLK@POS
-	,...,
-	.htotal =3D HT
-	,...,
-	.vtotal =3D VT
-	,...,
-	.vrefresh =3D VREF
-}
-,...
-};
-
-@submodes@
-identifier find_substruct.P, find_substruct.C, A;
-expression CLK, HT, VT, VREF;
-position POS;
-@@
-struct P A[...] =3D {
-...,
-{
-	.C =3D {
-		.clock =3D CLK@POS
-		,...,
-		.htotal =3D HT
-		,...,
-		.vtotal =3D VT
-		,...,
-		.vrefresh =3D VREF
-	}
-}
-,...
-};
-
-@mode@
-identifier M;
-expression CLK, HT, VT, VREF;
-position POS;
-@@
-struct drm_display_mode M =3D {
-	.clock =3D CLK@POS
-	,...,
-	.htotal =3D HT
-	,...,
-	.vtotal =3D VT
-	,...,
-	.vrefresh =3D VREF
-};
-
-@modes@
-identifier A;
-expression CLK, HT, VT, VREF;
-position POS;
-@@
-struct drm_display_mode A[...] =3D {
-	...,
-	{
-	...,
-	.clock =3D CLK@POS
-	,...,
-	.htotal =3D HT
-	,...,
-	.vtotal =3D VT
-	,...,
-	.vrefresh =3D VREF
-	,...
-	}
-	,...
-};
-
-@script:python@
-ht << mode.HT;
-vt << mode.VT;
-clk << mode.CLK;
-vref << mode.VREF;
-m << mode.M;
-pos << mode.POS;
-@@
-def mode_vrefresh(clk, ht, vt):
-    return int(eval(clk)*1000.0/(eval(ht)*eval(vt))+0.5)
-if mode_vrefresh(clk, ht, vt) !=3D eval(vref):
-   print "{}:{}/{}: {} vs. {} (.clock=3D{} .htotal=3D{} .vtotal=3D{})".form=
-at(pos[0].file, pos[0].line, m, vref, mode_vrefresh(clk, ht, vt), clk, ht, =
-vt)
-
-@script:python@
-ht << submode.HT;
-vt << submode.VT;
-clk << submode.CLK;
-vref << submode.VREF;
-m << submode.M;
-pos << submode.POS;
-@@
-def mode_vrefresh(clk, ht, vt):
-    return int(eval(clk)*1000.0/(eval(ht)*eval(vt))+0.5)
-if mode_vrefresh(clk, ht, vt) !=3D eval(vref):
-   print "{}:{}/{}: {} vs. {} (.clock=3D{} .htotal=3D{} .vtotal=3D{})".form=
-at(pos[0].file, pos[0].line, m, vref, mode_vrefresh(clk, ht, vt), clk, ht, =
-vt)
-
-@script:python@
-ht << modes.HT;
-vt << modes.VT;
-clk << modes.CLK;
-vref << modes.VREF;
-m << modes.A;
-pos << modes.POS;
-@@
-def mode_vrefresh(clk, ht, vt):
-    return int(eval(clk)*1000.0/(eval(ht)*eval(vt))+0.5)
-if mode_vrefresh(clk, ht, vt) !=3D eval(vref):
-   print "{}:{}/{}[]: {} vs. {} (.clock=3D{} .htotal=3D{} .vtotal=3D{})".fo=
-rmat(pos[0].file, pos[0].line, m, vref, mode_vrefresh(clk, ht, vt), clk, ht=
-, vt)
-
-@script:python@
-ht << submodes.HT;
-vt << submodes.VT;
-clk << submodes.CLK;
-vref << submodes.VREF;
-m << submodes.A;
-pos << submodes.POS;
-@@
-def mode_vrefresh(clk, ht, vt):
-    return int(eval(clk)*1000.0/(eval(ht)*eval(vt))+0.5)
-if mode_vrefresh(clk, ht, vt) !=3D eval(vref):
-   print "{}:{}/{}[]: {} vs. {} (.clock=3D{} .htotal=3D{} .vtotal=3D{})".fo=
-rmat(pos[0].file, pos[0].line, m, vref, mode_vrefresh(clk, ht, vt), clk, ht=
-, vt)
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+>
+> > -               num_ctl++;
+> > -       }
+> > +       num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, drm_enc->base.id,
+> > +               DPU_HW_BLK_PINGPONG, hw_pp, ARRAY_SIZE(hw_pp));
+> > +       num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, drm_enc->base.id,
+> > +               DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
+> > +       num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, drm_enc->base.id,
+> > +               DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
+> >
+> > -       dpu_rm_init_hw_iter(&hw_iter, drm_enc->base.id, DPU_HW_BLK_LM);
+> > -       for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+> > -               if (!dpu_rm_get_hw(&dpu_kms->rm, &hw_iter))
+> > -                       break;
+> > -               hw_lm[i] = (struct dpu_hw_mixer *)hw_iter.hw;
+>
+> Why cast?
+>
+> > -               num_lm++;
+> > -       }
+> > +       for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
+> > +               dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
+> > +                                               : NULL;
+>
+> This line is pretty hard to read. Maybe use an if/else?
+>
+> >
+> >         cstate = to_dpu_crtc_state(drm_crtc->state);
+> >
+> >         for (i = 0; i < num_lm; i++) {
+> >                 int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
+> >
+> > -               cstate->mixers[i].hw_lm = hw_lm[i];
+> > -               cstate->mixers[i].lm_ctl = hw_ctl[ctl_idx];
+> > +               cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
+> > +               cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
+> >         }
+> >
+> >         cstate->num_mixers = num_lm;
+> >
+> >         for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> > +               int num_blk;
+>
+> unsigned int?
+>
+> > +               struct dpu_hw_blk *hw_blk[MAX_CHANNELS_PER_ENC];
+> >                 struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+> >
+> >                 if (!dpu_enc->hw_pp[i]) {
+> > @@ -1056,17 +1045,15 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+> >                 }
+> >
+> >                 phys->hw_pp = dpu_enc->hw_pp[i];
+> > -               phys->hw_ctl = hw_ctl[i];
+> > +               phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
+> >
+> > -               dpu_rm_init_hw_iter(&hw_iter, drm_enc->base.id,
+> > -                                   DPU_HW_BLK_INTF);
+> > -               for (j = 0; j < MAX_CHANNELS_PER_ENC; j++) {
+> > +               num_blk = dpu_rm_get_assigned_resources(&dpu_kms->rm,
+> > +                       drm_enc->base.id, DPU_HW_BLK_INTF, hw_blk,
+> > +                       ARRAY_SIZE(hw_blk));
+> > +               for (j = 0; j < num_blk; j++) {
+> >                         struct dpu_hw_intf *hw_intf;
+> >
+> > -                       if (!dpu_rm_get_hw(&dpu_kms->rm, &hw_iter))
+> > -                               break;
+> > -
+> > -                       hw_intf = (struct dpu_hw_intf *)hw_iter.hw;
+> > +                       hw_intf = to_dpu_hw_intf(hw_blk[i]);
+> >                         if (hw_intf->idx == phys->intf_idx)
+> >                                 phys->hw_intf = hw_intf;
+> >                 }
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > index dea1dba441fe7..779df26dc81ae 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > @@ -83,7 +97,7 @@ static bool _dpu_rm_get_hw_locked(struct dpu_rm *rm, struct dpu_rm_hw_iter *i)
+> >         return false;
+> >  }
+> >
+> > -bool dpu_rm_get_hw(struct dpu_rm *rm, struct dpu_rm_hw_iter *i)
+> > +static bool dpu_rm_get_hw(struct dpu_rm *rm, struct dpu_rm_hw_iter *i)
+> >  {
+> >         bool ret;
+> >
+> > @@ -635,3 +649,16 @@ int dpu_rm_reserve(
+> >
+> >         return ret;
+> >  }
+> > +
+> > +int dpu_rm_get_assigned_resources(struct dpu_rm *rm, uint32_t enc_id,
+>
+> Return unsigned int?
+>
+> > +       enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size)
+>
+> unsigned int blks_size?
+>
+> > +{
+> > +       struct dpu_rm_hw_iter hw_iter;
+> > +       int num_blks = 0;
+>
+> unsigned int?
+>
+> > +
+> > +       dpu_rm_init_hw_iter(&hw_iter, enc_id, type);
+> > +       while (num_blks < blks_size && dpu_rm_get_hw(rm, &hw_iter))
+> > +               blks[num_blks++] = hw_iter.blk->hw;
+> > +
+> > +       return num_blks;
+>
+> It's not possible for it to be negative number right?
+>
+> > +}
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> > index 9c580a0170946..982b91e272275 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> > @@ -24,26 +24,6 @@ struct dpu_rm {
+> >         struct mutex rm_lock;
+> >  };
+> >
+> > -/**
+> > - *  struct dpu_rm_hw_blk - resource manager internal structure
+> > - *     forward declaration for single iterator definition without void pointer
+> > - */
+> > -struct dpu_rm_hw_blk;
+> > -
+> > -/**
+> > - * struct dpu_rm_hw_iter - iterator for use with dpu_rm
+> > - * @hw: dpu_hw object requested, or NULL on failure
+> > - * @blk: dpu_rm internal block representation. Clients ignore. Used as iterator.
+> > - * @enc_id: DRM ID of Encoder client wishes to search for, or 0 for Any Encoder
+>
+> Why is Encoder and Any capitalized?
+>
+> > - * @type: Hardware Block Type client wishes to search for.
+> > - */
+> > -struct dpu_rm_hw_iter {
+> > -       void *hw;
+> > -       struct dpu_rm_hw_blk *blk;
+> > -       uint32_t enc_id;
+> > -       enum dpu_hw_blk_type type;
+> > -};
+> > -
+> >  /**
+> >   * dpu_rm_init - Read hardware catalog and create reservation tracking objects
+> >   *     for all HW blocks.
+> > @@ -93,28 +73,9 @@ int dpu_rm_reserve(struct dpu_rm *rm,
+> >  void dpu_rm_release(struct dpu_rm *rm, struct drm_encoder *enc);
+> >
+> >  /**
+> > - * dpu_rm_init_hw_iter - setup given iterator for new iteration over hw list
+> > - *     using dpu_rm_get_hw
+> > - * @iter: iter object to initialize
+> > - * @enc_id: DRM ID of Encoder client wishes to search for, or 0 for Any Encoder
+> > - * @type: Hardware Block Type client wishes to search for.
+>
+> Ah I guess it's copied from here.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
