@@ -2,30 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8156E16C1D0
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 14:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F6816C2F9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 14:57:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D896EAB8;
-	Tue, 25 Feb 2020 13:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC9286EAC4;
+	Tue, 25 Feb 2020 13:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F3E46EAB0;
- Tue, 25 Feb 2020 13:11:05 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4625EB1A8;
- Tue, 25 Feb 2020 13:11:03 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, kraxel@redhat.com, noralf@tronnes.org,
- sam@ravnborg.org, alexander.deucher@amd.com, emil.velikov@collabora.com
-Subject: [PATCH v3 4/4] drm/qxl: Use simple encoder
-Date: Tue, 25 Feb 2020 14:10:55 +0100
-Message-Id: <20200225131055.27550-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200225131055.27550-1-tzimmermann@suse.de>
-References: <20200225131055.27550-1-tzimmermann@suse.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 227F36EAC2;
+ Tue, 25 Feb 2020 13:57:40 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2020 05:57:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,484,1574150400"; d="scan'208";a="350152991"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by fmsmga001.fm.intel.com with ESMTP; 25 Feb 2020 05:57:37 -0800
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [Intel-gfx][PATCH 00/10] drm/i915: Introduce i915 based
+ i915_MISSING_CASE macro and us it in i915
+Date: Tue, 25 Feb 2020 19:16:59 +0530
+Message-Id: <20200225134709.6153-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -39,84 +42,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: spice-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The qxl driver uses an empty implementation for its encoder. Replace
-the code with the generic simple encoder.
+Existing MISSING_CASE macro uses WARN call to dump the stack trace.
 
-v2:
-	* rebase onto new simple-encoder interface
+Now that we have struct drm_device based drm_WARN, introduce struct
+drm_i915_private based i915_MISSING_CASE macro which uses drm_WARN so
+that device specific information will also get printed in backtrace.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/qxl/qxl_display.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+Also, automatically convert the MISSING_CASE with i915 specific
+i915_MISSING_CASE  variant using coccinelle semantic patch scripts.
 
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index ab4f8dd00400..9c0e1add59fb 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -31,6 +31,7 @@
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
- 
- #include "qxl_drv.h"
- #include "qxl_object.h"
-@@ -1007,9 +1008,6 @@ static struct drm_encoder *qxl_best_encoder(struct drm_connector *connector)
- 	return &qxl_output->enc;
- }
- 
--static const struct drm_encoder_helper_funcs qxl_enc_helper_funcs = {
--};
--
- static const struct drm_connector_helper_funcs qxl_connector_helper_funcs = {
- 	.get_modes = qxl_conn_get_modes,
- 	.mode_valid = qxl_conn_mode_valid,
-@@ -1059,15 +1057,6 @@ static const struct drm_connector_funcs qxl_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static void qxl_enc_destroy(struct drm_encoder *encoder)
--{
--	drm_encoder_cleanup(encoder);
--}
--
--static const struct drm_encoder_funcs qxl_enc_funcs = {
--	.destroy = qxl_enc_destroy,
--};
--
- static int qxl_mode_create_hotplug_mode_update_property(struct qxl_device *qdev)
- {
- 	if (qdev->hotplug_mode_update_property)
-@@ -1098,15 +1087,14 @@ static int qdev_output_init(struct drm_device *dev, int num_output)
- 	drm_connector_init(dev, &qxl_output->base,
- 			   &qxl_connector_funcs, DRM_MODE_CONNECTOR_VIRTUAL);
- 
--	drm_encoder_init(dev, &qxl_output->enc, &qxl_enc_funcs,
--			 DRM_MODE_ENCODER_VIRTUAL, NULL);
-+	drm_simple_encoder_init(dev, &qxl_output->enc,
-+				DRM_MODE_ENCODER_VIRTUAL);
- 
- 	/* we get HPD via client monitors config */
- 	connector->polled = DRM_CONNECTOR_POLL_HPD;
- 	encoder->possible_crtcs = 1 << num_output;
- 	drm_connector_attach_encoder(&qxl_output->base,
- 					  &qxl_output->enc);
--	drm_encoder_helper_add(encoder, &qxl_enc_helper_funcs);
- 	drm_connector_helper_add(connector, &qxl_connector_helper_funcs);
- 
- 	drm_object_attach_property(&connector->base,
+i915_MISSING_CASE macro should be preferred over MISSING_CASE,
+wherever possible.
+
+Pankaj Bharadiya (10):
+  drm/i915: Add i915 device based MISSING_CASE macro
+  drm/i915/display/cdclk: Make MISSING_CASE backtrace i915 specific
+  drm/i915/display/ddi: Make MISSING_CASE backtrace i915 specific
+  drm/i915/display/display: Make MISSING_CASE backtrace i915 specific
+  drm/i915/dp: Make MISSING_CASE backtrace i915 specific
+  drm/i915/display/hdmi: Make MISSING_CASE backtrace i915 specific
+  drm/i915/display: Make MISSING_CASE backtrace i915 specific
+  drm/i915/gem: Make MISSING_CASE backtrace i915 specific
+  drm/i915/gt: Make MISSING_CASE backtrace i915 specific
+  drm/i915: Make MISSING_CASE backtrace i915 specific
+
+ drivers/gpu/drm/i915/display/icl_dsi.c        |  8 +++--
+ drivers/gpu/drm/i915/display/intel_bios.c     |  4 +--
+ drivers/gpu/drm/i915/display/intel_bw.c       |  6 ++--
+ drivers/gpu/drm/i915/display/intel_cdclk.c    | 19 +++++++-----
+ .../gpu/drm/i915/display/intel_combo_phy.c    |  6 ++--
+ drivers/gpu/drm/i915/display/intel_ddi.c      | 19 ++++++------
+ drivers/gpu/drm/i915/display/intel_display.c  | 29 ++++++++++---------
+ drivers/gpu/drm/i915/display/intel_dp.c       | 28 +++++++++---------
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 10 +++----
+ drivers/gpu/drm/i915/display/intel_hdmi.c     | 12 ++++----
+ drivers/gpu/drm/i915/display/intel_hotplug.c  |  2 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  4 +--
+ drivers/gpu/drm/i915/display/intel_tc.c       |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    | 17 +++++++----
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   |  6 ++--
+ drivers/gpu/drm/i915/i915_debugfs.c           |  3 +-
+ drivers/gpu/drm/i915/i915_drv.c               |  2 +-
+ drivers/gpu/drm/i915/i915_gem_fence_reg.c     |  2 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  2 +-
+ drivers/gpu/drm/i915/i915_utils.h             |  4 +++
+ drivers/gpu/drm/i915/intel_device_info.c      | 13 +++++----
+ drivers/gpu/drm/i915/intel_pm.c               | 10 +++----
+ 22 files changed, 113 insertions(+), 95 deletions(-)
+
 -- 
-2.25.0
+2.23.0
 
 _______________________________________________
 dri-devel mailing list
