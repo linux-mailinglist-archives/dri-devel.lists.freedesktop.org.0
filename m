@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB88B16EDEA
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:23:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6014416EDEF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:24:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D34E66EB85;
-	Tue, 25 Feb 2020 18:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8587F6EB82;
+	Tue, 25 Feb 2020 18:24:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF8C86EB79;
- Tue, 25 Feb 2020 18:23:25 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id l5so11701199wrx.4;
- Tue, 25 Feb 2020 10:23:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RrgJrycb0YweQ4EliuCsEKdg0YCfjVqN83SXNsnKBCA=;
- b=SavYq66qvozBYE7U3JgVIyekkkaqTihP2JmAdBEP7dmj0wRQQ9PpfbltsdxiVeZ61z
- HpEtMu8EJr6EOS32QmB6PMkIGJ4WKfIjMmfohyrPyjG5lXUN7yZKY84DlDYMzKL0BdqT
- 1o4ir2E1VvnuaSspT65t9qYD1MhQQApAkLKYiHjdmnfj4mJWSoiPNKlf4eHhu42mMMZq
- eJy/eagmkiFvugbYN1IJ0Lt+JN3J3TPpPsmw7yDfWbwEI6+QH8ekRdoJFDX5IveK48oV
- 6q/CV38VlRv9zvqQd3umvQTkrZncs+74TzF6ukJ6ko/sEHgcanXs5/syzP0Xax3pEjc/
- EEdA==
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE496EB82
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:24:12 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id r137so270785oie.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 10:24:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RrgJrycb0YweQ4EliuCsEKdg0YCfjVqN83SXNsnKBCA=;
- b=r6qBRvvFB1lT1y6OjgI7+cvHXr/tJ2fDK3psI9lqNLm47Jn2gpV5jyn8CmYmCdEWvH
- Ewbdy3s1Z1RZggZv9ZDKNgF3iqb9LWrb/vr2fiKQnyTnC9ZpJpZGnetjE2NVyeSxVpiI
- 85mUVk9KSOnQH7tVOSnU52lJVDCliYIXfg0v/kxFPmkJ5NV8u+NBe8xkCQCX+Pqr8Ihc
- dskTBygu6EeUUXBy9Yfp9yS2C41NEa2gkD8sl/TBEd6kgs83++aNlIasl6KZwPSYV/mY
- M4BxTZeytTX9mg8HkX0IRzBPOkR6Jhynve5zY7r0AOvR+3G3HIrqP3a+GaJu3gHaTFDO
- Q7TQ==
-X-Gm-Message-State: APjAAAXyTg9QffGeXpIDY7M1oamX+6ITSXNsnLs/bM1UjUmOJ/uqjVhl
- 3LGS08vS9gFBSF8Hdt+cNOOGIcwdnOp/YbVdvp5H/w==
-X-Google-Smtp-Source: APXvYqyZCd8M2M2zJJpHFAONBqsCCCwCiUv1NQSf5nsBwykG7M7QHzuceduFqjTYvaTDjeDjjzydu/aO/5QYkrRj2Pk=
-X-Received: by 2002:adf:b254:: with SMTP id y20mr425320wra.362.1582655004517; 
- Tue, 25 Feb 2020 10:23:24 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=zyUEcnd6mf3xDLs58H/+znKVsIUHaN8BT7T15bn5I/4=;
+ b=qYOJgcL5UL1iOHju5MCWeMLiK+uSvnW4gW9Iv1Cl1Nwd/xsoUAtPl/wxuj3xXTe+0w
+ /iBbi/7vHI7q66lRTjfX2wqE3qTi4ITJevKM4XOM1jcm4PoXA7fZ9ZgG7xidd+TWkKes
+ Jr9zgPJp3Kq0ecXvbpQpgI8she/3NN6/xh+lKR7QO+z2wniyT/FKHkA/01R8LERBR+x0
+ v0Rk9w/asrtL6UYsi0Ojqv7EycvyOMoF+7JYv2fRDdZe10eAScUVM/YLn9doJteG1Miz
+ IEeqZZCdFfmatp6e7kkCtsey9T/g+kTeUDoPr3AtGdsTz6sy/ny3D8jIhq/xwBOZUz0V
+ 43CQ==
+X-Gm-Message-State: APjAAAV4NYWNaJdjCC2YTd+r0iZJIbprrExofwrWfxMz0qV85kcRsCYZ
+ RKbxWm88qzqZCV9MELRz1U5T9rI=
+X-Google-Smtp-Source: APXvYqy2YFi/Z/AQYaFr+0YJAOKBBXw2YKbb14sGV3IuzdQIEB+ZE6Mmn4i6K3FgKLi1IMdYd8+R/w==
+X-Received: by 2002:a05:6808:251:: with SMTP id
+ m17mr190704oie.15.1582655052039; 
+ Tue, 25 Feb 2020 10:24:12 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id n27sm5572706oie.18.2020.02.25.10.24.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 10:24:11 -0800 (PST)
+Received: (nullmailer pid 14462 invoked by uid 1000);
+ Tue, 25 Feb 2020 18:24:10 -0000
+Date: Tue, 25 Feb 2020 12:24:10 -0600
+From: Rob Herring <robh@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 88/89] dt-bindings: display: vc4: hdmi: Add BCM2711 HDMI
+ controllers bindings
+Message-ID: <20200225182410.GA7661@bogus>
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <4c21dda4f0b73977de1e54d408d7bf6bf3b6d238.1582533919.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20200207211713.3870-1-alexander.deucher@amd.com>
- <22cf2c92-52a0-5e1a-e569-4fe421e38022@amd.com>
- <CADnq5_M9yngJYmhOKiUvpR0H-e5yoVOrqwoim+_Ps63wY3QsRg@mail.gmail.com>
- <DM5PR1201MB2554BBEA6B0C7DECFFE8DD3E9EED0@DM5PR1201MB2554.namprd12.prod.outlook.com>
- <DM5PR1201MB2554768A51B1A4625E67BB899EED0@DM5PR1201MB2554.namprd12.prod.outlook.com>
-In-Reply-To: <DM5PR1201MB2554768A51B1A4625E67BB899EED0@DM5PR1201MB2554.namprd12.prod.outlook.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 25 Feb 2020 13:23:13 -0500
-Message-ID: <CADnq5_M8Hb9YJ-cVzr0x8ABUpQjeL5DwOuCwjEWfdTXFJdbGeQ@mail.gmail.com>
-Subject: Re: [PATCH 13/15] drm/amdgpu/display: split dp connector registration
- (v3)
-To: "Liu, Zhan" <Zhan.Liu@amd.com>
+Content-Disposition: inline
+In-Reply-To: <4c21dda4f0b73977de1e54d408d7bf6bf3b6d238.1582533919.git-series.maxime@cerno.tech>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,216 +63,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Broadworth, Mark" <Mark.Broadworth@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Zuo,
- Jerry" <Jerry.Zuo@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2020 at 1:20 PM Liu, Zhan <Zhan.Liu@amd.com> wrote:
->
->
-> > -----Original Message-----
-> > From: Liu, Zhan
-> > Sent: 2020/February/25, Tuesday 10:10 AM
-> > To: Alex Deucher <alexdeucher@gmail.com>; Wentland, Harry
-> > <Harry.Wentland@amd.com>
-> > Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>; Maling list - DRI
-> > developers <dri-devel@lists.freedesktop.org>; Deucher, Alexander
-> > <Alexander.Deucher@amd.com>; Broadworth, Mark
-> > <Mark.Broadworth@amd.com>
-> > Subject: RE: [PATCH 13/15] drm/amdgpu/display: split dp connector
-> > registration (v3)
-> >
-> >
-> > > -----Original Message-----
-> > > From: Alex Deucher <alexdeucher@gmail.com>
-> > > Sent: 2020/February/25, Tuesday 9:07 AM
-> > > To: Wentland, Harry <Harry.Wentland@amd.com>
-> > > Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>; Maling list - DRI
-> > > developers <dri-devel@lists.freedesktop.org>; Deucher, Alexander
-> > > <Alexander.Deucher@amd.com>; Broadworth, Mark
-> > > <Mark.Broadworth@amd.com>; Liu, Zhan <Zhan.Liu@amd.com>
-> > > Subject: Re: [PATCH 13/15] drm/amdgpu/display: split dp connector
-> > > registration (v3)
-> > >
-> > > On Mon, Feb 24, 2020 at 4:09 PM Harry Wentland <hwentlan@amd.com>
-> > > wrote:
-> > > >
-> > > > On 2020-02-07 4:17 p.m., Alex Deucher wrote:
-> > > > > Split into init and register functions to avoid a segfault in some
-> > > > > configs when the load/unload callbacks are removed.
-> > > > >
-> > > >
-> > > > Looks like MST is completely broken with this change with a NULL
-> > > > pointer dereference in drm_dp_aux_register.
-> > > >
-> > > > > v2:
-> > > > > - add back accidently dropped has_aux setting
-> > > > > - set dev in late_register
-> > > > >
-> > > > > v3:
-> > > > > - fix dp cec ordering
-> > > > >
-> > > > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c   | 16
-> > > ++++++++++++++++
-> > > > >  drivers/gpu/drm/amd/amdgpu/atombios_dp.c         | 10 ++--------
-> > > > >  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  |  7 ++++++-
-> > > > >  3 files changed, 24 insertions(+), 9 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > > > > b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > > > > index ec1501e3a63a..f355d9a752d2 100644
-> > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > > > > @@ -1461,6 +1461,20 @@ static enum drm_mode_status
-> > > amdgpu_connector_dp_mode_valid(struct drm_connector
-> > > > >       return MODE_OK;
-> > > > >  }
-> > > > >
-> > > > > +static int
-> > > > > +amdgpu_connector_late_register(struct drm_connector *connector) {
-> > > > > +     struct amdgpu_connector *amdgpu_connector =
-> > > to_amdgpu_connector(connector);
-> > > > > +     int r = 0;
-> > > > > +
-> > > > > +     if (amdgpu_connector->ddc_bus->has_aux) {
-> > > > > +             amdgpu_connector->ddc_bus->aux.dev =
-> > > > > + amdgpu_connector-
-> > > >base.kdev;
-> > > > > +             r = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
-> > > > > +     }
-> > > > > +
-> > > > > +     return r;
-> > > > > +}
-> > > > > +
-> > > > >  static const struct drm_connector_helper_funcs
-> > > amdgpu_connector_dp_helper_funcs = {
-> > > > >       .get_modes = amdgpu_connector_dp_get_modes,
-> > > > >       .mode_valid = amdgpu_connector_dp_mode_valid, @@ -1475,6
-> > > > > +1489,7 @@ static const struct drm_connector_funcs
-> > > amdgpu_connector_dp_funcs = {
-> > > > >       .early_unregister = amdgpu_connector_unregister,
-> > > > >       .destroy = amdgpu_connector_destroy,
-> > > > >       .force = amdgpu_connector_dvi_force,
-> > > > > +     .late_register = amdgpu_connector_late_register,
-> > > > >  };
-> > > > >
-> > > > >  static const struct drm_connector_funcs
-> > > > > amdgpu_connector_edp_funcs = { @@ -1485,6 +1500,7 @@ static
-> > const
-> > > > > struct drm_connector_funcs
-> > > amdgpu_connector_edp_funcs = {
-> > > > >       .early_unregister = amdgpu_connector_unregister,
-> > > > >       .destroy = amdgpu_connector_destroy,
-> > > > >       .force = amdgpu_connector_dvi_force,
-> > > > > +     .late_register = amdgpu_connector_late_register,
-> > > > >  };
-> > > > >
-> > > > >  void
-> > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-> > > > > b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-> > > > > index ea702a64f807..9b74cfdba7b8 100644
-> > > > > --- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-> > > > > +++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-> > > > > @@ -186,16 +186,10 @@ amdgpu_atombios_dp_aux_transfer(struct
-> > > > > drm_dp_aux *aux, struct drm_dp_aux_msg *m
-> > > > >
-> > > > >  void amdgpu_atombios_dp_aux_init(struct amdgpu_connector
-> > > > > *amdgpu_connector)  {
-> > > > > -     int ret;
-> > > > > -
-> > > > >       amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector-
-> > > >hpd.hpd;
-> > > > > -     amdgpu_connector->ddc_bus->aux.dev = amdgpu_connector-
-> > > >base.kdev;
-> > > > >       amdgpu_connector->ddc_bus->aux.transfer =
-> > > amdgpu_atombios_dp_aux_transfer;
-> > > > > -     ret = drm_dp_aux_register(&amdgpu_connector->ddc_bus->aux);
-> > > > > -     if (!ret)
-> > > > > -             amdgpu_connector->ddc_bus->has_aux = true;
-> > > > > -
-> > > > > -     WARN(ret, "drm_dp_aux_register_i2c_bus() failed with error %d\n",
-> > > ret);
-> > > > > +     drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
-> > > > > +     amdgpu_connector->ddc_bus->has_aux = true;
-> > > > >  }
-> > > > >
-> > > > >  /***** general DP utility functions *****/ diff --git
-> > > > > a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > > > > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > > > > index 3959c942c88b..d5b9e72f2649 100644
-> > > > > ---
-> > > a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > > > > +++
-> > > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > > > > @@ -155,6 +155,11 @@
-> > > amdgpu_dm_mst_connector_late_register(struct drm_connector
-> > > *connector)
-> > > > >       struct amdgpu_dm_connector *amdgpu_dm_connector =
-> > > > >               to_amdgpu_dm_connector(connector);
-> > > > >       struct drm_dp_mst_port *port = amdgpu_dm_connector->port;
-> > > > > +     int r;
-> > > > > +
-> > > > > +     r =
-> > > > > + drm_dp_aux_register(&amdgpu_dm_connector->dm_dp_aux.aux);
-> > > >
-> > > > This calls drm_dp_aux_register_devnode which is also called later in
-> > > > drm_dp_mst_connector_late_register. Wonder if that's a problem.
-> > >
-> > > Does this patch help?  I'm not too familiar with the MST code and I
-> > > don't have an MST monitor.
-> >
-> > I have an MST monitor and I can give it a spin. I'll get back to you later.
->
-> + Jerry who is following up on this issue
->
-> Thank you Alex for your patch. Unfortunately, it doesn't solve the issue.
->
-> Jerry is following up on this ticket, and I've added him to this email thread.
+On Mon, Feb 24, 2020 at 10:07:30AM +0100, Maxime Ripard wrote:
+> The HDMI controllers found in the BCM2711 SoC need some adjustments to the
+> bindings, especially since the registers have been shuffled around in more
+> register ranges.
+> 
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml | 118 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 109 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml
+> index 52b3cdac0bdf..a9d24e1cf684 100644
+> --- a/Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml
+> @@ -11,24 +11,58 @@ maintainers:
+>  
+>  properties:
+>    compatible:
+> -    const: brcm,bcm2835-hdmi
+> +    enum:
+> +      - brcm,bcm2835-hdmi
+> +      - brcm,bcm2711-hdmi0
+> +      - brcm,bcm2711-hdmi1
+>  
+>    reg:
+> +    oneOf:
+> +      - items:
+> +        - description: HDMI register range
+> +        - description: HD register range
+> +
+> +      - items:
+> +        - description: HDMI controller register range
+> +        - description: DVP register range
+> +        - description: HDMI PHY register range
+> +        - description: Rate Manager register range
+> +        - description: Packet RAM register range
+> +        - description: Metadata RAM register range
+> +        - description: CSC register range
+> +        - description: CEC register range
+> +        - description: HD register range
+> +
+> +  reg-names:
+>      items:
+> -      - description: HDMI register range
+> -      - description: HD register range
+> +      - const: hdmi
+> +      - const: dvp
+> +      - const: phy
+> +      - const: rm
+> +      - const: packet
+> +      - const: metadata
+> +      - const: csc
+> +      - const: cec
+> +      - const: hd
 
-Can you send me the full dmesg output?  Also, does it happen as soon
-as the driver loads or sometime later?
+Don't you want 'hd' 2nd or need to define the 2 entry case separately?
 
-Alex
+Really, I think this should be 2 files. All but interrupts and ddc have 
+a difference.
 
-
->
-> Zhan
->
-> >
-> > Zhan
-> >
-> > >
-> > > Alex
-> > >
-> > >
-> > > >
-> > > > Harry
-> > > >
-> > > > > +     if (r)
-> > > > > +             return r;
-> > > > >
-> > > > >  #if defined(CONFIG_DEBUG_FS)
-> > > > >       connector_debugfs_init(amdgpu_dm_connector);
-> > > > > @@ -484,7 +489,7 @@ void
-> > amdgpu_dm_initialize_dp_connector(struct
-> > > amdgpu_display_manager *dm,
-> > > > >       aconnector->dm_dp_aux.aux.transfer = dm_dp_aux_transfer;
-> > > > >       aconnector->dm_dp_aux.ddc_service =
-> > > > > aconnector->dc_link->ddc;
-> > > > >
-> > > > > -     drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
-> > > > > +     drm_dp_aux_init(&aconnector->dm_dp_aux.aux);
-> > > > >       drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
-> > > > >                                     &aconnector->base);
-> > > > >
-> > > > >
+>  
+>    interrupts:
+>      minItems: 2
+>  
+>    clocks:
+> -    items:
+> -      - description: The pixel clock
+> -      - description: The HDMI state machine clock
+> +    oneOf:
+> +      - items:
+> +        - description: The pixel clock
+> +        - description: The HDMI state machine clock
+> +
+> +      - items:
+> +        - description: The HDMI state machine clock
+>  
+>    clock-names:
+> -    items:
+> -      - const: pixel
+> +    oneOf:
+> +      - items:
+> +        - const: pixel
+> +        - const: hdmi
+> +
+>        - const: hdmi
+>  
+>    ddc:
+> @@ -51,15 +85,54 @@ properties:
+>    dma-names:
+>      const: audio-rx
+>  
+> +  resets:
+> +    maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - reg
+> -  - interrupts
+>    - clocks
+>    - ddc
+>  
+>  additionalProperties: false
+>  
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - brcm,bcm2711-hdmi0
+> +          - brcm,bcm2711-hdmi1
+> +
+> +then:
+> +  properties:
+> +    reg:
+> +      minItems: 9
+> +
+> +    clocks:
+> +      maxItems: 1
+> +
+> +    clock-names:
+> +      maxItems: 1
+> +
+> +  required:
+> +    - reg-names
+> +    - resets
+> +
+> +else:
+> +  properties:
+> +    reg:
+> +      maxItems: 2
+> +
+> +    clocks:
+> +      minItems: 2
+> +
+> +    clock-names:
+> +      minItems: 2
+> +
+> +  required:
+> +    - interrupts
+> +
+>  examples:
+>    - |
+>      #include <dt-bindings/clock/bcm2835.h>
+> @@ -77,4 +150,31 @@ examples:
+>          clock-names = "pixel", "hdmi";
+>      };
+>  
+> +  - |
+> +    hdmi0: hdmi@7ef00700 {
+> +        compatible = "brcm,bcm2711-hdmi0";
+> +        reg = <0x7ef00700 0x300>,
+> +              <0x7ef00300 0x200>,
+> +              <0x7ef00f00 0x80>,
+> +              <0x7ef00f80 0x80>,
+> +              <0x7ef01b00 0x200>,
+> +              <0x7ef01f00 0x400>,
+> +              <0x7ef00200 0x80>,
+> +              <0x7ef04300 0x100>,
+> +              <0x7ef20000 0x100>;
+> +        reg-names = "hdmi",
+> +                    "dvp",
+> +                    "phy",
+> +                    "rm",
+> +                    "packet",
+> +                    "metadata",
+> +                    "csc",
+> +                    "cec",
+> +                    "hd";
+> +        clocks = <&firmware_clocks 13>;
+> +        clock-names = "hdmi";
+> +        resets = <&dvp 0>;
+> +        ddc = <&ddc0>;
+> +    };
+> +
+>  ...
+> -- 
+> git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
