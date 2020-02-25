@@ -1,106 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7272C16F901
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:08:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 951FE16F8FF
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:08:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 946B66E16B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3B2A6E16D;
 	Wed, 26 Feb 2020 08:08:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2049.outbound.protection.outlook.com [40.107.93.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE0B06E1E2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 09:38:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R9DrHBmLuEd39/oAx9lA9fLW/0M8CFBlGRIILjkRlBDo3IW7d2PfLKYWTatON46eUk/rzFjO1un7sP40XrAICjtttdKxrfZBr24yKMUe6xBr6kewqLLUJ7TK9w/4tp7xODmFmBKIWR6zLYvb4aDSy+z+W9AcZttGoyIQE8/hR2cXGiWpnK388BNy3TGatEgt0FdI+RYJpkAaexoSLuvYo+RySPDseyI2dfghJSInCSWeyp3Ttls/J9OsrY9fdFnvTs3UXOAywKZk6gPSTRqw78+122TQ79x0UYfw5jcy+BRCm9l5+ASzRRtvGqzPnTpNIYPjHbgRtA2XDcig2hN3+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CDpb+AE1lUMb8oNIMqfOKmJV4Xles6XkCLls7/S+lZw=;
- b=k3BgVfvvSjV5KoK+l2wRdCaimPksiFQLOlXkxS1SPTrUsUiLYs/Do0XSzEFwuABMPiNY+Uu40lO4l4Uh3HEhOx1ghLQ5LJrVWdJBHKLPcxV7QXTRCYvQ2uTJEG0a80LlI3OsrXvhF9SuB20d0Fq/RkC6v/FHJ2ropnLrqfAX46sXBidWslAC8/ZuB4gBd6XGIH4hWwMXNQyyndGmCSdIVQQvuLhqMfX//684ujxe5/S1ohzlnptVHMqFKE0f0DvhyPI8sebWzJo/QEPUjFTDk4KB+woRDkQGQb3rEMDNMF/h17gRT9IJfFlMAojcMuOpti7pR+bgTyOgYDUVM+8Zgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CDpb+AE1lUMb8oNIMqfOKmJV4Xles6XkCLls7/S+lZw=;
- b=KFA6rs9nH9SzW8Yn7kdlHdFSma4K01Vqg8htH7/wkNtU7DPlUTEnJvmpnF3fnXgICMWyuvJDO3ClaYAJDMtd/BhuBM8UUzo7kAOUUyhhpWKuEO5m96RO9sudaIEpEfhyhrSlB4PkS1qCq+ciVT+PL/kDRvsrOqx3C7iBz4KeFj0=
-Received: from MN2PR17CA0029.namprd17.prod.outlook.com (2603:10b6:208:15e::42)
- by CY4PR02MB2599.namprd02.prod.outlook.com (2603:10b6:903:71::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.21; Tue, 25 Feb
- 2020 09:38:33 +0000
-Received: from BL2NAM02FT019.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:15e:cafe::16) by MN2PR17CA0029.outlook.office365.com
- (2603:10b6:208:15e::42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.18 via Frontend
- Transport; Tue, 25 Feb 2020 09:38:32 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; lists.freedesktop.org; dkim=none (message not
- signed) header.d=none;lists.freedesktop.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT019.mail.protection.outlook.com (10.152.77.166) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2750.18
- via Frontend Transport; Tue, 25 Feb 2020 09:38:32 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
- (envelope-from <rohit.visavalia@xilinx.com>) id 1j6Wfg-0002P9-0K
- for dri-devel@lists.freedesktop.org; Tue, 25 Feb 2020 01:38:32 -0800
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <rohit.visavalia@xilinx.com>) id 1j6Wfa-0000Sd-Ta
- for dri-devel@lists.freedesktop.org; Tue, 25 Feb 2020 01:38:26 -0800
-Received: from xsj-pvapsmtp01 (smtp2.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 01P9cJuO023369; 
- Tue, 25 Feb 2020 01:38:19 -0800
-Received: from [172.19.2.208] (helo=xsjvarunkum50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <rohit.visavalia@xilinx.com>)
- id 1j6WfT-0000QP-N3; Tue, 25 Feb 2020 01:38:19 -0800
-From: Rohit Visavalia <rohit.visavalia@xilinx.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
- add_property_optional returns true
-Date: Tue, 25 Feb 2020 01:38:16 -0800
-Message-Id: <1582623496-6094-1-git-send-email-rohit.visavalia@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(39860400002)(376002)(396003)(346002)(199004)(189003)(4326008)(478600001)(107886003)(70206006)(9786002)(70586007)(81156014)(81166006)(44832011)(5660300002)(336012)(8936002)(2906002)(6916009)(36756003)(186003)(7696005)(316002)(26005)(8676002)(2616005)(356004)(6666004)(426003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR02MB2599; H:xsj-pvapsmtpgw01; FPR:;
- SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1; 
+Received: from olimex.com (olimex.com [IPv6:2001:470:0:1f2::b869:4820])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE336EA72
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 09:45:35 +0000 (UTC)
+Received: from 94.155.250.134 ([94.155.250.134]) by olimex.com with ESMTPSA
+ (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
+ (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 01:45:33 -0800
+Subject: Re: [linux-sunxi] [PATCH v3 1/1] drm: sun4i: hdmi: Add support for
+ sun4i HDMI encoder audio
+To: wens@kernel.org, Stefan Mavrodiev <stefan@olimex.com>
+References: <20200128140642.8404-1-stefan@olimex.com>
+ <20200128140642.8404-2-stefan@olimex.com>
+ <CAGb2v66kEACD0oOqoL2sx8JJJAnZzZc+EwEK8+74bZx48L-Z5A@mail.gmail.com>
+From: Stefan Mavrodiev <stefan@olimex.com>
+Message-ID: <81b0a464-22f7-4d36-e9bc-f08a52accdbc@olimex.com>
+Date: Tue, 25 Feb 2020 11:45:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 58512428-6694-4c75-d83a-08d7b9d67aa4
-X-MS-TrafficTypeDiagnostic: CY4PR02MB2599:
-X-Microsoft-Antispam-PRVS: <CY4PR02MB259967EE6D726A6BC3F30717B3ED0@CY4PR02MB2599.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
-X-Forefront-PRVS: 0324C2C0E2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: w4yZuvXSNwHYz8O7cK4BgJOVgTh3+AhdrjusiLxve0vni83/+ZZXcZXogu2EwBebTLtBL+U06Q4Pf+WXWCISKvuwC1pbalYvPUtxiLWcUW2EK9hORub4R1BqO6HIDjf8KIXFi2M9RwrhR3N81s9UY0JRDjkNKox2mFr37RxH7sb19wjkBnvpKm2jfuRdih46rMUPaPIY2ZoP7sHg93QtVOmkJaGn7nerC1sH8Xnce/+d9V8+j68dY3Ak+fkFSi/0/fl/UZQk5lczrutrUbapfoPQx9T4PipoqLAB28Hbdb2yp3mlzWeyaN4TSdQyUqcQP5E7xvw0kNkVD40nGE2Kpgd5uCU14kcKNKTjt/p9BCgB4Z4GqWTmRjlNl8NMeWsGBwhJx+vl4Frrn+CO/NhmRaO4XkYhbjBXZgdlbyryeadzvxFsqtINM+QRrM2P9ZG3
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2020 09:38:32.6254 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58512428-6694-4c75-d83a-08d7b9d67aa4
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2599
+In-Reply-To: <CAGb2v66kEACD0oOqoL2sx8JJJAnZzZc+EwEK8+74bZx48L-Z5A@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -114,38 +43,704 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rsk@xilinx.com, dshah@xilinx.com, devarsh.thakkar@xilinx.com,
- varunkum@xilinx.com, Rohit Visavalia <rohit.visavalia@xilinx.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>, Chen-Yu Tsai <wens@csie.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Takashi Iwai <tiwai@suse.com>, linux-sunxi <linux-sunxi@googlegroups.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ "moderated list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gamma is a optional property then also it prints error message, so
-set gamma only if add_property_optional() returns true.
 
-Signed-off-by: Rohit Visavalia <rohit.visavalia@xilinx.com>
----
- tests/modetest/modetest.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 1/29/20 6:34 PM, Chen-Yu Tsai wrote:
+> On Tue, Jan 28, 2020 at 10:07 PM Stefan Mavrodiev <stefan@olimex.com> wrote:
+>> Add HDMI audio support for the sun4i-hdmi encoder, used on
+>> the older Allwinner chips - A10, A20, A31.
+>>
+>> Most of the code is based on the BSP implementation. In it
+>> dditional formats are supported (S20_3LE and S24_LE), however
+>> there where some problems with them and only S16_LE is left.
+>>
+>> Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
+>> ---
+>> Changes for v3:
+>>   - Instead of platfrom_driver dynammicly register/unregister card
+>>   - Add Kconfig dependencies
+>>   - Restrore drvdata after card unregistering
+>>
+>> Changes for v2:
+>>   - Create a new platform driver instead of using the HDMI encoder
+>>   - Expose a new kcontrol to the userspace holding the ELD data
+>>   - Wrap all macro arguments in parentheses
+>>
+>>   drivers/gpu/drm/sun4i/Kconfig            |  11 +
+>>   drivers/gpu/drm/sun4i/Makefile           |   3 +
+>>   drivers/gpu/drm/sun4i/sun4i_hdmi.h       |  37 ++
+>>   drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c | 450 +++++++++++++++++++++++
+>>   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c   |  14 +
+>>   5 files changed, 515 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+> Since this is actually an audio driver, please include all the ALSA / ASoC
+> maintainers and mailing lists (CC-ed).
+>
+>> diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+>> index 37e90e42943f..ca2ab5d53dd4 100644
+>> --- a/drivers/gpu/drm/sun4i/Kconfig
+>> +++ b/drivers/gpu/drm/sun4i/Kconfig
+>> @@ -23,6 +23,17 @@ config DRM_SUN4I_HDMI
+>>            Choose this option if you have an Allwinner SoC with an HDMI
+>>            controller.
+>>
+>> +config DRM_SUN4I_HDMI_AUDIO
+>> +       bool "Allwinner A10 HDMI Audio Support"
+>> +       default y
+>> +       depends on DRM_SUN4I_HDMI
+>> +       depends on SND_SOC=y || SND_SOC=DRM_SUN4I_HDMI
+>> +       select SND_PCM_ELD
+>> +       select SND_SOC_GENERIC_DMAENGINE_PCM
+>> +       help
+>> +         Choose this option if you have an Allwinner SoC with an HDMI
+>> +         controller and want to use audio.
+>> +
+>>   config DRM_SUN4I_HDMI_CEC
+>>          bool "Allwinner A10 HDMI CEC Support"
+>>          depends on DRM_SUN4I_HDMI
+>> diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Makefile
+>> index 0d04f2447b01..492bfd28ad2e 100644
+>> --- a/drivers/gpu/drm/sun4i/Makefile
+>> +++ b/drivers/gpu/drm/sun4i/Makefile
+>> @@ -5,6 +5,9 @@ sun4i-frontend-y                += sun4i_frontend.o
+>>   sun4i-drm-y                    += sun4i_drv.o
+>>   sun4i-drm-y                    += sun4i_framebuffer.o
+>>
+>> +ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+>> +sun4i-drm-hdmi-y               += sun4i_hdmi_audio.o
+>> +endif
+>>   sun4i-drm-hdmi-y               += sun4i_hdmi_ddc_clk.o
+>>   sun4i-drm-hdmi-y               += sun4i_hdmi_enc.o
+>>   sun4i-drm-hdmi-y               += sun4i_hdmi_i2c.o
+>> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi.h b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+>> index 7ad3f06c127e..28621d289655 100644
+>> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+>> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+>> @@ -42,7 +42,32 @@
+>>   #define SUN4I_HDMI_VID_TIMING_POL_VSYNC                BIT(1)
+>>   #define SUN4I_HDMI_VID_TIMING_POL_HSYNC                BIT(0)
+>>
+>> +#define SUN4I_HDMI_AUDIO_CTRL_REG      0x040
+>> +#define SUN4I_HDMI_AUDIO_CTRL_ENABLE           BIT(31)
+>> +#define SUN4I_HDMI_AUDIO_CTRL_RESET            BIT(30)
+>> +
+>> +#define SUN4I_HDMI_AUDIO_FMT_REG       0x048
+>> +#define SUN4I_HDMI_AUDIO_FMT_SRC               BIT(31)
+>> +#define SUN4I_HDMI_AUDIO_FMT_LAYOUT            BIT(3)
+>> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG(n)         ((n) - 1)
+>> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG_MASK       GENMASK(2, 0)
+>> +
+>> +#define SUN4I_HDMI_AUDIO_PCM_REG       0x4c
+>> +#define SUN4I_HDMI_AUDIO_PCM_CH_MAP(n, m)      (((m) - 1) << ((n) * 4))
+>> +#define SUN4I_HDMI_AUDIO_PCM_CH_MAP_MASK(n)    (GENMASK(2, 0) << ((n) * 4))
+>> +
+>> +#define SUN4I_HDMI_AUDIO_CTS_REG       0x050
+>> +#define SUN4I_HDMI_AUDIO_CTS(n)                        ((n) & GENMASK(19, 0))
+>> +
+>> +#define SUN4I_HDMI_AUDIO_N_REG         0x054
+>> +#define SUN4I_HDMI_AUDIO_N(n)                  ((n) & GENMASK(19, 0))
+>> +
+>> +#define SUN4I_HDMI_AUDIO_STAT0_REG     0x58
+>> +#define SUN4I_HDMI_AUDIO_STAT0_FREQ(n)         ((n) << 24)
+>> +#define SUN4I_HDMI_AUDIO_STAT0_FREQ_MASK       GENMASK(27, 24)
+>> +
+>>   #define SUN4I_HDMI_AVI_INFOFRAME_REG(n)        (0x080 + (n))
+>> +#define SUN4I_HDMI_AUDIO_INFOFRAME_REG(n)      (0x0a0 + (n))
+>>
+>>   #define SUN4I_HDMI_PAD_CTRL0_REG       0x200
+>>   #define SUN4I_HDMI_PAD_CTRL0_BIASEN            BIT(31)
+>> @@ -242,6 +267,11 @@ struct sun4i_hdmi_variant {
+>>          bool                    ddc_fifo_has_dir;
+>>   };
+>>
+>> +struct sun4i_hdmi_audio {
+>> +       struct snd_soc_card             *card;
+>> +       u8                              channels;
+>> +};
+>> +
+>>   struct sun4i_hdmi {
+>>          struct drm_connector    connector;
+>>          struct drm_encoder      encoder;
+>> @@ -283,9 +313,14 @@ struct sun4i_hdmi {
+>>          struct regmap_field     *field_ddc_sda_en;
+>>          struct regmap_field     *field_ddc_sck_en;
+>>
+>> +
+>>          struct sun4i_drv        *drv;
+>>
+>>          bool                    hdmi_monitor;
+>> +       bool                    hdmi_audio;
+>> +
+>> +       struct sun4i_hdmi_audio audio;
+>> +
+>>          struct cec_adapter      *cec_adap;
+>>
+>>          const struct sun4i_hdmi_variant *variant;
+>> @@ -294,5 +329,7 @@ struct sun4i_hdmi {
+>>   int sun4i_ddc_create(struct sun4i_hdmi *hdmi, struct clk *clk);
+>>   int sun4i_tmds_create(struct sun4i_hdmi *hdmi);
+>>   int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi);
+>> +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi);
+>> +void sun4i_hdmi_audio_destroy(struct sun4i_hdmi *hdmi);
+>>
+>>   #endif /* _SUN4I_HDMI_H_ */
+>> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+>> new file mode 100644
+>> index 000000000000..f42f2cea4e9e
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+>> @@ -0,0 +1,450 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +/*
+>> + * Copyright (C) 2020 Olimex Ltd.
+>> + *   Author: Stefan Mavrodiev <stefan@olimex.com>
+>> + */
+>> +#include <linux/dma-mapping.h>
+>> +#include <linux/dmaengine.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of_dma.h>
+>> +#include <linux/regmap.h>
+>> +
+>> +#include <drm/drm_print.h>
+>> +
+>> +#include <sound/dmaengine_pcm.h>
+>> +#include <sound/pcm_drm_eld.h>
+>> +#include <sound/pcm_params.h>
+>> +#include <sound/soc.h>
+>> +
+>> +#include "sun4i_hdmi.h"
+>> +
+>> +static int sun4i_hdmi_audio_ctl_eld_info(struct snd_kcontrol *kcontrol,
+>> +                                        struct snd_ctl_elem_info *uinfo)
+>> +{
+>> +       uinfo->type = SNDRV_CTL_ELEM_TYPE_BYTES;
+>> +       uinfo->count = MAX_ELD_BYTES;
+>> +       return 0;
+>> +}
+>> +
+>> +static int sun4i_hdmi_audio_ctl_eld_get(struct snd_kcontrol *kcontrol,
+>> +                                       struct snd_ctl_elem_value *ucontrol)
+>> +{
+>> +       struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+>> +       struct snd_soc_card *card = snd_soc_component_get_drvdata(component);
+>> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+>> +
+>> +       memcpy(ucontrol->value.bytes.data,
+>> +              hdmi->connector.eld,
+>> +              MAX_ELD_BYTES);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static const struct snd_kcontrol_new sun4i_hdmi_audio_controls[] = {
+>> +       {
+>> +               .access = SNDRV_CTL_ELEM_ACCESS_READ |
+>> +                         SNDRV_CTL_ELEM_ACCESS_VOLATILE,
+>> +               .iface = SNDRV_CTL_ELEM_IFACE_PCM,
+>> +               .name = "ELD",
+>> +               .info = sun4i_hdmi_audio_ctl_eld_info,
+>> +               .get = sun4i_hdmi_audio_ctl_eld_get,
+>> +       },
+>> +};
+>> +
+>> +static const struct snd_soc_dapm_widget sun4i_hdmi_audio_widgets[] = {
+>> +       SND_SOC_DAPM_OUTPUT("TX"),
+>> +};
+>> +
+>> +static const struct snd_soc_dapm_route sun4i_hdmi_audio_routes[] = {
+>> +       { "TX", NULL, "Playback" },
+>> +};
+>> +
+>> +static const struct snd_soc_component_driver sun4i_hdmi_audio_component = {
+>> +       .controls               = sun4i_hdmi_audio_controls,
+>> +       .num_controls           = ARRAY_SIZE(sun4i_hdmi_audio_controls),
+>> +       .dapm_widgets           = sun4i_hdmi_audio_widgets,
+>> +       .num_dapm_widgets       = ARRAY_SIZE(sun4i_hdmi_audio_widgets),
+>> +       .dapm_routes            = sun4i_hdmi_audio_routes,
+>> +       .num_dapm_routes        = ARRAY_SIZE(sun4i_hdmi_audio_routes),
+>> +};
+>> +
+>> +static int sun4i_hdmi_audio_startup(struct snd_pcm_substream *substream,
+>> +                                   struct snd_soc_dai *dai)
+>> +{
+>> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
+>> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+>> +       u32 reg;
+>> +       int ret;
+>> +
+>> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_CTRL_REG, 0);
+>> +       regmap_write(hdmi->regmap,
+>> +                    SUN4I_HDMI_AUDIO_CTRL_REG,
+>> +                    SUN4I_HDMI_AUDIO_CTRL_RESET);
+>> +       ret = regmap_read_poll_timeout(hdmi->regmap,
+>> +                                      SUN4I_HDMI_AUDIO_CTRL_REG,
+>> +                                      reg, !reg, 100, 50000);
+>> +       if (ret < 0) {
+>> +               DRM_ERROR("Failed to reset HDMI Audio\n");
+>> +               return ret;
+>> +       }
+>> +
+>> +       regmap_write(hdmi->regmap,
+>> +                    SUN4I_HDMI_AUDIO_CTRL_REG,
+>> +                    SUN4I_HDMI_AUDIO_CTRL_ENABLE);
+>> +
+>> +       return snd_pcm_hw_constraint_eld(substream->runtime,
+>> +                                       hdmi->connector.eld);
+>> +}
+>> +
+>> +static void sun4i_hdmi_audio_shutdown(struct snd_pcm_substream *substream,
+>> +                                     struct snd_soc_dai *dai)
+>> +{
+>> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
+>> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+>> +
+>> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_CTRL_REG, 0);
+>> +}
+>> +
+>> +static int sun4i_hdmi_setup_audio_infoframes(struct sun4i_hdmi *hdmi)
+>> +{
+>> +       union hdmi_infoframe frame;
+>> +       u8 buffer[14];
+>> +       int i, ret;
+>> +
+>> +       ret = hdmi_audio_infoframe_init(&frame.audio);
+>> +       if (ret < 0) {
+>> +               DRM_ERROR("Failed to init HDMI audio infoframe\n");
+>> +               return ret;
+>> +       }
+>> +
+>> +       frame.audio.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
+>> +       frame.audio.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
+>> +       frame.audio.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
+>> +       frame.audio.channels = hdmi->audio.channels;
+>> +
+>> +       ret = hdmi_infoframe_pack(&frame, buffer, sizeof(buffer));
+>> +       if (ret < 0) {
+>> +               DRM_ERROR("Failed to pack HDMI audio infoframe\n");
+>> +               return ret;
+>> +       }
+>> +
+>> +       for (i = 0; i < sizeof(buffer); i++)
+>> +               writeb(buffer[i],
+>> +                      hdmi->base + SUN4I_HDMI_AUDIO_INFOFRAME_REG(i));
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static void sun4i_hdmi_audio_set_cts_n(struct sun4i_hdmi *hdmi,
+>> +                                      struct snd_pcm_hw_params *params)
+>> +{
+>> +       struct drm_encoder *encoder = &hdmi->encoder;
+>> +       struct drm_crtc *crtc = encoder->crtc;
+>> +       const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+>> +       u32 rate = params_rate(params);
+>> +       u32 n, cts;
+>> +       u64 tmp;
+>> +
+>> +       /**
+>> +        * Calculate Cycle Time Stamp (CTS) and Numerator (N):
+>> +        *
+>> +        * N = 128 * Samplerate / 1000
+>> +        * CTS = (Ftdms * N) / (128 * Samplerate)
+>> +        */
+>> +
+>> +       n = 128 * rate / 1000;
+>> +       tmp = (u64)(mode->clock * 1000) * n;
+>> +       do_div(tmp, 128 * rate);
+>> +       cts = tmp;
+>> +
+>> +       regmap_write(hdmi->regmap,
+>> +                    SUN4I_HDMI_AUDIO_CTS_REG,
+>> +                    SUN4I_HDMI_AUDIO_CTS(cts));
+>> +
+>> +       regmap_write(hdmi->regmap,
+>> +                    SUN4I_HDMI_AUDIO_N_REG,
+>> +                    SUN4I_HDMI_AUDIO_N(n));
+>> +}
+>> +
+>> +static int sun4i_hdmi_audio_set_hw_rate(struct sun4i_hdmi *hdmi,
+>> +                                       struct snd_pcm_hw_params *params)
+>> +{
+>> +       u32 rate = params_rate(params);
+>> +       u32 val;
+>> +
+>> +       switch (rate) {
+>> +       case 44100:
+>> +               val = 0x0;
+>> +               break;
+>> +       case 48000:
+>> +               val = 0x2;
+>> +               break;
+>> +       case 32000:
+>> +               val = 0x3;
+>> +               break;
+>> +       case 88200:
+>> +               val = 0x8;
+>> +               break;
+>> +       case 96000:
+>> +               val = 0x9;
+>> +               break;
+>> +       case 176400:
+>> +               val = 0xc;
+>> +               break;
+>> +       case 192000:
+>> +               val = 0xe;
+>> +               break;
+>> +       default:
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       regmap_update_bits(hdmi->regmap,
+>> +                          SUN4I_HDMI_AUDIO_STAT0_REG,
+>> +                          SUN4I_HDMI_AUDIO_STAT0_FREQ_MASK,
+>> +                          SUN4I_HDMI_AUDIO_STAT0_FREQ(val));
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int sun4i_hdmi_audio_set_hw_channels(struct sun4i_hdmi *hdmi,
+>> +                                           struct snd_pcm_hw_params *params)
+>> +{
+>> +       u32 channels = params_channels(params);
+>> +
+>> +       if (channels > 8)
+>> +               return -EINVAL;
+>> +
+>> +       hdmi->audio.channels = channels;
+>> +
+>> +       regmap_update_bits(hdmi->regmap,
+>> +                          SUN4I_HDMI_AUDIO_FMT_REG,
+>> +                          SUN4I_HDMI_AUDIO_FMT_LAYOUT,
+>> +                          (channels > 2) ? SUN4I_HDMI_AUDIO_FMT_LAYOUT : 0);
+>> +
+>> +       regmap_update_bits(hdmi->regmap,
+>> +                          SUN4I_HDMI_AUDIO_FMT_REG,
+>> +                          SUN4I_HDMI_AUDIO_FMT_CH_CFG_MASK,
+>> +                          SUN4I_HDMI_AUDIO_FMT_CH_CFG(channels));
+>> +
+>> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_PCM_REG, 0x76543210);
+>> +
+>> +       /**
+>> +        * If only one channel is required, send the same sample
+>> +        * to the sink device as a left and right channel.
+>> +        */
+>> +       if (channels == 1)
+>> +               regmap_update_bits(hdmi->regmap,
+>> +                                  SUN4I_HDMI_AUDIO_PCM_REG,
+>> +                                  SUN4I_HDMI_AUDIO_PCM_CH_MAP_MASK(1),
+>> +                                  SUN4I_HDMI_AUDIO_PCM_CH_MAP(1, 1));
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int sun4i_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+>> +                                     struct snd_pcm_hw_params *params,
+>> +                                     struct snd_soc_dai *dai)
+>> +{
+>> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
+>> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+>> +       int ret;
+>> +
+>> +       ret = sun4i_hdmi_audio_set_hw_rate(hdmi, params);
+>> +       if (ret < 0)
+>> +               return ret;
+>> +
+>> +       ret = sun4i_hdmi_audio_set_hw_channels(hdmi, params);
+>> +       if (ret < 0)
+>> +               return ret;
+>> +
+>> +       sun4i_hdmi_audio_set_cts_n(hdmi, params);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int sun4i_hdmi_audio_trigger(struct snd_pcm_substream *substream,
+>> +                                   int cmd,
+>> +                                   struct snd_soc_dai *dai)
+>> +{
+>> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
+>> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
+>> +       int ret = 0;
+>> +
+>> +       switch (cmd) {
+>> +       case SNDRV_PCM_TRIGGER_START:
+>> +               ret = sun4i_hdmi_setup_audio_infoframes(hdmi);
+>> +               break;
+>> +       default:
+>> +               break;
+>> +       }
+>> +
+>> +       return ret;
+>> +}
+>> +
+>> +static const struct snd_soc_dai_ops sun4i_hdmi_audio_dai_ops = {
+>> +       .startup = sun4i_hdmi_audio_startup,
+>> +       .shutdown = sun4i_hdmi_audio_shutdown,
+>> +       .hw_params = sun4i_hdmi_audio_hw_params,
+>> +       .trigger = sun4i_hdmi_audio_trigger,
+>> +};
+>> +
+>> +static int sun4i_hdmi_audio_dai_probe(struct snd_soc_dai *dai)
+>> +{
+>> +       struct snd_dmaengine_dai_dma_data *dma_data;
+>> +
+>> +       dma_data = devm_kzalloc(dai->dev, sizeof(*dma_data), GFP_KERNEL);
+>> +       if (!dma_data)
+>> +               return -ENOMEM;
+>> +
+>> +       dma_data->addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+>> +       dma_data->maxburst = 8;
+>> +
+>> +       snd_soc_dai_init_dma_data(dai, dma_data, NULL);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static struct snd_soc_dai_driver sun4i_hdmi_audio_dai = {
+>> +       .name = "HDMI",
+>> +       .ops = &sun4i_hdmi_audio_dai_ops,
+>> +       .probe = sun4i_hdmi_audio_dai_probe,
+>> +       .playback = {
+>> +               .stream_name    = "Playback",
+>> +               .channels_min   = 1,
+>> +               .channels_max   = 8,
+>> +               .formats        = SNDRV_PCM_FMTBIT_S16_LE,
+>> +               .rates          = SNDRV_PCM_RATE_8000_192000,
+>> +       },
+>> +};
+>> +
+>> +static const struct snd_pcm_hardware sun4i_hdmi_audio_pcm_hardware = {
+>> +       .info                   = SNDRV_PCM_INFO_INTERLEAVED |
+>> +                                 SNDRV_PCM_INFO_BLOCK_TRANSFER |
+>> +                                 SNDRV_PCM_INFO_MMAP |
+>> +                                 SNDRV_PCM_INFO_MMAP_VALID |
+>> +                                 SNDRV_PCM_INFO_PAUSE |
+>> +                                 SNDRV_PCM_INFO_RESUME,
+>> +       .formats                = SNDRV_PCM_FMTBIT_S16_LE,
+>> +       .rates                  = SNDRV_PCM_RATE_8000_192000,
+>> +       .rate_min               = 8000,
+>> +       .rate_max               = 192000,
+>> +       .channels_min           = 1,
+>> +       .channels_max           = 8,
+>> +       .buffer_bytes_max       = 128 * 1024,
+>> +       .period_bytes_min       = 4 * 1024,
+>> +       .period_bytes_max       = 32 * 1024,
+>> +       .periods_min            = 2,
+>> +       .periods_max            = 8,
+>> +       .fifo_size              = 128,
+>> +};
+>> +
+>> +static const struct snd_dmaengine_pcm_config sun4i_hdmi_audio_pcm_config = {
+>> +       .chan_names[SNDRV_PCM_STREAM_PLAYBACK] = "audio-tx",
+>> +       .pcm_hardware = &sun4i_hdmi_audio_pcm_hardware,
+>> +       .prealloc_buffer_size = 128 * 1024,
+>> +       .prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
+>> +};
+>> +
+>> +struct snd_soc_card sun4i_hdmi_audio_card = {
+>> +       .name = "sun4i-hdmi",
+>> +};
+>> +
+>> +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi)
+>> +{
+>> +       struct snd_soc_card *card = &sun4i_hdmi_audio_card;
+>> +       struct snd_soc_dai_link_component *comp;
+>> +       struct snd_soc_dai_link *link;
+>> +       int ret;
+>> +
+>> +       ret = snd_dmaengine_pcm_register(hdmi->dev,
+>> +                                        &sun4i_hdmi_audio_pcm_config, 0);
+>> +       if (ret < 0) {
+>> +               DRM_ERROR("Could not register PCM\n");
+>> +               return ret;
+>> +       }
+>> +
+>> +       ret = snd_soc_register_component(hdmi->dev,
+>> +                                        &sun4i_hdmi_audio_component,
+>> +                                        &sun4i_hdmi_audio_dai, 1);
+>> +       if (ret < 0) {
+>> +               DRM_ERROR("Could not register DAI\n");
+>> +               goto unregister_pcm;
+>> +       }
+>> +
+>> +       link = devm_kzalloc(hdmi->dev, sizeof(*link), GFP_KERNEL);
+>> +       if (!link) {
+>> +               ret = -ENOMEM;
+>> +               goto unregister_component;
+>> +       }
+>> +
+>> +       comp = devm_kzalloc(hdmi->dev, sizeof(*comp) * 3, GFP_KERNEL);
+>> +       if (!comp) {
+>> +               ret = -ENOMEM;
+>> +               goto unregister_component;
+>> +       }
+>> +
+>> +       link->cpus = &comp[0];
+>> +       link->codecs = &comp[1];
+>> +       link->platforms = &comp[2];
+>> +
+>> +       link->num_cpus = 1;
+>> +       link->num_codecs = 1;
+>> +       link->num_platforms = 1;
+>> +
+>> +       link->playback_only = 1;
+>> +
+>> +       link->name = "SUN4I-HDMI";
+>> +       link->stream_name = "SUN4I-HDMI PCM";
+>> +
+>> +       link->codecs->name = dev_name(hdmi->dev);
+>> +       link->codecs->dai_name  = sun4i_hdmi_audio_dai.name;
+>> +
+>> +       link->cpus->dai_name = dev_name(hdmi->dev);
+>> +
+>> +       link->platforms->name = dev_name(hdmi->dev);
+>> +
+>> +       link->dai_fmt = SND_SOC_DAIFMT_I2S;
+>> +
+>> +       card->dai_link = link;
+>> +       card->num_links = 1;
+>> +       card->dev = hdmi->dev;
+>> +
+>> +       hdmi->audio.card = card;
+>> +
+>> +       /**
+>> +        * snd_soc_register_card() will overwrite the driver_data pointer.
+>> +        * So before registering the card, store the original pointer in
+>> +        * card->drvdata.
+>> +        */
+>> +       snd_soc_card_set_drvdata(card, hdmi);
+>> +       ret = snd_soc_register_card(card);
+>> +       if (ret)
+>> +               goto unregister_component;
+> So using ASoC with all the components IMHO is just adding dead weight. The
+> audio interface for this particular hardware is just a FIFO that needs to
+> be written to by an external DMA engine, and a bunch of controls to setup
+> the parameters of the HDMI audio stream. There's no power sequencing to do,
+> and no actual individual components to control. There's no reason you couldn't
+> use just the ALSA DMAENGINE helpers to create a simple ALSA sound card.
+>
+> (Maybe we could clean it up after it's merged? Would there be any issues
+>   with backward compatibility?)
+>
+> I think the only example of this besides ASoC is the PXA2xx sound library
+> and AC97 driver:
+>
+>    - sound/arm/pxa2xx-pcm-lib.c
+>    - sound/arm/pxa2xx-ac97.c
+>
+> Regards
+> ChenYu
+>
+>
+Hi,
 
-diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
-index b907ab3..379b9ea 100644
---- a/tests/modetest/modetest.c
-+++ b/tests/modetest/modetest.c
-@@ -1138,7 +1138,7 @@ static void set_gamma(struct device *dev, unsigned crtc_id, unsigned fourcc)
+I'd like to hear Maxime opinion on this. I get it why it's overkill to 
+use ASoC.
+However it will take only couple of lines to make the changes for v4. On 
+the other
+side with dropping the ASoC, the driver must be almost rewritten. It's 
+not such a big deal,
+but I want to know that this is the right thing to do.
 
-        add_property_optional(dev, crtc_id, "DEGAMMA_LUT", 0);
-        add_property_optional(dev, crtc_id, "CTM", 0);
--       if (!add_property_optional(dev, crtc_id, "GAMMA_LUT", blob_id)) {
-+       if (add_property_optional(dev, crtc_id, "GAMMA_LUT", blob_id)) {
-                uint16_t r[256], g[256], b[256];
+Best regards,
+Stefan Mavrodiev
 
-                for (i = 0; i < 256; i++) {
---
-2.7.4
 
-This email and any attachments are intended for the sole use of the named recipient(s) and contain(s) confidential information that may be proprietary, privileged or copyrighted under applicable law. If you are not the intended recipient, do not read, copy, or forward this email message or any attachments. Delete this email message and any attachments immediately.
+P.S. Sorry for the long break.
+
+>> +
+>> +       return 0;
+>> +
+>> +unregister_component:
+>> +       snd_soc_unregister_component(hdmi->dev);
+>> +unregister_pcm:
+>> +       snd_dmaengine_pcm_unregister(hdmi->dev);
+>> +       return ret;
+>> +}
+>> +
+>> +void sun4i_hdmi_audio_destroy(struct sun4i_hdmi *hdmi)
+>> +{
+>> +       struct snd_soc_card *card = hdmi->audio.card;
+>> +       void *data;
+>> +
+>> +       /**
+>> +        * Before removing the card, restore the previously stored driver_data.
+>> +        * This will ensure proper removal of the sun4i-hdmi module, since it
+>> +        * uses dev_get_drvdata() in the unbind function.
+>> +        */
+>> +       data = snd_soc_card_get_drvdata(card);
+>> +
+>> +       snd_soc_unregister_card(card);
+>> +       snd_soc_unregister_component(hdmi->dev);
+>> +       snd_dmaengine_pcm_unregister(hdmi->dev);
+>> +
+>> +       dev_set_drvdata(hdmi->dev, data);
+>> +}
+>> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+>> index 68d4644ac2dc..4cd35c97c503 100644
+>> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+>> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+>> @@ -23,6 +23,8 @@
+>>   #include <drm/drm_print.h>
+>>   #include <drm/drm_probe_helper.h>
+>>
+>> +#include <sound/soc.h>
+>> +
+>>   #include "sun4i_backend.h"
+>>   #include "sun4i_crtc.h"
+>>   #include "sun4i_drv.h"
+>> @@ -87,6 +89,10 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder)
+>>
+>>          DRM_DEBUG_DRIVER("Disabling the HDMI Output\n");
+>>
+>> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+>> +       sun4i_hdmi_audio_destroy(hdmi);
+>> +#endif
+>> +
+>>          val = readl(hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+>>          val &= ~SUN4I_HDMI_VID_CTRL_ENABLE;
+>>          writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+>> @@ -114,6 +120,11 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+>>                  val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
+>>
+>>          writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+>> +
+>> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+>> +       if (hdmi->hdmi_audio && sun4i_hdmi_audio_create(hdmi))
+>> +               DRM_ERROR("Couldn't create the HDMI audio adapter\n");
+>> +#endif
+>>   }
+>>
+>>   static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
+>> @@ -218,6 +229,9 @@ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+>>          if (!edid)
+>>                  return 0;
+>>
+>> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
+>> +       hdmi->hdmi_audio = drm_detect_monitor_audio(edid);
+>> +#endif
+>>          hdmi->hdmi_monitor = drm_detect_hdmi_monitor(edid);
+>>          DRM_DEBUG_DRIVER("Monitor is %s monitor\n",
+>>                           hdmi->hdmi_monitor ? "an HDMI" : "a DVI");
+>> --
+>> 2.17.1
+>>
+>> --
+>> You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
+>> To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
+>> To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/20200128140642.8404-2-stefan%40olimex.com.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
