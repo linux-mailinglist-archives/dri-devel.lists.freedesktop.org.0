@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE7F16C2FC
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 14:57:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2638716C2FF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 14:58:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0DF16EAC8;
-	Tue, 25 Feb 2020 13:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D55FE6EACE;
+	Tue, 25 Feb 2020 13:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247376EAC9;
- Tue, 25 Feb 2020 13:57:49 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48B266EAD3;
+ Tue, 25 Feb 2020 13:57:56 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2020 05:57:48 -0800
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2020 05:57:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,484,1574150400"; d="scan'208";a="350153014"
+X-IronPort-AV: E=Sophos;i="5.70,484,1574150400"; d="scan'208";a="350153028"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 25 Feb 2020 05:57:44 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 25 Feb 2020 05:57:50 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
-Subject: [Intel-gfx][PATCH 02/10] drm/i915/display/cdclk: Make MISSING_CASE
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Imre Deak <imre.deak@intel.com>
+Subject: [Intel-gfx][PATCH 03/10] drm/i915/display/ddi: Make MISSING_CASE
  backtrace i915 specific
-Date: Tue, 25 Feb 2020 19:17:01 +0530
-Message-Id: <20200225134709.6153-3-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Tue, 25 Feb 2020 19:17:02 +0530
+Message-Id: <20200225134709.6153-4-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200225134709.6153-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200225134709.6153-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -93,88 +92,95 @@ func(struct drm_i915_private *T,...) {
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_cdclk.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
-index 0741d643455b..50d7415d0c4c 100644
---- a/drivers/gpu/drm/i915/display/intel_cdclk.c
-+++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
-@@ -545,7 +545,7 @@ static void vlv_set_cdclk(struct drm_i915_private *dev_priv,
- 	case 200000:
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 9f7d1d7189ae..e060c5e2fbb1 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -873,7 +873,7 @@ cnl_get_buf_trans_hdmi(struct drm_i915_private *dev_priv, int *n_entries)
+ 		return cnl_ddi_translations_hdmi_1_05V;
+ 	} else {
+ 		*n_entries = 1; /* shut up gcc */
+-		MISSING_CASE(voltage);
++		i915_MISSING_CASE(dev_priv, voltage);
+ 	}
+ 	return NULL;
+ }
+@@ -894,7 +894,7 @@ cnl_get_buf_trans_dp(struct drm_i915_private *dev_priv, int *n_entries)
+ 		return cnl_ddi_translations_dp_1_05V;
+ 	} else {
+ 		*n_entries = 1; /* shut up gcc */
+-		MISSING_CASE(voltage);
++		i915_MISSING_CASE(dev_priv, voltage);
+ 	}
+ 	return NULL;
+ }
+@@ -916,7 +916,7 @@ cnl_get_buf_trans_edp(struct drm_i915_private *dev_priv, int *n_entries)
+ 			return cnl_ddi_translations_edp_1_05V;
+ 		} else {
+ 			*n_entries = 1; /* shut up gcc */
+-			MISSING_CASE(voltage);
++			i915_MISSING_CASE(dev_priv, voltage);
+ 		}
+ 		return NULL;
+ 	} else {
+@@ -1360,7 +1360,7 @@ static int hsw_ddi_calc_wrpll_link(struct drm_i915_private *dev_priv,
+ 		refclk = 2700;
  		break;
  	default:
--		MISSING_CASE(cdclk);
-+		i915_MISSING_CASE(dev_priv, cdclk);
- 		return;
+-		MISSING_CASE(wrpll);
++		i915_MISSING_CASE(dev_priv, wrpll);
+ 		return 0;
  	}
  
-@@ -633,7 +633,7 @@ static void chv_set_cdclk(struct drm_i915_private *dev_priv,
- 	case 200000:
- 		break;
+@@ -1500,7 +1500,7 @@ static int icl_calc_tbt_pll_link(struct drm_i915_private *dev_priv,
+ 	case DDI_CLK_SEL_TBT_810:
+ 		return 810000;
  	default:
--		MISSING_CASE(cdclk);
-+		i915_MISSING_CASE(dev_priv, cdclk);
- 		return;
- 	}
- 
-@@ -762,7 +762,7 @@ static void bdw_set_cdclk(struct drm_i915_private *dev_priv,
- 
- 	switch (cdclk) {
- 	default:
--		MISSING_CASE(cdclk);
-+		i915_MISSING_CASE(dev_priv, cdclk);
- 		/* fall through */
- 	case 337500:
- 		val |= LCPLL_CLK_FREQ_337_5_BDW;
-@@ -868,7 +868,8 @@ static void skl_dpll0_update(struct drm_i915_private *dev_priv,
- 		cdclk_config->vco = 8640000;
- 		break;
- 	default:
--		MISSING_CASE(val & DPLL_CTRL1_LINK_RATE_MASK(SKL_DPLL0));
-+		i915_MISSING_CASE(dev_priv,
-+				  val & DPLL_CTRL1_LINK_RATE_MASK(SKL_DPLL0));
- 		break;
+-		MISSING_CASE(val);
++		i915_MISSING_CASE(dev_priv, val);
+ 		return 0;
  	}
  }
-@@ -902,7 +903,8 @@ static void skl_get_cdclk(struct drm_i915_private *dev_priv,
- 			cdclk_config->cdclk = 617143;
- 			break;
- 		default:
--			MISSING_CASE(cdctl & CDCLK_FREQ_SEL_MASK);
-+			i915_MISSING_CASE(dev_priv,
-+					  cdctl & CDCLK_FREQ_SEL_MASK);
- 			break;
- 		}
- 	} else {
-@@ -920,7 +922,8 @@ static void skl_get_cdclk(struct drm_i915_private *dev_priv,
- 			cdclk_config->cdclk = 675000;
- 			break;
- 		default:
--			MISSING_CASE(cdctl & CDCLK_FREQ_SEL_MASK);
-+			i915_MISSING_CASE(dev_priv,
-+					  cdctl & CDCLK_FREQ_SEL_MASK);
- 			break;
- 		}
- 	}
-@@ -1329,7 +1332,7 @@ static void icl_readout_refclk(struct drm_i915_private *dev_priv,
- 
- 	switch (dssm) {
- 	default:
--		MISSING_CASE(dssm);
-+		i915_MISSING_CASE(dev_priv, dssm);
- 		/* fall through */
- 	case ICL_DSSM_CDCLK_PLL_REFCLK_24MHz:
- 		cdclk_config->ref = 24000;
-@@ -1419,7 +1422,7 @@ static void bxt_get_cdclk(struct drm_i915_private *dev_priv,
- 		div = 8;
+@@ -1553,7 +1553,7 @@ static int icl_calc_mg_pll_link(struct drm_i915_private *dev_priv,
+ 		div1 = 7;
  		break;
  	default:
--		MISSING_CASE(divider);
-+		i915_MISSING_CASE(dev_priv, divider);
- 		return;
+-		MISSING_CASE(pll_state->mg_clktop2_hsclkctl);
++		i915_MISSING_CASE(dev_priv, pll_state->mg_clktop2_hsclkctl);
+ 		return 0;
  	}
  
+@@ -1841,7 +1841,7 @@ void intel_ddi_set_dp_msa(const struct intel_crtc_state *crtc_state,
+ 		temp |= DP_MSA_MISC_12_BPC;
+ 		break;
+ 	default:
+-		MISSING_CASE(crtc_state->pipe_bpp);
++		i915_MISSING_CASE(dev_priv, crtc_state->pipe_bpp);
+ 		break;
+ 	}
+ 
+@@ -2156,7 +2156,8 @@ static void intel_ddi_get_encoder_pipes(struct intel_encoder *encoder,
+ 
+ 		switch (tmp & TRANS_DDI_EDP_INPUT_MASK) {
+ 		default:
+-			MISSING_CASE(tmp & TRANS_DDI_EDP_INPUT_MASK);
++			i915_MISSING_CASE(dev_priv,
++					  tmp & TRANS_DDI_EDP_INPUT_MASK);
+ 			/* fallthrough */
+ 		case TRANS_DDI_EDP_INPUT_A_ON:
+ 		case TRANS_DDI_EDP_INPUT_A_ONOFF:
+@@ -3334,7 +3335,7 @@ icl_program_mg_dp_mode(struct intel_digital_port *intel_dig_port,
+ 		}
+ 		break;
+ 	default:
+-		MISSING_CASE(pin_assignment);
++		i915_MISSING_CASE(dev_priv, pin_assignment);
+ 	}
+ 
+ 	if (INTEL_GEN(dev_priv) >= 12) {
 -- 
 2.23.0
 
