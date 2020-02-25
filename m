@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D3216F925
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AC416F90D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1C6B6E21B;
-	Wed, 26 Feb 2020 08:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9C7C6E1B2;
+	Wed, 26 Feb 2020 08:08:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB256EB35
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 16:13:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA79C6EB3A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 16:14:32 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id AB537ACB8;
- Tue, 25 Feb 2020 16:13:34 +0000 (UTC)
-Message-ID: <52aebb76952df530f93e9de539124ddf1b825876.camel@suse.de>
-Subject: Re: [PATCH 10/89] clk: bcm: rpi: Remove global pllb_arm clock pointer
+ by mx2.suse.de (Postfix) with ESMTP id 9A7D0ABD7;
+ Tue, 25 Feb 2020 16:14:31 +0000 (UTC)
+Message-ID: <609c96533fec609243f12a1f5fdd494e4f1ae34e.camel@suse.de>
+Subject: Re: [PATCH 11/89] clk: bcm: rpi: Make sure pllb_arm is removed
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>
-Date: Tue, 25 Feb 2020 17:13:33 +0100
-In-Reply-To: <3876f732b3fec2059270678d464d27b7d3a0414b.1582533919.git-series.maxime@cerno.tech>
+Date: Tue, 25 Feb 2020 17:14:30 +0100
+In-Reply-To: <5571315e0aa8c8af02ad61cb396137707d4b6da4.1582533919.git-series.maxime@cerno.tech>
 References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <3876f732b3fec2059270678d464d27b7d3a0414b.1582533919.git-series.maxime@cerno.tech>
+ <5571315e0aa8c8af02ad61cb396137707d4b6da4.1582533919.git-series.maxime@cerno.tech>
 User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
@@ -43,61 +43,65 @@ Cc: Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-clk@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
  linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0145739788=="
+Content-Type: multipart/mixed; boundary="===============1237172449=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0145739788==
+--===============1237172449==
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-+DV8XHxS6Q5E2RTbz1B1"
+	protocol="application/pgp-signature"; boundary="=-zSYz+O1TkTTw+s8JuVwF"
 
 
---=-+DV8XHxS6Q5E2RTbz1B1
+--=-zSYz+O1TkTTw+s8JuVwF
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Mon, 2020-02-24 at 10:06 +0100, Maxime Ripard wrote:
-> The pllb_arm clk_hw pointer in the raspberry_clk structure isn't used
-> anywhere but in the raspberrypi_register_pllb_arm.
+> The pllb_arm clock was created at probe time, but was never removed if
+> something went wrong later in probe, or if the driver was ever removed fr=
+om
+> the system.
 >=20
-> Let's remove it, this will make our lives easier in future patches.
+> Now that we are using clk_hw_register, we can just use its managed varian=
+t
+> to take care of that for us.
 >=20
 > Cc: Michael Turquette <mturquette@baylibre.com>
 > Cc: Stephen Boyd <sboyd@kernel.org>
 > Cc: linux-clk@vger.kernel.org
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Acked-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 
 Thanks!
 Nicolas
 
 
---=-+DV8XHxS6Q5E2RTbz1B1
+--=-zSYz+O1TkTTw+s8JuVwF
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl5VR60ACgkQlfZmHno8
-x/6e7wf/XVgbwEEX5ppOPnSG2E91lbuIzKYvYGPjiktH7Nah1qc0u+QdwzPf6KDT
-yc3+x2Qc8SJMYKsA67LRGpfmpt4x/BTMobJ9cz5v5wSi3bdRy/BI1ocszZ39NJPW
-5gSbcUp9qRpTHFav65qYTmKeB/lq0D9legwP/2BzurnevyEnmCvmRpO2/rHytbqI
-xb0zgMky5eME5T45VseWgkO0MsvjYNavumgrMC7fXP6aqsFyugX0mGmgM7Qy0I8z
-/b7sC6q/c/52SuxzZv0089XNRCz67N27Kqnxm0qY2JX14QggoxHDpFnHuBUUceK4
-qzePwlSt7NB700qR2B7M4kkoiBlWbg==
-=wHRd
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl5VR+YACgkQlfZmHno8
+x/5tbgf+KEUYT0jpT3C1Unk34E5t2GRWaiQ46ZtRMRoYx60hHiygSxcrkoZOtYiF
+WgsNmLUlhgSu30qeRzOgsfYHoS7ttnuZjDXWXB2Lx27bnGBXrgZPnLfEefBAQt02
+uCd/O+Nc45NFZLfxk3AGansY5ja4i5zG115Zy5njBoDBmxdchTmh4IX6dj99heKa
+p1VeDbgDt0CTpFUpUE2vVI59mLsI9MnVyTh2CngxfW0Kev9MpEPqWcWiO1xbxae4
+AND1pPwO5aAEc0qWB2NqlDOZ+c/eJMWwQ5p7UaorMdUaURQY5zr12Qfzqnhm+6QX
+gWJJCfh07YRMgduhXRK0dagH1ddjtQ==
+=LhDi
 -----END PGP SIGNATURE-----
 
---=-+DV8XHxS6Q5E2RTbz1B1--
+--=-zSYz+O1TkTTw+s8JuVwF--
 
 
---===============0145739788==
+--===============1237172449==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -108,5 +112,5 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0145739788==--
+--===============1237172449==--
 
