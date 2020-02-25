@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82ACE16C456
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 15:48:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCAF416C466
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 15:52:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97AD76EB00;
-	Tue, 25 Feb 2020 14:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78EE66EB0A;
+	Tue, 25 Feb 2020 14:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7AD36EB00;
- Tue, 25 Feb 2020 14:48:18 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2020 06:48:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,484,1574150400"; d="scan'208";a="231475139"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga008.fm.intel.com with SMTP; 25 Feb 2020 06:48:14 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 25 Feb 2020 16:48:14 +0200
-Date: Tue, 25 Feb 2020 16:48:14 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH] drm: avoid spurious EBUSY due to nonblocking
- atomic modesets
-Message-ID: <20200225144814.GC13686@intel.com>
-References: <20200225115024.2386811-1-daniel.vetter@ffwll.ch>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB0DE6EB0A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 14:52:44 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8625543F;
+ Tue, 25 Feb 2020 15:52:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1582642362;
+ bh=gxSLu6CCwTAPAtTQH7f1DWRrjMrGlrhtuN72QoOPgbE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jOZbpoEdLeV0tlt8Yqmw6UMKZ5qX08sJ0r7U1S2wYGrxUYo1p/R3ATne1TL881qR/
+ 6/mgLLgqNVpBKrN2+cKeoskTidOCeNSANb7u1LeMF7dPfYW6hH3/Hz26mZUSaR2oRL
+ gnYrhWbxqA+TEzzl55W09XjhHuQHLCVX8DcEZl20=
+Date: Tue, 25 Feb 2020 16:52:21 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCHv2 08/56] drm/omap: panel-dsi-cm: convert to transfer API
+Message-ID: <20200225145221.GG4764@pendragon.ideasonboard.com>
+References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
+ <20200224232126.3385250-9-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200225115024.2386811-1-daniel.vetter@ffwll.ch>
-X-Patchwork-Hint: comment
+In-Reply-To: <20200224232126.3385250-9-sebastian.reichel@collabora.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,142 +47,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable@vger.kernel.org, DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2020 at 12:50:24PM +0100, Daniel Vetter wrote:
-> When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
-> pull in arbitrary other resources, including CRTCs (e.g. when
-> reconfiguring global resources).
-> =
+Hi Sebastian,
 
-> But in nonblocking mode userspace has then no idea this happened,
-> which can lead to spurious EBUSY calls, both:
-> - when that other CRTC is currently busy doing a page_flip the
->   ALLOW_MODESET commit can fail with an EBUSY
-> - on the other CRTC a normal atomic flip can fail with EBUSY because
->   of the additional commit inserted by the kernel without userspace's
->   knowledge
-> =
+Thank you for the patch.
 
-> For blocking commits this isn't a problem, because everyone else will
-> just block until all the CRTC are reconfigured. Only thing userspace
-> can notice is the dropped frames without any reason for why frames got
-> dropped.
-> =
-
-> Consensus is that we need new uapi to handle this properly, but no one
-> has any idea what exactly the new uapi should look like. As a stop-gap
-> plug this problem by demoting nonblocking commits which might cause
-> issues by including CRTCs not in the original request to blocking
-> commits.
-> =
-
-> v2: Add comments and a WARN_ON to enforce this only when allowed - we
-> don't want to silently convert page flips into blocking plane updates
-> just because the driver is buggy.
-> =
-
-> v3: Fix inverted WARN_ON (Pekka).
-> =
-
-> References: https://lists.freedesktop.org/archives/dri-devel/2018-July/18=
-2281.html
-> Bugzilla: https://gitlab.freedesktop.org/wayland/weston/issues/24#note_95=
-68
-> Cc: Daniel Stone <daniel@fooishbar.org>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Daniel Stone <daniels@collabora.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+On Tue, Feb 25, 2020 at 12:20:38AM +0100, Sebastian Reichel wrote:
+> This converts the panel-dsi-cm driver to use the transfer
+> API instead of specific functions, so that the specific
+> functions can be unexported and squashed into the generic
+> transfer function.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > ---
->  drivers/gpu/drm/drm_atomic.c | 34 +++++++++++++++++++++++++++++++---
->  1 file changed, 31 insertions(+), 3 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 9ccfbf213d72..4c035abf98b8 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1362,15 +1362,43 @@ EXPORT_SYMBOL(drm_atomic_commit);
->  int drm_atomic_nonblocking_commit(struct drm_atomic_state *state)
+>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 133 +++++++++++++-----
+>  1 file changed, 96 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> index e6ebfc35243e..92f510a771fe 100644
+> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> @@ -140,45 +140,61 @@ static void hw_guard_wait(struct panel_drv_data *ddata)
+>  static int dsicm_dcs_read_1(struct panel_drv_data *ddata, u8 dcs_cmd, u8 *data)
 >  {
->  	struct drm_mode_config *config =3D &state->dev->mode_config;
-> -	int ret;
-> +	unsigned requested_crtc =3D 0;
-> +	unsigned affected_crtc =3D 0;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *crtc_state;
-> +	bool nonblocking =3D true;
-> +	int ret, i;
-> +
-> +	/*
-> +	 * For commits that allow modesets drivers can add other CRTCs to the
-> +	 * atomic commit, e.g. when they need to reallocate global resources.
-> +	 *
-> +	 * But when userspace also requests a nonblocking commit then userspace
-> +	 * cannot know that the commit affects other CRTCs, which can result in
-> +	 * spurious EBUSY failures. Until we have better uapi plug this by
-> +	 * demoting such commits to blocking mode.
-> +	 */
-> +	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-> +		requested_crtc |=3D drm_crtc_mask(crtc);
->  =
-
->  	ret =3D drm_atomic_check_only(state);
->  	if (ret)
->  		return ret;
->  =
-
-> -	DRM_DEBUG_ATOMIC("committing %p nonblocking\n", state);
-> +	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-> +		affected_crtc |=3D drm_crtc_mask(crtc);
-> +
-> +	if (affected_crtc !=3D requested_crtc) {
-> +		/* adding other CRTC is only allowed for modeset commits */
-> +		WARN_ON(!state->allow_modeset);
-
-Not sure that's really true. What if the driver needs to eg.
-redistribute FIFO space or something between the pipes? Or do we
-expect drivers to now examine state->allow_modeset to figure out
-if they're allowed to do certain things?
-
-> +
-> +		DRM_DEBUG_ATOMIC("demoting %p to blocking mode to avoid EBUSY\n", stat=
-e);
-> +		nonblocking =3D false;
-> +	} else {
-> +		DRM_DEBUG_ATOMIC("committing %p nonblocking\n", state);
-> +	}
->  =
-
-> -	return config->funcs->atomic_commit(state->dev, state, true);
-> +	return config->funcs->atomic_commit(state->dev, state, nonblocking);
+>  	struct omap_dss_device *src = ddata->src;
+> -	int r;
+> -	u8 buf[1];
+> -
+> -	r = src->ops->dsi.dcs_read(src, ddata->channel, dcs_cmd, buf, 1);
+> -
+> -	if (r < 0)
+> -		return r;
+> -
+> -	*data = buf[0];
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_DCS_READ,
+> +		.tx_len = 1,
+> +		.tx_buf = &dcs_cmd,
+> +		.rx_len = 1,
+> +		.rx_buf = data
+> +	};
+>  
+> -	return 0;
+> +	return src->ops->dsi.transfer(src, &msg);
 >  }
->  EXPORT_SYMBOL(drm_atomic_nonblocking_commit);
->  =
+>  
+>  static int dsicm_dcs_write_0(struct panel_drv_data *ddata, u8 dcs_cmd)
+>  {
+>  	struct omap_dss_device *src = ddata->src;
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_DCS_SHORT_WRITE,
+> +		.tx_buf = &dcs_cmd,
+> +		.tx_len = 1,
+> +	};
+>  
+> -	return src->ops->dsi.dcs_write(src, ddata->channel, &dcs_cmd, 1);
+> +	return src->ops->dsi.transfer(src, &msg);
+>  }
+>  
+>  static int dsicm_dcs_write_1(struct panel_drv_data *ddata, u8 dcs_cmd, u8 param)
+>  {
+>  	struct omap_dss_device *src = ddata->src;
+> -	u8 buf[2] = { dcs_cmd, param };
+> +	const u8 buf[] = { dcs_cmd, param };
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_DCS_SHORT_WRITE_PARAM,
+> +		.tx_buf = &buf,
+> +		.tx_len = 2,
+> +	};
+>  
+> -	return src->ops->dsi.dcs_write(src, ddata->channel, buf, 2);
+> +	return src->ops->dsi.transfer(src, &msg);
+>  }
+>  
+>  static int dsicm_sleep_in(struct panel_drv_data *ddata)
+>  
+>  {
+>  	struct omap_dss_device *src = ddata->src;
+> -	u8 cmd;
+>  	int r;
+> +	const u8 cmd = MIPI_DCS_ENTER_SLEEP_MODE;
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_DCS_SHORT_WRITE,
+> +		.tx_buf = &cmd,
+> +		.tx_len = 1,
+> +	};
+>  
+>  	hw_guard_wait(ddata);
+>  
+> -	cmd = MIPI_DCS_ENTER_SLEEP_MODE;
+> -	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, &cmd, 1);
+> +	r = src->ops->dsi.transfer(src, &msg);
 
-> -- =
+Should you call dsicm_dcs_write_0(ddata, MIPI_DCS_ENTER_SLEEP_MODE)
+instead ? This uses the _nosync variant though, is it an issue ?
 
-> 2.24.1
-> =
+>  	if (r)
+>  		return r;
+>  
+> @@ -233,28 +249,44 @@ static int dsicm_set_update_window(struct panel_drv_data *ddata,
+>  	u16 y1 = y;
+>  	u16 y2 = y + h - 1;
+>  
+> -	u8 buf[5];
+> -	buf[0] = MIPI_DCS_SET_COLUMN_ADDRESS;
+> -	buf[1] = (x1 >> 8) & 0xff;
+> -	buf[2] = (x1 >> 0) & 0xff;
+> -	buf[3] = (x2 >> 8) & 0xff;
+> -	buf[4] = (x2 >> 0) & 0xff;
+> +	const u8 paramX[] = {
+> +		MIPI_DCS_SET_COLUMN_ADDRESS,
+> +		(x1 >> 8) & 0xff,
+> +		(x1 >> 0) & 0xff,
+> +		(x2 >> 8) & 0xff,
+> +		(x2 >> 0) & 0xff,
+> +	};
+>  
+> -	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, buf, sizeof(buf));
+> -	if (r)
+> -		return r;
+> +	const struct mipi_dsi_msg msgX = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_GENERIC_LONG_WRITE,
+> +		.tx_buf = paramX,
+> +		.tx_len = 5,
+> +	};
+>  
+> -	buf[0] = MIPI_DCS_SET_PAGE_ADDRESS;
+> -	buf[1] = (y1 >> 8) & 0xff;
+> -	buf[2] = (y1 >> 0) & 0xff;
+> -	buf[3] = (y2 >> 8) & 0xff;
+> -	buf[4] = (y2 >> 0) & 0xff;
+> +	const u8 paramY[] = {
+> +		MIPI_DCS_SET_PAGE_ADDRESS,
+> +		(y1 >> 8) & 0xff,
+> +		(y1 >> 0) & 0xff,
+> +		(y2 >> 8) & 0xff,
+> +		(y2 >> 0) & 0xff,
+> +	};
+>  
+> -	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, buf, sizeof(buf));
 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+Also replacing a _nosync variant here.
 
--- =
+> +	const struct mipi_dsi_msg msgY = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_GENERIC_LONG_WRITE,
+> +		.tx_buf = paramY,
+> +		.tx_len = 5,
+> +	};
+> +
+> +
 
-Ville Syrj=E4l=E4
-Intel
+A single blank line is enough.
+
+> +	r = src->ops->dsi.transfer(src, &msgX);
+>  	if (r)
+>  		return r;
+>  
+> -	src->ops->dsi.bta_sync(src, ddata->channel);
+> +	r = src->ops->dsi.transfer(src, &msgY);
+
+And here, you're replacing bta_sync. If I understand the code correctly,
+you're essentially removing an optimization, as each write will sync,
+right ? I'm fine with this change if we add the functionality back later
+in this series.
+
+> +	if (r)
+> +		return r;
+>  
+>  	return r;
+>  }
+> @@ -991,6 +1023,27 @@ static int dsicm_get_te(struct omap_dss_device *dssdev)
+>  	return r;
+>  }
+>  
+> +static int dsicm_set_max_rx_packet_size(struct omap_dss_device *dssdev,
+> +                                        u16 size)
+
+Please use tabs instead of spaces for indentation.
+
+> +{
+> +	struct panel_drv_data *ddata = to_panel_data(dssdev);
+> +	struct omap_dss_device *src = ddata->src;
+> +
+> +	const u8 buf[] = {
+> +		size & 0xff,
+> +		size >> 8 & 0xff,
+> +	};
+> +
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE,
+> +		.tx_buf = buf,
+> +		.tx_len = 2,
+> +	};
+> +
+> +	return src->ops->dsi.transfer(src, &msg);
+> +}
+> +
+>  static int dsicm_memory_read(struct omap_dss_device *dssdev,
+>  		void *buf, size_t size,
+>  		u16 x, u16 y, u16 w, u16 h)
+> @@ -1031,17 +1084,23 @@ static int dsicm_memory_read(struct omap_dss_device *dssdev,
+>  
+>  	dsicm_set_update_window(ddata, x, y, w, h);
+>  
+> -	r = src->ops->dsi.set_max_rx_packet_size(src, ddata->channel, plen);
+> +	r = dsicm_set_max_rx_packet_size(dssdev, plen);
+>  	if (r)
+>  		goto err2;
+>  
+>  	while (buf_used < size) {
+>  		u8 dcs_cmd = first ? 0x2e : 0x3e;
+> +		const struct mipi_dsi_msg msg = {
+> +			.channel = ddata->channel,
+> +			.type = MIPI_DSI_DCS_READ,
+> +			.tx_buf = &dcs_cmd,
+> +			.tx_len = 1,
+> +			.rx_buf = buf + buf_used,
+> +			.rx_len = size - buf_used,
+> +		};
+>  		first = 0;
+>  
+> -		r = src->ops->dsi.dcs_read(src, ddata->channel, dcs_cmd,
+> -				buf + buf_used, size - buf_used);
+> -
+> +		r = src->ops->dsi.transfer(src, &msg);
+>  		if (r < 0) {
+>  			dev_err(dssdev->dev, "read error\n");
+>  			goto err3;
+> @@ -1065,7 +1124,7 @@ static int dsicm_memory_read(struct omap_dss_device *dssdev,
+>  	r = buf_used;
+>  
+>  err3:
+> -	src->ops->dsi.set_max_rx_packet_size(src, ddata->channel, 1);
+> +	dsicm_set_max_rx_packet_size(dssdev, 1);
+>  err2:
+>  	src->ops->dsi.bus_unlock(src);
+>  err1:
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
