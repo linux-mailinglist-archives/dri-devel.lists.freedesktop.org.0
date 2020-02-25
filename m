@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC60C16B8B6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 06:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1AC16B975
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 07:10:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD7E6E0DB;
-	Tue, 25 Feb 2020 05:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D84F892C1;
+	Tue, 25 Feb 2020 06:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 98DF36E0DB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 05:07:47 +0000 (UTC)
-X-UUID: e29ec071ec53492589a630c73f070c9f-20200225
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=/rtGSIQMd4B3KB57xrUi7K3ubIpRTDkINY3agOAnA5g=; 
- b=k6MaK41Z4INDrhlLEsvigYWeqTh9KMbVAE4ZQ0AUwAR/E6/XeZeuqynBxE/WxD1qeeiY7W6m6HsF1GYPTzQpTTLUSHUPGcjZs4u8fenJ3IydNtJ6BfnlT7x9HSypnkdAbgcTOR+2PeEMeKS5eV4IsmKz/Dev9txQai0K7pSeBEA=;
-X-UUID: e29ec071ec53492589a630c73f070c9f-20200225
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 356552752; Tue, 25 Feb 2020 13:07:42 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkexhb02.mediatek.inc (172.21.101.103) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 25 Feb 2020 13:07:08 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 25 Feb 2020 13:07:28 +0800
-Message-ID: <1582607261.2773.0.camel@mtksdaap41>
-Subject: Re: [PATCH] drm/mediatek: component type MTK_DISP_OVL_2L is not
- correctly handled
-From: CK Hu <ck.hu@mediatek.com>
-To: Phong LE <ple@baylibre.com>
-Date: Tue, 25 Feb 2020 13:07:41 +0800
-In-Reply-To: <1582162568.24713.0.camel@mtksdaap41>
-References: <20200219141324.29299-1-ple@baylibre.com>
- <1582162568.24713.0.camel@mtksdaap41>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55915892C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 06:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582611021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cQNaTh1HwhNOEGJ51j3glAMwSw4Nt/oACsQTPYH5feA=;
+ b=QAGU8L5ORywZQSIqLmaxAkh+ssSOnvKi4HC5HzG2Fijf/WGDgCQCTOvC5pZFeFSQaLg9UM
+ myOGdXQ1B7o1jMQ2TR9SysgCg4H+Alyt2z0YY6ti8Cq11nsT28s2MZBz/4L1+/HLln0iS4
+ MR3ZiQ+M0HAKTW4O2T4yVFa3sXkQmZg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-DYyKaKDLN3CegtXVUSCMDQ-1; Tue, 25 Feb 2020 01:10:14 -0500
+X-MC-Unique: DYyKaKDLN3CegtXVUSCMDQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DBCF107ACC4;
+ Tue, 25 Feb 2020 06:10:12 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-87.ams2.redhat.com
+ [10.36.116.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10680385;
+ Tue, 25 Feb 2020 06:10:09 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2C95F1747F; Tue, 25 Feb 2020 07:10:08 +0100 (CET)
+Date: Tue, 25 Feb 2020 07:10:08 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [PATCH 1/2] virtio: add dma-buf support for exported objects
+Message-ID: <20200225061008.wqxqppfglzmwvtid@sirius.home.kraxel.org>
+References: <20200219080637.61312-1-stevensd@chromium.org>
+ <20200219080637.61312-2-stevensd@chromium.org>
 MIME-Version: 1.0
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <20200219080637.61312-2-stevensd@chromium.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,55 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: virtio-dev@lists.oasis-open.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ David Airlie <airlied@linux.ie>, Jason Wang <jasowang@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Phong:
+On Wed, Feb 19, 2020 at 05:06:36PM +0900, David Stevens wrote:
+> This change adds a new flavor of dma-bufs that can be used by virtio
+> drivers to share exported objects. A virtio dma-buf can be queried by
+> virtio drivers to obtain the UUID which identifies the underlying
+> exported object.
 
-On Thu, 2020-02-20 at 09:36 +0800, CK Hu wrote:
-> Hi, Phong:
-> 
-> On Wed, 2020-02-19 at 15:13 +0100, Phong LE wrote:
-> > The larb device remains NULL if the type is MTK_DISP_OVL_2L.
-> > A kernel panic is raised when a crtc uses mtk_smi_larb_get or
-> > mtk_smi_larb_put.
-> > 
-> 
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> 
+That duplicates a bunch of code from dma-buf.c in virtio_dma_buf.c.
 
-Applied to mediatek-drm-fixes-5.6 [1], thanks.
+How about dma_buf_{get,set}_uuid, simliar to dma_buf_set_name?
 
-[1]
-https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-fixes-5.6
-
-Regards,
-CK
-
-> > Signed-off-by: Phong LE <ple@baylibre.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > index 1f5a112bb034..57c88de9a329 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > @@ -471,6 +471,7 @@ int mtk_ddp_comp_init(struct device *dev, struct device_node *node,
-> >  	/* Only DMA capable components need the LARB property */
-> >  	comp->larb_dev = NULL;
-> >  	if (type != MTK_DISP_OVL &&
-> > +	    type != MTK_DISP_OVL_2L &&
-> >  	    type != MTK_DISP_RDMA &&
-> >  	    type != MTK_DISP_WDMA)
-> >  		return 0;
-> 
+cheers,
+  Gerd
 
 _______________________________________________
 dri-devel mailing list
