@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C1F16EDBE
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:17:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A79E416EDC4
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:18:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3D96EB7B;
-	Tue, 25 Feb 2020 18:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B07346EB7C;
+	Tue, 25 Feb 2020 18:18:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28FC66EB7B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:17:55 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id w6so454565otk.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 10:17:55 -0800 (PST)
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F08D36EB7C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:18:10 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id a22so199391oid.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 10:18:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=cfeiAYk0sz6jKgpfGcPq2AbGtANcSLd4G7ZU9zGmlGY=;
- b=jstAgPxckk59YmXuWZHVcJiRyknKj9sFtSJxcoDbwM2WswXQU/r9OtTLauTCe5trm7
- lIwqFLVoLNZnvWePrNW9tL4tQPvenXxi9YWx1HT65HGs2tXVRjJ9QOMCRi09I6XW2lFe
- SztkaJW7BWysPDhBrmyd/CH+EM62B5qzQmYVoDtYZGnTw64SVkOsC3iwT/grqayKOFKi
- 2Is9HWlHdIpgfY9lyUH/M05eju/Q9K9ZpJZ6zfBi5FtSqdhZzrC82apxPW8OJG1ZVwf5
- ManamcGR/SqiOVa7S6kzbd3rfvwptbRf27AsFYUiQ9EnXVfEJXs/m6JE1+Ox0IKuJR24
- 2FGQ==
-X-Gm-Message-State: APjAAAWplZDvkK3V+wiCBh6n7fcMKu9FZb3vIeGbrrCCUJbAf4Lt74Fl
- L8mDzMoZaluC87dtZ+5Vgqi7lic=
-X-Google-Smtp-Source: APXvYqyfQgGOrT9ThsnJbQjUHaKtSnLHIPJhsBT8XMy6vzVDDAHDLigOB2OIEY8iBbOVlcXyZ2O+tw==
-X-Received: by 2002:a05:6830:1657:: with SMTP id
- h23mr2287541otr.299.1582654674415; 
- Tue, 25 Feb 2020 10:17:54 -0800 (PST)
+ bh=yiMVySvuuBlNCELv1IEvGZ2avIS4ux6UUmlN6NsgO3k=;
+ b=ZWc46Wi5YMLQVeFw9N7OgfF9Rv+n3u750BIwLsQRnpijiNBwJrvBwwF3pZC74emUMP
+ 9Q4kxRlVAVCSCbGJIIqVZUTUeN/u+8zXL3Lt7/R9KQ/eE2vXUXB2D6XJD9Fe2Eg/c+mw
+ sT7Pjp31wScE4Q9aL4DnNU1lheukRf49CqK0arZm+ir0ge9iJMD5WjzW39w6Vk0SIdWH
+ 53AdEfNtWV6RcwYdSZmKKhG6Y4ZRw/Jo+RXNSVrLAOvuZWPm2T3nopc1D9Ual3RAUJA2
+ 4bVZr3l2caM3sCxdog+bYXECpxNta2ZN2naQQAjlzZgu2YBMtlCuLGoC3A8eAHxIkiaW
+ 7oIQ==
+X-Gm-Message-State: APjAAAX/p4iugLxwZ/8glmNNUUF5WGdUec48w+avywGpg2E2t9ne0WyS
+ boCVpJ/1ZRLlNgXhjxZwiw==
+X-Google-Smtp-Source: APXvYqw28xdyGvjSdjDarHW2s0Fb+onlANDW5taKELi+Efvfv9JYUmEAg2FjeRAIn4sbu4cnKvc/jA==
+X-Received: by 2002:aca:2803:: with SMTP id 3mr177830oix.162.1582654690275;
+ Tue, 25 Feb 2020 10:18:10 -0800 (PST)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id i7sm5569162oib.42.2020.02.25.10.17.53
+ by smtp.gmail.com with ESMTPSA id i7sm5569443oib.42.2020.02.25.10.18.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 10:17:53 -0800 (PST)
-Received: (nullmailer pid 5252 invoked by uid 1000);
- Tue, 25 Feb 2020 18:17:53 -0000
-Date: Tue, 25 Feb 2020 12:17:53 -0600
+ Tue, 25 Feb 2020 10:18:09 -0800 (PST)
+Received: (nullmailer pid 5749 invoked by uid 1000);
+ Tue, 25 Feb 2020 18:18:08 -0000
+Date: Tue, 25 Feb 2020 12:18:08 -0600
 From: Rob Herring <robh@kernel.org>
 To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 30/89] dt-bindings: display: vc4: dpi: Add missing
- clock-names property
-Message-ID: <20200225181753.GA5213@bogus>
+Subject: Re: [PATCH 31/89] dt-bindings: display: vc4: dsi: Add missing clock
+ properties
+Message-ID: <20200225181808.GA5699@bogus>
 References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <042c8f676d3d863b55092bb58c1f15db95370782.1582533919.git-series.maxime@cerno.tech>
+ <2d7aaa0bdf3f0cb66d14700fb77348453b3cd29a.1582533919.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <042c8f676d3d863b55092bb58c1f15db95370782.1582533919.git-series.maxime@cerno.tech>
+In-Reply-To: <2d7aaa0bdf3f0cb66d14700fb77348453b3cd29a.1582533919.git-series.maxime@cerno.tech>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,16 +73,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Feb 2020 10:06:32 +0100, Maxime Ripard wrote:
-> While the device tree and the driver expected a clock-names property, it
-> wasn't explicitly documented in the previous binding. Make sure it is now.
+On Mon, 24 Feb 2020 10:06:33 +0100, Maxime Ripard wrote:
+> While the device tree and the driver expected a clock-names and a
+> clock-cells properties, it wasn't explicitly documented in the previous
+> binding. Make sure it is now.
 > 
 > Cc: Rob Herring <robh+dt@kernel.org>
 > Cc: devicetree@vger.kernel.org
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml | 11 +++++++-
+>  1 file changed, 11 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
