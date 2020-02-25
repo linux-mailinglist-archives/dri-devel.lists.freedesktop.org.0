@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD8316F90B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7636516F91A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396116E1B5;
-	Wed, 26 Feb 2020 08:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7846E1EE;
+	Wed, 26 Feb 2020 08:08:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE086EAA4
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:50:18 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90E1A89854
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:53:45 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 3DD8B294C05
+ with ESMTPSA id 3C3E9294C05
 Received: by earth.universe (Postfix, from userid 1000)
- id ED9313C0C83; Tue, 25 Feb 2020 12:50:14 +0100 (CET)
+ id E7EE93C0C83; Tue, 25 Feb 2020 12:53:41 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sre@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2.1 45/56] drm/omap: dsi: Register a drm_bridge
-Date: Tue, 25 Feb 2020 12:50:13 +0100
-Message-Id: <20200225115013.3557409-1-sebastian.reichel@collabora.com>
+Subject: [PATCHv2 57/56] dt-bindings: display: panel-dsi-cm: convert to YAML
+Date: Tue, 25 Feb 2020 12:53:41 +0100
+Message-Id: <20200225115341.3558245-1-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200224232126.3385250-46-sebastian.reichel@collabora.com>
-References: <20200224232126.3385250-46-sebastian.reichel@collabora.com>
+In-Reply-To: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
+References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,210 +50,157 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to integrate with a chain of drm_bridge, the internal DSI
-output has to expose its operations through the drm_bridge API.
-Register a bridge at initialisation time to do so and remove the
-omap_dss_device operations that are now unused.
+Convert panel-dsi-cm bindings to YAML and add
+missing properties while at it.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
-PATCHv2 -> PATCHv2.1: Add missing drm_bridge_add() call
----
- drivers/gpu/drm/omapdrm/dss/dsi.c | 130 +++++++++++++++++++-----------
- 1 file changed, 85 insertions(+), 45 deletions(-)
+ .../bindings/display/panel/panel-dsi-cm.txt   | 31 ------
+ .../bindings/display/panel/panel-dsi-cm.yaml  | 97 +++++++++++++++++++
+ 2 files changed, 97 insertions(+), 31 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index f629e6b1025b..cde10c774b8b 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -36,6 +36,7 @@
- #include <linux/sys_soc.h>
- 
- #include <video/mipi_display.h>
-+#include <drm/drm_bridge.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_panel.h>
- 
-@@ -440,6 +441,7 @@ struct dsi_data {
- 	struct omap_dss_dsi_videomode_timings vm_timings;
- 
- 	struct omap_dss_device output;
-+	struct drm_bridge bridge;
- };
- 
- struct dsi_packet_sent_handler_data {
-@@ -452,6 +454,9 @@ static bool dsi_perf;
- module_param(dsi_perf, bool, 0644);
- #endif
- 
-+#define drm_bridge_to_dsi(bridge) \
-+	container_of(bridge, struct dsi_data, bridge)
-+
- static inline struct dsi_data *to_dsi_data(struct omap_dss_device *dssdev)
- {
- 	return dev_get_drvdata(dssdev->dev);
-@@ -5010,50 +5015,7 @@ static int dsi_get_clocks(struct dsi_data *dsi)
- 	return 0;
- }
- 
--static void dsi_set_timings(struct omap_dss_device *dssdev,
--			    const struct drm_display_mode *mode)
--{
--	DSSDBG("dsi_set_timings\n");
--	dsi_set_config(dssdev, mode);
--}
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
+deleted file mode 100644
+index f92d5c9adfc5..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Generic MIPI DSI Command Mode Panel
+-===================================
 -
--static int dsi_check_timings(struct omap_dss_device *dssdev,
--			     struct drm_display_mode *mode)
--{
--	struct dsi_data *dsi = to_dsi_data(dssdev);
--	struct dsi_clk_calc_ctx ctx;
--	int r;
+-Required properties:
+-- compatible: "panel-dsi-cm"
+-- reg: DSI channel number
 -
--	DSSDBG("dsi_check_timings\n");
+-Optional properties:
+-- label: a symbolic name for the panel
+-- reset-gpios: panel reset gpio
+-- te-gpios: panel TE gpio
 -
--	mutex_lock(&dsi->lock);
--	r = __dsi_calc_config(dsi, mode, &ctx);
--	mutex_unlock(&dsi->lock);
+-Required nodes:
+-- Video port for DSI input
 -
--	return r;
--}
+-Example
+--------
 -
--static int dsi_connect(struct omap_dss_device *src,
--		       struct omap_dss_device *dst)
--{
--	return omapdss_device_connect(dst->dss, dst, dst->next);
--}
+-lcd0: panel@0 {
+-	compatible = "tpo,taal", "panel-dsi-cm";
+-	label = "lcd0";
+-	reg = <0>;
 -
--static void dsi_disconnect(struct omap_dss_device *src,
--			   struct omap_dss_device *dst)
--{
--	omapdss_device_disconnect(dst, dst->next);
--}
+-	reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
 -
- static const struct omap_dss_device_ops dsi_ops = {
--	.connect = dsi_connect,
--	.disconnect = dsi_disconnect,
--	.enable = dsi_enable_video_outputs,
--	.disable = dsi_disable_video_outputs,
--
--	.check_timings = dsi_check_timings,
--	.set_timings = dsi_set_timings,
--
- 	.dsi = {
- 		.update = dsi_update_all,
- 		.is_video_mode = dsi_is_video_mode,
-@@ -5394,6 +5356,79 @@ static const struct component_ops dsi_component_ops = {
- 	.unbind	= dsi_unbind,
- };
- 
-+/* -----------------------------------------------------------------------------
-+ * DRM Bridge Operations
-+ */
+-	port {
+-		lcd0_in: endpoint {
+-			remote-endpoint = <&dsi1_out_ep>;
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
+new file mode 100644
+index 000000000000..ca61171ae145
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/panel-dsi-cm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+static int dsi_bridge_attach(struct drm_bridge *bridge,
-+			     enum drm_bridge_attach_flags flags)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++title: DSI command mode panels
 +
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
++maintainers:
++  - Tomi Valkeinen <tomi.valkeinen@ti.com>
++  - Sebastian Reichel <sre@kernel.org>
 +
-+	return drm_bridge_attach(bridge->encoder, dsi->output.next_bridge,
-+				 bridge, flags);
-+}
++description: |
++  This binding file is a collection of the DSI panels that
++  are usually driven in command mode. If no backlight is
++  referenced via the optional backlight property, the DSI
++  panel is assumed to have native backlight support.
++  The panel may use an OF graph binding for the association
++  to the display, or it may be a direct child node of the
++  display.
 +
-+static enum drm_mode_status
-+dsi_bridge_mode_valid(struct drm_bridge *bridge,
-+		      const struct drm_display_mode *mode)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+	struct dsi_clk_calc_ctx ctx;
-+	int r;
++allOf:
++  - $ref: panel-common.yaml#
 +
-+	mutex_lock(&dsi->lock);
-+	r = __dsi_calc_config(dsi, mode, &ctx);
-+	mutex_unlock(&dsi->lock);
++properties:
 +
-+	return r ? MODE_CLOCK_RANGE : MODE_OK;
-+}
++  compatible:
++    enum:
++      # compatible must be listed in alphabetical order, ordered by compatible.
++      # The description in the comment is mandatory for each compatible.
++      - motorola,droid4-panel, panel-dsi-cm
++      - nokia,himalaya, panel-dsi-cm
++      - tpo,taal, panel-dsi-cm
 +
-+static void dsi_bridge_mode_set(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+	dsi_set_config(&dsi->output, adjusted_mode);
-+}
++  reg:
++    maxItems: 1
++    description: DSI virtual channel
 +
-+static void dsi_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+	dsi_enable_video_outputs(&dsi->output);
-+}
++  te-gpios:
++    maxItems: 1
++    description:
++      Specifier for a GPIO connected to the panel TE (tearing event) signal.
++      The GPIO informs the system, that data should be sent to the display
++      on rising edges of the GPIO to avoid (or reduce) tearing effects.
++      Falling edge can be supported by inverting the GPIO specifier polarity
++      flag.
 +
-+static void dsi_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+	dsi_disable_video_outputs(&dsi->output);
-+}
++  vddi-supply:
++    description:
++      Display panels require power to be supplied. While several panels need
++      more than one power supply with panel-specific constraints governing the
++      order and timings of the power supplies, in many cases a single power
++      supply is sufficient, either because the panel has a single power rail, or
++      because all its power rails can be driven by the same supply. In that case
++      the vddi-supply property specifies the supply powering the panel as a
++      phandle to a regulator.
 +
-+static const struct drm_bridge_funcs dsi_bridge_funcs = {
-+	.attach = dsi_bridge_attach,
-+	.mode_valid = dsi_bridge_mode_valid,
-+	.mode_set = dsi_bridge_mode_set,
-+	.enable = dsi_bridge_enable,
-+	.disable = dsi_bridge_disable,
-+};
++  vpnl-supply:
++    description:
++      When the display panel needs a second power supply, this property can be
++      used in addition to vddi-supply. Both supplies will be enabled at the
++      same time before the panel is being accessed.
 +
-+static void dsi_bridge_init(struct dsi_data *dsi)
-+{
-+	dsi->bridge.funcs = &dsi_bridge_funcs;
-+	dsi->bridge.of_node = dsi->host.dev->of_node;
-+	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
++  width-mm: true
++  height-mm: true
++  label: true
++  rotation: true
++  panel-timing: true
++  port: true
++  reset-gpios: true
++  backlight: true
 +
-+	drm_bridge_add(&dsi->bridge);
-+}
++additionalProperties: false
 +
-+static void dsi_bridge_cleanup(struct dsi_data *dsi)
-+{
-+       drm_bridge_remove(&dsi->bridge);
-+}
++required:
++  - compatible
++  - port
++  - reg
 +
- /* -----------------------------------------------------------------------------
-  * Probe & Remove, Suspend & Resume
-  */
-@@ -5403,6 +5438,8 @@ static int dsi_init_output(struct dsi_data *dsi)
- 	struct omap_dss_device *out = &dsi->output;
- 	int r;
- 
-+	dsi_bridge_init(dsi);
++examples:
++  - |
++    dsi1@12345678 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      panel@0 {
++        compatible = "tpo,taal", "panel-dsi-cm";
++        label = "lcd0";
++        reg = <0>;
++        reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
 +
- 	out->dev = dsi->dev;
- 	out->id = dsi->module_id == 0 ?
- 			OMAP_DSS_OUTPUT_DSI1 : OMAP_DSS_OUTPUT_DSI2;
-@@ -5417,9 +5454,11 @@ static int dsi_init_output(struct dsi_data *dsi)
- 		       | DRM_BUS_FLAG_DE_HIGH
- 		       | DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE;
- 
--	r = omapdss_device_init_output(out, NULL);
--	if (r < 0)
-+	r = omapdss_device_init_output(out, &dsi->bridge);
-+	if (r < 0) {
-+		dsi_bridge_cleanup(dsi);
- 		return r;
-+	}
- 
- 	omapdss_device_register(out);
- 
-@@ -5432,6 +5471,7 @@ static void dsi_uninit_output(struct dsi_data *dsi)
- 
- 	omapdss_device_unregister(out);
- 	omapdss_device_cleanup_output(out);
-+	dsi_bridge_cleanup(dsi);
- }
- 
- static int dsi_probe_of(struct dsi_data *dsi)
++        port {
++          panel: endpoint {
++            remote-endpoint = <&dsi1_out_ep>;
++          };
++        };
++      };
++    };
 -- 
 2.25.0
 
