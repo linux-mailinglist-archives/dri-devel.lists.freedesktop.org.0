@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAF516BC89
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6CC16BC7E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:52:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59B16EA75;
-	Tue, 25 Feb 2020 08:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFD36EA5D;
+	Tue, 25 Feb 2020 08:51:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
- [IPv6:2607:f8b0:4864:20::f44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 388936E8A1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 03:08:13 +0000 (UTC)
-Received: by mail-qv1-xf44.google.com with SMTP id q9so5108450qvu.7
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 19:08:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7XVf7kd6r7xHFB5py5oJnqcscb38CC042OwSdNMCXYM=;
- b=CHiORoDBVVy3+/xONvNKvDYTuSW8Qi22uzXnwCY9au//VWeKV9PHGYf8mASMnY88lq
- g31XOob/Jenz8e5ij3WwHEDh7gsI+5MwYQN8C1dNCsfvrnTnaWCbGHpzKhIVWB4lR92b
- ToQ3GhY8Sm6fusda9gpGN4a4T3h34kk/ReqHG9vD5BvdpOdJRLSXMzSneXR733fN3pyz
- BY53OrY6C/pSJ25tOHixlLcAlwij/gLnRpSfFX4YOuElJUrKz4pWMA711ZzooR89qvZn
- yPmpvPn3+rvW3XnF2746zPEq0EFC4lO/NSSCJt5hDWoujG8v7e8FuWiU+xC+boKhqimn
- EHhA==
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15A7F6E0E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 05:38:30 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id d9so5007225plo.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 21:38:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=mfqZGXgqcPFcLTJKiGeAyv3Q4QoPEUtHeOmm57Pq0Bg=;
+ b=LcO6iKTpqfabTXwgfFeBl/Y6LYETyCNilbjx+m8rEe0L0O9Bog/7KxqhnOR8C5ALRz
+ qX5DJ44C+w8rGQWutRXsklT/1VEsh5jwZvRLfDwrprD4vEpyISLLRTUHvwX8Kurhg9u2
+ p0v++ust9yWPvqiELyLkPpIrze3mUFXsXraAGM8a7vc02DEWt5jHZFakl1gyfl2Umj8t
+ EHxUwK/iIZQd7JYp+d6fGs8P5xOOJhzXMVgFxsnEjsqenMR989IbAaGhgroLxj9HyAir
+ aRooPcuFDs8/EIA/aPhxkBVGLKUNwWJYe/jMtCzgKovfh0fEM7CNx6YCuzWbEDD7+tSH
+ 889w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7XVf7kd6r7xHFB5py5oJnqcscb38CC042OwSdNMCXYM=;
- b=Cxo5GeuYNIMbJCpPwAg+5lesXYOg27leCf4teMLdVTvchkqoJjG2AcJunnkBr6wBRz
- 9M8SOmXifw8d3G20rupTNrsIW3FV2LAp6WDBXMHwewrMDRZq+lIj9gaF2ZCGJLx7MtUo
- AfBMVAvFMD5Shacw3e2LKFsDe4dREiHr00fapmY+oelNNfcb20BxxSFroKNe7J/USkTs
- sdnNf0fhlsfeTiAVV4okWk55ELIvQOEFip8RjLjLvhqIy239f5xMMesFB92yucfc0WZE
- NC7btS0R6qPFOLbBGD/aPeoBD8j8MwAjzah63rkYziApUMqMPcHags7/CUNRKAaP4M0N
- BlRg==
-X-Gm-Message-State: APjAAAW0+Dv7CLDpp83NeV0l3SfVSNnMmgbDGPfunvR4Zto9zVA1rfO2
- UTwiD4xwycme75VyxLT2rDj74FZzEPYVqKVdUik=
-X-Google-Smtp-Source: APXvYqy/FnpShfvAqcBis3PhbZ7KSszp+y/LVm6S4UfG72YMKdoevidM0H0XpJ5Sziorzam0xhmyOuzJGx7mzVcSURs=
-X-Received: by 2002:a0c:b38a:: with SMTP id t10mr28397011qve.198.1582600092144; 
- Mon, 24 Feb 2020 19:08:12 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mfqZGXgqcPFcLTJKiGeAyv3Q4QoPEUtHeOmm57Pq0Bg=;
+ b=IwFpb1xqn6PROOPRvwaub6ABaUdSUTAec638qV8b5QpegKYvzmL1j8offeukjkZXES
+ YBlyUbh4Y4UHA3/Qm9Y2qmn3kSFjBMniMxsmkHYwqvGAPH1U+1p5rj5/ew5TDtUI1VeF
+ yhrubjhUUGZI0VmyGLgwBXmChGuaaYADzPQQP3gYGxpdc1T5O+6flxgf+UiyaXXAVpc0
+ +J8lRA5aBjs2MfJAM+VPNAi1fLWHYBvxsg3HT35uPNEM8wPUpVmTahLH4/Cs2z27xoPf
+ exCNrqehp660hVuGK3emW7x4tH8EfrcD6Ryz1ZkYokA62Lt0efqoL7/bDo1JshRjHHEX
+ gx6A==
+X-Gm-Message-State: APjAAAU9UtLBXNAXFv54IcHd0RziY0wBgBH2NjGxbIOfC6z4UKw4nJ8A
+ xnRQyJFf9RGbCt+f+UyXlmyUHQ==
+X-Google-Smtp-Source: APXvYqwkscLdmw1pP0ddtOkJWsdMUNpLzaX/fR+sjE3SUT1Fbfb+/os/yj982Eu8VpCm/AlKEWhQbw==
+X-Received: by 2002:a17:90a:de05:: with SMTP id
+ m5mr3252574pjv.10.1582609109254; 
+ Mon, 24 Feb 2020 21:38:29 -0800 (PST)
+Received: from yoga (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+ [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id w18sm15374736pfq.167.2020.02.24.21.38.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2020 21:38:28 -0800 (PST)
+Date: Mon, 24 Feb 2020 21:38:25 -0800
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Harigovindan P <harigovi@codeaurora.org>
+Subject: Re: [PATCHv3 2/2] drm/panel: add support for rm69299 visionox panel
+ driver
+Message-ID: <20200225053825.GI99370@yoga>
+References: <1580907990-32108-1-git-send-email-harigovi@codeaurora.org>
+ <1580907990-32108-3-git-send-email-harigovi@codeaurora.org>
 MIME-Version: 1.0
-References: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
- <1582271336-3708-3-git-send-email-kevin3.tang@gmail.com>
- <CACvgo53vUwt2vrcFTYGQCx30pQ1+FsxsAX7OOC9J7YfgQz2Qfg@mail.gmail.com>
-In-Reply-To: <CACvgo53vUwt2vrcFTYGQCx30pQ1+FsxsAX7OOC9J7YfgQz2Qfg@mail.gmail.com>
-From: tang pengchuan <kevin3.tang@gmail.com>
-Date: Tue, 25 Feb 2020 11:08:00 +0800
-Message-ID: <CAFPSGXY2gamtWgn-d0FAAMC2aEAgsOFMpzrctuwDcHEm_Ot_GA@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 2/6] drm/sprd: add Unisoc's drm kms master
-To: Emil Velikov <emil.l.velikov@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <1580907990-32108-3-git-send-email-harigovi@codeaurora.org>
 X-Mailman-Approved-At: Tue, 25 Feb 2020 08:50:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,783 +71,528 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Baolin Wang <baolin.wang@linaro.org>,
- Dave Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1019469001=="
+Cc: sean@poorly.run, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1019469001==
-Content-Type: multipart/alternative; boundary="000000000000505a26059f5dcc1b"
+On Wed 05 Feb 05:06 PST 2020, Harigovindan P wrote:
 
---000000000000505a26059f5dcc1b
-Content-Type: text/plain; charset="UTF-8"
+> Add support for Visionox panel driver.
+> 
+> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+> ---
+> 
+> Changes in v1:
+> 	- Split out panel driver patch from dsi config changes(Rob Clark).
+> 	- Remove unrelated code(Stephen Boyd).
+> 	- Remove static arrays to make regulator setup open coded
+> 	in probe(Stephen Boyd).
+> 	- Remove pre-assigning variables(Stephen Boyd).
+> 	- Inline panel_add function into probe(Stephen Boyd).
+> 	- Use mipi_dsi_dcs_write directly(Rob Clark).
+> 	- Remove qcom_rm69299_1080p_panel_magic_cmds array(Rob Clark).
+> Changes in v2:
+> 	- Dropping redundant space in Kconfig(Sam Ravnborg).
+> 	- Changing structure for include files(Sam Ravnborg).
+> 	- Removing backlight related code and functions(Sam Ravnborg).
+> 	- Removing repeated printing of error message(Sam Ravnborg).
+> 	- Adding drm_connector as an argument for get_modes function.
+> Changes in v3:
+> 	- Adding arguments for drm_panel_init to support against mainline.
+> 
+>  drivers/gpu/drm/panel/Kconfig                  |   8 +
+>  drivers/gpu/drm/panel/Makefile                 |   1 +
+>  drivers/gpu/drm/panel/panel-visionox-rm69299.c | 371 +++++++++++++++++++++++++
+>  3 files changed, 380 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 04225a8..354a3a5 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -407,6 +407,14 @@ config DRM_PANEL_TRULY_NT35597_WQXGA
+>  	  Say Y here if you want to enable support for Truly NT35597 WQXGA Dual DSI
+>  	  Video Mode panel
+>  
+> +config DRM_PANEL_VISIONOX_RM69299
+> +	tristate "Visionox RM69299"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	help
+> +	  Say Y here if you want to enable support for Visionox
+> +	  RM69299  DSI Video Mode panel.
+> +
+>  config DRM_PANEL_XINPENG_XPP055C272
+>  	tristate "Xinpeng XPP055C272 panel driver"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index 801f9f6..eeeeb7ae 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -43,4 +43,5 @@ obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
+>  obj-$(CONFIG_DRM_PANEL_TPO_TD043MTEA1) += panel-tpo-td043mtea1.o
+>  obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += panel-tpo-tpg110.o
+>  obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
+> +obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
+>  obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += panel-xinpeng-xpp055c272.o
+> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> new file mode 100644
+> index 0000000..7195ab0
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> @@ -0,0 +1,371 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2019, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <video/mipi_display.h>
+> +
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +
+> +struct rm69299_config {
+> +	unsigned long width_mm;
+> +	unsigned long height_mm;
+> +	const char *panel_name;
+> +	u32 num_on_cmds;
+> +	const struct drm_display_mode *dm;
+> +};
+> +
+> +struct visionox_rm69299 {
+> +	struct device *dev;
 
-Got it, thanks!
+You also store dev in panel.dev, why not just use that?
 
-On Tue, Feb 25, 2020 at 12:43 AM Emil Velikov <emil.l.velikov@gmail.com>
-wrote:
+> +	struct drm_panel panel;
+> +
+> +	struct regulator_bulk_data supplies[2];
+> +
+> +	struct gpio_desc *reset_gpio;
+> +
+> +	struct mipi_dsi_device *dsi;
+> +	const struct rm69299_config *config;
+> +	bool prepared;
+> +	bool enabled;
+> +};
+> +
+> +static inline struct visionox_rm69299 *panel_to_ctx(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct visionox_rm69299, panel);
+> +}
+> +
+> +static int visionox_35597_power_on(struct visionox_rm69299 *ctx)
+> +{
+> +	int ret;
+> +
+> +	ret = regulator_set_load(ctx->supplies[0].consumer, 32000);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regulator_set_load(ctx->supplies[1].consumer, 13200);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/*
+> +	 * Reset sequence of visionox panel requires the panel to be
+> +	 * out of reset for 10ms, followed by being held in reset
+> +	 * for 10ms and then out again
+> +	 */
+> +	gpiod_set_value(ctx->reset_gpio, 1);
+> +	usleep_range(10000, 20000);
+> +	gpiod_set_value(ctx->reset_gpio, 0);
+> +	usleep_range(10000, 20000);
+> +	gpiod_set_value(ctx->reset_gpio, 1);
+> +	usleep_range(10000, 20000);
+> +
+> +	return 0;
+> +}
+> +
+> +static int visionox_rm69299_power_off(struct visionox_rm69299 *ctx)
+> +{
+> +	int ret;
+> +
+> +	gpiod_set_value(ctx->reset_gpio, 0);
+> +
+> +	ret = regulator_set_load(ctx->supplies[0].consumer, 80);
+> +
 
-> Hi all,
->
-> On Fri, 21 Feb 2020 at 11:15, Kevin Tang <kevin3.tang@gmail.com> wrote:
-> >
-> > From: Kevin Tang <kevin.tang@unisoc.com>
-> >
-> > Adds drm support for the Unisoc's display subsystem.
-> >
-> > This is drm device and gem driver. This driver provides support for the
-> > Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
-> >
-> > Cc: Orson Zhai <orsonzhai@gmail.com>
-> > Cc: Baolin Wang <baolin.wang@linaro.org>
-> > Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> > Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-> > ---
-> >  drivers/gpu/drm/Kconfig         |   2 +
-> >  drivers/gpu/drm/Makefile        |   1 +
-> >  drivers/gpu/drm/sprd/Kconfig    |  14 ++
-> >  drivers/gpu/drm/sprd/Makefile   |   7 +
-> >  drivers/gpu/drm/sprd/sprd_drm.c | 292
-> ++++++++++++++++++++++++++++++++++++++++
-> >  drivers/gpu/drm/sprd/sprd_drm.h |  16 +++
-> >  6 files changed, 332 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/sprd/Kconfig
-> >  create mode 100644 drivers/gpu/drm/sprd/Makefile
-> >  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
-> >  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
-> >
-> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > index bfdadc3..cead12c 100644
-> > --- a/drivers/gpu/drm/Kconfig
-> > +++ b/drivers/gpu/drm/Kconfig
-> > @@ -387,6 +387,8 @@ source "drivers/gpu/drm/aspeed/Kconfig"
-> >
-> >  source "drivers/gpu/drm/mcde/Kconfig"
-> >
-> > +source "drivers/gpu/drm/sprd/Kconfig"
-> > +
-> >  # Keep legacy drivers last
-> >
-> >  menuconfig DRM_LEGACY
-> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> > index 9f1c7c4..85ca211 100644
-> > --- a/drivers/gpu/drm/Makefile
-> > +++ b/drivers/gpu/drm/Makefile
-> > @@ -122,3 +122,4 @@ obj-$(CONFIG_DRM_LIMA)  += lima/
-> >  obj-$(CONFIG_DRM_PANFROST) += panfrost/
-> >  obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
-> >  obj-$(CONFIG_DRM_MCDE) += mcde/
-> > +obj-$(CONFIG_DRM_SPRD) += sprd/
-> > diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
-> > new file mode 100644
-> > index 0000000..79f286b
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/Kconfig
-> > @@ -0,0 +1,14 @@
-> > +config DRM_SPRD
-> > +       tristate "DRM Support for Unisoc SoCs Platform"
-> > +       depends on ARCH_SPRD
-> > +       depends on DRM && OF
-> > +       select DRM_KMS_HELPER
-> > +       select DRM_GEM_CMA_HELPER
-> > +       select DRM_KMS_CMA_HELPER
-> > +       select DRM_MIPI_DSI
-> > +       select DRM_PANEL
-> > +       select VIDEOMODE_HELPERS
-> > +       select BACKLIGHT_CLASS_DEVICE
-> > +       help
-> > +         Choose this option if you have a Unisoc chipsets.
-> > +         If M is selected the module will be called sprd-drm.
-> > \ No newline at end of file
-> > diff --git a/drivers/gpu/drm/sprd/Makefile
-> b/drivers/gpu/drm/sprd/Makefile
-> > new file mode 100644
-> > index 0000000..63b8751
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/Makefile
-> > @@ -0,0 +1,7 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +ccflags-y += -Iinclude/drm
-> > +
-> > +subdir-ccflags-y += -I$(src)
-> > +
-> > +obj-y := sprd_drm.o
-> > diff --git a/drivers/gpu/drm/sprd/sprd_drm.c
-> b/drivers/gpu/drm/sprd/sprd_drm.c
-> > new file mode 100644
-> > index 0000000..7cac098
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sprd/sprd_drm.c
-> > @@ -0,0 +1,292 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) 2019 Unisoc Inc.
-> > + */
-> > +
-> > +#include <linux/component.h>
-> > +#include <linux/dma-mapping.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/of_graph.h>
-> > +#include <linux/of_platform.h>
-> > +
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_crtc_helper.h>
-> > +#include <drm/drm_drv.h>
-> > +#include <drm/drm_gem_cma_helper.h>
-> > +#include <drm/drm_gem_framebuffer_helper.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +#include <drm/drm_vblank.h>
-> > +
-> > +#include "sprd_drm.h"
-> > +
-> > +#define DRIVER_NAME    "sprd"
-> > +#define DRIVER_DESC    "Spreadtrum SoCs' DRM Driver"
-> > +#define DRIVER_DATE    "20191101"
-> > +#define DRIVER_MAJOR   1
-> > +#define DRIVER_MINOR   0
-> > +
-> > +static const struct drm_mode_config_helper_funcs
-> sprd_drm_mode_config_helper = {
-> > +       .atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-> > +};
-> > +
-> > +static const struct drm_mode_config_funcs sprd_drm_mode_config_funcs = {
-> > +       .fb_create = drm_gem_fb_create,
-> > +       .atomic_check = drm_atomic_helper_check,
-> > +       .atomic_commit = drm_atomic_helper_commit,
-> > +};
-> > +
-> > +static void sprd_drm_mode_config_init(struct drm_device *drm)
-> > +{
-> > +       drm_mode_config_init(drm);
-> > +
-> > +       drm->mode_config.min_width = 0;
-> > +       drm->mode_config.min_height = 0;
-> > +       drm->mode_config.max_width = 8192;
-> > +       drm->mode_config.max_height = 8192;
-> > +       drm->mode_config.allow_fb_modifiers = true;
-> > +
-> > +       drm->mode_config.funcs = &sprd_drm_mode_config_funcs;
-> > +       drm->mode_config.helper_private = &sprd_drm_mode_config_helper;
-> > +}
-> > +
-> > +DEFINE_DRM_GEM_CMA_FOPS(sprd_drm_fops);
-> > +
-> > +static struct drm_driver sprd_drm_drv = {
-> > +       .driver_features        = DRIVER_GEM | DRIVER_MODESET |
-> DRIVER_ATOMIC,
-> > +       .fops                   = &sprd_drm_fops,
-> > +
-> > +       /* GEM Operations */
-> > +       DRM_GEM_CMA_VMAP_DRIVER_OPS,
-> > +
-> > +       .name                   = DRIVER_NAME,
-> > +       .desc                   = DRIVER_DESC,
-> > +       .date                   = DRIVER_DATE,
-> > +       .major                  = DRIVER_MAJOR,
-> > +       .minor                  = DRIVER_MINOR,
-> > +};
-> > +
-> > +static int sprd_drm_bind(struct device *dev)
-> > +{
-> > +       struct drm_device *drm;
-> > +       struct sprd_drm *sprd;
-> > +       int err;
-> > +
-> > +       drm = drm_dev_alloc(&sprd_drm_drv, dev);
-> > +       if (IS_ERR(drm))
-> > +               return PTR_ERR(drm);
-> > +
-> > +       dev_set_drvdata(dev, drm);
-> > +
-> > +       sprd = devm_kzalloc(drm->dev, sizeof(*sprd), GFP_KERNEL);
-> > +       if (!sprd) {
-> > +               err = -ENOMEM;
-> > +               goto err_free_drm;
-> > +       }
-> > +       drm->dev_private = sprd;
-> > +
-> > +       sprd_drm_mode_config_init(drm);
-> > +
-> > +       /* bind and init sub drivers */
-> > +       err = component_bind_all(drm->dev, drm);
-> > +       if (err) {
-> > +               DRM_ERROR("failed to bind all component.\n");
-> > +               goto err_dc_cleanup;
-> > +       }
-> > +
-> > +       /* vblank init */
-> > +       err = drm_vblank_init(drm, drm->mode_config.num_crtc);
-> > +       if (err) {
-> > +               DRM_ERROR("failed to initialize vblank.\n");
-> > +               goto err_unbind_all;
-> > +       }
-> > +       /* with irq_enabled = true, we can use the vblank feature. */
-> > +       drm->irq_enabled = true;
-> > +
-> > +       /* reset all the states of crtc/plane/encoder/connector */
-> > +       drm_mode_config_reset(drm);
-> > +
-> > +       /* init kms poll for handling hpd */
-> > +       drm_kms_helper_poll_init(drm);
-> > +
-> > +       err = drm_dev_register(drm, 0);
-> > +       if (err < 0)
-> > +               goto err_kms_helper_poll_fini;
-> > +
-> > +       return 0;
-> > +
-> > +err_kms_helper_poll_fini:
-> > +       drm_kms_helper_poll_fini(drm);
-> > +err_unbind_all:
-> > +       component_unbind_all(drm->dev, drm);
-> > +err_dc_cleanup:
-> > +       drm_mode_config_cleanup(drm);
-> > +err_free_drm:
-> > +       drm_dev_put(drm);
-> > +       return err;
-> > +}
-> > +
-> > +static void sprd_drm_unbind(struct device *dev)
-> > +{
-> > +       drm_put_dev(dev_get_drvdata(dev));
-> > +}
-> > +
-> > +static const struct component_master_ops drm_component_ops = {
-> > +       .bind = sprd_drm_bind,
-> > +       .unbind = sprd_drm_unbind,
-> > +};
-> > +
-> > +static int compare_of(struct device *dev, void *data)
-> > +{
-> > +       struct device_node *np = data;
-> > +
-> > +       DRM_DEBUG("compare %s\n", np->full_name);
-> > +
-> > +       return dev->of_node == np;
-> > +}
-> > +
-> > +static int sprd_drm_component_probe(struct device *dev,
-> > +                          const struct component_master_ops *m_ops)
-> > +{
-> > +       struct device_node *ep, *port, *remote;
-> > +       struct component_match *match = NULL;
-> > +       int i;
-> > +
-> > +       if (!dev->of_node)
-> > +               return -EINVAL;
-> > +
-> > +       /*
-> > +        * Bind the crtc's ports first, so that
-> drm_of_find_possible_crtcs()
-> > +        * called from encoder's .bind callbacks works as expected
-> > +        */
-> > +       for (i = 0; ; i++) {
-> > +               port = of_parse_phandle(dev->of_node, "ports", i);
-> > +               if (!port)
-> > +                       break;
-> > +
-> > +               if (!of_device_is_available(port->parent)) {
-> > +                       of_node_put(port);
-> > +                       continue;
-> > +               }
-> > +
-> > +               component_match_add(dev, &match, compare_of,
-> port->parent);
-> > +               of_node_put(port);
-> > +       }
-> > +
-> > +       if (i == 0) {
-> > +               dev_err(dev, "missing 'ports' property\n");
-> > +               return -ENODEV;
-> > +       }
-> > +
-> > +       if (!match) {
-> > +               dev_err(dev, "no available port\n");
-> > +               return -ENODEV;
-> > +       }
-> > +
-> > +       /*
-> > +        * For bound crtcs, bind the encoders attached to their remote
-> endpoint
-> > +        */
-> > +       for (i = 0; ; i++) {
-> > +               port = of_parse_phandle(dev->of_node, "ports", i);
-> > +               if (!port)
-> > +                       break;
-> > +
-> > +               if (!of_device_is_available(port->parent)) {
-> > +                       of_node_put(port);
-> > +                       continue;
-> > +               }
-> > +
-> > +               for_each_child_of_node(port, ep) {
-> > +                       remote = of_graph_get_remote_port_parent(ep);
-> > +                       if (!remote || !of_device_is_available(remote)) {
-> > +                               of_node_put(remote);
-> > +                               continue;
-> > +                       } else if
-> (!of_device_is_available(remote->parent)) {
-> > +                               dev_warn(dev, "parent device of %s is
-> not available\n",
-> > +                                        remote->full_name);
-> > +                               of_node_put(remote);
-> > +                               continue;
-> > +                       }
-> > +
-> > +                       component_match_add(dev, &match, compare_of,
-> remote);
-> > +                       of_node_put(remote);
-> > +               }
-> > +               of_node_put(port);
-> > +       }
-> > +
-> > +       return component_master_add_with_match(dev, m_ops, match);
->
-> This whole function is effectively a copy of drm_of_component_probe().
-> Reuse that instead.
->
-> With that + comments from Sam addressed this patch is:
-> Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
->
-> -Emil
->
+So the panel will leak 80uA when disabled? Does this actually matter, or
+can you approximate it with 0uA and by that rely on the fact that
+regulator_enable/disable will control if this regulator consumers' load
+is considered (i.e. you can set it to 32mA and 13.2mA in probe and then
+just call enable/disable after that).
 
---000000000000505a26059f5dcc1b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +	if (ret) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			"regulator_set_load failed %d\n", ret);
 
-<div dir=3D"ltr">Got it, thanks! <br></div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 25, 2020 at 12:43 AM Emil =
-Velikov &lt;<a href=3D"mailto:emil.l.velikov@gmail.com">emil.l.velikov@gmai=
-l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Hi all,<br>
-<br>
-On Fri, 21 Feb 2020 at 11:15, Kevin Tang &lt;<a href=3D"mailto:kevin3.tang@=
-gmail.com" target=3D"_blank">kevin3.tang@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com" target=
-=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
-&gt;<br>
-&gt; Adds drm support for the Unisoc&#39;s display subsystem.<br>
-&gt;<br>
-&gt; This is drm device and gem driver. This driver provides support for th=
-e<br>
-&gt; Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.<br>
-&gt;<br>
-&gt; Cc: Orson Zhai &lt;<a href=3D"mailto:orsonzhai@gmail.com" target=3D"_b=
-lank">orsonzhai@gmail.com</a>&gt;<br>
-&gt; Cc: Baolin Wang &lt;<a href=3D"mailto:baolin.wang@linaro.org" target=
-=3D"_blank">baolin.wang@linaro.org</a>&gt;<br>
-&gt; Cc: Chunyan Zhang &lt;<a href=3D"mailto:zhang.lyra@gmail.com" target=
-=3D"_blank">zhang.lyra@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com"=
- target=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0=
- =C2=A02 +<br>
-&gt;=C2=A0 drivers/gpu/drm/Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A01 +<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/Kconfig=C2=A0 =C2=A0 |=C2=A0 14 ++<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/Makefile=C2=A0 =C2=A0|=C2=A0 =C2=A07 +<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_drm.c | 292 ++++++++++++++++++++++++++=
-++++++++++++++<br>
-&gt;=C2=A0 drivers/gpu/drm/sprd/sprd_drm.h |=C2=A0 16 +++<br>
-&gt;=C2=A0 6 files changed, 332 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/Kconfig<br>
-&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/Makefile<br>
-&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c<br>
-&gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h<br>
-&gt;<br>
-&gt; diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig<br>
-&gt; index bfdadc3..cead12c 100644<br>
-&gt; --- a/drivers/gpu/drm/Kconfig<br>
-&gt; +++ b/drivers/gpu/drm/Kconfig<br>
-&gt; @@ -387,6 +387,8 @@ source &quot;drivers/gpu/drm/aspeed/Kconfig&quot;<=
-br>
-&gt;<br>
-&gt;=C2=A0 source &quot;drivers/gpu/drm/mcde/Kconfig&quot;<br>
-&gt;<br>
-&gt; +source &quot;drivers/gpu/drm/sprd/Kconfig&quot;<br>
-&gt; +<br>
-&gt;=C2=A0 # Keep legacy drivers last<br>
-&gt;<br>
-&gt;=C2=A0 menuconfig DRM_LEGACY<br>
-&gt; diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile<br>
-&gt; index 9f1c7c4..85ca211 100644<br>
-&gt; --- a/drivers/gpu/drm/Makefile<br>
-&gt; +++ b/drivers/gpu/drm/Makefile<br>
-&gt; @@ -122,3 +122,4 @@ obj-$(CONFIG_DRM_LIMA)=C2=A0 +=3D lima/<br>
-&gt;=C2=A0 obj-$(CONFIG_DRM_PANFROST) +=3D panfrost/<br>
-&gt;=C2=A0 obj-$(CONFIG_DRM_ASPEED_GFX) +=3D aspeed/<br>
-&gt;=C2=A0 obj-$(CONFIG_DRM_MCDE) +=3D mcde/<br>
-&gt; +obj-$(CONFIG_DRM_SPRD) +=3D sprd/<br>
-&gt; diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconf=
-ig<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..79f286b<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/drivers/gpu/drm/sprd/Kconfig<br>
-&gt; @@ -0,0 +1,14 @@<br>
-&gt; +config DRM_SPRD<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0tristate &quot;DRM Support for Unisoc SoCs=
- Platform&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0depends on ARCH_SPRD<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0depends on DRM &amp;&amp; OF<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_KMS_HELPER<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_GEM_CMA_HELPER<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_KMS_CMA_HELPER<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_MIPI_DSI<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0select DRM_PANEL<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0select VIDEOMODE_HELPERS<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0select BACKLIGHT_CLASS_DEVICE<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0help<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Choose this option if you have a Un=
-isoc chipsets.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0If M is selected the module will be=
- called sprd-drm.<br>
-&gt; \ No newline at end of file<br>
-&gt; diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Make=
-file<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..63b8751<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/drivers/gpu/drm/sprd/Makefile<br>
-&gt; @@ -0,0 +1,7 @@<br>
-&gt; +# SPDX-License-Identifier: GPL-2.0<br>
-&gt; +<br>
-&gt; +ccflags-y +=3D -Iinclude/drm<br>
-&gt; +<br>
-&gt; +subdir-ccflags-y +=3D -I$(src)<br>
-&gt; +<br>
-&gt; +obj-y :=3D sprd_drm.o<br>
-&gt; diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sp=
-rd_drm.c<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..7cac098<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/drivers/gpu/drm/sprd/sprd_drm.c<br>
-&gt; @@ -0,0 +1,292 @@<br>
-&gt; +// SPDX-License-Identifier: GPL-2.0<br>
-&gt; +/*<br>
-&gt; + * Copyright (C) 2019 Unisoc Inc.<br>
-&gt; + */<br>
-&gt; +<br>
-&gt; +#include &lt;linux/component.h&gt;<br>
-&gt; +#include &lt;linux/dma-mapping.h&gt;<br>
-&gt; +#include &lt;linux/module.h&gt;<br>
-&gt; +#include &lt;linux/mutex.h&gt;<br>
-&gt; +#include &lt;linux/of_graph.h&gt;<br>
-&gt; +#include &lt;linux/of_platform.h&gt;<br>
-&gt; +<br>
-&gt; +#include &lt;drm/drm_atomic_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_crtc_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_drv.h&gt;<br>
-&gt; +#include &lt;drm/drm_gem_cma_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_gem_framebuffer_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_probe_helper.h&gt;<br>
-&gt; +#include &lt;drm/drm_vblank.h&gt;<br>
-&gt; +<br>
-&gt; +#include &quot;sprd_drm.h&quot;<br>
-&gt; +<br>
-&gt; +#define DRIVER_NAME=C2=A0 =C2=A0 &quot;sprd&quot;<br>
-&gt; +#define DRIVER_DESC=C2=A0 =C2=A0 &quot;Spreadtrum SoCs&#39; DRM Drive=
-r&quot;<br>
-&gt; +#define DRIVER_DATE=C2=A0 =C2=A0 &quot;20191101&quot;<br>
-&gt; +#define DRIVER_MAJOR=C2=A0 =C2=A01<br>
-&gt; +#define DRIVER_MINOR=C2=A0 =C2=A00<br>
-&gt; +<br>
-&gt; +static const struct drm_mode_config_helper_funcs sprd_drm_mode_config=
-_helper =3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.atomic_commit_tail =3D drm_atomic_helper_=
-commit_tail_rpm,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static const struct drm_mode_config_funcs sprd_drm_mode_config_funcs =
-=3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.fb_create =3D drm_gem_fb_create,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.atomic_check =3D drm_atomic_helper_check,=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.atomic_commit =3D drm_atomic_helper_commi=
-t,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static void sprd_drm_mode_config_init(struct drm_device *drm)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_mode_config_init(drm);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;mode_config.min_width =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;mode_config.min_height =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;mode_config.max_width =3D 8192;<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;mode_config.max_height =3D 8192;<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;mode_config.allow_fb_modifiers =3D=
- true;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;mode_config.funcs =3D &amp;sprd_dr=
-m_mode_config_funcs;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;mode_config.helper_private =3D &am=
-p;sprd_drm_mode_config_helper;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +DEFINE_DRM_GEM_CMA_FOPS(sprd_drm_fops);<br>
-&gt; +<br>
-&gt; +static struct drm_driver sprd_drm_drv =3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.driver_features=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.fops=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &amp;sprd_drm_fops,<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* GEM Operations */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_GEM_CMA_VMAP_DRIVER_OPS,<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DRIVER_NAME,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.desc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DRIVER_DESC,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.date=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DRIVER_DATE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.major=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D DRIVER_MAJOR,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.minor=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D DRIVER_MINOR,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static int sprd_drm_bind(struct device *dev)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_device *drm;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0struct sprd_drm *sprd;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int err;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm =3D drm_dev_alloc(&amp;sprd_drm_drv, d=
-ev);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(drm))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR=
-(drm);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0dev_set_drvdata(dev, drm);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd =3D devm_kzalloc(drm-&gt;dev, sizeof(=
-*sprd), GFP_KERNEL);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!sprd) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0err =3D -ENOME=
-M;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_free_=
-drm;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;dev_private =3D sprd;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_drm_mode_config_init(drm);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* bind and init sub drivers */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0err =3D component_bind_all(drm-&gt;dev, dr=
-m);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (err) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quo=
-t;failed to bind all component.\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_dc_cl=
-eanup;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* vblank init */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0err =3D drm_vblank_init(drm, drm-&gt;mode_=
-config.num_crtc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (err) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quo=
-t;failed to initialize vblank.\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_unbin=
-d_all;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* with irq_enabled =3D true, we can use t=
-he vblank feature. */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm-&gt;irq_enabled =3D true;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* reset all the states of crtc/plane/enco=
-der/connector */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_mode_config_reset(drm);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* init kms poll for handling hpd */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_kms_helper_poll_init(drm);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0err =3D drm_dev_register(drm, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (err &lt; 0)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_kms_h=
-elper_poll_fini;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +<br>
-&gt; +err_kms_helper_poll_fini:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_kms_helper_poll_fini(drm);<br>
-&gt; +err_unbind_all:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0component_unbind_all(drm-&gt;dev, drm);<br=
->
-&gt; +err_dc_cleanup:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_mode_config_cleanup(drm);<br>
-&gt; +err_free_drm:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_dev_put(drm);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return err;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void sprd_drm_unbind(struct device *dev)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_put_dev(dev_get_drvdata(dev));<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static const struct component_master_ops drm_component_ops =3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.bind =3D sprd_drm_bind,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.unbind =3D sprd_drm_unbind,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static int compare_of(struct device *dev, void *data)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0struct device_node *np =3D data;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_DEBUG(&quot;compare %s\n&quot;, np-&gt=
-;full_name);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return dev-&gt;of_node =3D=3D np;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static int sprd_drm_component_probe(struct device *dev,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 const struct component_master_ops *m_ops)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0struct device_node *ep, *port, *remote;<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0struct component_match *match =3D NULL;<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int i;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!dev-&gt;of_node)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL=
-;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * Bind the crtc&#39;s ports first, so tha=
-t drm_of_find_possible_crtcs()<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * called from encoder&#39;s .bind callbac=
-ks works as expected<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; ; i++) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0port =3D of_pa=
-rse_phandle(dev-&gt;of_node, &quot;ports&quot;, i);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!port)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0break;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!of_device=
-_is_available(port-&gt;parent)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0of_node_put(port);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0continue;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0component_matc=
-h_add(dev, &amp;match, compare_of, port-&gt;parent);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0of_node_put(po=
-rt);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (i =3D=3D 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(dev, &=
-quot;missing &#39;ports&#39; property\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENODEV=
-;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!match) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(dev, &=
-quot;no available port\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENODEV=
-;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * For bound crtcs, bind the encoders atta=
-ched to their remote endpoint<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; ; i++) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0port =3D of_pa=
-rse_phandle(dev-&gt;of_node, &quot;ports&quot;, i);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!port)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0break;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!of_device=
-_is_available(port-&gt;parent)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0of_node_put(port);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0continue;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for_each_child=
-_of_node(port, ep) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0remote =3D of_graph_get_remote_port_parent(ep);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0if (!remote || !of_device_is_available(remote)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0of_node_put(remote);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0} else if (!of_device_is_available(remote-&gt;parent)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_warn(dev, &quot;parent device=
- of %s is not available\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remo=
-te-&gt;full_name);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0of_node_put(remote);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0component_match_add(dev, &amp;match, compare_of, remote);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0of_node_put(remote);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0of_node_put(po=
-rt);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return component_master_add_with_match(dev=
-, m_ops, match);<br>
-<br>
-This whole function is effectively a copy of drm_of_component_probe().<br>
-Reuse that instead.<br>
-<br>
-With that + comments from Sam addressed this patch is:<br>
-Reviewed-by: Emil Velikov &lt;<a href=3D"mailto:emil.velikov@collabora.com"=
- target=3D"_blank">emil.velikov@collabora.com</a>&gt;<br>
-<br>
--Emil<br>
-</blockquote></div>
+regulator_set_load() will provide more a more detailed error message in
+the log when failing, so you don't have to.
 
---000000000000505a26059f5dcc1b--
+> +		return ret;
+> +	}
+> +
+> +	ret = regulator_set_load(ctx->supplies[1].consumer, 80);
+> +
 
---===============1019469001==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Please omit the empty line between assignment and checking reg,
+throughout the patch.
 
+> +	if (ret) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			"regulator_set_load failed %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			"regulator_bulk_disable failed %d\n", ret);
+
+There's no need to print here, the regulator framework will already have
+printed an error specifying which of the regulators in the bulk that
+failed.
+
+And hence, you can simply end the function with a:
+
+	return regulator_bulk_disable(...);
+
+> +	}
+> +	return ret;
+> +}
+> +
+> +static int visionox_rm69299_unprepare(struct drm_panel *panel)
+> +{
+> +	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
+> +	int ret;
+> +
+> +	if (!ctx->prepared)
+
+Is it really necessary for the panel drivers to keep track of it already
+being prepared or not? Will the framework invoke prepare (on unprepare)
+for an already prepared panel?
+
+> +		return 0;
+> +
+> +	ctx->dsi->mode_flags = 0;
+> +
+> +	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_SET_DISPLAY_OFF, NULL, 0);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			"set_display_off cmd failed ret = %d\n",
+> +			ret);
+
+Please align broken lines to the char after (
+
+> +	}
+> +
+> +	/* 120ms delay required here as per DCS spec */
+> +	msleep(120);
+> +
+> +	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_ENTER_SLEEP_MODE, NULL, 0);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			"enter_sleep cmd failed ret = %d\n", ret);
+> +	}
+> +
+> +	ret = visionox_rm69299_power_off(ctx);
+> +
+> +	ctx->prepared = false;
+
+Given that you clear prepared regardless of "ret", just set it before
+and do:
+	return visionox_rm69299_power_off(ctx);
+
+> +	return ret;
+> +}
+> +
+> +static int visionox_rm69299_prepare(struct drm_panel *panel)
+> +{
+> +	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
+> +	int ret;
+> +	const struct rm69299_config *config;
+> +
+> +	if (ctx->prepared)
+> +		return 0;
+> +
+> +	ret = visionox_35597_power_on(ctx);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ctx->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	config = ctx->config;
+> +
+> +	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0xfe, 0x00 }, 2);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +		"cmd set tx 0 failed, ret = %d\n",
+> +		ret);
+> +		goto power_off;
+> +	}
+> +
+> +	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0xc2, 0x08 }, 2);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +		"cmd set tx 1 failed, ret = %d\n",
+> +		ret);
+> +		goto power_off;
+> +	}
+> +
+> +	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0x35, 0x00 }, 2);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +		"cmd set tx 2 failed, ret = %d\n",
+> +		ret);
+> +		goto power_off;
+> +	}
+> +
+> +	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0x51, 0xff }, 2);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +		"cmd set tx 3 failed, ret = %d\n",
+> +		ret);
+> +		goto power_off;
+> +	}
+> +
+> +	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_EXIT_SLEEP_MODE, NULL, 0);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			"exit_sleep_mode cmd failed ret = %d\n",
+> +			ret);
+> +		goto power_off;
+> +	}
+> +
+> +	/* Per DSI spec wait 120ms after sending exit sleep DCS command */
+> +	msleep(120);
+> +
+> +	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_SET_DISPLAY_ON, NULL, 0);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			"set_display_on cmd failed ret = %d\n", ret);
+> +		goto power_off;
+> +	}
+> +
+> +	/* Per DSI spec wait 120ms after sending set_display_on DCS command */
+> +	msleep(120);
+> +
+> +	ctx->prepared = true;
+> +
+> +	return 0;
+> +
+> +power_off:
+> +	ret = visionox_rm69299_power_off(ctx);
+> +	return ret;
+
+	return visionox_rm69299_power_off();
+
+> +}
+> +
+> +static int visionox_rm69299_get_modes(struct drm_panel *panel,
+> +				       struct drm_connector *connector)
+> +{
+> +	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
+> +	struct drm_display_mode *mode;
+> +	const struct rm69299_config *config;
+> +
+> +	config = ctx->config;
+> +	mode = drm_mode_create(connector->dev);
+> +	if (!mode) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			"failed to create a new display mode\n");
+> +		return 0;
+> +	}
+> +
+> +	connector->display_info.width_mm = config->width_mm;
+> +	connector->display_info.height_mm = config->height_mm;
+> +	drm_mode_copy(mode, config->dm);
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct drm_panel_funcs visionox_rm69299_drm_funcs = {
+> +	.unprepare = visionox_rm69299_unprepare,
+> +	.prepare = visionox_rm69299_prepare,
+> +	.get_modes = visionox_rm69299_get_modes,
+> +};
+> +
+> +static const struct drm_display_mode qcom_sc7180_mtp_1080p_mode = {
+> +	.name = "1080x2248",
+> +	.clock = 158695,
+> +	.hdisplay = 1080,
+> +	.hsync_start = 1080 + 26,
+> +	.hsync_end = 1080 + 26 + 2,
+> +	.htotal = 1080 + 26 + 2 + 36,
+> +	.vdisplay = 2248,
+> +	.vsync_start = 2248 + 56,
+> +	.vsync_end = 2248 + 56 + 4,
+> +	.vtotal = 2248 + 56 + 4 + 4,
+> +	.vrefresh = 60,
+> +	.flags = 0,
+> +};
+> +
+> +static const struct rm69299_config rm69299_dir = {
+> +	.width_mm = 74,
+> +	.height_mm = 131,
+> +	.panel_name = "qcom_sc7180_mtp_1080p_panel",
+> +	.dm = &qcom_sc7180_mtp_1080p_mode,
+> +};
+> +
+> +static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct device *device;
+
+Below I see:
+
+ctx->dev = dev;
+device = ctx->dev;
+
+A few uses of device and some of dev.
+
+ctx->panel.dev = device;
+
+Presumably you can drop the "device"?
+
+
+> +	struct visionox_rm69299 *ctx;
+> +	const struct rm69299_config *config;
+
+"config" is assigned below, but never used.
+
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	ctx->config = device_get_match_data(dev);
+> +
+> +	if (!ctx->config) {
+
+This won't happen.
+
+> +		dev_err(dev, "missing device configuration\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	ctx->dev = dev;
+> +	ctx->dsi = dsi;
+> +
+> +	device = ctx->dev;
+> +
+> +	config = ctx->config;
+> +	ctx->supplies[0].supply = "vdda";
+> +	ctx->supplies[1].supply = "vdd3p3";
+> +
+> +	ret = devm_regulator_bulk_get(device, ARRAY_SIZE(ctx->supplies),
+> +								ctx->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ctx->reset_gpio = devm_gpiod_get(device, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->reset_gpio)) {
+> +		DRM_DEV_ERROR(dev, "cannot get reset gpio %ld\n",
+> +					PTR_ERR(ctx->reset_gpio));
+> +		return PTR_ERR(ctx->reset_gpio);
+> +	}
+> +
+> +	drm_panel_init(&ctx->panel, dev, &visionox_rm69299_drm_funcs, 
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	ctx->panel.dev = device;
+> +	ctx->panel.funcs = &visionox_rm69299_drm_funcs;
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM |
+> +		MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev,
+> +			"dsi attach failed ret = %d\n", ret);
+> +		goto err_dsi_attach;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_dsi_attach:
+> +	drm_panel_remove(&ctx->panel);
+> +	return ret;
+> +}
+> +
+> +static int visionox_rm69299_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct visionox_rm69299 *ctx = mipi_dsi_get_drvdata(dsi);
+> +
+> +	if (ctx->dsi) {
+
+If visionox_rm69299_probe() doesn't reach the point where it assigns
+ctx->dsi the remove function will not be called. So I don't see how this
+could be NULL, please remove the check.
+
+> +		mipi_dsi_detach(ctx->dsi);
+> +		mipi_dsi_device_unregister(ctx->dsi);
+> +	}
+> +
+> +	drm_panel_remove(&ctx->panel);
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id visionox_rm69299_of_match[] = {
+> +	{
+> +		.compatible = "visionox,rm69299-1080p-display",
+> +		.data = &rm69299_dir,
+> +	},
+> +	{ /* */ }
+
+Please drop the empty comment thing.
+
+Regards,
+Bjorn
+
+> +};
+> +MODULE_DEVICE_TABLE(of, visionox_rm69299_of_match);
+> +
+> +static struct mipi_dsi_driver visionox_rm69299_driver = {
+> +	.driver = {
+> +		.name = "panel-visionox-rm69299",
+> +		.of_match_table = visionox_rm69299_of_match,
+> +	},
+> +	.probe = visionox_rm69299_probe,
+> +	.remove = visionox_rm69299_remove,
+> +};
+> +module_mipi_dsi_driver(visionox_rm69299_driver);
+> +
+> +MODULE_DESCRIPTION("VISIONOX RM69299 DSI Panel Driver");
+> +MODULE_LICENSE("GPL v2");
+> +
+> -- 
+> 2.7.4
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1019469001==--
