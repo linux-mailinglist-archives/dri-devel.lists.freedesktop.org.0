@@ -1,35 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951FE16F8FF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:08:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EED16F8FB
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B2A6E16D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 244AD6E157;
 	Wed, 26 Feb 2020 08:08:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from olimex.com (olimex.com [IPv6:2001:470:0:1f2::b869:4820])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE336EA72
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 09:45:35 +0000 (UTC)
-Received: from 94.155.250.134 ([94.155.250.134]) by olimex.com with ESMTPSA
- (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
- (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 01:45:33 -0800
-Subject: Re: [linux-sunxi] [PATCH v3 1/1] drm: sun4i: hdmi: Add support for
- sun4i HDMI encoder audio
-To: wens@kernel.org, Stefan Mavrodiev <stefan@olimex.com>
-References: <20200128140642.8404-1-stefan@olimex.com>
- <20200128140642.8404-2-stefan@olimex.com>
- <CAGb2v66kEACD0oOqoL2sx8JJJAnZzZc+EwEK8+74bZx48L-Z5A@mail.gmail.com>
-From: Stefan Mavrodiev <stefan@olimex.com>
-Message-ID: <81b0a464-22f7-4d36-e9bc-f08a52accdbc@olimex.com>
-Date: Tue, 25 Feb 2020 11:45:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75AC16E3FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 09:46:04 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id n17so8639750qtv.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 01:46:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R+ZOYTl1ogNLtu9r2ky+pCwTpSLJ8EddWUUdTKyOqiY=;
+ b=TooGsvLjn83PWL2lz7NOlirgouznieinqb4Im7pfgccHb+0nWz4wWvNqMlIAYh4feA
+ 38xyFocMUd8cbJhQ9zDRCCoUH2e577o5qntr5ctxoMW5rGK8/eWJwk3j5ntUrriiCL/F
+ YR9CVIT50ltwn+dNZ9ZVrHwy96TsqheKoQm6d4QGRsRXnV8Eu4x+wnrJAwrIGZDdAlPA
+ nagCa/5y70ByNDXevkU1Hg4bkp2qou3QdUnKv8OP6f+iT0XgudqflWDACQ3/4TV46T7y
+ l/NfTPd7oI66eLOvote1XRy8c1JKsAwumK0QGOtDc9zanlaMVRDVnefydzTDXquZI6Hn
+ Jsgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R+ZOYTl1ogNLtu9r2ky+pCwTpSLJ8EddWUUdTKyOqiY=;
+ b=Gj2D8iU9AJL+cPoEPQyJ8xBRJzgBIUjOA8jZtjDYN1oBCwG/lC1G9cUA8+KPlzyu9b
+ jcoxlcj8IXZTMF9ZfYU/ECU7rIPLkWIZYlpCvNBFwzmrlSDeBm8JIRL+gC4R9Mw8xdsN
+ iDRUZutZ8NeC+WA7ykDofB55zq9Mbj9TPINt34QV8Tlx/Fz8CoLpFNHEFRebMjXy2LGO
+ ZStJefqDueBCxejqWKlY4R+13FiXM2awwJZnnXlhWxkJUr2rvSBu6pVHaYpIwz+V/tpV
+ Hzh3n/sghFtKbpd4DA3Yul+TolVkHgiSrRXmx+qWGCohzq7mK3sghNa+/DrFuCaAUNFT
+ hVCQ==
+X-Gm-Message-State: APjAAAVzPOAgCLQqku/WMQR93xace+0ZIw9n9wIkne9+ojgGszX5Q07R
+ 6lKvhjF/x1jlq40L4Xk7n1Dk3YypKduBxhUA9QU=
+X-Google-Smtp-Source: APXvYqz38EQpsmdUVhc39ucTNO0IHRTedizpCAHCL1cZYKLnhMJXPhx5hmeSOhFN4vwLMf2rVXSy11F8OaMUQzGMpU8=
+X-Received: by 2002:ac8:488b:: with SMTP id i11mr52105080qtq.209.1582623963553; 
+ Tue, 25 Feb 2020 01:46:03 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAGb2v66kEACD0oOqoL2sx8JJJAnZzZc+EwEK8+74bZx48L-Z5A@mail.gmail.com>
-Content-Language: en-US
+References: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
+ <1582271336-3708-3-git-send-email-kevin3.tang@gmail.com>
+ <20200221213652.GD3456@ravnborg.org>
+ <CAFPSGXacMKTPrxk_FOrwrvH_XfmO3dYCCa_GoPCe_HUfQFPHtw@mail.gmail.com>
+ <20200222212713.GA30872@ravnborg.org>
+ <CAFPSGXZWC7dASrVP3MTWS+oJjcwQEK0T+BLiwZ-cxk2OyeNZQw@mail.gmail.com>
+ <3acf15ff-6a41-ca13-e219-301fcef983fa@suse.de>
+In-Reply-To: <3acf15ff-6a41-ca13-e219-301fcef983fa@suse.de>
+From: tang pengchuan <kevin3.tang@gmail.com>
+Date: Tue, 25 Feb 2020 17:45:51 +0800
+Message-ID: <CAFPSGXaTgV4WSp_Ag40rbseL3mi6qmdpvTax76fO8qCT0EVK4Q@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 2/6] drm/sprd: add Unisoc's drm kms master
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,705 +67,541 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-ALSA <alsa-devel@alsa-project.org>, Chen-Yu Tsai <wens@csie.org>,
- Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Takashi Iwai <tiwai@suse.com>, linux-sunxi <linux-sunxi@googlegroups.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>, Baolin Wang <baolin.wang@linaro.org>,
+ David Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1027276541=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============1027276541==
+Content-Type: multipart/alternative; boundary="0000000000002923c1059f635bbe"
 
-On 1/29/20 6:34 PM, Chen-Yu Tsai wrote:
-> On Tue, Jan 28, 2020 at 10:07 PM Stefan Mavrodiev <stefan@olimex.com> wrote:
->> Add HDMI audio support for the sun4i-hdmi encoder, used on
->> the older Allwinner chips - A10, A20, A31.
->>
->> Most of the code is based on the BSP implementation. In it
->> dditional formats are supported (S20_3LE and S24_LE), however
->> there where some problems with them and only S16_LE is left.
->>
->> Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
->> ---
->> Changes for v3:
->>   - Instead of platfrom_driver dynammicly register/unregister card
->>   - Add Kconfig dependencies
->>   - Restrore drvdata after card unregistering
->>
->> Changes for v2:
->>   - Create a new platform driver instead of using the HDMI encoder
->>   - Expose a new kcontrol to the userspace holding the ELD data
->>   - Wrap all macro arguments in parentheses
->>
->>   drivers/gpu/drm/sun4i/Kconfig            |  11 +
->>   drivers/gpu/drm/sun4i/Makefile           |   3 +
->>   drivers/gpu/drm/sun4i/sun4i_hdmi.h       |  37 ++
->>   drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c | 450 +++++++++++++++++++++++
->>   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c   |  14 +
->>   5 files changed, 515 insertions(+)
->>   create mode 100644 drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
-> Since this is actually an audio driver, please include all the ALSA / ASoC
-> maintainers and mailing lists (CC-ed).
->
->> diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
->> index 37e90e42943f..ca2ab5d53dd4 100644
->> --- a/drivers/gpu/drm/sun4i/Kconfig
->> +++ b/drivers/gpu/drm/sun4i/Kconfig
->> @@ -23,6 +23,17 @@ config DRM_SUN4I_HDMI
->>            Choose this option if you have an Allwinner SoC with an HDMI
->>            controller.
->>
->> +config DRM_SUN4I_HDMI_AUDIO
->> +       bool "Allwinner A10 HDMI Audio Support"
->> +       default y
->> +       depends on DRM_SUN4I_HDMI
->> +       depends on SND_SOC=y || SND_SOC=DRM_SUN4I_HDMI
->> +       select SND_PCM_ELD
->> +       select SND_SOC_GENERIC_DMAENGINE_PCM
->> +       help
->> +         Choose this option if you have an Allwinner SoC with an HDMI
->> +         controller and want to use audio.
->> +
->>   config DRM_SUN4I_HDMI_CEC
->>          bool "Allwinner A10 HDMI CEC Support"
->>          depends on DRM_SUN4I_HDMI
->> diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Makefile
->> index 0d04f2447b01..492bfd28ad2e 100644
->> --- a/drivers/gpu/drm/sun4i/Makefile
->> +++ b/drivers/gpu/drm/sun4i/Makefile
->> @@ -5,6 +5,9 @@ sun4i-frontend-y                += sun4i_frontend.o
->>   sun4i-drm-y                    += sun4i_drv.o
->>   sun4i-drm-y                    += sun4i_framebuffer.o
->>
->> +ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
->> +sun4i-drm-hdmi-y               += sun4i_hdmi_audio.o
->> +endif
->>   sun4i-drm-hdmi-y               += sun4i_hdmi_ddc_clk.o
->>   sun4i-drm-hdmi-y               += sun4i_hdmi_enc.o
->>   sun4i-drm-hdmi-y               += sun4i_hdmi_i2c.o
->> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi.h b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
->> index 7ad3f06c127e..28621d289655 100644
->> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi.h
->> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
->> @@ -42,7 +42,32 @@
->>   #define SUN4I_HDMI_VID_TIMING_POL_VSYNC                BIT(1)
->>   #define SUN4I_HDMI_VID_TIMING_POL_HSYNC                BIT(0)
->>
->> +#define SUN4I_HDMI_AUDIO_CTRL_REG      0x040
->> +#define SUN4I_HDMI_AUDIO_CTRL_ENABLE           BIT(31)
->> +#define SUN4I_HDMI_AUDIO_CTRL_RESET            BIT(30)
->> +
->> +#define SUN4I_HDMI_AUDIO_FMT_REG       0x048
->> +#define SUN4I_HDMI_AUDIO_FMT_SRC               BIT(31)
->> +#define SUN4I_HDMI_AUDIO_FMT_LAYOUT            BIT(3)
->> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG(n)         ((n) - 1)
->> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG_MASK       GENMASK(2, 0)
->> +
->> +#define SUN4I_HDMI_AUDIO_PCM_REG       0x4c
->> +#define SUN4I_HDMI_AUDIO_PCM_CH_MAP(n, m)      (((m) - 1) << ((n) * 4))
->> +#define SUN4I_HDMI_AUDIO_PCM_CH_MAP_MASK(n)    (GENMASK(2, 0) << ((n) * 4))
->> +
->> +#define SUN4I_HDMI_AUDIO_CTS_REG       0x050
->> +#define SUN4I_HDMI_AUDIO_CTS(n)                        ((n) & GENMASK(19, 0))
->> +
->> +#define SUN4I_HDMI_AUDIO_N_REG         0x054
->> +#define SUN4I_HDMI_AUDIO_N(n)                  ((n) & GENMASK(19, 0))
->> +
->> +#define SUN4I_HDMI_AUDIO_STAT0_REG     0x58
->> +#define SUN4I_HDMI_AUDIO_STAT0_FREQ(n)         ((n) << 24)
->> +#define SUN4I_HDMI_AUDIO_STAT0_FREQ_MASK       GENMASK(27, 24)
->> +
->>   #define SUN4I_HDMI_AVI_INFOFRAME_REG(n)        (0x080 + (n))
->> +#define SUN4I_HDMI_AUDIO_INFOFRAME_REG(n)      (0x0a0 + (n))
->>
->>   #define SUN4I_HDMI_PAD_CTRL0_REG       0x200
->>   #define SUN4I_HDMI_PAD_CTRL0_BIASEN            BIT(31)
->> @@ -242,6 +267,11 @@ struct sun4i_hdmi_variant {
->>          bool                    ddc_fifo_has_dir;
->>   };
->>
->> +struct sun4i_hdmi_audio {
->> +       struct snd_soc_card             *card;
->> +       u8                              channels;
->> +};
->> +
->>   struct sun4i_hdmi {
->>          struct drm_connector    connector;
->>          struct drm_encoder      encoder;
->> @@ -283,9 +313,14 @@ struct sun4i_hdmi {
->>          struct regmap_field     *field_ddc_sda_en;
->>          struct regmap_field     *field_ddc_sck_en;
->>
->> +
->>          struct sun4i_drv        *drv;
->>
->>          bool                    hdmi_monitor;
->> +       bool                    hdmi_audio;
->> +
->> +       struct sun4i_hdmi_audio audio;
->> +
->>          struct cec_adapter      *cec_adap;
->>
->>          const struct sun4i_hdmi_variant *variant;
->> @@ -294,5 +329,7 @@ struct sun4i_hdmi {
->>   int sun4i_ddc_create(struct sun4i_hdmi *hdmi, struct clk *clk);
->>   int sun4i_tmds_create(struct sun4i_hdmi *hdmi);
->>   int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi);
->> +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi);
->> +void sun4i_hdmi_audio_destroy(struct sun4i_hdmi *hdmi);
->>
->>   #endif /* _SUN4I_HDMI_H_ */
->> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
->> new file mode 100644
->> index 000000000000..f42f2cea4e9e
->> --- /dev/null
->> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
->> @@ -0,0 +1,450 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +/*
->> + * Copyright (C) 2020 Olimex Ltd.
->> + *   Author: Stefan Mavrodiev <stefan@olimex.com>
->> + */
->> +#include <linux/dma-mapping.h>
->> +#include <linux/dmaengine.h>
->> +#include <linux/module.h>
->> +#include <linux/of_dma.h>
->> +#include <linux/regmap.h>
->> +
->> +#include <drm/drm_print.h>
->> +
->> +#include <sound/dmaengine_pcm.h>
->> +#include <sound/pcm_drm_eld.h>
->> +#include <sound/pcm_params.h>
->> +#include <sound/soc.h>
->> +
->> +#include "sun4i_hdmi.h"
->> +
->> +static int sun4i_hdmi_audio_ctl_eld_info(struct snd_kcontrol *kcontrol,
->> +                                        struct snd_ctl_elem_info *uinfo)
->> +{
->> +       uinfo->type = SNDRV_CTL_ELEM_TYPE_BYTES;
->> +       uinfo->count = MAX_ELD_BYTES;
->> +       return 0;
->> +}
->> +
->> +static int sun4i_hdmi_audio_ctl_eld_get(struct snd_kcontrol *kcontrol,
->> +                                       struct snd_ctl_elem_value *ucontrol)
->> +{
->> +       struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
->> +       struct snd_soc_card *card = snd_soc_component_get_drvdata(component);
->> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
->> +
->> +       memcpy(ucontrol->value.bytes.data,
->> +              hdmi->connector.eld,
->> +              MAX_ELD_BYTES);
->> +
->> +       return 0;
->> +}
->> +
->> +static const struct snd_kcontrol_new sun4i_hdmi_audio_controls[] = {
->> +       {
->> +               .access = SNDRV_CTL_ELEM_ACCESS_READ |
->> +                         SNDRV_CTL_ELEM_ACCESS_VOLATILE,
->> +               .iface = SNDRV_CTL_ELEM_IFACE_PCM,
->> +               .name = "ELD",
->> +               .info = sun4i_hdmi_audio_ctl_eld_info,
->> +               .get = sun4i_hdmi_audio_ctl_eld_get,
->> +       },
->> +};
->> +
->> +static const struct snd_soc_dapm_widget sun4i_hdmi_audio_widgets[] = {
->> +       SND_SOC_DAPM_OUTPUT("TX"),
->> +};
->> +
->> +static const struct snd_soc_dapm_route sun4i_hdmi_audio_routes[] = {
->> +       { "TX", NULL, "Playback" },
->> +};
->> +
->> +static const struct snd_soc_component_driver sun4i_hdmi_audio_component = {
->> +       .controls               = sun4i_hdmi_audio_controls,
->> +       .num_controls           = ARRAY_SIZE(sun4i_hdmi_audio_controls),
->> +       .dapm_widgets           = sun4i_hdmi_audio_widgets,
->> +       .num_dapm_widgets       = ARRAY_SIZE(sun4i_hdmi_audio_widgets),
->> +       .dapm_routes            = sun4i_hdmi_audio_routes,
->> +       .num_dapm_routes        = ARRAY_SIZE(sun4i_hdmi_audio_routes),
->> +};
->> +
->> +static int sun4i_hdmi_audio_startup(struct snd_pcm_substream *substream,
->> +                                   struct snd_soc_dai *dai)
->> +{
->> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
->> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
->> +       u32 reg;
->> +       int ret;
->> +
->> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_CTRL_REG, 0);
->> +       regmap_write(hdmi->regmap,
->> +                    SUN4I_HDMI_AUDIO_CTRL_REG,
->> +                    SUN4I_HDMI_AUDIO_CTRL_RESET);
->> +       ret = regmap_read_poll_timeout(hdmi->regmap,
->> +                                      SUN4I_HDMI_AUDIO_CTRL_REG,
->> +                                      reg, !reg, 100, 50000);
->> +       if (ret < 0) {
->> +               DRM_ERROR("Failed to reset HDMI Audio\n");
->> +               return ret;
->> +       }
->> +
->> +       regmap_write(hdmi->regmap,
->> +                    SUN4I_HDMI_AUDIO_CTRL_REG,
->> +                    SUN4I_HDMI_AUDIO_CTRL_ENABLE);
->> +
->> +       return snd_pcm_hw_constraint_eld(substream->runtime,
->> +                                       hdmi->connector.eld);
->> +}
->> +
->> +static void sun4i_hdmi_audio_shutdown(struct snd_pcm_substream *substream,
->> +                                     struct snd_soc_dai *dai)
->> +{
->> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
->> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
->> +
->> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_CTRL_REG, 0);
->> +}
->> +
->> +static int sun4i_hdmi_setup_audio_infoframes(struct sun4i_hdmi *hdmi)
->> +{
->> +       union hdmi_infoframe frame;
->> +       u8 buffer[14];
->> +       int i, ret;
->> +
->> +       ret = hdmi_audio_infoframe_init(&frame.audio);
->> +       if (ret < 0) {
->> +               DRM_ERROR("Failed to init HDMI audio infoframe\n");
->> +               return ret;
->> +       }
->> +
->> +       frame.audio.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
->> +       frame.audio.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
->> +       frame.audio.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
->> +       frame.audio.channels = hdmi->audio.channels;
->> +
->> +       ret = hdmi_infoframe_pack(&frame, buffer, sizeof(buffer));
->> +       if (ret < 0) {
->> +               DRM_ERROR("Failed to pack HDMI audio infoframe\n");
->> +               return ret;
->> +       }
->> +
->> +       for (i = 0; i < sizeof(buffer); i++)
->> +               writeb(buffer[i],
->> +                      hdmi->base + SUN4I_HDMI_AUDIO_INFOFRAME_REG(i));
->> +
->> +       return 0;
->> +}
->> +
->> +static void sun4i_hdmi_audio_set_cts_n(struct sun4i_hdmi *hdmi,
->> +                                      struct snd_pcm_hw_params *params)
->> +{
->> +       struct drm_encoder *encoder = &hdmi->encoder;
->> +       struct drm_crtc *crtc = encoder->crtc;
->> +       const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
->> +       u32 rate = params_rate(params);
->> +       u32 n, cts;
->> +       u64 tmp;
->> +
->> +       /**
->> +        * Calculate Cycle Time Stamp (CTS) and Numerator (N):
->> +        *
->> +        * N = 128 * Samplerate / 1000
->> +        * CTS = (Ftdms * N) / (128 * Samplerate)
->> +        */
->> +
->> +       n = 128 * rate / 1000;
->> +       tmp = (u64)(mode->clock * 1000) * n;
->> +       do_div(tmp, 128 * rate);
->> +       cts = tmp;
->> +
->> +       regmap_write(hdmi->regmap,
->> +                    SUN4I_HDMI_AUDIO_CTS_REG,
->> +                    SUN4I_HDMI_AUDIO_CTS(cts));
->> +
->> +       regmap_write(hdmi->regmap,
->> +                    SUN4I_HDMI_AUDIO_N_REG,
->> +                    SUN4I_HDMI_AUDIO_N(n));
->> +}
->> +
->> +static int sun4i_hdmi_audio_set_hw_rate(struct sun4i_hdmi *hdmi,
->> +                                       struct snd_pcm_hw_params *params)
->> +{
->> +       u32 rate = params_rate(params);
->> +       u32 val;
->> +
->> +       switch (rate) {
->> +       case 44100:
->> +               val = 0x0;
->> +               break;
->> +       case 48000:
->> +               val = 0x2;
->> +               break;
->> +       case 32000:
->> +               val = 0x3;
->> +               break;
->> +       case 88200:
->> +               val = 0x8;
->> +               break;
->> +       case 96000:
->> +               val = 0x9;
->> +               break;
->> +       case 176400:
->> +               val = 0xc;
->> +               break;
->> +       case 192000:
->> +               val = 0xe;
->> +               break;
->> +       default:
->> +               return -EINVAL;
->> +       }
->> +
->> +       regmap_update_bits(hdmi->regmap,
->> +                          SUN4I_HDMI_AUDIO_STAT0_REG,
->> +                          SUN4I_HDMI_AUDIO_STAT0_FREQ_MASK,
->> +                          SUN4I_HDMI_AUDIO_STAT0_FREQ(val));
->> +
->> +       return 0;
->> +}
->> +
->> +static int sun4i_hdmi_audio_set_hw_channels(struct sun4i_hdmi *hdmi,
->> +                                           struct snd_pcm_hw_params *params)
->> +{
->> +       u32 channels = params_channels(params);
->> +
->> +       if (channels > 8)
->> +               return -EINVAL;
->> +
->> +       hdmi->audio.channels = channels;
->> +
->> +       regmap_update_bits(hdmi->regmap,
->> +                          SUN4I_HDMI_AUDIO_FMT_REG,
->> +                          SUN4I_HDMI_AUDIO_FMT_LAYOUT,
->> +                          (channels > 2) ? SUN4I_HDMI_AUDIO_FMT_LAYOUT : 0);
->> +
->> +       regmap_update_bits(hdmi->regmap,
->> +                          SUN4I_HDMI_AUDIO_FMT_REG,
->> +                          SUN4I_HDMI_AUDIO_FMT_CH_CFG_MASK,
->> +                          SUN4I_HDMI_AUDIO_FMT_CH_CFG(channels));
->> +
->> +       regmap_write(hdmi->regmap, SUN4I_HDMI_AUDIO_PCM_REG, 0x76543210);
->> +
->> +       /**
->> +        * If only one channel is required, send the same sample
->> +        * to the sink device as a left and right channel.
->> +        */
->> +       if (channels == 1)
->> +               regmap_update_bits(hdmi->regmap,
->> +                                  SUN4I_HDMI_AUDIO_PCM_REG,
->> +                                  SUN4I_HDMI_AUDIO_PCM_CH_MAP_MASK(1),
->> +                                  SUN4I_HDMI_AUDIO_PCM_CH_MAP(1, 1));
->> +
->> +       return 0;
->> +}
->> +
->> +static int sun4i_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
->> +                                     struct snd_pcm_hw_params *params,
->> +                                     struct snd_soc_dai *dai)
->> +{
->> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
->> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
->> +       int ret;
->> +
->> +       ret = sun4i_hdmi_audio_set_hw_rate(hdmi, params);
->> +       if (ret < 0)
->> +               return ret;
->> +
->> +       ret = sun4i_hdmi_audio_set_hw_channels(hdmi, params);
->> +       if (ret < 0)
->> +               return ret;
->> +
->> +       sun4i_hdmi_audio_set_cts_n(hdmi, params);
->> +
->> +       return 0;
->> +}
->> +
->> +static int sun4i_hdmi_audio_trigger(struct snd_pcm_substream *substream,
->> +                                   int cmd,
->> +                                   struct snd_soc_dai *dai)
->> +{
->> +       struct snd_soc_card *card = snd_soc_dai_get_drvdata(dai);
->> +       struct sun4i_hdmi *hdmi = snd_soc_card_get_drvdata(card);
->> +       int ret = 0;
->> +
->> +       switch (cmd) {
->> +       case SNDRV_PCM_TRIGGER_START:
->> +               ret = sun4i_hdmi_setup_audio_infoframes(hdmi);
->> +               break;
->> +       default:
->> +               break;
->> +       }
->> +
->> +       return ret;
->> +}
->> +
->> +static const struct snd_soc_dai_ops sun4i_hdmi_audio_dai_ops = {
->> +       .startup = sun4i_hdmi_audio_startup,
->> +       .shutdown = sun4i_hdmi_audio_shutdown,
->> +       .hw_params = sun4i_hdmi_audio_hw_params,
->> +       .trigger = sun4i_hdmi_audio_trigger,
->> +};
->> +
->> +static int sun4i_hdmi_audio_dai_probe(struct snd_soc_dai *dai)
->> +{
->> +       struct snd_dmaengine_dai_dma_data *dma_data;
->> +
->> +       dma_data = devm_kzalloc(dai->dev, sizeof(*dma_data), GFP_KERNEL);
->> +       if (!dma_data)
->> +               return -ENOMEM;
->> +
->> +       dma_data->addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->> +       dma_data->maxburst = 8;
->> +
->> +       snd_soc_dai_init_dma_data(dai, dma_data, NULL);
->> +
->> +       return 0;
->> +}
->> +
->> +static struct snd_soc_dai_driver sun4i_hdmi_audio_dai = {
->> +       .name = "HDMI",
->> +       .ops = &sun4i_hdmi_audio_dai_ops,
->> +       .probe = sun4i_hdmi_audio_dai_probe,
->> +       .playback = {
->> +               .stream_name    = "Playback",
->> +               .channels_min   = 1,
->> +               .channels_max   = 8,
->> +               .formats        = SNDRV_PCM_FMTBIT_S16_LE,
->> +               .rates          = SNDRV_PCM_RATE_8000_192000,
->> +       },
->> +};
->> +
->> +static const struct snd_pcm_hardware sun4i_hdmi_audio_pcm_hardware = {
->> +       .info                   = SNDRV_PCM_INFO_INTERLEAVED |
->> +                                 SNDRV_PCM_INFO_BLOCK_TRANSFER |
->> +                                 SNDRV_PCM_INFO_MMAP |
->> +                                 SNDRV_PCM_INFO_MMAP_VALID |
->> +                                 SNDRV_PCM_INFO_PAUSE |
->> +                                 SNDRV_PCM_INFO_RESUME,
->> +       .formats                = SNDRV_PCM_FMTBIT_S16_LE,
->> +       .rates                  = SNDRV_PCM_RATE_8000_192000,
->> +       .rate_min               = 8000,
->> +       .rate_max               = 192000,
->> +       .channels_min           = 1,
->> +       .channels_max           = 8,
->> +       .buffer_bytes_max       = 128 * 1024,
->> +       .period_bytes_min       = 4 * 1024,
->> +       .period_bytes_max       = 32 * 1024,
->> +       .periods_min            = 2,
->> +       .periods_max            = 8,
->> +       .fifo_size              = 128,
->> +};
->> +
->> +static const struct snd_dmaengine_pcm_config sun4i_hdmi_audio_pcm_config = {
->> +       .chan_names[SNDRV_PCM_STREAM_PLAYBACK] = "audio-tx",
->> +       .pcm_hardware = &sun4i_hdmi_audio_pcm_hardware,
->> +       .prealloc_buffer_size = 128 * 1024,
->> +       .prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
->> +};
->> +
->> +struct snd_soc_card sun4i_hdmi_audio_card = {
->> +       .name = "sun4i-hdmi",
->> +};
->> +
->> +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi)
->> +{
->> +       struct snd_soc_card *card = &sun4i_hdmi_audio_card;
->> +       struct snd_soc_dai_link_component *comp;
->> +       struct snd_soc_dai_link *link;
->> +       int ret;
->> +
->> +       ret = snd_dmaengine_pcm_register(hdmi->dev,
->> +                                        &sun4i_hdmi_audio_pcm_config, 0);
->> +       if (ret < 0) {
->> +               DRM_ERROR("Could not register PCM\n");
->> +               return ret;
->> +       }
->> +
->> +       ret = snd_soc_register_component(hdmi->dev,
->> +                                        &sun4i_hdmi_audio_component,
->> +                                        &sun4i_hdmi_audio_dai, 1);
->> +       if (ret < 0) {
->> +               DRM_ERROR("Could not register DAI\n");
->> +               goto unregister_pcm;
->> +       }
->> +
->> +       link = devm_kzalloc(hdmi->dev, sizeof(*link), GFP_KERNEL);
->> +       if (!link) {
->> +               ret = -ENOMEM;
->> +               goto unregister_component;
->> +       }
->> +
->> +       comp = devm_kzalloc(hdmi->dev, sizeof(*comp) * 3, GFP_KERNEL);
->> +       if (!comp) {
->> +               ret = -ENOMEM;
->> +               goto unregister_component;
->> +       }
->> +
->> +       link->cpus = &comp[0];
->> +       link->codecs = &comp[1];
->> +       link->platforms = &comp[2];
->> +
->> +       link->num_cpus = 1;
->> +       link->num_codecs = 1;
->> +       link->num_platforms = 1;
->> +
->> +       link->playback_only = 1;
->> +
->> +       link->name = "SUN4I-HDMI";
->> +       link->stream_name = "SUN4I-HDMI PCM";
->> +
->> +       link->codecs->name = dev_name(hdmi->dev);
->> +       link->codecs->dai_name  = sun4i_hdmi_audio_dai.name;
->> +
->> +       link->cpus->dai_name = dev_name(hdmi->dev);
->> +
->> +       link->platforms->name = dev_name(hdmi->dev);
->> +
->> +       link->dai_fmt = SND_SOC_DAIFMT_I2S;
->> +
->> +       card->dai_link = link;
->> +       card->num_links = 1;
->> +       card->dev = hdmi->dev;
->> +
->> +       hdmi->audio.card = card;
->> +
->> +       /**
->> +        * snd_soc_register_card() will overwrite the driver_data pointer.
->> +        * So before registering the card, store the original pointer in
->> +        * card->drvdata.
->> +        */
->> +       snd_soc_card_set_drvdata(card, hdmi);
->> +       ret = snd_soc_register_card(card);
->> +       if (ret)
->> +               goto unregister_component;
-> So using ASoC with all the components IMHO is just adding dead weight. The
-> audio interface for this particular hardware is just a FIFO that needs to
-> be written to by an external DMA engine, and a bunch of controls to setup
-> the parameters of the HDMI audio stream. There's no power sequencing to do,
-> and no actual individual components to control. There's no reason you couldn't
-> use just the ALSA DMAENGINE helpers to create a simple ALSA sound card.
->
-> (Maybe we could clean it up after it's merged? Would there be any issues
->   with backward compatibility?)
->
-> I think the only example of this besides ASoC is the PXA2xx sound library
-> and AC97 driver:
->
->    - sound/arm/pxa2xx-pcm-lib.c
->    - sound/arm/pxa2xx-ac97.c
->
-> Regards
-> ChenYu
->
->
-Hi,
+--0000000000002923c1059f635bbe
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'd like to hear Maxime opinion on this. I get it why it's overkill to 
-use ASoC.
-However it will take only couple of lines to make the changes for v4. On 
-the other
-side with dropping the ASoC, the driver must be almost rewritten. It's 
-not such a big deal,
-but I want to know that this is the right thing to do.
+On Tue, Feb 25, 2020 at 3:38 PM Thomas Zimmermann <tzimmermann@suse.de>
+wrote:
 
-Best regards,
-Stefan Mavrodiev
+> Hi
+>
+> Am 23.02.20 um 05:26 schrieb tang pengchuan:
+> >
+> >
+> > On Sun, Feb 23, 2020 at 5:27 AM Sam Ravnborg <sam@ravnborg.org
+> > <mailto:sam@ravnborg.org>> wrote:
+> >
+> >     Hi Kevin/tang.
+> >
+> >     Thanks for the quick and detailed feedback.
+> >     Your questions are addressed below.
+> >
+> >             Sam
+> >
+> >
+> >     > > > +static int sprd_drm_bind(struct device *dev)
+> >     > > > +{
+> >     > > > +     struct drm_device *drm;
+> >     > > > +     struct sprd_drm *sprd;
+> >     > > > +     int err;
+> >     > > > +
+> >     > > > +     drm =3D drm_dev_alloc(&sprd_drm_drv, dev);
+> >     > > > +     if (IS_ERR(drm))
+> >     > > > +             return PTR_ERR(drm);
+> >     > > You should embed drm_device in struct sprd_drm.
+> >     > > See example code in drm/drm_drv.c
+> >     > >
+> >     > > This is what modern drm drivers do.
+> >     > >
+> >     > > I *think* you can drop the component framework if you do this.
+> >     > >
+> >     > I have read it(drm/drm_drv.c) carefully, if drop the component
+> >     framework,
+> >     > the whole our drm driver maybe need to redesign, so i still want
+> >     to keep
+> >     > current design.
+> >     OK, fine.
+> >
+> >     > > > +     sprd_drm_mode_config_init(drm);
+> >     > > > +
+> >     > > > +     /* bind and init sub drivers */
+> >     > > > +     err =3D component_bind_all(drm->dev, drm);
+> >     > > > +     if (err) {
+> >     > > > +             DRM_ERROR("failed to bind all component.\n");
+> >     > > > +             goto err_dc_cleanup;
+> >     > > > +     }
+> >     > > When you have a drm_device - which you do here.
+> >     > > Then please use drm_err() and friends for error messages.
+> >     > > Please verify all uses of DRM_XXX
+> >     > >
+> >     >   modern drm drivers need drm_xxx to replace DRM_XXX?
+> >     Yes, use of DRM_XXX is deprecated - when you have a drm_device.
+> >
+> >     > >
+> >     > > > +     /* with irq_enabled =3D true, we can use the vblank
+> >     feature. */
+> >     > > > +     drm->irq_enabled =3D true;
+> >     > > I cannot see any irq being installed. This looks wrong.
+> >     > >
+> >     > Our display controller isr is been register on crtc
+> >     driver(sprd_dpu.c), not
+> >     > here.
+> >
+> >     I think you just need to move this to next patch and then it is fin=
+e.
+> >
+> > Here is the advice given by Thomas Zimmermann, similar to the advice yo=
+u
+> > gave.
+> > I have given thomas feedback about my questions, maybe thomas didn't se=
+e
+> > my email, so there is no reply.
+>
+> I have been busy last week. Sorry for not getting back to you.
+>
+> >
+> > But I've always been confused, because irq is initialized in drm driver
+> > for other guys, why not for me?
+>
+> Do you have an example?
+>
+Hi Thomas,
+The the irq is initialized in the sub-device code, but the device state is
+set on kms driver.
+E.g
+Here is the device state set on kms driver:
+
+206  <http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drive=
+rs/gpu/drm/mediatek/mtk_drm_drv.c#206>
+*static* *int* mtk_drm_kms_init
+<http://10.0.1.79:8081/s?refs=3Dmtk_drm_kms_init&project=3Dsprdroidr_trunk>=
+(*struct*
+drm_device <http://10.0.1.79:8081/s?defs=3Ddrm_device&project=3Dsprdroidr_t=
+runk>
+*drm <http://10.0.1.79:8081/s?refs=3Ddrm&project=3Dsprdroidr_trunk>)
+......
+
+298  <http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drive=
+rs/gpu/drm/mediatek/mtk_drm_drv.c#298>
+	/*299  <http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/dr=
+ivers/gpu/drm/mediatek/mtk_drm_drv.c#299>
+	 * We don't use the drm_irq_install() helpers provided by the DRM300
+<http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gp=
+u/drm/mediatek/mtk_drm_drv.c#300>
+	 * core, so we need to set this manually in order to allow the301
+<http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gp=
+u/drm/mediatek/mtk_drm_drv.c#301>
+	 * DRM_IOCTL_WAIT_VBLANK to operate correctly.302
+<http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gp=
+u/drm/mediatek/mtk_drm_drv.c#302>
+	 */303  <http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/d=
+rivers/gpu/drm/mediatek/mtk_drm_drv.c#303>
+	drm <http://10.0.1.79:8081/s?defs=3Ddrm&project=3Dsprdroidr_trunk>->irq_en=
+abled
+<http://10.0.1.79:8081/s?defs=3Dirq_enabled&project=3Dsprdroidr_trunk> =3D
+*true*;
+
+Here is irq install on subdev:
+265  <http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drive=
+rs/gpu/drm/mediatek/mtk_disp_rdma.c#265>
+*static* *int* mtk_disp_rdma_probe
+<http://10.0.1.79:8081/s?refs=3Dmtk_disp_rdma_probe&project=3Dsprdroidr_tru=
+nk>(*struct*
+platform_device
+<http://10.0.1.79:8081/s?defs=3Dplatform_device&project=3Dsprdroidr_trunk>
+*pdev <http://10.0.1.79:8081/s?refs=3Dpdev&project=3Dsprdroidr_trunk>)
+......
+298  <http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drive=
+rs/gpu/drm/mediatek/mtk_disp_rdma.c#298>
+	ret <http://10.0.1.79:8081/s?defs=3Dret&project=3Dsprdroidr_trunk> =3D
+devm_request_irq
+<http://10.0.1.79:8081/s?defs=3Ddevm_request_irq&project=3Dsprdroidr_trunk>=
+(dev
+<http://10.0.1.79:8081/s?defs=3Ddev&project=3Dsprdroidr_trunk>, irq
+<http://10.0.1.79:8081/s?defs=3Dirq&project=3Dsprdroidr_trunk>,
+mtk_disp_rdma_irq_handler
+<http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gp=
+u/drm/mediatek/mtk_disp_rdma.c#mtk_disp_rdma_irq_handler>,299
+ <http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/g=
+pu/drm/mediatek/mtk_disp_rdma.c#299>
+			       IRQF_TRIGGER_NONE
+<http://10.0.1.79:8081/s?defs=3DIRQF_TRIGGER_NONE&project=3Dsprdroidr_trunk=
+>,
+dev_name <http://10.0.1.79:8081/s?defs=3Ddev_name&project=3Dsprdroidr_trunk=
+>(dev
+<http://10.0.1.79:8081/s?defs=3Ddev&project=3Dsprdroidr_trunk>), priv
+<http://10.0.1.79:8081/s?defs=3Dpriv&project=3Dsprdroidr_trunk>);
+
+I'm not sure if my understanding is wrong...
 
 
-P.S. Sorry for the long break.
+> Best regards
+> Thomas
+>
+> > Can you help to tell the reason in detail, looking forward to your
+> answers.
+> >
+> > Thomas's suggestion=EF=BC=9A
+> >
+> -------------------------------------------------------------------------=
+------------------
+> >
+> > This line indicates the problem's design. The irq is initialized in the
+> > sub-device code, but the device state is set here. Instead both should
+> > be set in the same place.
+> >
+> >> +
+> >> +     /* reset all the states of crtc/plane/encoder/connector */
+> >> +     drm_mode_config_reset(drm);
+> >> +
+> >> +     /* init kms poll for handling hpd */
+> >> +     drm_kms_helper_poll_init(drm);
+> >
+> > Most of this function's code should be moved into the sub-device bind
+> > function.
+> >
+> > Here, maybe do:
+> >
+> >  * allocate device structures
+> >  * call component_bind_all()
+> >  * on success, register device
+> >
+> > The sub-device function should then do
+> >
+> >  * init modesetting, crtc, planes, etc.
+> >  * do drm_mode_config_reset()
+> >  * init vblanking
+> >  * init the irq
+> >  * do drm_kms_helper_poll_init()
+> >
+> > roughtly in that order. It makes sense to call drm_vblank_init() after
+> > drm_mode_config_reset(), as vblanking uses some of the mode-config
+> fields.
+> >
+> -------------------------------------------------------------------------=
+-----------------------------
+> >
+> >
+> >             Sam
+> >
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
+>
 
->> +
->> +       return 0;
->> +
->> +unregister_component:
->> +       snd_soc_unregister_component(hdmi->dev);
->> +unregister_pcm:
->> +       snd_dmaengine_pcm_unregister(hdmi->dev);
->> +       return ret;
->> +}
->> +
->> +void sun4i_hdmi_audio_destroy(struct sun4i_hdmi *hdmi)
->> +{
->> +       struct snd_soc_card *card = hdmi->audio.card;
->> +       void *data;
->> +
->> +       /**
->> +        * Before removing the card, restore the previously stored driver_data.
->> +        * This will ensure proper removal of the sun4i-hdmi module, since it
->> +        * uses dev_get_drvdata() in the unbind function.
->> +        */
->> +       data = snd_soc_card_get_drvdata(card);
->> +
->> +       snd_soc_unregister_card(card);
->> +       snd_soc_unregister_component(hdmi->dev);
->> +       snd_dmaengine_pcm_unregister(hdmi->dev);
->> +
->> +       dev_set_drvdata(hdmi->dev, data);
->> +}
->> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
->> index 68d4644ac2dc..4cd35c97c503 100644
->> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
->> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
->> @@ -23,6 +23,8 @@
->>   #include <drm/drm_print.h>
->>   #include <drm/drm_probe_helper.h>
->>
->> +#include <sound/soc.h>
->> +
->>   #include "sun4i_backend.h"
->>   #include "sun4i_crtc.h"
->>   #include "sun4i_drv.h"
->> @@ -87,6 +89,10 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder)
->>
->>          DRM_DEBUG_DRIVER("Disabling the HDMI Output\n");
->>
->> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
->> +       sun4i_hdmi_audio_destroy(hdmi);
->> +#endif
->> +
->>          val = readl(hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
->>          val &= ~SUN4I_HDMI_VID_CTRL_ENABLE;
->>          writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
->> @@ -114,6 +120,11 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
->>                  val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
->>
->>          writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
->> +
->> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
->> +       if (hdmi->hdmi_audio && sun4i_hdmi_audio_create(hdmi))
->> +               DRM_ERROR("Couldn't create the HDMI audio adapter\n");
->> +#endif
->>   }
->>
->>   static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
->> @@ -218,6 +229,9 @@ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
->>          if (!edid)
->>                  return 0;
->>
->> +#ifdef CONFIG_DRM_SUN4I_HDMI_AUDIO
->> +       hdmi->hdmi_audio = drm_detect_monitor_audio(edid);
->> +#endif
->>          hdmi->hdmi_monitor = drm_detect_hdmi_monitor(edid);
->>          DRM_DEBUG_DRIVER("Monitor is %s monitor\n",
->>                           hdmi->hdmi_monitor ? "an HDMI" : "a DVI");
->> --
->> 2.17.1
->>
->> --
->> You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
->> To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
->> To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/20200128140642.8404-2-stefan%40olimex.com.
+--0000000000002923c1059f635bbe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 25, 2020 at 3:38 PM Thoma=
+s Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de">tzimmermann@suse.de=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+Hi<br>
+<br>
+Am 23.02.20 um 05:26 schrieb tang pengchuan:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Sun, Feb 23, 2020 at 5:27 AM Sam Ravnborg &lt;<a href=3D"mailto:sam=
+@ravnborg.org" target=3D"_blank">sam@ravnborg.org</a><br>
+&gt; &lt;mailto:<a href=3D"mailto:sam@ravnborg.org" target=3D"_blank">sam@r=
+avnborg.org</a>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Hi Kevin/tang.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Thanks for the quick and detailed feedback.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Your questions are addressed below.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 Sam<br>
+&gt; <br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +static int sprd_drm_bind(struct dev=
+ice *dev)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0struct drm_devi=
+ce *drm;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0struct sprd_drm=
+ *sprd;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0int err;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0drm =3D drm_dev=
+_alloc(&amp;sprd_drm_drv, dev);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (IS_ERR(drm)=
+)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return PTR_ERR(drm);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; You should embed drm_device in struct spr=
+d_drm.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; See example code in drm/drm_drv.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; This is what modern drm drivers do.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; I *think* you can drop the component fram=
+ework if you do this.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; I have read it(drm/drm_drv.c) carefully, if dr=
+op the component<br>
+&gt;=C2=A0 =C2=A0 =C2=A0framework,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; the whole our drm driver maybe need to redesig=
+n, so i still want<br>
+&gt;=C2=A0 =C2=A0 =C2=A0to keep<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; current design.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0OK, fine.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0sprd_drm_mode_c=
+onfig_init(drm);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0/* bind and ini=
+t sub drivers */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0err =3D compone=
+nt_bind_all(drm-&gt;dev, drm);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (err) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0DRM_ERROR(&quot;failed to bind all component.\n&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0goto err_dc_cleanup;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; When you have a drm_device - which you do=
+ here.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; Then please use drm_err() and friends for=
+ error messages.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; Please verify all uses of DRM_XXX<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0modern drm drivers need drm_xxx to=
+ replace DRM_XXX?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Yes, use of DRM_XXX is deprecated - when you have a=
+ drm_device.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0/* with irq_ena=
+bled =3D true, we can use the vblank<br>
+&gt;=C2=A0 =C2=A0 =C2=A0feature. */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0drm-&gt;irq_ena=
+bled =3D true;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; I cannot see any irq being installed. Thi=
+s looks wrong.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Our display controller isr is been register on=
+ crtc<br>
+&gt;=C2=A0 =C2=A0 =C2=A0driver(sprd_dpu.c), not<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; here.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0I think you just need to move this to next patch an=
+d then it is fine.<br>
+&gt; <br>
+&gt; Here is the advice given by Thomas Zimmermann, similar to the advice y=
+ou<br>
+&gt; gave.<br>
+&gt; I have given thomas feedback about my questions, maybe thomas didn&#39=
+;t see<br>
+&gt; my email, so there is no reply.<br>
+<br>
+I have been busy last week. Sorry for not getting back to you.<br>
+<br>
+&gt; <br>
+&gt; But I&#39;ve always been confused, because irq is initialized in drm d=
+river<br>
+&gt; for other guys, why not for me?<br>
+<br>
+Do you have an example?<br></blockquote><div>Hi Thomas,</div><div><div>The =
+the=C2=A0irq is initialized in the sub-device code, but the device state is=
+ set on kms driver.</div><div><span class=3D"gmail-tlid-translation gmail-t=
+ranslation" lang=3D"en"><span title=3D"" class=3D"gmail-"><span class=3D"gm=
+ail-tlid-translation gmail-translation" lang=3D"en"><span title=3D"" class=
+=3D"gmail-">E.g<br></span></span></span></span></div><div><span class=3D"gm=
+ail-tlid-translation gmail-translation" lang=3D"en"><span title=3D"" class=
+=3D"gmail-"><span class=3D"gmail-tlid-translation gmail-translation" lang=
+=3D"en"><span title=3D"" class=3D"gmail-">Here is the device state set on k=
+ms driver:<br></span></span></span></span></div><div><pre><span id=3D"gmail=
+-scope_id_c6d1be76" class=3D"gmail-scope-head"><a class=3D"gmail-l gmail-se=
+lected" name=3D"206" href=3D"http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp=
+/kernel/kernel5.4/drivers/gpu/drm/mediatek/mtk_drm_drv.c#206">206 </a><a st=
+yle=3D"cursor: pointer;" id=3D"gmail-scope_id_c6d1be76_fold_icon"><span cla=
+ss=3D"gmail-fold-icon">=C2=A0</span></a><b>static</b> <b>int</b> <a class=
+=3D"gmail-xf" name=3D"mtk_drm_kms_init"></a><a href=3D"http://10.0.1.79:808=
+1/s?refs=3Dmtk_drm_kms_init&amp;project=3Dsprdroidr_trunk" class=3D"gmail-x=
+f gmail-intelliWindow-symbol">mtk_drm_kms_init</a>(<b>struct</b> <a href=3D=
+"http://10.0.1.79:8081/s?defs=3Ddrm_device&amp;project=3Dsprdroidr_trunk" c=
+lass=3D"gmail-intelliWindow-symbol">drm_device</a> *<a class=3D"gmail-xa" n=
+ame=3D"drm"></a><a href=3D"http://10.0.1.79:8081/s?refs=3Ddrm&amp;project=
+=3Dsprdroidr_trunk" class=3D"gmail-xa gmail-intelliWindow-symbol">drm</a>)<=
+br>......<br></span></pre><span class=3D"gmail-tlid-translation gmail-trans=
+lation" lang=3D"en"><span title=3D"" class=3D"gmail-"><span class=3D"gmail-=
+tlid-translation gmail-translation" lang=3D"en"><span title=3D"" class=3D"g=
+mail-"></span></span></span></span></div><div><pre><span id=3D"gmail-scope_=
+id_c6d1be76_fold" class=3D"gmail-scope-body"><a class=3D"gmail-l gmail-sele=
+cted" name=3D"298" href=3D"http://10.0.1.79:8081/xref/sprdroidr_trunk/bsp/k=
+ernel/kernel5.4/drivers/gpu/drm/mediatek/mtk_drm_drv.c#298">298 </a><span c=
+lass=3D"gmail-fold-space">=C2=A0</span>	<span class=3D"gmail-c">/*
+<a class=3D"gmail-l gmail-selected" name=3D"299" href=3D"http://10.0.1.79:8=
+081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediatek/mtk_=
+drm_drv.c#299">299 </a><span class=3D"gmail-fold-space">=C2=A0</span>	 * We=
+ don&#39;t use the drm_irq_install() helpers provided by the DRM
+<a class=3D"gmail-hl gmail-selected" name=3D"300" href=3D"http://10.0.1.79:=
+8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediatek/mtk=
+_drm_drv.c#300">300 </a><span class=3D"gmail-fold-space">=C2=A0</span>	 * c=
+ore, so we need to set this manually in order to allow the
+<a class=3D"gmail-l gmail-selected" name=3D"301" href=3D"http://10.0.1.79:8=
+081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediatek/mtk_=
+drm_drv.c#301">301 </a><span class=3D"gmail-fold-space">=C2=A0</span>	 * DR=
+M_IOCTL_WAIT_VBLANK to operate correctly.
+<a class=3D"gmail-l gmail-selected" name=3D"302" href=3D"http://10.0.1.79:8=
+081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediatek/mtk_=
+drm_drv.c#302">302 </a><span class=3D"gmail-fold-space">=C2=A0</span>	 */</=
+span>
+<a class=3D"gmail-l gmail-selected" name=3D"303" href=3D"http://10.0.1.79:8=
+081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediatek/mtk_=
+drm_drv.c#303">303 </a><span class=3D"gmail-fold-space">=C2=A0</span>	<a hr=
+ef=3D"http://10.0.1.79:8081/s?defs=3Ddrm&amp;project=3Dsprdroidr_trunk" cla=
+ss=3D"gmail-intelliWindow-symbol">drm</a>-&gt;<a href=3D"http://10.0.1.79:8=
+081/s?defs=3Dirq_enabled&amp;project=3Dsprdroidr_trunk" class=3D"gmail-inte=
+lliWindow-symbol">irq_enabled</a> =3D <b>true</b>;<br><br>Here is irq insta=
+ll on subdev:<br><span id=3D"gmail-scope_id_b3948385" class=3D"gmail-scope-=
+head"><a class=3D"gmail-l gmail-selected" name=3D"265" href=3D"http://10.0.=
+1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediate=
+k/mtk_disp_rdma.c#265">265 </a><a style=3D"cursor: pointer;" id=3D"gmail-sc=
+ope_id_b3948385_fold_icon"><span class=3D"gmail-fold-icon">=C2=A0</span></a=
+><b>static</b> <b>int</b> <a class=3D"gmail-xf" name=3D"mtk_disp_rdma_probe=
+"></a><a href=3D"http://10.0.1.79:8081/s?refs=3Dmtk_disp_rdma_probe&amp;pro=
+ject=3Dsprdroidr_trunk" class=3D"gmail-xf gmail-intelliWindow-symbol">mtk_d=
+isp_rdma_probe</a>(<b>struct</b> <a href=3D"http://10.0.1.79:8081/s?defs=3D=
+platform_device&amp;project=3Dsprdroidr_trunk" class=3D"gmail-intelliWindow=
+-symbol">platform_device</a> *<a class=3D"gmail-xa" name=3D"pdev"></a><a hr=
+ef=3D"http://10.0.1.79:8081/s?refs=3Dpdev&amp;project=3Dsprdroidr_trunk" cl=
+ass=3D"gmail-xa gmail-intelliWindow-symbol">pdev</a>)<br>......<br></span><=
+span id=3D"gmail-scope_id_b3948385_fold" class=3D"gmail-scope-body"><a clas=
+s=3D"gmail-l gmail-target gmail-selected" name=3D"298" href=3D"http://10.0.=
+1.79:8081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediate=
+k/mtk_disp_rdma.c#298">298 </a><span class=3D"gmail-fold-space">=C2=A0</spa=
+n>	<a href=3D"http://10.0.1.79:8081/s?defs=3Dret&amp;project=3Dsprdroidr_tr=
+unk" class=3D"gmail-intelliWindow-symbol">ret</a> =3D <a href=3D"http://10.=
+0.1.79:8081/s?defs=3Ddevm_request_irq&amp;project=3Dsprdroidr_trunk" class=
+=3D"gmail-intelliWindow-symbol">devm_request_irq</a>(<a href=3D"http://10.0=
+.1.79:8081/s?defs=3Ddev&amp;project=3Dsprdroidr_trunk" class=3D"gmail-intel=
+liWindow-symbol">dev</a>, <a href=3D"http://10.0.1.79:8081/s?defs=3Dirq&amp=
+;project=3Dsprdroidr_trunk" class=3D"gmail-intelliWindow-symbol">irq</a>, <=
+a class=3D"gmail-d gmail-intelliWindow-symbol" href=3D"http://10.0.1.79:808=
+1/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediatek/mtk_di=
+sp_rdma.c#mtk_disp_rdma_irq_handler">mtk_disp_rdma_irq_handler</a>,
+<a class=3D"gmail-l gmail-selected" name=3D"299" href=3D"http://10.0.1.79:8=
+081/xref/sprdroidr_trunk/bsp/kernel/kernel5.4/drivers/gpu/drm/mediatek/mtk_=
+disp_rdma.c#299">299 </a><span class=3D"gmail-fold-space">=C2=A0</span>			 =
+      <a href=3D"http://10.0.1.79:8081/s?defs=3DIRQF_TRIGGER_NONE&amp;proje=
+ct=3Dsprdroidr_trunk" class=3D"gmail-intelliWindow-symbol">IRQF_TRIGGER_NON=
+E</a>, <a href=3D"http://10.0.1.79:8081/s?defs=3Ddev_name&amp;project=3Dspr=
+droidr_trunk" class=3D"gmail-intelliWindow-symbol">dev_name</a>(<a href=3D"=
+http://10.0.1.79:8081/s?defs=3Ddev&amp;project=3Dsprdroidr_trunk" class=3D"=
+gmail-intelliWindow-symbol">dev</a>), <a href=3D"http://10.0.1.79:8081/s?de=
+fs=3Dpriv&amp;project=3Dsprdroidr_trunk" class=3D"gmail-intelliWindow-symbo=
+l">priv</a>);<br><br><span class=3D"gmail-tlid-translation gmail-translatio=
+n" lang=3D"en"><span title=3D"" class=3D"gmail-">I&#39;m not sure if my und=
+erstanding is wrong...</span></span></span></span></pre><span class=3D"gmai=
+l-tlid-translation gmail-translation" lang=3D"en"><span title=3D"" class=3D=
+"gmail-"><span class=3D"gmail-tlid-translation gmail-translation" lang=3D"e=
+n"><span title=3D"" class=3D"gmail-"></span></span></span></span></div> </d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Best regards<br>
+Thomas<br>
+<br>
+&gt; Can you help to tell the reason in detail, looking forward to your ans=
+wers.<br>
+&gt; <br>
+&gt; Thomas&#39;s suggestion=EF=BC=9A<br>
+&gt; ----------------------------------------------------------------------=
+---------------------<br>
+&gt; <br>
+&gt; This line indicates the problem&#39;s design. The irq is initialized i=
+n the<br>
+&gt; sub-device code, but the device state is set here. Instead both should=
+<br>
+&gt; be set in the same place.<br>
+&gt; <br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0/* reset all the states of crtc/plane/encoder=
+/connector */<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0drm_mode_config_reset(drm);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0/* init kms poll for handling hpd */<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0drm_kms_helper_poll_init(drm);<br>
+&gt; <br>
+&gt; Most of this function&#39;s code should be moved into the sub-device b=
+ind<br>
+&gt; function.<br>
+&gt; <br>
+&gt; Here, maybe do:<br>
+&gt; <br>
+&gt; =C2=A0* allocate device structures<br>
+&gt; =C2=A0* call component_bind_all()<br>
+&gt; =C2=A0* on success, register device<br>
+&gt; <br>
+&gt; The sub-device function should then do<br>
+&gt; <br>
+&gt; =C2=A0* init modesetting, crtc, planes, etc.<br>
+&gt; =C2=A0* do drm_mode_config_reset()<br>
+&gt; =C2=A0* init vblanking<br>
+&gt; =C2=A0* init the irq<br>
+&gt; =C2=A0* do drm_kms_helper_poll_init()<br>
+&gt; <br>
+&gt; roughtly in that order. It makes sense to call drm_vblank_init() after=
+<br>
+&gt; drm_mode_config_reset(), as vblanking uses some of the mode-config fie=
+lds.=C2=A0<br>
+&gt; ----------------------------------------------------------------------=
+--------------------------------<br>
+&gt; <br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 Sam<br>
+&gt; <br>
+&gt; <br>
+&gt; _______________________________________________<br>
+&gt; dri-devel mailing list<br>
+&gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">d=
+ri-devel@lists.freedesktop.org</a><br>
+&gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" r=
+el=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/l=
+istinfo/dri-devel</a><br>
+&gt; <br>
+<br>
+-- <br>
+Thomas Zimmermann<br>
+Graphics Driver Developer<br>
+SUSE Software Solutions Germany GmbH<br>
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany<br>
+(HRB 36809, AG N=C3=BCrnberg)<br>
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer<br>
+<br>
+</blockquote></div></div>
+
+--0000000000002923c1059f635bbe--
+
+--===============1027276541==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1027276541==--
