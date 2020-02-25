@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA3C16BA9A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:30:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CB916BAB2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:33:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BFDA6E9F0;
-	Tue, 25 Feb 2020 07:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D739E6E9F3;
+	Tue, 25 Feb 2020 07:33:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD386E9F0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 07:30:23 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id w12so13407559wrt.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:30:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EQMT6lDKStyiOUIYBwkRHyQecoL65OHS2/xGbDrARdU=;
- b=vgSELXD8DgGTQSv5a9IRoU2vtK9mb9ywLlrNtNTfRByEKonxyGGQfz/bGiGZIVWhSg
- BzzgxbqaG//TC38gDoGSIy5avusNbIPE6sjoLz84rZF2c2wFoHfBQ3iwVQrMI5PauN8B
- EAyxHujlLgelVEI1uF2NJcG412aR9yLyioUc3bc4J9XUPxsxMjPPgwc5OcIaWUqLI2Q7
- 93jeIzpMQ8sP011Rr83RsF8dVv7vVtfmAIMXl3AGtQRoUT8SByWxj0tGM9EvZUu+4B82
- QpmP/9+h9DlZJurP/vlC3xHOf1o+C66VkrjeuC0eaU2/2gJuU+gCwyy0uf8Rvnn/L0fp
- ZjKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EQMT6lDKStyiOUIYBwkRHyQecoL65OHS2/xGbDrARdU=;
- b=UY/yctHkT7lwi4wKs0vM7Ql9fpjm407uenax0zh1uKnu6pr+dQENmsEf441HDXknj3
- Bhgg/fRZLM2X5TndK3g7cNyEOB8rfP4Md1YW43wYSztQBBicvUwSYyM1ksu0m9pff0Jl
- nHEtjT43FiAQPNLmAs3A5jF9gtjdRpJg31b1fyxsp3t62ZqJlGQmUMouZ/pS6YZM07ro
- mjDz01xqc81Aj/R8AKwWTEv+he6ZXdxOrXMWhCwOyx5gLgzSxSwgY+rbVOWys3rdSFRq
- YxUz4YUsrbVBqUq9mXAlu8JEkwHP+RhHnTsaj8m7jK/usCJfJh2BFUhonqEebdkN5UYH
- i4hQ==
-X-Gm-Message-State: APjAAAVFBpwqu/DU1mTHhxGGWzWSRF9CdZHqbose5nppkg1vCXGoP5Mb
- lQZIeYrJHd/mnSVu5VW319Rf0u50mLYZ6ajlk1tung==
-X-Google-Smtp-Source: APXvYqxwdub7/sbabb0IU0ArscIZ++rPosDp5bcpc1f1YhP3DV42pWo8sOtcmqMfJnBEAUHeeC6p36vrruaZ75Dn9nA=
-X-Received: by 2002:adf:fc12:: with SMTP id i18mr12634989wrr.354.1582615821594; 
- Mon, 24 Feb 2020 23:30:21 -0800 (PST)
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8BBFE6E9F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 07:33:10 +0000 (UTC)
+X-UUID: ce7c876fb8d8431b9dfd6369f053cb0e-20200225
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=4OrWqlhl7RH1jTafRKkei2XCv7K6NE50cBlz8tG0/s4=; 
+ b=jze759ES5qDcyIlf7ARvdZ8A/RattSLmIsAoPvkXYm7l8Vkrernly5dpqXspmbMGc7Uh8QqpLgGrTOYlCndG9psZHll64+zxt3yClfEJocZwy0Yk0Aqzh+UAh1lrjWR6cdXig92tsD2XIoWJtby1AtcU+KGFQlYn90zil/Uj9+w=;
+X-UUID: ce7c876fb8d8431b9dfd6369f053cb0e-20200225
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 535198561; Tue, 25 Feb 2020 15:33:07 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 25 Feb 2020 15:32:13 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 25 Feb 2020 15:33:18 +0800
+Message-ID: <1582615985.30857.5.camel@mtksdaap41>
+Subject: Re: [PATCH v7 4/4] drm/mediatek: set dpi pin mode to gpio low to
+ avoid leakage current
+From: CK Hu <ck.hu@mediatek.com>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Date: Tue, 25 Feb 2020 15:33:05 +0800
+In-Reply-To: <20200225064638.112282-5-jitao.shi@mediatek.com>
+References: <20200225064638.112282-1-jitao.shi@mediatek.com>
+ <20200225064638.112282-5-jitao.shi@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200225070545.4482-6-pankaj.laxminarayan.bharadiya@intel.com>
-In-Reply-To: <20200225070545.4482-6-pankaj.laxminarayan.bharadiya@intel.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 25 Feb 2020 07:29:44 +0000
-Message-ID: <CAPj87rPHFCntSOCx=92HitNxRBkXx3xSft0krkFLzdM2FrDSRw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [RFC][PATCH 5/5] drm/i915/display: Add
- Nearest-neighbor based integer scaling support
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +53,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Uma Shankar <uma.shankar@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>, "Nautiyal,
- Ankit K" <ankit.k.nautiyal@intel.com>, mihail.atanassov@arm.com
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi, Jitao:
 
-On Tue, 25 Feb 2020 at 07:17, Pankaj Bharadiya
-<pankaj.laxminarayan.bharadiya@intel.com> wrote:
-> @@ -415,18 +415,26 @@ skl_program_scaler(struct intel_plane *plane,
->         u16 y_vphase, uv_rgb_vphase;
->         int hscale, vscale;
->         const struct drm_plane_state *state = &plane_state->uapi;
-> +       u32 src_w = drm_rect_width(&plane_state->uapi.src) >> 16;
-> +       u32 src_h = drm_rect_height(&plane_state->uapi.src) >> 16;
->         u32 scaling_filter = PS_FILTER_MEDIUM;
-> +       struct drm_rect dst;
->
->         if (state->scaling_filter == DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
->                 scaling_filter = PS_FILTER_PROGRAMMED;
-> +               skl_setup_nearest_neighbor_filter(dev_priv, pipe, scaler_id);
+On Tue, 2020-02-25 at 14:46 +0800, Jitao Shi wrote:
+> Config dpi pins mode to output and pull low when dpi is disabled.
+> Aovid leakage current from some dpi pins (Hsync Vsync DE ... ).
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 33 ++++++++++++++++++++++++++++--
+>  1 file changed, 31 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index c3e631b93c2e..ca570040ffdf 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -10,7 +10,9 @@
+>  #include <linux/kernel.h>
+>  #include <linux/of.h>
+>  #include <linux/of_device.h>
+> +#include <linux/of_gpio.h>
+>  #include <linux/of_graph.h>
+> +#include <linux/pinctrl/consumer.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/types.h>
+>  
+> @@ -74,6 +76,9 @@ struct mtk_dpi {
+>  	enum mtk_dpi_out_yc_map yc_map;
+>  	enum mtk_dpi_out_bit_num bit_num;
+>  	enum mtk_dpi_out_channel_swap channel_swap;
+> +	struct pinctrl *pinctrl;
+> +	struct pinctrl_state *pins_gpio;
+> +	struct pinctrl_state *pins_dpi;
+>  	int refcount;
+>  	u32 pclk_sample;
+>  };
+> @@ -387,6 +392,9 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
+>  	if (--dpi->refcount != 0)
+>  		return;
+>  
+> +	if (dpi->pinctrl && dpi->pins_gpio)
+> +		pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
 > +
-> +               /* Make the scaling window size to integer multiple of source
-> +                * TODO: Should userspace take desision to round scaling window
-> +                * to integer multiple?
-> +                */
-> +               crtc_w = rounddown(crtc_w, src_w);
-> +               crtc_h = rounddown(crtc_h, src_h);
+>  	mtk_dpi_disable(dpi);
+>  	clk_disable_unprepare(dpi->pixel_clk);
+>  	clk_disable_unprepare(dpi->engine_clk);
+> @@ -411,6 +419,9 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+>  		goto err_pixel;
+>  	}
+>  
+> +	if (dpi->pinctrl && dpi->pins_dpi)
+> +		pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
+> +
+>  	mtk_dpi_enable(dpi);
+>  	return 0;
+>  
+> @@ -716,8 +727,26 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+>  
+>  	dpi->dev = dev;
+>  	dpi->conf = (struct mtk_dpi_conf *)of_device_get_match_data(dev);
+> -	dpi->pclk_sample = of_property_read_u32_index(dev->of_node,
+> -						      "pclk-sample");
+> +	of_property_read_u32_index(dev->of_node, "pclk-sample", 1,
+> +				   &dpi->pclk_sample);
 
-The kernel should absolutely not be changing the co-ordinates that
-userspace requested.
+Why this exists in this patch?
 
-Cheers,
-Daniel
+> +
+> +	dpi->pinctrl = devm_pinctrl_get(&pdev->dev);
+> +	if (IS_ERR(dpi->pinctrl))
+> +		dev_dbg(&pdev->dev, "Cannot find pinctrl!\n");
+
+I think you should set dpi->pinctrl to NULL when error, and check
+dpi->pinctrl before you use it, such as pinctrl_lookup_state().
+
+Regards,
+CK
+
+> +
+> +	dpi->pins_gpio = pinctrl_lookup_state(dpi->pinctrl, "gpiomode");
+> +	if (IS_ERR(dpi->pins_gpio)) {
+> +		dpi->pins_gpio = NULL;
+> +		dev_dbg(&pdev->dev, "Cannot find pinctrl gpiomode!\n");
+> +	}
+> +	if (dpi->pinctrl && dpi->pins_gpio)
+> +		pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
+> +
+> +	dpi->pins_dpi = pinctrl_lookup_state(dpi->pinctrl, "dpimode");
+> +	if (IS_ERR(dpi->pins_dpi)) {
+> +		dpi->pins_dpi = NULL;
+> +		dev_dbg(&pdev->dev, "Cannot find pinctrl dpimode!\n");
+> +	}
+>  
+>  	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>  	dpi->regs = devm_ioremap_resource(dev, mem);
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
