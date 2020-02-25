@@ -2,40 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0B116B988
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 07:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E3616B9F9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 07:46:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B21F6E0F3;
-	Tue, 25 Feb 2020 06:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A40E6E9D2;
+	Tue, 25 Feb 2020 06:46:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFB36E865;
- Tue, 25 Feb 2020 06:15:50 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 4DB6B80509;
- Tue, 25 Feb 2020 07:15:45 +0100 (CET)
-Date: Tue, 25 Feb 2020 07:15:43 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v10 08/12] drm/bridge: lvds-codec: Implement basic bus
- format negotiation
-Message-ID: <20200225061543.GA9944@ravnborg.org>
-References: <20200128135514.108171-1-boris.brezillon@collabora.com>
- <20200128135514.108171-9-boris.brezillon@collabora.com>
- <20200224230322.GE16163@pendragon.ideasonboard.com>
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7DE866E8A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 06:46:53 +0000 (UTC)
+X-UUID: 3c0d9069fd684f3d9dfc58c87e7f9afc-20200225
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=pmuf7vvzpu765ixMqbePyvDNsg3g6qbRoBiCP+4dj5U=; 
+ b=Ck/AapoJGvrRJ1GzlazX/beX0BYj5Zd5f2SeF7I6TkfGPjrR5xamq+06BK5EMM6c4eDAOfCw9Jzn7tudpXD/3e+vE2zboMc4o/Iva3TUAH/OkF0kVPIkYaF9cSoE8f6VRQwh3mZe1naQrp3hNg8eRZDBij4UXDb3Tp8OnOS+3c4=;
+X-UUID: 3c0d9069fd684f3d9dfc58c87e7f9afc-20200225
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 1945666165; Tue, 25 Feb 2020 14:46:48 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Tue, 25 Feb 2020 14:47:20 +0800
+Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
+ MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1395.4 via Frontend Transport; Tue, 25 Feb 2020 14:45:25 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v7 0/4] add mt8183 dpi driver
+Date: Tue, 25 Feb 2020 14:46:34 +0800
+Message-ID: <20200225064638.112282-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200224230322.GE16163@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=juKz5vNY0a5tetdafiUA:9 a=CjuIK1q_8ugA:10
+X-TM-SNTS-SMTP: A756B05E682182D02D9E9B215338CD2D8D14BDB3747DC244107AB7A279AE734D2000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,55 +53,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- intel-gfx-trybot@lists.freedesktop.org, kernel@collabora.com,
- Chris Healy <cphealy@gmail.com>
+Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
+ srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
+ cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Boris/Laurent.
+Changes since v6:
+ - change dual_edge to pclk-sample
+ - remove dpi_pin_mode_swap and
 
-> > +
-> > +	err = of_property_read_u32(np, "bus-width", &input_bus_width);
-> > +	of_node_put(np);
-> > +
-> > +	if (err) {
-> > +		lvds_codec->input_fmt = MEDIA_BUS_FMT_FIXED;
-> > +	} else if (input_bus_width == 18) {
-> > +		lvds_codec->input_fmt = MEDIA_BUS_FMT_RGB666_1X18;
-> > +	} else if (input_bus_width == 24) {
-> > +		lvds_codec->input_fmt = MEDIA_BUS_FMT_RGB888_1X24;
-> > +	} else {
-> > +		dev_dbg(dev, "unsupported bus-width value %u on port 0\n",
-> > +			input_bus_width);
-> > +		return -ENOTSUPP;
-> 
-> ENOTSUPP is "Operation not supported", I'd go for -EINVAL.
-> 
-> > +	}
-> 
-> Doesn't this apply to LVDS encoders only ? For LVDS decoders I don't
-> think we want to report an RGB format on the input.
+Changes since v5:
+ - fine tune the dt-bindings commit message.
 
-In panel-lvds we use the property "data-mapping" for the same purpose.
-To specify the MEDIA_BUS format.
+Changes since v4:
+ - move pin mode control and dual edge control to deveice tree.
+ - update dt-bindings document for pin mode swap and dual edge control.
 
-It would be good to standardize on the same property, and maybe have the
-same binding descriptions for all.
+Changes since v3:
+ - add dpi pin mode control when dpi on or off.
+ - update dpi dual edge comment.
 
-And "data-mapping" is a text string, which gives us more flexibility
-than just a number, that for MEDIA_BUS_FMT seems required.
+Changes since v2:
+ - update dt-bindings document for mt8183 dpi.
+ - separate dual edge modfication as independent patch.
 
-	Sam
+Jitao Shi (4):
+  dt-bindings: display: mediatek: update dpi supported chips
+  drm/mediatek: dpi sample mode support
+  drm/mediatek: add mt8183 dpi clock factor
+  drm/mediatek: set dpi pin mode to gpio low to avoid leakage current
+
+ .../display/mediatek/mediatek,dpi.txt         | 10 +++
+ drivers/gpu/drm/mediatek/mtk_dpi.c            | 65 ++++++++++++++++++-
+ 2 files changed, 73 insertions(+), 2 deletions(-)
+
+-- 
+2.21.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
