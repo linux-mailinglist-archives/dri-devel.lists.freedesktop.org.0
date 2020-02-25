@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC13016BA8A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:21:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA3C16BA9A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:30:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5F686E9EF;
-	Tue, 25 Feb 2020 07:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BFDA6E9F0;
+	Tue, 25 Feb 2020 07:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A398E6E9EF
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 07:21:50 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id CB620AE3C;
- Tue, 25 Feb 2020 07:21:48 +0000 (UTC)
-Subject: Re: [PATCH v2] drm/hisilicon: Fixed pcie resource conflict between
- drm and firmware
-To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-References: <1582524112-5628-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <a56bb7dd-a038-a219-54af-5f829b00f936@suse.de>
-Date: Tue, 25 Feb 2020 08:21:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD386E9F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 07:30:23 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id w12so13407559wrt.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 23:30:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EQMT6lDKStyiOUIYBwkRHyQecoL65OHS2/xGbDrARdU=;
+ b=vgSELXD8DgGTQSv5a9IRoU2vtK9mb9ywLlrNtNTfRByEKonxyGGQfz/bGiGZIVWhSg
+ BzzgxbqaG//TC38gDoGSIy5avusNbIPE6sjoLz84rZF2c2wFoHfBQ3iwVQrMI5PauN8B
+ EAyxHujlLgelVEI1uF2NJcG412aR9yLyioUc3bc4J9XUPxsxMjPPgwc5OcIaWUqLI2Q7
+ 93jeIzpMQ8sP011Rr83RsF8dVv7vVtfmAIMXl3AGtQRoUT8SByWxj0tGM9EvZUu+4B82
+ QpmP/9+h9DlZJurP/vlC3xHOf1o+C66VkrjeuC0eaU2/2gJuU+gCwyy0uf8Rvnn/L0fp
+ ZjKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EQMT6lDKStyiOUIYBwkRHyQecoL65OHS2/xGbDrARdU=;
+ b=UY/yctHkT7lwi4wKs0vM7Ql9fpjm407uenax0zh1uKnu6pr+dQENmsEf441HDXknj3
+ Bhgg/fRZLM2X5TndK3g7cNyEOB8rfP4Md1YW43wYSztQBBicvUwSYyM1ksu0m9pff0Jl
+ nHEtjT43FiAQPNLmAs3A5jF9gtjdRpJg31b1fyxsp3t62ZqJlGQmUMouZ/pS6YZM07ro
+ mjDz01xqc81Aj/R8AKwWTEv+he6ZXdxOrXMWhCwOyx5gLgzSxSwgY+rbVOWys3rdSFRq
+ YxUz4YUsrbVBqUq9mXAlu8JEkwHP+RhHnTsaj8m7jK/usCJfJh2BFUhonqEebdkN5UYH
+ i4hQ==
+X-Gm-Message-State: APjAAAVFBpwqu/DU1mTHhxGGWzWSRF9CdZHqbose5nppkg1vCXGoP5Mb
+ lQZIeYrJHd/mnSVu5VW319Rf0u50mLYZ6ajlk1tung==
+X-Google-Smtp-Source: APXvYqxwdub7/sbabb0IU0ArscIZ++rPosDp5bcpc1f1YhP3DV42pWo8sOtcmqMfJnBEAUHeeC6p36vrruaZ75Dn9nA=
+X-Received: by 2002:adf:fc12:: with SMTP id i18mr12634989wrr.354.1582615821594; 
+ Mon, 24 Feb 2020 23:30:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1582524112-5628-1-git-send-email-tiantao6@hisilicon.com>
+References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200225070545.4482-6-pankaj.laxminarayan.bharadiya@intel.com>
+In-Reply-To: <20200225070545.4482-6-pankaj.laxminarayan.bharadiya@intel.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 25 Feb 2020 07:29:44 +0000
+Message-ID: <CAPj87rPHFCntSOCx=92HitNxRBkXx3xSft0krkFLzdM2FrDSRw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [RFC][PATCH 5/5] drm/i915/display: Add
+ Nearest-neighbor based integer scaling support
+To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,121 +63,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
-Content-Type: multipart/mixed; boundary="===============0686568480=="
+Cc: tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Uma Shankar <uma.shankar@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>, "Nautiyal,
+ Ankit K" <ankit.k.nautiyal@intel.com>, mihail.atanassov@arm.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0686568480==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="sNTCz6iMWuEeEnKXWwJKxAq1gE0lp69ta"
+Hi,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sNTCz6iMWuEeEnKXWwJKxAq1gE0lp69ta
-Content-Type: multipart/mixed; boundary="29zXd6nu4MuRQxn3qbpBzJvLTMPqc18M6";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-Cc: linuxarm@huawei.com
-Message-ID: <a56bb7dd-a038-a219-54af-5f829b00f936@suse.de>
-Subject: Re: [PATCH v2] drm/hisilicon: Fixed pcie resource conflict between
- drm and firmware
-References: <1582524112-5628-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1582524112-5628-1-git-send-email-tiantao6@hisilicon.com>
-
---29zXd6nu4MuRQxn3qbpBzJvLTMPqc18M6
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 24.02.20 um 07:01 schrieb Tian Tao:
-> use the drm_fb_helper_remove_conflicting_pci_framebuffer to remove
-> the framebuffer initialized by fireware/bootloader to avoid resource
-> conflict.
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
->=20
-> ---
-> v2: 	use the general API to remove the conflict resource instead of rol=
-ling
-> 	our own.
-
-Nit: the patch's version info is usually a part of the commit messages.
-It goes between the description and the Signed-off-by line.
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
-gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 4a8a4cf..7518980 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -327,6 +327,11 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
->  	struct drm_device *dev;
->  	int ret;
-> =20
-> +	ret =3D drm_fb_helper_remove_conflicting_pci_framebuffers(pdev,
-> +							"hibmcdrmfb");
-> +	if (ret)
-> +		return ret;
+On Tue, 25 Feb 2020 at 07:17, Pankaj Bharadiya
+<pankaj.laxminarayan.bharadiya@intel.com> wrote:
+> @@ -415,18 +415,26 @@ skl_program_scaler(struct intel_plane *plane,
+>         u16 y_vphase, uv_rgb_vphase;
+>         int hscale, vscale;
+>         const struct drm_plane_state *state = &plane_state->uapi;
+> +       u32 src_w = drm_rect_width(&plane_state->uapi.src) >> 16;
+> +       u32 src_h = drm_rect_height(&plane_state->uapi.src) >> 16;
+>         u32 scaling_filter = PS_FILTER_MEDIUM;
+> +       struct drm_rect dst;
+>
+>         if (state->scaling_filter == DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
+>                 scaling_filter = PS_FILTER_PROGRAMMED;
+> +               skl_setup_nearest_neighbor_filter(dev_priv, pipe, scaler_id);
 > +
->  	dev =3D drm_dev_alloc(&hibmc_driver, &pdev->dev);
->  	if (IS_ERR(dev)) {
->  		DRM_ERROR("failed to allocate drm_device\n");
->=20
+> +               /* Make the scaling window size to integer multiple of source
+> +                * TODO: Should userspace take desision to round scaling window
+> +                * to integer multiple?
+> +                */
+> +               crtc_w = rounddown(crtc_w, src_w);
+> +               crtc_h = rounddown(crtc_h, src_h);
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+The kernel should absolutely not be changing the co-ordinates that
+userspace requested.
 
-
---29zXd6nu4MuRQxn3qbpBzJvLTMPqc18M6--
-
---sNTCz6iMWuEeEnKXWwJKxAq1gE0lp69ta
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5UywsACgkQaA3BHVML
-eiPSEQgAh3FK+NW6XRP0xd2a35Hfj9hACFnZt2G1nYWFrMuNey3qg+4mw+0vVfLD
-2q9Ji9D+nPtU4axZgnUHewB1r3fbmiyoiTI6x2MCrIhTBd5j/xXGNv4I1v3lO3df
-+Y439tdI+nDVzjdIAJFsxuuXeJHWqc/VTnDkhvlzWdGvDp8Qfyb3J7euJKiczHPY
-m5g4Kk3a5muHo559A7aWxD+HdNxmVPdoKt0OHI/VXca7jFugbW7A8v5DffVlcvc6
-igwyrL4++uRt6u7efVCtO3hPZo7b4byo3arn6Q+hLgD/rNOD55py2/P3+nI3bh4F
-jeNPQBWWSGRXfdWB2adPEpCGl4QkNw==
-=q7D9
------END PGP SIGNATURE-----
-
---sNTCz6iMWuEeEnKXWwJKxAq1gE0lp69ta--
-
---===============0686568480==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0686568480==--
