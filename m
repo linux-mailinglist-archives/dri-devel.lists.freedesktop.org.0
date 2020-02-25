@@ -1,40 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C08416F913
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD8316F90B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0543E6E1D7;
-	Wed, 26 Feb 2020 08:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 396116E1B5;
+	Wed, 26 Feb 2020 08:08:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 18D6B6EA88
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 10:56:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80E7A30E;
- Tue, 25 Feb 2020 02:56:46 -0800 (PST)
-Received: from [10.37.12.155] (unknown [10.37.12.155])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 75D703F6CF;
- Tue, 25 Feb 2020 02:56:36 -0800 (PST)
-Subject: Re: [PATCH v3 1/4] PM / EM: add devices to Energy Model
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-imx@nxp.com
-References: <20200221194731.13814-1-lukasz.luba@arm.com>
- <20200221194731.13814-2-lukasz.luba@arm.com>
- <4ac6a187-1a09-335d-5c05-bf810ff81aaa@infradead.org>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <cf0d6bf7-ad87-4fbf-0392-646d5aa6d52b@arm.com>
-Date: Tue, 25 Feb 2020 10:56:34 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE086EAA4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:50:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
+ with ESMTPSA id 3DD8B294C05
+Received: by earth.universe (Postfix, from userid 1000)
+ id ED9313C0C83; Tue, 25 Feb 2020 12:50:14 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Sebastian Reichel <sre@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: [PATCHv2.1 45/56] drm/omap: dsi: Register a drm_bridge
+Date: Tue, 25 Feb 2020 12:50:13 +0100
+Message-Id: <20200225115013.3557409-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200224232126.3385250-46-sebastian.reichel@collabora.com>
+References: <20200224232126.3385250-46-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <4ac6a187-1a09-335d-5c05-bf810ff81aaa@infradead.org>
-Content-Language: en-US
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,68 +40,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
- bsegall@google.com, Morten.Rasmussen@arm.com, amit.kucheria@verdurent.com,
- lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
- daniel.lezcano@linaro.org, steven.price@arm.com, cw00.choi@samsung.com,
- mingo@redhat.com, mgorman@suse.de, rui.zhang@intel.com,
- alyssa.rosenzweig@collabora.com, orjan.eide@arm.com, b.zolnierkie@samsung.com,
- s.hauer@pengutronix.de, rostedt@goodmis.org, matthias.bgg@gmail.com,
- Dietmar.Eggemann@arm.com, airlied@linux.ie, javi.merino@arm.com,
- tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
- rjw@rjwysocki.net, agross@kernel.org, kernel@pengutronix.de,
- sudeep.holla@arm.com, patrick.bellasi@matbug.net, shawnguo@kernel.org
+Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Randy,
+In order to integrate with a chain of drm_bridge, the internal DSI
+output has to expose its operations through the drm_bridge API.
+Register a bridge at initialisation time to do so and remove the
+omap_dss_device operations that are now unused.
 
-Thank you for taking the time to look into this patch.
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+PATCHv2 -> PATCHv2.1: Add missing drm_bridge_add() call
+---
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 130 +++++++++++++++++++-----------
+ 1 file changed, 85 insertions(+), 45 deletions(-)
 
-On 2/22/20 12:42 AM, Randy Dunlap wrote:
-> Hi,
-> One minor nit. Please see inline:
-> 
-> On 2/21/20 11:47 AM, Lukasz Luba wrote:
->> Add support of other devices into the Energy Model framework not only the
->> CPUs. Change the interface to be more unified which can handle other
->> devices as well.
->>
->> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
->> ---
->>   Documentation/power/energy-model.rst     | 133 ++++----
->>
->> diff --git a/Documentation/power/energy-model.rst b/Documentation/power/energy-model.rst
->> index 90a345d57ae9..7576820664e5 100644
->> --- a/Documentation/power/energy-model.rst
->> +++ b/Documentation/power/energy-model.rst
-> 
->> @@ -85,13 +89,20 @@ API.
->>   2.3 Accessing performance domains
->>   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>   
->> +There is two API functions which provide the access to the energy model:
-> 
->     There are two
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index f629e6b1025b..cde10c774b8b 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -36,6 +36,7 @@
+ #include <linux/sys_soc.h>
+ 
+ #include <video/mipi_display.h>
++#include <drm/drm_bridge.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_panel.h>
+ 
+@@ -440,6 +441,7 @@ struct dsi_data {
+ 	struct omap_dss_dsi_videomode_timings vm_timings;
+ 
+ 	struct omap_dss_device output;
++	struct drm_bridge bridge;
+ };
+ 
+ struct dsi_packet_sent_handler_data {
+@@ -452,6 +454,9 @@ static bool dsi_perf;
+ module_param(dsi_perf, bool, 0644);
+ #endif
+ 
++#define drm_bridge_to_dsi(bridge) \
++	container_of(bridge, struct dsi_data, bridge)
++
+ static inline struct dsi_data *to_dsi_data(struct omap_dss_device *dssdev)
+ {
+ 	return dev_get_drvdata(dssdev->dev);
+@@ -5010,50 +5015,7 @@ static int dsi_get_clocks(struct dsi_data *dsi)
+ 	return 0;
+ }
+ 
+-static void dsi_set_timings(struct omap_dss_device *dssdev,
+-			    const struct drm_display_mode *mode)
+-{
+-	DSSDBG("dsi_set_timings\n");
+-	dsi_set_config(dssdev, mode);
+-}
+-
+-static int dsi_check_timings(struct omap_dss_device *dssdev,
+-			     struct drm_display_mode *mode)
+-{
+-	struct dsi_data *dsi = to_dsi_data(dssdev);
+-	struct dsi_clk_calc_ctx ctx;
+-	int r;
+-
+-	DSSDBG("dsi_check_timings\n");
+-
+-	mutex_lock(&dsi->lock);
+-	r = __dsi_calc_config(dsi, mode, &ctx);
+-	mutex_unlock(&dsi->lock);
+-
+-	return r;
+-}
+-
+-static int dsi_connect(struct omap_dss_device *src,
+-		       struct omap_dss_device *dst)
+-{
+-	return omapdss_device_connect(dst->dss, dst, dst->next);
+-}
+-
+-static void dsi_disconnect(struct omap_dss_device *src,
+-			   struct omap_dss_device *dst)
+-{
+-	omapdss_device_disconnect(dst, dst->next);
+-}
+-
+ static const struct omap_dss_device_ops dsi_ops = {
+-	.connect = dsi_connect,
+-	.disconnect = dsi_disconnect,
+-	.enable = dsi_enable_video_outputs,
+-	.disable = dsi_disable_video_outputs,
+-
+-	.check_timings = dsi_check_timings,
+-	.set_timings = dsi_set_timings,
+-
+ 	.dsi = {
+ 		.update = dsi_update_all,
+ 		.is_video_mode = dsi_is_video_mode,
+@@ -5394,6 +5356,79 @@ static const struct component_ops dsi_component_ops = {
+ 	.unbind	= dsi_unbind,
+ };
+ 
++/* -----------------------------------------------------------------------------
++ * DRM Bridge Operations
++ */
++
++static int dsi_bridge_attach(struct drm_bridge *bridge,
++			     enum drm_bridge_attach_flags flags)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
++		return -EINVAL;
++
++	return drm_bridge_attach(bridge->encoder, dsi->output.next_bridge,
++				 bridge, flags);
++}
++
++static enum drm_mode_status
++dsi_bridge_mode_valid(struct drm_bridge *bridge,
++		      const struct drm_display_mode *mode)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++	struct dsi_clk_calc_ctx ctx;
++	int r;
++
++	mutex_lock(&dsi->lock);
++	r = __dsi_calc_config(dsi, mode, &ctx);
++	mutex_unlock(&dsi->lock);
++
++	return r ? MODE_CLOCK_RANGE : MODE_OK;
++}
++
++static void dsi_bridge_mode_set(struct drm_bridge *bridge,
++				const struct drm_display_mode *mode,
++				const struct drm_display_mode *adjusted_mode)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++	dsi_set_config(&dsi->output, adjusted_mode);
++}
++
++static void dsi_bridge_enable(struct drm_bridge *bridge)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++	dsi_enable_video_outputs(&dsi->output);
++}
++
++static void dsi_bridge_disable(struct drm_bridge *bridge)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++	dsi_disable_video_outputs(&dsi->output);
++}
++
++static const struct drm_bridge_funcs dsi_bridge_funcs = {
++	.attach = dsi_bridge_attach,
++	.mode_valid = dsi_bridge_mode_valid,
++	.mode_set = dsi_bridge_mode_set,
++	.enable = dsi_bridge_enable,
++	.disable = dsi_bridge_disable,
++};
++
++static void dsi_bridge_init(struct dsi_data *dsi)
++{
++	dsi->bridge.funcs = &dsi_bridge_funcs;
++	dsi->bridge.of_node = dsi->host.dev->of_node;
++	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
++
++	drm_bridge_add(&dsi->bridge);
++}
++
++static void dsi_bridge_cleanup(struct dsi_data *dsi)
++{
++       drm_bridge_remove(&dsi->bridge);
++}
++
+ /* -----------------------------------------------------------------------------
+  * Probe & Remove, Suspend & Resume
+  */
+@@ -5403,6 +5438,8 @@ static int dsi_init_output(struct dsi_data *dsi)
+ 	struct omap_dss_device *out = &dsi->output;
+ 	int r;
+ 
++	dsi_bridge_init(dsi);
++
+ 	out->dev = dsi->dev;
+ 	out->id = dsi->module_id == 0 ?
+ 			OMAP_DSS_OUTPUT_DSI1 : OMAP_DSS_OUTPUT_DSI2;
+@@ -5417,9 +5454,11 @@ static int dsi_init_output(struct dsi_data *dsi)
+ 		       | DRM_BUS_FLAG_DE_HIGH
+ 		       | DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE;
+ 
+-	r = omapdss_device_init_output(out, NULL);
+-	if (r < 0)
++	r = omapdss_device_init_output(out, &dsi->bridge);
++	if (r < 0) {
++		dsi_bridge_cleanup(dsi);
+ 		return r;
++	}
+ 
+ 	omapdss_device_register(out);
+ 
+@@ -5432,6 +5471,7 @@ static void dsi_uninit_output(struct dsi_data *dsi)
+ 
+ 	omapdss_device_unregister(out);
+ 	omapdss_device_cleanup_output(out);
++	dsi_bridge_cleanup(dsi);
+ }
+ 
+ static int dsi_probe_of(struct dsi_data *dsi)
+-- 
+2.25.0
 
-Indeed a mistake, I will fix it.
-
-> 
->> +em_cpu_get() which takes CPU id as an argument and em_pd_get() with device
->> +pointer as an argument. It depends on the subsystem which interface it is
->> +going to use, but in case of CPU devices both functions return the same
->> +performance domain.
->> +
-> 
-> 
-> cheers.
-> 
-
-Regards,
-Lukasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
