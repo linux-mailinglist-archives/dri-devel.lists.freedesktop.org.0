@@ -2,54 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE4916EF33
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 20:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353D316F02C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 21:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9BE36E227;
-	Tue, 25 Feb 2020 19:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC156EBA6;
+	Tue, 25 Feb 2020 20:35:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDBB6E227;
- Tue, 25 Feb 2020 19:41:15 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id e10so755781edv.9;
- Tue, 25 Feb 2020 11:41:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ag9UfCbOttlLWSx+g2xd6gLmO4m6wnF3cbni4nCtO7Y=;
- b=V8TrvqBbaJHYBRfkST5wos2DdVNXVbzpHvUlruLy78zRsXEOLIchDDhCTiFkeTlipa
- UnbsoiETIP2R9mNBKUk2MHJgGwBWrBjvXvs3Oeu3SclB/Kgz2W4Rf1aJXitnIeFLjdGk
- Wr7JyIqIfoQ6s9Z7gsVEjvkhKvz0N7aO5KHyHcFnJbjk9NQP9b/PLkIosYu0h/FG+sMv
- smOBeGaolT3N+BzP3SYTKCkF5w0iBAfUGO8kK0nzkuqi+Ri+/rkB8e0p02toyLxsgmVO
- wrHshvXwyq6TnpYIGcUlyCL5x7HvDiOHIEz6rSbKsu88m2olWhnyXEaOrUSLJsep53mw
- KETA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ag9UfCbOttlLWSx+g2xd6gLmO4m6wnF3cbni4nCtO7Y=;
- b=mxCHTscLAPUX4yhbIcZeiSzdxJjq1lr++jr0OkDcmT+L7Nwytif31iFSroOvJT9RZz
- IXtemqgZuozZPC5Us4hUXjvExXWhwb2K3569C9rHTKdWHhRuHv7k7nDx2DiBwpmbFISw
- g1iOzVwywUveadq61b8oPWNYmxf9NboZ2/aN6kWyXS5KqTy9Lm2B/I/vwyVG8o+0gwwr
- FimnOC1ZK7sEM1h+tR360XCwA+KoYeVXW3w4xcj00ATQ10CGroFDr6oQnGe+UURrWKos
- wyBqs3SCiL5Jfy8IXviPH1JqaCr+5lYHvl2tVWiL7Ix2EOQE80RwirBLT0+kxh5NSRet
- Ebig==
-X-Gm-Message-State: APjAAAUj60lZ9s5uYcGIIPnu/eBF9M8yhjyRt28qqp0iHlcK+ymPmP2/
- x7V0CH5Q8wg+KutZSYji1i5cuiuJ9w0xJAbwTSw=
-X-Google-Smtp-Source: APXvYqzq12vZfTdfYHSsHJzicdcHsX7ksLKD0D4k9tbOBcL5ZakgsvyPPnbhVC7JEh5rajsfyPGJRZXVBqHGOurrABs=
-X-Received: by 2002:a50:e3c5:: with SMTP id c5mr576813edm.7.1582659673599;
- Tue, 25 Feb 2020 11:41:13 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9B626EBA6
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 20:35:18 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4D0F822464
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 20:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1582662918;
+ bh=IlMHPJZoi6qlavWG4Ahbm3IprtnpXIxML8X3NnRiesw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=M/zmMhCkKG5ZR2aALAAcDqwXx55QaZ79a6R/kP7ncLhvfpPHN14IL07ANpCOk/KqL
+ osvvkEIyAzlIUNoWzB9MFSu4Mzp/XQ0NZA31wZHfw19OqWb3jgSh+XeQHJsnDnOcTS
+ kP8Q5MyOjKWvQsQjsJ4mhFk7dYdaIU4SDmwTej1w=
+Received: by mail-qt1-f182.google.com with SMTP id i23so623376qtr.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 12:35:18 -0800 (PST)
+X-Gm-Message-State: APjAAAUhIirh2w/Q/RALwxskdQ2czVDJiyvUfM1pWISBv1QLJzlG0m5Y
+ dUCpKabXYa3djLxNQZsMqmMgMwaDuogssPoBKw==
+X-Google-Smtp-Source: APXvYqxghQYLQ6PnllHaIfdR/E6y+DaIAu6c0wU88JtyBWhTwo7n81Ke2zCDhWVpQ1z8bFO/Ygmz9cAyLAvnFp0aF5U=
+X-Received: by 2002:ac8:1415:: with SMTP id k21mr568504qtj.300.1582662917307; 
+ Tue, 25 Feb 2020 12:35:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20200219104148.1.I0183a464f2788d41e6902f3535941f69c594b4c1@changeid>
- <20200219104148.2.I2c848e8f8ab1bcd4042d8ebcf35de737cceec5fe@changeid>
- <158265922943.177367.14293328114795800228@swboyd.mtv.corp.google.com>
-In-Reply-To: <158265922943.177367.14293328114795800228@swboyd.mtv.corp.google.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 25 Feb 2020 11:41:06 -0800
-Message-ID: <CAF6AEGu6Ys_t38uXNw3-Po1jaQmW3pOvAiZ73axpiAgCjvtC=g@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/msm/dpu: Refactor rm iterator
-To: Stephen Boyd <swboyd@chromium.org>
+References: <20200207052627.130118-1-drinkcat@chromium.org>
+In-Reply-To: <20200207052627.130118-1-drinkcat@chromium.org>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 25 Feb 2020 14:35:05 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJb2aFHKcVdD-FM2To71iRUJ2nMniw7aZUVXmPmBkazNw@mail.gmail.com>
+Message-ID: <CAL_JsqJb2aFHKcVdD-FM2To71iRUJ2nMniw7aZUVXmPmBkazNw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/7] Add dts for mt8183 GPU (and misc panfrost patches)
+To: Nicolas Boichat <drinkcat@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,238 +53,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Fritz Koenig <frkoenig@google.com>, Shubhashree Dhar <dhar@codeaurora.org>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, zhengbin <zhengbin13@huawei.com>,
- Alexios Zavras <alexios.zavras@intel.com>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Drew Davenport <ddavenport@chromium.org>, Sean Paul <sean@poorly.run>,
- Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2020 at 11:33 AM Stephen Boyd <swboyd@chromium.org> wrote:
+On Thu, Feb 6, 2020 at 11:26 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
 >
-> Quoting Drew Davenport (2020-02-19 09:42:25)
-> > Make iterator implementation private, and add function to
-> > query resources assigned to an encoder.
-> >
-> > Signed-off-by: Drew Davenport <ddavenport@chromium.org>
+> Hi!
 >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > index f8ac3bf60fd60..6cadeff456f09 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > @@ -957,11 +957,11 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
-> >         struct drm_connector *conn = NULL, *conn_iter;
-> >         struct drm_crtc *drm_crtc;
-> >         struct dpu_crtc_state *cstate;
-> > -       struct dpu_rm_hw_iter hw_iter;
-> >         struct msm_display_topology topology;
-> > -       struct dpu_hw_ctl *hw_ctl[MAX_CHANNELS_PER_ENC] = { NULL };
-> > -       struct dpu_hw_mixer *hw_lm[MAX_CHANNELS_PER_ENC] = { NULL };
-> > -       int num_lm = 0, num_ctl = 0;
-> > +       struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
-> > +       struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
-> > +       struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-> > +       int num_lm, num_ctl, num_pp;
+> Follow-up on the v3: https://patchwork.kernel.org/cover/11331343/.
 >
-> All these should be unsigned too?
+> The main purpose of this series is to upstream the dts change and the
+> binding document, but I wanted to see how far I could probe the GPU, to
+> check that the binding is indeed correct. The rest of the patches are
+> RFC/work-in-progress, but I think some of them could already be picked up.
 >
-> >         int i, j, ret;
-> >
-> >         if (!drm_enc) {
-> > @@ -1005,42 +1005,31 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
-> >                 return;
-> >         }
-> >
-> > -       dpu_rm_init_hw_iter(&hw_iter, drm_enc->base.id, DPU_HW_BLK_PINGPONG);
-> > -       for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-> > -               dpu_enc->hw_pp[i] = NULL;
-> > -               if (!dpu_rm_get_hw(&dpu_kms->rm, &hw_iter))
-> > -                       break;
-> > -               dpu_enc->hw_pp[i] = (struct dpu_hw_pingpong *) hw_iter.hw;
-> > -       }
-> > -
-> > -       dpu_rm_init_hw_iter(&hw_iter, drm_enc->base.id, DPU_HW_BLK_CTL);
-> > -       for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-> > -               if (!dpu_rm_get_hw(&dpu_kms->rm, &hw_iter))
-> > -                       break;
-> > -               hw_ctl[i] = (struct dpu_hw_ctl *)hw_iter.hw;
+> So this is tested on MT8183 with a chromeos-4.19 kernel, and a ton of
+> backports to get the latest panfrost driver (I should probably try on
+> linux-next at some point but this was the path of least resistance).
 >
-> Why cast? Isn't it void pointer?
+> I tested it as a module as it's more challenging (originally probing would
+> work built-in, on boot, but not as a module, as I didn't have the power
+> domain changes, and all power domains are on by default during boot).
+>
+> Probing logs looks like this, currently. They look sane.
+> [  501.319728] panfrost 13040000.gpu: clock rate = 511999970
+> [  501.320041] panfrost 13040000.gpu: Linked as a consumer to regulator.14
+> [  501.320102] panfrost 13040000.gpu: Linked as a consumer to regulator.31
+> [  501.320651] panfrost 13040000.gpu: Linked as a consumer to genpd:0:13040000.gpu
+> [  501.320954] panfrost 13040000.gpu: Linked as a consumer to genpd:1:13040000.gpu
+> [  501.321062] panfrost 13040000.gpu: Linked as a consumer to genpd:2:13040000.gpu
+> [  501.321734] panfrost 13040000.gpu: mali-g72 id 0x6221 major 0x0 minor 0x3 status 0x0
+> [  501.321741] panfrost 13040000.gpu: features: 00000000,13de77ff, issues: 00000000,00000400
+> [  501.321747] panfrost 13040000.gpu: Features: L2:0x07120206 Shader:0x00000000 Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+> [  501.321752] panfrost 13040000.gpu: shader_present=0x7 l2_present=0x1
+> [  501.324951] [drm] Initialized panfrost 1.1.0 20180908 for 13040000.gpu on minor 2
+>
+> Some more changes are still required to get devfreq working, and of course
+> I do not have a userspace driver to test this with.
+>
+> I believe at least patches 1, 2, and 3 can be merged. 4 and 5 are mostly
+> useful in conjunction with 6 and 7 (which are not ready yet), so I'll let
+> maintainers decide.
 
-Comments on code that the patch removes is a new thing :-P
+I've applied 3, 4, and 5 to drm-misc-next. Patch 2 should go via Mediatek tree.
 
-BR,
--R
-
->
-> > -               num_ctl++;
-> > -       }
-> > +       num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, drm_enc->base.id,
-> > +               DPU_HW_BLK_PINGPONG, hw_pp, ARRAY_SIZE(hw_pp));
-> > +       num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, drm_enc->base.id,
-> > +               DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
-> > +       num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, drm_enc->base.id,
-> > +               DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
-> >
-> > -       dpu_rm_init_hw_iter(&hw_iter, drm_enc->base.id, DPU_HW_BLK_LM);
-> > -       for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-> > -               if (!dpu_rm_get_hw(&dpu_kms->rm, &hw_iter))
-> > -                       break;
-> > -               hw_lm[i] = (struct dpu_hw_mixer *)hw_iter.hw;
->
-> Why cast?
->
-> > -               num_lm++;
-> > -       }
-> > +       for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
-> > +               dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
-> > +                                               : NULL;
->
-> This line is pretty hard to read. Maybe use an if/else?
->
-> >
-> >         cstate = to_dpu_crtc_state(drm_crtc->state);
-> >
-> >         for (i = 0; i < num_lm; i++) {
-> >                 int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
-> >
-> > -               cstate->mixers[i].hw_lm = hw_lm[i];
-> > -               cstate->mixers[i].lm_ctl = hw_ctl[ctl_idx];
-> > +               cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
-> > +               cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
-> >         }
-> >
-> >         cstate->num_mixers = num_lm;
-> >
-> >         for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-> > +               int num_blk;
->
-> unsigned int?
->
-> > +               struct dpu_hw_blk *hw_blk[MAX_CHANNELS_PER_ENC];
-> >                 struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
-> >
-> >                 if (!dpu_enc->hw_pp[i]) {
-> > @@ -1056,17 +1045,15 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
-> >                 }
-> >
-> >                 phys->hw_pp = dpu_enc->hw_pp[i];
-> > -               phys->hw_ctl = hw_ctl[i];
-> > +               phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
-> >
-> > -               dpu_rm_init_hw_iter(&hw_iter, drm_enc->base.id,
-> > -                                   DPU_HW_BLK_INTF);
-> > -               for (j = 0; j < MAX_CHANNELS_PER_ENC; j++) {
-> > +               num_blk = dpu_rm_get_assigned_resources(&dpu_kms->rm,
-> > +                       drm_enc->base.id, DPU_HW_BLK_INTF, hw_blk,
-> > +                       ARRAY_SIZE(hw_blk));
-> > +               for (j = 0; j < num_blk; j++) {
-> >                         struct dpu_hw_intf *hw_intf;
-> >
-> > -                       if (!dpu_rm_get_hw(&dpu_kms->rm, &hw_iter))
-> > -                               break;
-> > -
-> > -                       hw_intf = (struct dpu_hw_intf *)hw_iter.hw;
-> > +                       hw_intf = to_dpu_hw_intf(hw_blk[i]);
-> >                         if (hw_intf->idx == phys->intf_idx)
-> >                                 phys->hw_intf = hw_intf;
-> >                 }
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > index dea1dba441fe7..779df26dc81ae 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > @@ -83,7 +97,7 @@ static bool _dpu_rm_get_hw_locked(struct dpu_rm *rm, struct dpu_rm_hw_iter *i)
-> >         return false;
-> >  }
-> >
-> > -bool dpu_rm_get_hw(struct dpu_rm *rm, struct dpu_rm_hw_iter *i)
-> > +static bool dpu_rm_get_hw(struct dpu_rm *rm, struct dpu_rm_hw_iter *i)
-> >  {
-> >         bool ret;
-> >
-> > @@ -635,3 +649,16 @@ int dpu_rm_reserve(
-> >
-> >         return ret;
-> >  }
-> > +
-> > +int dpu_rm_get_assigned_resources(struct dpu_rm *rm, uint32_t enc_id,
->
-> Return unsigned int?
->
-> > +       enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size)
->
-> unsigned int blks_size?
->
-> > +{
-> > +       struct dpu_rm_hw_iter hw_iter;
-> > +       int num_blks = 0;
->
-> unsigned int?
->
-> > +
-> > +       dpu_rm_init_hw_iter(&hw_iter, enc_id, type);
-> > +       while (num_blks < blks_size && dpu_rm_get_hw(rm, &hw_iter))
-> > +               blks[num_blks++] = hw_iter.blk->hw;
-> > +
-> > +       return num_blks;
->
-> It's not possible for it to be negative number right?
->
-> > +}
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> > index 9c580a0170946..982b91e272275 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> > @@ -24,26 +24,6 @@ struct dpu_rm {
-> >         struct mutex rm_lock;
-> >  };
-> >
-> > -/**
-> > - *  struct dpu_rm_hw_blk - resource manager internal structure
-> > - *     forward declaration for single iterator definition without void pointer
-> > - */
-> > -struct dpu_rm_hw_blk;
-> > -
-> > -/**
-> > - * struct dpu_rm_hw_iter - iterator for use with dpu_rm
-> > - * @hw: dpu_hw object requested, or NULL on failure
-> > - * @blk: dpu_rm internal block representation. Clients ignore. Used as iterator.
-> > - * @enc_id: DRM ID of Encoder client wishes to search for, or 0 for Any Encoder
->
-> Why is Encoder and Any capitalized?
->
-> > - * @type: Hardware Block Type client wishes to search for.
-> > - */
-> > -struct dpu_rm_hw_iter {
-> > -       void *hw;
-> > -       struct dpu_rm_hw_blk *blk;
-> > -       uint32_t enc_id;
-> > -       enum dpu_hw_blk_type type;
-> > -};
-> > -
-> >  /**
-> >   * dpu_rm_init - Read hardware catalog and create reservation tracking objects
-> >   *     for all HW blocks.
-> > @@ -93,28 +73,9 @@ int dpu_rm_reserve(struct dpu_rm *rm,
-> >  void dpu_rm_release(struct dpu_rm *rm, struct drm_encoder *enc);
-> >
-> >  /**
-> > - * dpu_rm_init_hw_iter - setup given iterator for new iteration over hw list
-> > - *     using dpu_rm_get_hw
-> > - * @iter: iter object to initialize
-> > - * @enc_id: DRM ID of Encoder client wishes to search for, or 0 for Any Encoder
-> > - * @type: Hardware Block Type client wishes to search for.
->
-> Ah I guess it's copied from here.
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
