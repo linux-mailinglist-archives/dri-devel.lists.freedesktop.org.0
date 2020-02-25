@@ -2,47 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F1E16EE72
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E03A16EE78
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 19:56:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D252B6EB92;
-	Tue, 25 Feb 2020 18:55:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 620136EB93;
+	Tue, 25 Feb 2020 18:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95D926EB92;
- Tue, 25 Feb 2020 18:55:20 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4BDF72465D;
- Tue, 25 Feb 2020 18:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582656920;
- bh=GcAOngsNc42gcovvY3uUGpbwLfTEWg8qiIiv3HckXOU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=wiHIZtal8u4HE4RLq3R2aMVKuvHeuLy4NZ5EfCWymWev2oUMeVYxCmBgnf5YhVchV
- iTaVNzQtwydoDEuJtvEdXGE6BqmJ2X7hEZnl8t+p/3unNU3UkiSxruywLdcUoSaDeX
- SAM2LR6raG9nKiUpALVKgYocAemKbkqQWtJ4ONWo=
-Received: by mail-qk1-f181.google.com with SMTP id e16so201748qkl.6;
- Tue, 25 Feb 2020 10:55:20 -0800 (PST)
-X-Gm-Message-State: APjAAAXsIvcPNTpBYSa7aq957WVjY4WX6y3BzTSApjo0t4gF+1xgkfGz
- u9hNGQpDDkDmjCiCtdHkTwSiGJgkiSbFOS6yOQ==
-X-Google-Smtp-Source: APXvYqwNHK4+Y1yIBWKMojOKtY7ghpPbDHqnF8yS97h6Zmcgig7EivjliFmXOITvj7XfHi/v0Mg41/i8G2/gEn8VQok=
-X-Received: by 2002:ae9:f205:: with SMTP id m5mr322658qkg.152.1582656919408;
- Tue, 25 Feb 2020 10:55:19 -0800 (PST)
+Received: from mail-yw1-xc41.google.com (mail-yw1-xc41.google.com
+ [IPv6:2607:f8b0:4864:20::c41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC0189FAC;
+ Tue, 25 Feb 2020 18:56:24 +0000 (UTC)
+Received: by mail-yw1-xc41.google.com with SMTP id n184so524951ywc.3;
+ Tue, 25 Feb 2020 10:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TpruaIXBBflTMfnh9Z90Mo/eXVMEZYSzq64zz9on4Y0=;
+ b=PgN0nOH3vE3C/xEkP3JWjrGqApjUZlIQUBLgR427nHBEARUwNBOJnvQ01znV/vVPAy
+ ac4UIv4BppeIvVggX6s7Oc/ILFKse1AgghzPea/AVGB7RHME5kSlcfs05xZlSw6Yr9GX
+ vMHzU/+7DejhBaL2VbeiQEPPFGfJEv6Ayv40hsERAKcxr0WvLMa8OCfFe4+099DuLzhg
+ 3LZhzBICJFite9W3dKUEunvRrSZ2jLwj2Aug7y+ORQiT2WaCEdhsOPgq1KKqQPbItODR
+ BR5lSBC6odmQoqpGXS3msGlvB+RcgOdofmPOSClkCPn5NlPVPnKwIixln+Npc4J03ANB
+ 8tZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TpruaIXBBflTMfnh9Z90Mo/eXVMEZYSzq64zz9on4Y0=;
+ b=lXj8pfqGrRvZWLZc40LJrWTG8Bz19fY0esqsjl21zvjOctArWfQp2Vmd3Uf5q2wU7m
+ OEbrCaZ9V+GBc2dNikrsWRw64qswGdjBh/8DGW+FSrVir9yBHAKTo061U+zHG3EP6SbC
+ JPQxAjMUXULFs4B7VPJ+27lMcGmIciDwsHI/SAg63akKp36BGPV0yab9rnhjLGCzsgPv
+ iCjf34X7EUb8mE6qXaShvaA1OmQy8lLsAvSOVNivkrBUrlv1aiBSuptspRBXDedgSnTs
+ C0OcOXepsqsDeLjjqpTjI69e/LyArII3ORECn4irieuFAz8+V1HXYCSlXgrSIli1+m6E
+ Mtrw==
+X-Gm-Message-State: APjAAAU/zH8XjkpCZmGJP4CEcbTf1IkZ+ZCJoT/0qwsrRQgyCQKMEFiG
+ 5gwE+UK0byQIF3sYK2bHAKeDEnY8
+X-Google-Smtp-Source: APXvYqwlhvRdsti0wCgTK47jaLxH+kFpcXHYxory4W7I7rmc6vHL1BaCBWTVY7uw7fryaHUzBiDptQ==
+X-Received: by 2002:a81:44b:: with SMTP id 72mr118349ywe.373.1582656983198;
+ Tue, 25 Feb 2020 10:56:23 -0800 (PST)
+Received: from tr4.amd.com (atlvpn.amd.com. [165.204.84.11])
+ by smtp.gmail.com with ESMTPSA id s31sm7063149ywa.30.2020.02.25.10.56.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 10:56:22 -0800 (PST)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: fix leaking fences via ttm_buffer_object_transfer
+Date: Tue, 25 Feb 2020 13:56:14 -0500
+Message-Id: <20200225185614.1058688-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <1582223216-23459-1-git-send-email-jcrouse@codeaurora.org>
- <1582223216-23459-3-git-send-email-jcrouse@codeaurora.org>
-In-Reply-To: <1582223216-23459-3-git-send-email-jcrouse@codeaurora.org>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 25 Feb 2020 12:55:08 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+NLhw4mfNd7=4ADz63G15WATPpGbz3HxxV1QJqPVQwjw@mail.gmail.com>
-Message-ID: <CAL_Jsq+NLhw4mfNd7=4ADz63G15WATPpGbz3HxxV1QJqPVQwjw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: display: msm: Add required dma-range
- property
-To: Jordan Crouse <jcrouse@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,85 +66,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Ahzo <Ahzo@tutanota.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2020 at 12:27 PM Jordan Crouse <jcrouse@codeaurora.org> wrote:
->
-> The GMU node now requires a specific dma-range property so that the driver
+From: Ahzo <Ahzo@tutanota.com>
 
-s/dma-range/dma-ranges/ here and the subject.
+Set the drm_device to NULL, so that the newly created buffer object
+doesn't appear to use the embedded gem object.
 
-> can use the DMA API to do the few memory allocations required by the GMU.
-> This sets the IOMMU iova allocator to match the 'uncached' part of the
-> GMU virtual address space.
+This is necessary, because otherwise no corresponding dma_resv_fini for
+the dma_resv_init is called, resulting in a memory leak.
 
-Sounds like a bunch of kernel things and this is a binding.
+The dma_resv_fini in ttm_bo_release_list is only called if the embedded
+gem object is not used, which is determined by checking if the
+drm_device is NULL.
 
->
-> v2: Fix the dma-ranges tag. The third pair should be the size.
->
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> ---
->
->  Documentation/devicetree/bindings/display/msm/gmu.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> index 776ff92..d11a073 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> @@ -83,6 +83,13 @@ properties:
->        Phandle to the OPP table for the available GMU frequencies. Refer to
->        ../../opp/opp.txt for more information.
->
-> +  dma-ranges:
+Bug: https://gitlab.freedesktop.org/drm/amd/issues/958
+Fixes: 1e053b10ba60 ("drm/ttm: use gem reservation object")
+Signed-off-by: Ahzo <Ahzo@tutanota.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-dma-ranges is a bus property and doesn't go in device nodes (that
-don't implement a bus like PCI host for example). This would not have
-even worked a few kernel versions back because the kernel would only
-start looking for dma-ranges in a parent node.
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index c8e359ded1df..44c1e7adfb7c 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -514,6 +514,7 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+ 		fbo->base.base.resv = &fbo->base.base._resv;
+ 
+ 	dma_resv_init(&fbo->base.base._resv);
++	fbo->base.base.dev = NULL;
+ 	ret = dma_resv_trylock(&fbo->base.base._resv);
+ 	WARN_ON(!ret);
+ 
+-- 
+2.24.1
 
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description:
-> +      Describe the dma-address range for the device. This should always
-> +      describe the range between 0x60000000 and 0x80000000 which represents
-
-If this is always the region, then why does it need to be in DT? Just
-set your dma_mask which drivers should be doing if they want anything
-other than (2^32 - 1). dma-ranges sets the bus_dma_mask.
-
-> +      the uncached region of the GMU address space.
-> +
->  required:
->    - compatible
->    - reg
-> @@ -95,6 +102,7 @@ required:
->    - power-domain-names
->    - iommus
->    - operating-points-v2
-> +  - dma-ranges
->
->  examples:
->   - |
-> @@ -127,4 +135,6 @@ examples:
->
->          iommus = <&adreno_smmu 5>;
->          operating-points-v2 = <&gmu_opp_table>;
-> +
-> +        dma-ranges = <0 0x60000000 0 0x60000000 0 0x20000000>;
->     };
-> --
-> 2.7.4
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
