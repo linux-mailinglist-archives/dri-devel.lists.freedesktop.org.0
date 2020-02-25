@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B6016BA74
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:17:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E611216BA7F
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:20:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7C26E9EB;
-	Tue, 25 Feb 2020 07:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29E586E9DF;
+	Tue, 25 Feb 2020 07:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F9A6E9E9;
- Tue, 25 Feb 2020 07:17:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2020 23:17:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,483,1574150400"; d="scan'208";a="230068218"
-Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga007.fm.intel.com with ESMTP; 24 Feb 2020 23:16:54 -0800
-From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- ville.syrjala@linux.intel.com, airlied@linux.ie,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, mripard@kernel.org,
- mihail.atanassov@arm.com,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Imre Deak <imre.deak@intel.com>,
- Uma Shankar <uma.shankar@intel.com>
-Subject: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor based integer
- scaling support
-Date: Tue, 25 Feb 2020 12:35:45 +0530
-Message-Id: <20200225070545.4482-6-pankaj.laxminarayan.bharadiya@intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
-References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B2AC16E9DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 07:19:59 +0000 (UTC)
+X-UUID: 9ade63481b624ac88117bad3741b3709-20200225
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=vtL1iILHsFW94yP0jBQ/SNoSG9C8HGFiyrsycu7XsME=; 
+ b=tUljZGnPBYfB+xLMxjzAar5PvLc7DRpXaXOHfOU/tQGO/7uSIty2ySbze5cBCjPAVzvzsMVGgjEPZJLKWTdKJHGHoz/9ZwRxeNuog933GVYoztDsmCHWnLySewgi8/TxVu32hWQSN2a172t3Fr8+bam/TqLiC86t7/lWNaamO9w=;
+X-UUID: 9ade63481b624ac88117bad3741b3709-20200225
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 135438566; Tue, 25 Feb 2020 15:19:55 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 25 Feb 2020 15:18:01 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 25 Feb 2020 15:19:40 +0800
+Message-ID: <1582615193.21887.15.camel@mtksdaap41>
+Subject: Re: [PATCH v7 1/4] dt-bindings: display: mediatek: update dpi
+ supported chips
+From: CK Hu <ck.hu@mediatek.com>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Date: Tue, 25 Feb 2020 15:19:53 +0800
+In-Reply-To: <20200225064638.112282-2-jitao.shi@mediatek.com>
+References: <20200225064638.112282-1-jitao.shi@mediatek.com>
+ <20200225064638.112282-2-jitao.shi@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,200 +53,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pankaj.laxminarayan.bharadiya@intel.com, ankit.k.nautiyal@intel.com,
- linux-kernel@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Integer scaling (IS) is a nearest-neighbor upscaling technique that
-simply scales up the existing pixels by an integer
-(i.e., whole number) multiplier.Nearest-neighbor (NN) interpolation
-works by filling in the missing color values in the upscaled image
-with that of the coordinate-mapped nearest source pixel value.
+Hi, Jitao:
 
-Both IS and NN preserve the clarity of the original image. Integer
-scaling is particularly useful for pixel art games that rely on
-sharp, blocky images to deliver their distinctive look.
+On Tue, 2020-02-25 at 14:46 +0800, Jitao Shi wrote:
+> Add decriptions about supported chips, including MT2701 & MT8173 &
+> mt8183
 
-Program the scaler filter coefficients to enable the NN filter if
-scaling filter property is set to DRM_SCALING_FILTER_NEAREST_NEIGHBOR
-and enable integer scaling.
+descriptions
 
-Bspec: 49247
+> 
+> 1. Add more chips support. ex. MT2701 & MT8173 & MT8183
+> 2. Add property "pinctrl-names" to swap pin mode between gpio and dpi mode. Set
+>    pin mode to gpio oupput-low to avoid leakage current when dpi disable.
+> 3. Add property "pclk-sample" to config the dpi sample on falling (0),
+>    rising (1), both falling and rising (2).
 
-Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/i915/display/intel_display.c | 83 +++++++++++++++++++-
- drivers/gpu/drm/i915/display/intel_display.h |  2 +
- drivers/gpu/drm/i915/display/intel_sprite.c  | 20 +++--
- 3 files changed, 97 insertions(+), 8 deletions(-)
+The title is just about supported chips, so I prefer you move other
+modification to another patch. Of course, you could use a more rough
+title to include all what you do so you need not to break this patch.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index b5903ef3c5a0..6d5f59203258 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -6237,6 +6237,73 @@ void skl_scaler_disable(const struct intel_crtc_state *old_crtc_state)
- 		skl_detach_scaler(crtc, i);
- }
- 
-+/**
-+ *  Theory behind setting nearest-neighbor integer scaling:
-+ *
-+ *  17 phase of 7 taps requires 119 coefficients in 60 dwords per set.
-+ *  The letter represents the filter tap (D is the center tap) and the number
-+ *  represents the coefficient set for a phase (0-16).
-+ *
-+ *         +------------+------------------------+------------------------+
-+ *         |Index value | Data value coeffient 1 | Data value coeffient 2 |
-+ *         +------------+------------------------+------------------------+
-+ *         |   00h      |          B0            |          A0            |
-+ *         +------------+------------------------+------------------------+
-+ *         |   01h      |          D0            |          C0            |
-+ *         +------------+------------------------+------------------------+
-+ *         |   02h      |          F0            |          E0            |
-+ *         +------------+------------------------+------------------------+
-+ *         |   03h      |          A1            |          G0            |
-+ *         +------------+------------------------+------------------------+
-+ *         |   04h      |          C1            |          B1            |
-+ *         +------------+------------------------+------------------------+
-+ *         |   ...      |          ...           |          ...           |
-+ *         +------------+------------------------+------------------------+
-+ *         |   38h      |          B16           |          A16           |
-+ *         +------------+------------------------+------------------------+
-+ *         |   39h      |          D16           |          C16           |
-+ *         +------------+------------------------+------------------------+
-+ *         |   3Ah      |          F16           |          C16           |
-+ *         +------------+------------------------+------------------------+
-+ *         |   3Bh      |        Reserved        |          G16           |
-+ *         +------------+------------------------+------------------------+
-+ *
-+ *  To enable nearest-neighbor scaling:  program scaler coefficents with
-+ *  the center tap (Dxx) values set to 1 and all other values set to 0 as per
-+ *  SCALER_COEFFICIENT_FORMAT
-+ *
-+ */
-+void skl_setup_nearest_neighbor_filter(struct drm_i915_private *dev_priv,
-+				  enum pipe pipe, int scaler_id)
-+{
-+
-+	int coeff = 0;
-+	int phase = 0;
-+	int tap;
-+	int val = 0;
-+
-+	/*enable the index auto increment.*/
-+	intel_de_write_fw(dev_priv, SKL_PS_COEF_INDEX_SET0(pipe, scaler_id),
-+			  _PS_COEE_INDEX_AUTO_INC);
-+
-+	for (phase = 0; phase < 17; phase++) {
-+		for (tap = 0; tap < 7; tap++) {
-+			coeff++;
-+			if (tap == 3)
-+				val = (phase % 2) ? (0x800) : (0x800 << 16);
-+
-+			if (coeff % 2 == 0) {
-+				intel_de_write_fw(dev_priv, SKL_PS_COEF_DATA_SET0(pipe, scaler_id), val);
-+				val = 0;
-+			}
-+
-+		}
-+
-+	}
-+
-+	intel_de_write_fw(dev_priv, SKL_PS_COEF_DATA_SET0(pipe, scaler_id), 0);
-+}
-+
- static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
- {
- 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-@@ -6260,9 +6327,23 @@ static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
- 		pfit_w = (crtc_state->pch_pfit.size >> 16) & 0xFFFF;
- 		pfit_h = crtc_state->pch_pfit.size & 0xFFFF;
- 
-+		id = scaler_state->scaler_id;
-+
- 		if (state->scaling_filter ==
- 		    DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
- 			scaling_filter = PS_FILTER_PROGRAMMED;
-+			skl_setup_nearest_neighbor_filter(dev_priv, pipe, id);
-+
-+			/* Make the scaling window size to integer multiple of
-+			 * source.
-+			 *
-+			 * TODO: Should userspace take desision to round
-+			 * scaling window to integer multiple?
-+			 */
-+			pfit_w = rounddown(pfit_w,
-+					   (crtc_state->pipe_src_w << 16));
-+			pfit_h = rounddown(pfit_h,
-+					   (crtc_state->pipe_src_h << 16));
- 		}
- 
- 		hscale = (crtc_state->pipe_src_w << 16) / pfit_w;
-@@ -6271,8 +6352,6 @@ static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
- 		uv_rgb_hphase = skl_scaler_calc_phase(1, hscale, false);
- 		uv_rgb_vphase = skl_scaler_calc_phase(1, vscale, false);
- 
--		id = scaler_state->scaler_id;
--
- 		spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
- 
- 		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id),
-diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/drm/i915/display/intel_display.h
-index f92efbbec838..49f58d3c98fe 100644
---- a/drivers/gpu/drm/i915/display/intel_display.h
-+++ b/drivers/gpu/drm/i915/display/intel_display.h
-@@ -586,6 +586,8 @@ void intel_crtc_arm_fifo_underrun(struct intel_crtc *crtc,
- u16 skl_scaler_calc_phase(int sub, int scale, bool chroma_center);
- int skl_update_scaler_crtc(struct intel_crtc_state *crtc_state);
- void skl_scaler_disable(const struct intel_crtc_state *old_crtc_state);
-+void skl_setup_nearest_neighbor_filter(struct drm_i915_private *dev_priv,
-+				  enum pipe pipe, int scaler_id);
- void ilk_pfit_disable(const struct intel_crtc_state *old_crtc_state);
- u32 glk_plane_color_ctl(const struct intel_crtc_state *crtc_state,
- 			const struct intel_plane_state *plane_state);
-diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/drm/i915/display/intel_sprite.c
-index fd7b31a21723..5bef5c031374 100644
---- a/drivers/gpu/drm/i915/display/intel_sprite.c
-+++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-@@ -415,18 +415,26 @@ skl_program_scaler(struct intel_plane *plane,
- 	u16 y_vphase, uv_rgb_vphase;
- 	int hscale, vscale;
- 	const struct drm_plane_state *state = &plane_state->uapi;
-+	u32 src_w = drm_rect_width(&plane_state->uapi.src) >> 16;
-+	u32 src_h = drm_rect_height(&plane_state->uapi.src) >> 16;
- 	u32 scaling_filter = PS_FILTER_MEDIUM;
-+	struct drm_rect dst;
- 
- 	if (state->scaling_filter == DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
- 		scaling_filter = PS_FILTER_PROGRAMMED;
-+		skl_setup_nearest_neighbor_filter(dev_priv, pipe, scaler_id);
-+
-+		/* Make the scaling window size to integer multiple of source
-+		 * TODO: Should userspace take desision to round scaling window
-+		 * to integer multiple?
-+		 */
-+		crtc_w = rounddown(crtc_w, src_w);
-+		crtc_h = rounddown(crtc_h, src_h);
- 	}
- 
--	hscale = drm_rect_calc_hscale(&plane_state->uapi.src,
--				      &plane_state->uapi.dst,
--				      0, INT_MAX);
--	vscale = drm_rect_calc_vscale(&plane_state->uapi.src,
--				      &plane_state->uapi.dst,
--				      0, INT_MAX);
-+	drm_rect_init(&dst, crtc_x, crtc_y, crtc_w, crtc_h);
-+	hscale = drm_rect_calc_hscale(&plane_state->uapi.src, &dst, 0, INT_MAX);
-+	vscale = drm_rect_calc_vscale(&plane_state->uapi.src, &dst, 0, INT_MAX);
- 
- 	/* TODO: handle sub-pixel coordinates */
- 	if (intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier) &&
--- 
-2.23.0
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> ---
+>  .../bindings/display/mediatek/mediatek,dpi.txt         | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> index b6a7e7397b8b..0dee4f7a227e 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> @@ -7,6 +7,7 @@ output bus.
+>  
+>  Required properties:
+>  - compatible: "mediatek,<chip>-dpi"
+> +  the supported chips are mt2701 , mt8173 and mt8183.
+>  - reg: Physical base address and length of the controller's registers
+>  - interrupts: The interrupt signal from the function block.
+>  - clocks: device clocks
+> @@ -16,6 +17,11 @@ Required properties:
+>    Documentation/devicetree/bindings/graph.txt. This port should be connected
+>    to the input port of an attached HDMI or LVDS encoder chip.
+>  
+> +Optional properties:
+> +- pinctrl-names: Contain "gpiomode" and "dpimode".
+> +- pclk-sample: 0: sample in falling edge, 1: sample in rising edge, 2: sample
+> +  in both falling and rising edge.
+
+pinctrl-names & pclk-sample are defined in another document, please list
+the reference document, [1] is the sample. For pclk-sample, I think you
+should modify [2] to add 'sampling in both failing and rising edge'.
+
+[1] Documentation/devicetree/bindings/display/bridge/ti,tfp410.txt
+[2] Documentation/devicetree/bindings/media/video-interfaces.txt
+
+> +
+>  Example:
+>  
+>  dpi0: dpi@1401d000 {
+> @@ -26,6 +32,10 @@ dpi0: dpi@1401d000 {
+>  		 <&mmsys CLK_MM_DPI_ENGINE>,
+>  		 <&apmixedsys CLK_APMIXED_TVDPLL>;
+>  	clock-names = "pixel", "engine", "pll";
+> +	pclk-sample = 0;
+
+I think you should move pclk-sample into the port node according to [2].
+
+Regards,
+CK
+
+> +	pinctrl-names = "gpiomode", "dpimode";
+> +	pinctrl-0 = <&dpi_pin_gpio>;
+> +	pinctrl-1 = <&dpi_pin_func>;
+>  
+>  	port {
+>  		dpi0_out: endpoint {
 
 _______________________________________________
 dri-devel mailing list
