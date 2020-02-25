@@ -1,49 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D1416B9FC
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 07:47:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9F516BA66
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:16:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAF2D6E9D3;
-	Tue, 25 Feb 2020 06:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1B26E9E0;
+	Tue, 25 Feb 2020 07:16:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id ED5CE6E9D2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 06:46:54 +0000 (UTC)
-X-UUID: d51652eed4cf43c38c8c9510bab19513-20200225
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=ah93O+SRvsLWOuwyTs14lXjM9jwFW/4/KiNPMynf+hs=; 
- b=eALK+AzOn6zcq9t4LsQPV7Z7W+m6XoFD+kyabPd2LALvrqjF3F4uNU1u/p45qgSsIgyxvjZdI/NDYxEFReP3j+tRxpPgsK/F4eB9kytNpzD960DR4v9WfXdlSy8Sfs5UbqdVlKwkzV2Gc1sPHi9yAoWoDxFf7G9XbZrFcx6o8ZQ=;
-X-UUID: d51652eed4cf43c38c8c9510bab19513-20200225
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1254474963; Tue, 25 Feb 2020 14:46:50 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Tue, 25 Feb 2020 14:45:28 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
- MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Tue, 25 Feb 2020 14:45:30 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v7 4/4] drm/mediatek: set dpi pin mode to gpio low to avoid
- leakage current
-Date: Tue, 25 Feb 2020 14:46:38 +0800
-Message-ID: <20200225064638.112282-5-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200225064638.112282-1-jitao.shi@mediatek.com>
-References: <20200225064638.112282-1-jitao.shi@mediatek.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBA86E9DC;
+ Tue, 25 Feb 2020 07:16:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2020 23:16:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,483,1574150400"; d="scan'208";a="230068082"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by fmsmga007.fm.intel.com with ESMTP; 24 Feb 2020 23:16:13 -0800
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, airlied@linux.ie,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, mripard@kernel.org,
+ mihail.atanassov@arm.com
+Subject: [RFC][PATCH 0/5] Introduce drm scaling filter property 
+Date: Tue, 25 Feb 2020 12:35:40 +0530
+Message-Id: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 2CF4D1DC9803C00A81C421A3E9B72BDFE2CAB33A816F6AD4A1F35BE5DCC8070D2000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,99 +44,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
- cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: pankaj.laxminarayan.bharadiya@intel.com, ankit.k.nautiyal@intel.com,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Config dpi pins mode to output and pull low when dpi is disabled.
-Aovid leakage current from some dpi pins (Hsync Vsync DE ... ).
+Integer scaling (IS) is a nearest-neighbor upscaling technique that
+simply scales up the existing pixels by an integer (i.e., whole
+number) multiplier. Nearest-neighbor (NN) interpolation works by
+filling in the missing color values in the upscaled image with that of
+the coordinate-mapped nearest source pixel value.
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dpi.c | 33 ++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
+Both IS and NN preserve the clarity of the original image. In
+contrast, traditional upscaling algorithms, such as bilinear or
+bicubic interpolation, result in blurry upscaled images because they
+employ interpolation techniques that smooth out the transition from
+one pixel to another.  Therefore, integer scaling is particularly
+useful for pixel art games that rely on sharp, blocky images to
+deliver their distinctive look.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index c3e631b93c2e..ca570040ffdf 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -10,7 +10,9 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/of_gpio.h>
- #include <linux/of_graph.h>
-+#include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
- 
-@@ -74,6 +76,9 @@ struct mtk_dpi {
- 	enum mtk_dpi_out_yc_map yc_map;
- 	enum mtk_dpi_out_bit_num bit_num;
- 	enum mtk_dpi_out_channel_swap channel_swap;
-+	struct pinctrl *pinctrl;
-+	struct pinctrl_state *pins_gpio;
-+	struct pinctrl_state *pins_dpi;
- 	int refcount;
- 	u32 pclk_sample;
- };
-@@ -387,6 +392,9 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
- 	if (--dpi->refcount != 0)
- 		return;
- 
-+	if (dpi->pinctrl && dpi->pins_gpio)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
-+
- 	mtk_dpi_disable(dpi);
- 	clk_disable_unprepare(dpi->pixel_clk);
- 	clk_disable_unprepare(dpi->engine_clk);
-@@ -411,6 +419,9 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 		goto err_pixel;
- 	}
- 
-+	if (dpi->pinctrl && dpi->pins_dpi)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
-+
- 	mtk_dpi_enable(dpi);
- 	return 0;
- 
-@@ -716,8 +727,26 @@ static int mtk_dpi_probe(struct platform_device *pdev)
- 
- 	dpi->dev = dev;
- 	dpi->conf = (struct mtk_dpi_conf *)of_device_get_match_data(dev);
--	dpi->pclk_sample = of_property_read_u32_index(dev->of_node,
--						      "pclk-sample");
-+	of_property_read_u32_index(dev->of_node, "pclk-sample", 1,
-+				   &dpi->pclk_sample);
-+
-+	dpi->pinctrl = devm_pinctrl_get(&pdev->dev);
-+	if (IS_ERR(dpi->pinctrl))
-+		dev_dbg(&pdev->dev, "Cannot find pinctrl!\n");
-+
-+	dpi->pins_gpio = pinctrl_lookup_state(dpi->pinctrl, "gpiomode");
-+	if (IS_ERR(dpi->pins_gpio)) {
-+		dpi->pins_gpio = NULL;
-+		dev_dbg(&pdev->dev, "Cannot find pinctrl gpiomode!\n");
-+	}
-+	if (dpi->pinctrl && dpi->pins_gpio)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
-+
-+	dpi->pins_dpi = pinctrl_lookup_state(dpi->pinctrl, "dpimode");
-+	if (IS_ERR(dpi->pins_dpi)) {
-+		dpi->pins_dpi = NULL;
-+		dev_dbg(&pdev->dev, "Cannot find pinctrl dpimode!\n");
-+	}
- 
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	dpi->regs = devm_ioremap_resource(dev, mem);
+Many gaming communities have been asking for integer-mode scaling
+support, some links and background:
+
+https://software.intel.com/en-us/articles/integer-scaling-support-on-intel-graphics
+http://tanalin.com/en/articles/lossless-scaling/
+https://community.amd.com/thread/209107
+https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/1002/feature-request-nonblurry-upscaling-at-integer-rat/
+
+This patch series -
+  - Introduces new scaling filter property to allow userspace to
+    select  the driver's default scaling filter or Nearest-neighbor(NN)
+    filter for scaling operations on crtc/plane.
+  - Implements and enable integer scaling for i915
+
+Userspace patch series link: TBD.
+
+Thanks to Shashank for initiating this work. His initial RFC can be
+found here [1]
+
+[1] https://patchwork.freedesktop.org/patch/337082/
+
+Modifications done in this series -
+   - refactored code and incorporated initial review comments and
+     added 2 scaling filter types (default and NN) to begin with.
+   - added scaling filter property support for planes and new API
+     helpers for drivers to setup this property.
+   - rewrote code to enable integer scaling and NN filter for i915
+
+
+Pankaj Bharadiya (5):
+  drm: Introduce scaling filter property
+  drm/drm-kms.rst: Add Scaling filter property documentation
+  drm/i915: Enable scaling filter for plane and pipe
+  drm/i915: Introduce scaling filter related registers and bit fields.
+  drm/i915/display: Add Nearest-neighbor based integer scaling support
+
+ Documentation/gpu/drm-kms.rst                |   6 ++
+ drivers/gpu/drm/drm_atomic_uapi.c            |   8 ++
+ drivers/gpu/drm/drm_crtc.c                   |  16 +++
+ drivers/gpu/drm/drm_mode_config.c            |  13 +++
+ drivers/gpu/drm/drm_plane.c                  |  35 +++++++
+ drivers/gpu/drm/i915/display/intel_display.c | 100 ++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_display.h |   2 +
+ drivers/gpu/drm/i915/display/intel_sprite.c  |  32 ++++--
+ drivers/gpu/drm/i915/i915_reg.h              |  21 ++++
+ include/drm/drm_crtc.h                       |  10 ++
+ include/drm/drm_mode_config.h                |   6 ++
+ include/drm/drm_plane.h                      |  14 +++
+ 12 files changed, 252 insertions(+), 11 deletions(-)
+
 -- 
-2.21.0
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
