@@ -1,46 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FAA16F922
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEE416F90E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 924FE6E21A;
-	Wed, 26 Feb 2020 08:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF3006E18E;
+	Wed, 26 Feb 2020 08:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 534646EB46
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 16:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=YKyZV60LHUuQnl24YQ6e7CN9lTy1VXZjsH7/atkgKsQ=; b=lTpmZeZ1NeoF6dscoMg4qMMjFo
- glMYR+C65qyUo9XeiQnzabqMC7yYHKugSV9aEx4q2bfFnZyr60vQTPd8Kf/UhIZHUNcyam1POEBuV
- vc/XzzQPk9KxrdLDFtulgA59QtmYM/nSoKY4M8hCrdgHzDIvGeHtdBbx3djNmAjsMXAJZ/StGa7NN
- irttrCy8WbAwz9vC0ihJM9pKB+D4cUL66aIEflu+R+kwLj/fk2IJFu00pZUU9NXQWT7cfHRG6UqXl
- VI2pdKL1/UdqS7wLaZFULOlPOs3YIA62BCA2etGDwY1DXdGVw//V6KKMAQ/UJkqIljws5M5knWV93
- oUNXOZTA==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6d9G-0007zL-Uv; Tue, 25 Feb 2020 16:33:31 +0000
-Subject: Re: [PATCH] Initialize ATA before graphics
-To: Paul Menzel <pmenzel@molgen.mpg.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- LKML <linux-kernel@vger.kernel.org>
-References: <041f4abd-f894-b990-b320-bf0aab4242f2@molgen.mpg.de>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0da5bb70-2e55-0fa2-d950-3832f9ff7bcd@infradead.org>
-Date: Tue, 25 Feb 2020 08:33:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF70F6E217
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 16:45:29 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 9897AAAC2;
+ Tue, 25 Feb 2020 16:45:28 +0000 (UTC)
+Message-ID: <47f6f9f63a25820b9c9fb10d281f4824862a234b.camel@suse.de>
+Subject: Re: [PATCH 18/89] clk: bcm: rpi: Rename is_prepared function
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>
+Date: Tue, 25 Feb 2020 17:45:26 +0100
+In-Reply-To: <cdeaa4152ac84aecc362e09153d1427777e3d933.1582533919.git-series.maxime@cerno.tech>
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <cdeaa4152ac84aecc362e09153d1427777e3d933.1582533919.git-series.maxime@cerno.tech>
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-In-Reply-To: <041f4abd-f894-b990-b320-bf0aab4242f2@molgen.mpg.de>
-Content-Language: en-US
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,77 +39,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-ide@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Arjan van de Ven <arjan@linux.intel.com>, linux-nvme@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0545596517=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
-You should have also Cc-ed Arjan on this email. [done]
+
+--===============0545596517==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-RIXUZuAJcUivUhgI0C4B"
 
 
-On 2/24/20 6:09 AM, Paul Menzel wrote:
-> From: Arjan van de Ven <arjan@linux.intel.com>
-> Date: Thu, 2 Jun 2016 23:36:32 -0500
-> 
-> ATA init is the long pole in the boot process, and its asynchronous.
-> Move the graphics init after it, so that ATA and graphics initialize
-> in parallel.
-> 
-> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+--=-RIXUZuAJcUivUhgI0C4B
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 2020-02-24 at 10:06 +0100, Maxime Ripard wrote:
+> The raspberrypi_fw_pll_is_on function doesn't only apply to PLL
+> registered in the driver, but any clock exposed by the firmware.
+>=20
+> Since we also implement the is_prepared hook, make the function
+> consistent with the other function names, and drop the fw from the
+> function name.
+
+It seems you didn't :)
+
+As it does use the fw interface I'd say keep it in the name, with that:
+
+Acked-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+
+Thanks!
+Nicolas
+
+>=20
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
-> 
-> 1.  Taken from Clear Linux: https://github.com/clearlinux-pkgs/linux/commits/master/0110-Initialize-ata-before-graphics.patch
-> 2.  Arjan, can you please add your Signed-off-by line?
-> 
->  drivers/Makefile | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/Makefile b/drivers/Makefile
-> index aaef17c..d08f3a3 100644
-> --- a/drivers/Makefile
-> +++ b/drivers/Makefile
-> @@ -58,15 +58,8 @@ obj-y                                += char/
->  # iommu/ comes before gpu as gpu are using iommu controllers
->  obj-y                          += iommu/
->  
-> -# gpu/ comes after char for AGP vs DRM startup and after iommu
-> -obj-y                          += gpu/
-> -
->  obj-$(CONFIG_CONNECTOR)                += connector/
->  
-> -# i810fb and intelfb depend on char/agp/
-> -obj-$(CONFIG_FB_I810)           += video/fbdev/i810/
-> -obj-$(CONFIG_FB_INTEL)          += video/fbdev/intelfb/
-> -
->  obj-$(CONFIG_PARPORT)          += parport/
->  obj-$(CONFIG_NVM)              += lightnvm/
->  obj-y                          += base/ block/ misc/ mfd/ nfc/
-> @@ -79,6 +72,14 @@ obj-$(CONFIG_IDE)            += ide/
->  obj-y                          += scsi/
->  obj-y                          += nvme/
->  obj-$(CONFIG_ATA)              += ata/
-> +
-> +# gpu/ comes after char for AGP vs DRM startup and after iommu
-> +obj-y                          += gpu/
-> +
-> +# i810fb and intelfb depend on char/agp/
-> +obj-$(CONFIG_FB_I810)           += video/fbdev/i810/
-> +obj-$(CONFIG_FB_INTEL)          += video/fbdev/intelfb/
-> +
->  obj-$(CONFIG_TARGET_CORE)      += target/
->  obj-$(CONFIG_MTD)              += mtd/
->  obj-$(CONFIG_SPI)              += spi/
-> 
 
 
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
+--=-RIXUZuAJcUivUhgI0C4B
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl5VTyYACgkQlfZmHno8
+x/5rAgf7BxTTPBRye7XRqwBPhoICcffv/Ii4T91MNAtumCd4F0s+hsYk44Ttsbrb
+tr9ZiFNFnOkV/rVNLG3cg/QhMaKotcAg59qVcw/g/ZDPc6xodEilj19jaf2WDIi1
+echfeq0yvG8cPb8ljFCPiKisneTp/ascqFR//M9Ap8zpfpQUCswisjsqzhSY1Y1k
+f5Dtc3fY+2szMYu08XhKojT0UUBt4gtxh5pAXk7RSG1moPrP/NGJpS/8XQ0w5EyT
+fs8hWtU4De7Ja4NH8Xb2haFk0kZgoJyqxGjhMOyeYtBUS8mpKbE0iWMg0fx2vW+/
+KtTtxwpzcWfrZ+Ox/njAdAXkd+CUOA==
+=pqBd
+-----END PGP SIGNATURE-----
+
+--=-RIXUZuAJcUivUhgI0C4B--
+
+
+--===============0545596517==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0545596517==--
+
