@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1AC16B975
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 07:10:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8ED16B985
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 07:15:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D84F892C1;
-	Tue, 25 Feb 2020 06:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 180EC6E0F4;
+	Tue, 25 Feb 2020 06:15:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55915892C1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 06:10:22 +0000 (UTC)
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A05286E0F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 06:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582611021;
+ s=mimecast20190719; t=1582611345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cQNaTh1HwhNOEGJ51j3glAMwSw4Nt/oACsQTPYH5feA=;
- b=QAGU8L5ORywZQSIqLmaxAkh+ssSOnvKi4HC5HzG2Fijf/WGDgCQCTOvC5pZFeFSQaLg9UM
- myOGdXQ1B7o1jMQ2TR9SysgCg4H+Alyt2z0YY6ti8Cq11nsT28s2MZBz/4L1+/HLln0iS4
- MR3ZiQ+M0HAKTW4O2T4yVFa3sXkQmZg=
+ bh=hDZAej/jLK8gD+nYYr2L2sjjutU8DKWcsuwzak4gi7I=;
+ b=YAXD9h8NSXonazapfa/pUr7rP+lyz88/GPyRKnBhFmAigbY0onCsQ4MFxUu29tAwy0DlpF
+ PsSiqaNyfRxO/e1Hll1FSPmAwDuK4IdJk9HdV/b+Cyb0D928S6JjAT7v5xEtAMvZByEJKN
+ R0qieby+aNVQl5xDplBygN/zHbFWlm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-DYyKaKDLN3CegtXVUSCMDQ-1; Tue, 25 Feb 2020 01:10:14 -0500
-X-MC-Unique: DYyKaKDLN3CegtXVUSCMDQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-360-2nRtSc6BMcuaowpCU87-3A-1; Tue, 25 Feb 2020 01:15:43 -0500
+X-MC-Unique: 2nRtSc6BMcuaowpCU87-3A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DBCF107ACC4;
- Tue, 25 Feb 2020 06:10:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 281051005512;
+ Tue, 25 Feb 2020 06:15:42 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-87.ams2.redhat.com
  [10.36.116.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10680385;
- Tue, 25 Feb 2020 06:10:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42A105D9CD;
+ Tue, 25 Feb 2020 06:15:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2C95F1747F; Tue, 25 Feb 2020 07:10:08 +0100 (CET)
-Date: Tue, 25 Feb 2020 07:10:08 +0100
+ id 7CFCF1747F; Tue, 25 Feb 2020 07:15:38 +0100 (CET)
+Date: Tue, 25 Feb 2020 07:15:38 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: David Stevens <stevensd@chromium.org>
-Subject: Re: [PATCH 1/2] virtio: add dma-buf support for exported objects
-Message-ID: <20200225061008.wqxqppfglzmwvtid@sirius.home.kraxel.org>
+Subject: Re: [PATCH 2/2] drm/virtio: Support virtgpu exported resources
+Message-ID: <20200225061538.2qlkhfbhv2pl3oku@sirius.home.kraxel.org>
 References: <20200219080637.61312-1-stevensd@chromium.org>
- <20200219080637.61312-2-stevensd@chromium.org>
+ <20200219080637.61312-3-stevensd@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200219080637.61312-2-stevensd@chromium.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200219080637.61312-3-stevensd@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,15 +71,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 19, 2020 at 05:06:36PM +0900, David Stevens wrote:
-> This change adds a new flavor of dma-bufs that can be used by virtio
-> drivers to share exported objects. A virtio dma-buf can be queried by
-> virtio drivers to obtain the UUID which identifies the underlying
-> exported object.
+  Hi,
 
-That duplicates a bunch of code from dma-buf.c in virtio_dma_buf.c.
+> +struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
+> +					 int flags)
+> +{
+[ ... ]
+> +}
+> +
+> +struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
+> +						struct dma_buf *buf)
+> +{
+[ ... ]
+> +}
 
-How about dma_buf_{get,set}_uuid, simliar to dma_buf_set_name?
+More code duplication.
+
+> diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
+> index 0c85914d9369..9c428ef03060 100644
+> --- a/include/uapi/linux/virtio_gpu.h
+> +++ b/include/uapi/linux/virtio_gpu.h
+
+API change should go to a separate patch.
+
+> +/*
+> + * VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID
+> + */
+> +#define VIRTIO_GPU_F_CROSS_DEVICE        2
+
+Hmm, how about VIRTIO_GPU_F_RESOURCE_UUID ?
+
+> @@ -87,6 +92,7 @@ enum virtio_gpu_ctrl_type {
+>  	VIRTIO_GPU_RESP_OK_CAPSET_INFO,
+>  	VIRTIO_GPU_RESP_OK_CAPSET,
+>  	VIRTIO_GPU_RESP_OK_EDID,
+> +	VIRTIO_GPU_RESP_OK_RESOURCE_ASSIGN_UUID,
+
+The "assign" doesn't make sense in the reply.  I'd name that
+VIRTIO_GPU_RESP_OK_RESOURCE_UUID or just VIRTIO_GPU_RESP_OK_UUID,
+
+> +/* VIRTIO_GPU_RESP_OK_RESOURCE_ASSIGN_UUID */
+> +struct virtio_gpu_resp_resource_assign_uuid {
+> +	struct virtio_gpu_ctrl_hdr hdr;
+> +	__u8 uuid[16];
+> +};
+
+Same here.
 
 cheers,
   Gerd
