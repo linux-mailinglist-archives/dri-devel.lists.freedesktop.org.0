@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064C116BFDA
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 12:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715A216BFF5
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 12:50:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 885036E1F7;
-	Tue, 25 Feb 2020 11:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D4736EAA7;
+	Tue, 25 Feb 2020 11:50:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1AF5D6E1F7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:47:48 +0000 (UTC)
-X-UUID: d9ced703390543988f50e94f16744d79-20200225
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=npWCMlNAf6vwIc/DWpZvRQRY1F0x8+HE51QC285Pl4k=; 
- b=sqtDg3L3d40I5ysaNjB/+IPIkuekGFW5XjScZ51fpjx34sqx67jL48MWXKvq2ftr1kzHIih4HiOkmdyAQ+AD+3tfEsnGnss+U0xwu2wNlfIQIdVSlLe/EOULTHRNtwojCXpjyntQj/Br22CGGMBt56sULrTRSvevaI2TNdh9e88=;
-X-UUID: d9ced703390543988f50e94f16744d79-20200225
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 492554429; Tue, 25 Feb 2020 19:47:42 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Tue, 25 Feb 2020 19:46:21 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
- MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Tue, 25 Feb 2020 19:46:21 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 4/4] drm/mediatek: config mipitx impedance with calibration
- data
-Date: Tue, 25 Feb 2020 19:47:30 +0800
-Message-ID: <20200225114730.124939-5-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200225114730.124939-1-jitao.shi@mediatek.com>
-References: <20200225114730.124939-1-jitao.shi@mediatek.com>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E61D6EAA4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:50:32 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id e8so14373142wrm.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 03:50:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PdTyKBaTg8Qo4ILE+rwR1Bwd8DQYGX//WMu/YUlCs0I=;
+ b=OfMcq4QDoay9vzi4dyREOeBWd6QLCX66XG1G0uxkLuLjNFp5w2ZtK8lTMmdE+t4XQI
+ 5gUC+n2Xk3V0m8K+OV35IaOODDOm5xLiu4FYy/6tT1Jz/T20ug1h2ZsR2J4OJG8JgFBn
+ vzItZhUyCeUXYZpbkHX18Ft+7BdC1ZFPiA668=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PdTyKBaTg8Qo4ILE+rwR1Bwd8DQYGX//WMu/YUlCs0I=;
+ b=uFfEXx43qClRLEoiRx/PCuvNPuQXE3yIB3sRjrdHeTQtl6XCLBRGun1Snwtb/N8L99
+ OuekUkDIB1SVdimU8wYmjdYrj8StqHK7mn+TPfDg6Co+rbgrR5Q3RhIVhosHQ3cIfvnz
+ DULtwYZW2Gk5hA4N+I70wTPi29CIRrKm99y8etyYIMGaFnU3Z2ZhcBDPCSrFVf10DDA4
+ mwq7XQuX4YcihVqZHAMc9sazfYpBYaqq8VjmqhWPp2pg0wS89Hl0fvEx+Kt4nGDDQ3/I
+ jEf3xW4rRYrWuVrM/SHIh/a4VJ9TQz1v0STQ5mvBsGbo2WsjhDJ1/LZvrEK/keJcyfRe
+ thTw==
+X-Gm-Message-State: APjAAAVnVa23VrEXr+758UzDw4Qd/vJ2THAPhUiPuR5OgTPD1hwP68HR
+ jaPIZr6h+oBoLeL0d+CUwCppOVGp+zk=
+X-Google-Smtp-Source: APXvYqxXmRcPlYalesaPbDBTyZlFmRdgPXFsGhjv1DdX1GWp4d7EOFwNeqbJZ15b4V7LTbW5RLLohA==
+X-Received: by 2002:adf:f607:: with SMTP id t7mr3807177wrp.36.1582631430430;
+ Tue, 25 Feb 2020 03:50:30 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k7sm3674674wmi.19.2020.02.25.03.50.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 03:50:29 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic modesets
+Date: Tue, 25 Feb 2020 12:50:24 +0100
+Message-Id: <20200225115024.2386811-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 6F969946ABC898804BBD49EE55557D86239B839BC7C2780C891C258D70C73D2C2000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,115 +61,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
- cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Daniel Stone <daniels@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Read calibration data from nvmem, and config mipitx impedance with
-calibration data to make sure their impedance are 100ohm.
+When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
+pull in arbitrary other resources, including CRTCs (e.g. when
+reconfiguring global resources).
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+But in nonblocking mode userspace has then no idea this happened,
+which can lead to spurious EBUSY calls, both:
+- when that other CRTC is currently busy doing a page_flip the
+  ALLOW_MODESET commit can fail with an EBUSY
+- on the other CRTC a normal atomic flip can fail with EBUSY because
+  of the additional commit inserted by the kernel without userspace's
+  knowledge
+
+For blocking commits this isn't a problem, because everyone else will
+just block until all the CRTC are reconfigured. Only thing userspace
+can notice is the dropped frames without any reason for why frames got
+dropped.
+
+Consensus is that we need new uapi to handle this properly, but no one
+has any idea what exactly the new uapi should look like. As a stop-gap
+plug this problem by demoting nonblocking commits which might cause
+issues by including CRTCs not in the original request to blocking
+commits.
+
+v2: Add comments and a WARN_ON to enforce this only when allowed - we
+don't want to silently convert page flips into blocking plane updates
+just because the driver is buggy.
+
+v3: Fix inverted WARN_ON (Pekka).
+
+References: https://lists.freedesktop.org/archives/dri-devel/2018-July/182281.html
+Bugzilla: https://gitlab.freedesktop.org/wayland/weston/issues/24#note_9568
+Cc: Daniel Stone <daniel@fooishbar.org>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Cc: stable@vger.kernel.org
+Reviewed-by: Daniel Stone <daniels@collabora.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ drivers/gpu/drm/drm_atomic.c | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-index 124fdf95f1e5..878feeb7ac6c 100644
---- a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-+++ b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-@@ -5,6 +5,8 @@
-  */
- 
- #include "mtk_mipi_tx.h"
-+#include <linux/nvmem-consumer.h>
-+#include <linux/slab.h>
- 
- #define MIPITX_LANE_CON		0x000c
- #define RG_DSI_CPHY_T1DRV_EN		BIT(0)
-@@ -28,6 +30,7 @@
- #define MIPITX_PLL_CON4		0x003c
- #define RG_DSI_PLL_IBIAS		(3 << 10)
- 
-+#define MIPITX_D2P_RTCODE	0x0100
- #define MIPITX_D2_SW_CTL_EN	0x0144
- #define MIPITX_D0_SW_CTL_EN	0x0244
- #define MIPITX_CK_CKMODE_EN	0x0328
-@@ -108,6 +111,58 @@ static const struct clk_ops mtk_mipi_tx_pll_ops = {
- 	.recalc_rate = mtk_mipi_tx_pll_recalc_rate,
- };
- 
-+static void mtk_mipi_tx_config_calibration_data(struct mtk_mipi_tx *mipi_tx)
-+{
-+	u32 *buf;
-+	u32 rt_code[5];
-+	int i, j;
-+	struct nvmem_cell *cell;
-+	struct device *dev = mipi_tx->dev;
-+	size_t len;
-+
-+	cell = nvmem_cell_get(dev, "calibration-data");
-+	if (IS_ERR(cell)) {
-+		dev_info(dev, "nvmem_cell_get fail\n");
-+		return;
-+	}
-+
-+	buf = (u32 *)nvmem_cell_read(cell, &len);
-+
-+	nvmem_cell_put(cell);
-+
-+	if (IS_ERR(buf)) {
-+		dev_info(dev, "can't get data\n");
-+		return;
-+	}
-+
-+	if (len < 3 * sizeof(u32)) {
-+		dev_info(dev, "invalid calibration data\n");
-+		kfree(buf);
-+		return;
-+	}
-+
-+	rt_code[0] = ((buf[0] >> 6 & 0x1f) << 5) | (buf[0] >> 11 & 0x1f);
-+	rt_code[1] = ((buf[1] >> 27 & 0x1f) << 5) | (buf[0] >> 1 & 0x1f);
-+	rt_code[2] = ((buf[1] >> 17 & 0x1f) << 5) | (buf[1] >> 22 & 0x1f);
-+	rt_code[3] = ((buf[1] >> 7 & 0x1f) << 5) | (buf[1] >> 12 & 0x1f);
-+	rt_code[4] = ((buf[2] >> 27 & 0x1f) << 5) | (buf[1] >> 2 & 0x1f);
-+
-+	for (i = 0; i < 5; i++) {
-+		if ((rt_code[i] & 0x1f) == 0)
-+			rt_code[i] |= 0x10;
-+
-+		if ((rt_code[i] >> 5 & 0x1f) == 0)
-+			rt_code[i] |= 0x10 << 5;
-+
-+		for (j = 0; j < 10; j++)
-+			mtk_mipi_tx_update_bits(mipi_tx,
-+				MIPITX_D2P_RTCODE * (i + 1) + j * 4,
-+				1, rt_code[i] >> j & 1);
-+	}
-+
-+	kfree(buf);
-+}
-+
- static void mtk_mipi_tx_power_on_signal(struct phy *phy)
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 9ccfbf213d72..4c035abf98b8 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1362,15 +1362,43 @@ EXPORT_SYMBOL(drm_atomic_commit);
+ int drm_atomic_nonblocking_commit(struct drm_atomic_state *state)
  {
- 	struct mtk_mipi_tx *mipi_tx = phy_get_drvdata(phy);
-@@ -130,6 +185,8 @@ static void mtk_mipi_tx_power_on_signal(struct phy *phy)
- 				RG_DSI_HSTX_LDO_REF_SEL,
- 				mipi_tx->mipitx_drive << 6);
- 
-+	mtk_mipi_tx_config_calibration_data(mipi_tx);
+ 	struct drm_mode_config *config = &state->dev->mode_config;
+-	int ret;
++	unsigned requested_crtc = 0;
++	unsigned affected_crtc = 0;
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *crtc_state;
++	bool nonblocking = true;
++	int ret, i;
 +
- 	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_CK_CKMODE_EN, DSI_CK_CKMODE_EN);
++	/*
++	 * For commits that allow modesets drivers can add other CRTCs to the
++	 * atomic commit, e.g. when they need to reallocate global resources.
++	 *
++	 * But when userspace also requests a nonblocking commit then userspace
++	 * cannot know that the commit affects other CRTCs, which can result in
++	 * spurious EBUSY failures. Until we have better uapi plug this by
++	 * demoting such commits to blocking mode.
++	 */
++	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
++		requested_crtc |= drm_crtc_mask(crtc);
+ 
+ 	ret = drm_atomic_check_only(state);
+ 	if (ret)
+ 		return ret;
+ 
+-	DRM_DEBUG_ATOMIC("committing %p nonblocking\n", state);
++	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
++		affected_crtc |= drm_crtc_mask(crtc);
++
++	if (affected_crtc != requested_crtc) {
++		/* adding other CRTC is only allowed for modeset commits */
++		WARN_ON(!state->allow_modeset);
++
++		DRM_DEBUG_ATOMIC("demoting %p to blocking mode to avoid EBUSY\n", state);
++		nonblocking = false;
++	} else {
++		DRM_DEBUG_ATOMIC("committing %p nonblocking\n", state);
++	}
+ 
+-	return config->funcs->atomic_commit(state->dev, state, true);
++	return config->funcs->atomic_commit(state->dev, state, nonblocking);
  }
+ EXPORT_SYMBOL(drm_atomic_nonblocking_commit);
  
 -- 
-2.21.0
+2.24.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
