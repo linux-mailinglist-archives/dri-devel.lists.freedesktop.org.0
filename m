@@ -1,61 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFBD16BAD3
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:38:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC29E16BB21
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 08:42:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09F36E9F5;
-	Tue, 25 Feb 2020 07:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75EB36E9F7;
+	Tue, 25 Feb 2020 07:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EFA46E9F5
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 07:38:52 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 29611AD7B;
- Tue, 25 Feb 2020 07:38:51 +0000 (UTC)
-Subject: Re: [PATCH RFC v3 2/6] drm/sprd: add Unisoc's drm kms master
-To: tang pengchuan <kevin3.tang@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-References: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
- <1582271336-3708-3-git-send-email-kevin3.tang@gmail.com>
- <20200221213652.GD3456@ravnborg.org>
- <CAFPSGXacMKTPrxk_FOrwrvH_XfmO3dYCCa_GoPCe_HUfQFPHtw@mail.gmail.com>
- <20200222212713.GA30872@ravnborg.org>
- <CAFPSGXZWC7dASrVP3MTWS+oJjcwQEK0T+BLiwZ-cxk2OyeNZQw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <3acf15ff-6a41-ca13-e219-301fcef983fa@suse.de>
-Date: Tue, 25 Feb 2020 08:38:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34A0F6E9F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 07:42:41 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01P7WhOP083265;
+ Tue, 25 Feb 2020 07:42:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=INcxH8t3MgyfLDXX5UOFFnVC3hnSuE6BlWvYpUVNJV8=;
+ b=IqLNv0IVyVhYAv5zYqoGT8dpI6rqjyLiUsDSFAPxSbRK9FCfnAW0dbtIk386xschnjbr
+ GWabdrYR+wSOqNMA19PtdkmA10KVko7yH2LmvvEdvodTKc578bbYS9WfyyvGnEF5v1H9
+ LL/cCOhAgOCpaRn3jd42gWojL+wLxYrAvl6N2A2ML2MoCKUrj0StTTVYbrXXNMKwviiz
+ sfFd4CwsMkmXu3XZok+2IAWqdisHK4o3tliydjPE8ciduNLh1tqCoq3XYn6zMU9r5uKa
+ c8Oip+9S2h4mZDgTEOgOzaJtRm7auLra1zs4+4PvSJw78AS2x6284HQjdsaHVDnyKkrk Pg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2yavxrm67b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Feb 2020 07:42:24 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01P7fuoM007682;
+ Tue, 25 Feb 2020 07:42:24 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 2ybe137d9w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Feb 2020 07:42:24 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01P7gDRV011335;
+ Tue, 25 Feb 2020 07:42:13 GMT
+Received: from kadam (/129.205.23.165) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 24 Feb 2020 23:42:12 -0800
+Date: Tue, 25 Feb 2020 10:42:00 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH v7 0/2] Add initial support for slimport anx7625
+Message-ID: <20200225074200.GC3308@kadam>
+References: <cover.1582529411.git.xji@analogixsemi.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFPSGXZWC7dASrVP3MTWS+oJjcwQEK0T+BLiwZ-cxk2OyeNZQw@mail.gmail.com>
+Content-Disposition: inline
+In-Reply-To: <cover.1582529411.git.xji@analogixsemi.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ spamscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002250062
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ lowpriorityscore=0
+ spamscore=0 clxscore=1011 suspectscore=0 bulkscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002250061
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,231 +78,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, Baolin Wang <baolin.wang@linaro.org>,
- David Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, robh+dt@kernel.org,
- Orson Zhai <orsonzhai@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1170019043=="
+Cc: devel@driverdev.osuosl.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sheng Pan <span@analogixsemi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1170019043==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QNt4NcLl3wKtObHjm3OlGfiLZqiXIcCI2"
+On Tue, Feb 25, 2020 at 02:11:39PM +0800, Xin Ji wrote:
+> Hi all,
+> 
+> The following series add initial support for the Slimport ANX7625 transmitter, a
+> ultra-low power Full-HD 4K MIPI to DP transmitter designed for portable device.
+> 
+> This is the initial version, any mistakes, please let me know, I will fix it in
+              ^^^^^^^^^^^^^^^
+> the next series.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QNt4NcLl3wKtObHjm3OlGfiLZqiXIcCI2
-Content-Type: multipart/mixed; boundary="FMsG9sLQC920eSt6ZJLnytyVsciYT0LhQ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: tang pengchuan <kevin3.tang@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: mark.rutland@arm.com, Baolin Wang <baolin.wang@linaro.org>,
- David Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, robh+dt@kernel.org,
- Orson Zhai <orsonzhai@gmail.com>
-Message-ID: <3acf15ff-6a41-ca13-e219-301fcef983fa@suse.de>
-Subject: Re: [PATCH RFC v3 2/6] drm/sprd: add Unisoc's drm kms master
-References: <1582271336-3708-1-git-send-email-kevin3.tang@gmail.com>
- <1582271336-3708-3-git-send-email-kevin3.tang@gmail.com>
- <20200221213652.GD3456@ravnborg.org>
- <CAFPSGXacMKTPrxk_FOrwrvH_XfmO3dYCCa_GoPCe_HUfQFPHtw@mail.gmail.com>
- <20200222212713.GA30872@ravnborg.org>
- <CAFPSGXZWC7dASrVP3MTWS+oJjcwQEK0T+BLiwZ-cxk2OyeNZQw@mail.gmail.com>
-In-Reply-To: <CAFPSGXZWC7dASrVP3MTWS+oJjcwQEK0T+BLiwZ-cxk2OyeNZQw@mail.gmail.com>
+This is actually the v7 version, but the patch zero cover letter hasn't
+been updated.  :P  The last time anyone responded to these patches was
+to point out three simple bugs which you fixed in v4 last November.
 
---FMsG9sLQC920eSt6ZJLnytyVsciYT0LhQ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+What changed in this version?  My guess is that nothing changed and you
+are just prodding us to re-review it...  Feel free to say that also
+because we can't read your mind.
 
-Hi
-
-Am 23.02.20 um 05:26 schrieb tang pengchuan:
->=20
->=20
-> On Sun, Feb 23, 2020 at 5:27 AM Sam Ravnborg <sam@ravnborg.org
-> <mailto:sam@ravnborg.org>> wrote:
->=20
->     Hi Kevin/tang.
->=20
->     Thanks for the quick and detailed feedback.
->     Your questions are addressed below.
->=20
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0 Sam
->=20
->=20
->     > > > +static int sprd_drm_bind(struct device *dev)
->     > > > +{
->     > > > +=C2=A0 =C2=A0 =C2=A0struct drm_device *drm;
->     > > > +=C2=A0 =C2=A0 =C2=A0struct sprd_drm *sprd;
->     > > > +=C2=A0 =C2=A0 =C2=A0int err;
->     > > > +
->     > > > +=C2=A0 =C2=A0 =C2=A0drm =3D drm_dev_alloc(&sprd_drm_drv, dev=
-);
->     > > > +=C2=A0 =C2=A0 =C2=A0if (IS_ERR(drm))
->     > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_E=
-RR(drm);
->     > > You should embed drm_device in struct sprd_drm.
->     > > See example code in drm/drm_drv.c
->     > >
->     > > This is what modern drm drivers do.
->     > >
->     > > I *think* you can drop the component framework if you do this.
->     > >
->     > I have read it(drm/drm_drv.c) carefully, if drop the component
->     framework,
->     > the whole our drm driver maybe need to redesign, so i still want
->     to keep
->     > current design.
->     OK, fine.
->=20
->     > > > +=C2=A0 =C2=A0 =C2=A0sprd_drm_mode_config_init(drm);
->     > > > +
->     > > > +=C2=A0 =C2=A0 =C2=A0/* bind and init sub drivers */
->     > > > +=C2=A0 =C2=A0 =C2=A0err =3D component_bind_all(drm->dev, drm=
-);
->     > > > +=C2=A0 =C2=A0 =C2=A0if (err) {
->     > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR("f=
-ailed to bind all component.\n");
->     > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_dc_=
-cleanup;
->     > > > +=C2=A0 =C2=A0 =C2=A0}
->     > > When you have a drm_device - which you do here.
->     > > Then please use drm_err() and friends for error messages.
->     > > Please verify all uses of DRM_XXX
->     > >
->     >=C2=A0 =C2=A0modern drm drivers need drm_xxx to replace DRM_XXX?
->     Yes, use of DRM_XXX is deprecated - when you have a drm_device.
->=20
->     > >
->     > > > +=C2=A0 =C2=A0 =C2=A0/* with irq_enabled =3D true, we can use=
- the vblank
->     feature. */
->     > > > +=C2=A0 =C2=A0 =C2=A0drm->irq_enabled =3D true;
->     > > I cannot see any irq being installed. This looks wrong.
->     > >
->     > Our display controller isr is been register on crtc
->     driver(sprd_dpu.c), not
->     > here.
->=20
->     I think you just need to move this to next patch and then it is fin=
-e.
->=20
-> Here is the advice given by Thomas Zimmermann, similar to the advice yo=
-u
-> gave.
-> I have given thomas feedback about my questions, maybe thomas didn't se=
-e
-> my email, so there is no reply.
-
-I have been busy last week. Sorry for not getting back to you.
-
->=20
-> But I've always been confused, because irq is initialized in drm driver=
-
-> for other guys, why not for me?
-
-Do you have an example?
-
-Best regards
-Thomas
-
-> Can you help to tell the reason in detail, looking forward to your answ=
-ers.
->=20
-> Thomas's suggestion=EF=BC=9A
-> -----------------------------------------------------------------------=
---------------------
->=20
-> This line indicates the problem's design. The irq is initialized in the=
-
-> sub-device code, but the device state is set here. Instead both should
-> be set in the same place.
->=20
->> +
->> +=C2=A0 =C2=A0 =C2=A0/* reset all the states of crtc/plane/encoder/con=
-nector */
->> +=C2=A0 =C2=A0 =C2=A0drm_mode_config_reset(drm);
->> +
->> +=C2=A0 =C2=A0 =C2=A0/* init kms poll for handling hpd */
->> +=C2=A0 =C2=A0 =C2=A0drm_kms_helper_poll_init(drm);
->=20
-> Most of this function's code should be moved into the sub-device bind
-> function.
->=20
-> Here, maybe do:
->=20
-> =C2=A0* allocate device structures
-> =C2=A0* call component_bind_all()
-> =C2=A0* on success, register device
->=20
-> The sub-device function should then do
->=20
-> =C2=A0* init modesetting, crtc, planes, etc.
-> =C2=A0* do drm_mode_config_reset()
-> =C2=A0* init vblanking
-> =C2=A0* init the irq
-> =C2=A0* do drm_kms_helper_poll_init()
->=20
-> roughtly in that order. It makes sense to call drm_vblank_init() after
-> drm_mode_config_reset(), as vblanking uses some of the mode-config fiel=
-ds.=C2=A0
-> -----------------------------------------------------------------------=
--------------------------------
->=20
->=20
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0 Sam
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---FMsG9sLQC920eSt6ZJLnytyVsciYT0LhQ--
-
---QNt4NcLl3wKtObHjm3OlGfiLZqiXIcCI2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5UzwcACgkQaA3BHVML
-eiMf5wf8DivhAr6LFIIlZXxbo6hEtUbn4XxT+xFzFM4rPbYbJjCj9VC+CST8sq4P
-HLLVDYxngnpIclwUF9UlprIBpXNCuZobb+koJXkKIBEP17+imX3n7oc8Tqq+yOyY
-Wb45hWUwOtM4uAS4ULrIppnGPOye8GLCVJpc+XbrLSVlglI/OCkBrxGuwQ0VM/Ck
-fe0/i7H0Eoq+/Jrll+abcxUF3fYrbeVG62PPIzfVh5d3hu0cElMPJwLngtYq7/0x
-IRW5S5PcAP6XUTC2kpfZyCjc9++B3vIkYcy0Hpq4j7HaOkXTuEn24ipBNkR32s2U
-g4HMCrbA4NKmiSrYloLnID3DGZYlhw==
-=fwAf
------END PGP SIGNATURE-----
-
---QNt4NcLl3wKtObHjm3OlGfiLZqiXIcCI2--
-
---===============1170019043==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+regards,
+dan carpenter
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1170019043==--
