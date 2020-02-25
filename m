@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E37F16EC9D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 18:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9156D16ECEC
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 18:44:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 860B46EB63;
-	Tue, 25 Feb 2020 17:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3588C6EB65;
+	Tue, 25 Feb 2020 17:44:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78B1C6E8FA;
- Tue, 25 Feb 2020 17:37:25 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id t12so8506268vso.13;
- Tue, 25 Feb 2020 09:37:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=eL99fWfbOC82WjarXQ0HpAvuE7P7THl7X3j0zyIlmXA=;
- b=nZR8rwmf3BvrC6U8Sp0UCVJL+3zNzktLmn+AvuRQxNuKiKh4DWZ0BpzmAklM94NAXu
- 9Xgdj789bOpBQM+XN5cJTIlNaLuk//gmQb8OG0NOyUOzfO1pHuxqY0hbVg1VGj9fJ77v
- B3eUEcfOq3WZn1PkF7w+HZqtBlcXL2OP6LXHqIjkwKHzI12ZgfAM75QJuO4v8rGgzX8G
- +JEfgLIt9HLLPOjKp4lQEF5fXoVIXtmnfLkkIe2lMxR07bcW4y7e7DB/od+gRJnHhUf9
- HC9mTA4PTa+NecSUpJEablmGEMlbTv5zpFsVY2N+GnwIk2dAPZul2sIownwETkWTBynY
- dnjQ==
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC6B6EB64
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 17:44:04 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id l5so11552035wrx.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 09:44:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PzvK6EDQquxDjvxYudkNLwfN8HySHKUIb3bNyy91jcw=;
+ b=AbJS1+yX/SOdDXUsaoTsJg9grNZxTs+MNKagxElWMF96f8Cj9Y1ymNCD6NJEmylcLy
+ AYJFxBn97EYyqiE5Tpxit+Eoa9hFCLsULCX00wLjOAy/psXowxOiVjifUOU4Uar6Jogz
+ j4CJH1yhYuNipt5+LjkHgX8EWPWktF4ANFfno=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=eL99fWfbOC82WjarXQ0HpAvuE7P7THl7X3j0zyIlmXA=;
- b=NicsFqpYNyoDNLjoMhABY/rUSd2Qr+dJ980l5qAiXHNZIAK259OwnxpULH+Pt/Y/e/
- Ttx0Sqyl8N0kg2BbLIxkD0nYelan8zgQQkcFDfWvThOcInBP1UzXF8/U0zq4qnulAXk7
- gApKgKIFjyvHXmvm79BBJRqhSfCJeINu721VU6K6GTZM6xj2nICCbjRbwXCJrL3xhohI
- iDMeO6UrXH/3YsVKQPkCmF+j7UWwhNMq1nA6dw5AFTjT337BfZ0nl5apAl3TpF9ahDnf
- NOgyFYT3c9lYtGAy53BolLG7Rc9P7+QLiM18O4gVH34LC6tuYE/nuJV8hdXGvE1/kWdP
- fsSQ==
-X-Gm-Message-State: APjAAAVo1LGCBNi7ySvCsfKBD24t5tWpiS4x46iqwKQmIpmLFT3Hv3Rk
- sAyxYyUH4LFkbtsy7jZttbbVssbzRE73XMbTPAc=
-X-Google-Smtp-Source: APXvYqwU98gfhqVAxJa7gosL8Ra6s1c69+eKdPuBlqgtOzj45DyTIyfXssXREHGb5HXhW6v3M5fDW4NNOvQuxusFBWg=
-X-Received: by 2002:a67:fc54:: with SMTP id p20mr190520vsq.37.1582652244622;
- Tue, 25 Feb 2020 09:37:24 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:ab0:6c5:0:0:0:0:0 with HTTP;
- Tue, 25 Feb 2020 09:37:23 -0800 (PST)
-In-Reply-To: <20200225155902.9751-2-tzimmermann@suse.de>
-References: <20200225155902.9751-1-tzimmermann@suse.de>
- <20200225155902.9751-2-tzimmermann@suse.de>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 25 Feb 2020 17:37:23 +0000
-Message-ID: <CACvgo52fCMEiohuOkXyZi_mVrFnhMmmB--W64AvhEgVe3i2T5A@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH 1/3] drm: Add separate state structure for
- legacy, non-KMS drivers
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PzvK6EDQquxDjvxYudkNLwfN8HySHKUIb3bNyy91jcw=;
+ b=UD/K/J+rR2mq18D1lpGubKGwZqC8c0UoIdMLsjBFo4ur2JsoGf6HuJnS2NIgbPTzcJ
+ 1SRmxeMqjNWLQe38U9BHupdmsy2Otxh6QLIECF4f2Q59IcjiwaJNMbeJcdYlgY2u2P6J
+ KnSxQuPzZLUOPeCyvDTE7aK3DYq3hdLMk1YUBinWu5mdz+8kcOZWwDmJJALdcH4cPWsK
+ iQaVzZAsWq0lNxQ7ayItKl9mX3HG9DVGkjKBq6cG+Ri/U2n9plc0Aav0Gyg7D8+y+jER
+ 0b4NZgYWVxaWXKBEIzWA81NBLGbDS/5/acm9KOKO5ME7dYqipuVY0O4o8C6l8nKQfR5m
+ 6W2w==
+X-Gm-Message-State: APjAAAXRiVbAkwdE/HLwKXbJDUccAFtsFv1QivrZZVpOajeZF/s4JA8F
+ dfKYudCsQIae6H3IH8mSzYazew==
+X-Google-Smtp-Source: APXvYqzMsMPYwbBdDmhH8RB9IS6E1fulWmap9jYTXKewjYg/u9Pbhqsggz4wzqzEaeFCklmUx99YKA==
+X-Received: by 2002:adf:ed42:: with SMTP id u2mr253724wro.345.1582652643173;
+ Tue, 25 Feb 2020 09:44:03 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z21sm4885590wml.5.2020.02.25.09.44.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 09:44:02 -0800 (PST)
+Date: Tue, 25 Feb 2020 18:44:00 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/3] Add separate non-KMS state; constify struct drm_driver
+Message-ID: <20200225174400.GP2363188@phenom.ffwll.local>
+References: <20200225155902.9751-1-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200225155902.9751-1-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,72 +64,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "bskeggs@redhat.com" <bskeggs@redhat.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>,
- "emil.velikov@collabora.com" <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0635753418=="
+Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, bskeggs@redhat.com, alexander.deucher@amd.com,
+ sam@ravnborg.org, emil.velikov@collabora.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0635753418==
-Content-Type: multipart/alternative; boundary="000000000000d80154059f69f093"
+On Tue, Feb 25, 2020 at 04:58:59PM +0100, Thomas Zimmermann wrote:
+> This patchset moves legacy, non-KMS driver state from struct drm_driver
+> into struct drm_legacy_state. Only non-KMS drivers provide an instance
+> of the latter structure. One special case is nouveau, which supports
+> legacy interfaces. It also provides an instance of the legacy state if
+> the legacy interfaces have been enabled (i.e., defines the config option
+> CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT)
+> 
+> I reviewed all call sites of legacy state and functions to verify that
+> DRIVER_LEGACY or DRIVER_KMS_LEGACY_CONTEXT is set on the device; or that
+> DRIVER_MODESET is not set.
+> 
+> With the mutable KMS state removed, instances of struct drm_driver can
+> be declared as constant. The patchset modifies the DRM core accordingly.
+> Individual drivers can follow later on.
 
---000000000000d80154059f69f093
-Content-Type: text/plain; charset="UTF-8"
+Bikeshed: We very much have modern non-KMS drivers (vgem, etnaviv, v3d,
+panfrost, ...). non-KMS != legacy, which is what you're talking about
+here.
 
-Hi Thomas,
+Other thing, and it's a bit raining on your parade: I don't see the point.
+Sprinkling a few more #ifdef CONFIG_DRM_LEGACY over the relevant parts
+sounds like a reasonable idea. But this is a lot of churn for drivers
+which are all pretty much dead, and just waiting for their eventual
+removal. And from a compile-testing pov of making sure modern drivers
+don't use any of the deprecated stuff wrapping it in CONFIG_DRM_LEGACY
+should be plenty enough.
 
-On Tuesday, 25 February 2020, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+And from a "make stuff const" I think Laurent's much more minimal series
+also gets us there for all the drivers we care about.
+-Daniel
 
-> Non-KMS drivers store state in struct drm_driver. This bloats the
-> structure for KMS drivers and prevents it from being declared with
-> 'static const' qualifiers. Moving the non-KMS state into a separate
-> data structure resolves this.
->
->
-Have you considered subclassing the const drm_driver for legacy drivers.
-This way the legacy (pointer) data does not need to be exposed to
-non-legacy drivers.
+> 
+> Thomas Zimmermann (3):
+>   drm: Add separate state structure for legacy, non-KMS drivers
+>   drm: Move non-kms driver state into struct drm_legacy_state
+>   drm: Constify struct drm_driver in DRM core
+> 
+>  drivers/gpu/drm/drm_bufs.c            | 10 +++++-----
+>  drivers/gpu/drm/drm_context.c         |  9 +++++----
+>  drivers/gpu/drm/drm_drv.c             | 12 ++++++++----
+>  drivers/gpu/drm/drm_file.c            |  4 ++--
+>  drivers/gpu/drm/drm_legacy_misc.c     |  6 +++---
+>  drivers/gpu/drm/drm_lock.c            |  7 ++++---
+>  drivers/gpu/drm/drm_pci.c             | 16 ++++++++++------
+>  drivers/gpu/drm/drm_vblank.c          | 11 ++++++-----
+>  drivers/gpu/drm/i810/i810_drv.c       | 10 +++++++---
+>  drivers/gpu/drm/mga/mga_drv.c         | 16 ++++++++++------
+>  drivers/gpu/drm/nouveau/nouveau_drm.c |  8 ++++++++
+>  drivers/gpu/drm/r128/r128_drv.c       | 16 ++++++++++------
+>  drivers/gpu/drm/savage/savage_drv.c   | 12 ++++++++----
+>  drivers/gpu/drm/sis/sis_drv.c         |  8 ++++++--
+>  drivers/gpu/drm/tdfx/tdfx_drv.c       |  6 +++++-
+>  drivers/gpu/drm/via/via_drv.c         | 16 ++++++++++------
+>  include/drm/drm_device.h              |  2 +-
+>  include/drm/drm_drv.h                 | 21 +++++----------------
+>  include/drm/drm_legacy.h              | 27 +++++++++++++++++++++++----
+>  include/drm/drm_pci.h                 |  4 ++--
+>  20 files changed, 138 insertions(+), 83 deletions(-)
+> 
+> --
+> 2.25.0
+> 
 
-Not to mention that const data (drm_driver), which has (const) pointer to
-mutable data (legacy bits) is a trap IMHO
-
-Emil
-
---000000000000d80154059f69f093
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi Thomas,</div><div><br></div>On Tuesday, 25 February 2020, Thomas Zi=
-mmermann &lt;<a href=3D"mailto:tzimmermann@suse.de">tzimmermann@suse.de</a>=
-&gt; wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">Non-KMS drivers store state i=
-n struct drm_driver. This bloats the<br>
-structure for KMS drivers and prevents it from being declared with<br>
-&#39;static const&#39; qualifiers. Moving the non-KMS state into a separate=
-<br>
-data structure resolves this.<br>
-<br></blockquote><div><br></div><div>Have you considered subclassing the co=
-nst drm_driver for legacy drivers. This way the legacy (pointer) data does =
-not need to be exposed to non-legacy drivers.</div><div><br></div><div>Not =
-to mention that const data (drm_driver), which has (const) pointer to mutab=
-le data (legacy bits) is a trap IMHO</div><div><br></div><div>Emil</div>
-
---000000000000d80154059f69f093--
-
---===============0635753418==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0635753418==--
