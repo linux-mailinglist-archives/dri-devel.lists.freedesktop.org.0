@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0891F16BFDB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 12:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0334C16BFD6
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 12:47:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 163BC6EAA3;
-	Tue, 25 Feb 2020 11:47:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 894316EAA1;
+	Tue, 25 Feb 2020 11:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id A36C86E1F7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:47:45 +0000 (UTC)
-X-UUID: 8cd06643e6ac4fb4b42787beafb37981-20200225
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 95EB26EAA2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:47:46 +0000 (UTC)
+X-UUID: 4e1207c9983546bbb40cbe2c083f0038-20200225
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=tEuIuqbj8JcbuuArgO1nPH3pErg0cD0oQ9Q5Xkop0Zw=; 
- b=JOArML+X7PQWj2lXxm+uN287ND+vJ64UPJKoQFc/pjMgmh7U59L0X8mi3i2F3vM9bvAAs3f2Wvnnn+CyochRzDgPEbaXzTQINNBDVy9C190Z5fVfpEUYLORAHxEPUE7Bmg3SI5M0itJRjolTDtlP2whQRDHmzHLUrYZL9x05YJw=;
-X-UUID: 8cd06643e6ac4fb4b42787beafb37981-20200225
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=uG/aJuarO3hgV1jRiJvimGDQyEGjg4zprETLw6mHtxc=; 
+ b=TbCOTLvKvSO0DfRTVDpIAnaEw2IPfHLGbeB7W350MqTT7uhtyir12Zrcp6L1ulVMNV+CrWXBeStFUJyu12+Nr8m4lngsf/Qrlt1DkkEIX5r1DmfN4Ri0JQSgEeSUwAH4ysA0BjVCTQjJjU8aE7z8IaR3RjTPvCkp27lySoZteSY=;
+X-UUID: 4e1207c9983546bbb40cbe2c083f0038-20200225
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 274965202; Tue, 25 Feb 2020 19:47:38 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Tue, 25 Feb 2020 19:48:12 +0800
+ with ESMTP id 468850720; Tue, 25 Feb 2020 19:47:39 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Tue, 25 Feb 2020 19:46:17 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Tue, 25 Feb 2020 19:46:16 +0800
+ 15.0.1395.4 via Frontend Transport; Tue, 25 Feb 2020 19:46:18 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 0/4] Config mipi tx drive current and impedance
-Date: Tue, 25 Feb 2020 19:47:26 +0800
-Message-ID: <20200225114730.124939-1-jitao.shi@mediatek.com>
+Subject: [PATCH v2 1/4] dt-binds: display: mediatek: add property to control
+ mipi tx drive current
+Date: Tue, 25 Feb 2020 19:47:27 +0800
+Message-ID: <20200225114730.124939-2-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200225114730.124939-1-jitao.shi@mediatek.com>
+References: <20200225114730.124939-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: DBA67982F7B2CBA2F3BB6E7444224D083ADD37C79BB3BC4FC5858E737CCE96102000:8
+X-TM-SNTS-SMTP: 40DE30FEC415DA454AAABC48CB3544E2F670014FB02503C8587B9B19739D33C22000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,23 +66,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes since v1:
- - fix coding style.
- - change mtk_mipi_tx_config_calibration_data() to void
+Add a property to control mipi tx drive current:
+"mipitx-current-drive"
 
-Jitao Shi (4):
-  dt-binds: display: mediatek: add property to control mipi tx drive
-    current
-  dt-binds: display: mediatek: get mipitx calibration data from nvmem
-  drm/mediatek: add the mipitx driving control
-  drm/mediatek: config mipitx impedance with calibration data
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ .../devicetree/bindings/display/mediatek/mediatek,dsi.txt     | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- .../display/mediatek/mediatek,dsi.txt         |  9 +++
- drivers/gpu/drm/mediatek/mtk_mipi_tx.c        |  6 ++
- drivers/gpu/drm/mediatek/mtk_mipi_tx.h        |  1 +
- drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c | 64 +++++++++++++++++++
- 4 files changed, 80 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+index a19a6cc375ed..780201ddcd5c 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+@@ -33,6 +33,9 @@ Required properties:
+ - #clock-cells: must be <0>;
+ - #phy-cells: must be <0>.
+ 
++Optional properties:
++- mipitx-current-drive: adjust driving current, should be 1 ~ 0xF
++
+ Example:
+ 
+ mipi_tx0: mipi-dphy@10215000 {
+@@ -42,6 +45,7 @@ mipi_tx0: mipi-dphy@10215000 {
+ 	clock-output-names = "mipi_tx0_pll";
+ 	#clock-cells = <0>;
+ 	#phy-cells = <0>;
++	mipitx-current-drive = <0x8>;
+ };
+ 
+ dsi0: dsi@1401b000 {
 -- 
 2.21.0
 _______________________________________________
