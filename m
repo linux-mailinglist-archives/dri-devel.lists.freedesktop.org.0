@@ -1,40 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB84516E939
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 16:01:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C0016E945
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 16:03:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 778046EB0E;
-	Tue, 25 Feb 2020 15:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0286EB11;
+	Tue, 25 Feb 2020 15:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5C206EB0E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 15:01:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27E5643F;
- Tue, 25 Feb 2020 16:01:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582642898;
- bh=PMJgoPyjy/9KDHQG7VkKjCuQReRufaZfhkVUXGj6P6M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bUYdV2WfwqFoPlhEHsVqlykLk4hqEySd8VeF4SnDZ7suyiaFxV3jJL6kKP5W2o7bH
- sOA0LIHYopMjnYbwMRPPzEgZHrC9BZU4qxOlEzCxtvfcr1Nnyd+4YirTWOm7xtHuZM
- ANrTrJhd9IG6z70YgfKKqbx1QeIJCV31BaQig3J4=
-Date: Tue, 25 Feb 2020 17:01:17 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCHv2 10/56] drm/omap: dsi: drop virtual channel logic
-Message-ID: <20200225150117.GI4764@pendragon.ideasonboard.com>
-References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
- <20200224232126.3385250-11-sebastian.reichel@collabora.com>
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3A8A6EB13
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 15:03:41 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id h9so12282047otj.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 07:03:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R6y7L6Myxr2kli2akOhQaEKT4fK1INGdCYUk9txXrfw=;
+ b=K/0yaUpguJxde/7k+cYaxPrxohycQaoszWcLnibDfcyWm5sM6ZcWPxVN1ibMHZCVPt
+ mwkyOSBk12QtwSNuHT28AbHbvTjU7AuwgOODclfBQIwr6dqgUx6YAtUgd5lbQLK4YLQ/
+ P8hd9G7BLQ9+AzS6svAoRBniKp6JvdAKiuDxs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R6y7L6Myxr2kli2akOhQaEKT4fK1INGdCYUk9txXrfw=;
+ b=Pw4popH8b2cSQY/eKDWKwJOzb2tqI1W0+URxMCVj/KrqOS5N7b4W2YwDAmCUMBTS84
+ it+hFnMa9He1xWAKZ4kVSNu6ReX+/LfjijLbjPvrBcPF8zaKr+syY97hqKOXvaPhd3us
+ HZXdZVyMi55R5b8Wd76Mrxfh/eOU4Bc7qA0anM84ZJzRPElBWAFljXFxkKMnLFc6ZFmh
+ pPdRjZWJwtW76VdxUyDlsNNgUU5mKvXjCm8geLFdrrDljnlMVqaQY9F9JjCjThdFZ2FP
+ IuNt98NZeRnZxFOmOxPkS23g+VYf+v074G6BbnpYM+6EwSBZ01vm7kNtUEA+9doZyEFa
+ OhXA==
+X-Gm-Message-State: APjAAAUpgBi2dDRtQ+zBOOclWUT13qM75Ry/2hyrjNsB9q1gMJLsG0wU
+ qseT3Nitbg8wlVOEF0uj6cALfCqNjC2jQHj3dXiBTUqc
+X-Google-Smtp-Source: APXvYqzIFb5QGNXTKTOzO2V2c26F7hLRzkXKI8qXfXMqx80mp6u3sSbxDuxgCOFgIhK+dkVqmrE+6fJ2tJmKqJRkgxg=
+X-Received: by 2002:a9d:7f11:: with SMTP id j17mr48195422otq.281.1582643020709; 
+ Tue, 25 Feb 2020 07:03:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200224232126.3385250-11-sebastian.reichel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
+ <CGME20200221210354eucas1p1b9377cb5c64ae9f657191cf7d6c9e92c@eucas1p1.samsung.com>
+ <20200221210319.2245170-4-daniel.vetter@ffwll.ch>
+ <c088ce3b-d409-3a66-1f45-72f8ee9d9784@samsung.com>
+In-Reply-To: <c088ce3b-d409-3a66-1f45-72f8ee9d9784@samsung.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 25 Feb 2020 16:03:29 +0100
+Message-ID: <CAKMK7uE+8eQGfV=6t_3vV+L=fOL6zUm5CqSxWf26JNUSL54brg@mail.gmail.com>
+Subject: Re: [PATCH 03/51] drm: add managed resources tied to drm_device
+To: Andrzej Hajda <a.hajda@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,197 +60,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-omap@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
+On Tue, Feb 25, 2020 at 11:27 AM Andrzej Hajda <a.hajda@samsung.com> wrote:
+>
+> Hi Daniel,
+>
+>
+> The patchset looks interesting.
+>
+>
+> On 21.02.2020 22:02, Daniel Vetter wrote:
+> > We have lots of these. And the cleanup code tends to be of dubious
+> > quality. The biggest wrong pattern is that developers use devm_, which
+> > ties the release action to the underlying struct device, whereas
+> > all the userspace visible stuff attached to a drm_device can long
+> > outlive that one (e.g. after a hotunplug while userspace has open
+> > files and mmap'ed buffers). Give people what they want, but with more
+> > correctness.
+>
+>
+> I am not familiar with this stuff, so forgive me stupid questions.
+>
+> Is it documented how uapi should behave in such case?
+>
+> I guess the general rule is to return errors on most ioctls (ENODEV,
+> EIO?), and wait until userspace releases everything, as there is not
+> much more to do.
+>
+> If that is true what is the point of keeping these structs anyway -
+> trivial functions with small context data should do the job.
+>
+> I suspect I am missing something but I do not know what :)
 
-Thank you for the patch.
+We could do the above (also needs unmapping of all mmaps, so userspace
+then gets SIGSEGV everywhere) and watch userspace crash&burn.
+Essentially if the kernel can't do this properly, then there's no hope
+that userspace will be any better.
 
-On Tue, Feb 25, 2020 at 12:20:40AM +0100, Sebastian Reichel wrote:
-> This drops the virtual channel logic. Afterwards DSI clients
-> request their channel number and get the virtual channel with
-> the same number or -EBUSY if already in use.
+Hence the idea is that we keep everything userspace facing still
+around, except it doesn't do much anymore. So connectors still there,
+but they look disconnected. Userspace can then hopefully eventually
+get around to processing the sysfs hotunplug event and remove the
+device from all its list. So the long-term idea is that a lot of stuff
+keeps working, except the driver doesn't talk to the hardware anymore.
+And we just sit around waiting for userspace to clean things up.
 
-I wonder why this level of indirection was used, allocating "virtual
-VCs". A single virtual indirection should be enough :-) I may be missing
-some context though, I'll defer that to Tomi, but for me,
+I guess once we have a bunch of the panel/usb drivers converted over
+we could indeed document how this is all supposed to work from an uapi
+pov. But right now a lot of this is all rather aspirational, I think
+only the recent simple display pipe based drivers implement this as
+described above.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Mostly copied from devres.c, with types adjusted to fit drm_device and
+> > a few simplifications - I didn't (yet) copy over everything. Since
+> > the types don't match code sharing looked like a hopeless endeavour.
+> >
+> > For now it's only super simplified, no groups, you can't remove
+> > actions (but kfree exists, we'll need that soon). Plus all specific to
+> > drm_device ofc, including the logging. Which I didn't bother to make
+> > compile-time optional, since none of the other drm logging is compile
+> > time optional either.
+>
+>
+> I saw in v1 thread that copy/paste is OK and merging back devres and
+> drmres can be done later, but experience shows that after short time
+> things get de-synchronized and merging process becomes quite painful.
+>
+> On the other side I guess it shouldn't be difficult to split devres into
+> consumer agnostic core and "struct device" helpers and then use the core
+> in drm.
+>
+> For example currently devres uses two fields from struct device:
+>
+>     spinlock_t        devres_lock;
+>     struct list_head    devres_head;
+>
+> Lets put it into separate struct:
+>
+> struct devres {
+>
+>     spinlock_t        lock;
+>     struct list_head    head;
+>
+> };
+>
+> And embed this struct into "struct device".
+>
+> Then convert all core devres functions to take "struct devres *"
+> argument instead of "struct device *" and then these core functions can
+> be usable in drm.
+>
+> Looks quite simple separation of abstraction (devres) and its consumer
+> (struct device).
+>
+> After such split one could think about changing name devres to something
+> more reliable.
 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 11 ++---
->  drivers/gpu/drm/omapdrm/dss/dsi.c             | 46 ++++---------------
->  drivers/gpu/drm/omapdrm/dss/omapdss.h         |  4 +-
->  3 files changed, 12 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> index 92f510a771fe..ba046a596044 100644
-> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> @@ -769,19 +769,12 @@ static int dsicm_connect(struct omap_dss_device *src,
->  	struct device *dev = &ddata->pdev->dev;
->  	int r;
->  
-> -	r = src->ops->dsi.request_vc(src, &ddata->channel);
-> +	r = src->ops->dsi.request_vc(src, ddata->channel);
->  	if (r) {
->  		dev_err(dev, "failed to get virtual channel\n");
->  		return r;
->  	}
->  
-> -	r = src->ops->dsi.set_vc_id(src, ddata->channel, TCH);
-> -	if (r) {
-> -		dev_err(dev, "failed to set VC_ID\n");
-> -		src->ops->dsi.release_vc(src, ddata->channel);
-> -		return r;
-> -	}
-> -
->  	ddata->src = src;
->  	return 0;
->  }
-> @@ -1216,6 +1209,8 @@ static int dsicm_probe_of(struct platform_device *pdev)
->  	struct display_timing timing;
->  	int err;
->  
-> +	ddata->channel = TCH;
-> +
->  	ddata->reset_gpio = devm_gpiod_get(&pdev->dev, "reset", GPIOD_OUT_LOW);
->  	if (IS_ERR(ddata->reset_gpio)) {
->  		err = PTR_ERR(ddata->reset_gpio);
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index 0990777a42f7..8c223b808740 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -350,7 +350,6 @@ struct dsi_data {
->  		struct omap_dss_device *dssdev;
->  		enum fifo_size tx_fifo_size;
->  		enum fifo_size rx_fifo_size;
-> -		int vc_id;
->  	} vc[4];
->  
->  	struct mutex lock;
-> @@ -2579,7 +2578,7 @@ static inline void dsi_vc_write_long_header(struct dsi_data *dsi, int channel,
->  
->  	WARN_ON(!dsi_bus_is_locked(dsi));
->  
-> -	data_id = data_type | dsi->vc[channel].vc_id << 6;
-> +	data_id = data_type | channel << 6;
->  
->  	val = FLD_VAL(data_id, 7, 0) | FLD_VAL(len, 23, 8) |
->  		FLD_VAL(ecc, 31, 24);
-> @@ -2683,7 +2682,7 @@ static int dsi_vc_send_short(struct dsi_data *dsi, int channel, u8 data_type,
->  		return -EINVAL;
->  	}
->  
-> -	data_id = data_type | dsi->vc[channel].vc_id << 6;
-> +	data_id = data_type | channel << 6;
->  
->  	r = (data_id << 0) | (data << 8) | (ecc << 24);
->  
-> @@ -4783,45 +4782,19 @@ static enum omap_channel dsi_get_channel(struct dsi_data *dsi)
->  	}
->  }
->  
-> -static int dsi_request_vc(struct omap_dss_device *dssdev, int *channel)
-> +static int dsi_request_vc(struct omap_dss_device *dssdev, int channel)
->  {
->  	struct dsi_data *dsi = to_dsi_data(dssdev);
-> -	int i;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(dsi->vc); i++) {
-> -		if (!dsi->vc[i].dssdev) {
-> -			dsi->vc[i].dssdev = dssdev;
-> -			*channel = i;
-> -			return 0;
-> -		}
-> -	}
->  
-> -	DSSERR("cannot get VC for display %s", dssdev->name);
-> -	return -ENOSPC;
-> -}
-> -
-> -static int dsi_set_vc_id(struct omap_dss_device *dssdev, int channel, int vc_id)
-> -{
-> -	struct dsi_data *dsi = to_dsi_data(dssdev);
-> -
-> -	if (vc_id < 0 || vc_id > 3) {
-> -		DSSERR("VC ID out of range\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	if (channel < 0 || channel > 3) {
-> -		DSSERR("Virtual Channel out of range\n");
-> +	if (channel < 0 || channel > 3)
->  		return -EINVAL;
-> -	}
->  
-> -	if (dsi->vc[channel].dssdev != dssdev) {
-> -		DSSERR("Virtual Channel not allocated to display %s\n",
-> -			dssdev->name);
-> -		return -EINVAL;
-> +	if (dsi->vc[channel].dssdev) {
-> +		DSSERR("cannot get VC for display %s", dssdev->name);
-> +		return -EBUSY;
->  	}
->  
-> -	dsi->vc[channel].vc_id = vc_id;
-> -
-> +	dsi->vc[channel].dssdev = dssdev;
->  	return 0;
->  }
->  
-> @@ -4832,7 +4805,6 @@ static void dsi_release_vc(struct omap_dss_device *dssdev, int channel)
->  	if ((channel >= 0 && channel <= 3) &&
->  		dsi->vc[channel].dssdev == dssdev) {
->  		dsi->vc[channel].dssdev = NULL;
-> -		dsi->vc[channel].vc_id = 0;
->  	}
->  }
->  
-> @@ -4937,7 +4909,6 @@ static const struct omap_dss_device_ops dsi_ops = {
->  		.enable_te = dsi_enable_te,
->  
->  		.request_vc = dsi_request_vc,
-> -		.set_vc_id = dsi_set_vc_id,
->  		.release_vc = dsi_release_vc,
->  
->  		.transfer = omap_dsi_transfer,
-> @@ -5393,7 +5364,6 @@ static int dsi_probe(struct platform_device *pdev)
->  	for (i = 0; i < ARRAY_SIZE(dsi->vc); i++) {
->  		dsi->vc[i].source = DSI_VC_SOURCE_L4;
->  		dsi->vc[i].dssdev = NULL;
-> -		dsi->vc[i].vc_id = 0;
->  	}
->  
->  	r = dsi_get_clocks(dsi);
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index 787e102eb068..587206c984a9 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -301,9 +301,7 @@ struct omapdss_dsi_ops {
->  	void (*disable_video_output)(struct omap_dss_device *dssdev,
->  			int channel);
->  
-> -	int (*request_vc)(struct omap_dss_device *dssdev, int *channel);
-> -	int (*set_vc_id)(struct omap_dss_device *dssdev, int channel,
-> -			int vc_id);
-> +	int (*request_vc)(struct omap_dss_device *dssdev, int channel);
->  	void (*release_vc)(struct omap_dss_device *dssdev, int channel);
->  
->  	/* data transfer */
-
+There was a long discussion on v1 exactly about this, Greg's
+suggestion was to "just share a struct device". So we're not going to
+do this here, and the struct device seems like slight overkill and not
+a good enough fit here.
+-Daniel
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
