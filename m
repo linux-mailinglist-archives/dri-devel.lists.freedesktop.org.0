@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3690316EC52
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 18:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FC216EC6E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 18:24:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9436EB5F;
-	Tue, 25 Feb 2020 17:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F24DB89F55;
+	Tue, 25 Feb 2020 17:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 364446EB5E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 17:16:16 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id j20so246711otq.3
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 09:16:16 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 482A089F55
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 17:23:59 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id j7so3187559wrp.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 09:23:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=Q0WzriZsFeVLIxkq9afAMphlm+5DTXv3n7yz9mov8+A=;
+ b=Hmc6WuL00hZv2jb8Vwl1vSwrvg91tQManOHfCkd47lj3Hf7LWjepSA6LmQVFeJjWMA
+ nacoG8L9c4rboXqrEFgbUYFPSyzQbUzBMH7cJlMPwmq7XD7/E+oqLBbIk++jg/UpKYhh
+ XJf0dBgQn3ZPUBx6aOohEqq+LubuadGkEk2CY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=OE6eipVQm4bME6AE3KlIKW+8PF5MdzZLKNm5AdRaXEo=;
- b=BnguZFiKDFgfSbA509iHMpBzPvlwVi0T4/WJcYw4IIGGGiZsofCeKjas0lHZEFUMPo
- VZ2A7b3F12ZBrI7IIcJvHIzAMUdK4bOWDtQnfCNf9Hp6Uyh0DyGFjZFiKFzYygUjCmH5
- qm/UUtIk5TQzZxnyV68dfPl7Panmhu2+/rZrEDRa9+3loBrCJ7PMfgpCGl1MRgcNOBNR
- 2Jw8o3wYGgCiPV+7m30w3j5EkueGIu+ksWSPttlFtLoR5Kxv5H2nV5dU2J2lmHv3PY/e
- kZ2puaQ2PYJinssWAZPz4KRzDZV5WaB0xqEXVhs8pi1qdKt5KYBPLs3OS4INlPBWNtsO
- BG/w==
-X-Gm-Message-State: APjAAAWWTbCM+FR0fM6JjQRk+uQTu+vkSED8TERH42/ParKCP73gLm+S
- JskzyOltbaTMlGXpwHodcqCHkG8=
-X-Google-Smtp-Source: APXvYqwU0mKHqcSecaw+GXPaK947LH2SDNl/9+T8PUAMCjq938LQ4s7sM8N5fIiMZJA8eWGLsGru4g==
-X-Received: by 2002:a9d:760d:: with SMTP id k13mr43428788otl.42.1582650975368; 
- Tue, 25 Feb 2020 09:16:15 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id t21sm5863311otr.42.2020.02.25.09.16.13
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=Q0WzriZsFeVLIxkq9afAMphlm+5DTXv3n7yz9mov8+A=;
+ b=II1RgtI5MpHYjiHToey9fuIdRxNpSj767i6RCmh3pmk/szkMo5gsOwHfkMEmEM9wvD
+ AVznqjdXoH/YTjAWm8bw3/X6DxJvH2+4GkUCQF8MCDUeZhs6uyvUXq0BamwNGKLlP/yA
+ AyR8XhlRR6AUlZa0QxpdrS4wamtlW9a8wzjTq8b4DRsTmMGg0lt7NhIJLAuCe7Rja/Cq
+ hL+g8YAi+GAQ78yoS7x7MNS/8gQ36FHUwCW5hko31zBfMRdedIwxV24XMfWFgXBWKnfb
+ gaxXDYVuFsQN5Y4mz0VxoKkamH0BqPp8XxkB7iqKcf+c/lTI9TuWiVQ+TZcmFxfP0KYE
+ iCxQ==
+X-Gm-Message-State: APjAAAUlZbZ8NIG0Rg4+TFJHAlAzZT5HQBy8MfOam+hvCr7nROHmRd4P
+ xKLTr6P2kOHhNcb3PEF26nWQFg==
+X-Google-Smtp-Source: APXvYqyueg8icESGjchlrOzRrpEI++U3QqkMRcs7pu5XOQQNwkG3Qkqb4n0mrz6qn+aH/BHeXNmz5A==
+X-Received: by 2002:adf:f6d0:: with SMTP id y16mr221613wrp.140.1582651437912; 
+ Tue, 25 Feb 2020 09:23:57 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z133sm5020423wmb.7.2020.02.25.09.23.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 09:16:14 -0800 (PST)
-Received: (nullmailer pid 13718 invoked by uid 1000);
- Tue, 25 Feb 2020 17:16:13 -0000
-Date: Tue, 25 Feb 2020 11:16:13 -0600
-From: Rob Herring <robh@kernel.org>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Subject: Re: [PATCH v4 1/7] dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
-Message-ID: <20200225171613.GA7063@bogus>
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <20200207052627.130118-2-drinkcat@chromium.org>
+ Tue, 25 Feb 2020 09:23:57 -0800 (PST)
+Date: Tue, 25 Feb 2020 18:23:55 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma-buf: Fix missing excl fence waiting
+Message-ID: <20200225172355.GO2363188@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+References: <B737F1D5-292E-4FE2-89A5-6EF72CB3EED1@amd.com>
+ <7a2eb42a-2dd9-4303-3947-6bbb4de7a888@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200207052627.130118-2-drinkcat@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <7a2eb42a-2dd9-4303-3947-6bbb4de7a888@amd.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,77 +74,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- ulf.hansson@linaro.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2020 at 01:26:21PM +0800, Nicolas Boichat wrote:
-> Define a compatible string for the Mali Bifrost GPU found in
-> Mediatek's MT8183 SoCs.
-> 
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> ---
-> 
-> v4:
->  - Add power-domain-names description
->    (kept Alyssa's reviewed-by as the change is minor)
-> v3:
->  - No change
-> 
->  .../bindings/gpu/arm,mali-bifrost.yaml        | 25 +++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 4ea6a8789699709..0d93b3981445977 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -17,6 +17,7 @@ properties:
->      items:
->        - enum:
->            - amlogic,meson-g12a-mali
-> +          - mediatek,mt8183-mali
->            - realtek,rtd1619-mali
->            - rockchip,px30-mali
->        - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-> @@ -62,6 +63,30 @@ allOf:
->            minItems: 2
->        required:
->          - resets
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8183-mali
-> +    then:
-> +      properties:
-> +        sram-supply: true
-> +        power-domains:
-> +          description:
-> +            List of phandle and PM domain specifier as documented in
-> +            Documentation/devicetree/bindings/power/power_domain.txt
-> +          minItems: 3
-> +          maxItems: 3
-> +        power-domain-names:
-> +          items:
-> +            - const: core0
-> +            - const: core1
-> +            - const: 2d
+On Sun, Feb 23, 2020 at 01:04:15PM +0100, Christian K=F6nig wrote:
+> Am 23.02.20 um 12:56 schrieb Pan, Xinhui:
+> > If shared fence list is not empty, even we want to test all fences, exc=
+l fence is ignored.
+> > That is abviously wrong, so fix it.
+> =
 
-AFAIK, there's no '2d' block in bifrost GPUs. A power domain for each 
-core group is correct though.
+> Yeah that is a known issue and I completely agree with you, but other
+> disagree.
+> =
 
-Rob
+> See the shared fences are meant to depend on the exclusive fence. So all
+> shared fences must finish only after the exclusive one has finished as we=
+ll.
+> =
+
+> The problem now is that for error handling this isn't necessary true. In
+> other words when a shared fence completes with an error it is perfectly
+> possible that he does this before the exclusive fence is finished.
+> =
+
+> I'm trying to convince Daniel that this is a problem for years :)
+
+I thought the consensus is that reasonable gpu schedulers and gpu reset
+code should try to make really, really sure it only completes stuff in
+sequence? That's at least my take away from the syncobj timeline
+discussion, where you convinced me we shouldn't just crash&burn.
+
+I think as long as your scheduler is competent and your gpu reset tries to
+limit damage (i.e. kill offending ctx terminally, mark everything else
+that didn't complete for re-running) we should end up with everything
+completing in sequence. I guess if you do kill a lot more stuff, then
+you'd have to push these through your scheduler as dummy jobs, i.e. they
+still wait for their dependencies, but then all they do is set the
+dma_fence error and complete it. Maybe something the common scheduler
+could do.
+-Daniel
+
+> =
+
+> Regards,
+> Christian.
+> =
+
+> > =
+
+> > Signed-off-by: xinhui pan <xinhui.pan@amd.com>
+> > ---
+> >   drivers/dma-buf/dma-resv.c | 9 +++++----
+> >   1 file changed, 5 insertions(+), 4 deletions(-)
+> > =
+
+> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> > index 4264e64788c4..44dc64c547c6 100644
+> > --- a/drivers/dma-buf/dma-resv.c
+> > +++ b/drivers/dma-buf/dma-resv.c
+> > @@ -632,14 +632,14 @@ static inline int dma_resv_test_signaled_single(s=
+truct dma_fence *passed_fence)
+> >    */
+> >   bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
+> >   {
+> > -	unsigned seq, shared_count;
+> > +	unsigned int seq, shared_count, left;
+> >   	int ret;
+> >   	rcu_read_lock();
+> >   retry:
+> >   	ret =3D true;
+> >   	shared_count =3D 0;
+> > -	seq =3D read_seqcount_begin(&obj->seq);
+> > +	left =3D seq =3D read_seqcount_begin(&obj->seq);
+> >   	if (test_all) {
+> >   		unsigned i;
+> > @@ -647,7 +647,7 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *ob=
+j, bool test_all)
+> >   		struct dma_resv_list *fobj =3D rcu_dereference(obj->fence);
+> >   		if (fobj)
+> > -			shared_count =3D fobj->shared_count;
+> > +			left =3D shared_count =3D fobj->shared_count;
+> >   		for (i =3D 0; i < shared_count; ++i) {
+> >   			struct dma_fence *fence =3D rcu_dereference(fobj->shared[i]);
+> > @@ -657,13 +657,14 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *=
+obj, bool test_all)
+> >   				goto retry;
+> >   			else if (!ret)
+> >   				break;
+> > +			left--;
+> >   		}
+> >   		if (read_seqcount_retry(&obj->seq, seq))
+> >   			goto retry;
+> >   	}
+> > -	if (!shared_count) {
+> > +	if (!left) {
+> >   		struct dma_fence *fence_excl =3D rcu_dereference(obj->fence_excl);
+> >   		if (fence_excl) {
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
