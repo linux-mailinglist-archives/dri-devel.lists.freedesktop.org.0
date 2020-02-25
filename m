@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4211C16BCA4
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:53:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 065FA16BC9B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 09:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C99E6EA87;
-	Tue, 25 Feb 2020 08:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06DF96EA57;
+	Tue, 25 Feb 2020 08:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B905F6E9D2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 02:19:16 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id z15so4462345wrl.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 18:19:16 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827266E89E
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 03:01:33 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id t3so12849876wru.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Feb 2020 19:01:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NyF9P5qx2ppJMfX9M+J+pojkLv28rz3NS++Dm8DD+go=;
- b=F3SfqteQKz+UuaNRS5Cp6pi0HkNS+D1y6CtAHGOa60qENLCfoKqh/tJXthsjnjgKSI
- sAaUSw81+5kDaCZkED+y/+ZlnSSOec3jzN0Jqu2ExFRYHSqKFEuXrXjuZtAQkrYYUT59
- LXTYTz7RjVfkwn772H26v5BdwZjE6Xpthbvx9ANeiTw3V7u2MVXRscb1u9v/DhoY0hhc
- tLTdlotJMvMZc3ToW2fTSpKfCwpOFtoFYPKjStLvMBSoTiF5FYP+fyHvuIMtmwwLb+uk
- wjuSQjyuh0OlGLJRhK9L/HF1qXaSDD4blR5r8GVzNjr4gh6u+DeqIMi517ME9d+sJM9u
- ZgKQ==
+ :cc; bh=7AGR8Hdf9ULi1PXVMP6eGxBqYrhaZyWo5f2BOKVt9+Q=;
+ b=KoW5Ed6KwVlhTbWteTLCBz6skGEoWKQjy6nGqr8sCpgQqdsaRFf80NhCPmu3CAwsLk
+ GbuDl6vE7D4M4DZn1YRwjpACKbIkjZqe+pb6CLkUq3mbOEkkbyje1qjEphiGiObcV1uS
+ d9G4Q96S6Nfn1eS5oO8IElzo87S6iXr1Ilgc00j7+ZI927tBoiys6/U4VeMk0Si4enGe
+ EtLXTFCeHDaz1Rw5w3FHUu6dyWVl0FX5Q+DDIj1gEzNWW3SfF3VNRu2I+3rGOri01MmJ
+ 2Ph8lfYUifSeLj5uCmXz+vXyVYTLTFHh96To223meQeQSK2cIi6q4YIMNTeV2LRmP+ub
+ a0aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NyF9P5qx2ppJMfX9M+J+pojkLv28rz3NS++Dm8DD+go=;
- b=RtMYgXwUfeNCijVTAEQWC5yJ6Db7gkE3xO9jBMZxbTGoMG3Fam3ptOPINTbZmU8CZ7
- m9ywN2MvYHBGTbmOdw9mDyaIIPEMMeU0PJCpOqTW/T36HRoP1qutTv/6aKCsYnZ7uRM8
- DMCRl+Ah4yfAMHXpJKV8vfme766GuFUzOdVvTZZKuap/8+I9ZoitWe9vZZe00wOV2/1S
- kxIYw6nZYGputgytlbrq3Jhrr8tIsG5mdISvuyddcpw+knsi9hkFDMl7KDxeQdYKa5Wc
- KFu75+LSoprn6/zGKBIux3HWU+/EBNXQTfPB1DwcrDtkDz+j3nte6hAWvCTwxg4OZ9ib
- VuSA==
-X-Gm-Message-State: APjAAAXWDqRa/lMIRXF9gmTluP3i1agFEzY73GR+sEMFY1y9zAyNx1Ze
- XvrHeGqhMEen1SzdYVILo7X0m+V7AQ3mDJMTPlG5ng==
-X-Google-Smtp-Source: APXvYqyfqdydxeOKaYtN4smvItnEqT2N2Lns3L2Gjar2Ks2KOqgsnwKu/MUAEZrFGL7DiCQUnW4VKgjdyDC0USjLYbQ=
-X-Received: by 2002:adf:df83:: with SMTP id z3mr69457078wrl.389.1582597155359; 
- Mon, 24 Feb 2020 18:19:15 -0800 (PST)
+ bh=7AGR8Hdf9ULi1PXVMP6eGxBqYrhaZyWo5f2BOKVt9+Q=;
+ b=hcUlyzTVcOM+QdcwPnCOZhD5RAllVoCN+BOuv92Pu+19/gNKiczudm34Cszm2xIEHH
+ +CaAcTuMDwtGXuf2+ta+TSEyrWQx0gsHViKVXtzKpW6ebH9rSsjoeKuI/etKM+S3j68Z
+ xwQUCqBmNTy/OZmRzosps1yEHh7yNFvoLdVcwdJlqmCFlY+eqA27lAo+TaU8WMfFad0T
+ lIaF/t3f1dEbfljH4/o8MC1iM/dylG3or/EulyVo25hc20SFO0/ZR+XWPi+U5SB9XW7b
+ Ce+EmocJHDZpwahbf71V9yBfOIx+G+lJIRKAMlu2av+dsMQycauWofG+N8IA3dMHEe29
+ Co5g==
+X-Gm-Message-State: APjAAAUWPZNA4qnlAPzr2MshgCAXD6jrGy9EOHD3jdVG8M+mnbLCjXpu
+ Nq2iPv1DxEGFiZozFmX+7ZoCjY2Hwy/PyyduJYz2NQ==
+X-Google-Smtp-Source: APXvYqxcswYZuPxFeYhPcXf081sNdS8r3v5iw8yyFrCFSnf75BYcYVg9wbVj3AeWGJBT1McKeNcerg/Z6zU8MctbOaE=
+X-Received: by 2002:a5d:51ce:: with SMTP id n14mr71249049wrv.426.1582599692231; 
+ Mon, 24 Feb 2020 19:01:32 -0800 (PST)
 MIME-Version: 1.0
 References: <1582080707-18825-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1582080707-18825-1-git-send-email-tiantao6@hisilicon.com>
+ <CAKoKPbxCF_B6iPEYAcVBJgNJ72GEwHu+WEg=QTO=fGgiOOYUGw@mail.gmail.com>
+In-Reply-To: <CAKoKPbxCF_B6iPEYAcVBJgNJ72GEwHu+WEg=QTO=fGgiOOYUGw@mail.gmail.com>
 From: Xinliang Liu <xinliang.liu@linaro.org>
-Date: Tue, 25 Feb 2020 10:19:04 +0800
-Message-ID: <CAKoKPbxCF_B6iPEYAcVBJgNJ72GEwHu+WEg=QTO=fGgiOOYUGw@mail.gmail.com>
+Date: Tue, 25 Feb 2020 11:01:21 +0800
+Message-ID: <CAKoKPbxyG2dCD1z+22xaZOLLb7rMAE64ZBqPWfNMiW1VMxfhWQ@mail.gmail.com>
 Subject: Re: [PATCH] drm/hisilicon: Set preferred mode resolution and maximum
  resolution
 To: Tian Tao <tiantao6@hisilicon.com>
@@ -65,82 +66,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: airlied@linux.ie, puck.chen@hisilicon.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linuxarm@huawei.com, kraxel@redhat.com,
  tzimmermann@suse.de, alexander.deucher@amd.com, tglx@linutronix.de
-Content-Type: multipart/mixed; boundary="===============2105037705=="
+Content-Type: multipart/mixed; boundary="===============0964340639=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2105037705==
-Content-Type: multipart/alternative; boundary="00000000000044a4ac059f5d1d4b"
+--===============0964340639==
+Content-Type: multipart/alternative; boundary="0000000000007a3a82059f5db486"
 
---00000000000044a4ac059f5d1d4b
+--0000000000007a3a82059f5db486
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 19 Feb 2020 at 10:52, Tian Tao <tiantao6@hisilicon.com> wrote:
+On Tue, 25 Feb 2020 at 10:19, Xinliang Liu <xinliang.liu@linaro.org> wrote:
 
-> set the preferred mode resolution to 1024 * 768 and maximum
-> resolution to 1920 * 1200.
 >
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> index 6d98fdc..82fc7d3 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> @@ -11,8 +11,10 @@
->   *     Jianhua Li <lijianhua@huawei.com>
->   */
+> On Wed, 19 Feb 2020 at 10:52, Tian Tao <tiantao6@hisilicon.com> wrote:
 >
-> +#include <drm/drm_gem_vram_helper.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_crtc_helper.h>
->  #include <drm/drm_print.h>
+>> set the preferred mode resolution to 1024 * 768 and maximum
+>> resolution to 1920 * 1200.
+>>
+>> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+>> Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
+>> ---
+>>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 10 +++++++++-
+>>  1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> index 6d98fdc..82fc7d3 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> @@ -11,8 +11,10 @@
+>>   *     Jianhua Li <lijianhua@huawei.com>
+>>   */
+>>
+>> +#include <drm/drm_gem_vram_helper.h>
+>>  #include <drm/drm_atomic_helper.h>
+>>  #include <drm/drm_probe_helper.h>
+>> +#include <drm/drm_crtc_helper.h>
+>>  #include <drm/drm_print.h>
+>>
+>>  #include "hibmc_drm_drv.h"
+>> @@ -20,7 +22,13 @@
+>>
+>>  static int hibmc_connector_get_modes(struct drm_connector *connector)
+>>  {
+>> -       return drm_add_modes_noedid(connector, 800, 600);
+>> +       int count;
+>> +
+>> +       drm_connector_update_edid_property(connector, NULL);
+>>
 >
->  #include "hibmc_drm_drv.h"
-> @@ -20,7 +22,13 @@
->
->  static int hibmc_connector_get_modes(struct drm_connector *connector)
->  {
-> -       return drm_add_modes_noedid(connector, 800, 600);
-> +       int count;
-> +
-> +       drm_connector_update_edid_property(connector, NULL);
+And as there is no edid for the connector, don't think call
+drm_connector_update_edid_property is required.
+
+
 > +       count = drm_add_modes_noedid(connector, 1920, 1200);
+>>
 >
-
-Hi Tao, maybe it's better like this:
-count = drm_add_modes_noedid( connector ,
-                                      conn->dev->mode_config.max_width,
-                                      conn->dev->mode_config.max_height);
-
-
-> +       drm_set_preferred_mode(connector, 1024, 768);
-> +
-> +       return count;
->  }
->
->  static enum drm_mode_status hibmc_connector_mode_valid(struct
-> drm_connector *connector,
-> --
-> 2.7.4
+> Hi Tao, maybe it's better like this:
+> count = drm_add_modes_noedid( connector ,
+>                                       conn->dev->mode_config.max_width,
+>                                       conn->dev->mode_config.max_height);
 >
 >
+>> +       drm_set_preferred_mode(connector, 1024, 768);
+>> +
+>> +       return count;
+>>  }
+>>
+>>  static enum drm_mode_status hibmc_connector_mode_valid(struct
+>> drm_connector *connector,
+>> --
+>> 2.7.4
+>>
+>>
 
---00000000000044a4ac059f5d1d4b
+--0000000000007a3a82059f5db486
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 19 Feb 2020 at 10:52, Tian Ta=
-o &lt;<a href=3D"mailto:tiantao6@hisilicon.com">tiantao6@hisilicon.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">set t=
-he preferred mode resolution to 1024 * 768 and maximum<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, 25 Feb 2020 at 10:19, Xinlian=
+g Liu &lt;<a href=3D"mailto:xinliang.liu@linaro.org">xinliang.liu@linaro.or=
+g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"=
+><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 19 Feb 2020 at 10:52, Tian T=
+ao &lt;<a href=3D"mailto:tiantao6@hisilicon.com" target=3D"_blank">tiantao6=
+@hisilicon.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">set the preferred mode resolution to 1024 * 768 and maximum<b=
+r>
 resolution to 1920 * 1200.<br>
 <br>
 Signed-off-by: Tian Tao &lt;<a href=3D"mailto:tiantao6@hisilicon.com" targe=
@@ -178,7 +195,13 @@ ei.com" target=3D"_blank">lijianhua@huawei.com</a>&gt;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0int count;<br>
 +<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_connector_update_edid_property(connector, N=
-ULL);<br>
+ULL);<br></blockquote></div></div></blockquote><div><br></div><div>And as t=
+here is no edid for the connector, don&#39;t think call drm_connector_updat=
+e_edid_property is required.=C2=A0</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote=
+"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0count =3D drm_add_modes_noedid(connector, 1920,=
  1200);<br></blockquote><div><br></div><div>Hi Tao, maybe it&#39;s better l=
 ike this:</div><div>count =3D drm_add_modes_noedid(
@@ -204,10 +227,11 @@ nector *connector,<br>
 2.7.4<br>
 <br>
 </blockquote></div></div>
+</blockquote></div></div>
 
---00000000000044a4ac059f5d1d4b--
+--0000000000007a3a82059f5db486--
 
---===============2105037705==
+--===============0964340639==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -218,4 +242,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2105037705==--
+--===============0964340639==--
