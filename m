@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353D316F02C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 21:35:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D049916F0B3
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 21:57:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC156EBA6;
-	Tue, 25 Feb 2020 20:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 575386EBAC;
+	Tue, 25 Feb 2020 20:57:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B626EBA6
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 20:35:18 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B64A6EBAC
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 20:57:48 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4D0F822464
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 20:35:18 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 146422467D
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 20:57:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582662918;
- bh=IlMHPJZoi6qlavWG4Ahbm3IprtnpXIxML8X3NnRiesw=;
+ s=default; t=1582664268;
+ bh=rEf2Wh9b2Cqc5tJSuDzSluIyGn5h8PEv+2AGQEQ1p7s=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=M/zmMhCkKG5ZR2aALAAcDqwXx55QaZ79a6R/kP7ncLhvfpPHN14IL07ANpCOk/KqL
- osvvkEIyAzlIUNoWzB9MFSu4Mzp/XQ0NZA31wZHfw19OqWb3jgSh+XeQHJsnDnOcTS
- kP8Q5MyOjKWvQsQjsJ4mhFk7dYdaIU4SDmwTej1w=
-Received: by mail-qt1-f182.google.com with SMTP id i23so623376qtr.5
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 12:35:18 -0800 (PST)
-X-Gm-Message-State: APjAAAUhIirh2w/Q/RALwxskdQ2czVDJiyvUfM1pWISBv1QLJzlG0m5Y
- dUCpKabXYa3djLxNQZsMqmMgMwaDuogssPoBKw==
-X-Google-Smtp-Source: APXvYqxghQYLQ6PnllHaIfdR/E6y+DaIAu6c0wU88JtyBWhTwo7n81Ke2zCDhWVpQ1z8bFO/Ygmz9cAyLAvnFp0aF5U=
-X-Received: by 2002:ac8:1415:: with SMTP id k21mr568504qtj.300.1582662917307; 
- Tue, 25 Feb 2020 12:35:17 -0800 (PST)
+ b=gg6Rej+lEjdE3MacAgPmABGfeEK4naM3qOPYaKvI6VDiP+dnMybL0IxoHGVGDs7yy
+ E3V+I76+lUu0xY/bwpiOuR2QpnM95bq/0c4t6LVntRLm17lQNFftdzZSonrfhuEA9D
+ oR7Ir/7pF1qi7QFUxPXnrZq2XPZK6VAIOSpFAbUg=
+Received: by mail-qk1-f177.google.com with SMTP id f3so574747qkh.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 12:57:48 -0800 (PST)
+X-Gm-Message-State: APjAAAUgINMoboCKW4W+SV1F22XzL9eJBiJOJhnmpcE+GNsUyU8CEr9J
+ iW119luSF/pTCMcCapV8e558i9NyC3hqjGBL/w==
+X-Google-Smtp-Source: APXvYqz2R5nikNFiKQzE3WzYAa4JRDhsDEPVyRy8hsiD3YIxfbq2k/r6k7Ue9axTsmsjn+eGEtYJoB+gv797DdDBI14=
+X-Received: by 2002:a37:a750:: with SMTP id q77mr933467qke.119.1582664267060; 
+ Tue, 25 Feb 2020 12:57:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20200207052627.130118-1-drinkcat@chromium.org>
-In-Reply-To: <20200207052627.130118-1-drinkcat@chromium.org>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 25 Feb 2020 14:35:05 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJb2aFHKcVdD-FM2To71iRUJ2nMniw7aZUVXmPmBkazNw@mail.gmail.com>
-Message-ID: <CAL_JsqJb2aFHKcVdD-FM2To71iRUJ2nMniw7aZUVXmPmBkazNw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] Add dts for mt8183 GPU (and misc panfrost patches)
-To: Nicolas Boichat <drinkcat@chromium.org>
+References: <20200221194731.13814-1-lukasz.luba@arm.com>
+ <20200221194731.13814-5-lukasz.luba@arm.com>
+In-Reply-To: <20200221194731.13814-5-lukasz.luba@arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 25 Feb 2020 14:57:36 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ1D6Cf2cxdskDS2JCEe8ja6uUeoSpA3i-wxNgi=S1SYA@mail.gmail.com>
+Message-ID: <CAL_JsqJ1D6Cf2cxdskDS2JCEe8ja6uUeoSpA3i-wxNgi=S1SYA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] drm/panfrost: Register to the Energy Model with
+ devfreq device
+To: Lukasz Luba <lukasz.luba@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,63 +55,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+Cc: Nishanth Menon <nm@ti.com>, juri.lelli@redhat.com,
+ Peter Zijlstra <peterz@infradead.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, bsegall@google.com,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Morten Rasmussen <Morten.Rasmussen@arm.com>, patrick.bellasi@matbug.net,
+ Amit Kucheria <amit.kucheria@verdurent.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Kevin Hilman <khilman@kernel.org>, Andy Gross <agross@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Steven Price <steven.price@arm.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Ingo Molnar <mingo@redhat.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Zhang Rui <rui.zhang@intel.com>, mgorman@suse.de, orjan.eide@arm.com,
+ "open list:THERMAL" <linux-pm@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-omap <linux-omap@vger.kernel.org>, Dietmar.Eggemann@arm.com,
  "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+ <linux-arm-kernel@lists.infradead.org>, David Airlie <airlied@linux.ie>,
+ javi.merino@arm.com, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ qperret@google.com, Stephen Boyd <sboyd@kernel.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sascha Hauer <kernel@pengutronix.de>, Sudeep Holla <sudeep.holla@arm.com>,
+ Shawn Guo <shawnguo@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 6, 2020 at 11:26 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
+On Fri, Feb 21, 2020 at 1:48 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
 >
-> Hi!
->
-> Follow-up on the v3: https://patchwork.kernel.org/cover/11331343/.
->
-> The main purpose of this series is to upstream the dts change and the
-> binding document, but I wanted to see how far I could probe the GPU, to
-> check that the binding is indeed correct. The rest of the patches are
-> RFC/work-in-progress, but I think some of them could already be picked up.
->
-> So this is tested on MT8183 with a chromeos-4.19 kernel, and a ton of
-> backports to get the latest panfrost driver (I should probably try on
-> linux-next at some point but this was the path of least resistance).
->
-> I tested it as a module as it's more challenging (originally probing would
-> work built-in, on boot, but not as a module, as I didn't have the power
-> domain changes, and all power domains are on by default during boot).
->
-> Probing logs looks like this, currently. They look sane.
-> [  501.319728] panfrost 13040000.gpu: clock rate = 511999970
-> [  501.320041] panfrost 13040000.gpu: Linked as a consumer to regulator.14
-> [  501.320102] panfrost 13040000.gpu: Linked as a consumer to regulator.31
-> [  501.320651] panfrost 13040000.gpu: Linked as a consumer to genpd:0:13040000.gpu
-> [  501.320954] panfrost 13040000.gpu: Linked as a consumer to genpd:1:13040000.gpu
-> [  501.321062] panfrost 13040000.gpu: Linked as a consumer to genpd:2:13040000.gpu
-> [  501.321734] panfrost 13040000.gpu: mali-g72 id 0x6221 major 0x0 minor 0x3 status 0x0
-> [  501.321741] panfrost 13040000.gpu: features: 00000000,13de77ff, issues: 00000000,00000400
-> [  501.321747] panfrost 13040000.gpu: Features: L2:0x07120206 Shader:0x00000000 Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
-> [  501.321752] panfrost 13040000.gpu: shader_present=0x7 l2_present=0x1
-> [  501.324951] [drm] Initialized panfrost 1.1.0 20180908 for 13040000.gpu on minor 2
->
-> Some more changes are still required to get devfreq working, and of course
-> I do not have a userspace driver to test this with.
->
-> I believe at least patches 1, 2, and 3 can be merged. 4 and 5 are mostly
-> useful in conjunction with 6 and 7 (which are not ready yet), so I'll let
-> maintainers decide.
+> Add device to the Energy Model framework. It will create a dedicated
+> and unified data structures used i.e. in the thermal framework.
+> The power model used in dev_pm_opp subsystem is simplified and created
+> based on DT 'dynamic-power-coefficient', volatage and frequency. It is
 
-I've applied 3, 4, and 5 to drm-misc-next. Patch 2 should go via Mediatek tree.
+typo.
+
+> similar to the CPU model used in Energy Aware Scheduler.
+>
+> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> index 413987038fbf..d527a5113950 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -105,6 +105,8 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>         }
+>         pfdev->devfreq.devfreq = devfreq;
+>
+> +       dev_pm_opp_of_register_em(dev, NULL);
+
+Can't fail?
+
+> +
+>         cooling = of_devfreq_cooling_register(dev->of_node, devfreq);
+>         if (IS_ERR(cooling))
+>                 DRM_DEV_INFO(dev, "Failed to register cooling device\n");
+> @@ -118,6 +120,7 @@ void panfrost_devfreq_fini(struct panfrost_device *pfdev)
+>  {
+>         if (pfdev->devfreq.cooling)
+>                 devfreq_cooling_unregister(pfdev->devfreq.cooling);
+> +       dev_pm_opp_of_unregister_em(&pfdev->pdev->dev);
+>         dev_pm_opp_of_remove_table(&pfdev->pdev->dev);
+
+Does it make sense to keep this (and the registration side) as
+separate calls? Perhaps there's some ordering requirement with
+everything between dev_pm_opp_of_add_table() and
+dev_pm_opp_of_register_em()?
+
+While you're just adding 2 lines, it seems there's a lot of complexity
+exposed to the driver just to initialize devfreq/opp.
 
 Rob
 _______________________________________________
