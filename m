@@ -2,41 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3622E16F91C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDAA116F928
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 069B76E1A8;
-	Wed, 26 Feb 2020 08:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E4CA6E228;
+	Wed, 26 Feb 2020 08:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs31.siol.net [185.57.226.222])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A606EB90
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:50:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 98BFF524A96;
- Tue, 25 Feb 2020 19:50:06 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id OIDBOTbewRWl; Tue, 25 Feb 2020 19:50:06 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id 2F4BF524A94;
- Tue, 25 Feb 2020 19:50:06 +0100 (CET)
-Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net
- [194.152.20.232]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Postfix) with ESMTPA id 93601524A8B;
- Tue, 25 Feb 2020 19:50:03 +0100 (CET)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: Maxime Ripard <maxime@cerno.tech>, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH 6/7] drm/sun4i: de2: Don't return de2_fmt_info struct
-Date: Tue, 25 Feb 2020 19:50:03 +0100
-Message-ID: <12462592.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <CAGb2v64g7Q4e+ic08pA7tbamgToOjyYzuzqP0bpqBZjRuRUrPA@mail.gmail.com>
-References: <20200224173901.174016-1-jernej.skrabec@siol.net>
- <20200225083448.6upblnctjjrbarje@gilmour.lan>
- <CAGb2v64g7Q4e+ic08pA7tbamgToOjyYzuzqP0bpqBZjRuRUrPA@mail.gmail.com>
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2116E8FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 19:28:00 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id n7so77230pfn.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 11:28:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=4tK5dhNanRBX4RJaY81MXL5uMw9VPzyZ3UaipGWjTeA=;
+ b=ER4Hn5y39DsTdFq4OIFR/dyYBA/md+YMiH6Vlftw5sX/8I8svVtJwDWrl+hIbHDMI+
+ 9DIcp5qY/z7utP3Wlsfmi7SD9FiFgaz3JqHR/5d8KjPWEgJS68eSS/70DaFi0VVUDqjx
+ qsRNASKUBSfoa6zYDICVI1jWv5RUSbtgDxLeA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=4tK5dhNanRBX4RJaY81MXL5uMw9VPzyZ3UaipGWjTeA=;
+ b=JTo/ECgIoaczdzwaZAqQ4Ka+TDT0ZGUCGpYVBtGtuhrB8BNuN3865hnzjqnGh+TVkT
+ TZp68RnLtzwYce/lYGpRUuTZQqrmfK49nAyhx+BBRE3uaKkm0/lI3M5qVIxGGofzG0rL
+ wKE50MxSQ4IdSpA/g8Z35aQW4+Xz4TeUyVUVi8hiTcBO7VDQKVSGhY84bXgdH0kqfpS/
+ bIRZm0zsgWjQxuzbKJMbSVQjQ2Qomtd56mXk9XJTTfc3LNvoI6uLbiZUqZ/78jyrcmnE
+ KrXKZjYLwG2roybk2VotTickVwuFzOqc1MYj/iNYLIFh/K/lbsbtr6g5RXwGe3k3dmz5
+ KqmQ==
+X-Gm-Message-State: APjAAAUPlLNP0YP/dA6y6kzIpvgk1K6tvokaKHBPjwpjPpMqLkQTcx4h
+ HUaWKnkaFMCaYIMzdQ9gI1iXoQ==
+X-Google-Smtp-Source: APXvYqx/CuR9tWXGTo9ivBHMqDj/j7Gy5ChN3CDCAyQZMV9kpz8TazoKp8muVVv6CLf1YgtUt+g7UA==
+X-Received: by 2002:aa7:9808:: with SMTP id e8mr299103pfl.32.1582658880299;
+ Tue, 25 Feb 2020 11:28:00 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id c26sm18406262pfj.8.2020.02.25.11.27.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 11:27:59 -0800 (PST)
 MIME-Version: 1.0
+In-Reply-To: <20200219104148.1.I0183a464f2788d41e6902f3535941f69c594b4c1@changeid>
+References: <20200219104148.1.I0183a464f2788d41e6902f3535941f69c594b4c1@changeid>
+Subject: Re: [PATCH 1/4] drm/msm/dpu: Remove unused function arguments
+From: Stephen Boyd <swboyd@chromium.org>
+To: Drew Davenport <ddavenport@chromium.org>, dri-devel@lists.freedesktop.org
+Date: Tue, 25 Feb 2020 11:27:58 -0800
+Message-ID: <158265887882.177367.3011043098001339741@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,122 +65,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Alexios Zavras <alexios.zavras@intel.com>, linux-arm-msm@vger.kernel.org,
+ Drew Davenport <ddavenport@chromium.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
-
-Dne torek, 25. februar 2020 ob 09:52:18 CET je Chen-Yu Tsai napisal(a):
-> On Tue, Feb 25, 2020 at 4:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > Hi,
-> > 
-> > On Mon, Feb 24, 2020 at 06:39:00PM +0100, Jernej Skrabec wrote:
-> > > Now that de2_fmt_info contains only DRM <-> HW format mapping, it
-> > > doesn't make sense to return pointer to structure when searching by DRM
-> > > format. Rework that to return only HW format instead.
-> > > 
-> > > This doesn't make any functional change.
-> > > 
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > ---
-> > > 
-> > >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 15 +++++++++++----
-> > >  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  7 +------
-> > >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 10 +++++-----
-> > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 12 ++++++------
-> > >  4 files changed, 23 insertions(+), 21 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > b/drivers/gpu/drm/sun4i/sun8i_mixer.c index e078ec96de2d..56cc037fd312
-> > > 100644
-> > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > @@ -27,6 +27,11 @@
-> > > 
-> > >  #include "sun8i_vi_layer.h"
-> > >  #include "sunxi_engine.h"
-> > > 
-> > > +struct de2_fmt_info {
-> > > +     u32     drm_fmt;
-> > > +     u32     de2_fmt;
-> > > +};
-> > > +
-> > > 
-> > >  static const struct de2_fmt_info de2_formats[] = {
-> > >  
-> > >       {
-> > >       
-> > >               .drm_fmt = DRM_FORMAT_ARGB8888,
-> > > 
-> > > @@ -230,15 +235,17 @@ static const struct de2_fmt_info de2_formats[] = {
-> > > 
-> > >       },
-> > >  
-> > >  };
-> > > 
-> > > -const struct de2_fmt_info *sun8i_mixer_format_info(u32 format)
-> > > +int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format)
-> > > 
-> > >  {
-> > >  
-> > >       unsigned int i;
-> > >       
-> > >       for (i = 0; i < ARRAY_SIZE(de2_formats); ++i)
-> > > 
-> > > -             if (de2_formats[i].drm_fmt == format)
-> > > -                     return &de2_formats[i];
-> > > +             if (de2_formats[i].drm_fmt == format) {
-> > > +                     *hw_format = de2_formats[i].de2_fmt;
-> > > +                     return 0;
-> > > +             }
-> > > 
-> > > -     return NULL;
-> > > +     return -EINVAL;
-> > > 
-> > >  }
-> > 
-> > I'm not too sure about that one. It breaks the consistency with the
-> > other functions, and I don't really see a particular benefit to it?
+Quoting Drew Davenport (2020-02-19 09:42:24)
+> Several functions arguments in the resource manager are unused, so
+> remove them.
 > 
+> Signed-off-by: Drew Davenport <ddavenport@chromium.org>
+> ---
 
-I don't have strong opinion about this patch. It can be dropped.
-
-> I guess we could just define an "invalid" value, and have the function
-> return that if can't find a match? I'm guessing 0x0 is valid, so maybe
-> 0xffffffff or 0xdeadbeef ?
-> 
-> That would keep consistency with everything else all the while
-> removing the level of indirection you wanted to.
-
-I modeled this after 
-static int sun4i_backend_drm_format_to_layer(u32 format, u32 *mode);
-from sun4i_backend.c.
-
-What consistency do you have in mind?
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
 > 
-> ChenYu
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 37 ++++++++++----------------
+>  1 file changed, 14 insertions(+), 23 deletions(-)
 > 
-> > The rest of the series is
-> > Acked-by: Maxime Ripard <mripard@kernel.org>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 23f5b1433b357..dea1dba441fe7 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -144,8 +144,7 @@ static int _dpu_rm_hw_blk_create(
+>                 const struct dpu_mdss_cfg *cat,
+>                 void __iomem *mmio,
+>                 enum dpu_hw_blk_type type,
+> -               uint32_t id,
+> -               const void *hw_catalog_info)
+> +               uint32_t id)
 
-Thanks!
-
-Best regards,
-Jernej
-
-> > 
-> > Maxime
-
-
-
-
+It would be good to use u32 instead of uint32_t in this code too. The
+kernel style is to use the shorter name for that type.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
