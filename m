@@ -1,40 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AA516C3A4
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 15:17:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFABE16C3A9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 15:17:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B5A6EAE8;
-	Tue, 25 Feb 2020 14:17:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF6EB6EAEB;
+	Tue, 25 Feb 2020 14:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B8716EAE8
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 14:17:03 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98BDB43F;
- Tue, 25 Feb 2020 15:17:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582640221;
- bh=sZZG678FJ2JreTGUkYa0F2UpGMGiy+FTyQpon9jVA/U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lxX6Rz7nqlSz2r44ey7qjfRZ6Wx4F18qKUoW/gTYW4MEX7cjA+3IT0Va9yZZ+7vfk
- l6FWtMh+VSgti8pTb4/JEGAS2N3q0G7PkMApvtAFW/Tyzr+4l3GJIdgx9xQh/bxK7i
- 3f6mPWghHEm5o/sLJqVFhR1+f/UvyOkHgmv1cCZw=
-Date: Tue, 25 Feb 2020 16:16:41 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCHv2 07/56] drm/omap: dsi: add generic transfer function
-Message-ID: <20200225141641.GF4764@pendragon.ideasonboard.com>
-References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
- <20200224232126.3385250-8-sebastian.reichel@collabora.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38F736EAEB;
+ Tue, 25 Feb 2020 14:17:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2020 06:17:49 -0800
+X-IronPort-AV: E=Sophos;i="5.70,484,1574150400"; d="scan'208";a="231032368"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2020 06:17:38 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Dave Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Hans de Goede <hdegoede@redhat.com>,
+ Eric Anholt <eric@anholt.net>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Thomas Hellstrom <thellstrom@vmware.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH][next] drm: Replace zero-length array with flexible-array
+ member
+In-Reply-To: <20200225140347.GA22864@embeddedor>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200225140347.GA22864@embeddedor>
+Date: Tue, 25 Feb 2020 16:17:35 +0200
+Message-ID: <87a756sqdc.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200224232126.3385250-8-sebastian.reichel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,142 +57,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-omap@vger.kernel.org
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, spice-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
-
-Thank you for the patch.
-
-On Tue, Feb 25, 2020 at 12:20:37AM +0100, Sebastian Reichel wrote:
-> This prepares the driver for becoming a mipi_dsi_host implementation,
-> which provides a generic transfer function instead of all kind of
-> different read/write functions. The implementation will become more
-> elegant after unexporting the specific functions in the following
-> patches.
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+On Tue, 25 Feb 2020, "Gustavo A. R. Silva" <gustavo@embeddedor.com> wrote:
+> The current codebase makes use of the zero-length array language
+> extension to the C90 standard, but the preferred mechanism to declare
+> variable-length types such as these ones is a flexible array member[1][2],
+> introduced in C99:
+>
+> struct foo {
+>         int stuff;
+>         struct boo array[];
+> };
+>
+> By making use of the mechanism above, we will get a compiler warning
+> in case the flexible array does not occur last in the structure, which
+> will help us prevent some kind of undefined behavior bugs from being
+> inadvertently introduced[3] to the codebase from now on.
+>
+> Also, notice that, dynamic memory allocations won't be affected by
+> this change:
+>
+> "Flexible array members have incomplete type, and so the sizeof operator
+> may not be applied. As a quirk of the original implementation of
+> zero-length arrays, sizeof evaluates to zero."[1]
+>
+> This issue was found with the help of Coccinelle.
+>
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://github.com/KSPP/linux/issues/21
+> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+>
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 > ---
->  drivers/gpu/drm/omapdrm/dss/dsi.c     | 52 +++++++++++++++++++++++++++
->  drivers/gpu/drm/omapdrm/dss/omapdss.h |  3 ++
->  2 files changed, 55 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index f01e0476296d..84e2eb0b51d7 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -4836,6 +4836,56 @@ static void dsi_release_vc(struct omap_dss_device *dssdev, int channel)
->  	}
->  }
->  
-> +static ssize_t omap_dsi_transfer(struct omap_dss_device *dssdev,
-> +				 const struct mipi_dsi_msg *msg)
-> +{
-> +	/*
-> +	 * no_sync can be used to optimize performance by sending
-> +	 * e.g. column and page information without syncing in
-> +	 * between. It's not absolutley required, so postpone this
-> +	 * feature for now.
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.h         | 2 +-
+>  drivers/gpu/drm/gma500/intel_bios.h           | 2 +-
+>  drivers/gpu/drm/i915/display/intel_vbt_defs.h | 4 ++--
+>  drivers/gpu/drm/i915/gt/intel_lrc.c           | 2 +-
+>  drivers/gpu/drm/i915/i915_gpu_error.h         | 2 +-
 
-The 80 columns limit is quite small as it is, no need to make it even
-tighter :-)
+Please split out the i915 changes to a separate patch.
 
-> +	 */
-> +	bool no_sync = false;
-> +	u16 val;
-> +
-> +	switch (msg->type) {
-> +	case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
-> +	case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
-> +	case MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM:
-> +	case MIPI_DSI_GENERIC_LONG_WRITE:
-> +		if (no_sync)
-> +			return dsi_vc_generic_write_nosync(dssdev, msg->channel,
-> +				                      msg->tx_buf, msg->tx_len);
+>  drivers/gpu/drm/msm/msm_gem.h                 | 2 +-
+>  drivers/gpu/drm/qxl/qxl_cmd.c                 | 2 +-
+>  drivers/gpu/drm/vboxvideo/vboxvideo.h         | 2 +-
+>  drivers/gpu/drm/vc4/vc4_drv.h                 | 2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c    | 2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       | 2 +-
+>  include/drm/bridge/mhl.h                      | 4 ++--
+>  include/drm/drm_displayid.h                   | 2 +-
+>  include/uapi/drm/i915_drm.h                   | 4 ++--
 
-This uses spaces for indentation (and the result isn't aligned to ().
+Not sure it's worth touching uapi headers. They're full of both [0] and
+[]. Again, please at least split it to a separate patch to be decided
+separately.
 
-> +		else
-> +			return dsi_vc_generic_write(dssdev, msg->channel,
-> +						    msg->tx_buf, msg->tx_len);
-> +	case MIPI_DSI_DCS_SHORT_WRITE:
-> +	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
-> +	case MIPI_DSI_DCS_LONG_WRITE:
-> +		if (no_sync)
-> +			return dsi_vc_dcs_write_nosync(dssdev, msg->channel,
-> +						      msg->tx_buf, msg->tx_len);
+BR,
+Jani.
 
-Misaligned indentation here too.
-
-> +		else
-> +			return dsi_vc_dcs_write(dssdev, msg->channel,
-> +						msg->tx_buf, msg->tx_len);
-> +	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
-> +	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
-> +	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
-> +		return dsi_vc_generic_read(dssdev, msg->channel, msg->tx_buf,
-> +				msg->tx_len, msg->rx_buf, msg->rx_len);
-
-And here.
-
-> +	case MIPI_DSI_DCS_READ:
-> +		return dsi_vc_dcs_read(dssdev, msg->channel,
-> +				((u8*) msg->tx_buf)[0],
-> +				msg->rx_buf, msg->rx_len);
-
-And I think you get the message :-)
-
-> +	case MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE:
-> +		val = le16_to_cpu(*((__le16*) msg->tx_buf));
-> +		return dsi_vc_set_max_rx_packet_size(dssdev, msg->channel, val);
-> +	case MIPI_DSI_NULL_PACKET:
-> +		return dsi_vc_send_null(to_dsi_data(dssdev), msg->channel);
-> +	}
-> +
-> +	return -EINVAL;
-> +}
->  
->  static int dsi_get_clocks(struct dsi_data *dsi)
->  {
-> @@ -4890,6 +4940,8 @@ static const struct omap_dss_device_ops dsi_ops = {
->  		.set_vc_id = dsi_set_vc_id,
->  		.release_vc = dsi_release_vc,
->  
-> +		.transfer = omap_dsi_transfer,
-> +
->  		.dcs_write = dsi_vc_dcs_write,
->  		.dcs_write_nosync = dsi_vc_dcs_write_nosync,
->  		.dcs_read = dsi_vc_dcs_read,
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index b909b3a8c835..ea7bf0970677 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -307,6 +307,9 @@ struct omapdss_dsi_ops {
->  	void (*release_vc)(struct omap_dss_device *dssdev, int channel);
->  
->  	/* data transfer */
-> +	ssize_t (*transfer)(struct omap_dss_device *dssdev,
-> +			const struct mipi_dsi_msg *msg);
-
-Ditto. With those small issues fixed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
->  	int (*dcs_write)(struct omap_dss_device *dssdev, int channel,
->  			const u8 *data, int len);
->  	int (*dcs_write_nosync)(struct omap_dss_device *dssdev, int channel,
 
 -- 
-Regards,
-
-Laurent Pinchart
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
