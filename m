@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1A716EA34
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 16:34:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4CF16EA5A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 16:45:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7BCA6E8CA;
-	Tue, 25 Feb 2020 15:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA9C6E8EB;
+	Tue, 25 Feb 2020 15:45:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB20E6E8CA;
- Tue, 25 Feb 2020 15:34:04 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5955F6E8DB;
+ Tue, 25 Feb 2020 15:45:15 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2020 07:34:03 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2020 07:45:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,484,1574150400"; d="scan'208";a="271349579"
+X-IronPort-AV: E=Sophos;i="5.70,484,1574150400"; d="scan'208";a="231057172"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga002.fm.intel.com with SMTP; 25 Feb 2020 07:34:00 -0800
+ by orsmga008.jf.intel.com with SMTP; 25 Feb 2020 07:45:07 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 25 Feb 2020 17:34:00 +0200
-Date: Tue, 25 Feb 2020 17:34:00 +0200
+ Tue, 25 Feb 2020 17:45:06 +0200
+Date: Tue, 25 Feb 2020 17:45:06 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH] drm: avoid spurious EBUSY due to nonblocking
- atomic modesets
-Message-ID: <20200225153400.GE13686@intel.com>
-References: <20200225115024.2386811-1-daniel.vetter@ffwll.ch>
- <20200225144814.GC13686@intel.com>
- <CAKMK7uFKJd1G8qT2Kup8nOfp22V7eQmDZC=6bdU=UEpqO7K3QQ@mail.gmail.com>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [PATCH 04/12] drm: Nuke mode->vrefresh
+Message-ID: <20200225154506.GF13686@intel.com>
+References: <20200219203544.31013-1-ville.syrjala@linux.intel.com>
+ <CGME20200219203620eucas1p24b4990a91e758dbcf3e9b943669b0c8f@eucas1p2.samsung.com>
+ <20200219203544.31013-5-ville.syrjala@linux.intel.com>
+ <0f278771-79ce-fe23-e72c-3935dbe82d24@samsung.com>
+ <20200225112114.GA13686@intel.com>
+ <3ca785f2-9032-aaf9-0965-8657d31116ba@samsung.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uFKJd1G8qT2Kup8nOfp22V7eQmDZC=6bdU=UEpqO7K3QQ@mail.gmail.com>
+In-Reply-To: <3ca785f2-9032-aaf9-0965-8657d31116ba@samsung.com>
 X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,133 +52,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, nouveau@lists.freedesktop.org,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Hellstrom <thellstrom@vmware.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Icenowy Zheng <icenowy@aosc.io>, Jonas Karlman <jonas@kwiboo.se>,
+ intel-gfx@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ Vincent Abriou <vincent.abriou@st.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Purism Kernel Team <kernel@puri.sm>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2020 at 04:09:26PM +0100, Daniel Vetter wrote:
-> On Tue, Feb 25, 2020 at 3:48 PM Ville Syrj=E4l=E4
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Tue, Feb 25, 2020 at 12:50:24PM +0100, Daniel Vetter wrote:
-> > > When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
-> > > pull in arbitrary other resources, including CRTCs (e.g. when
-> > > reconfiguring global resources).
-> > >
-> > > But in nonblocking mode userspace has then no idea this happened,
-> > > which can lead to spurious EBUSY calls, both:
-> > > - when that other CRTC is currently busy doing a page_flip the
-> > >   ALLOW_MODESET commit can fail with an EBUSY
-> > > - on the other CRTC a normal atomic flip can fail with EBUSY because
-> > >   of the additional commit inserted by the kernel without userspace's
-> > >   knowledge
-> > >
-> > > For blocking commits this isn't a problem, because everyone else will
-> > > just block until all the CRTC are reconfigured. Only thing userspace
-> > > can notice is the dropped frames without any reason for why frames got
-> > > dropped.
-> > >
-> > > Consensus is that we need new uapi to handle this properly, but no one
-> > > has any idea what exactly the new uapi should look like. As a stop-gap
-> > > plug this problem by demoting nonblocking commits which might cause
-> > > issues by including CRTCs not in the original request to blocking
-> > > commits.
-> > >
-> > > v2: Add comments and a WARN_ON to enforce this only when allowed - we
-> > > don't want to silently convert page flips into blocking plane updates
-> > > just because the driver is buggy.
-> > >
-> > > v3: Fix inverted WARN_ON (Pekka).
-> > >
-> > > References: https://lists.freedesktop.org/archives/dri-devel/2018-Jul=
-y/182281.html
-> > > Bugzilla: https://gitlab.freedesktop.org/wayland/weston/issues/24#not=
-e_9568
-> > > Cc: Daniel Stone <daniel@fooishbar.org>
-> > > Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> > > Cc: stable@vger.kernel.org
-> > > Reviewed-by: Daniel Stone <daniels@collabora.com>
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_atomic.c | 34 +++++++++++++++++++++++++++++++---
-> > >  1 file changed, 31 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomi=
-c.c
-> > > index 9ccfbf213d72..4c035abf98b8 100644
-> > > --- a/drivers/gpu/drm/drm_atomic.c
-> > > +++ b/drivers/gpu/drm/drm_atomic.c
-> > > @@ -1362,15 +1362,43 @@ EXPORT_SYMBOL(drm_atomic_commit);
-> > >  int drm_atomic_nonblocking_commit(struct drm_atomic_state *state)
-> > >  {
-> > >       struct drm_mode_config *config =3D &state->dev->mode_config;
-> > > -     int ret;
-> > > +     unsigned requested_crtc =3D 0;
-> > > +     unsigned affected_crtc =3D 0;
-> > > +     struct drm_crtc *crtc;
-> > > +     struct drm_crtc_state *crtc_state;
-> > > +     bool nonblocking =3D true;
-> > > +     int ret, i;
-> > > +
-> > > +     /*
-> > > +      * For commits that allow modesets drivers can add other CRTCs =
-to the
-> > > +      * atomic commit, e.g. when they need to reallocate global reso=
-urces.
-> > > +      *
-> > > +      * But when userspace also requests a nonblocking commit then u=
-serspace
-> > > +      * cannot know that the commit affects other CRTCs, which can r=
-esult in
-> > > +      * spurious EBUSY failures. Until we have better uapi plug this=
- by
-> > > +      * demoting such commits to blocking mode.
-> > > +      */
-> > > +     for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-> > > +             requested_crtc |=3D drm_crtc_mask(crtc);
-> > >
-> > >       ret =3D drm_atomic_check_only(state);
-> > >       if (ret)
-> > >               return ret;
-> > >
-> > > -     DRM_DEBUG_ATOMIC("committing %p nonblocking\n", state);
-> > > +     for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-> > > +             affected_crtc |=3D drm_crtc_mask(crtc);
-> > > +
-> > > +     if (affected_crtc !=3D requested_crtc) {
-> > > +             /* adding other CRTC is only allowed for modeset commit=
-s */
-> > > +             WARN_ON(!state->allow_modeset);
-> >
-> > Not sure that's really true. What if the driver needs to eg.
-> > redistribute FIFO space or something between the pipes? Or do we
-> > expect drivers to now examine state->allow_modeset to figure out
-> > if they're allowed to do certain things?
+On Tue, Feb 25, 2020 at 04:19:27PM +0100, Andrzej Hajda wrote:
+> On 25.02.2020 12:21, Ville Syrj=E4l=E4 wrote:
+> > On Mon, Feb 24, 2020 at 03:14:54PM +0100, Andrzej Hajda wrote:
+> >> On 19.02.2020 21:35, Ville Syrjala wrote:
+> >>> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> >>>
+> >>> Get rid of mode->vrefresh and just calculate it on demand. Saves
+> >>> a bit of space and avoids the cached value getting out of sync
+> >>> with reality.
+> >>>
+> >>> Mostly done with cocci, with the following manual fixups:
+> >>> - Remove the now empty loop in drm_helper_probe_single_connector_mode=
+s()
+> >>> - Fix __MODE() macro in ch7006_mode.c
+> >>> - Fix DRM_MODE_ARG() macro in drm_modes.h
+> >>> - Remove leftover comment from samsung_s6d16d0_mode
+> >> ...
+> >>> diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gp=
+u/drm/panel/panel-arm-versatile.c
+> >>> index 41444a73c980..47b37fef7ee8 100644
+> >>> --- a/drivers/gpu/drm/panel/panel-arm-versatile.c
+> >>> +++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
+> >>> @@ -143,7 +143,6 @@ static const struct versatile_panel_type versatil=
+e_panels[] =3D {
+> >>>  			.vsync_start =3D 240 + 5,
+> >>>  			.vsync_end =3D 240 + 5 + 6,
+> >>>  			.vtotal =3D 240 + 5 + 6 + 5,
+> >>> -			.vrefresh =3D 116,
+> >>
+> >> Are you sure vrefresh calculated (from totals and clock) is different
+> >> than this field? If not, we risk regressions.
+> >>
+> >> This case is OK, but there is plenty other cases.
+> > IIRC I did spot check a few of them. But which code exactly do you think
+> > is abusing vrefresh and thus could break?
 > =
 
-> Maybe we need more fine-grained flags here, but adding other states
-> (and blocking a commit flow) is exactly the uapi headaches this patch
-> tries to solve here. So if our driver currently adds crtc states to
-> reallocate fifo between pipes for an atomic flip then yes we're
-> breaking userspace. Well, everyone figured out by now that you get
-> random EBUSY and dropped frames for no apparent reason at all, and
-> work around it. But happy, they are not.
+> =
 
-I don't think we do this currently for the FIFO, but in theory we
-could.
+> I guess suspect/potential victim is every code which uses
+> drm_mode_vrefresh - after this patch the function can return different
+> value(if there are differences between provided and calculated vrefresh).
+> =
 
-The one thing we might do currently is cdclk reprogramming, but that
-can only happen without a full modeset when there's only a single
-active pipe. So we shouldn't hit this right now. But that restriction
-is going to disappear in the future, at which point we may want to
-do this even with multiple active pipes.
+> Quick examples where output of this function matters:
+> =
+
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/msm/disp/d=
+pu1/dpu_encoder_phys_cmd.c#L387
+
+Already looks quite sketchy due to rounding.
+
+> =
+
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/pane=
+l-sharp-lq101r1sx01.c#L42
+
+msleep() is in no way accurate so looks rather sketchy as well.
+
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/tilcdc/til=
+cdc_crtc.c#L810
+
+Another thing that suffers from rounding issues.
+
+So to me these all look like code that someone should fix regardless.
 
 -- =
 
