@@ -2,53 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB06016F918
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA38916F90A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:09:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA0F6E1B8;
-	Wed, 26 Feb 2020 08:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A7CB6E19A;
+	Wed, 26 Feb 2020 08:08:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 454F16EB8B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:33:25 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id q8so30696ljb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 10:33:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e5EGcMO8YtdeJxBau2+zHu8607za5d5qtbP1osazEoQ=;
- b=ifyvEaoLmwd+b6Bswlk1zg8jXTn3f6NtO8iYcfMtPiYuqydC38F38UP41PM0STGATd
- VgTlgNpgNXMlqu9Fey/wCWJh5JbhgnjL99vLyX0HFeLJDZE/ANhTLYSoGA9uiMmpZdGD
- SiuTf81jtxTLxXSk3T/FEcO7PWE9f/Wbw5gEpewIlMwTa6t6UfN9qXP1EFUxc8Y27mtp
- Sv3F31EhxLBJII1ajmSLKWMb8haHJkp9+N/AHlJIeguDKCvKAuoNw13+4O8VD3t+fU+Y
- tDVD8StghRHgTKYDMJrTLqSQLzKOM38ZL4hgwVrEFB1M5wXtg1eyU3f+OXS3b84B/rgU
- gwXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e5EGcMO8YtdeJxBau2+zHu8607za5d5qtbP1osazEoQ=;
- b=hq/6lQp0rnUXe2gYlRg7VXoMPYUufCrjdn/vMbgbEGTQCqSPrcrasDvQbusCBvhsgJ
- 01iDo/OVe6V3GyqiuGsfqfHOKXAO5fMJ8mQNQVyEKeZwE0bl4PSh8XS945BYDd8hwsqL
- QkyAfhdOLY8Ec/w8IvTlN+Qj7PbeNm2DS48pzmh5RY8hwEWZwbYmiox5V1X0kBwcOxWm
- /AnX2jvPGFLUt20P32WwnCASVlzZN5nk+NDd74XWhSTHJONsjJfigXxVhkby9WVvi1D8
- xHXupk6X3KpdlTJbsOuyfTzQKZOSJzoUEfMbXHjKU2P5xQCgVlpesoDyeMCFS69vGoPm
- hllw==
-X-Gm-Message-State: ANhLgQ3Uff3ut4CJhYBZX5li/6t04wmbiXP417s7YHJkmAZd+4zebpNj
- 320CPLP/1xnSLPUS1W4LjUvU6YdQRtaVq0e9Qgc=
-X-Google-Smtp-Source: APXvYqwcppQXzUDhu0fmcgOvTxCvhiMOKeT3KaPbAavAzvh4Ef9vtyHxPHrJhYoEIn71WJL6/qtnmtGH06weSoNnZ2k=
-X-Received: by 2002:a2e:7e11:: with SMTP id z17mr210314ljc.279.1582655603192; 
- Tue, 25 Feb 2020 10:33:23 -0800 (PST)
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 90CE46EB8B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 18:37:41 +0000 (UTC)
+Received: from hillo.muru.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTP id 9F06E810E;
+ Tue, 25 Feb 2020 18:38:25 +0000 (UTC)
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: [PATCH] drm/omap: Fix drm_handle_vblank() handling for command mode
+ panels
+Date: Tue, 25 Feb 2020 10:37:33 -0800
+Message-Id: <20200225183733.50875-1-tony@atomide.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200224230155.120894-1-ytht.net@gmail.com>
- <20200225102928.vnaamhecu5tnoaq2@sirius.home.kraxel.org>
-In-Reply-To: <20200225102928.vnaamhecu5tnoaq2@sirius.home.kraxel.org>
-From: lepton <ytht.net@gmail.com>
-Date: Tue, 25 Feb 2020 10:33:11 -0800
-Message-ID: <CALqoU4wtYQtLg=wVkepP29wYZYKKVx3PA1Nytfy+fZdqrp-_Jg@mail.gmail.com>
-Subject: Re: RFC: drm/virtio: Dummy virtio GPU
-To: Gerd Hoffmann <kraxel@redhat.com>
 X-Mailman-Approved-At: Wed, 26 Feb 2020 08:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,59 +36,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Merlijn Wajer <merlijn@wizzup.org>, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org, ruleh <ruleh@gmx.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2020 at 2:29 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Mon, Feb 24, 2020 at 03:01:54PM -0800, Lepton Wu wrote:
-> > Hi,
-> >
-> > I'd like to get comments on this before I polish it. This is a
-> > simple way to get something similar with vkms but it heavily reuse
-> > the code provided by virtio-gpu. Please feel free to give me any
-> > feedbacks or comments.
->
-> No.
->
-> First, what is wrong with vkms?
-The total lines of vkms driver is 1.2k+. I think it doesn't work along
-itself to provide things like  mmap on prime fd? (I tried it months
-ago). Of course, that could be fixed, but then it will bring more
-code.  While my "dummy
-virtio" code is only around  100 lines. And more, my "dummy virtio"
-device actually doesn't really depends on drm system so it's easier to
-back port to old kernel.
+When trying to run weston on droid4 with the updated sgx blobs, the LCD
+is just black and not updating. Weston also displays the following on
+startup:
 
+Warning: computed repaint delay is insane: -205475 msec
 
+Weston runs fine on the HDMI alone though, and the issue was narrowed
+down to an issue with vblank as suggested by ruleh <ruleh@gmx.de>.
 
->
->
-> Second, if you really want something simple with the minimal set of drm
-> features possible you can write a rather small but still self-contained
-> driver when using all the drm helpers (shmem, simple display pipe) we
-> have these days.  Copy cirrus, strip it down: drop modesetting code,
-> drop blit-from-shmem-to-vram code, drop pci probing.  Maybe add module
-> options for max/default video mode.  Done.
-I need features like prime export/import, mmap on prime fd etc. And
-I'd like the code could work on different kernel version. So if go
-with this ways, the actually add more maintain cost in the long term?
-since any
-changes at drm frame work could need change to it.
->
-> What is the use case btw?
-We have images works well under qemu + virtio vga, we'd like to run
-these images on public cloud service like Google GCE directly.  So I
-got the idea that if some how we can run virtio stack without vmm
-support. That
-actually would help and also let the same image run on other cloud services.
->
-> cheers,
->   Gerd
->
+Turns out that for command mode displays, we're not currently calling
+drm_handle_vblank() at all since omap_irq_handler() won't do it for
+us since we get no vblank interrupts. Let's fix the issue by calling
+drm_handle_vblank() and omap_crtc_vblank_irq() for command mode
+displays from omap_crtc_framedone_irq(). And we can now remove the
+old partial handling in omap_crtc_framedone_irq().
+
+For reference, below is my current weston.ini. The repaint-window is
+maxed out to force immediate repaint instead of the default 7 ms.
+Otherwise it seems that the repaint is happening at about 60 fps with
+es2gears_wayland compared to about 130 fps where it seems to max out.
+
+[core]
+xwayland=true
+backend=drm-backend.so
+repaint-window=1000
+pageflip-timeout=1000
+
+[libinput]
+rotation=0
+
+[output]
+name=DSI-1
+transform=90
+
+[output]
+name=HDMI-1
+mode=1024x768@60
+
+Fixes: 47103a80f55a ("drm/omap: add framedone interrupt support")
+Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc: Merlijn Wajer <merlijn@wizzup.org>
+Cc: Sebastian Reichel <sre@kernel.org>
+Cc: ruleh <ruleh@gmx.de>
+Signed-off-by: Tony Lindgren <tony@atomide.com>
+---
+
+Only lightly tested so far, please test. Also, I'm not sure if we
+should get the id from somewhere for drm_handle_vblank() instead of
+just using 0?
+
+---
+ drivers/gpu/drm/omapdrm/omap_crtc.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -326,21 +326,19 @@ void omap_crtc_vblank_irq(struct drm_crtc *crtc)
+ 
+ void omap_crtc_framedone_irq(struct drm_crtc *crtc, uint32_t irqstatus)
+ {
++	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
++	struct drm_device *dev = crtc->dev;
+ 
+ 	if (!omap_crtc->framedone_handler)
+ 		return;
+ 
+-	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
+-
+-	spin_lock(&crtc->dev->event_lock);
+-	/* Send the vblank event if one has been requested. */
+-	if (omap_crtc->event) {
+-		drm_crtc_send_vblank_event(crtc, omap_crtc->event);
+-		omap_crtc->event = NULL;
++	if (omap_state->manually_updated) {
++		drm_handle_vblank(dev, 0);
++		omap_crtc_vblank_irq(crtc);
+ 	}
+-	omap_crtc->pending = false;
+-	spin_unlock(&crtc->dev->event_lock);
++
++	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
+ 
+ 	/* Wake up omap_atomic_complete. */
+ 	wake_up(&omap_crtc->pending_wait);
+-- 
+2.25.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
