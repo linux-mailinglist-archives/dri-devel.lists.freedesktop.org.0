@@ -2,71 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6327F16B72E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 02:29:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C888B16B775
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Feb 2020 03:00:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12EE6E9C9;
-	Tue, 25 Feb 2020 01:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A62F6E9D1;
+	Tue, 25 Feb 2020 02:00:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0EA76E9C9
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 01:29:13 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2020 17:29:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,482,1574150400"; d="scan'208";a="241177888"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by orsmga006.jf.intel.com with ESMTP; 24 Feb 2020 17:29:12 -0800
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 24 Feb 2020 17:29:12 -0800
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 24 Feb 2020 17:29:11 -0800
-Received: from shsmsx154.ccr.corp.intel.com (10.239.6.54) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Mon, 24 Feb 2020 17:29:11 -0800
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.5]) by
- SHSMSX154.ccr.corp.intel.com ([169.254.7.141]) with mapi id 14.03.0439.000;
- Tue, 25 Feb 2020 09:29:09 +0800
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Chia-I Wu <olvaffe@gmail.com>, "Christopherson, Sean J"
- <sean.j.christopherson@intel.com>
-Subject: RE: [RFC PATCH 0/3] KVM: x86: honor guest memory type
-Thread-Topic: [RFC PATCH 0/3] KVM: x86: honor guest memory type
-Thread-Index: AQHV4rTrI5AbOd4/PkCv4vZnvR6EuagZISQAgAAKbYCAAMs9AIAAnj+AgAAgCACAAAK0AIAAAeyAgAXrxoCAAaZGgIAAIIsAgADkwxCAABT4UIAAx02AgACimmD//8gUAIAAAZSAgACPE8CAACuogIAAJ5gAgAWxe0A=
-Date: Tue, 25 Feb 2020 01:29:09 +0000
-Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D79A7BE@SHSMSX104.ccr.corp.intel.com>
-References: <d3a6fac6-3831-3b8e-09b6-bfff4592f235@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D78D6F4@SHSMSX104.ccr.corp.intel.com>
- <CAPaKu7RyTbuTPf0Tp=0DAD80G-RySLrON8OQsHJzhAYDh7zHuA@mail.gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D78EE65@SHSMSX104.ccr.corp.intel.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D78EF58@SHSMSX104.ccr.corp.intel.com>
- <CAPaKu7RFY3nar9hmAdx6RYdZFPK3Cdg1O3cS+OvsEOT=yupyrQ@mail.gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D792415@SHSMSX104.ccr.corp.intel.com>
- <CAPaKu7RHu5rz1Dvkvp4SDrZ0fAYq37xwRqUsdAiOmRTOz2sFTw@mail.gmail.com>
- <CAPaKu7RaF3+amPwdVBLj6q1na7JWUYuuWDN5XPwNYFB8Hpqi+w@mail.gmail.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D79359E@SHSMSX104.ccr.corp.intel.com>
- <20200221155939.GG12665@linux.intel.com>
- <CAPaKu7Qjnur=ntTXmGn7L38UaCoNjf6avWBk7xTvO6eDkZbWFQ@mail.gmail.com>
-In-Reply-To: <CAPaKu7Qjnur=ntTXmGn7L38UaCoNjf6avWBk7xTvO6eDkZbWFQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMzU3OGNhOTQtMjAzNC00YzJmLWJjMDAtM2YxZDE1ZjAwM2M1IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiUkZ0TjZUamxMcU5ENHluMlp6TUM4ZDZmK1hpQ01yN2FiVU1hNVp6M1ROZlpvaVFxZ21JUFBWK0x4UkdwbTRLOCJ9
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C337C6E9D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 02:00:45 +0000 (UTC)
+X-UUID: ffdbcc20232d4d8a824edf5a85ee436c-20200225
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=HaqLyinc6ZirvAps70soCVJsRIpjo20L+48UAgoY2jA=; 
+ b=fgOxigzGsrgpnE0iUci3Grn0QRBfxYEd4U1Z6VoQljpcg5snYwxVj32J/b5XgDIpFFBM8UExHRZmsDRLGEXvxDLeq31HCBdNyBnoF9JZitrqssw3qkpMmn+jLLA6lLW5EJwoK234SIfX4v5AvWnO9owkl8s18HN5+i4JuQd/zXU=;
+X-UUID: ffdbcc20232d4d8a824edf5a85ee436c-20200225
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 1546924655; Tue, 25 Feb 2020 10:00:40 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Tue, 25 Feb 2020 10:01:14 +0800
+Received: from [10.16.6.141] (10.16.6.141) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 25 Feb 2020 10:01:07 +0800
+Message-ID: <1582596033.12484.1.camel@mszsdaap41>
+Subject: Re: [PATCH v6 1/4] dt-bindings: display: mediatek: update dpi
+ supported chips
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>
+Date: Tue, 25 Feb 2020 10:00:33 +0800
+In-Reply-To: <1582530646.6520.2.camel@mtksdaap41>
+References: <20200221112828.55837-1-jitao.shi@mediatek.com>
+ <20200221112828.55837-2-jitao.shi@mediatek.com>
+ <1582530646.6520.2.camel@mtksdaap41>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: F8BB90EA16B0F142ADAEB685CD52782DC2B7D7467C6F174C8B79AFA650CE00C32000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,98 +55,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> From: Chia-I Wu <olvaffe@gmail.com>
-> Sent: Saturday, February 22, 2020 2:21 AM
+On Mon, 2020-02-24 at 15:50 +0800, CK Hu wrote:
+> Hi, Jitao:
 > 
-> On Fri, Feb 21, 2020 at 7:59 AM Sean Christopherson
-> <sean.j.christopherson@intel.com> wrote:
-> >
-> > On Thu, Feb 20, 2020 at 09:39:05PM -0800, Tian, Kevin wrote:
-> > > > From: Chia-I Wu <olvaffe@gmail.com>
-> > > > Sent: Friday, February 21, 2020 12:51 PM
-> > > > If you think it is the best for KVM to inspect hva to determine the
-> memory
-> > > > type with page granularity, that is reasonable and should work for us
-> too.
-> > > > The userspace can do something (e.g., add a GPU driver dependency to
-> the
-> > > > hypervisor such that the dma-buf is imported as a GPU memory and
-> mapped
-> > > > using
-> > > > vkMapMemory) or I can work with dma-buf maintainers to see if dma-
-> buf's
-> > > > semantics can be changed.
-> > >
-> > > I think you need consider the live migration requirement as Paolo pointed
-> out.
-> > > The migration thread needs to read/write the region, then it must use the
-> > > same type as GPU process and guest to read/write the region. In such
-> case,
-> > > the hva mapped by Qemu should have the desired type as the guest.
-> However,
-> > > adding GPU driver dependency to Qemu might trigger some concern. I'm
-> not
-> > > sure whether there is generic mechanism though, to share dmabuf fd
-> between GPU
-> > > process and Qemu while allowing Qemu to follow the desired type w/o
-> using
-> > > vkMapMemory...
-> >
-> > Alternatively, KVM could make KVM_MEM_DMA and
-> KVM_MEM_LOG_DIRTY_PAGES
-> > mutually exclusive, i.e. force a transition to WB memtype for the guest
-> > (with appropriate zapping) when migration is activated.  I think that
-> > would work?
-> Hm, virtio-gpu does not allow live migration when the 3D function
-> (virgl=on) is enabled.  This is the relevant code in qemu:
+> On Fri, 2020-02-21 at 19:28 +0800, Jitao Shi wrote:
+> > Add decriptions about supported chips, including MT2701 & MT8173 &
+> > mt8183
+> > 
+> > 1. Add more chips support. ex. MT2701 & MT8173 & MT8183
+> > 2. Add property "dpi_pin_mode_swap" and "pinctrl-names" gpio mode dpi mode and
+> >    gpio oupput-low to avoid leakage current.
+> > 3. Add property "dpi_dual_edge" to config the dpi pin output mode dual edge or
+> >    single edge sample data.
+> > 
+> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > ---
+> >  .../bindings/display/mediatek/mediatek,dpi.txt        | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> > index b6a7e7397b8b..cd6a1469c8b7 100644
+> > --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> > +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> > @@ -7,6 +7,7 @@ output bus.
+> >  
+> >  Required properties:
+> >  - compatible: "mediatek,<chip>-dpi"
+> > +  the supported chips are mt2701 , mt8173 and mt8183.
+> >  - reg: Physical base address and length of the controller's registers
+> >  - interrupts: The interrupt signal from the function block.
+> >  - clocks: device clocks
+> > @@ -16,6 +17,11 @@ Required properties:
+> >    Documentation/devicetree/bindings/graph.txt. This port should be connected
+> >    to the input port of an attached HDMI or LVDS encoder chip.
+> >  
+> > +Optional properties:
+> > +- dpi_pin_mode_swap: Swap the pin mode between dpi mode and gpio mode.
 > 
->     if (virtio_gpu_virgl_enabled(g->conf)) {
->         error_setg(&g->migration_blocker, "virgl is not yet migratable");
+> When you have both pinctrl-name of "gpiomode" and "dpimode", it imply
+> that dpi_pin_mode_swap = true, isn't it? If so, I think this property is
+> redundant.
 > 
-> Although we (virtio-gpu and virglrenderer projects) plan to make host
-> GPU buffers available to the guest via memslots, those buffers should
-> be considered a part of the "GPU state".  The migration thread should
-> work with virglrenderer and let virglrenderer save/restore them, if
-> live migration is to be supported.
+> Regards,
+> CK
 
-Thanks for your explanation. Your RFC makes more sense now.
+Yes,I'll fix it next verision.
 
-One remaining open is, although for live migration we can explicitly
-state that migration thread itself should not access the dma-buf
-region, how can we warn other usages which may potentially simply
-walk every memslot and access the content through the mmap-ed
-virtual address? Possibly we may need a flag to indicate a memslot
-which is mmaped only for KVM to retrieve its page table mapping
-but not for direct access in Qemu. 
+Best Regards
+Jitao
 
 > 
-> QEMU depends on GPU drivers already when configured with
-> --enable-virglrenderer.  There is vhost-user-gpu that can move the
-> dependency to a GPU process.  But there are still going to be cases
-> (e.g., nVidia's proprietary driver does not support dma-buf) where
-> QEMU cannot avoid GPU driver dependency.
+> > +- pinctrl-names: Contain "gpiomode" and "dpimode".
+> > +- dpi_dual_edge: Control the RGB 24bit data on 12 pins or 24 pins.
+> > +
+> >  Example:
+> >  
+> >  dpi0: dpi@1401d000 {
+> > @@ -26,6 +32,11 @@ dpi0: dpi@1401d000 {
+> >  		 <&mmsys CLK_MM_DPI_ENGINE>,
+> >  		 <&apmixedsys CLK_APMIXED_TVDPLL>;
+> >  	clock-names = "pixel", "engine", "pll";
+> > +	dpi_dual_edge;
+> > +	dpi_pin_mode_swap;
+> > +	pinctrl-names = "gpiomode", "dpimode";
+> > +	pinctrl-0 = <&dpi_pin_gpio>;
+> > +	pinctrl-1 = <&dpi_pin_func>;
+> >  
+> >  	port {
+> >  		dpi0_out: endpoint {
 > 
 > 
-> 
-> 
-> > > Note this is orthogonal to whether introducing a new uapi or implicitly
-> checking
-> > > hva to favor guest memory type. It's purely about Qemu itself. Ideally
-> anyone
-> > > with the desire to access a dma-buf object should follow the expected
-> semantics.
-> > > It's interesting that dma-buf sub-system doesn't provide a centralized
-> > > synchronization about memory type between multiple mmap paths.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
