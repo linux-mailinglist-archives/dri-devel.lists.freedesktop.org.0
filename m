@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3FC17091C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 20:57:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E216170921
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 20:58:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 025626E480;
-	Wed, 26 Feb 2020 19:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B71E6EB9E;
+	Wed, 26 Feb 2020 19:58:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from youngberry.canonical.com (youngberry.canonical.com
  [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 345EF6E480
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 19:57:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0D0E6EB9E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 19:58:31 +0000 (UTC)
 Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
  by youngberry.canonical.com with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
  (envelope-from <colin.king@canonical.com>)
- id 1j72oN-0000Ge-8y; Wed, 26 Feb 2020 19:57:39 +0000
+ id 1j72p8-0000Jj-K4; Wed, 26 Feb 2020 19:58:26 +0000
 From: Colin King <colin.king@canonical.com>
 To: Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>,
@@ -25,10 +25,10 @@ To: Lee Jones <lee.jones@linaro.org>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Gyungoh Yoo <jack.yoo@skyworksinc.com>, Bryan Wu <cooloney@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH] backlight: sky81452: unsure while loop does not allow
+Subject: [PATCH][V2] backlight: sky81452: insure while loop does not allow
  negative array indexing
-Date: Wed, 26 Feb 2020 19:57:39 +0000
-Message-Id: <20200226195739.6462-1-colin.king@canonical.com>
+Date: Wed, 26 Feb 2020 19:58:26 +0000
+Message-Id: <20200226195826.6567-1-colin.king@canonical.com>
 X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,6 +58,10 @@ array sources. Fix this by iterating only if num_entry >= 0.
 Addresses-Coverity: ("Out-of-bounds read")
 Fixes: f705806c9f35 ("backlight: Add support Skyworks SKY81452 backlight driver")
 Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+
+V2: fix typo in commit subject line
+
 ---
  drivers/video/backlight/sky81452-backlight.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
