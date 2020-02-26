@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8831416F48D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 01:56:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FD816F49C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 01:59:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 190456E04A;
-	Wed, 26 Feb 2020 00:56:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59CDA6E06B;
+	Wed, 26 Feb 2020 00:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CE756E04A
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 00:56:02 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id t13so1091973qto.3
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 16:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E3F36E060;
+ Wed, 26 Feb 2020 00:59:16 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id j17so1651790edp.3;
+ Tue, 25 Feb 2020 16:59:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KTr07x+ZuW+Wkx10CmLSTlKU+6ax9EaUyaBXKAF3OqM=;
- b=Y7BmXd6Mfp+6AZ5v7tzuyEct+NldmkDhFbkaCIoOl6/SfR059Z2NK44rQkbVc+4j7t
- n0RrGob1lJqy4jSvVTBHC3x7e53bCvZCs0af4K9zwmRDwcKU3x3vY+Goiu220sgiSxhg
- LkPCOLYG0N6aE3fNLH+xw2IiIErd9z+gBVRxo=
+ :cc; bh=41dIRKzCHut5g8ULikn2zx6erU7p8Xh0VLc4jTiVCc4=;
+ b=O+TIDjLetEnT2gz+kRGSEfKzJ3gZm54fhVuuw2o9NH/TCdmpc530coe/gSUyy6JkVV
+ hp4I4Tt0D4oO6Jq7z3rPlT5qjP0pC2eAqX3fHvscjkk/rSoLXphauA4TQi5N8rUG2RJn
+ H9cMp9gTpeGK3EGLpkW15/eCBTfdTp+f7sNiP/2mCMQLmxywtMHas0sD8mQYeCOVCpLg
+ MykJsWuqmKNLL23XnKMoLa7+H92C1e7lF0KmHN9ZRr+9Seofo3+cczjalXrRV5jUQLc0
+ JQtvE6GOsgSni/HKHXgosx1LXU72/dYi2ptrteciLbu787zgnCQVsatna7aUZhM5ZPcA
+ njZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KTr07x+ZuW+Wkx10CmLSTlKU+6ax9EaUyaBXKAF3OqM=;
- b=rDIdxl0DJKO2qxG5fu8cdaaFZpuqJQRJlHxw7EPi0idIaCUzUaGPaI3SvrMVXnxokr
- IjpGhAea/QddhluwWWeQWqbOSNzz/m0o5NTQNwHLPl05kImsOgVCUVrjC2dpydT8Q5/u
- faiouXPHMN+tVegyhNVaCBMlnI7ge6mepFco3Jb1qpcQDg0WN5VyluIs/xoZrQUKkq2z
- 9Um7Us8mffzS/dqJigbkAa4IGUYoZJj5xuQ/2B9WSB5Z4dizG11EqUndMXWm6sOoRAVe
- yfaWPDfBv63M9v/lLwIYpdRJMUQNCvNhO6lxyUzEVN3GwkLImDF7U+cb3awnElvrxayf
- WQ7Q==
-X-Gm-Message-State: APjAAAWRB9A/R+/PUMwO3CqSTozVi6A5Ti6go6mlIGXghCF1L0JXL/+F
- bGKeHhofZvA/UGoRRjEsCdhU7p2UlLFFIrCNY/5eRQ==
-X-Google-Smtp-Source: APXvYqwn/doZ3Sl5MivNf7aeBY0i9IjKThPIXnCkYsjm6+vHV5atNhFSLqXf91LmG+mgvcdhqR+658LdmJfFTgy7fYc=
-X-Received: by 2002:ac8:72d6:: with SMTP id o22mr1774873qtp.174.1582678561028; 
- Tue, 25 Feb 2020 16:56:01 -0800 (PST)
+ bh=41dIRKzCHut5g8ULikn2zx6erU7p8Xh0VLc4jTiVCc4=;
+ b=j0D1Rqf7pw7qNhr39GWCSeie8u5M0Rg+y9AES5Jw47kxdNSuUJ0mahFiY6YbMJ1SCC
+ 02XiB2eK7VmYboYBH3Io0LZkbkWia4l1Y5z4rJoW5Sxj9D6CY4I1SBk1XV+5ofMP+knx
+ ZuLC7LaP65idm9zk2HAzS99hyEJYV2ypl6YOtLBSplasRVk/cOlElqDfpI6nxHQS2FI2
+ AkwmOxXJ+nUeK+hhweGFYcRLbITOwgWMhqJ/gLi0AAQjg/wOqIrVE+ZZkIPKIMMWECAt
+ IfWNJmx3RbWlEG6bEV3ApPT6Z2h0eg6UUfeQzTy25SuMNsfr4EGdzgYqWxSNzbWn9tiX
+ oMAQ==
+X-Gm-Message-State: APjAAAWmJnhkU//jjmHGcTZbMiNrAJE/xiVaK9HZkC4IuKGGDlPPu1x4
+ 4tXxaj2prd6Jsaj0o1FHCG2G4bG+6vU9wGI61lcs0Q==
+X-Google-Smtp-Source: APXvYqy+o+spYlkpd4xZ2v0xZdO4bB5nJGwJneHFcbDWmY6rMi3XrscjFYSA8O3XYDcxOfzTeyUYrAaPUgr+F/SUKz4=
+X-Received: by 2002:a17:906:5f89:: with SMTP id
+ a9mr1635153eju.267.1582678754601; 
+ Tue, 25 Feb 2020 16:59:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <20200207052627.130118-2-drinkcat@chromium.org> <20200225171613.GA7063@bogus>
-In-Reply-To: <20200225171613.GA7063@bogus>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Wed, 26 Feb 2020 08:55:50 +0800
-Message-ID: <CANMq1KAVX4o5yC7c_88Wq_O=F+MaSN_V4uNcs1nzS3wBS6A5AA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/7] dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
-To: Rob Herring <robh@kernel.org>, Nick Fan <nick.fan@mediatek.com>, 
- Sj Huang <sj.huang@mediatek.com>
+References: <1582223216-23459-1-git-send-email-jcrouse@codeaurora.org>
+ <1582223216-23459-5-git-send-email-jcrouse@codeaurora.org>
+ <CALAqxLWc4QQPyh=R6=0uFnLLicTYJ3NMO6QSc_yF31bJ2Z_rkQ@mail.gmail.com>
+In-Reply-To: <CALAqxLWc4QQPyh=R6=0uFnLLicTYJ3NMO6QSc_yF31bJ2Z_rkQ@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 25 Feb 2020 16:59:02 -0800
+Message-ID: <CAF6AEGtYvjgoYxsxyu2-juuTsp9mBJUdRRUWAT3doLtpju4UmQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/msm/a6xx: Use the DMA API for GMU memory
+ objects
+To: John Stultz <john.stultz@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,106 +64,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Douglas Anderson <dianders@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>, lkml <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Todd Kjos <tkjos@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Nick Fan +Sj Huang @ MTK
-
-On Wed, Feb 26, 2020 at 1:16 AM Rob Herring <robh@kernel.org> wrote:
+On Tue, Feb 25, 2020 at 3:54 PM John Stultz <john.stultz@linaro.org> wrote:
 >
-> On Fri, Feb 07, 2020 at 01:26:21PM +0800, Nicolas Boichat wrote:
-> > Define a compatible string for the Mali Bifrost GPU found in
-> > Mediatek's MT8183 SoCs.
+> On Thu, Feb 20, 2020 at 10:27 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
 > >
-> > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > The GMU has very few memory allocations and uses a flat memory space so
+> > there is no good reason to go out of our way to bypass the DMA APIs which
+> > were basically designed for this exact scenario.
+> >
+> > v2: Pass force_dma false to of_dma_configure to require that the DMA
+> > region be set up and return error from of_dma_configure to fail probe.
+> >
+> > Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 > > ---
 > >
-> > v4:
-> >  - Add power-domain-names description
-> >    (kept Alyssa's reviewed-by as the change is minor)
-> > v3:
-> >  - No change
+> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 112 +++-------------------------------
+> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |   5 +-
+> >  2 files changed, 11 insertions(+), 106 deletions(-)
 > >
-> >  .../bindings/gpu/arm,mali-bifrost.yaml        | 25 +++++++++++++++++++
-> >  1 file changed, 25 insertions(+)
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > index 983afea..c36b38b 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> ...
+> > -       count = bo->size >> PAGE_SHIFT;
+> > +       bo->virt = dma_alloc_attrs(gmu->dev, bo->size, &bo->iova, GFP_KERNEL,
+> > +               bo->attrs);
 > >
-> > diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > index 4ea6a8789699709..0d93b3981445977 100644
-> > --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > @@ -17,6 +17,7 @@ properties:
-> >      items:
-> >        - enum:
-> >            - amlogic,meson-g12a-mali
-> > +          - mediatek,mt8183-mali
-> >            - realtek,rtd1619-mali
-> >            - rockchip,px30-mali
-> >        - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-> > @@ -62,6 +63,30 @@ allOf:
-> >            minItems: 2
-> >        required:
-> >          - resets
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: mediatek,mt8183-mali
-> > +    then:
-> > +      properties:
-> > +        sram-supply: true
-> > +        power-domains:
-> > +          description:
-> > +            List of phandle and PM domain specifier as documented in
-> > +            Documentation/devicetree/bindings/power/power_domain.txt
-> > +          minItems: 3
-> > +          maxItems: 3
-> > +        power-domain-names:
-> > +          items:
-> > +            - const: core0
-> > +            - const: core1
-> > +            - const: 2d
+> ...
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> > index 2af91ed..31bd1987 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> > @@ -13,7 +13,7 @@ struct a6xx_gmu_bo {
+> >         void *virt;
+> >         size_t size;
+> >         u64 iova;
+> > -       struct page **pages;
+> > +       unsigned long attrs;
+> >  };
 >
-> AFAIK, there's no '2d' block in bifrost GPUs. A power domain for each
-> core group is correct though.
+> As a head up, Todd reported that this patch is causing build trouble
+> w/ arm32, as the iova needs to be a dma_attr_t.
+>
+> I've got a patch for the android-mainline tree to fix this, but you
+> might want to spin a v3 to address this.
+>   https://android-review.googlesource.com/c/kernel/common/+/1243928
+>
 
-Good question... Hopefully Nick/SJ@MTK can comment, the non-upstream DTS has:
-gpu: mali@13040000 {
-compatible = "mediatek,mt8183-mali", "arm,mali-bifrost";
-power-domains = <&scpsys MT8183_POWER_DOMAIN_MFG_CORE0>;
-...
-}
+I guess based on robher's comments on the bindings, there will be a v3..
 
-gpu_core1: mali_gpu_core1 {
-compatible = "mediatek,gpu_core1";
-power-domains = <&scpsys MT8183_POWER_DOMAIN_MFG_CORE1>;
-};
-
-gpu_core2: mali_gpu_core2 {
-compatible = "mediatek,gpu_core2";
-power-domains = <&scpsys MT8183_POWER_DOMAIN_MFG_2D>;
-};
-
-So I picked core0/core1/2d as names, but looking at this, it's likely
-core2 is more appropriate (and MT8183_POWER_DOMAIN_MFG_2D might just
-be a internal/legacy name, if there is no real 2d domain).
-
-Thanks.
-
-> Rob
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
