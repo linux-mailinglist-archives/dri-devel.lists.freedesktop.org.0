@@ -2,59 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21331701EF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 16:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DF91701F6
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 16:08:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718E76E362;
-	Wed, 26 Feb 2020 15:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3476E2D6;
+	Wed, 26 Feb 2020 15:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F6C06E362
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 15:07:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id 20AB83F8E4;
- Wed, 26 Feb 2020 16:07:48 +0100 (CET)
-Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=lVdLTcL1; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YXF4yDzgdqdu; Wed, 26 Feb 2020 16:07:47 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id A03BC3F57C;
- Wed, 26 Feb 2020 16:07:39 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 88C6D360093;
- Wed, 26 Feb 2020 16:07:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1582729659; bh=lPS3867HzqYzHXHV6VBd4NXViR4RnWnrBwSw+bRBFfc=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=lVdLTcL1esbpBW5Vw1Jh3MOfQ8q6aJdWqPtO/XaNLqWAkbqkp7mSQI/nCy68cA68Y
- W+J1iSvysnNzS3sBYoLdHL8iktpi+p7uW4Dh6TxbOz0/pCHRWWGhdtfhN7IIFb43nq
- WTinluohrg5jShTr0Z3/odiRWZkoUXkaVj9FJxgo=
-Subject: Re: [PATCH 3/3] drm/vmwgfx: Correct typo in comment
-To: Maya Rashish <coypu@sdf.org>, dri-devel@lists.freedesktop.org
-References: <20200223204041.GA27186@homeworld.netbsd.org>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <3c5e7beb-a3e0-ed01-550f-2ce90faf628a@shipmail.org>
-Date: Wed, 26 Feb 2020 16:07:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26C166E2D6;
+ Wed, 26 Feb 2020 15:08:32 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2020 07:08:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,488,1574150400"; d="scan'208";a="350409339"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga001.fm.intel.com with SMTP; 26 Feb 2020 07:08:20 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 26 Feb 2020 17:08:19 +0200
+Date: Wed, 26 Feb 2020 17:08:19 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: 
+Message-ID: <20200226150819.GK13686@intel.com>
+References: <86d0ec$ae4ffc@fmsmga001.fm.intel.com>
+ <CACRpkdZ4H5fdWsxsXnsbyxb6fwKbgm0h5a6CdqEjU9w5+z0a7Q@mail.gmail.com>
+ <20200226143409.GJ13686@intel.com>
+ <CACRpkdZSapEh3sCqGjpnOuX-vbf1C=AjzN7Ryu2v6V5npoWgoA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200223204041.GA27186@homeworld.netbsd.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CACRpkdZSapEh3sCqGjpnOuX-vbf1C=AjzN7Ryu2v6V5npoWgoA@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +50,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Josh Wu <josh.wu@atmel.com>,
+ Bhuvanchandra DV <bhuvanchandra.dv@toradex.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, nouveau@lists.freedesktop.org,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Paul Kocialkowski <contact@paulk.fr>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Gustaf =?iso-8859-1?Q?Lindstr=F6m?= <gl@axentia.se>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Hellstrom <thellstrom@vmware.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, Jonathan Marek <jonathan@marek.ca>,
+ Stefan Mavrodiev <stefan@olimex.com>, Adam Ford <aford173@gmail.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Heiko Schocher <hs@denx.de>,
+ Icenowy Zheng <icenowy@aosc.io>, Jonas Karlman <jonas@kwiboo.se>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Vincent Abriou <vincent.abriou@st.com>, Andreas Pretzsch <apr@cn-eng.de>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Alex Gonzalez <alex.gonzalez@digi.com>, Purism Kernel Team <kernel@puri.sm>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Christoph Fritz <chf.fritz@googlemail.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ Eugen Hristev <eugen.hristev@microchip.com>,
+ Giulio Benetti <giulio.benetti@micronovasrl.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/23/20 9:40 PM, Maya Rashish wrote:
-> Signed-off-by: Maya Rashish <coypu@sdf.org>
-> Signed-off-by: Thomas Klausner <wiz@NetBSD.org>
-> Co-authored-by: Thomas Klausner <wiz@NetBSD.org>
-> ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> index f47d5710cc95..5195c19d25a4 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -2016,7 +2016,7 @@ void vmw_disable_vblank(struct drm_device *dev, unsigned int pipe)
->    * plugin and generate DRM uevent
->    * @dev_priv: device private
->    * @num_rects: number of drm_rect in rects
-> - * @rects: toplogy to update
-> + * @rects: topology to update
->    */
->   static int vmw_du_update_layout(struct vmw_private *dev_priv,
->   				unsigned int num_rects, struct drm_rect *rects)
+On Wed, Feb 26, 2020 at 03:56:36PM +0100, Linus Walleij wrote:
+> On Wed, Feb 26, 2020 at 3:34 PM Ville Syrj=E4l=E4
+> <ville.syrjala@linux.intel.com> wrote:
+> > On Wed, Feb 26, 2020 at 01:08:06PM +0100, Linus Walleij wrote:
+> > > On Wed, Feb 26, 2020 at 12:57 PM Ville Syrj=E4l=E4
+> > > <ville.syrjala@linux.intel.com> wrote:
+> > > > On Tue, Feb 25, 2020 at 10:52:25PM +0100, Linus Walleij wrote:
+> > >
+> > > > > I have long suspected that a whole bunch of the "simple" displays
+> > > > > are not simple but contains a display controller and memory.
+> > > > > That means that the speed over the link to the display and
+> > > > > actual refresh rate on the actual display is asymmetric because
+> > > > > well we are just updating a RAM, the resolution just limits how
+> > > > > much data we are sending, the clock limits the speed on the
+> > > > > bus over to the RAM on the other side.
+> > > >
+> > > > IMO even in command mode mode->clock should probably be the actual
+> > > > dotclock used by the display. If there's another clock for the bus
+> > > > speed/etc. it should be stored somewhere else.
+> > >
+> > > Good point. For the DSI panels we have the field hs_rate
+> > > for the HS clock in struct mipi_dsi_device which is based
+> > > on exactly this reasoning. And that is what I actually use for
+> > > setting the HS clock.
+> > >
+> > > The problem is however that we in many cases have so
+> > > substandard documentation of these panels that we have
+> > > absolutely no idea about the dotclock. Maybe we should
+> > > just set it to 0 in these cases?
+> >
+> > Don't you always have a TE interrupt or something like that
+> > available? Could just measure it from that if no better
+> > information is available?
+> =
 
-Reviewed-by: Thomas Hellstrom <thellstrom@vmware.com>
+> Yes and I did exactly that, so that is why this comment is in
+> the driver:
+> =
 
-I'll include in the next vmwgfx-next pull request.
+> static const struct drm_display_mode sony_acx424akp_cmd_mode =3D {
+> (...)
+>         /*
+>          * Some desired refresh rate, experiments at the maximum "pixel"
+>          * clock speed (HS clock 420 MHz) yields around 117Hz.
+>          */
+>         .vrefresh =3D 60,
+> =
 
-Out of curiosity, how was this patch co-authored :-) ?
+> I got a review comment at the time saying 117 Hz was weird.
+> We didn't reach a proper conclusion on this:
+> https://lore.kernel.org/dri-devel/CACRpkdYW3YNPSNMY3A44GQn8DqK-n9TLvr7uip=
+F7LM_DHZ5=3DLg@mail.gmail.com/
+> =
 
-Thanks,
+> Thierry wasn't sure if 60Hz was good or not, so I just had to
+> go with something.
+> =
 
-Thomas
+> We could calculate the resulting pixel clock for ~117 Hz with
+> this resolution and put that in the clock field but ... don't know
+> what is the best?
 
+I would vote for that approach.
 
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
