@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A1B16FD72
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8635116FD79
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:26:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B25596E4D2;
-	Wed, 26 Feb 2020 11:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3931888F94;
+	Wed, 26 Feb 2020 11:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D07A96E4C9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:25:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF11A6E4C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:25:45 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91C43F8D;
- Wed, 26 Feb 2020 12:25:42 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E8D61288;
+ Wed, 26 Feb 2020 12:25:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582716342;
- bh=CaNNbClxkh/P/MGDFZJBLW1P/QDvvpUs/KTR2j0ahjA=;
+ s=mail; t=1582716343;
+ bh=ThxWbxfEUD9Yjv8MtytPCHRfJKdTkxejZEIRPY+BNOo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IgN2f1uChaaI5ZYNfSbwew9n07IbNQCqax8Kbuzaitz5NEguCmAPUYWAPKaMuBKzx
- lm7NIcBooFG82Jxw3K67XbRLL6kqKG2rjY4WPAtir5F1t84Jy0Kz6Mc+wiU+8q1AQd
- XldY080MTSExB+jDag4qozphhW0TwxVST3AuHmk0=
+ b=jz7URfyB8Zfq0Mzx48dHIjMTZrhxHTbB+rQAL0jdtwmJXh8PlkiLIFCwl9F1mc4xL
+ RK29LHRJMC++rmWxArhbtidltrA9RCnNAP/ir9Z0CFyWfhpqOeJzsjiBqMAfcAr1VH
+ EXfwUWFO6Uy7G3bZlHPqVmjfcqKHKrU9ktowHbbE=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 04/54] drm/bridge: Document the drm_encoder.bridge_chain
- field as private
-Date: Wed, 26 Feb 2020 13:24:24 +0200
-Message-Id: <20200226112514.12455-5-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v8 05/54] drm/bridge: Fix atomic state ops documentation
+Date: Wed, 26 Feb 2020 13:24:25 +0200
+Message-Id: <20200226112514.12455-6-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
 References: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
@@ -52,29 +51,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_encoder.bridge_chain is not meant to be touched manually by
-drivers. Make this clear in the documentation.
+The drm_bridge_funcs atomic_state_duplicate and atomic_state_destroy
+operations are erroneously documented as having a default implementation
+if not implemented in bridge drivers. This isn't correct, fix the
+documentation.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- include/drm/drm_encoder.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/drm/drm_bridge.h | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-index 5623994b6e9e..4370e039c015 100644
---- a/include/drm/drm_encoder.h
-+++ b/include/drm/drm_encoder.h
-@@ -174,7 +174,8 @@ struct drm_encoder {
- 	struct drm_crtc *crtc;
- 
- 	/**
--	 * @bridge_chain: Bridges attached to this encoder.
-+	 * @bridge_chain: Bridges attached to this encoder. Drivers shall not
-+	 * access this field directly.
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 999faaaab9a1..38de129d5947 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -349,9 +349,11 @@ struct drm_bridge_funcs {
+ 	 * Duplicate the current bridge state object (which is guaranteed to be
+ 	 * non-NULL).
+ 	 *
+-	 * The atomic_duplicate_state() hook is optional. When not implemented
+-	 * the core allocates a drm_bridge_state object and calls
+-	 * __drm_atomic_helper_bridge_duplicate_state() to initialize it.
++	 * The atomic_duplicate_state hook is mandatory if the bridge
++	 * implements any of the atomic hooks, and should be left unassigned
++	 * otherwise. For bridges that don't subclass &drm_bridge_state, the
++	 * drm_atomic_helper_bridge_duplicate_state() helper function shall be
++	 * used to implement this hook.
+ 	 *
+ 	 * RETURNS:
+ 	 * A valid drm_bridge_state object or NULL if the allocation fails.
+@@ -364,8 +366,11 @@ struct drm_bridge_funcs {
+ 	 * Destroy a bridge state object previously allocated by
+ 	 * &drm_bridge_funcs.atomic_duplicate_state().
+ 	 *
+-	 * The atomic_destroy_state hook is optional. When not implemented the
+-	 * core calls kfree() on the state.
++	 * The atomic_destroy_state hook is mandatory if the bridge implements
++	 * any of the atomic hooks, and should be left unassigned otherwise.
++	 * For bridges that don't subclass &drm_bridge_state, the
++	 * drm_atomic_helper_bridge_destroy_state() helper function shall be
++	 * used to implement this hook.
  	 */
- 	struct list_head bridge_chain;
- 
+ 	void (*atomic_destroy_state)(struct drm_bridge *bridge,
+ 				     struct drm_bridge_state *state);
+@@ -474,7 +479,10 @@ struct drm_bridge_funcs {
+ 	 * This function is called at attach time.
+ 	 *
+ 	 * The atomic_reset hook is mandatory if the bridge implements any of
+-	 * the atomic hooks, and should be left unassigned otherwise.
++	 * the atomic hooks, and should be left unassigned otherwise. For
++	 * bridges that don't subclass &drm_bridge_state, the
++	 * drm_atomic_helper_bridge_reset() helper function shall be used to
++	 * implement this hook.
+ 	 *
+ 	 * Note that the atomic_reset() semantics is not exactly matching the
+ 	 * reset() semantics found on other components (connector, plane, ...).
 -- 
 Regards,
 
