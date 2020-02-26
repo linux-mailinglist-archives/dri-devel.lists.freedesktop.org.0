@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDADF16F92D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:10:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 260C816F931
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 09:10:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 598BE6E22A;
-	Wed, 26 Feb 2020 08:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98DE06E265;
+	Wed, 26 Feb 2020 08:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAAA56E22A
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 08:10:45 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id j7so994430plt.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 00:10:45 -0800 (PST)
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 325446E22A
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 08:10:47 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id b185so1055423pfb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 00:10:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vEnVySXBYfW3b1su9MemqgqPSinDbCdHAw5n+ZVHXKA=;
- b=ZqFr2XdedoNMMzSdc2eWipJbPoWCSoIWOaxz1zsBu+w5FRw0nlJVp7B9aMcVR/ECrM
- fWpYYrpUhtSvO1rGsvHH3i7x8JxpD2QgM4DK0weubmj2twGyNSOa9Gvtg6KWDj0oARIV
- ossJG+QlPSs1QhoRE2faVAv1lrRd7/LwUBqX6m+LwRkGl9SmUJ5qeccTbXxGKO/jke+J
- hejsi+GJu4wBCG1LLI2Rb9i3hLwtSZ88dY/P2BygJXrOuCX1Xh6+4AO3P044cgvoby3X
- oVgYppEgNor2/7HskWoAIOtOe2teNJqCPhYgfnRcBTVY+U0Ce7WQEZmjOKtWi3whIYeH
- uQBQ==
+ bh=UNDrMK3Cuph8hAawynxP4ClnMYdwocSlmGrvdp+XI7U=;
+ b=TBrP0h2wisco9iwCPRUPdbzfKPQaem8N0CCbkufM0ubNMvNGPVi7J4OrKi6XaCKbH6
+ hh3Y+bgMR/KAzZy3SJxpHSn/W55kTsTGse062SF7bXdc1s6lOwPqxkWqbnhYBTrOOQRL
+ P5UEoGPV5IsF76w8fyduRaTE03AV7RIeG3tdyzE6dWtIWMgpvpx224lpnK6HQOTLFKGx
+ 8NN0VzAznR0u0zIR0NAXJZCtJ32GmXNwAp/DudApysZdxoB5XwxmgmLNpboYi0ogxMJL
+ H4NuemzoK00dffBEXYJVCaGEH3TCcpoSWqSDpn+UxmqlsA7Meikom5RyLGooaap33bAj
+ PsSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vEnVySXBYfW3b1su9MemqgqPSinDbCdHAw5n+ZVHXKA=;
- b=ZL5Beqa9D0UEBWekqcwXF5sVnT0MA54gnBaG9rrhhS3wpLxg1gWrqXAbXqFkixPoPr
- oyZ23DKtY6qW52kYvhLFhlHJOHxnJKGe5qulLSwdNetKrXGM1+GNR5P1XfeSlx+V/D8P
- U1S/yIzsMdDXaOx8nvOmpyaszr6vBrh+V/RbsZjR78EK+jdIvbDpvOQoBCHH+R9nk45P
- wE6seVY1yvH/nGWZJ9JMAn2H04sfnFm2e44w2w0j4Oz//D/DwYZuTxgt9R9XT1CrOcl2
- gmfqpuWDw9/I7LD/2Q4JRtopuwbtes4C5dcTwQzsoBwn/CrGSkDaQNSgrLwpyV9usnu4
- yJew==
-X-Gm-Message-State: APjAAAWjkWqB7LpsJEXd2LkQrSspamCVW1XoF06yHj990cHoRXP0oBaM
- bcCkLVPkxrqRLO80SZ4x7RU=
-X-Google-Smtp-Source: APXvYqySsTMpSDO1lKEob5Z3qPaMibUnculbDtGi+2b/LHKNJPcUDEb49L+OdYHplPurgC0YCZJGNA==
-X-Received: by 2002:a17:90a:32e4:: with SMTP id
- l91mr3675046pjb.23.1582704645464; 
- Wed, 26 Feb 2020 00:10:45 -0800 (PST)
+ bh=UNDrMK3Cuph8hAawynxP4ClnMYdwocSlmGrvdp+XI7U=;
+ b=YpyH5YXtII5W/1MvTdbmoHHwUshcRnupdAmHd1TsTtcyYXPyWxduPDNpvZgWrAL7pk
+ gPeOHpVcGvM4zxWshnMmHd/QWBwSm84dIEVS/WhE1g8llJfcXTYhSicpAOAycgafg5Hq
+ kWemkwMUitf1DiMbMi21RxBmh/lNwu39YwYjrAvYZoh6prQ2vvWijnHIK/iRotGX14Yp
+ 74YERQIc5YCtSqkWp0XlFBwB0qNB5mq/5AubI27yO9n9L1wb0IemQESk5LdD5+jyscfl
+ zw1tTBswzUJzpoFxxVpZJVPPTWSXX7JjmpohNBXPtirbGpiTuONvCKa5/EojXvjytAor
+ e4tw==
+X-Gm-Message-State: APjAAAUSRW4SnUjNcSLpTMbVnyPg+wHVWNN27aZsCWMnTjIh8EFjEDPK
+ XnHNiKZSc/7ZJk0eQFH2Vk0=
+X-Google-Smtp-Source: APXvYqx16ATSH0Ri7QydUSr5etiFpP7VXGwv2ajzCwfEDuf3Fsc6V5gruuHjTDm3C4cjgRnxu80rnQ==
+X-Received: by 2002:a63:42c2:: with SMTP id p185mr2844380pga.268.1582704646751; 
+ Wed, 26 Feb 2020 00:10:46 -0800 (PST)
 Received: from anarsoul-thinkpad.lan (216-71-213-236.dyn.novuscom.net.
  [216.71.213.236])
- by smtp.gmail.com with ESMTPSA id v7sm1679230pfn.61.2020.02.26.00.10.44
+ by smtp.gmail.com with ESMTPSA id v7sm1679230pfn.61.2020.02.26.00.10.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 00:10:44 -0800 (PST)
+ Wed, 26 Feb 2020 00:10:46 -0800 (PST)
 From: Vasily Khoruzhick <anarsoul@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -63,10 +62,10 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 3/6] dt-bindings: Add Guangdong Neweast Optoelectronics CO.
- LTD vendor prefix
-Date: Wed, 26 Feb 2020 00:10:08 -0800
-Message-Id: <20200226081011.1347245-4-anarsoul@gmail.com>
+Subject: [PATCH v2 4/6] dt-bindings: display: simple: Add NewEast
+ Optoelectronics WJFH116008A compatible
+Date: Wed, 26 Feb 2020 00:10:09 -0800
+Message-Id: <20200226081011.1347245-5-anarsoul@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200226081011.1347245-1-anarsoul@gmail.com>
 References: <20200226081011.1347245-1-anarsoul@gmail.com>
@@ -83,32 +82,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vendor prefix for Guangdong Neweast Optoelectronics CO. LTD
+This commit adds compatible for NewEast Optoelectronics WJFH116008A panel
+to panel-simple binding
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 6456a6dfd83d..5dfbad67aa81 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -661,6 +661,8 @@ patternProperties:
-     description: Netron DY
-   "^netxeon,.*":
-     description: Shenzhen Netxeon Technology CO., LTD
-+  "^neweast,.*":
-+    description: Guangdong Neweast Optoelectronics CO., LTD
-   "^nexbox,.*":
-     description: Nexbox
-   "^nextthing,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 8fe60ee2531c..0e5d01ac32e1 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -39,6 +39,8 @@ properties:
+       - boe,nv140fhmn49
+         # GiantPlus GPM940B0 3.0" QVGA TFT LCD panel
+       - giantplus,gpm940b0
++        # NewEast Optoelectronics CO., LTD WJFH116008A eDP TFT LCD panel
++      - neweast,wjfh116008a
+         # Satoz SAT050AT40H12R2 5.0" WVGA TFT LCD panel
+       - satoz,sat050at40h12r2
+         # Sharp LS020B1DD01D 2.0" HQVGA TFT LCD panel
 -- 
 2.25.0
 
