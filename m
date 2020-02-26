@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A160A1703C3
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 17:05:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E47431703C5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 17:07:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 272166EAAC;
-	Wed, 26 Feb 2020 16:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1156EAB0;
+	Wed, 26 Feb 2020 16:07:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF236EA89;
- Wed, 26 Feb 2020 16:05:53 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id t14so3782617wmi.5;
- Wed, 26 Feb 2020 08:05:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3qi+0tGwIWEKy1hnGWa4P3/DiSSARIorQYfmbahGyA4=;
- b=IigQNtMd+Gp223VMzPb/l1bgq4goOL/g0wxisxBmzhDW6s7UA2+UxYVwqmMFqoQhYN
- Df53tcPnkZS76uVJDTQOO+Frx7HQ6ozvMxR+LdAWGKz3FtrekvFcgLT9PeVcxHzAJ36o
- BVEHCsd+SX/06TDtdrJZQJWRNj6tVpfoBLM2AceMQPB30PrYB12eE+y1dzcns3kZLT/v
- Dt4H5kjQ/1lzQ42rs+ZVOG5STW4dcZuMyUn3WPbt5tIkpH6szYssG85eMWkXMBWJRF2n
- 8mwNjm+8EwkW+bh+A6zHmgzSAbqBfpGECKhiuIfp4Wu/Q1bCfPM2JO+OuHnPNbjuViC4
- Q+HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3qi+0tGwIWEKy1hnGWa4P3/DiSSARIorQYfmbahGyA4=;
- b=S67eS+1RTMnpw19pVgKyrN2d3EoixRMuQ3W8GyVtJ9JC9Hvvo1I5YLN7h3PXIi1msy
- QfICp316MDvBYbbUnmr88Bd7C8hIW5N+jAOhgKyPk7pOCzZL+9a9UhXSoQkYZp6V1Jg8
- 3lwAmr/AiNGLEYH03nE0D635KpaNz7/yMA3CS6iYtKDm+aUntfuHgXWYnLJXZ647AHkU
- e6e2j8XTu1w/GUwKnizMg67Iq4+uJ1S67U99Z49gH8Jebb9cayGaEFk3v8muo81BIfa2
- 9Svd+oslVKcvi1hz+T1AoJlmez5IhixV8riv4rCUEUgoBbmDlZVER8GW87yjNNZju02x
- AIDw==
-X-Gm-Message-State: APjAAAXDEhR648msFBo2yBKJu+OygubkAwnn+GydECiJCc4ZUFJ/amEk
- HjymnnvMkeQJI1fAanlC2bTD3VZcG/H1qTzSwZACEg==
-X-Google-Smtp-Source: APXvYqynJils2ghFzpJ1KjlILKk3RK1kNKJK7LGYTO+A0j0+Hy5I7wYhc201hJdrr2S4M0VTEiNbw+OAsSHZexOEFA0=
-X-Received: by 2002:a7b:c152:: with SMTP id z18mr6220158wmi.70.1582733152116; 
- Wed, 26 Feb 2020 08:05:52 -0800 (PST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2206EAB0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 16:07:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582733242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VC/fSjW6Q9Zf1CVil4K0XbAX6oR7WGL2RegTKV0OEzU=;
+ b=cvZAoJYYI7uDx+ijQJ0Aw7buSXDqTnjNbjD1baWpLc9MPTiM5OFC+Eh6b+gGWMrzTPxUNG
+ DT79N2TKVvXFSCmPjeKtUKJZAXtjvWDmttuMHqqav9Wh6bwmXvVP81VdDjwtfZbQRmLC2/
+ HOlLVtQFvlVsTklv+5Px4WX3njR1t2A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-WhzkhL_bOrG6VaE3qtfNWQ-1; Wed, 26 Feb 2020 11:07:20 -0500
+X-MC-Unique: WhzkhL_bOrG6VaE3qtfNWQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBC398018A1;
+ Wed, 26 Feb 2020 16:07:18 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
+ [10.36.116.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA69319C69;
+ Wed, 26 Feb 2020 16:07:15 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id BCA821FCE8; Wed, 26 Feb 2020 17:07:14 +0100 (CET)
+Date: Wed, 26 Feb 2020 17:07:14 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [virtio-dev] Re: [PATCH 1/2] virtio: add dma-buf support for
+ exported objects
+Message-ID: <20200226160714.y2wt5ubtklljn576@sirius.home.kraxel.org>
+References: <20200219080637.61312-1-stevensd@chromium.org>
+ <20200219080637.61312-2-stevensd@chromium.org>
+ <20200225061008.wqxqppfglzmwvtid@sirius.home.kraxel.org>
+ <CAD=HUj7h1d8dXG94FUtj4fmeUvUM0dm6NW8WHGZAceHae0zGLw@mail.gmail.com>
 MIME-Version: 1.0
-References: <99213368-5025-8435-502b-3d23b875ca60@redhat.com>
- <CADnq5_OUt5XaJ_Nf23F2zsKeuPgoka8p2S6ny-H2WK==Ncg7vA@mail.gmail.com>
- <b0181c20-017b-7e3f-13c0-3ea5b98cadaa@redhat.com>
-In-Reply-To: <b0181c20-017b-7e3f-13c0-3ea5b98cadaa@redhat.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 26 Feb 2020 11:05:40 -0500
-Message-ID: <CADnq5_MjaOD+QrupjQwjdu-MgVZm1sg1x9=4uxdv92u1xuSdvQ@mail.gmail.com>
-Subject: Re: 5.6 DP-MST regression: 1 of 2 monitors on TB3 (DP-MST) dock no
- longer light up
-To: Hans de Goede <hdegoede@redhat.com>, "Lipski,
- Mikita" <mikita.lipski@amd.com>
+Content-Disposition: inline
+In-Reply-To: <CAD=HUj7h1d8dXG94FUtj4fmeUvUM0dm6NW8WHGZAceHae0zGLw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,89 +64,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: virtio-dev@lists.oasis-open.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ David Airlie <airlied@linux.ie>, Jason Wang <jasowang@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2020 at 10:43 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 2/26/20 4:29 PM, Alex Deucher wrote:
-> > On Wed, Feb 26, 2020 at 10:16 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Hi Lyude and everyone else,
-> >>
-> >> Lyude I'm mailing you about this because you have done a lot of
-> >> work on DP MST, but if this rings a bell to anyone else feel
-> >> free to weigh in on this.
+On Wed, Feb 26, 2020 at 12:56:58PM +0900, David Stevens wrote:
+> On Tue, Feb 25, 2020 at 3:10 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 > >
-> > Might be a duplicate of:
-> > https://gitlab.freedesktop.org/drm/amd/issues/1052
->
-> Looks like you are right, reverting the commit which the bisect
-> from that issue points to:
->
-> cd82d82cbc04 ("drm/dp_mst: Add branch bandwidth validation to MST atomic check")
->
-> Fixes the issue for me. I will add a comment to the issue.
->
-> Note I'm using integrated Intel gfx, so that means that this issue
-> definitely is not amdgpu specific.
->
+> > How about dma_buf_{get,set}_uuid, simliar to dma_buf_set_name?
+> 
+> While I'm not opposed to such an API, I'm also hesitant to make
+> changes to the dma-buf API for a single use case.
 
-I'm not too familiar with the mst code, but I wonder if we were
-exceeding the bandwidth limits in some setups and it just happened to
-work, but now that we enforcing them, they don't which is correct, but
-a regression from some users' perspective?
+See virtio-wayland discussion.  I expect we will see more cases show up.
+Maybe this should even go one level up, to struct file.
 
-Alex
+cheers,
+  Gerd
 
-
-> Regards,
->
-> Hans
->
->
->
->
-> >> I'm currently using a Lenovo X1 7th gen + a Lenovo TB3 gen 2 dock
-> >> as my daily rider for testing purposes. When 5.6-rc1 came out I
-> >> noticed that only 1 of the 2 1920x1080@60 monitors on the dock
-> >> lights up.
-> >>
-> >> There are no kernel errors in the logs, but mutter/gnome-shell says:
-> >>
-> >> gnome-shell[1316]: Failed to post KMS update: Page flip of 93 failed
-> >>
-> >> With 93 being the crtc-id of the crtc used for the monitor which is
-> >> displaying black. Since then I've waited for 5.6-rc3 hoping that a
-> >> fix was already queued up, but 5.6-rc3 still has this problem.
-> >>
-> >> gnome-shell does behave as if all monitors are connected, so the
-> >> monitor is seen, but we are failing to actually send any frames
-> >> to it.
-> >>
-> >> I've put a log collected with drm.debug=0x104 here:
-> >> https://fedorapeople.org/~jwrdegoede/drm-debug.log
-> >>
-> >> This message stands out as pointing to the likely cause of this problem:
-> >>
-> >> [    3.309061] [drm:intel_dump_pipe_config [i915]] MST master transcoder: <invalid>
-> >>
-> >> Regards,
-> >>
-> >> Hans
-> >>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
