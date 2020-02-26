@@ -2,93 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E3C16FBCB
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 11:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652F616FBE7
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 11:21:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2ED36E46C;
-	Wed, 26 Feb 2020 10:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF058991C;
+	Wed, 26 Feb 2020 10:21:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C38A06E46C
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 10:13:18 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200226101317euoutp014270f9776d12db148e97220910532009~27C0Jtytz1842018420euoutp01K
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 10:13:17 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200226101317euoutp014270f9776d12db148e97220910532009~27C0Jtytz1842018420euoutp01K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1582711997;
- bh=O1BFWpWbTwDLNXm1FRjAmKAXsPmqCPdSm166rZilS7M=;
- h=From:To:Cc:Subject:Date:References:From;
- b=kjqJ1obC5+Eqt3peK4GRJ0bvxzrFjacg6qSQEqJ2uPUxMh7w7qdFmX8wbA2lVCxLF
- pMBkBbhQ6/T3xymuuGbdts4JimI3439Tl5M7Cu6bRT4dfF6Z0/FfceT6PeOYzuKBlD
- CU5vjdjP7Va0+2Zk00B0d9ihpUqp/w7MtpceNZy8=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200226101316eucas1p2b49f1eabcdac4bdec01ec4c81787feb7~27Czv8x_e3143731437eucas1p2v;
- Wed, 26 Feb 2020 10:13:16 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 46.C4.60679.CB4465E5; Wed, 26
- Feb 2020 10:13:16 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200226101316eucas1p2fd16a7c821632084710167216b78f6c5~27CzP-Ebd3147831478eucas1p21;
- Wed, 26 Feb 2020 10:13:16 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200226101316eusmtrp1d4ff0a08dba91cad28178c4c6029d5d9~27CzPWneG1656116561eusmtrp1C;
- Wed, 26 Feb 2020 10:13:16 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-88-5e5644bcdf68
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 26.6C.07950.CB4465E5; Wed, 26
- Feb 2020 10:13:16 +0000 (GMT)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200226101315eusmtip2c4bb9e06902a9feeef244aeed2d0bee2~27CysNvBc0087800878eusmtip25;
- Wed, 26 Feb 2020 10:13:15 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-Subject: [PATCH] drm/bridge: sii9234: silence warning about regulators
- during deferred probe
-Date: Wed, 26 Feb 2020 11:13:07 +0100
-Message-Id: <20200226101307.16708-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42LZduzned09LmFxBs9f6VrcWneO1WLjjPWs
- Fle+vmezuPr9JbPFyTdXWSw6Jy5ht5hxfh+Txdojd9ktDvVFO3B6vL/Ryu4xu2Mmq8eJCZeY
- PO53H2fy6NuyitHjQO9kFo/Pm+QC2KO4bFJSczLLUov07RK4Mr7u+s5ecIit4u6PAywNjAdZ
- uxg5OSQETCS27nvE1MXIxSEksIJR4uSTs1DOF0aJVdMmsINUCQl8ZpQ4uCiyi5EDrGPGJieI
- muWMEtsP3kRouHR5GthYNgFDia63XWwgtoiAm0TT4ZmsIEXMAnuZJHYcbAJLCAvESZx9eQxs
- A4uAqsSnBf2MIDavgK3Ei2W3GCHuk5dYveEAM0izhMBnNomWbS+YIRIuEi9uP2KDsIUlXh3f
- wg5hy0icntzDAtHQzCjx8Nxadginh1HictMMqLHWEnfO/WIDeYhZQFNi/S59iLCjxI3ePawQ
- f/JJ3HgrCBJmBjInbZvODBHmlehoE4KoVpOYdXwd3NqDFy5BneYhcfraS1ZIyMVKdN68zTqB
- UW4Wwq4FjIyrGMVTS4tz01OLjfJSy/WKE3OLS/PS9ZLzczcxAlPG6X/Hv+xg3PUn6RCjAAej
- Eg/vC87QOCHWxLLiytxDjBIczEoivBu/AoV4UxIrq1KL8uOLSnNSiw8xSnOwKInzGi96GSsk
- kJ5YkpqdmlqQWgSTZeLglGpg7MpxXBT28KTa4z9H9H679S+Z+jRvwqeid12hrC9qzI4GWrU7
- 10XNDL8bN+3l++6AhNeS6wxF3s+OYJKp+ZVxyWf7I+vvMy4de5OgMDcsI/zunaPaPTq2MqLJ
- i7ojnqj6bPIpyNwvcHK9moHXIesdEl18C+6lp69LTrumdXRLceWkPz+7fC86KLEUZyQaajEX
- FScCAAPw3mYVAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBLMWRmVeSWpSXmKPExsVy+t/xe7p7XMLiDM6v57G4te4cq8XGGetZ
- La58fc9mcfX7S2aLk2+uslh0TlzCbjHj/D4mi7VH7rJbHOqLduD0eH+jld1jdsdMVo8TEy4x
- edzvPs7k0bdlFaPHgd7JLB6fN8kFsEfp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvH
- WhmZKunb2aSk5mSWpRbp2yXoZXzd9Z294BBbxd0fB1gaGA+ydjFycEgImEjM2OTUxcjFISSw
- lFFi//aFbF2MnEBxGYmT0xpYIWxhiT/Xutggij4xSsx63gSWYBMwlOh62wXWICLgIdH87Tg7
- SBGzwEEmiZOzzjOBJIQFYiRuLF0HZrMIqEp8WtDPCGLzCthKvFh2ixFig7zE6g0HmCcw8ixg
- ZFjFKJJaWpybnltspFecmFtcmpeul5yfu4kRGKrbjv3csoOx613wIUYBDkYlHt4XnKFxQqyJ
- ZcWVuYcYJTiYlUR4N34FCvGmJFZWpRblxxeV5qQWH2I0BVo+kVlKNDkfGEd5JfGGpobmFpaG
- 5sbmxmYWSuK8HQIHY4QE0hNLUrNTUwtSi2D6mDg4pRoYQ/Vje9uCfvKVvuZ/Ocv/0Nwvcj0T
- mKd8d5jud3/lDOfV9xirr5ra7/FwPxKt5fxUvuVBcYpu+xlplvCp52dbSOnNtg3ff9bgQKmZ
- 282YPJdrV5YEbXrIHruivWvKL541KdsMdK4/81sfNrkzpyh49x27d4eufAievOUDZ/WC1uYN
- UxfvfMI1X4mlOCPRUIu5qDgRAKg7fHNrAgAA
-X-CMS-MailID: 20200226101316eucas1p2fd16a7c821632084710167216b78f6c5
-X-Msg-Generator: CA
-X-RootMTR: 20200226101316eucas1p2fd16a7c821632084710167216b78f6c5
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200226101316eucas1p2fd16a7c821632084710167216b78f6c5
-References: <CGME20200226101316eucas1p2fd16a7c821632084710167216b78f6c5@eucas1p2.samsung.com>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04B1389958
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 10:21:23 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id c13so1492425wrq.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 02:21:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=tKWM/NdAzG8m/+DUwDoGEGRF5Zik76ep3vvNYPf1i6o=;
+ b=CJ2KbxDQl4RYf7jJMlrwjoYqBi6c0rR8c3pH5AK/TtkeKJ6iPR0U1EkUjMOGcludZs
+ IhCD178BphZZYWRGqU5wSB6k9Nhp+xfbPgMVHo0xgkYNBYDUwgiZDtXnRW21CD+XDSOY
+ s9WhJ1HVnFpmorel3DK3p9pvyrduJQ7OUf7hE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=tKWM/NdAzG8m/+DUwDoGEGRF5Zik76ep3vvNYPf1i6o=;
+ b=npwNNg2GUBxQr6wz7Pxob8XQFeLlTMwBbb86OXNpWPxnLa+trGkne2vgN8zlQoAySw
+ uQSSLQfqW+GcRMe8JTWKnenNViYfuEGNT203mptQn6CyrYbdtmwGLAh6bOo2rdRc7ydX
+ 36uGWjznVwgF3tejs5ebsA+jEt5FzBVfkPIihuDCpVE94aSCopDXqFpX+SGRBxXLE0cv
+ HftlNTR4fL9wbblmpqarMl8wmYua2Y2NxleNiElDEVB1WbbxnlVlnbO8NACgvK/KNRcI
+ Kp54Qv8eHvuhCYsPdARZnV2gcNrbgG1dhChDojJ64F8inLci6obzTa64v/YCtJFyeiIb
+ S31Q==
+X-Gm-Message-State: APjAAAU6ZJvG2sWfaTsx4k7GaAPdDfU91w7D/divIhjCGswy75BVPYIo
+ ZOgsmOBEK4UfPluxfuY9W3Ja1w==
+X-Google-Smtp-Source: APXvYqyIUnXv52tlOk45TgWvol5IBDaTP8JcM2U5IkklDxspVSN8lij9yAF3ikyVVhflyjqPhZIPhQ==
+X-Received: by 2002:a5d:6545:: with SMTP id z5mr4604525wrv.3.1582712481437;
+ Wed, 26 Feb 2020 02:21:21 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h205sm2296559wmf.25.2020.02.26.02.21.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 02:21:20 -0800 (PST)
+Date: Wed, 26 Feb 2020 11:21:18 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [PATCH 03/51] drm: add managed resources tied to drm_device
+Message-ID: <20200226102118.GS2363188@phenom.ffwll.local>
+References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
+ <CGME20200221210354eucas1p1b9377cb5c64ae9f657191cf7d6c9e92c@eucas1p1.samsung.com>
+ <20200221210319.2245170-4-daniel.vetter@ffwll.ch>
+ <c088ce3b-d409-3a66-1f45-72f8ee9d9784@samsung.com>
+ <CAKMK7uE+8eQGfV=6t_3vV+L=fOL6zUm5CqSxWf26JNUSL54brg@mail.gmail.com>
+ <fd3ebf4e-8ba3-b2a5-20a4-9dd35f35c244@samsung.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <fd3ebf4e-8ba3-b2a5-20a4-9dd35f35c244@samsung.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,43 +70,296 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't confuse user with meaningless warning about failure in getting
-regulators in case of deferred probe.
+On Wed, Feb 26, 2020 at 10:21:17AM +0100, Andrzej Hajda wrote:
+> On 25.02.2020 16:03, Daniel Vetter wrote:
+> > On Tue, Feb 25, 2020 at 11:27 AM Andrzej Hajda <a.hajda@samsung.com> wr=
+ote:
+> >> Hi Daniel,
+> >>
+> >>
+> >> The patchset looks interesting.
+> >>
+> >>
+> >> On 21.02.2020 22:02, Daniel Vetter wrote:
+> >>> We have lots of these. And the cleanup code tends to be of dubious
+> >>> quality. The biggest wrong pattern is that developers use devm_, which
+> >>> ties the release action to the underlying struct device, whereas
+> >>> all the userspace visible stuff attached to a drm_device can long
+> >>> outlive that one (e.g. after a hotunplug while userspace has open
+> >>> files and mmap'ed buffers). Give people what they want, but with more
+> >>> correctness.
+> >>
+> >> I am not familiar with this stuff, so forgive me stupid questions.
+> >>
+> >> Is it documented how uapi should behave in such case?
+> >>
+> >> I guess the general rule is to return errors on most ioctls (ENODEV,
+> >> EIO?), and wait until userspace releases everything, as there is not
+> >> much more to do.
+> >>
+> >> If that is true what is the point of keeping these structs anyway -
+> >> trivial functions with small context data should do the job.
+> >>
+> >> I suspect I am missing something but I do not know what :)
+> > We could do the above (also needs unmapping of all mmaps, so userspace
+> > then gets SIGSEGV everywhere) and watch userspace crash&burn.
+> > Essentially if the kernel can't do this properly, then there's no hope
+> > that userspace will be any better.
+> =
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- drivers/gpu/drm/bridge/sii9234.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> =
 
-diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-index f81f81b7051f..b1258f0ed205 100644
---- a/drivers/gpu/drm/bridge/sii9234.c
-+++ b/drivers/gpu/drm/bridge/sii9234.c
-@@ -836,7 +836,8 @@ static int sii9234_init_resources(struct sii9234 *ctx,
- 	ctx->supplies[3].supply = "cvcc12";
- 	ret = devm_regulator_bulk_get(ctx->dev, 4, ctx->supplies);
- 	if (ret) {
--		dev_err(ctx->dev, "regulator_bulk failed\n");
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(ctx->dev, "regulator_bulk failed\n");
- 		return ret;
- 	}
- 
--- 
-2.17.1
+> We do not want to crash userspace. We just need to tell userspace that
+> the kernel objects userspace has references to are not valid.
+> =
 
+> For this two mechanism should be enough:
+> =
+
+> - signal hot-unplug,
+> =
+
+> - report error (ENODEV for example) on any userspace requests (ioctls)
+> on invalid objects.
+> =
+
+> Expecting from userspace properly handling ioctl errors seems to be fair.
+
+The trouble is that maybe it's fair, practice says it's just not going to
+happen.
+
+> Regarding mmap I am not sure how to properly handle disappearing
+> devices, but this is common problem regardless which solution we use.
+
+signal handler wrapped around every mmap access. Which doesn't compose
+across libraries, so is essentially impossible.
+
+Note that e.g. GL's robustness extensions works exactly like this here
+too: GPU dies, kernel kills all your objects and contexts and everything.
+But the driver keeps "working". The only way to get information that
+everything is actually dead is by querying the robustness extension, which
+then will tell you what's happened.
+
+Again this is because it's impossible to make sure userspace actually
+checks error codes every where. It's also prohibitively expensive. vk goes
+as far as outright removing all error validation (at least as much as
+possible).
+
+> > Hence the idea is that we keep everything userspace facing still
+> > around, except it doesn't do much anymore. So connectors still there,
+> > but they look disconnected.
+> =
+
+> =
+
+> It looks like lying to userspace that physical connectors still exists.
+> If we want to lie we need good reason for that. What is that reason?
+> =
+
+> Why not just tell connectors are gone?
+
+Userspace sucks at handling hotunplugged connectors. Most of it is special
+case code for DP MST connectors only.
+
+> > Userspace can then hopefully eventually
+> > get around to processing the sysfs hotunplug event and remove the
+> > device from all its list. So the long-term idea is that a lot of stuff
+> > keeps working, except the driver doesn't talk to the hardware anymore.
+> > And we just sit around waiting for userspace to clean things up.
+> =
+
+> =
+
+> What does it mean "lot of stuff keeps working"? What drm driver can do
+> without hardware? Could you show some examples?
+
+Nothing will "work", the goal is simply for userspace to not explode in
+fire and take the entire desktop down with it.
+
+> > I guess once we have a bunch of the panel/usb drivers converted over
+> > we could indeed document how this is all supposed to work from an uapi
+> > pov. But right now a lot of this is all rather aspirational, I think
+> > only the recent simple display pipe based drivers implement this as
+> > described above.
+> >
+> >>> Mostly copied from devres.c, with types adjusted to fit drm_device and
+> >>> a few simplifications - I didn't (yet) copy over everything. Since
+> >>> the types don't match code sharing looked like a hopeless endeavour.
+> >>>
+> >>> For now it's only super simplified, no groups, you can't remove
+> >>> actions (but kfree exists, we'll need that soon). Plus all specific to
+> >>> drm_device ofc, including the logging. Which I didn't bother to make
+> >>> compile-time optional, since none of the other drm logging is compile
+> >>> time optional either.
+> >>
+> >> I saw in v1 thread that copy/paste is OK and merging back devres and
+> >> drmres can be done later, but experience shows that after short time
+> >> things get de-synchronized and merging process becomes quite painful.
+> >>
+> >> On the other side I guess it shouldn't be difficult to split devres in=
+to
+> >> consumer agnostic core and "struct device" helpers and then use the co=
+re
+> >> in drm.
+> >>
+> >> For example currently devres uses two fields from struct device:
+> >>
+> >>     spinlock_t        devres_lock;
+> >>     struct list_head    devres_head;
+> >>
+> >> Lets put it into separate struct:
+> >>
+> >> struct devres {
+> >>
+> >>     spinlock_t        lock;
+> >>     struct list_head    head;
+> >>
+> >> };
+> >>
+> >> And embed this struct into "struct device".
+> >>
+> >> Then convert all core devres functions to take "struct devres *"
+> >> argument instead of "struct device *" and then these core functions can
+> >> be usable in drm.
+> >>
+> >> Looks quite simple separation of abstraction (devres) and its consumer
+> >> (struct device).
+> >>
+> >> After such split one could think about changing name devres to somethi=
+ng
+> >> more reliable.
+> > There was a long discussion on v1 exactly about this, Greg's
+> > suggestion was to "just share a struct device". So we're not going to
+> > do this here, and the struct device seems like slight overkill and not
+> > a good enough fit here.
+> =
+
+> =
+
+> But my proposition is different, I want to get rid of "struct device"
+> from devres core - devres has nothing to do with device, it was bound to
+> it probably because it was convenient as device was the only client of
+> devres (I guess). Now if we want to have more devres clients abstracting
+> out devres from device seems quite natural. This way we will have proper
+> abstractions without code duplication.
+> =
+
+> Examples of devres related code according to my proposition:
+> =
+
+> // devres core
+> =
+
+> void devres_add(struct devres_head *dh, void *res)
+> {
+> =
+
+> =A0=A0 struct devres *dr =3D container_of(res, struct devres, data);
+> =
+
+> =A0=A0=A0 unsigned long flags;
+> =
+
+> =A0=A0=A0 spin_lock_irqsave(&dh->lock, flags);
+> =A0=A0=A0 add_dr(dev, &dr->node);
+> =A0=A0=A0 spin_unlock_irqrestore(&dh->lock, flags);
+> }
+> =
+
+> // device devres helper (non core)
+> =
+
+> struct clk *devm_clk_get(struct device *dev, const char *id)
+> {
+> =A0=A0=A0 struct clk **ptr, *clk;
+> =
+
+> =A0=A0=A0 ptr =3D devres_alloc(devm_clk_release, sizeof(*ptr), GFP_KERNEL=
+);
+> =A0=A0=A0 if (!ptr)
+> =A0=A0=A0 =A0=A0=A0 return ERR_PTR(-ENOMEM);
+> =
+
+> =A0=A0=A0 clk =3D clk_get(dev, id);
+> =A0=A0=A0 if (!IS_ERR(clk)) {
+> =A0=A0=A0 =A0=A0=A0 *ptr =3D clk;
+> =A0=A0=A0 =A0=A0=A0 devres_add(&dev->devres, ptr);
+> =A0=A0=A0 } else {
+> =A0=A0=A0 =A0=A0=A0 devres_free(ptr);
+> =A0=A0=A0 }
+> =
+
+> =A0=A0=A0 return clk;
+> }
+> =
+
+> =
+
+> Changes are cosmetic. But then you can easily add devres to drmdev:
+> =
+
+> struct drm_device {
+> =
+
+> =A0=A0 ...
+> =
+
+> +=A0=A0 struct devres_head devres;
+> =
+
+> };
+> =
+
+> // then copy/modify from your patch:
+> =
+
+> +void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+> +{
+> +	struct drmres *dr;
+> +
+> +	dr =3D alloc_dr(NULL, size, gfp, dev_to_node(dev->dev));
+> +	if (!dr)
+> +		return NULL;
+> +	dr->node.name =3D "kmalloc";
+> +
+> +	devres_add(&dev->devres, dr); // the only change is here
+> +
+> +	return dr->data;
+> +}
+> =
+
+> =
+
+> Btw, reimplemented add_dr is different of original add_dr and is similar
+> to original devres_add, so your implementation differs already from
+> original one, merging back these two will be painfull :)
+
+Oh I know, I guess I could go more into details about why exactly. One
+reason is that I want type-checking, so struct drm_device * instead of
+something else. At least for the userspace callbacks. That's going to be
+tough with your approach - kmalloc is easy, it's the _add_action which
+gets nasty with the type checking.
+
+The other is that we can use drm debugging, which gives us some nice
+consistency within drm at least.
+-Daniel
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
