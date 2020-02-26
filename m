@@ -1,26 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D1A171214
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:13:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BFE17122B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:14:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B35CE6EC15;
-	Thu, 27 Feb 2020 08:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6C4D6EC1C;
+	Thu, 27 Feb 2020 08:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3A566E4C9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:27:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id C1302293937
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/mediatek: Remove debug messages for function calls
-Date: Wed, 26 Feb 2020 12:27:23 +0100
-Message-Id: <20200226112723.649954-1-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.25.0
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF576E2D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 14:15:15 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E1B638363;
+ Wed, 26 Feb 2020 09:15:12 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 26 Feb 2020 09:15:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=bom162ac9gFcma9iDy1OFat3ZlF
+ vKtIzDMH8zrN0kDQ=; b=WgTEJSBQc0Giu0DeGNBqZ/LQw2ug88/mp3W/Ys3KlO8
+ LoB5f0/SCHWrQEHleI9Wp6rjzFK75hGqI+TovHWWv44ZDjGFrEUnP1bFnnNh9IqS
+ nnISRiK7YtF/2/Z3OQO/qnW6Ys5Q9iUylCq7MIpfZ1IYl3nID7Ekw2kT48mUudGx
+ IFrFO7ea234w9NDj0CR7wQ8KtgG1S29UnHb8m4YTiE4tnW/rJ4g1WisF9pLwJ8gJ
+ RHekUGi5GdabkCgbEYd0Vgk7Vj65IiZzu7xz+HsjUsS9PoQZ2m4mlz7QgbEccfa6
+ fFlXpJBnkAT94imNELyAyRx4kFeV8SubySmkce/QWNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=bom162
+ ac9gFcma9iDy1OFat3ZlFvKtIzDMH8zrN0kDQ=; b=1X4uKlKjPafmoLx5sje8fN
+ Z5F2e61U76rNKHqHghkOcwD655QLYMt47hkt4N1d543s/Z+X56oWH53kfSlO8VO8
+ l7SqkCAmJG5FO40/GyRr59Vi4z6EmKnDBqe6lDthTOTg2O7GwDYKxFIFwPdr1LkG
+ XBeOv6LRm1u4sf2+qGmOJU/vAHRMCL5XUJHyqxlv+gIAsKvnJBHI0mZo58goCe/n
+ NjtOnRow9mZeXICIlU1Q2fYqVkGHhunIGbihqr+sC2pXeW/pN7BG0YliXK7nG7R+
+ 9N5UJ5zraiGkWIVY03WhM+6iFW+9ZLx1VpGWZGq5wrtWp1Cv1lU5zTop7uEJFlrQ
+ ==
+X-ME-Sender: <xms:b31WXi4Z6d9VBrI7lGa7V6wGVLxCEg5J19Mn3-8ZyB3his6AWJqDNg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleeggdeigecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:b31WXlM5-g_WtYHlWm-jrMwWExH9Z-Ts0OOLciJ7u5UvldkwC08iuA>
+ <xmx:b31WXgNFDN54P2k12Ebr9Uu0rsYfeu5P5PpdTPzKHdNkFFw7pwJHIw>
+ <xmx:b31WXqJk28cMiUtq82-O0kijFf-nA1Nve3KQRwkje6h_xTeFSHwYKA>
+ <xmx:cH1WXiyyCeM1sLeCCJd95c1VrD4DVpaEHcNxrdECjrdHAUDQM-oMSw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id C60B33060FCB;
+ Wed, 26 Feb 2020 09:15:10 -0500 (EST)
+Date: Wed, 26 Feb 2020 15:15:09 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Subject: Re: [PATCH 22/89] clk: bcm: rpi: Discover the firmware clocks
+Message-ID: <20200226141509.awlydvh6bi7re27o@gilmour.lan>
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <d197ab836d84b89b94ff1927872126767d921e94.1582533919.git-series.maxime@cerno.tech>
+ <2814be76-4006-4651-0a84-6dfaf2064e4a@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <2814be76-4006-4651-0a84-6dfaf2064e4a@gmail.com>
 X-Mailman-Approved-At: Thu, 27 Feb 2020 08:13:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -34,92 +77,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1617663438=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Equivalent information can be nowadays obtained using function tracer.
 
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
----
+--===============1617663438==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="n5yxkfnp2qbxja73"
+Content-Disposition: inline
 
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 5 -----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 2 --
- 2 files changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index a236499123aa..882c690d3f13 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -192,7 +192,6 @@ static int mtk_crtc_ddp_clk_enable(struct mtk_drm_crtc *mtk_crtc)
- 	int ret;
- 	int i;
- 
--	DRM_DEBUG_DRIVER("%s\n", __func__);
- 	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
- 		ret = clk_prepare_enable(mtk_crtc->ddp_comp[i]->clk);
- 		if (ret) {
-@@ -212,7 +211,6 @@ static void mtk_crtc_ddp_clk_disable(struct mtk_drm_crtc *mtk_crtc)
- {
- 	int i;
- 
--	DRM_DEBUG_DRIVER("%s\n", __func__);
- 	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++)
- 		clk_disable_unprepare(mtk_crtc->ddp_comp[i]->clk);
- }
-@@ -257,7 +255,6 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
- 	int ret;
- 	int i;
- 
--	DRM_DEBUG_DRIVER("%s\n", __func__);
- 	if (WARN_ON(!crtc->state))
- 		return -EINVAL;
- 
-@@ -298,7 +295,6 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
- 		goto err_mutex_unprepare;
- 	}
- 
--	DRM_DEBUG_DRIVER("mediatek_ddp_ddp_path_setup\n");
- 	for (i = 0; i < mtk_crtc->ddp_comp_nr - 1; i++) {
- 		mtk_ddp_add_comp_to_path(mtk_crtc->config_regs,
- 					 mtk_crtc->ddp_comp[i]->id,
-@@ -348,7 +344,6 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
- 	struct drm_crtc *crtc = &mtk_crtc->base;
- 	int i;
- 
--	DRM_DEBUG_DRIVER("%s\n", __func__);
- 	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
- 		mtk_ddp_comp_stop(mtk_crtc->ddp_comp[i]);
- 		if (i == 1)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 17f118ee0e57..4934834977b3 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -570,7 +570,6 @@ static int mtk_drm_sys_suspend(struct device *dev)
- 	int ret;
- 
- 	ret = drm_mode_config_helper_suspend(drm);
--	DRM_DEBUG_DRIVER("mtk_drm_sys_suspend\n");
- 
- 	return ret;
- }
-@@ -582,7 +581,6 @@ static int mtk_drm_sys_resume(struct device *dev)
- 	int ret;
- 
- 	ret = drm_mode_config_helper_resume(drm);
--	DRM_DEBUG_DRIVER("mtk_drm_sys_resume\n");
- 
- 	return ret;
- }
--- 
-2.25.0
+--n5yxkfnp2qbxja73
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Florian,
+
+On Mon, Feb 24, 2020 at 10:15:32AM -0800, Florian Fainelli wrote:
+> On 2/24/20 1:06 AM, Maxime Ripard wrote:
+> > The firmware has an interface to discover the clocks it exposes.
+> >
+> > Let's use it to discover, register the clocks in the clocks framework and
+> > then expose them through the device tree for consumers to use them.
+> >
+> > Cc: Michael Turquette <mturquette@baylibre.com>
+> > Cc: Stephen Boyd <sboyd@kernel.org>
+> > Cc: linux-clk@vger.kernel.org
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
+> That seems like a re-implementaiton of SCMI without all of its
+> protocols, without being able to use the existing drivers, maybe a
+> firmware update should be considered so standard drivers can be leveraged?
+
+I'm not really qualified to talk about how the firmware will evolve in
+the future, but you're right that it looks a lot like what SCMI can
+do.
+
+Even if a firmware update was to support SCMI at some point, since the
+firmware is flashed in an EEPROM, we'd still have to support that
+interface.
+
+Maxime
+
+--n5yxkfnp2qbxja73
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXlZ9bQAKCRDj7w1vZxhR
+xfqTAP4vLh532NQ+/Wzxq6syIJ/bQnWdlyFvUKhuvHlwOVJikgD9EEvRQkVNQLSB
+OFFRQxI+ToWjkDElsX49T4eIov7qRAI=
+=N7b+
+-----END PGP SIGNATURE-----
+
+--n5yxkfnp2qbxja73--
+
+--===============1617663438==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1617663438==--
