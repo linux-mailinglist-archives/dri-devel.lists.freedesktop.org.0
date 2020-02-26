@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0239016FD89
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:26:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619C416FD91
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:26:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB03D6E849;
-	Wed, 26 Feb 2020 11:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C43A6E8AE;
+	Wed, 26 Feb 2020 11:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 205556E525
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:26:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12F7E6E524
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:26:08 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBB631853;
- Wed, 26 Feb 2020 12:25:59 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59BD3DC3;
+ Wed, 26 Feb 2020 12:26:00 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1582716360;
- bh=HqJoom6ZoOt2QyvGQ2JKlONJsun3vq1LOGpTW2KmbTA=;
+ bh=l03TETiBPKd1DWjjQABhzjxEU2chWIHadQcyz65+jjY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Eczz2/BBqF4+lG2djcY6Ycdhs+VO38VBO4hp0dJJTtUWRz95TqKGoHYGKrChlXWW8
- AdvaJkPhHJUxcCWYng6T7eR6fFggsXG+S32ej+b0HJaNbET5X3gRbB+NJhyyyR4Goq
- SuomGtwKLreOEmqUEKyjyPZBBQlxJyCp9Sa0UXn0=
+ b=dBSqmjC8S3V4UMZdkh6W2tbT67z63qsKa2+X2eZYsnLpfvKq28taXSuYfUBD6Psvj
+ hLSkDM/UYs+YXLndI67zJj/4lO7OmBTfSF5esaue5sF2z4AGvJGx0XFr2fg+oKDEnU
+ /L6l55XS6MkTiLl0nYOMicCpnubz+ltC2dqwiyJ4=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 34/54] drm/omap: hdmi5: Move mode set,
- enable and disable operations to bridge
-Date: Wed, 26 Feb 2020 13:24:54 +0200
-Message-Id: <20200226112514.12455-35-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v8 35/54] drm/omap: hdmi4: Implement drm_bridge .hpd_notify()
+ operation
+Date: Wed, 26 Feb 2020 13:24:55 +0200
+Message-Id: <20200226112514.12455-36-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
 References: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
@@ -52,282 +52,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the omap_dss_device .set_timings(), .enable() and .disable()
-operations to the drm_bridge functions. As the drm_bridge for the HDMI
-encoder is unconditionally registered and attached, those operations
-will be called at the appropriate time.
-
-The omapdss device .set_infoframe() and .set_hdmi_mode() operations have
-no equivalent in drm_bridge. Thir content is thus moved to the bridge
-.enable() operation as the data they store is not needed before the HDMI
-encoder gets enabled.
+The HDMI4 encoder is transitioning to the drm_bridge API, implement the
+last missing operation.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi5.c | 209 +++++++++++++++-------------
- 1 file changed, 111 insertions(+), 98 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index e7fe2a24a3e1..52184797c858 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -31,6 +31,9 @@
- #include <linux/of_graph.h>
- #include <sound/omap-hdmi-audio.h>
- 
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_state_helper.h>
-+
- #include "omapdss.h"
- #include "hdmi5_core.h"
- #include "dss.h"
-@@ -236,20 +239,6 @@ static void hdmi_power_off_full(struct omap_hdmi *hdmi)
- 	hdmi_power_off_core(hdmi);
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+index a8d13a081a9a..73f1fab346e9 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+@@ -553,6 +553,15 @@ static void hdmi4_bridge_disable(struct drm_bridge *bridge,
+ 	mutex_unlock(&hdmi->lock);
  }
  
--static void hdmi_display_set_timings(struct omap_dss_device *dssdev,
--				     const struct drm_display_mode *mode)
--{
--	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
--
--	mutex_lock(&hdmi->lock);
--
--	drm_display_mode_to_videomode(mode, &hdmi->cfg.vm);
--
--	dispc_set_tv_pclk(hdmi->dss->dispc, mode->clock * 1000);
--
--	mutex_unlock(&hdmi->lock);
--}
--
- static int hdmi_dump_regs(struct seq_file *s, void *p)
- {
- 	struct omap_hdmi *hdmi = s->private;
-@@ -285,62 +274,6 @@ static void hdmi_stop_audio_stream(struct omap_hdmi *hd)
- 	REG_FLD_MOD(hd->wp.base, HDMI_WP_SYSCONFIG, hd->wp_idlemode, 3, 2);
- }
- 
--static void hdmi_display_enable(struct omap_dss_device *dssdev)
--{
--	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
--	unsigned long flags;
--	int r;
--
--	DSSDBG("ENTER hdmi_display_enable\n");
--
--	mutex_lock(&hdmi->lock);
--
--	r = hdmi_power_on_full(hdmi);
--	if (r) {
--		DSSERR("failed to power on device\n");
--		goto done;
--	}
--
--	if (hdmi->audio_configured) {
--		r = hdmi5_audio_config(&hdmi->core, &hdmi->wp,
--				       &hdmi->audio_config,
--				       hdmi->cfg.vm.pixelclock);
--		if (r) {
--			DSSERR("Error restoring audio configuration: %d", r);
--			hdmi->audio_abort_cb(&hdmi->pdev->dev);
--			hdmi->audio_configured = false;
--		}
--	}
--
--	spin_lock_irqsave(&hdmi->audio_playing_lock, flags);
--	if (hdmi->audio_configured && hdmi->audio_playing)
--		hdmi_start_audio_stream(hdmi);
--	hdmi->display_enabled = true;
--	spin_unlock_irqrestore(&hdmi->audio_playing_lock, flags);
--
--done:
--	mutex_unlock(&hdmi->lock);
--}
--
--static void hdmi_display_disable(struct omap_dss_device *dssdev)
--{
--	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
--	unsigned long flags;
--
--	DSSDBG("Enter hdmi_display_disable\n");
--
--	mutex_lock(&hdmi->lock);
--
--	spin_lock_irqsave(&hdmi->audio_playing_lock, flags);
--	hdmi_stop_audio_stream(hdmi);
--	hdmi->display_enabled = false;
--	spin_unlock_irqrestore(&hdmi->audio_playing_lock, flags);
--
--	hdmi_power_off_full(hdmi);
--
--	mutex_unlock(&hdmi->lock);
--}
--
- static int hdmi_core_enable(struct omap_hdmi *hdmi)
- {
- 	int r = 0;
-@@ -473,39 +406,11 @@ static struct edid *hdmi_read_edid(struct omap_dss_device *dssdev)
- 				 NULL);
- }
- 
--static int hdmi_set_infoframe(struct omap_dss_device *dssdev,
--		const struct hdmi_avi_infoframe *avi)
--{
--	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
--
--	hdmi->cfg.infoframe = *avi;
--	return 0;
--}
--
--static int hdmi_set_hdmi_mode(struct omap_dss_device *dssdev,
--		bool hdmi_mode)
--{
--	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
--
--	hdmi->cfg.hdmi_dvi_mode = hdmi_mode ? HDMI_HDMI : HDMI_DVI;
--	return 0;
--}
--
- static const struct omap_dss_device_ops hdmi_ops = {
- 	.connect		= hdmi_connect,
- 	.disconnect		= hdmi_disconnect,
- 
--	.enable			= hdmi_display_enable,
--	.disable		= hdmi_display_disable,
--
--	.set_timings		= hdmi_display_set_timings,
--
- 	.read_edid		= hdmi_read_edid,
--
--	.hdmi = {
--		.set_infoframe		= hdmi_set_infoframe,
--		.set_hdmi_mode		= hdmi_set_hdmi_mode,
--	},
- };
- 
- /* -----------------------------------------------------------------------------
-@@ -524,6 +429,108 @@ static int hdmi5_bridge_attach(struct drm_bridge *bridge,
- 				 bridge, flags);
- }
- 
-+static void hdmi5_bridge_mode_set(struct drm_bridge *bridge,
-+				  const struct drm_display_mode *mode,
-+				  const struct drm_display_mode *adjusted_mode)
++static void hdmi4_bridge_hpd_notify(struct drm_bridge *bridge,
++				    enum drm_connector_status status)
 +{
 +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
 +
-+	mutex_lock(&hdmi->lock);
-+
-+	drm_display_mode_to_videomode(adjusted_mode, &hdmi->cfg.vm);
-+
-+	dispc_set_tv_pclk(hdmi->dss->dispc, adjusted_mode->clock * 1000);
-+
-+	mutex_unlock(&hdmi->lock);
++	if (status == connector_status_disconnected)
++		hdmi4_cec_set_phys_addr(&hdmi->core, CEC_PHYS_ADDR_INVALID);
 +}
 +
-+static void hdmi5_bridge_enable(struct drm_bridge *bridge,
-+				struct drm_bridge_state *bridge_state)
-+{
-+	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-+	struct drm_atomic_state *state = bridge_state->base.state;
-+	struct drm_connector_state *conn_state;
-+	struct drm_connector *connector;
-+	struct drm_crtc_state *crtc_state;
-+	unsigned long flags;
-+	int ret;
-+
-+	/*
-+	 * None of these should fail, as the bridge can't be enabled without a
-+	 * valid CRTC to connector path with fully populated new states.
-+	 */
-+	connector = drm_atomic_get_new_connector_for_encoder(state,
-+							     bridge->encoder);
-+	if (WARN_ON(!connector))
-+		return;
-+	conn_state = drm_atomic_get_new_connector_state(state, connector);
-+	if (WARN_ON(!conn_state))
-+		return;
-+	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-+	if (WARN_ON(!crtc_state))
-+		return;
-+
-+	hdmi->cfg.hdmi_dvi_mode = connector->display_info.is_hdmi
-+				? HDMI_HDMI : HDMI_DVI;
-+
-+	if (connector->display_info.is_hdmi) {
-+		const struct drm_display_mode *mode;
-+		struct hdmi_avi_infoframe avi;
-+
-+		mode = &crtc_state->adjusted_mode;
-+		ret = drm_hdmi_avi_infoframe_from_display_mode(&avi, connector,
-+							       mode);
-+		if (ret == 0)
-+			hdmi->cfg.infoframe = avi;
-+	}
-+
-+	mutex_lock(&hdmi->lock);
-+
-+	ret = hdmi_power_on_full(hdmi);
-+	if (ret) {
-+		DSSERR("failed to power on device\n");
-+		goto done;
-+	}
-+
-+	if (hdmi->audio_configured) {
-+		ret = hdmi5_audio_config(&hdmi->core, &hdmi->wp,
-+					 &hdmi->audio_config,
-+					 hdmi->cfg.vm.pixelclock);
-+		if (ret) {
-+			DSSERR("Error restoring audio configuration: %d", ret);
-+			hdmi->audio_abort_cb(&hdmi->pdev->dev);
-+			hdmi->audio_configured = false;
-+		}
-+	}
-+
-+	spin_lock_irqsave(&hdmi->audio_playing_lock, flags);
-+	if (hdmi->audio_configured && hdmi->audio_playing)
-+		hdmi_start_audio_stream(hdmi);
-+	hdmi->display_enabled = true;
-+	spin_unlock_irqrestore(&hdmi->audio_playing_lock, flags);
-+
-+done:
-+	mutex_unlock(&hdmi->lock);
-+}
-+
-+static void hdmi5_bridge_disable(struct drm_bridge *bridge,
-+				 struct drm_bridge_state *bridge_state)
-+{
-+	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-+	unsigned long flags;
-+
-+	mutex_lock(&hdmi->lock);
-+
-+	spin_lock_irqsave(&hdmi->audio_playing_lock, flags);
-+	hdmi_stop_audio_stream(hdmi);
-+	hdmi->display_enabled = false;
-+	spin_unlock_irqrestore(&hdmi->audio_playing_lock, flags);
-+
-+	hdmi_power_off_full(hdmi);
-+
-+	mutex_unlock(&hdmi->lock);
-+}
-+
- static struct edid *hdmi5_bridge_read_edid(struct omap_hdmi *hdmi,
+ static struct edid *hdmi4_bridge_read_edid(struct omap_hdmi *hdmi,
  					   struct drm_connector *connector)
  {
-@@ -540,6 +547,12 @@ static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
- 	.attach = hdmi5_bridge_attach,
-+	.mode_set = hdmi5_bridge_mode_set,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_enable = hdmi5_bridge_enable,
-+	.atomic_disable = hdmi5_bridge_disable,
- 	.get_edid = hdmi5_bridge_get_edid,
+@@ -575,6 +584,7 @@ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.atomic_enable = hdmi4_bridge_enable,
+ 	.atomic_disable = hdmi4_bridge_disable,
++	.hpd_notify = hdmi4_bridge_hpd_notify,
+ 	.get_edid = hdmi4_bridge_get_edid,
  };
  
 -- 
