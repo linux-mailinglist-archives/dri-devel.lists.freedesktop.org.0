@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304C717022C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 16:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78264170244
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 16:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F01F6EA50;
-	Wed, 26 Feb 2020 15:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 648776E35F;
+	Wed, 26 Feb 2020 15:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBDF96EA50
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 15:19:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 903AD6E35F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 15:23:38 +0000 (UTC)
 Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1j6yTC-0005WE-8j; Wed, 26 Feb 2020 16:19:30 +0100
-Message-ID: <78e5e739269ee8f7467284ad88d2097e2ad991ba.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: rework perfmon query infrastructure
+ id 1j6yX6-0005yp-Nr; Wed, 26 Feb 2020 16:23:32 +0100
+Message-ID: <00f1dd2c9cbf4b8b0569a19c37b092d2a83668c1.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/6] drm/etnaviv: update hardware headers from rnndb
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
  linux-kernel@vger.kernel.org
-Date: Wed, 26 Feb 2020 16:19:29 +0100
-In-Reply-To: <20200106104339.215511-1-christian.gmeiner@gmail.com>
-References: <20200106104339.215511-1-christian.gmeiner@gmail.com>
+Date: Wed, 26 Feb 2020 16:23:32 +0100
+In-Reply-To: <20200106151655.311413-2-christian.gmeiner@gmail.com>
+References: <20200106151655.311413-1-christian.gmeiner@gmail.com>
+ <20200106151655.311413-2-christian.gmeiner@gmail.com>
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
@@ -44,10 +45,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -55,142 +54,100 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Christian,
 
-sorry for taking so long to get around to this.
-
-On Mo, 2020-01-06 at 11:43 +0100, Christian Gmeiner wrote:
-> Report the correct perfmon domains and signals depending
-> on the supported feature flags.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Fixes: 9e2c2e273012 ("drm/etnaviv: add infrastructure to query perf counter")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 57 ++++++++++++++++++++---
->  1 file changed, 50 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> index 8adbf2861bff..7ae8f347ca06 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> @@ -32,6 +32,7 @@ struct etnaviv_pm_domain {
->  };
->  
->  struct etnaviv_pm_domain_meta {
-> +	unsigned int feature;
->  	const struct etnaviv_pm_domain *domains;
->  	u32 nr_domains;
->  };
-> @@ -410,36 +411,78 @@ static const struct etnaviv_pm_domain doms_vg[] = {
->  
->  static const struct etnaviv_pm_domain_meta doms_meta[] = {
->  	{
-> +		.feature = chipFeatures_PIPE_3D,
->  		.nr_domains = ARRAY_SIZE(doms_3d),
->  		.domains = &doms_3d[0]
->  	},
->  	{
-> +		.feature = chipFeatures_PIPE_2D,
->  		.nr_domains = ARRAY_SIZE(doms_2d),
->  		.domains = &doms_2d[0]
->  	},
->  	{
-> +		.feature = chipFeatures_PIPE_VG,
->  		.nr_domains = ARRAY_SIZE(doms_vg),
->  		.domains = &doms_vg[0]
->  	}
->  };
->  
-> +static unsigned int num_pm_domains(const struct etnaviv_gpu *gpu)
-> +{
-> +	unsigned int num = 0, i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
-> +		const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
-> +
-> +		if (gpu->identity.features & meta->feature)
-> +			num += meta->nr_domains;
-> +	}
-> +
-> +	return num;
-> +}
-> +
-> +static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
-> +	unsigned int index)
-> +{
-> +	const struct etnaviv_pm_domain *domain = NULL;
-> +	unsigned int offset = 0, i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
-> +		const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
-> +
-> +		if (!(gpu->identity.features & meta->feature))
-> +			continue;
-> +
-> +		if (meta->nr_domains < (index - offset)) {
-> +			offset += meta->nr_domains;
-> +			continue;
-> +		}
-> +
-> +		domain = meta->domains + (index - offset);
-> +	}
-> +
-> +	BUG_ON(!domain);
-
-This is a no-go. BUG_ON is reserved for only the most severe kernel
-bugs where you can't possibly continue without risking a corruption of
-non-volatile state. This isn't the case here, please instead just make
-the callers handle a NULL return gracefully.
+series applied to etnaviv/next.
 
 Regards,
 Lucas
 
+On Mo, 2020-01-06 at 16:16 +0100, Christian Gmeiner wrote:
+> Update the state HI header from rnndb commit
+> 7f1ce75 ("rnndb: document some GPU identity register")
+> 
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> ---
+>  drivers/gpu/drm/etnaviv/state_hi.xml.h | 29 ++++++++++++++++------
+> ----
+>  1 file changed, 18 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/state_hi.xml.h
+> b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+> index 41d8da2b6f4f..004d8ddacf6a 100644
+> --- a/drivers/gpu/drm/etnaviv/state_hi.xml.h
+> +++ b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+> @@ -8,17 +8,17 @@ This file was generated by the rules-ng-ng
+> headergen tool in this git repository
+>  git clone git://0x04.net/rules-ng-ng
+>  
+>  The rules-ng-ng source files this header was generated from are:
+> -- state.xml     (  26087 bytes, from 2017-12-18 16:51:59)
+> -- common.xml    (  35468 bytes, from 2018-01-22 13:48:54)
+> -- common_3d.xml (  14615 bytes, from 2017-12-18 16:51:59)
+> -- state_hi.xml  (  30232 bytes, from 2018-02-15 15:48:01)
+> -- copyright.xml (   1597 bytes, from 2016-12-08 16:37:56)
+> -- state_2d.xml  (  51552 bytes, from 2016-12-08 16:37:56)
+> -- state_3d.xml  (  79992 bytes, from 2017-12-18 16:51:59)
+> -- state_blt.xml (  13405 bytes, from 2017-12-18 16:51:59)
+> -- state_vg.xml  (   5975 bytes, from 2016-12-08 16:37:56)
+> -
+> -Copyright (C) 2012-2018 by the following authors:
+> +- state.xml     (  26666 bytes, from 2019-12-20 21:20:35)
+> +- common.xml    (  35468 bytes, from 2018-02-10 13:09:26)
+> +- common_3d.xml (  15058 bytes, from 2019-12-28 20:02:03)
+> +- state_hi.xml  (  30552 bytes, from 2019-12-28 20:02:48)
+> +- copyright.xml (   1597 bytes, from 2018-02-10 13:09:26)
+> +- state_2d.xml  (  51552 bytes, from 2018-02-10 13:09:26)
+> +- state_3d.xml  (  83098 bytes, from 2019-12-28 20:02:03)
+> +- state_blt.xml (  14252 bytes, from 2019-10-20 19:59:15)
+> +- state_vg.xml  (   5975 bytes, from 2018-02-10 13:09:26)
 > +
-> +	return domain;
-> +}
+> +Copyright (C) 2012-2019 by the following authors:
+>  - Wladimir J. van der Laan <laanwj@gmail.com>
+>  - Christian Gmeiner <christian.gmeiner@gmail.com>
+>  - Lucas Stach <l.stach@pengutronix.de>
+> @@ -48,6 +48,9 @@ DEALINGS IN THE SOFTWARE.
+>  #define MMU_EXCEPTION_SLAVE_NOT_PRESENT				
+> 0x00000001
+>  #define MMU_EXCEPTION_PAGE_NOT_PRESENT				
+> 0x00000002
+>  #define MMU_EXCEPTION_WRITE_VIOLATION				
+> 0x00000003
+> +#define MMU_EXCEPTION_OUT_OF_BOUND				0x00000
+> 004
+> +#define MMU_EXCEPTION_READ_SECURITY_VIOLATION			
+> 0x00000005
+> +#define MMU_EXCEPTION_WRITE_SECURITY_VIOLATION			
+> 0x00000006
+>  #define VIVS_HI							
+> 0x00000000
+>  
+>  #define VIVS_HI_CLOCK_CONTROL					
+> 0x00000000
+> @@ -140,6 +143,8 @@ DEALINGS IN THE SOFTWARE.
+>  
+>  #define VIVS_HI_CHIP_TIME					0x00000
+> 02c
+>  
+> +#define VIVS_HI_CHIP_CUSTOMER_ID				0x00000
+> 030
 > +
->  int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
->  	struct drm_etnaviv_pm_domain *domain)
->  {
-> -	const struct etnaviv_pm_domain_meta *meta = &doms_meta[domain->pipe];
-> +	const unsigned int nr_domains = num_pm_domains(gpu);
->  	const struct etnaviv_pm_domain *dom;
+>  #define VIVS_HI_CHIP_MINOR_FEATURE_0				0x00000
+> 034
 >  
-> -	if (domain->iter >= meta->nr_domains)
-> +	if (domain->iter >= nr_domains)
->  		return -EINVAL;
+>  #define VIVS_HI_CACHE_CONTROL					
+> 0x00000038
+> @@ -237,6 +242,8 @@ DEALINGS IN THE SOFTWARE.
 >  
-> -	dom = meta->domains + domain->iter;
-> +	dom = pm_domain(gpu, domain->iter);
+>  #define VIVS_HI_BLT_INTR					0x00000
+> 0d4
 >  
->  	domain->id = domain->iter;
->  	domain->nr_signals = dom->nr_signals;
->  	strncpy(domain->name, dom->name, sizeof(domain->name));
+> +#define VIVS_HI_CHIP_ECO_ID					0x00000
+> 0e8
+> +
+>  #define VIVS_HI_AUXBIT						
+> 0x000000ec
 >  
->  	domain->iter++;
-> -	if (domain->iter == meta->nr_domains)
-> +	if (domain->iter == nr_domains)
->  		domain->iter = 0xff;
->  
->  	return 0;
-> @@ -448,14 +491,14 @@ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
->  int etnaviv_pm_query_sig(struct etnaviv_gpu *gpu,
->  	struct drm_etnaviv_pm_signal *signal)
->  {
-> -	const struct etnaviv_pm_domain_meta *meta = &doms_meta[signal->pipe];
-> +	const unsigned int nr_domains = num_pm_domains(gpu);
->  	const struct etnaviv_pm_domain *dom;
->  	const struct etnaviv_pm_signal *sig;
->  
-> -	if (signal->domain >= meta->nr_domains)
-> +	if (signal->domain >= nr_domains)
->  		return -EINVAL;
->  
-> -	dom = meta->domains + signal->domain;
-> +	dom = pm_domain(gpu, signal->domain);
->  
->  	if (signal->iter >= dom->nr_signals)
->  		return -EINVAL;
+>  #define VIVS_PM							
+> 0x00000000
 
 _______________________________________________
 dri-devel mailing list
