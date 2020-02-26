@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8635116FD79
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:26:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D3516FD83
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3931888F94;
-	Wed, 26 Feb 2020 11:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C406E52E;
+	Wed, 26 Feb 2020 11:26:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF11A6E4C9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:25:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54C766E4C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:25:46 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E8D61288;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE3FF1374;
  Wed, 26 Feb 2020 12:25:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582716343;
- bh=ThxWbxfEUD9Yjv8MtytPCHRfJKdTkxejZEIRPY+BNOo=;
+ s=mail; t=1582716344;
+ bh=9d6PVG0da+62RfVPOOQ6V5aeFjiHTlcaRYJwGqwFJpw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jz7URfyB8Zfq0Mzx48dHIjMTZrhxHTbB+rQAL0jdtwmJXh8PlkiLIFCwl9F1mc4xL
- RK29LHRJMC++rmWxArhbtidltrA9RCnNAP/ir9Z0CFyWfhpqOeJzsjiBqMAfcAr1VH
- EXfwUWFO6Uy7G3bZlHPqVmjfcqKHKrU9ktowHbbE=
+ b=F2WSHc/29Hs0nGal2hxUG/RhGFkWzea8EaCMdBY+ON87rSb3vV+ZExVbWUORnIFPe
+ DPwEJmAvyxmXs0LzJS9u1Rmv8TswL4w7PQ9/6v93UtvCFZJF4lz++XYJejmAjQaLoR
+ xQ5egoHHSP38Rh4x41tRum8bPnI+0rJwho1HmSj0=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 05/54] drm/bridge: Fix atomic state ops documentation
-Date: Wed, 26 Feb 2020 13:24:25 +0200
-Message-Id: <20200226112514.12455-6-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v8 06/54] drm/bridge: Improve overview documentation
+Date: Wed, 26 Feb 2020 13:24:26 +0200
+Message-Id: <20200226112514.12455-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
 References: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
@@ -51,62 +51,157 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_bridge_funcs atomic_state_duplicate and atomic_state_destroy
-operations are erroneously documented as having a default implementation
-if not implemented in bridge drivers. This isn't correct, fix the
-documentation.
+Clean up the drm_bridge overview documentation, and expand the
+operations documentation to provide more details on API usage.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- include/drm/drm_bridge.h | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ Documentation/gpu/drm-kms-helpers.rst |   6 +-
+ drivers/gpu/drm/drm_bridge.c          | 101 +++++++++++++++++++-------
+ 2 files changed, 79 insertions(+), 28 deletions(-)
 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 999faaaab9a1..38de129d5947 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -349,9 +349,11 @@ struct drm_bridge_funcs {
- 	 * Duplicate the current bridge state object (which is guaranteed to be
- 	 * non-NULL).
- 	 *
--	 * The atomic_duplicate_state() hook is optional. When not implemented
--	 * the core allocates a drm_bridge_state object and calls
--	 * __drm_atomic_helper_bridge_duplicate_state() to initialize it.
-+	 * The atomic_duplicate_state hook is mandatory if the bridge
-+	 * implements any of the atomic hooks, and should be left unassigned
-+	 * otherwise. For bridges that don't subclass &drm_bridge_state, the
-+	 * drm_atomic_helper_bridge_duplicate_state() helper function shall be
-+	 * used to implement this hook.
- 	 *
- 	 * RETURNS:
- 	 * A valid drm_bridge_state object or NULL if the allocation fails.
-@@ -364,8 +366,11 @@ struct drm_bridge_funcs {
- 	 * Destroy a bridge state object previously allocated by
- 	 * &drm_bridge_funcs.atomic_duplicate_state().
- 	 *
--	 * The atomic_destroy_state hook is optional. When not implemented the
--	 * core calls kfree() on the state.
-+	 * The atomic_destroy_state hook is mandatory if the bridge implements
-+	 * any of the atomic hooks, and should be left unassigned otherwise.
-+	 * For bridges that don't subclass &drm_bridge_state, the
-+	 * drm_atomic_helper_bridge_destroy_state() helper function shall be
-+	 * used to implement this hook.
- 	 */
- 	void (*atomic_destroy_state)(struct drm_bridge *bridge,
- 				     struct drm_bridge_state *state);
-@@ -474,7 +479,10 @@ struct drm_bridge_funcs {
- 	 * This function is called at attach time.
- 	 *
- 	 * The atomic_reset hook is mandatory if the bridge implements any of
--	 * the atomic hooks, and should be left unassigned otherwise.
-+	 * the atomic hooks, and should be left unassigned otherwise. For
-+	 * bridges that don't subclass &drm_bridge_state, the
-+	 * drm_atomic_helper_bridge_reset() helper function shall be used to
-+	 * implement this hook.
- 	 *
- 	 * Note that the atomic_reset() semantics is not exactly matching the
- 	 * reset() semantics found on other components (connector, plane, ...).
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index 9668a7fe2408..fe155c6ae175 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -139,11 +139,11 @@ Overview
+ .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+    :doc: overview
+ 
+-Default bridge callback sequence
+---------------------------------
++Bridge Operations
++-----------------
+ 
+ .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+-   :doc: bridge callbacks
++   :doc: bridge operations
+ 
+ 
+ Bridge Helper Reference
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 68ab933ee430..52dfc67a6cf8 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -39,26 +39,50 @@
+  * encoder chain.
+  *
+  * A bridge is always attached to a single &drm_encoder at a time, but can be
+- * either connected to it directly, or through an intermediate bridge::
+- *
+- *     encoder ---> bridge B ---> bridge A
+- *
+- * Here, the output of the encoder feeds to bridge B, and that furthers feeds to
+- * bridge A.
+- *
+- * The driver using the bridge is responsible to make the associations between
+- * the encoder and bridges. Once these links are made, the bridges will
+- * participate along with encoder functions to perform mode_set/enable/disable
+- * through the ops provided in &drm_bridge_funcs.
+- *
+- * drm_bridge, like drm_panel, aren't drm_mode_object entities like planes,
++ * either connected to it directly, or through a chain of bridges::
++ *
++ *     [ CRTC ---> ] Encoder ---> Bridge A ---> Bridge B
++ *
++ * Here, the output of the encoder feeds to bridge A, and that furthers feeds to
++ * bridge B. Bridge chains can be arbitrarily long, and shall be fully linear:
++ * Chaining multiple bridges to the output of a bridge, or the same bridge to
++ * the output of different bridges, is not supported.
++ *
++ * Display drivers are responsible for linking encoders with the first bridge
++ * in the chains. This is done by acquiring the appropriate bridge with
++ * of_drm_find_bridge() or drm_of_find_panel_or_bridge(), or creating it for a
++ * panel with drm_panel_bridge_add_typed() (or the managed version
++ * devm_drm_panel_bridge_add_typed()). Once acquired, the bridge shall be
++ * attached to the encoder with a call to drm_bridge_attach().
++ *
++ * Bridges are responsible for linking themselves with the next bridge in the
++ * chain, if any. This is done the same way as for encoders, with the call to
++ * drm_bridge_attach() occurring in the &drm_bridge_funcs.attach operation.
++ *
++ * Once these links are created, the bridges can participate along with encoder
++ * functions to perform mode validation and fixup (through
++ * drm_bridge_chain_mode_valid() and drm_atomic_bridge_chain_check()), mode
++ * setting (through drm_bridge_chain_mode_set()), enable (through
++ * drm_atomic_bridge_chain_pre_enable() and drm_atomic_bridge_chain_enable())
++ * and disable (through drm_atomic_bridge_chain_disable() and
++ * drm_atomic_bridge_chain_post_disable()). Those functions call the
++ * corresponding operations provided in &drm_bridge_funcs in sequence for all
++ * bridges in the chain.
++ *
++ * For display drivers that use the atomic helpers
++ * drm_atomic_helper_check_modeset(),
++ * drm_atomic_helper_commit_modeset_enables() and
++ * drm_atomic_helper_commit_modeset_disables() (either directly in hand-rolled
++ * commit check and commit tail handlers, or through the higher-level
++ * drm_atomic_helper_check() and drm_atomic_helper_commit_tail() or
++ * drm_atomic_helper_commit_tail_rpm() helpers), this is done transparently and
++ * requires no intervention from the driver. For other drivers, the relevant
++ * DRM bridge chain functions shall be called manually.
++ *
++ * &drm_bridge, like &drm_panel, aren't &drm_mode_object entities like planes,
+  * CRTCs, encoders or connectors and hence are not visible to userspace. They
+  * just provide additional hooks to get the desired output at the end of the
+  * encoder chain.
+- *
+- * Bridges can also be chained up using the &drm_bridge.chain_node field.
+- *
+- * Both legacy CRTC helpers and the new atomic modeset helpers support bridges.
+  */
+ 
+ static DEFINE_MUTEX(bridge_lock);
+@@ -212,14 +236,41 @@ void drm_bridge_detach(struct drm_bridge *bridge)
+ }
+ 
+ /**
+- * DOC: bridge callbacks
+- *
+- * The &drm_bridge_funcs ops are populated by the bridge driver. The DRM
+- * internals (atomic and CRTC helpers) use the helpers defined in drm_bridge.c
+- * These helpers call a specific &drm_bridge_funcs op for all the bridges
+- * during encoder configuration.
+- *
+- * For detailed specification of the bridge callbacks see &drm_bridge_funcs.
++ * DOC: bridge operations
++ *
++ * Bridge drivers expose operations through the &drm_bridge_funcs structure.
++ * The DRM internals (atomic and CRTC helpers) use the helpers defined in
++ * drm_bridge.c to call bridge operations. Those operations are divided in
++ * two big categories to support different parts of the bridge usage.
++ *
++ * - The encoder-related operations support control of the bridges in the
++ *   chain, and are roughly counterparts to the &drm_encoder_helper_funcs
++ *   operations. They are used by the legacy CRTC and the atomic modeset
++ *   helpers to perform mode validation, fixup and setting, and enable and
++ *   disable the bridge automatically.
++ *
++ *   The enable and disable operations are split in
++ *   &drm_bridge_funcs.pre_enable, &drm_bridge_funcs.enable,
++ *   &drm_bridge_funcs.disable and &drm_bridge_funcs.post_disable to provide
++ *   finer-grained control.
++ *
++ *   Bridge drivers may implement the legacy version of those operations, or
++ *   the atomic version (prefixed with atomic\_), in which case they shall also
++ *   implement the atomic state bookkeeping operations
++ *   (&drm_bridge_funcs.atomic_duplicate_state,
++ *   &drm_bridge_funcs.atomic_destroy_state and &drm_bridge_funcs.reset).
++ *   Mixing atomic and non-atomic versions of the operations is not supported.
++ *
++ * - The bus format negotiation operations
++ *   &drm_bridge_funcs.atomic_get_output_bus_fmts and
++ *   &drm_bridge_funcs.atomic_get_input_bus_fmts allow bridge drivers to
++ *   negotiate the formats transmitted between bridges in the chain when
++ *   multiple formats are supported. Negotiation for formats is performed
++ *   transparently for display drivers by the atomic modeset helpers. Only
++ *   atomic versions of those operations exist, bridge drivers that need to
++ *   implement them shall thus also implement the atomic version of the
++ *   encoder-related operations. This feature is not supported by the legacy
++ *   CRTC helpers.
+  */
+ 
+ /**
 -- 
 Regards,
 
