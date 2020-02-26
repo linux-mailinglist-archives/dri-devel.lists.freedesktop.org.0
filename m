@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC431703C0
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 17:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A160A1703C3
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 17:05:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D07A36EAE0;
-	Wed, 26 Feb 2020 16:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 272166EAAC;
+	Wed, 26 Feb 2020 16:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6867B6EAAC;
- Wed, 26 Feb 2020 16:05:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 19B20FB04;
- Wed, 26 Feb 2020 17:05:12 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zkSU_MhDpoMl; Wed, 26 Feb 2020 17:05:09 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 584CB405CD; Wed, 26 Feb 2020 17:05:09 +0100 (CET)
-Date: Wed, 26 Feb 2020 17:05:09 +0100
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: Etnaviv issues on i.MX8M-Mini
-Message-ID: <20200226160509.GA71919@bogon.m.sigxcpu.org>
-References: <CAFXsbZp9kW555gm+8Cz+oQVRNSzVzzQO2rM5YqzitCd6T7KN6Q@mail.gmail.com>
- <bcc3af77-07c5-fbc7-ad20-d070c5ab1ce8@kontron.de>
- <CAFXsbZqNQMi+-tPE22oMTHqb+8vEOy+v8cLfUMmhqs7S5RLoqg@mail.gmail.com>
- <d1c98cb7-c75f-d8ca-9541-3c118d371a57@kontron.de>
- <38c7cdc27213697b50517ce103a9d38120f84bd3.camel@pengutronix.de>
- <f3a0bd17-83f5-4afa-e9a6-3eac411d34ff@kontron.de>
- <ca594143751e94a2cf519e03915faa23a91c2836.camel@pengutronix.de>
- <41b4070d-8db8-112c-6c57-f50af00b1604@kontron.de>
- <47cc398f-565a-5725-eb93-66870dfbdc0c@kontron.de>
- <8234253d725e665a4ef0f231c587e32cd4261a55.camel@pengutronix.de>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF236EA89;
+ Wed, 26 Feb 2020 16:05:53 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id t14so3782617wmi.5;
+ Wed, 26 Feb 2020 08:05:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3qi+0tGwIWEKy1hnGWa4P3/DiSSARIorQYfmbahGyA4=;
+ b=IigQNtMd+Gp223VMzPb/l1bgq4goOL/g0wxisxBmzhDW6s7UA2+UxYVwqmMFqoQhYN
+ Df53tcPnkZS76uVJDTQOO+Frx7HQ6ozvMxR+LdAWGKz3FtrekvFcgLT9PeVcxHzAJ36o
+ BVEHCsd+SX/06TDtdrJZQJWRNj6tVpfoBLM2AceMQPB30PrYB12eE+y1dzcns3kZLT/v
+ Dt4H5kjQ/1lzQ42rs+ZVOG5STW4dcZuMyUn3WPbt5tIkpH6szYssG85eMWkXMBWJRF2n
+ 8mwNjm+8EwkW+bh+A6zHmgzSAbqBfpGECKhiuIfp4Wu/Q1bCfPM2JO+OuHnPNbjuViC4
+ Q+HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3qi+0tGwIWEKy1hnGWa4P3/DiSSARIorQYfmbahGyA4=;
+ b=S67eS+1RTMnpw19pVgKyrN2d3EoixRMuQ3W8GyVtJ9JC9Hvvo1I5YLN7h3PXIi1msy
+ QfICp316MDvBYbbUnmr88Bd7C8hIW5N+jAOhgKyPk7pOCzZL+9a9UhXSoQkYZp6V1Jg8
+ 3lwAmr/AiNGLEYH03nE0D635KpaNz7/yMA3CS6iYtKDm+aUntfuHgXWYnLJXZ647AHkU
+ e6e2j8XTu1w/GUwKnizMg67Iq4+uJ1S67U99Z49gH8Jebb9cayGaEFk3v8muo81BIfa2
+ 9Svd+oslVKcvi1hz+T1AoJlmez5IhixV8riv4rCUEUgoBbmDlZVER8GW87yjNNZju02x
+ AIDw==
+X-Gm-Message-State: APjAAAXDEhR648msFBo2yBKJu+OygubkAwnn+GydECiJCc4ZUFJ/amEk
+ HjymnnvMkeQJI1fAanlC2bTD3VZcG/H1qTzSwZACEg==
+X-Google-Smtp-Source: APXvYqynJils2ghFzpJ1KjlILKk3RK1kNKJK7LGYTO+A0j0+Hy5I7wYhc201hJdrr2S4M0VTEiNbw+OAsSHZexOEFA0=
+X-Received: by 2002:a7b:c152:: with SMTP id z18mr6220158wmi.70.1582733152116; 
+ Wed, 26 Feb 2020 08:05:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8234253d725e665a4ef0f231c587e32cd4261a55.camel@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <99213368-5025-8435-502b-3d23b875ca60@redhat.com>
+ <CADnq5_OUt5XaJ_Nf23F2zsKeuPgoka8p2S6ny-H2WK==Ncg7vA@mail.gmail.com>
+ <b0181c20-017b-7e3f-13c0-3ea5b98cadaa@redhat.com>
+In-Reply-To: <b0181c20-017b-7e3f-13c0-3ea5b98cadaa@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 26 Feb 2020 11:05:40 -0500
+Message-ID: <CADnq5_MjaOD+QrupjQwjdu-MgVZm1sg1x9=4uxdv92u1xuSdvQ@mail.gmail.com>
+Subject: Re: 5.6 DP-MST regression: 1 of 2 monitors on TB3 (DP-MST) dock no
+ longer light up
+To: Hans de Goede <hdegoede@redhat.com>, "Lipski,
+ Mikita" <mikita.lipski@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,114 +64,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Chris Healy <cphealy@gmail.com>,
- Schrempf Frieder <frieder.schrempf@kontron.de>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2020 at 04:54:35PM +0100, Lucas Stach wrote:
-> On Mi, 2020-02-26 at 15:31 +0000, Schrempf Frieder wrote:
-> > On 25.02.20 09:13, Frieder Schrempf wrote:
-> > > Hi Lucas,
-> > > 
-> > > On 24.02.20 12:08, Lucas Stach wrote:
-> > > > On Mo, 2020-02-24 at 10:53 +0000, Schrempf Frieder wrote:
-> > > > > Hi Lucas,
-> > > > > 
-> > > > > On 24.02.20 11:37, Lucas Stach wrote:
-> > > > > > Hi Frieder,
-> > > > > > 
-> > > > > > On Mo, 2020-02-24 at 10:28 +0000, Schrempf Frieder wrote:
-> > > > > > > On 20.02.20 19:58, Chris Healy wrote:
-> > > > > > > > For the jerkey transitions, can you determine if this is a symptom of
-> > > > > > > > a low framerate or dropped frames or something else?
-> > > > > > > > 
-> > > > > > > > Perhaps you can start your app with
-> > > > > > > > "GALLIUM_HUD=fps,cpu,draw-calls,frametime".  This may give some 
-> > > > > > > > clues.
-> > > > > > > 
-> > > > > > > The framerate seems ok. I get something between 50 and 70 FPS.
-> > > > > > > 
-> > > > > > > I have a Qt demo app with a menu and an animated 'ball' that moves
-> > > > > > > across the screen. When the menu is visible, the ball movement is 
-> > > > > > > really
-> > > > > > > jerky (ball seems to 'jump back and forth' instead of moving 
-> > > > > > > linearly).
-> > > > > > > 
-> > > > > > > As soon as I hide the menu and show the animation fullscreen, the
-> > > > > > > movements are perfectly smooth.
-> > > > > > > 
-> > > > > > > Running the same app with software rendering, everything looks 
-> > > > > > > good, too.
-> > > > > > > 
-> > > > > > > No idea what that means, though. I probably need to look at the 
-> > > > > > > code of
-> > > > > > > the app and do some more experiments to get a better idea of what 
-> > > > > > > might
-> > > > > > > cause the distortion.
-> > > > > > > 
-> > > > > > > Unless some of the graphics experts here already have an idea of what
-> > > > > > > can cause and/or how to debug such an issue!?
-> > > > > > 
-> > > > > > Which driver is used for the display side? It seems like the display
-> > > > > > side doesn't properly handle the dma fences used to synchronize scanout
-> > > > > > and rendering.
-> > > > > 
-> > > > > I ported/picked the drivers for the LCDIF and DSI controllers from
-> > > > > development branch of the 5.4-based vendor kernel [1] to our own
-> > > > > v5.4-based kernel [2]. So it is quite probable, that something could be
-> > > > > wrong here.
-> > > > 
-> > > > Please just use DRM_MXSFB for the display side, instead of the
-> > > > downstream driver.
-> > > 
-> > > Hm, good idea. I somehow forgot about the fact, that there is an 
-> > > upstream driver for the LCDIF controller. On first try I couldn't get it 
-> > > to run on the i.MX8MM, but I suspect that's due to some reset, 
-> > > power-domain or clock setup, that is missing upstream. I will see if I 
-> > > can get any further with this.
-> > 
-> > So I had a closer look and while the DRM_MXSFB looks ok on its own, I 
-> > have some problem with the rest of the i.MX8MM display subsystem.
-> > 
-> > The vendor stack, that I'm currently using integrates into the imx-drm 
-> > master/core driver [1] that binds all the components of the display 
-> > subsystem, such as the LCDIF driver and the integrated SEC_DSIM DSI bridge.
-> > 
-> > And because of my lack of DRM skills, I have no idea how to get the 
-> > DRM_MXSFB driver to bind to the imx-drm core, instead of running 
-> > separately and connecting directly to some panel as it is done for 
-> > i.MX23/28 and i.MX6SX/UL.
-> 
-> It's a separate hardware and it's a pretty major design issue of the
-> downstream driver that it integrates into imx-drm. You don't want this
-> with the upstream driver.
-> 
-> Maybe Guido (CCed) can give you some clues, as apparently he is using
-> the mainline eLCDIF driver + some patches to drive the DSI display path
-> on i.MX8MQ. A lot of this will probably be transferable to the i.MX8MM
-> display path.
+On Wed, Feb 26, 2020 at 10:43 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 2/26/20 4:29 PM, Alex Deucher wrote:
+> > On Wed, Feb 26, 2020 at 10:16 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> >>
+> >> Hi Lyude and everyone else,
+> >>
+> >> Lyude I'm mailing you about this because you have done a lot of
+> >> work on DP MST, but if this rings a bell to anyone else feel
+> >> free to weigh in on this.
+> >
+> > Might be a duplicate of:
+> > https://gitlab.freedesktop.org/drm/amd/issues/1052
+>
+> Looks like you are right, reverting the commit which the bisect
+> from that issue points to:
+>
+> cd82d82cbc04 ("drm/dp_mst: Add branch bandwidth validation to MST atomic check")
+>
+> Fixes the issue for me. I will add a comment to the issue.
+>
+> Note I'm using integrated Intel gfx, so that means that this issue
+> definitely is not amdgpu specific.
+>
 
-Newer mxsfb supports attaching a bridge so if you make your DSI host
-controller driver a DSI bridge mxsfb can drive it:
+I'm not too familiar with the mst code, but I wonder if we were
+exceeding the bandwidth limits in some setups and it just happened to
+work, but now that we enforcing them, they don't which is correct, but
+a regression from some users' perspective?
 
-     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/mxsfb/mxsfb_drv.c#n268
+Alex
 
-this should be similar to what was done for the imx8mq here (imx8mm
-users a different ip core though):
 
-     https://source.puri.sm/guido.gunther/linux-imx8/commits/forward-upstream/next-20200217/mxsfb+nwl/v9-wip
-
-There's also some additional mxsfb patches by Robert floating around
-which aren't mainline yet which the above branch also has.
-
-Which reminds me that i need to prepare and send out a v9.
-Cheers,
- -- Guido
+> Regards,
+>
+> Hans
+>
+>
+>
+>
+> >> I'm currently using a Lenovo X1 7th gen + a Lenovo TB3 gen 2 dock
+> >> as my daily rider for testing purposes. When 5.6-rc1 came out I
+> >> noticed that only 1 of the 2 1920x1080@60 monitors on the dock
+> >> lights up.
+> >>
+> >> There are no kernel errors in the logs, but mutter/gnome-shell says:
+> >>
+> >> gnome-shell[1316]: Failed to post KMS update: Page flip of 93 failed
+> >>
+> >> With 93 being the crtc-id of the crtc used for the monitor which is
+> >> displaying black. Since then I've waited for 5.6-rc3 hoping that a
+> >> fix was already queued up, but 5.6-rc3 still has this problem.
+> >>
+> >> gnome-shell does behave as if all monitors are connected, so the
+> >> monitor is seen, but we are failing to actually send any frames
+> >> to it.
+> >>
+> >> I've put a log collected with drm.debug=0x104 here:
+> >> https://fedorapeople.org/~jwrdegoede/drm-debug.log
+> >>
+> >> This message stands out as pointing to the likely cause of this problem:
+> >>
+> >> [    3.309061] [drm:intel_dump_pipe_config [i915]] MST master transcoder: <invalid>
+> >>
+> >> Regards,
+> >>
+> >> Hans
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
