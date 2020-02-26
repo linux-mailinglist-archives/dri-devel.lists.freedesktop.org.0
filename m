@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277E8171240
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:15:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4BB171223
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1FC06EC41;
-	Thu, 27 Feb 2020 08:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D7026EC25;
+	Thu, 27 Feb 2020 08:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
  [IPv6:2a01:238:20a:202:5302::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F02F06EB99
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 19:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582744393;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAF7B6EBC9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 19:13:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582744400;
  s=strato-dkim-0002; d=goldelico.com;
- h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
- Subject:Sender;
- bh=Vdb7nlCxfqY9kDUQ+U3Vms96RRuZQL4A0e+CPRkPLwo=;
- b=A97UaP0CaA6MC0YuOQOnINtYryK9iYpuVyl7V4s1cz9IS78KmxQ98BY7ZIMOuVmD2i
- o1aqH1wTdWrcPlUhHVDYxkbGK8QNVom2mznTpieXlHrkZvN+HiZMeTqTVNn75n6Rcxx1
- J6G77Uep0osstX6Q4urMJRKqsNTOu8YgZfoR3eDKctjAaLfVXgW2/FrQH/ZDwsDt0v/I
- qAlomJ3XQ5D46xwz0bp91uOahk/VnjW7TK4qggTvnmTPtBrF4hFt8xo2FlIm7vNZ6O7E
- UBk8ESZXzvMLdEwv651QNYg5iECCDLKbm5eEkuQRY/3pv69Sw6XQyM2XTsx6Pvc+ccJf
- ycGw==
+ h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=rmAyGFH2w0GQdDqcolLuvQb3bXwl+Mlnr1aULm9Zmtc=;
+ b=KIjYrdOo0ePE2OPnLUehAEA+XLFl9K57T6XRAVO8BnrOaxrhL/czvcJ37NUrpbw3EL
+ 5KYnZXGZLXAMk6CclUg+yV57RkjfgFOIg4/i9AB8mHi+jNJLhMl1q3XyXuq0eFlLDfMD
+ GhcNMRfgipydoPEXKIpl8xUN1IZ6xXQqri6Py1BQWFNGjbhn9WBFBzk1ZOQtMS7GiO+x
+ f5ZohjbdMDr9g/c70gx0eWBNIa2fZWgsob4pqydskE4Yp/8NTfrLY5fByO49Dpu+lpQE
+ aksZPngy6LLCNqy9jSNh3TXvZK/EvPO7LBCVHkTGni2xWgzhevDuejANfCzBx1TtRvYj
+ QZ4A==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0pAzoz/Oc2x"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1QJD06bJ
+ with ESMTPSA id U06217w1QJD16bK
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Wed, 26 Feb 2020 20:13:00 +0100 (CET)
+ Wed, 26 Feb 2020 20:13:01 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -40,10 +40,12 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  Krzysztof Kozlowski <krzk@kernel.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  "Eric W. Biederman" <ebiederm@xmission.com>
-Subject: [RFC 0/8] MIPS: CI20: add HDMI out support 
-Date: Wed, 26 Feb 2020 20:12:52 +0100
-Message-Id: <cover.1582744379.git.hns@goldelico.com>
+Subject: [RFC 1/8] dt-bindings: video: Add jz4780-lcd binding
+Date: Wed, 26 Feb 2020 20:12:53 +0100
+Message-Id: <d7dd7c52a9f6cb4e31bce69bb6879e46bfba530c.1582744379.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1582744379.git.hns@goldelico.com>
+References: <cover.1582744379.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 27 Feb 2020 08:13:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,7 +60,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, "H. Nikolaus Schaller" <hns@goldelico.com>,
+Cc: devicetree@vger.kernel.org,
+ Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-mips@vger.kernel.org, linux-gpio@vger.kernel.org,
  kernel@pyra-handheld.com, letux-kernel@openphoenux.org
@@ -67,57 +70,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series adds HDMI output to the jz4780/CI20 board.
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 
-It is based on taking the old 3.18 vendor kernel and trying
-to achieve the same with modern DTS setup and new/modified
-drivers.
+Add DT bindings for the LCD controller on the jz4780 SoC
 
-Unfortunately, in this first RFC, only EDID and creation of
-/dev/fb0 are working. Also, HDMI hot plugging is detected.
-
-But there is no HDMI output signal. So some tiny piece seems
-to be missing to enable/configure the Synposys HDMI controller.
-
-We need help from the community to fix this.
-
-Note: device tree bindings are from 2015 and still seem to
-fit - except they are not in yaml format.
-
-Original authors of most patches are
-* Paul Boddie <paul@boddie.org.uk>
-* Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-
-
-H. Nikolaus Schaller (2):
-  drm: ingenic-drm: add MODULE_DEVICE_TABLE
-  MIPS: CI20: defconfig: configure for DRM_DW_HDMI_JZ4780
-
-Paul Boddie (4):
-  drm: ingenic: add jz4780 Synopsys HDMI driver.
-  pinctrl: ingenic: add hdmi-ddc pin control group
-  MIPS: DTS: jz4780: account for Synopsys HDMI driver and LCD controller
-  MIPS: DTS: CI20: add HDMI setup
-
-Zubair Lutfullah Kakakhel (2):
-  dt-bindings: video: Add jz4780-lcd binding
-  dt-bindings: video: Add jz4780-hdmi binding
-
- .../bindings/display/ingenic-jz4780-hdmi.txt  |  41 ++++++
- .../bindings/display/ingenic-jz4780-lcd.txt   |  39 ++++++
- arch/mips/boot/dts/ingenic/ci20.dts           |  64 ++++++++++
- arch/mips/boot/dts/ingenic/jz4780.dtsi        |  32 +++++
- arch/mips/configs/ci20_defconfig              |   3 +
- drivers/gpu/drm/ingenic/Kconfig               |   8 ++
- drivers/gpu/drm/ingenic/Makefile              |   1 +
- drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c      | 120 ++++++++++++++++++
- drivers/gpu/drm/ingenic/ingenic-drm.c         |   2 +
- drivers/pinctrl/pinctrl-ingenic.c             |   7 +
- 10 files changed, 317 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.txt
+Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+---
+ .../bindings/display/ingenic-jz4780-lcd.txt   | 39 +++++++++++++++++++
+ 1 file changed, 39 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.txt
- create mode 100644 drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c
 
+diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.txt b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.txt
+new file mode 100644
+index 000000000000..8512ce3f93df
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.txt
+@@ -0,0 +1,39 @@
++Bindings for Ingenic JZ4780 LCD Controller
++
++LCD Controller is the Display Controller for the Ingenic JZ4780 SoC
++
++Required properties:
++- compatible: should be "ingenic,jz4780-lcd"
++- reg: Should contain the address & size of the LCD controller registers.
++- interrupts: Should specify the interrupt provided by parent.
++- clocks: Should contain two clock specifiers for the JZ4780_CLK_TVE JZ4780_CLK_LCD0PIXCLK.
++- clock-names : Must be "lcd_clk", "lcd_pixclk";
++- port: A port node with endpoint definitions as defined in
++  Documentation/devicetree/bindings/media/video-interfaces.txt.
++
++Optional properties:
++- interrupt-parent: phandle to parent interrupt controller
++
++Example:
++
++lcd: jz4780-lcdk@0x13050000 {
++	compatible = "ingenic,jz4780-lcd";
++	reg = <0x13050000 0x1800>;
++
++	clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
++	clock-names = "lcd_clk", "lcd_pixclk";
++
++	interrupt-parent = <&intc>;
++	interrupts = <31>;
++
++	jz4780_lcd_out: port {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			jz4780_out_hdmi: endpoint@0 {
++				reg = <0>;
++				remote-endpoint = <&hdmi_in_lcd>;
++			};
++		};
++
++};
 -- 
 2.23.0
 
