@@ -1,35 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D76170254
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 16:27:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD58170264
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 16:29:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A50256EA6B;
-	Wed, 26 Feb 2020 15:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382076EA60;
+	Wed, 26 Feb 2020 15:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C43586EA6B
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 15:27:12 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
- helo=dude02.pengutronix.de.)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1j6yab-0006Mb-Mo; Wed, 26 Feb 2020 16:27:09 +0100
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Subject: [PATCH] drm/etnaviv: fix TS cache flushing on GPUs with BLT engine
-Date: Wed, 26 Feb 2020 16:27:08 +0100
-Message-Id: <20200226152708.15700-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08F1E6EA60
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 15:29:08 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id p14so4183255edy.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 07:29:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=898Q2WKYV18ycUsGUQ5fpkphxz5nLnP3Wgq4DGZP9R8=;
+ b=sw2i/fR6Ri3cLKW9UUkrWGrIJWjxqMBvsuzPoeo0kSO4h3mWI2HM8uOu4WJwo9XtbW
+ XHiAnbHkK7QNIlrKKcNFcKjtIvdGbg7WtFi5d7cm+/NBatkK7o1YXejtVUhNnSyS6myF
+ G0ext9Mrjfe7yXyCZLHUja9LmyVu/2RBa0ycOEhUJhfV8lBgy5qkcDiF+Y0kbfz3UU40
+ IAb0Wo5v5teoIeBaqjgDcX+/r7YNKEo6SwfCUSMv23jzQIh07KaznLlr1+Tc1sNcG1jk
+ ZfjpWwRiICbLbSkfnrPS+htGwSFfQuZP+UqV130hTxFneqXibXs5LqbszGkScGEBRKPb
+ 6Cug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=898Q2WKYV18ycUsGUQ5fpkphxz5nLnP3Wgq4DGZP9R8=;
+ b=H0HqmgzNC9/t/xo5EzBBfEWzOek9C+SJzy3piJq1khEIo8z3Yn1Qp9N4agqgJPxo/O
+ VLv9/EXCSAdDsGOlFPLvbBngsqmzHeIHkEas1R8nhO9nAI5Q3QfbSNZ9L2CJ3tBUevMp
+ ProZTFu/mCY4flc4DlCqZkd0wnUebydzHFBwW49U+mUK8TGnGZUShM1JNQy6JZw1Set5
+ LPEQJKL5GhHI+dXMAIfrEFcF82vi4M9xjIZO9uXEe5h1p5mk4zdEfyAT1Z8Fj6TPY/1C
+ 1CKFpFel5iaftdLR9y7YcwgKTQepdnPDSJdUEaz49LsAqhvYDPcVe9rkOkcr9EVmFXy7
+ sV3g==
+X-Gm-Message-State: APjAAAX2Qt0KR7fSoTYydlEjVY1RLJFx03EfjRL8IpSYpRqs10/xOMTI
+ xImvsH2VEOGwjqIKf1GSFpvMVX0JYrsHxhD/GfuWsw==
+X-Google-Smtp-Source: APXvYqz/rN46995i2IEGv1eDqy8bGhlYQNvH8+xnc+9pcOxJ65YAYzlSyQCZ40CdyVlYBY6gxX6F2FeTa8NemOeymaU=
+X-Received: by 2002:a05:6402:6c2:: with SMTP id
+ n2mr5186320edy.241.1582730946258; 
+ Wed, 26 Feb 2020 07:29:06 -0800 (PST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20200225235856.975366-1-jason@jlekstrand.net>
+ <8066d8b2-dd6a-10ef-a7bb-2c18a0661912@amd.com>
+ <20200226100523.GQ2363188@phenom.ffwll.local>
+In-Reply-To: <20200226100523.GQ2363188@phenom.ffwll.local>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 26 Feb 2020 09:28:55 -0600
+Message-ID: <CAOFGe94O66HL212aXqhi9tdYqw---Xm-fwNSV4pxHyPmpSGpbg@mail.gmail.com>
+Subject: Re: [PATCH] RFC: dma-buf: Add an API for importing and exporting sync
+ files
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jason Ekstrand <jason@jlekstrand.net>, Dave Airlie <airlied@redhat.com>, 
+ Jesse Hall <jessehall@google.com>, James Jones <jajones@nvidia.com>, 
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ Daniel Stone <daniels@collabora.com>, 
+ =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Chenbo Feng <fengc@google.com>, 
+ Greg Hackmann <ghackmann@google.com>, linux-media@vger.kernel.org, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,161 +75,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As seen in the Vivante kernel driver, most GPUs with the BLT engine have
-a broken TS cache flush. The workaround is to temporarily set the BLT
-command to CLEAR_IMAGE, without actually executing the clear. Apparently
-this state change is enough to trigger the required TS cache flush. As
-the BLT engine is completely asychronous, we also need a few more stall
-states to synchronize the flush with the frontend.
-
-Root-caused-by: Jonathan Marek <jonathan@marek.ca>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 60 ++++++++++++++++++++++--
- drivers/gpu/drm/etnaviv/state_blt.xml.h  |  2 +
- 2 files changed, 57 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-index 32d9fac587f9..76d38561c910 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-@@ -12,6 +12,7 @@
- 
- #include "common.xml.h"
- #include "state.xml.h"
-+#include "state_blt.xml.h"
- #include "state_hi.xml.h"
- #include "state_3d.xml.h"
- #include "cmdstream.xml.h"
-@@ -233,6 +234,8 @@ void etnaviv_buffer_end(struct etnaviv_gpu *gpu)
- 	struct etnaviv_cmdbuf *buffer = &gpu->buffer;
- 	unsigned int waitlink_offset = buffer->user_size - 16;
- 	u32 link_target, flush = 0;
-+	bool has_blt = !!(gpu->identity.minor_features5 &
-+			  chipMinorFeatures5_BLT_ENGINE);
- 
- 	lockdep_assert_held(&gpu->lock);
- 
-@@ -248,16 +251,38 @@ void etnaviv_buffer_end(struct etnaviv_gpu *gpu)
- 	if (flush) {
- 		unsigned int dwords = 7;
- 
-+		if (has_blt)
-+			dwords += 10;
-+
- 		link_target = etnaviv_buffer_reserve(gpu, buffer, dwords);
- 
- 		CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
- 		CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-+		if (has_blt) {
-+			CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x1);
-+			CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_BLT);
-+			CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_BLT);
-+			CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x0);
-+		}
- 		CMD_LOAD_STATE(buffer, VIVS_GL_FLUSH_CACHE, flush);
--		if (gpu->exec_state == ETNA_PIPE_3D)
--			CMD_LOAD_STATE(buffer, VIVS_TS_FLUSH_CACHE,
--				       VIVS_TS_FLUSH_CACHE_FLUSH);
-+		if (gpu->exec_state == ETNA_PIPE_3D) {
-+			if (has_blt) {
-+				CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x1);
-+				CMD_LOAD_STATE(buffer, VIVS_BLT_SET_COMMAND, 0x1);
-+				CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x0);
-+			} else {
-+				CMD_LOAD_STATE(buffer, VIVS_TS_FLUSH_CACHE,
-+					       VIVS_TS_FLUSH_CACHE_FLUSH);
-+			}
-+		}
- 		CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
- 		CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-+		if (has_blt) {
-+			CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x1);
-+			CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_BLT);
-+			CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_BLT);
-+			CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x0);
-+		}
- 		CMD_END(buffer);
- 
- 		etnaviv_buffer_replace_wait(buffer, waitlink_offset,
-@@ -323,6 +348,8 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 	bool switch_mmu_context = gpu->mmu_context != mmu_context;
- 	unsigned int new_flush_seq = READ_ONCE(gpu->mmu_context->flush_seq);
- 	bool need_flush = switch_mmu_context || gpu->flush_seq != new_flush_seq;
-+	bool has_blt = !!(gpu->identity.minor_features5 &
-+			  chipMinorFeatures5_BLT_ENGINE);
- 
- 	lockdep_assert_held(&gpu->lock);
- 
-@@ -433,6 +460,15 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 	 * 2 semaphore stall + 1 event + 1 wait + 1 link.
- 	 */
- 	return_dwords = 7;
-+
-+	/*
-+	 * When the BLT engine is present we need 6 more dwords in the return
-+	 * target: 3 enable/flush/disable + 4 enable/semaphore stall/disable,
-+	 * but we don't need the normal TS flush state.
-+	 */
-+	if (has_blt)
-+		return_dwords += 6;
-+
- 	return_target = etnaviv_buffer_reserve(gpu, buffer, return_dwords);
- 	CMD_LINK(cmdbuf, return_dwords, return_target);
- 
-@@ -447,11 +483,25 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 		CMD_LOAD_STATE(buffer, VIVS_GL_FLUSH_CACHE,
- 				       VIVS_GL_FLUSH_CACHE_DEPTH |
- 				       VIVS_GL_FLUSH_CACHE_COLOR);
--		CMD_LOAD_STATE(buffer, VIVS_TS_FLUSH_CACHE,
--				       VIVS_TS_FLUSH_CACHE_FLUSH);
-+		if (has_blt) {
-+			CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x1);
-+			CMD_LOAD_STATE(buffer, VIVS_BLT_SET_COMMAND, 0x1);
-+			CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x0);
-+		} else {
-+			CMD_LOAD_STATE(buffer, VIVS_TS_FLUSH_CACHE,
-+					       VIVS_TS_FLUSH_CACHE_FLUSH);
-+		}
- 	}
- 	CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
- 	CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-+
-+	if (has_blt) {
-+		CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x1);
-+		CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_BLT);
-+		CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_BLT);
-+		CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x0);
-+	}
-+
- 	CMD_LOAD_STATE(buffer, VIVS_GL_EVENT, VIVS_GL_EVENT_EVENT_ID(event) |
- 		       VIVS_GL_EVENT_FROM_PE);
- 	CMD_WAIT(buffer);
-diff --git a/drivers/gpu/drm/etnaviv/state_blt.xml.h b/drivers/gpu/drm/etnaviv/state_blt.xml.h
-index daae55995def..0e8bcf9dcc93 100644
---- a/drivers/gpu/drm/etnaviv/state_blt.xml.h
-+++ b/drivers/gpu/drm/etnaviv/state_blt.xml.h
-@@ -46,6 +46,8 @@ DEALINGS IN THE SOFTWARE.
- 
- /* This is a cut-down version of the state_blt.xml.h file */
- 
-+#define VIVS_BLT_SET_COMMAND					0x000140ac
-+
- #define VIVS_BLT_ENABLE						0x000140b8
- #define VIVS_BLT_ENABLE_ENABLE					0x00000001
- 
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBGZWIgMjYsIDIwMjAgYXQgNDowNSBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
+bGwuY2g+IHdyb3RlOgo+Cj4gT24gV2VkLCBGZWIgMjYsIDIwMjAgYXQgMTA6MTY6MDVBTSArMDEw
+MCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+IEhpIEphc29uLAo+ID4KPiA+IEFtIDI2LjAy
+LjIwIHVtIDAwOjU4IHNjaHJpZWIgSmFzb24gRWtzdHJhbmQ6Cj4gPiA+IEV4cGxpY2l0IHN5bmNo
+cm9uaXphdGlvbiBpcyB0aGUgZnV0dXJlLiAgQXQgbGVhc3QsIHRoYXQgc2VlbXMgdG8gYmUgd2hh
+dAo+ID4gPiBtb3N0IHVzZXJzcGFjZSBBUElzIGFyZSBhZ3JlZWluZyBvbiBhdCB0aGlzIHBvaW50
+LiAgSG93ZXZlciwgbW9zdCBvZiBvdXIKPiA+ID4gTGludXggQVBJcyAoYm90aCB1c2Vyc3BhY2Ug
+YW5kIGtlcm5lbCBVQVBJKSBhcmUgY3VycmVudGx5IGJ1aWx0IGFyb3VuZAo+ID4gPiBpbXBsaWNp
+dCBzeW5jaHJvbml6YXRpb24gd2l0aCBkbWEtYnVmLiAgV2hpbGUgd29yayBpcyBvbmdvaW5nIHRv
+IGNoYW5nZQo+ID4gPiBtYW55IG9mIHRoZSB1c2Vyc3BhY2UgQVBJcyBhbmQgcHJvdG9jb2xzIHRv
+IGFuIGV4cGxpY2l0IHN5bmNocm9uaXphdGlvbgo+ID4gPiBtb2RlbCwgc3dpdGNoaW5nIG92ZXIg
+cGllY2VtZWFsIGlzIGRpZmZpY3VsdCBkdWUgdG8gdGhlIG51bWJlciBvZgo+ID4gPiBwb3RlbnRp
+YWwgY29tcG9uZW50cyBpbnZvbHZlZC4gIE9uIHRoZSBrZXJuZWwgc2lkZSwgbWFueSBkcml2ZXJz
+IHVzZQo+ID4gPiBkbWEtYnVmIGluY2x1ZGluZyBHUFUgKDNEL2NvbXB1dGUpLCBkaXNwbGF5LCB2
+NGwsIGFuZCBvdGhlcnMuICBJbgo+ID4gPiB1c2Vyc3BhY2UsIHdlIGhhdmUgWDExLCBzZXZlcmFs
+IFdheWxhbmQgY29tcG9zaXRvcnMsIDNEIGRyaXZlcnMsIGNvbXB1dGUKPiA+ID4gZHJpdmVycyAo
+T3BlbkNMIGV0Yy4pLCBtZWRpYSBlbmNvZGUvZGVjb2RlLCBhbmQgdGhlIGxpc3QgZ29lcyBvbi4K
+PiA+ID4KPiA+ID4gVGhpcyBwYXRjaCBwcm92aWRlcyBhIHBhdGggZm9yd2FyZCBieSBhbGxvd2lu
+ZyB1c2Vyc3BhY2UgdG8gbWFudWFsbHkKPiA+ID4gbWFuYWdlIHRoZSBmZW5jZXMgYXR0YWNoZWQg
+dG8gYSBkbWEtYnVmLiAgQWx0ZXJuYXRpdmVseSwgb25lIGNhbiB0aGluawo+ID4gPiBvZiB0aGlz
+IGFzIG1ha2luZyBkbWEtYnVmJ3MgaW1wbGljaXQgc3luY2hyb25pemF0aW9uIHNpbXBseSBhIGNh
+cnJpZXIKPiA+ID4gZm9yIGFuIGV4cGxpY2l0IGZlbmNlLiAgVGhpcyBpcyBhY2NvbXBsaXNoZWQg
+YnkgYWRkaW5nIHR3byBJT0NUTHMgdG8KPiA+ID4gZG1hLWJ1ZiBmb3IgaW1wb3J0aW5nIGFuZCBl
+eHBvcnRpbmcgYSBzeW5jIGZpbGUgdG8vZnJvbSB0aGUgZG1hLWJ1Zi4KPiA+ID4gVGhpcyB3YXkg
+YSB1c2Vyc3BhY2UgY29tcG9uZW50IHdoaWNoIGlzIHVzZXMgZXhwbGljaXQgc3luY2hyb25pemF0
+aW9uLAo+ID4gPiBzdWNoIGFzIGEgVnVsa2FuIGRyaXZlciwgY2FuIG1hbnVhbGx5IHNldCB0aGUg
+d3JpdGUgZmVuY2Ugb24gYSBidWZmZXIKPiA+ID4gYmVmb3JlIGhhbmRpbmcgaXQgb2ZmIHRvIGFu
+IGltcGxpY2l0bHkgc3luY2hyb25pemVkIGNvbXBvbmVudCBzdWNoIGFzIGEKPiA+ID4gV2F5bGFu
+ZCBjb21wb3NpdG9yIG9yIHZpZGVvIGVuY29kZXIuICBJbiB0aGlzIHdheSwgZWFjaCBvZiB0aGUg
+ZGlmZmVyZW50Cj4gPiA+IGNvbXBvbmVudHMgY2FuIGJlIHVwZ3JhZGVkIHRvIGFuIGV4cGxpY2l0
+IHN5bmNocm9uaXphdGlvbiBtb2RlbCBvbmUgYXQgYQo+ID4gPiB0aW1lIGFzIGxvbmcgYXMgdGhl
+IHVzZXJzcGFjZSBwaWVjZXMgY29ubmVjdGluZyB0aGVtIGFyZSBhd2FyZSBvZiBpdCBhbmQKPiA+
+ID4gaW1wb3J0L2V4cG9ydCBmZW5jZXMgYXQgdGhlIHJpZ2h0IHRpbWVzLgo+ID4gPgo+ID4gPiBU
+aGVyZSBpcyBhIHBvdGVudGlhbCByYWNlIGNvbmRpdGlvbiB3aXRoIHRoaXMgQVBJIGlmIHVzZXJz
+cGFjZSBpcyBub3QKPiA+ID4gY2FyZWZ1bC4gIEEgdHlwaWNhbCB1c2UgY2FzZSBmb3IgaW1wbGlj
+aXQgc3luY2hyb25pemF0aW9uIGlzIHRvIHdhaXQgZm9yCj4gPiA+IHRoZSBkbWEtYnVmIHRvIGJl
+IHJlYWR5LCB1c2UgaXQsIGFuZCB0aGVuIHNpZ25hbCBpdCBmb3Igc29tZSBvdGhlcgo+ID4gPiBj
+b21wb25lbnQuICBCZWNhdXNlIGEgc3luY19maWxlIGNhbm5vdCBiZSBjcmVhdGVkIHVudGlsIGl0
+IGlzIGd1YXJhbnRlZWQKPiA+ID4gdG8gY29tcGxldGUgaW4gZmluaXRlIHRpbWUsIHVzZXJzcGFj
+ZSBjYW4gb25seSBzaWduYWwgdGhlIGRtYS1idWYgYWZ0ZXIKPiA+ID4gaXQgaGFzIGFscmVhZHkg
+c3VibWl0dGVkIHRoZSB3b3JrIHdoaWNoIHVzZXMgaXQgdG8gdGhlIGtlcm5lbCBhbmQgaGFzCj4g
+PiA+IHJlY2VpdmVkIGEgc3luY19maWxlIGJhY2suICBUaGVyZSBpcyBubyB3YXkgdG8gYXRvbWlj
+YWxseSBzdWJtaXQgYQo+ID4gPiB3YWl0LXVzZS1zaWduYWwgb3BlcmF0aW9uLiAgVGhpcyBpcyBu
+b3QsIGhvd2V2ZXIsIHJlYWxseSBhIHByb2JsZW0gd2l0aAo+ID4gPiB0aGlzIEFQSSBzbyBtdWNo
+IGFzIGl0IGlzIGEgcHJvYmxlbSB3aXRoIGV4cGxpY2l0IHN5bmNocm9uaXphdGlvbgo+ID4gPiBp
+dHNlbGYuICBUaGUgd2F5IHRoaXMgaXMgdHlwaWNhbGx5IGhhbmRsZWQgaXMgdG8gaGF2ZSB2ZXJ5
+IGV4cGxpY2l0Cj4gPiA+IG93bmVyc2hpcCB0cmFuc2ZlciBwb2ludHMgaW4gdGhlIEFQSSBvciBw
+cm90b2NvbCB3aGljaCBlbnN1cmUgdGhhdCBvbmx5Cj4gPiA+IG9uZSBjb21wb25lbnQgaXMgdXNp
+bmcgaXQgYXQgYW55IGdpdmVuIHRpbWUuICBCb3RoIFgxMSAodmlhIHRoZSBQUkVTRU5UCj4gPiA+
+IGV4dGVuc2lvbikgYW5kIFdheWxhbmQgcHJvdmlkZSBzdWNoIG93bmVyc2hpcCB0cmFuc2ZlciBw
+b2ludHMgdmlhCj4gPiA+IGV4cGxpY2l0IHByZXNlbnQgYW5kIGlkbGUgbWVzc2FnZXMuCj4gPiA+
+Cj4gPiA+IFRoZSBkZWNpc2lvbiB3YXMgaW50ZW50aW9uYWxseSBtYWRlIGluIHRoaXMgcGF0Y2gg
+dG8gbWFrZSB0aGUgaW1wb3J0IGFuZAo+ID4gPiBleHBvcnQgb3BlcmF0aW9ucyBJT0NUTHMgb24g
+dGhlIGRtYS1idWYgaXRzZWxmIHJhdGhlciB0aGFuIGFzIGEgRFJNCj4gPiA+IElPQ1RMLiAgVGhp
+cyBtYWtlcyBpdCB0aGUgaW1wb3J0L2V4cG9ydCBvcGVyYXRpb24gdW5pdmVyc2FsIGFjcm9zcyBh
+bGwKPiA+ID4gY29tcG9uZW50cyB3aGljaCB1c2UgZG1hLWJ1ZiBpbmNsdWRpbmcgR1BVLCBkaXNw
+bGF5LCB2NGwsIGFuZCBvdGhlcnMuCj4gPiA+IEl0IGFsc28gbWVhbnMgdGhhdCBhIHVzZXJzcGFj
+ZSBjb21wb25lbnQgY2FuIGRvIHRoZSBpbXBvcnQvZXhwb3J0Cj4gPiA+IHdpdGhvdXQgYWNjZXNz
+IHRvIHRoZSBEUk0gZmQgd2hpY2ggbWF5IGJlIHRyaWNreSB0byBnZXQgaW4gY2FzZXMgd2hlcmUK
+PiA+ID4gdGhlIGNsaWVudCBjb21tdW5pY2F0ZXMgd2l0aCBEUk0gdmlhIGEgdXNlcnNwYWNlIEFQ
+SSBzdWNoIGFzIE9wZW5HTCBvcgo+ID4gPiBWdWxrYW4uICBBdCBhIGZ1dHVyZSBkYXRlIHdlIG1h
+eSBjaG9vc2UgdG8gYWRkIGRpcmVjdCBpbXBvcnQvZXhwb3J0IEFQSXMKPiA+ID4gdG8gY29tcG9u
+ZW50cyBzdWNoIGFzIGRybV9zeW5jb2JqIHRvIGF2b2lkIGFsbG9jYXRpbmcgYSBmaWxlIGRlc2Ny
+aXB0b3IKPiA+ID4gYW5kIGdvaW5nIHRocm91Z2ggdHdvIGlvY3Rscy4gIEhvd2V2ZXIsIHRoYXQg
+c2VlbXMgdG8gYmUgc29tZXRoaW5nIG9mIGEKPiA+ID4gbWljcm8tb3B0aW1pemF0aW9uIGFzIGlt
+cG9ydC9leHBvcnQgb3BlcmF0aW9ucyBhcmUgbGlrZWx5IHRvIGhhcHBlbiBhdCBhCj4gPiA+IHJh
+dGUgb2YgYSBmZXcgcGVyIGZyYW1lIG9mIHJlbmRlcmVkIG9yIGRlY29kZWQgdmlkZW8uCj4gPiA+
+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IEphc29uIEVrc3RyYW5kIDxqYXNvbkBqbGVrc3RyYW5kLm5l
+dD4KPiA+ID4gLS0tCj4gPiA+Cj4gPiA+IFRoaXMgaXMgbWFya2VkIGFzIGFuIFJGQyBiZWNhdXNl
+IEkgaW50ZW5kIGl0IHRvIHN0YXJ0IGEgZGlzY3Vzc2lvbiBhYm91dAo+ID4gPiBob3cgdG8gc29s
+dmUgYSBwcm9ibGVtLiAgVGhlIGN1cnJlbnQgcGF0Y2ggY29tcGlsZXMgYnV0IHRoYXQncyBpdCBm
+b3Igbm93Lgo+ID4gPiBJJ2xsIGJlIHdyaXRpbmcgSUdUIHRlc3RzIGFuZCBWdWxrYW4gZHJpdmVy
+IHBhdGNoZXMgd2hpY2ggZXhlcmNpc2UgaXQgb3Zlcgo+ID4gPiB0aGUgbmV4dCBjb3VwbGUgb2Yg
+ZGF5cy4gIEluIHRoZSBtZWFuIHRpbWUsIGZlZWwgZnJlZSB0byB0ZWxsIG1lIHdoeSB5b3UKPiA+
+ID4gdGhpbmsgdGhpcyBpcyBhIGdyZWF0IGFuZC9vciB0ZXJyaWJsZSBpZGVhLiA6LSkKPiA+Cj4g
+PiBGb3IgdGhlIGV4cG9ydGluZyBwYXJ0IEkgdGhpbmsgaXQgaXMgYW4gYWJzb2x1dGVseSBncmVh
+dCBpZGVhIGJlY2F1c2UgaXQKPiA+IHNpbXBsaWZpZXMgY29tcGF0aWJpbGl0eSB3aXRoIGV4cGxp
+Y2l0IHN5bmMgcXVpdGUgYSBiaXQuCgpVbmZvcnR1bmF0ZWx5LCBpdCBvbmx5IGhlbHBzIGhhbGYg
+b2YgZXhwbGljaXQgc3luYyBhbmQgbm90IHRoZSBoYWxmCnRoYXQncyBoYXJkIHRvIGRlYWwgd2l0
+aCBmcm9tIFZ1bGthbi4gOi0vCgo+ID4gQnV0IGZvciB0aGUgaW1wb3J0aW5nIHBhcnQgaXQgaXMg
+YSBjbGVhciBOQUsgYXQgdGhlIG1vbWVudC4gU2VlIHdlIGNhbid0Cj4gPiBhbGxvdyB1c2Vyc3Bh
+Y2UgdG8gbWVzcyB3aXRoIERNQS1idWYgZmVuY2VzIGluIHRoYXQgd2F5IGJlY2F1c2UgaXQgcmlw
+cyBvcGVuCj4gPiBhIHNlY3VyaXR5IGhvbGUgeW91IGNhbiBwdXNoIGFuIGVsZXBoYW50IHRocm91
+Z2guCgpPaCwgc3VyZSwgSSdtIDEwMCUgc3VyZSBJIGRpZCB0aGF0IHBhcnQgd3JvbmcuICBXaHkg
+ZWxzZSB3b3VsZCBJIHNlbmQKdGhlIHBhdGNoIGJ1dCB0byBoYXZlIHNvbWVvbmUgd2hvIGFjdHVh
+bGx5IGtub3dzIHdoYXQgdGhleSdyZSBkb2luZwp0ZWxsIG1lIGhvdyB0byBkbyBpdCBjb3JyZWN0
+bHk/IDotUAoKPiA+IEp1c3QgaW1hZ2luZSB0aGF0IHlvdSBhY2Nlc3Mgc29tZSBETUEtYnVmIHdp
+dGggYSBzaGFkZXIgYW5kIHRoYXQgb3BlcmF0aW9uCj4gPiBpcyBwcmVzZW50ZWQgYXMgYSBmZW5j
+ZSBvbiB0aGUgRE1BLWJ1ZnMgcmVzZXJ2YXRpb24gb2JqZWN0LiBBbmQgbm93IHlvdSBjYW4KPiA+
+IGdvIGFoZWFkIGFuZCByZXBsYWNlIHRoYXQgZmVuY2UgYW5kIGZyZWUgdXAgdGhlIG1lbW9yeS4K
+PiA+Cj4gPiBUcmlja2luZyB0aGUgTGludXgga2VybmVsIGludG8gYWxsb2NhdGluZyBwYWdlIHRh
+YmxlcyBpbiB0aGF0IGZyZWVkIG1lbW9yeQo+ID4gaXMgdHJpdmlhbCBhbmQgdGhhdCdzIGJhc2lj
+YWxseSBpdCB5b3UgY2FuIG92ZXJ3cml0ZSBwYWdlIHRhYmxlcyB3aXRoIHlvdXIKPiA+IHNoYWRl
+ciBhbmQgZ2FpbiBhY2Nlc3MgdG8gYWxsIG9mIHN5c3RlbSBtZW1vcnkgOikKPiA+Cj4gPiBXaGF0
+IHdlIGNvdWxkIGRvIGlzIHRvIGFsd2F5cyBtYWtlIHN1cmUgdGhhdCB0aGUgYWRkZWQgZmVuY2Vz
+IHdpbGwgY29tcGxldGUKPiA+IGxhdGVyIHRoYW4gdGhlIGFscmVhZHkgZXhpc3Rpbmcgb25lcywg
+YnV0IHRoYXQgaXMgYWxzbyByYXRoZXIgdHJpY2t5IHRvIGdldAo+ID4gcmlnaHQuIEkgd291bGRu
+J3QgZG8gdGhhdCBpZiB3ZSBkb24ndCBoYXZlIGEgcmF0aGVyIGJpZyB1c2UgY2FzZSBmb3IgdGhp
+cy4KClJpZ2h0LiAgSSB0aG91Z2h0IGFib3V0IHRoYXQgYnV0IEknbSBzdGlsbCBsZWFybmluZyBo
+b3cgZG1hX3Jlc3YKd29ya3MuICBJdCdkIGJlIGVhc3kgZW5vdWdoIHRvIG1ha2UgYSBmZW5jZSBh
+cnJheSB0aGF0IGNvbnRhaW5zIGJvdGgKdGhlIG9sZCBmZW5jZSBhbmQgdGhlIG5ldyBmZW5jZSBh
+bmQgcmVwbGFjZSB0aGUgb2xkIGZlbmNlIHdpdGggdGhhdC4KV2hhdCBJIGRvbid0IGtub3cgaXMg
+dGhlIHByb3BlciB3YXkgdG8gcmVwbGFjZSB0aGUgZXhjbHVzaXZlIGZlbmNlCnNhZmVseS4gIFNv
+bWUgc29ydCBvZiBhdG9taWNfY3B4Y2hnIGxvb3AsIHBlcmhhcHM/ICBJIHByZXN1bWUgdGhlcmUn
+cwpzb21lIHdheSBvZiBkb2luZyBpdCBwcm9wZXJseSBiZWNhdXNlIERSTSBkcml2ZXJzIGFyZSBk
+b2luZyBpdCBhbGwgdGhlCnRpbWUuCgo+IEkgdGhpbmsgdGhlIG1haW4gdXNlLWNhc2UgZm9yIGFk
+ZGluZyBhIGZlbmNlIGlzIGFkZGluZyBhIHdyaXRlIGZlbmNlIGZvcgo+IHZrIHdpbnN5cyBidWZm
+ZXJzLCB3aGljaCBydW4gd2l0aG91dCBhbnkgc3luYyBhdCBhbGwuIFNvIGVzc2VudGlhbGx5IHdo
+YXQKPiB3ZSdkIGRvIGlzIHByb21vdGUgb25lIG9mIHRoZSByZWFkIGZlbmNlcyB3aGljaCBhcmUg
+YWxyZWFkeSBhdHRhY2hlZCB0byBiZQo+IHRoZSB3cml0ZSBmZW5jZS4KCkNvcnJlY3QuICBXZSdy
+ZSBlZmZlY3RpdmVseSBkb2luZyBhbiBpbXBvcnQgaW4gQU5WIHRvZGF5IGJ1dCB3ZSdyZQpkb2lu
+ZyBpdCB3aXRoIGEgZHVtbXkgZXhlY2J1ZiB3aGljaCBjbGFpbXMgdG8gd3JpdGUgdGhlIEJPIGFu
+ZCBoYXMgYQpiYXRjaCB0aGF0J3MganVzdCBNSV9CQVRDSF9CVUZGRVJfRU5ELgoKPiBCdXQgeWVh
+aCBtYWtpbmcgc3VyZSB3ZSBkb24ndCBicmVhayBhbnkgb2YgdGhlIGRtYV9yZXN2IGd1YXJhbnRl
+ZXMgYWJvdXQKPiBob3cgdGhlc2UgZmVuY2VzIHdvcmtzIGlzIGdvaW5nIHRvIGJlIHNvbWV3aGF0
+IHRyaWNreS4gUHJvYmFibHkgY2FuIHJldXNlCj4gYSBiaWcgY2h1bmsgb2YgdGhlIGZlbmNlIGNv
+bnRhaW5lciB3b3JrIHdlJ3ZlIGRvbmUgZm9yIHN5bmNvYmogdGltZWxpbmVzLAo+IHNpbmNlIHRo
+ZXkgaGF2ZSBzb21lIG9mIHRoZSBzYW1lIGlzc3VlcyBvZiBoYXZpbmcgdG8gY2hhaW4gZmVuY2Vz
+IHRvIG5vdAo+IGJyZWFrIHRoZSB3b3JsZC4KCkhhcHB5IHRvIG5vdCBicmVhayB0aGUgd29ybGQu
+ICBJIGp1c3QgZG9uJ3Qga25vdyBob3cgeWV0LiA6LSkKCi0tSmFzb24KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
