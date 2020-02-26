@@ -2,41 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A6F170A8E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 22:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32F2170B26
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 23:05:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B80906EBD3;
-	Wed, 26 Feb 2020 21:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 429528855B;
+	Wed, 26 Feb 2020 22:05:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD4576EBD3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 21:36:55 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CFE9DC3;
- Wed, 26 Feb 2020 22:36:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582753013;
- bh=BGTEB2bSgBCwtx3g1gHs/U9S15mXns6Knjh7S7rOYRA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=L0lx0iBrIQjk+4LXCrE/R26PRofCV8CYYd1D2b5v8+/q+n2oknJCc+Shqu+PwKWEi
- QoJbhdun0EvSMVzkzShh4A7vm/2oUZaRlNDhauu7FHmDTK5pkWbvrwN6SP0RAZVYPc
- FGRcuQErDOYQ3KD5O679zgY5m/G5pkiK1q4fNNcQ=
-Date: Wed, 26 Feb 2020 23:36:30 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sebastian Reichel <sre@kernel.org>
-Subject: Re: [PATCHv2 04/56] omap/drm: drop unused dsi.configure_pins
-Message-ID: <20200226213630.GH4770@pendragon.ideasonboard.com>
-References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
- <20200224232126.3385250-5-sebastian.reichel@collabora.com>
- <20200224234249.GI16163@pendragon.ideasonboard.com>
- <20200226212819.6d3sm4uor6xsgxsw@earth.universe>
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C06E78855B;
+ Wed, 26 Feb 2020 22:05:53 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id m13so685206edb.6;
+ Wed, 26 Feb 2020 14:05:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=lO560Vd8elu0vLfNr74TQ8Ij17BoVsrrt1XDoaTrIfo=;
+ b=rNT0rnkki86MGc7psiszoA+k+IW0ye6YKaizU3CWPXfEJpDHUWiryx4VkbCgKD7WPU
+ 9X+mSaA7BTsjsf7lVOGkcdPgs2Q9OJnyHrqleAYDTwad9qLI/qLAyayYiamlCEH9rvM5
+ ORlI/QdlLw6qv/uPANIfbRmtea5ZaJZYGoABVmwdFwt/mz+eqvo/4Oi7r998eTRy9yr/
+ 7eI9UF7wPUPh7BZwCFVSbgP86VRPKT0dscpTNz8SqEYvMJAgiCbdnNWAdva5E5SXpTS5
+ 5n0XyTvN9qw/TWqQkdb2M1nnO5h6Qqr0jZvY/lVcdlpq+bWpfo1G1d3wwbz3L6b7CVIl
+ UZEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=lO560Vd8elu0vLfNr74TQ8Ij17BoVsrrt1XDoaTrIfo=;
+ b=pNanlB4reTRW6K8U2PNTr1+7/zRQ8hWxexetCFh3pcm/oI1f6lzhzu8+i1nEjIDVVX
+ H534BrQDtNbj7eLLue0eslgv7Ke0jSG942QmcBhUoHzb7JeOW+a6AP+5ypfVWTm6qaFZ
+ xqQ0Zfb25m/cRjbubKW0a/ef+7YIVYPKuRR3nyIvOM2OSnfaMgxdO/oB/TKh6mzsI7+Q
+ mbFOZcrlnSzcuG48EZot7a8CHMFa0UuRCwRYufEP7YPzm97IZJqj+dH1crUsXXrAKu4l
+ rZJEul1Bsn66Yf8/t7/krX4aKsAoXIx+x0+TCh8Ay4zBjD2Jmta5pxdLcGEwcDQsznLM
+ +x2A==
+X-Gm-Message-State: APjAAAWiD3J3VafQlBnRs7MKIDWRjX4L98XERbmyyv/O2JnRcLHtGXKf
+ O4x2l6STrY+ptU3J3pgIQ9flim4RPJk=
+X-Google-Smtp-Source: APXvYqw9rSLuNZaNiBI9qVmvO8rn/PoXC4JpYq8qWrjWaBXkn8OsgbaEEjuR3EvkUqWsVsyra9NafQ==
+X-Received: by 2002:a17:906:785:: with SMTP id l5mr718781ejc.311.1582754752412; 
+ Wed, 26 Feb 2020 14:05:52 -0800 (PST)
+Received: from smtp.gmail.com ([2001:818:e238:a000:51c6:2c09:a768:9c37])
+ by smtp.gmail.com with ESMTPSA id u9sm240590edt.91.2020.02.26.14.05.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 14:05:51 -0800 (PST)
+Date: Wed, 26 Feb 2020 19:05:43 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian Konig <christian.koenig@amd.com>,
+ David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Subject: [PATCH 0/2] drm/amd/display: dc_link: cleaning up some code style
+ issues
+Message-ID: <cover.1582752490.git.melissa.srw@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200226212819.6d3sm4uor6xsgxsw@earth.universe>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,106 +69,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- linux-omap@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
+This patchset solves some coding style issues on dc_link for readability
+and cleaning up warnings. Change suggested by checkpatch.pl. 
 
-On Wed, Feb 26, 2020 at 10:28:19PM +0100, Sebastian Reichel wrote:
-> On Tue, Feb 25, 2020 at 01:42:49AM +0200, Laurent Pinchart wrote:
-> > On Tue, Feb 25, 2020 at 12:20:34AM +0100, Sebastian Reichel wrote:
-> > > The panel-dsi-cm's ddata->pin_config is always NULL, so this
-> > > callback is never called. Instead the DSI encoder gets the pin
-> > > configuration directly from DT.
-> > > 
-> > > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > > ---
-> > >  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c | 11 -----------
-> > >  drivers/gpu/drm/omapdrm/dss/dsi.c               |  1 -
-> > >  drivers/gpu/drm/omapdrm/dss/omapdss.h           |  2 --
-> > >  3 files changed, 14 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> > > index 3484b5d4a91c..e7fe5d702337 100644
-> > > --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> > > +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> > > @@ -68,8 +68,6 @@ struct panel_drv_data {
-> > >  	int width_mm;
-> > >  	int height_mm;
-> > >  
-> > > -	struct omap_dsi_pin_config pin_config;
-> > > -
-> > >  	/* runtime variables */
-> > >  	bool enabled;
-> > >  
-> > > @@ -623,15 +621,6 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
-> > >  		}
-> > >  	}
-> > >  
-> > > -	if (ddata->pin_config.num_pins > 0) {
-> > > -		r = src->ops->dsi.configure_pins(src, &ddata->pin_config);
-> > > -		if (r) {
-> > > -			dev_err(&ddata->pdev->dev,
-> > > -				"failed to configure DSI pins\n");
-> > > -			goto err_vddi;
-> > > -		}
-> > > -	}
-> > > -
-> > >  	r = src->ops->dsi.set_config(src, &dsi_config);
-> > >  	if (r) {
-> > >  		dev_err(&ddata->pdev->dev, "failed to configure DSI\n");
-> > > diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> > > index 79ddfbfd1b58..8c39823a8295 100644
-> > > --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> > > +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> > > @@ -4892,7 +4892,6 @@ static const struct omap_dss_device_ops dsi_ops = {
-> > >  
-> > >  		.enable_hs = dsi_vc_enable_hs,
-> > >  
-> > > -		.configure_pins = dsi_configure_pins,
-> > >  		.set_config = dsi_set_config,
-> > >  
-> > >  		.enable_video_output = dsi_enable_video_output,
-> > > diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> > > index cbbe10b2b60d..b0424daaceed 100644
-> > > --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> > > +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> > > @@ -292,8 +292,6 @@ struct omapdss_dsi_ops {
-> > 
-> > I think you can drop the definition of the omap_dsi_pin_config structure
-> > earlier in this file too, as well as the OMAP_DSS_MAX_DSI_PINS macro.
-> > With this fixed,
-> 
-> No, the struct is still used by the code setting up the pins from
-> DT.
+Melissa Wen (2):
+  drm/amd/display: dc_link: code clean up on enable_link_dp function
+  drm/amd/display: dc_link: code clean up on detect_dp function
 
-Indeed, my bad. I think I'd pass the unsigned int num_pins and const int
-*pins to dsi_configure_pins() directly to drop the structure, but that
-can be done in a subsequent patch (maybe it is already :-)).
-
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-This tag holds.
-
-> > >  	/* bus configuration */
-> > >  	int (*set_config)(struct omap_dss_device *dssdev,
-> > >  			const struct omap_dss_dsi_config *cfg);
-> > > -	int (*configure_pins)(struct omap_dss_device *dssdev,
-> > > -			const struct omap_dsi_pin_config *pin_cfg);
-> > >  
-> > >  	void (*enable_hs)(struct omap_dss_device *dssdev, int channel,
-> > >  			bool enable);
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 67 +++++++++----------
+ 1 file changed, 32 insertions(+), 35 deletions(-)
 
 -- 
-Regards,
+2.25.0
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
