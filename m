@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4F216F673
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 05:29:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFE016F743
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 06:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3A26E0E8;
-	Wed, 26 Feb 2020 04:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22CAB6E0EB;
+	Wed, 26 Feb 2020 05:28:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 110E96E0E8
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 04:29:18 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id p8so1723407oth.10
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 20:29:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gOC8DpWiH0j9iNghIrQNnZTh9j5bGMcjUGYt8SCdFTA=;
- b=HWH01uwOOOImzmS+M/Az1nOPRtxNoMHwRmXqWQCATSb81iTCoVNG8mzlwu9uAgXpUG
- I9ZSXzimx5y3xfnrk4k8HRmmzc420wkpXx9UloaKNjv94iUG6eO9MufOua5wB59cPNG6
- QkRHG4odHPitkMx2A23QdWYzWibMXOLE9GzBWrvsFWHJ84MyhYRUIPqEP2TJr3Lv7qLh
- x0wdXKkA0gXGZtZV5JgvpDfrm1R5V7gC4tJn9uvTJ5U+rxxw8uN6rxh33NvAZ77dcdLj
- DUXneQv2C4EKJpgIW805wiyvdd5kX58Ba7IZ0s71s0gaFw9TT/2X6a4tPqtlyUs9qlwF
- B3Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gOC8DpWiH0j9iNghIrQNnZTh9j5bGMcjUGYt8SCdFTA=;
- b=AZ0/SOsx26pw0xrZ7uyTAl3qI1XrhRuMHe/zqc0m+Y3c5TimjlIXDDKCVwY2yZK7jZ
- VQqMro9ssVK7be6lEeabWGb9xuiLd9ldJiOnxx820yQWaiyexrJVIBq8CccWhEG4JfC3
- qad8JaTj0tdVGP0PSmduNyBaW3PeVOkgU6AuuemVWzN/nPWO9yJCJzY1h85kxKmABc0o
- DdfyRLs85IxlfucknE8JGr8Tjl59izA0xWaSUuU7JlaQxxZ7lotxGVnz+wJhb7t0kjH1
- xPnWAC4lBWvlE9Bz+Dz8sISc6Q33WJdcJtRfvXRbj+MAefAcyRFdmC29FElaEDYWMg4l
- pTpg==
-X-Gm-Message-State: APjAAAU8/+Aw35xdqHkyC6E1kJ+Yhzc1kWT6wZji2XDwOIGDzCaL0tz/
- /sN7HDbC+/s2SP7U+fzcd7EsH/4jgzXsOQOXZmnJgA==
-X-Google-Smtp-Source: APXvYqy1wy1oEzfz9uQI8ZP6nsZkzbMoKjDIkDSSocjkFUZXQfjBCHycp7ljNh6ZJS1Fj9r+cix0x4himyW0FknMDQ0=
-X-Received: by 2002:a9d:5786:: with SMTP id q6mr1472845oth.164.1582691357103; 
- Tue, 25 Feb 2020 20:29:17 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4A626E0EA;
+ Wed, 26 Feb 2020 05:28:22 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 77661AE41;
+ Wed, 26 Feb 2020 05:28:20 +0000 (UTC)
+Subject: Re: [Nouveau] [PATCH 1/3] drm: Add separate state structure for
+ legacy, non-KMS drivers
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20200225155902.9751-1-tzimmermann@suse.de>
+ <20200225155902.9751-2-tzimmermann@suse.de>
+ <CACvgo52fCMEiohuOkXyZi_mVrFnhMmmB--W64AvhEgVe3i2T5A@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <d64d2de7-8c0d-ca32-e9a3-706b98019c46@suse.de>
+Date: Wed, 26 Feb 2020 06:28:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200203173311.6269a8be06a05e5a4aa08a93@linux-foundation.org>
- <20200226015504.7GW9ptoIA%akpm@linux-foundation.org>
-In-Reply-To: <20200226015504.7GW9ptoIA%akpm@linux-foundation.org>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Wed, 26 Feb 2020 09:59:05 +0530
-Message-ID: <CAO_48GFr9-aY4=kRqWB=UkEzPj5fQDip+G1tNZMsT0XoQpBC7Q@mail.gmail.com>
-Subject: Re: + dma-buf-free-dmabuf-name-in-dma_buf_release.patch added to -mm
- tree
-To: Andrew Morton <akpm@linux-foundation.org>
+In-Reply-To: <CACvgo52fCMEiohuOkXyZi_mVrFnhMmmB--W64AvhEgVe3i2T5A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,92 +66,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mm-commits@vger.kernel.org, Chenbo Feng <fengc@google.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Greg Hackmann <ghackmann@google.com>, xiyou.wangcong@gmail.com,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "sam@ravnborg.org" <sam@ravnborg.org>,
+ "emil.velikov@collabora.com" <emil.velikov@collabora.com>
+Content-Type: multipart/mixed; boundary="===============0531127162=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Andrew,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0531127162==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Hx0UVgGfo7vakdBHIVTMh3shlfJiKBprl"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Hx0UVgGfo7vakdBHIVTMh3shlfJiKBprl
+Content-Type: multipart/mixed; boundary="CDRuovX7jI9aChelSbkaae7Qnej5MM0rK";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "emil.velikov@collabora.com" <emil.velikov@collabora.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "sam@ravnborg.org" <sam@ravnborg.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Message-ID: <d64d2de7-8c0d-ca32-e9a3-706b98019c46@suse.de>
+Subject: Re: [Nouveau] [PATCH 1/3] drm: Add separate state structure for
+ legacy, non-KMS drivers
+References: <20200225155902.9751-1-tzimmermann@suse.de>
+ <20200225155902.9751-2-tzimmermann@suse.de>
+ <CACvgo52fCMEiohuOkXyZi_mVrFnhMmmB--W64AvhEgVe3i2T5A@mail.gmail.com>
+In-Reply-To: <CACvgo52fCMEiohuOkXyZi_mVrFnhMmmB--W64AvhEgVe3i2T5A@mail.gmail.com>
+
+--CDRuovX7jI9aChelSbkaae7Qnej5MM0rK
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Emil
+
+Am 25.02.20 um 18:37 schrieb Emil Velikov:
+> Hi Thomas,
+>=20
+> On Tuesday, 25 February 2020, Thomas Zimmermann <tzimmermann@suse.de
+> <mailto:tzimmermann@suse.de>> wrote:
+>=20
+>     Non-KMS drivers store state in struct drm_driver. This bloats the
+>     structure for KMS drivers and prevents it from being declared with
+>     'static const' qualifiers. Moving the non-KMS state into a separate=
+
+>     data structure resolves this.
+>=20
+>=20
+> Have you considered subclassing the const drm_driver for legacy drivers=
+=2E
+> This way the legacy (pointer) data does not need to be exposed to
+> non-legacy drivers.
+
+I didn't want to do an upcast each time the legacy data is required. I
+know that subclassing is closer to the style of current DRM, but given
+the current code base, the additional legacy pointer seemed like the
+lesser evil.
+
+Best regards
+Thomas
+
+>=20
+> Not to mention that const data (drm_driver), which has (const) pointer
+> to mutable data (legacy bits) is a trap IMHO
+>=20
+> Emil
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-On Wed, 26 Feb 2020 at 07:25, Andrew Morton <akpm@linux-foundation.org> wrote:
->
->
-> The patch titled
->      Subject: dma-buf: free dmabuf->name in dma_buf_release()
-> has been added to the -mm tree.  Its filename is
->      dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+--CDRuovX7jI9aChelSbkaae7Qnej5MM0rK--
 
-Thanks for taking this patch via -mm during my absence (I'm just
-returning from a bit of an illness). If there are other dma-buf
-patches on your radar that you'd like to take via the mm tree, please
-let me know and I can provide the necessary Acks.
-Else I will take them in via drm-misc as usual.
+--Hx0UVgGfo7vakdBHIVTMh3shlfJiKBprl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
->
-> This patch should soon appear at
->     http://ozlabs.org/~akpm/mmots/broken-out/dma-buf-free-dmabuf-name-in-dma_buf_release.patch
-> and later at
->     http://ozlabs.org/~akpm/mmotm/broken-out/dma-buf-free-dmabuf-name-in-dma_buf_release.patch
->
-> Before you just go and hit "reply", please:
->    a) Consider who else should be cc'ed
->    b) Prefer to cc a suitable mailing list as well
->    c) Ideally: find the original patch on the mailing list and do a
->       reply-to-all to that, adding suitable additional cc's
->
-> *** Remember to use Documentation/process/submit-checklist.rst when testing your code ***
->
-> The -mm tree is included into linux-next and is updated
-> there every 3-4 working days
->
-> ------------------------------------------------------
-> From: Cong Wang <xiyou.wangcong@gmail.com>
-> Subject: dma-buf: free dmabuf->name in dma_buf_release()
->
-> dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
-> it never gets freed.
->
-> Free it in dma_buf_release().
->
-> Link: http://lkml.kernel.org/r/20200225204446.11378-1-xiyou.wangcong@gmail.com
-> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-> Reported-by: syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com
-> Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
-> Reviewed-by: Andrew Morton <akpm@linux-foundation.org>
-> Acked-by: Chenbo Feng <fengc@google.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Greg Hackmann <ghackmann@google.com>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
->
->  drivers/dma-buf/dma-buf.c |    1 +
->  1 file changed, 1 insertion(+)
->
-> --- a/drivers/dma-buf/dma-buf.c~dma-buf-free-dmabuf-name-in-dma_buf_release
-> +++ a/drivers/dma-buf/dma-buf.c
-> @@ -108,6 +108,7 @@ static int dma_buf_release(struct inode
->                 dma_resv_fini(dmabuf->resv);
->
->         module_put(dmabuf->owner);
-> +       kfree(dmabuf->name);
->         kfree(dmabuf);
->         return 0;
->  }
-> _
->
-> Patches currently in -mm which might be from xiyou.wangcong@gmail.com are
->
-> dma-buf-free-dmabuf-name-in-dma_buf_release.patch
->
-Thanks and best regards,
-Sumit.
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5WAfMACgkQaA3BHVML
+eiPooggAnxmtcTkZSlg/VKh8bBT+rcT3+1L9bVvmSY71wBKeFJATIQWIFiceXENW
+3qjpSIl9NI7A4L2j7oO7pdbQCI0onxzGYdPl3ua59ys28zoUCJ+W0pnrJgD6Zxdl
+euXiOJR7g8PdvpMMtaVPe0zCQhGFMN4+Z8HT+EmuxMdoz0JT4aaqpA2/8nHXNEYl
+d+0QFHqNPA9rp1+sdVe+mrR148adaC+0bqHs3k8L9CxMacERjyj0ozHj0EhHrSbU
+6rV5Pp/x9HxBdMKhA1BQlOy8G0PCbsETNsoFPVJ18IM1H+UlcXVDVZq1mpvLM6sm
+GyHYmIK55k/Dk6OlamduDiGXci1stw==
+=E9s1
+-----END PGP SIGNATURE-----
+
+--Hx0UVgGfo7vakdBHIVTMh3shlfJiKBprl--
+
+--===============0531127162==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0531127162==--
