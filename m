@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8DF16FD73
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:25:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A31E16FD74
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:25:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0AA46E4F3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6E9E6E4FB;
 	Wed, 26 Feb 2020 11:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2E9F6E4AB
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:25:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A13D6E4C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:25:43 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B473ED45;
- Wed, 26 Feb 2020 12:25:40 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8F9DD53;
+ Wed, 26 Feb 2020 12:25:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582716341;
- bh=BJFwVAo4IQFnsUeNwuW5TqYuMAmP+b4kq1V1vr0gXbc=;
+ s=mail; t=1582716342;
+ bh=TfSC1Q2+MZsj5WCyMVBGp+VxlKd0JJWFC53lEpvt4Gc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BUJIiMUvzNKT6iUYbXNocKK2RVj4FdY3UvA5LhedNtxEWYtRU/mPyyWHcBqj+VUxd
- MncUdJv38s5GI1L3nvzNSzVMyoA4WHUPSfbknF/SVYhS7liUG14SRsESynCuRpTjWG
- C0DjQTuf7wYMUVVXwOfiNVsrH0F3zAlBF3rqd0mY=
+ b=UqVFU1LfKQdQkTc9RUTRqYel8Z7M5o0qxEN/8hjVcdMttib2bMtvKkobzaf7JeZN0
+ greEnndiyV28tIpUifQZkK7BNc/9KH2Ul1fDdtFaT6Numy2giihHT1VDqbxk1YE6hJ
+ 9cQZqxWWKGUNfml3eZJwm4j3M7j49OCpK9gepTIc=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 01/54] video: hdmi: Change return type of
- hdmi_avi_infoframe_init() to void
-Date: Wed, 26 Feb 2020 13:24:21 +0200
-Message-Id: <20200226112514.12455-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v8 02/54] drm/connector: Add helper to get a connector type
+ name
+Date: Wed, 26 Feb 2020 13:24:22 +0200
+Message-Id: <20200226112514.12455-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
 References: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
@@ -52,98 +52,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hdmi_avi_infoframe_init() never needs to return an error, change its
-return type to void.
+drm_connector.c contains a map of connector types (DRM_MODE_CONNECTOR_*)
+to name strings, but doesn't expose it. This leads to drivers having to
+store a similar map.
+
+Add a new drm_get_connector_type_name() helper function that return a
+name string for a connector type.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
-Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/gpu/drm/drm_edid.c |  5 +----
- drivers/video/hdmi.c       | 11 ++---------
- include/linux/hdmi.h       |  2 +-
- 3 files changed, 4 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/drm_connector.c | 15 +++++++++++++++
+ include/drm/drm_connector.h     |  1 +
+ 2 files changed, 16 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index ec10dc3e859c..5f3bc3486fde 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5449,14 +5449,11 @@ drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,
- {
- 	enum hdmi_picture_aspect picture_aspect;
- 	u8 vic, hdmi_vic;
--	int err;
- 
- 	if (!frame || !mode)
- 		return -EINVAL;
- 
--	err = hdmi_avi_infoframe_init(frame);
--	if (err < 0)
--		return err;
-+	hdmi_avi_infoframe_init(frame);
- 
- 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
- 		frame->pixel_repeat = 1;
-diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
-index 9c82e2a0a411..856a8c4e84a2 100644
---- a/drivers/video/hdmi.c
-+++ b/drivers/video/hdmi.c
-@@ -53,18 +53,14 @@ static void hdmi_infoframe_set_checksum(void *buffer, size_t size)
- /**
-  * hdmi_avi_infoframe_init() - initialize an HDMI AVI infoframe
-  * @frame: HDMI AVI infoframe
-- *
-- * Returns 0 on success or a negative error code on failure.
-  */
--int hdmi_avi_infoframe_init(struct hdmi_avi_infoframe *frame)
-+void hdmi_avi_infoframe_init(struct hdmi_avi_infoframe *frame)
- {
- 	memset(frame, 0, sizeof(*frame));
- 
- 	frame->type = HDMI_INFOFRAME_TYPE_AVI;
- 	frame->version = 2;
- 	frame->length = HDMI_AVI_INFOFRAME_SIZE;
--
--	return 0;
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index f632ca05960e..644f0ad10671 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -111,6 +111,21 @@ void drm_connector_ida_destroy(void)
+ 		ida_destroy(&drm_connector_enum_list[i].ida);
  }
- EXPORT_SYMBOL(hdmi_avi_infoframe_init);
  
-@@ -1553,7 +1549,6 @@ static int hdmi_avi_infoframe_unpack(struct hdmi_avi_infoframe *frame,
- 				     const void *buffer, size_t size)
- {
- 	const u8 *ptr = buffer;
--	int ret;
++/**
++ * drm_get_connector_type_name - return a string for connector type
++ * @type: The connector type (DRM_MODE_CONNECTOR_*)
++ *
++ * Returns: the name of the connector type, or NULL if the type is not valid.
++ */
++const char *drm_get_connector_type_name(unsigned int type)
++{
++	if (type < ARRAY_SIZE(drm_connector_enum_list))
++		return drm_connector_enum_list[type].name;
++
++	return NULL;
++}
++EXPORT_SYMBOL(drm_get_connector_type_name);
++
+ /**
+  * drm_connector_get_cmdline_mode - reads the user's cmdline mode
+  * @connector: connector to quwery
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index b3815371c271..c3bd5262db9c 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1518,6 +1518,7 @@ drm_connector_is_unregistered(struct drm_connector *connector)
+ 		DRM_CONNECTOR_UNREGISTERED;
+ }
  
- 	if (size < HDMI_INFOFRAME_SIZE(AVI))
- 		return -EINVAL;
-@@ -1566,9 +1561,7 @@ static int hdmi_avi_infoframe_unpack(struct hdmi_avi_infoframe *frame,
- 	if (hdmi_infoframe_checksum(buffer, HDMI_INFOFRAME_SIZE(AVI)) != 0)
- 		return -EINVAL;
- 
--	ret = hdmi_avi_infoframe_init(frame);
--	if (ret)
--		return ret;
-+	hdmi_avi_infoframe_init(frame);
- 
- 	ptr += HDMI_INFOFRAME_HEADER_SIZE;
- 
-diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
-index 9918a6c910c5..9613d796cfb1 100644
---- a/include/linux/hdmi.h
-+++ b/include/linux/hdmi.h
-@@ -207,7 +207,7 @@ struct hdmi_drm_infoframe {
- 	u16 max_fall;
- };
- 
--int hdmi_avi_infoframe_init(struct hdmi_avi_infoframe *frame);
-+void hdmi_avi_infoframe_init(struct hdmi_avi_infoframe *frame);
- ssize_t hdmi_avi_infoframe_pack(struct hdmi_avi_infoframe *frame, void *buffer,
- 				size_t size);
- ssize_t hdmi_avi_infoframe_pack_only(const struct hdmi_avi_infoframe *frame,
++const char *drm_get_connector_type_name(unsigned int connector_type);
+ const char *drm_get_connector_status_name(enum drm_connector_status status);
+ const char *drm_get_subpixel_order_name(enum subpixel_order order);
+ const char *drm_get_dpms_name(int val);
 -- 
 Regards,
 
