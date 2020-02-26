@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4BB171223
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACCF171225
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:13:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D7026EC25;
-	Thu, 27 Feb 2020 08:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50DC06EC22;
+	Thu, 27 Feb 2020 08:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAF7B6EBC9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 19:13:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582744400;
+ [IPv6:2a01:238:20a:202:5302::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB2466EBBA
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 19:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582744394;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=rmAyGFH2w0GQdDqcolLuvQb3bXwl+Mlnr1aULm9Zmtc=;
- b=KIjYrdOo0ePE2OPnLUehAEA+XLFl9K57T6XRAVO8BnrOaxrhL/czvcJ37NUrpbw3EL
- 5KYnZXGZLXAMk6CclUg+yV57RkjfgFOIg4/i9AB8mHi+jNJLhMl1q3XyXuq0eFlLDfMD
- GhcNMRfgipydoPEXKIpl8xUN1IZ6xXQqri6Py1BQWFNGjbhn9WBFBzk1ZOQtMS7GiO+x
- f5ZohjbdMDr9g/c70gx0eWBNIa2fZWgsob4pqydskE4Yp/8NTfrLY5fByO49Dpu+lpQE
- aksZPngy6LLCNqy9jSNh3TXvZK/EvPO7LBCVHkTGni2xWgzhevDuejANfCzBx1TtRvYj
- QZ4A==
+ bh=ZlvegWKzEL7p+n4163sWKIEhQycTr4lr1NjcravaYHg=;
+ b=SUD3iuINVgw8sDCbuPVAbS6Eaf9C9HYB8iXQ5SuuqKn+G6dklsuWklWQoZfEJ8kSYr
+ tScVkxiTeMFjcjiygWUekmgCpRd/K1gos/SIq0QT4UhLg4gXKzRlw1l3wKJf5PfhPB7l
+ XEkme/B3x0ycjpDKXYaZR3dbMD865usj81uYRK4H1be9s9GSnnOLQT/FAXUoXeq2SO+6
+ FXbDNqstPhYJU1MKz2Ih1+YvpFQp5EGd1eWFPMOgydnNm/iDt1mGBeM/4jZrfkh51Gv9
+ wy55Tjis77sStvTnJwJ/PA06si4Iphyl1hZcR645+KqIhqdmibMsQlzuV9DrUD5qHk02
+ /oIg==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0pAzoz/Oc2x"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
- with ESMTPSA id U06217w1QJD16bK
+ with ESMTPSA id U06217w1QJD26bL
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Wed, 26 Feb 2020 20:13:01 +0100 (CET)
+ Wed, 26 Feb 2020 20:13:02 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -40,9 +40,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  Krzysztof Kozlowski <krzk@kernel.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  "Eric W. Biederman" <ebiederm@xmission.com>
-Subject: [RFC 1/8] dt-bindings: video: Add jz4780-lcd binding
-Date: Wed, 26 Feb 2020 20:12:53 +0100
-Message-Id: <d7dd7c52a9f6cb4e31bce69bb6879e46bfba530c.1582744379.git.hns@goldelico.com>
+Subject: [RFC 2/8] dt-bindings: video: Add jz4780-hdmi binding
+Date: Wed, 26 Feb 2020 20:12:54 +0100
+Message-Id: <2d7202155bae3fa9c7097275d4c9a1ccab569aea.1582744379.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1582744379.git.hns@goldelico.com>
 References: <cover.1582744379.git.hns@goldelico.com>
@@ -72,58 +72,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 
-Add DT bindings for the LCD controller on the jz4780 SoC
+Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
 
 Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 ---
- .../bindings/display/ingenic-jz4780-lcd.txt   | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.txt
+ .../bindings/display/ingenic-jz4780-hdmi.txt  | 41 +++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.txt
 
-diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.txt b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.txt
+diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.txt b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.txt
 new file mode 100644
-index 000000000000..8512ce3f93df
+index 000000000000..f02e59fbdd5a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.txt
-@@ -0,0 +1,39 @@
-+Bindings for Ingenic JZ4780 LCD Controller
++++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.txt
+@@ -0,0 +1,41 @@
++Device-Tree bindings for Ingenic JZ4780 HDMI Transmitter
 +
-+LCD Controller is the Display Controller for the Ingenic JZ4780 SoC
++The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys DesignWare HDMI 1.4
++TX controller IP with accompanying PHY IP.
 +
 +Required properties:
-+- compatible: should be "ingenic,jz4780-lcd"
-+- reg: Should contain the address & size of the LCD controller registers.
-+- interrupts: Should specify the interrupt provided by parent.
-+- clocks: Should contain two clock specifiers for the JZ4780_CLK_TVE JZ4780_CLK_LCD0PIXCLK.
-+- clock-names : Must be "lcd_clk", "lcd_pixclk";
-+- port: A port node with endpoint definitions as defined in
-+  Documentation/devicetree/bindings/media/video-interfaces.txt.
++ - #address-cells : should be <1>
++ - #size-cells : should be <0>
++ - compatible : should be "ingenic,jz4780-hdmi"
++ - reg-io-width: must be <4>
++ - clocks: phandle to isrf and iahb clocks
++ - clock-names : must be "isrf" and "iahb"
++ - ports: Port nodes with endpoint definitions as defined in
++   Documentation/devicetree/bindings/media/video-interfaces.txt,
 +
 +Optional properties:
-+- interrupt-parent: phandle to parent interrupt controller
++ - ddc-i2c-bus: phandle of an I2C controller used for DDC EDID probing
 +
-+Example:
++example:
 +
-+lcd: jz4780-lcdk@0x13050000 {
-+	compatible = "ingenic,jz4780-lcd";
-+	reg = <0x13050000 0x1800>;
-+
-+	clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
-+	clock-names = "lcd_clk", "lcd_pixclk";
-+
++hdmi: hdmi@10180000 {
++	compatible = "ingenic,jz4780-hdmi";
++	reg = <0x10180000 0x8000>;
++	reg-io-width = <4>;
++	ddc-i2c-bus = <&i2c4>;
 +	interrupt-parent = <&intc>;
-+	interrupts = <31>;
++	interrupts = <3>;
++	clocks = <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
++	clock-names = "isfr", "iahb";
 +
-+	jz4780_lcd_out: port {
++	ports {
++		hdmi_in: port {
 +			#address-cells = <1>;
 +			#size-cells = <0>;
-+
-+			jz4780_out_hdmi: endpoint@0 {
++			hdmi_in_lcd: endpoint@0 {
 +				reg = <0>;
-+				remote-endpoint = <&hdmi_in_lcd>;
++				remote-endpoint = <&jz4780_out_hdmi>;
 +			};
 +		};
-+
++	};
 +};
 -- 
 2.23.0
