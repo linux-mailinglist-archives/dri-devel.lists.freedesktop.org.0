@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E206716F558
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 02:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE87F16F56B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 02:58:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9D226E0B9;
-	Wed, 26 Feb 2020 01:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 106A06E0CB;
+	Wed, 26 Feb 2020 01:58:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1EA76E0B9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 01:54:19 +0000 (UTC)
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net
- [73.231.172.41])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2CAE820732;
- Wed, 26 Feb 2020 01:54:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582682059;
- bh=LuY1aImj6PEVlETfQcjlClopOVm/sK8P/ZzP4XBR+/o=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=EE9BrAeaUKw0b4AC+J+IaooQvru8TwnlXy/gE1MLEOsM2l9haCbFKp1H23KixzFY3
- qFZTSOWbbcYB2IvvP5Gl/FEPR+o1e43H7tl+T4iFmxNK+9xKLkKpcSlkomJ3ddkASf
- 8FQ7bZZqJb8EXIna6OyFsxxWDTWN+StwgpKDTOvI=
-Date: Tue, 25 Feb 2020 17:54:18 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Cong Wang <xiyou.wangcong@gmail.com>
-Subject: Re: [PATCH] dma-buf: free dmabuf->name in dma_buf_release()
-Message-Id: <20200225175418.2d3af2180cbf895b727ce4b1@linux-foundation.org>
-In-Reply-To: <20200225204446.11378-1-xiyou.wangcong@gmail.com>
-References: <20200225204446.11378-1-xiyou.wangcong@gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0D8436E0CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 01:58:46 +0000 (UTC)
+X-UUID: 8220794a7cc843d1b721db1695d043d8-20200226
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=ju7q+m3fC5tzr5BkYbHgGDb6f000b3+zmY3EzNVVdc4=; 
+ b=KLZEbI3htPZmO2LXUp0P9nUMInozvbAKjVyDRUOkMT3feU6gNXCwLlZMaQy8+p2G26GFxcNzCCBvdDAY+dzf75oRfLWs8Sn+LQ5gjXaTebhlCixKxpOMg8sLp/O8+yRaa91Qi6pE3FJSRiTMgpIC7GVEydfmNzT9aodFL2UmoG8=;
+X-UUID: 8220794a7cc843d1b721db1695d043d8-20200226
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 487766622; Wed, 26 Feb 2020 09:58:43 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 26 Feb 2020 09:57:45 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 26 Feb 2020 09:58:51 +0800
+Message-ID: <1582682322.16944.7.camel@mtksdaap41>
+Subject: Re: [PATCH v8 4/7] dt-bindings: display: mediatek: dpi sample data
+ in dual edge support
+From: CK Hu <ck.hu@mediatek.com>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Date: Wed, 26 Feb 2020 09:58:42 +0800
+In-Reply-To: <20200225094057.120144-5-jitao.shi@mediatek.com>
+References: <20200225094057.120144-1-jitao.shi@mediatek.com>
+ <20200225094057.120144-5-jitao.shi@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,36 +53,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chenbo Feng <fengc@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-media@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Feb 2020 12:44:46 -0800 Cong Wang <xiyou.wangcong@gmail.com> wrote:
+Hi, Jitao:
 
-> dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
-> it never gets freed.
+On Tue, 2020-02-25 at 17:40 +0800, Jitao Shi wrote:
+> Add property "pclk-sample" to config the dpi sample on falling (0),
+> rising (1), both falling and rising (2).
 > 
-> Free it in dma_buf_release().
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,dpi.txt     | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> ...
->
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -108,6 +108,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
->  		dma_resv_fini(dmabuf->resv);
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> index a7b1b8bfb65e..f362fff51437 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> @@ -20,6 +20,9 @@ Required properties:
+>  Optional properties:
+>  - pinctrl-names: Contain "gpiomode" and "dpimode".
+>    pinctrl-names see Documentation/devicetree/bindings/pinctrlpinctrl-bindings.txt
+> +- pclk-sample: 0: sample in falling edge, 1: sample in rising edge, 2: sample
+> +  in both falling and rising edge.
+
+The value has been defined in video-interfaces.txt, you need not to
+define it again.
+
+Regards,
+CK
+
+> +  pclk-sample see Documentation/devicetree/bindings/media/video-interfaces.txt.
 >  
->  	module_put(dmabuf->owner);
-> +	kfree(dmabuf->name);
->  	kfree(dmabuf);
->  	return 0;
->  }
+>  Example:
+>  
+> @@ -37,6 +40,7 @@ dpi0: dpi@1401d000 {
+>  
+>  	port {
+>  		dpi0_out: endpoint {
+> +			pclk-sample = 0;
+>  			remote-endpoint = <&hdmi0_in>;
+>  		};
+>  	};
 
-ow.  Is that ioctl privileged?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
