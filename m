@@ -1,43 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCF616FAC8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 10:33:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7AF316FAD7
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 10:36:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC6786E3DB;
-	Wed, 26 Feb 2020 09:33:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6891B6E3EB;
+	Wed, 26 Feb 2020 09:36:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B22FB6E2CF
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 09:24:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 0209328DB54
-Subject: Re: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
-To: CK Hu <ck.hu@mediatek.com>
-References: <20200220172147.919996-1-enric.balletbo@collabora.com>
- <1582259996.1846.7.camel@mtksdaap41>
- <7a87b486-1622-7f27-f5af-427b94a14c00@collabora.com>
- <1582277229.25992.9.camel@mtksdaap41>
- <1393a8c5-065f-cccb-2563-8b159c951d4b@suse.com>
- <1582283518.5889.10.camel@mtksdaap41>
- <6deab0a4-44a6-a15f-ac01-374f818b267c@collabora.com>
- <6eb9da70-9a0c-27fc-6c31-3ac62ede5a35@suse.com>
- <d9ad35c0-57df-ebb2-67e8-4aae55dd2fcb@collabora.com>
- <1582523544.25316.2.camel@mtksdaap41>
- <688f6c85-0063-9458-858c-de7bbfb8a530@collabora.com>
- <1582695176.8324.4.camel@mtksdaap41>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <6355f1fd-b929-730e-e0f6-96dd5100e3f9@collabora.com>
-Date: Wed, 26 Feb 2020 10:24:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D936E3EB
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 09:36:38 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id c16so2393282oic.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 01:36:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9EMjKgVGuMRAVyfQZ2TPNgdMqtVLlcmfYPm5wDrYVb4=;
+ b=ieab7pTpQvNA6A5wB4fPVXYkd+2XAp8iVczdxWZY1wGXIUApYjvZ1rJRbznNH0G0XK
+ Crcabay1fZbXxHxl3XWKUkQ0/asPI+AvHoVGJ1Q+fvJq4h/PdzvZdAVgBnIwSKXuzH5I
+ +SMlMalFbHRokfnBeGxt50sI8HF+fwocOFljE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9EMjKgVGuMRAVyfQZ2TPNgdMqtVLlcmfYPm5wDrYVb4=;
+ b=n6qCpjfkkqoteztJdWfrdn98+TDK6bmkeihxgLxDKrDbAsgu728RdFk/TE2m9Cn04t
+ yM4v/aPFes6ewJNa2oki6EnLJBOVwbxpj3GH8QF5uMGm+MrRkFhocS2jCAht2ARvoQNg
+ NIUppDYzJUuAeZxboqcn1TX7CiBNPlbkwcre1I6lom+fXpyiruSZtgHQQdQT6yHgE0Xb
+ oFcbYbqAVA+iRBtPPi9fJQrZSgdoz+8y43RhomL855rvI6+x0Q/4IOcUDVdLlaF4csgP
+ J3liJn3J7Xc8RvXn/eowhZMCgyiEVVg0t1yyqROQGumHM8rsvO69N0Qdbfwb14/xUj9E
+ XCBg==
+X-Gm-Message-State: APjAAAWFfM3IwMPeje123sAd1J+RZ5Fp8gd/F0ard7U4CACTeRpFTLmz
+ CunkPnxjhQ4TyihtOYRac9QTz+DA2ZtpA8/SuueEIA==
+X-Google-Smtp-Source: APXvYqzNG7Ws71FuTQ4i01/b8TpaygUZY40lwrFlLYaZuIvLsUQMNHZxReC0Pv07qe+Oto6ehyiZLofQb+5DJyvz3RM=
+X-Received: by 2002:a05:6808:10b:: with SMTP id
+ b11mr2425468oie.110.1582709797566; 
+ Wed, 26 Feb 2020 01:36:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1582695176.8324.4.camel@mtksdaap41>
-Content-Language: en-US
-X-Mailman-Approved-At: Wed, 26 Feb 2020 09:33:13 +0000
+References: <20200203173311.6269a8be06a05e5a4aa08a93@linux-foundation.org>
+ <20200226015504.7GW9ptoIA%akpm@linux-foundation.org>
+ <CAO_48GFr9-aY4=kRqWB=UkEzPj5fQDip+G1tNZMsT0XoQpBC7Q@mail.gmail.com>
+In-Reply-To: <CAO_48GFr9-aY4=kRqWB=UkEzPj5fQDip+G1tNZMsT0XoQpBC7Q@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 26 Feb 2020 10:36:26 +0100
+Message-ID: <CAKMK7uGvixQ2xoQMt3pvt0OpNXDjDGTvSWsaAppsKrmO_EP3Kg@mail.gmail.com>
+Subject: Re: + dma-buf-free-dmabuf-name-in-dma_buf_release.patch added to -mm
+ tree
+To: Sumit Semwal <sumit.semwal@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,105 +61,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
- mturquette@baylibre.com, Matthias Brugger <"matthias. bgg"@gmail.com>,
- dri-devel@lists.freedesktop.org, Richard Fontana <rfontana@redhat.com>,
- laurent.pinchart@ideasonboard.com, ulrich.hecht+renesas@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
- Nicolas Boichat <drinkcat@chromium.org>, Weiyi Lu <weiyi.lu@mediatek.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, wens@csie.org,
- linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
- Owen Chen <owen.chen@mediatek.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, frank-w@public-files.de,
- Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
- Houlong Wei <houlong.wei@mediatek.com>, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Allison Randal <allison@lohutok.net>, Matthias Brugger <mbrugger@suse.com>,
- Fabien Parent <fparent@baylibre.com>, sboyd@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Cc: mm-commits@vger.kernel.org, Chenbo Feng <fengc@google.com>,
+ Greg Hackmann <ghackmann@google.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ WANG Cong <xiyou.wangcong@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi CK,
+On Wed, Feb 26, 2020 at 5:29 AM Sumit Semwal <sumit.semwal@linaro.org> wrote:
+>
+> Hello Andrew,
+>
+>
+> On Wed, 26 Feb 2020 at 07:25, Andrew Morton <akpm@linux-foundation.org> wrote:
+> >
+> >
+> > The patch titled
+> >      Subject: dma-buf: free dmabuf->name in dma_buf_release()
+> > has been added to the -mm tree.  Its filename is
+> >      dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+>
+> Thanks for taking this patch via -mm during my absence (I'm just
+> returning from a bit of an illness). If there are other dma-buf
+> patches on your radar that you'd like to take via the mm tree, please
+> let me know and I can provide the necessary Acks.
+> Else I will take them in via drm-misc as usual.
 
-On 26/2/20 6:32, CK Hu wrote:
+I thought at least that for cases like these -mm is the last resort
+tree, so proper thing to do here is apply this fix to drm-misc-fixes
+and get it out there. -mm rebases, so will fall out again.
 
-[snip]
+Also maybe we should have had some tests for this, plus some
+integration with the gem object name instead of duplicating buffer
+object names everywhere for different reasons.
+-Daniel
 
->>
->> How do you see move mmsys to drivers/soc/mediatek and instantiate the clk and
->> mediatek-drm driver
->>
->>  mmsys: syscon@14000000 {
->>  	compatible = "mediatek,mt8173-mmsys", "syscon", "simple-mfd";
->>  	reg = <0 0x14000000 0 0x1000>;
->>  	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
->>
->> 	clock-controller {
->> 		compatible = "mediatek,clk-mt8173-mm"
->> 		assigned-clocks = <&topckgen CLK_TOP_MM_SEL>;
->> 	 	assigned-clock-rates = <400000000>;
->>  		#clock-cells = <1>;
->> 	};
->>
->> 	display-subsystem {
->> 		compatible = "mediatek,display-subsystem";
->> 	};
->>  };
->>
-> 
-> Let's start with the simple definition.
-> 
-> mmsys: syscon at 14000000 {
-> 	compatible = "mediatek,mt8173-mmsys", "syscon";
-> 	reg = <0 0x14000000 0 0x1000>;
-> 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
-> 	assigned-clocks = <&topckgen CLK_TOP_MM_SEL>;
-> 	assigned-clock-rates = <400000000>;
-> 	#clock-cells = <1>;
-> };
-> 
-> When we break clock control to a sub device of mmsys, the reason is that
-> 'Linux' generally categorize clock controller to a device. When we break
-> display control to a sub device of mmsys, the reason is that 'Linux'
-> generally categorize display controller to a device. All these seems
-> software-oriented reason, so I think we do not break any sub device and
-> keep mmsys simple.
-> 
-> When I search of_clk_add_provider(), I find that not all clock provider
-> code is in drivers/clk. Maybe when a clock controller is not an
-> independent device, the driver code of clock controller could be placed
-> within the device driver it belonged to. We could place mmsys driver in
-> drivers/soc/mediatek/, and it control the clock, routing, fake engine,
-> memory delay,.... I would like drm driver to be placed in
-> drivers/gpu/drm/ because display function block, such as OVL, does not
-> belong to mmsys device. And finally let mmsys driver to probe
-> mediatek-drm driver.
-> 
+>
+> >
+> > This patch should soon appear at
+> >     http://ozlabs.org/~akpm/mmots/broken-out/dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+> > and later at
+> >     http://ozlabs.org/~akpm/mmotm/broken-out/dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+> >
+> > Before you just go and hit "reply", please:
+> >    a) Consider who else should be cc'ed
+> >    b) Prefer to cc a suitable mailing list as well
+> >    c) Ideally: find the original patch on the mailing list and do a
+> >       reply-to-all to that, adding suitable additional cc's
+> >
+> > *** Remember to use Documentation/process/submit-checklist.rst when testing your code ***
+> >
+> > The -mm tree is included into linux-next and is updated
+> > there every 3-4 working days
+> >
+> > ------------------------------------------------------
+> > From: Cong Wang <xiyou.wangcong@gmail.com>
+> > Subject: dma-buf: free dmabuf->name in dma_buf_release()
+> >
+> > dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
+> > it never gets freed.
+> >
+> > Free it in dma_buf_release().
+> >
+> > Link: http://lkml.kernel.org/r/20200225204446.11378-1-xiyou.wangcong@gmail.com
+> > Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+> > Reported-by: syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com
+> > Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
+> > Reviewed-by: Andrew Morton <akpm@linux-foundation.org>
+> > Acked-by: Chenbo Feng <fengc@google.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Greg Hackmann <ghackmann@google.com>
+> > Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> > ---
+> >
+> >  drivers/dma-buf/dma-buf.c |    1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > --- a/drivers/dma-buf/dma-buf.c~dma-buf-free-dmabuf-name-in-dma_buf_release
+> > +++ a/drivers/dma-buf/dma-buf.c
+> > @@ -108,6 +108,7 @@ static int dma_buf_release(struct inode
+> >                 dma_resv_fini(dmabuf->resv);
+> >
+> >         module_put(dmabuf->owner);
+> > +       kfree(dmabuf->name);
+> >         kfree(dmabuf);
+> >         return 0;
+> >  }
+> > _
+> >
+> > Patches currently in -mm which might be from xiyou.wangcong@gmail.com are
+> >
+> > dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+> >
+> Thanks and best regards,
+> Sumit.
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-You can apply the same reasoning in the clk subsystem, not all the drivers in
-drivers/clk are pure clock controllers, some of them are already
-system-controller or "simple-mfd" and some of them even instantiate other
-subdrivers via the platform register API.
 
-Note that moving clk-<chip>-mm drivers to drivers/soc/mediatek will imply move a
-lot of code, I'll focus only on mt8173 for now because is the only platform I
-can really test. Let me prepare a v9 and lets see how looks like.
 
-Thanks,
- Enric
-
-> Regards,
-> CK
-
-[snip]
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
