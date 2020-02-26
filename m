@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3473C16F616
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 04:30:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4F216F673
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 05:29:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15DE96E0E3;
-	Wed, 26 Feb 2020 03:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3A26E0E8;
+	Wed, 26 Feb 2020 04:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7D76E0E3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 03:30:02 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id g19so1937227eds.11
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 19:30:02 -0800 (PST)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 110E96E0E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 04:29:18 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id p8so1723407oth.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 20:29:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gOC8DpWiH0j9iNghIrQNnZTh9j5bGMcjUGYt8SCdFTA=;
+ b=HWH01uwOOOImzmS+M/Az1nOPRtxNoMHwRmXqWQCATSb81iTCoVNG8mzlwu9uAgXpUG
+ I9ZSXzimx5y3xfnrk4k8HRmmzc420wkpXx9UloaKNjv94iUG6eO9MufOua5wB59cPNG6
+ QkRHG4odHPitkMx2A23QdWYzWibMXOLE9GzBWrvsFWHJ84MyhYRUIPqEP2TJr3Lv7qLh
+ x0wdXKkA0gXGZtZV5JgvpDfrm1R5V7gC4tJn9uvTJ5U+rxxw8uN6rxh33NvAZ77dcdLj
+ DUXneQv2C4EKJpgIW805wiyvdd5kX58Ba7IZ0s71s0gaFw9TT/2X6a4tPqtlyUs9qlwF
+ B3Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UXofy6EkwfdL30O9+SzmICCU7Qa0hak4F21CzXTG5yo=;
- b=Z2stooSrDQFBpQXQY9WdKOQKnsHxpIEfnGRLIJF2BHEn6hdnytX9aDe+FRj3nKayBz
- RFix4xe05EDxQht0Xa9aboiCCNJcR0ST/qEW694XpDqdm5njwbBofHfYdKCRZ/CQ89C1
- QSqs1rZuJ1dZmhiuXJt81Vri+uSlQ8H2WWIoRFomy1vrRMDPDnN6v6e4eaenFSq4T9me
- bp6eDpk8cds2nGLx4WGokzqf/ed12SM0eTbVgLV6b3FwA+pNGIRSpaQ0j/qZJYcGkfSc
- 8JgI2A2VlzHEl/uLjM5yLmBFxzUwyK5XUlJsIAVDNktAINzKBcKjPPCzmCrmBT60ledZ
- oIjg==
-X-Gm-Message-State: APjAAAWsd18sTd8BzLJm+0kL1qts1Tx0SnT6i7hR+79FBiRiNfV1paVe
- uaEZJfRUFlR80TH1xUHke7xGWzxpbEw=
-X-Google-Smtp-Source: APXvYqy+fp0XkLln5PDHhjK4VbF1mnayIq98EOVkBYUdNKB4Tn2TWx75kUji7F69MvQzrbKihSkS5Q==
-X-Received: by 2002:a05:6402:30ba:: with SMTP id
- df26mr2114697edb.382.1582687801145; 
- Tue, 25 Feb 2020 19:30:01 -0800 (PST)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
- [209.85.128.53])
- by smtp.gmail.com with ESMTPSA id q8sm18085edc.59.2020.02.25.19.30.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2020 19:30:00 -0800 (PST)
-Received: by mail-wm1-f53.google.com with SMTP id a5so1388277wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Feb 2020 19:30:00 -0800 (PST)
-X-Received: by 2002:a05:600c:10d2:: with SMTP id
- l18mr2582096wmd.122.1582687800441; 
- Tue, 25 Feb 2020 19:30:00 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=gOC8DpWiH0j9iNghIrQNnZTh9j5bGMcjUGYt8SCdFTA=;
+ b=AZ0/SOsx26pw0xrZ7uyTAl3qI1XrhRuMHe/zqc0m+Y3c5TimjlIXDDKCVwY2yZK7jZ
+ VQqMro9ssVK7be6lEeabWGb9xuiLd9ldJiOnxx820yQWaiyexrJVIBq8CccWhEG4JfC3
+ qad8JaTj0tdVGP0PSmduNyBaW3PeVOkgU6AuuemVWzN/nPWO9yJCJzY1h85kxKmABc0o
+ DdfyRLs85IxlfucknE8JGr8Tjl59izA0xWaSUuU7JlaQxxZ7lotxGVnz+wJhb7t0kjH1
+ xPnWAC4lBWvlE9Bz+Dz8sISc6Q33WJdcJtRfvXRbj+MAefAcyRFdmC29FElaEDYWMg4l
+ pTpg==
+X-Gm-Message-State: APjAAAU8/+Aw35xdqHkyC6E1kJ+Yhzc1kWT6wZji2XDwOIGDzCaL0tz/
+ /sN7HDbC+/s2SP7U+fzcd7EsH/4jgzXsOQOXZmnJgA==
+X-Google-Smtp-Source: APXvYqy1wy1oEzfz9uQI8ZP6nsZkzbMoKjDIkDSSocjkFUZXQfjBCHycp7ljNh6ZJS1Fj9r+cix0x4himyW0FknMDQ0=
+X-Received: by 2002:a9d:5786:: with SMTP id q6mr1472845oth.164.1582691357103; 
+ Tue, 25 Feb 2020 20:29:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20200224173901.174016-1-jernej.skrabec@siol.net>
- <20200225083448.6upblnctjjrbarje@gilmour.lan>
- <CAGb2v64g7Q4e+ic08pA7tbamgToOjyYzuzqP0bpqBZjRuRUrPA@mail.gmail.com>
- <12462592.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <12462592.uLZWGnKmhe@jernej-laptop>
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 26 Feb 2020 11:29:48 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65=a3p1xrz3RuT7w9p+KqRbYMVqf7_GajEQHOpQnTAqnA@mail.gmail.com>
-Message-ID: <CAGb2v65=a3p1xrz3RuT7w9p+KqRbYMVqf7_GajEQHOpQnTAqnA@mail.gmail.com>
-Subject: Re: [PATCH 6/7] drm/sun4i: de2: Don't return de2_fmt_info struct
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@siol.net>
+References: <20200203173311.6269a8be06a05e5a4aa08a93@linux-foundation.org>
+ <20200226015504.7GW9ptoIA%akpm@linux-foundation.org>
+In-Reply-To: <20200226015504.7GW9ptoIA%akpm@linux-foundation.org>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Wed, 26 Feb 2020 09:59:05 +0530
+Message-ID: <CAO_48GFr9-aY4=kRqWB=UkEzPj5fQDip+G1tNZMsT0XoQpBC7Q@mail.gmail.com>
+Subject: Re: + dma-buf-free-dmabuf-name-in-dma_buf_release.patch added to -mm
+ tree
+To: Andrew Morton <akpm@linux-foundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,77 +62,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Maxime Ripard <maxime@cerno.tech>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mm-commits@vger.kernel.org, Chenbo Feng <fengc@google.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Greg Hackmann <ghackmann@google.com>, xiyou.wangcong@gmail.com,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBGZWIgMjYsIDIwMjAgYXQgMjo1MCBBTSBKZXJuZWogxaBrcmFiZWMgPGplcm5lai5z
-a3JhYmVjQHNpb2wubmV0PiB3cm90ZToKPgo+IEhpIQo+Cj4gRG5lIHRvcmVrLCAyNS4gZmVicnVh
-ciAyMDIwIG9iIDA5OjUyOjE4IENFVCBqZSBDaGVuLVl1IFRzYWkgbmFwaXNhbChhKToKPiA+IE9u
-IFR1ZSwgRmViIDI1LCAyMDIwIGF0IDQ6MzUgUE0gTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5v
-LnRlY2g+IHdyb3RlOgo+ID4gPiBIaSwKPiA+ID4KPiA+ID4gT24gTW9uLCBGZWIgMjQsIDIwMjAg
-YXQgMDY6Mzk6MDBQTSArMDEwMCwgSmVybmVqIFNrcmFiZWMgd3JvdGU6Cj4gPiA+ID4gTm93IHRo
-YXQgZGUyX2ZtdF9pbmZvIGNvbnRhaW5zIG9ubHkgRFJNIDwtPiBIVyBmb3JtYXQgbWFwcGluZywg
-aXQKPiA+ID4gPiBkb2Vzbid0IG1ha2Ugc2Vuc2UgdG8gcmV0dXJuIHBvaW50ZXIgdG8gc3RydWN0
-dXJlIHdoZW4gc2VhcmNoaW5nIGJ5IERSTQo+ID4gPiA+IGZvcm1hdC4gUmV3b3JrIHRoYXQgdG8g
-cmV0dXJuIG9ubHkgSFcgZm9ybWF0IGluc3RlYWQuCj4gPiA+ID4KPiA+ID4gPiBUaGlzIGRvZXNu
-J3QgbWFrZSBhbnkgZnVuY3Rpb25hbCBjaGFuZ2UuCj4gPiA+ID4KPiA+ID4gPiBTaWduZWQtb2Zm
-LWJ5OiBKZXJuZWogU2tyYWJlYyA8amVybmVqLnNrcmFiZWNAc2lvbC5uZXQ+Cj4gPiA+ID4gLS0t
-Cj4gPiA+ID4KPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX21peGVyLmMgICAg
-fCAxNSArKysrKysrKysrKy0tLS0KPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhp
-X21peGVyLmggICAgfCAgNyArLS0tLS0tCj4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9z
-dW44aV91aV9sYXllci5jIHwgMTAgKysrKystLS0tLQo+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0v
-c3VuNGkvc3VuOGlfdmlfbGF5ZXIuYyB8IDEyICsrKysrKy0tLS0tLQo+ID4gPiA+ICA0IGZpbGVz
-IGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDIxIGRlbGV0aW9ucygtKQo+ID4gPiA+Cj4gPiA+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9taXhlci5jCj4gPiA+
-ID4gYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfbWl4ZXIuYyBpbmRleCBlMDc4ZWM5NmRl
-MmQuLjU2Y2MwMzdmZDMxMgo+ID4gPiA+IDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9zdW40aS9zdW44aV9taXhlci5jCj4gPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1
-bjRpL3N1bjhpX21peGVyLmMKPiA+ID4gPiBAQCAtMjcsNiArMjcsMTEgQEAKPiA+ID4gPgo+ID4g
-PiA+ICAjaW5jbHVkZSAic3VuOGlfdmlfbGF5ZXIuaCIKPiA+ID4gPiAgI2luY2x1ZGUgInN1bnhp
-X2VuZ2luZS5oIgo+ID4gPiA+Cj4gPiA+ID4gK3N0cnVjdCBkZTJfZm10X2luZm8gewo+ID4gPiA+
-ICsgICAgIHUzMiAgICAgZHJtX2ZtdDsKPiA+ID4gPiArICAgICB1MzIgICAgIGRlMl9mbXQ7Cj4g
-PiA+ID4gK307Cj4gPiA+ID4gKwo+ID4gPiA+Cj4gPiA+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-ZGUyX2ZtdF9pbmZvIGRlMl9mb3JtYXRzW10gPSB7Cj4gPiA+ID4KPiA+ID4gPiAgICAgICB7Cj4g
-PiA+ID4KPiA+ID4gPiAgICAgICAgICAgICAgIC5kcm1fZm10ID0gRFJNX0ZPUk1BVF9BUkdCODg4
-OCwKPiA+ID4gPgo+ID4gPiA+IEBAIC0yMzAsMTUgKzIzNSwxNyBAQCBzdGF0aWMgY29uc3Qgc3Ry
-dWN0IGRlMl9mbXRfaW5mbyBkZTJfZm9ybWF0c1tdID0gewo+ID4gPiA+Cj4gPiA+ID4gICAgICAg
-fSwKPiA+ID4gPgo+ID4gPiA+ICB9Owo+ID4gPiA+Cj4gPiA+ID4gLWNvbnN0IHN0cnVjdCBkZTJf
-Zm10X2luZm8gKnN1bjhpX21peGVyX2Zvcm1hdF9pbmZvKHUzMiBmb3JtYXQpCj4gPiA+ID4gK2lu
-dCBzdW44aV9taXhlcl9kcm1fZm9ybWF0X3RvX2h3KHUzMiBmb3JtYXQsIHUzMiAqaHdfZm9ybWF0
-KQo+ID4gPiA+Cj4gPiA+ID4gIHsKPiA+ID4gPgo+ID4gPiA+ICAgICAgIHVuc2lnbmVkIGludCBp
-Owo+ID4gPiA+Cj4gPiA+ID4gICAgICAgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoZGUyX2Zv
-cm1hdHMpOyArK2kpCj4gPiA+ID4KPiA+ID4gPiAtICAgICAgICAgICAgIGlmIChkZTJfZm9ybWF0
-c1tpXS5kcm1fZm10ID09IGZvcm1hdCkKPiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgcmV0
-dXJuICZkZTJfZm9ybWF0c1tpXTsKPiA+ID4gPiArICAgICAgICAgICAgIGlmIChkZTJfZm9ybWF0
-c1tpXS5kcm1fZm10ID09IGZvcm1hdCkgewo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAq
-aHdfZm9ybWF0ID0gZGUyX2Zvcm1hdHNbaV0uZGUyX2ZtdDsKPiA+ID4gPiArICAgICAgICAgICAg
-ICAgICAgICAgcmV0dXJuIDA7Cj4gPiA+ID4gKyAgICAgICAgICAgICB9Cj4gPiA+ID4KPiA+ID4g
-PiAtICAgICByZXR1cm4gTlVMTDsKPiA+ID4gPiArICAgICByZXR1cm4gLUVJTlZBTDsKPiA+ID4g
-Pgo+ID4gPiA+ICB9Cj4gPiA+Cj4gPiA+IEknbSBub3QgdG9vIHN1cmUgYWJvdXQgdGhhdCBvbmUu
-IEl0IGJyZWFrcyB0aGUgY29uc2lzdGVuY3kgd2l0aCB0aGUKPiA+ID4gb3RoZXIgZnVuY3Rpb25z
-LCBhbmQgSSBkb24ndCByZWFsbHkgc2VlIGEgcGFydGljdWxhciBiZW5lZml0IHRvIGl0Pwo+ID4K
-Pgo+IEkgZG9uJ3QgaGF2ZSBzdHJvbmcgb3BpbmlvbiBhYm91dCB0aGlzIHBhdGNoLiBJdCBjYW4g
-YmUgZHJvcHBlZC4KPgo+ID4gSSBndWVzcyB3ZSBjb3VsZCBqdXN0IGRlZmluZSBhbiAiaW52YWxp
-ZCIgdmFsdWUsIGFuZCBoYXZlIHRoZSBmdW5jdGlvbgo+ID4gcmV0dXJuIHRoYXQgaWYgY2FuJ3Qg
-ZmluZCBhIG1hdGNoPyBJJ20gZ3Vlc3NpbmcgMHgwIGlzIHZhbGlkLCBzbyBtYXliZQo+ID4gMHhm
-ZmZmZmZmZiBvciAweGRlYWRiZWVmID8KPiA+Cj4gPiBUaGF0IHdvdWxkIGtlZXAgY29uc2lzdGVu
-Y3kgd2l0aCBldmVyeXRoaW5nIGVsc2UgYWxsIHRoZSB3aGlsZQo+ID4gcmVtb3ZpbmcgdGhlIGxl
-dmVsIG9mIGluZGlyZWN0aW9uIHlvdSB3YW50ZWQgdG8uCj4KPiBJIG1vZGVsZWQgdGhpcyBhZnRl
-cgo+IHN0YXRpYyBpbnQgc3VuNGlfYmFja2VuZF9kcm1fZm9ybWF0X3RvX2xheWVyKHUzMiBmb3Jt
-YXQsIHUzMiAqbW9kZSk7Cj4gZnJvbSBzdW40aV9iYWNrZW5kLmMuCj4KPiBXaGF0IGNvbnNpc3Rl
-bmN5IGRvIHlvdSBoYXZlIGluIG1pbmQ/CgpEaXJlY3RseSByZXR1cm5pbmcgdmFsdWVzIChvciBl
-cnJvciBjb2RlcykgaW5zdGVhZCBvZiBwYXNzaW5nIGluIGEgcG9pbnRlcgpmb3IgZGF0YSB0byBi
-ZSByZXR1cm5lZC4gSSBhc3N1bWVkIHRoYXQgd2FzIHdoYXQgTWF4aW1lIHdhcyByZWZlcnJpbmcg
-dG8uCgpDaGVuWXUKCj4gPgo+ID4gQ2hlbll1Cj4gPgo+ID4gPiBUaGUgcmVzdCBvZiB0aGUgc2Vy
-aWVzIGlzCj4gPiA+IEFja2VkLWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+
-Cj4KPiBUaGFua3MhCj4KPiBCZXN0IHJlZ2FyZHMsCj4gSmVybmVqCj4KPiA+ID4KPiA+ID4gTWF4
-aW1lCj4KPgo+Cj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Hello Andrew,
+
+
+On Wed, 26 Feb 2020 at 07:25, Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+>
+> The patch titled
+>      Subject: dma-buf: free dmabuf->name in dma_buf_release()
+> has been added to the -mm tree.  Its filename is
+>      dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+
+Thanks for taking this patch via -mm during my absence (I'm just
+returning from a bit of an illness). If there are other dma-buf
+patches on your radar that you'd like to take via the mm tree, please
+let me know and I can provide the necessary Acks.
+Else I will take them in via drm-misc as usual.
+
+
+>
+> This patch should soon appear at
+>     http://ozlabs.org/~akpm/mmots/broken-out/dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+> and later at
+>     http://ozlabs.org/~akpm/mmotm/broken-out/dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+>
+> Before you just go and hit "reply", please:
+>    a) Consider who else should be cc'ed
+>    b) Prefer to cc a suitable mailing list as well
+>    c) Ideally: find the original patch on the mailing list and do a
+>       reply-to-all to that, adding suitable additional cc's
+>
+> *** Remember to use Documentation/process/submit-checklist.rst when testing your code ***
+>
+> The -mm tree is included into linux-next and is updated
+> there every 3-4 working days
+>
+> ------------------------------------------------------
+> From: Cong Wang <xiyou.wangcong@gmail.com>
+> Subject: dma-buf: free dmabuf->name in dma_buf_release()
+>
+> dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
+> it never gets freed.
+>
+> Free it in dma_buf_release().
+>
+> Link: http://lkml.kernel.org/r/20200225204446.11378-1-xiyou.wangcong@gmail.com
+> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+> Reported-by: syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com
+> Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
+> Reviewed-by: Andrew Morton <akpm@linux-foundation.org>
+> Acked-by: Chenbo Feng <fengc@google.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Greg Hackmann <ghackmann@google.com>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> ---
+>
+>  drivers/dma-buf/dma-buf.c |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> --- a/drivers/dma-buf/dma-buf.c~dma-buf-free-dmabuf-name-in-dma_buf_release
+> +++ a/drivers/dma-buf/dma-buf.c
+> @@ -108,6 +108,7 @@ static int dma_buf_release(struct inode
+>                 dma_resv_fini(dmabuf->resv);
+>
+>         module_put(dmabuf->owner);
+> +       kfree(dmabuf->name);
+>         kfree(dmabuf);
+>         return 0;
+>  }
+> _
+>
+> Patches currently in -mm which might be from xiyou.wangcong@gmail.com are
+>
+> dma-buf-free-dmabuf-name-in-dma_buf_release.patch
+>
+Thanks and best regards,
+Sumit.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
