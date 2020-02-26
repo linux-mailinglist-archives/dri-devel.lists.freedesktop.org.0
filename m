@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE902170470
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 17:32:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C91E170478
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 17:33:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC8C89F3C;
-	Wed, 26 Feb 2020 16:32:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74FA26EA93;
+	Wed, 26 Feb 2020 16:33:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E08AF6E046
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 16:32:48 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id b18so123265oie.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 08:32:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wykBEBzLTf7o144Hu66RsTRJ5xTL/6Bp3W7WvP/bIMo=;
- b=UZHZy2U3ob2BtejBKb0MdIQZGV0xfwmYLKErxCgJUMJn8V8V4fj07qWJfB2Ymr603z
- IrQnhLslyKzRjGyq9G5fZOjUDbtqXXU8LMp76s5JfXQ39/QA8gslGL6U1gUAm0zjtPgf
- Rf9YXdutOSs81Ura2T0cJaiNIVZYex6dOJ7p0=
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56BD06E406;
+ Wed, 26 Feb 2020 16:33:44 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id i6so3512986otr.7;
+ Wed, 26 Feb 2020 08:33:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wykBEBzLTf7o144Hu66RsTRJ5xTL/6Bp3W7WvP/bIMo=;
- b=h/fbju6DKxPHmKKx26mzcTHUpKurP/gH/oFWvGjI151+Pi0s4L7zMgSWsPS20iGlT8
- 1yUuil3UUTKgdGSh5KkB//aUCKuV2zbdPaW/glItlywAkL8NtwF1nqe+pYn7suvpmF4V
- gC/ll1+ioaT9F2y5L/UHLuMlk/e9trUPRSbFKJR7/HZt5/vKDjeYrCB86VD6L34AIfMn
- SD979oDaDadHUX2negpA5VwH89PwIlf/t5rk7HL/ARwG+TSgheJe0WHLqlw4mn+tyf0D
- j/Z5vrsdiP4mcz5joOvf93iirfu0OPQMvQJaibkJnUZA/Rzz180d6vRUutYfWS4LhJHS
- vCpw==
-X-Gm-Message-State: APjAAAW5ekYjpN/ITXeOYnD4eGoOQIHKvM4QK7W/nUAD62bWfNo3kXtT
- tP/pwD4XCI1H4Em/QLjeZmvOvXq/OjNTJb+Z+Xf6Cg==
-X-Google-Smtp-Source: APXvYqyfU5h7Qq5+IQtwKNsiVXPlAemV0lFnoyKSDBMBmVqhNgTnhaECcC3GcHfMDbcJDUArqZuab9TMxJuW9mPlR1M=
-X-Received: by 2002:a05:6808:10b:: with SMTP id
- b11mr3956956oie.110.1582734768065; 
- Wed, 26 Feb 2020 08:32:48 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=lbFvo5HuT3obVT0xk8fNIbu0p3dI4t+br6icB8M92zo=;
+ b=QS3xA37vp+lavZ3vht6pr6uxXsbhmJQenBcHmbzpaMIpsmTTM4MvzZ2lpFuwl9ZXEd
+ uRKdkaU8oBalZT0pKX7arH1uXoFIHhtE1Sn0wO+3OdB/5o92p1FM9dK2b2ZLmSsfODct
+ ipYDzbonuyQMnHRCE7eyWk8lRkEExaNa03lGV9jXQjmeWFZyez0XvPP9wmChhxp4LvQG
+ hjx10JV9t8BA+wqhO8VUekVNaFgqmFJ6FdQrcRw1iwLn7JO7/SsBuYgX0HnfLApaPysN
+ PjACURkUKXtuH4HIC6JHyJBukjqBRd1xhx/1v+xoRkjI7fw4LVvEHPjrHUcslmAgZ4Ci
+ DJgg==
+X-Gm-Message-State: APjAAAVyX7fRoLAjkWlHG+2sxwBOnzw+qZqdv2pCIIqmLVJwxeVZFmNw
+ Odm09HJMGjZYmxNTbPxDcA==
+X-Google-Smtp-Source: APXvYqxAh2WjxmOlqFeKqAx/quOrMLgdoA8tQvbTL8tmC9NEpFZlnmrg8hnVq+U0peeFAT+su5Ug4A==
+X-Received: by 2002:a9d:7c95:: with SMTP id q21mr1668568otn.278.1582734823559; 
+ Wed, 26 Feb 2020 08:33:43 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id i7sm970117oib.42.2020.02.26.08.33.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 08:33:42 -0800 (PST)
+Received: (nullmailer pid 30554 invoked by uid 1000);
+ Wed, 26 Feb 2020 16:33:42 -0000
+Date: Wed, 26 Feb 2020 10:33:42 -0600
+From: Rob Herring <robh@kernel.org>
+To: Jordan Crouse <jcrouse@codeaurora.org>
+Subject: Re: [PATCH v2 1/4] dt-bindings: display: msm: Convert GMU bindings
+ to YAML
+Message-ID: <20200226163342.GA26694@bogus>
+References: <1582223216-23459-1-git-send-email-jcrouse@codeaurora.org>
+ <1582223216-23459-2-git-send-email-jcrouse@codeaurora.org>
 MIME-Version: 1.0
-References: <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
- <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org>
- <20200220180459.GS2363188@phenom.ffwll.local>
- <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org>
- <20200220200831.GA2363188@phenom.ffwll.local>
- <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org>
- <20200221171217.GD2363188@phenom.ffwll.local>
- <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com>
- <8f29b152-9c7b-3427-efa2-4a39f0daced8@shipmail.org>
- <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com>
- <20200225171608.GN2363188@phenom.ffwll.local>
-In-Reply-To: <20200225171608.GN2363188@phenom.ffwll.local>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 26 Feb 2020 17:32:36 +0100
-Message-ID: <CAKMK7uFrcRjjaDAwK73e3UYoONCz36k5SaUStGbjMz7q5FqTMQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <1582223216-23459-2-git-send-email-jcrouse@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,126 +62,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28VMware=29?= <thomas_os@shipmail.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ smasetty@codeaurora.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBGZWIgMjUsIDIwMjAgYXQgNjoxNiBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+Cj4gT24gTW9uLCBGZWIgMjQsIDIwMjAgYXQgMDc6NDY6NTlQTSArMDEw
-MCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+IEFtIDIzLjAyLjIwIHVtIDE3OjU0IHNjaHJp
-ZWIgVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSk6Cj4gPiA+IE9uIDIvMjMvMjAgNDo0NSBQTSwg
-Q2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+ID4gPiBBbSAyMS4wMi4yMCB1bSAxODoxMiBzY2hy
-aWViIERhbmllbCBWZXR0ZXI6Cj4gPiA+ID4gPiBbU05JUF0KPiA+ID4gPiA+IFllYWggdGhlIEdy
-ZWF0IFBsYW4gKHRtKSBpcyB0byBmdWxseSByZWx5IG9uIHd3X211dGV4IHNsb3dseQo+ID4gPiA+
-ID4gZGVnZW5lcmF0aW5nCj4gPiA+ID4gPiBpbnRvIGVzc2VudGlhbGx5IGEgZ2xvYmFsIGxvY2su
-IEJ1dCBvbmx5IHdoZW4gdGhlcmUncyBhY3R1YWwgY29udGVudGlvbgo+ID4gPiA+ID4gYW5kIHRo
-cmFzaGluZy4KPiA+ID4gPgo+ID4gPiA+IFllcyBleGFjdGx5LiBBIHJlYWxseSBiaWcgcHJvYmxl
-bSBpbiBUVE0gaXMgY3VycmVudGx5IHRoYXQgd2UgZHJvcAo+ID4gPiA+IHRoZSBsb2NrIGFmdGVy
-IGV2aWN0aW5nIEJPcyBiZWNhdXNlIHRoZXkgdGVuZCB0byBtb3ZlIGluIGFnYWluCj4gPiA+ID4g
-ZGlyZWN0bHkgYWZ0ZXIgdGhhdC4KPiA+ID4gPgo+ID4gPiA+IEZyb20gcHJhY3RpY2UgSSBjYW4g
-YWxzbyBjb25maXJtIHRoYXQgdGhlcmUgaXMgZXhhY3RseSB6ZXJvIGJlbmVmaXQKPiA+ID4gPiBm
-cm9tIGRyb3BwaW5nIGxvY2tzIGVhcmx5IGFuZCByZWFjcXVpcmUgdGhlbSBmb3IgZXhhbXBsZSBm
-b3IgdGhlIFZNCj4gPiA+ID4gcGFnZSB0YWJsZXMuIFRoYXQncyBqdXN0IG1ha2VzIGl0IG1vcmUg
-bGlrZWx5IHRoYXQgc29tZWJvZHkgbmVlZHMgdG8KPiA+ID4gPiByb2xsIGJhY2sgYW5kIHRoaXMg
-aXMgd2hhdCB3ZSBuZWVkIHRvIGF2b2lkIGluIHRoZSBmaXJzdCBwbGFjZS4KPiA+ID4KPiA+ID4g
-SWYgeW91IGhhdmUgYSBiZW5jaG1hcmtpbmcgc2V0dXAgYXZhaWxhYmxlIGl0IHdvdWxkIGJlIHZl
-cnkgaW50ZXJlc3RpbmcKPiA+ID4gZm9yIGZ1dHVyZSByZWZlcmVuY2UgdG8gc2VlIGhvdyBjaGFu
-Z2luZyBmcm9tIFdEIHRvIFdXIG11dGV4ZXMgYWZmZWN0cwo+ID4gPiB0aGUgcm9sbCBiYWNrIGZy
-ZXF1ZW5jeS4gV1cgaXMga25vd24gdG8gY2F1c2Ugcm9sbGJhY2tzIG11Y2ggbGVzcwo+ID4gPiBm
-cmVxdWVudGx5IGJ1dCB0aGVyZSBpcyBtb3JlIHdvcmsgYXNzb2NpYXRlZCB3aXRoIGVhY2ggcm9s
-bGJhY2suCj4gPgo+ID4gTm90IG9mIGhhbmQuIFRvIGJlIGhvbmVzdCBJIHN0aWxsIGhhdmUgYSBo
-YXJkIHRpbWUgdG8gZ2V0IGEgZ3JpcCBvbiB0aGUKPiA+IGRpZmZlcmVuY2UgYmV0d2VlbiBXRCBh
-bmQgV1cgZnJvbSB0aGUgYWxnb3JpdGhtIHBvaW50IG9mIHZpZXcuIFNvIEkgY2FuJ3QKPiA+IGp1
-ZGdlIHRoYXQgZGlmZmVyZW5jZSBhdCBhbGwuCj4gPgo+ID4gPiA+IENvbnRlbnRpb24gb24gQk8g
-bG9ja3MgZHVyaW5nIGNvbW1hbmQgc3VibWlzc2lvbiBpcyBwZXJmZWN0bHkgZmluZQo+ID4gPiA+
-IGFzIGxvbmcgYXMgdGhpcyBpcyBhcyBsaWdodHdlaWdodCBhcyBwb3NzaWJsZSB3aGlsZSB3ZSBk
-b24ndCBoYXZlCj4gPiA+ID4gdHJhc2hpbmcuIFdoZW4gd2UgaGF2ZSB0cmFzaGluZyBtdWx0aSBz
-dWJtaXNzaW9uIHBlcmZvcm1hbmNlIGlzIGJlc3QKPiA+ID4gPiBhcmNoaXZlZCB0byBqdXN0IGZh
-dm9yIGEgc2luZ2xlIHByb2Nlc3MgdG8gZmluaXNoIGl0cyBidXNpbmVzcyBhbmQKPiA+ID4gPiBi
-bG9jayBldmVyeWJvZHkgZWxzZS4KPiA+ID4KPiA+ID4gSG1tLiBTb3VuZHMgbGlrZSB3ZSBuZWVk
-IGEgcGVyLW1hbmFnZXIgd3dfcndzZW0gcHJvdGVjdGluZyBtYW5hZ2VyCj4gPiA+IGFsbG9jYXRp
-b24sIHRha2VuIGluIHdyaXRlLW1vZGUgdGhlbiB0aGVyZSdzIHRocmFzaGluZy4gSW4gcmVhZC1t
-b2RlCj4gPiA+IG90aGVyd2lzZS4gVGhhdCB3b3VsZCBsaW1pdCB0aGUgYW1vdW50IG9mICJ1bm5l
-Y2Vzc2FyeSIgbG9ja3Mgd2UnZCBoYXZlCj4gPiA+IHRvIGtlZXAgYW5kIHJlZHVjZSB1bndhbnRl
-ZCBzaWRlLWVmZmVjdHMsIChzZWUgYmVsb3cpOgo+ID4KPiA+IFdlbGwgcGVyLW1hbmFnZXIgKHlv
-dSBtZWFuIHBlciBkb21haW4gaGVyZSBkb24ndCB5b3U/KSBkb2Vzbid0IHNvdW5kIGxpa2UKPiA+
-IHRoYXQgdXNlZnVsIGJlY2F1c2Ugd2UgcmFyZWx5IHVzZSBvbmx5IG9uZSBkb21haW4sIGJ1dCBJ
-J20gYWN0dWFsbHkKPiA+IHF1ZXN0aW9uaW5nIGZvciBxdWl0ZSBhIHdoaWxlIGlmIHRoZSBwZXIg
-Qk8gbG9jayBzY2hlbWUgd2FzIHRoZSByaWdodAo+ID4gYXBwcm9hY2guCj4gPgo+ID4gU2VlIGZy
-b20gdGhlIHBlcmZvcm1hbmNlIGFzcGVjdCB0aGUgY2xvc2VzdCB0byBpZGVhbCBzb2x1dGlvbiBJ
-IGNhbiB0aGluayBvZgo+ID4gd291bGQgYmUgYSB3d19yd3NlbSBwZXIgdXNlciBvZiBhIHJlc291
-cmNlLgo+ID4KPiA+IEluIG90aGVyIHdvcmRzIHdlIGRvbid0IGxvY2sgQk9zLCBidXQgaW5zdGVh
-ZCBhIGxpc3Qgb2YgYWxsIHRoZWlyIHVzZXJzIGFuZAo+ID4gd2hlbiB5b3Ugd2FudCB0byBldmlj
-dCBhIEJPIHlvdSBuZWVkIHRvIHdhbGsgdGhhdCBsaXN0IGFuZCBpbmZvcm0gYWxsIHVzZXJzCj4g
-PiB0aGF0IHRoZSBCTyB3aWxsIGJlIG1vdmluZy4KPiA+Cj4gPiBEdXJpbmcgY29tbWFuZCBzdWJt
-aXNzaW9uIHlvdSB0aGVuIGhhdmUgdGhlIGZhc3QgcGF0aCB3aGljaCByYXRoZXIganVzdAo+ID4g
-Z3JhYnMgdGhlIHJlYWQgc2lkZSBvZiB0aGUgdXNlciBsb2NrIGFuZCBjaGVjayBpZiBhbGwgQk9z
-IGFyZSBzdGlsbCBpbiB0aGUKPiA+IGV4cGVjdGVkIHBsYWNlLgo+ID4KPiA+IElmIHNvbWUgQk9z
-IHdlcmUgZXZpY3RlZCB5b3UgYmFjayBvZmYgYW5kIHN0YXJ0IHRoZSBzbG93IHBhdGgsIGUuZy4g
-bWF5YmUKPiA+IGV2ZW4gY29weSBhZGRpdGlvbmFsIGRhdGEgZnJvbSB1c2Vyc3BhY2UgdGhlbiBn
-cmFiIHRoZSB3cml0ZSBzaWRlIG9mIHRoZQo+ID4gbG9jayBldGMuLiBldGMuLi4KPiA+Cj4gPiBU
-aGF0IGFwcHJvYWNoIGlzIHNpbWlsYXIgdG8gd2hhdCB3ZSB1c2UgaW4gYW1kZ3B1IHdpdGggdGhl
-IHBlci1WTSBCT3MsIGJ1dAo+ID4gZ29lcyBhIHN0ZXAgZnVydGhlci4gUHJvYmxlbSBpcyB0aGF0
-IHdlIGFyZSBzbyB1c2VkIHRvIHBlciBCTyBsb2NrcyBpbiB0aGUKPiA+IGtlcm5lbCB0aGF0IHRo
-aXMgaXMgcHJvYmFibHkgbm90IGRvYWJsZSBhbnkgbW9yZS4KPgo+IFllYWggSSB0aGluayBpdCdk
-IGJlIG5pY2UgdG8gaGF2ZSB0aGUgc2FtZSBhcHByb2FjaCBmb3Igc2hhcmVkIGJvIHRvby4gSQo+
-IGd1ZXNzIHdoYXQgd2UgY291bGQgZG8gaXMgc29tZXRoaW5nIGxpa2UgdGhpcyAoc3Bpbm5pbmcg
-eW91ciB3d19yd211dGV4Cj4gaWRlYSBhIGJpdCBmdXJ0aGVyKToKPgo+IGRtYV9idWZfcmVhZF9s
-b2NrKGJ1Ziwgdm0pCj4gewo+ICAgICAgICAgaWYgKGVuYWJsZWQoQ09ORklHX0RFQlVHX1dXX01V
-VEVYX1NMT1dQQVRIKSkKPiAgICAgICAgIHsKPiAgICAgICAgICAgICAgICAgY2hlY2sgdGhhdCB2
-bSBpcyBpbmRlZWQgbGlzdGVkIGluIGJ1ZiBhbmQgc3BsYXQgaWYgbm90Cj4gICAgICAgICB9Cj4K
-PiAgICAgICAgIC8qIGZvciBhIGJ1ZiB0aGF0J3Mgbm90IHNoYXJlZCBpbiBtdWx0aXBsZSB2bSB3
-ZSdkIGhhdmUgYnVmLT5yZXN2Cj4gICAgICAgICAgKiA9PSB2bS0+cmVzdiBoZXJlICovCj4gICAg
-ICAgICByZXR1cm4gd3dfbXV0ZXhfbG9jayh2bS0+cmVzdik7Cj4gfQo+Cj4gZG1hX2J1Zl93cml0
-ZV9sb2NrKGJ1ZikKPiB7Cj4gICAgICAgICBmb3JfZWFjaF92bV9pbl9idWYoYnVmLCB2bSkgewo+
-ICAgICAgICAgICAgICAgICB3d19tdXRleF9sb2NrKHZtLT5yZXN2KTsKPiAgICAgICAgIH0KPiB9
-Cj4KPiBJZGVhbGx5IHdlJ2QgdHJhY2sgYWxsIHRoZXNlIHZtcyB3aXRoIHNvbWV0aGluZyBzbGln
-aHRseSBsZXNzIHNob2RkeSB0aGFuCj4gYSBsaW5rZWQgbGlzdCA6LSkgUmVzaXplYWJsZSBhcnJh
-eSBpcyBwcm9iYWJseSBwcmV0dHkgZ29vZCwgSSB0aGluayB3ZQo+IG9ubHkgZXZlciBuZWVkIHRv
-IGdvIGZyb20gYnVmIC0+IHZtIGxpc3QsIG5vdCB0aGUgb3RoZXIgd2F5IHJvdW5kLiBBdAo+IGxl
-YXN0IGluIGRtYV9yZXN2L2RtYV9idWYgY29kZSwgZHJpdmVyIGNvZGUgb2ZjIG5lZWRzIHRvIGtl
-ZXAgYSBsaXN0IG9mCj4gYWxsIGJvIGJvdW5kIHRvIGEgdm0gc29tZXdoZXJlLiBCdXQgdGhhdCdz
-IHByb2JhYmx5IGEgbXVjaCBiaWdnZXIKPiBkYXRhc3RydWN0dXJlIGZvciB0cmFja2luZyB2bWEg
-b2Zmc2V0cyBhbmQgbWFwcGluZ3MgYW5kIG90aGVyIHRoaW5ncyBvbgo+IHRvcC4KPgo+IE9mYyB0
-byBldmVuIGp1c3QgZ2V0IHRoZXJlIHdlJ2QgbmVlZCBzb21ldGhpbmcgbGlrZSB0aGUgc3VibG9j
-ayBsaXN0IHRvCj4ga2VlcCB0cmFjayBvZiBhbGwgdGhlIGFkZGl0aW9uYWwgbG9ja3Mgd2UnZCBu
-ZWVkIGZvciB0aGUgd3JpdGVyIGxvY2suIEFuZAo+IHdlJ2QgbmVlZCB0aGUgcmVsZWFzZSBjYWxs
-YmFjayBmb3IgYmFja29mZiwgc28gdGhhdCB3ZSBjb3VsZCBhbHNvIGdvCj4gdGhyb3VnaCB0aGUg
-c2xvd3BhdGggb24gYSB2bSBvYmplY3QgdGhhdCB3ZSdyZSBub3QgaG9sZGluZyBhIGZ1bGwKPiBy
-ZWZlcmVuY2Ugb24uIFRoYXQgYWxzbyBtZWFucyB2bSBuZWVkIHRvIGJlIHJlZmNvdW50ZWQuCj4K
-PiBBbmQgdGhlIGxpc3Qgb2Ygdm1zIG9uIGEgYnVmZmVyIG5lZWQgdG8gYmUgcHJvdGVjdGVkIHdp
-dGggc29tZSBsb2NrIGFuZAo+IHRoZSB1c3VhbCBrcmVmX2dldF91bmxlc3NfemVybyB0cmlja2Vy
-eS4KPgo+IEJ1dCB3aXRoIGFsbCB0aGlzIEkgdGhpbmsgd2UgY2FuIG1ha2UgdGhlIGRtYV9idWZf
-d3JpdGVfbG9jayBsb2NrIDEwMCUKPiBsaWtlIHRoZSBvbGQgcGVyLWJ1ZmZlciBsb2NrIGZvciBl
-dmVyeW9uZS4gQW5kIGV4ZWNidWYgY291bGQgc3dpdGNoIG92ZXIKPiB0byBkbWFfYnVmX3JlYWRf
-bG9jayBmb3Igc2hhcmVkIGJ1ZmZlcnMuIEJvbnVzIHBvaW50cyB3aGVuIHRoZSBncHUgY29udGV4
-dAo+IGp1c3Qga2VlcHMgdHJhY2sgb2YgYSBsaXN0IG9mIHNoYXJlZCB2bSB1c2VkIGJ5IGJ1ZmZl
-cnMgaW4gdGhhdCBjb250ZXh0Cj4gLi4uCj4KPiBUaGF0IHdheSB3ZSBjb3VsZCBtYWtlIHZtIGZh
-c3RwYXRoIGxvY2tpbmcgYSBsYSBhbWRncHUgb3B0LWluLCB3aGlsZQo+IGtlZXBpbmcgZXZlcnlv
-bmUgZWxzZSBvbiB0aGUgcGVyLW9iamVjdCBsb2NraW5nIGp1aWNlcy4KPgo+IFRob3VnaHRzPwoK
-T25lIHRoaW5nIEkganVzdCByZWFsaXplZCwgd2hpY2ggaXMgbmFzdHk6IFRoZSBmdWxsICh3cml0
-ZSkgbG9jayBuZWVkcwp3d19hY3F1aXJlX2N0eCB3aXRoIHRoaXMsIGJlY2F1c2UgaXQgbmVlZHMg
-dG8gdGFrZSBhIGJ1bmNoIG9mIGxvY2tzLgpSb2xsaW5nIHRoYXQgb3V0IGV2ZXJ5d2hlcmUgaXMg
-Z29pbmcgdG8gYmUgbmFzdHkuCgpJIGd1ZXNzIHRob3VnaCB3ZSBjb3VsZCBkbyBhIGZhbGxiYWNr
-IGFuZCBoYXZlIGEgbG9jYWxseSBjcmVhdGVkCnd3X2FjcXVpcmVfY3R4IGlmIHRoZXJlJ3Mgbm9u
-ZSBwYXNzZWQgaW4sIHdpdGggYmFja29mZiBlbnRpcmVseQppbXBsZW1lbnRlZCB3aXRoaW4gZG1h
-X3Jlc3ZfbG9jay4KLURhbmllbAoKPgo+IENoZWVycywgRGFuaWVsCj4KPiBQUzogT2YgY291cnNl
-IHRoZSB3cml0ZSBsb2NrIGZvciB0aGVzZSBidWZmZXJzIGlzIGdvaW5nIHRvIGJlIHRlcnJpYmxl
-LCBzbwo+IGV2ZXJ5IHRpbWUgeW91IG5lZWQgdG8gdXBkYXRlIGZlbmNlcyBmb3IgaW1wbGljaXQg
-c3luYyBvbiBzaGFyZWQgYnVmZmVyCj4gKHdlbGwgd3JpdGUgZmVuY2UgYXQgbGVhc3QpIGl0J3Mg
-Z29pbmcgdG8gc3Vjay4gV2UgcHJvYmFibHkgYWxzbyB3YW50IGEKPiByZWFkX3RvX3dyaXRlX3Vw
-Z3JhZGUgZnVuY3Rpb24sIHdoaWNoIGFsc28gY2FuIGJlIGRvbmUgZWFzaWx5IHdpdGgKPiB3d19t
-dXRleCBtYWdpYy4KPiAtLQo+IERhbmllbCBWZXR0ZXIKPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50
-ZWwgQ29ycG9yYXRpb24KPiBodHRwOi8vYmxvZy5mZndsbC5jaAoKCgotLSAKRGFuaWVsIFZldHRl
-cgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KKzQxICgwKSA3OSAzNjUgNTcg
-NDggLSBodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+On Thu, Feb 20, 2020 at 11:26:53AM -0700, Jordan Crouse wrote:
+> Convert display/msm/gmu.txt to display/msm/gmu.yaml and remove the old
+> text bindings.
+> 
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> ---
+> 
+>  .../devicetree/bindings/display/msm/gmu.txt        | 116 ------------------
+>  .../devicetree/bindings/display/msm/gmu.yaml       | 130 +++++++++++++++++++++
+>  2 files changed, 130 insertions(+), 116 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/msm/gmu.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/gmu.yaml
+
+
+> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+> new file mode 100644
+> index 0000000..776ff92
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+> @@ -0,0 +1,130 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# Copyright 2019-2020, The Linux Foundation, All Rights Reserved
+> +%YAML 1.2
+> +---
+> +
+> +$id: "http://devicetree.org/schemas/display/msm/gmu.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Devicetree bindings for the GMU attached to certain Adreno GPUs
+> +
+> +maintainers:
+> +  - Rob Clark <robdclark@gmail.com>
+> +
+> +description: |
+> +  These bindings describe the Graphics Management Unit (GMU) that is attached
+> +  to members of the Adreno A6xx GPU family. The GMU provides on-device power
+> +  management and support to improve power efficiency and reduce the load on
+> +  the CPU.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - qcom,adreno-gmu-630.2
+> +      - const: qcom,adreno-gmu
+> +
+> +  reg:
+> +    items:
+> +      - description: Core GMU registers
+> +      - description: GMU PDC registers
+> +      - description: GMU PDC sequence registers
+> +
+> +  reg-names:
+> +    items:
+> +      - const: gmu
+> +      - const: gmu_pdc
+> +      - const: gmu_pdc_seq
+> +
+> +  clocks:
+> +    items:
+> +     - description: GMU clock
+> +     - description: GPU CX clock
+> +     - description: GPU AXI clock
+> +     - description: GPU MEMNOC clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: gmu
+> +      - const: cxo
+> +      - const: axi
+> +      - const: memnoc
+> +
+> +  interrupts:
+> +    items:
+> +     - description: GMU HFI interrupt
+> +     - description: GMU interrupt
+> +
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: hfi
+> +      - const: gmu
+> +
+> +  power-domains:
+> +     items:
+> +       - description: CX power domain
+> +       - description: GX power domain
+> +
+> +  power-domain-names:
+> +     items:
+> +       - const: cx
+> +       - const: gx
+> +
+> +  iommus:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+
+Already has a type. Just need to define how many entries (maxItems).
+
+> +    description:
+> +       Phandle to a IOMMU device and stream ID. Refer to ../../iommu/iommu.txt
+> +       for more information.
+
+Drop. That's all iommus entries.
+
+> +
+> +  operating-points-v2:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to the OPP table for the available GMU frequencies. Refer to
+> +      ../../opp/opp.txt for more information.
+
+Just 'true' is enough here.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - power-domains
+> +  - power-domain-names
+> +  - iommus
+> +  - operating-points-v2
+> +
+> +examples:
+> + - |
+> +   #include <dt-bindings/clock/qcom,gpucc-sdm845.h>
+> +   #include <dt-bindings/clock/qcom,gcc-sdm845.h>
+> +   #include <dt-bindings/interrupt-controller/irq.h>
+> +   #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +   gmu: gmu@506a000 {
+> +        compatible="qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
+> +
+> +        reg = <0x506a000 0x30000>,
+> +              <0xb280000 0x10000>,
+> +              <0xb480000 0x10000>;
+> +        reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
+> +
+> +        clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
+> +                 <&gpucc GPU_CC_CXO_CLK>,
+> +                 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
+> +                 <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
+> +        clock-names = "gmu", "cxo", "axi", "memnoc";
+> +
+> +        interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-names = "hfi", "gmu";
+> +
+> +        power-domains = <&gpucc GPU_CX_GDSC>,
+> +                        <&gpucc GPU_GX_GDSC>;
+> +        power-domain-names = "cx", "gx";
+> +
+> +        iommus = <&adreno_smmu 5>;
+> +        operating-points-v2 = <&gmu_opp_table>;
+> +   };
+> -- 
+> 2.7.4
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
