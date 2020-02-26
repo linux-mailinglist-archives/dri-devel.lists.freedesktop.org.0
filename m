@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9645F16FD76
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:26:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A1B16FD72
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 181598919B;
-	Wed, 26 Feb 2020 11:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B25596E4D2;
+	Wed, 26 Feb 2020 11:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C3A36E4D2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D07A96E4C9
  for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:25:44 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32A5EDC3;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91C43F8D;
  Wed, 26 Feb 2020 12:25:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1582716342;
- bh=5I92GX1rEpGxUM0Pwg0gw/KaR9dVrLHRasAi3KpsqR8=;
+ bh=CaNNbClxkh/P/MGDFZJBLW1P/QDvvpUs/KTR2j0ahjA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N5fX2NaC6k9kqx7M9x/yzDVNPg372L5IR6kROGOjNEUt9YQWQ3Zn9JoZ68wV02DSb
- E1/J835vSXe9lrAEW73vQcnU058bCqncVE6nv/xcVOM5YGrq0jAugX0CObyQKmKTOc
- v0JmklK577uaYSo3ehLRrAzggs2TPI16cDSHcwk0=
+ b=IgN2f1uChaaI5ZYNfSbwew9n07IbNQCqax8Kbuzaitz5NEguCmAPUYWAPKaMuBKzx
+ lm7NIcBooFG82Jxw3K67XbRLL6kqKG2rjY4WPAtir5F1t84Jy0Kz6Mc+wiU+8q1AQd
+ XldY080MTSExB+jDag4qozphhW0TwxVST3AuHmk0=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 03/54] drm/edid: Add flag to drm_display_info to identify
- HDMI sinks
-Date: Wed, 26 Feb 2020 13:24:23 +0200
-Message-Id: <20200226112514.12455-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v8 04/54] drm/bridge: Document the drm_encoder.bridge_chain
+ field as private
+Date: Wed, 26 Feb 2020 13:24:24 +0200
+Message-Id: <20200226112514.12455-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
 References: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
@@ -47,72 +47,40 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGRybV9kaXNwbGF5X2luZm8gc3RydWN0dXJlIGNvbnRhaW5zIG1hbnkgZmllbGRzIHJlbGF0
-ZWQgdG8gSERNSQpzaW5rcywgYnV0IG5vbmUgdGhhdCBpZGVudGlmaWVzIGlmIGEgc2luayBjb21w
-bGlhbnQgd2l0aCBDRUEtODYxIChFRElEKQpzaGFsbCBiZSB0cmVhdGVkIGFzIGFuIEhETUkgc2lu
-ayBvciBhIERWSSBzaW5rLiBBZGQgc3VjaCBhIGZsYWcsIGFuZApwb3B1bGF0ZSBpdCBhY2NvcmRp
-bmcgdG8gc2VjdGlvbiA4LjMuMyAoIkRWSS9IRE1JIERldmljZQpEaXNjcmltaW5hdGlvbiIpIG9m
-IHRoZSBIRE1JIHYxLjMgc3BlY2lmaWNhdGlvbi4KClNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGlu
-Y2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KUmV2aWV3ZWQtYnk6IEFu
-ZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+ClJldmlld2VkLWJ5OiBWaWxsZSBTeXJq
-w6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogRGFuaWVs
-IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KUmV2aWV3ZWQtYnk6IEJvcmlzIEJyZXpp
-bGxvbiA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+CkFja2VkLWJ5OiBTYW0gUmF2bmJv
-cmcgPHNhbUByYXZuYm9yZy5vcmc+ClRlc3RlZC1ieTogU2ViYXN0aWFuIFJlaWNoZWwgPHNlYmFz
-dGlhbi5yZWljaGVsQGNvbGxhYm9yYS5jb20+ClJldmlld2VkLWJ5OiBTZWJhc3RpYW4gUmVpY2hl
-bCA8c2ViYXN0aWFuLnJlaWNoZWxAY29sbGFib3JhLmNvbT4KLS0tCiBEb2N1bWVudGF0aW9uL2dw
-dS90b2RvLnJzdCAgfCAxNCArKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2RybV9lZGlk
-LmMgIHwgIDYgKysrKysrCiBpbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmggfCAgOCArKysrKysr
-KwogMyBmaWxlcyBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi9ncHUvdG9kby5yc3QgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAppbmRleCAz
-NzBhYzY3ODEwNmUuLmNjZjVlOGUzNDIyMiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUv
-dG9kby5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKQEAgLTQwNyw2ICs0MDcs
-MjAgQEAgQ29udGFjdDogRGFuaWVsIFZldHRlcgogCiBMZXZlbDogSW50ZXJtZWRpYXRlCiAKK1Jl
-cGxhY2UgZHJtX2RldGVjdF9oZG1pX21vbml0b3IoKSB3aXRoIGRybV9kaXNwbGF5X2luZm8uaXNf
-aGRtaQorLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tCisKK09uY2UgRURJRCBpcyBwYXJzZWQsIHRoZSBtb25pdG9yIEhETUkgc3Vw
-cG9ydCBpbmZvcm1hdGlvbiBpcyBhdmFpbGFibGUgdGhyb3VnaAorZHJtX2Rpc3BsYXlfaW5mby5p
-c19oZG1pLiBNYW55IGRyaXZlcnMgc3RpbGwgY2FsbCBkcm1fZGV0ZWN0X2hkbWlfbW9uaXRvcigp
-IHRvCityZXRyaWV2ZSB0aGUgc2FtZSBpbmZvcm1hdGlvbiwgd2hpY2ggaXMgbGVzcyBlZmZpY2ll
-bnQuCisKK0F1ZGl0IGVhY2ggaW5kaXZpZHVhbCBkcml2ZXIgY2FsbGluZyBkcm1fZGV0ZWN0X2hk
-bWlfbW9uaXRvcigpIGFuZCBzd2l0Y2ggdG8KK2RybV9kaXNwbGF5X2luZm8uaXNfaGRtaSBpZiBh
-cHBsaWNhYmxlLgorCitDb250YWN0OiBMYXVyZW50IFBpbmNoYXJ0LCByZXNwZWN0aXZlIGRyaXZl
-ciBtYWludGFpbmVycworCitMZXZlbDogSW50ZXJtZWRpYXRlCisKIENvcmUgcmVmYWN0b3Jpbmdz
-CiA9PT09PT09PT09PT09PT09PQogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Vk
-aWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCmluZGV4IDVmM2JjMzQ4NmZkZS4uYWQ0
-MTc2NGE0ZWJlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwpAQCAtNDY0Nyw2ICs0NjQ3LDkgQEAgRVhQT1JUX1NZ
-TUJPTChkcm1fYXZfc3luY19kZWxheSk7CiAgKgogICogUGFyc2UgdGhlIENFQSBleHRlbnNpb24g
-YWNjb3JkaW5nIHRvIENFQS04NjEtQi4KICAqCisgKiBEcml2ZXJzIHRoYXQgaGF2ZSBhZGRlZCB0
-aGUgbW9kZXMgcGFyc2VkIGZyb20gRURJRCB0byBkcm1fZGlzcGxheV9pbmZvCisgKiBzaG91bGQg
-dXNlICZkcm1fZGlzcGxheV9pbmZvLmlzX2hkbWkgaW5zdGVhZCBvZiBjYWxsaW5nIHRoaXMgZnVu
-Y3Rpb24uCisgKgogICogUmV0dXJuOiBUcnVlIGlmIHRoZSBtb25pdG9yIGlzIEhETUksIGZhbHNl
-IGlmIG5vdCBvciB1bmtub3duLgogICovCiBib29sIGRybV9kZXRlY3RfaGRtaV9tb25pdG9yKHN0
-cnVjdCBlZGlkICplZGlkKQpAQCAtNDg4MSw2ICs0ODg0LDggQEAgZHJtX3BhcnNlX2hkbWlfdnNk
-Yl92aWRlbyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBjb25zdCB1OCAqZGIpCiAJ
-c3RydWN0IGRybV9kaXNwbGF5X2luZm8gKmluZm8gPSAmY29ubmVjdG9yLT5kaXNwbGF5X2luZm87
-CiAJdTggbGVuID0gY2VhX2RiX3BheWxvYWRfbGVuKGRiKTsKIAorCWluZm8tPmlzX2hkbWkgPSB0
-cnVlOworCiAJaWYgKGxlbiA+PSA2KQogCQlpbmZvLT5kdmlfZHVhbCA9IGRiWzZdICYgMTsKIAlp
-ZiAobGVuID49IDcpCkBAIC00OTQ5LDYgKzQ5NTQsNyBAQCBkcm1fcmVzZXRfZGlzcGxheV9pbmZv
-KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCiAJaW5mby0+Y2VhX3JldiA9IDA7CiAJ
-aW5mby0+bWF4X3RtZHNfY2xvY2sgPSAwOwogCWluZm8tPmR2aV9kdWFsID0gZmFsc2U7CisJaW5m
-by0+aXNfaGRtaSA9IGZhbHNlOwogCWluZm8tPmhhc19oZG1pX2luZm9mcmFtZSA9IGZhbHNlOwog
-CWluZm8tPnJnYl9xdWFudF9yYW5nZV9zZWxlY3RhYmxlID0gZmFsc2U7CiAJbWVtc2V0KCZpbmZv
-LT5oZG1pLCAwLCBzaXplb2YoaW5mby0+aGRtaSkpOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0v
-ZHJtX2Nvbm5lY3Rvci5oIGIvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCmluZGV4IGMzYmQ1
-MjYyZGI5Yy4uMGRmN2E5NWNhNWQ5IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fY29ubmVj
-dG9yLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCkBAIC00MzQsNiArNDM0LDE0
-IEBAIHN0cnVjdCBkcm1fZGlzcGxheV9pbmZvIHsKIAkgKi8KIAlib29sIGR2aV9kdWFsOwogCisJ
-LyoqCisJICogQGlzX2hkbWk6IFRydWUgaWYgdGhlIHNpbmsgaXMgYW4gSERNSSBkZXZpY2UuCisJ
-ICoKKwkgKiBUaGlzIGZpZWxkIHNoYWxsIGJlIHVzZWQgaW5zdGVhZCBvZiBjYWxsaW5nCisJICog
-ZHJtX2RldGVjdF9oZG1pX21vbml0b3IoKSB3aGVuIHBvc3NpYmxlLgorCSAqLworCWJvb2wgaXNf
-aGRtaTsKKwogCS8qKgogCSAqIEBoYXNfaGRtaV9pbmZvZnJhbWU6IERvZXMgdGhlIHNpbmsgc3Vw
-cG9ydCB0aGUgSERNSSBpbmZvZnJhbWU/CiAJICovCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5j
-aGFydAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The drm_encoder.bridge_chain is not meant to be touched manually by
+drivers. Make this clear in the documentation.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ include/drm/drm_encoder.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+index 5623994b6e9e..4370e039c015 100644
+--- a/include/drm/drm_encoder.h
++++ b/include/drm/drm_encoder.h
+@@ -174,7 +174,8 @@ struct drm_encoder {
+ 	struct drm_crtc *crtc;
+ 
+ 	/**
+-	 * @bridge_chain: Bridges attached to this encoder.
++	 * @bridge_chain: Bridges attached to this encoder. Drivers shall not
++	 * access this field directly.
+ 	 */
+ 	struct list_head bridge_chain;
+ 
+-- 
+Regards,
+
+Laurent Pinchart
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
