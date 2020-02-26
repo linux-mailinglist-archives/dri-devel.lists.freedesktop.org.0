@@ -1,39 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A05A16FDA9
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:28:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FB416FDB4
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Feb 2020 12:30:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACAD96E8B3;
-	Wed, 26 Feb 2020 11:27:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7C86E4C9;
+	Wed, 26 Feb 2020 11:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A38B6E5A4
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:26:21 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 247081D77;
- Wed, 26 Feb 2020 12:26:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582716369;
- bh=DSLXMdyILlHEcF/QN9k7IRl7JZwkgujRU6GdB1M8+vA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XtRNEhEdUnw/+qos3XYWkPGP7lz/3koiYsJN2ww+4GrdvKmZ3xUqpxYdpWbNrwj63
- jiozNzXnlFurD4F4Mjl7DYnhPia42cR11wARsBkxXQ/k9CePQyBtXrrvhFLaO9Ys7y
- WVsYFg24O6LBpoqK7O2K33SgB3Hbgi76zKbepk58=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 54/54] drm/omap: dss: Remove unused omap_dss_device
- operations
-Date: Wed, 26 Feb 2020 13:25:14 +0200
-Message-Id: <20200226112514.12455-55-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
-References: <20200226112514.12455-1-laurent.pinchart@ideasonboard.com>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3220A6E4C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 11:30:39 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01QBUZ9d075431;
+ Wed, 26 Feb 2020 05:30:35 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1582716635;
+ bh=Qi7tyoQuQdbHE6mRABzRfE/kS163wNB3e2L+hAQCg3Y=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=oVhwl/EoTn3GpiDCZVksre8bZxyIBl4JnKUAyv6sxyXQJh5QfOfvnGz8HgWBOxqlb
+ 9Xto504upHZPT791ZmGFfTmf+6te4eDqEop6YwdL49qyCldI1OjM3zup66GuNDye86
+ 7/eA5/AGeuFuxLFraokgZ/vJwnrb/izalsXhb3C8=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01QBUZjg028759
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 26 Feb 2020 05:30:35 -0600
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 26
+ Feb 2020 05:30:24 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 26 Feb 2020 05:30:24 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01QBUNjQ068536;
+ Wed, 26 Feb 2020 05:30:23 -0600
+Subject: Re: [PATCH v5] drm/tidss: dispc: Fix broken plane positioning code
+To: Jyri Sarha <jsarha@ti.com>, <dri-devel@lists.freedesktop.org>
+References: <20200224200204.764-1-jsarha@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <776d3596-bf3f-24af-65fb-8b822710a855@ti.com>
+Date: Wed, 26 Feb 2020 13:30:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200224200204.764-1-jsarha@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,179 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: peter.ujfalusi@ti.com, laurent.pinchart@ideasonboard.com, praneeth@ti.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The omap_dss_device .pre_enable(), .post_disable() and .set_timings()
-are not used anymore. Remove them.
+On 24/02/2020 22:02, Jyri Sarha wrote:
+> The old implementation of placing planes on the CRTC while configuring
+> the planes was naive and relied on the order in which the planes were
+> configured, enabled, and disabled. The situation where a plane's zpos
+> was changed on the fly was completely broken. The usual symptoms of
+> this problem was scrambled display and a flood of sync lost errors,
+> when a plane was active in two layers at the same time, or a missing
+> plane, in case when a layer was accidentally disabled.
+> 
+> The rewrite takes a more straight forward approach when HW is
+> concerned. The plane positioning registers are in the CRTC (or
+> actually OVR) register space and it is more natural to configure them
+> in a one go when configuring the CRTC. To do this we need make sure we
+> have all the planes on the updated CRTCs in the new atomic state. The
+> untouched planes on CRTCs that need plane position update are added to
+> the atomic state in tidss_atomic_check().
+> 
+> Signed-off-by: Jyri Sarha <jsarha@ti.com>
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- drivers/gpu/drm/omapdrm/dss/base.c     | 26 ---------------
- drivers/gpu/drm/omapdrm/dss/omapdss.h  |  6 ----
- drivers/gpu/drm/omapdrm/omap_encoder.c | 44 +++-----------------------
- 3 files changed, 5 insertions(+), 71 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
-index 455b410f7401..c7650a7c155d 100644
---- a/drivers/gpu/drm/omapdrm/dss/base.c
-+++ b/drivers/gpu/drm/omapdrm/dss/base.c
-@@ -234,18 +234,6 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
- }
- EXPORT_SYMBOL_GPL(omapdss_device_disconnect);
- 
--void omapdss_device_pre_enable(struct omap_dss_device *dssdev)
--{
--	if (!dssdev)
--		return;
--
--	omapdss_device_pre_enable(dssdev->next);
--
--	if (dssdev->ops && dssdev->ops->pre_enable)
--		dssdev->ops->pre_enable(dssdev);
--}
--EXPORT_SYMBOL_GPL(omapdss_device_pre_enable);
--
- void omapdss_device_enable(struct omap_dss_device *dssdev)
- {
- 	if (!dssdev)
-@@ -272,20 +260,6 @@ void omapdss_device_disable(struct omap_dss_device *dssdev)
- }
- EXPORT_SYMBOL_GPL(omapdss_device_disable);
- 
--void omapdss_device_post_disable(struct omap_dss_device *dssdev)
--{
--	if (!dssdev)
--		return;
--
--	if (dssdev->ops && dssdev->ops->post_disable)
--		dssdev->ops->post_disable(dssdev);
--
--	omapdss_device_post_disable(dssdev->next);
--
--	dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
--}
--EXPORT_SYMBOL_GPL(omapdss_device_post_disable);
--
- /* -----------------------------------------------------------------------------
-  * Components Handling
-  */
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index cbbe10b2b60d..ab19d4af8de7 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -342,15 +342,11 @@ struct omap_dss_device_ops {
- 	void (*disconnect)(struct omap_dss_device *dssdev,
- 			struct omap_dss_device *dst);
- 
--	void (*pre_enable)(struct omap_dss_device *dssdev);
- 	void (*enable)(struct omap_dss_device *dssdev);
- 	void (*disable)(struct omap_dss_device *dssdev);
--	void (*post_disable)(struct omap_dss_device *dssdev);
- 
- 	int (*check_timings)(struct omap_dss_device *dssdev,
- 			     struct drm_display_mode *mode);
--	void (*set_timings)(struct omap_dss_device *dssdev,
--			    const struct drm_display_mode *mode);
- 
- 	int (*get_modes)(struct omap_dss_device *dssdev,
- 			 struct drm_connector *connector);
-@@ -449,10 +445,8 @@ int omapdss_device_connect(struct dss_device *dss,
- 			   struct omap_dss_device *dst);
- void omapdss_device_disconnect(struct omap_dss_device *src,
- 			       struct omap_dss_device *dst);
--void omapdss_device_pre_enable(struct omap_dss_device *dssdev);
- void omapdss_device_enable(struct omap_dss_device *dssdev);
- void omapdss_device_disable(struct omap_dss_device *dssdev);
--void omapdss_device_post_disable(struct omap_dss_device *dssdev);
- 
- int omap_dss_get_num_overlay_managers(void);
- 
-diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
-index 18a79dde6815..ae4b867a67a3 100644
---- a/drivers/gpu/drm/omapdrm/omap_encoder.c
-+++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
-@@ -113,13 +113,8 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
- 	bus_flags = connector->display_info.bus_flags;
- 	omap_encoder_update_videomode_flags(&vm, bus_flags);
- 
--	/* Set timings for all devices in the display pipeline. */
-+	/* Set timings for the dss manager. */
- 	dss_mgr_set_timings(output, &vm);
--
--	for (dssdev = output; dssdev; dssdev = dssdev->next) {
--		if (dssdev->ops && dssdev->ops->set_timings)
--			dssdev->ops->set_timings(dssdev, adjusted_mode);
--	}
- }
- 
- static void omap_encoder_disable(struct drm_encoder *encoder)
-@@ -132,26 +127,10 @@ static void omap_encoder_disable(struct drm_encoder *encoder)
- 
- 	/*
- 	 * Disable the chain of external devices, starting at the one at the
--	 * internal encoder's output.
-+	 * internal encoder's output. This is used for DSI outputs only, as
-+	 * dssdev->next is NULL for all other outputs.
- 	 */
- 	omapdss_device_disable(dssdev->next);
--
--	/*
--	 * Disable the internal encoder. This will disable the DSS output. The
--	 * DSI is treated as an exception as DSI pipelines still use the legacy
--	 * flow where the pipeline output controls the encoder.
--	 */
--	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
--		if (dssdev->ops && dssdev->ops->disable)
--			dssdev->ops->disable(dssdev);
--		dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
--	}
--
--	/*
--	 * Perform the post-disable operations on the chain of external devices
--	 * to complete the display pipeline disable.
--	 */
--	omapdss_device_post_disable(dssdev->next);
- }
- 
- static void omap_encoder_enable(struct drm_encoder *encoder)
-@@ -162,23 +141,10 @@ static void omap_encoder_enable(struct drm_encoder *encoder)
- 
- 	dev_dbg(dev->dev, "enable(%s)\n", dssdev->name);
- 
--	/* Prepare the chain of external devices for pipeline enable. */
--	omapdss_device_pre_enable(dssdev->next);
--
--	/*
--	 * Enable the internal encoder. This will enable the DSS output. The
--	 * DSI is treated as an exception as DSI pipelines still use the legacy
--	 * flow where the pipeline output controls the encoder.
--	 */
--	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
--		if (dssdev->ops && dssdev->ops->enable)
--			dssdev->ops->enable(dssdev);
--		dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
--	}
--
- 	/*
- 	 * Enable the chain of external devices, starting at the one at the
--	 * internal encoder's output.
-+	 * internal encoder's output. This is used for DSI outputs only, as
-+	 * dssdev->next is NULL for all other outputs.
- 	 */
- 	omapdss_device_enable(dssdev->next);
- }
+  Tomi
+
 -- 
-Regards,
-
-Laurent Pinchart
-
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
