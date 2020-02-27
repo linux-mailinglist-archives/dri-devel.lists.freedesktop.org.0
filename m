@@ -1,92 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7ABA171802
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C4717181B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 14:00:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE1DE6ECA0;
-	Thu, 27 Feb 2020 12:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89E376ECB6;
+	Thu, 27 Feb 2020 12:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2051.outbound.protection.outlook.com [40.107.244.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2E36EC48
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 08:40:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JxE0i9CKmdOWG7zgJeuvOoncSymLINJmwnR5tzC32o7PNgKaFimnhGoRuHSD1bCs3cEwoMSpfdfmLHTKzYy4bcq26KOwXEpZ/6UJpXgMME0aABUEZXf3k51TZVZOEsGSkDfzGXPUF7O2DLmuB14AbRJcA/R9vgOVDMfAmXtFfdrgVqNc0iTRofo7REuUsjw8Dc2Z911r47ozFXK2wfDg1MZXyvhUeQ0lhXlYpXD/btGcwROGUhdQPK7OCqGxsF+5zUQEgRtUrvbCnCqiu3DrNfheGDOBorF8lRbMnmwa0g3j/hPQOHM0U3n/2hT9RhiCIWTZjUxMvEtnxnWmolZTEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i0H9dWV5GDFS14c27Er7qxh3A2SGexAuvCXugA/GLGA=;
- b=BKJhM55c0F/CHGA5qGkMqjOiFaWXwTZRNGmpLTz3jcBZ/BUq+v/0AgcHrbzy/LHBriej26dO2z8j/X4gAvpNOBUtgUZ1lyA8J7uS/sPIgZKcoZVgaTyb35n/FOYkUr/RAfshy2vufTRor/8gbajppwlVaChRbfP2Pngdn7g7d7eQLTpflD72PtG13xVvQcLxAKy8r2OMv7Tbb2b0YCxp2Ky61HtdJIUA77tguVZWlQmXcZiVVqC732K74XvgazL5y0UTxxpVVXEI5GSG2uuW54VUVL7svMOJq+YtB89KyQbRb36l99pGxNuqNRA9BO2x7iSmEokHkLvjWsSDF+/ejA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i0H9dWV5GDFS14c27Er7qxh3A2SGexAuvCXugA/GLGA=;
- b=gWQIbFQjywX+rPlTRxOoaxtl1Lj0CvfzMJIcQ+kGCB+hV7zVHyDeC7zEr+tWKP+dnmsV5yr2ygPMKILbuOf5BuUWkd/pGWPi7O26IPxH8SdSVaCAqxfWflhak2/CB9bCWvZFp1bnLC8VsTljdYMFrJPNNSzmIhw6DXY0cNoDVVk=
-Received: from BYAPR02MB4056.namprd02.prod.outlook.com (2603:10b6:a02:fa::20)
- by BYAPR02MB4566.namprd02.prod.outlook.com (2603:10b6:a03:57::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.22; Thu, 27 Feb
- 2020 08:40:21 +0000
-Received: from BYAPR02MB4056.namprd02.prod.outlook.com
- ([fe80::9dc8:cb6d:9584:576e]) by BYAPR02MB4056.namprd02.prod.outlook.com
- ([fe80::9dc8:cb6d:9584:576e%7]) with mapi id 15.20.2750.021; Thu, 27 Feb 2020
- 08:40:20 +0000
-From: Rohit Visavalia <RVISAVAL@xilinx.com>
-To: Rohit Visavalia <RVISAVAL@xilinx.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "imirkin@alum.mit.edu"
- <imirkin@alum.mit.edu>, "emil.velikov@collabora.com"
- <emil.velikov@collabora.com>
-Subject: RE: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
- add_property_optional returns true
-Thread-Topic: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
- add_property_optional returns true
-Thread-Index: AQHV679WeVrf3O3SQkeitn5ZLHO5bqguuqpw
-Date: Thu, 27 Feb 2020 08:40:20 +0000
-Message-ID: <BYAPR02MB40561FBCE7FCCF6ECAA96BF5B3EB0@BYAPR02MB4056.namprd02.prod.outlook.com>
-References: <1582623496-6094-1-git-send-email-rohit.visavalia@xilinx.com>
-In-Reply-To: <1582623496-6094-1-git-send-email-rohit.visavalia@xilinx.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=RVISAVAL@xilinx.com; 
-x-originating-ip: [149.199.62.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: bcc81001-057b-48a8-7f5a-08d7bb60ae24
-x-ms-traffictypediagnostic: BYAPR02MB4566:|BYAPR02MB4566:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB456683314F877D65D47B0CA2B3EB0@BYAPR02MB4566.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2000;
-x-forefront-prvs: 03264AEA72
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(376002)(39860400002)(366004)(346002)(396003)(189003)(199004)(7696005)(66446008)(55016002)(66946007)(86362001)(107886003)(66476007)(52536014)(5660300002)(66556008)(4326008)(54906003)(6506007)(81166006)(110136005)(81156014)(64756008)(76116006)(316002)(71200400001)(53546011)(8936002)(186003)(33656002)(2906002)(478600001)(26005)(8676002)(9686003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4566;
- H:BYAPR02MB4056.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: t6UfJEGpMGHLO6amo7aSHELMV5us2GE+mG9NjaRwUwdJyQ+aKun0Mgu60a2wonqs2oCFnjqZMv+OocPRqEP3s+llwgaGH2egz97uoWBBUd3Ty6060oH0vyV/VTNybOnV0ieDkHgi0Fb+ykIoT1YMMNyflm1+2CbCWFR9MQgB9JV0YkYdYVwl25HexFJ99uQL9UiGUAh4cQjatNtqE/HZsXiqdFG0+Fde0giM1IOt66QzUrqzM+N51obWUyu2ZcVknjdGXNOO9dTjsVhqLk0teyTGP5o5pHz0Vwxf82WQAvVNZQVfZ4rNn4xGNoqHV5Gv6HKQmw5Fek02V7bJvqWKcEf7d9OMhYkyUmTJUquVfblKdSDMX6zvJaks4r0rokqti+24VMwsSzKQXWH+NV/BEIKobSHp+87oG33oKe5WD4LDzf9nbEipF7FEJ6kpEkLd
-x-ms-exchange-antispam-messagedata: OBrcNkvUQIoNUh5CktFsbxlJseq6snRnD5x/gDaUoms6UZHJPFnEWg4VFJ3nD/8S3Rxjpmu2N6urG9s4j+Hy/2+9IyLCevgTeXZYHClIStMSJUZvm4LIMfdo2RNmNVI8xwBB8nqe7g4RqcF8bDGkEg==
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E62806EC4B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 08:45:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 12DFD295A11
+Subject: Re: [PATCH v9 1/4] drm/mediatek: Use regmap for register access
+To: CK Hu <ck.hu@mediatek.com>
+References: <20200226105419.632771-1-enric.balletbo@collabora.com>
+ <20200226105419.632771-2-enric.balletbo@collabora.com>
+ <1582765858.20746.2.camel@mtksdaap41>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <07976851-8ac4-9c0d-3257-74fd4df74ef0@collabora.com>
+Date: Thu, 27 Feb 2020 09:45:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcc81001-057b-48a8-7f5a-08d7bb60ae24
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2020 08:40:20.7457 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zvu7X6Ytxo3d+sjraDMJp9FBASv73pAKTjhs/6+900F49iMZkbWgpFW8H6A+VBJuOMVZ0Zvcy/DKL+HfzxqYDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4566
+In-Reply-To: <1582765858.20746.2.camel@mtksdaap41>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 27 Feb 2020 12:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,58 +40,268 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ranganathan Sk <rsk@xilinx.com>,
- Varunkumar Allagadapa <VARUNKUM@xilinx.com>,
- Devarsh Thakkar <DEVARSHT@xilinx.com>,
- Dhaval Rajeshbhai Shah <dshah@xilinx.com>
+Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
+ mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
+ Allison Randal <allison@lohutok.net>, mtk01761 <wendell.lin@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Matthias Brugger <mbrugger@suse.com>,
+ sboyd@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gentle reminder.
+Hi CK,
 
-+ Ilia Mirkin, +Emil Velikov.
+On 27/2/20 2:10, CK Hu wrote:
+> Hi, Enric:
+> 
+> On Wed, 2020-02-26 at 11:54 +0100, Enric Balletbo i Serra wrote:
+>> From: Matthias Brugger <mbrugger@suse.com>
+>>
+>> The mmsys memory space is shared between the drm and the
+>> clk driver. Use regmap to access it.
+> 
+> Once there is a mmsys driver and clock control is moved into mmsys
+> driver, I think we should also move routing control into mmsys driver
+> and we could drop this patch.
+> 
 
-Thanks & Regards,
-Rohit 
+Do you want me do this in this series or later?
 
-> -----Original Message-----
-> From: Rohit Visavalia [mailto:rohit.visavalia@xilinx.com]
-> Sent: Tuesday, February 25, 2020 3:08 PM
-> To: dri-devel@lists.freedesktop.org
-> Cc: Hyun Kwon <hyunk@xilinx.com>; Ranganathan Sk <rsk@xilinx.com>;
-> Dhaval Rajeshbhai Shah <dshah@xilinx.com>; Varunkumar Allagadapa
-> <VARUNKUM@xilinx.com>; Devarsh Thakkar <DEVARSHT@xilinx.com>; Rohit
-> Visavalia <RVISAVAL@xilinx.com>
-> Subject: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
-> add_property_optional returns true
-> 
-> gamma is a optional property then also it prints error message, so set gamma
-> only if add_property_optional() returns true.
-> 
-> Signed-off-by: Rohit Visavalia <rohit.visavalia@xilinx.com>
-> ---
->  tests/modetest/modetest.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c index
-> b907ab3..379b9ea 100644
-> --- a/tests/modetest/modetest.c
-> +++ b/tests/modetest/modetest.c
-> @@ -1138,7 +1138,7 @@ static void set_gamma(struct device *dev, unsigned
-> crtc_id, unsigned fourcc)
-> 
->  	add_property_optional(dev, crtc_id, "DEGAMMA_LUT", 0);
->  	add_property_optional(dev, crtc_id, "CTM", 0);
-> -	if (!add_property_optional(dev, crtc_id, "GAMMA_LUT", blob_id)) {
-> +	if (add_property_optional(dev, crtc_id, "GAMMA_LUT", blob_id)) {
->  		uint16_t r[256], g[256], b[256];
-> 
->  		for (i = 0; i < 256; i++) {
-> --
-> 2.7.4
+Thanks,
+ Enric
 
+> Regards,
+> CK
+> 
+>>
+>> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+>> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>> ---
+>>
+>> Changes in v9: None
+>> Changes in v8:
+>> - Select REGMAP and MFD_SYSCON (Randy Dunlap)
+>>
+>> Changes in v7:
+>> - Add R-by from CK
+>>
+>>  drivers/gpu/drm/mediatek/Kconfig        |  2 +
+>>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c  | 50 +++++++++++--------------
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h  |  4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 13 ++-----
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.h  |  2 +-
+>>  6 files changed, 32 insertions(+), 43 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
+>> index fa5ffc4fe823..89e18a473cb5 100644
+>> --- a/drivers/gpu/drm/mediatek/Kconfig
+>> +++ b/drivers/gpu/drm/mediatek/Kconfig
+>> @@ -10,8 +10,10 @@ config DRM_MEDIATEK
+>>  	select DRM_KMS_HELPER
+>>  	select DRM_MIPI_DSI
+>>  	select DRM_PANEL
+>> +	select MFD_SYSCON
+>>  	select MEMORY
+>>  	select MTK_SMI
+>> +	select REGMAP
+>>  	select VIDEOMODE_HELPERS
+>>  	help
+>>  	  Choose this option if you have a Mediatek SoCs.
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>> index 5ee74d7ce35c..a236499123aa 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>> @@ -28,7 +28,7 @@
+>>   * @enabled: records whether crtc_enable succeeded
+>>   * @planes: array of 4 drm_plane structures, one for each overlay plane
+>>   * @pending_planes: whether any plane has pending changes to be applied
+>> - * @config_regs: memory mapped mmsys configuration register space
+>> + * @config_regs: regmap mapped mmsys configuration register space
+>>   * @mutex: handle to one of the ten disp_mutex streams
+>>   * @ddp_comp_nr: number of components in ddp_comp
+>>   * @ddp_comp: array of pointers the mtk_ddp_comp structures used by this crtc
+>> @@ -50,7 +50,7 @@ struct mtk_drm_crtc {
+>>  	u32				cmdq_event;
+>>  #endif
+>>  
+>> -	void __iomem			*config_regs;
+>> +	struct regmap			*config_regs;
+>>  	struct mtk_disp_mutex		*mutex;
+>>  	unsigned int			ddp_comp_nr;
+>>  	struct mtk_ddp_comp		**ddp_comp;
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>> index 13035c906035..302753744cc6 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>> @@ -383,61 +383,53 @@ static unsigned int mtk_ddp_sel_in(enum mtk_ddp_comp_id cur,
+>>  	return value;
+>>  }
+>>  
+>> -static void mtk_ddp_sout_sel(void __iomem *config_regs,
+>> +static void mtk_ddp_sout_sel(struct regmap *config_regs,
+>>  			     enum mtk_ddp_comp_id cur,
+>>  			     enum mtk_ddp_comp_id next)
+>>  {
+>>  	if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+>> -		writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+>> -			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+>> +		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
+>> +				BLS_TO_DSI_RDMA1_TO_DPI1);
+>>  	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+>> -		writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+>> -			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+>> -		writel_relaxed(DSI_SEL_IN_RDMA,
+>> -			       config_regs + DISP_REG_CONFIG_DSI_SEL);
+>> -		writel_relaxed(DPI_SEL_IN_BLS,
+>> -			       config_regs + DISP_REG_CONFIG_DPI_SEL);
+>> +		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
+>> +				BLS_TO_DPI_RDMA1_TO_DSI);
+>> +		regmap_write(config_regs, DISP_REG_CONFIG_DSI_SEL,
+>> +				DSI_SEL_IN_RDMA);
+>> +		regmap_write(config_regs, DISP_REG_CONFIG_DPI_SEL,
+>> +				DPI_SEL_IN_BLS);
+>>  	}
+>>  }
+>>  
+>> -void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
+>> +void mtk_ddp_add_comp_to_path(struct regmap *config_regs,
+>>  			      enum mtk_ddp_comp_id cur,
+>>  			      enum mtk_ddp_comp_id next)
+>>  {
+>> -	unsigned int addr, value, reg;
+>> +	unsigned int addr, value;
+>>  
+>>  	value = mtk_ddp_mout_en(cur, next, &addr);
+>> -	if (value) {
+>> -		reg = readl_relaxed(config_regs + addr) | value;
+>> -		writel_relaxed(reg, config_regs + addr);
+>> -	}
+>> +	if (value)
+>> +		regmap_update_bits(config_regs, addr, value, value);
+>>  
+>>  	mtk_ddp_sout_sel(config_regs, cur, next);
+>>  
+>>  	value = mtk_ddp_sel_in(cur, next, &addr);
+>> -	if (value) {
+>> -		reg = readl_relaxed(config_regs + addr) | value;
+>> -		writel_relaxed(reg, config_regs + addr);
+>> -	}
+>> +	if (value)
+>> +		regmap_update_bits(config_regs, addr, value, value);
+>>  }
+>>  
+>> -void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
+>> +void mtk_ddp_remove_comp_from_path(struct regmap *config_regs,
+>>  				   enum mtk_ddp_comp_id cur,
+>>  				   enum mtk_ddp_comp_id next)
+>>  {
+>> -	unsigned int addr, value, reg;
+>> +	unsigned int addr, value;
+>>  
+>>  	value = mtk_ddp_mout_en(cur, next, &addr);
+>> -	if (value) {
+>> -		reg = readl_relaxed(config_regs + addr) & ~value;
+>> -		writel_relaxed(reg, config_regs + addr);
+>> -	}
+>> +	if (value)
+>> +		regmap_update_bits(config_regs, addr, value, 0);
+>>  
+>>  	value = mtk_ddp_sel_in(cur, next, &addr);
+>> -	if (value) {
+>> -		reg = readl_relaxed(config_regs + addr) & ~value;
+>> -		writel_relaxed(reg, config_regs + addr);
+>> -	}
+>> +	if (value)
+>> +		regmap_update_bits(config_regs, addr, value, 0);
+>>  }
+>>  
+>>  struct mtk_disp_mutex *mtk_disp_mutex_get(struct device *dev, unsigned int id)
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>> index 827be424a148..01ff8b68881f 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>> @@ -12,10 +12,10 @@ struct regmap;
+>>  struct device;
+>>  struct mtk_disp_mutex;
+>>  
+>> -void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
+>> +void mtk_ddp_add_comp_to_path(struct regmap *config_regs,
+>>  			      enum mtk_ddp_comp_id cur,
+>>  			      enum mtk_ddp_comp_id next);
+>> -void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
+>> +void mtk_ddp_remove_comp_from_path(struct regmap *config_regs,
+>>  				   enum mtk_ddp_comp_id cur,
+>>  				   enum mtk_ddp_comp_id next);
+>>  
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>> index 0563c6813333..b68837ea02b3 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>> @@ -6,6 +6,7 @@
+>>  
+>>  #include <linux/component.h>
+>>  #include <linux/iommu.h>
+>> +#include <linux/mfd/syscon.h>
+>>  #include <linux/module.h>
+>>  #include <linux/of_address.h>
+>>  #include <linux/of_platform.h>
+>> @@ -425,7 +426,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>>  {
+>>  	struct device *dev = &pdev->dev;
+>>  	struct mtk_drm_private *private;
+>> -	struct resource *mem;
+>>  	struct device_node *node;
+>>  	struct component_match *match = NULL;
+>>  	int ret;
+>> @@ -437,14 +437,9 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>>  
+>>  	private->data = of_device_get_match_data(dev);
+>>  
+>> -	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> -	private->config_regs = devm_ioremap_resource(dev, mem);
+>> -	if (IS_ERR(private->config_regs)) {
+>> -		ret = PTR_ERR(private->config_regs);
+>> -		dev_err(dev, "Failed to ioremap mmsys-config resource: %d\n",
+>> -			ret);
+>> -		return ret;
+>> -	}
+>> +	private->config_regs = syscon_node_to_regmap(dev->of_node);
+>> +	if (IS_ERR(private->config_regs))
+>> +		return PTR_ERR(private->config_regs);
+>>  
+>>  	/* Iterate over sibling DISP function blocks */
+>>  	for_each_child_of_node(dev->of_node->parent, node) {
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>> index 17bc99b9f5d4..03201080688d 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>> @@ -39,7 +39,7 @@ struct mtk_drm_private {
+>>  
+>>  	struct device_node *mutex_node;
+>>  	struct device *mutex_dev;
+>> -	void __iomem *config_regs;
+>> +	struct regmap *config_regs;
+>>  	struct device_node *comp_node[DDP_COMPONENT_ID_MAX];
+>>  	struct mtk_ddp_comp *ddp_comp[DDP_COMPONENT_ID_MAX];
+>>  	const struct mtk_mmsys_driver_data *data;
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
