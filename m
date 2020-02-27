@@ -1,76 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BB21715E0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 12:25:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB59C171615
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 12:34:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994146EC91;
-	Thu, 27 Feb 2020 11:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9F696E838;
+	Thu, 27 Feb 2020 11:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 574 seconds by postgrey-1.36 at gabe;
- Thu, 27 Feb 2020 11:25:32 UTC
-Received: from mx01-muc.bfs.de (mx01-muc.bfs.de [193.174.230.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 816AD6EC91
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 11:25:32 +0000 (UTC)
-Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
- by mx01-muc.bfs.de (Postfix) with ESMTPS id E1BCE20342;
- Thu, 27 Feb 2020 12:15:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901; 
- t=1582802155;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PSPfkAcD4QDEe9iSfKSFzw4oTZNpL0r5C0vE0nEBfi8=;
- b=hZTek6b2Y4HMl5mxHAmJ4zxsXbSz4FzU8KeGrX18+sHYSvU2k5tt2oM0qYHB6psoEXGHFq
- Uho6MeghLCDarNitxYByWjE2JP2spLWNKY0P6iWggFJHne8qpiCnbqoZuxx8sJvyUTRsUV
- p0Syd7KVDaU3JtvOgkHmu1xUd8mrvTt6c67MW7fXuwtKRtXS/Ssk2ZVbY9BhmrnvcQAvFh
- LYSSifQCD2THJP5f4u+Rn2Vwo5g4uv9EkTRAKlNWpFuwzWwCxc1sjscHUiwQ9Hixv0Ab5t
- wic11wWremaDuctMTYuKnhuouxIcK/5FO69d6XQ18rHZbFwDbQFxjUqwJiodow==
-Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
- (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1913.5; Thu, 27 Feb
- 2020 12:15:55 +0100
-Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
- SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
- 15.01.1913.005; Thu, 27 Feb 2020 12:15:55 +0100
-From: Walter Harms <wharms@bfs.de>
-To: Colin King <colin.king@canonical.com>, Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Jingoo Han
- <jingoohan1@gmail.com>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, 
- Gyungoh Yoo <jack.yoo@skyworksinc.com>, Bryan Wu <cooloney@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>
-Subject: AW: [PATCH][V2] backlight: sky81452: insure while loop does not allow
- negative array indexing
-Thread-Topic: [PATCH][V2] backlight: sky81452: insure while loop does not
- allow negative array indexing
-Thread-Index: AQHV7N8n5fHjoG7xokCkDx0n/hJSlagu4ztb
-Date: Thu, 27 Feb 2020 11:15:55 +0000
-Message-ID: <cb14e57edc1c4f3a81b0aef6f1099b9c@bfs.de>
-References: <20200226195826.6567-1-colin.king@canonical.com>
-In-Reply-To: <20200226195826.6567-1-colin.king@canonical.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.137.16.39]
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4946E838
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 11:34:18 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 78822AD14;
+ Thu, 27 Feb 2020 11:34:16 +0000 (UTC)
+Subject: Re: [PATCH] drm/bridge: analogix-anx6345: fix set of link bandwidth
+To: Icenowy Zheng <icenowy@aosc.io>, Torsten Duwe <duwe@lst.de>
+References: <20200221165127.813325-1-icenowy@aosc.io>
+ <20200221171328.GC6928@lst.de> <1E7BDB0F-639B-42BB-A4B4-A4C8CF94EBE0@aosc.io>
+ <f4109d23-4591-1c52-2822-0a2ba358fe1f@suse.de>
+ <07EED5EC-28C6-473D-B672-509F5C770479@aosc.io>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <08f290ef-7dd0-c8b9-0177-3248fb153eca@suse.de>
+Date: Thu, 27 Feb 2020 12:34:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.99
-Authentication-Results: mx01-muc.bfs.de
-X-Spamd-Result: default: False [-2.99 / 7.00]; ARC_NA(0.00)[];
- TO_DN_EQ_ADDR_SOME(0.00)[]; HAS_XOIP(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- MIME_GOOD(-0.10)[text/plain]; DKIM_SIGNED(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[11]; NEURAL_HAM(-0.00)[-0.990,0];
- RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_COUNT_TWO(0.00)[2];
- MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-2.99)[99.98%]
+In-Reply-To: <07EED5EC-28C6-473D-B672-509F5C770479@aosc.io>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,66 +67,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-hi all,
-i would suggest converting this in to a more common for() loop.
-Programmers are bad in counting backwards. that kind of bug is 
-common.
-
-re,
- wh
-________________________________________
-Von: kernel-janitors-owner@vger.kernel.org <kernel-janitors-owner@vger.kernel.org> im Auftrag von Colin King <colin.king@canonical.com>
-Gesendet: Mittwoch, 26. Februar 2020 20:58
-An: Lee Jones; Daniel Thompson; Jingoo Han; Bartlomiej Zolnierkiewicz; Gyungoh Yoo; Bryan Wu; dri-devel@lists.freedesktop.org; linux-fbdev@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org; linux-kernel@vger.kernel.org
-Betreff: [PATCH][V2] backlight: sky81452: insure while loop does not allow negative array indexing
-
-From: Colin Ian King <colin.king@canonical.com>
-
-In the unlikely event that num_entry is zero, the while loop
-pre-decrements num_entry to cause negative array indexing into the
-array sources. Fix this by iterating only if num_entry >= 0.
-
-Addresses-Coverity: ("Out-of-bounds read")
-Fixes: f705806c9f35 ("backlight: Add support Skyworks SKY81452 backlight driver")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
-
-V2: fix typo in commit subject line
-
----
- drivers/video/backlight/sky81452-backlight.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/video/backlight/sky81452-backlight.c b/drivers/video/backlight/sky81452-backlight.c
-index 2355f00f5773..f456930ce78e 100644
---- a/drivers/video/backlight/sky81452-backlight.c
-+++ b/drivers/video/backlight/sky81452-backlight.c
-@@ -200,7 +200,7 @@ static struct sky81452_bl_platform_data *sky81452_bl_parse_dt(
-                }
-
-                pdata->enable = 0;
--               while (--num_entry)
-+               while (--num_entry >= 0)
-                        pdata->enable |= (1 << sources[num_entry]);
- 
-              int i;
-                for(i=0;i<num_entry;i++)
-                         pdata->enable |= (1 << sources[i]);
-
-        }
-
---
-2.25.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCkFtIDI2LjAyLjIwIHVtIDEyOjAyIHNjaHJpZWIgSWNlbm93eSBaaGVuZzoKPiAKPiAKPiDk
+uo4gMjAyMOW5tDLmnIgyNuaXpSBHTVQrMDg6MDAg5LiL5Y2INjo1ODo0MywgVGhvbWFzIFppbW1l
+cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IOWGmeWIsDoKPj4gSGkgSWNleW5vdywKPj4KPj4g
+VG9yc3RlbiBhc2tlZCBtZSB0byBtZXJnZSB5b3VyIHBhdGNoIHZpYSBkcm0tbWlzYy1uZXh0LiBJ
+J2QgYWRkIHRoZQo+PiBhZGRpdGlvbmFsIGNjIGFuZCBmaXhlcyB0YWdzIHRoYXQgVG9yc3RlbiBs
+aXN0ZWQuIEFyZSB5b3UgT0sgd2l0aCB0aGF0Pwo+IAo+IEkgdGhpbmsgdGhpcyBmaXhlcyBhIGRy
+aXZlciAoYW5kIGEgYm9hcmQpIGF2YWlsYWJsZSBpbiA1LjYuCj4gCj4gTWF5YmUgaXQgc2hvdWxk
+IGVudGVyIGZpeGVzPwoKUHVzaGVkIHRvIGRybS1taXNjLWZpeGVzCgpCZXN0IHJlZ2FyZHMKVGhv
+bWFzCgo+IAo+Pgo+PiBCZXN0IHJlZ2FyZHMKPj4gVGhvbWFzCj4+Cj4+IEFtIDIyLjAyLjIwIHVt
+IDAzOjQzIHNjaHJpZWIgSWNlbm93eSBaaGVuZzoKPj4+Cj4+Pgo+Pj4g5LqOIDIwMjDlubQy5pyI
+MjLml6UgR01UKzA4OjAwIOS4iuWNiDE6MTM6MjgsIFRvcnN0ZW4gRHV3ZSA8ZHV3ZUBsc3QuZGU+
+IOWGmeWIsDoKPj4+PiBPbiBTYXQsIEZlYiAyMiwgMjAyMCBhdCAxMjo1MToyN0FNICswODAwLCBJ
+Y2Vub3d5IFpoZW5nIHdyb3RlOgo+Pj4+PiBDdXJyZW50IGNvZGUgdHJpZXMgdG8gc3RvcmUgdGhl
+IGxpbmsgcmF0ZSAoaW4gYnBzLCB3aGljaCBpcyBhIGJpZwo+Pj4+PiBudW1iZXIpIGluIGEgdTgs
+IHdoaWNoIHN1cmVseSBvdmVyZmxvdy4gVGhlbiBpdCdzIGNvbnZlcnRlZCBiYWNrIHRvCj4+Pj4+
+IGJhbmR3aWR0aCBjb2RlICh3aGljaCBpcyB0aHVzIDApIGFuZCB3cml0dGVuIHRvIHRoZSBjaGlw
+Lgo+Pj4+Pgo+Pj4+PiBUaGUgY29kZSBzb21ldGltZXMgd29ya3MgYmVjYXVzZSB0aGUgY2hpcCB3
+aWxsIGF1dG9tYXRpY2FsbHkKPj4gZmFsbGJhY2sKPj4+PiB0bwo+Pj4+PiB0aGUgbG93ZXN0IHBv
+c3NpYmxlIERQIGxpbmsgcmF0ZSAoMS42MkdicHMpIHdoZW4gZ2V0IHRoZSBpbnZhbGlkCj4+Pj4g
+dmFsdWUuCj4+Pj4+IEhvd2V2ZXIsIG9uIHRoZSBlRFAgcGFuZWwgb2YgT2xpbWV4IFRFUkVTLUks
+IHdoaWNoIHdhbnRzIDIuN0dicHMKPj4+PiBsaW5rLAo+Pj4+PiBpdCBmYWlsZWQuCj4+Pj4+Cj4+
+Pj4+IEFzIHdlIGhhZCBhbHJlYWR5IHJlYWQgdGhlIGxpbmsgYmFuZHdpZHRoIGFzIGJhbmR3aWR0
+aCBjb2RlIGluCj4+Pj4gZWFybGllcgo+Pj4+PiBjb2RlICh0byBjaGVjayB3aGV0aGVyIGl0IGlz
+IHN1cHBvcnRlZCksIHVzZSBpdCB3aGVuIHNldHRpbmcKPj4+PiBiYW5kd2lkdGgsCj4+Pj4+IGlu
+c3RlYWQgb2YgY29udmVydGluZyBpdCB0byBsaW5rIHJhdGUgYW5kIHRoZW4gY29udmVydGluZyBi
+YWNrLgo+Pj4+Pgo+Pj4+PiBGaXhlczogZTFjZmY4MmMxMDk3ICgiZHJtL2JyaWRnZTogZml4IGFu
+eDYzNDUgY29tcGlsYXRpb24gZm9yCj4+IHY1LjUiKQo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBJY2Vu
+b3d5IFpoZW5nIDxpY2Vub3d5QGFvc2MuaW8+Cj4+Pj4+IC0tLQo+Pj4+PiAgZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeC1hbng2MzQ1LmMgfCAzICstLQo+Pj4+PiAgMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQo+Pj4+Pgo+Pj4+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeC1hbng2
+MzQ1LmMKPj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW5hbG9naXgtYW54
+NjM0NS5jCj4+Pj4+IGluZGV4IDU2ZjU1YzUzYWJmZC4uMmRmYTJmZDJhMjNiIDEwMDY0NAo+Pj4+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FuYWxvZ2l4LWFueDYzNDUu
+Ywo+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FuYWxvZ2l4LWFu
+eDYzNDUuYwo+Pj4+PiBAQCAtMjEwLDggKzIxMCw3IEBAIHN0YXRpYyBpbnQgYW54NjM0NV9kcF9s
+aW5rX3RyYWluaW5nKHN0cnVjdAo+Pj4+IGFueDYzNDUgKmFueDYzNDUpCj4+Pj4+ICAJaWYgKGVy
+cikKPj4+Pj4gIAkJcmV0dXJuIGVycjsKPj4+Pj4gIAo+Pj4+PiAtCWRwY2RbMF0gPSBkcm1fZHBf
+bWF4X2xpbmtfcmF0ZShhbng2MzQ1LT5kcGNkKTsKPj4+Pj4gLQlkcGNkWzBdID0gZHJtX2RwX2xp
+bmtfcmF0ZV90b19id19jb2RlKGRwY2RbMF0pOwo+Pj4+PiArCWRwY2RbMF0gPSBkcF9idzsKPj4+
+Pgo+Pj4+IFdoeSBkbyB5b3UgbWFrZSB0aGlzIGFzc2lnbm1lbnQgYW5kIG5vdCB1c2UgZHBfYncg
+ZGlyZWN0bHkgaW4gdGhlCj4+IGNhbGw/Cj4+Pgo+Pj4gQmVjYXVzZSB0aGUgZHBjZCBhcnJheSBp
+cyB0aGVuIHdyaXR0ZW4gYXMgYSBjb250aW5vdXMgYXJyYXkKPj4+IGJhY2sgdG8gRFBDRC4KPj4+
+Cj4+Pj4KPj4+Pj4gIAllcnIgPSByZWdtYXBfd3JpdGUoYW54NjM0NS0+bWFwW0kyQ19JRFhfRFBU
+WF0sCj4+Pj4+ICAJCQkgICBTUF9EUF9NQUlOX0xJTktfQldfU0VUX1JFRywgZHBjZFswXSk7Cj4+
+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+Xl5eXl5eCj4+Pj4+ICAJaWYgKGVycikKPj4+Pj4gLS0gCj4+Pj4+IDIuMjQuMQo+Pj4+Cj4+Pj4g
+QlRXLCBteSB2ZXJzaW9uIGlzIG9ubHkgYSBiaXQgbW9yZSB2ZXJib3NlOgo+Pj4+Cj4+Pj4gaHR0
+cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzM1NDM0NC8KPj4+Pgo+Pj4+IAlU
+b3JzdGVuCj4+Pgo+IAoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXIKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRzdHIuIDUs
+IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCkdlc2No
+w6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
