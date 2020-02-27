@@ -1,34 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB4E1710D0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 07:04:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 183D21710D6
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 07:09:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60176E43B;
-	Thu, 27 Feb 2020 06:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 390826E4D0;
+	Thu, 27 Feb 2020 06:09:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6760B6E43B;
- Thu, 27 Feb 2020 06:04:15 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2020 22:04:14 -0800
-X-IronPort-AV: E=Sophos;i="5.70,490,1574150400"; d="scan'208";a="231703581"
-Received: from lohmeies-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.50.249])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2020 22:04:10 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 27 Feb 2020 08:04:31 +0200
-Message-ID: <874kvcsh00.fsf@intel.com>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D842E6E4D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 06:09:43 +0000 (UTC)
+X-UUID: 090e36d2203c48729c8b76f2daca3830-20200227
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=8hObMDkCZhI/DRnWGjAJpxpuzXkK7SPUl3OhA8dm39o=; 
+ b=IdRx2Km31sN0fY3wFTEotJ/PWfrQ+GfiQdnfHck4R92x/7fk5b3SmddFlVXYUnJh5uUkCTTqNxgMTiXyMsfkKmPDPDD4/ZCGudXlhUpvOFVttzeccpdVabIs1ESzVgfnSwHHuuk/j5TXRAZv4jbu1RF3lFPCCFcXKjJz938M+3o=;
+X-UUID: 090e36d2203c48729c8b76f2daca3830-20200227
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 180435795; Thu, 27 Feb 2020 14:09:37 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 27 Feb 2020 14:08:39 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by mtkcas08.mediatek.inc
+ (172.21.101.126) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Thu, 27 Feb 2020 14:09:40 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 27 Feb 2020 14:09:25 +0800
+Message-ID: <1582783776.30808.1.camel@mtksdaap41>
+Subject: Re: [PATCH] drm/mediatek: Remove debug messages for function calls
+From: CK Hu <ck.hu@mediatek.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Date: Thu, 27 Feb 2020 14:09:36 +0800
+In-Reply-To: <20200226112723.649954-1-enric.balletbo@collabora.com>
+References: <20200226112723.649954-1-enric.balletbo@collabora.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,54 +54,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERhdmUgJiBEYW5pZWwgLQoKU3dpdGNoaW5nIGdlbjcgYmFjayB0byBhbGlhc2luZy1wcGd0
-dCBzZWVtcyB0byBiZSB0aGUgbWFpbiBoaWdobGlnaHQKaGVyZS4KCkJSLApKYW5pLgoKCmRybS1p
-bnRlbC1maXhlcy0yMDIwLTAyLTI3Ogpkcm0vaTkxNSBmaXhlcyBmb3IgdjUuNi1yYzQ6Ci0gZG93
-bmdyYWRlIGdlbjcgYmFjayB0byBhbGlhc2luZy1wcGd0dCB0byBhdm9pZCBHUFUgaGFuZ3MKLSBz
-aHJpbmtlciBmaXgKLSBwbXUgbGVhayBhbmQgZG91YmxlIGZyZWUgZml4ZXMKLSBndnQgdXNlciBh
-ZnRlciBmcmVlIGFuZCB2aXJ0dWFsIGRpc3BsYXkgcmVzZXQgZml4ZXMKLSByYW5kY29uZmlnIGJ1
-aWxkIGZpeAoKQlIsCkphbmkuCgpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IGY4
-Nzg4ZDg2YWIyOGY2MWY3YjQ2ZWI2YmUzNzVmOGE3MjY3ODM2MzY6CgogIExpbnV4IDUuNi1yYzMg
-KDIwMjAtMDItMjMgMTY6MTc6NDIgLTA4MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVw
-b3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1pbnRl
-bCB0YWdzL2RybS1pbnRlbC1maXhlcy0yMDIwLTAyLTI3Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5n
-ZXMgdXAgdG8gOGU5YTQwMGM3MDZlZTViY2JjMDUyZDNlYzlmODdjZmRiYmQzZjVjYjoKCiAgTWVy
-Z2UgdGFnICdndnQtZml4ZXMtMjAyMC0wMi0yNicgb2YgaHR0cHM6Ly9naXRodWIuY29tL2ludGVs
-L2d2dC1saW51eCBpbnRvIGRybS1pbnRlbC1maXhlcyAoMjAyMC0wMi0yNiAyMjo1ODoyNSArMDIw
-MCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0KZHJtL2k5MTUgZml4ZXMgZm9yIHY1LjYtcmM0OgotIGRvd25ncmFkZSBnZW43
-IGJhY2sgdG8gYWxpYXNpbmctcHBndHQgdG8gYXZvaWQgR1BVIGhhbmdzCi0gc2hyaW5rZXIgZml4
-Ci0gcG11IGxlYWsgYW5kIGRvdWJsZSBmcmVlIGZpeGVzCi0gZ3Z0IHVzZXIgYWZ0ZXIgZnJlZSBh
-bmQgdmlydHVhbCBkaXNwbGF5IHJlc2V0IGZpeGVzCi0gcmFuZGNvbmZpZyBidWlsZCBmaXgKCi0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0KQ2hyaXMgV2lsc29uICgyKToKICAgICAgZHJtL2k5MTUvZ3R0OiBEb3duZ3JhZGUgZ2Vu
-NyAoaXZiLCBieXQsIGhzdykgYmFjayB0byBhbGlhc2luZy1wcGd0dAogICAgICBkcm0vaTkxNTog
-QXZvaWQgcmVjdXJzaW5nIG9udG8gYWN0aXZlIHZtYSBmcm9tIHRoZSBzaHJpbmtlcgoKSmFuaSBO
-aWt1bGEgKDIpOgogICAgICBkcm0vaTkxNTogZml4IGhlYWRlciB0ZXN0IHdpdGggR0NPVgogICAg
-ICBNZXJnZSB0YWcgJ2d2dC1maXhlcy0yMDIwLTAyLTI2JyBvZiBodHRwczovL2dpdGh1Yi5jb20v
-aW50ZWwvZ3Z0LWxpbnV4IGludG8gZHJtLWludGVsLWZpeGVzCgpNaWNoYcWCIFdpbmlhcnNraSAo
-Mik6CiAgICAgIGRybS9pOTE1L3BtdTogQXZvaWQgdXNpbmcgZ2xvYmFscyBmb3IgQ1BVIGhvdHBs
-dWcgc3RhdGUKICAgICAgZHJtL2k5MTUvcG11OiBBdm9pZCB1c2luZyBnbG9iYWxzIGZvciBQTVUg
-ZXZlbnRzCgpUaW5hIFpoYW5nICgyKToKICAgICAgZHJtL2k5MTUvZ3Z0OiBTZXBhcmF0ZSBkaXNw
-bGF5IHJlc2V0IGZyb20gQUxMX0VOR0lORVMgcmVzZXQKICAgICAgZHJtL2k5MTUvZ3Z0OiBGaXgg
-b3JwaGFuIHZncHUgZG1hYnVmX29ianMnIGxpZmV0aW1lCgogZHJpdmVycy9ncHUvZHJtL2k5MTUv
-TWFrZWZpbGUgICAgICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2Vt
-L2k5MTVfZ2VtX3Nocmlua2VyLmMgfCAgNCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2Rt
-YWJ1Zi5jICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L3ZncHUu
-YyAgICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9wY2kuYyAg
-ICAgICAgICAgICAgfCAgNCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9wbXUuYyAgICAg
-ICAgICAgICAgfCA1OSArKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9pOTE1X3BtdS5oICAgICAgICAgICAgICB8IDExICsrKysrLQogNyBmaWxlcyBjaGFu
-Z2VkLCA0NiBpbnNlcnRpb25zKCspLCAzOCBkZWxldGlvbnMoLSkKCi0tIApKYW5pIE5pa3VsYSwg
-SW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi, Enric:
+
+On Wed, 2020-02-26 at 12:27 +0100, Enric Balletbo i Serra wrote:
+> Equivalent information can be nowadays obtained using function tracer.
+> 
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
+> 
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 5 -----
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 2 --
+>  2 files changed, 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index a236499123aa..882c690d3f13 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -192,7 +192,6 @@ static int mtk_crtc_ddp_clk_enable(struct mtk_drm_crtc *mtk_crtc)
+>  	int ret;
+>  	int i;
+>  
+> -	DRM_DEBUG_DRIVER("%s\n", __func__);
+>  	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
+>  		ret = clk_prepare_enable(mtk_crtc->ddp_comp[i]->clk);
+>  		if (ret) {
+> @@ -212,7 +211,6 @@ static void mtk_crtc_ddp_clk_disable(struct mtk_drm_crtc *mtk_crtc)
+>  {
+>  	int i;
+>  
+> -	DRM_DEBUG_DRIVER("%s\n", __func__);
+>  	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++)
+>  		clk_disable_unprepare(mtk_crtc->ddp_comp[i]->clk);
+>  }
+> @@ -257,7 +255,6 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+>  	int ret;
+>  	int i;
+>  
+> -	DRM_DEBUG_DRIVER("%s\n", __func__);
+>  	if (WARN_ON(!crtc->state))
+>  		return -EINVAL;
+>  
+> @@ -298,7 +295,6 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+>  		goto err_mutex_unprepare;
+>  	}
+>  
+> -	DRM_DEBUG_DRIVER("mediatek_ddp_ddp_path_setup\n");
+>  	for (i = 0; i < mtk_crtc->ddp_comp_nr - 1; i++) {
+>  		mtk_ddp_add_comp_to_path(mtk_crtc->config_regs,
+>  					 mtk_crtc->ddp_comp[i]->id,
+> @@ -348,7 +344,6 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
+>  	struct drm_crtc *crtc = &mtk_crtc->base;
+>  	int i;
+>  
+> -	DRM_DEBUG_DRIVER("%s\n", __func__);
+>  	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
+>  		mtk_ddp_comp_stop(mtk_crtc->ddp_comp[i]);
+>  		if (i == 1)
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index 17f118ee0e57..4934834977b3 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -570,7 +570,6 @@ static int mtk_drm_sys_suspend(struct device *dev)
+>  	int ret;
+>  
+>  	ret = drm_mode_config_helper_suspend(drm);
+> -	DRM_DEBUG_DRIVER("mtk_drm_sys_suspend\n");
+>  
+>  	return ret;
+>  }
+> @@ -582,7 +581,6 @@ static int mtk_drm_sys_resume(struct device *dev)
+>  	int ret;
+>  
+>  	ret = drm_mode_config_helper_resume(drm);
+> -	DRM_DEBUG_DRIVER("mtk_drm_sys_resume\n");
+>  
+>  	return ret;
+>  }
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
