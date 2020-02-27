@@ -1,61 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD08817163D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 12:46:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2709B171668
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 12:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF70E6E84F;
-	Thu, 27 Feb 2020 11:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2E5089E2A;
+	Thu, 27 Feb 2020 11:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A82446E84F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 11:46:27 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id r7so647072wro.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 03:46:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=cTBJSroA9RJ+8lBEwYkKnNGeXoVHBYBbqwTPMLg2F9o=;
- b=f6IaWn5/yo6zdY5X0ONlrcO/16bC0jHGTfMt38t7p56Jk/StSR2GrXddKXOery9A+q
- bsjgvdrg9L2Y5X/z9mPZ40VcKxSzvjl/BcWiURUpE3UAHihkGE+aNwqW/hQHYlzJgTgZ
- dfkiTG5kuvTJCd5dwZrlgZojGkh2FdtDn/Motiqg1mztRnu9q46TLh5KM8w8xNboLfWi
- 8CDE32ktJ+g+I1TZDeJIVMR3WVojdFKmDI2+8Me3bjD1iR73YZ3bq3EhQ9l8C/B8ULlL
- F/KJj4448hTB1c4I+t6S2FwLOa1EMsR98TeyclEAn/s0Obty8TAwe9cBsru+gLOVAy96
- nLug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cTBJSroA9RJ+8lBEwYkKnNGeXoVHBYBbqwTPMLg2F9o=;
- b=OymQZ3uBGOZU4GVYMSde9bAo+EYry1va/J1dW6o5C2dr3zGZNAPK1Wd7kV/HpwcmEt
- 6NkjuORMU+ONwb12QDclNGYldF0Bpko5YUeRXpA+W/h7p8hTsrhYOXcnuBjH/lsOBxOf
- yMJlVtylOnFkt+NnF8rP0mR+J0gRSjqXqeI2sK8jxkNlRmQVJE9dCC1yIbMrPdipkeTe
- YSSGH/hAGoD5OLgvqVVpYDkpWg+2rDjDJWjFhtaOyneA3nUOfpb04hseqw+wsf2wBE/3
- FSBxUtFKIIGhi/gWH95h3Uk+toPeXfesmdONWzXT0gGa3jmJsXJ9xZFj/vfRuJjTLEDs
- HYsg==
-X-Gm-Message-State: APjAAAWwr4jL7VrNNJOTA+1N80stdhnBsyVEATCCKDx0QF1NbPAY1bhr
- GuOAGDW0y0QFRAtVAOVkAuYC0w==
-X-Google-Smtp-Source: APXvYqz1InEhOPcHB1heYSDPHQuazWq7emWdftcDiZpOvuTUa9UVkpntp5/WkSSXkFxYObe7pXC9kQ==
-X-Received: by 2002:adf:efc4:: with SMTP id i4mr4509410wrp.225.1582803986345; 
- Thu, 27 Feb 2020 03:46:26 -0800 (PST)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id 133sm7667950wme.32.2020.02.27.03.46.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 03:46:25 -0800 (PST)
-Date: Thu, 27 Feb 2020 11:46:23 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Colin King <colin.king@canonical.com>
-Subject: Re: [PATCH][V2] backlight: sky81452: insure while loop does not
- allow negative array indexing
-Message-ID: <20200227114623.vaevrdwiduxa2mqs@holly.lan>
-References: <20200226195826.6567-1-colin.king@canonical.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 643326E873
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 11:53:13 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1j7Hj0-0003fl-HA; Thu, 27 Feb 2020 12:53:06 +0100
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1j7His-00068v-Qd; Thu, 27 Feb 2020 12:52:58 +0100
+Message-ID: <d91b38bca62006cdf0a2433d088e2744c867064d.camel@pengutronix.de>
+Subject: Re: [PATCH v3 3/4] dt-bindings: display: imx: add bindings for DCSS
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Laurentiu Palcu <laurentiu.palcu@nxp.com>, Shawn Guo
+ <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>
+Date: Thu, 27 Feb 2020 12:52:58 +0100
+In-Reply-To: <1575625964-27102-4-git-send-email-laurentiu.palcu@nxp.com>
+References: <1575625964-27102-1-git-send-email-laurentiu.palcu@nxp.com>
+ <1575625964-27102-4-git-send-email-laurentiu.palcu@nxp.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200226195826.6567-1-colin.king@canonical.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,57 +52,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- kernel-janitors@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Bryan Wu <cooloney@gmail.com>, Gyungoh Yoo <jack.yoo@skyworksinc.com>,
+Cc: devicetree@vger.kernel.org, agx@sigxcpu.org, lukas@mntmn.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Lee Jones <lee.jones@linaro.org>
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2020 at 07:58:26PM +0000, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+Hi Laurentiu,
+
+On Fri, 2019-12-06 at 11:52 +0200, Laurentiu Palcu wrote:
+> Add bindings for iMX8MQ Display Controller Subsystem.
 > 
-> In the unlikely event that num_entry is zero, the while loop
-> pre-decrements num_entry to cause negative array indexing into the
-> array sources. Fix this by iterating only if num_entry >= 0.
-> 
-> Addresses-Coverity: ("Out-of-bounds read")
-> Fixes: f705806c9f35 ("backlight: Add support Skyworks SKY81452 backlight driver")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@nxp.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
+>  .../bindings/display/imx/nxp,imx8mq-dcss.yaml      | 86 ++++++++++++++++++++++
+>  1 file changed, 86 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
 > 
-> V2: fix typo in commit subject line
+> diff --git a/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+> new file mode 100644
+> index 00000000..efd2494
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+> @@ -0,0 +1,86 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright 2019 NXP
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/display/imx/nxp,imx8mq-dcss.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: iMX8MQ Display Controller Subsystem (DCSS)
+> +
+> +maintainers:
+> +  - Laurentiu Palcu <laurentiu.palcu@nxp.com>
+> +
+> +description:
+> +
+> +  The DCSS (display controller sub system) is used to source up to three
+> +  display buffers, compose them, and drive a display using HDMI 2.0a(with HDCP
+> +  2.2) or MIPI-DSI. The DCSS is intended to support up to 4kp60 displays. HDR10
+> +  image processing capabilities are included to provide a solution capable of
+> +  driving next generation high dynamic range displays.
+> +
+> +properties:
+> +  compatible:
+> +    const: nxp,imx8mq-dcss
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  interrupts:
+> +    maxItems: 3
+> +    items:
+> +      - description: Context loader completion and error interrupt
+> +      - description: DTG interrupt used to signal context loader trigger time
+> +      - description: DTG interrupt for Vblank
+> +
+> +  interrupt-names:
+> +    maxItems: 3
+> +    items:
+> +      - const: ctx_ld
+> +      - const: ctxld_kick
+> +      - const: vblank
+> +
+> +  clocks:
+> +    maxItems: 5
+> +    items:
+> +      - description: Display APB clock for all peripheral PIO access interfaces
+> +      - description: Display AXI clock needed by DPR, Scaler, RTRAM_CTRL
+> +      - description: RTRAM clock
+> +      - description: Pixel clock, can be driver either by HDMI phy clock or MIPI
+> +      - description: DTRC clock, needed by video decompressor
+> +
+> +  clock-names:
+> +    items:
+> +      - const: apb
+> +      - const: axi
+> +      - const: rtrm
+> +      - const: pix
+> +      - const: dtrc
+> +
+> +  port@0:
 
-Isn't the correct spelling "ensure"?
+If there is just a single output port, I think the @0 unit address
+should be dropped. Otherwise the port node needs to contain a "reg =
+<0>;" property in the example below:
 
+> +    type: object
+> +    description: A port node pointing to a hdmi_in or mipi_in port node.
+> +
+> +examples:
+> +  - |
+> +    dcss: display-controller@32e00000 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
 
-> ---
->  drivers/video/backlight/sky81452-backlight.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/backlight/sky81452-backlight.c b/drivers/video/backlight/sky81452-backlight.c
-> index 2355f00f5773..f456930ce78e 100644
-> --- a/drivers/video/backlight/sky81452-backlight.c
-> +++ b/drivers/video/backlight/sky81452-backlight.c
-> @@ -200,7 +200,7 @@ static struct sky81452_bl_platform_data *sky81452_bl_parse_dt(
->  		}
->  
->  		pdata->enable = 0;
-> -		while (--num_entry)
-> +		while (--num_entry >= 0)
->  			pdata->enable |= (1 << sources[num_entry]);
+/soc@0/bus@32c00000/display-controller@32e00000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
-This look still looks buggy to me (so I'd second Walter's request to
-change it to a for loop). If the code genuinely does not contain a
-bug then it probably needs a prominent comment explaining why it is
-correct not to honour sources[0]!
+> +        compatible = "nxp,imx8mq-dcss";
+> +        reg = <0x32e00000 0x2d000>, <0x32e2f000 0x1000>;
+> +        interrupts = <6>, <8>, <9>;
+> +        interrupt-names = "ctx_ld", "ctxld_kick", "vblank";
+> +        interrupt-parent = <&irqsteer>;
+> +        clocks = <&clk 248>, <&clk 247>, <&clk 249>,
+> +                 <&clk 254>,<&clk 122>;
+> +        clock-names = "apb", "axi", "rtrm", "pix", "dtrc";
+> +        assigned-clocks = <&clk 107>, <&clk 109>, <&clk 266>;
+> +        assigned-clock-parents = <&clk 78>, <&clk 78>, <&clk 3>;
+> +        assigned-clock-rates = <800000000>,
+> +                               <400000000>;
+> +        port@0 {
 
+/soc@0/bus@32c00000/display-controller@32e00000/port@0: node has a unit name, but no reg property
 
-Daniel.
+regards
+Philipp
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
