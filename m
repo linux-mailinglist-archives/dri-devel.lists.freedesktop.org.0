@@ -1,44 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12780170E59
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 03:19:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20594170F29
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 04:41:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A085E6E3A6;
-	Thu, 27 Feb 2020 02:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0AF189DE6;
+	Thu, 27 Feb 2020 03:41:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id CAB626E3A6
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 02:19:52 +0000 (UTC)
-X-UUID: 23464d44001a40d2a641030f2d998ab9-20200227
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=K4gGve8y0GjmB4JegJVgO+MM4WVhEqGsHCW/PaLyMBE=; 
- b=NmTxK+hDuJjB44uoqb2qj3OW6lWT6qKXjcslPrTxOlIjF0M6JmpTjx6/+1GSZcRWXz2ieI61kB8O2o3jmaM2Xhl7yJkCPBZq3evrfs8aXvNYGaJelcUFHPCpWDL4WtaOyIiQj0StsM5tyJBAdSWjb1An2aFmO9KplErdHO3WmFo=;
-X-UUID: 23464d44001a40d2a641030f2d998ab9-20200227
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 141035688; Thu, 27 Feb 2020 10:19:47 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 27 Feb 2020 10:18:53 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 27 Feb 2020 10:19:51 +0800
-Message-ID: <1582769985.20746.10.camel@mtksdaap41>
-Subject: Re: [PATCH v9 0/4] arm64: mediatek: Fix mt8173 mmsys device probing
-From: CK Hu <ck.hu@mediatek.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Date: Thu, 27 Feb 2020 10:19:45 +0800
-In-Reply-To: <20200226105419.632771-1-enric.balletbo@collabora.com>
-References: <20200226105419.632771-1-enric.balletbo@collabora.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE88189DE6;
+ Thu, 27 Feb 2020 03:41:16 +0000 (UTC)
+Received: by mail-qt1-x836.google.com with SMTP id g21so1266724qtq.10;
+ Wed, 26 Feb 2020 19:41:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6orLO/3pGNWLNM0H5+qwC2tjFm4CPyDoE73ZPpZfueI=;
+ b=q9KyqVFCIDzxuKJxocmZRwG/PtU9oHcPqrWDDe0ds/OXHBAqB3ya90ZYmC9IYo9ITr
+ sFXdFnG4mo3W/czOVrVdfRqeNgB0GUFBMLj+aCYy5WkTGyBO2objC3Z1yNBk1QmBEpxo
+ /Qqz8WIRQXFnwXOOjLrmZPssMY2x+EINnzcOAPuUBF8wdUMOvYkQvC1SIAivVKBTZf/f
+ Hh9rHXHma+4PRRtr8Y3h/BGCSdcAjQe8Cvvn+tacAvwalvGKNW98SgMKVckwYFkSHtTT
+ bdqpO150Vq4slcITyCOEfAZNcPIYx/s44QbWln4snyp7B1mjPK/jii3mE+9DSKdNatLh
+ 6d3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6orLO/3pGNWLNM0H5+qwC2tjFm4CPyDoE73ZPpZfueI=;
+ b=m6sZsopbU3KYbQsXCFQoNYoiZXXmActzLlwUb5lwQ2rl9PrdoJR6LHg+YdJ5zZpeMp
+ +SFbBU8XxC1Yxf0VtXXI8uFl19O3O1kHA87qsbyRcVeSnCSNH5DNA9hYj9MBbhkfQsAm
+ UFgXNqnXa123V1UQ6ov4rMq/3sPnrHWbP8kWmuZclYyOqcecGqm0OSTB16g2K8xc6JqH
+ oes6tKg+1pRtO+GX6V6jKeLJLhfqOg2bAYyXhKoC+4ERjrZE6IDhvGnmdAkBXFIc//s7
+ Cdhp2brjGPVuAMoAE4A54OqnJxRCjx1kUYG/Vobe4BlOpbgYe/Vcbylc7S9UrXA+6FKt
+ bjmA==
+X-Gm-Message-State: APjAAAWwG4IaxZe2FRi8E0kr1XID0KczEVZipmFhil5CqOj0ubOZ/+af
+ yUHcIi0bxGTNRUy4mhlrxx0zaLrQ
+X-Google-Smtp-Source: APXvYqynVNnyIpxc+WoMMkxSraAn4Yq6rgaFEv7kcdMQ7bVDiGbIUTT0SZHIh/yWsgFiFSr+LPFN/w==
+X-Received: by 2002:ac8:1c64:: with SMTP id j33mr2456669qtk.69.1582774875788; 
+ Wed, 26 Feb 2020 19:41:15 -0800 (PST)
+Received: from localhost.localdomain ([71.219.59.120])
+ by smtp.gmail.com with ESMTPSA id j22sm2306404qkk.45.2020.02.26.19.41.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 19:41:15 -0800 (PST)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] radeon, amdgpu 5.6 fixes
+Date: Wed, 26 Feb 2020 22:41:06 -0500
+Message-Id: <20200227034106.3912-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,141 +66,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
- mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
- Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
- ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
- linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
- Allison Randal <allison@lohutok.net>, mtk01761 <wendell.lin@mediatek.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
- sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
- robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <mbrugger@suse.com>, sboyd@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Enric:
+Hi Dave, Daniel,
 
-I would like you to modify mmsys binding document. In current document,
-mmsys is a clock controller, but I think it's a system controller
-including clock control, routing control, and miscellaneous control in
-mmsys partition.
+Fixes for 5.6.
 
-Regards,
-CK
+The following changes since commit 97d9a4e9619a822c5baf6a63e6f5b80fee4d4213:
 
-On Wed, 2020-02-26 at 11:54 +0100, Enric Balletbo i Serra wrote:
-> Dear all,
-> 
-> Those patches are intended to solve an old standing issue on some
-> Mediatek devices (mt8173, mt2701 and mt2712).
-> 
-> Up to now both drivers, clock and drm are probed with the same device tree
-> compatible. But only the first driver gets probed, which in effect breaks
-> graphics on those devices.
-> 
-> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
-> control clock gates (which is used in the clk driver) and some registers
-> to set the routing and enable the differnet blocks of the display
-> and MDP (Media Data Path) subsystem. On this series the clk driver is
-> not a pure clock controller but a system controller that can provide
-> access to the shared registers between the different drivers that need
-> it (mediatek-drm and mediatek-mdp). Hence the MMSYS clk driver was moved
-> to drivers/soc/mediatek and is the entry point (parent) which will trigger
-> the probe of the corresponding mediatek-drm driver.
-> 
-> **IMPORTANT** This series only fixes the issue on mt8173 to make it
-> simple and as is the only platform I can test. Similar changes should be
-> applied for mt2701 and mt2712 to have display working.
-> 
-> For reference, here are the links to the old discussions:
-> * v8: https://patchwork.kernel.org/project/linux-mediatek/list/?series=244891
-> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
-> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
-> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
-> * v4:
->   * https://patchwork.kernel.org/patch/10530871/
->   * https://patchwork.kernel.org/patch/10530883/
->   * https://patchwork.kernel.org/patch/10530885/
->   * https://patchwork.kernel.org/patch/10530911/
->   * https://patchwork.kernel.org/patch/10530913/
-> * v3:
->   * https://patchwork.kernel.org/patch/10367857/
->   * https://patchwork.kernel.org/patch/10367861/
->   * https://patchwork.kernel.org/patch/10367877/
->   * https://patchwork.kernel.org/patch/10367875/
->   * https://patchwork.kernel.org/patch/10367885/
->   * https://patchwork.kernel.org/patch/10367883/
->   * https://patchwork.kernel.org/patch/10367889/
->   * https://patchwork.kernel.org/patch/10367907/
->   * https://patchwork.kernel.org/patch/10367909/
->   * https://patchwork.kernel.org/patch/10367905/
-> * v2: No relevant discussion, see v3
-> * v1:
->   * https://patchwork.kernel.org/patch/10016497/
->   * https://patchwork.kernel.org/patch/10016499/
->   * https://patchwork.kernel.org/patch/10016505/
->   * https://patchwork.kernel.org/patch/10016507/
-> 
-> Best regards,
->  Enric
-> 
-> Changes in v9:
-> - Move mmsys to drivers/soc/mediatek (CK)
-> - Do not move the display routing from the drm driver (CK)
-> - Removed from this series because are not needed:
->   * [PATCH v8 5/6] drm/mediatek: Move MMSYS configuration to include/linux/platform_data
-> - Removed from this series because are applied:
->   * [PATCH v8 3/6] media: mtk-mdp: Check return value of of_clk_get.
-> 
-> Changes in v8:
-> - Select REGMAP and MFD_SYSCON (Randy Dunlap)
-> - Be a builtin_platform_driver like other mediatek mmsys drivers.
-> - New patch introduced in this series.
-> 
-> Changes in v7:
-> - Add R-by from CK
-> - Free clk_data->clks as well
-> - Get rid of private data structure
-> 
-> Enric Balletbo i Serra (1):
->   drm/mediatek: Fix mediatek-drm device probing
-> 
-> Matthias Brugger (3):
->   drm/mediatek: Use regmap for register access
->   drm/mediatek: Omit warning on probe defers
->   soc: mediatek: Move mt8173 MMSYS to platform driver
-> 
->  drivers/clk/mediatek/clk-mt8173.c         | 104 ----------------
->  drivers/gpu/drm/mediatek/Kconfig          |   2 +
->  drivers/gpu/drm/mediatek/mtk_disp_color.c |   5 +-
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c   |   5 +-
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c  |   5 +-
->  drivers/gpu/drm/mediatek/mtk_dpi.c        |  12 +-
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c   |   4 +-
->  drivers/gpu/drm/mediatek/mtk_drm_ddp.c    |  53 ++++----
->  drivers/gpu/drm/mediatek/mtk_drm_ddp.h    |   4 +-
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c    |  45 ++++---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.h    |   2 +-
->  drivers/gpu/drm/mediatek/mtk_dsi.c        |   8 +-
->  drivers/gpu/drm/mediatek/mtk_hdmi.c       |   4 +-
->  drivers/soc/mediatek/Kconfig              |   7 ++
->  drivers/soc/mediatek/Makefile             |   1 +
->  drivers/soc/mediatek/mt8173-mmsys.c       | 143 ++++++++++++++++++++++
->  16 files changed, 233 insertions(+), 171 deletions(-)
->  create mode 100644 drivers/soc/mediatek/mt8173-mmsys.c
-> 
+  Merge tag 'drm-intel-fixes-2020-02-20' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2020-02-21 12:46:54 +1000)
 
+are available in the Git repository at:
+
+  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.6-2020-02-26
+
+for you to fetch changes up to eb12c957735b582607e5842a06d1f4c62e185c1d:
+
+  drm/radeon: Inline drm_get_pci_dev (2020-02-26 14:02:41 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.6-2020-02-26:
+
+amdgpu:
+- Drop DRIVER_USE_AGP
+- Fix memory leak in GPU reset
+- Resume fix for raven
+
+radeon:
+- Drop DRIVER_USE_AGP
+
+----------------------------------------------------------------
+Daniel Vetter (2):
+      drm/amdgpu: Drop DRIVER_USE_AGP
+      drm/radeon: Inline drm_get_pci_dev
+
+Monk Liu (1):
+      drm/amdgpu: fix memory leak during TDR test(v2)
+
+Shirish S (1):
+      amdgpu/gmc_v9: save/restore sdpif regs during S3
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h            |  1 +
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              | 37 ++++++++++++++++++-
+ .../drm/amd/include/asic_reg/dce/dce_12_0_offset.h |  2 +
+ drivers/gpu/drm/amd/powerplay/smu_v11_0.c          |  6 ++-
+ drivers/gpu/drm/radeon/radeon_drv.c                | 43 +++++++++++++++++++++-
+ drivers/gpu/drm/radeon/radeon_kms.c                |  6 +++
+ 7 files changed, 92 insertions(+), 5 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
