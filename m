@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F2D170CEB
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 01:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F277170D24
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 01:26:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0536E2A9;
-	Thu, 27 Feb 2020 00:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60C256E32E;
+	Thu, 27 Feb 2020 00:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAD06E2A9
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 00:03:02 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id z1so1163660iom.9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 16:03:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tZtnM0e+xr4AH9861svl/LlAtVjcSg0W4wskznM5ZKY=;
- b=C4wxSclBqOr2LuIMMwxD7oLZMwwjbp4vTUF3ZiBhz/VGtOdBYagVxf6pObpH9POUo+
- m9ci0oJvKahUD2zyeWp3IAIxTbFjQVVcZx/n8jU28HdofOZvk9KMGrHvBMt3p+IgFb8g
- bj35iSwW6vw6J43AhaGoR0aU6MEDc7I2lbQ6A3Qm4jf4W+ZNeWmnGUgxPRp7bHlpNsQx
- ombBRcrwfqlXWMwnY26xViHnqggxOEAnHlyjACJtW1+TSAnvTAmNA51IGzRc3VYslq0C
- NzNrdK2FGKqfrVRJMVt0lGSVy4UK+M2L5RuGU3jHRTg4uuI/4kUYmLAAXDVE8dwpL5T9
- YY1g==
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F5DF6E32E
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 00:26:06 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id i19so650594pfa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 16:26:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AS43pUpXSRGzOTOzoLRX9i5f6JnqbgZ1rU3Shx1jgpw=;
+ b=eM8uJ8TdkAXzJP/MvTmZ+ozaRzETNlH8sBtgUuFAv0NxooMsly3I5Wlptv6huifk8D
+ MTdXGtJxQ6Q6E3SxyGQoHU+ATyvEqKEWunDY6PXu5U06zALCURINhk1kx5W1/wFcq6Oo
+ TDZO1xyaAkQPJKYB9NUNWH4HfP4Hfb1J6mnlk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tZtnM0e+xr4AH9861svl/LlAtVjcSg0W4wskznM5ZKY=;
- b=C+op8G2h5OOOjOJKd8BOaFmU1OEvwAFQ3I7YJAC3t1NU9WZ3kGvQ1V8VXiz0kj+cH8
- hbWKwef8NgcLXSZQ7PMN634QGc64H0LZoNy+5RLXBI3FvgGIyLmshUg5LJ8wa4QVB9Mm
- rvJgbz9Bu0SahzcBXkO1AsrNOi8vy3nZbTa4dkms+a/eCy3GoDBMzn/HfvmSDy6K7EK8
- kfawO9s2q6VSbmc0n2b2xZ+aYQZ4YXczFGGjI+2zcP6mBOdeafN/ipS3mucwVL0cNbvv
- ZXombwrbplWc38paPoSe/6cPggb22P7Ei2cE/dmfnQdVK+WLqKuPxoMgNBk30lN/kiv9
- xdAg==
-X-Gm-Message-State: APjAAAUvyHiHQ4ww3DwBZAukiW9ElctF9o9v98plIsgAAC55EDfgCnVb
- Q+8fJHG/vMoCWSQ/ARGuukU7FRVvLsOOc5bFUCY=
-X-Google-Smtp-Source: APXvYqxIn6NGD5ZRlTLPjMi1xq0GHuB1mJN4ffE/xw86VQ9rk0Y9Jvv0lkfcwSmGVSmMhb01pzQedOOsmhGlIxm0Cis=
-X-Received: by 2002:a02:c815:: with SMTP id p21mr65171jao.20.1582761781497;
- Wed, 26 Feb 2020 16:03:01 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AS43pUpXSRGzOTOzoLRX9i5f6JnqbgZ1rU3Shx1jgpw=;
+ b=R0viNh87xxT8lfPKVNMHIpQ/TT613VC5yluWL40uwFcldpFk7afGtqkl5oqAa2hVmn
+ iv0nkL/u8H0rMgv6SYIRYUgGVaz9DJt9K5zQQ+DNx6iaTx9S8FW/8DsdXXi4f6wML1w1
+ GdotyKP8/0pwJa3htzxUCnlhCzi29rdPIWEIVVSjLGDgTqzx9VQSh2YuG9BVcPY+mlDZ
+ IFBPAIP4nI7bMbwqkX/mAu2b6C+OzFNtLzwW0CQepqsEXKPGPXGd1h77LiduuioZUJKX
+ 4ka7y7Qfv8CJnuRjAYYJRvDAjkoBsc6lQ6cd1AdzmCa/xlxIATDLKVwPQe6gclK1KN5R
+ OUVw==
+X-Gm-Message-State: APjAAAVIq2aLdwrWHv+o37unQIIUpfmC/Lo8CmTATjJ3KKXtSD7npQIL
+ +6dz/e8BuQWDOACwsiANakKKnhHa8fA=
+X-Google-Smtp-Source: APXvYqwdcBqcvjl/EK4/wbzAc9dbFQwRBLnj7OcUY//N3V/YzmlES5fxkDmnlEExAglgS1V5U9gvsg==
+X-Received: by 2002:a62:f247:: with SMTP id y7mr1318682pfl.5.1582763165896;
+ Wed, 26 Feb 2020 16:26:05 -0800 (PST)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:bc97:5740:52a7:6875])
+ by smtp.gmail.com with ESMTPSA id d14sm4522237pfq.117.2020.02.26.16.26.05
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Wed, 26 Feb 2020 16:26:05 -0800 (PST)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH 0/8] *** Refactor struct virtgpu_object ***
+Date: Wed, 26 Feb 2020 16:25:53 -0800
+Message-Id: <20200227002601.745-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200226154752.24328-1-kraxel@redhat.com>
- <20200226154752.24328-2-kraxel@redhat.com>
- <f1afba4b-9c06-48a3-42c7-046695947e91@shipmail.org>
-In-Reply-To: <f1afba4b-9c06-48a3-42c7-046695947e91@shipmail.org>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Wed, 26 Feb 2020 16:02:50 -0800
-Message-ID: <CAPaKu7R4VFYnk9UdpguZnkWeKk2ELVnoQ60=i72RN2GkME1ukw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] drm/shmem: add support for per object caching
- flags.
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28VMware=29?= <thomas_os@shipmail.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,93 +62,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guillaume Gardet <Guillaume.Gardet@arm.com>,
- David Airlie <airlied@linux.ie>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, tzimmermann@suse.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>, kraxel@redhat.com,
+ jbates@chromium.org
+Content-Type: multipart/mixed; boundary="===============1083828535=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBGZWIgMjYsIDIwMjAgYXQgMTA6MjUgQU0gVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2Fy
-ZSkKPHRob21hc19vc0BzaGlwbWFpbC5vcmc+IHdyb3RlOgo+Cj4gSGksIEdlcmQsCj4KPiBXaGls
-ZSBsb29raW5nIGF0IHRoaXMgcGF0Y2hzZXQgSSBjYW1lIGFjcm9zcyBzb21lIHN0dWZmIHRoYXQg
-c2VlbXMKPiBzdHJhbmdlIGJ1dCB0aGF0IHdhcyBtZXJnZWQgaW4gYSBwcmV2aW91cyBwYXRjaHNl
-dC4KPgo+IChwbGVhc2UgcmVmZXIgdG8KPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9h
-cmNoaXZlcy9kcmktZGV2ZWwvMjAxOC1TZXB0ZW1iZXIvMTkwMDAxLmh0bWwuCj4gRm9yZ2l2ZSBt
-ZSBpZiBJJ3ZlIG1pc3NlZCBhbnkgZGlzY3Vzc2lvbiBsZWFkaW5nIHVwIHRvIHRoaXMpLgo+Cj4K
-PiBPbiAyLzI2LzIwIDQ6NDcgUE0sIEdlcmQgSG9mZm1hbm4gd3JvdGU6Cj4gPiBBZGQgbWFwX2Nh
-Y2hlZCBib29sIHRvIGRybV9nZW1fc2htZW1fb2JqZWN0LCB0byByZXF1ZXN0IGNhY2hlZCBtYXBw
-aW5ncwo+ID4gb24gYSBwZXItb2JqZWN0IGJhc2UuICBDaGVjayB0aGUgZmxhZyBiZWZvcmUgYWRk
-aW5nIHdyaXRlY29tYmluZSB0bwo+ID4gcGdwcm90IGJpdHMuCj4gPgo+ID4gQ2M6IHN0YWJsZUB2
-Z2VyLmtlcm5lbC5vcmcKPiA+IFNpZ25lZC1vZmYtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEBy
-ZWRoYXQuY29tPgo+ID4gLS0tCj4gPiAgIGluY2x1ZGUvZHJtL2RybV9nZW1fc2htZW1faGVscGVy
-LmggICAgIHwgIDUgKysrKysKPiA+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVs
-cGVyLmMgfCAxNSArKysrKysrKysrKy0tLS0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNl
-cnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Ry
-bS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxw
-ZXIuaAo+ID4gaW5kZXggZTM0YTdiN2Y4NDhhLi4yOTRiMjkzMWM0Y2MgMTAwNjQ0Cj4gPiAtLS0g
-YS9pbmNsdWRlL2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oCj4gPiArKysgYi9pbmNsdWRlL2Ry
-bS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oCj4gPiBAQCAtOTYsNiArOTYsMTEgQEAgc3RydWN0IGRy
-bV9nZW1fc2htZW1fb2JqZWN0IHsKPiA+ICAgICAgICAqIFRoZSBhZGRyZXNzIGFyZSB1bi1tYXBw
-ZWQgd2hlbiB0aGUgY291bnQgcmVhY2hlcyB6ZXJvLgo+ID4gICAgICAgICovCj4gPiAgICAgICB1
-bnNpZ25lZCBpbnQgdm1hcF91c2VfY291bnQ7Cj4gPiArCj4gPiArICAgICAvKioKPiA+ICsgICAg
-ICAqIEBtYXBfY2FjaGVkOiBtYXAgb2JqZWN0IGNhY2hlZCAoaW5zdGVhZCBvZiB1c2luZyB3cml0
-ZWNvbWJpbmUpLgo+ID4gKyAgICAgICovCj4gPiArICAgICBib29sIG1hcF9jYWNoZWQ7Cj4gPiAg
-IH07Cj4gPgo+ID4gICAjZGVmaW5lIHRvX2RybV9nZW1fc2htZW1fb2JqKG9iaikgXAo+ID4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jIGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKPiA+IGluZGV4IGE0MjFhMmVlZDQ4YS4u
-YWFkOTMyNGRjZjRmIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2ht
-ZW1faGVscGVyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBl
-ci5jCj4gPiBAQCAtMjU0LDExICsyNTQsMTYgQEAgc3RhdGljIHZvaWQgKmRybV9nZW1fc2htZW1f
-dm1hcF9sb2NrZWQoc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICpzaG1lbSkKPiA+ICAgICAg
-IGlmIChyZXQpCj4gPiAgICAgICAgICAgICAgIGdvdG8gZXJyX3plcm9fdXNlOwo+ID4KPiA+IC0g
-ICAgIGlmIChvYmotPmltcG9ydF9hdHRhY2gpCj4gPiArICAgICBpZiAob2JqLT5pbXBvcnRfYXR0
-YWNoKSB7Cj4gPiAgICAgICAgICAgICAgIHNobWVtLT52YWRkciA9IGRtYV9idWZfdm1hcChvYmot
-PmltcG9ydF9hdHRhY2gtPmRtYWJ1Zik7Cj4gPiAtICAgICBlbHNlCj4gPiArICAgICB9IGVsc2Ug
-ewo+ID4gKyAgICAgICAgICAgICBwZ3Byb3RfdCBwcm90ID0gUEFHRV9LRVJORUw7Cj4gPiArCj4g
-PiArICAgICAgICAgICAgIGlmICghc2htZW0tPm1hcF9jYWNoZWQpCj4gPiArICAgICAgICAgICAg
-ICAgICAgICAgcHJvdCA9IHBncHJvdF93cml0ZWNvbWJpbmUocHJvdCk7Cj4gPiAgICAgICAgICAg
-ICAgIHNobWVtLT52YWRkciA9IHZtYXAoc2htZW0tPnBhZ2VzLCBvYmotPnNpemUgPj4gUEFHRV9T
-SElGVCwKPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWTV9NQVAsIHBncHJv
-dF93cml0ZWNvbWJpbmUoUEFHRV9LRVJORUwpKTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBWTV9NQVAsIHByb3QpCj4KPgo+IFdvdWxkbid0IGEgdm1hcCB3aXRoIHBncHJv
-dF93cml0ZWNvbWJpbmUoKSBjcmVhdGUgY29uZmxpY3RpbmcgbWFwcGluZ3MKPiB3aXRoIHRoZSBs
-aW5lYXIga2VybmVsIG1hcCB3aGljaCBpcyBub3Qgd3JpdGUtY29tYmluZWQ/IE9yIGRvIHlvdSBj
-aGFuZ2UKPiB0aGUgbGluZWFyIGtlcm5lbCBtYXAgb2YgdGhlIHNobWVtIHBhZ2VzIHNvbWV3aGVy
-ZT8gdm1hcCBieXBhc3Nlc3MgYXQKPiBsZWFzdCB0aGUgeDg2IFBBVCBjb3JlIG1hcHBpbmcgY29u
-c2lzdGVuY3kgY2hlY2sgYW5kIHRoaXMgY291bGQKPiBwb3RlbnRpYWxseSBjYXVzZSBzcHVyaW91
-c2x5IG92ZXJ3cml0dGVuIG1lbW9yeS4KClllYWgsIEkgdGhpbmsgdGhpcyBjcmVhdGVzIGEgY29u
-ZmxpY3RpbmcgYWxpYXMuICBJdCBzZWVtcyBhIGNhbGwgdG8Kc2V0X3BhZ2VzX2FycmF5X3djIGhl
-cmUgb3IgY2hhbmdlcyBlbHNld2hlcmUgaXMgbmVlZGVkLi4KCkJ1dCB0aGlzIGlzIGEgcHJlLWV4
-aXN0aW5nIGlzc3VlIGluIHRoZSBzaG1lbSBoZWxwZXIuICBUaGVyZSBpcyBhbHNvCm5vIHVuaXZl
-cnNhbCBmaXggKGUuZy4sIHNldF9wYWdlc19hcnJheV93YyBpcyB4ODYgb25seSk/ICBJIHdvdWxk
-IGhvcGUKdGhpcyBzZXJpZXMgY2FuIGJlIG1lcmdlZCBzb29uZXIgdG8gZml4IHRoZSByZWdyZXNz
-aW9uIGZpcnN0LgoKPgo+Cj4gPiArICAgICB9Cj4gPgo+ID4gICAgICAgaWYgKCFzaG1lbS0+dmFk
-ZHIpIHsKPiA+ICAgICAgICAgICAgICAgRFJNX0RFQlVHX0tNUygiRmFpbGVkIHRvIHZtYXAgcGFn
-ZXNcbiIpOwo+ID4gQEAgLTU0MCw3ICs1NDUsOSBAQCBpbnQgZHJtX2dlbV9zaG1lbV9tbWFwKHN0
-cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKPiA+
-ICAgICAgIH0KPiA+Cj4gPiAgICAgICB2bWEtPnZtX2ZsYWdzIHw9IFZNX01JWEVETUFQIHwgVk1f
-RE9OVEVYUEFORDsKPiA+IC0gICAgIHZtYS0+dm1fcGFnZV9wcm90ID0gcGdwcm90X3dyaXRlY29t
-YmluZSh2bV9nZXRfcGFnZV9wcm90KHZtYS0+dm1fZmxhZ3MpKTsKPiA+ICsgICAgIHZtYS0+dm1f
-cGFnZV9wcm90ID0gdm1fZ2V0X3BhZ2VfcHJvdCh2bWEtPnZtX2ZsYWdzKTsKPiA+ICsgICAgIGlm
-ICghc2htZW0tPm1hcF9jYWNoZWQpCj4gPiArICAgICAgICAgICAgIHZtYS0+dm1fcGFnZV9wcm90
-ID0gcGdwcm90X3dyaXRlY29tYmluZSh2bWEtPnZtX3BhZ2VfcHJvdCk7Cj4KPiBTYW1lIHRoaW5n
-IGhlcmUuIE5vdGUgdGhhdCB2bWZfaW5zZXJ0X3BhZ2UoKSB3aGljaCBpcyB1c2VkIGJ5IHRoZSBm
-YXVsdAo+IGhhbmRsZXIgYWxzbyBieXBhc3NlcyB0aGUgeDg2IFBBVCAgY29uc2lzdGVuY3kgY2hl
-Y2ssIHdoZXJlYXMKPiB2bWZfaW5zZXJ0X21peGVkKCkgZG9lc24ndC4KPgo+ID4gICAgICAgdm1h
-LT52bV9wYWdlX3Byb3QgPSBwZ3Byb3RfZGVjcnlwdGVkKHZtYS0+dm1fcGFnZV9wcm90KTsKPgo+
-IEF0IGxlYXN0IHdpdGggU01FIG9yIFNFViBlbmNyeXB0aW9uLCB3aGVyZSBzaG1lbSBtZW1vcnkg
-aGFzIGl0cyBrZXJuZWwKPiBtYXAgc2V0IHRvIGVuY3J5cHRlZCwgY3JlYXRpbmcgY29uZmxpY3Rp
-bmcgbWFwcGluZ3MgaXMgZXhwbGljaXRseQo+IGRpc2FsbG93ZWQuCj4gQlRXLCB3aHkgaXMgbW1h
-cCBtYXBwaW5nIGRlY3J5cHRlZCB3aGlsZSB2bWFwIGlzbid0Pwo+Cj4gPiAgICAgICB2bWEtPnZt
-X29wcyA9ICZkcm1fZ2VtX3NobWVtX3ZtX29wczsKPiA+Cj4KPiBUaGFua3MsCj4gVGhvbWFzCj4K
-Pgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+--===============1083828535==
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
+
+The main motivation behind this is to have eventually have something like this:
+
+struct virtio_gpu_shmem {
+    struct drm_gem_shmem_object base;
+    uint32_t hw_res_handle;
+    struct sg_table *pages;
+    (...)
+};
+
+struct virtio_gpu_vram {
+    struct drm_gem_object base;  // or *drm_gem_vram_object
+    uint32_t hw_res_handle;
+    {offset, range};
+    (...)
+};
+
+Sending this out to solicit feedback on this approach.  Whichever approach
+we decide, landing incremental changes to internal structures is reduces
+rebasing costs and avoids mega-changes.
+
+Gurchetan Singh (8):
+  drm/virtio: make mmap callback consistent with callbacks
+  drm/virtio: add virtio_gpu_is_shmem helper
+  drm/virtio: add virtio_gpu_get_handle function
+  drm/virtio: make RESOURCE_UNREF use virtio_gpu_get_handle(..)
+  drm/virtio: make {ATTACH_RESOURCE, DETACH_RESOURCE} use
+    virtio_gpu_get_handle(..)
+  drm/virtio: rename virtio_gpu_object_array to virtio_gpu_gem_array
+  drm/virtio: rename virtio_gpu_object_params to
+    virtio_gpu_create_params
+  drm/virtio: rename virtio_gpu_object to virtio_gpu_shmem
+
+ drivers/gpu/drm/virtio/virtgpu_drv.h    |  72 ++++++------
+ drivers/gpu/drm/virtio/virtgpu_gem.c    | 132 ++++++++++-----------
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c  |  50 ++++----
+ drivers/gpu/drm/virtio/virtgpu_object.c | 148 +++++++++++++-----------
+ drivers/gpu/drm/virtio/virtgpu_plane.c  |  52 ++++-----
+ drivers/gpu/drm/virtio/virtgpu_vq.c     | 113 +++++++++---------
+ 6 files changed, 298 insertions(+), 269 deletions(-)
+
+-- 
+2.25.1.481.gfbce0eb801-goog
+
+
+--===============1083828535==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1083828535==--
