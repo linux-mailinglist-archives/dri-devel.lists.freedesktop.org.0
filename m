@@ -2,99 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8144017139A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 10:03:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5614F17139C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 10:04:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A9726EC65;
-	Thu, 27 Feb 2020 09:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49C0D6EC61;
+	Thu, 27 Feb 2020 09:04:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C98F6EC63
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 09:03:29 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200227090327euoutp02b6743f518a9ba0687a287b5bcd07d828~3NvIkackW0364803648euoutp02m
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 09:03:27 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200227090327euoutp02b6743f518a9ba0687a287b5bcd07d828~3NvIkackW0364803648euoutp02m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1582794207;
- bh=VSYeQmmnVB2Spf8qkN4V5hPy1ERmEG1Vx16y5XLczSM=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=d3pn+ICSWbbQYhgdwc6JznXj6///m1nz7y/BG1PoUP+WOHZ59r3MYfdc2YmyyoMCd
- eCr5VSsDjWXXHLRO8+d4N4DGowvGZJT/+ZEM5zysTtBAiJtLvAJlT0dWxpMaDqX3mO
- x/3yXGNB5NZ8K0efNkI91+Wq8eqBNkzjjm3uZdq4=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200227090327eucas1p1e933b5f526259b70024a0f515f22f728~3NvITntRI0317403174eucas1p1E;
- Thu, 27 Feb 2020 09:03:27 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 8A.34.60698.FD5875E5; Thu, 27
- Feb 2020 09:03:27 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200227090327eucas1p28916eb777ad652053b002960a4d9c704~3NvH-faAy0147001470eucas1p2P;
- Thu, 27 Feb 2020 09:03:27 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200227090327eusmtrp2849f24f15a6099488014b836cb24a504~3NvH_uAls2350023500eusmtrp2r;
- Thu, 27 Feb 2020 09:03:27 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-44-5e5785df6564
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id F2.47.07950.ED5875E5; Thu, 27
- Feb 2020 09:03:26 +0000 (GMT)
-Received: from [106.120.51.74] (unknown [106.120.51.74]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200227090326eusmtip1497eabb3846ce67fdacbeaed906f3c47~3NvHp97J80715207152eusmtip1b;
- Thu, 27 Feb 2020 09:03:26 +0000 (GMT)
-Subject: Re: [PATCH] drm/exynos: hdmi: don't leak enable HDMI_EN regulator
- if probe fails
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <846fe12b-4326-9901-c276-2ebf16d2ba98@samsung.com>
-Date: Thu, 27 Feb 2020 10:03:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 91E946EC61
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 09:04:37 +0000 (UTC)
+X-UUID: 250bce76cc0449beb9849143d54869fc-20200227
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=s49kQ/4eBBv+UD7Hr3V2alwWMpIr4yXzqun9qCCm8kQ=; 
+ b=uOObFOEZ2OLqrPWfV6UHRh2NuRS3r9Wx+TD98rDpTzTM6XsEnERsdQzhxwHUH8VZ7a3KZh3McPkkI9Lv8PfjaBl3SfdjDk9Gae03OpEMFlTR09+IoIUHC2MxLbOeNeReSh3JzW5R+lZoOHhxU2T9z/8/fmQW/BxxHc5WAQ9pfAQ=;
+X-UUID: 250bce76cc0449beb9849143d54869fc-20200227
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1916145107; Thu, 27 Feb 2020 17:04:32 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 27 Feb 2020 17:03:36 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 27 Feb 2020 17:04:20 +0800
+Message-ID: <1582794271.1889.10.camel@mtksdaap41>
+Subject: Re: [PATCH v9 1/4] drm/mediatek: Use regmap for register access
+From: CK Hu <ck.hu@mediatek.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Date: Thu, 27 Feb 2020 17:04:31 +0800
+In-Reply-To: <07976851-8ac4-9c0d-3257-74fd4df74ef0@collabora.com>
+References: <20200226105419.632771-1-enric.balletbo@collabora.com>
+ <20200226105419.632771-2-enric.balletbo@collabora.com>
+ <1582765858.20746.2.camel@mtksdaap41>
+ <07976851-8ac4-9c0d-3257-74fd4df74ef0@collabora.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20200220125726.19442-1-m.szyprowski@samsung.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djP87r3W8PjDM6fE7DYOGM9q8WVr+/Z
- LGac38dksfbIXXaLGZNfsjmwetzvPs7k0bdlFaPH501yAcxRXDYpqTmZZalF+nYJXBkfzp5n
- KtigWHF/1kT2Bsb1Ml2MHBwSAiYSDZfzuxi5OIQEVjBK7Ll8mgXC+cIosbt9CTuE85lR4ubL
- s2xdjJxgHU8fXGaGSCxnlGja2gVV9ZZRYtOElSwgVcIC0RLdzcfBOkQESiXm/j/GDmIzCyRJ
- 7FzVyQpiswloSvzdfBOshlfATmLRhJuMIDaLgKrE7PbZzCC2qECExLTt/xghagQlTs58wgJy
- NydQ/fFviRAj5SWat0KUMwuIS9x6Mp8J5B4JgensEp07JjJBXO0i0f/zLdQHwhKvjm9hh7Bl
- JP7vnA9VUy9xf0ULM0RzB6PE1g07mSES1hJ3zv1iA1nMDHT0+l36EGFHifUPm5kh4cgnceOt
- IMQNfBKTtk2HCvNKdLQJQVQrStw/uxVqoLjE0gtf2SYwKs1C8tgsJN/MQvLNLIS9CxhZVjGK
- p5YW56anFhvnpZbrFSfmFpfmpesl5+duYgQmltP/jn/dwbjvT9IhRgEORiUe3oKksDgh1sSy
- 4srcQ4wSHMxKIrwbv4bGCfGmJFZWpRblxxeV5qQWH2KU5mBREuc1XvQyVkggPbEkNTs1tSC1
- CCbLxMEp1cAY03175pbIbmEzH3sbfqv6C0tq2vpsLb0m+IjsstaX49j34fqlQKv6L/NP2hxe
- cltCa2b81ITIM/f/78p5k3nb58YGddm7ixlaH+3lsV608b6g89ZbSw/bT98YPdc8Ifx5c9jb
- 2AuXmv5+3bFu6+7Nlo9zV5b1Tnh2Je0QY9FXrW+V1V9qkguWKrEUZyQaajEXFScCAH8MSyoo
- AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBIsWRmVeSWpSXmKPExsVy+t/xu7r3WsPjDNY0W1psnLGe1eLK1/ds
- FjPO72OyWHvkLrvFjMkv2RxYPe53H2fy6NuyitHj8ya5AOYoPZui/NKSVIWM/OISW6VoQwsj
- PUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYwPZ88zFWxQrLg/ayJ7A+N6mS5GTg4J
- AROJpw8uM3cxcnEICSxllHjz6iILREJcYvf8t8wQtrDEn2tdbBBFrxklVt48zgSSEBaIlrj8
- 7QBYkYhAqcSr/vuMXYwcHMwCSRL7LilA1E9klHh86ijYUDYBTYm/m2+ygdi8AnYSiybcZASx
- WQRUJWa3zwabIyoQIfF4YjsjRI2gxMmZT1hAZnIC1R//lggSZhZQl/gz7xIzhC0v0bx1NpQt
- LnHryXymCYxCs5B0z0LSMgtJyywkLQsYWVYxiqSWFuem5xYb6RUn5haX5qXrJefnbmIExtK2
- Yz+37GDsehd8iFGAg1GJh7cgKSxOiDWxrLgy9xCjBAezkgjvxq+hcUK8KYmVValF+fFFpTmp
- xYcYTYF+m8gsJZqcD4zzvJJ4Q1NDcwtLQ3Njc2MzCyVx3g6BgzFCAumJJanZqakFqUUwfUwc
- nFINjKUMay1vv2L8+Ev6ezTj7my9yee+zI0/7D3LMiEtdO9rPucV/x8/KV0ZWTix7uDC8P0J
- u5cv29RoFb/sS8rMPDGJvbrmW87a75gR4Lxj4g3Nbp3i+J3SmxYZrnrGtOPm+7NT7OfdFnmx
- 6dk3ponxG1mOfuTZ2ffujZ/hjPqf61XO9qRK/7ze/Pu+EktxRqKhFnNRcSIAa34heLsCAAA=
-X-CMS-MailID: 20200227090327eucas1p28916eb777ad652053b002960a4d9c704
-X-Msg-Generator: CA
-X-RootMTR: 20200220125900eucas1p11f6e56f11c8fcf25acf28b082107c89d
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200220125900eucas1p11f6e56f11c8fcf25acf28b082107c89d
-References: <CGME20200220125900eucas1p11f6e56f11c8fcf25acf28b082107c89d@eucas1p1.samsung.com>
- <20200220125726.19442-1-m.szyprowski@samsung.com>
+X-TM-SNTS-SMTP: 1593FEEEB5C71E2C9B1951E4352218ED93D394FC9E26DABA78D1534804CF88642000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,86 +55,286 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
+ mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
+ Allison Randal <allison@lohutok.net>, mtk01761 <wendell.lin@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Matthias Brugger <mbrugger@suse.com>, sboyd@kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAuMDIuMjAyMCAxMzo1NywgTWFyZWsgU3p5cHJvd3NraSB3cm90ZToKPiBNb3ZlIGVuYWJs
-aW5nIGFuZCBkaXNhYmxpbmcgSERNSV9FTiBvcHRpb25hbCByZWd1bGF0b3IgdG8gcHJvYmUoKSBm
-dW5jdGlvbgo+IHRvIGtlZXAgdHJhY2sgb24gdGhlIHJlZ3VsYXRvciBzdGF0dXMuIFRoaXMgZml4
-ZXMgZm9sbG93aW5nIHdhcm5pbmcgaWYKPiBwcm9iZSgpIGZhaWxzIChmb3IgZXhhbXBsZSB3aGVu
-IEkyQyBEREMgYWRhcHRlciBjYW5ub3QgYmUgeWV0IGdhdGhlcmVkCj4gZHVlIHRvIHRoZSBtaXNz
-aW5nIGRyaXZlcikuIFRoaXMgZml4ZXMgZm9sbG93aW5nIHdhcm5pbmcgb2JzZXJ2ZWQgb24KPiBB
-cm5kYWxlNTI1MCBib2FyZCB3aXRoIG11bHRpX3Y3X2RlZmNvbmZpZzoKPgo+IFtkcm1dIEZhaWxl
-ZCB0byBnZXQgZGRjIGkyYyBhZGFwdGVyIGJ5IG5vZGUKPiAtLS0tLS0tLS0tLS1bIGN1dCBoZXJl
-IF0tLS0tLS0tLS0tLS0KPiBXQVJOSU5HOiBDUFU6IDAgUElEOiAyMTQgYXQgZHJpdmVycy9yZWd1
-bGF0b3IvY29yZS5jOjIwNTEgX3JlZ3VsYXRvcl9wdXQrMHgxNmMvMHgxODQKPiBNb2R1bGVzIGxp
-bmtlZCBpbjogLi4uCj4gQ1BVOiAwIFBJRDogMjE0IENvbW06IHN5c3RlbWQtdWRldmQgTm90IHRh
-aW50ZWQgNS42LjAtcmMyLW5leHQtMjAyMDAyMTktMDAwNDAtZzM4YWYxZGZhZmRiYiAjNzU3MAo+
-IEhhcmR3YXJlIG5hbWU6IFNhbXN1bmcgRXh5bm9zIChGbGF0dGVuZWQgRGV2aWNlIFRyZWUpCj4g
-WzxjMDMxMjI1OD5dICh1bndpbmRfYmFja3RyYWNlKSBmcm9tIFs8YzAzMGNjMTA+XSAoc2hvd19z
-dGFjaysweDEwLzB4MTQpCj4gWzxjMDMwY2MxMD5dIChzaG93X3N0YWNrKSBmcm9tIFs8YzBmMGQz
-YTA+XSAoZHVtcF9zdGFjaysweGNjLzB4ZTApCj4gWzxjMGYwZDNhMD5dIChkdW1wX3N0YWNrKSBm
-cm9tIFs8YzAzNDZhNTg+XSAoX193YXJuKzB4ZTAvMHhmOCkKPiBbPGMwMzQ2YTU4Pl0gKF9fd2Fy
-bikgZnJvbSBbPGMwMzQ2YjIwPl0gKHdhcm5fc2xvd3BhdGhfZm10KzB4YjAvMHhiOCkKPiBbPGMw
-MzQ2YjIwPl0gKHdhcm5fc2xvd3BhdGhfZm10KSBmcm9tIFs8YzA4OTNmNTg+XSAoX3JlZ3VsYXRv
-cl9wdXQrMHgxNmMvMHgxODQpCj4gWzxjMDg5M2Y1OD5dIChfcmVndWxhdG9yX3B1dCkgZnJvbSBb
-PGMwODkzZjhjPl0gKHJlZ3VsYXRvcl9wdXQrMHgxYy8weDJjKQo+IFs8YzA4OTNmOGM+XSAocmVn
-dWxhdG9yX3B1dCkgZnJvbSBbPGMwOWIyNjY0Pl0gKHJlbGVhc2Vfbm9kZXMrMHgxN2MvMHgyMDAp
-Cj4gWzxjMDliMjY2ND5dIChyZWxlYXNlX25vZGVzKSBmcm9tIFs8YzA5YWViZTg+XSAocmVhbGx5
-X3Byb2JlKzB4MTBjLzB4MzUwKQo+IFs8YzA5YWViZTg+XSAocmVhbGx5X3Byb2JlKSBmcm9tIFs8
-YzA5YWVmYTg+XSAoZHJpdmVyX3Byb2JlX2RldmljZSsweDYwLzB4MWEwKQo+IFs8YzA5YWVmYTg+
-XSAoZHJpdmVyX3Byb2JlX2RldmljZSkgZnJvbSBbPGMwOWFmMjg4Pl0gKGRldmljZV9kcml2ZXJf
-YXR0YWNoKzB4NTgvMHg2MCkKPiBbPGMwOWFmMjg4Pl0gKGRldmljZV9kcml2ZXJfYXR0YWNoKSBm
-cm9tIFs8YzA5YWYzMTA+XSAoX19kcml2ZXJfYXR0YWNoKzB4ODAvMHhiYykKPiBbPGMwOWFmMzEw
-Pl0gKF9fZHJpdmVyX2F0dGFjaCkgZnJvbSBbPGMwOWFjZTM0Pl0gKGJ1c19mb3JfZWFjaF9kZXYr
-MHg2OC8weGI0KQo+IFs8YzA5YWNlMzQ+XSAoYnVzX2Zvcl9lYWNoX2RldikgZnJvbSBbPGMwOWFl
-MDBjPl0gKGJ1c19hZGRfZHJpdmVyKzB4MTMwLzB4MWU4KQo+IFs8YzA5YWUwMGM+XSAoYnVzX2Fk
-ZF9kcml2ZXIpIGZyb20gWzxjMDlhZmQ5OD5dIChkcml2ZXJfcmVnaXN0ZXIrMHg3OC8weDExMCkK
-PiBbPGMwOWFmZDk4Pl0gKGRyaXZlcl9yZWdpc3RlcikgZnJvbSBbPGJmMTM5NTU4Pl0gKGV4eW5v
-c19kcm1faW5pdCsweGU4LzB4MTFjIFtleHlub3Nkcm1dKQo+IFs8YmYxMzk1NTg+XSAoZXh5bm9z
-X2RybV9pbml0IFtleHlub3Nkcm1dKSBmcm9tIFs8YzAzMDJmYTg+XSAoZG9fb25lX2luaXRjYWxs
-KzB4NTAvMHgyMjApCj4gWzxjMDMwMmZhOD5dIChkb19vbmVfaW5pdGNhbGwpIGZyb20gWzxjMDNk
-YzAyYz5dIChkb19pbml0X21vZHVsZSsweDYwLzB4MjEwKQo+IFs8YzAzZGMwMmM+XSAoZG9faW5p
-dF9tb2R1bGUpIGZyb20gWzxjMDNkYWY0ND5dIChsb2FkX21vZHVsZSsweDFjMGMvMHgyMzEwKQo+
-IFs8YzAzZGFmNDQ+XSAobG9hZF9tb2R1bGUpIGZyb20gWzxjMDNkYjg1Yz5dIChzeXNfZmluaXRf
-bW9kdWxlKzB4YWMvMHhiYykKPiBbPGMwM2RiODVjPl0gKHN5c19maW5pdF9tb2R1bGUpIGZyb20g
-WzxjMDMwMTAwMD5dIChyZXRfZmFzdF9zeXNjYWxsKzB4MC8weDU0KQo+IEV4Y2VwdGlvbiBzdGFj
-aygweGVjY2EzZmE4IHRvIDB4ZWNjYTNmZjApCj4gLi4uCj4gLS0tWyBlbmQgdHJhY2UgMjc2Yzkx
-MjE0NjM1OTA1YyBdLS0tCj4KPiBTaWduZWQtb2ZmLWJ5OiBNYXJlayBTenlwcm93c2tpIDxtLnN6
-eXByb3dza2lAc2Ftc3VuZy5jb20+CgoKUmV2aWV3ZWQtYnk6IEFuZHJ6ZWogSGFqZGEgPGEuaGFq
-ZGFAc2Ftc3VuZy5jb20+CgrCoC0tClJlZ2FyZHMKQW5kcnplagoKCj4gLS0tCj4gIGRyaXZlcnMv
-Z3B1L2RybS9leHlub3MvZXh5bm9zX2hkbWkuYyB8IDIyICsrKysrKysrKysrKy0tLS0tLS0tLS0K
-PiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+Cj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2hkbWkuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2hkbWkuYwo+IGluZGV4IDlmZjkyMWY0M2E5My4uZjE0
-MTkxNmVhZGU2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2hk
-bWkuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2hkbWkuYwo+IEBAIC0x
-ODA1LDE4ICsxODA1LDEwIEBAIHN0YXRpYyBpbnQgaGRtaV9yZXNvdXJjZXNfaW5pdChzdHJ1Y3Qg
-aGRtaV9jb250ZXh0ICpoZGF0YSkKPiAgCj4gIAloZGF0YS0+cmVnX2hkbWlfZW4gPSBkZXZtX3Jl
-Z3VsYXRvcl9nZXRfb3B0aW9uYWwoZGV2LCAiaGRtaS1lbiIpOwo+ICAKPiAtCWlmIChQVFJfRVJS
-KGhkYXRhLT5yZWdfaGRtaV9lbikgIT0gLUVOT0RFVikgewo+ICsJaWYgKFBUUl9FUlIoaGRhdGEt
-PnJlZ19oZG1pX2VuKSAhPSAtRU5PREVWKQo+ICAJCWlmIChJU19FUlIoaGRhdGEtPnJlZ19oZG1p
-X2VuKSkKPiAgCQkJcmV0dXJuIFBUUl9FUlIoaGRhdGEtPnJlZ19oZG1pX2VuKTsKPiAgCj4gLQkJ
-cmV0ID0gcmVndWxhdG9yX2VuYWJsZShoZGF0YS0+cmVnX2hkbWlfZW4pOwo+IC0JCWlmIChyZXQp
-IHsKPiAtCQkJRFJNX0RFVl9FUlJPUihkZXYsCj4gLQkJCQkgICAgICAiZmFpbGVkIHRvIGVuYWJs
-ZSBoZG1pLWVuIHJlZ3VsYXRvclxuIik7Cj4gLQkJCXJldHVybiByZXQ7Cj4gLQkJfQo+IC0JfQo+
-IC0KPiAgCXJldHVybiBoZG1pX2JyaWRnZV9pbml0KGhkYXRhKTsKPiAgfQo+ICAKPiBAQCAtMjAy
-Myw2ICsyMDE1LDE1IEBAIHN0YXRpYyBpbnQgaGRtaV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2
-aWNlICpwZGV2KQo+ICAJCX0KPiAgCX0KPiAgCj4gKwlpZiAoIUlTX0VSUihoZGF0YS0+cmVnX2hk
-bWlfZW4pKSB7Cj4gKwkJcmV0ID0gcmVndWxhdG9yX2VuYWJsZShoZGF0YS0+cmVnX2hkbWlfZW4p
-Owo+ICsJCWlmIChyZXQpIHsKPiArCQkJRFJNX0RFVl9FUlJPUihkZXYsCj4gKwkJCSAgICAgICJm
-YWlsZWQgdG8gZW5hYmxlIGhkbWktZW4gcmVndWxhdG9yXG4iKTsKPiArCQkJZ290byBlcnJfaGRt
-aXBoeTsKPiArCQl9Cj4gKwl9Cj4gKwo+ICAJcG1fcnVudGltZV9lbmFibGUoZGV2KTsKPiAgCj4g
-IAlhdWRpb19pbmZvZnJhbWUgPSAmaGRhdGEtPmF1ZGlvLmluZm9mcmFtZTsKPiBAQCAtMjA0Nyw3
-ICsyMDQ4LDggQEAgc3RhdGljIGludCBoZG1pX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2Ug
-KnBkZXYpCj4gIAo+ICBlcnJfcnBtX2Rpc2FibGU6Cj4gIAlwbV9ydW50aW1lX2Rpc2FibGUoZGV2
-KTsKPiAtCj4gKwlpZiAoIUlTX0VSUihoZGF0YS0+cmVnX2hkbWlfZW4pKQo+ICsJCXJlZ3VsYXRv
-cl9kaXNhYmxlKGhkYXRhLT5yZWdfaGRtaV9lbik7Cj4gIGVycl9oZG1pcGh5Ogo+ICAJaWYgKGhk
-YXRhLT5oZG1pcGh5X3BvcnQpCj4gIAkJcHV0X2RldmljZSgmaGRhdGEtPmhkbWlwaHlfcG9ydC0+
-ZGV2KTsKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi, Enric:
+
+On Thu, 2020-02-27 at 09:45 +0100, Enric Balletbo i Serra wrote:
+> Hi CK,
+> 
+> On 27/2/20 2:10, CK Hu wrote:
+> > Hi, Enric:
+> > 
+> > On Wed, 2020-02-26 at 11:54 +0100, Enric Balletbo i Serra wrote:
+> >> From: Matthias Brugger <mbrugger@suse.com>
+> >>
+> >> The mmsys memory space is shared between the drm and the
+> >> clk driver. Use regmap to access it.
+> > 
+> > Once there is a mmsys driver and clock control is moved into mmsys
+> > driver, I think we should also move routing control into mmsys driver
+> > and we could drop this patch.
+> > 
+> 
+> Do you want me do this in this series or later?
+
+I would like you to do it in this series. If you move routing control to
+mmsys driver, you need not to use regmap any more. What you need to move
+is what you modify in this patch. mmsys may provide mtk_mmsys_connect()
+and mtk_mmsys_disconnect() function to replace
+mtk_ddp_add_comp_to_path() and mtk_ddp_remove_comp_from_path(). DRM
+driver need not to map mmsys's register and just keep mmsys device
+pointer. You could move routing control after clock control has been
+moved.
+
+Regards,
+CK
+
+> 
+> Thanks,
+>  Enric
+> 
+> > Regards,
+> > CK
+> > 
+> >>
+> >> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> >> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> >> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> >> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> >> ---
+> >>
+> >> Changes in v9: None
+> >> Changes in v8:
+> >> - Select REGMAP and MFD_SYSCON (Randy Dunlap)
+> >>
+> >> Changes in v7:
+> >> - Add R-by from CK
+> >>
+> >>  drivers/gpu/drm/mediatek/Kconfig        |  2 +
+> >>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  4 +-
+> >>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c  | 50 +++++++++++--------------
+> >>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h  |  4 +-
+> >>  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 13 ++-----
+> >>  drivers/gpu/drm/mediatek/mtk_drm_drv.h  |  2 +-
+> >>  6 files changed, 32 insertions(+), 43 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
+> >> index fa5ffc4fe823..89e18a473cb5 100644
+> >> --- a/drivers/gpu/drm/mediatek/Kconfig
+> >> +++ b/drivers/gpu/drm/mediatek/Kconfig
+> >> @@ -10,8 +10,10 @@ config DRM_MEDIATEK
+> >>  	select DRM_KMS_HELPER
+> >>  	select DRM_MIPI_DSI
+> >>  	select DRM_PANEL
+> >> +	select MFD_SYSCON
+> >>  	select MEMORY
+> >>  	select MTK_SMI
+> >> +	select REGMAP
+> >>  	select VIDEOMODE_HELPERS
+> >>  	help
+> >>  	  Choose this option if you have a Mediatek SoCs.
+> >> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> >> index 5ee74d7ce35c..a236499123aa 100644
+> >> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> >> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> >> @@ -28,7 +28,7 @@
+> >>   * @enabled: records whether crtc_enable succeeded
+> >>   * @planes: array of 4 drm_plane structures, one for each overlay plane
+> >>   * @pending_planes: whether any plane has pending changes to be applied
+> >> - * @config_regs: memory mapped mmsys configuration register space
+> >> + * @config_regs: regmap mapped mmsys configuration register space
+> >>   * @mutex: handle to one of the ten disp_mutex streams
+> >>   * @ddp_comp_nr: number of components in ddp_comp
+> >>   * @ddp_comp: array of pointers the mtk_ddp_comp structures used by this crtc
+> >> @@ -50,7 +50,7 @@ struct mtk_drm_crtc {
+> >>  	u32				cmdq_event;
+> >>  #endif
+> >>  
+> >> -	void __iomem			*config_regs;
+> >> +	struct regmap			*config_regs;
+> >>  	struct mtk_disp_mutex		*mutex;
+> >>  	unsigned int			ddp_comp_nr;
+> >>  	struct mtk_ddp_comp		**ddp_comp;
+> >> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> >> index 13035c906035..302753744cc6 100644
+> >> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> >> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> >> @@ -383,61 +383,53 @@ static unsigned int mtk_ddp_sel_in(enum mtk_ddp_comp_id cur,
+> >>  	return value;
+> >>  }
+> >>  
+> >> -static void mtk_ddp_sout_sel(void __iomem *config_regs,
+> >> +static void mtk_ddp_sout_sel(struct regmap *config_regs,
+> >>  			     enum mtk_ddp_comp_id cur,
+> >>  			     enum mtk_ddp_comp_id next)
+> >>  {
+> >>  	if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+> >> -		writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+> >> -			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+> >> +		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
+> >> +				BLS_TO_DSI_RDMA1_TO_DPI1);
+> >>  	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+> >> -		writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+> >> -			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+> >> -		writel_relaxed(DSI_SEL_IN_RDMA,
+> >> -			       config_regs + DISP_REG_CONFIG_DSI_SEL);
+> >> -		writel_relaxed(DPI_SEL_IN_BLS,
+> >> -			       config_regs + DISP_REG_CONFIG_DPI_SEL);
+> >> +		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
+> >> +				BLS_TO_DPI_RDMA1_TO_DSI);
+> >> +		regmap_write(config_regs, DISP_REG_CONFIG_DSI_SEL,
+> >> +				DSI_SEL_IN_RDMA);
+> >> +		regmap_write(config_regs, DISP_REG_CONFIG_DPI_SEL,
+> >> +				DPI_SEL_IN_BLS);
+> >>  	}
+> >>  }
+> >>  
+> >> -void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
+> >> +void mtk_ddp_add_comp_to_path(struct regmap *config_regs,
+> >>  			      enum mtk_ddp_comp_id cur,
+> >>  			      enum mtk_ddp_comp_id next)
+> >>  {
+> >> -	unsigned int addr, value, reg;
+> >> +	unsigned int addr, value;
+> >>  
+> >>  	value = mtk_ddp_mout_en(cur, next, &addr);
+> >> -	if (value) {
+> >> -		reg = readl_relaxed(config_regs + addr) | value;
+> >> -		writel_relaxed(reg, config_regs + addr);
+> >> -	}
+> >> +	if (value)
+> >> +		regmap_update_bits(config_regs, addr, value, value);
+> >>  
+> >>  	mtk_ddp_sout_sel(config_regs, cur, next);
+> >>  
+> >>  	value = mtk_ddp_sel_in(cur, next, &addr);
+> >> -	if (value) {
+> >> -		reg = readl_relaxed(config_regs + addr) | value;
+> >> -		writel_relaxed(reg, config_regs + addr);
+> >> -	}
+> >> +	if (value)
+> >> +		regmap_update_bits(config_regs, addr, value, value);
+> >>  }
+> >>  
+> >> -void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
+> >> +void mtk_ddp_remove_comp_from_path(struct regmap *config_regs,
+> >>  				   enum mtk_ddp_comp_id cur,
+> >>  				   enum mtk_ddp_comp_id next)
+> >>  {
+> >> -	unsigned int addr, value, reg;
+> >> +	unsigned int addr, value;
+> >>  
+> >>  	value = mtk_ddp_mout_en(cur, next, &addr);
+> >> -	if (value) {
+> >> -		reg = readl_relaxed(config_regs + addr) & ~value;
+> >> -		writel_relaxed(reg, config_regs + addr);
+> >> -	}
+> >> +	if (value)
+> >> +		regmap_update_bits(config_regs, addr, value, 0);
+> >>  
+> >>  	value = mtk_ddp_sel_in(cur, next, &addr);
+> >> -	if (value) {
+> >> -		reg = readl_relaxed(config_regs + addr) & ~value;
+> >> -		writel_relaxed(reg, config_regs + addr);
+> >> -	}
+> >> +	if (value)
+> >> +		regmap_update_bits(config_regs, addr, value, 0);
+> >>  }
+> >>  
+> >>  struct mtk_disp_mutex *mtk_disp_mutex_get(struct device *dev, unsigned int id)
+> >> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+> >> index 827be424a148..01ff8b68881f 100644
+> >> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+> >> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+> >> @@ -12,10 +12,10 @@ struct regmap;
+> >>  struct device;
+> >>  struct mtk_disp_mutex;
+> >>  
+> >> -void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
+> >> +void mtk_ddp_add_comp_to_path(struct regmap *config_regs,
+> >>  			      enum mtk_ddp_comp_id cur,
+> >>  			      enum mtk_ddp_comp_id next);
+> >> -void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
+> >> +void mtk_ddp_remove_comp_from_path(struct regmap *config_regs,
+> >>  				   enum mtk_ddp_comp_id cur,
+> >>  				   enum mtk_ddp_comp_id next);
+> >>  
+> >> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> >> index 0563c6813333..b68837ea02b3 100644
+> >> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> >> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> >> @@ -6,6 +6,7 @@
+> >>  
+> >>  #include <linux/component.h>
+> >>  #include <linux/iommu.h>
+> >> +#include <linux/mfd/syscon.h>
+> >>  #include <linux/module.h>
+> >>  #include <linux/of_address.h>
+> >>  #include <linux/of_platform.h>
+> >> @@ -425,7 +426,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
+> >>  {
+> >>  	struct device *dev = &pdev->dev;
+> >>  	struct mtk_drm_private *private;
+> >> -	struct resource *mem;
+> >>  	struct device_node *node;
+> >>  	struct component_match *match = NULL;
+> >>  	int ret;
+> >> @@ -437,14 +437,9 @@ static int mtk_drm_probe(struct platform_device *pdev)
+> >>  
+> >>  	private->data = of_device_get_match_data(dev);
+> >>  
+> >> -	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> >> -	private->config_regs = devm_ioremap_resource(dev, mem);
+> >> -	if (IS_ERR(private->config_regs)) {
+> >> -		ret = PTR_ERR(private->config_regs);
+> >> -		dev_err(dev, "Failed to ioremap mmsys-config resource: %d\n",
+> >> -			ret);
+> >> -		return ret;
+> >> -	}
+> >> +	private->config_regs = syscon_node_to_regmap(dev->of_node);
+> >> +	if (IS_ERR(private->config_regs))
+> >> +		return PTR_ERR(private->config_regs);
+> >>  
+> >>  	/* Iterate over sibling DISP function blocks */
+> >>  	for_each_child_of_node(dev->of_node->parent, node) {
+> >> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> >> index 17bc99b9f5d4..03201080688d 100644
+> >> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> >> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> >> @@ -39,7 +39,7 @@ struct mtk_drm_private {
+> >>  
+> >>  	struct device_node *mutex_node;
+> >>  	struct device *mutex_dev;
+> >> -	void __iomem *config_regs;
+> >> +	struct regmap *config_regs;
+> >>  	struct device_node *comp_node[DDP_COMPONENT_ID_MAX];
+> >>  	struct mtk_ddp_comp *ddp_comp[DDP_COMPONENT_ID_MAX];
+> >>  	const struct mtk_mmsys_driver_data *data;
+> > 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
