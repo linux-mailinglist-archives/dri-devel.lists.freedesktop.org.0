@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1319917180F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 14:00:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E8F171809
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250F06ECB2;
-	Thu, 27 Feb 2020 12:59:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E09D66ECAB;
+	Thu, 27 Feb 2020 12:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
  [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0E86E86D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:03:07 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id j16so1455390wrt.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:03:07 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF656E875
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:03:11 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id r7so717712wro.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5/va7+F8irn0jXAyeut2JlQRX+et9as0O+Q8UR0d9EU=;
- b=Wx2LFnuM84ELcCVBI+fQsZSjh7OAQ2zWLmhPsZmeMoEGTYqS/ZVOQAMceU7fMMuifW
- iRWw/x5KEMneXJz2CVvUOE8YuMRwsO6hV4vXH/2e929QQ51klNhimRlF7j4QeFsLKYBS
- aCkov2QzKZm2cbU99uBdgTJDwV94BoKaUJtsEpM6CqDPahTcdZT4E7TLfkg3UWCTOYkG
- ZUBaJhPHvG9AldY6Z0PowTmpaAW1hwBTBOcbMlZ8Tqw7iM6mc6C97tdZdPsmRAcRZYwe
- Y4vx9zToGdo97CLUm0jJT2BwF0cG99iZTF1Eg9golfhZfi4yMZdYkSjSQc0cJUCSsx68
- JJiw==
+ bh=vBk1mOoIZkyy9kqJiXLBO3UKN8y6Y0f/CztnD4P9tt4=;
+ b=hv+UeTqhEqBHGOJ71CcKZK7jNNFHkqb8OREk/ICLS/IBO0ochCWX+7fYTynoHXyfrV
+ XOkxQ06JhpmEmD4pze6CpmWcSmLyvWkmJvDaOYM0zAz3crWlm0NZvoS3pxLw1ClY8rTy
+ Hj7vrv98j/kmDnErCzwPbHSbRMebWWANg5yV/7BHW/Ipc22cU+5pVJid6m9bG8gIRmNj
+ A9fmYw1Rqejt/Dus6KooWECm4Re5iNeqJSy2EyI+YkEqemsP8htTpAxXenssNKJiqmD2
+ s+TcvN8vNYANeMzyKNvdVpxVw4Rox1bcFNC6Qqq9xqmWnZXGw3+SkJPQnC2Lz7UfMxMV
+ ksXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5/va7+F8irn0jXAyeut2JlQRX+et9as0O+Q8UR0d9EU=;
- b=JuEDc9wjblBTFXyommJb5Odg4S3/YZcl3JaTJlDELpO2OmWsohgQ9K/2mP+T3NbBum
- 4Q4KSDAWw5oCAhscOpDeAhgF7Wkcd+wYYAYFNez5fC7VWcDV8IDwVpjM/J2aptndAw/Z
- 947mVdB1lNBi/xjjftM9Pg48nWReH/mpk1OjyPTIhWbPKXpoXPZbInA7fUkiKbEwGf/9
- pMBqhWPIzksFulMbm5LzvE8c2fY9zx7vpTp8y0AOledEVJOW89RB2pmFT6Pg8LBelxpp
- jxZcCEReExVfxvYU/F+C53vGW3dY7U0v+abNLKTp66yO5MmwqgSQ2+j3fbGkaCK24W+3
- lQFQ==
-X-Gm-Message-State: APjAAAUF1sqv9bAlpb77LxUsF/j6/CGlzp+S1GJwRp+c0fNJJMCpZNC5
- uUXgq84Pwd0tzU41BCH/XAc=
-X-Google-Smtp-Source: APXvYqz7QyLiZZ3viPcMv1W4f/pZTLGJ3nj6EoflfhAnaBTBu+uKHbrIVlh2oDh/yh4cCsiZZk0pdg==
-X-Received: by 2002:a05:6000:1147:: with SMTP id
- d7mr4646817wrx.142.1582804985519; 
- Thu, 27 Feb 2020 04:03:05 -0800 (PST)
+ bh=vBk1mOoIZkyy9kqJiXLBO3UKN8y6Y0f/CztnD4P9tt4=;
+ b=TBOSNskgjo+G8Q75Eqir/z00EXiEOAIcai53t/zSBdH2b/6shk626mnD8EDeWRBDTS
+ +MOmC5Rg9+FwEJfCHE983oVRLO+PceHt7yQS5J+Qfe65vtomIn52E13oXaYN1xpnYMjt
+ cLQnhO45rm7/hzaJ0zzArpm9MlG+8rkk4Xl45ZQFZxVyZDGzNvZZ3IfE5UTlYiTK+zy2
+ NTmbNZKvFmhrgiDqJyL/MQzk7y6vzClbxaa8YHDODgmi1OYwM2i57RC6FFXXlyKUtJgW
+ PrEMtqDR1E6LqHqJicqwy5PlIDqSg2ZteXdUyTL8+VP4k5UjRTU95fv0bt4HUyuuwOlA
+ Af2Q==
+X-Gm-Message-State: APjAAAXnkZPSaKDEyUAw8zjewQ6iVm6m+GMcP6aQgKP6BrE7dF11TFfp
+ titzCn0RkjlYVVUc9lrbgW4=
+X-Google-Smtp-Source: APXvYqwHljKkgGdkShlOylDLJXesMCIatBDxUYDaXf8JUNo/KPQvR2rE6Fv76uPz2LtaEEmXpQ0exA==
+X-Received: by 2002:a5d:4902:: with SMTP id x2mr2687634wrq.301.1582804989529; 
+ Thu, 27 Feb 2020 04:03:09 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.01
+ by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 04:03:04 -0800 (PST)
+ Thu, 27 Feb 2020 04:03:09 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
-To: daniel@ffwll.ch, airlied@linux.ie, Alexey Brodkin <abrodkin@synopsys.com>
-Subject: [PATCH 06/21] drm/arc: make arcpgu_debugfs_init return void
-Date: Thu, 27 Feb 2020 15:02:17 +0300
-Message-Id: <20200227120232.19413-7-wambui.karugax@gmail.com>
+To: daniel@ffwll.ch, airlied@linux.ie, Liviu Dudau <liviu.dudau@arm.com>,
+ Brian Starkey <brian.starkey@arm.com>
+Subject: [PATCH 07/21] drm/arm: make hdlcd_debugfs_init() return void
+Date: Thu, 27 Feb 2020 15:02:18 +0300
+Message-Id: <20200227120232.19413-8-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200227120232.19413-1-wambui.karugax@gmail.com>
 References: <20200227120232.19413-1-wambui.karugax@gmail.com>
@@ -76,31 +76,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Since commit 987d65d01356 (drm: debugfs: make
-drm_debugfs_create_files() never fail), drm_debugfs_create_files never
-fails and should return void. Therefore, remove its use as the
-return value of arcpgu_debugfs_init and have the latter function also
+drm_debugfs_create_files() never fail), drm_debugfs_create_files()
+never fails, and should return void. Therefore, remove its use as a
+return value in hdlcd_debugfs_init and have the latter function
 return void.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/arc/arcpgu_drv.c | 7 ++++---
+ drivers/gpu/drm/arm/hdlcd_drv.c | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-index d6a6692db0ac..c05d001163e0 100644
---- a/drivers/gpu/drm/arc/arcpgu_drv.c
-+++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-@@ -137,10 +137,11 @@ static struct drm_info_list arcpgu_debugfs_list[] = {
- 	{ "clocks", arcpgu_show_pxlclock, 0 },
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index 2e053815b54a..194419f47c5e 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -224,10 +224,11 @@ static struct drm_info_list hdlcd_debugfs_list[] = {
+ 	{ "clocks", hdlcd_show_pxlclock, 0 },
  };
  
--static int arcpgu_debugfs_init(struct drm_minor *minor)
-+static void arcpgu_debugfs_init(struct drm_minor *minor)
+-static int hdlcd_debugfs_init(struct drm_minor *minor)
++static void hdlcd_debugfs_init(struct drm_minor *minor)
  {
--	return drm_debugfs_create_files(arcpgu_debugfs_list,
--		ARRAY_SIZE(arcpgu_debugfs_list), minor->debugfs_root, minor);
-+	drm_debugfs_create_files(arcpgu_debugfs_list,
-+				 ARRAY_SIZE(arcpgu_debugfs_list),
+-	return drm_debugfs_create_files(hdlcd_debugfs_list,
+-		ARRAY_SIZE(hdlcd_debugfs_list),	minor->debugfs_root, minor);
++	drm_debugfs_create_files(hdlcd_debugfs_list,
++				 ARRAY_SIZE(hdlcd_debugfs_list),
 +				 minor->debugfs_root, minor);
  }
  #endif
