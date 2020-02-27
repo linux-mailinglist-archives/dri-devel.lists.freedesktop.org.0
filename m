@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF0217267C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 19:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C7C172671
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 19:16:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 876956ECFE;
-	Thu, 27 Feb 2020 18:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 593956ECEA;
+	Thu, 27 Feb 2020 18:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D03A6EC86
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:15:45 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id l5so4655287wrx.4
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 10:15:44 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E41F6ECE3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:15:46 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id e8so4639375wrm.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 10:15:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bRN0Ui5XqXN6WR6xH13puNc6QlAOJCfKGqyHvTJoDZw=;
- b=XkVFjRt/hUcUKrwl6FeIYixEodqeHIXOjqmqyURpdugMFnV7VzjT5khoP+ms7YSh26
- fBl/LdBPoIyJcNwfc4mLyZU/JrvW3ViLhyFq8RVLNrEcdxhOFQByixIDMag53qHKRJPj
- voSDi2qcZjA+w59tp7nK5Yog/qEcMPjud7ORY=
+ bh=h8Wt4RcjEThpU/mKoBI0075q/dm2GH9LI640F/mu9pU=;
+ b=W0j8wS0JJA6nXjXtaUk/91nZcAoPOWA9nGkkO7qq9LLIywJGWsH0tq9Fu5ibzte1nx
+ gypL2Lz8Zgn4YoHTn7wnzx81XnCkVFq+5smfuYsyvguLfksTKGcDzt7qNon7b2Kjv6b3
+ wxDhloL+nWLKNyHoGTqOIb9v1psDLTFAG/bKQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bRN0Ui5XqXN6WR6xH13puNc6QlAOJCfKGqyHvTJoDZw=;
- b=N3PzzQWrSjuqaAZ1L8uiFBejeN04tzCzk309v9TaxddhqwGhdTLjwZ7F3W0HdhhrS5
- Qbx6/ewYYtGPGvsRvlgBlKwahXPEMRK4M0um6wRMz+piVOuHM0RuykJ1UtoUpxkQ1V+B
- f9Gy0OuHueDID5LPWWb+6X2NqpSBzE5UndbRIzibIcOQUkOanOoeQHrpUYJ/o8S2/8s8
- GXWW5L/Q5oZzpA6cPlc35KjKl5ro5XuCEyXqnCi5nkORsOnI+eP1ec71QSwAxnHlTIon
- 6/dzQ9H7hJprlq1YuFGN6E+GW3Gzi7+M3LTsrrpDNWRMV7P7YUEtCVaALMxzV/51+6S7
- eFDg==
-X-Gm-Message-State: APjAAAUDixr34YWZIooid6PW4K0D9xkM7L9zfQk+WzIGU9yr26JacRer
- fFSPPryPAXY4IMTv9mrb1aifqS+jhfU=
-X-Google-Smtp-Source: APXvYqx5aC0MwkKG940K/KpyZx0VsNQRFBswo10JJPR48+amFS2Jqa6+l45UduwDaeYv2FCyuT629A==
-X-Received: by 2002:a5d:4b50:: with SMTP id w16mr136665wrs.230.1582827343450; 
- Thu, 27 Feb 2020 10:15:43 -0800 (PST)
+ bh=h8Wt4RcjEThpU/mKoBI0075q/dm2GH9LI640F/mu9pU=;
+ b=lDyROrRtgHKDF/tlipytwmtOUKH4HPCVhnLbbKuB2B+8FzJIclY6ay+36F09e2OJq6
+ DpcGK5QCSzXj50h9arTImHAxYhhQoMpp/R6k1wQlYov3g4DiMhBQ9CEbHN4rlEltqcZE
+ nsRPiVu/SAgDWXmL84OmCnLKWKLzFw4VkKnjbQISPN9y9YtwNIbX0vcAXIrrTIUDHAEI
+ OD6JWGi+CTKuTaqFfZLiPprXhJPPNj19EuZtC+7BtW+qob5zhbyxY2SV1U7mTrkS/dvt
+ RPINu/EElb80C7qf/66F29m57+j/SQq3SnD2vbqaef4mlzbx1mcEJW1gwXzL0l8ECpWp
+ F7Nw==
+X-Gm-Message-State: APjAAAWKgqbpVJi9mdWhgH24nCeKSxVj+9PT87W6nOWKANVJbPwqgTbf
+ +uODA8tCNPVH3GSi+Fp4i44LineP3Bg=
+X-Google-Smtp-Source: APXvYqzC+2dAR6C6FfQDADToM677mXLwRCaM+Z0pYrA0n4iz6JuCT9pINcLyIWlK4GCQRT/CCEAl9w==
+X-Received: by 2002:adf:db84:: with SMTP id u4mr96522wri.317.1582827344724;
+ Thu, 27 Feb 2020 10:15:44 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q1sm8551152wrw.5.2020.02.27.10.15.42
+ by smtp.gmail.com with ESMTPSA id q1sm8551152wrw.5.2020.02.27.10.15.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 10:15:42 -0800 (PST)
+ Thu, 27 Feb 2020 10:15:44 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 11/51] drm/tidss: Use drmm_add_final_kfree
-Date: Thu, 27 Feb 2020 19:14:42 +0100
-Message-Id: <20200227181522.2711142-12-daniel.vetter@ffwll.ch>
+Subject: [PATCH 12/51] drm/mcde: Use drmm_add_final_kfree
+Date: Thu, 27 Feb 2020 19:14:43 +0100
+Message-Id: <20200227181522.2711142-13-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
 References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
@@ -65,9 +65,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- m.felsch@pengutronix.de, Jyri Sarha <jsarha@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+ m.felsch@pengutronix.de, Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -75,43 +73,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 With this we can drop the final kfree from the release function.
 
-Acked-by: Jyri Sarha <jsarha@ti.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jyri Sarha <jsarha@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/tidss/tidss_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mcde/mcde_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index d95e4be2c7b9..32a85628dbec 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -17,6 +17,7 @@
- #include <drm/drm_fb_helper.h>
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index f28cb7a576ba..7474481503a1 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -72,6 +72,7 @@
+ #include <drm/drm_gem.h>
  #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_irq.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
 +#include <drm/drm_managed.h>
+ #include <drm/drm_of.h>
  #include <drm/drm_probe_helper.h>
+ #include <drm/drm_panel.h>
+@@ -223,7 +224,6 @@ static void mcde_release(struct drm_device *drm)
  
- #include "tidss_dispc.h"
-@@ -109,8 +110,6 @@ static void tidss_release(struct drm_device *ddev)
- 	tidss_modeset_cleanup(tidss);
- 
- 	drm_dev_fini(ddev);
--
--	kfree(tidss);
+ 	drm_mode_config_cleanup(drm);
+ 	drm_dev_fini(drm);
+-	kfree(mcde);
  }
  
- DEFINE_DRM_GEM_CMA_FOPS(tidss_fops);
-@@ -154,6 +153,7 @@ static int tidss_probe(struct platform_device *pdev)
- 		kfree(ddev);
- 		return ret;
+ DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
+@@ -330,6 +330,7 @@ static int mcde_probe(struct platform_device *pdev)
  	}
-+	drmm_add_final_kfree(ddev, tidss);
+ 	drm = &mcde->drm;
+ 	drm->dev_private = mcde;
++	drmm_add_final_kfree(drm, mcde);
+ 	platform_set_drvdata(pdev, drm);
  
- 	tidss->dev = dev;
- 	tidss->feat = of_device_get_match_data(dev);
+ 	/* Enable continuous updates: this is what Linux' framebuffer expects */
 -- 
 2.24.1
 
