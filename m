@@ -1,67 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B827E1716E6
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:16:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D881171707
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:23:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52C716E88B;
-	Thu, 27 Feb 2020 12:16:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 596126EC94;
+	Thu, 27 Feb 2020 12:23:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7D36E88B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:16:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 620A23FD5F;
- Thu, 27 Feb 2020 13:16:49 +0100 (CET)
-Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=gLbEzXfu; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rfGpzPSC_Tad; Thu, 27 Feb 2020 13:16:48 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id B73293F622;
- Thu, 27 Feb 2020 13:16:46 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 07765360058;
- Thu, 27 Feb 2020 13:16:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1582805806; bh=HS94RJPImzDoQLY2q4Ne/b5a9NMsxYAfRk+4BrMewsw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=gLbEzXfuzrAyw9EoRIHV1y36EvZXgzqWODh7uN9Np4P9BOcC3coXG7IQxrWeJsq3B
- bmwBK/ss7x+uwsleuEHkleUDcAYo5ayY+0hUiPO6JEA3VFA6oCzv8nIz467Mo9yiL7
- 6hul+ss9vMywmIcQvCaux0tUk+2Pynh9sJKcBeTU=
-Subject: Re: [PATCH v5 1/3] drm/shmem: add support for per object caching
- flags.
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20200226154752.24328-1-kraxel@redhat.com>
- <20200226154752.24328-2-kraxel@redhat.com>
- <f1afba4b-9c06-48a3-42c7-046695947e91@shipmail.org>
- <20200227075321.ki74hfjpnsqv2yx2@sirius.home.kraxel.org>
- <41ca197c-136a-75d8-b269-801db44d4cba@shipmail.org>
- <20200227105643.h4klc3ybhpwv2l3x@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <68a05ace-40bc-76d6-5464-2c96328874b9@shipmail.org>
-Date: Thu, 27 Feb 2020 13:16:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD6EA6EC94
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:23:16 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0E6212468E;
+ Thu, 27 Feb 2020 12:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1582806196;
+ bh=2zPnlV0ZH+D2gKvuwb636d2VVVPT90Hpg9RA/haF8ww=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RhGbIY7R/Y/9wdj2JrTB0IWT+V6WY/fdbRIzuk2c74jsyICgj1YC/bl4NFDTanvoT
+ Sf62Zbx9p/M70y4IvsJ1I2E+EiIM2VzeKReKfieuL69ecKOGAmYFM3LsIALK5cKU2F
+ L5mwXjPTJeO8SQFYb3b4n9yAiyShX8kIbZNF/Xi4=
+Date: Thu, 27 Feb 2020 13:23:13 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Wambui Karuga <wambui.karugax@gmail.com>
+Subject: Re: [PATCH 02/21] drm: convert the drm_driver.debugfs_init() hook to
+ return void.
+Message-ID: <20200227122313.GB896418@kroah.com>
+References: <20200227120232.19413-1-wambui.karugax@gmail.com>
+ <20200227120232.19413-3-wambui.karugax@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200227105643.h4klc3ybhpwv2l3x@sirius.home.kraxel.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200227120232.19413-3-wambui.karugax@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,57 +48,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guillaume.Gardet@arm.com, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
- gurchetansingh@chromium.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/27/20 11:56 AM, Gerd Hoffmann wrote:
->    Hi,
->
->> I think it might be safe for some integrated graphics where the driver
->> maintainers can guarantee that it's safe on all particular processors used
->> with that driver, but then IMO it should be moved out to those drivers.
->>
->> Other drivers needing write-combine shouldn't really use shmem.
->>
->> So again, to fix the regression, could we revert 0be895893607f ("drm/shmem:
->> switch shmem helper to &drm_gem_object_funcs.mmap") or does that have other
->> implications?
-> This patch isn't a regression.  The old code path has the
-> pgprot_writecombine() call in drm_gem_mmap_obj(), so the behavior
-> is the same before and afterwards.
-
-OK. I wasn't checking where this all came from from the start...
-
-> But with the patch in place we can easily have shmem helpers do their
-> own thing instead of depending on whatever drm_gem_mmap_obj() is doing.
-> Just using cached mappings unconditionally would be perfectly fine for
-> virtio-gpu.
->
-> Not sure about the other users though.  I'd like to fix the virtio-gpu
-> regression (coming from ttm -> shmem switch) asap, and I don't feel like
-> changing the behavior for other drivers in 5.6-rc is a good idea.
->
-> So I'd like to push patches 1+2 to -fixes and sort everything else later
-> in -next.  OK?
-
-OK with me. Do we have any idea what drivers are actually using 
-write-combine and decrypted?
-
-/Thomas
+On Thu, Feb 27, 2020 at 03:02:13PM +0300, Wambui Karuga wrote:
+> As a result of commit 987d65d01356 (drm: debugfs: make
+> drm_debugfs_create_files() never fail) and changes to various debugfs
+> functions in drm/core and across various drivers, there is no need for
+> the drm_driver.debugfs_init() hook to have a return value. Therefore,
+> declare it as void.
+> 
+> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+> ---
+>  include/drm/drm_drv.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 97109df5beac..c6ae888c672b 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -323,7 +323,7 @@ struct drm_driver {
+>  	 *
+>  	 * Allows drivers to create driver-specific debugfs files.
+>  	 */
+> -	int (*debugfs_init)(struct drm_minor *minor);
+> +	void (*debugfs_init)(struct drm_minor *minor);
 
 
+Doesn't this patch break the build, or at least, cause lots of build
+warnings to happen?
 
->
-> cheers,
->    Gerd
+Fixing it all up later is good, but I don't think you want to break
+things at this point in the series.
 
+thanks,
 
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
