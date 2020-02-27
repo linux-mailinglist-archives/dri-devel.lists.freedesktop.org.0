@@ -1,49 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA6417181D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 14:00:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F08517183D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 14:09:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 638D06ECB4;
-	Thu, 27 Feb 2020 12:59:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E027D8914C;
+	Thu, 27 Feb 2020 13:09:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5301::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 388D26E8A2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:57:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582808227;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=EHgVmvZBm7FfOuRidNTu7QhYG4ewtZHDd8hCpQzwN2Q=;
- b=ZTHblfUBCujf/obpCSnM3vLxvWSSNY1Uol0x5zT7Zh76pnKM04HuRDmjTjPDCzwU+1
- XNazIg06ZCx9TwkW805P6ma2ZIwMsPi/yrZTa0AV71RE59h6qEqYv/gzDYv+p+OGuv3k
- DYuOM26N745npmwKwypNwYiQm5rc7um+A6iJBYivws6VBr5FDSz9r5kU4iKu9kPGfmhh
- 1300sZXLsIdIEmqiEXxtqkyqfSjZYUMW5vuh6AuaOB9F15QYKovCx3qAfoeA8aH9Jht4
- BiJp8BDtKZPJx9v8GaJ+IHJFSvMEH2l76Mu/QLDxzQRvZm8lqaZZ/ioL2QBICcysYohP
- D1Ow==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBp5hRw/qOxWRk4dCygV4+2OGxpoAr2x7EvFYqujh1U+3K41Uc/x8xM"
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2001:16b8:2655:a800:8035:ee61:8f08:2eb7]
- by smtp.strato.de (RZmta 46.1.12 AUTH)
- with ESMTPSA id U06217w1RCuoAsJ
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 27 Feb 2020 13:56:50 +0100 (CET)
-Subject: Re: [RFC 0/8] MIPS: CI20: add HDMI out support
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200227122325.GA7587@ravnborg.org>
-Date: Thu, 27 Feb 2020 13:56:56 +0100
-Message-Id: <8EE60F87-415A-44EA-AA49-632E232095FF@goldelico.com>
-References: <cover.1582744379.git.hns@goldelico.com>
- <20200227122325.GA7587@ravnborg.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Thu, 27 Feb 2020 12:59:10 +0000
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6BA8914C;
+ Thu, 27 Feb 2020 13:09:05 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2020 05:09:05 -0800
+X-IronPort-AV: E=Sophos;i="5.70,492,1574150400"; d="scan'208";a="227136570"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2020 05:09:01 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Wambui Karuga <wambui.karugax@gmail.com>, daniel@ffwll.ch, airlied@linux.ie,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 16/21] drm/i915: make *_debugfs_register() functions
+ return void.
+In-Reply-To: <20200227120232.19413-17-wambui.karugax@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200227120232.19413-1-wambui.karugax@gmail.com>
+ <20200227120232.19413-17-wambui.karugax@gmail.com>
+Date: Thu, 27 Feb 2020 15:08:58 +0200
+Message-ID: <87zhd4qis5.fsf@intel.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,92 +46,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Paul Boddie <paul@boddie.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Paul Burton <paulburton@kernel.org>, linux-gpio@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Andi Kleen <ak@linux.intel.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, kernel@pyra-handheld.com,
- letux-kernel@openphoenux.org, "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+On Thu, 27 Feb 2020, Wambui Karuga <wambui.karugax@gmail.com> wrote:
+> Since 987d65d01356 (drm: debugfs: make
+> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
+> fails and should return void. Therefore, remove its use as the
+> return value of i915_debugfs_register() and
+> intel_display_debugfs_register() and have both functions return void.
+>
+> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display_debugfs.c | 8 ++++----
+>  drivers/gpu/drm/i915/display/intel_display_debugfs.h | 4 ++--
+>  drivers/gpu/drm/i915/i915_debugfs.c                  | 8 ++++----
+>  drivers/gpu/drm/i915/i915_debugfs.h                  | 4 ++--
+>  4 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> index 46954cc7b6c0..3b877c34c420 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> @@ -1922,7 +1922,7 @@ static const struct {
+>  	{"i915_edp_psr_debug", &i915_edp_psr_debug_fops},
+>  };
+>  
+> -int intel_display_debugfs_register(struct drm_i915_private *i915)
+> +void intel_display_debugfs_register(struct drm_i915_private *i915)
+>  {
+>  	struct drm_minor *minor = i915->drm.primary;
+>  	int i;
+> @@ -1935,9 +1935,9 @@ int intel_display_debugfs_register(struct drm_i915_private *i915)
+>  				    intel_display_debugfs_files[i].fops);
+>  	}
+>  
+> -	return drm_debugfs_create_files(intel_display_debugfs_list,
+> -					ARRAY_SIZE(intel_display_debugfs_list),
+> -					minor->debugfs_root, minor);
+> +	drm_debugfs_create_files(intel_display_debugfs_list,
+> +				 ARRAY_SIZE(intel_display_debugfs_list),
+> +				 minor->debugfs_root, minor);
+>  }
+>  
+>  static int i915_panel_show(struct seq_file *m, void *data)
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.h b/drivers/gpu/drm/i915/display/intel_display_debugfs.h
+> index a3bea1ce04c2..a5cf7a6d3d34 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.h
+> @@ -10,10 +10,10 @@ struct drm_connector;
+>  struct drm_i915_private;
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> -int intel_display_debugfs_register(struct drm_i915_private *i915);
+> +void intel_display_debugfs_register(struct drm_i915_private *i915);
+>  int intel_connector_debugfs_add(struct drm_connector *connector);
+>  #else
+> -static inline int intel_display_debugfs_register(struct drm_i915_private *i915) { return 0; }
+> +static inline int intel_display_debugfs_register(struct drm_i915_private *i915) {}
 
-> Am 27.02.2020 um 13:23 schrieb Sam Ravnborg <sam@ravnborg.org>:
-> 
-> Hi Nikolaus.
-> 
-> On Wed, Feb 26, 2020 at 08:12:52PM +0100, H. Nikolaus Schaller wrote:
->> This patch series adds HDMI output to the jz4780/CI20 board.
->> 
->> It is based on taking the old 3.18 vendor kernel and trying
->> to achieve the same with modern DTS setup and new/modified
->> drivers.
->> 
->> Unfortunately, in this first RFC, only EDID and creation of
->> /dev/fb0 are working. Also, HDMI hot plugging is detected.
->> 
->> But there is no HDMI output signal. So some tiny piece seems
->> to be missing to enable/configure the Synposys HDMI controller.
->> 
->> We need help from the community to fix this.
->> 
->> Note: device tree bindings are from 2015 and still seem to
->> fit - except they are not in yaml format.
->> 
->> Original authors of most patches are
->> * Paul Boddie <paul@boddie.org.uk>
->> * Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
->> 
->> 
->> H. Nikolaus Schaller (2):
->>  drm: ingenic-drm: add MODULE_DEVICE_TABLE
->>  MIPS: CI20: defconfig: configure for DRM_DW_HDMI_JZ4780
->> 
->> Paul Boddie (4):
->>  drm: ingenic: add jz4780 Synopsys HDMI driver.
->>  pinctrl: ingenic: add hdmi-ddc pin control group
->>  MIPS: DTS: jz4780: account for Synopsys HDMI driver and LCD controller
->>  MIPS: DTS: CI20: add HDMI setup
->> 
->> Zubair Lutfullah Kakakhel (2):
->>  dt-bindings: video: Add jz4780-lcd binding
->>  dt-bindings: video: Add jz4780-hdmi binding
->> 
->> .../bindings/display/ingenic-jz4780-hdmi.txt  |  41 ++++++
->> .../bindings/display/ingenic-jz4780-lcd.txt   |  39 ++++++
-> New bindings in DT Schema format please...
-> We want to have then in a formal launguage so we can use these
-> to verify the DT files.
+You don't actually change the return type.
 
-Yes, I know. And I fully support the goal.
+Otherwise, LGTM.
 
-But I personally do not have the time to learn the (IMHO brain-twisting)
-way the Schema format is working. Especially, I am not interested
-in becoming volunteer translator for .txt based schemas developed
-by someone else.
+BR,
+Jani.
 
-So I hope that someone from the community can and is willing to do
-that.
+>  static inline int intel_connector_debugfs_add(struct drm_connector *connector) { return 0; }
+>  #endif
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+> index 8f2525e4ce0f..de313199c714 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> @@ -2392,7 +2392,7 @@ static const struct i915_debugfs_files {
+>  	{"i915_guc_log_relay", &i915_guc_log_relay_fops},
+>  };
+>  
+> -int i915_debugfs_register(struct drm_i915_private *dev_priv)
+> +void i915_debugfs_register(struct drm_i915_private *dev_priv)
+>  {
+>  	struct drm_minor *minor = dev_priv->drm.primary;
+>  	int i;
+> @@ -2409,7 +2409,7 @@ int i915_debugfs_register(struct drm_i915_private *dev_priv)
+>  				    i915_debugfs_files[i].fops);
+>  	}
+>  
+> -	return drm_debugfs_create_files(i915_debugfs_list,
+> -					I915_DEBUGFS_ENTRIES,
+> -					minor->debugfs_root, minor);
+> +	drm_debugfs_create_files(i915_debugfs_list,
+> +				 I915_DEBUGFS_ENTRIES,
+> +				 minor->debugfs_root, minor);
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.h b/drivers/gpu/drm/i915/i915_debugfs.h
+> index 6da39c76ab5e..1de2736f1248 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.h
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.h
+> @@ -12,10 +12,10 @@ struct drm_i915_private;
+>  struct seq_file;
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> -int i915_debugfs_register(struct drm_i915_private *dev_priv);
+> +void i915_debugfs_register(struct drm_i915_private *dev_priv);
+>  void i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj);
+>  #else
+> -static inline int i915_debugfs_register(struct drm_i915_private *dev_priv) { return 0; }
+> +static inline void i915_debugfs_register(struct drm_i915_private *dev_priv) {}
+>  static inline void i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj) {}
+>  #endif
 
-Or that there will appear good tools soon. E.g. some GUI
-based editor tool would be very helpful so that you don't have
-to fight with the yaml indentation rules. Like there are XML
-and DTD editors. And even HTML is rarely written manually any more.
-
-IMHO such tools should have been developed and in place *before*
-the rule to provide DT schemata is enforced.
-
-Anyways, I have requested for comments (and did expect this one).
-
-BR and thanks,
-Nikolaus
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
