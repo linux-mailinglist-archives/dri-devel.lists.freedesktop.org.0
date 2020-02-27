@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93010171226
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E5C171234
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:14:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A1F6EC18;
-	Thu, 27 Feb 2020 08:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 924876EC16;
+	Thu, 27 Feb 2020 08:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC7B16E436
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:40:25 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id z12so1948795wmi.4
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 20:40:25 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B106E07F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:41:39 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id f15so1958052wml.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 20:41:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o2wBnPoHk+gak6teJWG83gLm9R1pohmBuxsgoQJWTVY=;
- b=tVMleHUzm0TlGrF1DNLtzALqVryv2klVNriP3GIqInQ9by/LPhTXa7Fw6RO5HckvjM
- ilJ7DFfMoW8zXAciVo5rFEDE3Mk4FUNJvAaBenVilIZAAF7Yw0bO0IxW1tj7tpT8r6my
- vp3Y52RqLPbzGYNB51jYT6sXcDhcNzkwokNf1F/j/lxnZ59YFfQDdS530yQM8kwc97j7
- YFL+qJK1s+8JmZFX2zxcKRrbVUQ+6OsP0p3vkqvEYAuZXWKBeZbPyX9E7uF4zOZBToyQ
- jUqI5H6BnPE3bkvk6+Z9aOza6rXP/TWni+Zm2W7Qbd+BTemuw5wHoTBISikr3NsuvG+u
- 9x1Q==
+ :cc; bh=ATY4FirrWSRXwibhVzuS9x+D/nw752P7FZdija4RCNQ=;
+ b=gmg/er50IvxXlWNr0zfc/dvQNv03qhfATae241DtxAZu1+ZtFllYnggWsathlrRgwk
+ Gwr4fHoW4uG/UgbwAVz+KmoNFhvakTFpDutUcS6bXDKvKVH/otHYO8tpOGN15KkXQtLY
+ YeeG2/p6l3dppCPojjwTn/7Iw7D/sdscr9U1APhJYDfue7VlWNHWGyoiK8+vCbByvLHE
+ qe0y6txBxT37ivTfAtRIZHnJN3fuJLOt6wf8R53RyzyCCMV3fYpnAUwr9+cmtOklXWcr
+ HUUYeoD7YtzHZM/wh5OfiSSEhX+SSQolHGHdggA1QQu3zUjmQwQMGZB1TWX7jB6tEDhO
+ V6hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=o2wBnPoHk+gak6teJWG83gLm9R1pohmBuxsgoQJWTVY=;
- b=O3q75OydiobSK7XVSDFl+jB1T7DR9B5y7Y73fluSjq2/IrvQrPgeVIObT/iROjFepj
- ENxx59+6DzEACx6/Dm/RCCowW7Wwm3ZOo3PjxxvA6g9lbFO6zldCVd6a+o5tmWZIO1xK
- vnuJr1YVhfMTFu4wyGgWDbdTy7u9i9wnBVJE0tTAuCMLgsMcMr/guuJNW3ARvGr45Dl3
- ltUVCRjljgKiO8bTiosn6WRWgrxtOfF0J2DL/X9tv+X2fhGU7oTeI4dGqO2JUAp3JrGM
- y0YPbvIdgJHxiN30SF3GbnKVR1Un7zApurAPZT5OJADo6alKowVmu60JByX3jvk7vS6l
- 0B8A==
-X-Gm-Message-State: APjAAAWEHlqCN/QOP1rzJMSE7w8fG1NyOytJHuRkAhbnlunVLnl86Vod
- RkdJIbXn0VRQbaxJAkPHz//uz6NVFrViaqz+D4J4ew==
-X-Google-Smtp-Source: APXvYqzlwVNM2hCazoQaxlUAG1Ulc8MvUjsAPqbQPiTatC/T2bv3FTDlCviSKXvGlzdx/Fasx2w+4U0uqI+3giYvnE0=
-X-Received: by 2002:a05:600c:218a:: with SMTP id
- e10mr2676779wme.6.1582778424445; 
- Wed, 26 Feb 2020 20:40:24 -0800 (PST)
+ bh=ATY4FirrWSRXwibhVzuS9x+D/nw752P7FZdija4RCNQ=;
+ b=AHAao3SHLvbO5JK+AYQbYZQxPUxjBXpX+/HiBQ5+Gx0btMR69Ql3IYtSD1mqa/eVz4
+ od4ng3Penwx51+KFn9JDoojEygfIU1w2tMjyl/Z2ILdVm1M+Sck1zRjQVGE6ftR9QTDI
+ OVasEdPZuVnMMNrxmTP258qUB9x0XaagwO9O45+jbwpcZ0RzkuvdURXa0Rd8yv/vwRU0
+ JjGh0qAvnoyA7uOUyZsDxo5mIv1Al7d/ZUihvNmKRQnAOSGH1813UhZanZrLHLmX4jNO
+ 6BWYIATv6DZ/YfWYHahIM6PmVSC4LHxZFfSLACBSFwYNMFQS3ZgF4tE3B/FjsDmk9VYh
+ v0FA==
+X-Gm-Message-State: APjAAAWCoGGyDiku7+AFyQGIavXa9XXElzBUiC4+ywu0DKsOZE3erp6g
+ ZntD3hoIlmMA5eweh+gEG0DQmmOJTmcc5WziJvLURUqD06yyww==
+X-Google-Smtp-Source: APXvYqwvk99BX7pf0oATbtVpr3E2NR/Z3kuUNA6ggqJtAJ2Pyk14N8ZY6F+h7/cWChOK8QJnDND1leHdEDjjGiGWebU=
+X-Received: by 2002:a1c:6056:: with SMTP id u83mr2763181wmb.53.1582778497854; 
+ Wed, 26 Feb 2020 20:41:37 -0800 (PST)
 MIME-Version: 1.0
-References: <1578712146-16327-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1578712146-16327-1-git-send-email-tiantao6@hisilicon.com>
+References: <1578476501-45807-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1578476501-45807-1-git-send-email-tiantao6@hisilicon.com>
 From: Xinliang Liu <xinliang.liu@linaro.org>
-Date: Thu, 27 Feb 2020 12:40:12 +0800
-Message-ID: <CAKoKPbzfSV9-5SSeLrYh47HGxaC6o1u4Dz6rpxJuWoBbrb6=Ow@mail.gmail.com>
-Subject: Re: [PATCH] drm/hisilicon: Enable the shadowfb for hibmc
+Date: Thu, 27 Feb 2020 12:41:26 +0800
+Message-ID: <CAKoKPbwy_2iiPb=myySoKb1UmYMPrZk=RfWKgU6wanwzKZ_NqA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/hisilicon: Add the mode_valid function
 To: Tian Tao <tiantao6@hisilicon.com>
 X-Mailman-Approved-At: Thu, 27 Feb 2020 08:13:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,96 +64,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: airlied@linux.ie, puck.chen@hisilicon.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linuxarm@huawei.com, kraxel@redhat.com,
  tzimmermann@suse.de, alexander.deucher@amd.com, tglx@linutronix.de
-Content-Type: multipart/mixed; boundary="===============1460490226=="
+Content-Type: multipart/mixed; boundary="===============1070386407=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1460490226==
-Content-Type: multipart/alternative; boundary="000000000000bf687c059f8751ca"
+--===============1070386407==
+Content-Type: multipart/alternative; boundary="0000000000001f8dbb059f875636"
 
---000000000000bf687c059f8751ca
+--0000000000001f8dbb059f875636
 Content-Type: text/plain; charset="UTF-8"
 
 Thanks for the patch.
 Applied to drm-misc-next.
 
-On Sat, 11 Jan 2020 at 11:09, Tian Tao <tiantao6@hisilicon.com> wrote:
+On Wed, 8 Jan 2020 at 17:41, Tian Tao <tiantao6@hisilicon.com> wrote:
 
-> set the prefer_shadow as 1,so we use the shadowfb to acceleration.
+> add mode_valid function, we can make sure the resolution is valid.
 >
 > Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 > Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
 > ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> v2:     declare hibmc_crtc_mode_valid as static.
+>         Modify the return value of hibmc_crtc_mode_valid .
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index dbdeb2b..2883555 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -93,7 +93,7 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> index 843d784..675d629 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> @@ -242,6 +242,24 @@ static void hibmc_crtc_atomic_disable(struct drm_crtc
+> *crtc,
+>         hibmc_set_current_gate(priv, reg);
+>  }
 >
->         priv->dev->mode_config.fb_base = priv->fb_base;
->         priv->dev->mode_config.preferred_depth = 24;
-> -       priv->dev->mode_config.prefer_shadow = 0;
-> +       priv->dev->mode_config.prefer_shadow = 1;
+> +static enum drm_mode_status hibmc_crtc_mode_valid(struct drm_crtc *crtc,
+> +                                       const struct drm_display_mode
+> *mode)
+> +{
+> +       int i = 0;
+> +       int vrefresh = drm_mode_vrefresh(mode);
+> +
+> +       if (vrefresh < 59 || vrefresh > 61)
+> +               return MODE_NOCLOCK;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(hibmc_pll_table); i++) {
+> +               if (hibmc_pll_table[i].hdisplay == mode->hdisplay &&
+> +                       hibmc_pll_table[i].vdisplay == mode->vdisplay)
+> +                       return MODE_OK;
+> +       }
+> +
+> +       return MODE_BAD;
+> +}
+> +
+>  static unsigned int format_pll_reg(void)
+>  {
+>         unsigned int pllreg = 0;
+> @@ -510,6 +528,7 @@ static const struct drm_crtc_helper_funcs
+> hibmc_crtc_helper_funcs = {
+>         .atomic_flush   = hibmc_crtc_atomic_flush,
+>         .atomic_enable  = hibmc_crtc_atomic_enable,
+>         .atomic_disable = hibmc_crtc_atomic_disable,
+> +       .mode_valid = hibmc_crtc_mode_valid,
+>  };
 >
->         priv->dev->mode_config.funcs = (void *)&hibmc_mode_funcs;
->
+>  int hibmc_de_init(struct hibmc_drm_private *priv)
 > --
 > 2.7.4
 >
 >
 
---000000000000bf687c059f8751ca
+--0000000000001f8dbb059f875636
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">Thanks for the patch.<br>Applied to drm-misc-next.<br></di=
-v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On S=
-at, 11 Jan 2020 at 11:09, Tian Tao &lt;<a href=3D"mailto:tiantao6@hisilicon=
-.com">tiantao6@hisilicon.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">set the prefer_shadow as 1,so we use the shadow=
-fb to acceleration.<br>
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On W=
+ed, 8 Jan 2020 at 17:41, Tian Tao &lt;<a href=3D"mailto:tiantao6@hisilicon.=
+com">tiantao6@hisilicon.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">add mode_valid function, we can make sure the re=
+solution is valid.<br>
 <br>
 Signed-off-by: Tian Tao &lt;<a href=3D"mailto:tiantao6@hisilicon.com" targe=
 t=3D"_blank">tiantao6@hisilicon.com</a>&gt;<br>
 Signed-off-by: Gong junjie &lt;<a href=3D"mailto:gongjunjie2@huawei.com" ta=
 rget=3D"_blank">gongjunjie2@huawei.com</a>&gt;<br>
+Reviewed-by: Thomas Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de" t=
+arget=3D"_blank">tzimmermann@suse.de</a>&gt;<br>
+<br>
 ---<br>
-=C2=A0drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+v2:=C2=A0 =C2=A0 =C2=A0declare hibmc_crtc_mode_valid as static.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Modify the return value of hibmc_crtc_mode_vali=
+d .<br>
+---<br>
+=C2=A0drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c | 19 +++++++++++++++++=
+++<br>
+=C2=A01 file changed, 19 insertions(+)<br>
 <br>
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/=
-drm/hisilicon/hibmc/hibmc_drm_drv.c<br>
-index dbdeb2b..2883555 100644<br>
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c<br>
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c<br>
-@@ -93,7 +93,7 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)=
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/d=
+rm/hisilicon/hibmc/hibmc_drm_de.c<br>
+index 843d784..675d629 100644<br>
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c<br>
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c<br>
+@@ -242,6 +242,24 @@ static void hibmc_crtc_atomic_disable(struct drm_crtc =
+*crtc,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 hibmc_set_current_gate(priv, reg);<br>
+=C2=A0}<br>
 <br>
++static enum drm_mode_status hibmc_crtc_mode_valid(struct drm_crtc *crtc,<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const str=
+uct drm_display_mode *mode)<br>
++{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0int i =3D 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0int vrefresh =3D drm_mode_vrefresh(mode);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (vrefresh &lt; 59 || vrefresh &gt; 61)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return MODE_NOCLOCK=
+;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; ARRAY_SIZE(hibmc_pll_table=
+); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (hibmc_pll_table=
+[i].hdisplay =3D=3D mode-&gt;hdisplay &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0hibmc_pll_table[i].vdisplay =3D=3D mode-&gt;vdisplay)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return MODE_OK;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return MODE_BAD;<br>
++}<br>
++<br>
+=C2=A0static unsigned int format_pll_reg(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int pllreg =3D 0;<br>
+@@ -510,6 +528,7 @@ static const struct drm_crtc_helper_funcs hibmc_crtc_he=
+lper_funcs =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .atomic_flush=C2=A0 =C2=A0=3D hibmc_crtc_atomic=
+_flush,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .atomic_enable=C2=A0 =3D hibmc_crtc_atomic_enab=
+le,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .atomic_disable =3D hibmc_crtc_atomic_disable,<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.mode_valid =3D hibmc_crtc_mode_valid,<br>
+=C2=A0};<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv-&gt;dev-&gt;mode_config.fb_base =3D priv-&=
-gt;fb_base;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv-&gt;dev-&gt;mode_config.preferred_depth =
-=3D 24;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;dev-&gt;mode_config.prefer_shadow =3D =
-0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;dev-&gt;mode_config.prefer_shadow =3D =
-1;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv-&gt;dev-&gt;mode_config.funcs =3D (void *)=
-&amp;hibmc_mode_funcs;<br>
-<br>
+=C2=A0int hibmc_de_init(struct hibmc_drm_private *priv)<br>
 -- <br>
 2.7.4<br>
 <br>
 </blockquote></div>
 
---000000000000bf687c059f8751ca--
+--0000000000001f8dbb059f875636--
 
---===============1460490226==
+--===============1070386407==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -165,4 +235,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1460490226==--
+--===============1070386407==--
