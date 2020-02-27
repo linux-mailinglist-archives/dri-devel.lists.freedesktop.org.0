@@ -2,119 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E89F171805
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B45C171804
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8C3D6ECA9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 695D66EC97;
 	Thu, 27 Feb 2020 12:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A706EC6F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 09:17:04 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id i10so5396594wmd.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 01:17:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=byYUcuzDUs6EI2f9ZAyw6JsIg3wiyl3GVfGmpZXFBGg=;
- b=znc+w9PkEBnc+zTq9CxylE0W3IOsPMfyj0zzj9rfhzSqa6janRkZRYL48p3tGPMtZB
- 0oR+0ElyxD+M4ZsBvDNSeR7HJDq2K5CNbZxIJ7qpklwpm0Xr2Fn0E9TFiQNmh6jtJfg5
- QZp4mTQU9f06enAb2YyJWJ4DgFLmrpyy9peHIdQpbHXgMxiCDMbBkAqe02sjC5jID3lh
- OZVDWGrnDTKfX0iQNWWM9yyuEnqlZRhVXzr4nxpcm67c3J/b7GRxRv9klHWdcw6KsoeE
- 8Hdr+r55IVlqhwlg+jfucl7ZnsfbGGM0sQrk7+UvmcLQ09RR+sFZBPsfRtGYsvIjsb8A
- HQHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=byYUcuzDUs6EI2f9ZAyw6JsIg3wiyl3GVfGmpZXFBGg=;
- b=LZz9Hz71M5bN1WbVwWX1R9lw5FRKBIP2Mk3OI4s9nOBfAS9q4XvRuIVj989K61oaw+
- G0iGGn0qfm/ULHS/NTmQWCS9QJjuJhGEmHuq2G58A4GOfhgMWliZHiQijbCN8u5rS1bG
- RYNvmqhIwbDz0HAzp7roVTP26t1rSXI1+opbFasPf3rCtJnXgiHdtQElw3yloNghN3fP
- jfbvdhLTXCnYbjI8/lHlFG+0LhwQNLYhoKpaa1MNyODmPE1+dO1VZLlnDtaweY9HDNan
- F3pgquN/fd3L3q/1LwYHRDf3WR0nZCKYhjj6tr+fSM2geCrHQPVh0s0EhGF7q1fjnceI
- M75Q==
-X-Gm-Message-State: APjAAAUuWHRmU/S1PQh1BJQRQMTiBA3DI8iwYGUDw7anHASSWXg2cgH2
- xSDqW22hXs1jPbPmasGW78qdrA==
-X-Google-Smtp-Source: APXvYqxawPiOKaKn88qM82HAWaYmFB3tLwYe0d+o9KWMRvOoNS4J9ny55LDYIKO79xtfY0CVYnrsmg==
-X-Received: by 2002:a05:600c:21c6:: with SMTP id
- x6mr3966652wmj.17.1582795023046; 
- Thu, 27 Feb 2020 01:17:03 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:d916:1723:c1c1:22d?
- ([2a01:e34:ed2f:f020:d916:1723:c1c1:22d])
- by smtp.googlemail.com with ESMTPSA id b16sm2185717wrq.14.2020.02.27.01.16.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Feb 2020 01:17:02 -0800 (PST)
-Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to renames
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
- <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <add18b30-6eec-9aba-a961-8ecfe9b32596@linaro.org>
-Date: Thu, 27 Feb 2020 10:16:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5853D6E838
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 11:32:30 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 511D35BF;
+ Thu, 27 Feb 2020 06:32:26 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 27 Feb 2020 06:32:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm2; bh=M3vxrPA8sBw0jLdJiz0cKBAEd2+WY0vy8ENByb+QUbs=; b=C9RAO0kA
+ uc2/rWt+VBPGiHq/JR0ii3jKnqSYTGL1cRVl/fZ256TUUDLnVo77V8qY7KoIOQw/
+ hqk+r2OY9HxdDQZ4tYTlrpLQnveerVRDz9iIIZ/Va+iNiJvz0G/VVswo87PYjWEj
+ OE6y5qgGihgmF/X2CHGS4X4rz2r82Vs0jARIDDdNw7h9K+SlVeRaogpdevwjigGu
+ gQu9bLe72anpFiFgFZOWTegmarlqCEFhcIijNZ9xdviRTcBWO2pCNpTw1wD4/p3Y
+ mC+gYNBWDpcnW5t8RVmMPUA0mJdY2os7+zw25T2Im0derDZWFq+/drp2svwi7kjM
+ ygtQi5KiEOJDOQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm2; bh=M3vxrPA8sBw0jLdJiz0cKBAEd2+WY
+ 0vy8ENByb+QUbs=; b=VDYlhTI9eThsWCoZNCEsIvG0sjqbtaGd47iejHmeDk4O2
+ A97ZNOEQjlLokVJsKj9+x1LWHA1KmOCBgPIAs6EhRCG3wBddp4O0SoOW9a0CAz9u
+ J0C2GevWmNCzErsjWaUbztPBZP5tCPMh+OMkfA/6NKUzATe/uV+WJzdE78Cpu3cF
+ Z4TdxZiJouL6ayrCndRcluJ6DkK8fqkF4W79vbMwBuUHkhwCN9ZzJ0glatCoNnhX
+ NCZvTa5lJYMUxmGYBT6iuEqv0Nd+vvXIH+a+ZzIcMH5JRdf4c9S2sIINiR/iAm0F
+ i10tbd/wH8YZDV3nh3iYLLATMAVEJD8HZOWqFAyKw==
+X-ME-Sender: <xms:yahXXjNDhw9mVY9PiTnRmWlFSMqBIqVsvSc2rOOuZN8dZfuldV2GFg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleeigdeftdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinhepfh
+ hrvggvuggvshhkthhophdrohhrghenucfkphepledtrdekledrieekrdejieenucevlhhu
+ shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestg
+ gvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:yahXXku3MJ8u22PYLL0oi1kDsZrY-p1on3SFrBOnaVh8rtaa4yV-9g>
+ <xmx:yahXXrF57w_BPCVWL5qryIECw1FiJ55sJopKnDE5NK47DybjjqJnSg>
+ <xmx:yahXXsYD-QBsMhlXNeWB6bfaX_0lwmTJUovYtJDwxlzD8FeMzgD9nA>
+ <xmx:yahXXrBC8XhFlZRrl3lzN0oCU1QnSBGngy-E-ORUNe4pI4OhBV562j5SrWo>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0134B3280059;
+ Thu, 27 Feb 2020 06:32:24 -0500 (EST)
+Date: Thu, 27 Feb 2020 12:32:22 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <20200227113222.cdwzy4cvcqjtbmou@gilmour.lan>
 MIME-Version: 1.0
-In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
 X-Mailman-Approved-At: Thu, 27 Feb 2020 12:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -128,51 +73,335 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Yoder <stuyoder@gmail.com>, David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Pavel Machek <pavel@ucw.cz>,
- linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Amit Kucheria <amit.kucheria@verdurent.com>, linux-aspeed@lists.ozlabs.org,
- Jonathan Corbet <corbet@lwn.net>, Kevin Hilman <khilman@baylibre.com>,
- openbmc@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Joel Stanley <joel@jms.id.au>,
- Zhang Rui <rui.zhang@intel.com>, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Dan Murphy <dmurphy@ti.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Laurentiu Tudor <laurentiu.tudor@nxp.com>, Stephen Boyd <sboyd@kernel.org>,
- Andy Gross <agross@kernel.org>, Andrew Jeffery <andrew@aj.id.au>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1366317105=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjIvMDIvMjAyMCAxMDowMCwgTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIHdyb3RlOgo+IFNldmVy
-YWwgRFQgcmVmZXJlbmNlcyBnb3QgYnJva2VuIGR1ZSB0byB0eHQtPnlhbWwgY29udmVyc2lvbi4K
-PiAKPiBUaG9zZSBhcmUgYXV0by1maXhlZCBieSBydW5uaW5nOgo+IAo+IAlzY3JpcHRzL2RvY3Vt
-ZW50YXRpb24tZmlsZS1yZWYtY2hlY2sgLS1maXgKPiAKPiBTaWduZWQtb2ZmLWJ5OiBNYXVybyBD
-YXJ2YWxobyBDaGVoYWIgPG1jaGVoYWIraHVhd2VpQGtlcm5lbC5vcmc+CgpbIC4uLiBdCgo+IGRp
-ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdGhlcm1hbC9icmNt
-LGF2cy1yby10aGVybWFsLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-dGhlcm1hbC9icmNtLGF2cy1yby10aGVybWFsLnlhbWwKPiBpbmRleCBkOWZkZjQ4MDlhNDkuLmYz
-ZTY4ZWQwM2FiZiAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvdGhlcm1hbC9icmNtLGF2cy1yby10aGVybWFsLnlhbWwKPiArKysgYi9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvdGhlcm1hbC9icmNtLGF2cy1yby10aGVybWFsLnlhbWwKPiBA
-QCAtMTcsNyArMTcsNyBAQCBkZXNjcmlwdGlvbjogfCsKPiAgICAgICAgICAgICAgICAgICJicmNt
-LGJjbTI3MTEtYXZzLW1vbml0b3IiLCAic3lzY29uIiwgInNpbXBsZS1tZmQiCj4gIAo+ICAgIFJl
-ZmVyIHRvIHRoZSB0aGUgYmluZGluZ3MgZGVzY3JpYmVkIGluCj4gLSAgRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL21mZC9zeXNjb24udHh0Cj4gKyAgRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL21mZC9zeXNjb24ueWFtbAoKQWNrZWQtYnk6IERhbmllbCBMZXpjYW5v
-IDxkYW5pZWwubGV6Y2Fub0BsaW5hcm8ub3JnPgoKCi0tIAogPGh0dHA6Ly93d3cubGluYXJvLm9y
-Zy8+IExpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwoKRm9s
-bG93IExpbmFybzogIDxodHRwOi8vd3d3LmZhY2Vib29rLmNvbS9wYWdlcy9MaW5hcm8+IEZhY2Vi
-b29rIHwKPGh0dHA6Ly90d2l0dGVyLmNvbS8jIS9saW5hcm9vcmc+IFR3aXR0ZXIgfAo8aHR0cDov
-L3d3dy5saW5hcm8ub3JnL2xpbmFyby1ibG9nLz4gQmxvZwoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+--===============1366317105==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ofq4swa6gkauap6z"
+Content-Disposition: inline
+
+
+--ofq4swa6gkauap6z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Dave, Daniel,
+
+Here's this week drm-misc-next PR.
+
+Thank!
+Maxime
+
+
+drm-misc-next-2020-02-27:
+drm-misc-next for $kernel-version:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - bridge: huge rework to get rid of omap_dss custom display drivers
+
+Driver Changes:
+  - hisilicon: some fixes related to modes it can deal with / default to
+  - virtio: shmem and gpu context fixes and enhancements
+  - sun4i: Support for LVDS on the A33
+The following changes since commit d718e53a48f7bcfa6cdd0c00d5ed1fb516595446:
+
+  drm/sun4i: tcon: Support LVDS output on Allwinner A20 (2020-02-20 18:25:36 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2020-02-27
+
+for you to fetch changes up to 18b39fb975b79d6526449ca7c8ab504bc92e2825:
+
+  drm/virtio: add virtio_gpu_is_shmem helper (2020-02-27 11:31:34 +0100)
+
+----------------------------------------------------------------
+drm-misc-next for $kernel-version:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - bridge: huge rework to get rid of omap_dss custom display drivers
+
+Driver Changes:
+  - hisilicon: some fixes related to modes it can deal with / default to
+  - virtio: shmem and gpu context fixes and enhancements
+  - sun4i: Support for LVDS on the A33
+
+----------------------------------------------------------------
+Boris Brezillon (1):
+      drm/bridge: panel: Propagate bus format/flags
+
+Gurchetan Singh (6):
+      drm/virtio: use consistent names for drm_files
+      drm/virtio: factor out context create hypercall
+      drm/virtio: track whether or not a context has been initiated
+      drm/virtio: enqueue virtio_gpu_create_context after the first 3D ioctl
+      drm/virtio: make mmap callback consistent with callbacks
+      drm/virtio: add virtio_gpu_is_shmem helper
+
+Laurent Pinchart (56):
+      drm/bridge: lvds-codec: Add to_lvds_codec() function
+      drm/bridge: lvds-codec: Constify the drm_bridge_funcs structure
+      video: hdmi: Change return type of hdmi_avi_infoframe_init() to void
+      drm/connector: Add helper to get a connector type name
+      drm/edid: Add flag to drm_display_info to identify HDMI sinks
+      drm/bridge: Document the drm_encoder.bridge_chain field as private
+      drm/bridge: Fix atomic state ops documentation
+      drm/bridge: Improve overview documentation
+      drm/bridge: Add connector-related bridge operations and data
+      drm/bridge: Add interlace_allowed flag to drm_bridge
+      drm/bridge: Extend bridge API to disable connector creation
+      drm/bridge: dumb-vga-dac: Rename internal symbols to simple-bridge
+      drm/bridge: dumb-vga-dac: Rename driver to simple-bridge
+      drm/bridge: simple-bridge: Add support for non-VGA bridges
+      drm/bridge: simple-bridge: Add support for enable GPIO
+      drm/bridge: simple-bridge: Add support for the TI OPA362
+      drm/bridge: Add bridge driver for display connectors
+      drm/bridge: Add driver for the TI TPD12S015 HDMI level shifter
+      drm/bridge: panel: Implement bridge connector operations
+      drm/bridge: tfp410: Replace manual connector handling with bridge
+      drm/bridge: tfp410: Allow operation without drm_connector
+      drm: Add helper to create a connector for a chain of bridges
+      drm/omap: dss: Cleanup DSS ports on initialisation failure
+      drm/omap: Simplify HDMI mode and infoframe configuration
+      drm/omap: Factor out display type to connector type conversion
+      drm/omap: Use the drm_panel_bridge API
+      drm/omap: dss: Fix output next device lookup in DT
+      drm/omap: Add infrastructure to support drm_bridge local to DSS outputs
+      drm/omap: dss: Make omap_dss_device_ops optional
+      drm/omap: hdmi: Allocate EDID in the .read_edid() operation
+      drm/omap: hdmi4: Rework EDID read to isolate data read
+      drm/omap: hdmi5: Rework EDID read to isolate data read
+      drm/omap: hdmi4: Register a drm_bridge for EDID read
+      drm/omap: hdmi5: Register a drm_bridge for EDID read
+      drm/omap: hdmi4: Move mode set, enable and disable operations to bridge
+      drm/omap: hdmi5: Move mode set, enable and disable operations to bridge
+      drm/omap: hdmi4: Implement drm_bridge .hpd_notify() operation
+      drm/omap: dss: Remove .set_hdmi_mode() and .set_infoframe() operations
+      drm/omap: venc: Register a drm_bridge
+      drm/omap: Create connector for bridges
+      drm/omap: Switch the HDMI and VENC outputs to drm_bridge
+      drm/omap: Remove HPD, detect and EDID omapdss operations
+      drm/omap: hdmi: Remove omap_dss_device operations
+      drm/omap: venc: Remove omap_dss_device operations
+      drm/omap: hdmi4: Simplify EDID read
+      drm/omap: hdmi5: Simplify EDID read
+      drm/omap: dpi: Sort includes alphabetically
+      drm/omap: dpi: Reorder functions in sections
+      drm/omap: dpi: Simplify clock setting API
+      drm/omap: dpi: Register a drm_bridge
+      drm/omap: sdi: Sort includes alphabetically
+      drm/omap: sdi: Register a drm_bridge
+      drm/omap: Hardcode omap_connector type to DSI
+      drm/omap: dss: Inline the omapdss_display_get() function
+      drm/omap: dss: Remove unused omapdss_of_find_connected_device() function
+      drm/omap: dss: Remove unused omap_dss_device operations
+
+Marek Szyprowski (1):
+      drm/panel: ld9040: add MODULE_DEVICE_TABLE with SPI IDs
+
+Maxime Ripard (1):
+      drm/sun4i: tcon: Support LVDS on the A33
+
+Nicolas Boichat (3):
+      drm/panfrost: Improve error reporting in panfrost_gpu_power_on
+      drm/panfrost: Add support for multiple regulators
+      drm/panfrost: Add support for multiple power domains
+
+Tian Tao (6):
+      drm/hisilicon: Add new clock/resolution configurations
+      drm/hisilicon: Enable the shadowfb for hibmc
+      drm/hisilicon: fixed the wrong resolution configurations
+      drm/hisilicon: Add the mode_valid function
+      drm/hisilicon: Set preferred mode resolution and maximum resolution
+      drm/hisilicon: Fixed pcie resource conflict between drm and firmware
+
+Tomi Valkeinen (1):
+      drm/panel: simple: fix osd070t1718_19ts sync drive edge
+
+Torsten Duwe (2):
+      drm/bridge: analogix-anx78xx: Fix drm_dp_link helper removal
+      drm/bridge: analogix-anx6345: Avoid duplicate -supply suffix
+
+Xinliang Liu (1):
+      MAINTAINERS: Update myself email address
+
+ Documentation/gpu/drm-kms-helpers.rst              |  18 +-
+ Documentation/gpu/todo.rst                         |  14 +
+ MAINTAINERS                                        |   5 +-
+ arch/arm/configs/davinci_all_defconfig             |   2 +-
+ arch/arm/configs/integrator_defconfig              |   2 +-
+ arch/arm/configs/multi_v7_defconfig                |   2 +-
+ arch/arm/configs/omap2plus_defconfig               |   7 +-
+ arch/arm/configs/shmobile_defconfig                |   2 +-
+ arch/arm/configs/sunxi_defconfig                   |   2 +-
+ arch/arm/configs/versatile_defconfig               |   2 +-
+ drivers/gpu/drm/Makefile                           |   3 +-
+ drivers/gpu/drm/arc/arcpgu_hdmi.c                  |   2 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c   |   2 +-
+ drivers/gpu/drm/bridge/Kconfig                     |  29 +-
+ drivers/gpu/drm/bridge/Makefile                    |   4 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   8 +-
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  12 +-
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |  13 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  10 +-
+ drivers/gpu/drm/bridge/cdns-dsi.c                  |   6 +-
+ drivers/gpu/drm/bridge/display-connector.c         | 295 ++++++++++++++++
+ drivers/gpu/drm/bridge/dumb-vga-dac.c              | 300 ----------------
+ drivers/gpu/drm/bridge/lvds-codec.c                |  21 +-
+ .../drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   |   8 +-
+ drivers/gpu/drm/bridge/nxp-ptn3460.c               |   8 +-
+ drivers/gpu/drm/bridge/panel.c                     |  21 +-
+ drivers/gpu/drm/bridge/parade-ps8622.c             |   8 +-
+ drivers/gpu/drm/bridge/parade-ps8640.c             |   5 +-
+ drivers/gpu/drm/bridge/sii902x.c                   |   8 +-
+ drivers/gpu/drm/bridge/sil-sii8620.c               |   3 +-
+ drivers/gpu/drm/bridge/simple-bridge.c             | 342 +++++++++++++++++++
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  10 +-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |   8 +-
+ drivers/gpu/drm/bridge/tc358764.c                  |   8 +-
+ drivers/gpu/drm/bridge/tc358767.c                  |   9 +-
+ drivers/gpu/drm/bridge/tc358768.c                  |   6 +-
+ drivers/gpu/drm/bridge/thc63lvd1024.c              |   5 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |   8 +-
+ drivers/gpu/drm/bridge/ti-tfp410.c                 | 222 +++++-------
+ drivers/gpu/drm/bridge/ti-tpd12s015.c              | 211 ++++++++++++
+ drivers/gpu/drm/drm_bridge.c                       | 314 +++++++++++++++--
+ drivers/gpu/drm/drm_bridge_connector.c             | 379 +++++++++++++++++++++
+ drivers/gpu/drm/drm_connector.c                    |  15 +
+ drivers/gpu/drm/drm_edid.c                         |  11 +-
+ drivers/gpu/drm/drm_simple_kms_helper.c            |   2 +-
+ drivers/gpu/drm/exynos/exynos_dp.c                 |   3 +-
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c            |   4 +-
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |   2 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c          |   2 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c     |  23 ++
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |   9 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h   |   2 +
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c   |  11 +-
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c       |   2 +-
+ drivers/gpu/drm/i2c/tda998x_drv.c                  |  10 +-
+ drivers/gpu/drm/imx/imx-ldb.c                      |   2 +-
+ drivers/gpu/drm/imx/parallel-display.c             |   4 +-
+ drivers/gpu/drm/ingenic/ingenic-drm.c              |   2 +-
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |   5 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |   2 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |  10 +-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c              |   4 +-
+ drivers/gpu/drm/msm/edp/edp.c                      |   2 +-
+ drivers/gpu/drm/msm/edp/edp_bridge.c               |   2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi.c                    |   2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c             |   2 +-
+ drivers/gpu/drm/omapdrm/displays/Kconfig           |  22 --
+ drivers/gpu/drm/omapdrm/displays/Makefile          |   4 -
+ .../gpu/drm/omapdrm/displays/connector-analog-tv.c |  97 ------
+ drivers/gpu/drm/omapdrm/displays/connector-hdmi.c  | 183 ----------
+ drivers/gpu/drm/omapdrm/displays/encoder-opa362.c  | 137 --------
+ .../gpu/drm/omapdrm/displays/encoder-tpd12s015.c   | 217 ------------
+ drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c    |   2 +-
+ drivers/gpu/drm/omapdrm/dss/Makefile               |   2 +-
+ drivers/gpu/drm/omapdrm/dss/base.c                 |  55 +--
+ drivers/gpu/drm/omapdrm/dss/display.c              |   9 -
+ drivers/gpu/drm/omapdrm/dss/dpi.c                  | 349 ++++++++++---------
+ drivers/gpu/drm/omapdrm/dss/dsi.c                  |   4 +-
+ drivers/gpu/drm/omapdrm/dss/dss-of.c               |  28 --
+ drivers/gpu/drm/omapdrm/dss/dss.c                  |  58 ++--
+ drivers/gpu/drm/omapdrm/dss/hdmi.h                 |   4 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c                | 337 ++++++++++--------
+ drivers/gpu/drm/omapdrm/dss/hdmi4_core.c           |  59 +---
+ drivers/gpu/drm/omapdrm/dss/hdmi4_core.h           |   4 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c                | 313 +++++++++--------
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.c           |  48 +--
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.h           |   5 +-
+ drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c    |   5 -
+ drivers/gpu/drm/omapdrm/dss/omapdss.h              |  46 +--
+ drivers/gpu/drm/omapdrm/dss/output.c               |  53 ++-
+ drivers/gpu/drm/omapdrm/dss/sdi.c                  | 192 +++++++----
+ drivers/gpu/drm/omapdrm/dss/venc.c                 | 269 ++++++++-------
+ drivers/gpu/drm/omapdrm/omap_connector.c           | 247 +-------------
+ drivers/gpu/drm/omapdrm/omap_connector.h           |   3 -
+ drivers/gpu/drm/omapdrm/omap_drv.c                 |  90 +++--
+ drivers/gpu/drm/omapdrm/omap_encoder.c             |  83 +----
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c       |   6 +
+ drivers/gpu/drm/panel/panel-simple.c               |   3 +-
+ drivers/gpu/drm/panfrost/panfrost_device.c         | 127 ++++++-
+ drivers/gpu/drm/panfrost/panfrost_device.h         |  26 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c            |  30 +-
+ drivers/gpu/drm/panfrost/panfrost_gpu.c            |  11 +-
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c          |   2 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.c                |  11 +-
+ drivers/gpu/drm/rockchip/rockchip_lvds.c           |   2 +-
+ drivers/gpu/drm/rockchip/rockchip_rgb.c            |   2 +-
+ drivers/gpu/drm/sti/sti_dvo.c                      |   2 +-
+ drivers/gpu/drm/sti/sti_hda.c                      |   2 +-
+ drivers/gpu/drm/sti/sti_hdmi.c                     |   2 +-
+ drivers/gpu/drm/stm/ltdc.c                         |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_lvds.c                 |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_rgb.c                  |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                 |   1 +
+ drivers/gpu/drm/tidss/tidss_kms.c                  |   2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_external.c           |   2 +-
+ drivers/gpu/drm/vc4/vc4_dpi.c                      |   2 +-
+ drivers/gpu/drm/vc4/vc4_dsi.c                      |   2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h               |   5 +
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c             |  78 +++--
+ drivers/gpu/drm/virtio/virtgpu_kms.c               |  28 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c            |  11 +-
+ drivers/video/hdmi.c                               |  11 +-
+ include/drm/drm_bridge.h                           | 237 ++++++++++++-
+ include/drm/drm_bridge_connector.h                 |  18 +
+ include/drm/drm_connector.h                        |   9 +
+ include/drm/drm_encoder.h                          |   3 +-
+ include/linux/hdmi.h                               |   2 +-
+ 128 files changed, 3463 insertions(+), 2584 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/display-connector.c
+ delete mode 100644 drivers/gpu/drm/bridge/dumb-vga-dac.c
+ create mode 100644 drivers/gpu/drm/bridge/simple-bridge.c
+ create mode 100644 drivers/gpu/drm/bridge/ti-tpd12s015.c
+ create mode 100644 drivers/gpu/drm/drm_bridge_connector.c
+ delete mode 100644 drivers/gpu/drm/omapdrm/displays/connector-analog-tv.c
+ delete mode 100644 drivers/gpu/drm/omapdrm/displays/connector-hdmi.c
+ delete mode 100644 drivers/gpu/drm/omapdrm/displays/encoder-opa362.c
+ delete mode 100644 drivers/gpu/drm/omapdrm/displays/encoder-tpd12s015.c
+ delete mode 100644 drivers/gpu/drm/omapdrm/dss/dss-of.c
+ create mode 100644 include/drm/drm_bridge_connector.h
+
+--ofq4swa6gkauap6z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXleoxgAKCRDj7w1vZxhR
+xWnaAPsEocBTz6ebR5Rx6AwJIf36prmFYhiAy+peeJ1F39/OJAD/RgZz0SFw2OAi
+YZAxgfZd+GLUf/WvVzj5SkqGuoLpPw0=
+=Qhhx
+-----END PGP SIGNATURE-----
+
+--ofq4swa6gkauap6z--
+
+--===============1366317105==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1366317105==--
