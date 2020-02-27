@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFD5172683
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 19:16:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8239C172691
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 19:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A14FD6ED0E;
-	Thu, 27 Feb 2020 18:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 705C56ECE3;
+	Thu, 27 Feb 2020 18:16:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC57882AF
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:15:56 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id t23so443150wmi.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 10:15:56 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC6F489FD4
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:15:57 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a5so452383wmb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 10:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yswXnJx/KLRKLZ1EcnAm/PS8U8nl4TZHDp7JDN4HCfc=;
- b=lgBRqQmHuSh6dsIAJA560eGP/2omnqxKLiKLi1L5HtPZzbKXtPS2I358Im3ASg+xvt
- nxPjhr8yp6j1mcVYn9DqWF9/u0qQbHhSpm9wcUkp5cSDGRy+/7TLL4LLbwQ7VZbgoMvG
- ShuqxJU7VhIP+SCAVxVXocT2oXwrgYzfuqZaU=
+ bh=oJuPwHngptOj2kXgX+3SAQqLWFZa0tiNWh7f0TdVAh4=;
+ b=PovSe8s5WMZaLoTtePg+3o1gQCZYNkEtxlfPnlYcppOytR5VoQln5oxP0U2WCyWkYG
+ 5SiNIvWxZy2Y+JxqVN0+uK09c+zmlc7THwcgrArFPm0nidX94bsnncOh2ZVo7OyWbLQv
+ Txuy+ZDApbp6ayUlYWzpXPOVddDzhLY5obysk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yswXnJx/KLRKLZ1EcnAm/PS8U8nl4TZHDp7JDN4HCfc=;
- b=Hhx5g/6SoqYyAFhTNhaYf4hQxTLu9F0IlzMQVHxCaiM1Yvwo9yFK2XOP/qoamh3ufq
- d3zgsd7t1wJj5s5bOuiog1hL9Op2b6hYctNPzHnqEV3WOonn9mFaiE831d0KCs8cBiPc
- p5TFHgJBGwz3ZpMliFRrw2h/JZR0ozQeKUL0FVMSAFdDNNkwPgY0XtxSxp/ZFlQUWfX3
- 0hxNRBSTQ7FksvEAnV4veBmRhGCgWSZCUdymS8ewJewjPdDXP2lS50AtqiFP2ZUkFGKX
- I2Id7jk56tYc56QdoTPB6jzfy7CP1n0tJXNGn4ST6LXi7XaWugHyGcwI71Kt5f1MqXxx
- TkQw==
-X-Gm-Message-State: APjAAAUJ8dgQ0mPdlQQtDw4hadidcj9kfdL/QDjSyLbakb02iwx1dz8F
- gKE2s4af++Ta470iJQfJwGxXM/2Tky8=
-X-Google-Smtp-Source: APXvYqyZNSTGTkS0qN50MTykvPvz6q4JuMttCXD01JXvMcFxc7/QASw5gHpDxnu0Gb479sYA3pfm3g==
-X-Received: by 2002:a1c:7d93:: with SMTP id y141mr9070wmc.111.1582827354979;
- Thu, 27 Feb 2020 10:15:54 -0800 (PST)
+ bh=oJuPwHngptOj2kXgX+3SAQqLWFZa0tiNWh7f0TdVAh4=;
+ b=g++GDnqT19RCOY6CzHCvYAAVztOHVa+RWua9Xwq4W+OVExu+ZhS9L24lKa3OvokLHX
+ wqG0ugZMCFPvJ5W1wSM1QqBd4lhlY2PhbEIHepOUMpO0pzIqHR+Ex9QEysIs1Uzg1it3
+ EnJjVs2ysTAcVsvpuL/1Afwczvf1yzAgGIP761psDcMbswJ7RD5S6znQ1A/kRX7fVN23
+ bxb7tViadytPRhX95Ny9ysCL+DqDzt2b/XgN5/YaPVNXEMX9e96J82iLfrLwOEPp0/4x
+ oLFS+4/hBbzZc1Sw+mrmbP/OpsB6/XoUk6ck/wUvQyJQkirRvf86ivVTMtj5S+wMHj+1
+ 0Jnw==
+X-Gm-Message-State: APjAAAW4LRjT7g7C1RzhyDqWB/YgiaNNZk4cHTIV4CZGceY7R/6XPkMX
+ I+uU1HSnXRzA8Ctp9lje7dCyH6gBl6c=
+X-Google-Smtp-Source: APXvYqzMSrlsPWdHCNQPm1e9Ar/kDBhcxObO/PL6UWqsGqi4T6Q9cnr8giCc0Ik6eNFoVwkd2BX1wg==
+X-Received: by 2002:a1c:1fd0:: with SMTP id f199mr6569wmf.113.1582827356208;
+ Thu, 27 Feb 2020 10:15:56 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q1sm8551152wrw.5.2020.02.27.10.15.53
+ by smtp.gmail.com with ESMTPSA id q1sm8551152wrw.5.2020.02.27.10.15.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 10:15:54 -0800 (PST)
+ Thu, 27 Feb 2020 10:15:55 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 20/51] drm: Handle dev->unique with drmm_
-Date: Thu, 27 Feb 2020 19:14:51 +0100
-Message-Id: <20200227181522.2711142-21-daniel.vetter@ffwll.ch>
+Subject: [PATCH 21/51] drm: Use drmm_ for drm_dev_init cleanup
+Date: Thu, 27 Feb 2020 19:14:52 +0100
+Message-Id: <20200227181522.2711142-22-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
 References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
@@ -72,79 +72,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need to add a drmm_kstrdup for this, but let's start somewhere.
+Well for the simple stuff at least, vblank, gem and minor cleanup I
+want to further split up as a demonstration.
 
-This is not exactly perfect onion unwinding, but it's jsut a kfree so
-doesn't really matter at all.
+v2: We need to clear drm_device->dev otherwise the debug drm printing
+after our cleanup hook (e.g. in drm_manged_release) will chase
+released memory and result in a use-after-free. Not really pretty, but
+oh well.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/drm_drv.c     |  5 ++---
- drivers/gpu/drm/drm_managed.c | 16 ++++++++++++++++
- include/drm/drm_managed.h     |  1 +
- 3 files changed, 19 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_drv.c | 48 ++++++++++++++++++++-------------------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 1ee606b4a4f9..782fd5d6f8b2 100644
+index 782fd5d6f8b2..1f7ab88d9435 100644
 --- a/drivers/gpu/drm/drm_drv.c
 +++ b/drivers/gpu/drm/drm_drv.c
-@@ -777,7 +777,6 @@ void drm_dev_fini(struct drm_device *dev)
- 	mutex_destroy(&dev->filelist_mutex);
- 	mutex_destroy(&dev->struct_mutex);
- 	drm_legacy_destroy_members(dev);
--	kfree(dev->unique);
+@@ -580,6 +580,23 @@ static void drm_fs_inode_free(struct inode *inode)
+  *    used.
+  */
+ 
++static void drm_dev_init_release(struct drm_device *dev, void *res)
++{
++	drm_legacy_ctxbitmap_cleanup(dev);
++	drm_legacy_remove_map_hash(dev);
++	drm_fs_inode_free(dev->anon_inode);
++
++	put_device(dev->dev);
++	/* Prevent use-after-free in drm_managed_release when debugging is
++	 * enabled. Slightly awkward, but can't really be helped. */
++	dev->dev = NULL;
++	mutex_destroy(&dev->master_mutex);
++	mutex_destroy(&dev->clientlist_mutex);
++	mutex_destroy(&dev->filelist_mutex);
++	mutex_destroy(&dev->struct_mutex);
++	drm_legacy_destroy_members(dev);
++}
++
+ /**
+  * drm_dev_init - Initialise new DRM device
+  * @dev: DRM device
+@@ -647,11 +664,15 @@ int drm_dev_init(struct drm_device *dev,
+ 	mutex_init(&dev->clientlist_mutex);
+ 	mutex_init(&dev->master_mutex);
+ 
++	ret = drmm_add_action(dev, drm_dev_init_release, NULL);
++	if (ret)
++		return ret;
++
+ 	dev->anon_inode = drm_fs_inode_new();
+ 	if (IS_ERR(dev->anon_inode)) {
+ 		ret = PTR_ERR(dev->anon_inode);
+ 		DRM_ERROR("Cannot allocate anonymous inode: %d\n", ret);
+-		goto err_free;
++		goto err;
+ 	}
+ 
+ 	if (drm_core_check_feature(dev, DRIVER_RENDER)) {
+@@ -688,19 +709,12 @@ int drm_dev_init(struct drm_device *dev,
+ 	if (drm_core_check_feature(dev, DRIVER_GEM))
+ 		drm_gem_destroy(dev);
+ err_ctxbitmap:
+-	drm_legacy_ctxbitmap_cleanup(dev);
+-	drm_legacy_remove_map_hash(dev);
+ err_minors:
+ 	drm_minor_free(dev, DRM_MINOR_PRIMARY);
+ 	drm_minor_free(dev, DRM_MINOR_RENDER);
+-	drm_fs_inode_free(dev->anon_inode);
+-err_free:
+-	put_device(dev->dev);
+-	mutex_destroy(&dev->master_mutex);
+-	mutex_destroy(&dev->clientlist_mutex);
+-	mutex_destroy(&dev->filelist_mutex);
+-	mutex_destroy(&dev->struct_mutex);
+-	drm_legacy_destroy_members(dev);
++err:
++	drm_managed_release(dev);
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_dev_init);
+@@ -763,20 +777,8 @@ void drm_dev_fini(struct drm_device *dev)
+ 	if (drm_core_check_feature(dev, DRIVER_GEM))
+ 		drm_gem_destroy(dev);
+ 
+-	drm_legacy_ctxbitmap_cleanup(dev);
+-	drm_legacy_remove_map_hash(dev);
+-	drm_fs_inode_free(dev->anon_inode);
+-
+ 	drm_minor_free(dev, DRM_MINOR_PRIMARY);
+ 	drm_minor_free(dev, DRM_MINOR_RENDER);
+-
+-	put_device(dev->dev);
+-
+-	mutex_destroy(&dev->master_mutex);
+-	mutex_destroy(&dev->clientlist_mutex);
+-	mutex_destroy(&dev->filelist_mutex);
+-	mutex_destroy(&dev->struct_mutex);
+-	drm_legacy_destroy_members(dev);
  }
  EXPORT_SYMBOL(drm_dev_fini);
- 
-@@ -1063,8 +1062,8 @@ EXPORT_SYMBOL(drm_dev_unregister);
-  */
- int drm_dev_set_unique(struct drm_device *dev, const char *name)
- {
--	kfree(dev->unique);
--	dev->unique = kstrdup(name, GFP_KERNEL);
-+	drmm_kfree(dev, dev->unique);
-+	dev->unique = drmm_kstrdup(dev, name, GFP_KERNEL);
- 
- 	return dev->unique ? 0 : -ENOMEM;
- }
-diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-index a36d4604ee18..cc917187a723 100644
---- a/drivers/gpu/drm/drm_managed.c
-+++ b/drivers/gpu/drm/drm_managed.c
-@@ -149,6 +149,22 @@ void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
- }
- EXPORT_SYMBOL(drmm_kmalloc);
- 
-+char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp)
-+{
-+	size_t size;
-+	char *buf;
-+
-+	if (!s)
-+		return NULL;
-+
-+	size = strlen(s) + 1;
-+	buf = drmm_kmalloc(dev, size, gfp);
-+	if (buf)
-+		memcpy(buf, s, size);
-+	return buf;
-+}
-+EXPORT_SYMBOL_GPL(drmm_kstrdup);
-+
- void drmm_kfree(struct drm_device *dev, void *data)
- {
- 	struct drmres *dr_match = NULL, *dr;
-diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-index 7b5df7d09b19..89e6fce9f689 100644
---- a/include/drm/drm_managed.h
-+++ b/include/drm/drm_managed.h
-@@ -24,6 +24,7 @@ static inline void *drmm_kzalloc(struct drm_device *dev, size_t size, gfp_t gfp)
- {
- 	return drmm_kmalloc(dev, size, gfp | __GFP_ZERO);
- }
-+char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp);
- 
- void drmm_kfree(struct drm_device *dev, void *data);
  
 -- 
 2.24.1
