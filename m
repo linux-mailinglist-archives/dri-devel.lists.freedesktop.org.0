@@ -1,42 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0E61729DF
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 22:02:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D987B172A18
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 22:27:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832816E97E;
-	Thu, 27 Feb 2020 21:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3486ED41;
+	Thu, 27 Feb 2020 21:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 096266E97E;
- Thu, 27 Feb 2020 21:02:46 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 4835680441;
- Thu, 27 Feb 2020 22:02:43 +0100 (CET)
-Date: Thu, 27 Feb 2020 22:02:42 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 13/51] drm/vgem: Use drmm_add_final_kfree
-Message-ID: <20200227210242.GD29498@ravnborg.org>
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
- <20200227181522.2711142-14-daniel.vetter@ffwll.ch>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8EB36ED44
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 21:27:16 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id d62so703690oia.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 13:27:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=53gRMBJrJ+la068BpgpeS9MvOB3v8Crv2gV5zCitRF4=;
+ b=PhG78KEPgow20wemDEzeImA40/CuNsSFuDsT/XEp/QQGVqN6vIa5qNUqPIvnF2ottA
+ uNl1BdrgGnLrYDDyNxhjwQPlzpKG0GynOaJ1dva71D7BjU4oUm/DimSOy1LST81ZGK6z
+ NZNxQezRld7jYfF+RdkSDI+RuWI3WzXLHn95k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=53gRMBJrJ+la068BpgpeS9MvOB3v8Crv2gV5zCitRF4=;
+ b=c2GqE/XknbgpnvtsaXa/VWJ3+ALW+QPICk7GZ7FjPkzTJq4fIBLw6eLQ6G+gkUgBiN
+ mKh7GoS7VxNWR42XRRYOYnLayPhlpGi2a8AOl4i/nRIUnFB60geEXxrZ5u0ZgMvZeeMF
+ jGaFKK4oOjUDPgdOOgjCZ6oykRlEuv//I8KSupx3KDG8T8p1/3eaV8hy6KIELeegQerh
+ C2c+d5ya83ITCdk+vypmKjiUVORIOsE6RXXXVIvTh6+lzMtKAkIaaD4f6LexgT37VIiJ
+ clMuH13/vX1oR0IqOLIBISbOzyzK2GG8deSETpEQZKLmm5/+XaXGb/KIoNNbCii+gocL
+ 4jOQ==
+X-Gm-Message-State: APjAAAUmkzgxvGznVEYNG3PjuETqssyg9M0Eq+RWrokpby38M1nir+Lk
+ oeoDdJ3dRnebGvhFgQMFT8pRt7QypnoYjHLdtIMRJA==
+X-Google-Smtp-Source: APXvYqxrmwIIYpIUdfUeFAdLWb1JhkAvU4sEORizQCbTX2XxKpPE9DO4bzkdQ0PSrofOs/Ssn3ptbNPWgsoHCxXJc/U=
+X-Received: by 2002:aca:2407:: with SMTP id n7mr851548oic.14.1582838835977;
+ Thu, 27 Feb 2020 13:27:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200227181522.2711142-14-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8
- a=QX4gbG5DAAAA:8 a=taGs_qngAAAA:8 a=cm27Pg_UAAAA:8 a=-VAfIpHNAAAA:8
- a=7gkXJVJtAAAA:8 a=0FZN23qlbBZI_fe2_qcA:9 a=CjuIK1q_8ugA:10
- a=AbAUZ8qAyYyZVLSsDulk:22 a=DM_PlaNYpjARcMQr2apF:22
- a=xmb-EsYY8bH0VWELuYED:22 a=srlwD-8ojaedGGhPAyx8:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 27 Feb 2020 22:27:04 +0100
+Message-ID: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+Subject: gitlab.fd.o financial situation and impact on services
+To: gstreamer-devel@lists.freedesktop.org, Xorg Members List <members@x.org>, 
+ Mesa Dev <mesa-dev@lists.freedesktop.org>, 
+ "X.Org development" <xorg-devel@lists.x.org>,
+ wayland <wayland-devel@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,85 +60,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- m.felsch@pengutronix.de, DRI Development <dri-devel@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: "X.Org Foundation Board" <board@foundation.x.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 27, 2020 at 07:14:44PM +0100, Daniel Vetter wrote:
-> With this we can drop the final kfree from the release function.
-> 
-> v2: After drm_dev_init/drmm_add_final_kfree we need to clean up
-> everything through a drm_dev_put. Rework the unwind code to match
-> that.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Emil Velikov <emil.velikov@collabora.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Sean Paul <seanpaul@chromium.org>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> ---
+Hi all,
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+You might have read the short take in the X.org board meeting minutes
+already, here's the long version.
 
->  drivers/gpu/drm/vgem/vgem_drv.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index 909eba43664a..7486014e9149 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -39,6 +39,7 @@
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_ioctl.h>
-> +#include <drm/drm_managed.h>
->  #include <drm/drm_prime.h>
->  
->  #include "vgem_drv.h"
-> @@ -432,8 +433,6 @@ static void vgem_release(struct drm_device *dev)
->  
->  	platform_device_unregister(vgem->platform);
->  	drm_dev_fini(&vgem->drm);
-> -
-> -	kfree(vgem);
->  }
->  
->  static struct drm_driver vgem_driver = {
-> @@ -489,16 +488,19 @@ static int __init vgem_init(void)
->  			   &vgem_device->platform->dev);
->  	if (ret)
->  		goto out_unregister;
-> +	drmm_add_final_kfree(&vgem_device->drm, vgem_device);
->  
->  	/* Final step: expose the device/driver to userspace */
-> -	ret  = drm_dev_register(&vgem_device->drm, 0);
-> +	ret = drm_dev_register(&vgem_device->drm, 0);
->  	if (ret)
-> -		goto out_fini;
-> +		goto out_put;
->  
->  	return 0;
->  
-> -out_fini:
-> -	drm_dev_fini(&vgem_device->drm);
-> +out_put:
-> +	drm_dev_put(&vgem_device->drm);
-> +	return ret;
-> +
->  out_unregister:
->  	platform_device_unregister(vgem_device->platform);
->  out_free:
-> -- 
-> 2.24.1
+The good news: gitlab.fd.o has become very popular with our
+communities, and is used extensively. This especially includes all the
+CI integration. Modern development process and tooling, yay!
+
+The bad news: The cost in growth has also been tremendous, and it's
+breaking our bank account. With reasonable estimates for continued
+growth we're expecting hosting expenses totalling 75k USD this year,
+and 90k USD next year. With the current sponsors we've set up we can't
+sustain that. We estimate that hosting expenses for gitlab.fd.o
+without any of the CI features enabled would total 30k USD, which is
+within X.org's ability to support through various sponsorships, mostly
+through XDC.
+
+Note that X.org does no longer sponsor any CI runners themselves,
+we've stopped that. The huge additional expenses are all just in
+storing and serving build artifacts and images to outside CI runners
+sponsored by various companies. A related topic is that with the
+growth in fd.o it's becoming infeasible to maintain it all on
+volunteer admin time. X.org is therefore also looking for admin
+sponsorship, at least medium term.
+
+Assuming that we want cash flow reserves for one year of gitlab.fd.o
+(without CI support) and a trimmed XDC and assuming no sponsor payment
+meanwhile, we'd have to cut CI services somewhere between May and June
+this year. The board is of course working on acquiring sponsors, but
+filling a shortfall of this magnitude is neither easy nor quick work,
+and we therefore decided to give an early warning as soon as possible.
+Any help in finding sponsors for fd.o is very much appreciated.
+
+Thanks, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
