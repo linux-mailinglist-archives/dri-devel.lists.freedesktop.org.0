@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D53170CB0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 00:41:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F2D170CEB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 01:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 171DC89FC9;
-	Wed, 26 Feb 2020 23:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0536E2A9;
+	Thu, 27 Feb 2020 00:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB6F489FC9;
- Wed, 26 Feb 2020 23:41:07 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2020 15:41:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,489,1574150400"; d="scan'208";a="241846928"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by orsmga006.jf.intel.com with ESMTP; 26 Feb 2020 15:41:06 -0800
-Received: from fmsmsx111.amr.corp.intel.com (10.18.116.5) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 26 Feb 2020 15:41:06 -0800
-Received: from fmsmsx117.amr.corp.intel.com ([169.254.3.129]) by
- fmsmsx111.amr.corp.intel.com ([169.254.12.118]) with mapi id 14.03.0439.000;
- Wed, 26 Feb 2020 15:41:06 -0800
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "hdegoede@redhat.com" <hdegoede@redhat.com>, "mikita.lipski@amd.com"
- <mikita.lipski@amd.com>, "alexdeucher@gmail.com" <alexdeucher@gmail.com>
-Subject: Re: 5.6 DP-MST regression: 1 of 2 monitors on TB3 (DP-MST) dock no
- longer light up
-Thread-Topic: 5.6 DP-MST regression: 1 of 2 monitors on TB3 (DP-MST) dock no
- longer light up
-Thread-Index: AQHV7M2WwWV35CHi+0qigzwC8zvE7KguqSiA
-Date: Wed, 26 Feb 2020 23:41:04 +0000
-Message-ID: <06d506c1449a59a422fd9f246c7ed9d299139cf9.camel@intel.com>
-References: <99213368-5025-8435-502b-3d23b875ca60@redhat.com>
- <CADnq5_OUt5XaJ_Nf23F2zsKeuPgoka8p2S6ny-H2WK==Ncg7vA@mail.gmail.com>
- <b0181c20-017b-7e3f-13c0-3ea5b98cadaa@redhat.com>
- <CADnq5_MjaOD+QrupjQwjdu-MgVZm1sg1x9=4uxdv92u1xuSdvQ@mail.gmail.com>
- <77b812d5-5b87-49b7-87dc-16d50a5666df@redhat.com>
-In-Reply-To: <77b812d5-5b87-49b7-87dc-16d50a5666df@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.24.14.234]
-Content-ID: <3CF5227A6AA94041B9CC7C734181333B@intel.com>
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAD06E2A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 00:03:02 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id z1so1163660iom.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 16:03:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tZtnM0e+xr4AH9861svl/LlAtVjcSg0W4wskznM5ZKY=;
+ b=C4wxSclBqOr2LuIMMwxD7oLZMwwjbp4vTUF3ZiBhz/VGtOdBYagVxf6pObpH9POUo+
+ m9ci0oJvKahUD2zyeWp3IAIxTbFjQVVcZx/n8jU28HdofOZvk9KMGrHvBMt3p+IgFb8g
+ bj35iSwW6vw6J43AhaGoR0aU6MEDc7I2lbQ6A3Qm4jf4W+ZNeWmnGUgxPRp7bHlpNsQx
+ ombBRcrwfqlXWMwnY26xViHnqggxOEAnHlyjACJtW1+TSAnvTAmNA51IGzRc3VYslq0C
+ NzNrdK2FGKqfrVRJMVt0lGSVy4UK+M2L5RuGU3jHRTg4uuI/4kUYmLAAXDVE8dwpL5T9
+ YY1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tZtnM0e+xr4AH9861svl/LlAtVjcSg0W4wskznM5ZKY=;
+ b=C+op8G2h5OOOjOJKd8BOaFmU1OEvwAFQ3I7YJAC3t1NU9WZ3kGvQ1V8VXiz0kj+cH8
+ hbWKwef8NgcLXSZQ7PMN634QGc64H0LZoNy+5RLXBI3FvgGIyLmshUg5LJ8wa4QVB9Mm
+ rvJgbz9Bu0SahzcBXkO1AsrNOi8vy3nZbTa4dkms+a/eCy3GoDBMzn/HfvmSDy6K7EK8
+ kfawO9s2q6VSbmc0n2b2xZ+aYQZ4YXczFGGjI+2zcP6mBOdeafN/ipS3mucwVL0cNbvv
+ ZXombwrbplWc38paPoSe/6cPggb22P7Ei2cE/dmfnQdVK+WLqKuPxoMgNBk30lN/kiv9
+ xdAg==
+X-Gm-Message-State: APjAAAUvyHiHQ4ww3DwBZAukiW9ElctF9o9v98plIsgAAC55EDfgCnVb
+ Q+8fJHG/vMoCWSQ/ARGuukU7FRVvLsOOc5bFUCY=
+X-Google-Smtp-Source: APXvYqxIn6NGD5ZRlTLPjMi1xq0GHuB1mJN4ffE/xw86VQ9rk0Y9Jvv0lkfcwSmGVSmMhb01pzQedOOsmhGlIxm0Cis=
+X-Received: by 2002:a02:c815:: with SMTP id p21mr65171jao.20.1582761781497;
+ Wed, 26 Feb 2020 16:03:01 -0800 (PST)
 MIME-Version: 1.0
+References: <20200226154752.24328-1-kraxel@redhat.com>
+ <20200226154752.24328-2-kraxel@redhat.com>
+ <f1afba4b-9c06-48a3-42c7-046695947e91@shipmail.org>
+In-Reply-To: <f1afba4b-9c06-48a3-42c7-046695947e91@shipmail.org>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Wed, 26 Feb 2020 16:02:50 -0800
+Message-ID: <CAPaKu7R4VFYnk9UdpguZnkWeKk2ELVnoQ60=i72RN2GkME1ukw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] drm/shmem: add support for per object caching
+ flags.
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28VMware=29?= <thomas_os@shipmail.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,145 +64,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Guillaume Gardet <Guillaume.Gardet@arm.com>,
+ David Airlie <airlied@linux.ie>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, tzimmermann@suse.de
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans
-
-Just commenting in the "[    3.309061] [drm:intel_dump_pipe_config
-[i915]] MST master transcoder: <invalid>" message, it is the expected
-behaviour for anything older than Tigerlake, from TGL+ this will be set
-in MST mode.
-
-On Wed, 2020-02-26 at 18:52 +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 2/26/20 5:05 PM, Alex Deucher wrote:
-> > On Wed, Feb 26, 2020 at 10:43 AM Hans de Goede <hdegoede@redhat.com
-> > > wrote:
-> > > Hi,
-> > > 
-> > > On 2/26/20 4:29 PM, Alex Deucher wrote:
-> > > > On Wed, Feb 26, 2020 at 10:16 AM Hans de Goede <
-> > > > hdegoede@redhat.com> wrote:
-> > > > > Hi Lyude and everyone else,
-> > > > > 
-> > > > > Lyude I'm mailing you about this because you have done a lot
-> > > > > of
-> > > > > work on DP MST, but if this rings a bell to anyone else feel
-> > > > > free to weigh in on this.
-> > > > 
-> > > > Might be a duplicate of:
-> > > > https://gitlab.freedesktop.org/drm/amd/issues/1052
-> > > 
-> > > Looks like you are right, reverting the commit which the bisect
-> > > from that issue points to:
-> > > 
-> > > cd82d82cbc04 ("drm/dp_mst: Add branch bandwidth validation to MST
-> > > atomic check")
-> > > 
-> > > Fixes the issue for me. I will add a comment to the issue.
-> > > 
-> > > Note I'm using integrated Intel gfx, so that means that this
-> > > issue
-> > > definitely is not amdgpu specific.
-> > > 
-> > 
-> > I'm not too familiar with the mst code, but I wonder if we were
-> > exceeding the bandwidth limits in some setups and it just happened
-> > to
-> > work, but now that we enforcing them, they don't which is correct,
-> > but
-> > a regression from some users' perspective?
-> 
-> I seriously doubt that is the case according to:
-> https://support.lenovo.com/nl/en/solutions/pd029622
-> 
-> The gen 2 tb3 dock can handle 2 external
-> displays at 3840*2160@60Hz together with the internal
-> panel being on and both my external displays run at
-> 1920x1080@60 so I'm consuming less then half of the
-> maximum bandwidth.
-> 
-> There definitely is a bug somewhere in the
-> cd82d82cbc04 ("drm/dp_mst: Add branch bandwidth validation to MST
-> atomic check")
-> commit (or somewhere else and triggered by that commit).
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> > Alex
-> > 
-> > 
-> > > Regards,
-> > > 
-> > > Hans
-> > > 
-> > > 
-> > > 
-> > > 
-> > > > > I'm currently using a Lenovo X1 7th gen + a Lenovo TB3 gen 2
-> > > > > dock
-> > > > > as my daily rider for testing purposes. When 5.6-rc1 came out
-> > > > > I
-> > > > > noticed that only 1 of the 2 1920x1080@60 monitors on the
-> > > > > dock
-> > > > > lights up.
-> > > > > 
-> > > > > There are no kernel errors in the logs, but mutter/gnome-
-> > > > > shell says:
-> > > > > 
-> > > > > gnome-shell[1316]: Failed to post KMS update: Page flip of 93
-> > > > > failed
-> > > > > 
-> > > > > With 93 being the crtc-id of the crtc used for the monitor
-> > > > > which is
-> > > > > displaying black. Since then I've waited for 5.6-rc3 hoping
-> > > > > that a
-> > > > > fix was already queued up, but 5.6-rc3 still has this
-> > > > > problem.
-> > > > > 
-> > > > > gnome-shell does behave as if all monitors are connected, so
-> > > > > the
-> > > > > monitor is seen, but we are failing to actually send any
-> > > > > frames
-> > > > > to it.
-> > > > > 
-> > > > > I've put a log collected with drm.debug=0x104 here:
-> > > > > https://fedorapeople.org/~jwrdegoede/drm-debug.log
-> > > > > 
-> > > > > This message stands out as pointing to the likely cause of
-> > > > > this problem:
-> > > > > 
-> > > > > [    3.309061] [drm:intel_dump_pipe_config [i915]] MST master
-> > > > > transcoder: <invalid>
-> > > > > 
-> > > > > Regards,
-> > > > > 
-> > > > > Hans
-> > > > > 
-> > > > > _______________________________________________
-> > > > > dri-devel mailing list
-> > > > > dri-devel@lists.freedesktop.org
-> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBGZWIgMjYsIDIwMjAgYXQgMTA6MjUgQU0gVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2Fy
+ZSkKPHRob21hc19vc0BzaGlwbWFpbC5vcmc+IHdyb3RlOgo+Cj4gSGksIEdlcmQsCj4KPiBXaGls
+ZSBsb29raW5nIGF0IHRoaXMgcGF0Y2hzZXQgSSBjYW1lIGFjcm9zcyBzb21lIHN0dWZmIHRoYXQg
+c2VlbXMKPiBzdHJhbmdlIGJ1dCB0aGF0IHdhcyBtZXJnZWQgaW4gYSBwcmV2aW91cyBwYXRjaHNl
+dC4KPgo+IChwbGVhc2UgcmVmZXIgdG8KPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9h
+cmNoaXZlcy9kcmktZGV2ZWwvMjAxOC1TZXB0ZW1iZXIvMTkwMDAxLmh0bWwuCj4gRm9yZ2l2ZSBt
+ZSBpZiBJJ3ZlIG1pc3NlZCBhbnkgZGlzY3Vzc2lvbiBsZWFkaW5nIHVwIHRvIHRoaXMpLgo+Cj4K
+PiBPbiAyLzI2LzIwIDQ6NDcgUE0sIEdlcmQgSG9mZm1hbm4gd3JvdGU6Cj4gPiBBZGQgbWFwX2Nh
+Y2hlZCBib29sIHRvIGRybV9nZW1fc2htZW1fb2JqZWN0LCB0byByZXF1ZXN0IGNhY2hlZCBtYXBw
+aW5ncwo+ID4gb24gYSBwZXItb2JqZWN0IGJhc2UuICBDaGVjayB0aGUgZmxhZyBiZWZvcmUgYWRk
+aW5nIHdyaXRlY29tYmluZSB0bwo+ID4gcGdwcm90IGJpdHMuCj4gPgo+ID4gQ2M6IHN0YWJsZUB2
+Z2VyLmtlcm5lbC5vcmcKPiA+IFNpZ25lZC1vZmYtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEBy
+ZWRoYXQuY29tPgo+ID4gLS0tCj4gPiAgIGluY2x1ZGUvZHJtL2RybV9nZW1fc2htZW1faGVscGVy
+LmggICAgIHwgIDUgKysrKysKPiA+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVs
+cGVyLmMgfCAxNSArKysrKysrKysrKy0tLS0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNl
+cnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Ry
+bS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxw
+ZXIuaAo+ID4gaW5kZXggZTM0YTdiN2Y4NDhhLi4yOTRiMjkzMWM0Y2MgMTAwNjQ0Cj4gPiAtLS0g
+YS9pbmNsdWRlL2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oCj4gPiArKysgYi9pbmNsdWRlL2Ry
+bS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oCj4gPiBAQCAtOTYsNiArOTYsMTEgQEAgc3RydWN0IGRy
+bV9nZW1fc2htZW1fb2JqZWN0IHsKPiA+ICAgICAgICAqIFRoZSBhZGRyZXNzIGFyZSB1bi1tYXBw
+ZWQgd2hlbiB0aGUgY291bnQgcmVhY2hlcyB6ZXJvLgo+ID4gICAgICAgICovCj4gPiAgICAgICB1
+bnNpZ25lZCBpbnQgdm1hcF91c2VfY291bnQ7Cj4gPiArCj4gPiArICAgICAvKioKPiA+ICsgICAg
+ICAqIEBtYXBfY2FjaGVkOiBtYXAgb2JqZWN0IGNhY2hlZCAoaW5zdGVhZCBvZiB1c2luZyB3cml0
+ZWNvbWJpbmUpLgo+ID4gKyAgICAgICovCj4gPiArICAgICBib29sIG1hcF9jYWNoZWQ7Cj4gPiAg
+IH07Cj4gPgo+ID4gICAjZGVmaW5lIHRvX2RybV9nZW1fc2htZW1fb2JqKG9iaikgXAo+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKPiA+IGluZGV4IGE0MjFhMmVlZDQ4YS4u
+YWFkOTMyNGRjZjRmIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2ht
+ZW1faGVscGVyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBl
+ci5jCj4gPiBAQCAtMjU0LDExICsyNTQsMTYgQEAgc3RhdGljIHZvaWQgKmRybV9nZW1fc2htZW1f
+dm1hcF9sb2NrZWQoc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICpzaG1lbSkKPiA+ICAgICAg
+IGlmIChyZXQpCj4gPiAgICAgICAgICAgICAgIGdvdG8gZXJyX3plcm9fdXNlOwo+ID4KPiA+IC0g
+ICAgIGlmIChvYmotPmltcG9ydF9hdHRhY2gpCj4gPiArICAgICBpZiAob2JqLT5pbXBvcnRfYXR0
+YWNoKSB7Cj4gPiAgICAgICAgICAgICAgIHNobWVtLT52YWRkciA9IGRtYV9idWZfdm1hcChvYmot
+PmltcG9ydF9hdHRhY2gtPmRtYWJ1Zik7Cj4gPiAtICAgICBlbHNlCj4gPiArICAgICB9IGVsc2Ug
+ewo+ID4gKyAgICAgICAgICAgICBwZ3Byb3RfdCBwcm90ID0gUEFHRV9LRVJORUw7Cj4gPiArCj4g
+PiArICAgICAgICAgICAgIGlmICghc2htZW0tPm1hcF9jYWNoZWQpCj4gPiArICAgICAgICAgICAg
+ICAgICAgICAgcHJvdCA9IHBncHJvdF93cml0ZWNvbWJpbmUocHJvdCk7Cj4gPiAgICAgICAgICAg
+ICAgIHNobWVtLT52YWRkciA9IHZtYXAoc2htZW0tPnBhZ2VzLCBvYmotPnNpemUgPj4gUEFHRV9T
+SElGVCwKPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWTV9NQVAsIHBncHJv
+dF93cml0ZWNvbWJpbmUoUEFHRV9LRVJORUwpKTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBWTV9NQVAsIHByb3QpCj4KPgo+IFdvdWxkbid0IGEgdm1hcCB3aXRoIHBncHJv
+dF93cml0ZWNvbWJpbmUoKSBjcmVhdGUgY29uZmxpY3RpbmcgbWFwcGluZ3MKPiB3aXRoIHRoZSBs
+aW5lYXIga2VybmVsIG1hcCB3aGljaCBpcyBub3Qgd3JpdGUtY29tYmluZWQ/IE9yIGRvIHlvdSBj
+aGFuZ2UKPiB0aGUgbGluZWFyIGtlcm5lbCBtYXAgb2YgdGhlIHNobWVtIHBhZ2VzIHNvbWV3aGVy
+ZT8gdm1hcCBieXBhc3Nlc3MgYXQKPiBsZWFzdCB0aGUgeDg2IFBBVCBjb3JlIG1hcHBpbmcgY29u
+c2lzdGVuY3kgY2hlY2sgYW5kIHRoaXMgY291bGQKPiBwb3RlbnRpYWxseSBjYXVzZSBzcHVyaW91
+c2x5IG92ZXJ3cml0dGVuIG1lbW9yeS4KClllYWgsIEkgdGhpbmsgdGhpcyBjcmVhdGVzIGEgY29u
+ZmxpY3RpbmcgYWxpYXMuICBJdCBzZWVtcyBhIGNhbGwgdG8Kc2V0X3BhZ2VzX2FycmF5X3djIGhl
+cmUgb3IgY2hhbmdlcyBlbHNld2hlcmUgaXMgbmVlZGVkLi4KCkJ1dCB0aGlzIGlzIGEgcHJlLWV4
+aXN0aW5nIGlzc3VlIGluIHRoZSBzaG1lbSBoZWxwZXIuICBUaGVyZSBpcyBhbHNvCm5vIHVuaXZl
+cnNhbCBmaXggKGUuZy4sIHNldF9wYWdlc19hcnJheV93YyBpcyB4ODYgb25seSk/ICBJIHdvdWxk
+IGhvcGUKdGhpcyBzZXJpZXMgY2FuIGJlIG1lcmdlZCBzb29uZXIgdG8gZml4IHRoZSByZWdyZXNz
+aW9uIGZpcnN0LgoKPgo+Cj4gPiArICAgICB9Cj4gPgo+ID4gICAgICAgaWYgKCFzaG1lbS0+dmFk
+ZHIpIHsKPiA+ICAgICAgICAgICAgICAgRFJNX0RFQlVHX0tNUygiRmFpbGVkIHRvIHZtYXAgcGFn
+ZXNcbiIpOwo+ID4gQEAgLTU0MCw3ICs1NDUsOSBAQCBpbnQgZHJtX2dlbV9zaG1lbV9tbWFwKHN0
+cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKPiA+
+ICAgICAgIH0KPiA+Cj4gPiAgICAgICB2bWEtPnZtX2ZsYWdzIHw9IFZNX01JWEVETUFQIHwgVk1f
+RE9OVEVYUEFORDsKPiA+IC0gICAgIHZtYS0+dm1fcGFnZV9wcm90ID0gcGdwcm90X3dyaXRlY29t
+YmluZSh2bV9nZXRfcGFnZV9wcm90KHZtYS0+dm1fZmxhZ3MpKTsKPiA+ICsgICAgIHZtYS0+dm1f
+cGFnZV9wcm90ID0gdm1fZ2V0X3BhZ2VfcHJvdCh2bWEtPnZtX2ZsYWdzKTsKPiA+ICsgICAgIGlm
+ICghc2htZW0tPm1hcF9jYWNoZWQpCj4gPiArICAgICAgICAgICAgIHZtYS0+dm1fcGFnZV9wcm90
+ID0gcGdwcm90X3dyaXRlY29tYmluZSh2bWEtPnZtX3BhZ2VfcHJvdCk7Cj4KPiBTYW1lIHRoaW5n
+IGhlcmUuIE5vdGUgdGhhdCB2bWZfaW5zZXJ0X3BhZ2UoKSB3aGljaCBpcyB1c2VkIGJ5IHRoZSBm
+YXVsdAo+IGhhbmRsZXIgYWxzbyBieXBhc3NlcyB0aGUgeDg2IFBBVCAgY29uc2lzdGVuY3kgY2hl
+Y2ssIHdoZXJlYXMKPiB2bWZfaW5zZXJ0X21peGVkKCkgZG9lc24ndC4KPgo+ID4gICAgICAgdm1h
+LT52bV9wYWdlX3Byb3QgPSBwZ3Byb3RfZGVjcnlwdGVkKHZtYS0+dm1fcGFnZV9wcm90KTsKPgo+
+IEF0IGxlYXN0IHdpdGggU01FIG9yIFNFViBlbmNyeXB0aW9uLCB3aGVyZSBzaG1lbSBtZW1vcnkg
+aGFzIGl0cyBrZXJuZWwKPiBtYXAgc2V0IHRvIGVuY3J5cHRlZCwgY3JlYXRpbmcgY29uZmxpY3Rp
+bmcgbWFwcGluZ3MgaXMgZXhwbGljaXRseQo+IGRpc2FsbG93ZWQuCj4gQlRXLCB3aHkgaXMgbW1h
+cCBtYXBwaW5nIGRlY3J5cHRlZCB3aGlsZSB2bWFwIGlzbid0Pwo+Cj4gPiAgICAgICB2bWEtPnZt
+X29wcyA9ICZkcm1fZ2VtX3NobWVtX3ZtX29wczsKPiA+Cj4KPiBUaGFua3MsCj4gVGhvbWFzCj4K
+Pgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
