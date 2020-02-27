@@ -1,69 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B2F1717FD
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA6417181D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 14:00:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B85B66EC99;
-	Thu, 27 Feb 2020 12:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 638D06ECB4;
+	Thu, 27 Feb 2020 12:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 746B06E8BB
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:53:24 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id C87BA7B64;
- Thu, 27 Feb 2020 07:53:20 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 27 Feb 2020 07:53:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=dg1VFIcvLaP5nEziGd8HsDrRTUd
- L8mTlPmPl1XUFXJE=; b=uG/klM/BtKxPTmdRNYbM/h0HAUCJyd6uIETqfqLgc0h
- TjAvIbSzalBF5heUpNpFRY7LAOV9HNkBg3OF1nQtSBJ7Vely0EfRvxhrdMtR4bH8
- 5LU6GPiyVr5hEywDLSYcy9Vfj4Fn30239rXRhcI0ICFiN3/le+GNe1sQVgSz4V1q
- RI6uFABUdqDV2K+ZzFK7T90M2JOrZFBhDY90qckU6HsgAYTVZTLdsk011FgJRE4z
- YTQu3O/cnjcZC9pxTAWhrqvTCKZq1za6LATLV2GMngczFkXKmsi2BgxarR/KY0uV
- dB77vZ/e3ieYcfOUTc3EgjqG1llXe51VQaEVpQ71LfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dg1VFI
- cvLaP5nEziGd8HsDrRTUdL8mTlPmPl1XUFXJE=; b=rgxzXkga6Vz/q8ibvePdKE
- Q1LaW0dAHbPN75tiF5KgNerBw+BQ7k2Nfituc90tSyPhT41a0MT7dqCgST/I2xFG
- yRJk3dgI4UngaI+fz6lmrQ9AtmM6N6pKydzrQ9gwmwKJAtI5iNB++FoYlh3k6AOC
- SoJ70Wm28m57V8nnonWCsBMP5YNL2tJIWgKYqQ2Qzx6cz7xNNQIwyCnOXGOh0gHR
- qTEB++5skRk8GVWg+qFArs49ztDOPr7C1kNEo+Ky/dGyxiUcOfiPDaeXYbi56eSE
- Lr/6ULMfdoZP2lbLl8AgwvVhbMLRNOZaUfqMfby2S4DwU3VbY2JnjqOLMnZ5bsOQ
- ==
-X-ME-Sender: <xms:u7tXXhPmXN-3uOFEGLxT6i8bviXJjba7XPp3Mqomr2-86hzBb-AUtg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleeigdegiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
- fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:u7tXXtR3tAhbApasVu6ORLm8rRDds7FKoh144uLnSOYnDxc5SOvyng>
- <xmx:u7tXXnhMZY6frqiLbiRBaCfP18PdiQcpyTen05GZux-_yHq6iPBEeA>
- <xmx:u7tXXu99pcF2nr3Ck4I57eEN8zxtgjvOYl-JVYm9mq7QJhHU59iPGQ>
- <xmx:wLtXXutVnkivB2V07VUGn2mpjvFovmqwJdRDEr8gpuWWZVSbI_UXMg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 880793280059;
- Thu, 27 Feb 2020 07:53:15 -0500 (EST)
-Date: Thu, 27 Feb 2020 13:53:13 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: Re: [PATCH v2 6/6] arm64: allwinner: a64: enable LCD-related
- hardware for Pinebook
-Message-ID: <20200227125313.lvgflcik4ra26m2r@gilmour.lan>
-References: <20200226081011.1347245-1-anarsoul@gmail.com>
- <20200226081011.1347245-7-anarsoul@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20200226081011.1347245-7-anarsoul@gmail.com>
+Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5301::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388D26E8A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582808227;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=EHgVmvZBm7FfOuRidNTu7QhYG4ewtZHDd8hCpQzwN2Q=;
+ b=ZTHblfUBCujf/obpCSnM3vLxvWSSNY1Uol0x5zT7Zh76pnKM04HuRDmjTjPDCzwU+1
+ XNazIg06ZCx9TwkW805P6ma2ZIwMsPi/yrZTa0AV71RE59h6qEqYv/gzDYv+p+OGuv3k
+ DYuOM26N745npmwKwypNwYiQm5rc7um+A6iJBYivws6VBr5FDSz9r5kU4iKu9kPGfmhh
+ 1300sZXLsIdIEmqiEXxtqkyqfSjZYUMW5vuh6AuaOB9F15QYKovCx3qAfoeA8aH9Jht4
+ BiJp8BDtKZPJx9v8GaJ+IHJFSvMEH2l76Mu/QLDxzQRvZm8lqaZZ/ioL2QBICcysYohP
+ D1Ow==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBp5hRw/qOxWRk4dCygV4+2OGxpoAr2x7EvFYqujh1U+3K41Uc/x8xM"
+X-RZG-CLASS-ID: mo00
+Received: from [IPv6:2001:16b8:2655:a800:8035:ee61:8f08:2eb7]
+ by smtp.strato.de (RZmta 46.1.12 AUTH)
+ with ESMTPSA id U06217w1RCuoAsJ
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Thu, 27 Feb 2020 13:56:50 +0100 (CET)
+Subject: Re: [RFC 0/8] MIPS: CI20: add HDMI out support
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20200227122325.GA7587@ravnborg.org>
+Date: Thu, 27 Feb 2020 13:56:56 +0100
+Message-Id: <8EE60F87-415A-44EA-AA49-632E232095FF@goldelico.com>
+References: <cover.1582744379.git.hns@goldelico.com>
+ <20200227122325.GA7587@ravnborg.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Thu, 27 Feb 2020 12:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,73 +56,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Samuel Holland <samuel@sholland.org>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng <icenowy@aosc.io>,
- devicetree@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
- Jonas Karlman <jonas@kwiboo.se>, Torsten Duwe <duwe@suse.de>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>
-Content-Type: multipart/mixed; boundary="===============1882441551=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Paul Boddie <paul@boddie.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Paul Burton <paulburton@kernel.org>, linux-gpio@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Andi Kleen <ak@linux.intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, kernel@pyra-handheld.com,
+ letux-kernel@openphoenux.org, "Eric W. Biederman" <ebiederm@xmission.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sam,
 
---===============1882441551==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3bq54ytukgsvs3eu"
-Content-Disposition: inline
+> Am 27.02.2020 um 13:23 schrieb Sam Ravnborg <sam@ravnborg.org>:
+> 
+> Hi Nikolaus.
+> 
+> On Wed, Feb 26, 2020 at 08:12:52PM +0100, H. Nikolaus Schaller wrote:
+>> This patch series adds HDMI output to the jz4780/CI20 board.
+>> 
+>> It is based on taking the old 3.18 vendor kernel and trying
+>> to achieve the same with modern DTS setup and new/modified
+>> drivers.
+>> 
+>> Unfortunately, in this first RFC, only EDID and creation of
+>> /dev/fb0 are working. Also, HDMI hot plugging is detected.
+>> 
+>> But there is no HDMI output signal. So some tiny piece seems
+>> to be missing to enable/configure the Synposys HDMI controller.
+>> 
+>> We need help from the community to fix this.
+>> 
+>> Note: device tree bindings are from 2015 and still seem to
+>> fit - except they are not in yaml format.
+>> 
+>> Original authors of most patches are
+>> * Paul Boddie <paul@boddie.org.uk>
+>> * Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+>> 
+>> 
+>> H. Nikolaus Schaller (2):
+>>  drm: ingenic-drm: add MODULE_DEVICE_TABLE
+>>  MIPS: CI20: defconfig: configure for DRM_DW_HDMI_JZ4780
+>> 
+>> Paul Boddie (4):
+>>  drm: ingenic: add jz4780 Synopsys HDMI driver.
+>>  pinctrl: ingenic: add hdmi-ddc pin control group
+>>  MIPS: DTS: jz4780: account for Synopsys HDMI driver and LCD controller
+>>  MIPS: DTS: CI20: add HDMI setup
+>> 
+>> Zubair Lutfullah Kakakhel (2):
+>>  dt-bindings: video: Add jz4780-lcd binding
+>>  dt-bindings: video: Add jz4780-hdmi binding
+>> 
+>> .../bindings/display/ingenic-jz4780-hdmi.txt  |  41 ++++++
+>> .../bindings/display/ingenic-jz4780-lcd.txt   |  39 ++++++
+> New bindings in DT Schema format please...
+> We want to have then in a formal launguage so we can use these
+> to verify the DT files.
 
+Yes, I know. And I fully support the goal.
 
---3bq54ytukgsvs3eu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+But I personally do not have the time to learn the (IMHO brain-twisting)
+way the Schema format is working. Especially, I am not interested
+in becoming volunteer translator for .txt based schemas developed
+by someone else.
 
-On Wed, Feb 26, 2020 at 12:10:11AM -0800, Vasily Khoruzhick wrote:
-> From: Icenowy Zheng <icenowy@aosc.io>
->
-> Pinebook has an ANX6345 bridge connected to the RGB666 LCD output and
-> eDP panel input. The bridge is controlled via I2C that's connected to
-> R_I2C bus.
->
-> Enable all this hardware in device tree.
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+So I hope that someone from the community can and is willing to do
+that.
 
-Applied the 6 patches, thanks!
-Maxime
+Or that there will appear good tools soon. E.g. some GUI
+based editor tool would be very helpful so that you don't have
+to fight with the yaml indentation rules. Like there are XML
+and DTD editors. And even HTML is rarely written manually any more.
 
---3bq54ytukgsvs3eu
-Content-Type: application/pgp-signature; name="signature.asc"
+IMHO such tools should have been developed and in place *before*
+the rule to provide DT schemata is enforced.
 
------BEGIN PGP SIGNATURE-----
+Anyways, I have requested for comments (and did expect this one).
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXle7uQAKCRDj7w1vZxhR
-xaczAPoC3ALs6FJiOTdBAkkgLMLeU5xSuyL54sh1Q4tkALRViwEA+VH+kLki+xAR
-3WxVIhBlXQvrAtrSbtL5C0Md5xmCsQo=
-=WsJg
------END PGP SIGNATURE-----
-
---3bq54ytukgsvs3eu--
-
---===============1882441551==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+BR and thanks,
+Nikolaus
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1882441551==--
