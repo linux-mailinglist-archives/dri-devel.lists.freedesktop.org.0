@@ -1,86 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D242B1727DD
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 19:45:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 746DE1727DB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 19:45:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFA0D6ED01;
-	Thu, 27 Feb 2020 18:45:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9ED6ECCE;
+	Thu, 27 Feb 2020 18:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7FEC6ECE9
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:45:44 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1582829145; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=U/EDQ0pr75hfPnWX/OCbb8FxwwnZ09FdliYUIRis9EI=;
- b=Ohq2uaYBNAbZEQptPXBQQ+qzqPjzkH+0YYuxpdFx+DyALuh00wew8k2uA+YhgrseIm3SzhIJ
- OtwzdRAaySVr3nO2ZzxL4caRK1Eat50T/Ts0FamAhwd+qcQ9m0vwYu8y/Wnw871bWt49q9WQ
- LPB4/Usgp2E7GmTIQbCb5Iz7Sro=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e580e55.7f0e10e580d8-smtp-out-n03;
- Thu, 27 Feb 2020 18:45:41 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 7605FC447A2; Thu, 27 Feb 2020 18:45:41 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 83C15C433A2;
- Thu, 27 Feb 2020 18:45:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 83C15C433A2
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Thu, 27 Feb 2020 11:45:34 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: iommu@lists.linux-foundation.org
-Subject: Re: [Freedreno] [PATCH v5 0/5] iommu/arm-smmu: Split pagetable
- support for arm-smmu-v2
-Message-ID: <20200227184534.GA25772@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: iommu@lists.linux-foundation.org,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Wen Yang <wen.yang99@zte.com.cn>,
- will@kernel.org, Joerg Roedel <joro@8bytes.org>,
- Ben Dooks <ben.dooks@codethink.co.uk>,
- linux-arm-kernel@lists.infradead.org,
- Wambui Karuga <wambui.karugax@gmail.com>,
- freedreno@lists.freedesktop.org, Fritz Koenig <frkoenig@google.com>,
- linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Alexios Zavras <alexios.zavras@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
- Allison Randal <allison@lohutok.net>,
- Enrico Weigelt <info@metux.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Douglas Anderson <dianders@chromium.org>,
- linux-kernel@vger.kernel.org, zhengbin <zhengbin13@huawei.com>,
- Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Drew Davenport <ddavenport@chromium.org>,
- Brian Masney <masneyb@onstation.org>, robin.murphy@arm.com,
- Georgi Djakov <georgi.djakov@linaro.org>
-References: <1580248819-12644-1-git-send-email-jcrouse@codeaurora.org>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16D846ECCE
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:45:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582829143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iVuKwPMK/eXRF4YBEvxtVfssRdB3IYBa8t0n9NIPWaY=;
+ b=MDaBGn7vsAc2MIrnUEE1llsZ76vTN+2LM/zgdPLDI5fVzd2js+xFt6cazaBET4FO/uqcBy
+ 4nTfxtQ5NPlTzu7/mPho1Vb7XL5efFwmC+Z7w4Fg8iMDgA9EjcHg2gV+Du1UJZ0/c6iJsa
+ nSpOPhouMX+hgV6BhfoaxuZJ/idDBwU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-xG-771-eN8yzXVcvveVbVQ-1; Thu, 27 Feb 2020 13:45:41 -0500
+X-MC-Unique: xG-771-eN8yzXVcvveVbVQ-1
+Received: by mail-wr1-f69.google.com with SMTP id r1so200294wrc.15
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 10:45:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iVuKwPMK/eXRF4YBEvxtVfssRdB3IYBa8t0n9NIPWaY=;
+ b=KzLDMjVEKpdq9RPWcyNrN5Wy43Q4FYOiJXNHop3q0CDxZf/pDT+d7UrQDk99fcYzIs
+ HcpyE60F3jxq0qwfx4E70zzqQxu4vr8wA3az73F2gTHqbuslOEUQmWFW1gxv85yW/6iJ
+ DlcqHB8p9eNwQUJac6O7vd5Ch2lG0CI/sU1iCOAL/I1NQkPz+9W+vaTGkTEK6f3rhRFu
+ hULWQMKl+crwU8H4jVkwnz9gQWMwvtrdfEhxtUe5VZ+tfZJrXUeMQTkauCFud88TztfP
+ V8lmBZMyJZm2+hppbZH6WUke4jdafZr16B1zmB7SSoqchLjfOek4a4dJhm43nVJc53kg
+ NldQ==
+X-Gm-Message-State: APjAAAUD1mTADpHwbSv3t4GcC/DVS3PyORFLNdsyFaK2muDRQVtZQq1A
+ w8NVpawXG5hW5A0NayzwP9aL4vwFhKRjDi3cF+N/SXy4p5WuDGK8ZvXwSZDfuFM4/kLmMmFoU97
+ VzZIGMMCXRjVAgFDqKq5aoVnFd5bm
+X-Received: by 2002:adf:facc:: with SMTP id a12mr255976wrs.100.1582829139826; 
+ Thu, 27 Feb 2020 10:45:39 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzS7iwolLIglWsHkFQf0lunQH/92lmCChlV7hbhGP0V+6bufdLAND2rjW3JWdum8vxXoHyNTg==
+X-Received: by 2002:adf:facc:: with SMTP id a12mr255959wrs.100.1582829139570; 
+ Thu, 27 Feb 2020 10:45:39 -0800 (PST)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
+ by smtp.gmail.com with ESMTPSA id v16sm8831596wml.11.2020.02.27.10.45.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Feb 2020 10:45:38 -0800 (PST)
+Subject: Re: 5.6 DP-MST regression: 1 of 2 monitors on TB3 (DP-MST) dock no
+ longer light up
+To: Lyude Paul <lyude@redhat.com>
+References: <99213368-5025-8435-502b-3d23b875ca60@redhat.com>
+ <cd775055fc4450bba045cfbde66d45502e16162c.camel@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <3bcd1280-0690-0193-31ef-36a937290cfb@redhat.com>
+Date: Thu, 27 Feb 2020 19:45:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1580248819-12644-1-git-send-email-jcrouse@codeaurora.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <cd775055fc4450bba045cfbde66d45502e16162c.camel@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,104 +82,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>, will@kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Joerg Roedel <joro@8bytes.org>,
- Wen Yang <wen.yang99@zte.com.cn>, Ben Dooks <ben.dooks@codethink.co.uk>,
- linux-arm-kernel@lists.infradead.org, Wambui Karuga <wambui.karugax@gmail.com>,
- Fritz Koenig <frkoenig@google.com>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>, robin.murphy@arm.com,
- Alexios Zavras <alexios.zavras@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
- Allison Randal <allison@lohutok.net>, Enrico Weigelt <info@metux.net>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- zhengbin <zhengbin13@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Drew Davenport <ddavenport@chromium.org>, Brian Masney <masneyb@onstation.org>,
- freedreno@lists.freedesktop.org, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 28, 2020 at 03:00:14PM -0700, Jordan Crouse wrote:
-> This is another iteration for the split pagetable support based on the
-> suggestions from Robin and Will [1].
-> 
-> Background: In order to support per-context pagetables the GPU needs to enable
-> split tables so that we can store global buffers in the TTBR1 space leaving the
-> GPU free to program the TTBR0 register with the address of a context specific
-> pagetable.
-> 
-> If the DOMAIN_ATTR_SPLIT_TABLES attribute is set on the domain before attaching,
-> the context bank assigned to the domain will be programmed to allow translations
-> in the TTBR1 space. Translations in the TTBR0 region will be disallowed because,
-> as Robin pointe out, having a un-programmed TTBR0 register is dangerous.
-> 
-> The driver can determine if TTBR1 was successfully programmed by querying
-> DOMAIN_ATTR_SPLIT_TABLES after attaching. The domain geometry will also be
-> updated to reflect the virtual address space for the TTBR1 range.
-> 
-> Upcoming changes will allow auxiliary domains to be attached to the device which
-> will enable and program TTBR0.
-> 
-> This patchset is based on top of linux-next-20200127.
+Hi,
 
-Quick ping for feedback so I can respin for (maybe?) 5.6.
+On 2/27/20 7:41 PM, Lyude Paul wrote:
+> hi - I almost certainly know the solution to this, the patches that we got
+> from amd to do bandwidth checking in the DP MST helpers don't actually work
+> correctly in a lot of cases and I need to fix them. I've just been busy on PTO
+> and only just got back today, and have been busy with fixing a lot of RHEL
+> stuff at the same time. I'll take a closer look at this soonb
 
-Thanks,
-Jordan
+Great, I'm a bit worried about the timing for getting this fixed though. We are
+not that far into the cycle yet, but still I have the feeling it might be better
+to just revert the commit triggering the probably pre-existing problems here
+and then queue up the necessary fixes + a new version of that commit when
+we have everything in place ?
 
-> Change log:
-> 
-> v4: Only program TTBR1 when split pagetables are requested. TTBR0 will be
-> enabled later when an auxiliary domain is attached
-> v3: Remove the implementation specific and make split pagetable support
-> part of the generic configuration
-> 
-> [1] https://lists.linuxfoundation.org/pipermail/iommu/2020-January/041373.html
-> 
-> Jordan Crouse (5):
->   iommu: Add DOMAIN_ATTR_SPLIT_TABLES
->   iommu/arm-smmu: Add support for TTBR1
->   drm/msm: Attach the IOMMU device during initialization
->   drm/msm: Refactor address space initialization
->   drm/msm/a6xx: Support split pagetables
-> 
->  drivers/gpu/drm/msm/adreno/a2xx_gpu.c    | 16 ++++++++++
->  drivers/gpu/drm/msm/adreno/a3xx_gpu.c    |  1 +
->  drivers/gpu/drm/msm/adreno/a4xx_gpu.c    |  1 +
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c    |  1 +
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c    | 51 ++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c  | 23 ++++++++++----
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h  |  8 +++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 18 ++++-------
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 18 +++++------
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c |  4 ---
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 18 +++++------
->  drivers/gpu/drm/msm/msm_drv.h            |  8 ++---
->  drivers/gpu/drm/msm/msm_gem_vma.c        | 36 ++++------------------
->  drivers/gpu/drm/msm/msm_gpu.c            | 49 ++----------------------------
->  drivers/gpu/drm/msm/msm_gpu.h            |  4 +--
->  drivers/gpu/drm/msm/msm_gpummu.c         |  6 ----
->  drivers/gpu/drm/msm/msm_iommu.c          | 18 ++++++-----
->  drivers/gpu/drm/msm/msm_mmu.h            |  1 -
->  drivers/iommu/arm-smmu.c                 | 48 +++++++++++++++++++++++++-----
->  drivers/iommu/arm-smmu.h                 | 22 ++++++++++----
->  include/linux/iommu.h                    |  2 ++
->  21 files changed, 198 insertions(+), 155 deletions(-)
-> 
-> -- 
-> 2.7.4
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+This way you can take your time to fix this properly instead of having to
+do a rush job to fix the regression before 5.6 ships. I think rushing things
+never is a good idea. So my vote on this goes to just reverting the commit
+triggering this for now and taking our time to get this right.
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Regards,
+
+Hans
+
+
+
+
+
+> 
+> On Wed, 2020-02-26 at 16:15 +0100, Hans de Goede wrote:
+>> Hi Lyude and everyone else,
+>>
+>> Lyude I'm mailing you about this because you have done a lot of
+>> work on DP MST, but if this rings a bell to anyone else feel
+>> free to weigh in on this.
+>>
+>> I'm currently using a Lenovo X1 7th gen + a Lenovo TB3 gen 2 dock
+>> as my daily rider for testing purposes. When 5.6-rc1 came out I
+>> noticed that only 1 of the 2 1920x1080@60 monitors on the dock
+>> lights up.
+>>
+>> There are no kernel errors in the logs, but mutter/gnome-shell says:
+>>
+>> gnome-shell[1316]: Failed to post KMS update: Page flip of 93 failed
+>>
+>> With 93 being the crtc-id of the crtc used for the monitor which is
+>> displaying black. Since then I've waited for 5.6-rc3 hoping that a
+>> fix was already queued up, but 5.6-rc3 still has this problem.
+>>
+>> gnome-shell does behave as if all monitors are connected, so the
+>> monitor is seen, but we are failing to actually send any frames
+>> to it.
+>>
+>> I've put a log collected with drm.debug=0x104 here:
+>> https://fedorapeople.org/~jwrdegoede/drm-debug.log
+>>
+>> This message stands out as pointing to the likely cause of this problem:
+>>
+>> [    3.309061] [drm:intel_dump_pipe_config [i915]] MST master transcoder:
+>> <invalid>
+>>
+>> Regards,
+>>
+>> Hans
+>>
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
