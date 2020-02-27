@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8881717FE
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D4317180C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3EF6ECA3;
-	Thu, 27 Feb 2020 12:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34EC96ECB3;
+	Thu, 27 Feb 2020 12:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
  [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB6246E885
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:02:58 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id i10so5727024wmd.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:02:58 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 978FF6EC94
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:03:02 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id t23so3259768wmi.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:03:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LFKRLVR3En2qAyWAFyjSG1BfnWs6i3rEBFI+3Z3Uh14=;
- b=vdInBT6S+Cz7AIQeFEX/HBaX1a273oG5ysqqQNm6tMxsB11TcE6gB7Qk7dSWeJk+dR
- +UdWmHGvW/PT2YtbbK/p6BxPnkCfSkaXP60ZOmuwNesmvONeuAn/hneMI1pfBdhL0pBW
- TtEWwU4gp2vmK/cWYrqWWyGPF0Bk8fmwDpyAWbZly5vhqdXPVAXFR6VGTaNFFo+5S2gh
- DEtiqgzQUC41JK3cQ1LVa+siCwhhbGyvkPuOCbGFoRfVLZtYoc69I/8Ch6159+ee21E3
- 2ZPsrUKSFCC2he7B22o8IFsQGT1CcU1NSHwhjNO7XgcfQnaWrOutEdrBvrc0/rf1GOQx
- +chA==
+ bh=4fFxtd2alUAmDwPqREqD0hmlK9QgvDgPrbdGklXtT8Q=;
+ b=kEOqiWPcKOo2uudX4IJh02QKkSzl+Yj6CrbhJNJsBDkpi/BKDKUsJXQZlC+BeybXc9
+ LrzQ752Bg/EVv6ae+ab93XL/7ZBBY1pRJCrN1rY9Lewu85ppogh1mna0z7fed2zF7p7R
+ Vkl84PFvXCQYfnFmDwdnfY5CVx/5qWGxxM+7GCvR7izZmVbu3zfpFsal+VzSz1yB/pHd
+ +bvkPw3gJoDd/wYKyuEgIFn28eSEV+Nowg7yBrXPlud1eki3NpOSoxSijbQK8SQmKpEW
+ Pbk947uhgltMnciutcWElWAuSn7k4Z9bgsnFBdVvaDRcG57jlg1bfGLVbaRu7Xcay7Wb
+ Sg4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LFKRLVR3En2qAyWAFyjSG1BfnWs6i3rEBFI+3Z3Uh14=;
- b=bw+SzOl2OrafN7lA8pRkv6ClXr9l8NIdjGo2sC8Hn+WP8Tw32S6CyU2BVhwgvcVvk4
- F+MTdahT0CFJFzTg2AapJvQvJGd83Jt6Yk40OCniVU2sNbJO1r+3uTj3lK4gyrY1nDW9
- edyzpE7zrEq8+oUOoO+BO6WIxYCotc06S2zpeYyE3fxQ7w0KxhUcWikcMeVP7mykwwXI
- PA0Mr2qdkp3KBzK08Iq4y2CmOcWXzbCo73c0PNIKeCUvWwYV/Cpyrdp8SMqtcB3CB1MR
- V4H/n9tbdxX1oemIuJVzl51hABUzUSc5JUm2zZ7ZIeRWyPI+EOXaqDNkELU8OZ1ijhm1
- Re0w==
-X-Gm-Message-State: APjAAAXklfx0+n1bGdkeKIw7ExS3fXJiWMc3wPbBWbU5rKcqdv/jqJSn
- RXFaSIBSp9WuMs6WCYs+lhU=
-X-Google-Smtp-Source: APXvYqzgXMIf7d0ygpseoochEgHCgZpMjbGcGRwlunhf+x0Lp5zstDVWt367HgvoaXcO0f8N7F5PJQ==
-X-Received: by 2002:a1c:a443:: with SMTP id n64mr4733588wme.141.1582804977474; 
- Thu, 27 Feb 2020 04:02:57 -0800 (PST)
+ bh=4fFxtd2alUAmDwPqREqD0hmlK9QgvDgPrbdGklXtT8Q=;
+ b=QlLNzjZuCEmi65cX7HF0a+oUPEyKJ/dQ04qeMx/ZjjslkCaaMMEoX81VWov52vx4YV
+ JJntJ7n49knYBHbwTrbnp1JxR33bCT9QzkX7sV7GfcDWbaRc6Iygj7gXB2XYOORIxK3v
+ Rn+Y4L/NpcdBJomRuvGhdVGFthYOGs6L6j29pdsSvORLGfvQ0xsekshJjHHcN8Yj3YCJ
+ 3b+GPB3HnjZUsHTcQBpwGFdqqv1UKMPTVjyH5ld+fw3XUha7ZyOUmuSBJxiemrBPgcKP
+ fYyUUD+S0XoLAIqqzWUSVAr15yFKqO8cu2EhnnJ4Bu4IhNq7MvBrss6+eR3LRK0gld6y
+ mwEw==
+X-Gm-Message-State: APjAAAWwEWh1jgJq5uEYhlwekNxEMIQJ8TqXwutdTcH1k1PbTLFc2O/2
+ 3Ad7X5aMNvWqhQ2AmddN7eI=
+X-Google-Smtp-Source: APXvYqwEY8Y+d/oV+yJH9lF9a946Az5Xl87bfcopNONxFys9u3gI6iu4vbW3C0rxP+gtf+eEVkXJJw==
+X-Received: by 2002:a05:600c:218d:: with SMTP id
+ e13mr5108729wme.102.1582804981274; 
+ Thu, 27 Feb 2020 04:03:01 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.02.53
+ by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.02.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 04:02:56 -0800 (PST)
+ Thu, 27 Feb 2020 04:03:00 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
-To: daniel@ffwll.ch, airlied@linux.ie,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 04/21] drm/vram-helper: make drm_vram_mm_debugfs_init() return
- void
-Date: Thu, 27 Feb 2020 15:02:15 +0300
-Message-Id: <20200227120232.19413-5-wambui.karugax@gmail.com>
+To: daniel@ffwll.ch,
+	airlied@linux.ie,
+	Eric Anholt <eric@anholt.net>
+Subject: [PATCH 05/21] drm/vc4: remove check of return value of drm_debugfs
+ functions
+Date: Thu, 27 Feb 2020 15:02:16 +0300
+Message-Id: <20200227120232.19413-6-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200227120232.19413-1-wambui.karugax@gmail.com>
 References: <20200227120232.19413-1-wambui.karugax@gmail.com>
@@ -79,58 +80,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Since 987d65d01356 (drm: debugfs: make
 drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
-fails and should return void. Therefore, remove its use as the
-return value of drm_vram_mm_debugfs_init(), and have the function
-declared as void instead.
+fails and should return void. Therefore, remove unnecessary check and
+error handling for the return value of drm_debugfs_create_files()
+in vc4_debugfs_init().
+
+This change also allows vc4_debugfs_init() to be declared as void.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 14 ++++----------
- include/drm/drm_gem_vram_helper.h     |  2 +-
- 2 files changed, 5 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vc4/vc4_debugfs.c | 11 +++--------
+ drivers/gpu/drm/vc4/vc4_drv.h     |  2 +-
+ 2 files changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 92a11bb42365..76506bedac11 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -1042,20 +1042,14 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
-  *
-  * @minor: drm minor device.
-  *
-- * Returns:
-- * 0 on success, or
-- * a negative error code otherwise.
+diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
+index b61b2d3407b5..4fbbf980a299 100644
+--- a/drivers/gpu/drm/vc4/vc4_debugfs.c
++++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
+@@ -20,7 +20,7 @@ struct vc4_debugfs_info_entry {
+  * Called at drm_dev_register() time on each of the minors registered
+  * by the DRM device, to attach the debugfs files.
   */
--int drm_vram_mm_debugfs_init(struct drm_minor *minor)
-+void drm_vram_mm_debugfs_init(struct drm_minor *minor)
+-int
++void
+ vc4_debugfs_init(struct drm_minor *minor)
  {
--	int ret = 0;
+ 	struct vc4_dev *vc4 = to_vc4_dev(minor->dev);
+@@ -30,14 +30,9 @@ vc4_debugfs_init(struct drm_minor *minor)
+ 			    minor->debugfs_root, &vc4->load_tracker_enabled);
+ 
+ 	list_for_each_entry(entry, &vc4->debugfs_list, link) {
+-		int ret = drm_debugfs_create_files(&entry->info, 1,
+-						   minor->debugfs_root, minor);
 -
- #if defined(CONFIG_DEBUG_FS)
--	ret = drm_debugfs_create_files(drm_vram_mm_debugfs_list,
--				       ARRAY_SIZE(drm_vram_mm_debugfs_list),
--				       minor->debugfs_root, minor);
-+	drm_debugfs_create_files(drm_vram_mm_debugfs_list,
-+				 ARRAY_SIZE(drm_vram_mm_debugfs_list),
-+				 minor->debugfs_root, minor);
- #endif
--	return ret;
- }
- EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
- 
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index 0f6e47213d8d..b63bcd1b996d 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -196,7 +196,7 @@ static inline struct drm_vram_mm *drm_vram_mm_of_bdev(
- 	return container_of(bdev, struct drm_vram_mm, bdev);
+-		if (ret)
+-			return ret;
++		drm_debugfs_create_files(&entry->info, 1,
++					 minor->debugfs_root, minor);
+ 	}
+-
+-	return 0;
  }
  
--int drm_vram_mm_debugfs_init(struct drm_minor *minor);
-+void drm_vram_mm_debugfs_init(struct drm_minor *minor);
+ static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index f90c0d08e740..cd0f9ef41fa2 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -750,7 +750,7 @@ void vc4_crtc_get_margins(struct drm_crtc_state *state,
+ 			  unsigned int *top, unsigned int *bottom);
  
- /*
-  * Helpers for integration with struct drm_device
+ /* vc4_debugfs.c */
+-int vc4_debugfs_init(struct drm_minor *minor);
++void vc4_debugfs_init(struct drm_minor *minor);
+ #ifdef CONFIG_DEBUG_FS
+ void vc4_debugfs_add_file(struct drm_device *drm,
+ 			  const char *filename,
 -- 
 2.25.0
 
