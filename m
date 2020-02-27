@@ -1,38 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A8817170E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:23:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3058E1717FB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0C376EC98;
-	Thu, 27 Feb 2020 12:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 855A46E8C2;
+	Thu, 27 Feb 2020 12:59:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B064D6EC98
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:23:34 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 0E14C804D0;
- Thu, 27 Feb 2020 13:23:26 +0100 (CET)
-Date: Thu, 27 Feb 2020 13:23:25 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [RFC 0/8] MIPS: CI20: add HDMI out support
-Message-ID: <20200227122325.GA7587@ravnborg.org>
-References: <cover.1582744379.git.hns@goldelico.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1582744379.git.hns@goldelico.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=ptjrNaXRAAAA:8
- a=r_1tXGB3AAAA:8 a=ewWNKpoYB36fyWn1uZ8A:9 a=CjuIK1q_8ugA:10
- a=6TjziPoOuUJhFL2Tmcc1:22 a=t8nPyN_e6usw4ciXM-Pk:22
+Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
+ [103.229.18.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2CD06EC47;
+ Thu, 27 Feb 2020 08:38:57 +0000 (UTC)
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 27 Feb 2020 14:08:53 +0530
+Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 27 Feb 2020 14:08:33 +0530
+Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
+ id 44BD02210; Thu, 27 Feb 2020 14:08:32 +0530 (IST)
+From: Krishna Manikandan <mkrishn@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v2 1/2] drm/msm/dpu: add DP support for sc7180 target
+Date: Thu, 27 Feb 2020 14:08:30 +0530
+Message-Id: <1582792711-26935-1-git-send-email-mkrishn@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+X-Mailman-Approved-At: Thu, 27 Feb 2020 12:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,66 +40,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Paul Boddie <paul@boddie.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Paul Burton <paulburton@kernel.org>, linux-gpio@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Andi Kleen <ak@linux.intel.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, kernel@pyra-handheld.com,
- letux-kernel@openphoenux.org, "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>, linux-kernel@vger.kernel.org,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus.
+Add the required changes to support Display Port
+for sc7180 target.
 
-On Wed, Feb 26, 2020 at 08:12:52PM +0100, H. Nikolaus Schaller wrote:
-> This patch series adds HDMI output to the jz4780/CI20 board.
-> 
-> It is based on taking the old 3.18 vendor kernel and trying
-> to achieve the same with modern DTS setup and new/modified
-> drivers.
-> 
-> Unfortunately, in this first RFC, only EDID and creation of
-> /dev/fb0 are working. Also, HDMI hot plugging is detected.
-> 
-> But there is no HDMI output signal. So some tiny piece seems
-> to be missing to enable/configure the Synposys HDMI controller.
-> 
-> We need help from the community to fix this.
-> 
-> Note: device tree bindings are from 2015 and still seem to
-> fit - except they are not in yaml format.
-> 
-> Original authors of most patches are
-> * Paul Boddie <paul@boddie.org.uk>
-> * Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-> 
-> 
-> H. Nikolaus Schaller (2):
->   drm: ingenic-drm: add MODULE_DEVICE_TABLE
->   MIPS: CI20: defconfig: configure for DRM_DW_HDMI_JZ4780
-> 
-> Paul Boddie (4):
->   drm: ingenic: add jz4780 Synopsys HDMI driver.
->   pinctrl: ingenic: add hdmi-ddc pin control group
->   MIPS: DTS: jz4780: account for Synopsys HDMI driver and LCD controller
->   MIPS: DTS: CI20: add HDMI setup
-> 
-> Zubair Lutfullah Kakakhel (2):
->   dt-bindings: video: Add jz4780-lcd binding
->   dt-bindings: video: Add jz4780-hdmi binding
-> 
->  .../bindings/display/ingenic-jz4780-hdmi.txt  |  41 ++++++
->  .../bindings/display/ingenic-jz4780-lcd.txt   |  39 ++++++
-New bindings in DT Schema format please...
-We want to have then in a formal launguage so we can use these
-to verify the DT files.
+Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
 
-	Sam
+Changes in v2:
+	- Change in commit message
+
+This patch has dependency on the below series
+https://patchwork.kernel.org/patch/11269169/
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c    |  6 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  3 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c    | 12 ++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c     |  4 ++++
+ 5 files changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index f8ac3bf..136e4d0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1109,6 +1109,12 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+ 	}
+ 
+ 	if (dpu_enc->cur_master->hw_mdptop &&
++		(dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_TMDS) &&
++			dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select)
++		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select(
++			dpu_enc->cur_master->hw_mdptop);
++
++	if (dpu_enc->cur_master->hw_mdptop &&
+ 			dpu_enc->cur_master->hw_mdptop->ops.reset_ubwc)
+ 		dpu_enc->cur_master->hw_mdptop->ops.reset_ubwc(
+ 				dpu_enc->cur_master->hw_mdptop,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index c567917..60f350f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -109,8 +109,9 @@
+ 	{
+ 	.name = "top_0", .id = MDP_TOP,
+ 	.base = 0x0, .len = 0x494,
+-	.features = 0,
++	.features = BIT(DPU_MDP_DP_PHY_SEL),
+ 	.highest_bank_bit = 0x3,
++	.dp_phy_intf_sel = 0x41,
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+ 		.reg_off = 0x2AC, .bit_off = 0},
+ 	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 09df7d8..fbcf14b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -77,6 +77,7 @@ enum {
+  * @DPU_MDP_UBWC_1_0,      This chipsets supports Universal Bandwidth
+  *                         compression initial revision
+  * @DPU_MDP_UBWC_1_5,      Universal Bandwidth compression version 1.5
++ * @DPU_MDP_DP_PHY_SEL     DP PHY interface select for controller
+  * @DPU_MDP_MAX            Maximum value
+ 
+  */
+@@ -86,6 +87,7 @@ enum {
+ 	DPU_MDP_BWC,
+ 	DPU_MDP_UBWC_1_0,
+ 	DPU_MDP_UBWC_1_5,
++	DPU_MDP_DP_PHY_SEL,
+ 	DPU_MDP_MAX
+ };
+ 
+@@ -421,6 +423,7 @@ struct dpu_clk_ctrl_reg {
+  * @highest_bank_bit:  UBWC parameter
+  * @ubwc_static:       ubwc static configuration
+  * @ubwc_swizzle:      ubwc default swizzle setting
++ * @dp_phy_intf_sel:   dp phy interface select for controller
+  * @clk_ctrls          clock control register definition
+  */
+ struct dpu_mdp_cfg {
+@@ -428,6 +431,7 @@ struct dpu_mdp_cfg {
+ 	u32 highest_bank_bit;
+ 	u32 ubwc_static;
+ 	u32 ubwc_swizzle;
++	u32 dp_phy_intf_sel;
+ 	struct dpu_clk_ctrl_reg clk_ctrls[DPU_CLK_CTRL_MAX];
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index efe9a57..ae96ede 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -144,10 +144,22 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 	hsync_ctl = (hsync_period << 16) | p->hsync_pulse_width;
+ 	display_hctl = (hsync_end_x << 16) | hsync_start_x;
+ 
++	if (ctx->cap->type == INTF_DP) {
++		active_h_start = hsync_start_x;
++		active_h_end = active_h_start + p->xres - 1;
++		active_v_start = display_v_start;
++		active_v_end = active_v_start + (p->yres * hsync_period) - 1;
++		active_hctl = (active_h_end << 16) | active_h_start;
++		display_hctl = active_hctl;
++	}
++
+ 	den_polarity = 0;
+ 	if (ctx->cap->type == INTF_HDMI) {
+ 		hsync_polarity = p->yres >= 720 ? 0 : 1;
+ 		vsync_polarity = p->yres >= 720 ? 0 : 1;
++	} else if (ctx->cap->type == INTF_DP) {
++		hsync_polarity = p->hsync_polarity;
++		vsync_polarity = p->vsync_polarity;
+ 	} else {
+ 		hsync_polarity = 0;
+ 		vsync_polarity = 0;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+index f9af52a..9591d42 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+@@ -41,6 +41,7 @@
+ #define MDP_WD_TIMER_4_CTL                0x440
+ #define MDP_WD_TIMER_4_CTL2               0x444
+ #define MDP_WD_TIMER_4_LOAD_VALUE         0x448
++#define DP_PHY_INTF_SEL                   0x460
+ 
+ #define MDP_TICK_COUNT                    16
+ #define XO_CLK_RATE                       19200
+@@ -275,6 +276,9 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
+ 	c = &mdp->hw;
+ 
+ 	DPU_REG_WRITE(c, HDMI_DP_CORE_SELECT, 0x1);
++
++	if (mdp->caps->features & BIT(DPU_MDP_DP_PHY_SEL))
++		DPU_REG_WRITE(c, DP_PHY_INTF_SEL, mdp->caps->dp_phy_intf_sel);
+ }
+ 
+ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+-- 
+1.9.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
