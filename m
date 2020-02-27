@@ -2,55 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974381726D5
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 19:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2A6172702
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 19:23:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3101F6ED3B;
-	Thu, 27 Feb 2020 18:16:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72CC56E8E0;
+	Thu, 27 Feb 2020 18:23:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 428E76ED18
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:16:36 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id e8so4643179wrm.5
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 10:16:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bALWTfMbpih5FGoq3cMNtvtGpKtJJMR1ins1Yr1bNpg=;
- b=YqWH6p2etRyc7bG0Ji7UuvKY08q37Uvg3xBO8eZu99Qg3K/dCHJbJjxn0YDbOvqXCr
- mLq4vytqEoJkXk9pZeRs2/vFXeg21gZC+GnSbRUHZBMYtjxgA0Cx53XtvMp7CKM4Jbn8
- YlHxFB4awZVjX5sSAZjgnOUW3G/Gs2dHfshlI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bALWTfMbpih5FGoq3cMNtvtGpKtJJMR1ins1Yr1bNpg=;
- b=Kfq0ZquRcrmoXTnwxqJGkinFauQoBhVW06ZZHBVcc4EHCWcodP40HUF3Aq2So7I56E
- HfdSVCiTUITIHPEJDdd1C6yLJKdGQifmC3An7+STLyGqRR7r+iPFuxHGCNiEQd3VoNkS
- bydfAE/AWWiNmXFr8gtn90E+0wUIQ0lLZ0usbjpmY5CZVBtzTZqQr2wjXpHzbhQqAinP
- oY/Oja7YOaSMEhRxOk8fAPbW5FaK+JmrvasnPhrQBJlifXEq7ajLwDwgvIO4tMsq/orn
- fJJaL8cJljPanUmodKuZS0iRz+Qs/iqIhIAfd/Sv+EEo3FTgFr87+SKofqOX37xi0hgJ
- yzWw==
-X-Gm-Message-State: APjAAAUZt/aCSmD4PHauBPdoWjtPj/fsq50JUsAPCsazwaj0+tnCABFS
- BOApYKKQEwK9FXMAw0BcFDKVLvpqSqg=
-X-Google-Smtp-Source: APXvYqxkdVxRm0o1rSW+SdB2PuTx1LUGFM0aRb5em0YSD8NDDrsBSIjODR5LEW7NwJO34DOnjMBrIg==
-X-Received: by 2002:a5d:4750:: with SMTP id o16mr115787wrs.91.1582827394575;
- Thu, 27 Feb 2020 10:16:34 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q1sm8551152wrw.5.2020.02.27.10.16.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 10:16:33 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 51/51] drm: Add docs for managed resources
-Date: Thu, 27 Feb 2020 19:15:22 +0100
-Message-Id: <20200227181522.2711142-52-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97706E8E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:23:47 +0000 (UTC)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1j7Np3-0001UE-8B; Thu, 27 Feb 2020 19:23:45 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1j7Np1-00012X-Si; Thu, 27 Feb 2020 19:23:43 +0100
+Date: Thu, 27 Feb 2020 19:23:43 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 17/17] drm/imx: fix drm_mode_config_cleanup race condition
+Message-ID: <20200227182343.4rfyz4wdf7e3q6x2@pengutronix.de>
+References: <20200227162125.10450-1-m.felsch@pengutronix.de>
+ <20200227162125.10450-18-m.felsch@pengutronix.de>
+ <20200227172923.GY2363188@phenom.ffwll.local>
+ <c620634bf4faf57230810a16cb1f5a81f2d23945.camel@pengutronix.de>
+ <CAKMK7uG5e90dEiXYXN9xo+iFY7_9BW6Pp=1CifSQ6c3eWyP=9w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uG5e90dEiXYXN9xo+iFY7_9BW6Pp=1CifSQ6c3eWyP=9w@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 19:19:33 up 104 days,  9:38, 120 users,  load average: 0.25, 0.12,
+ 0.10
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,368 +59,507 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- m.felsch@pengutronix.de, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sascha Hauer <kernel@pengutronix.de>, Dave Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Russell King <rmk+kernel@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All collected together to provide a consistent story in one patch,
-instead of the somewhat bumpy refactor-evolution leading to this.
+Hi Daniel,
 
-Also some thoughts on what the next steps could be:
+On 20-02-27 19:14, Daniel Vetter wrote:
+> On Thu, Feb 27, 2020 at 6:44 PM Lucas Stach <l.stach@pengutronix.de> wrote:
+> >
+> > Hi Daniel,
+> >
+> > On Do, 2020-02-27 at 18:29 +0100, Daniel Vetter wrote:
+> > > On Thu, Feb 27, 2020 at 05:21:25PM +0100, Marco Felsch wrote:
+> > > > Currently there is a race conditions if the panel can't be probed e.g.
+> > > > it is not connected [1]. There where several attempts to fix this [2,3]
+> > > > but non of them made it into mainline.
+> > > >
+> > > > The problem is the combination of the component framework and the drm
+> > > > framework, as Philipp already explained [1]. To fix this we need to
+> > > > drop the devres-kmalloc and move the plain kmalloc to let the drm
+> > > > framework free the resources upon a drm_mode_config_cleanup(). So we need
+> > > > to implement a .destroy() callback for each component. We also need to
+> > > > reorder the master.unbind() callback to ensure that the driver states
+> > > > are accessible during a component.unbind() call. This reordering also
+> > > > aligns the master.unbind() with the error-cleanup path during
+> > > > master.bind().
+> > > >
+> > > > [1] https://www.spinics.net/lists/dri-devel/msg189388.html
+> > > > [2] https://lkml.org/lkml/2018/10/16/1148
+> > > > [3] https://lkml.org/lkml/2019/4/2/612
+> > > >
+> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > >
+> > > I think this collides quite badly with my managed drm device resources
+> > > patch series I'm working on. Plus once we have that, you could use
+> > > drmm_kzalloc and wouldn't need to sprinkle kfree() over everything.
+> > >
+> > > I think at least, I haven't rolled much further than just getting the
+> > > baseline stuff figured out. So if it's not super-pressing to get this
+> > > patch here landed I think it'd be better to base this on top of the drmm
+> > > series. I'm working on sending out v3, I'll cc you on the imx parts so
+> > > you'll get pinged.
+> >
+> > IMO this part of imx-drm has been broken for far too long already, so
+> > we shouldn't delay this fixes series on a complete resource management
+> > rework.
+> 
+> Given it's patch 17/17 in a spring cleanup, and not patch 1/17 I'm not
+> entirely sure it's really that high priority.
 
-- Create a macro called devm_drm_dev_alloc() which essentially wraps
-  the kzalloc(); devm_drm_dev_init(); drmm_add_final_kfree() combo.
-  Needs to be a macro since we'll have to do some typeof trickery and
-  casting to make this fully generic for all drivers that embed struct
-  drm_device into their own thing.
+Sorry for the description but the alloc fixes are important. I'm with
+Lucas, we should fix this now. I called it "spring cleanup" because it
+moves a lot of code from a to b.
 
-- A lot of the simple drivers now have essentially just
-  drm_dev_unplug(); drm_atomic_helper_shutdown(); as their
-  $bus_driver->remove hook. We could create a devm_mode_config_reset
-  which sets drm_atomic_helper_shutdown as it's cleanup action, and a
-  devm_drm_dev_register with drm_dev_unplug as it's cleanup action,
-  and simple drivers wouldn't have a need for a ->remove function at
-  all, and we could delete them.
+Regards,
+  Marco
 
-- For more complicated drivers we need drmm_ versions of a _lot_ more
-  things. All the userspace visible objects (crtc, plane, encoder,
-  crtc), anything else hanging of those (maybe a drmm_get_edid, at
-  least for panels and other built-in stuff).
+> Anyway would be great if
+> you at least check out what the new drm managed resource stuff would
+> mean for imx here, since you're blowing on devm_kzalloc exactly in the
+> way that I'm trying to get sorted now (without tons of explicit
+> kfree() everywhere).
+> -Daniel
+> 
+> >
+> > Regards,
+> > Lucas
+> >
+> > > Cheers, Daniel
+> > >
+> > > > ---
+> > > >  drivers/gpu/drm/imx/dw_hdmi-imx.c      | 28 ++++++++++++---------
+> > > >  drivers/gpu/drm/imx/imx-drm-core.c     |  3 ++-
+> > > >  drivers/gpu/drm/imx/imx-ldb.c          | 34 +++++++++++++++++---------
+> > > >  drivers/gpu/drm/imx/imx-tve.c          | 15 +++++++++---
+> > > >  drivers/gpu/drm/imx/ipuv3-crtc.c       | 28 ++++++++++++++++++---
+> > > >  drivers/gpu/drm/imx/parallel-display.c | 30 ++++++++++++++++-------
+> > > >  6 files changed, 96 insertions(+), 42 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/imx/dw_hdmi-imx.c b/drivers/gpu/drm/imx/dw_hdmi-imx.c
+> > > > index f22cfbf9353e..86a62796c151 100644
+> > > > --- a/drivers/gpu/drm/imx/dw_hdmi-imx.c
+> > > > +++ b/drivers/gpu/drm/imx/dw_hdmi-imx.c
+> > > > @@ -137,6 +137,12 @@ static int dw_hdmi_imx_atomic_check(struct drm_encoder *encoder,
+> > > >     return 0;
+> > > >  }
+> > > >
+> > > > +static void dw_hdmi_imx_encoder_destroy(struct drm_encoder *encoder)
+> > > > +{
+> > > > +   drm_encoder_cleanup(encoder);
+> > > > +   kfree(enc_to_imx_hdmi(encoder));
+> > > > +}
+> > > > +
+> > > >  static const struct drm_encoder_helper_funcs dw_hdmi_imx_encoder_helper_funcs = {
+> > > >     .enable     = dw_hdmi_imx_encoder_enable,
+> > > >     .disable    = dw_hdmi_imx_encoder_disable,
+> > > > @@ -144,7 +150,7 @@ static const struct drm_encoder_helper_funcs dw_hdmi_imx_encoder_helper_funcs =
+> > > >  };
+> > > >
+> > > >  static const struct drm_encoder_funcs dw_hdmi_imx_encoder_funcs = {
+> > > > -   .destroy = drm_encoder_cleanup,
+> > > > +   .destroy = dw_hdmi_imx_encoder_destroy,
+> > > >  };
+> > > >
+> > > >  static enum drm_mode_status
+> > > > @@ -212,7 +218,7 @@ static int dw_hdmi_imx_bind(struct device *dev, struct device *master,
+> > > >     if (!pdev->dev.of_node)
+> > > >             return -ENODEV;
+> > > >
+> > > > -   hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+> > > > +   hdmi = kzalloc(sizeof(*hdmi), GFP_KERNEL);
+> > > >     if (!hdmi)
+> > > >             return -ENOMEM;
+> > > >
+> > > > @@ -228,12 +234,16 @@ static int dw_hdmi_imx_bind(struct device *dev, struct device *master,
+> > > >      * not been registered yet.  Defer probing, and hope that
+> > > >      * the required CRTC is added later.
+> > > >      */
+> > > > -   if (encoder->possible_crtcs == 0)
+> > > > +   if (encoder->possible_crtcs == 0) {
+> > > > +           kfree(hdmi);
+> > > >             return -EPROBE_DEFER;
+> > > > +   }
+> > > >
+> > > >     ret = dw_hdmi_imx_parse_dt(hdmi);
+> > > > -   if (ret < 0)
+> > > > +   if (ret < 0) {
+> > > > +           kfree(hdmi);
+> > > >             return ret;
+> > > > +   }
+> > > >
+> > > >     drm_encoder_helper_add(encoder, &dw_hdmi_imx_encoder_helper_funcs);
+> > > >     drm_encoder_init(drm, encoder, &dw_hdmi_imx_encoder_funcs,
+> > > > @@ -242,15 +252,9 @@ static int dw_hdmi_imx_bind(struct device *dev, struct device *master,
+> > > >     platform_set_drvdata(pdev, hdmi);
+> > > >
+> > > >     hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
+> > > > -
+> > > > -   /*
+> > > > -    * If dw_hdmi_bind() fails we'll never call dw_hdmi_unbind(),
+> > > > -    * which would have called the encoder cleanup.  Do it manually.
+> > > > -    */
+> > > > -   if (IS_ERR(hdmi->hdmi)) {
+> > > > +   /* Don't call kfree() here, this is done by the .destroy() handler. */
+> > > > +   if (IS_ERR(hdmi->hdmi))
+> > > >             ret = PTR_ERR(hdmi->hdmi);
+> > > > -           drm_encoder_cleanup(encoder);
+> > > > -   }
+> > > >
+> > > >     return ret;
+> > > >  }
+> > > > diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > index 9979547ca883..feab6eb9e7e5 100644
+> > > > --- a/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > +++ b/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > @@ -275,9 +275,10 @@ static void imx_drm_unbind(struct device *dev)
+> > > >
+> > > >     drm_kms_helper_poll_fini(drm);
+> > > >
+> > > > +   component_unbind_all(drm->dev, drm);
+> > > > +
+> > > >     drm_mode_config_cleanup(drm);
+> > > >
+> > > > -   component_unbind_all(drm->dev, drm);
+> > > >     dev_set_drvdata(dev, NULL);
+> > > >
+> > > >     drm_dev_put(drm);
+> > > > diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+> > > > index 5e6c1b09dbfa..4a5d31da592a 100644
+> > > > --- a/drivers/gpu/drm/imx/imx-ldb.c
+> > > > +++ b/drivers/gpu/drm/imx/imx-ldb.c
+> > > > @@ -140,6 +140,8 @@ static void imx_ldb_connector_destroy(struct drm_connector *connector)
+> > > >     i2c_put_adapter(imx_ldb_con->ddc);
+> > > >     /* avoid dangling pointers */
+> > > >     imx_ldb_con->ldb_channel = NULL;
+> > > > +   kfree(imx_ldb_con->edid);
+> > > > +   kfree(imx_ldb_con);
+> > > >  }
+> > > >
+> > > >  static int imx_ldb_connector_get_modes(struct drm_connector *connector)
+> > > > @@ -184,6 +186,7 @@ static void imx_ldb_encoder_destroy(struct drm_encoder *encoder)
+> > > >     drm_encoder_cleanup(encoder);
+> > > >     /* avoid dangling pointers */
+> > > >     channel->ldb = NULL;
+> > > > +   kfree(channel);
+> > > >  }
+> > > >
+> > > >  static void imx_ldb_set_clock(struct imx_ldb *ldb, int mux, int chno,
+> > > > @@ -502,9 +505,8 @@ static int imx_ldb_panel_ddc(struct device *dev,
+> > > >             edidp = of_get_property(child, "edid",
+> > > >                                     &connector->edid_len);
+> > > >             if (edidp) {
+> > > > -                   connector->edid = devm_kmemdup(dev, edidp,
+> > > > -                                                  connector->edid_len,
+> > > > -                                                  GFP_KERNEL);
+> > > > +                   connector->edid = kmemdup(edidp, connector->edid_len,
+> > > > +                                             GFP_KERNEL);
+> > > >             } else if (!channel->panel) {
+> > > >                     /* fallback to display-timings node */
+> > > >                     ret = of_get_drm_display_mode(child,
+> > > > @@ -525,7 +527,7 @@ static int imx_ldb_setup_channel(struct device *dev,
+> > > >                              int channel_number)
+> > > >  {
+> > > >     struct imx_ldb_channel *channel;
+> > > > -   struct imx_ldb_connector *imx_ldb_con;
+> > > > +   struct imx_ldb_connector *imx_ldb_con = NULL;
+> > > >     struct drm_encoder *encoder;
+> > > >     struct drm_connector *connector = NULL;
+> > > >     int bus_format;
+> > > > @@ -537,7 +539,7 @@ static int imx_ldb_setup_channel(struct device *dev,
+> > > >      * 3) Register it with the DRM framework
+> > > >      * 4) Attach bridge or connector to encoder
+> > > >      */
+> > > > -   channel = devm_kzalloc(dev, sizeof(*channel), GFP_KERNEL);
+> > > > +   channel = kzalloc(sizeof(*channel), GFP_KERNEL);
+> > > >     if (!channel)
+> > > >             return -ENOMEM;
+> > > >
+> > > > @@ -554,17 +556,19 @@ static int imx_ldb_setup_channel(struct device *dev,
+> > > >                                       ldb->lvds_mux ? 4 : 2, 0,
+> > > >                                       &channel->panel, &channel->bridge);
+> > > >     if (ret && ret != -ENODEV)
+> > > > -           return ret;
+> > > > +           goto err_free;
+> > > >
+> > > >     /* panel ddc only if there is no bridge */
+> > > >     if (!channel->bridge) {
+> > > > -           imx_ldb_con = devm_kzalloc(dev, sizeof(*connector), GFP_KERNEL);
+> > > > -           if (!imx_ldb_con)
+> > > > -                   return -ENOMEM;
+> > > > +           imx_ldb_con = kzalloc(sizeof(*connector), GFP_KERNEL);
+> > > > +           if (!imx_ldb_con) {
+> > > > +                   ret = -ENOMEM;
+> > > > +                   goto err_free;
+> > > > +           }
+> > > >
+> > > >             ret = imx_ldb_panel_ddc(dev, channel, imx_ldb_con, child);
+> > > >             if (ret)
+> > > > -                   return ret;
+> > > > +                   goto err_free;
+> > > >
+> > > >             imx_ldb_con->ldb_channel = channel;
+> > > >             connector = &imx_ldb_con->connector;
+> > > > @@ -628,7 +632,7 @@ static int imx_ldb_setup_channel(struct device *dev,
+> > > >             ret = drm_bridge_attach(encoder, channel->bridge, NULL);
+> > > >             if (ret) {
+> > > >                     DRM_ERROR("Failed to initialize bridge with drm\n");
+> > > > -                   goto err_put_ddc;
+> > > > +                   goto err_out;
+> > > >             }
+> > > >     } else {
+> > > >             drm_connector_attach_encoder(connector, encoder);
+> > > > @@ -637,7 +641,7 @@ static int imx_ldb_setup_channel(struct device *dev,
+> > > >     if (channel->panel) {
+> > > >             ret = drm_panel_attach(channel->panel, connector);
+> > > >             if (ret)
+> > > > -                   goto err_put_ddc;
+> > > > +                   goto err_out;
+> > > >     }
+> > > >
+> > > >     return 0;
+> > > > @@ -645,6 +649,12 @@ static int imx_ldb_setup_channel(struct device *dev,
+> > > >  err_put_ddc:
+> > > >     if (imx_ldb_con)
+> > > >             i2c_put_adapter(imx_ldb_con->ddc);
+> > > > +err_free:
+> > > > +   if (imx_ldb_con)
+> > > > +           kfree(imx_ldb_con->edid);
+> > > > +   kfree(imx_ldb_con);
+> > > > +   kfree(channel);
+> > > > +err_out:
+> > > >     return ret;
+> > > >  }
+> > > >
+> > > > diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
+> > > > index a7a05c47f68b..15ff5f35ff0e 100644
+> > > > --- a/drivers/gpu/drm/imx/imx-tve.c
+> > > > +++ b/drivers/gpu/drm/imx/imx-tve.c
+> > > > @@ -241,6 +241,7 @@ static void imx_tve_connector_destroy(struct drm_connector *connector)
+> > > >     i2c_put_adapter(tvec->ddc);
+> > > >     /* avoid dangling pointers */
+> > > >     tvec->tve = NULL;
+> > > > +   kfree(tvec);
+> > > >  }
+> > > >
+> > > >  static int imx_tve_connector_get_modes(struct drm_connector *connector)
+> > > > @@ -292,6 +293,7 @@ static void imx_tve_encoder_destroy(struct drm_encoder *encoder)
+> > > >     drm_encoder_cleanup(encoder);
+> > > >     /* avoid dangling pointers */
+> > > >     tvee->tve = NULL;
+> > > > +   kfree(tvee);
+> > > >  }
+> > > >
+> > > >  static void imx_tve_encoder_mode_set(struct drm_encoder *encoder,
+> > > > @@ -577,13 +579,15 @@ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
+> > > >     struct imx_tve_connector *tvec;
+> > > >     int ret;
+> > > >
+> > > > -   tvee = devm_kzalloc(dev, sizeof(*tvee), GFP_KERNEL);
+> > > > +   tvee = kzalloc(sizeof(*tvee), GFP_KERNEL);
+> > > >     if (!tvee)
+> > > >             return -ENOMEM;
+> > > >
+> > > > -   tvec = devm_kzalloc(dev, sizeof(*tvec), GFP_KERNEL);
+> > > > -   if (!tvec)
+> > > > -           return -ENOMEM;
+> > > > +   tvec = kzalloc(sizeof(*tvec), GFP_KERNEL);
+> > > > +   if (!tvec) {
+> > > > +           ret = -ENOMEM;
+> > > > +           goto err_free;
+> > > > +   }
+> > > >
+> > > >     tvee->tve = imx_tve;
+> > > >     tvec->tve = imx_tve;
+> > > > @@ -602,6 +606,9 @@ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
+> > > >
+> > > >  err_put_ddc:
+> > > >     i2c_put_adapter(tvec->ddc);
+> > > > +err_free:
+> > > > +   kfree(tvec);
+> > > > +   kfree(tvee);
+> > > >     return ret;
+> > > >  }
+> > > >
+> > > > diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
+> > > > index 63c0284f8b3c..2d24677f7fef 100644
+> > > > --- a/drivers/gpu/drm/imx/ipuv3-crtc.c
+> > > > +++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
+> > > > @@ -105,6 +105,12 @@ static void ipu_crtc_atomic_disable(struct drm_crtc *crtc,
+> > > >     spin_unlock_irq(&crtc->dev->event_lock);
+> > > >  }
+> > > >
+> > > > +static void imx_drm_crtc_destroy(struct drm_crtc *crtc)
+> > > > +{
+> > > > +   drm_crtc_cleanup(crtc);
+> > > > +   kfree(to_ipu_crtc(crtc));
+> > > > +}
+> > > > +
+> > > >  static void imx_drm_crtc_reset(struct drm_crtc *crtc)
+> > > >  {
+> > > >     struct imx_crtc_state *state;
+> > > > @@ -166,7 +172,7 @@ static void ipu_disable_vblank(struct drm_crtc *crtc)
+> > > >
+> > > >  static const struct drm_crtc_funcs ipu_crtc_funcs = {
+> > > >     .set_config = drm_atomic_helper_set_config,
+> > > > -   .destroy = drm_crtc_cleanup,
+> > > > +   .destroy = imx_drm_crtc_destroy,
+> > > >     .page_flip = drm_atomic_helper_page_flip,
+> > > >     .reset = imx_drm_crtc_reset,
+> > > >     .atomic_duplicate_state = imx_drm_crtc_duplicate_state,
+> > > > @@ -357,7 +363,8 @@ static int ipu_get_resources(struct ipu_crtc *ipu_crtc,
+> > > >  }
+> > > >
+> > > >  static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
+> > > > -   struct ipu_client_platformdata *pdata, struct drm_device *drm)
+> > > > +                    struct ipu_client_platformdata *pdata,
+> > > > +                    struct drm_device *drm)
+> > > >  {
+> > > >     struct ipu_soc *ipu = dev_get_drvdata(ipu_crtc->dev->parent);
+> > > >     struct drm_crtc *crtc = &ipu_crtc->base;
+> > > > @@ -437,10 +444,11 @@ static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
+> > > >  {
+> > > >     struct ipu_client_platformdata *pdata = dev->platform_data;
+> > > >     struct drm_device *drm = data;
+> > > > +   struct drm_crtc *registered_crtc = NULL;
+> > > >     struct ipu_crtc *ipu_crtc;
+> > > >     int ret;
+> > > >
+> > > > -   ipu_crtc = devm_kzalloc(dev, sizeof(*ipu_crtc), GFP_KERNEL);
+> > > > +   ipu_crtc = kzalloc(sizeof(*ipu_crtc), GFP_KERNEL);
+> > > >     if (!ipu_crtc)
+> > > >             return -ENOMEM;
+> > > >
+> > > > @@ -448,11 +456,23 @@ static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
+> > > >
+> > > >     ret = ipu_crtc_init(ipu_crtc, pdata, drm);
+> > > >     if (ret)
+> > > > -           return ret;
+> > > > +           goto err;
+> > > >
+> > > >     dev_set_drvdata(dev, ipu_crtc);
+> > > >
+> > > >     return 0;
+> > > > +
+> > > > +err:
+> > > > +   drm_for_each_crtc(registered_crtc, drm) {
+> > > > +           /*
+> > > > +            * The crtc was registered with the drm core framework if we
+> > > > +            * enter here. So let the core .destroy() helper cleanup the
+> > > > +            * code.
+> > > > +            */
+> > > > +           return ret;
+> > > > +   }
+> > > > +   kfree(ipu_crtc);
+> > > > +   return ret;
+> > > >  }
+> > > >
+> > > >  static void ipu_drm_unbind(struct device *dev, struct device *master,
+> > > > diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
+> > > > index 78703b15c7cf..3e247383a498 100644
+> > > > --- a/drivers/gpu/drm/imx/parallel-display.c
+> > > > +++ b/drivers/gpu/drm/imx/parallel-display.c
+> > > > @@ -55,6 +55,8 @@ static void imx_pd_connector_destroy(struct drm_connector *connector)
+> > > >     imx_drm_connector_destroy(connector);
+> > > >     /* avoid dangling pointer */
+> > > >     imxpc->imxpd = NULL;
+> > > > +   kfree(imxpc->edid);
+> > > > +   kfree(imxpc);
+> > > >  }
+> > > >
+> > > >  static int imx_pd_connector_get_modes(struct drm_connector *connector)
+> > > > @@ -102,6 +104,7 @@ static void imx_pd_encoder_destroy(struct drm_encoder *encoder)
+> > > >     if (imxpd->panel)
+> > > >             drm_panel_detach(imxpd->panel);
+> > > >     drm_encoder_cleanup(encoder);
+> > > > +   kfree(imxpd);
+> > > >  }
+> > > >
+> > > >  static void imx_pd_encoder_enable(struct drm_encoder *encoder)
+> > > > @@ -225,31 +228,32 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
+> > > >     struct device_node *np = dev->of_node;
+> > > >     const u8 *edidp;
+> > > >     struct imx_parallel_display *imxpd;
+> > > > -   struct imx_parallel_connector *imxpc;
+> > > > +   struct imx_parallel_connector *imxpc = NULL;
+> > > >     int ret;
+> > > >     u32 bus_format = 0;
+> > > >     const char *fmt;
+> > > >
+> > > > -   imxpd = devm_kzalloc(dev, sizeof(*imxpd), GFP_KERNEL);
+> > > > +   imxpd = kzalloc(sizeof(*imxpd), GFP_KERNEL);
+> > > >     if (!imxpd)
+> > > >             return -ENOMEM;
+> > > >
+> > > >     /* port@1 is the output port */
+> > > >     ret = drm_of_find_panel_or_bridge(np, 1, 0, &imxpd->panel, &imxpd->bridge);
+> > > >     if (ret && ret != -ENODEV)
+> > > > -           return ret;
+> > > > +           goto err_free;
+> > > >
+> > > >     if (!imxpd->bridge) {
+> > > > -           imxpc = devm_kzalloc(dev, sizeof(*imxpc), GFP_KERNEL);
+> > > > -           if (!imxpc)
+> > > > -                   return -ENOMEM;
+> > > > +           imxpc = kzalloc(sizeof(*imxpc), GFP_KERNEL);
+> > > > +           if (!imxpc) {
+> > > > +                   ret = -ENOMEM;
+> > > > +                   goto err_free;
+> > > > +           }
+> > > >
+> > > >             imxpc->imxpd = imxpd;
+> > > >
+> > > >             edidp = of_get_property(np, "edid", &imxpc->edid_len);
+> > > >             if (edidp)
+> > > > -                   imxpc->edid = devm_kmemdup(dev, edidp, imxpc->edid_len,
+> > > > -                                              GFP_KERNEL);
+> > > > +                   imxpc->edid = kmemdup(edidp, imxpc->edid_len, GFP_KERNEL);
+> > > >     }
+> > > >
+> > > >     ret = of_property_read_string(np, "interface-pix-fmt", &fmt);
+> > > > @@ -269,9 +273,17 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
+> > > >
+> > > >     ret = imx_pd_register(drm, imxpd, imxpc);
+> > > >     if (ret)
+> > > > -           return ret;
+> > > > +           goto err_free;
+> > > >
+> > > >     return imx_pd_attach(drm, imxpd, imxpc);
+> > > > +
+> > > > +err_free:
+> > > > +   if (imxpc)
+> > > > +           kfree(imxpc->edid);
+> > > > +   kfree(imxpc);
+> > > > +   kfree(imxpd);
+> > > > +
+> > > > +   return ret;
+> > > >  }
+> > > >
+> > > >  static const struct component_ops imx_pd_ops = {
+> > > > --
+> > > > 2.20.1
+> > > >
+> >
+> 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+> 
 
-Also some more thoughts on why we're not reusing devm_ with maybe a
-fake struct device embedded into the drm_device (we can't use the
-kdev, since that's in each drm_minor).
-
-- Code review gets extremely tricky, since every time you see a devm_
-  you need to carefully check whether the fake device (with the
-  drm_device lifetim) or the real device (with the lifetim of the
-  underlying physical device and driver binding) are used. That's not
-  going to help at all, and we have enormous amounts of drivers who
-  use devm_ where they really shouldn't. Having different types makes
-  sure the compiler type checks this for us and ensures correctness.
-
-- The set of functions are very much non-overlapping. E.g.
-  devm_ioremap makes total sense, drmm_ioremap has the wrong lifetime,
-  since hw resources need to be cleaned out at driver unbind and wont
-  outlive that like a drm_device. Similar, but other way round for
-  drmm_connector_init (which is the only correct version, devm_ for
-  drm_connector is just buggy). Simply not having the wrong version
-  again prevents bugs.
-
-Finally I guess this opens a huge todo for all the drivers. I'm
-semi-tempted to do a tree-wide s/devm_kzalloc/drmm_kzalloc/ since most
-likely that'll fix an enormous amount of bugs and most likely not
-cause any issues at all (aside from maybe holding onto memory slightly
-too long).
-
-v2:
-- Doc improvements from Laurent.
-- Also add kerneldoc for the new drmm_add_action_or_reset.
-
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- Documentation/gpu/drm-internals.rst |  6 +++
- drivers/gpu/drm/drm_drv.c           | 18 +++++++--
- drivers/gpu/drm/drm_managed.c       | 61 +++++++++++++++++++++++++++++
- include/drm/drm_drv.h               |  4 ++
- include/drm/drm_managed.h           | 58 +++++++++++++++++++++++++++
- 5 files changed, 144 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-index a6b6145fda78..12272b168580 100644
---- a/Documentation/gpu/drm-internals.rst
-+++ b/Documentation/gpu/drm-internals.rst
-@@ -138,6 +138,12 @@ Managed Resources
- .. kernel-doc:: drivers/gpu/drm/drm_managed.c
-    :doc: managed resources
- 
-+.. kernel-doc:: drivers/gpu/drm/drm_managed.c
-+   :export:
-+
-+.. kernel-doc:: include/drm/drm_managed.h
-+   :internal:
-+
- Bus-specific Device Registration and PCI Support
- ------------------------------------------------
- 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index bb326b9bcde0..f86b2bae0fa0 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -260,9 +260,15 @@ void drm_minor_release(struct drm_minor *minor)
-  * any other resources allocated at device initialization and drop the driver's
-  * reference to &drm_device using drm_dev_put().
-  *
-- * Note that the lifetime rules for &drm_device instance has still a lot of
-- * historical baggage. Hence use the reference counting provided by
-- * drm_dev_get() and drm_dev_put() only carefully.
-+ * Note that any allocation or resource which is visible to userspace must be
-+ * released only when the final drm_dev_put() is called, and not when the
-+ * driver is unbound from the underlying physical struct &device. Best to use
-+ * &drm_device managed resources with drmm_add_action(), drmm_kmalloc() and
-+ * related functions.
-+ *
-+ * devres managed resources like devm_kmalloc() can only be used for resources
-+ * directly related to the underlying hardware device, and only used in code
-+ * paths fully protected by drm_dev_enter() and drm_dev_exit().
-  *
-  * Display driver example
-  * ~~~~~~~~~~~~~~~~~~~~~~
-@@ -606,6 +612,9 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
-  * arbitrary offset, you must supply a &drm_driver.release callback and control
-  * the finalization explicitly.
-  *
-+ * Note that drivers must call drmm_add_final_kfree() after this function has
-+ * completed successfully.
-+ *
-  * RETURNS:
-  * 0 on success, or error code on failure.
-  */
-@@ -707,6 +716,9 @@ static void devm_drm_dev_init_release(void *data)
-  * Managed drm_dev_init(). The DRM device initialized with this function is
-  * automatically put on driver detach using drm_dev_put().
-  *
-+ * Note that drivers must call drmm_add_final_kfree() after this function has
-+ * completed successfully.
-+ *
-  * RETURNS:
-  * 0 on success, or error code on failure.
-  */
-diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-index 6376be01bbc8..f040efea174e 100644
---- a/drivers/gpu/drm/drm_managed.c
-+++ b/drivers/gpu/drm/drm_managed.c
-@@ -20,7 +20,19 @@
-  * Inspired by struct &device managed resources, but tied to the lifetime of
-  * struct &drm_device, which can outlive the underlying physical device, usually
-  * when userspace has some open files and other handles to resources still open.
-+ *
-+ * Release actions can be added with drmm_add_action(), memory allocations can
-+ * be done directly with drmm_kmalloc() and the related functions. Everything
-+ * will be released on the final drm_dev_put() in reverse order of how the
-+ * release actions have been added and memory has been allocated since driver
-+ * loading started with drm_dev_init().
-+ *
-+ * Note that release actions and managed memory can also be added and removed
-+ * during the lifetime of the driver, all the functions are fully concurrent
-+ * safe. But it is recommended to use managed resources only for resources that
-+ * change rarely, if ever, during the lifetime of the &drm_device instance.
-  */
-+
- struct drmres_node {
- 	struct list_head		entry;
- 	drmres_release_t		release;
-@@ -101,6 +113,18 @@ static void add_dr(struct drm_device *dev, struct drmres *dr)
- 		       dr, dr->node.name, (unsigned long) dr->node.size);
- }
- 
-+/**
-+ * drmm_add_final_kfree - add release action for the final kfree()
-+ * @dev: DRM device
-+ * @parent: pointer to the kmalloc allocation containing @dev
-+ *
-+ * Since the allocation containing the struct &drm_device must be allocated
-+ * before it can be initialized with drm_dev_init() there's no way to allocate
-+ * that memory with drmm_kmalloc(). To side-step this chicken-egg problem the
-+ * pointer for this final kfree() must be specified by calling this function. It
-+ * will be released in the final drm_dev_put() for @dev, after all other release
-+ * actions installed through drmm_add_action() have been processed.
-+ */
- void drmm_add_final_kfree(struct drm_device *dev, void *parent)
- {
- 	WARN_ON(dev->managed.final_kfree);
-@@ -148,6 +172,14 @@ int __drmm_add_action_or_reset(struct drm_device *dev,
- }
- EXPORT_SYMBOL(__drmm_add_action_or_reset);
- 
-+/**
-+ * drmm_add_action - remove a managed release action to a &drm_device
-+ * @dev: DRM device
-+ * @action: release function
-+ * @data: opaque pointer, passed to @action
-+ *
-+ * This function removes a release action added by drmm_add_action().
-+ */
- void drmm_remove_action(struct drm_device *dev,
- 			drmres_release_t action,
- 			void *data)
-@@ -176,6 +208,16 @@ void drmm_remove_action(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drmm_remove_action);
- 
-+/**
-+ * drmm_kmalloc - &drm_device managed kmalloc()
-+ * @dev: DRM device
-+ * @size: size of the memory allocation
-+ * @gfp: GFP allocation flags
-+ *
-+ * This is a &drm_device managed version of kmalloc(). The allocated memory is
-+ * automatically freed on the final drm_dev_put(). Memory can also be freed
-+ * before the final drm_dev_put() by calling drmm_kfree().
-+ */
- void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
- {
- 	struct drmres *dr;
-@@ -191,6 +233,16 @@ void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
- }
- EXPORT_SYMBOL(drmm_kmalloc);
- 
-+/**
-+ * drmm_kstrdup - &drm_device managed kstrdup()
-+ * @dev: DRM device
-+ * @s: 0-terminated string to be duplicated
-+ * @gfp: GFP allocation flags
-+ *
-+ * This is a &drm_device managed version of kstrdup(). The allocated memory is
-+ * automatically freed on the final drm_dev_put() and works exactly like a
-+ * memory allocation obtained by drmm_kmalloc().
-+ */
- char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp)
- {
- 	size_t size;
-@@ -207,6 +259,15 @@ char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp)
- }
- EXPORT_SYMBOL_GPL(drmm_kstrdup);
- 
-+/**
-+ * drmm_kfree - &drm_device managed kfree()
-+ * @dev: DRM device
-+ * @data: memory allocation to be freed
-+ *
-+ * This is a &drm_device managed version of kfree() which can be used to
-+ * release memory allocated through drmm_kmalloc() or any of its related
-+ * functions before the final drm_dev_put() of @dev.
-+ */
- void drmm_kfree(struct drm_device *dev, void *data)
- {
- 	struct drmres *dr_match = NULL, *dr;
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index edee40e31e4b..0fd7fc6f024e 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -266,6 +266,10 @@ struct drm_driver {
- 	 *
- 	 * Optional callback for destroying device data after the final
- 	 * reference is released, i.e. the device is being destroyed.
-+	 *
-+	 * This is deprecated, clean up all memory allocations associated with a
-+	 * &drm_device using drmm_add_action(), drmm_kmalloc() and related
-+	 * managed resources functions.
- 	 */
- 	void (*release) (struct drm_device *);
- 
-diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-index 1e6291407586..af152cfb173c 100644
---- a/include/drm/drm_managed.h
-+++ b/include/drm/drm_managed.h
-@@ -11,6 +11,19 @@ struct drm_device;
- 
- typedef void (*drmres_release_t)(struct drm_device *dev, void *res);
- 
-+/**
-+ * drmm_add_action - add a managed release action to a &drm_device
-+ * @dev: DRM device
-+ * @action: function which should be called when @dev is released
-+ * @data: opaque pointer, passed to @action
-+ *
-+ * This function adds the @release action with optional parameter @data to the
-+ * list of cleanup actions for @dev. The cleanup actions will be run in reverse
-+ * order in the final drm_dev_put() call for @dev.
-+ *
-+ * A release action can be removed before @dev is released by calling
-+ * drmm_remove_action() with matching parameters for @action and @data.
-+ */
- #define drmm_add_action(dev, action, data) \
- 	__drmm_add_action(dev, action, data, #action)
- 
-@@ -18,6 +31,15 @@ int __must_check __drmm_add_action(struct drm_device *dev,
- 				   drmres_release_t action,
- 				   void *data, const char *name);
- 
-+/**
-+ * drmm_add_action_or_reset - add a managed release action to a &drm_device
-+ * @dev: DRM device
-+ * @action: function which should be called when @dev is released
-+ * @data: opaque pointer, passed to @action
-+ *
-+ * Similar to drmm_add_action(), with the only difference that upon failure
-+ * @action is directly called for any cleanup work necessary on failures.
-+ */
- #define drmm_add_action_or_reset(dev, action, data) \
- 	__drmm_add_action_or_reset(dev, action, data, #action)
- 
-@@ -32,10 +54,33 @@ void drmm_remove_action(struct drm_device *dev,
- void drmm_add_final_kfree(struct drm_device *dev, void *parent);
- 
- void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp) __malloc;
-+
-+/**
-+ * drmm_kzalloc - &drm_device managed kzalloc()
-+ * @dev: DRM device
-+ * @size: size of the memory allocation
-+ * @gfp: GFP allocation flags
-+ *
-+ * This is a &drm_device managed version of kzalloc(). The allocated memory is
-+ * automatically freed on the final drm_dev_put(). Memory can also be freed
-+ * before the final drm_dev_put() by calling drmm_kfree().
-+ */
- static inline void *drmm_kzalloc(struct drm_device *dev, size_t size, gfp_t gfp)
- {
- 	return drmm_kmalloc(dev, size, gfp | __GFP_ZERO);
- }
-+
-+/**
-+ * drmm_kmalloc_array - &drm_device managed kmalloc_array()
-+ * @dev: DRM device
-+ * @n: number of array elements to allocate
-+ * @size: size of array member
-+ * @flags: GFP allocation flags
-+ *
-+ * This is a &drm_device managed version of kmalloc_array(). The allocated
-+ * memory is automatically freed on the final drm_dev_put() and works exactly
-+ * like a memory allocation obtained by drmm_kmalloc().
-+ */
- static inline void *drmm_kmalloc_array(struct drm_device *dev,
- 				       size_t n, size_t size, gfp_t flags)
- {
-@@ -46,11 +91,24 @@ static inline void *drmm_kmalloc_array(struct drm_device *dev,
- 
- 	return drmm_kmalloc(dev, bytes, flags);
- }
-+
-+/**
-+ * drmm_kcalloc - &drm_device managed kcalloc()
-+ * @dev: DRM device
-+ * @n: number of array elements to allocate
-+ * @size: size of array member
-+ * @flags: GFP allocation flags
-+ *
-+ * This is a &drm_device managed version of kcalloc(). The allocated memory is
-+ * automatically freed on the final drm_dev_put() and works exactly like a
-+ * memory allocation obtained by drmm_kmalloc().
-+ */
- static inline void *drmm_kcalloc(struct drm_device *dev,
- 				 size_t n, size_t size, gfp_t flags)
- {
- 	return drmm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
- }
-+
- char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp);
- 
- void drmm_kfree(struct drm_device *dev, void *data);
 -- 
-2.24.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
