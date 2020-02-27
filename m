@@ -1,65 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F4117324A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 08:59:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1FD173258
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:00:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BDA6EE24;
-	Fri, 28 Feb 2020 07:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFD376EE40;
+	Fri, 28 Feb 2020 08:00:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Thu, 27 Feb 2020 21:19:24 UTC
-Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7556E0FC
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 21:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1582838365; x=1614374365;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=AZYzhno8a1AffpbwkqfiLIlm+fMZL1Dp81qcUzuHaRE=;
- b=gG7eQ/LIdYDqCu6akHV2s5DvKV4zP9YQKjur4z3SPUUH51nstbrIBfwS
- plY9U0K7PMhHvuKzAJ6RwmU1MEZQjQG/ZpdCZT74639TsBYjnGu78q1AJ
- Os3q73fcHPSrsJihgMwROLQqGFbRTrzayBx/vrN7gW8e6WNcxb38z7Szk
- GU53rSXqnu2DlA6qnFlEzsqBOU6j5e2OGNW4OidcLVmPTlRQdIIhjKi2n
- CLYOUFxpqg2DjusrelWISobIrZS8+7z/9QXICrTxRx9LLNWMn3M+b8oR8
- THeyENNFliO6Oms9YVmNjmM5kfycrbi06jciu5jUqsslALuDiNZkJrch6 w==;
-IronPort-SDR: fWkXwje/p16FoY39cch1o4uBircCZ8tKvmvfmmI4ISMpHG7USjTDl3rzxdo1LME9I9dqu5eXTE
- mSfAK/3dtpGsBpNjLr4tu5NWQq4gj55fO8tL89d+x+j8/exQAtc78+HY2ZT/UVN+Xh9zDIsCjD
- HVTr9WW0K0fVQKeN9aIha+eawLx1u4LYs6ZcrmBDcgzwfaL/QxRixD0NOssQRqp++mOFiD6xbs
- 4powSwP9GfirJA1Fpym4VTu9n0jgqqWw//cgR44Eo8StAST5qGoLokK5px3gEcD5CaG/dAO2HA
- jPE=
-X-IronPort-AV: E=Sophos;i="5.70,493,1574092800"; d="scan'208";a="132390564"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 28 Feb 2020 05:12:07 +0800
-IronPort-SDR: y0e8j8Sz/R2sKwkYs5dxHbyvUSxjTibiisenv+dIyZLR1shGUWDknly8pCmi739Lz2OlZShjNB
- +JO2YyDywBKO4A/03Sy9hQEd/ZPQnndpxrPiSDZfTNyhg58fbjtGMaVqlT8VtI3BB9xcbQ3HNp
- 2J/4FHxKfgILpMFrJDGWr9Z45LySQjfsj/76ehYMIMBxk2L8HHPt2maL3xBJZGPgTYPPb1azY/
- hUbd5+cdsDTWn1ykOJGIJkYnFSgY1fQKEN8sseL2h3uo/rFwUF4VB1wiT/ahyK5aZwJCbvYff8
- +5o9ZJ+V9lofXJF/2P0bFMi6
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2020 13:04:07 -0800
-IronPort-SDR: 13dHDQuDjVqwy8bQJ4BCMMPrMoM5zJFnejUUpuHIR70QwoFMAzTZphl0K1TRDjvt+V0mHY7dIN
- 2qrCH9bD+NIRABatKHGwCexrRun/O6kt8oA/zGcHQKKX595Rv+/rS4Ea1pA9iqyzrzH7m/GuSw
- lNiCDt6q370n/YxDOk1tbF4xHMpTdaq65VQNiUB1n7f8ZG5go43b6PXOiwkT3eK/xHacdX0YDt
- nMD/aHbGf8kboB85aZrMza641cM7iDDZd3i74SeIxVcubdbqLaxNjirWa8S9GNKxIRw0RVlDag
- zGg=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip02.wdc.com with ESMTP; 27 Feb 2020 13:12:06 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
-Subject: [PATCH] drm/bochs: Remove vga write
-Date: Thu, 27 Feb 2020 13:04:54 -0800
-Message-Id: <20200227210454.18217-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.25.0
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D57F6ED5C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 21:38:15 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id d62so734600oia.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 13:38:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MS04y4tC6v0yvFrubQXJfXoPpIt2cXWeU3+olbxgrlI=;
+ b=axo31MdcQ0SZroPbHQ++aFLzgIHEwq5vyQmASKUqoegs88CC0tgZu9O7eDyL8J/kNS
+ e1U2J0oHIaBaMgApSTJQdFAm65z8sagrmcsRCVbnWAPaBbcn8yDOC3JCYvxixGXmi7uj
+ gbo7aZam4fEhNeEwozgiiHliXdQMlC3m2mPzMu9LbVNvwbShUiO6yr0jhSkHw4kD4UGw
+ Nd5S+wyxBintX5vg2LowZpAlZmXkXN2i6L+9ktRiGj0Rv/s779IWREgeXVKEX8Dggtle
+ tt4VDmhJJRlqW6CbV6UWAWH4hae8IuvRVetpWkkHYOH+p+l5OzxNqp9zfpfOwrVK0pW/
+ yvuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MS04y4tC6v0yvFrubQXJfXoPpIt2cXWeU3+olbxgrlI=;
+ b=ts8KpgPOXCb4K2QRtSPPm14UyvMurHXoHCbDZRpyq9Eyr1Mt29r9OXiQE1qmpk+8xm
+ HU0uQ39aUQ4Z383uHPmKxncRIOyCCbQa/k36OCL14vr7zyTtbamuQsrGjejLvBdSsjm3
+ odeS4hUKP+TRjj1DEu1vNRMkeRj+RWRMjE3SoBcxj6sy1Y02jtSw6eLDC+zSFamD9Ax8
+ 1jhGueQupu3qQoCQz0d1S2YN8VFIBgmPa8GLDp4Brx+NJVhR7Umh9rEU0xYHVQtZifXV
+ /r8s9AKTUW1zubUa+VJrBjSBk5K4zCYgHLE9VGLuG2WRlpI1MA161zRzG9fvDrHtFyQR
+ 5Rjw==
+X-Gm-Message-State: APjAAAUGcIqPRJqtamy5IdsypCBWP3HIMaac1zL/tfljKZynNPPneMKN
+ xkOJh1/sV5mEZRAHilliTyNew04HCRduyxU5OXc=
+X-Google-Smtp-Source: APXvYqxCEKKThcyTyMOksvnHs/9A9wJ38y7/5HmoEZLOVcUi/4u4L0/dM8f0vFH7F8M33vJBdy3wbRzEA8zEi38CXtQ=
+X-Received: by 2002:aca:1215:: with SMTP id 21mr842995ois.5.1582839494675;
+ Thu, 27 Feb 2020 13:38:14 -0800 (PST)
 MIME-Version: 1.0
+References: <20200225204446.11378-1-xiyou.wangcong@gmail.com>
+ <20200225175418.2d3af2180cbf895b727ce4b1@linux-foundation.org>
+In-Reply-To: <20200225175418.2d3af2180cbf895b727ce4b1@linux-foundation.org>
+From: Cong Wang <xiyou.wangcong@gmail.com>
+Date: Thu, 27 Feb 2020 13:38:03 -0800
+Message-ID: <CAM_iQpU7kXXGuxeOVvAGLoBRvjrhpuw2D=ih=PagGXKK-g_muw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: free dmabuf->name in dma_buf_release()
+To: Andrew Morton <akpm@linux-foundation.org>
 X-Mailman-Approved-At: Fri, 28 Feb 2020 07:59:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,70 +62,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Khem Raj <raj.khem@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, kraxel@redhat.com,
- alistair23@gmail.com
+Cc: Chenbo Feng <fengc@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The QEMU model for the Bochs display has no VGA memory section at offset
-0x400 [1]. By writing to this register Linux can create a write to
-unassigned memory which depending on machine and architecture can result
-in a store fault.
+On Tue, Feb 25, 2020 at 5:54 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Tue, 25 Feb 2020 12:44:46 -0800 Cong Wang <xiyou.wangcong@gmail.com> wrote:
+>
+> > dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
+> > it never gets freed.
+> >
+> > Free it in dma_buf_release().
+> >
+> > ...
+> >
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -108,6 +108,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+> >               dma_resv_fini(dmabuf->resv);
+> >
+> >       module_put(dmabuf->owner);
+> > +     kfree(dmabuf->name);
+> >       kfree(dmabuf);
+> >       return 0;
+> >  }
+>
+> ow.  Is that ioctl privileged?
 
-I don't see any reference to this address at OSDev [2] or in the Bochs
-source code.
+It looks unprivileged to me, as I don't see capable() called along
+the path.
 
-Removing this write still allows graphics to work inside QEMU with
-the bochs-display.
-
-1: https://gitlab.com/qemu-project/qemu/-/blob/master/hw/display/bochs-display.c#L264
-2. https://wiki.osdev.org/Bochs_VBE_Extensions
-
-Reported-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- drivers/gpu/drm/bochs/bochs_hw.c | 15 ---------------
- 1 file changed, 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/bochs/bochs_hw.c b/drivers/gpu/drm/bochs/bochs_hw.c
-index b615b7dfdd9d..dfb2a5363c62 100644
---- a/drivers/gpu/drm/bochs/bochs_hw.c
-+++ b/drivers/gpu/drm/bochs/bochs_hw.c
-@@ -10,19 +10,6 @@
- 
- /* ---------------------------------------------------------------------- */
- 
--static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
--{
--	if (WARN_ON(ioport < 0x3c0 || ioport > 0x3df))
--		return;
--
--	if (bochs->mmio) {
--		int offset = ioport - 0x3c0 + 0x400;
--		writeb(val, bochs->mmio + offset);
--	} else {
--		outb(val, ioport);
--	}
--}
--
- static u16 bochs_dispi_read(struct bochs_device *bochs, u16 reg)
- {
- 	u16 ret = 0;
-@@ -217,8 +204,6 @@ void bochs_hw_setmode(struct bochs_device *bochs,
- 			 bochs->xres, bochs->yres, bochs->bpp,
- 			 bochs->yres_virtual);
- 
--	bochs_vga_writeb(bochs, 0x3c0, 0x20); /* unblank */
--
- 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,      0);
- 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_BPP,         bochs->bpp);
- 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_XRES,        bochs->xres);
--- 
-2.25.0
-
+Thanks.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
