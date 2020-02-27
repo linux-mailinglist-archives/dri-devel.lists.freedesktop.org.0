@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E8F171809
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9487171800
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E09D66ECAB;
-	Thu, 27 Feb 2020 12:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1250B6ECA6;
+	Thu, 27 Feb 2020 12:59:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF656E875
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:03:11 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id r7so717712wro.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:03:11 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 729CF6E885;
+ Thu, 27 Feb 2020 12:03:15 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a5so3257897wmb.0;
+ Thu, 27 Feb 2020 04:03:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vBk1mOoIZkyy9kqJiXLBO3UKN8y6Y0f/CztnD4P9tt4=;
- b=hv+UeTqhEqBHGOJ71CcKZK7jNNFHkqb8OREk/ICLS/IBO0ochCWX+7fYTynoHXyfrV
- XOkxQ06JhpmEmD4pze6CpmWcSmLyvWkmJvDaOYM0zAz3crWlm0NZvoS3pxLw1ClY8rTy
- Hj7vrv98j/kmDnErCzwPbHSbRMebWWANg5yV/7BHW/Ipc22cU+5pVJid6m9bG8gIRmNj
- A9fmYw1Rqejt/Dus6KooWECm4Re5iNeqJSy2EyI+YkEqemsP8htTpAxXenssNKJiqmD2
- s+TcvN8vNYANeMzyKNvdVpxVw4Rox1bcFNC6Qqq9xqmWnZXGw3+SkJPQnC2Lz7UfMxMV
- ksXw==
+ bh=mlvu3hS2FOo3jvYAFvg3HmupOT4tMbHUqUGMTdB0I0E=;
+ b=BZv8TNIDUFwIG3XR5jTpC43/0HS4ISDRzsQP4QhE3dlcUIz/WeFLHmAXHaeIvwSsUq
+ R7SxGRHjkL0zokvs3HwE2JaguZE7dCCSigW1UQSHM9lYsy4YaVzC7uJWR9YoDmutR03x
+ rDkXLppqNkYUyr6cMX8MVshvl31rWo7RVgktxVt6SbKEj01xt2iQSuf6cY4rxAzdaSa+
+ yyIxaYMV17Z8s68a5LXeKaKJpYZ3EitjrqNn85Vsp2s4h3NmP3WfGn0efg86p0CBe3s3
+ P4zTMd9ufsIk4i2z03Exow5d+8y8vG29XoBfOoDj6fqkgMckKEEdc1+jeVPdvSyFCvak
+ vHXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vBk1mOoIZkyy9kqJiXLBO3UKN8y6Y0f/CztnD4P9tt4=;
- b=TBOSNskgjo+G8Q75Eqir/z00EXiEOAIcai53t/zSBdH2b/6shk626mnD8EDeWRBDTS
- +MOmC5Rg9+FwEJfCHE983oVRLO+PceHt7yQS5J+Qfe65vtomIn52E13oXaYN1xpnYMjt
- cLQnhO45rm7/hzaJ0zzArpm9MlG+8rkk4Xl45ZQFZxVyZDGzNvZZ3IfE5UTlYiTK+zy2
- NTmbNZKvFmhrgiDqJyL/MQzk7y6vzClbxaa8YHDODgmi1OYwM2i57RC6FFXXlyKUtJgW
- PrEMtqDR1E6LqHqJicqwy5PlIDqSg2ZteXdUyTL8+VP4k5UjRTU95fv0bt4HUyuuwOlA
- Af2Q==
-X-Gm-Message-State: APjAAAXnkZPSaKDEyUAw8zjewQ6iVm6m+GMcP6aQgKP6BrE7dF11TFfp
- titzCn0RkjlYVVUc9lrbgW4=
-X-Google-Smtp-Source: APXvYqwHljKkgGdkShlOylDLJXesMCIatBDxUYDaXf8JUNo/KPQvR2rE6Fv76uPz2LtaEEmXpQ0exA==
-X-Received: by 2002:a5d:4902:: with SMTP id x2mr2687634wrq.301.1582804989529; 
- Thu, 27 Feb 2020 04:03:09 -0800 (PST)
+ bh=mlvu3hS2FOo3jvYAFvg3HmupOT4tMbHUqUGMTdB0I0E=;
+ b=HXSVLqq/b/+Fc38AqkpPPnG7+TSoQN7dgRUuC4mJER57/HfWcMtlShWLUwWBGXI+M2
+ HR8KiTLGp/zqCtYmg9YdQ+TXBXnZxz+49In44WfKt7ziZKj55d2B8YVDeSwq+UakfkiJ
+ DxwXU7jyS2Vit4nH4FmczDXpioGHJA7eQHPt0fX6PXE0qiRX084Gl7OmRDry/TTiSYfy
+ NhxagjJrVvFy466uzAME2RnLN9BrapKbKR1FWAncBAALbzQCM0hqdLcbJljUXKEqVbcZ
+ 9ZGZk8om5AxHurfIobq8TFHcOvLYpGq5gY9Ncgmjb26QqIBXHa5pHANOBLlRcLtq0Fmb
+ /qNg==
+X-Gm-Message-State: APjAAAVu5wqKyJldChIKgR9eH8htPniM/JLKRKx3tduaGHnqp/he7fwK
+ Dlu9SWXLK6TqvMrEVr+KL0g=
+X-Google-Smtp-Source: APXvYqwLTKlxTSe9jq6sfhmtWPDKx6ENvxFA/rCWw8/Sac/kMbjC4rIqOFLUs/Tb4QLjqA2V3FeKrw==
+X-Received: by 2002:a7b:c119:: with SMTP id w25mr5079981wmi.116.1582804994162; 
+ Thu, 27 Feb 2020 04:03:14 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.05
+ by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 04:03:09 -0800 (PST)
+ Thu, 27 Feb 2020 04:03:13 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
-To: daniel@ffwll.ch, airlied@linux.ie, Liviu Dudau <liviu.dudau@arm.com>,
- Brian Starkey <brian.starkey@arm.com>
-Subject: [PATCH 07/21] drm/arm: make hdlcd_debugfs_init() return void
-Date: Thu, 27 Feb 2020 15:02:18 +0300
-Message-Id: <20200227120232.19413-8-wambui.karugax@gmail.com>
+To: daniel@ffwll.ch, airlied@linux.ie, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Subject: [PATCH 08/21] drm/etnaviv: remove check for return value of
+ drm_debugfs function
+Date: Thu, 27 Feb 2020 15:02:19 +0300
+Message-Id: <20200227120232.19413-9-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200227120232.19413-1-wambui.karugax@gmail.com>
 References: <20200227120232.19413-1-wambui.karugax@gmail.com>
@@ -69,38 +71,49 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Since commit 987d65d01356 (drm: debugfs: make
-drm_debugfs_create_files() never fail), drm_debugfs_create_files()
-never fails, and should return void. Therefore, remove its use as a
-return value in hdlcd_debugfs_init and have the latter function
-return void.
+drm_debugfs_create_files() never fail), drm_debugfs_create_file only
+returns 0, and there is no need to check the return value.
+This change therefore removes the check and error handling in
+etnaviv_debugfs_init() and also makes the function return void.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/arm/hdlcd_drv.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-index 2e053815b54a..194419f47c5e 100644
---- a/drivers/gpu/drm/arm/hdlcd_drv.c
-+++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-@@ -224,10 +224,11 @@ static struct drm_info_list hdlcd_debugfs_list[] = {
- 	{ "clocks", hdlcd_show_pxlclock, 0 },
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 6b43c1c94e8f..a39735316ca5 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -231,21 +231,11 @@ static struct drm_info_list etnaviv_debugfs_list[] = {
+ 		{"ring", show_each_gpu, 0, etnaviv_ring_show},
  };
  
--static int hdlcd_debugfs_init(struct drm_minor *minor)
-+static void hdlcd_debugfs_init(struct drm_minor *minor)
+-static int etnaviv_debugfs_init(struct drm_minor *minor)
++static void etnaviv_debugfs_init(struct drm_minor *minor)
  {
--	return drm_debugfs_create_files(hdlcd_debugfs_list,
--		ARRAY_SIZE(hdlcd_debugfs_list),	minor->debugfs_root, minor);
-+	drm_debugfs_create_files(hdlcd_debugfs_list,
-+				 ARRAY_SIZE(hdlcd_debugfs_list),
+-	struct drm_device *dev = minor->dev;
+-	int ret;
+-
+-	ret = drm_debugfs_create_files(etnaviv_debugfs_list,
+-			ARRAY_SIZE(etnaviv_debugfs_list),
+-			minor->debugfs_root, minor);
+-
+-	if (ret) {
+-		dev_err(dev->dev, "could not install etnaviv_debugfs_list\n");
+-		return ret;
+-	}
+-
+-	return ret;
++	drm_debugfs_create_files(etnaviv_debugfs_list,
++				 ARRAY_SIZE(etnaviv_debugfs_list),
 +				 minor->debugfs_root, minor);
  }
  #endif
