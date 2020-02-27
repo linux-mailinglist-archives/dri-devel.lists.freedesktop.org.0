@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E49317123C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:14:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93010171226
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 09:13:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA676EC21;
-	Thu, 27 Feb 2020 08:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05A1F6EC18;
+	Thu, 27 Feb 2020 08:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 623936E436
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:39:55 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id v2so1586447wrp.12
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 20:39:55 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC7B16E436
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:40:25 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id z12so1948795wmi.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Feb 2020 20:40:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7rRwZ8ep9yfl/IFIsWFO4Cyu9ipL1R94VDq6/m4vxY8=;
- b=s5HJ6l9SaFlYM+oDvyKeFowXwgWCtEVbBkbUablzVRNsDSxJrFjjg9f2FAyTnTMsU/
- NXWkIjuCPAkgLUbubnK+tbyTPGybicxP6uD8Pa0UAnUnUjyJsVRdiMJIhleIU/1rrgi9
- 367wCm+GyqnefXCcLoIVBlNUbLBq0OecDlfhFoQR0YlizXiXlDYNdRFwMvQ0cBOmCcpm
- uF4FBdvwSuKfg/b5MDH0H95dT37v7BorFPP/YY+8wReN9IbWYjBc/G7x3VODou7vBZkJ
- rRcEvUgST5pR9onnb+q1D1fUgQTmej7bVAF2cBXEwFSTRt6hkb35dsIMXJz/9q9ITL+4
- 9i5A==
+ :cc; bh=o2wBnPoHk+gak6teJWG83gLm9R1pohmBuxsgoQJWTVY=;
+ b=tVMleHUzm0TlGrF1DNLtzALqVryv2klVNriP3GIqInQ9by/LPhTXa7Fw6RO5HckvjM
+ ilJ7DFfMoW8zXAciVo5rFEDE3Mk4FUNJvAaBenVilIZAAF7Yw0bO0IxW1tj7tpT8r6my
+ vp3Y52RqLPbzGYNB51jYT6sXcDhcNzkwokNf1F/j/lxnZ59YFfQDdS530yQM8kwc97j7
+ YFL+qJK1s+8JmZFX2zxcKRrbVUQ+6OsP0p3vkqvEYAuZXWKBeZbPyX9E7uF4zOZBToyQ
+ jUqI5H6BnPE3bkvk6+Z9aOza6rXP/TWni+Zm2W7Qbd+BTemuw5wHoTBISikr3NsuvG+u
+ 9x1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7rRwZ8ep9yfl/IFIsWFO4Cyu9ipL1R94VDq6/m4vxY8=;
- b=loz4iXY2wOl9bgcaJxde9w9waKOqqgDTIc6kL7Q6z4j1wQWi4wNTapfB5xXpqIxS/D
- drzr7GbjyMjjARAZ3FKgyTAQ9qVBRZOkx2sQVXUk9RlgVMuiQ2ZatK5akPO7S4c9r/rK
- RzQ/HcjJlMHFcnhrwG3Fs8J5Xlt+kl+lwAILsntf3g/25D8/Kl07JabHfAKDI8eHjCk2
- ynyHZfaZRmnTLeQEYwub3BPj0eLuJNsF9TnA43zCDryAPHuPyQh55PINUMa5RsCTiQFB
- 16Dd2HWneCeZOq5J4PQl2UN3xFIkYRQpa/RfPVCsdNd5MUm4o7pDrk+5oQQK3Yw3SWbT
- /6fQ==
-X-Gm-Message-State: APjAAAXR0axNynwrIBKo0Gjd2mi2vSAjWxFPU4P8teV2UcdVA2limp0S
- uAERpC4PywmQWZS3yM9IWzfmyxkLuiqQNhLlmM43xw==
-X-Google-Smtp-Source: APXvYqzsUyjECumsqVLY2xre4wt6cIUwwa2nW/lodeKF8+AEKlWNMPTxodXc1OX4EoXNfLXI4QsBmgj6vsHGZmqY/i4=
-X-Received: by 2002:adf:ffc4:: with SMTP id x4mr2439077wrs.306.1582778394056; 
- Wed, 26 Feb 2020 20:39:54 -0800 (PST)
+ bh=o2wBnPoHk+gak6teJWG83gLm9R1pohmBuxsgoQJWTVY=;
+ b=O3q75OydiobSK7XVSDFl+jB1T7DR9B5y7Y73fluSjq2/IrvQrPgeVIObT/iROjFepj
+ ENxx59+6DzEACx6/Dm/RCCowW7Wwm3ZOo3PjxxvA6g9lbFO6zldCVd6a+o5tmWZIO1xK
+ vnuJr1YVhfMTFu4wyGgWDbdTy7u9i9wnBVJE0tTAuCMLgsMcMr/guuJNW3ARvGr45Dl3
+ ltUVCRjljgKiO8bTiosn6WRWgrxtOfF0J2DL/X9tv+X2fhGU7oTeI4dGqO2JUAp3JrGM
+ y0YPbvIdgJHxiN30SF3GbnKVR1Un7zApurAPZT5OJADo6alKowVmu60JByX3jvk7vS6l
+ 0B8A==
+X-Gm-Message-State: APjAAAWEHlqCN/QOP1rzJMSE7w8fG1NyOytJHuRkAhbnlunVLnl86Vod
+ RkdJIbXn0VRQbaxJAkPHz//uz6NVFrViaqz+D4J4ew==
+X-Google-Smtp-Source: APXvYqzlwVNM2hCazoQaxlUAG1Ulc8MvUjsAPqbQPiTatC/T2bv3FTDlCviSKXvGlzdx/Fasx2w+4U0uqI+3giYvnE0=
+X-Received: by 2002:a05:600c:218a:: with SMTP id
+ e10mr2676779wme.6.1582778424445; 
+ Wed, 26 Feb 2020 20:40:24 -0800 (PST)
 MIME-Version: 1.0
-References: <1582524112-5628-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1582524112-5628-1-git-send-email-tiantao6@hisilicon.com>
+References: <1578712146-16327-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1578712146-16327-1-git-send-email-tiantao6@hisilicon.com>
 From: Xinliang Liu <xinliang.liu@linaro.org>
-Date: Thu, 27 Feb 2020 12:39:42 +0800
-Message-ID: <CAKoKPbw9MNsJqAOhFMqDcafk8kJLA7Fm8pcrakEjyTBvak8Bvw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/hisilicon: Fixed pcie resource conflict between
- drm and firmware
+Date: Thu, 27 Feb 2020 12:40:12 +0800
+Message-ID: <CAKoKPbzfSV9-5SSeLrYh47HGxaC6o1u4Dz6rpxJuWoBbrb6=Ow@mail.gmail.com>
+Subject: Re: [PATCH] drm/hisilicon: Enable the shadowfb for hibmc
 To: Tian Tao <tiantao6@hisilicon.com>
 X-Mailman-Approved-At: Thu, 27 Feb 2020 08:13:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,115 +65,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: airlied@linux.ie, puck.chen@hisilicon.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linuxarm@huawei.com, kraxel@redhat.com,
  tzimmermann@suse.de, alexander.deucher@amd.com, tglx@linutronix.de
-Content-Type: multipart/mixed; boundary="===============1308641863=="
+Content-Type: multipart/mixed; boundary="===============1460490226=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1308641863==
-Content-Type: multipart/alternative; boundary="000000000000efb0c9059f874f35"
+--===============1460490226==
+Content-Type: multipart/alternative; boundary="000000000000bf687c059f8751ca"
 
---000000000000efb0c9059f874f35
+--000000000000bf687c059f8751ca
 Content-Type: text/plain; charset="UTF-8"
 
 Thanks for the patch.
 Applied to drm-misc-next.
 
-On Mon, 24 Feb 2020 at 14:02, Tian Tao <tiantao6@hisilicon.com> wrote:
+On Sat, 11 Jan 2020 at 11:09, Tian Tao <tiantao6@hisilicon.com> wrote:
 
-> use the drm_fb_helper_remove_conflicting_pci_framebuffer to remove
-> the framebuffer initialized by fireware/bootloader to avoid resource
-> conflict.
+> set the prefer_shadow as 1,so we use the shadowfb to acceleration.
 >
 > Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
->
+> Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
 > ---
-> v2:     use the general API to remove the conflict resource instead of
-> rolling
->         our own.
-> ---
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
 > b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 4a8a4cf..7518980 100644
+> index dbdeb2b..2883555 100644
 > --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
 > +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -327,6 +327,11 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
->         struct drm_device *dev;
->         int ret;
+> @@ -93,7 +93,7 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
 >
-> +       ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev,
-> +                                                       "hibmcdrmfb");
-> +       if (ret)
-> +               return ret;
-> +
->         dev = drm_dev_alloc(&hibmc_driver, &pdev->dev);
->         if (IS_ERR(dev)) {
->                 DRM_ERROR("failed to allocate drm_device\n");
+>         priv->dev->mode_config.fb_base = priv->fb_base;
+>         priv->dev->mode_config.preferred_depth = 24;
+> -       priv->dev->mode_config.prefer_shadow = 0;
+> +       priv->dev->mode_config.prefer_shadow = 1;
+>
+>         priv->dev->mode_config.funcs = (void *)&hibmc_mode_funcs;
+>
 > --
 > 2.7.4
 >
 >
 
---000000000000efb0c9059f874f35
+--000000000000bf687c059f8751ca
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Thanks for the patch.<br>Applied to drm-m=
-isc-next.<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Mon, 24 Feb 2020 at 14:02, Tian Tao &lt;<a href=3D"mailto:t=
-iantao6@hisilicon.com">tiantao6@hisilicon.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">use the drm_fb_helper_remove_c=
-onflicting_pci_framebuffer to remove<br>
-the framebuffer initialized by fireware/bootloader to avoid resource<br>
-conflict.<br>
+<div dir=3D"ltr">Thanks for the patch.<br>Applied to drm-misc-next.<br></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On S=
+at, 11 Jan 2020 at 11:09, Tian Tao &lt;<a href=3D"mailto:tiantao6@hisilicon=
+.com">tiantao6@hisilicon.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">set the prefer_shadow as 1,so we use the shadow=
+fb to acceleration.<br>
 <br>
 Signed-off-by: Tian Tao &lt;<a href=3D"mailto:tiantao6@hisilicon.com" targe=
 t=3D"_blank">tiantao6@hisilicon.com</a>&gt;<br>
-<br>
+Signed-off-by: Gong junjie &lt;<a href=3D"mailto:gongjunjie2@huawei.com" ta=
+rget=3D"_blank">gongjunjie2@huawei.com</a>&gt;<br>
 ---<br>
-v2:=C2=A0 =C2=A0 =C2=A0use the general API to remove the conflict resource =
-instead of rolling<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 our own.<br>
----<br>
----<br>
-=C2=A0drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 5 +++++<br>
-=C2=A01 file changed, 5 insertions(+)<br>
+=C2=A0drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/=
 drm/hisilicon/hibmc/hibmc_drm_drv.c<br>
-index 4a8a4cf..7518980 100644<br>
+index dbdeb2b..2883555 100644<br>
 --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c<br>
 +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c<br>
-@@ -327,6 +327,11 @@ static int hibmc_pci_probe(struct pci_dev *pdev,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_device *dev;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
+@@ -93,7 +93,7 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)=
 <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_fb_helper_remove_conflicting_pci_fr=
-amebuffers(pdev,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;hibmcdrmfb&quot;);<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dev =3D drm_dev_alloc(&amp;hibmc_driver, &amp;p=
-dev-&gt;dev);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (IS_ERR(dev)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_ERROR(&quot;fai=
-led to allocate drm_device\n&quot;);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv-&gt;dev-&gt;mode_config.fb_base =3D priv-&=
+gt;fb_base;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv-&gt;dev-&gt;mode_config.preferred_depth =
+=3D 24;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;dev-&gt;mode_config.prefer_shadow =3D =
+0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0priv-&gt;dev-&gt;mode_config.prefer_shadow =3D =
+1;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 priv-&gt;dev-&gt;mode_config.funcs =3D (void *)=
+&amp;hibmc_mode_funcs;<br>
+<br>
 -- <br>
 2.7.4<br>
 <br>
-</blockquote></div></div>
+</blockquote></div>
 
---000000000000efb0c9059f874f35--
+--000000000000bf687c059f8751ca--
 
---===============1308641863==
+--===============1460490226==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -184,4 +165,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1308641863==--
+--===============1460490226==--
