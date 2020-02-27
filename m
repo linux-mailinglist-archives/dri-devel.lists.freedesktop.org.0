@@ -1,43 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EAF171747
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:34:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B2F1717FD
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6593D6E8A3;
-	Thu, 27 Feb 2020 12:34:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B85B66EC99;
+	Thu, 27 Feb 2020 12:59:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ED096E8A3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:34:07 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 963092468E;
- Thu, 27 Feb 2020 12:34:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582806847;
- bh=ZSvdgyyAZrTI4ZZgTa8cz5o9//42i2OuAT24QC89tfY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sM4MR5or/iXdoFVY6P4lmM/QpukHyP262a8O90zsYSk55A2+QD2DPcraudRPA9NN+
- q8KsZl14+IdQThlu64zHCTHMKok4w7OA91HuP187j04ChdB09ogg0r9oVYdgB+OAOT
- nVKsLNfD9zp8NP1+xix8fqOrgaNvTyMBKEZR2cns=
-Date: Thu, 27 Feb 2020 13:34:04 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wambui Karuga <wambui.karugax@gmail.com>
-Subject: Re: [PATCH 02/21] drm: convert the drm_driver.debugfs_init() hook to
- return void.
-Message-ID: <20200227123404.GA962932@kroah.com>
-References: <20200227120232.19413-1-wambui.karugax@gmail.com>
- <20200227120232.19413-3-wambui.karugax@gmail.com>
- <20200227122313.GB896418@kroah.com>
- <alpine.LNX.2.21.99999.375.2002271528310.19554@wambui>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 746B06E8BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:53:24 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C87BA7B64;
+ Thu, 27 Feb 2020 07:53:20 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 27 Feb 2020 07:53:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=dg1VFIcvLaP5nEziGd8HsDrRTUd
+ L8mTlPmPl1XUFXJE=; b=uG/klM/BtKxPTmdRNYbM/h0HAUCJyd6uIETqfqLgc0h
+ TjAvIbSzalBF5heUpNpFRY7LAOV9HNkBg3OF1nQtSBJ7Vely0EfRvxhrdMtR4bH8
+ 5LU6GPiyVr5hEywDLSYcy9Vfj4Fn30239rXRhcI0ICFiN3/le+GNe1sQVgSz4V1q
+ RI6uFABUdqDV2K+ZzFK7T90M2JOrZFBhDY90qckU6HsgAYTVZTLdsk011FgJRE4z
+ YTQu3O/cnjcZC9pxTAWhrqvTCKZq1za6LATLV2GMngczFkXKmsi2BgxarR/KY0uV
+ dB77vZ/e3ieYcfOUTc3EgjqG1llXe51VQaEVpQ71LfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dg1VFI
+ cvLaP5nEziGd8HsDrRTUdL8mTlPmPl1XUFXJE=; b=rgxzXkga6Vz/q8ibvePdKE
+ Q1LaW0dAHbPN75tiF5KgNerBw+BQ7k2Nfituc90tSyPhT41a0MT7dqCgST/I2xFG
+ yRJk3dgI4UngaI+fz6lmrQ9AtmM6N6pKydzrQ9gwmwKJAtI5iNB++FoYlh3k6AOC
+ SoJ70Wm28m57V8nnonWCsBMP5YNL2tJIWgKYqQ2Qzx6cz7xNNQIwyCnOXGOh0gHR
+ qTEB++5skRk8GVWg+qFArs49ztDOPr7C1kNEo+Ky/dGyxiUcOfiPDaeXYbi56eSE
+ Lr/6ULMfdoZP2lbLl8AgwvVhbMLRNOZaUfqMfby2S4DwU3VbY2JnjqOLMnZ5bsOQ
+ ==
+X-ME-Sender: <xms:u7tXXhPmXN-3uOFEGLxT6i8bviXJjba7XPp3Mqomr2-86hzBb-AUtg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleeigdegiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:u7tXXtR3tAhbApasVu6ORLm8rRDds7FKoh144uLnSOYnDxc5SOvyng>
+ <xmx:u7tXXnhMZY6frqiLbiRBaCfP18PdiQcpyTen05GZux-_yHq6iPBEeA>
+ <xmx:u7tXXu99pcF2nr3Ck4I57eEN8zxtgjvOYl-JVYm9mq7QJhHU59iPGQ>
+ <xmx:wLtXXutVnkivB2V07VUGn2mpjvFovmqwJdRDEr8gpuWWZVSbI_UXMg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 880793280059;
+ Thu, 27 Feb 2020 07:53:15 -0500 (EST)
+Date: Thu, 27 Feb 2020 13:53:13 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Vasily Khoruzhick <anarsoul@gmail.com>
+Subject: Re: [PATCH v2 6/6] arm64: allwinner: a64: enable LCD-related
+ hardware for Pinebook
+Message-ID: <20200227125313.lvgflcik4ra26m2r@gilmour.lan>
+References: <20200226081011.1347245-1-anarsoul@gmail.com>
+ <20200226081011.1347245-7-anarsoul@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <alpine.LNX.2.21.99999.375.2002271528310.19554@wambui>
+In-Reply-To: <20200226081011.1347245-7-anarsoul@gmail.com>
+X-Mailman-Approved-At: Thu, 27 Feb 2020 12:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,62 +77,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Samuel Holland <samuel@sholland.org>,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng <icenowy@aosc.io>,
+ devicetree@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
+ Jonas Karlman <jonas@kwiboo.se>, Torsten Duwe <duwe@suse.de>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Content-Type: multipart/mixed; boundary="===============1882441551=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 27, 2020 at 03:29:46PM +0300, Wambui Karuga wrote:
-> 
-> 
-> On Thu, 27 Feb 2020, Greg KH wrote:
-> 
-> > On Thu, Feb 27, 2020 at 03:02:13PM +0300, Wambui Karuga wrote:
-> > > As a result of commit 987d65d01356 (drm: debugfs: make
-> > > drm_debugfs_create_files() never fail) and changes to various debugfs
-> > > functions in drm/core and across various drivers, there is no need for
-> > > the drm_driver.debugfs_init() hook to have a return value. Therefore,
-> > > declare it as void.
-> > > 
-> > > Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> > > ---
-> > >  include/drm/drm_drv.h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> > > index 97109df5beac..c6ae888c672b 100644
-> > > --- a/include/drm/drm_drv.h
-> > > +++ b/include/drm/drm_drv.h
-> > > @@ -323,7 +323,7 @@ struct drm_driver {
-> > >  	 *
-> > >  	 * Allows drivers to create driver-specific debugfs files.
-> > >  	 */
-> > > -	int (*debugfs_init)(struct drm_minor *minor);
-> > > +	void (*debugfs_init)(struct drm_minor *minor);
-> > 
-> > 
-> > Doesn't this patch break the build, or at least, cause lots of build
-> > warnings to happen?
-> > 
-> > Fixing it all up later is good, but I don't think you want to break
-> > things at this point in the series.
-> > 
-> So, should it come last in the series? All functions that use this hook have
-> been converted to void in the patchset.
 
-I recommend fixing up the functions to just always return 0 first, and
-then in one last patch, change the function itself to return void along
-with this.
+--===============1882441551==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3bq54ytukgsvs3eu"
+Content-Disposition: inline
 
-That would make it easiest to review, and allow no build warnings at any
-point in the series, right?
 
-thanks,
+--3bq54ytukgsvs3eu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-greg k-h
+On Wed, Feb 26, 2020 at 12:10:11AM -0800, Vasily Khoruzhick wrote:
+> From: Icenowy Zheng <icenowy@aosc.io>
+>
+> Pinebook has an ANX6345 bridge connected to the RGB666 LCD output and
+> eDP panel input. The bridge is controlled via I2C that's connected to
+> R_I2C bus.
+>
+> Enable all this hardware in device tree.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+
+Applied the 6 patches, thanks!
+Maxime
+
+--3bq54ytukgsvs3eu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXle7uQAKCRDj7w1vZxhR
+xaczAPoC3ALs6FJiOTdBAkkgLMLeU5xSuyL54sh1Q4tkALRViwEA+VH+kLki+xAR
+3WxVIhBlXQvrAtrSbtL5C0Md5xmCsQo=
+=WsJg
+-----END PGP SIGNATURE-----
+
+--3bq54ytukgsvs3eu--
+
+--===============1882441551==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1882441551==--
