@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9487171800
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 427D9171816
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 14:00:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1250B6ECA6;
-	Thu, 27 Feb 2020 12:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 693B06ECC4;
+	Thu, 27 Feb 2020 12:59:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 729CF6E885;
- Thu, 27 Feb 2020 12:03:15 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a5so3257897wmb.0;
- Thu, 27 Feb 2020 04:03:15 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 982776E885;
+ Thu, 27 Feb 2020 12:03:20 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id z12so3231371wmi.4;
+ Thu, 27 Feb 2020 04:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mlvu3hS2FOo3jvYAFvg3HmupOT4tMbHUqUGMTdB0I0E=;
- b=BZv8TNIDUFwIG3XR5jTpC43/0HS4ISDRzsQP4QhE3dlcUIz/WeFLHmAXHaeIvwSsUq
- R7SxGRHjkL0zokvs3HwE2JaguZE7dCCSigW1UQSHM9lYsy4YaVzC7uJWR9YoDmutR03x
- rDkXLppqNkYUyr6cMX8MVshvl31rWo7RVgktxVt6SbKEj01xt2iQSuf6cY4rxAzdaSa+
- yyIxaYMV17Z8s68a5LXeKaKJpYZ3EitjrqNn85Vsp2s4h3NmP3WfGn0efg86p0CBe3s3
- P4zTMd9ufsIk4i2z03Exow5d+8y8vG29XoBfOoDj6fqkgMckKEEdc1+jeVPdvSyFCvak
- vHXQ==
+ bh=FF1NrpSPuilvGFuBlDAjCo1EkW/20qE/sk6srnRxdwk=;
+ b=hqt0uVTKwEJgrrFViTZSdoN5IyrDGa0MnWpSVpKfzAJ/q4CYucez5Y9GL9cyO3mkIX
+ uPhquZ+n6+onWBaMCPga9B+8QCHT5lbST/AIoFCjP/z9QjtWBRQwCNFykzvp+giIIxHx
+ ftcx33fAul6ms0T/zjnHYprjSfmeXBZ6+Zf3xUPDcfzQYs4saNULJTigGrxmo+Zt4VWb
+ n5F9x6L3itJsG4d9F4cotAAY35c3wH6JIb3TN1Zi5s5loMOSTEw0XMGVtQFlu+HfXvpt
+ Hep3CCkcw9XCJxyArNAUaSfdnFIqgdAY//zqMW3nDOggIgF5Bnjhu41nBBSm7noCtzFP
+ Xh+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mlvu3hS2FOo3jvYAFvg3HmupOT4tMbHUqUGMTdB0I0E=;
- b=HXSVLqq/b/+Fc38AqkpPPnG7+TSoQN7dgRUuC4mJER57/HfWcMtlShWLUwWBGXI+M2
- HR8KiTLGp/zqCtYmg9YdQ+TXBXnZxz+49In44WfKt7ziZKj55d2B8YVDeSwq+UakfkiJ
- DxwXU7jyS2Vit4nH4FmczDXpioGHJA7eQHPt0fX6PXE0qiRX084Gl7OmRDry/TTiSYfy
- NhxagjJrVvFy466uzAME2RnLN9BrapKbKR1FWAncBAALbzQCM0hqdLcbJljUXKEqVbcZ
- 9ZGZk8om5AxHurfIobq8TFHcOvLYpGq5gY9Ncgmjb26QqIBXHa5pHANOBLlRcLtq0Fmb
- /qNg==
-X-Gm-Message-State: APjAAAVu5wqKyJldChIKgR9eH8htPniM/JLKRKx3tduaGHnqp/he7fwK
- Dlu9SWXLK6TqvMrEVr+KL0g=
-X-Google-Smtp-Source: APXvYqwLTKlxTSe9jq6sfhmtWPDKx6ENvxFA/rCWw8/Sac/kMbjC4rIqOFLUs/Tb4QLjqA2V3FeKrw==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr5079981wmi.116.1582804994162; 
- Thu, 27 Feb 2020 04:03:14 -0800 (PST)
+ bh=FF1NrpSPuilvGFuBlDAjCo1EkW/20qE/sk6srnRxdwk=;
+ b=M/XOUlhgyiKfSfuQbe4/jLKLuK2y3EfipituZu4Ba976Hjn2drpLjk987r+piEkIGe
+ 9alVZRdJZgCQp5brZAFE0Y9gVvpJ0YeZ2g8OMOlYzYZoqKo4WlPNwgas0byWoU6udP20
+ KZs0j87ciC9rqtSuiNAhVl21mohIK3FsZ6tdqrXEAeYfyE2q1BkKeX1jzOCGkRrJxeVZ
+ rAmsJsUW1JZESVjwhDi4gMmFMR+hRcKHzZ/GcalFJsbTxfQchgCMCvt02WhwQWXtJ7t5
+ FvRG3xg8vcsXU/5b3/GF7hZE0rEiEJA2ob+Kj0N0+sJDhywVcOJxL4XVl7irTwR5YA18
+ /CnA==
+X-Gm-Message-State: APjAAAX6RbEDqKIuctVFOMIfo3E27gzVpE+bGcacR4Btaz1d2umGmSm7
+ 2spy7dI5BY/S+hJc/k3GUN0=
+X-Google-Smtp-Source: APXvYqxaNmMPo4uh3u7cD404NdTjAHMYEUcbV9NVopmZg+bCAqm3J+SaBK6YQlOOsAh9UdiCZSuDXg==
+X-Received: by 2002:a05:600c:218d:: with SMTP id
+ e13mr5110294wme.102.1582804998319; 
+ Thu, 27 Feb 2020 04:03:18 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.09
+ by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 04:03:13 -0800 (PST)
+ Thu, 27 Feb 2020 04:03:17 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
-To: daniel@ffwll.ch, airlied@linux.ie, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Subject: [PATCH 08/21] drm/etnaviv: remove check for return value of
- drm_debugfs function
-Date: Thu, 27 Feb 2020 15:02:19 +0300
-Message-Id: <20200227120232.19413-9-wambui.karugax@gmail.com>
+To: daniel@ffwll.ch,
+	airlied@linux.ie,
+	bskeggs@redhat.com
+Subject: [PATCH 09/21] drm/nouveau: remove checks for return value of debugfs
+ functions
+Date: Thu, 27 Feb 2020 15:02:20 +0300
+Message-Id: <20200227120232.19413-10-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200227120232.19413-1-wambui.karugax@gmail.com>
 References: <20200227120232.19413-1-wambui.karugax@gmail.com>
@@ -71,53 +72,102 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 987d65d01356 (drm: debugfs: make
-drm_debugfs_create_files() never fail), drm_debugfs_create_file only
-returns 0, and there is no need to check the return value.
-This change therefore removes the check and error handling in
-etnaviv_debugfs_init() and also makes the function return void.
+Since 987d65d01356 (drm: debugfs: make
+drm_debugfs_create_files() never fail), there is no need to ever check
+for the the return value of debugfs_create_file() and
+drm_debugfs_create_files(). Therefore, remove unnecessary checks and
+error handling in nouveau_drm_debugfs_init.
+
+These changes also enable nouveau_drm_debugfs_init() to be declared
+as void.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_debugfs.c | 26 +++++++++--------------
+ drivers/gpu/drm/nouveau/nouveau_debugfs.h |  5 ++---
+ 2 files changed, 12 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 6b43c1c94e8f..a39735316ca5 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -231,21 +231,11 @@ static struct drm_info_list etnaviv_debugfs_list[] = {
- 		{"ring", show_each_gpu, 0, etnaviv_ring_show},
+diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+index 7dfbbbc1beea..63cb5e432f8a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
++++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+@@ -217,39 +217,33 @@ static const struct nouveau_debugfs_files {
+ 	{"pstate", &nouveau_pstate_fops},
  };
  
--static int etnaviv_debugfs_init(struct drm_minor *minor)
-+static void etnaviv_debugfs_init(struct drm_minor *minor)
+-int
++void
+ nouveau_drm_debugfs_init(struct drm_minor *minor)
  {
--	struct drm_device *dev = minor->dev;
--	int ret;
--
--	ret = drm_debugfs_create_files(etnaviv_debugfs_list,
--			ARRAY_SIZE(etnaviv_debugfs_list),
--			minor->debugfs_root, minor);
--
--	if (ret) {
--		dev_err(dev->dev, "could not install etnaviv_debugfs_list\n");
--		return ret;
--	}
--
--	return ret;
-+	drm_debugfs_create_files(etnaviv_debugfs_list,
-+				 ARRAY_SIZE(etnaviv_debugfs_list),
-+				 minor->debugfs_root, minor);
- }
- #endif
+ 	struct nouveau_drm *drm = nouveau_drm(minor->dev);
+ 	struct dentry *dentry;
+-	int i, ret;
++	int i;
  
+ 	for (i = 0; i < ARRAY_SIZE(nouveau_debugfs_files); i++) {
+-		dentry = debugfs_create_file(nouveau_debugfs_files[i].name,
+-					     S_IRUGO | S_IWUSR,
+-					     minor->debugfs_root, minor->dev,
+-					     nouveau_debugfs_files[i].fops);
+-		if (!dentry)
+-			return -ENOMEM;
++		debugfs_create_file(nouveau_debugfs_files[i].name,
++				    S_IRUGO | S_IWUSR,
++				    minor->debugfs_root, minor->dev,
++				    nouveau_debugfs_files[i].fops);
+ 	}
+ 
+-	ret = drm_debugfs_create_files(nouveau_debugfs_list,
+-				       NOUVEAU_DEBUGFS_ENTRIES,
+-				       minor->debugfs_root, minor);
+-	if (ret)
+-		return ret;
++	drm_debugfs_create_files(nouveau_debugfs_list,
++				 NOUVEAU_DEBUGFS_ENTRIES,
++				 minor->debugfs_root, minor);
+ 
+ 	/* Set the size of the vbios since we know it, and it's confusing to
+ 	 * userspace if it wants to seek() but the file has a length of 0
+ 	 */
+ 	dentry = debugfs_lookup("vbios.rom", minor->debugfs_root);
+ 	if (!dentry)
+-		return 0;
++		return;
+ 
+ 	d_inode(dentry)->i_size = drm->vbios.length;
+ 	dput(dentry);
+-
+-	return 0;
+ }
+ 
+ int
+diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.h b/drivers/gpu/drm/nouveau/nouveau_debugfs.h
+index 8909c010e8ea..ccb842d9da87 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_debugfs.h
++++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.h
+@@ -18,14 +18,13 @@ nouveau_debugfs(struct drm_device *dev)
+ 	return nouveau_drm(dev)->debugfs;
+ }
+ 
+-extern int  nouveau_drm_debugfs_init(struct drm_minor *);
++extern void nouveau_drm_debugfs_init(struct drm_minor *);
+ extern int  nouveau_debugfs_init(struct nouveau_drm *);
+ extern void nouveau_debugfs_fini(struct nouveau_drm *);
+ #else
+-static inline int
++static inline void
+ nouveau_drm_debugfs_init(struct drm_minor *minor)
+ {
+-       return 0;
+ }
+ 
+ static inline int
 -- 
 2.25.0
 
