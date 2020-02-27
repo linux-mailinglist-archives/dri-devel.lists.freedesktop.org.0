@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BC3171808
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 13:59:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A14171814
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 14:00:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0516ECAE;
-	Thu, 27 Feb 2020 12:59:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771C26ECB5;
+	Thu, 27 Feb 2020 12:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 421786EC96
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:04:04 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id z15so3040364wrl.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:04:04 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E02366EC99
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 12:24:01 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id c84so3174271wme.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 04:24:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5RmVYnpM+0YRA6Cv2NCMoJPgFkzlEM1UmxN/+rA46XY=;
- b=eYp7pK095FWJZ22AF506/TxhHaBaOUrk6NBpcrFHMd7Q1CeGnht2M2Isss9iDeLBI8
- KL4fsGDE/euAxYh219pEjWMbkE1Xs7EKw5PSlShRq+Hf9AknfRpZQnInkBNGXTvhnX0J
- mLEnA01NnD/XNycEpdVZUJ08nsV4RU5aau8gTJmldLpHI5WtXFKFhf/SODX3oTnDnTN/
- UaEi/uF1vqwYto5JhGKr3gAajyyCrRqEIZZmeaclxt2e9imBYcWPbVlWopXp/2so0qWV
- UUPdH843sXBS99qT6Hi0/+ohXETPvMXjPWoOAENdeQWrVVWDXQmAyMPS306mgfOmtl5d
- 277Q==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=jp5suxB8PwckKllUEmHtSKALSA4mXRMI2T39pt6o9kw=;
+ b=JvjpWo76pRAiBmY2lyeQmsaLrQZ4mkX9aCLLvAw/4cQmfro8qn2QJbyZIf4LlQxDSb
+ OGHOPDhDLa3UhXV8oOX/fTg8Oxa7UXEqa+zLOSMI5UZgDI+tdhAZv5Y34MVIUXSpPW6Y
+ ZAe754fYrRw17tvJUjByXRCnvQSyu0QxiLB+nC+UzDu/zLgeutxmNWB73QPlUFofVdxF
+ yaSWMCcCyfgMrsk42vUVvuZ1dC+eDsJjrgw/loMlqHXOAmvUtpHW/WtVjn2sGQ2b121M
+ FVmudIXCXLJ4KoSzSu62z3icEDZSxz39TLkoiyG0KuKQ13di6ysdPUVEaC//zUno9dNX
+ EcZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5RmVYnpM+0YRA6Cv2NCMoJPgFkzlEM1UmxN/+rA46XY=;
- b=NqhW/xcgdW62n+mlNWx/CdakOFX9gDzZ2GrUCeosEZbdgBbXiiUTY9owec4NPDuQCk
- WTK//hvhSlv5e9JCO4lN9NPvsvZYxEoWnlEipQ4Unz5zLN8PEQ5ex//DAfgJr1h/q23C
- k1ymMPHALXl9h4RiL9n5MTvTuRTGD5b52nX0tK4DmysVhs0DRHGwKja1ZC+FzlxKC82O
- S61vVboAQg6DtYLyeOym5GAoXcSHU27JhP2kOfZBEuR0EFlGyyRuY0yh4MB3oUVeHWIb
- rf0nTXeDT9YqvbzqOXXshOjq32DAiIJXP8buNoemtFgsHMELIJgCv2p9nWhutzAyMDVj
- joag==
-X-Gm-Message-State: APjAAAX5GZ9Z2v/D9pR6yea5PFs20Ipg4tzuglVufMV+m371sYg62v0F
- 7MmWy1Plp/ThZ3WGERm3ZE4=
-X-Google-Smtp-Source: APXvYqz4WeZdLGhzPJnokepnWxHo1W+4oAupLckaGCVy2TSEI09yxz0Zdl8ZBaoACC7g6gyM+DcRQQ==
-X-Received: by 2002:a5d:424e:: with SMTP id s14mr4834741wrr.226.1582805042932; 
- Thu, 27 Feb 2020 04:04:02 -0800 (PST)
-Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.59
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=jp5suxB8PwckKllUEmHtSKALSA4mXRMI2T39pt6o9kw=;
+ b=IbQe1ekC7U9RXEXvZIWWW/U7yzA1jIrTuNzAJn/hk0KCua+hqdO2NmhA+NeRFOL7FO
+ 2FAtuQTwqp1Lj9rmPrOrrcDX5mlcA2nhxe0qcd1k1NSwKPPLhFHAx6FXs95gcLngn/Mg
+ RJ+FmxJCZmPHmFgWernZw4YB7TLE9OOoWzONznYvXdj+LqNt/JfM2zc2BmSJwaN4Ehtf
+ PkZPtOxngocnDes6lHIQZ9QSdX+xvEXbcBzsiyoj2oAkxFKXFAJczT0SUAN5BGVDZIL+
+ aVmAF4CxHcT2lWUaiPfM9I6TIyOoZrb5MR8+r699en30ORj95o8ya+f6e6XhJG0eUkRc
+ ++lA==
+X-Gm-Message-State: APjAAAWtp/og2HUbXogFU0PjQxUPya9SBL5jOsPN/Fm0b0jvfhKZcF4X
+ lhYsNsfrksrWCdI7sfu0Gfc=
+X-Google-Smtp-Source: APXvYqy39CoQckRdV3i+42Rb9LPh5sCIUZPJ+vwEjuH0gGJK8KzCgsnF6pz5SR10++NHKt/Z7Aq3zg==
+X-Received: by 2002:a1c:4c8:: with SMTP id 191mr4978787wme.148.1582806240616; 
+ Thu, 27 Feb 2020 04:24:00 -0800 (PST)
+Received: from wambui.local ([197.237.61.225])
+ by smtp.googlemail.com with ESMTPSA id w19sm7017934wmc.22.2020.02.27.04.23.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 04:04:02 -0800 (PST)
+ Thu, 27 Feb 2020 04:24:00 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
-To: daniel@ffwll.ch, airlied@linux.ie, Liviu Dudau <liviu.dudau@arm.com>,
- Brian Starkey <brian.starkey@arm.com>
-Subject: [PATCH 21/21] drm/arm: have malidp_debufs_init() return void
-Date: Thu, 27 Feb 2020 15:02:32 +0300
-Message-Id: <20200227120232.19413-22-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200227120232.19413-1-wambui.karugax@gmail.com>
+X-Google-Original-From: Wambui Karuga <wambui@wambui>
+Date: Thu, 27 Feb 2020 15:23:31 +0300 (EAT)
+To: Jyri Sarha <jsarha@ti.com>
+Subject: Re: [PATCH 17/21] drm/tilcdc: remove check for return value of
+ debugfs functions.
+In-Reply-To: <614d42f2-881e-6e4e-f3c4-c247a86d9262@ti.com>
+Message-ID: <alpine.LNX.2.21.99999.375.2002271516120.19554@wambui>
 References: <20200227120232.19413-1-wambui.karugax@gmail.com>
+ <20200227120232.19413-18-wambui.karugax@gmail.com>
+ <614d42f2-881e-6e4e-f3c4-c247a86d9262@ti.com>
+User-Agent: Alpine 2.21.99999 (LNX 375 2019-10-29)
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 27 Feb 2020 12:59:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,47 +71,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: airlied@linux.ie, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As there's no need for the return value in malidp_debugfs_init() after
-the conversion of the drm_driver.debugfs_init() hook, (drm: convert the
-.debugs_init() hook to return void), convert the malidp_debugfs_init()
-function to return void.
 
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/arm/malidp_drv.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index 37d92a06318e..def8c9ffafca 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -548,7 +548,7 @@ static const struct file_operations malidp_debugfs_fops = {
- 	.release = single_release,
- };
- 
--static int malidp_debugfs_init(struct drm_minor *minor)
-+static void malidp_debugfs_init(struct drm_minor *minor)
- {
- 	struct malidp_drm *malidp = minor->dev->dev_private;
- 
-@@ -557,7 +557,6 @@ static int malidp_debugfs_init(struct drm_minor *minor)
- 	spin_lock_init(&malidp->errors_lock);
- 	debugfs_create_file("debug", S_IRUGO | S_IWUSR, minor->debugfs_root,
- 			    minor->dev, &malidp_debugfs_fops);
--	return 0;
- }
- 
- #endif //CONFIG_DEBUG_FS
--- 
-2.25.0
+On Thu, 27 Feb 2020, Jyri Sarha wrote:
 
+> On 27/02/2020 14:02, Wambui Karuga wrote:
+>> Since 987d65d01356 (drm: debugfs: make
+>> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
+>> fails. Therefore, remove the check and error handling of the return
+>> value of drm_debugfs_create_files() as it is not needed in
+>> tilcdc_debugfs_init().
+>>
+>> Also remove local variables that are not used after the changes, and
+>> declare tilcdc_debugfs_init() as void.
+>>
+>> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+>
+>
+> Ok, so this is a part of a bigger series.
+>
+Yes, this was converted to a series after initial feedback. Thanks for 
+your review
+
+wambui karuga.
+> Acked-by: Jyri Sarha <jsarha@ti.com>
+>
+> I assume the series will be merged as one without my involvement. Please
+> let me know if that is not the case.
+>
+> BR,
+> Jyri
+>
+>> ---
+>>  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 17 ++++-------------
+>>  1 file changed, 4 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+>> index 0791a0200cc3..78c1877d13a8 100644
+>> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+>> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+>> @@ -478,26 +478,17 @@ static struct drm_info_list tilcdc_debugfs_list[] = {
+>>  		{ "mm",   tilcdc_mm_show,   0 },
+>>  };
+>>
+>> -static int tilcdc_debugfs_init(struct drm_minor *minor)
+>> +static void tilcdc_debugfs_init(struct drm_minor *minor)
+>>  {
+>> -	struct drm_device *dev = minor->dev;
+>>  	struct tilcdc_module *mod;
+>> -	int ret;
+>>
+>> -	ret = drm_debugfs_create_files(tilcdc_debugfs_list,
+>> -			ARRAY_SIZE(tilcdc_debugfs_list),
+>> -			minor->debugfs_root, minor);
+>> +	drm_debugfs_create_files(tilcdc_debugfs_list,
+>> +				 ARRAY_SIZE(tilcdc_debugfs_list),
+>> +				 minor->debugfs_root, minor);
+>>
+>>  	list_for_each_entry(mod, &module_list, list)
+>>  		if (mod->funcs->debugfs_init)
+>>  			mod->funcs->debugfs_init(mod, minor);
+>> -
+>> -	if (ret) {
+>> -		dev_err(dev->dev, "could not install tilcdc_debugfs_list\n");
+>> -		return ret;
+>> -	}
+>> -
+>> -	return ret;
+>>  }
+>>  #endif
+>>
+>>
+>
+>
+> -- 
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
