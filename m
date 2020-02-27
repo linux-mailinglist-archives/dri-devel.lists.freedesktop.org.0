@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E70171497
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 11:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC40171499
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Feb 2020 11:01:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4011C6E517;
-	Thu, 27 Feb 2020 10:01:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 098E86EC7E;
+	Thu, 27 Feb 2020 10:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A63466E517
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 10:00:59 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01RA0t4X053927;
- Thu, 27 Feb 2020 04:00:55 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F3F76E51C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 10:01:01 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01RA0vBN053937;
+ Thu, 27 Feb 2020 04:00:57 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1582797655;
- bh=4Gq+KXqur9hiwRZaOMrzcj8kMez0gRfY0Xx207UN8eo=;
+ s=ti-com-17Q1; t=1582797657;
+ bh=R2oXGyxfGZAIAht4Ygej+8m0Ze1bPVeCtUI8iA90Ows=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=aNK760s95lSro08TWU2goI4ucSMVigVtvs6dMVqroxH8TcT0n5xbu3OUKdRW1i1rF
- iyzS8TNGuZiR+o/aj8Edu1lW8z29H8LQmtdCeXaP4BbPl+F5I228s+0JfJYk9UJIUS
- xHF4d60DVSgSXHMS2+30NvGtAF+XBoq89+Xrfqi0=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01RA0tYO048816;
- Thu, 27 Feb 2020 04:00:55 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ b=B1BE1DhDhRg3tMOIjqHHQU0y82ep2twF3zw/CCCqIKRlVFdce0DRqZ66et1NL732m
+ oDrGLtlqUv/1AqrWnOArfL3ocsvy62gIuyt0FZiQt4eC0Hi4fHxByVceI8uyHV7fHn
+ tMx1E7YGixTaQAfW1DRGKwRjuGysaAdwhf26XezA=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01RA0vIQ035902
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 27 Feb 2020 04:00:57 -0600
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 27
- Feb 2020 04:00:27 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ Feb 2020 04:00:56 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 27 Feb 2020 04:00:27 -0600
+ Frontend Transport; Thu, 27 Feb 2020 04:00:56 -0600
 Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01RA0Oss096517;
- Thu, 27 Feb 2020 04:00:26 -0600
-Subject: Re: [PATCH] drm/tidss: Use drm_for_each_bridge_in_chain()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20200222110718.26272-1-laurent.pinchart@ideasonboard.com>
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01RA0rkN097206;
+ Thu, 27 Feb 2020 04:00:55 -0600
+Subject: Re: [PATCH][next][V2] drm/tidss: fix spelling mistakes "bufer" and
+ "requsted"
+To: Colin King <colin.king@canonical.com>, Tomi Valkeinen
+ <tomi.valkeinen@ti.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
+References: <20200224174226.387874-1-colin.king@canonical.com>
 From: Jyri Sarha <jsarha@ti.com>
 Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
@@ -83,12 +86,12 @@ Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
  PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
  tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
-Message-ID: <5c43bfaa-9f53-5a42-d467-7a78966943e3@ti.com>
-Date: Thu, 27 Feb 2020 12:00:24 +0200
+Message-ID: <61a9d7f0-ad42-b347-4a4c-0e5cd0deb11c@ti.com>
+Date: Thu, 27 Feb 2020 12:00:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200222110718.26272-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20200224174226.387874-1-colin.king@canonical.com>
 Content-Language: en-GB
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,18 +106,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/02/2020 13:07, Laurent Pinchart wrote:
-> Replace the manual encoder->bridge_chain walk with the
-> drm_for_each_bridge_in_chain() macro. Drivers should not touch the
-> bridge_chain field directly.
+On 24/02/2020 19:42, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> There are two spelling mistakes in warning and debug messages.
+> Fix them.
+> 
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
 Reviewed-by: Jyri Sarha <jsarha@ti.com>
 Tested-by: Jyri Sarha <jsarha@ti.com>
@@ -124,23 +128,37 @@ I'll merge this to drm-misc-next tomorrow.
 Thank you for the patch,
 Jyri
 
+
 > ---
->  drivers/gpu/drm/tidss/tidss_encoder.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
-> index f7fe3a43ead0..83785b0a66a9 100644
-> --- a/drivers/gpu/drm/tidss/tidss_encoder.c
-> +++ b/drivers/gpu/drm/tidss/tidss_encoder.c
-> @@ -32,7 +32,7 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
->  	 * bridge timings, or from the connector's display_info if no
->  	 * bridge defines the timings.
->  	 */
-> -	list_for_each_entry(bridge, &encoder->bridge_chain, chain_node) {
-> +	drm_for_each_bridge_in_chain(encoder, bridge) {
->  		if (!bridge->timings)
->  			continue;
+> V2: Add spelling mistake fix for "requsted"
+> 
+> ---
+>  drivers/gpu/drm/tidss/tidss_dispc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index eeb160dc047b..b3dc83d2f668 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -1235,7 +1235,7 @@ int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
 >  
+>  	if (dispc_pclk_diff(rate, new_rate) > 5)
+>  		dev_warn(dispc->dev,
+> -			 "vp%d: Clock rate %lu differs over 5%% from requsted %lu\n",
+> +			 "vp%d: Clock rate %lu differs over 5%% from requested %lu\n",
+>  			 hw_videoport, new_rate, rate);
+>  
+>  	dev_dbg(dispc->dev, "vp%d: new rate %lu Hz (requested %lu Hz)\n",
+> @@ -1699,7 +1699,7 @@ static int dispc_vid_calc_scaling(struct dispc_device *dispc,
+>  
+>  		if (sp->xinc > f->xinc_max) {
+>  			dev_dbg(dispc->dev,
+> -				"%s: Too wide input bufer %u > %u\n", __func__,
+> +				"%s: Too wide input buffer %u > %u\n", __func__,
+>  				state->src_w >> 16, in_width_max * f->xinc_max);
+>  			return -EINVAL;
+>  		}
 > 
 
 
