@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F2E1732B8
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:20:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F54017328A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:15:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF2E6EE49;
-	Fri, 28 Feb 2020 08:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 698496EE41;
+	Fri, 28 Feb 2020 08:15:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 63A826EE49
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 08:20:40 +0000 (UTC)
-X-UUID: bb85578dfd2c4ab3bd3eccacfee9cfeb-20200228
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EF11B6EE41
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 08:15:34 +0000 (UTC)
+X-UUID: 2a91b08ff3c2401bb1ed3ba5f51df7be-20200228
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=iiTeyRrWpFxbRbm/zUqFMsVdCyJg1pm41Q+smhNO+Zw=; 
- b=q9+ylRyewtd89L/qoMOZEWFLLMFBVNJWWjv0L0DV2IQXGAzWWmTwf/KaVz7yohn2k64g9i/0VuvGNAmX2nHjuJawVNnn3ovLIQ4KXa46CF2pHTWDhz8SrNeTguiTVL2Odddb7dYum8U9Xcr3mVgo4mD8v6JeMgcLZBhD47RSb2A=;
-X-UUID: bb85578dfd2c4ab3bd3eccacfee9cfeb-20200228
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ bh=5KIAJmoTEhesMxKkwMtB3WhawX6q5b9wBfPte+p7ggk=; 
+ b=Fum5kK93fc/Y8VU56e05l7uaRi0scKy/WS/8ok0QHPtqf0vNPdTxkIm9EdvnOKGzpSml5hV8Gi5JuwXazBPKZIdp6T/ljoqMZ0s8KTGxiMz6a7ELtxKtAFju/cNkfi3Lj6H1bW2pd5chZ97gRoEFdCDo7SJA6JMxlEPP5yeTEe0=;
+X-UUID: 2a91b08ff3c2401bb1ed3ba5f51df7be-20200228
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 2012579019; Fri, 28 Feb 2020 16:15:25 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Fri, 28 Feb 2020 16:16:00 +0800
+ with ESMTP id 1533816250; Fri, 28 Feb 2020 16:15:31 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Fri, 28 Feb 2020 16:14:08 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Fri, 28 Feb 2020 16:15:42 +0800
+ 15.0.1395.4 via Frontend Transport; Fri, 28 Feb 2020 16:15:50 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v11 2/6] dt-bindings: display: mediatek: control dpi pins mode
- to avoid leakage
-Date: Fri, 28 Feb 2020 16:14:37 +0800
-Message-ID: <20200228081441.88179-3-jitao.shi@mediatek.com>
+Subject: [PATCH v11 3/6] dt-bindings: display: mediatek: dpi sample data in
+ dual edge support
+Date: Fri, 28 Feb 2020 16:14:38 +0800
+Message-ID: <20200228081441.88179-4-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200228081441.88179-1-jitao.shi@mediatek.com>
 References: <20200228081441.88179-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: F57B7FDD5C7BD966BFDA5B4FA6394A541920697BDECF91A298F3BF1DE5DFADA82000:8
+X-TM-SNTS-SMTP: 9C0CC5AF09DDE5E172435E0E236F3E98FD367E38DAD99B45F8829F8E69DA87212000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,40 +66,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add property "pinctrl-names" to swap pin mode between gpio and dpi mode. Set
-the dpi pins to gpio mode and output-low to avoid leakage current when dpi
-disabled.
+Add property "pclk-sample" to config the dpi sample on falling (0),
+rising (1), both falling and rising (2).
 
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,dpi.txt  | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .../devicetree/bindings/display/mediatek/mediatek,dpi.txt     | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-index 58914cf681b8..77ca32a32399 100644
+index 77ca32a32399..4eeead1d39db 100644
 --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
 +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-@@ -17,6 +17,10 @@ Required properties:
-   Documentation/devicetree/bindings/graph.txt. This port should be connected
-   to the input port of an attached HDMI or LVDS encoder chip.
+@@ -19,7 +19,8 @@ Required properties:
  
-+Optional properties:
-+- pinctrl-names: Contain "gpiomode" and "dpimode".
-+  pinctrl-names see Documentation/devicetree/bindings/pinctrlpinctrl-bindings.txt
-+
+ Optional properties:
+ - pinctrl-names: Contain "gpiomode" and "dpimode".
+-  pinctrl-names see Documentation/devicetree/bindings/pinctrlpinctrl-bindings.txt
++  pinctrl-names see Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
++- pclk-sample: refer Documentation/devicetree/bindings/media/video-interfaces.txt.
+ 
  Example:
  
- dpi0: dpi@1401d000 {
-@@ -27,6 +31,9 @@ dpi0: dpi@1401d000 {
- 		 <&mmsys CLK_MM_DPI_ENGINE>,
- 		 <&apmixedsys CLK_APMIXED_TVDPLL>;
- 	clock-names = "pixel", "engine", "pll";
-+	pinctrl-names = "active", "idle";
-+	pinctrl-0 = <&dpi_pin_func>;
-+	pinctrl-1 = <&dpi_pin_idle>;
+@@ -37,6 +38,7 @@ dpi0: dpi@1401d000 {
  
  	port {
  		dpi0_out: endpoint {
++			pclk-sample = <0>;
+ 			remote-endpoint = <&hdmi0_in>;
+ 		};
+ 	};
 -- 
 2.21.0
 _______________________________________________
