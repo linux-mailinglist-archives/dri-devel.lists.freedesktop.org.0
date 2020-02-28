@@ -1,93 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0348217339C
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 10:19:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BECFF1733A6
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 10:19:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4AC66EE92;
-	Fri, 28 Feb 2020 09:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E94186EE95;
+	Fri, 28 Feb 2020 09:19:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B17A16EE92
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 09:18:55 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200228091853euoutp01e82212e58e1ec026509a29ab9b5f7055~3hl4_MxEz1850918509euoutp01P
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 09:18:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200228091853euoutp01e82212e58e1ec026509a29ab9b5f7055~3hl4_MxEz1850918509euoutp01P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1582881533;
- bh=Cx/KisrZcE4N00t4ikLjmXXzqLLpj5BvenJ3Ar+A0ho=;
- h=From:To:Cc:Subject:Date:References:From;
- b=YfiJ3jODmBVbgu/nB9FF35fIgO7sed2hA/s9uMGaSTA6C+VvBsJ/L6bBHfBKcZjti
- RKiC3CE9WDByH43DNC4tAC324ztUG1+taePAM1uNOZFrLTcGKXWGacL2Jt+D0zIvtq
- of0x0yuXiIetZt7rJqmyOTcTnZKytKU2w5klXuyw=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200228091853eucas1p21dca5e87fa987dcaf3506827725c131e~3hl4qpMBL2979429794eucas1p21;
- Fri, 28 Feb 2020 09:18:53 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id C7.A4.60698.CFAD85E5; Fri, 28
- Feb 2020 09:18:52 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200228091852eucas1p12830eef2696807dc130216293cab4899~3hl4N-jb83168731687eucas1p13;
- Fri, 28 Feb 2020 09:18:52 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200228091852eusmtrp1dbee03c6b8bf008fcb87ec1a6e41ec00~3hl4NXpS71679016790eusmtrp1v;
- Fri, 28 Feb 2020 09:18:52 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-bf-5e58dafc03dc
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id B8.DC.08375.CFAD85E5; Fri, 28
- Feb 2020 09:18:52 +0000 (GMT)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200228091852eusmtip1daa9176ef455ead56e6b011303518d1c~3hl3xQbYQ2822828228eusmtip1Z;
- Fri, 28 Feb 2020 09:18:52 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panfrost: Silence warnings during deferred probe
-Date: Fri, 28 Feb 2020 10:18:42 +0100
-Message-Id: <20200228091842.1417-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPIsWRmVeSWpSXmKPExsWy7djP87p/bkXEGUw8aWlx7lI3q8X/bROZ
- La58fc9mcXnXHDaLtUfuslv837OD3aLxCFCsb+0lNgcOjzXz1jB67Li7hNFj77cFLB6bVnWy
- edzvPs7k0bdlFaPH501yAexRXDYpqTmZZalF+nYJXBk3l9xkLDgiUXHiyWrmBsa1Il2MnBwS
- AiYSJ15sZuti5OIQEljBKHFo7kIWCOcLo8SMO+ugnM+MEq0LbrHAtPS3v4ZKLGeU2LzzHCNc
- y9Tu32wgVWwChhJdb7vAbBEBR4n5z96AFTEL/GKUONxxlREkISzgKtEyfy5QEQcHi4CqxMyT
- XCBhXgEbif43O5ggtslLrN5wgBmkV0LgOZvEzSl7oc5wkVi1fQKULSzx6vgWdghbRuL05B4W
- iIZmRomH59ayQzg9jBKXm2YwQlRZS9w59wtsM7OApsT6XfoQYUeJpxNXMYKEJQT4JG68FQQJ
- MwOZk7ZNZ4YI80p0tAlBVKtJzDq+Dm7twQuXmCFsD4k917rBFgkJxEosafrMOoFRbhbCrgWM
- jKsYxVNLi3PTU4uN81LL9YoTc4tL89L1kvNzNzECk8Xpf8e/7mDc9yfpEKMAB6MSD++CHeFx
- QqyJZcWVuYcYJTiYlUR4N34NjRPiTUmsrEotyo8vKs1JLT7EKM3BoiTOa7zoZayQQHpiSWp2
- ampBahFMlomDU6qB8STrxTebfmkdyNH4trG0RdJ51tqyxVvs5Deo8N49d/VmV7paa27605L7
- VR9/rRfQ/TzxalC5BwObd2Q1/5+3vqr7uyfV/Tq8IkrnZO62Rdlu/uo3Vn3uzprZc/i/7bTi
- cznPL7/ZzXVa+EmtPef07mkOjdI31ANSW05c8TDIv/WV7fIzl4dnXyqxFGckGmoxFxUnAgAM
- BHtxEgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrILMWRmVeSWpSXmKPExsVy+t/xu7p/bkXEGZxtUrA4d6mb1eL/tonM
- Fle+vmezuLxrDpvF2iN32S3+79nBbtF4BCjWt/YSmwOHx5p5axg9dtxdwuix99sCFo9NqzrZ
- PO53H2fy6NuyitHj8ya5APYoPZui/NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9
- O5uU1JzMstQifbsEvYybS24yFhyRqDjxZDVzA+NakS5GTg4JAROJ/vbXLCC2kMBSRolD/5Mg
- 4jISJ6c1sELYwhJ/rnWxdTFyAdV8YpRYfn83G0iCTcBQoustSIKDQ0TAWWLZ0hCQMLPAP0aJ
- fzejQWxhAVeJlvlzwUpYBFQlZp7kAgnzCthI9L/ZwQQxXl5i9YYDzBMYeRYwMqxiFEktLc5N
- zy021CtOzC0uzUvXS87P3cQIDM5tx35u3sF4aWPwIUYBDkYlHt4FO8LjhFgTy4orcw8xSnAw
- K4nwbvwaGifEm5JYWZValB9fVJqTWnyI0RRo90RmKdHkfGDk5JXEG5oamltYGpobmxubWSiJ
- 83YIHIwREkhPLEnNTk0tSC2C6WPi4JRqYGRrzvp5uiFuI3/K6sv7zlyUO2bDkMRTVRxY0pPD
- aucte72eeVLrFRbV6S/3zBLY468T1JKpxDFHZ6PjUaWr349c8Lh/aVJ+UMP7sDm1B682TNkR
- 26gUY36BR4O5TC/OblmQwErzQ4JzzbqiTL8UhShJPZPeaf7s3oQD7075nez8J//x431DOSWW
- 4oxEQy3mouJEABrPMDRkAgAA
-X-CMS-MailID: 20200228091852eucas1p12830eef2696807dc130216293cab4899
-X-Msg-Generator: CA
-X-RootMTR: 20200228091852eucas1p12830eef2696807dc130216293cab4899
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200228091852eucas1p12830eef2696807dc130216293cab4899
-References: <CGME20200228091852eucas1p12830eef2696807dc130216293cab4899@eucas1p1.samsung.com>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EAAFC6EE95
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 09:19:51 +0000 (UTC)
+X-UUID: caab609a429849368284e83c25abd92c-20200228
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=6zeC4yb1VQBu7ApncTTy8tf7CnDnABwjHUo57+LSsO8=; 
+ b=sObfravm74/bA6AytUYIAQBeFbeGeZ/0otXn+fYlZbbNA/h7vjLnFFHE7HrlJws4/KInkSIrQHMWoxXX7xuCHPJ/FPk09vAQxu/YO3qUxNp07A16o/21nq2HBHHMcmiUoLhC08rKtTmYQ++TTeaB44x2pmPVg4JXFfha1GoyLPA=;
+X-UUID: caab609a429849368284e83c25abd92c-20200228
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1234426427; Fri, 28 Feb 2020 17:19:47 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 28 Feb 2020 17:18:48 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 28 Feb 2020 17:19:44 +0800
+Message-ID: <1582881585.22475.0.camel@mtksdaap41>
+Subject: Re: [PATCH v10 2/5] dt-bindings: mediatek: Update mmsys binding to
+ reflect it is a system controller
+From: CK Hu <ck.hu@mediatek.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Date: Fri, 28 Feb 2020 17:19:45 +0800
+In-Reply-To: <20200227180858.1514157-3-enric.balletbo@collabora.com>
+References: <20200227180858.1514157-1-enric.balletbo@collabora.com>
+ <20200227180858.1514157-3-enric.balletbo@collabora.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: FC89D009C6FEBE11B57038010837F5A87B7460971BF352976EDF9382E63247B12000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,104 +54,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
+Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
+ mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
+ ulrich.hecht+renesas@gmail.com, Collabora
+ Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
+ Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya
+ Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
+ Houlong Wei <houlong.wei@mediatek.com>, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Allison Randal <allison@lohutok.net>,
+ Matthias Brugger <mbrugger@suse.com>, sboyd@kernel.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't confuse user with meaningless warnings about the failure in getting
-resources in case of deferred probe.
+Hi, Enric:
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- drivers/gpu/drm/panfrost/panfrost_device.c | 29 ++++++++++++++--------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+On Thu, 2020-02-27 at 19:08 +0100, Enric Balletbo i Serra wrote:
+> The mmsys system controller is not only a pure clock controller, so
+> update the binding documentation to reflect that apart from providing
+> clocks, it also provides routing and miscellaneous control registers.
+> 
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index 238fb6d54df4..1c3f2e656b53 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -21,7 +21,9 @@ static int panfrost_reset_init(struct panfrost_device *pfdev)
- 
- 	pfdev->rstc = devm_reset_control_array_get(pfdev->dev, false, true);
- 	if (IS_ERR(pfdev->rstc)) {
--		dev_err(pfdev->dev, "get reset failed %ld\n", PTR_ERR(pfdev->rstc));
-+		if (PTR_ERR(pfdev->rstc) != -EPROBE_DEFER)
-+			dev_err(pfdev->dev, "get reset failed %ld\n",
-+				PTR_ERR(pfdev->rstc));
- 		return PTR_ERR(pfdev->rstc);
- 	}
- 
-@@ -44,7 +46,9 @@ static int panfrost_clk_init(struct panfrost_device *pfdev)
- 
- 	pfdev->clock = devm_clk_get(pfdev->dev, NULL);
- 	if (IS_ERR(pfdev->clock)) {
--		dev_err(pfdev->dev, "get clock failed %ld\n", PTR_ERR(pfdev->clock));
-+		if (PTR_ERR(pfdev->clock) != -EPROBE_DEFER)
-+			dev_err(pfdev->dev, "get clock failed %ld\n",
-+				PTR_ERR(pfdev->clock));
- 		return PTR_ERR(pfdev->clock);
- 	}
- 
-@@ -57,8 +61,9 @@ static int panfrost_clk_init(struct panfrost_device *pfdev)
- 
- 	pfdev->bus_clock = devm_clk_get_optional(pfdev->dev, "bus");
- 	if (IS_ERR(pfdev->bus_clock)) {
--		dev_err(pfdev->dev, "get bus_clock failed %ld\n",
--			PTR_ERR(pfdev->bus_clock));
-+		if (PTR_ERR(pfdev->bus_clock) != -EPROBE_DEFER)
-+			dev_err(pfdev->dev, "get bus_clock failed %ld\n",
-+				PTR_ERR(pfdev->bus_clock));
- 		return PTR_ERR(pfdev->bus_clock);
- 	}
- 
-@@ -91,9 +96,10 @@ static int panfrost_regulator_init(struct panfrost_device *pfdev)
- 
- 	pfdev->regulator = devm_regulator_get(pfdev->dev, "mali");
- 	if (IS_ERR(pfdev->regulator)) {
--		ret = PTR_ERR(pfdev->regulator);
--		dev_err(pfdev->dev, "failed to get regulator: %d\n", ret);
--		return ret;
-+		if (PTR_ERR(pfdev->regulator) != -EPROBE_DEFER)
-+			dev_err(pfdev->dev, "failed to get regulator: %d\n",
-+				PTR_ERR(pfdev->regulator));
-+		return PTR_ERR(pfdev->regulator);
- 	}
- 
- 	ret = regulator_enable(pfdev->regulator);
-@@ -124,19 +130,22 @@ int panfrost_device_init(struct panfrost_device *pfdev)
- 
- 	err = panfrost_clk_init(pfdev);
- 	if (err) {
--		dev_err(pfdev->dev, "clk init failed %d\n", err);
-+		if (err != -EPROBE_DEFER)
-+			dev_err(pfdev->dev, "clk init failed %d\n", err);
- 		return err;
- 	}
- 
- 	err = panfrost_regulator_init(pfdev);
- 	if (err) {
--		dev_err(pfdev->dev, "regulator init failed %d\n", err);
-+		if (err != -EPROBE_DEFER)
-+			dev_err(pfdev->dev, "regulator init failed %d\n", err);
- 		goto err_out0;
- 	}
- 
- 	err = panfrost_reset_init(pfdev);
- 	if (err) {
--		dev_err(pfdev->dev, "reset init failed %d\n", err);
-+		if (err != -EPROBE_DEFER)
-+			dev_err(pfdev->dev, "reset init failed %d\n", err);
- 		goto err_out1;
- 	}
- 
--- 
-2.17.1
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
+> 
+> Changes in v10:
+> - Update the binding documentation for the mmsys system controller.
+> 
+> Changes in v9: None
+> Changes in v8: None
+> Changes in v7: None
+> 
+>  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.txt    | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
+> index 301eefbe1618..8d6a9d98e7a6 100644
+> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
+> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
+> @@ -1,7 +1,8 @@
+>  Mediatek mmsys controller
+>  ============================
+>  
+> -The Mediatek mmsys controller provides various clocks to the system.
+> +The Mediatek mmsys system controller provides clock control, routing control,
+> +and miscellaneous control in mmsys partition.
+>  
+>  Required Properties:
+>  
+> @@ -15,13 +16,13 @@ Required Properties:
+>  	- "mediatek,mt8183-mmsys", "syscon"
+>  - #clock-cells: Must be 1
+>  
+> -The mmsys controller uses the common clk binding from
+> +For the clock control, the mmsys controller uses the common clk binding from
+>  Documentation/devicetree/bindings/clock/clock-bindings.txt
+>  The available clocks are defined in dt-bindings/clock/mt*-clk.h.
+>  
+>  Example:
+>  
+> -mmsys: clock-controller@14000000 {
+> +mmsys: syscon@14000000 {
+>  	compatible = "mediatek,mt8173-mmsys", "syscon";
+>  	reg = <0 0x14000000 0 0x1000>;
+>  	#clock-cells = <1>;
 
 _______________________________________________
 dri-devel mailing list
