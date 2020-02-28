@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03462174066
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 20:41:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF551740ED
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 21:26:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F2A6F4B7;
-	Fri, 28 Feb 2020 19:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE9F36E0FE;
+	Fri, 28 Feb 2020 20:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DED256F4B7
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 19:41:08 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0D33A28;
- Fri, 28 Feb 2020 20:41:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1582918867;
- bh=WEG8DVTyErity+gsC2wUGAk8lrrNzL516swTwP5TMXA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=llzpKAw+pHwAHyGuDBLV2J/ke1XgAer6pf7Pkcb73OZPJdDoOopf6XE4cJZ8KngOD
- Qbp83sI6zIE9o+wFHY1szNb6tUanfWOj8B02DlkwvkOuaDvIehkUngdkg+NPLSuCRH
- dMAn5qmmlNIsRbkH5OvltrojbVRS1BXipOS4W9vk=
-Date: Fri, 28 Feb 2020 21:40:43 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tony Lindgren <tony@atomide.com>
-Subject: Re: [PATCHv2] drm/omap: Fix drm_handle_vblank() handling for command
- mode panels
-Message-ID: <20200228194043.GA28903@pendragon.ideasonboard.com>
-References: <20200228171657.11884-1-tony@atomide.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 856036E0FE;
+ Fri, 28 Feb 2020 20:26:36 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id CAC7F8046E;
+ Fri, 28 Feb 2020 21:26:33 +0100 (CET)
+Date: Fri, 28 Feb 2020 21:26:32 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 26/51] drm: Manage drm_mode_config_init with drmm_
+Message-ID: <20200228202632.GB22966@ravnborg.org>
+References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
+ <20200227181522.2711142-27-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200228171657.11884-1-tony@atomide.com>
+In-Reply-To: <20200227181522.2711142-27-daniel.vetter@ffwll.ch>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8
+ a=P1BnusSwAAAA:8 a=SJz97ENfAAAA:8 a=QyXUC8HyAAAA:8 a=9vy5vZw2cxVn3W-tDF8A:9
+ a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
+ a=vFet0B0WnEQeilDPIY6i:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,194 +47,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Merlijn Wajer <merlijn@wizzup.org>, Sebastian Reichel <sre@kernel.org>,
- dri-devel@lists.freedesktop.org, ruleh <ruleh@gmx.de>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ m.felsch@pengutronix.de, DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tony,
+Hi Daniel.
 
-Thank you for the patch.
+Some bikeshedding in the following.
+with or with addressing (IMHO valid points) consider the patch:
 
-On Fri, Feb 28, 2020 at 09:16:57AM -0800, Tony Lindgren wrote:
-> When trying to run weston on droid4 with the updated sgx blobs, the LCD
-> is just black and not updating. Weston also displays the following on
-> startup:
-> 
-> Warning: computed repaint delay is insane: -205475 msec
-> 
-> Weston runs fine on the HDMI alone though, and the issue was narrowed
-> down to an issue with vblank as suggested by ruleh <ruleh@gmx.de>.
-> 
-> Turns out that for command mode displays, we're not currently calling
-> drm_handle_vblank() at all since omap_irq_handler() won't do it for
-> us since we get no vblank interrupts. Let's fix the issue by calling
-> drm_handle_vblank() and omap_crtc_vblank_irq() for command mode
-> displays from omap_crtc_framedone_irq() and make the vblank handling
-> the same for command mode panels as it is for normal displays.
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-vblank handling is tricky and race-prone. This patch needs very careful
-attention. I'll try to get a look at it next week if Tomi doesn't beat
-me to it. Sorry for the delay.
+	Sam
 
-> For reference, below is my current weston.ini. The repaint-window is
-> maxed out to force immediate repaint instead of the default 7 ms.
-> Otherwise it seems that the repaint is happening at about 60 fps with
-> es2gears_wayland compared to about 130 fps where it seems to max out.
-> 
-> [core]
-> xwayland=true
-> backend=drm-backend.so
-> repaint-window=1000
-> pageflip-timeout=1000
-> 
-> [libinput]
-> rotation=0
-> 
-> [output]
-> name=DSI-1
-> transform=90
-> 
-> [output]
-> name=HDMI-1
-> mode=1024x768@60
-> 
-> Fixes: 47103a80f55a ("drm/omap: add framedone interrupt support")
-> Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-> Cc: Merlijn Wajer <merlijn@wizzup.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: ruleh <ruleh@gmx.de>
-> Signed-off-by: Tony Lindgren <tony@atomide.com>
+On Thu, Feb 27, 2020 at 07:14:57PM +0100, Daniel Vetter wrote:
+> drm_mode_config_cleanup is idempotent, so no harm in calling this
+> twice. This allows us to gradually switch drivers over by removing
+> explicit drm_mode_config_cleanup calls.
+>
+
+> With this step it's not also possible that (at least for simple
+> drivers) automatic resource cleanup can be done correctly without a
+> drm_driver->release hook. Therefore allow this now in
+> devm_drm_dev_init().
+I am not really sure what you try to explain here?
+Should the "not" be deleted?
+
+> =
+
+> Also with drmm_ explicit drm_driver->release hooks are kinda not the
+> best option, so deprecate that hook to discourage future users.
+The ->release hooks has others uses until everything is moved over to
+drmm_, or so I think. So deprecation seems a lttle too soon.
+
+> =
+
+> v2: Fixup the example in the kerneldoc too.
+> =
+
+> v3:
+> - For paranoia, double check that minor->dev =3D=3D dev in the release
+>   hook, because I botched the pointer math in the drmm library.
+> - Call drm_mode_config_cleanup when drmm_add_action fails, we'd be
+>   missing some mutex_destroy and ida_cleanup otherwise (Laurent)
+> =
+
+> v4: Add a drmm_add_action_or_reset (like devm_ has) to encapsulate this
+> pattern (Noralf).
+> =
+
+> v5: Fix oversight in the new add_action_or_reset macro (Noralf)
+                               ^ drmm_add_action_or_reset
+> =
+
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > ---
->  drivers/gpu/drm/omapdrm/omap_crtc.c | 41 +++++++++++------------------
->  drivers/gpu/drm/omapdrm/omap_crtc.h |  2 +-
->  drivers/gpu/drm/omapdrm/omap_irq.c  |  2 +-
->  3 files changed, 18 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> --- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> @@ -325,23 +325,21 @@ void omap_crtc_vblank_irq(struct drm_crtc *crtc)
->  	DBG("%s: apply done", omap_crtc->name);
->  }
->  
-> -void omap_crtc_framedone_irq(struct drm_crtc *crtc, uint32_t irqstatus)
-> +void omap_crtc_framedone_irq(struct drm_crtc *crtc, int id, uint32_t irqstatus)
->  {
-> +	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
->  	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
-> +	struct drm_device *dev = crtc->dev;
->  
->  	if (!omap_crtc->framedone_handler)
->  		return;
->  
-> -	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
-> -
-> -	spin_lock(&crtc->dev->event_lock);
-> -	/* Send the vblank event if one has been requested. */
-> -	if (omap_crtc->event) {
-> -		drm_crtc_send_vblank_event(crtc, omap_crtc->event);
-> -		omap_crtc->event = NULL;
-> +	if (omap_state->manually_updated) {
-> +		drm_handle_vblank(dev, id);
-> +		omap_crtc_vblank_irq(crtc);
->  	}
-> -	omap_crtc->pending = false;
-> -	spin_unlock(&crtc->dev->event_lock);
+>  drivers/gpu/drm/drm_drv.c         | 23 +++++++----------------
+>  drivers/gpu/drm/drm_managed.c     | 14 ++++++++++++++
+>  drivers/gpu/drm/drm_mode_config.c | 13 ++++++++++++-
+>  include/drm/drm_managed.h         |  7 +++++++
+>  include/drm/drm_mode_config.h     |  2 +-
+>  5 files changed, 41 insertions(+), 18 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 3cf40864d4a6..bb326b9bcde0 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -98,6 +98,8 @@ static void drm_minor_alloc_release(struct drm_device *=
+dev, void *data)
+>  	struct drm_minor *minor =3D data;
+>  	unsigned long flags;
+>  =
+
+> +	WARN_ON(dev !=3D minor->dev);
 > +
-> +	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
->  
->  	/* Wake up omap_atomic_complete. */
->  	wake_up(&omap_crtc->pending_wait);
-> @@ -439,8 +437,12 @@ static void omap_crtc_destroy(struct drm_crtc *crtc)
->  
->  static void omap_crtc_arm_event(struct drm_crtc *crtc)
+>  	put_device(minor->kdev);
+>  =
+
+>  	spin_lock_irqsave(&drm_minor_lock, flags);
+> @@ -267,8 +269,7 @@ void drm_minor_release(struct drm_minor *minor)
+>   *
+>   * The following example shows a typical structure of a DRM display driv=
+er.
+>   * The example focus on the probe() function and the other functions tha=
+t is
+> - * almost always present and serves as a demonstration of devm_drm_dev_i=
+nit()
+> - * usage with its accompanying drm_driver->release callback.
+> + * almost always present and serves as a demonstration of devm_drm_dev_i=
+nit().
+>   *
+>   * .. code-block:: c
+>   *
+> @@ -278,16 +279,8 @@ void drm_minor_release(struct drm_minor *minor)
+>   *		struct clk *pclk;
+>   *	};
+>   *
+> - *	static void driver_drm_release(struct drm_device *drm)
+> - *	{
+> - *		struct driver_device *priv =3D container_of(...);
+> - *
+> - *		drm_mode_config_cleanup(drm);
+> - *	}
+> - *
+>   *	static struct drm_driver driver_drm_driver =3D {
+>   *		[...]
+> - *		.release =3D driver_drm_release,
+>   *	};
+>   *
+>   *	static int driver_probe(struct platform_device *pdev)
+> @@ -312,7 +305,9 @@ void drm_minor_release(struct drm_minor *minor)
+>   *		}
+>   *		drmm_add_final_kfree(drm, priv);
+>   *
+> - *		drm_mode_config_init(drm);
+> + *		ret =3D drm_mode_config_init(drm);
+> + *		if (ret)
+> + *			return ret;
+We do not print anything in drm_mode_config_init() - so should
+we do it here?
+Otherwise we only get the more generic error from the driver core.
+
+>   *
+>   *		priv->userspace_facing =3D drmm_kzalloc(..., GFP_KERNEL);
+>   *		if (!priv->userspace_facing)
+> @@ -710,8 +705,7 @@ static void devm_drm_dev_init_release(void *data)
+>   * @driver: DRM driver
+>   *
+>   * Managed drm_dev_init(). The DRM device initialized with this function=
+ is
+> - * automatically put on driver detach using drm_dev_put(). You must supp=
+ly a
+> - * &drm_driver.release callback to control the finalization explicitly.
+> + * automatically put on driver detach using drm_dev_put().
+>   *
+>   * RETURNS:
+>   * 0 on success, or error code on failure.
+> @@ -722,9 +716,6 @@ int devm_drm_dev_init(struct device *parent,
 >  {
-> +	struct omap_crtc_state *omap_crtc_state = to_omap_crtc_state(crtc->state);
->  	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
->  
-> +	if (omap_crtc->pending && omap_crtc_state->manually_updated)
-> +		return;
-> +
->  	WARN_ON(omap_crtc->pending);
->  	omap_crtc->pending = true;
->  
-> @@ -455,17 +457,12 @@ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
->  {
->  	struct omap_drm_private *priv = crtc->dev->dev_private;
->  	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
-> -	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
 >  	int ret;
->  
->  	DBG("%s", omap_crtc->name);
->  
->  	priv->dispc_ops->runtime_get(priv->dispc);
->  
-> -	/* manual updated display will not trigger vsync irq */
-> -	if (omap_state->manually_updated)
-> -		return;
+>  =
+
+> -	if (WARN_ON(!driver->release))
+> -		return -EINVAL;
 > -
->  	spin_lock_irq(&crtc->dev->event_lock);
->  	drm_crtc_vblank_on(crtc);
->  	ret = drm_crtc_vblank_get(crtc);
-> @@ -646,20 +643,14 @@ static void omap_crtc_atomic_flush(struct drm_crtc *crtc,
->  
->  	DBG("%s: GO", omap_crtc->name);
->  
-> -	if (omap_crtc_state->manually_updated) {
-> -		/* send new image for page flips and modeset changes */
-> -		spin_lock_irq(&crtc->dev->event_lock);
-> -		omap_crtc_flush(crtc);
-> -		omap_crtc_arm_event(crtc);
-> -		spin_unlock_irq(&crtc->dev->event_lock);
-> -		return;
-> -	}
-> -
->  	ret = drm_crtc_vblank_get(crtc);
->  	WARN_ON(ret != 0);
->  
->  	spin_lock_irq(&crtc->dev->event_lock);
-> -	priv->dispc_ops->mgr_go(priv->dispc, omap_crtc->channel);
-> +	if (omap_crtc_state->manually_updated)
-> +		omap_crtc_flush(crtc);
-> +	else
-> +		priv->dispc_ops->mgr_go(priv->dispc, omap_crtc->channel);
->  	omap_crtc_arm_event(crtc);
->  	spin_unlock_irq(&crtc->dev->event_lock);
+>  	ret =3D drm_dev_init(dev, driver, parent);
+>  	if (ret)
+>  		return ret;
+> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
+> index 626656369f0b..6376be01bbc8 100644
+> --- a/drivers/gpu/drm/drm_managed.c
+> +++ b/drivers/gpu/drm/drm_managed.c
+> @@ -134,6 +134,20 @@ int __drmm_add_action(struct drm_device *dev,
 >  }
-> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.h b/drivers/gpu/drm/omapdrm/omap_crtc.h
-> --- a/drivers/gpu/drm/omapdrm/omap_crtc.h
-> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.h
-> @@ -30,7 +30,7 @@ struct drm_crtc *omap_crtc_init(struct drm_device *dev,
->  int omap_crtc_wait_pending(struct drm_crtc *crtc);
->  void omap_crtc_error_irq(struct drm_crtc *crtc, u32 irqstatus);
->  void omap_crtc_vblank_irq(struct drm_crtc *crtc);
-> -void omap_crtc_framedone_irq(struct drm_crtc *crtc, uint32_t irqstatus);
-> +void omap_crtc_framedone_irq(struct drm_crtc *crtc, int id, uint32_t irqstatus);
->  void omap_crtc_flush(struct drm_crtc *crtc);
->  
->  #endif /* __OMAPDRM_CRTC_H__ */
-> diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapdrm/omap_irq.c
-> --- a/drivers/gpu/drm/omapdrm/omap_irq.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_irq.c
-> @@ -232,7 +232,7 @@ static irqreturn_t omap_irq_handler(int irq, void *arg)
->  			omap_crtc_error_irq(crtc, irqstatus);
->  
->  		if (irqstatus & priv->dispc_ops->mgr_get_framedone_irq(priv->dispc, channel))
-> -			omap_crtc_framedone_irq(crtc, irqstatus);
-> +			omap_crtc_framedone_irq(crtc, id, irqstatus);
+>  EXPORT_SYMBOL(__drmm_add_action);
+>  =
+
+> +int __drmm_add_action_or_reset(struct drm_device *dev,
+> +			       drmres_release_t action,
+> +			       void *data, const char *name)
+> +{
+> +	int ret;
+> +
+> +	ret =3D __drmm_add_action(dev, action, data, name);
+> +	if (ret)
+> +		action(dev, data);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(__drmm_add_action_or_reset);
+
+Bikeshedding - but why oh why prefixing the function with two
+underscores?
+- It makes it less readable
+- It says "internal", at least to me - but it is exported
+- It makes the casual reader wonder why, removing focus from other more
+  relevant things
+- It makes me writing several lines of rant
+
+drmm_add_action_or_reset_named(...) would do the trick.
+
+Same rant above goes for __drmm_add_action()...
+
+> +
+>  void drmm_remove_action(struct drm_device *dev,
+>  			drmres_release_t action,
+>  			void *data)
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode=
+_config.c
+> index 08e6eff6a179..6f7005bc597f 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -25,6 +25,7 @@
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_managed.h>
+>  #include <drm/drm_mode_config.h>
+>  #include <drm/drm_print.h>
+>  #include <linux/dma-resv.h>
+> @@ -373,6 +374,11 @@ static int drm_mode_create_standard_properties(struc=
+t drm_device *dev)
+>  	return 0;
+>  }
+>  =
+
+> +static void drm_mode_config_init_release(struct drm_device *dev, void *p=
+tr)
+> +{
+> +	drm_mode_config_cleanup(dev);
+> +}
+> +
+>  /**
+>   * drm_mode_config_init - initialize DRM mode_configuration structure
+>   * @dev: DRM device
+> @@ -384,8 +390,10 @@ static int drm_mode_create_standard_properties(struc=
+t drm_device *dev)
+>   * problem, since this should happen single threaded at init time. It is=
+ the
+>   * driver's problem to ensure this guarantee.
+>   *
+> + * Cleanup is automatically handled through registering drm_mode_config_=
+cleanup
+> + * with drmm_add_action().
+>   */
+> -void drm_mode_config_init(struct drm_device *dev)
+> +int drm_mode_config_init(struct drm_device *dev)
+>  {
+>  	mutex_init(&dev->mode_config.mutex);
+>  	drm_modeset_lock_init(&dev->mode_config.connection_mutex);
+> @@ -443,6 +451,9 @@ void drm_mode_config_init(struct drm_device *dev)
+>  		drm_modeset_acquire_fini(&modeset_ctx);
+>  		dma_resv_fini(&resv);
 >  	}
->  
->  	omap_irq_ocp_error_handler(dev, irqstatus);
+> +
+> +	return drmm_add_action_or_reset(dev, drm_mode_config_init_release,
+> +					NULL);
+>  }
+>  EXPORT_SYMBOL(drm_mode_config_init);
+As this is now a drmm_ managed function it should be named such.
+Maybe add a small drm_mode_config_init() wrapper in the header file for
+those that has not migrated yet.
+It is confusing if we are not consistent in naming and everywhere else
+the drm managed functions are named drmm_
 
--- 
-Regards,
 
-Laurent Pinchart
+>  =
+
+> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
+> index 2b1ba2ad5582..1e6291407586 100644
+> --- a/include/drm/drm_managed.h
+> +++ b/include/drm/drm_managed.h
+> @@ -18,6 +18,13 @@ int __must_check __drmm_add_action(struct drm_device *=
+dev,
+>  				   drmres_release_t action,
+>  				   void *data, const char *name);
+>  =
+
+> +#define drmm_add_action_or_reset(dev, action, data) \
+> +	__drmm_add_action_or_reset(dev, action, data, #action)
+> +
+> +int __must_check __drmm_add_action_or_reset(struct drm_device *dev,
+> +					    drmres_release_t action,
+> +					    void *data, const char *name);
+> +
+>  void drmm_remove_action(struct drm_device *dev,
+>  			drmres_release_t action,
+>  			void *data);
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 3bcbe30339f0..160a3e4b51c3 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -929,7 +929,7 @@ struct drm_mode_config {
+>  	const struct drm_mode_config_helper_funcs *helper_private;
+>  };
+>  =
+
+> -void drm_mode_config_init(struct drm_device *dev);
+> +int drm_mode_config_init(struct drm_device *dev);
+>  void drm_mode_config_reset(struct drm_device *dev);
+>  void drm_mode_config_cleanup(struct drm_device *dev);
+>  =
+
+> -- =
+
+> 2.24.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
