@@ -2,54 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3D7173342
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:48:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0348217339C
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 10:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD6B66EE82;
-	Fri, 28 Feb 2020 08:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4AC66EE92;
+	Fri, 28 Feb 2020 09:18:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF5D6EE7F;
- Fri, 28 Feb 2020 08:48:46 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id b3so1895204otp.4;
- Fri, 28 Feb 2020 00:48:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qlqcbHzLGRHY3M4I1/OUYzXJJe8cppDvyu4IteJROqQ=;
- b=Lm7qN7/0eapEKsVQo4dBy0J3g+JvL9toKdHY+NB0p7EaBrv2u/DeLJbo4xH1BjQKDS
- RlCbMDgJlAHpcbrxFFC4PYA00Yh06QM8Hb4QFyQVyiIS8fK+XPqDb/xy1Nnpi3RZh/k/
- pMRRswxuFDA93GE87Yhs4WzutlLSFyraIjRiYnzB/QiVUclwvdiTwLLI0uJKzn25jaNi
- a77898dsNuz8wXYum2aKRwAdO5mcA5qlXPyEsCrGBEz3D+94OhZuqnXLE8FaQFZRYarI
- 4KucFL9/S0oQFu4gUfBT07ES0+Zb0mPgT6hhA9VDkyEfAlScK0M6DwRTuCY2FJ60VBSF
- Y5wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qlqcbHzLGRHY3M4I1/OUYzXJJe8cppDvyu4IteJROqQ=;
- b=SoMeTrsL3aaPFBljIPcbWLNWfDATDCjX8HEdhGlG3TD5vhqlBnmUaAZblVkdJpgkxY
- hHR4pU1Rc9wu/uKTx7av+b81Exc+g/BXQe64eZeZP1utI1uEqBWDUQpGtBzIQqLm2yCC
- MqZZNDv07+D8dqlC+zJzOnQvr4fXzd2t3Kw/9kC7RcehjPStfhWFOJfk2wcveRxbaav8
- e80RtFg87uTOTY/7re6yvfUI5GoaMKXNkG+IORu2Y4CX5ocZJnWa/RG2Q9iAxHkkTJuZ
- P72PA+TPfwDZusv7/wy6brU300+3EwLadMsF7h5cLt3Bk/kJjnqkmoStOllve9+g0iib
- 12SA==
-X-Gm-Message-State: APjAAAWEPpxVl/kG5h2W8HOH7C8uMs86VFo7lQe+MzukILUKgbYVsaGL
- Fn7a9WbCb77633gBuKfrI/0KrdjdFkn6VSsQj0Q=
-X-Google-Smtp-Source: APXvYqwVBOFl1TpJXZXKtDtiipbMYTeXRYob7LKHbziFADEK5HywFJjm/VMF4PIRai0Dygxg+py8tsbGUJWf6XL1OHE=
-X-Received: by 2002:a9d:3bc4:: with SMTP id k62mr2497597otc.186.1582879725260; 
- Fri, 28 Feb 2020 00:48:45 -0800 (PST)
-MIME-Version: 1.0
-References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
- <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
- <CAPj87rM76W9y_76WUHR35NS3V4_-RFi9ZM3GA=aED3dD3hWYkg@mail.gmail.com>
-In-Reply-To: <CAPj87rM76W9y_76WUHR35NS3V4_-RFi9ZM3GA=aED3dD3hWYkg@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 28 Feb 2020 18:48:33 +1000
-Message-ID: <CAPM=9txN-RKGwinzsSPrmT_xFjS2J_XUhXVsRQ2pSSe529wpEA@mail.gmail.com>
-Subject: Re: [Intel-gfx] gitlab.fd.o financial situation and impact on services
-To: Daniel Stone <daniel@fooishbar.org>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B17A16EE92
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 09:18:55 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200228091853euoutp01e82212e58e1ec026509a29ab9b5f7055~3hl4_MxEz1850918509euoutp01P
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 09:18:53 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200228091853euoutp01e82212e58e1ec026509a29ab9b5f7055~3hl4_MxEz1850918509euoutp01P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1582881533;
+ bh=Cx/KisrZcE4N00t4ikLjmXXzqLLpj5BvenJ3Ar+A0ho=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=YfiJ3jODmBVbgu/nB9FF35fIgO7sed2hA/s9uMGaSTA6C+VvBsJ/L6bBHfBKcZjti
+ RKiC3CE9WDByH43DNC4tAC324ztUG1+taePAM1uNOZFrLTcGKXWGacL2Jt+D0zIvtq
+ of0x0yuXiIetZt7rJqmyOTcTnZKytKU2w5klXuyw=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200228091853eucas1p21dca5e87fa987dcaf3506827725c131e~3hl4qpMBL2979429794eucas1p21;
+ Fri, 28 Feb 2020 09:18:53 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id C7.A4.60698.CFAD85E5; Fri, 28
+ Feb 2020 09:18:52 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200228091852eucas1p12830eef2696807dc130216293cab4899~3hl4N-jb83168731687eucas1p13;
+ Fri, 28 Feb 2020 09:18:52 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200228091852eusmtrp1dbee03c6b8bf008fcb87ec1a6e41ec00~3hl4NXpS71679016790eusmtrp1v;
+ Fri, 28 Feb 2020 09:18:52 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-bf-5e58dafc03dc
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id B8.DC.08375.CFAD85E5; Fri, 28
+ Feb 2020 09:18:52 +0000 (GMT)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200228091852eusmtip1daa9176ef455ead56e6b011303518d1c~3hl3xQbYQ2822828228eusmtip1Z;
+ Fri, 28 Feb 2020 09:18:52 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panfrost: Silence warnings during deferred probe
+Date: Fri, 28 Feb 2020 10:18:42 +0100
+Message-Id: <20200228091842.1417-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPIsWRmVeSWpSXmKPExsWy7djP87p/bkXEGUw8aWlx7lI3q8X/bROZ
+ La58fc9mcXnXHDaLtUfuslv837OD3aLxCFCsb+0lNgcOjzXz1jB67Li7hNFj77cFLB6bVnWy
+ edzvPs7k0bdlFaPH501yAexRXDYpqTmZZalF+nYJXBk3l9xkLDgiUXHiyWrmBsa1Il2MnBwS
+ AiYSJ15sZuti5OIQEljBKHFo7kIWCOcLo8SMO+ugnM+MEq0LbrHAtPS3v4ZKLGeU2LzzHCNc
+ y9Tu32wgVWwChhJdb7vAbBEBR4n5z96AFTEL/GKUONxxlREkISzgKtEyfy5QEQcHi4CqxMyT
+ XCBhXgEbif43O5ggtslLrN5wgBmkV0LgOZvEzSl7oc5wkVi1fQKULSzx6vgWdghbRuL05B4W
+ iIZmRomH59ayQzg9jBKXm2YwQlRZS9w59wtsM7OApsT6XfoQYUeJpxNXMYKEJQT4JG68FQQJ
+ MwOZk7ZNZ4YI80p0tAlBVKtJzDq+Dm7twQuXmCFsD4k917rBFgkJxEosafrMOoFRbhbCrgWM
+ jKsYxVNLi3PTU4uN81LL9YoTc4tL89L1kvNzNzECk8Xpf8e/7mDc9yfpEKMAB6MSD++CHeFx
+ QqyJZcWVuYcYJTiYlUR4N34NjRPiTUmsrEotyo8vKs1JLT7EKM3BoiTOa7zoZayQQHpiSWp2
+ ampBahFMlomDU6qB8STrxTebfmkdyNH4trG0RdJ51tqyxVvs5Deo8N49d/VmV7paa27605L7
+ VR9/rRfQ/TzxalC5BwObd2Q1/5+3vqr7uyfV/Tq8IkrnZO62Rdlu/uo3Vn3uzprZc/i/7bTi
+ cznPL7/ZzXVa+EmtPef07mkOjdI31ANSW05c8TDIv/WV7fIzl4dnXyqxFGckGmoxFxUnAgAM
+ BHtxEgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrILMWRmVeSWpSXmKPExsVy+t/xu7p/bkXEGZxtUrA4d6mb1eL/tonM
+ Fle+vmezuLxrDpvF2iN32S3+79nBbtF4BCjWt/YSmwOHx5p5axg9dtxdwuix99sCFo9NqzrZ
+ PO53H2fy6NuyitHj8ya5APYoPZui/NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9
+ O5uU1JzMstQifbsEvYybS24yFhyRqDjxZDVzA+NakS5GTg4JAROJ/vbXLCC2kMBSRolD/5Mg
+ 4jISJ6c1sELYwhJ/rnWxdTFyAdV8YpRYfn83G0iCTcBQoustSIKDQ0TAWWLZ0hCQMLPAP0aJ
+ fzejQWxhAVeJlvlzwUpYBFQlZp7kAgnzCthI9L/ZwQQxXl5i9YYDzBMYeRYwMqxiFEktLc5N
+ zy021CtOzC0uzUvXS87P3cQIDM5tx35u3sF4aWPwIUYBDkYlHt4FO8LjhFgTy4orcw8xSnAw
+ K4nwbvwaGifEm5JYWZValB9fVJqTWnyI0RRo90RmKdHkfGDk5JXEG5oamltYGpobmxubWSiJ
+ 83YIHIwREkhPLEnNTk0tSC2C6WPi4JRqYGRrzvp5uiFuI3/K6sv7zlyUO2bDkMRTVRxY0pPD
+ aucte72eeVLrFRbV6S/3zBLY468T1JKpxDFHZ6PjUaWr349c8Lh/aVJ+UMP7sDm1B682TNkR
+ 26gUY36BR4O5TC/OblmQwErzQ4JzzbqiTL8UhShJPZPeaf7s3oQD7075nez8J//x431DOSWW
+ 4oxEQy3mouJEABrPMDRkAgAA
+X-CMS-MailID: 20200228091852eucas1p12830eef2696807dc130216293cab4899
+X-Msg-Generator: CA
+X-RootMTR: 20200228091852eucas1p12830eef2696807dc130216293cab4899
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200228091852eucas1p12830eef2696807dc130216293cab4899
+References: <CGME20200228091852eucas1p12830eef2696807dc130216293cab4899@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,89 +100,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "X.Org development" <xorg-devel@lists.x.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "X.Org Foundation Board" <board@foundation.x.org>,
- Xorg Members List <members@x.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Mesa Dev <mesa-dev@lists.freedesktop.org>,
- gstreamer-devel@lists.freedesktop.org
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Feb 2020 at 18:18, Daniel Stone <daniel@fooishbar.org> wrote:
->
-> On Fri, 28 Feb 2020 at 03:38, Dave Airlie <airlied@gmail.com> wrote:
-> > b) we probably need to take a large step back here.
-> >
-> > Look at this from a sponsor POV, why would I give X.org/fd.o
-> > sponsorship money that they are just giving straight to google to pay
-> > for hosting credits? Google are profiting in some minor way from these
-> > hosting credits being bought by us, and I assume we aren't getting any
-> > sort of discounts here. Having google sponsor the credits costs google
-> > substantially less than having any other company give us money to do
-> > it.
->
-> The last I looked, Google GCP / Amazon AWS / Azure were all pretty
-> comparable in terms of what you get and what you pay for them.
-> Obviously providers like Packet and Digital Ocean who offer bare-metal
-> services are cheaper, but then you need to find someone who is going
-> to properly administer the various machines, install decent
-> monitoring, make sure that more storage is provisioned when we need
-> more storage (which is basically all the time), make sure that the
-> hardware is maintained in decent shape (pretty sure one of the fd.o
-> machines has had a drive in imminent-failure state for the last few
-> months), etc.
->
-> Given the size of our service, that's a much better plan (IMO) than
-> relying on someone who a) isn't an admin by trade, b) has a million
-> other things to do, and c) hasn't wanted to do it for the past several
-> years. But as long as that's the resources we have, then we're paying
-> the cloud tradeoff, where we pay more money in exchange for fewer
-> problems.
+Don't confuse user with meaningless warnings about the failure in getting
+resources in case of deferred probe.
 
-Admin for gitlab and CI is a full time role anyways. The system is
-definitely not self sustaining without time being put in by you and
-anholt still. If we have $75k to burn on credits, and it was diverted
-to just pay an admin to admin the real hw + gitlab/CI would that not
-be a better use of the money? I didn't know if we can afford $75k for
-an admin, but suddenly we can afford it for gitlab credits?
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_device.c | 29 ++++++++++++++--------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
-> Yes, we could federate everything back out so everyone runs their own
-> builds and executes those. Tinderbox did something really similar to
-> that IIRC; not sure if Buildbot does as well. Probably rules out
-> pre-merge testing, mind.
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+index 238fb6d54df4..1c3f2e656b53 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.c
++++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+@@ -21,7 +21,9 @@ static int panfrost_reset_init(struct panfrost_device *pfdev)
+ 
+ 	pfdev->rstc = devm_reset_control_array_get(pfdev->dev, false, true);
+ 	if (IS_ERR(pfdev->rstc)) {
+-		dev_err(pfdev->dev, "get reset failed %ld\n", PTR_ERR(pfdev->rstc));
++		if (PTR_ERR(pfdev->rstc) != -EPROBE_DEFER)
++			dev_err(pfdev->dev, "get reset failed %ld\n",
++				PTR_ERR(pfdev->rstc));
+ 		return PTR_ERR(pfdev->rstc);
+ 	}
+ 
+@@ -44,7 +46,9 @@ static int panfrost_clk_init(struct panfrost_device *pfdev)
+ 
+ 	pfdev->clock = devm_clk_get(pfdev->dev, NULL);
+ 	if (IS_ERR(pfdev->clock)) {
+-		dev_err(pfdev->dev, "get clock failed %ld\n", PTR_ERR(pfdev->clock));
++		if (PTR_ERR(pfdev->clock) != -EPROBE_DEFER)
++			dev_err(pfdev->dev, "get clock failed %ld\n",
++				PTR_ERR(pfdev->clock));
+ 		return PTR_ERR(pfdev->clock);
+ 	}
+ 
+@@ -57,8 +61,9 @@ static int panfrost_clk_init(struct panfrost_device *pfdev)
+ 
+ 	pfdev->bus_clock = devm_clk_get_optional(pfdev->dev, "bus");
+ 	if (IS_ERR(pfdev->bus_clock)) {
+-		dev_err(pfdev->dev, "get bus_clock failed %ld\n",
+-			PTR_ERR(pfdev->bus_clock));
++		if (PTR_ERR(pfdev->bus_clock) != -EPROBE_DEFER)
++			dev_err(pfdev->dev, "get bus_clock failed %ld\n",
++				PTR_ERR(pfdev->bus_clock));
+ 		return PTR_ERR(pfdev->bus_clock);
+ 	}
+ 
+@@ -91,9 +96,10 @@ static int panfrost_regulator_init(struct panfrost_device *pfdev)
+ 
+ 	pfdev->regulator = devm_regulator_get(pfdev->dev, "mali");
+ 	if (IS_ERR(pfdev->regulator)) {
+-		ret = PTR_ERR(pfdev->regulator);
+-		dev_err(pfdev->dev, "failed to get regulator: %d\n", ret);
+-		return ret;
++		if (PTR_ERR(pfdev->regulator) != -EPROBE_DEFER)
++			dev_err(pfdev->dev, "failed to get regulator: %d\n",
++				PTR_ERR(pfdev->regulator));
++		return PTR_ERR(pfdev->regulator);
+ 	}
+ 
+ 	ret = regulator_enable(pfdev->regulator);
+@@ -124,19 +130,22 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+ 
+ 	err = panfrost_clk_init(pfdev);
+ 	if (err) {
+-		dev_err(pfdev->dev, "clk init failed %d\n", err);
++		if (err != -EPROBE_DEFER)
++			dev_err(pfdev->dev, "clk init failed %d\n", err);
+ 		return err;
+ 	}
+ 
+ 	err = panfrost_regulator_init(pfdev);
+ 	if (err) {
+-		dev_err(pfdev->dev, "regulator init failed %d\n", err);
++		if (err != -EPROBE_DEFER)
++			dev_err(pfdev->dev, "regulator init failed %d\n", err);
+ 		goto err_out0;
+ 	}
+ 
+ 	err = panfrost_reset_init(pfdev);
+ 	if (err) {
+-		dev_err(pfdev->dev, "reset init failed %d\n", err);
++		if (err != -EPROBE_DEFER)
++			dev_err(pfdev->dev, "reset init failed %d\n", err);
+ 		goto err_out1;
+ 	}
+ 
+-- 
+2.17.1
 
-Why? does gitlab not support the model? having builds done in parallel
-on runners closer to the test runners seems like it should be a thing.
-I guess artifact transfer would cost less then as a result.
-
-> The reason we hadn't worked everything out in advance of deploying is
-> because Mesa has had 3993 MRs in the not long over a year since
-> moving, and a similar number in GStreamer, just taking the two biggest
-> users. At the start it was 'maybe let's use MRs if you want to but
-> make sure everything still goes through the list', and now it's
-> something different. Similarly the CI architecture hasn't been
-> 'designed', so much as that people want to run dEQP and Piglit on
-> their hardware pre-merge in an open fashion that's actually accessible
-> to people, and have just done it.
->
-> Again, if you want everything to be centrally
-> designed/approved/monitored/controlled, that's a fine enough idea, and
-> I'd be happy to support whoever it was who was doing that for all of
-> fd.o.
-
-I don't think we have any choice but to have someone centrally
-controlling it, You can't have a system in place that lets CI users
-burn largs sums of money without authorisation, and that is what we
-have now.
-
-Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
