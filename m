@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E724174544
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 06:42:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0716C174627
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1FD6F4E3;
-	Sat, 29 Feb 2020 05:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A750F6E2DC;
+	Sat, 29 Feb 2020 10:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7C26E069;
- Sat, 29 Feb 2020 05:42:01 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id x7so5771447wrr.0;
- Fri, 28 Feb 2020 21:42:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YuOVGNypQMql+jSAKLP8qQUYQA/QyE7yGHxy4q4E/l8=;
- b=u3lSnIqCHBFyWiZIIekqVGfo6955kUAPMSsfbwUDnb98PBEwD3DgQQ8VyQEiCccoVU
- U6z4n0VCE81aEhfOn5YfH27/IXiwrVBI78HlhyL/v8U/+ZP0L0miQjCQvP7JWSeFbNYR
- UxnPrZLbs2vetHKxP0/XdTTOdZFFDRnXjswAluuZ36TYUFntg/9W78LUEgpqlJb1ytwR
- rQLiPMeE3IH6BejGb1M4BB8aiWiTdv4Xk8Qu5VfQY5eb/o1pG3FlTqTnT7KVVMRidQjo
- vtyG+hnfZYsJCPFJ6yb1Oxcz99fR52ImKKlT+CeTTkJTCRyh5dCHnQSfzl1QJd8XOWTF
- 5+GA==
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8EB6EE3B
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 08:02:12 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id z79so2564948ilf.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 00:02:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YuOVGNypQMql+jSAKLP8qQUYQA/QyE7yGHxy4q4E/l8=;
- b=gM6jPLg9v1QpI8bqcdScrlvGRwkWg6LvKj3XVU9c0SCjCqgXsTr/ZGprTg5Y5VwpFZ
- hLow+4g5DhK5jJsko0N2L4QoL9CdjwowEBefA9CdDTH3MGjAi7ND2AP2lkuKaaPqeeT/
- 5CZidKuYQzzLzMMzB91HTDHWpsxXW97+pwBJKdPKhVG7L1G449kes7Y+unDXAC061wai
- 5XHuepNE7HF7pgkfTRcyCBDcS1fFRE44ndsxXdjn9vyirLt5iBr6LImacS/zdsbdQ3tf
- xoyzo/VFnLcwHloZyJ0SCX6aoV1Qoan/voiAsBVnRX6Xth6GVZO8xpHdrh26y7+Tz07x
- SXrg==
-X-Gm-Message-State: APjAAAX100q4Ge9UXHCeDjhIuOqW8Hj7tEatIVaG3BCFXtUVOdM6jfUj
- xql6sHNIZdqX4UHbG0QznhFwpVh2
-X-Google-Smtp-Source: APXvYqwchuzQwbP0HG53EpYW+c6/T19uSdF1Ksjsuhi6XWVPxV17jAwAAJfkIJeQ1+/JbGVLGDwgCA==
-X-Received: by 2002:a5d:568f:: with SMTP id f15mr8817507wrv.202.1582954919608; 
- Fri, 28 Feb 2020 21:41:59 -0800 (PST)
-Received: from groovy.localdomain
- (dynamic-2a01-0c22-c836-dd00-74aa-9e10-e4ef-a81b.c22.pool.telefonica.de.
- [2a01:c22:c836:dd00:74aa:9e10:e4ef:a81b])
- by smtp.gmail.com with ESMTPSA id b10sm15671093wrw.61.2020.02.28.21.41.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 21:41:59 -0800 (PST)
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/dp: Add dpcd link_rate quirk for Apple 15" MBP 2017
-Date: Sat, 29 Feb 2020 06:41:08 +0100
-Message-Id: <20200229054108.2781-1-mario.kleiner.de@gmail.com>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=1F6QPB2AKxQKkbwngYuex+ythgWDXEu9f8wBzkprX/k=;
+ b=iQyO4EI+AJQ7wkasbTzbUanwr4cLA3xiAQVOHBg7IGTxITK/VK6xPG/rkA2MnZbdbv
+ ReS9taH0N/lkkbA1ok8dIr8cu4fH7rIqk/kyOgfQqWmePC+eTiEQGPSteehVziiwnZXH
+ +VmaDHYF69DoOnwZCeRdyoG2C/YBrOGxnfvrhj3zQ+Zg10EUT2DFPSUGljlHsUYhROTI
+ WkYPGYJuP+ayqZCqbL0E8wnd58kTG0psOchnKa2D5O97tW8q5k4+Z1gpHHCWVufVVS9a
+ m1OoeyMikJAPvnuwqXFcSirz+7lsqB0SagVdAMRD/Ds8UoEQaNKuTWmbcNWoOdQY8k+R
+ uygA==
+X-Gm-Message-State: APjAAAXULWIBzbLHFHaWmoGTGUcizqr0MXirsNjSHtsN0o7yxGyh/G2r
+ /KtI392ByLB1dUQVZAvphJ6E2QVfJt/6uBZXw7/2cvUi2nxB
+X-Google-Smtp-Source: APXvYqxZ9gEkMkdQklGzMnNVCnk+p9vHrNJcx3ZgSr4fyoEdO9KrfufCKBEV6C7rY7YOdZ1PYafI/aStyzaxESHVe4uOP8/zThGl
 MIME-Version: 1.0
+X-Received: by 2002:a02:9988:: with SMTP id a8mr2420608jal.33.1582876931843;
+ Fri, 28 Feb 2020 00:02:11 -0800 (PST)
+Date: Fri, 28 Feb 2020 00:02:11 -0800
+In-Reply-To: <00000000000080f1d305988bb8ba@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000003eeb63059f9e41d2@google.com>
+Subject: Re: BUG: unable to handle kernel paging request in
+ ion_heap_clear_pages
+From: syzbot <syzbot+be6ccf3081ce8afd1b56@syzkaller.appspotmail.com>
+To: arve@android.com, christian@brauner.io, devel@driverdev.osuosl.org, 
+ dja@axtens.net, dri-devel@lists.freedesktop.org, dvyukov@google.com, 
+ gregkh@linuxfoundation.org, joel@joelfernandes.org, 
+ kasan-dev@googlegroups.com, labbott@redhat.com, 
+ linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, maco@android.com, sumit.semwal@linaro.org, 
+ syzkaller-bugs@googlegroups.com, tkjos@android.com
+X-Mailman-Approved-At: Sat, 29 Feb 2020 10:13:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,67 +60,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBmaXhlcyBhIHByb2JsZW0gZm91bmQgb24gdGhlIE1hY0Jvb2tQcm8gMjAxNyBSZXRpbmEg
-cGFuZWwuCgpUaGUgcGFuZWwgcmVwb3J0cyAxMCBicGMgY29sb3IgZGVwdGggaW4gaXRzIEVESUQs
-IGFuZCB0aGUKZmlybXdhcmUgY2hvb3NlcyBsaW5rIHNldHRpbmdzIGF0IGJvb3Qgd2hpY2ggc3Vw
-cG9ydCBlbm91Z2gKYmFuZHdpZHRoIGZvciAxMCBicGMgKDMyNDAwMCBrYml0L3NlYyA9IG11bHRp
-cGxpZXIgMHhjKSwKYnV0IHRoZSBEUF9NQVhfTElOS19SQVRFIGRwY2QgcmVnaXN0ZXIgb25seSBy
-ZXBvcnRzCjIuNyBHYnBzIChtdWx0aXBsaWVyIHZhbHVlIDB4YSkgYXMgcG9zc2libGUsIGluIGRp
-cmVjdApjb250cmFkaWN0aW9uIG9mIHdoYXQgdGhlIGZpcm13YXJlIHN1Y2Nlc3NmdWxseSBzZXQg
-dXAuCgpUaGlzIHJlc3RyaWN0cyB0aGUgcGFuZWwgdG8gOCBicGMsIG5vdCBwcm92aWRpbmcgdGhl
-IGZ1bGwKY29sb3IgZGVwdGggb2YgdGhlIHBhbmVsLgoKVGhpcyBwYXRjaCBhZGRzIGEgcXVpcmsg
-c3BlY2lmaWMgdG8gdGhlIE1CUCAyMDE3IDE1IiBSZXRpbmEKcGFuZWwgdG8gYWRkIHRoZSBhZGRp
-dGlpb25hbCAzMjQwMDAga2JwcyBsaW5rIHJhdGUgZHVyaW5nCmVkcCBzZXR1cC4KCkxpbmsgdG8g
-cHJldmlvdXMgZGlzY3Vzc2lvbiBvZiBhIGRpZmZlcmVudCBhdHRlbXB0ZWQgZml4CndpdGggVmls
-bGUgYW5kIEphbmk6CgpodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzExMzI1OTM1
-LwoKU2lnbmVkLW9mZi1ieTogTWFyaW8gS2xlaW5lciA8bWFyaW8ua2xlaW5lci5kZUBnbWFpbC5j
-b20+CkNjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpD
-YzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vZHJtX2RwX2hlbHBlci5jICAgICAgICAgfCAyICsrCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX2RwLmMgfCA3ICsrKysrKysKIGluY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIu
-aCAgICAgICAgICAgICB8IDcgKysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNlcnRpb25z
-KCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKaW5kZXggNWExMDNlOWIzYzg2Li4zNmEzNzFjMDE2
-Y2IgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYwpAQCAtMTE3OSw2ICsxMTc5LDggQEAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCBkcGNkX3F1aXJrIGRwY2RfcXVpcmtfbGlzdFtdID0gewogCXsgT1VJKDB4
-MDAsIDB4MDAsIDB4MDApLCBERVZJQ0VfSUQoJ0MnLCAnSCcsICc3JywgJzUnLCAnMScsICcxJyks
-IGZhbHNlLCBCSVQoRFBfRFBDRF9RVUlSS19OT19TSU5LX0NPVU5UKSB9LAogCS8qIFN5bmFwdGlj
-cyBEUDEuNCBNU1QgaHVicyBjYW4gc3VwcG9ydCBEU0Mgd2l0aG91dCB2aXJ0dWFsIERQQ0QgKi8K
-IAl7IE9VSSgweDkwLCAweENDLCAweDI0KSwgREVWSUNFX0lEX0FOWSwgdHJ1ZSwgQklUKERQX0RQ
-Q0RfUVVJUktfRFNDX1dJVEhPVVRfVklSVFVBTF9EUENEKSB9LAorCS8qIEFwcGxlIE1hY0Jvb2tQ
-cm8gMjAxNyAxNSBpbmNoIGVEUCBSZXRpbmEgcGFuZWwgcmVwb3J0cyB0b28gbG93IERQX01BWF9M
-SU5LX1JBVEUgKi8KKwl7IE9VSSgweDAwLCAweDEwLCAweGZhKSwgREVWSUNFX0lEKDEwMSwgNjgs
-IDIxLCAxMDEsIDk4LCA5NyksIGZhbHNlLCBCSVQoRFBfRFBDRF9RVUlSS19DQU5fRE9fTUFYX0xJ
-TktfUkFURV8zXzI0X0dCUFMpIH0sCiB9OwogCiAjdW5kZWYgT1VJCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9kaXNwbGF5L2ludGVsX2RwLmMKaW5kZXggNDA3NGQ4M2IxYTVmLi4xZjZiZDY1OWFkNDEgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKQEAgLTE3OCw2ICsxNzgsMTMg
-QEAgc3RhdGljIHZvaWQgaW50ZWxfZHBfc2V0X3NpbmtfcmF0ZXMoc3RydWN0IGludGVsX2RwICpp
-bnRlbF9kcCkKIAl9CiAKIAlpbnRlbF9kcC0+bnVtX3NpbmtfcmF0ZXMgPSBpOworCisJaWYgKGRy
-bV9kcF9oYXNfcXVpcmsoJmludGVsX2RwLT5kZXNjLAorCSAgICBEUF9EUENEX1FVSVJLX0NBTl9E
-T19NQVhfTElOS19SQVRFXzNfMjRfR0JQUykpIHsKKwkJLyogTmVlZGVkIGZvciBBcHBsZSBNQlAg
-MjAxNywgMTUgaW5jaCBlRFAgUmV0aW5hIHBhbmVsICovCisJCWludGVsX2RwLT5zaW5rX3JhdGVz
-W2ldID0gMzI0MDAwOworCQlpbnRlbF9kcC0+bnVtX3NpbmtfcmF0ZXMrKzsKKwl9CiB9CiAKIC8q
-IEdldCBsZW5ndGggb2YgcmF0ZXMgYXJyYXkgcG90ZW50aWFsbHkgbGltaXRlZCBieSBtYXhfcmF0
-ZS4gKi8KZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCBiL2luY2x1ZGUv
-ZHJtL2RybV9kcF9oZWxwZXIuaAppbmRleCAyNjJmYWY5ZTVlOTQuLjRiODZhMWYyYTU1OSAxMDA2
-NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oCisrKyBiL2luY2x1ZGUvZHJtL2Ry
-bV9kcF9oZWxwZXIuaApAQCAtMTUzMiw2ICsxNTMyLDEzIEBAIGVudW0gZHJtX2RwX3F1aXJrIHsK
-IAkgKiBUaGUgRFNDIGNhcHMgY2FuIGJlIHJlYWQgZnJvbSB0aGUgcGh5c2ljYWwgYXV4IGluc3Rl
-YWQuCiAJICovCiAJRFBfRFBDRF9RVUlSS19EU0NfV0lUSE9VVF9WSVJUVUFMX0RQQ0QsCisJLyoq
-CisJICogQERQX0RQQ0RfUVVJUktfQ0FOX0RPX01BWF9MSU5LX1JBVEVfM18yNF9HQlBTOgorCSAq
-CisJICogVGhlIGRldmljZSBzdXBwb3J0cyBhIGxpbmsgcmF0ZSBvZiAzLjI0IEdicHMgKG11bHRp
-cGxpZXIgMHhjKSBkZXNwaXRlCisJICogdGhlIERQX01BWF9MSU5LX1JBVEUgcmVnaXN0ZXIgcmVw
-b3J0aW5nIGEgbG93ZXIgbWF4IG11bHRpcGxpZXIuCisJICovCisJRFBfRFBDRF9RVUlSS19DQU5f
-RE9fTUFYX0xJTktfUkFURV8zXzI0X0dCUFMsCiB9OwogCiAvKioKLS0gCjIuMjAuMQoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This bug is marked as fixed by commit:
+kasan: support vmalloc backing of vm_map_ram()
+But I can't find it in any tested tree for more than 90 days.
+Is it a correct commit? Please update it by replying:
+#syz fix: exact-commit-title
+Until then the bug is still considered open and
+new crashes with the same signature are ignored.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
