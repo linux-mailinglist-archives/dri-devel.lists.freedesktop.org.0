@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C032217302E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 06:22:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0907173032
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 06:22:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C12F56EDE1;
-	Fri, 28 Feb 2020 05:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4CA56EDE2;
+	Fri, 28 Feb 2020 05:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5944E6EDDE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 05:21:49 +0000 (UTC)
-X-UUID: 7992e77d8a314341972fcad71c0e8d02-20200228
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=5cFcI6oejfKgvdPigAG7lz/WkjQ0ZoTObgew3f2ti/4=; 
- b=OibC/kNLmJADxfO+OC3xFgDxQ9MEV87pexgsFFSwGCPEefpRNpI7TRiY5Lt4/dbV3v/8tHmLDKeV6cV3OZAqN2A8NUM6Rv9ykEpjLBzn5ZSOaK4JHs4lqTcky0ACpmq4W5mL4Wu/9hnXCLhCy0TTmKxsa0s3oy+xLXv5Nj6hNnA=;
-X-UUID: 7992e77d8a314341972fcad71c0e8d02-20200228
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1474536278; Fri, 28 Feb 2020 13:21:44 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Fri, 28 Feb 2020 13:22:18 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
- MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Fri, 28 Feb 2020 13:22:07 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v10 5/5] drm/mediatek: set dpi pin mode to gpio low to avoid
- leakage current
-Date: Fri, 28 Feb 2020 13:21:28 +0800
-Message-ID: <20200228052128.82136-6-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200228052128.82136-1-jitao.shi@mediatek.com>
-References: <20200228052128.82136-1-jitao.shi@mediatek.com>
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 033116EDE2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 05:22:17 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id j5so606367otn.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 21:22:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=kxGFCKJb9JKZgDTL0VAXjQbo9K94If/SEHivJGJ9qhI=;
+ b=VbmRW3HYVzMu2xOKsC8a/dFEdX5O5XmW3rhJFoaeh6yQNtLqGs83Cxs2xF20HRcp7r
+ XXaZSkqJ4y4NvkSfSQGJ0xbKvaZp/5NDPL7aNxvQ57uOPKueCnayVJH0T2Zn2+wuRua1
+ HKvczIj5gQBtjHr3B2+cO27u5c0F3yCtcbFMWTnnCMFNHhTD5zNCHodZ3xfMZqHlqYE9
+ upLVddJYnlC734Armqe3NnzRlADQUP2OuBHbrAEaCpbj1N3hwindIDHDwc74MVsLQQhH
+ n3wI5rhvDAQGC5aYee3sEJ2ELuxxE780ZnrfmPL0Qv8XAfDWw+uZgs3SJhUK2mS0LlcS
+ ecBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=kxGFCKJb9JKZgDTL0VAXjQbo9K94If/SEHivJGJ9qhI=;
+ b=XNyY41ryJIPekd3gFv43tDCO+dsHXFCNMTm3PgJ06pjC9Mb5jZoQZgt1Vx1tTVWAh2
+ Mry/mxAeV8d5nyICbVa757GfICbShYySWVAkZKabgSYhmfGvB75FtSkqpC/fWchn+Iqn
+ W7G2Ux8Gl0XC9lmtpNdblwMtRH/RKsSKooNasWrRvcOVhxUCjLB2lQNX2xNos8VqoAGP
+ 09m2x2/GUGx5uoC2BeDSiQZ4JTrBEUQEqpjqAzKQFY8ZvMQJm32vNdJ5MgscSFRKIPzF
+ PmrfST15yYLtX6DWa7ki2x/jxDzB2lSgf4zT/DHxr8IRU/1ijUIG5X2yuOw/oPglSF3j
+ FEdg==
+X-Gm-Message-State: APjAAAVI//ajjmOiCcAFhoSi6MezWzWzERKm31na7XJAU6+tGZLvWiu3
+ EZ8ElE5IZ38ocwFAaPkQK5nkb+eo/ir/ZePZr94=
+X-Google-Smtp-Source: APXvYqwG+tzF6SFB7qQUu5alJJm9TLCJMOhK8T/Y/Ou5kD3EJ9CdRToCUt1Re8NdkfdF0mP1/ij3OJivgCQYlJlc/iY=
+X-Received: by 2002:a9d:3bc4:: with SMTP id k62mr2022039otc.186.1582867337062; 
+ Thu, 27 Feb 2020 21:22:17 -0800 (PST)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: F98AB8D0A87863EFA2C70BBE779F1DEAF0C572D9FECD78516D03F7B0CB365BA02000:8
-X-MTK: N
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 28 Feb 2020 15:22:04 +1000
+Message-ID: <CAPM=9tya9tFH13gF8AyOyP8SLMB-wyUNxBen=NY2ik9hr1Brjw@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.6-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,98 +60,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
- cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Config dpi pins mode to output and pull low when dpi is disabled.
-Aovid leakage current from some dpi pins (Hsync Vsync DE ... ).
-
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dpi.c | 31 ++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index db3272f7a4c4..0133ad8f6a7d 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -10,7 +10,9 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/of_gpio.h>
- #include <linux/of_graph.h>
-+#include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
- 
-@@ -74,6 +76,9 @@ struct mtk_dpi {
- 	enum mtk_dpi_out_yc_map yc_map;
- 	enum mtk_dpi_out_bit_num bit_num;
- 	enum mtk_dpi_out_channel_swap channel_swap;
-+	struct pinctrl *pinctrl;
-+	struct pinctrl_state *pins_gpio;
-+	struct pinctrl_state *pins_dpi;
- 	int refcount;
- 	u32 pclk_sample;
- };
-@@ -387,6 +392,9 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
- 	if (--dpi->refcount != 0)
- 		return;
- 
-+	if (dpi->pinctrl && dpi->pins_gpio)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
-+
- 	mtk_dpi_disable(dpi);
- 	clk_disable_unprepare(dpi->pixel_clk);
- 	clk_disable_unprepare(dpi->engine_clk);
-@@ -411,6 +419,9 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 		goto err_pixel;
- 	}
- 
-+	if (dpi->pinctrl && dpi->pins_dpi)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
-+
- 	mtk_dpi_enable(dpi);
- 	return 0;
- 
-@@ -719,6 +730,26 @@ static int mtk_dpi_probe(struct platform_device *pdev)
- 	of_property_read_u32_index(dev->of_node, "pclk-sample", 1,
- 				   &dpi->pclk_sample);
- 
-+	dpi->pinctrl = devm_pinctrl_get(&pdev->dev);
-+	if (IS_ERR(dpi->pinctrl)) {
-+		dpi->pinctrl = NULL;
-+		dev_dbg(&pdev->dev, "Cannot find pinctrl!\n");
-+	}
-+	if (dpi->pinctrl) {
-+		dpi->pins_gpio = pinctrl_lookup_state(dpi->pinctrl, "idle");
-+		if (IS_ERR(dpi->pins_gpio)) {
-+			dpi->pins_gpio = NULL;
-+			dev_dbg(&pdev->dev, "Cannot find pinctrl idle!\n");
-+		}
-+		if (dpi->pins_gpio)
-+			pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
-+
-+		dpi->pins_dpi = pinctrl_lookup_state(dpi->pinctrl, "active");
-+		if (IS_ERR(dpi->pins_dpi)) {
-+			dpi->pins_dpi = NULL;
-+			dev_dbg(&pdev->dev, "Cannot find pinctrl active!\n");
-+		}
-+	}
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	dpi->regs = devm_ioremap_resource(dev, mem);
- 	if (IS_ERR(dpi->regs)) {
--- 
-2.21.0
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGV5IExpbnVzLAoKSnVzdCBzb21lIGZpeGVzIGZvciB0aGlzIHdlZWssIGFtZGdwdSwgcmFkZW9u
+IGFuZCBpOTE1LiBUaGUgbWFpbiBpOTE1Cm9uZSBpcyBhIHJlZ3Jlc3Npb24gR2VuNyAoSXZ5YnJp
+ZGdlL0hhc3dlbGwpLCB0aGlzIG1vdmVzIHRoZW0gYmFjawpmcm9tIHRyeWluZyB0byB1c2UgdGhl
+IGZ1bGwtcHBndHQgc3VwcG9ydCB0byB0aGUgYWxpYXNpbmcgdmVyc2lvbiBpdAp1c2VkIHRvIHVz
+ZSBkdWUgdG8gZ3B1IGhhbmdzLiBPdGhlcndpc2UgaXQncyBwcmV0dHkgcXVpZXQuCgpEYXZlLgoK
+ZHJtLWZpeGVzLTIwMjAtMDItMjg6CmRybSBmaXhlcyBmb3IgNS42LjAtcmM0CgphbWRncHU6Ci0g
+RHJvcCBEUklWRVJfVVNFX0FHUAotIEZpeCBtZW1vcnkgbGVhayBpbiBHUFUgcmVzZXQKLSBSZXN1
+bWUgZml4IGZvciByYXZlbgoKcmFkZW9uOgotIERyb3AgRFJJVkVSX1VTRV9BR1AKCmk5MTU6Ci0g
+ZG93bmdyYWRlIGdlbjcgYmFjayB0byBhbGlhc2luZy1wcGd0dCB0byBhdm9pZCBHUFUgaGFuZ3MK
+LSBzaHJpbmtlciBmaXgKLSBwbXUgbGVhayBhbmQgZG91YmxlIGZyZWUgZml4ZXMKLSBndnQgdXNl
+ciBhZnRlciBmcmVlIGFuZCB2aXJ0dWFsIGRpc3BsYXkgcmVzZXQgZml4ZXMKLSByYW5kY29uZmln
+IGJ1aWxkIGZpeApUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IGY4Nzg4ZDg2YWIy
+OGY2MWY3YjQ2ZWI2YmUzNzVmOGE3MjY3ODM2MzY6CgogIExpbnV4IDUuNi1yYzMgKDIwMjAtMDIt
+MjMgMTY6MTc6NDIgLTA4MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBh
+dDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybSB0YWdzL2RybS1maXhl
+cy0yMDIwLTAyLTI4Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gZjA5MWJmMzk3MDBk
+ZDA4NmFiMjQ0YzgyM2YzODk1NTZmZWQwYzUxMzoKCiAgTWVyZ2UgdGFnICdkcm0taW50ZWwtZml4
+ZXMtMjAyMC0wMi0yNycgb2YKZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1p
+bnRlbCBpbnRvIGRybS1maXhlcyAoMjAyMC0wMi0yOAoxMjo0MDo0OSArMTAwMCkKCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+ZHJtIGZpeGVzIGZvciA1LjYuMC1yYzQKCmFtZGdwdToKLSBEcm9wIERSSVZFUl9VU0VfQUdQCi0g
+Rml4IG1lbW9yeSBsZWFrIGluIEdQVSByZXNldAotIFJlc3VtZSBmaXggZm9yIHJhdmVuCgpyYWRl
+b246Ci0gRHJvcCBEUklWRVJfVVNFX0FHUAoKaTkxNToKLSBkb3duZ3JhZGUgZ2VuNyBiYWNrIHRv
+IGFsaWFzaW5nLXBwZ3R0IHRvIGF2b2lkIEdQVSBoYW5ncwotIHNocmlua2VyIGZpeAotIHBtdSBs
+ZWFrIGFuZCBkb3VibGUgZnJlZSBmaXhlcwotIGd2dCB1c2VyIGFmdGVyIGZyZWUgYW5kIHZpcnR1
+YWwgZGlzcGxheSByZXNldCBmaXhlcwotIHJhbmRjb25maWcgYnVpbGQgZml4CgotLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkNo
+cmlzIFdpbHNvbiAoMik6CiAgICAgIGRybS9pOTE1L2d0dDogRG93bmdyYWRlIGdlbjcgKGl2Yiwg
+Ynl0LCBoc3cpIGJhY2sgdG8gYWxpYXNpbmctcHBndHQKICAgICAgZHJtL2k5MTU6IEF2b2lkIHJl
+Y3Vyc2luZyBvbnRvIGFjdGl2ZSB2bWEgZnJvbSB0aGUgc2hyaW5rZXIKCkRhbmllbCBWZXR0ZXIg
+KDIpOgogICAgICBkcm0vYW1kZ3B1OiBEcm9wIERSSVZFUl9VU0VfQUdQCiAgICAgIGRybS9yYWRl
+b246IElubGluZSBkcm1fZ2V0X3BjaV9kZXYKCkRhdmUgQWlybGllICgyKToKICAgICAgTWVyZ2Ug
+dGFnICdhbWQtZHJtLWZpeGVzLTUuNi0yMDIwLTAyLTI2JyBvZgpnaXQ6Ly9wZW9wbGUuZnJlZWRl
+c2t0b3Aub3JnL35hZ2Q1Zi9saW51eCBpbnRvIGRybS1maXhlcwogICAgICBNZXJnZSB0YWcgJ2Ry
+bS1pbnRlbC1maXhlcy0yMDIwLTAyLTI3JyBvZgpnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9y
+Zy9kcm0vZHJtLWludGVsIGludG8gZHJtLWZpeGVzCgpKYW5pIE5pa3VsYSAoMik6CiAgICAgIGRy
+bS9pOTE1OiBmaXggaGVhZGVyIHRlc3Qgd2l0aCBHQ09WCiAgICAgIE1lcmdlIHRhZyAnZ3Z0LWZp
+eGVzLTIwMjAtMDItMjYnIG9mCmh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC9ndnQtbGludXggaW50
+byBkcm0taW50ZWwtZml4ZXMKCk1pY2hhxYIgV2luaWFyc2tpICgyKToKICAgICAgZHJtL2k5MTUv
+cG11OiBBdm9pZCB1c2luZyBnbG9iYWxzIGZvciBDUFUgaG90cGx1ZyBzdGF0ZQogICAgICBkcm0v
+aTkxNS9wbXU6IEF2b2lkIHVzaW5nIGdsb2JhbHMgZm9yIFBNVSBldmVudHMKCk1vbmsgTGl1ICgx
+KToKICAgICAgZHJtL2FtZGdwdTogZml4IG1lbW9yeSBsZWFrIGR1cmluZyBURFIgdGVzdCh2MikK
+ClNoaXJpc2ggUyAoMSk6CiAgICAgIGFtZGdwdS9nbWNfdjk6IHNhdmUvcmVzdG9yZSBzZHBpZiBy
+ZWdzIGR1cmluZyBTMwoKVGluYSBaaGFuZyAoMik6CiAgICAgIGRybS9pOTE1L2d2dDogU2VwYXJh
+dGUgZGlzcGxheSByZXNldCBmcm9tIEFMTF9FTkdJTkVTIHJlc2V0CiAgICAgIGRybS9pOTE1L2d2
+dDogRml4IG9ycGhhbiB2Z3B1IGRtYWJ1Zl9vYmpzJyBsaWZldGltZQoKIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyAgICAgICAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nbWMuaCAgICAgICAgICAgIHwgIDEgKwogZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvZ21jX3Y5XzAuYyAgICAgICAgICAgICAgfCAzNyArKysrKysrKysr
+KysrLQogLi4uL2RybS9hbWQvaW5jbHVkZS9hc2ljX3JlZy9kY2UvZGNlXzEyXzBfb2Zmc2V0Lmgg
+fCAgMiArCiBkcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9zbXVfdjExXzAuYyAgICAgICAg
+ICB8ICA2ICsrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvTWFrZWZpbGUgICAgICAgICAgICAgICAg
+ICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3Nocmlua2Vy
+LmMgICAgICAgfCAgNCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2RtYWJ1Zi5jICAgICAg
+ICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L3ZncHUuYyAgICAg
+ICAgICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9wY2kuYyAg
+ICAgICAgICAgICAgICAgICAgfCAgNCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9wbXUu
+YyAgICAgICAgICAgICAgICAgICAgfCA1OSArKysrKysrKysrKystLS0tLS0tLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pOTE1X3BtdS5oICAgICAgICAgICAgICAgICAgICB8IDExICsrKy0KIGRy
+aXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5jICAgICAgICAgICAgICAgIHwgNDMgKysr
+KysrKysrKysrKysrLQogZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fa21zLmMgICAgICAg
+ICAgICAgICAgfCAgNiArKysKIDE0IGZpbGVzIGNoYW5nZWQsIDEzOCBpbnNlcnRpb25zKCspLCA0
+MyBkZWxldGlvbnMoLSkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
