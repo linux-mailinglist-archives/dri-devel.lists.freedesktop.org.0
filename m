@@ -1,33 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4CB174623
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:28 +0100 (CET)
+Received: from gabe.freedesktop.org (unknown [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7003174613
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42AB56E2D7;
-	Sat, 29 Feb 2020 10:14:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 455046E1CD;
+	Sat, 29 Feb 2020 10:13:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
- Fri, 28 Feb 2020 16:38:14 UTC
-Received: from vsp-unauthed02.binero.net (vsp-unauthed02.binero.net
- [195.74.38.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4930E6E0CC
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 16:38:14 +0000 (UTC)
-X-Halon-ID: d82e546a-5a47-11ea-9f85-005056917a89
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de
- [79.202.35.146]) by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
- id d82e546a-5a47-11ea-9f85-005056917a89;
- Fri, 28 Feb 2020 17:32:07 +0100 (CET)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/fourcc: Add bayer formats and modifiers
-Date: Fri, 28 Feb 2020 17:31:35 +0100
-Message-Id: <20200228163135.524882-1-niklas.soderlund@ragnatech.se>
-X-Mailer: git-send-email 2.25.1
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 657B16F478
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 16:35:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1582907688;
+ bh=YcG6r7F3VVt7DQsFNhV4JbQ/Bh6aKNh0DkfRxFndYAA=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=M893la1WZgDW7/xWaBckbU4Odje3StaE2YcrGjt7TLxyK3pbX/Ea23pa9tN/cHEH7
+ joHd8VOqO6RSYD0a0SS6Ty3j2XCMW2ucMF+AzxWLxQmzVPStkZStnqrxLMH4lEZRAD
+ CzydVU3Wqs7ndlgvC4LH1dlsW2OpHQHQinHzZuGU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [185.53.40.15] ([185.53.40.15]) by web-mail.gmx.net
+ (3c-app-gmx-bap21.server.lan [172.19.172.91]) (via HTTP); Fri, 28 Feb 2020
+ 17:34:47 +0100
 MIME-Version: 1.0
+Message-ID: <trinity-1aeda07b-567b-4a31-a709-36199975894b-1582907687950@3c-app-gmx-bap21>
+From: "Frank Wunderlich" <frank-w@public-files.de>
+To: "Bibby Hsieh" <bibby.hsieh@mediatek.com>
+Subject: [BUG] [PATCH v5 3/7] drm/mediatek: update cursors by using async
+ atomic update
+Date: Fri, 28 Feb 2020 17:34:47 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <20191210050526.4437-4-bibby.hsieh@mediatek.com>
+References: <20191210050526.4437-1-bibby.hsieh@mediatek.com>
+ <20191210050526.4437-4-bibby.hsieh@mediatek.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:2wHSXETBujv7ubTGIwZ5VrMFtJmoX/njL13MkH8s5eovSX+Y+sTe0+BByPkiM5mY2rzQm
+ gKpnl5HTR1TX8ZwimXy747VbCYUysGQw+GdtehRIGT5il+WUm2aG81V2Bu0Dpft2U3SY51brmqYE
+ H0JgZOtLaL0+tXa8kZMGxWwyoVLkjFO5i3HFnIccGF/d2ihL7iTlHuSy3H9axD1B76whc67PrgRz
+ VBlEsXrblvHd0UmCQ6WWGJeRXN83aG2f7ScyhV9hAm1fz/xBSUnehkXcTmbnfvD6ndAjICp0ek9M
+ Rc=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:K7AD3qghSCg=:KDuvUtyqh0IxQhZ8dH9kvu
+ UkMiaACx+8TarnVTvKLAKYfLysNr+9tfMvPZLRxVtUh1T0O1DBm4Rko4sdLxfCcUGMflBCrDF
+ ciX4YIyA6kuUTwucfzx22ITRFECEbD2yoh1WgJbxUXd9NJYwXopioXyMMrwaM6xnYz/nLIr7o
+ mUGZMog7Dou+NeR5Em4TB8BEgRtUTLT6+nfdjLNz4ShGizgdYRFKt+/vHZk/V1IW+aFci1vsg
+ LHvupXQWPTqlYNA3JS0Km5lF3zWjBdUJIGrdIGympZEuHb5mAtd4vGX9XsCeZH3p1WjQ/MpQY
+ 4acYwTHnCUAyGf7pGu2tzR8WsBvTvBOIW4Q8I03JkR+4har3qSWjIcdqgk2ff+6RSbEXVjquZ
+ C7mZBt3pEMeZjKM+Z1HkvLnv2XrRM8CB/s3gUG3quARYuumwpA7BH7F7fOTjduxgqWlhv3YVO
+ mhEDvNNyn9mge3Vz9N5MalwRkGJ5FJFlPEG9tEBlGoHxehlLMAMYcXVl4oE5ffpiFOpSG15y4
+ rm2LvOfG+tHze6Pl5a18bTr459tAbHXJYVUGnvmhov147zK1eBq3bFk9JHKV0fMl5up+E2is1
+ +YOSmDnrCG2i9TqD76kwDIFdZnprjEY1f1rR8oEq2QgrAsYW0byi74bJRq34xclYgmkooSZsk
+ eGfDPVeomp5G0jsWbOdU4oBMCEo7ol8LkDiWjXMdSbjZUOrU62FolI9j7z62bk/OQrp0=
 X-Mailman-Approved-At: Sat, 29 Feb 2020 10:13:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,112 +67,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- libcamera-devel@lists.libcamera.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: drinkcat@chromium.org, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tfiga@chromium.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QmF5ZXIgZm9ybWF0cyBhcmUgdXNlZCB3aXRoIGNhbWVyYXMgYW5kIGNvbnRhaW4gZ3JlZW4sIHJl
-ZCBhbmQgYmx1ZQpjb21wb25lbnRzLCB3aXRoIGFsdGVybmF0aW5nIGxpbmVzIG9mIHJlZCBhbmQg
-Z3JlZW4sIGFuZCBibHVlIGFuZCBncmVlbgpwaXhlbHMgaW4gZGlmZmVyZW50IG9yZGVycy4gRm9y
-IGVhY2ggYmxvY2sgb2YgMngyIHBpeGVscyB0aGVyZSBpcyBvbmUKcGl4ZWwgd2l0aCBhIHJlZCBm
-aWx0ZXIsIHR3byB3aXRoIGEgZ3JlZW4gZmlsdGVyLCBhbmQgb25lIHdpdGggYSBibHVlCmZpbHRl
-ci4gVGhlIGZpbHRlcnMgY2FuIGJlIGFycmFuZ2VkIGluIGRpZmZlcmVudCBwYXR0ZXJucy4KCkFk
-ZCBEUk0gZm91cmNjIGZvcm1hdHMgdG8gZGVzY3JpYmUgdGhlIG1vc3QgY29tbW9uIEJheWVyIGZv
-cm1hdHMuIEFsc28KYWRkIGEgbW9kaWZpZXJzIHRvIGRlc2NyaWJlIHRoZSBjdXN0b20gcGFja2lu
-ZyBsYXlvdXRzIHVzZWQgYnkgdGhlIEludGVsCklQVTMgYW5kIGluIHRoZSBNSVBJIChNb2JpbGUg
-SW5kdXN0cnkgUHJvY2Vzc29yIEludGVyZmFjZSkgQ1NJLTIKc3BlY2lmaWNhdGlvbi4KClNpZ25l
-ZC1vZmYtYnk6IE5pa2xhcyBTw7ZkZXJsdW5kIDxuaWtsYXMuc29kZXJsdW5kQHJhZ25hdGVjaC5z
-ZT4KLS0tCiBpbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCB8IDk1ICsrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgOTUgaW5zZXJ0aW9ucygrKQoK
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oIGIvaW5jbHVkZS91YXBp
-L2RybS9kcm1fZm91cmNjLmgKaW5kZXggOGJjMGIzMTU5N2Q4MDczNy4uNTYxZDVhMDhmZmQxNmI2
-OSAxMDA2NDQKLS0tIGEvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgKKysrIGIvaW5jbHVk
-ZS91YXBpL2RybS9kcm1fZm91cmNjLmgKQEAgLTI4Niw2ICsyODYsNjIgQEAgZXh0ZXJuICJDIiB7
-CiAjZGVmaW5lIERSTV9GT1JNQVRfWVZVNDQ0CWZvdXJjY19jb2RlKCdZJywgJ1YnLCAnMicsICc0
-JykgLyogbm9uLXN1YnNhbXBsZWQgQ3IgKDEpIGFuZCBDYiAoMikgcGxhbmVzICovCiAKIAorLyoK
-KyAqIEJheWVyIGZvcm1hdHMKKyAqCisgKiBCYXllciBmb3JtYXRzIGNvbnRhaW4gZ3JlZW4sIHJl
-ZCBhbmQgYmx1ZSBjb21wb25lbnRzLCB3aXRoIGFsdGVybmF0aW5nIGxpbmVzCisgKiBvZiByZWQg
-YW5kIGdyZWVuLCBhbmQgYmx1ZSBhbmQgZ3JlZW4gcGl4ZWxzIGluIGRpZmZlcmVudCBvcmRlcnMu
-IEZvciBlYWNoCisgKiBibG9jayBvZiAyeDIgcGl4ZWxzIHRoZXJlIGlzIG9uZSBwaXhlbCB3aXRo
-IGEgcmVkIGZpbHRlciwgdHdvIHdpdGggYSBncmVlbgorICogZmlsdGVyLCBhbmQgb25lIHdpdGgg
-YSBibHVlIGZpbHRlci4gVGhlIGZpbHRlcnMgY2FuIGJlIGFycmFuZ2VkIGluIGRpZmZlcmVudAor
-ICogcGF0dGVybnMuCisgKgorICogRm9yIGV4YW1wbGUsIFJHR0I6CisgKglyb3cwOiBSR1JHUkdS
-Ry4uLgorICoJcm93MTogR0JHQkdCR0IuLi4KKyAqCXJvdzM6IFJHUkdSR1JHLi4uCisgKglyb3c0
-OiBHQkdCR0JHQi4uLgorICoJLi4uCisgKgorICogVmVuZG9ycyBoYXZlIGRpZmZlcmVudCBtZXRo
-b2RzIHRvIHBhY2sgdGhlIHNhbXBsaW5nIGZvcm1hdHMgdG8gaW5jcmVhc2UgZGF0YQorICogZGVu
-c2l0eS4gRm9yIHRoaXMgcmVhc29uIHRoZSBmb3VyY2Mgb25seSBkZXNjcmliZXMgcGl4ZWwgc2Ft
-cGxlIHNpemUgYW5kIHRoZQorICogZmlsdGVyIHBhdHRlcm4gZm9yIGVhY2ggYmxvY2sgb2YgMngy
-IHBpeGVscy4gQSBtb2RpZmllciBpcyBuZWVkZWQgdG8KKyAqIGRlc2NyaWJlIHRoZSBtZW1vcnkg
-bGF5b3V0LgorICoKKyAqIEluIGFkZGl0aW9uIHRvIHZlbmRvciBtb2RpZmllcnMgZm9yIG1lbW9y
-eSBsYXlvdXQgRFJNX0ZPUk1BVF9NT0RfTElORUFSIG1heQorICogYmUgdXNlZCB0byBkZXNjcmli
-ZSBhIGxheW91dCB3aGVyZSBhbGwgc2FtcGxlcyBhcmUgcGxhY2VkIGNvbnNlY3V0aXZlbHkgaW4K
-KyAqIG1lbW9yeS4gSWYgdGhlIHNhbXBsZSBkb2VzIG5vdCBmaXQgaW5zaWRlIGEgc2luZ2xlIGJ5
-dGUsIHRoZSBzYW1wbGUgc3RvcmFnZQorICogaXMgZXh0ZW5kZWQgdG8gdGhlIG1pbmltdW0gbnVt
-YmVyIG9mIChsaXR0bGUgZW5kaWFuKSBieXRlcyB0aGF0IGNhbiBob2xkIHRoZQorICogc2FtcGxl
-IGFuZCBhbnkgdW51c2VkIG1vc3Qtc2lnbmlmaWNhbnQgYml0cyBhcmUgZGVmaW5lZCBhcyBwYWRk
-aW5nLgorICoKKyAqIEZvciBleGFtcGxlLCBTUkdHQjEwOgorICogRWFjaCAxMC1iaXQgc2FtcGxl
-IGlzIGNvbnRhaW5lZCBpbiAyIGNvbnNlY3V0aXZlIGxpdHRsZSBlbmRpYW4gYnl0ZXMsIHdoZXJl
-CisgKiB0aGUgNiBtb3N0LXNpZ25pZmljYW50IGJpdHMgYXJlIHVudXNlZC4KKyAqLworCisvKiA4
-LWJpdCBCYXllciBmb3JtYXRzICovCisjZGVmaW5lIERSTV9GT1JNQVRfU1JHR0I4CWZvdXJjY19j
-b2RlKCdSJywgJ0cnLCAnRycsICdCJykKKyNkZWZpbmUgRFJNX0ZPUk1BVF9TR1JCRzgJZm91cmNj
-X2NvZGUoJ0cnLCAnUicsICdCJywgJ0cnKQorI2RlZmluZSBEUk1fRk9STUFUX1NHQlJHOAlmb3Vy
-Y2NfY29kZSgnRycsICdCJywgJ1InLCAnRycpCisjZGVmaW5lIERSTV9GT1JNQVRfU0JHR1I4CWZv
-dXJjY19jb2RlKCdCJywgJ0EnLCAnOCcsICcxJykKKworLyogMTAtYml0IEJheWVyIGZvcm1hdHMg
-Ki8KKyNkZWZpbmUgRFJNX0ZPUk1BVF9TUkdHQjEwCWZvdXJjY19jb2RlKCdSJywgJ0cnLCAnMScs
-ICcwJykKKyNkZWZpbmUgRFJNX0ZPUk1BVF9TR1JCRzEwCWZvdXJjY19jb2RlKCdCJywgJ0EnLCAn
-MScsICcwJykKKyNkZWZpbmUgRFJNX0ZPUk1BVF9TR0JSRzEwCWZvdXJjY19jb2RlKCdHJywgJ0In
-LCAnMScsICcwJykKKyNkZWZpbmUgRFJNX0ZPUk1BVF9TQkdHUjEwCWZvdXJjY19jb2RlKCdCJywg
-J0cnLCAnMScsICcwJykKKworLyogMTItYml0IEJheWVyIGZvcm1hdHMgKi8KKyNkZWZpbmUgRFJN
-X0ZPUk1BVF9TUkdHQjEyCWZvdXJjY19jb2RlKCdSJywgJ0cnLCAnMScsICcyJykKKyNkZWZpbmUg
-RFJNX0ZPUk1BVF9TR1JCRzEyCWZvdXJjY19jb2RlKCdCJywgJ0EnLCAnMScsICcyJykKKyNkZWZp
-bmUgRFJNX0ZPUk1BVF9TR0JSRzEyCWZvdXJjY19jb2RlKCdHJywgJ0InLCAnMScsICcyJykKKyNk
-ZWZpbmUgRFJNX0ZPUk1BVF9TQkdHUjEyCWZvdXJjY19jb2RlKCdCJywgJ0cnLCAnMScsICcyJykK
-KworLyogMTQtYml0IEJheWVyIGZvcm1hdHMgKi8KKyNkZWZpbmUgRFJNX0ZPUk1BVF9TUkdHQjE0
-CWZvdXJjY19jb2RlKCdSJywgJ0cnLCAnMScsICc0JykKKyNkZWZpbmUgRFJNX0ZPUk1BVF9TR1JC
-RzE0CWZvdXJjY19jb2RlKCdCJywgJ0EnLCAnMScsICc0JykKKyNkZWZpbmUgRFJNX0ZPUk1BVF9T
-R0JSRzE0CWZvdXJjY19jb2RlKCdHJywgJ0InLCAnMScsICc0JykKKyNkZWZpbmUgRFJNX0ZPUk1B
-VF9TQkdHUjE0CWZvdXJjY19jb2RlKCdCJywgJ0cnLCAnMScsICc0JykKKwogLyoKICAqIEZvcm1h
-dCBNb2RpZmllcnM6CiAgKgpAQCAtMzA5LDYgKzM2NSw3IEBAIGV4dGVybiAiQyIgewogI2RlZmlu
-ZSBEUk1fRk9STUFUX01PRF9WRU5ET1JfQlJPQURDT00gMHgwNwogI2RlZmluZSBEUk1fRk9STUFU
-X01PRF9WRU5ET1JfQVJNICAgICAweDA4CiAjZGVmaW5lIERSTV9GT1JNQVRfTU9EX1ZFTkRPUl9B
-TExXSU5ORVIgMHgwOQorI2RlZmluZSBEUk1fRk9STUFUX01PRF9WRU5ET1JfTUlQSSAweDBhCiAK
-IC8qIGFkZCBtb3JlIHRvIHRoZSBlbmQgYXMgbmVlZGVkICovCiAKQEAgLTQzNCw2ICs0OTEsMTcg
-QEAgZXh0ZXJuICJDIiB7CiAgKi8KICNkZWZpbmUgSTkxNV9GT1JNQVRfTU9EX1lfVElMRURfR0VO
-MTJfTUNfQ0NTIGZvdXJjY19tb2RfY29kZShJTlRFTCwgNykKIAorCisvKgorICogSVBVMyBCYXll
-ciBwYWNraW5nIGxheW91dAorICoKKyAqIFRoZSBJUFUzIHJhdyBCYXllciBmb3JtYXRzIHVzZSBh
-IGN1c3RvbSBwYWNraW5nIGxheW91dCB3aGVyZSB0aGVyZSBhcmUgbm8KKyAqIGdhcHMgYmV0d2Vl
-biBlYWNoIDEwLWJpdCBzYW1wbGUuIEl0IHBhY2tzIDI1IHBpeGVscyBpbnRvIDMyIGJ5dGVzIGxl
-YXZpbmcKKyAqIHRoZSA2IG1vc3Qgc2lnbmlmaWNhbnQgYml0cyBpbiB0aGUgbGFzdCBieXRlIHVu
-dXNlZC4gVGhlIGZvcm1hdCBpcyBsaXR0bGUKKyAqIGVuZGlhbi4KKyAqLworI2RlZmluZSBJUFUz
-X0ZPUk1BVF9NT0RfUEFDS0VEIGZvdXJjY19tb2RfY29kZShJTlRFTCwgOCkKKwogLyoKICAqIFRp
-bGVkLCBOVjEyTVQsIGdyb3VwZWQgaW4gNjQgKHBpeGVscykgeCAzMiAobGluZXMpIC1zaXplZCBt
-YWNyb2Jsb2NrcwogICoKQEAgLTgwNCw2ICs4NzIsMzMgQEAgZXh0ZXJuICJDIiB7CiAgKi8KICNk
-ZWZpbmUgRFJNX0ZPUk1BVF9NT0RfQUxMV0lOTkVSX1RJTEVEIGZvdXJjY19tb2RfY29kZShBTExX
-SU5ORVIsIDEpCiAKKy8qIE1vYmlsZSBJbmR1c3RyeSBQcm9jZXNzb3IgSW50ZXJmYWNlIChNSVBJ
-KSBtb2RpZmllcnMgKi8KKworLyoKKyAqIE1JUEkgQ1NJLTIgcGFja2luZyBsYXlvdXQKKyAqCisg
-KiBUaGUgQ1NJLTIgUkFXIGZvcm1hdHMgKGZvciBleGFtcGxlIEJheWVyKSB1c2UgYSBkaWZmZXJl
-bnQgcGFja2luZyBsYXlvdXQKKyAqIGRlcGVuaW5kZyBvbiB0aGUgc2FtcGxlIHNpemUuCisgKgor
-ICogLSAxMC1iaXRzIHBlciBzYW1wbGUKKyAqICAgRXZlcnkgZm91ciBjb25zZWN1dGl2ZSBzYW1w
-bGVzIGFyZSBwYWNrZWQgaW50byA1IGJ5dGVzLiBFYWNoIG9mIHRoZSBmaXJzdCA0CisgKiAgIGJ5
-dGVzIGNvbnRhaW4gdGhlIDggaGlnaCBvcmRlciBiaXRzIG9mIHRoZSBwaXhlbHMsIGFuZCB0aGUg
-NXRoIGJ5dGUKKyAqICAgY29udGFpbnMgdGhlIDIgbGVhc3Qtc2lnbmlmaWNhbnQgYml0cyBvZiBl
-YWNoIHBpeGVsLCBpbiB0aGUgc2FtZSBvcmRlci4KKyAqCisgKiAtIDEyLWJpdHMgcGVyIHNhbXBs
-ZQorICogICBFdmVyeSB0d28gY29uc2VjdXRpdmUgc2FtcGxlcyBhcmUgcGFja2VkIGludG8gdGhy
-ZWUgYnl0ZXMuIEVhY2ggb2YgdGhlCisgKiAgIGZpcnN0IHR3byBieXRlcyBjb250YWluIHRoZSA4
-IGhpZ2ggb3JkZXIgYml0cyBvZiB0aGUgcGl4ZWxzLCBhbmQgdGhlIHRoaXJkCisgKiAgIGJ5dGUg
-Y29udGFpbnMgdGhlIGZvdXIgbGVhc3Qtc2lnbmlmaWNhbnQgYml0cyBvZiBlYWNoIHBpeGVsLCBp
-biB0aGUgc2FtZQorICogICBvcmRlci4KKyAqCisgKiAtIDE0LWJpdHMgcGVyIHNhbXBsZQorICog
-ICBFdmVyeSBmb3VyIGNvbnNlY3V0aXZlIHNhbXBsZXMgYXJlIHBhY2tlZCBpbnRvIHNldmVuIGJ5
-dGVzLiBFYWNoIG9mIHRoZQorICogICBmaXJzdCBmb3VyIGJ5dGVzIGNvbnRhaW4gdGhlIGVpZ2h0
-IGhpZ2ggb3JkZXIgYml0cyBvZiB0aGUgcGl4ZWxzLCBhbmQgdGhlCisgKiAgIHRocmVlIGZvbGxv
-d2luZyBieXRlcyBjb250YWlucyB0aGUgc2l4IGxlYXN0LXNpZ25pZmljYW50IGJpdHMgb2YgZWFj
-aAorICogICBwaXhlbCwgaW4gdGhlIHNhbWUgb3JkZXIuCisgKi8KKyNkZWZpbmUgTUlQSV9GT1JN
-QVRfTU9EX0NTSTJfUEFDS0VEIGZvdXJjY19tb2RfY29kZShNSVBJLCAxKQorCiAjaWYgZGVmaW5l
-ZChfX2NwbHVzcGx1cykKIH0KICNlbmRpZgotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi,
+
+as talked to Bibby directly, this Patch seems to create a bug with touchscreens. Cursor is displayed on old position if changing its position. e.g. Cursor was on X1,Y1 and i touch to new position X2,Y2 the "click" is recognized on right position (i try to ), but cursor is displayed on X1,Y1
+
+have made a small video and uploaded to my gdrive [1]...
+
+here i use lightdm login manager and selecting the username/password-fields alternately. Focus follows, but cursor is always displayed on prior position
+
+tried to revert this commit [2], but there are many depencies failing the revert, have not yet got all depending commits reverted
+
+regards Frank
+
+[1] https://drive.google.com/open?id=1Qy0tYnbO9zNGdjCWY18O-dMYbFuPrq_i
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=920fffcc891276a855cb3ce1e7361d2e9cb72581
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
