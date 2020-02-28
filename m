@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D38173557
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 11:28:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD405173570
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 11:38:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78A3B6EF28;
-	Fri, 28 Feb 2020 10:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A096E159;
+	Fri, 28 Feb 2020 10:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC6D36EF28
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 10:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582885696;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XczlIIYVTslwtdEpA7Nw4kJ3AXw7ycrbUCvKcsAsjN8=;
- b=Z/f5sYeKT1bQg0MpS9sX6nWURKBj4mAAL7Zvs4S6rElc1PMd92EaTG2Epw+7tpBgfJR8XK
- dMQfaDv2kAl9SbNq243b/QI2GY8ganM85r9M+z67giWr1eSjR28qAAfQZB4y1JRG7l7nD7
- YtNmJUSUG8DD1qnfIpqt1vqp98ljBoY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-IxTKl2bVP6a7MneC64IZWw-1; Fri, 28 Feb 2020 05:28:12 -0500
-X-MC-Unique: IxTKl2bVP6a7MneC64IZWw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81BF1100550E;
- Fri, 28 Feb 2020 10:28:11 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
- [10.36.116.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3ACF51001902;
- Fri, 28 Feb 2020 10:28:11 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7954117449; Fri, 28 Feb 2020 11:28:10 +0100 (CET)
-Date: Fri, 28 Feb 2020 11:28:10 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [RFC PATCH 0/8] *** Refactor struct virtgpu_object ***
-Message-ID: <20200228102810.wdrkt43oova7zib3@sirius.home.kraxel.org>
-References: <20200227002601.745-1-gurchetansingh@chromium.org>
- <20200227072319.qimkovn7ncx35no5@sirius.home.kraxel.org>
- <CAAfnVB=hPaGUtq=w9X5DGnsCAAjMzP_dTNKQm-4hG5ORD=2r+A@mail.gmail.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C216E159;
+ Fri, 28 Feb 2020 10:37:59 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id j16so2393508wrt.3;
+ Fri, 28 Feb 2020 02:37:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zgj7mTEBOZhnEp92w6YeduSWhL7aAxaZ23Ij9QT6Fcc=;
+ b=lDYpL4uNGZO9BvGkElG1ZZKiB6RvJvwsUSqj3oDNMloKBWG8fm7f5xfah7pgRVx/vS
+ kn5yawm8At4+BwAIzsioR8eNmllav5mPIJrwkxN8fYzQjZf8jde8TB58ZOVKy+yNAgPY
+ uE3vxyFFBYPDLTeVnW7vMgSQgjDrYY4ER+c5zpQpLNU/gricql9sKfFJCoYs84gABaaR
+ q9I9rCG4g/8Gsz6GZ8qSKg1KVa6tFvu2z+ig0BNcIPgGXN/ThiqIdgkTJASL1l36VDFh
+ Y5a0zld+pZ/94BdNivbeLXSr8KTnJ0RZOl3pTxSwUA8/18nWLYTM2mc8LgVo15Igbj1V
+ iQ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zgj7mTEBOZhnEp92w6YeduSWhL7aAxaZ23Ij9QT6Fcc=;
+ b=oov1HGN562J1aVJ066TgcCY3q+gDDgPwd91/8bDJSUcPP43z8tmAgpOu9h4J75nNPb
+ GBNpcXc+eZR5XrHtzlMCkYKVHPRT2/lBYbxHx/+GibO0y/rylHbxFP254oRsTPR/uelO
+ JChtnsA4cChoEN5USEwUC42EbXHkDip65nA3DAsfdIv8G/DZ0yaMeBv6XeNjr0Ll1imR
+ xT9eIx9gT+dihU0PmoaJQFVmTMKnkw8dVM/BciEiA5u0lrAYEsbEH5drlnMzCm31u6Wf
+ 63NM44dtv03n7PYcRYzLSqolYsjtBJ1I2D111A4SXFzJRFTt0wcpExM/fkIRdv8LPzRX
+ mSew==
+X-Gm-Message-State: APjAAAX9OcDV4TucvTDA9H0YVX3iRBHNJYBCHNNqQllWpcxzQJvlWIvR
+ OPWogJBmSY48U+wAWdUYXV8=
+X-Google-Smtp-Source: APXvYqw8f1DiLcW2DIjcpjJZpBiix4Ms4NoYtBEt2H6KG1bsFEVAD1D2iH6I52vH6vZYjWw1XxMhjQ==
+X-Received: by 2002:a5d:4f89:: with SMTP id d9mr4216926wru.391.1582886278351; 
+ Fri, 28 Feb 2020 02:37:58 -0800 (PST)
+Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
+ [62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id s22sm1550679wmc.16.2020.02.28.02.37.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2020 02:37:57 -0800 (PST)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/etnaviv: rework perfmon query infrastructure
+Date: Fri, 28 Feb 2020 11:37:49 +0100
+Message-Id: <20200228103752.1944629-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <CAAfnVB=hPaGUtq=w9X5DGnsCAAjMzP_dTNKQm-4hG5ORD=2r+A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,47 +65,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
- John Bates <jbates@chromium.org>
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+Report the correct perfmon domains and signals depending
+on the supported feature flags.
 
-> > struct virtgpu_object {
-> 
-> Yeah, using "virtgpu_" rather than "virtio_gpu" makes sense.
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Fixes: 9e2c2e273012 ("drm/etnaviv: add infrastructure to query perf counter")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-It wasn't my intention to suggest a rename.  It's just that the kernel
-is a bit inconsistent here and I picked the wrong name here.  Most
-places use virtio_gpu but some use virtgpu (file names, ioctl api).
+---
+Changes V1 -> V2:
+  - Handle domain == NULL case better to get rid of BUG_ON(..) usage.
+---
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 59 ++++++++++++++++++++---
+ 1 file changed, 52 insertions(+), 7 deletions(-)
 
-> > struct virtgpu_object_hostmem {
-> >         struct virtgpu_object base;
-> >         {offset, range};
-> >         (...)
-> 
-> I'm a kernel newbie, so it's not obvious to me why struct
-> drm_gem_shmem_object would be a base class for struct
-> virtgpu_object_hostmem?
-
-I think it is easier to just continue using virtio_gpu_object in most
-places and cast to virtio_gpu_object_{shmem,hostmem} only if needed.
-Makes it easier to deal with common fields like hw_res_handle.
-
-In the hostmem case we would simply not use the drm_gem_shmem_object
-fields except for drm_gem_shmem_object.base (which is drm_gem_object).
-
-> Side question: is drm_gem_object_funcs.vmap(..) /
-> drm_gem_object_funcs.vunmap(..) even possible for hostmem?
-
-Sure.  Using ioremap should work, after asking the host to map the
-object at some location in the pci bar.
-
-cheers,
-  Gerd
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+index 8adbf2861bff..e6795bafcbb9 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+@@ -32,6 +32,7 @@ struct etnaviv_pm_domain {
+ };
+ 
+ struct etnaviv_pm_domain_meta {
++	unsigned int feature;
+ 	const struct etnaviv_pm_domain *domains;
+ 	u32 nr_domains;
+ };
+@@ -410,36 +411,78 @@ static const struct etnaviv_pm_domain doms_vg[] = {
+ 
+ static const struct etnaviv_pm_domain_meta doms_meta[] = {
+ 	{
++		.feature = chipFeatures_PIPE_3D,
+ 		.nr_domains = ARRAY_SIZE(doms_3d),
+ 		.domains = &doms_3d[0]
+ 	},
+ 	{
++		.feature = chipFeatures_PIPE_2D,
+ 		.nr_domains = ARRAY_SIZE(doms_2d),
+ 		.domains = &doms_2d[0]
+ 	},
+ 	{
++		.feature = chipFeatures_PIPE_VG,
+ 		.nr_domains = ARRAY_SIZE(doms_vg),
+ 		.domains = &doms_vg[0]
+ 	}
+ };
+ 
++static unsigned int num_pm_domains(const struct etnaviv_gpu *gpu)
++{
++	unsigned int num = 0, i;
++
++	for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
++		const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
++
++		if (gpu->identity.features & meta->feature)
++			num += meta->nr_domains;
++	}
++
++	return num;
++}
++
++static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
++	unsigned int index)
++{
++	const struct etnaviv_pm_domain *domain = NULL;
++	unsigned int offset = 0, i;
++
++	for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
++		const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
++
++		if (!(gpu->identity.features & meta->feature))
++			continue;
++
++		if (meta->nr_domains < (index - offset)) {
++			offset += meta->nr_domains;
++			continue;
++		}
++
++		domain = meta->domains + (index - offset);
++	}
++
++	return domain;
++}
++
+ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+ 	struct drm_etnaviv_pm_domain *domain)
+ {
+-	const struct etnaviv_pm_domain_meta *meta = &doms_meta[domain->pipe];
++	const unsigned int nr_domains = num_pm_domains(gpu);
+ 	const struct etnaviv_pm_domain *dom;
+ 
+-	if (domain->iter >= meta->nr_domains)
++	if (domain->iter >= nr_domains)
+ 		return -EINVAL;
+ 
+-	dom = meta->domains + domain->iter;
++	dom = pm_domain(gpu, domain->iter);
++	if (!dom)
++		return -EINVAL;
+ 
+ 	domain->id = domain->iter;
+ 	domain->nr_signals = dom->nr_signals;
+ 	strncpy(domain->name, dom->name, sizeof(domain->name));
+ 
+ 	domain->iter++;
+-	if (domain->iter == meta->nr_domains)
++	if (domain->iter == nr_domains)
+ 		domain->iter = 0xff;
+ 
+ 	return 0;
+@@ -448,14 +491,16 @@ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+ int etnaviv_pm_query_sig(struct etnaviv_gpu *gpu,
+ 	struct drm_etnaviv_pm_signal *signal)
+ {
+-	const struct etnaviv_pm_domain_meta *meta = &doms_meta[signal->pipe];
++	const unsigned int nr_domains = num_pm_domains(gpu);
+ 	const struct etnaviv_pm_domain *dom;
+ 	const struct etnaviv_pm_signal *sig;
+ 
+-	if (signal->domain >= meta->nr_domains)
++	if (signal->domain >= nr_domains)
+ 		return -EINVAL;
+ 
+-	dom = meta->domains + signal->domain;
++	dom = pm_domain(gpu, signal->domain);
++	if (!dom)
++		return -EINVAL;
+ 
+ 	if (signal->iter >= dom->nr_signals)
+ 		return -EINVAL;
+-- 
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
