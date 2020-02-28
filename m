@@ -1,53 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E21C172F70
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 04:38:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23663173021
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 06:02:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA0E6EDCE;
-	Fri, 28 Feb 2020 03:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 265976EDD3;
+	Fri, 28 Feb 2020 05:02:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 462C16E11A;
- Fri, 28 Feb 2020 03:38:11 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id q84so1570943oic.4;
- Thu, 27 Feb 2020 19:38:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MOGVYl0JiKEEseZ89TMjcjrll5qFG/jTKhgHEWQPkpc=;
- b=J8ATT3+9r2tl5tPUk47eknwKXzqIPXtzQZkx4jUV0w9sG8serBAUB4oLM2bAoVFxkE
- 710swdy70mvVrM52QTuq8x4BORWKPVhXF7HSP0uEbbFwD8ZqBWOuNVaPCSEzB4j7wRRM
- r5k6O/So6AilgSEH6ZznlOhOVKRpVR5PEM9LCq7GNTn0v+NeJqTZR6iNxtePEHfiuIT3
- u3x4gAaG18htL0H/z4uf12qUHS+Aue2JsfwZ7/3afOEYBxnuOwkTYqbYjamn+YzEaPOy
- 3ha8PFSgDkCw7Q2KJ7ako0D6mUUOwI7Z4AS/47VqohvKzFYe5LhqOqVbEFOSBX/URoBI
- IWbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MOGVYl0JiKEEseZ89TMjcjrll5qFG/jTKhgHEWQPkpc=;
- b=Wz2Dzyz7P1y+XlP+0DExZr0W71GCeDKmHwGnPhDZ0Af6CicXnGzuDMkI0a8EZ3ZscA
- ijOu6Df3F+7CHisMtDd7as4KnlDe670BaWcBJ+WgOKkOWL6SvOy9kt9MeEvrD5A5ogki
- 7heK0HKEgLuikew3I6v/j7YOykj8bG7uW+MxQTq28rjCwi5YtT9R5uNEI6felMXyiQ00
- vJk7R02eEHcVmcuvPH+h6WyHCowSxRVyDHdCmBRYEHez/KE6VD7PLS8BsjpmjNpiqgNG
- 5Dbmjnj9+7otQx/O+j2OTukBVEIH3Mq1b+96Es1XagLi1gsNNnb9B8QVZuAt2VdWNEQP
- uuKQ==
-X-Gm-Message-State: APjAAAX5ofhnmUW4dcsr4sJdykO98Qr7HBwsj6zfM+Ibqonptp9tfB0k
- 9ftTT9yKp7JfwTE/Z9yUpM30vQHUaStICABLHZCXc27W
-X-Google-Smtp-Source: APXvYqwpbwgHSiERR0+GiALBszLvfkpc7GvTh+wQG4QqsWDKdsEUGqd00n58Q4FHAO7dqcYN7bFx15SSsW/CTm89I/Q=
-X-Received: by 2002:aca:bb54:: with SMTP id l81mr1648517oif.175.1582861090266; 
- Thu, 27 Feb 2020 19:38:10 -0800 (PST)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A68316EDD0;
+ Fri, 28 Feb 2020 05:02:31 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2020 21:02:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; d="scan'208";a="257001294"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by orsmga002.jf.intel.com with ESMTP; 27 Feb 2020 21:02:30 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 27 Feb 2020 21:02:29 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 27 Feb 2020 21:02:29 -0800
+Received: from bgsmsx153.gar.corp.intel.com (10.224.23.4) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 27 Feb 2020 21:02:28 -0800
+Received: from BGSMSX107.gar.corp.intel.com ([169.254.9.58]) by
+ BGSMSX153.gar.corp.intel.com ([169.254.2.145]) with mapi id 14.03.0439.000;
+ Fri, 28 Feb 2020 10:32:25 +0530
+From: "Laxminarayan Bharadiya, Pankaj"
+ <pankaj.laxminarayan.bharadiya@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Chris Wilson
+ <chris@chris-wilson.co.uk>
+Subject: RE: [Intel-gfx][PATCH 01/10] drm/i915: Add i915 device based
+ MISSING_CASE macro
+Thread-Topic: [Intel-gfx][PATCH 01/10] drm/i915: Add i915 device based
+ MISSING_CASE macro
+Thread-Index: AQHV6+ORF98y/9Y/3EqxiyZJG7rk3agrlFCAgAL+ieD//8lTAIABtD/g
+Date: Fri, 28 Feb 2020 05:02:25 +0000
+Message-ID: <E92BA18FDE0A5B43B7B3DA7FCA03128605778994@BGSMSX107.gar.corp.intel.com>
+References: <20200225134709.6153-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200225134709.6153-2-pankaj.laxminarayan.bharadiya@intel.com>
+ <158263931977.26598.171017617509031302@skylake-alporthouse-com>
+ <E92BA18FDE0A5B43B7B3DA7FCA03128605776BFE@BGSMSX107.gar.corp.intel.com>
+ <87mu94qvpd.fsf@intel.com>
+In-Reply-To: <87mu94qvpd.fsf@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
 MIME-Version: 1.0
-References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
-In-Reply-To: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 28 Feb 2020 13:37:57 +1000
-Message-ID: <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
-Subject: Re: [Intel-gfx] gitlab.fd.o financial situation and impact on services
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,75 +73,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "X.Org development" <xorg-devel@lists.x.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "X.Org Foundation Board" <board@foundation.x.org>,
- Xorg Members List <members@x.org>, gstreamer-devel@lists.freedesktop.org,
- Mesa Dev <mesa-dev@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Feb 2020 at 07:27, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> Hi all,
->
-> You might have read the short take in the X.org board meeting minutes
-> already, here's the long version.
->
-> The good news: gitlab.fd.o has become very popular with our
-> communities, and is used extensively. This especially includes all the
-> CI integration. Modern development process and tooling, yay!
->
-> The bad news: The cost in growth has also been tremendous, and it's
-> breaking our bank account. With reasonable estimates for continued
-> growth we're expecting hosting expenses totalling 75k USD this year,
-> and 90k USD next year. With the current sponsors we've set up we can't
-> sustain that. We estimate that hosting expenses for gitlab.fd.o
-> without any of the CI features enabled would total 30k USD, which is
-> within X.org's ability to support through various sponsorships, mostly
-> through XDC.
->
-> Note that X.org does no longer sponsor any CI runners themselves,
-> we've stopped that. The huge additional expenses are all just in
-> storing and serving build artifacts and images to outside CI runners
-> sponsored by various companies. A related topic is that with the
-> growth in fd.o it's becoming infeasible to maintain it all on
-> volunteer admin time. X.org is therefore also looking for admin
-> sponsorship, at least medium term.
->
-> Assuming that we want cash flow reserves for one year of gitlab.fd.o
-> (without CI support) and a trimmed XDC and assuming no sponsor payment
-> meanwhile, we'd have to cut CI services somewhere between May and June
-> this year. The board is of course working on acquiring sponsors, but
-> filling a shortfall of this magnitude is neither easy nor quick work,
-> and we therefore decided to give an early warning as soon as possible.
-> Any help in finding sponsors for fd.o is very much appreciated.
 
-a) Ouch.
 
-b) we probably need to take a large step back here.
+> -----Original Message-----
+> From: Jani Nikula <jani.nikula@linux.intel.com>
+> Sent: 27 February 2020 14:00
+> To: Laxminarayan Bharadiya, Pankaj
+> <pankaj.laxminarayan.bharadiya@intel.com>; Chris Wilson <chris@chris-
+> wilson.co.uk>
+> Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; David Airlie
+> <airlied@linux.ie>; Joonas Lahtinen <joonas.lahtinen@linux.intel.com>; Vivi,
+> Rodrigo <rodrigo.vivi@intel.com>; daniel@ffwll.ch
+> Subject: RE: [Intel-gfx][PATCH 01/10] drm/i915: Add i915 device based
+> MISSING_CASE macro
+> 
+> On Thu, 27 Feb 2020, "Laxminarayan Bharadiya, Pankaj"
+> 	<pankaj.laxminarayan.bharadiya@intel.com> wrote:
+> > Hi Chris,
+> >
+> >> -----Original Message-----
+> >> From: Chris Wilson <chris@chris-wilson.co.uk>
+> >> Sent: 25 February 2020 19:32
+> >> To: David Airlie <airlied@linux.ie>; Joonas Lahtinen
+> >> <joonas.lahtinen@linux.intel.com>; Laxminarayan Bharadiya, Pankaj
+> >> <pankaj.laxminarayan.bharadiya@intel.com>; Vivi, Rodrigo
+> >> <rodrigo.vivi@intel.com>; daniel@ffwll.ch;
+> >> dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org;
+> >> jani.nikula@linux.intel.com
+> >> Cc: Laxminarayan Bharadiya, Pankaj
+> >> <pankaj.laxminarayan.bharadiya@intel.com>
+> >> Subject: Re: [Intel-gfx][PATCH 01/10] drm/i915: Add i915 device based
+> >> MISSING_CASE macro
+> >>
+> >> Quoting Pankaj Bharadiya (2020-02-25 13:47:00)
+> >> > Now that we have struct drm_device based drm_WARN, introduce struct
+> >> > drm_i915_private based i915_MISSING_CASE macro which uses
+> >> drm_WARN so
+> >> > that device specific information will also get printed in backtrace.
+> >> >
+> >> > i915_MISSING_CASE macro should be preferred over MISSING_CASE,
+> >> > wherever possible.
+> >>
+> >> Whatever for? MISSING_CASE() itself should be a complete picture for
+> >> the forgotten code.
+> >
+> > Are you saying, no need to have a new device specific macro?
+> >
+> > We want convert all the calls of WARN* with device specific drm_WARN*
+> > in i915, hence I introduced new i915_MISSING_CASE macro.
+> >
+> > Jani, Will you please share your opinion on this?
+> 
+> In general, many or most WARNs are device specific, and the device information
+> is useful. However MISSING_CASE is about the *code*. That was the intent
+> anyway. Perhaps there are cases where the device information might be useful,
+> but for most cases probably not.
 
-Look at this from a sponsor POV, why would I give X.org/fd.o
-sponsorship money that they are just giving straight to google to pay
-for hosting credits? Google are profiting in some minor way from these
-hosting credits being bought by us, and I assume we aren't getting any
-sort of discounts here. Having google sponsor the credits costs google
-substantially less than having any other company give us money to do
-it.
+Thanks for clarification. Please ignore this patch series then.
 
-If our current CI architecture is going to burn this amount of money a
-year and we hadn't worked this out in advance of deploying it then I
-suggest the system should be taken offline until we work out what a
-sustainable system would look like within the budget we have, whether
-that be never transferring containers and build artifacts from the
-google network, just having local runner/build combos etc.
-
-Dave.
+Thanks,
+Pankaj 
+> 
+> BR,
+> Jani.
+> 
+> 
+> --
+> Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
