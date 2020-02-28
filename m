@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75021735DF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 12:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 393591735E8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 12:15:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 921916F3E9;
-	Fri, 28 Feb 2020 11:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC5476F3FA;
+	Fri, 28 Feb 2020 11:15:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6643F6F3E9
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 11:12:52 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id l5so2505031wrx.4
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 03:12:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pJgpsPTAOyTEQskkZCcN8WPjUqHPIZGQG/IVbQt6n/E=;
- b=h2WHITZOQEvnJndGhZ+TDX7M952DgLQOWgr31Ngcy/m/dAg0BxFgqGvir/enXuUlsK
- kcF7X6vJmNR1YHmdV01i0/Irr8N33dYBwfdc9meKii+Dc5O3Eyo+N1F4IE0ROgq55uBw
- Lp3epqMDKrMRhCGZHzO7XQkqHKFZz0us+lB/RYxYAt9/B4x/waJnwlVxcBZAJ/O63+KT
- Az8tRKMz0QfKvcEEoXp5Z4wj/ZQunjOj8ZKo/h1lM8UjbTSk9jNl1tVL2M+jFoHsTbl5
- BExPopLr535QXki47KTKxzX0gw87dLNq4T3TZeieLI5slCMLO7xK7sKTwcynKlm4EUCL
- ohIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pJgpsPTAOyTEQskkZCcN8WPjUqHPIZGQG/IVbQt6n/E=;
- b=eeTLJMSgTJrdW0u4MrmSX0BQjGh95D9QU4cGIl6kuI3zrGJLad/UXDk5ez7bjfqC5A
- Z6yyfkrjDjzSYZYBdaRp5MhJfYDkthdlxrx4CISEWD9EN741E7gGIeC4PJX9NAvzvsVO
- y9mWE1VgSBRZSoObYbSgI2m5+3EqH8jGqvxCgiZt9i1j2/MXTjP6u0nLiF4+sKv7SbtH
- gBmdpyCTM9pBQTbDVuiC3gg09rEO3VJZfVh8aVNZI96g2QDKcMsms07uf5VgWNNVt1ls
- JuzS+g8H+OM7EV0I2ILsqOEaCaJog4hL0cK3FWFNW/Y5LBk0LRYwO0K2+cZ946I0SJNc
- qQUw==
-X-Gm-Message-State: APjAAAXBj/2n76MQoSc3GSNYzWC2hPM8po36tOiqM+6HM3+570V2W6Fz
- 8Ah+s+K9VfPaQIVl2PiaD0IZfi+xXtPRAi+8Seq0WQ==
-X-Google-Smtp-Source: APXvYqy6KcgmbPb1fw5V3WytN081I6/VutL5m3T3ZlzWnw7MV1kE3qIKSqavYxfdsKdocmu8raau8/qoViKot+DHhpk=
-X-Received: by 2002:a5d:56c4:: with SMTP id m4mr4484559wrw.6.1582888371081;
- Fri, 28 Feb 2020 03:12:51 -0800 (PST)
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4E46F3FA
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 11:15:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id ACB013F81C;
+ Fri, 28 Feb 2020 12:15:46 +0100 (CET)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=dXA4qckv; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id d-1Dvl-SzUOP; Fri, 28 Feb 2020 12:15:45 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 3BB2B3F36B;
+ Fri, 28 Feb 2020 12:15:43 +0100 (CET)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 8CA7C3600E5;
+ Fri, 28 Feb 2020 12:15:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1582888543; bh=ArwgEIDl33P4ZVBnnUz1ZjkbHAQUFSsMubAJIywx/Dw=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=dXA4qckvxvs38papKi+Rq7RwtKShCBkWbmM74jOvNle/S8S8SMggwZ3W2PAfgRoHF
+ 3Z5Gf+870LYx97tW/GupcjknFHKl77ofdAqxwSmYdkK5KNwLBJeMGr2o6VAIiDSlOW
+ N3SsxKv0uZx3szrA6HRq85S1yEs6lpRNOQMNF+yg=
+Subject: Re: [PATCH] drm/shmem: drop pgprot_decrypted()
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20200228104723.18757-1-kraxel@redhat.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <997a1baa-dc71-47d3-6e93-4dc953844d68@shipmail.org>
+Date: Fri, 28 Feb 2020 12:15:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <CGME20200228094033eucas1p2fa2f6cea3b882e758992d97da2fc50ed@eucas1p2.samsung.com>
- <20200228094026.26983-1-m.szyprowski@samsung.com>
-In-Reply-To: <20200228094026.26983-1-m.szyprowski@samsung.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 28 Feb 2020 11:12:10 +0000
-Message-ID: <CAPj87rOH6o593kkPKibfWr7K2JYQ8yvTHuAwSu=rjhWGKgKJGA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: panfrost: Silence warnings during deferred probe
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20200228104723.18757-1-kraxel@redhat.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,20 +70,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Feb 2020 at 09:40, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+On 2/28/20 11:47 AM, Gerd Hoffmann wrote:
+> Was added by commit 95cf9264d5f3 ("x86, drm, fbdev: Do not specify
+> encrypted memory for video mappings"), then it was kept through various
+> changes.
+>
+> While vram actually needs decrypted mappings this is not correct for
+> shmem gem objects which live in main memory not io memory, so remove the
+> call.
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>   drivers/gpu/drm/drm_gem_shmem_helper.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index aad9324dcf4f..df31e5782eed 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -548,7 +548,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+>   	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+>   	if (!shmem->map_cached)
+>   		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> -	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+>   	vma->vm_ops = &drm_gem_shmem_vm_ops;
+>   
+>   	return 0;
 
-Reviewed-by: Daniel Stone <daniels@collabora.com>
+Reviewed-by: Thomas Hellstrom <thellstrom@vmware.com>
+
+Thanks,
+
+Thomas
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
