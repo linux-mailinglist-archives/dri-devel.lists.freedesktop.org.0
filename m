@@ -1,43 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC38173FD2
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 19:42:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C30174053
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 20:34:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184486F4B0;
-	Fri, 28 Feb 2020 18:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3692A6F4B4;
+	Fri, 28 Feb 2020 19:34:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9211F6F4B1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 18:42:52 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 2EED82004C;
- Fri, 28 Feb 2020 19:42:44 +0100 (CET)
-Date: Fri, 28 Feb 2020 19:42:42 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [RFC v2 1/8] dt-bindings: display: add ingenic-jz4780-lcd DT
- Schema
-Message-ID: <20200228184242.GA20089@ravnborg.org>
-References: <cover.1582913973.git.hns@goldelico.com>
- <b4a73a1c542fab9d05d12b56c547b555b6a9b062.1582913973.git.hns@goldelico.com>
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 623666F4B3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 19:34:21 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id n30so2955880lfh.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 11:34:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+3wfcVucKNDT8xQ2IYHdrb8ypqAQcsLMWiIEAUmRFdY=;
+ b=oNgAEPmd74TVlRaCo9qXmuaQ2h23gSNubAj7tWcrLgKDd+2Bh/Yw8MWSML8Ow11IPF
+ YsFG8/mBKQ7Eexoq0TAX89Y1ck+y+Ci0u9AJ9Gs6nDQi6CmuAIko0h7I50olvrbmFXPZ
+ BwV6MkLmAEDJpVSji/8sTxiSM3awqekihYusRy/L+iamTnZpxbYI3U1EQM3RU8+wGYog
+ +cu+Q4u0fAHwTlc21hgOeGCFW8YZwoLnKfe74/9paqZkjCVCZnePW9NW2KegomNSS9N3
+ a2+d1yFqW+t4/Mg5WIDUoGqJZYM5FkVh8Z/9QZduutAAX3ZnUpCucctaHmosEwmTwr4n
+ 2zpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+3wfcVucKNDT8xQ2IYHdrb8ypqAQcsLMWiIEAUmRFdY=;
+ b=CR2P8VISkk/RbqrlB9clTfdWfcTKIIP4N+xksStil4ljoH+qMMbaJcrxnvGW9LENEN
+ IXkDk2Wv/xXggm5Ehv2adZx334IiB4kmJv2UPq/deLPtH3z1UV4pkRPi8uzfXdXxZCt/
+ 00Eh2QKrsuUlW58UcpwLbdr8suA+xxdngdA9/RJbmANmVRofLIE9AN3R2jZJkz092kgL
+ wvXjqd3yk+UZ0gAsr64n+1L9HFHTuVRFCi9EfzJ5tEjeb3+/S1ZB+ud2FyfqvauQyEzE
+ xhVNwUnePDkYN7ynajE32m3No+CvkFxQGDQBBM03Fj/OaT8ZgYHy3GKG0AlreMkJ1QPA
+ ztsw==
+X-Gm-Message-State: ANhLgQ2mUluP7u6Ccx852CHhuaZee7hD1d7HP2b5zyrkEmj/W6I/4bcH
+ ffpQx/Aam8dvBiTmK9cTjN2NxrmaHesNukLolXrBbQ==
+X-Google-Smtp-Source: ADFU+vsyYu1Fsr6NUj2fklhT+YtbDcWuaoofEA6zLDAf2pBT55gUwm6pdVZXJH9rxGAVWEbxXo0Khtrnm1qEQhPXP+8=
+X-Received: by 2002:a19:6b09:: with SMTP id d9mr3597759lfa.203.1582918459634; 
+ Fri, 28 Feb 2020 11:34:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b4a73a1c542fab9d05d12b56c547b555b6a9b062.1582913973.git.hns@goldelico.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=r_1tXGB3AAAA:8 a=ztCEdXhiAAAA:8 a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8
- a=pSfg_kgG_YkFMEKRir4A:9 a=qn4TxXM_sh0ilUaX:21 a=kcv_VjDv9XC6Jkun:21
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=t8nPyN_e6usw4ciXM-Pk:22
- a=nCm3ceeH17rKjHWsMeRo:22 a=AjGcO6oz07-iQ99wixmX:22
- a=sptkURWiP4Gy88Gu7hUp:22
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+ <CAPj87rM76W9y_76WUHR35NS3V4_-RFi9ZM3GA=aED3dD3hWYkg@mail.gmail.com>
+ <CAPM=9txN-RKGwinzsSPrmT_xFjS2J_XUhXVsRQ2pSSe529wpEA@mail.gmail.com>
+In-Reply-To: <CAPM=9txN-RKGwinzsSPrmT_xFjS2J_XUhXVsRQ2pSSe529wpEA@mail.gmail.com>
+From: Eric Anholt <eric@anholt.net>
+Date: Fri, 28 Feb 2020 11:34:08 -0800
+Message-ID: <CADaigPUjYZ-Mqd91eyR3Luo=PxLHratUhvodJmCJHf__MnPozA@mail.gmail.com>
+Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and impact
+ on services
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,142 +65,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Andi Kleen <ak@linux.intel.com>,
- Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- devicetree@vger.kernel.org,
- Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>,
- linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- letux-kernel@openphoenux.org, linux-kernel@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>, kernel@pyra-handheld.com
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>, Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ gstreamer-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus.
+On Fri, Feb 28, 2020 at 12:48 AM Dave Airlie <airlied@gmail.com> wrote:
+>
+> On Fri, 28 Feb 2020 at 18:18, Daniel Stone <daniel@fooishbar.org> wrote:
+> >
+> > On Fri, 28 Feb 2020 at 03:38, Dave Airlie <airlied@gmail.com> wrote:
+> > > b) we probably need to take a large step back here.
+> > >
+> > > Look at this from a sponsor POV, why would I give X.org/fd.o
+> > > sponsorship money that they are just giving straight to google to pay
+> > > for hosting credits? Google are profiting in some minor way from these
+> > > hosting credits being bought by us, and I assume we aren't getting any
+> > > sort of discounts here. Having google sponsor the credits costs google
+> > > substantially less than having any other company give us money to do
+> > > it.
+> >
+> > The last I looked, Google GCP / Amazon AWS / Azure were all pretty
+> > comparable in terms of what you get and what you pay for them.
+> > Obviously providers like Packet and Digital Ocean who offer bare-metal
+> > services are cheaper, but then you need to find someone who is going
+> > to properly administer the various machines, install decent
+> > monitoring, make sure that more storage is provisioned when we need
+> > more storage (which is basically all the time), make sure that the
+> > hardware is maintained in decent shape (pretty sure one of the fd.o
+> > machines has had a drive in imminent-failure state for the last few
+> > months), etc.
+> >
+> > Given the size of our service, that's a much better plan (IMO) than
+> > relying on someone who a) isn't an admin by trade, b) has a million
+> > other things to do, and c) hasn't wanted to do it for the past several
+> > years. But as long as that's the resources we have, then we're paying
+> > the cloud tradeoff, where we pay more money in exchange for fewer
+> > problems.
+>
+> Admin for gitlab and CI is a full time role anyways. The system is
+> definitely not self sustaining without time being put in by you and
+> anholt still. If we have $75k to burn on credits, and it was diverted
+> to just pay an admin to admin the real hw + gitlab/CI would that not
+> be a better use of the money? I didn't know if we can afford $75k for
+> an admin, but suddenly we can afford it for gitlab credits?
 
-On Fri, Feb 28, 2020 at 07:19:26PM +0100, H. Nikolaus Schaller wrote:
-> From: Sam Ravnborg <sam@ravnborg.org>
-> 
-> Add DT bindings for the LCD controller on the jz4780 SoC
-> Based on .txt binding from Zubair Lutfullah Kakakhel
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-> Cc: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
+As I think about the time that I've spent at google in less than a
+year on trying to keep the lights on for CI and optimize our
+infrastructure in the current cloud environment, that's more than the
+entire yearly budget you're talking about here.  Saying "let's just
+pay for people to do more work instead of paying for full-service
+cloud" is not a cost optimization.
 
-As this patch was sent to you and you forward it you need to
-testify that this is OK.
-To do so follow the rules of the Developemnt Certificate of Origin
-as can be found in SubmittingPatches.rst.
 
-In other words - you need to add your Signed-off-by: xxx <mail>
-to the patch.
-In the end we want to be able to see the patch the patch has taken
-reading the Signed-off-by: lines from top to bottom.
+> > Yes, we could federate everything back out so everyone runs their own
+> > builds and executes those. Tinderbox did something really similar to
+> > that IIRC; not sure if Buildbot does as well. Probably rules out
+> > pre-merge testing, mind.
+>
+> Why? does gitlab not support the model? having builds done in parallel
+> on runners closer to the test runners seems like it should be a thing.
+> I guess artifact transfer would cost less then as a result.
 
-Please check other patches in this series for the same issue.
+Let's do some napkin math.  The biggest artifacts cost we have in Mesa
+is probably meson-arm64/meson-arm (60MB zipped from meson-arm64,
+downloaded by 4 freedreno and 6ish lava, about 100 pipelines/day,
+makes ~1.8TB/month ($180 or so).  We could build a local storage next
+to the lava dispatcher so that the artifacts didn't have to contain
+the rootfs that came from the container (~2/3 of the insides of the
+zip file), but that's another service to build and maintain.  Building
+the drivers once locally and storing it would save downloading the
+other ~1/3 of the inside of the zip file, but that requires a big
+enough system to do builds in time.
 
-	Sam
-
-> ---
->  .../bindings/display/ingenic-jz4780-lcd.yaml  | 78 +++++++++++++++++++
->  1 file changed, 78 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
-> new file mode 100644
-> index 000000000000..c71415a3a342
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
-> @@ -0,0 +1,78 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/ingenic-jz4780-lcd.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Bindings for Ingenic JZ4780 LCD Controller
-> +
-> +maintainers:
-> +  - Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
-> +description: |
-> +  LCD Controller is the Display Controller for the Ingenic JZ4780 SoC
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: ingenic,jz4780-lcd
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: the address & size of the LCD controller registers
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: Specifies the interrupt provided by parent
-> +
-> +  clocks:
-> +    maxItems: 2
-> +    description: Clock specifiers for the JZ4780_CLK_TVE JZ4780_CLK_LCD0PIXCLK
-> +
-> +  clock-names:
-> +    items:
-> +      - const: lcd_clk
-> +      - const: lcd_pixclk
-> +
-> +  port:
-> +    type: object
-> +    description: |
-> +      A port node with endpoint definitions as defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +required:
-> +    - compatible
-> +    - reg
-> +    - interrupts
-> +    - clocks
-> +    - clock-names
-> +    - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/jz4780-cgu.h>
-> +    lcd: jz4780-lcdk@0x13050000 {
-> +        compatible = "ingenic,jz4780-lcd";
-> +        reg = <0x13050000 0x1800>;
-> +
-> +        clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
-> +        clock-names = "lcd_clk", "lcd_pixclk";
-> +
-> +        interrupt-parent = <&intc>;
-> +        interrupts = <31>;
-> +
-> +        jz4780_lcd_out: port {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            jz4780_out_hdmi: endpoint@0 {
-> +                reg = <0>;
-> +                remote-endpoint = <&hdmi_in_lcd>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.23.0
+I'm planning on doing a local filestore for google's lava lab, since I
+need to be able to move our xml files off of the lava DUTs to get the
+xml results we've become accustomed to, but this would not bubble up
+to being a priority for my time if I wasn't doing it anyway.  If it
+takes me a single day to set all this up (I estimate a couple of
+weeks), that costs my employer a lot more than sponsoring the costs of
+the inefficiencies of the system that has accumulated.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
