@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5155F173EBB
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 18:43:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C33C7173F22
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 19:04:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62E626F476;
-	Fri, 28 Feb 2020 17:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A15136E0DE;
+	Fri, 28 Feb 2020 18:04:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1701D6F476
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 17:43:51 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id z9so3359601oth.5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 09:43:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
+ [IPv6:2607:f8b0:4864:20::e33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB39A6F4A8;
+ Fri, 28 Feb 2020 18:04:01 +0000 (UTC)
+Received: by mail-vs1-xe33.google.com with SMTP id h5so1557396vsc.4;
+ Fri, 28 Feb 2020 10:04:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7sAqot1EnEzYqKxtDsB3wJ0QSOxgefyF9dqTNWGoUBA=;
- b=I+VCobyc4pMOgc+Zu4yxgxrrYFqOIwVhZPKo6CtdkmpMjQzn92wz0tG91FO283I7CB
- Bmdj1MXztGTslFbs1acvg5GH03eKGLUvnwhm3HLgGJVNOV0cGxkfPA9IOnb1CqD8ny1t
- K8DdasuRAgU/Pz4NWFOl4JJIAS8RZQx2OaJ94=
+ :cc; bh=qPM9qKUxW+tvu+nHraYgvpodBPKrrabdSOZuzexcQW4=;
+ b=Vft3P9RCHZKCJoSYqwJR/wGO9OMbuPr51hTgWgPV+y/hmJ+zYFKFNEwR6fh38qSBdA
+ BGzGhNMbhS2+oIItKjaPdrhwOVaT68R5F1JGAF5XZpb0bYZ2IUb2LZ9y7MKkIR2v0ri2
+ z4hEBTnTFU/tHSmY0OFfYnc0xEpEevUrykTwccTnbB9lpMxNOSf49/piDmbNWWCFpZXJ
+ sT7mG13C3QWBAnaVhfgiGorx27UvY7Z5tmZt/VRDSv5qDAw1ZsTxdlcjvpQSOvNX1QDz
+ UNG9o1nb+UQXq/xifPWvoNoIyFJRlQMx1p9ORHQ1PQpL4hJFk4PtPBp//4qe5p344Q3r
+ kxYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7sAqot1EnEzYqKxtDsB3wJ0QSOxgefyF9dqTNWGoUBA=;
- b=Y1ySrX/ki6EpaBK+Z86P9CHzoGU7iBgVxX0a3giMyo62LJY4Rg54NSDdnYJkp7H0WS
- IDO616hqOO9UvpJi6lbH389aa7Z0Y7I7TBF0LU5rGRORQ3/+30umf/luVwvkwz4WD9+/
- Th9MhRnQ0BeBqAiMNn20FEPcxu0Zk9Gfl4WpntL0hzN4CnHxCPUYDfDSz+q5wECWj0Z6
- op4COA/ut63MvQRq6b49gSFjl4JSjTji5mkGseEdDYHCOEXgMqUKhIUS54lJTL6htRn+
- x0IoVHcptG+oz5u/xRK8yqjG2lmpAPwBcpGptlS6/B2hfJH8V0smAo6HrJ1GhOB7JYGQ
- O4OA==
-X-Gm-Message-State: APjAAAW8SNKf6yVjuPVsqQW6wxblRYHDz0KWOLDPxQM/My7s5ttxie9p
- UeA5jq95U2sHQNx1IeCmfhM+j/LVvclJBuHVHDe7jw==
-X-Google-Smtp-Source: APXvYqwIdfWh68pbootEEz932hLFdh8cSFQSCeWGy3Rk9frQrdHEcB9bn4CfEuKjVOS2+19z4bSGMaKqps7bWC423Bw=
-X-Received: by 2002:a9d:7696:: with SMTP id j22mr4534261otl.188.1582911830262; 
- Fri, 28 Feb 2020 09:43:50 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=qPM9qKUxW+tvu+nHraYgvpodBPKrrabdSOZuzexcQW4=;
+ b=gn+WM+mmRmcryxortvTi663nVYxIhfUfrXRjfePndfhoSdzitYKjbcF1EEu2DEsShv
+ yhdZ9xYpvPldVKjlqwPUaHssgxj2TPAPharfnXQr2Rr9s7sa8dmD6Y+sR5SfUrmDtHpO
+ Gh8EnCnq73+8pGNuIofdNunDrh9uHOVrDvfrE5idzS2T4Wha6GHh98IO+IUIqeMbT52L
+ yMn/MrMiJchxzMK1PgIqQUtJTJmdZfEIhiP9Xtmr4I5OlN1qtczs87kqh8Y2foMyFccF
+ /LwnNjnfDKcAw1kTJZ288hHIh9hCYgNUJrII5FkVMnCmAxSihuYieYOKglTp/ZgFZ5Yp
+ bI+A==
+X-Gm-Message-State: ANhLgQ1k1Y8lQwo4KVdhiAC+i0Onb5l0MfOkPe62ETEANc12e1jzGaOQ
+ Waqn5Xrv+K9GN6JxUM0ce4S5bFFHcrPcqk7/Mec=
+X-Google-Smtp-Source: ADFU+vv5PJJYdw0HlTGK68jX0JVJsDv8ISEF+CNdsAjizFn5QhsF/+1hMHUlmSiIdSz/+6WSkYfFlFEW5CwoUT6kzms=
+X-Received: by 2002:a67:cf46:: with SMTP id f6mr3366351vsm.143.1582913040412; 
+ Fri, 28 Feb 2020 10:04:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
- <20200227181522.2711142-51-daniel.vetter@ffwll.ch>
- <9e49ba2e-3d1e-98a2-9a11-725bc8a95941@suse.de>
- <CAKMK7uGicrZxMeYmz13psgXgRYK1OrZmpHxsEKxet=qP_pRpcQ@mail.gmail.com>
- <013a54c4-edc6-b771-478f-e3e10a1d9a83@suse.de>
-In-Reply-To: <013a54c4-edc6-b771-478f-e3e10a1d9a83@suse.de>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 28 Feb 2020 18:43:39 +0100
-Message-ID: <CAKMK7uG3MuLEhCSxP1HBoROD3FuixcRov57hTBO9BeZE+n98jg@mail.gmail.com>
-Subject: Re: [PATCH 50/51] drm/udl: drop drm_driver.release hook
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+In-Reply-To: <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+From: =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
+Date: Fri, 28 Feb 2020 10:03:49 -0800
+Message-ID: <CAOeoa-e1erNAhwfHBm6ReB8qcjsUZwCNA0h_kdjf=zzmztZExQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] gitlab.fd.o financial situation and impact on services
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,109 +61,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Marco Felsch <m.felsch@pengutronix.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ gstreamer-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBGZWIgMjgsIDIwMjAgYXQgMTI6NDYgUE0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGkKPgo+IEFtIDI4LjAyLjIwIHVtIDA5OjQwIHNj
-aHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIEZyaSwgRmViIDI4LCAyMDIwIGF0IDg6NDQgQU0g
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+ID4+Cj4gPj4g
-SGkgRGFuaWVsCj4gPj4KPiA+PiBBbSAyNy4wMi4yMCB1bSAxOToxNSBzY2hyaWViIERhbmllbCBW
-ZXR0ZXI6Cj4gPj4+IFRoZXJlJ3Mgb25seSB0d28gZnVuY3Rpb25zIGNhbGxlZCBmcm9tIHRoYXQ6
-Cj4gPj4+IGRybV9rbXNfaGVscGVyX3BvbGxfZmluaSgpIGFuZCB1ZGxfZnJlZV91cmJfbGlzdCgp
-LiBCb3RoIG9mIHRoZXNlIGFyZQo+ID4+PiBhbHNvIGNhbGxlZCBmcm9tIHRoZSB1YnNfZHJpdmVy
-LT5kaXNjb25uZWN0IGhvb2ssIHNvIGVudGlyZWx5Cj4gPj4+IHBvaW50bGVzcyB0byBkbyB0aGUg
-c2FtZSBhZ2FpbiBpbiB0aGUgLT5yZWxlYXNlIGhvb2suCj4gPj4KPiA+PiBUaGUgZGlzY29ubmVj
-dCBob29rIGNhbGxzIGRybV9rbXNfaGVscGVyX3BvbGxfZGlzYWJsZSgpIGluc3RlYWQgaWYKPiA+
-PiBfZmluaSgpLiBUaGV5IGFyZSB0aGUgc2FtZSwgZXhjZXB0IHRoYXQgX2Rpc2FibGUoKSBkb2Vz
-IG5vdCBjbGVhcgo+ID4+IGRldi0+bW9kZV9jb25maWcucG9sbF9lbmFibGVkIHRvIGZhbHNlLiBJ
-cyB0aGlzIE9LPwo+ID4KPiA+IG9vcHMsIEkgb3Zlcmxvb2tlZCB0aGF0LiBCdXQgeWVhaCBmb3Ig
-ZHJpdmVyIHNodXRkb3duIGl0J3MgdGhlIHNhbWUKPiA+IHJlYWxseSwgd2UncmUgbm90IGdvaW5n
-IHRvIHJlLWVuYWJsZS4gX2Rpc2FibGUgaXMgbWVhbnQgZm9yIHN1c3BlbmQgc28KPiA+IHlvdWMg
-YW4gcmUtZW5hYmxlIGFnYWluIG9uIHJlc3VtZS4KPiA+Cj4gPiBJJ2xsIGF1Z21lbnQgdGhlIGNv
-bW1pdCBtZXNzYWdlIG9uIHRoZSBuZXh0IHJvdW5kIHRvIGNsYXJpZnkgdGhhdC4KPgo+IFdlbGws
-IHdlIGhhdmUgYSBtYW5hZ2VkIEFQSS4gSXQgY291bGQgc3VwcG9ydAo+IGRybW1fa21zX2hlbHBl
-cl9wb2xsX2luaXQoKS4gOikKCllvdSdyZSBhaGVhZCBvZiB0aGUgZ2FtZSBoZXJlLCBidXQgeWVz
-IHRoYXQncyB0aGUgcGxhbi4gQW5kIGEgbG90Cm1vcmUuIElkZWFsbHkgSSByZWFsbHkgd2FudCB0
-byBnZXQgcmlkIG9mIGJvdGggYnVzX2RyaXZlci0+cmVtb3ZlIGFuZApkcm1fZHJpdmVyLT5yZWxl
-YXNlIGNhbGxiYWNrcyBmb3IgYWxsIGRyaXZlcnMuCgpBbHNvLCBmb3IgcG9sbGluZyB5b3UgYWN0
-dWFsbHkgd2FudCBkZXZtX2ttc19wb2xsX2luaXQsIHNpbmNlIHBvbGxpbmcKc2hvdWxkIGJlIHN0
-b3BwZWQgYXQgdW5wbHVnL3JlbW92ZSB0aW1lLiBOb3QgYXQgZHJtX2RyaXZlciByZWxlYXNlCnRp
-bWUgOi0pCi1EYW5pZWwKCj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPgo+ID4gLURhbmllbAo+
-ID4KPiA+Cj4gPj4gQmVzdCByZWdhcmRzCj4gPj4gVGhvbWFzCj4gPj4KPiA+Pj4KPiA+Pj4gRnVy
-dGhlcm1vcmUgYnkgdGhlIHRpbWUgd2UgY2xlYW4gdXAgdGhlIGRybV9kcml2ZXIgd2UgcmVhbGx5
-IHNob3VsZG4ndAo+ID4+PiBiZSB0b3VjaGluZyBoYXJkd2FyZSBhbnltb3JlLCBzbyBzdG9wcGlu
-ZyB0aGUgcG9sbCB3b3JrZXIgYW5kIGZyZWVpbmcKPiA+Pj4gdGhlIHVyYiBhbGxvY2F0aW9ucyBp
-biAtPmRpc2Nvbm5lY3QgaXMgdGhlIHJpZ2h0IHRoaW5nIHRvIGRvLgo+ID4+Pgo+ID4+PiBOb3cg
-ZGlzY29ubmVjdCBzdGlsbCBjbGVhbnMgdGhpbmdzIHVwIGJlZm9yZSB1bnJlZ2lzdGVyaW5nIHRo
-ZSBkcml2ZXIsCj4gPj4+IGJ1dCB0aGF0J3MgYSBkaWZmZXJlbnQgaXNzdWUuCj4gPj4+Cj4gPj4+
-IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+
-ID4+PiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiA+Pj4gQ2M6IFNlYW4g
-UGF1bCA8c2VhbkBwb29ybHkucnVuPgo+ID4+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBmZndsbC5jaD4KPiA+Pj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
-dXNlLmRlPgo+ID4+PiBDYzogRW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5jb20+
-Cj4gPj4+IENjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KPiA+Pj4gQ2M6ICJO
-b3JhbGYgVHLDuG5uZXMiIDxub3JhbGZAdHJvbm5lcy5vcmc+Cj4gPj4+IENjOiBTYW0gUmF2bmJv
-cmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gPj4+IENjOiBUaG9tYXMgR2xlaXhuZXIgPHRnbHhAbGlu
-dXRyb25peC5kZT4KPiA+Pj4gQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1k
-LmNvbT4KPiA+Pj4gLS0tCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYyAgfCAg
-NiAtLS0tLS0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5oICB8ICAxIC0KPiA+
-Pj4gIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYyB8IDEwIC0tLS0tLS0tLS0KPiA+Pj4g
-IDMgZmlsZXMgY2hhbmdlZCwgMTcgZGVsZXRpb25zKC0pCj4gPj4+Cj4gPj4+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRs
-X2Rydi5jCj4gPj4+IGluZGV4IGI0NDdmYjA1M2U3OC4uN2YxNDA4OThkZjNlIDEwMDY0NAo+ID4+
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYwo+ID4+PiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vdWRsL3VkbF9kcnYuYwo+ID4+PiBAQCAtMzQsMTQgKzM0LDggQEAgc3RhdGljIGlu
-dCB1ZGxfdXNiX3Jlc3VtZShzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZXJmYWNlKQo+ID4+Pgo+
-ID4+PiAgREVGSU5FX0RSTV9HRU1fRk9QUyh1ZGxfZHJpdmVyX2ZvcHMpOwo+ID4+Pgo+ID4+PiAt
-c3RhdGljIHZvaWQgdWRsX2RyaXZlcl9yZWxlYXNlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4g
-Pj4+IC17Cj4gPj4+IC0gICAgIHVkbF9maW5pKGRldik7Cj4gPj4+IC19Cj4gPj4+IC0KPiA+Pj4g
-IHN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXIgPSB7Cj4gPj4+ICAgICAgIC5kcml2ZXJf
-ZmVhdHVyZXMgPSBEUklWRVJfQVRPTUlDIHwgRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VULAo+
-ID4+PiAtICAgICAucmVsZWFzZSA9IHVkbF9kcml2ZXJfcmVsZWFzZSwKPiA+Pj4KPiA+Pj4gICAg
-ICAgLyogZ2VtIGhvb2tzICovCj4gPj4+ICAgICAgIC5nZW1fY3JlYXRlX29iamVjdCA9IHVkbF9k
-cml2ZXJfZ2VtX2NyZWF0ZV9vYmplY3QsCj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vdWRsL3VkbF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5oCj4gPj4+IGlu
-ZGV4IDFkZTdlYjFiNmFhYy4uMjY0MmY5NGE2M2ZjIDEwMDY0NAo+ID4+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vdWRsL3VkbF9kcnYuaAo+ID4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3Vk
-bF9kcnYuaAo+ID4+PiBAQCAtNzYsNyArNzYsNiBAQCBpbnQgdWRsX3N1Ym1pdF91cmIoc3RydWN0
-IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IHVyYiAqdXJiLCBzaXplX3QgbGVuKTsKPiA+Pj4gIHZv
-aWQgdWRsX3VyYl9jb21wbGV0aW9uKHN0cnVjdCB1cmIgKnVyYik7Cj4gPj4+Cj4gPj4+ICBpbnQg
-dWRsX2luaXQoc3RydWN0IHVkbF9kZXZpY2UgKnVkbCk7Cj4gPj4+IC12b2lkIHVkbF9maW5pKHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYpOwo+ID4+Pgo+ID4+PiAgaW50IHVkbF9yZW5kZXJfaGxpbmUo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwgaW50IGxvZ19icHAsIHN0cnVjdCB1cmIgKip1cmJfcHRy
-LAo+ID4+PiAgICAgICAgICAgICAgICAgICAgY29uc3QgY2hhciAqZnJvbnQsIGNoYXIgKip1cmJf
-YnVmX3B0ciwKPiA+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4u
-YyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYwo+ID4+PiBpbmRleCA1Mzg3MTg5MTk5
-MTYuLmY1ZDI3ZjJhNTY1NCAxMDA2NDQKPiA+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91
-ZGxfbWFpbi5jCj4gPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYwo+ID4+
-PiBAQCAtMzUxLDEzICszNTEsMyBAQCBpbnQgdWRsX2Ryb3BfdXNiKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYpCj4gPj4+ICAgICAgIHVkbF9mcmVlX3VyYl9saXN0KGRldik7Cj4gPj4+ICAgICAgIHJl
-dHVybiAwOwo+ID4+PiAgfQo+ID4+PiAtCj4gPj4+IC12b2lkIHVkbF9maW5pKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYpCj4gPj4+IC17Cj4gPj4+IC0gICAgIHN0cnVjdCB1ZGxfZGV2aWNlICp1ZGwg
-PSB0b191ZGwoZGV2KTsKPiA+Pj4gLQo+ID4+PiAtICAgICBkcm1fa21zX2hlbHBlcl9wb2xsX2Zp
-bmkoZGV2KTsKPiA+Pj4gLQo+ID4+PiAtICAgICBpZiAodWRsLT51cmJzLmNvdW50KQo+ID4+PiAt
-ICAgICAgICAgICAgIHVkbF9mcmVlX3VyYl9saXN0KGRldik7Cj4gPj4+IC19Cj4gPj4+Cj4gPj4K
-PiA+PiAtLQo+ID4+IFRob21hcyBaaW1tZXJtYW5uCj4gPj4gR3JhcGhpY3MgRHJpdmVyIERldmVs
-b3Blcgo+ID4+IFNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSAo+ID4+IE1heGZl
-bGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQo+ID4+IChIUkIgMzY4MDksIEFHIE7D
-vHJuYmVyZykKPiA+PiBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCj4gPj4K
-PiA+Cj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBEZXZl
-bG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxkc3Ry
-LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcp
-Cj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+CgoKLS0gCkRhbmllbCBW
-ZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1
-IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Feb 27, 2020 at 7:38 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> On Fri, 28 Feb 2020 at 07:27, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > Hi all,
+> >
+> > You might have read the short take in the X.org board meeting minutes
+> > already, here's the long version.
+> >
+> > The good news: gitlab.fd.o has become very popular with our
+> > communities, and is used extensively. This especially includes all the
+> > CI integration. Modern development process and tooling, yay!
+> >
+> > The bad news: The cost in growth has also been tremendous, and it's
+> > breaking our bank account. With reasonable estimates for continued
+> > growth we're expecting hosting expenses totalling 75k USD this year,
+> > and 90k USD next year. With the current sponsors we've set up we can't
+> > sustain that. We estimate that hosting expenses for gitlab.fd.o
+> > without any of the CI features enabled would total 30k USD, which is
+> > within X.org's ability to support through various sponsorships, mostly
+> > through XDC.
+> >
+> > Note that X.org does no longer sponsor any CI runners themselves,
+> > we've stopped that. The huge additional expenses are all just in
+> > storing and serving build artifacts and images to outside CI runners
+> > sponsored by various companies. A related topic is that with the
+> > growth in fd.o it's becoming infeasible to maintain it all on
+> > volunteer admin time. X.org is therefore also looking for admin
+> > sponsorship, at least medium term.
+> >
+> > Assuming that we want cash flow reserves for one year of gitlab.fd.o
+> > (without CI support) and a trimmed XDC and assuming no sponsor payment
+> > meanwhile, we'd have to cut CI services somewhere between May and June
+> > this year. The board is of course working on acquiring sponsors, but
+> > filling a shortfall of this magnitude is neither easy nor quick work,
+> > and we therefore decided to give an early warning as soon as possible.
+> > Any help in finding sponsors for fd.o is very much appreciated.
+>
+> a) Ouch.
+>
+> b) we probably need to take a large step back here.
+
+If we're taking a step back here, I also want to recognize what a
+tremendous success this has been so far and thank everybody involved
+for building something so useful. Between gitlab and the CI, our
+workflow has improved and code quality has gone up.  I don't have
+anything useful to add to the technical discussion, except that that
+it seems pretty standard engineering practice to build a system,
+observe it and identify and eliminate bottlenecks. Planning never
+hurts, of course, but I don't think anybody could have realistically
+modeled and projected the cost of this infrastructure as it's grown
+organically and fast.
+
+Kristian
+
+> Look at this from a sponsor POV, why would I give X.org/fd.o
+> sponsorship money that they are just giving straight to google to pay
+> for hosting credits? Google are profiting in some minor way from these
+> hosting credits being bought by us, and I assume we aren't getting any
+> sort of discounts here. Having google sponsor the credits costs google
+> substantially less than having any other company give us money to do
+> it.
+>
+> If our current CI architecture is going to burn this amount of money a
+> year and we hadn't worked this out in advance of deploying it then I
+> suggest the system should be taken offline until we work out what a
+> sustainable system would look like within the budget we have, whether
+> that be never transferring containers and build artifacts from the
+> google network, just having local runner/build combos etc.
+>
+> Dave.
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
