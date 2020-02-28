@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527191732AC
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:18:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4631732AB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:18:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3486EE4D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7077D6EE4A;
 	Fri, 28 Feb 2020 08:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E71576EE50;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38DD6EE4D;
  Fri, 28 Feb 2020 08:18:32 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4B2B4B21B;
+ by mx2.suse.de (Postfix) with ESMTP id 80527B05D;
  Fri, 28 Feb 2020 08:18:31 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, noralf@tronnes.org,
  sam@ravnborg.org, alexander.deucher@amd.com, emil.velikov@collabora.com
-Subject: [PATCH v4 1/4] drm/simple-kms: Add drm_simple_encoder_{init, create}()
-Date: Fri, 28 Feb 2020 09:18:25 +0100
-Message-Id: <20200228081828.18463-2-tzimmermann@suse.de>
+Subject: [PATCH v4 2/4] drm/ast: Use simple encoder
+Date: Fri, 28 Feb 2020 09:18:26 +0100
+Message-Id: <20200228081828.18463-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200228081828.18463-1-tzimmermann@suse.de>
 References: <20200228081828.18463-1-tzimmermann@suse.de>
@@ -46,100 +46,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch makes the internal encoder implementation of the simple
-KMS helpers available to drivers.
+The ast driver uses an empty implementation for its encoder. Replace
+the code with the generic simple encoder.
 
-These simple-encoder helpers initialize an encoder with an empty
-implementation. This covers the requirements of most of the existing
-DRM drivers. A call to drm_simple_encoder_create() allocates and
-initializes an encoder instance, a call to drm_simple_encoder_init()
-initializes a pre-allocated instance.
-
-v3:
-	* remove drm_simple_encoder_create(); not required yet
-	* provide more precise documentation
 v2:
-	* move simple encoder to KMS helpers
-	* remove name argument; simplifies implementation
-	* don't allocate with devm_ interfaces; unsafe with DRM
+	* rebase onto new simple-encoder interface
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/drm_simple_kms_helper.c | 34 ++++++++++++++++++++++---
- include/drm/drm_simple_kms_helper.h     |  4 +++
- 2 files changed, 35 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h  |  6 +-----
+ drivers/gpu/drm/ast/ast_mode.c | 25 ++++++++-----------------
+ 2 files changed, 9 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 15fb516ae2d8..04309e4660de 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -26,12 +26,41 @@
-  * entity. Some flexibility for code reuse is provided through a separately
-  * allocated &drm_connector object and supporting optional &drm_bridge
-  * encoder drivers.
-+ *
-+ * Many drivers require only a very simple encoder that fulfills the minimum
-+ * requirements of the display pipeline and does not add additional
-+ * functionality. The function drm_simple_encoder_init() provides an
-+ * implementation of such an encoder.
-  */
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index f5d8780776ae..656d591b154b 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -121,6 +121,7 @@ struct ast_private {
+ 		unsigned int next_index;
+ 	} cursor;
  
--static const struct drm_encoder_funcs drm_simple_kms_encoder_funcs = {
-+static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
- 	.destroy = drm_encoder_cleanup,
++	struct drm_encoder encoder;
+ 	struct drm_plane primary_plane;
+ 	struct drm_plane cursor_plane;
+ 
+@@ -238,13 +239,8 @@ struct ast_crtc {
+ 	u8 offset_x, offset_y;
  };
  
-+/**
-+ * drm_simple_encoder_init - Initialize a preallocated encoder
-+ * @dev: drm device
-+ * @funcs: callbacks for this encoder
-+ * @encoder_type: user visible type of the encoder
-+ *
-+ * Initialises a preallocated encoder that has no further functionality.
-+ * Settings for possible CRTC and clones are left to their initial values.
-+ * The encoder will be cleaned up automatically as part of the mode-setting
-+ * cleanup.
-+ *
-+ * Returns:
-+ * Zero on success, error code on failure.
-+ */
-+int drm_simple_encoder_init(struct drm_device *dev,
-+			    struct drm_encoder *encoder,
-+			    int encoder_type)
-+{
-+	return drm_encoder_init(dev, encoder,
-+				&drm_simple_encoder_funcs_cleanup,
-+				encoder_type, NULL);
-+}
-+EXPORT_SYMBOL(drm_simple_encoder_init);
-+
- static enum drm_mode_status
- drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
- 			       const struct drm_display_mode *mode)
-@@ -288,8 +317,7 @@ int drm_simple_display_pipe_init(struct drm_device *dev,
- 		return ret;
+-struct ast_encoder {
+-	struct drm_encoder base;
+-};
+-
+ #define to_ast_crtc(x) container_of(x, struct ast_crtc, base)
+ #define to_ast_connector(x) container_of(x, struct ast_connector, base)
+-#define to_ast_encoder(x) container_of(x, struct ast_encoder, base)
  
- 	encoder->possible_crtcs = drm_crtc_mask(crtc);
--	ret = drm_encoder_init(dev, encoder, &drm_simple_kms_encoder_funcs,
--			       DRM_MODE_ENCODER_NONE, NULL);
-+	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_NONE);
- 	if (ret || !connector)
- 		return ret;
+ struct ast_vbios_stdtable {
+ 	u8 misc;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 562ea6d9df13..7a9f20a2fd30 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -40,6 +40,7 @@
+ #include <drm/drm_gem_vram_helper.h>
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
  
-diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
-index e253ba7bea9d..a026375464ff 100644
---- a/include/drm/drm_simple_kms_helper.h
-+++ b/include/drm/drm_simple_kms_helper.h
-@@ -181,4 +181,8 @@ int drm_simple_display_pipe_init(struct drm_device *dev,
- 			const uint64_t *format_modifiers,
- 			struct drm_connector *connector);
+ #include "ast_drv.h"
+ #include "ast_tables.h"
+@@ -968,28 +969,18 @@ static int ast_crtc_init(struct drm_device *dev)
+  * Encoder
+  */
  
-+int drm_simple_encoder_init(struct drm_device *dev,
-+			    struct drm_encoder *encoder,
-+			    int encoder_type);
-+
- #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */
+-static void ast_encoder_destroy(struct drm_encoder *encoder)
+-{
+-	drm_encoder_cleanup(encoder);
+-	kfree(encoder);
+-}
+-
+-static const struct drm_encoder_funcs ast_enc_funcs = {
+-	.destroy = ast_encoder_destroy,
+-};
+-
+ static int ast_encoder_init(struct drm_device *dev)
+ {
+-	struct ast_encoder *ast_encoder;
++	struct ast_private *ast = dev->dev_private;
++	struct drm_encoder *encoder = &ast->encoder;
++	int ret;
+ 
+-	ast_encoder = kzalloc(sizeof(struct ast_encoder), GFP_KERNEL);
+-	if (!ast_encoder)
+-		return -ENOMEM;
++	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
++	if (ret)
++		return ret;
+ 
+-	drm_encoder_init(dev, &ast_encoder->base, &ast_enc_funcs,
+-			 DRM_MODE_ENCODER_DAC, NULL);
++	encoder->possible_crtcs = 1;
+ 
+-	ast_encoder->base.possible_crtcs = 1;
+ 	return 0;
+ }
+ 
 -- 
 2.25.0
 
