@@ -2,46 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECFF1733A6
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 10:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5069B1733C8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 10:23:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E94186EE95;
-	Fri, 28 Feb 2020 09:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03BFB6EE94;
+	Fri, 28 Feb 2020 09:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id EAAFC6EE95
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 09:19:51 +0000 (UTC)
-X-UUID: caab609a429849368284e83c25abd92c-20200228
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=6zeC4yb1VQBu7ApncTTy8tf7CnDnABwjHUo57+LSsO8=; 
- b=sObfravm74/bA6AytUYIAQBeFbeGeZ/0otXn+fYlZbbNA/h7vjLnFFHE7HrlJws4/KInkSIrQHMWoxXX7xuCHPJ/FPk09vAQxu/YO3qUxNp07A16o/21nq2HBHHMcmiUoLhC08rKtTmYQ++TTeaB44x2pmPVg4JXFfha1GoyLPA=;
-X-UUID: caab609a429849368284e83c25abd92c-20200228
-Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1234426427; Fri, 28 Feb 2020 17:19:47 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 28 Feb 2020 17:18:48 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 28 Feb 2020 17:19:44 +0800
-Message-ID: <1582881585.22475.0.camel@mtksdaap41>
-Subject: Re: [PATCH v10 2/5] dt-bindings: mediatek: Update mmsys binding to
- reflect it is a system controller
-From: CK Hu <ck.hu@mediatek.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Date: Fri, 28 Feb 2020 17:19:45 +0800
-In-Reply-To: <20200227180858.1514157-3-enric.balletbo@collabora.com>
-References: <20200227180858.1514157-1-enric.balletbo@collabora.com>
- <20200227180858.1514157-3-enric.balletbo@collabora.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFA66EE94
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 09:23:35 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01S9HpmW025441;
+ Fri, 28 Feb 2020 09:23:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=nZWlIAb25RKmpdimMBAR/YlDxxn7XYHb1GVQxtT07sg=;
+ b=VA8FU8oSws/28udQzHALpUPBiYzyBnUjB5OAFd2W3yXTsz118oZnNZsuTwpOwKb89XWf
+ SHT4LG5++yWxPCqsw9eyKPCdwbNKCITTl9uHyAD3wLfBvLdanup70G6ZqjedO/6xKlhO
+ 780qHl4zrIskSfsbZCJ7y1Zxepjr/VSj8AzpeXjiM/9yYyRZzOdtbBSyhM/gtcuIlPZq
+ zbEoDDF4uJVM4PqF5RNirWICCyzW3L/89CVq6cb98ckizL0IVpSqp1xV2P/2dSU+pdcb
+ FkvjYhqpdnkp4be+kZlhBRVfSJQ53WFW+uzH6h7528ncGWzaD8uyN4Q9FC+HYVQmZPYf 1w== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2yehxrw3sb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Feb 2020 09:23:31 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01S9MMeF121341;
+ Fri, 28 Feb 2020 09:23:30 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 2ydcsdfhr6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Feb 2020 09:23:30 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01S9NS4V026416;
+ Fri, 28 Feb 2020 09:23:28 GMT
+Received: from kili.mountain (/129.205.23.165)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 28 Feb 2020 01:23:27 -0800
+Date: Fri, 28 Feb 2020 12:23:21 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PATCH] drm: prevent a harmless integer overflow in
+ drm_legacy_sg_alloc()
+Message-ID: <20200228092321.axulddmkxrujkmas@kili.mountain>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: FC89D009C6FEBE11B57038010837F5A87B7460971BF352976EDF9382E63247B12000:8
-X-MTK: N
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9544
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 phishscore=0
+ mlxlogscore=999 spamscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002280078
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9544
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ priorityscore=1501
+ bulkscore=0 phishscore=0 spamscore=0 clxscore=1011 lowpriorityscore=0
+ adultscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002280077
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,84 +78,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
- mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
- Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
- ulrich.hecht+renesas@gmail.com, Collabora
- Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
- Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
- linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- frank-w@public-files.de, Seiya
- Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
- Houlong Wei <houlong.wei@mediatek.com>, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Allison Randal <allison@lohutok.net>,
- Matthias Brugger <mbrugger@suse.com>, sboyd@kernel.org, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Enric:
+There is an integer overflow when we round up to PAGE_SIZE, but it's
+harmless because we never re-use "request->size" for anything meaningful.
 
-On Thu, 2020-02-27 at 19:08 +0100, Enric Balletbo i Serra wrote:
-> The mmsys system controller is not only a pure clock controller, so
-> update the binding documentation to reflect that apart from providing
-> clocks, it also provides routing and miscellaneous control registers.
-> 
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+This code predates git.
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
+ drivers/gpu/drm/drm_scatter.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
-> 
-> Changes in v10:
-> - Update the binding documentation for the mmsys system controller.
-> 
-> Changes in v9: None
-> Changes in v8: None
-> Changes in v7: None
-> 
->  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.txt    | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
-> index 301eefbe1618..8d6a9d98e7a6 100644
-> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
-> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
-> @@ -1,7 +1,8 @@
->  Mediatek mmsys controller
->  ============================
->  
-> -The Mediatek mmsys controller provides various clocks to the system.
-> +The Mediatek mmsys system controller provides clock control, routing control,
-> +and miscellaneous control in mmsys partition.
->  
->  Required Properties:
->  
-> @@ -15,13 +16,13 @@ Required Properties:
->  	- "mediatek,mt8183-mmsys", "syscon"
->  - #clock-cells: Must be 1
->  
-> -The mmsys controller uses the common clk binding from
-> +For the clock control, the mmsys controller uses the common clk binding from
->  Documentation/devicetree/bindings/clock/clock-bindings.txt
->  The available clocks are defined in dt-bindings/clock/mt*-clk.h.
->  
->  Example:
->  
-> -mmsys: clock-controller@14000000 {
-> +mmsys: syscon@14000000 {
->  	compatible = "mediatek,mt8173-mmsys", "syscon";
->  	reg = <0 0x14000000 0 0x1000>;
->  	#clock-cells = <1>;
+diff --git a/drivers/gpu/drm/drm_scatter.c b/drivers/gpu/drm/drm_scatter.c
+index d5c386154246..ca520028b2cb 100644
+--- a/drivers/gpu/drm/drm_scatter.c
++++ b/drivers/gpu/drm/drm_scatter.c
+@@ -99,6 +99,9 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *data,
+ 	if (!drm_core_check_feature(dev, DRIVER_SG))
+ 		return -EOPNOTSUPP;
+ 
++	if (request->size > SIZE_MAX - PAGE_SIZE)
++		return -EINVAL;
++
+ 	if (dev->sg)
+ 		return -EINVAL;
+ 
+-- 
+2.11.0
 
 _______________________________________________
 dri-devel mailing list
