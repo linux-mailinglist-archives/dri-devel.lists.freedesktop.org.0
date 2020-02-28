@@ -1,58 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA72D1731EF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 08:44:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7881731F9
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 08:45:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A7D86EE0A;
-	Fri, 28 Feb 2020 07:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF566EE0B;
+	Fri, 28 Feb 2020 07:45:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B34086E12D;
- Fri, 28 Feb 2020 07:44:03 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id AEFCCB2F9;
- Fri, 28 Feb 2020 07:44:01 +0000 (UTC)
-Subject: Re: [PATCH 50/51] drm/udl: drop drm_driver.release hook
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
- <20200227181522.2711142-51-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <9e49ba2e-3d1e-98a2-9a11-725bc8a95941@suse.de>
-Date: Fri, 28 Feb 2020 08:43:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87B6A6EE0F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 07:45:00 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id z9so1770218oth.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 23:45:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kf61Oc2Mm+EJmlvGuBiP3kaVR2kC8B2rZBEYbGPQudo=;
+ b=FHVP1LaGA7l2CJFtXP2//tKLcBZhhyTM9YQVEz914rhNtP/Ic5uQ2xEHtt0tHMNiBH
+ euSgA1pjK2UW/RzWk3h1Dkrx+rNCFbDz2OLHmyvDD3ouMX5SHI9AJr+0kydG6pFNDzRa
+ CBke/xz8DIE3ejuHPsDgFnSMBhtCc7X+zZLf8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kf61Oc2Mm+EJmlvGuBiP3kaVR2kC8B2rZBEYbGPQudo=;
+ b=rOvXXhW6ZzsqBn/BArmobtdgw1wLrTaFu6nsndh/W93yhxq8k/x4lsPCnTrxVBhUHd
+ K4hTwq8depL5zASOmg0OgZV9kIxYxuDQ8GJq49DVeWdE0dpFbPwkMkAOKuOr26Uy83s+
+ J3nUYYJZK+5l973bfc1wJ6OvOMI3FN3pB9IUDYoIPnsIrTQf5vv77XdA5/IICI+20/xT
+ JHv/uA4GG/DnzB1BwAoqdLYPRqWKWX+WEdOJHITKYIKI4XDq1IpoWeUJgLhrHE5lUnIu
+ OZ2a2xERKZ/hLDkonvxCE88T+ysybC/esxSBgIpGkYRnJlLmjSbMLyfd5k2sTXX4tb3N
+ PJcw==
+X-Gm-Message-State: APjAAAU2ZwkC6C2XjkgmVvvaGXsCubYhau41kV+VypQ8HWTPsvlKT2+M
+ WfMiVtL/dbFyHP/GMqC+fLM10UA7cdR3oQWqvzSP1w==
+X-Google-Smtp-Source: APXvYqxOBvaV1MvAFAljq/YMZus/S7fG3rxYAl5Ogj/YnG00VQwqO0s2+HZ8k60fPSPOk3r/hcCLQWMyFuKD3cXkHnk=
+X-Received: by 2002:a9d:7f11:: with SMTP id j17mr2403211otq.281.1582875899756; 
+ Thu, 27 Feb 2020 23:44:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200227181522.2711142-51-daniel.vetter@ffwll.ch>
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+In-Reply-To: <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 28 Feb 2020 08:44:48 +0100
+Message-ID: <CAKMK7uHJy0v0Bdi10hcKUOwWrez_3rFT_kEOUxfPje-ruYO8AQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] gitlab.fd.o financial situation and impact on services
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,185 +58,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, m.felsch@pengutronix.de,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1915905789=="
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>, gstreamer-devel@lists.freedesktop.org,
+ Mesa Dev <mesa-dev@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1915905789==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WJR0PhXY7hptwMN8UWxtBWE1HmrFJZWZr"
+On Fri, Feb 28, 2020 at 4:38 AM Dave Airlie <airlied@gmail.com> wrote:
+>
+> On Fri, 28 Feb 2020 at 07:27, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > Hi all,
+> >
+> > You might have read the short take in the X.org board meeting minutes
+> > already, here's the long version.
+> >
+> > The good news: gitlab.fd.o has become very popular with our
+> > communities, and is used extensively. This especially includes all the
+> > CI integration. Modern development process and tooling, yay!
+> >
+> > The bad news: The cost in growth has also been tremendous, and it's
+> > breaking our bank account. With reasonable estimates for continued
+> > growth we're expecting hosting expenses totalling 75k USD this year,
+> > and 90k USD next year. With the current sponsors we've set up we can't
+> > sustain that. We estimate that hosting expenses for gitlab.fd.o
+> > without any of the CI features enabled would total 30k USD, which is
+> > within X.org's ability to support through various sponsorships, mostly
+> > through XDC.
+> >
+> > Note that X.org does no longer sponsor any CI runners themselves,
+> > we've stopped that. The huge additional expenses are all just in
+> > storing and serving build artifacts and images to outside CI runners
+> > sponsored by various companies. A related topic is that with the
+> > growth in fd.o it's becoming infeasible to maintain it all on
+> > volunteer admin time. X.org is therefore also looking for admin
+> > sponsorship, at least medium term.
+> >
+> > Assuming that we want cash flow reserves for one year of gitlab.fd.o
+> > (without CI support) and a trimmed XDC and assuming no sponsor payment
+> > meanwhile, we'd have to cut CI services somewhere between May and June
+> > this year. The board is of course working on acquiring sponsors, but
+> > filling a shortfall of this magnitude is neither easy nor quick work,
+> > and we therefore decided to give an early warning as soon as possible.
+> > Any help in finding sponsors for fd.o is very much appreciated.
+>
+> a) Ouch.
+>
+> b) we probably need to take a large step back here.
+>
+> Look at this from a sponsor POV, why would I give X.org/fd.o
+> sponsorship money that they are just giving straight to google to pay
+> for hosting credits? Google are profiting in some minor way from these
+> hosting credits being bought by us, and I assume we aren't getting any
+> sort of discounts here. Having google sponsor the credits costs google
+> substantially less than having any other company give us money to do
+> it.
+>
+> If our current CI architecture is going to burn this amount of money a
+> year and we hadn't worked this out in advance of deploying it then I
+> suggest the system should be taken offline until we work out what a
+> sustainable system would look like within the budget we have, whether
+> that be never transferring containers and build artifacts from the
+> google network, just having local runner/build combos etc.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WJR0PhXY7hptwMN8UWxtBWE1HmrFJZWZr
-Content-Type: multipart/mixed; boundary="AqBwZ6U23p3Yt0AKfsD1hhBpfHJBBpVx2";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- l.stach@pengutronix.de, m.felsch@pengutronix.de,
- Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>,
- Sean Paul <sean@poorly.run>, Emil Velikov <emil.l.velikov@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>, Sam Ravnborg <sam@ravnborg.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Alex Deucher <alexander.deucher@amd.com>
-Message-ID: <9e49ba2e-3d1e-98a2-9a11-725bc8a95941@suse.de>
-Subject: Re: [PATCH 50/51] drm/udl: drop drm_driver.release hook
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
- <20200227181522.2711142-51-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200227181522.2711142-51-daniel.vetter@ffwll.ch>
+Google has sponsored 30k in hosting credits last year, these simply
+ran out _much_ faster than anyone planned for. So this is by far not a
+free thing for them. Plus there's also other companies sponsoring CI
+runners and what not else in equally substantial amounts, plus the
+biggest thing, sponsored admin time (more or less officially). So
+there's a _lot_ of room for companies like Red Hat to sponsor without
+throwing any money in google's revenue stream.
 
---AqBwZ6U23p3Yt0AKfsD1hhBpfHJBBpVx2
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Daniel
-
-Am 27.02.20 um 19:15 schrieb Daniel Vetter:
-> There's only two functions called from that:
-> drm_kms_helper_poll_fini() and udl_free_urb_list(). Both of these are
-> also called from the ubs_driver->disconnect hook, so entirely
-> pointless to do the same again in the ->release hook.
-
-The disconnect hook calls drm_kms_helper_poll_disable() instead if
-_fini(). They are the same, except that _disable() does not clear
-dev->mode_config.poll_enabled to false. Is this OK?
-
-Best regards
-Thomas
-
->=20
-> Furthermore by the time we clean up the drm_driver we really shouldn't
-> be touching hardware anymore, so stopping the poll worker and freeing
-> the urb allocations in ->disconnect is the right thing to do.
->=20
-> Now disconnect still cleans things up before unregistering the driver,
-> but that's a different issue.
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> ---
->  drivers/gpu/drm/udl/udl_drv.c  |  6 ------
->  drivers/gpu/drm/udl/udl_drv.h  |  1 -
->  drivers/gpu/drm/udl/udl_main.c | 10 ----------
->  3 files changed, 17 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_dr=
-v.c
-> index b447fb053e78..7f140898df3e 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.c
-> +++ b/drivers/gpu/drm/udl/udl_drv.c
-> @@ -34,14 +34,8 @@ static int udl_usb_resume(struct usb_interface *inte=
-rface)
-> =20
->  DEFINE_DRM_GEM_FOPS(udl_driver_fops);
-> =20
-> -static void udl_driver_release(struct drm_device *dev)
-> -{
-> -	udl_fini(dev);
-> -}
-> -
->  static struct drm_driver driver =3D {
->  	.driver_features =3D DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
-> -	.release =3D udl_driver_release,
-> =20
->  	/* gem hooks */
->  	.gem_create_object =3D udl_driver_gem_create_object,
-> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_dr=
-v.h
-> index 1de7eb1b6aac..2642f94a63fc 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.h
-> +++ b/drivers/gpu/drm/udl/udl_drv.h
-> @@ -76,7 +76,6 @@ int udl_submit_urb(struct drm_device *dev, struct urb=
- *urb, size_t len);
->  void udl_urb_completion(struct urb *urb);
-> =20
->  int udl_init(struct udl_device *udl);
-> -void udl_fini(struct drm_device *dev);
-> =20
->  int udl_render_hline(struct drm_device *dev, int log_bpp, struct urb *=
-*urb_ptr,
->  		     const char *front, char **urb_buf_ptr,
-> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_m=
-ain.c
-> index 538718919916..f5d27f2a5654 100644
-> --- a/drivers/gpu/drm/udl/udl_main.c
-> +++ b/drivers/gpu/drm/udl/udl_main.c
-> @@ -351,13 +351,3 @@ int udl_drop_usb(struct drm_device *dev)
->  	udl_free_urb_list(dev);
->  	return 0;
->  }
-> -
-> -void udl_fini(struct drm_device *dev)
-> -{
-> -	struct udl_device *udl =3D to_udl(dev);
-> -
-> -	drm_kms_helper_poll_fini(dev);
-> -
-> -	if (udl->urbs.count)
-> -		udl_free_urb_list(dev);
-> -}
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---AqBwZ6U23p3Yt0AKfsD1hhBpfHJBBpVx2--
-
---WJR0PhXY7hptwMN8UWxtBWE1HmrFJZWZr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5YxL0ACgkQaA3BHVML
-eiMz/AgAjuAjrEoHntMrucbPRp9ZaP0aQWWPCNaaCFw2I1a8AeBRSZamKYKi2nUG
-TRMSI43xxJLnf1EfssHaQsyWqBZnBCoKdFf5LWzOL7z7DOLjreJzOghwA20i4uvz
-B1bWtIMasq24ZZpWn4eLRgNS0i8MV0/336tvqpYURBAT4GSDssYqp637BMU/oBGh
-7foeLTqM1mK4RmwsNSldSB6W8FeyoopsYx+ttRolz5ErmLvJl85CVJRmW3bcq0lY
-SBhCY14uyUlpbltKAQesvOIkQob+DwZhVow3RqYkDb78IhEiddX5SOrerueSe+w3
-bU+mehj/Rh4PPs1t4aLsZPmrUSVyWw==
-=nk7v
------END PGP SIGNATURE-----
-
---WJR0PhXY7hptwMN8UWxtBWE1HmrFJZWZr--
-
---===============1915905789==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Or it doesn't happen, and then yeah the decision has already been made
+to shutter the CI services. So this is also a question of whether we
+(as a community and all the companies benefitting from the work done)
+really want this, or maybe not quite.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1915905789==--
