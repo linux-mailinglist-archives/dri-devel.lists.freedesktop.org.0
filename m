@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF41174622
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E544174621
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C52286E2E8;
-	Sat, 29 Feb 2020 10:14:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB896E2EA;
+	Sat, 29 Feb 2020 10:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B026F4B1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 18:19:45 +0000 (UTC)
+ [IPv6:2a01:238:20a:202:5304::9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B196F4AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 18:19:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582913984;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=2EvwvmMzOKZtUZJLHlIF1SJL85vzPp9aE2EFoN3J+us=;
- b=IfVULU04KsB6LJ0p+Qo0OBfcxqRnsz8D1HpfgeNw1apBQyGAU4XfZhs0aF5wwp6Aoj
- 9oKTO1+qMTBIgD5ni/zUKqEJWvKjyDEh2PWkHCrLBSDeGb/DcgHliAFgOnh5KwpSolJf
- RTzWFXxbZMV4NQlxouRB/MIdtwnuNAx5sXvHm276mqYTk9j2mHG8ShqzrjOHLhEndAPg
- Qv5S0iK9QO/B3BjzF0sYJoyjAO0ARw9jgCu66t0LBNygPwai3zWigMG7ImLqeXzWSYe4
- CAV5PcyFieaTmJ14K89wrw9/AfFK44gKGIrlpdS+AGUHvHKYo7xJGC5TtLpUSEQJKbF7
- yrIg==
+ bh=0JJycjUZuE0K+moN1m3lrjoPSKtB8+IZld+xTNxi9ls=;
+ b=EPwjHxVHLUZJT7/uxtgUSdtugRxAz0E855IVaHkTXEHUtb9D3ShaLxF5qiroDIkCos
+ qDiSN8ht46dKzap0eaZNU5/5pfQ1vIb1TLaLrfcGRpSuojsLmTOxwOLkyDR2zgfN3Hmq
+ ThMVh7hWVBa5XaqCmpAK8mXWLl0abNBJYwUnK1m21syL8s6B4aWxRcyV5YKwk3jwnMLq
+ WUOYWysW8Zln6OxqXzyoi8P7c7RsZorLbCjmQxjc76811NdESB2PiIFy0ZMfncEFupLc
+ fqksSODd8LGZZ2W0wI27++ZK7FU29eT09lpqndkM/ruj2wxB6jIArrPsbyeBu1NR6AGj
+ 6dCw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1mfYzBGHXH6G1+ULkA="
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw1SIJc2Ls
+ with ESMTPSA id y0a02cw1SIJd2Lt
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Fri, 28 Feb 2020 19:19:38 +0100 (CET)
+ Fri, 28 Feb 2020 19:19:39 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -42,10 +42,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  "Eric W. Biederman" <ebiederm@xmission.com>,
  "H. Nikolaus Schaller" <hns@goldelico.com>,
  Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [RFC v2 6/8] MIPS: DTS: jz4780: account for Synopsys HDMI driver and
- LCD controller
-Date: Fri, 28 Feb 2020 19:19:31 +0100
-Message-Id: <04b485165f38744816a0446e95150cafdeb716ee.1582913973.git.hns@goldelico.com>
+Subject: [RFC v2 7/8] MIPS: DTS: CI20: add HDMI setup
+Date: Fri, 28 Feb 2020 19:19:32 +0100
+Message-Id: <d28386df7983b6ecab5cceb3580fc3bd6508d3ad.1582913973.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1582913973.git.hns@goldelico.com>
 References: <cover.1582913973.git.hns@goldelico.com>
@@ -74,57 +73,104 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Paul Boddie <paul@boddie.org.uk>
 
-A specialisation of the generic Synopsys HDMI driver is employed for JZ4780
-HDMI support. This requires a new driver, plus device tree and configuration
-modifications.
+We need to hook up
+* HDMI power regulator
+* HDMI connector
+* DDC pinmux
+* HDMI and LCD endpoint connections
 
 Signed-off-by: Paul Boddie <paul@boddie.org.uk>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/mips/boot/dts/ingenic/jz4780.dtsi | 32 ++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ arch/mips/boot/dts/ingenic/ci20.dts | 64 +++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-index f928329b034b..391d4e1efd35 100644
---- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-@@ -433,4 +433,36 @@
- 
- 		status = "disabled";
+diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
+index 37b93166bf22..efa8270afbba 100644
+--- a/arch/mips/boot/dts/ingenic/ci20.dts
++++ b/arch/mips/boot/dts/ingenic/ci20.dts
+@@ -60,6 +60,28 @@
+ 		enable-active-high;
  	};
-+
-+	hdmi: hdmi@10180000 {
-+		compatible = "ingenic,jz4780-dw-hdmi";
-+		reg = <0x10180000 0x8000>;
-+		reg-io-width = <4>;
-+
-+		clocks = <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
-+		clock-names = "isfr" , "iahb";
-+
-+		assigned-clocks = <&cgu JZ4780_CLK_HDMI>;
-+		assigned-clock-rates = <27000000>;
-+
-+		interrupt-parent = <&intc>;
-+		interrupts = <3>;
-+
-+		/* ddc-i2c-bus = <&i2c4>; */
-+
-+		status = "disabled";
+ 
++	hdmi_power: fixedregulator@2 {
++		compatible = "regulator-fixed";
++		regulator-name = "hdmi_power";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		gpio = <&gpa 25 GPIO_ACTIVE_LOW>;
++		enable-active-high;
++		regulator-always-on;
 +	};
 +
-+	lcd: lcd@13050000 {
-+		compatible = "ingenic,jz4740-lcd";
-+		reg = <0x13050000 0x1800>;
++	hdmi_out: connector {
++		compatible = "hdmi-connector";
++		label = "HDMI OUT";
++		type = "a";
 +
-+		clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
-+		clock-names = "lcd", "lcd_pclk";
-+
-+		interrupt-parent = <&intc>;
-+		interrupts = <31>;
-+
-+		status = "disabled";
++		port {
++			hdmi_con: endpoint {
++				remote-endpoint = <&dw_hdmi_out>;
++			};
++		};
 +	};
++
+ 	wlan0_power: fixedregulator@1 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "wlan0_power";
+@@ -423,6 +445,12 @@
+ 		bias-disable;
+ 	};
+ 
++	pins_hdmi_ddc: hdmi_ddc {
++		function = "hdmi-ddc";
++		groups = "hdmi-ddc";
++		bias-disable;
++	};
++
+ 	pins_nemc: nemc {
+ 		function = "nemc";
+ 		groups = "nemc-data", "nemc-cle-ale", "nemc-rd-we", "nemc-frd-fwe";
+@@ -459,3 +487,39 @@
+ 	assigned-clocks = <&tcu TCU_CLK_TIMER0>, <&tcu TCU_CLK_TIMER1>;
+ 	assigned-clock-rates = <3000000>, <3000000>;
  };
++
++&hdmi {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_hdmi_ddc>;
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++			dw_hdmi_in: endpoint {
++				remote-endpoint = <&lcd_out>;
++			};
++		};
++
++		port@1 {
++			reg = <1>;
++			dw_hdmi_out: endpoint {
++				remote-endpoint = <&hdmi_con>;
++			};
++		};
++	};
++};
++
++&lcd {
++	status = "okay";
++
++	port {
++		lcd_out: endpoint {
++			remote-endpoint = <&dw_hdmi_in>;
++		};
++	};
++};
 -- 
 2.23.0
 
