@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A7117462B
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32577174629
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA906E30D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 374086E2FF;
 	Sat, 29 Feb 2020 10:14:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA8DA6F4AF
+ [IPv6:2a01:238:20a:202:5304::12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F6A06F4AD
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 18:19:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582913984;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582913983;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=KXDxjYvjEmkF3JyQOKq8VWv0rkPPoGHlQy9Z7iMTutw=;
- b=rOGZDkSyPgq0Ul96ser2WF2JOuocUcXDDx+HvbPfGpJGLikCaIqOGjW/YuETmSK4dy
- Hm8cXBjGEgegyF2tvHQuOFRtzn8Am/e49Uw3Cjn2PTH3qxaLqJo3xa69JgPijZuPugYD
- NW81eU3nvTzb3xpsX8iYVExOJyMpwuXGU343RoMHI6ZSDoXSbt38sWPFYXMZgbIcWiTU
- Y+HefwRsbD6C5dHuM0ZWSsBhwOj7JunSt6+5La/1i+HUr5mSc9mCPvN+yHL3M34yYmU9
- DtCdiuFslt6Lsu7HdAniDgtF/7qDSO6md77fgpm73X4/k7a1R+0WAih7vDMMNrAkVTWN
- o7yg==
+ bh=xsODhkpVGkDQnLLErU6wOpwUWKFJnPJTBh47MaWfiIU=;
+ b=RcyNuDMDU0Y2P9M6J0vd/NNWCROAyHAE13ZqF1fPi7yUoe9SZtuuy8y+mAyP8Co7b8
+ Usl3YVLnJU+mZ4XiejYko8OZrMDlIqoXNOdldQ+o2DTSXDcsYsmidJDNJMUvhjK+KLTb
+ awOfjiUQLF2OHw1arh7oThrEuEAPmAftU6N+fFxA/b4zrjPEERAaY015QLIqlbE3vpgo
+ ztIiDXHNLnBZM636Um/0dmdVXnLI3DLW709GqZGH3/YCrt3xaBwQnONehbAt4t3GyAvE
+ y4xk0TyygK8Gp70togWfbiAhfjHYg2VFCvPwV7X0vshwT6WmYsmvxo88SEDmP2mKUebU
+ qzfQ==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1mfYzBGHXH6G1+ULkA="
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw1SIJb2Lq
+ with ESMTPSA id y0a02cw1SIJc2Lr
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Fri, 28 Feb 2020 19:19:37 +0100 (CET)
+ Fri, 28 Feb 2020 19:19:38 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -42,9 +42,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  "Eric W. Biederman" <ebiederm@xmission.com>,
  "H. Nikolaus Schaller" <hns@goldelico.com>,
  Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [RFC v2 4/8] drm: ingenic: add jz4780 Synopsys HDMI driver.
-Date: Fri, 28 Feb 2020 19:19:29 +0100
-Message-Id: <818cca0cda7a5dbb29d818468e47681f5882e1e1.1582913973.git.hns@goldelico.com>
+Subject: [RFC v2 5/8] pinctrl: ingenic: add hdmi-ddc pin control group
+Date: Fri, 28 Feb 2020 19:19:30 +0100
+Message-Id: <010d6ad3473fb4b1f1041888a071796180cdd838.1582913973.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1582913973.git.hns@goldelico.com>
 References: <cover.1582913973.git.hns@goldelico.com>
@@ -66,179 +66,60 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
  linux-gpio@vger.kernel.org, kernel@pyra-handheld.com,
  letux-kernel@openphoenux.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Boddie <paul@boddie.org.uk>
-
-A specialisation of the generic Synopsys HDMI driver is employed for JZ4780
-HDMI support. This requires a new driver, plus device tree and configuration
-modifications.
-
-Signed-off-by: Paul Boddie <paul@boddie.org.uk>
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- drivers/gpu/drm/ingenic/Kconfig          |   8 ++
- drivers/gpu/drm/ingenic/Makefile         |   1 +
- drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c | 120 +++++++++++++++++++++++
- 3 files changed, 129 insertions(+)
- create mode 100644 drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c
-
-diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
-index d82c3d37ec9c..44bfd0d35af1 100644
---- a/drivers/gpu/drm/ingenic/Kconfig
-+++ b/drivers/gpu/drm/ingenic/Kconfig
-@@ -14,3 +14,11 @@ config DRM_INGENIC
- 	  Choose this option for DRM support for the Ingenic SoCs.
- 
- 	  If M is selected the module will be called ingenic-drm.
-+
-+config DRM_DW_HDMI_JZ4780
-+	tristate "HDMI Support for Ingenic JZ4780"
-+	depends on DRM_INGENIC
-+	depends on OF
-+	select DRM_DW_HDMI
-+	help
-+	  Choose this option for HDMI output from the Ingenic JZ4780.
-diff --git a/drivers/gpu/drm/ingenic/Makefile b/drivers/gpu/drm/ingenic/Makefile
-index 11cac42ce0bb..238383de63c7 100644
---- a/drivers/gpu/drm/ingenic/Makefile
-+++ b/drivers/gpu/drm/ingenic/Makefile
-@@ -1 +1,2 @@
- obj-$(CONFIG_DRM_INGENIC) += ingenic-drm.o
-+obj-$(CONFIG_DRM_DW_HDMI_JZ4780) += dw_hdmi-jz4780.o
-diff --git a/drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c b/drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c
-new file mode 100644
-index 000000000000..fa379e337263
---- /dev/null
-+++ b/drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
-+ * Copyright (C) 2019 Paul Boddie <paul@boddie.org.uk>
-+ *
-+ * Derived from dw_hdmi-imx.c with i.MX portions removed.
-+ * Probe and remove operations derived from rcar_dw_hdmi.c.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/bridge/dw_hdmi.h>
-+#include <drm/drm_of.h>
-+
-+static const struct dw_hdmi_mpll_config jz4780_mpll_cfg[] = {
-+	{ 45250000,  { { 0x01e0, 0x0000 },
-+		       { 0x21e1, 0x0000 },
-+		       { 0x41e2, 0x0000 } } },
-+	{ 92500000,  { { 0x0140, 0x0005 },
-+		       { 0x2141, 0x0005 },
-+		       { 0x4142, 0x0005 } } },
-+	{ 148500000, { { 0x00a0, 0x000a },
-+		       { 0x20a1, 0x000a },
-+		       { 0x40a2, 0x000a } } },
-+	{ 216000000, { { 0x00a0, 0x000a },
-+		       { 0x2001, 0x000f },
-+		       { 0x4002, 0x000f } } },
-+	{ ~0UL,      { { 0x0000, 0x0000 },
-+		       { 0x0000, 0x0000 },
-+		       { 0x0000, 0x0000 } } }
-+};
-+
-+static const struct dw_hdmi_curr_ctrl jz4780_cur_ctr[] = {
-+	/*pixelclk     bpp8    bpp10   bpp12 */
-+	{ 54000000,  { 0x091c, 0x091c, 0x06dc } },
-+	{ 58400000,  { 0x091c, 0x06dc, 0x06dc } },
-+	{ 72000000,  { 0x06dc, 0x06dc, 0x091c } },
-+	{ 74250000,  { 0x06dc, 0x0b5c, 0x091c } },
-+	{ 118800000, { 0x091c, 0x091c, 0x06dc } },
-+	{ 216000000, { 0x06dc, 0x0b5c, 0x091c } },
-+	{ ~0UL,      { 0x0000, 0x0000, 0x0000 } },
-+};
-+
-+/*
-+ * Resistance term 133Ohm Cfg
-+ * PREEMP config 0.00
-+ * TX/CK level 10
-+ */
-+static const struct dw_hdmi_phy_config jz4780_phy_config[] = {
-+	/*pixelclk   symbol   term   vlev */
-+	{ 216000000, 0x800d, 0x0005, 0x01ad},
-+	{ ~0UL,      0x0000, 0x0000, 0x0000}
-+};
-+
-+static enum drm_mode_status
-+jz4780_hdmi_mode_valid(struct drm_connector *con,
-+		       const struct drm_display_mode *mode)
-+{
-+	if (mode->clock < 13500)
-+		return MODE_CLOCK_LOW;
-+	/* FIXME: Hardware is capable of 270MHz, but setup data is missing. */
-+	if (mode->clock > 216000)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
-+static struct dw_hdmi_plat_data jz4780_dw_hdmi_plat_data = {
-+	.mpll_cfg   = jz4780_mpll_cfg,
-+	.cur_ctr    = jz4780_cur_ctr,
-+	.phy_config = jz4780_phy_config,
-+	.mode_valid = jz4780_hdmi_mode_valid,
-+};
-+
-+static const struct of_device_id jz4780_dw_hdmi_dt_ids[] = {
-+	{ .compatible = "ingenic,jz4780-dw-hdmi" },
-+	{ /* Sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, jz4780_dw_hdmi_dt_ids);
-+
-+static int jz4780_dw_hdmi_probe(struct platform_device *pdev)
-+{
-+	struct dw_hdmi *hdmi;
-+
-+	hdmi = dw_hdmi_probe(pdev, &jz4780_dw_hdmi_plat_data);
-+	if (IS_ERR(hdmi))
-+		return PTR_ERR(hdmi);
-+
-+	platform_set_drvdata(pdev, hdmi);
-+
-+	return 0;
-+}
-+
-+static int jz4780_dw_hdmi_remove(struct platform_device *pdev)
-+{
-+	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
-+
-+	dw_hdmi_remove(hdmi);
-+
-+	return 0;
-+}
-+
-+static struct platform_driver jz4780_dw_hdmi_platform_driver = {
-+	.probe  = jz4780_dw_hdmi_probe,
-+	.remove = jz4780_dw_hdmi_remove,
-+	.driver = {
-+		.name = "dw-hdmi-jz4780",
-+		.of_match_table = jz4780_dw_hdmi_dt_ids,
-+	},
-+};
-+
-+module_platform_driver(jz4780_dw_hdmi_platform_driver);
-+
-+MODULE_AUTHOR("Andy Yan <andy.yan@rock-chips.com>");
-+MODULE_AUTHOR("Yakir Yang <ykk@rock-chips.com>");
-+MODULE_AUTHOR("Paul Boddie <paul@boddie.org.uk>");
-+MODULE_DESCRIPTION("Ingenic JZ4780 DW-HDMI Driver Extension");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:dw-hdmi-jz4780");
--- 
-2.23.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogUGF1bCBCb2RkaWUgPHBhdWxAYm9kZGllLm9yZy51az4KClNpZ25lZC1vZmYtYnk6IFBh
+dWwgQm9kZGllIDxwYXVsQGJvZGRpZS5vcmcudWs+ClNpZ25lZC1vZmYtYnk6IEguIE5pa29sYXVz
+IFNjaGFsbGVyIDxobnNAZ29sZGVsaWNvLmNvbT4KLS0tCiBkcml2ZXJzL3BpbmN0cmwvcGluY3Ry
+bC1pbmdlbmljLmMgfCA3ICsrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykK
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL3BpbmN0cmwvcGluY3RybC1pbmdlbmljLmMgYi9kcml2ZXJz
+L3BpbmN0cmwvcGluY3RybC1pbmdlbmljLmMKaW5kZXggOTZmMDRkMTIxZWJkLi4xNTk5YTAwM2Mz
+MWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGluY3RybC9waW5jdHJsLWluZ2VuaWMuYworKysgYi9k
+cml2ZXJzL3BpbmN0cmwvcGluY3RybC1pbmdlbmljLmMKQEAgLTQsNiArNCw3IEBACiAgKgogICog
+Q29weXJpZ2h0IChjKSAyMDE3IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0Pgog
+ICogQ29weXJpZ2h0IChjKSAyMDE5IOWRqOeQsOadsCAoWmhvdSBZYW5qaWUpIDx6aG91eWFuamll
+QHdhbnllZXRlY2guY29tPgorICogQ29weXJpZ2h0IChjKSAyMDE3LCAyMDE5IFBhdWwgQm9kZGll
+IDxwYXVsQGJvZGRpZS5vcmcudWs+CiAgKi8KIAogI2luY2x1ZGUgPGxpbnV4L2NvbXBpbGVyLmg+
+CkBAIC05MDAsNiArOTAxLDcgQEAgc3RhdGljIGludCBqejQ3ODBfbW1jMF84Yml0X2FfcGluc1td
+ID0geyAweDA0LCAweDA1LCAweDA2LCAweDA3LCAweDE4LCB9Owogc3RhdGljIGludCBqejQ3ODBf
+aTJjM19waW5zW10gPSB7IDB4NmEsIDB4NmIsIH07CiBzdGF0aWMgaW50IGp6NDc4MF9pMmM0X2Vf
+cGluc1tdID0geyAweDhjLCAweDhkLCB9Owogc3RhdGljIGludCBqejQ3ODBfaTJjNF9mX3BpbnNb
+XSA9IHsgMHhiOSwgMHhiOCwgfTsKK3N0YXRpYyBpbnQgano0NzgwX2hkbWlfZGRjX3BpbnNbXSA9
+IHsgMHhiOSwgMHhiOCwgfTsKIAogc3RhdGljIGludCBqejQ3ODBfdWFydDJfZGF0YV9mdW5jc1td
+ID0geyAxLCAxLCB9Owogc3RhdGljIGludCBqejQ3ODBfdWFydDJfaHdmbG93X2Z1bmNzW10gPSB7
+IDEsIDEsIH07CkBAIC05MDgsNiArOTEwLDcgQEAgc3RhdGljIGludCBqejQ3ODBfbW1jMF84Yml0
+X2FfZnVuY3NbXSA9IHsgMSwgMSwgMSwgMSwgMSwgfTsKIHN0YXRpYyBpbnQgano0NzgwX2kyYzNf
+ZnVuY3NbXSA9IHsgMSwgMSwgfTsKIHN0YXRpYyBpbnQgano0NzgwX2kyYzRfZV9mdW5jc1tdID0g
+eyAxLCAxLCB9Owogc3RhdGljIGludCBqejQ3ODBfaTJjNF9mX2Z1bmNzW10gPSB7IDEsIDEsIH07
+CitzdGF0aWMgaW50IGp6NDc4MF9oZG1pX2RkY19mdW5jc1tdID0geyAwLCAwLCB9OwogCiBzdGF0
+aWMgY29uc3Qgc3RydWN0IGdyb3VwX2Rlc2Mgano0NzgwX2dyb3Vwc1tdID0gewogCUlOR0VOSUNf
+UElOX0dST1VQKCJ1YXJ0MC1kYXRhIiwgano0NzcwX3VhcnQwX2RhdGEpLApAQCAtOTUwLDYgKzk1
+Myw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZ3JvdXBfZGVzYyBqejQ3ODBfZ3JvdXBzW10gPSB7
+CiAJSU5HRU5JQ19QSU5fR1JPVVAoImkyYzMtZGF0YSIsIGp6NDc4MF9pMmMzKSwKIAlJTkdFTklD
+X1BJTl9HUk9VUCgiaTJjNC1kYXRhLWUiLCBqejQ3ODBfaTJjNF9lKSwKIAlJTkdFTklDX1BJTl9H
+Uk9VUCgiaTJjNC1kYXRhLWYiLCBqejQ3ODBfaTJjNF9mKSwKKwlJTkdFTklDX1BJTl9HUk9VUCgi
+aGRtaS1kZGMiLCBqejQ3ODBfaGRtaV9kZGMpLAogCUlOR0VOSUNfUElOX0dST1VQKCJjaW0tZGF0
+YSIsIGp6NDc3MF9jaW1fOGJpdCksCiAJSU5HRU5JQ19QSU5fR1JPVVAoImxjZC0yNGJpdCIsIGp6
+NDc3MF9sY2RfMjRiaXQpLAogCXsgImxjZC1uby1waW5zIiwgfSwKQEAgLTk4Miw2ICs5ODYsNyBA
+QCBzdGF0aWMgY29uc3QgY2hhciAqano0NzgwX25lbWNfZ3JvdXBzW10gPSB7CiBzdGF0aWMgY29u
+c3QgY2hhciAqano0NzgwX2kyYzNfZ3JvdXBzW10gPSB7ICJpMmMzLWRhdGEiLCB9Owogc3RhdGlj
+IGNvbnN0IGNoYXIgKmp6NDc4MF9pMmM0X2dyb3Vwc1tdID0geyAiaTJjNC1kYXRhLWUiLCAiaTJj
+NC1kYXRhLWYiLCB9Owogc3RhdGljIGNvbnN0IGNoYXIgKmp6NDc4MF9jaW1fZ3JvdXBzW10gPSB7
+ICJjaW0tZGF0YSIsIH07CitzdGF0aWMgY29uc3QgY2hhciAqano0NzgwX2hkbWlfZGRjX2dyb3Vw
+c1tdID0geyAiaGRtaS1kZGMiLCB9OwogCiBzdGF0aWMgY29uc3Qgc3RydWN0IGZ1bmN0aW9uX2Rl
+c2Mgano0NzgwX2Z1bmN0aW9uc1tdID0gewogCXsgInVhcnQwIiwgano0NzcwX3VhcnQwX2dyb3Vw
+cywgQVJSQVlfU0laRShqejQ3NzBfdWFydDBfZ3JvdXBzKSwgfSwKQEAgLTEwMTQsNiArMTAxOSw4
+IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZnVuY3Rpb25fZGVzYyBqejQ3ODBfZnVuY3Rpb25zW10g
+PSB7CiAJeyAicHdtNSIsIGp6NDc3MF9wd201X2dyb3VwcywgQVJSQVlfU0laRShqejQ3NzBfcHdt
+NV9ncm91cHMpLCB9LAogCXsgInB3bTYiLCBqejQ3NzBfcHdtNl9ncm91cHMsIEFSUkFZX1NJWkUo
+ano0NzcwX3B3bTZfZ3JvdXBzKSwgfSwKIAl7ICJwd203Iiwgano0NzcwX3B3bTdfZ3JvdXBzLCBB
+UlJBWV9TSVpFKGp6NDc3MF9wd203X2dyb3VwcyksIH0sCisJeyAiaGRtaS1kZGMiLCBqejQ3ODBf
+aGRtaV9kZGNfZ3JvdXBzLAorCQkgICAgICBBUlJBWV9TSVpFKGp6NDc4MF9oZG1pX2RkY19ncm91
+cHMpLCB9LAogfTsKIAogc3RhdGljIGNvbnN0IHN0cnVjdCBpbmdlbmljX2NoaXBfaW5mbyBqejQ3
+ODBfY2hpcF9pbmZvID0gewotLSAKMi4yMy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
