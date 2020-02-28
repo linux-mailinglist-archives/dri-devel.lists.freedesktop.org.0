@@ -2,31 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECF81732B3
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:18:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD828173316
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:40:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 130996EE50;
-	Fri, 28 Feb 2020 08:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADBAD6EE72;
+	Fri, 28 Feb 2020 08:40:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93F556EE50;
- Fri, 28 Feb 2020 08:18:33 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 49642B345;
- Fri, 28 Feb 2020 08:18:32 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, kraxel@redhat.com, noralf@tronnes.org,
- sam@ravnborg.org, alexander.deucher@amd.com, emil.velikov@collabora.com
-Subject: [PATCH v4 4/4] drm/qxl: Use simple encoder
-Date: Fri, 28 Feb 2020 09:18:28 +0100
-Message-Id: <20200228081828.18463-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200228081828.18463-1-tzimmermann@suse.de>
-References: <20200228081828.18463-1-tzimmermann@suse.de>
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF0236EE70
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 08:40:51 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id a22so2092837oid.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 00:40:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5HAwmpqJOrg2ZnVAeV93G9jVhOiw0F0JnfYMaX6cskk=;
+ b=PJuWpnlXUX0Hu8dY3KoWZhv1zFyZc+IRDpxCswsyYZSEWLzfDdqAOv0XqoE+lMgeaZ
+ iwcXN71W1Lzys+AqaZIb7P8a3x8OkRy4RJq3Z9DZFnRhDTl9dEhZXLcofOKXtiPOq+QK
+ LCwtJAXoCN/NtheLylqT+MrtmjD3qB+LN3bK8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5HAwmpqJOrg2ZnVAeV93G9jVhOiw0F0JnfYMaX6cskk=;
+ b=dvvgvS0kMkBoKmGYf9RECznisp5ysF1F4yC8YkWfshXNDbI0pfsyrjPKKaglIBSaWn
+ CclGKLiQf+3bFmBl+6wgVcTMfWP6rnc0vf8xtNQ8eO3qvaUFak7zgRyN1iKCA/jlPsn3
+ Aae5jeOjX4QBmlme4RQ/a7pLyzHf4rV6r7DR5Ox+99QE35+8xDVrFRAdTAgDTXrOVgGh
+ 5UazONK4n7puxkh8i7960RkLWqKzPBI9llC9QyNgo++CJ8qlj+UW175DailvOSq8ZVls
+ pFpl/kUw35tkN8/fI82kBT32o+StyVN+F+EezF4zgLk5J7IhKZLKPitpBtv5lAD2JLLE
+ 7QwA==
+X-Gm-Message-State: APjAAAWPgbUovKCyEUTiu+SFpFnZFhELwn8WYwnPsUZNv3cimA5P8389
+ 83TOSGXjLFO5AovxaZX+I43j8+toIxX9xfbwVLk4BQ==
+X-Google-Smtp-Source: APXvYqxSTAUsPBMFOtVt4oSk8tMtLN/sHQxZtDX5BfqspDMqbnHXHZeNQJDlg+P9rVTfupOdQ1EjWtdfYyO3tHJihnU=
+X-Received: by 2002:aca:af09:: with SMTP id y9mr2186598oie.101.1582879251219; 
+ Fri, 28 Feb 2020 00:40:51 -0800 (PST)
 MIME-Version: 1.0
+References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
+ <20200227181522.2711142-51-daniel.vetter@ffwll.ch>
+ <9e49ba2e-3d1e-98a2-9a11-725bc8a95941@suse.de>
+In-Reply-To: <9e49ba2e-3d1e-98a2-9a11-725bc8a95941@suse.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 28 Feb 2020 09:40:40 +0100
+Message-ID: <CAKMK7uGicrZxMeYmz13psgXgRYK1OrZmpHxsEKxet=qP_pRpcQ@mail.gmail.com>
+Subject: Re: [PATCH 50/51] drm/udl: drop drm_driver.release hook
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,114 +60,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: spice-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The qxl driver uses an empty implementation for its encoder. Replace
-the code with the generic simple encoder.
-
-v4:
-	* handle errors returned from drm_simple_encoder_init()
-v2:
-	* rebase onto new simple-encoder interface
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/qxl/qxl_display.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index ab4f8dd00400..09583a08e141 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -31,6 +31,7 @@
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
- 
- #include "qxl_drv.h"
- #include "qxl_object.h"
-@@ -1007,9 +1008,6 @@ static struct drm_encoder *qxl_best_encoder(struct drm_connector *connector)
- 	return &qxl_output->enc;
- }
- 
--static const struct drm_encoder_helper_funcs qxl_enc_helper_funcs = {
--};
--
- static const struct drm_connector_helper_funcs qxl_connector_helper_funcs = {
- 	.get_modes = qxl_conn_get_modes,
- 	.mode_valid = qxl_conn_mode_valid,
-@@ -1059,15 +1057,6 @@ static const struct drm_connector_funcs qxl_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static void qxl_enc_destroy(struct drm_encoder *encoder)
--{
--	drm_encoder_cleanup(encoder);
--}
--
--static const struct drm_encoder_funcs qxl_enc_funcs = {
--	.destroy = qxl_enc_destroy,
--};
--
- static int qxl_mode_create_hotplug_mode_update_property(struct qxl_device *qdev)
- {
- 	if (qdev->hotplug_mode_update_property)
-@@ -1086,6 +1075,7 @@ static int qdev_output_init(struct drm_device *dev, int num_output)
- 	struct qxl_output *qxl_output;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
-+	int ret;
- 
- 	qxl_output = kzalloc(sizeof(struct qxl_output), GFP_KERNEL);
- 	if (!qxl_output)
-@@ -1098,15 +1088,19 @@ static int qdev_output_init(struct drm_device *dev, int num_output)
- 	drm_connector_init(dev, &qxl_output->base,
- 			   &qxl_connector_funcs, DRM_MODE_CONNECTOR_VIRTUAL);
- 
--	drm_encoder_init(dev, &qxl_output->enc, &qxl_enc_funcs,
--			 DRM_MODE_ENCODER_VIRTUAL, NULL);
-+	ret = drm_simple_encoder_init(dev, &qxl_output->enc,
-+				      DRM_MODE_ENCODER_VIRTUAL);
-+	if (ret) {
-+		drm_err(dev, "drm_simple_encoder_init() failed, error %d\n",
-+			ret);
-+		goto err_drm_connector_cleanup;
-+	}
- 
- 	/* we get HPD via client monitors config */
- 	connector->polled = DRM_CONNECTOR_POLL_HPD;
- 	encoder->possible_crtcs = 1 << num_output;
- 	drm_connector_attach_encoder(&qxl_output->base,
- 					  &qxl_output->enc);
--	drm_encoder_helper_add(encoder, &qxl_enc_helper_funcs);
- 	drm_connector_helper_add(connector, &qxl_connector_helper_funcs);
- 
- 	drm_object_attach_property(&connector->base,
-@@ -1116,6 +1110,11 @@ static int qdev_output_init(struct drm_device *dev, int num_output)
- 	drm_object_attach_property(&connector->base,
- 				   dev->mode_config.suggested_y_property, 0);
- 	return 0;
-+
-+err_drm_connector_cleanup:
-+	drm_connector_cleanup(&qxl_output->base);
-+	kfree(qxl_output);
-+	return ret;
- }
- 
- static struct drm_framebuffer *
--- 
-2.25.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBGZWIgMjgsIDIwMjAgYXQgODo0NCBBTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaSBEYW5pZWwKPgo+IEFtIDI3LjAyLjIwIHVtIDE5
+OjE1IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IFRoZXJlJ3Mgb25seSB0d28gZnVuY3Rpb25z
+IGNhbGxlZCBmcm9tIHRoYXQ6Cj4gPiBkcm1fa21zX2hlbHBlcl9wb2xsX2ZpbmkoKSBhbmQgdWRs
+X2ZyZWVfdXJiX2xpc3QoKS4gQm90aCBvZiB0aGVzZSBhcmUKPiA+IGFsc28gY2FsbGVkIGZyb20g
+dGhlIHVic19kcml2ZXItPmRpc2Nvbm5lY3QgaG9vaywgc28gZW50aXJlbHkKPiA+IHBvaW50bGVz
+cyB0byBkbyB0aGUgc2FtZSBhZ2FpbiBpbiB0aGUgLT5yZWxlYXNlIGhvb2suCj4KPiBUaGUgZGlz
+Y29ubmVjdCBob29rIGNhbGxzIGRybV9rbXNfaGVscGVyX3BvbGxfZGlzYWJsZSgpIGluc3RlYWQg
+aWYKPiBfZmluaSgpLiBUaGV5IGFyZSB0aGUgc2FtZSwgZXhjZXB0IHRoYXQgX2Rpc2FibGUoKSBk
+b2VzIG5vdCBjbGVhcgo+IGRldi0+bW9kZV9jb25maWcucG9sbF9lbmFibGVkIHRvIGZhbHNlLiBJ
+cyB0aGlzIE9LPwoKb29wcywgSSBvdmVybG9va2VkIHRoYXQuIEJ1dCB5ZWFoIGZvciBkcml2ZXIg
+c2h1dGRvd24gaXQncyB0aGUgc2FtZQpyZWFsbHksIHdlJ3JlIG5vdCBnb2luZyB0byByZS1lbmFi
+bGUuIF9kaXNhYmxlIGlzIG1lYW50IGZvciBzdXNwZW5kIHNvCnlvdWMgYW4gcmUtZW5hYmxlIGFn
+YWluIG9uIHJlc3VtZS4KCkknbGwgYXVnbWVudCB0aGUgY29tbWl0IG1lc3NhZ2Ugb24gdGhlIG5l
+eHQgcm91bmQgdG8gY2xhcmlmeSB0aGF0LgotRGFuaWVsCgoKPiBCZXN0IHJlZ2FyZHMKPiBUaG9t
+YXMKPgo+ID4KPiA+IEZ1cnRoZXJtb3JlIGJ5IHRoZSB0aW1lIHdlIGNsZWFuIHVwIHRoZSBkcm1f
+ZHJpdmVyIHdlIHJlYWxseSBzaG91bGRuJ3QKPiA+IGJlIHRvdWNoaW5nIGhhcmR3YXJlIGFueW1v
+cmUsIHNvIHN0b3BwaW5nIHRoZSBwb2xsIHdvcmtlciBhbmQgZnJlZWluZwo+ID4gdGhlIHVyYiBh
+bGxvY2F0aW9ucyBpbiAtPmRpc2Nvbm5lY3QgaXMgdGhlIHJpZ2h0IHRoaW5nIHRvIGRvLgo+ID4K
+PiA+IE5vdyBkaXNjb25uZWN0IHN0aWxsIGNsZWFucyB0aGluZ3MgdXAgYmVmb3JlIHVucmVnaXN0
+ZXJpbmcgdGhlIGRyaXZlciwKPiA+IGJ1dCB0aGF0J3MgYSBkaWZmZXJlbnQgaXNzdWUuCj4gPgo+
+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+
+Cj4gPiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiA+IENjOiBTZWFuIFBh
+dWwgPHNlYW5AcG9vcmx5LnJ1bj4KPiA+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVy
+QGZmd2xsLmNoPgo+ID4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
+Pgo+ID4gQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC5sLnZlbGlrb3ZAZ21haWwuY29tPgo+ID4gQ2M6
+IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgo+ID4gQ2M6ICJOb3JhbGYgVHLDuG5u
+ZXMiIDxub3JhbGZAdHJvbm5lcy5vcmc+Cj4gPiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
+cmcub3JnPgo+ID4gQ2M6IFRob21hcyBHbGVpeG5lciA8dGdseEBsaW51dHJvbml4LmRlPgo+ID4g
+Q2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiA+IC0tLQo+ID4g
+IGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jICB8ICA2IC0tLS0tLQo+ID4gIGRyaXZlcnMv
+Z3B1L2RybS91ZGwvdWRsX2Rydi5oICB8ICAxIC0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vdWRsL3Vk
+bF9tYWluLmMgfCAxMCAtLS0tLS0tLS0tCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAxNyBkZWxldGlv
+bnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYwo+ID4gaW5kZXggYjQ0N2ZiMDUzZTc4Li43
+ZjE0MDg5OGRmM2UgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYu
+Ywo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMKPiA+IEBAIC0zNCwxNCAr
+MzQsOCBAQCBzdGF0aWMgaW50IHVkbF91c2JfcmVzdW1lKHN0cnVjdCB1c2JfaW50ZXJmYWNlICpp
+bnRlcmZhY2UpCj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0ZPUFModWRsX2RyaXZlcl9mb3BzKTsK
+PiA+Cj4gPiAtc3RhdGljIHZvaWQgdWRsX2RyaXZlcl9yZWxlYXNlKHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYpCj4gPiAtewo+ID4gLSAgICAgdWRsX2ZpbmkoZGV2KTsKPiA+IC19Cj4gPiAtCj4gPiAg
+c3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGRyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVh
+dHVyZXMgPSBEUklWRVJfQVRPTUlDIHwgRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VULAo+ID4g
+LSAgICAgLnJlbGVhc2UgPSB1ZGxfZHJpdmVyX3JlbGVhc2UsCj4gPgo+ID4gICAgICAgLyogZ2Vt
+IGhvb2tzICovCj4gPiAgICAgICAuZ2VtX2NyZWF0ZV9vYmplY3QgPSB1ZGxfZHJpdmVyX2dlbV9j
+cmVhdGVfb2JqZWN0LAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Ry
+di5oIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmgKPiA+IGluZGV4IDFkZTdlYjFiNmFh
+Yy4uMjY0MmY5NGE2M2ZjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxf
+ZHJ2LmgKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5oCj4gPiBAQCAtNzYs
+NyArNzYsNiBAQCBpbnQgdWRsX3N1Ym1pdF91cmIoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3Ry
+dWN0IHVyYiAqdXJiLCBzaXplX3QgbGVuKTsKPiA+ICB2b2lkIHVkbF91cmJfY29tcGxldGlvbihz
+dHJ1Y3QgdXJiICp1cmIpOwo+ID4KPiA+ICBpbnQgdWRsX2luaXQoc3RydWN0IHVkbF9kZXZpY2Ug
+KnVkbCk7Cj4gPiAtdm9pZCB1ZGxfZmluaShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsKPiA+Cj4g
+PiAgaW50IHVkbF9yZW5kZXJfaGxpbmUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgaW50IGxvZ19i
+cHAsIHN0cnVjdCB1cmIgKip1cmJfcHRyLAo+ID4gICAgICAgICAgICAgICAgICAgIGNvbnN0IGNo
+YXIgKmZyb250LCBjaGFyICoqdXJiX2J1Zl9wdHIsCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL3VkbC91ZGxfbWFpbi5jIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbWFpbi5jCj4g
+PiBpbmRleCA1Mzg3MTg5MTk5MTYuLmY1ZDI3ZjJhNTY1NCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91
+ZGxfbWFpbi5jCj4gPiBAQCAtMzUxLDEzICszNTEsMyBAQCBpbnQgdWRsX2Ryb3BfdXNiKHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYpCj4gPiAgICAgICB1ZGxfZnJlZV91cmJfbGlzdChkZXYpOwo+ID4g
+ICAgICAgcmV0dXJuIDA7Cj4gPiAgfQo+ID4gLQo+ID4gLXZvaWQgdWRsX2Zpbmkoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldikKPiA+IC17Cj4gPiAtICAgICBzdHJ1Y3QgdWRsX2RldmljZSAqdWRsID0g
+dG9fdWRsKGRldik7Cj4gPiAtCj4gPiAtICAgICBkcm1fa21zX2hlbHBlcl9wb2xsX2ZpbmkoZGV2
+KTsKPiA+IC0KPiA+IC0gICAgIGlmICh1ZGwtPnVyYnMuY291bnQpCj4gPiAtICAgICAgICAgICAg
+IHVkbF9mcmVlX3VyYl9saXN0KGRldik7Cj4gPiAtfQo+ID4KPgo+IC0tCj4gVGhvbWFzIFppbW1l
+cm1hbm4KPiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
+bnMgR2VybWFueSBHbWJICj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55
+Cj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQo+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJ
+bWVuZMO2cmZmZXIKPgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRl
+bCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNo
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
