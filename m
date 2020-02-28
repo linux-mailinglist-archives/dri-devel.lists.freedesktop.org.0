@@ -1,72 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9829617433A
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 00:36:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7032174360
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 00:40:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FD796F52D;
-	Fri, 28 Feb 2020 23:36:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BF946F530;
+	Fri, 28 Feb 2020 23:40:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB416F530
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 23:36:06 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id r7so5099101wro.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 15:36:06 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9A96F530
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 23:40:22 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id g83so2968212wme.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 15:40:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=KIMqojdySftVbEchMKmvDu1hxx5jOX8pHCLHKZzK8dU=;
- b=WW2H1CwTYnCSSKdB5ERVN3QZUhoZ9JiiYzedNV1EWDCV0kqjvb0Q5tjCl6kUBpjTpa
- JnpkQt+M7rN5tJY1dDyyxR1g0jQo0iAGjA4PLgfG2C6pNXR0E2doz3nmatm8g2dKTfle
- 2b572mjacSe892li+jxrKQwzRChv+DUfjwxSw=
+ :mime-version:content-disposition:in-reply-to;
+ bh=HPQ0vMjcYBqlg394dEQ/4gsJnXVnnOWOWAqm+ggMU98=;
+ b=QLC+z2XfmDUoHotHgxdo22k3WQ516q+eTmA2xrFluquOvHy0d4Sd6g73yUVfYZ5fFR
+ NO7D5YH3pAAqVFLcKS1iF1sbJvfU5pLf2MiGieaWJnVDO/cti25b05belwneJSun35uk
+ 602/rga6hTxrKRBu1psZf9zGwPquy0oltIeV4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=KIMqojdySftVbEchMKmvDu1hxx5jOX8pHCLHKZzK8dU=;
- b=LtzXiKDLqH36ujbrJFnPsDjzUp9o/Xox5gPYD+3BFTp/f7sccaYldAGmeVrrcoh+5Q
- zMvD62nHzs9HAhhQ7n0d6kVVFGWhgCApk3okogdrTTpvEi+zLtMQpeL25wiHBrtGejkP
- ToI+RrLSrzcVrFI8yWZv5EcwS9iX2z1ND4infof5K3UBAXe69qRuPRLiaU0PteLf/T3k
- 91AgW4MqfJwccBjVYZ1cHeHpdjRQ63yCqvMLXk7AXsgdQbP59tVQ6jaLF6MhJ4SfjC2y
- OBHsZJZ3DCQo9oeSt7XthTJjb/uNFdXn2k0wnG3zYM8LkSA+63UWJ7isHbYYaRHZTkFm
- oDiQ==
-X-Gm-Message-State: APjAAAUi/HrRsdrt4zQsw7FERy+MTvmKUZULTOt+cqhkXy1Kmf0wITWg
- 90UO5rokw9w76m5YnsJBaFnifg==
-X-Google-Smtp-Source: APXvYqxyy9j4SCqy/MmdVuOuV66PGkzhqqv7BQiUHzSNu1O8KoFBtk987ErE61Xt4RH6BLYh4yDpxg==
-X-Received: by 2002:a5d:4dc2:: with SMTP id f2mr6824766wru.293.1582932965285; 
- Fri, 28 Feb 2020 15:36:05 -0800 (PST)
+ :in-reply-to;
+ bh=HPQ0vMjcYBqlg394dEQ/4gsJnXVnnOWOWAqm+ggMU98=;
+ b=bSRHZgO7c6eVEeg/tME6y+jHgtIDagPO8kJOsQ98OOdswUIE12o86EmQDwty8Bs43r
+ AchC3jWMtjMC2N2+uy+Etwg1fY/uuruKIe6eaU06Q03xtiOhXQZyJXx6KkPwMHQkwg2o
+ fV59B+6GW8OJwKQaN05kxYBKlivUTu+rqtnE9BYhE9oNDVNiS6yuwVgnPaUeEJKEVfg8
+ MHeNApkdoeeRRuJEWIzDpOoQQbJJUlM5NeRYtGsIu7oAG5giUQTiyaHJQ81FKUXYt9Q7
+ kQIpeol5yQ35vrswVpxmvrKY6r5SVBwjmjrJapeST+BzE+o2AvIVzKofqgbkvMw+a4ko
+ lcuQ==
+X-Gm-Message-State: APjAAAW6tL/rNh8qZGDM9MyMK6Zbbw8M59aWL0W61lRfWocZLtFPAvXJ
+ RbTn3SDyqTamIbfof2iOjf0Cq+/aGm4=
+X-Google-Smtp-Source: APXvYqyO0iFrnGt7nWTY7vEtpiJdxw3S7UzoWgSGTzWNRpRcJrW749cnTPe1nXba5aAXJO42ot+jEQ==
+X-Received: by 2002:a1c:7ec5:: with SMTP id z188mr6730603wmc.52.1582933220720; 
+ Fri, 28 Feb 2020 15:40:20 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g10sm15069342wrr.13.2020.02.28.15.36.03
+ by smtp.gmail.com with ESMTPSA id t124sm4699111wmg.13.2020.02.28.15.40.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 15:36:04 -0800 (PST)
-Date: Sat, 29 Feb 2020 00:36:02 +0100
+ Fri, 28 Feb 2020 15:40:19 -0800 (PST)
+Date: Sat, 29 Feb 2020 00:40:17 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v2 1/2] drm/client: Dual licence the file in GPL-2 and MIT
-Message-ID: <20200228233602.GA2363188@phenom.ffwll.local>
-Mail-Followup-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Emmanuel Vadot <manu@bidouilliste.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Emmanuel Vadot <manu@FreeBSD.org>,
- Jani Nikula <jani.nikula@intel.com>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, efremov@linux.com,
- kraxel@redhat.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- sam@ravnborg.org, tzimmermann@suse.de
-References: <20200215180911.18299-1-manu@FreeBSD.org>
- <20200215180911.18299-2-manu@FreeBSD.org>
- <877e0n66qi.fsf@intel.com>
- <158254443806.15220.5582277260130009235@skylake-alporthouse-com>
- <20200225091810.1de39ea4e0d578d363420412@bidouilliste.com>
- <20200225170313.GM2363188@phenom.ffwll.local>
- <2a735cb0-5a78-8dcf-dcaa-30f5a5f77e2d@tronnes.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH] drm: prevent a harmless integer overflow in
+ drm_legacy_sg_alloc()
+Message-ID: <20200228234017.GB2363188@phenom.ffwll.local>
+Mail-Followup-To: Dan Carpenter <dan.carpenter@oracle.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20200228092321.axulddmkxrujkmas@kili.mountain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <2a735cb0-5a78-8dcf-dcaa-30f5a5f77e2d@tronnes.org>
+In-Reply-To: <20200228092321.axulddmkxrujkmas@kili.mountain>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,66 +72,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emmanuel Vadot <manu@bidouilliste.com>, Jani Nikula <jani.nikula@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Emmanuel Vadot <manu@FreeBSD.org>, airlied@linux.ie, efremov@linux.com,
- tzimmermann@suse.de, sam@ravnborg.org, kraxel@redhat.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2020 at 01:28:57PM +0100, Noralf Tr=F8nnes wrote:
-> =
+On Fri, Feb 28, 2020 at 12:23:21PM +0300, Dan Carpenter wrote:
+> There is an integer overflow when we round up to PAGE_SIZE, but it's
+> harmless because we never re-use "request->size" for anything meaningful.
+> 
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> This code predates git.
 
-> =
+Also not compiled without CONFIG_DRM_LEGACY, which we tell everyone is to
+enable the root holes in drm :-)
 
-> Den 25.02.2020 18.03, skrev Daniel Vetter:
-> > On Tue, Feb 25, 2020 at 09:18:10AM +0100, Emmanuel Vadot wrote:
-> >> On Mon, 24 Feb 2020 11:40:38 +0000
-> >> Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> >>
-> >>> Quoting Jani Nikula (2020-02-15 18:33:09)
-> >>>> On Sat, 15 Feb 2020, Emmanuel Vadot <manu@FreeBSD.org> wrote:
-> >>>>> From: Emmanuel Vadot <manu@FreeBSD.Org>
-> >>>>>
-> >>>>> Contributors for this file are :
-> >>>>> Chris Wilson <chris@chris-wilson.co.uk>
-> >>>>> Denis Efremov <efremov@linux.com>
-> >>>>> Jani Nikula <jani.nikula@intel.com>
-> >>>>> Maxime Ripard <mripard@kernel.org>
-> >>>>> Noralf Tr=F8nnes <noralf@tronnes.org>
-> >>>>> Sam Ravnborg <sam@ravnborg.org>
-> >>>>> Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>>
-> >>>>> Signed-off-by: Emmanuel Vadot <manu@FreeBSD.org>
-> >>>>
-> >>>> I've only converted some logging.
-> >>>>
-> >>>> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> >>>
-> >>> Bonus ack from another Intel employee to cover all Intel copyright in
-> >>> this file,
-> >>> Acked-by: Chris Wilson <chris@chris-wilson.co.uk>
-> >>> -Chris
-> >>
-> >>  Thanks Chris,
-> >>
-> >>  Daniel, if I'm counting right this was the last ack needed.
-> > =
-
-> > I'm counting the same, patch applied and thanks for taking care of the
-> > paperwork pushing here.
-> > =
-
-> =
-
-> Looks like it got lost somehow, I can't find it in drm-tip at least.
-
-Sry got stuck in my script, I kicked now.
+Thanks for your patch, queued in drm-misc-next.
 -Daniel
--- =
 
+> 
+>  drivers/gpu/drm/drm_scatter.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_scatter.c b/drivers/gpu/drm/drm_scatter.c
+> index d5c386154246..ca520028b2cb 100644
+> --- a/drivers/gpu/drm/drm_scatter.c
+> +++ b/drivers/gpu/drm/drm_scatter.c
+> @@ -99,6 +99,9 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *data,
+>  	if (!drm_core_check_feature(dev, DRIVER_SG))
+>  		return -EOPNOTSUPP;
+>  
+> +	if (request->size > SIZE_MAX - PAGE_SIZE)
+> +		return -EINVAL;
+> +
+>  	if (dev->sg)
+>  		return -EINVAL;
+>  
+> -- 
+> 2.11.0
+> 
+
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
