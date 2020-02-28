@@ -2,72 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E62E174282
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 23:52:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AB41742AE
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 00:11:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D8E6F525;
-	Fri, 28 Feb 2020 22:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99ECC6E133;
+	Fri, 28 Feb 2020 23:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 232446F516
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 22:52:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582930325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TTlJa6WwUdbQaYOsXdF1dFcG7jtU78AjCyJA0MfayNM=;
- b=exEkKJ+QUbtPftaqKGE1tX+fTUeYguKTv+83/2DbMsQTcphAihqzjgr4vH8+jA4zVOCMCw
- D4a4CnQdASndID0au2vvTHRcwRnq294W0Kps918VyaSVAALiPI3wT2ua2jo0n7nXEY8PnX
- fp+JKSpwggSMnQTV0zf1GR85+qh8EOc=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-HQ3EJIfIM52m28hhqot87A-1; Fri, 28 Feb 2020 17:52:01 -0500
-X-MC-Unique: HQ3EJIfIM52m28hhqot87A-1
-Received: by mail-qk1-f200.google.com with SMTP id j18so4240797qke.5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 14:52:01 -0800 (PST)
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 167596E133
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 23:11:41 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id j16so4226596otl.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 15:11:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=y3MGk/I27ylxIremRCk21EGz6AoRh7FdGL06WOy8gMc=;
+ b=dKAKRmo4YVXRzjdiJ8VdWtyt2J8eoDqJkVVa3nYJd1MzBzUIcTbOO5E/aaUaT+iRa5
+ v6tpTPLY+c5PAOTCPO+3QdyPqDrgIdDxoYImL88/aw06dgm7R4QK7UK7I5AnhevbECEw
+ hvXHUSq3CabOzpdJGpeITioDyaMXaKaRolaf0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=TTlJa6WwUdbQaYOsXdF1dFcG7jtU78AjCyJA0MfayNM=;
- b=tfiYpzepoWuu1lvTMABl+apUYXFs4ZDCzG77AQSdqgWEXoWdyTJ31kiblSWk2RTAwm
- KUtOYfpkMUWZHArrmqBqlEAH2DzpBysYKfa20Kl2RvOlUTLf0pf/0h5dX12Bj3OpYnPT
- 0bCUHx28XqBgE7w/EjI1QCTis5+Hw0sKyuvmNpbGuxFXYEeHnGSl0W2Ym4kf+NuQsUgH
- M1le0TIAlTJPet2mFNl+cz0McDyKzlMckauF4nxzGgjlbGv5yJ9Iy3onftIdgkVs4/59
- 34MRHdTm76bxSXAbuWjBbcLJx+jcLACapWxhR5AFZhtu9lcaVKpreLL43Xw85kUNLRWi
- qARg==
-X-Gm-Message-State: APjAAAWBUgtGGElITLRbB0ZkX/tM0/OvwElB2LUbiPfTpXCRckCahVF0
- rKR9Y+1r/sDkg+gkF++eLKeEIpWMCx76sJgJk6pdCBFotmZ7PRXq6i48xVx9ENQ4aNqrA6EvMgL
- 6eizvS8+ntpI+Ti07Vrge+LLxYLTP
-X-Received: by 2002:a37:4dc4:: with SMTP id a187mr6780964qkb.436.1582930320791; 
- Fri, 28 Feb 2020 14:52:00 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwUJSe/Cw6R+KPC9TqqbYULEK1brH5CSgs9Xyp7td2tfWLkG0LdF7YHpDUx4va0v7JpEQmK6Q==
-X-Received: by 2002:a37:4dc4:: with SMTP id a187mr6780946qkb.436.1582930320425; 
- Fri, 28 Feb 2020 14:52:00 -0800 (PST)
-Received: from dhcp-10-20-1-196.bss.redhat.com ([144.121.20.162])
- by smtp.gmail.com with ESMTPSA id x131sm5801799qka.1.2020.02.28.14.51.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 14:51:59 -0800 (PST)
-Message-ID: <a0d19512b96d7300062dfcad3d9846b38a08f751.camel@redhat.com>
-Subject: Re: [PATCH v4 13/14] drm/mst: Add support for
- QUERY_STREAM_ENCRYPTION_STATUS MST sideband message
-From: Lyude Paul <lyude@redhat.com>
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org
-Date: Fri, 28 Feb 2020 17:51:58 -0500
-In-Reply-To: <20200218220242.107265-14-sean@poorly.run>
-References: <20200218220242.107265-1-sean@poorly.run>
- <20200218220242.107265-14-sean@poorly.run>
-Organization: Red Hat
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=y3MGk/I27ylxIremRCk21EGz6AoRh7FdGL06WOy8gMc=;
+ b=WWkmhaWHldPmOUCKqTSepBsNIRBG6asyf2YAMw8827MgHR2RT3Kz0ytSwx8avCPmvj
+ vVulXWyvISaEk1o3enEn6d1Q2exRDjw0OOQIsAWxdyPQj1rb3G6vsrSXofUFyVPcZ2Bj
+ UESzIooLmbECxlmSkNxOPO+ysNHnmDq2YQ0tAw9mGOuZK3sr9RnD9GXSQ2So9zzYU//T
+ VJElz78tw5mqBnLv4E2Dpj5r+mGq5pP/qZzhrrZhUJ3jq/viztUvhEQV6klT/Kc1jK3j
+ aBFvtjcX1brfXbzZ6FtUjqiPFwTjN3SdRzWdcD1q5AmTSgFSCsRSQ797tUggqycRntOf
+ zWtg==
+X-Gm-Message-State: APjAAAWf2NPdO5tbgUHfnx6LUoviI+36nV0OfhRGMzhptyWfIQ4btOwx
+ xvnZtyINeQwSWjfuCkuKh5obVQ8320JtZXHGu80hcQ==
+X-Google-Smtp-Source: APXvYqzJ1DkBNC8y5JhD8ijzGlTj8RnLPAKAZDRrUojNHxCJ5jINx/2IKJqw0C0BXCB9qEirOPB3Wh4BJr9lIKo5qvg=
+X-Received: by 2002:a05:6830:2015:: with SMTP id
+ e21mr5034695otp.106.1582931500304; 
+ Fri, 28 Feb 2020 15:11:40 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
+ <20200227181522.2711142-27-daniel.vetter@ffwll.ch>
+ <20200228202632.GB22966@ravnborg.org>
+In-Reply-To: <20200228202632.GB22966@ravnborg.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Sat, 29 Feb 2020 00:11:28 +0100
+Message-ID: <CAKMK7uFmVD24hsON3T6mpTvJPcg5bTcbRe+kO4=TYD5kJaHrpA@mail.gmail.com>
+Subject: Re: [PATCH 26/51] drm: Manage drm_mode_config_init with drmm_
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,314 +61,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, Sean Paul <seanpaul@chromium.org>,
- juston.li@intel.com, rodrigo.vivi@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey - I've got a good bit of stuff on my plate right now since I just got back
-from PTO and am going through my backlog of stuff, but I'll try to get this
-reviewed first chance I get
-
-On Tue, 2020-02-18 at 17:02 -0500, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> Used to query whether an MST stream is encrypted or not.
-> 
-> Cc: Lyude Paul <lyude@redhat.com>
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> 
-> Changes in v4:
-> -Added to the set
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 117 ++++++++++++++++++++++++++
->  include/drm/drm_dp_helper.h           |   3 +
->  include/drm/drm_dp_mst_helper.h       |  44 ++++++++++
->  3 files changed, 164 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index a811247cecfef..30b6dc6ce54c2 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -25,6 +25,7 @@
->  #include <linux/i2c.h>
->  #include <linux/init.h>
->  #include <linux/kernel.h>
-> +#include <linux/random.h>
->  #include <linux/sched.h>
->  #include <linux/seq_file.h>
->  
-> @@ -418,6 +419,22 @@ drm_dp_encode_sideband_req(const struct
-> drm_dp_sideband_msg_req_body *req,
->  		memcpy(&buf[idx], req->u.i2c_write.bytes, req-
-> >u.i2c_write.num_bytes);
->  		idx += req->u.i2c_write.num_bytes;
->  		break;
-> +	case DP_QUERY_STREAM_ENC_STATUS: {
-> +		const struct drm_dp_query_stream_enc_status *msg;
-> +
-> +		msg = &req->u.enc_status;
-> +		buf[idx] = msg->stream_id;
-> +		idx++;
-> +		memcpy(&buf[idx], msg->client_id, sizeof(msg->client_id));
-> +		idx += sizeof(msg->client_id);
-> +		buf[idx] = 0;
-> +		buf[idx] |= msg->stream_event & GENMASK(1, 0);
-> +		buf[idx] |= msg->valid_stream_event ? BIT(2) : 0;
-> +		buf[idx] |= (msg->stream_behavior & GENMASK(1, 0)) << 3;
-> +		buf[idx] |= msg->valid_stream_behavior ? BIT(5) : 0;
-> +		idx++;
-> +		}
-> +		break;
->  	}
->  	raw->cur_len = idx;
->  }
-> @@ -926,6 +943,34 @@ static bool
-> drm_dp_sideband_parse_power_updown_phy_ack(struct drm_dp_sideband_ms
->  	return true;
->  }
->  
-> +static bool
-> +drm_dp_sideband_parse_query_stream_enc_status(
-> +				struct drm_dp_sideband_msg_rx *raw,
-> +				struct drm_dp_sideband_msg_reply_body *repmsg)
-> +{
-> +	struct drm_dp_query_stream_enc_status_ack_reply *reply;
-> +
-> +	reply = &repmsg->u.enc_status;
-> +
-> +	reply->stream_id = raw->msg[3];
-> +
-> +	reply->reply_signed = raw->msg[2] & BIT(0);
-> +
-> +	reply->hdcp_1x_device_present = raw->msg[2] & BIT(3);
-> +	reply->hdcp_2x_device_present = raw->msg[2] & BIT(4);
-> +
-> +	reply->query_capable_device_present = raw->msg[2] & BIT(5);
-> +	reply->legacy_device_present = raw->msg[2] & BIT(6);
-> +	reply->unauthorizable_device_present = raw->msg[2] & BIT(7);
-> +
-> +	reply->auth_completed = !!(raw->msg[1] & BIT(3));
-> +	reply->encryption_enabled = !!(raw->msg[1] & BIT(4));
-> +	reply->repeater_present = !!(raw->msg[1] & BIT(5));
-> +	reply->state = (raw->msg[1] & GENMASK(7, 6)) >> 6;
-> +
-> +	return true;
-> +}
-> +
->  static bool drm_dp_sideband_parse_reply(struct drm_dp_sideband_msg_rx *raw,
->  					struct drm_dp_sideband_msg_reply_body
-> *msg)
->  {
-> @@ -960,6 +1005,8 @@ static bool drm_dp_sideband_parse_reply(struct
-> drm_dp_sideband_msg_rx *raw,
->  		return drm_dp_sideband_parse_power_updown_phy_ack(raw, msg);
->  	case DP_CLEAR_PAYLOAD_ID_TABLE:
->  		return true; /* since there's nothing to parse */
-> +	case DP_QUERY_STREAM_ENC_STATUS:
-> +		return drm_dp_sideband_parse_query_stream_enc_status(raw,
-> msg);
->  	default:
->  		DRM_ERROR("Got unknown reply 0x%02x (%s)\n", msg->req_type,
->  			  drm_dp_mst_req_type_str(msg->req_type));
-> @@ -1113,6 +1160,25 @@ static int build_power_updown_phy(struct
-> drm_dp_sideband_msg_tx *msg,
->  	return 0;
->  }
->  
-> +static int
-> +build_query_stream_enc_status(struct drm_dp_sideband_msg_tx *msg, u8
-> stream_id,
-> +			      u8 *q_id)
-> +{
-> +	struct drm_dp_sideband_msg_req_body req;
-> +
-> +	req.req_type = DP_QUERY_STREAM_ENC_STATUS;
-> +	req.u.enc_status.stream_id = stream_id;
-> +	memcpy(req.u.enc_status.client_id, q_id,
-> +	       sizeof(req.u.enc_status.client_id));
-> +	req.u.enc_status.stream_event = 0;
-> +	req.u.enc_status.valid_stream_event = false;
-> +	req.u.enc_status.stream_behavior = 0;
-> +	req.u.enc_status.valid_stream_behavior = false;
-> +
-> +	drm_dp_encode_sideband_req(&req, msg);
-> +	return 0;
-> +}
-> +
->  static int drm_dp_mst_assign_payload_id(struct drm_dp_mst_topology_mgr
-> *mgr,
->  					struct drm_dp_vcpi *vcpi)
->  {
-> @@ -3154,6 +3220,57 @@ int drm_dp_send_power_updown_phy(struct
-> drm_dp_mst_topology_mgr *mgr,
->  }
->  EXPORT_SYMBOL(drm_dp_send_power_updown_phy);
->  
-> +int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr
-> *mgr,
-> +		struct drm_dp_mst_port *port,
-> +		struct drm_dp_query_stream_enc_status_ack_reply *status)
-> +{
-> +	struct drm_dp_sideband_msg_tx *txmsg;
-> +	u8 nonce[7];
-> +	int len, ret;
-> +
-> +	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
-> +	if (!txmsg)
-> +		return -ENOMEM;
-> +
-> +	port = drm_dp_mst_topology_get_port_validated(mgr, port);
-> +	if (!port) {
-> +		ret = -EINVAL;
-> +		goto out_get_port;
-> +	}
-> +
-> +	get_random_bytes(nonce, sizeof(nonce));
-> +
-> +	/*
-> +	 * "Source device targets the QUERY_STREAM_ENCRYPTION_STATUS message
-> +	 *  transaction at the MST Branch device directly connected to the
-> +	 *  Source"
-> +	 */
-> +	txmsg->dst = mgr->mst_primary;
-> +
-> +	len = build_query_stream_enc_status(txmsg, port->vcpi.vcpi, nonce);
-> +
-> +	drm_dp_queue_down_tx(mgr, txmsg);
-> +
-> +	ret = drm_dp_mst_wait_tx_reply(mgr->mst_primary, txmsg);
-> +	if (ret < 0) {
-> +		goto out;
-> +	} else if (txmsg->reply.reply_type == DP_SIDEBAND_REPLY_NAK) {
-> +		DRM_DEBUG_KMS("query encryption status nak received\n");
-> +		ret = -ENXIO;
-> +		goto out;
-> +	}
-> +
-> +	ret = 0;
-> +	memcpy(status, &txmsg->reply.u.enc_status, sizeof(*status));
-> +
-> +out:
-> +	drm_dp_mst_topology_put_port(port);
-> +out_get_port:
-> +	kfree(txmsg);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_dp_send_query_stream_enc_status);
-> +
->  static int drm_dp_create_payload_step1(struct drm_dp_mst_topology_mgr *mgr,
->  				       int id,
->  				       struct drm_dp_payload *payload)
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index b8f6bac6341c1..11b2c49e4f0f4 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1099,6 +1099,9 @@
->  #define DP_POWER_DOWN_PHY		0x25
->  #define DP_SINK_EVENT_NOTIFY		0x30
->  #define DP_QUERY_STREAM_ENC_STATUS	0x38
-> +#define  DP_QUERY_STREAM_ENC_STATUS_STATE_NO_EXIST	0
-> +#define  DP_QUERY_STREAM_ENC_STATUS_STATE_INACTIVE	1
-> +#define  DP_QUERY_STREAM_ENC_STATUS_STATE_ACTIVE	2
->  
->  /* DP 1.2 MST sideband reply types */
->  #define DP_SIDEBAND_REPLY_ACK		0x00
-> diff --git a/include/drm/drm_dp_mst_helper.h
-> b/include/drm/drm_dp_mst_helper.h
-> index 5483f888712ad..baf3405df44d8 100644
-> --- a/include/drm/drm_dp_mst_helper.h
-> +++ b/include/drm/drm_dp_mst_helper.h
-> @@ -305,6 +305,34 @@ struct drm_dp_remote_i2c_write_ack_reply {
->  	u8 port_number;
->  };
->  
-> +struct drm_dp_query_stream_enc_status_ack_reply {
-> +	/* Bit[23:16]- Stream Id */
-> +	u8 stream_id;
-> +
-> +	/* Bit[15]- Signed */
-> +	bool reply_signed;
-> +
-> +	/* Bit[10:8]- Stream Output Sink Type */
-> +	bool unauthorizable_device_present;
-> +	bool legacy_device_present;
-> +	bool query_capable_device_present;
-> +
-> +	/* Bit[12:11]- Stream Output CP Type */
-> +	bool hdcp_1x_device_present;
-> +	bool hdcp_2x_device_present;
-> +
-> +	/* Bit[4]- Stream Authentication */
-> +	bool auth_completed;
-> +
-> +	/* Bit[3]- Stream Encryption */
-> +	bool encryption_enabled;
-> +
-> +	/* Bit[2]- Stream Repeater Function Present */
-> +	bool repeater_present;
-> +
-> +	/* Bit[1:0]- Stream State */
-> +	u8 state;
-> +};
->  
->  struct drm_dp_sideband_msg_rx {
->  	u8 chunk[48];
-> @@ -378,6 +406,15 @@ struct drm_dp_remote_i2c_write {
->  	u8 *bytes;
->  };
->  
-> +struct drm_dp_query_stream_enc_status {
-> +	u8 stream_id;
-> +	u8 client_id[7];	/* 56-bit nonce */
-> +	u8 stream_event;
-> +	bool valid_stream_event;
-> +	u8 stream_behavior;
-> +	u8 valid_stream_behavior;
-> +};
-> +
->  /* this covers ENUM_RESOURCES, POWER_DOWN_PHY, POWER_UP_PHY */
->  struct drm_dp_port_number_req {
->  	u8 port_number;
-> @@ -426,6 +463,8 @@ struct drm_dp_sideband_msg_req_body {
->  
->  		struct drm_dp_remote_i2c_read i2c_read;
->  		struct drm_dp_remote_i2c_write i2c_write;
-> +
-> +		struct drm_dp_query_stream_enc_status enc_status;
->  	} u;
->  };
->  
-> @@ -448,6 +487,8 @@ struct drm_dp_sideband_msg_reply_body {
->  		struct drm_dp_remote_i2c_read_ack_reply remote_i2c_read_ack;
->  		struct drm_dp_remote_i2c_read_nak_reply remote_i2c_read_nack;
->  		struct drm_dp_remote_i2c_write_ack_reply remote_i2c_write_ack;
-> +
-> +		struct drm_dp_query_stream_enc_status_ack_reply enc_status;
->  	} u;
->  };
->  
-> @@ -804,6 +845,9 @@ drm_dp_atomic_release_vcpi_slots(struct drm_atomic_state
-> *state,
->  				 struct drm_dp_mst_port *port);
->  int drm_dp_send_power_updown_phy(struct drm_dp_mst_topology_mgr *mgr,
->  				 struct drm_dp_mst_port *port, bool power_up);
-> +int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr
-> *mgr,
-> +		struct drm_dp_mst_port *port,
-> +		struct drm_dp_query_stream_enc_status_ack_reply *status);
->  int __must_check drm_dp_mst_atomic_check(struct drm_atomic_state *state);
->  
->  void drm_dp_mst_get_port_malloc(struct drm_dp_mst_port *port);
--- 
-Cheers,
-	Lyude Paul (she/her)
-	Associate Software Engineer at Red Hat
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBGZWIgMjgsIDIwMjAgYXQgOToyNiBQTSBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9y
+Zy5vcmc+IHdyb3RlOgo+Cj4gSGkgRGFuaWVsLgo+Cj4gU29tZSBiaWtlc2hlZGRpbmcgaW4gdGhl
+IGZvbGxvd2luZy4KPiB3aXRoIG9yIHdpdGggYWRkcmVzc2luZyAoSU1ITyB2YWxpZCBwb2ludHMp
+IGNvbnNpZGVyIHRoZSBwYXRjaDoKPgo+IFJldmlld2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUBy
+YXZuYm9yZy5vcmc+Cj4KPiAgICAgICAgIFNhbQo+Cj4gT24gVGh1LCBGZWIgMjcsIDIwMjAgYXQg
+MDc6MTQ6NTdQTSArMDEwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+IGRybV9tb2RlX2NvbmZp
+Z19jbGVhbnVwIGlzIGlkZW1wb3RlbnQsIHNvIG5vIGhhcm0gaW4gY2FsbGluZyB0aGlzCj4gPiB0
+d2ljZS4gVGhpcyBhbGxvd3MgdXMgdG8gZ3JhZHVhbGx5IHN3aXRjaCBkcml2ZXJzIG92ZXIgYnkg
+cmVtb3ZpbmcKPiA+IGV4cGxpY2l0IGRybV9tb2RlX2NvbmZpZ19jbGVhbnVwIGNhbGxzLgo+ID4K
+Pgo+ID4gV2l0aCB0aGlzIHN0ZXAgaXQncyBub3QgYWxzbyBwb3NzaWJsZSB0aGF0IChhdCBsZWFz
+dCBmb3Igc2ltcGxlCj4gPiBkcml2ZXJzKSBhdXRvbWF0aWMgcmVzb3VyY2UgY2xlYW51cCBjYW4g
+YmUgZG9uZSBjb3JyZWN0bHkgd2l0aG91dCBhCj4gPiBkcm1fZHJpdmVyLT5yZWxlYXNlIGhvb2su
+IFRoZXJlZm9yZSBhbGxvdyB0aGlzIG5vdyBpbgo+ID4gZGV2bV9kcm1fZGV2X2luaXQoKS4KPiBJ
+IGFtIG5vdCByZWFsbHkgc3VyZSB3aGF0IHlvdSB0cnkgdG8gZXhwbGFpbiBoZXJlPwo+IFNob3Vs
+ZCB0aGUgIm5vdCIgYmUgZGVsZXRlZD8KCnMvbm90L25vdy8KCnNvbWVob3cgdGhhdCdzIGEgdHlw
+byBJIGRvIGFsbCB0aGUgdGltZSwgZHVubm8gd2h5LgoKPiA+IEFsc28gd2l0aCBkcm1tXyBleHBs
+aWNpdCBkcm1fZHJpdmVyLT5yZWxlYXNlIGhvb2tzIGFyZSBraW5kYSBub3QgdGhlCj4gPiBiZXN0
+IG9wdGlvbiwgc28gZGVwcmVjYXRlIHRoYXQgaG9vayB0byBkaXNjb3VyYWdlIGZ1dHVyZSB1c2Vy
+cy4KPiBUaGUgLT5yZWxlYXNlIGhvb2tzIGhhcyBvdGhlcnMgdXNlcyB1bnRpbCBldmVyeXRoaW5n
+IGlzIG1vdmVkIG92ZXIgdG8KPiBkcm1tXywgb3Igc28gSSB0aGluay4gU28gZGVwcmVjYXRpb24g
+c2VlbXMgYSBsdHRsZSB0b28gc29vbi4KCllvdSBjYW4ganVzdCBhZGQgYSBkcm1tIGFjdGlvbiB3
+aGljaCBjYWxscyB5b3VyIHJlbGVhc2UgZnVuY3Rpb24uIFRoZQp1cHNob3QgaXMgdGhhdCB5b3Ug
+Y2FuIGJlIG1vcmUgZmluZS1ncmFpbmVkICh1c2VmdWwgZm9yIHVud2luZGluZyB3aGVuCmRyaXZl
+ciBsb2FkIGZhaWxzIGhhbGZ3YXkgdGhyb3VnaCkuIFRoYXQncyB3aHkgSSB0aGluayBuZXcgZHJp
+dmVycwphZnRlciB0aGlzIHBhdGNoIHNob3VsZG4ndCB1c2UgLT5yZWxlYXNlIGFueW1vcmUsIGl0
+J3Mgc3RyaWN0bHkgbGVzcwp1c2VmdWwgdGhhbiBkcm1tIGFjdGlvbnMuIFRoZSBsZXNzIHVud2lu
+ZCBjb2RlIEkgaGF2ZSB0byByZXZpZXcKY2FyZWZ1bGx5IHRvIG1ha2Ugc3VyZSB0aGUgcmlnaHQg
+c3R1ZmYgZ2V0cyByZWxlYXNlZCAoYW5kIG5vdCBtb3JlISkKdGhlIGJldHRlci4KCj4gPiB2Mjog
+Rml4dXAgdGhlIGV4YW1wbGUgaW4gdGhlIGtlcm5lbGRvYyB0b28uCj4gPgo+ID4gdjM6Cj4gPiAt
+IEZvciBwYXJhbm9pYSwgZG91YmxlIGNoZWNrIHRoYXQgbWlub3ItPmRldiA9PSBkZXYgaW4gdGhl
+IHJlbGVhc2UKPiA+ICAgaG9vaywgYmVjYXVzZSBJIGJvdGNoZWQgdGhlIHBvaW50ZXIgbWF0aCBp
+biB0aGUgZHJtbSBsaWJyYXJ5Lgo+ID4gLSBDYWxsIGRybV9tb2RlX2NvbmZpZ19jbGVhbnVwIHdo
+ZW4gZHJtbV9hZGRfYWN0aW9uIGZhaWxzLCB3ZSdkIGJlCj4gPiAgIG1pc3Npbmcgc29tZSBtdXRl
+eF9kZXN0cm95IGFuZCBpZGFfY2xlYW51cCBvdGhlcndpc2UgKExhdXJlbnQpCj4gPgo+ID4gdjQ6
+IEFkZCBhIGRybW1fYWRkX2FjdGlvbl9vcl9yZXNldCAobGlrZSBkZXZtXyBoYXMpIHRvIGVuY2Fw
+c3VsYXRlIHRoaXMKPiA+IHBhdHRlcm4gKE5vcmFsZikuCj4gPgo+ID4gdjU6IEZpeCBvdmVyc2ln
+aHQgaW4gdGhlIG5ldyBhZGRfYWN0aW9uX29yX3Jlc2V0IG1hY3JvIChOb3JhbGYpCj4gICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIF4gZHJtbV9hZGRfYWN0aW9uX29yX3Jlc2V0Cj4gPgo+
+ID4gQ2M6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNv
+bT4KPiA+IENjOiAiTm9yYWxmIFRyw7hubmVzIiA8bm9yYWxmQHRyb25uZXMub3JnPgo+ID4gQ2M6
+IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiA+IENjOiBUaG9tYXMgWmltbWVybWFu
+biA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+IEFja2VkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5v
+cmFsZkB0cm9ubmVzLm9yZz4KPiA+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmll
+bC52ZXR0ZXJAaW50ZWwuY29tPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9kcnYu
+YyAgICAgICAgIHwgMjMgKysrKysrKy0tLS0tLS0tLS0tLS0tLS0KPiA+ICBkcml2ZXJzL2dwdS9k
+cm0vZHJtX21hbmFnZWQuYyAgICAgfCAxNCArKysrKysrKysrKysrKwo+ID4gIGRyaXZlcnMvZ3B1
+L2RybS9kcm1fbW9kZV9jb25maWcuYyB8IDEzICsrKysrKysrKysrKy0KPiA+ICBpbmNsdWRlL2Ry
+bS9kcm1fbWFuYWdlZC5oICAgICAgICAgfCAgNyArKysrKysrCj4gPiAgaW5jbHVkZS9kcm0vZHJt
+X21vZGVfY29uZmlnLmggICAgIHwgIDIgKy0KPiA+ICA1IGZpbGVzIGNoYW5nZWQsIDQxIGluc2Vy
+dGlvbnMoKyksIDE4IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYwo+ID4gaW5kZXggM2Nm
+NDA4NjRkNGE2Li5iYjMyNmI5YmNkZTAgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jCj4gPiBAQCAtOTgs
+NiArOTgsOCBAQCBzdGF0aWMgdm9pZCBkcm1fbWlub3JfYWxsb2NfcmVsZWFzZShzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LCB2b2lkICpkYXRhKQo+ID4gICAgICAgc3RydWN0IGRybV9taW5vciAqbWlu
+b3IgPSBkYXRhOwo+ID4gICAgICAgdW5zaWduZWQgbG9uZyBmbGFnczsKPiA+Cj4gPiArICAgICBX
+QVJOX09OKGRldiAhPSBtaW5vci0+ZGV2KTsKPiA+ICsKPiA+ICAgICAgIHB1dF9kZXZpY2UobWlu
+b3ItPmtkZXYpOwo+ID4KPiA+ICAgICAgIHNwaW5fbG9ja19pcnFzYXZlKCZkcm1fbWlub3JfbG9j
+aywgZmxhZ3MpOwo+ID4gQEAgLTI2Nyw4ICsyNjksNyBAQCB2b2lkIGRybV9taW5vcl9yZWxlYXNl
+KHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yKQo+ID4gICAqCj4gPiAgICogVGhlIGZvbGxvd2luZyBl
+eGFtcGxlIHNob3dzIGEgdHlwaWNhbCBzdHJ1Y3R1cmUgb2YgYSBEUk0gZGlzcGxheSBkcml2ZXIu
+Cj4gPiAgICogVGhlIGV4YW1wbGUgZm9jdXMgb24gdGhlIHByb2JlKCkgZnVuY3Rpb24gYW5kIHRo
+ZSBvdGhlciBmdW5jdGlvbnMgdGhhdCBpcwo+ID4gLSAqIGFsbW9zdCBhbHdheXMgcHJlc2VudCBh
+bmQgc2VydmVzIGFzIGEgZGVtb25zdHJhdGlvbiBvZiBkZXZtX2RybV9kZXZfaW5pdCgpCj4gPiAt
+ICogdXNhZ2Ugd2l0aCBpdHMgYWNjb21wYW55aW5nIGRybV9kcml2ZXItPnJlbGVhc2UgY2FsbGJh
+Y2suCj4gPiArICogYWxtb3N0IGFsd2F5cyBwcmVzZW50IGFuZCBzZXJ2ZXMgYXMgYSBkZW1vbnN0
+cmF0aW9uIG9mIGRldm1fZHJtX2Rldl9pbml0KCkuCj4gPiAgICoKPiA+ICAgKiAuLiBjb2RlLWJs
+b2NrOjogYwo+ID4gICAqCj4gPiBAQCAtMjc4LDE2ICsyNzksOCBAQCB2b2lkIGRybV9taW5vcl9y
+ZWxlYXNlKHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yKQo+ID4gICAqICAgICAgICAgICBzdHJ1Y3Qg
+Y2xrICpwY2xrOwo+ID4gICAqICAgfTsKPiA+ICAgKgo+ID4gLSAqICAgc3RhdGljIHZvaWQgZHJp
+dmVyX2RybV9yZWxlYXNlKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0pCj4gPiAtICogICB7Cj4gPiAt
+ICogICAgICAgICAgIHN0cnVjdCBkcml2ZXJfZGV2aWNlICpwcml2ID0gY29udGFpbmVyX29mKC4u
+Lik7Cj4gPiAtICoKPiA+IC0gKiAgICAgICAgICAgZHJtX21vZGVfY29uZmlnX2NsZWFudXAoZHJt
+KTsKPiA+IC0gKiAgIH0KPiA+IC0gKgo+ID4gICAqICAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVy
+IGRyaXZlcl9kcm1fZHJpdmVyID0gewo+ID4gICAqICAgICAgICAgICBbLi4uXQo+ID4gLSAqICAg
+ICAgICAgICAucmVsZWFzZSA9IGRyaXZlcl9kcm1fcmVsZWFzZSwKPiA+ICAgKiAgIH07Cj4gPiAg
+ICoKPiA+ICAgKiAgIHN0YXRpYyBpbnQgZHJpdmVyX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZp
+Y2UgKnBkZXYpCj4gPiBAQCAtMzEyLDcgKzMwNSw5IEBAIHZvaWQgZHJtX21pbm9yX3JlbGVhc2Uo
+c3RydWN0IGRybV9taW5vciAqbWlub3IpCj4gPiAgICogICAgICAgICAgIH0KPiA+ICAgKiAgICAg
+ICAgICAgZHJtbV9hZGRfZmluYWxfa2ZyZWUoZHJtLCBwcml2KTsKPiA+ICAgKgo+ID4gLSAqICAg
+ICAgICAgICBkcm1fbW9kZV9jb25maWdfaW5pdChkcm0pOwo+ID4gKyAqICAgICAgICAgICByZXQg
+PSBkcm1fbW9kZV9jb25maWdfaW5pdChkcm0pOwo+ID4gKyAqICAgICAgICAgICBpZiAocmV0KQo+
+ID4gKyAqICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gV2UgZG8gbm90IHByaW50IGFu
+eXRoaW5nIGluIGRybV9tb2RlX2NvbmZpZ19pbml0KCkgLSBzbyBzaG91bGQKPiB3ZSBkbyBpdCBo
+ZXJlPwo+IE90aGVyd2lzZSB3ZSBvbmx5IGdldCB0aGUgbW9yZSBnZW5lcmljIGVycm9yIGZyb20g
+dGhlIGRyaXZlciBjb3JlLgoKSSBjYW4gYWRkIGEgcHJpbnRrIHRvIGRybV9tb2RlX2NvbmZpZyBp
+ZiBwZW9wbGUgZmVlbCBsaWtlLiBCdXQgaXQncwpndWFyYW50ZWVkIGRlYWQgY29kZSBpbiByZWFs
+aXR5LCBiZWNhdXNlIG9mIGxpbnV4JyBzbWFsbCBtZW1vcnkKYWxsb2NhdGlvbiBndWFyYW50ZWUu
+IFNtYWxsIG1hbGxvY3MgbGlrZSB0aGlzIG9uZSBoZXJlIG9mIGp1c3QgMgpjYWNoZWxpbmVzIG5l
+dmVyIGZhaWwgKGF0IGxlYXN0IG5vdCB3aXRoIEdGUF9LRVJORUwpLgoKPiA+ICAgKgo+ID4gICAq
+ICAgICAgICAgICBwcml2LT51c2Vyc3BhY2VfZmFjaW5nID0gZHJtbV9remFsbG9jKC4uLiwgR0ZQ
+X0tFUk5FTCk7Cj4gPiAgICogICAgICAgICAgIGlmICghcHJpdi0+dXNlcnNwYWNlX2ZhY2luZykK
+PiA+IEBAIC03MTAsOCArNzA1LDcgQEAgc3RhdGljIHZvaWQgZGV2bV9kcm1fZGV2X2luaXRfcmVs
+ZWFzZSh2b2lkICpkYXRhKQo+ID4gICAqIEBkcml2ZXI6IERSTSBkcml2ZXIKPiA+ICAgKgo+ID4g
+ICAqIE1hbmFnZWQgZHJtX2Rldl9pbml0KCkuIFRoZSBEUk0gZGV2aWNlIGluaXRpYWxpemVkIHdp
+dGggdGhpcyBmdW5jdGlvbiBpcwo+ID4gLSAqIGF1dG9tYXRpY2FsbHkgcHV0IG9uIGRyaXZlciBk
+ZXRhY2ggdXNpbmcgZHJtX2Rldl9wdXQoKS4gWW91IG11c3Qgc3VwcGx5IGEKPiA+IC0gKiAmZHJt
+X2RyaXZlci5yZWxlYXNlIGNhbGxiYWNrIHRvIGNvbnRyb2wgdGhlIGZpbmFsaXphdGlvbiBleHBs
+aWNpdGx5Lgo+ID4gKyAqIGF1dG9tYXRpY2FsbHkgcHV0IG9uIGRyaXZlciBkZXRhY2ggdXNpbmcg
+ZHJtX2Rldl9wdXQoKS4KPiA+ICAgKgo+ID4gICAqIFJFVFVSTlM6Cj4gPiAgICogMCBvbiBzdWNj
+ZXNzLCBvciBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCj4gPiBAQCAtNzIyLDkgKzcxNiw2IEBAIGlu
+dCBkZXZtX2RybV9kZXZfaW5pdChzdHJ1Y3QgZGV2aWNlICpwYXJlbnQsCj4gPiAgewo+ID4gICAg
+ICAgaW50IHJldDsKPiA+Cj4gPiAtICAgICBpZiAoV0FSTl9PTighZHJpdmVyLT5yZWxlYXNlKSkK
+PiA+IC0gICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4gPiAtCj4gPiAgICAgICByZXQgPSBk
+cm1fZGV2X2luaXQoZGV2LCBkcml2ZXIsIHBhcmVudCk7Cj4gPiAgICAgICBpZiAocmV0KQo+ID4g
+ICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fbWFuYWdlZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9tYW5hZ2VkLmMKPiA+IGluZGV4
+IDYyNjY1NjM2OWYwYi4uNjM3NmJlMDFiYmM4IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9tYW5hZ2VkLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbWFuYWdlZC5j
+Cj4gPiBAQCAtMTM0LDYgKzEzNCwyMCBAQCBpbnQgX19kcm1tX2FkZF9hY3Rpb24oc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiwKPiA+ICB9Cj4gPiAgRVhQT1JUX1NZTUJPTChfX2RybW1fYWRkX2FjdGlv
+bik7Cj4gPgo+ID4gK2ludCBfX2RybW1fYWRkX2FjdGlvbl9vcl9yZXNldChzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBkcm1yZXNfcmVsZWFz
+ZV90IGFjdGlvbiwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgdm9pZCAqZGF0YSwg
+Y29uc3QgY2hhciAqbmFtZSkKPiA+ICt7Cj4gPiArICAgICBpbnQgcmV0Owo+ID4gKwo+ID4gKyAg
+ICAgcmV0ID0gX19kcm1tX2FkZF9hY3Rpb24oZGV2LCBhY3Rpb24sIGRhdGEsIG5hbWUpOwo+ID4g
+KyAgICAgaWYgKHJldCkKPiA+ICsgICAgICAgICAgICAgYWN0aW9uKGRldiwgZGF0YSk7Cj4gPiAr
+Cj4gPiArICAgICByZXR1cm4gcmV0Owo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9MKF9fZHJtbV9h
+ZGRfYWN0aW9uX29yX3Jlc2V0KTsKPgo+IEJpa2VzaGVkZGluZyAtIGJ1dCB3aHkgb2ggd2h5IHBy
+ZWZpeGluZyB0aGUgZnVuY3Rpb24gd2l0aCB0d28KPiB1bmRlcnNjb3Jlcz8KPiAtIEl0IG1ha2Vz
+IGl0IGxlc3MgcmVhZGFibGUKPiAtIEl0IHNheXMgImludGVybmFsIiwgYXQgbGVhc3QgdG8gbWUg
+LSBidXQgaXQgaXMgZXhwb3J0ZWQKPiAtIEl0IG1ha2VzIHRoZSBjYXN1YWwgcmVhZGVyIHdvbmRl
+ciB3aHksIHJlbW92aW5nIGZvY3VzIGZyb20gb3RoZXIgbW9yZQo+ICAgcmVsZXZhbnQgdGhpbmdz
+Cj4gLSBJdCBtYWtlcyBtZSB3cml0aW5nIHNldmVyYWwgbGluZXMgb2YgcmFudAo+Cj4gZHJtbV9h
+ZGRfYWN0aW9uX29yX3Jlc2V0X25hbWVkKC4uLikgd291bGQgZG8gdGhlIHRyaWNrLgoKSXQgX2lz
+XyBhbiBpbnRlcm5hbCBmdW5jdGlvbi4gSSBkb24ndCB0aGluayBkcml2ZXJzIHNob3VsZCBldmVy
+IGNhbGwKaXQuIEhlbmNlIF9fIGFuZCBoZW5jZSBubyBrZXJuZWxkb2MgaW4gdGhlIGxhc3QgcGF0
+Y2guIE5vdyBpZiBzb21lb25lCmZpbmRzIGEgbGVnaXQgdXNlIGZvciB0aGlzIEkgZ3Vlc3Mgd2Ug
+Y29sZCByZW5hbWUgaXQsIGFuZCBnaXZlIGl0IHNvbWUKbmljZSBrZXJuZWxkb2MuIEJ1dCBpbW8g
+bm8gcG9pbnQgYmVmb3JlIHRoYXQuCgpBIHRoaW5nIHRoYXQgbWlnaHQgYmUgdXNlZnVsIGlzIGRy
+bV9hZGRfYWN0aW9uX2YoKSB3aXRoIGEgZm9ybWF0CnN0cmluZyBhdCB0aGUgZW5kLCBmb3IgY2Fz
+ZXMgd2hlcmUgeW91IHNldCBhIG5vbi1OVUxMIGRhdGEgcG9pbnRlciwKYW5kIHdhbnQgdG8gaW5j
+bHVkZSB0aGF0IHNvbWVob3cgaW4gdGhlIG5hbWUuIFRoaXMgbWlnaHQgYmUgdXNlZnVsIGZvcgpj
+bGVhbnVwIGFjdGlvbnMgZm9yIHN0dWZmIGxpa2UgY29ubmVjdG9ycyBhbmQgc28gb24uIEJ1dCB3
+ZSdyZSBub3QKdGhlcmUgeWV0IGF0IGFsbCwgYW5kIHlvdSBjYW4gYWxzbyBkbyB0aGF0IGtpbmQg
+b2YgbWVhbmluZ2Z1bCBkZWJ1ZwpvdXRwdXQgZnJvbSBjbGVhbnVwIGZ1bmN0aW9uIGRpcmVjdGx5
+LgoKPiBTYW1lIHJhbnQgYWJvdmUgZ29lcyBmb3IgX19kcm1tX2FkZF9hY3Rpb24oKS4uLgo+Cj4g
+PiArCj4gPiAgdm9pZCBkcm1tX3JlbW92ZV9hY3Rpb24oc3RydWN0IGRybV9kZXZpY2UgKmRldiwK
+PiA+ICAgICAgICAgICAgICAgICAgICAgICBkcm1yZXNfcmVsZWFzZV90IGFjdGlvbiwKPiA+ICAg
+ICAgICAgICAgICAgICAgICAgICB2b2lkICpkYXRhKQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fbW9kZV9jb25maWcuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZV9jb25m
+aWcuYwo+ID4gaW5kZXggMDhlNmVmZjZhMTc5Li42ZjcwMDViYzU5N2YgMTAwNjQ0Cj4gPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfY29uZmlnLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fbW9kZV9jb25maWcuYwo+ID4gQEAgLTI1LDYgKzI1LDcgQEAKPiA+ICAjaW5jbHVk
+ZSA8ZHJtL2RybV9kcnYuaD4KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9lbmNvZGVyLmg+Cj4gPiAg
+I2luY2x1ZGUgPGRybS9kcm1fZmlsZS5oPgo+ID4gKyNpbmNsdWRlIDxkcm0vZHJtX21hbmFnZWQu
+aD4KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9tb2RlX2NvbmZpZy5oPgo+ID4gICNpbmNsdWRlIDxk
+cm0vZHJtX3ByaW50Lmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L2RtYS1yZXN2Lmg+Cj4gPiBAQCAt
+MzczLDYgKzM3NCwxMSBAQCBzdGF0aWMgaW50IGRybV9tb2RlX2NyZWF0ZV9zdGFuZGFyZF9wcm9w
+ZXJ0aWVzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gPiAgICAgICByZXR1cm4gMDsKPiA+ICB9
+Cj4gPgo+ID4gK3N0YXRpYyB2b2lkIGRybV9tb2RlX2NvbmZpZ19pbml0X3JlbGVhc2Uoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqcHRyKQo+ID4gK3sKPiA+ICsgICAgIGRybV9tb2RlX2Nv
+bmZpZ19jbGVhbnVwKGRldik7Cj4gPiArfQo+ID4gKwo+ID4gIC8qKgo+ID4gICAqIGRybV9tb2Rl
+X2NvbmZpZ19pbml0IC0gaW5pdGlhbGl6ZSBEUk0gbW9kZV9jb25maWd1cmF0aW9uIHN0cnVjdHVy
+ZQo+ID4gICAqIEBkZXY6IERSTSBkZXZpY2UKPiA+IEBAIC0zODQsOCArMzkwLDEwIEBAIHN0YXRp
+YyBpbnQgZHJtX21vZGVfY3JlYXRlX3N0YW5kYXJkX3Byb3BlcnRpZXMoc3RydWN0IGRybV9kZXZp
+Y2UgKmRldikKPiA+ICAgKiBwcm9ibGVtLCBzaW5jZSB0aGlzIHNob3VsZCBoYXBwZW4gc2luZ2xl
+IHRocmVhZGVkIGF0IGluaXQgdGltZS4gSXQgaXMgdGhlCj4gPiAgICogZHJpdmVyJ3MgcHJvYmxl
+bSB0byBlbnN1cmUgdGhpcyBndWFyYW50ZWUuCj4gPiAgICoKPiA+ICsgKiBDbGVhbnVwIGlzIGF1
+dG9tYXRpY2FsbHkgaGFuZGxlZCB0aHJvdWdoIHJlZ2lzdGVyaW5nIGRybV9tb2RlX2NvbmZpZ19j
+bGVhbnVwCj4gPiArICogd2l0aCBkcm1tX2FkZF9hY3Rpb24oKS4KPiA+ICAgKi8KPiA+IC12b2lk
+IGRybV9tb2RlX2NvbmZpZ19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gPiAraW50IGRy
+bV9tb2RlX2NvbmZpZ19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gPiAgewo+ID4gICAg
+ICAgbXV0ZXhfaW5pdCgmZGV2LT5tb2RlX2NvbmZpZy5tdXRleCk7Cj4gPiAgICAgICBkcm1fbW9k
+ZXNldF9sb2NrX2luaXQoJmRldi0+bW9kZV9jb25maWcuY29ubmVjdGlvbl9tdXRleCk7Cj4gPiBA
+QCAtNDQzLDYgKzQ1MSw5IEBAIHZvaWQgZHJtX21vZGVfY29uZmlnX2luaXQoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldikKPiA+ICAgICAgICAgICAgICAgZHJtX21vZGVzZXRfYWNxdWlyZV9maW5pKCZt
+b2Rlc2V0X2N0eCk7Cj4gPiAgICAgICAgICAgICAgIGRtYV9yZXN2X2ZpbmkoJnJlc3YpOwo+ID4g
+ICAgICAgfQo+ID4gKwo+ID4gKyAgICAgcmV0dXJuIGRybW1fYWRkX2FjdGlvbl9vcl9yZXNldChk
+ZXYsIGRybV9tb2RlX2NvbmZpZ19pbml0X3JlbGVhc2UsCj4gPiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIE5VTEwpOwo+ID4gIH0KPiA+ICBFWFBPUlRfU1lNQk9MKGRybV9t
+b2RlX2NvbmZpZ19pbml0KTsKPiBBcyB0aGlzIGlzIG5vdyBhIGRybW1fIG1hbmFnZWQgZnVuY3Rp
+b24gaXQgc2hvdWxkIGJlIG5hbWVkIHN1Y2guCj4gTWF5YmUgYWRkIGEgc21hbGwgZHJtX21vZGVf
+Y29uZmlnX2luaXQoKSB3cmFwcGVyIGluIHRoZSBoZWFkZXIgZmlsZSBmb3IKPiB0aG9zZSB0aGF0
+IGhhcyBub3QgbWlncmF0ZWQgeWV0Lgo+IEl0IGlzIGNvbmZ1c2luZyBpZiB3ZSBhcmUgbm90IGNv
+bnNpc3RlbnQgaW4gbmFtaW5nIGFuZCBldmVyeXdoZXJlIGVsc2UKPiB0aGUgZHJtIG1hbmFnZWQg
+ZnVuY3Rpb25zIGFyZSBuYW1lZCBkcm1tXwoKWWVhaCBvayBJIGd1ZXNzIEknbSBjb252aW5jZWQg
+b24gdGhpcyA6LSkKCkNoZWVycywgRGFuaWVsCgo+Cj4KPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvaW5j
+bHVkZS9kcm0vZHJtX21hbmFnZWQuaCBiL2luY2x1ZGUvZHJtL2RybV9tYW5hZ2VkLmgKPiA+IGlu
+ZGV4IDJiMWJhMmFkNTU4Mi4uMWU2MjkxNDA3NTg2IDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS9k
+cm0vZHJtX21hbmFnZWQuaAo+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX21hbmFnZWQuaAo+ID4g
+QEAgLTE4LDYgKzE4LDEzIEBAIGludCBfX211c3RfY2hlY2sgX19kcm1tX2FkZF9hY3Rpb24oc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IGRybXJlc19yZWxlYXNlX3QgYWN0aW9uLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgdm9pZCAqZGF0YSwgY29uc3QgY2hhciAqbmFtZSk7Cj4gPgo+ID4gKyNkZWZpbmUgZHJt
+bV9hZGRfYWN0aW9uX29yX3Jlc2V0KGRldiwgYWN0aW9uLCBkYXRhKSBcCj4gPiArICAgICBfX2Ry
+bW1fYWRkX2FjdGlvbl9vcl9yZXNldChkZXYsIGFjdGlvbiwgZGF0YSwgI2FjdGlvbikKPiA+ICsK
+PiA+ICtpbnQgX19tdXN0X2NoZWNrIF9fZHJtbV9hZGRfYWN0aW9uX29yX3Jlc2V0KHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBkcm1yZXNfcmVsZWFzZV90IGFjdGlvbiwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHZvaWQgKmRhdGEsIGNvbnN0IGNoYXIgKm5hbWUpOwo+ID4gKwo+
+ID4gIHZvaWQgZHJtbV9yZW1vdmVfYWN0aW9uKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gPiAg
+ICAgICAgICAgICAgICAgICAgICAgZHJtcmVzX3JlbGVhc2VfdCBhY3Rpb24sCj4gPiAgICAgICAg
+ICAgICAgICAgICAgICAgdm9pZCAqZGF0YSk7Cj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0v
+ZHJtX21vZGVfY29uZmlnLmggYi9pbmNsdWRlL2RybS9kcm1fbW9kZV9jb25maWcuaAo+ID4gaW5k
+ZXggM2JjYmUzMDMzOWYwLi4xNjBhM2U0YjUxYzMgMTAwNjQ0Cj4gPiAtLS0gYS9pbmNsdWRlL2Ry
+bS9kcm1fbW9kZV9jb25maWcuaAo+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmln
+LmgKPiA+IEBAIC05MjksNyArOTI5LDcgQEAgc3RydWN0IGRybV9tb2RlX2NvbmZpZyB7Cj4gPiAg
+ICAgICBjb25zdCBzdHJ1Y3QgZHJtX21vZGVfY29uZmlnX2hlbHBlcl9mdW5jcyAqaGVscGVyX3By
+aXZhdGU7Cj4gPiAgfTsKPiA+Cj4gPiAtdm9pZCBkcm1fbW9kZV9jb25maWdfaW5pdChzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2KTsKPiA+ICtpbnQgZHJtX21vZGVfY29uZmlnX2luaXQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldik7Cj4gPiAgdm9pZCBkcm1fbW9kZV9jb25maWdfcmVzZXQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldik7Cj4gPiAgdm9pZCBkcm1fbW9kZV9jb25maWdfY2xlYW51cChzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2KTsKPiA+Cj4gPiAtLQo+ID4gMi4yNC4xCgoKCi0tIApEYW5pZWwgVmV0
+dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1
+NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
