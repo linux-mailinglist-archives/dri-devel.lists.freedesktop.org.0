@@ -2,59 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D473017460F
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50407174628
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 078886E1BC;
-	Sat, 29 Feb 2020 10:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F11696E2E1;
+	Sat, 29 Feb 2020 10:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 084336EF35
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 11:00:54 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id m7so4276254pjs.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 03:00:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eQW4bOKSHmU5l0Lbtw43hu3nzYBtiYhV3Cs9XK1O2js=;
- b=FqGcQt7M9LOBvJLQAHMcr8nvGS+3bKX4hNxcwMSYzAtUeT1qlioANW7evrFMu+f2VJ
- NyRZTZBvSogXJiEO/YbyZzLFeRo085fID3MW0eNGHbKIzSgeEy46OjTgwjce1eOv/OxZ
- 0CiGSdsyQrHJmz3+NB5IKlJ551XeMEU/kXokhXrDsmB5mo5XYfS9kHKCLaZ7WuY/oSP1
- mC8X6o2xuyfUgq9LqY6GrlYSQn83HyJNvwAJZn3e+Vk5/+xxN1jwCiQp9RsgciCCwRPi
- 9nl8vmdeSD2xu44v+UEPSaZVOsUXvaQ1pZWYxzHLlvkS2os8AY8baIJLxaEdrZ0JOYMU
- mzoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eQW4bOKSHmU5l0Lbtw43hu3nzYBtiYhV3Cs9XK1O2js=;
- b=Ostll23mPcoDBCgeiK6lNBbwJpBMigXVqdSyUZLvFyCJDxiHMGh+poqKWX14ibCZaY
- D8PVybZeKLFrUQRrvg1kLur9c/+6sNBl8X2Ui+IejbvYiCAKrH3d4fVqLoyPCFUNUIeX
- BB05Iv8rUn6Mx7kjQivA7d2mHCVdEJFLh3texES+fjrOGTtE7vD/wtl3Zm0HtWjXkOvN
- 9yEjahs5ftGq83uXG5OA3lcP/Oq8pPs7InKaLgvPVLtDquRTs5iGg+bz29fY7lyyCrld
- DhqONsnajI6GTcpF79rHNcYLTwfW6la+VkGFr6vmt/M0cuzbASdPHg2RW5WqYU34OuGw
- M46w==
-X-Gm-Message-State: APjAAAUIhhWo24xFfD/eWvbAVlFKTqYkhIZgwhbJxq8Iahxhhb3qJ3rt
- RZexEHT5WOV6HaAsATj4PDk=
-X-Google-Smtp-Source: APXvYqz82JUgk/ovz9no9ndPWLWIZDS2FJ4A6l9d3T+uSPQm6aLPld4kOwK3P9BJjBVf0EDJET2qYA==
-X-Received: by 2002:a17:902:7004:: with SMTP id
- y4mr3518935plk.263.1582887654310; 
- Fri, 28 Feb 2020 03:00:54 -0800 (PST)
-Received: from localhost.localdomain
- ([2408:821b:3c17:4ef0:cc67:a77c:4401:27bb])
- by smtp.gmail.com with ESMTPSA id s206sm10932554pfs.100.2020.02.28.03.00.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 03:00:53 -0800 (PST)
-From: youling257 <youling257@gmail.com>
-To: jun.zhang@intel.com
-Subject: Re: [PATCH] ion_system_heap: support X86 archtecture
-Date: Fri, 28 Feb 2020 19:00:12 +0800
-Message-Id: <20200228110012.3578-1-youling257@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20190929072841.14848-1-jun.zhang@intel.com>
-References: <20190929072841.14848-1-jun.zhang@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 881976EF39;
+ Fri, 28 Feb 2020 11:02:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kusma) with ESMTPSA id 8117329695C
+Message-ID: <6761e107fda6af2f70f0a11784e182dfbc61cb0e.camel@collabora.com>
+Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and
+ impact on services
+From: Erik Faye-Lund <erik.faye-lund@collabora.com>
+To: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 28 Feb 2020 12:02:34 +0100
+In-Reply-To: <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+ <b398161ff7d0268454413058dc6c194cf93f5990.camel@collabora.com>
+ <ece8ebe3-40ec-2457-02da-4fef19cbe8f6@intel.com>
+ <6d2ec570f957b4504fb70e0b1f0632712a99dc0c.camel@collabora.com>
+ <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 29 Feb 2020 10:13:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,87 +43,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, youling257 <youling257@gmail.com>,
- tkjos@android.com, gregkh@linuxfoundation.org, jie.a.bai@intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bai@vger.kernel.org, linaro-mm-sig@lists.linaro.org, bo.he@intel.com,
- arve@android.com, he@vger.kernel.org, joel@joelfernandes.org,
- labbott@redhat.com, maco@android.com, christian@brauner.io
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>, Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ gstreamer-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-this patch no help for x86.
+On Fri, 2020-02-28 at 10:43 +0000, Daniel Stone wrote:
+> On Fri, 28 Feb 2020 at 10:06, Erik Faye-Lund
+> <erik.faye-lund@collabora.com> wrote:
+> > On Fri, 2020-02-28 at 11:40 +0200, Lionel Landwerlin wrote:
+> > > Yeah, changes on vulkan drivers or backend compilers should be
+> > > fairly
+> > > sandboxed.
+> > > 
+> > > We also have tools that only work for intel stuff, that should
+> > > never
+> > > trigger anything on other people's HW.
+> > > 
+> > > Could something be worked out using the tags?
+> > 
+> > I think so! We have the pre-defined environment variable
+> > CI_MERGE_REQUEST_LABELS, and we can do variable conditions:
+> > 
+> > https://docs.gitlab.com/ee/ci/yaml/#onlyvariablesexceptvariables
+> > 
+> > That sounds like a pretty neat middle-ground to me. I just hope
+> > that
+> > new pipelines are triggered if new labels are added, because not
+> > everyone is allowed to set labels, and sometimes people forget...
+> 
+> There's also this which is somewhat more robust:
+> https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2569
+> 
+> 
 
-i have same problem on Androidx86 10.
+I'm not sure it's more robust, but yeah that a useful tool too.
 
-[  846.089339] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c00000-0x77c07fff], got write-back
-[  846.089756] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c08000-0x77c0ffff], got write-back
-[  846.090062] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c10000-0x77c17fff], got write-back
-[  846.090311] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c18000-0x77c1ffff], got write-back
-[  846.091353] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c20000-0x77c27fff], got write-back
-[  846.094230] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c00000-0x77c07fff], got write-back
-[  846.095464] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c28000-0x77c2ffff], got write-back
-[  846.099184] x86/PAT: .vorbis.decoder:11142 map pfn RAM range req write-combining for [mem 0x77c08000-0x77c08fff], got write-back
-[  846.100383] x86/PAT: .vorbis.decoder:11142 map pfn RAM range req write-combining for [mem 0x77c10000-0x77c10fff], got write-back
-[  846.103239] x86/PAT: .vorbis.decoder:11142 map pfn RAM range req write-combining for [mem 0x77c18000-0x77c18fff], got write-back
-[  846.104483] x86/PAT: .vorbis.decoder:11142 map pfn RAM range req write-combining for [mem 0x77c30000-0x77c33fff], got write-back
-[  846.104906] x86/PAT: .vorbis.decoder:11142 map pfn RAM range req write-combining for [mem 0x77c20000-0x77c20fff], got write-back
-[  846.104987] x86/PAT: .vorbis.decoder:11142 map pfn RAM range req write-combining for [mem 0x77c30000-0x77c33fff], got write-back
-[  846.109349] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c08000-0x77c0ffff], got write-back
-[  846.109491] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c10000-0x77c17fff], got write-back
-[  846.109965] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c38000-0x77c3ffff], got write-back
-[  846.110136] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c40000-0x77c47fff], got write-back
-[  846.111691] x86/PAT: .vorbis.decoder:11142 map pfn RAM range req write-combining for [mem 0x77c00000-0x77c00fff], got write-back
-[  846.112631] x86/PAT: NPDecoder-CL:11141 map pfn RAM range req write-combining for [mem 0x77c30000-0x77c30fff], got write-back
-[  846.114647] x86/PAT: .vorbis.decoder:11142 map pfn RAM range req write-combining for [mem 0x77c34000-0x77c37fff], got write-back
-[  848.562022] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c00000-0x77c01fff], got write-back
-[  848.562208] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c02000-0x77c03fff], got write-back
-[  848.562587] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c04000-0x77c05fff], got write-back
-[  848.562887] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c06000-0x77c07fff], got write-back
-[  848.564765] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c08000-0x77c09fff], got write-back
-[  848.567498] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c02000-0x77c02fff], got write-back
-[  848.568559] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c00000-0x77c01fff], got write-back
-[  848.569570] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0a000-0x77c0bfff], got write-back
-[  848.571470] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c04000-0x77c04fff], got write-back
-[  848.573627] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c06000-0x77c06fff], got write-back
-[  848.575635] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c08000-0x77c08fff], got write-back
-[  848.576566] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.579950] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c00000-0x77c00fff], got write-back
-[  848.581189] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0d000-0x77c0dfff], got write-back
-[  848.582210] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.582821] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0d000-0x77c0dfff], got write-back
-[  848.584509] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0a000-0x77c0afff], got write-back
-[  848.585061] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.585725] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.586834] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c04000-0x77c04fff], got write-back
-[  848.587474] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.588119] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.589486] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c06000-0x77c06fff], got write-back
-[  848.590083] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.591243] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.592301] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c08000-0x77c08fff], got write-back
-[  848.592891] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.596420] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c00000-0x77c00fff], got write-back
-[  848.596961] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0d000-0x77c0dfff], got write-back
-[  848.598486] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0a000-0x77c0afff], got write-back
-[  848.598598] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.599180] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.603080] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c04000-0x77c04fff], got write-back
-[  848.604500] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0e000-0x77c0efff], got write-back
-[  848.604969] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c06000-0x77c06fff], got write-back
-[  848.606555] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c0f000-0x77c0ffff], got write-back
-[  848.607668] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c08000-0x77c08fff], got write-back
-[  848.611666] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c10000-0x77c10fff], got write-back
-[  848.612810] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c00000-0x77c00fff], got write-back
-[  848.613929] x86/PAT: oid.aac.decoder:11197 map pfn RAM range req write-combining for [mem 0x77c11000-0x77c11fff], got write-back
-[  848.683124] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0d000-0x77c0dfff], got write-back
-[  848.683259] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0c000-0x77c0cfff], got write-back
-[  848.683420] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0e000-0x77c0efff], got write-back
-[  848.683508] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c0f000-0x77c0ffff], got write-back
-[  848.683583] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c10000-0x77c10fff], got write-back
-[  848.683664] x86/PAT: MediaCodec_loop:11196 map pfn RAM range req write-combining for [mem 0x77c11000-0x77c11fff], got write-back
+The reason I'm skeptical about the robustness is that we'll miss
+testing if this misses a path. That can of course be fixed by testing
+everything once things are in master, and fixing up that list when
+something breaks on master.
+
+The person who wrote a change knows more about the intricacies of the
+changes than a computer will ever do. But humans are also good at
+making mistakes, so I'm not sure which one is better. Maybe the union
+of both?
+
+As long as we have both rigorous testing after something landed in
+master (doesn't nessecarily need to happen right after, but for now
+that's probably fine), as well as a reasonable heuristic for what
+testing is needed pre-merge, I think we're good.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
