@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0725173574
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 11:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BC0173587
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 11:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8D916EF20;
-	Fri, 28 Feb 2020 10:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9BC6EF31;
+	Fri, 28 Feb 2020 10:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C02C6EF20;
- Fri, 28 Feb 2020 10:39:18 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id c18so1622886vsq.7;
- Fri, 28 Feb 2020 02:39:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13F766EF2A
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 10:44:32 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id a5so2704651wmb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 02:44:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IVkeix1fcnYZXRBUxfNVTT56PIOklSoyZMm+hTUJTz0=;
- b=Ameog9Zplz9fAzkjb6NxOLgSMttnlM8uqXZaWcCJ1N+7pd6rAmQgf1NkyDX0hZOt3T
- wWV2Xrl+rAqWG8MwHYmsMGLU4pB4suuNd06Ev9ZeFjdo3oxqO40wHYIoR3qw2MNWRo/K
- UCFlIxe9qUeFjcFgfwUShKXmY8xiI0/srqeQ/W279OjO4bcsX7SpbqBh24dNwiDt++aL
- zmHJ6n7Th3+Eqfh2JJ5xVp0GS1UATfwzqohFkVaDFNsqV6591Eap7TtCPbvqwqeSMFhu
- 8wxA/A2lAHK0xqRohlG4FBFOIRxWAtjchpgAso7x67VHxq8QpeHBqRnXNb80rchhR3uM
- BfPA==
+ :cc; bh=qzJJnF2P8v7o31Ml9N5Di+8zMyH/5FFUkGvyONKT3Nc=;
+ b=TuzPHmKOeb4yf8+T7Vm+KWfWmVjwGqB3u+YF7p1Ewxglh20LdRWcFPJGWdRar4+rFg
+ qKvHyUnqTTQ3nmqTCfCHQ6yvrYo/eifVKrVqr6OIpWEBSt5XO49GYFq5xfNXkEsDEUeA
+ KMzL5tEApE7nPn0U2hss2M9WzLyBjMXEKhp1QrPS4v5sbRr51TZTCx515LQ5LoDZv1co
+ OYvfTYZVQ/pK9Pqb/UawvcoadIC40Wqnt30qhqeFeqcXT1qAHzQ6pfRdZJe1rTiSZ4sf
+ Z3ctRnlfcNzZw1h+8ZP5B3A2BYNsU43HImYXyGF8MJ5mm8SdS/amamVzVJ6ZVD/CV7Rf
+ k8Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=IVkeix1fcnYZXRBUxfNVTT56PIOklSoyZMm+hTUJTz0=;
- b=c5oV4+dYPavWVsq7BT5r7qlAC9XrGysr7mO86li6jDlqNR8LTrSPSvFdyhmaTiSzzi
- MJbEvuccfp+m5DgfoUHWOx1k7C/S/f701sBlStfhzGvJ/C/4tgxxoM+hhffeG35PLoVi
- jAGfhu2WVmfIUGE+zoqgaMoWhP6RCRlnMpHIaLAp6CuielULyERKASkRSmsl9fzqKMl/
- N6VxCHr0NdItZ4+b9AhdPX2fSjQHkfZRe4q/uCtaavJL0dpOYD/SjzIcUOlpUNTIQWDK
- ttxVm7Px2jHF7pmPZcWdkSDAjdhg0X/WiRfD321vQRfRFsGGEF74gm6A/OoQwEUf1ryw
- KWlQ==
-X-Gm-Message-State: ANhLgQ2J+Rx5oR8K9iTuxpeN1QeVITGmFDnsKmCG4LU15tZAZdl+AhZi
- WuJKn7ki23aw4jHkgTLiC49jsMGQqmug3+u9b6Y=
-X-Google-Smtp-Source: ADFU+vueeYEl9uMwIRv51UteUXQvmnDkMiNGIO2wkpX77fcl1BU/O4Ks+yfXVc+t5PicvqKK+dNtCRByY+iZ7df3CnA=
-X-Received: by 2002:a67:e912:: with SMTP id c18mr2058699vso.72.1582886357500; 
- Fri, 28 Feb 2020 02:39:17 -0800 (PST)
+ bh=qzJJnF2P8v7o31Ml9N5Di+8zMyH/5FFUkGvyONKT3Nc=;
+ b=lyyp7Jl0iCZgMI+XeE8tdmcJJtcPL+YlAyL034B9H3R6jmtlob90LHT1F78u+l7JTI
+ IT2eibDGElsSICfBmFsFXhRWqCCwepgosQKjRgiQ6lHY3n83kQnggq3hMQn5JYDE6Kq7
+ O6uCuQauxYipTbyk41lX95HbAeMVXG7SKO0lk2NsOnw0SOs3grMb252OYUj4DPX8uAHI
+ E/BsB3fx7G3RywNTs94r6BnFyI7vutJ2sFvMT4wR1+tQ/Ds+Va/DcbdHIIBEABbH+eDd
+ PtYAybTV2D+glkA9o1B54+1rP//wncDicnCvci2+KQUZLl2dTe8VtAV+u/uzypfMJmaW
+ /TdA==
+X-Gm-Message-State: APjAAAUSq1n7vqKelkfrWs6Ptyzst3NhrUtdzDiMgeCmjcoz3bU39IWz
+ TP8e5VMcsULrYSCLHDl0G0K04/JVSO0UNJEhEcJwBA==
+X-Google-Smtp-Source: APXvYqxjMlpQYAoaSV79eB5XA4OXS8HLHE+ajKuLAKlYwTaFiXhXgcbYIoZ/XZtJyerWrQcz15snt38n9vUy+lCVotc=
+X-Received: by 2002:a05:600c:21c4:: with SMTP id
+ x4mr4328201wmj.147.1582886670440; 
+ Fri, 28 Feb 2020 02:44:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20200106104339.215511-1-christian.gmeiner@gmail.com>
- <78e5e739269ee8f7467284ad88d2097e2ad991ba.camel@pengutronix.de>
-In-Reply-To: <78e5e739269ee8f7467284ad88d2097e2ad991ba.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 28 Feb 2020 11:39:05 +0100
-Message-ID: <CAH9NwWe85qELoLisKgVdZYeeBkngAk9qQVNDA3=cp4_uRwXsEw@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: rework perfmon query infrastructure
-To: Lucas Stach <l.stach@pengutronix.de>
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+ <b398161ff7d0268454413058dc6c194cf93f5990.camel@collabora.com>
+ <ece8ebe3-40ec-2457-02da-4fef19cbe8f6@intel.com>
+ <6d2ec570f957b4504fb70e0b1f0632712a99dc0c.camel@collabora.com>
+In-Reply-To: <6d2ec570f957b4504fb70e0b1f0632712a99dc0c.camel@collabora.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 28 Feb 2020 10:43:49 +0000
+Message-ID: <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
+Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and impact
+ on services
+To: Erik Faye-Lund <erik.faye-lund@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,121 +67,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>, stable@vger.kernel.org,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>, Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ gstreamer-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
-
-Am Mi., 26. Feb. 2020 um 16:19 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> Hi Christian,
->
-> sorry for taking so long to get around to this.
->
-
-No problem...
-
-> On Mo, 2020-01-06 at 11:43 +0100, Christian Gmeiner wrote:
-> > Report the correct perfmon domains and signals depending
-> > on the supported feature flags.
+On Fri, 28 Feb 2020 at 10:06, Erik Faye-Lund
+<erik.faye-lund@collabora.com> wrote:
+> On Fri, 2020-02-28 at 11:40 +0200, Lionel Landwerlin wrote:
+> > Yeah, changes on vulkan drivers or backend compilers should be
+> > fairly
+> > sandboxed.
 > >
-> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Fixes: 9e2c2e273012 ("drm/etnaviv: add infrastructure to query perf counter")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 57 ++++++++++++++++++++---
-> >  1 file changed, 50 insertions(+), 7 deletions(-)
+> > We also have tools that only work for intel stuff, that should never
+> > trigger anything on other people's HW.
 > >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> > index 8adbf2861bff..7ae8f347ca06 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> > @@ -32,6 +32,7 @@ struct etnaviv_pm_domain {
-> >  };
-> >
-> >  struct etnaviv_pm_domain_meta {
-> > +     unsigned int feature;
-> >       const struct etnaviv_pm_domain *domains;
-> >       u32 nr_domains;
-> >  };
-> > @@ -410,36 +411,78 @@ static const struct etnaviv_pm_domain doms_vg[] = {
-> >
-> >  static const struct etnaviv_pm_domain_meta doms_meta[] = {
-> >       {
-> > +             .feature = chipFeatures_PIPE_3D,
-> >               .nr_domains = ARRAY_SIZE(doms_3d),
-> >               .domains = &doms_3d[0]
-> >       },
-> >       {
-> > +             .feature = chipFeatures_PIPE_2D,
-> >               .nr_domains = ARRAY_SIZE(doms_2d),
-> >               .domains = &doms_2d[0]
-> >       },
-> >       {
-> > +             .feature = chipFeatures_PIPE_VG,
-> >               .nr_domains = ARRAY_SIZE(doms_vg),
-> >               .domains = &doms_vg[0]
-> >       }
-> >  };
-> >
-> > +static unsigned int num_pm_domains(const struct etnaviv_gpu *gpu)
-> > +{
-> > +     unsigned int num = 0, i;
-> > +
-> > +     for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
-> > +             const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
-> > +
-> > +             if (gpu->identity.features & meta->feature)
-> > +                     num += meta->nr_domains;
-> > +     }
-> > +
-> > +     return num;
-> > +}
-> > +
-> > +static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
-> > +     unsigned int index)
-> > +{
-> > +     const struct etnaviv_pm_domain *domain = NULL;
-> > +     unsigned int offset = 0, i;
-> > +
-> > +     for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
-> > +             const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
-> > +
-> > +             if (!(gpu->identity.features & meta->feature))
-> > +                     continue;
-> > +
-> > +             if (meta->nr_domains < (index - offset)) {
-> > +                     offset += meta->nr_domains;
-> > +                     continue;
-> > +             }
-> > +
-> > +             domain = meta->domains + (index - offset);
-> > +     }
-> > +
-> > +     BUG_ON(!domain);
+> > Could something be worked out using the tags?
 >
-> This is a no-go. BUG_ON is reserved for only the most severe kernel
-> bugs where you can't possibly continue without risking a corruption of
-> non-volatile state. This isn't the case here, please instead just make
-> the callers handle a NULL return gracefully.
+> I think so! We have the pre-defined environment variable
+> CI_MERGE_REQUEST_LABELS, and we can do variable conditions:
 >
+> https://docs.gitlab.com/ee/ci/yaml/#onlyvariablesexceptvariables
+>
+> That sounds like a pretty neat middle-ground to me. I just hope that
+> new pipelines are triggered if new labels are added, because not
+> everyone is allowed to set labels, and sometimes people forget...
 
-Fixed it in V2.
+There's also this which is somewhat more robust:
+https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2569
 
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
