@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013A91730A1
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 06:52:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C5D1730B5
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 07:00:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C98666EDE9;
-	Fri, 28 Feb 2020 05:52:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68E176EDEC;
+	Fri, 28 Feb 2020 06:00:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9866EDE9
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 05:52:16 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 250B120208;
- Fri, 28 Feb 2020 06:52:08 +0100 (CET)
-Date: Fri, 28 Feb 2020 06:52:07 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jitao Shi <jitao.shi@mediatek.com>
-Subject: Re: [PATCH v10 2/5] dt-bindings: display: mediatek: control dpi pins
- mode to avoid leakage
-Message-ID: <20200228055207.GA6324@ravnborg.org>
-References: <20200228052128.82136-1-jitao.shi@mediatek.com>
- <20200228052128.82136-3-jitao.shi@mediatek.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200228052128.82136-3-jitao.shi@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=mpaa-ttXAAAA:8
- a=e5mUnYsNAAAA:8 a=HWwQx7EG-uLDjA1hwS8A:9 a=CjuIK1q_8ugA:10
- a=6heAxKwa5pAsJatQ0mat:22 a=Vxmtnl_E_bksehYqCbjh:22
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BBFD6EDEC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 06:00:08 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.6-rc4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1582869607;
+ bh=O0lItgxGsadBxEBFcdX7qF0516IN24GExKcYpPLQ50o=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=Jz4tyufQn4566NNmpUnuwFoyUBYsNW385azRjBLysyRZ1kMYLVE1eGKsLZgfazb0J
+ wjTgItrCKVekXrX3NdE1gn4V+szyj0giED/ye37WVZ0NGHvdqFWhqWQ6poeiODH5+P
+ CVxU1lgzsQCZ2U2Nzp/k80+0yu179G4WUrs2Kzl0=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tya9tFH13gF8AyOyP8SLMB-wyUNxBen=NY2ik9hr1Brjw@mail.gmail.com>
+References: <CAPM=9tya9tFH13gF8AyOyP8SLMB-wyUNxBen=NY2ik9hr1Brjw@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tya9tFH13gF8AyOyP8SLMB-wyUNxBen=NY2ik9hr1Brjw@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-02-28
+X-PR-Tracked-Commit-Id: f091bf39700dd086ab244c823f389556fed0c513
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 45d0b75b98bf1de4b3a5b09188c75f3bfa3152b0
+Message-Id: <158286960784.11613.5194916749172956851.pr-tracker-bot@kernel.org>
+Date: Fri, 28 Feb 2020 06:00:07 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,67 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
- huijuan.xie@mediatek.com, stonea168@163.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
- eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jitao.
+The pull request you sent on Fri, 28 Feb 2020 15:22:04 +1000:
 
-On Fri, Feb 28, 2020 at 01:21:25PM +0800, Jitao Shi wrote:
-> Add property "pinctrl-names" to swap pin mode between gpio and dpi mode. Set
-> the dpi pins to gpio mode and output-low to avoid leakage current when dpi
-> disabled.
-> 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,dpi.txt  | 7 +++++++
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-02-28
 
-When this has landed it would be great if you could follow-up with a
-conversion to DT Schema of this file (.yaml).
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/45d0b75b98bf1de4b3a5b09188c75f3bfa3152b0
 
-	Sam
+Thank you!
 
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-> index 58914cf681b8..77ca32a32399 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-> @@ -17,6 +17,10 @@ Required properties:
->    Documentation/devicetree/bindings/graph.txt. This port should be connected
->    to the input port of an attached HDMI or LVDS encoder chip.
->  
-> +Optional properties:
-> +- pinctrl-names: Contain "gpiomode" and "dpimode".
-> +  pinctrl-names see Documentation/devicetree/bindings/pinctrlpinctrl-bindings.txt
-> +
->  Example:
->  
->  dpi0: dpi@1401d000 {
-> @@ -27,6 +31,9 @@ dpi0: dpi@1401d000 {
->  		 <&mmsys CLK_MM_DPI_ENGINE>,
->  		 <&apmixedsys CLK_APMIXED_TVDPLL>;
->  	clock-names = "pixel", "engine", "pll";
-> +	pinctrl-names = "active", "idle";
-> +	pinctrl-0 = <&dpi_pin_func>;
-> +	pinctrl-1 = <&dpi_pin_idle>;
->  
->  	port {
->  		dpi0_out: endpoint {
-> -- 
-> 2.21.0
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
