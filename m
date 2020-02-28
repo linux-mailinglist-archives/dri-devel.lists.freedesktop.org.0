@@ -2,58 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7003174613
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8078E174625
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 455046E1CD;
-	Sat, 29 Feb 2020 10:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55FB46E2DF;
+	Sat, 29 Feb 2020 10:14:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 657B16F478
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 16:35:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1582907688;
- bh=YcG6r7F3VVt7DQsFNhV4JbQ/Bh6aKNh0DkfRxFndYAA=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=M893la1WZgDW7/xWaBckbU4Odje3StaE2YcrGjt7TLxyK3pbX/Ea23pa9tN/cHEH7
- joHd8VOqO6RSYD0a0SS6Ty3j2XCMW2ucMF+AzxWLxQmzVPStkZStnqrxLMH4lEZRAD
- CzydVU3Wqs7ndlgvC4LH1dlsW2OpHQHQinHzZuGU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [185.53.40.15] ([185.53.40.15]) by web-mail.gmx.net
- (3c-app-gmx-bap21.server.lan [172.19.172.91]) (via HTTP); Fri, 28 Feb 2020
- 17:34:47 +0100
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EC9926F49B
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 17:17:01 +0000 (UTC)
+Received: from hillo.muru.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTP id 199B9806C;
+ Fri, 28 Feb 2020 17:17:45 +0000 (UTC)
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: [PATCHv2] drm/omap: Fix drm_handle_vblank() handling for command mode
+ panels
+Date: Fri, 28 Feb 2020 09:16:57 -0800
+Message-Id: <20200228171657.11884-1-tony@atomide.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Message-ID: <trinity-1aeda07b-567b-4a31-a709-36199975894b-1582907687950@3c-app-gmx-bap21>
-From: "Frank Wunderlich" <frank-w@public-files.de>
-To: "Bibby Hsieh" <bibby.hsieh@mediatek.com>
-Subject: [BUG] [PATCH v5 3/7] drm/mediatek: update cursors by using async
- atomic update
-Date: Fri, 28 Feb 2020 17:34:47 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20191210050526.4437-4-bibby.hsieh@mediatek.com>
-References: <20191210050526.4437-1-bibby.hsieh@mediatek.com>
- <20191210050526.4437-4-bibby.hsieh@mediatek.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:2wHSXETBujv7ubTGIwZ5VrMFtJmoX/njL13MkH8s5eovSX+Y+sTe0+BByPkiM5mY2rzQm
- gKpnl5HTR1TX8ZwimXy747VbCYUysGQw+GdtehRIGT5il+WUm2aG81V2Bu0Dpft2U3SY51brmqYE
- H0JgZOtLaL0+tXa8kZMGxWwyoVLkjFO5i3HFnIccGF/d2ihL7iTlHuSy3H9axD1B76whc67PrgRz
- VBlEsXrblvHd0UmCQ6WWGJeRXN83aG2f7ScyhV9hAm1fz/xBSUnehkXcTmbnfvD6ndAjICp0ek9M
- Rc=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:K7AD3qghSCg=:KDuvUtyqh0IxQhZ8dH9kvu
- UkMiaACx+8TarnVTvKLAKYfLysNr+9tfMvPZLRxVtUh1T0O1DBm4Rko4sdLxfCcUGMflBCrDF
- ciX4YIyA6kuUTwucfzx22ITRFECEbD2yoh1WgJbxUXd9NJYwXopioXyMMrwaM6xnYz/nLIr7o
- mUGZMog7Dou+NeR5Em4TB8BEgRtUTLT6+nfdjLNz4ShGizgdYRFKt+/vHZk/V1IW+aFci1vsg
- LHvupXQWPTqlYNA3JS0Km5lF3zWjBdUJIGrdIGympZEuHb5mAtd4vGX9XsCeZH3p1WjQ/MpQY
- 4acYwTHnCUAyGf7pGu2tzR8WsBvTvBOIW4Q8I03JkR+4har3qSWjIcdqgk2ff+6RSbEXVjquZ
- C7mZBt3pEMeZjKM+Z1HkvLnv2XrRM8CB/s3gUG3quARYuumwpA7BH7F7fOTjduxgqWlhv3YVO
- mhEDvNNyn9mge3Vz9N5MalwRkGJ5FJFlPEG9tEBlGoHxehlLMAMYcXVl4oE5ffpiFOpSG15y4
- rm2LvOfG+tHze6Pl5a18bTr459tAbHXJYVUGnvmhov147zK1eBq3bFk9JHKV0fMl5up+E2is1
- +YOSmDnrCG2i9TqD76kwDIFdZnprjEY1f1rR8oEq2QgrAsYW0byi74bJRq34xclYgmkooSZsk
- eGfDPVeomp5G0jsWbOdU4oBMCEo7ol8LkDiWjXMdSbjZUOrU62FolI9j7z62bk/OQrp0=
 X-Mailman-Approved-At: Sat, 29 Feb 2020 10:13:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,31 +36,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: drinkcat@chromium.org, srv_heupstream@mediatek.com,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tfiga@chromium.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Merlijn Wajer <merlijn@wizzup.org>, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org, ruleh <ruleh@gmx.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+When trying to run weston on droid4 with the updated sgx blobs, the LCD
+is just black and not updating. Weston also displays the following on
+startup:
 
-as talked to Bibby directly, this Patch seems to create a bug with touchscreens. Cursor is displayed on old position if changing its position. e.g. Cursor was on X1,Y1 and i touch to new position X2,Y2 the "click" is recognized on right position (i try to ), but cursor is displayed on X1,Y1
+Warning: computed repaint delay is insane: -205475 msec
 
-have made a small video and uploaded to my gdrive [1]...
+Weston runs fine on the HDMI alone though, and the issue was narrowed
+down to an issue with vblank as suggested by ruleh <ruleh@gmx.de>.
 
-here i use lightdm login manager and selecting the username/password-fields alternately. Focus follows, but cursor is always displayed on prior position
+Turns out that for command mode displays, we're not currently calling
+drm_handle_vblank() at all since omap_irq_handler() won't do it for
+us since we get no vblank interrupts. Let's fix the issue by calling
+drm_handle_vblank() and omap_crtc_vblank_irq() for command mode
+displays from omap_crtc_framedone_irq() and make the vblank handling
+the same for command mode panels as it is for normal displays.
 
-tried to revert this commit [2], but there are many depencies failing the revert, have not yet got all depending commits reverted
+For reference, below is my current weston.ini. The repaint-window is
+maxed out to force immediate repaint instead of the default 7 ms.
+Otherwise it seems that the repaint is happening at about 60 fps with
+es2gears_wayland compared to about 130 fps where it seems to max out.
 
-regards Frank
+[core]
+xwayland=true
+backend=drm-backend.so
+repaint-window=1000
+pageflip-timeout=1000
 
-[1] https://drive.google.com/open?id=1Qy0tYnbO9zNGdjCWY18O-dMYbFuPrq_i
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=920fffcc891276a855cb3ce1e7361d2e9cb72581
+[libinput]
+rotation=0
+
+[output]
+name=DSI-1
+transform=90
+
+[output]
+name=HDMI-1
+mode=1024x768@60
+
+Fixes: 47103a80f55a ("drm/omap: add framedone interrupt support")
+Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc: Merlijn Wajer <merlijn@wizzup.org>
+Cc: Sebastian Reichel <sre@kernel.org>
+Cc: ruleh <ruleh@gmx.de>
+Signed-off-by: Tony Lindgren <tony@atomide.com>
+---
+ drivers/gpu/drm/omapdrm/omap_crtc.c | 41 +++++++++++------------------
+ drivers/gpu/drm/omapdrm/omap_crtc.h |  2 +-
+ drivers/gpu/drm/omapdrm/omap_irq.c  |  2 +-
+ 3 files changed, 18 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -325,23 +325,21 @@ void omap_crtc_vblank_irq(struct drm_crtc *crtc)
+ 	DBG("%s: apply done", omap_crtc->name);
+ }
+ 
+-void omap_crtc_framedone_irq(struct drm_crtc *crtc, uint32_t irqstatus)
++void omap_crtc_framedone_irq(struct drm_crtc *crtc, int id, uint32_t irqstatus)
+ {
++	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
++	struct drm_device *dev = crtc->dev;
+ 
+ 	if (!omap_crtc->framedone_handler)
+ 		return;
+ 
+-	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
+-
+-	spin_lock(&crtc->dev->event_lock);
+-	/* Send the vblank event if one has been requested. */
+-	if (omap_crtc->event) {
+-		drm_crtc_send_vblank_event(crtc, omap_crtc->event);
+-		omap_crtc->event = NULL;
++	if (omap_state->manually_updated) {
++		drm_handle_vblank(dev, id);
++		omap_crtc_vblank_irq(crtc);
+ 	}
+-	omap_crtc->pending = false;
+-	spin_unlock(&crtc->dev->event_lock);
++
++	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
+ 
+ 	/* Wake up omap_atomic_complete. */
+ 	wake_up(&omap_crtc->pending_wait);
+@@ -439,8 +437,12 @@ static void omap_crtc_destroy(struct drm_crtc *crtc)
+ 
+ static void omap_crtc_arm_event(struct drm_crtc *crtc)
+ {
++	struct omap_crtc_state *omap_crtc_state = to_omap_crtc_state(crtc->state);
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+ 
++	if (omap_crtc->pending && omap_crtc_state->manually_updated)
++		return;
++
+ 	WARN_ON(omap_crtc->pending);
+ 	omap_crtc->pending = true;
+ 
+@@ -455,17 +457,12 @@ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
+ {
+ 	struct omap_drm_private *priv = crtc->dev->dev_private;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+-	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
+ 	int ret;
+ 
+ 	DBG("%s", omap_crtc->name);
+ 
+ 	priv->dispc_ops->runtime_get(priv->dispc);
+ 
+-	/* manual updated display will not trigger vsync irq */
+-	if (omap_state->manually_updated)
+-		return;
+-
+ 	spin_lock_irq(&crtc->dev->event_lock);
+ 	drm_crtc_vblank_on(crtc);
+ 	ret = drm_crtc_vblank_get(crtc);
+@@ -646,20 +643,14 @@ static void omap_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 	DBG("%s: GO", omap_crtc->name);
+ 
+-	if (omap_crtc_state->manually_updated) {
+-		/* send new image for page flips and modeset changes */
+-		spin_lock_irq(&crtc->dev->event_lock);
+-		omap_crtc_flush(crtc);
+-		omap_crtc_arm_event(crtc);
+-		spin_unlock_irq(&crtc->dev->event_lock);
+-		return;
+-	}
+-
+ 	ret = drm_crtc_vblank_get(crtc);
+ 	WARN_ON(ret != 0);
+ 
+ 	spin_lock_irq(&crtc->dev->event_lock);
+-	priv->dispc_ops->mgr_go(priv->dispc, omap_crtc->channel);
++	if (omap_crtc_state->manually_updated)
++		omap_crtc_flush(crtc);
++	else
++		priv->dispc_ops->mgr_go(priv->dispc, omap_crtc->channel);
+ 	omap_crtc_arm_event(crtc);
+ 	spin_unlock_irq(&crtc->dev->event_lock);
+ }
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.h b/drivers/gpu/drm/omapdrm/omap_crtc.h
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.h
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.h
+@@ -30,7 +30,7 @@ struct drm_crtc *omap_crtc_init(struct drm_device *dev,
+ int omap_crtc_wait_pending(struct drm_crtc *crtc);
+ void omap_crtc_error_irq(struct drm_crtc *crtc, u32 irqstatus);
+ void omap_crtc_vblank_irq(struct drm_crtc *crtc);
+-void omap_crtc_framedone_irq(struct drm_crtc *crtc, uint32_t irqstatus);
++void omap_crtc_framedone_irq(struct drm_crtc *crtc, int id, uint32_t irqstatus);
+ void omap_crtc_flush(struct drm_crtc *crtc);
+ 
+ #endif /* __OMAPDRM_CRTC_H__ */
+diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapdrm/omap_irq.c
+--- a/drivers/gpu/drm/omapdrm/omap_irq.c
++++ b/drivers/gpu/drm/omapdrm/omap_irq.c
+@@ -232,7 +232,7 @@ static irqreturn_t omap_irq_handler(int irq, void *arg)
+ 			omap_crtc_error_irq(crtc, irqstatus);
+ 
+ 		if (irqstatus & priv->dispc_ops->mgr_get_framedone_irq(priv->dispc, channel))
+-			omap_crtc_framedone_irq(crtc, irqstatus);
++			omap_crtc_framedone_irq(crtc, id, irqstatus);
+ 	}
+ 
+ 	omap_irq_ocp_error_handler(dev, irqstatus);
+-- 
+2.25.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
