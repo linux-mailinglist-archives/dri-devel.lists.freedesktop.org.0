@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAC6173640
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 12:41:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5EDA173647
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 12:43:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BEC66F3ED;
-	Fri, 28 Feb 2020 11:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD5836F414;
+	Fri, 28 Feb 2020 11:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 710546E167
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 11:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582890082;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rpjPL9jqeyRVwMqMh1jhx1Zp0mgurSsoUQwzX5GX6lI=;
- b=Mz9b2MLkz3CJxBkvM9gLc3rWlnIBvuKH/QFFMjm4EYqtPcjTShR3Ebu+dSMnZdhKW3vs42
- fKCFJT2O3XaOPpkTV8aE/dA4rI2DBsuUP1KyPmn/jr7qWtMqI4yN2bl7rXPsi9icUyk3Fh
- G8DInaodq/JGeUWoEwNa2c2QtOHUhaY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-CvNtpvaUPyKkMq86xVwOxg-1; Fri, 28 Feb 2020 06:41:18 -0500
-X-MC-Unique: CvNtpvaUPyKkMq86xVwOxg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B34BA0CDD;
- Fri, 28 Feb 2020 11:41:17 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-117-193.ams2.redhat.com
- [10.36.117.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1121E1CB;
- Fri, 28 Feb 2020 11:41:15 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH resend 2/2] drm/i915/dp: Use BDB_GENERAL_FEATURES VBT block
- info for builtin panel-orientation
-Date: Fri, 28 Feb 2020 12:41:10 +0100
-Message-Id: <20200228114110.187792-3-hdegoede@redhat.com>
-In-Reply-To: <20200228114110.187792-1-hdegoede@redhat.com>
-References: <20200228114110.187792-1-hdegoede@redhat.com>
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
+ [IPv6:2607:f8b0:4864:20::a44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5156F414
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 11:43:13 +0000 (UTC)
+Received: by mail-vk1-xa44.google.com with SMTP id y201so824002vky.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 03:43:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E3m86ksh6JFmu3VknsoJDtsgFMq7t6y1ig8+9IFNC7o=;
+ b=iSF2h8WjrzLANZPthBLsPysYtOFZhfyKXWP81wIHGIYPPblKRtSZFZYnBzBrzwlXpX
+ TfjJpu33pPZ2lmrgcDY+N7Rz3SfDAMf+JDv6HBuR+mjc8ZaJXb9jqJJBD4a6u8Bh2RhW
+ NDOXxq3DzG8hVN50y/7DLhPfvs00tSfsJCY3liPqQL3CjOFQhMy1Llomu7adDRRFXixL
+ bGDlYoIhwLnu555tDCtStbgvoYHNt7Lq70gND463YPOLamodlkIZ6tvaIF6q5bsqo/Yx
+ Z1SRuT4jIRpFrAGAOKZTAZZbZp7LA1NBFEcmP5coLxdhNjrbqv3yPXUMStoX693YsGxS
+ j7lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E3m86ksh6JFmu3VknsoJDtsgFMq7t6y1ig8+9IFNC7o=;
+ b=MP+JpXSAMZC3BUwJ6063PoinIDPIxuIu9ZHcnuYVMsgRNiEkYwyBVZ84S2zGm1a0Fx
+ GpmBFjmfz5aT0Y3xIrbLbfbTrFLH0HGfft9JBYwZMkRGUH5oVRlVfPzcvS23Mje+N8ey
+ cZAdvtzeHw9g6gO+LgpO3lzVe5tVKeh1B6z815JebWtcMfNDQwguEsCmt11/VfabvbZl
+ dJ6GeN68Gb3Hgv2ML/mrG7LGh366+Mpq/hrVG4RTc1nmB7kvhooLUn7km4rxbJN5lyH/
+ hT/yLUJ7fk1S8NyhmsSj4IXwn19n02DH06QKZdXoQskA41XCd5bUhv3VHyK2DY40N+GV
+ L/Hw==
+X-Gm-Message-State: ANhLgQ28kjzG6AevvdWJDMCEAdH626LT8fsvelE82tNSFtPu4DQs3pVY
+ KDnu+0hs8h/8LzTWJgxHOIYhP+Fjd1AmMgBtkwc3NR+Xf2U=
+X-Google-Smtp-Source: ADFU+vsWwohEwX3ZoU6MtCUGU4exfDPSpM7FN+Re7PZw9MZ0+gIVfUZIBQzdcHS2j0Mhc3Uurt3uAGIFmtK9R/OqcyQ=
+X-Received: by 2002:a1f:c982:: with SMTP id z124mr2158683vkf.6.1582890192246; 
+ Fri, 28 Feb 2020 03:43:12 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20200224140726.1550689-1-bigeasy@linutronix.de>
+ <20200224140726.1550689-2-bigeasy@linutronix.de>
+In-Reply-To: <20200224140726.1550689-2-bigeasy@linutronix.de>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Fri, 28 Feb 2020 11:42:46 +0000
+Message-ID: <CACvgo53pWS-0CibAX_RcWJxo4fPqfykUbo8cohr7wg+-wOtKAw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/vmwgfx: Remove a few unused functions
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,46 +61,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
+Cc: Thomas Hellstrom <thellstrom@vmware.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some devices with a builtin panel have the panel mounted upside down,
-this is indicated by the rotate_180 bit in the BDB_GENERAL_FEATURES VBT
-block.
+Hi Sebastian,
 
-We store this info in dev_priv->vbt.orientation, use this to set the
-connector's orientation property so that fbcon and userspace will show
-the image the right way up on devices with an upside-down mounted panel.
+On Mon, 24 Feb 2020 at 16:55, Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> I noticed that there is a prototype for vmw_fifo_ping_host_locked() but
+> no function. Then I looked further and noticed more functions which are
+> not used anymore or functions protoypes which remained after the
+> function was removed.
+>
+> Remove unused function (prototypes).
+>
+Seems like the last user was removed in 2015 with commit a278724aa23c
+("drm/vmwgfx: Implement fbdev on kms v2").
 
-This fixes the image being upside-down on a Teclast X89 tablet.
+With this patch, the section of "VGA registers" in struct vmw_private
+becomes dead code.
+IMHO it would make sense to also remove those with this patch.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 2db8d46f61a1..c31f5233941c 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -7608,9 +7608,8 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	intel_panel_setup_backlight(connector, pipe);
- 
- 	if (fixed_mode) {
--		/* We do not know the orientation, but their might be a quirk */
- 		drm_connector_set_panel_orientation_with_quirk(connector,
--				DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
-+				dev_priv->vbt.orientation,
- 				fixed_mode->hdisplay, fixed_mode->vdisplay);
- 	}
- 
--- 
-2.24.1
-
+HTH
+Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
