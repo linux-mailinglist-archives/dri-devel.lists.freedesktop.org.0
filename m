@@ -1,35 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50407174628
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E400174624
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F11696E2E1;
-	Sat, 29 Feb 2020 10:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1F736E2F2;
+	Sat, 29 Feb 2020 10:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 881976EF39;
- Fri, 28 Feb 2020 11:02:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D756E6E167
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 11:41:23 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kusma) with ESMTPSA id 8117329695C
-Message-ID: <6761e107fda6af2f70f0a11784e182dfbc61cb0e.camel@collabora.com>
-Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and
- impact on services
-From: Erik Faye-Lund <erik.faye-lund@collabora.com>
-To: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 28 Feb 2020 12:02:34 +0100
-In-Reply-To: <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
-References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
- <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
- <b398161ff7d0268454413058dc6c194cf93f5990.camel@collabora.com>
- <ece8ebe3-40ec-2457-02da-4fef19cbe8f6@intel.com>
- <6d2ec570f957b4504fb70e0b1f0632712a99dc0c.camel@collabora.com>
- <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+ (Authenticated sender: alyssa) with ESMTPSA id E2D642969BB
+Date: Fri, 28 Feb 2020 06:41:18 -0500
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v2] drm: panfrost: Silence warnings during deferred probe
+Message-ID: <20200228114118.GA1822@kevin>
+References: <CGME20200228094033eucas1p2fa2f6cea3b882e758992d97da2fc50ed@eucas1p2.samsung.com>
+ <20200228094026.26983-1-m.szyprowski@samsung.com>
 MIME-Version: 1.0
+In-Reply-To: <20200228094026.26983-1-m.szyprowski@samsung.com>
 X-Mailman-Approved-At: Sat, 29 Feb 2020 10:13:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,67 +37,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "X.Org development" <xorg-devel@lists.x.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "X.Org Foundation Board" <board@foundation.x.org>,
- Xorg Members List <members@x.org>, Mesa Dev <mesa-dev@lists.freedesktop.org>,
- gstreamer-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
+Content-Type: multipart/mixed; boundary="===============0441034577=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2020-02-28 at 10:43 +0000, Daniel Stone wrote:
-> On Fri, 28 Feb 2020 at 10:06, Erik Faye-Lund
-> <erik.faye-lund@collabora.com> wrote:
-> > On Fri, 2020-02-28 at 11:40 +0200, Lionel Landwerlin wrote:
-> > > Yeah, changes on vulkan drivers or backend compilers should be
-> > > fairly
-> > > sandboxed.
-> > > 
-> > > We also have tools that only work for intel stuff, that should
-> > > never
-> > > trigger anything on other people's HW.
-> > > 
-> > > Could something be worked out using the tags?
-> > 
-> > I think so! We have the pre-defined environment variable
-> > CI_MERGE_REQUEST_LABELS, and we can do variable conditions:
-> > 
-> > https://docs.gitlab.com/ee/ci/yaml/#onlyvariablesexceptvariables
-> > 
-> > That sounds like a pretty neat middle-ground to me. I just hope
-> > that
-> > new pipelines are triggered if new labels are added, because not
-> > everyone is allowed to set labels, and sometimes people forget...
-> 
-> There's also this which is somewhat more robust:
-> https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2569
-> 
-> 
 
-I'm not sure it's more robust, but yeah that a useful tool too.
+--===============0441034577==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DocE+STaALJfprDB"
+Content-Disposition: inline
 
-The reason I'm skeptical about the robustness is that we'll miss
-testing if this misses a path. That can of course be fixed by testing
-everything once things are in master, and fixing up that list when
-something breaks on master.
 
-The person who wrote a change knows more about the intricacies of the
-changes than a computer will ever do. But humans are also good at
-making mistakes, so I'm not sure which one is better. Maybe the union
-of both?
+--DocE+STaALJfprDB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As long as we have both rigorous testing after something landed in
-master (doesn't nessecarily need to happen right after, but for now
-that's probably fine), as well as a reasonable heuristic for what
-testing is needed pre-merge, I think we're good.
+Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+
+On Fri, Feb 28, 2020 at 10:40:26AM +0100, Marek Szyprowski wrote:
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+> v2:
+> - fixed build warning
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.c | 26 +++++++++++++++-------
+>  1 file changed, 18 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm=
+/panfrost/panfrost_device.c
+> index 238fb6d54df4..2c4ada3041b1 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -21,7 +21,9 @@ static int panfrost_reset_init(struct panfrost_device *=
+pfdev)
+> =20
+>  	pfdev->rstc =3D devm_reset_control_array_get(pfdev->dev, false, true);
+>  	if (IS_ERR(pfdev->rstc)) {
+> -		dev_err(pfdev->dev, "get reset failed %ld\n", PTR_ERR(pfdev->rstc));
+> +		if (PTR_ERR(pfdev->rstc) !=3D -EPROBE_DEFER)
+> +			dev_err(pfdev->dev, "get reset failed %ld\n",
+> +				PTR_ERR(pfdev->rstc));
+>  		return PTR_ERR(pfdev->rstc);
+>  	}
+> =20
+> @@ -44,7 +46,9 @@ static int panfrost_clk_init(struct panfrost_device *pf=
+dev)
+> =20
+>  	pfdev->clock =3D devm_clk_get(pfdev->dev, NULL);
+>  	if (IS_ERR(pfdev->clock)) {
+> -		dev_err(pfdev->dev, "get clock failed %ld\n", PTR_ERR(pfdev->clock));
+> +		if (PTR_ERR(pfdev->clock) !=3D -EPROBE_DEFER)
+> +			dev_err(pfdev->dev, "get clock failed %ld\n",
+> +				PTR_ERR(pfdev->clock));
+>  		return PTR_ERR(pfdev->clock);
+>  	}
+> =20
+> @@ -57,8 +61,9 @@ static int panfrost_clk_init(struct panfrost_device *pf=
+dev)
+> =20
+>  	pfdev->bus_clock =3D devm_clk_get_optional(pfdev->dev, "bus");
+>  	if (IS_ERR(pfdev->bus_clock)) {
+> -		dev_err(pfdev->dev, "get bus_clock failed %ld\n",
+> -			PTR_ERR(pfdev->bus_clock));
+> +		if (PTR_ERR(pfdev->bus_clock) !=3D -EPROBE_DEFER)
+> +			dev_err(pfdev->dev, "get bus_clock failed %ld\n",
+> +				PTR_ERR(pfdev->bus_clock));
+>  		return PTR_ERR(pfdev->bus_clock);
+>  	}
+> =20
+> @@ -92,7 +97,9 @@ static int panfrost_regulator_init(struct panfrost_devi=
+ce *pfdev)
+>  	pfdev->regulator =3D devm_regulator_get(pfdev->dev, "mali");
+>  	if (IS_ERR(pfdev->regulator)) {
+>  		ret =3D PTR_ERR(pfdev->regulator);
+> -		dev_err(pfdev->dev, "failed to get regulator: %d\n", ret);
+> +		if (ret !=3D -EPROBE_DEFER)
+> +			dev_err(pfdev->dev, "failed to get regulator: %d\n",
+> +				ret);
+>  		return ret;
+>  	}
+> =20
+> @@ -124,19 +131,22 @@ int panfrost_device_init(struct panfrost_device *pf=
+dev)
+> =20
+>  	err =3D panfrost_clk_init(pfdev);
+>  	if (err) {
+> -		dev_err(pfdev->dev, "clk init failed %d\n", err);
+> +		if (err !=3D -EPROBE_DEFER)
+> +			dev_err(pfdev->dev, "clk init failed %d\n", err);
+>  		return err;
+>  	}
+> =20
+>  	err =3D panfrost_regulator_init(pfdev);
+>  	if (err) {
+> -		dev_err(pfdev->dev, "regulator init failed %d\n", err);
+> +		if (err !=3D -EPROBE_DEFER)
+> +			dev_err(pfdev->dev, "regulator init failed %d\n", err);
+>  		goto err_out0;
+>  	}
+> =20
+>  	err =3D panfrost_reset_init(pfdev);
+>  	if (err) {
+> -		dev_err(pfdev->dev, "reset init failed %d\n", err);
+> +		if (err !=3D -EPROBE_DEFER)
+> +			dev_err(pfdev->dev, "reset init failed %d\n", err);
+>  		goto err_out1;
+>  	}
+> =20
+> --=20
+> 2.17.1
+>=20
+
+--DocE+STaALJfprDB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl5Y/FgACgkQ/v5QWgr1
+WA3hPA/8D8FD7YP04EmoAQJS3nr1VRTZ6AYjtocsQTMh/CKOy11fb1XKbch8Jhci
+tlTF3Zd4/LA7UBS1Ki5eIXe7fpEbqsWMLcqQcl9h53e4EKuReg06NjM5f8uU9N79
+T9DD2KaYytCq4WxXymItoFSbVQn9w3z6jDXal3zGrDlALmgOYfASe+Er4SNr23gO
+J0ULpqCXk2kbU3Pbs1qfl0I2JnzGKBtLztv03Ijls8Oj/7DTwsGYqTnOack0giqb
+wnqoc/hCO0zBKxXQnqfJmyGWvgFzU1ivwW9KkvE/b/MmNyBAheyHNr/bQ6jnbHt5
+8A9WMh/VBCfhJklybWAL4vu6MQGKd5GEO8bZCusagO9w01LLyLC7D3b3YDsRLLW5
+HNXZEWvtXcoN29YuFSVkZCXlNdkX7ruANcfZxTzV01NpJNuFRT2uHk1lal20UX51
+FRDbC3FPpPp9riEMBRE3+6FinWZounaf4rKXlWuSCg+JmXlbNM6XxzNS36vkDQV1
+o9roxzN0mk01r6ih8l+yu05DwrzMpT1v7jdeNC1GtKRMQWJbS3jrmxpLXWbauEY0
+dYGfvwTEgohh0KCAk/s/I1LrYEGyBx9aEJHr+1DMLRLpfuEwO5FMhcF5UHzZvyBm
+3pao5k3Ku6wPR7Z8XXxGMLCOYgGcU9m7+rITccw+uecgMpjJgN8=
+=vJWj
+-----END PGP SIGNATURE-----
+
+--DocE+STaALJfprDB--
+
+--===============0441034577==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0441034577==--
