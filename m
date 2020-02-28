@@ -2,62 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B667A172E77
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 03:03:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E21C172F70
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 04:38:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 725056E993;
-	Fri, 28 Feb 2020 02:03:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA0E6EDCE;
+	Fri, 28 Feb 2020 03:38:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23AC56E993
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 02:03:30 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id s1so413891lfd.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:03:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 462C16E11A;
+ Fri, 28 Feb 2020 03:38:11 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id q84so1570943oic.4;
+ Thu, 27 Feb 2020 19:38:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JUJ3kLTC4U63h1bY5FvqPO8+OmeY75SEI3DvH6g7Hlk=;
- b=S2/l5WTLHJdtok2tvIRIFDQ62NWgGHRyS9FfGNF7Vkn1gyoZI2izI2ULe+OMCbJE8x
- 7OSp9v83NECSmTWj9UgXkjcUz37ExvauQ8FU0zbqmSbA3rXDP+mRTgxGDTkxlOVCbBi1
- XZg67MAaxESkDgeN5sRhZ2xyZfbTkUmbxkJ2w=
+ :cc; bh=MOGVYl0JiKEEseZ89TMjcjrll5qFG/jTKhgHEWQPkpc=;
+ b=J8ATT3+9r2tl5tPUk47eknwKXzqIPXtzQZkx4jUV0w9sG8serBAUB4oLM2bAoVFxkE
+ 710swdy70mvVrM52QTuq8x4BORWKPVhXF7HSP0uEbbFwD8ZqBWOuNVaPCSEzB4j7wRRM
+ r5k6O/So6AilgSEH6ZznlOhOVKRpVR5PEM9LCq7GNTn0v+NeJqTZR6iNxtePEHfiuIT3
+ u3x4gAaG18htL0H/z4uf12qUHS+Aue2JsfwZ7/3afOEYBxnuOwkTYqbYjamn+YzEaPOy
+ 3ha8PFSgDkCw7Q2KJ7ako0D6mUUOwI7Z4AS/47VqohvKzFYe5LhqOqVbEFOSBX/URoBI
+ IWbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JUJ3kLTC4U63h1bY5FvqPO8+OmeY75SEI3DvH6g7Hlk=;
- b=XDwiT5NKsJ0Z352D6UAvhPAC39/2OaSBMTTICGOrSK9s8k3PDo2OhZyVhNS8rsYhKx
- FTT8tfT2t8N0FuRn1mfqS9uWwyStL27R1yI3ZV10HAtbnywUZ27haerNi22L8/3Thjc2
- 83dEQorqo92WQE8i78cVOw0npdmrGB6mYf25cXFj49Au6WKalMzN+FJZ5mwjYKjFCVD/
- WZbkk9Br/IXcHccBoioETbM7xSr/T9SnaHqZ9+K775oHa4YqLzBZ9Kd1JTGrLrpEz74z
- 6DTUZaY9we/5Ko17tSgOe+V1qwY6ifNaMvdtoDUdMRtqXZIN/l9aXrOsHkJCgFwZMjtK
- KaOA==
-X-Gm-Message-State: ANhLgQ0Wkkn6kkDRZwcCrGOd2XXRxIAJb/Uu9V68vVY+ArteCQpjfVo+
- FAp81kgs+PWpEtttaJcGtHvtakNU5mc=
-X-Google-Smtp-Source: ADFU+vsENePG+WK4SNsYl0Fdb5oaH6BgpfjnvdMkDTeWovRkNc2R+8AUFcme820XfWh06RWhbhaaCg==
-X-Received: by 2002:ac2:5328:: with SMTP id f8mr1201427lfh.47.1582855408273;
- Thu, 27 Feb 2020 18:03:28 -0800 (PST)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com.
- [209.85.208.177])
- by smtp.gmail.com with ESMTPSA id x8sm2057543lfa.75.2020.02.27.18.03.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Feb 2020 18:03:28 -0800 (PST)
-Received: by mail-lj1-f177.google.com with SMTP id e3so1488680lja.10
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:03:28 -0800 (PST)
-X-Received: by 2002:a05:651c:107c:: with SMTP id
- y28mr24279ljm.77.1582855407044; 
- Thu, 27 Feb 2020 18:03:27 -0800 (PST)
+ bh=MOGVYl0JiKEEseZ89TMjcjrll5qFG/jTKhgHEWQPkpc=;
+ b=Wz2Dzyz7P1y+XlP+0DExZr0W71GCeDKmHwGnPhDZ0Af6CicXnGzuDMkI0a8EZ3ZscA
+ ijOu6Df3F+7CHisMtDd7as4KnlDe670BaWcBJ+WgOKkOWL6SvOy9kt9MeEvrD5A5ogki
+ 7heK0HKEgLuikew3I6v/j7YOykj8bG7uW+MxQTq28rjCwi5YtT9R5uNEI6felMXyiQ00
+ vJk7R02eEHcVmcuvPH+h6WyHCowSxRVyDHdCmBRYEHez/KE6VD7PLS8BsjpmjNpiqgNG
+ 5Dbmjnj9+7otQx/O+j2OTukBVEIH3Mq1b+96Es1XagLi1gsNNnb9B8QVZuAt2VdWNEQP
+ uuKQ==
+X-Gm-Message-State: APjAAAX5ofhnmUW4dcsr4sJdykO98Qr7HBwsj6zfM+Ibqonptp9tfB0k
+ 9ftTT9yKp7JfwTE/Z9yUpM30vQHUaStICABLHZCXc27W
+X-Google-Smtp-Source: APXvYqwpbwgHSiERR0+GiALBszLvfkpc7GvTh+wQG4QqsWDKdsEUGqd00n58Q4FHAO7dqcYN7bFx15SSsW/CTm89I/Q=
+X-Received: by 2002:aca:bb54:: with SMTP id l81mr1648517oif.175.1582861090266; 
+ Thu, 27 Feb 2020 19:38:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20200227002601.745-1-gurchetansingh@chromium.org>
- <20200227072319.qimkovn7ncx35no5@sirius.home.kraxel.org>
-In-Reply-To: <20200227072319.qimkovn7ncx35no5@sirius.home.kraxel.org>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Thu, 27 Feb 2020 18:03:14 -0800
-X-Gmail-Original-Message-ID: <CAAfnVB=hPaGUtq=w9X5DGnsCAAjMzP_dTNKQm-4hG5ORD=2r+A@mail.gmail.com>
-Message-ID: <CAAfnVB=hPaGUtq=w9X5DGnsCAAjMzP_dTNKQm-4hG5ORD=2r+A@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/8] *** Refactor struct virtgpu_object ***
-To: Gerd Hoffmann <kraxel@redhat.com>
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+In-Reply-To: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 28 Feb 2020 13:37:57 +1000
+Message-ID: <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+Subject: Re: [Intel-gfx] gitlab.fd.o financial situation and impact on services
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,101 +60,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
- John Bates <jbates@chromium.org>
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>, gstreamer-devel@lists.freedesktop.org,
+ Mesa Dev <mesa-dev@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2020 at 11:23 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Fri, 28 Feb 2020 at 07:27, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> On Wed, Feb 26, 2020 at 04:25:53PM -0800, Gurchetan Singh wrote:
-> > The main motivation behind this is to have eventually have something like this:
-> >
-> > struct virtio_gpu_shmem {
-> >     struct drm_gem_shmem_object base;
-> >     uint32_t hw_res_handle;
-> >     struct sg_table *pages;
-> >     (...)
-> > };
-> >
-> > struct virtio_gpu_vram {
-> >     struct drm_gem_object base;  // or *drm_gem_vram_object
-> >     uint32_t hw_res_handle;
-> >     {offset, range};
-> >     (...)
-> > };
+> Hi all,
 >
-> Given that we probably will not use drm_gem_vram_object
-
-Makes sense not to use drm_gem_vram_object for now.
-
-> and
-> drm_gem_shmem_object->base is drm_gem_object I think we can
-> go this route:
+> You might have read the short take in the X.org board meeting minutes
+> already, here's the long version.
 >
-> struct virtgpu_object {
-
-Yeah, using "virtgpu_" rather than "virtio_gpu" makes sense.  A bit
-less wordy, though the current code is based on "virtio_gpu".
-
->         struct drm_gem_shmem_object base;
->         enum object_type;
->         uint32_t hw_res_handle;
->         [ ... ]
-> };
+> The good news: gitlab.fd.o has become very popular with our
+> communities, and is used extensively. This especially includes all the
+> CI integration. Modern development process and tooling, yay!
 >
-> struct virtgpu_object_shmem {
->         struct virtgpu_object base;
->         struct sg_table *pages;
->         [ ... ]
-> };
+> The bad news: The cost in growth has also been tremendous, and it's
+> breaking our bank account. With reasonable estimates for continued
+> growth we're expecting hosting expenses totalling 75k USD this year,
+> and 90k USD next year. With the current sponsors we've set up we can't
+> sustain that. We estimate that hosting expenses for gitlab.fd.o
+> without any of the CI features enabled would total 30k USD, which is
+> within X.org's ability to support through various sponsorships, mostly
+> through XDC.
 >
-> struct virtgpu_object_hostmem {
->         struct virtgpu_object base;
->         {offset, range};
->         (...)
-
-I'm a kernel newbie, so it's not obvious to me why struct
-drm_gem_shmem_object would be a base class for struct
-virtgpu_object_hostmem?
-
-The core utility of drm_gem_shmem_helper seems to get pages, pinning
-pages, and releasing pages.  But with host-mem, we won't have an array
-of pages, but just an (offset, length) -- which drm_gem_shmem_helper
-function is useful here?
-
-Side question: is drm_gem_object_funcs.vmap(..) /
-drm_gem_object_funcs.vunmap(..) even possible for hostmem?
-
-P.S:
-
-The proof of concept hostmem implementation is on Gitlab [1][2].  Some notes:
-
-- io_remap_pfn_range to get a userspace mapping
-- calls drm_gem_private_object_init(..) rather than
-drm_gem_object_init [which sets up shmemfs backing store].
-
-[1] https://gitlab.freedesktop.org/virgl/drm-misc-next/-/blob/virtio-gpu-next/drivers/gpu/drm/virtio/virtgpu_drv.h#L80
-[2] https://gitlab.freedesktop.org/virgl/drm-misc-next/-/blob/virtio-gpu-next/drivers/gpu/drm/virtio/virtgpu_hostmem.c#L179
-
-> };
+> Note that X.org does no longer sponsor any CI runners themselves,
+> we've stopped that. The huge additional expenses are all just in
+> storing and serving build artifacts and images to outside CI runners
+> sponsored by various companies. A related topic is that with the
+> growth in fd.o it's becoming infeasible to maintain it all on
+> volunteer admin time. X.org is therefore also looking for admin
+> sponsorship, at least medium term.
 >
-> Then have helpers to get virtgpu_object_hostmem / virtgpu_object_shmem
-> from virtgpu_object via container_of which also sanity-check
-> object_type (maybe we can check drm_gem_object->ops for that instead of
-> adding a new field).
->
-> > Sending this out to solicit feedback on this approach.  Whichever approach
-> > we decide, landing incremental changes to internal structures is reduces
-> > rebasing costs and avoids mega-changes.
->
-> That certainly makes sense.
->
-> cheers,
->   Gerd
->
+> Assuming that we want cash flow reserves for one year of gitlab.fd.o
+> (without CI support) and a trimmed XDC and assuming no sponsor payment
+> meanwhile, we'd have to cut CI services somewhere between May and June
+> this year. The board is of course working on acquiring sponsors, but
+> filling a shortfall of this magnitude is neither easy nor quick work,
+> and we therefore decided to give an early warning as soon as possible.
+> Any help in finding sponsors for fd.o is very much appreciated.
+
+a) Ouch.
+
+b) we probably need to take a large step back here.
+
+Look at this from a sponsor POV, why would I give X.org/fd.o
+sponsorship money that they are just giving straight to google to pay
+for hosting credits? Google are profiting in some minor way from these
+hosting credits being bought by us, and I assume we aren't getting any
+sort of discounts here. Having google sponsor the credits costs google
+substantially less than having any other company give us money to do
+it.
+
+If our current CI architecture is going to burn this amount of money a
+year and we hadn't worked this out in advance of deploying it then I
+suggest the system should be taken offline until we work out what a
+sustainable system would look like within the budget we have, whether
+that be never transferring containers and build artifacts from the
+google network, just having local runner/build combos etc.
+
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
