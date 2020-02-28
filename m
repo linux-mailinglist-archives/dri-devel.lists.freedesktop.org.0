@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D278172DFD
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 02:08:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B667A172E77
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 03:03:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24BEE6EDBA;
-	Fri, 28 Feb 2020 01:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 725056E993;
+	Fri, 28 Feb 2020 02:03:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5B0F6EDAD
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 01:08:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582852110;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lSctEBFAjWKteFBOZ/k8cyJsERG3/nGaUYCOpzKW0rk=;
- b=TPsI4JApjT+pVVvvW6qQ4gSseI3KG1QYqXOu6OItJ+yxlD8WCCdbVNn8C3MVem8fEx4/Eg
- N5aLvol6ljoPw8KXkrWAiKWoaTCBVaKm3Xbe79SY56mT2RrkBTt4tjvo/4toHx8JEFodU4
- meisfD7QJMlYe/Btc4ywCCWdVyMdIRo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-BoaEJfi8NAuk_P60hqvunw-1; Thu, 27 Feb 2020 20:08:23 -0500
-X-MC-Unique: BoaEJfi8NAuk_P60hqvunw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 435C3100550E;
- Fri, 28 Feb 2020 01:08:21 +0000 (UTC)
-Received: from tstellar.remote.csb (ovpn-117-123.phx2.redhat.com
- [10.3.117.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 259A7101D48A;
- Fri, 28 Feb 2020 01:08:20 +0000 (UTC)
-Subject: Re: [Mesa-dev] gitlab.fd.o financial situation and impact on services
-From: Tom Stellard <tstellar@redhat.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- gstreamer-devel@lists.freedesktop.org, Xorg Members List <members@x.org>,
- Mesa Dev <mesa-dev@lists.freedesktop.org>,
- "X.Org development" <xorg-devel@lists.x.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
- <662b8d0c-d96b-13cd-d3a1-718550f84e4d@redhat.com>
-Organization: Red Hat
-Message-ID: <d008dba6-6b26-1dae-c4bb-790d526506e4@redhat.com>
-Date: Thu, 27 Feb 2020 17:08:19 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23AC56E993
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 02:03:30 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id s1so413891lfd.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:03:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JUJ3kLTC4U63h1bY5FvqPO8+OmeY75SEI3DvH6g7Hlk=;
+ b=S2/l5WTLHJdtok2tvIRIFDQ62NWgGHRyS9FfGNF7Vkn1gyoZI2izI2ULe+OMCbJE8x
+ 7OSp9v83NECSmTWj9UgXkjcUz37ExvauQ8FU0zbqmSbA3rXDP+mRTgxGDTkxlOVCbBi1
+ XZg67MAaxESkDgeN5sRhZ2xyZfbTkUmbxkJ2w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JUJ3kLTC4U63h1bY5FvqPO8+OmeY75SEI3DvH6g7Hlk=;
+ b=XDwiT5NKsJ0Z352D6UAvhPAC39/2OaSBMTTICGOrSK9s8k3PDo2OhZyVhNS8rsYhKx
+ FTT8tfT2t8N0FuRn1mfqS9uWwyStL27R1yI3ZV10HAtbnywUZ27haerNi22L8/3Thjc2
+ 83dEQorqo92WQE8i78cVOw0npdmrGB6mYf25cXFj49Au6WKalMzN+FJZ5mwjYKjFCVD/
+ WZbkk9Br/IXcHccBoioETbM7xSr/T9SnaHqZ9+K775oHa4YqLzBZ9Kd1JTGrLrpEz74z
+ 6DTUZaY9we/5Ko17tSgOe+V1qwY6ifNaMvdtoDUdMRtqXZIN/l9aXrOsHkJCgFwZMjtK
+ KaOA==
+X-Gm-Message-State: ANhLgQ0Wkkn6kkDRZwcCrGOd2XXRxIAJb/Uu9V68vVY+ArteCQpjfVo+
+ FAp81kgs+PWpEtttaJcGtHvtakNU5mc=
+X-Google-Smtp-Source: ADFU+vsENePG+WK4SNsYl0Fdb5oaH6BgpfjnvdMkDTeWovRkNc2R+8AUFcme820XfWh06RWhbhaaCg==
+X-Received: by 2002:ac2:5328:: with SMTP id f8mr1201427lfh.47.1582855408273;
+ Thu, 27 Feb 2020 18:03:28 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com.
+ [209.85.208.177])
+ by smtp.gmail.com with ESMTPSA id x8sm2057543lfa.75.2020.02.27.18.03.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Feb 2020 18:03:28 -0800 (PST)
+Received: by mail-lj1-f177.google.com with SMTP id e3so1488680lja.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 18:03:28 -0800 (PST)
+X-Received: by 2002:a05:651c:107c:: with SMTP id
+ y28mr24279ljm.77.1582855407044; 
+ Thu, 27 Feb 2020 18:03:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <662b8d0c-d96b-13cd-d3a1-718550f84e4d@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20200227002601.745-1-gurchetansingh@chromium.org>
+ <20200227072319.qimkovn7ncx35no5@sirius.home.kraxel.org>
+In-Reply-To: <20200227072319.qimkovn7ncx35no5@sirius.home.kraxel.org>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Thu, 27 Feb 2020 18:03:14 -0800
+X-Gmail-Original-Message-ID: <CAAfnVB=hPaGUtq=w9X5DGnsCAAjMzP_dTNKQm-4hG5ORD=2r+A@mail.gmail.com>
+Message-ID: <CAAfnVB=hPaGUtq=w9X5DGnsCAAjMzP_dTNKQm-4hG5ORD=2r+A@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/8] *** Refactor struct virtgpu_object ***
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,75 +70,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: tstellar@redhat.com
-Cc: "X.Org Foundation Board" <board@foundation.x.org>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ John Bates <jbates@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/27/2020 05:00 PM, Tom Stellard wrote:
-> On 02/27/2020 01:27 PM, Daniel Vetter wrote:
->> Hi all,
->>
->> You might have read the short take in the X.org board meeting minutes
->> already, here's the long version.
->>
->> The good news: gitlab.fd.o has become very popular with our
->> communities, and is used extensively. This especially includes all the
->> CI integration. Modern development process and tooling, yay!
->>
->> The bad news: The cost in growth has also been tremendous, and it's
->> breaking our bank account. With reasonable estimates for continued
->> growth we're expecting hosting expenses totalling 75k USD this year,
->> and 90k USD next year. With the current sponsors we've set up we can't
->> sustain that. We estimate that hosting expenses for gitlab.fd.o
->> without any of the CI features enabled would total 30k USD, which is
->> within X.org's ability to support through various sponsorships, mostly
->> through XDC.
->>
-> 
-> Have you looked into applying for free credits from amazon:
-> 
-> https://aws.amazon.com/blogs/opensource/aws-promotional-credits-open-source-projects/
-> 
+On Wed, Feb 26, 2020 at 11:23 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Wed, Feb 26, 2020 at 04:25:53PM -0800, Gurchetan Singh wrote:
+> > The main motivation behind this is to have eventually have something like this:
+> >
+> > struct virtio_gpu_shmem {
+> >     struct drm_gem_shmem_object base;
+> >     uint32_t hw_res_handle;
+> >     struct sg_table *pages;
+> >     (...)
+> > };
+> >
+> > struct virtio_gpu_vram {
+> >     struct drm_gem_object base;  // or *drm_gem_vram_object
+> >     uint32_t hw_res_handle;
+> >     {offset, range};
+> >     (...)
+> > };
+>
+> Given that we probably will not use drm_gem_vram_object
 
-Also fastly provides free CDN services to some Open Source projects:
+Makes sense not to use drm_gem_vram_object for now.
 
-https://www.fastly.com/open-source?utm_medium=social&utm_source=t.co&utm_campaign=FY17Q4_WebPage_OpenSource
+> and
+> drm_gem_shmem_object->base is drm_gem_object I think we can
+> go this route:
+>
+> struct virtgpu_object {
 
-It might also be worth looking into if the main costs are
-coming from data transfers.
+Yeah, using "virtgpu_" rather than "virtio_gpu" makes sense.  A bit
+less wordy, though the current code is based on "virtio_gpu".
 
--Tom
+>         struct drm_gem_shmem_object base;
+>         enum object_type;
+>         uint32_t hw_res_handle;
+>         [ ... ]
+> };
+>
+> struct virtgpu_object_shmem {
+>         struct virtgpu_object base;
+>         struct sg_table *pages;
+>         [ ... ]
+> };
+>
+> struct virtgpu_object_hostmem {
+>         struct virtgpu_object base;
+>         {offset, range};
+>         (...)
 
-> -Tom
-> 
->> Note that X.org does no longer sponsor any CI runners themselves,
->> we've stopped that. The huge additional expenses are all just in
->> storing and serving build artifacts and images to outside CI runners
->> sponsored by various companies. A related topic is that with the
->> growth in fd.o it's becoming infeasible to maintain it all on
->> volunteer admin time. X.org is therefore also looking for admin
->> sponsorship, at least medium term.
->>
->> Assuming that we want cash flow reserves for one year of gitlab.fd.o
->> (without CI support) and a trimmed XDC and assuming no sponsor payment
->> meanwhile, we'd have to cut CI services somewhere between May and June
->> this year. The board is of course working on acquiring sponsors, but
->> filling a shortfall of this magnitude is neither easy nor quick work,
->> and we therefore decided to give an early warning as soon as possible.
->> Any help in finding sponsors for fd.o is very much appreciated.
->>
->> Thanks, Daniel
->>
-> 
-> _______________________________________________
-> mesa-dev mailing list
-> mesa-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
-> 
+I'm a kernel newbie, so it's not obvious to me why struct
+drm_gem_shmem_object would be a base class for struct
+virtgpu_object_hostmem?
 
+The core utility of drm_gem_shmem_helper seems to get pages, pinning
+pages, and releasing pages.  But with host-mem, we won't have an array
+of pages, but just an (offset, length) -- which drm_gem_shmem_helper
+function is useful here?
+
+Side question: is drm_gem_object_funcs.vmap(..) /
+drm_gem_object_funcs.vunmap(..) even possible for hostmem?
+
+P.S:
+
+The proof of concept hostmem implementation is on Gitlab [1][2].  Some notes:
+
+- io_remap_pfn_range to get a userspace mapping
+- calls drm_gem_private_object_init(..) rather than
+drm_gem_object_init [which sets up shmemfs backing store].
+
+[1] https://gitlab.freedesktop.org/virgl/drm-misc-next/-/blob/virtio-gpu-next/drivers/gpu/drm/virtio/virtgpu_drv.h#L80
+[2] https://gitlab.freedesktop.org/virgl/drm-misc-next/-/blob/virtio-gpu-next/drivers/gpu/drm/virtio/virtgpu_hostmem.c#L179
+
+> };
+>
+> Then have helpers to get virtgpu_object_hostmem / virtgpu_object_shmem
+> from virtgpu_object via container_of which also sanity-check
+> object_type (maybe we can check drm_gem_object->ops for that instead of
+> adding a new field).
+>
+> > Sending this out to solicit feedback on this approach.  Whichever approach
+> > we decide, landing incremental changes to internal structures is reduces
+> > rebasing costs and avoids mega-changes.
+>
+> That certainly makes sense.
+>
+> cheers,
+>   Gerd
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
