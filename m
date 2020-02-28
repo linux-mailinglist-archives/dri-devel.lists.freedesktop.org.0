@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76693172CF7
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 01:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB14A172D8F
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 01:43:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F91E6ED95;
-	Fri, 28 Feb 2020 00:21:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD8F06EDA7;
+	Fri, 28 Feb 2020 00:43:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailbnc111.isp.belgacom.be (mailbnc111.isp.belgacom.be
- [195.238.20.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9836ED9C;
- Fri, 28 Feb 2020 00:21:26 +0000 (UTC)
-IronPort-SDR: JPow1+KEiQYaKfpguQ0Bp1vQUQ8b/vL6U5+Bmn+V74P4po3QIXY6svr7NPDtPwyFFcjcZARiWg
- leGnU9HPI7Q37JhH/750IHePhjkpQthl3mnYtSIFtIY8g2Cl3/KGURmmvMZcFAC5yjrtEAS3Kv
- XR0JApVGCixra1o71DIgHhJhUCdcw/XA//zPUN6NZrBhMUieB0dxZJcpYLZ5HYzBDYe80v52pp
- fw2ez+3CHy9vruZwgrH+A3/p6Mz/K54fgQmG16WqMNGS0Z2JuGHejC0f6c1yU5rvt50nETHQLL
- Jt4=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2CBBgBNXFhe/37G9C5QFhwBAQEBAQc?=
- =?us-ascii?q?BAREBBAQBAYF7gX0sKAU/BU8hEiqDTIlLhjYPCQUBgTMEiXGPZYFnCQEBAQE?=
- =?us-ascii?q?BAQEBAQgbEQECBAEBhDoEAgIIgX0nOBMCAwEBAQMCBQEBBgEBAQEBAQQEbQQ?=
- =?us-ascii?q?BAQcKhFECAQMBAQUKATcMhWQBBTocGgkQCAMYCQoCGQ8FKCEtgw2CVimxBYk?=
- =?us-ascii?q?HgT4igRaGBIY7eYEHhCQ+hAQCgQSDBIIsBJAmn3CCRpZZDByCSYw9LIt8ngy?=
- =?us-ascii?q?MU4FpIoFYTSAYgycJRyWPRAEIh1eFQkMwgQIBHggTBQUBAY1sAQE?=
-X-IPAS-Result: =?us-ascii?q?A2CBBgBNXFhe/37G9C5QFhwBAQEBAQcBAREBBAQBAYF7g?=
- =?us-ascii?q?X0sKAU/BU8hEiqDTIlLhjYPCQUBgTMEiXGPZYFnCQEBAQEBAQEBAQgbEQECB?=
- =?us-ascii?q?AEBhDoEAgIIgX0nOBMCAwEBAQMCBQEBBgEBAQEBAQQEbQQBAQcKhFECAQMBA?=
- =?us-ascii?q?QUKATcMhWQBBTocGgkQCAMYCQoCGQ8FKCEtgw2CVimxBYkHgT4igRaGBIY7e?=
- =?us-ascii?q?YEHhCQ+hAQCgQSDBIIsBJAmn3CCRpZZDByCSYw9LIt8ngyMU4FpIoFYTSAYg?=
- =?us-ascii?q?ycJRyWPRAEIh1eFQkMwgQIBHggTBQUBAY1sAQE?=
-Received: from ppp-46-244-198-126.dynamic.mnet-online.de (HELO albert)
- ([46.244.198.126])
- by relay.proximus.be with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Feb 2020 01:21:23 +0100
-Received: from libv by albert with local (Exim 4.84_2)
- (envelope-from <libv@skynet.be>)
- id 1j7TP8-0007yR-JM; Fri, 28 Feb 2020 01:21:22 +0100
-Date: Fri, 28 Feb 2020 01:21:22 +0100
-From: Luc Verhaegen <libv@skynet.be>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: gitlab.fd.o financial situation and impact on services
-Message-ID: <20200228002122.GB24271@skynet.be>
-References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 473606EDA7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 00:43:31 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id e9so520261pjr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Feb 2020 16:43:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=8t+QF1jUrbFLO8yI08wmjsR+GeHNrEjF1Md3xiMC8NA=;
+ b=lhRclAojaWh7DXh2Fy7nrZd8SyMa2JcnmOKVrBR+FQiN1Mp028BI+MGpcddDUXGFCo
+ JVM/kWmCyIpvTdqmy3Mp4rlnHT6E8MxWgHEdVS/cOIvQC91hdqRkEyRVVWVfhwxJ6h4X
+ Gnc/1uU0weocAgDStM+BvrwkpxoNH/IGzP4P4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=8t+QF1jUrbFLO8yI08wmjsR+GeHNrEjF1Md3xiMC8NA=;
+ b=kccZTnJOg/xE9Z04oJEcTuYGo43XBVH351hv6f8cw1vJNv53YI+OyovoqVF+RgxUum
+ jDALm02i4rsnm9s+SopftPt8AcqsRZjkq3AuCtQ+n199yMu5MO2ztUxcPc+P8D11+pmt
+ n3c7BFhUkgWyOZE5IURWKrfuHc7iI96+aJJPGUnrVrd4MFC7SuyNEDRxCKKJHuzWx+VU
+ HO6snk5TRhirAG06SO/oZS+PuHZbHN+fsS+j7uaKLESx3Om+KVXQRmyVnjGXSvDJqSY6
+ qu7V2GtB9vd2RfecDSZaxx9WoEAutThIetadHIo3Fk5luVNMXr9tl7V6nGxvyuMmM+pR
+ co1Q==
+X-Gm-Message-State: APjAAAUZOcXHIhXtC9jYYwbX/WYRu+TQwLylMq0bYdXEMSDd759kY1qc
+ Yub5z2+gw0NtYbcdEPJ33PrR4Q==
+X-Google-Smtp-Source: APXvYqwWMiiJ4fXkvydaOnQd5+1b2ygxswq4zp1nvGJdIdnG9xiMkdkUMdjzVxim7xA7gB0Eus81Qg==
+X-Received: by 2002:a17:90a:8586:: with SMTP id
+ m6mr1724274pjn.121.1582850610811; 
+ Thu, 27 Feb 2020 16:43:30 -0800 (PST)
+Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
+ by smtp.gmail.com with ESMTPSA id 13sm7713961pgo.13.2020.02.27.16.43.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Feb 2020 16:43:29 -0800 (PST)
+Date: Thu, 27 Feb 2020 16:43:28 -0800
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Chandan Uddaraju <chandanu@codeaurora.org>
+Subject: Re: [DPU PATCH v3 3/5] drm/msm/dp: add displayPort driver support
+Message-ID: <20200228004328.GM24720@google.com>
+References: <1575294437-6129-1-git-send-email-chandanu@codeaurora.org>
+ <0101016ec6df0e54-2af1f4a6-8f72-4799-89e0-0ff87b514eb2-000000@us-west-2.amazonses.com>
+ <20200227215433.GK24720@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200227215433.GK24720@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,62 +67,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "X.Org development" <xorg-devel@lists.x.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "X.Org Foundation Board" <board@foundation.x.org>,
- Xorg Members List <members@x.org>, gstreamer-devel@lists.freedesktop.org,
- Mesa Dev <mesa-dev@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ abhinavk@codeaurora.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, hoegsberg@google.com,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 27, 2020 at 10:27:04PM +0100, Daniel Vetter wrote:
-> Hi all,
+On Thu, Feb 27, 2020 at 01:54:33PM -0800, Matthias Kaehlcke wrote:
+> On Mon, Dec 02, 2019 at 01:48:57PM +0000, Chandan Uddaraju wrote:
+> > Add the needed displayPort files to enable DP driver
+> > on msm target.
+> > 
+> > "dp_display" module is the main module that calls into
+> > other sub-modules. "dp_drm" file represents the interface
+> > between DRM framework and DP driver.
+> > 
+> > changes in v2:
+> > -- Update copyright markings on all relevant files.
+> > -- Change pr_err() to DRM_ERROR()
+> > -- Use APIs directly instead of function pointers.
+> > -- Use drm_display_mode structure to store link parameters in the driver.
+> > -- Use macros for register definitions instead of hardcoded values.
+> > -- Replace writel_relaxed/readl_relaxed with writel/readl
+> >    and remove memory barriers.
+> > -- Remove unnecessary NULL checks.
+> > -- Use drm helper functions for dpcd read/write.
+> > -- Use DRM_DEBUG_DP for debug msgs.
+> > 
+> > changes in V3:
+> > -- Removed changes in dpu_io_util.[ch]
+> > -- Added locking around "is_connected" flag and removed atomic_set()
+> > -- Removed the argument validation checks in all the static functions
+> >    except initialization functions and few API calls across msm/dp files
+> > -- Removed hardcoded values for register reads/writes
+> > -- Removed vreg related generic structures.
+> > -- Added return values where ever necessary.
+> > -- Updated dp_ctrl_on function.
+> > -- Calling the ctrl specific catalog functions directly instead of
+> >    function pointers.
+> > -- Added seperate change that adds standard value in drm_dp_helper file.
+> > -- Added separate change in this list that is used to initialize
+> >    displayport in DPU driver.
+> > -- Added change to use drm_dp_get_adjust_request_voltage() function.
+> > 
+> > Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
+> > ---
+> > +++ b/drivers/gpu/drm/msm/dp/dp_power.c
+> >
+> > ...
+> >
+> > +int dp_power_init(struct dp_power *dp_power, bool flip)
+> > +{
+> > +	int rc = 0;
+> > +	struct dp_power_private *power;
+> > +
+> > +	if (!dp_power) {
+> > +		DRM_ERROR("invalid power data\n");
+> > +		rc = -EINVAL;
+> > +		goto exit;
+> > +	}
 > 
-> You might have read the short take in the X.org board meeting minutes
-> already, here's the long version.
+> drive-by comment:
 > 
-> The good news: gitlab.fd.o has become very popular with our
-> communities, and is used extensively. This especially includes all the
-> CI integration. Modern development process and tooling, yay!
-> 
-> The bad news: The cost in growth has also been tremendous, and it's
-> breaking our bank account. With reasonable estimates for continued
-> growth we're expecting hosting expenses totalling 75k USD this year,
-> and 90k USD next year. With the current sponsors we've set up we can't
-> sustain that. We estimate that hosting expenses for gitlab.fd.o
-> without any of the CI features enabled would total 30k USD, which is
-> within X.org's ability to support through various sponsorships, mostly
-> through XDC.
-> 
-> Note that X.org does no longer sponsor any CI runners themselves,
-> we've stopped that. The huge additional expenses are all just in
-> storing and serving build artifacts and images to outside CI runners
-> sponsored by various companies. A related topic is that with the
-> growth in fd.o it's becoming infeasible to maintain it all on
-> volunteer admin time. X.org is therefore also looking for admin
-> sponsorship, at least medium term.
-> 
-> Assuming that we want cash flow reserves for one year of gitlab.fd.o
-> (without CI support) and a trimmed XDC and assuming no sponsor payment
-> meanwhile, we'd have to cut CI services somewhere between May and June
-> this year. The board is of course working on acquiring sponsors, but
-> filling a shortfall of this magnitude is neither easy nor quick work,
-> and we therefore decided to give an early warning as soon as possible.
-> Any help in finding sponsors for fd.o is very much appreciated.
-> 
-> Thanks, Daniel
+> this would lead to calling 'pm_runtime_put_sync(&power->pdev->dev)'
+> below with 'power' being NULL, which doesn't seem a good idea.
 
-So this cost is all about fd.o?
+correction: with 'power' being uninitialized, which isn't a good idea
+either.
 
-I feel that this was not communicated to x.org members at all, when fd.o 
-"merging" was suggested. In as far as this was a merge.
-
-Luc Verhaegen.
+> It is probably sane to expect that 'dp_power' is not NULL, if that's
+> the case the check can be removed. Otherwise the function should just
+> return -EINVAL instead of jumping to 'exit'.
+> 
+> > +
+> > +	power = container_of(dp_power, struct dp_power_private, dp_power);
+> > +
+> > +	pm_runtime_get_sync(&power->pdev->dev);
+> > +	rc = dp_power_regulator_enable(power);
+> > +	if (rc) {
+> > +		DRM_ERROR("failed to enable regulators, %d\n", rc);
+> > +		goto exit;
+> > +	}
+> > +
+> > +	rc = dp_power_pinctrl_set(power, true);
+> > +	if (rc) {
+> > +		DRM_ERROR("failed to set pinctrl state, %d\n", rc);
+> > +		goto err_pinctrl;
+> > +	}
+> > +
+> > +	rc = dp_power_config_gpios(power, flip);
+> > +	if (rc) {
+> > +		DRM_ERROR("failed to enable gpios, %d\n", rc);
+> > +		goto err_gpio;
+> > +	}
+> > +
+> > +	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
+> > +	if (rc) {
+> > +		DRM_ERROR("failed to enable DP core clocks, %d\n", rc);
+> > +		goto err_clk;
+> > +	}
+> > +
+> > +	return 0;
+> > +
+> > +err_clk:
+> > +	dp_power_disable_gpios(power);
+> > +err_gpio:
+> > +	dp_power_pinctrl_set(power, false);
+> > +err_pinctrl:
+> > +	dp_power_regulator_disable(power);
+> > +exit:
+> > +	pm_runtime_put_sync(&power->pdev->dev);
+> > +	return rc;
+> > +}
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
