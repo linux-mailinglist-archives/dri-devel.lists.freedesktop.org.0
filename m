@@ -1,29 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DEB1732AE
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:18:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 527191732AC
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 09:18:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A896EE54;
-	Fri, 28 Feb 2020 08:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3486EE4D;
+	Fri, 28 Feb 2020 08:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E27846EE4A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E71576EE50;
  Fri, 28 Feb 2020 08:18:32 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4B306B27A;
+ by mx2.suse.de (Postfix) with ESMTP id 4B2B4B21B;
  Fri, 28 Feb 2020 08:18:31 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, noralf@tronnes.org,
  sam@ravnborg.org, alexander.deucher@amd.com, emil.velikov@collabora.com
-Subject: [PATCH v4 0/4] drm: Provide a simple encoder
-Date: Fri, 28 Feb 2020 09:18:24 +0100
-Message-Id: <20200228081828.18463-1-tzimmermann@suse.de>
+Subject: [PATCH v4 1/4] drm/simple-kms: Add drm_simple_encoder_{init, create}()
+Date: Fri, 28 Feb 2020 09:18:25 +0100
+Message-Id: <20200228081828.18463-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200228081828.18463-1-tzimmermann@suse.de>
+References: <20200228081828.18463-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,45 +46,101 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Many DRM drivers implement an encoder with an empty implementation. This
-patchset adds drm_simple_encoder_init(), which drivers can use instead.
-Except for the destroy callback, the simple encoder's implementation is
-empty.
+This patch makes the internal encoder implementation of the simple
+KMS helpers available to drivers.
 
-The patchset also converts 4 encoder instances to use the simple-encoder
-helpers. But there are at least 11 other drivers which can use the helper
-and I think I did not examine all drivers yet.
+These simple-encoder helpers initialize an encoder with an empty
+implementation. This covers the requirements of most of the existing
+DRM drivers. A call to drm_simple_encoder_create() allocates and
+initializes an encoder instance, a call to drm_simple_encoder_init()
+initializes a pre-allocated instance.
 
-The patchset was smoke-tested on mgag200 by running the fbdev console
-and Gnome on X11.
-
-v4:
-	* print error messages with drm_err() (Sam)
-	* qxl: handle errors of drm_simple_encoder_init() (Sam)
 v3:
-	* remove drm_simple_encoder_create() for lack of users (Sam, Daniel)
-	* provide more precise documentation (Sam)
+	* remove drm_simple_encoder_create(); not required yet
+	* provide more precise documentation
 v2:
-	* move simple encoder to KMS helpers (Daniel)
-	* remove name argument; simplifies implementation (Gerd)
-	* don't allocate with devm_ interfaces; unsafe with DRM (Noralf)
+	* move simple encoder to KMS helpers
+	* remove name argument; simplifies implementation
+	* don't allocate with devm_ interfaces; unsafe with DRM
 
-Thomas Zimmermann (4):
-  drm/simple-kms: Add drm_simple_encoder_{init,create}()
-  drm/ast: Use simple encoder
-  drm/mgag200: Use simple encoder
-  drm/qxl: Use simple encoder
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+---
+ drivers/gpu/drm/drm_simple_kms_helper.c | 34 ++++++++++++++++++++++---
+ include/drm/drm_simple_kms_helper.h     |  4 +++
+ 2 files changed, 35 insertions(+), 3 deletions(-)
 
- drivers/gpu/drm/ast/ast_drv.h           |  6 +-
- drivers/gpu/drm/ast/ast_mode.c          | 25 +++----
- drivers/gpu/drm/drm_simple_kms_helper.c | 34 +++++++++-
- drivers/gpu/drm/mgag200/mgag200_drv.h   |  9 +--
- drivers/gpu/drm/mgag200/mgag200_mode.c  | 86 ++++---------------------
- drivers/gpu/drm/qxl/qxl_display.c       | 29 ++++-----
- include/drm/drm_simple_kms_helper.h     |  4 ++
- 7 files changed, 71 insertions(+), 122 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
+index 15fb516ae2d8..04309e4660de 100644
+--- a/drivers/gpu/drm/drm_simple_kms_helper.c
++++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+@@ -26,12 +26,41 @@
+  * entity. Some flexibility for code reuse is provided through a separately
+  * allocated &drm_connector object and supporting optional &drm_bridge
+  * encoder drivers.
++ *
++ * Many drivers require only a very simple encoder that fulfills the minimum
++ * requirements of the display pipeline and does not add additional
++ * functionality. The function drm_simple_encoder_init() provides an
++ * implementation of such an encoder.
+  */
+ 
+-static const struct drm_encoder_funcs drm_simple_kms_encoder_funcs = {
++static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
+ 	.destroy = drm_encoder_cleanup,
+ };
+ 
++/**
++ * drm_simple_encoder_init - Initialize a preallocated encoder
++ * @dev: drm device
++ * @funcs: callbacks for this encoder
++ * @encoder_type: user visible type of the encoder
++ *
++ * Initialises a preallocated encoder that has no further functionality.
++ * Settings for possible CRTC and clones are left to their initial values.
++ * The encoder will be cleaned up automatically as part of the mode-setting
++ * cleanup.
++ *
++ * Returns:
++ * Zero on success, error code on failure.
++ */
++int drm_simple_encoder_init(struct drm_device *dev,
++			    struct drm_encoder *encoder,
++			    int encoder_type)
++{
++	return drm_encoder_init(dev, encoder,
++				&drm_simple_encoder_funcs_cleanup,
++				encoder_type, NULL);
++}
++EXPORT_SYMBOL(drm_simple_encoder_init);
++
+ static enum drm_mode_status
+ drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
+ 			       const struct drm_display_mode *mode)
+@@ -288,8 +317,7 @@ int drm_simple_display_pipe_init(struct drm_device *dev,
+ 		return ret;
+ 
+ 	encoder->possible_crtcs = drm_crtc_mask(crtc);
+-	ret = drm_encoder_init(dev, encoder, &drm_simple_kms_encoder_funcs,
+-			       DRM_MODE_ENCODER_NONE, NULL);
++	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_NONE);
+ 	if (ret || !connector)
+ 		return ret;
+ 
+diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
+index e253ba7bea9d..a026375464ff 100644
+--- a/include/drm/drm_simple_kms_helper.h
++++ b/include/drm/drm_simple_kms_helper.h
+@@ -181,4 +181,8 @@ int drm_simple_display_pipe_init(struct drm_device *dev,
+ 			const uint64_t *format_modifiers,
+ 			struct drm_connector *connector);
+ 
++int drm_simple_encoder_init(struct drm_device *dev,
++			    struct drm_encoder *encoder,
++			    int encoder_type);
++
+ #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */
+-- 
 2.25.0
 
 _______________________________________________
