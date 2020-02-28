@@ -1,40 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF551740ED
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 21:26:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 661A21740FB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 21:31:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE9F36E0FE;
-	Fri, 28 Feb 2020 20:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 812A56F4C1;
+	Fri, 28 Feb 2020 20:31:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 856036E0FE;
- Fri, 28 Feb 2020 20:26:36 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id CAC7F8046E;
- Fri, 28 Feb 2020 21:26:33 +0100 (CET)
-Date: Fri, 28 Feb 2020 21:26:32 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 26/51] drm: Manage drm_mode_config_init with drmm_
-Message-ID: <20200228202632.GB22966@ravnborg.org>
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
- <20200227181522.2711142-27-daniel.vetter@ffwll.ch>
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25A046F4BF;
+ Fri, 28 Feb 2020 20:31:03 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id h9so3790750otj.11;
+ Fri, 28 Feb 2020 12:31:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FNB/vdXgS21Pl+73YXup9CChCyeEkhvIEpEg9saL9GA=;
+ b=plAf0HmoeZIpCj8l7vMN46oBhe3sd/xVh85/ogDlq05S+2SEapuhyvh2zs1CG+2iio
+ JOaU3oESqXjy1yh7rGHeaBQ+Xpr6ORwGV3K/TOpqsrKu0VwiLiUCkfmOtvthOb4LABRh
+ iNeHWmGbpz23YylkhPGQa3RCT/yb6lRiB8+IO0X9PjBHNsIIp23nMN/E46CZE3HfQu0t
+ 6OHfurMHyN06SrhAZXVxxEvr4oUXz/gjud/aAcWKaRS0uNrpkB0YtskVuh6pFwhqLjwe
+ ThtEuW6Pt2J2JnzHknaNR8y0E1mVcpTxqn7x+ewX7QaD44QsA6oCt2O/PdiScyN05Js0
+ bvoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FNB/vdXgS21Pl+73YXup9CChCyeEkhvIEpEg9saL9GA=;
+ b=FH2aZGK2eD/IqnisdHMgv9asKBHdCh37cXE18lRhyEaCPjBh8ofsACSLZO6cBwDQMP
+ Rtb6k73RDsLF3eOUFKloCYDm5H6rKjkx9/XHvt+0Wuz9SQP2tl3dCcUu+0WAtqfX2pBs
+ kYefnvuT7WIdC7F/+dRkhvQwIJhWo4eVrqUMPaUlbDe7gzA0mKDojPDJ3nv4KL5sxmUa
+ zUIB9aEoC/yakWhXVmO5ugVwjM1oFgqmszxXT4foJ+Uh5TaMe2inG/K6t6Z7sfmGeztc
+ Z0ablpgbaVyOf4qt084Ny+vZB83J3COfreYi1aDHegEk8IWgOJ/IB7XfoC9/n4DaVJTE
+ jzCQ==
+X-Gm-Message-State: APjAAAVI+X6n3ZnmzYF63Tvk2aOc26UclUobSjJV00jKZczevXZtbQQo
+ wTRoyPqPmQvkUHmSrfvx32w+xeWFb4DRWtFRCm3XJ4A5vws=
+X-Google-Smtp-Source: APXvYqy5WHHPQbTT0i23zIbM8ddT2qX87Nwkh2zqPAaPBUBpZJHH7STaPpB03tE4Sbk6aK9DflFdtJ6/Srmv0J9twWQ=
+X-Received: by 2002:a9d:7f18:: with SMTP id j24mr5033394otq.78.1582921862099; 
+ Fri, 28 Feb 2020 12:31:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200227181522.2711142-27-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8
- a=P1BnusSwAAAA:8 a=SJz97ENfAAAA:8 a=QyXUC8HyAAAA:8 a=9vy5vZw2cxVn3W-tDF8A:9
- a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
- a=vFet0B0WnEQeilDPIY6i:22
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+ <CAPj87rM76W9y_76WUHR35NS3V4_-RFi9ZM3GA=aED3dD3hWYkg@mail.gmail.com>
+ <CAPM=9txN-RKGwinzsSPrmT_xFjS2J_XUhXVsRQ2pSSe529wpEA@mail.gmail.com>
+ <CADaigPUjYZ-Mqd91eyR3Luo=PxLHratUhvodJmCJHf__MnPozA@mail.gmail.com>
+In-Reply-To: <CADaigPUjYZ-Mqd91eyR3Luo=PxLHratUhvodJmCJHf__MnPozA@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 29 Feb 2020 06:30:49 +1000
+Message-ID: <CAPM=9tyhoagJmzMtwDKU-rjsCUPjokUp2ECOV0FdbkO5CQdZ2w@mail.gmail.com>
+Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and impact
+ on services
+To: Eric Anholt <eric@anholt.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,303 +65,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- m.felsch@pengutronix.de, DRI Development <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>, Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ gstreamer-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel.
-
-Some bikeshedding in the following.
-with or with addressing (IMHO valid points) consider the patch:
-
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-	Sam
-
-On Thu, Feb 27, 2020 at 07:14:57PM +0100, Daniel Vetter wrote:
-> drm_mode_config_cleanup is idempotent, so no harm in calling this
-> twice. This allows us to gradually switch drivers over by removing
-> explicit drm_mode_config_cleanup calls.
+On Sat, 29 Feb 2020 at 05:34, Eric Anholt <eric@anholt.net> wrote:
 >
+> On Fri, Feb 28, 2020 at 12:48 AM Dave Airlie <airlied@gmail.com> wrote:
+> >
+> > On Fri, 28 Feb 2020 at 18:18, Daniel Stone <daniel@fooishbar.org> wrote:
+> > >
+> > > On Fri, 28 Feb 2020 at 03:38, Dave Airlie <airlied@gmail.com> wrote:
+> > > > b) we probably need to take a large step back here.
+> > > >
+> > > > Look at this from a sponsor POV, why would I give X.org/fd.o
+> > > > sponsorship money that they are just giving straight to google to pay
+> > > > for hosting credits? Google are profiting in some minor way from these
+> > > > hosting credits being bought by us, and I assume we aren't getting any
+> > > > sort of discounts here. Having google sponsor the credits costs google
+> > > > substantially less than having any other company give us money to do
+> > > > it.
+> > >
+> > > The last I looked, Google GCP / Amazon AWS / Azure were all pretty
+> > > comparable in terms of what you get and what you pay for them.
+> > > Obviously providers like Packet and Digital Ocean who offer bare-metal
+> > > services are cheaper, but then you need to find someone who is going
+> > > to properly administer the various machines, install decent
+> > > monitoring, make sure that more storage is provisioned when we need
+> > > more storage (which is basically all the time), make sure that the
+> > > hardware is maintained in decent shape (pretty sure one of the fd.o
+> > > machines has had a drive in imminent-failure state for the last few
+> > > months), etc.
+> > >
+> > > Given the size of our service, that's a much better plan (IMO) than
+> > > relying on someone who a) isn't an admin by trade, b) has a million
+> > > other things to do, and c) hasn't wanted to do it for the past several
+> > > years. But as long as that's the resources we have, then we're paying
+> > > the cloud tradeoff, where we pay more money in exchange for fewer
+> > > problems.
+> >
+> > Admin for gitlab and CI is a full time role anyways. The system is
+> > definitely not self sustaining without time being put in by you and
+> > anholt still. If we have $75k to burn on credits, and it was diverted
+> > to just pay an admin to admin the real hw + gitlab/CI would that not
+> > be a better use of the money? I didn't know if we can afford $75k for
+> > an admin, but suddenly we can afford it for gitlab credits?
+>
+> As I think about the time that I've spent at google in less than a
+> year on trying to keep the lights on for CI and optimize our
+> infrastructure in the current cloud environment, that's more than the
+> entire yearly budget you're talking about here.  Saying "let's just
+> pay for people to do more work instead of paying for full-service
+> cloud" is not a cost optimization.
+>
+>
+> > > Yes, we could federate everything back out so everyone runs their own
+> > > builds and executes those. Tinderbox did something really similar to
+> > > that IIRC; not sure if Buildbot does as well. Probably rules out
+> > > pre-merge testing, mind.
+> >
+> > Why? does gitlab not support the model? having builds done in parallel
+> > on runners closer to the test runners seems like it should be a thing.
+> > I guess artifact transfer would cost less then as a result.
+>
+> Let's do some napkin math.  The biggest artifacts cost we have in Mesa
+> is probably meson-arm64/meson-arm (60MB zipped from meson-arm64,
+> downloaded by 4 freedreno and 6ish lava, about 100 pipelines/day,
+> makes ~1.8TB/month ($180 or so).  We could build a local storage next
+> to the lava dispatcher so that the artifacts didn't have to contain
+> the rootfs that came from the container (~2/3 of the insides of the
+> zip file), but that's another service to build and maintain.  Building
+> the drivers once locally and storing it would save downloading the
+> other ~1/3 of the inside of the zip file, but that requires a big
+> enough system to do builds in time.
+>
+> I'm planning on doing a local filestore for google's lava lab, since I
+> need to be able to move our xml files off of the lava DUTs to get the
+> xml results we've become accustomed to, but this would not bubble up
+> to being a priority for my time if I wasn't doing it anyway.  If it
+> takes me a single day to set all this up (I estimate a couple of
+> weeks), that costs my employer a lot more than sponsoring the costs of
+> the inefficiencies of the system that has accumulated.
 
-> With this step it's not also possible that (at least for simple
-> drivers) automatic resource cleanup can be done correctly without a
-> drm_driver->release hook. Therefore allow this now in
-> devm_drm_dev_init().
-I am not really sure what you try to explain here?
-Should the "not" be deleted?
+I'm not trying to knock the engineering works the CI contributors have
+done at all, but I've never seen a real discussion about costs until
+now. Engineers aren't accountants.
 
-> =
+The thing we seem to be missing here is fiscal responsibility. I know
+this email is us being fiscally responsible, but it's kinda after the
+fact.
 
-> Also with drmm_ explicit drm_driver->release hooks are kinda not the
-> best option, so deprecate that hook to discourage future users.
-The ->release hooks has others uses until everything is moved over to
-drmm_, or so I think. So deprecation seems a lttle too soon.
+I cannot commit my employer to spending a large amount of money (> 0
+actually) without a long and lengthy process with checks and bounds.
+Can you?
 
-> =
+The X.org board has budgets and procedures as well. I as a developer
+of Mesa should not be able to commit the X.org foundation to spending
+large amounts of money without checks and bounds.
 
-> v2: Fixup the example in the kerneldoc too.
-> =
+The CI infrastructure lacks any checks and bounds. There is no link
+between editing .gitlab-ci/* and cashflow. There is no link to me
+adding support for a new feature to llvmpipe that blows out test times
+(granted it won't affect CI budget but just an example).
 
-> v3:
-> - For paranoia, double check that minor->dev =3D=3D dev in the release
->   hook, because I botched the pointer math in the drmm library.
-> - Call drm_mode_config_cleanup when drmm_add_action fails, we'd be
->   missing some mutex_destroy and ida_cleanup otherwise (Laurent)
-> =
+The fact that clouds run on credit means that it's not possible to say
+budget 30K and say when that runs out it runs out, you end up getting
+bills for ever increasing amounts that you have to cover, with nobody
+"responsible" for ever reducing those bills. Higher Faster Further
+baby comes to mind.
 
-> v4: Add a drmm_add_action_or_reset (like devm_ has) to encapsulate this
-> pattern (Noralf).
-> =
+Has X.org actually allocated the remaining cash in it's bank account
+to this task previously? Was there plans for this money that can't be
+executed now because we have to pay the cloud fees? If we continue to
+May and the X.org bank account hits 0, can XDC happen?
 
-> v5: Fix oversight in the new add_action_or_reset macro (Noralf)
-                               ^ drmm_add_action_or_reset
-> =
+Budgeting and cloud is hard, the feedback loops are messy. In the old
+system the feedback loop was simple, we don't have admin time or money
+for servers we don't get the features, cloud allows us to get the
+features and enjoy them and at some point in the future the bill gets
+paid by someone else. Credit cards lifestyles all the way.
 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Noralf Tr=F8nnes <noralf@tronnes.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/drm_drv.c         | 23 +++++++----------------
->  drivers/gpu/drm/drm_managed.c     | 14 ++++++++++++++
->  drivers/gpu/drm/drm_mode_config.c | 13 ++++++++++++-
->  include/drm/drm_managed.h         |  7 +++++++
->  include/drm/drm_mode_config.h     |  2 +-
->  5 files changed, 41 insertions(+), 18 deletions(-)
-> =
+Like maybe we can grow up here and find sponsors to cover all of this,
+but it still feels a bit backwards from a fiscal pov.
 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 3cf40864d4a6..bb326b9bcde0 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -98,6 +98,8 @@ static void drm_minor_alloc_release(struct drm_device *=
-dev, void *data)
->  	struct drm_minor *minor =3D data;
->  	unsigned long flags;
->  =
+Again I'm not knocking the work people have done at all, CI is very
+valuable to the projects involved, but that doesn't absolve us from
+costs.
 
-> +	WARN_ON(dev !=3D minor->dev);
-> +
->  	put_device(minor->kdev);
->  =
-
->  	spin_lock_irqsave(&drm_minor_lock, flags);
-> @@ -267,8 +269,7 @@ void drm_minor_release(struct drm_minor *minor)
->   *
->   * The following example shows a typical structure of a DRM display driv=
-er.
->   * The example focus on the probe() function and the other functions tha=
-t is
-> - * almost always present and serves as a demonstration of devm_drm_dev_i=
-nit()
-> - * usage with its accompanying drm_driver->release callback.
-> + * almost always present and serves as a demonstration of devm_drm_dev_i=
-nit().
->   *
->   * .. code-block:: c
->   *
-> @@ -278,16 +279,8 @@ void drm_minor_release(struct drm_minor *minor)
->   *		struct clk *pclk;
->   *	};
->   *
-> - *	static void driver_drm_release(struct drm_device *drm)
-> - *	{
-> - *		struct driver_device *priv =3D container_of(...);
-> - *
-> - *		drm_mode_config_cleanup(drm);
-> - *	}
-> - *
->   *	static struct drm_driver driver_drm_driver =3D {
->   *		[...]
-> - *		.release =3D driver_drm_release,
->   *	};
->   *
->   *	static int driver_probe(struct platform_device *pdev)
-> @@ -312,7 +305,9 @@ void drm_minor_release(struct drm_minor *minor)
->   *		}
->   *		drmm_add_final_kfree(drm, priv);
->   *
-> - *		drm_mode_config_init(drm);
-> + *		ret =3D drm_mode_config_init(drm);
-> + *		if (ret)
-> + *			return ret;
-We do not print anything in drm_mode_config_init() - so should
-we do it here?
-Otherwise we only get the more generic error from the driver core.
-
->   *
->   *		priv->userspace_facing =3D drmm_kzalloc(..., GFP_KERNEL);
->   *		if (!priv->userspace_facing)
-> @@ -710,8 +705,7 @@ static void devm_drm_dev_init_release(void *data)
->   * @driver: DRM driver
->   *
->   * Managed drm_dev_init(). The DRM device initialized with this function=
- is
-> - * automatically put on driver detach using drm_dev_put(). You must supp=
-ly a
-> - * &drm_driver.release callback to control the finalization explicitly.
-> + * automatically put on driver detach using drm_dev_put().
->   *
->   * RETURNS:
->   * 0 on success, or error code on failure.
-> @@ -722,9 +716,6 @@ int devm_drm_dev_init(struct device *parent,
->  {
->  	int ret;
->  =
-
-> -	if (WARN_ON(!driver->release))
-> -		return -EINVAL;
-> -
->  	ret =3D drm_dev_init(dev, driver, parent);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-> index 626656369f0b..6376be01bbc8 100644
-> --- a/drivers/gpu/drm/drm_managed.c
-> +++ b/drivers/gpu/drm/drm_managed.c
-> @@ -134,6 +134,20 @@ int __drmm_add_action(struct drm_device *dev,
->  }
->  EXPORT_SYMBOL(__drmm_add_action);
->  =
-
-> +int __drmm_add_action_or_reset(struct drm_device *dev,
-> +			       drmres_release_t action,
-> +			       void *data, const char *name)
-> +{
-> +	int ret;
-> +
-> +	ret =3D __drmm_add_action(dev, action, data, name);
-> +	if (ret)
-> +		action(dev, data);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(__drmm_add_action_or_reset);
-
-Bikeshedding - but why oh why prefixing the function with two
-underscores?
-- It makes it less readable
-- It says "internal", at least to me - but it is exported
-- It makes the casual reader wonder why, removing focus from other more
-  relevant things
-- It makes me writing several lines of rant
-
-drmm_add_action_or_reset_named(...) would do the trick.
-
-Same rant above goes for __drmm_add_action()...
-
-> +
->  void drmm_remove_action(struct drm_device *dev,
->  			drmres_release_t action,
->  			void *data)
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode=
-_config.c
-> index 08e6eff6a179..6f7005bc597f 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -25,6 +25,7 @@
->  #include <drm/drm_drv.h>
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_managed.h>
->  #include <drm/drm_mode_config.h>
->  #include <drm/drm_print.h>
->  #include <linux/dma-resv.h>
-> @@ -373,6 +374,11 @@ static int drm_mode_create_standard_properties(struc=
-t drm_device *dev)
->  	return 0;
->  }
->  =
-
-> +static void drm_mode_config_init_release(struct drm_device *dev, void *p=
-tr)
-> +{
-> +	drm_mode_config_cleanup(dev);
-> +}
-> +
->  /**
->   * drm_mode_config_init - initialize DRM mode_configuration structure
->   * @dev: DRM device
-> @@ -384,8 +390,10 @@ static int drm_mode_create_standard_properties(struc=
-t drm_device *dev)
->   * problem, since this should happen single threaded at init time. It is=
- the
->   * driver's problem to ensure this guarantee.
->   *
-> + * Cleanup is automatically handled through registering drm_mode_config_=
-cleanup
-> + * with drmm_add_action().
->   */
-> -void drm_mode_config_init(struct drm_device *dev)
-> +int drm_mode_config_init(struct drm_device *dev)
->  {
->  	mutex_init(&dev->mode_config.mutex);
->  	drm_modeset_lock_init(&dev->mode_config.connection_mutex);
-> @@ -443,6 +451,9 @@ void drm_mode_config_init(struct drm_device *dev)
->  		drm_modeset_acquire_fini(&modeset_ctx);
->  		dma_resv_fini(&resv);
->  	}
-> +
-> +	return drmm_add_action_or_reset(dev, drm_mode_config_init_release,
-> +					NULL);
->  }
->  EXPORT_SYMBOL(drm_mode_config_init);
-As this is now a drmm_ managed function it should be named such.
-Maybe add a small drm_mode_config_init() wrapper in the header file for
-those that has not migrated yet.
-It is confusing if we are not consistent in naming and everywhere else
-the drm managed functions are named drmm_
-
-
->  =
-
-> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> index 2b1ba2ad5582..1e6291407586 100644
-> --- a/include/drm/drm_managed.h
-> +++ b/include/drm/drm_managed.h
-> @@ -18,6 +18,13 @@ int __must_check __drmm_add_action(struct drm_device *=
-dev,
->  				   drmres_release_t action,
->  				   void *data, const char *name);
->  =
-
-> +#define drmm_add_action_or_reset(dev, action, data) \
-> +	__drmm_add_action_or_reset(dev, action, data, #action)
-> +
-> +int __must_check __drmm_add_action_or_reset(struct drm_device *dev,
-> +					    drmres_release_t action,
-> +					    void *data, const char *name);
-> +
->  void drmm_remove_action(struct drm_device *dev,
->  			drmres_release_t action,
->  			void *data);
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 3bcbe30339f0..160a3e4b51c3 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -929,7 +929,7 @@ struct drm_mode_config {
->  	const struct drm_mode_config_helper_funcs *helper_private;
->  };
->  =
-
-> -void drm_mode_config_init(struct drm_device *dev);
-> +int drm_mode_config_init(struct drm_device *dev);
->  void drm_mode_config_reset(struct drm_device *dev);
->  void drm_mode_config_cleanup(struct drm_device *dev);
->  =
-
-> -- =
-
-> 2.24.1
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
