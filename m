@@ -2,26 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8078E174625
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A317217461C
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 11:14:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55FB46E2DF;
-	Sat, 29 Feb 2020 10:14:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE22E6E1DE;
+	Sat, 29 Feb 2020 10:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id EC9926F49B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 17:17:01 +0000 (UTC)
-Received: from hillo.muru.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTP id 199B9806C;
- Fri, 28 Feb 2020 17:17:45 +0000 (UTC)
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCHv2] drm/omap: Fix drm_handle_vblank() handling for command mode
- panels
-Date: Fri, 28 Feb 2020 09:16:57 -0800
-Message-Id: <20200228171657.11884-1-tony@atomide.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mo6-p03-ob.smtp.rzone.de (mo6-p03-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5303::10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D6466F4AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 18:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582913980;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+ Subject:Sender;
+ bh=mtibfl3if76oFyUx4VaWIyxio7nt25pVHxLuChFLvDo=;
+ b=Wk/gNgL9/zIebyxpiwKOz6s4IMvm0rXocNQVw4/i6hVwDR07hwWJ/wWsn4T78luRjz
+ ZcVKZhGrzOV/2urWKmuyNmtlG1wvOHO+TLLNTzxMujj3cyl+ivTrb+8QC2IrnaRzsS/H
+ ixO3IvqavLOINOtjahBlgBV706omEU/NQeH/Fjrp9OYNTfsBNEPEVC6FFqNMX5EodnCZ
+ ZBEJcGpcJwBgSKcYOY6iDRPveSi/MWP2lF4UgPPZQB/rOHZ2VT+xGuw5nMwIdRXWOycZ
+ /4hfRoHnCwOzhSLF6qZ6pirFXhf1JILL4hxO0zNF1eha+gPUALjpHDtQscEd7fdu1feM
+ CLCg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1mfYzBGHXH6G1+ULkA="
+X-RZG-CLASS-ID: mo00
+Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
+ with ESMTPSA id y0a02cw1SIJY2Lm
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Fri, 28 Feb 2020 19:19:34 +0100 (CET)
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Andi Kleen <ak@linux.intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [RFC v2 0/8] MIPS: CI20: add HDMI out support 
+Date: Fri, 28 Feb 2020 19:19:25 +0100
+Message-Id: <cover.1582913973.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 29 Feb 2020 10:13:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -36,183 +60,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Merlijn Wajer <merlijn@wizzup.org>, Sebastian Reichel <sre@kernel.org>,
- dri-devel@lists.freedesktop.org, ruleh <ruleh@gmx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-gpio@vger.kernel.org, kernel@pyra-handheld.com,
+ letux-kernel@openphoenux.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When trying to run weston on droid4 with the updated sgx blobs, the LCD
-is just black and not updating. Weston also displays the following on
-startup:
+* Converted .txt bindings to .yaml (by Sam Ravnborg <sam@ravnborg.org> - big THANKS)
 
-Warning: computed repaint delay is insane: -205475 msec
+RFC V1 2020-02-26 20:13:06:
+This patch series adds HDMI output to the jz4780/CI20 board.
 
-Weston runs fine on the HDMI alone though, and the issue was narrowed
-down to an issue with vblank as suggested by ruleh <ruleh@gmx.de>.
+It is based on taking the old 3.18 vendor kernel and trying
+to achieve the same with modern DTS setup and new/modified
+drivers.
 
-Turns out that for command mode displays, we're not currently calling
-drm_handle_vblank() at all since omap_irq_handler() won't do it for
-us since we get no vblank interrupts. Let's fix the issue by calling
-drm_handle_vblank() and omap_crtc_vblank_irq() for command mode
-displays from omap_crtc_framedone_irq() and make the vblank handling
-the same for command mode panels as it is for normal displays.
+Unfortunately, in this first RFC, only EDID and creation of
+/dev/fb0 are working. Also, HDMI hot plugging is detected.
 
-For reference, below is my current weston.ini. The repaint-window is
-maxed out to force immediate repaint instead of the default 7 ms.
-Otherwise it seems that the repaint is happening at about 60 fps with
-es2gears_wayland compared to about 130 fps where it seems to max out.
+But there is no HDMI output signal. So some tiny piece seems
+to be missing to enable/configure the Synposys HDMI controller.
 
-[core]
-xwayland=true
-backend=drm-backend.so
-repaint-window=1000
-pageflip-timeout=1000
+We need help from the community to fix this.
 
-[libinput]
-rotation=0
+Original authors of most patches are
+* Paul Boddie <paul@boddie.org.uk>
+* Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 
-[output]
-name=DSI-1
-transform=90
 
-[output]
-name=HDMI-1
-mode=1024x768@60
+H. Nikolaus Schaller (2):
+  drm: ingenic-drm: add MODULE_DEVICE_TABLE
+  MIPS: CI20: defconfig: configure for DRM_DW_HDMI_JZ4780
 
-Fixes: 47103a80f55a ("drm/omap: add framedone interrupt support")
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Cc: Merlijn Wajer <merlijn@wizzup.org>
-Cc: Sebastian Reichel <sre@kernel.org>
-Cc: ruleh <ruleh@gmx.de>
-Signed-off-by: Tony Lindgren <tony@atomide.com>
----
- drivers/gpu/drm/omapdrm/omap_crtc.c | 41 +++++++++++------------------
- drivers/gpu/drm/omapdrm/omap_crtc.h |  2 +-
- drivers/gpu/drm/omapdrm/omap_irq.c  |  2 +-
- 3 files changed, 18 insertions(+), 27 deletions(-)
+Paul Boddie (4):
+  drm: ingenic: add jz4780 Synopsys HDMI driver.
+  pinctrl: ingenic: add hdmi-ddc pin control group
+  MIPS: DTS: jz4780: account for Synopsys HDMI driver and LCD controller
+  MIPS: DTS: CI20: add HDMI setup
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
---- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-+++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-@@ -325,23 +325,21 @@ void omap_crtc_vblank_irq(struct drm_crtc *crtc)
- 	DBG("%s: apply done", omap_crtc->name);
- }
- 
--void omap_crtc_framedone_irq(struct drm_crtc *crtc, uint32_t irqstatus)
-+void omap_crtc_framedone_irq(struct drm_crtc *crtc, int id, uint32_t irqstatus)
- {
-+	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
- 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
-+	struct drm_device *dev = crtc->dev;
- 
- 	if (!omap_crtc->framedone_handler)
- 		return;
- 
--	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
--
--	spin_lock(&crtc->dev->event_lock);
--	/* Send the vblank event if one has been requested. */
--	if (omap_crtc->event) {
--		drm_crtc_send_vblank_event(crtc, omap_crtc->event);
--		omap_crtc->event = NULL;
-+	if (omap_state->manually_updated) {
-+		drm_handle_vblank(dev, id);
-+		omap_crtc_vblank_irq(crtc);
- 	}
--	omap_crtc->pending = false;
--	spin_unlock(&crtc->dev->event_lock);
-+
-+	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
- 
- 	/* Wake up omap_atomic_complete. */
- 	wake_up(&omap_crtc->pending_wait);
-@@ -439,8 +437,12 @@ static void omap_crtc_destroy(struct drm_crtc *crtc)
- 
- static void omap_crtc_arm_event(struct drm_crtc *crtc)
- {
-+	struct omap_crtc_state *omap_crtc_state = to_omap_crtc_state(crtc->state);
- 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
- 
-+	if (omap_crtc->pending && omap_crtc_state->manually_updated)
-+		return;
-+
- 	WARN_ON(omap_crtc->pending);
- 	omap_crtc->pending = true;
- 
-@@ -455,17 +457,12 @@ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
- {
- 	struct omap_drm_private *priv = crtc->dev->dev_private;
- 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
--	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
- 	int ret;
- 
- 	DBG("%s", omap_crtc->name);
- 
- 	priv->dispc_ops->runtime_get(priv->dispc);
- 
--	/* manual updated display will not trigger vsync irq */
--	if (omap_state->manually_updated)
--		return;
--
- 	spin_lock_irq(&crtc->dev->event_lock);
- 	drm_crtc_vblank_on(crtc);
- 	ret = drm_crtc_vblank_get(crtc);
-@@ -646,20 +643,14 @@ static void omap_crtc_atomic_flush(struct drm_crtc *crtc,
- 
- 	DBG("%s: GO", omap_crtc->name);
- 
--	if (omap_crtc_state->manually_updated) {
--		/* send new image for page flips and modeset changes */
--		spin_lock_irq(&crtc->dev->event_lock);
--		omap_crtc_flush(crtc);
--		omap_crtc_arm_event(crtc);
--		spin_unlock_irq(&crtc->dev->event_lock);
--		return;
--	}
--
- 	ret = drm_crtc_vblank_get(crtc);
- 	WARN_ON(ret != 0);
- 
- 	spin_lock_irq(&crtc->dev->event_lock);
--	priv->dispc_ops->mgr_go(priv->dispc, omap_crtc->channel);
-+	if (omap_crtc_state->manually_updated)
-+		omap_crtc_flush(crtc);
-+	else
-+		priv->dispc_ops->mgr_go(priv->dispc, omap_crtc->channel);
- 	omap_crtc_arm_event(crtc);
- 	spin_unlock_irq(&crtc->dev->event_lock);
- }
-diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.h b/drivers/gpu/drm/omapdrm/omap_crtc.h
---- a/drivers/gpu/drm/omapdrm/omap_crtc.h
-+++ b/drivers/gpu/drm/omapdrm/omap_crtc.h
-@@ -30,7 +30,7 @@ struct drm_crtc *omap_crtc_init(struct drm_device *dev,
- int omap_crtc_wait_pending(struct drm_crtc *crtc);
- void omap_crtc_error_irq(struct drm_crtc *crtc, u32 irqstatus);
- void omap_crtc_vblank_irq(struct drm_crtc *crtc);
--void omap_crtc_framedone_irq(struct drm_crtc *crtc, uint32_t irqstatus);
-+void omap_crtc_framedone_irq(struct drm_crtc *crtc, int id, uint32_t irqstatus);
- void omap_crtc_flush(struct drm_crtc *crtc);
- 
- #endif /* __OMAPDRM_CRTC_H__ */
-diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapdrm/omap_irq.c
---- a/drivers/gpu/drm/omapdrm/omap_irq.c
-+++ b/drivers/gpu/drm/omapdrm/omap_irq.c
-@@ -232,7 +232,7 @@ static irqreturn_t omap_irq_handler(int irq, void *arg)
- 			omap_crtc_error_irq(crtc, irqstatus);
- 
- 		if (irqstatus & priv->dispc_ops->mgr_get_framedone_irq(priv->dispc, channel))
--			omap_crtc_framedone_irq(crtc, irqstatus);
-+			omap_crtc_framedone_irq(crtc, id, irqstatus);
- 	}
- 
- 	omap_irq_ocp_error_handler(dev, irqstatus);
+Sam Ravnborg (2):
+  dt-bindings: display: add ingenic-jz4780-lcd DT Schema
+  dt-bindings: display: add ingenic-jz4780-hdmi DT Schema
+
+ .../bindings/display/ingenic-jz4780-hdmi.yaml |  83 ++++++++++++
+ .../bindings/display/ingenic-jz4780-lcd.yaml  |  78 ++++++++++++
+ arch/mips/boot/dts/ingenic/ci20.dts           |  64 ++++++++++
+ arch/mips/boot/dts/ingenic/jz4780.dtsi        |  32 +++++
+ arch/mips/configs/ci20_defconfig              |   3 +
+ drivers/gpu/drm/ingenic/Kconfig               |   8 ++
+ drivers/gpu/drm/ingenic/Makefile              |   1 +
+ drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c      | 120 ++++++++++++++++++
+ drivers/gpu/drm/ingenic/ingenic-drm.c         |   2 +
+ drivers/pinctrl/pinctrl-ingenic.c             |   7 +
+ 10 files changed, 398 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
+ create mode 100644 drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c
+
 -- 
-2.25.1
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
