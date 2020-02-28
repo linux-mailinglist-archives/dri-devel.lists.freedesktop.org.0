@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DE51734F9
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 11:07:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2E117354E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 11:27:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F81890EF;
-	Fri, 28 Feb 2020 10:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D73A6EEC4;
+	Fri, 28 Feb 2020 10:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 14507890EF
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 10:07:41 +0000 (UTC)
-X-UUID: 0ec4a2220662443b863fd358cded835e-20200228
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=1DhT26Nw0ev4Fr8ahrt98NxVPN2Jg/ECXsapb7EkmRI=; 
- b=HtrLp0Fn/52njlsl7gP4qX/rtdjoWM3Yx5sAZb02xfx13B6XMjhW2GRxxZ1QEn5fRsNCeJ1dIXrb1LeGxJqkuBUieJpcVZvnWdYZ+nUcqKo/fcC/CfQNoZKj82PlQKj4vPBihy3rEzou/j8HSQupuH3lJdKG9VAOCF+v+jzFRtU=;
-X-UUID: 0ec4a2220662443b863fd358cded835e-20200228
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1660331952; Fri, 28 Feb 2020 18:07:38 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 28 Feb 2020 18:06:43 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 28 Feb 2020 18:07:36 +0800
-Message-ID: <1582884456.25698.0.camel@mtksdaap41>
-Subject: Re: [PATCH v10 5/5] soc / drm: mediatek: Fix mediatek-drm device
- probing
-From: CK Hu <ck.hu@mediatek.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Date: Fri, 28 Feb 2020 18:07:36 +0800
-In-Reply-To: <20200227180858.1514157-6-enric.balletbo@collabora.com>
-References: <20200227180858.1514157-1-enric.balletbo@collabora.com>
- <20200227180858.1514157-6-enric.balletbo@collabora.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33A446EEC4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 10:27:32 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1j7cre-0003UL-7U; Fri, 28 Feb 2020 11:27:26 +0100
+Message-ID: <b34dfe8f624c0e1bc1a69cde74eb0d621cd52caa.camel@pengutronix.de>
+Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and
+ impact on services
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Erik Faye-Lund
+ <erik.faye-lund@collabora.com>
+Date: Fri, 28 Feb 2020 11:27:25 +0100
+In-Reply-To: <CAKMK7uEnE0HaB2Hs0opw5LO9YEkbJAOp3h5dvESHKFLvnzgfhQ@mail.gmail.com>
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+ <b398161ff7d0268454413058dc6c194cf93f5990.camel@collabora.com>
+ <CAKMK7uEnE0HaB2Hs0opw5LO9YEkbJAOp3h5dvESHKFLvnzgfhQ@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-X-MTK: N
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,157 +48,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
- mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
- Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
- ulrich.hecht+renesas@gmail.com, Collabora
- Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
- Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
- linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- frank-w@public-files.de, Seiya
- Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
- Houlong Wei <houlong.wei@mediatek.com>, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Allison Randal <allison@lohutok.net>,
- Matthias Brugger <mbrugger@suse.com>, sboyd@kernel.org, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ gstreamer-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Enric:
+On Fr, 2020-02-28 at 10:47 +0100, Daniel Vetter wrote:
+> On Fri, Feb 28, 2020 at 10:29 AM Erik Faye-Lund
+> <erik.faye-lund@collabora.com> wrote:
+> > On Fri, 2020-02-28 at 13:37 +1000, Dave Airlie wrote:
+> > > On Fri, 28 Feb 2020 at 07:27, Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > wrote:
+> > > > Hi all,
+> > > > 
+> > > > You might have read the short take in the X.org board meeting
+> > > > minutes
+> > > > already, here's the long version.
+> > > > 
+> > > > The good news: gitlab.fd.o has become very popular with our
+> > > > communities, and is used extensively. This especially includes all
+> > > > the
+> > > > CI integration. Modern development process and tooling, yay!
+> > > > 
+> > > > The bad news: The cost in growth has also been tremendous, and it's
+> > > > breaking our bank account. With reasonable estimates for continued
+> > > > growth we're expecting hosting expenses totalling 75k USD this
+> > > > year,
+> > > > and 90k USD next year. With the current sponsors we've set up we
+> > > > can't
+> > > > sustain that. We estimate that hosting expenses for gitlab.fd.o
+> > > > without any of the CI features enabled would total 30k USD, which
+> > > > is
+> > > > within X.org's ability to support through various sponsorships,
+> > > > mostly
+> > > > through XDC.
+> > > > 
+> > > > Note that X.org does no longer sponsor any CI runners themselves,
+> > > > we've stopped that. The huge additional expenses are all just in
+> > > > storing and serving build artifacts and images to outside CI
+> > > > runners
+> > > > sponsored by various companies. A related topic is that with the
+> > > > growth in fd.o it's becoming infeasible to maintain it all on
+> > > > volunteer admin time. X.org is therefore also looking for admin
+> > > > sponsorship, at least medium term.
+> > > > 
+> > > > Assuming that we want cash flow reserves for one year of
+> > > > gitlab.fd.o
+> > > > (without CI support) and a trimmed XDC and assuming no sponsor
+> > > > payment
+> > > > meanwhile, we'd have to cut CI services somewhere between May and
+> > > > June
+> > > > this year. The board is of course working on acquiring sponsors,
+> > > > but
+> > > > filling a shortfall of this magnitude is neither easy nor quick
+> > > > work,
+> > > > and we therefore decided to give an early warning as soon as
+> > > > possible.
+> > > > Any help in finding sponsors for fd.o is very much appreciated.
+> > > 
+> > > a) Ouch.
+> > > 
+> > > b) we probably need to take a large step back here.
+> > > 
+> > 
+> > I kinda agree, but maybe the step doesn't have to be *too* large?
+> > 
+> > I wonder if we could solve this by restructuring the project a bit. I'm
+> > talking purely from a Mesa point of view here, so it might not solve
+> > the full problem, but:
+> > 
+> > 1. It feels silly that we need to test changes to e.g the i965 driver
+> > on dragonboards. We only have a big "do not run CI at all" escape-
+> > hatch.
+> > 
+> > 2. A lot of us are working for a company that can probably pay for
+> > their own needs in terms of CI. Perhaps moving some costs "up front" to
+> > the company that needs it can make the future of CI for those who can't
+> > do this
+> > 
+> > 3. I think we need a much more detailed break-down of the cost to make
+> > educated changes. For instance, how expensive is Docker image
+> > uploads/downloads (e.g intermediary artifacts) compared to build logs
+> > and final test-results? What kind of artifacts?
+> 
+> We have logs somewhere, but no one yet got around to analyzing that.
+> Which will be quite a bit of work to do since the cloud storage is
+> totally disconnected from the gitlab front-end, making the connection
+> to which project or CI job caused something is going to require
+> scripting. Volunteers definitely very much welcome I think.
 
-On Thu, 2020-02-27 at 19:08 +0100, Enric Balletbo i Serra wrote:
-> In the actual implementation the same compatible string
-> "mediatek,<chip>-mmsys" is used to bind the clock drivers
-> (drivers/soc/mediatek) as well as to the gpu driver
-> (drivers/gpu/drm/mediatek/mtk_drm_drv.c). This ends with the problem
-> that the only probed driver is the clock driver and there is no display
-> at all.
-> 
-> In any case having the same compatible string for two drivers is not
-> correct and should be fixed. To fix this, and maintain backward
-> compatibility, we can consider that the mmsys driver is the top-level
-> entry point for the multimedia subsystem, so is not a pure clock
-> controller but a system controller, and the drm driver is instantiated
-> by that MMSYS driver.
+It's very surprising to me that this kind of cost monitoring is treated
+as an afterthought, especially since one of the main jobs of the X.Org
+board is to keep spending under control and transparent.
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
-> 
-> Changes in v10:
-> - Match driver data to get display routing.
-> 
-> Changes in v9:
-> - Do not move the display routing from the drm driver (CK)
-> 
-> Changes in v8:
-> - New patch introduced in this series.
-> 
-> Changes in v7: None
-> 
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 31 ++++++++++++++++----------
->  drivers/soc/mediatek/mtk-mmsys.c       |  6 +++++
->  2 files changed, 25 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 02011d3168df..29252fc0aab7 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -422,9 +422,21 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->  	{ }
->  };
->  
-> +static const struct of_device_id mtk_drm_of_ids[] = {
-> +	{ .compatible = "mediatek,mt2701-mmsys",
-> +	  .data = &mt2701_mmsys_driver_data},
-> +	{ .compatible = "mediatek,mt2712-mmsys",
-> +	  .data = &mt2712_mmsys_driver_data},
-> +	{ .compatible = "mediatek,mt8173-mmsys",
-> +	  .data = &mt8173_mmsys_driver_data},
-> +	{ }
-> +};
-> +
->  static int mtk_drm_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> +	struct device_node *phandle = dev->parent->of_node;
-> +	const struct of_device_id *of_id;
->  	struct mtk_drm_private *private;
->  	struct device_node *node;
->  	struct component_match *match = NULL;
-> @@ -443,8 +455,14 @@ static int mtk_drm_probe(struct platform_device *pdev)
->  		return -ENODEV;
->  	}
->  
-> +	of_id = of_match_node(mtk_drm_of_ids, phandle);
-> +	if (!of_id)
-> +		return -ENODEV;
-> +
-> +	private->data = of_id->data;
-> +
->  	/* Iterate over sibling DISP function blocks */
-> -	for_each_child_of_node(dev->of_node->parent, node) {
-> +	for_each_child_of_node(phandle->parent, node) {
->  		const struct of_device_id *of_id;
->  		enum mtk_ddp_comp_type comp_type;
->  		int comp_id;
-> @@ -576,22 +594,11 @@ static int mtk_drm_sys_resume(struct device *dev)
->  static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_suspend,
->  			 mtk_drm_sys_resume);
->  
-> -static const struct of_device_id mtk_drm_of_ids[] = {
-> -	{ .compatible = "mediatek,mt2701-mmsys",
-> -	  .data = &mt2701_mmsys_driver_data},
-> -	{ .compatible = "mediatek,mt2712-mmsys",
-> -	  .data = &mt2712_mmsys_driver_data},
-> -	{ .compatible = "mediatek,mt8173-mmsys",
-> -	  .data = &mt8173_mmsys_driver_data},
-> -	{ }
-> -};
-> -
->  static struct platform_driver mtk_drm_platform_driver = {
->  	.probe	= mtk_drm_probe,
->  	.remove	= mtk_drm_remove,
->  	.driver	= {
->  		.name	= "mediatek-drm",
-> -		.of_match_table = mtk_drm_of_ids,
->  		.pm     = &mtk_drm_pm_ops,
->  	},
->  };
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> index a8a98777064e..d99c8beb2ed2 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -377,6 +377,7 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
->  	const struct mtk_mmsys_driver_data *data;
->  	struct clk_onecell_data *clk_data;
->  	struct device *dev = &pdev->dev;
-> +	struct platform_device *drm;
->  	void __iomem *config_regs;
->  	struct resource *mem;
->  	int ret;
-> @@ -407,6 +408,11 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->  
-> +	drm = platform_device_register_data(&pdev->dev, "mediatek-drm",
-> +					    PLATFORM_DEVID_NONE, NULL, 0);
-> +	if (IS_ERR(drm))
-> +		return PTR_ERR(drm);
-> +
->  	return 0;
->  }
->  
+Also from all the conversations it's still unclear to me if the google
+hosting costs are already over the sponsored credits (so is burning a
+hole into X.org bank account right now) or if this is only going to
+happen at a later point in time.
+
+Even with CI disabled it seems that the board estimates a cost of 30k
+annually for the plain gitlab hosting. Is this covered by the credits
+sponsored by google? If not, why wasn't there a board voting on this
+spending? All other spending seem to require pre-approval by the board.
+Why wasn't gitlab hosting cost discussed much earlier in the public
+board meetings, especially if it's going to be such an big chunk of the
+overall spending of the X.Org foundation?
+
+Regards,
+Lucas
 
 _______________________________________________
 dri-devel mailing list
