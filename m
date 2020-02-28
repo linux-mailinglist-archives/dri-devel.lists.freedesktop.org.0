@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65509174119
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 21:37:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF9317413E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Feb 2020 22:02:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13776F4CD;
-	Fri, 28 Feb 2020 20:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6004F6F4CF;
+	Fri, 28 Feb 2020 21:02:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 274EC6F4CD;
- Fri, 28 Feb 2020 20:37:48 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 745E42003C;
- Fri, 28 Feb 2020 21:37:45 +0100 (CET)
-Date: Fri, 28 Feb 2020 21:37:44 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 49/51] drm/udl: Drop explicit drm_mode_config_cleanup call
-Message-ID: <20200228203744.GF22966@ravnborg.org>
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
- <20200227181522.2711142-50-daniel.vetter@ffwll.ch>
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
+ [IPv6:2607:f8b0:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 304B46F4CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 21:02:01 +0000 (UTC)
+Received: by mail-il1-x144.google.com with SMTP id f10so3969025ils.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Feb 2020 13:02:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Rn2DIfF6sd7SkDVeP73KbikxOZR1fwDL3nOwe2UlPWQ=;
+ b=I8pOUUbGNNlBXtH/PBMqy6BuK/RlqW2jXmck47O8oFj0JxtHLjp4YxQCl8zXDhkjmx
+ w8zh5PdXdrTp9HrKVjRaC/M8F+qqnq24BKVoXEUypkvRGxmWHWwUrUSGBYqtvV/g7QuR
+ p59F9iwuYtsdBraNLF/Z9StB29iBqUeakFWgqb3oda6ouU6lhRqTsDRpljhRrCcUR8jk
+ WV5EQEG+BUaSo1XJQZUcalAqVz1xWODoVvSBADHqVZw5GoHh5uKrgqGYKSQsj21UNGrF
+ tw9A9bNPcWOjc3oKM6Hk/iygd2rDxn+aO8hakMK3H+T3BUFLIXufA0XSQZB8M9zccB4B
+ oKcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Rn2DIfF6sd7SkDVeP73KbikxOZR1fwDL3nOwe2UlPWQ=;
+ b=X8WM2elRNRutHxsIG8pRrnUyR390zsAnTMF41XAUXqkrfxK+8Q3RhM/iE+2pibl2DC
+ 5ZNkhqaWFt8HcAJDfNzteC6asV3dk/HBF+oo/5hEUgyXchdXhyuhFlKLOlyK44wW1D7K
+ jfwOFn5SE5xPlypVsh+waAcD+k63Ogg7jsCAmbIqPqJC3OgyH7r4gohLnnIMZLaWcsE0
+ 0GpAJpb691hnosROZh2W6RJsgXNo6hkYuv2/KzjUoFwFJ+YEdB2qv/x8keU5Qq3UBGtJ
+ HaScoP79eXfl7JRxumgaqmoToIXj9f+G7Gzrj8IhdmtE25CWvlIkDluZqjCr3wb6hmT5
+ HSkQ==
+X-Gm-Message-State: APjAAAXQp0euRriPXaGa+hzFLG/f9FaCo5U/Dh5mT5rOOuNf7SToToev
+ n4nEc9CtAnj6YEmvg3IH6lMOjCP95u4ui4GVjSw=
+X-Google-Smtp-Source: APXvYqz7SVAtWFegUkArXHrHfjA+Wd+nkz21Xop8hxKyIAS4zymslsQG8aWzRt10Tj15oa4QuYkX5ofa4TyFbut5O90=
+X-Received: by 2002:a92:7b10:: with SMTP id w16mr5918923ilc.93.1582923720501; 
+ Fri, 28 Feb 2020 13:02:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200227181522.2711142-50-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=P1BnusSwAAAA:8
- a=QyXUC8HyAAAA:8 a=20KFwNOVAAAA:8 a=pGLkceISAAAA:8 a=SJz97ENfAAAA:8
- a=7gkXJVJtAAAA:8 a=_3mJ8jWSVA0NoDjyCeQA:9 a=wPNLvfGTeEIA:10
- a=D0XLA9XvdZm18NrgonBM:22 a=vFet0B0WnEQeilDPIY6i:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+References: <20191002014935.33171-1-gurchetansingh@chromium.org>
+ <20191002014935.33171-2-gurchetansingh@chromium.org>
+ <20191002084942.jnm6brnuadwztonh@sirius.home.kraxel.org>
+ <CAAfnVB=NBvsAsFX_iDuqfyS12jp=S=1kXDjvWr8-tFAaN5aEMQ@mail.gmail.com>
+In-Reply-To: <CAAfnVB=NBvsAsFX_iDuqfyS12jp=S=1kXDjvWr8-tFAaN5aEMQ@mail.gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 28 Feb 2020 13:01:49 -0800
+Message-ID: <CAPaKu7TwKx+0QCyu4orDD1fmEhsNSUn_ab7-QhQNsOyg3bzApQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] [RFC] drm/virtgpu: modify uapi with
+ stride/layer_stride fix
+To: Gurchetan Singh <gurchetansingh@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,143 +64,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, m.felsch@pengutronix.de,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 27, 2020 at 07:15:20PM +0100, Daniel Vetter wrote:
-> It's right above the drm_dev_put().
-> =
-
-> This allows us to delete a bit of onion unwinding in
-> udl_modeset_init().
-> =
-
-> This is made possible by a preceeding patch which added a drmm_
-> cleanup action to drm_mode_config_init(), hence all we need to do to
-> ensure that drm_mode_config_cleanup() is run on final drm_device
-> cleanup is check the new error code for _init().
-> =
-
-> v2: Explain why this cleanup is possible (Laurent).
-> =
-
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-> ---
->  drivers/gpu/drm/udl/udl_drv.c     |  1 -
->  drivers/gpu/drm/udl/udl_drv.h     |  1 -
->  drivers/gpu/drm/udl/udl_modeset.c | 21 ++++++---------------
->  3 files changed, 6 insertions(+), 17 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-> index 8b78c356beb5..b447fb053e78 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.c
-> +++ b/drivers/gpu/drm/udl/udl_drv.c
-> @@ -37,7 +37,6 @@ DEFINE_DRM_GEM_FOPS(udl_driver_fops);
->  static void udl_driver_release(struct drm_device *dev)
->  {
->  	udl_fini(dev);
-> -	udl_modeset_cleanup(dev);
->  }
->  =
-
->  static struct drm_driver driver =3D {
-> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-> index e67227c44cc4..1de7eb1b6aac 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.h
-> +++ b/drivers/gpu/drm/udl/udl_drv.h
-> @@ -68,7 +68,6 @@ struct udl_device {
->  =
-
->  /* modeset */
->  int udl_modeset_init(struct drm_device *dev);
-> -void udl_modeset_cleanup(struct drm_device *dev);
->  struct drm_connector *udl_connector_init(struct drm_device *dev);
->  =
-
->  struct urb *udl_get_urb(struct drm_device *dev);
-> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_=
-modeset.c
-> index d59ebac70b15..cad0c87f8de6 100644
-> --- a/drivers/gpu/drm/udl/udl_modeset.c
-> +++ b/drivers/gpu/drm/udl/udl_modeset.c
-> @@ -468,7 +468,9 @@ int udl_modeset_init(struct drm_device *dev)
->  	struct drm_connector *connector;
->  	int ret;
->  =
-
-> -	drm_mode_config_init(dev);
-> +	ret =3D drm_mode_config_init(dev);
-> +	if (ret)
-> +		return ret;
->  =
-
->  	dev->mode_config.min_width =3D 640;
->  	dev->mode_config.min_height =3D 480;
-> @@ -482,10 +484,8 @@ int udl_modeset_init(struct drm_device *dev)
->  	dev->mode_config.funcs =3D &udl_mode_funcs;
->  =
-
->  	connector =3D udl_connector_init(dev);
-> -	if (IS_ERR(connector)) {
-> -		ret =3D PTR_ERR(connector);
-> -		goto err_drm_mode_config_cleanup;
-> -	}
-> +	if (IS_ERR(connector))
-> +		return PTR_ERR(connector);
->  =
-
->  	format_count =3D ARRAY_SIZE(udl_simple_display_pipe_formats);
->  =
-
-> @@ -494,18 +494,9 @@ int udl_modeset_init(struct drm_device *dev)
->  					   udl_simple_display_pipe_formats,
->  					   format_count, NULL, connector);
->  	if (ret)
-> -		goto err_drm_mode_config_cleanup;
-> +		return ret;
->  =
-
->  	drm_mode_config_reset(dev);
->  =
-
->  	return 0;
-> -
-> -err_drm_mode_config_cleanup:
-> -	drm_mode_config_cleanup(dev);
-> -	return ret;
-> -}
-> -
-> -void udl_modeset_cleanup(struct drm_device *dev)
-> -{
-> -	drm_mode_config_cleanup(dev);
->  }
-> -- =
-
-> 2.24.1
+On Wed, Oct 2, 2019 at 5:18 PM Gurchetan Singh
+<gurchetansingh@chromium.org> wrote:
+>
+> On Wed, Oct 2, 2019 at 1:49 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > On Tue, Oct 01, 2019 at 06:49:35PM -0700, Gurchetan Singh wrote:
+> > > This doesn't really break userspace, since it always passes down
+> > > 0 for stride/layer_stride currently. We could:
+> > >
+> > > (1) modify UAPI now and add a VIRTGPU_PARAM_STRIDE_FIX feature
+> >
+> > This I think.
+> > But IMO it's not a fix, it is an added feature ...
+> >
+> > Also missing the big picture here.  Why do we need this?
+>
+> Two reasons:
+I don't fully get the picture, but drm_virtgpu_resource_create has
+stride.  Can we send that down in transfers?  It lacks layer_stride
+though...
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
