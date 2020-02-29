@@ -2,68 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF06B175561
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 09:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F9F17555F
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 09:18:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90496E0EA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1941D6E0EB;
 	Mon,  2 Mar 2020 08:17:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0921A6E3CB;
- Sat, 29 Feb 2020 21:47:28 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id t11so1327579wrw.5;
- Sat, 29 Feb 2020 13:47:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:in-reply-to:references:mime-version
- :date:user-agent:content-transfer-encoding;
- bh=rkmZ41WofvOt7iBnDSrFuO4lCYptyXZTqHdtoi4NzVI=;
- b=Lzjmjr/w/IDaGSRs7fbaPIORvdWvOuJaQKwcKMWXRp0nkOB23C5ppzYKwNVoAzhm41
- UDjcG3hDUTpVu69Rd0tPWxWTfAbvlZWlLoKT50WqUNZE4J5Kq5X9120MB5Q+UotZX1By
- MvcSgYYTC+kk1BNl3EANmSfLuG2vdCJnJMtvZq8JEL8Zuh+LIiVQK1MPwBCbhiZfNFnv
- g9GZ1YOpzAgHgHG08V8MTgkhTdY2Vd6uZAsrxOdh2Du9DW/NK9RKLP0IoXw4OHOm1sbj
- xV7NYIMSO3rk6yJ/K9ysqMFiuKQnAfdXv++1ndgJZrZaq3odzbiuny/PNXtZpHc4t5cy
- pXbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:in-reply-to
- :references:mime-version:date:user-agent:content-transfer-encoding;
- bh=rkmZ41WofvOt7iBnDSrFuO4lCYptyXZTqHdtoi4NzVI=;
- b=BtmWESN64z0ojghLLT9GGcJ4mrlydaUGfS7D29YOy88zchfsj/g0NPJbWzy/RMClpR
- AchR51oGmXw1Oa+TYFbwSuAnLvGKRUviiXDI4NKpZsMmIJS3Yf+GgTQvC3Vtxt1koaO/
- 6CU50y7LQ/VrYIXPN96Erm42WehiG/rRAGB84TdIZlNw3sC37BLWPcis8wdyU5faiq/q
- b5KVSnD8WxiPY1dJZZYSLp7bLJUmCuSWtJoTiGt4OBt+rAm/4uNsS3GiXqbfLoSUMu1m
- /kBuSqpayxHrX0+XmRSMwesrYzsJYevL+cpkU1ps4Wr+Y0XtXaJ9HyWZGwPeA1I2KYZ6
- Opmg==
-X-Gm-Message-State: APjAAAVijISG9/8HwVktar7tr2RIy55EprFQRLqH4Y5TVqMvYXEHw0CO
- JJ1MLkRO+ND1K7Xfg1AXwQ0=
-X-Google-Smtp-Source: APXvYqxTD5vxcKtb2KO8ce0FLVISwnH+nPCwfeS94f2zOppIqjX8biSY0BJu4K7XVsmXfCC8ZhpC/w==
-X-Received: by 2002:a5d:4289:: with SMTP id k9mr12552398wrq.280.1583012846581; 
- Sat, 29 Feb 2020 13:47:26 -0800 (PST)
-Received: from Timur-XPS ([2a02:ab88:3846:1b00:9eb6:d0ff:fe89:c25f])
- by smtp.gmail.com with ESMTPSA id r19sm2844926wmh.26.2020.02.29.13.47.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Feb 2020 13:47:25 -0800 (PST)
-Message-ID: <d9dca12759fd6a549dc4cd71b5f210a4dced01cd.camel@gmail.com>
-Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and
- impact on services
-From: Timur =?ISO-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, Discussion of the development
- of and with GStreamer <gstreamer-devel@lists.freedesktop.org>, Daniel Stone
- <daniel@fooishbar.org>, Erik Faye-Lund <erik.faye-lund@collabora.com>
-In-Reply-To: <d0ef47e45c83b342494e6781b808b4831a008836.camel@ndufresne.ca>
-References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
- <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
- <b398161ff7d0268454413058dc6c194cf93f5990.camel@collabora.com>
- <ece8ebe3-40ec-2457-02da-4fef19cbe8f6@intel.com>
- <6d2ec570f957b4504fb70e0b1f0632712a99dc0c.camel@collabora.com>
- <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
- <59f4ea1f13a9a9d37f7801b93061b4ae7dd595e2.camel@gmail.com>
- <d0ef47e45c83b342494e6781b808b4831a008836.camel@ndufresne.ca>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA3B6E3D2
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Feb 2020 22:16:59 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 48VLNk2qpPz1rQC1;
+ Sat, 29 Feb 2020 23:16:54 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 48VLNk21X3z1r0bh;
+ Sat, 29 Feb 2020 23:16:54 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id aGq5kC_jf68O; Sat, 29 Feb 2020 23:16:52 +0100 (CET)
+X-Auth-Info: WDpKlVTQBPcpmhOpnRbP8hWbVI4mHVuxtGRW2sTkeTo=
+Received: from desktop.lan (ip-86-49-35-8.net.upcbroadband.cz [86.49.35.8])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Sat, 29 Feb 2020 23:16:52 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/stm: repair runtime power management
+Date: Sat, 29 Feb 2020 23:16:49 +0100
+Message-Id: <20200229221649.90813-1-marex@denx.de>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Date: Sat, 29 Feb 2020 21:28:33 +0100
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 X-Mailman-Approved-At: Mon, 02 Mar 2020 08:17:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,62 +49,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "X.Org development" <xorg-devel@lists.x.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "X.Org Foundation Board" <board@foundation.x.org>,
- Xorg Members List <members@x.org>, Mesa Dev <mesa-dev@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Marek Vasut <marex@denx.de>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Philippe Cornu <philippe.cornu@st.com>,
+ =?UTF-8?q?Yannick=20Fertr=C3=A9?= <yannick.fertre@st.com>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ Alexandre Torgue <alexandre.torgue@st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2020-02-29 at 14:46 -0500, Nicolas Dufresne wrote:
-> > 
-> > 1. I think we should completely disable running the CI on MRs which
-> > are
-> > marked WIP. Speaking from personal experience, I usually make a lot
-> > of
-> > changes to my MRs before they are merged, so it is a waste of CI
-> > resources.
-> 
-> In the mean time, you can help by taking the habit to use:
-> 
->   git push -o ci.skip
-
-Thanks for the advice, I wasn't aware such an option exists. Does this
-also work on the mesa gitlab or is this a GStreamer only thing?
-
-How hard would it be to make this the default?
-
-> That's a much more difficult goal then it looks like. Let each
-> projects
-> manage their CI graph and content, as each case is unique. Running
-> more
-> tests, or building more code isn't the main issue as the CPU time is
-> mostly sponsored. The data transfers between the cloud of gitlab and
-> the runners (which are external), along to sending OS image to Lava
-> labs is what is likely the most expensive.
-> 
-> As it was already mention in the thread, what we are missing now, and
-> being worked on, is per group/project statistics that give us the
-> hotspot so we can better target the optimization work.
-
-Yes, would be nice to know what the hotspot is, indeed.
-
-As far as I understand, the problem is not CI itself, but the bandwidth
-needed by the build artifacts, right? Would it be possible to not host
-the build artifacts on the gitlab, but rather only the place where the
-build actually happened? Or at least, only transfer the build artifacts
-on-demand?
-
-I'm not exactly familiar with how the system works, so sorry if this is
-a silly question.
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWRkIG1pc3NpbmcgcG1fcnVudGltZV9nZXRfc3luYygpIGludG8gbHRkY19jcnRjX2F0b21pY19l
+bmFibGUoKSB0bwptYXRjaCBwbV9ydW50aW1lX3B1dF9zeW5jKCkgaW4gbHRkY19jcnRjX2F0b21p
+Y19kaXNhYmxlKCksIG90aGVyd2lzZQp0aGUgTFREQyBtaWdodCBzdXNwZW5kIHZpYSBydW50aW1l
+IFBNLCBkaXNhYmxlIGNsb2NrLCBhbmQgdGhlbiBmYWlsCnRvIHJlc3VtZSBsYXRlciBvbi4KClRo
+ZSB0ZXN0IHdoaWNoIHRyaWdnZXJzIGl0IGlzIHJvdWdobHkgLS0gcnVuIHF0NSBhcHBsaWNhdGlv
+biB3aGljaAp1c2VzIGVnbGZzIHBsYXRmb3JtIGFuZCBldG5hdml2LCBzdG9wIHRoZSBhcHBsaWNh
+dGlvbiwgc2xlZXAgZm9yIDE1Cm1pbnV0ZXMsIHJ1biB0aGUgYXBwbGljYXRpb24gYWdhaW4uIFRo
+aXMgbGVhZHMgdG8gYSB0aW1lb3V0IHdhaXRpbmcKZm9yIHZzeW5jLCBiZWNhdXNlIHRoZSBMVERD
+IGhhcyBzdXNwZW5kZWQsIGJ1dCBkaWQgbm90IHJlc3VtZS4KCkZpeGVzOiAzNWFiNmNmYmYyMTEg
+KCJkcm0vc3RtOiBzdXBwb3J0IHJ1bnRpbWUgcG93ZXIgbWFuYWdlbWVudCIpClNpZ25lZC1vZmYt
+Ynk6IE1hcmVrIFZhc3V0IDxtYXJleEBkZW54LmRlPgpDYzogWWFubmljayBGZXJ0csOpIDx5YW5u
+aWNrLmZlcnRyZUBzdC5jb20+CkNjOiBQaGlsaXBwZSBDb3JudSA8cGhpbGlwcGUuY29ybnVAc3Qu
+Y29tPgpDYzogQmVuamFtaW4gR2FpZ25hcmQgPGJlbmphbWluLmdhaWduYXJkQGxpbmFyby5vcmc+
+CkNjOiBWaW5jZW50IEFicmlvdSA8dmluY2VudC5hYnJpb3VAc3QuY29tPgpDYzogTWF4aW1lIENv
+cXVlbGluIDxtY29xdWVsaW4uc3RtMzJAZ21haWwuY29tPgpDYzogQWxleGFuZHJlIFRvcmd1ZSA8
+YWxleGFuZHJlLnRvcmd1ZUBzdC5jb20+ClRvOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCkNjOiBsaW51eC1zdG0zMkBzdC1tZC1tYWlsbWFuLnN0b3JtcmVwbHkuY29tCkNjOiBsaW51
+eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKLS0tCi0tLS0tLS0tLS0tLVsgY3V0IGhl
+cmUgXS0tLS0tLS0tLS0tLQpXQVJOSU5HOiBDUFU6IDAgUElEOiAyOTcgYXQgZHJpdmVycy9ncHUv
+ZHJtL2RybV9hdG9taWNfaGVscGVyLmM6MTQ5NCBkcm1fYXRvbWljX2hlbHBlcl93YWl0X2Zvcl92
+YmxhbmtzKzB4MWRjLzB4MjAwCltDUlRDOjM1OmNydGMtMF0gdmJsYW5rIHdhaXQgdGltZWQgb3V0
+Ck1vZHVsZXMgbGlua2VkIGluOgpDUFU6IDAgUElEOiAyOTcgQ29tbTogUVNHUmVuZGVyVGhyZWFk
+IE5vdCB0YWludGVkIDUuNi4wLXJjMy1uZXh0LTIwMjAwMjI4LTAwMDEwLWczMThiZjBmYzA4ZWYg
+IzIKSGFyZHdhcmUgbmFtZTogU1RNMzIgKERldmljZSBUcmVlIFN1cHBvcnQpCls8YzAxMGYxOGM+
+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBhZmI4Pl0gKHNob3dfc3RhY2srMHgxMC8w
+eDE0KQpbPGMwMTBhZmI4Pl0gKHNob3dfc3RhY2spIGZyb20gWzxjMDdiMWQzYz5dIChkdW1wX3N0
+YWNrKzB4YjQvMHhkMCkKWzxjMDdiMWQzYz5dIChkdW1wX3N0YWNrKSBmcm9tIFs8YzAxMWQ4Yjg+
+XSAoX193YXJuKzB4ZDQvMHhmMCkKWzxjMDExZDhiOD5dIChfX3dhcm4pIGZyb20gWzxjMDExZGM0
+Yz5dICh3YXJuX3Nsb3dwYXRoX2ZtdCsweDc4LzB4YTgpCls8YzAxMWRjNGM+XSAod2Fybl9zbG93
+cGF0aF9mbXQpIGZyb20gWzxjMDRhMjY2Yz5dIChkcm1fYXRvbWljX2hlbHBlcl93YWl0X2Zvcl92
+YmxhbmtzKzB4MWRjLzB4MjAwKQpbPGMwNGEyNjZjPl0gKGRybV9hdG9taWNfaGVscGVyX3dhaXRf
+Zm9yX3ZibGFua3MpIGZyb20gWzxjMDRhNTEwYz5dIChkcm1fYXRvbWljX2hlbHBlcl9jb21taXRf
+dGFpbCswCng1MC8weDYwKQpbPGMwNGE1MTBjPl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF90
+YWlsKSBmcm9tIFs8YzA0YTUyYTg+XSAoY29tbWl0X3RhaWwrMHgxMmMvMHgxM2MpCls8YzA0YTUy
+YTg+XSAoY29tbWl0X3RhaWwpIGZyb20gWzxjMDRhNTNiND5dIChkcm1fYXRvbWljX2hlbHBlcl9j
+b21taXQrMHhmNC8weDEwMCkKWzxjMDRhNTNiND5dIChkcm1fYXRvbWljX2hlbHBlcl9jb21taXQp
+IGZyb20gWzxjMDRhMmQzOD5dIChkcm1fYXRvbWljX2hlbHBlcl9zZXRfY29uZmlnKzB4NTgvMHg2
+YykKWzxjMDRhMmQzOD5dIChkcm1fYXRvbWljX2hlbHBlcl9zZXRfY29uZmlnKSBmcm9tIFs8YzA0
+YjE5OTQ+XSAoZHJtX21vZGVfc2V0Y3J0YysweDQ1MC8weDU1MCkKWzxjMDRiMTk5ND5dIChkcm1f
+bW9kZV9zZXRjcnRjKSBmcm9tIFs8YzA0YWQ1NzA+XSAoZHJtX2lvY3RsX2tlcm5lbCsweDkwLzB4
+ZTgpCls8YzA0YWQ1NzA+XSAoZHJtX2lvY3RsX2tlcm5lbCkgZnJvbSBbPGMwNGFkOGFjPl0gKGRy
+bV9pb2N0bCsweDJlNC8weDMyYykKWzxjMDRhZDhhYz5dIChkcm1faW9jdGwpIGZyb20gWzxjMDI0
+Njc4ND5dICh2ZnNfaW9jdGwrMHgyMC8weDM4KQpbPGMwMjQ2Nzg0Pl0gKHZmc19pb2N0bCkgZnJv
+bSBbPGMwMjQ3MGYwPl0gKGtzeXNfaW9jdGwrMHhiYy8weDdiMCkKWzxjMDI0NzBmMD5dIChrc3lz
+X2lvY3RsKSBmcm9tIFs8YzAxMDEwMDA+XSAocmV0X2Zhc3Rfc3lzY2FsbCsweDAvMHg1NCkKRXhj
+ZXB0aW9uIHN0YWNrKDB4ZWU4ZjNmYTggdG8gMHhlZThmM2ZmMCkKM2ZhMDogICAgICAgICAgICAg
+ICAgICAgMDAwMDAwMDUgYWRjYmViMTggMDAwMDAwMDUgYzA2ODY0YTIgYWRjYmViMTggMDAwMDAw
+MDEKM2ZjMDogMDAwMDAwMDUgYWRjYmViMTggYzA2ODY0YTIgMDAwMDAwMzYgMDAwMDAwMjkgMDAw
+MDAwMjMgMDAwMDAwMjMgMDAwMDAwMDcKM2ZlMDogYjExM2IwOTggYWRjYmVhZmMgYjExMjU0MTMg
+YjYxNTVjZjgKLS0tWyBlbmQgdHJhY2UgMmFkNWJhOTU0Y2ViNzY3YSBdLS0tCi0tLQogZHJpdmVy
+cy9ncHUvZHJtL3N0bS9sdGRjLmMgfCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
+cygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jIGIvZHJpdmVycy9n
+cHUvZHJtL3N0bS9sdGRjLmMKaW5kZXggOTliZjkzZThiMzZmLi4zMDFkZTA0OTgwNzggMTAwNjQ0
+Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9z
+dG0vbHRkYy5jCkBAIC00MjUsOSArNDI1LDEyIEBAIHN0YXRpYyB2b2lkIGx0ZGNfY3J0Y19hdG9t
+aWNfZW5hYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAkJCQkgICAgc3RydWN0IGRybV9jcnRj
+X3N0YXRlICpvbGRfc3RhdGUpCiB7CiAJc3RydWN0IGx0ZGNfZGV2aWNlICpsZGV2ID0gY3J0Y190
+b19sdGRjKGNydGMpOworCXN0cnVjdCBkcm1fZGV2aWNlICpkZGV2ID0gY3J0Yy0+ZGV2OwogCiAJ
+RFJNX0RFQlVHX0RSSVZFUigiXG4iKTsKIAorCXBtX3J1bnRpbWVfZ2V0X3N5bmMoZGRldi0+ZGV2
+KTsKKwogCS8qIFNldHMgdGhlIGJhY2tncm91bmQgY29sb3IgdmFsdWUgKi8KIAlyZWdfd3JpdGUo
+bGRldi0+cmVncywgTFREQ19CQ0NSLCBCQ0NSX0JDQkxBQ0spOwogCi0tIAoyLjI1LjAKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
