@@ -1,47 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26FF17470C
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 14:27:04 +0100 (CET)
+Received: from gabe.freedesktop.org (unknown [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8AE174785
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Feb 2020 15:56:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 108306E32C;
-	Sat, 29 Feb 2020 13:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85CAC6E340;
+	Sat, 29 Feb 2020 14:56:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77F426E32C
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Feb 2020 13:26:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=+YdZf3b8EV908eGQglSMqhB3nmvC2gAZH4VxYq+Nk+I=; b=fetyMTATfX6WstBvf5nivW29R2
- 4IirO0OoFPLBGQ6Q2ENSphNb4WJil2NcFtb4oZpOuLVsRp4juws4KypB0+UTYybTqfRr3617WmnrQ
- LVh6Fz51pJjKwcMCsaB3Ns/9pRlpAEF9MFPvL7gd+xUk60s7303vy8udYLEV2Mw6n0SSVcqac770w
- FUNA0REHxKsp+oX46vZJ/Bgw76G7/hs1w55OyF8BdW5RatkFZ1jvTULLEJD3Y/HmszQOKJ4R5937f
- oJ4RLTNOs51wa0PNSFUtMHVtm6pnALrKNGhF6p2JDrhJiHne3dMb79XG50vxh3pdHzK380J0P2uKo
- DciPiT3Q==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:55869
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1j828v-0005xf-6q; Sat, 29 Feb 2020 14:26:57 +0100
-Subject: Re: [RFC 2/9] mfd: Add driver for Multifunction USB Device
-To: Lee Jones <lee.jones@linaro.org>
-References: <20200216172117.49832-1-noralf@tronnes.org>
- <20200216172117.49832-3-noralf@tronnes.org> <20200227090901.GS3494@dell>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <58bf66ef-d772-83cf-a13c-2a1135e12560@tronnes.org>
-Date: Sat, 29 Feb 2020 14:26:54 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 983966E340
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Feb 2020 14:56:33 +0000 (UTC)
+Received: from p508fcd9d.dip0.t-ipconnect.de ([80.143.205.157]
+ helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.89) (envelope-from <heiko@sntech.de>)
+ id 1j83XX-0003Bd-B4; Sat, 29 Feb 2020 15:56:27 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: Add binding document
+ for Elida KD35T133
+Date: Sat, 29 Feb 2020 15:56:26 +0100
+Message-ID: <12676917.Ei69fZKULH@phil>
+In-Reply-To: <20200229125052.GB5447@ravnborg.org>
+References: <20200225093913.415844-1-heiko@sntech.de>
+ <20200225093913.415844-2-heiko@sntech.de>
+ <20200229125052.GB5447@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20200227090901.GS3494@dell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,126 +40,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: balbi@kernel.org, broonie@kernel.org, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, robin.murphy@arm.com,
+ christoph.muellner@theobroma-systems.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjcuMDIuMjAyMCAxMC4wOSwgc2tyZXYgTGVlIEpvbmVzOgo+IEknZCByZWFsbHkgbGlr
-ZSBzb21lb25lIGZyb20gVVNCIHRvIGhhdmUgYSBsb29rIHRocm91Z2ggdGhpcyB0b28uCj4gCj4g
-SSdsbCBkbyBhIHF1aWNrIGZpcnN0IHBhc3MgYW5kIHByb3ZpZGUgc29tZSBnZW5lcmFsIGNvbW1l
-bnRzIHRob3VnaC4KPiAKPiBPbiBTdW4sIDE2IEZlYiAyMDIwLCBOb3JhbGYgVHLDuG5uZXMgd3Jv
-dGU6Cj4+IEEgTXVsdGlmdW5jdGlvbiBVU0IgRGV2aWNlIGlzIGEgZGV2aWNlIHRoYXQgc3VwcG9y
-dHMgZnVuY3Rpb25zIGxpa2UgZ3Bpbwo+PiBhbmQgZGlzcGxheSBvciBhbnkgb3RoZXIgZnVuY3Rp
-b24gdGhhdCBjYW4gYmUgcmVwcmVzZW50ZWQgYXMgYSBVU0IgcmVnbWFwLgo+PiBJbnRlcnJ1cHRz
-IG92ZXIgVVNCIGlzIGFsc28gc3VwcG9ydGVkIGlmIHN1Y2ggYW4gZW5kcG9pbnQgaXMgcHJlc2Vu
-dC4KPiAKPiBEbyB5b3UgaGF2ZSBhIGRhdGFzaGVldD8KCkFzIG1lbnRpb25lZCBpbiB0aGUgY292
-ZXIgbGV0dGVyIHRoaXMgaXMgYWJvdXQgdHVybmluZyBhIExpbnV4IGJvYXJkCmxpa2UgdGhlIFJh
-c3BiZXJyeSBQaSBpbnRvIGEgVVNCIGdhZGdldCB0aGF0IHByZXNlbnRzIGZ1bmN0aW9ucyBsaWtl
-CmRpc3BsYXksIGdwaW8sIHNwaSwgaTJjIHRvIGEgaG9zdCBvdmVyIFVTQi4gUGF0Y2ggMyBpbiB0
-aGlzIHNlcmllcwpjb250YWlucyB0aGUgZ2FkZ2V0IHNpZGUgb2YgdGhpcyBtZmQgZHJpdmVyLgoK
-UGF0Y2ggMSBoYXMgdGhlIHJlZ2lzdGVyIG92ZXIgVVNCIGNvZGUgaW1wbGVtZW50ZWQgYXMgYSBy
-ZWdtYXAuIEFmdGVyCnRhbGtpbmcgdG8gTWFyayBCcm93biBJIHJlYWxpc2VkIHRoYXQgcmVnbWFw
-IGhhcyBhIGxpbWl0YXRpb24gKG5vCnZhcmlhYmxlIHJlZ2lzdGVyIHZhbHVlIHdpZHRoKSBzbyBt
-eSBwbGFuIGlzIHRvIGluY2x1ZGUgdGhhdCBjb2RlIGludG8KdGhpcyBtZmQgZHJpdmVyIGluc3Rl
-YWQuCgo+IAo+PiBTaWduZWQtb2ZmLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVz
-Lm9yZz4KPj4gLS0tCgo+PiArc3RhdGljIHZvaWQgbXVkX2lycV91cmJfY29tcGxldGlvbihzdHJ1
-Y3QgdXJiICp1cmIpCj4+ICt7Cj4+ICsJc3RydWN0IGRldmljZSAqZGV2ID0gJnVyYi0+ZGV2LT5k
-ZXY7Cj4+ICsJaW50IHJldDsKPj4gKwo+PiArCW1kZWJ1ZygiJXM6IGFjdHVhbF9sZW5ndGg9JXVc
-biIsIF9fZnVuY19fLCB1cmItPmFjdHVhbF9sZW5ndGgpOwo+PiArCj4+ICsJc3dpdGNoICh1cmIt
-PnN0YXR1cykgewo+PiArCWNhc2UgMDoKPj4gKwkJbXVkX2lycV9xdWV1ZSh1cmIpOwo+PiArCQli
-cmVhazsKPj4gKwljYXNlIC1FUFJPVE86CS8qIEZJWE1FOiB2ZXJpZnk6IGR3YzIgcmVwb3J0cyB0
-aGlzIG9uIGRpc2Nvbm5lY3QgKi8KPiAKPiBXaGF0IGRvZXMgdGhpcyBtZWFuPyAgV2h5IGNhbid0
-IHlvdSBmaXggaXQgbm93PwoKSSBkb24ndCBrbm93IGlmIHRoaXMgaXMgYSBkd2MyIGRyaXZlciBw
-cm9ibGVtIG9yIGlmIEVQUk9UTyBpcyBhIHZhbGlkCmRpc2Nvbm5lY3QgZXJyb3IuIEkgaGF2ZW4n
-dCBzZWVuIGl0IGluIG90aGVyIGdhZGdldCBkcml2ZXJzLCBzbyBJIG5lZWQKdG8gbG9vayBtb3Jl
-IGludG8gdGhpcyBvciBldmVuIGJldHRlciBpZiBzb21lb25lIGZyb20gVVNCIGNhbiBhbnN3ZXIg
-dGhpcy4KCj4gCj4+ICsJY2FzZSAtRUNPTk5SRVNFVDoKPj4gKwljYXNlIC1FTk9FTlQ6Cj4+ICsJ
-Y2FzZSAtRVNIVVRET1dOOgo+PiArCQlkZXZfZGJnKGRldiwgImlycSB1cmIgc2h1dHRpbmcgZG93
-biB3aXRoIHN0YXR1czogJWRcbiIsIHVyYi0+c3RhdHVzKTsKPiAKPiBzL2lycS9JUlEvIGluIGFs
-bCBjb21tZW50cyBhbmQgcHJpbnRzLgo+IAo+IFNhbWUgd2l0aCBVUkI/Cj4gCj4+ICsJCXJldHVy
-bjsKPj4gKwlkZWZhdWx0Ogo+PiArCQlkZXZfZGJnKGRldiwgImlycSB1cmIgZmFpbHVyZSB3aXRo
-IHN0YXR1czogJWRcbiIsIHVyYi0+c3RhdHVzKTsKPj4gKwkJYnJlYWs7Cj4gCj4gU28gaXQncyBm
-YWlsZWQsIGJ1dCB5b3UncmUgZ29pbmcgdG8gYXR0ZW1wdCB0byBzdWJtaXQgaXQgYW55d2F5PwoK
-WWVzLCBJIGRvbid0IGtub3cgdGhlIHJlYXNvbiB3aHkgaXQgZmFpbGVkLCBpdCBtaWdodCBzdWNj
-ZWVkIHRoZSBuZXh0CnRpbWUuIEJ1dCB0aGlzIGlzIGFsc28gc29tZXRoaW5nIHRoYXQgc29tZW9u
-ZSB3aXRoIHJlYWwgbGlmZSBleHBlcmllbmNlCndpdGggVVNCIGZhaWx1cmVzIGNvdWxkIHdlaWdo
-IGluIG9uLiBNYXliZSBJIHNob3VsZCBzZW5kIGEgcmVzZXQgcmVxdWVzdApzbyB0aGUgZGV2aWNl
-IGNhbiByZXNldCBpdHMgc3RhdGUgbWFjaGluZSwgSSBkb24ndCBrbm93LgoKPiAKPj4gKwl9Cj4+
-ICsKPj4gKwlyZXQgPSB1c2Jfc3VibWl0X3VyYih1cmIsIEdGUF9BVE9NSUMpOwo+PiArCWlmIChy
-ZXQgJiYgcmV0ICE9IC1FTk9ERVYpCj4+ICsJCWRldl9lcnIoZGV2LCAiaXJxIHVzYl9zdWJtaXRf
-dXJiIGZhaWxlZCB3aXRoIHJlc3VsdCAlZFxuIiwgcmV0KTsKPj4gK30KCgo+PiArc3RhdGljIGlu
-dCBtdWRfcHJvYmVfcmVnbWFwKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRlcmZhY2UsIHN0cnVj
-dCBtZmRfY2VsbCAqY2VsbCwKPj4gKwkJCSAgICB1bnNpZ25lZCBpbnQgaW5kZXgsIHN0cnVjdCBt
-dWRfaXJxICptaXJxKQo+PiArewo+PiArCXN0cnVjdCBtdWRfY2VsbF9wZGF0YSAqcGRhdGE7Cj4+
-ICsJc3RydWN0IHJlc291cmNlICpyZXMgPSBOVUxMOwo+PiArCWludCByZXQ7Cj4+ICsKPj4gKwlw
-ZGF0YSA9IGt6YWxsb2Moc2l6ZW9mKCpwZGF0YSksIEdGUF9LRVJORUwpOwo+PiArCWlmICghcGRh
-dGEpCj4+ICsJCXJldHVybiAtRU5PTUVNOwo+PiArCj4+ICsJcmV0ID0gcmVnbWFwX3VzYl9nZXRf
-bWFwX2Rlc2NyaXB0b3IoaW50ZXJmYWNlLCBpbmRleCwgJnBkYXRhLT5kZXNjKTsKPiAKPiBDYW4g
-eW91IGdpdmUgYW4gZXhhbXBsZSBvZiB3aGF0IGEgZGVzYyBtaWdodCBsb29rIGxpa2U/Cj4gCj4g
-SSdtIHBhcnRpY3VsYXJseSBpbnRlcmVzdGVkIGluIHBkYXRhLT5kZXNjLm5hbWUuCj4gCgpUaGlz
-IGlzIHRoZSBkZWZpbml0aW9uOgoKLyoqCiAqIHN0cnVjdCByZWdtYXBfdXNiX21hcF9kZXNjcmlw
-dG9yIC0gUmVnbWFwIGRlc2NyaXB0b3IKICogQGJMZW5ndGg6IFNpemUgb2YgZGVzY3JpcHRvciBp
-biBieXRlcwogKiBAYkRlc2NyaXB0b3JUeXBlOiBEZXNjcmlwdG9yVHlwZSAoUkVHTUFQX1VTQl9E
-VF9NQVApCiAqIEBuYW1lOiBSZWdpc3RlciBuYW1lIChOVUwgdGVybWluYXRlZCkKICogQGJSZWdp
-c3RlclZhbHVlQml0czogTnVtYmVyIG9mIGJpdHMgaW4gdGhlIHJlZ2lzdGVyIHZhbHVlCiAqIEBi
-Q29tcHJlc3Npb246IFN1cHBvcnRlZCBjb21wcmVzc2lvbiB0eXBlcwogKiBAYk1heFRyYW5zZmVy
-U2l6ZU9yZGVyOiBNYXhpbXVtIHRyYW5zZmVyIHNpemUgdGhlIGRldmljZSBjYW4gaGFuZGxlCmFz
-IGxvZzIuCiAqLwpzdHJ1Y3QgcmVnbWFwX3VzYl9tYXBfZGVzY3JpcHRvciB7CglfX3U4IGJMZW5n
-dGg7CglfX3U4IGJEZXNjcmlwdG9yVHlwZTsKCglfX3U4IG5hbWVbMzJdOwoJX191OCBiUmVnaXN0
-ZXJWYWx1ZUJpdHM7CglfX3U4IGJDb21wcmVzc2lvbjsKI2RlZmluZSBSRUdNQVBfVVNCX0NPTVBS
-RVNTSU9OX0xaNAlCSVQoMCkKCV9fdTggYk1heFRyYW5zZmVyU2l6ZU9yZGVyOwp9IF9fcGFja2Vk
-OwoKCj4+ICsJaWYgKHJldCkKPj4gKwkJZ290byBlcnJvcjsKPiAKPiBUaGlzIHdpbGwgYXR0ZW1w
-dCB0byBmcmVlICdyZXMnIHdoaWNoIGlzIGN1cnJlbnRseSBOVUxMLgo+IAo+PiArCW1kZWJ1Zygi
-JXM6IG5hbWU9JyVzJyBpbmRleD0ldVxuIiwgX19mdW5jX18sIHBkYXRhLT5kZXNjLm5hbWUsIGlu
-ZGV4KTsKPj4gKwltZGVidWcoIiAgICBiUmVnaXN0ZXJWYWx1ZUJpdHM9JXVcbiIsIHBkYXRhLT5k
-ZXNjLmJSZWdpc3RlclZhbHVlQml0cyk7Cj4+ICsJbWRlYnVnKCIgICAgYkNvbXByZXNzaW9uPTB4
-JTAyeFxuIiwgcGRhdGEtPmRlc2MuYkNvbXByZXNzaW9uKTsKPj4gKwltZGVidWcoIiAgICBiTWF4
-VHJhbnNmZXJTaXplT3JkZXI9JXUgKCV1a0IpXG4iLAo+PiArCSAgICAgICBwZGF0YS0+ZGVzYy5i
-TWF4VHJhbnNmZXJTaXplT3JkZXIsCj4+ICsJICAgICAgICgxIDw8IHBkYXRhLT5kZXNjLmJNYXhU
-cmFuc2ZlclNpemVPcmRlcikgLyAxMDI0KTsKPj4gKwo+PiArCWlmIChtaXJxKSB7Cj4+ICsJCXJl
-cyA9IGt6YWxsb2Moc2l6ZW9mKCpyZXMpLCBHRlBfS0VSTkVMKTsKPj4gKwkJaWYgKCFyZXMpIHsK
-Pj4gKwkJCXJldCA9IC1FTk9NRU07Cj4+ICsJCQlnb3RvIGVycm9yOwo+IAo+IFRoaXMgd2lsbCBh
-dHRlbXB0IHRvIGZyZWUgJ3Jlcycgd2hpY2ggaXMgY3VycmVudGx5IE5VTEwuCj4gCj4+ICsJCX0K
-Pj4gKwo+PiArCQlyZXMtPmZsYWdzID0gSU9SRVNPVVJDRV9JUlE7Cj4+ICsJCXJlcy0+c3RhcnQg
-PSBpcnFfY3JlYXRlX21hcHBpbmcobWlycS0+ZG9tYWluLCBpbmRleCk7Cj4+ICsJCW1kZWJ1Zygi
-ICAgIHJlcy0+c3RhcnQ9JXVcbiIsICh1bnNpZ25lZCBpbnQpcmVzLT5zdGFydCk7Cj4+ICsJCXJl
-cy0+ZW5kID0gcmVzLT5zdGFydDsKPj4gKwo+PiArCQljZWxsLT5yZXNvdXJjZXMgPSByZXM7Cj4+
-ICsJCWNlbGwtPm51bV9yZXNvdXJjZXMgPSAxOwo+PiArCX0KPj4gKwo+PiArCXBkYXRhLT5pbnRl
-cmZhY2UgPSBpbnRlcmZhY2U7Cj4gCj4gVGhpcyBsb29rcyBsaWtlIHNvbWV0aGluZyB0aGF0IHNo
-b3VsZCBiZSBzdG9yZWQgaW4gZGRhdGEuCj4gCj4+ICsJcGRhdGEtPmluZGV4ID0gaW5kZXg7Cj4g
-Cj4gRG9uJ3QgdXN1YWxseSBsaWtlIGluZGV4ZXMgLSB3aGF0IGlzIHRoaXMgdXNlZCBmb3I/CgpB
-IG1heGltdW0gb2YgMjU1IHJlZ2lzdGVyIG1hcHMgYXJlIHN1cHBvcnRlZCBvbiBvbmUgVVNCIGlu
-dGVyZmFjZSBhbmQKdGhpcyBpbmRleCB0ZWxscyB3aGljaCBvbmUgaXQgaXMuIEl0J3MgcGFzc2Vk
-IGluIHRoZSBVU0IgdHJhbnNmZXIgaGVhZGVyLgoKPiAKPj4gKwljZWxsLT5uYW1lID0gcGRhdGEt
-PmRlc2MubmFtZTsKPj4gKwljZWxsLT5wbGF0Zm9ybV9kYXRhID0gcGRhdGE7Cj4+ICsJY2VsbC0+
-cGRhdGFfc2l6ZSA9IHNpemVvZigqcGRhdGEpOwo+PiArCS8qCj4+ICsJICogQSBNdWx0aWZ1bmN0
-aW9uIFVTQiBEZXZpY2UgY2FuIGhhdmUgbXVsdGlwbGUgZnVuY3Rpb25zIG9mIHRoZSBzYW1lCj4+
-ICsJICogdHlwZS4gbWZkX2FkZF9kZXZpY2UoKSBpbiBpdHMgY3VycmVudCBmb3JtIHdpbGwgb25s
-eSBtYXRjaCBvbiB0aGUKPj4gKwkgKiBmaXJzdCBub2RlIGluIHRoZSBEZXZpY2UgVHJlZS4KPj4g
-KwkgKi8KPj4gKwljZWxsLT5vZl9jb21wYXRpYmxlID0gY2VsbC0+bmFtZTsKPj4gKwo+PiArCXJl
-dHVybiAwOwo+PiArCj4+ICtlcnJvcjoKPj4gKwlrZnJlZShyZXMpOwo+IAo+IEkgdGhpbmsgeW91
-IHNob3VsZCByZW1vdmUgdGhpcyBsaW5lLCBhcyBpdCdzIG5ldmVyIHVzZWZ1bCBoZXJlLgo+IAo+
-PiArCWtmcmVlKHBkYXRhKTsKPj4gKwo+PiArCXJldHVybiByZXQ7Cj4+ICt9Cj4+ICsKCj4+ICtz
-dGF0aWMgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgbXVkX3RhYmxlW10gPSB7Cj4+ICsJLyoK
-Pj4gKwkgKiBGSVhNRToKPj4gKwkgKiBBcHBseSBmb3IgYSBwcm9wZXIgcGlkOiBodHRwczovL2dp
-dGh1Yi5jb20vb3Blbm1va28vb3Blbm1va28tdXNiLW91aQo+PiArCSAqCj4+ICsJICogT3IgbWF5
-YmUgdGhlIExpbnV4IEZvdW5kYXRpb24gd2lsbCBwcm92aWRlIG9uZSBmcm9tIHRoZWlyIHZlbmRv
-ciBpZC4KPj4gKwkgKi8KPiAKPiBQcm9iYWJseSBub3QgYSBnb29kIGlkZWEgdG8gdGFrZSB0aGlz
-IGludG8gdGhlIHVwc3RyZWFtIGtlcm5lbCB3aXRob3V0Cj4gYSB2YWxpZCwgcmVnaXN0ZXJlZCBQ
-SUQuICBTdWdnZXN0IHlvdSBkbyB0aGlzICpmaXJzdCouCgpJIGRpZG4ndCBrbm93IGlmIG15IHdv
-cmsgd2FzIGZ1bmRlbWVudGFsbHkgZmxhd2VkIGluIHNvbWUgd2F5IHRoYXQgbWFkZQppdCBkaWZm
-aWN1bHQgdG8gZ2V0IG1lcmdlZC4gSGVuY2UgdGhlIFJGQyB0byBhc2sgZm9yIGhlbHAgZnJvbSBw
-ZW9wbGUKa25vd2xlZGdlYWJsZSBpbiB0aGlzIGFyZWEuIFNvIEknbSBob3BpbmcgdGhhdCBzb21l
-IFVTQiBwZW9wbGUgd2lsbCBoYXZlCmEgbG9vayBvbiB0aGlzIGFzIHdlbGwuCgpJZiB0aGlzIG11
-bHRpZnVuY3Rpb24gaWRlYSBkb2Vzbid0IHdvcmsgb3V0LCB0aGVuIEknbGwganVzdCBkbyB0aGUg
-VVNCCmRpc3BsYXkgcGFydCBhbmQgaXQgd2lsbCBvbmx5IGJlIGEgZHJtIGRyaXZlci4gU28gYXQg
-dGhlIG1vbWVudCBJIGRvbid0Cmtub3cgd2hhdCBraW5kIG9mIFVTQiBkZXZpY2UgdGhpcyB3aWxs
-IGJlOiBtdWx0aWZ1bnRpb24gb3IgZGlzcGxheS4KV2hlbiBJIGtub3cgdGhlbiBJJ2xsIGdldCBh
-IFBJRC4KCk5vcmFsZi4KCj4gCj4+ICsJeyBVU0JfREVWSUNFX0lOVEVSRkFDRV9DTEFTUygweDFk
-NTAsIDB4NjE1MCwgVVNCX0NMQVNTX1ZFTkRPUl9TUEVDKSB9LAo+PiArCXsgfQo+PiArfTsKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Sam,
+
+Am Samstag, 29. Februar 2020, 13:50:52 CET schrieb Sam Ravnborg:
+> Hi Heiko.
+> 
+> On Tue, Feb 25, 2020 at 10:39:12AM +0100, Heiko Stuebner wrote:
+> > From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> > 
+> > The KD35T133 is a 3.5" 320x480 DSI display used in the RK3326-based
+> > Odroid Go Advance handheld device.
+> > 
+> > Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> 
+> One small comment, but anyway:
+> 
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > ---
+> >  .../display/panel/elida,kd35t133.yaml         | 49 +++++++++++++++++++
+> >  1 file changed, 49 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml b/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> > new file mode 100644
+> > index 000000000000..4bd74eaa61be
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> > @@ -0,0 +1,49 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/panel/elida,kd35t133.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Elida KD35T133 3.5in 320x480 DSI panel
+> > +
+> > +maintainers:
+> > +  - Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> > +
+> > +allOf:
+> > +  - $ref: panel-common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: elida,kd35t133
+> > +  reg: true
+> > +  backlight: true
+> > +  reset-gpios: true
+> > +  iovcc-supply:
+> > +     description: regulator that supplies the iovcc voltage
+> > +  vdd-supply:
+> > +     description: regulator that supplies the vdd voltage
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - backlight
+> Is backlight really required? If it is tied to for example vcc then
+> there is nothing to express in the DT.
+
+Not sure I follow. On the Odroid Go Advance (device in question)
+the backlight is provided by a (adjustable) pwm-backlight.
+
+So of course for probability it is not required by at least to make the
+display usable it is ;-)
+
+Heiko
+
+> 
+> 	Sam
+> 
+> > +  - iovcc-supply
+> > +  - vdd-supply
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    dsi@ff450000 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +        panel@0 {
+> > +            compatible = "elida,kd35t133";
+> > +            reg = <0>;
+> > +            backlight = <&backlight>;
+> > +            iovcc-supply = <&vcc_1v8>;
+> > +            vdd-supply = <&vcc3v3_lcd>;
+> > +        };
+> > +    };
+> > +
+> > +...
+> 
+
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
