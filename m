@@ -1,41 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA6E17555C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 09:17:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF61175562
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 09:18:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 423BF6E0DC;
-	Mon,  2 Mar 2020 08:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC0D6E0EC;
+	Mon,  2 Mar 2020 08:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs55.siol.net [185.57.226.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69DDE6E375
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Feb 2020 16:31:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Zimbra) with ESMTP id B2E4A523546;
- Sat, 29 Feb 2020 17:31:11 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id x5SUtkwt73i7; Sat, 29 Feb 2020 17:31:11 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Zimbra) with ESMTPS id 48D40523169;
- Sat, 29 Feb 2020 17:31:11 +0100 (CET)
-Received: from localhost.localdomain (cpe-194-152-20-232.static.triera.net
- [194.152.20.232]) (Authenticated sender: 031275009)
- by mail.siol.net (Zimbra) with ESMTPSA id D39045235E7;
- Sat, 29 Feb 2020 17:31:08 +0100 (CET)
-From: Jernej Skrabec <jernej.skrabec@siol.net>
-To: a.hajda@samsung.com,
-	narmstrong@baylibre.com
-Subject: [PATCH 4/4] drm/bridge: dw-hdmi: Add support for RGB limited range
-Date: Sat, 29 Feb 2020 17:30:43 +0100
-Message-Id: <20200229163043.158262-5-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200229163043.158262-1-jernej.skrabec@siol.net>
-References: <20200229163043.158262-1-jernej.skrabec@siol.net>
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7251A6E394;
+ Sat, 29 Feb 2020 18:14:08 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id u9so949660wml.3;
+ Sat, 29 Feb 2020 10:14:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=/YOqBOlJrUI1flDmCuCHKMLtepW5A1wxOXV1iaBg5Zg=;
+ b=Xw6Smsm8KtPM8OC991PrJ6I786aMOsrvMXt1LNA+ZTZjcWFCTSRhzx4E7eerOI+a8j
+ oirw2M/flraj1u+/g0rD4SlLa1fFaOxplRfeTh6WwIyFi/ubTU/zJE1TL5zj5sKiGhoS
+ hg+9wP+nO8f8NMjraZpQ8zxLltzT4MOn9OmU8o80FXyP+9sUr9tHjF4Dl7QMkvPubXC9
+ aXVrj/nt2PHVkvdzjUSvnKEi1IC5JIm917IFIdb8ZOQOctwNbo1HObb+J35cRrUH3OaP
+ l0S0RzxJ2gCGYIZN2NjBayG9byD+NmRtGE5cxMINgLXSl28hs1Q1Z/mK4NJzO4CFRILw
+ Gktw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=/YOqBOlJrUI1flDmCuCHKMLtepW5A1wxOXV1iaBg5Zg=;
+ b=KjZxRb+ow7AYVhTESjeVLfUkGEUXXvVj4NkjyJaeG++/63+gHGpnP1oGvjfa9lRKex
+ rGlrQW2ByE/bDo/3MU5c3tdEmckpsvHn7fXrfWVtar5i45q1BVMHgB6GgGAXmsZnZVYr
+ Zyh2ExXO1dKLx7ro6fO4OlYb7TQwURhWqkHRaQm0W7pmTuu9ORpNc9nW1Q7L6RqPhyJc
+ mO/gaqFVmsbwWkjjnhIrgD1DaXLDGj3UDrBZwiOcNT5/Pn+E8NB/wG78odJVZIlg22uw
+ anYSYJaZHh/rdHe2LR4Sj52aY8xTJDxcW0RwYlkcfRVqKr64VF0eT2C1+dCzlfVOyRRf
+ lq8w==
+X-Gm-Message-State: APjAAAW8qTFugrlUKM2EEtGXdP1hRd4FF4WEm6hWQ2SH1juBMBT0IYqd
+ 4DhCaD78xsHgy9dTP5vO0Q4=
+X-Google-Smtp-Source: APXvYqyRtFe1dg/neYu3kj9xZXUEpYq4gJN/mXtTelG04QTVkriVeOk06WCBQ0T+b6cxQbLv5W5Jyw==
+X-Received: by 2002:a1c:bc46:: with SMTP id m67mr10367591wmf.40.1583000047136; 
+ Sat, 29 Feb 2020 10:14:07 -0800 (PST)
+Received: from Timur-XPS ([2a02:ab88:3846:1b00:9eb6:d0ff:fe89:c25f])
+ by smtp.gmail.com with ESMTPSA id i8sm12579747wrq.10.2020.02.29.10.14.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Feb 2020 10:14:06 -0800 (PST)
+Message-ID: <59f4ea1f13a9a9d37f7801b93061b4ae7dd595e2.camel@gmail.com>
+Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and
+ impact on services
+From: Timur =?ISO-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
+To: Daniel Stone <daniel@fooishbar.org>, Erik Faye-Lund
+ <erik.faye-lund@collabora.com>
+Date: Sat, 29 Feb 2020 19:14:04 +0100
+In-Reply-To: <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+ <b398161ff7d0268454413058dc6c194cf93f5990.camel@collabora.com>
+ <ece8ebe3-40ec-2457-02da-4fef19cbe8f6@intel.com>
+ <6d2ec570f957b4504fb70e0b1f0632712a99dc0c.camel@collabora.com>
+ <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 02 Mar 2020 08:17:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,122 +74,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ gstreamer-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CEA 861 standard request that RGB quantization range is "limited" for
-CEA modes. Support that by adding CSC matrix which downscales values.
+On Fri, 2020-02-28 at 10:43 +0000, Daniel Stone wrote:
+> On Fri, 28 Feb 2020 at 10:06, Erik Faye-Lund
+> <erik.faye-lund@collabora.com> wrote:
+> > On Fri, 2020-02-28 at 11:40 +0200, Lionel Landwerlin wrote:
+> > > Yeah, changes on vulkan drivers or backend compilers should be
+> > > fairly
+> > > sandboxed.
+> > > 
+> > > We also have tools that only work for intel stuff, that should
+> > > never
+> > > trigger anything on other people's HW.
+> > > 
+> > > Could something be worked out using the tags?
+> > 
+> > I think so! We have the pre-defined environment variable
+> > CI_MERGE_REQUEST_LABELS, and we can do variable conditions:
+> > 
+> > https://docs.gitlab.com/ee/ci/yaml/#onlyvariablesexceptvariables
+> > 
+> > That sounds like a pretty neat middle-ground to me. I just hope
+> > that
+> > new pipelines are triggered if new labels are added, because not
+> > everyone is allowed to set labels, and sometimes people forget...
+> 
+> There's also this which is somewhat more robust:
+> https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2569
 
-This allows to proper color reproduction on TV and PC monitor at the
-same time. In future, override property can be added, like "Broadcast
-RGB" in i915 driver.
+My 20 cents:
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 36 +++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+1. I think we should completely disable running the CI on MRs which are
+marked WIP. Speaking from personal experience, I usually make a lot of
+changes to my MRs before they are merged, so it is a waste of CI
+resources.
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 3d6021119942..101c90156fa0 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -92,6 +92,12 @@ static const u16 csc_coeff_rgb_in_eitu709[3][4] = {
- 	{ 0x6756, 0x78ab, 0x2000, 0x0200 }
- };
- 
-+static const u16 csc_coeff_rgb_limited[3][4] = {
-+	{ 0x1B7C, 0x0000, 0x0000, 0x0020 },
-+	{ 0x0000, 0x1B7C, 0x0000, 0x0020 },
-+	{ 0x0000, 0x0000, 0x1B7C, 0x0020 }
-+};
-+
- struct hdmi_vmode {
- 	bool mdataenablepolarity;
- 
-@@ -109,6 +115,7 @@ struct hdmi_data_info {
- 	unsigned int pix_repet_factor;
- 	unsigned int hdcp_enable;
- 	struct hdmi_vmode video_mode;
-+	bool rgb_limited_range;
- };
- 
- struct dw_hdmi_i2c {
-@@ -960,6 +967,13 @@ static int is_color_space_conversion(struct dw_hdmi *hdmi)
- 		hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format);
- }
- 
-+static int is_rgb_downscale_needed(struct dw_hdmi *hdmi)
-+{
-+	return  hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) &&
-+		hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) &&
-+		hdmi->hdmi_data.rgb_limited_range;
-+}
-+
- static int is_color_space_decimation(struct dw_hdmi *hdmi)
- {
- 	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
-@@ -1006,6 +1020,8 @@ static void dw_hdmi_update_csc_coeffs(struct dw_hdmi *hdmi)
- 				csc_coeff = &csc_coeff_rgb_in_eitu709;
- 			csc_scale = 0;
- 		}
-+	} else if (is_rgb_downscale_needed(hdmi)) {
-+		csc_coeff = &csc_coeff_rgb_limited;
- 	}
- 
- 	/* The CSC registers are sequential, alternating MSB then LSB */
-@@ -1615,6 +1631,18 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
- 	drm_hdmi_avi_infoframe_from_display_mode(&frame,
- 						 &hdmi->connector, mode);
- 
-+	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-+		drm_hdmi_avi_infoframe_quant_range(&frame, &hdmi->connector,
-+						   mode,
-+						   hdmi->hdmi_data.rgb_limited_range ?
-+						   HDMI_QUANTIZATION_RANGE_LIMITED :
-+						   HDMI_QUANTIZATION_RANGE_FULL);
-+	} else {
-+		frame.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
-+		frame.ycc_quantization_range =
-+			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
-+	}
-+
- 	if (hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format))
- 		frame.colorspace = HDMI_COLORSPACE_YUV444;
- 	else if (hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
-@@ -1990,13 +2018,13 @@ static void dw_hdmi_enable_video_path(struct dw_hdmi *hdmi)
- 	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
- 
- 	/* Enable csc path */
--	if (is_color_space_conversion(hdmi)) {
-+	if (is_color_space_conversion(hdmi) || is_rgb_downscale_needed(hdmi)) {
- 		hdmi->mc_clkdis &= ~HDMI_MC_CLKDIS_CSCCLK_DISABLE;
- 		hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
- 	}
- 
- 	/* Enable color space conversion if needed */
--	if (is_color_space_conversion(hdmi))
-+	if (is_color_space_conversion(hdmi) || is_rgb_downscale_needed(hdmi))
- 		hdmi_writeb(hdmi, HDMI_MC_FLOWCTRL_FEED_THROUGH_OFF_CSC_IN_PATH,
- 			    HDMI_MC_FLOWCTRL);
- 	else
-@@ -2100,6 +2128,10 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
- 	/* TOFIX: Default to RGB888 output format */
- 	hdmi->hdmi_data.enc_out_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 
-+	hdmi->hdmi_data.rgb_limited_range = hdmi->sink_is_hdmi &&
-+		drm_default_rgb_quant_range(mode) ==
-+		HDMI_QUANTIZATION_RANGE_LIMITED;
-+
- 	hdmi->hdmi_data.pix_repet_factor = 0;
- 	hdmi->hdmi_data.hdcp_enable = 0;
- 	hdmi->hdmi_data.video_mode.mdataenablepolarity = true;
--- 
-2.25.1
+2. Maybe we could take this one step further and only allow the CI to
+be only triggered manually instead of automatically on every push.
+
+3. I completely agree with Pierre-Eric on MR 2569, let's not run the
+full CI pipeline on every change, only those parts which are affected
+by the change. It not only costs money, but is also frustrating when
+you submit a change and you get unrelated failures from a completely
+unrelated driver.
+
+Best regards,
+Timur
 
 _______________________________________________
 dri-devel mailing list
