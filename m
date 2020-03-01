@@ -1,35 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83741174E83
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Mar 2020 17:33:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F128F174EE5
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Mar 2020 19:18:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A93F26E4D7;
-	Sun,  1 Mar 2020 16:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C70E6E4DD;
+	Sun,  1 Mar 2020 18:18:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 106756E4C5;
- Sun,  1 Mar 2020 16:33:11 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 20404260-1500050 for multiple; Sun, 01 Mar 2020 16:33:09 +0000
-MIME-Version: 1.0
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- intel-gfx@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <74b581c4-2e5b-6455-63d3-351635820a4b@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76DF46E4CF;
+ Sun,  1 Mar 2020 18:18:19 +0000 (UTC)
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com
+ [66.24.58.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D8586246C8;
+ Sun,  1 Mar 2020 18:18:17 +0000 (UTC)
+Date: Sun, 1 Mar 2020 13:18:16 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH 1/2] trace: Export anonymous tracing
+Message-ID: <20200301131816.277dd398@oasis.local.home>
+In-Reply-To: <20200301155248.4132645-1-chris@chris-wilson.co.uk>
 References: <20200301155248.4132645-1-chris@chris-wilson.co.uk>
- <20200301155248.4132645-2-chris@chris-wilson.co.uk>
- <74b581c4-2e5b-6455-63d3-351635820a4b@intel.com>
-Message-ID: <158308038685.3365.12116750291008658412@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [Intel-gfx] [PATCH 2/2] RFC drm/i915: Export per-client debug
- tracing
-Date: Sun, 01 Mar 2020 16:33:06 +0000
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,28 +39,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Lionel Landwerlin (2020-03-01 16:27:24)
-> On 01/03/2020 17:52, Chris Wilson wrote:
-> > Rather than put sensitive, and often voluminous, user details into a
-> > global dmesg, report the error and debug messages directly back to the
-> > user via the kernel tracing mechanism.
-> 
-> 
-> Sounds really nice. Don't you want the existing global tracing to be the 
-> default at least until a client does a get_trace?
+On Sun,  1 Mar 2020 15:52:47 +0000
+Chris Wilson <chris@chris-wilson.co.uk> wrote:
 
-We've currently in the middle of an awfully spammy regression :(
+> To facilitate construction of per-client event ringbuffers, in
+> particular for a per-client debug and error report log, it would be
+> extremely useful to create an anonymous file that can be handed to
+> userspace so that it can see its and only its events. trace already
+> provides a means of encapsulating the trace ringbuffer into a struct
+> file that can be opened via the tracefs, and so with a couple of minor
+> tweaks can provide the same access via an anonymous inode.
 
-And I think the user's debug information does not belong in the global
-dmesg.
--Chris
+I'm curious to why we need it to be anonymous. Why not allow them to be
+visible from the tracing directory. This could allow for easier
+debugging. Note, the trace instances have ref counters thus they can't
+be removed if something has a reference to it.
+
+Also, all the global functions require kernel doc comments to explain
+how they work and what they are for.
+
+-- Steve
+
+
+> 
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> ---
+>  include/linux/trace.h |   4 ++
+>  kernel/trace/trace.c  | 142 ++++++++++++++++++++++++++++++------------
+>  2 files changed, 105 insertions(+), 41 deletions(-)
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
