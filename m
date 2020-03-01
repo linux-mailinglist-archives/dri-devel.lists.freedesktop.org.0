@@ -1,32 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F128F174EE5
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Mar 2020 19:18:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81818174F44
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Mar 2020 20:51:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C70E6E4DD;
-	Sun,  1 Mar 2020 18:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 159CE6E4E6;
+	Sun,  1 Mar 2020 19:51:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76DF46E4CF;
- Sun,  1 Mar 2020 18:18:19 +0000 (UTC)
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D8586246C8;
- Sun,  1 Mar 2020 18:18:17 +0000 (UTC)
-Date: Sun, 1 Mar 2020 13:18:16 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH 1/2] trace: Export anonymous tracing
-Message-ID: <20200301131816.277dd398@oasis.local.home>
-In-Reply-To: <20200301155248.4132645-1-chris@chris-wilson.co.uk>
-References: <20200301155248.4132645-1-chris@chris-wilson.co.uk>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA78D6E047;
+ Sun,  1 Mar 2020 19:51:29 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id a5so8903312wmb.0;
+ Sun, 01 Mar 2020 11:51:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+L26IBHSSuDNPkGPY6uq9gwJQV3iz4Ht1sQEj6t4RQI=;
+ b=KVMauUgHe6RdY6kh5gS0Gu+Vt4tH0RAvCbN9y09j254AkbKIiOVbh0OM/E2bsnASqr
+ Xg9VYji/zg9LVzIkVtK6U5FPoLSWvzV5bujevL3DDbmggtWigSbKawhNZW+AFhE0y+YK
+ Qvo3D/u45xWCYTKyvwDitNnT9e9W0mjCjSDmSKNZgW8/vgcDHYW7KCCe9iGpzbr6/+9g
+ TnNYiMqLQbBBMsp/BYdA7ZWZllltWdxTotesF8ZYNZISvaG+TeBNrok9AnfX+kI6Ik7Z
+ BROOBLsmXTI1LwuOkutxgEwyk+q/KeZjd01EkwpUwZz731QTpa/DvZKdpFYOI9BwVEcy
+ jPvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+L26IBHSSuDNPkGPY6uq9gwJQV3iz4Ht1sQEj6t4RQI=;
+ b=M0KiMgmM2ceHtF58gzFuIppJdzB8bhfA1fVCXjk/B7Y+p5MtYPT+eiea6ErJzF9QuB
+ zeFbobRc+0lDqV9KQTCThVcU+UWpsz4YS7+xB++CBdmsMKOu8szhhntXX/KU7uUQnKFj
+ G7Aw+giiWEMwIppaBFzsQmn2sWRzvV+tch/4sY9b7TVw+SkSUaO9mWyilKD+qxKo/zLi
+ zXbBCmazP+EQofK7up+SMJqGy3Gqtng3ZVDXl8TyIj45V1lw7Q37PKUz8GdMgxn/3wYs
+ 2t5HqXaV09q+zLUocFV6K+fTb0AAYhmojmxzrGssXupRk3II+cCH14nmVkMWCMs4fYcZ
+ mNVw==
+X-Gm-Message-State: APjAAAUHLdTIKiK87DXu/50U6NruPFIB533yPKGp+OqWg+7girwosgqK
+ sySw0ewCkdiQemhnJYzRO8MIRJEA2aWAUnBLdZI=
+X-Google-Smtp-Source: APXvYqyoCA8xAHSUFppGU14VYQGo0Uodv8I++KrZLQ0C7kG9VaODUW2PJZRvap8Vb/HbXbe5EgV0ee7S4ZcC3Sf4Ovs=
+X-Received: by 2002:a7b:c8d7:: with SMTP id f23mr15359438wml.173.1583092288239; 
+ Sun, 01 Mar 2020 11:51:28 -0800 (PST)
 MIME-Version: 1.0
+References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
+ <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
+ <b398161ff7d0268454413058dc6c194cf93f5990.camel@collabora.com>
+ <ece8ebe3-40ec-2457-02da-4fef19cbe8f6@intel.com>
+ <6d2ec570f957b4504fb70e0b1f0632712a99dc0c.camel@collabora.com>
+ <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
+ <59f4ea1f13a9a9d37f7801b93061b4ae7dd595e2.camel@gmail.com>
+ <d0ef47e45c83b342494e6781b808b4831a008836.camel@ndufresne.ca>
+ <9b0b31b8-7610-d5c5-790a-617178cc8c1e@daenzer.net>
+ <93d7158b1ab49e51d14d991d5bdb2dba38ad6025.camel@ndufresne.ca>
+In-Reply-To: <93d7158b1ab49e51d14d991d5bdb2dba38ad6025.camel@ndufresne.ca>
+From: Jacob Lifshay <programmerjake@gmail.com>
+Date: Sun, 1 Mar 2020 11:51:15 -0800
+Message-ID: <CAC2bXD5OzDYtAcWAhpM_7Wwkbp2hpRszejjA7d0rqoypVdyDvA@mail.gmail.com>
+Subject: Re: [Mesa-dev] [Intel-gfx] gitlab.fd.o financial situation and impact
+ on services
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,44 +70,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Erik Faye-Lund <erik.faye-lund@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ "X.Org development" <xorg-devel@lists.x.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "X.Org Foundation Board" <board@foundation.x.org>,
+ Xorg Members List <members@x.org>,
+ Discussion of the development of and with GStreamer
+ <gstreamer-devel@lists.freedesktop.org>,
+ Mesa Dev <mesa-dev@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0252366496=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun,  1 Mar 2020 15:52:47 +0000
-Chris Wilson <chris@chris-wilson.co.uk> wrote:
+--===============0252366496==
+Content-Type: multipart/alternative; boundary="0000000000007cbece059fd065cd"
 
-> To facilitate construction of per-client event ringbuffers, in
-> particular for a per-client debug and error report log, it would be
-> extremely useful to create an anonymous file that can be handed to
-> userspace so that it can see its and only its events. trace already
-> provides a means of encapsulating the trace ringbuffer into a struct
-> file that can be opened via the tracefs, and so with a couple of minor
-> tweaks can provide the same access via an anonymous inode.
+--0000000000007cbece059fd065cd
+Content-Type: text/plain; charset="UTF-8"
 
-I'm curious to why we need it to be anonymous. Why not allow them to be
-visible from the tracing directory. This could allow for easier
-debugging. Note, the trace instances have ref counters thus they can't
-be removed if something has a reference to it.
+One idea for Marge-bot (don't know if you already do this):
+Rust-lang has their bot (bors) automatically group together a few merge
+requests into a single merge commit, which it then tests, then, then the
+tests pass, it merges. This could help reduce CI runs to once a day (or
+some other rate). If the tests fail, then it could automatically deduce
+which one failed, by recursive subdivision or similar. There's also a
+mechanism to adjust priority and grouping behavior when the defaults aren't
+sufficient.
 
-Also, all the global functions require kernel doc comments to explain
-how they work and what they are for.
+Jacob
 
--- Steve
+--0000000000007cbece059fd065cd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto">One idea for Marge-bot (don&#39;t know if you already do =
+this):<div dir=3D"auto">Rust-lang has their bot (bors) automatically group =
+together a few merge requests into a single merge commit, which it then tes=
+ts, then, then the tests pass, it merges. This could help reduce CI runs to=
+ once a day (or some other rate). If the tests fail, then it could automati=
+cally deduce which one failed, by recursive subdivision or similar. There&#=
+39;s also a mechanism to adjust priority and grouping behavior when the def=
+aults aren&#39;t sufficient.</div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">Jacob</div></div>
 
-> 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> ---
->  include/linux/trace.h |   4 ++
->  kernel/trace/trace.c  | 142 ++++++++++++++++++++++++++++++------------
->  2 files changed, 105 insertions(+), 41 deletions(-)
->
+--0000000000007cbece059fd065cd--
+
+--===============0252366496==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0252366496==--
