@@ -1,90 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70633175C17
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 14:49:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1AC175C70
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 14:57:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A646E415;
-	Mon,  2 Mar 2020 13:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE3A6E29A;
+	Mon,  2 Mar 2020 13:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2057.outbound.protection.outlook.com [40.107.237.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4243F89C86;
- Mon,  2 Mar 2020 13:49:39 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA4489D5B;
+ Mon,  2 Mar 2020 13:57:12 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SPGXnUEd03rpi8mq8kMHuYC4xGBuXIDY8FwBPNYUrm344BPrjR7Ow+R5B06kGxMm81TP4Q1SVgtBJ6Pdt9kMbsm0ca2dfVlKbLGNRLQwQ2GdAdh3yNQB0Lrxd8IEuI/2Mq45BRiBcgae2MJd1m4732FQR+DOh97QCZiWOHXVQiWgbs7vK3N65rgSgeYuQsgdN0VgXWGDXI3mYVD94IW1QJlraNZvZ894vSG84IkZb2YxsdRP+Bmegl9e0KdFROrgJjvRWJL/j1wAYdgjhzR00DvBQn9pAyfFE/M6W6VNWneH1omHQ1NJD8yk1JH4BemnDROk0WZBPuKyzs5+tep/OQ==
+ b=EuA4ecMGBIiwd69FPusmuyS6e/MRXIuC8JgnMhpjXHpzmghHJBgzE8Wcxx4EaemRtzlIQDzS9SEvDOLKG8EQwr9T5nZgAb/rKNByM0zBaiJpqbQemYxsrstFvBJuOowSPRTzWcowAEgSr0SwpbopR/T777LL7S/zceqa013tc9WbO3uEqLzBxLmaJB4gN/F8oGWUIm0gn6G8mcAn17dkUJGk0RE0R3nUxDOQ98OYMxMAZ6yxKLu3qofothATsYAC8YhQUoV4olEWVcGf7S0Ef0mkcC9YIAu2BJE3LNLvakwGuhcjafLXRclTmj3xNGLb8pO9Sie7MViBG80ZdPNyuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M8gp/o6Q/RICGDfUNxMWYOlfUJrGj9agDwDRnZLrarc=;
- b=Y0l3Q5N/7tXPCFYGmlb0p1yJeSsHeGfO0MxSCmJ6HI2lspsNUhBCF7tokA5gKhuIpzI1xm36mwuTIlIkK+PseV8jbpFjmvEnvcxYTSWTWVwSkIUAO3pGZ6moxESIulcid+qCTBB1DjSwAzdIV0RL2lLinE2qWYR4k+xLvHUns/X2oXo26UbmYYqnC2rivdZhQruOPZasrG04Z6aKBvqwjNA/N0dlbXNofUT6NL4w880CpftEVnkdQ7lS8y2fJkmT6jMjEIgG9EnFXWGaghxnpVoZuirCkTxMNY5iezTCMJcYxcGM/JqMSyZo0wbzqvUxhOheD6DSyWj+dGp3ed9SeQ==
+ bh=AhSspGmYZfsvLTb+dMpM3BKEXR6myvxU+jgvjkrT7+I=;
+ b=Jys/tP3clWJMpC9rTv3j3bYEIfqp1WQ3jWu6GXsLKBzcJxvwj6EJxxd+U84DO+ygZnqXVIcti/QlVjbVSLYIfR5b6oiyGV2+vppwzlJy25HtNhYkzH8zP6vk43LkeZngUvqYiiM1UNA2z9+qsPecWnFGRFBxQKbl7xkC8kaNqifWdIwmV9vObmVUMws9Ns9ngWWLnAiCFOHsomJwJw/a75q+4suztWZQHw8hAwBAOSDX4JdSIPrYXWMdat2HBwiITG7Xcata3JiHzozrHop9BezCL/28qqV+JbRVUMYViASPkAHgKK9Q7vWyrxq5lPVvmh7WZl/CI91TXyvrdaAHlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M8gp/o6Q/RICGDfUNxMWYOlfUJrGj9agDwDRnZLrarc=;
- b=Lo3iX1OLOCfMXyLruiT18lZG5/9Ob52vt+/efdxctnU0JA/zWxX9GDXby3QmawL0XEjsLSccBDVhzcaffl7nJc/AKLmCSCSM64e77x+ZYYTypQKu5shnPgKAIrOJBwreIRwmGcS2ScuXeI1dn3QWFUqCjBJavMU02E2oiNAXzeo=
+ bh=AhSspGmYZfsvLTb+dMpM3BKEXR6myvxU+jgvjkrT7+I=;
+ b=Ru2PGQS3SmoD1c5KlVTCiM0Vb3aXnkAE6Omjdw3HjRKtF9zJpiPErMyYhb9+kW204AyDg6KEnUVjm3gu6GWjTX3eueqZbgdOFJTcznSszpD17SdJKEh7BM7+HRhElRq/W7UVjFnLECnQTyAYgK049POJla/RVvJPVXnxdu6NCVI=
 Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Rodrigo.Siqueira@amd.com; 
-Received: from MW2PR12MB2524.namprd12.prod.outlook.com (2603:10b6:907:9::27)
- by MW2PR12MB2490.namprd12.prod.outlook.com (2603:10b6:907:9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15; Mon, 2 Mar
- 2020 13:49:32 +0000
-Received: from MW2PR12MB2524.namprd12.prod.outlook.com
- ([fe80::91a7:e6f7:b17a:bfa5]) by MW2PR12MB2524.namprd12.prod.outlook.com
- ([fe80::91a7:e6f7:b17a:bfa5%6]) with mapi id 15.20.2772.019; Mon, 2 Mar 2020
- 13:49:32 +0000
-Date: Mon, 2 Mar 2020 08:49:28 -0500
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-To: Melissa Wen <melissa.srw@gmail.com>
-Subject: Re: [PATCH v2 0/2] drm/amd/display: dc_link: cleaning up some code
- style issues
-Message-ID: <20200302134928.6hmq4sbbiaeb3f6q@outlook.office365.com>
-References: <cover.1582907436.git.melissa.srw@gmail.com>
-In-Reply-To: <cover.1582907436.git.melissa.srw@gmail.com>
-X-ClientProxiedBy: YTOPR0101CA0026.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:15::39) To MW2PR12MB2524.namprd12.prod.outlook.com
- (2603:10b6:907:9::27)
+ smtp.mailfrom=Nicholas.Kazlauskas@amd.com; 
+Received: from BYAPR12MB3560.namprd12.prod.outlook.com (2603:10b6:a03:ae::10)
+ by BYAPR12MB2742.namprd12.prod.outlook.com (2603:10b6:a03:6a::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.16; Mon, 2 Mar
+ 2020 13:57:08 +0000
+Received: from BYAPR12MB3560.namprd12.prod.outlook.com
+ ([fe80::e8:c007:9a5:da4d]) by BYAPR12MB3560.namprd12.prod.outlook.com
+ ([fe80::e8:c007:9a5:da4d%5]) with mapi id 15.20.2772.018; Mon, 2 Mar 2020
+ 13:57:08 +0000
+Subject: Re: [PATCH] drm/amd/display: Fix pageflip event race condition for
+ DCN.
+To: Mario Kleiner <mario.kleiner.de@gmail.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ sunpeng.li@amd.com
+References: <20200302061732.28577-1-mario.kleiner.de@gmail.com>
+From: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+Message-ID: <7c853b66-8747-3a7c-7a76-c2f418c0b101@amd.com>
+Date: Mon, 2 Mar 2020 08:57:05 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+In-Reply-To: <20200302061732.28577-1-mario.kleiner.de@gmail.com>
+Content-Language: en-US
+X-ClientProxiedBy: YTBPR01CA0008.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::21) To BYAPR12MB3560.namprd12.prod.outlook.com
+ (2603:10b6:a03:ae::10)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from outlook.office365.com (165.204.55.250) by
- YTOPR0101CA0026.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::39) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15 via Frontend
- Transport; Mon, 2 Mar 2020 13:49:30 +0000
+Received: from [172.29.1.94] (165.204.55.250) by
+ YTBPR01CA0008.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2772.14 via Frontend Transport; Mon, 2 Mar 2020 13:57:07 +0000
 X-Originating-IP: [165.204.55.250]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 012e6c96-bac6-4121-ed63-08d7beb088f3
-X-MS-TrafficTypeDiagnostic: MW2PR12MB2490:|MW2PR12MB2490:
+X-MS-Office365-Filtering-Correlation-Id: d7a3fb4a-2665-49b6-d8d2-08d7beb198dd
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2742:|BYAPR12MB2742:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MW2PR12MB2490657CBD2C3FFCD249A67798E70@MW2PR12MB2490.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <BYAPR12MB27422250D47E5DD0E7F980C8ECE70@BYAPR12MB2742.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-Forefront-PRVS: 033054F29A
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10001)(10009020)(4636009)(39860400002)(376002)(396003)(136003)(346002)(366004)(199004)(189003)(54906003)(6916009)(86362001)(4326008)(316002)(52116002)(7696005)(44144004)(8676002)(8936002)(21480400003)(81156014)(81166006)(6506007)(966005)(1076003)(5660300002)(66556008)(66476007)(9686003)(55016002)(66946007)(956004)(16526019)(2906002)(478600001)(26005)(186003)(2700100001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MW2PR12MB2490;
- H:MW2PR12MB2524.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ SFS:(10009020)(4636009)(366004)(136003)(376002)(346002)(39860400002)(396003)(199004)(189003)(5660300002)(26005)(81166006)(81156014)(956004)(2616005)(8676002)(16526019)(186003)(6636002)(66946007)(66476007)(66556008)(31696002)(53546011)(316002)(16576012)(86362001)(478600001)(52116002)(6486002)(4326008)(31686004)(36756003)(8936002)(2906002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR12MB2742;
+ H:BYAPR12MB3560.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0X3lYUbCSAnt03fhWSLOYkDEMVHs9wzmxTJYsu95azo0Al1AjDen9hpQ2xzkbjzlWQsK3+6jSr9RbnnhXKCu1KsM2S/oRQl5l828gBMbTp2GG+t+XRMC5WlL6QE5YbqG6AVtrJb+Aj7uzE7MymJv2zM1+x9upDsjC0chCrlHhX3Zu9l8ivDDQQL99aC8cg2ZamQdj0DNeD/DxANM1kOQ/VZREf49KMr2DKykRaQxRa4CP5sO3U/T7Mu0i51/8NyaL2vHDy60sOF/UWeaOHxhqToiAEDywf/Bx/tdN37jbHaHRYiopKExsifHI+vfsHRncJVaNRyEEv+ZzqWab7595zJIQaW1Fa0JgOPseorw2LxoHdd4MU3H3NwRv6plI65qm9JFBiJmQzYrOczEVgF+NFep4v1gCLP+FVVG6cvnxn0uVTr4ITVRakxwICZ1Zca/qcq6LCiND6hLkJeMSF/BFc41Ua/49Vbq7SCb968Yv1Dpbrozi8r0a+RiRY6muBY/uPwXG+dc9Nx94Dbw71ZZ0m2TCIWKjPAymEWAYZTNXYvoGFoZn9gXmkiB25JNO2/GPH78ccs4sM/9YxReFJssfz3c/7+l7M7gMUN3YGj9kA09Q37ZhpsdWN9uyA1X3qw5DusSCNqusxvPLjYO19B5Ow==
-X-MS-Exchange-AntiSpam-MessageData: 9yAZAs8apDM2FX3d+RXNQbagq4o8d+HzuVVjlMntRTKfsfNxjo6+E2ENVGbsHmMR0ya/eNOERRfxOEE8vt6ZNPC/MxTdhki6VmQHsYeUzArBkiWckdmSmlBz2rA7XqLb2HqBoljCW5OZBIWrIFTwrQ==
+X-Microsoft-Antispam-Message-Info: zPlqfxlYpizgkbbss+oDQntjuH3ASktsZA63jo2kwqxcezJKEGSGu92CkK9sqgH+9GpO9R1HOsqk4NUhykXCYCw+luHDg3nLr63pT7ye3AdLq19u+Y3UM8chKzjk0/fyLBk+ntJVL6TaiFAfJkFkpfbOfabwbsuzH+UD3SMIsrJmdM2hIkwL89pN7QChLChPVD97fmTZ0gF+oja7wBt8M9GQ0cTX2HDP1l/niL/ksSRhY8Ys9a9weuTxa7BWkHyXfag5hA6aeEMA7FaxT+SxdZQc0XvjCTCEhFkksekDwmmMXcbITMjD3d9Wj7ZEswjeKfWOamuW009V2cv4fzHihPVJlGWDiWd+oUR2Sq1D0C5G9VXNLtqZy2Uug6zzp34Jr3magPJ3JF8/bZ9vE4MacUYpX3ByWRT1SAy5Tv+t4IkKaJnrmqHwPRvTeFltqmkZ
+X-MS-Exchange-AntiSpam-MessageData: 06hdsSV4EEx1ik6dQh8fxKvzf26NHK1fYhgr1JCkTRTM69MF578Ntcqa6YbFTS39uD/aCXlS23ZKNrQq2JKmLkU4zGhKbJcbka30cm+JCE7NQE7AIsUlxy7FYSSmQU/x48ZdCZAwFU0mt6WZ9NkXAg==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 012e6c96-bac6-4121-ed63-08d7beb088f3
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2020 13:49:32.1631 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7a3fb4a-2665-49b6-d8d2-08d7beb198dd
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2020 13:57:08.2327 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iBT50aUZSEWDW/dSuyi+CNLQyBn10WzO5RA+kCKexV154MQaKcGT20hmE93eAOFVZ10Sbsi09w/Y0naR4/XvNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2490
+X-MS-Exchange-CrossTenant-UserPrincipalName: +PHXNx7lameO92fEmgkQjUYeu4Sk7xGZ5UW1Tgjy0iaP2JUt7Jlv+ANG1v6RzZQaorkN56G2h/q1B66MsdKkvw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2742
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,82 +101,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian Konig <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============0079139813=="
+Cc: alexander.deucher@amd.com, hwentlan@amd.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0079139813==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p5r3n5x4juuylipi"
-Content-Disposition: inline
+On 2020-03-02 1:17 a.m., Mario Kleiner wrote:
+> Commit '16f17eda8bad ("drm/amd/display: Send vblank and user
+> events at vsartup for DCN")' introduces a new way of pageflip
+> completion handling for DCN, and some trouble.
+> 
+> The current implementation introduces a race condition, which
+> can cause pageflip completion events to be sent out one vblank
+> too early, thereby confusing userspace and causing flicker:
+> 
+> prepare_flip_isr():
+> 
+> 1. Pageflip programming takes the ddev->event_lock.
+> 2. Sets acrtc->pflip_status == AMDGPU_FLIP_SUBMITTED
+> 3. Releases ddev->event_lock.
+> 
+> --> Deadline for surface address regs double-buffering passes on
+>      target pipe.
+> 
+> 4. dc_commit_updates_for_stream() MMIO programs the new pageflip
+>     into hw, but too late for current vblank.
+> 
+> => pflip_status == AMDGPU_FLIP_SUBMITTED, but flip won't complete
+>     in current vblank due to missing the double-buffering deadline
+>     by a tiny bit.
+> 
+> 5. VSTARTUP trigger point in vblank is reached, VSTARTUP irq fires,
+>     dm_dcn_crtc_high_irq() gets called.
+> 
+> 6. Detects pflip_status == AMDGPU_FLIP_SUBMITTED and assumes the
+>     pageflip has been completed/will complete in this vblank and
+>     sends out pageflip completion event to userspace and resets
+>     pflip_status = AMDGPU_FLIP_NONE.
+> 
+> => Flip completion event sent out one vblank too early.
+> 
+> This behaviour has been observed during my testing with measurement
+> hardware a couple of time.
+> 
+> The commit message says that the extra flip event code was added to
+> dm_dcn_crtc_high_irq() to prevent missing to send out pageflip events
+> in case the pflip irq doesn't fire, because the "DCH HUBP" component
+> is clock gated and doesn't fire pflip irqs in that state. Also that
+> this clock gating may happen if no planes are active. This suggests
+> that the problem addressed by that commit can't happen if planes
+> are active.
+> 
+> The proposed solution is therefore to only execute the extra pflip
+> completion code iff the count of active planes is zero and otherwise
+> leave pflip completion handling to the pflip irq handler, for a
+> more race-free experience.
+> 
+> Note that i don't know if this fixes the problem the original commit
+> tried to address, as i don't know what the test scenario was. It
+> does fix the observed too early pageflip events though and points
+> out the problem introduced.
 
---p5r3n5x4juuylipi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This looks like a valid race condition that should be addressed.
 
-Applied!
+Unfortunately this also doesn't fix the problem the original commit was 
+trying to address.
 
-Thanks
+HUBP interrupts only trigger when it's not clock gated. But there are 
+cases (for example, PSR) where the HUBP can be clock gated but the 
+active plane count is greater than zero.
 
-On 02/28, Melissa Wen wrote:
-> This patchset solves some coding style issues on dc_link for readability
-> and cleaning up warnings. Change suggested by checkpatch.pl.
->=20
-> Changes in v2:
-> - Apply patches to the right amdgpu repository.
-> - Remove unnecessary {} added in the previous version.
->=20
-> Melissa Wen (2):
->   drm/amd/display: dc_link: code clean up on enable_link_dp function
->   drm/amd/display: dc_link: code clean up on detect_dp function
->=20
->  drivers/gpu/drm/amd/display/dc/core/dc_link.c | 64 +++++++++----------
->  1 file changed, 30 insertions(+), 34 deletions(-)
->=20
-> --=20
-> 2.25.0
->=20
+The clock gating switch can typically happens outside of x86 control 
+flow so we're not really going to understand in advance whether or not 
+we'll be able to receive the pflip IRQ.
 
---=20
-Rodrigo Siqueira
-https://siqueira.tech
+While we do have plane status/flip pending bits available to check in 
+the VSTARTUP IRQ handler, this obviously doesn't work for resolving the 
+core of the issue - that we probably don't know whether or not the HUBP 
+will be on before sending out the event.
 
---p5r3n5x4juuylipi
-Content-Type: application/pgp-signature; name="signature.asc"
+Maybe we can guess based on what features are enabled.
 
------BEGIN PGP SIGNATURE-----
+Regards,
+Nicholas Kazlauskas
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl5dDuMACgkQWJzP/com
-vP+OqRAAmENIUUb4rc8hYif7WJxd/7yCgD6zzs5pWUK+JPD0deoXlkeyWoAinVPr
-/RgShcu3ZEhwVV+WVqD+Nrg1Oeh9Fup+V/crxugKLNe3T8XWPfOhGYDZMtywv/O/
-wFYnBzRO7y0gNOtz45lhCQXno2YX471Bn/7IF7eLfE2S3KcUPV94AyJjnXuaOx08
-tiEC+2vte93sY1/Ef0yHKq9LfjwJoxndPZoy2LQpEQ9NycOvBz1e692PHQ5CcyIQ
-VGNb3Et/J1CuPcbLqCYahPfr5QMJJH3To/SGjRSM5Lw2Tut1gpgOsGGbzSYAkJr+
-KAoqIDQjSdGWTT+JdBPqXuBh0rZ3rfdgKVHlNGuovQ3j+++JesR/z/c1/nb0It4E
-ymYC+KGRkThuNoaIrWoLrmGVDPQjuKoOf37P+Ovoq7psSZHK8h3INJTE1teobHtp
-49JhTmIs74Whb/gfui7mkD3Vj0sR+WAeLwiUJmrf9RTpfB5V4CZ7gLzyBip6O0zY
-Ltxen1FNMvh2CYCz0rDBQ3XsrgsdAWAiApF9g9yazNiS8LbdZo73I+3oHVyGaZly
-1GAV9ACJCdsIcLhWZgD14uCt3Kq4UlW9aLqzrgMlWKWcj8LheqW4E0KWWAgIsIkP
-2dKbaNU/3pjhyiFOt1L5L7L9PrkumuNNaoTq/WHbkQHpRhLSGv4=
-=5QDp
------END PGP SIGNATURE-----
-
---p5r3n5x4juuylipi--
-
---===============0079139813==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> 
+> Fixes: 16f17eda8bad ("drm/amd/display: Send vblank and user events at vsartup for DCN")
+> Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> ---
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 +++++++++++++++---
+>   1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 63e8a12a74bc..3502d6d52160 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -522,8 +522,9 @@ static void dm_dcn_crtc_high_irq(void *interrupt_params)
+>   
+>   	acrtc_state = to_dm_crtc_state(acrtc->base.state);
+>   
+> -	DRM_DEBUG_DRIVER("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
+> -				amdgpu_dm_vrr_active(acrtc_state));
+> +	DRM_DEBUG_DRIVER("crtc:%d, vupdate-vrr:%d, planes:%d\n", acrtc->crtc_id,
+> +			 amdgpu_dm_vrr_active(acrtc_state),
+> +			 acrtc_state->active_planes);
+>   
+>   	amdgpu_dm_crtc_handle_crc_irq(&acrtc->base);
+>   	drm_crtc_handle_vblank(&acrtc->base);
+> @@ -543,7 +544,18 @@ static void dm_dcn_crtc_high_irq(void *interrupt_params)
+>   			&acrtc_state->vrr_params.adjust);
+>   	}
+>   
+> -	if (acrtc->pflip_status == AMDGPU_FLIP_SUBMITTED) {
+> +	/*
+> +	 * If there aren't any active_planes then DCH HUBP may be clock-gated.
+> +	 * In that case, pageflip completion interrupts won't fire and pageflip
+> +	 * completion events won't get delivered. Prevent this by sending
+> +	 * pending pageflip events from here if a flip is still pending.
+> +	 *
+> +	 * If any planes are enabled, use dm_pflip_high_irq() instead, to
+> +	 * avoid race conditions between flip programming and completion,
+> +	 * which could cause too early flip completion events.
+> +	 */
+> +	if (acrtc->pflip_status == AMDGPU_FLIP_SUBMITTED &&
+> +	    acrtc_state->active_planes == 0) {
+>   		if (acrtc->event) {
+>   			drm_crtc_send_vblank_event(&acrtc->base, acrtc->event);
+>   			acrtc->event = NULL;
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0079139813==--
