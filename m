@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7C41765C6
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 22:18:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D6B1765E9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 22:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD4296E13C;
-	Mon,  2 Mar 2020 21:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50E926E845;
+	Mon,  2 Mar 2020 21:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F29E86E13C
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 21:18:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7CC06E845
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 21:24:59 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206725] [REGRESSION] AMDGPU Severe artifact/tearing on 5700xt
-Date: Mon, 02 Mar 2020 21:18:18 +0000
+Date: Mon, 02 Mar 2020 21:24:59 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206725-2300-HinSsweB7S@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206725-2300-cw6k3NAiti@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206725-2300@https.bugzilla.kernel.org/>
 References: <bug-206725-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,12 +58,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206725
 
---- Comment #2 from mombelli.mauro@gmail.com ---
-Created attachment 287763
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287763&action=edit
-xorg log
+--- Comment #3 from mombelli.mauro@gmail.com ---
+I updated to 5.6.0-rc4-1-mainline, the problem persist. Also while running
+stable, seems like the issue is still present, just much less pronounced.
 
-xf86-video-amdgpu 19.1.0-1 for 5.6.0-rc4-1-mainline
+I notice sometimes is like a black line on screen.
+
+I could bisect but maybe I should find a stable version, or maybe is related to
+the desktop environment. As I use kde, should i maybe check if it happen with
+gnome too?
 
 -- 
 You are receiving this mail because:
