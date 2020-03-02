@@ -1,99 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4038E175E8F
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 16:43:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07326175E90
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 16:43:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3AC88FDA;
-	Mon,  2 Mar 2020 15:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05BA26E4C9;
+	Mon,  2 Mar 2020 15:43:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C81E88FDA
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:42:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 177436E359
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:43:03 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200302154257euoutp010cf1cee8eb04f885b48545de929d3559~4hxFlLM7X1491814918euoutp01H
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:42:57 +0000 (GMT)
+ 20200302154301euoutp015c81893d942c0dedf7ca3e73f7dee5db~4hxJWZ2Rb1330713307euoutp01L
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:43:01 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200302154257euoutp010cf1cee8eb04f885b48545de929d3559~4hxFlLM7X1491814918euoutp01H
+ 20200302154301euoutp015c81893d942c0dedf7ca3e73f7dee5db~4hxJWZ2Rb1330713307euoutp01L
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1583163777;
- bh=UAjKjwooQuhfVtx7iJnUdeI/FwvSg2aaFjTHolZDwT8=;
+ s=mail20170921; t=1583163781;
+ bh=5YJmkzqSvsOl8Ktv0uRw2gsQLS0X8Ye3zrrzqfkrg18=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=PL5ZisVSqia940111G4Y98T3gr7pYI/dNMov/GgZ6O9pYTcyYR07xhQKp8g/qhwJ1
- 0PI5GMFZMnxwpUtdqhDMBbfQMxE+o2UUz74si4f6F5ENpzjk1MSvL7SjakvG+Xqu9C
- EasXwamjGxPkhhyyj+3MQ18azTlTnsaNR+xUJWb4=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200302154257eucas1p1a62a2c348deed71d59a025acf0b1ce8a~4hxFRzsb11688016880eucas1p1c;
- Mon,  2 Mar 2020 15:42:57 +0000 (GMT)
+ b=S/K7AocXxU3JkFZvlxrG/fOl6z6WxxHIJ8pch7UNdQ5GtblGGuCRZUWCBqy0uz0KL
+ sxlAk7H7JLxq68JN/aiXvApk6XVVumoT7UVmnyFq9TA0OoKEzQTgbIrWjubMl8yXMQ
+ c4HxyOA0mL+rQTgZB3SZp7I+QGazXt1BFyNYDsZc=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200302154301eucas1p2ba9a21a5c8aeeb1d5c68c8bc609a4b32~4hxI_wW7n1937719377eucas1p20;
+ Mon,  2 Mar 2020 15:43:01 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id F9.D3.60698.1892D5E5; Mon,  2
- Mar 2020 15:42:57 +0000 (GMT)
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 35.AD.61286.5892D5E5; Mon,  2
+ Mar 2020 15:43:01 +0000 (GMT)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200302154256eucas1p1779718103e02d390c115d7c796327a7d~4hxEz8jDz1686416864eucas1p1w;
- Mon,  2 Mar 2020 15:42:56 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ 20200302154301eucas1p15080111e25e2a09f1848a659f3288b2b~4hxIsLcJJ1688016880eucas1p1f;
+ Mon,  2 Mar 2020 15:43:01 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200302154256eusmtrp1f5907de4ed567dad8164c98f1eb07a1e~4hxEzYXXv2922329223eusmtrp1J;
- Mon,  2 Mar 2020 15:42:56 +0000 (GMT)
-X-AuditID: cbfec7f5-a29ff7000001ed1a-c9-5e5d2981575b
+ 20200302154301eusmtrp1f04d5a60bc8a020d9172c153cd2f87ad~4hxIroKlY2927629276eusmtrp1v;
+ Mon,  2 Mar 2020 15:43:01 +0000 (GMT)
+X-AuditID: cbfec7f2-ef1ff7000001ef66-48-5e5d2985c20f
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 3F.20.08375.0892D5E5; Mon,  2
- Mar 2020 15:42:56 +0000 (GMT)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 31.10.07950.5892D5E5; Mon,  2
+ Mar 2020 15:43:01 +0000 (GMT)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200302154256eusmtip17e43339619c3a62f8c4fa9c3cd9962ed~4hxEfuxHR2125721257eusmtip1A;
- Mon,  2 Mar 2020 15:42:56 +0000 (GMT)
+ 20200302154300eusmtip1cb8d74e6d2819f4b0f7e39596efad4c5~4hxIZzkNw2417824178eusmtip1-;
+ Mon,  2 Mar 2020 15:43:00 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH] video: fbdev: radeon: Remove dead code
-To: Souptick Joarder <jrdr.linux@gmail.com>
-Message-ID: <4777c389-1e30-f856-f765-0ecfefe0b6a0@samsung.com>
-Date: Mon, 2 Mar 2020 16:42:54 +0100
+Subject: Re: [PATCH] video: Replace zero-length array with flexible-array
+ member
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <98cf9000-7ba4-afa6-345e-f170216c6847@samsung.com>
+Date: Mon, 2 Mar 2020 16:43:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1582042556-21555-1-git-send-email-jrdr.linux@gmail.com>
+In-Reply-To: <20200221160005.GA13552@embeddedor>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFKsWRmVeSWpSXmKPExsWy7djPc7qNmrFxBlPOi1l8aGpltrjy9T2b
- xbWrDcwWJ/o+sFpc3jWHzYHVY+esu+wePW9aWD3udx9n8vi8SS6AJYrLJiU1J7MstUjfLoEr
- Y8vnRYwFPbwVJ47KNTAu4epi5OCQEDCRePSgtouRi0NIYAWjxJzbf5kgnC+MEl+bN7J0MXIC
- OZ8ZJb5MLAOxQRpWH7nKCFG0nFHi5dQPbBDOW0aJewdfs4FUsQlYSUxsX8UIYgsLWEvM+DWV
- HcQWEdCWmHv4FzOIzSxQJXH98x+wel4BO4nLsx+AxVkEVCS2zn/ECmKLCkRIfHpwmBWiRlDi
- 5MwnYBdxCrhK/Pp0jg1ijrjErSfzmSBseYntb+cwgxwkITCPXeLHjz1MEGe7SDRefcwGYQtL
- vDq+hR3ClpE4PbmHBaJhHaPE344XUN3bGSWWT/4H1WEtcefcLzZQiDELaEqs36UPEXaU6PnU
- zwoJSD6JG28FIY7gk5i0bTozRJhXoqNNCKJaTWLDsg1sMGu7dq5knsCoNAvJa7OQvDMLyTuz
- EPYuYGRZxSieWlqcm55abJyXWq5XnJhbXJqXrpecn7uJEZhiTv87/nUH474/SYcYBTgYlXh4
- A5hj44RYE8uKK3MPMUpwMCuJ8PpyRscJ8aYkVlalFuXHF5XmpBYfYpTmYFES5zVe9DJWSCA9
- sSQ1OzW1ILUIJsvEwSnVwFiiO8VHXih0WZ3X3ietusd7b+49JZ588PHLE6/Vn69ojxNettMp
- a0XEzKdbuZ/YOD7/qXjV4nzekdJePTnfMzd7vvV/ZLlypsMolbtfcY1kNuPt3AMaF72SHPSn
- NrTfcXj69G3TmgW14aUpbvcc65ftOtPqqrL5eVl5aQj/n8+bZk9dcHCFjKASS3FGoqEWc1Fx
- IgAjjWkYLQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsVy+t/xu7oNmrFxBm9fWFh8aGpltrjy9T2b
- xbWrDcwWJ/o+sFpc3jWHzYHVY+esu+wePW9aWD3udx9n8vi8SS6AJUrPpii/tCRVISO/uMRW
- KdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvY8vnRYwFPbwVJ47KNTAu4epi
- 5OSQEDCRWH3kKmMXIxeHkMBSRol359vYuxg5gBIyEsfXl0HUCEv8udbFBlHzmlHiUO96VpAE
- m4CVxMT2VYwgtrCAtcSMX1PZQWwRAW2JuYd/MYPYzAJVEl1Pb7FDNM9glFh98ilYM6+AncTl
- 2Q/AilgEVCS2zn8EFhcViJA4vGMWI0SNoMTJmU9YQGxOAVeJX5/OsUEMVZf4M+8S1AJxiVtP
- 5jNB2PIS29/OYZ7AKDQLSfssJC2zkLTMQtKygJFlFaNIamlxbnpusaFecWJucWleul5yfu4m
- RmBUbTv2c/MOxksbgw8xCnAwKvHwBjDHxgmxJpYVV+YeYpTgYFYS4fXljI4T4k1JrKxKLcqP
- LyrNSS0+xGgK9NxEZinR5HxgxOeVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgt
- gulj4uCUamBUuFcyO7U+pOt+lYCPX7FdplzjL/llS2zyyz7u+5XS+dyDSyVz9amWC82cpj/O
- 5QgbhTO1XKtuWPu7sGulzNtpekoqvdO/H/gxMXd3wNp7iiLzzq/sU+7UvMTxh2eBnUJovROX
- ptGH727a3ySyfLM6Vuy4UaK9/UdL0HqlCrlvP5wKVJbatSixFGckGmoxFxUnAgCp/A7gwAIA
- AA==
-X-CMS-MailID: 20200302154256eucas1p1779718103e02d390c115d7c796327a7d
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnleLIzCtJLcpLzFFi42LZduznOd1Wzdg4g8bzkhZXvr5ns9i6R9Xi
+ RN8HVovLu+awObB4rDuo6nG/+ziTx+dNcgHMUVw2Kak5mWWpRfp2CVwZyzr7mAoWiVdsXrmM
+ sYHxp1AXIyeHhICJxPNF19m6GLk4hARWMEocO7ESyvnCKLF70w0mkCohgc+MEhOXqcB0tK64
+ wgpRtJxR4sKW08wQzltGicvrL7OAVLEJWElMbF/FCGILCwRJXDqyASwuImAkMXtGNyuIzSyQ
+ IHF60T2wOK+AncSjmWfA4iwCKhL/Xv1lBrFFBSIkPj04zApRIyhxcuYTsHpOAQOJ6ds+MULM
+ EZe49WQ+E4QtL7H97RxmiEu72SWer3GBsF0kfjy/AxUXlnh1fAs7hC0jcXpyDwvIAxIC6xgl
+ /na8YIZwtjNKLJ/8jw2iylrizrlfQDYH0AZNifW79CHCjhIrGlaygoQlBPgkbrwVhLiBT2LS
+ tunMEGFeiY42aFCrSWxYtoENZm3XzpXMExiVZiH5bBaSb2Yh+WYWwt4FjCyrGMVTS4tz01OL
+ DfNSy/WKE3OLS/PS9ZLzczcxApPJ6X/HP+1g/Hop6RCjAAejEg9vAHNsnBBrYllxZe4hRgkO
+ ZiURXl/O6Dgh3pTEyqrUovz4otKc1OJDjNIcLErivMaLXsYKCaQnlqRmp6YWpBbBZJk4OKUa
+ GPfK83NxB0z5cmfnq8iL3bcuWX8PFtR4aRLr/+jcze+/npm8mPdkoqP4iZOdHJ9fbwu+zGq2
+ fs6nLvPLd26KeD9hev/obV0X59KSE0ce3b14Tejrj6PL5rhHuohKtPMc6cvKXh/Ltdp0WpXC
+ edbufdP5lv/Ov5i18S6jQ+7num33n2rrvraUuG2vxFKckWioxVxUnAgAj9t3xCIDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRmVeSWpSXmKPExsVy+t/xu7qtmrFxBteesVlc+fqezWLrHlWL
+ E30fWC0u75rD5sDise6gqsf97uNMHp83yQUwR+nZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY
+ 6hkam8daGZkq6dvZpKTmZJalFunbJehlLOvsYypYJF6xeeUyxgbGn0JdjJwcEgImEq0rrrB2
+ MXJxCAksZZRY9LWRsYuRAyghI3F8fRlEjbDEn2tdbBA1rxklPk6dxgySYBOwkpjYvooRxBYW
+ CJK4dGQDC4gtImAkMXtGNyvIHGaBBIln81IgepsZJa5+3A9WzytgJ/Fo5hlWEJtFQEXi36u/
+ YDNFBSIkDu+YBVUjKHFy5hOwmZwCBhLTt30CizMLqEv8mXeJGcIWl7j1ZD4ThC0vsf3tHOYJ
+ jEKzkLTPQtIyC0nLLCQtCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgRGz7ZjP7fsYOx6
+ F3yIUYCDUYmH9wdDbJwQa2JZcWXuIUYJDmYlEV5fzug4Id6UxMqq1KL8+KLSnNTiQ4ymQM9N
+ ZJYSTc4HRnZeSbyhqaG5haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU1ILUIpg+Jg5OqQZGwUm5
+ MeGcahbbmV5+XZq3WfWBmIZOZYLCcUFZe7UFRdutSpPeFIcZ20qfn7hiQeSxd89P1Eufq+q5
+ XXc37V1ZBv/Ma6mp8zROGegXfb297CjvUpWEizY/g5Zrh5zc989jW+nvPJN+oxPuCpe/eknv
+ WyD6YCK7yZK/Z+16pI5JOG96zS5/1+abEktxRqKhFnNRcSIA2ZHYkLQCAAA=
+X-CMS-MailID: 20200302154301eucas1p15080111e25e2a09f1848a659f3288b2b
 X-Msg-Generator: CA
-X-RootMTR: 20200218160846eucas1p238fa498fc5fc35f4865f0920c5f7c76f
+X-RootMTR: 20200221155727eucas1p13764b85076c6fc29eccaf27ab6dc4967
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200218160846eucas1p238fa498fc5fc35f4865f0920c5f7c76f
-References: <CGME20200218160846eucas1p238fa498fc5fc35f4865f0920c5f7c76f@eucas1p2.samsung.com>
- <1582042556-21555-1-git-send-email-jrdr.linux@gmail.com>
+X-CMS-RootMailID: 20200221155727eucas1p13764b85076c6fc29eccaf27ab6dc4967
+References: <CGME20200221155727eucas1p13764b85076c6fc29eccaf27ab6dc4967@eucas1p1.samsung.com>
+ <20200221160005.GA13552@embeddedor>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,11 +113,36 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2/18/20 5:15 PM, Souptick Joarder wrote:
-> This is dead code since 3.15 and can be removed if not
-> going to be useful further.
+On 2/21/20 5:00 PM, Gustavo A. R. Silva wrote:
+> The current codebase makes use of the zero-length array language
+> extension to the C90 standard, but the preferred mechanism to declare
+> variable-length types such as these ones is a flexible array member[1][2],
+> introduced in C99:
 > 
-> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+> struct foo {
+>         int stuff;
+>         struct boo array[];
+> };
+> 
+> By making use of the mechanism above, we will get a compiler warning
+> in case the flexible array does not occur last in the structure, which
+> will help us prevent some kind of undefined behavior bugs from being
+> inadvertently introduced[3] to the codebase from now on.
+> 
+> Also, notice that, dynamic memory allocations won't be affected by
+> this change:
+> 
+> "Flexible array members have incomplete type, and so the sizeof operator
+> may not be applied. As a quirk of the original implementation of
+> zero-length arrays, sizeof evaluates to zero."[1]
+> 
+> This issue was found with the help of Coccinelle.
+> 
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://protect2.fireeye.com/url?k=0e91e8f4-53f6acd2-0e9063bb-0cc47a31384a-8666d8e5380b9caf&u=https://github.com/KSPP/linux/issues/21
+> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 
 Patch queued for v5.7, thanks.
 
@@ -129,43 +153,50 @@ Samsung R&D Institute Poland
 Samsung Electronics
 
 > ---
->  drivers/video/fbdev/aty/radeon_base.c | 16 ----------------
->  1 file changed, 16 deletions(-)
+>  drivers/video/fbdev/mmp/hw/mmp_ctrl.h | 2 +-
+>  drivers/video/fbdev/ssd1307fb.c       | 2 +-
+>  include/video/mmp_disp.h              | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
-> index 3af00e3..ccf888e 100644
-> --- a/drivers/video/fbdev/aty/radeon_base.c
-> +++ b/drivers/video/fbdev/aty/radeon_base.c
-> @@ -849,12 +849,6 @@ static int radeonfb_check_var (struct fb_var_screeninfo *var, struct fb_info *in
->  		case 9 ... 16:
->  			v.bits_per_pixel = 16;
->  			break;
-> -		case 17 ... 24:
-> -#if 0 /* Doesn't seem to work */
-> -			v.bits_per_pixel = 24;
-> -			break;
-> -#endif			
-> -			return -EINVAL;
->  		case 25 ... 32:
->  			v.bits_per_pixel = 32;
->  			break;
-> @@ -2548,16 +2542,6 @@ static void radeonfb_pci_unregister(struct pci_dev *pdev)
->  	if (rinfo->mon2_EDID)
->  		sysfs_remove_bin_file(&rinfo->pdev->dev.kobj, &edid2_attr);
+> diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
+> index 335d4983dc52..167585a889d3 100644
+> --- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
+> +++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
+> @@ -1406,7 +1406,7 @@ struct mmphw_ctrl {
 >  
-> -#if 0
-> -	/* restore original state
-> -	 * 
-> -	 * Doesn't quite work yet, I suspect if we come from a legacy
-> -	 * VGA mode (or worse, text mode), we need to do some VGA black
-> -	 * magic here that I know nothing about. --BenH
-> -	 */
-> -        radeon_write_mode (rinfo, &rinfo->init_state, 1);
-> - #endif
-> -
->  	del_timer_sync(&rinfo->lvds_timer);
->  	arch_phys_wc_del(rinfo->wc_cookie);
->          unregister_framebuffer(info);
+>  	/*pathes*/
+>  	int path_num;
+> -	struct mmphw_path_plat path_plats[0];
+> +	struct mmphw_path_plat path_plats[];
+>  };
+>  
+>  static inline int overlay_is_vid(struct mmp_overlay *overlay)
+> diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
+> index 142535267fec..fb2640fe575a 100644
+> --- a/drivers/video/fbdev/ssd1307fb.c
+> +++ b/drivers/video/fbdev/ssd1307fb.c
+> @@ -89,7 +89,7 @@ struct ssd1307fb_par {
+>  
+>  struct ssd1307fb_array {
+>  	u8	type;
+> -	u8	data[0];
+> +	u8	data[];
+>  };
+>  
+>  static const struct fb_fix_screeninfo ssd1307fb_fix = {
+> diff --git a/include/video/mmp_disp.h b/include/video/mmp_disp.h
+> index 1f9bc133e230..77252cb46361 100644
+> --- a/include/video/mmp_disp.h
+> +++ b/include/video/mmp_disp.h
+> @@ -231,7 +231,7 @@ struct mmp_path {
+>  
+>  	/* layers */
+>  	int overlay_num;
+> -	struct mmp_overlay overlays[0];
+> +	struct mmp_overlay overlays[];
+>  };
+>  
+>  extern struct mmp_path *mmp_get_path(const char *name);
 > 
 _______________________________________________
 dri-devel mailing list
