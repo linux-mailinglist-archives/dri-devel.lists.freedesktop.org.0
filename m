@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB1F175627
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 09:42:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 996D4175641
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 09:47:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2402E6E124;
-	Mon,  2 Mar 2020 08:42:34 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 536B96E124
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 08:42:32 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id a10so2597713ljp.11
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 00:42:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g29XyuwOKIs/sEqqYbL4oYNrFf9RHLiVPNCz/UCehWQ=;
- b=e/pUlbcQmcm0oyU3Y02zwylI4JrIeXc779uRry4j8hsXzctEL1xDwKZ72PpcJERVpR
- JMdOrU3ejtO0UqlSL4L7q72XGFWKL6mCkYBaz191Astmalsh4dpNWXmfq82ObYeNs4xE
- LaSyWROJ/uo9K3VFd//AHUI+H7f8SJJaxM4uCpmgB0Nn9Isw5WsIKHNUQvYaiHli7v0H
- 12bebEYKkd04dwjWcG2JCGtlj3x3g2qpMBT/3cWbQSHNBZCgZ+1tx1MAF7BJc8u05UJR
- Xa9qrJfOfzPWu8FlGhcWZrNSYhC3knLoUA6Uuo0Q0LXre0ggFjj1RFTyNtJoj+PJZPp9
- 9Vvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g29XyuwOKIs/sEqqYbL4oYNrFf9RHLiVPNCz/UCehWQ=;
- b=cP/8E7OMGHV1ymVNLFn87IqVldifJdgspCFaOMMbCg4C3ocdTwK6u/NPoLorrMexuW
- WZTtkfG/OLSy+bOjEsTfK+cZTXkCuuWnyaVuBD8ZBvcoFLWQHM6U7IJF388AxA6RsOPZ
- p5yQkOkJDqJRgcAO/ZjbbKW8tuJ2KpiuvpHuAo9Kj9JT2b4slpnGQkq3BMn5Qr5FFClO
- jihoZHkvccRPhT22Rp9f+I32GHeEWEdlOxFT7+fHClxClhAZUxGwI2lBpwBRfjVqwlom
- GKmsIi9k+lF0wm1uvy1a4/g60SBjQA3U3NjxeyILBhXgfx0PpPCVWs6ugQ1wvo9yK04f
- XG+g==
-X-Gm-Message-State: ANhLgQ3QGA7vmcssoXz+Bcf9H8dtMxYu8HbOP45FLXUggPcXxoAbO0cP
- 87n7BzXZrsrQnbjTIRAFY48ADZtEmj8dhy20pS2gLw==
-X-Google-Smtp-Source: ADFU+vt1Kci8gmkDhxlBgMDvyCvVWOL0VcOHJ/mrOCVqKw9mApHmYjif5ezTZ7tN8fRIiZstU7VWpvTxnPc4wH/TCqM=
-X-Received: by 2002:a05:651c:2049:: with SMTP id
- t9mr10777873ljo.39.1583138550738; 
- Mon, 02 Mar 2020 00:42:30 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1582913973.git.hns@goldelico.com>
- <010d6ad3473fb4b1f1041888a071796180cdd838.1582913973.git.hns@goldelico.com>
-In-Reply-To: <010d6ad3473fb4b1f1041888a071796180cdd838.1582913973.git.hns@goldelico.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 2 Mar 2020 09:42:19 +0100
-Message-ID: <CACRpkdaP59S1uzGVKTHkJAyv_jSs6GQY1KBxgfrvmPq2c74iGg@mail.gmail.com>
-Subject: Re: [RFC v2 5/8] pinctrl: ingenic: add hdmi-ddc pin control group
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4DD6E12A;
+	Mon,  2 Mar 2020 08:47:33 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56F646E12A
+ for <dri-devel@freedesktop.org>; Mon,  2 Mar 2020 08:47:32 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1583138852; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=wmVI700tbQq6+iaWrtHBd6KzHd/LvL94inrgBbMCajQ=;
+ b=GlGHJsE8PY/HbkQR3sqj70D4VKBh1nlF0a8Eorlb0GiXZCwgkRNJUsJEynTk3OGOco22QySs
+ dZghCrmPnrtZNTCqCRmeKobwZJpnFQAZFyBLAZl4sLFU9VMDsM6aiIJdMsuRLTafYnr5FgCM
+ qujKaahMLmtSSp7y4axNsKUTNCI=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e5cc823.7f824f2e8298-smtp-out-n02;
+ Mon, 02 Mar 2020 08:47:31 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 5AC59C433A2; Mon,  2 Mar 2020 08:47:30 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+Received: from smasetty-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: smasetty)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id F1A02C43383;
+ Mon,  2 Mar 2020 08:47:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F1A02C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=smasetty@codeaurora.org
+From: Sharat Masetty <smasetty@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH] drm: msm: a6x: Disable interrupts before recovery
+Date: Mon,  2 Mar 2020 14:17:16 +0530
+Message-Id: <1583138836-20807-1-git-send-email-smasetty@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +62,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Paul Burton <paulburton@kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- kernel@pyra-handheld.com,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, Andi Kleen <ak@linux.intel.com>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Sharat Masetty <smasetty@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@freedesktop.org, linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2020 at 7:19 PM H. Nikolaus Schaller <hns@goldelico.com> wrote:
+This patch disables interrupts in the GPU RBBM hang detect fault handler
+before going to recovery.
 
-> From: Paul Boddie <paul@boddie.org.uk>
->
-> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Patch applied to the pinctrl tree, it should be fine to merge the rest
-of the patches in another tree since there are no compile-time
-dependencies.
-
-Yours,
-Linus Walleij
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index dc8ec2c..4dd0f62 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -676,6 +676,9 @@ static void a6xx_fault_detect_irq(struct msm_gpu *gpu)
+ 		gpu_read64(gpu, REG_A6XX_CP_IB2_BASE, REG_A6XX_CP_IB2_BASE_HI),
+ 		gpu_read(gpu, REG_A6XX_CP_IB2_REM_SIZE));
+ 
++	/* Disable interrupts before going for a recovery*/
++	gpu_write(gpu, REG_A6XX_RBBM_INT_0_MASK, 0);
++
+ 	/* Turn off the hangcheck timer to keep it from bothering us */
+ 	del_timer(&gpu->hangcheck_timer);
+ 
+-- 
+1.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
