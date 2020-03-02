@@ -2,68 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB0D1752E7
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 05:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB30175308
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 06:21:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D19E6E04A;
-	Mon,  2 Mar 2020 04:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECA2C6E060;
+	Mon,  2 Mar 2020 05:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 146C56E071
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 04:53:38 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id dm3so11754542edb.1
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Mar 2020 20:53:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IFZLqUTW25ctTVtDi96LYB3OSGc6XXXjI3GYykXZA54=;
- b=mGHIHalnZt1Rq9vbfcOS54fyFe6pufTBr3Ktw8eBYKH+bseJvkpgME2dv9F7f057xn
- 0yTRKNwExXWOiOlj7LUdxF6z81LDKsCK/lRXbQEhp3IgrMdNlUzdUy8RAJr0edbBg72e
- re/ZXEkgg9MDrnGqFqy67a7G/LLhe45C9C46jBseccBNnKt45Ofb8MsxYH8BhKUr6wLt
- AcPjt4NJ+sjR+UhCR7YZq8lkl1iN3m6TqR9BTu9L+GR5Q/L1cObpakyD5fkHalDTAynw
- pfGSmeQAUzTR9fIBlH0YjW6HgLyunCRAmJR9J/bJItP0oNX0n04GmF35qcWR8n1zy/DQ
- jD8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IFZLqUTW25ctTVtDi96LYB3OSGc6XXXjI3GYykXZA54=;
- b=AwBy8VKKFB2YsC2chNa7AUQaEvCzM7hwSpwxSzK634cfd+Oi4fZQNworZshwAXq4/4
- PKUNkF345mdscIoxWRwXvyu5ZxPHwB1fBw23i/x1oHdkMkAlXvao58Oc2Y+eHOdcRuwb
- 0niv3Bs/lRAmNvDNlEN3VW8SpvGRZwuP2lHcO6n4lGv5RT4XI0Q+QcVaTmrFtFug6Z5R
- ilyt1aKV85Vmre40oQuRv91e+ue1+SrQhvIkUDgx9uJyMKuk8T3AOEV7OS0VTuC+GOgV
- h3MaL4giEXHzo/idGIkYqq1qliwhjso1zRxERv+lF4Nc08T/ZBjnbLpX6iuvnSt996AI
- ukUw==
-X-Gm-Message-State: APjAAAUJACPrmJ2KPQStCfcfhZhDgLJrSG/+e+mQNN/jVDLvkTHA3I21
- vAyF3Avr2xEp4izEn0eKLiKZ3lIUajkoI2weiGUVLg==
-X-Google-Smtp-Source: APXvYqx6IFkF41k29nz0lnOnTZtVRAl7JUKF+OxBDo2ZLu7LFtPDsAqfil5lUjZgE0yyJT9Z47V6IFF8ua/M8IJBMwU=
-X-Received: by 2002:a05:6402:6c2:: with SMTP id
- n2mr14094451edy.241.1583124816249; 
- Sun, 01 Mar 2020 20:53:36 -0800 (PST)
-MIME-Version: 1.0
-References: <CAKMK7uHHK2SsCfpmZwEUyTJJHsoccKoadoko3cEBOoYDFkmeAw@mail.gmail.com>
- <CAPM=9txcGPvFdSzMtYZXyqLKnWyacSMuHdoXdV63M53fLFVFpw@mail.gmail.com>
- <b398161ff7d0268454413058dc6c194cf93f5990.camel@collabora.com>
- <ece8ebe3-40ec-2457-02da-4fef19cbe8f6@intel.com>
- <6d2ec570f957b4504fb70e0b1f0632712a99dc0c.camel@collabora.com>
- <CAPj87rO7BuKQj2Kei3T7RdkFq5=TiuShBvtrPU2sn0iqMfXSTg@mail.gmail.com>
- <59f4ea1f13a9a9d37f7801b93061b4ae7dd595e2.camel@gmail.com>
- <d0ef47e45c83b342494e6781b808b4831a008836.camel@ndufresne.ca>
- <9b0b31b8-7610-d5c5-790a-617178cc8c1e@daenzer.net>
- <93d7158b1ab49e51d14d991d5bdb2dba38ad6025.camel@ndufresne.ca>
- <CAC2bXD5OzDYtAcWAhpM_7Wwkbp2hpRszejjA7d0rqoypVdyDvA@mail.gmail.com>
- <17097bfa848.27ad.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
- <8249d1d87a990d63a2743ecf2acb910e5992478a.camel@ndufresne.ca>
-In-Reply-To: <8249d1d87a990d63a2743ecf2acb910e5992478a.camel@ndufresne.ca>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Sun, 1 Mar 2020 22:53:25 -0600
-Message-ID: <CAOFGe96JJki2u0QJckVrpg_d==mmRvPTmJXBLws+mCGLLf1X_A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [Mesa-dev] gitlab.fd.o financial situation and impact
- on services
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1A36E049
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 05:21:34 +0000 (UTC)
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20200302052132epoutp02fc4305c7e596060cbb20ffa684f99379~4ZSg1klsu0572205722epoutp02z
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 05:21:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20200302052132epoutp02fc4305c7e596060cbb20ffa684f99379~4ZSg1klsu0572205722epoutp02z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1583126492;
+ bh=46U7FU8gZqtWA3A/O3G8YSmsPVOISmwZ93BWStiusDo=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=fh2lr15GPGDIvOHw0mABhefnfErn3EWm/7q3K9m++pPH/crfnvMfLDoVpYJvPY5RU
+ kFQay9n55gRp48BroI+rNfriNZvy6ju3YRry+2uZOTKCQOWg2dQ6pxVV7b6OkDWgDR
+ 6DN0FF9ETBG908gH+5ZlZJaNjh2F9EuT5uXXHVkc=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200302052132epcas1p2faf1c9648f2f45967e1150ede67501c4~4ZSgrnnuO1418414184epcas1p2M;
+ Mon,  2 Mar 2020 05:21:32 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.40.152]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 48W7m95QvQzMqYkq; Mon,  2 Mar
+ 2020 05:21:29 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+ epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 73.3F.48019.7D79C5E5; Mon,  2 Mar 2020 14:21:27 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200302052126epcas1p21d95dcf8a7e458a2332f0532cc2f6e3e~4ZSbQKrkC1172211722epcas1p2T;
+ Mon,  2 Mar 2020 05:21:26 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200302052126epsmtrp17b372e373e82f0798dab0a384e6506a3~4ZSbPTtfr1145811458epsmtrp11;
+ Mon,  2 Mar 2020 05:21:26 +0000 (GMT)
+X-AuditID: b6c32a38-23fff7000001bb93-a0-5e5c97d74cd3
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 03.D4.06569.6D79C5E5; Mon,  2 Mar 2020 14:21:26 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.113.221.211]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200302052126epsmtip2a547560c39c86dc5d6cd0f31c4de63fa~4ZSbCr3-Z1188611886epsmtip2O;
+ Mon,  2 Mar 2020 05:21:26 +0000 (GMT)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie
+Subject: [GIT PULL] exynos-drm-fixes
+Date: Mon,  2 Mar 2020 14:25:52 +0900
+Message-Id: <1583126752-30477-1-git-send-email-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPKsWRmVeSWpSXmKPExsWy7bCmru716TFxBufeMFv0njvJZHHl63s2
+ ixnn9zE5MHts//aA1eN+93Emj8+b5AKYo7JtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1
+ DS0tzJUU8hJzU22VXHwCdN0yc4AWKSmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVILUnIK
+ LAv0ihNzi0vz0vWS83OtDA0MjEyBChOyM47MO8ZWMJGnYu+HbpYGxl6uLkYODgkBE4m9txK7
+ GLk4hAR2MEps3PCXGcL5xChx4fBRdgjnG6NE26JTQA4nWEfz8rmsEIm9jBL3Ti9ng3C+MEos
+ f9rMBlLFJqAqMXHFfTBbREBE4viyv2A2s4CbxJ+lZ1lAdgsLqEgcmMgHEmYBKt+4qQGshFfA
+ RWLLmkPMEMvkJG6e6wQ7SULgJqvElb43UFe4SHyZdpgRwhaWeHV8C1RcSuJlfxs7REMzo8TE
+ GaeZIJwORom7j6+zQFQZS+xfOpkJ5ApmAU2J9bv0IcKKEjt/z2WEOJRP4t3XHlZIIPFKdLQJ
+ QZQoSRy7eANqr4TEhSUT2SBsD4mrSyEhJCQQK/Gjs5FxAqPsLIQFCxgZVzGKpRYU56anFhsW
+ mCDH0iZGcOLRstjBuOeczyFGAQ5GJR7eHc+j44RYE8uKK3MPMUpwMCuJ8PpyAoV4UxIrq1KL
+ 8uOLSnNSiw8xmgKDbyKzlGhyPjAp5pXEG5oaGRsbW5gYmpkaGiqJ8z6M1IwTEkhPLEnNTk0t
+ SC2C6WPi4JRqYNSzWsh/xEHlvU6pbtW0yZ9LTt4+phv6sp/1v0xTaFrl+ykcX/ds289i9ES/
+ eq9uw+kvQk1Kye+mcD69OSXsZVAf31k/R8vudDaGZRrHPy00yDH+5D61SKxhUQan0+J4Jdt7
+ C+yYDaUCY7TUGRxkm6I8zbefzazY/vr2bBYZ7ZBJ+an151KPKLEUZyQaajEXFScCAE9c/shS
+ AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFJMWRmVeSWpSXmKPExsWy7bCSvO616TFxBvf3Clr0njvJZHHl63s2
+ ixnn9zE5MHts//aA1eN+93Emj8+b5AKYo7hsUlJzMstSi/TtErgyjsw7xlYwkadi74dulgbG
+ Xq4uRk4OCQETieblc1m7GLk4hAR2M0pc+rOKqYuRAyghIbFlKweEKSxx+HAxSLmQwCdGiSXr
+ jUBsNgFViYkr7rOB2CICIhLHl/0Fs5kFPCTe71nNDtIqLKAicWAiH0iYBah846YGsBJeAReJ
+ LWsOMUNcICdx81wn8wRGngWMDKsYJVMLinPTc4sNC4zyUsv1ihNzi0vz0vWS83M3MYJDQEtr
+ B+OJE/GHGAU4GJV4eHc8j44TYk0sK67MPcQowcGsJMLrywkU4k1JrKxKLcqPLyrNSS0+xCjN
+ waIkziuffyxSSCA9sSQ1OzW1ILUIJsvEwSnVwKjxa+PbIFbXmIkppsKHZJUdTOaXJmg+uGzQ
+ vTlDMUUyuEC9QXrft1smyq/eChUXfGFdFC30aqlzKWPT+qnLOM/s8H1RrvPzwqSLZ4/rMtYc
+ nzRV3k9D+2ND4J0vFyWPyBVJPX4zoyCxmmf5nEuibNeOvNWUfunb132J63rTzg33rjI5yz09
+ fV6JpTgj0VCLuag4EQAas55s/QEAAA==
+X-CMS-MailID: 20200302052126epcas1p21d95dcf8a7e458a2332f0532cc2f6e3e
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200302052126epcas1p21d95dcf8a7e458a2332f0532cc2f6e3e
+References: <CGME20200302052126epcas1p21d95dcf8a7e458a2332f0532cc2f6e3e@epcas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,93 +102,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Erik Faye-Lund <erik.faye-lund@collabora.com>,
- Jacob Lifshay <programmerjake@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- "X.Org development" <xorg-devel@lists.x.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "X.Org Foundation Board" <board@foundation.x.org>,
- Xorg Members List <members@x.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Mesa Dev <mesa-dev@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBNYXIgMSwgMjAyMCBhdCAyOjQ5IFBNIE5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNA
-bmR1ZnJlc25lLmNhPiB3cm90ZToKPgo+IEhpIEphc29uLAo+Cj4gSSBwZXJzb25hbGx5IHRoaW5r
-IHRoZSBzdWdnZXN0aW9uIGFyZSBzdGlsbCBhIHJlbGF0aXZlbHkgZ29vZAo+IGJyYWluc3Rvcm0g
-ZGF0YSBmb3IgdGhvc2UgaW1wbGljYXRlZC4gT2YgY291cnNlLCB0aG9zZSBub3QgaW1wbGljYXRl
-ZAo+IGluIHRoZSBDSSBzY3JpcHRpbmcgaXRzZWxmLCBJJ2Qgc2F5IGp1c3Qga2VlcCBpbiBtaW5k
-IHRoYXQgbm90aGluZyBpcwo+IGJsYWNrIGFuZCB3aGl0ZSBhbmQgZXZlcnkgY2hhbmdlcyBlbmQt
-dXAgYmVpbmcgdGltZSBjb25zdW1pbmcuCgpTb3JyeS4gIEkgZGlkbid0IGludGVuZCB0byBzdG9w
-IGEgdXNlZnVsIGJyYWluc3Rvcm1pbmcgc2Vzc2lvbi4gIEknbQpqdXN0IHRyeWluZyB0byBzYXkg
-dGhhdCBDSSBpcyB1c2VmdWwgYW5kIHdlIHNob3VsZG4ndCBodXJ0IG91cgpkZXZlbG9wbWVudCBm
-bG93cyBqdXN0IHRvIHNhdmUgYSBsaXR0bGUgbW9uZXkgdW5sZXNzIHdlJ3JlIHRydWx5CmRlc3Bl
-cmF0ZS4gIEZyb20gd2hhdCBJIHVuZGVyc3RhbmQsIEkgZG9uJ3QgdGhpbmsgd2UncmUgdGhhdCBk
-ZXNwZXJhdGUKeWV0LiAgU28gSSB3YXMgbW9zdGx5IHRyeWluZyB0byByZS1mb2N1cyB0aGUgZGlz
-Y3Vzc2lvbiB0b3dhcmRzCnN0cmFpZ2h0Zm9yd2FyZCB0aGluZ3Mgd2UgY2FuIGRvIHRvIGdldCBy
-aWQgb2YgcG9pbnRsZXNzIHdhc3RlICh0aGVyZQpwcm9iYWJseSBpcyBzb21lIHByZXR0eSBsb3ct
-aGFuZ2luZyBmcnVpdCkgYW5kIGF3YXkgZnJvbSAiT01HIFgub3JnIGlzCnJ1bm5pbmcgb3V0IG9m
-IG1vbmV5OyBDSSBhcyBsaXR0bGUgYXMgcG9zc2libGUiLiAgSSBkb24ndCB0aGluayB5b3UncmUK
-c2F5aW5nIHRob3NlIHRoaW5nczsgYnV0IEkndmUgc2Vuc2VkIGEgZ29vZCBiaXQgb2YgZmVhciBp
-biB0aGlzCnRocmVhZC4gIChJIGNvdWxkIGp1c3QgYmUgdG90YWxseSBtaXNyZWFkaW5nIHBlb3Bs
-ZSwgYnV0IEkgZG9uJ3QgdGhpbmsKc28uKQoKT25lIG9mIHRoZSB0aGluZ3MgdGhhdCBzb21lb25l
-IHBvaW50ZWQgb3V0IG9uIHRoaXMgdGhyZWFkIGlzIHRoYXQgd2UKbmVlZCBkYXRhLiAgU29tZSBo
-YXMgYmVlbiBwcm92aWRlZCBoZXJlIGJ1dCBpdCdzIHN0aWxsIGEgYml0IHVuY2xlYXIKZXhhY3Rs
-eSB3aGF0IHRoZSBicmVhay1kb3duIGlzIHNvIGl0J3MgaGFyZCBmb3IgcGVvcGxlIHRvIGNvbWUg
-dXAgd2l0aApnb29kIHNvbHV0aW9ucyBiZXlvbmQgImp1c3QgZG8gbGVzcyBDSSIuICBXZSBkbyBr
-bm93IHRoYXQgdGhlIGJpZ2dlc3QKY29zdCBpcyBlZ3Jlc3Mgd2ViIHRyYWZmaWMgYW5kIHRoYXQn
-cyBzb21ldGhpbmcgd2UgZGlkbid0IGtub3cgYmVmb3JlLgpNeSB1bmRlcnN0YW5kaW5nIGlzIHRo
-YXQgcGVvcGxlIG9uIHRoZSBYLm9yZyBib2FyZCBhbmQvb3IgRGFuaWVsIGFyZQp3b3JraW5nIHRv
-IGdldCBiZXR0ZXIgZGF0YS4gIEknbSBmYWlybHkgaG9wZWZ1bCB0aGF0LCBvbmNlIHdlCnVuZGVy
-c3RhbmQgYmV0dGVyIHdoYXQgdGhlIGNvc3RzIGFyZSAob3IgZXZlbiB3aXRoIGp1c3QgdGhlIG5l
-dyBkYXRhCndlIGhhdmUpLCB3ZSBjYW4gYnJpbmcgaXQgZG93biB0byByZWFzb25hYmxlIGFuZC9v
-ciBjb21lIHVwIHdpdGggbW9uZXkKdG8gcGF5IGZvciBpdCBpbiBmYWlybHkgc2hvcnQgb3JkZXIu
-CgpBZ2Fpbiwgc29ycnkgSSB3YXMgc28gdGVyc2UuICBJIHdhcyBqdXN0IHRyeWluZyB0byBzbG93
-IHRoZSBwYW5pYy4KCj4gTGUgZGltYW5jaGUgMDEgbWFycyAyMDIwIMOgIDE0OjE4IC0wNjAwLCBK
-YXNvbiBFa3N0cmFuZCBhIMOpY3JpdCA6Cj4gPiBJJ3ZlIHNlZW4gYSBudW1iZXIgb2Ygc3VnZ2Vz
-dGlvbnMgd2hpY2ggd2lsbCBkbyBvbmUgb3IgYm90aCBvZiB0aG9zZSB0aGluZ3MgaW5jbHVkaW5n
-Ogo+ID4KPiA+ICAtIEJhdGNoaW5nIG1lcmdlIHJlcXVlc3RzCj4KPiBBZ3JlZWQuIE9yIGF0IGxl
-YXN0IEkgZm9yZXNlZSBxdWl0ZSBjb21wbGljYXRlZCBjb2RlIHRvIGhhbmRsZSB0aGUgY2FzZQo+
-IG9mIG9uZSBiYXRjaGVkIG1lcmdlIGZhaWxpbmcgdGhlIHRlc3RzLCBvciB3b3JzdCwgd2l0aCBm
-bGlja3kgdGVzdHMuCj4KPiA+ICAtIE5vdCBydW5uaW5nIENJIG9uIHRoZSBtYXN0ZXIgYnJhbmNo
-Cj4KPiBBIHNtYWxsIGNsYXJpZmljYXRpb24sIHRoaXMgZGVwZW5kcyBvbiB0aGUgY2hvc2VuIHdv
-cmstZmxvdy4gSW4KPiBHU3RyZWFtZXIsIHdlIHVzZSBhIHJlYmFzZSBmbG93LCBzbyAibWVyZ2Ui
-IGJ1dHRvbiBpc24ndCByZWFsbHkKPiBtZXJnaW5nLiBJdCBtZWFucyB0aGF0IHRvIG1lcmdlIHlv
-dSBuZWVkIHlvdXIgYnJhbmNoIHRvIGJlIHJlYmFzZWQgb24KPiB0b3Agb2YgdGhlIGxhdGVzdC4g
-QXMgaXQgaXMgbXVsdGktcmVwbywgdGhlcmUgaXMgYWx3YXlzIGEgdGlueSBjaGFuY2UKPiBvZiBi
-cmVha2FnZSBkdWUgdG8gbWlkLWFpciBjb2xsaXNpb24gaW4gY2hhbmdlcyBpbiBvdGhlciByZXBv
-cy4gV2hhdCB3ZQo+IHNlZSBpcyB0aGF0IHRoZSBwb3N0ICJtZXJnZSIgY2Fubm90IGV2ZW4gY2F0
-Y2ggdGhlbSBhbGwgKGFzIHdlIGFscmVhZHkKPiBvYnNlcnZlZCBvbmNlKS4gSW4gZmFjdCwgaXQg
-dXN1YWxseSBkb2VzIG5vdCBjYXRjaCBhbnl0aGluZy4gT3IgZWFjaAo+IHRpbWUgaXQgY2FjaGVk
-IHNvbWV0aGluZywgd2Ugb25seSBub3RpY2Ugb24gdGhlIG5leHQgTVIuMCBTbyB3ZSBhcmUKPiBy
-ZWFsbHkgY29uc2lkZXJpbmcgZG9pbmcgdGhpcyBhcyBmb3IgdGhpcyBzcGVjaWZpYyB3b3JrZmxv
-dy9wcm9qZWN0LCB3ZQo+IGZvdW5kIHZlcnkgbGl0dGxlIGdhaW4gb2YgaGF2aW5nIGl0Lgo+Cj4g
-V2l0aCByZWFsIG1lcmdlLCB0aGUgY29kZSBiZWluZyB0ZXN0ZWQgYmVmb3JlL2FmdGVyIHRoZSBt
-ZXJnZSBpcwo+IGRpZmZlcmVudCwgYW5kIGZvciB0aGF0IEkgYWdyZWUgd2l0aCB5b3UuCgpFdmVu
-IHdpdGggYSByZWJhc2UgbW9kZWwsIGl0J3Mgc3RpbGwgcG90ZW50aWFsbHkgZGlmZmVyZW50OyB0
-aG91Z2gKbWFyZ2UgcmUtcnVucyBDSSBiZWZvcmUgbWVyZ2luZy4gIEkgYWdyZWUgdGhlIHJpc2sg
-aXMgbG93LCBob3dldmVyLAphbmQgaWYgeW91IGhhdmUgR2l0TGFiIHNldCB1cCB0byBibG9jayBN
-UnMgdGhhdCBkb24ndCBwYXNzIENJLCB0aGVuCnlvdSBtYXkgYmUgYWJsZSB0byBkcm9wIHRoZSBt
-YXN0ZXIgYnJhbmNoIHRvIGEgZGFpbHkgcnVuIG9yIHNvbWV0aGluZwpsaWtlIHRoYXQuICBBZ2Fp
-biwgc2hvdWxkIGJlIHByb2plY3QtYnktcHJvamVjdC4KCj4gPiAgLSBTaHV0dGluZyBvZmYgQ0kK
-Pgo+IE9mIGNvdXJzZSA6LSksIHNwZWNpYWxseSB0aGF0IHdlIGhhZCBDSSBiZWZvcmUgZ2l0bGFi
-IGluIEdTdHJlYW1lcgo+IChqdXN0IG5vdCBwcmUtY29tbWl0KSwgd2UgZG9uJ3Qgd2FudCBhIHJl
-Z3Jlc3MgdGhhdCBmYXIgaW4gdGhlIHBhc3QuCj4KPiA+ICAtIFByZXZlbnRpbmcgQ0kgb24gb3Ro
-ZXIgbm9uLU1SIGJyYW5jaGVzCj4KPiBBbm90aGVyIHNtYWxsIG51YW5jZSwgbWVzYSBkb2VzIG5v
-dCBwcmV2ZW50IENJLCBpdCBvbmx5IG1ha2VzIGl0IG1hbnVhbAo+IG9uIG5vbi1NUi4gVXNlcnMg
-Y2FuIGdvIGNsaWNrIHJ1biB0byBnZXQgQ0kgcmVzdWx0cy4gV2UgY291bGQgYWxzbyBoYXZlCj4g
-b3B0aW9uIHRvIHRyaWdnZXIgdGhlIGNpICh0aGUgb3Bwb3NpdGUgb2YgY2kuc2tpcCkgZnJvbSBn
-aXQgY29tbWFuZAo+IGxpbmUuCgpIZW5jZSBteSB1c2Ugb2YgInByZXZlbnQiLiA6LSkgIEl0J3Mg
-dmVyeSB1c2VmdWwgYnV0LCBJTU8sIGl0IHNob3VsZApiZSBvcHQtaW4gYW5kIG5vdCBvcHQtb3V0
-LiAgSSB0aGluayB3ZSBhZ3JlZSBoZXJlLiA6LSkKCi0tSmFzb24KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Dave,
+
+   Just three fixups - fix a kernel oops and regulator warning
+   at booting time, and correct to print out an error message.
+
+   Please kindly let me know if there is any problem.
+
+Thanks,
+Inki Dae
+
+The following changes since commit f091bf39700dd086ab244c823f389556fed0c513:
+
+  Merge tag 'drm-intel-fixes-2020-02-27' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2020-02-28 12:40:49 +1000)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v5.6-rc5
+
+for you to fetch changes up to 3b6a9b19ab652efac7ad4c392add6f1235019568:
+
+  drm/exynos: hdmi: don't leak enable HDMI_EN regulator if probe fails (2020-03-02 13:02:41 +0900)
+
+----------------------------------------------------------------
+Three fixups
+- fix a kernel oops problem in case that driver is loaded as module.
+- fix a regulator warning issue when I2C DDC adapter cannot be gathered.
+- print out an error message only in error case excepting -EPROBE_DEFER.
+
+----------------------------------------------------------------
+Marek Szyprowski (3):
+      drm/exynos: dsi: propagate error value and silence meaningless warning
+      drm/exynos: dsi: fix workaround for the legacy clock name
+      drm/exynos: hdmi: don't leak enable HDMI_EN regulator if probe fails
+
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 12 +++++++-----
+ drivers/gpu/drm/exynos/exynos_hdmi.c    | 22 ++++++++++++----------
+ 2 files changed, 19 insertions(+), 15 deletions(-)
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
