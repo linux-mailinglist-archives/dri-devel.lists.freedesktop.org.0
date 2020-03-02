@@ -2,61 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FD517710C
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80E7177107
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D93F6E9F7;
-	Tue,  3 Mar 2020 08:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7156E9E8;
+	Tue,  3 Mar 2020 08:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57B446E25A
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 10:32:33 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id d10so11110337ljl.9
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 02:32:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=a42O4KV4bEmBFQrB6svb5MCsREuatuBAEWKoVrmbJO0=;
- b=cWTcWZAIYzjyX4csJQI8qpY9zS6H5etvZc0N+Mrjfy88j2LDsNnKBZ2r9ZOt7c0ee1
- Z3l7UAHxFeonp5mJo00Zi1tUpr3Q/MWTk56CuJWDaegT83D6Bi0DGPOjReSz7hCi6jBE
- D1//q/27Sh7NMHJX5zt+R9JW3R799Sc4ccu9n1NERTb5xBYG8OxenY6BJ6X/M4AGPh8W
- 9DWOReMKA3aRztFwCRoDvEgY7PBSzMnehaXPgokPEiuCHiVc22zv0RugHl5TZ9VdZx/I
- PGFVb8zFCYwHgI8Jlgq+dw1zf0KLMSd/EOqh3KN/r12jgXFGrbk7J3MxjBTxjPXTxY2F
- pPsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=a42O4KV4bEmBFQrB6svb5MCsREuatuBAEWKoVrmbJO0=;
- b=dDeaPHuxbHxJZdVCzT5TMtgl+Z1kTJqljutSOkh1HtxdBNnDdxCxKqCWJqg5oPJpbm
- /Q5elw9K8TpqMfN6Ss2wswtUEqRFGJfpvK9+DmwJaX9AxX8qXzRs8XCVyVPZlc5YgcWc
- yJlszqEvBoVpcU4+E+7cjtAMgcZ1I9Ri0Ggwhp+2kWW4PFbE7Sj16JCivpU9/8ibkfhw
- FL4wB1LdgdnbguKO5WqBwdedn7vmCuroBs5pumrUrq1lcMIokBjN4rIBBSNCR+iyWm7/
- p9f/0CRl2lkeZLZBKbZC6hL0y3AmZItWhBtBEx55u4I8VbTpa5iOQEOtkFngE4gKAOpt
- Tsfw==
-X-Gm-Message-State: ANhLgQ1BHy3rZUJNJSBqe+rzogaqxkWnxSaQl7pRb7NtMFOycKwUzScR
- A1ZlSI5fu/kQGW+Dty78rYA=
-X-Google-Smtp-Source: ADFU+vvy4hEeA0Fk8eWL+molTfrJlcJGZig6kMdWtN2clniYcBX6YHZQdFlQSI1P0cwNHUtitZvmcQ==
-X-Received: by 2002:a05:651c:cf:: with SMTP id
- 15mr11454597ljr.288.1583145151835; 
- Mon, 02 Mar 2020 02:32:31 -0800 (PST)
-Received: from localhost.localdomain ([149.255.131.2])
- by smtp.gmail.com with ESMTPSA id n21sm3895328lfh.2.2020.03.02.02.32.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 02:32:31 -0800 (PST)
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-To: jernej.skrabec@siol.net,
-	mripard@kernel.org,
-	wens@csie.org
-Subject: [PATCH v4 4/4] RFC: drm/sun4i: Process alpha channel of most bottom
- layer
-Date: Mon,  2 Mar 2020 12:31:38 +0200
-Message-Id: <20200302103138.17916-5-r.stratiienko@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200302103138.17916-1-r.stratiienko@gmail.com>
-References: <.>
- <20200302103138.17916-1-r.stratiienko@gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 450916E13A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 11:01:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 2EE212949CC
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
+ p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
+ sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
+ laurent.pinchart@ideasonboard.com
+Subject: [PATCH v11 0/5] arm/arm64: mediatek: Fix mt8173 mmsys device probing
+Date: Mon,  2 Mar 2020 12:01:23 +0100
+Message-Id: <20200302110128.2664251-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,69 +38,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Roman Stratiienko <r.stratiienko@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>, dri-devel@lists.freedesktop.org,
+ Richard Fontana <rfontana@redhat.com>,
+ Collabora Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
+ Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+ sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Allison Randal <allison@lohutok.net>, Matthias Brugger <mbrugger@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allwinner display engine blender consists of 3 pipelined blending units.
+Dear all,
 
-PIPE0->\
-        BLD0-\
-PIPE1->/      BLD1-\
-PIPE2->------/      BLD2->OUT
-PIPE3->------------/
+Those patches are intended to solve an old standing issue on some
+Mediatek devices (mt8173, mt2701 and mt2712 are affected by this issue).
 
-This pipeline produces incorrect composition if PIPE0 buffer has alpha.
-Correct solution is to add one more blending step and mix PIPE0 with
-background, but it is not supported by the hardware.
+Up to now both drivers, clock and drm are probed with the same device tree
+compatible. But only the first driver gets probed, which in effect breaks
+graphics on those devices.
 
-Use premultiplied alpha buffer of PIPE0 overlay channel as is.
-In this case we got same effect as mixing PIPE0 with black background.
+The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
+control clock gates (which is used in the clk driver) and some registers
+to set the routing and enable the differnet blocks of the display
+and MDP (Media Data Path) subsystem. On this series the clk driver is
+not a pure clock controller but a system controller that can provide
+access to the shared registers between the different drivers that need
+it (mediatek-drm and mediatek-mdp). Hence the MMSYS clk driver was moved
+to drivers/soc/mediatek and is the entry point (parent) which will trigger
+the probe of the corresponding mediatek-drm driver.
 
-Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+**IMPORTANT** This series only fixes the issue on mt8173 to make it
+simple and as is the only platform I can test. Similar changes should be
+applied for mt2701 and mt2712 to have display working.
 
----
+For reference, here are the links to the old discussions:
+* v10: https://patchwork.kernel.org/project/linux-mediatek/list/?series=248505
+* v9: https://patchwork.kernel.org/project/linux-clk/list/?series=247591
+* v8: https://patchwork.kernel.org/project/linux-mediatek/list/?series=244891
+* v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
+* v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
+* v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
+* v4:
+  * https://patchwork.kernel.org/patch/10530871/
+  * https://patchwork.kernel.org/patch/10530883/
+  * https://patchwork.kernel.org/patch/10530885/
+  * https://patchwork.kernel.org/patch/10530911/
+  * https://patchwork.kernel.org/patch/10530913/
+* v3:
+  * https://patchwork.kernel.org/patch/10367857/
+  * https://patchwork.kernel.org/patch/10367861/
+  * https://patchwork.kernel.org/patch/10367877/
+  * https://patchwork.kernel.org/patch/10367875/
+  * https://patchwork.kernel.org/patch/10367885/
+  * https://patchwork.kernel.org/patch/10367883/
+  * https://patchwork.kernel.org/patch/10367889/
+  * https://patchwork.kernel.org/patch/10367907/
+  * https://patchwork.kernel.org/patch/10367909/
+  * https://patchwork.kernel.org/patch/10367905/
+* v2: No relevant discussion, see v3
+* v1:
+  * https://patchwork.kernel.org/patch/10016497/
+  * https://patchwork.kernel.org/patch/10016499/
+  * https://patchwork.kernel.org/patch/10016505/
+  * https://patchwork.kernel.org/patch/10016507/
 
-v4:
-- Initial version, depends on other unmerged patches in the patchset.
----
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 2 +-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Best regards,
+ Enric
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index dd6145f80c36..d94f4d8b9128 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -106,7 +106,7 @@ static void sun8i_ui_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
- 	regmap_update_bits(mixer->engine.regs,
- 			   SUN8I_MIXER_BLEND_PREMULTIPLY(bld_base),
- 			   SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos),
--			   SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos));
-+			   zpos ? SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos) : 0);
- }
- 
- static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index e6d8a539614f..68a6843db4ab 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -108,7 +108,7 @@ static void sun8i_vi_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
- 	regmap_update_bits(mixer->engine.regs,
- 			   SUN8I_MIXER_BLEND_PREMULTIPLY(bld_base),
- 			   SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos),
--			   (mixer->cfg->is_de3) ?
-+			   (zpos != 0 && mixer->cfg->is_de3) ?
- 				SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos) : 0);
- 
- }
+Changes in v11:
+- Select CONFIG_MTK_MMSYS (CK)
+- Pass device pointer of mmsys device instead of config regs (CK)
+
+Changes in v10:
+- Update the binding documentation for the mmsys system controller.
+- Renamed to be generic mtk-mmsys
+- Add driver data support to be able to support diferent SoCs
+- Introduced a new patch to move routing control into mmsys driver.
+- Removed the patch to use regmap as is not needed anymore.
+- Match driver data to get display routing.
+
+Changes in v9:
+- Move mmsys to drivers/soc/mediatek (CK)
+- Do not move the display routing from the drm driver (CK)
+
+Changes in v8:
+- Be a builtin_platform_driver like other mediatek mmsys drivers.
+- New patch introduced in this series.
+
+Changes in v7:
+- Free clk_data->clks as well
+- Get rid of private data structure
+
+Enric Balletbo i Serra (3):
+  dt-bindings: mediatek: Update mmsys binding to reflect it is a system
+    controller
+  soc / drm: mediatek: Move routing control to mmsys device
+  soc / drm: mediatek: Fix mediatek-drm device probing
+
+Matthias Brugger (2):
+  drm/mediatek: Omit warning on probe defers
+  soc: mediatek: Move mt8173 MMSYS to platform driver
+
+ .../bindings/arm/mediatek/mediatek,mmsys.txt  |   7 +-
+ drivers/clk/mediatek/clk-mt8173.c             | 104 -----
+ drivers/gpu/drm/mediatek/Kconfig              |   1 +
+ drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  19 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.c        | 259 +----------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   7 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  45 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
+ drivers/soc/mediatek/Kconfig                  |   7 +
+ drivers/soc/mediatek/Makefile                 |   1 +
+ drivers/soc/mediatek/mtk-mmsys.c              | 437 ++++++++++++++++++
+ include/linux/soc/mediatek/mtk-mmsys.h        |  20 +
+ 18 files changed, 537 insertions(+), 411 deletions(-)
+ create mode 100644 drivers/soc/mediatek/mtk-mmsys.c
+ create mode 100644 include/linux/soc/mediatek/mtk-mmsys.h
+
 -- 
-2.17.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
