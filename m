@@ -2,98 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A77175E89
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 16:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4038E175E8F
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 16:43:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F2FD6E516;
-	Mon,  2 Mar 2020 15:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3AC88FDA;
+	Mon,  2 Mar 2020 15:43:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4DD6E516
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:42:47 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200302154246euoutp0233d503b26df4744cb12055772bac02f7~4hw6nCnZi1381413814euoutp02W
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:42:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200302154246euoutp0233d503b26df4744cb12055772bac02f7~4hw6nCnZi1381413814euoutp02W
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C81E88FDA
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:42:59 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200302154257euoutp010cf1cee8eb04f885b48545de929d3559~4hxFlLM7X1491814918euoutp01H
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:42:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200302154257euoutp010cf1cee8eb04f885b48545de929d3559~4hxFlLM7X1491814918euoutp01H
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1583163766;
- bh=vGWws7E3WLNj7XKDBC0zIxCfLImiZpsQGYppu7/x/Po=;
+ s=mail20170921; t=1583163777;
+ bh=UAjKjwooQuhfVtx7iJnUdeI/FwvSg2aaFjTHolZDwT8=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=cYUXYZHHfzLCQEqJSDI+umnIhjVWJYA/POfbufP/2Y53Xsd55gVLlGfdcDpb9yboO
- ZvQikvcr+WYoGp8fK4H78kcLoCWRApP6wYhv/09pDIu6Vze8Q0tDUO6k3cYaXYwv12
- TBzrbqNaCWw+kM84uSOwxrye7ZlLOXJQNeD1jUXg=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ b=PL5ZisVSqia940111G4Y98T3gr7pYI/dNMov/GgZ6O9pYTcyYR07xhQKp8g/qhwJ1
+ 0PI5GMFZMnxwpUtdqhDMBbfQMxE+o2UUz74si4f6F5ENpzjk1MSvL7SjakvG+Xqu9C
+ EasXwamjGxPkhhyyj+3MQ18azTlTnsaNR+xUJWb4=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200302154245eucas1p11aa3241ff2ed4f022f0eac400e74d479~4hw6h1Av31688016880eucas1p1U;
- Mon,  2 Mar 2020 15:42:45 +0000 (GMT)
+ 20200302154257eucas1p1a62a2c348deed71d59a025acf0b1ce8a~4hxFRzsb11688016880eucas1p1c;
+ Mon,  2 Mar 2020 15:42:57 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id CE.20.60679.5792D5E5; Mon,  2
- Mar 2020 15:42:45 +0000 (GMT)
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id F9.D3.60698.1892D5E5; Mon,  2
+ Mar 2020 15:42:57 +0000 (GMT)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200302154245eucas1p2e7d7d14b23b26d081c3754c4379e8e9d~4hw6KGsAz2400924009eucas1p2U;
- Mon,  2 Mar 2020 15:42:45 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200302154256eucas1p1779718103e02d390c115d7c796327a7d~4hxEz8jDz1686416864eucas1p1w;
+ Mon,  2 Mar 2020 15:42:56 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200302154245eusmtrp120fb74551a4640d8b50cf35ec7ece730~4hw6JjdHO2922329223eusmtrp1w;
- Mon,  2 Mar 2020 15:42:45 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-47-5e5d29752718
+ 20200302154256eusmtrp1f5907de4ed567dad8164c98f1eb07a1e~4hxEzYXXv2922329223eusmtrp1J;
+ Mon,  2 Mar 2020 15:42:56 +0000 (GMT)
+X-AuditID: cbfec7f5-a29ff7000001ed1a-c9-5e5d2981575b
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 89.00.07950.5792D5E5; Mon,  2
- Mar 2020 15:42:45 +0000 (GMT)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 3F.20.08375.0892D5E5; Mon,  2
+ Mar 2020 15:42:56 +0000 (GMT)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200302154245eusmtip118645d1efc09ad546c8976bdecfcc21d~4hw541ymk2008820088eusmtip1g;
- Mon,  2 Mar 2020 15:42:45 +0000 (GMT)
+ 20200302154256eusmtip17e43339619c3a62f8c4fa9c3cd9962ed~4hxEfuxHR2125721257eusmtip1A;
+ Mon,  2 Mar 2020 15:42:56 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH] matroxfb: add Matrox MGA-G200eW board support
-To: Rich Felker <dalias@libc.org>
-Message-ID: <18f1f164-f1aa-af61-791e-217f847f2333@samsung.com>
-Date: Mon, 2 Mar 2020 16:42:44 +0100
+Subject: Re: [PATCH] video: fbdev: radeon: Remove dead code
+To: Souptick Joarder <jrdr.linux@gmail.com>
+Message-ID: <4777c389-1e30-f856-f765-0ecfefe0b6a0@samsung.com>
+Date: Mon, 2 Mar 2020 16:42:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200125195506.GA16638@brightrain.aerifal.cx>
+In-Reply-To: <1582042556-21555-1-git-send-email-jrdr.linux@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAKsWRmVeSWpSXmKPExsWy7djPc7qlmrFxBvO+mVss/PmL1eLK1/ds
- Fs2L17NZnOj7wGqxedNUZgdWj3OzP7B4vDt3jt1j/9w17B73u48zeXzeJBfAGsVlk5Kak1mW
- WqRvl8CV8apzJVvBfoGKdy/VGhg38XYxcnJICJhI7F16mLmLkYtDSGAFo8SzhfOYIJwvjBLL
- Pj9igXA+M0rs/LYKqIwDrGXezBSI+HJGiXcz21hBRgkJvGWUmHNJGMRmE7CSmNi+ihHEFhZw
- Apq6nx3EFhFQlOg9vQVsHbPAbEaJjut/mUASvAJ2Eg9ae8FsFgEViRnbF4ENFRWIkPj04DAr
- RI2gxMmZT1hAbE4Ba4knSyAWMAuIS9x6Mp8JwpaX2P52DtgCCYFl7BLX/65mhHjUReLH3s3s
- ELawxKvjW6BsGYnTk3tYIBrWMUr87XgB1b2dUWL55H9sEFXWEnfO/WID+Z9ZQFNi/S59iLCj
- xIKz35kgwcInceOtIMQRfBKTtk2HhhavREebEES1msSGZRvYYNZ27VzJPIFRaRaS12YheWcW
- kndmIexdwMiyilE8tbQ4Nz212CgvtVyvODG3uDQvXS85P3cTIzDdnP53/MsOxl1/kg4xCnAw
- KvHwBjDHxgmxJpYVV+YeYpTgYFYS4fXljI4T4k1JrKxKLcqPLyrNSS0+xCjNwaIkzmu86GWs
- kEB6YklqdmpqQWoRTJaJg1OqgVHj2tSdEyQcV4ax79Bhf2GXL7cj/+5qvUOqlYs4ziS5v917
- z1Hoe9v/PecaY354vjIIKt64MUzjxqVqVqaSVu6Wm0d35KmcuVR0KSJyjbHsmwNmc9hie3zj
- Zt79fDlJSfLYjJTjZdW1K668f6s9SZ+RWXSqXvw+w/lXjOq0I/+z5r2I1j+aUKzEUpyRaKjF
- XFScCABfZ/K8MwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRmVeSWpSXmKPExsVy+t/xu7qlmrFxBk+myFss/PmL1eLK1/ds
- Fs2L17NZnOj7wGqxedNUZgdWj3OzP7B4vDt3jt1j/9w17B73u48zeXzeJBfAGqVnU5RfWpKq
- kJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CX8apzJVvBfoGKdy/V
- Ghg38XYxcnBICJhIzJuZ0sXIxSEksJRRomF5GxNEXEbi+PqyLkZOIFNY4s+1LjaImteMEhv3
- /GYBSbAJWElMbF/FCGILCzhJPFu4nx3EFhFQlOg9vYUZxGYWmM0ocXy5CURzH6PEkntPWEES
- vAJ2Eg9ae5lAbBYBFYkZ2xeBxUUFIiQO75jFCFEjKHFy5hOwZZwC1hJPlkAsYxZQl/gz7xLU
- AnGJW0/mM0HY8hLb385hnsAoNAtJ+ywkLbOQtMxC0rKAkWUVo0hqaXFuem6xkV5xYm5xaV66
- XnJ+7iZGYHRtO/Zzyw7GrnfBhxgFOBiVeHh/MMTGCbEmlhVX5h5ilOBgVhLh9eWMjhPiTUms
- rEotyo8vKs1JLT7EaAr03ERmKdHkfGDk55XEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnN
- Tk0tSC2C6WPi4JRqYKx4sCY39c23ed/fP/l+5ubTrJ1ns1+/dkqe9NR1knPmC7E773kW8Jxb
- vM9q8VStXJvqVQIaXz7xzzwYnPe+Nl+jrLSPof3S5H37ilP5cj11z/nLta+fkrylO/rdhcMf
- P/SvM/q3oaIr/pzLgrx8z7x7lW1Tz8nnec1u2HOi7P9vDz7fM1qipdeVWIozEg21mIuKEwGq
- vEFrxAIAAA==
-X-CMS-MailID: 20200302154245eucas1p2e7d7d14b23b26d081c3754c4379e8e9d
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFKsWRmVeSWpSXmKPExsWy7djPc7qNmrFxBlPOi1l8aGpltrjy9T2b
+ xbWrDcwWJ/o+sFpc3jWHzYHVY+esu+wePW9aWD3udx9n8vi8SS6AJYrLJiU1J7MstUjfLoEr
+ Y8vnRYwFPbwVJ47KNTAu4epi5OCQEDCRePSgtouRi0NIYAWjxJzbf5kgnC+MEl+bN7J0MXIC
+ OZ8ZJb5MLAOxQRpWH7nKCFG0nFHi5dQPbBDOW0aJewdfs4FUsQlYSUxsX8UIYgsLWEvM+DWV
+ HcQWEdCWmHv4FzOIzSxQJXH98x+wel4BO4nLsx+AxVkEVCS2zn/ECmKLCkRIfHpwmBWiRlDi
+ 5MwnYBdxCrhK/Pp0jg1ijrjErSfzmSBseYntb+cwgxwkITCPXeLHjz1MEGe7SDRefcwGYQtL
+ vDq+hR3ClpE4PbmHBaJhHaPE344XUN3bGSWWT/4H1WEtcefcLzZQiDELaEqs36UPEXaU6PnU
+ zwoJSD6JG28FIY7gk5i0bTozRJhXoqNNCKJaTWLDsg1sMGu7dq5knsCoNAvJa7OQvDMLyTuz
+ EPYuYGRZxSieWlqcm55abJyXWq5XnJhbXJqXrpecn7uJEZhiTv87/nUH474/SYcYBTgYlXh4
+ A5hj44RYE8uKK3MPMUpwMCuJ8PpyRscJ8aYkVlalFuXHF5XmpBYfYpTmYFES5zVe9DJWSCA9
+ sSQ1OzW1ILUIJsvEwSnVwFiiO8VHXih0WZ3X3ietusd7b+49JZ588PHLE6/Vn69ojxNettMp
+ a0XEzKdbuZ/YOD7/qXjV4nzekdJePTnfMzd7vvV/ZLlypsMolbtfcY1kNuPt3AMaF72SHPSn
+ NrTfcXj69G3TmgW14aUpbvcc65ftOtPqqrL5eVl5aQj/n8+bZk9dcHCFjKASS3FGoqEWc1Fx
+ IgAjjWkYLQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsVy+t/xu7oNmrFxBm9fWFh8aGpltrjy9T2b
+ xbWrDcwWJ/o+sFpc3jWHzYHVY+esu+wePW9aWD3udx9n8vi8SS6AJUrPpii/tCRVISO/uMRW
+ KdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvY8vnRYwFPbwVJ47KNTAu4epi
+ 5OSQEDCRWH3kKmMXIxeHkMBSRol359vYuxg5gBIyEsfXl0HUCEv8udbFBlHzmlHiUO96VpAE
+ m4CVxMT2VYwgtrCAtcSMX1PZQWwRAW2JuYd/MYPYzAJVEl1Pb7FDNM9glFh98ilYM6+AncTl
+ 2Q/AilgEVCS2zn8EFhcViJA4vGMWI0SNoMTJmU9YQGxOAVeJX5/OsUEMVZf4M+8S1AJxiVtP
+ 5jNB2PIS29/OYZ7AKDQLSfssJC2zkLTMQtKygJFlFaNIamlxbnpusaFecWJucWleul5yfu4m
+ RmBUbTv2c/MOxksbgw8xCnAwKvHwBjDHxgmxJpYVV+YeYpTgYFYS4fXljI4T4k1JrKxKLcqP
+ LyrNSS0+xGgK9NxEZinR5HxgxOeVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgt
+ gulj4uCUamBUuFcyO7U+pOt+lYCPX7FdplzjL/llS2zyyz7u+5XS+dyDSyVz9amWC82cpj/O
+ 5QgbhTO1XKtuWPu7sGulzNtpekoqvdO/H/gxMXd3wNp7iiLzzq/sU+7UvMTxh2eBnUJovROX
+ ptGH727a3ySyfLM6Vuy4UaK9/UdL0HqlCrlvP5wKVJbatSixFGckGmoxFxUnAgCp/A7gwAIA
+ AA==
+X-CMS-MailID: 20200302154256eucas1p1779718103e02d390c115d7c796327a7d
 X-Msg-Generator: CA
-X-RootMTR: 20200125195511eucas1p1d8326b54a4775038cb8b804078afcc19
+X-RootMTR: 20200218160846eucas1p238fa498fc5fc35f4865f0920c5f7c76f
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200125195511eucas1p1d8326b54a4775038cb8b804078afcc19
-References: <CGME20200125195511eucas1p1d8326b54a4775038cb8b804078afcc19@eucas1p1.samsung.com>
- <20200125195506.GA16638@brightrain.aerifal.cx>
+X-CMS-RootMailID: 20200218160846eucas1p238fa498fc5fc35f4865f0920c5f7c76f
+References: <CGME20200218160846eucas1p238fa498fc5fc35f4865f0920c5f7c76f@eucas1p2.samsung.com>
+ <1582042556-21555-1-git-send-email-jrdr.linux@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,8 +106,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -115,8 +114,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 1/25/20 8:55 PM, Rich Felker wrote:
-> Signed-off-by: Rich Felker <dalias@libc.org>
+On 2/18/20 5:15 PM, Souptick Joarder wrote:
+> This is dead code since 3.15 and can be removed if not
+> going to be useful further.
+> 
+> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
 
 Patch queued for v5.7, thanks.
 
@@ -126,55 +128,44 @@ Bartlomiej Zolnierkiewicz
 Samsung R&D Institute Poland
 Samsung Electronics
 
-> --
-> I've had this lying around a while and figure I should send it
-> upsteam; it's needed to support the onboard video on my Spectre-free
-> Atom S1260 server board.
-> 
 > ---
->  drivers/video/fbdev/matrox/matroxfb_base.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  drivers/video/fbdev/aty/radeon_base.c | 16 ----------------
+>  1 file changed, 16 deletions(-)
 > 
-> diff --git a/drivers/video/fbdev/matrox/matroxfb_base.c b/drivers/video/fbdev/matrox/matroxfb_base.c
-> index 1a555f70923a..ff344313860c 100644
-> --- a/drivers/video/fbdev/matrox/matroxfb_base.c
-> +++ b/drivers/video/fbdev/matrox/matroxfb_base.c
-> @@ -1376,6 +1376,12 @@ static struct video_board vbG200 = {
->  	.accelID = FB_ACCEL_MATROX_MGAG200,
->  	.lowlevel = &matrox_G100
->  };
-> +static struct video_board vbG200eW = {
-> +	.maxvram = 0x800000,
-> +	.maxdisplayable = 0x800000,
-> +	.accelID = FB_ACCEL_MATROX_MGAG200,
-> +	.lowlevel = &matrox_G100
-> +};
->  /* from doc it looks like that accelerator can draw only to low 16MB :-( Direct accesses & displaying are OK for
->     whole 32MB */
->  static struct video_board vbG400 = {
-> @@ -1494,6 +1500,13 @@ static struct board {
->  		MGA_G200,
->  		&vbG200,
->  		"MGA-G200 (PCI)"},
-> +	{PCI_VENDOR_ID_MATROX,	0x0532,	0xFF,
-> +		0,			0,
-> +		DEVF_G200,
-> +		250000,
-> +		MGA_G200,
-> +		&vbG200eW,
-> +		"MGA-G200eW (PCI)"},
->  	{PCI_VENDOR_ID_MATROX,	PCI_DEVICE_ID_MATROX_G200_AGP,	0xFF,
->  		PCI_SS_VENDOR_ID_MATROX,	PCI_SS_ID_MATROX_GENERIC,
->  		DEVF_G200,
-> @@ -2136,6 +2149,8 @@ static const struct pci_device_id matroxfb_devices[] = {
->  		PCI_ANY_ID,	PCI_ANY_ID,	0, 0, 0},
->  	{PCI_VENDOR_ID_MATROX,	PCI_DEVICE_ID_MATROX_G200_PCI,
->  		PCI_ANY_ID,	PCI_ANY_ID,	0, 0, 0},
-> +	{PCI_VENDOR_ID_MATROX,	0x0532,
-> +		PCI_ANY_ID,	PCI_ANY_ID,	0, 0, 0},
->  	{PCI_VENDOR_ID_MATROX,	PCI_DEVICE_ID_MATROX_G200_AGP,
->  		PCI_ANY_ID,	PCI_ANY_ID,	0, 0, 0},
->  	{PCI_VENDOR_ID_MATROX,	PCI_DEVICE_ID_MATROX_G400,
+> diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
+> index 3af00e3..ccf888e 100644
+> --- a/drivers/video/fbdev/aty/radeon_base.c
+> +++ b/drivers/video/fbdev/aty/radeon_base.c
+> @@ -849,12 +849,6 @@ static int radeonfb_check_var (struct fb_var_screeninfo *var, struct fb_info *in
+>  		case 9 ... 16:
+>  			v.bits_per_pixel = 16;
+>  			break;
+> -		case 17 ... 24:
+> -#if 0 /* Doesn't seem to work */
+> -			v.bits_per_pixel = 24;
+> -			break;
+> -#endif			
+> -			return -EINVAL;
+>  		case 25 ... 32:
+>  			v.bits_per_pixel = 32;
+>  			break;
+> @@ -2548,16 +2542,6 @@ static void radeonfb_pci_unregister(struct pci_dev *pdev)
+>  	if (rinfo->mon2_EDID)
+>  		sysfs_remove_bin_file(&rinfo->pdev->dev.kobj, &edid2_attr);
+>  
+> -#if 0
+> -	/* restore original state
+> -	 * 
+> -	 * Doesn't quite work yet, I suspect if we come from a legacy
+> -	 * VGA mode (or worse, text mode), we need to do some VGA black
+> -	 * magic here that I know nothing about. --BenH
+> -	 */
+> -        radeon_write_mode (rinfo, &rinfo->init_state, 1);
+> - #endif
+> -
+>  	del_timer_sync(&rinfo->lvds_timer);
+>  	arch_phys_wc_del(rinfo->wc_cookie);
+>          unregister_framebuffer(info);
 > 
 _______________________________________________
 dri-devel mailing list
