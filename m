@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7411762B4
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 19:30:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6606176350
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 19:55:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA256E7D7;
-	Mon,  2 Mar 2020 18:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6973F6E5D4;
+	Mon,  2 Mar 2020 18:55:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA9B6E7D7
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 18:30:14 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id t12so561096vso.13
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 10:30:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fhVwHI4m+NKWdq6UEqPXB0tScwvkrZZVfitMyB5ousc=;
- b=V+d+kvG4Xs946xPXOO9vu1l1j4QPYW+StJFdPGouLeZzguRNcFs0a3Ik2oZ1Pc36+d
- j6kDk3qbNqXp5x0YNJWGOmypJdg8Dguc1+U4LKyvRjpWody7zXQV26s3A9mdGUjRr449
- GyWLsPDn1VvifXkhRQL2JrzK/dro2kKqvq8XNC1tZkLrB8E0A3ZXMbteaQtUmOUczqWc
- jxyXcWENv2uY7nY2M83VQ4sBM+MI0cHtHzXrcdiPxqgWIm5ZounAyzqwIQaWfr5Otm2r
- eSs2sgVtwo9w2xvvzNYy1kXwQUvJEsl8teBJL87jcvcg1HaXEBeWhLwFsxRp/GKlHx6j
- q/jg==
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 601B46E5D4
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 18:55:05 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id v10so352690otp.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 10:55:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fhVwHI4m+NKWdq6UEqPXB0tScwvkrZZVfitMyB5ousc=;
- b=dNtzB5S+V7AkGz4fGs71KWNQhOrC9SVMhQl4QocIl17MwPyPzX9cJhornUqqttq85i
- wU+/KIoGVI3zQeNNa8Lvcn1CdJMDJ8jF3Rr859NV5+qnw118wzCWIfYOxMB59z9aK0L/
- FQGnc91y3ghmiq+QR3BvdpphFnfkYic3vJUrsYbkFtkG0+LeaU0INFVFoa0/qdK/kAZj
- rgHehTLv6f/nbopd6n5zSntFqqt25e5KtRVyhM3WYjWX3WIl/PZeSvAZrdP92epexBOV
- 5xvCp7PBydBViBp55lgM0kQaGgOqGnTa55B0jTbD2b+1eed0uEDCn3zFIsO5fbEOhG+R
- JalA==
-X-Gm-Message-State: ANhLgQ1cG285pdtq6slU9PXDok7TnkEFafYtfHTWciBTS+mS3n+yePiy
- 8JB1cfoSx6xTmSqjJ0cmckTxyGFPaaxJFD3fBN+Rfq1Y
-X-Google-Smtp-Source: ADFU+vsJ/7K4vYIDdzEKXt8TKME+KoPzdxCOSNyQTXXDg2vLmceRf2vV8+Ak8UuZ1rmCp9pdfSF8NNqJER24ZS4LUXQ=
-X-Received: by 2002:a67:8d43:: with SMTP id p64mr156299vsd.37.1583173813631;
- Mon, 02 Mar 2020 10:30:13 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=uWS79D/0ZLL0e/s1oUout/5p5w20WIJlmrFZDFmjEe4=;
+ b=YXhlZ047VjIkIS626T+x8G0z5DO2cfOXhOwQRTFtSmfygrALrt0DETwFlCfvdA36NP
+ CNAwKEh5mSXSsf6c+MhD3usqDW1VHiDBnrpsF/0tXPDp08RkIMkCOctsUDp4EWn6dQbp
+ 6QiqpPTpsQpFSX546nFK+5OwlK2+Ndd2seaRuq0Xq1Ye07/NlJyWE+VgMEuqAHmiRvDn
+ KTr9SahKCU8I0ZayaZQwAm3eyjAZaKKbBFvSE6tYDdCMPwSt7nei+VZmU3IYZO8Y+Jri
+ sX0qUjUyDmt0MJl9BTU8PquJAdueZAHbRm1M21RbuoMxOTwmT6ecc5ES7D0K8aiywPfb
+ qLPA==
+X-Gm-Message-State: ANhLgQ1c2JrS9eCAtwN0mwwIUJujWdykGstEykKl8E1TnDS1chlpM9Gd
+ zCCspUtqlgg87MZwd0KA/Q==
+X-Google-Smtp-Source: ADFU+vt2q1Eduhwf/PVNlCpfWIgnuXW91fEn1d40UCOZdJUjlTwYuw6/BVVLBJDj89BnwQ28P5Q3Hw==
+X-Received: by 2002:a05:6830:60b:: with SMTP id
+ w11mr468468oti.350.1583175304589; 
+ Mon, 02 Mar 2020 10:55:04 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id n64sm6852351otn.35.2020.03.02.10.55.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 10:55:04 -0800 (PST)
+Received: (nullmailer pid 994 invoked by uid 1000);
+ Mon, 02 Mar 2020 18:55:03 -0000
+Date: Mon, 2 Mar 2020 12:55:03 -0600
+From: Rob Herring <robh@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [RFC v2 1/8] dt-bindings: display: add ingenic-jz4780-lcd DT
+ Schema
+Message-ID: <20200302185503.GA32613@bogus>
+References: <cover.1582913973.git.hns@goldelico.com>
+ <b4a73a1c542fab9d05d12b56c547b555b6a9b062.1582913973.git.hns@goldelico.com>
 MIME-Version: 1.0
-References: <20200219132728.64083-1-emil.l.velikov@gmail.com>
-In-Reply-To: <20200219132728.64083-1-emil.l.velikov@gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 2 Mar 2020 18:29:42 +0000
-Message-ID: <CACvgo52MOoRzZjZ_mvmehpachB+Y0D+pXWtd5US6Q1o0JddQsw@mail.gmail.com>
-Subject: Re: [PATCH] drm: rework SET_MASTER and DROP_MASTER perm handling
-To: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Disposition: inline
+In-Reply-To: <b4a73a1c542fab9d05d12b56c547b555b6a9b062.1582913973.git.hns@goldelico.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,181 +63,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: devicetree@vger.kernel.org, Paul Boddie <paul@boddie.org.uk>,
+ Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>, kernel@pyra-handheld.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ linux-gpio@vger.kernel.org, "Eric W. Biederman" <ebiederm@xmission.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, letux-kernel@openphoenux.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Feb 2020 at 13:27, Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> From: Emil Velikov <emil.velikov@collabora.com>
->
-> This commit reworks the permission handling of the two ioctls. In
-> particular it enforced the CAP_SYS_ADMIN check only, if:
->  - we're issuing the ioctl from process other than the one which opened
-> the node, and
->  - we are, or were master in the past
->
-> This ensures that we:
->  - do not regress the systemd-logind style of DRM_MASTER arbitrator
->  - allow applications which do not use systemd-logind to drop their
-> master capabilities (and regain them at later point) ... w/o running as
-> root.
->
-> See the comment above drm_master_check_perm() for more details.
->
-> v1:
->  - Tweak wording, fixup all checks, add igt test
->
-> Cc: Adam Jackson <ajax@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Testcase: igt/core_setmaster/master-drop-set-user
-> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+On Fri, 28 Feb 2020 19:19:26 +0100, "H. Nikolaus Schaller" wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
+> 
+> Add DT bindings for the LCD controller on the jz4780 SoC
+> Based on .txt binding from Zubair Lutfullah Kakakhel
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+> Cc: H. Nikolaus Schaller <hns@goldelico.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
 > ---
->  drivers/gpu/drm/drm_auth.c  | 62 +++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_ioctl.c |  4 +--
->  include/drm/drm_file.h      | 11 +++++++
->  3 files changed, 75 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> index cc9acd986c68..b26986bca271 100644
-> --- a/drivers/gpu/drm/drm_auth.c
-> +++ b/drivers/gpu/drm/drm_auth.c
-> @@ -135,6 +135,7 @@ static int drm_set_master(struct drm_device *dev, struct drm_file *fpriv,
->                 }
->         }
->
-> +       fpriv->was_master = (ret == 0);
->         return ret;
->  }
->
-> @@ -179,12 +180,67 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
->         return ret;
->  }
->
-> +/*
-> + * In the olden days the SET/DROP_MASTER ioctls used to return EACCES when
-> + * CAP_SYS_ADMIN was not set. This was used to prevent rogue applications
-> + * from becoming master and/or failing to release it.
-> + *
-> + * At the same time, the first client (for a given VT) is _always_ master.
-> + * Thus in order for the ioctls to succeed, one had to _explicitly_ run the
-> + * application as root or flip the setuid bit.
-> + *
-> + * If the CAP_SYS_ADMIN was missing, no other client could become master...
-> + * EVER :-( Leading to a) the graphics session dying badly or b) a completely
-> + * locked session.
-> + *
-> + *
-> + * As some point systemd-logind was introduced to orchestrate and delegate
-> + * master as applicable. It does so by opening the fd and passing it to users
-> + * while in itself logind a) does the set/drop master per users' request and
-> + * b)  * implicitly drops master on VT switch.
-> + *
-> + * Even though logind looks like the future, there are a few issues:
-> + *  - using it is not possible on some platforms
-> + *  - applications may not be updated to use it,
-> + *  - any client which fails to drop master* can DoS the application using
-> + * logind, to a varying degree.
-> + *
-> + * * Either due missing CAP_SYS_ADMIN or simply not calling DROP_MASTER.
-> + *
-> + *
-> + * Here we implement the next best thing:
-> + *  - ensure the logind style of fd passing works unchanged, and
-> + *  - allow a client to drop/set master, iff it is/was master at a given point
-> + * in time.
-> + *
-> + * As a result this fixes, the following when using root-less build w/o logind
-> + * - startx - some drivers work fine regardless
-> + * - weston
-> + * - various compositors based on wlroots
-> + */
-> +static int
-> +drm_master_check_perm(struct drm_device *dev, struct drm_file *file_priv)
-> +{
-> +       if (file_priv->pid == task_pid(current) && file_priv->was_master)
-> +               return 0;
-> +
-> +       if (!capable(CAP_SYS_ADMIN))
-> +               return -EACCES;
-> +
-> +       return 0;
-> +}
-> +
->  int drm_setmaster_ioctl(struct drm_device *dev, void *data,
->                         struct drm_file *file_priv)
->  {
->         int ret = 0;
->
->         mutex_lock(&dev->master_mutex);
-> +
-> +       ret = drm_master_check_perm(dev, file_priv);
-> +       if (ret)
-> +               goto out_unlock;
-> +
->         if (drm_is_current_master(file_priv))
->                 goto out_unlock;
->
-> @@ -229,6 +285,12 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
->         int ret = -EINVAL;
->
->         mutex_lock(&dev->master_mutex);
-> +
-> +       ret = drm_master_check_perm(dev, file_priv);
-> +       if (ret)
-> +               goto out_unlock;
-> +
-> +       ret = -EINVAL;
->         if (!drm_is_current_master(file_priv))
->                 goto out_unlock;
->
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index 9e41972c4bbc..73e31dd4e442 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -599,8 +599,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
->         DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_SET_SAREA_CTX, drm_legacy_setsareactx, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
->         DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_GET_SAREA_CTX, drm_legacy_getsareactx, DRM_AUTH),
->
-> -       DRM_IOCTL_DEF(DRM_IOCTL_SET_MASTER, drm_setmaster_ioctl, DRM_ROOT_ONLY),
-> -       DRM_IOCTL_DEF(DRM_IOCTL_DROP_MASTER, drm_dropmaster_ioctl, DRM_ROOT_ONLY),
-> +       DRM_IOCTL_DEF(DRM_IOCTL_SET_MASTER, drm_setmaster_ioctl, 0),
-> +       DRM_IOCTL_DEF(DRM_IOCTL_DROP_MASTER, drm_dropmaster_ioctl, 0),
->
->         DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_ADD_CTX, drm_legacy_addctx, DRM_AUTH|DRM_ROOT_ONLY),
->         DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_RM_CTX, drm_legacy_rmctx, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 19df8028a6c4..c4746c9d3619 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -201,6 +201,17 @@ struct drm_file {
->          */
->         bool writeback_connectors;
->
-> +       /**
-> +        * @was_master:
-> +        *
-> +        * This client has or had, master capability. Protected by struct
-> +        * &drm_device.master_mutex.
-> +        *
-> +        * This is used to ensure that CAP_SYS_ADMIN is not enforced, if the
-> +        * client is or was master in the past.
-> +        */
-> +       bool was_master;
-> +
->         /**
->          * @is_master:
->          *
-> --
-> 2.25.0
->
+>  .../bindings/display/ingenic-jz4780-lcd.yaml  | 78 +++++++++++++++++++
+>  1 file changed, 78 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
+> 
 
-Humble poke?
+My bot found errors running 'make dt_binding_check' on your patch:
 
--Emil
+Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.example.dt.yaml: example-0: 'jz4780-lcdk@0x13050000' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
+
+See https://patchwork.ozlabs.org/patch/1246780
+Please check and re-submit.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
