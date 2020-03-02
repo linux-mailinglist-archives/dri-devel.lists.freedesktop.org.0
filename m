@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492F2176710
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 23:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A77176713
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 23:27:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF036E891;
-	Mon,  2 Mar 2020 22:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C0E6E894;
+	Mon,  2 Mar 2020 22:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D8D86E891
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 22:27:03 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id z11so1828551wro.9
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 14:27:03 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 784806E884
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 22:27:04 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id v2so1793723wrp.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 14:27:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qGoGSbTNkZFx5tgvwlztmnRpHWHN6b2LbTM3vMG5+84=;
- b=OHB1yhJJQyPF9RAQLH9w/VcFkrWvYh2TZ1Trln+UpTqesvCShoqQC8+YnquSV6Wgft
- PygiY2PCq3B3nwWU6ZGFDOpYB38tNACZk/HHJdOu+xR/3QPR1gPnYYbmYnBLkWBNpwWF
- MUZG3+80XPk2rB43z7JJaV1bDhcmzbxKLuQKw=
+ bh=azWGJfq+4gUQku9CpJXjJjTVXvkNs3RIP5rZa0E3LE8=;
+ b=ZEYxEpN3h2Ishc/kIsXvbdv27Zb6F760M+mGaS8VZkVrfGD9AkUVNaObmVXd54WolO
+ leCH5BlaUAWlYcZVW7uQ26Vd9VQ8LaTJtjFxfAYS+8K2/+dOLu00iWmUp6q+0sh3Z2sj
+ u+dqZGxH4bbDwoBFlqP8Fridw4wX8NgcCU5Ck=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qGoGSbTNkZFx5tgvwlztmnRpHWHN6b2LbTM3vMG5+84=;
- b=L0oL+1DH+VN5pcdWeDl8Wfmm0ntWMeKh3ya1XmarKoO5LhDVngTuvulYOlohCUzq6M
- zTFXMpvYyvOi7qUU0wx2rSqqFCa3sWTHRFhkX6GrgVI7lqSaR8QiPSGW4V7TYfq2AL5y
- iRabkQ/L45HdymrL+7QIIH07BxV0z9oR2uM9wSrKF0FO3ghXWQ21qe3/e/3PP/CWsNS7
- SeEvoRTrzDXBGps6w2Yzt01jBimTKVtwT+HrP4NV0gzjUAME2AQd4ZDRyWq2qEGco9DT
- lGxRGofokC7HdtzjfFhz9hoL8xmBOQcEB0t2A0qQZPEc/5Nr/6KnXq9ME0diPNSuiXt+
- 4agA==
-X-Gm-Message-State: ANhLgQ2QLhxoO5pRKlHzu2DW891EyXSQMhr1bTpl9bpEWa5H90gqXtsH
- gdgkfErqptQs5O/l4upehzHrBVV9hVI=
-X-Google-Smtp-Source: ADFU+vsqOzAhs7HgIODTU4McCOgUs//E8Qeu4Bq2P4bSyyWOHs2d233jK+jilxH9Rkb2bX/aasSjdA==
-X-Received: by 2002:a5d:5609:: with SMTP id l9mr1554664wrv.48.1583188021723;
- Mon, 02 Mar 2020 14:27:01 -0800 (PST)
+ bh=azWGJfq+4gUQku9CpJXjJjTVXvkNs3RIP5rZa0E3LE8=;
+ b=DEqEuep64ULoHsR8c3G5hHjqf23hMQk6Y8l9g/IGL/SRiNMm7eNUuQ2NugoYmjAnOe
+ kETEXyOJNBS1uqAGGU0NIVcEl0fi3XGqQ2pD12vdRnU6N8T0hMMUj30hJVu8V0GaAZXz
+ 2lLZPrllKH0FwVTmCUJXq2fI/G6Bg0XI+mfu6JyeWF4j8FfSBI65YdSbTELPUg94sjf/
+ W3dL5G8/gmrhaxu4s7L2lLuVZzo5R1qXsS3RRnqUQQIiIkf5Ai9A6UvgSaGmfyWiOgsa
+ uPX+DPfcze+oNnBVGGvd/b5ZaH88nTI/TYxWb0ZK9T6TGkQuFSLKT9cIdaBqc3FlmJHh
+ sZ2Q==
+X-Gm-Message-State: ANhLgQ0Ewv8h6DMZ8b9PyArneQcLWvxrmJoFm3wBjliVQjIhdNPcEh8D
+ Oz5sjCc7XP8N7DpAfKocSvs9SCyMeq4=
+X-Google-Smtp-Source: ADFU+vvFrjcgVZFeJYQyIv/sqOGvHdt85ub/0aBlvt6zONAoEL3Thfgft0N7iA3hCThdrPL01V0jeg==
+X-Received: by 2002:a5d:5706:: with SMTP id a6mr1553765wrv.318.1583188022907; 
+ Mon, 02 Mar 2020 14:27:02 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o18sm26114589wrv.60.2020.03.02.14.27.00
+ by smtp.gmail.com with ESMTPSA id o18sm26114589wrv.60.2020.03.02.14.27.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 14:27:01 -0800 (PST)
+ Mon, 02 Mar 2020 14:27:02 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 16/51] drm/ingenic: Use drmm_add_final_kfree
-Date: Mon,  2 Mar 2020 23:25:56 +0100
-Message-Id: <20200302222631.3861340-17-daniel.vetter@ffwll.ch>
+Subject: [PATCH 17/51] drm/gm12u320: Use drmm_add_final_kfree
+Date: Mon,  2 Mar 2020 23:25:57 +0100
+Message-Id: <20200302222631.3861340-18-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
 References: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
@@ -63,10 +63,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Hans de Goede <hdegoede@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -74,45 +74,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 With this we can drop the final kfree from the release function.
 
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tiny/gm12u320.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
-index 9dfe7cb530e1..e2c832eb4e9a 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
-@@ -23,6 +23,7 @@
- #include <drm/drm_fourcc.h>
+diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+index a48173441ae0..524ca0941cf9 100644
+--- a/drivers/gpu/drm/tiny/gm12u320.c
++++ b/drivers/gpu/drm/tiny/gm12u320.c
+@@ -19,6 +19,7 @@
+ #include <drm/drm_gem_shmem_helper.h>
  #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_irq.h>
+ #include <drm/drm_ioctl.h>
 +#include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_plane.h>
-@@ -490,11 +491,8 @@ static irqreturn_t ingenic_drm_irq_handler(int irq, void *arg)
- 
- static void ingenic_drm_release(struct drm_device *drm)
- {
--	struct ingenic_drm *priv = drm_device_get_priv(drm);
--
- 	drm_mode_config_cleanup(drm);
- 	drm_dev_fini(drm);
--	kfree(priv);
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+@@ -637,7 +638,6 @@ static void gm12u320_driver_release(struct drm_device *dev)
+ 	gm12u320_usb_free(gm12u320);
+ 	drm_mode_config_cleanup(dev);
+ 	drm_dev_fini(dev);
+-	kfree(gm12u320);
  }
  
- static int ingenic_drm_enable_vblank(struct drm_crtc *crtc)
-@@ -639,6 +637,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 		kfree(priv);
+ DEFINE_DRM_GEM_FOPS(gm12u320_fops);
+@@ -692,6 +692,7 @@ static int gm12u320_usb_probe(struct usb_interface *interface,
  		return ret;
  	}
-+	drmm_add_final_kfree(drm, priv);
+ 	dev->dev_private = gm12u320;
++	drmm_add_final_kfree(dev, gm12u320);
  
- 	drm_mode_config_init(drm);
- 	drm->mode_config.min_width = 0;
+ 	drm_mode_config_init(dev);
+ 	dev->mode_config.min_width = GM12U320_USER_WIDTH;
 -- 
 2.24.1
 
