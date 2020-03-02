@@ -1,48 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A571770FE
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E900E177102
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D666E9E5;
-	Tue,  3 Mar 2020 08:24:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ADFF6E9F1;
+	Tue,  3 Mar 2020 08:24:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5300::11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBE346E845
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 21:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583184269;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=k714avCRtMuUJjYBC8ACupkjAbYu1Z+/DP8w0F/Aq+w=;
- b=Tc3GdUe8W4+YuWsT4rL4m8QjIqIMDk6he7iltBKxGPPUV2Ee2inlOyDj+2nXKaHmxG
- 9bB0bZgAsOMtVCxEgpoPhv3GRC1TKLLKJK4rYCAMwGSAPenBybW2T/W5FF5JCz2CB4on
- QWWGsMTwF7usma1g/JxMtUsSvG0H4Baee4dJ4QLnvJlhBRSiASoPCi/RAJRijyRcJb81
- QVSFBAzyHm7OFgRu2mCZZLR+e4UMhCZ5wqO8dqLbebpRfeVtzKMPtUIcFdkh3kam0CsD
- pGXY26AGj0SUcrrM9IxzYLlKPZ8fh7kBIZCeRb2ooeV3MIXh0Yvgsg86zLCVWgmmHlCX
- Lo/Q==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlaeXAoE1Q=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw22LOFFAa
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 2 Mar 2020 22:24:15 +0100 (CET)
-Subject: Re: [PATCH 24/33] drm/panel-simple: Fix dotclock for Ortustech
- COM37H3M
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200302203452.17977-25-ville.syrjala@linux.intel.com>
-Date: Mon, 2 Mar 2020 22:24:14 +0100
-Message-Id: <4320E187-FAA1-4033-A02C-7DA1F9B68A52@goldelico.com>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-25-ville.syrjala@linux.intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
+ [IPv6:2607:f8b0:4864:20::a41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 624AA6E127
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 22:21:40 +0000 (UTC)
+Received: by mail-vk1-xa41.google.com with SMTP id o2so296815vka.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 14:21:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=H/ZXePw08jIq7OBB1YUZ7Aye4n93ozY+7PwFaAkmQrs=;
+ b=e0zMyqz+F+6zRjoWtD/mmEgf34GKDHSCQlnC/uFR2APNtgaNTLYdn/QIN8teuoIAIM
+ rff9jQj/X45gNaRymYGKIMomIBf61QRu0cSWCxImAgLP2bGNh7kxVBOw9RxTu3c/ObV9
+ w6VlRCQMySed3qvqkTtidujVwrsaEQIQO2ye2MqYmi/E97frP8ZV4KBO/a6zgm7b5gDy
+ fi7YE9kwimD1YdzUI/ow0fLyrYA4zPh63n6XoJUb7TrsyOTHqtwjnkvWjMfi560AYAe1
+ nhM+BOAVhrxNIhnQoGdJw164oDxtFr1/SVpWWMI74s4/mGAfgAiiY3xH+RUsO/p6kIBU
+ d1pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=H/ZXePw08jIq7OBB1YUZ7Aye4n93ozY+7PwFaAkmQrs=;
+ b=SwpzBhlhnxphTwl7p1CZ2C6E1REDB7CCq/U2m8jNArdkzI7A8p0CT2bDcY5l7YEOtO
+ JGoQ0m4oTb9gEzln739mfO5MYCY1CWoxraX4jBZIiL9Ci/LsAI3FRZKM47PKdMJDeXjZ
+ QSzeQeXS4pNhsLHGjlCFfxLsVfbqUSnymMe/kyUZx0WKC6Fpv5gBKVlw65pGXGYjqT+T
+ /DJjsIXvHtd23yHc8l4k3TdJ93za/ao4z/XKqwlo3xMZKZV6eSG4q8R4u/7c+O+Z7DCz
+ TPx796fqGpOwM7dK2XoZZLTePxdubypH3KK18mWa8XA1GVGbqhJ0c3ChrmGyLH6FUvTq
+ M1tQ==
+X-Gm-Message-State: ANhLgQ0Y6e6mStbvpjod2enNIHj9aO4cS0nsGhWqU3clN0z2kTxCjYnq
+ /7pTLt4nD3Rxx/0DJ+o0p9ilaejCEVtGuoQAzqc=
+X-Google-Smtp-Source: ADFU+vtgTWEvlHrNTmJtHyKDJof9QYg21GqyVkzf3O6lrAwFQuvxk7BBzUe3gFp1CedXXmdr/MQo9bYXpNXIavJAaGY=
+X-Received: by 2002:a1f:284:: with SMTP id 126mr151121vkc.16.1583187699557;
+ Mon, 02 Mar 2020 14:21:39 -0800 (PST)
+MIME-Version: 1.0
+References: <20200227210454.18217-1-alistair.francis@wdc.com>
+ <20200228095748.uu4sqkz6y477eabc@sirius.home.kraxel.org>
+In-Reply-To: <20200228095748.uu4sqkz6y477eabc@sirius.home.kraxel.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 2 Mar 2020 14:14:02 -0800
+Message-ID: <CAKmqyKOTjyRL9vxZrZW8Q+yBM0n-Nw-o-Cn3dUDDfAAa7Nswrg@mail.gmail.com>
+Subject: Re: [PATCH] drm/bochs: Remove vga write
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,65 +62,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, Khem Raj <raj.khem@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVmlsbGUsCgo+IEFtIDAyLjAzLjIwMjAgdW0gMjE6MzQgc2NocmllYiBWaWxsZSBTeXJqYWxh
-IDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT46Cj4gCj4gRnJvbTogVmlsbGUgU3lyasOk
-bMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiAKPiBUaGUgY3VycmVudGx5IGxp
-c3RlZCBkb3RjbG9jayBkaXNhZ3JlZXMgd2l0aCB0aGUgY3VycmVudGx5Cj4gbGlzdGVkIHZyZWZy
-ZXNoIHJhdGUuIENoYW5nZSB0aGUgZG90Y2xvY2sgdG8gbWF0Y2ggdGhlIHZyZWZyZXNoLgo+IAo+
-IFNvbWVvbmUgdGVsbCBtZSB3aGljaCAoaWYgZWl0aGVyKSBvZiB0aGUgZG90Y2xvY2sgb3IgdnJl
-cmVzaCBpcwo+IGNvcnJlY3Q/CgpEYXRhIHNoZWV0IG9mIENPTTM3SDNNOTlEVEMgc2F5czoKCgkJ
-CU1JTglUWVAJTUFYCkNMSyBmcmVxdWVuY3kgCWZDTEsJMTgJMTkuOAkyNwlNSHoKVlNZTkMgRnJl
-cXVlbmN5CWZWU1lOQwk1NAk2MAk2NglIegpWU1lOQyBjeWNsZSB0aW1lIHR2CTY0Ngk2NTAJNzAw
-CUgKSFNZTkMgZnJlcXVlbmN5CWZIU1lOQwktLQkzOS4wCTUwLjAJS2h6CkhTWU5DIGN5Y2xlIHRp
-bWUgdGgJNTA0CTUwOAk2MzAJQ0xLCgpCdXQgZGF0YSBzaGVldCBvZiBDT00zN0gzTTA1RFRDIHNh
-eXMKCgkJCU1JTglUWVAJTUFYCkNMSyBmcmVxdWVuY3kgCWZDTEsJLS0JMjIuNAkyNi4zCU1IeiAo
-aW4gVkdBIG1vZGUgLSB0aGVyZSBpcyBhbHNvIGFuIFFWR0EgbW9kZSkKVlNZTkMgRnJlcXVlbmN5
-CWZWU1lOQwk1NAk2MAk2NglIegpWU1lOQyBjeWNsZSB0aW1lIHR2CS0tCTY1MAktLQlICkhTWU5D
-IGZyZXF1ZW5jeQlmSFNZTkMJLS0JMzkuMwktLQlLaHoKSFNZTkMgY3ljbGUgdGltZSB0aAktLQk1
-NzAJLS0JQ0xLCgpTbyB0aGVyZSBhcmUgdHdvIGRpZmZlcmVudCBzdWJ2YXJpYW50cyBvZiB0aGUg
-c2FtZSBwYW5lbC4KCklmIEkgcmVtZW1iZXIgY29ycmVjdGx5LCB0aGUgMDUgaXMgb2xkZXIgKEFw
-cmlsIDIwMTApCmFuZCB0aGUgOTlEVEMgbmV3ZXIgKERlYyAyMDExKS4KClNvIDIyIE1IeiBpc24n
-dCBvdXRzaWRlIG9mIGVpdGhlciBzcGVjIGJ1dCBtYXkgYmUgaGlnaGVyCnRoYW4gbmVlZGVkIGZv
-ciB0aGUgOTlEVEMuIEkuZS4gdGhlIHBhbmVsIGlzIHByb2JhYmx5CnJ1bm5pbmcgYXQgaGlnaGVy
-IGZyYW1lIHJhdGUgdGhhbiA2MCBmcHMuCgpIbS4gSSB0aGluayB3ZSBzaG91bGQgZGVmaW5lIHNv
-bWUgY29tcHJvbWlzZS4gSS5lLgoKLmNsb2NrID0gMjIyMzAKLnZyZWZyZXNoID0gNjAKLnZ0b3Rh
-bCA9IDY1MAouaHRvdGFsID0gNTcwCgpQcm9iYWJseSB3ZSBvcmlnaW5hbGx5IHRyaWVkIHRvIGRv
-IHRoaXMgd2l0aCB0aGUgcGFyYW1ldGVyCnNldCBidXQgZ290IHNvbWV0aGluZyB3cm9uZy4KCklm
-IHlvdSBhZ3JlZSB3aXRoIHRoaXMgYXBwcm9hY2gsIEkgY2FuIHRyeSB0byBmaWd1cmUgb3V0CnRo
-ZSBvdGhlciBwYXJhbWV0ZXJzIHNvIHRoYXQgdGhleSBzaG91bGQgZml0IGJvdGggcGFuZWwKdmFy
-aWFudHMuIEkgY2FuIG9ubHkgdGVzdCB3aXRoIENPTTM3SDNNOTlEVEMgc2luY2UgSQpkbyBubyBs
-b25nZXIgaGF2ZSBhIGRldmljZSB3aXRoIENPTTM3SDNNMDVEVEMuCgpJbiBnZW5lcmFsIGl0IHNl
-ZW1zIHRoYXQgdGhlIHN0cnVjdHVyZSBkcm1fZGlzcGxheV9tb2RlCmlzIG92ZXJkZXRlcm1pbmVk
-LgoKRWl0aGVyIC5jbG9jayBjb3VsZCBiZSBjYWxjdWxhdGVkIGZyb20gLnZyZWZyZXNoIChhbmQK
-dGhlIG90aGVyIC52dG90YWwgYW5kIC5odG90YWwpIG9yIHZpY2UgdmVyc2EgbGlrZSBJCmRpZCBm
-b3IgdGhlIHByb3Bvc2FsIGFib3ZlLgoKSSBoYXZlbid0IGxvb2tlZCBpbnRvIHRoZSBkcml2ZXIg
-Y29kZSwgYnV0IHdvdWxkIGl0IGJlCnBvc3NpYmxlIHRvIHNwZWNpZnkgLmNsb2NrID0gMCAob3Ig
-bGVhdmUgaXQgb3V0KSB0bwpjYWxjdWxhdGUgaXQgYm90dG9tIHVwPyBUaGlzIHdvdWxkIGF2b2lk
-IHN1Y2ggaW5jb25zaXN0ZW5jaWVzLgoKT24gdGhlIG90aGVyIGhhbmQgaXQgaXMgbm90IGVhc2ls
-eSB2aXNpYmxlIGFueSBtb3JlCmZyb20gdGhlIGNvZGUgaWYgdGhlIGNsb2NrIGlzIGluIHJhbmdl
-IG9mIHRoZSBkYXRhCnNoZWV0IGxpbWl0cy4KCkJSIGFuZCB0aGFua3MsCk5pa29sYXVzCgo+IAo+
-IENjOiBILiBOaWtvbGF1cyBTY2hhbGxlciA8aG5zQGdvbGRlbGljby5jb20+Cj4gQ2M6IFNhbSBS
-YXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rs
-w6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IC0tLQo+IGRyaXZlcnMvZ3B1L2Ry
-bS9wYW5lbC9wYW5lbC1zaW1wbGUuYyB8IDIgKy0KPiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Bh
-bmVsL3BhbmVsLXNpbXBsZS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5j
-Cj4gaW5kZXggY2E3MmI3MzQwOGU5Li5mOWI0Zjg0YmZmYjMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Bh
-bmVsL3BhbmVsLXNpbXBsZS5jCj4gQEAgLTI2MTcsNyArMjYxNyw3IEBAIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgcGFuZWxfZGVzYyBvbnRhdF95eDcwMHd2MDMgPSB7Cj4gfTsKPiAKPiBzdGF0aWMgY29u
-c3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgb3J0dXN0ZWNoX2NvbTM3aDNtX21vZGUgID0gewo+
-IC0JLmNsb2NrID0gMjIxNTMsCj4gKwkuY2xvY2sgPSAxOTg0MiwKPiAJLmhkaXNwbGF5ID0gNDgw
-LAo+IAkuaHN5bmNfc3RhcnQgPSA0ODAgKyA4LAo+IAkuaHN5bmNfZW5kID0gNDgwICsgOCArIDEw
-LAo+IC0tIAo+IDIuMjQuMQo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+On Fri, Feb 28, 2020 at 1:57 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Thu, Feb 27, 2020 at 01:04:54PM -0800, Alistair Francis wrote:
+> > The QEMU model for the Bochs display has no VGA memory section at offset
+> > 0x400 [1]. By writing to this register Linux can create a write to
+> > unassigned memory which depending on machine and architecture can result
+> > in a store fault.
+> >
+> > I don't see any reference to this address at OSDev [2] or in the Bochs
+> > source code.
+> >
+> > Removing this write still allows graphics to work inside QEMU with
+> > the bochs-display.
+>
+> It's not that simple.  The driver also handles the qemu stdvga (-device
+> VGA, -device secondary-vga) which *does* need the vga port write.
+> There is no way for the guest to figure whenever the device is
+> secondary-vga or bochs-display.
+>
+> So how about fixing things on the host side?  Does qemu patch below
+> help?
+
+That patch looks like it will fix the problem, but it doesn't seem
+like the correct fix. I would rather avoid adding a large chunk of
+dummy I/O to handle the two devices.
+
+>
+> Maybe another possible approach is to enable/disable vga access per
+> arch.  On x86 this doesn't cause any problems.  I guess you are on
+> risc-v?
+
+I would prefer this option. I do see this on RISC-V, but I suspect the
+issue will appear on other architectures (although how they handle I/O
+failures in QEMU is a different story).
+
+Can I just do the VGA write if x86?
+
+Alistair
+
+>
+> cheers,
+>   Gerd
+>
+> diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
+> index 62085f9fc063..e93e838243b8 100644
+> --- a/hw/display/bochs-display.c
+> +++ b/hw/display/bochs-display.c
+> @@ -151,6 +151,26 @@ static const MemoryRegionOps bochs_display_qext_ops = {
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>  };
+>
+> +static uint64_t dummy_read(void *ptr, hwaddr addr, unsigned size)
+> +{
+> +    return -1;
+> +}
+> +
+> +static void dummy_write(void *ptr, hwaddr addr,
+> +                        uint64_t val, unsigned size)
+> +{
+> +}
+> +
+> +static const MemoryRegionOps dummy_ops = {
+> +    .read = dummy_read,
+> +    .write = dummy_write,
+> +    .valid.min_access_size = 1,
+> +    .valid.max_access_size = 4,
+> +    .impl.min_access_size = 1,
+> +    .impl.max_access_size = 1,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+>  static int bochs_display_get_mode(BochsDisplayState *s,
+>                                     BochsDisplayMode *mode)
+>  {
+> @@ -284,8 +304,8 @@ static void bochs_display_realize(PCIDevice *dev, Error **errp)
+>      memory_region_init_io(&s->qext, obj, &bochs_display_qext_ops, s,
+>                            "qemu extended regs", PCI_VGA_QEXT_SIZE);
+>
+> -    memory_region_init(&s->mmio, obj, "bochs-display-mmio",
+> -                       PCI_VGA_MMIO_SIZE);
+> +    memory_region_init_io(&s->mmio, obj, &dummy_ops, NULL,
+> +                          "bochs-display-mmio", PCI_VGA_MMIO_SIZE);
+>      memory_region_add_subregion(&s->mmio, PCI_VGA_BOCHS_OFFSET, &s->vbe);
+>      memory_region_add_subregion(&s->mmio, PCI_VGA_QEXT_OFFSET, &s->qext);
+>
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
