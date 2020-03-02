@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C7C1756D8
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 10:21:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1861756DA
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 10:22:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1436E185;
-	Mon,  2 Mar 2020 09:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEDA26E1E6;
+	Mon,  2 Mar 2020 09:22:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFD406E185
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 09:21:50 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6E8054A;
- Mon,  2 Mar 2020 10:21:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1583140909;
- bh=8sq1wDdWf+IVF9oWteFhFDTlL94c/C1RhHDt8Q2EhfI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OoC7vyuscxZDXqoEVaQGvn9gvbAyD6h838LS8clufvzeozKixYdGRw7UItBlKPtZ9
- NDFyfW1oHzTXMajaI3mWvg4qdNBz9fSu1M5yDCA1tCILZy2ywcAB+z5Jf9CSoZaluh
- FZQbY2dC1sPD0sDcw0mYh4Gp6eo/zMFnnHKzzXVY=
-Date: Mon, 2 Mar 2020 11:21:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [PATCH 1/4] drm/bridge: dw-hdmi: fix AVI frame colorimetry
-Message-ID: <20200302092124.GD11960@pendragon.ideasonboard.com>
-References: <20200229163043.158262-1-jernej.skrabec@siol.net>
- <20200229163043.158262-2-jernej.skrabec@siol.net>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BAF76E192;
+ Mon,  2 Mar 2020 09:22:07 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2020 01:22:06 -0800
+X-IronPort-AV: E=Sophos;i="5.70,506,1574150400"; d="scan'208";a="233098829"
+Received: from unknown (HELO localhost) ([10.252.41.100])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2020 01:22:03 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 03/51] drm: add managed resources tied to drm_device
+In-Reply-To: <CAKMK7uEYxM8BAsp+DHUxw+qdE_B3J+ePAxC-j0V+v+J6trffgw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
+ <20200227181522.2711142-4-daniel.vetter@ffwll.ch>
+ <20200228224504.GA23961@ravnborg.org>
+ <CAKMK7uHPWZ=F2EyqnM7x1GpXY_SGu3e_jGXX4cg0OGyx_+C8ig@mail.gmail.com>
+ <20200229111710.GB3674@ravnborg.org>
+ <CAKMK7uEYxM8BAsp+DHUxw+qdE_B3J+ePAxC-j0V+v+J6trffgw@mail.gmail.com>
+Date: Mon, 02 Mar 2020 11:22:34 +0200
+Message-ID: <87blpfqffp.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200229163043.158262-2-jernej.skrabec@siol.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,95 +47,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jernej,
+On Sat, 29 Feb 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> On Sat, Feb 29, 2020 at 12:17 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>> The header-check infrastructure was dropped again - see:
+>> fcbb8461fd2376ba3782b5b8bd440c929b8e4980
+>
+> Uh I'm disappoint :-/
 
-Thank you for the patch.
+To say the least. I thought it was a good *opt-in* feature for whoever
+wanted it. But the part that got the backlash was applying it to
+absolutely everything under include/. And then it got removed
+altogether. From one extreme to the other. Nuts.
 
-On Sat, Feb 29, 2020 at 05:30:40PM +0100, Jernej Skrabec wrote:
-> CTA-861-F explicitly states that for RGB colorspace colorimetry should
-> be set to "none". Fix that.
-> 
-> Fixes: def23aa7e982 ("drm: bridge: dw-hdmi: Switch to V4L bus format and encodings")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> Adding Jani in case he missed this too. I guess maybe we should
+> resurrect it for drm again (and with a file pattern starting in a
+> .dot).
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+We have a local implementation in i915/Makefile again. It uses 'find' to
+find the headers which is fine in i915, but the parameters need to be
+adjusted for drm to not be recursive. -maxdepth 1 or something. Also
+need to add another local config option. Sad trombone.
 
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 46 +++++++++++++----------
->  1 file changed, 26 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 67fca439bbfb..24965e53d351 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -1624,28 +1624,34 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
->  		frame.colorspace = HDMI_COLORSPACE_RGB;
->  
->  	/* Set up colorimetry */
-> -	switch (hdmi->hdmi_data.enc_out_encoding) {
-> -	case V4L2_YCBCR_ENC_601:
-> -		if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV601)
-> -			frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
-> -		else
-> +	if (!hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-> +		switch (hdmi->hdmi_data.enc_out_encoding) {
-> +		case V4L2_YCBCR_ENC_601:
-> +			if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV601)
-> +				frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
-> +			else
-> +				frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
-> +			frame.extended_colorimetry =
-> +					HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
-> +			break;
-> +		case V4L2_YCBCR_ENC_709:
-> +			if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV709)
-> +				frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
-> +			else
-> +				frame.colorimetry = HDMI_COLORIMETRY_ITU_709;
-> +			frame.extended_colorimetry =
-> +					HDMI_EXTENDED_COLORIMETRY_XV_YCC_709;
-> +			break;
-> +		default: /* Carries no data */
->  			frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
-> +			frame.extended_colorimetry =
-> +					HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
-> +			break;
-> +		}
-> +	} else {
-> +		frame.colorimetry = HDMI_COLORIMETRY_NONE;
->  		frame.extended_colorimetry =
-> -				HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
-> -		break;
-> -	case V4L2_YCBCR_ENC_709:
-> -		if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV709)
-> -			frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
-> -		else
-> -			frame.colorimetry = HDMI_COLORIMETRY_ITU_709;
-> -		frame.extended_colorimetry =
-> -				HDMI_EXTENDED_COLORIMETRY_XV_YCC_709;
-> -		break;
-> -	default: /* Carries no data */
-> -		frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
-> -		frame.extended_colorimetry =
-> -				HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
-> -		break;
-> +			HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
->  	}
->  
->  	frame.scan_mode = HDMI_SCAN_MODE_NONE;
+>> > > > +     /**
+>> > > > +      * @managed:
+>> > > > +      *
+>> > > > +      * Managed resources linked to the lifetime of this &drm_device as
+>> > > > +      * tracked by @ref.
+>> > > > +      */
+>> > > > +     struct {
+>> > > > +             struct list_head resources;
+>> > > > +             void *final_kfree;
+>> > > > +             spinlock_t lock;
+>> > > > +     } managed;
+>> > >
+>> > > I am missing kernel-doc here.
+>> > > At least document that lock is used to guard access to resources.
+>> > > (s/lock/lock_resources/ ?)
+>> >
+>> > Dunno why, but the support for name sub-structures seems to have
+>> > broken in kerneldoc. So I can type it, but it's not showing up, so I
+>> > didn't bother. Well I had it, but deleted it again. It's still
+>> > documented to work, but I have no idea what I'm doing wrong.
+>>
+>> Most readers prefer the .c files as the source.
+>> I personally read the generated kernel doc when I google
+>> and when I check that my own stuff looks good in kernel-doc format.
+>> So comments are still valueable despite not being picked up by
+>> kernel-doc.
+>> You know this - but I just wanted to encourage you to write the few
+>> lines that may help me and others :-)
+>
+> Hm I thought way back this actually worked. Again ping for Jani, he's
+> better on top of what's happening in kernel-doc land.
+
+I haven't really been all that active lately, but I think the syntax
+here would be e.g. "@managed.resources:".
+
+BR,
+Jani.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
