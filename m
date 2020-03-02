@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0E01756FA
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 10:26:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11AD71756FE
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 10:26:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D54289DC7;
-	Mon,  2 Mar 2020 09:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4628F6E1BE;
+	Mon,  2 Mar 2020 09:26:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 230B089DC7
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 09:26:12 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id z11so2814917wro.9
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 01:26:12 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBD026E1BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 09:26:50 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id y17so11587427wrn.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 01:26:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Otd+2152rRtQnzoUgGHPsYx66kNVuGqUclfhGj0NLUA=;
- b=1teSjssvsaH7hIe4HAJBUJpl2ckFSNPVRb78BXbXoahu1wvcX8EH61Ur8KuUenltgh
- 41t8760hA57MzaopAprS8cE2r9ldIyVMqlj4HkfAAtKBiftlMheq0SxsKXZuJWjdN8bP
- Wn71e1RtG04RBaiEk1vwsXF3FxIgr2Bkd22Rdj72s3hgwOHHC08ckJjqbqfdmbqL334O
- ux+LdtUBxLnK5aukxc5tkE9YCE1C1bRoAW/PT6RkgY3xUy9P0SL3i/JY7XFqTJtb8R8c
- JDVuyfStaJJl/9/z3e3jAWnswVTw+CaX5rFjWMVgPRbETbuiKuIvW/2fOzd9pbPTkN6Q
- scaA==
+ bh=odN7VIIAGG30LyJT5ICuMcsyck6gLfMl/4VsCUIRVNo=;
+ b=CGFAv9xg/sCEKeEXKkTqk2IAfVNn3xocSEcy2lbCez3sQdKOBT204/V6BSyfYRnvz8
+ ZXkci+j9lPM/uQx0sf4o0d+rUII2WgwYc8P22F5tVmzWbsLfDClExQolFquJOJMSFYyy
+ iTUsDi2cQdY+yvFKvohArNppwq3aXSbbxF9fw9/kZBsQePo1R/MAhDqB+FLCibowm7gi
+ Wc2qqdWLy3Uk2lnd2jV1ov8n5hIYNNHJquMa3lj4hZa/Pi3gWuKp7bone2i3tKAkmm6r
+ +12MBMDGz9furUKGTwVTUix7reBMDInxXloCYqkUArzLu4FSk6CEdrrkKMfbZtCOxhuX
+ 6xJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Otd+2152rRtQnzoUgGHPsYx66kNVuGqUclfhGj0NLUA=;
- b=mtw6kqdPUXsEBsn4PrMbZdx0tNh5LrvR9nLa1AzCDRGRpIJAlZe4CtwG4J+2E0ue4A
- 1UthjK+2fzWg1N6d436ioZI2BR6ExF0j94h+PuS69fX3pGu+ZxgfMzow7vPreogQEDdB
- Akn/sGlgqvg3u11aQHt1vIZN486QUb0crl6g+16dJkyDOFao6GCIAqBxgE53XDGOjCYv
- mvl9gTzc92M2RITqDMOCFIx4rcPkk7UpzyptMxQ4uVmzy6T3o/RNDKP5Sjv2idCAGsST
- Bwza07dHgymN7idtFcZPWBrZ40FQZWZBikE8kHKJOUKcHuPXKgJtanJbdcterbXImusB
- lIQg==
-X-Gm-Message-State: APjAAAWCqlqGw+kdwVFuuz4mzXvheWUtCZkHti5ruXpAc3rau7cTbG1y
- vaPCEypRVMJGsvEk6hFaSapDUQ==
-X-Google-Smtp-Source: APXvYqx3EQktFKEMGqWj3XyR24TDxFCPNc5fMY0K4EOnL5nmI4GL+hZ4biQxuqpiKv1KG/MHQwq07g==
-X-Received: by 2002:adf:fecf:: with SMTP id q15mr22442766wrs.360.1583141170604; 
- Mon, 02 Mar 2020 01:26:10 -0800 (PST)
+ bh=odN7VIIAGG30LyJT5ICuMcsyck6gLfMl/4VsCUIRVNo=;
+ b=uUdz/DcdkjXqw5bWKtWmQOMbKanyir3FiLvCfUAD5UeGU6tdGtWXk2hPYnIQwutKWb
+ ZhgGep0grIhJN0Q9vnJpcLpJOgjKfzld4YR3jN6Gib6UHRwruzwLFJjVRz4LauMh24ra
+ pKuPQzUoMmJT86T0/rNmgOFIslE7KtqMChlgV0RNneKKn7a7rOky4OYjZh6WpvJsawab
+ iEcZUvfEWyxvWj2Wzhg16Z0dkYDZTu2QVHf8jxcuchISYr0LCDjrq3AqqY+Vb6CFoGF8
+ 6JNCtltbHt2ne5hYrK0Qle5rBbulED/DUWej3I7WSFde5jeUOisPtDUm/KOTxQxTH7xN
+ cBAg==
+X-Gm-Message-State: APjAAAVOXygXKGcOYMjU8bmrIdU6H2Wua57QlzQmknTUiLahwJgVQx9P
+ lX1a242pbKEb43n3m/twGUK5YA==
+X-Google-Smtp-Source: APXvYqy/p3x6c5dr15YiRr5VLsO0CGllFoLr6FB4qXyKW0kA+uVsejIVLm/IlmlzQPHZfC7dzsnriA==
+X-Received: by 2002:a5d:4206:: with SMTP id n6mr20814584wrq.119.1583141209322; 
+ Mon, 02 Mar 2020 01:26:49 -0800 (PST)
 Received: from [10.1.3.173]
  (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id i7sm16942637wma.32.2020.03.02.01.26.09
+ by smtp.gmail.com with ESMTPSA id c4sm14549745wml.7.2020.03.02.01.26.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2020 01:26:10 -0800 (PST)
-Subject: Re: [PATCH 2/4] drm/bridge: dw-hdmi: Fix color space conversion
- detection
+ Mon, 02 Mar 2020 01:26:48 -0800 (PST)
+Subject: Re: [PATCH 3/4] drm/bridge: dw-hdmi: do not force "none" scan mode
 To: Jernej Skrabec <jernej.skrabec@siol.net>, a.hajda@samsung.com
 References: <20200229163043.158262-1-jernej.skrabec@siol.net>
- <20200229163043.158262-3-jernej.skrabec@siol.net>
+ <20200229163043.158262-4-jernej.skrabec@siol.net>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -105,12 +104,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <c1cbcdc0-61a7-e5cb-4ad0-7057c33da154@baylibre.com>
-Date: Mon, 2 Mar 2020 10:26:09 +0100
+Message-ID: <bda2ff74-9386-76cd-483b-ed147e794fc1@baylibre.com>
+Date: Mon, 2 Mar 2020 10:26:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200229163043.158262-3-jernej.skrabec@siol.net>
+In-Reply-To: <20200229163043.158262-4-jernej.skrabec@siol.net>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -131,45 +130,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jernej,
-
 On 29/02/2020 17:30, Jernej Skrabec wrote:
-> Currently, is_color_space_conversion() compares not only color spaces
-> but also formats. For example, function would return true if YCbCr 4:4:4
-> and YCbCr 4:2:2 would be set. Obviously in that case color spaces are
-> the same.
+> From: Jonas Karlman <jonas@kwiboo.se>
 > 
-> Fix that by comparing if both values represent RGB color space.
+> Setting scan mode to "none" confuses some TVs like LG B8, which randomly
+> change overscan procentage over time. Digital outputs like HDMI and DVI,
+> handled by this controller, don't really need overscan, so we can always
+> set scan mode to underscan. Actually, this is exactly what
+> drm_hdmi_avi_infoframe_from_display_mode() already does, so we can just
+> remove offending line.
 > 
-> Fixes: b21f4b658df8 ("drm: imx: imx-hdmi: move imx-hdmi to bridge/dw_hdmi")
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> [updated commit message]
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 24965e53d351..9d7bfb1cb213 100644
+> index 9d7bfb1cb213..3d6021119942 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -956,7 +956,8 @@ static void hdmi_video_sample(struct dw_hdmi *hdmi)
+> @@ -1655,8 +1655,6 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+>  			HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
+>  	}
 >  
->  static int is_color_space_conversion(struct dw_hdmi *hdmi)
->  {
-> -	return hdmi->hdmi_data.enc_in_bus_format != hdmi->hdmi_data.enc_out_bus_format;
-> +	return hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) !=
-> +		hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format);
->  }
->  
->  static int is_color_space_decimation(struct dw_hdmi *hdmi)
+> -	frame.scan_mode = HDMI_SCAN_MODE_NONE;
+> -
+>  	/*
+>  	 * The Designware IP uses a different byte format from standard
+>  	 * AVI info frames, though generally the bits are in the correct
 > 
 
-I think in this case you should also fix the CEC enablement to:
-if (is_color_space_conversion(hdmi) || is_color_space_decimation(hdmi))
-
-in dw_hdmi_enable_video_path() otherwise CSC won't be enabled and will be bypassed
-in decimation case only.
-
-Neil
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
