@@ -2,97 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07326175E90
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 16:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98F3175EBC
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 16:54:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05BA26E4C9;
-	Mon,  2 Mar 2020 15:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBF76E524;
+	Mon,  2 Mar 2020 15:54:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 177436E359
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:43:03 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200302154301euoutp015c81893d942c0dedf7ca3e73f7dee5db~4hxJWZ2Rb1330713307euoutp01L
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:43:01 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200302154301euoutp015c81893d942c0dedf7ca3e73f7dee5db~4hxJWZ2Rb1330713307euoutp01L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1583163781;
- bh=5YJmkzqSvsOl8Ktv0uRw2gsQLS0X8Ye3zrrzqfkrg18=;
- h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=S/K7AocXxU3JkFZvlxrG/fOl6z6WxxHIJ8pch7UNdQ5GtblGGuCRZUWCBqy0uz0KL
- sxlAk7H7JLxq68JN/aiXvApk6XVVumoT7UVmnyFq9TA0OoKEzQTgbIrWjubMl8yXMQ
- c4HxyOA0mL+rQTgZB3SZp7I+QGazXt1BFyNYDsZc=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200302154301eucas1p2ba9a21a5c8aeeb1d5c68c8bc609a4b32~4hxI_wW7n1937719377eucas1p20;
- Mon,  2 Mar 2020 15:43:01 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 35.AD.61286.5892D5E5; Mon,  2
- Mar 2020 15:43:01 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200302154301eucas1p15080111e25e2a09f1848a659f3288b2b~4hxIsLcJJ1688016880eucas1p1f;
- Mon,  2 Mar 2020 15:43:01 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200302154301eusmtrp1f04d5a60bc8a020d9172c153cd2f87ad~4hxIroKlY2927629276eusmtrp1v;
- Mon,  2 Mar 2020 15:43:01 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-48-5e5d2985c20f
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 31.10.07950.5892D5E5; Mon,  2
- Mar 2020 15:43:01 +0000 (GMT)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200302154300eusmtip1cb8d74e6d2819f4b0f7e39596efad4c5~4hxIZzkNw2417824178eusmtip1-;
- Mon,  2 Mar 2020 15:43:00 +0000 (GMT)
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH] video: Replace zero-length array with flexible-array
- member
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-ID: <98cf9000-7ba4-afa6-345e-f170216c6847@samsung.com>
-Date: Mon, 2 Mar 2020 16:43:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E70426E524
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:54:19 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id e10so269760wrr.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 07:54:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=STQ7onEfJVpP/O8wQ/Viql6T2jtxsZUJhm2G28t0RdA=;
+ b=WAdmnsDl2mt7Fd58A4q1CGZexA5ZC6C6l/Tq93voHWBnx+SDkzKpzek2bffad/uCNZ
+ TWlKhbyhzZbCZkMZ+DAqAOw0EktKPWlMgtOhU/NW32yXRmd9YixfU6E4w3gHRFC6ZKBu
+ npeAxqpPm8lqx00cqNzVZAVyKgG3tkFZfc5hmfRavGQXn5VD1SLI0qB/3BLw7MuzQtAl
+ v7qjrM96+Pkyn6E9idckXdRkS4wD3/vIM4qHdqdydlf7fWJlEwzwbvd4Hbv08gUcDL9n
+ zyzG8TqyfbbWa/sXHfmzQ2M/2GGGveMSWhR6g0hyK2WtBYu/vHhVIgHH9J/Wjeptsazh
+ XmIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=STQ7onEfJVpP/O8wQ/Viql6T2jtxsZUJhm2G28t0RdA=;
+ b=k4S8evPTllt6QuyWl5YVYIKKi4lu+F9TCIRcFHcAwad5+l9rCZR8vK7iFMTsTvj521
+ 9rWYyR/Kt2siWyuSDBW/RxPKu5vMgqvUGEKX3xXFM4chTLswrEXPhJtQSiDheX/HUvyH
+ q05gKpxIn/jhPfxMxYoZr5nuGvAnYFIOtoGfzqpLCIG6ZCDiAzW9cUHMBWavqbrw54dw
+ L301hvnBlvYHVmzKPinDPcZexL0PussGZC+/ONqp5/TYDEHcWvIOu4iBOQ6oXyq1CfZo
+ Re9JoPNkSaa52z2UoGOuZGil/0knAhnh3KlTv9IItrIsEWmPd2H9mD7LEd7EtVQmx5kB
+ Erkw==
+X-Gm-Message-State: ANhLgQ3/aIqE4XTamYp4IJbtJjx8m2G0MBzvcK4+DIlnIp3+YvDQXSuu
+ A4Ebgv0aboVgfYLpmnYWtkxRBw==
+X-Google-Smtp-Source: ADFU+vvxOsRhYTLfzIYQaASM6Jsr2eGlov5swoqObhLH6gxAuIaeZrjL9yfqc0ZUiF0YjRXpKiel5Q==
+X-Received: by 2002:a5d:6881:: with SMTP id h1mr259533wru.236.1583164458464;
+ Mon, 02 Mar 2020 07:54:18 -0800 (PST)
+Received: from [10.1.3.173]
+ (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id e11sm27800285wrm.80.2020.03.02.07.54.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Mar 2020 07:54:17 -0800 (PST)
+Subject: Re: [PATCH v4 01/11] drm/bridge: dw-hdmi: set mtmdsclock for deep
+ color
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200206191834.6125-1-narmstrong@baylibre.com>
+ <20200206191834.6125-2-narmstrong@baylibre.com>
+ <20200302090527.GB11960@pendragon.ideasonboard.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <a5b6d1f2-8f1c-ae3f-529d-baf7f4cecbe9@baylibre.com>
+Date: Mon, 2 Mar 2020 16:54:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200221160005.GA13552@embeddedor>
+In-Reply-To: <20200302090527.GB11960@pendragon.ideasonboard.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnleLIzCtJLcpLzFFi42LZduznOd1Wzdg4g8bzkhZXvr5ns9i6R9Xi
- RN8HVovLu+awObB4rDuo6nG/+ziTx+dNcgHMUVw2Kak5mWWpRfp2CVwZyzr7mAoWiVdsXrmM
- sYHxp1AXIyeHhICJxPNF19m6GLk4hARWMEocO7ESyvnCKLF70w0mkCohgc+MEhOXqcB0tK64
- wgpRtJxR4sKW08wQzltGicvrL7OAVLEJWElMbF/FCGILCwRJXDqyASwuImAkMXtGNyuIzSyQ
- IHF60T2wOK+AncSjmWfA4iwCKhL/Xv1lBrFFBSIkPj04zApRIyhxcuYTsHpOAQOJ6ds+MULM
- EZe49WQ+E4QtL7H97RxmiEu72SWer3GBsF0kfjy/AxUXlnh1fAs7hC0jcXpyDwvIAxIC6xgl
- /na8YIZwtjNKLJ/8jw2iylrizrlfQDYH0AZNifW79CHCjhIrGlaygoQlBPgkbrwVhLiBT2LS
- tunMEGFeiY42aFCrSWxYtoENZm3XzpXMExiVZiH5bBaSb2Yh+WYWwt4FjCyrGMVTS4tz01OL
- DfNSy/WKE3OLS/PS9ZLzczcxApPJ6X/HP+1g/Hop6RCjAAejEg9vAHNsnBBrYllxZe4hRgkO
- ZiURXl/O6Dgh3pTEyqrUovz4otKc1OJDjNIcLErivMaLXsYKCaQnlqRmp6YWpBbBZJk4OKUa
- GPfK83NxB0z5cmfnq8iL3bcuWX8PFtR4aRLr/+jcze+/npm8mPdkoqP4iZOdHJ9fbwu+zGq2
- fs6nLvPLd26KeD9hev/obV0X59KSE0ce3b14Tejrj6PL5rhHuohKtPMc6cvKXh/Ltdp0WpXC
- edbufdP5lv/Ov5i18S6jQ+7num33n2rrvraUuG2vxFKckWioxVxUnAgAj9t3xCIDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRmVeSWpSXmKPExsVy+t/xu7qtmrFxBteesVlc+fqezWLrHlWL
- E30fWC0u75rD5sDise6gqsf97uNMHp83yQUwR+nZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY
- 6hkam8daGZkq6dvZpKTmZJalFunbJehlLOvsYypYJF6xeeUyxgbGn0JdjJwcEgImEq0rrrB2
- MXJxCAksZZRY9LWRsYuRAyghI3F8fRlEjbDEn2tdbBA1rxklPk6dxgySYBOwkpjYvooRxBYW
- CJK4dGQDC4gtImAkMXtGNyvIHGaBBIln81IgepsZJa5+3A9WzytgJ/Fo5hlWEJtFQEXi36u/
- YDNFBSIkDu+YBVUjKHFy5hOwmZwCBhLTt30CizMLqEv8mXeJGcIWl7j1ZD4ThC0vsf3tHOYJ
- jEKzkLTPQtIyC0nLLCQtCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgRGz7ZjP7fsYOx6
- F3yIUYCDUYmH9wdDbJwQa2JZcWXuIUYJDmYlEV5fzug4Id6UxMqq1KL8+KLSnNTiQ4ymQM9N
- ZJYSTc4HRnZeSbyhqaG5haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU1ILUIpg+Jg5OqQZGwUm5
- MeGcahbbmV5+XZq3WfWBmIZOZYLCcUFZe7UFRdutSpPeFIcZ20qfn7hiQeSxd89P1Eufq+q5
- XXc37V1ZBv/Ma6mp8zROGegXfb297CjvUpWEizY/g5Zrh5zc989jW+nvPJN+oxPuCpe/eknv
- WyD6YCK7yZK/Z+16pI5JOG96zS5/1+abEktxRqKhFnNRcSIA2ZHYkLQCAAA=
-X-CMS-MailID: 20200302154301eucas1p15080111e25e2a09f1848a659f3288b2b
-X-Msg-Generator: CA
-X-RootMTR: 20200221155727eucas1p13764b85076c6fc29eccaf27ab6dc4967
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200221155727eucas1p13764b85076c6fc29eccaf27ab6dc4967
-References: <CGME20200221155727eucas1p13764b85076c6fc29eccaf27ab6dc4967@eucas1p1.samsung.com>
- <20200221160005.GA13552@embeddedor>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,99 +125,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
+ boris.brezillon@collabora.com, linux-amlogic@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 2/21/20 5:00 PM, Gustavo A. R. Silva wrote:
-> The current codebase makes use of the zero-length array language
-> extension to the C90 standard, but the preferred mechanism to declare
-> variable-length types such as these ones is a flexible array member[1][2],
-> introduced in C99:
+On 02/03/2020 10:05, Laurent Pinchart wrote:
+> Hi Neil and Jonas,
 > 
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
+> Thank you for the patch.
 > 
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
+> On Thu, Feb 06, 2020 at 08:18:24PM +0100, Neil Armstrong wrote:
+>> From: Jonas Karlman <jonas@kwiboo.se>
+>>
+>> Configure the correct mtmdsclock for deep colors to prepare support
+>> for 10, 12 & 16bit output.
+>>
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>> ---
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 17 +++++++++++++++++
+>>  1 file changed, 17 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> index 67fca439bbfb..9e0927d22db6 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> @@ -1818,9 +1818,26 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+>>  
+>>  	dev_dbg(hdmi->dev, "final pixclk = %d\n", vmode->mpixelclock);
 > 
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
+> Nitpicking a bit, I would change
 > 
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
+> -	vmode->mtmdsclock = vmode->mpixelclock = mode->clock * 1000;
+> +	vmode->mpixelclock = mode->clock * 1000;
 > 
-> This issue was found with the help of Coccinelle.
+> above, and here add
 > 
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://protect2.fireeye.com/url?k=0e91e8f4-53f6acd2-0e9063bb-0cc47a31384a-8666d8e5380b9caf&u=https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+> 	vmode->mtmdsclock = vmode->mpixelclock;
 > 
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> to keep all mtmdsclock calculation in a single place.
+> 
+>> +	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format)) {
+>> +		switch (hdmi_bus_fmt_color_depth(
+>> +				hdmi->hdmi_data.enc_out_bus_format)) {
+>> +		case 16:
+>> +			vmode->mtmdsclock = (u64)vmode->mpixelclock * 2;
+> 
+> Both mpixelclock and mtmdsclock are unsigned int. Is the cast to u64
+> needed ?
+> 
+> On a separate but related note, what does the 'm' in tmdsclock stand for
+> ? It seems to originate from the 'm' prefix for mpixelclock, which has
+> been there from the start. Unless there's a good reason for the prefix,
+> renaming mtmdsclock to tmds_clock (and handling the other fields in the
+> hdmi_vmode structure similarly) would increase clarity I think.
+> 
+>> +			break;
+>> +		case 12:
+>> +			vmode->mtmdsclock = (u64)vmode->mpixelclock * 3 / 2;
+>> +			break;
+>> +		case 10:
+>> +			vmode->mtmdsclock = (u64)vmode->mpixelclock * 5 / 4;
+>> +			break;
+>> +		}
+>> +	}
+>> +
+>>  	if (hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format))
+>>  		vmode->mtmdsclock /= 2;
+>>  
+>> +	dev_dbg(hdmi->dev, "final tmdsclk = %d\n", vmode->mtmdsclock);
+> 
+> s/tmdsclk/tmdsclock/ to match the field name ?
+> 
+>> +
+>>  	/* Set up HDMI_FC_INVIDCONF */
+>>  	inv_val = (hdmi->hdmi_data.hdcp_enable ||
+>>  		   (dw_hdmi_support_scdc(hdmi) &&
+> 
 
-Patch queued for v5.7, thanks.
+I fixed the calculus and the cast, but I'll rename the mtmdsclock in a following patch.
 
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+is it ok for you ?
 
-> ---
->  drivers/video/fbdev/mmp/hw/mmp_ctrl.h | 2 +-
->  drivers/video/fbdev/ssd1307fb.c       | 2 +-
->  include/video/mmp_disp.h              | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-> index 335d4983dc52..167585a889d3 100644
-> --- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-> +++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.h
-> @@ -1406,7 +1406,7 @@ struct mmphw_ctrl {
->  
->  	/*pathes*/
->  	int path_num;
-> -	struct mmphw_path_plat path_plats[0];
-> +	struct mmphw_path_plat path_plats[];
->  };
->  
->  static inline int overlay_is_vid(struct mmp_overlay *overlay)
-> diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-> index 142535267fec..fb2640fe575a 100644
-> --- a/drivers/video/fbdev/ssd1307fb.c
-> +++ b/drivers/video/fbdev/ssd1307fb.c
-> @@ -89,7 +89,7 @@ struct ssd1307fb_par {
->  
->  struct ssd1307fb_array {
->  	u8	type;
-> -	u8	data[0];
-> +	u8	data[];
->  };
->  
->  static const struct fb_fix_screeninfo ssd1307fb_fix = {
-> diff --git a/include/video/mmp_disp.h b/include/video/mmp_disp.h
-> index 1f9bc133e230..77252cb46361 100644
-> --- a/include/video/mmp_disp.h
-> +++ b/include/video/mmp_disp.h
-> @@ -231,7 +231,7 @@ struct mmp_path {
->  
->  	/* layers */
->  	int overlay_num;
-> -	struct mmp_overlay overlays[0];
-> +	struct mmp_overlay overlays[];
->  };
->  
->  extern struct mmp_path *mmp_get_path(const char *name);
-> 
+Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
