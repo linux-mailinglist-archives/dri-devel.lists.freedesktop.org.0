@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195871757D4
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 10:59:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D7E1757DC
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 11:03:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 729276E207;
-	Mon,  2 Mar 2020 09:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71C2B6E228;
+	Mon,  2 Mar 2020 10:03:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5EE6E207
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 09:59:28 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92FF06E228
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 10:03:29 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71BF454A;
- Mon,  2 Mar 2020 10:59:26 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id ABEA354A;
+ Mon,  2 Mar 2020 11:03:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1583143166;
- bh=5i4HpQvtX4R1slyHT+952QHgBdgl3htQsX3B0F6Xj3Q=;
+ s=mail; t=1583143408;
+ bh=Lc7Yy28cE9d+CVfXGMhAB4DWD8ECf5jY5VejWhcg/q8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mxrD3pbc3SRTjb14W8QJAbbVj9qN5FxqkZyS8CiumvpluJv2iFvSkaxTRyZ5vW9ZZ
- 8TQMjaLKgs1gdZJ3P99IYfZSnkXezeOC4NjklKpumGr8Kl82afPcRBDFwa82isRnNh
- C4DcfimCx1B2bep+2jvjye2CSNiqYN5FGn+aeraU=
-Date: Mon, 2 Mar 2020 11:59:02 +0200
+ b=XvfDJypRfkoFhsmusgeTbIqW+/Y922eaLqRsN5OtHZksIqOw1UOpcctZ6GITU1asZ
+ NcSDRqkeW1PJ/4k5Lela6uavruWSm9HiorhpZgrNsCp5IbmKzDMXwiqNeowz8laqgm
+ dEfllyMcK81dOu2C8oFhN6qckrShCL+RVNf8aFDM=
+Date: Mon, 2 Mar 2020 12:03:03 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v4 06/11] drm/meson: venc: make drm_display_mode const
-Message-ID: <20200302095902.GA16626@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 05/11] drm/bridge: synopsys: dw-hdmi: allow ycbcr420
+ modes for >= 0x200a
+Message-ID: <20200302100303.GI11960@pendragon.ideasonboard.com>
 References: <20200206191834.6125-1-narmstrong@baylibre.com>
- <20200206191834.6125-7-narmstrong@baylibre.com>
+ <20200206191834.6125-6-narmstrong@baylibre.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200206191834.6125-7-narmstrong@baylibre.com>
+In-Reply-To: <20200206191834.6125-6-narmstrong@baylibre.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,45 +60,54 @@ Hi Neil,
 
 Thank you for the patch.
 
-On Thu, Feb 06, 2020 at 08:18:29PM +0100, Neil Armstrong wrote:
-> Before switching to bridge funcs, make sure drm_display_mode is passed
-> as const to the venc functions.
+On Thu, Feb 06, 2020 at 08:18:28PM +0100, Neil Armstrong wrote:
+> Now the DW-HDMI Controller supports the HDMI2.0 modes, enable support
+> for these modes in the connector if the platform supports them.
+> We limit these modes to DW-HDMI IP version >= 0x200a which
+> are designed to support HDMI2.0 display modes.
 > 
 > Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/gpu/drm/meson/meson_venc.c | 2 +-
->  drivers/gpu/drm/meson/meson_venc.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 6 ++++++
+>  include/drm/bridge/dw_hdmi.h              | 1 +
+>  2 files changed, 7 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
-> index 4efd7864d5bf..a9ab78970bfe 100644
-> --- a/drivers/gpu/drm/meson/meson_venc.c
-> +++ b/drivers/gpu/drm/meson/meson_venc.c
-> @@ -946,7 +946,7 @@ bool meson_venc_hdmi_venc_repeat(int vic)
->  EXPORT_SYMBOL_GPL(meson_venc_hdmi_venc_repeat);
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 15048ad694bc..4b35ea1427df 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -3231,6 +3231,12 @@ __dw_hdmi_probe(struct platform_device *pdev,
+>  	hdmi->bridge.of_node = pdev->dev.of_node;
+>  #endif
 >  
->  void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
-> -			      struct drm_display_mode *mode)
-> +			      const struct drm_display_mode *mode)
->  {
->  	union meson_hdmi_venc_mode *vmode = NULL;
->  	union meson_hdmi_venc_mode vmode_dmt;
-> diff --git a/drivers/gpu/drm/meson/meson_venc.h b/drivers/gpu/drm/meson/meson_venc.h
-> index 576768bdd08d..1abdcbdf51c0 100644
-> --- a/drivers/gpu/drm/meson/meson_venc.h
-> +++ b/drivers/gpu/drm/meson/meson_venc.h
-> @@ -60,7 +60,7 @@ extern struct meson_cvbs_enci_mode meson_cvbs_enci_ntsc;
->  void meson_venci_cvbs_mode_set(struct meson_drm *priv,
->  			       struct meson_cvbs_enci_mode *mode);
->  void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
-> -			      struct drm_display_mode *mode);
-> +			      const struct drm_display_mode *mode);
->  unsigned int meson_venci_get_field(struct meson_drm *priv);
+> +	if (hdmi->version >= 0x200a)
+> +		hdmi->connector.ycbcr_420_allowed =
+> +			hdmi->plat_data->ycbcr_420_allowed;
+> +	else
+> +		hdmi->connector.ycbcr_420_allowed = false;
+> +
+
+The hdmi structure being allocated with kzalloc, you don't need the
+second branch of the if, but I'm fine if you prefer keeping it. Any
+either case,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  	memset(&pdevinfo, 0, sizeof(pdevinfo));
+>  	pdevinfo.parent = dev;
+>  	pdevinfo.id = PLATFORM_DEVID_AUTO;
+> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+> index 9d4d5cc47969..0b34a12c4a1c 100644
+> --- a/include/drm/bridge/dw_hdmi.h
+> +++ b/include/drm/bridge/dw_hdmi.h
+> @@ -129,6 +129,7 @@ struct dw_hdmi_plat_data {
+>  	unsigned long input_bus_format;
+>  	unsigned long input_bus_encoding;
+>  	bool use_drm_infoframe;
+> +	bool ycbcr_420_allowed;
 >  
->  void meson_venc_enable_vsync(struct meson_drm *priv);
+>  	/* Vendor PHY support */
+>  	const struct dw_hdmi_phy_ops *phy_ops;
 
 -- 
 Regards,
