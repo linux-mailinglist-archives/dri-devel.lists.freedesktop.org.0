@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475C817639A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 20:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885961763A5
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 20:14:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A8F6E7DD;
-	Mon,  2 Mar 2020 19:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A006E81A;
+	Mon,  2 Mar 2020 19:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4E96E44E;
- Mon,  2 Mar 2020 19:13:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A97C6E7EA;
+ Mon,  2 Mar 2020 19:13:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 6B447FB08;
- Mon,  2 Mar 2020 20:13:39 +0100 (CET)
+ by honk.sigxcpu.org (Postfix) with ESMTP id 26E61FB06;
+ Mon,  2 Mar 2020 20:13:44 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
  by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lt_4OpfdEgK8; Mon,  2 Mar 2020 20:13:37 +0100 (CET)
+ with ESMTP id 5R7glgRisUUl; Mon,  2 Mar 2020 20:13:40 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 76A544048B; Mon,  2 Mar 2020 20:13:36 +0100 (CET)
+ id 930F04048D; Mon,  2 Mar 2020 20:13:36 +0100 (CET)
 From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
@@ -28,11 +28,12 @@ To: Lucas Stach <l.stach@pengutronix.de>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 0/5] drm/etnaviv: Ignore MC bit when checking for runtime
- suspend
-Date: Mon,  2 Mar 2020 20:13:31 +0100
-Message-Id: <cover.1583176306.git.agx@sigxcpu.org>
+Subject: [PATCH 1/5] drm/etnaviv: Fix typo in comment
+Date: Mon,  2 Mar 2020 20:13:32 +0100
+Message-Id: <a2f36aa20e749316d41303ddcabef064b035f99b.1583176306.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1583176306.git.agx@sigxcpu.org>
+References: <cover.1583176306.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,22 +52,21 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXQgbGVhc3QgR0M3MDAwIGZhaWxzIHRvIGVudGVyIHJ1bnRpbWUgc3VzcGVuZCBmb3IgbG9uZyBw
-ZXJpb2RzIG9mIHRpbWUgc2luY2UKdGhlIE1DIGJlY29tZXMgYnVzeSBhZ2FpbiBldmVuIHdoZW4g
-dGhlIEZFIGlzIGlkbGUuIFRoZSByZXN0IG9mIHRoZSBzZXJpZXMKbWFrZXMgZGV0ZWN0aW5nIHNp
-bWlsYXIgaXNzdWVzIGVhc2llciB0byBkZWJ1ZyBpbiB0aGUgZnV0dXJlIGJ5IGNoZWNraW5nCmFs
-bCBrbm93biBiaXRzIGluIGRlYnVnZnMgYW5kIGFsc28gd2FybmluZyBpbiB0aGUgRUJVU1kgY2Fz
-ZS4KClRlc3RlZCBvbiBHQzcwMDAgd2l0aCBhIHJlZHVjZWQgcnVudGltZSBkZWxheSBvZiA1MG1z
-LiBQYXRjaGVzIGFyZQphZ2FpbnN0IG5leHQtMjAyMDAyMjYuCgpUaGFua3MgdG8gTHVjYXMgU3Rh
-Y2ggZm9yIHBvaW50aW5nIG1lIGluIHRoZSByaWdodCBkaXJlY3Rpb24uCgpHdWlkbyBHw7xudGhl
-ciAoNSk6CiAgZHJtL2V0bmF2aXY6IEZpeCB0eXBvIGluIGNvbW1lbnQKICBkcm0vZXRuYXZpdjog
-VXBkYXRlIGlkbGUgYml0cwogIGRybS9ldG5hdml2OiBDb25zaWRlciBhbGwga3dub3duIGlkbGUg
-Yml0cyBpbiBkZWJ1Z2ZzCiAgZHJtL2V0bmF2aXY6IElnbm9yZSBNQyB3aGVuIGNoZWNraW5nIHJ1
-bnRpbWUgc3VzcGVuZCBpZGxlbmVzcwogIGRybS9ldG5hdml2OiBXYXJuIHdoZW4gR1BVIGRvZXNu
-J3QgaWRsZSBmYXN0IGVub3VnaAoKIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1
-LmMgIHwgMjYgKysrKysrKysrKysrKysrKysrKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L3N0YXRlX2hpLnhtbC5oIHwgIDcgKysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCAyOSBpbnNl
-cnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+VXNlICdpcycgaW5zdGVhZCBvZiAnaXQnIHNvIGl0IGJlY29tZXMgYSB2YWxpZCBzZW50ZW5jZSBh
+bmQKc3BlbGwgJ3Jlc2V0dGluZycgY29ycmVjdGx5LgoKU2lnbmVkLW9mZi1ieTogR3VpZG8gR8O8
+bnRoZXIgPGFneEBzaWd4Y3B1Lm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
+dml2X2dwdS5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
+aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMKaW5kZXggODBiOTlhY2Vh
+MWM0Li44NzNkOTEwMzE2NGQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
+bmF2aXZfZ3B1LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYwpA
+QCAtNTA2LDcgKzUwNiw3IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9od19yZXNldChzdHJ1Y3QgZXRu
+YXZpdl9ncHUgKmdwdSkKIAkJLyogcmVhZCBpZGxlIHJlZ2lzdGVyLiAqLwogCQlpZGxlID0gZ3B1
+X3JlYWQoZ3B1LCBWSVZTX0hJX0lETEVfU1RBVEUpOwogCi0JCS8qIHRyeSByZXNldGluZyBhZ2Fp
+biBpZiBGRSBpdCBub3QgaWRsZSAqLworCQkvKiB0cnkgcmVzZXR0aW5nIGFnYWluIGlmIEZFIGlz
+IG5vdCBpZGxlICovCiAJCWlmICgoaWRsZSAmIFZJVlNfSElfSURMRV9TVEFURV9GRSkgPT0gMCkg
+ewogCQkJZGV2X2RiZyhncHUtPmRldiwgIkZFIGlzIG5vdCBpZGxlXG4iKTsKIAkJCWNvbnRpbnVl
+OwotLSAKMi4yMy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
