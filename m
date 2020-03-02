@@ -1,59 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01231176651
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 22:45:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A9A176658
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 22:47:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C84C6E856;
-	Mon,  2 Mar 2020 21:45:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72FED6E84C;
+	Mon,  2 Mar 2020 21:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB3C6E858
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 21:45:12 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id t11so1748937wrw.5
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 13:45:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=AJQB0QHCpUPfr5+6enhxEVjXwTxv09kszw7xzCnQZuM=;
- b=J+GnPzeCS4i3vfS9/B1vULV9xDevC9Ae2BlX38wnJnGyLm7/u/Hxy33kLVlJa+Y4gb
- W3TP2mEf6npZba0bZhcBEbvV6P+7zi0XKwVbPCCsLwRqUsY5XtUmvRGF64w28LOIqyU0
- FpT44OiKbb3DjbY5wt/vLZkrYf6fvmAzV6u+k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AJQB0QHCpUPfr5+6enhxEVjXwTxv09kszw7xzCnQZuM=;
- b=AUP3wf2O689IMsUGoIGXwlkTpoemAtf6Bjc0NjIVy94k2ZL+oIoWO9+viGNuK4RX7l
- B7uyw5/gRcr/WOqWDvOeAsly68IKbtbpZ1o50cITFHT5cj/UZ8YaPa/CANE/Ic9U3OuZ
- a7lzy7yJjvVhigUtlBPp+udNnvJihqlmnqC4eFyoaSTSNao8AiniSKLR3fc/ii2vbJS+
- KdK03XHtZHfgcgAeUDOkh8WPyf9s35LNNth5BPIqnexsb/tnJyxmAy4MXe8FyS9Mv9zn
- IqpJHO5CeLWNXJWngi0AePcM5nr/2EcGg/Tj2t1YQd3AJ604mLyH5aAim48awbJtLpyd
- uCkw==
-X-Gm-Message-State: ANhLgQ0wDTnqvj8T6qugBuAFvZo4x4Mbx2YSb8l3HeaGA8/ica2qJafu
- JT8SwdU5kgSNaUkMEvu/lP4/xDUElOw=
-X-Google-Smtp-Source: ADFU+vtqHCv2/u4ld9Dt/lOn4btJwcJhR29LdtJ6cq8JcRIlQ3y5RtuJzpud4fR8AQb394+wdbl2TA==
-X-Received: by 2002:adf:dd4d:: with SMTP id u13mr1494983wrm.70.1583185511188; 
- Mon, 02 Mar 2020 13:45:11 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u8sm411264wmm.15.2020.03.02.13.45.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 13:45:10 -0800 (PST)
-Date: Mon, 2 Mar 2020 22:45:08 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v2 0/7] drm: drm_fb_helper cleanup.
-Message-ID: <20200302214508.GJ2363188@phenom.ffwll.local>
-References: <20200302162151.52349-1-pankaj.laxminarayan.bharadiya@intel.com>
- <CACvgo50_0ZE3dxbwwv2g6937F3mA15thM_qXv=BBVodYy=mbxg@mail.gmail.com>
- <20200302214319.GI2363188@phenom.ffwll.local>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFDD06E84C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 21:47:16 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 2BB0580520;
+ Mon,  2 Mar 2020 22:47:14 +0100 (CET)
+Date: Mon, 2 Mar 2020 22:47:13 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 00/33] drm/panel: Fix dotclocks
+Message-ID: <20200302214713.GA948@ravnborg.org>
+References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200302214319.GI2363188@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=QyXUC8HyAAAA:8
+ a=5xu41AGPb3uHMspi1YcA:9 a=wPNLvfGTeEIA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +44,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 02, 2020 at 10:43:19PM +0100, Daniel Vetter wrote:
-> On Mon, Mar 02, 2020 at 06:21:23PM +0000, Emil Velikov wrote:
-> > Hi Pankaj,
-> > 
-> > On Mon, 2 Mar 2020 at 16:33, Pankaj Bharadiya
-> > <pankaj.laxminarayan.bharadiya@intel.com> wrote:
-> > >
-> > > This series addresses below drm_fb_helper tasks from
-> > > Documentation/gpu/todo.rst.
-> > >
-> > > - The max connector argument for drm_fb_helper_init() isn't used
-> > >   anymore and can be removed.
-> > >
-> > > - The helper doesn't keep an array of connectors anymore so these can
-> > >   be removed: drm_fb_helper_single_add_all_connectors(),
-> > >   drm_fb_helper_add_one_connector() and
-> > >   drm_fb_helper_remove_one_connector().
-> > >
-> > > Changes since v1:
-> > >    - Squashed warning fixes into the patch that introduced the
-> > >      warnings (into 5/7) (Laurent)
-> > >    - Fixed reflow in in 9/9 (Laurent)
-> > >
-> > For the future, include the changelog in the respective patches. This
-> > makes it easier for reviewers...
-> > Plus you're already changing the commit - might as well mention what/why :-)
-> > 
-> > Also do include the R-B, Acked-by, other tags accumulated up-to that
-> > point, when sending new revision.
-> 
-> Yup, can you pls resend that entire pile with all the ack/review tags from
-> the earlier versions included? If you don't do that you waste reviewers
-> time. Another one is that resend right away also kinda wastes peoples
-> time, because there's a much bigger chance that someone will review the
-> old version, instead of your new one. Better wait of at least 1-2 days or
-> so.
+Hi Ville.
 
-Hm just noticed that people are still reviewing v1. I'd say lets forget
-about this v2 here, wait 1-2 days, and then resend with everything
-combined. Hopefully not too many will re-review v2 here and waste time on
-stuff that's reviewed already. Resending within hours is really not good
-on mailing lists (with merge requests or whatever it doesn't matter,
-because everyone always looks at the latest version).
--Daniel
+On Mon, Mar 02, 2020 at 10:34:19PM +0200, Ville Syrjala wrote:
+> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> =
 
-> 
-> > That said, if you're interested in further cleaning this up, one can
-> > cleanup the drm_dp_mst_topology_cbs hooks.
-> > In particular ::register_connector is identical across the board -
-> > create a helper function using it directly in core, killing the hook.
-> > 
-> > While for ::destroy_connector - there's some amdgpu specific code in
-> > there... which I'm not sure if it should stay or not.
-> > To be on the save side - create a helper which will be called for
-> > drivers where the hook is !=NULL (aka everyone but amdgpu).
-> 
-> Yeah that stuff looks fishy. Smells a bit like old mst code developed
-> before Lyude fixed the refcounting for real, it seems to manually shut
-> down stuff that should be cleaned up with normal code paths (modeset
-> and/or final kref_put on the connector).
-> -Daniel
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> A lot of the panel drivers put bogus looking values into
+> mode.clock. This series replaces the bogus values with
+> mode.vrefresh*mode.htotal*mode.vtotal.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I think you got it wrong....
+The few I sampled I would rather say that the clock
+specified was the one that was possible with the present
+HW and the refresh rate was then set to what was attempted.
+
+Example:
+chunghwa_claa101wb01_mode
+
+clock is 69300 - which looks like a value you could configure
+in HW. It not not a nive round value.
+refresh is 60, which looks like the refresh value that was attempted.
+
+So unless there is a big difference between the
+calcualted refresh (based on the specifed clock),
+and the specified clock it should be assumed that clock is OK.
+And it is OK to drop refresh.
+
+This is my take on it - but you based your patches on refresh.
+So maybe you have a better rationale to do so?
+
+Also, let's await feedback from the people cc'ed on the pathces.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
