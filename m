@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9A217671B
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 23:27:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A60176716
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 23:27:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61B0D6E89F;
-	Mon,  2 Mar 2020 22:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F3646E898;
+	Mon,  2 Mar 2020 22:27:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54556E892
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 22:27:06 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id q8so1876282wrm.4
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 14:27:06 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 138FD6E892
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 22:27:08 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id v2so1793880wrp.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 14:27:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d1AHaQvhN2ion1uFEUr1XcIxdeUJfypsRlQhvEHgQjY=;
- b=JaEoqB0adT53UtWCgSAZO9uQtvNoj6C7Gj9sBYMu4trKLgISu9DE+hUUg0rV48Mlep
- tdic976YpuUlTMMIt5sGfbPjEr1VI5C237EJf+0X+LRUfEr6srZLzoxhV9UpKawiZHfz
- wWfk4JE2UEwsVOaFXbcqOg1uHoXwMlotkBuKw=
+ bh=tblK/u9nBjJ5R7hevjSpwiPWMaL0E7vrW1c3srgkTWw=;
+ b=Fzxi7lGpSOzgbK28vvMO0OU9iRPO81bGKysVS5XFGOFj23kopO0Vg4IlgdlTLA06sL
+ UPrWNd1rgZ7FcZ1qnmgmL5fVCKvu35vI6fxwciSF7C7KaJVYajL7knibMxDH7F5BVqU/
+ N7xcjZprgPQADGvuw4EsHw9OB6RLBf8lCwhIg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d1AHaQvhN2ion1uFEUr1XcIxdeUJfypsRlQhvEHgQjY=;
- b=nI2so1wez3nIxbGFLacXE4kKqFxdBV5ofISvA8N7bGjzEivUExpWWVRuNWXAdEGevG
- abAhygaCFcFEEOqmNhp4kxxKn+ovYULox2XZyEKLZaQxCZbN0eazaFSMa0TYucIAdivZ
- 5s3tvarnXp208qqobAT2SGX7J2p6mu11qmQBovx+JRGkvYpTgp3bNYxjOwr1B9miKQau
- 1vhN9aqdLHl94iqY6C/7XkbY5gs/ZYoMCOTuVsBpZB/Q1grmJjkYc+VAGW8DpfX/eUtW
- 0DVnQC4iHBlfsNBGPzxcG1ko+bJgGbfp8ClBV2Pq1k0lATA4IFLh/rhP4U+ZRftMNz5x
- OcMg==
-X-Gm-Message-State: ANhLgQ2I7DEKX51wmY9f0wQv9orL9b5IJH6f+Bj7sPFUSQIkHbzAtd02
- XtYixqBQrWGpRJN/M76CYW51/Vc2zB8=
-X-Google-Smtp-Source: ADFU+vt5sSwD7uAFSOT/9moFiufHOw4jt41eCGj1wv1GoSUB5Qr/yKj/i5Q8VI2B2kI+mKptj0mzRg==
-X-Received: by 2002:a5d:4b03:: with SMTP id v3mr1732586wrq.81.1583188025348;
- Mon, 02 Mar 2020 14:27:05 -0800 (PST)
+ bh=tblK/u9nBjJ5R7hevjSpwiPWMaL0E7vrW1c3srgkTWw=;
+ b=kiaCx3lv8XJtCByzFFCld97I3BJVAr1mo7KJ8YwkcHDRj+9HuV7odvvqjVli66ll8s
+ UHqYb9owBDlJm5ePLPGvidTphTr1GNzOiGj1wZL+zDLyBDkoH8C6F0RNUzKu09qd0DED
+ XzZ9hb0W5H/oko+NJNRlMhP1Ya4cRdahWbX1jonsFcIgWlWrXO3gjtt4Wq7qr2JaJyAr
+ RPsOwo1dw3A3MuBAypy84jGBcf/YVmWYVzAz9TpE6KAaSWzA+LStdL4maN3oI/HWs35K
+ zHjIfGnKYnZ/QowZKAuDWoFpMf7JN8U5e1CguXQ+/exxnkziP9ZFs7/s6zLNj2Ei/gtP
+ owJg==
+X-Gm-Message-State: ANhLgQ1xrD6TWoonQXbqQEaAH0zQ3PZP1tckdHy7qV581Nyy3zFI1BVf
+ au+Ni/K8a3Od4pCi4YGue4vJoLVxHvI=
+X-Google-Smtp-Source: ADFU+vtyKpmYlH88ixjzauTx25dgxjP0BG0l/nEbQZBTZJ9N6/Yfmef8vMcjS6AYTS4jNdMOmC8q5w==
+X-Received: by 2002:adf:f751:: with SMTP id z17mr1669836wrp.207.1583188026446; 
+ Mon, 02 Mar 2020 14:27:06 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o18sm26114589wrv.60.2020.03.02.14.27.04
+ by smtp.gmail.com with ESMTPSA id o18sm26114589wrv.60.2020.03.02.14.27.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 14:27:04 -0800 (PST)
+ Mon, 02 Mar 2020 14:27:05 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 19/51] drm: Cleanups after drmm_add_final_kfree rollout
-Date: Mon,  2 Mar 2020 23:25:59 +0100
-Message-Id: <20200302222631.3861340-20-daniel.vetter@ffwll.ch>
+Subject: [PATCH 20/51] drm: Handle dev->unique with drmm_
+Date: Mon,  2 Mar 2020 23:26:00 +0100
+Message-Id: <20200302222631.3861340-21-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
 References: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
@@ -71,51 +71,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A few things:
-- Update the example driver in the documentation.
-- We can drop the old kfree in drm_dev_release.
-- Add a WARN_ON check in drm_dev_register to make sure everyone calls
-  drmm_add_final_kfree and there's no leaks.
+We need to add a drmm_kstrdup for this, but let's start somewhere.
+
+This is not exactly perfect onion unwinding, but it's jsut a kfree so
+doesn't really matter at all.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/drm_drv.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_drv.c     |  5 ++---
+ drivers/gpu/drm/drm_managed.c | 16 ++++++++++++++++
+ include/drm/drm_managed.h     |  1 +
+ 3 files changed, 19 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 7b84ee8a5eb5..1a048325f30e 100644
+index 1a048325f30e..ef79c03e311c 100644
 --- a/drivers/gpu/drm/drm_drv.c
 +++ b/drivers/gpu/drm/drm_drv.c
-@@ -297,8 +297,6 @@ void drm_minor_release(struct drm_minor *minor)
-  *
-  *		drm_mode_config_cleanup(drm);
-  *		drm_dev_fini(drm);
-- *		kfree(priv->userspace_facing);
-- *		kfree(priv);
-  *	}
-  *
-  *	static struct drm_driver driver_drm_driver = {
-@@ -326,10 +324,11 @@ void drm_minor_release(struct drm_minor *minor)
-  *			kfree(drm);
-  *			return ret;
-  *		}
-+ *		drmm_add_final_kfree(drm, priv);
-  *
-  *		drm_mode_config_init(drm);
-  *
-- *		priv->userspace_facing = kzalloc(..., GFP_KERNEL);
-+ *		priv->userspace_facing = drmm_kzalloc(..., GFP_KERNEL);
-  *		if (!priv->userspace_facing)
-  *			return -ENOMEM;
-  *
-@@ -961,6 +960,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
- 	struct drm_driver *driver = dev->driver;
- 	int ret;
+@@ -777,7 +777,6 @@ void drm_dev_fini(struct drm_device *dev)
+ 	mutex_destroy(&dev->filelist_mutex);
+ 	mutex_destroy(&dev->struct_mutex);
+ 	drm_legacy_destroy_members(dev);
+-	kfree(dev->unique);
+ }
+ EXPORT_SYMBOL(drm_dev_fini);
  
-+	WARN_ON(!dev->managed.final_kfree);
+@@ -1068,8 +1067,8 @@ EXPORT_SYMBOL(drm_dev_unregister);
+  */
+ int drm_dev_set_unique(struct drm_device *dev, const char *name)
+ {
+-	kfree(dev->unique);
+-	dev->unique = kstrdup(name, GFP_KERNEL);
++	drmm_kfree(dev, dev->unique);
++	dev->unique = drmm_kstrdup(dev, name, GFP_KERNEL);
+ 
+ 	return dev->unique ? 0 : -ENOMEM;
+ }
+diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
+index 57dc79fa90af..514d5bd42446 100644
+--- a/drivers/gpu/drm/drm_managed.c
++++ b/drivers/gpu/drm/drm_managed.c
+@@ -160,6 +160,22 @@ void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+ }
+ EXPORT_SYMBOL(drmm_kmalloc);
+ 
++char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp)
++{
++	size_t size;
++	char *buf;
 +
- 	if (drm_dev_needs_global_mutex(dev))
- 		mutex_lock(&drm_global_mutex);
++	if (!s)
++		return NULL;
++
++	size = strlen(s) + 1;
++	buf = drmm_kmalloc(dev, size, gfp);
++	if (buf)
++		memcpy(buf, s, size);
++	return buf;
++}
++EXPORT_SYMBOL_GPL(drmm_kstrdup);
++
+ void drmm_kfree(struct drm_device *dev, void *data)
+ {
+ 	struct drmres *dr_match = NULL, *dr;
+diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
+index 7b5df7d09b19..89e6fce9f689 100644
+--- a/include/drm/drm_managed.h
++++ b/include/drm/drm_managed.h
+@@ -24,6 +24,7 @@ static inline void *drmm_kzalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+ {
+ 	return drmm_kmalloc(dev, size, gfp | __GFP_ZERO);
+ }
++char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp);
+ 
+ void drmm_kfree(struct drm_device *dev, void *data);
  
 -- 
 2.24.1
