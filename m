@@ -2,30 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F6E177108
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED8E17711A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A31B56E9F3;
-	Tue,  3 Mar 2020 08:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0604E6EA0F;
+	Tue,  3 Mar 2020 08:24:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB0ED6E24D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 11:01:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 27F322949C5
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To: robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
- p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
- sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
- laurent.pinchart@ideasonboard.com
-Subject: [PATCH v11 5/5] soc / drm: mediatek: Fix mediatek-drm device probing
-Date: Mon,  2 Mar 2020 12:01:28 +0100
-Message-Id: <20200302110128.2664251-6-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200302110128.2664251-1-enric.balletbo@collabora.com>
-References: <20200302110128.2664251-1-enric.balletbo@collabora.com>
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A62A86E25E
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 12:15:34 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id cx7so1180369pjb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 04:15:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lZGpFs/2Hpvp5EBjhtEPYFMiCDK4EwWNSDCEw0ZF9yM=;
+ b=YdktfZqsllSe62wYX660jiqDRS+EalzZnMQ1BeqTSt6UePbz+K0FicX2SsE/V0cujA
+ 5xWBPQ/CoyG8cCbk0OYdp++ETje+/Zb3758uFx7Qekbu/aW/7Z9P7O5b1yiYOpyhmqGv
+ lokSV/Y8mwFqiA+CYWGVKLnJYUt+R77uSUoac=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lZGpFs/2Hpvp5EBjhtEPYFMiCDK4EwWNSDCEw0ZF9yM=;
+ b=ByCNST3iibQAwT1+kgunRUA48H9UTC2xBP5DLZDNsQ1vvbz4noRlh8tD7Uj43ENDfY
+ 0rbOOSaLueYq/5g3zhPvAesE6mTLFwkMc98aNvZ/iYNWfKJnwxfgyBOJjz4WoaZYS6a2
+ Z1egyevn4gRQKXpao9a7TjrAJcKdTwu5Mx85rz/H9a2jV4jsPZeoN/apoOJ6QVgcDfAN
+ hhTzvTSVVrGAuUS7WujjYxJK4U7gjRH3fjQtIWeqFSV5bifbcaa8Au4LHJDt1PE4fWrg
+ GjM4+LPnZoCt6gthVb3MQf1W8m5pjL0DvwwtCLKZOFbY9lCIKfkSMfGNmo7hSzr6o/WP
+ pnyQ==
+X-Gm-Message-State: APjAAAX31aV2P/d++8AMssx6TY7V6oIiFYuDaScc9Z0wEHvTAhzN5ZpA
+ Q08Y3Nr57kDJHxZMUz1tIt2qhQ==
+X-Google-Smtp-Source: APXvYqwRMn3OTkeHmnSwspvfRaPVPBDR27JwwVPH2eKLlGUxm3/qGiUC5qrtz1TVnCC2dlGf61Hqxg==
+X-Received: by 2002:a17:902:c203:: with SMTP id
+ 3mr18521523pll.261.1583151334258; 
+ Mon, 02 Mar 2020 04:15:34 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:30f2:7a9c:387e:6c7])
+ by smtp.gmail.com with ESMTPSA id g4sm2291857pgk.24.2020.03.02.04.15.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Mar 2020 04:15:33 -0800 (PST)
+From: David Stevens <stevensd@chromium.org>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+	David Airlie <airlied@linux.ie>
+Subject: [PATCH v2 0/4] Support virtio cross-device resources
+Date: Mon,  2 Mar 2020 21:15:20 +0900
+Message-Id: <20200302121524.7543-1-stevensd@chromium.org>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -40,153 +64,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>, dri-devel@lists.freedesktop.org,
- Richard Fontana <rfontana@redhat.com>,
- Collabora Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
- Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
- linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
- sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
- linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Allison Randal <allison@lohutok.net>, Matthias Brugger <mbrugger@suse.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Cc: dri-devel@lists.freedesktop.org, virtio-dev@lists.oasis-open.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, David Stevens <stevensd@chromium.org>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the actual implementation the same compatible string
-"mediatek,<chip>-mmsys" is used to bind the clock drivers
-(drivers/soc/mediatek) as well as to the gpu driver
-(drivers/gpu/drm/mediatek/mtk_drm_drv.c). This ends with the problem
-that the only probed driver is the clock driver and there is no display
-at all.
+This patchset implements the current proposal for virtio cross-device
+resource sharing [1], with minor changes based on recent comments. It
+is expected that this will be used to import virtio resources into the
+virtio-video driver currently under discussion [2].
 
-In any case having the same compatible string for two drivers is not
-correct and should be fixed. To fix this, and maintain backward
-compatibility, we can consider that the mmsys driver is the top-level
-entry point for the multimedia subsystem, so is not a pure clock
-controller but a system controller, and the drm driver is instantiated
-by that MMSYS driver.
+This patchset adds a new hook to dma-buf, for querying the dma-buf's
+underlying virtio UUID. This hook is then plumbed through DRM PRIME
+buffers, and finally implemented in virtgpu.
 
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
+[1] https://markmail.org/thread/jsaoqy7phrqdcpqu
+[2] https://markmail.org/thread/p5d3k566srtdtute
 
-Changes in v11: None
-Changes in v10:
-- Match driver data to get display routing.
+v1 -> v2 changes:
+ - Move get_uuid callback into main dma-buf ops (instead of placing it
+   in a new flavor of dma-buf).
+ - Rename new virtio commands and feature flag, and pull uapi changes
+   into their own patch.
 
-Changes in v9:
-- Do not move the display routing from the drm driver (CK)
+David Stevens (4):
+  dma-buf: add support for virtio exported objects
+  drm/prime: add support for virtio exported objects
+  virtio-gpu: add VIRTIO_GPU_F_RESOURCE_UUID feature
+  drm/virtio: Support virtgpu exported resources
 
-Changes in v8:
-- New patch introduced in this series.
+ drivers/dma-buf/dma-buf.c              | 14 ++++++
+ drivers/gpu/drm/drm_prime.c            | 27 +++++++++++
+ drivers/gpu/drm/virtio/virtgpu_drv.c   |  3 ++
+ drivers/gpu/drm/virtio/virtgpu_drv.h   | 19 ++++++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c   |  4 ++
+ drivers/gpu/drm/virtio/virtgpu_prime.c | 48 ++++++++++++++++++--
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 62 ++++++++++++++++++++++++++
+ include/drm/drm_drv.h                  | 15 +++++++
+ include/linux/dma-buf.h                | 22 +++++++++
+ include/uapi/linux/virtio_gpu.h        | 19 ++++++++
+ 10 files changed, 230 insertions(+), 3 deletions(-)
 
-Changes in v7: None
-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 31 ++++++++++++++++----------
- drivers/soc/mediatek/mtk-mmsys.c       |  6 +++++
- 2 files changed, 25 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 208f9c5256ef..bb26e346750a 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -422,9 +422,21 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	{ }
- };
- 
-+static const struct of_device_id mtk_drm_of_ids[] = {
-+	{ .compatible = "mediatek,mt2701-mmsys",
-+	  .data = &mt2701_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt2712-mmsys",
-+	  .data = &mt2712_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8173-mmsys",
-+	  .data = &mt8173_mmsys_driver_data},
-+	{ }
-+};
-+
- static int mtk_drm_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	struct device_node *phandle = dev->parent->of_node;
-+	const struct of_device_id *of_id;
- 	struct mtk_drm_private *private;
- 	struct device_node *node;
- 	struct component_match *match = NULL;
-@@ -442,8 +454,14 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		return -ENODEV;
- 	}
- 
-+	of_id = of_match_node(mtk_drm_of_ids, phandle);
-+	if (!of_id)
-+		return -ENODEV;
-+
-+	private->data = of_id->data;
-+
- 	/* Iterate over sibling DISP function blocks */
--	for_each_child_of_node(dev->of_node->parent, node) {
-+	for_each_child_of_node(phandle->parent, node) {
- 		const struct of_device_id *of_id;
- 		enum mtk_ddp_comp_type comp_type;
- 		int comp_id;
-@@ -575,22 +593,11 @@ static int mtk_drm_sys_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_suspend,
- 			 mtk_drm_sys_resume);
- 
--static const struct of_device_id mtk_drm_of_ids[] = {
--	{ .compatible = "mediatek,mt2701-mmsys",
--	  .data = &mt2701_mmsys_driver_data},
--	{ .compatible = "mediatek,mt2712-mmsys",
--	  .data = &mt2712_mmsys_driver_data},
--	{ .compatible = "mediatek,mt8173-mmsys",
--	  .data = &mt8173_mmsys_driver_data},
--	{ }
--};
--
- static struct platform_driver mtk_drm_platform_driver = {
- 	.probe	= mtk_drm_probe,
- 	.remove	= mtk_drm_remove,
- 	.driver	= {
- 		.name	= "mediatek-drm",
--		.of_match_table = mtk_drm_of_ids,
- 		.pm     = &mtk_drm_pm_ops,
- 	},
- };
-diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-index bb99a05fb278..090dbab41160 100644
---- a/drivers/soc/mediatek/mtk-mmsys.c
-+++ b/drivers/soc/mediatek/mtk-mmsys.c
-@@ -379,6 +379,7 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
- 	const struct mtk_mmsys_driver_data *data;
- 	struct clk_onecell_data *clk_data;
- 	struct device *dev = &pdev->dev;
-+	struct platform_device *drm;
- 	void __iomem *config_regs;
- 	struct resource *mem;
- 	int ret;
-@@ -409,6 +410,11 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	drm = platform_device_register_data(&pdev->dev, "mediatek-drm",
-+					    PLATFORM_DEVID_NONE, NULL, 0);
-+	if (IS_ERR(drm))
-+		return PTR_ERR(drm);
-+
- 	return 0;
- }
- 
 -- 
-2.25.1
+2.25.0.265.gbab2e86ba0-goog
 
 _______________________________________________
 dri-devel mailing list
