@@ -1,71 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296ED176465
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 20:56:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BBF1764AB
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 21:09:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17DDD6E808;
-	Mon,  2 Mar 2020 19:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE95E6E81E;
+	Mon,  2 Mar 2020 20:09:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 232EB6E808
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 19:56:20 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1583178983; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=NUfA90GuzwauDPJrKxpYpKEIwor4u7+H63aUR820S1o=;
- b=wS3wMFpauBCB084RACPc0RAoC9RMjOncGAfKAqO7MVs2EjXCPMRkzdUYmIz0vCv2+7Q8Ulrf
- YgE9G82cuGk8Rj7AI7EMNahjEEwQnDNg7NrL2OZEeqiWWOoKdMkYLVwfbN5VFp8KsD0dDKa6
- fxcSkounqFDeM0laAElbZPICoj4=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e5d64d8.7f15096687a0-smtp-out-n03;
- Mon, 02 Mar 2020 19:56:08 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 63F63C4479C; Mon,  2 Mar 2020 19:56:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 61D7FC43383;
- Mon,  2 Mar 2020 19:56:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 61D7FC43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Mon, 2 Mar 2020 12:56:04 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-Subject: Re: [PATCH v3 2/2] drm/msm/a6xx: Use the DMA API for GMU memory
- objects
-Message-ID: <20200302195604.GA10133@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "smasetty@codeaurora.org" <smasetty@codeaurora.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- Sean Paul <sean@poorly.run>
-References: <1583173424-21832-1-git-send-email-jcrouse@codeaurora.org>
- <1583173424-21832-3-git-send-email-jcrouse@codeaurora.org>
- <14063C7AD467DE4B82DEDB5C278E8663F4FDDC3B@FMSMSX108.amr.corp.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4395E6E81E
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 20:09:30 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2020 12:09:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,508,1574150400"; d="scan'208";a="239760952"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by orsmga003.jf.intel.com with ESMTP; 02 Mar 2020 12:09:29 -0800
+Date: Mon, 2 Mar 2020 12:09:53 -0800
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+Subject: Re: [PATCH v2] drm/dp: Add function to parse EDID descriptors for
+ adaptive sync limits
+Message-ID: <20200302200952.GB4351@intel.com>
+References: <20200108003208.18706-1-manasi.d.navare@intel.com>
+ <20200109130852.GN1208@intel.com> <20200228211845.GA2334@intel.com>
+ <20200229023810.GA4351@intel.com>
+ <3fe6b660-0a25-ae46-32e9-69e44d9a7a98@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663F4FDDC3B@FMSMSX108.amr.corp.intel.com>
+In-Reply-To: <3fe6b660-0a25-ae46-32e9-69e44d9a7a98@amd.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,289 +49,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "smasetty@codeaurora.org" <smasetty@codeaurora.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 02, 2020 at 06:56:47PM +0000, Ruhl, Michael J wrote:
-> >-----Original Message-----
-> >From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
-> >Jordan Crouse
-> >Sent: Monday, March 2, 2020 1:24 PM
-> >To: linux-arm-msm@vger.kernel.org
-> >Cc: David Airlie <airlied@linux.ie>; freedreno@lists.freedesktop.org;
-> >smasetty@codeaurora.org; linux-kernel@vger.kernel.org; dri-
-> >devel@lists.freedesktop.org; Douglas Anderson <dianders@chromium.org>;
-> >Sean Paul <sean@poorly.run>
-> >Subject: [PATCH v3 2/2] drm/msm/a6xx: Use the DMA API for GMU memory
-> >objects
-> >
-> >The GMU has very few memory allocations and uses a flat memory space so
-> >there is no good reason to go out of our way to bypass the DMA APIs which
-> >were basically designed for this exact scenario.
-> >
-> >v3: Set the dma mask correctly and use dma_addr_t for the iova type
-> >
-> >v2: Pass force_dma false to of_dma_configure to require that the DMA
-> >region be set up and return error from of_dma_configure to fail probe.
-> >
-> >Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> >---
-> >
-> > drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 115 ++++---------------------------
-> >---
-> > drivers/gpu/drm/msm/adreno/a6xx_gmu.h |   7 +--
-> > 2 files changed, 15 insertions(+), 107 deletions(-)
-> >
-> >diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >index 748cd37..854ba30 100644
-> >--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >@@ -2,6 +2,7 @@
-> > /* Copyright (c) 2017-2019 The Linux Foundation. All rights reserved. */
-> >
-> > #include <linux/clk.h>
-> >+#include <linux/dma-mapping.h>
-> > #include <linux/interconnect.h>
-> > #include <linux/pm_domain.h>
-> > #include <linux/pm_opp.h>
-> >@@ -920,21 +921,10 @@ int a6xx_gmu_stop(struct a6xx_gpu *a6xx_gpu)
-> >
-> > static void a6xx_gmu_memory_free(struct a6xx_gmu *gmu, struct
-> >a6xx_gmu_bo *bo)
-> > {
-> >-	int count, i;
-> >-	u64 iova;
-> >-
-> > 	if (IS_ERR_OR_NULL(bo))
-> > 		return;
-> >
-> >-	count = bo->size >> PAGE_SHIFT;
-> >-	iova = bo->iova;
-> >-
-> >-	for (i = 0; i < count; i++, iova += PAGE_SIZE) {
-> >-		iommu_unmap(gmu->domain, iova, PAGE_SIZE);
-> >-		__free_pages(bo->pages[i], 0);
-> >-	}
-> >-
-> >-	kfree(bo->pages);
-> >+	dma_free_attrs(gmu->dev, bo->size, bo->virt, bo->iova, bo->attrs);
-> > 	kfree(bo);
-> > }
-> >
-> >@@ -942,94 +932,23 @@ static struct a6xx_gmu_bo
-> >*a6xx_gmu_memory_alloc(struct a6xx_gmu *gmu,
-> > 		size_t size)
-> > {
-> > 	struct a6xx_gmu_bo *bo;
-> >-	int ret, count, i;
-> >
-> > 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
-> > 	if (!bo)
-> > 		return ERR_PTR(-ENOMEM);
-> >
-> > 	bo->size = PAGE_ALIGN(size);
-> >+	bo->attrs = DMA_ATTR_WRITE_COMBINE;
-> >
-> >-	count = bo->size >> PAGE_SHIFT;
-> >+	bo->virt = dma_alloc_attrs(gmu->dev, bo->size, &bo->iova,
-> >GFP_KERNEL,
-> >+		bo->attrs);
-> 
-> I see that there is a dma_alloc_wc()/dma_free_wc() which appears to do the
-> same set up that you are using here.
-> 
-> Could you use those wrappers, or do you need to keep track of the bo->attrs
-> elsewhere?
+On Mon, Mar 02, 2020 at 09:15:27AM -0500, Kazlauskas, Nicholas wrote:
+> On 2020-02-28 9:38 p.m., Manasi Navare wrote:
+> >On Fri, Feb 28, 2020 at 01:18:45PM -0800, Manasi Navare wrote:
+> >>On Thu, Jan 09, 2020 at 03:08:52PM +0200, Ville Syrj=E4l=E4 wrote:
+> >>>On Tue, Jan 07, 2020 at 04:32:08PM -0800, Manasi Navare wrote:
+> >>>>Adaptive Sync is a VESA feature so add a DRM core helper to parse
+> >>>>the EDID's detailed descritors to obtain the adaptive sync monitor ra=
+nge.
+> >>>>Store this info as part fo drm_display_info so it can be used
+> >>>>across all drivers.
+> >>>>This part of the code is stripped out of amdgpu's function
+> >>>>amdgpu_dm_update_freesync_caps() to make it generic and be used
+> >>>>across all DRM drivers
+> >>>>
+> >>>>v2:
+> >>>>* Change vmin and vmax to use u8 (Ville)
+> >>>>* Dont store pixel clock since that is just a max dotclock
+> >>>>and not related to VRR mode (Manasi)
+> >>>>
+> >>>>Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> >>>>Cc: Harry Wentland <harry.wentland@amd.com>
+> >>>>Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
+> >>>>Cc: Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>
+> >>>>Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> =
 
-I didn't know those wrappers existed but now I am very happy to use them.
+> Hi Manasi, sorry for the delayed response on this one!
+> =
 
-Jordan
+> Few comments inline below:
+> =
 
-> Mike
-> 
-> >-	bo->pages = kcalloc(count, sizeof(struct page *), GFP_KERNEL);
-> >-	if (!bo->pages) {
-> >+	if (!bo->virt) {
-> > 		kfree(bo);
-> > 		return ERR_PTR(-ENOMEM);
-> > 	}
+> >>>>---
+> >>>>  drivers/gpu/drm/drm_edid.c  | 51 ++++++++++++++++++++++++++++++++++=
++++
+> >>>>  include/drm/drm_connector.h | 22 ++++++++++++++++
+> >>>>  include/drm/drm_edid.h      |  2 ++
+> >>>>  3 files changed, 75 insertions(+)
+> >>>>
+> >>>>diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> >>>>index 99769d6c9f84..52781a0e708b 100644
+> >>>>--- a/drivers/gpu/drm/drm_edid.c
+> >>>>+++ b/drivers/gpu/drm/drm_edid.c
+> >>>>@@ -4880,6 +4880,54 @@ static void drm_parse_cea_ext(struct drm_conne=
+ctor *connector,
+> >>>>  	}
+> >>>>  }
+> >>>>+void drm_get_adaptive_sync_limits(struct drm_connector *connector,
+> >>>>+				  const struct edid *edid)
+> =
+
+> Agree with other feedback here on making this static. We can move over
+> amdgpu to just check the DRM reported caps after.
+> =
+
+> >>>>+{
+> >>>>+	struct drm_display_info *info =3D &connector->display_info;
+> >>>>+	const struct detailed_timing *timing;
+> >>>>+	const struct detailed_non_pixel *data;
+> >>>>+	const struct detailed_data_monitor_range *range;
+> >>>
+> >>>Needlessly wide scope for everything above.
+> >>
+> >>Ok will add this inside the for loop
+> >>
+> >>>
+> >>>>+	int i;
+> >>>>+
+> >>>>+	/*
+> >>>>+	 * Restrict Adaptive Sync only for dp and edp
+> >>>>+	 */
+> >>>>+	if (connector->connector_type !=3D DRM_MODE_CONNECTOR_DisplayPort &&
+> >>>>+	    connector->connector_type !=3D DRM_MODE_CONNECTOR_eDP)
+> >>>>+		return;
+> =
+
+> This probably doesn't need to be blocked here, this is just parsing the
+> EDID.
+> =
+
+> >>>>+
+> >>>>+	if (edid->version <=3D 1 && !(edid->version =3D=3D 1 && edid->revis=
+ion > 1))
+> >>>>+		return;
+> >>>
+> >>>if (!version_greater(...))
+> >>>	return;
+> >>>
+> >>>>+
+> >>>>+	for (i =3D 0; i < 4; i++) {
+> >>>
+> >>>This should probably use for_each_detailed_block()
+> >>
+> >>Can you elaborate, I dont understand what you mean by using for_each_de=
+tailed_block()
+> >>
+> >>Manasi
 > >
-> >-	for (i = 0; i < count; i++) {
-> >-		bo->pages[i] = alloc_page(GFP_KERNEL);
-> >-		if (!bo->pages[i])
-> >-			goto err;
-> >-	}
-> >-
-> >-	bo->iova = gmu->uncached_iova_base;
-> >-
-> >-	for (i = 0; i < count; i++) {
-> >-		ret = iommu_map(gmu->domain,
-> >-			bo->iova + (PAGE_SIZE * i),
-> >-			page_to_phys(bo->pages[i]), PAGE_SIZE,
-> >-			IOMMU_READ | IOMMU_WRITE);
-> >-
-> >-		if (ret) {
-> >-			DRM_DEV_ERROR(gmu->dev, "Unable to map GMU
-> >buffer object\n");
-> >-
-> >-			for (i = i - 1 ; i >= 0; i--)
-> >-				iommu_unmap(gmu->domain,
-> >-					bo->iova + (PAGE_SIZE * i),
-> >-					PAGE_SIZE);
-> >-
-> >-			goto err;
-> >-		}
-> >-	}
-> >-
-> >-	bo->virt = vmap(bo->pages, count, VM_IOREMAP,
-> >-		pgprot_writecombine(PAGE_KERNEL));
-> >-	if (!bo->virt)
-> >-		goto err;
-> >-
-> >-	/* Align future IOVA addresses on 1MB boundaries */
-> >-	gmu->uncached_iova_base += ALIGN(size, SZ_1M);
-> >-
-> > 	return bo;
-> >-
-> >-err:
-> >-	for (i = 0; i < count; i++) {
-> >-		if (bo->pages[i])
-> >-			__free_pages(bo->pages[i], 0);
-> >-	}
-> >-
-> >-	kfree(bo->pages);
-> >-	kfree(bo);
-> >-
-> >-	return ERR_PTR(-ENOMEM);
-> >-}
-> >-
-> >-static int a6xx_gmu_memory_probe(struct a6xx_gmu *gmu)
-> >-{
-> >-	int ret;
-> >-
-> >-	/*
-> >-	 * The GMU address space is hardcoded to treat the range
-> >-	 * 0x60000000 - 0x80000000 as un-cached memory. All buffers shared
-> >-	 * between the GMU and the CPU will live in this space
-> >-	 */
-> >-	gmu->uncached_iova_base = 0x60000000;
-> >-
-> >-
-> >-	gmu->domain = iommu_domain_alloc(&platform_bus_type);
-> >-	if (!gmu->domain)
-> >-		return -ENODEV;
-> >-
-> >-	ret = iommu_attach_device(gmu->domain, gmu->dev);
-> >-
-> >-	if (ret) {
-> >-		iommu_domain_free(gmu->domain);
-> >-		gmu->domain = NULL;
-> >-	}
-> >-
-> >-	return ret;
-> > }
+> >Does that mean:
+> >I need to define drm_edid_get_vrr_range()  where i call drm_for_each_det=
+ailed_block((u8 * )edid, get_vrr_range, &vrr_min, &vrr_max)  but i need to =
+access range   =3D &data->data.range; where
+> >  data =3D &timing->data.other_data; inside get_vrr_range() how can I ac=
+cess range?
 > >
-> > /* Return the 'arc-level' for the given frequency */
-> >@@ -1289,10 +1208,6 @@ void a6xx_gmu_remove(struct a6xx_gpu
-> >*a6xx_gpu)
+> >Manasi
+> =
+
+> Wouldn't it look like:
+> =
+
+> drm_for_each_detailed_block((u8 *)edid, get_adaptive_sync_range,
+> &info->adaptive_sync);
+
+Yes but am still not sure how to access timing, data and range from the pas=
+sed argumnet of edid, once
+that is clear then yes I can just fill info->adaptive sync directly inside =
+the function.
+
+Manasi
+
+> =
+
+> Or something along those lines?
+> =
+
 > >
-> > 	a6xx_gmu_memory_free(gmu, gmu->hfi);
+> >>
+> >>>
+> >>>>+		timing  =3D &edid->detailed_timings[i];
+> >>>>+		data    =3D &timing->data.other_data;
+> >>>>+		range   =3D &data->data.range;
+> >>>>+		/*
+> >>>>+		 * Check if monitor has continuous frequency mode
+> >>>>+		 */
+> >>>>+		if (data->type !=3D EDID_DETAIL_MONITOR_RANGE)
 > >
-> >-	iommu_detach_device(gmu->domain, gmu->dev);
-> >-
-> >-	iommu_domain_free(gmu->domain);
-> >-
-> > 	free_irq(gmu->gmu_irq, gmu);
-> > 	free_irq(gmu->hfi_irq, gmu);
-> >
-> >@@ -1313,7 +1228,13 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu,
-> >struct device_node *node)
-> >
-> > 	gmu->dev = &pdev->dev;
-> >
-> >-	of_dma_configure(gmu->dev, node, true);
-> >+	/* Pass force_dma false to require the DT to set the dma region */
-> >+	ret = of_dma_configure(gmu->dev, node, false);
-> >+	if (ret)
-> >+		return ret;
-> >+
-> >+	/* Set the mask after the of_dma_configure() */
-> >+	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(31));
-> >
-> > 	/* Fow now, don't do anything fancy until we get our feet under us */
-> > 	gmu->idle_level = GMU_IDLE_STATE_ACTIVE;
-> >@@ -1325,11 +1246,6 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu,
-> >struct device_node *node)
-> > 	if (ret)
-> > 		goto err_put_device;
-> >
-> >-	/* Set up the IOMMU context bank */
-> >-	ret = a6xx_gmu_memory_probe(gmu);
-> >-	if (ret)
-> >-		goto err_put_device;
-> >-
-> > 	/* Allocate memory for for the HFI queues */
-> > 	gmu->hfi = a6xx_gmu_memory_alloc(gmu, SZ_16K);
-> > 	if (IS_ERR(gmu->hfi))
-> >@@ -1375,11 +1291,6 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu,
-> >struct device_node *node)
-> > err_memory:
-> > 	a6xx_gmu_memory_free(gmu, gmu->hfi);
-> >
-> >-	if (gmu->domain) {
-> >-		iommu_detach_device(gmu->domain, gmu->dev);
-> >-
-> >-		iommu_domain_free(gmu->domain);
-> >-	}
-> > 	ret = -ENODEV;
-> >
-> > err_put_device:
-> >diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> >b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> >index 2af91ed..d10cddd 100644
-> >--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> >+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> >@@ -12,8 +12,8 @@
-> > struct a6xx_gmu_bo {
-> > 	void *virt;
-> > 	size_t size;
-> >-	u64 iova;
-> >-	struct page **pages;
-> >+	dma_addr_t iova;
-> >+	unsigned long attrs;
-> > };
-> >
-> > /*
-> >@@ -49,9 +49,6 @@ struct a6xx_gmu {
-> > 	int hfi_irq;
-> > 	int gmu_irq;
-> >
-> >-	struct iommu_domain *domain;
-> >-	u64 uncached_iova_base;
-> >-
-> > 	struct device *gxpd;
-> >
-> > 	int idle_level;
-> >--
-> >2.7.4
+> >>>>+		/*
+> >>>>+		 * Check for flag range limits only. If flag =3D=3D 1 then
+> >>>>+		 * no additional timing information provided.
+> >>>>+		 * Default GTF, GTF Secondary curve and CVT are not
+> >>>>+		 * supported
+> >>>>+		 */
+> >>>>+		if (range->flags !=3D 1)
+> >>>>+			continue;
+> >>>>+
+> >>>>+		info->adaptive_sync.min_vfreq =3D range->min_vfreq;
+> >>>>+		info->adaptive_sync.max_vfreq =3D range->max_vfreq;
+> >>>>+
+> >>>>+		DRM_DEBUG_KMS("Adaptive Sync refresh rate range is %d Hz - %d Hz\n=
+",
+> >>>>+			      info->adaptive_sync.min_vfreq,
+> >>>>+			      info->adaptive_sync.max_vfreq);
+> >>>>+		break;
+> >>>>+	}
+> >>>>+}
+> >>>>+EXPORT_SYMBOL(drm_get_adaptive_sync_limits);
+> =
+
+> Can drop this EXPORT since this is all in drm_edid.c.
+> =
+
+> >>>>+
+> >>>>  /* A connector has no EDID information, so we've got no EDID to com=
+pute quirks from. Reset
+> >>>>   * all of the values which would have been set from EDID
+> >>>>   */
+> >>>>@@ -4901,6 +4949,7 @@ drm_reset_display_info(struct drm_connector *co=
+nnector)
+> >>>>  	memset(&info->hdmi, 0, sizeof(info->hdmi));
+> >>>>  	info->non_desktop =3D 0;
+> >>>>+	memset(&info->adaptive_sync, 0, sizeof(info->adaptive_sync));
+> >>>>  }
+> >>>>  u32 drm_add_display_info(struct drm_connector *connector, const str=
+uct edid *edid)
+> >>>>@@ -4916,6 +4965,8 @@ u32 drm_add_display_info(struct drm_connector *=
+connector, const struct edid *edi
+> >>>>  	info->non_desktop =3D !!(quirks & EDID_QUIRK_NON_DESKTOP);
+> >>>>+	drm_get_adaptive_sync_limits(connector, edid);
+> >>>>+
+> >>>>  	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
+> >>>>  	if (edid->revision < 3)
+> >>>>diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> >>>>index 221910948b37..77df404a2e01 100644
+> >>>>--- a/include/drm/drm_connector.h
+> >>>>+++ b/include/drm/drm_connector.h
+> >>>>@@ -254,6 +254,23 @@ enum drm_panel_orientation {
+> >>>>  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+> >>>>  };
+> >>>>+/**
+> >>>>+ * struct drm_adaptive_sync_info - Panel's Adaptive Sync capabilitie=
+s for
+> >>>>+ * &drm_display_info
+> >>>>+ *
+> >>>>+ * This struct is used to store a Panel's Adaptive Sync capabilities
+> >>>>+ * as parsed from EDID's detailed monitor range descriptor block.
+> >>>>+ *
+> >>>>+ * @min_vfreq: This is the min supported refresh rate in Hz from
+> >>>>+ *             EDID's detailed monitor range.
+> >>>>+ * @max_vfreq: This is the max supported refresh rate in Hz from
+> >>>>+ *             EDID's detailed monitor range
+> >>>>+ */
+> >>>>+struct drm_adaptive_sync_info {
+> >>>>+	u8 min_vfreq;
+> >>>>+	u8 max_vfreq;
+> >>>>+};
+> >>>>+
+> >>>>  /*
+> >>>>   * This is a consolidated colorimetry list supported by HDMI and
+> >>>>   * DP protocol standard. The respective connectors will register
+> >>>>@@ -465,6 +482,11 @@ struct drm_display_info {
+> >>>>  	 * @non_desktop: Non desktop display (HMD).
+> >>>>  	 */
+> >>>>  	bool non_desktop;
+> >>>>+
+> >>>>+	/**
+> >>>>+	 * @adaptive_sync: Adaptive Sync capabilities of the DP/eDP sink
+> >>>>+	 */
+> >>>>+	struct drm_adaptive_sync_info adaptive_sync;
+> >>>>  };
+> >>>>  int drm_display_info_set_bus_formats(struct drm_display_info *info,
+> >>>>diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> >>>>index f0b03d401c27..b9a230aa3e69 100644
+> >>>>--- a/include/drm/drm_edid.h
+> >>>>+++ b/include/drm/drm_edid.h
+> >>>>@@ -503,4 +503,6 @@ void drm_edid_get_monitor_name(struct edid *edid,=
+ char *name,
+> >>>>  struct drm_display_mode *drm_mode_find_dmt(struct drm_device *dev,
+> >>>>  					   int hsize, int vsize, int fresh,
+> >>>>  					   bool rb);
+> >>>>+void drm_get_adaptive_sync_limits(struct drm_connector *connector,
+> >>>>+				  const struct edid *edid);
+> =
+
+> Can drop this one as well.
+> =
+
+> Regards,
+> Nicholas Kazlauskas
+> =
+
+> >>>>  #endif /* __DRM_EDID_H__ */
+> >>>>-- =
+
+> >>>>2.19.1
+> >>>
+> >>>-- =
+
+> >>>Ville Syrj=E4l=E4
+> >>>Intel
+> >>_______________________________________________
+> >>dri-devel mailing list
+> >>dri-devel@lists.freedesktop.org
+> >>https://lists.freedesktop.org/mailman/listinfo/dri-devel
 > >_______________________________________________
 > >dri-devel mailing list
 > >dri-devel@lists.freedesktop.org
 > >https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+> =
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
