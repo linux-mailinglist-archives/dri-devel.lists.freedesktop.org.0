@@ -1,41 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1E6177116
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4390717711F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED3116EA02;
-	Tue,  3 Mar 2020 08:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1107C6EA13;
+	Tue,  3 Mar 2020 08:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs30.siol.net [185.57.226.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D55836E5BD
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 16:48:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id DBCE552341C;
- Mon,  2 Mar 2020 17:48:57 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id uejcH_C1Zu8K; Mon,  2 Mar 2020 17:48:57 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id 4476B523438;
- Mon,  2 Mar 2020 17:48:57 +0100 (CET)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net
- [89.212.178.211]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Postfix) with ESMTPA id CF9BC5233F0;
- Mon,  2 Mar 2020 17:48:55 +0100 (CET)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 4/4] drm/bridge: dw-hdmi: Add support for RGB limited range
-Date: Mon, 02 Mar 2020 17:48:55 +0100
-Message-ID: <3027794.oiGErgHkdL@jernej-laptop>
-In-Reply-To: <20200302095354.GG11960@pendragon.ideasonboard.com>
-References: <20200229163043.158262-1-jernej.skrabec@siol.net>
- <20200229163043.158262-5-jernej.skrabec@siol.net>
- <20200302095354.GG11960@pendragon.ideasonboard.com>
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD87A6E43A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 19:11:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1583176271; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qUmHkSVvfOQ5Yez5YuN7iPqIHHCEuQ8Hl+LgCyysZ2Q=;
+ b=BlykB7esCbADKOpKOWvsF8w+P1xUQvIHP69KiK3i5TAjC1e4cmyehG9seXh2uM72hjU4De
+ LtpjoJdkiGjMLoK0e+x7J84RRbY1IzMR9cjbk3AOrS3l8cG+mJW+1Xwshp3b0nLOIOXNcn
+ QvgAPyYOMfmzPgqGwwPfBotzZ92pzYc=
+Date: Mon, 02 Mar 2020 16:10:47 -0300
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [RFC v2 1/8] dt-bindings: display: add ingenic-jz4780-lcd DT
+ Schema
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <1583176247.3.2@crapouillou.net>
+In-Reply-To: <b4a73a1c542fab9d05d12b56c547b555b6a9b062.1582913973.git.hns@goldelico.com>
+References: <cover.1582913973.git.hns@goldelico.com>
+ <b4a73a1c542fab9d05d12b56c547b555b6a9b062.1582913973.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,231 +45,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Andi Kleen <ak@linux.intel.com>, Paul Burton <paulburton@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org,
+ Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>,
+ linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ letux-kernel@openphoenux.org, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, kernel@pyra-handheld.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent!
+Hi Nikolaus,
 
-Dne ponedeljek, 02. marec 2020 ob 10:53:54 CET je Laurent Pinchart napisal(a):
-> Hi Jernej,
-> 
-> Thank you for the patch.
-> 
-> On Sat, Feb 29, 2020 at 05:30:43PM +0100, Jernej Skrabec wrote:
-> > CEA 861 standard request that RGB quantization range is "limited" for
-> 
-> s/request/requests/
-> 
-> > CEA modes. Support that by adding CSC matrix which downscales values.
-> 
-> Interesting, that's related to what I asked in the review of 2/4 :-)
-> 
-> > This allows to proper color reproduction on TV and PC monitor at the
-> > same time. In future, override property can be added, like "Broadcast
-> > RGB" in i915 driver.
-> > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> > 
-> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 36 +++++++++++++++++++++--
-> >  1 file changed, 34 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c index
-> > 3d6021119942..101c90156fa0 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > @@ -92,6 +92,12 @@ static const u16 csc_coeff_rgb_in_eitu709[3][4] = {
-> > 
-> >  	{ 0x6756, 0x78ab, 0x2000, 0x0200 }
-> >  
-> >  };
-> > 
-> > +static const u16 csc_coeff_rgb_limited[3][4] = {
-> 
-> Could you name this to make it explicit that we're converting from RGB
-> to RGB ? Maybe csc_coeff_rgb_full_to_rgb_limited ?
 
-Ok.
+Le ven., f=E9vr. 28, 2020 at 19:19, H. Nikolaus Schaller =
 
-> 
-> > +	{ 0x1B7C, 0x0000, 0x0000, 0x0020 },
-> > +	{ 0x0000, 0x1B7C, 0x0000, 0x0020 },
-> > +	{ 0x0000, 0x0000, 0x1B7C, 0x0020 }
-> 
-> Lowercase hex constants please.
+<hns@goldelico.com> a =E9crit :
+> From: Sam Ravnborg <sam@ravnborg.org>
+> =
 
-Ok.
+> Add DT bindings for the LCD controller on the jz4780 SoC
+> Based on .txt binding from Zubair Lutfullah Kakakhel
 
-> 
-> > +};
-> > +
-> > 
-> >  struct hdmi_vmode {
-> >  
-> >  	bool mdataenablepolarity;
-> > 
-> > @@ -109,6 +115,7 @@ struct hdmi_data_info {
-> > 
-> >  	unsigned int pix_repet_factor;
-> >  	unsigned int hdcp_enable;
-> >  	struct hdmi_vmode video_mode;
-> > 
-> > +	bool rgb_limited_range;
-> > 
-> >  };
-> >  
-> >  struct dw_hdmi_i2c {
-> > 
-> > @@ -960,6 +967,13 @@ static int is_color_space_conversion(struct dw_hdmi
-> > *hdmi)> 
-> >  		hdmi_bus_fmt_is_rgb(hdmi-
->hdmi_data.enc_out_bus_format);
-> >  
-> >  }
-> > 
-> > +static int is_rgb_downscale_needed(struct dw_hdmi *hdmi)
-> > +{
-> > +	return  hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) &&
-> > +		hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) 
-&&
-> > +		hdmi->hdmi_data.rgb_limited_range;
-> > +}
-> > +
-> > 
-> >  static int is_color_space_decimation(struct dw_hdmi *hdmi)
-> >  {
-> >  
-> >  	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
-> > 
-> > @@ -1006,6 +1020,8 @@ static void dw_hdmi_update_csc_coeffs(struct dw_hdmi
-> > *hdmi)> 
-> >  				csc_coeff = 
-&csc_coeff_rgb_in_eitu709;
-> >  			
-> >  			csc_scale = 0;
-> >  		
-> >  		}
-> > 
-> > +	} else if (is_rgb_downscale_needed(hdmi)) {
-> > +		csc_coeff = &csc_coeff_rgb_limited;
-> > 
-> >  	}
-> >  	
-> >  	/* The CSC registers are sequential, alternating MSB then LSB */
-> > 
-> > @@ -1615,6 +1631,18 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi,
-> > struct drm_display_mode *mode)> 
-> >  	drm_hdmi_avi_infoframe_from_display_mode(&frame,
-> >  	
-> >  						 &hdmi-
->connector, mode);
-> > 
-> > +	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-> > +		drm_hdmi_avi_infoframe_quant_range(&frame, &hdmi-
->connector,
-> > +						   mode,
-> > +						   hdmi-
->hdmi_data.rgb_limited_range ?
-> > +						   
-HDMI_QUANTIZATION_RANGE_LIMITED :
-> > +						   
-HDMI_QUANTIZATION_RANGE_FULL);
-> > +	} else {
-> > +		frame.quantization_range = 
-HDMI_QUANTIZATION_RANGE_DEFAULT;
-> > +		frame.ycc_quantization_range =
-> > +			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
-> > +	}
-> > +
-> > 
-> >  	if (hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format))
-> >  	
-> >  		frame.colorspace = HDMI_COLORSPACE_YUV444;
-> >  	
-> >  	else if (hdmi_bus_fmt_is_yuv422(hdmi-
->hdmi_data.enc_out_bus_format))
-> > 
-> > @@ -1990,13 +2018,13 @@ static void dw_hdmi_enable_video_path(struct
-> > dw_hdmi *hdmi)> 
-> >  	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
-> >  	
-> >  	/* Enable csc path */
-> > 
-> > -	if (is_color_space_conversion(hdmi)) {
-> > +	if (is_color_space_conversion(hdmi) || 
-is_rgb_downscale_needed(hdmi)) {
-> 
-> I would fold this change in is_color_space_conversion(), and modify
-> dw_hdmi_update_csc_coeffs() accordingly with something like
-> 
-> 	if (!hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) &&
-> 	    hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-> 		if (hdmi->hdmi_data.enc_out_encoding == 
-V4L2_YCBCR_ENC_601)
-> 			csc_coeff = &csc_coeff_rgb_out_eitu601;
-> 		else
-> 			csc_coeff = &csc_coeff_rgb_out_eitu709;
-> 	} else if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) 
-&&
-> 		   !hdmi_bus_fmt_is_rgb(hdmi-
->hdmi_data.enc_out_bus_format)) {
-> 		if (hdmi->hdmi_data.enc_out_encoding == 
-V4L2_YCBCR_ENC_601)
-> 			csc_coeff = &csc_coeff_rgb_in_eitu601;
-> 		else
-> 			csc_coeff = &csc_coeff_rgb_in_eitu709;
-> 		csc_scale = 0;
-> 	} else if (is_rgb_downscale_needed(hdmi)) {
-> 		csc_coeff = &csc_coeff_rgb_limited;
-> 	}
+If you mean Documentation/devicetree/bindings/display/ingenic,lcd.txt =
 
-Right, but for clarity reasons I'll introduce is_input_rgb and is_output_rgb 
-variables.
+then it was written by me.
 
-Thanks for review.
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+> Cc: H. Nikolaus Schaller <hns@goldelico.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../bindings/display/ingenic-jz4780-lcd.yaml  | 78 =
 
-Best regards,
-Jernej
+> +++++++++++++++++++
+>  1 file changed, 78 insertions(+)
+>  create mode 100644 =
 
-> 
-> >  		hdmi->mc_clkdis &= ~HDMI_MC_CLKDIS_CSCCLK_DISABLE;
-> >  		hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
-> >  	
-> >  	}
-> >  	
-> >  	/* Enable color space conversion if needed */
-> > 
-> > -	if (is_color_space_conversion(hdmi))
-> > +	if (is_color_space_conversion(hdmi) || 
-is_rgb_downscale_needed(hdmi))
-> > 
-> >  		hdmi_writeb(hdmi, 
-HDMI_MC_FLOWCTRL_FEED_THROUGH_OFF_CSC_IN_PATH,
-> >  		
-> >  			    HDMI_MC_FLOWCTRL);
-> >  	
-> >  	else
-> > 
-> > @@ -2100,6 +2128,10 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
-> > struct drm_display_mode *mode)> 
-> >  	/* TOFIX: Default to RGB888 output format */
-> >  	hdmi->hdmi_data.enc_out_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> > 
-> > +	hdmi->hdmi_data.rgb_limited_range = hdmi->sink_is_hdmi &&
-> > +		drm_default_rgb_quant_range(mode) ==
-> > +		HDMI_QUANTIZATION_RANGE_LIMITED;
-> > +
-> > 
-> >  	hdmi->hdmi_data.pix_repet_factor = 0;
-> >  	hdmi->hdmi_data.hdcp_enable = 0;
-> >  	hdmi->hdmi_data.video_mode.mdataenablepolarity = true;
+> Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
+> =
 
+> diff --git =
+
+> a/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml =
+
+> b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
+> new file mode 100644
+> index 000000000000..c71415a3a342
+> --- /dev/null
+> +++ =
+
+> b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
+> @@ -0,0 +1,78 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/ingenic-jz4780-lcd.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Bindings for Ingenic JZ4780 LCD Controller
+> +
+> +maintainers:
+> +  - Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+> +  - H. Nikolaus Schaller <hns@goldelico.com>
+
+I'm the author of the driver, please put me here; and remove Zubair, =
+
+which 1. didn't touch the DRM driver at all, and 2. isn't working at =
+
+ImgTec anymore. Also, no need to put yourself here, unless you maintain =
+
+the Ingenic DRM/KMS driver.
+
+> +
+> +description: |
+> +  LCD Controller is the Display Controller for the Ingenic JZ4780 SoC
+> +
+> +properties:
+
+You should add a '$nodename' property.
+
+> +  compatible:
+> +    items:
+> +      - const: ingenic,jz4780-lcd
+
+The .txt lists more compatible strings. Please add them all.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: the address & size of the LCD controller registers
+
+Drop the description here,
+
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: Specifies the interrupt provided by parent
+
+and here.
+
+> +
+> +  clocks:
+> +    maxItems: 2
+> +    description: Clock specifiers for the JZ4780_CLK_TVE =
+
+> JZ4780_CLK_LCD0PIXCLK
+
+Add one 'description:' per item.
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: lcd_clk
+> +      - const: lcd_pixclk
+> +
+> +  port:
+> +    type: object
+> +    description: |
+> +      A port node with endpoint definitions as defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +
+> +required:
+> +    - compatible
+> +    - reg
+> +    - interrupts
+> +    - clocks
+> +    - clock-names
+> +    - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/jz4780-cgu.h>
+> +    lcd: jz4780-lcdk@0x13050000 {
+
+The node name does not comply with the DT spec, it should be =
+
+'lcd-controller'.
+
+Cheers,
+-Paul
+
+> +        compatible =3D "ingenic,jz4780-lcd";
+> +        reg =3D <0x13050000 0x1800>;
+> +
+> +        clocks =3D <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
+> +        clock-names =3D "lcd_clk", "lcd_pixclk";
+> +
+> +        interrupt-parent =3D <&intc>;
+> +        interrupts =3D <31>;
+> +
+> +        jz4780_lcd_out: port {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            jz4780_out_hdmi: endpoint@0 {
+> +                reg =3D <0>;
+> +                remote-endpoint =3D <&hdmi_in_lcd>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> --
+> 2.23.0
+> =
 
 
 
