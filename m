@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DD017711B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A6317710D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 950EF6EA27;
-	Tue,  3 Mar 2020 08:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B39DB6E9EB;
+	Tue,  3 Mar 2020 08:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6E289D46
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 19:22:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBFC6E44E
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 19:28:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1583176920; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1583177278; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BdwneqTr2id/gIeZNxFxbnKoAw05xVADq6/gmIhZwg4=;
- b=AqUyKD024PGi1OHtNmOIPdseDG4JSqAnMjoEWug5pu0ruALpVlC4z6ZX1ymIeD1q0aQf9b
- 9AArX0blaUj+5gfaNF92anigg+B3rPch0xaYfXhL6gHleYjUJQxoiR6rkhjf58LqE8wxWn
- tgFLcqWQSGaEN9Ga4UYZDzVDcS0z444=
-Date: Mon, 02 Mar 2020 16:21:37 -0300
+ bh=K/w7xN8JJOoqBkwjRFtmhdPO4ps8i2CpUSpPDW0yr48=;
+ b=ZMoaIqvQbluaDkRWIfTLHOhukc1YfE8Xoybz2XPE9LtkkQ0wOuUmtDUDeTBYUWqWh5eKBc
+ C9gPkHzyq+tu3AbaCh+RzGvtvPK19aYl0giwSqiFgtLMsnSNbO06WhmYqQPnfoJFEnVVTN
+ HIb/5holaayaF/L64+uCeT5qyw8gjuI=
+Date: Mon, 02 Mar 2020 16:27:33 -0300
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [RFC v2 3/8] drm: ingenic-drm: add MODULE_DEVICE_TABLE
+Subject: Re: [RFC v2 6/8] MIPS: DTS: jz4780: account for Synopsys HDMI driver
+ and LCD controller
 To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <1583176897.3.4@crapouillou.net>
-In-Reply-To: <c1b214f88840309c0d05162d59f666c0f7375b95.1582913973.git.hns@goldelico.com>
+Message-Id: <1583177253.3.5@crapouillou.net>
+In-Reply-To: <04b485165f38744816a0446e95150cafdeb716ee.1582913973.git.hns@goldelico.com>
 References: <cover.1582913973.git.hns@goldelico.com>
- <c1b214f88840309c0d05162d59f666c0f7375b95.1582913973.git.hns@goldelico.com>
+ <04b485165f38744816a0446e95150cafdeb716ee.1582913973.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,39 +66,91 @@ Hi Nikolaus,
 Le ven., f=E9vr. 28, 2020 at 19:19, H. Nikolaus Schaller =
 
 <hns@goldelico.com> a =E9crit :
-> so that the driver can load by matching the device tree
-> if compiled as module.
+> From: Paul Boddie <paul@boddie.org.uk>
 > =
 
+> A specialisation of the generic Synopsys HDMI driver is employed for =
+
+> JZ4780
+> HDMI support. This requires a new driver, plus device tree and =
+
+> configuration
+> modifications.
+> =
+
+> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
 > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 > ---
->  drivers/gpu/drm/ingenic/ingenic-drm.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  arch/mips/boot/dts/ingenic/jz4780.dtsi | 32 =
+
+> ++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
 > =
 
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c =
+> diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi =
 
-> b/drivers/gpu/drm/ingenic/ingenic-drm.c
-> index 6d47ef7b148c..d8617096dd8e 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
-> @@ -844,6 +844,8 @@ static const struct of_device_id =
-
-> ingenic_drm_of_match[] =3D {
->  	{ /* sentinel */ },
->  };
+> b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> index f928329b034b..391d4e1efd35 100644
+> --- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> +++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> @@ -433,4 +433,36 @@
 > =
 
-> +MODULE_DEVICE_TABLE(of, ingenic_drm_of_match);
+>  		status =3D "disabled";
+>  	};
+> +
+> +	hdmi: hdmi@10180000 {
+> +		compatible =3D "ingenic,jz4780-dw-hdmi";
+> +		reg =3D <0x10180000 0x8000>;
+> +		reg-io-width =3D <4>;
+> +
+> +		clocks =3D <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
+> +		clock-names =3D "isfr" , "iahb";
+> +
+> +		assigned-clocks =3D <&cgu JZ4780_CLK_HDMI>;
+> +		assigned-clock-rates =3D <27000000>;
 
-Please remove the blank line above the MODULE_DEVICE_TABLE() macro.
+I *think* this should go to the board file.
+
+> +
+> +		interrupt-parent =3D <&intc>;
+> +		interrupts =3D <3>;
+> +
+> +		/* ddc-i2c-bus =3D <&i2c4>; */
+> +
+> +		status =3D "disabled";
+> +	};
+> +
+> +	lcd: lcd@13050000 {
+
+The node name should be 'lcd-controller'.
+
+> +		compatible =3D "ingenic,jz4740-lcd";
+
+The JZ4780's LCD controller is much newer than the JZ4740 one, so even =
+
+if it works with the "ingenic,jz4740-lcd" compatible string, you want =
+
+it as a fallback.
+So this should be: compatible =3D "ingenic,jz4780-lcd", =
+
+"ingenic,jz4740-lcd".
+
+That means the YAML should be updated too.
 
 -Paul
 
+> +		reg =3D <0x13050000 0x1800>;
 > +
->  static struct platform_driver ingenic_drm_driver =3D {
->  	.driver =3D {
->  		.name =3D "ingenic-drm",
+> +		clocks =3D <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
+> +		clock-names =3D "lcd", "lcd_pclk";
+> +
+> +		interrupt-parent =3D <&intc>;
+> +		interrupts =3D <31>;
+> +
+> +		status =3D "disabled";
+> +	};
+>  };
 > --
 > 2.23.0
 > =
