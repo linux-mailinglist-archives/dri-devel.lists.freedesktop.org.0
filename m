@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CB41770FD
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 042CA17712A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9090B6E9E1;
-	Tue,  3 Mar 2020 08:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 374FF6EA16;
+	Tue,  3 Mar 2020 08:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2D0186E2C4
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:01:42 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 664C6809F;
- Mon,  2 Mar 2020 15:02:25 +0000 (UTC)
-Date: Mon, 2 Mar 2020 07:01:37 -0800
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 1/3] drm/omap: Prepare DSS for probing without legacy
- platform data
-Message-ID: <20200302150137.GP37466@atomide.com>
-References: <20200224191230.30972-1-tony@atomide.com>
- <20200224191230.30972-2-tony@atomide.com>
- <20200224233111.gkctx27usfxj2wgz@earth.universe>
- <20200224234333.GD37466@atomide.com>
- <20200227174424.GI37466@atomide.com>
- <8b27dba3-2e2b-84ce-0927-685f4bfe3ab2@ti.com>
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F16A189D87
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 16:26:05 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id 10FBF3B7FA4
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:58:45 +0000 (UTC)
+X-Originating-IP: 90.89.41.158
+Received: from localhost.localdomain
+ (lfbn-tou-1-1473-158.w90-89.abo.wanadoo.fr [90.89.41.158])
+ (Authenticated sender: miquel.raynal@bootlin.com)
+ by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 748E61BF213;
+ Mon,  2 Mar 2020 15:58:09 +0000 (UTC)
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ <devicetree@vger.kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ <linux-rockchip@lists.infradead.org>
+Subject: [PATCH 1/2] dt-bindings: gpu: mali-bifrost: Add Rockchip PX30
+ compatible
+Date: Mon,  2 Mar 2020 16:58:07 +0100
+Message-Id: <20200302155808.11273-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8b27dba3-2e2b-84ce-0927-685f4bfe3ab2@ti.com>
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,53 +44,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
- Suman Anna <s-anna@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Gerlach <d-gerlach@ti.com>, Keerthy <j-keerthy@ti.com>,
- Sebastian Reichel <sre@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Andrew F . Davis" <afd@ti.com>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Faiz Abbas <faiz_abbas@ti.com>,
- Jyri Sarha <jsarha@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Tomi Valkeinen <tomi.valkeinen@ti.com> [200302 10:29]:
-> On 27/02/2020 19:44, Tony Lindgren wrote:
-> 
-> > > > FWIW, I dropped omapdss-boot-init.c in my patch series updating DSI
-> > > > code to use common panel infrastructure, so this will conflict.
-> > > 
-> > > Hey that's great :) Sounds like we can set up an immutable branch
-> > > for just this $subject patch against v5.6-rc1 to resolve the
-> > > conflict. I can set it up for Tomi or Tomi can set it up for me,
-> > > whichever Tomi prefers.
-> > 
-> > Do you want me to send you a pull request for just this one patch
-> > against v5.6-rc1?
-> 
-> It's probably easier if Sebastian drops the removal patch, and instead
-> creates a patch that removes the panel-dsi-cm from
-> omapdss_of_fixups_whitelist. That change should not conflict, and
-> effectively makes the omapdss-boot-init.c a no-op.
-> 
-> We can then remove the file later.
+Rockchip PX30 SoCs feature a Bifrost Mali GPU.
 
-OK for resolving the merge commit that works too.
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+ Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Tomi, so do you care to ack the $subject patch though so I can set
-up an immutable branch for us for the $subject patch?
-
-Or Tomi, do you want to set up an immutable branch for me for the
-$subject patch?
-
-Regards,
-
-Tony
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+index 5f1fd6d7ee0f..283ee0c274d1 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+@@ -17,6 +17,7 @@ properties:
+     items:
+       - enum:
+           - amlogic,meson-g12a-mali
++          - rockchip,px30-mali
+       - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
+ 
+   reg:
+-- 
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
