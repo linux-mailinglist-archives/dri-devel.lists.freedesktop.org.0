@@ -1,37 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2738F175FC2
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 17:33:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AE5175FC4
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 17:33:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E28F6E5A1;
-	Mon,  2 Mar 2020 16:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A15056E58A;
+	Mon,  2 Mar 2020 16:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C716E580;
- Mon,  2 Mar 2020 16:33:23 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D90056E580;
+ Mon,  2 Mar 2020 16:33:29 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2020 08:33:23 -0800
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2020 08:33:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,507,1574150400"; d="scan'208";a="351575132"
+X-IronPort-AV: E=Sophos;i="5.70,507,1574150400"; d="scan'208";a="351575152"
 Received: from pktinlab.iind.intel.com ([10.66.253.121])
- by fmsmga001.fm.intel.com with ESMTP; 02 Mar 2020 08:33:20 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 02 Mar 2020 08:33:25 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
- David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 2/7] drm/radeon: remove radeon_fb_{add,
- remove}_connector functions
-Date: Mon,  2 Mar 2020 21:51:45 +0530
-Message-Id: <20200302162151.52349-3-pankaj.laxminarayan.bharadiya@intel.com>
+ David Airlie <airlied@linux.ie>, Mikita Lipski <mikita.lipski@amd.com>,
+ Lyude Paul <lyude@redhat.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
+ David Francis <David.Francis@amd.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+Subject: [PATCH v2 3/7] drm/amdgpu: Remove drm_fb_helper_{add,
+ remove}_one_connector calls
+Date: Mon,  2 Mar 2020 21:51:46 +0530
+Message-Id: <20200302162151.52349-4-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200302162151.52349-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200302162151.52349-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -48,7 +53,6 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -63,73 +67,45 @@ drm_fb_helper.h
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/radeon/radeon_dp_mst.c | 10 ----------
- drivers/gpu/drm/radeon/radeon_fb.c     | 12 ------------
- drivers/gpu/drm/radeon/radeon_mode.h   |  3 ---
- 3 files changed, 25 deletions(-)
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_dp_mst.c b/drivers/gpu/drm/radeon/radeon_dp_mst.c
-index 28eef9282874..5a9fb0ad175a 100644
---- a/drivers/gpu/drm/radeon/radeon_dp_mst.c
-+++ b/drivers/gpu/drm/radeon/radeon_dp_mst.c
-@@ -303,23 +303,13 @@ static struct drm_connector *radeon_dp_add_mst_connector(struct drm_dp_mst_topol
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 0ef0eeb16778..0c4faba8ed28 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -440,9 +440,6 @@ dm_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
+ static void dm_dp_destroy_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
+ 					struct drm_connector *connector)
+ {
+-	struct amdgpu_dm_connector *master = container_of(mgr, struct amdgpu_dm_connector, mst_mgr);
+-	struct drm_device *dev = master->base.dev;
+-	struct amdgpu_device *adev = dev->dev_private;
+ 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
- static void radeon_dp_register_mst_connector(struct drm_connector *connector)
+ 	DRM_INFO("DM_MST: Disabling connector: %p [id: %d] [master: %p]\n",
+@@ -457,21 +454,11 @@ static void dm_dp_destroy_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
+ 	}
+ 
+ 	drm_connector_unregister(connector);
+-	if (adev->mode_info.rfbdev)
+-		drm_fb_helper_remove_one_connector(&adev->mode_info.rfbdev->helper, connector);
+ 	drm_connector_put(connector);
+ }
+ 
+ static void dm_dp_mst_register_connector(struct drm_connector *connector)
  {
 -	struct drm_device *dev = connector->dev;
--	struct radeon_device *rdev = dev->dev_private;
+-	struct amdgpu_device *adev = dev->dev_private;
 -
--	radeon_fb_add_connector(rdev, connector);
+-	if (adev->mode_info.rfbdev)
+-		drm_fb_helper_add_one_connector(&adev->mode_info.rfbdev->helper, connector);
+-	else
+-		DRM_ERROR("adev->mode_info.rfbdev is NULL\n");
 -
  	drm_connector_register(connector);
  }
  
- static void radeon_dp_destroy_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
- 					    struct drm_connector *connector)
- {
--	struct radeon_connector *master = container_of(mgr, struct radeon_connector, mst_mgr);
--	struct drm_device *dev = master->base.dev;
--	struct radeon_device *rdev = dev->dev_private;
--
- 	drm_connector_unregister(connector);
--	radeon_fb_remove_connector(rdev, connector);
- 	drm_connector_cleanup(connector);
- 
- 	kfree(connector);
-diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
-index 85548cf2529a..1c02cd771d52 100644
---- a/drivers/gpu/drm/radeon/radeon_fb.c
-+++ b/drivers/gpu/drm/radeon/radeon_fb.c
-@@ -403,15 +403,3 @@ bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj)
- 		return true;
- 	return false;
- }
--
--void radeon_fb_add_connector(struct radeon_device *rdev, struct drm_connector *connector)
--{
--	if (rdev->mode_info.rfbdev)
--		drm_fb_helper_add_one_connector(&rdev->mode_info.rfbdev->helper, connector);
--}
--
--void radeon_fb_remove_connector(struct radeon_device *rdev, struct drm_connector *connector)
--{
--	if (rdev->mode_info.rfbdev)
--		drm_fb_helper_remove_one_connector(&rdev->mode_info.rfbdev->helper, connector);
--}
-diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
-index 629567da29f1..c7f223743d46 100644
---- a/drivers/gpu/drm/radeon/radeon_mode.h
-+++ b/drivers/gpu/drm/radeon/radeon_mode.h
-@@ -986,9 +986,6 @@ bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj)
- 
- void radeon_crtc_handle_vblank(struct radeon_device *rdev, int crtc_id);
- 
--void radeon_fb_add_connector(struct radeon_device *rdev, struct drm_connector *connector);
--void radeon_fb_remove_connector(struct radeon_device *rdev, struct drm_connector *connector);
--
- void radeon_crtc_handle_flip(struct radeon_device *rdev, int crtc_id);
- 
- int radeon_align_pitch(struct radeon_device *rdev, int width, int bpp, bool tiled);
 -- 
 2.20.1
 
