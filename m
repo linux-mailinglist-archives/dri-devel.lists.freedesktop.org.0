@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBB4175EC6
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 16:55:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2314B175EE9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 16:58:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A1E56E526;
-	Mon,  2 Mar 2020 15:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE1B89E9B;
+	Mon,  2 Mar 2020 15:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
  [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 701816E526
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:55:52 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a5so11816804wmb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 07:55:52 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4920389E2B
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 15:58:01 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id e26so5566222wme.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 07:58:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BjYlKL9o7TZbQsWc9K6QzEeYeYL9pKOO2B0dVZhGMgI=;
- b=E3EW7bKsyRG3EAHqjwmwW9yEzLFHZ1Zm9ZA/LseFov8UVcQejVpj55bEMr/2EM/2ZO
- YG32xnXA4AY9KhV5CkmUgqTQ1tOWULDOiiaJo1kVmuMGHqIQkyCBiGQBwR4j0jetKvGq
- cntxwjyDo7avX0Np692/7MQfD5vH3JJax4mq5Z63KCD7u0eLQjNTpckWa/Nb9A+grmxZ
- knnLm8dSDK1ZHsindY6ZoNfah7wDLVU2WeS0znidHeu/9uUwBoPrDoTXAuaFxYfLHLkk
- vJEleCU4p8kjDrjgg93nVcHO+oVf3ZElg0XNcETlsZ8ssTlrCW3AC/Y2r+YJz5DNFrc+
- hmOg==
+ bh=wBpVpn8ZSs1N7QbQ5sNsHjPK34mnLUxBzYi8A5yEBlI=;
+ b=UhnLiIh3pEdwgGmvF52iHWYWx5VjHGvhSY3RsScd5IXgVX4CLxJ/iNeevELqCEBisX
+ gEKV1RJevQItZoZFaLq0cyXpvDeZkntwyn9uKdqhwfLDl79xlR1K3feH/J9X0SJwg8DD
+ kIo/C0k/+4Hxri73IC1OBbM125H/Y/8K+0qyO62GMCPx140+CxexTLYpnrJ6ZkQuq3sV
+ 4BkpE5f5u4DYqRqS6MiiDmt198ks0U2vdfllC5LBtAAj14erRfPCyKgHtrbHbgaRa7sJ
+ sWHUksBOhGcW6yl41SxZ4/o++0c/09C1Qw194eYdDn1GjJO2v7+sS7sL2DbIuy8emeJZ
+ Ntig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=BjYlKL9o7TZbQsWc9K6QzEeYeYL9pKOO2B0dVZhGMgI=;
- b=WnOlrYBudvo3nc52A5v4Las+rjFcptRisUYfgqEXgeEMwHk4RlUqlEvnSFkANU6GcJ
- UWCwGwj/NDYCCCtaBdaJW6TOtKNZpMAN6Lx90beKLH1KQN4PfAikzWV3JCwqZAk9oOwQ
- oZWx+CcPpdEovrAPXvCKcCBQf36GyuAd4jNCcFD6jtWNGCHIpkpYM+2qrQPS7Lz+BLMj
- 9RcqhzLzRCJc+taKcDFL2KXYOwmF0MJ4HhjL/S5kndYU0Z0bDppv3oiM+se6hMl9y8km
- /2MH5VmYSUXfsDSUOrAN4kRLbeVdb0NgRsNI+d19vF6UwV0PWnyaem1YwQZLT/TWgAIL
- sF9g==
-X-Gm-Message-State: ANhLgQ1/6fy2NMELcpLe6BVKPgDUu35bVKcURsvoNlla07vFRbOarCP9
- 7K9GQHWrouYG5g/19kKuzXD95Q==
-X-Google-Smtp-Source: ADFU+vutkqJro4J9wP34hv34vDjOhrgg/OZVjaaFWfss+KCr9LUev0wqJ6uKuztVCwzyYydvMm6yOA==
-X-Received: by 2002:a7b:c450:: with SMTP id l16mr97464wmi.166.1583164550931;
- Mon, 02 Mar 2020 07:55:50 -0800 (PST)
+ bh=wBpVpn8ZSs1N7QbQ5sNsHjPK34mnLUxBzYi8A5yEBlI=;
+ b=p1u3DRYcTGH8sEPOpTcaOKtHZq8wDRE2/6L/rv28Q809AemVxaMyyZuZ7vIdill95g
+ Z3+McF02t6V3YGJQgLckcpdEmXYdKSyAgeUS1IPzwuprQMqcPxizpAQekusDtvxDR4wf
+ VfUF+xM/hU+Hy575LP7lKDqIKN0MrHHLUtSiXNO0zyjV5co+LqLN/drM56dkEXRHZFcx
+ ppl9mAdeVbRGv+1HJQm2o6rjIibsnJLAjZhMnYdyKSOy/+Q0woTUCjRUX5BynokmZls9
+ /LA6dxyk00nPKmNhPm0Bp6j6cv0P78fOrvraCILOO9TK+NescML2WiA07X60OXiTQclj
+ px8Q==
+X-Gm-Message-State: ANhLgQ1G+4TrL+Ks0fFBEu5Y8I2tCeRs+VkIXeL6NCPoofGKRFYDfL0W
+ nsq2Uw9kuP20b5QpplVfXnrjWA==
+X-Google-Smtp-Source: ADFU+vuiZBFgYpeAFtkhE0uj+ytndQ+SgWww41wjRvO3uBOPqGsYbJiUjzKxJV3I7jEUMx9a4vU1Pw==
+X-Received: by 2002:a1c:1f0c:: with SMTP id f12mr75898wmf.179.1583164679438;
+ Mon, 02 Mar 2020 07:57:59 -0800 (PST)
 Received: from [10.1.3.173]
  (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id l17sm28503407wro.77.2020.03.02.07.55.49
+ by smtp.gmail.com with ESMTPSA id a70sm15760482wme.28.2020.03.02.07.57.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2020 07:55:50 -0800 (PST)
-Subject: Re: [PATCH v4 03/11] drm/bridge: dw-hdmi: Plug atomic state hooks to
- the default implementation
+ Mon, 02 Mar 2020 07:57:58 -0800 (PST)
+Subject: Re: [PATCH v4 04/11] drm/bridge: synopsys: dw-hdmi: add bus format
+ negociation
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20200206191834.6125-1-narmstrong@baylibre.com>
- <20200206191834.6125-4-narmstrong@baylibre.com>
- <20200302095608.GH11960@pendragon.ideasonboard.com>
+ <20200206191834.6125-5-narmstrong@baylibre.com>
+ <20200302101815.GJ11960@pendragon.ideasonboard.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <a11dd614-7a20-a711-7b18-09ae4b9fde49@baylibre.com>
-Date: Mon, 2 Mar 2020 16:55:49 +0100
+Message-ID: <b8e65d6c-e206-9289-947e-6ab5bb3967af@baylibre.com>
+Date: Mon, 2 Mar 2020 16:57:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200302095608.GH11960@pendragon.ideasonboard.com>
+In-Reply-To: <20200302101815.GJ11960@pendragon.ideasonboard.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -133,41 +133,406 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/03/2020 10:56, Laurent Pinchart wrote:
+On 02/03/2020 11:18, Laurent Pinchart wrote:
 > Hi Neil,
 > 
 > Thank you for the patch.
 > 
-> On Thu, Feb 06, 2020 at 08:18:26PM +0100, Neil Armstrong wrote:
+> On Thu, Feb 06, 2020 at 08:18:27PM +0100, Neil Armstrong wrote:
+>> Add the atomic_get_output_bus_fmts, atomic_get_input_bus_fmts to negociate
+>> the possible output and input formats for the current mode and monitor,
+>> and use the negotiated formats in a basic atomic_check callback.
+>>
 >> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> 
-> How about adding a commit message ?
-
-Done, thanks
-
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
 >> ---
->>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 3 +++
->>  1 file changed, 3 insertions(+)
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 272 +++++++++++++++++++++-
+>>  1 file changed, 268 insertions(+), 4 deletions(-)
 >>
 >> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index 051001f77dd4..fec4a4bcd1fe 100644
+>> index fec4a4bcd1fe..15048ad694bc 100644
 >> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 >> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -2494,6 +2494,9 @@ static void dw_hdmi_bridge_enable(struct drm_bridge *bridge)
->>  }
+>> @@ -2095,11 +2095,10 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+>>  	hdmi->hdmi_data.video_mode.mpixelrepetitionoutput = 0;
+>>  	hdmi->hdmi_data.video_mode.mpixelrepetitioninput = 0;
 >>  
->>  static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
->> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+>> -	/* TOFIX: Get input format from plat data or fallback to RGB888 */
+>>  	if (hdmi->plat_data->input_bus_format)
+>>  		hdmi->hdmi_data.enc_in_bus_format =
+>>  			hdmi->plat_data->input_bus_format;
+>> -	else
+>> +	else if (hdmi->hdmi_data.enc_in_bus_format == MEDIA_BUS_FMT_FIXED)
+>>  		hdmi->hdmi_data.enc_in_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+>>  
+>>  	/* TOFIX: Get input encoding from plat data or fallback to none */
+>> @@ -2109,8 +2108,8 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+>>  	else
+>>  		hdmi->hdmi_data.enc_in_encoding = V4L2_YCBCR_ENC_DEFAULT;
+>>  
+>> -	/* TOFIX: Default to RGB888 output format */
+>> -	hdmi->hdmi_data.enc_out_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+>> +	if (hdmi->hdmi_data.enc_out_bus_format == MEDIA_BUS_FMT_FIXED)
+>> +		hdmi->hdmi_data.enc_out_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+>>  
+>>  	hdmi->hdmi_data.pix_repet_factor = 0;
+>>  	hdmi->hdmi_data.hdcp_enable = 0;
+>> @@ -2388,6 +2387,267 @@ static const struct drm_connector_helper_funcs dw_hdmi_connector_helper_funcs =
+>>  	.atomic_check = dw_hdmi_connector_atomic_check,
+>>  };
+>>  
+>> +/*
+>> + * Possible output formats :
+>> + * - MEDIA_BUS_FMT_UYYVYY16_0_5X48,
+>> + * - MEDIA_BUS_FMT_UYYVYY12_0_5X36,
+>> + * - MEDIA_BUS_FMT_UYYVYY10_0_5X30,
+>> + * - MEDIA_BUS_FMT_UYYVYY8_0_5X24,
+>> + * - MEDIA_BUS_FMT_YUV16_1X48,
+>> + * - MEDIA_BUS_FMT_RGB161616_1X48,
+>> + * - MEDIA_BUS_FMT_UYVY12_1X24,
+>> + * - MEDIA_BUS_FMT_YUV12_1X36,
+>> + * - MEDIA_BUS_FMT_RGB121212_1X36,
+>> + * - MEDIA_BUS_FMT_UYVY10_1X20,
+>> + * - MEDIA_BUS_FMT_YUV10_1X30,
+>> + * - MEDIA_BUS_FMT_RGB101010_1X30,
+>> + * - MEDIA_BUS_FMT_UYVY8_1X16,
+>> + * - MEDIA_BUS_FMT_YUV8_1X24,
+>> + * - MEDIA_BUS_FMT_RGB888_1X24,
+>> + */
+> 
+> I'd drop this comment as I don't think it brings much, except for a risk
+> of getting out of sync with the implementation below :-)
+
+I know it's redundant, but I'll prefer having it here to clarify which bus formats
+are handled.
+
+> 
+>> +
+>> +/* Can return a maximum of 12 possible output formats for a mode/connector */
+>> +#define MAX_OUTPUT_SEL_FORMATS	12
+> 
+> I count 11 below.
+
+Exact !
+
+> 
+>> +
+>> +static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>> +					struct drm_bridge_state *bridge_state,
+>> +					struct drm_crtc_state *crtc_state,
+>> +					struct drm_connector_state *conn_state,
+>> +					unsigned int *num_output_fmts)
+>> +{
+>> +	struct drm_connector *conn = conn_state->connector;
+>> +	struct drm_display_info *info = &conn->display_info;
+>> +	struct drm_display_mode *mode = &crtc_state->mode;
+>> +	u8 max_bpc = conn_state->max_requested_bpc;
+>> +	bool is_hdmi2_sink = info->hdmi.scdc.supported ||
+>> +			     (info->color_formats & DRM_COLOR_FORMAT_YCRCB420);
+>> +	u32 *output_fmts;
+>> +	int i = 0;
+> 
+> i is never negative, you can make it an unsigned int.
+ok
+
+> 
+>> +
+>> +	*num_output_fmts = 0;
+>> +
+>> +	output_fmts = kcalloc(MAX_OUTPUT_SEL_FORMATS, sizeof(*output_fmts),
+>> +			      GFP_KERNEL);
+>> +	if (!output_fmts)
+>> +		return NULL;
+>> +
+>> +	/*
+>> +	 * If the current mode enforces 4:2:0, force the output but format
+>> +	 * to 4:2:0 and do not add the YUV422/444/RGB formats
+>> +	 */
+>> +	if (conn->ycbcr_420_allowed &&
+>> +	    (drm_mode_is_420_only(info, mode) ||
+>> +	     (is_hdmi2_sink && drm_mode_is_420_also(info, mode)))) {
+>> +
+>> +		/* Order bus formats from 16bit to 8bit if supported */
+>> +		if (max_bpc >= 16 && info->bpc == 16 &&
+>> +		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_48))
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY16_0_5X48;
+>> +
+>> +		if (max_bpc >= 12 && info->bpc >= 12 &&
+>> +		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_36))
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY12_0_5X36;
+>> +
+>> +		if (max_bpc >= 10 && info->bpc >= 10 &&
+>> +		    (info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420_DC_30))
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY10_0_5X30;
+>> +
+>> +		/* Default 8bit fallback */
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
+>> +
+>> +		*num_output_fmts = i;
+>> +
+>> +		return output_fmts;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Order bus formats from 16bit to 8bit and from YUV422 to RGB
+>> +	 * if supported. In any case the default RGB888 format is added
+>> +	 */
+>> +
+>> +	if (max_bpc >= 16 && info->bpc == 16) {
+>> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
+>> +
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
+>> +	}
+>> +
+>> +	if (max_bpc >= 12 && info->bpc >= 12) {
+>> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+>> +
+>> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+>> +
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+>> +	}
+>> +
+>> +	if (max_bpc >= 10 && info->bpc >= 10) {
+>> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+>> +
+>> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
+>> +
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+>> +	}
+>> +
+>> +	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+>> +
+>> +	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+>> +
+>> +	/* Default 8bit RGB fallback */
+>> +	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+>> +
+>> +	*num_output_fmts = i;
+>> +
+>> +	return output_fmts;
+>> +}
+>> +
+>> +/*
+>> + * Possible input formats :
+>> + * - MEDIA_BUS_FMT_RGB888_1X24
+>> + * - MEDIA_BUS_FMT_YUV8_1X24
+>> + * - MEDIA_BUS_FMT_UYVY8_1X16
+>> + * - MEDIA_BUS_FMT_UYYVYY8_0_5X24
+>> + * - MEDIA_BUS_FMT_RGB101010_1X30
+>> + * - MEDIA_BUS_FMT_YUV10_1X30
+>> + * - MEDIA_BUS_FMT_UYVY10_1X20
+>> + * - MEDIA_BUS_FMT_UYYVYY10_0_5X30
+>> + * - MEDIA_BUS_FMT_RGB121212_1X36
+>> + * - MEDIA_BUS_FMT_YUV12_1X36
+>> + * - MEDIA_BUS_FMT_UYVY12_1X24
+>> + * - MEDIA_BUS_FMT_UYYVYY12_0_5X36
+>> + * - MEDIA_BUS_FMT_RGB161616_1X48
+>> + * - MEDIA_BUS_FMT_YUV16_1X48
+>> + * - MEDIA_BUS_FMT_UYYVYY16_0_5X48
+>> + */
+> 
+> Same here.
+
+I'll prefer keeping these aswell
+
+> 
+>> +
+>> +/* Can return a maximum of 4 possible input formats for an output format */
+>> +#define MAX_INPUT_SEL_FORMATS	4
+> 
+> As Boris pointed out, that should be 3.
+
+Yep
+
+> 
+>> +
+>> +static u32 *dw_hdmi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>> +					struct drm_bridge_state *bridge_state,
+>> +					struct drm_crtc_state *crtc_state,
+>> +					struct drm_connector_state *conn_state,
+>> +					u32 output_fmt,
+>> +					unsigned int *num_input_fmts)
+>> +{
+>> +	u32 *input_fmts;
+>> +	int i = 0;
+> 
+> i is never negative, you can make it an unsigned int.
+ok
+
+> 
+>> +
+>> +	*num_input_fmts = 0;
+>> +
+>> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+>> +			     GFP_KERNEL);
+>> +	if (!input_fmts)
+>> +		return NULL;
+>> +
+>> +	switch (output_fmt) {
+>> +	/* 8bit */
+>> +	case MEDIA_BUS_FMT_RGB888_1X24:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+>> +		break;
+>> +	case MEDIA_BUS_FMT_YUV8_1X24:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+>> +		break;
+>> +	case MEDIA_BUS_FMT_UYVY8_1X16:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+>> +		break;
+>> +
+>> +	/* 10bit */
+>> +	case MEDIA_BUS_FMT_RGB101010_1X30:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+>> +		break;
+>> +	case MEDIA_BUS_FMT_YUV10_1X30:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+>> +		break;
+>> +	case MEDIA_BUS_FMT_UYVY10_1X20:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+>> +		break;
+>> +
+>> +	/* 12bit */
+>> +	case MEDIA_BUS_FMT_RGB121212_1X36:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+>> +		break;
+>> +	case MEDIA_BUS_FMT_YUV12_1X36:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+>> +		break;
+>> +	case MEDIA_BUS_FMT_UYVY12_1X24:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+>> +		break;
+>> +
+>> +	/* 16bit */
+>> +	case MEDIA_BUS_FMT_RGB161616_1X48:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
+>> +		break;
+>> +	case MEDIA_BUS_FMT_YUV16_1X48:
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
+>> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
+>> +		break;
+>> +
+>> +	/* 420 */
+> 
+> s/420/YUV 4:2:0/ ?
+
+Looks better
+
+> 
+>> +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+>> +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+>> +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+>> +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+>> +		input_fmts[i++] = output_fmt;
+>> +		break;
+>> +	}
+>> +
+>> +	*num_input_fmts = i;
+>> +
+>> +	if (*num_input_fmts == 0) {
+>> +		kfree(input_fmts);
+>> +		input_fmts = NULL;
+>> +	}
+>> +
+>> +	return input_fmts;
+>> +}
+>> +
+>> +static int dw_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
+>> +				       struct drm_bridge_state *bridge_state,
+>> +				       struct drm_crtc_state *crtc_state,
+>> +				       struct drm_connector_state *conn_state)
+>> +{
+>> +	struct dw_hdmi *hdmi = bridge->driver_private;
+>> +
+>> +	dev_dbg(hdmi->dev, "selected output format %x\n",
+> 
+> s/%x/0x%04x/
+> 
+>> +			bridge_state->output_bus_cfg.format);
+> 
+> Misalignment ?
+
+Fixed
+
+> 
+>> +
+>> +	hdmi->hdmi_data.enc_out_bus_format =
+>> +			bridge_state->output_bus_cfg.format;
+>> +
+>> +	dev_dbg(hdmi->dev, "selected input format %x\n",
+>> +			bridge_state->input_bus_cfg.format);
+> 
+> Same here. I would combine both messages:
+> 
+> 	dev_dbg(hdmi->dev, "input format: 0x%04x, output format: 0x04x\n",
+> 		bridge_state->input_bus_cfg.format,
+> 		bridge_state->output_bus_cfg.format);
+
+Looks better
+
+> 
+>> +
+>> +	hdmi->hdmi_data.enc_in_bus_format =
+>> +			bridge_state->input_bus_cfg.format;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
+>>  {
+>>  	struct dw_hdmi *hdmi = bridge->driver_private;
+>> @@ -2499,6 +2759,9 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+>>  	.atomic_reset = drm_atomic_helper_bridge_reset,
 >>  	.attach = dw_hdmi_bridge_attach,
 >>  	.detach = dw_hdmi_bridge_detach,
+>> +	.atomic_check = dw_hdmi_bridge_atomic_check,
+>> +	.atomic_get_output_bus_fmts = dw_hdmi_bridge_atomic_get_output_bus_fmts,
+>> +	.atomic_get_input_bus_fmts = dw_hdmi_bridge_atomic_get_input_bus_fmts,
 >>  	.enable = dw_hdmi_bridge_enable,
+>>  	.disable = dw_hdmi_bridge_disable,
+>>  	.mode_set = dw_hdmi_bridge_mode_set,
+>> @@ -2963,6 +3226,7 @@ __dw_hdmi_probe(struct platform_device *pdev,
+>>  
+>>  	hdmi->bridge.driver_private = hdmi;
+>>  	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
+>> +
+> 
+> This seems unrelated.
+
+Yep
+
+> 
+>>  #ifdef CONFIG_OF
+>>  	hdmi->bridge.of_node = pdev->dev.of_node;
+>>  #endif
 > 
 
+Thanks,
+Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
