@@ -1,37 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A92176521
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 21:36:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B71C17652D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 21:41:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 363046E83D;
-	Mon,  2 Mar 2020 20:36:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A312F6E83A;
+	Mon,  2 Mar 2020 20:41:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8E5C6E83D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 20:36:47 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2020 12:36:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,508,1574150400"; d="scan'208";a="243319648"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga006.jf.intel.com with SMTP; 02 Mar 2020 12:36:44 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 02 Mar 2020 22:36:43 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
-Date: Mon,  2 Mar 2020 22:34:52 +0200
-Message-Id: <20200302203452.17977-34-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1B216E83A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 20:41:20 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1583181682; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=khx1KQYqxxQvmwAnOnZ7jUWNWknzXliTUbWl7Gfuk+s=;
+ b=jgnclWXnxF/n3dL8EYDDebmtv3GeSvULje1I3PrGSS00zjVu0zaSnTUhU45LEp6Nw4PbvxHV
+ 9/9l3mWuf0SFT14k1g6QN5Y2cpLSICWDlN2FZILdZSJFLJVUn5ziWmJpkfafXCFyr2FbsimT
+ Si8Lt44j6MFQ1UdHlFrd21CCVok=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e5d6f66.7f8a9bef5148-smtp-out-n02;
+ Mon, 02 Mar 2020 20:41:10 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 0B9E6C4479C; Mon,  2 Mar 2020 20:41:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,URIBL_BLOCKED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 24B45C43383;
+ Mon,  2 Mar 2020 20:41:08 +0000 (UTC)
 MIME-Version: 1.0
+Date: Mon, 02 Mar 2020 12:41:08 -0800
+From: abhinavk@codeaurora.org
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: Reverting https://patchwork.freedesktop.org/patch/336850/
+In-Reply-To: <20200302080912.GA1690850@ulmo>
+References: <8bec962794df6fd8f1384d457060234e@codeaurora.org>
+ <20200302080912.GA1690850@ulmo>
+Message-ID: <67a9625bc57d85f675af5074f9ded248@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,30 +62,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Brian Masney <masneyb@onstation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: treding@nvidia.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, varar@quicinc.com, seanpaul@chromium.org,
+ daniel.vetter@ffwll.ch, aravindh@codeaurora.org, chandanu@codeaurora.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClRo
-ZSBjdXJyZW50bHkgbGlzdGVkIGRvdGNsb2NrIGRpc2FncmVlcyB3aXRoIHRoZSBjdXJyZW50bHkK
-bGlzdGVkIHZyZWZyZXNoIHJhdGUuIENoYW5nZSB0aGUgZG90Y2xvY2sgdG8gbWF0Y2ggdGhlIHZy
-ZWZyZXNoLgoKU29tZW9uZSB0ZWxsIG1lIHdoaWNoIChpZiBlaXRoZXIpIG9mIHRoZSBkb3RjbG9j
-ayBvciB2cmVyZXNoIGlzCmNvcnJlY3Q/CgpDYzogSm9uYXRoYW4gTWFyZWsgPGpvbmF0aGFuQG1h
-cmVrLmNhPgpDYzogQnJpYW4gTWFzbmV5IDxtYXNuZXliQG9uc3RhdGlvbi5vcmc+CkNjOiBMaW51
-cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+ClNpZ25lZC1vZmYtYnk6IFZpbGxl
-IFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Ci0tLQogZHJpdmVycy9n
-cHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Bh
-bmVsL3BhbmVsLXNpbXBsZS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5j
-CmluZGV4IGIyNGZkZjIzOTQ0MC4uZjk1OGQ4ZGZkNzYwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3Bh
-bmVsLXNpbXBsZS5jCkBAIC0zOTk2LDcgKzM5OTYsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBh
-bmVsX2Rlc2NfZHNpIHBhbmFzb25pY192dngxMGYwMDRiMDAgPSB7CiB9OwogCiBzdGF0aWMgY29u
-c3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgbGdfYWN4NDY3YWttXzdfbW9kZSA9IHsKLQkuY2xv
-Y2sgPSAxNTAwMDAsCisJLmNsb2NrID0gMTI1NDk4LAogCS5oZGlzcGxheSA9IDEwODAsCiAJLmhz
-eW5jX3N0YXJ0ID0gMTA4MCArIDIsCiAJLmhzeW5jX2VuZCA9IDEwODAgKyAyICsgMiwKLS0gCjIu
-MjQuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Thierry
+
+Thanks for the response.
+We shall reimplement these locally in our drivers and push the next 
+patchset.
+
+Thanks
+
+Abhinav
+On 2020-03-02 00:09, Thierry Reding wrote:
+> On Fri, Feb 28, 2020 at 05:35:51PM -0800, abhinavk@codeaurora.org 
+> wrote:
+>> Hi Thierry
+>> 
+>> For DP drivers using MSM chipsets, we are using drm_dp_link_configure,
+>> drm_dp_link_power_up and drm_dp_link_power_down functions. Here is the 
+>> patch
+>> for reference:
+>> 
+>> https://patchwork.freedesktop.org/patch/343346/
+>> 
+>> We will be posting a newer version of the driver soon.
+>> 
+>> For that, we plan to revert 
+>> https://patchwork.freedesktop.org/patch/336850/
+>> as now there are more users of the functions and not just tegra.
+>> 
+>> Let us know if this is the right approach or shall we make the 
+>> required
+>> functions local to our drivers.
+> 
+> I think reimplementing these locally in you drivers is the preferred
+> way. It's not so much a lack of users (there were 5 or so in total when
+> I made the change to remove these helpers), but rather the general
+> approach that was being criticized by other driver maintainers. I'm not
+> aware of any of their opinions having changed on this subject, so I'd
+> recommend going down the path of least resistance.
+> 
+> Thierry
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
