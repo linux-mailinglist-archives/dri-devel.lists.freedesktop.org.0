@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8AA17553B
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 09:09:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A95175545
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 09:14:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE2A6E0CB;
-	Mon,  2 Mar 2020 08:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066A36E0E8;
+	Mon,  2 Mar 2020 08:14:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 164C26E0CB
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 08:09:16 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id e26so4116979wme.5
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 00:09:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=QIEDA5vG8ySnah38r3nnooZWjoF1SxANwiGeAOn5aus=;
- b=Hxc1+/2qLFumg1E3nHvgrhfGbDd0W6GUzhRrb85hVtcNCDE0oKietbH1+Kpx7nM9Dd
- ReJrof+d+xW/Ur3HvZ1jhZg1LPUbC98yCisPAfmvIaJR0aroL28uFIz/CCr/w8vnYYHT
- KYw6Ys4O0sxoGwto2oOMQ1j5lq4iNRi96mkGi67eyQIGK0tsEHpGlEdGNQblHPOWFtLI
- UyBAWOvfHIWPrNdbfKJkTcNHPVi76G0jxl8tKxeD8hbIZE8K74m335iwBgXi9faXHrEH
- eu9XqW5IWfEuS6JKo1UddrtLT8MH3DILVPqyTNDN2VQI50JWy+LZHQh09TWLzO/xK+Rn
- xb8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=QIEDA5vG8ySnah38r3nnooZWjoF1SxANwiGeAOn5aus=;
- b=FqI+xw2oCqQrTXB1MOFziltHWw5z/tLZjJZbZiJOpvUQUUlJnagOf1k4oUJYao/wXH
- waMRUwKY9yXxcszB4T8qN6cmMRI/0Aw1aSYVUNX1IfMZyRxRuD4q8Az2pFbG9TujgqcO
- NpJESz0W3tvXiexAS79iAUu9T6IHl22TbpGd+wBsreA4VkIbENK6lTkq6qBnC4JJoWAA
- wePDvmfQC7YjXBC7nhsNuFx1kPvQrvVg0TjJB8T1qX/zvNDwlttARvkWUcdDrtuKdn/A
- rRd+hF9vtkE5kzFF3ySrVNJp2zlwu+BhN6lpT7UbJWJikhbI2UN5o+f0tE7CcUZ3d8On
- buXQ==
-X-Gm-Message-State: APjAAAXtM/e2KQ2qP305ePYs58ziI0ajf/A9gvecSfR0cuTiNTQ744+F
- JzIWYMt4WkOCTi4zlNWUXx4=
-X-Google-Smtp-Source: APXvYqwmBD1RYu1hJm1Lol7EWN8ITOWVoo4HPBmYpeRt7oZoBTO86LIDV8S9H3cf6XaYxk4rcOf1ew==
-X-Received: by 2002:a7b:c305:: with SMTP id k5mr19264575wmj.189.1583136554745; 
- Mon, 02 Mar 2020 00:09:14 -0800 (PST)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
- by smtp.gmail.com with ESMTPSA id g25sm28977284wmh.3.2020.03.02.00.09.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 00:09:13 -0800 (PST)
-Date: Mon, 2 Mar 2020 09:09:12 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: abhinavk@codeaurora.org
-Subject: Re: Reverting https://patchwork.freedesktop.org/patch/336850/
-Message-ID: <20200302080912.GA1690850@ulmo>
-References: <8bec962794df6fd8f1384d457060234e@codeaurora.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 836386E0CF;
+ Mon,  2 Mar 2020 08:14:49 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 0DE3CAAC7;
+ Mon,  2 Mar 2020 08:14:46 +0000 (UTC)
+Subject: Re: [PATCH 50/51] drm/udl: drop drm_driver.release hook
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
+ <20200227181522.2711142-51-daniel.vetter@ffwll.ch>
+ <9e49ba2e-3d1e-98a2-9a11-725bc8a95941@suse.de>
+ <CAKMK7uGicrZxMeYmz13psgXgRYK1OrZmpHxsEKxet=qP_pRpcQ@mail.gmail.com>
+ <013a54c4-edc6-b771-478f-e3e10a1d9a83@suse.de>
+ <CAKMK7uG3MuLEhCSxP1HBoROD3FuixcRov57hTBO9BeZE+n98jg@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <e9fa1b03-e4b7-d65b-8fb8-fe15c20fddc9@suse.de>
+Date: Mon, 2 Mar 2020 09:14:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <8bec962794df6fd8f1384d457060234e@codeaurora.org>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <CAKMK7uG3MuLEhCSxP1HBoROD3FuixcRov57hTBO9BeZE+n98jg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,76 +68,260 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: aravindh@codeaurora.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, varar@quicinc.com, seanpaul@chromium.org,
- daniel.vetter@ffwll.ch, treding@nvidia.com, chandanu@codeaurora.org
-Content-Type: multipart/mixed; boundary="===============1408869545=="
+Cc: Sean Paul <sean@poorly.run>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1953507687=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1408869545==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1953507687==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
-Content-Disposition: inline
+ protocol="application/pgp-signature";
+ boundary="SoUrstqenL2qSvw7OEZ0O0Qa55V3HufgA"
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--SoUrstqenL2qSvw7OEZ0O0Qa55V3HufgA
+Content-Type: multipart/mixed; boundary="1HSUuzybjPYxWdZtBLrY3tBhnnWqkgkw0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner
+ <tglx@linutronix.de>, Sean Paul <sean@poorly.run>
+Message-ID: <e9fa1b03-e4b7-d65b-8fb8-fe15c20fddc9@suse.de>
+Subject: Re: [PATCH 50/51] drm/udl: drop drm_driver.release hook
+References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
+ <20200227181522.2711142-51-daniel.vetter@ffwll.ch>
+ <9e49ba2e-3d1e-98a2-9a11-725bc8a95941@suse.de>
+ <CAKMK7uGicrZxMeYmz13psgXgRYK1OrZmpHxsEKxet=qP_pRpcQ@mail.gmail.com>
+ <013a54c4-edc6-b771-478f-e3e10a1d9a83@suse.de>
+ <CAKMK7uG3MuLEhCSxP1HBoROD3FuixcRov57hTBO9BeZE+n98jg@mail.gmail.com>
+In-Reply-To: <CAKMK7uG3MuLEhCSxP1HBoROD3FuixcRov57hTBO9BeZE+n98jg@mail.gmail.com>
 
---xHFwDpU9dbj6ez1V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--1HSUuzybjPYxWdZtBLrY3tBhnnWqkgkw0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 28, 2020 at 05:35:51PM -0800, abhinavk@codeaurora.org wrote:
-> Hi Thierry
->=20
-> For DP drivers using MSM chipsets, we are using drm_dp_link_configure,
-> drm_dp_link_power_up and drm_dp_link_power_down functions. Here is the pa=
-tch
-> for reference:
->=20
-> https://patchwork.freedesktop.org/patch/343346/
->=20
-> We will be posting a newer version of the driver soon.
->=20
-> For that, we plan to revert https://patchwork.freedesktop.org/patch/33685=
-0/
-> as now there are more users of the functions and not just tegra.
->=20
-> Let us know if this is the right approach or shall we make the required
-> functions local to our drivers.
+Hi Daniel
 
-I think reimplementing these locally in you drivers is the preferred
-way. It's not so much a lack of users (there were 5 or so in total when
-I made the change to remove these helpers), but rather the general
-approach that was being criticized by other driver maintainers. I'm not
-aware of any of their opinions having changed on this subject, so I'd
-recommend going down the path of least resistance.
+Am 28.02.20 um 18:43 schrieb Daniel Vetter:
+> On Fri, Feb 28, 2020 at 12:46 PM Thomas Zimmermann <tzimmermann@suse.de=
+> wrote:
+>>
+>> Hi
+>>
+>> Am 28.02.20 um 09:40 schrieb Daniel Vetter:
+>>> On Fri, Feb 28, 2020 at 8:44 AM Thomas Zimmermann <tzimmermann@suse.d=
+e> wrote:
+>>>>
+>>>> Hi Daniel
+>>>>
+>>>> Am 27.02.20 um 19:15 schrieb Daniel Vetter:
+>>>>> There's only two functions called from that:
+>>>>> drm_kms_helper_poll_fini() and udl_free_urb_list(). Both of these a=
+re
+>>>>> also called from the ubs_driver->disconnect hook, so entirely
+>>>>> pointless to do the same again in the ->release hook.
+>>>>
+>>>> The disconnect hook calls drm_kms_helper_poll_disable() instead if
+>>>> _fini(). They are the same, except that _disable() does not clear
+>>>> dev->mode_config.poll_enabled to false. Is this OK?
+>>>
+>>> oops, I overlooked that. But yeah for driver shutdown it's the same
+>>> really, we're not going to re-enable. _disable is meant for suspend s=
+o
+>>> youc an re-enable again on resume.
+>>>
+>>> I'll augment the commit message on the next round to clarify that.
+>>
+>> Well, we have a managed API. It could support
+>> drmm_kms_helper_poll_init(). :)
+>=20
+> You're ahead of the game here, but yes that's the plan. And a lot
+> more. Ideally I really want to get rid of both bus_driver->remove and
+> drm_driver->release callbacks for all drivers.
+>=20
+> Also, for polling you actually want devm_kms_poll_init, since polling
+> should be stopped at unplug/remove time. Not at drm_driver release
+> time :-)
 
-Thierry
+Quite honestly, if you're not adding devm_kms_poll_init() now, why even
+bother removing the _fini() call from release()? It hasn't been a
+problem so far and it won't become one. Doing a half-baked change now
+results in a potential WTF moment for other developers.
 
---xHFwDpU9dbj6ez1V
+Rather clean up release() when you add the managed devm_kms_poll_init()
+and have a nice, clear patch.
+
+Best regards
+Thomas
+
+
+> -Daniel
+>=20
+>>
+>> Best regards
+>> Thomas
+>>
+>>> -Daniel
+>>>
+>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>>
+>>>>> Furthermore by the time we clean up the drm_driver we really should=
+n't
+>>>>> be touching hardware anymore, so stopping the poll worker and freei=
+ng
+>>>>> the urb allocations in ->disconnect is the right thing to do.
+>>>>>
+>>>>> Now disconnect still cleans things up before unregistering the driv=
+er,
+>>>>> but that's a different issue.
+>>>>>
+>>>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>>>> Cc: Dave Airlie <airlied@redhat.com>
+>>>>> Cc: Sean Paul <sean@poorly.run>
+>>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+>>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>>>> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
+>>>>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>>>>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>>>> ---
+>>>>>  drivers/gpu/drm/udl/udl_drv.c  |  6 ------
+>>>>>  drivers/gpu/drm/udl/udl_drv.h  |  1 -
+>>>>>  drivers/gpu/drm/udl/udl_main.c | 10 ----------
+>>>>>  3 files changed, 17 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/ud=
+l_drv.c
+>>>>> index b447fb053e78..7f140898df3e 100644
+>>>>> --- a/drivers/gpu/drm/udl/udl_drv.c
+>>>>> +++ b/drivers/gpu/drm/udl/udl_drv.c
+>>>>> @@ -34,14 +34,8 @@ static int udl_usb_resume(struct usb_interface *=
+interface)
+>>>>>
+>>>>>  DEFINE_DRM_GEM_FOPS(udl_driver_fops);
+>>>>>
+>>>>> -static void udl_driver_release(struct drm_device *dev)
+>>>>> -{
+>>>>> -     udl_fini(dev);
+>>>>> -}
+>>>>> -
+>>>>>  static struct drm_driver driver =3D {
+>>>>>       .driver_features =3D DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODE=
+SET,
+>>>>> -     .release =3D udl_driver_release,
+>>>>>
+>>>>>       /* gem hooks */
+>>>>>       .gem_create_object =3D udl_driver_gem_create_object,
+>>>>> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/ud=
+l_drv.h
+>>>>> index 1de7eb1b6aac..2642f94a63fc 100644
+>>>>> --- a/drivers/gpu/drm/udl/udl_drv.h
+>>>>> +++ b/drivers/gpu/drm/udl/udl_drv.h
+>>>>> @@ -76,7 +76,6 @@ int udl_submit_urb(struct drm_device *dev, struct=
+ urb *urb, size_t len);
+>>>>>  void udl_urb_completion(struct urb *urb);
+>>>>>
+>>>>>  int udl_init(struct udl_device *udl);
+>>>>> -void udl_fini(struct drm_device *dev);
+>>>>>
+>>>>>  int udl_render_hline(struct drm_device *dev, int log_bpp, struct u=
+rb **urb_ptr,
+>>>>>                    const char *front, char **urb_buf_ptr,
+>>>>> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/u=
+dl_main.c
+>>>>> index 538718919916..f5d27f2a5654 100644
+>>>>> --- a/drivers/gpu/drm/udl/udl_main.c
+>>>>> +++ b/drivers/gpu/drm/udl/udl_main.c
+>>>>> @@ -351,13 +351,3 @@ int udl_drop_usb(struct drm_device *dev)
+>>>>>       udl_free_urb_list(dev);
+>>>>>       return 0;
+>>>>>  }
+>>>>> -
+>>>>> -void udl_fini(struct drm_device *dev)
+>>>>> -{
+>>>>> -     struct udl_device *udl =3D to_udl(dev);
+>>>>> -
+>>>>> -     drm_kms_helper_poll_fini(dev);
+>>>>> -
+>>>>> -     if (udl->urbs.count)
+>>>>> -             udl_free_urb_list(dev);
+>>>>> -}
+>>>>>
+>>>>
+>>>> --
+>>>> Thomas Zimmermann
+>>>> Graphics Driver Developer
+>>>> SUSE Software Solutions Germany GmbH
+>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>
+>>>
+>>>
+>>
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--1HSUuzybjPYxWdZtBLrY3tBhnnWqkgkw0--
+
+--SoUrstqenL2qSvw7OEZ0O0Qa55V3HufgA
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5cvyQACgkQ3SOs138+
-s6FuWRAAic4BmNGPInfnz8tpJ3zMdR881tl4xLHBVnd0cIlAsN0wR5BgQdyoJ6CJ
-5VrRknoD7ksKAF5NSbpfhcfL+MXM8co0nLGdBsQbbOyIh15q2/13csHlgaGq+V1E
-6HvPbdXrHHOwy0fLs24P2Qgr/K6lJ7z+Dd6ZOMfJVd8XvKiytliEPNi/hj7UrkBV
-fdgrMxV4I5n1j3+xjMIGTUnUURj9GHvHCxNChUtxoCpcK/dEaR6ycX6yo2HuNYBL
-/BYHow1Qls0b+Q4iKjpd4wMBtRE8TDRNe32bV/JnbNL3QIFMq0pkGMvzTJyFbQD3
-psmZmy4o4KzzDYifvtvhOF45+7SbYbcEwikBuDLv8FnuKXkj4ven51apoAexzZie
-DXrG9lojGc4BuHwWYJMrp5EjGHBNGwtUFmBblLMap/A4iVSAgxlxQSnT1tS9RXE0
-4g8u9G1iOKwMvOFkCTAvUjzuR52/esEHqWRbeyWdggehESQFhOrz8nGcN3fLYbD0
-EKUoyOs1oKsnFmA2LdJdJyMfq6VesIjLizs9tWdMGSpG7XDXIzJOvzcnJp8DRzRB
-TQRoa/Lg3Kopf3UeMHMWm1UY0ULF/YWc/DDkD2RxPPSpbof1T/RDnsVy5JX2Hltf
-s3M/dH3m/pQjGmeO6hP5j0cxtRPaURdy1Z8e4TbZDp/nI9qPsIw=
-=Ac70
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5cwHUACgkQaA3BHVML
+eiPi3Af+MqCGa3slEm9tnpnumV3bQcLLaUmRYU3XbZtH0VYEF1debcxYNisVScCu
+5XLnEHHtoRpkxig/bGvGNssBQorkmW+BAek0lMnHCTf9bT/eLbS22WWoe/TDjWsv
+8BsbF2aChSZRUJD2VxWaBrlIDtFPUdrToqW0a4J+OKGz7mrrMjGZQhLwOtqBSkEw
+VolUrDNkJsSzP7uk3uk17zcusihKKvkg5AB2k7mkHKIWFsaWytaGD+ireyvAYOX/
+qXxEF1XXSSeJNnpr1y6WR+CBSU2r1LdcMvHTqhQ5nFNrZmtXo14VaC6S0bMka78X
+F0qwcaIEVbXG7YFDzlECmb2WvX5B5g==
+=76xj
 -----END PGP SIGNATURE-----
 
---xHFwDpU9dbj6ez1V--
+--SoUrstqenL2qSvw7OEZ0O0Qa55V3HufgA--
 
---===============1408869545==
+--===============1953507687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -146,4 +332,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1408869545==--
+--===============1953507687==--
