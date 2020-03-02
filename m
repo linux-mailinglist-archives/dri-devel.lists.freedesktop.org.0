@@ -1,43 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF8B17712E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B9A177121
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEBD6EA21;
-	Tue,  3 Mar 2020 08:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 515986EA06;
+	Tue,  3 Mar 2020 08:24:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs8.siol.net [185.57.226.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7886E271
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 12:45:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 01DE15230B1;
- Mon,  2 Mar 2020 13:45:46 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id L-mXkFixs0XB; Mon,  2 Mar 2020 13:45:45 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id 89B175242A5;
- Mon,  2 Mar 2020 13:45:45 +0100 (CET)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net
- [89.212.178.211]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Postfix) with ESMTPA id 970E85230B1;
- Mon,  2 Mar 2020 13:45:44 +0100 (CET)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 2/4] drm/bridge: dw-hdmi: Fix color space conversion
- detection
-Date: Mon, 02 Mar 2020 13:45:44 +0100
-Message-ID: <4602894.0VBMTVartN@jernej-laptop>
-In-Reply-To: <20200302092748.GE11960@pendragon.ideasonboard.com>
-References: <20200229163043.158262-1-jernej.skrabec@siol.net>
- <20200229163043.158262-3-jernej.skrabec@siol.net>
- <20200302092748.GE11960@pendragon.ideasonboard.com>
-MIME-Version: 1.0
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5076089DD5
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 12:56:18 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1583153783; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=UksUc8DJnc1aYd/SBMqGZD14Ha68l6nAiWZPU19ssZA=;
+ b=g8vU5Ui+NTZFgYHl1WzkoUslAg2cLpaacaT2fr78Sz0EKE1QpOQrnz+TXYaL/XqTXCmQi43b
+ uqGOTaPi1NumUaiUNusgRJ9GYI3yVz4RGmWZr6zZNuGB8D7i8GF3UaffbqLB4uoiz4yQzOfA
+ Hn9WbuU70fNQwd9XdaF73bwVLIQ=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e5d026b.7f2ecc2e7d18-smtp-out-n02;
+ Mon, 02 Mar 2020 12:56:11 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 243EBC447A0; Mon,  2 Mar 2020 12:56:11 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: kgunda)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id DD000C43383;
+ Mon,  2 Mar 2020 12:56:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DD000C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=kgunda@codeaurora.org
+From: Kiran Gunda <kgunda@codeaurora.org>
+To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
+ b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+ daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V1 0/2] Add support for WLED5
+Date: Mon,  2 Mar 2020 18:25:36 +0530
+Message-Id: <1583153739-19170-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,85 +67,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com
+Cc: linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne ponedeljek, 02. marec 2020 ob 10:27:48 CET je Laurent Pinchart napisal(a):
-> Hi Jernej,
-> 
-> Thank you for the patch.
-> 
-> On Sat, Feb 29, 2020 at 05:30:41PM +0100, Jernej Skrabec wrote:
-> > Currently, is_color_space_conversion() compares not only color spaces
-> > but also formats. For example, function would return true if YCbCr 4:4:4
-> > and YCbCr 4:2:2 would be set. Obviously in that case color spaces are
-> > the same.
-> > 
-> > Fix that by comparing if both values represent RGB color space.
-> > 
-> > Fixes: b21f4b658df8 ("drm: imx: imx-hdmi: move imx-hdmi to
-> > bridge/dw_hdmi")
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> 
-> This isn't implemented today, but could the CSC be used to convert
-> between different YCbCr encodings ?
+Currently, WLED driver supports only WLED4 peripherals that is present
+on pmi8998 and pm660L. This patch series  converts the existing WLED4
+bindings from .txt to .yaml format and adds the support for WLED5 peripheral
+that is present on PM8150L.
 
-Yes, CSC offers great flexibility, but unfortunately that also means that you 
-have as much CSC matrices as there is possible conversions. This explodes 
-quickly, especially if you convert from one YCbCr encoding to another (BT.601, 
-BT.709, BT.2020) and also considering range (full, limited). If you don't mind 
-doing some calculations in code, this becames much simpler, but doing fixed 
-point arithmetic isn't fun. Is floating point arithmetic allowed in kernel?
+PM8150L WLED supports the following.
+    - Two modulators and each sink can use any of the modulator
+    - Multiple CABC selection options
+    - Multiple brightness width selection (12 bits to 15 bits)
 
-I wrote a simple program to produce all those CSC matrices for sun4i-drm 
-driver: http://ix.io/2dak Note that it's for RGB <-> YUV conversion, but DW 
-HDMI has a bit different order. I believe it's GRB, but I'm not 100% sure.
+Kiran Gunda (2):
+  backlight: qcom-wled: convert the wled bindings to .yaml format
+  backlight: qcom-wled: Add support for WLED5 peripheral in PM8150L
 
-You can also do various color adjustements, like brigthness, but that would 
-also mean that you have to multiply all matrices to get final one which you can 
-then write into registers.
+ .../bindings/leds/backlight/qcom-wled.txt          | 154 -------
+ .../bindings/leds/backlight/qcom-wled.yaml         | 223 ++++++++++
+ drivers/video/backlight/qcom-wled.c                | 463 ++++++++++++++++++---
+ 3 files changed, 636 insertions(+), 204 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
 
-Best regards,
-Jernej
-
-> 
-> In any case the patch is correct based on the current implementation, so
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> > ---
-> > 
-> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c index
-> > 24965e53d351..9d7bfb1cb213 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > @@ -956,7 +956,8 @@ static void hdmi_video_sample(struct dw_hdmi *hdmi)
-> > 
-> >  static int is_color_space_conversion(struct dw_hdmi *hdmi)
-> >  {
-> > 
-> > -	return hdmi->hdmi_data.enc_in_bus_format !=
-> > hdmi->hdmi_data.enc_out_bus_format; +	return
-> > hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) !=
-> > +		hdmi_bus_fmt_is_rgb(hdmi-
->hdmi_data.enc_out_bus_format);
-> > 
-> >  }
-> >  
-> >  static int is_color_space_decimation(struct dw_hdmi *hdmi)
-
-
-
-
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
