@@ -2,96 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C303F175CF8
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 15:26:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D28A175D08
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 15:28:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B24BC6E45D;
-	Mon,  2 Mar 2020 14:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72A7889650;
+	Mon,  2 Mar 2020 14:28:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
  [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9DD6E45D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 14:26:31 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 923B889650
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 14:28:24 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200302142627euoutp02219460cc66e34f9318e893e1da36968b~4guSplpXG2769327693euoutp02N
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 14:26:27 +0000 (GMT)
+ 20200302142823euoutp02af4cb945814d7b074c0b653dd21525d3~4gv_Xzavx2841828418euoutp027
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 14:28:23 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200302142627euoutp02219460cc66e34f9318e893e1da36968b~4guSplpXG2769327693euoutp02N
+ 20200302142823euoutp02af4cb945814d7b074c0b653dd21525d3~4gv_Xzavx2841828418euoutp027
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1583159187;
- bh=FCqoYEJcXWnvha6Z3JswL0lmTOgpCoa7lCnTWgtZMW8=;
+ s=mail20170921; t=1583159303;
+ bh=z6l23Zr67Ly3mm0OXDnyWnarUr6GfwkaH4rOnwLI+UY=;
  h=From:To:Cc:Subject:Date:References:From;
- b=rDTN3crx0HVwi9INFOpuLCVsA8M0WdDiCJLU+npd/3811rfjHNupCnaGPNY07kKFh
- dfTezCVOGQpMUbjYCl6ORPGf8/9z5J4tZO6KDgBPV3IHFbvwsQTxhMkwx1rNod18S3
- hFaiflnkiW+HCk74Lt6K7NA6Mpg0Bo3B5RiMHqvc=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ b=LX4lLJQrtitFq/wM8zSZGDZs/lOHzqyMaYfqt3v5RALCEo91Bfep2gET0VlYlkbeA
+ gTCsIM7uVh8zjtXzprNbmV5ZB6zBqphx2DpXdIm9w32yhgGeM6g3EAA8WI8lso9teW
+ 7aFUyvpcAN8YgOWH2tOlfhRRYLAy0mh6gW9i7Qck=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200302142627eucas1p2d7e14105a14172b32f8329188e83ba7a~4guSdGvzb0112601126eucas1p2d;
- Mon,  2 Mar 2020 14:26:27 +0000 (GMT)
+ 20200302142823eucas1p200760a3d8cf8f73ccaa08080f204862e~4gv_Iqvzw2720127201eucas1p2r;
+ Mon,  2 Mar 2020 14:28:23 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 31.D3.60679.3971D5E5; Mon,  2
- Mar 2020 14:26:27 +0000 (GMT)
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 71.22.61286.6081D5E5; Mon,  2
+ Mar 2020 14:28:23 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200302142626eucas1p25b7aec18264b1483fab9cceb86989aa8~4guSDepPD2743227432eucas1p2u;
- Mon,  2 Mar 2020 14:26:26 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200302142822eucas1p1749e7cd54ad0b8657b753a8b720ccba2~4gv9yyJ3U0852708527eucas1p1r;
+ Mon,  2 Mar 2020 14:28:22 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200302142626eusmtrp2ac9c995f2f4ff5ba97b49fd36ef7d86a~4guSCuacg1646016460eusmtrp2c;
- Mon,  2 Mar 2020 14:26:26 +0000 (GMT)
-X-AuditID: cbfec7f4-0cbff7000001ed07-82-5e5d1793293e
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 81.C4.07950.2971D5E5; Mon,  2
- Mar 2020 14:26:26 +0000 (GMT)
+ 20200302142822eusmtrp28cea014d176fad4f7223a0614f1afb98~4gv9yLNMC1802718027eusmtrp2T;
+ Mon,  2 Mar 2020 14:28:22 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-9a-5e5d18068e5f
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id E8.35.08375.6081D5E5; Mon,  2
+ Mar 2020 14:28:22 +0000 (GMT)
 Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200302142626eusmtip1d93770a14923d6a1571de74b07f4d3e4~4guROo6By0637906379eusmtip1X;
- Mon,  2 Mar 2020 14:26:26 +0000 (GMT)
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200302142822eusmtip26d1c9f18cb01aa65d7a0f9870a7030de~4gv9aZZu60636106361eusmtip2T;
+ Mon,  2 Mar 2020 14:28:22 +0000 (GMT)
 From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org
-Subject: [PATCH] drm/bridge: analogix_dp: Split bind() into probe() and real
- bind()
-Date: Mon,  2 Mar 2020 15:26:15 +0100
-Message-Id: <20200302142615.14947-1-m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH] drm/exynos: Fix cleanup of IOMMU related objects
+Date: Mon,  2 Mar 2020 15:27:09 +0100
+Message-Id: <20200302142709.15007-1-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEKsWRmVeSWpSXmKPExsWy7djPc7qTxWPjDL7uELO4te4cq8XGGetZ
- La58fc9m8f/Ra1aLuZNqLSbdn8BicfX7S2aLFV9mslucfHOVxaJz4hJ2i08P/jNbzDi/j8li
- 7ZG77BaH+qItZkx+yebA7/H+Riu7x85Zd9k9ZnfMZPU4MeESk8f97uNMHpuX1Hv8nbWfxaNv
- yypGjwO9k1k8tl+bx+zxeZNcAHcUl01Kak5mWWqRvl0CV8acC8fYCnrtK+avPcfWwPjAtIuR
- k0NCwESia8tF1i5GLg4hgRWMEsueHWKBcL4wSuzsPsgO4XxmlPg8Yxs7TMuVzw+YQGwhgeWM
- En+mqMF1TNj2khkkwSZgKNH1tosNxBYRyJH41PGGEaSIWaCVReJz41qwScICoRI7zr4HK2IR
- UJU4d+ci2FReAVuJz1+PskFsk5dYveEAM0izhMAudomON9cYIRIuEjeuTWeFsIUlXh3fAnWe
- jMT/nfOZIBqaGSUenlvLDuH0MEpcbpoB1W0tcefcL6AVHEA3aUqs36UPYkoIOEp87fWGMPkk
- brwVBClmBjInbZvODBHmlehoE4KYoSYx6/g6uK0HL1xihrA9JO6cXMEMCaBYieW3L7JOYJSb
- hbBqASPjKkbx1NLi3PTUYqO81HK94sTc4tK8dL3k/NxNjMCUdPrf8S87GHf9STrEKMDBqMTD
- G8AcGyfEmlhWXJl7iFGCg1lJhNeXMzpOiDclsbIqtSg/vqg0J7X4EKM0B4uSOK/xopexQgLp
- iSWp2ampBalFMFkmDk6pBkZ2DdNlbEmV1oyswU2O6UvVmmdnn9Fo3X2OR70q7tMH9biEdf+b
- lk7Ysz7Z3/7/Ku0KDR5dVX3tjxkVG6/nWopmGCa8clqpMnHOw6wDLR3TRLzvO/zb59X0Kq5w
- +ZU/F5tapY49/Vsp9t9U/OOTnWbcz0V+XS08up9xW1Y0qzvDnja/gzGv0pVYijMSDbWYi4oT
- Aa7ydrtFAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgkeLIzCtJLcpLzFFi42I5/e/4Xd1J4rFxBlPmmVvcWneO1WLjjPWs
- Fle+vmez+P/oNavF3Em1FpPuT2CxuPr9JbPFii8z2S1OvrnKYtE5cQm7xacH/5ktZpzfx2Sx
- 9shddotDfdEWMya/ZHPg93h/o5XdY+esu+wesztmsnqcmHCJyeN+93Emj81L6j3+ztrP4tG3
- ZRWjx4HeySwe26/NY/b4vEkugDtKz6Yov7QkVSEjv7jEVina0MJIz9DSQs/IxFLP0Ng81srI
- VEnfziYlNSezLLVI3y5BL2POhWNsBb32FfPXnmNrYHxg2sXIySEhYCJx5fMDJhBbSGApo8TT
- PbUQcRmJk9MaWCFsYYk/17rYuhi5gGo+MUosn/8KLMEmYCjR9RYkwckhIpAn8fBwJxNIEbNA
- L4tE++cTYAlhgWCJjv1fWUBsFgFViXN3LoJt4xWwlfj89SgbxAZ5idUbDjBPYORZwMiwilEk
- tbQ4Nz232EivODG3uDQvXS85P3cTIzAWth37uWUHY9e74EOMAhyMSjy8Pxhi44RYE8uKK3MP
- MUpwMCuJ8PpyRscJ8aYkVlalFuXHF5XmpBYfYjQFWj6RWUo0OR8Yp3kl8YamhuYWlobmxubG
- ZhZK4rwdAgdjhATSE0tSs1NTC1KLYPqYODilGhjzRFu6b/3+oP2lyXafze+qqlMb/WO8dm5v
- +mzM+T2tyVm+3DkltWG64bSLyy89EFisLDV9ndPGkEMl65iivdZ+msXZ235Def8q/zMynM93
- eh5JPP1Pu7D1H9NWObYJB66/92z7/WNiZhGLprTREbkbgU25PzNymNOtpG+u5bhQrP/q18va
- U9FKLMUZiYZazEXFiQAxIk4JmwIAAA==
-X-CMS-MailID: 20200302142626eucas1p25b7aec18264b1483fab9cceb86989aa8
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7djPc7rsErFxBkdCLG6tO8dqsXHGelaL
+ K1/fs1lMuj+BxWLG+X1MFmuP3GW3mDH5JZsDu8f97uNMHn1bVjF6fN4kF8AcxWWTkpqTWZZa
+ pG+XwJVxqfEoc8HrkorWa4sYGxgnJ3cxcnJICJhIXJt1ihXEFhJYwSjxYYlnFyMXkP2FUWL2
+ k5VsEM5nRonv+x+ywnRsnvWfGaJjOaNEb185XMfpfcfAEmwChhJdb7vYQGwRATeJpsMzWUGK
+ mAWuM0p8+7GIHSQhLOAo8e//UUYQm0VAVaLx82KwDbwCthIdPY9YILbJS6zecIAZpFlC4Aib
+ xKLNEM0SAi4SjddfQtnCEq+Ob4GyZST+75zPBNHQzCjx8Nxadginh1HictMMRogqa4k7534B
+ 3ccBdJOmxPpd+hBhR4nej5fYQcISAnwSN94KgoSZgcxJ26YzQ4R5JTrahCCq1SRmHV8Ht/bg
+ hUvMELaHxOJn3awg5UICsRLzv4ZOYJSbhbBqASPjKkbx1NLi3PTUYsO81HK94sTc4tK8dL3k
+ /NxNjMCoP/3v+KcdjF8vJR1iFOBgVOLhDWCOjRNiTSwrrsw9xCjBwawkwuvLGR0nxJuSWFmV
+ WpQfX1Sak1p8iFGag0VJnNd40ctYIYH0xJLU7NTUgtQimCwTB6dUA2PZDIfLHv93bNe8+Kzo
+ bbb601NCH1oMb2qbMohHHWJrV/gbdvlGcIvmZvvlvNJn4g5a/21ItN7P9miyiVlrV2lZdcy1
+ zv0dWp/Om709q+374Wke36xH7XPTlvWteayf55+lcbTnp+2H3wf3vo4PbWPjO7nz4o23Ew0m
+ zeowS8nferS3esES3WolluKMREMt5qLiRABocukr9gIAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDLMWRmVeSWpSXmKPExsVy+t/xe7psErFxBk/uqlrcWneO1WLjjPWs
+ Fle+vmezmHR/AovFjPP7mCzWHrnLbjFj8ks2B3aP+93HmTz6tqxi9Pi8SS6AOUrPpii/tCRV
+ ISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEv41LjUeaC1yUVrdcW
+ MTYwTk7uYuTkkBAwkdg86z9zFyMXh5DAUkaJh5/72SASMhInpzWwQtjCEn+udbFBFH1ilPg0
+ bTkLSIJNwFCi620XWIOIgIdE87fj7CBFzAK3GSWWfpgHViQs4Cjx7/9RRhCbRUBVovHzYrCp
+ vAK2Eh09j1ggNshLrN5wgHkCI88CRoZVjCKppcW56bnFhnrFibnFpXnpesn5uZsYgSG37djP
+ zTsYL20MPsQowMGoxMMbwBwbJ8SaWFZcmXuIUYKDWUmE15czOk6INyWxsiq1KD++qDQntfgQ
+ oynQ8onMUqLJ+cB4yCuJNzQ1NLewNDQ3Njc2s1AS5+0QOBgjJJCeWJKanZpakFoE08fEwSnV
+ wOht3vov6F7Mdk0vGx6nyIszXlzjvyblLnf2c0CueZ5T6Zr+pewG/3gr+puD7UuyoqIrwl4X
+ hD/7ndtm1rCy8Ob8qOjjCQzNdT6cDW8MeeyCV12f4XNOozHgSlhfqrzhg3ff0w+eX37X2Zjp
+ 3aFUz2+vuEwbDxz0mKVa0J17qUWHsynqyzI+JZbijERDLeai4kQAyfLJrk8CAAA=
+X-CMS-MailID: 20200302142822eucas1p1749e7cd54ad0b8657b753a8b720ccba2
 X-Msg-Generator: CA
-X-RootMTR: 20200302142626eucas1p25b7aec18264b1483fab9cceb86989aa8
+X-RootMTR: 20200302142822eucas1p1749e7cd54ad0b8657b753a8b720ccba2
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200302142626eucas1p25b7aec18264b1483fab9cceb86989aa8
-References: <CGME20200302142626eucas1p25b7aec18264b1483fab9cceb86989aa8@eucas1p2.samsung.com>
+X-CMS-RootMailID: 20200302142822eucas1p1749e7cd54ad0b8657b753a8b720ccba2
+References: <CGME20200302142822eucas1p1749e7cd54ad0b8657b753a8b720ccba2@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,12 +98,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Jingoo Han <jingoohan1@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Sandy Huang <hjc@rock-chips.com>, Andrzej Hajda <a.hajda@samsung.com>,
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -117,231 +108,378 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Analogix_dp driver acquires all its resources in ->bind() callback, what
-is a bit against the driver component based approach, where driver
-initialization is split into probe(), where all resources are gathered, and
-bind(), where objects are created and compound driver is initialized.
-Extract resource related operations to analogix_dp_probe() and
-analogix_dp_remove() and call them before/after registration of the device
-components from the main Exynos and Rockchip DP drivers.
-
-This fixes multiple tries of DRM compound driver bind() when example when
-DP PHY driver is not yet loaded/probed():
-
-[drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
-exynos-drm exynos-drm: bound 14400000.fimd (ops fimd_component_ops [exynosdrm])
-exynos-drm exynos-drm: bound 14450000.mixer (ops mixer_component_ops [exynosdrm])
-exynos-dp 145b0000.dp-controller: no DP phy configured
-exynos-drm exynos-drm: failed to bind 145b0000.dp-controller (ops exynos_dp_ops [exynosdrm]): -517
-exynos-drm exynos-drm: master bind failed: -517
-...
-[drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
-exynos-drm exynos-drm: bound 14400000.fimd (ops hdmi_enable [exynosdrm])
-exynos-drm exynos-drm: bound 14450000.mixer (ops hdmi_enable [exynosdrm])
-exynos-drm exynos-drm: bound 145b0000.dp-controller (ops hdmi_enable [exynosdrm])
-exynos-drm exynos-drm: bound 14530000.hdmi (ops hdmi_enable [exynosdrm])
-[drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-Console: switching to colour frame buffer device 170x48
-exynos-drm exynos-drm: fb0: exynosdrmfb frame buffer device
-[drm] Initialized exynos 1.1.0 20180330 for exynos-drm on minor 1
-...
+Store the IOMMU mapping created by device core of each Exynos DRM
+sub-device and restore it when Exynos DRM driver is unbound. This fixes
+IOMMU initialization failure for the second time when deferred probe is
+triggered from the bind() callback of master's compound DRM driver.
 
 Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- .../drm/bridge/analogix/analogix_dp_core.c    | 33 ++++++++++++-------
- drivers/gpu/drm/exynos/exynos_dp.c            | 15 ++++++---
- .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 15 +++++----
- include/drm/bridge/analogix_dp.h              |  5 +--
- 4 files changed, 44 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c |  5 +++--
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  5 +++--
+ drivers/gpu/drm/exynos/exynos_drm_dma.c       | 22 +++++++++++--------
+ drivers/gpu/drm/exynos/exynos_drm_drv.h       |  6 +++--
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c      |  5 +++--
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c      |  5 +++--
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  5 +++--
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c       |  5 +++--
+ drivers/gpu/drm/exynos/exynos_drm_rotator.c   |  5 +++--
+ drivers/gpu/drm/exynos/exynos_drm_scaler.c    |  6 +++--
+ drivers/gpu/drm/exynos/exynos_mixer.c         |  7 ++++--
+ 11 files changed, 47 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index dfb59a5fefea..a89a03b66bf2 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1646,8 +1646,7 @@ static ssize_t analogix_dpaux_transfer(struct drm_dp_aux *aux,
+diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+index 8428ae12dfa5..1f79bc2a881e 100644
+--- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
++++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+@@ -55,6 +55,7 @@ static const char * const decon_clks_name[] = {
+ struct decon_context {
+ 	struct device			*dev;
+ 	struct drm_device		*drm_dev;
++	void				*dma_priv;
+ 	struct exynos_drm_crtc		*crtc;
+ 	struct exynos_drm_plane		planes[WINDOWS_NR];
+ 	struct exynos_drm_plane_config	configs[WINDOWS_NR];
+@@ -644,7 +645,7 @@ static int decon_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	decon_clear_channels(ctx->crtc);
+ 
+-	return exynos_drm_register_dma(drm_dev, dev);
++	return exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
  }
  
- struct analogix_dp_device *
--analogix_dp_bind(struct device *dev, struct drm_device *drm_dev,
--		 struct analogix_dp_plat_data *plat_data)
-+analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ static void decon_unbind(struct device *dev, struct device *master, void *data)
+@@ -654,7 +655,7 @@ static void decon_unbind(struct device *dev, struct device *master, void *data)
+ 	decon_atomic_disable(ctx->crtc);
+ 
+ 	/* detach this sub driver from iommu mapping if supported. */
+-	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev);
++	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev, &ctx->dma_priv);
+ }
+ 
+ static const struct component_ops decon_component_ops = {
+diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+index ff59c641fa80..1eed3327999f 100644
+--- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
++++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+@@ -40,6 +40,7 @@
+ struct decon_context {
+ 	struct device			*dev;
+ 	struct drm_device		*drm_dev;
++	void				*dma_priv;
+ 	struct exynos_drm_crtc		*crtc;
+ 	struct exynos_drm_plane		planes[WINDOWS_NR];
+ 	struct exynos_drm_plane_config	configs[WINDOWS_NR];
+@@ -127,13 +128,13 @@ static int decon_ctx_initialize(struct decon_context *ctx,
+ 
+ 	decon_clear_channels(ctx->crtc);
+ 
+-	return exynos_drm_register_dma(drm_dev, ctx->dev);
++	return exynos_drm_register_dma(drm_dev, ctx->dev, &ctx->dma_priv);
+ }
+ 
+ static void decon_ctx_remove(struct decon_context *ctx)
  {
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct analogix_dp_device *dp;
-@@ -1750,22 +1749,30 @@ analogix_dp_bind(struct device *dev, struct drm_device *drm_dev,
- 					irq_flags, "analogix-dp", dp);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to request irq\n");
--		goto err_disable_pm_runtime;
-+		return ERR_PTR(ret);
+ 	/* detach this sub driver from iommu mapping if supported. */
+-	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev);
++	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev, &ctx->dma_priv);
+ }
+ 
+ static u32 decon_calc_clkdiv(struct decon_context *ctx,
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
+index 9ebc02768847..482bec7756fa 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
+@@ -58,7 +58,7 @@ static inline void clear_dma_max_seg_size(struct device *dev)
+  * mapping.
+  */
+ static int drm_iommu_attach_device(struct drm_device *drm_dev,
+-				struct device *subdrv_dev)
++				struct device *subdrv_dev, void **dma_priv)
+ {
+ 	struct exynos_drm_private *priv = drm_dev->dev_private;
+ 	int ret;
+@@ -74,7 +74,8 @@ static int drm_iommu_attach_device(struct drm_device *drm_dev,
+ 		return ret;
+ 
+ 	if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)) {
+-		if (to_dma_iommu_mapping(subdrv_dev))
++		*dma_priv = to_dma_iommu_mapping(subdrv_dev);
++		if (*dma_priv)
+ 			arm_iommu_detach_device(subdrv_dev);
+ 
+ 		ret = arm_iommu_attach_device(subdrv_dev, priv->mapping);
+@@ -98,19 +99,21 @@ static int drm_iommu_attach_device(struct drm_device *drm_dev,
+  * mapping
+  */
+ static void drm_iommu_detach_device(struct drm_device *drm_dev,
+-				struct device *subdrv_dev)
++				    struct device *subdrv_dev, void **dma_priv)
+ {
+ 	struct exynos_drm_private *priv = drm_dev->dev_private;
+ 
+-	if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
++	if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)) {
+ 		arm_iommu_detach_device(subdrv_dev);
+-	else if (IS_ENABLED(CONFIG_IOMMU_DMA))
++		arm_iommu_attach_device(subdrv_dev, *dma_priv);
++	} else if (IS_ENABLED(CONFIG_IOMMU_DMA))
+ 		iommu_detach_device(priv->mapping, subdrv_dev);
+ 
+ 	clear_dma_max_seg_size(subdrv_dev);
+ }
+ 
+-int exynos_drm_register_dma(struct drm_device *drm, struct device *dev)
++int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
++			    void **dma_priv)
+ {
+ 	struct exynos_drm_private *priv = drm->dev_private;
+ 
+@@ -137,13 +140,14 @@ int exynos_drm_register_dma(struct drm_device *drm, struct device *dev)
+ 		priv->mapping = mapping;
  	}
- 	disable_irq(dp->irq);
  
-+	return dp;
-+}
-+EXPORT_SYMBOL_GPL(analogix_dp_probe);
-+
-+int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
-+{
-+	int ret;
-+
- 	dp->drm_dev = drm_dev;
- 	dp->encoder = dp->plat_data->encoder;
+-	return drm_iommu_attach_device(drm, dev);
++	return drm_iommu_attach_device(drm, dev, dma_priv);
+ }
  
- 	dp->aux.name = "DP-AUX";
- 	dp->aux.transfer = analogix_dpaux_transfer;
--	dp->aux.dev = &pdev->dev;
-+	dp->aux.dev = dp->dev;
+-void exynos_drm_unregister_dma(struct drm_device *drm, struct device *dev)
++void exynos_drm_unregister_dma(struct drm_device *drm, struct device *dev,
++			       void **dma_priv)
+ {
+ 	if (IS_ENABLED(CONFIG_EXYNOS_IOMMU))
+-		drm_iommu_detach_device(drm, dev);
++		drm_iommu_detach_device(drm, dev, dma_priv);
+ }
  
- 	ret = drm_dp_aux_register(&dp->aux);
- 	if (ret)
--		return ERR_PTR(ret);
-+		return ret;
+ void exynos_drm_cleanup_dma(struct drm_device *drm)
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.h b/drivers/gpu/drm/exynos/exynos_drm_drv.h
+index d4d21d8cfb90..6ae9056e7a18 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_drv.h
++++ b/drivers/gpu/drm/exynos/exynos_drm_drv.h
+@@ -223,8 +223,10 @@ static inline bool is_drm_iommu_supported(struct drm_device *drm_dev)
+ 	return priv->mapping ? true : false;
+ }
  
--	pm_runtime_enable(dev);
-+	pm_runtime_enable(dp->dev);
+-int exynos_drm_register_dma(struct drm_device *drm, struct device *dev);
+-void exynos_drm_unregister_dma(struct drm_device *drm, struct device *dev);
++int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
++			    void **dma_priv);
++void exynos_drm_unregister_dma(struct drm_device *drm, struct device *dev,
++			       void **dma_priv);
+ void exynos_drm_cleanup_dma(struct drm_device *drm);
  
- 	ret = analogix_dp_create_bridge(drm_dev, dp);
- 	if (ret) {
-@@ -1773,13 +1780,12 @@ analogix_dp_bind(struct device *dev, struct drm_device *drm_dev,
- 		goto err_disable_pm_runtime;
+ #ifdef CONFIG_DRM_EXYNOS_DPI
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+index 8ea2e1d77802..29ab8be8604c 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+@@ -97,6 +97,7 @@ struct fimc_scaler {
+ struct fimc_context {
+ 	struct exynos_drm_ipp ipp;
+ 	struct drm_device *drm_dev;
++	void		*dma_priv;
+ 	struct device	*dev;
+ 	struct exynos_drm_ipp_task	*task;
+ 	struct exynos_drm_ipp_formats	*formats;
+@@ -1133,7 +1134,7 @@ static int fimc_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	ctx->drm_dev = drm_dev;
+ 	ipp->drm_dev = drm_dev;
+-	exynos_drm_register_dma(drm_dev, dev);
++	exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
+ 
+ 	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
+ 			DRM_EXYNOS_IPP_CAP_CROP | DRM_EXYNOS_IPP_CAP_ROTATE |
+@@ -1153,7 +1154,7 @@ static void fimc_unbind(struct device *dev, struct device *master,
+ 	struct exynos_drm_ipp *ipp = &ctx->ipp;
+ 
+ 	exynos_drm_ipp_unregister(dev, ipp);
+-	exynos_drm_unregister_dma(drm_dev, dev);
++	exynos_drm_unregister_dma(drm_dev, dev, &ctx->dma_priv);
+ }
+ 
+ static const struct component_ops fimc_component_ops = {
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+index 21aec38702fc..bb67cad8371f 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+@@ -167,6 +167,7 @@ static struct fimd_driver_data exynos5420_fimd_driver_data = {
+ struct fimd_context {
+ 	struct device			*dev;
+ 	struct drm_device		*drm_dev;
++	void				*dma_priv;
+ 	struct exynos_drm_crtc		*crtc;
+ 	struct exynos_drm_plane		planes[WINDOWS_NR];
+ 	struct exynos_drm_plane_config	configs[WINDOWS_NR];
+@@ -1090,7 +1091,7 @@ static int fimd_bind(struct device *dev, struct device *master, void *data)
+ 	if (is_drm_iommu_supported(drm_dev))
+ 		fimd_clear_channels(ctx->crtc);
+ 
+-	return exynos_drm_register_dma(drm_dev, dev);
++	return exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
+ }
+ 
+ static void fimd_unbind(struct device *dev, struct device *master,
+@@ -1100,7 +1101,7 @@ static void fimd_unbind(struct device *dev, struct device *master,
+ 
+ 	fimd_atomic_disable(ctx->crtc);
+ 
+-	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev);
++	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev, &ctx->dma_priv);
+ 
+ 	if (ctx->encoder)
+ 		exynos_dpi_remove(ctx->encoder);
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+index 2a3382d43bc9..fcee33a43aca 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+@@ -232,6 +232,7 @@ struct g2d_runqueue_node {
+ 
+ struct g2d_data {
+ 	struct device			*dev;
++	void				*dma_priv;
+ 	struct clk			*gate_clk;
+ 	void __iomem			*regs;
+ 	int				irq;
+@@ -1409,7 +1410,7 @@ static int g2d_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
  	}
  
--	return dp;
-+	return 0;
+-	ret = exynos_drm_register_dma(drm_dev, dev);
++	ret = exynos_drm_register_dma(drm_dev, dev, &g2d->dma_priv);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to enable iommu.\n");
+ 		g2d_fini_cmdlist(g2d);
+@@ -1434,7 +1435,7 @@ static void g2d_unbind(struct device *dev, struct device *master, void *data)
+ 	priv->g2d_dev = NULL;
  
- err_disable_pm_runtime:
-+	pm_runtime_disable(dp->dev);
- 
--	pm_runtime_disable(dev);
--
--	return ERR_PTR(ret);
-+	return ret;
+ 	cancel_work_sync(&g2d->runqueue_work);
+-	exynos_drm_unregister_dma(g2d->drm_dev, dev);
++	exynos_drm_unregister_dma(g2d->drm_dev, dev, &g2d->dma_priv);
  }
- EXPORT_SYMBOL_GPL(analogix_dp_bind);
  
-@@ -1796,10 +1802,15 @@ void analogix_dp_unbind(struct analogix_dp_device *dp)
+ static const struct component_ops g2d_component_ops = {
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+index 88b6fcaa20be..45e9aee8366a 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+@@ -97,6 +97,7 @@ struct gsc_scaler {
+ struct gsc_context {
+ 	struct exynos_drm_ipp ipp;
+ 	struct drm_device *drm_dev;
++	void		*dma_priv;
+ 	struct device	*dev;
+ 	struct exynos_drm_ipp_task	*task;
+ 	struct exynos_drm_ipp_formats	*formats;
+@@ -1169,7 +1170,7 @@ static int gsc_bind(struct device *dev, struct device *master, void *data)
  
- 	drm_dp_aux_unregister(&dp->aux);
- 	pm_runtime_disable(dp->dev);
--	clk_disable_unprepare(dp->clock);
+ 	ctx->drm_dev = drm_dev;
+ 	ctx->drm_dev = drm_dev;
+-	exynos_drm_register_dma(drm_dev, dev);
++	exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
+ 
+ 	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
+ 			DRM_EXYNOS_IPP_CAP_CROP | DRM_EXYNOS_IPP_CAP_ROTATE |
+@@ -1189,7 +1190,7 @@ static void gsc_unbind(struct device *dev, struct device *master,
+ 	struct exynos_drm_ipp *ipp = &ctx->ipp;
+ 
+ 	exynos_drm_ipp_unregister(dev, ipp);
+-	exynos_drm_unregister_dma(drm_dev, dev);
++	exynos_drm_unregister_dma(drm_dev, dev, &ctx->dma_priv);
  }
- EXPORT_SYMBOL_GPL(analogix_dp_unbind);
  
-+void analogix_dp_remove(struct analogix_dp_device *dp)
-+{
-+	clk_disable_unprepare(dp->clock);
-+}
-+EXPORT_SYMBOL_GPL(analogix_dp_remove);
-+
- #ifdef CONFIG_PM
- int analogix_dp_suspend(struct analogix_dp_device *dp)
+ static const struct component_ops gsc_component_ops = {
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_rotator.c b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
+index b98482990d1a..dafa87b82052 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_rotator.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
+@@ -56,6 +56,7 @@ struct rot_variant {
+ struct rot_context {
+ 	struct exynos_drm_ipp ipp;
+ 	struct drm_device *drm_dev;
++	void		*dma_priv;
+ 	struct device	*dev;
+ 	void __iomem	*regs;
+ 	struct clk	*clock;
+@@ -243,7 +244,7 @@ static int rotator_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	rot->drm_dev = drm_dev;
+ 	ipp->drm_dev = drm_dev;
+-	exynos_drm_register_dma(drm_dev, dev);
++	exynos_drm_register_dma(drm_dev, dev, &rot->dma_priv);
+ 
+ 	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
+ 			   DRM_EXYNOS_IPP_CAP_CROP | DRM_EXYNOS_IPP_CAP_ROTATE,
+@@ -261,7 +262,7 @@ static void rotator_unbind(struct device *dev, struct device *master,
+ 	struct exynos_drm_ipp *ipp = &rot->ipp;
+ 
+ 	exynos_drm_ipp_unregister(dev, ipp);
+-	exynos_drm_unregister_dma(rot->drm_dev, rot->dev);
++	exynos_drm_unregister_dma(rot->drm_dev, rot->dev, &rot->dma_priv);
+ }
+ 
+ static const struct component_ops rotator_component_ops = {
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_scaler.c b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
+index 497973e9b2c5..93c43c8d914e 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_scaler.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
+@@ -39,6 +39,7 @@ struct scaler_data {
+ struct scaler_context {
+ 	struct exynos_drm_ipp		ipp;
+ 	struct drm_device		*drm_dev;
++	void				*dma_priv;
+ 	struct device			*dev;
+ 	void __iomem			*regs;
+ 	struct clk			*clock[SCALER_MAX_CLK];
+@@ -450,7 +451,7 @@ static int scaler_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	scaler->drm_dev = drm_dev;
+ 	ipp->drm_dev = drm_dev;
+-	exynos_drm_register_dma(drm_dev, dev);
++	exynos_drm_register_dma(drm_dev, dev, &scaler->dma_priv);
+ 
+ 	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
+ 			DRM_EXYNOS_IPP_CAP_CROP | DRM_EXYNOS_IPP_CAP_ROTATE |
+@@ -470,7 +471,8 @@ static void scaler_unbind(struct device *dev, struct device *master,
+ 	struct exynos_drm_ipp *ipp = &scaler->ipp;
+ 
+ 	exynos_drm_ipp_unregister(dev, ipp);
+-	exynos_drm_unregister_dma(scaler->drm_dev, scaler->dev);
++	exynos_drm_unregister_dma(scaler->drm_dev, scaler->dev,
++				  &scaler->dma_priv);
+ }
+ 
+ static const struct component_ops scaler_component_ops = {
+diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos/exynos_mixer.c
+index 38ae9c32feef..21b726baedea 100644
+--- a/drivers/gpu/drm/exynos/exynos_mixer.c
++++ b/drivers/gpu/drm/exynos/exynos_mixer.c
+@@ -94,6 +94,7 @@ struct mixer_context {
+ 	struct platform_device *pdev;
+ 	struct device		*dev;
+ 	struct drm_device	*drm_dev;
++	void			*dma_priv;
+ 	struct exynos_drm_crtc	*crtc;
+ 	struct exynos_drm_plane	planes[MIXER_WIN_NR];
+ 	unsigned long		flags;
+@@ -894,12 +895,14 @@ static int mixer_initialize(struct mixer_context *mixer_ctx,
+ 		}
+ 	}
+ 
+-	return exynos_drm_register_dma(drm_dev, mixer_ctx->dev);
++	return exynos_drm_register_dma(drm_dev, mixer_ctx->dev,
++				       &mixer_ctx->dma_priv);
+ }
+ 
+ static void mixer_ctx_remove(struct mixer_context *mixer_ctx)
  {
-diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
-index 4785885c0f4f..558b78e8cc32 100644
---- a/drivers/gpu/drm/exynos/exynos_dp.c
-+++ b/drivers/gpu/drm/exynos/exynos_dp.c
-@@ -184,13 +184,11 @@ static int exynos_dp_bind(struct device *dev, struct device *master, void *data)
- 
- 	dp->plat_data.encoder = encoder;
- 
--	dp->adp = analogix_dp_bind(dev, dp->drm_dev, &dp->plat_data);
--	if (IS_ERR(dp->adp)) {
-+	ret = analogix_dp_bind(dp->adp, dp->drm_dev);
-+	if (ret)
- 		dp->encoder.funcs->destroy(&dp->encoder);
--		return PTR_ERR(dp->adp);
--	}
- 
--	return 0;
-+	return ret;
+-	exynos_drm_unregister_dma(mixer_ctx->drm_dev, mixer_ctx->dev);
++	exynos_drm_unregister_dma(mixer_ctx->drm_dev, mixer_ctx->dev,
++				  &mixer_ctx->dma_priv);
  }
  
- static void exynos_dp_unbind(struct device *dev, struct device *master,
-@@ -250,12 +248,19 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 	dp->ptn_bridge = bridge;
- 
- out:
-+	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
-+	if (IS_ERR(dp->adp))
-+		return PTR_ERR(dp->adp);
-+
- 	return component_add(&pdev->dev, &exynos_dp_ops);
- }
- 
- static int exynos_dp_remove(struct platform_device *pdev)
- {
-+	struct exynos_dp_device *dp = platform_get_drvdata(pdev);
-+
- 	component_del(&pdev->dev, &exynos_dp_ops);
-+	analogix_dp_remove(dp->adp);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-index f38f5e113c6b..b85cf2582864 100644
---- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-@@ -349,11 +349,9 @@ static int rockchip_dp_bind(struct device *dev, struct device *master,
- 	dp->plat_data.power_off = rockchip_dp_powerdown;
- 	dp->plat_data.get_modes = rockchip_dp_get_modes;
- 
--	dp->adp = analogix_dp_bind(dev, dp->drm_dev, &dp->plat_data);
--	if (IS_ERR(dp->adp)) {
--		ret = PTR_ERR(dp->adp);
-+	ret = analogix_dp_bind(dp->adp, drm_dev);
-+	if (ret)
- 		goto err_cleanup_encoder;
--	}
- 
- 	return 0;
- err_cleanup_encoder:
-@@ -368,8 +366,6 @@ static void rockchip_dp_unbind(struct device *dev, struct device *master,
- 
- 	analogix_dp_unbind(dp->adp);
- 	dp->encoder.funcs->destroy(&dp->encoder);
--
--	dp->adp = ERR_PTR(-ENODEV);
- }
- 
- static const struct component_ops rockchip_dp_component_ops = {
-@@ -402,12 +398,19 @@ static int rockchip_dp_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, dp);
- 
-+	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
-+	if (IS_ERR(dp->adp))
-+		return PTR_ERR(dp->adp);
-+
- 	return component_add(dev, &rockchip_dp_component_ops);
- }
- 
- static int rockchip_dp_remove(struct platform_device *pdev)
- {
-+	struct rockchip_dp_device *dp = platform_get_drvdata(pdev);
-+
- 	component_del(&pdev->dev, &rockchip_dp_component_ops);
-+	analogix_dp_remove(dp->adp);
- 
- 	return 0;
- }
-diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
-index 7aa2f93da49c..b0dcc07334a1 100644
---- a/include/drm/bridge/analogix_dp.h
-+++ b/include/drm/bridge/analogix_dp.h
-@@ -42,9 +42,10 @@ int analogix_dp_resume(struct analogix_dp_device *dp);
- int analogix_dp_suspend(struct analogix_dp_device *dp);
- 
- struct analogix_dp_device *
--analogix_dp_bind(struct device *dev, struct drm_device *drm_dev,
--		 struct analogix_dp_plat_data *plat_data);
-+analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data);
-+int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev);
- void analogix_dp_unbind(struct analogix_dp_device *dp);
-+void analogix_dp_remove(struct analogix_dp_device *dp);
- 
- int analogix_dp_start_crc(struct drm_connector *connector);
- int analogix_dp_stop_crc(struct drm_connector *connector);
+ static int mixer_enable_vblank(struct exynos_drm_crtc *crtc)
 -- 
 2.17.1
 
