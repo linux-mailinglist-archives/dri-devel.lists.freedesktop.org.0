@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5BD175B95
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 14:28:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 066A6175BA1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 14:30:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1269A6E409;
-	Mon,  2 Mar 2020 13:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF696E3FC;
+	Mon,  2 Mar 2020 13:30:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15DD86E3EF;
- Mon,  2 Mar 2020 13:28:26 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC5806E3FC;
+ Mon,  2 Mar 2020 13:30:09 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BCB19D0;
- Mon,  2 Mar 2020 14:28:23 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D48369D0;
+ Mon,  2 Mar 2020 14:30:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1583155704;
- bh=uZsuH7X6ASAn+5GpGL00id9lZWpdGCeWDkVOOpg016c=;
+ s=mail; t=1583155808;
+ bh=Hee84/PJ0AtWXMwrmwqUhd2qA2lSdrxd4YMOHjSNEKE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IqXeQHyCjTpTMpUxsZ/HKu1kdPLfv4+oYVk9mFaLNrFQ9zPnNxbfQF4gvwyQ3iY4P
- om5vanNRSYHzFCql07959ZGNTBoDsGV5tVD3mzgZL0MEGKDDELNhWJ+H+XpIkTwUaF
- 2MK8q4SEeAocvnUWVl9WE9kMBZRjZ4TzaDgTgw18=
-Date: Mon, 2 Mar 2020 15:27:58 +0200
+ b=Bd+UjYU0bnGYaqqN4TAT9H5ecLYTV1+o587vEcOGaBstZBzDAFnaUOjCT5mtct5mJ
+ B1B/UWSaW0G1YbPiCP/xuOkaYpffo9n9he4OpEePdRzu+XSVay/UKv1AOOf9S1JUiH
+ Zf/z6SLvVPsm2e/EvGSJCL0ILxVHo7lnyluDFZU4=
+Date: Mon, 2 Mar 2020 15:29:42 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [PATCH 8/9] drm/fb-helper: Remove drm_fb_helper add, add_all and
- remove connector functions
-Message-ID: <20200302132758.GO11960@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 9/9] drm/todo: Update drm_fb_helper tasks
+Message-ID: <20200302132942.GP11960@pendragon.ideasonboard.com>
 References: <20200302125649.61443-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200302125649.61443-9-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200302125649.61443-10-pankaj.laxminarayan.bharadiya@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200302125649.61443-9-pankaj.laxminarayan.bharadiya@intel.com>
+In-Reply-To: <20200302125649.61443-10-pankaj.laxminarayan.bharadiya@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,8 +47,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -59,57 +59,45 @@ Hi Pankaj,
 
 Thank you for the patch.
 
-On Mon, Mar 02, 2020 at 06:26:48PM +0530, Pankaj Bharadiya wrote:
-> drm_fb_helper_single_add_all_connectors(), drm_fb_helper_add_one_connector()
-> and drm_fb_helper_remove_one_connector() doesn't keep an array of
-
-s/doesn't/don't/
-
-> connectors anymore and are just dummy. Now we have no callers to these
-> functions hence remove them.
+On Mon, Mar 02, 2020 at 06:26:49PM +0530, Pankaj Bharadiya wrote:
+> Remove completed drm_fb_helper tasks from todo list.
 > 
 > Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+> ---
+>  Documentation/gpu/todo.rst | 15 ++++-----------
+>  1 file changed, 4 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index ccf5e8e34222..98d8782e1440 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -362,17 +362,10 @@ Level: Starter
+>  drm_fb_helper tasks
+>  -------------------
+>  
+> -- drm_fb_helper_restore_fbdev_mode_unlocked() should call restore_fbdev_mode()
+> -  not the _force variant so it can bail out if there is a master. But first
+> -  these igt tests need to be fixed: kms_fbcon_fbt@psr and
+> -  kms_fbcon_fbt@psr-suspend.
+> -
+> -- The max connector argument for drm_fb_helper_init() isn't used anymore and
+> -  can be removed.
+> -
+> -- The helper doesn't keep an array of connectors anymore so these can be
+> -  removed: drm_fb_helper_single_add_all_connectors(),
+> -  drm_fb_helper_add_one_connector() and drm_fb_helper_remove_one_connector().
+> +drm_fb_helper_restore_fbdev_mode_unlocked() should call restore_fbdev_mode()
+> +not the _force variant so it can bail out if there is a master. But first
+> +these igt tests need to be fixed: kms_fbcon_fbt@psr and
+> +kms_fbcon_fbt@psr-suspend.
 
-I like this :-)
+No need to reflow, you can keep the first list entry as-is and just
+remove the next two. With this fixed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  include/drm/drm_fb_helper.h | 21 ---------------------
->  1 file changed, 21 deletions(-)
-> 
-> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-> index 62e8dda6d1d1..208dbf87afa3 100644
-> --- a/include/drm/drm_fb_helper.h
-> +++ b/include/drm/drm_fb_helper.h
-> @@ -451,27 +451,6 @@ drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferred_bpp)
+>  Level: Intermediate
 >  
->  #endif
->  
-> -/* TODO: There's a todo entry to remove these three */
-> -static inline int
-> -drm_fb_helper_single_add_all_connectors(struct drm_fb_helper *fb_helper)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline int
-> -drm_fb_helper_add_one_connector(struct drm_fb_helper *fb_helper,
-> -				struct drm_connector *connector)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline int
-> -drm_fb_helper_remove_one_connector(struct drm_fb_helper *fb_helper,
-> -				   struct drm_connector *connector)
-> -{
-> -	return 0;
-> -}
-> -
->  /**
->   * drm_fb_helper_remove_conflicting_framebuffers - remove firmware-configured framebuffers
->   * @a: memory range, users of which are to be removed
 
 -- 
 Regards,
