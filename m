@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD7D176735
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 23:28:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D83B217673B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 23:28:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11F1E6E8B4;
-	Mon,  2 Mar 2020 22:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3FC6E8C7;
+	Mon,  2 Mar 2020 22:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
  [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB156E8BE
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 22:27:24 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id r17so1856971wrj.7
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 14:27:24 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF6A76E8AF
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2020 22:27:25 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id r7so1902816wro.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 14:27:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pw5QqrfG2RgLwLYrDhVp80l9fnGnOfrvey/8drqHpHM=;
- b=MrPcnxfbao07IGiixrPJTSeiauRZ8LZ1xF4DnuO3LKoMbZSliTkgsyK1ISWn3+ATg/
- hqtxg9jIMaJJuUeKgr/cvqPHeEx91V9x8m5nswQCxmKrksE+uxavszHdfkZAIMDw9prJ
- jeVXdjMlCSK/9uaPsaRICjfdND3cREQg7v/Es=
+ bh=j+dtsY1gAvr/pDMBzXSCKBfygWCW7gwbjj3jWxvZJ84=;
+ b=PLIgMKZpgJli5qhjTQbdsjnNMb2LPVj5+pmqzci1/9Err8E0SJ5GVTLc80KQMhMSaw
+ SzVnaS/EVYF0LtQxaqyELcYmIZQBOW30625uKvslydpsAxELb6TLcMX6WkGuM3vSTLcz
+ N+/OgBm/PsposYJjHwaaqmHNRIaeKTHT7pato=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pw5QqrfG2RgLwLYrDhVp80l9fnGnOfrvey/8drqHpHM=;
- b=iVVNh/wfT+Q+cLpB64qParQyR3qEB7Rn7snxLfLOPwkfuuxCX+u10Jppr6C2gMlLxQ
- sfmCOqmgeCb2N52Cvj8Hti5NR42/+ndf2egvVBI06mjjcsGRgVvCHrqD5PVrGOE+SE42
- O/euaE+ipMdGdCi97afoZcSCyKO4AA/tT9SxSGDsNlrQnKGDqOrUV2Fa02afRwZdXkK9
- tlSedO/56CW/wEvIauUcipAA42J5EN3JmxDAuVqBhmiB/calDGmpDeqZp8XiAF5rmoPa
- ORCDHVIkOdXwqS5/0uKTYHvDMxm4MMYfVSk96J6++5MZHWk7AFIInq4v0y6eQlz5lHwy
- VLDQ==
-X-Gm-Message-State: ANhLgQ3TV41Rdlr/ijzDIK492OtFUbshQcMNs2GEXuk/HoYa7OytG7lI
- GR/y2i5wB4PvitAMwqSiHN9er50VmEI=
-X-Google-Smtp-Source: ADFU+vsTFOKD20gzbzZfkTT8QuXbSOhK0ILlysvVCCIQ/Jhu4BysiOPZ5axKJP8OA5+1qd/7gZ3zxw==
-X-Received: by 2002:adf:df8f:: with SMTP id z15mr1599343wrl.184.1583188042987; 
- Mon, 02 Mar 2020 14:27:22 -0800 (PST)
+ bh=j+dtsY1gAvr/pDMBzXSCKBfygWCW7gwbjj3jWxvZJ84=;
+ b=BUAcnZF54pQ8nuw3tPg2kboONH5jcyCNTBauKcolpsep9IgJjzkOA4hwDzh88/xjMx
+ aks+igbeDykYcrE1GQIQkTt/uKPF1gaAvXCvwfGmPUgYehV9RHx1RqS9v2BD+0xdIyG1
+ RjZWGDs0+3W+E8tLho8gFpbgYgvQEEukgKVBDIFQbbfdIF9QSXDhQdogycUEBX7ysB5u
+ j/N7V1PhWP4S6J9mFC7Tl4rrBD23OvoeGyzyWBCfBiHGTWhcQi0JklHqcgDwSVhFbBS0
+ KzBLJ4Ugl56FAS1Y0tPnrzcSYyw0ctkdfbrdGEdPLKeHUEhAkx1aXSO9iaePjOYxZUrY
+ wJCQ==
+X-Gm-Message-State: ANhLgQ2383yDVi4ytFaKo1qJcbU0PdqX0amKAExXq5Wpshfi8Slwozud
+ jyj/WsCeGvJadxT1eMyI1vWHGUMCsxk=
+X-Google-Smtp-Source: ADFU+vu5caVVHZxO0vZoWJX/t7isTNUjlblhFT9uVut57NHMk22IQMY46VnejPG3fFGLwBTkYVKdjw==
+X-Received: by 2002:a5d:4043:: with SMTP id w3mr1659295wrp.139.1583188044132; 
+ Mon, 02 Mar 2020 14:27:24 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o18sm26114589wrv.60.2020.03.02.14.27.21
+ by smtp.gmail.com with ESMTPSA id o18sm26114589wrv.60.2020.03.02.14.27.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 14:27:22 -0800 (PST)
+ Mon, 02 Mar 2020 14:27:23 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 34/51] drm/meson: Drop explicit drm_mode_config_cleanup call
-Date: Mon,  2 Mar 2020 23:26:14 +0100
-Message-Id: <20200302222631.3861340-35-daniel.vetter@ffwll.ch>
+Subject: [PATCH 35/51] drm/pl111: Drop explicit drm_mode_config_cleanup call
+Date: Mon,  2 Mar 2020 23:26:15 +0100
+Message-Id: <20200302222631.3861340-36-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
 References: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
@@ -63,13 +63,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Kevin Hilman <khilman@baylibre.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-amlogic@lists.infradead.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -91,39 +89,58 @@ v3: Use drmm_mode_config_init() for more clarity (Sam, Thomas)
 
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com> (v2)
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Kevin Hilman <khilman@baylibre.com>
-Cc: linux-amlogic@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Eric Anholt <eric@anholt.net>
 ---
- drivers/gpu/drm/meson/meson_drv.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/pl111/pl111_drv.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index b5f5eb7b4bb9..6f29fab79952 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -284,7 +284,9 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	/* Remove early framebuffers (ie. simplefb) */
- 	meson_remove_framebuffers();
+diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+index aa8aa8d9e405..f9ca0f3edbbb 100644
+--- a/drivers/gpu/drm/pl111/pl111_drv.c
++++ b/drivers/gpu/drm/pl111/pl111_drv.c
+@@ -90,10 +90,13 @@ static int pl111_modeset_init(struct drm_device *dev)
+ 	struct drm_panel *panel = NULL;
+ 	struct drm_bridge *bridge = NULL;
+ 	bool defer = false;
+-	int ret = 0;
++	int ret;
+ 	int i;
  
--	drm_mode_config_init(drm);
-+	ret = drmm_mode_config_init(drm);
+-	drm_mode_config_init(dev);
++	ret = drmm_mode_config_init(dev);
 +	if (ret)
-+		goto free_drm;
- 	drm->mode_config.max_width = 3840;
- 	drm->mode_config.max_height = 2160;
- 	drm->mode_config.funcs = &meson_mode_config_funcs;
-@@ -379,7 +381,6 @@ static void meson_drv_unbind(struct device *dev)
++		return ret;
++
+ 	mode_config = &dev->mode_config;
+ 	mode_config->funcs = &mode_config_funcs;
+ 	mode_config->min_width = 1;
+@@ -154,7 +157,7 @@ static int pl111_modeset_init(struct drm_device *dev)
+ 						    DRM_MODE_CONNECTOR_Unknown);
+ 		if (IS_ERR(bridge)) {
+ 			ret = PTR_ERR(bridge);
+-			goto out_config;
++			goto finish;
+ 		}
+ 	} else if (bridge) {
+ 		dev_info(dev->dev, "Using non-panel bridge\n");
+@@ -197,8 +200,6 @@ static int pl111_modeset_init(struct drm_device *dev)
+ out_bridge:
+ 	if (panel)
+ 		drm_panel_bridge_remove(bridge);
+-out_config:
+-	drm_mode_config_cleanup(dev);
+ finish:
+ 	return ret;
+ }
+@@ -343,7 +344,6 @@ static int pl111_amba_remove(struct amba_device *amba_dev)
  	drm_dev_unregister(drm);
- 	drm_irq_uninstall(drm);
- 	drm_kms_helper_poll_fini(drm);
+ 	if (priv->panel)
+ 		drm_panel_bridge_remove(priv->bridge);
 -	drm_mode_config_cleanup(drm);
  	drm_dev_put(drm);
- }
+ 	of_reserved_mem_device_release(dev);
  
 -- 
 2.24.1
