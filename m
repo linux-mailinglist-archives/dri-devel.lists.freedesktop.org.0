@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EFF175FCF
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 17:34:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9A7176034
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Mar 2020 17:43:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044E66E5AB;
-	Mon,  2 Mar 2020 16:34:08 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1AB6E5A2;
- Mon,  2 Mar 2020 16:34:06 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id EED3D8053E;
- Mon,  2 Mar 2020 17:34:01 +0100 (CET)
-Date: Mon, 2 Mar 2020 17:34:00 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 03/51] drm: add managed resources tied to drm_device
-Message-ID: <20200302163400.GA24668@ravnborg.org>
-References: <20200227181522.2711142-1-daniel.vetter@ffwll.ch>
- <20200227181522.2711142-4-daniel.vetter@ffwll.ch>
- <20200228224504.GA23961@ravnborg.org>
- <CAKMK7uHPWZ=F2EyqnM7x1GpXY_SGu3e_jGXX4cg0OGyx_+C8ig@mail.gmail.com>
- <20200229111710.GB3674@ravnborg.org>
- <CAKMK7uEYxM8BAsp+DHUxw+qdE_B3J+ePAxC-j0V+v+J6trffgw@mail.gmail.com>
- <87blpfqffp.fsf@intel.com>
- <20200302093919.GD2363188@phenom.ffwll.local>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F53C6E037;
+	Mon,  2 Mar 2020 16:43:30 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B30936E037
+ for <dri-devel@freedesktop.org>; Mon,  2 Mar 2020 16:43:28 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1583167408; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=TbW7v6ETMwAyeMysipwO8G4evsiI1GMTYBqpmkfIiUg=;
+ b=rJbKlusvlayMtq1EDsqW9N2bo+PgFNg/lHfwn8QP14cQGkBtdRJgQynPvCl7fHL084dRIba+
+ Uu6iA8lIgY8RMHBVS5ASDwDuQHp2xAzveO7bPpdCX3ycSIPTW/GIYlzYh2HYAlQK8qte4r57
+ PN499Wgvrb5Z/Vhs9rZeiJro4LA=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e5d37af.7f38676488b8-smtp-out-n02;
+ Mon, 02 Mar 2020 16:43:27 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4A9A7C433A2; Mon,  2 Mar 2020 16:43:27 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6A1AAC43383;
+ Mon,  2 Mar 2020 16:43:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6A1AAC43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 2 Mar 2020 09:43:24 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH] drm: msm: a6x: Disable interrupts before recovery
+Message-ID: <20200302164324.GA708@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Sharat Masetty <smasetty@codeaurora.org>,
+ freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1583138836-20807-1-git-send-email-smasetty@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200302093919.GD2363188@phenom.ffwll.local>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=4_UfdizR9aQRNRrqBdMA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <1583138836-20807-1-git-send-email-smasetty@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,67 +70,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Marco Felsch <m.felsch@pengutronix.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel / Jani.
+On Mon, Mar 02, 2020 at 02:17:16PM +0530, Sharat Masetty wrote:
+> This patch disables interrupts in the GPU RBBM hang detect fault handler
+> before going to recovery.
 
-> On Mon, Mar 02, 2020 at 11:22:34AM +0200, Jani Nikula wrote:
-> > On Sat, 29 Feb 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > On Sat, Feb 29, 2020 at 12:17 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > >> The header-check infrastructure was dropped again - see:
-> > >> fcbb8461fd2376ba3782b5b8bd440c929b8e4980
-> > >
-> > > Uh I'm disappoint :-/
-> > 
-> > To say the least. I thought it was a good *opt-in* feature for whoever
-> > wanted it. But the part that got the backlash was applying it to
-> > absolutely everything under include/. And then it got removed
-> > altogether. From one extreme to the other. Nuts.
-> > 
-> > > Adding Jani in case he missed this too. I guess maybe we should
-> > > resurrect it for drm again (and with a file pattern starting in a
-> > > .dot).
-> > 
-> > We have a local implementation in i915/Makefile again. It uses 'find' to
-> > find the headers which is fine in i915, but the parameters need to be
-> > adjusted for drm to not be recursive. -maxdepth 1 or something. Also
-> > need to add another local config option. Sad trombone.
-> 
-> Splitting this up into two threads.
-> 
-> Could we extend this to drm headers again too? Sad thrombones indeed, but
-> at least here we could still the proper fanfares ... Maybe something like
-> have the Makefile snippet in drivers/gpu and then keep a list of
-> directories (or file glob patterns probably better) in there that it
-> should check.
-> 
-> I really liked this entire idea very much.
-> 
-> Oh also maybe switch the temp files over to dotfiles, so Linus doesn't get
-> upset (which really I think is all  that Linus expected, but I guess
-> people just panic and revert).
+Okay, but why?  What were you seeing?  A little bit of extra description would
+make it easier to understand this change in the future.
 
-I will try to give it a spin by adding the feature back to kbuild,
-but without the excessive use.
-And with dot-files so the run does not disturb.
-So we avoid different sub-systemes makes there own small solutions.
+> 
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index dc8ec2c..4dd0f62 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -676,6 +676,9 @@ static void a6xx_fault_detect_irq(struct msm_gpu *gpu)
+>  		gpu_read64(gpu, REG_A6XX_CP_IB2_BASE, REG_A6XX_CP_IB2_BASE_HI),
+>  		gpu_read(gpu, REG_A6XX_CP_IB2_REM_SIZE));
+>  
+> +	/* Disable interrupts before going for a recovery*/
+> +	gpu_write(gpu, REG_A6XX_RBBM_INT_0_MASK, 0);
+> +
 
-Give me a few weeks - need to land some exciting (not) binding
-patches for panel/ first.
-Anyone else up to the task, then I will be happy to review.
+And this is turning off all the interrupts, but the commit log only mentions the
+hang detect. In my experience, the hang detect usually only fires once until
+after reset, but if there are other interrupts that are bothering you then it
+makes sense to disable them but, again, this is good information for the commit
+log and or a code comment.
 
-	Sam
+Jordan
+
+>  	/* Turn off the hangcheck timer to keep it from bothering us */
+>  	del_timer(&gpu->hangcheck_timer);
+>  
+> -- 
+> 1.9.1
+> 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
