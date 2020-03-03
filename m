@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF91E17711E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117C41770B2
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:04:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 186F96EA15;
-	Tue,  3 Mar 2020 08:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F30126E9CF;
+	Tue,  3 Mar 2020 08:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0EBD6E4CA
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 07:49:13 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id x2so1986724ila.6
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 23:49:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=ZGg9d9RlpkSp9tiCdOBj7hjE3h8DLuUCRNUsn/fFdXk=;
- b=Lc9J0jKz0zcTNVQ1Oo3jSUI8kQQGAlM6xwW2jvyXfFBFik9V7tWtQ5gB2oD4+VfMJ9
- iVEtrUJLkDe3bQicbmKHRYL2vfD6b9jUTYRV3aOJaUqovh/UO5udXK+w7PbhJXphRKCv
- XR6qmFoOpPFRF7yW3uKhFQA9v6BjtPd+31RFZlvHxIfdO0n1YU5ZjI+U0yowcSeu0rbo
- 2Hxbi6Mp1buVCjn63PIJ8TXWE8ezs36cDzrzMMjr5lRwupxZ3Ieb3FGgq6GWKpOhZ++H
- 8JPCtqqpTdv3hW5AtCEGcE4C3p+89ObzUAYGyZDOcez6P//LQDW+XDf3KWynU4vpHo7u
- 0pEQ==
-X-Gm-Message-State: ANhLgQ1slYtw9AlxitYjhHSlS1Vn08S53mGPiSJJ7oQc9QgnrjKpLoXh
- zKb443UUtyutsIrxhQFnMHY1jMx2ibewiCrlc9V3qvlTd1tl
-X-Google-Smtp-Source: ADFU+vtq+Z0tEgLDgWc5E+/2DcRrLjUJQjPO+lwYFDXxBFzQQa9nltg2I6T05x3FDEkDFpd29Ba1cz1kElMF5vTpjV48wKj1xo52
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B636E9CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 08:04:35 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02383s6Z043529;
+ Tue, 3 Mar 2020 08:04:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type : in-reply-to;
+ s=corp-2020-01-29; bh=qO4CCvDH3LQqqaia42lNfgTGpB0rLmvxXhDjVASIaN0=;
+ b=mq2+hICT6DlA5btf/qBrMOY4HOtf8sMTh48fkkm3jaUTwjGLCqb4d4ZXuwmqc9aUY/7a
+ WiIpwwoTlPPsMfKQh8cqZQB+6xSbwSyd13Y8fMyoN2zfRKMnphxcBbivQaPh0jDA/i8N
+ mytqRwMl99rP7Ea7NWmw462tyMiEnjDgtxzN8JjOi+twYhhcfuHXBDHKHH+dgujxl3lF
+ OSkBCjsn5uWjKA4+MSqwwAsH22YkybiWbdUTOESpzFw9l3pKwd5M4efNia84QI4yIdh4
+ GDExsu53vJ5wpUBqXCZqGqwmIocTkjMgFUCyjwnSO+fVLe3SLKkGTQX5eNBEJ1H6VW9U Kg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 2yffcudb3x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 03 Mar 2020 08:04:24 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0237v7uX017106;
+ Tue, 3 Mar 2020 08:04:24 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 2yg1gwvhxp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 03 Mar 2020 08:04:23 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02384IGF019279;
+ Tue, 3 Mar 2020 08:04:19 GMT
+Received: from kadam (/129.205.23.165) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 03 Mar 2020 00:04:17 -0800
+Date: Tue, 3 Mar 2020 11:04:06 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: kbuild@lists.01.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 03/51] drm: add managed resources tied to drm_device
+Message-ID: <20200303080406.GC24372@kadam>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:2c0c:: with SMTP id s12mr2801014ios.91.1583221752863; 
- Mon, 02 Mar 2020 23:49:12 -0800 (PST)
-Date: Mon, 02 Mar 2020 23:49:12 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002e20b9059fee8a94@google.com>
-Subject: WARNING in idr_destroy
-From: syzbot <syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com>
-To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, syzkaller-bugs@googlegroups.com
-X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
+Content-Disposition: inline
+In-Reply-To: <20200302222631.3861340-4-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9548
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003030061
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9548
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003030062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,85 +76,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kbuild-all@lists.01.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hi Daniel,
 
-syzbot found the following crash on:
+I love your patch! Perhaps something to improve:
 
-HEAD commit:    63623fd4 Merge tag 'for-linus' of git://git.kernel.org/pub..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=10e978e3e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5d2e033af114153f
-dashboard link: https://syzkaller.appspot.com/bug?extid=05835159fe322770fe3d
-compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14e978e3e00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10b1a819e00000
+url:    https://github.com/0day-ci/linux/commits/Daniel-Vetter/drm_device-managed-resources-v4/20200303-071023
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dbc2c
-R13: 00007fc6b3362d90 R14: 0000000000000004 R15: 000000000000002d
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 12260 at lib/radix-tree.c:682 radix_tree_free_nodes lib/radix-tree.c:682 [inline]
-WARNING: CPU: 0 PID: 12260 at lib/radix-tree.c:682 idr_destroy+0x1ae/0x260 lib/radix-tree.c:1572
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 12260 Comm: syz-executor386 Not tainted 5.6.0-rc3-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x1fb/0x318 lib/dump_stack.c:118
- panic+0x264/0x7a9 kernel/panic.c:221
- __warn+0x209/0x210 kernel/panic.c:582
- report_bug+0x1b6/0x2f0 lib/bug.c:195
- fixup_bug arch/x86/kernel/traps.c:174 [inline]
- do_error_trap+0xcf/0x1c0 arch/x86/kernel/traps.c:267
- do_invalid_op+0x36/0x40 arch/x86/kernel/traps.c:286
- invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
-RIP: 0010:radix_tree_free_nodes lib/radix-tree.c:682 [inline]
-RIP: 0010:idr_destroy+0x1ae/0x260 lib/radix-tree.c:1572
-Code: b5 63 f9 48 89 df 48 c7 c6 c0 0a 13 88 e8 6a ce 50 f9 4c 3b 65 b8 74 57 e8 cf b5 63 f9 4d 89 fc e9 67 ff ff ff e8 c2 b5 63 f9 <0f> 0b eb d5 89 f9 80 e1 07 38 c1 7c 84 e8 c0 de a0 f9 e9 7a ff ff
-RSP: 0018:ffffc90005107ba0 EFLAGS: 00010293
-RAX: ffffffff881363be RBX: ffff888087dba998 RCX: ffff888094062300
-RDX: 0000000000000000 RSI: 0000000000000040 RDI: ffff888087dba988
-RBP: ffffc90005107be8 R08: ffffffff88136330 R09: ffffed1012a78181
-R10: ffffed1012a78181 R11: 0000000000000000 R12: ffff888087dba980
-R13: 0000000000000000 R14: dffffc0000000000 R15: 0000000000000000
- drm_mode_create_lease_ioctl+0x1347/0x1860 drivers/gpu/drm/drm_lease.c:583
- drm_ioctl_kernel+0x2cf/0x410 drivers/gpu/drm/drm_ioctl.c:786
- drm_ioctl+0x52f/0x890 drivers/gpu/drm/drm_ioctl.c:886
- vfs_ioctl fs/ioctl.c:47 [inline]
- ksys_ioctl fs/ioctl.c:763 [inline]
- __do_sys_ioctl fs/ioctl.c:772 [inline]
- __se_sys_ioctl+0x113/0x190 fs/ioctl.c:770
- __x64_sys_ioctl+0x7b/0x90 fs/ioctl.c:770
- do_syscall_64+0xf7/0x1c0 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x44a4b9
-Code: e8 0c e8 ff ff 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 9b cc fb ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007fc6b3362d88 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00000000006dbc28 RCX: 000000000044a4b9
-RDX: 0000000020000040 RSI: ffffffffffffffc6 RDI: 0000000000000003
-RBP: 00000000006dbc20 R08: 0000000000000001 R09: 0000000000000039
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dbc2c
-R13: 00007fc6b3362d90 R14: 0000000000000004 R15: 000000000000002d
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+smatch warnings:
+drivers/gpu/drm/drm_drv.c:843 drm_dev_release() error: dereferencing freed memory 'dev'
 
+# https://github.com/0day-ci/linux/commit/5aba700d4c32ae5722a9931c959b13a6217a86e2
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 5aba700d4c32ae5722a9931c959b13a6217a86e2
+vim +/dev +843 drivers/gpu/drm/drm_drv.c
+
+099d1c290e2ebc drivers/gpu/drm/drm_stub.c David Herrmann 2014-01-29  826  static void drm_dev_release(struct kref *ref)
+0dc8fe5985e01f drivers/gpu/drm/drm_stub.c David Herrmann 2013-10-02  827  {
+099d1c290e2ebc drivers/gpu/drm/drm_stub.c David Herrmann 2014-01-29  828  	struct drm_device *dev = container_of(ref, struct drm_device, ref);
+8f6599da8e772f drivers/gpu/drm/drm_stub.c David Herrmann 2013-10-20  829  
+f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  830  	if (dev->driver->release) {
+f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  831  		dev->driver->release(dev);
+f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  832  	} else {
+f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  833  		drm_dev_fini(dev);
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  834  	}
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  835  
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  836  	drm_managed_release(dev);
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  837  
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  838  	if (!dev->driver->release && !dev->managed.final_kfree) {
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  839  		WARN_ON(!list_empty(&dev->managed.resources));
+0dc8fe5985e01f drivers/gpu/drm/drm_stub.c David Herrmann 2013-10-02  840  		kfree(dev);
+                                                                                        ^^^^^^^^^^
+Free
+
+0dc8fe5985e01f drivers/gpu/drm/drm_stub.c David Herrmann 2013-10-02  841  	}
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  842  
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02 @843  	if (dev->managed.final_kfree)
+                                                                                    ^^^^^
+Dereference
+
+5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  844  		kfree(dev->managed.final_kfree);
+f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  845  }
 
 ---
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
