@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D0D176E1D
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 05:40:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36726176EA9
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 06:28:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2CF56E4BA;
-	Tue,  3 Mar 2020 04:40:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4B236E983;
+	Tue,  3 Mar 2020 05:28:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2216E4BA;
- Tue,  3 Mar 2020 04:40:15 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2020 20:40:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,510,1574150400"; d="scan'208";a="412607362"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by orsmga005.jf.intel.com with ESMTP; 02 Mar 2020 20:40:13 -0800
-Received: from fmsmsx152.amr.corp.intel.com (10.18.125.5) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 2 Mar 2020 20:40:13 -0800
-Received: from bgsmsx151.gar.corp.intel.com (10.224.48.42) by
- FMSMSX152.amr.corp.intel.com (10.18.125.5) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 2 Mar 2020 20:40:12 -0800
-Received: from BGSMSX107.gar.corp.intel.com ([169.254.9.58]) by
- BGSMSX151.gar.corp.intel.com ([169.254.3.26]) with mapi id 14.03.0439.000;
- Tue, 3 Mar 2020 10:10:09 +0530
-From: "Laxminarayan Bharadiya, Pankaj"
- <pankaj.laxminarayan.bharadiya@intel.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: RE: [Intel-gfx] [PATCH v2 0/7] drm: drm_fb_helper cleanup.
-Thread-Topic: [Intel-gfx] [PATCH v2 0/7] drm: drm_fb_helper cleanup.
-Thread-Index: AQHV8LBL8+V2W+0rDEejJ760teGdoag1QS2AgAEIjNA=
-Date: Tue, 3 Mar 2020 04:40:09 +0000
-Message-ID: <E92BA18FDE0A5B43B7B3DA7FCA0312860577DFC2@BGSMSX107.gar.corp.intel.com>
-References: <20200302162151.52349-1-pankaj.laxminarayan.bharadiya@intel.com>
- <CACvgo50_0ZE3dxbwwv2g6937F3mA15thM_qXv=BBVodYy=mbxg@mail.gmail.com>
-In-Reply-To: <CACvgo50_0ZE3dxbwwv2g6937F3mA15thM_qXv=BBVodYy=mbxg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 60D206E983
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 05:28:00 +0000 (UTC)
+X-UUID: 19b6b49e71e148768e38cd6b6c7f098e-20200303
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=Tbydff45iGovy+Y4pjIMl85obrLQehvyczoepJ8vfGk=; 
+ b=Zx8QN+CwmUu4Q3U5t/tkxsqWpjiRfNFnrYFQbckjAJv2AjGj6Xe4F8LNbg4eqU3fGg6a8kr6oIoItKZzay2LQ9koaZEi1VWy8qV5bPUiFnZLT6oRM/jx63oU5nK5NEb1/fl40n20QCpbOMGMDDihnxQbvVg2FFcHbt8UDQzceGw=;
+X-UUID: 19b6b49e71e148768e38cd6b6c7f098e-20200303
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 284516448; Tue, 03 Mar 2020 13:27:54 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Tue, 3 Mar 2020 13:28:12 +0800
+Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
+ MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1395.4 via Frontend Transport; Tue, 3 Mar 2020 13:28:13 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v12 1/6] dt-bindings: media: add pclk-sample dual edge property
+Date: Tue, 3 Mar 2020 13:27:17 +0800
+Message-ID: <20200303052722.94795-2-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200303052722.94795-1-jitao.shi@mediatek.com>
+References: <20200303052722.94795-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 92A6DFEB79979C0D84A620945EE2BC62DE25972615F16215D7CE08A88AB02D022000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,77 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
+ srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
+ cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some chips's sample mode are rising, falling and dual edge (both
+falling and rising edge).
+Extern the pclk-sample property to support dual edge.
 
+Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ Documentation/devicetree/bindings/media/video-interfaces.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> -----Original Message-----
-> From: Emil Velikov <emil.l.velikov@gmail.com>
-> Sent: 02 March 2020 23:51
-> To: Laxminarayan Bharadiya, Pankaj
-> <pankaj.laxminarayan.bharadiya@intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>; Daniel Vetter
-> <daniel@ffwll.ch>; Intel Graphics Development <intel-
-> gfx@lists.freedesktop.org>; ML dri-devel <dri-devel@lists.freedesktop.org>
-> Subject: Re: [Intel-gfx] [PATCH v2 0/7] drm: drm_fb_helper cleanup.
-> 
-> Hi Pankaj,
-> 
-> On Mon, 2 Mar 2020 at 16:33, Pankaj Bharadiya
-> <pankaj.laxminarayan.bharadiya@intel.com> wrote:
-> >
-> > This series addresses below drm_fb_helper tasks from
-> > Documentation/gpu/todo.rst.
-> >
-> > - The max connector argument for drm_fb_helper_init() isn't used
-> >   anymore and can be removed.
-> >
-> > - The helper doesn't keep an array of connectors anymore so these can
-> >   be removed: drm_fb_helper_single_add_all_connectors(),
-> >   drm_fb_helper_add_one_connector() and
-> >   drm_fb_helper_remove_one_connector().
-> >
-> > Changes since v1:
-> >    - Squashed warning fixes into the patch that introduced the
-> >      warnings (into 5/7) (Laurent)
-> >    - Fixed reflow in in 9/9 (Laurent)
-> >
-> For the future, include the changelog in the respective patches. This makes it
-> easier for reviewers...
-> Plus you're already changing the commit - might as well mention what/why :-
-> )
-> 
-> Also do include the R-B, Acked-by, other tags accumulated up-to that point,
-> when sending new revision.
-
-Noted, Thank you for the feedback. Will send new series with tags accumulated
-after 1-2 days. 
-
-> 
-> 
-> That said, if you're interested in further cleaning this up, one can cleanup the
-> drm_dp_mst_topology_cbs hooks.
-> In particular ::register_connector is identical across the board - create a
-> helper function using it directly in core, killing the hook.
-> 
-> While for ::destroy_connector - there's some amdgpu specific code in
-> there... which I'm not sure if it should stay or not.
-> To be on the save side - create a helper which will be called for drivers where
-> the hook is !=NULL (aka everyone but amdgpu).
-
-Will take a look.
-
-Thanks,
-Pankaj
-
-> 
-> HTH
-> Emil
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
+index f884ada0bffc..da9ad24935db 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.txt
++++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
+@@ -118,8 +118,8 @@ Optional endpoint properties
+ - data-enable-active: similar to HSYNC and VSYNC, specifies the data enable
+   signal polarity.
+ - field-even-active: field signal level during the even field data transmission.
+-- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
+-  signal.
++- pclk-sample: sample data on rising (1), falling (0) or both rising and
++  falling (2) edge of the pixel clock signal.
+ - sync-on-green-active: active state of Sync-on-green (SoG) signal, 0/1 for
+   LOW/HIGH respectively.
+ - data-lanes: an array of physical data lane indexes. Position of an entry
+-- 
+2.21.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
