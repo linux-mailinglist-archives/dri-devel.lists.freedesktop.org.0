@@ -1,70 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF780178BD1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4B9178BB0
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:47:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FADA6EAE4;
-	Wed,  4 Mar 2020 07:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B6D6EAC8;
+	Wed,  4 Mar 2020 07:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F20086E8A3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 13:04:59 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id 145so3279021qkl.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 05:04:59 -0800 (PST)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2048.outbound.protection.outlook.com [40.107.237.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 980806E8A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 13:11:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HpONZZZ8u3w9g5kH8dckxSDzIAAlGZ7lLUtiFziR+wJji12OWChtEZZ/vjTHz7gG4GYU0QZHbehd/Oz/DcFSUURomWqsp4nngLYnl0TiLD2D14tENqeD1F6T6g7SO2yfxMFpkQgIMv06jKsSSRljh0/HCiU8TtEgp2VaoW/gUg5Y5fwseBSNdzJmEwsxAIpnzHtDUvr5cn7SgLSSVJGXpKqMPjyNeL9zdmffrEtaZkURbO67apzFuhW7fvnx5JuS+Om9n5TqeoBOAvCV1G4dfvy98niCYb+XS+sF0TKHH0UHySBbhn+KrlcKUFpXZaJ4HEDgrTMlCDp/tO216HOyjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vRmo6Ffq6IZjA0xFjPqMenqJbxrCd3GT41s/wHGz+qA=;
+ b=aWzdbwPhfrkBgK7iGjLQvHW/vty5jHjRLjMJ2MMYFyaDIJ66DR2lsuvrxUS0RgwSKbnPicrX5z0by8jNCGTkmKU9JzeexS8z0jQwdgbu0NuesjyLdAUh2lN5PjfX65fWVYpEfwJvv6b9KIuUzxW9nmoCMImOXvDQS4BiMOhOYZUBsWkKCGyb78C8div1sD0ryyyHllqr3ukpsX4MCFeY4x6Vp4fR5ey/MPNNWuFs8itso4t8pTXYB5Jrm0/bJyPQJpfUnQku3JN1Q/TqVCdxhv9zdQ0FCa7hC3v+0aIGZXtVD5orpinU3E7ve13rzff7kSqkGQ46Xb0BI7dOvpmlug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZKfKCLpavWB6QnzK1GDQMeYWGoekTbUx/okd/+sl/HM=;
- b=B50yoIPI9EYGqHCIO/XliQhnCsM/dygElKi3E/FC1R2H9Xlq1jPZDHn/ItdxJt2HzA
- kDINy5CTg1VbZchqL87XcOMtIDGyE3OUJNVLa9q6rpvaORNPLF6O4VDCgrigUIsPovzT
- 9OOkW8nXqC0yiURUqd1lg61h72LLKMj+ivWksPZNxGRcjXVB04mKS3X72vqADOAFOqbO
- 1fRIKhfq7qAd6Vhbsz8tbKl5NRMaCIjjM+1kmYt2THKkThlUSd1DZp/LkVkm5VVuW+dX
- phrFdEMp8W2pbwPkHlDhutRcvMCBmO+3GT7eH8ziybLDZik5lpCq+wdXNMx/YIERbjxL
- 7Kvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZKfKCLpavWB6QnzK1GDQMeYWGoekTbUx/okd/+sl/HM=;
- b=WB5qkfrm/9EfzT2ID4Q3kx4VE9gjhWRLBjbrX1jjQVXG3CzwAkcK44BbDsGM710+sl
- /nHPX17nIprtVeGUIwTu68SBYj3cluvjiJRiB3Byi8EDze+hOQmWFOTpAU4S0C8dVj2v
- PVseEJkRADwZM+HPBCpQhnt4PuedWmOtHbeqaI5N+yzeLyewnp9HHOHtx7Xdnj6fdqYV
- 1pyFvHXdI770zlgTBlS3QgumLF3ssnC/XHnw+J2y5OonnQc5rST7KBN6JBKkn6oOvxcg
- e0oWOkFz7N/9/Hr4EPiaXT7jPL23X1cWBfOQo/Xzo+eofJZ0EdrvRwYWNzPeXme+g7ov
- PeSw==
-X-Gm-Message-State: ANhLgQ1pZ3FDD0AMwEuZWIBObVmn7dsJlbFoVX/3NZg0qRI+9PR1nxIk
- JXAa7PUCDOaCcF6ZxVVCv5ucYA==
-X-Google-Smtp-Source: ADFU+vuyuf6QTrWZF5SZUspTbtI9eqnDRpoQMCUe84PcudTdREQbopBbyyguwS5aGxRhwtvLcXcifQ==
-X-Received: by 2002:a05:620a:13b4:: with SMTP id
- m20mr3937641qki.289.1583240699003; 
- Tue, 03 Mar 2020 05:04:59 -0800 (PST)
-Received: from [192.168.0.189] ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id x16sm5785091qki.89.2020.03.03.05.04.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Mar 2020 05:04:58 -0800 (PST)
-Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
-To: Brian Masney <masneyb@onstation.org>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-34-ville.syrjala@linux.intel.com>
- <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
- <20200303031335.GA7208@onstation.org>
- <8f47109f-796e-8cd5-d05e-8cdf2d0665ed@marek.ca>
- <836f8308-b648-52ff-aa71-448ff0130931@marek.ca>
- <20200303122643.GA10088@onstation.org>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <a565b44c-4562-f3da-82dc-e0f47683acb2@marek.ca>
-Date: Tue, 3 Mar 2020 08:04:05 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20200303122643.GA10088@onstation.org>
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vRmo6Ffq6IZjA0xFjPqMenqJbxrCd3GT41s/wHGz+qA=;
+ b=ZN3DH8QI+X1vnZCrag/uG7UOY4cz/gi8bkhKCyX2xX5ia0KiYVy3NCyaI8ZGI2cx6mHzhdUUSJA7YXdhOIXeSaurxuddnm4+Mptk4zU39dzA6Rn2xA9plT8RrTWojiCDuYJSDzChSmeFaQ1MkZbNqxDQEfnVTEXuJufhTAQqoKI=
+Received: from BYAPR02MB5382.namprd02.prod.outlook.com (2603:10b6:a03:9d::23)
+ by BYAPR02MB4839.namprd02.prod.outlook.com (2603:10b6:a03:51::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.18; Tue, 3 Mar
+ 2020 13:11:56 +0000
+Received: from BYAPR02MB5382.namprd02.prod.outlook.com
+ ([fe80::a466:fa93:8bc5:8ee6]) by BYAPR02MB5382.namprd02.prod.outlook.com
+ ([fe80::a466:fa93:8bc5:8ee6%6]) with mapi id 15.20.2772.019; Tue, 3 Mar 2020
+ 13:11:56 +0000
+From: Devarsh Thakkar <DEVARSHT@xilinx.com>
+To: Rohit Visavalia <RVISAVAL@xilinx.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "imirkin@alum.mit.edu"
+ <imirkin@alum.mit.edu>, "emil.velikov@collabora.com"
+ <emil.velikov@collabora.com>, =?iso-8859-1?Q?Ville_Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>
+Subject: RE: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
+ add_property_optional returns true
+Thread-Topic: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
+ add_property_optional returns true
+Thread-Index: AQHV679WQkeNaKVZxEqHWeaYqd47Jaguu5cAgAgmTQA=
+Date: Tue, 3 Mar 2020 13:11:55 +0000
+Message-ID: <BYAPR02MB5382500BD847244DC731B454BCE40@BYAPR02MB5382.namprd02.prod.outlook.com>
+References: <1582623496-6094-1-git-send-email-rohit.visavalia@xilinx.com>
+ <BYAPR02MB40561FBCE7FCCF6ECAA96BF5B3EB0@BYAPR02MB4056.namprd02.prod.outlook.com>
+In-Reply-To: <BYAPR02MB40561FBCE7FCCF6ECAA96BF5B3EB0@BYAPR02MB4056.namprd02.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-Mentions: imirkin@alum.mit.edu, emil.velikov@collabora.com,
+ ville.syrjala@linux.intel.com
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=DEVARSHT@xilinx.com; 
+x-originating-ip: [149.199.62.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 1b6af977-06c6-4cae-19f1-08d7bf7472db
+x-ms-traffictypediagnostic: BYAPR02MB4839:|BYAPR02MB4839:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB4839F112EE8564DBF5464408BCE40@BYAPR02MB4839.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4125;
+x-forefront-prvs: 03319F6FEF
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(376002)(346002)(136003)(366004)(396003)(189003)(199004)(110136005)(54906003)(478600001)(5660300002)(4326008)(8676002)(8936002)(66574012)(7696005)(81156014)(81166006)(186003)(107886003)(76116006)(53546011)(6506007)(55016002)(9686003)(33656002)(66946007)(71200400001)(66446008)(66556008)(86362001)(316002)(26005)(52536014)(64756008)(2906002)(66476007);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4839;
+ H:BYAPR02MB5382.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: l/d1Ipn9rIsjmk61dVx3BEs3WaUMENYdsH0J7leXoGBNexbgxv4DAIYPrheRuFSeoOB2grdlqVVT0gfO40LbYY34vgmwutzXFSZz2nIndx0FREESyivPhRKlMM81AmAP1U2vYnG7/0pxJqauFJ6wwHIhlAtWJJ4gVaLFPP7tWKbjgocPdWGKp66B1Z1TNugI4uSxEDTTYZoboIoxeK8XksNgQauTY3BQg6l11h6Lh+iSpYkVLNGLM0gmR/BO184polbCtfbsGwFp7XnPlsTqLuV+rFM5jOUZkBWcEgGt2UqZ1E340bKmKXlPzZJYGPmWfrALw0pXSU/Na+chAT0J8bpCA5ZgZj8rYXa56LC8kJLRWFTuriML835Fk90EjRsFrMgec09ODQxV2IRdotTL+hn/RDhRe4GG94h9zLqtxrbfXz5TwuX+H1mnUv9lq/dW
+x-ms-exchange-antispam-messagedata: XOowjLFcJ1o9dXjFbdnWdhXTQy6B9IxH7bw+HMrQg+j081L5p91V7u9P5G9TT1Yx4MijshwUOH7lF/PFP/JaApTNsjeaGk917wDvjFz8nJ08y4KiAQjUsIbBQSYcyDqK7Jv/vG7KddvQTeMymwaIbg==
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b6af977-06c6-4cae-19f1-08d7bf7472db
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2020 13:11:55.7639 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 40AOnaGaOlFKMpp6KsshCmOw4Y84QW6WG/d1P0Q2uyYNp8tsfwodg4Eu0IkTLgmCgvYsqKPR7jKGcEPEGj2u4Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4839
 X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,101 +104,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Ranganathan Sk <rsk@xilinx.com>,
+ Varunkumar Allagadapa <VARUNKUM@xilinx.com>,
+ Dhaval Rajeshbhai Shah <dshah@xilinx.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hhdCBYb3JnIHByaW50cyBkb2Vzbid0IG1lYW4gYW55dGhpbmcuIEkgZG9uJ3QgdGhpbmsgdGhl
-cmUgd2lsbCBiZSAKZXJyb3JzIGluIGRtZXNnLCB5b3UgbmVlZCB0byBydW4gc29tZXRoaW5nIHRo
-YXQgZG9lcyBwYWdlZmxpcHMgYXMgZmFzdCAKYXMgcG9zc2libGUgYW5kIHNlZSB0aGF0IHRoZSBy
-ZWZyZXNoIHJhdGUgaXMgc3RpbGwgNjAuIChtb2RldGVzdCB3aXRoIAotdiwgZ2xtYXJrLWRybSBh
-cmUgZXhhbXBsZXMpCgpPbiAzLzMvMjAgNzoyNiBBTSwgQnJpYW4gTWFzbmV5IHdyb3RlOgo+IE9u
-IE1vbiwgTWFyIDAyLCAyMDIwIGF0IDEwOjM2OjU0UE0gLTA1MDAsIEpvbmF0aGFuIE1hcmVrIHdy
-b3RlOgo+PiBBbm90aGVyIHRoaW5nOiBkaWQgeW91IHZlcmlmeSB0aGF0IHRoZSBwYW5lbCBzdGls
-bCBydW5zIGF0IDYwaHogKGFuZCBub3QKPj4gZHJvcHBpbmcgZnJhbWVzIHRvIDMwaHopPyBJSVJD
-IHRoYXQgd2FzIHRoZSBiZWhhdmlvciB3aXRoIGxvd2VyIGNsb2NrLgo+IAo+IFllcywgdGhlIHBh
-bmVsIGlzIHJ1bm5pbmcgYXQgNjAgSFogYWNjb3JkaW5nIHRvIHRoZSBYb3JnIGxvZyB3aXRoCj4g
-VmlsbGUncyBwYXRjaCBhcHBsaWVkOgo+IAo+ICAgICAgbW9kZXNldCgwKTogTW9kZWxpbmUgIjEw
-ODB4MTkyMCJ4NjAuMCAgMTI1LjUwICAxMDgwIDEwODIgMTA4NCAxMDg2Cj4gICAgICAxOTIwIDE5
-MjIgMTkyNCAxOTI2ICgxMTUuNiBrSHogZVApCj4gCj4gSSB2ZXJpZmllZCB0aGVyZSdzIG5vIHVu
-ZGVyZmxvdyBlcnJvcnMgaW4gZG1lc2cuCj4gCj4gSWYgSSByZWNhbGwgY29ycmVjdGx5LCB0aGUg
-Y2xvY2sgc3BlZWRzIHRoYXQgd2FzIGluIHlvdXIgdHJlZSB3YXMgc2V0Cj4gdG9vIGxvdyBmb3Ig
-dGhlIGdwdV9vcHBfdGFibGUgKHRoYXQgd291bGRuJ3QgY2F1c2UgdGhpcyBpc3N1ZSksIGJ1dCBJ
-Cj4gc2VlbSB0byByZWNhbGwgdGhlcmUgd2VyZSBzb21lIG90aGVyIGNsb2NrIHNwZWVkIG1pc21h
-dGNoZXMuIFRoZQo+IGJhbmR3aWR0aCByZXF1ZXN0cyB3ZXJlbid0IHNldCBvbiB0aGUgUlBNIGFz
-IHdlbGwsIHNvIG1heWJlIHRoYXQKPiBjb250cmlidXRlZCB0byB0aGUgcHJvYmxlbS4gVGhhdCdz
-IGRvbmUgdXBzdHJlYW0gd2l0aCB0aGUgbXNtODk3NAo+IGludGVyY29ubmVjdCBkcml2ZXI6Cj4g
-Cj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFs
-ZHMvbGludXguZ2l0L3RyZWUvZHJpdmVycy9pbnRlcmNvbm5lY3QvcWNvbS9tc204OTc0LmMKPiAK
-PiBUaGVyZSdzIGEgc2VwYXJhdGUga25vd24gaXNzdWUgd2l0aCAncHAgZG9uZSB0aW1lIG91dCcg
-ZXJyb3JzIHRoYXQKPiBvY2N1ciBvbiB0aGUgZnJhbWVidWZmZXIgdGhhdCBzdGFydGVkIHVwc3Ry
-ZWFtIHNldmVyYWwgbW9udGhzIGFnbyB3aXRoCj4gdGhlIGludHJvZHVjdGlvbiBvZiBhc3luYyBj
-b21taXQgc3VwcG9ydCBpbiB0aGUgTVNNIGRyaXZlci4gSSB0cmllZAo+IHdvcmtpbmcgYXJvdW5k
-IHRoaXMgYnkgZW5hYmxpbmcgdGhlIGF1dG9yZWZyZXNoIGZlYXR1cmUgYnV0IGl0J3Mgbm90Cj4g
-ZnVsbHkgd29ya2luZyB5ZXQgYW5kIEkgaGl0IGEgZGVhZCBlbmQgc2luY2UgdGhlcmUncyBubyBk
-b2NzIGF2YWlsYWJsZQo+IHB1YmxpY2x5IGZvciB0aGlzLiBUaGUgZ3JpbSBkZXRhaWxzIGFyZSBh
-dDoKPiAKPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMTkxMjMwMDIwMDUzLjI2MDE2
-LTItbWFzbmV5YkBvbnN0YXRpb24ub3JnLwo+IAo+IFNvIEknbSBzdGlsbCBPSyB3aXRoIFZpbGxl
-J3MgcGF0Y2ggZ29pbmcgaW4uCj4gCj4gQnJpYW4KPiAKPiAKPj4KPj4gT24gMy8yLzIwIDEwOjI4
-IFBNLCBKb25hdGhhbiBNYXJlayB3cm90ZToKPj4+Cj4+PiBPbiAzLzIvMjAgMTA6MTMgUE0sIEJy
-aWFuIE1hc25leSB3cm90ZToKPj4+PiBPbiBNb24sIE1hciAwMiwgMjAyMCBhdCAwMzo0ODoyMlBN
-IC0wNTAwLCBKb25hdGhhbiBNYXJlayB3cm90ZToKPj4+Pj4gSGksCj4+Pj4+Cj4+Pj4+IFRoaXMg
-aXMgYSBjb21tYW5kIG1vZGUgcGFuZWwgYW5kIHRoZSB0aGUgbXNtL21kcDUgZHJpdmVyIHVzZXMK
-Pj4+Pj4gdGhlIHZyZWZyZXNoCj4+Pj4+IGZpZWxkIGZvciB0aGUgYWN0dWFsIHJlZnJlc2ggcmF0
-ZSwgd2hpbGUgdGhlIGRvdGNsb2NrIGZpZWxkIGlzCj4+Pj4+IHVzZWQgZm9yIHRoZQo+Pj4+PiBE
-U0kgY2xvY2tzLiBUaGUgZG90Y2xvY2sgbmVlZGVkIHRvIGJlIGEgYml0IGhpZ2hlciB0aGFuCj4+
-Pj4+IG5lY2Vzc2FyeSBvdGhlcndpc2UKPj4+Pj4gdGhlIHBhbmVsIHdvdWxkIG5vdCB3b3JrLgo+
-Pj4+Pgo+Pj4+PiBJZiB5b3Ugd2FudCB0byBnZXQgcmlkIG9mIHRoZSBzZXBhcmF0ZSBjbG9jay92
-cmVmcmVzaCBmaWVsZHMgdGhlcmUgd291bGQKPj4+Pj4gbmVlZCB0byBiZSBzb21lIGNoYW5nZXMg
-dG8gbXNtIGRyaXZlci4KPj4+Pj4KPj4+Pj4gKG5vdGUgSSBoYWRuJ3QgbWFkZSB0aGUgcGF0Y2gg
-d2l0aCB1cHN0cmVhbWluZyBpbiBtaW5kLCB0aGUKPj4+Pj4gMTUwMDAwIHZhbHVlIGlzCj4+Pj4+
-IGxpa2VseSBub3Qgb3B0aW1hbCwganVzdCBzb21ldGhpbmcgdGhhdCB3b3JrZWQsIHRoaXMgaXMg
-c29tZXRoaW5nIHRoYXQKPj4+Pj4gc2hvdWxkIGhhdmUgYmVlbiBjaGVja2VkIHdpdGggdGhlIGRv
-d25zdHJlYW0gZHJpdmVyKQo+Pj4+Cj4+Pj4gSXMgdGhpcyB0aGUgcmlnaHQgY2xvY2sgZnJlcXVl
-bmN5IGluIHRoZSBkb3duc3RyZWFtIE1TTSAzLjQga2VybmVsIHRoYXQKPj4+PiB5b3UncmUgdGFs
-a2luZyBhYm91dD8KPj4+Pgo+Pj4+IGh0dHBzOi8vZ2l0aHViLmNvbS9BSUNQL2tlcm5lbF9sZ2Vf
-aGFtbWVyaGVhZC9ibG9iL243LjEvYXJjaC9hcm0vbWFjaC1tc20vY2xvY2stODk3NC5jI0wzMzI2
-Cj4+Pj4KPj4+Pgo+Pj4KPj4+IE5vLCBJJ20gdGFsa2luZyBhYm91dCB0aGUgRFNJIGNsb2NrICh0
-aGUgZHJpdmVyIGZvciBpdCBpcyBpbgo+Pj4gZHJtL21zbS9kc2kvKS4gRm9yIGEgY29tbWFuZCBt
-b2RlIHBhbmVsIHRoZSBmcm9udC9iYWNrIHBvcmNoZXMgYXJlbid0Cj4+PiByZWxldmFudCwgYnV0
-IHRoZSBkc2kgcGl4ZWwvYnl0ZSBjbG9jayBuZWVkIHRvIGJlIGEgYml0IGhpZ2hlciB0aGFuCj4+
-PiAxOTIweDEwODB4NjAuIFNpbmNlIDEyNTQ5OCBpcyBhIGxpdHRsZSBoaWdoZXIgdGhhbiAxMjQ0
-MTYgdGhhdCBtaWdodCBiZQo+Pj4gZW5vdWdoICh0aGVyZSBpcyBhbHNvIHJvdW5kaW5nIG9mIHRo
-ZSBjbG9jayB2YWx1ZXMgdG8gY29uc2lkZXIpLgo+Pj4KPj4+PiBJIGRvbid0IHNlZSBhbnkgb2J2
-aW91cyBjbG9jayB2YWx1ZXMgaW4gdGhlIGRvd25zdHJlYW0gY29tbWFuZCBtb2RlCj4+Pj4gcGFu
-ZWwgY29uZmlndXJhdGlvbjoKPj4+Pgo+Pj4+IGh0dHBzOi8vZ2l0aHViLmNvbS9BSUNQL2tlcm5l
-bF9sZ2VfaGFtbWVyaGVhZC9ibG9iL243LjEvYXJjaC9hcm0vYm9vdC9kdHMvbXNtODk3NC1oYW1t
-ZXJoZWFkL21zbTg5NzQtaGFtbWVyaGVhZC1wYW5lbC5kdHNpI0w1OTEKPj4+Pgo+Pj4+Cj4+Pj4g
-QW55d2F5cywgSSB0cmllZCBWaWxsZSdzIHBhdGNoIHdpdGggdGhlIGZyYW1lYnVmZmVyLCBrbXNj
-dWJlLCBhbmQgWDExCj4+Pj4gYW5kIGV2ZXJ5dGhpbmcgYXBwZWFycyB0byBiZSB3b3JraW5nIGZp
-bmUuIFlvdSBjYW4gYWRkIG15IFRlc3RlZC1ieSBpZgo+Pj4+IHlvdSBlbmQgdXAgYXBwbHlpbmcg
-dGhpcy4KPj4+Pgo+Pj4+IFRlc3RlZC1ieTogQnJpYW4gTWFzbmV5IDxtYXNuZXliQG9uc3RhdGlv
-bi5vcmc+Cj4+Pj4KPj4+PiBCcmlhbgo+Pj4+Cj4+Pj4KPj4+Pj4gT24gMy8yLzIwIDM6MzQgUE0s
-IFZpbGxlIFN5cmphbGEgd3JvdGU6Cj4+Pj4+PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxl
-LnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Pj4+Pj4KPj4+Pj4+IFRoZSBjdXJyZW50bHkgbGlz
-dGVkIGRvdGNsb2NrIGRpc2FncmVlcyB3aXRoIHRoZSBjdXJyZW50bHkKPj4+Pj4+IGxpc3RlZCB2
-cmVmcmVzaCByYXRlLiBDaGFuZ2UgdGhlIGRvdGNsb2NrIHRvIG1hdGNoIHRoZSB2cmVmcmVzaC4K
-Pj4+Pj4+Cj4+Pj4+PiBTb21lb25lIHRlbGwgbWUgd2hpY2ggKGlmIGVpdGhlcikgb2YgdGhlIGRv
-dGNsb2NrIG9yIHZyZXJlc2ggaXMKPj4+Pj4+IGNvcnJlY3Q/Cj4+Pj4+Pgo+Pj4+Pj4gQ2M6IEpv
-bmF0aGFuIE1hcmVrIDxqb25hdGhhbkBtYXJlay5jYT4KPj4+Pj4+IENjOiBCcmlhbiBNYXNuZXkg
-PG1hc25leWJAb25zdGF0aW9uLm9yZz4KPj4+Pj4+IENjOiBMaW51cyBXYWxsZWlqIDxsaW51cy53
-YWxsZWlqQGxpbmFyby5vcmc+Cj4+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6Qg
-PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Pj4+Pj4gLS0tCj4+Pj4+PiAgwqDCoCBk
-cml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMgfCAyICstCj4+Pj4+PiAgwqDCoCAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4+Pj4+Cj4+Pj4+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jCj4+Pj4+
-PiBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYwo+Pj4+Pj4gaW5kZXggYjI0
-ZmRmMjM5NDQwLi5mOTU4ZDhkZmQ3NjAgMTAwNjQ0Cj4+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKPj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5l
-bC9wYW5lbC1zaW1wbGUuYwo+Pj4+Pj4gQEAgLTM5OTYsNyArMzk5Niw3IEBAIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgcGFuZWxfZGVzY19kc2kKPj4+Pj4+IHBhbmFzb25pY192dngxMGYwMDRiMDAgPSB7
-Cj4+Pj4+PiAgwqDCoCB9Owo+Pj4+Pj4gIMKgwqAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZGlz
-cGxheV9tb2RlIGxnX2FjeDQ2N2FrbV83X21vZGUgPSB7Cj4+Pj4+PiAtwqDCoMKgIC5jbG9jayA9
-IDE1MDAwMCwKPj4+Pj4+ICvCoMKgwqAgLmNsb2NrID0gMTI1NDk4LAo+Pj4+Pj4gIMKgwqDCoMKg
-wqDCoCAuaGRpc3BsYXkgPSAxMDgwLAo+Pj4+Pj4gIMKgwqDCoMKgwqDCoCAuaHN5bmNfc3RhcnQg
-PSAxMDgwICsgMiwKPj4+Pj4+ICDCoMKgwqDCoMKgwqAgLmhzeW5jX2VuZCA9IDEwODAgKyAyICsg
-MiwKPj4+Pj4+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Rohit,
+
+This makes sense to me as gamma was implemented as optional property.
+Reviewed-By: "Devarsh Thakkar <devarsh.thakkar@xilinx.com>"
+
+@emil.velikov@collabora.com, @imirkin@alum.mit.edu, @Ville Syrj=E4l=E4, Cou=
+ld you please ack and help merge this patch if it also look good to you ?
+
+Regards,
+Devarsh
+
+> -----Original Message-----
+> From: Rohit Visavalia
+> Sent: 27 February 2020 00:40
+> To: Rohit Visavalia <RVISAVAL@xilinx.com>; dri-devel@lists.freedesktop.or=
+g;
+> imirkin@alum.mit.edu; emil.velikov@collabora.com
+> Cc: Hyun Kwon <hyunk@xilinx.com>; Ranganathan Sk <rsk@xilinx.com>; Dhaval
+> Rajeshbhai Shah <dshah@xilinx.com>; Varunkumar Allagadapa
+> <VARUNKUM@xilinx.com>; Devarsh Thakkar <DEVARSHT@xilinx.com>
+> Subject: RE: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
+> add_property_optional returns true
+> =
+
+> Gentle reminder.
+> =
+
+> + Ilia Mirkin, +Emil Velikov.
+> =
+
+> Thanks & Regards,
+> Rohit
+> =
+
+> > -----Original Message-----
+> > From: Rohit Visavalia [mailto:rohit.visavalia@xilinx.com]
+> > Sent: Tuesday, February 25, 2020 3:08 PM
+> > To: dri-devel@lists.freedesktop.org
+> > Cc: Hyun Kwon <hyunk@xilinx.com>; Ranganathan Sk <rsk@xilinx.com>;
+> > Dhaval Rajeshbhai Shah <dshah@xilinx.com>; Varunkumar Allagadapa
+> > <VARUNKUM@xilinx.com>; Devarsh Thakkar <DEVARSHT@xilinx.com>; Rohit
+> > Visavalia <RVISAVAL@xilinx.com>
+> > Subject: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
+> > add_property_optional returns true
+> >
+> > gamma is a optional property then also it prints error message, so set
+> > gamma only if add_property_optional() returns true.
+> >
+> > Signed-off-by: Rohit Visavalia <rohit.visavalia@xilinx.com>
+> > ---
+> >  tests/modetest/modetest.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+> > index b907ab3..379b9ea 100644
+> > --- a/tests/modetest/modetest.c
+> > +++ b/tests/modetest/modetest.c
+> > @@ -1138,7 +1138,7 @@ static void set_gamma(struct device *dev,
+> > unsigned crtc_id, unsigned fourcc)
+> >
+> >  	add_property_optional(dev, crtc_id, "DEGAMMA_LUT", 0);
+> >  	add_property_optional(dev, crtc_id, "CTM", 0);
+> > -	if (!add_property_optional(dev, crtc_id, "GAMMA_LUT", blob_id)) {
+> > +	if (add_property_optional(dev, crtc_id, "GAMMA_LUT", blob_id)) {
+> >  		uint16_t r[256], g[256], b[256];
+> >
+> >  		for (i =3D 0; i < 256; i++) {
+> > --
+> > 2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
