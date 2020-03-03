@@ -1,60 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371B9177382
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 11:10:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D8017738A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 11:11:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E89EC6E4B5;
-	Tue,  3 Mar 2020 10:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D7276EA60;
+	Tue,  3 Mar 2020 10:11:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 731A16E4B5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 10:10:35 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id j11so2224390lfg.4
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 02:10:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=2lBH94o2PcHIglkC8tdFIZftFpVYeorWUf+G12zJQW4=;
- b=DUixScdOTtavztb6NXfZUx6eofx4PGD5zfvUfbjB4CXGeLO7Ur0s8TwPkEOUgEXvPu
- Ts8rCS9f1rGO1mjaIpUl347NhBjVlbjwofGVA4Nm2NuY6YuUA9XZOXWcAJ/8LyaJDwD6
- o3tqXXJHeLh2zJQTfdGqYj6bYRPkfN7/yjk8bwym/+yQ2bBrjbOaWAomDYXHa5KS4LVE
- XyC4IUhWqzizPlK75qgJKhZquU6yLZkoasT6vhchjnbSCjcVupK5pNqwM6yI43/05uMB
- vDmwbIqhdDtSXyWvSPmEnBkBtQlQiRc9YU7QZ+Rc2g5WeMqpuDNZlS0ZZ3HowXz/pVlv
- n7rQ==
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83E126E9A5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 10:11:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583230271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8emFBHt/OhUM9xYn2u7vMnMojNb0hHTjQPdRvRVbiP8=;
+ b=irrkMIla3Pk+hsIxFMuPJJ0Jz9+umsrf8hhNH5gnysbWpgRqLUA/m1OrlmaphAnux579Km
+ vRVsw/6L7/Ec1n6TBkfOkAZSWliGlivjkh/Yja+i+PnBuPtbzgBh/IrWFdFuX1CDkyPvlQ
+ +F0ffH/CPn3ybPEbwljzvGu54Py1NMk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-p3E0Rq_pN3a997fFqgb6tg-1; Tue, 03 Mar 2020 05:11:07 -0500
+X-MC-Unique: p3E0Rq_pN3a997fFqgb6tg-1
+Received: by mail-wr1-f71.google.com with SMTP id t14so992734wrs.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 02:11:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=2lBH94o2PcHIglkC8tdFIZftFpVYeorWUf+G12zJQW4=;
- b=ui7U4GujnIoGoORLf2YR7/264soTehFFjbfy9DoerMBHCDgl/mix80ODZAOpbzunom
- etoV3TWxLTwisj9vIr1F9EpO+50/J5vJmweVehwWwetFJhoAwksl+W+j79gXluZpJ+0R
- a/adEcV6RmQc1xl3Dfcki0vX9zZewaa72sUNpLiOX6zrNHn9LB7ALVMtc5TJDakNfB+o
- blzeleJNGVy9y9tHsLS2YqlaEmK+GsOjJwMjnfRphaAUA+LAAZF+sOnsBL8VXE3GZGMC
- MMUBfu4/gFYh95g8JtXoBH3+h6EJa//7IiCCOHc2GVwuTiHko2+s+AxskefzpAM1JwY1
- t6iQ==
-X-Gm-Message-State: ANhLgQ0ghsq8v5J79aUWuZ1AwXXRUuj54Ksdxtf0UyGtMULvnbTpBxl4
- PtX/P5DOYAtS0ZNN5RqT0JQ=
-X-Google-Smtp-Source: ADFU+vvCK/dhrA0HP90FSZ4H2gM/ZTfYDVGZI2QL86FFvhSRqOivBshJgAGF9V7MeYb1cB5n62gWKQ==
-X-Received: by 2002:ac2:48b6:: with SMTP id u22mr2319457lfg.18.1583230233683; 
- Tue, 03 Mar 2020 02:10:33 -0800 (PST)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id z1sm123878ljh.17.2020.03.03.02.10.32
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0lKGMZz2mVXzfjH8foE9O3JFOJlrljIc2oxkVwn7z1E=;
+ b=kjFo8FrVqF/nkYavLbCxWqwMIYx5eeAYw6QPXeeemnXw0GTM36a90HT1R5rPScw2Y3
+ 1aXWA0JDjiNsEXD3KCwDbQHYN5zyMpLNHUb1qAdbHVtqLJviw72q0HYLpRcUhwQHmOba
+ J/j0+eVOjowybKXssYJCQzuFkHLt1sp5Yh8vukIPMYTyRnSJzOki53yNFVGfGFxeWdXq
+ PlEi4MMKeFGwmXjEbE87XxovMHeWRgbRDAwBzV1MQ6z6nj/Toi/lD8rOYzDe919dA6YU
+ 0uXIO7hfFvCcxuI4U0QPf7Ipwcwf+VSzsVt2Kh/8kxA9yXwsIMqRqAuuYkKmbB6fIQTp
+ Gd6w==
+X-Gm-Message-State: ANhLgQ2WTC4WSPgWeQiQ/yg4V7JYvahg8J/SxlLgj31kp/fKpnROinp2
+ s862Aq25IM8Cs38Wx7NO13/MWV0hE8phoCAFr2xiEZ/rvVP9oIVDzjhn/RTxyvXp9IMTDumD5o2
+ sS5XicOdEBk86rQOTEPrlH9RyjSmq
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr3568984wmk.172.1583230264530; 
+ Tue, 03 Mar 2020 02:11:04 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vupO8zpDPGI2M251ftAIAreBbyyhVWtPWzvaf5Z4LtEpAgdcTDnuje0fNmPeffLysPi04uEaw==
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr3568951wmk.172.1583230264185; 
+ Tue, 03 Mar 2020 02:11:04 -0800 (PST)
+Received: from kherbst.pingu.com ([2a02:8308:b0be:6900:482c:9537:40:83ba])
+ by smtp.gmail.com with ESMTPSA id w206sm3315371wmg.11.2020.03.03.02.11.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2020 02:10:33 -0800 (PST)
-Date: Tue, 3 Mar 2020 12:10:29 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH 1/4] drm/fourcc: Add modifier definitions for describing
- Amlogic Video Framebuffer Compression
-Message-ID: <20200303121029.5532669d@eldfell.localdomain>
-In-Reply-To: <20200221090845.7397-2-narmstrong@baylibre.com>
-References: <20200221090845.7397-1-narmstrong@baylibre.com>
- <20200221090845.7397-2-narmstrong@baylibre.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ Tue, 03 Mar 2020 02:11:03 -0800 (PST)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v6] pci: prevent putting nvidia GPUs into lower device states
+ on certain intel bridges
+Date: Tue,  3 Mar 2020 11:10:52 +0100
+Message-Id: <20200303101052.133631-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,207 +73,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0998012869=="
+Cc: Karol Herbst <kherbst@redhat.com>, linux-pm@vger.kernel.org,
+ linux-pci@vger.kernel.org, Mika Westerberg <mika.westerberg@intel.com>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0998012869==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/rszd0x.FOSs6mcQm0ZPJOpS"; protocol="application/pgp-signature"
-
---Sig_/rszd0x.FOSs6mcQm0ZPJOpS
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 21 Feb 2020 10:08:42 +0100
-Neil Armstrong <narmstrong@baylibre.com> wrote:
-
-> Amlogic uses a proprietary lossless image compression protocol and format
-> for their hardware video codec accelerators, either video decoders or
-> video input encoders.
->=20
-> It considerably reduces memory bandwidth while writing and reading
-> frames in memory.
->=20
-> The underlying storage is considered to be 3 components, 8bit or 10-bit
-> per component, YCbCr 420, single plane :
-> - DRM_FORMAT_YUV420_8BIT
-> - DRM_FORMAT_YUV420_10BIT
->=20
-> This modifier will be notably added to DMA-BUF frames imported from the V=
-4L2
-> Amlogic VDEC decoder.
->=20
-> At least two options are supported :
-> - Scatter mode: the buffer is filled with a IOMMU scatter table referring
->   to the encoder current memory layout. This mode if more efficient in te=
-rms
->   of memory allocation but frames are not dumpable and only valid during =
-until
->   the buffer is freed and back in control of the encoder
-> - Memory saving: when the pixel bpp is 8b, the size of the superblock can
->   be reduced, thus saving memory.
->=20
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  include/uapi/drm/drm_fourcc.h | 56 +++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
->=20
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 8bc0b31597d8..8a6e87bacadb 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -309,6 +309,7 @@ extern "C" {
->  #define DRM_FORMAT_MOD_VENDOR_BROADCOM 0x07
->  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
->  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
-> +#define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
-> =20
->  /* add more to the end as needed */
-> =20
-> @@ -804,6 +805,61 @@ extern "C" {
->   */
->  #define DRM_FORMAT_MOD_ALLWINNER_TILED fourcc_mod_code(ALLWINNER, 1)
-> =20
-> +/*
-> + * Amlogic Video Framebuffer Compression modifiers
-> + *
-> + * Amlogic uses a proprietary lossless image compression protocol and fo=
-rmat
-> + * for their hardware video codec accelerators, either video decoders or
-> + * video input encoders.
-> + *
-> + * It considerably reduces memory bandwidth while writing and reading
-> + * frames in memory.
-> + * Implementation details may be platform and SoC specific, and shared
-> + * between the producer and the decoder on the same platform.
-
-Hi,
-
-after a lengthy IRC discussion on #dri-devel, this "may be platform and
-SoC specific" is a problem.
-
-It can be an issue in two ways:
-
-- If something in the data acts like a sub-modifier, then advertising
-  support for one modifier does not really tell if the data layout is
-  supported or not.
-
-- If you need to know the platform and/or SoC to be able to interpret
-  the data, it means the modifier is ill-defined and cannot be used in
-  inter-machine communication (e.g. Pipewire).
-
-Neil mentioned the data contains a "header" that further specifies
-things, but there is no specification about the header itself.
-Therefore I don't think we can even know if the header contains
-something that acts like a sub-modifier or not.
-
-All this sounds like the modifier definitions here are not enough to
-fully interpret the data. At the very least I would expect a reference
-to a document explaining the "header", or even better, a kernel ReST
-doc.
-
-I wonder if this is at all suitable as a DRM format modifier as is. I
-have been assuming that a modifier together with all the usual FB
-parameters should be enough to interpret the stored data, but in this
-case I have doubt it actually is.
-
-I have no problem with proprietary data layouts as long as they are
-fully specified.
-
-I do feel like I would not be able to write a software decoder for this
-set of modifiers given the details below.
-
-
-Thanks,
-pq
-
-> + *
-> + * The underlying storage is considered to be 3 components, 8bit or 10-b=
-it
-> + * per component YCbCr 420, single plane :
-> + * - DRM_FORMAT_YUV420_8BIT
-> + * - DRM_FORMAT_YUV420_10BIT
-> + *
-> + * The classic memory storage is composed of:
-> + * - a body content organized in 64x32 superblocks with 4096 bytes per
-> + *   superblock in default mode.
-> + * - a 32 bytes per 128x64 header block
-> + */
-> +#define DRM_FORMAT_MOD_AMLOGIC_FBC_DEFAULT fourcc_mod_code(AMLOGIC, 0)
-> +
-> +/*
-> + * Amlogic Video Framebuffer Compression Options
-> + *
-> + * Two optional features are available which may not supported/used on e=
-very
-> + * SoCs and Compressed Framebuffer producers.
-> + */
-> +#define DRM_FORMAT_MOD_AMLOGIC_FBC(__modes) fourcc_mod_code(AMLOGIC, __m=
-odes)
-> +
-> +/*
-> + * Amlogic FBC Scatter Memory layout
-> + *
-> + * Indicates the header contains IOMMU references to the compressed
-> + * frames content to optimize memory access and layout.
-> + * In this mode, only the header memory address is needed, thus the
-> + * content memory organization is tied to the current producer
-> + * execution and cannot be saved/dumped.
-> + */
-> +#define DRM_FORMAT_MOD_AMLOGIC_FBC_SCATTER	(1ULL << 0)
-> +
-> +/*
-> + * Amlogic FBC Memory Saving mode
-> + *
-> + * Indicates the storage is packed when pixel size is multiple of word
-> + * boudaries, i.e. 8bit should be stored in this mode to save allocation
-> + * memory.
-> + *
-> + * This mode reduces body layout to 3072 bytes per 64x32 superblock and
-> + * 3200 bytes per 64x32 superblock combined with scatter mode.
-> + */
-> +#define DRM_FORMAT_MOD_AMLOGIC_FBC_MEM_SAVING	(1ULL << 1)
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
-
-
---Sig_/rszd0x.FOSs6mcQm0ZPJOpS
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl5eLRUACgkQI1/ltBGq
-qqdL8xAAjMPK1D1qmrv9Tqdi/ZSw69SGwq6aCR6pDThCLT+q4CVDMg3fbMdA+Evy
-4owhcCrMY+SsDWV8wksuyfJSanusmFQjnRz0eiU6gP/Nnp/AhoMw5R0mqePmRen2
-XUN0CkTmbNQfaZtYnv3LkLG8/Azz/YPwx2V6iQ2LEbPScnxfsSEd4dvv0pdqynNw
-czBQEKLEKDOtLWfS/W3xB8Etc1i+HgBS97vLllbQ1UtEt1L5Q5CU7ZrxdwM3+7XH
-IM+uaBh9ud9sZJgyejAAU1e6FiD2KDkpI3A6VKMyhhBqMw8n+8Vo5kL878VvqfZO
-ufAwE056wNelfhWuSCpu5zi5cKBs3z7BvS55jdDi+whyorgZAOflPxk3XllWhPby
-YK/o5b8yPuL6WvZtYLjJNGx8skJrNpGfRDvpJqIS5803RofPRdYofB7JL45GjsNo
-vxD6zDfb8k8jK2rbaWzlSfzklwj422Nw1wkz9qs6qIbzih1n5lOzcqqSJGyQW/mG
-0liMnUqg2HvXFCFtvh1tNtO7eD6nI/pjSKaDatji/QPAHEkdYPVUlnWz1bWaweOV
-Xd944KvyOIpfMo/RLlgGOKXKF2ego9QG6PeE/lPoxLvznKLui4s4YIwC4cGcqAGb
-GZ9ZCw8A/wKOwOlRJwYmnT3eB9GPksMJPTsR/hVMCaNGmvVducM=
-=CoFq
------END PGP SIGNATURE-----
-
---Sig_/rszd0x.FOSs6mcQm0ZPJOpS--
-
---===============0998012869==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0998012869==--
+Rml4ZXMgc3RhdGUgdHJhbnNpdGlvbnMgb2YgTnZpZGlhIFBhc2NhbCBHUFVzIGZyb20gRDNjb2xk
+IGludG8gaGlnaGVyIGRldmljZQpzdGF0ZXMuCgp2MjogY29udmVydCB0byBwY2lfZGV2IHF1aXJr
+CiAgICBwdXQgYSBwcm9wZXIgdGVjaG5pY2FsIGV4cGxhbmF0aW9uIG9mIHRoZSBpc3N1ZSBhcyBh
+IGluLWNvZGUgY29tbWVudAp2MzogZGlzYWJsZSBpdCBvbmx5IGZvciBjZXJ0YWluIGNvbWJpbmF0
+aW9ucyBvZiBpbnRlbCBhbmQgbnZpZGlhIGhhcmR3YXJlCnY0OiBzaW1wbGlmeSBxdWlyayBieSBz
+ZXR0aW5nIGZsYWcgb24gdGhlIEdQVSBpdHNlbGYKdjU6IHJlc3RydWN0dXJlIHF1aXJrIHRvIG1h
+a2UgaXQgZWFzaWVyIHRvIGFkZCBuZXcgSURzCiAgICBmaXggd2hpdGVzcGFjZSBpc3N1ZXMKICAg
+IGZpeCBwb3RlbnRpYWwgTlVMTCBwb2ludGVyIGFjY2VzcwogICAgdXBkYXRlIHRoZSBxdWlyayBk
+b2N1bWVudGF0aW9uCnY2OiBtb3ZlIHF1aXJrIGludG8gbm91dmVhdQoKU2lnbmVkLW9mZi1ieTog
+S2Fyb2wgSGVyYnN0IDxraGVyYnN0QHJlZGhhdC5jb20+CkNjOiBCam9ybiBIZWxnYWFzIDxiaGVs
+Z2Fhc0Bnb29nbGUuY29tPgpDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KQ2M6IFJh
+ZmFlbCBKLiBXeXNvY2tpIDxyandAcmp3eXNvY2tpLm5ldD4KQ2M6IE1pa2EgV2VzdGVyYmVyZyA8
+bWlrYS53ZXN0ZXJiZXJnQGludGVsLmNvbT4KQ2M6IGxpbnV4LXBjaUB2Z2VyLmtlcm5lbC5vcmcK
+Q2M6IGxpbnV4LXBtQHZnZXIua2VybmVsLm9yZwpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQnVnemlsbGE6IGh0dHBz
+Oi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MjA1NjIzCi0tLQogZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYyB8IDU2ICsrKysrKysrKysrKysrKysrKysr
+KysrKysrKwogZHJpdmVycy9wY2kvcGNpLmMgICAgICAgICAgICAgICAgICAgICB8ICA4ICsrKysK
+IGluY2x1ZGUvbGludXgvcGNpLmggICAgICAgICAgICAgICAgICAgfCAgMSArCiAzIGZpbGVzIGNo
+YW5nZWQsIDY1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91
+dmVhdS9ub3V2ZWF1X2RybS5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0u
+YwppbmRleCAyY2Q4Mzg0OTYwMGYuLjUxZDNhN2JhNzczMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVh
+dS9ub3V2ZWF1X2RybS5jCkBAIC02MTgsNiArNjE4LDU5IEBAIG5vdXZlYXVfZHJtX2RldmljZV9m
+aW5pKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCiAJa2ZyZWUoZHJtKTsKIH0KIAorLyoKKyAqIE9u
+IHNvbWUgSW50ZWwgUENJZSBicmlkZ2UgY29udHJvbGxlcnMgZG9pbmcgYQorICogRDAgLT4gRDNo
+b3QgLT4gRDNjb2xkIC0+IEQwIHNlcXVlbmNlIGNhdXNlcyBOdmlkaWEgR1BVcyB0byBub3QgcmVh
+cHBlYXIuCisgKiBTa2lwcGluZyB0aGUgaW50ZXJtZWRpYXRlIEQzaG90IHN0ZXAgc2VlbXMgdG8g
+bWFrZSBpdCB3b3JrIGFnYWluLiBUaGlzZSBpcworICogcHJvYmFibHkgY2F1c2VkIGJ5IG5vdCBt
+ZWV0aW5nIHRoZSBleHBlY3RhdGlvbiB0aGUgaW52b2x2ZWQgQU1MIGNvZGUgaGFzCisgKiB3aGVu
+IHRoZSBHUFUgaXMgcHV0IGludG8gRDNob3Qgc3RhdGUgYmVmb3JlIGludm9raW5nIGl0LgorICoK
+KyAqIFRoaXMgbGVhZHMgdG8gdmFyaW91cyBtYW5pZmVzdGF0aW9ucyBvZiB0aGlzIGlzc3VlOgor
+ICogIC0gQU1MIGNvZGUgZXhlY3V0aW9uIHRvIHBvd2VyIG9uIHRoZSBHUFUgaGl0cyBhbiBpbmZp
+bml0ZSBsb29wIChhcyB0aGUKKyAqICAgIGNvZGUgd2FpdHMgb24gZGV2aWNlIG1lbW9yeSB0byBj
+aGFuZ2UpLgorICogIC0ga2VybmVsIGNyYXNoZXMsIGFzIGFsbCBQQ0kgcmVhZHMgcmV0dXJuIC0x
+LCB3aGljaCBtb3N0IGNvZGUgaXNuJ3QgYWJsZQorICogICAgdG8gaGFuZGxlIHdlbGwgZW5vdWdo
+LgorICoKKyAqIEluIGFsbCBjYXNlcyBkbWVzZyB3aWxsIGNvbnRhaW4gYXQgbGVhc3Qgb25lIGxp
+bmUgbGlrZSB0aGlzOgorICogJ25vdXZlYXUgMDAwMDowMTowMC4wOiBSZWZ1c2VkIHRvIGNoYW5n
+ZSBwb3dlciBzdGF0ZSwgY3VycmVudGx5IGluIEQzJworICogZm9sbG93ZWQgYnkgYSBsb3Qgb2Yg
+bm91dmVhdSB0aW1lb3V0cy4KKyAqCisgKiBJbiB0aGUgXF9TQi5QQ0kwLlBFRzAuUEcwMC5fT0ZG
+IGNvZGUgZGVlcGVyIGRvd24gd3JpdGVzIGJpdCAweDgwIHRvIHRoZSBub3QKKyAqIGRvY3VtZW50
+ZWQgUENJIGNvbmZpZyBzcGFjZSByZWdpc3RlciAweDI0OCBvZiB0aGUgSW50ZWwgUENJZSBicmlk
+Z2UKKyAqIGNvbnRyb2xsZXIgKDB4MTkwMSkgaW4gb3JkZXIgdG8gY2hhbmdlIHRoZSBzdGF0ZSBv
+ZiB0aGUgUENJZSBsaW5rIGJldHdlZW4KKyAqIHRoZSBQQ0llIHBvcnQgYW5kIHRoZSBHUFUuIFRo
+ZXJlIGFyZSBhbHRlcm5hdGl2ZSBjb2RlIHBhdGhzIHVzaW5nIG90aGVyCisgKiByZWdpc3RlcnMs
+IHdoaWNoIHNlZW0gdG8gd29yayBmaW5lIChleGVjdXRlZCBwcmUgV2luZG93cyA4KToKKyAqICAt
+IDB4YmMgYml0IDB4MjAgKHB1YmxpY2x5IGF2YWlsYWJsZSBkb2N1bWVudGF0aW9uIGNsYWltcyAn
+cmVzZXJ2ZWQnKQorICogIC0gMHhiMCBiaXQgMHgxMCAobGluayBkaXNhYmxlKQorICogQ2hhbmdp
+bmcgdGhlIGNvbmRpdGlvbnMgaW5zaWRlIHRoZSBmaXJtd2FyZSBieSBwb2tpbmcgaW50byB0aGUg
+cmVsZXZhbnQKKyAqIGFkZHJlc3NlcyBkb2VzIHJlc29sdmUgdGhlIGlzc3VlLCBidXQgaXQgc2Vl
+bWVkIHRvIGJlIEFDUEkgcHJpdmF0ZSBtZW1vcnkKKyAqIGFuZCBub3QgYW55IGRldmljZSBhY2Nl
+c3NpYmxlIG1lbW9yeSBhdCBhbGwsIHNvIHRoZXJlIGlzIG5vIHBvcnRhYmxlIHdheSBvZgorICog
+Y2hhbmdpbmcgdGhlIGNvbmRpdGlvbnMuCisgKiBPbiBhIFhQUyA5NTYwIHRoYXQgbWVhbnMgYml0
+cyBbMCwzXSBvbiBcQ1BFWCBuZWVkIHRvIGJlIGNsZWFyZWQuCisgKgorICogVGhlIG9ubHkgc3lz
+dGVtcyB3aGVyZSB0aGlzIGJlaGF2aW9yIGNhbiBiZSBzZWVuIGFyZSBoeWJyaWQgZ3JhcGhpY3Mg
+bGFwdG9wcworICogd2l0aCBhIHNlY29uZGFyeSBOdmlkaWEgTWF4d2VsbCwgUGFzY2FsIG9yIFR1
+cmluZyBHUFUuIEl0cyB1bmNsZWFyIHdoZWF0aGVyCisgKiB0aGlzIGlzc3VlIG9ubHkgb2NjdXJz
+IGluIGNvbWJpbmF0aW9uIHdpdGggbGlzdGVkIEludGVsIFBDSWUgYnJpZGdlCisgKiBjb250cm9s
+bGVycyBhbmQgdGhlIG1lbnRpb25lZCBHUFVzIG9yIG90aGVyIGRldmljZXMgYXMgd2VsbC4KKyAq
+CisgKiBkb2N1bWVudGF0aW9uIG9uIHRoZSBQQ0llIGJyaWRnZSBjb250cm9sbGVyIGNhbiBiZSBm
+b3VuZCBpbiB0aGUKKyAqICI3dGggR2VuZXJhdGlvbiBJbnRlbMKuIFByb2Nlc3NvciBGYW1pbGll
+cyBmb3IgSCBQbGF0Zm9ybXMgRGF0YXNoZWV0IFZvbHVtZSAyIgorICogU2VjdGlvbiAiMTIgUENJ
+IEV4cHJlc3MqIENvbnRyb2xsZXIgKHgxNikgUmVnaXN0ZXJzIgorICovCisKK3N0YXRpYyB2b2lk
+IHF1aXJrX2Jyb2tlbl9udl9ydW5wbShzdHJ1Y3QgcGNpX2RldiAqZGV2KQoreworCXN0cnVjdCBw
+Y2lfZGV2ICpicmlkZ2UgPSBwY2lfdXBzdHJlYW1fYnJpZGdlKGRldik7CisKKwlpZiAoIWJyaWRn
+ZSB8fCBicmlkZ2UtPnZlbmRvciAhPSBQQ0lfVkVORE9SX0lEX0lOVEVMKQorCQlyZXR1cm47CisK
+Kwlzd2l0Y2ggKGJyaWRnZS0+ZGV2aWNlKSB7CisJY2FzZSAweDE5MDE6CisJCWRldi0+cGFyZW50
+X2QzY29sZCA9IDE7CisJfQorfQorCiBzdGF0aWMgaW50IG5vdXZlYXVfZHJtX3Byb2JlKHN0cnVj
+dCBwY2lfZGV2ICpwZGV2LAogCQkJICAgICBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAqcGVu
+dCkKIHsKQEAgLTY5OSw2ICs3NTIsNyBAQCBzdGF0aWMgaW50IG5vdXZlYXVfZHJtX3Byb2JlKHN0
+cnVjdCBwY2lfZGV2ICpwZGV2LAogCWlmIChyZXQpCiAJCWdvdG8gZmFpbF9kcm1fZGV2X2luaXQ7
+CiAKKwlxdWlya19icm9rZW5fbnZfcnVucG0ocGRldik7CiAJcmV0dXJuIDA7CiAKIGZhaWxfZHJt
+X2Rldl9pbml0OgpAQCAtNzM3LDYgKzc5MSw4IEBAIG5vdXZlYXVfZHJtX3JlbW92ZShzdHJ1Y3Qg
+cGNpX2RldiAqcGRldikKIHsKIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gcGNpX2dldF9kcnZk
+YXRhKHBkZXYpOwogCisJLyogcmV2ZXJ0IG91ciB3b3JrYXJvdW5kICovCisJcGRldi0+cGFyZW50
+X2QzY29sZCA9IGZhbHNlOwogCW5vdXZlYXVfZHJtX2RldmljZV9yZW1vdmUoZGV2KTsKIH0KIApk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9wY2kvcGNpLmMgYi9kcml2ZXJzL3BjaS9wY2kuYwppbmRleCA5
+NTEwOTkyNzkxOTIuLjZlY2UwNTcyM2ZhMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9wY2kvcGNpLmMK
+KysrIGIvZHJpdmVycy9wY2kvcGNpLmMKQEAgLTg2MCw2ICs4NjAsMTQgQEAgc3RhdGljIGludCBw
+Y2lfcmF3X3NldF9wb3dlcl9zdGF0ZShzdHJ1Y3QgcGNpX2RldiAqZGV2LCBwY2lfcG93ZXJfdCBz
+dGF0ZSkKIAkgICB8fCAoc3RhdGUgPT0gUENJX0QyICYmICFkZXYtPmQyX3N1cHBvcnQpKQogCQly
+ZXR1cm4gLUVJTzsKIAorCS8qCisJICogUG93ZXIgbWFuYWdlbWVudCBjYW4gYmUgZGlzYWJsZWQg
+Zm9yIGNlcnRhaW4gZGV2aWNlcyBhcyB0aGV5IGRvbid0CisJICogY29tZSBiYWNrIHVwIGxhdGVy
+IG9uIHJ1bnRpbWVfcmVzdW1lLiBXZSByZWx5IG9uIHBsYXRmb3JtIG1lYW5zIHRvCisJICogY3V0
+IHBvd2VyIGNvbnN1bXB0aW9uIGluc3RlYWQgKGUuZy4gQUNQSSkuCisJICovCisJaWYgKHN0YXRl
+ICE9IFBDSV9EMCAmJiBkZXYtPnBhcmVudF9kM2NvbGQpCisJCXJldHVybiAwOworCiAJcGNpX3Jl
+YWRfY29uZmlnX3dvcmQoZGV2LCBkZXYtPnBtX2NhcCArIFBDSV9QTV9DVFJMLCAmcG1jc3IpOwog
+CWlmIChwbWNzciA9PSAodTE2KSB+MCkgewogCQlwY2lfZXJyKGRldiwgImNhbid0IGNoYW5nZSBw
+b3dlciBzdGF0ZSBmcm9tICVzIHRvICVzIChjb25maWcgc3BhY2UgaW5hY2Nlc3NpYmxlKVxuIiwK
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvcGNpLmggYi9pbmNsdWRlL2xpbnV4L3BjaS5oCmlu
+ZGV4IDkzMGZhYjI5MzA3My4uM2U1OTM4YjkxOTY2IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4
+L3BjaS5oCisrKyBiL2luY2x1ZGUvbGludXgvcGNpLmgKQEAgLTM0MCw2ICszNDAsNyBAQCBzdHJ1
+Y3QgcGNpX2RldiB7CiAJdW5zaWduZWQgaW50CW5vX2QzY29sZDoxOwkvKiBEM2NvbGQgaXMgZm9y
+YmlkZGVuICovCiAJdW5zaWduZWQgaW50CWJyaWRnZV9kMzoxOwkvKiBBbGxvdyBEMyBmb3IgYnJp
+ZGdlICovCiAJdW5zaWduZWQgaW50CWQzY29sZF9hbGxvd2VkOjE7CS8qIEQzY29sZCBpcyBhbGxv
+d2VkIGJ5IHVzZXIgKi8KKwl1bnNpZ25lZCBpbnQJcGFyZW50X2QzY29sZDoxOwkvKiBwb3dlciBt
+YW5hZ2UgdGhlIHBhcmVudCBpbnN0ZWFkICovCiAJdW5zaWduZWQgaW50CW1taW9fYWx3YXlzX29u
+OjE7CS8qIERpc2FsbG93IHR1cm5pbmcgb2ZmIGlvL21lbQogCQkJCQkJICAgZGVjb2RpbmcgZHVy
+aW5nIEJBUiBzaXppbmcgKi8KIAl1bnNpZ25lZCBpbnQJd2FrZXVwX3ByZXBhcmVkOjE7Ci0tIAoy
+LjI0LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
