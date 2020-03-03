@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922D4176AFF
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 03:47:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B9A176B02
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 03:47:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90B06E922;
-	Tue,  3 Mar 2020 02:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC76B6E92F;
+	Tue,  3 Mar 2020 02:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61DDB6E922;
- Tue,  3 Mar 2020 02:47:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7476E93D;
+ Tue,  3 Mar 2020 02:47:55 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6ABB0246D6;
- Tue,  3 Mar 2020 02:47:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A2BF024677;
+ Tue,  3 Mar 2020 02:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1583203673;
- bh=poU2yKYx8uqXY9anobZDWyRSFMcqkk2DwmXd8rSwxoc=;
+ s=default; t=1583203675;
+ bh=8NYG1n3xKdhO8T2dlTDUokQeG2/YXy4P9DT44E3uIK8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ffl0PunBQnyduq1J1Qt+TAIOrlWVsP04/meQp2nFzUJ3oTB5FnZVALKscZ0FXOkMf
- NVEEbU5G4RYC2T93QkAsq1sRTREAwJvZE5I2q249fStI4wl5zm91OlYVY8y3+4DBcs
- zd3cxD+bPJZx3evApuTr8mhkPFw/P3cPeTYhES4k=
+ b=geM+gZ+zgDXE5F3er+60XLFUVLtjlKHVOBs0vWt5gbgufJH1L6GQTB9rEnKX3+3Y4
+ RKIZBZfXrIw1GwVjr9rcnsSqlf6DrzK85FYaK0L2S48grSw6y7jfzJsKaoIwu/h6el
+ FCpF7x0kFfqrXtDLrX2ukbGyJ9UcqKyZ5dPLe0dg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 11/58] drm/msm/mdp5: rate limit pp done timeout
- warnings
-Date: Mon,  2 Mar 2020 21:46:53 -0500
-Message-Id: <20200303024740.9511-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 12/58] drm: msm: Fix return type of
+ dsi_mgr_connector_mode_valid for kCFI
+Date: Mon,  2 Mar 2020 21:46:54 -0500
+Message-Id: <20200303024740.9511-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200303024740.9511-1-sashal@kernel.org>
 References: <20200303024740.9511-1-sashal@kernel.org>
@@ -50,43 +50,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Brian Masney <masneyb@onstation.org>
+Cc: Alistair Delva <adelva@google.com>, Amit Pundir <amit.pundir@linaro.org>,
+ Sasha Levin <sashal@kernel.org>, freedreno@lists.freedesktop.org,
+ Nick Desaulniers <ndesaulniers@google.com>, dri-devel@lists.freedesktop.org,
+ clang-built-linux@googlegroups.com, Sami Tolvanen <samitolvanen@google.com>,
+ linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
+ Sean Paul <sean@poorly.run>, Todd Kjos <tkjos@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Brian Masney <masneyb@onstation.org>
+From: John Stultz <john.stultz@linaro.org>
 
-[ Upstream commit ef8c9809acb0805c991bba8bdd4749fc46d44a98 ]
+[ Upstream commit 7fd2dfc3694922eb7ace4801b7208cf9f62ebc7d ]
 
-Add rate limiting of the 'pp done time out' warnings since these
-warnings can quickly fill the dmesg buffer.
+I was hitting kCFI crashes when building with clang, and after
+some digging finally narrowed it down to the
+dsi_mgr_connector_mode_valid() function being implemented as
+returning an int, instead of an enum drm_mode_status.
 
-Signed-off-by: Brian Masney <masneyb@onstation.org>
+This patch fixes it, and appeases the opaque word of the kCFI
+gods (seriously, clang inlining everything makes the kCFI
+backtraces only really rough estimates of where things went
+wrong).
+
+Thanks as always to Sami for his help narrowing this down.
+
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Sami Tolvanen <samitolvanen@google.com>
+Cc: Todd Kjos <tkjos@google.com>
+Cc: Alistair Delva <adelva@google.com>
+Cc: Amit Pundir <amit.pundir@linaro.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: freedreno@lists.freedesktop.org
+Cc: clang-built-linux@googlegroups.com
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Amit Pundir <amit.pundir@linaro.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-index eb0b4b7dc7cc7..03c6d6157e4d0 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-@@ -1112,8 +1112,8 @@ static void mdp5_crtc_wait_for_pp_done(struct drm_crtc *crtc)
- 	ret = wait_for_completion_timeout(&mdp5_crtc->pp_completion,
- 						msecs_to_jiffies(50));
- 	if (ret == 0)
--		dev_warn(dev->dev, "pp done time out, lm=%d\n",
--			 mdp5_cstate->pipeline.mixer->lm);
-+		dev_warn_ratelimited(dev->dev, "pp done time out, lm=%d\n",
-+				     mdp5_cstate->pipeline.mixer->lm);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index 271aa7bbca925..355a60b4a536f 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -336,7 +336,7 @@ static int dsi_mgr_connector_get_modes(struct drm_connector *connector)
+ 	return num;
  }
  
- static void mdp5_crtc_wait_for_flush_done(struct drm_crtc *crtc)
+-static int dsi_mgr_connector_mode_valid(struct drm_connector *connector,
++static enum drm_mode_status dsi_mgr_connector_mode_valid(struct drm_connector *connector,
+ 				struct drm_display_mode *mode)
+ {
+ 	int id = dsi_mgr_connector_get_id(connector);
 -- 
 2.20.1
 
