@@ -2,75 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD30177CB6
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 18:03:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD55177D2D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 18:18:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994716E91D;
-	Tue,  3 Mar 2020 17:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B426C6E91F;
+	Tue,  3 Mar 2020 17:18:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54766E91C
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 17:02:59 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1583254980; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=t7pxhES6CtD8FX+tKI1sCtQUz5kRFPV7u657mPloMv4=;
- b=OVK0VEJ0X7TO63ihelPCYujDEWV3obfyByA8zFlN3V5ptVuNx4iaLEU0HOAYIkJ4bAI29U68
- i1+UFIzkbgP/o+fMH33BHYB8h781QifTGY232BL9MX2k5jyJC44C+zocggS/Ym80Y0UI5u97
- MUSkHLe880cYMvdcVVZrVAzFWdI=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e5e8d8c.7efda78554c8-smtp-out-n03;
- Tue, 03 Mar 2020 17:02:04 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 867DCC4479C; Tue,  3 Mar 2020 17:02:03 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 85D94C43383;
- Tue,  3 Mar 2020 17:02:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 85D94C43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Tue, 3 Mar 2020 10:01:59 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Brian Masney <masneyb@onstation.org>
-Subject: Re: [Freedreno] [PATCH v3 1/2] dt-bindings: display: msm: Convert
- GMU bindings to YAML
-Message-ID: <20200303170159.GA13109@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Brian Masney <masneyb@onstation.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
- DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- MSM <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- lkml <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>
-References: <1583173424-21832-1-git-send-email-jcrouse@codeaurora.org>
- <1583173424-21832-2-git-send-email-jcrouse@codeaurora.org>
- <20200302204906.GA32123@ravnborg.org>
- <20200303154321.GA24212@jcrouse1-lnx.qualcomm.com>
- <CAOCk7NpP8chviZ0eM_4Fm3b2Jn+ngtVq=EYB=7yMK0H7rnfWMg@mail.gmail.com>
- <20200303155405.GA11841@onstation.org>
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
+ [IPv6:2607:f8b0:4864:20::92c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8386E91F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 17:18:23 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id y3so1422580uaq.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 09:18:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AVegDOLzNVYzcTpewPKDP4cWiTnlYs5VF/ylf2IjK9I=;
+ b=TszVQHZpP/5WYkppqmcW9knLRiGV3oJVaYI3RN/maCl8aLJ95vqeHD9bXW//RHpSkr
+ zgRuwne3Tnl+Zg2Ldc/PwUJwi2OWGAtmbdESlupoUZCD4/w2NtfpDI9pmNk2nc+CSonM
+ WIcMhv7XvqP3zduq43RoW7NsChWSvRBHOl16Keg4A1ZuqoOQv7plUKJ7kOkrfNRyowIe
+ 6mP6jopyMkFhI0NaRap0eqpoFtS5M91g4IKQSIoHW6O7V3ajbWungKvAYYoyzqMTz/Fx
+ 9oz/64mVZUxTUCYR7BLbklm7ZuVxrlQGnggm7lORsIOo5jTrseLL1KlqI2neqN2qY8ft
+ Aw1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AVegDOLzNVYzcTpewPKDP4cWiTnlYs5VF/ylf2IjK9I=;
+ b=MJamii2xGMpAidtmW7gt5B/YC2/X9Q27IjQDt/seXtOvLxyrMQiF3jxHtjvB6V9AtH
+ XQrsUzwWgDVFiidC5gylvkhjIOdeMpIRF3iLOiH0xwAnpdC2QIK9BHnNAmKC0SkN+bdI
+ H6ypKGFzXeqct/BTKFggnrxb44Iqgqh631ayljbd01Tr3Msx3Pqx/SpUdP+SPoO1Ug4j
+ zDwkh+lxhTsBtdOt5yjCNz+t62pRV6Vn038Q19X2f+jE8F/SG1m18NMy6Xo1jUeR52db
+ 0uHyaFWtolMCWkpNtqBd3fE5Ttmwo6brBBvq0ypo3hfbV/uBYvAtvRCHTIsSVFM25A9A
+ wYEg==
+X-Gm-Message-State: ANhLgQ0YNdaVCc24YdjrD1OWWhuEncXlc/apU+90sUWukpwXuQIaINOh
+ 1xGW8SyH6HudxhtS/UPU1VCtKa1FjrlFXzgzaZA=
+X-Google-Smtp-Source: ADFU+vtswVJXUliXfR0HzjmKMR/9eeJTuKwz7wESOKbtHnOsbq+YELdxWONest6oVDnNRS+tYsUyY4uIoibRyOGZXTk=
+X-Received: by 2002:ab0:14a2:: with SMTP id d31mr3323979uae.106.1583255902801; 
+ Tue, 03 Mar 2020 09:18:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200303155405.GA11841@onstation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20200303120136.18294-1-andrzej.p@collabora.com>
+ <20200303120136.18294-7-andrzej.p@collabora.com>
+In-Reply-To: <20200303120136.18294-7-andrzej.p@collabora.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 3 Mar 2020 17:17:50 +0000
+Message-ID: <CACvgo50Jyyc02UDON5ROUUUQmRgDBuVm9mzCr5O1_cQVj2u=kw@mail.gmail.com>
+Subject: Re: [PATCHv6 6/6] drm/rockchip: Add support for afbc
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,89 +61,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- Sharat Masetty <smasetty@codeaurora.org>, lkml <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: kernel@collabora.com, Mihail Atanassov <mihail.atanassov@arm.com>,
+ David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ James Wang <james.qian.wang@arm.com>, Ayan Halder <Ayan.Halder@arm.com>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 03, 2020 at 10:54:05AM -0500, Brian Masney wrote:
-> On Tue, Mar 03, 2020 at 08:50:28AM -0700, Jeffrey Hugo wrote:
-> > On Tue, Mar 3, 2020 at 8:43 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
-> > >
-> > > On Mon, Mar 02, 2020 at 09:49:06PM +0100, Sam Ravnborg wrote:
-> > > > Hi Jordan.
-> > > >
-> > > > On Mon, Mar 02, 2020 at 11:23:43AM -0700, Jordan Crouse wrote:
-> > > > > Convert display/msm/gmu.txt to display/msm/gmu.yaml and remove the old
-> > > > > text bindings.
-> > > > >
-> > > > > Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> > > > > ---
-> > > > >
-> > > > >  .../devicetree/bindings/display/msm/gmu.txt        | 116 -------------------
-> > > > > -
-> > > > > -Required properties:
-> > > > > -- compatible: "qcom,adreno-gmu-XYZ.W", "qcom,adreno-gmu"
-> > > > > -    for example: "qcom,adreno-gmu-630.2", "qcom,adreno-gmu"
-> > > > > -  Note that you need to list the less specific "qcom,adreno-gmu"
-> > > > > -  for generic matches and the more specific identifier to identify
-> > > > > -  the specific device.
-> > > > > -- reg: Physical base address and length of the GMU registers.
-> > > > > -- reg-names: Matching names for the register regions
-> > > > > -  * "gmu"
-> > > > > -  * "gmu_pdc"
-> > > > > -  * "gmu_pdc_seg"
-> > > > > -- interrupts: The interrupt signals from the GMU.
-> > > > > -- interrupt-names: Matching names for the interrupts
-> > > > > -  * "hfi"
-> > > > > -  * "gmu"
-> > > > > -- clocks: phandles to the device clocks
-> > > > > -- clock-names: Matching names for the clocks
-> > > > > -   * "gmu"
-> > > > > -   * "cxo"
-> > > > > -   * "axi"
-> > > > > -   * "mnoc"
-> > > > The new binding - and arch/arm64/boot/dts/qcom/sdm845.dtsi agrees that
-> > > > "mnoc" is wrong.
-> > > >
-> > > > > -- power-domains: should be:
-> > > > > -   <&clock_gpucc GPU_CX_GDSC>
-> > > > > -   <&clock_gpucc GPU_GX_GDSC>
-> > > > > -- power-domain-names: Matching names for the power domains
-> > > > > -- iommus: phandle to the adreno iommu
-> > > > > -- operating-points-v2: phandle to the OPP operating points
-> > > > > -
-> > > > > -Optional properties:
-> > > > > -- sram: phandle to the On Chip Memory (OCMEM) that's present on some Snapdragon
-> > > > > -        SoCs. See Documentation/devicetree/bindings/sram/qcom,ocmem.yaml.
-> > > > This property is not included in the new binding.
-> > >
-> > > Yeah, that guy shouldn't be here. I'm not sure how it got there in the first
-> > > place but I'll update the commit log. Thanks for the poke.
-> > 
-> > I thought this was something Brian M added for older targets (A4XX?).
-> > Perhaps he should chime in?
-> 
-> Yes, this is needed for older systems with a3xx and a4xx GPUs.
+Hi Andrzej,
 
-Okay, this got added to the wrong place.  The GMU is a specific entity only
-valid for a6xx targets. From the looks of the example the sram should be in the
-GPU definition. Do you want to submit a patch to move it or should I (and lets
-hope Rob doesn't insist on converting GPU to YAML).
+On Tue, 3 Mar 2020 at 12:02, Andrzej Pietrasiewicz
+<andrzej.p@collabora.com> wrote:
 
-Jordan
+> +static struct drm_framebuffer *
+> +rockchip_fb_create(struct drm_device *dev, struct drm_file *file,
+> +                  const struct drm_mode_fb_cmd2 *mode_cmd)
+> +{
+> +       struct drm_afbc_framebuffer *afbc_fb;
+> +       struct drm_framebuffer *ret;
+> +
+> +       afbc_fb = kzalloc(sizeof(*afbc_fb), GFP_KERNEL);
+> +       if (!afbc_fb)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       ret = drm_gem_fb_init_with_funcs(dev, &afbc_fb->base, file, mode_cmd, &rockchip_drm_fb_funcs);
+> +       if (IS_ERR_OR_NULL(ret)) {
+Like with 1/6 this should be IS_ERR().
 
-> Brian
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+> +static bool rockchip_mod_supported(struct drm_plane *plane,
+> +                                  u32 format, u64 modifier)
+> +{
+> +       if (WARN_ON(modifier == DRM_FORMAT_MOD_INVALID))
+
+AFAICT this should never trigger. If it does nearly every DRM driver
+will be broken.
+Seems like you've copied this from malidp and another offender being meson.
+
+Would suggest fixing the latter two (optional), but at the very least
+let's avoid adding new instances.
+
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
