@@ -2,48 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214E2177028
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 08:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B7E17703F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 08:44:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5AA6E9AB;
-	Tue,  3 Mar 2020 07:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D22E6E9B1;
+	Tue,  3 Mar 2020 07:44:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9C546E9AB
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 07:33:23 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1j923N-0001TE-BS; Tue, 03 Mar 2020 08:33:21 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <mfe@pengutronix.de>)
- id 1j923M-0005Ko-EU; Tue, 03 Mar 2020 08:33:20 +0100
-Date: Tue, 3 Mar 2020 08:33:20 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 15/33] drm/panel-simple: Fix dotclock for EDT ET035012DM6
-Message-ID: <20200303073320.2udpokcs2ync4hpy@pengutronix.de>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-16-ville.syrjala@linux.intel.com>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CC156E9B2
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 07:44:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583221451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=396rp1lUjwAwuzlXsp/iww2VoRLvmaxeWWTiZaWuL+g=;
+ b=gh1fcWFY9HCYTBo7xItp2Jc5I5eAx2ovAEfloIwQbvLq5oZlS5NlX/EVOEQjwTCTcVxM1+
+ 14ujKFqYj/g3NmmX1LHDne4xS9TT5szMAEAsBHjxcSMud1LzfKV+pe9qAcChB629Xqwir2
+ f/AeqoyysDErEf5J4/PKX/glrfTZmSU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-KzIT24rXOWCelZL0WLI-RA-1; Tue, 03 Mar 2020 02:44:06 -0500
+X-MC-Unique: KzIT24rXOWCelZL0WLI-RA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BF72800D4E;
+ Tue,  3 Mar 2020 07:44:04 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
+ [10.36.116.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 001228D561;
+ Tue,  3 Mar 2020 07:44:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 357E317449; Tue,  3 Mar 2020 08:44:02 +0100 (CET)
+Date: Tue, 3 Mar 2020 08:44:02 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 04/51] drm: Set final_kfree in drm_dev_alloc
+Message-ID: <20200303074402.wcb7a3lxjwnhqilo@sirius.home.kraxel.org>
+References: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
+ <20200302222631.3861340-5-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+In-Reply-To: <20200302222631.3861340-5-daniel.vetter@ffwll.ch>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-In-Reply-To: <20200302203452.17977-16-ville.syrjala@linux.intel.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 08:20:07 up 108 days, 22:38, 130 users,  load average: 0.02, 0.06,
- 0.04
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,70 +64,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <treding@nvidia.com>, Andreas Pretzsch <apr@cn-eng.de>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, xen-devel@lists.xenproject.org,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville,
+On Mon, Mar 02, 2020 at 11:25:44PM +0100, Daniel Vetter wrote:
+> I also did a full review of all callers, and only the xen driver
+> forgot to call drm_dev_put in the failure path. Fix that up too.
+> 
+> v2: I noticed that xen has a drm_driver.release hook, and uses
+> drm_dev_alloc(). We need to remove the kfree from
+> xen_drm_drv_release().
+> 
+> bochs also has a release hook, but leaked the drm_device ever since
+> 
+> commit 0a6659bdc5e8221da99eebb176fd9591435e38de
+> Author: Gerd Hoffmann <kraxel@redhat.com>
+> Date:   Tue Dec 17 18:04:46 2013 +0100
+> 
+>     drm/bochs: new driver
+> 
+> This patch here fixes that leak.
+> 
+> Same for virtio, started leaking with
+> 
+> commit b1df3a2b24a917f8853d43fe9683c0e360d2c33a
+> Author: Gerd Hoffmann <kraxel@redhat.com>
+> Date:   Tue Feb 11 14:58:04 2020 +0100
+> 
+>     drm/virtio: add drm_driver.release callback.
 
-On 20-03-02 22:34, Ville Syrjala wrote:
-> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> =
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-> The currently listed dotclock disagrees with the currently
-> listed vrefresh rate. Change the dotclock to match the vrefresh.
-> =
-
-> Someone tell me which (if either) of the dotclock or vreresh is
-> correct?
-
-Pls, check the datasheet which is linked within the comment. We hit the
-vrefresh exactly if we are in SYNC MODE.
-
-Regards,
-  Marco
-
-> Cc: Andreas Pretzsch <apr@cn-eng.de>
-> Cc: Marco Felsch <m.felsch@pengutronix.de>
-> Cc: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> 
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> Cc: xen-devel@lists.xenproject.org
+> 
+> Reviewed-by: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> Cc: xen-devel@lists.xenproject.org
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> =
-
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel=
-/panel-simple.c
-> index 93e5bc32fb59..35750229189f 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1342,7 +1342,7 @@ static const struct panel_desc dlc_dlc1010gig =3D {
->  };
->  =
-
->  static const struct drm_display_mode edt_et035012dm6_mode =3D {
-> -	.clock =3D 6500,
-> +	.clock =3D 6414,
->  	.hdisplay =3D 320,
->  	.hsync_start =3D 320 + 20,
->  	.hsync_end =3D 320 + 20 + 30,
-> -- =
-
+>  drivers/gpu/drm/drm_drv.c           | 3 +++
+>  drivers/gpu/drm/xen/xen_drm_front.c | 2 +-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 153050fc926c..7b84ee8a5eb5 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -39,6 +39,7 @@
+>  #include <drm/drm_color_mgmt.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_managed.h>
+>  #include <drm/drm_mode_object.h>
+>  #include <drm/drm_print.h>
+>  
+> @@ -819,6 +820,8 @@ struct drm_device *drm_dev_alloc(struct drm_driver *driver,
+>  		return ERR_PTR(ret);
+>  	}
+>  
+> +	drmm_add_final_kfree(dev, dev);
+> +
+>  	return dev;
+>  }
+>  EXPORT_SYMBOL(drm_dev_alloc);
+> diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/xen_drm_front.c
+> index 4be49c1aef51..d22b5da38935 100644
+> --- a/drivers/gpu/drm/xen/xen_drm_front.c
+> +++ b/drivers/gpu/drm/xen/xen_drm_front.c
+> @@ -461,7 +461,6 @@ static void xen_drm_drv_release(struct drm_device *dev)
+>  	drm_mode_config_cleanup(dev);
+>  
+>  	drm_dev_fini(dev);
+> -	kfree(dev);
+>  
+>  	if (front_info->cfg.be_alloc)
+>  		xenbus_switch_state(front_info->xb_dev,
+> @@ -561,6 +560,7 @@ static int xen_drm_drv_init(struct xen_drm_front_info *front_info)
+>  fail_modeset:
+>  	drm_kms_helper_poll_fini(drm_dev);
+>  	drm_mode_config_cleanup(drm_dev);
+> +	drm_dev_put(drm_dev);
+>  fail:
+>  	kfree(drm_info);
+>  	return ret;
+> -- 
 > 2.24.1
-> =
+> 
 
-> =
-
-
--- =
-
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
