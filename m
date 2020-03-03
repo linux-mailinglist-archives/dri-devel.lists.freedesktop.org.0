@@ -2,42 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0323D177119
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA6F177100
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277766E9FC;
-	Tue,  3 Mar 2020 08:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07C106E9ED;
+	Tue,  3 Mar 2020 08:24:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 516 seconds by postgrey-1.36 at gabe;
- Tue, 03 Mar 2020 03:22:12 UTC
-Received: from onstation.org (onstation.org [52.200.56.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACCD36E968
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 03:22:12 +0000 (UTC)
-Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
- [98.239.145.235])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: masneyb)
- by onstation.org (Postfix) with ESMTPSA id 04F1D3E914;
- Tue,  3 Mar 2020 03:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
- s=default; t=1583205216;
- bh=YxLgEG32SvLZ5FOCk+grOGoV34kSmiprPCXtmlthnxg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GwhJyRKTA49Ep7t2HcTqflU95CsOWVRBYbSuMt8Lew62xWIBynG7XO7AOu9doOru6
- uSNTZiO+ArsIg4tCYO8T9EphvzRZk0cfQtByUKjWGeOsJhcPC9OaSWVTh+QnmsicTX
- TXTMJsDnXwve8lhS+XoYKcRxUkBfuNJ8GRIdmQ28=
-Date: Mon, 2 Mar 2020 22:13:35 -0500
-From: Brian Masney <masneyb@onstation.org>
-To: Jonathan Marek <jonathan@marek.ca>
-Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
-Message-ID: <20200303031335.GA7208@onstation.org>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-34-ville.syrjala@linux.intel.com>
- <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 559316E968
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 03:22:13 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 6D4356B065E6098395E5;
+ Tue,  3 Mar 2020 11:22:08 +0800 (CST)
+Received: from localhost.localdomain (10.175.124.28) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 3 Mar 2020 11:21:58 +0800
+From: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
+To: <b.zolnierkie@samsung.com>, <zhangxiaoxu5@huawei.com>,
+ <wangkefeng.wang@huawei.com>, <sergey.senozhatsky@gmail.com>,
+ <pmladek@suse.com>, <akpm@osdl.org>
+Subject: [PATCH] vgacon: Fix a UAF in vgacon_invert_region
+Date: Tue, 3 Mar 2020 11:20:36 +0800
+Message-ID: <20200303032036.40560-1-zhangxiaoxu5@huawei.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
+X-Originating-IP: [10.175.124.28]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,91 +42,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 02, 2020 at 03:48:22PM -0500, Jonathan Marek wrote:
-> Hi,
-> =
+When syzkaller tests, there is a UAF:
+  BUG: KASan: use after free in vgacon_invert_region+0x9d/0x110 at addr
+    ffff880000100000
+  Read of size 2 by task syz-executor.1/16489
+  page:ffffea0000004000 count:0 mapcount:-127 mapping:          (null)
+  index:0x0
+  page flags: 0xfffff00000000()
+  page dumped because: kasan: bad access detected
+  CPU: 1 PID: 16489 Comm: syz-executor.1 Not tainted
+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+  rel-1.9.3-0-ge2fc41e-prebuilt.qemu-project.org 04/01/2014
+  Call Trace:
+    [<ffffffffb119f309>] dump_stack+0x1e/0x20
+    [<ffffffffb04af957>] kasan_report+0x577/0x950
+    [<ffffffffb04ae652>] __asan_load2+0x62/0x80
+    [<ffffffffb090f26d>] vgacon_invert_region+0x9d/0x110
+    [<ffffffffb0a39d95>] invert_screen+0xe5/0x470
+    [<ffffffffb0a21dcb>] set_selection+0x44b/0x12f0
+    [<ffffffffb0a3bfae>] tioclinux+0xee/0x490
+    [<ffffffffb0a1d114>] vt_ioctl+0xff4/0x2670
+    [<ffffffffb0a0089a>] tty_ioctl+0x46a/0x1a10
+    [<ffffffffb052db3d>] do_vfs_ioctl+0x5bd/0xc40
+    [<ffffffffb052e2f2>] SyS_ioctl+0x132/0x170
+    [<ffffffffb11c9b1b>] system_call_fastpath+0x22/0x27
+    Memory state around the buggy address:
+     ffff8800000fff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     00 00
+     ffff8800000fff80: 00 00 00 00 00 00 00 00 00 00 00 00 00
+     00 00 00
+    >ffff880000100000: ff ff ff ff ff ff ff ff ff ff ff ff ff
+     ff ff ff
 
-> This is a command mode panel and the the msm/mdp5 driver uses the vrefresh
-> field for the actual refresh rate, while the dotclock field is used for t=
-he
-> DSI clocks. The dotclock needed to be a bit higher than necessary otherwi=
-se
-> the panel would not work.
-> =
+It can be reproduce in the linux mainline by the program:
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <unistd.h>
+  #include <fcntl.h>
+  #include <sys/types.h>
+  #include <sys/stat.h>
+  #include <sys/ioctl.h>
+  #include <linux/vt.h>
 
-> If you want to get rid of the separate clock/vrefresh fields there would
-> need to be some changes to msm driver.
-> =
+  struct tiocl_selection {
+    unsigned short xs;      /* X start */
+    unsigned short ys;      /* Y start */
+    unsigned short xe;      /* X end */
+    unsigned short ye;      /* Y end */
+    unsigned short sel_mode; /* selection mode */
+  };
 
-> (note I hadn't made the patch with upstreaming in mind, the 150000 value =
-is
-> likely not optimal, just something that worked, this is something that
-> should have been checked with the downstream driver)
+  #define TIOCL_SETSEL    2
+  struct tiocl {
+    unsigned char type;
+    unsigned char pad;
+    struct tiocl_selection sel;
+  };
 
-Is this the right clock frequency in the downstream MSM 3.4 kernel that
-you're talking about?
+  int main()
+  {
+    int fd = 0;
+    const char *dev = "/dev/char/4:1";
 
-https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/arm/mach-msm/c=
-lock-8974.c#L3326
+    struct vt_consize v = {0};
+    struct tiocl tioc = {0};
 
-I don't see any obvious clock values in the downstream command mode
-panel configuration: =
+    fd = open(dev, O_RDWR, 0);
 
+    v.v_rows = 3346;
+    ioctl(fd, VT_RESIZEX, &v);
 
-https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/arm/boot/dts/m=
-sm8974-hammerhead/msm8974-hammerhead-panel.dtsi#L591
+    tioc.type = TIOCL_SETSEL;
+    ioctl(fd, TIOCLINUX, &tioc);
 
-Anyways, I tried Ville's patch with the framebuffer, kmscube, and X11
-and everything appears to be working fine. You can add my Tested-by if
-you end up applying this.
+    return 0;
+  }
 
-Tested-by: Brian Masney <masneyb@onstation.org>
+When resize the screen, update the 'vc->vc_size_row' to the new_row_size,
+but when 'set_origin' in 'vgacon_set_origin', vgacon use 'vga_vram_base'
+for 'vc_origin' and 'vc_visible_origin', not 'vc_screenbuf'. It maybe
+smaller than 'vc_screenbuf'. When TIOCLINUX, use the new_row_size to calc
+the offset, it maybe larger than the vga_vram_base in vgacon driver, then
+bad access.
 
-Brian
+So, If the screen size larger than vga_vram, resize screen should be
+failed. This alse fix CVE-2020-8649
 
+Fixes: 0aec4867dca14 ("[PATCH] SVGATextMode fix")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
+---
+ drivers/video/console/vgacon.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> On 3/2/20 3:34 PM, Ville Syrjala wrote:
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > =
-
-> > The currently listed dotclock disagrees with the currently
-> > listed vrefresh rate. Change the dotclock to match the vrefresh.
-> > =
-
-> > Someone tell me which (if either) of the dotclock or vreresh is
-> > correct?
-> > =
-
-> > Cc: Jonathan Marek <jonathan@marek.ca>
-> > Cc: Brian Masney <masneyb@onstation.org>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > ---
-> >   drivers/gpu/drm/panel/panel-simple.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/pan=
-el/panel-simple.c
-> > index b24fdf239440..f958d8dfd760 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -3996,7 +3996,7 @@ static const struct panel_desc_dsi panasonic_vvx1=
-0f004b00 =3D {
-> >   };
-> >   static const struct drm_display_mode lg_acx467akm_7_mode =3D {
-> > -	.clock =3D 150000,
-> > +	.clock =3D 125498,
-> >   	.hdisplay =3D 1080,
-> >   	.hsync_start =3D 1080 + 2,
-> >   	.hsync_end =3D 1080 + 2 + 2,
-> > =
+diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
+index de7b8382aba9..9c216f707629 100644
+--- a/drivers/video/console/vgacon.c
++++ b/drivers/video/console/vgacon.c
+@@ -1316,7 +1316,10 @@ static int vgacon_font_get(struct vc_data *c, struct console_font *font)
+ static int vgacon_resize(struct vc_data *c, unsigned int width,
+ 			 unsigned int height, unsigned int user)
+ {
+-	if (width % 2 || width > screen_info.orig_video_cols ||
++	if (width % 2 || width * height > vga_vram_size)
++		return -EINVAL;
++
++	if (width > screen_info.orig_video_cols ||
+ 	    height > (screen_info.orig_video_lines * vga_default_font_height)/
+ 	    c->vc_font.height)
+ 		/* let svgatextmode tinker with video timings and
+-- 
+2.17.2
 
 _______________________________________________
 dri-devel mailing list
