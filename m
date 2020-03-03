@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813E61769BC
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 02:00:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED45176A19
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 02:40:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA3E76E906;
-	Tue,  3 Mar 2020 01:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3CC86E03F;
+	Tue,  3 Mar 2020 01:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B0416E906;
- Tue,  3 Mar 2020 01:00:32 +0000 (UTC)
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e5dac220000>; Mon, 02 Mar 2020 17:00:18 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Mon, 02 Mar 2020 17:00:31 -0800
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Mon, 02 Mar 2020 17:00:31 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Mar
- 2020 01:00:30 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
- Frontend Transport; Tue, 3 Mar 2020 01:00:30 +0000
-Received: from rcampbell-dev.nvidia.com (Not Verified[10.110.48.66]) by
- rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5e5dac2d001f>; Mon, 02 Mar 2020 17:00:29 -0800
-From: Ralph Campbell <rcampbell@nvidia.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-rdma@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>
-Subject: [PATCH v2] nouveau/hmm: map pages after migration
-Date: Mon, 2 Mar 2020 17:00:23 -0800
-Message-ID: <20200303010023.2983-1-rcampbell@nvidia.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD7B6E03F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 01:40:18 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id u12so716200pgb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 17:40:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4r4EiGQh+fwvdChK/MJwwNRcUevwhpsT6b0WL1SW6Us=;
+ b=GhO3QTLW2ib7l3lBI3wW3Q1ilf+RXoSJsT4POi3f7K0FfKQUU7iWuGBnhmKAqYmI6d
+ PBRDQ9Bqh85pPoOG385T7foQRnEi2pgbImkOOqOlM1fYdSglJfoogY9klrp/AKr1XkHH
+ CWnGiK9zR415OLV8YG/SOOGPZui1srOHszbDA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4r4EiGQh+fwvdChK/MJwwNRcUevwhpsT6b0WL1SW6Us=;
+ b=PSpxRqqHUoFbnYlzjX3VY+5smLXbpzoIYafY2C58olCrYBQkZ5ihB2q7QrZwaI9WaQ
+ jU2wjxIuwl5pXGPwkz/4Vm9HPrNPfQilawjZx1CkE10XUnXiHPVd2u0Bo2XJfSh+GWBp
+ x7GjO0lpBSqg3bsYwbwsBJM2SDYHqN1KmmQSviQmFKYVsNvvBQTUOE0cNyuEBFBc8EPd
+ vS8i9GjjzVNUmFor1W0TAQi8DO0BInEMCPzjBs0FJOT9iifHpWSDBFuxmSk9fIjAs+ZB
+ ZuQklglwa8w5nEIYogGoe/I0cQvpNtjM3bkGNzDgeqHcSN/tHxCeI/fWsnSw14OVEWfY
+ YynA==
+X-Gm-Message-State: ANhLgQ2eM5wyQVzB0JJc7UGbqFIF2hEr5AUykOSGpajpdwvWknTJXGdR
+ 05Gy1VWva+CqsybtQrizOddjGGbrApQ=
+X-Google-Smtp-Source: ADFU+vu5wCzRl4cPMWlQGKyk0N6WVFeEOsvaD12NHVXl6wAiDo8WD02IcJYm/lnW32l7JoSJTPF0xQ==
+X-Received: by 2002:a62:7f8d:: with SMTP id a135mr1782823pfd.237.1583199617797; 
+ Mon, 02 Mar 2020 17:40:17 -0800 (PST)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:bc97:5740:52a7:6875])
+ by smtp.gmail.com with ESMTPSA id q9sm22058074pgs.89.2020.03.02.17.40.16
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Mon, 02 Mar 2020 17:40:17 -0800 (PST)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/virtio: factor out the sg_table from virtio_gpu_object
+Date: Mon,  2 Mar 2020 17:40:09 -0800
+Message-Id: <20200303014010.418-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-NVConfidentiality: public
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1583197218; bh=VM/GObbgHQMpS+HiC4HrNLp5DB1tYqNPFUeLAghZ4TE=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- MIME-Version:X-NVConfidentiality:Content-Type:
- Content-Transfer-Encoding;
- b=bmAF3JWZrjJw+REMWKCRILuRkCfGsGeAHORL/SiS4W8k3LK4FJEPqHkUvKbsTuarQ
- J5cTpBVw4fAcoi3sAHehaQUbLGVOOr0d/PdP9LFE/8JCHw+U4gdYyEKzE0cNyqqu6e
- irbKhY+GsJqgGv6l+U0tOYIg9AbnPeGXJpSxMQXytATjPTvataSBsFl7jSKh72VLyL
- j0QM2CBaEPyNLVtMo1QccpxSwvQipx5Nb2E4nRHReREXhgy/XsPFzBQ2Q/9wNuZirC
- LYWcOG8089kbDtjG7mdLdEd+9ck0QpFlovQKGxktrZRDDnaypi/N4OfaFUa+ETUaTh
- gV2wTNRHHXzqA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,164 +62,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Jerome Glisse <jglisse@redhat.com>, Jason Gunthorpe <jgg@mellanox.com>,
- Ben Skeggs <bskeggs@redhat.com>, Andrew
- Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kraxel@redhat.com, Gurchetan Singh <gurchetansingh@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiBtZW1vcnkgaXMgbWlncmF0ZWQgdG8gdGhlIEdQVSwgaXQgaXMgbGlrZWx5IHRvIGJlIGFj
-Y2Vzc2VkIGJ5IEdQVQpjb2RlIHNvb24gYWZ0ZXJ3YXJkcy4gSW5zdGVhZCBvZiB3YWl0aW5nIGZv
-ciBhIEdQVSBmYXVsdCwgbWFwIHRoZQptaWdyYXRlZCBtZW1vcnkgaW50byB0aGUgR1BVIHBhZ2Ug
-dGFibGVzIHdpdGggdGhlIHNhbWUgYWNjZXNzIHBlcm1pc3Npb25zCmFzIHRoZSBzb3VyY2UgQ1BV
-IHBhZ2UgdGFibGUgZW50cmllcy4gVGhpcyBwcmVzZXJ2ZXMgY29weSBvbiB3cml0ZQpzZW1hbnRp
-Y3MuCgpTaWduZWQtb2ZmLWJ5OiBSYWxwaCBDYW1wYmVsbCA8cmNhbXBiZWxsQG52aWRpYS5jb20+
-CkNjOiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KQ2M6IEphc29uIEd1bnRob3JwZSA8
-amdnQG1lbGxhbm94LmNvbT4KQ2M6ICJKw6lyw7RtZSBHbGlzc2UiIDxqZ2xpc3NlQHJlZGhhdC5j
-b20+CkNjOiBCZW4gU2tlZ2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+Ci0tLQoKT3JpZ2luYWxseSB0
-aGlzIHBhdGNoIHdhcyB0YXJnZXRlZCBmb3IgSmFzb24ncyByZG1hIHRyZWUgc2luY2Ugb3RoZXIg
-SE1NCnJlbGF0ZWQgY2hhbmdlcyB3ZXJlIHF1ZXVlZCB0aGVyZS4gTm93IHRoYXQgdGhvc2UgaGF2
-ZSBiZWVuIG1lcmdlZCwgdGhpcwpwYXRjaCBqdXN0IGNvbnRhaW5zIGNoYW5nZXMgdG8gbm91dmVh
-dSBzbyBpdCBjb3VsZCBnbyB0aHJvdWdoIGFueSB0cmVlLgpJIGd1ZXNzIEJlbiBTa2VnZ3MnIHRy
-ZWUgd291bGQgYmUgYXBwcm9wcmlhdGUuCgpDaGFuZ2VzIHNpbmNlIHYxOgogUmViYXNlIHRvIGxp
-bnV4LTUuNi4wLXJjNAogQWRkcmVzcyBDaHJpc3RvcGggSGVsbHdpZydzIGNvbW1lbnRzCgogZHJp
-dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kbWVtLmMgfCA0NCArKysrKysrKy0tLS0tCiBk
-cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jICB8IDg1ICsrKysrKysrKysrKysr
-KysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5oICB8ICA1
-ICsrCiAzIGZpbGVzIGNoYW5nZWQsIDExOCBpbnNlcnRpb25zKCspLCAxNiBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RtZW0uYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZG1lbS5jCmluZGV4IDBhZDVkODdiNWE4ZS4u
-MTcyZTBjOThjZWM1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
-X2RtZW0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RtZW0uYwpAQCAt
-MjUsMTEgKzI1LDEzIEBACiAjaW5jbHVkZSAibm91dmVhdV9kbWEuaCIKICNpbmNsdWRlICJub3V2
-ZWF1X21lbS5oIgogI2luY2x1ZGUgIm5vdXZlYXVfYm8uaCIKKyNpbmNsdWRlICJub3V2ZWF1X3N2
-bS5oIgogCiAjaW5jbHVkZSA8bnZpZi9jbGFzcy5oPgogI2luY2x1ZGUgPG52aWYvb2JqZWN0Lmg+
-CiAjaW5jbHVkZSA8bnZpZi9pZjUwMGIuaD4KICNpbmNsdWRlIDxudmlmL2lmOTAwYi5oPgorI2lu
-Y2x1ZGUgPG52aWYvaWYwMDBjLmg+CiAKICNpbmNsdWRlIDxsaW51eC9zY2hlZC9tbS5oPgogI2lu
-Y2x1ZGUgPGxpbnV4L2htbS5oPgpAQCAtNTU4LDEwICs1NjAsMTEgQEAgbm91dmVhdV9kbWVtX2lu
-aXQoc3RydWN0IG5vdXZlYXVfZHJtICpkcm0pCiB9CiAKIHN0YXRpYyB1bnNpZ25lZCBsb25nIG5v
-dXZlYXVfZG1lbV9taWdyYXRlX2NvcHlfb25lKHN0cnVjdCBub3V2ZWF1X2RybSAqZHJtLAotCQl1
-bnNpZ25lZCBsb25nIHNyYywgZG1hX2FkZHJfdCAqZG1hX2FkZHIpCisJCXVuc2lnbmVkIGxvbmcg
-c3JjLCBkbWFfYWRkcl90ICpkbWFfYWRkciwgdTY0ICpwZm4pCiB7CiAJc3RydWN0IGRldmljZSAq
-ZGV2ID0gZHJtLT5kZXYtPmRldjsKIAlzdHJ1Y3QgcGFnZSAqZHBhZ2UsICpzcGFnZTsKKwl1bnNp
-Z25lZCBsb25nIHBhZGRyOwogCiAJc3BhZ2UgPSBtaWdyYXRlX3Bmbl90b19wYWdlKHNyYyk7CiAJ
-aWYgKCFzcGFnZSB8fCAhKHNyYyAmIE1JR1JBVEVfUEZOX01JR1JBVEUpKQpAQCAtNTY5LDE3ICs1
-NzIsMjEgQEAgc3RhdGljIHVuc2lnbmVkIGxvbmcgbm91dmVhdV9kbWVtX21pZ3JhdGVfY29weV9v
-bmUoc3RydWN0IG5vdXZlYXVfZHJtICpkcm0sCiAKIAlkcGFnZSA9IG5vdXZlYXVfZG1lbV9wYWdl
-X2FsbG9jX2xvY2tlZChkcm0pOwogCWlmICghZHBhZ2UpCi0JCXJldHVybiAwOworCQlnb3RvIG91
-dDsKIAogCSpkbWFfYWRkciA9IGRtYV9tYXBfcGFnZShkZXYsIHNwYWdlLCAwLCBQQUdFX1NJWkUs
-IERNQV9CSURJUkVDVElPTkFMKTsKIAlpZiAoZG1hX21hcHBpbmdfZXJyb3IoZGV2LCAqZG1hX2Fk
-ZHIpKQogCQlnb3RvIG91dF9mcmVlX3BhZ2U7CiAKKwlwYWRkciA9IG5vdXZlYXVfZG1lbV9wYWdl
-X2FkZHIoZHBhZ2UpOwogCWlmIChkcm0tPmRtZW0tPm1pZ3JhdGUuY29weV9mdW5jKGRybSwgMSwg
-Tk9VVkVBVV9BUEVSX1ZSQU0sCi0JCQlub3V2ZWF1X2RtZW1fcGFnZV9hZGRyKGRwYWdlKSwgTk9V
-VkVBVV9BUEVSX0hPU1QsCi0JCQkqZG1hX2FkZHIpKQorCQkJcGFkZHIsIE5PVVZFQVVfQVBFUl9I
-T1NULCAqZG1hX2FkZHIpKQogCQlnb3RvIG91dF9kbWFfdW5tYXA7CiAKKwkqcGZuID0gTlZJRl9W
-TU1fUEZOTUFQX1YwX1YgfCBOVklGX1ZNTV9QRk5NQVBfVjBfVlJBTSB8CisJCSgocGFkZHIgPj4g
-UEFHRV9TSElGVCkgPDwgTlZJRl9WTU1fUEZOTUFQX1YwX0FERFJfU0hJRlQpOworCWlmIChzcmMg
-JiBNSUdSQVRFX1BGTl9XUklURSkKKwkJKnBmbiB8PSBOVklGX1ZNTV9QRk5NQVBfVjBfVzsKIAly
-ZXR1cm4gbWlncmF0ZV9wZm4ocGFnZV90b19wZm4oZHBhZ2UpKSB8IE1JR1JBVEVfUEZOX0xPQ0tF
-RDsKIAogb3V0X2RtYV91bm1hcDoKQEAgLTU4NywxOCArNTk0LDE5IEBAIHN0YXRpYyB1bnNpZ25l
-ZCBsb25nIG5vdXZlYXVfZG1lbV9taWdyYXRlX2NvcHlfb25lKHN0cnVjdCBub3V2ZWF1X2RybSAq
-ZHJtLAogb3V0X2ZyZWVfcGFnZToKIAlub3V2ZWF1X2RtZW1fcGFnZV9mcmVlX2xvY2tlZChkcm0s
-IGRwYWdlKTsKIG91dDoKKwkqcGZuID0gTlZJRl9WTU1fUEZOTUFQX1YwX05PTkU7CiAJcmV0dXJu
-IDA7CiB9CiAKIHN0YXRpYyB2b2lkIG5vdXZlYXVfZG1lbV9taWdyYXRlX2NodW5rKHN0cnVjdCBu
-b3V2ZWF1X2RybSAqZHJtLAotCQlzdHJ1Y3QgbWlncmF0ZV92bWEgKmFyZ3MsIGRtYV9hZGRyX3Qg
-KmRtYV9hZGRycykKKwkJc3RydWN0IG1pZ3JhdGVfdm1hICphcmdzLCBkbWFfYWRkcl90ICpkbWFf
-YWRkcnMsIHU2NCAqcGZucykKIHsKIAlzdHJ1Y3Qgbm91dmVhdV9mZW5jZSAqZmVuY2U7CiAJdW5z
-aWduZWQgbG9uZyBhZGRyID0gYXJncy0+c3RhcnQsIG5yX2RtYSA9IDAsIGk7CiAKIAlmb3IgKGkg
-PSAwOyBhZGRyIDwgYXJncy0+ZW5kOyBpKyspIHsKIAkJYXJncy0+ZHN0W2ldID0gbm91dmVhdV9k
-bWVtX21pZ3JhdGVfY29weV9vbmUoZHJtLCBhcmdzLT5zcmNbaV0sCi0JCQkJZG1hX2FkZHJzICsg
-bnJfZG1hKTsKKwkJCQlkbWFfYWRkcnMgKyBucl9kbWEsIHBmbnMgKyBpKTsKIAkJaWYgKGFyZ3Mt
-PmRzdFtpXSkKIAkJCW5yX2RtYSsrOwogCQlhZGRyICs9IFBBR0VfU0laRTsKQEAgLTYwNywxNSAr
-NjE1LDEyIEBAIHN0YXRpYyB2b2lkIG5vdXZlYXVfZG1lbV9taWdyYXRlX2NodW5rKHN0cnVjdCBu
-b3V2ZWF1X2RybSAqZHJtLAogCW5vdXZlYXVfZmVuY2VfbmV3KGRybS0+ZG1lbS0+bWlncmF0ZS5j
-aGFuLCBmYWxzZSwgJmZlbmNlKTsKIAltaWdyYXRlX3ZtYV9wYWdlcyhhcmdzKTsKIAlub3V2ZWF1
-X2RtZW1fZmVuY2VfZG9uZSgmZmVuY2UpOworCW5vdXZlYXVfcGZuc19tYXAoZHJtLCBhcmdzLT52
-bWEtPnZtX21tLCBhcmdzLT5zdGFydCwgcGZucywgaSk7CiAKIAl3aGlsZSAobnJfZG1hLS0pIHsK
-IAkJZG1hX3VubWFwX3BhZ2UoZHJtLT5kZXYtPmRldiwgZG1hX2FkZHJzW25yX2RtYV0sIFBBR0Vf
-U0laRSwKIAkJCQlETUFfQklESVJFQ1RJT05BTCk7CiAJfQotCS8qCi0JICogRklYTUUgb3B0aW1p
-emF0aW9uOiB1cGRhdGUgR1BVIHBhZ2UgdGFibGUgdG8gcG9pbnQgdG8gbmV3bHkgbWlncmF0ZWQK
-LQkgKiBtZW1vcnkuCi0JICovCiAJbWlncmF0ZV92bWFfZmluYWxpemUoYXJncyk7CiB9CiAKQEAg
-LTYzMiw3ICs2MzcsOCBAQCBub3V2ZWF1X2RtZW1fbWlncmF0ZV92bWEoc3RydWN0IG5vdXZlYXVf
-ZHJtICpkcm0sCiAJCS52bWEJCT0gdm1hLAogCQkuc3RhcnQJCT0gc3RhcnQsCiAJfTsKLQl1bnNp
-Z25lZCBsb25nIGMsIGk7CisJdW5zaWduZWQgbG9uZyBpOworCXU2NCAqcGZuczsKIAlpbnQgcmV0
-ID0gLUVOT01FTTsKIAogCWFyZ3Muc3JjID0ga2NhbGxvYyhtYXgsIHNpemVvZigqYXJncy5zcmMp
-LCBHRlBfS0VSTkVMKTsKQEAgLTY0NiwxOSArNjUyLDI1IEBAIG5vdXZlYXVfZG1lbV9taWdyYXRl
-X3ZtYShzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSwKIAlpZiAoIWRtYV9hZGRycykKIAkJZ290byBv
-dXRfZnJlZV9kc3Q7CiAKLQlmb3IgKGkgPSAwOyBpIDwgbnBhZ2VzOyBpICs9IGMpIHsKLQkJYyA9
-IG1pbihTR19NQVhfU0lOR0xFX0FMTE9DLCBucGFnZXMpOwotCQlhcmdzLmVuZCA9IHN0YXJ0ICsg
-KGMgPDwgUEFHRV9TSElGVCk7CisJcGZucyA9IG5vdXZlYXVfcGZuc19hbGxvYyhtYXgpOworCWlm
-ICghcGZucykKKwkJZ290byBvdXRfZnJlZV9kbWE7CisKKwlmb3IgKGkgPSAwOyBpIDwgbnBhZ2Vz
-OyBpICs9IG1heCkgeworCQlhcmdzLmVuZCA9IHN0YXJ0ICsgKG1heCA8PCBQQUdFX1NISUZUKTsK
-IAkJcmV0ID0gbWlncmF0ZV92bWFfc2V0dXAoJmFyZ3MpOwogCQlpZiAocmV0KQotCQkJZ290byBv
-dXRfZnJlZV9kbWE7CisJCQlnb3RvIG91dF9mcmVlX3BmbnM7CiAKIAkJaWYgKGFyZ3MuY3BhZ2Vz
-KQotCQkJbm91dmVhdV9kbWVtX21pZ3JhdGVfY2h1bmsoZHJtLCAmYXJncywgZG1hX2FkZHJzKTsK
-KwkJCW5vdXZlYXVfZG1lbV9taWdyYXRlX2NodW5rKGRybSwgJmFyZ3MsIGRtYV9hZGRycywKKwkJ
-CQkJCSAgIHBmbnMpOwogCQlhcmdzLnN0YXJ0ID0gYXJncy5lbmQ7CiAJfQogCiAJcmV0ID0gMDsK
-K291dF9mcmVlX3BmbnM6CisJbm91dmVhdV9wZm5zX2ZyZWUocGZucyk7CiBvdXRfZnJlZV9kbWE6
-CiAJa2ZyZWUoZG1hX2FkZHJzKTsKIG91dF9mcmVlX2RzdDoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9u
-b3V2ZWF1X3N2bS5jCmluZGV4IGRmOWJmMWZkMWJjMC4uOGM2Mjk5MThhM2M2IDEwMDY0NAotLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmMKQEAgLTcwLDYgKzcwLDEyIEBAIHN0cnVjdCBub3V2
-ZWF1X3N2bSB7CiAjZGVmaW5lIFNWTV9EQkcocyxmLGEuLi4pIE5WX0RFQlVHKChzKS0+ZHJtLCAi
-c3ZtOiAiZiJcbiIsICMjYSkKICNkZWZpbmUgU1ZNX0VSUihzLGYsYS4uLikgTlZfV0FSTigocykt
-PmRybSwgInN2bTogImYiXG4iLCAjI2EpCiAKK3N0cnVjdCBub3V2ZWF1X3Bmbm1hcF9hcmdzIHsK
-KwlzdHJ1Y3QgbnZpZl9pb2N0bF92MCBpOworCXN0cnVjdCBudmlmX2lvY3RsX210aGRfdjAgbTsK
-KwlzdHJ1Y3QgbnZpZl92bW1fcGZubWFwX3YwIHA7Cit9OworCiBzdHJ1Y3Qgbm91dmVhdV9pdm1t
-IHsKIAlzdHJ1Y3Qgbm91dmVhdV9zdm1tICpzdm1tOwogCXU2NCBpbnN0OwpAQCAtNzgyLDYgKzc4
-OCw4NSBAQCBub3V2ZWF1X3N2bV9mYXVsdChzdHJ1Y3QgbnZpZl9ub3RpZnkgKm5vdGlmeSkKIAly
-ZXR1cm4gTlZJRl9OT1RJRllfS0VFUDsKIH0KIAorc3RhdGljIGlubGluZSBzdHJ1Y3Qgbm91dmVh
-dV9wZm5tYXBfYXJncyAqCitub3V2ZWF1X3BmbnNfdG9fYXJncyh2b2lkICpwZm5zKQoreworCXN0
-cnVjdCBudmlmX3ZtbV9wZm5tYXBfdjAgKnAgPQorCQljb250YWluZXJfb2YocGZucywgc3RydWN0
-IG52aWZfdm1tX3Bmbm1hcF92MCwgcGh5cyk7CisKKwlyZXR1cm4gY29udGFpbmVyX29mKHAsIHN0
-cnVjdCBub3V2ZWF1X3Bmbm1hcF9hcmdzLCBwKTsKK30KKwordTY0ICoKK25vdXZlYXVfcGZuc19h
-bGxvYyh1bnNpZ25lZCBsb25nIG5wYWdlcykKK3sKKwlzdHJ1Y3Qgbm91dmVhdV9wZm5tYXBfYXJn
-cyAqYXJnczsKKworCWFyZ3MgPSBremFsbG9jKHN0cnVjdF9zaXplKGFyZ3MsIHAucGh5cywgbnBh
-Z2VzKSwgR0ZQX0tFUk5FTCk7CisJaWYgKCFhcmdzKQorCQlyZXR1cm4gTlVMTDsKKworCWFyZ3Mt
-PmkudHlwZSA9IE5WSUZfSU9DVExfVjBfTVRIRDsKKwlhcmdzLT5tLm1ldGhvZCA9IE5WSUZfVk1N
-X1YwX1BGTk1BUDsKKwlhcmdzLT5wLnBhZ2UgPSBQQUdFX1NISUZUOworCisJcmV0dXJuIGFyZ3Mt
-PnAucGh5czsKK30KKwordm9pZAorbm91dmVhdV9wZm5zX2ZyZWUodTY0ICpwZm5zKQoreworCXN0
-cnVjdCBub3V2ZWF1X3Bmbm1hcF9hcmdzICphcmdzID0gbm91dmVhdV9wZm5zX3RvX2FyZ3MocGZu
-cyk7CisKKwlrZnJlZShhcmdzKTsKK30KKworc3RhdGljIHN0cnVjdCBub3V2ZWF1X3N2bW0gKgor
-bm91dmVhdV9maW5kX3N2bW0oc3RydWN0IG5vdXZlYXVfc3ZtICpzdm0sIHN0cnVjdCBtbV9zdHJ1
-Y3QgKm1tKQoreworCXN0cnVjdCBub3V2ZWF1X2l2bW0gKml2bW07CisKKwlsaXN0X2Zvcl9lYWNo
-X2VudHJ5KGl2bW0sICZzdm0tPmluc3QsIGhlYWQpIHsKKwkJaWYgKGl2bW0tPnN2bW0tPm5vdGlm
-aWVyLm1tID09IG1tKQorCQkJcmV0dXJuIGl2bW0tPnN2bW07CisJfQorCXJldHVybiBOVUxMOwor
-fQorCit2b2lkCitub3V2ZWF1X3BmbnNfbWFwKHN0cnVjdCBub3V2ZWF1X2RybSAqZHJtLCBzdHJ1
-Y3QgbW1fc3RydWN0ICptbSwKKwkJIHVuc2lnbmVkIGxvbmcgYWRkciwgdTY0ICpwZm5zLCB1bnNp
-Z25lZCBsb25nIG5wYWdlcykKK3sKKwlzdHJ1Y3Qgbm91dmVhdV9zdm0gKnN2bSA9IGRybS0+c3Zt
-OworCXN0cnVjdCBub3V2ZWF1X3N2bW0gKnN2bW07CisJc3RydWN0IG5vdXZlYXVfcGZubWFwX2Fy
-Z3MgKmFyZ3M7CisJaW50IHJldDsKKworCWlmICghc3ZtKQorCQlyZXR1cm47CisKKwltdXRleF9s
-b2NrKCZzdm0tPm11dGV4KTsKKwlzdm1tID0gbm91dmVhdV9maW5kX3N2bW0oc3ZtLCBtbSk7CisJ
-aWYgKCFzdm1tKSB7CisJCW11dGV4X3VubG9jaygmc3ZtLT5tdXRleCk7CisJCXJldHVybjsKKwl9
-CisJbXV0ZXhfdW5sb2NrKCZzdm0tPm11dGV4KTsKKworCWFyZ3MgPSBub3V2ZWF1X3BmbnNfdG9f
-YXJncyhwZm5zKTsKKwlhcmdzLT5wLmFkZHIgPSBhZGRyOworCWFyZ3MtPnAuc2l6ZSA9IG5wYWdl
-cyA8PCBQQUdFX1NISUZUOworCisJbXV0ZXhfbG9jaygmc3ZtbS0+bXV0ZXgpOworCisJc3ZtbS0+
-dm1tLT52bW0ub2JqZWN0LmNsaWVudC0+c3VwZXIgPSB0cnVlOworCXJldCA9IG52aWZfb2JqZWN0
-X2lvY3RsKCZzdm1tLT52bW0tPnZtbS5vYmplY3QsIGFyZ3MsIHNpemVvZigqYXJncykgKworCQkJ
-CW5wYWdlcyAqIHNpemVvZihhcmdzLT5wLnBoeXNbMF0pLCBOVUxMKTsKKwlzdm1tLT52bW0tPnZt
-bS5vYmplY3QuY2xpZW50LT5zdXBlciA9IGZhbHNlOworCisJbXV0ZXhfdW5sb2NrKCZzdm1tLT5t
-dXRleCk7Cit9CisKIHN0YXRpYyB2b2lkCiBub3V2ZWF1X3N2bV9mYXVsdF9idWZmZXJfZmluaShz
-dHJ1Y3Qgbm91dmVhdV9zdm0gKnN2bSwgaW50IGlkKQogewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL25vdXZlYXUvbm91dmVhdV9zdm0uaCBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
-dXZlYXVfc3ZtLmgKaW5kZXggZTgzOWQ4MTg5NDYxLi4wNjQ5ZjhkNTg3YTggMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmgKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL25vdXZlYXUvbm91dmVhdV9zdm0uaApAQCAtMTgsNiArMTgsMTEgQEAgdm9pZCBub3V2ZWF1
-X3N2bW1fZmluaShzdHJ1Y3Qgbm91dmVhdV9zdm1tICoqKTsKIGludCBub3V2ZWF1X3N2bW1fam9p
-bihzdHJ1Y3Qgbm91dmVhdV9zdm1tICosIHU2NCBpbnN0KTsKIHZvaWQgbm91dmVhdV9zdm1tX3Bh
-cnQoc3RydWN0IG5vdXZlYXVfc3ZtbSAqLCB1NjQgaW5zdCk7CiBpbnQgbm91dmVhdV9zdm1tX2Jp
-bmQoc3RydWN0IGRybV9kZXZpY2UgKiwgdm9pZCAqLCBzdHJ1Y3QgZHJtX2ZpbGUgKik7CisKK3U2
-NCAqbm91dmVhdV9wZm5zX2FsbG9jKHVuc2lnbmVkIGxvbmcgbnBhZ2VzKTsKK3ZvaWQgbm91dmVh
-dV9wZm5zX2ZyZWUodTY0ICpwZm5zKTsKK3ZvaWQgbm91dmVhdV9wZm5zX21hcChzdHJ1Y3Qgbm91
-dmVhdV9kcm0gKmRybSwgc3RydWN0IG1tX3N0cnVjdCAqbW0sCisJCSAgICAgIHVuc2lnbmVkIGxv
-bmcgYWRkciwgdTY0ICpwZm5zLCB1bnNpZ25lZCBsb25nIG5wYWdlcyk7CiAjZWxzZSAvKiBJU19F
-TkFCTEVEKENPTkZJR19EUk1fTk9VVkVBVV9TVk0pICovCiBzdGF0aWMgaW5saW5lIHZvaWQgbm91
-dmVhdV9zdm1faW5pdChzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSkge30KIHN0YXRpYyBpbmxpbmUg
-dm9pZCBub3V2ZWF1X3N2bV9maW5pKHN0cnVjdCBub3V2ZWF1X2RybSAqZHJtKSB7fQotLSAKMi4y
-MC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+A resource will be a shmem based resource or a (planned)
+vram based resource, so it makes sense to factor out common fields
+(resource handle, dumb, mapped).
+
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 11 ++++++++---
+ drivers/gpu/drm/virtio/virtgpu_object.c | 20 +++++++++++---------
+ drivers/gpu/drm/virtio/virtgpu_vq.c     |  6 ++++--
+ 3 files changed, 23 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index ce73895cf74b..595b5f3dc105 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -69,16 +69,21 @@ struct virtio_gpu_object_params {
+ struct virtio_gpu_object {
+ 	struct drm_gem_shmem_object base;
+ 	uint32_t hw_res_handle;
+-
+-	struct sg_table *pages;
+ 	uint32_t mapped;
+-
+ 	bool dumb;
+ 	bool created;
+ };
+ #define gem_to_virtio_gpu_obj(gobj) \
+ 	container_of((gobj), struct virtio_gpu_object, base.base)
+ 
++struct virtio_gpu_object_shmem {
++	struct virtio_gpu_object base;
++	struct sg_table *pages;
++};
++
++#define to_virtio_gpu_shmem(virtio_gpu_object) \
++	container_of((virtio_gpu_object), struct virtio_gpu_object_shmem, base)
++
+ struct virtio_gpu_object_array {
+ 	struct ww_acquire_ctx ticket;
+ 	struct list_head next;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index c5cad949eb8d..a7d4d871431e 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -65,16 +65,17 @@ static void virtio_gpu_resource_id_put(struct virtio_gpu_device *vgdev, uint32_t
+ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+ {
+ 	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
++	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 
+-	if (bo->pages) {
++	if (shmem->pages) {
+ 		if (bo->mapped) {
+ 			dma_unmap_sg(vgdev->vdev->dev.parent,
+-				     bo->pages->sgl, bo->mapped,
++				     shmem->pages->sgl, bo->mapped,
+ 				     DMA_TO_DEVICE);
+ 			bo->mapped = 0;
+ 		}
+-		sg_free_table(bo->pages);
+-		bo->pages = NULL;
++		sg_free_table(shmem->pages);
++		shmem->pages = NULL;
+ 		drm_gem_shmem_unpin(&bo->base.base);
+ 	}
+ 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
+@@ -133,6 +134,7 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 					unsigned int *nents)
+ {
+ 	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
++	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 	struct scatterlist *sg;
+ 	int si, ret;
+ 
+@@ -140,19 +142,19 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 	if (ret < 0)
+ 		return -EINVAL;
+ 
+-	bo->pages = drm_gem_shmem_get_sg_table(&bo->base.base);
+-	if (!bo->pages) {
++	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base.base);
++	if (!shmem->pages) {
+ 		drm_gem_shmem_unpin(&bo->base.base);
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (use_dma_api) {
+ 		bo->mapped = dma_map_sg(vgdev->vdev->dev.parent,
+-					bo->pages->sgl, bo->pages->nents,
++					shmem->pages->sgl, shmem->pages->nents,
+ 					DMA_TO_DEVICE);
+ 		*nents = bo->mapped;
+ 	} else {
+-		*nents = bo->pages->nents;
++		*nents = shmem->pages->nents;
+ 	}
+ 
+ 	*ents = kmalloc_array(*nents, sizeof(struct virtio_gpu_mem_entry),
+@@ -162,7 +164,7 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 		return -ENOMEM;
+ 	}
+ 
+-	for_each_sg(bo->pages->sgl, sg, *nents, si) {
++	for_each_sg(shmem->pages->sgl, sg, *nents, si) {
+ 		(*ents)[si].addr = cpu_to_le64(use_dma_api
+ 					       ? sg_dma_address(sg)
+ 					       : sg_phys(sg));
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 5e2375e0f7bb..73854915ec34 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -600,10 +600,11 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_transfer_to_host_2d *cmd_p;
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
++	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 
+ 	if (use_dma_api)
+ 		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
+-				       bo->pages->sgl, bo->pages->nents,
++				       shmem->pages->sgl, shmem->pages->nents,
+ 				       DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+@@ -1015,10 +1016,11 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_transfer_host_3d *cmd_p;
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
++	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 
+ 	if (use_dma_api)
+ 		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
+-				       bo->pages->sgl, bo->pages->nents,
++				       shmem->pages->sgl, shmem->pages->nents,
+ 				       DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+-- 
+2.25.0.265.gbab2e86ba0-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
