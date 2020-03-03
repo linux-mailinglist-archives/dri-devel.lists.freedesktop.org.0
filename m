@@ -2,41 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C0C177EA0
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 19:55:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9135177FF6
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 19:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1189089F6F;
-	Tue,  3 Mar 2020 18:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4446E5A9;
+	Tue,  3 Mar 2020 18:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFCA89F6F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 18:55:53 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 268082AF;
- Tue,  3 Mar 2020 19:55:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1583261752;
- bh=noy1WADc0ET4QwWSlF8Wtcknw2DcH2OWioSBI/pWkjc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=n+e9/HdHilEFMQIN0V+Cyum7cPa4meETRYSjov9d8t8btYaAW01uq3IQiPX0Rfmwz
- zZBqG+9PF5OCQFc9TcukzgXxTkiVFKNzWlOvA3eqsjVmuI0sVx97Li/drc4MBgTC9C
- WfbFakiGAjB7B33Cfdzj69j8ibXDj6cKpHf1TSmw=
-Date: Tue, 3 Mar 2020 20:55:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v3 4/5] dt-bindings: display: add data-mapping to panel-dpi
-Message-ID: <20200303185531.GJ11333@pendragon.ideasonboard.com>
-References: <20200216181513.28109-1-sam@ravnborg.org>
- <20200216181513.28109-5-sam@ravnborg.org>
- <CAL_Jsq+AbXEiLCYiAvwr5qzbSnuo9G8bTwAM3G9J4cPYz1_FMw@mail.gmail.com>
- <20200218221638.GA27927@ravnborg.org>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 465336E5A9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 18:59:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583261939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nsBRPfKRdhfL0gYsAuTjW7/qWctNAh1dswFo87gr+Ac=;
+ b=H/lxCqEiDhWysbCAOvcasXbjcQtr5SylMqBPS0LJFtEAFTCHBKsdaTjR4FeJh36yU67PGN
+ NNrAIds614g2/81TLg8ym6A7quwm47/7gP5HlrSH/hg6WpwXgXpRhQv3CwfSwehA3J/d2D
+ ZgpU6pVI6Kvz6PqbsNm55WXNjimX5oo=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-70fnE0EIMCOtiGFFM8dCnQ-1; Tue, 03 Mar 2020 13:58:57 -0500
+X-MC-Unique: 70fnE0EIMCOtiGFFM8dCnQ-1
+Received: by mail-qk1-f200.google.com with SMTP id d2so2864709qko.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 10:58:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=K8L4ZUtOescIORESmUrm8ykMe+HPDV0/YLCBuICtYzw=;
+ b=nGMWpF7bh8kH07UsqV7XieHyo2MzMxucMjeErmBCIzLVfgZ3RiAY2bHUgfz0vTfhXn
+ 0KexDso8eNFbPuFMhva9Q9TQ+D+CRnfczZ3pG2k29S/mBoUb7Apky7oYcS75Z2rWj6Yz
+ JwE5rJeaexBtT/XmG/a8aV3YvDdxVQ01rzkUe3+rj6dxG/BDbA8S1V9sj8E3W+5pPoem
+ wr32ALZsY6vN/E+ar3B8NPXjlgI9YAJm3nP53+Zxxr1ks3e6/OeiBdcMQMfvW7vL5v7b
+ WvQ77N1CYeakqOwb2496NmaFCHhCPNfttmlDjPCzmx9s63BW5nE9/7iWeghOK77s06od
+ AY8g==
+X-Gm-Message-State: ANhLgQ1q9kNrYoTmp29WaLZjOMX2f8Ry5UqOivjCbpL0gn9LEHsGREvc
+ XkQcrtnr9NNBVCgNN6ijJBEDKs0FC70ojM/QQa6eCJpJxNcOe0np4IrMxLjGnmks97AgztB/U0/
+ PTciGpNVig13hj3AnnMB1Dy0Yw0Jf
+X-Received: by 2002:a37:dd7:: with SMTP id 206mr5759430qkn.12.1583261937302;
+ Tue, 03 Mar 2020 10:58:57 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vud7vFoVqdO7g6nYk2lTCS7/rh9+TRlLcbu3sD7JomRLY4Lz3YvPzRBtClyfO7QKvgEoN7Dwg==
+X-Received: by 2002:a37:dd7:: with SMTP id 206mr5759410qkn.12.1583261937032;
+ Tue, 03 Mar 2020 10:58:57 -0800 (PST)
+Received: from dhcp-10-20-1-196.bss.redhat.com ([144.121.20.162])
+ by smtp.gmail.com with ESMTPSA id j4sm5299048qtv.45.2020.03.03.10.58.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Mar 2020 10:58:56 -0800 (PST)
+Message-ID: <865432f15c7e13f212ecd4ddff0a9cc78d34e89d.camel@redhat.com>
+Subject: Re: [PATCH 6/9] drm/nouveau: Fix unused variable warning
+From: Lyude Paul <lyude@redhat.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Pankaj Bharadiya
+ <pankaj.laxminarayan.bharadiya@intel.com>
+Date: Tue, 03 Mar 2020 13:58:55 -0500
+In-Reply-To: <20200302133023.GQ11960@pendragon.ideasonboard.com>
+References: <20200302125649.61443-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200302125649.61443-7-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200302133023.GQ11960@pendragon.ideasonboard.com>
+Organization: Red Hat
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200218221638.GA27927@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,93 +80,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>, devicetree@vger.kernel.org,
- Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Manasi Navare <manasi.d.navare@intel.com>,
+ Sean Paul <seanpaul@chromium.org>, Dave Airlie <airlied@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
-
-On Tue, Feb 18, 2020 at 11:16:38PM +0100, Sam Ravnborg wrote:
-> On Tue, Feb 18, 2020 at 02:13:45PM -0600, Rob Herring wrote:
-> > On Sun, Feb 16, 2020 at 12:15 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > >
-> > > Add data-mapping property that can be used to specify
-> > > the media format used for the connection betwwen the
-> > > display controller (connector) and the panel.
-> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > Missing blank line.
-> > 
-> > > ---
-> > >  .../devicetree/bindings/display/panel/panel-dpi.yaml | 12 +++++++++++-
-> > >  1 file changed, 11 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > > index 40079fc24a63..6a03d2449701 100644
-> > > --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > > @@ -21,6 +21,16 @@ properties:
-> > >        - {}
-> > >        - const: panel-dpi
-> > >
-> > > +  data-mapping:
-> > > +    enum:
-> > > +      - rgb24
-> > > +      - rgb565
-> > > +      - bgr666
-> > > +      - lvds666
-> > 
-> > Doesn't lvds666 come from i.MX IPU which as I remember has built-in
-> > LVDS block? I'd think this format would be implicit when using the
-> > LVDS block and panel. It doesn't seem this is actually used anywhere
-> > either.
->
-> I must admit that I just copied this list from Oleksandrs original
-> patch. The MEDIA type it identifies(MEDIA_BUS_FMT_RGB666_1X24_CPADHI) looks special.
-> I will drop lvds666 while applying, unless I get other feedback.
-> (Note: travelling, earliest in the weekend)
-
-There are different data mappings defined for LVDS, we should follow
-them. lvds666 is wrong in any case, and doesn't apply to a DPI panel
-anyway.
-
-I don't like the name data-mapping much for DPI panels I'm afraid. It
-made sense for LVDS as it's really about how the different data bits are
-mapped to LVDS time slots, but for DPI, what we need to describe is the
-format. I also wonder whether multiple formats wouldn't be required when
-the panel supports more than one, but that may not apply to panels
-covered by these bindings.
-
-If a panel expects RGB888 and receives RGB666 with the two LSBs of each
-component hardwired to GND on the PCB, should DT report RGB888 or RGB666
-on the panel side ? I'm tempted by the former, and specifying the latter
-on the transmitting side.
-
-Please also note that this case is already described by
-Documentation/devicetree/bindings/media/video-interfaces.txt through two
-entirely different properties, bus-width and data-shift. I think we
-should try to standardize mappings between display and capture. This new
-property should be reconsidered in my opinion, I think it was merged too
-soon.
-
-> Btw. anyway I can add data-mapping to panel-common - and then list the
-> allowed enum values in each binding?
-> 
-> I would love to have a central definition of data-mapping, and then let
-> the users only allow the relevant subset so we catch errors in DT files
-> early.
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAyMDIwLTAzLTAyIGF0IDE1OjMwICswMjAwLCBMYXVyZW50IFBpbmNoYXJ0IHdyb3Rl
+Ogo+IEhpIFBhbmthaiwKPiAKPiBUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4KPiAKPiBPbiBNb24s
+IE1hciAwMiwgMjAyMCBhdCAwNjoyNjo0NlBNICswNTMwLCBQYW5rYWogQmhhcmFkaXlhIHdyb3Rl
+Ogo+ID4gbm91dmVhdV9kcm0gcG9pbnRlciBpcyBub3QgZ2V0dGluZyB1c2VkIGFueW1vcmUgaW4K
+PiA+IG52NTBfbXN0bV97cmVnaXN0ZXIsZGVzdHJveX1fY29ubmVjdG9yIGZ1bmN0aW9ucywgaGVu
+Y2UgcmVtb3ZlIGl0Lgo+ID4gCj4gPiBUaGlzIGZpeGVzIGJlbG93IHdhcm5pbmcuCj4gPiAKPiA+
+IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYzogSW4gZnVuY3Rpb24KPiA+
+IOKAmG52NTBfbXN0bV9kZXN0cm95X2Nvbm5lY3RvcuKAmToKPiA+IGRyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYzoxMjYzOjIyOiB3YXJuaW5nOiB1bnVzZWQgdmFyaWFibGUK
+PiA+IOKAmGRybeKAmSBbLVd1bnVzZWQtdmFyaWFibGVdCj4gPiAgIHN0cnVjdCBub3V2ZWF1X2Ry
+bSAqZHJtID0gbm91dmVhdV9kcm0oY29ubmVjdG9yLT5kZXYpOwo+ID4gICAgICAgICAgICAgICAg
+ICAgICAgIF5+fgo+ID4gZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jOiBJ
+biBmdW5jdGlvbgo+ID4g4oCYbnY1MF9tc3RtX3JlZ2lzdGVyX2Nvbm5lY3RvcuKAmToKPiA+IGRy
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYzoxMjc0OjIyOiB3YXJuaW5nOiB1
+bnVzZWQgdmFyaWFibGUKPiA+IOKAmGRybeKAmSBbLVd1bnVzZWQtdmFyaWFibGVdCj4gPiAgIHN0
+cnVjdCBub3V2ZWF1X2RybSAqZHJtID0gbm91dmVhdV9kcm0oY29ubmVjdG9yLT5kZXYpOwo+ID4g
+ICAgICAgICAgICAgICAgICAgICAgIF5+fgo+IAo+IEFzIGNvbW1lbnRlZCBvbiA3LzksIHlvdSBz
+aG91bGQgc3F1YXNoIHRoaXMgd2l0aCB0aGUgcGF0Y2ggdGhhdAo+IGludHJvZHVjZXMgdGhlIHdh
+cm5pbmdzLgoKQWdyZWVkLCB3aXRoIHRoZSBwYXRjaGVzIHNxdWFzaGVkIHlvdSBjYW4gY291bnQg
+dGhpcyBhczoKClJldmlld2VkLWJ5OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgoKZndp
+dyAtIGNvbXBsZXRlbHkgb3B0aW9uYWwgYnV0IGlmIHlvdSdkIGxpa2UsIHlvdSBjYW4gcHJvYmFi
+bHkgYWxzbyBnbyBhaGVhZAphbmQgcmVtb3ZlIGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyX2Nicy5y
+ZWdpc3Rlcl9jb25uZWN0b3IgYW5kCmRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyX2Nicy5kZXN0cm95
+X2Nvbm5lY3RvciBhbmQgcmVwbGFjZSB0aGVtIHdpdGggb3Blbi0KY29kaW5nLCBzaW5jZSB0aG9z
+ZSBjYWxsYmFja3MgYXJlIGxpdGVyYWxseSBpZGVudGljYWwgYW1vbmdzdCBldmVyeSBkcml2ZXIg
+YW5kCmRvbid0IGRvIGFueXRoaW5nIG90aGVyIHRoZW4gY2FsbApkcm1fY29ubmVjdG9yX3JlZ2lz
+dGVyKCkvZHJtX2Nvbm5lY3Rvcl91bnJlZ2lzdGVyKCkvZHJtX2Nvbm5lY3Rvcl9wdXQoKS4KCj4g
+PiBTaWduZWQtb2ZmLWJ5OiBQYW5rYWogQmhhcmFkaXlhIDxwYW5rYWoubGF4bWluYXJheWFuLmJo
+YXJhZGl5YUBpbnRlbC5jb20+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9k
+aXNwbnY1MC9kaXNwLmMgfCAzIC0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzIGRlbGV0aW9ucygt
+KQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAv
+ZGlzcC5jCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwo+ID4g
+aW5kZXggOTdkZDUwZTI5MTdkLi40ZTE2NGFkODAwM2YgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwo+ID4gQEAgLTEyNjAsNyArMTI2MCw2IEBAIHN0YXRp
+YyB2b2lkCj4gPiAgbnY1MF9tc3RtX2Rlc3Ryb3lfY29ubmVjdG9yKHN0cnVjdCBkcm1fZHBfbXN0
+X3RvcG9sb2d5X21nciAqbWdyLAo+ID4gIAkJCSAgICBzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29u
+bmVjdG9yKQo+ID4gIHsKPiA+IC0Jc3RydWN0IG5vdXZlYXVfZHJtICpkcm0gPSBub3V2ZWF1X2Ry
+bShjb25uZWN0b3ItPmRldik7Cj4gPiAgCXN0cnVjdCBudjUwX21zdGMgKm1zdGMgPSBudjUwX21z
+dGMoY29ubmVjdG9yKTsKPiA+ICAKPiA+ICAJZHJtX2Nvbm5lY3Rvcl91bnJlZ2lzdGVyKCZtc3Rj
+LT5jb25uZWN0b3IpOwo+ID4gQEAgLTEyNzEsOCArMTI3MCw2IEBAIG52NTBfbXN0bV9kZXN0cm95
+X2Nvbm5lY3RvcihzdHJ1Y3QKPiA+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCj4gPiAg
+c3RhdGljIHZvaWQKPiA+ICBudjUwX21zdG1fcmVnaXN0ZXJfY29ubmVjdG9yKHN0cnVjdCBkcm1f
+Y29ubmVjdG9yICpjb25uZWN0b3IpCj4gPiAgewo+ID4gLQlzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRy
+bSA9IG5vdXZlYXVfZHJtKGNvbm5lY3Rvci0+ZGV2KTsKPiA+IC0KPiA+ICAJZHJtX2Nvbm5lY3Rv
+cl9yZWdpc3Rlcihjb25uZWN0b3IpOwo+ID4gIH0KPiA+ICAKLS0gCkNoZWVycywKCUx5dWRlIFBh
+dWwgKHNoZS9oZXIpCglBc3NvY2lhdGUgU29mdHdhcmUgRW5naW5lZXIgYXQgUmVkIEhhdAoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
