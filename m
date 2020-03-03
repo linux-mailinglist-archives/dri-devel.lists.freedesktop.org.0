@@ -2,33 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA6F177100
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C443177117
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07C106E9ED;
-	Tue,  3 Mar 2020 08:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66BCC6EA32;
+	Tue,  3 Mar 2020 08:24:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 559316E968
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 03:22:13 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 6D4356B065E6098395E5;
- Tue,  3 Mar 2020 11:22:08 +0800 (CST)
-Received: from localhost.localdomain (10.175.124.28) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 3 Mar 2020 11:21:58 +0800
-From: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
-To: <b.zolnierkie@samsung.com>, <zhangxiaoxu5@huawei.com>,
- <wangkefeng.wang@huawei.com>, <sergey.senozhatsky@gmail.com>,
- <pmladek@suse.com>, <akpm@osdl.org>
-Subject: [PATCH] vgacon: Fix a UAF in vgacon_invert_region
-Date: Tue, 3 Mar 2020 11:20:36 +0800
-Message-ID: <20200303032036.40560-1-zhangxiaoxu5@huawei.com>
-X-Mailer: git-send-email 2.17.2
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A39E6E4AF
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 03:29:52 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id o10so1795062qtr.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 19:29:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marek-ca.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Xa1levQOnetXdgOAGPkdyir7uY3HWmbFgfGCDI8dF5Q=;
+ b=OvZxpYDSqgDR/2S2mfX09uK9KjdmQRaBRIdH+HYcn7xg8xcWSUb34T/yducyzyhBzW
+ Ga7QRaz/WDYt2bhVXpg0pYcVGadJw0BwYtu7D+gRweTWh9ivYjIGzlXkLYJpMASa/IZx
+ mdpyWK/M/nsJxX158hL7VToScRrHZD4W867f6uM4NF8JI4D7pP0o1xx6jJVzuQxsFnQX
+ WKPbo61jQNyEV5TsgO2+3mSmVUKTEqU7/1VJQMEEJ1WP49jJAIA/bv2awpuLvkJVA68L
+ A5xo+t7wYWnhFGRDygqsp/EIHXFfgsPd91WwOnOZyi4HkWMeg5AzP2orWJ07t6g6C5w6
+ Eu8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xa1levQOnetXdgOAGPkdyir7uY3HWmbFgfGCDI8dF5Q=;
+ b=f/seAqqFTd9zsvh95d8dw+1L19VgCK6VmX5VsmQaLICOM4o4dsu9GdCrEnwZx0EQFQ
+ C8Ovk+Pi04T9SxqXBNqfZXJPzjqZ37Zs1t2g/mZtnqLBEQ3lWPMhTMRLzrh7MGAyc+q2
+ IAL/aM5ck7hz62TaRNDjQMtD/q1aUnjAN1GzL33AaCQknxhFIqMF37Tduz4+9gwYACr0
+ Z3f/Z534Rt9S764xbmKtgm6CuUghaCWaLkFzfwqpOWpnom2QVOWH3/mTJ5SyC8YYVlaQ
+ tMSJM8v8jCmLrYhOkrVpJG7FrNL2ZdF2zMgU6ArAchQ9oI7EbWhEOY9KZGZ+l6VJ1+AR
+ /z7Q==
+X-Gm-Message-State: ANhLgQ3rMjWcc6xojnKaJq6ed6qziqXQyyRxSOPauEoW7kd/AajwrvDK
+ 6A764ihz82cv4lr3ecgxJl/1Fw==
+X-Google-Smtp-Source: ADFU+vtUaAePBl9W4trjwNEI4tfYek6RSUoFepTTMhqQGcVuAWfg5tNfqOTREwyFaGuaW9zkUqW/2w==
+X-Received: by 2002:aed:35d4:: with SMTP id d20mr2682075qte.181.1583206191589; 
+ Mon, 02 Mar 2020 19:29:51 -0800 (PST)
+Received: from [192.168.0.189] ([147.253.86.153])
+ by smtp.gmail.com with ESMTPSA id z4sm4377754qkz.85.2020.03.02.19.29.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Mar 2020 19:29:51 -0800 (PST)
+Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
+To: Brian Masney <masneyb@onstation.org>
+References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+ <20200302203452.17977-34-ville.syrjala@linux.intel.com>
+ <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
+ <20200303031335.GA7208@onstation.org>
+From: Jonathan Marek <jonathan@marek.ca>
+Message-ID: <8f47109f-796e-8cd5-d05e-8cdf2d0665ed@marek.ca>
+Date: Mon, 2 Mar 2020 22:28:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Originating-IP: [10.175.124.28]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20200303031335.GA7208@onstation.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,125 +74,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When syzkaller tests, there is a UAF:
-  BUG: KASan: use after free in vgacon_invert_region+0x9d/0x110 at addr
-    ffff880000100000
-  Read of size 2 by task syz-executor.1/16489
-  page:ffffea0000004000 count:0 mapcount:-127 mapping:          (null)
-  index:0x0
-  page flags: 0xfffff00000000()
-  page dumped because: kasan: bad access detected
-  CPU: 1 PID: 16489 Comm: syz-executor.1 Not tainted
-  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-  rel-1.9.3-0-ge2fc41e-prebuilt.qemu-project.org 04/01/2014
-  Call Trace:
-    [<ffffffffb119f309>] dump_stack+0x1e/0x20
-    [<ffffffffb04af957>] kasan_report+0x577/0x950
-    [<ffffffffb04ae652>] __asan_load2+0x62/0x80
-    [<ffffffffb090f26d>] vgacon_invert_region+0x9d/0x110
-    [<ffffffffb0a39d95>] invert_screen+0xe5/0x470
-    [<ffffffffb0a21dcb>] set_selection+0x44b/0x12f0
-    [<ffffffffb0a3bfae>] tioclinux+0xee/0x490
-    [<ffffffffb0a1d114>] vt_ioctl+0xff4/0x2670
-    [<ffffffffb0a0089a>] tty_ioctl+0x46a/0x1a10
-    [<ffffffffb052db3d>] do_vfs_ioctl+0x5bd/0xc40
-    [<ffffffffb052e2f2>] SyS_ioctl+0x132/0x170
-    [<ffffffffb11c9b1b>] system_call_fastpath+0x22/0x27
-    Memory state around the buggy address:
-     ffff8800000fff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-     00 00
-     ffff8800000fff80: 00 00 00 00 00 00 00 00 00 00 00 00 00
-     00 00 00
-    >ffff880000100000: ff ff ff ff ff ff ff ff ff ff ff ff ff
-     ff ff ff
-
-It can be reproduce in the linux mainline by the program:
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <unistd.h>
-  #include <fcntl.h>
-  #include <sys/types.h>
-  #include <sys/stat.h>
-  #include <sys/ioctl.h>
-  #include <linux/vt.h>
-
-  struct tiocl_selection {
-    unsigned short xs;      /* X start */
-    unsigned short ys;      /* Y start */
-    unsigned short xe;      /* X end */
-    unsigned short ye;      /* Y end */
-    unsigned short sel_mode; /* selection mode */
-  };
-
-  #define TIOCL_SETSEL    2
-  struct tiocl {
-    unsigned char type;
-    unsigned char pad;
-    struct tiocl_selection sel;
-  };
-
-  int main()
-  {
-    int fd = 0;
-    const char *dev = "/dev/char/4:1";
-
-    struct vt_consize v = {0};
-    struct tiocl tioc = {0};
-
-    fd = open(dev, O_RDWR, 0);
-
-    v.v_rows = 3346;
-    ioctl(fd, VT_RESIZEX, &v);
-
-    tioc.type = TIOCL_SETSEL;
-    ioctl(fd, TIOCLINUX, &tioc);
-
-    return 0;
-  }
-
-When resize the screen, update the 'vc->vc_size_row' to the new_row_size,
-but when 'set_origin' in 'vgacon_set_origin', vgacon use 'vga_vram_base'
-for 'vc_origin' and 'vc_visible_origin', not 'vc_screenbuf'. It maybe
-smaller than 'vc_screenbuf'. When TIOCLINUX, use the new_row_size to calc
-the offset, it maybe larger than the vga_vram_base in vgacon driver, then
-bad access.
-
-So, If the screen size larger than vga_vram, resize screen should be
-failed. This alse fix CVE-2020-8649
-
-Fixes: 0aec4867dca14 ("[PATCH] SVGATextMode fix")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
----
- drivers/video/console/vgacon.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index de7b8382aba9..9c216f707629 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -1316,7 +1316,10 @@ static int vgacon_font_get(struct vc_data *c, struct console_font *font)
- static int vgacon_resize(struct vc_data *c, unsigned int width,
- 			 unsigned int height, unsigned int user)
- {
--	if (width % 2 || width > screen_info.orig_video_cols ||
-+	if (width % 2 || width * height > vga_vram_size)
-+		return -EINVAL;
-+
-+	if (width > screen_info.orig_video_cols ||
- 	    height > (screen_info.orig_video_lines * vga_default_font_height)/
- 	    c->vc_font.height)
- 		/* let svgatextmode tinker with video timings and
--- 
-2.17.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDMvMi8yMCAxMDoxMyBQTSwgQnJpYW4gTWFzbmV5IHdyb3RlOgo+IE9uIE1vbiwgTWFyIDAy
+LCAyMDIwIGF0IDAzOjQ4OjIyUE0gLTA1MDAsIEpvbmF0aGFuIE1hcmVrIHdyb3RlOgo+PiBIaSwK
+Pj4KPj4gVGhpcyBpcyBhIGNvbW1hbmQgbW9kZSBwYW5lbCBhbmQgdGhlIHRoZSBtc20vbWRwNSBk
+cml2ZXIgdXNlcyB0aGUgdnJlZnJlc2gKPj4gZmllbGQgZm9yIHRoZSBhY3R1YWwgcmVmcmVzaCBy
+YXRlLCB3aGlsZSB0aGUgZG90Y2xvY2sgZmllbGQgaXMgdXNlZCBmb3IgdGhlCj4+IERTSSBjbG9j
+a3MuIFRoZSBkb3RjbG9jayBuZWVkZWQgdG8gYmUgYSBiaXQgaGlnaGVyIHRoYW4gbmVjZXNzYXJ5
+IG90aGVyd2lzZQo+PiB0aGUgcGFuZWwgd291bGQgbm90IHdvcmsuCj4+Cj4+IElmIHlvdSB3YW50
+IHRvIGdldCByaWQgb2YgdGhlIHNlcGFyYXRlIGNsb2NrL3ZyZWZyZXNoIGZpZWxkcyB0aGVyZSB3
+b3VsZAo+PiBuZWVkIHRvIGJlIHNvbWUgY2hhbmdlcyB0byBtc20gZHJpdmVyLgo+Pgo+PiAobm90
+ZSBJIGhhZG4ndCBtYWRlIHRoZSBwYXRjaCB3aXRoIHVwc3RyZWFtaW5nIGluIG1pbmQsIHRoZSAx
+NTAwMDAgdmFsdWUgaXMKPj4gbGlrZWx5IG5vdCBvcHRpbWFsLCBqdXN0IHNvbWV0aGluZyB0aGF0
+IHdvcmtlZCwgdGhpcyBpcyBzb21ldGhpbmcgdGhhdAo+PiBzaG91bGQgaGF2ZSBiZWVuIGNoZWNr
+ZWQgd2l0aCB0aGUgZG93bnN0cmVhbSBkcml2ZXIpCj4gCj4gSXMgdGhpcyB0aGUgcmlnaHQgY2xv
+Y2sgZnJlcXVlbmN5IGluIHRoZSBkb3duc3RyZWFtIE1TTSAzLjQga2VybmVsIHRoYXQKPiB5b3Un
+cmUgdGFsa2luZyBhYm91dD8KPiAKPiBodHRwczovL2dpdGh1Yi5jb20vQUlDUC9rZXJuZWxfbGdl
+X2hhbW1lcmhlYWQvYmxvYi9uNy4xL2FyY2gvYXJtL21hY2gtbXNtL2Nsb2NrLTg5NzQuYyNMMzMy
+Ngo+IAoKTm8sIEknbSB0YWxraW5nIGFib3V0IHRoZSBEU0kgY2xvY2sgKHRoZSBkcml2ZXIgZm9y
+IGl0IGlzIGluIApkcm0vbXNtL2RzaS8pLiBGb3IgYSBjb21tYW5kIG1vZGUgcGFuZWwgdGhlIGZy
+b250L2JhY2sgcG9yY2hlcyBhcmVuJ3QgCnJlbGV2YW50LCBidXQgdGhlIGRzaSBwaXhlbC9ieXRl
+IGNsb2NrIG5lZWQgdG8gYmUgYSBiaXQgaGlnaGVyIHRoYW4gCjE5MjB4MTA4MHg2MC4gU2luY2Ug
+MTI1NDk4IGlzIGEgbGl0dGxlIGhpZ2hlciB0aGFuIDEyNDQxNiB0aGF0IG1pZ2h0IGJlIAplbm91
+Z2ggKHRoZXJlIGlzIGFsc28gcm91bmRpbmcgb2YgdGhlIGNsb2NrIHZhbHVlcyB0byBjb25zaWRl
+cikuCgo+IEkgZG9uJ3Qgc2VlIGFueSBvYnZpb3VzIGNsb2NrIHZhbHVlcyBpbiB0aGUgZG93bnN0
+cmVhbSBjb21tYW5kIG1vZGUKPiBwYW5lbCBjb25maWd1cmF0aW9uOgo+IAo+IGh0dHBzOi8vZ2l0
+aHViLmNvbS9BSUNQL2tlcm5lbF9sZ2VfaGFtbWVyaGVhZC9ibG9iL243LjEvYXJjaC9hcm0vYm9v
+dC9kdHMvbXNtODk3NC1oYW1tZXJoZWFkL21zbTg5NzQtaGFtbWVyaGVhZC1wYW5lbC5kdHNpI0w1
+OTEKPiAKPiBBbnl3YXlzLCBJIHRyaWVkIFZpbGxlJ3MgcGF0Y2ggd2l0aCB0aGUgZnJhbWVidWZm
+ZXIsIGttc2N1YmUsIGFuZCBYMTEKPiBhbmQgZXZlcnl0aGluZyBhcHBlYXJzIHRvIGJlIHdvcmtp
+bmcgZmluZS4gWW91IGNhbiBhZGQgbXkgVGVzdGVkLWJ5IGlmCj4geW91IGVuZCB1cCBhcHBseWlu
+ZyB0aGlzLgo+IAo+IFRlc3RlZC1ieTogQnJpYW4gTWFzbmV5IDxtYXNuZXliQG9uc3RhdGlvbi5v
+cmc+Cj4gCj4gQnJpYW4KPiAKPiAKPj4gT24gMy8yLzIwIDM6MzQgUE0sIFZpbGxlIFN5cmphbGEg
+d3JvdGU6Cj4+PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50
+ZWwuY29tPgo+Pj4KPj4+IFRoZSBjdXJyZW50bHkgbGlzdGVkIGRvdGNsb2NrIGRpc2FncmVlcyB3
+aXRoIHRoZSBjdXJyZW50bHkKPj4+IGxpc3RlZCB2cmVmcmVzaCByYXRlLiBDaGFuZ2UgdGhlIGRv
+dGNsb2NrIHRvIG1hdGNoIHRoZSB2cmVmcmVzaC4KPj4+Cj4+PiBTb21lb25lIHRlbGwgbWUgd2hp
+Y2ggKGlmIGVpdGhlcikgb2YgdGhlIGRvdGNsb2NrIG9yIHZyZXJlc2ggaXMKPj4+IGNvcnJlY3Q/
+Cj4+Pgo+Pj4gQ2M6IEpvbmF0aGFuIE1hcmVrIDxqb25hdGhhbkBtYXJlay5jYT4KPj4+IENjOiBC
+cmlhbiBNYXNuZXkgPG1hc25leWJAb25zdGF0aW9uLm9yZz4KPj4+IENjOiBMaW51cyBXYWxsZWlq
+IDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJq
+w6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Pj4gLS0tCj4+PiAgICBkcml2
+ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMgfCAyICstCj4+PiAgICAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jIGIvZHJpdmVycy9ncHUvZHJtL3Bh
+bmVsL3BhbmVsLXNpbXBsZS5jCj4+PiBpbmRleCBiMjRmZGYyMzk0NDAuLmY5NThkOGRmZDc2MCAx
+MDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYwo+Pj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jCj4+PiBAQCAtMzk5Niw3
+ICszOTk2LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwYW5lbF9kZXNjX2RzaSBwYW5hc29uaWNf
+dnZ4MTBmMDA0YjAwID0gewo+Pj4gICAgfTsKPj4+ICAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJt
+X2Rpc3BsYXlfbW9kZSBsZ19hY3g0Njdha21fN19tb2RlID0gewo+Pj4gLQkuY2xvY2sgPSAxNTAw
+MDAsCj4+PiArCS5jbG9jayA9IDEyNTQ5OCwKPj4+ICAgIAkuaGRpc3BsYXkgPSAxMDgwLAo+Pj4g
+ICAgCS5oc3luY19zdGFydCA9IDEwODAgKyAyLAo+Pj4gICAgCS5oc3luY19lbmQgPSAxMDgwICsg
+MiArIDIsCj4+PgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
