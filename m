@@ -1,68 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACCD2177104
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D9F177111
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 223EA6E9F6;
-	Tue,  3 Mar 2020 08:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7A996EA01;
+	Tue,  3 Mar 2020 08:24:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72BE16E4AF
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 03:37:48 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id h22so2084555qke.5
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 19:37:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ew0N9FJRwZlJbbn0yvtd0IVRnzNLNP0ZDU/5N/1+/Do=;
- b=qXE1PWqNfmbKe+i4550vCxA9kHHdqqyW+N6gntSu2k8T+Hdaz/T0tYMh+q9XExOZBN
- VU1TWUxScOrvpR+OnAlecqSffYsGVwDgpek1okjGLeuLK5QOcXbzgsJqVpPNiPAGzYhj
- 7VweaVzk4DuajwUd4rpNMCz9dw/pmqd0fT+hdNFRYQe46XeW04sn49Fcvbsk/6BU/iQV
- 45bGrzmz4XB0XyatI+1fPZzLnPg8flwEAe2Li5dHCwTWKnn/LGsXCtAZ6HSKrfOoXiFl
- tVIDn9928lHd/PsWZ+OD1LzG4WvcDCnkowP9ffPMTfqaoiMNCYn+8jrBMIb+qjRqaoVy
- ITRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ew0N9FJRwZlJbbn0yvtd0IVRnzNLNP0ZDU/5N/1+/Do=;
- b=FoPdQDeu27AQD6KznKo/Xu3vHKgxC0jAhBRs+FN+VEyPQctrrHOeCYnIF6HAeY7q/Y
- dAT7xHryiic8vcq3CmNb/BrPl9ZBAqyiFa4+eAYQt1dUgihvewAvO8SgzgweTBKF6RGI
- 08HrfKHKtoitjd7LFtSkTECtOr1GjWzc0eAEsurLn6HZxOUxgdI9nqeDiwtMlquKetKi
- eriXIj97eYXi1L2KD55V8RsGvf4CyNGz5ydwyGoS/WopBDIMK4XY5iFdCYtxox4QFP26
- H5zWBB0KtKT7aSZjMQpDUWqmFaBvYAjACuO8Dzy2mpOXnfZD+noglZ8QlhoH5QvJTemh
- 2Vww==
-X-Gm-Message-State: ANhLgQ2RrPJcSUYPnRrtYR5I0p01KynPcc2uSbY8BxNafNg18IqXNzio
- TbSyfHdGJywF2OCRxD0JSpYgwcWNwZs=
-X-Google-Smtp-Source: ADFU+vuiZRbRRiM0qVJR/tANpoejVwBPDD3zquQlE+h7xdCgcHNBrnRsjGNGVdQa3SrjOmwj9ReHYA==
-X-Received: by 2002:a05:620a:1092:: with SMTP id
- g18mr2334846qkk.80.1583206667595; 
- Mon, 02 Mar 2020 19:37:47 -0800 (PST)
-Received: from [192.168.0.189] ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id 127sm4665357qkj.97.2020.03.02.19.37.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2020 19:37:47 -0800 (PST)
-Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
-From: Jonathan Marek <jonathan@marek.ca>
-To: Brian Masney <masneyb@onstation.org>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-34-ville.syrjala@linux.intel.com>
- <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
- <20200303031335.GA7208@onstation.org>
- <8f47109f-796e-8cd5-d05e-8cdf2d0665ed@marek.ca>
-Message-ID: <836f8308-b648-52ff-aa71-448ff0130931@marek.ca>
-Date: Mon, 2 Mar 2020 22:36:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <8f47109f-796e-8cd5-d05e-8cdf2d0665ed@marek.ca>
-Content-Language: en-US
+Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5302::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 105BA6E4D0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 07:22:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583220128;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=/FFJp29E0bM3pvHTu+JTqNaYJ7aZHkmiAWb7IBx82t4=;
+ b=AsAdX+CKlJ05lU2xXrShBhKzmd+REPVzOEfbwXff1bgBxLHCeGXzouKLT6pa7bW29p
+ 6yEyZpXw+i5RpXWupyxGwyfUD0q/lSa5luESvICn+skF6XzIz9tBGJvbGeE5YIGujy2r
+ UIt83oiBtJwa+mvIxZ6WeRb5lCySZoLjBvOxxsuGkwBGfgiP8XB6Ab3IxzunHT+glnJy
+ qcodMdwR4CyQLotyoiF6A7tEBUb0XEk/1Us9vCVjnElaJFCOjjv5I/OXqlJn2zgHqZ5o
+ 40SAyXOvORLQh24gYS0HcvHB8E9Vdbsa2TcEiKDUVRgms3/MS1Y15Vagw/sMTz1RN3ut
+ 7N7g==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGHPrpwDGvxw=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
+ with ESMTPSA id y0a02cw237LkFyR
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Tue, 3 Mar 2020 08:21:46 +0100 (CET)
+Subject: Re: [RFC v2 1/8] dt-bindings: display: add ingenic-jz4780-lcd DT
+ Schema
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <1583176247.3.2@crapouillou.net>
+Date: Tue, 3 Mar 2020 08:21:37 +0100
+Message-Id: <12E78333-0940-4F20-863E-91272C477B58@goldelico.com>
+References: <cover.1582913973.git.hns@goldelico.com>
+ <b4a73a1c542fab9d05d12b56c547b555b6a9b062.1582913973.git.hns@goldelico.com>
+ <1583176247.3.2@crapouillou.net>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,70 +57,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-mips@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Andi Kleen <ak@linux.intel.com>,
+ Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW5vdGhlciB0aGluZzogZGlkIHlvdSB2ZXJpZnkgdGhhdCB0aGUgcGFuZWwgc3RpbGwgcnVucyBh
-dCA2MGh6IChhbmQgbm90IApkcm9wcGluZyBmcmFtZXMgdG8gMzBoeik/IElJUkMgdGhhdCB3YXMg
-dGhlIGJlaGF2aW9yIHdpdGggbG93ZXIgY2xvY2suCgpPbiAzLzIvMjAgMTA6MjggUE0sIEpvbmF0
-aGFuIE1hcmVrIHdyb3RlOgo+IAo+IE9uIDMvMi8yMCAxMDoxMyBQTSwgQnJpYW4gTWFzbmV5IHdy
-b3RlOgo+PiBPbiBNb24sIE1hciAwMiwgMjAyMCBhdCAwMzo0ODoyMlBNIC0wNTAwLCBKb25hdGhh
-biBNYXJlayB3cm90ZToKPj4+IEhpLAo+Pj4KPj4+IFRoaXMgaXMgYSBjb21tYW5kIG1vZGUgcGFu
-ZWwgYW5kIHRoZSB0aGUgbXNtL21kcDUgZHJpdmVyIHVzZXMgdGhlIAo+Pj4gdnJlZnJlc2gKPj4+
-IGZpZWxkIGZvciB0aGUgYWN0dWFsIHJlZnJlc2ggcmF0ZSwgd2hpbGUgdGhlIGRvdGNsb2NrIGZp
-ZWxkIGlzIHVzZWQgCj4+PiBmb3IgdGhlCj4+PiBEU0kgY2xvY2tzLiBUaGUgZG90Y2xvY2sgbmVl
-ZGVkIHRvIGJlIGEgYml0IGhpZ2hlciB0aGFuIG5lY2Vzc2FyeSAKPj4+IG90aGVyd2lzZQo+Pj4g
-dGhlIHBhbmVsIHdvdWxkIG5vdCB3b3JrLgo+Pj4KPj4+IElmIHlvdSB3YW50IHRvIGdldCByaWQg
-b2YgdGhlIHNlcGFyYXRlIGNsb2NrL3ZyZWZyZXNoIGZpZWxkcyB0aGVyZSB3b3VsZAo+Pj4gbmVl
-ZCB0byBiZSBzb21lIGNoYW5nZXMgdG8gbXNtIGRyaXZlci4KPj4+Cj4+PiAobm90ZSBJIGhhZG4n
-dCBtYWRlIHRoZSBwYXRjaCB3aXRoIHVwc3RyZWFtaW5nIGluIG1pbmQsIHRoZSAxNTAwMDAgCj4+
-PiB2YWx1ZSBpcwo+Pj4gbGlrZWx5IG5vdCBvcHRpbWFsLCBqdXN0IHNvbWV0aGluZyB0aGF0IHdv
-cmtlZCwgdGhpcyBpcyBzb21ldGhpbmcgdGhhdAo+Pj4gc2hvdWxkIGhhdmUgYmVlbiBjaGVja2Vk
-IHdpdGggdGhlIGRvd25zdHJlYW0gZHJpdmVyKQo+Pgo+PiBJcyB0aGlzIHRoZSByaWdodCBjbG9j
-ayBmcmVxdWVuY3kgaW4gdGhlIGRvd25zdHJlYW0gTVNNIDMuNCBrZXJuZWwgdGhhdAo+PiB5b3Un
-cmUgdGFsa2luZyBhYm91dD8KPj4KPj4gaHR0cHM6Ly9naXRodWIuY29tL0FJQ1Ava2VybmVsX2xn
-ZV9oYW1tZXJoZWFkL2Jsb2IvbjcuMS9hcmNoL2FybS9tYWNoLW1zbS9jbG9jay04OTc0LmMjTDMz
-MjYgCj4+Cj4+Cj4gCj4gTm8sIEknbSB0YWxraW5nIGFib3V0IHRoZSBEU0kgY2xvY2sgKHRoZSBk
-cml2ZXIgZm9yIGl0IGlzIGluIAo+IGRybS9tc20vZHNpLykuIEZvciBhIGNvbW1hbmQgbW9kZSBw
-YW5lbCB0aGUgZnJvbnQvYmFjayBwb3JjaGVzIGFyZW4ndCAKPiByZWxldmFudCwgYnV0IHRoZSBk
-c2kgcGl4ZWwvYnl0ZSBjbG9jayBuZWVkIHRvIGJlIGEgYml0IGhpZ2hlciB0aGFuIAo+IDE5MjB4
-MTA4MHg2MC4gU2luY2UgMTI1NDk4IGlzIGEgbGl0dGxlIGhpZ2hlciB0aGFuIDEyNDQxNiB0aGF0
-IG1pZ2h0IGJlIAo+IGVub3VnaCAodGhlcmUgaXMgYWxzbyByb3VuZGluZyBvZiB0aGUgY2xvY2sg
-dmFsdWVzIHRvIGNvbnNpZGVyKS4KPiAKPj4gSSBkb24ndCBzZWUgYW55IG9idmlvdXMgY2xvY2sg
-dmFsdWVzIGluIHRoZSBkb3duc3RyZWFtIGNvbW1hbmQgbW9kZQo+PiBwYW5lbCBjb25maWd1cmF0
-aW9uOgo+Pgo+PiBodHRwczovL2dpdGh1Yi5jb20vQUlDUC9rZXJuZWxfbGdlX2hhbW1lcmhlYWQv
-YmxvYi9uNy4xL2FyY2gvYXJtL2Jvb3QvZHRzL21zbTg5NzQtaGFtbWVyaGVhZC9tc204OTc0LWhh
-bW1lcmhlYWQtcGFuZWwuZHRzaSNMNTkxIAo+Pgo+Pgo+PiBBbnl3YXlzLCBJIHRyaWVkIFZpbGxl
-J3MgcGF0Y2ggd2l0aCB0aGUgZnJhbWVidWZmZXIsIGttc2N1YmUsIGFuZCBYMTEKPj4gYW5kIGV2
-ZXJ5dGhpbmcgYXBwZWFycyB0byBiZSB3b3JraW5nIGZpbmUuIFlvdSBjYW4gYWRkIG15IFRlc3Rl
-ZC1ieSBpZgo+PiB5b3UgZW5kIHVwIGFwcGx5aW5nIHRoaXMuCj4+Cj4+IFRlc3RlZC1ieTogQnJp
-YW4gTWFzbmV5IDxtYXNuZXliQG9uc3RhdGlvbi5vcmc+Cj4+Cj4+IEJyaWFuCj4+Cj4+Cj4+PiBP
-biAzLzIvMjAgMzozNCBQTSwgVmlsbGUgU3lyamFsYSB3cm90ZToKPj4+PiBGcm9tOiBWaWxsZSBT
-eXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Pj4+Cj4+Pj4gVGhlIGN1
-cnJlbnRseSBsaXN0ZWQgZG90Y2xvY2sgZGlzYWdyZWVzIHdpdGggdGhlIGN1cnJlbnRseQo+Pj4+
-IGxpc3RlZCB2cmVmcmVzaCByYXRlLiBDaGFuZ2UgdGhlIGRvdGNsb2NrIHRvIG1hdGNoIHRoZSB2
-cmVmcmVzaC4KPj4+Pgo+Pj4+IFNvbWVvbmUgdGVsbCBtZSB3aGljaCAoaWYgZWl0aGVyKSBvZiB0
-aGUgZG90Y2xvY2sgb3IgdnJlcmVzaCBpcwo+Pj4+IGNvcnJlY3Q/Cj4+Pj4KPj4+PiBDYzogSm9u
-YXRoYW4gTWFyZWsgPGpvbmF0aGFuQG1hcmVrLmNhPgo+Pj4+IENjOiBCcmlhbiBNYXNuZXkgPG1h
-c25leWJAb25zdGF0aW9uLm9yZz4KPj4+PiBDYzogTGludXMgV2FsbGVpaiA8bGludXMud2FsbGVp
-akBsaW5hcm8ub3JnPgo+Pj4+IFNpZ25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUu
-c3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4+Pj4gLS0tCj4+Pj4gwqDCoCBkcml2ZXJzL2dwdS9k
-cm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMgfCAyICstCj4+Pj4gwqDCoCAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMgCj4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0v
-cGFuZWwvcGFuZWwtc2ltcGxlLmMKPj4+PiBpbmRleCBiMjRmZGYyMzk0NDAuLmY5NThkOGRmZDc2
-MCAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMK
-Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKPj4+PiBAQCAt
-Mzk5Niw3ICszOTk2LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwYW5lbF9kZXNjX2RzaSAKPj4+
-PiBwYW5hc29uaWNfdnZ4MTBmMDA0YjAwID0gewo+Pj4+IMKgwqAgfTsKPj4+PiDCoMKgIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBsZ19hY3g0Njdha21fN19tb2RlID0gewo+
-Pj4+IC3CoMKgwqAgLmNsb2NrID0gMTUwMDAwLAo+Pj4+ICvCoMKgwqAgLmNsb2NrID0gMTI1NDk4
-LAo+Pj4+IMKgwqDCoMKgwqDCoCAuaGRpc3BsYXkgPSAxMDgwLAo+Pj4+IMKgwqDCoMKgwqDCoCAu
-aHN5bmNfc3RhcnQgPSAxMDgwICsgMiwKPj4+PiDCoMKgwqDCoMKgwqAgLmhzeW5jX2VuZCA9IDEw
-ODAgKyAyICsgMiwKPj4+PgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+Hi Paul,
+
+> Am 02.03.2020 um 20:10 schrieb Paul Cercueil <paul@crapouillou.net>:
+> =
+
+> Hi Nikolaus,
+> =
+
+> =
+
+> Le ven., f=E9vr. 28, 2020 at 19:19, H. Nikolaus Schaller <hns@goldelico.c=
+om> a =E9crit :
+>> From: Sam Ravnborg <sam@ravnborg.org>
+>> Add DT bindings for the LCD controller on the jz4780 SoC
+>> Based on .txt binding from Zubair Lutfullah Kakakhel
+> =
+
+> If you mean Documentation/devicetree/bindings/display/ingenic,lcd.txt the=
+n it was written by me.
+
+Ah, ok. We didn't recognise this before. 6 eyes see more than 4...
+
+I just did cherry-pick this old 4.0 patch from 2015 by Zubair
+and it created a ingenic-jz4780-lcd.txt:
+
+https://lore.kernel.org/patchwork/patch/547872/
+
+and Sam was so kind to convert it to yaml.
+
+> =
+
+>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+>> Cc: H. Nikolaus Schaller <hns@goldelico.com>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: devicetree@vger.kernel.org
+>> ---
+>> .../bindings/display/ingenic-jz4780-lcd.yaml  | 78 +++++++++++++++++++
+>> 1 file changed, 78 insertions(+)
+>> create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4=
+780-lcd.yaml
+>> diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-lc=
+d.yaml b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
+>> new file mode 100644
+>> index 000000000000..c71415a3a342
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
+>> @@ -0,0 +1,78 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/ingenic-jz4780-lcd.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Bindings for Ingenic JZ4780 LCD Controller
+>> +
+>> +maintainers:
+>> +  - Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+>> +  - H. Nikolaus Schaller <hns@goldelico.com>
+> =
+
+> I'm the author of the driver, please put me here; and remove Zubair, whic=
+h 1. didn't touch the DRM driver at all, and 2. isn't working at ImgTec any=
+more.
+
+Yes that is true.
+
+> Also, no need to put yourself here, unless you maintain the Ingenic DRM/K=
+MS driver.
+
+Agreed. That was suggested by Sam.
+
+> =
+
+>> +
+>> +description: |
+>> +  LCD Controller is the Display Controller for the Ingenic JZ4780 SoC
+>> +
+>> +properties:
+> =
+
+> You should add a '$nodename' property.
+> =
+
+>> +  compatible:
+>> +    items:
+>> +      - const: ingenic,jz4780-lcd
+> =
+
+> The .txt lists more compatible strings. Please add them all.
+> =
+
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +    description: the address & size of the LCD controller registers
+> =
+
+> Drop the description here,
+> =
+
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +    description: Specifies the interrupt provided by parent
+> =
+
+> and here.
+> =
+
+>> +
+>> +  clocks:
+>> +    maxItems: 2
+>> +    description: Clock specifiers for the JZ4780_CLK_TVE JZ4780_CLK_LCD=
+0PIXCLK
+> =
+
+> Add one 'description:' per item.
+> =
+
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: lcd_clk
+>> +      - const: lcd_pixclk
+>> +
+>> +  port:
+>> +    type: object
+>> +    description: |
+>> +      A port node with endpoint definitions as defined in
+>> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+>> +
+>> +required:
+>> +    - compatible
+>> +    - reg
+>> +    - interrupts
+>> +    - clocks
+>> +    - clock-names
+>> +    - port
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/jz4780-cgu.h>
+>> +    lcd: jz4780-lcdk@0x13050000 {
+> =
+
+> The node name does not comply with the DT spec, it should be 'lcd-control=
+ler'.
+
+Ok, I think I'll review all so that it does match/replace
+Documentation/devicetree/bindings/display/ingenic,lcd.txt
+and no information is lost.
+ =
+
+> =
+
+> Cheers,
+> -Paul
+
+BR and thanks,
+Nikolaus
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
