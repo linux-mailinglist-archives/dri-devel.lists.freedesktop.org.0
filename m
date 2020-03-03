@@ -1,53 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AA1178519
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 22:53:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA9F178597
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 23:26:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32B656E95D;
-	Tue,  3 Mar 2020 21:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7104B88FC8;
+	Tue,  3 Mar 2020 22:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 114446E59F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 21:53:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583272421;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PpaQSlL5pSAj9nf+y2H0OTdGptVUNf4Y09OND/PZJgQ=;
- b=PnpxF63tetoun825dXcG/S97q/Ct6T2+r6NbjpcodfwgoEZHX3BCJcgkDZpNVZpm2/3aJx
- GvF9ohVW8WRuDIxQntwbe82VLIYCEsFPUlHcyg1SYfqW+K3CaEuUfwsLkw+RZgp+r3iZ3D
- 2Dzseg3pM5Drj59+pi/KtaoQNjJTY6g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-n0yLHLsSPEGQq_jTByIryA-1; Tue, 03 Mar 2020 16:53:37 -0500
-X-MC-Unique: n0yLHLsSPEGQq_jTByIryA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8C9B8010EA;
- Tue,  3 Mar 2020 21:53:34 +0000 (UTC)
-Received: from Ruby.bss.redhat.com (dhcp-10-20-1-196.bss.redhat.com
- [10.20.1.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CA935C1D6;
- Tue,  3 Mar 2020 21:53:29 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3] drm/i915: Force DPCD backlight mode on X1 Extreme 2nd Gen
- 4K AMOLED panel
-Date: Tue,  3 Mar 2020 16:53:18 -0500
-Message-Id: <20200303215320.93491-1-lyude@redhat.com>
-In-Reply-To: <20200211183358.157448-3-lyude@redhat.com>
-References: <20200211183358.157448-3-lyude@redhat.com>
+X-Greylist: delayed 1433 seconds by postgrey-1.36 at gabe;
+ Tue, 03 Mar 2020 22:25:57 UTC
+Received: from gateway23.websitewelcome.com (gateway23.websitewelcome.com
+ [192.185.49.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41BB7890F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 22:25:57 +0000 (UTC)
+Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
+ by gateway23.websitewelcome.com (Postfix) with ESMTP id 4B22164C97
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 16:02:03 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id 9Fc3jqoW6XVkQ9Fc3jAu4J; Tue, 03 Mar 2020 16:02:03 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+ Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Ov8U0/V3EL/OzxBcysm37ohdrH/vifyJsx+ocJmx8J0=; b=QDxMwgoNK7dQfmEmgjrj67RHGN
+ KUJ6y4wrfcxBIYLAqMLTwTlVBO6e0kZCuWOYBfXDnIzPDcEHdyA6SAstcJbyKb5p9KDjwq/nHOf6F
+ hmZwFD6W7wNGH5c3UwjLmvXxdcS3LNV6oBvmvBOBkO8FYQJgYEvJrUuuLdGx2Nqoh8fzGBh3aEEdW
+ 7laQex2xlTopGAoEGzT35LvvMpREl8ispVH0YLsEswxx7tVFWSvOixDrvlCDWBUEWr/TYMhb5vGdP
+ suhga6py/O/LfVsYySMTpW5RJf6zFW1pcsCAyo3AYzauuSe3syZbVbTZ29ZhNxT7t7S9bh1uS+mU3
+ PqZF287w==;
+Received: from [201.162.240.151] (port=26880 helo=embeddedor)
+ by gator4166.hostgator.com with esmtpa (Exim 4.92)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1j9Fbz-00118U-IR; Tue, 03 Mar 2020 16:02:00 -0600
+Date: Tue, 3 Mar 2020 16:05:03 -0600
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH][next] drm/i915: Replace zero-length array with
+ flexible-array member
+Message-ID: <20200303220503.GA2663@embeddedor>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.162.240.151
+X-Source-L: No
+X-Exim-ID: 1j9Fbz-00118U-IR
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [201.162.240.151]:26880
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 7
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,149 +79,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Lee Shawn C <shawn.c.lee@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The X1 Extreme is one of the systems that lies about which backlight
-interface that it uses in its VBIOS as PWM backlight controls don't work
-at all on this machine. It's possible that this panel could be one of
-the infamous ones that can switch between PWM mode and DPCD backlight
-control mode, but we haven't gotten any more details on this from Lenovo
-just yet. For the time being though, making sure the backlight 'just
-works' is a bit more important.
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-So, add a quirk to force DPCD backlight controls on for these systems
-based on EDID (since this panel doesn't appear to fill in the device ID).
-Hopefully in the future we'll figure out a better way of probing this.
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-Changes since v2:
-* The bugzilla URL is deprecated, bug reporting happens on gitlab now.
-  Update the messages we print to reflect this
-* Also, take the opportunity to move FDO_BUG_URL out of i915_utils.c and
-  into i915_utils.h so that other places which print things that aren't
-  traditional errors but are worth filing bugs about, can actually use
-  it.
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Adam Jackson <ajax@redhat.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
+
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c               |  4 ++++
- .../drm/i915/display/intel_dp_aux_backlight.c | 24 +++++++++++++++----
- drivers/gpu/drm/i915/i915_utils.c             |  1 -
- drivers/gpu/drm/i915/i915_utils.h             |  2 ++
- include/drm/drm_dp_helper.h                   | 10 ++++++++
- 5 files changed, 36 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/display/intel_vbt_defs.h | 4 ++--
+ drivers/gpu/drm/i915/gt/intel_lrc.c           | 2 +-
+ drivers/gpu/drm/i915/i915_gpu_error.h         | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 7be712c67aae..671f4d3968fc 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1295,6 +1295,10 @@ struct edid_quirk {
-  * DP quirks in such cases.
-  */
- static const struct edid_quirk edid_quirk_list[] = {
-+	/* Optional 4K AMOLED panel in the ThinkPad X1 Extreme 2nd Generation
-+	 * only supports DPCD backlight controls
-+	 */
-+	{ MFG(0x4c, 0x83), PROD_ID(0x41, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
- };
- 
- #undef MFG
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index 48276237b362..3e706bb850a8 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -328,15 +328,31 @@ intel_dp_aux_display_control_capable(struct intel_connector *connector)
- int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
- {
- 	struct intel_panel *panel = &intel_connector->panel;
--	struct drm_i915_private *dev_priv = to_i915(intel_connector->base.dev);
-+	struct intel_dp *intel_dp = enc_to_intel_dp(intel_connector->encoder);
-+	struct drm_device *dev = intel_connector->base.dev;
-+	struct drm_i915_private *dev_priv = to_i915(dev);
- 
- 	if (i915_modparams.enable_dpcd_backlight == 0 ||
--	    (i915_modparams.enable_dpcd_backlight == -1 &&
--	    dev_priv->vbt.backlight.type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE))
-+	    !intel_dp_aux_display_control_capable(intel_connector))
- 		return -ENODEV;
- 
--	if (!intel_dp_aux_display_control_capable(intel_connector))
-+	/*
-+	 * There are a lot of machines that don't advertise the backlight
-+	 * control interface to use properly in their VBIOS, :\
-+	 */
-+	if (dev_priv->vbt.backlight.type !=
-+	    INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE &&
-+	    !drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
-+			      DP_QUIRK_FORCE_DPCD_BACKLIGHT)) {
-+		DRM_DEV_INFO(dev->dev,
-+			     "Panel advertises DPCD backlight support, but "
-+			     "VBT disagrees. If your backlight controls "
-+			     "don't work try booting with "
-+			     "i915.enable_dpcd_backlight=1. If your machine "
-+			     "needs this, please file a _new_ bug report on "
-+			     "drm/i915, see " FDO_BUG_URL " for details.\n");
- 		return -ENODEV;
-+	}
- 
- 	panel->backlight.setup = intel_dp_aux_setup_backlight;
- 	panel->backlight.enable = intel_dp_aux_enable_backlight;
-diff --git a/drivers/gpu/drm/i915/i915_utils.c b/drivers/gpu/drm/i915/i915_utils.c
-index 632d6953c78d..029854ae65fc 100644
---- a/drivers/gpu/drm/i915/i915_utils.c
-+++ b/drivers/gpu/drm/i915/i915_utils.c
-@@ -8,7 +8,6 @@
- #include "i915_drv.h"
- #include "i915_utils.h"
- 
--#define FDO_BUG_URL "https://gitlab.freedesktop.org/drm/intel/-/wikis/How-to-file-i915-bugs"
- #define FDO_BUG_MSG "Please file a bug on drm/i915; see " FDO_BUG_URL " for details."
- 
- void
-diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-index b0ade76bec90..cae0ae520398 100644
---- a/drivers/gpu/drm/i915/i915_utils.h
-+++ b/drivers/gpu/drm/i915/i915_utils.h
-@@ -34,6 +34,8 @@
- struct drm_i915_private;
- struct timer_list;
- 
-+#define FDO_BUG_URL "https://gitlab.freedesktop.org/drm/intel/-/wikis/How-to-file-i915-bugs"
-+
- #undef WARN_ON
- /* Many gcc seem to no see through this and fall over :( */
- #if 0
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index abb04650f210..c6119e4c169a 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1538,6 +1538,16 @@ enum drm_dp_quirk {
- 	 * The DSC caps can be read from the physical aux instead.
+diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+index 05c7cbe32eb4..aef7fe932d1a 100644
+--- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
++++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+@@ -462,7 +462,7 @@ struct bdb_general_definitions {
+ 	 * number = (block_size - sizeof(bdb_general_definitions))/
+ 	 *	     defs->child_dev_size;
  	 */
- 	DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD,
-+	/**
-+	 * @DP_QUIRK_FORCE_DPCD_BACKLIGHT:
-+	 *
-+	 * The device is telling the truth when it says that it uses DPCD
-+	 * backlight controls, even if the system's firmware disagrees. This
-+	 * quirk should be checked against both the ident and panel EDID.
-+	 * When present, the driver should honor the DPCD backlight
-+	 * capabilities advertised.
-+	 */
-+	DP_QUIRK_FORCE_DPCD_BACKLIGHT,
+-	u8 devices[0];
++	u8 devices[];
+ } __packed;
+ 
+ /*
+@@ -839,7 +839,7 @@ struct bdb_mipi_config {
+ 
+ struct bdb_mipi_sequence {
+ 	u8 version;
+-	u8 data[0]; /* up to 6 variable length blocks */
++	u8 data[]; /* up to 6 variable length blocks */
+ } __packed;
+ 
+ /*
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index b9b3f78f1324..a49ddda649b9 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -216,7 +216,7 @@ struct virtual_engine {
+ 
+ 	/* And finally, which physical engines this virtual engine maps onto. */
+ 	unsigned int num_siblings;
+-	struct intel_engine_cs *siblings[0];
++	struct intel_engine_cs *siblings[];
  };
  
- /**
+ static struct virtual_engine *to_virtual_engine(struct intel_engine_cs *engine)
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.h b/drivers/gpu/drm/i915/i915_gpu_error.h
+index 0d1f6c8ff355..5a6561f7a210 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.h
++++ b/drivers/gpu/drm/i915/i915_gpu_error.h
+@@ -42,7 +42,7 @@ struct i915_vma_coredump {
+ 	int num_pages;
+ 	int page_count;
+ 	int unused;
+-	u32 *pages[0];
++	u32 *pages[];
+ };
+ 
+ struct i915_request_coredump {
 -- 
-2.24.1
+2.25.0
 
 _______________________________________________
 dri-devel mailing list
