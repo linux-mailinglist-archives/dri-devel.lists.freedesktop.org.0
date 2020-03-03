@@ -1,36 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77646178BC9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3302F178BC3
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C279C6EABF;
-	Wed,  4 Mar 2020 07:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 888056EAD4;
+	Wed,  4 Mar 2020 07:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E97456E44C
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 18:47:17 +0000 (UTC)
-Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id 88C573A2E2F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 18:18:43 +0000 (UTC)
-Received: from xps13 (unknown [91.224.148.103])
- (Authenticated sender: miquel.raynal@bootlin.com)
- by relay12.mail.gandi.net (Postfix) with ESMTPSA id A38CA200006;
- Tue,  3 Mar 2020 18:18:17 +0000 (UTC)
-Date: Tue, 3 Mar 2020 19:18:16 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-Subject: Re: [PATCH 1/2] dt-bindings: gpu: mali-bifrost: Add Rockchip PX30
- compatible
-Message-ID: <20200303191816.11dbc313@xps13>
-In-Reply-To: <2766954.FXckbfHlGz@diego>
-References: <20200302155808.11273-1-miquel.raynal@bootlin.com>
- <2766954.FXckbfHlGz@diego>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C23D6E964
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 21:59:08 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id h8so2170699pgs.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 13:59:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ddapSUJt6ntLiYzzjDAEz3gG4fW9QkFbYIQvX7Nl4Wc=;
+ b=HvFSulAcRQ9FH1nMyqzV2UlBduKJxbKupcWDMN6FDg342qavq7XRv4+kauubRe7OTf
+ tpJHVbvlzT18i/r27rTEYINBnzpXMkhr1uHas5plyxkywdThRYkPbDsuMUaWbmR822aY
+ hSNDw3l5DDYqBaG51Km/QULhrlNGyRDPM/LKMOs1/mNfuTyNM66y+opv9NXbB62zcmAF
+ Ihu7ymArZ2+Jf1c9TA6FaFHstjgRfeCjxNdCKF5DN0IJS0o0Fm/85jn6TmD7BquCdDdk
+ MWPtVQnns4SH1MqLxMGFcngWwdrSDQkOUWeHmcBc2cnJd8Tpp/jqjsVIf6kwSBOUe4HR
+ ihZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ddapSUJt6ntLiYzzjDAEz3gG4fW9QkFbYIQvX7Nl4Wc=;
+ b=DtmMtZNpV0xE+t+tZ8B84Y7aOO0FE6XGSD2mRjq3N85Pc60/HWjNVqBbHs3XjMHCvX
+ ud6dPo3BSg4tRrydGad/fuEyWsTkrrjvQSxMPMglfjwPBM7AKJdtoZ/R2dmjC2uzjmtJ
+ dAPT5kUCqqzMi5iicKhpWkyjc3V7iE72sru1s2fH2T2xPydpk3VkhUqWhgu7E78Rbv6G
+ f2+8izdEiK3kQlokzvX1rF/S/qcuNdiseqk0E5SFlGDGMlUwHLpHJNYz0SAd/syPA7qr
+ 2csUTAA6GKppKJugz6a3+dDjI3FK4nWSQXZv87qKOlg1NVZjla5Tfyw7ccXcrLCs9kSn
+ dgEg==
+X-Gm-Message-State: ANhLgQ2EpO05sBr4n4G0M/P3z+M8b3+GWnLfHz75OloOkjFzFu3IZPkQ
+ ovNTzKX/jK+lpPrrRkVX/XCxr1F2z5166oxOzQu30A==
+X-Google-Smtp-Source: ADFU+vuSSO5ovOYN0PsHWrzzb/fJClDu5pNQ9UPGolmosCGXWuIMIFmAgxO6x7bG2Tpjw+xFGeX17CX9X2YpTRcLBuc=
+X-Received: by 2002:a63:4e22:: with SMTP id c34mr6056814pgb.263.1583272747246; 
+ Tue, 03 Mar 2020 13:59:07 -0800 (PST)
 MIME-Version: 1.0
+References: <20200302224217.22590-1-natechancellor@gmail.com>
+In-Reply-To: <20200302224217.22590-1-natechancellor@gmail.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Tue, 3 Mar 2020 13:58:56 -0800
+Message-ID: <CAKwvOdkaiU39xmtEheM=754sdGMTB-sP1GRGacpW4DGkdjugfw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Remove pointless NULL checks in
+ dmub_psr_copy_settings
+To: Nathan Chancellor <natechancellor@gmail.com>
 X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,30 +62,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlaWtvIFN0w7xibmVyIDxoZWlrb0BzbnRlY2guZGU+IHdyb3RlIG9uIE1vbiwgMDIgTWFyIDIw
-MjAgMTc6Mjk6MDIKKzAxMDA6Cgo+IEFtIE1vbnRhZywgMi4gTcOkcnogMjAyMCwgMTY6NTg6MDcg
-Q0VUIHNjaHJpZWIgTWlxdWVsIFJheW5hbDoKPiA+IFJvY2tjaGlwIFBYMzAgU29DcyBmZWF0dXJl
-IGEgQmlmcm9zdCBNYWxpIEdQVS4KPiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogTWlxdWVsIFJheW5h
-bCA8bWlxdWVsLnJheW5hbEBib290bGluLmNvbT4KPiA+IC0tLQo+ID4gIERvY3VtZW50YXRpb24v
-ZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvYXJtLG1hbGktYmlmcm9zdC55YW1sIHwgMSArICAKPiAK
-PiBhbHJlYWR5IGluIG1haW5saW5lIDstKQo+IAo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHVi
-L3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC9jb21taXQvP2lkPWFkODQ4
-ZGQ1MzM4NWI2MWYzYzJiOTRkMzQ2NmJmNzk5ZjMxMDM1YTcKPiAKPiAKCllvdSBzaG91bGQgcHJv
-YmFibHkgc2V0dXAgYW4gYXV0b21hdGljIGFuc3dlciA7KQoKSSBhZG1pdCB0aGF0IEkgd3JvdGUg
-dGhlc2UgcGF0Y2hlcyBzb21lIHRpbWUgYWdvIHdoZW4gaXQgd2FzIG5vdCBpbgptYWlubGluZSBh
-bmQgZGlkIG5vdCBjaGVjayBiZWZvcmUgc2VuZGluZyBpdCA6JAoKQ2hlZXJzLApNaXF1w6hsCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Mar 2, 2020 at 2:43 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> Clang warns:
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:147:31: warning:
+> address of 'pipe_ctx->plane_res' will always evaluate to 'true'
+> [-Wpointer-bool-conversion]
+>         if (!pipe_ctx || !&pipe_ctx->plane_res || !&pipe_ctx->stream_res)
+>                          ~ ~~~~~~~~~~^~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:147:56: warning:
+> address of 'pipe_ctx->stream_res' will always evaluate to 'true'
+> [-Wpointer-bool-conversion]
+>         if (!pipe_ctx || !&pipe_ctx->plane_res || !&pipe_ctx->stream_res)
+>                                                   ~ ~~~~~~~~~~^~~~~~~~~~
+> 2 warnings generated.
+>
+> As long as pipe_ctx is not NULL, the address of members in this struct
+> cannot be NULL, which means these checks will always evaluate to false.
+>
+> Fixes: 4c1a1335dfe0 ("drm/amd/display: Driverside changes to support PSR in DMCUB")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/915
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+
+Indeed, they are not pointers, and no members within `struct
+plane_resource` or `struct stream_resource` seem to indicate that they
+are somehow invalid.  Good job sleuthing out the correct fixes by tag.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+> ---
+>  drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+> index 2c932c29f1f9..a9e1c01e9d9b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+> @@ -144,7 +144,7 @@ static bool dmub_psr_copy_settings(struct dmub_psr *dmub,
+>                 }
+>         }
+>
+> -       if (!pipe_ctx || !&pipe_ctx->plane_res || !&pipe_ctx->stream_res)
+> +       if (!pipe_ctx)
+>                 return false;
+>
+>         // First, set the psr version
+> --
+> 2.25.1
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
