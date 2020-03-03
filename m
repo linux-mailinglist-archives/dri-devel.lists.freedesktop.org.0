@@ -1,69 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117C41770B2
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:04:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06DED1770E4
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:13:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F30126E9CF;
-	Tue,  3 Mar 2020 08:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 930266E9D4;
+	Tue,  3 Mar 2020 08:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71B636E9CF
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 08:04:35 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02383s6Z043529;
- Tue, 3 Mar 2020 08:04:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2020-01-29; bh=qO4CCvDH3LQqqaia42lNfgTGpB0rLmvxXhDjVASIaN0=;
- b=mq2+hICT6DlA5btf/qBrMOY4HOtf8sMTh48fkkm3jaUTwjGLCqb4d4ZXuwmqc9aUY/7a
- WiIpwwoTlPPsMfKQh8cqZQB+6xSbwSyd13Y8fMyoN2zfRKMnphxcBbivQaPh0jDA/i8N
- mytqRwMl99rP7Ea7NWmw462tyMiEnjDgtxzN8JjOi+twYhhcfuHXBDHKHH+dgujxl3lF
- OSkBCjsn5uWjKA4+MSqwwAsH22YkybiWbdUTOESpzFw9l3pKwd5M4efNia84QI4yIdh4
- GDExsu53vJ5wpUBqXCZqGqwmIocTkjMgFUCyjwnSO+fVLe3SLKkGTQX5eNBEJ1H6VW9U Kg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2yffcudb3x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Mar 2020 08:04:24 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0237v7uX017106;
- Tue, 3 Mar 2020 08:04:24 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 2yg1gwvhxp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Mar 2020 08:04:23 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02384IGF019279;
- Tue, 3 Mar 2020 08:04:19 GMT
-Received: from kadam (/129.205.23.165) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Mar 2020 00:04:17 -0800
-Date: Tue, 3 Mar 2020 11:04:06 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: kbuild@lists.01.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 03/51] drm: add managed resources tied to drm_device
-Message-ID: <20200303080406.GC24372@kadam>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D596E9D4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 08:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583223184;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pS2kujS6GdIL8pBalibfKZgXPCfASWGXYOeelvtWEBA=;
+ b=Dh/TMLK/TPVeI7E9v4bBtZK8K58EGXktIggS4Aej0V2bwl0jo9p6hnc7QuOMG5g822XmfK
+ LPSGdr3qonk7Gnb1eF5EUX8bMBr70y6PhtIwMWALuKWaxkxOdhbl7OEnprKUuyC44GRux4
+ 53Zu3DH4Me4TsdBpehW61YzieiPRAKM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-tSbED5ArOIO2yUkDzSnD2Q-1; Tue, 03 Mar 2020 03:13:00 -0500
+X-MC-Unique: tSbED5ArOIO2yUkDzSnD2Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DF3A8017CC;
+ Tue,  3 Mar 2020 08:12:59 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
+ [10.36.116.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 901AF5C1D6;
+ Tue,  3 Mar 2020 08:12:58 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7C7A617535; Tue,  3 Mar 2020 09:12:57 +0100 (CET)
+Date: Tue, 3 Mar 2020 09:12:57 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Subject: Re: [PATCH 2/2] [RFC] drm/virtgpu: modify uapi with
+ stride/layer_stride fix
+Message-ID: <20200303081257.hhmdskqa5joh627x@sirius.home.kraxel.org>
+References: <20191002014935.33171-1-gurchetansingh@chromium.org>
+ <20191002014935.33171-2-gurchetansingh@chromium.org>
+ <20191002084942.jnm6brnuadwztonh@sirius.home.kraxel.org>
+ <CAAfnVB=NBvsAsFX_iDuqfyS12jp=S=1kXDjvWr8-tFAaN5aEMQ@mail.gmail.com>
+ <CAPaKu7TwKx+0QCyu4orDD1fmEhsNSUn_ab7-QhQNsOyg3bzApQ@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAPaKu7TwKx+0QCyu4orDD1fmEhsNSUn_ab7-QhQNsOyg3bzApQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-In-Reply-To: <20200302222631.3861340-4-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9548
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003030061
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9548
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 bulkscore=0
- adultscore=0 suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0
- priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003030062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,68 +68,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Fri, Feb 28, 2020 at 01:01:49PM -0800, Chia-I Wu wrote:
+> On Wed, Oct 2, 2019 at 5:18 PM Gurchetan Singh
+> <gurchetansingh@chromium.org> wrote:
+> >
+> > On Wed, Oct 2, 2019 at 1:49 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > >
+> > > On Tue, Oct 01, 2019 at 06:49:35PM -0700, Gurchetan Singh wrote:
+> > > > This doesn't really break userspace, since it always passes down
+> > > > 0 for stride/layer_stride currently. We could:
+> > > >
+> > > > (1) modify UAPI now and add a VIRTGPU_PARAM_STRIDE_FIX feature
+> > >
+> > > This I think.
+> > > But IMO it's not a fix, it is an added feature ...
+> > >
+> > > Also missing the big picture here.  Why do we need this?
+> >
+> > Two reasons:
+> I don't fully get the picture, but drm_virtgpu_resource_create has
+> stride.  Can we send that down in transfers?
 
-I love your patch! Perhaps something to improve:
+It's unused and suddenly caring about it has a good chance to break
+stuff ...
 
-url:    https://github.com/0day-ci/linux/commits/Daniel-Vetter/drm_device-managed-resources-v4/20200303-071023
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+cheers,
+  Gerd
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/gpu/drm/drm_drv.c:843 drm_dev_release() error: dereferencing freed memory 'dev'
-
-# https://github.com/0day-ci/linux/commit/5aba700d4c32ae5722a9931c959b13a6217a86e2
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 5aba700d4c32ae5722a9931c959b13a6217a86e2
-vim +/dev +843 drivers/gpu/drm/drm_drv.c
-
-099d1c290e2ebc drivers/gpu/drm/drm_stub.c David Herrmann 2014-01-29  826  static void drm_dev_release(struct kref *ref)
-0dc8fe5985e01f drivers/gpu/drm/drm_stub.c David Herrmann 2013-10-02  827  {
-099d1c290e2ebc drivers/gpu/drm/drm_stub.c David Herrmann 2014-01-29  828  	struct drm_device *dev = container_of(ref, struct drm_device, ref);
-8f6599da8e772f drivers/gpu/drm/drm_stub.c David Herrmann 2013-10-20  829  
-f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  830  	if (dev->driver->release) {
-f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  831  		dev->driver->release(dev);
-f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  832  	} else {
-f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  833  		drm_dev_fini(dev);
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  834  	}
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  835  
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  836  	drm_managed_release(dev);
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  837  
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  838  	if (!dev->driver->release && !dev->managed.final_kfree) {
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  839  		WARN_ON(!list_empty(&dev->managed.resources));
-0dc8fe5985e01f drivers/gpu/drm/drm_stub.c David Herrmann 2013-10-02  840  		kfree(dev);
-                                                                                        ^^^^^^^^^^
-Free
-
-0dc8fe5985e01f drivers/gpu/drm/drm_stub.c David Herrmann 2013-10-02  841  	}
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  842  
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02 @843  	if (dev->managed.final_kfree)
-                                                                                    ^^^^^
-Dereference
-
-5aba700d4c32ae drivers/gpu/drm/drm_drv.c  Daniel Vetter  2020-03-02  844  		kfree(dev->managed.final_kfree);
-f30c92576af4bb drivers/gpu/drm/drm_drv.c  Chris Wilson   2017-02-02  845  }
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
