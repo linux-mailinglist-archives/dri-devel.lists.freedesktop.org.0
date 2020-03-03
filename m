@@ -2,62 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D961776ED
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 14:25:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9938177750
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 14:38:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99D726E8CB;
-	Tue,  3 Mar 2020 13:25:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4231689E3F;
+	Tue,  3 Mar 2020 13:38:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EE66E8CB
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 13:25:53 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id h18so3446183ljl.13
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 05:25:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=LvhkOgXrb2OWkTpGBSsBoEw8KrqnEimtTkTstiOI43c=;
- b=hYJDMp6ZBiiCpZuyfa4Kz2PmSGYIgewTfo/Xg74GdOZeNH557gwFHz1Ux/J7L9VwW9
- tK2pqriZiq6Y8d0z5GrLxAqMTE93LoT6M4e4dUzy2YM5x1Yg/hc8f2UBdxBlOUMkNguF
- Lprsut29Afny2qKO6PdKwLtqt+TeOXttWQNubMom1wNcHQ7ufsr8VUc4a/7adBVh6/nt
- P62LLwNfZAXO68KuN9nEnxUnRcSYoQBH2Izt+1/PxAmi/44AATCGhflRAcWlXL4NaJv4
- qKYHN9AUT5zaoRcljLrUtX+VovwGVccxY6OU/XVzUpHQRnnOHQoPQHLGX1FMFCDmz3ae
- 3Uyg==
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+ [209.85.217.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADF2789E3F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 13:38:40 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id n27so2381033vsa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 05:38:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=LvhkOgXrb2OWkTpGBSsBoEw8KrqnEimtTkTstiOI43c=;
- b=NypIFoXQnd3NDn89MMKh7c0sOifD04DunY6NJfLyWuGNHQPhsv3zN/fW/XJjd4CzIw
- /Q7eqqDY1NT0ahHTCiGlcA4jSThLS8FRD69lML10FSg66LhDn1IEvDqFtQQ2VyILLMKe
- /QvOauMOh/6LvDQ4Luq6pNHuuBwldbm+krisyTmgYTLWZK3BBKNqgQ2CyyLG8ShVnl1x
- lOdB/Cn0LSDq3JzA1XJArp/ZeOUqPvPqmhNi2hsY+8CGWip4+ntZwYqYVr7Gh3X8pKvK
- Fl50XybUNrcxZWUqlpgQjUQanO84dLxLUiSwuva+a/nRxK50puzVdVngKGBRscXc6jyA
- 1LAg==
-X-Gm-Message-State: ANhLgQ1i38xIFB0XtL+GNZ1ehj4Mz6xEMGlKrjFRUOOVS92qjpNMJior
- ohvUc7noPs2LnuCP4Gr/RwM=
-X-Google-Smtp-Source: ADFU+vtPXg5XfV28+XzrSvE0RNfGX9/K/WgobUrhDLX7k3v3F4f7QxdZcQKIeJN8h74XuXLaZALphw==
-X-Received: by 2002:a2e:b8d0:: with SMTP id s16mr2334158ljp.32.1583241951651; 
- Tue, 03 Mar 2020 05:25:51 -0800 (PST)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id v15sm12066046lfg.51.2020.03.03.05.25.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2020 05:25:51 -0800 (PST)
-Date: Tue, 3 Mar 2020 15:25:41 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/4] drm/fourcc: Add modifier definitions for describing
- Amlogic Video Framebuffer Compression
-Message-ID: <20200303152541.68ab6f3d@eldfell.localdomain>
-In-Reply-To: <CAKMK7uFgQGrnEkXyac15Wz8Opg43RTa=5cX0nN5=E_omb8oY8Q@mail.gmail.com>
-References: <20200221090845.7397-1-narmstrong@baylibre.com>
- <20200221090845.7397-2-narmstrong@baylibre.com>
- <20200303121029.5532669d@eldfell.localdomain>
- <20200303105325.bn4sob6yrdf5mwrh@DESKTOP-E1NTVVP.localdomain>
- <CAKMK7uFgQGrnEkXyac15Wz8Opg43RTa=5cX0nN5=E_omb8oY8Q@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=o+VD8E80WVLhV1UG/W/79I95zQkxcn6a7J8ds5NOMKk=;
+ b=Radjq3/hlJFgG6RVzpNuNaRoY1LRBrios1p4H9QTru3S60gR5P2oGk9ADtjyGVBe5t
+ qCmYkRlCIxX6ZIrToFihU4PJFqLi7HMad9ZBprgpX89jAykigpXWAgFH/fVywgIClp0i
+ pgfjQNOTpzhJYerz0v/e54nBAxKa9ha5XJ+5SWBZtMnpMepK9h6bvfZKOTNvWNm1+lfC
+ +KLZgwKmm/EBrUUAtnxjBiemMnNE9Ng4huisDcAFi60Y9gT0GObs7f54qmN6Jg4ARSVf
+ OMKW+FvqPmzlCRbyN/Nj3CJEEqvaRcVlHedrOJozUi7JzGCfAbgXGWO/vpPXfIPBXx9w
+ As1A==
+X-Gm-Message-State: ANhLgQ1nTHdtuXJzB23rxEGeq4nHKV0it4/UCAbeOaC6y0SCPrx64VDO
+ aq5XD+3iriuHtmqUojzZAqf1rg3AFDgA+W47QbU=
+X-Google-Smtp-Source: ADFU+vtea+/vD6x9TdKNrEXJrb6YtR5FnDbd1eaUimYuSYV8P10g6WTIEev6xn6SNqaSMKcT7qovIozuIqr8FK552ko=
+X-Received: by 2002:a67:f412:: with SMTP id p18mr2382569vsn.207.1583242719598; 
+ Tue, 03 Mar 2020 05:38:39 -0800 (PST)
 MIME-Version: 1.0
+References: <1582623496-6094-1-git-send-email-rohit.visavalia@xilinx.com>
+ <BYAPR02MB40561FBCE7FCCF6ECAA96BF5B3EB0@BYAPR02MB4056.namprd02.prod.outlook.com>
+ <BYAPR02MB5382500BD847244DC731B454BCE40@BYAPR02MB5382.namprd02.prod.outlook.com>
+In-Reply-To: <BYAPR02MB5382500BD847244DC731B454BCE40@BYAPR02MB5382.namprd02.prod.outlook.com>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Tue, 3 Mar 2020 08:38:28 -0500
+Message-ID: <CAKb7UvgGAmuHC=CGGcZ9PV6Qxn=cEwBTuB10GqBT1GfbR0UvHA@mail.gmail.com>
+Subject: Re: [PATCH libdrm] modetest: call drmModeCrtcSetGamma() only if
+ add_property_optional returns true
+To: Devarsh Thakkar <DEVARSHT@xilinx.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,245 +54,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-amlogic@lists.infradead.org,
- nd <nd@arm.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============1929482490=="
+Cc: Ranganathan Sk <rsk@xilinx.com>, Dhaval Rajeshbhai Shah <dshah@xilinx.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Varunkumar Allagadapa <VARUNKUM@xilinx.com>,
+ Rohit Visavalia <RVISAVAL@xilinx.com>,
+ "emil.velikov@collabora.com" <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1929482490==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/CbiMmpJgoWAxyEnELUudiQH"; protocol="application/pgp-signature"
-
---Sig_/CbiMmpJgoWAxyEnELUudiQH
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 3 Mar 2020 12:37:16 +0100
-Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Tue, Mar 3, 2020 at 11:53 AM Brian Starkey <brian.starkey@arm.com> wro=
-te:
-> >
-> > Hi,
-> >
-> > On Tue, Mar 03, 2020 at 12:10:29PM +0200, Pekka Paalanen wrote: =20
-> > > On Fri, 21 Feb 2020 10:08:42 +0100
-> > > Neil Armstrong <narmstrong@baylibre.com> wrote:
-> > > =20
-> > > > Amlogic uses a proprietary lossless image compression protocol and =
-format
-> > > > for their hardware video codec accelerators, either video decoders =
-or
-> > > > video input encoders.
-> > > >
-> > > > It considerably reduces memory bandwidth while writing and reading
-> > > > frames in memory.
-> > > >
-> > > > The underlying storage is considered to be 3 components, 8bit or 10=
--bit
-> > > > per component, YCbCr 420, single plane :
-> > > > - DRM_FORMAT_YUV420_8BIT
-> > > > - DRM_FORMAT_YUV420_10BIT
-> > > >
-> > > > This modifier will be notably added to DMA-BUF frames imported from=
- the V4L2
-> > > > Amlogic VDEC decoder.
-> > > >
-> > > > At least two options are supported :
-> > > > - Scatter mode: the buffer is filled with a IOMMU scatter table ref=
-erring
-> > > >   to the encoder current memory layout. This mode if more efficient=
- in terms
-> > > >   of memory allocation but frames are not dumpable and only valid d=
-uring until
-> > > >   the buffer is freed and back in control of the encoder
-> > > > - Memory saving: when the pixel bpp is 8b, the size of the superblo=
-ck can
-> > > >   be reduced, thus saving memory.
-> > > >
-> > > > Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> > > > ---
-> > > >  include/uapi/drm/drm_fourcc.h | 56 +++++++++++++++++++++++++++++++=
-++++
-> > > >  1 file changed, 56 insertions(+)
-> > > >
-> > > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_f=
-ourcc.h
-> > > > index 8bc0b31597d8..8a6e87bacadb 100644
-> > > > --- a/include/uapi/drm/drm_fourcc.h
-> > > > +++ b/include/uapi/drm/drm_fourcc.h
-> > > > @@ -309,6 +309,7 @@ extern "C" {
-> > > >  #define DRM_FORMAT_MOD_VENDOR_BROADCOM 0x07
-> > > >  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
-> > > >  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
-> > > > +#define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
-> > > >
-> > > >  /* add more to the end as needed */
-> > > >
-> > > > @@ -804,6 +805,61 @@ extern "C" {
-> > > >   */
-> > > >  #define DRM_FORMAT_MOD_ALLWINNER_TILED fourcc_mod_code(ALLWINNER, =
-1)
-> > > >
-> > > > +/*
-> > > > + * Amlogic Video Framebuffer Compression modifiers
-> > > > + *
-> > > > + * Amlogic uses a proprietary lossless image compression protocol =
-and format
-> > > > + * for their hardware video codec accelerators, either video decod=
-ers or
-> > > > + * video input encoders.
-> > > > + *
-> > > > + * It considerably reduces memory bandwidth while writing and read=
-ing
-> > > > + * frames in memory.
-> > > > + * Implementation details may be platform and SoC specific, and sh=
-ared
-> > > > + * between the producer and the decoder on the same platform. =20
-> > >
-> > > Hi,
-> > >
-> > > after a lengthy IRC discussion on #dri-devel, this "may be platform a=
-nd
-> > > SoC specific" is a problem.
-> > >
-> > > It can be an issue in two ways:
-> > >
-> > > - If something in the data acts like a sub-modifier, then advertising
-> > >   support for one modifier does not really tell if the data layout is
-> > >   supported or not.
-> > >
-> > > - If you need to know the platform and/or SoC to be able to interpret
-> > >   the data, it means the modifier is ill-defined and cannot be used in
-> > >   inter-machine communication (e.g. Pipewire).
-> > > =20
-> >
-> > Playing devil's advocate, the comment sounds similar to
-> > I915_FORMAT_MOD_{X,Y}_TILED:
-> >
-> >  * This format is highly platforms specific and not useful for cross-dr=
-iver
-> >  * sharing. It exists since on a given platform it does uniquely identi=
-fy the
-> >  * layout in a simple way for i915-specific userspace. =20
->=20
-> Yeah which we regret now. We need to now roll out a new set of
-> modifiers for at least some of the differences in these on the
-> modern-ish chips (the old crap is pretty much lost cause anyway).
->=20
-> This was kinda a nasty hack to smooth things over since we have epic
-> amounts of userspace, but it's really not a great idea (and no one
-> else really has epic amounts of existing userspace that uses tiling
-> flags everywhere, this is all new code).
-> -Daniel
->=20
-> > Isn't the statement that this for sharing between producer and decoder
-> > _on the same platform_ a similar clause with the same effect?
-> >
-> > What advantage is there to exposing the gory details? For Arm AFBC
-> > it's necessary because IP on the SoC can be (likely to be) from
-> > different vendors with different capabilities.
-> >
-> > If this is only for talking between Amlogic IP on the same SoC, and
-> > those devices support all the same "flavours", I don't see what is
-> > gained by making userspace care about internals. =20
->=20
-> The trouble is if you mix&match IP cores, and one of them supports
-> flavours A, B, C and the other C, D, E. But all you have is a single
-> magic modifier for "whatever the flavour is that soc prefers". So
-> someone gets to stuff this in DT.
->=20
-> Also eventually, maybe, perhaps ARM does grow up into the
-> client/server space with add-on pcie graphics, and at least for client
-> you very often end up with integrated + add-in pcie gpu. At that point
-> you really can't have magic per-soc modifiers anymore.
-
-Hi,
-
-I also heard that Pipewire will copy buffers and modifiers verbatim
-from one machine to another when streaming across network, assuming
-that the same modifier means the same thing on all machines.[Citation neede=
-d]
-
-If that is something that must not be done with DRM modifiers, then
-please contact them and document that.
-
-
-Thanks,
-pq
-
-
-> If people get confused I'm happy to add a "WARNING: This was a dumb
-> idea for backwards compat with legacy code, no one with new stuff ever
-> repeat it" to the i915 modifers.
-> -Daniel
->=20
-> >
-> > Thanks,
-> > -Brian
-> > =20
-> > > Neil mentioned the data contains a "header" that further specifies
-> > > things, but there is no specification about the header itself.
-> > > Therefore I don't think we can even know if the header contains
-> > > something that acts like a sub-modifier or not.
-> > >
-> > > All this sounds like the modifier definitions here are not enough to
-> > > fully interpret the data. At the very least I would expect a reference
-> > > to a document explaining the "header", or even better, a kernel ReST
-> > > doc.
-> > >
-> > > I wonder if this is at all suitable as a DRM format modifier as is. I
-> > > have been assuming that a modifier together with all the usual FB
-> > > parameters should be enough to interpret the stored data, but in this
-> > > case I have doubt it actually is.
-> > >
-> > > I have no problem with proprietary data layouts as long as they are
-> > > fully specified.
-> > >
-> > > I do feel like I would not be able to write a software decoder for th=
-is
-> > > set of modifiers given the details below.
-> > >
-> > >
-> > > Thanks,
-> > > pq
-> > > =20
-
---Sig_/CbiMmpJgoWAxyEnELUudiQH
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl5eWtUACgkQI1/ltBGq
-qqeB2g/+MGx1BzpiVLYUgsdkyAdrgVpRKL5tjnoVHgr7PbXDFZwRniEXxSYQAUt1
-5jC/xpa95aN0nUZhZeGoHeMYzgEfXvUwCMcIvOEt4TcJgPeD4mp1bQI34cxFPpr1
-qMkFLhgtkcJKD9X1QcmNqIB9baP+DXQWFSB9ljrVw001TLswjaT3PQyIFOWzFHjg
-8XN6arfLYWYtL8Zz3wfrjN+yLMDGf06i6BquImC57KSSpwZpdIeQI81HdAi083Su
-+NQcgFedEwA0LWytGjUh+auTbTxQvpadRHhlLUY3reuOIId63VpfMKBmrkvFbvzk
-ziiLk9g+T+2N2Ioju3/ObIxNJIv/R5uQhyFCbsFsaYEcetXoe6HfUuehEtNOfYnP
-R73TXf27d6w4FUUzBuQUitYReFY2QdVxh6xxYi0pNrIj/HAu2OJWbv+Owe9ONoB3
-J1OTDBFPGE45LPqfGjkAoAvChT1Ma/C/AUrsHli0Vb6VlDre9jBc/EE3f14DKxUz
-qTnPE5xxpXq0Fun2vULFBEHNfAZd4GQ6B94TG6LBVSHF9TLj4G2hMy90On5E1x4z
-ehNZBCxBp0LuDXuuP9skuvXlLgKmnlAJKIKnuU11SNpRTUW9k5cq3158kI45rnhR
-8Z3hWCzgPo4hp74DCggpMLR7svN2h8I6IOGNtf66Dj2N63xz2gk=
-=QG9G
------END PGP SIGNATURE-----
-
---Sig_/CbiMmpJgoWAxyEnELUudiQH--
-
---===============1929482490==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1929482490==--
+UHJldHR5IHN1cmUgdGhlIGN1cnJlbnQgY29kZSBpcyByaWdodC4gSWYgdGhlIEdBTU1BX0xVVCBw
+cm9wZXJ0eSBjYW4ndApiZSBzZXQsIGl0IHRyaWVzIHRvIHNldCBnYW1tYSB0aGUgb2xkLWZhc2hp
+b25lZCB3YXkuCgpPbiBUdWUsIE1hciAzLCAyMDIwIGF0IDg6MTIgQU0gRGV2YXJzaCBUaGFra2Fy
+IDxERVZBUlNIVEB4aWxpbnguY29tPiB3cm90ZToKPgo+IEhpIFJvaGl0LAo+Cj4gVGhpcyBtYWtl
+cyBzZW5zZSB0byBtZSBhcyBnYW1tYSB3YXMgaW1wbGVtZW50ZWQgYXMgb3B0aW9uYWwgcHJvcGVy
+dHkuCj4gUmV2aWV3ZWQtQnk6ICJEZXZhcnNoIFRoYWtrYXIgPGRldmFyc2gudGhha2thckB4aWxp
+bnguY29tPiIKPgo+IEBlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbSwgQGltaXJraW5AYWx1bS5t
+aXQuZWR1LCBAVmlsbGUgU3lyasOkbMOkLCBDb3VsZCB5b3UgcGxlYXNlIGFjayBhbmQgaGVscCBt
+ZXJnZSB0aGlzIHBhdGNoIGlmIGl0IGFsc28gbG9vayBnb29kIHRvIHlvdSA/Cj4KPiBSZWdhcmRz
+LAo+IERldmFyc2gKPgo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPiA+IEZyb206IFJv
+aGl0IFZpc2F2YWxpYQo+ID4gU2VudDogMjcgRmVicnVhcnkgMjAyMCAwMDo0MAo+ID4gVG86IFJv
+aGl0IFZpc2F2YWxpYSA8UlZJU0FWQUxAeGlsaW54LmNvbT47IGRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmc7Cj4gPiBpbWlya2luQGFsdW0ubWl0LmVkdTsgZW1pbC52ZWxpa292QGNvbGxh
+Ym9yYS5jb20KPiA+IENjOiBIeXVuIEt3b24gPGh5dW5rQHhpbGlueC5jb20+OyBSYW5nYW5hdGhh
+biBTayA8cnNrQHhpbGlueC5jb20+OyBEaGF2YWwKPiA+IFJhamVzaGJoYWkgU2hhaCA8ZHNoYWhA
+eGlsaW54LmNvbT47IFZhcnVua3VtYXIgQWxsYWdhZGFwYQo+ID4gPFZBUlVOS1VNQHhpbGlueC5j
+b20+OyBEZXZhcnNoIFRoYWtrYXIgPERFVkFSU0hUQHhpbGlueC5jb20+Cj4gPiBTdWJqZWN0OiBS
+RTogW1BBVENIIGxpYmRybV0gbW9kZXRlc3Q6IGNhbGwgZHJtTW9kZUNydGNTZXRHYW1tYSgpIG9u
+bHkgaWYKPiA+IGFkZF9wcm9wZXJ0eV9vcHRpb25hbCByZXR1cm5zIHRydWUKPiA+Cj4gPiBHZW50
+bGUgcmVtaW5kZXIuCj4gPgo+ID4gKyBJbGlhIE1pcmtpbiwgK0VtaWwgVmVsaWtvdi4KPiA+Cj4g
+PiBUaGFua3MgJiBSZWdhcmRzLAo+ID4gUm9oaXQKPiA+Cj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVz
+c2FnZS0tLS0tCj4gPiA+IEZyb206IFJvaGl0IFZpc2F2YWxpYSBbbWFpbHRvOnJvaGl0LnZpc2F2
+YWxpYUB4aWxpbnguY29tXQo+ID4gPiBTZW50OiBUdWVzZGF5LCBGZWJydWFyeSAyNSwgMjAyMCAz
+OjA4IFBNCj4gPiA+IFRvOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiA+IENj
+OiBIeXVuIEt3b24gPGh5dW5rQHhpbGlueC5jb20+OyBSYW5nYW5hdGhhbiBTayA8cnNrQHhpbGlu
+eC5jb20+Owo+ID4gPiBEaGF2YWwgUmFqZXNoYmhhaSBTaGFoIDxkc2hhaEB4aWxpbnguY29tPjsg
+VmFydW5rdW1hciBBbGxhZ2FkYXBhCj4gPiA+IDxWQVJVTktVTUB4aWxpbnguY29tPjsgRGV2YXJz
+aCBUaGFra2FyIDxERVZBUlNIVEB4aWxpbnguY29tPjsgUm9oaXQKPiA+ID4gVmlzYXZhbGlhIDxS
+VklTQVZBTEB4aWxpbnguY29tPgo+ID4gPiBTdWJqZWN0OiBbUEFUQ0ggbGliZHJtXSBtb2RldGVz
+dDogY2FsbCBkcm1Nb2RlQ3J0Y1NldEdhbW1hKCkgb25seSBpZgo+ID4gPiBhZGRfcHJvcGVydHlf
+b3B0aW9uYWwgcmV0dXJucyB0cnVlCj4gPiA+Cj4gPiA+IGdhbW1hIGlzIGEgb3B0aW9uYWwgcHJv
+cGVydHkgdGhlbiBhbHNvIGl0IHByaW50cyBlcnJvciBtZXNzYWdlLCBzbyBzZXQKPiA+ID4gZ2Ft
+bWEgb25seSBpZiBhZGRfcHJvcGVydHlfb3B0aW9uYWwoKSByZXR1cm5zIHRydWUuCj4gPiA+Cj4g
+PiA+IFNpZ25lZC1vZmYtYnk6IFJvaGl0IFZpc2F2YWxpYSA8cm9oaXQudmlzYXZhbGlhQHhpbGlu
+eC5jb20+Cj4gPiA+IC0tLQo+ID4gPiAgdGVzdHMvbW9kZXRlc3QvbW9kZXRlc3QuYyB8IDIgKy0K
+PiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+ID4g
+Pgo+ID4gPiBkaWZmIC0tZ2l0IGEvdGVzdHMvbW9kZXRlc3QvbW9kZXRlc3QuYyBiL3Rlc3RzL21v
+ZGV0ZXN0L21vZGV0ZXN0LmMKPiA+ID4gaW5kZXggYjkwN2FiMy4uMzc5YjllYSAxMDA2NDQKPiA+
+ID4gLS0tIGEvdGVzdHMvbW9kZXRlc3QvbW9kZXRlc3QuYwo+ID4gPiArKysgYi90ZXN0cy9tb2Rl
+dGVzdC9tb2RldGVzdC5jCj4gPiA+IEBAIC0xMTM4LDcgKzExMzgsNyBAQCBzdGF0aWMgdm9pZCBz
+ZXRfZ2FtbWEoc3RydWN0IGRldmljZSAqZGV2LAo+ID4gPiB1bnNpZ25lZCBjcnRjX2lkLCB1bnNp
+Z25lZCBmb3VyY2MpCj4gPiA+Cj4gPiA+ICAgICBhZGRfcHJvcGVydHlfb3B0aW9uYWwoZGV2LCBj
+cnRjX2lkLCAiREVHQU1NQV9MVVQiLCAwKTsKPiA+ID4gICAgIGFkZF9wcm9wZXJ0eV9vcHRpb25h
+bChkZXYsIGNydGNfaWQsICJDVE0iLCAwKTsKPiA+ID4gLSAgIGlmICghYWRkX3Byb3BlcnR5X29w
+dGlvbmFsKGRldiwgY3J0Y19pZCwgIkdBTU1BX0xVVCIsIGJsb2JfaWQpKSB7Cj4gPiA+ICsgICBp
+ZiAoYWRkX3Byb3BlcnR5X29wdGlvbmFsKGRldiwgY3J0Y19pZCwgIkdBTU1BX0xVVCIsIGJsb2Jf
+aWQpKSB7Cj4gPiA+ICAgICAgICAgICAgIHVpbnQxNl90IHJbMjU2XSwgZ1syNTZdLCBiWzI1Nl07
+Cj4gPiA+Cj4gPiA+ICAgICAgICAgICAgIGZvciAoaSA9IDA7IGkgPCAyNTY7IGkrKykgewo+ID4g
+PiAtLQo+ID4gPiAyLjcuNAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
