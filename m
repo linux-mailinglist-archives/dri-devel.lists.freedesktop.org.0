@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D9F177111
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:24:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E462177126
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7A996EA01;
-	Tue,  3 Mar 2020 08:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C55F6EA1A;
+	Tue,  3 Mar 2020 08:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 105BA6E4D0
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 07:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583220128;
+ [IPv6:2a01:238:20a:202:5302::5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 515866E4D0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 07:23:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583220181;
  s=strato-dkim-0002; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=/FFJp29E0bM3pvHTu+JTqNaYJ7aZHkmiAWb7IBx82t4=;
- b=AsAdX+CKlJ05lU2xXrShBhKzmd+REPVzOEfbwXff1bgBxLHCeGXzouKLT6pa7bW29p
- 6yEyZpXw+i5RpXWupyxGwyfUD0q/lSa5luESvICn+skF6XzIz9tBGJvbGeE5YIGujy2r
- UIt83oiBtJwa+mvIxZ6WeRb5lCySZoLjBvOxxsuGkwBGfgiP8XB6Ab3IxzunHT+glnJy
- qcodMdwR4CyQLotyoiF6A7tEBUb0XEk/1Us9vCVjnElaJFCOjjv5I/OXqlJn2zgHqZ5o
- 40SAyXOvORLQh24gYS0HcvHB8E9Vdbsa2TcEiKDUVRgms3/MS1Y15Vagw/sMTz1RN3ut
- 7N7g==
+ bh=VukO5M6kbjrBruC22VkjNmvM3yOu++YWXVQgHeus7Ew=;
+ b=P3hLiAoEJsgX7g9TTbnhrV5muycRYVKH49MhWlV7L2o+JYCAYHsocZ88GDexCULBI8
+ PfWjxhfozsFHdxE0EU04bRfxtgCiUM7ZjU8yBjmrqp4wHldoyImVwu0wksqlGcyaUeSP
+ 4jIr8M4RJsvMJjNI1HSs+bxkg8xJVjCwfAW8RElkwPrTipVqZn/rhGNsKA82qXOPv9nn
+ 6E5uHKj2RENBCIORZv7adnPN4l2fm09LP+aPiGGBB1RuP9Xtjg18ch94f+lmcuttw4dt
+ n2wsFJrdKXhIKVYNRSu7lkXPzMVjXKWuNZysig5pP9BenStKMrHBY5uZAJr4uxvLw9Oa
+ j1yA==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGHPrpwDGvxw=="
 X-RZG-CLASS-ID: mo00
 Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw237LkFyR
+ with ESMTPSA id y0a02cw237MjFyf
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
  ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Tue, 3 Mar 2020 08:21:46 +0100 (CET)
-Subject: Re: [RFC v2 1/8] dt-bindings: display: add ingenic-jz4780-lcd DT
+ Tue, 3 Mar 2020 08:22:45 +0100 (CET)
+Subject: Re: [RFC v2 2/8] dt-bindings: display: add ingenic-jz4780-hdmi DT
  Schema
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <1583176247.3.2@crapouillou.net>
-Date: Tue, 3 Mar 2020 08:21:37 +0100
-Message-Id: <12E78333-0940-4F20-863E-91272C477B58@goldelico.com>
+From: H. Nikolaus Schaller <hns@goldelico.com>
+In-Reply-To: <1583176788.3.3@crapouillou.net>
+Date: Tue, 3 Mar 2020 08:22:45 +0100
+Message-Id: <E41B927B-A250-48F4-B0F8-851F23EADB24@goldelico.com>
 References: <cover.1582913973.git.hns@goldelico.com>
- <b4a73a1c542fab9d05d12b56c547b555b6a9b062.1582913973.git.hns@goldelico.com>
- <1583176247.3.2@crapouillou.net>
+ <0fb2f39437ea04fb4de889aac001b44f4b0a77e8.1582913973.git.hns@goldelico.com>
+ <1583176788.3.3@crapouillou.net>
 To: Paul Cercueil <paul@crapouillou.net>
 X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
@@ -77,9 +77,8 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
 
-> Am 02.03.2020 um 20:10 schrieb Paul Cercueil <paul@crapouillou.net>:
+> Am 02.03.2020 um 20:19 schrieb Paul Cercueil <paul@crapouillou.net>:
 > =
 
 > Hi Nikolaus,
@@ -90,94 +89,71 @@ Hi Paul,
 > Le ven., f=E9vr. 28, 2020 at 19:19, H. Nikolaus Schaller <hns@goldelico.c=
 om> a =E9crit :
 >> From: Sam Ravnborg <sam@ravnborg.org>
->> Add DT bindings for the LCD controller on the jz4780 SoC
+>> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
 >> Based on .txt binding from Zubair Lutfullah Kakakhel
-> =
-
-> If you mean Documentation/devicetree/bindings/display/ingenic,lcd.txt the=
-n it was written by me.
-
-Ah, ok. We didn't recognise this before. 6 eyes see more than 4...
-
-I just did cherry-pick this old 4.0 patch from 2015 by Zubair
-and it created a ingenic-jz4780-lcd.txt:
-
-https://lore.kernel.org/patchwork/patch/547872/
-
-and Sam was so kind to convert it to yaml.
-
-> =
-
 >> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 >> Cc: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 >> Cc: H. Nikolaus Schaller <hns@goldelico.com>
 >> Cc: Rob Herring <robh@kernel.org>
 >> Cc: devicetree@vger.kernel.org
 >> ---
->> .../bindings/display/ingenic-jz4780-lcd.yaml  | 78 +++++++++++++++++++
->> 1 file changed, 78 insertions(+)
+>> .../bindings/display/ingenic-jz4780-hdmi.yaml | 83 +++++++++++++++++++
+>> 1 file changed, 83 insertions(+)
 >> create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4=
-780-lcd.yaml
->> diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-lc=
-d.yaml b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
+780-hdmi.yaml
+>> diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-hd=
+mi.yaml b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
 >> new file mode 100644
->> index 000000000000..c71415a3a342
+>> index 000000000000..9b71c427bd69
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-lcd.yaml
->> @@ -0,0 +1,78 @@
+>> +++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+>> @@ -0,0 +1,83 @@
 >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 >> +%YAML 1.2
 >> +---
->> +$id: http://devicetree.org/schemas/display/ingenic-jz4780-lcd.yaml#
+>> +$id: http://devicetree.org/schemas/display/ingenic-jz4780-hdmi.yaml#
 >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
->> +title: Bindings for Ingenic JZ4780 LCD Controller
+>> +title: Bindings for Ingenic JZ4780 HDMI Transmitter
 >> +
 >> +maintainers:
 >> +  - Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 >> +  - H. Nikolaus Schaller <hns@goldelico.com>
 > =
 
-> I'm the author of the driver, please put me here; and remove Zubair, whic=
-h 1. didn't touch the DRM driver at all, and 2. isn't working at ImgTec any=
-more.
+> Did Zubair write this glue driver? He's been MIA for a while, doesn't wor=
+k at ImgTec anymore, and this email doesn't work.
 
-Yes that is true.
-
-> Also, no need to put yourself here, unless you maintain the Ingenic DRM/K=
-MS driver.
-
-Agreed. That was suggested by Sam.
+He did write the original .txt version of [RFC v1 2/8] and Sam simply added=
+ him.
 
 > =
 
 >> +
 >> +description: |
->> +  LCD Controller is the Display Controller for the Ingenic JZ4780 SoC
+>> +  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys DesignWare H=
+DMI 1.4
+>> +  TX controller IP with accompanying PHY IP.
+>> +
+>> +allOf:
+>> +  - $ref: panel/panel-common.yaml#
 >> +
 >> +properties:
-> =
-
-> You should add a '$nodename' property.
-> =
-
 >> +  compatible:
 >> +    items:
->> +      - const: ingenic,jz4780-lcd
-> =
-
-> The .txt lists more compatible strings. Please add them all.
-> =
-
+>> +      - const: ingenic,jz4780-hdmi
 >> +
 >> +  reg:
 >> +    maxItems: 1
 >> +    description: the address & size of the LCD controller registers
 > =
 
-> Drop the description here,
+> Remove the description here,
 > =
 
+>> +
+>> +  reg-io-width:
+>> +    const: 4
 >> +
 >> +  interrupts:
 >> +    maxItems: 1
@@ -187,56 +163,25 @@ Agreed. That was suggested by Sam.
 > and here.
 > =
 
+> The rule is that if there is only one "reg", "interrupts" or "clocks" ent=
+ry then a description is not needed as it's pretty obvious what it's for.
+> =
+
 >> +
 >> +  clocks:
 >> +    maxItems: 2
->> +    description: Clock specifiers for the JZ4780_CLK_TVE JZ4780_CLK_LCD=
-0PIXCLK
+>> +    description: Clock specifiers for isrf and iahb clocks
 > =
 
-> Add one 'description:' per item.
+> You need two 'description:' like this:
 > =
 
->> +
->> +  clock-names:
->> +    items:
->> +      - const: lcd_clk
->> +      - const: lcd_pixclk
->> +
->> +  port:
->> +    type: object
->> +    description: |
->> +      A port node with endpoint definitions as defined in
->> +      Documentation/devicetree/bindings/media/video-interfaces.txt
->> +
->> +required:
->> +    - compatible
->> +    - reg
->> +    - interrupts
->> +    - clocks
->> +    - clock-names
->> +    - port
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/jz4780-cgu.h>
->> +    lcd: jz4780-lcdk@0x13050000 {
-> =
+> clocks:
+> items:
+>   - description: ISRF clock
+>   - description: IAHB clock
 
-> The node name does not comply with the DT spec, it should be 'lcd-control=
-ler'.
-
-Ok, I think I'll review all so that it does match/replace
-Documentation/devicetree/bindings/display/ingenic,lcd.txt
-and no information is lost.
- =
-
-> =
-
-> Cheers,
-> -Paul
+Ok.
 
 BR and thanks,
 Nikolaus
