@@ -1,54 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC84177832
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 15:05:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B178B17789F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 15:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE4FE6E8CE;
-	Tue,  3 Mar 2020 14:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F8A489F8B;
+	Tue,  3 Mar 2020 14:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD3F06E8CE
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 14:05:25 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id c1so1665851oiy.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 06:05:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=0jbQGA6dYjSwP62J+F4COay7zaK+oh5Bs7zMzSTsHDA=;
- b=jTLXzPyrP60JclwropKp+JrhKdra4e7+HTthQIApooOtL91ONLd/wMOmaZ3HR/AA2Z
- ln/VUoH3SbXbGWupO5coAkO6naTNehWuBqgFtAo10b+Qtd/8DFgsMh55/Sa8Y7UMw47E
- rrQaKoZCK7VfJ3ZAiibq2cLHJsKrqjsIYYDuORSi9ClqFlQXIxJKJz7T8/vukmicvMZB
- K4EzGnEfDHTBpidMtd4U29NzjTXtceoYT8/DIR51Ha0eeT0gFZA10TF3k+IGVZtM7gcq
- PWS26DOemQ8MgUTstoPO8R0VBwX+XmFQDHqkHT4JRkTuz+veu4gQcHey8OakELuiH2NP
- P2iw==
-X-Gm-Message-State: ANhLgQ3fatz8R2ff9DOJEwvgvBlqtfL3pQfwOVt5FMuV0ceHNK4ceQOi
- B4wctKMMm8aNzT/8SVAJqA==
-X-Google-Smtp-Source: ADFU+vttXS1Py6bbTK9e5rZkoBNj2Je8lemdxTIY/n2cP/smJ3TW98j1PCb9hPEhtc/qkXNAeDeYJg==
-X-Received: by 2002:aca:be56:: with SMTP id o83mr2583399oif.25.1583244324891; 
- Tue, 03 Mar 2020 06:05:24 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id n19sm7672257oig.57.2020.03.03.06.05.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2020 06:05:23 -0800 (PST)
-Received: (nullmailer pid 20776 invoked by uid 1000);
- Tue, 03 Mar 2020 14:05:22 -0000
-Date: Tue, 3 Mar 2020 08:05:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-Subject: Re: [PATCH v4 01/13] dt-binding: gce: add gce header file for mt6779
-Message-ID: <20200303140522.GA20576@bogus>
-References: <1583233125-7827-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583233125-7827-2-git-send-email-dennis-yc.hsieh@mediatek.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7524189F8B;
+ Tue,  3 Mar 2020 14:18:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2020 06:18:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,511,1574150400"; d="scan'208";a="440572462"
+Received: from swatish2-mobl1.gar.corp.intel.com (HELO [10.66.115.214])
+ ([10.66.115.214])
+ by fmsmga006.fm.intel.com with ESMTP; 03 Mar 2020 06:18:39 -0800
+Subject: Re: [PATCH 02/12] drm/i915: Polish CHV .load_luts() a bit
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20191107151725.10507-1-ville.syrjala@linux.intel.com>
+ <20191107151725.10507-3-ville.syrjala@linux.intel.com>
+From: "Sharma, Swati2" <swati2.sharma@intel.com>
+Organization: Intel
+Message-ID: <47e35997-28b0-f21d-e1f8-fbcd3fab7eb5@intel.com>
+Date: Tue, 3 Mar 2020 19:48:38 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1583233125-7827-2-git-send-email-dennis-yc.hsieh@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191107151725.10507-3-ville.syrjala@linux.intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,40 +48,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- wsd_upstream@mediatek.com, David Airlie <airlied@linux.ie>,
- Jassi Brar <jassisinghbrar@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- linux-mediatek@lists.infradead.org, Houlong Wei <houlong.wei@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 3 Mar 2020 18:58:33 +0800, Dennis YC Hsieh wrote:
-> Add documentation for the mt6779 gce.
-> 
-> Add gce header file defined the gce hardware event,
-> subsys number and constant for mt6779.
-> 
-> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> ---
->  .../devicetree/bindings/mailbox/mtk-gce.txt   |   8 +-
->  include/dt-bindings/gce/mt6779-gce.h          | 222 ++++++++++++++++++
->  2 files changed, 227 insertions(+), 3 deletions(-)
->  create mode 100644 include/dt-bindings/gce/mt6779-gce.h
-> 
-
-Please add Acked-by/Reviewed-by tags when posting new versions. However,
-there's no need to repost patches *only* to add the tags. The upstream
-maintainer will do that for acks received on the version they apply.
-
-If a tag was not added on purpose, please state why and what changed.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgVmlsbGUsCkNhbiB5b3UgcGxlYXNlIHJlYmFzZSB0aGUgc2VyaWVzPyBUaGVyZSBhcmUgaW50
+ZWxfZGVfd3JpdGUoKQpjaGFuZ2VzIGluIGV4aXN0aW5nIGNvZGUuCgpPbiAwNy1Ob3YtMTkgODo0
+NyBQTSwgVmlsbGUgU3lyamFsYSB3cm90ZToKPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxl
+LnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IAo+IEl0IGlya3MgbWUgdG8gdXNlIGNydGNfc3Rh
+dGVfaXNfbGVnYWN5X2dhbW1hKCkgaW5zaWRlIHRoZSBndXRzCj4gb2YgdGhlIENIViBjb2xvciBt
+YW5hZ2VtZW50IGNvZGUuIExldCdzIGdldCByaWQgb2YgaXQgYW5kIGluc3RlYWQKPiBqdXN0IGNv
+bnN1bHQgY2dtX21vZGUgdG8gZmlndXJlIG91dCBpZiB3ZSB3YW50IHRvIGVuYWJsZSB0aGUgcGlw
+ZQo+IGdhbW1hIG9yIHRoZSBDR00gZ2FtbWEuCj4gCj4gQWxzbyBDSFYgZGlzcGxheSBlbmdpbmUg
+aXMgYmFzZWQgb24gaTk2NS9nNHggc28gd2Ugc2hvdWxkIGZhbGwgYmFjawo+IHRvIHRoZSBpOTY1
+IHBhdGggd2hlbiB0aGUgQ0dNIGdhbW1hIGlzIG5vdCB1c2VkLgo+IAo+IFNpZ25lZC1vZmYtYnk6
+IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gLS0tCj4g
+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2NvbG9yLmMgfCAxMSArKysrLS0t
+LS0tLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkK
+PiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jb2xv
+ci5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jb2xvci5jCj4gaW5kZXgg
+Mzk4MGU4YjUwYzI4Li5kOGVlOTBiNzc3NGEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZGlzcGxheS9pbnRlbF9jb2xvci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9pbnRlbF9jb2xvci5jCj4gQEAgLTk5NiwxNiArOTk2LDEzIEBAIHN0YXRpYyB2b2lk
+IGNodl9sb2FkX2x1dHMoY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUp
+Cj4gICAKPiAgIAljaGVycnl2aWV3X2xvYWRfY3NjX21hdHJpeChjcnRjX3N0YXRlKTsKPiAgIAo+
+IC0JaWYgKGNydGNfc3RhdGVfaXNfbGVnYWN5X2dhbW1hKGNydGNfc3RhdGUpKSB7Cj4gLQkJaTl4
+eF9sb2FkX2x1dHMoY3J0Y19zdGF0ZSk7Cj4gLQkJcmV0dXJuOwo+IC0JfQo+IC0KPiAtCWlmIChk
+ZWdhbW1hX2x1dCkKPiArCWlmIChjcnRjX3N0YXRlLT5jZ21fbW9kZSAmIENHTV9QSVBFX01PREVf
+REVHQU1NQSkKPiAgIAkJY2h2X2xvYWRfY2dtX2RlZ2FtbWEoY3J0YywgZGVnYW1tYV9sdXQpOwo+
+ICAgCj4gLQlpZiAoZ2FtbWFfbHV0KQo+ICsJaWYgKGNydGNfc3RhdGUtPmNnbV9tb2RlICYgQ0dN
+X1BJUEVfTU9ERV9HQU1NQSkKPiAgIAkJY2h2X2xvYWRfY2dtX2dhbW1hKGNydGMsIGdhbW1hX2x1
+dCk7Cj4gKwllbHNlCj4gKwkJaTk2NV9sb2FkX2x1dHMoY3J0Y19zdGF0ZSk7Cj4gICB9Cj4gICAK
+PiAgIHZvaWQgaW50ZWxfY29sb3JfbG9hZF9sdXRzKGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0
+YXRlICpjcnRjX3N0YXRlKQo+IApSZXZpZXdlZC1ieTogU3dhdGkgU2hhcm1hIDxzd2F0aTIuc2hh
+cm1hQGludGVsLmNvbT4KCi0tIAp+U3dhdGkgU2hhcm1hCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
