@@ -1,28 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C57177599
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 13:01:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A401775B3
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 13:10:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C776E855;
-	Tue,  3 Mar 2020 12:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 545166E857;
+	Tue,  3 Mar 2020 12:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A14AA6E9DB
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 12:01:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 5FCD9292B7E
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv6 6/6] drm/rockchip: Add support for afbc
-Date: Tue,  3 Mar 2020 13:01:36 +0100
-Message-Id: <20200303120136.18294-7-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200303120136.18294-1-andrzej.p@collabora.com>
-References: <20200303120136.18294-1-andrzej.p@collabora.com>
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9E2B6E857
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 12:10:38 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id w27so2555655lfc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 04:10:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tpW45cO33S156IygtSe96y37D0Wq/TrExTXU9M79KQw=;
+ b=HsXwAeW+I6atxUcxrtYQPCaCVFiiY8z4qFwcLkwRxBM0Z59xZUZXBekkb1a3m9f6QL
+ /dfJZvmmbAqucwx5E1PVQSXDhT4+ZCIrB4ynEtJ4y1lV1Rq8gTnX/jBYKQGr9LXoWoSZ
+ lMnIfKT4SHf88l8rwqcBe14V1VTMrw7hcxe0IE6ltSqFvfHqiBBlxXx88hHSPDgBuRJW
+ yke/KGaLrhCEb85vNinOiWhCSQQZbvZuTIftEotNSBDWTyIDHs/JNgnlmyxZK626Jy5n
+ M4694yuKGXDOvi7UhAFJ3FYq/aMLEmKNkt9XUDIoZ4kk99DIoS57l+jsrGi5AOOndbKG
+ u9PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tpW45cO33S156IygtSe96y37D0Wq/TrExTXU9M79KQw=;
+ b=uFiJBRUrCcDNFFUViX5/f7sHZ6jH1l2lDR89ZygQXEMO9nysBu9X2/vD9k+Fke2K0F
+ a189XLjYRmA+on9+7OqC3c0QSd/Xv4NI7jTNroAPdYiEwmmILTE44s+EUpy2VKh9g0B5
+ zND5omCOs76wNqdN3SvoKaimaYjlmJyrfsuSo8NGrhaJjlZHpHrGAc585rhAus6A2hxR
+ zfJsV+M2JptsP41wgnzLbw2vu+sW7PG7WoteousVQhVgSaXQ27BwNXieTxeOIN2cTHw3
+ El5HHksGMqdq0M/2n0eTjCUo8uxgzNT3MdPuZRC5zlRdHJTHBb0ypzJj60Q4UKxVlYt+
+ uplQ==
+X-Gm-Message-State: ANhLgQ3STMX3Ny8oeXsLa/aZ6FExSsQ0Gy5kJiOJO0bQ6la5fUt4plg3
+ McmsruelSz+hVmzKOBtCHT7Ravm5SSZKK3KmrFfvIjSj
+X-Google-Smtp-Source: ADFU+vurE2joVEB6nxvxq5lBYDg2VksM2aqEGU6fC97dnbufpHJZbXr7xBOUI+rOBzi3NjrVJp5/06lg5fItAP2Exn8=
+X-Received: by 2002:ac2:4c84:: with SMTP id d4mr2679030lfl.89.1583237437285;
+ Tue, 03 Mar 2020 04:10:37 -0800 (PST)
+MIME-Version: 1.0
+References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+ <20200302203452.17977-3-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200302203452.17977-3-ville.syrjala@linux.intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 3 Mar 2020 13:10:26 +0100
+Message-ID: <CACRpkdbXrtQ65jgkWNoNQPiZy3sV-xtVGhu-=Kz-Ch5Zz9gmPA@mail.gmail.com>
+Subject: Re: [PATCH 02/33] drm/panel-arm-versatile: Fix dotclock
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,584 +62,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
- David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- James Wang <james.qian.wang@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Sean Paul <sean@poorly.run>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds support for afbc handling. afbc is a compressed format
-which reduces the necessary memory bandwidth.
-
-Co-developed-by: Mark Yao <mark.yao@rock-chips.com>
-Signed-off-by: Mark Yao <mark.yao@rock-chips.com>
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h |   1 +
- drivers/gpu/drm/rockchip/rockchip_drm_fb.c  |  32 ++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 136 +++++++++++++++++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  12 ++
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c |  83 +++++++++++-
- 5 files changed, 259 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-index c5b06048124e..e33c2dcd0d4b 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-@@ -30,6 +30,7 @@ struct rockchip_crtc_state {
- 	int output_mode;
- 	int output_bpc;
- 	int output_flags;
-+	bool enable_afbc;
- };
- #define to_rockchip_crtc_state(s) \
- 		container_of(s, struct rockchip_crtc_state, base)
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-index 221e72e71432..d153d84bca7b 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-@@ -57,8 +57,38 @@ static const struct drm_mode_config_helper_funcs rockchip_mode_config_helpers =
- 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
- };
- 
-+static struct drm_framebuffer *
-+rockchip_fb_create(struct drm_device *dev, struct drm_file *file,
-+		   const struct drm_mode_fb_cmd2 *mode_cmd)
-+{
-+	struct drm_afbc_framebuffer *afbc_fb;
-+	struct drm_framebuffer *ret;
-+
-+	afbc_fb = kzalloc(sizeof(*afbc_fb), GFP_KERNEL);
-+	if (!afbc_fb)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = drm_gem_fb_init_with_funcs(dev, &afbc_fb->base, file, mode_cmd, &rockchip_drm_fb_funcs);
-+	if (IS_ERR_OR_NULL(ret)) {
-+		kfree(afbc_fb);
-+		return ret;
-+	}
-+
-+	if (drm_is_afbc(mode_cmd->modifier[0])) {
-+		int r;
-+
-+		r = drm_gem_fb_afbc_init(dev, mode_cmd, afbc_fb);
-+		if (r) {
-+			kfree(afbc_fb);
-+			ret = ERR_PTR(r);
-+		}
-+	}
-+
-+	return ret;
-+}
-+
- static const struct drm_mode_config_funcs rockchip_drm_mode_config_funcs = {
--	.fb_create = drm_gem_fb_create_with_dirty,
-+	.fb_create = rockchip_fb_create,
- 	.output_poll_changed = drm_fb_helper_output_poll_changed,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index cecb2cc781f5..848d5e038f0a 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -91,9 +91,21 @@
- #define VOP_WIN_TO_INDEX(vop_win) \
- 	((vop_win) - (vop_win)->vop->win)
- 
-+#define VOP_AFBC_SET(vop, name, v) \
-+	do { \
-+		if ((vop)->data->afbc) \
-+			vop_reg_set((vop), &(vop)->data->afbc->name, 0, ~0, v, #name); \
-+	} while (0)
-+
- #define to_vop(x) container_of(x, struct vop, crtc)
- #define to_vop_win(x) container_of(x, struct vop_win, base)
- 
-+#define AFBC_FMT_RGB565		0x0
-+#define AFBC_FMT_U8U8U8U8	0x5
-+#define AFBC_FMT_U8U8U8		0x4
-+
-+#define AFBC_TILE_16x16		BIT(4)
-+
- /*
-  * The coefficients of the following matrix are all fixed points.
-  * The format is S2.10 for the 3x3 part of the matrix, and S9.12 for the offsets.
-@@ -274,6 +286,29 @@ static enum vop_data_format vop_convert_format(uint32_t format)
- 	}
- }
- 
-+static int vop_convert_afbc_format(uint32_t format)
-+{
-+	switch (format) {
-+	case DRM_FORMAT_XRGB8888:
-+	case DRM_FORMAT_ARGB8888:
-+	case DRM_FORMAT_XBGR8888:
-+	case DRM_FORMAT_ABGR8888:
-+		return AFBC_FMT_U8U8U8U8;
-+	case DRM_FORMAT_RGB888:
-+	case DRM_FORMAT_BGR888:
-+		return AFBC_FMT_U8U8U8;
-+	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_BGR565:
-+		return AFBC_FMT_RGB565;
-+	/* either of the below should not be reachable */
-+	default:
-+		DRM_WARN_ONCE("unsupported AFBC format[%08x]\n", format);
-+		return -EINVAL;
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static uint16_t scl_vop_cal_scale(enum scale_mode mode, uint32_t src,
- 				  uint32_t dst, bool is_horizontal,
- 				  int vsu_mode, int *vskiplines)
-@@ -598,6 +633,17 @@ static int vop_enable(struct drm_crtc *crtc, struct drm_crtc_state *old_state)
- 			vop_win_disable(vop, vop_win);
- 		}
- 	}
-+
-+	if (vop->data->afbc) {
-+		struct rockchip_crtc_state *s;
-+		/*
-+		 * Disable AFBC and forget there was a vop window with AFBC
-+		 */
-+		VOP_AFBC_SET(vop, enable, 0);
-+		s = to_rockchip_crtc_state(crtc->state);
-+		s->enable_afbc = false;
-+	}
-+
- 	spin_unlock(&vop->reg_lock);
- 
- 	vop_cfg_done(vop);
-@@ -710,6 +756,29 @@ static void vop_plane_destroy(struct drm_plane *plane)
- 	drm_plane_cleanup(plane);
- }
- 
-+static bool rockchip_afbc(u64 modifier)
-+{
-+	return modifier == DRM_FORMAT_MOD_ARM_AFBC(AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 | AFBC_FORMAT_MOD_SPARSE);
-+}
-+
-+static bool rockchip_mod_supported(struct drm_plane *plane,
-+				   u32 format, u64 modifier)
-+{
-+	if (WARN_ON(modifier == DRM_FORMAT_MOD_INVALID))
-+		return false;
-+
-+	if (modifier == DRM_FORMAT_MOD_LINEAR)
-+		return true;
-+
-+	if (!rockchip_afbc(modifier)) {
-+		DRM_DEBUG_KMS("Unsupported format modifer 0x%llx\n", modifier);
-+
-+		return false;
-+	}
-+
-+	return vop_convert_afbc_format(format) >= 0;
-+}
-+
- static int vop_plane_atomic_check(struct drm_plane *plane,
- 			   struct drm_plane_state *state)
- {
-@@ -758,6 +827,29 @@ static int vop_plane_atomic_check(struct drm_plane *plane,
- 		return -EINVAL;
- 	}
- 
-+	if (rockchip_afbc(fb->modifier)) {
-+		struct vop *vop = to_vop(crtc);
-+
-+		if (!vop->data->afbc) {
-+			DRM_ERROR("vop does not support AFBC\n");
-+			return -EINVAL;
-+		}
-+
-+		ret = vop_convert_afbc_format(fb->format->format);
-+		if (ret < 0)
-+			return ret;
-+
-+		if (state->src.x1 || state->src.y1) {
-+			DRM_ERROR("afbc does not support offset display, xpos=%d, ypos=%d, offset=%d\n", state->src.x1, state->src.y1, fb->offsets[0]);
-+			return -EINVAL;
-+		}
-+
-+		if (state->rotation && state->rotation != DRM_MODE_ROTATE_0) {
-+			DRM_ERROR("afbc does not support rotation, rotation=%d\n", state->rotation);
-+			return -EINVAL;
-+		}
-+	}
-+
- 	return 0;
- }
- 
-@@ -846,6 +938,16 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
- 
- 	spin_lock(&vop->reg_lock);
- 
-+	if (rockchip_afbc(fb->modifier)) {
-+		int afbc_format = vop_convert_afbc_format(fb->format->format);
-+
-+		VOP_AFBC_SET(vop, format, afbc_format | AFBC_TILE_16x16);
-+		VOP_AFBC_SET(vop, hreg_block_split, 0);
-+		VOP_AFBC_SET(vop, win_sel, VOP_WIN_TO_INDEX(vop_win));
-+		VOP_AFBC_SET(vop, hdr_ptr, dma_addr);
-+		VOP_AFBC_SET(vop, pic_size, act_info);
-+	}
-+
- 	VOP_WIN_SET(vop, win, format, format);
- 	VOP_WIN_SET(vop, win, yrgb_vir, DIV_ROUND_UP(fb->pitches[0], 4));
- 	VOP_WIN_SET(vop, win, yrgb_mst, dma_addr);
-@@ -1001,6 +1103,7 @@ static const struct drm_plane_funcs vop_plane_funcs = {
- 	.reset = drm_atomic_helper_plane_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
-+	.format_mod_supported = rockchip_mod_supported,
- };
- 
- static int vop_crtc_enable_vblank(struct drm_crtc *crtc)
-@@ -1310,6 +1413,10 @@ static int vop_crtc_atomic_check(struct drm_crtc *crtc,
- 				 struct drm_crtc_state *crtc_state)
- {
- 	struct vop *vop = to_vop(crtc);
-+	struct drm_plane *plane;
-+	struct drm_plane_state *plane_state;
-+	struct rockchip_crtc_state *s;
-+	int afbc_planes = 0;
- 
- 	if (vop->lut_regs && crtc_state->color_mgmt_changed &&
- 	    crtc_state->gamma_lut) {
-@@ -1323,6 +1430,25 @@ static int vop_crtc_atomic_check(struct drm_crtc *crtc,
- 		}
- 	}
- 
-+	drm_atomic_crtc_state_for_each_plane(plane, crtc_state) {
-+		plane_state = drm_atomic_get_plane_state(crtc_state->state, plane);
-+		if (IS_ERR(plane_state)) {
-+			DRM_DEBUG_KMS("Cannot get plane state for plane %s\n", plane->name);
-+			return PTR_ERR(plane_state);
-+		}
-+
-+		if (drm_is_afbc(plane_state->fb->modifier))
-+			++afbc_planes;
-+	}
-+
-+	if (afbc_planes > 1) {
-+		DRM_DEBUG_KMS("Invalid number of AFBC planes; got %d, expected at most 1\n", afbc_planes);
-+		return -EINVAL;
-+	}
-+
-+	s = to_rockchip_crtc_state(crtc_state);
-+	s->enable_afbc = afbc_planes > 0;
-+
- 	return 0;
- }
- 
-@@ -1333,6 +1459,7 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
- 	struct drm_plane_state *old_plane_state, *new_plane_state;
- 	struct vop *vop = to_vop(crtc);
- 	struct drm_plane *plane;
-+	struct rockchip_crtc_state *s;
- 	int i;
- 
- 	if (WARN_ON(!vop->is_enabled))
-@@ -1340,6 +1467,9 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
- 
- 	spin_lock(&vop->reg_lock);
- 
-+	/* Enable AFBC if there is some AFBC window, disable otherwise. */
-+	s = to_rockchip_crtc_state(crtc->state);
-+	VOP_AFBC_SET(vop, enable, s->enable_afbc);
- 	vop_cfg_done(vop);
- 
- 	spin_unlock(&vop->reg_lock);
-@@ -1634,7 +1764,8 @@ static int vop_create_crtc(struct vop *vop)
- 					       0, &vop_plane_funcs,
- 					       win_data->phy->data_formats,
- 					       win_data->phy->nformats,
--					       NULL, win_data->type, NULL);
-+					       win_data->phy->format_modifiers,
-+					       win_data->type, NULL);
- 		if (ret) {
- 			DRM_DEV_ERROR(vop->dev, "failed to init plane %d\n",
- 				      ret);
-@@ -1678,7 +1809,8 @@ static int vop_create_crtc(struct vop *vop)
- 					       &vop_plane_funcs,
- 					       win_data->phy->data_formats,
- 					       win_data->phy->nformats,
--					       NULL, win_data->type, NULL);
-+					       win_data->phy->format_modifiers,
-+					       win_data->type, NULL);
- 		if (ret) {
- 			DRM_DEV_ERROR(vop->dev, "failed to init overlay %d\n",
- 				      ret);
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-index cc672620d6e0..e471b974bd98 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-@@ -34,6 +34,16 @@ struct vop_reg {
- 	bool relaxed;
- };
- 
-+struct vop_afbc {
-+	struct vop_reg enable;
-+	struct vop_reg win_sel;
-+	struct vop_reg format;
-+	struct vop_reg hreg_block_split;
-+	struct vop_reg pic_size;
-+	struct vop_reg hdr_ptr;
-+	struct vop_reg rstn;
-+};
-+
- struct vop_modeset {
- 	struct vop_reg htotal_pw;
- 	struct vop_reg hact_st_end;
-@@ -134,6 +144,7 @@ struct vop_win_phy {
- 	const struct vop_scl_regs *scl;
- 	const uint32_t *data_formats;
- 	uint32_t nformats;
-+	const uint64_t *format_modifiers;
- 
- 	struct vop_reg enable;
- 	struct vop_reg gate;
-@@ -173,6 +184,7 @@ struct vop_data {
- 	const struct vop_misc *misc;
- 	const struct vop_modeset *modeset;
- 	const struct vop_output *output;
-+	const struct vop_afbc *afbc;
- 	const struct vop_win_yuv2yuv_data *win_yuv2yuv;
- 	const struct vop_win_data *win;
- 	unsigned int win_size;
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-index 7a9d979c8d5d..1f0b73c2e21e 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-@@ -50,6 +50,17 @@ static const uint32_t formats_win_full[] = {
- 	DRM_FORMAT_NV24,
- };
- 
-+static const uint64_t format_modifiers_win_full[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID,
-+};
-+
-+static const uint64_t format_modifiers_win_full_afbc[] = {
-+	DRM_FORMAT_MOD_ARM_AFBC(AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 | AFBC_FORMAT_MOD_SPARSE),
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID,
-+};
-+
- static const uint32_t formats_win_lite[] = {
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ARGB8888,
-@@ -61,6 +72,11 @@ static const uint32_t formats_win_lite[] = {
- 	DRM_FORMAT_BGR565,
- };
- 
-+static const uint64_t format_modifiers_win_lite[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID,
-+};
-+
- static const struct vop_scl_regs rk3036_win_scl = {
- 	.scale_yrgb_x = VOP_REG(RK3036_WIN0_SCL_FACTOR_YRGB, 0xffff, 0x0),
- 	.scale_yrgb_y = VOP_REG(RK3036_WIN0_SCL_FACTOR_YRGB, 0xffff, 16),
-@@ -72,6 +88,7 @@ static const struct vop_win_phy rk3036_win0_data = {
- 	.scl = &rk3036_win_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
-+	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3036_SYS_CTRL, 0x1, 0),
- 	.format = VOP_REG(RK3036_SYS_CTRL, 0x7, 3),
- 	.rb_swap = VOP_REG(RK3036_SYS_CTRL, 0x1, 15),
-@@ -87,6 +104,7 @@ static const struct vop_win_phy rk3036_win0_data = {
- static const struct vop_win_phy rk3036_win1_data = {
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
-+	.format_modifiers = format_modifiers_win_lite,
- 	.enable = VOP_REG(RK3036_SYS_CTRL, 0x1, 1),
- 	.format = VOP_REG(RK3036_SYS_CTRL, 0x7, 6),
- 	.rb_swap = VOP_REG(RK3036_SYS_CTRL, 0x1, 19),
-@@ -153,6 +171,7 @@ static const struct vop_data rk3036_vop = {
- static const struct vop_win_phy rk3126_win1_data = {
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
-+	.format_modifiers = format_modifiers_win_lite,
- 	.enable = VOP_REG(RK3036_SYS_CTRL, 0x1, 1),
- 	.format = VOP_REG(RK3036_SYS_CTRL, 0x7, 6),
- 	.rb_swap = VOP_REG(RK3036_SYS_CTRL, 0x1, 19),
-@@ -234,6 +253,7 @@ static const struct vop_win_phy px30_win0_data = {
- 	.scl = &px30_win_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
-+	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(PX30_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(PX30_WIN0_CTRL0, 0x7, 1),
- 	.rb_swap = VOP_REG(PX30_WIN0_CTRL0, 0x1, 12),
-@@ -249,6 +269,7 @@ static const struct vop_win_phy px30_win0_data = {
- static const struct vop_win_phy px30_win1_data = {
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
-+	.format_modifiers = format_modifiers_win_lite,
- 	.enable = VOP_REG(PX30_WIN1_CTRL0, 0x1, 0),
- 	.format = VOP_REG(PX30_WIN1_CTRL0, 0x7, 4),
- 	.rb_swap = VOP_REG(PX30_WIN1_CTRL0, 0x1, 12),
-@@ -261,6 +282,7 @@ static const struct vop_win_phy px30_win1_data = {
- static const struct vop_win_phy px30_win2_data = {
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
-+	.format_modifiers = format_modifiers_win_lite,
- 	.gate = VOP_REG(PX30_WIN2_CTRL0, 0x1, 4),
- 	.enable = VOP_REG(PX30_WIN2_CTRL0, 0x1, 0),
- 	.format = VOP_REG(PX30_WIN2_CTRL0, 0x3, 5),
-@@ -316,6 +338,7 @@ static const struct vop_win_phy rk3066_win0_data = {
- 	.scl = &rk3066_win_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
-+	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3066_SYS_CTRL1, 0x1, 0),
- 	.format = VOP_REG(RK3066_SYS_CTRL0, 0x7, 4),
- 	.rb_swap = VOP_REG(RK3066_SYS_CTRL0, 0x1, 19),
-@@ -332,6 +355,7 @@ static const struct vop_win_phy rk3066_win1_data = {
- 	.scl = &rk3066_win_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
-+	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3066_SYS_CTRL1, 0x1, 1),
- 	.format = VOP_REG(RK3066_SYS_CTRL0, 0x7, 7),
- 	.rb_swap = VOP_REG(RK3066_SYS_CTRL0, 0x1, 23),
-@@ -347,6 +371,7 @@ static const struct vop_win_phy rk3066_win1_data = {
- static const struct vop_win_phy rk3066_win2_data = {
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
-+	.format_modifiers = format_modifiers_win_lite,
- 	.enable = VOP_REG(RK3066_SYS_CTRL1, 0x1, 2),
- 	.format = VOP_REG(RK3066_SYS_CTRL0, 0x7, 10),
- 	.rb_swap = VOP_REG(RK3066_SYS_CTRL0, 0x1, 27),
-@@ -426,6 +451,7 @@ static const struct vop_win_phy rk3188_win0_data = {
- 	.scl = &rk3188_win_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
-+	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3188_SYS_CTRL, 0x1, 0),
- 	.format = VOP_REG(RK3188_SYS_CTRL, 0x7, 3),
- 	.rb_swap = VOP_REG(RK3188_SYS_CTRL, 0x1, 15),
-@@ -440,6 +466,7 @@ static const struct vop_win_phy rk3188_win0_data = {
- static const struct vop_win_phy rk3188_win1_data = {
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
-+	.format_modifiers = format_modifiers_win_lite,
- 	.enable = VOP_REG(RK3188_SYS_CTRL, 0x1, 1),
- 	.format = VOP_REG(RK3188_SYS_CTRL, 0x7, 6),
- 	.rb_swap = VOP_REG(RK3188_SYS_CTRL, 0x1, 19),
-@@ -545,6 +572,7 @@ static const struct vop_win_phy rk3288_win01_data = {
- 	.scl = &rk3288_win_full_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
-+	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3288_WIN0_CTRL0, 0x7, 1),
- 	.rb_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 12),
-@@ -563,6 +591,7 @@ static const struct vop_win_phy rk3288_win01_data = {
- static const struct vop_win_phy rk3288_win23_data = {
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
-+	.format_modifiers = format_modifiers_win_lite,
- 	.enable = VOP_REG(RK3288_WIN2_CTRL0, 0x1, 4),
- 	.gate = VOP_REG(RK3288_WIN2_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3288_WIN2_CTRL0, 0x7, 1),
-@@ -677,6 +706,7 @@ static const struct vop_win_phy rk3368_win01_data = {
- 	.scl = &rk3288_win_full_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
-+	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3368_WIN0_CTRL0, 0x7, 1),
- 	.rb_swap = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 12),
-@@ -697,6 +727,7 @@ static const struct vop_win_phy rk3368_win01_data = {
- static const struct vop_win_phy rk3368_win23_data = {
- 	.data_formats = formats_win_lite,
- 	.nformats = ARRAY_SIZE(formats_win_lite),
-+	.format_modifiers = format_modifiers_win_lite,
- 	.gate = VOP_REG(RK3368_WIN2_CTRL0, 0x1, 0),
- 	.enable = VOP_REG(RK3368_WIN2_CTRL0, 0x1, 4),
- 	.format = VOP_REG(RK3368_WIN2_CTRL0, 0x3, 5),
-@@ -817,6 +848,53 @@ static const struct vop_win_yuv2yuv_data rk3399_vop_big_win_yuv2yuv_data[] = {
- 	  .y2r_en = VOP_REG(RK3399_YUV2YUV_WIN, 0x1, 9) },
- 	{ .base = 0xC0, .phy = &rk3399_yuv2yuv_win23_data },
- 	{ .base = 0x120, .phy = &rk3399_yuv2yuv_win23_data },
-+
-+};
-+
-+static const struct vop_win_phy rk3399_win01_data = {
-+	.scl = &rk3288_win_full_scl,
-+	.data_formats = formats_win_full,
-+	.nformats = ARRAY_SIZE(formats_win_full),
-+	.format_modifiers = format_modifiers_win_full_afbc,
-+	.enable = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 0),
-+	.format = VOP_REG(RK3288_WIN0_CTRL0, 0x7, 1),
-+	.rb_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 12),
-+	.y_mir_en = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 22),
-+	.act_info = VOP_REG(RK3288_WIN0_ACT_INFO, 0x1fff1fff, 0),
-+	.dsp_info = VOP_REG(RK3288_WIN0_DSP_INFO, 0x0fff0fff, 0),
-+	.dsp_st = VOP_REG(RK3288_WIN0_DSP_ST, 0x1fff1fff, 0),
-+	.yrgb_mst = VOP_REG(RK3288_WIN0_YRGB_MST, 0xffffffff, 0),
-+	.uv_mst = VOP_REG(RK3288_WIN0_CBR_MST, 0xffffffff, 0),
-+	.yrgb_vir = VOP_REG(RK3288_WIN0_VIR, 0x3fff, 0),
-+	.uv_vir = VOP_REG(RK3288_WIN0_VIR, 0x3fff, 16),
-+	.src_alpha_ctl = VOP_REG(RK3288_WIN0_SRC_ALPHA_CTRL, 0xff, 0),
-+	.dst_alpha_ctl = VOP_REG(RK3288_WIN0_DST_ALPHA_CTRL, 0xff, 0),
-+};
-+
-+/*
-+ * rk3399 vop big windows register layout is same as rk3288, but we
-+ * have a separate rk3399 win data array here so that we can advertise
-+ * AFBC on the primary plane.
-+ */
-+static const struct vop_win_data rk3399_vop_win_data[] = {
-+	{ .base = 0x00, .phy = &rk3399_win01_data,
-+	  .type = DRM_PLANE_TYPE_PRIMARY },
-+	{ .base = 0x40, .phy = &rk3288_win01_data,
-+	  .type = DRM_PLANE_TYPE_OVERLAY },
-+	{ .base = 0x00, .phy = &rk3288_win23_data,
-+	  .type = DRM_PLANE_TYPE_OVERLAY },
-+	{ .base = 0x50, .phy = &rk3288_win23_data,
-+	  .type = DRM_PLANE_TYPE_CURSOR },
-+};
-+
-+static const struct vop_afbc rk3399_vop_afbc = {
-+	.rstn = VOP_REG(RK3399_AFBCD0_CTRL, 0x1, 3),
-+	.enable = VOP_REG(RK3399_AFBCD0_CTRL, 0x1, 0),
-+	.win_sel = VOP_REG(RK3399_AFBCD0_CTRL, 0x3, 1),
-+	.format = VOP_REG(RK3399_AFBCD0_CTRL, 0x1f, 16),
-+	.hreg_block_split = VOP_REG(RK3399_AFBCD0_CTRL, 0x1, 21),
-+	.hdr_ptr = VOP_REG(RK3399_AFBCD0_HDR_PTR, 0xffffffff, 0),
-+	.pic_size = VOP_REG(RK3399_AFBCD0_PIC_SIZE, 0xffffffff, 0),
- };
- 
- static const struct vop_data rk3399_vop_big = {
-@@ -826,9 +904,10 @@ static const struct vop_data rk3399_vop_big = {
- 	.common = &rk3288_common,
- 	.modeset = &rk3288_modeset,
- 	.output = &rk3399_output,
-+	.afbc = &rk3399_vop_afbc,
- 	.misc = &rk3368_misc,
--	.win = rk3368_vop_win_data,
--	.win_size = ARRAY_SIZE(rk3368_vop_win_data),
-+	.win = rk3399_vop_win_data,
-+	.win_size = ARRAY_SIZE(rk3399_vop_win_data),
- 	.win_yuv2yuv = rk3399_vop_big_win_yuv2yuv_data,
- };
- 
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBNYXIgMiwgMjAyMCBhdCA5OjM1IFBNIFZpbGxlIFN5cmphbGEKPHZpbGxlLnN5cmph
+bGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKCj4gRnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxs
+ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPgo+IFRoZSBjdXJyZW50bHkgbGlzdGVkIGRvdGNs
+b2NrcyBkaXNhZ3JlZSB3aXRoIHRoZSBjdXJyZW50bHkKPiBsaXN0ZWQgdnJlZnJlc2ggcmF0ZXMu
+IENoYW5nZSB0aGUgZG90Y2xvY2tzIHRvIG1hdGNoIHRoZSB2cmVmcmVzaC4KPgo+IFNvbWVvbmUg
+dGVsbCBtZSB3aGljaCAoaWYgZWl0aGVyKSBvZiB0aGUgZG90Y2xvY2sgb3IgdnJlcmVzaCBpcwo+
+IGNvcnJlY3Q/CgpJIGFjdHVhbGx5IGFuc3dlcmVkIHRoaXMgaW4gdGhlIG1haWwgdGhyZWFkIHdo
+ZXJlIHJlZnJlc2ggd2FzCmRlbGV0ZWQ6CgpUaGVzZSBkb3RjbG9ja3MgYXJlIGNvcnJlY3QuIERl
+bGV0ZSB0aGUgaW5jb3JyZWN0IHZyZWZyZXNoIGluc3RlYWQuCgpTbyBwbGVhc2UgZHJvcCB0aGlz
+IHBhdGNoLgoKVGhhbmtzLApMaW51cyBXYWxsZWlqCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
