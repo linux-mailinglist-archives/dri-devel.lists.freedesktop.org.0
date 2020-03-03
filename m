@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF5F177E8F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 19:42:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35062177E98
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 19:47:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D496A89E7B;
-	Tue,  3 Mar 2020 18:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 312AD6E51C;
+	Tue,  3 Mar 2020 18:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4228D89E7B
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 18:42:23 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2020 10:42:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,511,1574150400"; d="scan'208";a="229027787"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 03 Mar 2020 10:42:19 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 03 Mar 2020 20:42:18 +0200
-Date: Tue, 3 Mar 2020 20:42:18 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH] drm/fourcc: Add bayer formats and modifiers
-Message-ID: <20200303184218.GB13686@intel.com>
-References: <20200228163135.524882-1-niklas.soderlund@ragnatech.se>
- <20200303102627.2b726d83@eldfell.localdomain>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C9C6E44C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 18:47:12 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72EC32AF;
+ Tue,  3 Mar 2020 19:47:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1583261230;
+ bh=U/Og/71bdeBJxFVqfT9cTiJGEF4Dp+GH3QbsZDHKb/0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=J9tCIWgh0w8kGnEMwDaF8cd9frQ5hd8uhKmHzPuuh8TFY9mzgFgGEGOGVOqHi4V4d
+ hO19JB/Sz8OZHv6cErjD6liV9jB7dnkfxGg6S9kY5ZrZa5MDoqIxYZ20NC9K+Nu+jW
+ Mgh2k026EFlXSp/t8qsgsEl32jmcVx/8QoApL5qo=
+Date: Tue, 3 Mar 2020 20:46:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v3 2/5] dt-bindings: display: convert display-timings to
+ DT schema
+Message-ID: <20200303184649.GH11333@pendragon.ideasonboard.com>
+References: <20200216181513.28109-1-sam@ravnborg.org>
+ <20200216181513.28109-3-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200303102627.2b726d83@eldfell.localdomain>
-X-Patchwork-Hint: comment
+In-Reply-To: <20200216181513.28109-3-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,141 +48,312 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
- libcamera-devel@lists.libcamera.org, dri-devel@lists.freedesktop.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>, devicetree@vger.kernel.org,
+ Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 03, 2020 at 10:26:27AM +0200, Pekka Paalanen wrote:
-> On Fri, 28 Feb 2020 17:31:35 +0100
-> Niklas S=F6derlund <niklas.soderlund@ragnatech.se> wrote:
-> =
+Hi Sam,
 
-> > Bayer formats are used with cameras and contain green, red and blue
-> > components, with alternating lines of red and green, and blue and green
-> > pixels in different orders. For each block of 2x2 pixels there is one
-> > pixel with a red filter, two with a green filter, and one with a blue
-> > filter. The filters can be arranged in different patterns.
-> > =
+Thank you for the patch.
 
-> > Add DRM fourcc formats to describe the most common Bayer formats. Also
-> > add a modifiers to describe the custom packing layouts used by the Intel
-> > IPU3 and in the MIPI (Mobile Industry Processor Interface) CSI-2
-> > specification.
-> > =
+On Sun, Feb 16, 2020 at 07:15:10PM +0100, Sam Ravnborg wrote:
+> Add display-timings.yaml - that references panel-timings.yaml.
+> display-timings.yaml will be used for display bindings
+> when they are converted to meta-schema format.
+> 
+> For now the old display-timing.txt points to the new
+> display-timings.yaml - and all users are left as-is.
+> 
+> v2:
+>   - Updated native-mode description
+> 
+> v3:
+>   - Simpler "^timing" pattern (Rob)
+>   - timing node is of type object (Rob)
+>   - added display-timings to panel-common.yaml
+>   - added yaml document terminator "..."
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../bindings/display/panel/display-timing.txt | 124 +-----------------
+>  .../display/panel/display-timings.yaml        |  77 +++++++++++
+>  .../bindings/display/panel/panel-common.yaml  |   8 ++
+>  3 files changed, 86 insertions(+), 123 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/display-timings.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/display-timing.txt b/Documentation/devicetree/bindings/display/panel/display-timing.txt
+> index 78222ced1874..7f55ad4a40c4 100644
+> --- a/Documentation/devicetree/bindings/display/panel/display-timing.txt
+> +++ b/Documentation/devicetree/bindings/display/panel/display-timing.txt
+> @@ -1,123 +1 @@
+> -display-timing bindings
+> -=======================
+> -
+> -display-timings node
+> ---------------------
+> -
+> -required properties:
+> - - none
+> -
+> -optional properties:
+> - - native-mode: The native mode for the display, in case multiple modes are
+> -		provided. When omitted, assume the first node is the native.
+> -
+> -timing subnode
+> ---------------
+> -
+> -required properties:
+> - - hactive, vactive: display resolution
+> - - hfront-porch, hback-porch, hsync-len: horizontal display timing parameters
+> -   in pixels
+> -   vfront-porch, vback-porch, vsync-len: vertical display timing parameters in
+> -   lines
+> - - clock-frequency: display clock in Hz
+> -
+> -optional properties:
+> - - hsync-active: hsync pulse is active low/high/ignored
+> - - vsync-active: vsync pulse is active low/high/ignored
+> - - de-active: data-enable pulse is active low/high/ignored
+> - - pixelclk-active: with
+> -			- active high = drive pixel data on rising edge/
+> -					sample data on falling edge
+> -			- active low  = drive pixel data on falling edge/
+> -					sample data on rising edge
+> -			- ignored     = ignored
+> - - syncclk-active: with
+> -			- active high = drive sync on rising edge/
+> -					sample sync on falling edge of pixel
+> -					clock
+> -			- active low  = drive sync on falling edge/
+> -					sample sync on rising edge of pixel
+> -					clock
+> -			- omitted     = same configuration as pixelclk-active
+> - - interlaced (bool): boolean to enable interlaced mode
+> - - doublescan (bool): boolean to enable doublescan mode
+> - - doubleclk (bool): boolean to enable doubleclock mode
+> -
+> -All the optional properties that are not bool follow the following logic:
+> -    <1>: high active
+> -    <0>: low active
+> -    omitted: not used on hardware
+> -
+> -There are different ways of describing the capabilities of a display. The
+> -devicetree representation corresponds to the one commonly found in datasheets
+> -for displays. If a display supports multiple signal timings, the native-mode
+> -can be specified.
+> -
+> -The parameters are defined as:
+> -
+> -  +----------+-------------------------------------+----------+-------+
+> -  |          |        ^                            |          |       |
+> -  |          |        |vback_porch                 |          |       |
+> -  |          |        v                            |          |       |
+> -  +----------#######################################----------+-------+
+> -  |          #        ^                            #          |       |
+> -  |          #        |                            #          |       |
+> -  |  hback   #        |                            #  hfront  | hsync |
+> -  |   porch  #        |       hactive              #  porch   |  len  |
+> -  |<-------->#<-------+--------------------------->#<-------->|<----->|
+> -  |          #        |                            #          |       |
+> -  |          #        |vactive                     #          |       |
+> -  |          #        |                            #          |       |
+> -  |          #        v                            #          |       |
+> -  +----------#######################################----------+-------+
+> -  |          |        ^                            |          |       |
+> -  |          |        |vfront_porch                |          |       |
+> -  |          |        v                            |          |       |
+> -  +----------+-------------------------------------+----------+-------+
+> -  |          |        ^                            |          |       |
+> -  |          |        |vsync_len                   |          |       |
+> -  |          |        v                            |          |       |
+> -  +----------+-------------------------------------+----------+-------+
+> -
+> -Note: In addition to being used as subnode(s) of display-timings, the timing
+> -      subnode may also be used on its own. This is appropriate if only one mode
+> -      need be conveyed. In this case, the node should be named 'panel-timing'.
+> -
+> -
+> -Example:
+> -
+> -	display-timings {
+> -		native-mode = <&timing0>;
+> -		timing0: 1080p24 {
+> -			/* 1920x1080p24 */
+> -			clock-frequency = <52000000>;
+> -			hactive = <1920>;
+> -			vactive = <1080>;
+> -			hfront-porch = <25>;
+> -			hback-porch = <25>;
+> -			hsync-len = <25>;
+> -			vback-porch = <2>;
+> -			vfront-porch = <2>;
+> -			vsync-len = <2>;
+> -			hsync-active = <1>;
+> -		};
+> -	};
+> -
+> -Every required property also supports the use of ranges, so the commonly used
+> -datasheet description with minimum, typical and maximum values can be used.
+> -
+> -Example:
+> -
+> -	timing1: timing {
+> -		/* 1920x1080p24 */
+> -		clock-frequency = <148500000>;
+> -		hactive = <1920>;
+> -		vactive = <1080>;
+> -		hsync-len = <0 44 60>;
+> -		hfront-porch = <80 88 95>;
+> -		hback-porch = <100 148 160>;
+> -		vfront-porch = <0 4 6>;
+> -		vback-porch = <0 36 50>;
+> -		vsync-len = <0 5 6>;
+> -	};
+> +See display-timings.yaml in this directory.
+> diff --git a/Documentation/devicetree/bindings/display/panel/display-timings.yaml b/Documentation/devicetree/bindings/display/panel/display-timings.yaml
+> new file mode 100644
+> index 000000000000..c8c0c9cb0492
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/display-timings.yaml
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/display-timings.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: display timing bindings
 
-> > Signed-off-by: Niklas S=F6derlund <niklas.soderlund@ragnatech.se>
-> > ---
-> >  include/uapi/drm/drm_fourcc.h | 95 +++++++++++++++++++++++++++++++++++
-> >  1 file changed, 95 insertions(+)
-> =
+s/timing/timings/
 
-> Hi,
-> =
+> +
+> +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +  - Sam Ravnborg <sam@ravnborg.org>
+> +
+> +description: |
+> +  A display panel may be able to handle several display timings,
+> +  with different resolutions.
+> +  The display-timings node makes it possible to specify the timing
 
-> here are some by-stander comments.
-> =
+s/the timing/the timings/
 
-> > =
+> +  and to specify the timing that is native for the display.
+> +
+> +properties:
+> +  $nodename:
+> +    const: display-timings
+> +
+> +  native-mode:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      The default display timing is the one specified as native-mode.
+> +      If no native-mode is specified then the first node is assumed the
 
-> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourc=
-c.h
-> > index 8bc0b31597d80737..561d5a08ffd16b69 100644
-> > --- a/include/uapi/drm/drm_fourcc.h
-> > +++ b/include/uapi/drm/drm_fourcc.h
-> > @@ -286,6 +286,62 @@ extern "C" {
-> >  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsa=
-mpled Cr (1) and Cb (2) planes */
-> >  =
+s/assumed the/assumed to be the/
 
-> >  =
+> +      native mode.
+> +
+> +patternProperties:
+> +  "^timing":
 
-> > +/*
-> > + * Bayer formats
-> > + *
-> > + * Bayer formats contain green, red and blue components, with alternat=
-ing lines
-> > + * of red and green, and blue and green pixels in different orders. Fo=
-r each
-> > + * block of 2x2 pixels there is one pixel with a red filter, two with =
-a green
-> > + * filter, and one with a blue filter. The filters can be arranged in =
-different
-> > + * patterns.
-> > + *
-> > + * For example, RGGB:
-> > + *	row0: RGRGRGRG...
-> > + *	row1: GBGBGBGB...
+Should this be "^timing[0-9]*$", or do we want to allow or names ?
 
-Whare is row2?
+> +    type: object
+> +    allOf:
+> +      - $ref: panel-timing.yaml#
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |+
+> +
+> +    /*
+> +     * Example that specifies panel timing using minimum, typical,
+> +     * maximum values as commonly used in datasheet description.
+> +     * timing1 is the native-mode.
+> +     */
+> +    display-timings {
+> +        native-mode = <&timing1>;
 
-> > + *	row3: RGRGRGRG...
-> > + *	row4: GBGBGBGB...
-> > + *	...
-> > + *
-> > + * Vendors have different methods to pack the sampling formats to incr=
-ease data
-> > + * density. For this reason the fourcc only describes pixel sample siz=
-e and the
-> > + * filter pattern for each block of 2x2 pixels. A modifier is needed to
-> > + * describe the memory layout.
-> > + *
-> > + * In addition to vendor modifiers for memory layout DRM_FORMAT_MOD_LI=
-NEAR may
-> > + * be used to describe a layout where all samples are placed consecuti=
-vely in
-> > + * memory. If the sample does not fit inside a single byte, the sample=
- storage
-> > + * is extended to the minimum number of (little endian) bytes that can=
- hold the
-> > + * sample and any unused most-significant bits are defined as padding.
-> =
+Does this compile, as there's no phandle named timing1 ?
 
-> "Minimum number of (little endian) bytes" is probably not quite right,
-> because you could end up with a 3-byte word for e.g. 18-bit samples,
-> and for those I don't think endianess is even a defined concept.
+> +        timing0 {
+> +            /* 1920x1080p24 */
+> +            clock-frequency = <148500000>;
+> +            hactive = <1920>;
+> +            vactive = <1080>;
+> +            hsync-len = <0 44 60>;
+> +            hfront-porch = <80 88 95>;
+> +            hback-porch = <100 148 160>;
+> +            vfront-porch = <0 4 6>;
+> +            vback-porch = <0 36 50>;
+> +            vsync-len = <0 5 6>;
+> +        };
+> +        timing1 {
+> +            /* 1920x1080p24 */
+> +            clock-frequency = <52000000>;
+> +            hactive = <1920>;
+> +            vactive = <1080>;
+> +            hfront-porch = <25>;
+> +            hback-porch = <25>;
+> +            hsync-len = <0 25 25>;
+> +            vback-porch = <2>;
+> +            vfront-porch = <2>;
+> +            vsync-len = <2>;
+> +            hsync-active = <1>;
+> +            pixelclk-active = <1>;
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+> index 8070c439adbd..ed051ba12084 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+> @@ -61,6 +61,14 @@ properties:
+>      allOf:
+>        - $ref: panel-timing.yaml#
+>  
+> +  display-timings:
+> +    description:
+> +      Some display panels supports several resolutions with different timing.
 
-In my book little-endian =3D=3D "little end comes first". Nothing in that
-definition that says the number of bytes per unit has to a power of two.
+s/timing/timings/
 
-I guess maybe another way to put it would be to say "each sample is
-stored as lsb aligned little endian value in minimum number of bytes
-required". But some visual representation could help more I guess.
-We try do that for the normal formats.
+> +      The display-timings bindings supports specifying several timings and
+> +      optional specify which is the native mode.
 
-Though I don't really know what "samples are placed consecutively in
-memory" is trying to say here. Eg. for the row0-row4 example above
-would we store this as RGRGRG...GBGBGB... or something more like
-RGGBRGGBRGGB..., or something else?
+s/optional/optionally/
 
+With these small issues fixed,
 
-Side note:
-Since people seem a bit confused by our use of "little endian" in
-general I was thinking we should maybe update all the definitions to
-be even more explicit. Something alogned the lines of:
-"pixel [31:30 A][29:20 R][19:10 G][9:0   B]
- byte  [    3    ][    2    ][   1   ][ 0 ]"
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Though the mismathed proportions make it rather ugly.
+Great work !
 
-Maybe we should even show the bit numbers for each component along
-with everything else:
-"component [1  A  0][9  R  4..3  R  0][9  G  6..5  G  0][9 B 8..7 B 0]
- pixel     [31 A 30][29 R 24..23 R 20][19 G 16..15 G 10][9 B 8..7 B 0]
- byte      [       3        ][       2        ][      1       ][  0  ]"
+> +    allOf:
+> +      - $ref: display-timings.yaml#
+> +
+>    # Connectivity
+>    port:
+>      type: object
 
-Could stretch the bytes to uniform size I guess. But still not entirely
-readable :(
+-- 
+Regards,
 
-Anyways, ideas for an actually good way to docuement formats welcome...
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
