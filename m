@@ -1,49 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36F4177132
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF91E17711E
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:25:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094EB6E9F2;
-	Tue,  3 Mar 2020 08:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 186F96EA15;
+	Tue,  3 Mar 2020 08:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p03-ob.smtp.rzone.de (mo6-p03-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5303::12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B61146E4D0
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 07:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583220302;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=0JD2czR4i28VqvC+r7V3gHmAU4v7JT+PK30l6nvdRns=;
- b=mxMcvVQtEc6o+Lfx4fFiAGXSRJx/UZvC7ZEplW4tY3LuWGHJWxxQ6OTQzLWL0veFTQ
- 1yRMFHPb4aG9majL6rN7Z0XU+03dBWEWqtdqZwa27bDDpgQwwfqBUcYb5slrKYBCJ+1m
- KynZSi8JFGhhkHirL0+2nUg1GIe79uE/fXhOLAMKRGocZMThL/+/4NsNVNdBuqS3ToyY
- p+SQWfy1v6hN6/AXCuoU4r8wZAGn562IEMH+fOqSZkWHp+Ws/d6oxt3ZPfVVYSmV19cj
- souvPXO0GMqfFVDWta+dpTarJpcyJ46FYAdmDi6wpR8Y2SOUpsFmsoJhwYMrPip6ZoSC
- Uz9g==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGHPrpwDGvxw=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw237OnFzF
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Tue, 3 Mar 2020 08:24:49 +0100 (CET)
-Subject: Re: [RFC v2 6/8] MIPS: DTS: jz4780: account for Synopsys HDMI driver
- and LCD controller
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: H. Nikolaus Schaller <hns@goldelico.com>
-In-Reply-To: <1583177253.3.5@crapouillou.net>
-Date: Tue, 3 Mar 2020 08:24:49 +0100
-Message-Id: <04905285-25E4-442E-89D0-3F6C50D1E87C@goldelico.com>
-References: <cover.1582913973.git.hns@goldelico.com>
- <04b485165f38744816a0446e95150cafdeb716ee.1582913973.git.hns@goldelico.com>
- <1583177253.3.5@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0EBD6E4CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 07:49:13 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id x2so1986724ila.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2020 23:49:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=ZGg9d9RlpkSp9tiCdOBj7hjE3h8DLuUCRNUsn/fFdXk=;
+ b=Lc9J0jKz0zcTNVQ1Oo3jSUI8kQQGAlM6xwW2jvyXfFBFik9V7tWtQ5gB2oD4+VfMJ9
+ iVEtrUJLkDe3bQicbmKHRYL2vfD6b9jUTYRV3aOJaUqovh/UO5udXK+w7PbhJXphRKCv
+ XR6qmFoOpPFRF7yW3uKhFQA9v6BjtPd+31RFZlvHxIfdO0n1YU5ZjI+U0yowcSeu0rbo
+ 2Hxbi6Mp1buVCjn63PIJ8TXWE8ezs36cDzrzMMjr5lRwupxZ3Ieb3FGgq6GWKpOhZ++H
+ 8JPCtqqpTdv3hW5AtCEGcE4C3p+89ObzUAYGyZDOcez6P//LQDW+XDf3KWynU4vpHo7u
+ 0pEQ==
+X-Gm-Message-State: ANhLgQ1slYtw9AlxitYjhHSlS1Vn08S53mGPiSJJ7oQc9QgnrjKpLoXh
+ zKb443UUtyutsIrxhQFnMHY1jMx2ibewiCrlc9V3qvlTd1tl
+X-Google-Smtp-Source: ADFU+vtq+Z0tEgLDgWc5E+/2DcRrLjUJQjPO+lwYFDXxBFzQQa9nltg2I6T05x3FDEkDFpd29Ba1cz1kElMF5vTpjV48wKj1xo52
+MIME-Version: 1.0
+X-Received: by 2002:a6b:2c0c:: with SMTP id s12mr2801014ios.91.1583221752863; 
+ Mon, 02 Mar 2020 23:49:12 -0800 (PST)
+Date: Mon, 02 Mar 2020 23:49:12 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002e20b9059fee8a94@google.com>
+Subject: WARNING in idr_destroy
+From: syzbot <syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com>
+To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Tue, 03 Mar 2020 08:24:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,151 +53,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Paul Burton <paulburton@kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, linux-mips@vger.kernel.org,
- Andi Kleen <ak@linux.intel.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+Hello,
 
-> Am 02.03.2020 um 20:27 schrieb Paul Cercueil <paul@crapouillou.net>:
-> =
+syzbot found the following crash on:
 
-> Hi Nikolaus,
-> =
+HEAD commit:    63623fd4 Merge tag 'for-linus' of git://git.kernel.org/pub..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10e978e3e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5d2e033af114153f
+dashboard link: https://syzkaller.appspot.com/bug?extid=05835159fe322770fe3d
+compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14e978e3e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10b1a819e00000
 
-> =
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com
 
-> Le ven., f=E9vr. 28, 2020 at 19:19, H. Nikolaus Schaller <hns@goldelico.c=
-om> a =E9crit :
->> From: Paul Boddie <paul@boddie.org.uk>
->> A specialisation of the generic Synopsys HDMI driver is employed for JZ4=
-780
->> HDMI support. This requires a new driver, plus device tree and configura=
-tion
->> modifications.
->> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
->> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->> ---
->> arch/mips/boot/dts/ingenic/jz4780.dtsi | 32 ++++++++++++++++++++++++++
->> 1 file changed, 32 insertions(+)
->> diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts=
-/ingenic/jz4780.dtsi
->> index f928329b034b..391d4e1efd35 100644
->> --- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
->> +++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
->> @@ -433,4 +433,36 @@
->> 		status =3D "disabled";
->> 	};
->> +
->> +	hdmi: hdmi@10180000 {
->> +		compatible =3D "ingenic,jz4780-dw-hdmi";
->> +		reg =3D <0x10180000 0x8000>;
->> +		reg-io-width =3D <4>;
->> +
->> +		clocks =3D <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
->> +		clock-names =3D "isfr" , "iahb";
->> +
->> +		assigned-clocks =3D <&cgu JZ4780_CLK_HDMI>;
->> +		assigned-clock-rates =3D <27000000>;
-> =
-
-> I *think* this should go to the board file.
-
-Hm. I am not sure.
-
-Can there be differences in HDMI between different boards so
-that it needs to be defined there?
-
-IMHO the HDMI subsystem is completely sitting on the jz4780 SoC
-and clocked by the master clock. So boards should only differ in the
-ESD protection and mechanical connector... =
-
-
-And status =3D "ok".
-
-> =
-
->> +
->> +		interrupt-parent =3D <&intc>;
->> +		interrupts =3D <3>;
->> +
->> +		/* ddc-i2c-bus =3D <&i2c4>; */
->> +
->> +		status =3D "disabled";
->> +	};
->> +
->> +	lcd: lcd@13050000 {
-> =
-
-> The node name should be 'lcd-controller'.
-> =
-
->> +		compatible =3D "ingenic,jz4740-lcd";
-> =
-
-> The JZ4780's LCD controller is much newer than the JZ4740 one, so even if=
- it works with the "ingenic,jz4740-lcd" compatible string, you want it as a=
- fallback.
-> So this should be: compatible =3D "ingenic,jz4780-lcd", "ingenic,jz4740-l=
-cd".
-
-Ah, that is an interesting detail.
-
-It could be the reason why the HDMI does not show an output signal yet.
-If the jz4740-lcd and jz4780-lcd are not really 100% compatible.
-I'll give it try asap.
-
-If it does not help to get output signals, we need community members who
-can test (i.e. own an CI20 board) and can help to identify the bug(s).
-
-> =
-
-> That means the YAML should be updated too.
-
-Ok.
-
-BR,
-Nikolaus
-
-> =
-
-> -Paul
-> =
-
->> +		reg =3D <0x13050000 0x1800>;
->> +
->> +		clocks =3D <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
->> +		clock-names =3D "lcd", "lcd_pclk";
->> +
->> +		interrupt-parent =3D <&intc>;
->> +		interrupts =3D <31>;
->> +
->> +		status =3D "disabled";
->> +	};
->> };
->> --
->> 2.23.0
-> =
-
-> =
+R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dbc2c
+R13: 00007fc6b3362d90 R14: 0000000000000004 R15: 000000000000002d
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 12260 at lib/radix-tree.c:682 radix_tree_free_nodes lib/radix-tree.c:682 [inline]
+WARNING: CPU: 0 PID: 12260 at lib/radix-tree.c:682 idr_destroy+0x1ae/0x260 lib/radix-tree.c:1572
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 12260 Comm: syz-executor386 Not tainted 5.6.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x1fb/0x318 lib/dump_stack.c:118
+ panic+0x264/0x7a9 kernel/panic.c:221
+ __warn+0x209/0x210 kernel/panic.c:582
+ report_bug+0x1b6/0x2f0 lib/bug.c:195
+ fixup_bug arch/x86/kernel/traps.c:174 [inline]
+ do_error_trap+0xcf/0x1c0 arch/x86/kernel/traps.c:267
+ do_invalid_op+0x36/0x40 arch/x86/kernel/traps.c:286
+ invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+RIP: 0010:radix_tree_free_nodes lib/radix-tree.c:682 [inline]
+RIP: 0010:idr_destroy+0x1ae/0x260 lib/radix-tree.c:1572
+Code: b5 63 f9 48 89 df 48 c7 c6 c0 0a 13 88 e8 6a ce 50 f9 4c 3b 65 b8 74 57 e8 cf b5 63 f9 4d 89 fc e9 67 ff ff ff e8 c2 b5 63 f9 <0f> 0b eb d5 89 f9 80 e1 07 38 c1 7c 84 e8 c0 de a0 f9 e9 7a ff ff
+RSP: 0018:ffffc90005107ba0 EFLAGS: 00010293
+RAX: ffffffff881363be RBX: ffff888087dba998 RCX: ffff888094062300
+RDX: 0000000000000000 RSI: 0000000000000040 RDI: ffff888087dba988
+RBP: ffffc90005107be8 R08: ffffffff88136330 R09: ffffed1012a78181
+R10: ffffed1012a78181 R11: 0000000000000000 R12: ffff888087dba980
+R13: 0000000000000000 R14: dffffc0000000000 R15: 0000000000000000
+ drm_mode_create_lease_ioctl+0x1347/0x1860 drivers/gpu/drm/drm_lease.c:583
+ drm_ioctl_kernel+0x2cf/0x410 drivers/gpu/drm/drm_ioctl.c:786
+ drm_ioctl+0x52f/0x890 drivers/gpu/drm/drm_ioctl.c:886
+ vfs_ioctl fs/ioctl.c:47 [inline]
+ ksys_ioctl fs/ioctl.c:763 [inline]
+ __do_sys_ioctl fs/ioctl.c:772 [inline]
+ __se_sys_ioctl+0x113/0x190 fs/ioctl.c:770
+ __x64_sys_ioctl+0x7b/0x90 fs/ioctl.c:770
+ do_syscall_64+0xf7/0x1c0 arch/x86/entry/common.c:294
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x44a4b9
+Code: e8 0c e8 ff ff 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 9b cc fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007fc6b3362d88 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000006dbc28 RCX: 000000000044a4b9
+RDX: 0000000020000040 RSI: ffffffffffffffc6 RDI: 0000000000000003
+RBP: 00000000006dbc20 R08: 0000000000000001 R09: 0000000000000039
+R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dbc2c
+R13: 00007fc6b3362d90 R14: 0000000000000004 R15: 000000000000002d
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
 
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
