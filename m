@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95BD177992
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 15:51:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D42B817799F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 15:52:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA516EA7E;
-	Tue,  3 Mar 2020 14:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0971E6EA83;
+	Tue,  3 Mar 2020 14:52:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAB86EA7E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 14:51:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5415E6EA83
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 14:52:55 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2020 06:51:12 -0800
+ 03 Mar 2020 06:52:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,511,1574150400"; d="scan'208";a="287006784"
+X-IronPort-AV: E=Sophos;i="5.70,511,1574150400"; d="scan'208";a="351853186"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 03 Mar 2020 06:51:10 -0800
+ by fmsmga001.fm.intel.com with SMTP; 03 Mar 2020 06:52:51 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 03 Mar 2020 16:51:09 +0200
-Date: Tue, 3 Mar 2020 16:51:09 +0200
+ Tue, 03 Mar 2020 16:52:51 +0200
+Date: Tue, 3 Mar 2020 16:52:51 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Icenowy Zheng <icenowy@aosc.io>
-Subject: Re: [PATCH 03/33] drm/panel-feixin-k101-im2ba02: Fix dotclock
-Message-ID: <20200303145109.GW13686@intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH 15/33] drm/panel-simple: Fix dotclock for EDT ET035012DM6
+Message-ID: <20200303145251.GX13686@intel.com>
 References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-4-ville.syrjala@linux.intel.com>
- <43A69486-0A19-41CF-B7DD-56489D8E6DB6@aosc.io>
+ <20200302203452.17977-16-ville.syrjala@linux.intel.com>
+ <20200303073320.2udpokcs2ync4hpy@pengutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <43A69486-0A19-41CF-B7DD-56489D8E6DB6@aosc.io>
+In-Reply-To: <20200303073320.2udpokcs2ync4hpy@pengutronix.de>
 X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,38 +49,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thierry Reding <treding@nvidia.com>, Andreas Pretzsch <apr@cn-eng.de>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXIgMDMsIDIwMjAgYXQgMDc6MzY6MzVBTSArMDgwMCwgSWNlbm93eSBaaGVuZyB3
-cm90ZToKPiAKPiAKPiDkuo4gMjAyMOW5tDPmnIgz5pelIEdNVCswODowMCDkuIrljYg0OjM0OjIy
-LCBWaWxsZSBTeXJqYWxhIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4g5YaZ5YiwOgo+
-ID5Gcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+
-ID4KPiA+VGhlIGN1cnJlbnRseSBsaXN0ZWQgZG90Y2xvY2sgZGlzYWdyZWVzIHdpdGggdGhlIGN1
-cnJlbnRseQo+ID5saXN0ZWQgdnJlZnJlc2ggcmF0ZS4gQ2hhbmdlIHRoZSBkb3RjbG9jayB0byBt
-YXRjaCB0aGUgdnJlZnJlc2guCj4gPgo+ID5Tb21lb25lIHRlbGwgbWUgd2hpY2ggKGlmIGVpdGhl
-cikgb2YgdGhlIGRvdGNsb2NrIG9yIHZyZXJlc2ggaXMKPiA+Y29ycmVjdD8KPiAKPiBkb3RjbG9j
-ayBpcyBjb3JyZWN0IGFuZCB2cmVmcmVzaCBpcyBvbmx5IGEgcGxhY2Vob2xkZXIgdmFsdWUuCgpU
-aGFua3MuIEknbGwgZHJvcCB0aGlzIG9uZS4KCj4gCj4gPgo+ID5DYzogSWNlbm93eSBaaGVuZyA8
-aWNlbm93eUBhb3NjLmlvPgo+ID5DYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+
-ID5TaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50
-ZWwuY29tPgo+ID4tLS0KPiA+IGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1mZWl4aW4tazEw
-MS1pbTJiYTAyLmMgfCAyICstCj4gPiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEg
-ZGVsZXRpb24oLSkKPiA+Cj4gPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFu
-ZWwtZmVpeGluLWsxMDEtaW0yYmEwMi5jCj4gPmIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
-LWZlaXhpbi1rMTAxLWltMmJhMDIuYwo+ID5pbmRleCBmZGRiZmRkZjY1NjYuLjhkZWJlZTg1ZjRl
-YyAxMDA2NDQKPiA+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWZlaXhpbi1rMTAx
-LWltMmJhMDIuYwo+ID4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtZmVpeGluLWsx
-MDEtaW0yYmEwMi5jCj4gPkBAIC0zOTEsNyArMzkxLDcgQEAgc3RhdGljIGludCBrMTAxX2ltMmJh
-MDJfdW5wcmVwYXJlKHN0cnVjdCBkcm1fcGFuZWwKPiA+KnBhbmVsKQo+ID4gfQo+ID4gCj4gPiBz
-dGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgazEwMV9pbTJiYTAyX2RlZmF1bHRf
-bW9kZSA9IHsKPiA+LQkuY2xvY2sgPSA3MDAwMCwKPiA+KwkuY2xvY2sgPSA2NzI4NiwKPiA+IAku
-dnJlZnJlc2ggPSA2MCwKPiA+IAo+ID4gCS5oZGlzcGxheSA9IDgwMCwKPiAKPiAtLSAKPiDkvb/n
-lKggSy05IE1haWwg5Y+R6YCB6Ieq5oiR55qEQW5kcm9pZOiuvuWkh+OAggoKLS0gClZpbGxlIFN5
-cmrDpGzDpApJbnRlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+On Tue, Mar 03, 2020 at 08:33:20AM +0100, Marco Felsch wrote:
+> Hi Ville,
+> =
+
+> On 20-03-02 22:34, Ville Syrjala wrote:
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > =
+
+> > The currently listed dotclock disagrees with the currently
+> > listed vrefresh rate. Change the dotclock to match the vrefresh.
+> > =
+
+> > Someone tell me which (if either) of the dotclock or vreresh is
+> > correct?
+> =
+
+> Pls, check the datasheet which is linked within the comment. We hit the
+> vrefresh exactly if we are in SYNC MODE.
+
+It's too much work to start hunting datasheets for all these
+and figuring out what's going on in each case. Pls just
+inform me which way is correct if you know the details.
+
+> =
+
+> Regards,
+>   Marco
+> =
+
+> > Cc: Andreas Pretzsch <apr@cn-eng.de>
+> > Cc: Marco Felsch <m.felsch@pengutronix.de>
+> > Cc: Thierry Reding <treding@nvidia.com>
+> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/panel/panel-simple.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/pan=
+el/panel-simple.c
+> > index 93e5bc32fb59..35750229189f 100644
+> > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > @@ -1342,7 +1342,7 @@ static const struct panel_desc dlc_dlc1010gig =3D=
+ {
+> >  };
+> >  =
+
+> >  static const struct drm_display_mode edt_et035012dm6_mode =3D {
+> > -	.clock =3D 6500,
+> > +	.clock =3D 6414,
+> >  	.hdisplay =3D 320,
+> >  	.hsync_start =3D 320 + 20,
+> >  	.hsync_end =3D 320 + 20 + 30,
+> > -- =
+
+> > 2.24.1
+> > =
+
+> > =
+
+> =
+
+> -- =
+
+> Pengutronix e.K.                           |                             |
+> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
