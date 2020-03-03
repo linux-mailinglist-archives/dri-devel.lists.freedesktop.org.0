@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9CF176AD0
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 03:46:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D80F176AD1
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 03:46:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FCD36E93C;
-	Tue,  3 Mar 2020 02:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA2096E94C;
+	Tue,  3 Mar 2020 02:46:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9E626E93D;
- Tue,  3 Mar 2020 02:46:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 408536E93F;
+ Tue,  3 Mar 2020 02:46:38 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EC9682467B;
- Tue,  3 Mar 2020 02:46:35 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3539324677;
+ Tue,  3 Mar 2020 02:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1583203596;
- bh=UKem77v3AKngJTCiKKqmdNySz2FCD1k2poQmhztolg4=;
+ s=default; t=1583203598;
+ bh=5KKM57E/6i1ezCg+qBrkEvzBJzmv+cHuBS7GbTFfXtc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FVbIOifNQjxrDxrCz/NG+2ejSqvKsv2/xU1Jk1BtO7bhKBZ0nW/uAJXU5+uE5kvXx
- S0hdlAOeSz3gXFG8h99U5B1QvxxtIK+HCNlX1tlLXsydTvp1JD731c1ZT1dvQMcUrA
- p4r52djNnBn55wvCK0sc3/HFUNLbVTFkkzCmwJm0=
+ b=sMiFyZL9vrxoXOWGiIhX80qSfHkZ2n+cR5QkB4RjKqlkRlmsDNabNgn0uiLf1/hZa
+ xY4pUA4kU8JLsEchgRPF9rKWWynYcn9zw3WDyIYqyhoPt/MdQzu8eMLjpE9t4tSbsN
+ T41E5ydHMsmnS1/tqnn2DW1SW491YZ5rwN/f7BEM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 17/66] drm/msm/dsi: save pll state before dsi host
- is powered off
-Date: Mon,  2 Mar 2020 21:45:26 -0500
-Message-Id: <20200303024615.8889-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 18/66] drm/msm/dsi/pll: call vco set rate
+ explicitly
+Date: Mon,  2 Mar 2020 21:45:27 -0500
+Message-Id: <20200303024615.8889-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200303024615.8889-1-sashal@kernel.org>
 References: <20200303024615.8889-1-sashal@kernel.org>
@@ -51,8 +51,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, Harigovindan P <harigovi@codeaurora.org>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Harigovindan P <harigovi@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -60,57 +61,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Harigovindan P <harigovi@codeaurora.org>
 
-[ Upstream commit a1028dcfd0dd97884072288d0c8ed7f30399b528 ]
+[ Upstream commit c6659785dfb3f8d75f1fe637e4222ff8178f5280 ]
 
-Save pll state before dsi host is powered off. Without this change
-some register values gets resetted.
+For a given byte clock, if VCO recalc value is exactly same as
+vco set rate value, vco_set_rate does not get called assuming
+VCO is already set to required value. But Due to GDSC toggle,
+VCO values are erased in the HW. To make sure VCO is programmed
+correctly, we forcefully call set_rate from vco_prepare.
 
 Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+Reviewed-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 5 +++++
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 4 ----
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 355a60b4a536f..73127948f54d9 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -479,6 +479,7 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
- 	struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
- 	struct mipi_dsi_host *host = msm_dsi->host;
- 	struct drm_panel *panel = msm_dsi->panel;
-+	struct msm_dsi_pll *src_pll;
- 	bool is_dual_dsi = IS_DUAL_DSI();
- 	int ret;
+diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
+index 8f6100db90ed4..aa9385d5bfff9 100644
+--- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
++++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
+@@ -411,6 +411,12 @@ static int dsi_pll_10nm_vco_prepare(struct clk_hw *hw)
+ 	if (pll_10nm->slave)
+ 		dsi_pll_enable_pll_bias(pll_10nm->slave);
  
-@@ -519,6 +520,10 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
- 								id, ret);
- 	}
- 
-+	/* Save PLL status if it is a clock source */
-+	src_pll = msm_dsi_phy_get_pll(msm_dsi->phy);
-+	msm_dsi_pll_save_state(src_pll);
++	rc = dsi_pll_10nm_vco_set_rate(hw,pll_10nm->vco_current_rate, 0);
++	if (rc) {
++		pr_err("vco_set_rate failed, rc=%d\n", rc);
++		return rc;
++	}
 +
- 	ret = msm_dsi_host_power_off(host);
- 	if (ret)
- 		pr_err("%s: host %d power off failed,%d\n", __func__, id, ret);
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index b0cfa67d2a578..f509ebd77500f 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -724,10 +724,6 @@ void msm_dsi_phy_disable(struct msm_dsi_phy *phy)
- 	if (!phy || !phy->cfg->ops.disable)
- 		return;
- 
--	/* Save PLL status if it is a clock source */
--	if (phy->usecase != MSM_DSI_PHY_SLAVE)
--		msm_dsi_pll_save_state(phy->pll);
--
- 	phy->cfg->ops.disable(phy);
- 
- 	dsi_phy_regulator_disable(phy);
+ 	/* Start PLL */
+ 	pll_write(pll_10nm->phy_cmn_mmio + REG_DSI_10nm_PHY_CMN_PLL_CNTRL,
+ 		  0x01);
 -- 
 2.20.1
 
