@@ -1,49 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5152178BD6
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B619178BC2
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27C8B6EAED;
-	Wed,  4 Mar 2020 07:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D9F36EAD6;
+	Wed,  4 Mar 2020 07:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5301::10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD436EA8A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 15:20:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583248809;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=rKMD7BQOvvf2EnNvM4tQSBZbaPpVD8OTqQcL6Q0plyw=;
- b=PhxESi+lGZCUo53QbMNa4SrjK1bTU1FykuVIrBWS67ko1bZOd8etpmvwjTS2uE98Ea
- oGtcvEHCzdNNpQ/n7ZSJ6zSqdyRl1PiTgFoifaEJn59VpKlMoIJ6fz8xz8SCr7FiteSE
- qJT4JfExXeHuvXscGOUMmOH/6l5NjpPsXuBUM+NPbeyWqpiaMtsxM690fvZTSwEhLOjO
- /PGs9d2Wp5wwBjA0NbIEukK7Fdgmx2ZTuY/12rr/kJihddQZSJW1ye+kisq3WWwBdTcE
- I34E/pm4Sw2I+d0ldobDK60/m1o8z31f69NXtCh5y6aGu1LGwrEZfd3UToyTIEP/SQuR
- UqqA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGHPrpwDGvxw=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw23FJxJxq
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Tue, 3 Mar 2020 16:19:59 +0100 (CET)
-Subject: Re: [RFC 0/8] MIPS: CI20: add HDMI out support
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200303145848.GA13796@bogus>
-Date: Tue, 3 Mar 2020 16:19:59 +0100
-Message-Id: <6A9DD709-DF42-4A68-9EA4-A2F9C7A49DBA@goldelico.com>
-References: <cover.1582744379.git.hns@goldelico.com>
- <20200227122325.GA7587@ravnborg.org>
- <8EE60F87-415A-44EA-AA49-632E232095FF@goldelico.com>
- <20200303145848.GA13796@bogus>
-To: Rob Herring <robh@kernel.org>
-X-Mailer: Apple Mail (2.3124)
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8E6956EA8C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 15:36:27 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 43BEA80EE;
+ Tue,  3 Mar 2020 15:37:11 +0000 (UTC)
+Date: Tue, 3 Mar 2020 07:36:22 -0800
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH 1/3] drm/omap: Prepare DSS for probing without legacy
+ platform data
+Message-ID: <20200303153622.GR37466@atomide.com>
+References: <20200224191230.30972-1-tony@atomide.com>
+ <20200224191230.30972-2-tony@atomide.com>
+ <d5ce999e-3b26-334e-fc62-adee4753a3ed@ti.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <d5ce999e-3b26-334e-fc62-adee4753a3ed@ti.com>
 X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,70 +40,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Paul Burton <paulburton@kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Andi Kleen <ak@linux.intel.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Sam Ravnborg <sam@ravnborg.org>, "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
+ Suman Anna <s-anna@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Gerlach <d-gerlach@ti.com>, Keerthy <j-keerthy@ti.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Andrew F . Davis" <afd@ti.com>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Faiz Abbas <faiz_abbas@ti.com>, Jyri Sarha <jsarha@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
-
-> Am 03.03.2020 um 15:58 schrieb Rob Herring <robh@kernel.org>:
+* Tomi Valkeinen <tomi.valkeinen@ti.com> [200303 09:19]:
+> On 24/02/2020 21:12, Tony Lindgren wrote:
+> > In order to probe display subsystem (DSS) components with ti-sysc
+> > interconnect target module without legacy platform data and using
+> > devicetree, we need to update dss probing a bit.
+> > 
+> > In the device tree, we will be defining the data also for the interconnect
+> > target modules as DSS really is a private interconnect. There is some
+> > information about that in 4460 TRM in "Figure 10-3. DSS Integration" for
+> > example where it mentions "32-bit interconnect (SLX)".
+> > 
+> > The changes we need to make are:
+> > 
+> > 1. Parse also device tree subnodes for the compatible property fixup
+> > 
+> > 2. Update the component code to consider device tree subnodes
+> > 
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: Jyri Sarha <jsarha@ti.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > Signed-off-by: Tony Lindgren <tony@atomide.com>
+> > ---
+> > 
+> > This is needed for dropping DSS platform data that I'll be posting
+> > seprately. If this looks OK, can you guys please test and ack?
+> > 
+> > ---
+> >   drivers/gpu/drm/omapdrm/dss/dss.c             | 25 ++++++++++++++++---
+> >   .../gpu/drm/omapdrm/dss/omapdss-boot-init.c   | 25 +++++++++++++------
+> >   2 files changed, 39 insertions(+), 11 deletions(-)
 > 
-> On Thu, Feb 27, 2020 at 01:56:56PM +0100, H. Nikolaus Schaller wrote:
->> Hi Sam,
->> 
->> 
->> Or that there will appear good tools soon. E.g. some GUI
->> based editor tool would be very helpful so that you don't have
->> to fight with the yaml indentation rules. Like there are XML
->> and DTD editors. And even HTML is rarely written manually any more.
->> 
->> IMHO such tools should have been developed and in place *before*
->> the rule to provide DT schemata is enforced.
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > 
-> You mean tools like what is discussed here:
-> 
-> https://www.redhat.com/sysadmin/yaml-tips
-> 
-> There's also yaml-format in the dtschema repo which will reformat a file 
-> to the desired formatting. It is just a wrapper around ruamel yaml 
-> library.
+> This doesn't conflict with drm-next (with Laurent's recent patches), so it
+> should be fine for you to have this in your branch.
 
-What I dream of is a higher level higher abstraction than a YAML
-editor because the problems I face are not only YAML syntax but that
-I don't know what should be where in a scheme file and why.
+OK thank you. I've pushed out omap-for-v5.7/dss-probe which has just
+this commit against v5.6-rc1 [0][1]. Let's consider commit cef766300353
+("drm/omap: Prepare DSS for probing without legacy platform data")
+immutable so we can both merge it in as needed.
 
-So I'd like to have a Schema editor. I.e. some editor where I
-can edit a list of properties and can e.g. checkmark "required".
-And simply type a description into some text field.
+I have not added any tag yet as it seems that we could add also
+apply Sebastian's few preparatory dts changes to this branch when
+ready.
 
-And the editor knows where to place the keywords -item -enum
--oneOf -description etc. when doing a Save operation.
+> And not a biggie, but I wonder if the changes to these two files should be
+> in separate patches, due to omapdss-boot-init going away. Well, probably
+> doesn't matter.
 
-Basically what I dream of is more like MarkDown where you write text,
-titles paragraphs etc. and that gets magically translated into 
-valid HTML. Or even better analogy: OpenOffice where you just
-write and format your text and one does not have to edit PostScript
-printer commands.
+Hmm yeah good reason to put every change into a seprate patch
+for future. I really did not expect this to conflict with anything
+after years of no changes :)
 
-But it is likely to stay a dream.
+Regards,
 
-BR and thanks,
-Nikolaus
+Tony
 
+[0] git://git.kernel.org/pub/scm/linux/kernel/git/tmlind/linux-omap.git omap-for-v5.7/dss-probe
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/tmlind/linux-omap.git/commit/?h=omap-for-v5.7/dss-probe&id=cef766300353613aa273791f70b3125d1f0420ae
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
