@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B53917714B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:31:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A517717714F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:33:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE11388635;
-	Tue,  3 Mar 2020 08:31:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA77891B4;
+	Tue,  3 Mar 2020 08:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 151BD88635
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 08:31:29 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id n7so3123000wrt.11
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 00:31:29 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95224891B4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 08:33:33 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id t11so3190442wrw.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 00:33:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=j1X+kOl9uPGIFA7u5a2AdFDqq6QZcBX90u+2y/X3AF0=;
- b=B6wK6J0qouZfGHcyqrYtFFfJ61r++Fw5BQTPE7e7Mh9cX1qDO+q5Rh26xSsLQ3/jpK
- ystGYc66JLeqmDQGGKe5q1Qm/MipV9DOIdRPsBE2ppGoVrB6m6if1IXC82nlQZfO5vO8
- +wg/g772SyssmKUvtFyDN1wytbaAZWeEMu3qI=
+ bh=jGXlJU0eQgCzjZFCDnm9moRkUnZ17jrhoohDk5670JU=;
+ b=I/XCBBQwqf6VpBezJHTFsJ6STmDFRGmhRY71URELCeiKXXJL2nqi8FAS4Wr/h9W6tZ
+ qZSImfhUXhC2LD6T5ixuSKRvE+dzjPGepZafmi/YnQuyR54au5fyeuhADtUikI5Othxy
+ BD8ikK8j9bi1yGdNfU4EqFKp2zz57WKU3ulIc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=j1X+kOl9uPGIFA7u5a2AdFDqq6QZcBX90u+2y/X3AF0=;
- b=C/W5b7k6HWf17vlK04/o4CPxYreupvCPZm27ugHLFvz4Wz3LEXIKi7R0UTb9ydJTH2
- O0xPZkHxBccvrMCKvagLL6lqTz2WlTjgmIboHYBDyok23H/jF0mLydjowIOLOm2wVVLE
- hdsSA//x1COPmiP4WxowF4ehs9eLnIs2nuNO33Yga+cJcH9yzDUhLv+/kRP811AuqsTT
- AfGIFPQdYvSZjX43cfy5YVKi1lHKilqKbYxt8Ahm9XmWkfkAQEnbWXsxkHiCBjLt5E6m
- 2emnwGlR9F5tI9UbFhpQnN9guxgnDflPwuRh7Nkm3uLgRMHyGvqk74KSSA/3hZ2jvDZk
- WcNQ==
-X-Gm-Message-State: ANhLgQ1Mou1izs9QKk+ZypDDMC7iAKjkTHCuYSd8FkCEe88Op38kEvAQ
- H7ub6+uJ8cP4rySsXGafIRPI4A==
-X-Google-Smtp-Source: ADFU+vusmj8hJu5emj6MZ3Z/ZKfXWt8vNgRO8G8uVfTqDrq7AaKJj0l+2BgYTfaFt7DYJHtvMLG86A==
-X-Received: by 2002:adf:ecca:: with SMTP id s10mr4452053wro.255.1583224287781; 
- Tue, 03 Mar 2020 00:31:27 -0800 (PST)
+ bh=jGXlJU0eQgCzjZFCDnm9moRkUnZ17jrhoohDk5670JU=;
+ b=Ly4ho1Wm378c2sl/AWmMXy89c2xob48W5WB6IFIR6QECfq1avzrtEQOjDGjVQ3omPa
+ WiN7kz2vn3mXF4X881wpMdVZspMJwbovnmPLmNBmAyaVgOZg/F0EgCJmxqVzpahIKjCl
+ mxjgca2EKroQE2UrcRzG1lbxgZ8VrpGVkzLdgj3EqBPbJDPJVinZ6WgVh2JiM9JUTY97
+ W9nHmTfD74i5QUwvS1oRDtgc1dOJWHPqa1/XDI6K8rWE+scqgd3ovJZi/phs/aKgim15
+ qXZbCfi4wwN/V85kS2J2C76RviymfEYUqW/+d2Md2x1FiL7sQICdRtni0q9oLp7jT5Xu
+ 1tXw==
+X-Gm-Message-State: ANhLgQ0/q1JvcDwezoMlADEt68PLFzURTrhH1I4wgdWrYzDLhdG0eyfR
+ XzW9YzLjmQOD6t1NjxJdeKFqhQ==
+X-Google-Smtp-Source: ADFU+vuEPs7ifRxsMe24TVGJWfbIbPWvo0MMKCbFY5KzV1I4WqD1iytUS+s1mxvhgCWZC5md8CRBKQ==
+X-Received: by 2002:a5d:69c6:: with SMTP id s6mr4159063wrw.32.1583224412293;
+ Tue, 03 Mar 2020 00:33:32 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l8sm2825851wmj.2.2020.03.03.00.31.26
+ by smtp.gmail.com with ESMTPSA id b197sm2805478wmd.10.2020.03.03.00.33.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2020 00:31:27 -0800 (PST)
-Date: Tue, 3 Mar 2020 09:31:25 +0100
+ Tue, 03 Mar 2020 00:33:31 -0800 (PST)
+Date: Tue, 3 Mar 2020 09:33:29 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH] drm/simple-kms: Fix documentation for
  drm_simple_encoder_init()
-Message-ID: <20200303083125.GM2363188@phenom.ffwll.local>
+Message-ID: <20200303083329.GN2363188@phenom.ffwll.local>
 References: <20200303071807.9288-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -83,9 +83,6 @@ On Tue, Mar 03, 2020 at 08:18:07AM +0100, Thomas Zimmermann wrote:
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: dri-devel@lists.freedesktop.org
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
 >  drivers/gpu/drm/drm_simple_kms_helper.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -103,10 +100,16 @@ Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 >   * @encoder_type: user visible type of the encoder
 >   *
 >   * Initialises a preallocated encoder that has no further functionality.
-> --
-> 2.25.1
-> 
 
+btw reading this I just realized ... who does the kfree on the memory
+containing the encoder? The ->destroy hook doesn't do that, and without
+that the only other option thus far is devm_kzalloc, which is wrong.
+drmm_kzalloc would fix this, but we don't have that yet.
+
+How does this work? Maybe add a FIXME note that right now this can only
+really be used if the encoder is embedded into something else that's
+getting freed ...
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
