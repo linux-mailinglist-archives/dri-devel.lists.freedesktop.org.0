@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C68177330
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 10:56:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA0F177357
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 11:01:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0F16E53C;
-	Tue,  3 Mar 2020 09:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4F006E9AF;
+	Tue,  3 Mar 2020 10:01:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A66C6E53C
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 09:56:55 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 648D26E9AF
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 10:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583229414;
+ s=mimecast20190719; t=1583229685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C+sIW/sN4YO+XlskqgK7oeZFYXwdwxFuk8WSkCG0QPs=;
- b=GnqjqdMDgK1rzOkU5fr9juVsdFE5lAWmcFcTYibxuWGqvKaltbKbAA9sJi8dJnTPWDE2Wh
- cUmIg88WaWJR+BROCblPE7i9UqKs0mrZOoCKamcp6Rp/oLmCqO/p/+jbWlwXxIRi97LuhC
- 9PO6tCFipr5iw9Fdb8glFwRb5YoQQjU=
+ bh=GTd5NDHMUSVuf/ugLcITAyo69rj+nd8ODP5uU/a8J1M=;
+ b=MJWanF3Fczlg8nGb45rqJjwzbt7vnNRbQodz88Tx91fYUDSRIc1Xc7M5evL/l2SEjeCiFD
+ HIB3jcweB8Mh+at/DZS+iViIBFMh0BZ1C0rxas0q/1xEj4XoTVqbwfZ3LALpnM1S2oB/fV
+ dA5JgrXEcI82U5YjjVUVxGPltoZUQUA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-MjhZEZ2CNRePiOtSNJbkkw-1; Tue, 03 Mar 2020 04:56:53 -0500
-X-MC-Unique: MjhZEZ2CNRePiOtSNJbkkw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-14-e6pDA2f_PuWrNOebknOXvg-1; Tue, 03 Mar 2020 05:01:23 -0500
+X-MC-Unique: e6pDA2f_PuWrNOebknOXvg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C613107ACC4;
- Tue,  3 Mar 2020 09:56:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF6641403;
+ Tue,  3 Mar 2020 10:01:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
  [10.36.116.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CFA35C1D6;
- Tue,  3 Mar 2020 09:56:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5610260BF3;
+ Tue,  3 Mar 2020 10:01:22 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AB63517449; Tue,  3 Mar 2020 10:56:50 +0100 (CET)
-Date: Tue, 3 Mar 2020 10:56:50 +0100
+ id 5EC3C17449; Tue,  3 Mar 2020 11:01:21 +0100 (CET)
+Date: Tue, 3 Mar 2020 11:01:21 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [PATCH 1/2] drm/virtio: factor out the sg_table from
- virtio_gpu_object
-Message-ID: <20200303095650.2q477cboekzfsrsg@sirius.home.kraxel.org>
+Subject: Re: [PATCH 2/2] drm/virtio: make sure virtio_gpu_cleanup_object(..)
+ only happens on shmem objects
+Message-ID: <20200303100121.ueqfyfecvmzqt6gw@sirius.home.kraxel.org>
 References: <20200303014010.418-1-gurchetansingh@chromium.org>
+ <20200303014010.418-2-gurchetansingh@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200303014010.418-1-gurchetansingh@chromium.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200303014010.418-2-gurchetansingh@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
@@ -70,36 +70,22 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+> This function won't be useable for hostmem objects.
 
->  struct virtio_gpu_object {
->  	struct drm_gem_shmem_object base;
->  	uint32_t hw_res_handle;
-> -
-> -	struct sg_table *pages;
->  	uint32_t mapped;
-> -
->  	bool dumb;
->  	bool created;
->  };
->  #define gem_to_virtio_gpu_obj(gobj) \
->  	container_of((gobj), struct virtio_gpu_object, base.base)
+> @@ -526,7 +526,8 @@ static void virtio_gpu_cmd_unref_cb(struct virtio_gpu_device *vgdev,
+>  	bo = vbuf->resp_cb_data;
+>  	vbuf->resp_cb_data = NULL;
 >  
-> +struct virtio_gpu_object_shmem {
-> +	struct virtio_gpu_object base;
-> +	struct sg_table *pages;
-> +};
+> -	virtio_gpu_cleanup_object(bo);
+> +	if (bo && virtio_gpu_is_shmem(bo))
+> +		virtio_gpu_cleanup_object(bo);
 
-mapped can be moved too.
+Its not that simple, the virtio_gpu_resource_id_put() call in
+virtio_gpu_cleanup_object() is needed for all objects.  We also
+must free all objects.
 
-> @@ -600,10 +600,11 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
-
-> +	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
-
-Should we pass struct virtio_gpu_object_shmem to
-virtio_gpu_cmd_transfer_to_host_2d (+friends) instead?
-
-hostmem will not need transfers ...
+I'd suggest to move the virtio_gpu_is_shmem() check to
+virtio_gpu_cleanup_object().
 
 cheers,
   Gerd
