@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3F4176F13
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 07:03:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E19F176F57
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 07:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5820E6E996;
-	Tue,  3 Mar 2020 06:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 273CF6E07F;
+	Tue,  3 Mar 2020 06:24:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D67B16E996
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 06:02:56 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02362mgN072926;
- Tue, 3 Mar 2020 00:02:48 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1583215368;
- bh=yKiNYD+8y7Qu09nDhYahOcRlXG7fP8YIj6NAyiAOHMs=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=yrWL1D6CGPLlugRxoFy69xtkmbRU5aQ7B4C8E0x9FfP4c+l1WW88uIfg/OO4XY2X0
- seOjJI5XvEMLNuzxoj/dU98pYt7qk6dDLLaNFtO/epn8MhvsGCevok21XLn+0nyRs5
- 5rBJYlgzZqizAqEb8botmCANaxPqIA8Os/oqJejQ=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02362mHm111089
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 3 Mar 2020 00:02:48 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 3 Mar
- 2020 00:02:47 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 3 Mar 2020 00:02:47 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02362hrt076700;
- Tue, 3 Mar 2020 00:02:44 -0600
-Subject: Re: [PATCH 3/3] bus: ti-sysc: Implement display subsystem reset quirk
-To: Tony Lindgren <tony@atomide.com>, <linux-omap@vger.kernel.org>
-References: <20200224191230.30972-1-tony@atomide.com>
- <20200224191230.30972-4-tony@atomide.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <7d4af3b5-5dd7-76b3-4d3f-4698bfde288c@ti.com>
-Date: Tue, 3 Mar 2020 08:02:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7F46E07F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 06:24:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583216685;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0uDbQSrL5bY0m8ESxsGOghE60Coq5rSinBwFrYLBRO8=;
+ b=bzMmFJk2+8M6f8kNRzz4LrCt22eKSKpUvDPvobtt5v7rEDHLQICLkSYCnZ5ABnHdl47HsQ
+ pu4Tv4wIR8/QZqJKqvQJFNUl+cgBB+52QWUqV37fKlp9qAweGouUTHV4ppXHZqvWSFm7sD
+ YBXgpqFTJOq0iXZg2PFWDr4BGz2vh7k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-2eioPBa8MCibtDp9ku-Nuw-1; Tue, 03 Mar 2020 01:24:40 -0500
+X-MC-Unique: 2eioPBa8MCibtDp9ku-Nuw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 514041005510;
+ Tue,  3 Mar 2020 06:24:39 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
+ [10.36.116.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 632E360C05;
+ Tue,  3 Mar 2020 06:24:38 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A4BCC17535; Tue,  3 Mar 2020 07:24:37 +0100 (CET)
+Date: Tue, 3 Mar 2020 07:24:37 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Alistair Francis <alistair23@gmail.com>
+Subject: Re: [PATCH] drm/bochs: Remove vga write
+Message-ID: <20200303062437.tjoje5huts6oldrv@sirius.home.kraxel.org>
+References: <20200227210454.18217-1-alistair.francis@wdc.com>
+ <20200228095748.uu4sqkz6y477eabc@sirius.home.kraxel.org>
+ <CAKmqyKOTjyRL9vxZrZW8Q+yBM0n-Nw-o-Cn3dUDDfAAa7Nswrg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200224191230.30972-4-tony@atomide.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <CAKmqyKOTjyRL9vxZrZW8Q+yBM0n-Nw-o-Cn3dUDDfAAa7Nswrg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,204 +62,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
- Dave Gerlach <d-gerlach@ti.com>, Keerthy <j-keerthy@ti.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>, "Andrew F . Davis" <afd@ti.com>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Faiz Abbas <faiz_abbas@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Suman Anna <s-anna@ti.com>,
- linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
+Cc: airlied@linux.ie, Khem Raj <raj.khem@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/02/2020 21:12, Tony Lindgren wrote:
-> The display subsystem (DSS) needs the child outputs disabled for reset.
-> In order to prepare to probe DSS without legacy platform data, let's
-> implement sysc_pre_reset_quirk_dss() similar to what we have for the
-> platform data with omap_dss_reset().
+On Mon, Mar 02, 2020 at 02:14:02PM -0800, Alistair Francis wrote:
+> On Fri, Feb 28, 2020 at 1:57 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > On Thu, Feb 27, 2020 at 01:04:54PM -0800, Alistair Francis wrote:
+> > > The QEMU model for the Bochs display has no VGA memory section at offset
+> > > 0x400 [1]. By writing to this register Linux can create a write to
+> > > unassigned memory which depending on machine and architecture can result
+> > > in a store fault.
+> > >
+> > > I don't see any reference to this address at OSDev [2] or in the Bochs
+> > > source code.
+> > >
+> > > Removing this write still allows graphics to work inside QEMU with
+> > > the bochs-display.
+> >
+> > It's not that simple.  The driver also handles the qemu stdvga (-device
+> > VGA, -device secondary-vga) which *does* need the vga port write.
+> > There is no way for the guest to figure whenever the device is
+> > secondary-vga or bochs-display.
+> >
+> > So how about fixing things on the host side?  Does qemu patch below
+> > help?
 > 
-> Note that we cannot directly use the old omap_dss_reset() without
-> platform data callbacks and updating omap_dss_reset() to understand
-> struct device. And we will be dropping omap_dss_reset() anyways when
-> all the SoCs are probing with device tree, so let's not mess with the
-> legacy code at all.
+> That patch looks like it will fix the problem, but it doesn't seem
+> like the correct fix. I would rather avoid adding a large chunk of
+> dummy I/O to handle the two devices.
+
+It's just a single handler for the parent mmio region, so we have a
+defined default action instead of undefined behavior.
+
+Patch just posted to qemu-devel, lets see what others think ...
+
+> > Maybe another possible approach is to enable/disable vga access per
+> > arch.  On x86 this doesn't cause any problems.  I guess you are on
+> > risc-v?
 > 
-> Cc: Jyri Sarha <jsarha@ti.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Signed-off-by: Tony Lindgren <tony@atomide.com>
-> ---
->   drivers/bus/ti-sysc.c                 | 131 +++++++++++++++++++++++++-
->   include/linux/platform_data/ti-sysc.h |   1 +
->   2 files changed, 129 insertions(+), 3 deletions(-)
+> I would prefer this option. I do see this on RISC-V, but I suspect the
+> issue will appear on other architectures (although how they handle I/O
+> failures in QEMU is a different story).
 > 
-> diff --git a/drivers/bus/ti-sysc.c b/drivers/bus/ti-sysc.c
-> --- a/drivers/bus/ti-sysc.c
-> +++ b/drivers/bus/ti-sysc.c
-> @@ -1303,11 +1303,11 @@ static const struct sysc_revision_quirk sysc_revision_quirks[] = {
->   	SYSC_QUIRK("dcan", 0x48480000, 0x20, -ENODEV, -ENODEV, 0xa3170504, 0xffffffff,
->   		   SYSC_QUIRK_CLKDM_NOAUTO),
->   	SYSC_QUIRK("dss", 0x4832a000, 0, 0x10, 0x14, 0x00000020, 0xffffffff,
-> -		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
-> +		   SYSC_QUIRK_OPT_CLKS_IN_RESET | SYSC_MODULE_QUIRK_DSS_RESET),
->   	SYSC_QUIRK("dss", 0x58000000, 0, -ENODEV, 0x14, 0x00000040, 0xffffffff,
-> -		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
-> +		   SYSC_QUIRK_OPT_CLKS_IN_RESET | SYSC_MODULE_QUIRK_DSS_RESET),
->   	SYSC_QUIRK("dss", 0x58000000, 0, -ENODEV, 0x14, 0x00000061, 0xffffffff,
-> -		   SYSC_QUIRK_OPT_CLKS_IN_RESET),
-> +		   SYSC_QUIRK_OPT_CLKS_IN_RESET | SYSC_MODULE_QUIRK_DSS_RESET),
->   	SYSC_QUIRK("dwc3", 0x48880000, 0, 0x10, -ENODEV, 0x500a0200, 0xffffffff,
->   		   SYSC_QUIRK_CLKDM_NOAUTO),
->   	SYSC_QUIRK("dwc3", 0x488c0000, 0, 0x10, -ENODEV, 0x500a0200, 0xffffffff,
-> @@ -1468,6 +1468,128 @@ static void sysc_init_revision_quirks(struct sysc *ddata)
->   	}
->   }
->   
-> +/*
-> + * DSS needs dispc outputs disabled to reset modules. Returns mask of
-> + * enabled DSS interrupts. Eventually we may be able to do this on
-> + * dispc init rather than top-level DSS init.
-> + */
-> +static u32 sysc_quirk_dispc(struct sysc *ddata, int dispc_offset,
-> +			    bool disable)
-> +{
-> +	bool lcd_en, digit_en, lcd2_en = false, lcd3_en = false;
-> +	const int lcd_en_mask = BIT(0), digit_en_mask = BIT(1);
-> +	int manager_count;
-> +	bool framedonetv_irq;
-> +	u32 val, irq_mask = 0;
-> +
-> +	switch (sysc_soc->soc) {
-> +	case SOC_2420 ... SOC_3630:
-> +		manager_count = 2;
-> +		framedonetv_irq = false;
-> +		break;
-> +	case SOC_4430 ... SOC_4470:
-> +		manager_count = 3;
-> +		break;
-> +	case SOC_5430:
-> +	case SOC_DRA7:
-> +		manager_count = 4;
-> +		break;
-> +	case SOC_AM4:
-> +		manager_count = 1;
-> +		break;
-> +	case SOC_UNKNOWN:
-> +	default:
-> +		return 0;
-> +	};
-> +
-> +	/* Remap the whole module range to be able to reset dispc outputs */
-> +	devm_iounmap(ddata->dev, ddata->module_va);
-> +	ddata->module_va = devm_ioremap(ddata->dev,
-> +					ddata->module_pa,
-> +					ddata->module_size);
+> Can I just do the VGA write if x86?
 
-Why is this needed? The range is not mapped when sysc_pre_reset_quirk_dss() is called? This will 
-unmap and remap twice, as this function is called twice. And then left mapped.
+I know ppc needs it too.  Not sure about other architectures.  I'd
+suggest to do it the other way around: blacklist known-problematic
+archs.
 
-> +	if (!ddata->module_va)
-> +		return -EIO;
-> +
-> +	/* DISP_CONTROL */
-> +	val = sysc_read(ddata, dispc_offset + 0x40);
+cheers,
+  Gerd
 
-Defines for dss/dispc register offsets could have been copied from the platform display.c and used 
-in this file.
-
-> +	lcd_en = val & lcd_en_mask;
-> +	digit_en = val & digit_en_mask;
-> +	if (lcd_en)
-> +		irq_mask |= BIT(0);			/* FRAMEDONE */
-> +	if (digit_en) {
-> +		if (framedonetv_irq)
-> +			irq_mask |= BIT(24);		/* FRAMEDONETV */
-> +		else
-> +			irq_mask |= BIT(2) | BIT(3);	/* EVSYNC bits */
-> +	}
-> +	if (disable & (lcd_en | digit_en))
-> +		sysc_write(ddata, dispc_offset + 0x40,
-> +			   val & ~(lcd_en_mask | digit_en_mask));
-> +
-> +	if (manager_count <= 2)
-> +		return irq_mask;
-> +
-> +	/* DISPC_CONTROL2 */
-> +	val = sysc_read(ddata, dispc_offset + 0x238);
-> +	lcd2_en = val & lcd_en_mask;
-> +	if (lcd2_en)
-> +		irq_mask |= BIT(22);			/* FRAMEDONE2 */
-> +	if (disable && lcd2_en)
-> +		sysc_write(ddata, dispc_offset + 0x238,
-> +			   val & ~lcd_en_mask);
-> +
-> +	if (manager_count <= 3)
-> +		return irq_mask;
-> +
-> +	/* DISPC_CONTROL3 */
-> +	val = sysc_read(ddata, dispc_offset + 0x848);
-> +	lcd3_en = val & lcd_en_mask;
-> +	if (lcd3_en)
-> +		irq_mask |= BIT(30);			/* FRAMEDONE3 */
-> +	if (disable && lcd3_en)
-> +		sysc_write(ddata, dispc_offset + 0x848,
-> +			   val & ~lcd_en_mask);
-> +
-> +	return irq_mask;
-> +}
-> +
-> +/* DSS needs child outputs disabled and SDI registers cleared for reset */
-> +static void sysc_pre_reset_quirk_dss(struct sysc *ddata)
-> +{
-> +	const int dispc_offset = 0x1000;
-> +	int error;
-> +	u32 irq_mask, val;
-> +
-> +	/* Get enabled outputs */
-> +	irq_mask = sysc_quirk_dispc(ddata, dispc_offset, false);
-> +	if (!irq_mask)
-> +		return;
-> +
-> +	/* Clear IRQSTATUS */
-> +	sysc_write(ddata, 0x1000 + 0x18, irq_mask);
-
-dispc_offset instead of 0x1000.
-
-> +
-> +	/* Disable outputs */
-> +	val = sysc_quirk_dispc(ddata, dispc_offset, true);
-> +
-> +	/* Poll IRQSTATUS */
-> +	error = readl_poll_timeout(ddata->module_va + dispc_offset + 0x18,
-> +				   val, val != irq_mask, 100, 50);
-> +	if (error)
-> +		dev_warn(ddata->dev, "%s: timed out %08x !+ %08x\n",
-> +			 __func__, val, irq_mask);
-> +
-> +	if (sysc_soc->soc == SOC_3430) {
-> +		/* Clear DSS_SDI_CONTROL */
-> +		sysc_write(ddata, dispc_offset + 0x44, 0);
-> +
-> +		/* Clear DSS_PLL_CONTROL */
-> +		sysc_write(ddata, dispc_offset + 0x48, 0);
-
-These are not dispc registers, but dss registers.
-
-> +	}
-> +
-> +	/* Clear DSS_CONTROL to switch DSS clock sources to PRCM if not */
-> +	sysc_write(ddata, dispc_offset + 0x40, 0);
-
-Same here.
-
-  Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
