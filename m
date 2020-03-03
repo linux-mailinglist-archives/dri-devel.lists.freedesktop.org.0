@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DED1770E4
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:13:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 272EB1770F3
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Mar 2020 09:21:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 930266E9D4;
-	Tue,  3 Mar 2020 08:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA6E56E4EA;
+	Tue,  3 Mar 2020 08:21:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15D596E9D4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 08:13:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583223184;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pS2kujS6GdIL8pBalibfKZgXPCfASWGXYOeelvtWEBA=;
- b=Dh/TMLK/TPVeI7E9v4bBtZK8K58EGXktIggS4Aej0V2bwl0jo9p6hnc7QuOMG5g822XmfK
- LPSGdr3qonk7Gnb1eF5EUX8bMBr70y6PhtIwMWALuKWaxkxOdhbl7OEnprKUuyC44GRux4
- 53Zu3DH4Me4TsdBpehW61YzieiPRAKM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-tSbED5ArOIO2yUkDzSnD2Q-1; Tue, 03 Mar 2020 03:13:00 -0500
-X-MC-Unique: tSbED5ArOIO2yUkDzSnD2Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DF3A8017CC;
- Tue,  3 Mar 2020 08:12:59 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
- [10.36.116.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 901AF5C1D6;
- Tue,  3 Mar 2020 08:12:58 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7C7A617535; Tue,  3 Mar 2020 09:12:57 +0100 (CET)
-Date: Tue, 3 Mar 2020 09:12:57 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Subject: Re: [PATCH 2/2] [RFC] drm/virtgpu: modify uapi with
- stride/layer_stride fix
-Message-ID: <20200303081257.hhmdskqa5joh627x@sirius.home.kraxel.org>
-References: <20191002014935.33171-1-gurchetansingh@chromium.org>
- <20191002014935.33171-2-gurchetansingh@chromium.org>
- <20191002084942.jnm6brnuadwztonh@sirius.home.kraxel.org>
- <CAAfnVB=NBvsAsFX_iDuqfyS12jp=S=1kXDjvWr8-tFAaN5aEMQ@mail.gmail.com>
- <CAPaKu7TwKx+0QCyu4orDD1fmEhsNSUn_ab7-QhQNsOyg3bzApQ@mail.gmail.com>
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 480166E4EA
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2020 08:21:39 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id v19so2137055ote.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 00:21:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GUKiYpi9FYS09yZZU0VyVoSg4aODr62keM14BQquORs=;
+ b=iTWHWXN1cBYaPALi8BmMvDHdDzP0pKeUtHzIMaZWEkPiFOOdEMBDcTNEIqY961Mb8h
+ LbLyoMlq1lKaFpSLXNK3VlkxsJ5KXgQhZaXfV5s4O24srTrobcEMWdltxWq0MqlNjLW1
+ IgAJ+fkveUQq17XOSt7mVFTzXwRn4y6SiVqHI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GUKiYpi9FYS09yZZU0VyVoSg4aODr62keM14BQquORs=;
+ b=VZsaeqx2Y6w5LWPCyZmyD6+21vSs6j+kuTgLKKVCKT+bQjsQgSB7rX9WKEajnhLVMw
+ mDmrhOrnIdltUuM4kv3gqo0n/wYix9YEV1xH3CSwVSCpw9hS8MiM3xL/kuFo6mrQmWZx
+ 7Mf06MbrWAOwsu1EwtlDAQ4HwIsU/6FwraVAZMwE7Ncrlb2LBKh7A27RCEOfSqvyWKZ1
+ 87/i59xWpytTqCJE0se0WghfXa5t7vXrVgM3STr1h/pwL/hUCwYwvFZly8wV+Ry28TQT
+ JPEfsKvnkii8+6/RmtHAtyfWwrCH1N+RgFTZpBZ3ItRIZnoPutYd9hO1dnYiJyUSvSqB
+ tM+Q==
+X-Gm-Message-State: ANhLgQ2CvCwczHRzi7amW45cn+uAaENyAJ2UKwC7ywsWSZ+3A6HFrkld
+ pVc/iEngqGZVEhUy9gAAdHyoVLzrjFausNmIjad1Gg==
+X-Google-Smtp-Source: ADFU+vsWv/xGzR65hrkCy9io6KB5BpW2YoarmWrhIlXJBLbFY6jxN/402N6iCd/Q1ExpqXqPKFR3bzRtUMOm2cVQ7N8=
+X-Received: by 2002:a9d:6256:: with SMTP id i22mr676037otk.106.1583223698573; 
+ Tue, 03 Mar 2020 00:21:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAPaKu7TwKx+0QCyu4orDD1fmEhsNSUn_ab7-QhQNsOyg3bzApQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+References: <20200220062229.68762-1-keescook@chromium.org>
+ <202003022038.07A611E@keescook>
+In-Reply-To: <202003022038.07A611E@keescook>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 3 Mar 2020 09:21:26 +0100
+Message-ID: <CAKMK7uHRppv==G+Ep4S48dPMKZ9EwZGOt3WwWGXJiv+bXR-0SA@mail.gmail.com>
+Subject: Re: [PATCH] drm/edid: Distribute switch variables for initialization
+To: Kees Cook <keescook@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,41 +60,68 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alexander Potapenko <glider@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 28, 2020 at 01:01:49PM -0800, Chia-I Wu wrote:
-> On Wed, Oct 2, 2019 at 5:18 PM Gurchetan Singh
-> <gurchetansingh@chromium.org> wrote:
-> >
-> > On Wed, Oct 2, 2019 at 1:49 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >
-> > > On Tue, Oct 01, 2019 at 06:49:35PM -0700, Gurchetan Singh wrote:
-> > > > This doesn't really break userspace, since it always passes down
-> > > > 0 for stride/layer_stride currently. We could:
-> > > >
-> > > > (1) modify UAPI now and add a VIRTGPU_PARAM_STRIDE_FIX feature
-> > >
-> > > This I think.
-> > > But IMO it's not a fix, it is an added feature ...
-> > >
-> > > Also missing the big picture here.  Why do we need this?
-> >
-> > Two reasons:
-> I don't fully get the picture, but drm_virtgpu_resource_create has
-> stride.  Can we send that down in transfers?
-
-It's unused and suddenly caring about it has a good chance to break
-stuff ...
-
-cheers,
-  Gerd
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBNYXIgMywgMjAyMCBhdCA1OjM5IEFNIEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21p
+dW0ub3JnPiB3cm90ZToKPgo+IE9uIFdlZCwgRmViIDE5LCAyMDIwIGF0IDEwOjIyOjI5UE0gLTA4
+MDAsIEtlZXMgQ29vayB3cm90ZToKPiA+IFZhcmlhYmxlcyBkZWNsYXJlZCBpbiBhIHN3aXRjaCBz
+dGF0ZW1lbnQgYmVmb3JlIGFueSBjYXNlIHN0YXRlbWVudHMKPiA+IGNhbm5vdCBiZSBhdXRvbWF0
+aWNhbGx5IGluaXRpYWxpemVkIHdpdGggY29tcGlsZXIgaW5zdHJ1bWVudGF0aW9uIChhcwo+ID4g
+dGhleSBhcmUgbm90IHBhcnQgb2YgYW55IGV4ZWN1dGlvbiBmbG93KS4gV2l0aCBHQ0MncyBwcm9w
+b3NlZCBhdXRvbWF0aWMKPiA+IHN0YWNrIHZhcmlhYmxlIGluaXRpYWxpemF0aW9uIGZlYXR1cmUs
+IHRoaXMgdHJpZ2dlcnMgYSB3YXJuaW5nIChhbmQgdGhleQo+ID4gZG9uJ3QgZ2V0IGluaXRpYWxp
+emVkKS4gQ2xhbmcncyBhdXRvbWF0aWMgc3RhY2sgdmFyaWFibGUgaW5pdGlhbGl6YXRpb24KPiA+
+ICh2aWEgQ09ORklHX0lOSVRfU1RBQ0tfQUxMPXkpIGRvZXNuJ3QgdGhyb3cgYSB3YXJuaW5nLCBi
+dXQgaXQgYWxzbwo+ID4gZG9lc24ndCBpbml0aWFsaXplIHN1Y2ggdmFyaWFibGVzWzFdLiBOb3Rl
+IHRoYXQgdGhlc2Ugd2FybmluZ3MgKG9yIHNpbGVudAo+ID4gc2tpcHBpbmcpIGhhcHBlbiBiZWZv
+cmUgdGhlIGRlYWQtc3RvcmUgZWxpbWluYXRpb24gb3B0aW1pemF0aW9uIHBoYXNlLAo+ID4gc28g
+ZXZlbiB3aGVuIHRoZSBhdXRvbWF0aWMgaW5pdGlhbGl6YXRpb25zIGFyZSBsYXRlciBlbGlkZWQg
+aW4gZmF2b3Igb2YKPiA+IGRpcmVjdCBpbml0aWFsaXphdGlvbnMsIHRoZSB3YXJuaW5ncyByZW1h
+aW4uCj4gPgo+ID4gVG8gYXZvaWQgdGhlc2UgcHJvYmxlbXMsIG1vdmUgc3VjaCB2YXJpYWJsZXMg
+aW50byB0aGUgImNhc2UiIHdoZXJlCj4gPiB0aGV5J3JlIHVzZWQgb3IgbGlmdCB0aGVtIHVwIGlu
+dG8gdGhlIG1haW4gZnVuY3Rpb24gYm9keS4KPiA+Cj4gPiBkcml2ZXJzL2dwdS9kcm0vZHJtX2Vk
+aWQuYzogSW4gZnVuY3Rpb24g4oCYZHJtX2VkaWRfdG9fZWxk4oCZOgo+ID4gZHJpdmVycy9ncHUv
+ZHJtL2RybV9lZGlkLmM6NDM5NTo5OiB3YXJuaW5nOiBzdGF0ZW1lbnQgd2lsbCBuZXZlciBiZSBl
+eGVjdXRlZCBbLVdzd2l0Y2gtdW5yZWFjaGFibGVdCj4gPiAgNDM5NSB8ICAgICBpbnQgc2FkX2Nv
+dW50Owo+ID4gICAgICAgfCAgICAgICAgIF5+fn5+fn5+fgo+ID4KPiA+IFsxXSBodHRwczovL2J1
+Z3MubGx2bS5vcmcvc2hvd19idWcuY2dpP2lkPTQ0OTE2Cj4gPgo+ID4gU2lnbmVkLW9mZi1ieTog
+S2VlcyBDb29rIDxrZWVzY29va0BjaHJvbWl1bS5vcmc+Cj4KPiBQaW5nLiBDYW4gc29tZW9uZSBw
+aWNrIHRoaXMgdXAsIHBsZWFzZT8KCldoYXRldmVyIHRoZSByZWFzb25zLCBidXQgeW91ciBvcmln
+aW5hbCBwYXRjaCBkaWRuJ3QgbWFrZSBpdCB0aHJvdWdoCnRvIGRyaS1kZXZlbC4gQ2FuIHlvdSBw
+bHMgcmVzdWJtaXQ/CgpUaGFua3MsIERhbmllbAoKPgo+IFRoYW5rcyEKPgo+IC1LZWVzCj4KPiA+
+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIHwgICAgNSArKystLQo+ID4gIDEg
+ZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9lZGlkLmMKPiA+IGluZGV4IDgwNWZiMDA0YzhlYi4uMjk0MWI2NWI0MjdmIDEwMDY0NAo+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fZWRpZC5jCj4gPiBAQCAtNDM5Miw5ICs0MzkyLDkgQEAgc3RhdGljIHZvaWQgZHJtX2Vk
+aWRfdG9fZWxkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIHN0cnVjdCBlZGlkICpl
+ZGlkKQo+ID4gICAgICAgICAgICAgICAgICAgICAgIGRibCA9IGNlYV9kYl9wYXlsb2FkX2xlbihk
+Yik7Cj4gPgo+ID4gICAgICAgICAgICAgICAgICAgICAgIHN3aXRjaCAoY2VhX2RiX3RhZyhkYikp
+IHsKPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCBzYWRfY291bnQ7Cj4gPiAr
+ICAgICAgICAgICAgICAgICAgICAgY2FzZSBBVURJT19CTE9DSzogewo+ID4KPiA+IC0gICAgICAg
+ICAgICAgICAgICAgICBjYXNlIEFVRElPX0JMT0NLOgo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgaW50IHNhZF9jb3VudDsKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IC8qIEF1ZGlvIERhdGEgQmxvY2ssIGNvbnRhaW5zIFNBRHMgKi8KPiA+ICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHNhZF9jb3VudCA9IG1pbihkYmwgLyAzLCAxNSAtIHRvdGFsX3NhZF9j
+b3VudCk7Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiAoc2FkX2NvdW50ID49
+IDEpCj4gPiBAQCAtNDQwMiw2ICs0NDAyLDcgQEAgc3RhdGljIHZvaWQgZHJtX2VkaWRfdG9fZWxk
+KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIHN0cnVjdCBlZGlkICplZGlkKQo+ID4g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJmRiWzFdLCBzYWRf
+Y291bnQgKiAzKTsKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRvdGFsX3NhZF9j
+b3VudCArPSBzYWRfY291bnQ7Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBicmVh
+azsKPiA+ICsgICAgICAgICAgICAgICAgICAgICB9Cj4gPiAgICAgICAgICAgICAgICAgICAgICAg
+Y2FzZSBTUEVBS0VSX0JMT0NLOgo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyog
+U3BlYWtlciBBbGxvY2F0aW9uIERhdGEgQmxvY2sgKi8KPiA+ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGlmIChkYmwgPj0gMSkKPiA+Cj4KPiAtLQo+IEtlZXMgQ29vawoKCgotLSAKRGFu
+aWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KKzQxICgwKSA3
+OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
