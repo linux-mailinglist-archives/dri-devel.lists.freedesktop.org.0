@@ -2,32 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB95E178BDD
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4CDB178BB4
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:47:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4666EAD7;
-	Wed,  4 Mar 2020 07:47:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 121556EACF;
+	Wed,  4 Mar 2020 07:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8B589A5D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:25:58 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id C236CA559D955BC18213;
- Wed,  4 Mar 2020 10:25:55 +0800 (CST)
-Received: from localhost.localdomain (10.175.124.28) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 4 Mar 2020 10:25:48 +0800
-From: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
-To: <b.zolnierkie@samsung.com>, <zhangxiaoxu5@huawei.com>,
- <wangkefeng.wang@huawei.com>, <sergey.senozhatsky@gmail.com>,
- <pmladek@suse.com>, <akpm@osdl.org>, <ville.syrjala@linux.intel.com>
-Subject: [v4] vgacon: Fix a UAF in vgacon_invert_region
-Date: Wed, 4 Mar 2020 10:24:29 +0800
-Message-ID: <20200304022429.37738-1-zhangxiaoxu5@huawei.com>
-X-Mailer: git-send-email 2.17.2
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAFE86E115
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:26:31 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 03AE44F1FF0FC611984E;
+ Wed,  4 Mar 2020 10:26:28 +0800 (CST)
+Received: from [127.0.0.1] (10.173.220.145) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0;
+ Wed, 4 Mar 2020 10:26:17 +0800
+Subject: Re: [v2] vgacon: Fix a UAF in vgacon_invert_region
+To: <b.zolnierkie@samsung.com>, <wangkefeng.wang@huawei.com>,
+ <sergey.senozhatsky@gmail.com>, <pmladek@suse.com>, <akpm@osdl.org>
+References: <20200304020228.44484-1-zhangxiaoxu5@huawei.com>
+From: "zhangxiaoxu (A)" <zhangxiaoxu5@huawei.com>
+Message-ID: <3e57400c-6632-4fae-d242-f839bfff8d46@huawei.com>
+Date: Wed, 4 Mar 2020 10:26:17 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-X-Originating-IP: [10.175.124.28]
+In-Reply-To: <20200304020228.44484-1-zhangxiaoxu5@huawei.com>
+X-Originating-IP: [10.173.220.145]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,125 +45,85 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="gbk"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When syzkaller tests, there is a UAF:
-  BUG: KASan: use after free in vgacon_invert_region+0x9d/0x110 at addr
-    ffff880000100000
-  Read of size 2 by task syz-executor.1/16489
-  page:ffffea0000004000 count:0 mapcount:-127 mapping:          (null)
-  index:0x0
-  page flags: 0xfffff00000000()
-  page dumped because: kasan: bad access detected
-  CPU: 1 PID: 16489 Comm: syz-executor.1 Not tainted
-  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-  rel-1.9.3-0-ge2fc41e-prebuilt.qemu-project.org 04/01/2014
-  Call Trace:
-    [<ffffffffb119f309>] dump_stack+0x1e/0x20
-    [<ffffffffb04af957>] kasan_report+0x577/0x950
-    [<ffffffffb04ae652>] __asan_load2+0x62/0x80
-    [<ffffffffb090f26d>] vgacon_invert_region+0x9d/0x110
-    [<ffffffffb0a39d95>] invert_screen+0xe5/0x470
-    [<ffffffffb0a21dcb>] set_selection+0x44b/0x12f0
-    [<ffffffffb0a3bfae>] tioclinux+0xee/0x490
-    [<ffffffffb0a1d114>] vt_ioctl+0xff4/0x2670
-    [<ffffffffb0a0089a>] tty_ioctl+0x46a/0x1a10
-    [<ffffffffb052db3d>] do_vfs_ioctl+0x5bd/0xc40
-    [<ffffffffb052e2f2>] SyS_ioctl+0x132/0x170
-    [<ffffffffb11c9b1b>] system_call_fastpath+0x22/0x27
-    Memory state around the buggy address:
-     ffff8800000fff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-     00 00
-     ffff8800000fff80: 00 00 00 00 00 00 00 00 00 00 00 00 00
-     00 00 00
-    >ffff880000100000: ff ff ff ff ff ff ff ff ff ff ff ff ff
-     ff ff ff
-
-It can be reproduce in the linux mainline by the program:
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <unistd.h>
-  #include <fcntl.h>
-  #include <sys/types.h>
-  #include <sys/stat.h>
-  #include <sys/ioctl.h>
-  #include <linux/vt.h>
-
-  struct tiocl_selection {
-    unsigned short xs;      /* X start */
-    unsigned short ys;      /* Y start */
-    unsigned short xe;      /* X end */
-    unsigned short ye;      /* Y end */
-    unsigned short sel_mode; /* selection mode */
-  };
-
-  #define TIOCL_SETSEL    2
-  struct tiocl {
-    unsigned char type;
-    unsigned char pad;
-    struct tiocl_selection sel;
-  };
-
-  int main()
-  {
-    int fd = 0;
-    const char *dev = "/dev/char/4:1";
-
-    struct vt_consize v = {0};
-    struct tiocl tioc = {0};
-
-    fd = open(dev, O_RDWR, 0);
-
-    v.v_rows = 3346;
-    ioctl(fd, VT_RESIZEX, &v);
-
-    tioc.type = TIOCL_SETSEL;
-    ioctl(fd, TIOCLINUX, &tioc);
-
-    return 0;
-  }
-
-When resize the screen, update the 'vc->vc_size_row' to the new_row_size,
-but when 'set_origin' in 'vgacon_set_origin', vgacon use 'vga_vram_base'
-for 'vc_origin' and 'vc_visible_origin', not 'vc_screenbuf'. It maybe
-smaller than 'vc_screenbuf'. When TIOCLINUX, use the new_row_size to calc
-the offset, it maybe larger than the vga_vram_size in vgacon driver, then
-bad access.
-Also, if set an larger screenbuf firstly, then set an more larger
-screenbuf, when copy old_origin to new_origin, a bad access may happen.
-
-So, If the screen size larger than vga_vram, resize screen should be
-failed. This alse fix CVE-2020-8649 and CVE-2020-8647.
-
-Fixes: 0aec4867dca14 ("[PATCH] SVGATextMode fix")
-Reference: CVE-2020-8647 and CVE-2020-8649
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
----
- drivers/video/console/vgacon.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index de7b8382aba9..998b0de1812f 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -1316,6 +1316,9 @@ static int vgacon_font_get(struct vc_data *c, struct console_font *font)
- static int vgacon_resize(struct vc_data *c, unsigned int width,
- 			 unsigned int height, unsigned int user)
- {
-+	if ((width << 1) * height > vga_vram_size)
-+		return -EINVAL;
-+
- 	if (width % 2 || width > screen_info.orig_video_cols ||
- 	    height > (screen_info.orig_video_lines * vga_default_font_height)/
- 	    c->vc_font.height)
--- 
-2.17.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UGxlYXNlIGlnbm9yZSB0aGlzIHBhdGNoLgpUaGFua3MuCgrU2iAyMDIwLzMvNCAxMDowMiwgWmhh
+bmcgWGlhb3h1INC0tcA6Cj4gV2hlbiBzeXprYWxsZXIgdGVzdHMsIHRoZXJlIGlzIGEgVUFGOgo+
+ICAgIEJVRzogS0FTYW46IHVzZSBhZnRlciBmcmVlIGluIHZnYWNvbl9pbnZlcnRfcmVnaW9uKzB4
+OWQvMHgxMTAgYXQgYWRkcgo+ICAgICAgZmZmZjg4MDAwMDEwMDAwMAo+ICAgIFJlYWQgb2Ygc2l6
+ZSAyIGJ5IHRhc2sgc3l6LWV4ZWN1dG9yLjEvMTY0ODkKPiAgICBwYWdlOmZmZmZlYTAwMDAwMDQw
+MDAgY291bnQ6MCBtYXBjb3VudDotMTI3IG1hcHBpbmc6ICAgICAgICAgIChudWxsKQo+ICAgIGlu
+ZGV4OjB4MAo+ICAgIHBhZ2UgZmxhZ3M6IDB4ZmZmZmYwMDAwMDAwMCgpCj4gICAgcGFnZSBkdW1w
+ZWQgYmVjYXVzZToga2FzYW46IGJhZCBhY2Nlc3MgZGV0ZWN0ZWQKPiAgICBDUFU6IDEgUElEOiAx
+NjQ4OSBDb21tOiBzeXotZXhlY3V0b3IuMSBOb3QgdGFpbnRlZAo+ICAgIEhhcmR3YXJlIG5hbWU6
+IFFFTVUgU3RhbmRhcmQgUEMgKGk0NDBGWCArIFBJSVgsIDE5OTYpLCBCSU9TCj4gICAgcmVsLTEu
+OS4zLTAtZ2UyZmM0MWUtcHJlYnVpbHQucWVtdS1wcm9qZWN0Lm9yZyAwNC8wMS8yMDE0Cj4gICAg
+Q2FsbCBUcmFjZToKPiAgICAgIFs8ZmZmZmZmZmZiMTE5ZjMwOT5dIGR1bXBfc3RhY2srMHgxZS8w
+eDIwCj4gICAgICBbPGZmZmZmZmZmYjA0YWY5NTc+XSBrYXNhbl9yZXBvcnQrMHg1NzcvMHg5NTAK
+PiAgICAgIFs8ZmZmZmZmZmZiMDRhZTY1Mj5dIF9fYXNhbl9sb2FkMisweDYyLzB4ODAKPiAgICAg
+IFs8ZmZmZmZmZmZiMDkwZjI2ZD5dIHZnYWNvbl9pbnZlcnRfcmVnaW9uKzB4OWQvMHgxMTAKPiAg
+ICAgIFs8ZmZmZmZmZmZiMGEzOWQ5NT5dIGludmVydF9zY3JlZW4rMHhlNS8weDQ3MAo+ICAgICAg
+WzxmZmZmZmZmZmIwYTIxZGNiPl0gc2V0X3NlbGVjdGlvbisweDQ0Yi8weDEyZjAKPiAgICAgIFs8
+ZmZmZmZmZmZiMGEzYmZhZT5dIHRpb2NsaW51eCsweGVlLzB4NDkwCj4gICAgICBbPGZmZmZmZmZm
+YjBhMWQxMTQ+XSB2dF9pb2N0bCsweGZmNC8weDI2NzAKPiAgICAgIFs8ZmZmZmZmZmZiMGEwMDg5
+YT5dIHR0eV9pb2N0bCsweDQ2YS8weDFhMTAKPiAgICAgIFs8ZmZmZmZmZmZiMDUyZGIzZD5dIGRv
+X3Zmc19pb2N0bCsweDViZC8weGM0MAo+ICAgICAgWzxmZmZmZmZmZmIwNTJlMmYyPl0gU3lTX2lv
+Y3RsKzB4MTMyLzB4MTcwCj4gICAgICBbPGZmZmZmZmZmYjExYzliMWI+XSBzeXN0ZW1fY2FsbF9m
+YXN0cGF0aCsweDIyLzB4MjcKPiAgICAgIE1lbW9yeSBzdGF0ZSBhcm91bmQgdGhlIGJ1Z2d5IGFk
+ZHJlc3M6Cj4gICAgICAgZmZmZjg4MDAwMDBmZmYwMDogMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAg
+MDAgMDAgMDAgMDAgMDAgMDAKPiAgICAgICAwMCAwMAo+ICAgICAgIGZmZmY4ODAwMDAwZmZmODA6
+IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwCj4gICAgICAgMDAgMDAgMDAK
+PiAgICAgID5mZmZmODgwMDAwMTAwMDAwOiBmZiBmZiBmZiBmZiBmZiBmZiBmZiBmZiBmZiBmZiBm
+ZiBmZiBmZgo+ICAgICAgIGZmIGZmIGZmCj4gCj4gSXQgY2FuIGJlIHJlcHJvZHVjZSBpbiB0aGUg
+bGludXggbWFpbmxpbmUgYnkgdGhlIHByb2dyYW06Cj4gICAgI2luY2x1ZGUgPHN0ZGlvLmg+Cj4g
+ICAgI2luY2x1ZGUgPHN0ZGxpYi5oPgo+ICAgICNpbmNsdWRlIDx1bmlzdGQuaD4KPiAgICAjaW5j
+bHVkZSA8ZmNudGwuaD4KPiAgICAjaW5jbHVkZSA8c3lzL3R5cGVzLmg+Cj4gICAgI2luY2x1ZGUg
+PHN5cy9zdGF0Lmg+Cj4gICAgI2luY2x1ZGUgPHN5cy9pb2N0bC5oPgo+ICAgICNpbmNsdWRlIDxs
+aW51eC92dC5oPgo+IAo+ICAgIHN0cnVjdCB0aW9jbF9zZWxlY3Rpb24gewo+ICAgICAgdW5zaWdu
+ZWQgc2hvcnQgeHM7ICAgICAgLyogWCBzdGFydCAqLwo+ICAgICAgdW5zaWduZWQgc2hvcnQgeXM7
+ICAgICAgLyogWSBzdGFydCAqLwo+ICAgICAgdW5zaWduZWQgc2hvcnQgeGU7ICAgICAgLyogWCBl
+bmQgKi8KPiAgICAgIHVuc2lnbmVkIHNob3J0IHllOyAgICAgIC8qIFkgZW5kICovCj4gICAgICB1
+bnNpZ25lZCBzaG9ydCBzZWxfbW9kZTsgLyogc2VsZWN0aW9uIG1vZGUgKi8KPiAgICB9Owo+IAo+
+ICAgICNkZWZpbmUgVElPQ0xfU0VUU0VMICAgIDIKPiAgICBzdHJ1Y3QgdGlvY2wgewo+ICAgICAg
+dW5zaWduZWQgY2hhciB0eXBlOwo+ICAgICAgdW5zaWduZWQgY2hhciBwYWQ7Cj4gICAgICBzdHJ1
+Y3QgdGlvY2xfc2VsZWN0aW9uIHNlbDsKPiAgICB9Owo+IAo+ICAgIGludCBtYWluKCkKPiAgICB7
+Cj4gICAgICBpbnQgZmQgPSAwOwo+ICAgICAgY29uc3QgY2hhciAqZGV2ID0gIi9kZXYvY2hhci80
+OjEiOwo+IAo+ICAgICAgc3RydWN0IHZ0X2NvbnNpemUgdiA9IHswfTsKPiAgICAgIHN0cnVjdCB0
+aW9jbCB0aW9jID0gezB9Owo+IAo+ICAgICAgZmQgPSBvcGVuKGRldiwgT19SRFdSLCAwKTsKPiAK
+PiAgICAgIHYudl9yb3dzID0gMzM0NjsKPiAgICAgIGlvY3RsKGZkLCBWVF9SRVNJWkVYLCAmdik7
+Cj4gCj4gICAgICB0aW9jLnR5cGUgPSBUSU9DTF9TRVRTRUw7Cj4gICAgICBpb2N0bChmZCwgVElP
+Q0xJTlVYLCAmdGlvYyk7Cj4gCj4gICAgICByZXR1cm4gMDsKPiAgICB9Cj4gCj4gV2hlbiByZXNp
+emUgdGhlIHNjcmVlbiwgdXBkYXRlIHRoZSAndmMtPnZjX3NpemVfcm93JyB0byB0aGUgbmV3X3Jv
+d19zaXplLAo+IGJ1dCB3aGVuICdzZXRfb3JpZ2luJyBpbiAndmdhY29uX3NldF9vcmlnaW4nLCB2
+Z2Fjb24gdXNlICd2Z2FfdnJhbV9iYXNlJwo+IGZvciAndmNfb3JpZ2luJyBhbmQgJ3ZjX3Zpc2li
+bGVfb3JpZ2luJywgbm90ICd2Y19zY3JlZW5idWYnLiBJdCBtYXliZQo+IHNtYWxsZXIgdGhhbiAn
+dmNfc2NyZWVuYnVmJy4gV2hlbiBUSU9DTElOVVgsIHVzZSB0aGUgbmV3X3Jvd19zaXplIHRvIGNh
+bGMKPiB0aGUgb2Zmc2V0LCBpdCBtYXliZSBsYXJnZXIgdGhhbiB0aGUgdmdhX3ZyYW1fc2l6ZSBp
+biB2Z2Fjb24gZHJpdmVyLCB0aGVuCj4gYmFkIGFjY2Vzcy4KPiBBbHNvLCBpZiBzZXQgYW4gbGFy
+Z2VyIHNjcmVlbmJ1ZiBmaXJzdGx5LCB0aGVuIHNldCBhbiBtb3JlIGxhcmdlcgo+IHNjcmVlbmJ1
+Ziwgd2hlbiBjb3B5IG9sZF9vcmlnaW4gdG8gbmV3X29yaWdpbiwgYSBiYWQgYWNjZXNzIG1heSBo
+YXBwZW4uCj4gCj4gU28sIElmIHRoZSBzY3JlZW4gc2l6ZSBsYXJnZXIgdGhhbiB2Z2FfdnJhbSwg
+cmVzaXplIHNjcmVlbiBzaG91bGQgYmUKPiBmYWlsZWQuIFRoaXMgYWxzZSBmaXggQ1ZFLTIwMjAt
+ODY0OSBhbmQgQ1ZFLTIwMjAtODY0Ny4KPiAKPiBGaXhlczogMGFlYzQ4NjdkY2ExNCAoIltQQVRD
+SF0gU1ZHQVRleHRNb2RlIGZpeCIpCj4gUmVmZXJlbmNlOiBDVkUtMjAyMC04NjQ3IGFuZCBDVkUt
+MjAyMC04NjQ5Cj4gUmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3QgPGh1bGtjaUBodWF3ZWkuY29tPgo+
+IFNpZ25lZC1vZmYtYnk6IFpoYW5nIFhpYW94dSA8emhhbmd4aWFveHU1QGh1YXdlaS5jb20+Cj4g
+LS0tCj4gICBkcml2ZXJzL3ZpZGVvL2NvbnNvbGUvdmdhY29uLmMgfCAzICsrKwo+ICAgMSBmaWxl
+IGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVv
+L2NvbnNvbGUvdmdhY29uLmMgYi9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvdmdhY29uLmMKPiBpbmRl
+eCBkZTdiODM4MmFiYTkuLjMxODhjZTE2MmY4YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3ZpZGVv
+L2NvbnNvbGUvdmdhY29uLmMKPiArKysgYi9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvdmdhY29uLmMK
+PiBAQCAtMTMxNiw2ICsxMzE2LDkgQEAgc3RhdGljIGludCB2Z2Fjb25fZm9udF9nZXQoc3RydWN0
+IHZjX2RhdGEgKmMsIHN0cnVjdCBjb25zb2xlX2ZvbnQgKmZvbnQpCj4gICBzdGF0aWMgaW50IHZn
+YWNvbl9yZXNpemUoc3RydWN0IHZjX2RhdGEgKmMsIHVuc2lnbmVkIGludCB3aWR0aCwKPiAgIAkJ
+CSB1bnNpZ25lZCBpbnQgaGVpZ2h0LCB1bnNpZ25lZCBpbnQgdXNlcikKPiAgIHsKPiArCWlmICgo
+d2lkdGggPiAxKSAqIGhlaWdodCA+IHZnYV92cmFtX3NpemUpCj4gKwkJcmV0dXJuIC1FSU5WQUw7
+Cj4gKwo+ICAgCWlmICh3aWR0aCAlIDIgfHwgd2lkdGggPiBzY3JlZW5faW5mby5vcmlnX3ZpZGVv
+X2NvbHMgfHwKPiAgIAkgICAgaGVpZ2h0ID4gKHNjcmVlbl9pbmZvLm9yaWdfdmlkZW9fbGluZXMg
+KiB2Z2FfZGVmYXVsdF9mb250X2hlaWdodCkvCj4gICAJICAgIGMtPnZjX2ZvbnQuaGVpZ2h0KQo+
+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
