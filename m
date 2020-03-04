@@ -1,55 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E282B178D27
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 10:11:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08824178D38
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 10:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6C46E137;
-	Wed,  4 Mar 2020 09:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D40B16EAF3;
+	Wed,  4 Mar 2020 09:16:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 565686E137
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 09:11:04 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id i10so436331lfg.11
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 01:11:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MJ2Hq5eEX2EmE0ikEnB02Pg2NR9XF1NIvY54HpwpXio=;
- b=ogxWYSMiocylL80yRmIuJ+7iijGwRA8hSPwq3inJ/HASMaeRFm1w6Wxw3lvdgQDvqP
- CoYjmKVTmDVFlDh5OwF4B742ciA/rLHhCRmhUW3xxJVeVSSuBQnQTAXhdZknA86w8X2X
- d1o1fRQsLvJSaiaVVpWXbm7HPyZ0RTd/45U8dso6lrqZD71Vb/4bMxa1MmqOQ06eOAFv
- vkSHc8qShuaHS8TRWIKF5SdphPxpBTRVkEOkNwea0m/aDDJmRCoL3Myrr9xWs9s8+Tn9
- p8+2lIB7sTlEEDi8UwXFoKytiYlQdzo1eZGBLySIS56w4hPukBKKmL584If0FGFF8Fxl
- 1IHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MJ2Hq5eEX2EmE0ikEnB02Pg2NR9XF1NIvY54HpwpXio=;
- b=WvQSgzP/NIVXdAgKXPj0yN8onWTJ5/YrlA2O/TqYVH3vKyys0sQx9dKZ2EKLYnVOiX
- mMXV3oOw5UhoXvmoUiXpjwny6DUGhm9O38RcN48AbMZp/Z8CrNTV7YYZPMJKjXCROFQu
- 1RnuyAtDv6PAC0NbtGjiBLP+Qy7T4hWU3ieCrBAa3Rj27ntv8Gm8qJetJzNmaDNM8gWf
- vcOg+PQRxcfNIsmCHq+s5Ww4EosvFZBbBtYDQpsVF2lzEhv2fiuZyy+mB000HmAJZkco
- zfQcOTw0A55WaH7gW8B/MDweJHTMJTHtmehNkLgj74dyB9IFm9jEqJZWEOiamR+/wu6V
- SFcw==
-X-Gm-Message-State: ANhLgQ0bQnGBQs98ak9SlhABu7ghGqis6y8e8gKyb6ciCZRhntjgGSQA
- u2XSb91y9O94JDYl3wDwU8cteYTF2QytiEcfmiFENA==
-X-Google-Smtp-Source: ADFU+vtbxdKRCn2ziaQt9SsDEpdV5sURGsBBeCG543tbvdIA+tZkNZXNN9W4rLeghQwKwWSjRgFQ7LXtGa5wM5BE688=
-X-Received: by 2002:ac2:44a5:: with SMTP id c5mr1372090lfm.4.1583313062627;
- Wed, 04 Mar 2020 01:11:02 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6E46EAF3;
+ Wed,  4 Mar 2020 09:16:51 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2020 01:16:50 -0800
+X-IronPort-AV: E=Sophos;i="5.70,513,1574150400"; d="scan'208";a="233965863"
+Received: from ohoehne-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.249.39.231])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2020 01:16:47 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH][next] drm/i915: Replace zero-length array with
+ flexible-array member
+In-Reply-To: <20200303220503.GA2663@embeddedor>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200303220503.GA2663@embeddedor>
+Date: Wed, 04 Mar 2020 11:16:47 +0200
+Message-ID: <87k140pji8.fsf@intel.com>
 MIME-Version: 1.0
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-34-ville.syrjala@linux.intel.com>
- <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
-In-Reply-To: <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 4 Mar 2020 10:10:51 +0100
-Message-ID: <CACRpkdapumGw5Fp+YaiWkB8uh6me9s2s-Bx_-RqmoqBADJFvEg@mail.gmail.com>
-Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
-To: Jonathan Marek <jonathan@marek.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,41 +47,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Brian Masney <masneyb@onstation.org>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 2, 2020 at 9:49 PM Jonathan Marek <jonathan@marek.ca> wrote:
+On Tue, 03 Mar 2020, "Gustavo A. R. Silva" <gustavo@embeddedor.com> wrote:
+> The current codebase makes use of the zero-length array language
+> extension to the C90 standard, but the preferred mechanism to declare
+> variable-length types such as these ones is a flexible array member[1][2],
+> introduced in C99:
+>
+> struct foo {
+>         int stuff;
+>         struct boo array[];
+> };
+>
+> By making use of the mechanism above, we will get a compiler warning
+> in case the flexible array does not occur last in the structure, which
+> will help us prevent some kind of undefined behavior bugs from being
+> inadvertently introduced[3] to the codebase from now on.
+>
+> Also, notice that, dynamic memory allocations won't be affected by
+> this change:
+>
+> "Flexible array members have incomplete type, and so the sizeof operator
+> may not be applied. As a quirk of the original implementation of
+> zero-length arrays, sizeof evaluates to zero."[1]
+>
+> This issue was found with the help of Coccinelle.
+>
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://github.com/KSPP/linux/issues/21
+> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+>
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 
-> This is a command mode panel and the the msm/mdp5 driver uses the
-> vrefresh field for the actual refresh rate, while the dotclock field is
-> used for the DSI clocks. The dotclock needed to be a bit higher than
-> necessary otherwise the panel would not work.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-I don't know if this predates the support for defining DSI clocks
-but for what we have in the kernel right now this is wrong.
+> ---
+>  drivers/gpu/drm/i915/display/intel_vbt_defs.h | 4 ++--
+>  drivers/gpu/drm/i915/gt/intel_lrc.c           | 2 +-
+>  drivers/gpu/drm/i915/i915_gpu_error.h         | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> index 05c7cbe32eb4..aef7fe932d1a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> +++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> @@ -462,7 +462,7 @@ struct bdb_general_definitions {
+>  	 * number = (block_size - sizeof(bdb_general_definitions))/
+>  	 *	     defs->child_dev_size;
+>  	 */
+> -	u8 devices[0];
+> +	u8 devices[];
+>  } __packed;
+>  
+>  /*
+> @@ -839,7 +839,7 @@ struct bdb_mipi_config {
+>  
+>  struct bdb_mipi_sequence {
+>  	u8 version;
+> -	u8 data[0]; /* up to 6 variable length blocks */
+> +	u8 data[]; /* up to 6 variable length blocks */
+>  } __packed;
+>  
+>  /*
+> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> index b9b3f78f1324..a49ddda649b9 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> @@ -216,7 +216,7 @@ struct virtual_engine {
+>  
+>  	/* And finally, which physical engines this virtual engine maps onto. */
+>  	unsigned int num_siblings;
+> -	struct intel_engine_cs *siblings[0];
+> +	struct intel_engine_cs *siblings[];
+>  };
+>  
+>  static struct virtual_engine *to_virtual_engine(struct intel_engine_cs *engine)
+> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.h b/drivers/gpu/drm/i915/i915_gpu_error.h
+> index 0d1f6c8ff355..5a6561f7a210 100644
+> --- a/drivers/gpu/drm/i915/i915_gpu_error.h
+> +++ b/drivers/gpu/drm/i915/i915_gpu_error.h
+> @@ -42,7 +42,7 @@ struct i915_vma_coredump {
+>  	int num_pages;
+>  	int page_count;
+>  	int unused;
+> -	u32 *pages[0];
+> +	u32 *pages[];
+>  };
+>  
+>  struct i915_request_coredump {
 
-struct mipi_dsi_device contains:
-
- * @hs_rate: maximum lane frequency for high speed mode in hertz, this should
- * be set to the real limits of the hardware, zero is only accepted for
- * legacy drivers
- * @lp_rate: maximum lane frequency for low power mode in hertz, this should
- * be set to the real limits of the hardware, zero is only accepted for
- * legacy drivers
-
-The MDP driver should use these frequencies for a DSI command
-mode panel, and the panel driver should define them.
-
-These two clocks are/can be/should be completely orthogonal to
-the dotclock/pixelclock inside the panel, which is likely driven from
-its own crystal directly from the panel-internal framebuffer.
-
-Yours,
-Linus Walleij
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
