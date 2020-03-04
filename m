@@ -2,55 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D96C178BD0
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36EC178BCF
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC10C6EAEA;
-	Wed,  4 Mar 2020 07:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6966EAF5;
+	Wed,  4 Mar 2020 07:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 274E76EA9C
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 01:26:16 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id r18so113761vso.5
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 17:26:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O9pD7eTKayKhsYYKw3enP3Cpnqb80umNsGJzDDGsAM4=;
- b=hDossmiPT5ZsYw2/No/UnWGjFk7tvNCv2mxERrWzKJ2udcQ1LHSUgCZqbpDPpatSe9
- CsS5IBrOxI5WqEGk50OMnXk1qi7Cx2xaGwn8Y4MCD7gDL88s5hhhs0bmJEcU8zvNhcp0
- N26ZpQs0UrOayJeWh70iaWxvSBb0pAwI9eYzx4CmScF4n2uJqX0vbIzcCyLA2eQ/JPH7
- f3F0f/pr3vlw+oZU9kDCRH5y3Xe9HE6a5Cce2mMuDa5Wj0KbxrLs3aLSgXR2ju2HpGJa
- +duer7EVx2x02EhR1KTZpXzldgOj/IJzlYFsZ/83uEtuv68D4/4xX99ZyNwvmDf+U9zb
- Q76Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O9pD7eTKayKhsYYKw3enP3Cpnqb80umNsGJzDDGsAM4=;
- b=g1Ndo7HbSOo++mXegXfHQncdwmNAcs01AmA5eMyCNCdZsSSr/MhzFeNx0mPH4P4siG
- 8+O3uNLr2tMUKI+BEnsB9cqcjLhSyJEpI+y7xgBchPuXInrfbyIMsIVkG67UntHqsbOt
- xMe2Wq7idHaxeKKfG6y6VY3Y9Aw+vhd4bqVD0FqxBoua8u2+hb8Zxn71Ob17NB5S0lzc
- HCsqD/G3+g8CoR6bN0zW778UAAB2fSCHOoO1X3K9JW6hQtQE59cEkhLJRGfBUVmH5V/c
- W1hgEKMlgG8VbsvzvJwPjhaZIe8Z7DOzESdBfnyF4gbOxSZVyCaFaR8hMMBtrEHY8rdW
- 9ngw==
-X-Gm-Message-State: ANhLgQ38aEQQCD8dNeYBhyNIXLhZuJNG+qBcA+wIMIclmRKpuwuaUdDJ
- Mst0yVvBcCmO+yiYFVXFbL/w1mTMZSHp49s4jx8=
-X-Google-Smtp-Source: ADFU+vvZ3G3hJoK+Tptnc6CvVgnHyEoMJ1j7yGPugaq8jQK47/UHTWvcE0MhTcvOFbyI14sWscWpUpwzm4wI4D7mpZQ=
-X-Received: by 2002:a67:f1ca:: with SMTP id v10mr471335vsm.180.1583285175252; 
- Tue, 03 Mar 2020 17:26:15 -0800 (PST)
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE826EA9C
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 01:31:34 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 0AAACC87A8B01059C2C9;
+ Wed,  4 Mar 2020 09:31:31 +0800 (CST)
+Received: from [127.0.0.1] (10.173.220.145) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0;
+ Wed, 4 Mar 2020 09:31:21 +0800
+Subject: Re: [PATCH] vgacon: Fix a UAF in vgacon_invert_region
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20200303032036.40560-1-zhangxiaoxu5@huawei.com>
+ <20200303135940.GS13686@intel.com>
+ <67073029-8477-5f5a-ed2a-bb5ad4896878@huawei.com>
+ <20200303144649.GT13686@intel.com>
+From: "zhangxiaoxu (A)" <zhangxiaoxu5@huawei.com>
+Message-ID: <5c63d51f-b396-f2a7-a7c2-3b8af0bb54b0@huawei.com>
+Date: Wed, 4 Mar 2020 09:31:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <20200227210454.18217-1-alistair.francis@wdc.com>
- <20200228095748.uu4sqkz6y477eabc@sirius.home.kraxel.org>
- <CAKmqyKOTjyRL9vxZrZW8Q+yBM0n-Nw-o-Cn3dUDDfAAa7Nswrg@mail.gmail.com>
- <20200303062437.tjoje5huts6oldrv@sirius.home.kraxel.org>
-In-Reply-To: <20200303062437.tjoje5huts6oldrv@sirius.home.kraxel.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 3 Mar 2020 17:18:34 -0800
-Message-ID: <CAKmqyKPEtbDr1kmnyz6FtfU567xxgmxn+F=zH_h8k_m1EN9b5A@mail.gmail.com>
-Subject: Re: [PATCH] drm/bochs: Remove vga write
-To: Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <20200303144649.GT13686@intel.com>
+X-Originating-IP: [10.173.220.145]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,76 +46,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Khem Raj <raj.khem@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: akpm@osdl.org, pmladek@suse.com, wangkefeng.wang@huawei.com,
+ b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sergey.senozhatsky@gmail.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 2, 2020 at 10:24 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Mon, Mar 02, 2020 at 02:14:02PM -0800, Alistair Francis wrote:
-> > On Fri, Feb 28, 2020 at 1:57 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >
-> > > On Thu, Feb 27, 2020 at 01:04:54PM -0800, Alistair Francis wrote:
-> > > > The QEMU model for the Bochs display has no VGA memory section at offset
-> > > > 0x400 [1]. By writing to this register Linux can create a write to
-> > > > unassigned memory which depending on machine and architecture can result
-> > > > in a store fault.
-> > > >
-> > > > I don't see any reference to this address at OSDev [2] or in the Bochs
-> > > > source code.
-> > > >
-> > > > Removing this write still allows graphics to work inside QEMU with
-> > > > the bochs-display.
-> > >
-> > > It's not that simple.  The driver also handles the qemu stdvga (-device
-> > > VGA, -device secondary-vga) which *does* need the vga port write.
-> > > There is no way for the guest to figure whenever the device is
-> > > secondary-vga or bochs-display.
-> > >
-> > > So how about fixing things on the host side?  Does qemu patch below
-> > > help?
-> >
-> > That patch looks like it will fix the problem, but it doesn't seem
-> > like the correct fix. I would rather avoid adding a large chunk of
-> > dummy I/O to handle the two devices.
->
-> It's just a single handler for the parent mmio region, so we have a
-> defined default action instead of undefined behavior.
->
-> Patch just posted to qemu-devel, lets see what others think ...
-
-Thanks, let's wait and see what happens.
-
->
-> > > Maybe another possible approach is to enable/disable vga access per
-> > > arch.  On x86 this doesn't cause any problems.  I guess you are on
-> > > risc-v?
-> >
-> > I would prefer this option. I do see this on RISC-V, but I suspect the
-> > issue will appear on other architectures (although how they handle I/O
-> > failures in QEMU is a different story).
-> >
-> > Can I just do the VGA write if x86?
->
-> I know ppc needs it too.  Not sure about other architectures.  I'd
-> suggest to do it the other way around: blacklist known-problematic
-> archs.
-
-Argh, that is a little uglier. Let's circle back after receiving
-feedback on the QEMU patch.
-
-Alistair
-
->
-> cheers,
->   Gerd
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgrlnKggMjAyMC8zLzMgMjI6NDYsIFZpbGxlIFN5cmrDpGzDpCDlhpnpgZM6Cj4gT24gVHVlLCBN
+YXIgMDMsIDIwMjAgYXQgMTA6MzA6MTRQTSArMDgwMCwgemhhbmd4aWFveHUgKEEpIHdyb3RlOgo+
+Pgo+Pgo+PiDlnKggMjAyMC8zLzMgMjE6NTksIFZpbGxlIFN5cmrDpGzDpCDlhpnpgZM6Cj4+PiBU
+aGF0IGRvZXNuJ3QgbWF0Y2ggaG93IHZjX3NjcmVlbmJ1Zl9zaXplIGlzIGNvbXB1dGVkIGVsc2V3
+aGVyZS4gQWxzbwo+Pj4gYSBsb3Qgb2YgcGxhY2VzIHNlZW0gdG8gYXNzdW1lIHRoYXQgdGhlIHNj
+cmVlbmJ1ZiBjYW4gYmUgbGFyZ2VyIHRoYW4KPj4+IHZnYV92cmFtX3NpemUgKGVnLiBhbGwgdGhl
+IG1lbWNweSgpcyBwaWNrIHRoZSBzbWFsbGVyIHNpemUgb2YgdGhlCj4+PiB0d28pLgo+PiBZZXMs
+IGluIHRoZSB2Z2Egc291cmNlIGNvZGUsIHdlIGFsc28gcGljayB0aGUgc21hbGxlciBzaXplIG9m
+IHR3by4gQnV0Cj4+IGluIG90aGVyIHBsYWNlLCBlZzogdmNfZG9fcmVzaXplLCBjb3B5IHRoZSBv
+bGRfb3JpZ2luIHRvIG5ld19vcmlnaW4sIHdlCj4+IG5vdCBkbyB0aGF0LiBJdCBhbHNvIG1ha2Ug
+YmFkIGFjY2VzcyBoYXBwZW4uIGl0IG1heWJlIENWRS0yMDIwLTg2NDcuCj4+Cj4+IEkgdGhpbmsg
+d2Ugc2hvdWxkIGp1c3QgYXNzdW1lIHRoZSB3aWR0aC9oZWlnaHQgbWF5YmUgbGFyZ2VyIHRoYW4g
+dGhlCj4+IGRlZmF1bHQsIG5vdCB0aGUgc2NyZWVuYnVmIGxhcmdlciB0aGFuIHZnYV92cmFtX3Np
+emUuCj4+Cj4+IElmIG5vdCwgYW55IHVzZWZ1bCBvZiB0aGUgbGFyZ2VyIHNjcmVlbmJ1Zj8KPiAK
+PiBNYXliZSB1c2VkIGZvciBzY3JvbGxpbmc/ClRoZSBzY3JlZW5idWYganVzdCBhbGxvY2F0ZWQg
+d2l0aCBjb2xzIGFuZCByb3dzLCBpdCBjYW4gYmUgc2F2ZSBqdXN0IG9uZQpzY3JlZW4/CnZjX2Rv
+X3Jlc2l6ZSBpcyB0aGUgbGFyZ2VzdCBzaXplIHdoaWNoIG9uZSBzY3JlZW4gY2FuIGJlIHNob3du
+PwoKSWYgc28sIHdlIGNhbid0IHNldCB0aGUgc2NyZWVuIHRvIHRoZSByZXNvbHV0aW9uIHdoaWNo
+IG1vcmUgdGhhbiBpdCdzCmNhcGFiaWxpdHk/Cj4gCj4+Cj4+Pgo+Pj4gQW5kIHlvdSdyZSBjaGFu
+Z2luZyB0aGUgYmVoYXZpb3VyIG9mIHRoZSBjb2RlIHdoZW4KPj4+ICd3aWR0aCAlIDIgJiYgdXNl
+cicgaXMgdHJ1ZQo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
