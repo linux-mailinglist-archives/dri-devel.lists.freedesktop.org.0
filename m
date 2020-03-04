@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDB3178872
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 03:38:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD776178891
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 03:41:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 067546EAA2;
-	Wed,  4 Mar 2020 02:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA5F16EAA3;
+	Wed,  4 Mar 2020 02:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id EF37B6EAA2
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:38:36 +0000 (UTC)
-X-UUID: 966109f9695a4bcab70ef04ffe4ec9cf-20200304
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 619016EAA3
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:41:04 +0000 (UTC)
+X-UUID: 804602366f134ddfb09bf3b2940cae11-20200304
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=gwG234eP2pizyd5C4jAhNxs4bxHFKwNJ44qV05ygkU8=; 
- b=E5eg/7QZDpv5h2ta9LKJCC6rY+h2jMFCp5gc8+FzR2rIN1+EfWe+rkZRQm5eItDOeqyLaXG6aLYg/DFCoQOdZAxkCuizz/MftbkUGy44kwSERlsOQOWHLBU2Z6cmNrkcfYi+U2cS7v9jil+ACIy9PAkWOdbosleC1tDw9/Yanpc=;
-X-UUID: 966109f9695a4bcab70ef04ffe4ec9cf-20200304
+ bh=mwCceAp0UE9DP1V1oSslAhzkGTPBm2qHepKguK+CBVs=; 
+ b=b8h3XU705L8I67ozIIDv1hw4ls4Mzu6TOah08CH+8hm1iyvhZlur8ZnpypnYQQ3TNCNM50dsaSEWyy/tZzyp7zll9Ow0B96v7fAjUtx13uf+IXIWeIEF6odBi8cEqH0VkiBGcwRzl39fXCw/dI82utaIV61OdYCuR5KKspb6jGk=;
+X-UUID: 804602366f134ddfb09bf3b2940cae11-20200304
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 249110076; Wed, 04 Mar 2020 10:38:33 +0800
+ with ESMTP id 2121261097; Wed, 04 Mar 2020 10:41:01 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
  mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 4 Mar 2020 10:37:32 +0800
+ 15.0.1395.4; Wed, 4 Mar 2020 10:39:59 +0800
 Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 4 Mar 2020 10:37:52 +0800
-Message-ID: <1583289512.32049.3.camel@mtksdaap41>
-Subject: Re: [PATCH v4 05/13] soc: mediatek: cmdq: return send msg error code
+ Transport; Wed, 4 Mar 2020 10:40:20 +0800
+Message-ID: <1583289660.32049.4.camel@mtksdaap41>
+Subject: Re: [PATCH v4 10/13] soc: mediatek: cmdq: export finalize function
 From: CK Hu <ck.hu@mediatek.com>
 To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-Date: Wed, 4 Mar 2020 10:38:32 +0800
-In-Reply-To: <1583233125-7827-6-git-send-email-dennis-yc.hsieh@mediatek.com>
+Date: Wed, 4 Mar 2020 10:41:00 +0800
+In-Reply-To: <1583233125-7827-11-git-send-email-dennis-yc.hsieh@mediatek.com>
 References: <1583233125-7827-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583233125-7827-6-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1583233125-7827-11-git-send-email-dennis-yc.hsieh@mediatek.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 X-MTK: N
@@ -68,33 +68,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi, Dennis:
 
 On Tue, 2020-03-03 at 18:58 +0800, Dennis YC Hsieh wrote:
-> Return error code to client if send message fail,
-> so that client has chance to error handling.
+> Export finalize function to client which helps append eoc and jump
+> command to pkt. Let client decide call finalize or not.
 > 
 
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
 > Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> Fixes: 576f1b4bc802 ("soc: mediatek: Add Mediatek CMDQ helper")
 > ---
->  drivers/soc/mediatek/mtk-cmdq-helper.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 1 +
+>  drivers/soc/mediatek/mtk-cmdq-helper.c  | 7 ++-----
+>  include/linux/soc/mediatek/mtk-cmdq.h   | 8 ++++++++
+>  3 files changed, 11 insertions(+), 5 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index 0dfcd1787e65..7daaabc26eb1 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -490,6 +490,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
+>  		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
+>  		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
+>  		mtk_crtc_ddp_config(crtc, cmdq_handle);
+> +		cmdq_pkt_finalize(cmdq_handle);
+>  		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
+>  	}
+>  #endif
 > diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> index 2e1bc513569b..98f23ba3ba47 100644
+> index a9ebbabb7439..59bc1164b411 100644
 > --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 > +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> @@ -351,7 +351,9 @@ int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb cb,
->  		spin_unlock_irqrestore(&client->lock, flags);
->  	}
+> @@ -372,7 +372,7 @@ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
+>  }
+>  EXPORT_SYMBOL(cmdq_pkt_assign);
 >  
-> -	mbox_send_message(client->chan, pkt);
-> +	err = mbox_send_message(client->chan, pkt);
-> +	if (err < 0)
-> +		return err;
->  	/* We can send next packet immediately, so just call txdone. */
->  	mbox_client_txdone(client->chan, 0);
+> -static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+> +int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+>  {
+>  	struct cmdq_instruction inst = { {0} };
+>  	int err;
+> @@ -392,6 +392,7 @@ static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
 >  
+>  	return err;
+>  }
+> +EXPORT_SYMBOL(cmdq_pkt_finalize);
+>  
+>  static void cmdq_pkt_flush_async_cb(struct cmdq_cb_data data)
+>  {
+> @@ -426,10 +427,6 @@ int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb cb,
+>  	unsigned long flags = 0;
+>  	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
+>  
+> -	err = cmdq_pkt_finalize(pkt);
+> -	if (err < 0)
+> -		return err;
+> -
+>  	pkt->cb.cb = cb;
+>  	pkt->cb.data = data;
+>  	pkt->async_cb.cb = cmdq_pkt_flush_async_cb;
+> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
+> index fec292aac83c..99e77155f967 100644
+> --- a/include/linux/soc/mediatek/mtk-cmdq.h
+> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
+> @@ -213,6 +213,14 @@ int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
+>   */
+>  int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value);
+>  
+> +/**
+> + * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
+> + * @pkt:	the CMDQ packet
+> + *
+> + * Return: 0 for success; else the error code is returned
+> + */
+> +int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
+> +
+>  /**
+>   * cmdq_pkt_flush_async() - trigger CMDQ to asynchronously execute the CMDQ
+>   *                          packet and call back at the end of done packet
 
 _______________________________________________
 dri-devel mailing list
