@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CDB178BB4
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:47:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDCC178BC1
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 121556EACF;
-	Wed,  4 Mar 2020 07:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E52256EAC0;
+	Wed,  4 Mar 2020 07:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAFE86E115
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:26:31 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 03AE44F1FF0FC611984E;
- Wed,  4 Mar 2020 10:26:28 +0800 (CST)
-Received: from [127.0.0.1] (10.173.220.145) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0;
- Wed, 4 Mar 2020 10:26:17 +0800
-Subject: Re: [v2] vgacon: Fix a UAF in vgacon_invert_region
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFF086E993
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:26:40 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 561B770F4122FC0FDD03;
+ Wed,  4 Mar 2020 10:26:37 +0800 (CST)
+Received: from [127.0.0.1] (10.173.220.145) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0;
+ Wed, 4 Mar 2020 10:26:31 +0800
+Subject: Re: [v3] vgacon: Fix a UAF in vgacon_invert_region
 To: <b.zolnierkie@samsung.com>, <wangkefeng.wang@huawei.com>,
- <sergey.senozhatsky@gmail.com>, <pmladek@suse.com>, <akpm@osdl.org>
-References: <20200304020228.44484-1-zhangxiaoxu5@huawei.com>
+ <sergey.senozhatsky@gmail.com>, <pmladek@suse.com>, <akpm@osdl.org>,
+ <ville.syrjala@linux.intel.com>
+References: <20200304021011.5691-1-zhangxiaoxu5@huawei.com>
 From: "zhangxiaoxu (A)" <zhangxiaoxu5@huawei.com>
-Message-ID: <3e57400c-6632-4fae-d242-f839bfff8d46@huawei.com>
-Date: Wed, 4 Mar 2020 10:26:17 +0800
+Message-ID: <85ac21e6-9b52-558a-c233-61253a12247b@huawei.com>
+Date: Wed, 4 Mar 2020 10:26:30 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200304020228.44484-1-zhangxiaoxu5@huawei.com>
+In-Reply-To: <20200304021011.5691-1-zhangxiaoxu5@huawei.com>
 X-Originating-IP: [10.173.220.145]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
@@ -50,7 +51,7 @@ Content-Type: text/plain; charset="gbk"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGxlYXNlIGlnbm9yZSB0aGlzIHBhdGNoLgpUaGFua3MuCgrU2iAyMDIwLzMvNCAxMDowMiwgWmhh
+UGxlYXNlIGlnbm9yZSB0aGlzIHBhdGNoLgpUaGFua3MuCgrU2iAyMDIwLzMvNCAxMDoxMCwgWmhh
 bmcgWGlhb3h1INC0tcA6Cj4gV2hlbiBzeXprYWxsZXIgdGVzdHMsIHRoZXJlIGlzIGEgVUFGOgo+
 ICAgIEJVRzogS0FTYW46IHVzZSBhZnRlciBmcmVlIGluIHZnYWNvbl9pbnZlcnRfcmVnaW9uKzB4
 OWQvMHgxMTAgYXQgYWRkcgo+ICAgICAgZmZmZjg4MDAwMDEwMDAwMAo+ICAgIFJlYWQgb2Ygc2l6
@@ -114,16 +115,16 @@ IFNpZ25lZC1vZmYtYnk6IFpoYW5nIFhpYW94dSA8emhhbmd4aWFveHU1QGh1YXdlaS5jb20+Cj4g
 LS0tCj4gICBkcml2ZXJzL3ZpZGVvL2NvbnNvbGUvdmdhY29uLmMgfCAzICsrKwo+ICAgMSBmaWxl
 IGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVv
 L2NvbnNvbGUvdmdhY29uLmMgYi9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvdmdhY29uLmMKPiBpbmRl
-eCBkZTdiODM4MmFiYTkuLjMxODhjZTE2MmY4YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3ZpZGVv
+eCBkZTdiODM4MmFiYTkuLjk1ZTJmZWNlN2U5MSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3ZpZGVv
 L2NvbnNvbGUvdmdhY29uLmMKPiArKysgYi9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvdmdhY29uLmMK
 PiBAQCAtMTMxNiw2ICsxMzE2LDkgQEAgc3RhdGljIGludCB2Z2Fjb25fZm9udF9nZXQoc3RydWN0
 IHZjX2RhdGEgKmMsIHN0cnVjdCBjb25zb2xlX2ZvbnQgKmZvbnQpCj4gICBzdGF0aWMgaW50IHZn
 YWNvbl9yZXNpemUoc3RydWN0IHZjX2RhdGEgKmMsIHVuc2lnbmVkIGludCB3aWR0aCwKPiAgIAkJ
 CSB1bnNpZ25lZCBpbnQgaGVpZ2h0LCB1bnNpZ25lZCBpbnQgdXNlcikKPiAgIHsKPiArCWlmICgo
-d2lkdGggPiAxKSAqIGhlaWdodCA+IHZnYV92cmFtX3NpemUpCj4gKwkJcmV0dXJuIC1FSU5WQUw7
-Cj4gKwo+ICAgCWlmICh3aWR0aCAlIDIgfHwgd2lkdGggPiBzY3JlZW5faW5mby5vcmlnX3ZpZGVv
-X2NvbHMgfHwKPiAgIAkgICAgaGVpZ2h0ID4gKHNjcmVlbl9pbmZvLm9yaWdfdmlkZW9fbGluZXMg
-KiB2Z2FfZGVmYXVsdF9mb250X2hlaWdodCkvCj4gICAJICAgIGMtPnZjX2ZvbnQuaGVpZ2h0KQo+
-IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+d2lkdGggPj4gMSkgKiBoZWlnaHQgPiB2Z2FfdnJhbV9zaXplKQo+ICsJCXJldHVybiAtRUlOVkFM
+Owo+ICsKPiAgIAlpZiAod2lkdGggJSAyIHx8IHdpZHRoID4gc2NyZWVuX2luZm8ub3JpZ192aWRl
+b19jb2xzIHx8Cj4gICAJICAgIGhlaWdodCA+IChzY3JlZW5faW5mby5vcmlnX3ZpZGVvX2xpbmVz
+ICogdmdhX2RlZmF1bHRfZm9udF9oZWlnaHQpLwo+ICAgCSAgICBjLT52Y19mb250LmhlaWdodCkK
+PiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
