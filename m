@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1421788BA
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 03:57:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2AD61788CC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 03:59:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFA016EAA6;
-	Wed,  4 Mar 2020 02:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94FF6EAA7;
+	Wed,  4 Mar 2020 02:59:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 87A276EAA6
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:57:35 +0000 (UTC)
-X-UUID: 2e0c820f2ca14225af068b98e099a8f2-20200304
+ by gabe.freedesktop.org (Postfix) with ESMTP id 875766EAA7
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:59:36 +0000 (UTC)
+X-UUID: f2a679150a7f40e995fb03d8fe2b5cc1-20200304
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=uW7yJsKMnYCXbZS5/MrcBoSUI2+S5xj3nwYGlN1X97w=; 
- b=QTXMSXUMpFFDnlAWWLt34/sDrohyxfoAwvzh9dzAuqa3Loj7oG8+B4YeR/l99HvTDNl2DKwB6+LTVZVEuECKVZFLgBrTTFfbiEnnTHOI62+/K4aBkbc8S+LRDfq/avajWm082of/DpvK/vXDhG8QhGB5f72/0BHU7OfQqztAU/0=;
-X-UUID: 2e0c820f2ca14225af068b98e099a8f2-20200304
+ bh=Z1qeUZgtAaMPORZUPtFp+pNwtaKiDa0SS964FcwgJfA=; 
+ b=GwQ6SaJ2wI2zLVOyHdna+OCeQrRKOqVRo7nsEYEQmGgHNSpANp+n6Qr191kgiycEGrZNgjv4V33/E9MBvtgScY/PZA2KfLhoTnR8lOx8r8iFKUcSb2Abj5fhd8v2eX/g3ppaVHXk10l/V0VdLUzhWTQSfDKrKgcYg9/FxwD5asg=;
+X-UUID: f2a679150a7f40e995fb03d8fe2b5cc1-20200304
 Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
  mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1832508137; Wed, 04 Mar 2020 10:57:33 +0800
+ with ESMTP id 666378015; Wed, 04 Mar 2020 10:59:30 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 4 Mar 2020 10:56:31 +0800
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 4 Mar 2020 11:00:52 +0800
 Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 4 Mar 2020 10:55:00 +0800
-Message-ID: <1583290652.1062.2.camel@mtksdaap41>
-Subject: Re: [PATCH v4 11/13] soc: mediatek: cmdq: add jump function
+ Transport; Wed, 4 Mar 2020 10:56:57 +0800
+Message-ID: <1583290769.1062.4.camel@mtksdaap41>
+Subject: Re: [PATCH v4 02/13] mailbox: cmdq: variablize address shift in
+ platform
 From: CK Hu <ck.hu@mediatek.com>
 To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-Date: Wed, 4 Mar 2020 10:57:32 +0800
-In-Reply-To: <1583233125-7827-12-git-send-email-dennis-yc.hsieh@mediatek.com>
+Date: Wed, 4 Mar 2020 10:59:29 +0800
+In-Reply-To: <1583289170.32049.1.camel@mtksdaap41>
 References: <1583233125-7827-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583233125-7827-12-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1583233125-7827-3-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1583289170.32049.1.camel@mtksdaap41>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 X-MTK: N
@@ -67,67 +69,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi, Dennis:
 
-On Tue, 2020-03-03 at 18:58 +0800, Dennis YC Hsieh wrote:
-> Add jump function so that client can jump to any address which
-> contains instruction.
+On Wed, 2020-03-04 at 10:32 +0800, CK Hu wrote:
+> Hi, Dennis:
 > 
-> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> ---
->  drivers/soc/mediatek/mtk-cmdq-helper.c | 12 ++++++++++++
->  include/linux/soc/mediatek/mtk-cmdq.h  | 11 +++++++++++
->  2 files changed, 23 insertions(+)
+> On Tue, 2020-03-03 at 18:58 +0800, Dennis YC Hsieh wrote:
+> > Some gce hardware shift pc and end address in register to support
+> > large dram addressing.
+> > Implement gce address shift when write or read pc and end register.
+> > And add shift bit in platform definition.
+> > 
+> > Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+> > ---
+> >  drivers/mailbox/mtk-cmdq-mailbox.c       | 61 ++++++++++++++++++------
+> >  drivers/soc/mediatek/mtk-cmdq-helper.c   |  3 +-
+> >  include/linux/mailbox/mtk-cmdq-mailbox.h |  2 +
+> >  3 files changed, 50 insertions(+), 16 deletions(-)
+> > 
 > 
-> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> index 59bc1164b411..f27c67034880 100644
-> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> @@ -372,6 +372,18 @@ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
->  }
->  EXPORT_SYMBOL(cmdq_pkt_assign);
->  
-> +int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr)
-> +{
-> +	struct cmdq_instruction inst = { {0} };
-> +
-> +	inst.op = CMDQ_CODE_JUMP;
-> +	inst.offset = 1;
+> [snip]
+> 
+> >  
+> > diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> > index de20e6cba83b..2e1bc513569b 100644
+> > --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+> > +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> > @@ -291,7 +291,8 @@ static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+> >  
+> >  	/* JUMP to end */
+> >  	inst.op = CMDQ_CODE_JUMP;
+> > -	inst.value = CMDQ_JUMP_PASS;
+> > +	inst.value = CMDQ_JUMP_PASS >>
+> > +		cmdq_mbox_shift(((struct cmdq_client *)pkt->cl)->chan);
+> 
+> Why not just cmdq_mbox_shift(pkt->cl->chan) ?
 
-Symbolize the value '1'.
+Sorry, the type of pkt->cl is 'void *', so you need to cast it.
 
-Regards,
-CK
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-> +	inst.value = addr >>
-> +		cmdq_mbox_shift(((struct cmdq_client *)pkt->cl)->chan);
-> +	return cmdq_pkt_append_command(pkt, inst);
-> +}
-> +EXPORT_SYMBOL(cmdq_pkt_jump);
-> +
->  int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
->  {
->  	struct cmdq_instruction inst = { {0} };
-> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-> index 99e77155f967..1a6c56f3bec1 100644
-> --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> @@ -213,6 +213,17 @@ int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
->   */
->  int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value);
->  
-> +/**
-> + * cmdq_pkt_jump() - Append jump command to the CMDQ packet, ask GCE
-> + *		     to execute an instruction that change current thread PC to
-> + *		     a physical address which should contains more instruction.
-> + * @pkt:        the CMDQ packet
-> + * @addr:       physical address of target instruction buffer
-> + *
-> + * Return: 0 for success; else the error code is returned
-> + */
-> +int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr);
-> +
->  /**
->   * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
->   * @pkt:	the CMDQ packet
+> 
+> Regards,
+> CK
+> 
+> >  	err = cmdq_pkt_append_command(pkt, inst);
+> >  
+> >  	return err;
+> > diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
+> > index a4dc45fbec0a..dfe5b2eb85cc 100644
+> > --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
+> > +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
+> > @@ -88,4 +88,6 @@ struct cmdq_pkt {
+> >  	void			*cl;
+> >  };
+> >  
+> > +u8 cmdq_mbox_shift(struct mbox_chan *chan);
+> > +
+> >  #endif /* __MTK_CMDQ_MAILBOX_H__ */
+> 
 
 _______________________________________________
 dri-devel mailing list
