@@ -1,48 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0D917A0E6
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 09:14:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2AD17A0F1
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 09:15:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2525A6EB80;
-	Thu,  5 Mar 2020 08:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11CBB6EB89;
+	Thu,  5 Mar 2020 08:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from onstation.org (onstation.org [52.200.56.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31A3B89BF5
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 10:00:34 +0000 (UTC)
-Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
- [98.239.145.235])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: masneyb)
- by onstation.org (Postfix) with ESMTPSA id B96993E8F4;
- Wed,  4 Mar 2020 10:00:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
- s=default; t=1583316033;
- bh=QUHm+FaJ6wpp4KgeHpumi7B+7h8KKtl6vzaRMOuv5e0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=okSj8k7lKiNY0iqjMycZyla+48SxpL51eXVth0h0YB/Pcf5vdGTBhUI3wwsDhTxHF
- AfGst9kPLpioFL7IQlePs/4E9habqo5igAPGkkg26qiVSZzr+bbWiKFY3lt4dk5buo
- LOfD88aegwcy0+4wEKPBCeS5hfX5HlHge5QRxWa8=
-Date: Wed, 4 Mar 2020 05:00:32 -0500
-From: Brian Masney <masneyb@onstation.org>
-To: Jonathan Marek <jonathan@marek.ca>
-Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
-Message-ID: <20200304100032.GA18958@onstation.org>
-References: <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
- <20200303031335.GA7208@onstation.org>
- <8f47109f-796e-8cd5-d05e-8cdf2d0665ed@marek.ca>
- <836f8308-b648-52ff-aa71-448ff0130931@marek.ca>
- <20200303122643.GA10088@onstation.org>
- <a565b44c-4562-f3da-82dc-e0f47683acb2@marek.ca>
- <20200304021624.GA16870@onstation.org>
- <b20e71f6-7157-f71c-27a2-61523bd6a65d@marek.ca>
- <20200304025354.GA17518@onstation.org>
- <30e32ce4-d958-6cb9-e0f7-8de9377562ce@marek.ca>
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9877A89BF5
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 10:01:13 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id 59so900942qtb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 02:01:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8DsdSZ64K0LPAMg8xgYOvioBKCRjLiHvdT1IfS9y3K8=;
+ b=J81u/LYbLOC+HafupZZpwyve3T32z6YQErz64fwo8exGwB3v2sHOGkJhyEYWdeLIEk
+ YMoPNpQzOQFu1ndbaYEMl7W5hOrr6giu4MKLdAFfYDfcZCE1cwWIerTXWlqCOEjhxLTl
+ 5crpA+YA0BHlAMyNz+rP2mxysIxQacFLGoLbEZTVT7ugCbOSztHE7B/LLlu98UmVgOdr
+ S8FrnXGDvtAh1ETChnZnkleX0ST+dwJbp2fp7l88vZ9O5DW3zQxN55valB2PGU3ooaCr
+ sMcybDcplb0G3TvXeo3a1nXdZrrp1p6muqPEOvipNCAEG9B2PmknS/NUkL9AZ6KgmuNG
+ KIyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8DsdSZ64K0LPAMg8xgYOvioBKCRjLiHvdT1IfS9y3K8=;
+ b=CrlClrVAZ8dLzWHydNr6lWU8fBjExYXJTSiX2MpL18bR8ZKxdlWTV7KXRowElI0vmB
+ BwHos6q0Ah2CDsKSOlxqbKF58fh91nZlvPE09rch1UY8IkaMx9qMY4Da12pqscrg+4vL
+ EYWSbZKiDSMJ0bBtH73B8Pn+c9lCL0hjAqDmghaWZEB0+HuD2yvMQNKFGlE+AV1i68uH
+ 8WJEVjdYtnUEIW7eCux7STWZIwPKyzmFwQuC7R7yclECMB3Ibv1j6y/d4SXraMSA323+
+ IVdTC3rAeOSyssz7PrwFfFSLjB/saEaFRiYKJ9RxEnyNGydLUcHHuc4BkXEccEmJMEZV
+ poFw==
+X-Gm-Message-State: ANhLgQ2j6eetECRjem/OnPAtCMTYuKGVZ5CbGbIE6yFOWvaYdZZB11ht
+ ODwmLJhBTWOgl7qnhIh8Cfb3h9IDRilSIwRG2oU=
+X-Google-Smtp-Source: ADFU+vuNWKgMDbs1LEgSp+TwDWYB1DWHj7hzGPRwnzpRr/e/pVs3NGawVS5+pmeXJ6OsBvUr/EgyeJjyvaBzAo7A12s=
+X-Received: by 2002:ac8:4994:: with SMTP id f20mr1694359qtq.2.1583316071803;
+ Wed, 04 Mar 2020 02:01:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <30e32ce4-d958-6cb9-e0f7-8de9377562ce@marek.ca>
+References: <1582710377-15489-1-git-send-email-kevin3.tang@gmail.com>
+ <1582710377-15489-2-git-send-email-kevin3.tang@gmail.com>
+ <CAL_JsqL08g0TaNob7gcKgTx5OXgwBEfKy6f5AK73xuYhMRMNkw@mail.gmail.com>
+In-Reply-To: <CAL_JsqL08g0TaNob7gcKgTx5OXgwBEfKy6f5AK73xuYhMRMNkw@mail.gmail.com>
+From: tang pengchuan <kevin3.tang@gmail.com>
+Date: Wed, 4 Mar 2020 18:01:00 +0800
+Message-ID: <CAFPSGXa6j5T68y85LPnq1LvWMnajXNt29h_S1nG4HQujDsWsrQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 1/6] dt-bindings: display: add Unisoc's drm master
+ bindings
+To: Rob Herring <robh+dt@kernel.org>
 X-Mailman-Approved-At: Thu, 05 Mar 2020 08:14:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,360 +64,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Mark Rutland <mark.rutland@arm.com>, Baolin Wang <baolin.wang@linaro.org>,
+ David Airlie <airlied@linux.ie>, Lyra Zhang <zhang.lyra@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Orson Zhai <orsonzhai@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============0401147032=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 03, 2020 at 10:04:56PM -0500, Jonathan Marek wrote:
-> If I have time to kill over the weekend I'll do a new rebase of my Nexus 5
-> patches (my last rebase was back in August on 5.2, and the panel was work=
-ing
-> correctly at 60Hz back then).
+--===============0401147032==
+Content-Type: multipart/alternative; boundary="00000000000006f28005a0048072"
 
-That would be great if you have time to look at the panel. My
-out-of-tree patches for this phone are at
-https://github.com/masneyb/linux/commits/v5.5-nexus5.
-A high-level description of those patches are on the cover letter:
-https://github.com/masneyb/nexus-5-upstream/blob/master/out-of-tree-patches=
-/upstream-patches/v5.5/0000-cover-letter.patch
+--00000000000006f28005a0048072
+Content-Type: text/plain; charset="UTF-8"
 
-A description of what works and what I've done upstream for this device
-is described at:
-https://masneyb.github.io/nexus-5-upstream/
+On Fri, Feb 28, 2020 at 12:50 AM Rob Herring <robh+dt@kernel.org> wrote:
 
-Brian
+> On Wed, Feb 26, 2020 at 3:46 AM Kevin Tang <kevin3.tang@gmail.com> wrote:
+> >
+> > From: Kevin Tang <kevin.tang@unisoc.com>
+> >
+> > The Unisoc DRM master device is a virtual device needed to list all
+> > DPU devices or other display interface nodes that comprise the
+> > graphics subsystem
+> >
+> > Cc: Orson Zhai <orsonzhai@gmail.com>
+> > Cc: Baolin Wang <baolin.wang@linaro.org>
+> > Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+> > Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
+> > ---
+> >  .../devicetree/bindings/display/sprd/drm.yaml      | 36
+> ++++++++++++++++++++++
+> >  1 file changed, 36 insertions(+)
+> >  create mode 100644
+> Documentation/devicetree/bindings/display/sprd/drm.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/sprd/drm.yaml
+> b/Documentation/devicetree/bindings/display/sprd/drm.yaml
+> > new file mode 100644
+> > index 0000000..b5792c0
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/sprd/drm.yaml
+> > @@ -0,0 +1,36 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/sprd/drm.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Unisoc DRM master device
+> > +
+> > +maintainers:
+> > +  - Mark Rutland <mark.rutland@arm.com>
+> > +
+> > +description: |
+> > +  The Unisoc DRM master device is a virtual device needed to list all
+> > +  DPU devices or other display interface nodes that comprise the
+> > +  graphics subsystem.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sprd,display-subsystem
+> > +
+> > +  ports:
+> > +    description:
+> > +      Should contain a list of phandles pointing to display interface
+> port
+> > +      of DPU devices.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - ports
+> > +
+> > +examples:
+> > +  - |
+> > +    display-subsystem {
+> > +        compatible = "sprd,display-subsystem";
+> > +        ports = <&dpu_out>;
+>
+> We try to avoid these virtual nodes and bind with actual h/w nodes.
+> Can you have more than one DPU and if so does it need to be a single
+> DRM driver instance?
+>
+I don't really understand what you mean, so reply as I understand...
+"dpu_out" node is the real h/w node, defined on dpu.yaml
+Yeah, we will be have multi DPU
 
+>
+> Rob
+>
 
+--00000000000006f28005a0048072
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> =
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 28, 2020 at 12:50 AM Rob =
+Herring &lt;<a href=3D"mailto:robh%2Bdt@kernel.org">robh+dt@kernel.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On We=
+d, Feb 26, 2020 at 3:46 AM Kevin Tang &lt;<a href=3D"mailto:kevin3.tang@gma=
+il.com" target=3D"_blank">kevin3.tang@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com" target=
+=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
+&gt;<br>
+&gt; The Unisoc DRM master device is a virtual device needed to list all<br=
+>
+&gt; DPU devices or other display interface nodes that comprise the<br>
+&gt; graphics subsystem<br>
+&gt;<br>
+&gt; Cc: Orson Zhai &lt;<a href=3D"mailto:orsonzhai@gmail.com" target=3D"_b=
+lank">orsonzhai@gmail.com</a>&gt;<br>
+&gt; Cc: Baolin Wang &lt;<a href=3D"mailto:baolin.wang@linaro.org" target=
+=3D"_blank">baolin.wang@linaro.org</a>&gt;<br>
+&gt; Cc: Chunyan Zhang &lt;<a href=3D"mailto:zhang.lyra@gmail.com" target=
+=3D"_blank">zhang.lyra@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com"=
+ target=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../devicetree/bindings/display/sprd/drm.yaml=C2=A0 =C2=A0 =C2=
+=A0 | 36 ++++++++++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 36 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 Documentation/devicetree/bindings/display/spr=
+d/drm.yaml<br>
+&gt;<br>
+&gt; diff --git a/Documentation/devicetree/bindings/display/sprd/drm.yaml b=
+/Documentation/devicetree/bindings/display/sprd/drm.yaml<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..b5792c0<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/Documentation/devicetree/bindings/display/sprd/drm.yaml<br>
+&gt; @@ -0,0 +1,36 @@<br>
+&gt; +# SPDX-License-Identifier: GPL-2.0<br>
+&gt; +%YAML 1.2<br>
+&gt; +---<br>
+&gt; +$id: <a href=3D"http://devicetree.org/schemas/display/sprd/drm.yaml#"=
+ rel=3D"noreferrer" target=3D"_blank">http://devicetree.org/schemas/display=
+/sprd/drm.yaml#</a><br>
+&gt; +$schema: <a href=3D"http://devicetree.org/meta-schemas/core.yaml#" re=
+l=3D"noreferrer" target=3D"_blank">http://devicetree.org/meta-schemas/core.=
+yaml#</a><br>
+&gt; +<br>
+&gt; +title: Unisoc DRM master device<br>
+&gt; +<br>
+&gt; +maintainers:<br>
+&gt; +=C2=A0 - Mark Rutland &lt;<a href=3D"mailto:mark.rutland@arm.com" tar=
+get=3D"_blank">mark.rutland@arm.com</a>&gt;<br>
+&gt; +<br>
+&gt; +description: |<br>
+&gt; +=C2=A0 The Unisoc DRM master device is a virtual device needed to lis=
+t all<br>
+&gt; +=C2=A0 DPU devices or other display interface nodes that comprise the=
+<br>
+&gt; +=C2=A0 graphics subsystem.<br>
+&gt; +<br>
+&gt; +properties:<br>
+&gt; +=C2=A0 compatible:<br>
+&gt; +=C2=A0 =C2=A0 const: sprd,display-subsystem<br>
+&gt; +<br>
+&gt; +=C2=A0 ports:<br>
+&gt; +=C2=A0 =C2=A0 description:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 Should contain a list of phandles pointing to di=
+splay interface port<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 of DPU devices.<br>
+&gt; +<br>
+&gt; +required:<br>
+&gt; +=C2=A0 - compatible<br>
+&gt; +=C2=A0 - ports<br>
+&gt; +<br>
+&gt; +examples:<br>
+&gt; +=C2=A0 - |<br>
+&gt; +=C2=A0 =C2=A0 display-subsystem {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 compatible =3D &quot;sprd,display-subsyst=
+em&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ports =3D &lt;&amp;dpu_out&gt;;<br>
+<br>
+We try to avoid these virtual nodes and bind with actual h/w nodes.<br>
+Can you have more than one DPU and if so does it need to be a single<br>
+DRM driver instance?<br></blockquote><div><span class=3D"gmail-tlid-transla=
+tion gmail-translation" lang=3D"en"><span title=3D"" class=3D"gmail-">I don=
+&#39;t really understand what you mean, <span class=3D"gmail-tlid-translati=
+on gmail-translation" lang=3D"en"><span title=3D"" class=3D"gmail-">so repl=
+y as I understand...<br></span></span></span></span></div><div><span class=
+=3D"gmail-tlid-translation gmail-translation" lang=3D"en"><span title=3D"" =
+class=3D"gmail-">&quot;dpu_out&quot; node <span class=3D"gmail-tlid-transla=
+tion gmail-translation" lang=3D"en"><span title=3D"" class=3D"gmail-">is th=
+e real h/w node, defined on dpu.yaml</span></span></span></span></div><div>=
+<span class=3D"gmail-tlid-translation gmail-translation" lang=3D"en"><span =
+title=3D"" class=3D"gmail-"><span class=3D"gmail-tlid-translation gmail-tra=
+nslation" lang=3D"en"><span title=3D"" class=3D"gmail-">Yeah, we will be ha=
+ve multi DPU<br></span></span></span></span> </div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">
+<br>
+Rob<br>
+</blockquote></div></div>
 
-> Looked at it again and it does look like your glmark was vsynced (glmark
-> explicitly disables vsync so I guess you have it force-enabled) since the
-> results are all 26-27 (X works a bit differently and gets double the
-> framerate somehow?)
-> =
+--00000000000006f28005a0048072--
 
-> On 3/3/20 9:53 PM, Brian Masney wrote:
-> > On Tue, Mar 03, 2020 at 09:27:50PM -0500, Jonathan Marek wrote:
-> > > modetest should be printing "freq: 60.0Hz", so definitely something w=
-rong
-> > > there. Though I guess you have another problem since I would expect t=
-he
-> > > patch to drop it to 30 and not 13.5.
-> > > =
-
-> > > (FYI glmark-x11 isn't vsynced which is why I specifically mentioned
-> > > glmark-drm)
-> > =
-
-> > I tried compiling the drm variant and it was complaining about some
-> > missing dependencies that I didn't see in Alpine Linux. I didn't try too
-> > hard since I'm a bit short on time at this point since I'm starting a
-> > new job on Monday and I have another side project that I want to finish
-> > before then.
-> > =
-
-> > I suspect that the issue is caused by the introduction of the async
-> > commit support in the MSM driver that introduced the ping/pong timeouts.
-> > I'll try in a few weeks or so reverting those patches and see if that
-> > affects the speed.
-> > =
-
-> > I'm still ok with Ville's patch going in given the existing slow state.
-> > There's no clear path forward right now for the autocommit patch that I
-> > linked to earlier in this thread. :(
-> > =
-
-> > Brian
-> > =
-
-> > > =
-
-> > > On 3/3/20 9:16 PM, Brian Masney wrote:
-> > > > On Tue, Mar 03, 2020 at 08:04:05AM -0500, Jonathan Marek wrote:
-> > > > > What Xorg prints doesn't mean anything. I don't think there will =
-be errors
-> > > > > in dmesg, you need to run something that does pageflips as fast a=
-s possible
-> > > > > and see that the refresh rate is still 60. (modetest with -v, glm=
-ark-drm are
-> > > > > examples)
-> > > > =
-
-> > > > I assume that you mean modetest from
-> > > > https://gitlab.freedesktop.org/mesa/drm/tree/master/tests/modetest ?
-> > > > Here's the modeset connector information:
-> > > > =
-
-> > > > id   encoder status      name    size (mm)  modes   encoders
-> > > > 32   31      connected   DSI-1   62x110     1       31
-> > > >     modes:
-> > > >           index name refresh (Hz) hdisp hss hse htot vdisp vss vse =
-vtot)
-> > > >     #0 1080x1920 71.71 1080 1082 1084 1086 1920 1922 1924 1926 1500=
-00
-> > > >     flags: ; type: preferred, driver
-> > > > =
-
-> > > > And the page flip results...
-> > > > =
-
-> > > > $ modetest -v -s 32:1080x1920
-> > > > trying to open device 'msm'...done
-> > > > setting mode 1080x1920-71.71Hz@XR24 on connectors 32, crtc 50
-> > > > failed to set gamma: Function not implemented
-> > > > freq: 13.50Hz
-> > > > freq: 13.51Hz
-> > > > freq: 13.51Hz
-> > > > =
-
-> > > > It's the same results with and without Ville's patch.
-> > > > =
-
-> > > > Here's the beginning of the glmark2 results with the x11-gl flavor:
-> > > > =
-
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > >       glmark2 2017.07
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > >       OpenGL Information
-> > > >       GL_VENDOR:     freedreno
-> > > >       GL_RENDERER:   FD330
-> > > >       GL_VERSION:    3.1 Mesa 20.0.0-devel
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > [build] use-vbo=3Dfalse: FPS: 26 FrameTime: 38.462 ms
-> > > > [build] use-vbo=3Dtrue: FPS: 26 FrameTime: 38.462 ms
-> > > > [texture] texture-filter=3Dnearest: FPS: 26 FrameTime: 38.462 ms
-> > > > [texture] texture-filter=3Dlinear: FPS: 26 FrameTime: 38.462 ms
-> > > > [texture] texture-filter=3Dmipmap: FPS: 27 FrameTime: 37.037 ms
-> > > > [shading] shading=3Dgouraud: FPS: 27 FrameTime: 37.037 ms
-> > > > [shading] shading=3Dblinn-phong-inf: FPS: 27 FrameTime: 37.037 ms
-> > > > [shading] shading=3Dphong: FPS: 27 FrameTime: 37.037 ms
-> > > > [shading] shading=3Dcel: FPS: 26 FrameTime: 38.462 ms
-> > > > [bump] bump-render=3Dhigh-poly: FPS: 27 FrameTime: 37.037 ms
-> > > > [bump] bump-render=3Dnormals: FPS: 27 FrameTime: 37.037 ms
-> > > > [bump] bump-render=3Dheight: FPS: 27 FrameTime: 37.037 ms
-> > > > [effect2d] kernel=3D0,1,0;1,-4,1;0,1,0;: FPS: 25 FrameTime: 40.000 =
-ms
-> > > > [effect2d] kernel=3D1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 26 FrameTi=
-me:
-> > > >    38.462 ms
-> > > > [pulsar] light=3Dfalse:quads=3D5:texture=3Dfalse: FPS: 26 FrameTime=
-: 38.462 ms
-> > > > [desktop] blur-radius=3D5:effect=3Dblur:passes=3D1:separable=3Dtrue=
-:windows=3D4:
-> > > >    FPS: 26 FrameTime: 38.462 ms
-> > > > [desktop] effect=3Dshadow:windows=3D4: FPS: 27 FrameTime: 37.037 ms
-> > > > ...
-> > > > =
-
-> > > > Brian
-> > > > =
-
-> > > > =
-
-> > > > > =
-
-> > > > > On 3/3/20 7:26 AM, Brian Masney wrote:
-> > > > > > On Mon, Mar 02, 2020 at 10:36:54PM -0500, Jonathan Marek wrote:
-> > > > > > > Another thing: did you verify that the panel still runs at 60=
-hz (and not
-> > > > > > > dropping frames to 30hz)? IIRC that was the behavior with low=
-er clock.
-> > > > > > =
-
-> > > > > > Yes, the panel is running at 60 HZ according to the Xorg log wi=
-th
-> > > > > > Ville's patch applied:
-> > > > > > =
-
-> > > > > >        modeset(0): Modeline "1080x1920"x60.0  125.50  1080 1082=
- 1084 1086
-> > > > > >        1920 1922 1924 1926 (115.6 kHz eP)
-> > > > > > =
-
-> > > > > > I verified there's no underflow errors in dmesg.
-> > > > > > =
-
-> > > > > > If I recall correctly, the clock speeds that was in your tree w=
-as set
-> > > > > > too low for the gpu_opp_table (that wouldn't cause this issue),=
- but I
-> > > > > > seem to recall there were some other clock speed mismatches. The
-> > > > > > bandwidth requests weren't set on the RPM as well, so maybe that
-> > > > > > contributed to the problem. That's done upstream with the msm89=
-74
-> > > > > > interconnect driver:
-> > > > > > =
-
-> > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git/tree/drivers/interconnect/qcom/msm8974.c
-> > > > > > =
-
-> > > > > > There's a separate known issue with 'pp done time out' errors t=
-hat
-> > > > > > occur on the framebuffer that started upstream several months a=
-go with
-> > > > > > the introduction of async commit support in the MSM driver. I t=
-ried
-> > > > > > working around this by enabling the autorefresh feature but it'=
-s not
-> > > > > > fully working yet and I hit a dead end since there's no docs av=
-ailable
-> > > > > > publicly for this. The grim details are at:
-> > > > > > =
-
-> > > > > > https://lore.kernel.org/lkml/20191230020053.26016-2-masneyb@ons=
-tation.org/
-> > > > > > =
-
-> > > > > > So I'm still OK with Ville's patch going in.
-> > > > > > =
-
-> > > > > > Brian
-> > > > > > =
-
-> > > > > > =
-
-> > > > > > > =
-
-> > > > > > > On 3/2/20 10:28 PM, Jonathan Marek wrote:
-> > > > > > > > =
-
-> > > > > > > > On 3/2/20 10:13 PM, Brian Masney wrote:
-> > > > > > > > > On Mon, Mar 02, 2020 at 03:48:22PM -0500, Jonathan Marek =
-wrote:
-> > > > > > > > > > Hi,
-> > > > > > > > > > =
-
-> > > > > > > > > > This is a command mode panel and the the msm/mdp5 drive=
-r uses
-> > > > > > > > > > the vrefresh
-> > > > > > > > > > field for the actual refresh rate, while the dotclock f=
-ield is
-> > > > > > > > > > used for the
-> > > > > > > > > > DSI clocks. The dotclock needed to be a bit higher than
-> > > > > > > > > > necessary otherwise
-> > > > > > > > > > the panel would not work.
-> > > > > > > > > > =
-
-> > > > > > > > > > If you want to get rid of the separate clock/vrefresh f=
-ields there would
-> > > > > > > > > > need to be some changes to msm driver.
-> > > > > > > > > > =
-
-> > > > > > > > > > (note I hadn't made the patch with upstreaming in mind,=
- the
-> > > > > > > > > > 150000 value is
-> > > > > > > > > > likely not optimal, just something that worked, this is=
- something that
-> > > > > > > > > > should have been checked with the downstream driver)
-> > > > > > > > > =
-
-> > > > > > > > > Is this the right clock frequency in the downstream MSM 3=
-.4 kernel that
-> > > > > > > > > you're talking about?
-> > > > > > > > > =
-
-> > > > > > > > > https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/a=
-rch/arm/mach-msm/clock-8974.c#L3326
-> > > > > > > > > =
-
-> > > > > > > > > =
-
-> > > > > > > > =
-
-> > > > > > > > No, I'm talking about the DSI clock (the driver for it is in
-> > > > > > > > drm/msm/dsi/). For a command mode panel the front/back porc=
-hes aren't
-> > > > > > > > relevant, but the dsi pixel/byte clock need to be a bit hig=
-her than
-> > > > > > > > 1920x1080x60. Since 125498 is a little higher than 124416 t=
-hat might be
-> > > > > > > > enough (there is also rounding of the clock values to consi=
-der).
-> > > > > > > > =
-
-> > > > > > > > > I don't see any obvious clock values in the downstream co=
-mmand mode
-> > > > > > > > > panel configuration:
-> > > > > > > > > =
-
-> > > > > > > > > https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/a=
-rch/arm/boot/dts/msm8974-hammerhead/msm8974-hammerhead-panel.dtsi#L591
-> > > > > > > > > =
-
-> > > > > > > > > =
-
-> > > > > > > > > Anyways, I tried Ville's patch with the framebuffer, kmsc=
-ube, and X11
-> > > > > > > > > and everything appears to be working fine. You can add my=
- Tested-by if
-> > > > > > > > > you end up applying this.
-> > > > > > > > > =
-
-> > > > > > > > > Tested-by: Brian Masney <masneyb@onstation.org>
-> > > > > > > > > =
-
-> > > > > > > > > Brian
-> > > > > > > > > =
-
-> > > > > > > > > =
-
-> > > > > > > > > > On 3/2/20 3:34 PM, Ville Syrjala wrote:
-> > > > > > > > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.co=
-m>
-> > > > > > > > > > > =
-
-> > > > > > > > > > > The currently listed dotclock disagrees with the curr=
-ently
-> > > > > > > > > > > listed vrefresh rate. Change the dotclock to match th=
-e vrefresh.
-> > > > > > > > > > > =
-
-> > > > > > > > > > > Someone tell me which (if either) of the dotclock or =
-vreresh is
-> > > > > > > > > > > correct?
-> > > > > > > > > > > =
-
-> > > > > > > > > > > Cc: Jonathan Marek <jonathan@marek.ca>
-> > > > > > > > > > > Cc: Brian Masney <masneyb@onstation.org>
-> > > > > > > > > > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > > > > > > > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux=
-.intel.com>
-> > > > > > > > > > > ---
-> > > > > > > > > > >    =A0=A0 drivers/gpu/drm/panel/panel-simple.c | 2 +-
-> > > > > > > > > > >    =A0=A0 1 file changed, 1 insertion(+), 1 deletion(=
--)
-> > > > > > > > > > > =
-
-> > > > > > > > > > > diff --git a/drivers/gpu/drm/panel/panel-simple.c
-> > > > > > > > > > > b/drivers/gpu/drm/panel/panel-simple.c
-> > > > > > > > > > > index b24fdf239440..f958d8dfd760 100644
-> > > > > > > > > > > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > > > > > > > > > > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > > > > > > > > > > @@ -3996,7 +3996,7 @@ static const struct panel_desc_=
-dsi
-> > > > > > > > > > > panasonic_vvx10f004b00 =3D {
-> > > > > > > > > > >    =A0=A0 };
-> > > > > > > > > > >    =A0=A0 static const struct drm_display_mode lg_acx=
-467akm_7_mode =3D {
-> > > > > > > > > > > -=A0=A0=A0 .clock =3D 150000,
-> > > > > > > > > > > +=A0=A0=A0 .clock =3D 125498,
-> > > > > > > > > > >    =A0=A0=A0=A0=A0=A0 .hdisplay =3D 1080,
-> > > > > > > > > > >    =A0=A0=A0=A0=A0=A0 .hsync_start =3D 1080 + 2,
-> > > > > > > > > > >    =A0=A0=A0=A0=A0=A0 .hsync_end =3D 1080 + 2 + 2,
-> > > > > > > > > > > =
+--===============0401147032==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0401147032==--
