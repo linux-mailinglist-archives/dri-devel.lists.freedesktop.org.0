@@ -1,30 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC4B1792C3
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 15:53:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07BBF1792E8
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 16:00:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6EC6E17E;
-	Wed,  4 Mar 2020 14:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00446E197;
+	Wed,  4 Mar 2020 15:00:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2FC6E17E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 14:53:16 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 89873B0E6;
- Wed,  4 Mar 2020 14:53:14 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, sam@ravnborg.org
-Subject: [PATCH v2] drm/simple-kms: Fix documentation for
- drm_simple_encoder_init()
-Date: Wed,  4 Mar 2020 15:53:12 +0100
-Message-Id: <20200304145312.26458-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+ [209.85.167.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3EE56E197
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 15:00:00 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id d62so2332172oia.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 07:00:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=5kzs+suiXGOLM6214SN1xySZQC2yuoHuAv+kXNmxnJI=;
+ b=T9GsHqzoycGGBuJjtBVojZHMtPvcp5x3kO+cWu446IMPUKfnI9oFVthvNihelMJYTC
+ moH/t2wtnK+QHytDA+FVXURnUogAB2sHXUhENnVNTSoXRDMgWtB06FZNl1EUb6cUWIo5
+ tZxvEgmMwI4YxMZvSmQgq3PgcszDnKYiUG6yNRYkEscJUW2VdDwdt5zmbVEvz3O+QKV4
+ IE48ymhOe2owB1baU7+qxdkBY76m7uwKUzwpjoevdMOCL8PRWDSbFNYcWYvySF7k6Uzg
+ sv7Osu7/QZWJHQbUBX/YOLcvvglTZBWkZTuxSCNE+KH85+6GzUWNioiLMu5q2r3sM/k6
+ KvPA==
+X-Gm-Message-State: ANhLgQ38hGaFIKGMG7lp2BBx0StwYaGwfrTNuU0B4gSwYg+CoGMGVqsK
+ mtnuqWQztEGvg9nh7kUY2A==
+X-Google-Smtp-Source: ADFU+vv8e6bqzfrEUfhRglZm6ics/VgmQ0DWwpgysZeN1Q7F7AyUjL7HRD+dgHJdDUz55H2/3Q1G6Q==
+X-Received: by 2002:aca:5194:: with SMTP id f142mr2089262oib.100.1583333999966; 
+ Wed, 04 Mar 2020 06:59:59 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id b15sm6358282oic.52.2020.03.04.06.59.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Mar 2020 06:59:59 -0800 (PST)
+Received: (nullmailer pid 20406 invoked by uid 1000);
+ Wed, 04 Mar 2020 14:59:58 -0000
+Date: Wed, 4 Mar 2020 08:59:58 -0600
+From: Rob Herring <robh@kernel.org>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Subject: Re: [PATCH v12 2/6] dt-bindings: display: mediatek: control dpi pins
+ mode to avoid leakage
+Message-ID: <20200304145958.GA17716@bogus>
+References: <20200303052722.94795-1-jitao.shi@mediatek.com>
+ <20200303052722.94795-3-jitao.shi@mediatek.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200303052722.94795-3-jitao.shi@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,69 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Brings the documentation of drm_simple_encoder_init() in sync with the
-function's signature. Also add a paragraph clarifying the management of
-the encoder's memory.
+On Tue, Mar 03, 2020 at 01:27:18PM +0800, Jitao Shi wrote:
+> Add property "pinctrl-names" to swap pin mode between gpio and dpi mode. Set
+> the dpi pins to gpio mode and output-low to avoid leakage current when dpi
+> disabled.
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,dpi.txt  | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> index 58914cf681b8..77ca32a32399 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+> @@ -17,6 +17,10 @@ Required properties:
+>    Documentation/devicetree/bindings/graph.txt. This port should be connected
+>    to the input port of an attached HDMI or LVDS encoder chip.
+>  
+> +Optional properties:
+> +- pinctrl-names: Contain "gpiomode" and "dpimode".
 
-v2:
-	* document memory management
+Doesn't match the example.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Fixes: 63170ac6f2e8 ("drm/simple-kms: Add drm_simple_encoder_{init,create}()")
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/drm_simple_kms_helper.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 5a2abe2dea3e..74946690aba4 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -38,9 +38,10 @@ static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
- };
-
- /**
-- * drm_simple_encoder_init - Initialize a preallocated encoder
-+ * drm_simple_encoder_init - Initialize a preallocated encoder with
-+ *                           basic functionality.
-  * @dev: drm device
-- * @funcs: callbacks for this encoder
-+ * @encoder: the encoder to initialize
-  * @encoder_type: user visible type of the encoder
-  *
-  * Initialises a preallocated encoder that has no further functionality.
-@@ -48,6 +49,15 @@ static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
-  * The encoder will be cleaned up automatically as part of the mode-setting
-  * cleanup.
-  *
-+ * The caller of drm_simple_encoder_init() is responsible for freeing
-+ * the encoder's memory after the encoder has been cleaned up. At the
-+ * moment this only works reliably if the encoder data structure is
-+ * stored in the device structure. Free the encoder's memory as part of
-+ * the device release function.
-+ *
-+ * FIXME: Later improvements to DRM's resource management may allow for
-+ *        an automated kfree() of the encoder's memory.
-+ *
-  * Returns:
-  * Zero on success, error code on failure.
-  */
---
-2.25.1
-
+> +  pinctrl-names see Documentation/devicetree/bindings/pinctrlpinctrl-bindings.txt
+> +
+>  Example:
+>  
+>  dpi0: dpi@1401d000 {
+> @@ -27,6 +31,9 @@ dpi0: dpi@1401d000 {
+>  		 <&mmsys CLK_MM_DPI_ENGINE>,
+>  		 <&apmixedsys CLK_APMIXED_TVDPLL>;
+>  	clock-names = "pixel", "engine", "pll";
+> +	pinctrl-names = "active", "idle";
+> +	pinctrl-0 = <&dpi_pin_func>;
+> +	pinctrl-1 = <&dpi_pin_idle>;
+>  
+>  	port {
+>  		dpi0_out: endpoint {
+> -- 
+> 2.21.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
