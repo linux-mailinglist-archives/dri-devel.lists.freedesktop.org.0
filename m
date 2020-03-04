@@ -1,34 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A58178BC6
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F0E6178BDA
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6016A6EAC5;
-	Wed,  4 Mar 2020 07:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1545D6EAD1;
+	Wed,  4 Mar 2020 07:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899CC6E115
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:11:35 +0000 (UTC)
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 984BA3C4B02D843EC596;
- Wed,  4 Mar 2020 10:11:29 +0800 (CST)
-Received: from localhost.localdomain (10.175.124.28) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 4 Mar 2020 10:11:23 +0800
-From: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
-To: <b.zolnierkie@samsung.com>, <zhangxiaoxu5@huawei.com>,
- <wangkefeng.wang@huawei.com>, <sergey.senozhatsky@gmail.com>,
- <pmladek@suse.com>, <akpm@osdl.org>, <ville.syrjala@linux.intel.com>
-Subject: [v3] vgacon: Fix a UAF in vgacon_invert_region
-Date: Wed, 4 Mar 2020 10:10:11 +0800
-Message-ID: <20200304021011.5691-1-zhangxiaoxu5@huawei.com>
-X-Mailer: git-send-email 2.17.2
+Received: from onstation.org (onstation.org [52.200.56.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9F656E115
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:16:25 +0000 (UTC)
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
+ [98.239.145.235])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: masneyb)
+ by onstation.org (Postfix) with ESMTPSA id 86C0F3E89F;
+ Wed,  4 Mar 2020 02:16:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
+ s=default; t=1583288185;
+ bh=JYnuO9sWqK/7Oj9BU5qWPuV0vBAgKliy8Neugt5FcD4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vKBnQiAeSV0d3u+gEalt17bFRfjVIzCRVK2LSpIf+BZ9wnlVmQNdoq9GM4ggr8An9
+ yYc6gJROtbX+aB5xCcNMBLMf5KRW/edTvGzR2gh3+j73s/0GxM4hVERlzVLXqpFZGe
+ 4eUfNXgadoDQVO5ba/o5fwFHha6Ap9qM0Bq4Iti8=
+Date: Tue, 3 Mar 2020 21:16:24 -0500
+From: Brian Masney <masneyb@onstation.org>
+To: Jonathan Marek <jonathan@marek.ca>
+Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
+Message-ID: <20200304021624.GA16870@onstation.org>
+References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+ <20200302203452.17977-34-ville.syrjala@linux.intel.com>
+ <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
+ <20200303031335.GA7208@onstation.org>
+ <8f47109f-796e-8cd5-d05e-8cdf2d0665ed@marek.ca>
+ <836f8308-b648-52ff-aa71-448ff0130931@marek.ca>
+ <20200303122643.GA10088@onstation.org>
+ <a565b44c-4562-f3da-82dc-e0f47683acb2@marek.ca>
 MIME-Version: 1.0
-X-Originating-IP: [10.175.124.28]
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <a565b44c-4562-f3da-82dc-e0f47683acb2@marek.ca>
 X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,124 +54,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When syzkaller tests, there is a UAF:
-  BUG: KASan: use after free in vgacon_invert_region+0x9d/0x110 at addr
-    ffff880000100000
-  Read of size 2 by task syz-executor.1/16489
-  page:ffffea0000004000 count:0 mapcount:-127 mapping:          (null)
-  index:0x0
-  page flags: 0xfffff00000000()
-  page dumped because: kasan: bad access detected
-  CPU: 1 PID: 16489 Comm: syz-executor.1 Not tainted
-  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-  rel-1.9.3-0-ge2fc41e-prebuilt.qemu-project.org 04/01/2014
-  Call Trace:
-    [<ffffffffb119f309>] dump_stack+0x1e/0x20
-    [<ffffffffb04af957>] kasan_report+0x577/0x950
-    [<ffffffffb04ae652>] __asan_load2+0x62/0x80
-    [<ffffffffb090f26d>] vgacon_invert_region+0x9d/0x110
-    [<ffffffffb0a39d95>] invert_screen+0xe5/0x470
-    [<ffffffffb0a21dcb>] set_selection+0x44b/0x12f0
-    [<ffffffffb0a3bfae>] tioclinux+0xee/0x490
-    [<ffffffffb0a1d114>] vt_ioctl+0xff4/0x2670
-    [<ffffffffb0a0089a>] tty_ioctl+0x46a/0x1a10
-    [<ffffffffb052db3d>] do_vfs_ioctl+0x5bd/0xc40
-    [<ffffffffb052e2f2>] SyS_ioctl+0x132/0x170
-    [<ffffffffb11c9b1b>] system_call_fastpath+0x22/0x27
-    Memory state around the buggy address:
-     ffff8800000fff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-     00 00
-     ffff8800000fff80: 00 00 00 00 00 00 00 00 00 00 00 00 00
-     00 00 00
-    >ffff880000100000: ff ff ff ff ff ff ff ff ff ff ff ff ff
-     ff ff ff
+On Tue, Mar 03, 2020 at 08:04:05AM -0500, Jonathan Marek wrote:
+> What Xorg prints doesn't mean anything. I don't think there will be errors
+> in dmesg, you need to run something that does pageflips as fast as possib=
+le
+> and see that the refresh rate is still 60. (modetest with -v, glmark-drm =
+are
+> examples)
 
-It can be reproduce in the linux mainline by the program:
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <unistd.h>
-  #include <fcntl.h>
-  #include <sys/types.h>
-  #include <sys/stat.h>
-  #include <sys/ioctl.h>
-  #include <linux/vt.h>
+I assume that you mean modetest from
+https://gitlab.freedesktop.org/mesa/drm/tree/master/tests/modetest ?
+Here's the modeset connector information:
 
-  struct tiocl_selection {
-    unsigned short xs;      /* X start */
-    unsigned short ys;      /* Y start */
-    unsigned short xe;      /* X end */
-    unsigned short ye;      /* Y end */
-    unsigned short sel_mode; /* selection mode */
-  };
+id   encoder status      name    size (mm)  modes   encoders
+32   31      connected   DSI-1   62x110     1       31
+  modes:
+        index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+  #0 1080x1920 71.71 1080 1082 1084 1086 1920 1922 1924 1926 150000
+  flags: ; type: preferred, driver
 
-  #define TIOCL_SETSEL    2
-  struct tiocl {
-    unsigned char type;
-    unsigned char pad;
-    struct tiocl_selection sel;
-  };
+And the page flip results...
 
-  int main()
-  {
-    int fd = 0;
-    const char *dev = "/dev/char/4:1";
+$ modetest -v -s 32:1080x1920
+trying to open device 'msm'...done
+setting mode 1080x1920-71.71Hz@XR24 on connectors 32, crtc 50
+failed to set gamma: Function not implemented
+freq: 13.50Hz
+freq: 13.51Hz
+freq: 13.51Hz
 
-    struct vt_consize v = {0};
-    struct tiocl tioc = {0};
+It's the same results with and without Ville's patch.
 
-    fd = open(dev, O_RDWR, 0);
+Here's the beginning of the glmark2 results with the x11-gl flavor:
 
-    v.v_rows = 3346;
-    ioctl(fd, VT_RESIZEX, &v);
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+    glmark2 2017.07
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+    OpenGL Information
+    GL_VENDOR:     freedreno
+    GL_RENDERER:   FD330
+    GL_VERSION:    3.1 Mesa 20.0.0-devel
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+[build] use-vbo=3Dfalse: FPS: 26 FrameTime: 38.462 ms
+[build] use-vbo=3Dtrue: FPS: 26 FrameTime: 38.462 ms
+[texture] texture-filter=3Dnearest: FPS: 26 FrameTime: 38.462 ms
+[texture] texture-filter=3Dlinear: FPS: 26 FrameTime: 38.462 ms
+[texture] texture-filter=3Dmipmap: FPS: 27 FrameTime: 37.037 ms
+[shading] shading=3Dgouraud: FPS: 27 FrameTime: 37.037 ms
+[shading] shading=3Dblinn-phong-inf: FPS: 27 FrameTime: 37.037 ms
+[shading] shading=3Dphong: FPS: 27 FrameTime: 37.037 ms
+[shading] shading=3Dcel: FPS: 26 FrameTime: 38.462 ms
+[bump] bump-render=3Dhigh-poly: FPS: 27 FrameTime: 37.037 ms
+[bump] bump-render=3Dnormals: FPS: 27 FrameTime: 37.037 ms
+[bump] bump-render=3Dheight: FPS: 27 FrameTime: 37.037 ms
+[effect2d] kernel=3D0,1,0;1,-4,1;0,1,0;: FPS: 25 FrameTime: 40.000 ms
+[effect2d] kernel=3D1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 26 FrameTime:
+ 38.462 ms
+[pulsar] light=3Dfalse:quads=3D5:texture=3Dfalse: FPS: 26 FrameTime: 38.462=
+ ms
+[desktop] blur-radius=3D5:effect=3Dblur:passes=3D1:separable=3Dtrue:windows=
+=3D4:
+ FPS: 26 FrameTime: 38.462 ms
+[desktop] effect=3Dshadow:windows=3D4: FPS: 27 FrameTime: 37.037 ms
+...
 
-    tioc.type = TIOCL_SETSEL;
-    ioctl(fd, TIOCLINUX, &tioc);
+Brian
 
-    return 0;
-  }
 
-When resize the screen, update the 'vc->vc_size_row' to the new_row_size,
-but when 'set_origin' in 'vgacon_set_origin', vgacon use 'vga_vram_base'
-for 'vc_origin' and 'vc_visible_origin', not 'vc_screenbuf'. It maybe
-smaller than 'vc_screenbuf'. When TIOCLINUX, use the new_row_size to calc
-the offset, it maybe larger than the vga_vram_size in vgacon driver, then
-bad access.
-Also, if set an larger screenbuf firstly, then set an more larger
-screenbuf, when copy old_origin to new_origin, a bad access may happen.
+> =
 
-So, If the screen size larger than vga_vram, resize screen should be
-failed. This alse fix CVE-2020-8649 and CVE-2020-8647.
+> On 3/3/20 7:26 AM, Brian Masney wrote:
+> > On Mon, Mar 02, 2020 at 10:36:54PM -0500, Jonathan Marek wrote:
+> > > Another thing: did you verify that the panel still runs at 60hz (and =
+not
+> > > dropping frames to 30hz)? IIRC that was the behavior with lower clock.
+> > =
 
-Fixes: 0aec4867dca14 ("[PATCH] SVGATextMode fix")
-Reference: CVE-2020-8647 and CVE-2020-8649
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
----
- drivers/video/console/vgacon.c | 3 +++
- 1 file changed, 3 insertions(+)
+> > Yes, the panel is running at 60 HZ according to the Xorg log with
+> > Ville's patch applied:
+> > =
 
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index de7b8382aba9..95e2fece7e91 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -1316,6 +1316,9 @@ static int vgacon_font_get(struct vc_data *c, struct console_font *font)
- static int vgacon_resize(struct vc_data *c, unsigned int width,
- 			 unsigned int height, unsigned int user)
- {
-+	if ((width >> 1) * height > vga_vram_size)
-+		return -EINVAL;
-+
- 	if (width % 2 || width > screen_info.orig_video_cols ||
- 	    height > (screen_info.orig_video_lines * vga_default_font_height)/
- 	    c->vc_font.height)
--- 
-2.17.2
+> >      modeset(0): Modeline "1080x1920"x60.0  125.50  1080 1082 1084 1086
+> >      1920 1922 1924 1926 (115.6 kHz eP)
+> > =
+
+> > I verified there's no underflow errors in dmesg.
+> > =
+
+> > If I recall correctly, the clock speeds that was in your tree was set
+> > too low for the gpu_opp_table (that wouldn't cause this issue), but I
+> > seem to recall there were some other clock speed mismatches. The
+> > bandwidth requests weren't set on the RPM as well, so maybe that
+> > contributed to the problem. That's done upstream with the msm8974
+> > interconnect driver:
+> > =
+
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/drivers/interconnect/qcom/msm8974.c
+> > =
+
+> > There's a separate known issue with 'pp done time out' errors that
+> > occur on the framebuffer that started upstream several months ago with
+> > the introduction of async commit support in the MSM driver. I tried
+> > working around this by enabling the autorefresh feature but it's not
+> > fully working yet and I hit a dead end since there's no docs available
+> > publicly for this. The grim details are at:
+> > =
+
+> > https://lore.kernel.org/lkml/20191230020053.26016-2-masneyb@onstation.o=
+rg/
+> > =
+
+> > So I'm still OK with Ville's patch going in.
+> > =
+
+> > Brian
+> > =
+
+> > =
+
+> > > =
+
+> > > On 3/2/20 10:28 PM, Jonathan Marek wrote:
+> > > > =
+
+> > > > On 3/2/20 10:13 PM, Brian Masney wrote:
+> > > > > On Mon, Mar 02, 2020 at 03:48:22PM -0500, Jonathan Marek wrote:
+> > > > > > Hi,
+> > > > > > =
+
+> > > > > > This is a command mode panel and the the msm/mdp5 driver uses
+> > > > > > the vrefresh
+> > > > > > field for the actual refresh rate, while the dotclock field is
+> > > > > > used for the
+> > > > > > DSI clocks. The dotclock needed to be a bit higher than
+> > > > > > necessary otherwise
+> > > > > > the panel would not work.
+> > > > > > =
+
+> > > > > > If you want to get rid of the separate clock/vrefresh fields th=
+ere would
+> > > > > > need to be some changes to msm driver.
+> > > > > > =
+
+> > > > > > (note I hadn't made the patch with upstreaming in mind, the
+> > > > > > 150000 value is
+> > > > > > likely not optimal, just something that worked, this is somethi=
+ng that
+> > > > > > should have been checked with the downstream driver)
+> > > > > =
+
+> > > > > Is this the right clock frequency in the downstream MSM 3.4 kerne=
+l that
+> > > > > you're talking about?
+> > > > > =
+
+> > > > > https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/arm/=
+mach-msm/clock-8974.c#L3326
+> > > > > =
+
+> > > > > =
+
+> > > > =
+
+> > > > No, I'm talking about the DSI clock (the driver for it is in
+> > > > drm/msm/dsi/). For a command mode panel the front/back porches aren=
+'t
+> > > > relevant, but the dsi pixel/byte clock need to be a bit higher than
+> > > > 1920x1080x60. Since 125498 is a little higher than 124416 that migh=
+t be
+> > > > enough (there is also rounding of the clock values to consider).
+> > > > =
+
+> > > > > I don't see any obvious clock values in the downstream command mo=
+de
+> > > > > panel configuration:
+> > > > > =
+
+> > > > > https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/arm/=
+boot/dts/msm8974-hammerhead/msm8974-hammerhead-panel.dtsi#L591
+> > > > > =
+
+> > > > > =
+
+> > > > > Anyways, I tried Ville's patch with the framebuffer, kmscube, and=
+ X11
+> > > > > and everything appears to be working fine. You can add my Tested-=
+by if
+> > > > > you end up applying this.
+> > > > > =
+
+> > > > > Tested-by: Brian Masney <masneyb@onstation.org>
+> > > > > =
+
+> > > > > Brian
+> > > > > =
+
+> > > > > =
+
+> > > > > > On 3/2/20 3:34 PM, Ville Syrjala wrote:
+> > > > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > > > > =
+
+> > > > > > > The currently listed dotclock disagrees with the currently
+> > > > > > > listed vrefresh rate. Change the dotclock to match the vrefre=
+sh.
+> > > > > > > =
+
+> > > > > > > Someone tell me which (if either) of the dotclock or vreresh =
+is
+> > > > > > > correct?
+> > > > > > > =
+
+> > > > > > > Cc: Jonathan Marek <jonathan@marek.ca>
+> > > > > > > Cc: Brian Masney <masneyb@onstation.org>
+> > > > > > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > > > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.c=
+om>
+> > > > > > > ---
+> > > > > > >  =A0=A0 drivers/gpu/drm/panel/panel-simple.c | 2 +-
+> > > > > > >  =A0=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > > > =
+
+> > > > > > > diff --git a/drivers/gpu/drm/panel/panel-simple.c
+> > > > > > > b/drivers/gpu/drm/panel/panel-simple.c
+> > > > > > > index b24fdf239440..f958d8dfd760 100644
+> > > > > > > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > > > > > > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > > > > > > @@ -3996,7 +3996,7 @@ static const struct panel_desc_dsi
+> > > > > > > panasonic_vvx10f004b00 =3D {
+> > > > > > >  =A0=A0 };
+> > > > > > >  =A0=A0 static const struct drm_display_mode lg_acx467akm_7_m=
+ode =3D {
+> > > > > > > -=A0=A0=A0 .clock =3D 150000,
+> > > > > > > +=A0=A0=A0 .clock =3D 125498,
+> > > > > > >  =A0=A0=A0=A0=A0=A0 .hdisplay =3D 1080,
+> > > > > > >  =A0=A0=A0=A0=A0=A0 .hsync_start =3D 1080 + 2,
+> > > > > > >  =A0=A0=A0=A0=A0=A0 .hsync_end =3D 1080 + 2 + 2,
+> > > > > > > =
 
 _______________________________________________
 dri-devel mailing list
