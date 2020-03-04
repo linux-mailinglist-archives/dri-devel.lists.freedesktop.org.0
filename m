@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0604178BAC
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:47:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A58178BC6
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FC716EAB8;
-	Wed,  4 Mar 2020 07:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6016A6EAC5;
+	Wed,  4 Mar 2020 07:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 838466E10B
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:03:51 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id C24CCB87C8F2B661241D;
- Wed,  4 Mar 2020 10:03:47 +0800 (CST)
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899CC6E115
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:11:35 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 984BA3C4B02D843EC596;
+ Wed,  4 Mar 2020 10:11:29 +0800 (CST)
 Received: from localhost.localdomain (10.175.124.28) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 4 Mar 2020 10:03:40 +0800
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.439.0; Wed, 4 Mar 2020 10:11:23 +0800
 From: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
 To: <b.zolnierkie@samsung.com>, <zhangxiaoxu5@huawei.com>,
  <wangkefeng.wang@huawei.com>, <sergey.senozhatsky@gmail.com>,
- <pmladek@suse.com>, <akpm@osdl.org>
-Subject: [v2] vgacon: Fix a UAF in vgacon_invert_region
-Date: Wed, 4 Mar 2020 10:02:28 +0800
-Message-ID: <20200304020228.44484-1-zhangxiaoxu5@huawei.com>
+ <pmladek@suse.com>, <akpm@osdl.org>, <ville.syrjala@linux.intel.com>
+Subject: [v3] vgacon: Fix a UAF in vgacon_invert_region
+Date: Wed, 4 Mar 2020 10:10:11 +0800
+Message-ID: <20200304021011.5691-1-zhangxiaoxu5@huawei.com>
 X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
 X-Originating-IP: [10.175.124.28]
@@ -145,14 +145,14 @@ Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index de7b8382aba9..3188ce162f8b 100644
+index de7b8382aba9..95e2fece7e91 100644
 --- a/drivers/video/console/vgacon.c
 +++ b/drivers/video/console/vgacon.c
 @@ -1316,6 +1316,9 @@ static int vgacon_font_get(struct vc_data *c, struct console_font *font)
  static int vgacon_resize(struct vc_data *c, unsigned int width,
  			 unsigned int height, unsigned int user)
  {
-+	if ((width > 1) * height > vga_vram_size)
++	if ((width >> 1) * height > vga_vram_size)
 +		return -EINVAL;
 +
  	if (width % 2 || width > screen_info.orig_video_cols ||
