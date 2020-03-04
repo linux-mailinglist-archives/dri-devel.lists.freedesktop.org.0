@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77BCF179C87
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 00:47:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF7D179C8B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 00:51:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F30D46E133;
-	Wed,  4 Mar 2020 23:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D4C6EB73;
+	Wed,  4 Mar 2020 23:51:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0B86E133
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 23:47:53 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29B086EB73
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 23:51:53 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62F1533E;
- Thu,  5 Mar 2020 00:47:51 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CF2333E;
+ Thu,  5 Mar 2020 00:51:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1583365671;
- bh=CVzOs6nXVVRXv3pOcJIWVztPVoqRpIhrp3kbugpN03U=;
+ s=mail; t=1583365911;
+ bh=FLq+iBpl9vEs7gfVg5bJpoazZtBqZS7+C6sqlYzZAfw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=D03vy1zEy48QRXTnuRqBwitdr1xjAd+u/tif6XiU/8tm4571CnhA69+V3vSd+5V8T
- v/jeU00zrkuzpJNZRnzS5CJ6YnDiFaoGbyToXl6U1DaB9qH9T9vEP5RDn0Rm4NOy63
- Nxgl8yfIL1RVfbLGG3T0rNHNripCW7eDuYwMSCq8=
-Date: Thu, 5 Mar 2020 01:47:48 +0200
+ b=aBCu3KtAxIZ7sKHsRN1aC8XkWOGJIUTcyw2uqYCUau0vQXZqATsBSFvsqmFgCwcYu
+ +Ji+pWFWkOl9yHDx52bLpbHJoeAVmVTpnYtOFtOIevPCalAISYHCCHIP/zZp8sE46y
+ hJBK9yvN5KxNfYLHvqBL39jHfebYCOzf9U/5+XNQ=
+Date: Thu, 5 Mar 2020 01:51:49 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [PATCH v2 3/4] drm/bridge: dw-hdmi: Add support for RGB limited
- range
-Message-ID: <20200304234748.GG28814@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 4/4] drm/bridge: dw-hdmi: rework csc related functions
+Message-ID: <20200304235149.GH28814@pendragon.ideasonboard.com>
 References: <20200304232512.51616-1-jernej.skrabec@siol.net>
- <20200304232512.51616-4-jernej.skrabec@siol.net>
+ <20200304232512.51616-5-jernej.skrabec@siol.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200304232512.51616-4-jernej.skrabec@siol.net>
+In-Reply-To: <20200304232512.51616-5-jernej.skrabec@siol.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,134 +59,91 @@ Hi Jernej,
 
 Thank you for the patch.
 
-On Thu, Mar 05, 2020 at 12:25:11AM +0100, Jernej Skrabec wrote:
-> CEA 861 standard requestis that RGB quantization range is "limited" for
-> CEA modes. Support that by adding CSC matrix which downscales values.
+On Thu, Mar 05, 2020 at 12:25:12AM +0100, Jernej Skrabec wrote:
+> is_color_space_conversion() is a misnomer. It checks not only if color
+> space conversion is needed, but also if format conversion is needed.
+> This is actually desired behaviour because result of this function
+> determines if CSC block should be enabled or not (CSC block can also do
+> format conversion).
 > 
-> This allows proper color reproduction on TV and PC monitor at the same
-> time. In future, override property can be added, like "Broadcast RGB"
-> in i915 driver.
+> In order to clear misunderstandings, let's rework
+> is_color_space_conversion() to do exactly what is supposed to do and add
+> another function which will determine if CSC block must be enabled or
+> not.
 > 
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 63 +++++++++++++++++------
->  1 file changed, 46 insertions(+), 17 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 31 +++++++++++++++--------
+>  1 file changed, 21 insertions(+), 10 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index de2c7ec887c8..c8a02e5b5e1b 100644
+> index c8a02e5b5e1b..7724191e0a8b 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -92,6 +92,12 @@ static const u16 csc_coeff_rgb_in_eitu709[3][4] = {
->  	{ 0x6756, 0x78ab, 0x2000, 0x0200 }
->  };
->  
-> +static const u16 csc_coeff_rgb_full_to_rgb_limited[3][4] = {
-> +	{ 0x1b7c, 0x0000, 0x0000, 0x0020 },
-> +	{ 0x0000, 0x1b7c, 0x0000, 0x0020 },
-> +	{ 0x0000, 0x0000, 0x1b7c, 0x0020 }
-> +};
-> +
->  struct hdmi_vmode {
->  	bool mdataenablepolarity;
->  
-> @@ -109,6 +115,7 @@ struct hdmi_data_info {
->  	unsigned int pix_repet_factor;
->  	unsigned int hdcp_enable;
->  	struct hdmi_vmode video_mode;
-> +	bool rgb_limited_range;
->  };
->  
->  struct dw_hdmi_i2c {
-> @@ -956,7 +963,11 @@ static void hdmi_video_sample(struct dw_hdmi *hdmi)
+> @@ -963,11 +963,14 @@ static void hdmi_video_sample(struct dw_hdmi *hdmi)
 >  
 >  static int is_color_space_conversion(struct dw_hdmi *hdmi)
 >  {
-> -	return hdmi->hdmi_data.enc_in_bus_format != hdmi->hdmi_data.enc_out_bus_format;
-> +	return (hdmi->hdmi_data.enc_in_bus_format !=
-> +			hdmi->hdmi_data.enc_out_bus_format) ||
-> +	       (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) &&
-> +		hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) &&
-> +		hdmi->hdmi_data.rgb_limited_range);
+> -	return (hdmi->hdmi_data.enc_in_bus_format !=
+> -			hdmi->hdmi_data.enc_out_bus_format) ||
+> -	       (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) &&
+> -		hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) &&
+> -		hdmi->hdmi_data.rgb_limited_range);
+> +	struct hdmi_data_info *hdmi_data = &hdmi->hdmi_data;
+> +	bool is_input_rgb, is_output_rgb;
+> +
+> +	is_input_rgb = hdmi_bus_fmt_is_rgb(hdmi_data->enc_in_bus_format);
+> +	is_output_rgb = hdmi_bus_fmt_is_rgb(hdmi_data->enc_out_bus_format);
+> +
+> +	return (is_input_rgb != is_output_rgb) ||
+> +	       (is_input_rgb && is_output_rgb && hdmi_data->rgb_limited_range);
 >  }
 >  
 >  static int is_color_space_decimation(struct dw_hdmi *hdmi)
-> @@ -986,25 +997,27 @@ static int is_color_space_interpolation(struct dw_hdmi *hdmi)
+> @@ -994,6 +997,13 @@ static int is_color_space_interpolation(struct dw_hdmi *hdmi)
+>  	return 0;
+>  }
+>  
+> +static bool is_conversion_needed(struct dw_hdmi *hdmi)
+
+Maybe is_csc_needed ?
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +{
+> +	return is_color_space_conversion(hdmi) ||
+> +	       is_color_space_decimation(hdmi) ||
+> +	       is_color_space_interpolation(hdmi);
+> +}
+> +
 >  static void dw_hdmi_update_csc_coeffs(struct dw_hdmi *hdmi)
 >  {
 >  	const u16 (*csc_coeff)[3][4] = &csc_coeff_default;
-> +	bool is_input_rgb, is_output_rgb;
->  	unsigned i;
->  	u32 csc_scale = 1;
+> @@ -2014,18 +2024,19 @@ static void dw_hdmi_enable_video_path(struct dw_hdmi *hdmi)
+>  	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
 >  
+>  	/* Enable csc path */
 > -	if (is_color_space_conversion(hdmi)) {
-> -		if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-> -			if (hdmi->hdmi_data.enc_out_encoding ==
-> -						V4L2_YCBCR_ENC_601)
-> -				csc_coeff = &csc_coeff_rgb_out_eitu601;
-> -			else
-> -				csc_coeff = &csc_coeff_rgb_out_eitu709;
-> -		} else if (hdmi_bus_fmt_is_rgb(
-> -					hdmi->hdmi_data.enc_in_bus_format)) {
-> -			if (hdmi->hdmi_data.enc_out_encoding ==
-> -						V4L2_YCBCR_ENC_601)
-> -				csc_coeff = &csc_coeff_rgb_in_eitu601;
-> -			else
-> -				csc_coeff = &csc_coeff_rgb_in_eitu709;
-> -			csc_scale = 0;
-> -		}
-> +	is_input_rgb = hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format);
-> +	is_output_rgb = hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format);
-> +
-> +	if (!is_input_rgb && is_output_rgb) {
-> +		if (hdmi->hdmi_data.enc_out_encoding == V4L2_YCBCR_ENC_601)
-> +			csc_coeff = &csc_coeff_rgb_out_eitu601;
-> +		else
-> +			csc_coeff = &csc_coeff_rgb_out_eitu709;
-> +	} else if (is_input_rgb && !is_output_rgb) {
-> +		if (hdmi->hdmi_data.enc_out_encoding == V4L2_YCBCR_ENC_601)
-> +			csc_coeff = &csc_coeff_rgb_in_eitu601;
-> +		else
-> +			csc_coeff = &csc_coeff_rgb_in_eitu709;
-> +		csc_scale = 0;
-> +	} else if (is_input_rgb && is_output_rgb &&
-> +		   hdmi->hdmi_data.rgb_limited_range) {
-> +		csc_coeff = &csc_coeff_rgb_full_to_rgb_limited;
->  	}
+> +	if (is_conversion_needed(hdmi)) {
+>  		hdmi->mc_clkdis &= ~HDMI_MC_CLKDIS_CSCCLK_DISABLE;
+>  		hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
+> -	}
 >  
->  	/* The CSC registers are sequential, alternating MSB then LSB */
-> @@ -1614,6 +1627,18 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
->  	drm_hdmi_avi_infoframe_from_display_mode(&frame,
->  						 &hdmi->connector, mode);
->  
-> +	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-> +		drm_hdmi_avi_infoframe_quant_range(&frame, &hdmi->connector,
-> +						   mode,
-> +						   hdmi->hdmi_data.rgb_limited_range ?
-> +						   HDMI_QUANTIZATION_RANGE_LIMITED :
-> +						   HDMI_QUANTIZATION_RANGE_FULL);
+> -	/* Enable color space conversion if needed */
+> -	if (is_color_space_conversion(hdmi))
+>  		hdmi_writeb(hdmi, HDMI_MC_FLOWCTRL_FEED_THROUGH_OFF_CSC_IN_PATH,
+>  			    HDMI_MC_FLOWCTRL);
+> -	else
 > +	} else {
-> +		frame.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
-> +		frame.ycc_quantization_range =
-> +			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
+> +		hdmi->mc_clkdis |= HDMI_MC_CLKDIS_CSCCLK_DISABLE;
+> +		hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
+> +
+>  		hdmi_writeb(hdmi, HDMI_MC_FLOWCTRL_FEED_THROUGH_OFF_CSC_BYPASS,
+>  			    HDMI_MC_FLOWCTRL);
 > +	}
-> +
->  	if (hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format))
->  		frame.colorspace = HDMI_COLORSPACE_YUV444;
->  	else if (hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
-> @@ -2099,6 +2124,10 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
->  	/* TOFIX: Default to RGB888 output format */
->  	hdmi->hdmi_data.enc_out_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+>  }
 >  
-> +	hdmi->hdmi_data.rgb_limited_range = hdmi->sink_is_hdmi &&
-> +		drm_default_rgb_quant_range(mode) ==
-> +		HDMI_QUANTIZATION_RANGE_LIMITED;
-> +
->  	hdmi->hdmi_data.pix_repet_factor = 0;
->  	hdmi->hdmi_data.hdcp_enable = 0;
->  	hdmi->hdmi_data.video_mode.mdataenablepolarity = true;
+>  /* Workaround to clear the overflow condition */
 
 -- 
 Regards,
