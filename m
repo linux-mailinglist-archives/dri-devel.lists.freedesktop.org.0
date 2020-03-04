@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53425178BC4
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25593178BE6
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEEE6EACB;
-	Wed,  4 Mar 2020 07:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E28906EACA;
+	Wed,  4 Mar 2020 07:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1B716EAAA
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 05:34:52 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id y1so496724plp.7
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 21:34:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=Wx1dpYuJUZQ968LyzlAz8kJnaaQj07UX3PLKHlV1LaI=;
- b=kFKr9KhPn3K9CZa8R3L77/BxUdS107vl21eRaPc29XpDYCjbEdhHxPhDMfVrXBQ29i
- yfUomrpcr0QKwayMX/SwNXzlDUzZnfdoDGW1BXgFbDi7mwuPhb5a02Mjr88gx3/FaibY
- mlBp1Ggm1o4x5+6oy/W9SZD5ukcLKzeTBSTk9jQdgAxRSus4dciaFkPRYyo56PC9C660
- qLc5CKuVg/VJtf/1iqmtoYBoA5JzyHgX7DnefvteDZScW+zmFDJZ2CaArAQRBgppTMTB
- rhpWbzocxhEp7Qgr9Zig++zso8b2kZz65AYAa5XO8rRPV9TzzzmebYleuJoldQS2mzMa
- MF3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Wx1dpYuJUZQ968LyzlAz8kJnaaQj07UX3PLKHlV1LaI=;
- b=gXTDHWoWssWEY1GxOoqFqAJyIJLAlzSmBoBsgV22MTEW4pZB1idHJ+WygXOGNzwhCI
- TsksC8VF0Erf9SkhnyqtITiWcY2ePVf4yOINuGjaITdqufTr/Qbj0+htFnt5oV71qo2+
- IH96Fxci7gG+iIlFduu+ZJD+xxJW2G5EVptcQnG7FXHn4SCr5S7urmkwOoSm4LmVhuEm
- k2Te74RtfdVLCI6WHmqm8Vv1Tmn+sNQRP/eQPeEo94zutoQquc/aqeOZFUQtno3o9j2r
- 14pDcd1BA/FSgvJdZRGlzuUDVzPwayxvUHXdAeTo9KCwcKtHNGLDuqn3Yu1iGapc3Bj+
- VlEg==
-X-Gm-Message-State: ANhLgQ2kWgcuW70FVx5CW9ik9d3RnLVEG96RTaNVNgEz8Ia6SSGGC4aA
- qmrfI93OIfSHW8sCWTh9l2k=
-X-Google-Smtp-Source: ADFU+vuTr5ChVBFGh9+VtXFo6hMIx5fXSq55X7KB2z9of5LqWuK9vT3xb1gdWe6sQXUk7+ds7fnAlQ==
-X-Received: by 2002:a17:90a:c218:: with SMTP id
- e24mr1369787pjt.64.1583300092357; 
- Tue, 03 Mar 2020 21:34:52 -0800 (PST)
-Received: from localhost ([117.18.48.82])
- by smtp.gmail.com with ESMTPSA id r9sm14792585pfq.72.2020.03.03.21.34.50
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 03 Mar 2020 21:34:51 -0800 (PST)
-From: Leon He <hexiaolong2008@gmail.com>
-X-Google-Original-From: Leon He <leon.he@unisoc.com>
-To: shuah@kernel.org,
-	sumit.semwal@linaro.org
-Subject: [PATCH] dma-buf: heaps: bugfix for selftest failure
-Date: Wed,  4 Mar 2020 13:34:36 +0800
-Message-Id: <1583300076-28392-1-git-send-email-leon.he@unisoc.com>
-X-Mailer: git-send-email 2.7.4
-X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF8066EACA
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 07:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583308132;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VHfVr/tC6mnm30TtswDnaZCgkdF5cd/cEuR4XHAYi4k=;
+ b=D1t14iF8O4v4UX5wzTkhY0bayMicKPlg7umZoSf1CbK8fk/LQsaToEXqoJqDMMD1ZSl74b
+ 833deNJFjLwyov07ZyeulwrcbF4P49GHkG9NS5a0Ugc79++mYYpRPwUIyGEqeRisfZS3/e
+ w6pI3qPE0FI+8S3nPZzbRi4VvQgIUrc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-fXX0MZD-OeewdNcRAR5oGg-1; Wed, 04 Mar 2020 02:48:48 -0500
+X-MC-Unique: fXX0MZD-OeewdNcRAR5oGg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1483C8018A6;
+ Wed,  4 Mar 2020 07:48:45 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
+ [10.36.116.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBD0891D6E;
+ Wed,  4 Mar 2020 07:48:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2D00B17506; Wed,  4 Mar 2020 08:48:41 +0100 (CET)
+Date: Wed, 4 Mar 2020 08:48:41 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [PATCH v2 1/4] dma-buf: add support for virtio exported objects
+Message-ID: <20200304074841.gbfzhxorta3pfk4f@sirius.home.kraxel.org>
+References: <20200302121524.7543-1-stevensd@chromium.org>
+ <20200302121524.7543-2-stevensd@chromium.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200302121524.7543-2-stevensd@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,39 +61,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon He <leon.he@unisoc.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org
-MIME-Version: 1.0
+Cc: virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the 'name' array in check_vgem() was not initialized to null, the
-value of name[4] may be random. Which will cause strcmp(name, "vgem")
-failed.
+On Mon, Mar 02, 2020 at 09:15:21PM +0900, David Stevens wrote:
+> This change adds a new dma-buf operation that allows dma-bufs to be used
+> by virtio drivers to share exported objects. The new operation allows
+> the importing driver to query the exporting driver for the UUID which
+> identifies the underlying exported object.
+> 
+> Signed-off-by: David Stevens <stevensd@chromium.org>
+> ---
+>  drivers/dma-buf/dma-buf.c | 14 ++++++++++++++
+>  include/linux/dma-buf.h   | 22 ++++++++++++++++++++++
+>  2 files changed, 36 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index d4097856c86b..a04632284ec2 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1158,6 +1158,20 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
+>  }
+>  EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>  
+> +#ifdef CONFIG_VIRTIO
+> +int dma_buf_get_uuid(struct dma_buf *dmabuf, uuid_t *uuid)
 
-Signed-off-by: Leon He <leon.he@unisoc.com>
----
- tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmm, I think I would drop the #ifdef
 
-diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-index cd5e1f6..21f3d19 100644
---- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-+++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-@@ -22,7 +22,7 @@
- static int check_vgem(int fd)
- {
- 	drm_version_t version = { 0 };
--	char name[5];
-+	char name[5] = { 0 };
- 	int ret;
- 
- 	version.name_len = 4;
--- 
-2.7.4
+cheers,
+  Gerd
 
 _______________________________________________
 dri-devel mailing list
