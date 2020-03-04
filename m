@@ -2,51 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A75F179BD3
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 23:36:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BCF179C87
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 00:47:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7D846EB7B;
-	Wed,  4 Mar 2020 22:36:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F30D46E133;
+	Wed,  4 Mar 2020 23:47:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3B396EB77
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 22:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583361393;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k0zrfOs4JuymdtRCnr7U9xphdhpEK889s02AHeFJ8k4=;
- b=H9MaIJ4MjAI4KLaUGooQySpFX0ZCQ4vvr5o1NJNsH4w93OlrDbyeJm5b+krR6Rfc5WEIc7
- jkidwvep9QzTFErWDBxzYnhSoPUfBtZcx/I6LWcssAKVuQlE+IzEzxkPCBpshqkIC3jtA+
- 41XxWHhLXMdhWoon0L8BmmWmSBlOe/Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-0oXYgCd2MnyXZ_A8bEPi7w-1; Wed, 04 Mar 2020 17:36:30 -0500
-X-MC-Unique: 0oXYgCd2MnyXZ_A8bEPi7w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EEEC107BA99;
- Wed,  4 Mar 2020 22:36:28 +0000 (UTC)
-Received: from Ruby.bss.redhat.com (dhcp-10-20-1-196.bss.redhat.com
- [10.20.1.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E779C60BE0;
- Wed,  4 Mar 2020 22:36:26 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/dp_mst: Rewrite and fix bandwidth limit checks
-Date: Wed,  4 Mar 2020 17:36:13 -0500
-Message-Id: <20200304223614.312023-4-lyude@redhat.com>
-In-Reply-To: <20200304223614.312023-1-lyude@redhat.com>
-References: <20200304223614.312023-1-lyude@redhat.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0B86E133
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 23:47:53 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62F1533E;
+ Thu,  5 Mar 2020 00:47:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1583365671;
+ bh=CVzOs6nXVVRXv3pOcJIWVztPVoqRpIhrp3kbugpN03U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=D03vy1zEy48QRXTnuRqBwitdr1xjAd+u/tif6XiU/8tm4571CnhA69+V3vSd+5V8T
+ v/jeU00zrkuzpJNZRnzS5CJ6YnDiFaoGbyToXl6U1DaB9qH9T9vEP5RDn0Rm4NOy63
+ Nxgl8yfIL1RVfbLGG3T0rNHNripCW7eDuYwMSCq8=
+Date: Thu, 5 Mar 2020 01:47:48 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: Re: [PATCH v2 3/4] drm/bridge: dw-hdmi: Add support for RGB limited
+ range
+Message-ID: <20200304234748.GG28814@pendragon.ideasonboard.com>
+References: <20200304232512.51616-1-jernej.skrabec@siol.net>
+ <20200304232512.51616-4-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Disposition: inline
+In-Reply-To: <20200304232512.51616-4-jernej.skrabec@siol.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,200 +48,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@google.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>
+Cc: jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ a.hajda@samsung.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sigh, this is mostly my fault for not giving commit cd82d82cbc04
-("drm/dp_mst: Add branch bandwidth validation to MST atomic check")
-enough scrutiny during review. The way we're checking bandwidth
-limitations here is mostly wrong.
+Hi Jernej,
 
-First things first, we need to follow the locking conventions for MST.
-Whenever traversing downwards (upwards is always safe) in the topology,
-we need to hold &mgr->lock to prevent the topology from changing under
-us. We don't currently do that when performing bandwidth limit checks.
+Thank you for the patch.
 
-Next we need to figure out the actual PBN limit for the primary MSTB.
-Here we actually want to use the highest available_pbn value we can find
-on each level of the topology, then make sure that the combined sum of
-allocated PBN on each port of the branch device doesn't exceed that
-amount. Currently, we just loop through each level of the topology and
-use the last non-zero PBN we find.
+On Thu, Mar 05, 2020 at 12:25:11AM +0100, Jernej Skrabec wrote:
+> CEA 861 standard requestis that RGB quantization range is "limited" for
+> CEA modes. Support that by adding CSC matrix which downscales values.
+> 
+> This allows proper color reproduction on TV and PC monitor at the same
+> time. In future, override property can be added, like "Broadcast RGB"
+> in i915 driver.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 
-Once we've done that, we then want to traverse down each branch device
-we find in the topology with at least one downstream port that has PBN
-allocated in our atomic state, and repeat the whole process on each
-level of the topology as we travel down. While doing this, we need to
-take care to avoid attempting to traverse down end devices. We don't
-currently do this, although I'm not actually sure whether or not this
-broke anything before.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Since there's a bit too many issues here to try to fix one by one, and
-the drm_dp_mst_atomic_check_bw_limit() code is not entirely clear on all
-of these pain points anyway, let's just take the easy way out and
-rewrite the whole function. Additionally, we also add a kernel warning
-if we find that any ports we performed bandwidth limit checks on didn't
-actually have available_pbn populated - as this is always a bug in the
-MST helpers.
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 63 +++++++++++++++++------
+>  1 file changed, 46 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index de2c7ec887c8..c8a02e5b5e1b 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -92,6 +92,12 @@ static const u16 csc_coeff_rgb_in_eitu709[3][4] = {
+>  	{ 0x6756, 0x78ab, 0x2000, 0x0200 }
+>  };
+>  
+> +static const u16 csc_coeff_rgb_full_to_rgb_limited[3][4] = {
+> +	{ 0x1b7c, 0x0000, 0x0000, 0x0020 },
+> +	{ 0x0000, 0x1b7c, 0x0000, 0x0020 },
+> +	{ 0x0000, 0x0000, 0x1b7c, 0x0020 }
+> +};
+> +
+>  struct hdmi_vmode {
+>  	bool mdataenablepolarity;
+>  
+> @@ -109,6 +115,7 @@ struct hdmi_data_info {
+>  	unsigned int pix_repet_factor;
+>  	unsigned int hdcp_enable;
+>  	struct hdmi_vmode video_mode;
+> +	bool rgb_limited_range;
+>  };
+>  
+>  struct dw_hdmi_i2c {
+> @@ -956,7 +963,11 @@ static void hdmi_video_sample(struct dw_hdmi *hdmi)
+>  
+>  static int is_color_space_conversion(struct dw_hdmi *hdmi)
+>  {
+> -	return hdmi->hdmi_data.enc_in_bus_format != hdmi->hdmi_data.enc_out_bus_format;
+> +	return (hdmi->hdmi_data.enc_in_bus_format !=
+> +			hdmi->hdmi_data.enc_out_bus_format) ||
+> +	       (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format) &&
+> +		hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) &&
+> +		hdmi->hdmi_data.rgb_limited_range);
+>  }
+>  
+>  static int is_color_space_decimation(struct dw_hdmi *hdmi)
+> @@ -986,25 +997,27 @@ static int is_color_space_interpolation(struct dw_hdmi *hdmi)
+>  static void dw_hdmi_update_csc_coeffs(struct dw_hdmi *hdmi)
+>  {
+>  	const u16 (*csc_coeff)[3][4] = &csc_coeff_default;
+> +	bool is_input_rgb, is_output_rgb;
+>  	unsigned i;
+>  	u32 csc_scale = 1;
+>  
+> -	if (is_color_space_conversion(hdmi)) {
+> -		if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
+> -			if (hdmi->hdmi_data.enc_out_encoding ==
+> -						V4L2_YCBCR_ENC_601)
+> -				csc_coeff = &csc_coeff_rgb_out_eitu601;
+> -			else
+> -				csc_coeff = &csc_coeff_rgb_out_eitu709;
+> -		} else if (hdmi_bus_fmt_is_rgb(
+> -					hdmi->hdmi_data.enc_in_bus_format)) {
+> -			if (hdmi->hdmi_data.enc_out_encoding ==
+> -						V4L2_YCBCR_ENC_601)
+> -				csc_coeff = &csc_coeff_rgb_in_eitu601;
+> -			else
+> -				csc_coeff = &csc_coeff_rgb_in_eitu709;
+> -			csc_scale = 0;
+> -		}
+> +	is_input_rgb = hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_in_bus_format);
+> +	is_output_rgb = hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format);
+> +
+> +	if (!is_input_rgb && is_output_rgb) {
+> +		if (hdmi->hdmi_data.enc_out_encoding == V4L2_YCBCR_ENC_601)
+> +			csc_coeff = &csc_coeff_rgb_out_eitu601;
+> +		else
+> +			csc_coeff = &csc_coeff_rgb_out_eitu709;
+> +	} else if (is_input_rgb && !is_output_rgb) {
+> +		if (hdmi->hdmi_data.enc_out_encoding == V4L2_YCBCR_ENC_601)
+> +			csc_coeff = &csc_coeff_rgb_in_eitu601;
+> +		else
+> +			csc_coeff = &csc_coeff_rgb_in_eitu709;
+> +		csc_scale = 0;
+> +	} else if (is_input_rgb && is_output_rgb &&
+> +		   hdmi->hdmi_data.rgb_limited_range) {
+> +		csc_coeff = &csc_coeff_rgb_full_to_rgb_limited;
+>  	}
+>  
+>  	/* The CSC registers are sequential, alternating MSB then LSB */
+> @@ -1614,6 +1627,18 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+>  	drm_hdmi_avi_infoframe_from_display_mode(&frame,
+>  						 &hdmi->connector, mode);
+>  
+> +	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
+> +		drm_hdmi_avi_infoframe_quant_range(&frame, &hdmi->connector,
+> +						   mode,
+> +						   hdmi->hdmi_data.rgb_limited_range ?
+> +						   HDMI_QUANTIZATION_RANGE_LIMITED :
+> +						   HDMI_QUANTIZATION_RANGE_FULL);
+> +	} else {
+> +		frame.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
+> +		frame.ycc_quantization_range =
+> +			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
+> +	}
+> +
+>  	if (hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format))
+>  		frame.colorspace = HDMI_COLORSPACE_YUV444;
+>  	else if (hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format))
+> @@ -2099,6 +2124,10 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+>  	/* TOFIX: Default to RGB888 output format */
+>  	hdmi->hdmi_data.enc_out_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+>  
+> +	hdmi->hdmi_data.rgb_limited_range = hdmi->sink_is_hdmi &&
+> +		drm_default_rgb_quant_range(mode) ==
+> +		HDMI_QUANTIZATION_RANGE_LIMITED;
+> +
+>  	hdmi->hdmi_data.pix_repet_factor = 0;
+>  	hdmi->hdmi_data.hdcp_enable = 0;
+>  	hdmi->hdmi_data.video_mode.mdataenablepolarity = true;
 
-This should fix regressions seen on nouveau, i915 and amdgpu where we
-erroneously reject atomic states that should fit within bandwidth
-limitations.
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Fixes: cd82d82cbc04 ("drm/dp_mst: Add branch bandwidth validation to MST atomic check")
-Cc: Mikita Lipski <mikita.lipski@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Sean Paul <seanpaul@google.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 101 ++++++++++++++++++++------
- 1 file changed, 78 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 7b0ff0cff954..87dc7c92d339 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -4853,41 +4853,90 @@ static bool drm_dp_mst_port_downstream_of_branch(struct drm_dp_mst_port *port,
- 	return false;
- }
- 
--static inline
--int drm_dp_mst_atomic_check_bw_limit(struct drm_dp_mst_branch *branch,
--				     struct drm_dp_mst_topology_state *mst_state)
-+static int
-+drm_dp_mst_atomic_check_bw_limit(struct drm_dp_mst_branch *branch,
-+				 struct drm_dp_mst_topology_state *mst_state)
- {
- 	struct drm_dp_mst_port *port;
- 	struct drm_dp_vcpi_allocation *vcpi;
--	int pbn_limit = 0, pbn_used = 0;
-+	int pbn_limit = 0, pbn_used = 0, ret;
- 
--	list_for_each_entry(port, &branch->ports, next) {
--		if (port->mstb)
--			if (drm_dp_mst_atomic_check_bw_limit(port->mstb, mst_state))
--				return -ENOSPC;
-+	if (branch->port_parent)
-+		DRM_DEBUG_ATOMIC("[MSTB:%p] [MST PORT:%p] checking [MSTB:%p]\n",
-+				 branch->port_parent->parent,
-+				 branch->port_parent, branch);
-+	else
-+		DRM_DEBUG_ATOMIC("Checking [MSTB:%p]\n", branch);
- 
--		if (port->available_pbn > 0)
-+	list_for_each_entry(port, &branch->ports, next) {
-+		/* Since each port shares a link, the highest PBN we find
-+		 * should be assumed to be the limit for this branch device
-+		 */
-+		if (pbn_limit < port->available_pbn)
- 			pbn_limit = port->available_pbn;
--	}
--	DRM_DEBUG_ATOMIC("[MST BRANCH:%p] branch has %d PBN available\n",
--			 branch, pbn_limit);
- 
--	list_for_each_entry(vcpi, &mst_state->vcpis, next) {
--		if (!vcpi->pbn)
-+		if (port->pdt == DP_PEER_DEVICE_NONE)
- 			continue;
- 
--		if (drm_dp_mst_port_downstream_of_branch(vcpi->port, branch))
--			pbn_used += vcpi->pbn;
-+		if (drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
-+			list_for_each_entry(vcpi, &mst_state->vcpis, next) {
-+				if (vcpi->port != port)
-+					continue;
-+				if (!vcpi->pbn)
-+					break;
-+
-+				/* This should never happen, as it means we
-+				 * tried to set a mode before querying the
-+				 * available_pbn
-+				 */
-+				if (WARN_ON(!port->available_pbn))
-+					return -EINVAL;
-+
-+				if (vcpi->pbn > port->available_pbn) {
-+					DRM_DEBUG_ATOMIC("[MSTB:%p] [MST PORT:%p] %d exceeds available PBN of %d\n",
-+							 branch, port,
-+							 vcpi->pbn,
-+							 port->available_pbn);
-+					return -ENOSPC;
-+				}
-+
-+				DRM_DEBUG_ATOMIC("[MSTB:%p] [MST PORT:%p] using %d PBN\n",
-+						 branch, port, vcpi->pbn);
-+				pbn_used += vcpi->pbn;
-+				break;
-+			}
-+		} else {
-+			list_for_each_entry(vcpi, &mst_state->vcpis, next) {
-+				if (!vcpi->pbn ||
-+				    !drm_dp_mst_port_downstream_of_branch(vcpi->port,
-+									  port->mstb))
-+					continue;
-+
-+				ret = drm_dp_mst_atomic_check_bw_limit(port->mstb,
-+								       mst_state);
-+				if (ret < 0)
-+					return ret;
-+
-+				pbn_used += ret;
-+				break;
-+			}
-+		}
- 	}
--	DRM_DEBUG_ATOMIC("[MST BRANCH:%p] branch used %d PBN\n",
--			 branch, pbn_used);
-+	if (!pbn_used)
-+		return 0;
-+
-+	DRM_DEBUG_ATOMIC("[MSTB:%p] has total available PBN of %d\n",
-+			 branch, pbn_limit);
- 
- 	if (pbn_used > pbn_limit) {
--		DRM_DEBUG_ATOMIC("[MST BRANCH:%p] No available bandwidth\n",
--				 branch);
-+		DRM_DEBUG_ATOMIC("[MSTB:%p] Not enough bandwidth (need: %d)\n",
-+				 branch, pbn_used);
- 		return -ENOSPC;
- 	}
--	return 0;
-+
-+	DRM_DEBUG_ATOMIC("[MSTB:%p] using %d PBN\n", branch, pbn_used);
-+
-+	return pbn_used;
- }
- 
- static inline int
-@@ -5085,9 +5134,15 @@ int drm_dp_mst_atomic_check(struct drm_atomic_state *state)
- 		ret = drm_dp_mst_atomic_check_vcpi_alloc_limit(mgr, mst_state);
- 		if (ret)
- 			break;
--		ret = drm_dp_mst_atomic_check_bw_limit(mgr->mst_primary, mst_state);
--		if (ret)
-+
-+		mutex_lock(&mgr->lock);
-+		ret = drm_dp_mst_atomic_check_bw_limit(mgr->mst_primary,
-+						       mst_state);
-+		mutex_unlock(&mgr->lock);
-+		if (ret < 0)
- 			break;
-+		else
-+			ret = 0;
- 	}
- 
- 	return ret;
 -- 
-2.24.1
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
