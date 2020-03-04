@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091F5178E68
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 11:29:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F3A178E89
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 11:41:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B5E36EB14;
-	Wed,  4 Mar 2020 10:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D73F289B38;
+	Wed,  4 Mar 2020 10:41:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FDEA6EB08
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 10:28:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id E90D0404FE;
- Wed,  4 Mar 2020 11:28:51 +0100 (CET)
-Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=Vp2NlkyK; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uOqXNY853LJq; Wed,  4 Mar 2020 11:28:50 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id A1AFC40519;
- Wed,  4 Mar 2020 11:28:50 +0100 (CET)
-Received: from localhost.localdomain.localdomain
- (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 0281C362DAE;
- Wed,  4 Mar 2020 11:28:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1583317729; bh=J0csJtJzFzASFDy4326l66VL08ywOKVC8Fi2u7EkHTo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Vp2NlkyKSL5Wyly/KMrxFkAg4Xr52zc8y1jtjI3InujE/rjClhS07d+9PYvjJchcz
- CI9PKtsmvhOWT4ZfA32805OXT1ba+Zu1XDKia1qZGhQyF6wfydbuCwC+m8QXPjfPS4
- kTyAVIxeC55zA/weEyYIhgEOkFZ9b4TK+ZkTf1Vs=
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m=20=28VMware=29?=
- <thomas_os@shipmail.org>
-To: linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v6 9/9] drm/vmwgfx: Hook up the helpers to align buffer objects
-Date: Wed,  4 Mar 2020 11:28:40 +0100
-Message-Id: <20200304102840.2801-10-thomas_os@shipmail.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200304102840.2801-1-thomas_os@shipmail.org>
-References: <20200304102840.2801-1-thomas_os@shipmail.org>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDBBF89B38
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 10:40:59 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id 6so1444020wmi.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 02:40:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1JlFcWjm9Vm8w4kQfDp+PBY42FFj0ptnXlZTlbhd8U0=;
+ b=K5bocECZ2MoMvdHotvU2FkMzlFRYvnrBwECmMz9wDY0nD1EEclrdprSb786JDFuH3T
+ PHbNvBHm2cSf80mp+GyBiuDp+s65ctAK4z7YYLe5VC2WofzM7Bm5AKGQyL7KhLUKwSnD
+ R8+eIZ+1Cmau90gQI6k4aoHpxddowX8DWoTrCQ7hDP5AM0cMPoDM8NGpxQ0dJxkc7U84
+ hdh6XDpqooNhSf1rcFkWoG6qgTtS8Jzi+/3uTHI8+fz5xVEejSEL9qjl8kDqJFnFocuD
+ m/MQt3AEU+o16otTyEzsu3oIUu1DDRBUCEYiLLvhepRbs+Ku+apCI3NLY7t9v2V6pnBb
+ g+TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1JlFcWjm9Vm8w4kQfDp+PBY42FFj0ptnXlZTlbhd8U0=;
+ b=pFProJNComaZ3UCo/D8+hBuUPlQfGC4AuVDiDuov8WrAVxTlBsu/5HY9tVpse3NrW0
+ ontxvF98fQgMWuQZYttbC/+NlFSXvN7ot9gTUuijtkVXjnHPEoiYlB9fOu/M80tRo8Kw
+ RlJBfBkuh/oBr/1RsFh9oE4yjLJ6NK+hwWgskxrHvWrXMFJ0WYH/H8A+x2VguoVXvJh8
+ ROhrXBS9q1rLFbRVPSOgh6OktS6R4NEB5yhxbnO9UFa7Z1GQXpS3dwo9aBb5zy3YJtQt
+ Cs1bIdV00mXRa0gtM2JR3xOUCKzmN/f6VKwr/xVEMkPQk73szG1r8RMOFxqcb3myItyX
+ 29Lg==
+X-Gm-Message-State: ANhLgQ0iU7LU1yDuiJy4acCqe8HKqAkYagW4xLt9GhS+N6c5tgXhmVa2
+ zpPee1lCTCdJJJuzwZ7u+cWgKg==
+X-Google-Smtp-Source: ADFU+vsyB6OlySe3niT1au0qv1Y8sKilTlKJUImHjCFR50hCR/0l9PUEKsvn/ohlmYaTi1umVyOHOQ==
+X-Received: by 2002:a1c:4d3:: with SMTP id 202mr3111868wme.172.1583318458189; 
+ Wed, 04 Mar 2020 02:40:58 -0800 (PST)
+Received: from bender.baylibre.local
+ (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id c14sm24006398wro.36.2020.03.04.02.40.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Mar 2020 02:40:57 -0800 (PST)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: p.zabel@pengutronix.de, heiko@sntech.de, a.hajda@samsung.com,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@siol.net, boris.brezillon@collabora.com
+Subject: [PATCH v5 00/11] drm/bridge: dw-hdmi: implement bus-format
+ negotiation and YUV420 support
+Date: Wed,  4 Mar 2020 11:40:41 +0100
+Message-Id: <20200304104052.17196-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,83 +69,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>, Michal Hocko <mhocko@suse.com>,
- pv-drivers@vmware.com, Roland Scheidegger <sroland@vmware.com>,
- Dan Williams <dan.j.williams@intel.com>, Ralph Campbell <rcampbell@nvidia.com>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- linux-graphics-maintainer@vmware.com,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGhvbWFzIEhlbGxzdHJvbSA8dGhlbGxzdHJvbUB2bXdhcmUuY29tPgoKU3RhcnQgdXNp
-bmcgdGhlIGhlbHBlcnMgdGhhdCBhbGlnbiBidWZmZXIgb2JqZWN0IHVzZXItc3BhY2UgYWRkcmVz
-c2VzIGFuZApidWZmZXIgb2JqZWN0IHZyYW0gYWRkcmVzc2VzIHRvIGh1Z2UgcGFnZSBib3VuZGFy
-aWVzLgpUaGlzIGlzIHRvIGltcHJvdmUgdGhlIGNoYW5jZXMgb2YgYWxsb3dpbmcgaHVnZSBwYWdl
-LXRhYmxlIGVudHJpZXMuCgpDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9u
-Lm9yZz4KQ2M6IE1pY2hhbCBIb2NrbyA8bWhvY2tvQHN1c2UuY29tPgpDYzogIk1hdHRoZXcgV2ls
-Y294IChPcmFjbGUpIiA8d2lsbHlAaW5mcmFkZWFkLm9yZz4KQ2M6ICJLaXJpbGwgQS4gU2h1dGVt
-b3YiIDxraXJpbGwuc2h1dGVtb3ZAbGludXguaW50ZWwuY29tPgpDYzogUmFscGggQ2FtcGJlbGwg
-PHJjYW1wYmVsbEBudmlkaWEuY29tPgpDYzogIkrDqXLDtG1lIEdsaXNzZSIgPGpnbGlzc2VAcmVk
-aGF0LmNvbT4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
-PgpDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+ClNpZ25lZC1vZmYt
-Ynk6IFRob21hcyBIZWxsc3Ryb20gPHRoZWxsc3Ryb21Adm13YXJlLmNvbT4KUmV2aWV3ZWQtYnk6
-IFJvbGFuZCBTY2hlaWRlZ2dlciA8c3JvbGFuZEB2bXdhcmUuY29tPgpBY2tlZC1ieTogQ2hyaXN0
-aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZmlsZS5jICAgICAgICAgICAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X2Rydi5jICAgICAgICB8IDEzICsrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X2Rydi5oICAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X3R0bV9idWZmZXIuYyB8ICAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDE2IGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2ZpbGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jCmluZGV4IDc3ZTY5MTIwMmI1Mi4u
-YjI5YTcyYjY4MDY4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYwpAQCAtOTM1LDQgKzkzNSw1IEBAIHVuc2lnbmVk
-IGxvbmcgZHJtX2dldF91bm1hcHBlZF9hcmVhKHN0cnVjdCBmaWxlICpmaWxlLAogCXJldHVybiBj
-dXJyZW50LT5tbS0+Z2V0X3VubWFwcGVkX2FyZWEoZmlsZSwgdWFkZHIsIGxlbiwgcGdvZmYsIGZs
-YWdzKTsKIH0KICNlbmRpZiAvKiBDT05GSUdfVFJBTlNQQVJFTlRfSFVHRVBBR0UgKi8KK0VYUE9S
-VF9TWU1CT0xfR1BMKGRybV9nZXRfdW5tYXBwZWRfYXJlYSk7CiAjZW5kaWYgLyogQ09ORklHX01N
-VSAqLwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMgYi9k
-cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYwppbmRleCA4Mjc0NThmNDkxMTIuLjc3
-ZDg1YmM1NGVmMCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMKQEAgLTEyMjMsNiAr
-MTIyMywxOCBAQCBzdGF0aWMgdm9pZCB2bXdfcmVtb3ZlKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQog
-CXBjaV9kaXNhYmxlX2RldmljZShwZGV2KTsKIH0KIAorc3RhdGljIHVuc2lnbmVkIGxvbmcKK3Zt
-d19nZXRfdW5tYXBwZWRfYXJlYShzdHJ1Y3QgZmlsZSAqZmlsZSwgdW5zaWduZWQgbG9uZyB1YWRk
-ciwKKwkJICAgICAgdW5zaWduZWQgbG9uZyBsZW4sIHVuc2lnbmVkIGxvbmcgcGdvZmYsCisJCSAg
-ICAgIHVuc2lnbmVkIGxvbmcgZmxhZ3MpCit7CisJc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYg
-PSBmaWxlLT5wcml2YXRlX2RhdGE7CisJc3RydWN0IHZtd19wcml2YXRlICpkZXZfcHJpdiA9IHZt
-d19wcml2KGZpbGVfcHJpdi0+bWlub3ItPmRldik7CisKKwlyZXR1cm4gZHJtX2dldF91bm1hcHBl
-ZF9hcmVhKGZpbGUsIHVhZGRyLCBsZW4sIHBnb2ZmLCBmbGFncywKKwkJCQkgICAgICZkZXZfcHJp
-di0+dm1hX21hbmFnZXIpOworfQorCiBzdGF0aWMgaW50IHZtd2dmeF9wbV9ub3RpZmllcihzdHJ1
-Y3Qgbm90aWZpZXJfYmxvY2sgKm5iLCB1bnNpZ25lZCBsb25nIHZhbCwKIAkJCSAgICAgIHZvaWQg
-KnB0cikKIHsKQEAgLTEzOTQsNiArMTQwNiw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9v
-cGVyYXRpb25zIHZtd2dmeF9kcml2ZXJfZm9wcyA9IHsKIAkuY29tcGF0X2lvY3RsID0gdm13X2Nv
-bXBhdF9pb2N0bCwKICNlbmRpZgogCS5sbHNlZWsgPSBub29wX2xsc2VlaywKKwkuZ2V0X3VubWFw
-cGVkX2FyZWEgPSB2bXdfZ2V0X3VubWFwcGVkX2FyZWEsCiB9OwogCiBzdGF0aWMgc3RydWN0IGRy
-bV9kcml2ZXIgZHJpdmVyID0gewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92
-bXdnZnhfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuaAppbmRleCBm
-ZTViNzI5M2I4ZDEuLjQ4NTNiZDk1YmY1NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Zt
-d2dmeC92bXdnZnhfZHJ2LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2
-LmgKQEAgLTkyOSw2ICs5MjksNyBAQCBleHRlcm4gaW50IHZtd19tbWFwKHN0cnVjdCBmaWxlICpm
-aWxwLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSk7CiAKIGV4dGVybiB2b2lkIHZtd192YWxp
-ZGF0aW9uX21lbV9pbml0X3R0bShzdHJ1Y3Qgdm13X3ByaXZhdGUgKmRldl9wcml2LAogCQkJCQlz
-aXplX3QgZ3Jhbik7CisKIC8qKgogICogVFRNIGJ1ZmZlciBvYmplY3QgZHJpdmVyIC0gdm13Z2Z4
-X3R0bV9idWZmZXIuYwogICovCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Zt
-d2dmeF90dG1fYnVmZmVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVm
-ZmVyLmMKaW5kZXggZDhlYTNkZDEwYWYwLi4zNGM3MjFhYjNmZjMgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9k
-cm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMKQEAgLTc1NCw3ICs3NTQsNyBAQCBzdGF0aWMg
-aW50IHZtd19pbml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJf
-dCB0eXBlLAogCQlicmVhazsKIAljYXNlIFRUTV9QTF9WUkFNOgogCQkvKiAiT24tY2FyZCIgdmlk
-ZW8gcmFtICovCi0JCW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOworCQltYW4tPmZ1
-bmMgPSAmdm13X3RocF9mdW5jOwogCQltYW4tPmdwdV9vZmZzZXQgPSAwOwogCQltYW4tPmZsYWdz
-ID0gVFRNX01FTVRZUEVfRkxBR19GSVhFRCB8IFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEU7CiAJ
-CW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNIRUQ7Ci0tIAoyLjIxLjEK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Philippe, Heiko, Maxime, Laurent,
+
+A bad negociation was detected on platforms not implementing a bridge on the
+encoder side, which has been fixed in this version.
+
+Could you check it doesn't break your platforms using dw-hdmi ? Especially
+patches 1-5.
+
+Thanks,
+Neil
+
+This patchset is based on Boris's merged "drm: Add support for bus-format negotiation"
+patchset to implement full bus-format negotiation for DW-HDMI, including YUV420 support and
+10/12/16bit YUV444, YUV422 and RGB. The Color Space Converter support is already implemented.
+
+And the counterpart implementation in the Amlogic Meson VPU dw-hdmi glue :
+- basic bus-format negotiation to select YUV444 bus-format as DW-HDMI input
+- YUV420 support when HDMI2.0 YUV420 modeset
+
+This is a follow-up from the previous attempts :
+- "drm/meson: Add support for HDMI2.0 YUV420 4k60" at [2]
+- "drm/meson: Add support for HDMI2.0 4k60" at [3]
+
+Changes since v4 at [7]:
+- Cleaned up patch 1
+- Added comment on patch 2
+- Added commit message on patch 3
+- Fixed invalid negociation when encoder is not yet a bridge (seen on allwinner & rockchip platforms) on patch 4
+- Fixed invalid defines, handled MEDIA_BUS_FMT_FIXED and cleaned negociation debug on patch 4
+- Added tags on patch 5, 6
+- Removed meson_venc_hdmi_encoder_get_out_bus_fmts on patch 7
+- Add off-list r-b from Jernej
+
+Changes since v3 at [6]:
+- Added "Plug atomic state hooks to the default implementation" on drm/bridge: dw-hdmi
+- Also added these atomic state hooks in meson-dw-hdmi in patch 7
+- Rebased on latest drm-misc-next including patches 1-7 of [1]
+
+Changes since RFC v2 at [5]:
+- Added fixes from Jonas, who tested and integrated it for Rockchip SoCs
+- Added support for 10/12/16bit tmds clock calculation
+- Added support for max_bcp connector property
+- Adapted to Boris's v4 patchset
+- Fixed typos reported by boris
+
+Changes since RFC v1 at [4]:
+- Rewrote negociation using the v2 patchset, including full DW-HDMI fmt negociation
+
+[2] https://patchwork.freedesktop.org/patch/msgid/20190520133753.23871-1-narmstrong@baylibre.com
+[3] https://patchwork.freedesktop.org/patch/msgid/1549022873-40549-1-git-send-email-narmstrong@baylibre.com
+[4] https://patchwork.freedesktop.org/patch/msgid/20190820084109.24616-1-narmstrong@baylibre.com
+[5] https://patchwork.freedesktop.org/patch/msgid/20190827081425.15011-1-narmstrong@baylibre.com
+[6] https://patchwork.freedesktop.org/patch/msgid/20191218154637.17509-1-narmstrong@baylibre.com
+[7] https://patchwork.freedesktop.org/patch/msgid/20200206191834.6125-1-narmstrong@baylibre.com
+
+Jonas Karlman (2):
+  drm/bridge: dw-hdmi: set mtmdsclock for deep color
+  drm/bridge: dw-hdmi: add max bpc connector property
+
+Neil Armstrong (9):
+  drm/bridge: dw-hdmi: Plug atomic state hooks to the default
+    implementation
+  drm/bridge: synopsys: dw-hdmi: add bus format negociation
+  drm/bridge: synopsys: dw-hdmi: allow ycbcr420 modes for >= 0x200a
+  drm/meson: venc: make drm_display_mode const
+  drm/meson: meson_dw_hdmi: add bridge and switch to drm_bridge_funcs
+  drm/meson: dw-hdmi: stop enforcing input_bus_format
+  drm/meson: venc: add support for YUV420 setup
+  drm/meson: vclk: add support for YUV420 setup
+  drm/meson: Add YUV420 output support
+
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 319 +++++++++++++++++++++-
+ drivers/gpu/drm/meson/meson_dw_hdmi.c     | 180 +++++++++---
+ drivers/gpu/drm/meson/meson_vclk.c        |  93 +++++--
+ drivers/gpu/drm/meson/meson_vclk.h        |   7 +-
+ drivers/gpu/drm/meson/meson_venc.c        |  10 +-
+ drivers/gpu/drm/meson/meson_venc.h        |   4 +-
+ drivers/gpu/drm/meson/meson_venc_cvbs.c   |   6 +-
+ include/drm/bridge/dw_hdmi.h              |   1 +
+ 8 files changed, 544 insertions(+), 76 deletions(-)
+
+-- 
+2.22.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
