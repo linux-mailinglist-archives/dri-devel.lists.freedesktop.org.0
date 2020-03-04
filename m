@@ -1,35 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F06178BB7
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:47:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EDC178BDF
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 08:48:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 533AC6EAD0;
-	Wed,  4 Mar 2020 07:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F8A6EAE6;
+	Wed,  4 Mar 2020 07:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from onstation.org (onstation.org [52.200.56.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 596246EAA4
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 02:53:56 +0000 (UTC)
-Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
- [98.239.145.235])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: masneyb)
- by onstation.org (Postfix) with ESMTPSA id 5C2B83E89F;
- Wed,  4 Mar 2020 02:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
- s=default; t=1583290435;
- bh=pBwo/3Q5UTZELGQrCK254TxoWShR6SJV1iQdX143aVI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K5DRm4/XDr+/GwaJaKjJw/SceuLsV/RZMB5FvKcKpouw3RiuceEMeEAJ4NWp0mpvP
- Pbb3LMpFFwnfsZrryXLBA8zV/aj+p23Ue4dMc0dsp3y/xQ1O6oTPxPkMkus8cTm7ke
- WeS9n4/41CH/OItMG8mnVEfN2x8Ylxv/nz1ZgfqA=
-Date: Tue, 3 Mar 2020 21:53:54 -0500
-From: Brian Masney <masneyb@onstation.org>
-To: Jonathan Marek <jonathan@marek.ca>
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1297A6EAA8
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 03:05:51 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id m9so252272qke.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2020 19:05:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marek-ca.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=a8Rc9n6apkvgBEqKE3ijuOLVHHJCqJUyv3/d6FARCZg=;
+ b=a6ar+N1Q65WFvg3sQ5BSg+IVD3cmsHADQwKTtTSHH2Sz7OhVlL8ijfDKFtMni6xndS
+ 1ob+zoR4Wzo1Dr69I5D7wj1zKTZIJQXudJj7oaYLCKTY0E1Sd5Myut7w/9NSQ09t7oKO
+ uraKtXKLxfEEz/Opzr0jKlGITphHTZtHh0UduhVzxjxpBD0idh+8BLpIVkkSfbMlWrbd
+ 8j8KmV8zhmNbpn4gn2QwENFZLnhrI5WCoHonIhoUB3f0bXaJDdfZy0DnVPuKbLgqCimR
+ 2x8nXAG142ENj63gWkbXnG7ymURNfejfw+KkM6QrnhiM6iycvN3hFCnqcS/hHCgPDK4V
+ jjrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=a8Rc9n6apkvgBEqKE3ijuOLVHHJCqJUyv3/d6FARCZg=;
+ b=WkLWk5yAYiYPwBItINRUsXDpo/zxDGSypf/Gw+XKR/zAbFvs20VOvUxXb0ve2vQRB7
+ wDcGT/xOLGREu1pj0Ca1ef1VsvTzwblBroFsrttnv9s19C4FpFdX1bJz3R0B9DmEwTxc
+ r7adDUTXNVgNHWkn7F8PW1YOFg3Su1GuWKEC7JCbYBzJ2GL4Vsef+396PvpG92eH/xyc
+ ZCWfxRse+uBBqFNdIKa82Z5WTzsocwAq3fQj+Rez6O9bJ0MTUnKYCLP+X7djCPMlUq9k
+ /UM9yXvIoasI5hF3Dw3zTyC4t0a6VHBs74dPT0K3VIiKHrvKUHQuVyiJOhZVHUW+JfmS
+ pG4w==
+X-Gm-Message-State: ANhLgQ3CCxk3WBce0GVq2l492LqafByj8cpQyEAiuLUUIt9/LvMsqwCv
+ nrd3xHMv4AaPtWFSbrjTHm4Csg==
+X-Google-Smtp-Source: ADFU+vv2pBMLm3mMf/+ry1WlzQl6fSlNMSquOziSzLMP20AolOi9Pbg6OMtEVIuaY+ZYsb3/A1vHtg==
+X-Received: by 2002:ae9:dc04:: with SMTP id q4mr1086227qkf.216.1583291150043; 
+ Tue, 03 Mar 2020 19:05:50 -0800 (PST)
+Received: from [192.168.0.189] ([147.253.86.153])
+ by smtp.gmail.com with ESMTPSA id g9sm34388qkl.39.2020.03.03.19.05.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Mar 2020 19:05:49 -0800 (PST)
 Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
-Message-ID: <20200304025354.GA17518@onstation.org>
+To: Brian Masney <masneyb@onstation.org>
 References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
  <20200302203452.17977-34-ville.syrjala@linux.intel.com>
  <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
@@ -40,9 +59,15 @@ References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
  <a565b44c-4562-f3da-82dc-e0f47683acb2@marek.ca>
  <20200304021624.GA16870@onstation.org>
  <b20e71f6-7157-f71c-27a2-61523bd6a65d@marek.ca>
+ <20200304025354.GA17518@onstation.org>
+From: Jonathan Marek <jonathan@marek.ca>
+Message-ID: <30e32ce4-d958-6cb9-e0f7-8de9377562ce@marek.ca>
+Date: Tue, 3 Mar 2020 22:04:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b20e71f6-7157-f71c-27a2-61523bd6a65d@marek.ca>
+In-Reply-To: <20200304025354.GA17518@onstation.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 04 Mar 2020 07:47:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,308 +82,182 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 03, 2020 at 09:27:50PM -0500, Jonathan Marek wrote:
-> modetest should be printing "freq: 60.0Hz", so definitely something wrong
-> there. Though I guess you have another problem since I would expect the
-> patch to drop it to 30 and not 13.5.
-> =
-
-> (FYI glmark-x11 isn't vsynced which is why I specifically mentioned
-> glmark-drm)
-
-I tried compiling the drm variant and it was complaining about some
-missing dependencies that I didn't see in Alpine Linux. I didn't try too
-hard since I'm a bit short on time at this point since I'm starting a
-new job on Monday and I have another side project that I want to finish
-before then.
-
-I suspect that the issue is caused by the introduction of the async
-commit support in the MSM driver that introduced the ping/pong timeouts.
-I'll try in a few weeks or so reverting those patches and see if that
-affects the speed.
-
-I'm still ok with Ville's patch going in given the existing slow state.
-There's no clear path forward right now for the autocommit patch that I
-linked to earlier in this thread. :(
-
-Brian =
-
-
-> =
-
-> On 3/3/20 9:16 PM, Brian Masney wrote:
-> > On Tue, Mar 03, 2020 at 08:04:05AM -0500, Jonathan Marek wrote:
-> > > What Xorg prints doesn't mean anything. I don't think there will be e=
-rrors
-> > > in dmesg, you need to run something that does pageflips as fast as po=
-ssible
-> > > and see that the refresh rate is still 60. (modetest with -v, glmark-=
-drm are
-> > > examples)
-> > =
-
-> > I assume that you mean modetest from
-> > https://gitlab.freedesktop.org/mesa/drm/tree/master/tests/modetest ?
-> > Here's the modeset connector information:
-> > =
-
-> > id   encoder status      name    size (mm)  modes   encoders
-> > 32   31      connected   DSI-1   62x110     1       31
-> >    modes:
-> >          index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
-> >    #0 1080x1920 71.71 1080 1082 1084 1086 1920 1922 1924 1926 150000
-> >    flags: ; type: preferred, driver
-> > =
-
-> > And the page flip results...
-> > =
-
-> > $ modetest -v -s 32:1080x1920
-> > trying to open device 'msm'...done
-> > setting mode 1080x1920-71.71Hz@XR24 on connectors 32, crtc 50
-> > failed to set gamma: Function not implemented
-> > freq: 13.50Hz
-> > freq: 13.51Hz
-> > freq: 13.51Hz
-> > =
-
-> > It's the same results with and without Ville's patch.
-> > =
-
-> > Here's the beginning of the glmark2 results with the x11-gl flavor:
-> > =
-
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> >      glmark2 2017.07
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> >      OpenGL Information
-> >      GL_VENDOR:     freedreno
-> >      GL_RENDERER:   FD330
-> >      GL_VERSION:    3.1 Mesa 20.0.0-devel
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> > [build] use-vbo=3Dfalse: FPS: 26 FrameTime: 38.462 ms
-> > [build] use-vbo=3Dtrue: FPS: 26 FrameTime: 38.462 ms
-> > [texture] texture-filter=3Dnearest: FPS: 26 FrameTime: 38.462 ms
-> > [texture] texture-filter=3Dlinear: FPS: 26 FrameTime: 38.462 ms
-> > [texture] texture-filter=3Dmipmap: FPS: 27 FrameTime: 37.037 ms
-> > [shading] shading=3Dgouraud: FPS: 27 FrameTime: 37.037 ms
-> > [shading] shading=3Dblinn-phong-inf: FPS: 27 FrameTime: 37.037 ms
-> > [shading] shading=3Dphong: FPS: 27 FrameTime: 37.037 ms
-> > [shading] shading=3Dcel: FPS: 26 FrameTime: 38.462 ms
-> > [bump] bump-render=3Dhigh-poly: FPS: 27 FrameTime: 37.037 ms
-> > [bump] bump-render=3Dnormals: FPS: 27 FrameTime: 37.037 ms
-> > [bump] bump-render=3Dheight: FPS: 27 FrameTime: 37.037 ms
-> > [effect2d] kernel=3D0,1,0;1,-4,1;0,1,0;: FPS: 25 FrameTime: 40.000 ms
-> > [effect2d] kernel=3D1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 26 FrameTime:
-> >   38.462 ms
-> > [pulsar] light=3Dfalse:quads=3D5:texture=3Dfalse: FPS: 26 FrameTime: 38=
-.462 ms
-> > [desktop] blur-radius=3D5:effect=3Dblur:passes=3D1:separable=3Dtrue:win=
-dows=3D4:
-> >   FPS: 26 FrameTime: 38.462 ms
-> > [desktop] effect=3Dshadow:windows=3D4: FPS: 27 FrameTime: 37.037 ms
-> > ...
-> > =
-
-> > Brian
-> > =
-
-> > =
-
-> > > =
-
-> > > On 3/3/20 7:26 AM, Brian Masney wrote:
-> > > > On Mon, Mar 02, 2020 at 10:36:54PM -0500, Jonathan Marek wrote:
-> > > > > Another thing: did you verify that the panel still runs at 60hz (=
-and not
-> > > > > dropping frames to 30hz)? IIRC that was the behavior with lower c=
-lock.
-> > > > =
-
-> > > > Yes, the panel is running at 60 HZ according to the Xorg log with
-> > > > Ville's patch applied:
-> > > > =
-
-> > > >       modeset(0): Modeline "1080x1920"x60.0  125.50  1080 1082 1084=
- 1086
-> > > >       1920 1922 1924 1926 (115.6 kHz eP)
-> > > > =
-
-> > > > I verified there's no underflow errors in dmesg.
-> > > > =
-
-> > > > If I recall correctly, the clock speeds that was in your tree was s=
-et
-> > > > too low for the gpu_opp_table (that wouldn't cause this issue), but=
- I
-> > > > seem to recall there were some other clock speed mismatches. The
-> > > > bandwidth requests weren't set on the RPM as well, so maybe that
-> > > > contributed to the problem. That's done upstream with the msm8974
-> > > > interconnect driver:
-> > > > =
-
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/drivers/interconnect/qcom/msm8974.c
-> > > > =
-
-> > > > There's a separate known issue with 'pp done time out' errors that
-> > > > occur on the framebuffer that started upstream several months ago w=
-ith
-> > > > the introduction of async commit support in the MSM driver. I tried
-> > > > working around this by enabling the autorefresh feature but it's not
-> > > > fully working yet and I hit a dead end since there's no docs availa=
-ble
-> > > > publicly for this. The grim details are at:
-> > > > =
-
-> > > > https://lore.kernel.org/lkml/20191230020053.26016-2-masneyb@onstati=
-on.org/
-> > > > =
-
-> > > > So I'm still OK with Ville's patch going in.
-> > > > =
-
-> > > > Brian
-> > > > =
-
-> > > > =
-
-> > > > > =
-
-> > > > > On 3/2/20 10:28 PM, Jonathan Marek wrote:
-> > > > > > =
-
-> > > > > > On 3/2/20 10:13 PM, Brian Masney wrote:
-> > > > > > > On Mon, Mar 02, 2020 at 03:48:22PM -0500, Jonathan Marek wrot=
-e:
-> > > > > > > > Hi,
-> > > > > > > > =
-
-> > > > > > > > This is a command mode panel and the the msm/mdp5 driver us=
-es
-> > > > > > > > the vrefresh
-> > > > > > > > field for the actual refresh rate, while the dotclock field=
- is
-> > > > > > > > used for the
-> > > > > > > > DSI clocks. The dotclock needed to be a bit higher than
-> > > > > > > > necessary otherwise
-> > > > > > > > the panel would not work.
-> > > > > > > > =
-
-> > > > > > > > If you want to get rid of the separate clock/vrefresh field=
-s there would
-> > > > > > > > need to be some changes to msm driver.
-> > > > > > > > =
-
-> > > > > > > > (note I hadn't made the patch with upstreaming in mind, the
-> > > > > > > > 150000 value is
-> > > > > > > > likely not optimal, just something that worked, this is som=
-ething that
-> > > > > > > > should have been checked with the downstream driver)
-> > > > > > > =
-
-> > > > > > > Is this the right clock frequency in the downstream MSM 3.4 k=
-ernel that
-> > > > > > > you're talking about?
-> > > > > > > =
-
-> > > > > > > https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/=
-arm/mach-msm/clock-8974.c#L3326
-> > > > > > > =
-
-> > > > > > > =
-
-> > > > > > =
-
-> > > > > > No, I'm talking about the DSI clock (the driver for it is in
-> > > > > > drm/msm/dsi/). For a command mode panel the front/back porches =
-aren't
-> > > > > > relevant, but the dsi pixel/byte clock need to be a bit higher =
-than
-> > > > > > 1920x1080x60. Since 125498 is a little higher than 124416 that =
-might be
-> > > > > > enough (there is also rounding of the clock values to consider).
-> > > > > > =
-
-> > > > > > > I don't see any obvious clock values in the downstream comman=
-d mode
-> > > > > > > panel configuration:
-> > > > > > > =
-
-> > > > > > > https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/=
-arm/boot/dts/msm8974-hammerhead/msm8974-hammerhead-panel.dtsi#L591
-> > > > > > > =
-
-> > > > > > > =
-
-> > > > > > > Anyways, I tried Ville's patch with the framebuffer, kmscube,=
- and X11
-> > > > > > > and everything appears to be working fine. You can add my Tes=
-ted-by if
-> > > > > > > you end up applying this.
-> > > > > > > =
-
-> > > > > > > Tested-by: Brian Masney <masneyb@onstation.org>
-> > > > > > > =
-
-> > > > > > > Brian
-> > > > > > > =
-
-> > > > > > > =
-
-> > > > > > > > On 3/2/20 3:34 PM, Ville Syrjala wrote:
-> > > > > > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > > > > > =
-
-> > > > > > > > > The currently listed dotclock disagrees with the currently
-> > > > > > > > > listed vrefresh rate. Change the dotclock to match the vr=
-efresh.
-> > > > > > > > > =
-
-> > > > > > > > > Someone tell me which (if either) of the dotclock or vrer=
-esh is
-> > > > > > > > > correct?
-> > > > > > > > > =
-
-> > > > > > > > > Cc: Jonathan Marek <jonathan@marek.ca>
-> > > > > > > > > Cc: Brian Masney <masneyb@onstation.org>
-> > > > > > > > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > > > > > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.int=
-el.com>
-> > > > > > > > > ---
-> > > > > > > > >   =A0=A0 drivers/gpu/drm/panel/panel-simple.c | 2 +-
-> > > > > > > > >   =A0=A0 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > > > > > =
-
-> > > > > > > > > diff --git a/drivers/gpu/drm/panel/panel-simple.c
-> > > > > > > > > b/drivers/gpu/drm/panel/panel-simple.c
-> > > > > > > > > index b24fdf239440..f958d8dfd760 100644
-> > > > > > > > > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > > > > > > > > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > > > > > > > > @@ -3996,7 +3996,7 @@ static const struct panel_desc_dsi
-> > > > > > > > > panasonic_vvx10f004b00 =3D {
-> > > > > > > > >   =A0=A0 };
-> > > > > > > > >   =A0=A0 static const struct drm_display_mode lg_acx467ak=
-m_7_mode =3D {
-> > > > > > > > > -=A0=A0=A0 .clock =3D 150000,
-> > > > > > > > > +=A0=A0=A0 .clock =3D 125498,
-> > > > > > > > >   =A0=A0=A0=A0=A0=A0 .hdisplay =3D 1080,
-> > > > > > > > >   =A0=A0=A0=A0=A0=A0 .hsync_start =3D 1080 + 2,
-> > > > > > > > >   =A0=A0=A0=A0=A0=A0 .hsync_end =3D 1080 + 2 + 2,
-> > > > > > > > > =
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SWYgSSBoYXZlIHRpbWUgdG8ga2lsbCBvdmVyIHRoZSB3ZWVrZW5kIEknbGwgZG8gYSBuZXcgcmVi
+YXNlIG9mIG15IE5leHVzIAo1IHBhdGNoZXMgKG15IGxhc3QgcmViYXNlIHdhcyBiYWNrIGluIEF1
+Z3VzdCBvbiA1LjIsIGFuZCB0aGUgcGFuZWwgd2FzIAp3b3JraW5nIGNvcnJlY3RseSBhdCA2MEh6
+IGJhY2sgdGhlbikuCgpMb29rZWQgYXQgaXQgYWdhaW4gYW5kIGl0IGRvZXMgbG9vayBsaWtlIHlv
+dXIgZ2xtYXJrIHdhcyB2c3luY2VkIChnbG1hcmsgCmV4cGxpY2l0bHkgZGlzYWJsZXMgdnN5bmMg
+c28gSSBndWVzcyB5b3UgaGF2ZSBpdCBmb3JjZS1lbmFibGVkKSBzaW5jZSAKdGhlIHJlc3VsdHMg
+YXJlIGFsbCAyNi0yNyAoWCB3b3JrcyBhIGJpdCBkaWZmZXJlbnRseSBhbmQgZ2V0cyBkb3VibGUg
+dGhlIApmcmFtZXJhdGUgc29tZWhvdz8pCgpPbiAzLzMvMjAgOTo1MyBQTSwgQnJpYW4gTWFzbmV5
+IHdyb3RlOgo+IE9uIFR1ZSwgTWFyIDAzLCAyMDIwIGF0IDA5OjI3OjUwUE0gLTA1MDAsIEpvbmF0
+aGFuIE1hcmVrIHdyb3RlOgo+PiBtb2RldGVzdCBzaG91bGQgYmUgcHJpbnRpbmcgImZyZXE6IDYw
+LjBIeiIsIHNvIGRlZmluaXRlbHkgc29tZXRoaW5nIHdyb25nCj4+IHRoZXJlLiBUaG91Z2ggSSBn
+dWVzcyB5b3UgaGF2ZSBhbm90aGVyIHByb2JsZW0gc2luY2UgSSB3b3VsZCBleHBlY3QgdGhlCj4+
+IHBhdGNoIHRvIGRyb3AgaXQgdG8gMzAgYW5kIG5vdCAxMy41Lgo+Pgo+PiAoRllJIGdsbWFyay14
+MTEgaXNuJ3QgdnN5bmNlZCB3aGljaCBpcyB3aHkgSSBzcGVjaWZpY2FsbHkgbWVudGlvbmVkCj4+
+IGdsbWFyay1kcm0pCj4gCj4gSSB0cmllZCBjb21waWxpbmcgdGhlIGRybSB2YXJpYW50IGFuZCBp
+dCB3YXMgY29tcGxhaW5pbmcgYWJvdXQgc29tZQo+IG1pc3NpbmcgZGVwZW5kZW5jaWVzIHRoYXQg
+SSBkaWRuJ3Qgc2VlIGluIEFscGluZSBMaW51eC4gSSBkaWRuJ3QgdHJ5IHRvbwo+IGhhcmQgc2lu
+Y2UgSSdtIGEgYml0IHNob3J0IG9uIHRpbWUgYXQgdGhpcyBwb2ludCBzaW5jZSBJJ20gc3RhcnRp
+bmcgYQo+IG5ldyBqb2Igb24gTW9uZGF5IGFuZCBJIGhhdmUgYW5vdGhlciBzaWRlIHByb2plY3Qg
+dGhhdCBJIHdhbnQgdG8gZmluaXNoCj4gYmVmb3JlIHRoZW4uCj4gCj4gSSBzdXNwZWN0IHRoYXQg
+dGhlIGlzc3VlIGlzIGNhdXNlZCBieSB0aGUgaW50cm9kdWN0aW9uIG9mIHRoZSBhc3luYwo+IGNv
+bW1pdCBzdXBwb3J0IGluIHRoZSBNU00gZHJpdmVyIHRoYXQgaW50cm9kdWNlZCB0aGUgcGluZy9w
+b25nIHRpbWVvdXRzLgo+IEknbGwgdHJ5IGluIGEgZmV3IHdlZWtzIG9yIHNvIHJldmVydGluZyB0
+aG9zZSBwYXRjaGVzIGFuZCBzZWUgaWYgdGhhdAo+IGFmZmVjdHMgdGhlIHNwZWVkLgo+IAo+IEkn
+bSBzdGlsbCBvayB3aXRoIFZpbGxlJ3MgcGF0Y2ggZ29pbmcgaW4gZ2l2ZW4gdGhlIGV4aXN0aW5n
+IHNsb3cgc3RhdGUuCj4gVGhlcmUncyBubyBjbGVhciBwYXRoIGZvcndhcmQgcmlnaHQgbm93IGZv
+ciB0aGUgYXV0b2NvbW1pdCBwYXRjaCB0aGF0IEkKPiBsaW5rZWQgdG8gZWFybGllciBpbiB0aGlz
+IHRocmVhZC4gOigKPiAKPiBCcmlhbgo+IAo+Pgo+PiBPbiAzLzMvMjAgOToxNiBQTSwgQnJpYW4g
+TWFzbmV5IHdyb3RlOgo+Pj4gT24gVHVlLCBNYXIgMDMsIDIwMjAgYXQgMDg6MDQ6MDVBTSAtMDUw
+MCwgSm9uYXRoYW4gTWFyZWsgd3JvdGU6Cj4+Pj4gV2hhdCBYb3JnIHByaW50cyBkb2Vzbid0IG1l
+YW4gYW55dGhpbmcuIEkgZG9uJ3QgdGhpbmsgdGhlcmUgd2lsbCBiZSBlcnJvcnMKPj4+PiBpbiBk
+bWVzZywgeW91IG5lZWQgdG8gcnVuIHNvbWV0aGluZyB0aGF0IGRvZXMgcGFnZWZsaXBzIGFzIGZh
+c3QgYXMgcG9zc2libGUKPj4+PiBhbmQgc2VlIHRoYXQgdGhlIHJlZnJlc2ggcmF0ZSBpcyBzdGls
+bCA2MC4gKG1vZGV0ZXN0IHdpdGggLXYsIGdsbWFyay1kcm0gYXJlCj4+Pj4gZXhhbXBsZXMpCj4+
+Pgo+Pj4gSSBhc3N1bWUgdGhhdCB5b3UgbWVhbiBtb2RldGVzdCBmcm9tCj4+PiBodHRwczovL2dp
+dGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9kcm0vdHJlZS9tYXN0ZXIvdGVzdHMvbW9kZXRlc3Qg
+Pwo+Pj4gSGVyZSdzIHRoZSBtb2Rlc2V0IGNvbm5lY3RvciBpbmZvcm1hdGlvbjoKPj4+Cj4+PiBp
+ZCAgIGVuY29kZXIgc3RhdHVzICAgICAgbmFtZSAgICBzaXplIChtbSkgIG1vZGVzICAgZW5jb2Rl
+cnMKPj4+IDMyICAgMzEgICAgICBjb25uZWN0ZWQgICBEU0ktMSAgIDYyeDExMCAgICAgMSAgICAg
+ICAzMQo+Pj4gICAgIG1vZGVzOgo+Pj4gICAgICAgICAgIGluZGV4IG5hbWUgcmVmcmVzaCAoSHop
+IGhkaXNwIGhzcyBoc2UgaHRvdCB2ZGlzcCB2c3MgdnNlIHZ0b3QpCj4+PiAgICAgIzAgMTA4MHgx
+OTIwIDcxLjcxIDEwODAgMTA4MiAxMDg0IDEwODYgMTkyMCAxOTIyIDE5MjQgMTkyNiAxNTAwMDAK
+Pj4+ICAgICBmbGFnczogOyB0eXBlOiBwcmVmZXJyZWQsIGRyaXZlcgo+Pj4KPj4+IEFuZCB0aGUg
+cGFnZSBmbGlwIHJlc3VsdHMuLi4KPj4+Cj4+PiAkIG1vZGV0ZXN0IC12IC1zIDMyOjEwODB4MTky
+MAo+Pj4gdHJ5aW5nIHRvIG9wZW4gZGV2aWNlICdtc20nLi4uZG9uZQo+Pj4gc2V0dGluZyBtb2Rl
+IDEwODB4MTkyMC03MS43MUh6QFhSMjQgb24gY29ubmVjdG9ycyAzMiwgY3J0YyA1MAo+Pj4gZmFp
+bGVkIHRvIHNldCBnYW1tYTogRnVuY3Rpb24gbm90IGltcGxlbWVudGVkCj4+PiBmcmVxOiAxMy41
+MEh6Cj4+PiBmcmVxOiAxMy41MUh6Cj4+PiBmcmVxOiAxMy41MUh6Cj4+Pgo+Pj4gSXQncyB0aGUg
+c2FtZSByZXN1bHRzIHdpdGggYW5kIHdpdGhvdXQgVmlsbGUncyBwYXRjaC4KPj4+Cj4+PiBIZXJl
+J3MgdGhlIGJlZ2lubmluZyBvZiB0aGUgZ2xtYXJrMiByZXN1bHRzIHdpdGggdGhlIHgxMS1nbCBm
+bGF2b3I6Cj4+Pgo+Pj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PQo+Pj4gICAgICAgZ2xtYXJrMiAyMDE3LjA3Cj4+PiA9PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4+PiAgICAgICBPcGVu
+R0wgSW5mb3JtYXRpb24KPj4+ICAgICAgIEdMX1ZFTkRPUjogICAgIGZyZWVkcmVubwo+Pj4gICAg
+ICAgR0xfUkVOREVSRVI6ICAgRkQzMzAKPj4+ICAgICAgIEdMX1ZFUlNJT046ICAgIDMuMSBNZXNh
+IDIwLjAuMC1kZXZlbAo+Pj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PQo+Pj4gW2J1aWxkXSB1c2UtdmJvPWZhbHNlOiBGUFM6IDI2IEZyYW1l
+VGltZTogMzguNDYyIG1zCj4+PiBbYnVpbGRdIHVzZS12Ym89dHJ1ZTogRlBTOiAyNiBGcmFtZVRp
+bWU6IDM4LjQ2MiBtcwo+Pj4gW3RleHR1cmVdIHRleHR1cmUtZmlsdGVyPW5lYXJlc3Q6IEZQUzog
+MjYgRnJhbWVUaW1lOiAzOC40NjIgbXMKPj4+IFt0ZXh0dXJlXSB0ZXh0dXJlLWZpbHRlcj1saW5l
+YXI6IEZQUzogMjYgRnJhbWVUaW1lOiAzOC40NjIgbXMKPj4+IFt0ZXh0dXJlXSB0ZXh0dXJlLWZp
+bHRlcj1taXBtYXA6IEZQUzogMjcgRnJhbWVUaW1lOiAzNy4wMzcgbXMKPj4+IFtzaGFkaW5nXSBz
+aGFkaW5nPWdvdXJhdWQ6IEZQUzogMjcgRnJhbWVUaW1lOiAzNy4wMzcgbXMKPj4+IFtzaGFkaW5n
+XSBzaGFkaW5nPWJsaW5uLXBob25nLWluZjogRlBTOiAyNyBGcmFtZVRpbWU6IDM3LjAzNyBtcwo+
+Pj4gW3NoYWRpbmddIHNoYWRpbmc9cGhvbmc6IEZQUzogMjcgRnJhbWVUaW1lOiAzNy4wMzcgbXMK
+Pj4+IFtzaGFkaW5nXSBzaGFkaW5nPWNlbDogRlBTOiAyNiBGcmFtZVRpbWU6IDM4LjQ2MiBtcwo+
+Pj4gW2J1bXBdIGJ1bXAtcmVuZGVyPWhpZ2gtcG9seTogRlBTOiAyNyBGcmFtZVRpbWU6IDM3LjAz
+NyBtcwo+Pj4gW2J1bXBdIGJ1bXAtcmVuZGVyPW5vcm1hbHM6IEZQUzogMjcgRnJhbWVUaW1lOiAz
+Ny4wMzcgbXMKPj4+IFtidW1wXSBidW1wLXJlbmRlcj1oZWlnaHQ6IEZQUzogMjcgRnJhbWVUaW1l
+OiAzNy4wMzcgbXMKPj4+IFtlZmZlY3QyZF0ga2VybmVsPTAsMSwwOzEsLTQsMTswLDEsMDs6IEZQ
+UzogMjUgRnJhbWVUaW1lOiA0MC4wMDAgbXMKPj4+IFtlZmZlY3QyZF0ga2VybmVsPTEsMSwxLDEs
+MTsxLDEsMSwxLDE7MSwxLDEsMSwxOzogRlBTOiAyNiBGcmFtZVRpbWU6Cj4+PiAgICAzOC40NjIg
+bXMKPj4+IFtwdWxzYXJdIGxpZ2h0PWZhbHNlOnF1YWRzPTU6dGV4dHVyZT1mYWxzZTogRlBTOiAy
+NiBGcmFtZVRpbWU6IDM4LjQ2MiBtcwo+Pj4gW2Rlc2t0b3BdIGJsdXItcmFkaXVzPTU6ZWZmZWN0
+PWJsdXI6cGFzc2VzPTE6c2VwYXJhYmxlPXRydWU6d2luZG93cz00Ogo+Pj4gICAgRlBTOiAyNiBG
+cmFtZVRpbWU6IDM4LjQ2MiBtcwo+Pj4gW2Rlc2t0b3BdIGVmZmVjdD1zaGFkb3c6d2luZG93cz00
+OiBGUFM6IDI3IEZyYW1lVGltZTogMzcuMDM3IG1zCj4+PiAuLi4KPj4+Cj4+PiBCcmlhbgo+Pj4K
+Pj4+Cj4+Pj4KPj4+PiBPbiAzLzMvMjAgNzoyNiBBTSwgQnJpYW4gTWFzbmV5IHdyb3RlOgo+Pj4+
+PiBPbiBNb24sIE1hciAwMiwgMjAyMCBhdCAxMDozNjo1NFBNIC0wNTAwLCBKb25hdGhhbiBNYXJl
+ayB3cm90ZToKPj4+Pj4+IEFub3RoZXIgdGhpbmc6IGRpZCB5b3UgdmVyaWZ5IHRoYXQgdGhlIHBh
+bmVsIHN0aWxsIHJ1bnMgYXQgNjBoeiAoYW5kIG5vdAo+Pj4+Pj4gZHJvcHBpbmcgZnJhbWVzIHRv
+IDMwaHopPyBJSVJDIHRoYXQgd2FzIHRoZSBiZWhhdmlvciB3aXRoIGxvd2VyIGNsb2NrLgo+Pj4+
+Pgo+Pj4+PiBZZXMsIHRoZSBwYW5lbCBpcyBydW5uaW5nIGF0IDYwIEhaIGFjY29yZGluZyB0byB0
+aGUgWG9yZyBsb2cgd2l0aAo+Pj4+PiBWaWxsZSdzIHBhdGNoIGFwcGxpZWQ6Cj4+Pj4+Cj4+Pj4+
+ICAgICAgICBtb2Rlc2V0KDApOiBNb2RlbGluZSAiMTA4MHgxOTIwIng2MC4wICAxMjUuNTAgIDEw
+ODAgMTA4MiAxMDg0IDEwODYKPj4+Pj4gICAgICAgIDE5MjAgMTkyMiAxOTI0IDE5MjYgKDExNS42
+IGtIeiBlUCkKPj4+Pj4KPj4+Pj4gSSB2ZXJpZmllZCB0aGVyZSdzIG5vIHVuZGVyZmxvdyBlcnJv
+cnMgaW4gZG1lc2cuCj4+Pj4+Cj4+Pj4+IElmIEkgcmVjYWxsIGNvcnJlY3RseSwgdGhlIGNsb2Nr
+IHNwZWVkcyB0aGF0IHdhcyBpbiB5b3VyIHRyZWUgd2FzIHNldAo+Pj4+PiB0b28gbG93IGZvciB0
+aGUgZ3B1X29wcF90YWJsZSAodGhhdCB3b3VsZG4ndCBjYXVzZSB0aGlzIGlzc3VlKSwgYnV0IEkK
+Pj4+Pj4gc2VlbSB0byByZWNhbGwgdGhlcmUgd2VyZSBzb21lIG90aGVyIGNsb2NrIHNwZWVkIG1p
+c21hdGNoZXMuIFRoZQo+Pj4+PiBiYW5kd2lkdGggcmVxdWVzdHMgd2VyZW4ndCBzZXQgb24gdGhl
+IFJQTSBhcyB3ZWxsLCBzbyBtYXliZSB0aGF0Cj4+Pj4+IGNvbnRyaWJ1dGVkIHRvIHRoZSBwcm9i
+bGVtLiBUaGF0J3MgZG9uZSB1cHN0cmVhbSB3aXRoIHRoZSBtc204OTc0Cj4+Pj4+IGludGVyY29u
+bmVjdCBkcml2ZXI6Cj4+Pj4+Cj4+Pj4+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9s
+aW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL2RyaXZlcnMvaW50ZXJjb25u
+ZWN0L3Fjb20vbXNtODk3NC5jCj4+Pj4+Cj4+Pj4+IFRoZXJlJ3MgYSBzZXBhcmF0ZSBrbm93biBp
+c3N1ZSB3aXRoICdwcCBkb25lIHRpbWUgb3V0JyBlcnJvcnMgdGhhdAo+Pj4+PiBvY2N1ciBvbiB0
+aGUgZnJhbWVidWZmZXIgdGhhdCBzdGFydGVkIHVwc3RyZWFtIHNldmVyYWwgbW9udGhzIGFnbyB3
+aXRoCj4+Pj4+IHRoZSBpbnRyb2R1Y3Rpb24gb2YgYXN5bmMgY29tbWl0IHN1cHBvcnQgaW4gdGhl
+IE1TTSBkcml2ZXIuIEkgdHJpZWQKPj4+Pj4gd29ya2luZyBhcm91bmQgdGhpcyBieSBlbmFibGlu
+ZyB0aGUgYXV0b3JlZnJlc2ggZmVhdHVyZSBidXQgaXQncyBub3QKPj4+Pj4gZnVsbHkgd29ya2lu
+ZyB5ZXQgYW5kIEkgaGl0IGEgZGVhZCBlbmQgc2luY2UgdGhlcmUncyBubyBkb2NzIGF2YWlsYWJs
+ZQo+Pj4+PiBwdWJsaWNseSBmb3IgdGhpcy4gVGhlIGdyaW0gZGV0YWlscyBhcmUgYXQ6Cj4+Pj4+
+Cj4+Pj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAxOTEyMzAwMjAwNTMuMjYwMTYt
+Mi1tYXNuZXliQG9uc3RhdGlvbi5vcmcvCj4+Pj4+Cj4+Pj4+IFNvIEknbSBzdGlsbCBPSyB3aXRo
+IFZpbGxlJ3MgcGF0Y2ggZ29pbmcgaW4uCj4+Pj4+Cj4+Pj4+IEJyaWFuCj4+Pj4+Cj4+Pj4+Cj4+
+Pj4+Pgo+Pj4+Pj4gT24gMy8yLzIwIDEwOjI4IFBNLCBKb25hdGhhbiBNYXJlayB3cm90ZToKPj4+
+Pj4+Pgo+Pj4+Pj4+IE9uIDMvMi8yMCAxMDoxMyBQTSwgQnJpYW4gTWFzbmV5IHdyb3RlOgo+Pj4+
+Pj4+PiBPbiBNb24sIE1hciAwMiwgMjAyMCBhdCAwMzo0ODoyMlBNIC0wNTAwLCBKb25hdGhhbiBN
+YXJlayB3cm90ZToKPj4+Pj4+Pj4+IEhpLAo+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+IFRoaXMgaXMgYSBj
+b21tYW5kIG1vZGUgcGFuZWwgYW5kIHRoZSB0aGUgbXNtL21kcDUgZHJpdmVyIHVzZXMKPj4+Pj4+
+Pj4+IHRoZSB2cmVmcmVzaAo+Pj4+Pj4+Pj4gZmllbGQgZm9yIHRoZSBhY3R1YWwgcmVmcmVzaCBy
+YXRlLCB3aGlsZSB0aGUgZG90Y2xvY2sgZmllbGQgaXMKPj4+Pj4+Pj4+IHVzZWQgZm9yIHRoZQo+
+Pj4+Pj4+Pj4gRFNJIGNsb2Nrcy4gVGhlIGRvdGNsb2NrIG5lZWRlZCB0byBiZSBhIGJpdCBoaWdo
+ZXIgdGhhbgo+Pj4+Pj4+Pj4gbmVjZXNzYXJ5IG90aGVyd2lzZQo+Pj4+Pj4+Pj4gdGhlIHBhbmVs
+IHdvdWxkIG5vdCB3b3JrLgo+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+IElmIHlvdSB3YW50IHRvIGdldCBy
+aWQgb2YgdGhlIHNlcGFyYXRlIGNsb2NrL3ZyZWZyZXNoIGZpZWxkcyB0aGVyZSB3b3VsZAo+Pj4+
+Pj4+Pj4gbmVlZCB0byBiZSBzb21lIGNoYW5nZXMgdG8gbXNtIGRyaXZlci4KPj4+Pj4+Pj4+Cj4+
+Pj4+Pj4+PiAobm90ZSBJIGhhZG4ndCBtYWRlIHRoZSBwYXRjaCB3aXRoIHVwc3RyZWFtaW5nIGlu
+IG1pbmQsIHRoZQo+Pj4+Pj4+Pj4gMTUwMDAwIHZhbHVlIGlzCj4+Pj4+Pj4+PiBsaWtlbHkgbm90
+IG9wdGltYWwsIGp1c3Qgc29tZXRoaW5nIHRoYXQgd29ya2VkLCB0aGlzIGlzIHNvbWV0aGluZyB0
+aGF0Cj4+Pj4+Pj4+PiBzaG91bGQgaGF2ZSBiZWVuIGNoZWNrZWQgd2l0aCB0aGUgZG93bnN0cmVh
+bSBkcml2ZXIpCj4+Pj4+Pj4+Cj4+Pj4+Pj4+IElzIHRoaXMgdGhlIHJpZ2h0IGNsb2NrIGZyZXF1
+ZW5jeSBpbiB0aGUgZG93bnN0cmVhbSBNU00gMy40IGtlcm5lbCB0aGF0Cj4+Pj4+Pj4+IHlvdSdy
+ZSB0YWxraW5nIGFib3V0Pwo+Pj4+Pj4+Pgo+Pj4+Pj4+PiBodHRwczovL2dpdGh1Yi5jb20vQUlD
+UC9rZXJuZWxfbGdlX2hhbW1lcmhlYWQvYmxvYi9uNy4xL2FyY2gvYXJtL21hY2gtbXNtL2Nsb2Nr
+LTg5NzQuYyNMMzMyNgo+Pj4+Pj4+Pgo+Pj4+Pj4+Pgo+Pj4+Pj4+Cj4+Pj4+Pj4gTm8sIEknbSB0
+YWxraW5nIGFib3V0IHRoZSBEU0kgY2xvY2sgKHRoZSBkcml2ZXIgZm9yIGl0IGlzIGluCj4+Pj4+
+Pj4gZHJtL21zbS9kc2kvKS4gRm9yIGEgY29tbWFuZCBtb2RlIHBhbmVsIHRoZSBmcm9udC9iYWNr
+IHBvcmNoZXMgYXJlbid0Cj4+Pj4+Pj4gcmVsZXZhbnQsIGJ1dCB0aGUgZHNpIHBpeGVsL2J5dGUg
+Y2xvY2sgbmVlZCB0byBiZSBhIGJpdCBoaWdoZXIgdGhhbgo+Pj4+Pj4+IDE5MjB4MTA4MHg2MC4g
+U2luY2UgMTI1NDk4IGlzIGEgbGl0dGxlIGhpZ2hlciB0aGFuIDEyNDQxNiB0aGF0IG1pZ2h0IGJl
+Cj4+Pj4+Pj4gZW5vdWdoICh0aGVyZSBpcyBhbHNvIHJvdW5kaW5nIG9mIHRoZSBjbG9jayB2YWx1
+ZXMgdG8gY29uc2lkZXIpLgo+Pj4+Pj4+Cj4+Pj4+Pj4+IEkgZG9uJ3Qgc2VlIGFueSBvYnZpb3Vz
+IGNsb2NrIHZhbHVlcyBpbiB0aGUgZG93bnN0cmVhbSBjb21tYW5kIG1vZGUKPj4+Pj4+Pj4gcGFu
+ZWwgY29uZmlndXJhdGlvbjoKPj4+Pj4+Pj4KPj4+Pj4+Pj4gaHR0cHM6Ly9naXRodWIuY29tL0FJ
+Q1Ava2VybmVsX2xnZV9oYW1tZXJoZWFkL2Jsb2IvbjcuMS9hcmNoL2FybS9ib290L2R0cy9tc204
+OTc0LWhhbW1lcmhlYWQvbXNtODk3NC1oYW1tZXJoZWFkLXBhbmVsLmR0c2kjTDU5MQo+Pj4+Pj4+
+Pgo+Pj4+Pj4+Pgo+Pj4+Pj4+PiBBbnl3YXlzLCBJIHRyaWVkIFZpbGxlJ3MgcGF0Y2ggd2l0aCB0
+aGUgZnJhbWVidWZmZXIsIGttc2N1YmUsIGFuZCBYMTEKPj4+Pj4+Pj4gYW5kIGV2ZXJ5dGhpbmcg
+YXBwZWFycyB0byBiZSB3b3JraW5nIGZpbmUuIFlvdSBjYW4gYWRkIG15IFRlc3RlZC1ieSBpZgo+
+Pj4+Pj4+PiB5b3UgZW5kIHVwIGFwcGx5aW5nIHRoaXMuCj4+Pj4+Pj4+Cj4+Pj4+Pj4+IFRlc3Rl
+ZC1ieTogQnJpYW4gTWFzbmV5IDxtYXNuZXliQG9uc3RhdGlvbi5vcmc+Cj4+Pj4+Pj4+Cj4+Pj4+
+Pj4+IEJyaWFuCj4+Pj4+Pj4+Cj4+Pj4+Pj4+Cj4+Pj4+Pj4+PiBPbiAzLzIvMjAgMzozNCBQTSwg
+VmlsbGUgU3lyamFsYSB3cm90ZToKPj4+Pj4+Pj4+PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZp
+bGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Pj4+Pj4+Pj4+Cj4+Pj4+Pj4+Pj4gVGhlIGN1
+cnJlbnRseSBsaXN0ZWQgZG90Y2xvY2sgZGlzYWdyZWVzIHdpdGggdGhlIGN1cnJlbnRseQo+Pj4+
+Pj4+Pj4+IGxpc3RlZCB2cmVmcmVzaCByYXRlLiBDaGFuZ2UgdGhlIGRvdGNsb2NrIHRvIG1hdGNo
+IHRoZSB2cmVmcmVzaC4KPj4+Pj4+Pj4+Pgo+Pj4+Pj4+Pj4+IFNvbWVvbmUgdGVsbCBtZSB3aGlj
+aCAoaWYgZWl0aGVyKSBvZiB0aGUgZG90Y2xvY2sgb3IgdnJlcmVzaCBpcwo+Pj4+Pj4+Pj4+IGNv
+cnJlY3Q/Cj4+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+PiBDYzogSm9uYXRoYW4gTWFyZWsgPGpvbmF0aGFu
+QG1hcmVrLmNhPgo+Pj4+Pj4+Pj4+IENjOiBCcmlhbiBNYXNuZXkgPG1hc25leWJAb25zdGF0aW9u
+Lm9yZz4KPj4+Pj4+Pj4+PiBDYzogTGludXMgV2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8u
+b3JnPgo+Pj4+Pj4+Pj4+IFNpZ25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3ly
+amFsYUBsaW51eC5pbnRlbC5jb20+Cj4+Pj4+Pj4+Pj4gLS0tCj4+Pj4+Pj4+Pj4gICAgwqDCoCBk
+cml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMgfCAyICstCj4+Pj4+Pj4+Pj4gICAg
+wqDCoCAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4+Pj4+
+Pj4+Pgo+Pj4+Pj4+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwt
+c2ltcGxlLmMKPj4+Pj4+Pj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUu
+Ywo+Pj4+Pj4+Pj4+IGluZGV4IGIyNGZkZjIzOTQ0MC4uZjk1OGQ4ZGZkNzYwIDEwMDY0NAo+Pj4+
+Pj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYwo+Pj4+Pj4+
+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYwo+Pj4+Pj4+Pj4+
+IEBAIC0zOTk2LDcgKzM5OTYsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBhbmVsX2Rlc2NfZHNp
+Cj4+Pj4+Pj4+Pj4gcGFuYXNvbmljX3Z2eDEwZjAwNGIwMCA9IHsKPj4+Pj4+Pj4+PiAgICDCoMKg
+IH07Cj4+Pj4+Pj4+Pj4gICAgwqDCoCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21v
+ZGUgbGdfYWN4NDY3YWttXzdfbW9kZSA9IHsKPj4+Pj4+Pj4+PiAtwqDCoMKgIC5jbG9jayA9IDE1
+MDAwMCwKPj4+Pj4+Pj4+PiArwqDCoMKgIC5jbG9jayA9IDEyNTQ5OCwKPj4+Pj4+Pj4+PiAgICDC
+oMKgwqDCoMKgwqAgLmhkaXNwbGF5ID0gMTA4MCwKPj4+Pj4+Pj4+PiAgICDCoMKgwqDCoMKgwqAg
+LmhzeW5jX3N0YXJ0ID0gMTA4MCArIDIsCj4+Pj4+Pj4+Pj4gICAgwqDCoMKgwqDCoMKgIC5oc3lu
+Y19lbmQgPSAxMDgwICsgMiArIDIsCj4+Pj4+Pj4+Pj4KX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
