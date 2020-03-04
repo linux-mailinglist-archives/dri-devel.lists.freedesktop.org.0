@@ -2,53 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADFA1797FA
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 19:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9A6179808
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 19:36:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12E696EB5B;
-	Wed,  4 Mar 2020 18:35:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F5B36EB5C;
+	Wed,  4 Mar 2020 18:36:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C746EB5A;
- Wed,  4 Mar 2020 18:34:58 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id x3so170859wmj.1;
- Wed, 04 Mar 2020 10:34:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8DRq31dVT2gcFH3XXRtqpgig/7H0t/mX4ebDUqxQJAM=;
- b=K2zkK61c2TNW7EUI2Xo/xumazBlU352yLQ8Je3IUqoaUeb9Fj5WXxGXfTelu0rxweA
- ObkurjlXbq7kKvzJnlUaYK6MV23HpRq6o1fADQJq2vWs3oshVhduVquYNUyMlbMYahbR
- PJNMcUIuLJjo0nH4eGvCiHgv9H88OuZBtXnHYx0c6QNe8ti5T6nUJumoJ+iaU1oYEtW/
- 4XVPJyD7oyY/uIF7GI9fhE0iAysskUb+HW/wCTDhfvCkO9CtdEV+kJ3CdqWGoIK5RDyh
- H9wNzAlUkJ+wFWngJvKmHcfSdLHeWE2EDmbaKbD+6zLEyJl9mQmr7XeO58/PNZ/OR9Y9
- rjTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8DRq31dVT2gcFH3XXRtqpgig/7H0t/mX4ebDUqxQJAM=;
- b=rv9OzcGJhuCXl+RXFAi5ebaCvYNAkMWECKWMRaWTbR1aZVefL3+I79ctLtSoq2vSb+
- sqD8dJkSB00bQgYLZTWhpQpMAGbF7ZQOgBwZHB/pnQJLDLoDhPkZfgMmf/10zEnQGV2U
- qHFbhg8tDba9vKgWuhwoLbStjEvoS9OuFM7aHxZ1eCjGAInq0Z/AgE0Cx2OWjJ5WxIM4
- 6HnYYanUJ3CRRgF65xT3CJ3pyDDnBgUBw0EpwNdq1char3hdWiCSsW+ftxpPelSNP/DB
- S4csECIjJFIp5dHjS4eVYk0y+fUVZy8RszMowSrFuZ2x3KskndqCvxwHddD6yOnvrVD0
- 0d+w==
-X-Gm-Message-State: ANhLgQ0ClbLkRGFo7CjP6KzRSJOPXmwDYbWhe3Z8fj+/yan2l3cQj2v3
- orrn23QIL842Wa6J0ZdRPBNjEl0WNftrg8DXa2U=
-X-Google-Smtp-Source: ADFU+vuqsD45qASCZnH8XxkPs5xXkVU9VR6SGpBNUzkMJaS9wuU7zXFDdGM4NqqOgbJGLMQvM56J9z4ljMWTDVqqPO4=
-X-Received: by 2002:a05:600c:286:: with SMTP id 6mr4934184wmk.56.1583346897405; 
- Wed, 04 Mar 2020 10:34:57 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB5F56EB5C
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 18:36:54 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
+ [50.39.105.78])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A164920866;
+ Wed,  4 Mar 2020 18:36:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1583347014;
+ bh=Q5zcdnLn8aFwGuFTh/7DkOTC8NTckx4eSzDvY5E0y1E=;
+ h=Date:From:To:Cc:Subject:Reply-To:From;
+ b=JYWYXyHbGO/ncCPzgBkUUpnpRqfBeqCVjch7d8VxsH0SW8CVnm2AsGQBp9GrQMAZh
+ 182YlsgWwKCaR/1pMuiu1HzWBb9TXYbQUJqj11/pj1k9qkGSYtj/E65zUDFjDiR8K7
+ 8a+pB2yya/d2xJb3a+7CgGkZaoBNKVPGgIi4+cCY=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+ id 715BC3522731; Wed,  4 Mar 2020 10:36:54 -0800 (PST)
+Date: Wed, 4 Mar 2020 10:36:54 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] Make drm_dp_mst_dsc_aux_for_port() safe for old compilers
+Message-ID: <20200304183654.GA9011@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-References: <20200302224217.22590-1-natechancellor@gmail.com>
-In-Reply-To: <20200302224217.22590-1-natechancellor@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 4 Mar 2020 13:34:46 -0500
-Message-ID: <CADnq5_Me3VGP=WfDuSfwC705b_XVENyn6q9SRU7=pXW-2xEdvg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove pointless NULL checks in
- dmub_psr_copy_settings
-To: Nathan Chancellor <natechancellor@gmail.com>
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +47,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Reply-To: paulmck@kernel.org
+Cc: airlied@linux.ie, hch@infradead.org, joe@perches.com, kernel-team@fb.com,
+ torvalds@linux-foundation.org, mingo@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 2, 2020 at 5:43 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> Clang warns:
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:147:31: warning:
-> address of 'pipe_ctx->plane_res' will always evaluate to 'true'
-> [-Wpointer-bool-conversion]
->         if (!pipe_ctx || !&pipe_ctx->plane_res || !&pipe_ctx->stream_res)
->                          ~ ~~~~~~~~~~^~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:147:56: warning:
-> address of 'pipe_ctx->stream_res' will always evaluate to 'true'
-> [-Wpointer-bool-conversion]
->         if (!pipe_ctx || !&pipe_ctx->plane_res || !&pipe_ctx->stream_res)
->                                                   ~ ~~~~~~~~~~^~~~~~~~~~
-> 2 warnings generated.
->
-> As long as pipe_ctx is not NULL, the address of members in this struct
-> cannot be NULL, which means these checks will always evaluate to false.
->
-> Fixes: 4c1a1335dfe0 ("drm/amd/display: Driverside changes to support PSR in DMCUB")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/915
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+Older compilers either want two extra pairs of curly braces around the
+initializer for local variable "desc", or they want a single pair of
+curly braces with nothing inside.  Current Linux-kernel practice favors
+the latter, so this commit makes it so.
 
-Applied.  Thanks!
+This is a fix for a regression introduced into v5.6-rc1.
 
-Alex
+Fixes: 5b03f9d86880 ("drm/dp_mst: Add new quirk for Synaptics MST hubs")
+Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
+Suggested-by: Joe Perches <joe@perches.com>
+Suggested-by: Christoph Hellwig <hch@infradead.org>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 
-
-> ---
->  drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-> index 2c932c29f1f9..a9e1c01e9d9b 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-> @@ -144,7 +144,7 @@ static bool dmub_psr_copy_settings(struct dmub_psr *dmub,
->                 }
->         }
->
-> -       if (!pipe_ctx || !&pipe_ctx->plane_res || !&pipe_ctx->stream_res)
-> +       if (!pipe_ctx)
->                 return false;
->
->         // First, set the psr version
-> --
-> 2.25.1
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 20cdaf3..b123f60 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -5396,7 +5396,7 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
+ {
+ 	struct drm_dp_mst_port *immediate_upstream_port;
+ 	struct drm_dp_mst_port *fec_port;
+-	struct drm_dp_desc desc = { 0 };
++	struct drm_dp_desc desc = { };
+ 	u8 endpoint_fec;
+ 	u8 endpoint_dsc;
+ 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
