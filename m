@@ -1,38 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6011B17931C
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 16:15:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A16821793BE
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 16:40:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9903D6E1A5;
-	Wed,  4 Mar 2020 15:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C80B6EB34;
+	Wed,  4 Mar 2020 15:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9456E1A5;
- Wed,  4 Mar 2020 15:15:33 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDF06EB34;
+ Wed,  4 Mar 2020 15:40:00 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2020 07:15:19 -0800
-X-IronPort-AV: E=Sophos;i="5.70,514,1574150400"; d="scan'208";a="234063946"
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2020 07:32:58 -0800
+X-IronPort-AV: E=Sophos;i="5.70,514,1574150400"; d="scan'208";a="234069648"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2020 07:15:16 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH resend 1/2] drm/i915: panel: Use
- intel_panel_compute_brightness() from pwm_setup_backlight()
-In-Reply-To: <895e4a40-2c3f-b964-102d-13eff5b3c268@redhat.com>
+ 04 Mar 2020 07:32:56 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Mario Kleiner <mario.kleiner.de@gmail.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/dp: Add dpcd link_rate quirk for Apple 15" MBP
+ 2017
+In-Reply-To: <20200229054108.2781-1-mario.kleiner.de@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200221172927.510027-1-hdegoede@redhat.com>
- <895e4a40-2c3f-b964-102d-13eff5b3c268@redhat.com>
-Date: Wed, 04 Mar 2020 17:15:13 +0200
-Message-ID: <874kv4p2wu.fsf@intel.com>
+References: <20200229054108.2781-1-mario.kleiner.de@gmail.com>
+Date: Wed, 04 Mar 2020 17:32:53 +0200
+Message-ID: <871rq8p23e.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,99 +44,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 03 Mar 2020, Hans de Goede <hdegoede@redhat.com> wrote:
-> Hi All,
->
-> On 2/21/20 6:29 PM, Hans de Goede wrote:
->> Use intel_panel_compute_brightness() from pwm_setup_backlight() so that
->> we correctly take i915_modparams.invert_brightness and/or
->> QUIRK_INVERT_BRIGHTNESS into account when setting + getting the initial
->> brightness value.
->> 
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->
-> ping? Any chance I can get a review from someone on this series?
->
-> Both patches are pretty trivial really...
-
-For both,
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-And sad trombone, I was hoping I could nuke the whole module parameter
-one of these days. It used to be something associated with gen4 only.
-
-BR,
-Jani.
-
-
->
-> Regards,
->
-> Hans
->
->
->
->> ---
->>   drivers/gpu/drm/i915/display/intel_panel.c | 18 +++++++++++-------
->>   1 file changed, 11 insertions(+), 7 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
->> index 7b3ec6eb3382..9ebee7d93414 100644
->> --- a/drivers/gpu/drm/i915/display/intel_panel.c
->> +++ b/drivers/gpu/drm/i915/display/intel_panel.c
->> @@ -1843,6 +1843,7 @@ static int pwm_setup_backlight(struct intel_connector *connector,
->>   	struct drm_i915_private *dev_priv = to_i915(dev);
->>   	struct intel_panel *panel = &connector->panel;
->>   	const char *desc;
->> +	u32 level, ns;
->>   	int retval;
->>   
->>   	/* Get the right PWM chip for DSI backlight according to VBT */
->> @@ -1866,8 +1867,12 @@ static int pwm_setup_backlight(struct intel_connector *connector,
->>   	 */
->>   	pwm_apply_args(panel->backlight.pwm);
->>   
->> -	retval = pwm_config(panel->backlight.pwm, CRC_PMIC_PWM_PERIOD_NS,
->> -			    CRC_PMIC_PWM_PERIOD_NS);
->> +	panel->backlight.min = 0; /* 0% */
->> +	panel->backlight.max = 100; /* 100% */
->> +	level = intel_panel_compute_brightness(connector, 100);
->> +	ns = DIV_ROUND_UP(level * CRC_PMIC_PWM_PERIOD_NS, 100);
->> +
->> +	retval = pwm_config(panel->backlight.pwm, ns, CRC_PMIC_PWM_PERIOD_NS);
->>   	if (retval < 0) {
->>   		DRM_ERROR("Failed to configure the pwm chip\n");
->>   		pwm_put(panel->backlight.pwm);
->> @@ -1875,11 +1880,10 @@ static int pwm_setup_backlight(struct intel_connector *connector,
->>   		return retval;
->>   	}
->>   
->> -	panel->backlight.min = 0; /* 0% */
->> -	panel->backlight.max = 100; /* 100% */
->> -	panel->backlight.level = DIV_ROUND_UP(
->> -				 pwm_get_duty_cycle(panel->backlight.pwm) * 100,
->> -				 CRC_PMIC_PWM_PERIOD_NS);
->> +	level = DIV_ROUND_UP(pwm_get_duty_cycle(panel->backlight.pwm) * 100,
->> +			     CRC_PMIC_PWM_PERIOD_NS);
->> +	panel->backlight.level =
->> +		intel_panel_compute_brightness(connector, level);
->>   	panel->backlight.enabled = panel->backlight.level != 0;
->>   
->>   	DRM_INFO("Using %s PWM for LCD backlight control\n", desc);
->> 
->
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCAyOSBGZWIgMjAyMCwgTWFyaW8gS2xlaW5lciA8bWFyaW8ua2xlaW5lci5kZUBnbWFp
+bC5jb20+IHdyb3RlOgo+IFRoaXMgZml4ZXMgYSBwcm9ibGVtIGZvdW5kIG9uIHRoZSBNYWNCb29r
+UHJvIDIwMTcgUmV0aW5hIHBhbmVsLgo+Cj4gVGhlIHBhbmVsIHJlcG9ydHMgMTAgYnBjIGNvbG9y
+IGRlcHRoIGluIGl0cyBFRElELCBhbmQgdGhlCj4gZmlybXdhcmUgY2hvb3NlcyBsaW5rIHNldHRp
+bmdzIGF0IGJvb3Qgd2hpY2ggc3VwcG9ydCBlbm91Z2gKPiBiYW5kd2lkdGggZm9yIDEwIGJwYyAo
+MzI0MDAwIGtiaXQvc2VjID0gbXVsdGlwbGllciAweGMpLAo+IGJ1dCB0aGUgRFBfTUFYX0xJTktf
+UkFURSBkcGNkIHJlZ2lzdGVyIG9ubHkgcmVwb3J0cwo+IDIuNyBHYnBzIChtdWx0aXBsaWVyIHZh
+bHVlIDB4YSkgYXMgcG9zc2libGUsIGluIGRpcmVjdAo+IGNvbnRyYWRpY3Rpb24gb2Ygd2hhdCB0
+aGUgZmlybXdhcmUgc3VjY2Vzc2Z1bGx5IHNldCB1cC4KPgo+IFRoaXMgcmVzdHJpY3RzIHRoZSBw
+YW5lbCB0byA4IGJwYywgbm90IHByb3ZpZGluZyB0aGUgZnVsbAo+IGNvbG9yIGRlcHRoIG9mIHRo
+ZSBwYW5lbC4KPgo+IFRoaXMgcGF0Y2ggYWRkcyBhIHF1aXJrIHNwZWNpZmljIHRvIHRoZSBNQlAg
+MjAxNyAxNSIgUmV0aW5hCj4gcGFuZWwgdG8gYWRkIHRoZSBhZGRpdGlpb25hbCAzMjQwMDAga2Jw
+cyBsaW5rIHJhdGUgZHVyaW5nCj4gZWRwIHNldHVwLgo+Cj4gTGluayB0byBwcmV2aW91cyBkaXNj
+dXNzaW9uIG9mIGEgZGlmZmVyZW50IGF0dGVtcHRlZCBmaXgKPiB3aXRoIFZpbGxlIGFuZCBKYW5p
+Ogo+Cj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMTMyNTkzNS8KPgo+IFNp
+Z25lZC1vZmYtYnk6IE1hcmlvIEtsZWluZXIgPG1hcmlvLmtsZWluZXIuZGVAZ21haWwuY29tPgo+
+IENjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IENj
+OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dw
+dS9kcm0vZHJtX2RwX2hlbHBlci5jICAgICAgICAgfCAyICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyB8IDcgKysrKysrKwo+ICBpbmNsdWRlL2RybS9kcm1fZHBf
+aGVscGVyLmggICAgICAgICAgICAgfCA3ICsrKysrKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCAxNiBp
+bnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxw
+ZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiBpbmRleCA1YTEwM2U5YjNj
+ODYuLjM2YTM3MWMwMTZjYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hl
+bHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYwo+IEBAIC0xMTc5
+LDYgKzExNzksOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRwY2RfcXVpcmsgZHBjZF9xdWlya19s
+aXN0W10gPSB7Cj4gIAl7IE9VSSgweDAwLCAweDAwLCAweDAwKSwgREVWSUNFX0lEKCdDJywgJ0gn
+LCAnNycsICc1JywgJzEnLCAnMScpLCBmYWxzZSwgQklUKERQX0RQQ0RfUVVJUktfTk9fU0lOS19D
+T1VOVCkgfSwKPiAgCS8qIFN5bmFwdGljcyBEUDEuNCBNU1QgaHVicyBjYW4gc3VwcG9ydCBEU0Mg
+d2l0aG91dCB2aXJ0dWFsIERQQ0QgKi8KPiAgCXsgT1VJKDB4OTAsIDB4Q0MsIDB4MjQpLCBERVZJ
+Q0VfSURfQU5ZLCB0cnVlLCBCSVQoRFBfRFBDRF9RVUlSS19EU0NfV0lUSE9VVF9WSVJUVUFMX0RQ
+Q0QpIH0sCj4gKwkvKiBBcHBsZSBNYWNCb29rUHJvIDIwMTcgMTUgaW5jaCBlRFAgUmV0aW5hIHBh
+bmVsIHJlcG9ydHMgdG9vIGxvdyBEUF9NQVhfTElOS19SQVRFICovCj4gKwl7IE9VSSgweDAwLCAw
+eDEwLCAweGZhKSwgREVWSUNFX0lEKDEwMSwgNjgsIDIxLCAxMDEsIDk4LCA5NyksIGZhbHNlLCBC
+SVQoRFBfRFBDRF9RVUlSS19DQU5fRE9fTUFYX0xJTktfUkFURV8zXzI0X0dCUFMpIH0sCj4gIH07
+Cj4gIAo+ICAjdW5kZWYgT1VJCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
+c3BsYXkvaW50ZWxfZHAuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
+Ywo+IGluZGV4IDQwNzRkODNiMWE1Zi4uMWY2YmQ2NTlhZDQxIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+IEBAIC0xNzgsNiArMTc4LDEzIEBAIHN0YXRpYyB2
+b2lkIGludGVsX2RwX3NldF9zaW5rX3JhdGVzKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCj4g
+IAl9Cj4gIAo+ICAJaW50ZWxfZHAtPm51bV9zaW5rX3JhdGVzID0gaTsKPiArCj4gKwlpZiAoZHJt
+X2RwX2hhc19xdWlyaygmaW50ZWxfZHAtPmRlc2MsCj4gKwkgICAgRFBfRFBDRF9RVUlSS19DQU5f
+RE9fTUFYX0xJTktfUkFURV8zXzI0X0dCUFMpKSB7Cj4gKwkJLyogTmVlZGVkIGZvciBBcHBsZSBN
+QlAgMjAxNywgMTUgaW5jaCBlRFAgUmV0aW5hIHBhbmVsICovCj4gKwkJaW50ZWxfZHAtPnNpbmtf
+cmF0ZXNbaV0gPSAzMjQwMDA7Cj4gKwkJaW50ZWxfZHAtPm51bV9zaW5rX3JhdGVzKys7Cj4gKwl9
+CgpJZiB3ZSBjYW4gaXNvbGF0ZSB0aGUgcXVpcmsgdG8gdGhpcyBvbmUgZnVuY3Rpb24sIEknbGwg
+YmUgaGFwcHkuIFxvLwoKSG93ZXZlciwgZXZlbiBpZiB0aGlzIG1pZ2h0IHdvcmsgb24gc2FpZCBt
+YWNoaW5lLCBJJ2QgcHJlZmVyIGl0IGlmIHdlCmRpZG4ndCBnaXZlIHRoZSBpZGVhIHRoYXQgeW91
+IGNvdWxkIGp1c3QgYXBwZW5kIGEgdmFsdWUgaW4gc2lua19yYXRlcwooaXQgbXVzdCBiZSBzb3J0
+ZWQpLiBIb3cgYWJvdXQgcHV0dGluZyBzb21ldGhpbmcgbGlrZSB0aGlzIGluIHRoZQpiZWdpbm5p
+bmcgb2YgdGhlIGZ1bmN0aW9uLCB0byBiZSBhIGJpdCBtb3JlIGV4cGxpY2l0OgoKCWlmIChxdWly
+aykgewoJCXN0YXRpYyBjb25zdCBpbnQgcXVpcmtfcmF0ZXNbXSA9IHsgMTYyMDAwLCAyNzAwMDAs
+IDMyNDAwMCB9OwoKCQltZW1jcHkoaW50ZWxfZHAtPnNpbmtfcmF0ZXMsIHF1aXJrX3JhdGVzLCBz
+aXplb2YocXVpcmtfcmF0ZXMpKTsKCQlpbnRlbF9kcC0+bnVtX3NpbmtfcmF0ZXMgPSBBUlJBWV9T
+SVpFKHF1aXJrX3JhdGVzKTsKCgkJcmV0dXJuOwoJfQoKQlIsCkphbmkuCgo+ICB9Cj4gIAo+ICAv
+KiBHZXQgbGVuZ3RoIG9mIHJhdGVzIGFycmF5IHBvdGVudGlhbGx5IGxpbWl0ZWQgYnkgbWF4X3Jh
+dGUuICovCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCBiL2luY2x1
+ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+IGluZGV4IDI2MmZhZjllNWU5NC4uNGI4NmExZjJhNTU5
+IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+ICsrKyBiL2luY2x1
+ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+IEBAIC0xNTMyLDYgKzE1MzIsMTMgQEAgZW51bSBkcm1f
+ZHBfcXVpcmsgewo+ICAJICogVGhlIERTQyBjYXBzIGNhbiBiZSByZWFkIGZyb20gdGhlIHBoeXNp
+Y2FsIGF1eCBpbnN0ZWFkLgo+ICAJICovCj4gIAlEUF9EUENEX1FVSVJLX0RTQ19XSVRIT1VUX1ZJ
+UlRVQUxfRFBDRCwKPiArCS8qKgo+ICsJICogQERQX0RQQ0RfUVVJUktfQ0FOX0RPX01BWF9MSU5L
+X1JBVEVfM18yNF9HQlBTOgo+ICsJICoKPiArCSAqIFRoZSBkZXZpY2Ugc3VwcG9ydHMgYSBsaW5r
+IHJhdGUgb2YgMy4yNCBHYnBzIChtdWx0aXBsaWVyIDB4YykgZGVzcGl0ZQo+ICsJICogdGhlIERQ
+X01BWF9MSU5LX1JBVEUgcmVnaXN0ZXIgcmVwb3J0aW5nIGEgbG93ZXIgbWF4IG11bHRpcGxpZXIu
+Cj4gKwkgKi8KPiArCURQX0RQQ0RfUVVJUktfQ0FOX0RPX01BWF9MSU5LX1JBVEVfM18yNF9HQlBT
+LAo+ICB9Owo+ICAKPiAgLyoqCgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdy
+YXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
