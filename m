@@ -1,58 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02A41791D7
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 15:01:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC4B1792C3
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 15:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B6B89F71;
-	Wed,  4 Mar 2020 14:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6EC6E17E;
+	Wed,  4 Mar 2020 14:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB5D89F71
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 14:01:13 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id u26so2128273ljd.8
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 06:01:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GNeKC6MusMqKfuf28ds5x+mPTx64kf5JJ4+evgJaymk=;
- b=fFZcE7NgmAHr8Wb6FuscsVq92KPUCCoJZOnhygbqD2fB+Pj7Y1SFEg6gFsxKhrVTSU
- bVqUO2vvAi/OuLhCp78ZwRKDhwhWsXv2dMv8MO0zu/bjGudolZBi13UG+NuCIhw844vZ
- 3rHn4dSd6CdFKgDc8DzpC+NsUzyTYyFgxbDOiytKKgMe0kj7OIFI2RYxX3iJx3xbKYBW
- GQHMmGZEbfGLSDtpNK54Odg+0EDT9GP4aURHBWbmgy04esNK13bSmStp0lclUDt+0xhN
- 26+kGFe4tf/pi3484lUUT5SUfLCCi+hXlhAj/ffVEoEbCdb+sCmIHHxQ+8PXmvaIcO8V
- vr0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GNeKC6MusMqKfuf28ds5x+mPTx64kf5JJ4+evgJaymk=;
- b=Z3uO2zdoklV2QQvWDSQznWLyyvrrxgxAMkeY74MCtdIZ7CLVPnPGCtf3Vm1aVdKg1F
- yCoEfhGJOYLa6hLf8UoEniDhdgMx/rZ18ECW1Gwt6OQu+ghwscyU4DGh23oXTQZwYN5+
- cGYRGUmafCIvPgSXeJhlDlfoDsBgYIGbJeK+PH5XF8WdmPTUkEfTjckXIqGx63ZcXG6R
- KZ0eSC2WzFw6CFHvVjpDXt2t5cHjigBQ/wwoDCcVXpFDre+K2c/6B89+q33WGbbF1thB
- N2zdbFkxVLBNoET+hdMwNmMdcaWSJ7lOFIUVxFMZY+5VRvKO5PlH/T+o3OvzCsCFvR8j
- wftw==
-X-Gm-Message-State: ANhLgQ2+auLzBLNuRqkVYu4uu0EDEjf9CswkDWkGajVdCxe66x9cZaDO
- rY3uoHbbT/EnlS/XQRrZY57c4FZOaJ9og30nuHZuug==
-X-Google-Smtp-Source: ADFU+vteBJ/sXT2MspwGyZlMPI7U0HD2WjxGSK7LJEN8aJDfs1TgvMZ/HJ7vXCwAASAk7rsAtmIEbVd7WJFkdTocF0E=
-X-Received: by 2002:a05:651c:44b:: with SMTP id
- g11mr2049399ljg.168.1583330471526; 
- Wed, 04 Mar 2020 06:01:11 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2FC6E17E
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 14:53:16 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 89873B0E6;
+ Wed,  4 Mar 2020 14:53:14 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, sam@ravnborg.org
+Subject: [PATCH v2] drm/simple-kms: Fix documentation for
+ drm_simple_encoder_init()
+Date: Wed,  4 Mar 2020 15:53:12 +0100
+Message-Id: <20200304145312.26458-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-34-ville.syrjala@linux.intel.com>
- <db82d02d-c484-2bcd-3c6c-205c8655262b@marek.ca>
- <CACRpkdapumGw5Fp+YaiWkB8uh6me9s2s-Bx_-RqmoqBADJFvEg@mail.gmail.com>
- <c86a5447-999b-9814-0cb3-9c4f65abbf25@marek.ca>
-In-Reply-To: <c86a5447-999b-9814-0cb3-9c4f65abbf25@marek.ca>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 4 Mar 2020 15:00:56 +0100
-Message-ID: <CACRpkdYq-PkYZ=opkhx0qRVi78osm-m+nPq4EbfdqJi9uLKpYQ@mail.gmail.com>
-Subject: Re: [PATCH 33/33] drm/panel-simple: Fix dotclock for LG ACX467AKM-7
-To: Jonathan Marek <jonathan@marek.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,37 +37,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Brian Masney <masneyb@onstation.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 4, 2020 at 2:17 PM Jonathan Marek <jonathan@marek.ca> wrote:
+Brings the documentation of drm_simple_encoder_init() in sync with the
+function's signature. Also add a paragraph clarifying the management of
+the encoder's memory.
 
-[hs_rate / lp_rate]
+v2:
+	* document memory management
 
-> The msm DSI driver does predate the addition of those fields and doesn't
-> use them at all.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Fixes: 63170ac6f2e8 ("drm/simple-kms: Add drm_simple_encoder_{init,create}()")
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/drm_simple_kms_helper.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-I think it would be benficient to switch to these fields, because then
-the .clock field (dot/pixelclock) is not abused to contain what I guess
-is the desires hs_rate.
+diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
+index 5a2abe2dea3e..74946690aba4 100644
+--- a/drivers/gpu/drm/drm_simple_kms_helper.c
++++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+@@ -38,9 +38,10 @@ static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
+ };
 
-> Seems like it would be a bit of a hack too, since the frequency we want
-> to use is not the "real limits of the hardware"..
+ /**
+- * drm_simple_encoder_init - Initialize a preallocated encoder
++ * drm_simple_encoder_init - Initialize a preallocated encoder with
++ *                           basic functionality.
+  * @dev: drm device
+- * @funcs: callbacks for this encoder
++ * @encoder: the encoder to initialize
+  * @encoder_type: user visible type of the encoder
+  *
+  * Initialises a preallocated encoder that has no further functionality.
+@@ -48,6 +49,15 @@ static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
+  * The encoder will be cleaned up automatically as part of the mode-setting
+  * cleanup.
+  *
++ * The caller of drm_simple_encoder_init() is responsible for freeing
++ * the encoder's memory after the encoder has been cleaned up. At the
++ * moment this only works reliably if the encoder data structure is
++ * stored in the device structure. Free the encoder's memory as part of
++ * the device release function.
++ *
++ * FIXME: Later improvements to DRM's resource management may allow for
++ *        an automated kfree() of the encoder's memory.
++ *
+  * Returns:
+  * Zero on success, error code on failure.
+  */
+--
+2.25.1
 
-That just means "clock it as high as the panel can take".
-
-Normally that would come from the vendor datasheet of
-the panel.
-
-If you don't have the datasheet, whatever you use in the vendor
-tree is fine, I suppose what is currently in .clock is fine.
-
-Yours,
-Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
