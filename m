@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C00F1796D1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 18:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FF31796D9
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 18:36:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC8D6EB49;
-	Wed,  4 Mar 2020 17:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 964316EB4C;
+	Wed,  4 Mar 2020 17:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 652B36EB47;
- Wed,  4 Mar 2020 17:35:00 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 212F06EB4D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 17:36:30 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2020 09:34:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,514,1574150400"; d="scan'208";a="439204884"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by fmsmga005.fm.intel.com with ESMTP; 04 Mar 2020 09:34:59 -0800
-Date: Wed, 4 Mar 2020 09:36:06 -0800
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v3] drm/dp: Add function to parse EDID descriptors for
- adaptive sync limits
-Message-ID: <20200304173606.GA19311@intel.com>
-References: <20200303000859.29339-1-manasi.d.navare@intel.com>
- <20200303134212.GR13686@intel.com>
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2020 09:36:29 -0800
+X-IronPort-AV: E=Sophos;i="5.70,514,1574150400"; d="scan'208";a="234109202"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2020 09:36:28 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+ id CE78C209DF; Wed,  4 Mar 2020 19:36:25 +0200 (EET)
+Date: Wed, 4 Mar 2020 19:36:25 +0200
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
+Subject: Re: [PATCH] drm/fourcc: Add bayer formats and modifiers
+Message-ID: <20200304173625.GM5379@paasikivi.fi.intel.com>
+References: <20200228163135.524882-1-niklas.soderlund@ragnatech.se>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200303134212.GR13686@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20200228163135.524882-1-niklas.soderlund@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,202 +46,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Kazlauskas@freedesktop.org,
- dri-devel@lists.freedesktop.org, Nicholas <Nicholas.Kazlauskas@amd.com>
+Cc: libcamera-devel@lists.libcamera.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 03, 2020 at 03:42:12PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Mon, Mar 02, 2020 at 04:08:59PM -0800, Manasi Navare wrote:
-> > Adaptive Sync is a VESA feature so add a DRM core helper to parse
-> > the EDID's detailed descritors to obtain the adaptive sync monitor rang=
-e.
-> > Store this info as part fo drm_display_info so it can be used
-> > across all drivers.
-> > This part of the code is stripped out of amdgpu's function
-> > amdgpu_dm_update_freesync_caps() to make it generic and be used
-> > across all DRM drivers
-> > =
+Hi Niklas,
 
-> > v3:
-> > * Remove the edid parsing restriction for just DP (Nicholas)
-> > * Use drm_for_each_detailed_block (Ville)
-> > * Make the drm_get_adaptive_sync_range function static (Harry, Jani)
-> > v2:
-> > * Change vmin and vmax to use u8 (Ville)
-> > * Dont store pixel clock since that is just a max dotclock
-> > and not related to VRR mode (Manasi)
-> > =
+Thank you for the patch.
 
-> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
-> > Cc: Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>
-> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_edid.c  | 44 +++++++++++++++++++++++++++++++++++++
-> >  include/drm/drm_connector.h | 22 +++++++++++++++++++
-> >  2 files changed, 66 insertions(+)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index ad41764a4ebe..e3f152180b6b 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -4938,6 +4938,47 @@ static void drm_parse_cea_ext(struct drm_connect=
-or *connector,
-> >  	}
-> >  }
-> >  =
-
-> > +static
-> > +void get_adaptive_sync_range(struct detailed_timing *timing,
-> > +			     void *info_adaptive_sync)
-> > +{
-> > +	struct drm_adaptive_sync_info *adaptive_sync =3D info_adaptive_sync;
-> > +	const struct detailed_non_pixel *data =3D &timing->data.other_data;
-> > +	const struct detailed_data_monitor_range *range =3D &data->data.range;
-> > +
-> > +	if (data->type !=3D EDID_DETAIL_MONITOR_RANGE)a
+On Fri, Feb 28, 2020 at 05:31:35PM +0100, Niklas S=F6derlund wrote:
+> Bayer formats are used with cameras and contain green, red and blue
+> components, with alternating lines of red and green, and blue and green
+> pixels in different orders. For each block of 2x2 pixels there is one
+> pixel with a red filter, two with a green filter, and one with a blue
+> filter. The filters can be arranged in different patterns.
 > =
 
-> is_display_descriptor()
-
-Will change to use is_display_descriptor()
-
+> Add DRM fourcc formats to describe the most common Bayer formats. Also
+> add a modifiers to describe the custom packing layouts used by the Intel
+> IPU3 and in the MIPI (Mobile Industry Processor Interface) CSI-2
+> specification.
 > =
 
-> > +		return;
-> > +
-> > +	/*
-> > +	 * Check for flag range limits only. If flag =3D=3D 1 then
-> > +	 * no additional timing information provided.
-> > +	 * Default GTF, GTF Secondary curve and CVT are not
-> > +	 * supported
-> > +	 */
-> > +	if (range->flags !=3D 1)
+> Signed-off-by: Niklas S=F6derlund <niklas.soderlund@ragnatech.se>
+> ---
+>  include/uapi/drm/drm_fourcc.h | 95 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 95 insertions(+)
 > =
 
-> Pls name the flags.
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 8bc0b31597d80737..561d5a08ffd16b69 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -286,6 +286,62 @@ extern "C" {
+>  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsamp=
+led Cr (1) and Cb (2) planes */
+>  =
 
-I dont see that we have any enum with the flag names, do you want me to def=
-ine them looking
-at EDID spec?
+>  =
 
-Manasi
+> +/*
+> + * Bayer formats
+> + *
+> + * Bayer formats contain green, red and blue components, with alternatin=
+g lines
+> + * of red and green, and blue and green pixels in different orders. For =
+each
+> + * block of 2x2 pixels there is one pixel with a red filter, two with a =
+green
+> + * filter, and one with a blue filter. The filters can be arranged in di=
+fferent
+> + * patterns.
+> + *
+> + * For example, RGGB:
+> + *	row0: RGRGRGRG...
+> + *	row1: GBGBGBGB...
+> + *	row3: RGRGRGRG...
+> + *	row4: GBGBGBGB...
+> + *	...
+> + *
+> + * Vendors have different methods to pack the sampling formats to increa=
+se data
+> + * density. For this reason the fourcc only describes pixel sample size =
+and the
 
-> =
+This could be for other reasons than data density, such as for less
+cumbersome memory access. I'd leave out "to increase data density".
 
-> > +		return;
-> > +
-> > +	adaptive_sync->min_vfreq =3D range->min_vfreq;
-> > +	adaptive_sync->max_vfreq =3D range->max_vfreq;
-> > +}
-> > +
-> > +static
-> > +void drm_get_adaptive_sync_range(struct drm_connector *connector,
-> > +				 const struct edid *edid)
-> > +{
-> > +	struct drm_display_info *info =3D &connector->display_info;
-> > +
-> > +	if (!version_greater(edid, 1, 1))
-> > +		return;
-> > +
-> > +	drm_for_each_detailed_block((u8 *)edid, get_adaptive_sync_range,
-> > +				    &info->adaptive_sync);
-> > +
-> > +	DRM_DEBUG_KMS("Adaptive Sync refresh rate range is %d Hz - %d Hz\n",
-> > +		      info->adaptive_sync.min_vfreq,
-> > +		      info->adaptive_sync.max_vfreq);
-> > +}
-> > +
-> >  /* A connector has no EDID information, so we've got no EDID to comput=
-e quirks from. Reset
-> >   * all of the values which would have been set from EDID
-> >   */
-> > @@ -4960,6 +5001,7 @@ drm_reset_display_info(struct drm_connector *conn=
-ector)
-> >  	memset(&info->hdmi, 0, sizeof(info->hdmi));
-> >  =
+> + * filter pattern for each block of 2x2 pixels. A modifier is needed to
+> + * describe the memory layout.
+> + *
+> + * In addition to vendor modifiers for memory layout DRM_FORMAT_MOD_LINE=
+AR may
+> + * be used to describe a layout where all samples are placed consecutive=
+ly in
+> + * memory. If the sample does not fit inside a single byte, the sample s=
+torage
+> + * is extended to the minimum number of (little endian) bytes that can h=
+old the
+> + * sample and any unused most-significant bits are defined as padding.
 
-> >  	info->non_desktop =3D 0;
-> > +	memset(&info->adaptive_sync, 0, sizeof(info->adaptive_sync));
-> >  }
-> >  =
+Should it be added here that padding bits are all zero?
 
-> >  u32 drm_add_display_info(struct drm_connector *connector, const struct=
- edid *edid)
-> > @@ -4975,6 +5017,8 @@ u32 drm_add_display_info(struct drm_connector *co=
-nnector, const struct edid *edi
-> >  =
+> + *
+> + * For example, SRGGB10:
+> + * Each 10-bit sample is contained in 2 consecutive little endian bytes,=
+ where
+> + * the 6 most-significant bits are unused.
+> + */
+> +
+> +/* 8-bit Bayer formats */
+> +#define DRM_FORMAT_SRGGB8	fourcc_code('R', 'G', 'G', 'B')
+> +#define DRM_FORMAT_SGRBG8	fourcc_code('G', 'R', 'B', 'G')
+> +#define DRM_FORMAT_SGBRG8	fourcc_code('G', 'B', 'R', 'G')
+> +#define DRM_FORMAT_SBGGR8	fourcc_code('B', 'A', '8', '1')
+> +
+> +/* 10-bit Bayer formats */
+> +#define DRM_FORMAT_SRGGB10	fourcc_code('R', 'G', '1', '0')
+> +#define DRM_FORMAT_SGRBG10	fourcc_code('B', 'A', '1', '0')
+> +#define DRM_FORMAT_SGBRG10	fourcc_code('G', 'B', '1', '0')
+> +#define DRM_FORMAT_SBGGR10	fourcc_code('B', 'G', '1', '0')
+> +
+> +/* 12-bit Bayer formats */
+> +#define DRM_FORMAT_SRGGB12	fourcc_code('R', 'G', '1', '2')
+> +#define DRM_FORMAT_SGRBG12	fourcc_code('B', 'A', '1', '2')
+> +#define DRM_FORMAT_SGBRG12	fourcc_code('G', 'B', '1', '2')
+> +#define DRM_FORMAT_SBGGR12	fourcc_code('B', 'G', '1', '2')
+> +
+> +/* 14-bit Bayer formats */
+> +#define DRM_FORMAT_SRGGB14	fourcc_code('R', 'G', '1', '4')
+> +#define DRM_FORMAT_SGRBG14	fourcc_code('B', 'A', '1', '4')
+> +#define DRM_FORMAT_SGBRG14	fourcc_code('G', 'B', '1', '4')
+> +#define DRM_FORMAT_SBGGR14	fourcc_code('B', 'G', '1', '4')
 
-> >  	info->non_desktop =3D !!(quirks & EDID_QUIRK_NON_DESKTOP);
-> >  =
+The 4cc codes seemingly appear to those used in V4L2. Is that intentional?
+Nothing wrong in that though, but is this a rule that's universally
+followed?
 
-> > +	drm_get_adaptive_sync_range(connector, edid);
-> > +
-> >  	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
-> >  =
+> +
+>  /*
+>   * Format Modifiers:
+>   *
+> @@ -309,6 +365,7 @@ extern "C" {
+>  #define DRM_FORMAT_MOD_VENDOR_BROADCOM 0x07
+>  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+> +#define DRM_FORMAT_MOD_VENDOR_MIPI 0x0a
+>  =
 
-> >  	if (edid->revision < 3)
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index 0df7a95ca5d9..2b22c0fa42c4 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -254,6 +254,23 @@ enum drm_panel_orientation {
-> >  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-> >  };
-> >  =
+>  /* add more to the end as needed */
+>  =
 
-> > +/**
-> > + * struct drm_adaptive_sync_info - Panel's Adaptive Sync capabilities =
-for
-> > + * &drm_display_info
-> > + *
-> > + * This struct is used to store a Panel's Adaptive Sync capabilities
-> > + * as parsed from EDID's detailed monitor range descriptor block.
-> > + *
-> > + * @min_vfreq: This is the min supported refresh rate in Hz from
-> > + *             EDID's detailed monitor range.
-> > + * @max_vfreq: This is the max supported refresh rate in Hz from
-> > + *             EDID's detailed monitor range
-> > + */
-> > +struct drm_adaptive_sync_info {
-> > +	u8 min_vfreq;
-> > +	u8 max_vfreq;
-> > +};
-> > +
-> >  /*
-> >   * This is a consolidated colorimetry list supported by HDMI and
-> >   * DP protocol standard. The respective connectors will register
-> > @@ -473,6 +490,11 @@ struct drm_display_info {
-> >  	 * @non_desktop: Non desktop display (HMD).
-> >  	 */
-> >  	bool non_desktop;
-> > +
-> > +	/**
-> > +	 * @adaptive_sync: Adaptive Sync capabilities of the DP/eDP sink
-> > +	 */
-> > +	struct drm_adaptive_sync_info adaptive_sync;
-> >  };
-> >  =
+> @@ -434,6 +491,17 @@ extern "C" {
+>   */
+>  #define I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS fourcc_mod_code(INTEL, 7)
+>  =
 
-> >  int drm_display_info_set_bus_formats(struct drm_display_info *info,
-> > -- =
+> +
+> +/*
+> + * IPU3 Bayer packing layout
+> + *
+> + * The IPU3 raw Bayer formats use a custom packing layout where there ar=
+e no
+> + * gaps between each 10-bit sample. It packs 25 pixels into 32 bytes lea=
+ving
+> + * the 6 most significant bits in the last byte unused. The format is li=
+ttle
+> + * endian.
 
-> > 2.19.1
-> =
+Where is endianness really specified? DRM_FORMAT_BIG_ENDIAN would seem
+independent of that.
 
-> -- =
+I might omit endianness definition here.
 
-> Ville Syrj=E4l=E4
-> Intel
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> + */
+> +#define IPU3_FORMAT_MOD_PACKED fourcc_mod_code(INTEL, 8)
+> +
+>  /*
+>   * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
+>   *
+> @@ -804,6 +872,33 @@ extern "C" {
+>   */
+>  #define DRM_FORMAT_MOD_ALLWINNER_TILED fourcc_mod_code(ALLWINNER, 1)
+>  =
+
+> +/* Mobile Industry Processor Interface (MIPI) modifiers */
+> +
+> +/*
+> + * MIPI CSI-2 packing layout
+> + *
+> + * The CSI-2 RAW formats (for example Bayer) use a different packing lay=
+out
+> + * depenindg on the sample size.
+
+"depending"
+
+> + *
+> + * - 10-bits per sample
+> + *   Every four consecutive samples are packed into 5 bytes. Each of the=
+ first 4
+> + *   bytes contain the 8 high order bits of the pixels, and the 5th byte
+> + *   contains the 2 least-significant bits of each pixel, in the same or=
+der.
+> + *
+> + * - 12-bits per sample
+> + *   Every two consecutive samples are packed into three bytes. Each of =
+the
+> + *   first two bytes contain the 8 high order bits of the pixels, and th=
+e third
+> + *   byte contains the four least-significant bits of each pixel, in the=
+ same
+> + *   order.
+> + *
+> + * - 14-bits per sample
+> + *   Every four consecutive samples are packed into seven bytes. Each of=
+ the
+> + *   first four bytes contain the eight high order bits of the pixels, a=
+nd the
+> + *   three following bytes contains the six least-significant bits of ea=
+ch
+> + *   pixel, in the same order.
+> + */
+> +#define MIPI_FORMAT_MOD_CSI2_PACKED fourcc_mod_code(MIPI, 1)
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+
+-- =
+
+Kind regards,
+
+Sakari Ailus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
