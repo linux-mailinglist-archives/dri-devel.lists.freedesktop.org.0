@@ -2,36 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16821793BE
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 16:40:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E77179481
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Mar 2020 17:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C80B6EB34;
-	Wed,  4 Mar 2020 15:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8AA76E02C;
+	Wed,  4 Mar 2020 16:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDF06EB34;
- Wed,  4 Mar 2020 15:40:00 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2020 07:32:58 -0800
-X-IronPort-AV: E=Sophos;i="5.70,514,1574150400"; d="scan'208";a="234069648"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2020 07:32:56 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mario Kleiner <mario.kleiner.de@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/dp: Add dpcd link_rate quirk for Apple 15" MBP
- 2017
-In-Reply-To: <20200229054108.2781-1-mario.kleiner.de@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200229054108.2781-1-mario.kleiner.de@gmail.com>
-Date: Wed, 04 Mar 2020 17:32:53 +0200
-Message-ID: <871rq8p23e.fsf@intel.com>
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
+ [IPv6:2607:f8b0:4864:20::a41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 139EC6E02C
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2020 16:08:32 +0000 (UTC)
+Received: by mail-vk1-xa41.google.com with SMTP id x62so698768vkg.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 08:08:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=O1TPPQdcdHvad52oa9e1eaBSfICW/64mgOwAr43XQg4=;
+ b=b0Bm2nnsjkT2KC7lNWy0bvOY7WZB9B5kjiGTGYB/UftpLH0F+BrFQhzmGsQ6ZFX4Cr
+ fHVZdc71lS2P8koutRJRnvZ9U9wvn/+IH/Osw4Ic7VRZfiNb12rmKZFRUhvq27VVHvZm
+ HCqvxHWu2Q5dsvdfVb1rsHrHOd9ILczUbDPCbKFvlr3xkc+xkM/5J3rEPi3sqfr0VFK6
+ OUQBVRooKCC4ieXUuaEz8ssSa+zhx7qSdj9rvqhrie7AMwO5gpRB7UPYPXGQhLafgBwk
+ NieAFPB3KtCnxthjnEqdEIXzx2YOa9U/gCQ2fDDiR795wCf3QDeC4Y2E5yetJOhl+9wq
+ fjrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=O1TPPQdcdHvad52oa9e1eaBSfICW/64mgOwAr43XQg4=;
+ b=eK+X/ZjKxPeYMcXKt+IbNoGGgVqfygXjFawQT72fFBmfJqAmReusZfHVONz9LGw7g5
+ smvn+e50bqrDVOkaT2/wvMxJfZyIrhMBRhtEi7bdYh8Ard9Dw0VdCR9EZN6ojG9FMbC8
+ S8JcT2UIBXeri1a18RYcIdt4cohjrGkIC4PTT/Vhs0u04Dp8lLZzWuzR/f6qPG4C3P9W
+ 2RCeqCGFI9GVJL/0tzcnUnRDJQg+X1nobP2ofueE8nsGg/S6tPZnzGZfhaS8rLsd2hIz
+ fVrmausv1T+Zkehi4GdPUoVjryh2TUTZGBK4f7itVB1330Mp0o+FjBKQRq5ofj1besBX
+ 9Owg==
+X-Gm-Message-State: ANhLgQ2RSKNg5eASe55SIi/vl93h1WE5p9hSONh2lxl4+3Uk3f39t2ss
+ JfBle7psI+sK6upi33zKM1PNVTHWVespR7ZNEnph6sqE
+X-Google-Smtp-Source: ADFU+vs31W/WEVIn76Ztw3WyoimEONBAG53uXXKde/SleGt+DABaUMoEsr1PNpI6SJ5LdUBweh4yjPYk2mmpKKbfPv4=
+X-Received: by 2002:a1f:9d16:: with SMTP id g22mr1793743vke.22.1583338111113; 
+ Wed, 04 Mar 2020 08:08:31 -0800 (PST)
 MIME-Version: 1.0
+References: <20200131092147.32063-1-benjamin.gaignard@st.com>
+In-Reply-To: <20200131092147.32063-1-benjamin.gaignard@st.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Wed, 4 Mar 2020 16:07:55 +0000
+Message-ID: <CACvgo50=Wt9LFWDjkJa99T8r8A64JWgfqApmir8kX=kSXd1yog@mail.gmail.com>
+Subject: Re: [PATCH] gpu: drm: context: Clean up documentation
+To: Benjamin Gaignard <benjamin.gaignard@st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,81 +60,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dave Airlie <airlied@linux.ie>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCAyOSBGZWIgMjAyMCwgTWFyaW8gS2xlaW5lciA8bWFyaW8ua2xlaW5lci5kZUBnbWFp
-bC5jb20+IHdyb3RlOgo+IFRoaXMgZml4ZXMgYSBwcm9ibGVtIGZvdW5kIG9uIHRoZSBNYWNCb29r
-UHJvIDIwMTcgUmV0aW5hIHBhbmVsLgo+Cj4gVGhlIHBhbmVsIHJlcG9ydHMgMTAgYnBjIGNvbG9y
-IGRlcHRoIGluIGl0cyBFRElELCBhbmQgdGhlCj4gZmlybXdhcmUgY2hvb3NlcyBsaW5rIHNldHRp
-bmdzIGF0IGJvb3Qgd2hpY2ggc3VwcG9ydCBlbm91Z2gKPiBiYW5kd2lkdGggZm9yIDEwIGJwYyAo
-MzI0MDAwIGtiaXQvc2VjID0gbXVsdGlwbGllciAweGMpLAo+IGJ1dCB0aGUgRFBfTUFYX0xJTktf
-UkFURSBkcGNkIHJlZ2lzdGVyIG9ubHkgcmVwb3J0cwo+IDIuNyBHYnBzIChtdWx0aXBsaWVyIHZh
-bHVlIDB4YSkgYXMgcG9zc2libGUsIGluIGRpcmVjdAo+IGNvbnRyYWRpY3Rpb24gb2Ygd2hhdCB0
-aGUgZmlybXdhcmUgc3VjY2Vzc2Z1bGx5IHNldCB1cC4KPgo+IFRoaXMgcmVzdHJpY3RzIHRoZSBw
-YW5lbCB0byA4IGJwYywgbm90IHByb3ZpZGluZyB0aGUgZnVsbAo+IGNvbG9yIGRlcHRoIG9mIHRo
-ZSBwYW5lbC4KPgo+IFRoaXMgcGF0Y2ggYWRkcyBhIHF1aXJrIHNwZWNpZmljIHRvIHRoZSBNQlAg
-MjAxNyAxNSIgUmV0aW5hCj4gcGFuZWwgdG8gYWRkIHRoZSBhZGRpdGlpb25hbCAzMjQwMDAga2Jw
-cyBsaW5rIHJhdGUgZHVyaW5nCj4gZWRwIHNldHVwLgo+Cj4gTGluayB0byBwcmV2aW91cyBkaXNj
-dXNzaW9uIG9mIGEgZGlmZmVyZW50IGF0dGVtcHRlZCBmaXgKPiB3aXRoIFZpbGxlIGFuZCBKYW5p
-Ogo+Cj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMTMyNTkzNS8KPgo+IFNp
-Z25lZC1vZmYtYnk6IE1hcmlvIEtsZWluZXIgPG1hcmlvLmtsZWluZXIuZGVAZ21haWwuY29tPgo+
-IENjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IENj
-OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dw
-dS9kcm0vZHJtX2RwX2hlbHBlci5jICAgICAgICAgfCAyICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyB8IDcgKysrKysrKwo+ICBpbmNsdWRlL2RybS9kcm1fZHBf
-aGVscGVyLmggICAgICAgICAgICAgfCA3ICsrKysrKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCAxNiBp
-bnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxw
-ZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiBpbmRleCA1YTEwM2U5YjNj
-ODYuLjM2YTM3MWMwMTZjYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hl
-bHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYwo+IEBAIC0xMTc5
-LDYgKzExNzksOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRwY2RfcXVpcmsgZHBjZF9xdWlya19s
-aXN0W10gPSB7Cj4gIAl7IE9VSSgweDAwLCAweDAwLCAweDAwKSwgREVWSUNFX0lEKCdDJywgJ0gn
-LCAnNycsICc1JywgJzEnLCAnMScpLCBmYWxzZSwgQklUKERQX0RQQ0RfUVVJUktfTk9fU0lOS19D
-T1VOVCkgfSwKPiAgCS8qIFN5bmFwdGljcyBEUDEuNCBNU1QgaHVicyBjYW4gc3VwcG9ydCBEU0Mg
-d2l0aG91dCB2aXJ0dWFsIERQQ0QgKi8KPiAgCXsgT1VJKDB4OTAsIDB4Q0MsIDB4MjQpLCBERVZJ
-Q0VfSURfQU5ZLCB0cnVlLCBCSVQoRFBfRFBDRF9RVUlSS19EU0NfV0lUSE9VVF9WSVJUVUFMX0RQ
-Q0QpIH0sCj4gKwkvKiBBcHBsZSBNYWNCb29rUHJvIDIwMTcgMTUgaW5jaCBlRFAgUmV0aW5hIHBh
-bmVsIHJlcG9ydHMgdG9vIGxvdyBEUF9NQVhfTElOS19SQVRFICovCj4gKwl7IE9VSSgweDAwLCAw
-eDEwLCAweGZhKSwgREVWSUNFX0lEKDEwMSwgNjgsIDIxLCAxMDEsIDk4LCA5NyksIGZhbHNlLCBC
-SVQoRFBfRFBDRF9RVUlSS19DQU5fRE9fTUFYX0xJTktfUkFURV8zXzI0X0dCUFMpIH0sCj4gIH07
-Cj4gIAo+ICAjdW5kZWYgT1VJCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfZHAuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
-Ywo+IGluZGV4IDQwNzRkODNiMWE1Zi4uMWY2YmQ2NTlhZDQxIDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+IEBAIC0xNzgsNiArMTc4LDEzIEBAIHN0YXRpYyB2
-b2lkIGludGVsX2RwX3NldF9zaW5rX3JhdGVzKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCj4g
-IAl9Cj4gIAo+ICAJaW50ZWxfZHAtPm51bV9zaW5rX3JhdGVzID0gaTsKPiArCj4gKwlpZiAoZHJt
-X2RwX2hhc19xdWlyaygmaW50ZWxfZHAtPmRlc2MsCj4gKwkgICAgRFBfRFBDRF9RVUlSS19DQU5f
-RE9fTUFYX0xJTktfUkFURV8zXzI0X0dCUFMpKSB7Cj4gKwkJLyogTmVlZGVkIGZvciBBcHBsZSBN
-QlAgMjAxNywgMTUgaW5jaCBlRFAgUmV0aW5hIHBhbmVsICovCj4gKwkJaW50ZWxfZHAtPnNpbmtf
-cmF0ZXNbaV0gPSAzMjQwMDA7Cj4gKwkJaW50ZWxfZHAtPm51bV9zaW5rX3JhdGVzKys7Cj4gKwl9
-CgpJZiB3ZSBjYW4gaXNvbGF0ZSB0aGUgcXVpcmsgdG8gdGhpcyBvbmUgZnVuY3Rpb24sIEknbGwg
-YmUgaGFwcHkuIFxvLwoKSG93ZXZlciwgZXZlbiBpZiB0aGlzIG1pZ2h0IHdvcmsgb24gc2FpZCBt
-YWNoaW5lLCBJJ2QgcHJlZmVyIGl0IGlmIHdlCmRpZG4ndCBnaXZlIHRoZSBpZGVhIHRoYXQgeW91
-IGNvdWxkIGp1c3QgYXBwZW5kIGEgdmFsdWUgaW4gc2lua19yYXRlcwooaXQgbXVzdCBiZSBzb3J0
-ZWQpLiBIb3cgYWJvdXQgcHV0dGluZyBzb21ldGhpbmcgbGlrZSB0aGlzIGluIHRoZQpiZWdpbm5p
-bmcgb2YgdGhlIGZ1bmN0aW9uLCB0byBiZSBhIGJpdCBtb3JlIGV4cGxpY2l0OgoKCWlmIChxdWly
-aykgewoJCXN0YXRpYyBjb25zdCBpbnQgcXVpcmtfcmF0ZXNbXSA9IHsgMTYyMDAwLCAyNzAwMDAs
-IDMyNDAwMCB9OwoKCQltZW1jcHkoaW50ZWxfZHAtPnNpbmtfcmF0ZXMsIHF1aXJrX3JhdGVzLCBz
-aXplb2YocXVpcmtfcmF0ZXMpKTsKCQlpbnRlbF9kcC0+bnVtX3NpbmtfcmF0ZXMgPSBBUlJBWV9T
-SVpFKHF1aXJrX3JhdGVzKTsKCgkJcmV0dXJuOwoJfQoKQlIsCkphbmkuCgo+ICB9Cj4gIAo+ICAv
-KiBHZXQgbGVuZ3RoIG9mIHJhdGVzIGFycmF5IHBvdGVudGlhbGx5IGxpbWl0ZWQgYnkgbWF4X3Jh
-dGUuICovCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCBiL2luY2x1
-ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+IGluZGV4IDI2MmZhZjllNWU5NC4uNGI4NmExZjJhNTU5
-IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+ICsrKyBiL2luY2x1
-ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+IEBAIC0xNTMyLDYgKzE1MzIsMTMgQEAgZW51bSBkcm1f
-ZHBfcXVpcmsgewo+ICAJICogVGhlIERTQyBjYXBzIGNhbiBiZSByZWFkIGZyb20gdGhlIHBoeXNp
-Y2FsIGF1eCBpbnN0ZWFkLgo+ICAJICovCj4gIAlEUF9EUENEX1FVSVJLX0RTQ19XSVRIT1VUX1ZJ
-UlRVQUxfRFBDRCwKPiArCS8qKgo+ICsJICogQERQX0RQQ0RfUVVJUktfQ0FOX0RPX01BWF9MSU5L
-X1JBVEVfM18yNF9HQlBTOgo+ICsJICoKPiArCSAqIFRoZSBkZXZpY2Ugc3VwcG9ydHMgYSBsaW5r
-IHJhdGUgb2YgMy4yNCBHYnBzIChtdWx0aXBsaWVyIDB4YykgZGVzcGl0ZQo+ICsJICogdGhlIERQ
-X01BWF9MSU5LX1JBVEUgcmVnaXN0ZXIgcmVwb3J0aW5nIGEgbG93ZXIgbWF4IG11bHRpcGxpZXIu
-Cj4gKwkgKi8KPiArCURQX0RQQ0RfUVVJUktfQ0FOX0RPX01BWF9MSU5LX1JBVEVfM18yNF9HQlBT
-LAo+ICB9Owo+ICAKPiAgLyoqCgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdy
-YXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+On Mon, 3 Feb 2020 at 08:11, Benjamin Gaignard <benjamin.gaignard@st.com> wrote:
+>
+> Fix kernel doc comments to avoid warnings when compiling with W=1.
+>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+> ---
+>  drivers/gpu/drm/drm_context.c | 145 ++++++++++++++++++------------------------
+>  1 file changed, 61 insertions(+), 84 deletions(-)
+>
+Since we're talking about legacy, aka user mode-setting code, I think
+a wiser solution is to simply remove the documentation. It is _not_
+something we should encourage people to read, let alone use.
+
+Nit: prefix should be "drm:"
+
+-Emil
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
