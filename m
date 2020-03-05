@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4486E17A9BF
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC92417A9CF
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 549A76EBE5;
-	Thu,  5 Mar 2020 16:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6B566EBEE;
+	Thu,  5 Mar 2020 16:00:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D926EBE1
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2C0B6EBE1
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:11 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 02B60B03E;
- Thu,  5 Mar 2020 16:00:07 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 6779BB066;
+ Thu,  5 Mar 2020 16:00:09 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
  bbrezillon@kernel.org, nicolas.ferre@microchip.com,
@@ -37,9 +37,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
  tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
  rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
  sebastian.reichel@collabora.com
-Subject: [PATCH 10/22] drm/mediatek: Use simple encoder
-Date: Thu,  5 Mar 2020 16:59:38 +0100
-Message-Id: <20200305155950.2705-11-tzimmermann@suse.de>
+Subject: [PATCH 11/22] drm/rcar-du: Use simple encoder
+Date: Thu,  5 Mar 2020 16:59:39 +0100
+Message-Id: <20200305155950.2705-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200305155950.2705-1-tzimmermann@suse.de>
 References: <20200305155950.2705-1-tzimmermann@suse.de>
@@ -65,93 +65,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mediatak driver uses empty implementations for its encoders. Replace
+The rcar-du driver uses an empty implementation for its encoder. Replace
 the code with the generic simple encoder.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++-----------
- drivers/gpu/drm/mediatek/mtk_dsi.c | 14 +++-----------
- 2 files changed, 6 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 14fbe1c09ce9..9c90c58e5acd 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_bridge.h>
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+index c07c6a88aff0..b0335da0c161 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+@@ -13,6 +13,7 @@
  #include <drm/drm_crtc.h>
- #include <drm/drm_of.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_panel.h>
 +#include <drm/drm_simple_kms_helper.h>
  
- #include "mtk_dpi_regs.h"
- #include "mtk_drm_ddp_comp.h"
-@@ -509,15 +510,6 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
- 	return 0;
- }
+ #include "rcar_du_drv.h"
+ #include "rcar_du_encoder.h"
+@@ -23,13 +24,6 @@
+  * Encoder
+  */
  
--static void mtk_dpi_encoder_destroy(struct drm_encoder *encoder)
--{
--	drm_encoder_cleanup(encoder);
--}
--
--static const struct drm_encoder_funcs mtk_dpi_encoder_funcs = {
--	.destroy = mtk_dpi_encoder_destroy,
+-static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
 -};
 -
- static bool mtk_dpi_encoder_mode_fixup(struct drm_encoder *encoder,
- 				       const struct drm_display_mode *mode,
- 				       struct drm_display_mode *adjusted_mode)
-@@ -596,8 +588,8 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
+-static const struct drm_encoder_funcs encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ static unsigned int rcar_du_encoder_count_ports(struct device_node *node)
+ {
+ 	struct device_node *ports;
+@@ -110,13 +104,11 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 		}
  	}
  
--	ret = drm_encoder_init(drm_dev, &dpi->encoder, &mtk_dpi_encoder_funcs,
--			       DRM_MODE_ENCODER_TMDS, NULL);
-+	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
-+				      DRM_MODE_ENCODER_TMDS);
- 	if (ret) {
- 		dev_err(dev, "Failed to initialize decoder: %d\n", ret);
- 		goto err_unregister;
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 0ede69830a9d..a9a25087112f 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -22,6 +22,7 @@
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
+-	ret = drm_encoder_init(rcdu->ddev, encoder, &encoder_funcs,
+-			       DRM_MODE_ENCODER_NONE, NULL);
++	ret = drm_simple_encoder_init(rcdu->ddev, encoder,
++				      DRM_MODE_ENCODER_NONE);
+ 	if (ret < 0)
+ 		goto done;
  
- #include "mtk_drm_ddp_comp.h"
- 
-@@ -787,15 +788,6 @@ static void mtk_output_dsi_disable(struct mtk_dsi *dsi)
- 	dsi->enabled = false;
- }
- 
--static void mtk_dsi_encoder_destroy(struct drm_encoder *encoder)
--{
--	drm_encoder_cleanup(encoder);
--}
+-	drm_encoder_helper_add(encoder, &encoder_helper_funcs);
 -
--static const struct drm_encoder_funcs mtk_dsi_encoder_funcs = {
--	.destroy = mtk_dsi_encoder_destroy,
--};
--
- static bool mtk_dsi_encoder_mode_fixup(struct drm_encoder *encoder,
- 				       const struct drm_display_mode *mode,
- 				       struct drm_display_mode *adjusted_mode)
-@@ -888,8 +880,8 @@ static int mtk_dsi_create_conn_enc(struct drm_device *drm, struct mtk_dsi *dsi)
- {
- 	int ret;
- 
--	ret = drm_encoder_init(drm, &dsi->encoder, &mtk_dsi_encoder_funcs,
--			       DRM_MODE_ENCODER_DSI, NULL);
-+	ret = drm_simple_encoder_init(drm, &dsi->encoder,
-+				      DRM_MODE_ENCODER_DSI);
- 	if (ret) {
- 		DRM_ERROR("Failed to encoder init to drm\n");
- 		return ret;
+ 	/*
+ 	 * Attach the bridge to the encoder. The bridge will create the
+ 	 * connector.
 -- 
 2.25.1
 
