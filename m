@@ -2,95 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7A917AFA0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 21:18:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9D017B037
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 22:01:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3D06E191;
-	Thu,  5 Mar 2020 20:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5B789B0D;
+	Thu,  5 Mar 2020 21:01:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2040.outbound.protection.outlook.com [40.107.94.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF766E2F8;
- Thu,  5 Mar 2020 20:18:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TJbGcDreqj4MEo8uWMUw0NzJr1gTtKV8OezEMPgyEMt7EGIZ9M8f320zrsHpPY6PTgT1wPJ5fdP0HTiHyrO53EKq9VZmYdLKaewgW4A6633yJv/uT2DBNyBYT+3NFHrOVKNSnzzQMlTo17yz6OMEvovGiqGEQFzMLf1qbNacMEJIdYuxCx9ypV+x/OMoflBiYvc5WH4HDO21U29fMgtVMvaoene8t+vOfgaIO4FaxtvA1y8naXm/XxjAPLdJHBBje5+NhFCweNIFv9/poX1o8dnBLVmOpO7T1XYoNbz/6ReDTdP1SQnrQOeqCUtjIGPM3xjhHiaJn+4jNe1If81GMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hEf4/WZJBLG70GRF4wW8xMf4UymkDSLejY6IEfJIAzg=;
- b=V6/OHhXC4VjKT/Bt5RLrr3Ir/M9fKaijdRq45fWbOR89dyJKGVqiKKQ2HrQgtLbN8EQ+B51K8vu+1bk1gD78piP1M4dKtB4XBiRbfL6uFilbrgaTsDaOKQSz7g6tDoTNDNljaJpsQBEud+RYN9orUxci8WpHdXfajm1RHPOdPxAdgJHA3i9cX/pXAH8iT1IWaj+9PdyedjcXtfSawtGcgK6iVfr8QvCjEH8H75bD5vDPrBKxjauG4T540eC1XV6ON/0VvXqzMU4+K8gz6/Tb1LtJUeLruUlnkNyK7nQ+wyzFlX1cG6jTwnABa8jdtV+XHQBEuqtU4CcQ8MJCFMpvvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hEf4/WZJBLG70GRF4wW8xMf4UymkDSLejY6IEfJIAzg=;
- b=LJgDeOv7Y6/scOALsWLOVkYYtXFSZUluPFiOW93BpusLDvbxC83cKjC7yWmXBO4cG5v4jGpmWa+T0bJ6RltoPLRDN7v2A0S8Trg7nwL+aiTaC250VgbCnk/gNYKrNBjKZ3JKVfPMp8Ps3fCvNbArqFWqc+Vf+N79S4BFkyqV9IU=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Luben.Tuikov@amd.com; 
-Received: from DM6PR12MB3355.namprd12.prod.outlook.com (2603:10b6:5:115::26)
- by DM6PR12MB4089.namprd12.prod.outlook.com (2603:10b6:5:213::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.18; Thu, 5 Mar
- 2020 20:18:41 +0000
-Received: from DM6PR12MB3355.namprd12.prod.outlook.com
- ([fe80::9505:d766:9ac9:2bfd]) by DM6PR12MB3355.namprd12.prod.outlook.com
- ([fe80::9505:d766:9ac9:2bfd%6]) with mapi id 15.20.2772.019; Thu, 5 Mar 2020
- 20:18:41 +0000
-Subject: Re: [PATCH 2/8] drm/radeon: don't use ttm bo->offset
-To: "Ho, Kenny" <Kenny.Ho@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20200305132910.17515-1-nirmoy.das@amd.com>
- <20200305132910.17515-3-nirmoy.das@amd.com>
- <375abd03-85c3-e19a-753b-859ba7e19b6a@amd.com>
- <CH2PR12MB40249EA145F848ABB70B73E483E20@CH2PR12MB4024.namprd12.prod.outlook.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Message-ID: <a3382c28-43ce-7e6d-5bbb-611bbcec4d0f@amd.com>
-Date: Thu, 5 Mar 2020 15:18:38 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-In-Reply-To: <CH2PR12MB40249EA145F848ABB70B73E483E20@CH2PR12MB4024.namprd12.prod.outlook.com>
-Content-Language: en-CA
-X-ClientProxiedBy: YTXPR0101CA0061.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::38) To DM6PR12MB3355.namprd12.prod.outlook.com
- (2603:10b6:5:115::26)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA4589B0D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 21:01:14 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 35C3A20848;
+ Thu,  5 Mar 2020 21:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1583442074;
+ bh=xAZ9rxrwaLgQFFjQ/4duL7t0Vd1G49e8JROqhKWnBB8=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=mYY/fEI2JVH5hWfuM1ncfazo+o1F9d1ld/53P/x2m15Ml1Cvq9DEbnklpVzSupnhq
+ BF/PJdDepoUVAl2LwFlgKwN+j9k8kBfeVFSeK7f/Jl2wzUa7PpurmJS0GlNnfOL9JR
+ KOKA+GMqVfKRXgQnTyaraMelmfhFgupegmDf3BTY=
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.252.35.64] (165.204.54.211) by
- YTXPR0101CA0061.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::38) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend
- Transport; Thu, 5 Mar 2020 20:18:39 +0000
-X-Originating-IP: [165.204.54.211]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0faeec85-bfa0-4872-4141-08d7c1426542
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4089:|DM6PR12MB4089:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4089440255DF3285C938F5FD99E20@DM6PR12MB4089.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 03333C607F
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(396003)(366004)(376002)(346002)(136003)(199004)(189003)(66574012)(31686004)(81156014)(36756003)(956004)(54906003)(26005)(110136005)(5660300002)(2616005)(4326008)(81166006)(8676002)(316002)(16576012)(16526019)(8936002)(44832011)(186003)(7416002)(86362001)(66946007)(478600001)(52116002)(66556008)(45080400002)(31696002)(2906002)(66476007)(966005)(6486002)(53546011);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB4089;
- H:DM6PR12MB3355.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KiuIhOy+rMRzt5N7VbhmG5n8IISyRcc+90KAX8Qu9KF5MH/O+i6bEuYq9mUvPxuVusJJRnrH5Z8Vz3zA70BpNRdkx49+IlLrTyVYEKhYarBvOUMpF4ycTw4pcI3ZeNvUMpS6bO2jRAxJ4lTPoiJGxq3fXEim+HbpRKF/ciL6DfBuHiMQcinmw+cydQpRcm6Gkho4YbKLqsrM15DG7sECP+j7XijBFXIcGxdMmFiljsWjEh/fZZ+S95HNul6OLjBVWr+iDYDX829nERsaHeA2GSo/OceVMbchxZwhxewKp7QgIHkOEmh4ondMSSAiGNXOOSNmnUIvEaFQvlfnY51SSAiubKdUt6nJoidO0qZCXTFMCjRkpX0AYNSNFY+xaH02PuIBk/iu301axUlfshBZLWPfnO1bVbAxG0eT75xkn+jMGQyCr0HX5hQvqr7kFuKYvW96QX4YiceKyGOeFPm7lsQcmMdk0E+zI2uiUfSmPp8=
-X-MS-Exchange-AntiSpam-MessageData: KKX7DjKo1msph0jl8FCsmhUgB1D1zUx+kzZiV6IzBoT9zDrfXUAPSq6ptx2lDT/4n0P/WbaDr1ip5ikWJ1I2+pewNk6yucjDYxh0kKve7++VCH3xmYx2qGut9Q+TkME3OLVdUaZqlbnof8UMgY9rRg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0faeec85-bfa0-4872-4141-08d7c1426542
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2020 20:18:40.9136 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UZYNgJWlMlEtQ28ULzo2EBKkQAOyGgKRFEWFBbeCqwOa0TGNPJqvEgLw4vN9nfHx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4089
+In-Reply-To: <20200302110128.2664251-4-enric.balletbo@collabora.com>
+References: <20200302110128.2664251-1-enric.balletbo@collabora.com>
+ <20200302110128.2664251-4-enric.balletbo@collabora.com>
+Subject: Re: [PATCH v11 3/5] soc: mediatek: Move mt8173 MMSYS to platform
+ driver
+From: Stephen Boyd <sboyd@kernel.org>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, airlied@linux.ie,
+ ck.hu@mediatek.com, laurent.pinchart@ideasonboard.com, mark.rutland@arm.com,
+ mturquette@baylibre.com, p.zabel@pengutronix.de, robh+dt@kernel.org,
+ ulrich.hecht+renesas@gmail.com
+Date: Thu, 05 Mar 2020 13:01:13 -0800
+Message-ID: <158344207340.7173.8369925839829696256@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,179 +50,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "thellstrom@vmware.com" <thellstrom@vmware.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "brian.welty@intel.com" <brian.welty@intel.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Das,
- Nirmoy" <Nirmoy.Das@amd.com>,
- "linux-graphics-maintainer@vmware.com" <linux-graphics-maintainer@vmware.com>,
- "bskeggs@redhat.com" <bskeggs@redhat.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "sean@poorly.run" <sean@poorly.run>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>, ,
+	dri-devel@lists.freedesktop.org,
+	Richard Fontana <rfontana@redhat.com>,
+	Collabora Kernel ML <kernel@collabora.com>,
+	linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>,
+	wens@csie.org, linux-arm-kernel@lists.infradead.org,
+	mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, frank-w@public-files.de,
+	Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Allison Randal <allison@lohutok.net>,
+	Matthias Brugger <mbrugger@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+	fwll.ch@freedesktop.org, Daniel Vetter <daniel@f>,
+	matthias.bgg@kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wMy0wNSAxNDozNywgSG8sIEtlbm55IHdyb3RlOg0KPiBbQU1EIE9mZmljaWFsIFVz
-ZSBPbmx5IC0gSW50ZXJuYWwgRGlzdHJpYnV0aW9uIE9ubHldDQo+IA0KPiANCj4gSSBiZWxpZXZl
-IGJvLT50Ym8ubWVtLm1lbV90eXBlIGlzIG9mIHVpbnQzMl90IHR5cGUgYW5kIG5vdCBhbiBlbnVt
-LCBpcyB0aGUgaW5kZXggbG9va3VwIG1ldGhvZCBzYWZlPyAoaS5lLiwgaG93IGRvIHlvdSBkZWFs
-IHdpdGggdGhlIHBvc3NpYmlsaXR5IG9mIGhhdmluZyB2YWx1ZcKgVFRNX1BMX1BSSVYgb3IgYWJv
-dmUgb3IgYXJlIHlvdSBzdWdnZXN0aW5nIHRob3NlIGFyZSBub3QgcG9zc2libGUgZm9yIHRoaXMg
-ZnVuY3Rpb24uKQ0KDQpIaSBLZW5ueSwNCg0KR29vZCBxdWVzdGlvbi4gSSdtIG5vdCBzdWdnZXN0
-aW5nIHRoYXQgdGhvc2UgYXJlIG5vdCBwb3NzaWJsZQ0Kd2l0aCB0aGlzIGZ1bmN0aW9uLiBUaGUg
-ZHJpdmVyIHByb3ZpZGVzIHRoaXMgbWFwLg0KVGhlIGZvcm1hdCBvZiB0aGUgbWFwIGlzIHNldCBi
-eSB0aGUgaW5mcmFzdHJ1Y3R1cmUgKFRUTSksDQppdCBjb3VsZCBiZSBhcyBzaW1wbGUgYXMgInU2
-NCAqbWVtX3N0YXJ0X21hcDsgaW50IG1hcF9zaXplOyIgaW4gYW4gZW1iZWRkaW5nDQpzdHJ1dHVy
-ZSBvciBzb21ldGhpbmcgbW9yZSBmYW5jeS4NCkhvd2V2ZXIgdGhlIG1hcCBhcnJheSBhbmQgdmFs
-dWVzIHRoZW1zZWx2ZXMgYXJlIHNldCBieSB0aGUgZHJpdmVyIHdoZW4gaXQgYW5zd2Vycw0KYWJv
-dXQgaXRzIGNhcGFiaWxpdGllcywgZXRjLCB3aGVuIGl0IGZpcnN0IHJlZ2lzdGVycyB3aXRoIFRU
-TS4NCg0KTm90aWNlIGhvdyBiYWRseSB0aGUgc3dpdGNoIHN0YXRtZW50IGJlbG93IGlzIHdyaXR0
-ZW4uIChJbnZlcnZpZXcgcXVlc3Rpb24uKQ0KSXQncyBtaXNzaW5nIGEgImRlZmF1bHQ6IiBsYWJl
-bCEgKGl0J3Mgd2h5IHN3aXRjaC1jYXNlIGlzIHBvd2VyZnVsKS4NCg0KSWYgeW91IGFkZCBhICJk
-ZWZhdWx0OiIgbGFiZWwsIHlvdSBzZWUgdGhhdCB0aGUgcmVzdCBvZiB0aGUgdmFsdWVzDQppbiB0
-aGUgbWFwIGFyZSAwcy4NCg0KV2hpbGUgVFRNIGtub3dzIG9ubHkgb2YgVFRNX1BMX1BSSVYgbnVt
-YmVyIG9mIG1hcHMgKDMpLCB0aGUgZHJpdmVyDQpjYW4gYWRkIG1vcmUsIGFsbG9jYXRlIGFuZCBp
-bml0aWFsaXplIHRoZSBtYXAsIGFuZCByZXR1cm4gaXQgYmFjaw0KdG8gVFRNLCBndWFyYW50ZWVp
-bmcgYXQgbGVhc3QgVFRNX1BMX1BSSVYgbWFwcyBpbiBpbmRpY2VzIDAsIDEsIGFuZCAyLg0KDQpJ
-IHRoaW5rIGl0IGlzIG5vdCBhIGdvb2QgaWRlYSB0byB1c2UgYSBjb21wYXJlLWJyYW5jaCBmb3Ig
-YQ0Kc2ltcGxlIGxvb2t1cCBsaWtlIHRoaXMuIE9uZSBuYXR1cmFsbHkgYXNrcywgIndoeSBpc24n
-dCB0aGlzDQphIHNpbXBsZSBtYXAgbG9va3VwPyINCg0KQ29uc2lkZXIgdGhlIGZvbGxvd2luZyB0
-aG91Z2h0IGV4cGVyaW1lbnQ6IHdlIGNvbnRpbnVlIHRvIGFkZCBzd2l0Y2gtY2FzZQ0KYW5kIGlm
-LWVsc2UgZm9yIGFsbCBzb3J0cyBvZiBzaW1wbGUgdGhpbmdzIGFzIHdlJ3ZlIHNlZW4gYmVpbmcg
-c3VnZ2VzdGVkDQppbiByZWNlbnQgcGF0Y2hlcy4gSW4gYSBmZXcgeWVhcnMsIHdlJ2xsIG5vdCBi
-ZSBhYmxlIHRvIHVuZGVyc3RhbmQgdGhlIGNvZGUuDQoNClJlZ2FyZHMsDQpMdWJlbg0KUC5TLiBD
-b2RlIG9iZnVzY2F0aW9uIGlzbid0IG5lY2Vzc2FyaWx5IGEgYmFkIHRoaW5nLS1pdCBjYXVzZXMg
-YSBjb21wbGV0ZQ0KcmV3cml0ZSEgOi1EDQoNCj4gDQo+IEtlbm55DQo+IC0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQ0KPiAqRnJvbToqIFR1aWtvdiwgTHViZW4gPEx1YmVuLlR1aWtvdkBhbWQuY29tPg0K
-PiAqU2VudDoqIFRodXJzZGF5LCBNYXJjaCA1LCAyMDIwIDI6MTkgUE0NCj4gKlRvOiogTmlybW95
-IERhcyA8bmlybW95LmFpZW1kQGdtYWlsLmNvbT47IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+DQo+ICpDYzoqIFpob3UsIERh
-dmlkKENodW5NaW5nKSA8RGF2aWQxLlpob3VAYW1kLmNvbT47IHRoZWxsc3Ryb21Adm13YXJlLmNv
-bSA8dGhlbGxzdHJvbUB2bXdhcmUuY29tPjsgYWlybGllZEBsaW51eC5pZSA8YWlybGllZEBsaW51
-eC5pZT47IEhvLCBLZW5ueSA8S2VubnkuSG9AYW1kLmNvbT47IGJyaWFuLndlbHR5QGludGVsLmNv
-bSA8YnJpYW4ud2VsdHlAaW50ZWwuY29tPjsgbWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwu
-Y29tIDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+OyBhbWQtZ2Z4QGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZyA8YW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+OyBEYXMsIE5pcm1v
-eSA8TmlybW95LkRhc0BhbWQuY29tPjsgbGludXgtZ3JhcGhpY3MtbWFpbnRhaW5lckB2bXdhcmUu
-Y29tIDxsaW51eC1ncmFwaGljcy1tYWludGFpbmVyQHZtd2FyZS5jb20+OyBic2tlZ2dzQHJlZGhh
-dC5jb20gPGJza2VnZ3NAcmVkaGF0LmNvbT47IGRhbmllbEBmZndsbC5jaCA8ZGFuaWVsQGZmd2xs
-LmNoPjsgRGV1Y2hlciwgQWxleGFuZGVyIDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQuY29tPjsgc2Vh
-bkBwb29ybHkucnVuIDxzZWFuQHBvb3JseS5ydW4+OyBLb2VuaWcsIENocmlzdGlhbiA8Q2hyaXN0
-aWFuLktvZW5pZ0BhbWQuY29tPjsga3JheGVsQHJlZGhhdC5jb20gPGtyYXhlbEByZWRoYXQuY29t
-Pg0KPiAqU3ViamVjdDoqIFJlOiBbUEFUQ0ggMi84XSBkcm0vcmFkZW9uOiBkb24ndCB1c2UgdHRt
-IGJvLT5vZmZzZXQNCj4gwqANCj4gT24gMjAyMC0wMy0wNSAwODoyOSwgTmlybW95IERhcyB3cm90
-ZToNCj4+IENhbGN1bGF0ZSBHUFUgb2Zmc2V0IGluIHJhZGVvbl9ib19ncHVfb2Zmc2V0IHdpdGhv
-dXQgZGVwZW5kaW5nIG9uDQo+PiBiby0+b2Zmc2V0Lg0KPj4gDQo+PiBTaWduZWQtb2ZmLWJ5OiBO
-aXJtb3kgRGFzIDxuaXJtb3kuZGFzQGFtZC5jb20+DQo+PiBSZXZpZXdlZC1hbmQtdGVzdGVkLWJ5
-OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+PiAtLS0NCj4+
-wqAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb24uaMKgwqDCoMKgwqDCoMKgIHzCoCAxICsN
-Cj4+wqAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fb2JqZWN0LmggfCAxNiArKysrKysr
-KysrKysrKystDQo+PsKgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jwqDCoMKg
-IHzCoCA0ICstLS0NCj4+wqAgMyBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCA0IGRl
-bGV0aW9ucygtKQ0KPj4gDQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9y
-YWRlb24uaCBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uLmgNCj4+IGluZGV4IDMwZTMy
-YWRjMWZjNi4uYjdjM2ZiMmJmYjU0IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Jh
-ZGVvbi9yYWRlb24uaA0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb24uaA0K
-Pj4gQEAgLTI4MjgsNiArMjgyOCw3IEBAIGV4dGVybiB2b2lkIHJhZGVvbl90dG1fc2V0X2FjdGl2
-ZV92cmFtX3NpemUoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYsIHU2NCBzaXplDQo+PsKgIGV4
-dGVybiB2b2lkIHJhZGVvbl9wcm9ncmFtX3JlZ2lzdGVyX3NlcXVlbmNlKHN0cnVjdCByYWRlb25f
-ZGV2aWNlICpyZGV2LA0KPj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IHUz
-MiAqcmVnaXN0ZXJzLA0KPj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IHUz
-MiBhcnJheV9zaXplKTsNCj4+ICtzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmFkZW9uX2dldF9yZGV2
-KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2KTsNCj4+IA0KPj7CoCAvKg0KPj7CoMKgICogdm0N
-Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuaCBi
-L2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX29iamVjdC5oDQo+PiBpbmRleCBkMjNmMmVk
-NDEyNmUuLjYwMjc1YjgyMmY3OSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRl
-b24vcmFkZW9uX29iamVjdC5oDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
-bl9vYmplY3QuaA0KPj4gQEAgLTkwLDcgKzkwLDIxIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCByYWRl
-b25fYm9fdW5yZXNlcnZlKHN0cnVjdCByYWRlb25fYm8gKmJvKQ0KPj7CoMKgICovDQo+PsKgIHN0
-YXRpYyBpbmxpbmUgdTY0IHJhZGVvbl9ib19ncHVfb2Zmc2V0KHN0cnVjdCByYWRlb25fYm8gKmJv
-KQ0KPj7CoCB7DQo+PiAtwqDCoMKgwqAgcmV0dXJuIGJvLT50Ym8ub2Zmc2V0Ow0KPj4gK8KgwqDC
-oMKgIHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2Ow0KPj4gK8KgwqDCoMKgIHU2NCBzdGFydCA9
-IDA7DQo+PiArDQo+PiArwqDCoMKgwqAgcmRldiA9IHJhZGVvbl9nZXRfcmRldihiby0+dGJvLmJk
-ZXYpOw0KPj4gKw0KPj4gK8KgwqDCoMKgIHN3aXRjaCAoYm8tPnRiby5tZW0ubWVtX3R5cGUpIHsN
-Cj4+ICvCoMKgwqDCoCBjYXNlIFRUTV9QTF9UVDoNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgc3RhcnQgPSByZGV2LT5tYy5ndHRfc3RhcnQ7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGJyZWFrOw0KPj4gK8KgwqDCoMKgIGNhc2UgVFRNX1BMX1ZSQU06DQo+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHN0YXJ0ID0gcmRldi0+bWMudnJhbV9zdGFydDsNCj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7DQo+PiArwqDCoMKgwqAgfQ0KPj4gKw0KPj4gK8KgwqDC
-oMKgIHJldHVybiAoYm8tPnRiby5tZW0uc3RhcnQgPDwgUEFHRV9TSElGVCkgKyBzdGFydDsNCj4+
-wqAgfQ0KPiANCj4gWW91J3JlIHJlbW92aW5nIGEgInJldHVybiBiby0+dGJvLm9mZnNldCIgYW5k
-IGFkZGluZyBhDQo+IHN3aXRjaC1jYXNlIHN0YXRlbWVudC4gU28sIHRoZW4sIG5vdyBpbnN0ZWFk
-IG9mIGFuIGluc3RhbnQNCj4gbG9va3VwLCB5b3UncmUgYWRkaW5nIGJyYW5jaGluZy4gWW91J3Jl
-IGFkZGluZyBjb21wYXJpc29uDQo+IGFuZCBicmFuY2hpbmcuIERvIHlvdSB0aGluayB0aGF0J3Mg
-YmV0dGVyPyBGYXN0ZXI/IFNtYWxsZXI/DQo+IA0KPiBJJ3ZlIHdyaXR0ZW4gYmVmb3JlIGFib3V0
-IHRoaXMgZm9yIHRoaXMgcGF0Y2g6IFdoeSBub3QgY3JlYXRlIGEgbWFwLA0KPiB3aG9zZSBpbmRl
-eCBpcyAibWVtX3R5cGUiIHdoaWNoIHJlZmVyZW5jZXMgdGhlIGRlc2lyZWQNCj4gYWRkcmVzcz8g
-Tm8gY29tcGFyaXNvbiwgbm8gYnJhbmNoaW5nLiBKdXN0IGFuIGluZGV4LWRlcmVmZXJlbmNlDQo+
-IGFuZCBhIHZhbHVlOg0KPiANCj4gcmV0dXJuIHJkZXYtPm1jLm1lbV9zdGFydF9tYXBbYm8tPnRi
-by5tZW0ubWVtX3R5cGVdOw0KPiANCj4gT2J2aW91c2x5LCB5b3UnbGwgaGF2ZSB0byBjcmVhdGUg
-Im1lbV9zdGFydF9tYXAiLg0KPiANCj4gVGhhdCdzIGEgTkFLIGZyb20gbWUgb24gdGhpcyBwYXRj
-aCB1c2luZyBjb21wYXJpc29uDQo+IGFuZCBicmFuY2hpbmcgdG8gcmV0dXJuIHN0YXRpYyBkYXRh
-IGxvb2t1cCB2YWx1ZS4NCj4gDQo+IFJlZ2FyZHMsDQo+IEx1YmVuDQo+IA0KPj4gDQo+PsKgIHN0
-YXRpYyBpbmxpbmUgdW5zaWduZWQgbG9uZyByYWRlb25fYm9fc2l6ZShzdHJ1Y3QgcmFkZW9uX2Jv
-ICpibykNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0u
-YyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jDQo+PiBpbmRleCBiYWRmMWI2
-ZDE1NDkuLjFjODMwMzQ2OGU4ZiAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRl
-b24vcmFkZW9uX3R0bS5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90
-dG0uYw0KPj4gQEAgLTU2LDcgKzU2LDcgQEANCj4+wqAgc3RhdGljIGludCByYWRlb25fdHRtX2Rl
-YnVnZnNfaW5pdChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldik7DQo+PsKgIHN0YXRpYyB2b2lk
-IHJhZGVvbl90dG1fZGVidWdmc19maW5pKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsNCj4+
-IA0KPj4gLXN0YXRpYyBzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmFkZW9uX2dldF9yZGV2KHN0cnVj
-dCB0dG1fYm9fZGV2aWNlICpiZGV2KQ0KPj4gK3N0cnVjdCByYWRlb25fZGV2aWNlICpyYWRlb25f
-Z2V0X3JkZXYoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYpDQo+PsKgIHsNCj4+wqDCoMKgwqDC
-oMKgwqAgc3RydWN0IHJhZGVvbl9tbWFuICptbWFuOw0KPj7CoMKgwqDCoMKgwqDCoCBzdHJ1Y3Qg
-cmFkZW9uX2RldmljZSAqcmRldjsNCj4+IEBAIC04Miw3ICs4Miw2IEBAIHN0YXRpYyBpbnQgcmFk
-ZW9uX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5
-cGUsDQo+PsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBicmVhazsNCj4+wqDCoMKgwqDC
-oMKgwqAgY2FzZSBUVE1fUExfVFQ6DQo+PsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBt
-YW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgbWFuLT5ncHVfb2Zmc2V0ID0gcmRldi0+bWMuZ3R0X3N0YXJ0Ow0KPj7CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9NQVNL
-X0NBQ0hJTkc7DQo+PsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtYW4tPmRlZmF1bHRf
-Y2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIG1hbi0+ZmxhZ3MgPSBUVE1fTUVNVFlQRV9GTEFHX01BUFBBQkxFIHwgVFRNX01FTVRZ
-UEVfRkxBR19DTUE7DQo+PiBAQCAtMTA0LDcgKzEwMyw2IEBAIHN0YXRpYyBpbnQgcmFkZW9uX2lu
-aXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsDQo+
-PsKgwqDCoMKgwqDCoMKgIGNhc2UgVFRNX1BMX1ZSQU06DQo+PsKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAvKiAiT24tY2FyZCIgdmlkZW8gcmFtICovDQo+PsKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBtYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsNCj4+IC3CoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgbWFuLT5ncHVfb2Zmc2V0ID0gcmRldi0+bWMudnJhbV9zdGFy
-dDsNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1hbi0+ZmxhZ3MgPSBUVE1fTUVN
-VFlQRV9GTEFHX0ZJWEVEIHwNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgVFRNX01FTVRZUEVfRkxBR19NQVBQQUJMRTsNCj4+wqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExf
-RkxBR19VTkNBQ0hFRCB8IFRUTV9QTF9GTEFHX1dDOw0KPj4gLS0NCj4+IDIuMjUuMA0KPj4gDQo+
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPj4gYW1k
-LWdmeCBtYWlsaW5nIGxpc3QNCj4+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+PiBo
-dHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMl
-M0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZhbWQt
-Z2Z4JmFtcDtkYXRhPTAyJTdDMDElN0NsdWJlbi50dWlrb3YlNDBhbWQuY29tJTdDY2E2MDA0YTVh
-YzdhNDAwYTAzMDcwOGQ3YzEwOGJjZGUlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgz
-ZCU3QzAlN0MwJTdDNjM3MTkwMTE1NjE5NDg3ODI3JmFtcDtzZGF0YT1Fa1N5NHZwVUliVEUlMkI3
-NUNTTzM3SldpVUxLYlJUWWJjWlVTRXRScGNyVGslM0QmYW1wO3Jlc2VydmVkPTANCj4+IA0KPiAN
-Cg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Quoting Enric Balletbo i Serra (2020-03-02 03:01:26)
+> From: Matthias Brugger <mbrugger@suse.com>
+> 
+> There is no strong reason for this to use CLK_OF_DECLARE instead of
+> being a platform driver.
+
+Cool.
+
+> Plus, this driver provides clocks but also
+> a shared register space for the mediatek-drm and the mediatek-mdp
+> driver. So move to drivers/soc/mediatek as a platform driver.
+> 
+> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> ---
+> 
+> Changes in v11: None
+> Changes in v10:
+> - Renamed to be generic mtk-mmsys
+> - Add driver data support to be able to support diferent SoCs
+> 
+> Changes in v9:
+> - Move mmsys to drivers/soc/mediatek (CK)
+> 
+> Changes in v8:
+> - Be a builtin_platform_driver like other mediatek mmsys drivers.
+> 
+> Changes in v7:
+> - Free clk_data->clks as well
+> - Get rid of private data structure
+> 
+>  drivers/clk/mediatek/clk-mt8173.c | 104 --------------------
+>  drivers/soc/mediatek/Kconfig      |   7 ++
+>  drivers/soc/mediatek/Makefile     |   1 +
+>  drivers/soc/mediatek/mtk-mmsys.c  | 154 ++++++++++++++++++++++++++++++
+
+Can you generate with -M so that we can see what has actually changed?
+
+>  4 files changed, 162 insertions(+), 104 deletions(-)
+>  create mode 100644 drivers/soc/mediatek/mtk-mmsys.c
+> 
+> diff --git a/drivers/soc/mediatek/Kconfig b/drivers/soc/mediatek/Kconfig
+> index 2114b563478c..7a156944d50e 100644
+> --- a/drivers/soc/mediatek/Kconfig
+> +++ b/drivers/soc/mediatek/Kconfig
+> @@ -44,4 +44,11 @@ config MTK_SCPSYS
+>           Say yes here to add support for the MediaTek SCPSYS power domain
+>           driver.
+>  
+> +config MTK_MMSYS
+> +       bool "MediaTek MMSYS Support"
+> +       depends on COMMON_CLK_MT8173
+
+Does it need some default so that defconfig updates don't break things?
+
+> +       help
+> +         Say yes here to add support for the MediaTek Multimedia
+> +         Subsystem (MMSYS).
+> +
+>  endmenu
+> diff --git a/drivers/soc/mediatek/Makefile b/drivers/soc/mediatek/Makefile
+> index b01733074ad6..01f9f873634a 100644
+> --- a/drivers/soc/mediatek/Makefile
+> +++ b/drivers/soc/mediatek/Makefile
+> @@ -3,3 +3,4 @@ obj-$(CONFIG_MTK_CMDQ) += mtk-cmdq-helper.o
+>  obj-$(CONFIG_MTK_INFRACFG) += mtk-infracfg.o
+>  obj-$(CONFIG_MTK_PMIC_WRAP) += mtk-pmic-wrap.o
+>  obj-$(CONFIG_MTK_SCPSYS) += mtk-scpsys.o
+> +obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+> new file mode 100644
+> index 000000000000..473cdf732fb5
+> --- /dev/null
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -0,0 +1,154 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2014 MediaTek Inc.
+> + * Author: James Liao <jamesjj.liao@mediatek.com>
+> + */
+> +
+> +#include <linux/clk-provider.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include "../../clk/mediatek/clk-gate.h"
+> +#include "../../clk/mediatek/clk-mtk.h"
+
+Why not use include/linux/clk/?
+
+But I also don't understand why the clk driver is moved outside of
+drivers/clk/ into drivers/soc/. Commit text saying that it has shared
+registers doesn't mean it can't still keep the clk driver part in the
+drivers/clk/ area.
+
+> +
+> +#include <dt-bindings/clock/mt8173-clk.h>
+> +
+> +static const struct mtk_gate_regs mm0_cg_regs = {
+> +       .set_ofs = 0x0104,
+> +       .clr_ofs = 0x0108,
+> +       .sta_ofs = 0x0100,
+> +};
+> +
+> +static const struct mtk_gate_regs mm1_cg_regs = {
+> +       .set_ofs = 0x0114,
+> +       .clr_ofs = 0x0118,
+> +       .sta_ofs = 0x0110,
+> +};
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
