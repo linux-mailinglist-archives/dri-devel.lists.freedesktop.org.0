@@ -1,34 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D1017A33F
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 11:35:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BCF17A360
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 11:48:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3429B8926E;
-	Thu,  5 Mar 2020 10:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83C6A6E1B7;
+	Thu,  5 Mar 2020 10:48:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8758922B;
- Thu,  5 Mar 2020 10:35:35 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2020 02:35:34 -0800
-X-IronPort-AV: E=Sophos;i="5.70,517,1574150400"; d="scan'208";a="234374489"
-Received: from bennur-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.38.13])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2020 02:35:31 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 05 Mar 2020 12:35:32 +0200
-Message-ID: <87eeu7nl6z.fsf@intel.com>
+Received: from gateway36.websitewelcome.com (gateway36.websitewelcome.com
+ [192.185.196.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D976C6E1B7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 10:48:36 +0000 (UTC)
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+ by gateway36.websitewelcome.com (Postfix) with ESMTP id 4BF60400D0A39
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 04:03:49 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id 9o3NjL7iPEfyq9o3NjOwqT; Thu, 05 Mar 2020 04:48:33 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+ Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=N+cQ6695/UaT15cBW0dOVs0XFP/fIU8FdrNDquttipY=; b=jRnFL4wQjKz1AfDheOOAqnMyi5
+ erogLWYYg0i5Ton9B+L1Occ8/tO7OBtB8P7NXs9jDMDb1sI5ZMgzgQUvJfpvNV537UW0AFTZqXbje
+ Wu2UvVtueVgUcqT0tohInOtDGg66GaturmFGxZb7/rqe8CTdGxPjB2wR7R0WwbRbmg6P6yTeB1jkE
+ cBYIVnbtG5udEWlTfD1WOlkyFwgjdM6xOrZOYklk4oN0RN3b0A3QA+8t3oKlybYuXwIcEA68eEfKJ
+ 3SrQjr5xzWEHYXiQmDl+5If0ZS/v21s3G9GaD0ZEZlVINosd2QM6nngBlFJi3n3QoiGo/gg+A1/kU
+ 8qUCmSWg==;
+Received: from [201.166.169.220] (port=13470 helo=embeddedor)
+ by gator4166.hostgator.com with esmtpa (Exim 4.92)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1j9o3L-003dNJ-JM; Thu, 05 Mar 2020 04:48:32 -0600
+Date: Thu, 5 Mar 2020 04:51:37 -0600
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH][next] drm: etnaviv_gem.h: Replace zero-length array with
+ flexible-array member
+Message-ID: <20200305105137.GA18628@embeddedor>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.166.169.220
+X-Source-L: No
+X-Exim-ID: 1j9o3L-003dNJ-JM
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [201.166.169.220]:13470
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 7
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,62 +77,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERhdmUgJiBEYW5pZWwgLQoKZHJtLWludGVsLWZpeGVzLTIwMjAtMDMtMDU6CmRybS9pOTE1
-IGZpeGVzIGZvciB2NS42LXJjNToKLSBCcmVhayB1cCBsb25nIGxpc3RzIG9mIG9iamVjdCByZWNs
-YWltIHdpdGggY29uZF9yZXNjaGVkKCkKLSBQU1IgcHJvYmUgZml4Ci0gVEdMIHdvcmthcm91bmRz
-Ci0gU2VsZnRlc3QgcmV0dXJuIHZhbHVlIGZpeAotIERyb3AgdGltZWxpbmUgbXV0ZXggd2hpbGUg
-d2FpdGluZyBmb3IgcmV0aXJlbWVudAotIFdhaXQgZm9yIE9BIGNvbmZpZ3VyYXRpb24gY29tcGxl
-dGlvbiBiZWZvcmUgd3JpdGVzIHRvIE9BIGJ1ZmZlcgoKQlIsCkphbmkuCgpUaGUgZm9sbG93aW5n
-IGNoYW5nZXMgc2luY2UgY29tbWl0IDk4ZDU0ZjgxZTM2YmEzYmY5MjE3Mjc5MWViYTVjYTViZDgx
-Mzk4OWI6CgogIExpbnV4IDUuNi1yYzQgKDIwMjAtMDMtMDEgMTY6Mzg6NDYgLTA2MDApCgphcmUg
-YXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVl
-ZGVza3RvcC5vcmcvZHJtL2RybS1pbnRlbCB0YWdzL2RybS1pbnRlbC1maXhlcy0yMDIwLTAzLTA1
-Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gMTY5YzBhYTRiYzE3ZDM3MzcwZjU1MTg4
-ZDkzMjdiOTlkNjBmZDlkNzoKCiAgZHJtL2k5MTUvZ3Q6IERyb3AgdGhlIHRpbWVsaW5lLT5tdXRl
-eCBhcyB3ZSB3YWl0IGZvciByZXRpcmVtZW50ICgyMDIwLTAzLTA0IDEzOjQ5OjI2ICswMjAwKQoK
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQpkcm0vaTkxNSBmaXhlcyBmb3IgdjUuNi1yYzU6Ci0gQnJlYWsgdXAgbG9uZyBsaXN0
-cyBvZiBvYmplY3QgcmVjbGFpbSB3aXRoIGNvbmRfcmVzY2hlZCgpCi0gUFNSIHByb2JlIGZpeAot
-IFRHTCB3b3JrYXJvdW5kcwotIFNlbGZ0ZXN0IHJldHVybiB2YWx1ZSBmaXgKLSBEcm9wIHRpbWVs
-aW5lIG11dGV4IHdoaWxlIHdhaXRpbmcgZm9yIHJldGlyZW1lbnQKLSBXYWl0IGZvciBPQSBjb25m
-aWd1cmF0aW9uIGNvbXBsZXRpb24gYmVmb3JlIHdyaXRlcyB0byBPQSBidWZmZXIKCi0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
-Q2hyaXMgV2lsc29uICg0KToKICAgICAgZHJtL2k5MTUvZ2VtOiBCcmVhayB1cCBsb25nIGxpc3Rz
-IG9mIG9iamVjdCByZWNsYWltCiAgICAgIGRybS9pOTE1OiBQcm90ZWN0IGk5MTVfcmVxdWVzdF9h
-d2FpdF9zdGFydCBmcm9tIGVhcmx5IHdhaXRzCiAgICAgIGRybS9pOTE1L3BlcmY6IFJlaW50cm9k
-dWNlIHdhaXQgb24gT0EgY29uZmlndXJhdGlvbiBjb21wbGV0aW9uCiAgICAgIGRybS9pOTE1L2d0
-OiBEcm9wIHRoZSB0aW1lbGluZS0+bXV0ZXggYXMgd2Ugd2FpdCBmb3IgcmV0aXJlbWVudAoKRGFu
-IENhcnBlbnRlciAoMSk6CiAgICAgIGRybS9pOTE1L3NlbGZ0ZXN0czogRml4IHJldHVybiBpbiBh
-c3NlcnRfbW1hcF9vZmZzZXQoKQoKSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSAoMSk6CiAgICAgIGRy
-bS9pOTE1L3BzcjogRm9yY2UgUFNSIHByb2JlIG9ubHkgYWZ0ZXIgZnVsbCBpbml0aWFsaXphdGlv
-bgoKTHVjYXMgRGUgTWFyY2hpICgxKToKICAgICAgZHJtL2k5MTUvdGdsOiBBZGQgV2FfMTYwODAw
-ODA4NAoKTWF0dCBSb3BlciAoMik6CiAgICAgIGRybS9pOTE1OiBQcm9ncmFtIE1CVVMgd2l0aCBy
-bXcgZHVyaW5nIGluaXRpYWxpemF0aW9uCiAgICAgIGRybS9pOTE1L3RnbDogQWRkIFdhXzIyMDEw
-MTc4MjU5OnRnbAoKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9w
-b3dlci5jIHwgMjkgKysrKysrKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
-ZWxfcHNyLmMgICAgICAgICAgIHwgMjUgKysrKysrKystLQogZHJpdmVycy9ncHUvZHJtL2k5MTUv
-ZGlzcGxheS9pbnRlbF9wc3IuaCAgICAgICAgICAgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vaTkx
-NS9nZW0vaTkxNV9nZW1fb2JqZWN0LmMgICAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9p
-OTE1L2dlbS9zZWxmdGVzdHMvaTkxNV9nZW1fbW1hbi5jIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2d0L2ludGVsX2d0X3JlcXVlc3RzLmMgICAgICAgIHwgMTQgKysrKy0tCiBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9ndC9pbnRlbF93b3JrYXJvdW5kcy5jICAgICAgICB8IDE5ICsrKy0tLS0K
-IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2LmMgICAgICAgICAgICAgICAgICAgIHwgIDMg
-KysKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2LmggICAgICAgICAgICAgICAgICAgIHwg
-IDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcGVyZi5jICAgICAgICAgICAgICAgICAg
-IHwgNTggKysrKysrKysrKysrKysrLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9w
-ZXJmX3R5cGVzLmggICAgICAgICAgICAgfCAgMyArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkx
-NV9yZWcuaCAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X3JlcXVlc3QuYyAgICAgICAgICAgICAgICB8IDQxICsrKysrKysrKystLS0tLQogMTMgZmls
-ZXMgY2hhbmdlZCwgMTQyIGluc2VydGlvbnMoKyksIDU3IGRlbGV0aW9ucygtKQoKLS0gCkphbmkg
-TmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
+
+struct foo {
+        int stuff;
+        struct boo array[];
+};
+
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
+
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
+
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+index 6b68fe16041b..98e60df882b6 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+@@ -105,7 +105,7 @@ struct etnaviv_gem_submit {
+ 	unsigned int nr_pmrs;
+ 	struct etnaviv_perfmon_request *pmrs;
+ 	unsigned int nr_bos;
+-	struct etnaviv_gem_submit_bo bos[0];
++	struct etnaviv_gem_submit_bo bos[];
+ 	/* No new members here, the previous one is variable-length! */
+ };
+ 
+-- 
+2.25.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
