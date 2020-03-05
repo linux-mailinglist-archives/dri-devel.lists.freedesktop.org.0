@@ -1,47 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5872417A0F7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 09:15:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5521A17A0E8
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 09:14:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 095A86EB90;
-	Thu,  5 Mar 2020 08:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D78146EB88;
+	Thu,  5 Mar 2020 08:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id DEF076E03C
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 00:50:02 +0000 (UTC)
-X-UUID: 16a3c3b4396f47f9ad509f0e2531cf64-20200305
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=kKyBokw0nHSD5G4NnU/6ssdFSMmw3W6g132ZYmBRN8o=; 
- b=JmvWG41RARYZiVlIyy22bD+tS7VwPyYFsdlT7GUPj1HscQLMXU5tP5WPdYzXVCTV8EulJAWhPvnbC4ayDy45+22A5wg6NeY8kq2jN74Hdz0qXLvDSPXraYWVFJGho7TjHnBBDwtVc2wYWofm9Ut6OSVWUNjhYBSLP9yTQzS9fX4=;
-X-UUID: 16a3c3b4396f47f9ad509f0e2531cf64-20200305
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw01.mediatek.com (envelope-from <dennis-yc.hsieh@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 553839731; Thu, 05 Mar 2020 08:49:59 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 5 Mar 2020 08:48:57 +0800
-Received: from [172.21.77.33] (172.21.77.33) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 5 Mar 2020 08:49:13 +0800
-Message-ID: <1583369398.28558.1.camel@mtkswgap22>
-Subject: Re: [PATCH v4 12/13] soc: mediatek: cmdq: add clear option in
- cmdq_pkt_wfe api
-From: Dennis-YC Hsieh <dennis-yc.hsieh@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-Date: Thu, 5 Mar 2020 08:49:58 +0800
-In-Reply-To: <1583291126.1062.7.camel@mtksdaap41>
-References: <1583233125-7827-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583233125-7827-13-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583291126.1062.7.camel@mtksdaap41>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-MIME-Version: 1.0
-X-MTK: N
+Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com
+ [IPv6:2607:f8b0:4864:20::1049])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 051336E144
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 01:19:49 +0000 (UTC)
+Received: by mail-pj1-x1049.google.com with SMTP id j21so3867690pjz.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 17:19:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=C9EkwJ1gUg61QN8k194CxCHcCIG0/y+uw6Hl1AyDtGU=;
+ b=GsDLhkZMIEv9Ej06Re07oGqTUeN2KIqnyE1PyJebG3AiwxrNMzy6cA7FbNZIlcPZ62
+ eajxd2DGNBSvUlm0m74/gSau0MwgbU9Ue7JfA58M0/f/tYZNvV8isvsg5q/Bxy5F62Hu
+ C1bH7nfhem8ohlZ7trw3kEyFpCS94UQ6n5YXi72iUNj2UQrtOkb61BI//u12W4r+ZeIu
+ O5RpEvgOVC+crxEXEpV1OYIYyf9B22fFpLTM7L3ReU+MzdmTlAdbxgHnOuD9QyANIfCk
+ y2TNvYBfsu7Si2FCxBBPbHPwT37pOg8Qc5EJEkliy4FWFlmaiUqqqL0XuapXx5qKY/Gy
+ amXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=C9EkwJ1gUg61QN8k194CxCHcCIG0/y+uw6Hl1AyDtGU=;
+ b=nissJrEVr/nc01lCVGvDrsALtdwUBDWqHH7Bvuj9s+po6yYwuURG9VnT76IiUzvnjl
+ wBc2bSgx/MKDvXeGFr4r2JcOKzNEhvpgH5a8Llx560TGD9XZFz5P82Jw1ko4nxq1VJ0F
+ xLVlemHdFrlN1W60yuuIFJAO2KCziuN2fRt214eRWtAb45Gkur8+zkymoIRYeGv5aiPg
+ YhZwGNRpXAv+2a+IXI7w+yUGwQTzLt8trF8Bjiv55f3VEo/am5+jgwikTj8P8TZhGCfs
+ 5VPiIGlPLcDS7cr+QNITQUX9vfd/+svdkAbJY5pZSWEpGjuRfybzv3Us4gAHF1wdZGIx
+ vFNg==
+X-Gm-Message-State: ANhLgQ10mQzH7IvRQjYRn0Tuvl7OPxLnm+RTa7eLQysk3fGvwmWtIjuS
+ 2E6HIXRTz+RFpVt3mD2dWiF6FSspJvnN
+X-Google-Smtp-Source: ADFU+vtK9ayimG+QWi91+mM6FMKWb3R87v0c84ZF0OEt7KbKfhUlWJrA5oGjJks6ePvEpIzXnBMKqRiQwMwF
+X-Received: by 2002:a63:5713:: with SMTP id l19mr5168665pgb.216.1583371189438; 
+ Wed, 04 Mar 2020 17:19:49 -0800 (PST)
+Date: Wed,  4 Mar 2020 17:19:41 -0800
+Message-Id: <20200305011943.214146-1-rajatja@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+Subject: [PATCH v6 1/3] intel_acpi: Rename drm_dev local variable to dev
+From: Rajat Jain <rajatja@google.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ "=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?=" <ville.syrjala@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>, 
+ "=?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?=" <jose.souza@intel.com>,
+ linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ gregkh@linuxfoundation.org, mathewk@google.com, 
+ Daniel Thompson <daniel.thompson@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Pavel Machek <pavel@denx.de>, seanpaul@google.com,
+ Duncan Laurie <dlaurie@google.com>, 
+ jsbarnes@google.com, Thierry Reding <thierry.reding@gmail.com>,
+ mpearson@lenovo.com, Nitin Joshi1 <njoshi1@lenovo.com>,
+ Sugumaran Lacshiminarayanan <slacshiminar@lenovo.com>, 
+ Tomoki Maruichi <maruichit@lenovo.com>
 X-Mailman-Approved-At: Thu, 05 Mar 2020 08:14:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,126 +78,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- wsd_upstream@mediatek.com, David
- Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- HS Liao <hs.liao@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Houlong Wei <houlong.wei@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Rajat Jain <rajatja@google.com>, rajatxjain@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi CK,
+Change the struct drm_device * local variable from drm_dev to dev
+per the feedback received here:
+https://lkml.org/lkml/2020/1/24/1143
 
-Thanks for your comment.
+Signed-off-by: Rajat Jain <rajatja@google.com>
+---
+v6: Initial patch (v6 to match other patches in the set) 
 
-On Wed, 2020-03-04 at 11:05 +0800, CK Hu wrote:
-> Hi, Dennis:
-> 
-> On Tue, 2020-03-03 at 18:58 +0800, Dennis YC Hsieh wrote:
-> > Add clear parameter to let client decide if
-> > event should be clear to 0 after GCE receive it.
-> > 
-> > Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 2 +-
-> >  drivers/soc/mediatek/mtk-cmdq-helper.c   | 5 +++--
-> >  include/linux/mailbox/mtk-cmdq-mailbox.h | 3 +--
-> >  include/linux/soc/mediatek/mtk-cmdq.h    | 5 +++--
-> >  4 files changed, 8 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > index 7daaabc26eb1..4916a7f75d23 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > @@ -488,7 +488,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
-> >  	if (mtk_crtc->cmdq_client) {
-> >  		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
-> >  		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
-> > -		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
-> > +		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, true);
-> 
-> There is always clear event before wait event, so there is no need to
-> clear event after event is waited. So this should be
-> 
-> cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
+ drivers/gpu/drm/i915/display/intel_acpi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ok, will fix in next version, thanks.
-
-
-Regards,
-Dennis
-
-
-> 
-> Regards,
-> CK
-> 
-> >  		mtk_crtc_ddp_config(crtc, cmdq_handle);
-> >  		cmdq_pkt_finalize(cmdq_handle);
-> >  		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
-> > diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> > index f27c67034880..4f767198d0fc 100644
-> > --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> > +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> > @@ -295,15 +295,16 @@ int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-> >  }
-> >  EXPORT_SYMBOL(cmdq_pkt_write_s_value);
-> >  
-> > -int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
-> > +int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear)
-> >  {
-> >  	struct cmdq_instruction inst = { {0} };
-> > +	u32 clear_option = clear ? CMDQ_WFE_UPDATE : 0;
-> >  
-> >  	if (event >= CMDQ_MAX_EVENT)
-> >  		return -EINVAL;
-> >  
-> >  	inst.op = CMDQ_CODE_WFE;
-> > -	inst.value = CMDQ_WFE_OPTION;
-> > +	inst.value = CMDQ_WFE_OPTION | clear_option;
-> >  	inst.event = event;
-> >  
-> >  	return cmdq_pkt_append_command(pkt, inst);
-> > diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> > index 3f6bc0dfd5da..42d2a30e6a70 100644
-> > --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-> > +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> > @@ -27,8 +27,7 @@
-> >   * bit 16-27: update value
-> >   * bit 31: 1 - update, 0 - no update
-> >   */
-> > -#define CMDQ_WFE_OPTION			(CMDQ_WFE_UPDATE | CMDQ_WFE_WAIT | \
-> > -					CMDQ_WFE_WAIT_VALUE)
-> > +#define CMDQ_WFE_OPTION			(CMDQ_WFE_WAIT | CMDQ_WFE_WAIT_VALUE)
-> >  
-> >  /** cmdq event maximum */
-> >  #define CMDQ_MAX_EVENT			0x3ff
-> > diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-> > index 1a6c56f3bec1..d63749440697 100644
-> > --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> > +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> > @@ -152,11 +152,12 @@ int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-> >  /**
-> >   * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
-> >   * @pkt:	the CMDQ packet
-> > - * @event:	the desired event type to "wait and CLEAR"
-> > + * @event:	the desired event type to wait
-> > + * @clear:	clear event or not after event arrive
-> >   *
-> >   * Return: 0 for success; else the error code is returned
-> >   */
-> > -int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event);
-> > +int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear);
-> >  
-> >  /**
-> >   * cmdq_pkt_clear_event() - append clear event command to the CMDQ packet
-> 
-> 
+diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+index e21fb14d5e07b..3e6831cca4ac1 100644
+--- a/drivers/gpu/drm/i915/display/intel_acpi.c
++++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+@@ -224,13 +224,13 @@ static u32 acpi_display_type(struct intel_connector *connector)
+ 
+ void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
+ {
+-	struct drm_device *drm_dev = &dev_priv->drm;
++	struct drm_device *dev = &dev_priv->drm;
+ 	struct intel_connector *connector;
+ 	struct drm_connector_list_iter conn_iter;
+ 	u8 display_index[16] = {};
+ 
+ 	/* Populate the ACPI IDs for all connectors for a given drm_device */
+-	drm_connector_list_iter_begin(drm_dev, &conn_iter);
++	drm_connector_list_iter_begin(dev, &conn_iter);
+ 	for_each_intel_connector_iter(connector, &conn_iter) {
+ 		u32 device_id, type;
+ 
+-- 
+2.25.0.265.gbab2e86ba0-goog
 
 _______________________________________________
 dri-devel mailing list
