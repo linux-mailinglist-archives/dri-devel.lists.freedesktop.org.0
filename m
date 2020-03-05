@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9D017B037
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 22:01:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE5117B03A
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 22:03:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5B789B0D;
-	Thu,  5 Mar 2020 21:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C72266E3B7;
+	Thu,  5 Mar 2020 21:03:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA4589B0D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 21:01:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 278666E3B7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 21:03:25 +0000 (UTC)
 Received: from kernel.org (unknown [104.132.0.74])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 35C3A20848;
- Thu,  5 Mar 2020 21:01:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E5C5320684;
+ Thu,  5 Mar 2020 21:03:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1583442074;
- bh=xAZ9rxrwaLgQFFjQ/4duL7t0Vd1G49e8JROqhKWnBB8=;
+ s=default; t=1583442205;
+ bh=fM0aqw68EHCwMFIm/PcXmSHz7poq8CIOnswY/9edExc=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=mYY/fEI2JVH5hWfuM1ncfazo+o1F9d1ld/53P/x2m15Ml1Cvq9DEbnklpVzSupnhq
- BF/PJdDepoUVAl2LwFlgKwN+j9k8kBfeVFSeK7f/Jl2wzUa7PpurmJS0GlNnfOL9JR
- KOKA+GMqVfKRXgQnTyaraMelmfhFgupegmDf3BTY=
+ b=w+zVfmzKSWiR3nY7SFNmodTZNYO1wHfYU4/3JnkyC1Yu9sixmw5uYXvEZ1LiDqNaG
+ wQhQrui40j2bqRdCz6sEZSrQpKdBrJlgIz8ygM7rcZIDcEfG8uBeWWuaH34IexFHWb
+ LpyJ2d3SFnszJVDE2SCjAlOEnIaaTjJldansbut0=
 MIME-Version: 1.0
-In-Reply-To: <20200302110128.2664251-4-enric.balletbo@collabora.com>
+In-Reply-To: <20200302110128.2664251-3-enric.balletbo@collabora.com>
 References: <20200302110128.2664251-1-enric.balletbo@collabora.com>
- <20200302110128.2664251-4-enric.balletbo@collabora.com>
-Subject: Re: [PATCH v11 3/5] soc: mediatek: Move mt8173 MMSYS to platform
- driver
+ <20200302110128.2664251-3-enric.balletbo@collabora.com>
+Subject: Re: [PATCH v11 2/5] dt-bindings: mediatek: Update mmsys binding to
+ reflect it is a system controller
 From: Stephen Boyd <sboyd@kernel.org>
 To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, airlied@linux.ie,
  ck.hu@mediatek.com, laurent.pinchart@ideasonboard.com, mark.rutland@arm.com,
  mturquette@baylibre.com, p.zabel@pengutronix.de, robh+dt@kernel.org,
  ulrich.hecht+renesas@gmail.com
-Date: Thu, 05 Mar 2020 13:01:13 -0800
-Message-ID: <158344207340.7173.8369925839829696256@swboyd.mtv.corp.google.com>
+Date: Thu, 05 Mar 2020 13:03:24 -0800
+Message-ID: <158344220420.7173.13803480348303577692@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,116 +77,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Enric Balletbo i Serra (2020-03-02 03:01:26)
-> From: Matthias Brugger <mbrugger@suse.com>
+Quoting Enric Balletbo i Serra (2020-03-02 03:01:25)
+> The mmsys system controller is not only a pure clock controller, so
+> update the binding documentation to reflect that apart from providing
+> clocks, it also provides routing and miscellaneous control registers.
 > 
-> There is no strong reason for this to use CLK_OF_DECLARE instead of
-> being a platform driver.
-
-Cool.
-
-> Plus, this driver provides clocks but also
-> a shared register space for the mediatek-drm and the mediatek-mdp
-> driver. So move to drivers/soc/mediatek as a platform driver.
-> 
-> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
 > Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 > Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > ---
-> 
-> Changes in v11: None
-> Changes in v10:
-> - Renamed to be generic mtk-mmsys
-> - Add driver data support to be able to support diferent SoCs
-> 
-> Changes in v9:
-> - Move mmsys to drivers/soc/mediatek (CK)
-> 
-> Changes in v8:
-> - Be a builtin_platform_driver like other mediatek mmsys drivers.
-> 
-> Changes in v7:
-> - Free clk_data->clks as well
-> - Get rid of private data structure
-> 
->  drivers/clk/mediatek/clk-mt8173.c | 104 --------------------
->  drivers/soc/mediatek/Kconfig      |   7 ++
->  drivers/soc/mediatek/Makefile     |   1 +
->  drivers/soc/mediatek/mtk-mmsys.c  | 154 ++++++++++++++++++++++++++++++
 
-Can you generate with -M so that we can see what has actually changed?
-
->  4 files changed, 162 insertions(+), 104 deletions(-)
->  create mode 100644 drivers/soc/mediatek/mtk-mmsys.c
-> 
-> diff --git a/drivers/soc/mediatek/Kconfig b/drivers/soc/mediatek/Kconfig
-> index 2114b563478c..7a156944d50e 100644
-> --- a/drivers/soc/mediatek/Kconfig
-> +++ b/drivers/soc/mediatek/Kconfig
-> @@ -44,4 +44,11 @@ config MTK_SCPSYS
->           Say yes here to add support for the MediaTek SCPSYS power domain
->           driver.
->  
-> +config MTK_MMSYS
-> +       bool "MediaTek MMSYS Support"
-> +       depends on COMMON_CLK_MT8173
-
-Does it need some default so that defconfig updates don't break things?
-
-> +       help
-> +         Say yes here to add support for the MediaTek Multimedia
-> +         Subsystem (MMSYS).
-> +
->  endmenu
-> diff --git a/drivers/soc/mediatek/Makefile b/drivers/soc/mediatek/Makefile
-> index b01733074ad6..01f9f873634a 100644
-> --- a/drivers/soc/mediatek/Makefile
-> +++ b/drivers/soc/mediatek/Makefile
-> @@ -3,3 +3,4 @@ obj-$(CONFIG_MTK_CMDQ) += mtk-cmdq-helper.o
->  obj-$(CONFIG_MTK_INFRACFG) += mtk-infracfg.o
->  obj-$(CONFIG_MTK_PMIC_WRAP) += mtk-pmic-wrap.o
->  obj-$(CONFIG_MTK_SCPSYS) += mtk-scpsys.o
-> +obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> new file mode 100644
-> index 000000000000..473cdf732fb5
-> --- /dev/null
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -0,0 +1,154 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2014 MediaTek Inc.
-> + * Author: James Liao <jamesjj.liao@mediatek.com>
-> + */
-> +
-> +#include <linux/clk-provider.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include "../../clk/mediatek/clk-gate.h"
-> +#include "../../clk/mediatek/clk-mtk.h"
-
-Why not use include/linux/clk/?
-
-But I also don't understand why the clk driver is moved outside of
-drivers/clk/ into drivers/soc/. Commit text saying that it has shared
-registers doesn't mean it can't still keep the clk driver part in the
-drivers/clk/ area.
-
-> +
-> +#include <dt-bindings/clock/mt8173-clk.h>
-> +
-> +static const struct mtk_gate_regs mm0_cg_regs = {
-> +       .set_ofs = 0x0104,
-> +       .clr_ofs = 0x0108,
-> +       .sta_ofs = 0x0100,
-> +};
-> +
-> +static const struct mtk_gate_regs mm1_cg_regs = {
-> +       .set_ofs = 0x0114,
-> +       .clr_ofs = 0x0118,
-> +       .sta_ofs = 0x0110,
-> +};
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
