@@ -1,60 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5BC17B802
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:04:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 462CB17B7E6
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:03:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A436EC8C;
-	Fri,  6 Mar 2020 08:03:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B9AB6EC78;
+	Fri,  6 Mar 2020 08:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3091989AA6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 10:01:15 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id y30so2500696pga.13
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 02:01:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=endlessm-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=d+aqQE01oMJb6UAMOBubBoPlQDg0qTH2nDZoUSvA2Pw=;
- b=sAdchzbzWdhLon0k5KU9t969rKbfqBHE5ntd8N0XREvIVOQx75SkoByrm8ZtpBglwn
- JJwH+kZSo7V/xCdkndKCh+lFMzbfUjv2Ir9+VCbd1X+M1N1Vn6XWMdhFpdHIJ9AsBIEe
- /juGIbSFekuuNZl8IP1yGZpwpqyvTiXVpqlpYiyvf0HKPaMmi5Kppi3Oj12PyV1Bi7IH
- pishhBkEccoaWKKJF5dPSq8B3ToteJr8pHBxbflhJdhNWtETENPUr51Qvo9YbTz+D983
- G5O/+EFXyo5OYGBh9r9qucLV80RCKMyGcQa8r5LjSrNnTTsCizsY6sLSgS+HH311phvh
- mwyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=d+aqQE01oMJb6UAMOBubBoPlQDg0qTH2nDZoUSvA2Pw=;
- b=NXOCMno1m3ZF2TzoIhrgzljkWWsKI5BW0ubuu4es6LuI8xmuK2mgtFjonRGW6xMoSY
- ZyjggTeeS5tudWssi702YE+r/h8S32LgFy8fiF3wzX39oQl4aiwO380xABwkS7WPXlOW
- hL/QncjONvQtKArb9YvRItGr6ZMc+KuMIOlTt+PPLZyR/mn+DuM5E6sdn0QdkVyU2ebU
- S0JokSZtdaTAXFwGwCizgQ9KbSoGN/EvCZMQccYCAYQQVizzV7giQgvQmnz5IGOtc6g4
- JYhsAxNTgNWIwC62Oqcb194BjkcEGdfUNc0DS4sCJZ6OneLOfF0RDghYkAxhu0YYn7JN
- Y07g==
-X-Gm-Message-State: ANhLgQ3yfuanZ49ZXA/vNYT9iEt6NsNNLgR24A6sfhSYTu7iO7dzFwyu
- IO7QvpIpugaER/e20SUNQ6RyjA==
-X-Google-Smtp-Source: ADFU+vshcthIRHvuvF4c67fKbNw4z5+YYa5m9qu+uE4WbbYTJtO7NJ2lNM6SgCVG0yZe2IUd7F7Ang==
-X-Received: by 2002:aa7:958f:: with SMTP id z15mr7770264pfj.205.1583402474728; 
- Thu, 05 Mar 2020 02:01:14 -0800 (PST)
-Received: from starnight.local ([150.116.255.181])
- by smtp.googlemail.com with ESMTPSA id x4sm26340400pgi.76.2020.03.05.02.01.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 02:01:14 -0800 (PST)
-From: Jian-Hong Pan <jian-hong@endlessm.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 70/89] drm/vc4: hdmi: Remove vc4_dev hdmi pointer
-Date: Thu,  5 Mar 2020 18:00:46 +0800
-Message-Id: <20200305100046.55388-1-jian-hong@endlessm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
-References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5AC446E09C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 10:05:12 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C89F331B;
+ Thu,  5 Mar 2020 02:05:11 -0800 (PST)
+Received: from [10.37.12.115] (unknown [10.37.12.115])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 73E993F6C4;
+ Thu,  5 Mar 2020 02:05:07 -0800 (PST)
+Subject: Re: [PATCH] drm/exynos: Fix memory leak and release IOMMU mapping
+ structures
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+References: <CGME20200304220106eucas1p232aae5af79945664c4586930a9412eda@eucas1p2.samsung.com>
+ <20200304220022.8003-1-lukasz.luba@arm.com>
+ <684ef9fb-eafb-22d3-40c1-50f596211d85@samsung.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <1044756c-39cf-9fea-4338-40e5a68349a9@arm.com>
+Date: Thu, 5 Mar 2020 10:05:03 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <684ef9fb-eafb-22d3-40c1-50f596211d85@samsung.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 06 Mar 2020 08:03:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,37 +47,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>, linux@endlessm.com,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: jy0922.shim@samsung.com, b.zolnierkie@samsung.com, airlied@linux.ie,
+ sw0312.kim@samsung.com, krzk@kernel.org, a.hajda@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, Dietmar.Eggemann@arm.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 1e44a3a8c2b0..d5c832c99460 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -73,7 +73,6 @@  struct vc4_perfmon {
->  struct vc4_dev {
->  	struct drm_device *dev;
->  
-> -	struct vc4_hdmi *hdmi;
+Hi Marek,
 
-Tested the building based on kernel v5.6-rc4 and linux-next/next-20200225.
-The hdmi removed here still be used in drivers/gpu/drm/vc4/vc4_hdmi.c.
-If DRM_VC4_HDMI_CEC is not disabled in building config, then it will hit
-building error.
+On 3/5/20 7:07 AM, Marek Szyprowski wrote:
+> Hi Lukasz,
+> 
+> On 04.03.2020 23:00, Lukasz Luba wrote:
+>> There is a memory leak which left some objects not freed. The reference
+>> counter of mapping: 'mapping->kref' was 2 when calling
+>> arm_iommu_detach_device(), so the release_iommu_mapping() won't be called.
+>> Since the old mapping structure is not going to be used any more (because
+>> it is detached and new one attached), call arm_iommu_release_mapping()
+>> to trigger cleanup.
+> 
+> This will break IOMMU support in Exynos DRM if deferred probe happens.
+> Here is a proper fix:
 
-Jian-Hong Pan
+I forgot about the deferred probe.
 
->  	struct vc4_hvs *hvs;
->  	struct vc4_v3d *v3d;
->  	struct vc4_dpi *dpi;
+> 
+> https://patchwork.kernel.org/patch/11415715/
+> 
+> The mapping initially created by DMA-mapping framework should be
+> attached back when Exynos DRM releases the subdev device.
+> 
+
+Indeed, as you responded in that thread with the example, there is
+more dependencies and attaching back the old mapping will work.
+
+I am going add my reviewed-by to your patch.
+
+Regards,
+Lukasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
