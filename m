@@ -2,24 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08EA17A407
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 12:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD6617A409
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 12:18:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346F16E23F;
-	Thu,  5 Mar 2020 11:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADF36E249;
+	Thu,  5 Mar 2020 11:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1256 seconds by postgrey-1.36 at gabe;
- Thu, 05 Mar 2020 11:18:03 UTC
 Received: from gateway21.websitewelcome.com (gateway21.websitewelcome.com
  [192.185.45.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD306E23F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 11:18:03 +0000 (UTC)
-Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
- by gateway21.websitewelcome.com (Postfix) with ESMTP id 13B8A400D95A0
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 04:57:07 -0600 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16F9E6E23F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 11:18:04 +0000 (UTC)
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+ by gateway21.websitewelcome.com (Postfix) with ESMTP id 98D13400D9BFD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 04:58:00 -0600 (CST)
 Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id 9oBfjiP2J8vkB9oBfjc7lU; Thu, 05 Mar 2020 04:57:07 -0600
+ id 9oCWjPx6uSl8q9oCWj2Pzh; Thu, 05 Mar 2020 04:58:00 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
@@ -27,22 +25,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/M5a41L/6lkk9po/XjdkGYtN8HrY6a7NbSP7ZLR7U80=; b=SlXihPvEXqOywcXiQN+/R3+OuP
- 4S4KGRq1wTQHgW8COyQMcOrjARF0U1rfdZNiZzIcXAIDmC75tQAConF2rlstjKmvCVtzXHAvAyOh9
- 38gfEDHqtbx5jXoRURv4S5dSMVY/evu6qbor8dVkRyk5l99Eewbx2gYzmu6zD3syZvfwcWauycRAU
- JavPSFW3cQyla4S8mjyxZZG5H0wMENIwBEllcFIFHtRxzOsWJGO742rX/N8bvBpwC2k2BpOPXIAyd
- +i5MopXH6uLVargaQ0jbmspQGnNgvr3nL+Rc5Ju3bqjYpWJQEFN2XdmOMzMUjvxcFEu71zZ0z9Rcy
- 2Dfr/aQw==;
-Received: from [201.166.169.220] (port=6678 helo=embeddedor)
+ bh=ihHfTDP+fLnk+hUJ+Lmh+Yz+nZ+OXknD+WOz4D6Ifwo=; b=BIvEOWNVJfHZFGbrFw3h5RGybd
+ c3DdP/V4pPLx5zfr9XqVZRWzs6qdQuWhav4GW4D7sP10ljAUk0xYeS5DUg1bmoqSszY8M6m4oMCHJ
+ SOKdl4ZwTuJFR+LpnGunyXalWyqYQ47Cf+ahYpauG0q1LwPdjWpameij/qi7SdHePe+hBSA+pQo+m
+ doEc0CAaHBvuXOFkN4T9HTOL/xgiK3KUlR+B7IWMvpiShGRuk9Ghe+lgwhE9j/3zFKljqf6gl4d35
+ EbqbKxvKT9brc9Y1abz1s83Y285LX/C3ZxOMIVatEYVEDX0KwIgWkjUhQYxHV2SKfJii5PB/u8V4a
+ ZsQneBdw==;
+Received: from [201.166.169.220] (port=15028 helo=embeddedor)
  by gator4166.hostgator.com with esmtpa (Exim 4.92)
  (envelope-from <gustavo@embeddedor.com>)
- id 1j9oBd-003i4f-9X; Thu, 05 Mar 2020 04:57:05 -0600
-Date: Thu, 5 Mar 2020 05:00:11 -0600
+ id 1j9oCU-003ibo-KO; Thu, 05 Mar 2020 04:57:59 -0600
+Date: Thu, 5 Mar 2020 05:01:05 -0600
 From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH][next] drm/bridge/mhl.h: Replace zero-length array with
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH][next] drm/drm_displayid.h: Replace zero-length array with
  flexible-array member
-Message-ID: <20200305110011.GA21056@embeddedor>
+Message-ID: <20200305110105.GA21188@embeddedor>
 MIME-Version: 1.0
 Content-Disposition: inline
 User-Agent: Mutt/1.9.4 (2018-02-28)
@@ -55,13 +56,13 @@ X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
 X-Source-IP: 201.166.169.220
 X-Source-L: No
-X-Exim-ID: 1j9oBd-003i4f-9X
+X-Exim-ID: 1j9oCU-003ibo-KO
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: (embeddedor) [201.166.169.220]:6678
+X-Source-Sender: (embeddedor) [201.166.169.220]:15028
 X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 40
+X-Email-Count: 47
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
 X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,29 +114,22 @@ This issue was found with the help of Coccinelle.
 
 Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- include/drm/bridge/mhl.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/drm/drm_displayid.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/bridge/mhl.h b/include/drm/bridge/mhl.h
-index 1cc77bf38324..d96626a0e3fa 100644
---- a/include/drm/bridge/mhl.h
-+++ b/include/drm/bridge/mhl.h
-@@ -327,13 +327,13 @@ struct mhl_burst_bits_per_pixel_fmt {
- 	struct {
- 		u8 stream_id;
- 		u8 pixel_format;
--	} __packed desc[0];
-+	} __packed desc[];
- } __packed;
+diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+index 9d3b745c3107..94b4390bf990 100644
+--- a/include/drm/drm_displayid.h
++++ b/include/drm/drm_displayid.h
+@@ -89,7 +89,7 @@ struct displayid_detailed_timings_1 {
  
- struct mhl_burst_emsc_support {
- 	struct mhl3_burst_header hdr;
- 	u8 num_entries;
--	__be16 burst_id[0];
-+	__be16 burst_id[];
- } __packed;
+ struct displayid_detailed_timing_block {
+ 	struct displayid_block base;
+-	struct displayid_detailed_timings_1 timings[0];
++	struct displayid_detailed_timings_1 timings[];
+ };
  
- struct mhl_burst_audio_descr {
+ #define for_each_displayid_db(displayid, block, idx, length) \
 -- 
 2.25.0
 
