@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 320B517A9D7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5651617A9D8
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F5A56EBF1;
-	Thu,  5 Mar 2020 16:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE62D6EBF2;
+	Thu,  5 Mar 2020 16:00:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5D0A6EBEF
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0E06EBF2
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:28 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 05BC8B317;
- Thu,  5 Mar 2020 16:00:23 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 77B4DB0C6;
+ Thu,  5 Mar 2020 16:00:25 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
  bbrezillon@kernel.org, nicolas.ferre@microchip.com,
@@ -37,9 +37,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
  tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
  rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
  sebastian.reichel@collabora.com
-Subject: [PATCH 21/22] drm/writeback: Use simple encoder
-Date: Thu,  5 Mar 2020 16:59:49 +0100
-Message-Id: <20200305155950.2705-22-tzimmermann@suse.de>
+Subject: [PATCH 22/22] drm/zte: Use simple encoder
+Date: Thu,  5 Mar 2020 16:59:50 +0100
+Message-Id: <20200305155950.2705-23-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200305155950.2705-1-tzimmermann@suse.de>
 References: <20200305155950.2705-1-tzimmermann@suse.de>
@@ -65,49 +65,115 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The writeback code uses an empty implementation for its encoder. Replace
+The zte driver uses empty implementations for its encoders. Replace
 the code with the generic simple encoder.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_writeback.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/zte/zx_hdmi.c  | 8 ++------
+ drivers/gpu/drm/zte/zx_tvenc.c | 8 ++------
+ drivers/gpu/drm/zte/zx_vga.c   | 8 ++------
+ 3 files changed, 6 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index 43d9e3bb3a94..cefb500c4ed7 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -16,6 +16,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_property.h>
+diff --git a/drivers/gpu/drm/zte/zx_hdmi.c b/drivers/gpu/drm/zte/zx_hdmi.c
+index b98a1420dcd3..76a16d997a23 100644
+--- a/drivers/gpu/drm/zte/zx_hdmi.c
++++ b/drivers/gpu/drm/zte/zx_hdmi.c
+@@ -20,6 +20,7 @@
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_print.h>
 +#include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_writeback.h>
  
- /**
-@@ -146,10 +147,6 @@ static int create_writeback_properties(struct drm_device *dev)
- 	return 0;
- }
+ #include <sound/hdmi-codec.h>
  
--static const struct drm_encoder_funcs drm_writeback_encoder_funcs = {
+@@ -254,10 +255,6 @@ static const struct drm_encoder_helper_funcs zx_hdmi_encoder_helper_funcs = {
+ 	.mode_set = zx_hdmi_encoder_mode_set,
+ };
+ 
+-static const struct drm_encoder_funcs zx_hdmi_encoder_funcs = {
 -	.destroy = drm_encoder_cleanup,
 -};
 -
- /**
-  * drm_writeback_connector_init - Initialize a writeback connector and its properties
-  * @dev: DRM device
-@@ -191,9 +188,8 @@ int drm_writeback_connector_init(struct drm_device *dev,
- 		return PTR_ERR(blob);
+ static int zx_hdmi_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct zx_hdmi *hdmi = to_zx_hdmi(connector);
+@@ -313,8 +310,7 @@ static int zx_hdmi_register(struct drm_device *drm, struct zx_hdmi *hdmi)
  
- 	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
--	ret = drm_encoder_init(dev, &wb_connector->encoder,
--			       &drm_writeback_encoder_funcs,
--			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-+	ret = drm_simple_encoder_init(dev, &wb_connector->encoder,
-+				      DRM_MODE_ENCODER_VIRTUAL);
- 	if (ret)
- 		goto fail;
+ 	encoder->possible_crtcs = VOU_CRTC_MASK;
  
+-	drm_encoder_init(drm, encoder, &zx_hdmi_encoder_funcs,
+-			 DRM_MODE_ENCODER_TMDS, NULL);
++	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 	drm_encoder_helper_add(encoder, &zx_hdmi_encoder_helper_funcs);
+ 
+ 	hdmi->connector.polled = DRM_CONNECTOR_POLL_HPD;
+diff --git a/drivers/gpu/drm/zte/zx_tvenc.c b/drivers/gpu/drm/zte/zx_tvenc.c
+index c598b7daf1f1..d8a89ba383bc 100644
+--- a/drivers/gpu/drm/zte/zx_tvenc.c
++++ b/drivers/gpu/drm/zte/zx_tvenc.c
+@@ -14,6 +14,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "zx_drm_drv.h"
+ #include "zx_tvenc_regs.h"
+@@ -218,10 +219,6 @@ static const struct drm_encoder_helper_funcs zx_tvenc_encoder_helper_funcs = {
+ 	.mode_set = zx_tvenc_encoder_mode_set,
+ };
+ 
+-static const struct drm_encoder_funcs zx_tvenc_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ static int zx_tvenc_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct zx_tvenc *tvenc = to_zx_tvenc(connector);
+@@ -285,8 +282,7 @@ static int zx_tvenc_register(struct drm_device *drm, struct zx_tvenc *tvenc)
+ 	 */
+ 	encoder->possible_crtcs = BIT(1);
+ 
+-	drm_encoder_init(drm, encoder, &zx_tvenc_encoder_funcs,
+-			 DRM_MODE_ENCODER_TVDAC, NULL);
++	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TVDAC);
+ 	drm_encoder_helper_add(encoder, &zx_tvenc_encoder_helper_funcs);
+ 
+ 	connector->interlace_allowed = true;
+diff --git a/drivers/gpu/drm/zte/zx_vga.c b/drivers/gpu/drm/zte/zx_vga.c
+index c4fa3bbaba78..a7ed7f5ca837 100644
+--- a/drivers/gpu/drm/zte/zx_vga.c
++++ b/drivers/gpu/drm/zte/zx_vga.c
+@@ -14,6 +14,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "zx_drm_drv.h"
+ #include "zx_vga_regs.h"
+@@ -72,10 +73,6 @@ static const struct drm_encoder_helper_funcs zx_vga_encoder_helper_funcs = {
+ 	.disable = zx_vga_encoder_disable,
+ };
+ 
+-static const struct drm_encoder_funcs zx_vga_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ static int zx_vga_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct zx_vga *vga = to_zx_vga(connector);
+@@ -154,8 +151,7 @@ static int zx_vga_register(struct drm_device *drm, struct zx_vga *vga)
+ 
+ 	encoder->possible_crtcs = VOU_CRTC_MASK;
+ 
+-	ret = drm_encoder_init(drm, encoder, &zx_vga_encoder_funcs,
+-			       DRM_MODE_ENCODER_DAC, NULL);
++	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_DAC);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev, "failed to init encoder: %d\n", ret);
+ 		return ret;
 -- 
 2.25.1
 
