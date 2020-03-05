@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE77917A9D6
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 320B517A9D7
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5DC66EBE8;
-	Thu,  5 Mar 2020 16:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F5A56EBF1;
+	Thu,  5 Mar 2020 16:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1C926EBE8
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5D0A6EBEF
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:26 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 93B79B12A;
- Thu,  5 Mar 2020 16:00:22 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 05BC8B317;
+ Thu,  5 Mar 2020 16:00:23 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
  bbrezillon@kernel.org, nicolas.ferre@microchip.com,
@@ -37,9 +37,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
  tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
  rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
  sebastian.reichel@collabora.com
-Subject: [PATCH 20/22] drm/vkms: Use simple encoder
-Date: Thu,  5 Mar 2020 16:59:48 +0100
-Message-Id: <20200305155950.2705-21-tzimmermann@suse.de>
+Subject: [PATCH 21/22] drm/writeback: Use simple encoder
+Date: Thu,  5 Mar 2020 16:59:49 +0100
+Message-Id: <20200305155950.2705-22-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200305155950.2705-1-tzimmermann@suse.de>
 References: <20200305155950.2705-1-tzimmermann@suse.de>
@@ -65,47 +65,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vkms driver uses an empty implementation for its encoder. Replace
+The writeback code uses an empty implementation for its encoder. Replace
 the code with the generic simple encoder.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/vkms/vkms_output.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_writeback.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index fb1941a6522c..85afb77e97f0 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -3,6 +3,7 @@
- #include "vkms_drv.h"
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index 43d9e3bb3a94..cefb500c4ed7 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -16,6 +16,7 @@
+ #include <drm/drm_drv.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_property.h>
 +#include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_writeback.h>
  
- static void vkms_connector_destroy(struct drm_connector *connector)
- {
-@@ -17,10 +18,6 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
+ /**
+@@ -146,10 +147,6 @@ static int create_writeback_properties(struct drm_device *dev)
+ 	return 0;
+ }
  
--static const struct drm_encoder_funcs vkms_encoder_funcs = {
+-static const struct drm_encoder_funcs drm_writeback_encoder_funcs = {
 -	.destroy = drm_encoder_cleanup,
 -};
 -
- static int vkms_conn_get_modes(struct drm_connector *connector)
- {
- 	int count;
-@@ -70,8 +67,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ /**
+  * drm_writeback_connector_init - Initialize a writeback connector and its properties
+  * @dev: DRM device
+@@ -191,9 +188,8 @@ int drm_writeback_connector_init(struct drm_device *dev,
+ 		return PTR_ERR(blob);
  
- 	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
- 
--	ret = drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
+ 	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+-	ret = drm_encoder_init(dev, &wb_connector->encoder,
+-			       &drm_writeback_encoder_funcs,
 -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-+	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTUAL);
- 	if (ret) {
- 		DRM_ERROR("Failed to init encoder\n");
- 		goto err_encoder;
++	ret = drm_simple_encoder_init(dev, &wb_connector->encoder,
++				      DRM_MODE_ENCODER_VIRTUAL);
+ 	if (ret)
+ 		goto fail;
+ 
 -- 
 2.25.1
 
