@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64AA217A3DA
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 12:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08EA17A407
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 12:18:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74AA96E1CE;
-	Thu,  5 Mar 2020 11:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346F16E23F;
+	Thu,  5 Mar 2020 11:18:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1227 seconds by postgrey-1.36 at gabe;
- Thu, 05 Mar 2020 11:16:07 UTC
-Received: from gateway32.websitewelcome.com (gateway32.websitewelcome.com
- [192.185.145.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAF036E1F1
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 11:16:07 +0000 (UTC)
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
- by gateway32.websitewelcome.com (Postfix) with ESMTP id C03FA1D54A
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 04:55:39 -0600 (CST)
+X-Greylist: delayed 1256 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Mar 2020 11:18:03 UTC
+Received: from gateway21.websitewelcome.com (gateway21.websitewelcome.com
+ [192.185.45.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD306E23F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 11:18:03 +0000 (UTC)
+Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
+ by gateway21.websitewelcome.com (Postfix) with ESMTP id 13B8A400D95A0
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 04:57:07 -0600 (CST)
 Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id 9oAFjLE9sEfyq9oAFjP3DI; Thu, 05 Mar 2020 04:55:39 -0600
+ id 9oBfjiP2J8vkB9oBfjc7lU; Thu, 05 Mar 2020 04:57:07 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
@@ -27,24 +27,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=2UNPPtItSNUQGmDGD44ZlASeILkN2vjqOxop8DEMi3I=; b=ePP0Qx2DvBLNe4AQoXUT8cIsrT
- 1wWKKFCyoG8MG8QLfyS76UkF3oIPLr3OFYtfoAVNatsKSe5ncEPtd9S5v3Rqr+lvyg3Wf7Tom2/vA
- ooiuLUBIiTeF6PPezqVSm0O+9SzuK/5cOW5tya6sF8awIB0czN9mFi4PrOC3S2WdRTm2xY+Fonx29
- JqUrU+HDw7xvMlLGpMh9DHdKJZf14fS2gF6TzSfZSvrbSSxKID4dx7VPrIOv3s/VOABN3lD6IevWE
- nCYq9h4ZLFBs1lPdympnWoPZxJnS55cGtdBuEmTNzSPHPbKjitkInnzvUNNNqXiSU/968+QeodiEG
- 5P9J65FQ==;
-Received: from [201.166.169.220] (port=12523 helo=embeddedor)
+ bh=/M5a41L/6lkk9po/XjdkGYtN8HrY6a7NbSP7ZLR7U80=; b=SlXihPvEXqOywcXiQN+/R3+OuP
+ 4S4KGRq1wTQHgW8COyQMcOrjARF0U1rfdZNiZzIcXAIDmC75tQAConF2rlstjKmvCVtzXHAvAyOh9
+ 38gfEDHqtbx5jXoRURv4S5dSMVY/evu6qbor8dVkRyk5l99Eewbx2gYzmu6zD3syZvfwcWauycRAU
+ JavPSFW3cQyla4S8mjyxZZG5H0wMENIwBEllcFIFHtRxzOsWJGO742rX/N8bvBpwC2k2BpOPXIAyd
+ +i5MopXH6uLVargaQ0jbmspQGnNgvr3nL+Rc5Ju3bqjYpWJQEFN2XdmOMzMUjvxcFEu71zZ0z9Rcy
+ 2Dfr/aQw==;
+Received: from [201.166.169.220] (port=6678 helo=embeddedor)
  by gator4166.hostgator.com with esmtpa (Exim 4.92)
  (envelope-from <gustavo@embeddedor.com>)
- id 1j9oAD-003hIb-4N; Thu, 05 Mar 2020 04:55:37 -0600
-Date: Thu, 5 Mar 2020 04:58:42 -0600
+ id 1j9oBd-003i4f-9X; Thu, 05 Mar 2020 04:57:05 -0600
+Date: Thu, 5 Mar 2020 05:00:11 -0600
 From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To: VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Thomas Hellstrom <thellstrom@vmware.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH][next] drm/vmwgfx: Replace zero-length array with
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH][next] drm/bridge/mhl.h: Replace zero-length array with
  flexible-array member
-Message-ID: <20200305105842.GA20860@embeddedor>
+Message-ID: <20200305110011.GA21056@embeddedor>
 MIME-Version: 1.0
 Content-Disposition: inline
 User-Agent: Mutt/1.9.4 (2018-02-28)
@@ -57,13 +55,13 @@ X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
 X-Source-IP: 201.166.169.220
 X-Source-L: No
-X-Exim-ID: 1j9oAD-003hIb-4N
+X-Exim-ID: 1j9oBd-003i4f-9X
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: (embeddedor) [201.166.169.220]:12523
+X-Source-Sender: (embeddedor) [201.166.169.220]:6678
 X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 36
+X-Email-Count: 40
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
 X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,36 +113,29 @@ This issue was found with the help of Coccinelle.
 
 Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c | 2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/drm/bridge/mhl.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
-index f07aa857587c..60cfbfadd3f2 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
-@@ -69,7 +69,7 @@ struct vmw_bo_dirty {
- 	unsigned int ref_count;
- 	unsigned long bitmap_size;
- 	size_t size;
--	unsigned long bitmap[0];
-+	unsigned long bitmap[];
- };
+diff --git a/include/drm/bridge/mhl.h b/include/drm/bridge/mhl.h
+index 1cc77bf38324..d96626a0e3fa 100644
+--- a/include/drm/bridge/mhl.h
++++ b/include/drm/bridge/mhl.h
+@@ -327,13 +327,13 @@ struct mhl_burst_bits_per_pixel_fmt {
+ 	struct {
+ 		u8 stream_id;
+ 		u8 pixel_format;
+-	} __packed desc[0];
++	} __packed desc[];
+ } __packed;
  
- /**
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 3ce630aa4fde..ec893cd17b50 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -79,7 +79,7 @@ struct vmw_surface_dirty {
- 	struct svga3dsurface_cache cache;
- 	size_t size;
- 	u32 num_subres;
--	SVGA3dBox boxes[0];
-+	SVGA3dBox boxes[];
- };
+ struct mhl_burst_emsc_support {
+ 	struct mhl3_burst_header hdr;
+ 	u8 num_entries;
+-	__be16 burst_id[0];
++	__be16 burst_id[];
+ } __packed;
  
- static void vmw_user_surface_free(struct vmw_resource *res);
+ struct mhl_burst_audio_descr {
 -- 
 2.25.0
 
