@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9917F17A9BC
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A48F317A992
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE086EBE0;
-	Thu,  5 Mar 2020 16:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5AD36EBDA;
+	Thu,  5 Mar 2020 16:00:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4962C6EBD9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39E8D6EBD8
  for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:03 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 5C86BAD43;
+ by mx2.suse.de (Postfix) with ESMTP id 5CA83ADE3;
  Thu,  5 Mar 2020 15:59:59 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
@@ -37,9 +37,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
  tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
  rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
  sebastian.reichel@collabora.com
-Subject: [PATCH 01/22] drm/arc: Use simple encoder
-Date: Thu,  5 Mar 2020 16:59:29 +0100
-Message-Id: <20200305155950.2705-2-tzimmermann@suse.de>
+Subject: [PATCH 02/22] drm/atmel-hlcdc: Use simple encoder
+Date: Thu,  5 Mar 2020 16:59:30 +0100
+Message-Id: <20200305155950.2705-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200305155950.2705-1-tzimmermann@suse.de>
 References: <20200305155950.2705-1-tzimmermann@suse.de>
@@ -65,77 +65,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The arc driver uses empty implementations for its encoders. Replace
-the code with the generic simple encoder.
+The atmel-hlcdc driver uses an empty implementation for its encoder.
+Replace the code with the generic simple encoder.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/arc/arcpgu_hdmi.c | 10 +++-------
- drivers/gpu/drm/arc/arcpgu_sim.c  |  8 ++------
- 2 files changed, 5 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/arc/arcpgu_hdmi.c b/drivers/gpu/drm/arc/arcpgu_hdmi.c
-index 52839934f2fb..780911765e2e 100644
---- a/drivers/gpu/drm/arc/arcpgu_hdmi.c
-+++ b/drivers/gpu/drm/arc/arcpgu_hdmi.c
-@@ -7,15 +7,12 @@
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
+index e2019fe97fff..43bc709e3523 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
+@@ -11,9 +11,10 @@
+ #include <linux/media-bus-format.h>
+ #include <linux/of_graph.h>
  
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
--#include <drm/drm_encoder.h>
- #include <drm/drm_device.h>
-+#include <drm/drm_encoder.h>
++#include <drm/drm_bridge.h>
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_of.h>
+-#include <drm/drm_bridge.h>
 +#include <drm/drm_simple_kms_helper.h>
  
- #include "arcpgu.h"
+ #include "atmel_hlcdc_dc.h"
  
--static struct drm_encoder_funcs arcpgu_drm_encoder_funcs = {
--	.destroy = drm_encoder_cleanup,
--};
--
- int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np)
- {
- 	struct drm_encoder *encoder;
-@@ -34,8 +31,7 @@ int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np)
- 
- 	encoder->possible_crtcs = 1;
- 	encoder->possible_clones = 0;
--	ret = drm_encoder_init(drm, encoder, &arcpgu_drm_encoder_funcs,
--			       DRM_MODE_ENCODER_TMDS, NULL);
-+	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/arc/arcpgu_sim.c b/drivers/gpu/drm/arc/arcpgu_sim.c
-index 37d961668dfe..66ca2c26e339 100644
---- a/drivers/gpu/drm/arc/arcpgu_sim.c
-+++ b/drivers/gpu/drm/arc/arcpgu_sim.c
-@@ -8,6 +8,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_device.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
- 
- #include "arcpgu.h"
- 
-@@ -50,10 +51,6 @@ static const struct drm_connector_funcs arcpgu_drm_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+@@ -22,10 +23,6 @@ struct atmel_hlcdc_rgb_output {
+ 	int bus_fmt;
  };
  
--static struct drm_encoder_funcs arcpgu_drm_encoder_funcs = {
+-static const struct drm_encoder_funcs atmel_hlcdc_panel_encoder_funcs = {
 -	.destroy = drm_encoder_cleanup,
 -};
 -
- int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
+ static struct atmel_hlcdc_rgb_output *
+ atmel_hlcdc_encoder_to_rgb_output(struct drm_encoder *encoder)
  {
- 	struct arcpgu_drm_connector *arcpgu_connector;
-@@ -68,8 +65,7 @@ int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
- 	encoder->possible_crtcs = 1;
- 	encoder->possible_clones = 0;
+@@ -98,9 +95,8 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
+ 		return -EINVAL;
+ 	}
  
--	ret = drm_encoder_init(drm, encoder, &arcpgu_drm_encoder_funcs,
--			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-+	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_VIRTUAL);
+-	ret = drm_encoder_init(dev, &output->encoder,
+-			       &atmel_hlcdc_panel_encoder_funcs,
+-			       DRM_MODE_ENCODER_NONE, NULL);
++	ret = drm_simple_encoder_init(dev, &output->encoder,
++				      DRM_MODE_ENCODER_NONE);
  	if (ret)
  		return ret;
  
