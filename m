@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B845D17AF82
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 21:13:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B4417AF83
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 21:13:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15AB56EC1A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6CD6EC28;
 	Thu,  5 Mar 2020 20:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc44.google.com (mail-yw1-xc44.google.com
- [IPv6:2607:f8b0:4864:20::c44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E75C6EC26
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 20:12:49 +0000 (UTC)
-Received: by mail-yw1-xc44.google.com with SMTP id t192so6880113ywe.7
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 12:12:49 -0800 (PST)
+Received: from mail-yw1-xc42.google.com (mail-yw1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 960866EC22
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 20:12:50 +0000 (UTC)
+Received: by mail-yw1-xc42.google.com with SMTP id d206so6852365ywa.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 12:12:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pmH5P3UPzpZunNOabz5UiiKtE1ndD7oQc4aQripKu0k=;
- b=W0MCXvp6hObqMaYeIyT0nlTkEZAqKOtmhgasT1SKRSWY4NA5Ox1HfEb2e11mrxPT+Q
- y7igL4exVRci44I1DS9BKR0ujeRpf3pceJ1mbYyQpIAXh97dzEbOsi3KKlUVNzxT+/U1
- celncqzJwpsNfL4ukB3rNKx2UnJHzIARlUq0n+eBqFkdsPvsVuA8INGSkeOurdJFxRbR
- PszbUBB21M55A6zc0S/C0KLYF8REM9+MSbf85zQULi7rgSWmZCteMWmxDEgnRapBnY5G
- sGKscXc5xWMctZGPZDgg4sx952z/ramU7tMvnn2oK7k8YCFYidnZmeaRoJBfOpvQvbjU
- iOUg==
+ bh=zeLIjhBH34QJINWJ32/W43zUmw1KCnIUV/c2ai2RHy0=;
+ b=PoL6Jw5d8XQRt0ulFgbsKBDAnPQ5DTvc2IV4bp8w2dSvXZYiyqXgXfdauPEEg3e6eA
+ xjezrIvTiQIKDhHI4eCl+ZOO2xWeo83LPDaPH4WZ1dDRFK0y1+b7AR0oGM7LDq5+FUwJ
+ JA4VpeWoqLoiT5RlEO+vrMAQDltRR2608317TFsKk4fryHuEf6xPSgJwv2e0UdY4/GFO
+ +ck2aD21+FoXmovplXCXRbiFJlkxG3uWJqr2PEvfDhBcOqpaPhn8qSA3cAp9bGZVsU25
+ 1SIQ/bV7YBkF/JGRcZGTzRWA7rVE0rwxw28co6VPmMmG4IkSvXXk4XeR5xd+D9Mk65ss
+ 70/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pmH5P3UPzpZunNOabz5UiiKtE1ndD7oQc4aQripKu0k=;
- b=QWEbOzppJ5/mVVGB9gglUAiPi1qjJQjNqw+6rv+1E1N7b6wPTkLgvtfQt9QL1IF92K
- 4CeU0+s4155cTIYPhYaA34ijREw1PoR2FvfW4T6TmVgKKiLmvcbUAFnGKMNtZsL36mdE
- HKX20Kbs1sL9z4VTklI7S20Y0/lkBK9ktx2yVSa0SkI8kwecBrPpA3r8COFHQvFB56Ag
- x8OHLTvFL13PaEaWJok/xe0pEeAGyyXtv1nlOHw0MeTLovzssn5izoYhLzYbS7PrbQHb
- UQJUHDB9sBgFXIBfvLW6Q+kHJs3YKNtmS8+JiH6ncTyPfa554oOaIgZtAEEcyW65Awtt
- pwQQ==
-X-Gm-Message-State: ANhLgQ1Cg22HkzsOHTSo+2t8v6BuK8ESxyUP1aKUVd7HqiuABtRFe3Hr
- oe5eFL5PWvjaVLIRMbuvkugPqTV3RBU=
-X-Google-Smtp-Source: ADFU+vub4axTAgrYzMLq88agkhOWkYwwktVEPejDmdWCD6heVfr8mUy5puIMCuJAfFGl58Hcol/Vjw==
-X-Received: by 2002:a81:8408:: with SMTP id u8mr128139ywf.384.1583439168532;
- Thu, 05 Mar 2020 12:12:48 -0800 (PST)
+ bh=zeLIjhBH34QJINWJ32/W43zUmw1KCnIUV/c2ai2RHy0=;
+ b=CIJYq4KXnF3eTbAiUDmhPnNThWqWj2ScRUWQz/3sjHhtJ17oOHcDtlQhSt9xJCyTgT
+ A2p/7Fos5zUr20lpvfCwp3BqbnnFVmskyRN+/lj/2Q4ZtstSHkt6HDHS7KIJiBtv+GqA
+ Ldomd3KSVXIBk7umCzw0JuaQo647gVxVxZUZ4OXVaVDUFevMSpvwjigWGmzLq5P8Sfag
+ 5q+bR23VDXu7Ja7SwrRnOTmco8FOEmtMgjy8OWQlBtOBk3j0cSahBt8d9d0nYy4dIH8J
+ Ml2QiTMCLPbtUyl1P9sHU78LXOjJYNAIaSzT1BGi0cT5npu1NGko5yhyXNBZmU1tBLht
+ AytA==
+X-Gm-Message-State: ANhLgQ3xxedeZ4nInhu0JRLP1oLXyp321JWiupFKhYPLyZsQJcIk+Ll3
+ tUGbL+DQgxInmE1ugf0fB8BIqWOlm1g=
+X-Google-Smtp-Source: ADFU+vu0V1c6Jmj8zi2aC1IyV4WTV4sjjAgUMf3Uej5CGR8Wxrm2pASW+ywu16HqMuix9wwo9DmlNw==
+X-Received: by 2002:a25:4e08:: with SMTP id c8mr9269604ybb.329.1583439169590; 
+ Thu, 05 Mar 2020 12:12:49 -0800 (PST)
 Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
- by smtp.gmail.com with ESMTPSA id i2sm12277494ywm.17.2020.03.05.12.12.48
+ by smtp.gmail.com with ESMTPSA id g192sm12970500ywe.99.2020.03.05.12.12.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 12:12:48 -0800 (PST)
+ Thu, 05 Mar 2020 12:12:49 -0800 (PST)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 09/16] drm/i915: Support DP MST in enc_to_dig_port()
- function
-Date: Thu,  5 Mar 2020 15:12:29 -0500
-Message-Id: <20200305201236.152307-10-sean@poorly.run>
+Subject: [PATCH v5 10/16] drm/i915: Use ddi_update_pipe in intel_dp_mst
+Date: Thu,  5 Mar 2020 15:12:30 -0500
+Message-Id: <20200305201236.152307-11-sean@poorly.run>
 X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
 In-Reply-To: <20200305201236.152307-1-sean@poorly.run>
 References: <20200305201236.152307-1-sean@poorly.run>
@@ -77,14 +76,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-Although DP_MST fake encoders are not subclassed from digital ports,
-they are associated with them. Support these encoders.
+In order to act upon content_protection property changes, we'll need to
+implement the .update_pipe() hook. We can re-use intel_ddi_update_pipe
+for this
 
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-9-sean@poorly.run #v1
-Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-10-sean@poorly.run #v2
-Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-10-sean@poorly.run #v3
-Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-10-sean@poorly.run #v4
+Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-10-sean@poorly.run #v1
+Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-11-sean@poorly.run #v2
+Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-11-sean@poorly.run #v3
+Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-11-sean@poorly.run #v4
 
 Changes in v2:
 -None
@@ -95,55 +95,58 @@ Changes in v4:
 Changes in v5:
 -None
 ---
- .../drm/i915/display/intel_display_types.h    | 21 ++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c    | 9 +++++----
+ drivers/gpu/drm/i915/display/intel_dp.h     | 4 ++++
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 1 +
+ 3 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 04161993e2038..3cac51955f250 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1502,6 +1502,18 @@ static inline bool intel_encoder_is_dig_port(struct intel_encoder *encoder)
- 	}
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 48910a2ceaaaa..149937da20586 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3695,12 +3695,13 @@ static void intel_ddi_update_pipe_dp(struct intel_encoder *encoder,
+ 	intel_panel_update_backlight(encoder, crtc_state, conn_state);
  }
  
-+static inline bool intel_encoder_is_mst(struct intel_encoder *encoder)
-+{
-+	return encoder->type == INTEL_OUTPUT_DP_MST;
-+}
-+
-+static inline struct intel_dp_mst_encoder *
-+enc_to_mst(struct intel_encoder *encoder)
-+{
-+	return container_of(&encoder->base, struct intel_dp_mst_encoder,
-+			    base.base);
-+}
-+
- static inline struct intel_digital_port *
- enc_to_dig_port(struct intel_encoder *encoder)
+-static void intel_ddi_update_pipe(struct intel_encoder *encoder,
+-				  const struct intel_crtc_state *crtc_state,
+-				  const struct drm_connector_state *conn_state)
++void intel_ddi_update_pipe(struct intel_encoder *encoder,
++			   const struct intel_crtc_state *crtc_state,
++			   const struct drm_connector_state *conn_state)
  {
-@@ -1510,6 +1522,8 @@ enc_to_dig_port(struct intel_encoder *encoder)
- 	if (intel_encoder_is_dig_port(intel_encoder))
- 		return container_of(&encoder->base, struct intel_digital_port,
- 				    base.base);
-+	else if (intel_encoder_is_mst(intel_encoder))
-+		return enc_to_mst(encoder)->primary;
- 	else
- 		return NULL;
- }
-@@ -1520,13 +1534,6 @@ intel_attached_dig_port(struct intel_connector *connector)
- 	return enc_to_dig_port(intel_attached_encoder(connector));
- }
  
--static inline struct intel_dp_mst_encoder *
--enc_to_mst(struct intel_encoder *encoder)
--{
--	return container_of(&encoder->base, struct intel_dp_mst_encoder,
--			    base.base);
--}
--
- static inline struct intel_dp *enc_to_intel_dp(struct intel_encoder *encoder)
- {
- 	return &enc_to_dig_port(encoder)->dp;
+-	if (!intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI))
++	if (!intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI) &&
++	    !intel_encoder_is_mst(encoder))
+ 		intel_ddi_update_pipe_dp(encoder, crtc_state, conn_state);
+ 
+ 	intel_hdcp_update_pipe(encoder, crtc_state, conn_state);
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index 0c7be8ed1423a..ae4a1517632bf 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -123,4 +123,8 @@ static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
+ 
+ u32 intel_dp_mode_to_fec_clock(u32 mode_clock);
+ 
++void intel_ddi_update_pipe(struct intel_encoder *encoder,
++			   const struct intel_crtc_state *crtc_state,
++			   const struct drm_connector_state *conn_state);
++
+ #endif /* __INTEL_DP_H__ */
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 39f5de9a8c7ce..af658c76125c1 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -787,6 +787,7 @@ intel_dp_create_fake_mst_encoder(struct intel_digital_port *intel_dig_port, enum
+ 	intel_encoder->compute_config = intel_dp_mst_compute_config;
+ 	intel_encoder->disable = intel_mst_disable_dp;
+ 	intel_encoder->post_disable = intel_mst_post_disable_dp;
++	intel_encoder->update_pipe = intel_ddi_update_pipe;
+ 	intel_encoder->pre_pll_enable = intel_mst_pre_pll_enable_dp;
+ 	intel_encoder->pre_enable = intel_mst_pre_enable_dp;
+ 	intel_encoder->enable = intel_mst_enable_dp;
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
