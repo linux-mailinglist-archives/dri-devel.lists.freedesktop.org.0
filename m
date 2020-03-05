@@ -1,49 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5521A17A0E8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 09:14:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C6C17A0FE
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 09:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D78146EB88;
-	Thu,  5 Mar 2020 08:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 442B06EBA3;
+	Thu,  5 Mar 2020 08:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com
- [IPv6:2607:f8b0:4864:20::1049])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 051336E144
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 01:19:49 +0000 (UTC)
-Received: by mail-pj1-x1049.google.com with SMTP id j21so3867690pjz.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 17:19:49 -0800 (PST)
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com
+ [IPv6:2607:f8b0:4864:20::649])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A86766EB7C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 01:19:52 +0000 (UTC)
+Received: by mail-pl1-x649.google.com with SMTP id m1so2014191pll.23
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2020 17:19:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=C9EkwJ1gUg61QN8k194CxCHcCIG0/y+uw6Hl1AyDtGU=;
- b=GsDLhkZMIEv9Ej06Re07oGqTUeN2KIqnyE1PyJebG3AiwxrNMzy6cA7FbNZIlcPZ62
- eajxd2DGNBSvUlm0m74/gSau0MwgbU9Ue7JfA58M0/f/tYZNvV8isvsg5q/Bxy5F62Hu
- C1bH7nfhem8ohlZ7trw3kEyFpCS94UQ6n5YXi72iUNj2UQrtOkb61BI//u12W4r+ZeIu
- O5RpEvgOVC+crxEXEpV1OYIYyf9B22fFpLTM7L3ReU+MzdmTlAdbxgHnOuD9QyANIfCk
- y2TNvYBfsu7Si2FCxBBPbHPwT37pOg8Qc5EJEkliy4FWFlmaiUqqqL0XuapXx5qKY/Gy
- amXg==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=mCF91NKean3cZSjdJ9yCVdLO2tsfZeI0WmZfI6eVTDk=;
+ b=cRIOvuMM/KB/+yXT73mgH926YkSuf4IA8CjD6CbbQMA3I2M+/YROU3ols9Uq3+ZvuY
+ DZVfTO1qIf2wBGzZkgA6XHmJiez4Dr+23vpzLHNyvvF/K6a6gbCP5uzzSdralmG8Xsfx
+ emVD1VBTpeGq5CWSA5SNlHWEmmZQ9MYG+OQIOzv+A2jsbCXP4bwKiiPd4keR5hZn1ZYn
+ OuTOo7umFh9KBuCefmqdbntymuWlzrDITfpGxpUz/CKolKeXVylsB7ACLrBBgoJIUrTi
+ 2cPLimR/puTtaCsSRReuPt/pqbgEBjTpofBfmC3xqVepbqONHuaOh/BRijOG3kD+hNgC
+ XCSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=C9EkwJ1gUg61QN8k194CxCHcCIG0/y+uw6Hl1AyDtGU=;
- b=nissJrEVr/nc01lCVGvDrsALtdwUBDWqHH7Bvuj9s+po6yYwuURG9VnT76IiUzvnjl
- wBc2bSgx/MKDvXeGFr4r2JcOKzNEhvpgH5a8Llx560TGD9XZFz5P82Jw1ko4nxq1VJ0F
- xLVlemHdFrlN1W60yuuIFJAO2KCziuN2fRt214eRWtAb45Gkur8+zkymoIRYeGv5aiPg
- YhZwGNRpXAv+2a+IXI7w+yUGwQTzLt8trF8Bjiv55f3VEo/am5+jgwikTj8P8TZhGCfs
- 5VPiIGlPLcDS7cr+QNITQUX9vfd/+svdkAbJY5pZSWEpGjuRfybzv3Us4gAHF1wdZGIx
- vFNg==
-X-Gm-Message-State: ANhLgQ10mQzH7IvRQjYRn0Tuvl7OPxLnm+RTa7eLQysk3fGvwmWtIjuS
- 2E6HIXRTz+RFpVt3mD2dWiF6FSspJvnN
-X-Google-Smtp-Source: ADFU+vtK9ayimG+QWi91+mM6FMKWb3R87v0c84ZF0OEt7KbKfhUlWJrA5oGjJks6ePvEpIzXnBMKqRiQwMwF
-X-Received: by 2002:a63:5713:: with SMTP id l19mr5168665pgb.216.1583371189438; 
- Wed, 04 Mar 2020 17:19:49 -0800 (PST)
-Date: Wed,  4 Mar 2020 17:19:41 -0800
-Message-Id: <20200305011943.214146-1-rajatja@google.com>
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=mCF91NKean3cZSjdJ9yCVdLO2tsfZeI0WmZfI6eVTDk=;
+ b=GeJhypniCZIJr1/vjmyhxPlz2K0TfJdhMBONnjGacCsh1KsCMSNExwAo/yeHimfzGb
+ IumEXgwzW1sffrDTzPmMNn/kBBqPWJWmPaOCw1PjKds4pD6fv5IzAOaYSXD9w5FTSjOb
+ wZ9+w4HwBhRAVp/tWRuxxy6HqYgbCHxlJGHgO5CElYSDf3HUTyxYQOlknKfRZpVglUzA
+ h8bzg7BxkUM422I4mcKZii7oAcG4mftiBfTlS16JHE30mFS8SnkHbUDmTHb4Drwi+MoK
+ GUGbvM7xm6xewOW48gm5tkj0fP0PE8LbQSGQyKd4V5jXkYag/dQKzD48HtquX/Xi+NC3
+ y0vQ==
+X-Gm-Message-State: ANhLgQ1qKfwrXR+KPjSl0jaIgbZnIFVPOroSs5FTwPkdDpeI7Shr67ru
+ 7OlnFMOpCKkISLqV/YL+5tOernRt9XPx
+X-Google-Smtp-Source: ADFU+vsrZjL7EsUFa5FFWR4DJkWc2f1Qsbvz4xZr8cL8IJ1ZwfR4TO7SFvoiP7JcQnGOmQoNjtWCSwL1USx+
+X-Received: by 2002:a63:4c66:: with SMTP id m38mr5158694pgl.313.1583371191993; 
+ Wed, 04 Mar 2020 17:19:51 -0800 (PST)
+Date: Wed,  4 Mar 2020 17:19:42 -0800
+In-Reply-To: <20200305011943.214146-1-rajatja@google.com>
+Message-Id: <20200305011943.214146-2-rajatja@google.com>
 Mime-Version: 1.0
+References: <20200305011943.214146-1-rajatja@google.com>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH v6 1/3] intel_acpi: Rename drm_dev local variable to dev
+Subject: [PATCH v6 2/3] drm/i915: Lookup and attach ACPI device node for
+ connectors
 From: Rajat Jain <rajatja@google.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -84,36 +88,120 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the struct drm_device * local variable from drm_dev to dev
-per the feedback received here:
-https://lkml.org/lkml/2020/1/24/1143
+Lookup and attach ACPI nodes for intel connectors. The lookup is done
+in compliance with ACPI Spec 6.3
+https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+(Ref: Pages 1119 - 1123).
+
+This can be useful for any connector specific platform properties. (This
+will be used for privacy screen in next patch).
 
 Signed-off-by: Rajat Jain <rajatja@google.com>
 ---
-v6: Initial patch (v6 to match other patches in the set) 
+v6: Addressed minor comments from Jani at
+    https://lkml.org/lkml/2020/1/24/1143
+     - local variable renamed.
+     - used drm_dbg_kms()
+     - used acpi_device_handle()
+     - Used opaque type acpi_handle instead of void*
+v5: same as v4
+v4: Same as v3
+v3: fold the code into existing acpi_device_id_update() function
+v2: formed by splitting the original patch into ACPI lookup, and privacy
+    screen property. Also move it into i915 now that I found existing code
+    in i915 that can be re-used.
 
- drivers/gpu/drm/i915/display/intel_acpi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_acpi.c     | 24 +++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |  5 ++++
+ drivers/gpu/drm/i915/display/intel_dp.c       |  3 +++
+ 3 files changed, 32 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
-index e21fb14d5e07b..3e6831cca4ac1 100644
+index 3e6831cca4ac1..870c1ad98df92 100644
 --- a/drivers/gpu/drm/i915/display/intel_acpi.c
 +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
-@@ -224,13 +224,13 @@ static u32 acpi_display_type(struct intel_connector *connector)
+@@ -222,11 +222,22 @@ static u32 acpi_display_type(struct intel_connector *connector)
+ 	return display_type;
+ }
  
++/*
++ * Ref: ACPI Spec 6.3
++ * https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
++ * Pages 1119 - 1123 describe, what I believe, a standard way of
++ * identifying / addressing "display panels" in the ACPI. It provides
++ * a way for the ACPI to define devices for the display panels attached
++ * to the system. It thus provides a way for the BIOS to export any panel
++ * specific properties to the system via ACPI (like device trees).
++ */
  void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
  {
--	struct drm_device *drm_dev = &dev_priv->drm;
-+	struct drm_device *dev = &dev_priv->drm;
+ 	struct drm_device *dev = &dev_priv->drm;
  	struct intel_connector *connector;
  	struct drm_connector_list_iter conn_iter;
++	struct acpi_device *conn_dev;
++	u64 conn_addr;
  	u8 display_index[16] = {};
  
  	/* Populate the ACPI IDs for all connectors for a given drm_device */
--	drm_connector_list_iter_begin(drm_dev, &conn_iter);
-+	drm_connector_list_iter_begin(dev, &conn_iter);
- 	for_each_intel_connector_iter(connector, &conn_iter) {
- 		u32 device_id, type;
+@@ -242,6 +253,19 @@ void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
+ 		device_id |= display_index[type]++ << ACPI_DISPLAY_INDEX_SHIFT;
+ 
+ 		connector->acpi_device_id = device_id;
++
++		/* Build the _ADR to look for */
++		conn_addr = device_id | ACPI_DEVICE_ID_SCHEME |
++				ACPI_BIOS_CAN_DETECT;
++
++		drm_dbg_kms(dev, "Checking connector ACPI node at _ADR=%llX\n",
++			    conn_addr);
++
++		/* Look up the connector device, under the PCI device */
++		conn_dev = acpi_find_child_device(
++					ACPI_COMPANION(&dev->pdev->dev),
++					conn_addr, false);
++		connector->acpi_handle = acpi_device_handle(conn_dev);
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 5e00e611f077f..d70612cc1ba2a 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -411,9 +411,14 @@ struct intel_connector {
+ 	 */
+ 	struct intel_encoder *encoder;
+ 
++#ifdef CONFIG_ACPI
+ 	/* ACPI device id for ACPI and driver cooperation */
+ 	u32 acpi_device_id;
+ 
++	/* ACPI handle corresponding to this connector display, if found */
++	acpi_handle acpi_handle;
++#endif
++
+ 	/* Reads out the current hw, returning true if the connector is enabled
+ 	 * and active (i.e. dpms ON state). */
+ 	bool (*get_hw_state)(struct intel_connector *);
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 0a417cd2af2bc..171821113d362 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -44,6 +44,7 @@
+ #include "i915_debugfs.h"
+ #include "i915_drv.h"
+ #include "i915_trace.h"
++#include "intel_acpi.h"
+ #include "intel_atomic.h"
+ #include "intel_audio.h"
+ #include "intel_connector.h"
+@@ -6868,6 +6869,8 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
+ 
+ 		connector->state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+ 
++		/* Lookup the ACPI node corresponding to the connector */
++		intel_acpi_device_id_update(dev_priv);
+ 	}
+ }
  
 -- 
 2.25.0.265.gbab2e86ba0-goog
