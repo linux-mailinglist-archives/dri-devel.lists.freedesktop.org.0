@@ -2,48 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5651617A9D8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8520017AA3F
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:12:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE62D6EBF2;
-	Thu,  5 Mar 2020 16:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7AEC6EBF7;
+	Thu,  5 Mar 2020 16:12:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0E06EBF2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:28 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 77B4DB0C6;
- Thu,  5 Mar 2020 16:00:25 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
- bbrezillon@kernel.org, nicolas.ferre@microchip.com,
- alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- jingoohan1@gmail.com, inki.dae@samsung.com, jy0922.shim@samsung.com,
- sw0312.kim@samsung.com, kyungmin.park@samsung.com, kgene@kernel.org,
- krzk@kernel.org, stefan@agner.ch, alison.wang@nxp.com,
- patrik.r.jakobsson@gmail.com, xinliang.liu@linaro.org,
- zourongrong@gmail.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- linux@armlinux.org.uk, p.zabel@pengutronix.de, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, paul@crapouillou.net, ck.hu@mediatek.com,
- matthias.bgg@gmail.com, laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
- heiko@sntech.de, wens@csie.org, jernej.skrabec@siol.net,
- thierry.reding@gmail.com, jonathanh@nvidia.com, jsarha@ti.com,
- tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- sebastian.reichel@collabora.com
-Subject: [PATCH 22/22] drm/zte: Use simple encoder
-Date: Thu,  5 Mar 2020 16:59:50 +0100
-Message-Id: <20200305155950.2705-23-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200305155950.2705-1-tzimmermann@suse.de>
-References: <20200305155950.2705-1-tzimmermann@suse.de>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50C026EBF5
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:12:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583424746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RfAp+QEMnxTnSpjbGYRyc5CB4JP8k7vpqPIomYHh+V8=;
+ b=AbVKKSqmWy+ZiZyMOVaojV4+QqfSzg9ouz/xBchzX2qfErfWWucn0d6qi62b9ZfQ5S8wex
+ P60Hbc0T6t3MQfuIiiwz2Wt+oRCBmgo+HuMzw7XNfLFbxwrKRvNBoW3Hxfexw4ExEte3VD
+ yYQ59tMFDdNYN49qANugtkV6S26ysdE=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-1nxTdpj4N1ai_KMbeYy9tg-1; Thu, 05 Mar 2020 11:12:22 -0500
+X-MC-Unique: 1nxTdpj4N1ai_KMbeYy9tg-1
+Received: by mail-qv1-f69.google.com with SMTP id n18so1136953qvl.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 08:12:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RfAp+QEMnxTnSpjbGYRyc5CB4JP8k7vpqPIomYHh+V8=;
+ b=MMPN2zPbv/51QVdeAIsThBuAE8A4uwBinfIKq5pIsRqi4UVpICnFsnSMKT8lhfizCJ
+ od5mGSfk0Fan2c4WG5MZwC7qgEoYX+GiAFqvdsEDXzmYe43bC1NhvW6ffz7cUXERmU/l
+ VwUJm/bPlfg7XnDp3QO5dBUPvfySTFIS1nzu6Ip8N/7Ykqgn7Lh5B2B7WuGyouiKuWNe
+ HB+erEVL1vEccrdNeal2HbuKRc5js+6cL4IGLLmMkzCdfUbT4r367ISTm4TsAYZBiucS
+ gOPkW6TSI9B8aFqnhsTb6+yO8FZQoox/c7dO2CWjg3HjOW07Zqr5SaFYFqIhlMbw21HU
+ 8SDQ==
+X-Gm-Message-State: ANhLgQ39LeRa/2nAMlAXHUgFpMc6vrAnivlg7WAoNGAO6Bh4zxf5ueDH
+ jWMGab5pUytm5jVrC2pWNYjhUDUlJsTnzlEh64YizyY3K8wS9S61y+hkcO4zs3xlI6N7paZFKdB
+ t2wWLU7csmW+p0EqH2dklevmPJjwfNCpV/EuQbjVddIgw
+X-Received: by 2002:ac8:735a:: with SMTP id q26mr7887414qtp.286.1583424741119; 
+ Thu, 05 Mar 2020 08:12:21 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vtI0DaYbPJTTjYz+0cU0CzTU3WBaRpIc/MxzYtluJjxUhYaSvH7/RNYoOEGro4prZPyjY8QVzAQdKVHn5xeTbU=
+X-Received: by 2002:ac8:735a:: with SMTP id q26mr7887385qtp.286.1583424740750; 
+ Thu, 05 Mar 2020 08:12:20 -0800 (PST)
 MIME-Version: 1.0
+References: <20200303101052.133631-1-kherbst@redhat.com>
+ <20200304093324.GI2540@lahna.fi.intel.com>
+In-Reply-To: <20200304093324.GI2540@lahna.fi.intel.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Thu, 5 Mar 2020 17:11:57 +0100
+Message-ID: <CACO55ts7VGUJoSM_X_huZ0o68+P6SaWgFKbQzkw=-F+Kh5WfcA@mail.gmail.com>
+Subject: Re: [PATCH v6] pci: prevent putting nvidia GPUs into lower device
+ states on certain intel bridges
+To: Mika Westerberg <mika.westerberg@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,128 +72,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux PM <linux-pm@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The zte driver uses empty implementations for its encoders. Replace
-the code with the generic simple encoder.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/zte/zx_hdmi.c  | 8 ++------
- drivers/gpu/drm/zte/zx_tvenc.c | 8 ++------
- drivers/gpu/drm/zte/zx_vga.c   | 8 ++------
- 3 files changed, 6 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/zte/zx_hdmi.c b/drivers/gpu/drm/zte/zx_hdmi.c
-index b98a1420dcd3..76a16d997a23 100644
---- a/drivers/gpu/drm/zte/zx_hdmi.c
-+++ b/drivers/gpu/drm/zte/zx_hdmi.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_print.h>
-+#include <drm/drm_simple_kms_helper.h>
- 
- #include <sound/hdmi-codec.h>
- 
-@@ -254,10 +255,6 @@ static const struct drm_encoder_helper_funcs zx_hdmi_encoder_helper_funcs = {
- 	.mode_set = zx_hdmi_encoder_mode_set,
- };
- 
--static const struct drm_encoder_funcs zx_hdmi_encoder_funcs = {
--	.destroy = drm_encoder_cleanup,
--};
--
- static int zx_hdmi_connector_get_modes(struct drm_connector *connector)
- {
- 	struct zx_hdmi *hdmi = to_zx_hdmi(connector);
-@@ -313,8 +310,7 @@ static int zx_hdmi_register(struct drm_device *drm, struct zx_hdmi *hdmi)
- 
- 	encoder->possible_crtcs = VOU_CRTC_MASK;
- 
--	drm_encoder_init(drm, encoder, &zx_hdmi_encoder_funcs,
--			 DRM_MODE_ENCODER_TMDS, NULL);
-+	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
- 	drm_encoder_helper_add(encoder, &zx_hdmi_encoder_helper_funcs);
- 
- 	hdmi->connector.polled = DRM_CONNECTOR_POLL_HPD;
-diff --git a/drivers/gpu/drm/zte/zx_tvenc.c b/drivers/gpu/drm/zte/zx_tvenc.c
-index c598b7daf1f1..d8a89ba383bc 100644
---- a/drivers/gpu/drm/zte/zx_tvenc.c
-+++ b/drivers/gpu/drm/zte/zx_tvenc.c
-@@ -14,6 +14,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
- 
- #include "zx_drm_drv.h"
- #include "zx_tvenc_regs.h"
-@@ -218,10 +219,6 @@ static const struct drm_encoder_helper_funcs zx_tvenc_encoder_helper_funcs = {
- 	.mode_set = zx_tvenc_encoder_mode_set,
- };
- 
--static const struct drm_encoder_funcs zx_tvenc_encoder_funcs = {
--	.destroy = drm_encoder_cleanup,
--};
--
- static int zx_tvenc_connector_get_modes(struct drm_connector *connector)
- {
- 	struct zx_tvenc *tvenc = to_zx_tvenc(connector);
-@@ -285,8 +282,7 @@ static int zx_tvenc_register(struct drm_device *drm, struct zx_tvenc *tvenc)
- 	 */
- 	encoder->possible_crtcs = BIT(1);
- 
--	drm_encoder_init(drm, encoder, &zx_tvenc_encoder_funcs,
--			 DRM_MODE_ENCODER_TVDAC, NULL);
-+	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TVDAC);
- 	drm_encoder_helper_add(encoder, &zx_tvenc_encoder_helper_funcs);
- 
- 	connector->interlace_allowed = true;
-diff --git a/drivers/gpu/drm/zte/zx_vga.c b/drivers/gpu/drm/zte/zx_vga.c
-index c4fa3bbaba78..a7ed7f5ca837 100644
---- a/drivers/gpu/drm/zte/zx_vga.c
-+++ b/drivers/gpu/drm/zte/zx_vga.c
-@@ -14,6 +14,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
- 
- #include "zx_drm_drv.h"
- #include "zx_vga_regs.h"
-@@ -72,10 +73,6 @@ static const struct drm_encoder_helper_funcs zx_vga_encoder_helper_funcs = {
- 	.disable = zx_vga_encoder_disable,
- };
- 
--static const struct drm_encoder_funcs zx_vga_encoder_funcs = {
--	.destroy = drm_encoder_cleanup,
--};
--
- static int zx_vga_connector_get_modes(struct drm_connector *connector)
- {
- 	struct zx_vga *vga = to_zx_vga(connector);
-@@ -154,8 +151,7 @@ static int zx_vga_register(struct drm_device *drm, struct zx_vga *vga)
- 
- 	encoder->possible_crtcs = VOU_CRTC_MASK;
- 
--	ret = drm_encoder_init(drm, encoder, &zx_vga_encoder_funcs,
--			       DRM_MODE_ENCODER_DAC, NULL);
-+	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_DAC);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "failed to init encoder: %d\n", ret);
- 		return ret;
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBNYXIgNCwgMjAyMCBhdCAxMDozMyBBTSBNaWthIFdlc3RlcmJlcmcKPG1pa2Eud2Vz
+dGVyYmVyZ0BpbnRlbC5jb20+IHdyb3RlOgo+Cj4gSGksCj4KPiBPbiBUdWUsIE1hciAwMywgMjAy
+MCBhdCAxMToxMDo1MkFNICswMTAwLCBLYXJvbCBIZXJic3Qgd3JvdGU6Cj4gPiBGaXhlcyBzdGF0
+ZSB0cmFuc2l0aW9ucyBvZiBOdmlkaWEgUGFzY2FsIEdQVXMgZnJvbSBEM2NvbGQgaW50byBoaWdo
+ZXIgZGV2aWNlCj4gPiBzdGF0ZXMuCj4KPiBJIHRoaW5rIGl0IGlzIGdvb2QgdG8gZXhwbGFpbiBi
+aXQgbW9yZSBoZXJlIHdoeSB0aGlzIGZpeCBpcyBuZWVkZWQuCj4KCmlzIHNvbWV0aGluZyBsaWtl
+IHRoaXMgZmluZT8KCkZpeGVzIHRoZSBpbmZhbW91cyAncnVucG0nIGJ1ZyBtYW55IHVzZXJzIGFy
+ZSBmYWNpbmcgb24gTGFwdG9wcyB3aXRoIE52aWRpYQpQYXNjYWwgR1BVcyBieSBza2lwcGluZyBQ
+Q0kgcG93ZXIgc3RhdGUgY2hhbmdlcyBvbiB0aGUgR1BVLgoKSXQncyBzdGlsbCB1bmtub3duIHdo
+eSB0aGlzIGlzc3VlIGV4aXN0cywgYnV0IHRoaXMgaXMgYSByZWxpYWJsZSB3b3JrYXJvdW5kCmFu
+ZCBzb2x2ZXMgYSB2ZXJ5IGFubm95aW5nIGlzc3VlIGZvciB1c2VyIGhhdmluZyB0byBjaG9vc2Ug
+YmV0d2VlbiBhCmNyYXNoaW5nIGtlcm5lbCBvciBoaWdoZXIgcG93ZXIgY29uc3VtcHRpb24gb2Yg
+dGhlaXIgTGFwdG9wcy4KCj4gPiB2MjogY29udmVydCB0byBwY2lfZGV2IHF1aXJrCj4gPiAgICAg
+cHV0IGEgcHJvcGVyIHRlY2huaWNhbCBleHBsYW5hdGlvbiBvZiB0aGUgaXNzdWUgYXMgYSBpbi1j
+b2RlIGNvbW1lbnQKPiA+IHYzOiBkaXNhYmxlIGl0IG9ubHkgZm9yIGNlcnRhaW4gY29tYmluYXRp
+b25zIG9mIGludGVsIGFuZCBudmlkaWEgaGFyZHdhcmUKPiA+IHY0OiBzaW1wbGlmeSBxdWlyayBi
+eSBzZXR0aW5nIGZsYWcgb24gdGhlIEdQVSBpdHNlbGYKPiA+IHY1OiByZXN0cnVjdHVyZSBxdWly
+ayB0byBtYWtlIGl0IGVhc2llciB0byBhZGQgbmV3IElEcwo+ID4gICAgIGZpeCB3aGl0ZXNwYWNl
+IGlzc3Vlcwo+ID4gICAgIGZpeCBwb3RlbnRpYWwgTlVMTCBwb2ludGVyIGFjY2Vzcwo+ID4gICAg
+IHVwZGF0ZSB0aGUgcXVpcmsgZG9jdW1lbnRhdGlvbgo+ID4gdjY6IG1vdmUgcXVpcmsgaW50byBu
+b3V2ZWF1Cj4KPiBUaGlzIGluZm9ybWF0aW9uIHR5cGljYWxseSBnb2VzIHVuZGVyIHRoZSAnLS0t
+JyBsaW5lLgo+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBLYXJvbCBIZXJic3QgPGtoZXJic3RAcmVkaGF0
+LmNvbT4KPiA+IENjOiBCam9ybiBIZWxnYWFzIDxiaGVsZ2Fhc0Bnb29nbGUuY29tPgo+ID4gQ2M6
+IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gPiBDYzogUmFmYWVsIEouIFd5c29ja2kg
+PHJqd0Byand5c29ja2kubmV0Pgo+ID4gQ2M6IE1pa2EgV2VzdGVyYmVyZyA8bWlrYS53ZXN0ZXJi
+ZXJnQGludGVsLmNvbT4KPgo+IEkgaGF2ZSBmZXcgbWlub3IgY29tbWVudHMgYnV0IHJlZ2FyZGxl
+c3MsCj4KPiBSZXZpZXdlZC1ieTogTWlrYSBXZXN0ZXJiZXJnIDxtaWthLndlc3RlcmJlcmdAbGlu
+dXguaW50ZWwuY29tPgo+Cj4gPiBDYzogbGludXgtcGNpQHZnZXIua2VybmVsLm9yZwo+ID4gQ2M6
+IGxpbnV4LXBtQHZnZXIua2VybmVsLm9yZwo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKPiA+IENjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gQnVnemls
+bGE6IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MjA1NjIzCj4g
+PiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RybS5jIHwgNTYgKysr
+KysrKysrKysrKysrKysrKysrKysrKysrCj4gPiAgZHJpdmVycy9wY2kvcGNpLmMgICAgICAgICAg
+ICAgICAgICAgICB8ICA4ICsrKysKPiA+ICBpbmNsdWRlL2xpbnV4L3BjaS5oICAgICAgICAgICAg
+ICAgICAgIHwgIDEgKwo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgNjUgaW5zZXJ0aW9ucygrKQo+ID4K
+PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RybS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYwo+ID4gaW5kZXggMmNkODM4NDk2
+MDBmLi41MWQzYTdiYTc3MzEgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVh
+dS9ub3V2ZWF1X2RybS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
+X2RybS5jCj4gPiBAQCAtNjE4LDYgKzYxOCw1OSBAQCBub3V2ZWF1X2RybV9kZXZpY2VfZmluaShz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2KQo+ID4gICAgICAga2ZyZWUoZHJtKTsKPiA+ICB9Cj4gPgo+
+ID4gKy8qCj4gPiArICogT24gc29tZSBJbnRlbCBQQ0llIGJyaWRnZSBjb250cm9sbGVycyBkb2lu
+ZyBhCj4gPiArICogRDAgLT4gRDNob3QgLT4gRDNjb2xkIC0+IEQwIHNlcXVlbmNlIGNhdXNlcyBO
+dmlkaWEgR1BVcyB0byBub3QgcmVhcHBlYXIuCj4gPiArICogU2tpcHBpbmcgdGhlIGludGVybWVk
+aWF0ZSBEM2hvdCBzdGVwIHNlZW1zIHRvIG1ha2UgaXQgd29yayBhZ2Fpbi4gVGhpc2UgaXMKPiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBeXl5eXgo+IFRoaXNlIC0+IFRoaXMKPgo+ID4gKyAqIHByb2JhYmx5IGNh
+dXNlZCBieSBub3QgbWVldGluZyB0aGUgZXhwZWN0YXRpb24gdGhlIGludm9sdmVkIEFNTCBjb2Rl
+IGhhcwo+ID4gKyAqIHdoZW4gdGhlIEdQVSBpcyBwdXQgaW50byBEM2hvdCBzdGF0ZSBiZWZvcmUg
+aW52b2tpbmcgaXQuCj4gPiArICoKPiA+ICsgKiBUaGlzIGxlYWRzIHRvIHZhcmlvdXMgbWFuaWZl
+c3RhdGlvbnMgb2YgdGhpcyBpc3N1ZToKPiA+ICsgKiAgLSBBTUwgY29kZSBleGVjdXRpb24gdG8g
+cG93ZXIgb24gdGhlIEdQVSBoaXRzIGFuIGluZmluaXRlIGxvb3AgKGFzIHRoZQo+ID4gKyAqICAg
+IGNvZGUgd2FpdHMgb24gZGV2aWNlIG1lbW9yeSB0byBjaGFuZ2UpLgo+ID4gKyAqICAtIGtlcm5l
+bCBjcmFzaGVzLCBhcyBhbGwgUENJIHJlYWRzIHJldHVybiAtMSwgd2hpY2ggbW9zdCBjb2RlIGlz
+bid0IGFibGUKPiA+ICsgKiAgICB0byBoYW5kbGUgd2VsbCBlbm91Z2guCj4gPiArICoKPiA+ICsg
+KiBJbiBhbGwgY2FzZXMgZG1lc2cgd2lsbCBjb250YWluIGF0IGxlYXN0IG9uZSBsaW5lIGxpa2Ug
+dGhpczoKPiA+ICsgKiAnbm91dmVhdSAwMDAwOjAxOjAwLjA6IFJlZnVzZWQgdG8gY2hhbmdlIHBv
+d2VyIHN0YXRlLCBjdXJyZW50bHkgaW4gRDMnCj4gPiArICogZm9sbG93ZWQgYnkgYSBsb3Qgb2Yg
+bm91dmVhdSB0aW1lb3V0cy4KPiA+ICsgKgo+ID4gKyAqIEluIHRoZSBcX1NCLlBDSTAuUEVHMC5Q
+RzAwLl9PRkYgY29kZSBkZWVwZXIgZG93biB3cml0ZXMgYml0IDB4ODAgdG8gdGhlIG5vdAo+ID4g
+KyAqIGRvY3VtZW50ZWQgUENJIGNvbmZpZyBzcGFjZSByZWdpc3RlciAweDI0OCBvZiB0aGUgSW50
+ZWwgUENJZSBicmlkZ2UKPiA+ICsgKiBjb250cm9sbGVyICgweDE5MDEpIGluIG9yZGVyIHRvIGNo
+YW5nZSB0aGUgc3RhdGUgb2YgdGhlIFBDSWUgbGluayBiZXR3ZWVuCj4gPiArICogdGhlIFBDSWUg
+cG9ydCBhbmQgdGhlIEdQVS4gVGhlcmUgYXJlIGFsdGVybmF0aXZlIGNvZGUgcGF0aHMgdXNpbmcg
+b3RoZXIKPiA+ICsgKiByZWdpc3RlcnMsIHdoaWNoIHNlZW0gdG8gd29yayBmaW5lIChleGVjdXRl
+ZCBwcmUgV2luZG93cyA4KToKPiA+ICsgKiAgLSAweGJjIGJpdCAweDIwIChwdWJsaWNseSBhdmFp
+bGFibGUgZG9jdW1lbnRhdGlvbiBjbGFpbXMgJ3Jlc2VydmVkJykKPiA+ICsgKiAgLSAweGIwIGJp
+dCAweDEwIChsaW5rIGRpc2FibGUpCj4gPiArICogQ2hhbmdpbmcgdGhlIGNvbmRpdGlvbnMgaW5z
+aWRlIHRoZSBmaXJtd2FyZSBieSBwb2tpbmcgaW50byB0aGUgcmVsZXZhbnQKPiA+ICsgKiBhZGRy
+ZXNzZXMgZG9lcyByZXNvbHZlIHRoZSBpc3N1ZSwgYnV0IGl0IHNlZW1lZCB0byBiZSBBQ1BJIHBy
+aXZhdGUgbWVtb3J5Cj4gPiArICogYW5kIG5vdCBhbnkgZGV2aWNlIGFjY2Vzc2libGUgbWVtb3J5
+IGF0IGFsbCwgc28gdGhlcmUgaXMgbm8gcG9ydGFibGUgd2F5IG9mCj4gPiArICogY2hhbmdpbmcg
+dGhlIGNvbmRpdGlvbnMuCj4gPiArICogT24gYSBYUFMgOTU2MCB0aGF0IG1lYW5zIGJpdHMgWzAs
+M10gb24gXENQRVggbmVlZCB0byBiZSBjbGVhcmVkLgo+ID4gKyAqCj4gPiArICogVGhlIG9ubHkg
+c3lzdGVtcyB3aGVyZSB0aGlzIGJlaGF2aW9yIGNhbiBiZSBzZWVuIGFyZSBoeWJyaWQgZ3JhcGhp
+Y3MgbGFwdG9wcwo+ID4gKyAqIHdpdGggYSBzZWNvbmRhcnkgTnZpZGlhIE1heHdlbGwsIFBhc2Nh
+bCBvciBUdXJpbmcgR1BVLiBJdHMgdW5jbGVhciB3aGVhdGhlcgo+ICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeXl4gICAgICAgICBe
+Xl5eXl5eXgo+IEl0cyAtPiBJdCdzCj4gd2hlYXRoZXIgLT4gd2hldGhlcgo+Cj4gPiArICogdGhp
+cyBpc3N1ZSBvbmx5IG9jY3VycyBpbiBjb21iaW5hdGlvbiB3aXRoIGxpc3RlZCBJbnRlbCBQQ0ll
+IGJyaWRnZQo+ID4gKyAqIGNvbnRyb2xsZXJzIGFuZCB0aGUgbWVudGlvbmVkIEdQVXMgb3Igb3Ro
+ZXIgZGV2aWNlcyBhcyB3ZWxsLgo+ID4gKyAqCj4gPiArICogZG9jdW1lbnRhdGlvbiBvbiB0aGUg
+UENJZSBicmlkZ2UgY29udHJvbGxlciBjYW4gYmUgZm91bmQgaW4gdGhlCj4gPiArICogIjd0aCBH
+ZW5lcmF0aW9uIEludGVswq4gUHJvY2Vzc29yIEZhbWlsaWVzIGZvciBIIFBsYXRmb3JtcyBEYXRh
+c2hlZXQgVm9sdW1lIDIiCj4gPiArICogU2VjdGlvbiAiMTIgUENJIEV4cHJlc3MqIENvbnRyb2xs
+ZXIgKHgxNikgUmVnaXN0ZXJzIgo+ID4gKyAqLwo+ID4gKwo+ID4gK3N0YXRpYyB2b2lkIHF1aXJr
+X2Jyb2tlbl9udl9ydW5wbShzdHJ1Y3QgcGNpX2RldiAqZGV2KQo+ID4gK3sKPiA+ICsgICAgIHN0
+cnVjdCBwY2lfZGV2ICpicmlkZ2UgPSBwY2lfdXBzdHJlYW1fYnJpZGdlKGRldik7Cj4gPiArCj4g
+PiArICAgICBpZiAoIWJyaWRnZSB8fCBicmlkZ2UtPnZlbmRvciAhPSBQQ0lfVkVORE9SX0lEX0lO
+VEVMKQo+ID4gKyAgICAgICAgICAgICByZXR1cm47Cj4gPiArCj4gPiArICAgICBzd2l0Y2ggKGJy
+aWRnZS0+ZGV2aWNlKSB7Cj4gPiArICAgICBjYXNlIDB4MTkwMToKPiA+ICsgICAgICAgICAgICAg
+ZGV2LT5wYXJlbnRfZDNjb2xkID0gMTsKPgo+IEkgdGhpbmsgaXQgaXMgYmV0dGVyIHRvIGFkZAo+
+Cj4gICAgICAgICAgICAgICAgIGJyZWFrOwo+Cj4gaGVyZS4KPgo+ID4gKyAgICAgfQo+ID4gK30K
+PiA+ICsKPiA+ICBzdGF0aWMgaW50IG5vdXZlYXVfZHJtX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpw
+ZGV2LAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IHBjaV9kZXZp
+Y2VfaWQgKnBlbnQpCj4gPiAgewo+ID4gQEAgLTY5OSw2ICs3NTIsNyBAQCBzdGF0aWMgaW50IG5v
+dXZlYXVfZHJtX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LAo+ID4gICAgICAgaWYgKHJldCkK
+PiA+ICAgICAgICAgICAgICAgZ290byBmYWlsX2RybV9kZXZfaW5pdDsKPiA+Cj4gPiArICAgICBx
+dWlya19icm9rZW5fbnZfcnVucG0ocGRldik7Cj4gPiAgICAgICByZXR1cm4gMDsKPiA+Cj4gPiAg
+ZmFpbF9kcm1fZGV2X2luaXQ6Cj4gPiBAQCAtNzM3LDYgKzc5MSw4IEBAIG5vdXZlYXVfZHJtX3Jl
+bW92ZShzdHJ1Y3QgcGNpX2RldiAqcGRldikKPiA+ICB7Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2ID0gcGNpX2dldF9kcnZkYXRhKHBkZXYpOwo+ID4KPiA+ICsgICAgIC8qIHJldmVy
+dCBvdXIgd29ya2Fyb3VuZCAqLwo+ID4gKyAgICAgcGRldi0+cGFyZW50X2QzY29sZCA9IGZhbHNl
+Owo+ID4gICAgICAgbm91dmVhdV9kcm1fZGV2aWNlX3JlbW92ZShkZXYpOwo+ID4gIH0KPiA+Cj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9wY2kvcGNpLmMgYi9kcml2ZXJzL3BjaS9wY2kuYwo+ID4g
+aW5kZXggOTUxMDk5Mjc5MTkyLi42ZWNlMDU3MjNmYTIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJz
+L3BjaS9wY2kuYwo+ID4gKysrIGIvZHJpdmVycy9wY2kvcGNpLmMKPiA+IEBAIC04NjAsNiArODYw
+LDE0IEBAIHN0YXRpYyBpbnQgcGNpX3Jhd19zZXRfcG93ZXJfc3RhdGUoc3RydWN0IHBjaV9kZXYg
+KmRldiwgcGNpX3Bvd2VyX3Qgc3RhdGUpCj4gPiAgICAgICAgICB8fCAoc3RhdGUgPT0gUENJX0Qy
+ICYmICFkZXYtPmQyX3N1cHBvcnQpKQo+ID4gICAgICAgICAgICAgICByZXR1cm4gLUVJTzsKPiA+
+Cj4gPiArICAgICAvKgo+ID4gKyAgICAgICogUG93ZXIgbWFuYWdlbWVudCBjYW4gYmUgZGlzYWJs
+ZWQgZm9yIGNlcnRhaW4gZGV2aWNlcyBhcyB0aGV5IGRvbid0Cj4gPiArICAgICAgKiBjb21lIGJh
+Y2sgdXAgbGF0ZXIgb24gcnVudGltZV9yZXN1bWUuIFdlIHJlbHkgb24gcGxhdGZvcm0gbWVhbnMg
+dG8KPiA+ICsgICAgICAqIGN1dCBwb3dlciBjb25zdW1wdGlvbiBpbnN0ZWFkIChlLmcuIEFDUEkp
+Lgo+ID4gKyAgICAgICovCj4gPiArICAgICBpZiAoc3RhdGUgIT0gUENJX0QwICYmIGRldi0+cGFy
+ZW50X2QzY29sZCkKPiA+ICsgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPiArCj4gPiAgICAgICBw
+Y2lfcmVhZF9jb25maWdfd29yZChkZXYsIGRldi0+cG1fY2FwICsgUENJX1BNX0NUUkwsICZwbWNz
+cik7Cj4gPiAgICAgICBpZiAocG1jc3IgPT0gKHUxNikgfjApIHsKPiA+ICAgICAgICAgICAgICAg
+cGNpX2VycihkZXYsICJjYW4ndCBjaGFuZ2UgcG93ZXIgc3RhdGUgZnJvbSAlcyB0byAlcyAoY29u
+ZmlnIHNwYWNlIGluYWNjZXNzaWJsZSlcbiIsCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51
+eC9wY2kuaCBiL2luY2x1ZGUvbGludXgvcGNpLmgKPiA+IGluZGV4IDkzMGZhYjI5MzA3My4uM2U1
+OTM4YjkxOTY2IDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS9saW51eC9wY2kuaAo+ID4gKysrIGIv
+aW5jbHVkZS9saW51eC9wY2kuaAo+ID4gQEAgLTM0MCw2ICszNDAsNyBAQCBzdHJ1Y3QgcGNpX2Rl
+diB7Cj4gPiAgICAgICB1bnNpZ25lZCBpbnQgICAgbm9fZDNjb2xkOjE7ICAgIC8qIEQzY29sZCBp
+cyBmb3JiaWRkZW4gKi8KPiA+ICAgICAgIHVuc2lnbmVkIGludCAgICBicmlkZ2VfZDM6MTsgICAg
+LyogQWxsb3cgRDMgZm9yIGJyaWRnZSAqLwo+ID4gICAgICAgdW5zaWduZWQgaW50ICAgIGQzY29s
+ZF9hbGxvd2VkOjE7ICAgICAgIC8qIEQzY29sZCBpcyBhbGxvd2VkIGJ5IHVzZXIgKi8KPiA+ICsg
+ICAgIHVuc2lnbmVkIGludCAgICBwYXJlbnRfZDNjb2xkOjE7ICAgICAgICAvKiBwb3dlciBtYW5h
+Z2UgdGhlIHBhcmVudCBpbnN0ZWFkICovCj4KPiBKdXN0IHRvIGJlIGNvbnNpc3RlbnQgd2l0aCB0
+aGUgb3RoZXIgY29tbWVudHMsIHN0YXJ0IHdpdGggYSBjYXBpdGFsCj4gbGV0dGVyOgo+Cj4gICAg
+ICAgICB1bnNpZ25lZCBpbnQgICAgcGFyZW50X2QzY29sZDoxOyAgICAgICAgLyogUG93ZXIgbWFu
+YWdlIHRoZSBwYXJlbnQgaW5zdGVhZCAqLwo+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
