@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48F317A992
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F6517A9AE
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 17:00:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5AD36EBDA;
-	Thu,  5 Mar 2020 16:00:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75AFA6EBD7;
+	Thu,  5 Mar 2020 16:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E8D6EBD8
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97BB36EBD8
  for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 16:00:03 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 5CA83ADE3;
+ by mx2.suse.de (Postfix) with ESMTP id 5C8EEADD7;
  Thu,  5 Mar 2020 15:59:59 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
@@ -37,9 +37,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, abrodkin@synopsys.com,
  tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
  rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
  sebastian.reichel@collabora.com
-Subject: [PATCH 02/22] drm/atmel-hlcdc: Use simple encoder
-Date: Thu,  5 Mar 2020 16:59:30 +0100
-Message-Id: <20200305155950.2705-3-tzimmermann@suse.de>
+Subject: [PATCH 03/22] drm/exynos: Use simple encoder
+Date: Thu,  5 Mar 2020 16:59:31 +0100
+Message-Id: <20200305155950.2705-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200305155950.2705-1-tzimmermann@suse.de>
 References: <20200305155950.2705-1-tzimmermann@suse.de>
@@ -65,52 +65,182 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The atmel-hlcdc driver uses an empty implementation for its encoder.
-Replace the code with the generic simple encoder.
+The exynos driver uses empty implementations for its encoders. Replace
+the code with the generic simple encoder.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/exynos/exynos_dp.c       | 8 ++------
+ drivers/gpu/drm/exynos/exynos_drm_dpi.c  | 8 ++------
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c  | 8 ++------
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 8 ++------
+ drivers/gpu/drm/exynos/exynos_hdmi.c     | 8 ++------
+ 5 files changed, 10 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-index e2019fe97fff..43bc709e3523 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-@@ -11,9 +11,10 @@
- #include <linux/media-bus-format.h>
- #include <linux/of_graph.h>
- 
-+#include <drm/drm_bridge.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_of.h>
--#include <drm/drm_bridge.h>
+diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
+index d23d3502ca91..a61482af2998 100644
+--- a/drivers/gpu/drm/exynos/exynos_dp.c
++++ b/drivers/gpu/drm/exynos/exynos_dp.c
+@@ -25,6 +25,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
 +#include <drm/drm_simple_kms_helper.h>
+ #include <drm/exynos_drm.h>
  
- #include "atmel_hlcdc_dc.h"
- 
-@@ -22,10 +23,6 @@ struct atmel_hlcdc_rgb_output {
- 	int bus_fmt;
+ #include "exynos_drm_crtc.h"
+@@ -135,10 +136,6 @@ static const struct drm_encoder_helper_funcs exynos_dp_encoder_helper_funcs = {
+ 	.disable = exynos_dp_nop,
  };
  
--static const struct drm_encoder_funcs atmel_hlcdc_panel_encoder_funcs = {
+-static const struct drm_encoder_funcs exynos_dp_encoder_funcs = {
 -	.destroy = drm_encoder_cleanup,
 -};
 -
- static struct atmel_hlcdc_rgb_output *
- atmel_hlcdc_encoder_to_rgb_output(struct drm_encoder *encoder)
+ static int exynos_dp_dt_parse_panel(struct exynos_dp_device *dp)
  {
-@@ -98,9 +95,8 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
- 		return -EINVAL;
+ 	int ret;
+@@ -174,8 +171,7 @@ static int exynos_dp_bind(struct device *dev, struct device *master, void *data)
+ 			return ret;
  	}
  
--	ret = drm_encoder_init(dev, &output->encoder,
--			       &atmel_hlcdc_panel_encoder_funcs,
--			       DRM_MODE_ENCODER_NONE, NULL);
-+	ret = drm_simple_encoder_init(dev, &output->encoder,
-+				      DRM_MODE_ENCODER_NONE);
- 	if (ret)
- 		return ret;
+-	drm_encoder_init(drm_dev, encoder, &exynos_dp_encoder_funcs,
+-			 DRM_MODE_ENCODER_TMDS, NULL);
++	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+ 	drm_encoder_helper_add(encoder, &exynos_dp_encoder_helper_funcs);
+ 
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
+index 43fa0f26c052..7ba5354e7d94 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
+@@ -14,6 +14,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include <video/of_videomode.h>
+ #include <video/videomode.h>
+@@ -149,10 +150,6 @@ static const struct drm_encoder_helper_funcs exynos_dpi_encoder_helper_funcs = {
+ 	.disable = exynos_dpi_disable,
+ };
+ 
+-static const struct drm_encoder_funcs exynos_dpi_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ enum {
+ 	FIMD_PORT_IN0,
+ 	FIMD_PORT_IN1,
+@@ -201,8 +198,7 @@ int exynos_dpi_bind(struct drm_device *dev, struct drm_encoder *encoder)
+ {
+ 	int ret;
+ 
+-	drm_encoder_init(dev, encoder, &exynos_dpi_encoder_funcs,
+-			 DRM_MODE_ENCODER_TMDS, NULL);
++	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+ 	drm_encoder_helper_add(encoder, &exynos_dpi_encoder_helper_funcs);
+ 
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index 669d3857502a..2986c93382e0 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -30,6 +30,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "exynos_drm_crtc.h"
+ #include "exynos_drm_drv.h"
+@@ -1524,10 +1525,6 @@ static const struct drm_encoder_helper_funcs exynos_dsi_encoder_helper_funcs = {
+ 	.disable = exynos_dsi_disable,
+ };
+ 
+-static const struct drm_encoder_funcs exynos_dsi_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ MODULE_DEVICE_TABLE(of, exynos_dsi_of_match);
+ 
+ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+@@ -1705,8 +1702,7 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
+ 	struct drm_bridge *in_bridge;
+ 	int ret;
+ 
+-	drm_encoder_init(drm_dev, encoder, &exynos_dsi_encoder_funcs,
+-			 DRM_MODE_ENCODER_TMDS, NULL);
++	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+ 	drm_encoder_helper_add(encoder, &exynos_dsi_encoder_helper_funcs);
+ 
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+index b320b3a21ad4..282467121699 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+@@ -14,6 +14,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
+ #include <drm/exynos_drm.h>
+ 
+@@ -369,10 +370,6 @@ static const struct drm_encoder_helper_funcs exynos_vidi_encoder_helper_funcs =
+ 	.disable = exynos_vidi_disable,
+ };
+ 
+-static const struct drm_encoder_funcs exynos_vidi_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ static int vidi_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct vidi_context *ctx = dev_get_drvdata(dev);
+@@ -406,8 +403,7 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
+ 		return PTR_ERR(ctx->crtc);
+ 	}
+ 
+-	drm_encoder_init(drm_dev, encoder, &exynos_vidi_encoder_funcs,
+-			 DRM_MODE_ENCODER_TMDS, NULL);
++	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+ 	drm_encoder_helper_add(encoder, &exynos_vidi_encoder_helper_funcs);
+ 
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 3e5f1a77286d..302ffda5f297 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -38,6 +38,7 @@
+ #include <drm/drm_edid.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "exynos_drm_crtc.h"
+ #include "regs-hdmi.h"
+@@ -1559,10 +1560,6 @@ static const struct drm_encoder_helper_funcs exynos_hdmi_encoder_helper_funcs =
+ 	.disable	= hdmi_disable,
+ };
+ 
+-static const struct drm_encoder_funcs exynos_hdmi_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ static void hdmi_audio_shutdown(struct device *dev, void *data)
+ {
+ 	struct hdmi_context *hdata = dev_get_drvdata(dev);
+@@ -1851,8 +1848,7 @@ static int hdmi_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	hdata->phy_clk.enable = hdmiphy_clk_enable;
+ 
+-	drm_encoder_init(drm_dev, encoder, &exynos_hdmi_encoder_funcs,
+-			 DRM_MODE_ENCODER_TMDS, NULL);
++	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+ 	drm_encoder_helper_add(encoder, &exynos_hdmi_encoder_helper_funcs);
  
 -- 
 2.25.1
