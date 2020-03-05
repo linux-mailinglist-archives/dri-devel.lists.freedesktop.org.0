@@ -2,37 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C568217A46E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 12:41:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E399917A503
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 13:15:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5DB88437;
-	Thu,  5 Mar 2020 11:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAA776E2EA;
+	Thu,  5 Mar 2020 12:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4BA6E0A1
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 11:40:56 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C466E2E2;
+ Thu,  5 Mar 2020 12:15:53 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2020 03:40:56 -0800
-X-IronPort-AV: E=Sophos;i="5.70,517,1574150400"; d="scan'208";a="234389164"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2020 03:40:52 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH][next] drm/drm_displayid.h: Replace zero-length array with
- flexible-array member
-In-Reply-To: <20200305110105.GA21188@embeddedor>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200305110105.GA21188@embeddedor>
-Date: Thu, 05 Mar 2020 13:40:49 +0200
-Message-ID: <87y2sfni66.fsf@intel.com>
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2020 04:15:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,518,1574150400"; d="scan'208";a="352349957"
+Received: from pktinlab.iind.intel.com ([10.66.253.121])
+ by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2020 04:15:50 -0800
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [RESEND PATCH v2 0/7] drm: drm_fb_helper cleanup.
+Date: Thu,  5 Mar 2020 17:34:27 +0530
+Message-Id: <20200305120434.111091-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,66 +41,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 05 Mar 2020, "Gustavo A. R. Silva" <gustavo@embeddedor.com> wrote:
-> The current codebase makes use of the zero-length array language
-> extension to the C90 standard, but the preferred mechanism to declare
-> variable-length types such as these ones is a flexible array member[1][2],
-> introduced in C99:
->
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
->
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
->
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
->
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
->
-> This issue was found with the help of Coccinelle.
->
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
->
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+This series addresses below drm_fb_helper tasks from
+Documentation/gpu/todo.rst.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+- The max connector argument for drm_fb_helper_init() isn't used
+  anymore and can be removed.
 
-> ---
->  include/drm/drm_displayid.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-> index 9d3b745c3107..94b4390bf990 100644
-> --- a/include/drm/drm_displayid.h
-> +++ b/include/drm/drm_displayid.h
-> @@ -89,7 +89,7 @@ struct displayid_detailed_timings_1 {
->  
->  struct displayid_detailed_timing_block {
->  	struct displayid_block base;
-> -	struct displayid_detailed_timings_1 timings[0];
-> +	struct displayid_detailed_timings_1 timings[];
->  };
->  
->  #define for_each_displayid_db(displayid, block, idx, length) \
+- The helper doesn't keep an array of connectors anymore so these can
+  be removed: drm_fb_helper_single_add_all_connectors(),
+  drm_fb_helper_add_one_connector() and
+  drm_fb_helper_remove_one_connector().
+
+Changes since v1:
+   - Accumulated all review tags into individual commits (Emil, Daniel) 
+   - Squashed warning fixes into the patch that introduced the
+     warnings (into 5/7) (Laurent, Emil, Lyude)
+   - Remove entire drm_fb_helper tasks from todo list. Daniel's
+     "64914da24ea9 drm/fbdev-helper: don't force restores" fixes first
+     one (Daniel)
+
+Pankaj Bharadiya (7):
+  drm: Remove unused arg from drm_fb_helper_init
+  drm/radeon: remove radeon_fb_{add,remove}_connector functions
+  drm/amdgpu: Remove drm_fb_helper_{add,remove}_one_connector calls
+  drm/i915/display: Remove drm_fb_helper_{add,remove}_one_connector calls
+  drm: Remove drm_fb_helper add, add all and remove connector calls
+  drm/fb-helper: Remove drm_fb_helper add, add_all and remove connector functions
+  drm/todo: Update drm_fb_helper tasks
+
+ Documentation/gpu/todo.rst                    | 17 ------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |  5 +---
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 13 ---------
+ drivers/gpu/drm/armada/armada_fbdev.c         |  8 +-----
+ drivers/gpu/drm/bridge/tc358764.c             |  3 ---
+ drivers/gpu/drm/drm_fb_helper.c               |  6 ++---
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c       |  1 -
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     | 10 +------
+ drivers/gpu/drm/gma500/framebuffer.c          |  6 +----
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   | 12 ---------
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |  4 +--
+ drivers/gpu/drm/msm/msm_fbdev.c               |  6 +----
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |  7 -----
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c       |  6 +----
+ drivers/gpu/drm/omapdrm/omap_fbdev.c          |  6 +----
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        | 10 -------
+ drivers/gpu/drm/radeon/radeon_fb.c            | 19 +------------
+ drivers/gpu/drm/radeon/radeon_mode.h          |  3 ---
+ drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c |  9 +------
+ drivers/gpu/drm/tegra/fb.c                    |  8 +-----
+ include/drm/drm_fb_helper.h                   | 27 ++-----------------
+ 21 files changed, 15 insertions(+), 171 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.20.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
