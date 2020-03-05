@@ -1,58 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5C917A75B
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 15:26:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C890517A787
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 15:35:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FDD089C53;
-	Thu,  5 Mar 2020 14:26:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3BA96EBCC;
+	Thu,  5 Mar 2020 14:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B62B289C53;
- Thu,  5 Mar 2020 14:26:17 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id B7757AFFC;
- Thu,  5 Mar 2020 14:26:15 +0000 (UTC)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB756EBCC;
+ Thu,  5 Mar 2020 14:35:01 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id g134so6566852wme.3;
+ Thu, 05 Mar 2020 06:35:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=CJzdaLtX70ZcRb8oSvOdT6vUfFvl00uS2aAvWa0YdOQ=;
+ b=X+PZ+bjMZalPYP02Une7HKayrrGSg3i5QKee0VfZmeukf4KIfj0u6GsdHq6MVyn9C4
+ oVvs/BtB1r5BRgx2krGXoembBYzCjpJG7TAaceaRdEVslLTgSD3sGnxmVmUlaaGCGfnP
+ +0n8vLq8dbMwtXgym8pdA+7kKHIhDmiVkeMlMLeyeGsZim6Rji92qiXpJJHmo0svH4Sg
+ /NIuFvWrFIOkRtV+ldQBofupJSVCLzpaE/5XziW5ESTte5bwLBEn5bGcIcJ78qRHfusC
+ JFXSAskLMN6UPWooMdJm3GXDU3td6XEZYdkzXNf/5Z94atO8nKFvCHcugWVNknlEJIni
+ edCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language;
+ bh=CJzdaLtX70ZcRb8oSvOdT6vUfFvl00uS2aAvWa0YdOQ=;
+ b=OGDc2jAyzFF55wMsJCPg7koA/sLbdJ7b2bzPs+yViwX1jmdhk2ZkSOXg+3N64SYqpf
+ 9V8S0lxCnhFqz8Oib9CPfYnTXht6GBFCDczaoKSKsPfsOaf6DQkSf3H0TUT8xrWfLhOL
+ TU4mrMTfY1zfaDxzXJ62jKDlMyod3C7G5ldtAl7EaYqrsAWMDBHF2NsggnGPBjUDjVx3
+ g/7Z+kLkGp8KZxiO24HFen7XptAO0W2heIz1zGdRQ0afUtRbhyoosZ5ehfXTj06lMnBj
+ hBq3T3Hnmmxso+bkyIDWM5+jipb1HkPwlDtcdDDoIxTB6cFxY0ufuedZhWwZNp3hBoLi
+ kC5w==
+X-Gm-Message-State: ANhLgQ2wFb+dlKCMCmwb9B8vl4DTj7gsOLteNGAwLYO9KN3YUN9n0j9O
+ /5aF7Uw+3eE9VuEfVUSxCUY=
+X-Google-Smtp-Source: ADFU+vvYZil+NaGKcjKPA3gQZirIivsW+AmNYHuP5Ws9fBdPQ4/V6YRCWF3iN+0bnbQafvJnw2XAAQ==
+X-Received: by 2002:a1c:a746:: with SMTP id q67mr9531712wme.1.1583418900157;
+ Thu, 05 Mar 2020 06:35:00 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id t9sm8742418wmi.45.2020.03.05.06.34.58
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 05 Mar 2020 06:34:59 -0800 (PST)
 Subject: Re: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v3
-To: Gerd Hoffmann <kraxel@redhat.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>
+To: Nirmoy <nirmodas@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Nirmoy Das <nirmoy.aiemd@gmail.com>
 References: <20200305132910.17515-1-nirmoy.das@amd.com>
  <20200305132910.17515-7-nirmoy.das@amd.com>
  <20200305140749.5oggp4gh6hozsh7j@sirius.home.kraxel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <6d7146b9-4ac1-e861-334f-950de790321d@suse.de>
-Date: Thu, 5 Mar 2020 15:26:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <3f6148c1-8357-0f18-3bda-bd989ac26393@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <066b63e1-ffa2-8973-088c-3c88387a63cb@gmail.com>
+Date: Thu, 5 Mar 2020 15:34:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200305140749.5oggp4gh6hozsh7j@sirius.home.kraxel.org>
+In-Reply-To: <3f6148c1-8357-0f18-3bda-bd989ac26393@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,146 +74,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: christian.koenig@amd.com
 Cc: thellstrom@vmware.com, airlied@linux.ie, kenny.ho@amd.com,
- brian.welty@intel.com, dri-devel@lists.freedesktop.org, nirmoy.das@amd.com,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ brian.welty@intel.com, amd-gfx@lists.freedesktop.org, nirmoy.das@amd.com,
+ linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org,
  Daniel Vetter <daniel.vetter@ffwll.ch>, alexander.deucher@amd.com,
  sean@poorly.run, christian.koenig@amd.com, bskeggs@redhat.com
-Content-Type: multipart/mixed; boundary="===============0650509342=="
+Content-Type: multipart/mixed; boundary="===============1644712473=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0650509342==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="IcL3mjIpg8QOLTQKdqMo4XCWLoP4I4ihf"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---IcL3mjIpg8QOLTQKdqMo4XCWLoP4I4ihf
-Content-Type: multipart/mixed; boundary="M6EBuddgRrUpvcUUqpKy1tp8DiqdKIAOh";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>
-Cc: thellstrom@vmware.com, amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- kenny.ho@amd.com, brian.welty@intel.com, dri-devel@lists.freedesktop.org,
- nirmoy.das@amd.com, linux-graphics-maintainer@vmware.com,
- bskeggs@redhat.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
- alexander.deucher@amd.com, sean@poorly.run, christian.koenig@amd.com
-Message-ID: <6d7146b9-4ac1-e861-334f-950de790321d@suse.de>
-Subject: Re: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v3
-References: <20200305132910.17515-1-nirmoy.das@amd.com>
- <20200305132910.17515-7-nirmoy.das@amd.com>
- <20200305140749.5oggp4gh6hozsh7j@sirius.home.kraxel.org>
-In-Reply-To: <20200305140749.5oggp4gh6hozsh7j@sirius.home.kraxel.org>
-
---M6EBuddgRrUpvcUUqpKy1tp8DiqdKIAOh
-Content-Type: text/plain; charset=utf-8
+This is a multi-part message in MIME format.
+--===============1644712473==
+Content-Type: multipart/alternative;
+ boundary="------------2E554187EEEFD3E7494B8AF6"
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
 
-Hi
+This is a multi-part message in MIME format.
+--------------2E554187EEEFD3E7494B8AF6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Am 05.03.20 um 15:07 schrieb Gerd Hoffmann:
-> On Thu, Mar 05, 2020 at 02:29:08PM +0100, Nirmoy Das wrote:
->> Calculate GEM VRAM bo's offset within vram-helper without depending on=
+Am 05.03.20 um 15:35 schrieb Nirmoy:
+>
+>
+> On 3/5/20 3:07 PM, Gerd Hoffmann wrote:
+>> On Thu, Mar 05, 2020 at 02:29:08PM +0100, Nirmoy Das wrote:
+>>> Calculate GEM VRAM bo's offset within vram-helper without depending on
+>>> bo->offset.
+>>>
+>>> Signed-off-by: Nirmoy Das<nirmoy.das@amd.com>
+>>> Reviewed-by: Daniel Vetter<daniel.vetter@ffwll.ch>
+>>> ---
+>>>   drivers/gpu/drm/drm_gem_vram_helper.c | 9 ++++++++-
+>>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>> index 92a11bb42365..2749c2d25ac4 100644
+>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>> @@ -198,6 +198,13 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo)
+>>>   }
+>>>   EXPORT_SYMBOL(drm_gem_vram_mmap_offset);
+>>>
+>>> +static s64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
+>>> +{
+>>> +	if (WARN_ON_ONCE(!gbo->bo.mem.mm_node))
+>>> +		return 0;
+>> returns 0 on error.
+>
+> I am not sure if we should call this an error. This patch series 
+> removes below offset calculation from ttm_bo.c.
+>
+> -	if (bo->mem.mm_node)
+> -		bo->offset = (bo->mem.start << PAGE_SHIFT) +
+> -		    bdev->man[bo->mem.mem_type].gpu_offset;
+> -	else
+> -		bo->offset = 0;
+> -
+>
+> Most of the driver sets "bo->mem.mm_node". Thomas suggested to use 
+> this "return 0" in case some driver depends on bo->offset = 0.
+>
 
->> bo->offset.
+We should probably add a code comment here to explain why we do this.
+
+Something like "Keep TTM behavior for now, remove when drivers are audited".
+
+Regards,
+Christian.
+
+>>> +	return gbo->bo.mem.start;
+>>> +}
+>>> +
+>>>   /**
+>>>    * drm_gem_vram_offset() - \
+>>>   	Returns a GEM VRAM object's offset in video memory
+>>> @@ -214,7 +221,7 @@ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo)
+>>>   {
+>>>   	if (WARN_ON_ONCE(!gbo->pin_count))
+>>>   		return (s64)-ENODEV;
+>> returns -errno on error.
 >>
->> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
->> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> ---
->>  drivers/gpu/drm/drm_gem_vram_helper.c | 9 ++++++++-
->>  1 file changed, 8 insertions(+), 1 deletion(-)
+>>> -	return gbo->bo.offset;
+>>> +	return drm_gem_vram_pg_offset(gbo) << PAGE_SHIFT;
+>> And given that one calls the other behavior on error should better be
+>> consistent ...
 >>
->> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/d=
-rm_gem_vram_helper.c
->> index 92a11bb42365..2749c2d25ac4 100644
->> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->> @@ -198,6 +198,13 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_=
-object *gbo)
->>  }
->>  EXPORT_SYMBOL(drm_gem_vram_mmap_offset);
+>> cheers,
+>>    Gerd
 >>
->> +static s64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
->> +{
->> +	if (WARN_ON_ONCE(!gbo->bo.mem.mm_node))
->> +		return 0;
->=20
-> returns 0 on error.
->=20
->> +	return gbo->bo.mem.start;
->> +}
->> +
->>  /**
->>   * drm_gem_vram_offset() - \
->>  	Returns a GEM VRAM object's offset in video memory
->> @@ -214,7 +221,7 @@ s64 drm_gem_vram_offset(struct drm_gem_vram_object=
- *gbo)
->>  {
->>  	if (WARN_ON_ONCE(!gbo->pin_count))
->>  		return (s64)-ENODEV;
->=20
-> returns -errno on error.
->=20
->> -	return gbo->bo.offset;
->> +	return drm_gem_vram_pg_offset(gbo) << PAGE_SHIFT;
->=20
-> And given that one calls the other behavior on error should better be
-> consistent ...
-
-It is expected that the offset is valid if pin_count is positive.
-Anything else would be a massive ref-counting bug. And that's been the
-behavior of the old code as well.
-
-But I agree that the current patch is inconsistent. I suggest changing
-the return type of drm_gem_vram_pg_offset() to u64.
-
-Best regards
-Thomas
-
->=20
-> cheers,
->   Gerd
->=20
+>
+> Regards,
+>
+> Nirmoy
+>
+>
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
 
---M6EBuddgRrUpvcUUqpKy1tp8DiqdKIAOh--
+--------------2E554187EEEFD3E7494B8AF6
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---IcL3mjIpg8QOLTQKdqMo4XCWLoP4I4ihf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">Am 05.03.20 um 15:35 schrieb Nirmoy:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:3f6148c1-8357-0f18-3bda-bd989ac26393@amd.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><br>
+      </p>
+      <div class="moz-cite-prefix">On 3/5/20 3:07 PM, Gerd Hoffmann
+        wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:20200305140749.5oggp4gh6hozsh7j@sirius.home.kraxel.org">
+        <pre class="moz-quote-pre" wrap="">On Thu, Mar 05, 2020 at 02:29:08PM +0100, Nirmoy Das wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">Calculate GEM VRAM bo's offset within vram-helper without depending on
+bo-&gt;offset.
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@amd.com" moz-do-not-send="true">&lt;nirmoy.das@amd.com&gt;</a>
+Reviewed-by: Daniel Vetter <a class="moz-txt-link-rfc2396E" href="mailto:daniel.vetter@ffwll.ch" moz-do-not-send="true">&lt;daniel.vetter@ffwll.ch&gt;</a>
+---
+ drivers/gpu/drm/drm_gem_vram_helper.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5hC/4ACgkQaA3BHVML
-eiN96gf/XpIyiLT5fUkpwN28Z2/zROINi1eIIJHeUWsZYoax48tUIMKTkZKw4ixP
-a0hZAxnX+VI1b5qZ6qpjCJZ8nRD1ja2k28xLiEeBX7pJESLOH4jYRdRJPK8uoaGA
-kVMMVdeFNBMTlw7RQo6KQtWnCHfMTvZ4bKp8X8SH5NmYrginKaFae+mTpkwdTNdz
-cE9s7G+jbNQSzLqdc+/12GOj8O8ZsbBZ4J0a6m1VQK63gRdvqT3pnfwKrY3FR9VZ
-4yveiKWV0X4Wzs21Ovj3ZZ4oNfZ69ahKpKB2ohzO1vXEX/jrL93Zy+94nmCMXDpt
-wx6iR6hUzaPXlg4xnOeLs5Z9TM8zYw==
-=JmaV
------END PGP SIGNATURE-----
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index 92a11bb42365..2749c2d25ac4 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -198,6 +198,13 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo)
+ }
+ EXPORT_SYMBOL(drm_gem_vram_mmap_offset);
 
---IcL3mjIpg8QOLTQKdqMo4XCWLoP4I4ihf--
++static s64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
++{
++	if (WARN_ON_ONCE(!gbo-&gt;bo.mem.mm_node))
++		return 0;
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">returns 0 on error.</pre>
+      </blockquote>
+      <p>I am not sure if we should call this an error. This patch
+        series removes below offset calculation from ttm_bo.c. <br>
+      </p>
+      <pre class="moz-quote-pre" wrap="">-	if (bo-&gt;mem.mm_node)
+-		bo-&gt;offset = (bo-&gt;mem.start &lt;&lt; PAGE_SHIFT) +
+-		    bdev-&gt;man[bo-&gt;mem.mem_type].gpu_offset;
+-	else
+-		bo-&gt;offset = 0;
+-
 
---===============0650509342==
+</pre>
+      <p><font size="+1">Most of the driver sets "bo-&gt;mem.mm_node".
+          Thomas suggested to use this "return 0" in case some driver
+          depends on bo-&gt;offset = 0.</font></p>
+    </blockquote>
+    <br>
+    We should probably add a code comment here to explain why we do
+    this.<br>
+    <br>
+    Something like "Keep TTM behavior for now, remove when drivers are
+    audited".<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:3f6148c1-8357-0f18-3bda-bd989ac26393@amd.com">
+      <blockquote type="cite"
+        cite="mid:20200305140749.5oggp4gh6hozsh7j@sirius.home.kraxel.org">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">+	return gbo-&gt;bo.mem.start;
++}
++
+ /**
+  * drm_gem_vram_offset() - \
+ 	Returns a GEM VRAM object's offset in video memory
+@@ -214,7 +221,7 @@ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo)
+ {
+ 	if (WARN_ON_ONCE(!gbo-&gt;pin_count))
+ 		return (s64)-ENODEV;
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">returns -errno on error.
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">-	return gbo-&gt;bo.offset;
++	return drm_gem_vram_pg_offset(gbo) &lt;&lt; PAGE_SHIFT;
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">And given that one calls the other behavior on error should better be
+consistent ...
+
+cheers,
+  Gerd
+
+</pre>
+      </blockquote>
+      <p><br>
+      </p>
+      <p>Regards,</p>
+      <p>Nirmoy<br>
+      </p>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">_______________________________________________
+amd-gfx mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.org</a>
+<a class="moz-txt-link-freetext" href="https://lists.freedesktop.org/mailman/listinfo/amd-gfx">https://lists.freedesktop.org/mailman/listinfo/amd-gfx</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------2E554187EEEFD3E7494B8AF6--
+
+--===============1644712473==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -215,4 +313,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0650509342==--
+--===============1644712473==--
