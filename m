@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A01717AF81
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 21:13:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4572117AF84
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 21:13:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91A536EC23;
-	Thu,  5 Mar 2020 20:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B05A6EC26;
+	Thu,  5 Mar 2020 20:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc44.google.com (mail-yw1-xc44.google.com
- [IPv6:2607:f8b0:4864:20::c44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1023F6EC1D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 20:12:47 +0000 (UTC)
-Received: by mail-yw1-xc44.google.com with SMTP id y62so6852993ywd.13
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 12:12:47 -0800 (PST)
+Received: from mail-yw1-xc42.google.com (mail-yw1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E7E16EC22
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 20:12:48 +0000 (UTC)
+Received: by mail-yw1-xc42.google.com with SMTP id a132so6907317ywb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 12:12:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7+Fub9X48DBkOVMmN41thr1TsQCekRVfUSS0YxwyrO0=;
- b=VcvLTlpnPx2BnGfSpZFTnEXI3CAHJQ8Veh8tmqC9bdCCFofi9m2D5I7icPvSPQG+Rc
- XPWm2wxoHNQ2RkgB43yucdQ9nSzx/ur9aR7OWG5tvF2lN1LXqeHTHL3Uj1AWEyyb1cfW
- SAqSJUVwq+f7oTDe9HhXuznQ44XJDsm2B3+mXV1lu0gZm0fyhrrGEMevnKoZ9XG5jpHi
- QoTJsC44YXzjVR9nKc9dMTRMe0qgPOd9a6Uf0fcv0sqN0HtxcAfI7rlK/m6iBk2848o+
- sf6BRdICPN9+Te4qkaVdXNFfUERRzgt9eesg7DpqdNHigHS2m+0BOK06f89q9dsSlLF3
- XcDA==
+ bh=giHzT/4sXPC+NO5EFIBEPlQDHpBWg8eSwlx54hJghrY=;
+ b=TZJx0a5L0pKVSWzcBg9uKBUFgIjTiJND/eEtMyNpi2N2EB49ks1Isn+Og9Yw7Yo3og
+ 2kIgSM0UHeEdk6deUXXKS9SKR40GPqOxN+ItqbIPX54ZJVofhuf/f8J90vQaEAGTSybi
+ +WjIx60hrvtocIo0RUA9I6XRqHkq4fiCmn1K1mwhnXvBkvsBrRZluLZRRbOOvTXfr7P3
+ bVwvfa6mffljsQh9KnApoQzPJA/v/M+uHPcmlqoLd2vXjfCONFDADr/+ltz/yKqHApOy
+ f1WcrN6C+eyqPUoSexV2HY90/sDirWLOA52ZAtKBqGk3i8wCPTBMwb4MQBiLUTKGJ98x
+ 2SXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7+Fub9X48DBkOVMmN41thr1TsQCekRVfUSS0YxwyrO0=;
- b=iYQqEaoC4A3Px2VwMQTWGPMbQ8Gzsvjii3qr4Uq6lY/khuLrdohvFeu+E48Bn/2jgD
- uS3IKEutrPwRpwRQeCdoycPzl+ki7DzWrArbqZ+vjDGF6lV1CzkWiWGysg8T3vaBHtCf
- e0BAOekZEsiKC0OVPkXyRMjQfp2JRITKdbExkd6ksz6EhkwzMPT1HeDY3/9PtNwD/Nu/
- Czi7xZ4McuWMDpcW+BIU2JSVbr6h/eE1g9EiWpT48W0TdDPk3du1cJxL6+Z00uR+SIo+
- HtuKJB0zlSdfbV7ixNCx451XXGi7ng98b1gPNMITu1ZiKfiNkthkoG9+89QWkibjLPRw
- zngA==
-X-Gm-Message-State: ANhLgQ3xD8qRcELydhRBuG9SriwiMZ1n+XqfG11CBh7TEaEep8N3FpiP
- QJbGieZIeqCrH6sgCA3W98r8EHeeftk=
-X-Google-Smtp-Source: ADFU+vv66J58/BA1m4gryIv+mtxDEDrv40Bc1JwWE9UirCz9y4rjYg2GxLwU/+cJIMZ1DfKoTtHDsQ==
-X-Received: by 2002:a0d:cb95:: with SMTP id n143mr121127ywd.386.1583439165981; 
- Thu, 05 Mar 2020 12:12:45 -0800 (PST)
+ bh=giHzT/4sXPC+NO5EFIBEPlQDHpBWg8eSwlx54hJghrY=;
+ b=FCJ/apqHzpB24kOpCW2H2KlU2SAaUyzwPAqHc5+nKtG1BexhErD8eyjy0HEezMBINC
+ /gxGRd2XFTXi/HMUGkBG5Jr5FZR/0nVVJaoBLivCv4huSI19Zk3YqaPYa5c1iinF1IQy
+ AEz7UNTeInCW1xMY7ENfLRf1pt6mf92H3omfpa4yREEkQZiDUBFWMhENiPGVz+wBhBZe
+ 314V9wQpQvDJmNC3mCAoRjAx8KNBFes+9NNJuUdEpAnMvhFCzbKhIv7qmdaHzkvHxR66
+ tBsjn8RplMVvE8qWAzDStGLecfaW78D9hzFBjpWjmb7q98+X9XH93smlE+QnIXu4YNsU
+ 9Ukw==
+X-Gm-Message-State: ANhLgQ2D3ho3swoXPLrAFW7tWprhCvjB5RL0gfnt2GqmE2w0uIX3EodE
+ 0gCg6ias4+6lveJmcdrKemX5oj2JJo4=
+X-Google-Smtp-Source: ADFU+vv1jZU67s//Af/VYL1hnbfcKf5tPvRujQNjC0xoCvMQILsj8FaRyQLkvCSRjtRvAvJF2smx4g==
+X-Received: by 2002:a25:d405:: with SMTP id m5mr9354802ybf.411.1583439167285; 
+ Thu, 05 Mar 2020 12:12:47 -0800 (PST)
 Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
- by smtp.gmail.com with ESMTPSA id g65sm12300449ywd.109.2020.03.05.12.12.45
+ by smtp.gmail.com with ESMTPSA id n38sm1404348ywh.14.2020.03.05.12.12.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 12:12:45 -0800 (PST)
+ Thu, 05 Mar 2020 12:12:46 -0800 (PST)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 07/16] drm/i915: Protect workers against disappearing
- connectors
-Date: Thu,  5 Mar 2020 15:12:27 -0500
-Message-Id: <20200305201236.152307-8-sean@poorly.run>
+Subject: [PATCH v5 08/16] drm/i915: Don't fully disable HDCP on a port if
+ multiple pipes are using it
+Date: Thu,  5 Mar 2020 15:12:28 -0500
+Message-Id: <20200305201236.152307-9-sean@poorly.run>
 X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
 In-Reply-To: <20200305201236.152307-1-sean@poorly.run>
 References: <20200305201236.152307-1-sean@poorly.run>
@@ -77,115 +77,222 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-This patch adds some protection against connectors being destroyed
-before the HDCP workers are finished.
+This patch is required for HDCP over MST. If a port is being used for
+multiple HDCP streams, we don't want to fully disable HDCP on a port if
+one of them is disabled. Instead, we just disable the HDCP signalling on
+that particular pipe and exit early. The last pipe to disable HDCP will
+also bring down HDCP on the port.
 
-For check_work, we do a synchronous cancel after the connector is
-unregistered which will ensure that it is finished before destruction.
+In order to achieve this, we need to keep a refcount in intel_digital_port
+and protect it using a new hdcp_mutex.
 
-In the case of prop_work, we can't do a synchronous wait since it needs
-to take connection_mutex which could cause deadlock. Instead, we'll take
-a reference on the connector when scheduling prop_work and give it up
-once we're done.
-
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+Cc: Ramalingam C <ramalingam.c@intel.com>
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-8-sean@poorly.run #v2
-Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-8-sean@poorly.run #v3
-Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-8-sean@poorly.run #v4
+Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-8-sean@poorly.run #v1
+Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-9-sean@poorly.run #v2
+Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-9-sean@poorly.run #v3
+Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-9-sean@poorly.run #v4
 
 Changes in v2:
--Added to the set
+-Move the toggle_signalling call into _intel_hdcp_disable so it's called from check_work
 Changes in v3:
--Change the WARN_ON condition in intel_hdcp_cleanup to allow for
- initializing connectors as well
+-None
 Changes in v4:
 -None
 Changes in v5:
 -Change WARN_ON to drm_WARN_ON
 ---
- drivers/gpu/drm/i915/display/intel_hdcp.c | 44 ++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  3 ++
+ .../drm/i915/display/intel_display_types.h    |  5 ++
+ drivers/gpu/drm/i915/display/intel_dp.c       |  2 +
+ drivers/gpu/drm/i915/display/intel_hdcp.c     | 53 +++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  2 +
+ 5 files changed, 56 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index d27f74c8f55d0..48910a2ceaaaa 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -4452,6 +4452,9 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+ 	drm_encoder_init(&dev_priv->drm, &encoder->base, &intel_ddi_funcs,
+ 			 DRM_MODE_ENCODER_TMDS, "DDI %c", port_name(port));
+ 
++	mutex_init(&intel_dig_port->hdcp_mutex);
++	intel_dig_port->num_hdcp_streams = 0;
++
+ 	encoder->hotplug = intel_ddi_hotplug;
+ 	encoder->compute_output_type = intel_ddi_compute_output_type;
+ 	encoder->compute_config = intel_ddi_compute_config;
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index bd577f143469c..04161993e2038 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -1388,6 +1388,11 @@ struct intel_digital_port {
+ 	enum phy_fia tc_phy_fia;
+ 	u8 tc_phy_fia_idx;
+ 
++	/* protects num_hdcp_streams reference count */
++	struct mutex hdcp_mutex;
++	/* the number of pipes using HDCP signalling out of this port */
++	unsigned int num_hdcp_streams;
++
+ 	void (*write_infoframe)(struct intel_encoder *encoder,
+ 				const struct intel_crtc_state *crtc_state,
+ 				unsigned int type,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index b2e92ecd1e0ff..4a38012a1fb03 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -7800,6 +7800,8 @@ bool intel_dp_init(struct drm_i915_private *dev_priv,
+ 	intel_encoder = &intel_dig_port->base;
+ 	encoder = &intel_encoder->base;
+ 
++	mutex_init(&intel_dig_port->hdcp_mutex);
++
+ 	if (drm_encoder_init(&dev_priv->drm, &intel_encoder->base,
+ 			     &intel_dp_enc_funcs, DRM_MODE_ENCODER_TMDS,
+ 			     "DP %c", port_name(port)))
 diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index dfa792ee90ecd..9523ab6c65e0d 100644
+index 9523ab6c65e0d..0ee29f88bab2d 100644
 --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
 +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -891,8 +891,10 @@ static void intel_hdcp_update_value(struct intel_connector *connector,
- 		return;
+@@ -803,6 +803,19 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
+ 	drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP is being disabled...\n",
+ 		    connector->base.name, connector->base.base.id);
  
- 	hdcp->value = value;
--	if (update_property)
-+	if (update_property) {
-+		drm_connector_get(&connector->base);
- 		schedule_work(&hdcp->prop_work);
++	/*
++	 * If there are other connectors on this port using HDCP, don't disable
++	 * it. Instead, toggle the HDCP signalling off on that particular
++	 * connector/pipe and exit.
++	 */
++	if (intel_dig_port->num_hdcp_streams > 0) {
++		ret = hdcp->shim->toggle_signalling(intel_dig_port,
++						    cpu_transcoder, false);
++		if (ret)
++			DRM_ERROR("Failed to disable HDCP signalling\n");
++		return ret;
 +	}
- }
- 
- /* Implements Part 3 of the HDCP authorization procedure */
-@@ -984,6 +986,8 @@ static void intel_hdcp_prop_work(struct work_struct *work)
- 
- 	mutex_unlock(&hdcp->mutex);
- 	drm_modeset_unlock(&dev_priv->drm.mode_config.connection_mutex);
 +
-+	drm_connector_put(&connector->base);
- }
- 
- bool is_hdcp_supported(struct drm_i915_private *dev_priv, enum port port)
-@@ -1862,6 +1866,9 @@ static void intel_hdcp_check_work(struct work_struct *work)
- 					       check_work);
- 	struct intel_connector *connector = intel_hdcp_to_connector(hdcp);
- 
-+	if (drm_connector_is_unregistered(&connector->base))
-+		return;
-+
- 	if (!intel_hdcp2_check_link(connector))
- 		schedule_delayed_work(&hdcp->check_work,
- 				      DRM_HDCP2_CHECK_PERIOD_MS);
-@@ -2178,12 +2185,39 @@ void intel_hdcp_component_fini(struct drm_i915_private *dev_priv)
- 
- void intel_hdcp_cleanup(struct intel_connector *connector)
+ 	hdcp->hdcp_encrypted = false;
+ 	intel_de_write(dev_priv, HDCP_CONF(dev_priv, cpu_transcoder, port), 0);
+ 	if (intel_de_wait_for_clear(dev_priv,
+@@ -883,6 +896,8 @@ struct intel_connector *intel_hdcp_to_connector(struct intel_hdcp *hdcp)
+ static void intel_hdcp_update_value(struct intel_connector *connector,
+ 				    u64 value, bool update_property)
  {
--	if (!connector->hdcp.shim)
-+	struct intel_hdcp *hdcp = &connector->hdcp;
-+
-+	if (!hdcp->shim)
++	struct drm_device *dev = connector->base.dev;
++	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+ 	struct intel_hdcp *hdcp = &connector->hdcp;
+ 
+ 	drm_WARN_ON(connector->base.dev, !mutex_is_locked(&hdcp->mutex));
+@@ -890,6 +905,15 @@ static void intel_hdcp_update_value(struct intel_connector *connector,
+ 	if (hdcp->value == value)
  		return;
  
--	mutex_lock(&connector->hdcp.mutex);
--	kfree(connector->hdcp.port_data.streams);
--	mutex_unlock(&connector->hdcp.mutex);
-+	/*
-+	 * If the connector is registered, it's possible userspace could kick
-+	 * off another HDCP enable, which would re-spawn the workers.
-+	 */
-+	drm_WARN_ON(connector->base.dev,
-+		connector->base.registration_state == DRM_CONNECTOR_REGISTERED);
++	drm_WARN_ON(dev, !mutex_is_locked(&intel_dig_port->hdcp_mutex));
 +
-+	/*
-+	 * Now that the connector is not registered, check_work won't be run,
-+	 * but cancel any outstanding instances of it
-+	 */
-+	cancel_delayed_work_sync(&hdcp->check_work);
++	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
++		if (!drm_WARN_ON(dev, intel_dig_port->num_hdcp_streams == 0))
++			intel_dig_port->num_hdcp_streams--;
++	} else if (value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
++		intel_dig_port->num_hdcp_streams++;
++	}
 +
-+	/*
-+	 * We don't cancel prop_work in the same way as check_work since it
-+	 * requires connection_mutex which could be held while calling this
-+	 * function. Instead, we rely on the connector references grabbed before
-+	 * scheduling prop_work to ensure the connector is alive when prop_work
-+	 * is run. So if we're in the destroy path (which is where this
-+	 * function should be called), we're "guaranteed" that prop_work is not
-+	 * active (tl;dr This Should Never Happen).
-+	 */
-+	drm_WARN_ON(connector->base.dev, work_pending(&hdcp->prop_work));
+ 	hdcp->value = value;
+ 	if (update_property) {
+ 		drm_connector_get(&connector->base);
+@@ -908,6 +932,8 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+ 	int ret = 0;
+ 
+ 	mutex_lock(&hdcp->mutex);
++	mutex_lock(&intel_dig_port->hdcp_mutex);
 +
-+	mutex_lock(&hdcp->mutex);
-+	kfree(hdcp->port_data.streams);
-+	hdcp->shim = NULL;
-+	mutex_unlock(&hdcp->mutex);
+ 	cpu_transcoder = hdcp->cpu_transcoder;
+ 
+ 	/* Check_link valid only when HDCP1.4 is enabled */
+@@ -961,6 +987,7 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+ 	}
+ 
+ out:
++	mutex_unlock(&intel_dig_port->hdcp_mutex);
+ 	mutex_unlock(&hdcp->mutex);
+ 	return ret;
+ }
+@@ -2058,6 +2085,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
+ 		      enum transcoder cpu_transcoder, u8 content_type)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
++	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+ 	struct intel_hdcp *hdcp = &connector->hdcp;
+ 	unsigned long check_link_interval = DRM_HDCP_CHECK_PERIOD_MS;
+ 	int ret = -EINVAL;
+@@ -2066,6 +2094,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
+ 		return -ENOENT;
+ 
+ 	mutex_lock(&hdcp->mutex);
++	mutex_lock(&intel_dig_port->hdcp_mutex);
+ 	drm_WARN_ON(&dev_priv->drm,
+ 		    hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED);
+ 	hdcp->content_type = content_type;
+@@ -2100,12 +2129,14 @@ int intel_hdcp_enable(struct intel_connector *connector,
+ 					true);
+ 	}
+ 
++	mutex_unlock(&intel_dig_port->hdcp_mutex);
+ 	mutex_unlock(&hdcp->mutex);
+ 	return ret;
  }
  
- void intel_hdcp_atomic_check(struct drm_connector *connector,
+ int intel_hdcp_disable(struct intel_connector *connector)
+ {
++	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+ 	struct intel_hdcp *hdcp = &connector->hdcp;
+ 	int ret = 0;
+ 
+@@ -2113,17 +2144,21 @@ int intel_hdcp_disable(struct intel_connector *connector)
+ 		return -ENOENT;
+ 
+ 	mutex_lock(&hdcp->mutex);
++	mutex_lock(&intel_dig_port->hdcp_mutex);
+ 
+-	if (hdcp->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+-		intel_hdcp_update_value(connector,
+-					DRM_MODE_CONTENT_PROTECTION_UNDESIRED,
+-					false);
+-		if (hdcp->hdcp2_encrypted)
+-			ret = _intel_hdcp2_disable(connector);
+-		else if (hdcp->hdcp_encrypted)
+-			ret = _intel_hdcp_disable(connector);
+-	}
++	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
++		goto out;
++
++	intel_hdcp_update_value(connector,
++				DRM_MODE_CONTENT_PROTECTION_UNDESIRED, false);
+ 
++	if (hdcp->hdcp2_encrypted)
++		ret = _intel_hdcp2_disable(connector);
++	else if (hdcp->hdcp_encrypted)
++		ret = _intel_hdcp_disable(connector);
++
++out:
++	mutex_unlock(&intel_dig_port->hdcp_mutex);
+ 	mutex_unlock(&hdcp->mutex);
+ 	cancel_delayed_work_sync(&hdcp->check_work);
+ 	return ret;
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 51db3adb4bf1c..29149b59f9e40 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -3259,6 +3259,8 @@ void intel_hdmi_init(struct drm_i915_private *dev_priv,
+ 
+ 	intel_encoder = &intel_dig_port->base;
+ 
++	mutex_init(&intel_dig_port->hdcp_mutex);
++
+ 	drm_encoder_init(&dev_priv->drm, &intel_encoder->base,
+ 			 &intel_hdmi_enc_funcs, DRM_MODE_ENCODER_TMDS,
+ 			 "HDMI %c", port_name(port));
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
