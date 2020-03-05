@@ -1,62 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384D617B800
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:04:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DACFB17B803
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:04:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC6A6EC96;
-	Fri,  6 Mar 2020 08:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E47A66EC9A;
+	Fri,  6 Mar 2020 08:03:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA2D46E39C
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 19:35:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1583436906; bh=rAZW78GxtiZ7Cs01o188xwmogtNOA9tIFtdmdxatw9Q=;
- h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
- b=ma4aDU2JNa5GQC8aXN+bTgzqWCuhIQx8VdXl08PItzs3F8vMtvcXu2SP0QTAhETxV
- q5LE+wavFf9Ez9j4SJkjsVyWqXisLWv7s0hOL3Clh8l6Z6WFUIH+aRBRLxkOO9SC7g
- Roiju9zG/0nrb65BbLQ1raXNmLn884AYNZXbEJF8=
-Date: Thu, 5 Mar 2020 20:35:05 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7688: Add anx7688 bridge driver
- support
-Message-ID: <20200305193505.4km5j7n25ph4b6hn@core.my.home>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Icenowy Zheng <icenowy@aosc.io>,
- Enric Balletbo Serra <eballetbo@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Torsten Duwe <duwe@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Collabora Kernel ML <kernel@collabora.com>
-References: <20200213145416.890080-1-enric.balletbo@collabora.com>
- <20200213145416.890080-2-enric.balletbo@collabora.com>
- <CA+E=qVffVzZwRTk9K7=xhWn-AOKExkew0aPcyL_W1nokx-mDdg@mail.gmail.com>
- <CAFqH_53crnC6hLExNgQRjMgtO+TLJjT6uzA4g8WXvy7NkwHcJg@mail.gmail.com>
- <CA+E=qVfGiQseZZVBvmmK6u2Mu=-91ViwLuhNegu96KRZNAHr_w@mail.gmail.com>
- <CAFqH_505eWt9UU7Wj6tCQpQCMZFMfy9e1ETSkiqi7i5Zx6KULQ@mail.gmail.com>
- <CA+E=qVff5_hdPFdaG4Lrg7Uzorea=JbEdPoy+sQd7rUGNTTZ5g@mail.gmail.com>
- <5245a8e4-2320-46bd-04fd-f86ce6b17ce7@collabora.com>
- <CA+E=qVcyRW4LNC5db27d-8x-T_Nk9QAhkBPwu5rwthTc6ewbYA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CA+E=qVcyRW4LNC5db27d-8x-T_Nk9QAhkBPwu5rwthTc6ewbYA@mail.gmail.com>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
+Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5300::11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C48EC6E39C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 19:41:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583437312;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=OZ5oxnYpzuUaR1GazaWO7w0lUaH0jA1Tfl/eGpTMdzU=;
+ b=b2Quhyv5AbNLJ4Y5WYFnwSAckwEf7pftMhbABa4xtJKZQXN4r5rP6n+OMmQenubU0T
+ /FIFJvJM7LzdEjMKW+EJ4shEfWka424+mVdTdeRoEz0lcoC+sKRc4Rj1t6Ye0oM7obCQ
+ n/lbvyVdG6X3VoerBGPUc35yGYdKHunMiJNpNuPZjwE+QwJvUMhUHIY1KfBLd3Ta7CWB
+ pm9x33S70VU3TkrXF5fkm9+HKBDxr+YzVoqsxC0/GJ0l34qqnHoVPDsVW3eikoKopBUi
+ Hr0vHRu1JKqW6hdCCQhBGOhAaXMDoHaUeDrvK8A3OMCVCAhuriEVbFnQSDM52fVe6prT
+ knEA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmMlw43rkA=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
+ with ESMTPSA id y0a02cw25JfiVL3
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Thu, 5 Mar 2020 20:41:44 +0100 (CET)
+Subject: Re: [PATCH 24/33] drm/panel-simple: Fix dotclock for Ortustech
+ COM37H3M
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: H. Nikolaus Schaller <hns@goldelico.com>
+In-Reply-To: <CDD5B6AE-6711-4B81-87F9-8DBD067E33BD@goldelico.com>
+Date: Thu, 5 Mar 2020 20:41:43 +0100
+Message-Id: <C1BE9158-7D08-44D0-9699-4029806ABDE7@goldelico.com>
+References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+ <20200302203452.17977-25-ville.syrjala@linux.intel.com>
+ <4320E187-FAA1-4033-A02C-7DA1F9B68A52@goldelico.com>
+ <20200303150336.GZ13686@intel.com>
+ <CDD5B6AE-6711-4B81-87F9-8DBD067E33BD@goldelico.com>
+To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Fri, 06 Mar 2020 08:03:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,54 +59,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
- Neil Armstrong <narmstrong@baylibre.com>, Torsten Duwe <duwe@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, David Airlie <airlied@linux.ie>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Collabora Kernel ML <kernel@collabora.com>, Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, Mar 05, 2020 at 10:29:33AM -0800, Vasily Khoruzhick wrote:
-> On Thu, Mar 5, 2020 at 7:28 AM Enric Balletbo i Serra
-> <enric.balletbo@collabora.com> wrote:
-> >
-> > Hi Vasily,
-> 
-> CC: Icenowy and Ondrej
-> >
-> > Would you mind to check which firmware version is running the anx7688 in
-> > PinePhone, I think should be easy to check with i2c-tools.
-> 
-> Icenowy, Ondrej, can you guys please check anx7688 firmware version?
+> Am 03.03.2020 um 16:49 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
+> =
 
-i2cget 0 0x28 0x00 w
-0xaaaa
+> Hi,
+> =
 
-i2cget 0 0x28 0x02 w
-0x7688
+>> Am 03.03.2020 um 16:03 schrieb Ville Syrj=E4l=E4 <ville.syrjala@linux.in=
+tel.com>:
+>> =
 
-i2cget 0 0x28 0x80 w
-0x0000
+>>> I haven't looked into the driver code, but would it be
+>>> possible to specify .clock =3D 0 (or leave it out) to
+>>> calculate it bottom up? This would avoid such inconsistencies.
+>> =
 
-regards,
-	o.
+>> I'm going to remove .vrefresh entirely from the struct.
+>> It'll just be calculated from the other timings as needed.
+> =
 
-> > Thanks in advance,
-> >  Enric
-> >
-> > [snip]
+> Ok!
+> =
+
+> Anyways we should fix the panel timings so that it is compatible to .vref=
+resh =3D 60.
+> =
+
+> I'll give it a try and let you know.
+
+Ok, here is a new parameter set within data sheet limits for both
+panel variants:
+
+static const struct drm_display_mode ortustech_com37h3m_mode  =3D {
+	.clock =3D 22153,
+	.hdisplay =3D 480,
+	.hsync_start =3D 480 + 40,
+	.hsync_end =3D 480 + 40 + 10,
+	.htotal =3D 480 + 40 + 10 + 40,
+	.vdisplay =3D 640,
+	.vsync_start =3D 640 + 4,
+	.vsync_end =3D 640 + 4 + 2,
+	.vtotal =3D 640 + 4 + 2 + 4,
+	.vrefresh =3D 60,
+	.flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+};
+
+I have tested on our omap3 based board and didn't find an issue
+so you can insert into your patch.
+
+BR and thanks,
+Nikolaus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
