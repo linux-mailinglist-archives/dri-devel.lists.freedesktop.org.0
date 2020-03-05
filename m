@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BCF17A360
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 11:48:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC4F17A379
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Mar 2020 11:54:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83C6A6E1B7;
-	Thu,  5 Mar 2020 10:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6396E1B9;
+	Thu,  5 Mar 2020 10:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gateway36.websitewelcome.com (gateway36.websitewelcome.com
  [192.185.196.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D976C6E1B7
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 10:48:36 +0000 (UTC)
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
- by gateway36.websitewelcome.com (Postfix) with ESMTP id 4BF60400D0A39
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 04:03:49 -0600 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D1B6E1B9
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 10:54:05 +0000 (UTC)
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+ by gateway36.websitewelcome.com (Postfix) with ESMTP id B6ACB401CAFCF
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 04:09:20 -0600 (CST)
 Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id 9o3NjL7iPEfyq9o3NjOwqT; Thu, 05 Mar 2020 04:48:33 -0600
+ id 9o8jjPt2ISl8q9o8jj2LxT; Thu, 05 Mar 2020 04:54:05 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
@@ -25,25 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=N+cQ6695/UaT15cBW0dOVs0XFP/fIU8FdrNDquttipY=; b=jRnFL4wQjKz1AfDheOOAqnMyi5
- erogLWYYg0i5Ton9B+L1Occ8/tO7OBtB8P7NXs9jDMDb1sI5ZMgzgQUvJfpvNV537UW0AFTZqXbje
- Wu2UvVtueVgUcqT0tohInOtDGg66GaturmFGxZb7/rqe8CTdGxPjB2wR7R0WwbRbmg6P6yTeB1jkE
- cBYIVnbtG5udEWlTfD1WOlkyFwgjdM6xOrZOYklk4oN0RN3b0A3QA+8t3oKlybYuXwIcEA68eEfKJ
- 3SrQjr5xzWEHYXiQmDl+5If0ZS/v21s3G9GaD0ZEZlVINosd2QM6nngBlFJi3n3QoiGo/gg+A1/kU
- 8qUCmSWg==;
-Received: from [201.166.169.220] (port=13470 helo=embeddedor)
+ bh=FaEd7taemh650scF/FKlDe95GL6rqrDcsV1+ENwoAYo=; b=f24mJ78xbf1EfsW+xIzeAqlquK
+ E6JU5oxcoHQ+vdMzeLJhMCMKgcOUb/FqutbKiYFFgIHiIo4Q7catoDYtyq2lxHrO3H/ozwIw7c7Bo
+ tyb4OV0di9NN8eFHHc+JlrgesLpI69f0XD5a3kYQLME0v2+5rh4qCfJQhUx1DA1E+tlAfnz9aVV2z
+ kiwqF8mhIlgwi2SMBi0amMDMPFBTpAZt7KDjzudY9GvCzOYw1txTPqLJrimhO6cd7Uat5B2sNegND
+ jzTPMWFvqePG8y8/B5mNSNjnyX0ITxIoH4EquTpF/KSpJ5506vdB3hLGLap7RFsGVxQvLMYgDGKBu
+ oM32RlwA==;
+Received: from [201.166.169.220] (port=31563 helo=embeddedor)
  by gator4166.hostgator.com with esmtpa (Exim 4.92)
  (envelope-from <gustavo@embeddedor.com>)
- id 1j9o3L-003dNJ-JM; Thu, 05 Mar 2020 04:48:32 -0600
-Date: Thu, 5 Mar 2020 04:51:37 -0600
+ id 1j9o8f-003gJu-CY; Thu, 05 Mar 2020 04:54:01 -0600
+Date: Thu, 5 Mar 2020 04:57:07 -0600
 From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH][next] drm: etnaviv_gem.h: Replace zero-length array with
+To: Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH][next] drm/vc4/vc4_drv.h: Replace zero-length array with
  flexible-array member
-Message-ID: <20200305105137.GA18628@embeddedor>
+Message-ID: <20200305105707.GA19261@embeddedor>
 MIME-Version: 1.0
 Content-Disposition: inline
 User-Agent: Mutt/1.9.4 (2018-02-28)
@@ -56,13 +54,13 @@ X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
 X-Source-IP: 201.166.169.220
 X-Source-L: No
-X-Exim-ID: 1j9o3L-003dNJ-JM
+X-Exim-ID: 1j9o8f-003gJu-CY
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: (embeddedor) [201.166.169.220]:13470
+X-Source-Sender: (embeddedor) [201.166.169.220]:31563
 X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 7
+X-Email-Count: 30
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
 X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,9 +75,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -115,22 +112,22 @@ This issue was found with the help of Coccinelle.
 
 Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.h | 2 +-
+ drivers/gpu/drm/vc4/vc4_drv.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-index 6b68fe16041b..98e60df882b6 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-@@ -105,7 +105,7 @@ struct etnaviv_gem_submit {
- 	unsigned int nr_pmrs;
- 	struct etnaviv_perfmon_request *pmrs;
- 	unsigned int nr_bos;
--	struct etnaviv_gem_submit_bo bos[0];
-+	struct etnaviv_gem_submit_bo bos[];
- 	/* No new members here, the previous one is variable-length! */
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index f90c0d08e740..5ecb8b4a48a1 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -65,7 +65,7 @@ struct vc4_perfmon {
+ 	 * Note that counter values can't be reset, but you can fake a reset by
+ 	 * destroying the perfmon and creating a new one.
+ 	 */
+-	u64 counters[0];
++	u64 counters[];
  };
  
+ struct vc4_dev {
 -- 
 2.25.0
 
