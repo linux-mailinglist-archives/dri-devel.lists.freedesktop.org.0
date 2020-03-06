@@ -1,66 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648D117BA72
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 11:39:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D307517BA8C
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 11:40:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2716E42D;
-	Fri,  6 Mar 2020 10:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E10946ECCC;
+	Fri,  6 Mar 2020 10:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 310636ECD0
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 10:39:50 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a132so1823754wme.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 02:39:50 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8586ECCE
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 10:40:42 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id p2so941700wrw.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 02:40:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=rCwwPNd2pA0INB2HwJkp3rqo1usGcNxwzdg6ma8wOKI=;
- b=eTHhCcEclE09OQebKxTAtBcuem6YrVVfqc6wr7gzch/KOv9hjBwMrETehU/oSBUFjX
- l9RbDlri1cZqI8jE26fig1J/BgoL9F/ihHJocP8/UCnDCvgi1xfAqPrfmg0Ceb7WmzQm
- aWZ7/H0OldRYsjAGDfwM90Gf9q8iHvafGPsVM=
+ :mime-version:content-disposition:in-reply-to;
+ bh=3uwQmoeCVMR1OjRUyFcSdUC36g6Oo2T6mj6l89+Qx08=;
+ b=Iw0ZWJATxL79py60HW/tvolmLUL5DiTJF3n+O9KSkscsoVaDd1sC+1a99B/XaFEnvD
+ pufFlRVL3+f+wG50aKPpypMk0JrVexnVpCKewc0I7WHWdopgdwRd8hv6V7g5QwBmbzwS
+ QJ68Po5jb2PQb1aJ9Oo25pmODM/axP3qzitM0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=rCwwPNd2pA0INB2HwJkp3rqo1usGcNxwzdg6ma8wOKI=;
- b=GEJgPbAjUwBTJDKZIbHB4GCdb1kMIvsaascNHEt5aI9Ro26tY89EgdTjab5pvtuUz6
- ARIBxCCfWoXPfSWYriKWNVhOFI6x1T33OQD+/jUarfM88uDGz9h7f1JbhkfwPcO/UDKi
- J32JDFxykfn77WihNxrXLY3zIHswIQA4BvY7TjoQ/DYu/5okwJneIqy0paEx7+hRpGGM
- p/+1m/fTotXAsfPtYaokk03zNM5BbCkqbyoqhV7Jcg+WVsrpnda+OUEshikkUI2SR3xz
- 1LPr6KsBZAjSy92cVt9261Zt7edRT9VKELSJrw9UvEiNFn0UNuy3ubOjlHzAD8UsIN30
- 8RiA==
-X-Gm-Message-State: ANhLgQ1ZZhN039o7o7Jo2/6pdfRkN7m2Ya/L8jVS06BrmRtrdoFUvVGq
- 1THmFpXnLanab3CNveNocY27IA==
-X-Google-Smtp-Source: ADFU+vsoxbiLn65abeK+CoaJTkFH/7IMTTkUgAtZxrezRu/238vSq4AIzpYtowBToyIoT+aRz7bdHg==
-X-Received: by 2002:a7b:c756:: with SMTP id w22mr3356418wmk.90.1583491188842; 
- Fri, 06 Mar 2020 02:39:48 -0800 (PST)
+ :in-reply-to;
+ bh=3uwQmoeCVMR1OjRUyFcSdUC36g6Oo2T6mj6l89+Qx08=;
+ b=ZataWWo0H70DNUtX7y1aPJj4zKOxGWA0fXDPrV+jvjZzzPwM9Lak2ZN0+P+i6EHyH5
+ ctXvjaPXwnPXCPO6kNliiLr7tHRnh3aNUyzPBAo7Q5iO86uwMkdhalxdljHe/wgesPlA
+ o/y757T2mpmoR/oJatEf/Fvu1pMpKPsQC92yBdX1dJJnKGHkFS09hkb8FGFXINU8r22O
+ i9FAFuPT0xdl+/8JQP6gnjh+mVH+FOh2mhzM02WUFeE9P3vpGPoVTT2Ukg1YTBWxYbNI
+ g+dPLgNOzV1nVq1o8SGnCq1RXheIiFKUqHEF20ii0KPAoVEDsVQVnzAcDi7I53BAa388
+ Rsbg==
+X-Gm-Message-State: ANhLgQ1ar+RSsKo0ZLPepuqSRkdXQpUadKi/02T4jZLQu52fJ3oy4qfw
+ W7ju85T3wriIN6GBVL4C+/Ve6g==
+X-Google-Smtp-Source: ADFU+vt7qifkWSBCAuJEHAUYhMENNpFsi58HIatC73FFg/bEqMfF/ZaCUxUJrkB7PDaKqB+vx7xcIA==
+X-Received: by 2002:a05:6000:4:: with SMTP id h4mr2203376wrx.14.1583491241522; 
+ Fri, 06 Mar 2020 02:40:41 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a184sm13066027wmf.29.2020.03.06.02.39.47
+ by smtp.gmail.com with ESMTPSA id t14sm16353673wrp.63.2020.03.06.02.40.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 02:39:48 -0800 (PST)
-Date: Fri, 6 Mar 2020 11:39:46 +0100
+ Fri, 06 Mar 2020 02:40:40 -0800 (PST)
+Date: Fri, 6 Mar 2020 11:40:39 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [Intel-gfx] [PATCH] MAINTAINERS: adjust to reservation.h renaming
-Message-ID: <20200306103946.GT2363188@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Joe Perches <joe@perches.com>,
- Sebastian Duda <sebastian.duda@fau.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
-References: <20200304120711.12117-1-lukas.bulwahn@gmail.com>
- <b0296e3a-31f8-635a-f26d-8b0bc490aae3@amd.com>
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: Re: [PATCH][next] drm/gma500/intel_bios.h: Replace zero-length array
+ with flexible-array member
+Message-ID: <20200306104039.GU2363188@phenom.ffwll.local>
+Mail-Followup-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20200305105306.GA18788@embeddedor>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <b0296e3a-31f8-635a-f26d-8b0bc490aae3@amd.com>
+In-Reply-To: <20200305105306.GA18788@embeddedor>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,74 +70,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Joe Perches <joe@perches.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Sebastian Duda <sebastian.duda@fau.de>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 04, 2020 at 01:08:32PM +0100, Christian K=F6nig wrote:
-> Am 04.03.20 um 13:07 schrieb Lukas Bulwahn:
-> > Commit 52791eeec1d9 ("dma-buf: rename reservation_object to dma_resv")
-> > renamed include/linux/reservation.h to include/linux/dma-resv.h, but
-> > missed the reference in the MAINTAINERS entry.
-> > =
+On Thu, Mar 05, 2020 at 04:53:06AM -0600, Gustavo A. R. Silva wrote:
+> The current codebase makes use of the zero-length array language
+> extension to the C90 standard, but the preferred mechanism to declare
+> variable-length types such as these ones is a flexible array member[1][2],
+> introduced in C99:
+> 
+> struct foo {
+>         int stuff;
+>         struct boo array[];
+> };
+> 
+> By making use of the mechanism above, we will get a compiler warning
+> in case the flexible array does not occur last in the structure, which
+> will help us prevent some kind of undefined behavior bugs from being
+> inadvertently introduced[3] to the codebase from now on.
+> 
+> Also, notice that, dynamic memory allocations won't be affected by
+> this change:
+> 
+> "Flexible array members have incomplete type, and so the sizeof operator
+> may not be applied. As a quirk of the original implementation of
+> zero-length arrays, sizeof evaluates to zero."[1]
+> 
+> This issue was found with the help of Coccinelle.
+> 
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://github.com/KSPP/linux/issues/21
+> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 
-> > Since then, ./scripts/get_maintainer.pl --self-test complains:
-> > =
-
-> >    warning: no file matches F: include/linux/reservation.h
-> > =
-
-> > Adjust the DMA BUFFER SHARING FRAMEWORK entry in MAINTAINERS.
-> > =
-
-> > Co-developed-by: Sebastian Duda <sebastian.duda@fau.de>
-> > Signed-off-by: Sebastian Duda <sebastian.duda@fau.de>
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> =
-
-> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
-
-You'll push this too?
+Applied to drm-misc-next, thanks for your patch.
 -Daniel
 
-> =
+> ---
+>  drivers/gpu/drm/gma500/intel_bios.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/gma500/intel_bios.h b/drivers/gpu/drm/gma500/intel_bios.h
+> index a1f9ce9465a5..0e6facf21e33 100644
+> --- a/drivers/gpu/drm/gma500/intel_bios.h
+> +++ b/drivers/gpu/drm/gma500/intel_bios.h
+> @@ -227,7 +227,7 @@ struct bdb_general_definitions {
+>  	 * number = (block_size - sizeof(bdb_general_definitions))/
+>  	 *	     sizeof(child_device_config);
+>  	 */
+> -	struct child_device_config devices[0];
+> +	struct child_device_config devices[];
+>  };
+>  
+>  struct bdb_lvds_options {
+> -- 
+> 2.25.0
+> 
 
-> > ---
-> > Christian, please pick this patch.
-> > applies cleanly on current master and next-20200303
-> > =
-
-> >   MAINTAINERS | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > =
-
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 6158a143a13e..3d6cb2789c9e 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -5022,7 +5022,7 @@ L:	dri-devel@lists.freedesktop.org
-> >   L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
-> >   F:	drivers/dma-buf/
-> >   F:	include/linux/dma-buf*
-> > -F:	include/linux/reservation.h
-> > +F:	include/linux/dma-resv.h
-> >   F:	include/linux/*fence.h
-> >   F:	Documentation/driver-api/dma-buf.rst
-> >   K:	dma_(buf|fence|resv)
-> =
-
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
