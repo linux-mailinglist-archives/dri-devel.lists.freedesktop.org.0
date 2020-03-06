@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253E217CD7D
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA3E17CD93
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDD166E13B;
-	Sat,  7 Mar 2020 10:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E213A6E188;
+	Sat,  7 Mar 2020 10:15:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [62.209.51.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 241FF6ECC8
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 10:30:52 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2566ECC4
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 10:29:54 +0000 (UTC)
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 026AORpl008903; Fri, 6 Mar 2020 11:29:44 +0100
+ 026AQUmH024651; Fri, 6 Mar 2020 11:29:44 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=IukcALM/LFo7ZNhzI6tBOK/8vY0XhfAkNL6xF8zqy74=;
- b=Ul/MkeLhpH/q64O3k75Vdqz6ozVq6MZJjG2A7UeOrtjCIz9waVVko9idTMLpfpjusg/J
- UOa/+IlwZ0GlIh5dTy0lzI3lu5B+d7aFo5TYbtJBgJKVRtg8VyawXtPh8G2shSHd7Lpc
- KAUnURftrnyBRwjm21SBUz70eeacDbadq3fVsC5djJ/oXRmhyzy1CEUJYDDCa8TzsBgo
- IjMsSvXhKKU0gt93iv2EpQYaqFSAtzFSSUKgZSdctAuXwbGWi40k2bzjhhCUpuP2ae97
- BbeXCHs3IzwgRmDgICtCSzKnEhWXj1pdSbmFhQWMThjmR1OlrJiQsK3rP0oF/WzlX6xX GQ== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=STMicroelectronics;
+ bh=TpwBrpdQQqrlUxFFC4eAdtZrunIBuKKuXsI84SwClXw=;
+ b=a/QzvH4MDdhmFn51FIqUrbUPlVIdToECcCJzEniaPetZ2gBZg00Ze/XDaw37C0twCha0
+ Y+XESAHhaJLqidtYA971xB6digxKxhNX22TtToHzpN0j1gO2LgopxBlXqwtBPZ/UWCrv
+ IznVYyf4N3kEIUWBdsfD2L8AEMakH7oxjiEy63uC3RhuTvZBgGohT7ltLKG1psKdqCaQ
+ 66xty9dEDN61AMz3JxGZvBfbD2NuxH3rPJRO5bN0x5V7NwJjkThvEFmUQaZqOBveL9I6
+ j2gZsc/98PVZEB09dVYX8TTZXMQnrRFpK5WjV1P9uaMzza2Qkyg1IpOtx/OBzfBzkIIN lw== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 2yfea7ej2s-1
+ by mx07-00178001.pphosted.com with ESMTP id 2yfem1efh5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 06 Mar 2020 11:29:44 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 72D69100038;
- Fri,  6 Mar 2020 11:29:40 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 164C3100039;
+ Fri,  6 Mar 2020 11:29:41 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4781D2A76CB;
- Fri,  6 Mar 2020 11:29:40 +0100 (CET)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 047B72A76CB;
+ Fri,  6 Mar 2020 11:29:41 +0100 (CET)
 Received: from localhost (10.75.127.48) by SFHDAG3NODE3.st.com (10.75.127.9)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 6 Mar 2020 11:29:39
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 6 Mar 2020 11:29:40
  +0100
 From: Benjamin Gaignard <benjamin.gaignard@st.com>
 To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <emil.l.velikov@gmail.com>
-Subject: [PATCH] drm: vm: Clean up documentation
-Date: Fri, 6 Mar 2020 11:29:34 +0100
-Message-ID: <20200306102937.4932-1-benjamin.gaignard@st.com>
+Subject: [PATCH] drm: lock: Clean up documentation
+Date: Fri, 6 Mar 2020 11:29:35 +0100
+Message-ID: <20200306102937.4932-2-benjamin.gaignard@st.com>
 X-Mailer: git-send-email 2.15.0
+In-Reply-To: <20200306102937.4932-1-benjamin.gaignard@st.com>
+References: <20200306102937.4932-1-benjamin.gaignard@st.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG6NODE3.st.com (10.75.127.18) To SFHDAG3NODE3.st.com
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG3NODE3.st.com
  (10.75.127.9)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-06_02:2020-03-05,
+ definitions=2020-03-06_03:2020-03-05,
  2020-03-06 signatures=0
 X-Mailman-Approved-At: Sat, 07 Mar 2020 10:14:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,85 +80,66 @@ Fix kernel doc comments to avoid warnings when compiling with W=1.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
 ---
- drivers/gpu/drm/drm_vm.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_lock.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
-index 64619fe90046..aa88911bbc06 100644
---- a/drivers/gpu/drm/drm_vm.c
-+++ b/drivers/gpu/drm/drm_vm.c
-@@ -102,7 +102,7 @@ static pgprot_t drm_dma_prot(uint32_t map_type, struct vm_area_struct *vma)
- 	return tmp;
- }
+diff --git a/drivers/gpu/drm/drm_lock.c b/drivers/gpu/drm/drm_lock.c
+index 2c79e8199e3c..f16eefbf2829 100644
+--- a/drivers/gpu/drm/drm_lock.c
++++ b/drivers/gpu/drm/drm_lock.c
+@@ -46,7 +46,7 @@
+ 
+ static int drm_lock_take(struct drm_lock_data *lock_data, unsigned int context);
  
 -/**
 +/*
-  * \c fault method for AGP virtual memory.
+  * Take the heavyweight lock.
   *
-  * \param vma virtual memory area.
-@@ -192,7 +192,7 @@ static vm_fault_t drm_vm_fault(struct vm_fault *vmf)
- }
- #endif
- 
--/**
-+/*
-  * \c nopage method for shared virtual memory.
-  *
-  * \param vma virtual memory area.
-@@ -225,7 +225,7 @@ static vm_fault_t drm_vm_shm_fault(struct vm_fault *vmf)
+  * \param lock lock pointer.
+@@ -93,7 +93,7 @@ int drm_lock_take(struct drm_lock_data *lock_data,
  	return 0;
  }
  
 -/**
 +/*
-  * \c close method for shared virtual memory.
+  * This takes a lock forcibly and hands it to context.	Should ONLY be used
+  * inside *_unlock to give lock to kernel before calling *_dma_schedule.
   *
-  * \param vma virtual memory area.
-@@ -294,7 +294,7 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
- 	mutex_unlock(&dev->struct_mutex);
- }
- 
--/**
-+/*
-  * \c fault method for DMA virtual memory.
-  *
-  * \param address access address.
-@@ -329,7 +329,7 @@ static vm_fault_t drm_vm_dma_fault(struct vm_fault *vmf)
+@@ -150,7 +150,7 @@ static int drm_legacy_lock_free(struct drm_lock_data *lock_data,
  	return 0;
  }
  
 -/**
 +/*
-  * \c fault method for scatter-gather virtual memory.
+  * Lock ioctl.
   *
-  * \param address access address.
-@@ -435,7 +435,7 @@ static void drm_vm_close_locked(struct drm_device *dev,
- 	}
+  * \param inode device inode.
+@@ -243,7 +243,7 @@ int drm_legacy_lock(struct drm_device *dev, void *data,
+ 	return 0;
  }
  
 -/**
 +/*
-  * \c close method for all virtual memory types.
+  * Unlock ioctl.
   *
-  * \param vma virtual memory area.
-@@ -453,7 +453,7 @@ static void drm_vm_close(struct vm_area_struct *vma)
- 	mutex_unlock(&dev->struct_mutex);
+  * \param inode device inode.
+@@ -275,7 +275,7 @@ int drm_legacy_unlock(struct drm_device *dev, void *data, struct drm_file *file_
+ 	return 0;
  }
  
 -/**
 +/*
-  * mmap DMA memory.
-  *
-  * \param file_priv DRM file private.
-@@ -513,7 +513,7 @@ static resource_size_t drm_core_get_reg_ofs(struct drm_device *dev)
- #endif
- }
- 
--/**
-+/*
-  * mmap DMA memory.
-  *
-  * \param file_priv DRM file private.
+  * This function returns immediately and takes the hw lock
+  * with the kernel context if it is free, otherwise it gets the highest priority when and if
+  * it is eventually released.
+@@ -287,7 +287,6 @@ int drm_legacy_unlock(struct drm_device *dev, void *data, struct drm_file *file_
+  * This should be sufficient to wait for GPU idle without
+  * having to worry about starvation.
+  */
+-
+ void drm_legacy_idlelock_take(struct drm_lock_data *lock_data)
+ {
+ 	int ret;
 -- 
 2.15.0
 
