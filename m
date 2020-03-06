@@ -1,47 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6486A17C8D1
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 00:46:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 928FC17C8D3
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 00:46:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74B256ED9B;
-	Fri,  6 Mar 2020 23:46:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F17636ED9F;
+	Fri,  6 Mar 2020 23:46:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F836ED9A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 23:46:34 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 608926ED9A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 23:46:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583538392;
+ s=mimecast20190719; t=1583538394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Po/iBBoWJfPjGLJrHZfnvvlLhPKKA60+1bls5u7diKE=;
- b=TWVCdFygv0ZZQbnUtnOHKU4DodSuQFBJc+NTEnfLQL48Cam4F3sS0ngYhmO5mPQfcdzYXR
- gjwgc+X3atKpn0q97ln2gvRvRJMmSdQF1gWorgSKKhqXupeizgf5ncKfXpRq1kK+Z8yQG9
- bnFPtZK0eQYRYte7PCfFSMHMG1V4W0I=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lTUrg/boY4FBmBAf+w0ggxQJvpm8pYpnAaBMDLRjV3g=;
+ b=cL46zcpKYVySu98XAxP61C0PXIUgemBv4HtDEgiMq/zife8NqatBGc+wC4yDmUvcZz89+T
+ MGPMka00yv94OeYEvw5fQ0VA9RDI1R9SUFJXwNC0q0x+/GzPEKjiF661p9i+cX+XBA3wwD
+ C+73upsziGVqX4WhRoLdHn3P3zkhcDw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-qzJu6ej_P8uoHKNYBQA6nQ-1; Fri, 06 Mar 2020 18:46:31 -0500
-X-MC-Unique: qzJu6ej_P8uoHKNYBQA6nQ-1
+ us-mta-330-Nvi-WvJDP-Wy3L08tQTKLw-1; Fri, 06 Mar 2020 18:46:32 -0500
+X-MC-Unique: Nvi-WvJDP-Wy3L08tQTKLw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AC59800D4E;
- Fri,  6 Mar 2020 23:46:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21CE713F7;
+ Fri,  6 Mar 2020 23:46:31 +0000 (UTC)
 Received: from Ruby.bss.redhat.com (dhcp-10-20-1-196.bss.redhat.com
  [10.20.1.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 851397389A;
- Fri,  6 Mar 2020 23:46:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1BCF73873;
+ Fri,  6 Mar 2020 23:46:29 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/4] drm/dp_mst: Fix bandwidth checking regressions from
- DSC patches
-Date: Fri,  6 Mar 2020 18:46:18 -0500
-Message-Id: <20200306234623.547525-1-lyude@redhat.com>
+Subject: [PATCH v2 1/4] drm/dp_mst: Rename drm_dp_mst_is_dp_mst_end_device()
+ to be less redundant
+Date: Fri,  6 Mar 2020 18:46:19 -0500
+Message-Id: <20200306234623.547525-2-lyude@redhat.com>
+In-Reply-To: <20200306234623.547525-1-lyude@redhat.com>
+References: <20200306234623.547525-1-lyude@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,38 +59,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <seanpaul@google.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sean Paul <seanpaul@google.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Mikita Lipski <mikita.lipski@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QU1EJ3MgcGF0Y2ggc2VyaWVzIGZvciBhZGRpbmcgRFNDIHN1cHBvcnQgdG8gdGhlIE1TVCBoZWxw
-ZXJzCnVuZm9ydHVuYXRlbHkgaW50cm9kdWNlZCBhIGZldyByZWdyZXNzaW9ucyBpbnRvIHRoZSBr
-ZXJuZWwgdGhhdCBJIGRpZG4ndApnZXQgYXJvdW5kIHRvIGZpeGluZyB1bnRpbCBqdXN0IG5vdy4g
-SSB3b3VsZCBoYXZlIHJldmVydGVkIHRoZSBjaGFuZ2VzCmVhcmxpZXIsIGJ1dCBzZWVpbmcgYXMg
-dGhhdCB3b3VsZCBoYXZlIHJldmVydGVkIGFsbCBvZiBhbWQncyBEU0Mgc3VwcG9ydAorIGV2ZXJ5
-dGhpbmcgdGhhdCB3YXMgZG9uZSBvbiB0b3Agb2YgdGhhdCBJIHJlYWxsbGxsbHkgd2FudGVkIHRv
-IGF2b2lkCmRvaW5nIHRoYXQuCgpBbnl3YXksIHRoaXMgc2hvdWxkIGZpeCBldmVyeXRoaW5nIGJh
-bmR3aWR0aC1jaGVjayByZWxhdGVkIGFzIGZhciBhcyBJCmNhbiB0ZWxsIChJIGZvdW5kIHNvbWUg
-b3RoZXIgcmVncmVzc2lvbnMgdW5yZWxhdGVkIHRvIEFNRCdzIERTQyBwYXRjaGVzCndoaWNoIEkn
-bGwgYmUgc2VuZGluZyBvdXQgcGF0Y2hlcyBmb3Igc2hvcnRseSkuIE5vdGUgdGhhdCBJIGRvbid0
-IGhhdmUKYW55IERTQyBkaXNwbGF5cyBsb2NhbGx5IHlldCwgc28gaWYgc29tZW9uZSBmcm9tIEFN
-RCBjb3VsZCBzYW5pdHkgY2hlY2sKdGhpcyBJIHdvdWxkIGFwcHJlY2lhdGUgaXQg4pmlLgoKQ2M6
-IE1pa2l0YSBMaXBza2kgPG1pa2l0YS5saXBza2lAYW1kLmNvbT4KQ2M6IEFsZXggRGV1Y2hlciA8
-YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6IFNlYW4gUGF1bCA8c2VhbnBhdWxAZ29vZ2xl
-LmNvbT4KQ2M6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+CgpMeXVkZSBQYXVs
-ICg0KToKICBkcm0vZHBfbXN0OiBSZW5hbWUgZHJtX2RwX21zdF9pc19kcF9tc3RfZW5kX2Rldmlj
-ZSgpIHRvIGJlIGxlc3MKICAgIHJlZHVuZGFudAogIGRybS9kcF9tc3Q6IFVzZSBmdWxsX3BibiBp
-bnN0ZWFkIG9mIGF2YWlsYWJsZV9wYm4gZm9yIGJhbmR3aWR0aCBjaGVja3MKICBkcm0vZHBfbXN0
-OiBSZXByb2JlIHBhdGggcmVzb3VyY2VzIGluIENTTiBoYW5kbGVyCiAgZHJtL2RwX21zdDogUmV3
-cml0ZSBhbmQgZml4IGJhbmR3aWR0aCBsaW1pdCBjaGVja3MKCiBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2RwX21zdF90b3BvbG9neS5jIHwgMTg1ICsrKysrKysrKysrKysrKysrKy0tLS0tLS0tCiBpbmNs
-dWRlL2RybS9kcm1fZHBfbXN0X2hlbHBlci5oICAgICAgIHwgICA0ICstCiAyIGZpbGVzIGNoYW5n
-ZWQsIDEyOSBpbnNlcnRpb25zKCspLCA2MCBkZWxldGlvbnMoLSkKCi0tIAoyLjI0LjEKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+It's already prefixed by dp_mst, so we don't really need to repeat
+ourselves here. One of the changes I should have picked up originally
+when reviewing MST DSC support.
+
+There should be no functional changes here
+
+Cc: Mikita Lipski <mikita.lipski@amd.com>
+Cc: Sean Paul <seanpaul@google.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 6c62ad8f4414..6714d8a5c558 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -1937,7 +1937,7 @@ static u8 drm_dp_calculate_rad(struct drm_dp_mst_port *port,
+ 	return parent_lct + 1;
+ }
+ 
+-static bool drm_dp_mst_is_dp_mst_end_device(u8 pdt, bool mcs)
++static bool drm_dp_mst_is_end_device(u8 pdt, bool mcs)
+ {
+ 	switch (pdt) {
+ 	case DP_PEER_DEVICE_DP_LEGACY_CONV:
+@@ -1967,13 +1967,13 @@ drm_dp_port_set_pdt(struct drm_dp_mst_port *port, u8 new_pdt,
+ 
+ 	/* Teardown the old pdt, if there is one */
+ 	if (port->pdt != DP_PEER_DEVICE_NONE) {
+-		if (drm_dp_mst_is_dp_mst_end_device(port->pdt, port->mcs)) {
++		if (drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+ 			/*
+ 			 * If the new PDT would also have an i2c bus,
+ 			 * don't bother with reregistering it
+ 			 */
+ 			if (new_pdt != DP_PEER_DEVICE_NONE &&
+-			    drm_dp_mst_is_dp_mst_end_device(new_pdt, new_mcs)) {
++			    drm_dp_mst_is_end_device(new_pdt, new_mcs)) {
+ 				port->pdt = new_pdt;
+ 				port->mcs = new_mcs;
+ 				return 0;
+@@ -1993,7 +1993,7 @@ drm_dp_port_set_pdt(struct drm_dp_mst_port *port, u8 new_pdt,
+ 	port->mcs = new_mcs;
+ 
+ 	if (port->pdt != DP_PEER_DEVICE_NONE) {
+-		if (drm_dp_mst_is_dp_mst_end_device(port->pdt, port->mcs)) {
++		if (drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+ 			/* add i2c over sideband */
+ 			ret = drm_dp_mst_register_i2c_bus(&port->aux);
+ 		} else {
+@@ -2169,7 +2169,7 @@ drm_dp_mst_port_add_connector(struct drm_dp_mst_branch *mstb,
+ 	}
+ 
+ 	if (port->pdt != DP_PEER_DEVICE_NONE &&
+-	    drm_dp_mst_is_dp_mst_end_device(port->pdt, port->mcs)) {
++	    drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+ 		port->cached_edid = drm_get_edid(port->connector,
+ 						 &port->aux.ddc);
+ 		drm_connector_set_tile_property(port->connector);
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
