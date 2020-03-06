@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766F317C6BD
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 21:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1454117C6DF
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 21:15:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57AC26ED5C;
-	Fri,  6 Mar 2020 20:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B336ED63;
+	Fri,  6 Mar 2020 20:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764AA6ED5C;
- Fri,  6 Mar 2020 20:05:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF4046ED63;
+ Fri,  6 Mar 2020 20:15:01 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 17BEE20020;
- Fri,  6 Mar 2020 21:04:58 +0100 (CET)
-Date: Fri, 6 Mar 2020 21:04:56 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id F286920020;
+ Fri,  6 Mar 2020 21:14:58 +0100 (CET)
+Date: Fri, 6 Mar 2020 21:14:57 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 26/51] drm: Manage drm_mode_config_init with drmm_
-Message-ID: <20200306200456.GB13014@ravnborg.org>
+Subject: Re: [PATCH 28/51] drm/bochs: Drop explicit drm_mode_config_cleanup
+Message-ID: <20200306201457.GC13014@ravnborg.org>
 References: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
- <20200302222631.3861340-27-daniel.vetter@ffwll.ch>
+ <20200302222631.3861340-29-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200302222631.3861340-27-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200302222631.3861340-29-daniel.vetter@ffwll.ch>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8
- a=P1BnusSwAAAA:8 a=SJz97ENfAAAA:8 a=QyXUC8HyAAAA:8 a=RnyrHZYZsAbYOj90BakA:9
- a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
- a=vFet0B0WnEQeilDPIY6i:22
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=P1BnusSwAAAA:8 a=QyXUC8HyAAAA:8 a=20KFwNOVAAAA:8 a=Z4Rwk6OoAAAA:8
+ a=k5p89Q0gtKR_RmKz35gA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=D0XLA9XvdZm18NrgonBM:22 a=HkZW87K1Qel5hWWM3VKY:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,314 +49,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel.
-
-On Mon, Mar 02, 2020 at 11:26:06PM +0100, Daniel Vetter wrote:
-> drm_mode_config_cleanup is idempotent, so no harm in calling this
-> twice. This allows us to gradually switch drivers over by removing
-> explicit drm_mode_config_cleanup calls.
-> =
-
-> With this step it's now also possible that (at least for simple
-> drivers) automatic resource cleanup can be done correctly without a
-> drm_driver->release hook. Therefore allow this now in
-> devm_drm_dev_init().
-> =
-
-> Also with drmm_ explicit drm_driver->release hooks are kinda not the
-> best option: Drivers can always just register their current release
-> hook with drmm_add_action, but even better they could split them up to
-> simplify the unwinding for the driver load failure case. So deprecate
-> that hook to discourage future users.
-> =
-
-> v2: Fixup the example in the kerneldoc too.
-> =
-
-> v3:
-> - For paranoia, double check that minor->dev =3D=3D dev in the release
->   hook, because I botched the pointer math in the drmm library.
-> - Call drm_mode_config_cleanup when drmm_add_action fails, we'd be
->   missing some mutex_destroy and ida_cleanup otherwise (Laurent)
-> =
-
-> v4: Add a drmm_add_action_or_reset (like devm_ has) to encapsulate this
-> pattern (Noralf).
-> =
-
-> v5: Fix oversight in the new drmm_add_action_or_reset macro (Noralf)
-> =
-
-> v4: Review from Sam:
-> - drmm_mode_config_init wrapper (also suggested by Thomas)
-> - improve commit message, explain better why ->relase is deprecated
-
-The idea was to rename drm_mode_config_init() to
-drmm_mode_config_init().
-And then provide a wrapper for backward compatibility.
-- So the kernel-doc documented function in drm_mode_config.c is the
-  recommened choice
-- And the wrapper in drm_mode_config.h was only for backward
-  compatibility
-
-In other words - the wrapper should be an undocumented:
-static inline int drm_mode_config_init(struct drm_device *dev)
-{
-	return drmm_mode_config_init(dev);
-}
-
-When all users have transitioned to drmm_mode_config_init()
-then the wrapper could be dropped.
-
-With this fixed, or a good reason not to do so:
-
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-	Sam
-
-> =
-
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
+On Mon, Mar 02, 2020 at 11:26:08PM +0100, Daniel Vetter wrote:
+> Instead rely on the automatic clean, for which we just need to check
+> that drm_mode_config_init succeeded. To avoid an inversion in the
+> cleanup we also have to move the dev_private allocation over to
+> drmm_kzalloc.
+> 
+> This is made possible by a preceeding patch which added a drmm_
+> cleanup action to drm_mode_config_init(), hence all we need to do to
+> ensure that drm_mode_config_cleanup() is run on final drm_device
+> cleanup is check the new error code for _init().
+> 
+> v2: Explain why this cleanup is possible (Laurent).
+> 
+> v3: Use drmm_mode_config_init() for more clarity (Sam, Thomas)
+> 
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: virtualization@lists.linux-foundation.org
+
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+
 > ---
->  drivers/gpu/drm/drm_drv.c         | 23 +++++++----------------
->  drivers/gpu/drm/drm_managed.c     | 14 ++++++++++++++
->  drivers/gpu/drm/drm_mode_config.c | 13 ++++++++++++-
->  include/drm/drm_managed.h         |  7 +++++++
->  include/drm/drm_mode_config.h     | 19 ++++++++++++++++++-
->  5 files changed, 58 insertions(+), 18 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index c709a0ce018c..a82702d0c2fb 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -98,6 +98,8 @@ static void drm_minor_alloc_release(struct drm_device *=
-dev, void *data)
->  	struct drm_minor *minor =3D data;
->  	unsigned long flags;
->  =
-
-> +	WARN_ON(dev !=3D minor->dev);
-> +
->  	put_device(minor->kdev);
->  =
-
->  	spin_lock_irqsave(&drm_minor_lock, flags);
-> @@ -267,8 +269,7 @@ void drm_minor_release(struct drm_minor *minor)
->   *
->   * The following example shows a typical structure of a DRM display driv=
-er.
->   * The example focus on the probe() function and the other functions tha=
-t is
-> - * almost always present and serves as a demonstration of devm_drm_dev_i=
-nit()
-> - * usage with its accompanying drm_driver->release callback.
-> + * almost always present and serves as a demonstration of devm_drm_dev_i=
-nit().
->   *
->   * .. code-block:: c
->   *
-> @@ -278,16 +279,8 @@ void drm_minor_release(struct drm_minor *minor)
->   *		struct clk *pclk;
->   *	};
->   *
-> - *	static void driver_drm_release(struct drm_device *drm)
-> - *	{
-> - *		struct driver_device *priv =3D container_of(...);
-> - *
-> - *		drm_mode_config_cleanup(drm);
-> - *	}
-> - *
->   *	static struct drm_driver driver_drm_driver =3D {
->   *		[...]
-> - *		.release =3D driver_drm_release,
->   *	};
->   *
->   *	static int driver_probe(struct platform_device *pdev)
-> @@ -312,7 +305,9 @@ void drm_minor_release(struct drm_minor *minor)
->   *		}
->   *		drmm_add_final_kfree(drm, priv);
->   *
-> - *		drm_mode_config_init(drm);
-> + *		ret =3D drm_mode_config_init(drm);
-> + *		if (ret)
-> + *			return ret;
->   *
->   *		priv->userspace_facing =3D drmm_kzalloc(..., GFP_KERNEL);
->   *		if (!priv->userspace_facing)
-> @@ -710,8 +705,7 @@ static void devm_drm_dev_init_release(void *data)
->   * @driver: DRM driver
->   *
->   * Managed drm_dev_init(). The DRM device initialized with this function=
- is
-> - * automatically put on driver detach using drm_dev_put(). You must supp=
-ly a
-> - * &drm_driver.release callback to control the finalization explicitly.
-> + * automatically put on driver detach using drm_dev_put().
->   *
->   * RETURNS:
->   * 0 on success, or error code on failure.
-> @@ -722,9 +716,6 @@ int devm_drm_dev_init(struct device *parent,
+>  drivers/gpu/drm/bochs/bochs.h     |  1 -
+>  drivers/gpu/drm/bochs/bochs_drv.c |  6 ++----
+>  drivers/gpu/drm/bochs/bochs_kms.c | 14 +++++---------
+>  3 files changed, 7 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bochs/bochs.h b/drivers/gpu/drm/bochs/bochs.h
+> index 917767173ee6..e5bd1d517a18 100644
+> --- a/drivers/gpu/drm/bochs/bochs.h
+> +++ b/drivers/gpu/drm/bochs/bochs.h
+> @@ -92,7 +92,6 @@ void bochs_mm_fini(struct bochs_device *bochs);
+>  
+>  /* bochs_kms.c */
+>  int bochs_kms_init(struct bochs_device *bochs);
+> -void bochs_kms_fini(struct bochs_device *bochs);
+>  
+>  /* bochs_fbdev.c */
+>  extern const struct drm_mode_config_funcs bochs_mode_funcs;
+> diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/bochs_drv.c
+> index addb0568c1af..e18c51de1196 100644
+> --- a/drivers/gpu/drm/bochs/bochs_drv.c
+> +++ b/drivers/gpu/drm/bochs/bochs_drv.c
+> @@ -7,6 +7,7 @@
+>  
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_managed.h>
+>  
+>  #include "bochs.h"
+>  
+> @@ -21,10 +22,7 @@ static void bochs_unload(struct drm_device *dev)
 >  {
->  	int ret;
->  =
-
-> -	if (WARN_ON(!driver->release))
-> -		return -EINVAL;
-> -
->  	ret =3D drm_dev_init(dev, driver, parent);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-> index 0883615c2088..8c5f1f03c485 100644
-> --- a/drivers/gpu/drm/drm_managed.c
-> +++ b/drivers/gpu/drm/drm_managed.c
-> @@ -142,6 +142,20 @@ int __drmm_add_action(struct drm_device *dev,
+>  	struct bochs_device *bochs = dev->dev_private;
+>  
+> -	bochs_kms_fini(bochs);
+>  	bochs_mm_fini(bochs);
+> -	kfree(bochs);
+> -	dev->dev_private = NULL;
 >  }
->  EXPORT_SYMBOL(__drmm_add_action);
->  =
-
-> +int __drmm_add_action_or_reset(struct drm_device *dev,
-> +			       drmres_release_t action,
-> +			       void *data, const char *name)
-> +{
+>  
+>  static int bochs_load(struct drm_device *dev)
+> @@ -32,7 +30,7 @@ static int bochs_load(struct drm_device *dev)
+>  	struct bochs_device *bochs;
+>  	int ret;
+>  
+> -	bochs = kzalloc(sizeof(*bochs), GFP_KERNEL);
+> +	bochs = drmm_kzalloc(dev, sizeof(*bochs), GFP_KERNEL);
+>  	if (bochs == NULL)
+>  		return -ENOMEM;
+>  	dev->dev_private = bochs;
+> diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
+> index e8cc8156d773..7f4bcfad87e9 100644
+> --- a/drivers/gpu/drm/bochs/bochs_kms.c
+> +++ b/drivers/gpu/drm/bochs/bochs_kms.c
+> @@ -134,7 +134,11 @@ const struct drm_mode_config_funcs bochs_mode_funcs = {
+>  
+>  int bochs_kms_init(struct bochs_device *bochs)
+>  {
+> -	drm_mode_config_init(bochs->dev);
 > +	int ret;
 > +
-> +	ret =3D __drmm_add_action(dev, action, data, name);
+> +	ret = drmm_mode_config_init(bochs->dev);
 > +	if (ret)
-> +		action(dev, data);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(__drmm_add_action_or_reset);
-> +
->  void drmm_remove_action(struct drm_device *dev,
->  			drmres_release_t action,
->  			void *data)
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode=
-_config.c
-> index 08e6eff6a179..6f7005bc597f 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -25,6 +25,7 @@
->  #include <drm/drm_drv.h>
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_managed.h>
->  #include <drm/drm_mode_config.h>
->  #include <drm/drm_print.h>
->  #include <linux/dma-resv.h>
-> @@ -373,6 +374,11 @@ static int drm_mode_create_standard_properties(struc=
-t drm_device *dev)
+> +		return ret;
+>  
+>  	bochs->dev->mode_config.max_width = 8192;
+>  	bochs->dev->mode_config.max_height = 8192;
+> @@ -160,11 +164,3 @@ int bochs_kms_init(struct bochs_device *bochs)
+>  
 >  	return 0;
 >  }
->  =
-
-> +static void drm_mode_config_init_release(struct drm_device *dev, void *p=
-tr)
-> +{
-> +	drm_mode_config_cleanup(dev);
-> +}
-> +
->  /**
->   * drm_mode_config_init - initialize DRM mode_configuration structure
->   * @dev: DRM device
-> @@ -384,8 +390,10 @@ static int drm_mode_create_standard_properties(struc=
-t drm_device *dev)
->   * problem, since this should happen single threaded at init time. It is=
- the
->   * driver's problem to ensure this guarantee.
->   *
-> + * Cleanup is automatically handled through registering drm_mode_config_=
-cleanup
-> + * with drmm_add_action().
->   */
-> -void drm_mode_config_init(struct drm_device *dev)
-> +int drm_mode_config_init(struct drm_device *dev)
->  {
->  	mutex_init(&dev->mode_config.mutex);
->  	drm_modeset_lock_init(&dev->mode_config.connection_mutex);
-> @@ -443,6 +451,9 @@ void drm_mode_config_init(struct drm_device *dev)
->  		drm_modeset_acquire_fini(&modeset_ctx);
->  		dma_resv_fini(&resv);
->  	}
-> +
-> +	return drmm_add_action_or_reset(dev, drm_mode_config_init_release,
-> +					NULL);
->  }
->  EXPORT_SYMBOL(drm_mode_config_init);
->  =
-
-> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> index 2b1ba2ad5582..1e6291407586 100644
-> --- a/include/drm/drm_managed.h
-> +++ b/include/drm/drm_managed.h
-> @@ -18,6 +18,13 @@ int __must_check __drmm_add_action(struct drm_device *=
-dev,
->  				   drmres_release_t action,
->  				   void *data, const char *name);
->  =
-
-> +#define drmm_add_action_or_reset(dev, action, data) \
-> +	__drmm_add_action_or_reset(dev, action, data, #action)
-> +
-> +int __must_check __drmm_add_action_or_reset(struct drm_device *dev,
-> +					    drmres_release_t action,
-> +					    void *data, const char *name);
-> +
->  void drmm_remove_action(struct drm_device *dev,
->  			drmres_release_t action,
->  			void *data);
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 3bcbe30339f0..aa6288bf04df 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -929,7 +929,24 @@ struct drm_mode_config {
->  	const struct drm_mode_config_helper_funcs *helper_private;
->  };
->  =
-
-> -void drm_mode_config_init(struct drm_device *dev);
-> +int drm_mode_config_init(struct drm_device *dev);
-> +
-> +/**
-> + * drmm_mode_config_init - managed DRM mode_configuration structure
-> + * 	initialization
-> + * @dev: DRM device
-> + *
-> + * This is a managed version of drm_mode_config_init(). The only differe=
-nce is
-> + * that this version is annotated with __must_check, to make sure that d=
-rivers
-> + * can actually rely on the automatic cleanup.
-> + *
-> + * Returns: 0 on success, negative error value on failure.
-> + */
-> +static inline __must_check int drmm_mode_config_init(struct drm_device *=
-dev)
-> +{
-> +	return drm_mode_config_init(dev);
-> +}
-> +
->  void drm_mode_config_reset(struct drm_device *dev);
->  void drm_mode_config_cleanup(struct drm_device *dev);
->  =
-
-> -- =
-
+> -
+> -void bochs_kms_fini(struct bochs_device *bochs)
+> -{
+> -	if (!bochs->dev->mode_config.num_connector)
+> -		return;
+> -
+> -	drm_mode_config_cleanup(bochs->dev);
+> -}
+> -- 
 > 2.24.1
 _______________________________________________
 dri-devel mailing list
