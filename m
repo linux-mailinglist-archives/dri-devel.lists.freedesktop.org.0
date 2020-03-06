@@ -2,28 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E627617CD8E
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D64B17CD90
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 983416E175;
-	Sat,  7 Mar 2020 10:15:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7896E184;
+	Sat,  7 Mar 2020 10:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD8F76ED2A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 14:12:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 1E1EE295C34
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] drm/bridge: anx7688: Add ANX7688 bridge driver support
-Date: Fri,  6 Mar 2020 15:12:16 +0100
-Message-Id: <20200306141217.423914-4-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200306141217.423914-1-enric.balletbo@collabora.com>
-References: <20200306141217.423914-1-enric.balletbo@collabora.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 038AB6ED3A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 15:09:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=fvkhdfY0DQSguKsTCNP38wagzdN34NuCr9M9vU3oTnU=; b=WAyRSKi+qYYrjTgIPjTwZvpyFO
+ znUKSoU3y811UZb05N9lVXvpPZjkL8SaF9J5uI1Fgmk+RVHfd+PXiRBrjbGMmRNxyu5tDn6JFs9r4
+ 9F72pLUYEoySzbRlBuHiAivIJERjNl2f7NznmUw/PNLS6ySCHrHdvyP750OxOwTcUNivPXX1JP+Vv
+ tiBqUF+bCksGtIXhR0YgJoCwKsOD1d7ZPFnRr2AgAzYVcG9DOxT2uDIsTVwI3pCq+U/CdkDOxa7N+
+ Lu2jcxlMXY+/Fr4JBBL8KX/RwiNiwhuZXemBPiBsbdlP/Vm+tOhhZmJ0VscEyFjS49lWzwliZJ0fS
+ CDXgXTLg==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jAEbJ-0005Oc-Pi; Fri, 06 Mar 2020 15:09:21 +0000
+Subject: Re: [RFC PATCH] drm: rcar-du: make all sub-symbols depend on
+ DRM_RCAR_DU
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <4b50cc9f-1434-b78a-d56a-fadfd030f002@infradead.org>
+ <20200306142819.GG4878@pendragon.ideasonboard.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <87bcc1d8-d0c6-9c26-c66f-a4e228c64015@infradead.org>
+Date: Fri, 6 Mar 2020 07:09:19 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 07 Mar 2020 10:14:46 +0000
+In-Reply-To: <20200306142819.GG4878@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Sat, 07 Mar 2020 10:14:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,225 +52,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: megous@megous.com, Jernej Skrabec <jernej.skrabec@siol.net>,
- drinkcat@chromium.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Torsten Duwe <duwe@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, anarsoul@gmail.com,
- Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
- hsinyi@chromium.org, matthias.bgg@gmail.com,
- Thomas Gleixner <tglx@linutronix.de>,
- Collabora Kernel ML <kernel@collabora.com>, icenowy@aosc.io
+Cc: David Airlie <airlied@linux.ie>,
+ Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicolas Boichat <drinkcat@chromium.org>
+On 3/6/20 6:28 AM, Laurent Pinchart wrote:
+> Hi Randy,
+> 
+> On Thu, Mar 05, 2020 at 07:17:49PM -0800, Randy Dunlap wrote:
+>> From: Randy Dunlap <rdunlap@infradead.org>
+>>
+>> DRM_RCAR_CMM depends on DRM_RCAR_DU. Since the following Kconfig
+>> symbols do not depend on DRM_RCAR_DU, the menu presentation is
+>> broken for these and following non-R-Car Kconfig symbols.
+>>
+>> Is it safe/appropriate to make all of these symbols depend on
+>> DRM_RCAR_DU?  It make the kconfig menu presentation much cleaner.
+> 
+> As those drivers are useless without DRM_RCAR_DU, I'm fine with this
+> change. It however prevents test-compiling those drivers when
+> DRM_RCAR_DU is disabled, but I see little reason to do so anyway, I
+> expect compile tests to aim for as large coverage as possible, and they
+> should thus enable DRM_RCAR_DU.
+> 
+> Would you like to submit a new version without this question, and
+> possibly addressing Geert's concern if you think it's appropriate, or
+> should I do so when applying ?
+> 
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linux-renesas-soc@vger.kernel.org
+>> Cc: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+>> Cc: Dave Airlie <airlied@linux.ie>
+>> ---
+>>  drivers/gpu/drm/rcar-du/Kconfig |    3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> --- linux-next-20200305.orig/drivers/gpu/drm/rcar-du/Kconfig
+>> +++ linux-next-20200305/drivers/gpu/drm/rcar-du/Kconfig
+>> @@ -24,6 +24,7 @@ config DRM_RCAR_CMM
+>>  config DRM_RCAR_DW_HDMI
+>>  	tristate "R-Car DU Gen3 HDMI Encoder Support"
+>>  	depends on DRM && OF
+>> +	depends on DRM_RCAR_DU
+>>  	select DRM_DW_HDMI
+>>  	help
+>>  	  Enable support for R-Car Gen3 internal HDMI encoder.
+>> @@ -31,6 +32,7 @@ config DRM_RCAR_DW_HDMI
+>>  config DRM_RCAR_LVDS
+>>  	tristate "R-Car DU LVDS Encoder Support"
+>>  	depends on DRM && DRM_BRIDGE && OF
+>> +	depends on DRM_RCAR_DU
+>>  	select DRM_PANEL
+>>  	select OF_FLATTREE
+>>  	select OF_OVERLAY
+>> @@ -47,4 +49,5 @@ config DRM_RCAR_VSP
+>>  
+>>  config DRM_RCAR_WRITEBACK
+>>  	bool
+>> +	depends on DRM_RCAR_DU
+>>  	default y if ARM64
+> 
+> Is this one needed ? The symbol should not be shown in the kconfig menu
+> as it has no text.
 
-This driver adds support for the ANX7688 HDMI to DP converter block of the
-ANX7688 multi-function device.
+Hi Laurent,
+I tried the patch without that line as my first attempt and there was
+still a problem with the menu, so I will resubmit the patch using a block
+as Geert suggested.
 
-For our use case, the only reason the Linux kernel driver is necessary is
-to reject resolutions that require more bandwidth than what is available
-on the DP side. DP bandwidth and lane count are reported by the bridge via
-2 registers and, as far as we know, only for chips that have a firmware
-version greather than 0.85 supports these two registers.
-
-Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
----
-
-Changes in v3:
-- Convert to a child of ANX7688 multi-function device.
-
-Changes in v2:
-- Move driver to drivers/gpu/drm/bridge/analogix.
-- Make the driver OF only so we can reduce the ifdefs.
-- Update the Copyright to 2020.
-- Use probe_new so we can get rid of the i2c_device_id table.
-
- drivers/gpu/drm/bridge/analogix/Kconfig       |   9 ++
- drivers/gpu/drm/bridge/analogix/Makefile      |   1 +
- .../drm/bridge/analogix/analogix-anx7688.c    | 135 ++++++++++++++++++
- 3 files changed, 145 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
-
-diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
-index e1fa7d820373..02c420ba79bd 100644
---- a/drivers/gpu/drm/bridge/analogix/Kconfig
-+++ b/drivers/gpu/drm/bridge/analogix/Kconfig
-@@ -11,6 +11,15 @@ config DRM_ANALOGIX_ANX6345
- 	  ANX6345 transforms the LVTTL RGB output of an
- 	  application processor to eDP or DisplayPort.
- 
-+config DRM_ANALOGIX_ANX7688
-+	tristate "Analogix ANX7688 bridge"
-+	select DRM_KMS_HELPER
-+	select MFD_ANX7688
-+	help
-+	  ANX7688 is an ultra-low power 4k Ultra-HD (4096x2160p60)
-+	  mobile HD transmitter designed for portable devices. The
-+	  ANX7688 converts HDMI 2.0 to DisplayPort 1.3 Ultra-HD.
-+
- config DRM_ANALOGIX_ANX78XX
- 	tristate "Analogix ANX78XX bridge"
- 	select DRM_ANALOGIX_DP
-diff --git a/drivers/gpu/drm/bridge/analogix/Makefile b/drivers/gpu/drm/bridge/analogix/Makefile
-index 97669b374098..27cd73635c8c 100644
---- a/drivers/gpu/drm/bridge/analogix/Makefile
-+++ b/drivers/gpu/drm/bridge/analogix/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- analogix_dp-objs := analogix_dp_core.o analogix_dp_reg.o analogix-i2c-dptx.o
- obj-$(CONFIG_DRM_ANALOGIX_ANX6345) += analogix-anx6345.o
-+obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
- obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
- obj-$(CONFIG_DRM_ANALOGIX_DP) += analogix_dp.o
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
-new file mode 100644
-index 000000000000..81b950ecde27
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx7688.c
-@@ -0,0 +1,135 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * ANX7688 HDMI->DP bridge driver
-+ *
-+ * Copyright 2020 Google LLC
-+ */
-+
-+#include <linux/mfd/anx7688.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_print.h>
-+
-+struct anx7688_bridge_data {
-+	struct drm_bridge bridge;
-+	struct regmap *regmap;
-+
-+	bool filter;
-+};
-+
-+static inline struct anx7688_bridge_data *
-+bridge_to_anx7688(struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct anx7688_bridge_data, bridge);
-+}
-+
-+static bool anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
-+				      const struct drm_display_mode *mode,
-+				      struct drm_display_mode *adjusted_mode)
-+{
-+	struct anx7688_bridge_data *data = bridge_to_anx7688(bridge);
-+	int totalbw, requiredbw;
-+	u8 dpbw, lanecount;
-+	u8 regs[2];
-+	int ret;
-+
-+	if (!data->filter)
-+		return true;
-+
-+	/* Read both regs 0x85 (bandwidth) and 0x86 (lane count). */
-+	ret = regmap_bulk_read(data->regmap, ANX7688_DP_BANDWIDTH_REG, regs,
-+			       2);
-+	if (ret < 0) {
-+		DRM_ERROR("Failed to read bandwidth/lane count\n");
-+		return false;
-+	}
-+	dpbw = regs[0];
-+	lanecount = regs[1];
-+
-+	/* Maximum 0x19 bandwidth (6.75 Gbps Turbo mode), 2 lanes */
-+	if (dpbw > 0x19 || lanecount > 2) {
-+		DRM_ERROR("Invalid bandwidth/lane count (%02x/%d)\n", dpbw,
-+			  lanecount);
-+		return false;
-+	}
-+
-+	/* Compute available bandwidth (kHz) */
-+	totalbw = dpbw * lanecount * 270000 * 8 / 10;
-+
-+	/* Required bandwidth (8 bpc, kHz) */
-+	requiredbw = mode->clock * 8 * 3;
-+
-+	DRM_DEBUG_KMS("DP bandwidth: %d kHz (%02x/%d); mode requires %d Khz\n",
-+		      totalbw, dpbw, lanecount, requiredbw);
-+
-+	if (totalbw == 0) {
-+		DRM_ERROR("Bandwidth/lane count are 0, not rejecting modes\n");
-+		return true;
-+	}
-+
-+	return totalbw >= requiredbw;
-+}
-+
-+static const struct drm_bridge_funcs anx7688_bridge_funcs = {
-+	.mode_fixup = anx7688_bridge_mode_fixup,
-+};
-+
-+static int anx7688_bridge_probe(struct platform_device *pdev)
-+{
-+	struct anx7688 *anx7688 = dev_get_drvdata(pdev->dev.parent);
-+	struct anx7688_bridge_data *data;
-+	struct device *dev = &pdev->dev;
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->bridge.of_node = dev->of_node;
-+	data->regmap = anx7688->regmap;
-+
-+	/* FW version >= 0.85 supports bandwidth/lane count registers */
-+	if (anx7688->fw_version >= ANX7688_MINIMUM_FW_VERSION)
-+		data->filter = true;
-+	else
-+		/* Warn, but not fail, for backwards compatibility */
-+		DRM_WARN("Old ANX7688 FW version (0x%04x), not filtering\n",
-+			 anx7688->fw_version);
-+
-+	data->bridge.funcs = &anx7688_bridge_funcs;
-+	drm_bridge_add(&data->bridge);
-+
-+	return 0;
-+}
-+
-+static int anx7688_bridge_remove(struct platform_device *pdev)
-+{
-+	struct anx7688_bridge_data *data = dev_get_drvdata(&pdev->dev);
-+
-+	drm_bridge_remove(&data->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id anx7688_bridge_match_table[] = {
-+	{ .compatible = "analogix,anx7688-bridge", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, anx7688_bridge_match_table);
-+
-+static struct platform_driver anx7688_bridge_driver = {
-+	.probe = anx7688_bridge_probe,
-+	.remove = anx7688_bridge_remove,
-+	.driver = {
-+		.name = "anx7688-bridge",
-+		.of_match_table = anx7688_bridge_match_table,
-+	},
-+};
-+
-+module_platform_driver(anx7688_bridge_driver);
-+
-+MODULE_DESCRIPTION("ANX7688 HDMI->DP bridge driver");
-+MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
-+MODULE_AUTHOR("Enric Balletbo i Serra <enric.balletbo@collabora.com>");
-+MODULE_LICENSE("GPL");
+thanks.
 -- 
-2.25.1
+~Randy
 
 _______________________________________________
 dri-devel mailing list
