@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292AD17C909
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 00:49:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B1F17C906
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 00:49:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5C976EDA6;
-	Fri,  6 Mar 2020 23:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A799C6EDA7;
+	Fri,  6 Mar 2020 23:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9276EDA6
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 23:49:34 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAC9D6EDA6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 23:49:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583538573;
+ s=mimecast20190719; t=1583538572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=epJiNHcNlXrU/mKy0Mc+3UqF6n++TRVvv4Ahu8/c3RY=;
- b=hy9Q0WPSeBX3gTkzGla46DQD8BGruCN1P1jgvvITNU9OOrdJ9uMztJ3b9/81/CU10uY+BV
- hUzpd8j5Gd3lLmh/QxrvJG7ZYIAEAiuJwuHqKhcpD3px42EToFkzukF/jhq8fP8JWK84Jj
- ajZw7watwJlXzCunZ90FSymhQ0Qx/vg=
+ bh=77mV7dMChSrLWq5rIbMFOAlvL63d0ZbvZ9seihNouTU=;
+ b=JQIXSOMhPJgYyH558fmTXQI6gBk4bVfqnCZ5KRYOK+mPzl6t8ht+Rdd1T7RyncyOj5eSwZ
+ dxyvF5rv/yTJzhi+kaMQOURlDCljNfj9oWlD+bLyLeRCaMgkJGGzM9QGWL+2hywoGCpGRD
+ aLAqtCSHdJ6iH7srJpA3vabWjU2U1/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-yc73RDNVM--k6bO1k8rr2A-1; Fri, 06 Mar 2020 18:49:29 -0500
-X-MC-Unique: yc73RDNVM--k6bO1k8rr2A-1
+ us-mta-8-G7T3Kw1sPsy-SN61B098Vw-1; Fri, 06 Mar 2020 18:49:30 -0500
+X-MC-Unique: G7T3Kw1sPsy-SN61B098Vw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D92D48010E8;
- Fri,  6 Mar 2020 23:49:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FBA51005509;
+ Fri,  6 Mar 2020 23:49:29 +0000 (UTC)
 Received: from Ruby.bss.redhat.com (dhcp-10-20-1-196.bss.redhat.com
  [10.20.1.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E96491D7A;
- Fri,  6 Mar 2020 23:49:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D58591D9D;
+ Fri,  6 Mar 2020 23:49:28 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/dp_mst: Make drm_dp_mst_dpcd_write() consistent with
- drm_dp_dpcd_write()
-Date: Fri,  6 Mar 2020 18:49:21 -0500
-Message-Id: <20200306234923.547873-2-lyude@redhat.com>
+Subject: [PATCH 2/2] drm/dp_mst: Fix drm_dp_check_mstb_guid() return code
+Date: Fri,  6 Mar 2020 18:49:22 -0500
+Message-Id: <20200306234923.547873-3-lyude@redhat.com>
 In-Reply-To: <20200306234923.547873-1-lyude@redhat.com>
 References: <20200306234923.547873-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -59,67 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, David Francis <David.Francis@amd.com>,
- linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>, Sean Paul <sean@poorly.run>
+Cc: Benjamin Gaignard <benjamin.gaignard@st.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Noticed this while having some problems with hubs sometimes not being
-detected on the first plug. Every single dpcd read or write function
-returns the number of bytes transferred on success or a negative error
-code, except apparently for drm_dp_mst_dpcd_write() - which returns 0 on
-success.
+We actually expect this to return a 0 on success, or negative error code
+on failure. In order to do that, we check whether or not we managed to
+write the whole GUID and then return 0 if so, otherwise return a
+negative error code. Also, let's add an error message here so it's a
+little more obvious when this fails in the middle of a link address
+probe.
 
-There's not really any good reason for this difference that I can tell,
-and having the two functions give differing behavior means that
-drm_dp_dpcd_write() will end up returning 0 on success for MST devices,
-but the number of bytes transferred for everything else.
+This should fix issues with certain MST hubs seemingly stopping for no
+reason in the middle of the link address probe process.
 
-So, fix that and update the kernel doc.
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Fixes: 2f221a5efed4 ("drm/dp_mst: Add MST support to DP DPCD R/W functions")
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Mikita Lipski <mikita.lipski@amd.com>
+Fixes: cb897542c6d2 ("drm/dp_mst: Fix W=1 warnings")
+Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
 Cc: Sean Paul <sean@poorly.run>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 6c62ad8f4414..e421c2d13267 100644
+index e421c2d13267..b2ec6e8634ed 100644
 --- a/drivers/gpu/drm/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -2063,7 +2063,7 @@ ssize_t drm_dp_mst_dpcd_read(struct drm_dp_aux *aux,
-  * sideband messaging as drm_dp_dpcd_write() does for local
-  * devices via actual AUX CH.
-  *
-- * Return: 0 on success, negative error code on failure.
-+ * Return: number of bytes written on success, negative error code on failure.
-  */
- ssize_t drm_dp_mst_dpcd_write(struct drm_dp_aux *aux,
- 			      unsigned int offset, void *buffer, size_t size)
-@@ -3428,12 +3428,9 @@ static int drm_dp_send_dpcd_write(struct drm_dp_mst_topology_mgr *mgr,
- 	drm_dp_queue_down_tx(mgr, txmsg);
+@@ -2092,7 +2092,10 @@ static int drm_dp_check_mstb_guid(struct drm_dp_mst_branch *mstb, u8 *guid)
+ 		}
+ 	}
  
- 	ret = drm_dp_mst_wait_tx_reply(mstb, txmsg);
--	if (ret > 0) {
--		if (txmsg->reply.reply_type == DP_SIDEBAND_REPLY_NAK)
--			ret = -EIO;
--		else
--			ret = 0;
--	}
-+	if (ret > 0 && txmsg->reply.reply_type == DP_SIDEBAND_REPLY_NAK)
-+		ret = -EIO;
+-	return ret;
++	if (ret < 16 && ret > 0)
++		return -EPROTO;
 +
- 	kfree(txmsg);
- fail_put:
- 	drm_dp_mst_topology_put_mstb(mstb);
++	return ret == 16 ? 0 : ret;
+ }
+ 
+ static void build_mst_prop_path(const struct drm_dp_mst_branch *mstb,
+@@ -2907,8 +2910,14 @@ static int drm_dp_send_link_address(struct drm_dp_mst_topology_mgr *mgr,
+ 	drm_dp_dump_link_address(reply);
+ 
+ 	ret = drm_dp_check_mstb_guid(mstb, reply->guid);
+-	if (ret)
++	if (ret) {
++		char buf[64];
++
++		drm_dp_mst_rad_to_str(mstb->rad, mstb->lct, buf, sizeof(buf));
++		DRM_ERROR("GUID check on %s failed: %d\n",
++			  buf, ret);
+ 		goto out;
++	}
+ 
+ 	for (i = 0; i < reply->nports; i++) {
+ 		port_mask |= BIT(reply->ports[i].port_number);
 -- 
 2.24.1
 
