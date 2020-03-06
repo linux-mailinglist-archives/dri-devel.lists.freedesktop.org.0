@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5986C17C3F9
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 18:15:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAC517C473
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 18:32:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF6C6E4C5;
-	Fri,  6 Mar 2020 17:14:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 075946E4D4;
+	Fri,  6 Mar 2020 17:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
- [IPv6:2607:f8b0:4864:20::a41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A39BC6E4C5
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 17:14:54 +0000 (UTC)
-Received: by mail-vk1-xa41.google.com with SMTP id x62so792903vkg.11
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 09:14:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lzpbKokk11BRaCUTE3S0a/MWb4B/MGyZwwWpbEvm8gE=;
- b=oxCDkIfplYvmZlhq6A8KbraYVjcHaKeefRxBL8EIvkKEnpVIYk9BqMe2YAGtaBuacA
- gTxymGa8mmHE4f5Kchdkx5OHQTrN4vkO+8HY7eUjUfycchnS7ZveJa+qE25qaqXvLBUR
- UnV34k/3O9CK7UlH6y1PtGmgqt3iMAxNDqnQz13Ll6ZyjWcf45YAH3rXBMQw17+ytK6L
- q2ZXbgrsMyyfdt91luG8Ewklm02sfdTYkN6sM+NctRvmmCWTTva/8aOGyKylA9iZqxcf
- CAJhyPvic+eQoJKOGrct7AQ3oDtI8TBA/6FW5G2LvYd8lDiK3jEPbEIar6Rlo8khbZoE
- uZWg==
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B92B6E4D4
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 17:32:16 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id g12so1141118plo.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 09:32:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :content-transfer-encoding;
+ bh=G1RDgxBiyV6Kk2G6RLMWzGPree6/YVdm0hvb7UeIEqk=;
+ b=eJ5c87ziTXTK+rhDA6QRlgfcRU/IdlKxZshAQM2TCEltwHmpXlDjzbuPMRXbX/7SGS
+ X6IcuBDDareaY/S6mEVT0sTK3myUJL+cptTI+1dD6SVbdEuCtEJVaWp1SEPjhfBDYtPO
+ VnfXAUQrEMFY0Nar8GnvXCEnkpF1wckCT89A4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lzpbKokk11BRaCUTE3S0a/MWb4B/MGyZwwWpbEvm8gE=;
- b=J3HehcBF9//O/3Ck/wA1XmVWdt0SyrE8I86eJoGnbNBfdp9zzfyUXLQypuPjt6maJ9
- 5uiPvfFrrw+k6P+INdJ/sZGFixqVYL4wivB+V2NAeLUa3wSeHS2GwLJldWDCx3DxF3JM
- 0ekSQ3GRzrb+1hr1n+O29O1Nu73unaSdg4LsNqPUWr5vg9S+l3uH0WwEN52yezRhyl8l
- nQwXb3+1TwFNrc/NlOWA1OpeuuJHj5EQXmdI36QYb5VXRRLl2zuw1q5qYbHhzaQN2FqA
- w4oOroz1Rdlpq5NPNQbl6CxDKB4LMWcaBrmQB1QYk/khlfquLCmYBJ/erQ7z4xzgDVkK
- MT0w==
-X-Gm-Message-State: ANhLgQ0b0UfIIYMyTEYRDUBX33bI/J4tJOjxZS2vYJm7gSGv8Va5Fe7U
- KwE0vgBFyOJvUk88lpIbDHFmXg9za+QDpb5dqLU=
-X-Google-Smtp-Source: ADFU+vtZ5Ro2yv+kU6KSstLAFH2EszWFrIshdXo0f6ZIZ545pmAPHBGaIceGDW3Bo/2It2oOU2BcawGthNkkEJgzTvA=
-X-Received: by 2002:a1f:264b:: with SMTP id m72mr2236379vkm.51.1583514893670; 
- Fri, 06 Mar 2020 09:14:53 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=G1RDgxBiyV6Kk2G6RLMWzGPree6/YVdm0hvb7UeIEqk=;
+ b=liW0CEuYyMCovnDdxVXUmJEzcXYI8dW/5NbVsIM62iLE86RrxhXehLWoK0u0+5FCrF
+ o8152D0KyB+K3ZYGVjAvc8QYnY4kj5SAK9nOKdn/NFIdF0UIf1TI3wS6PgM+F33EBUs+
+ 7C8Jq+LAUYwbqjvT2huD0PhmxiH9FWSqwN7J380+GYi/E+hFelWCpjSKI382mJScByhP
+ HtHPWQ/QwJa9me+LNmFTO0aQm3GFvPdZkiEkI27Zkyrkpwp6LFibj7O7V5/sJ/3bDzuz
+ amu+o4IYMiRSTpH+jJRFZgDUBH0/RwQCsnJa6nC2pHVMVsaB89MFb6QUnVIAtxFbLXUl
+ c+nQ==
+X-Gm-Message-State: ANhLgQ05EowEn2cFWjUFR9aNcKtWMaHZCOdffJmrJU9t7KXIN9GODzN2
+ kbdqbHJx+jZhp/5fJ5mpZyK3Vg==
+X-Google-Smtp-Source: ADFU+vu76IOA+FPbi+9Jw1089IGoAuLPRcbDWWPgxaDXV5HF6U2+lYzFPU/z9i6aSOe5cIMfsSEKHg==
+X-Received: by 2002:a17:902:342:: with SMTP id
+ 60mr3878637pld.206.1583515935302; 
+ Fri, 06 Mar 2020 09:32:15 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id x190sm37154310pfb.96.2020.03.06.09.32.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Mar 2020 09:32:14 -0800 (PST)
+Date: Fri, 6 Mar 2020 09:32:13 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/edid: Distribute switch variables for initialization
+Message-ID: <202003060930.DDCCB6659@keescook>
 MIME-Version: 1.0
-References: <1582710377-15489-1-git-send-email-kevin3.tang@gmail.com>
- <1582710377-15489-5-git-send-email-kevin3.tang@gmail.com>
- <CACvgo53dME1ioYebimSzdOMvjAudtmzpz_-5Q7rNqQnZoBpaqA@mail.gmail.com>
- <CAFPSGXYgY7=vgX6ZPWRgfxfZfBeVRj7=gUOwrcTyYpkYE1C1cA@mail.gmail.com>
-In-Reply-To: <CAFPSGXYgY7=vgX6ZPWRgfxfZfBeVRj7=gUOwrcTyYpkYE1C1cA@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 6 Mar 2020 17:14:14 +0000
-Message-ID: <CACvgo51ShmP+HvLHzxbpzFg2gNs-cD0iey=nM29prDhZsN7fhQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 4/6] drm/sprd: add Unisoc's drm display controller
- driver
-To: tang pengchuan <kevin3.tang@gmail.com>
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,115 +62,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Baolin Wang <baolin.wang@linaro.org>,
- Dave Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Orson Zhai <orsonzhai@gmail.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 Mar 2020 at 13:15, tang pengchuan <kevin3.tang@gmail.com> wrote:
-> On Tue, Mar 3, 2020 at 2:29 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
-
->> Have you seen a case where the 0 or default case are reached? AFAICT they will
->> never trigger. So one might as well use:
->>
->>     switch (angle) {
->>     case DRM_MODE_FOO:
->>         return DPU_LAYER_ROTATION_FOO;
->>     ...
->>     case DRM_MODE_BAR:
->>         return DPU_LAYER_ROTATION_BAR;
->>     }
->>
-> Yeah, the 0 maybe unused code, i will remove it.
-> But i think default is need, because userspace could give an incorrect value .
-> So we need to setup a default value and doing error check.
-
-As mentioned in the documentation [0] input (userspace) validation
-should happen in atomic_check. This function here is called during
-atomic_flush which is _not_ allowed to fail.
-
-
-
->> The default case here should be unreachable. Either it is or the upper layer (or
->> earlier code) should ensure that.
->
-> There will be some differences in the formats supported by different chips, but userspace will only have one set of code.
-> So it is necessary to check whether the parameters passed by the user layer are wrong. I think it is necessary
-
-As said above - this type of issues should be checked _before_
-reaching atomic_flush - aka in atomic_check.
-
-
->> > +static struct drm_plane *sprd_plane_init(struct drm_device *drm,
->> > +                                       struct sprd_dpu *dpu)
->> > +{
->> > +       struct drm_plane *primary = NULL;
->> > +       struct sprd_plane *p = NULL;
->> > +       struct dpu_capability cap = {};
->> > +       int err, i;
->> > +
->> > +       if (dpu->core && dpu->core->capability)
->> As mentioned before - this always evaluates to true, so drop the check.
->> Same applies for the other dpu->core->foo checks.
->>
->> Still not a huge fan of the abstraction layer, but I guess you're hesitant on
->> removing it.
->
-> Sometimes,  some "dpu->core->foo" maybe always need, compatibility will be better.
-> eg:
->
->     if (dpu->glb && dpu->glb->power)
->         dpu->glb->power(ctx, true);
->     if (dpu->glb && dpu->glb->enable)
->         dpu->glb->enable(ctx);
->
->     if (ctx->is_stopped && dpu->glb && dpu->glb->reset)
->         dpu->glb->reset(ctx);
->
->     if (dpu->clk && dpu->clk->init)
->         dpu->clk->init(ctx);
->     if (dpu->clk && dpu->clk->enable)
->         dpu->clk->enable(ctx);
->
->     if (dpu->core && dpu->core->init)
->         dpu->core->init(ctx);
->     if (dpu->core && dpu->core->ifconfig)
->         dpu->core->ifconfig(ctx);
->
-
-If there are no hooks, then the whole thing is dead code. As such it
-should not be included.
-
-
-> >
-> > Note: Custom properties should be separate patches. This includes documentation
-> > why they are needed and references to open-source userspace.
-> This only need for our chips, what documentation do we need to provide?
->
-
-KMS properties should be generic. Reason being is that divergence
-causes substantial overhead, and fragility, to each and every
-userspace consumer. The documentation has some general notes on the
-topic [1]. Don't forget the "Testing and validation" section ;-)
-
-Although I've tried to catch everything, I might have missed a comment
-or two due the HTML formatting. Please toggle to plain text [2] for
-the future.
-
-Thanks
--Emil
-
-[0] https://www.kernel.org/doc/html/v5.5/gpu/drm-kms.html
-[1] Documentation/gpu/drm-uapi.rst in particular "Open-Source
-Userspace Requirements"
-[2] https://smallbusiness.chron.com/reply-inline-gmail-40679.html
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VmFyaWFibGVzIGRlY2xhcmVkIGluIGEgc3dpdGNoIHN0YXRlbWVudCBiZWZvcmUgYW55IGNhc2Ug
+c3RhdGVtZW50cwpjYW5ub3QgYmUgYXV0b21hdGljYWxseSBpbml0aWFsaXplZCB3aXRoIGNvbXBp
+bGVyIGluc3RydW1lbnRhdGlvbiAoYXMKdGhleSBhcmUgbm90IHBhcnQgb2YgYW55IGV4ZWN1dGlv
+biBmbG93KS4gV2l0aCBHQ0MncyBwcm9wb3NlZCBhdXRvbWF0aWMKc3RhY2sgdmFyaWFibGUgaW5p
+dGlhbGl6YXRpb24gZmVhdHVyZSwgdGhpcyB0cmlnZ2VycyBhIHdhcm5pbmcgKGFuZCB0aGV5CmRv
+bid0IGdldCBpbml0aWFsaXplZCkuIENsYW5nJ3MgYXV0b21hdGljIHN0YWNrIHZhcmlhYmxlIGlu
+aXRpYWxpemF0aW9uCih2aWEgQ09ORklHX0lOSVRfU1RBQ0tfQUxMPXkpIGRvZXNuJ3QgdGhyb3cg
+YSB3YXJuaW5nLCBidXQgaXQgYWxzbwpkb2Vzbid0IGluaXRpYWxpemUgc3VjaCB2YXJpYWJsZXNb
+MV0uIE5vdGUgdGhhdCB0aGVzZSB3YXJuaW5ncyAob3Igc2lsZW50CnNraXBwaW5nKSBoYXBwZW4g
+YmVmb3JlIHRoZSBkZWFkLXN0b3JlIGVsaW1pbmF0aW9uIG9wdGltaXphdGlvbiBwaGFzZSwKc28g
+ZXZlbiB3aGVuIHRoZSBhdXRvbWF0aWMgaW5pdGlhbGl6YXRpb25zIGFyZSBsYXRlciBlbGlkZWQg
+aW4gZmF2b3Igb2YKZGlyZWN0IGluaXRpYWxpemF0aW9ucywgdGhlIHdhcm5pbmdzIHJlbWFpbi4K
+ClRvIGF2b2lkIHRoZXNlIHByb2JsZW1zLCBsaWZ0IHN1Y2ggdmFyaWFibGVzIHVwIGludG8gdGhl
+IG5leHQgY29kZQpibG9jay4KCmRyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jOiBJbiBmdW5jdGlv
+biDigJhkcm1fZWRpZF90b19lbGTigJk6CmRyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jOjQzOTU6
+OTogd2FybmluZzogc3RhdGVtZW50IHdpbGwgbmV2ZXIgYmUKZXhlY3V0ZWQgWy1Xc3dpdGNoLXVu
+cmVhY2hhYmxlXQogNDM5NSB8ICAgICBpbnQgc2FkX2NvdW50OwogICAgICB8ICAgICAgICAgXn5+
+fn5+fn5+CgpbMV0gaHR0cHM6Ly9idWdzLmxsdm0ub3JnL3Nob3dfYnVnLmNnaT9pZD00NDkxNgoK
+U2lnbmVkLW9mZi1ieTogS2VlcyBDb29rIDxrZWVzY29va0BjaHJvbWl1bS5vcmc+Ci0tLQp2Mjog
+bW92ZSBpbnRvIGZ1bmN0aW9uIGJsb2NrIGluc3RlYWQgYmVpbmcgc3dpdGNoLWxvY2FsIChWaWxs
+ZSBTeXJqw6Rsw6QpCi0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgfCAzICstLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMK
+aW5kZXggODA1ZmIwMDRjOGViLi40NmNlZTc4YmMxNzUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fZWRpZC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCkBAIC00Mzgx
+LDYgKzQzODEsNyBAQCBzdGF0aWMgdm9pZCBkcm1fZWRpZF90b19lbGQoc3RydWN0IGRybV9jb25u
+ZWN0b3IgKmNvbm5lY3Rvciwgc3RydWN0IGVkaWQgKmVkaWQpCiAKIAlpZiAoY2VhX3JldmlzaW9u
+KGNlYSkgPj0gMykgewogCQlpbnQgaSwgc3RhcnQsIGVuZDsKKwkJaW50IHNhZF9jb3VudDsKIAog
+CQlpZiAoY2VhX2RiX29mZnNldHMoY2VhLCAmc3RhcnQsICZlbmQpKSB7CiAJCQlzdGFydCA9IDA7
+CkBAIC00MzkyLDggKzQzOTMsNiBAQCBzdGF0aWMgdm9pZCBkcm1fZWRpZF90b19lbGQoc3RydWN0
+IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rvciwgc3RydWN0IGVkaWQgKmVkaWQpCiAJCQlkYmwgPSBj
+ZWFfZGJfcGF5bG9hZF9sZW4oZGIpOwogCiAJCQlzd2l0Y2ggKGNlYV9kYl90YWcoZGIpKSB7Ci0J
+CQkJaW50IHNhZF9jb3VudDsKLQogCQkJY2FzZSBBVURJT19CTE9DSzoKIAkJCQkvKiBBdWRpbyBE
+YXRhIEJsb2NrLCBjb250YWlucyBTQURzICovCiAJCQkJc2FkX2NvdW50ID0gbWluKGRibCAvIDMs
+IDE1IC0gdG90YWxfc2FkX2NvdW50KTsKLS0gCjIuMjAuMQoKCi0tIApLZWVzIENvb2sKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
