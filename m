@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5693317C18D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 16:19:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C0317C19E
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 16:22:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC74B6E466;
-	Fri,  6 Mar 2020 15:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDDC6ED3B;
+	Fri,  6 Mar 2020 15:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37B6F6E466
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 15:19:06 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 7BF3BAF55;
- Fri,  6 Mar 2020 15:19:03 +0000 (UTC)
-Subject: Re: [PATCH 00/22] drm: Convert drivers to drm_simple_encoder_init()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200306142212.GF4878@pendragon.ideasonboard.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <bccc380a-8925-81a7-34fe-5a1744a766d0@suse.de>
-Date: Fri, 6 Mar 2020 16:18:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 227596ED3B
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 15:22:38 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id b3so2759999otp.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 07:22:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bCjzKZ7+I6+x4//xv/nN4+O6KAQFADMaGG+Rt99rveQ=;
+ b=lj/G8xYc45fHZ/MB7s+2i7AtkLX/4MDNzUlLjEFTHnZDDLO+JZ0ivg9L02OAdwHLL2
+ ZelUaYqNLowNNi517mRldZnf0eCcNsIRrC8C1tF5UuOyEFCXg6Zr40gfU437g7sYM0qj
+ c/6C6u75E9wuPpKVT6SjiWEWiWE5pOLd7MLa0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bCjzKZ7+I6+x4//xv/nN4+O6KAQFADMaGG+Rt99rveQ=;
+ b=UiYp3OumkYRTN/lgcQO7ipK7JKfZfiMX54cVV1lN8FlZhjjwzaFIsxZbXwWqtAmblF
+ As3hI/8m7dIlsDPeFVilJagl5+lLzs/HgzBrkvp4tRTN+KOc4HkvkhtLEj75QqhlUhZx
+ 67opwTe8GopZmUHj7wpjeU6YF3kxCDhSMbJWMd1LzKUNKiT+m79+Pxmq4O6+vfEANQhe
+ W8pTnfh2V5DEm5fA94LnJHrRzUZILCn8DreWTO08huE7ybbE2Bh2vnodUQ6HsGcENBa3
+ KK2Gg5aNl/lsnsY/HGBLCBppjKkecQi+lbbrIQTx0FtxL/DOO9AwiPSCnLNeuK6199Qs
+ yqNg==
+X-Gm-Message-State: ANhLgQ0hZxDNu1EfOce7b2rcwBUoHNmvNCmYvAlsZDeUKQmH1erT+kAG
+ qvPa09tGh72f37GW2Yru3hKUaMXohPvILABrnNtP5VNb
+X-Google-Smtp-Source: ADFU+vuIPLhut/Y0lPRXkhZmCKEZkVu+ZgLer/55/2fOfZpsIdZzC+43LDZg+K/h0GccfvjZn2Z6CGZOfcViVyXC0rY=
+X-Received: by 2002:a9d:6256:: with SMTP id i22mr2928636otk.106.1583508156988; 
+ Fri, 06 Mar 2020 07:22:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200306142212.GF4878@pendragon.ideasonboard.com>
+References: <20180619155011.11721-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20180619155011.11721-1-daniel.vetter@ffwll.ch>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 6 Mar 2020 16:22:26 +0100
+Message-ID: <CAKMK7uGSmurEuUJ4DGo3qiDMWgOCnBBrFDciyjjCqUbJrG-iGQ@mail.gmail.com>
+Subject: Re: [PATCH] RFC: drm/atomic-helpers: remove legacy_cursor_update hacks
+To: DRI Development <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,273 +58,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, sebastian.reichel@collabora.com,
- paul@crapouillou.net, matthias.bgg@gmail.com, wens@csie.org,
- thierry.reding@gmail.com, kraxel@redhat.com, sam@ravnborg.org,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- linux-rockchip@lists.infradead.org, tomi.valkeinen@ti.com,
- abrodkin@synopsys.com, linux@armlinux.org.uk, krzk@kernel.org,
- jonathanh@nvidia.com, xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
- kgene@kernel.org, linux-imx@nxp.com, nicolas.ferre@microchip.com,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
- virtualization@lists.linux-foundation.org, jernej.skrabec@siol.net,
- rodrigosiqueiramelo@gmail.com, bbrezillon@kernel.org, jingoohan1@gmail.com,
- sw0312.kim@samsung.com, hjc@rock-chips.com, kyungmin.park@samsung.com,
- kieran.bingham+renesas@ideasonboard.com, ludovic.desroches@microchip.com,
- kernel@pengutronix.de, zourongrong@gmail.com, shawnguo@kernel.org
-Content-Type: multipart/mixed; boundary="===============0108171417=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, mikita.lipski@amd.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0108171417==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="zLjI9bAGFBvHKwEMe397vRdtLj3HUCSWe"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---zLjI9bAGFBvHKwEMe397vRdtLj3HUCSWe
-Content-Type: multipart/mixed; boundary="7ZEUhC7vXaHUKdhpsAsTVaSFl7q2PnfOJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
- linux@armlinux.org.uk, paul@crapouillou.net, thierry.reding@gmail.com,
- krzk@kernel.org, sam@ravnborg.org, sebastian.reichel@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- hjc@rock-chips.com, abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com,
- jonathanh@nvidia.com, xinliang.liu@linaro.org,
- ludovic.desroches@microchip.com, kgene@kernel.org, linux-imx@nxp.com,
- linux-rockchip@lists.infradead.org,
- virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
- jernej.skrabec@siol.net, rodrigosiqueiramelo@gmail.com,
- tomi.valkeinen@ti.com, bbrezillon@kernel.org, jingoohan1@gmail.com,
- dri-devel@lists.freedesktop.org, sw0312.kim@samsung.com,
- nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
- kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
- linux-mediatek@lists.infradead.org, shawnguo@kernel.org, kraxel@redhat.com
-Message-ID: <bccc380a-8925-81a7-34fe-5a1744a766d0@suse.de>
-Subject: Re: [PATCH 00/22] drm: Convert drivers to drm_simple_encoder_init()
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200306142212.GF4878@pendragon.ideasonboard.com>
-In-Reply-To: <20200306142212.GF4878@pendragon.ideasonboard.com>
-
---7ZEUhC7vXaHUKdhpsAsTVaSFl7q2PnfOJ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Laurent
-
-Am 06.03.20 um 15:22 schrieb Laurent Pinchart:
-> Hi Thomas,
->=20
-> Thank you for the patch.
->=20
-> On Thu, Mar 05, 2020 at 04:59:28PM +0100, Thomas Zimmermann wrote:
->> A call to drm_simple_encoder_init() initializes an encoder without
->> further functionality. It only provides the destroy callback to
->> cleanup the encoder's state. Only few drivers implement more
->> sophisticated encoders than that. Most drivers implement such a
->> simple encoder and can use drm_simple_encoder_init() instead.
->>
->> The patchset converts drivers where the encoder's instance is
->> embedded in a larger data structure. The driver releases the
->> memory during cleanup. Each patch replaces drm_encoder_init() with
->> drm_simple_encoder_init() and removes the (now unused) driver's
->> encoder functions.
->>
->> While the patchset is fairly large, the indiviual patches are self-
->> contained and can be merged independently from each other. The
->> simple-encoder functionality is currently in drm-misc-next, where
->> these patches could go as well.
->=20
-> I've reviewed the whole series, including verifying that the few
-> instances of struct drm_encoder_funcs that were not declared const were=
-
-> not modified somewhere to add more function pointers.
->=20
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks for the detailed review.
-
->=20
-> for all the patches.
->=20
-> However, I'd like to note that drm_simple_encoder_init() is a bit of a
-> misnommer here. Several of the encoders in those drivers to implement
-> additional functionality. They just expose them through
-> drm_encoder_helper_funcs, not drm_encoder_funcs.
-
-True. It's called 'simple encoder' for the lack of a better name. It's
-part of the simple KMS helpers, so the name's at least consistent. OTOH
-I always find drm_simple_display_pipe a bad name.
-
-We can still rename the simple-encoder function without much effort. I'm
-open for suggestions.
-
-Best regards
-Thomas
-
->=20
->> Future directions: There's another common case where the driver
->> calls kzalloc() plus drm_encoder_init(). Such drivers are not
->> handled by this patchset. The plan here is to use a simple encoder
->> with either managed memory allocation (once it's merged), or embed
->> the encoder in a larger data structure and drop kzalloc() entirely.
->=20
-> I think an even more interesting future enhancement would be to add
-> encoder support to the newly added drm_bridge_connector_init(), for
-> drivers that are fully based on bridges and don't implement any encoder=
-
-> operation, neither through drm_encoder_funcs nor through
-> drm_encoder_helper_funcs.
->=20
->> The patchset has been compile-tested on x86-64, aarch64 and arm.
->>
->> Thomas Zimmermann (22):
->>   drm/arc: Use simple encoder
->>   drm/atmel-hlcdc: Use simple encoder
->>   drm/exynos: Use simple encoder
->>   drm/fsl-dcu: Use simple encoder
->>   drm/gma500: Use simple encoder
->>   drm/hisilicon/kirin: Use simple encoder
->>   drm/i2c/tda998x: Use simple encoder
->>   drm/imx: Use simple encoder
->>   drm/ingenic: Use simple encoder
->>   drm/mediatek: Use simple encoder
->>   drm/rcar-du: Use simple encoder
->>   drm/rockchip: Use simple encoder
->>   drm/shmobile: Use simple encoder
->>   drm/sun4i: Use simple encoder
->>   drm/tegra: Use simple encoder
->>   drm/tidss: Use simple encoder
->>   drm/tilcdc: Use simple encoder
->>   drm/vc4: Use simple encoder
->>   drm/virtgpu: Use simple encoder
->>   drm/vkms: Use simple encoder
->>   drm/writeback: Use simple encoder
->>   drm/zte: Use simple encoder
->>
->>  drivers/gpu/drm/arc/arcpgu_hdmi.c              | 10 +++-------
->>  drivers/gpu/drm/arc/arcpgu_sim.c               |  8 ++------
->>  .../gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c   | 12 ++++--------
->>  drivers/gpu/drm/drm_writeback.c                | 10 +++-------
->>  drivers/gpu/drm/exynos/exynos_dp.c             |  8 ++------
->>  drivers/gpu/drm/exynos/exynos_drm_dpi.c        |  8 ++------
->>  drivers/gpu/drm/exynos/exynos_drm_dsi.c        |  8 ++------
->>  drivers/gpu/drm/exynos/exynos_drm_vidi.c       |  8 ++------
->>  drivers/gpu/drm/exynos/exynos_hdmi.c           |  8 ++------
->>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c      | 14 +++-----------
->>  drivers/gpu/drm/gma500/cdv_intel_crt.c         | 14 +++-----------
->>  drivers/gpu/drm/gma500/cdv_intel_dp.c          | 16 +++-------------
->>  drivers/gpu/drm/gma500/cdv_intel_hdmi.c        |  4 ++--
->>  drivers/gpu/drm/gma500/cdv_intel_lvds.c        | 17 +++--------------=
-
->>  drivers/gpu/drm/gma500/mdfld_dsi_dpi.c         |  7 +++----
->>  drivers/gpu/drm/gma500/mdfld_output.h          |  1 -
->>  drivers/gpu/drm/gma500/mdfld_tmd_vid.c         |  6 ------
->>  drivers/gpu/drm/gma500/mdfld_tpo_vid.c         |  6 ------
->>  drivers/gpu/drm/gma500/oaktrail_hdmi.c         | 14 ++------------
->>  drivers/gpu/drm/gma500/oaktrail_lvds.c         |  5 +++--
->>  drivers/gpu/drm/gma500/psb_intel_drv.h         |  1 -
->>  drivers/gpu/drm/gma500/psb_intel_lvds.c        | 18 +++--------------=
--
->>  drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c     |  5 -----
->>  drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c   |  8 ++------
->>  drivers/gpu/drm/i2c/tda998x_drv.c              | 14 +++-----------
->>  drivers/gpu/drm/imx/dw_hdmi-imx.c              |  8 ++------
->>  drivers/gpu/drm/imx/imx-drm-core.c             |  6 ------
->>  drivers/gpu/drm/imx/imx-drm.h                  |  1 -
->>  drivers/gpu/drm/imx/imx-ldb.c                  |  8 ++------
->>  drivers/gpu/drm/imx/imx-tve.c                  |  8 ++------
->>  drivers/gpu/drm/imx/parallel-display.c         |  8 ++------
->>  drivers/gpu/drm/ingenic/ingenic-drm.c          |  9 +++------
->>  drivers/gpu/drm/mediatek/mtk_dpi.c             | 14 +++-----------
->>  drivers/gpu/drm/mediatek/mtk_dsi.c             | 14 +++-----------
->>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c      | 14 +++-----------
->>  .../gpu/drm/rockchip/analogix_dp-rockchip.c    |  9 +++------
->>  drivers/gpu/drm/rockchip/cdn-dp-core.c         |  9 +++------
->>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |  8 ++------
->>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c    |  8 ++------
->>  drivers/gpu/drm/rockchip/inno_hdmi.c           |  8 ++------
->>  drivers/gpu/drm/rockchip/rk3066_hdmi.c         |  8 ++------
->>  drivers/gpu/drm/rockchip/rockchip_lvds.c       | 10 +++-------
->>  drivers/gpu/drm/rockchip/rockchip_rgb.c        |  8 ++------
->>  drivers/gpu/drm/shmobile/shmob_drm_crtc.c      | 14 +++-----------
->>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c         | 12 +++---------
->>  drivers/gpu/drm/sun4i/sun4i_lvds.c             | 12 +++---------
->>  drivers/gpu/drm/sun4i/sun4i_rgb.c              | 17 +++--------------=
-
->>  drivers/gpu/drm/sun4i/sun4i_tv.c               | 17 +++--------------=
-
->>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c         | 12 +++---------
->>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c          |  8 ++------
->>  drivers/gpu/drm/tegra/drm.h                    |  2 --
->>  drivers/gpu/drm/tegra/dsi.c                    | 10 +++-------
->>  drivers/gpu/drm/tegra/hdmi.c                   |  9 +++------
->>  drivers/gpu/drm/tegra/output.c                 |  6 +-----
->>  drivers/gpu/drm/tegra/rgb.c                    |  8 ++------
->>  drivers/gpu/drm/tegra/sor.c                    |  8 ++------
->>  drivers/gpu/drm/tidss/tidss_encoder.c          | 10 +++-------
->>  drivers/gpu/drm/tilcdc/tilcdc_external.c       | 10 +++-------
->>  drivers/gpu/drm/tilcdc/tilcdc_panel.c          |  8 ++------
->>  drivers/gpu/drm/vc4/vc4_dpi.c                  |  8 ++------
->>  drivers/gpu/drm/vc4/vc4_dsi.c                  | 15 +++------------
->>  drivers/gpu/drm/vc4/vc4_hdmi.c                 | 17 ++++-------------=
-
->>  drivers/gpu/drm/vc4/vc4_vec.c                  |  8 ++------
->>  drivers/gpu/drm/virtio/virtgpu_display.c       |  8 ++------
->>  drivers/gpu/drm/vkms/vkms_output.c             |  8 ++------
->>  drivers/gpu/drm/zte/zx_hdmi.c                  |  8 ++------
->>  drivers/gpu/drm/zte/zx_tvenc.c                 |  8 ++------
->>  drivers/gpu/drm/zte/zx_vga.c                   |  8 ++------
->>  68 files changed, 151 insertions(+), 488 deletions(-)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---7ZEUhC7vXaHUKdhpsAsTVaSFl7q2PnfOJ--
-
---zLjI9bAGFBvHKwEMe397vRdtLj3HUCSWe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5iadwACgkQaA3BHVML
-eiO0kQf+MIM+f6/DNKocn671bllssFCEGKWrX1wgTabB1iiRSL7ARnr03xMcYvzP
-Ik/PoetXfawz8fIw2Xm6VeEHT6+62AY3l/GmWWi0BlHNfpAvSwLnmgBT95Rkqxhl
-fVnkuw/R9c25A/WZMABTJ05EJhytBN4Iu42F+J6x2Jy+SpBNNETqwpvVPYL45Ou9
-4QUL5Rj+xtwAzce+WOLqcL+LQmYDDrLlwOIS884Xfi4B6o8aSh9L2m2SJPCR1U6n
-mdKcRZk/ztKJrkm/udvjRymVO/VT/ai9N4v6KNJ+dI6ko2jJZHrEpMDYdyGR840X
-Y2HKoexIUwvdHV/Qy7ihnx7889lJNQ==
-=LTju
------END PGP SIGNATURE-----
-
---zLjI9bAGFBvHKwEMe397vRdtLj3HUCSWe--
-
---===============0108171417==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0108171417==--
+T24gVHVlLCBKdW4gMTksIDIwMTggYXQgNTo1MCBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
+dGVyQGZmd2xsLmNoPiB3cm90ZToKPgo+IFRoZSBzdHVmZiBuZXZlciByZWFsbHkgd29ya2VkLCBh
+bmQgbGVhZHMgdG8gbG90cyBvZiBmdW4gYmVjYXVzZSBpdAo+IG91dC1vZi1vcmRlciBmcmVlcyBh
+dG9taWMgc3RhdGVzLiBXaGljaCB1cHNldHMgS0FTQU4sIGFtb25nIG90aGVyCj4gdGhpbmdzLgo+
+Cj4gRm9yIGFzeW5jIHVwZGF0ZXMgd2Ugbm93IGhhdmUgYSBtb3JlIHNvbGlkIHNvbHV0aW9uIHdp
+dGggdGhlCj4gLT5hdG9taWNfYXN5bmNfY2hlY2sgYW5kIC0+YXRvbWljX2FzeW5jX2NvbW1pdCBo
+b29rcy4gU3VwcG9ydCBmb3IgdGhhdAo+IGZvciBtc20gYW5kIHZjNCBsYW5kZWQuIG5vdXZlYXUg
+YW5kIGk5MTUgaGF2ZSB0aGVpciBvd24gY29tbWl0Cj4gcm91dGluZXMsIGRvaW5nIHNvbWV0aGlu
+ZyBzaW1pbGFyLgo+Cj4gRm9yIGV2ZXJ5b25lIGVsc2UgaXQncyBwcm9iYWJseSBiZXR0ZXIgdG8g
+cmVtb3ZlIHRoZSB1c2UtYWZ0ZXItZnJlZQo+IGJ1ZywgYW5kIGVuY291cmFnZSBmb2xrcyB0byB1
+c2UgdGhlIGFzeW5jIHN1cHBvcnQgaW5zdGVhZC4gVGhlCj4gYWZmZWN0ZWQgZHJpdmVycyB3aGlj
+aCByZWdpc3RlciBhIGxlZ2FjeSBjdXJzb3IgcGxhbmUgYW5kIGRvbid0IGVpdGhlcgo+IHVzZSB0
+aGUgbmV3IGFzeW5jIHN0dWZmIG9yIHRoZWlyIG93biBjb21taXQgcm91dGluZSBhcmU6IGFtZGdw
+dSwKPiBhdG1lbCwgbWVkaWF0ZWssIHF4bCwgcm9ja2NoaXAsIHN0aSwgc3VuNGksIHRlZ3JhLCB2
+aXJ0aW8sIGFuZCB2bXdnZnguCj4KPiBJbnNwaXJlZCBieSBhbiBhbWRncHUgYnVnIHJlcG9ydC4K
+Pgo+IFJlZmVyZW5jZXM6IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/
+aWQ9MTk5NDI1Cj4gQ2M6IG1pa2l0YS5saXBza2lAYW1kLmNvbQo+IENjOiBNaWNoZWwgRMOkbnpl
+ciA8bWljaGVsQGRhZW56ZXIubmV0Pgo+IENjOiBoYXJyeS53ZW50bGFuZEBhbWQuY29tCj4gU2ln
+bmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+CgpBbnkg
+Y29tbWVudHMgb24gdGhpcyBmcm9tIGFtZCdzIHNpZGU/Ci1EYW5pZWwKCj4gLS0tCj4gIGRyaXZl
+cnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jIHwgMTMgLS0tLS0tLS0tLS0tLQo+ICAxIGZp
+bGUgY2hhbmdlZCwgMTMgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9hdG9taWNfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxw
+ZXIuYwo+IGluZGV4IDEzMGRhNTE5NWYzYi4uNWE1NzZjZGYyNmRkIDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9hdG9taWNfaGVscGVyLmMKPiBAQCAtMTMzMCwxMyArMTMzMCw2IEBAIGRybV9hdG9taWNf
+aGVscGVyX3dhaXRfZm9yX3ZibGFua3Moc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiAgICAgICAg
+IGludCBpLCByZXQ7Cj4gICAgICAgICB1bnNpZ25lZCBjcnRjX21hc2sgPSAwOwo+Cj4gLSAgICAg
+ICAgLyoKPiAtICAgICAgICAgKiBMZWdhY3kgY3Vyc29yIGlvY3RscyBhcmUgY29tcGxldGVseSB1
+bnN5bmNlZCwgYW5kIHVzZXJzcGFjZQo+IC0gICAgICAgICAqIHJlbGllcyBvbiB0aGF0IChieSBk
+b2luZyB0b25zIG9mIGN1cnNvciB1cGRhdGVzKS4KPiAtICAgICAgICAgKi8KPiAtICAgICAgIGlm
+IChvbGRfc3RhdGUtPmxlZ2FjeV9jdXJzb3JfdXBkYXRlKQo+IC0gICAgICAgICAgICAgICByZXR1
+cm47Cj4gLQo+ICAgICAgICAgZm9yX2VhY2hfb2xkbmV3X2NydGNfaW5fc3RhdGUob2xkX3N0YXRl
+LCBjcnRjLCBvbGRfY3J0Y19zdGF0ZSwgbmV3X2NydGNfc3RhdGUsIGkpIHsKPiAgICAgICAgICAg
+ICAgICAgaWYgKCFuZXdfY3J0Y19zdGF0ZS0+YWN0aXZlKQo+ICAgICAgICAgICAgICAgICAgICAg
+ICAgIGNvbnRpbnVlOwo+IEBAIC0xODg0LDEyICsxODc3LDYgQEAgaW50IGRybV9hdG9taWNfaGVs
+cGVyX3NldHVwX2NvbW1pdChzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUsCj4gICAgICAg
+ICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gICAgICAgICAgICAgICAgIH0KPgo+IC0gICAg
+ICAgICAgICAgICAvKiBMZWdhY3kgY3Vyc29yIHVwZGF0ZXMgYXJlIGZ1bGx5IHVuc3luY2VkLiAq
+Lwo+IC0gICAgICAgICAgICAgICBpZiAoc3RhdGUtPmxlZ2FjeV9jdXJzb3JfdXBkYXRlKSB7Cj4g
+LSAgICAgICAgICAgICAgICAgICAgICAgY29tcGxldGVfYWxsKCZjb21taXQtPmZsaXBfZG9uZSk7
+Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gLSAgICAgICAgICAgICAgIH0K
+PiAtCj4gICAgICAgICAgICAgICAgIGlmICghbmV3X2NydGNfc3RhdGUtPmV2ZW50KSB7Cj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgY29tbWl0LT5ldmVudCA9IGt6YWxsb2Moc2l6ZW9mKCpjb21t
+aXQtPmV2ZW50KSwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBHRlBfS0VSTkVMKTsKPiAtLQo+IDIuMTguMC5yYzIKPgoKCi0tIApEYW5pZWwgVmV0dGVy
+ClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0
+OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
