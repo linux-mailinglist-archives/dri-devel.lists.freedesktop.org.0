@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACFB17B803
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:04:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A351F17B7F8
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:04:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E47A66EC9A;
-	Fri,  6 Mar 2020 08:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B8B6EC7D;
+	Fri,  6 Mar 2020 08:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5300::11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C48EC6E39C
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2020 19:41:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583437312;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=OZ5oxnYpzuUaR1GazaWO7w0lUaH0jA1Tfl/eGpTMdzU=;
- b=b2Quhyv5AbNLJ4Y5WYFnwSAckwEf7pftMhbABa4xtJKZQXN4r5rP6n+OMmQenubU0T
- /FIFJvJM7LzdEjMKW+EJ4shEfWka424+mVdTdeRoEz0lcoC+sKRc4Rj1t6Ye0oM7obCQ
- n/lbvyVdG6X3VoerBGPUc35yGYdKHunMiJNpNuPZjwE+QwJvUMhUHIY1KfBLd3Ta7CWB
- pm9x33S70VU3TkrXF5fkm9+HKBDxr+YzVoqsxC0/GJ0l34qqnHoVPDsVW3eikoKopBUi
- Hr0vHRu1JKqW6hdCCQhBGOhAaXMDoHaUeDrvK8A3OMCVCAhuriEVbFnQSDM52fVe6prT
- knEA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmMlw43rkA=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw25JfiVL3
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 5 Mar 2020 20:41:44 +0100 (CET)
-Subject: Re: [PATCH 24/33] drm/panel-simple: Fix dotclock for Ortustech
- COM37H3M
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: H. Nikolaus Schaller <hns@goldelico.com>
-In-Reply-To: <CDD5B6AE-6711-4B81-87F9-8DBD067E33BD@goldelico.com>
-Date: Thu, 5 Mar 2020 20:41:43 +0100
-Message-Id: <C1BE9158-7D08-44D0-9699-4029806ABDE7@goldelico.com>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-25-ville.syrjala@linux.intel.com>
- <4320E187-FAA1-4033-A02C-7DA1F9B68A52@goldelico.com>
- <20200303150336.GZ13686@intel.com>
- <CDD5B6AE-6711-4B81-87F9-8DBD067E33BD@goldelico.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38FBF6EC3A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 00:21:18 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id np16so293289pjb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 16:21:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wJSb47iRAmacuiIgPWOL6dFUPqbDjpIVJqy0/NtA6/o=;
+ b=CKYtvbCQIDRoU2urvS0iaJ8B+f6KWSMedxeRgGs2XCLSRQ7E0n0NPAy7fsx/4NWiN3
+ xaaUL1ki4WjoFup6wgcUYLY+anMKStvUn25Oc7J95rrz3iO2WTCK2F93/ehzzWeFtJOP
+ 7U5FsNYBGY59eodEfQ81oloKD2DLpT19Zy9SQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wJSb47iRAmacuiIgPWOL6dFUPqbDjpIVJqy0/NtA6/o=;
+ b=OZKnBzdZ/91AiogTV420g0inCgJ06u60SYLw+xugUHRtN3YaklGsVxjvf0yjHl4j7c
+ Y3SI6WjpP3vs6CjtV/gFNH3vk8Thnqjj5T52h4ypb5lO34F1aa2GhI1m5qtKTGB8ZDf9
+ 3M8pvcBjTxOS2UMPjFtUy2vYvtQxuUwKEnc7LKyXh1VHe9i9Pf26JOb5FvVuDigkaOb8
+ /o/P8TcUvLSayIzeXhHD3xKEYE0FoslCIkzvBxjVXr/GUGiWaerbnNrmIclVdcO0On9E
+ mukGWQAazSzXULtUY0PDY4oByPPqDfS8XT+wkq+/M+8G8Eu1alkjT8EPxs0LJSJagSoF
+ bf/A==
+X-Gm-Message-State: ANhLgQ3rHkpaXOIwvc/U2SaRCF1hpd7NIRZHUfzmlbvD5pDMNlI6g54J
+ INBP9rKnRHc1/XPkB+CJMtdhew==
+X-Google-Smtp-Source: ADFU+vvmhMGHJxnqwlSNBaW/zJEwPDdnnhVY/JhYtnz8CTMEhmrOcwC0a3b957LsR4UX7PR0yEDTmw==
+X-Received: by 2002:a17:90a:da03:: with SMTP id e3mr715297pjv.57.1583454077682; 
+ Thu, 05 Mar 2020 16:21:17 -0800 (PST)
+Received: from exogeni.mtv.corp.google.com
+ ([2620:15c:202:1:5be8:f2a6:fd7b:7459])
+ by smtp.gmail.com with ESMTPSA id y1sm30080225pgs.74.2020.03.05.16.21.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Mar 2020 16:21:16 -0800 (PST)
+From: Derek Basehore <dbasehore@chromium.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v10 0/2] Panel rotation patches
+Date: Thu,  5 Mar 2020 16:21:10 -0800
+Message-Id: <20200306002112.255361-1-dbasehore@chromium.org>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 06 Mar 2020 08:03:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,65 +63,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Derek Basehore <dbasehore@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This adds the plumbing for reading panel rotation from the devicetree
+and sets up adding a panel property for the panel orientation on
+Mediatek SoCs when a rotation is present.
 
-> Am 03.03.2020 um 16:49 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
-> =
+v10 changes:
+-Adapted to drm_panel_attach changes, so panel orientation is now set
+ for the connector in get_modes
+-Dropped patch that was already accepted
 
-> Hi,
-> =
+v9 changes:
+-Changed to copying display properties from another copy of
+ drm_display_info in drm_panel_attach.
 
->> Am 03.03.2020 um 16:03 schrieb Ville Syrj=E4l=E4 <ville.syrjala@linux.in=
-tel.com>:
->> =
+v8 changes:
+-added reviewed-by tags
+-fixed conflict with i915 patch that recently landed
+-Added additional documentation
 
->>> I haven't looked into the driver code, but would it be
->>> possible to specify .clock =3D 0 (or leave it out) to
->>> calculate it bottom up? This would avoid such inconsistencies.
->> =
+v7 changes:
+-forgot to add static inline
 
->> I'm going to remove .vrefresh entirely from the struct.
->> It'll just be calculated from the other timings as needed.
-> =
+v6 changes:
+-added enum declaration to drm_panel.h header
 
-> Ok!
-> =
+v5 changes:
+-rebased
 
-> Anyways we should fix the panel timings so that it is compatible to .vref=
-resh =3D 60.
-> =
+v4 changes:
+-fixed some changes made to the i915 driver
+-clarified comments on of orientation helper
 
-> I'll give it a try and let you know.
+v3 changes:
+-changed from attach/detach callbacks to directly setting fixed panel
+ values in drm_panel_attach
+-removed update to Documentation
+-added separate function for quirked panel orientation property init
 
-Ok, here is a new parameter set within data sheet limits for both
-panel variants:
+v2 changes:
+fixed build errors in i915
 
-static const struct drm_display_mode ortustech_com37h3m_mode  =3D {
-	.clock =3D 22153,
-	.hdisplay =3D 480,
-	.hsync_start =3D 480 + 40,
-	.hsync_end =3D 480 + 40 + 10,
-	.htotal =3D 480 + 40 + 10 + 40,
-	.vdisplay =3D 640,
-	.vsync_start =3D 640 + 4,
-	.vsync_end =3D 640 + 4 + 2,
-	.vtotal =3D 640 + 4 + 2 + 4,
-	.vrefresh =3D 60,
-	.flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-};
+Derek Basehore (4):
+  drm/panel: Add helper for reading DT rotation
+  drm/panel: set display info in panel attach
+  drm/connector: Split out orientation quirk detection
+  drm/mtk: add panel orientation property
 
-I have tested on our omap3 based board and didn't find an issue
-so you can insert into your patch.
+ drivers/gpu/drm/drm_connector.c    | 45 ++++++++++++++-----
+ drivers/gpu/drm/drm_panel.c        | 70 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/intel_dp.c    |  4 +-
+ drivers/gpu/drm/i915/vlv_dsi.c     |  5 +--
+ drivers/gpu/drm/mediatek/mtk_dsi.c |  8 ++++
+ include/drm/drm_connector.h        |  2 +
+ include/drm/drm_panel.h            | 21 +++++++++
+ 7 files changed, 138 insertions(+), 17 deletions(-)
 
-BR and thanks,
-Nikolaus
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
