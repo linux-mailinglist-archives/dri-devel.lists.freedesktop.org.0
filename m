@@ -1,63 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F0117CD7E
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:14:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2554117CD97
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB136E141;
-	Sat,  7 Mar 2020 10:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EED756E1B3;
+	Sat,  7 Mar 2020 10:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4157D6E430
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 12:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1583498804; bh=Hq/SxVhmuqTkQU0lHEM/7do8nN5uoeLcscHI4XCDnT0=;
- h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
- b=RnG6d57C8x+pmDej2igLxil8i2jQRp9SxKEUnOY6oU8d5cXRVV6+HSv8EIF5cbt4e
- ZktQtIXowPU3HA3oh4Jh27qXXPajdsCjIAvtLqsmjwi5Lyvs6Y9W+VZGkO01IzNUJ7
- wZ2z3bBxJI/KHm6jkD+b9tppcqVThi4Tzd/hpHrs=
-Date: Fri, 6 Mar 2020 13:46:43 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7688: Add anx7688 bridge driver
- support
-Message-ID: <20200306124643.wec6d47loprk4zfi@core.my.home>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Icenowy Zheng <icenowy@aosc.io>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>,
- Enric Balletbo Serra <eballetbo@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Torsten Duwe <duwe@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Collabora Kernel ML <kernel@collabora.com>
-References: <CA+E=qVfGiQseZZVBvmmK6u2Mu=-91ViwLuhNegu96KRZNAHr_w@mail.gmail.com>
- <CAFqH_505eWt9UU7Wj6tCQpQCMZFMfy9e1ETSkiqi7i5Zx6KULQ@mail.gmail.com>
- <CA+E=qVff5_hdPFdaG4Lrg7Uzorea=JbEdPoy+sQd7rUGNTTZ5g@mail.gmail.com>
- <5245a8e4-2320-46bd-04fd-f86ce6b17ce7@collabora.com>
- <CA+E=qVcyRW4LNC5db27d-8x-T_Nk9QAhkBPwu5rwthTc6ewbYA@mail.gmail.com>
- <20200305193505.4km5j7n25ph4b6hn@core.my.home>
- <2a5a4a62-3189-e053-21db-983a4c766d44@collabora.com>
- <5d72a8c6824b31163a303b5ef1526efe05121e5d.camel@aosc.io>
- <20200306120726.t7aitfz5rq3m7m6y@core.my.home>
- <CANMq1KC1R4B66Nr01pADa3RV8NpkPqkM-1pe-1N1nQiMviX1Cg@mail.gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4B96ED2A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 14:12:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id D7F48296C97
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v3 3/4] dt-bindings: Add ANX7688 HDMI to DP bridge binding
+Date: Fri,  6 Mar 2020 15:12:15 +0100
+Message-Id: <20200306141217.423914-3-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200306141217.423914-1-enric.balletbo@collabora.com>
+References: <20200306141217.423914-1-enric.balletbo@collabora.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CANMq1KC1R4B66Nr01pADa3RV8NpkPqkM-1pe-1N1nQiMviX1Cg@mail.gmail.com>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
 X-Mailman-Approved-At: Sat, 07 Mar 2020 10:14:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,69 +37,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Maxime Ripard <maxime@cerno.tech>,
- Neil Armstrong <narmstrong@baylibre.com>, Torsten Duwe <duwe@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, David Airlie <airlied@linux.ie>,
- Andrzej Hajda <a.hajda@samsung.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Collabora Kernel ML <kernel@collabora.com>, Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: megous@megous.com, devicetree@vger.kernel.org, drinkcat@chromium.org,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, anarsoul@gmail.com,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Mark Rutland <mark.rutland@arm.com>,
+ Collabora Kernel ML <kernel@collabora.com>, icenowy@aosc.io
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXIgMDYsIDIwMjAgYXQgMDg6MTE6MDdQTSArMDgwMCwgTmljb2xhcyBCb2ljaGF0
-IHdyb3RlOgo+IE9uIEZyaSwgTWFyIDYsIDIwMjAgYXQgODowNyBQTSBPbmTFmWVqIEppcm1hbiA8
-bWVnb3VzQG1lZ291cy5jb20+IHdyb3RlOgo+IAo+IFdoYXQgYWJvdXQgdGhlIHZhbHVlcyBhdCAw
-eDJjPwoKaTJjZHVtcCAwIDB4MjgKCiAgICAgMCAgMSAgMiAgMyAgNCAgNSAgNiAgNyAgOCAgOSAg
-YSAgYiAgYyAgZCAgZSAgZiAgICAwMTIzNDU2Nzg5YWJjZGVmCjAwOiBhYSBhYSA4OCA3NiBhYyAw
-MCAwMCAwMCAwMCAwMCAwMCAwMCAwMCA4MCAwNSAwNSAgICA/Pz92Py4uLi4uLi4uPz8/CjEwOiAz
-MCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAgICAwLi4uLi4u
-Li4uLi4uLi4uCjIwOiAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAzNCBmMiBlNCBm
-ZiAwMCAgICAuLi4uLi4uLi4uLjQ/Py4uCjMwOiAwNCA0MCAwMCAwNCA5NCAxMSAyMCBmZiBmZiAw
-MyAwMCBmZiBmZiBmZiAwMCAwMSAgICA/QC4/Pz8gLi4/Li4uLi4/CjQwOiA3OCBhNCAwMCAwOSAw
-MCAwOCAwNSA4NCAxMCA2MCAxNyAwMCAwMCAwYSAwMCBiMCAgICB4Py4/Lj8/Pz9gPy4uPy4/CjUw
-OiAwMCAwMCAwMCAwYSAwMCAwMCBlMCBkZiBmZiBmZiAwMCAwMCAwMCAxMCA3MSAwMCAgICAuLi4/
-Li4/Py4uLi4uP3EuCjYwOiAxMCAxMCAwNCAyOSAyZCAyMSAxMCAwMSAwOSAwMyAwMCAwMyBlOCAx
-MyA4OCAwMCAgICA/Pz8pLSE/Pz8/Lj8/Pz8uCjcwOiAwMCAxOSAxOCA4MyAwNiA1YSAxMSAwMCBm
-ZiAwMCAwMCAwZCAwNCAzOCA0MiAwNyAgICAuPz8/P1o/Li4uLj8/OEI/CjgwOiAwMCAwMCAwMCAw
-MCAwMCA3NCAxYiAxOSA0MCAwOCA3NSAwMCAwMCAwMCAwMCAwMCAgICAuLi4uLnQ/P0A/dS4uLi4u
-CjkwOiAwMCAwMCAwMCAwMCAwMCAwMCAwMyAwMCBmZiAzMCAwMCA1OSAwMSAwMCAwMCAwMCAgICAu
-Li4uLi4/Li4wLlk/Li4uCmEwOiAwMCBmZiBmZiBmZiBmZiAwMCAwMCAwMCAwMCAwMCAwMCAwMCAw
-MCAwMCAwMCAwMCAgICAuLi4uLi4uLi4uLi4uLi4uCmIwOiAwMCAwMCAwMCAwMCAwMCAwMCAwMCAw
-MCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAgICAuLi4uLi4uLi4uLi4uLi4uCmMwOiAwMCAwMCAw
-MCAwMCAwMCAwMCAwMCAwMCAwYSAxMCAxOCAwMCAwMCBmZiAwMCAwMCAgICAuLi4uLi4uLj8/Py4u
-Li4uCmQwOiAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAg
-ICAuLi4uLi4uLi4uLi4uLi4uCmUwOiA1MCAxMCAwOCA1MCAwMCAwMiAwMCA3MCAwMCAwMCAzMCAx
-MCAxMSAwMiAxYyAwMSAgICBQPz9QLj8ucC4uMD8/Pz8/CmYwOiAwMCAxMSAwNyAwMCA5NCAxMSA3
-ZiAwMCAwMCAwMCAwMCAwMCAwMCAwMSAwZSBmZiAgICAuPz8uPz8/Li4uLi4uPz8uCgppMmNkdW1w
-IDAgMHgyYwoKICAgICAwICAxICAyICAzICA0ICA1ICA2ICA3ICA4ICA5ICBhICBiICBjICBkICBl
-ICBmICAgIDAxMjM0NTY3ODlhYmNkZWYKMDA6IDI5IDFmIDg4IDc2IDAwIGFjIDExIDAwIDExIDIw
-IDEwIDEwIDAwIDAwIDAwIDAwICAgICk/P3YuPz8uPyA/Py4uLi4KMTA6IDAzIDAwIGZmIDhmIGZm
-IDdmIDAwIDAwIDAwIDAwIDBhIDAwIDEwIDExIDBjIDAwICAgID8uLj8uPy4uLi4/Lj8/Py4KMjA6
-IDAwIDAwIDAwIDAwIDk5IDA2IGMwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAyIDAwICAgIC4uLi4/
-Pz8uLi4uLi4uPy4KMzA6IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwICAgIC4uLi4uLi4uLi4uLi4uLi4KNDA6IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwIDAwIDAwIDAwIDAwIDAwICAgIC4uLi4uLi4uLi4uLi4uLi4KNTA6IDAwIDAwIDAwIDAw
-IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwICAgIC4uLi4uLi4uLi4uLi4uLi4K
-NjA6IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwICAgIC4u
-Li4uLi4uLi4uLi4uLi4KNzA6IGI0IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwIDAwICAgID8uLi4uLi4uLi4uLi4uLi4KODA6IDAxIDI1IDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwICAgID8lLi4uLi4uLi4uLi4uLi4KOTA6IDBmIDBmIDAw
-IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwICAgID8/Li4uLi4uLi4uLi4u
-Li4KYTA6IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwICAg
-IC4uLi4uLi4uLi4uLi4uLi4KYjA6IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwIDAwIDAwICAgIC4uLi4uLi4uLi4uLi4uLi4KYzA6IDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwICAgIC4uLi4uLi4uLi4uLi4uLi4KZDA6IDAwIDAw
-IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwICAgIC4uLi4uLi4uLi4u
-Li4uLi4KZTA6IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAw
-ICAgIC4uLi4uLi4uLi4uLi4uLi4KZjA6IDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwIDAwIDAwIDAwICAgIC4uLi4uLi4uLi4uLi4uLi4KCgpyZWdhcmRzLAoJby4KCj4gCj4g
-VGhhbmtzLApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Nicolas Boichat <drinkcat@chromium.org>
+
+Add documentation for DT properties supported by the ANX7688 HDMI-DP
+converter.
+
+Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
+
+Changes in v3:
+- Adapt the bridge bindings for the multi-function device.
+
+Changes in v2:
+- Improve a bit the descriptions using the info from the datasheet.
+- Convert binding to yaml.
+- Use dual licensing.
+
+ .../bridge/analogix,anx7688-bridge.yaml       | 80 +++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/analogix,anx7688-bridge.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7688-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7688-bridge.yaml
+new file mode 100644
+index 000000000000..c56da3f39dd8
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7688-bridge.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/analogix,anx7688-bridge.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analogix ANX7688 HDMI to DisplayPort Bridge
++
++maintainers:
++  - Nicolas Boichat <drinkcat@chromium.org>
++  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
++
++description: |
++  The ANX7688 bridge describes the HDMI 2.0 to DisplayPort 1.3 bridge block
++  included in the ANX7688 chip controller. These are meant to be used for
++  controlling display-related signals.
++
++  The node of this device should be under an analogix,anx7866 node. Please refer
++  to Documentation/devicetree/bindings/mfd/analogix,anx7688.yaml for the ANX7688
++  core bindings.
++
++properties:
++  compatible:
++    const: analogix,anx7688-bridge
++
++  ports:
++    type: object
++
++    properties:
++      port@0:
++        type: object
++        description: |
++          Video port for HDMI input
++
++      port@1:
++        type: object
++        description: |
++          Video port for DP output
++
++    required:
++      - port@0
++
++required:
++  - compatible
++  - ports
++
++examples:
++  - |
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        anx7688: anx7688@2c {
++            compatible = "analogix,anx7688";
++            reg = <0x2c>;
++
++            bridge {
++                compatible = "analogix,anx7688-bridge";
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                        reg = <0>;
++                        anx7688_in: endpoint {
++                            remote-endpoint = <&hdmi0_out>;
++                        };
++                    };
++
++                    port@1 {
++                        reg = <1>;
++                        anx7688_out: endpoint {
++                            remote-endpoint = <&typec0_connector>;
++                       };
++                    };
++                };
++            };
++        };
++    };
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
