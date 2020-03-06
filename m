@@ -1,55 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBEB17CD96
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D9717CD89
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9876E194;
-	Sat,  7 Mar 2020 10:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 166B86E13D;
+	Sat,  7 Mar 2020 10:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28AA46E429
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 12:19:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA6DE6ECFA
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 12:35:50 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 9A6CD297044
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7688: Add anx7688 bridge driver
- support
-To: =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megous@megous.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Icenowy Zheng <icenowy@aosc.io>,
- Enric Balletbo Serra <eballetbo@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Torsten Duwe <duwe@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
- Collabora Kernel ML <kernel@collabora.com>
-References: <20200213145416.890080-2-enric.balletbo@collabora.com>
- <CA+E=qVffVzZwRTk9K7=xhWn-AOKExkew0aPcyL_W1nokx-mDdg@mail.gmail.com>
- <CAFqH_53crnC6hLExNgQRjMgtO+TLJjT6uzA4g8WXvy7NkwHcJg@mail.gmail.com>
- <CA+E=qVfGiQseZZVBvmmK6u2Mu=-91ViwLuhNegu96KRZNAHr_w@mail.gmail.com>
- <CAFqH_505eWt9UU7Wj6tCQpQCMZFMfy9e1ETSkiqi7i5Zx6KULQ@mail.gmail.com>
- <CA+E=qVff5_hdPFdaG4Lrg7Uzorea=JbEdPoy+sQd7rUGNTTZ5g@mail.gmail.com>
- <5245a8e4-2320-46bd-04fd-f86ce6b17ce7@collabora.com>
- <CA+E=qVcyRW4LNC5db27d-8x-T_Nk9QAhkBPwu5rwthTc6ewbYA@mail.gmail.com>
- <20200305193505.4km5j7n25ph4b6hn@core.my.home>
- <2a5a4a62-3189-e053-21db-983a4c766d44@collabora.com>
- <20200306120318.oq575imqjh7uolss@core.my.home>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <522fc986-50b3-e4ff-9dc3-93921733d362@collabora.com>
-Date: Fri, 6 Mar 2020 13:18:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Authenticated sender: alyssa) with ESMTPSA id EE776297096
+Date: Fri, 6 Mar 2020 07:35:43 -0500
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Nicolas Boichat <drinkcat@chromium.org>
+Subject: Re: [PATCH v5 0/4] Add dts for mt8183 GPU (and misc panfrost patches)
+Message-ID: <20200306123543.GA1821@kevin>
+References: <20200306041345.259332-1-drinkcat@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200306120318.oq575imqjh7uolss@core.my.home>
-Content-Language: en-US
+In-Reply-To: <20200306041345.259332-1-drinkcat@chromium.org>
 X-Mailman-Approved-At: Sat, 07 Mar 2020 10:14:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,32 +36,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Nick Fan <nick.fan@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1826193039=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiA2LzMvMjAgMTM6MDMsIE9uZMWZZWogSmlybWFuIHdyb3RlOgo+IE9uIEZyaSwgTWFyIDA2
-LCAyMDIwIGF0IDA5OjQ2OjUxQU0gKzAxMDAsIEVucmljIEJhbGxldGJvIGkgU2VycmEgd3JvdGU6
-Cj4+IEhpIE9uZHJlaiwKPj4KPj4gT24gNS8zLzIwIDIwOjM1LCBPbmTFmWVqIEppcm1hbiB3cm90
-ZToKPj4+IEhpLAo+Pj4KPj4+IE9uIFRodSwgTWFyIDA1LCAyMDIwIGF0IDEwOjI5OjMzQU0gLTA4
-MDAsIFZhc2lseSBLaG9ydXpoaWNrIHdyb3RlOgo+Pj4+IE9uIFRodSwgTWFyIDUsIDIwMjAgYXQg
-NzoyOCBBTSBFbnJpYyBCYWxsZXRibyBpIFNlcnJhCj4+Pj4gPGVucmljLmJhbGxldGJvQGNvbGxh
-Ym9yYS5jb20+IHdyb3RlOgo+Pj4+Pgo+Pj4+PiBIaSBWYXNpbHksCj4+Pj4KPj4+PiBDQzogSWNl
-bm93eSBhbmQgT25kcmVqCj4+Pj4+Cj4+Pj4+IFdvdWxkIHlvdSBtaW5kIHRvIGNoZWNrIHdoaWNo
-IGZpcm13YXJlIHZlcnNpb24gaXMgcnVubmluZyB0aGUgYW54NzY4OCBpbgo+Pj4+PiBQaW5lUGhv
-bmUsIEkgdGhpbmsgc2hvdWxkIGJlIGVhc3kgdG8gY2hlY2sgd2l0aCBpMmMtdG9vbHMuCj4+Pj4K
-Pj4+PiBJY2Vub3d5LCBPbmRyZWosIGNhbiB5b3UgZ3V5cyBwbGVhc2UgY2hlY2sgYW54NzY4OCBm
-aXJtd2FyZSB2ZXJzaW9uPwo+Pj4KPj4+IGkyY2dldCAwIDB4MjggMHgwMCB3Cj4+PiAweGFhYWEK
-Pj4+Cj4+PiBpMmNnZXQgMCAweDI4IDB4MDIgdwo+Pj4gMHg3Njg4Cj4+Pgo+Pj4gaTJjZ2V0IDAg
-MHgyOCAweDgwIHcKPj4+IDB4MDAwMAo+Pj4KPj4KPj4gQ2FuIHlvdSBjaGVjayB0aGUgdmFsdWUg
-Zm9yIDB4ODEgdG9vPwo+IAo+ICd3JyByZWFkIGNoZWNrcyBib3RoIHZhbHVlcyBhdCBvbmNlLCBh
-cyB5b3UgY2FuIHNlZSBhYm92ZS4KPiAKCk9oIHJpZ2h0LCBzb3JyeS4gVGhlIHRoaW5nIGlzIHRo
-YXQgZmlybXdhcmUgdmVyc2lvbiBpcyBhdCAweDJjLCBub3QgMHgyOCwgc28Kd2UncmUgaW50ZXJl
-c3RlZCBvbiBzZWUgcmVnaXN0ZXIgMHg4MCBhbmQgMHg4MSBmb3IgMHgyYyBhZGRyZXNzLgoKVGhh
-bmtzLAogRW5yaWMKCj4gcmVnYXJkcywKPiAJby4KPiAKPj4gVGhhbmtzLAo+PiAgRW5yaWMKPj4K
-Pj4KPj4+IHJlZ2FyZHMsCj4+PiAJby4KPj4+Cj4+Pj4+IFRoYW5rcyBpbiBhZHZhbmNlLAo+Pj4+
-PiAgRW5yaWMKPj4+Pj4KPj4+Pj4gW3NuaXBdCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============1826193039==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
+Content-Disposition: inline
+
+
+--huq684BweRXVnRxX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Series has my r-b :)
+
+On Fri, Mar 06, 2020 at 12:13:41PM +0800, Nicolas Boichat wrote:
+> Hi!
+>=20
+> Follow-up on the v4: https://patchwork.kernel.org/cover/11369777/, some
+> of the core patches got merged already (thanks Rob!).
+>=20
+> The main purpose of this series is to upstream the dts change and the
+> binding document, but I wanted to see how far I could probe the GPU, to
+> check that the binding is indeed correct. The rest of the patches are
+> RFC/work-in-progress.
+>=20
+> So this is tested on MT8183 with a chromeos-4.19 kernel, and a ton of
+> backports to get the latest panfrost driver (I should probably try on
+> linux-next at some point but this was the path of least resistance).
+>=20
+> I tested it as a module as it's more challenging (originally probing would
+> work built-in, on boot, but not as a module, as I didn't have the power
+> domain changes, and all power domains are on by default during boot).
+>=20
+> Probing logs looks like this, currently. They look sane.
+> [  501.319728] panfrost 13040000.gpu: clock rate =3D 511999970
+> [  501.320041] panfrost 13040000.gpu: Linked as a consumer to regulator.14
+> [  501.320102] panfrost 13040000.gpu: Linked as a consumer to regulator.31
+> [  501.320651] panfrost 13040000.gpu: Linked as a consumer to genpd:0:130=
+40000.gpu
+> [  501.320954] panfrost 13040000.gpu: Linked as a consumer to genpd:1:130=
+40000.gpu
+> [  501.321062] panfrost 13040000.gpu: Linked as a consumer to genpd:2:130=
+40000.gpu
+> [  501.321734] panfrost 13040000.gpu: mali-g72 id 0x6221 major 0x0 minor =
+0x3 status 0x0
+> [  501.321741] panfrost 13040000.gpu: features: 00000000,13de77ff, issues=
+: 00000000,00000400
+> [  501.321747] panfrost 13040000.gpu: Features: L2:0x07120206 Shader:0x00=
+000000 Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+> [  501.321752] panfrost 13040000.gpu: shader_present=3D0x7 l2_present=3D0=
+x1
+> [  501.324951] [drm] Initialized panfrost 1.1.0 20180908 for 13040000.gpu=
+ on minor 2
+>=20
+> Some more changes are still required to get devfreq working, and of course
+> I do not have a userspace driver to test this with.
+>=20
+> I believe at least patches 1 & 2 can be merged (2 depends on another
+> patch series, so maybe we could start with 1 only for now...).
+>=20
+> Thanks!
+>=20
+> Nicolas Boichat (4):
+>   dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
+>   arm64: dts: mt8183: Add node for the Mali GPU
+>   RFC: drm/panfrost: Add mt8183-mali compatible string
+>   RFC: drm/panfrost: devfreq: Add support for 2 regulators
+>=20
+>  .../bindings/gpu/arm,mali-bifrost.yaml        |  25 +++++
+>  arch/arm64/boot/dts/mediatek/mt8183-evb.dts   |   7 ++
+>  arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 105 ++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c   |  17 +++
+>  drivers/gpu/drm/panfrost/panfrost_device.h    |   1 +
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       |  11 ++
+>  6 files changed, 166 insertions(+)
+>=20
+> --=20
+> 2.25.1.481.gfbce0eb801-goog
+>=20
+
+--huq684BweRXVnRxX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl5iQ5oACgkQ/v5QWgr1
+WA2Wfg/5Acx01qtWt1r6N8Am7rBvPeoVpmq9TkjjQ4RxwOUOdNmY0EdHiFThQMh+
+IcRWZd7FYzM43WLebWWFVxcPgajS9PXB6MPiJcYwxVGvck0F6AW1SbZysoLdY4S8
+AkaNQ5FLVHdr0sa5dkD80nAbLEnIyzkE48WXg7g1hIbdOjompFKdsHyv8UllLDdh
+exBzqdVkfCd4UWCF+89cxDhGFUB/KFKdzk3jezMTCzkFzH6U0NWSn54oRJNFYdn8
+x+1IscTm8NEZ9ghuldVcTLkiw+HDeEJ7tOgIq9REuUelwk312INaju2cxhF60Id0
+JgIrNn+p7G9E3sEMlrrfDkEAm2kzS9WDVQGJ2vG2hNpwAZZBmLPnGQuV0pFuUSCB
+Te5JrsafvUHZVWa3WrwFAxWM6F1iIfPlSXSQ1OYE6TrcSE2jWTZpWfXrHTg1oZOn
+vTg+ZPyg7VfH/VtI/BmjIGeCPDVvPwCmlIbLv351H/uZ+sLWbT0Q1c9Y8qptg0MY
+ldn2eRHR//yugNzH1QIWr6aPz0HTRHhEomrckZONP+40n1LinxHZEapOeTQnw0Ch
+IoQjaQCaNW615SGOd3z2ncpg84xcc9SS3xb8Lb2WZZb9GHCIP3479jdCj52fnlQG
+hYdjTL7nX7jwJkAXIUza7jiC2KIw7J8AfU10nxdyM9F5pHU9KS4=
+=SWdB
+-----END PGP SIGNATURE-----
+
+--huq684BweRXVnRxX--
+
+--===============1826193039==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1826193039==--
