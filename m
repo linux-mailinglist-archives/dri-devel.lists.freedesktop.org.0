@@ -2,56 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBDE17BA5D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 11:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648D117BA72
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 11:39:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6432D6E10E;
-	Fri,  6 Mar 2020 10:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2716E42D;
+	Fri,  6 Mar 2020 10:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD0BF6E10E
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 10:38:50 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id r7so1761893wro.2
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 02:38:50 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 310636ECD0
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 10:39:50 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a132so1823754wme.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 02:39:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=QBuHXkQCdmLJ0nXbzpYAf4DqRlWoqLDUktFkgtQzgGA=;
- b=AOXtqHfvj9gugJf59g0OuCHIP4kBo9ltUBqZpetVCev688+6x5zZQI3dvbK2fTr3Pr
- UjVcnqna/R491NtzDR4xmNJhDrfkQN4UkpHyPZnfMsa+6VjA6zIcS3rLzn3SQkfnOLg6
- dog7j6/QcNRKnKCkq/11uiPrIGoFE2Spxla54=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=rCwwPNd2pA0INB2HwJkp3rqo1usGcNxwzdg6ma8wOKI=;
+ b=eTHhCcEclE09OQebKxTAtBcuem6YrVVfqc6wr7gzch/KOv9hjBwMrETehU/oSBUFjX
+ l9RbDlri1cZqI8jE26fig1J/BgoL9F/ihHJocP8/UCnDCvgi1xfAqPrfmg0Ceb7WmzQm
+ aWZ7/H0OldRYsjAGDfwM90Gf9q8iHvafGPsVM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QBuHXkQCdmLJ0nXbzpYAf4DqRlWoqLDUktFkgtQzgGA=;
- b=mX7enluZtHWz1HDC5u10ESl8UZnT0uLrfYGFdWfCLVsjVYyyOBFmdxT10cEtDXP2Cw
- 3kttNXxzxrB5BGm7Uo66jH3In9nTtjStsdDBXjF5aHH3eIDNac23f7KB/qaH/d6dO00d
- Ph0vnpeYAWGh1t/rC43wIsme9AAXKAAnd6A0jb6ZvXwsBheV1RgYIz2kVDaXGsbEqcRS
- pH7S45Ps0LEeb3QgTluuwygNuLzArUpEs1/qIs9fdvRQZ/Uj0KuZpOoqW6B9ZfoPW5Zi
- C3+Olx7ZJ9sJLe2hlWhE4P7xOMeB5UbEUeoMtzsAF9xgPzvEtLjqyPmwZjiR/VMTDoW7
- sSHw==
-X-Gm-Message-State: ANhLgQ1yZd+oV3vhDe7bx+kdnZcjsjT/OHPS+djwVYOrdLShTezo6App
- pcnvvWxf1vY98opSZd89Gqk2Rg==
-X-Google-Smtp-Source: ADFU+vtBBQ9nb9nLi1ZiizM9gWpnMIhehOjRavKJTQ5P+czbD4tlRZj3ehITDNQcbRRReAywuF2e8g==
-X-Received: by 2002:a5d:4885:: with SMTP id g5mr3294585wrq.93.1583491129177;
- Fri, 06 Mar 2020 02:38:49 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=rCwwPNd2pA0INB2HwJkp3rqo1usGcNxwzdg6ma8wOKI=;
+ b=GEJgPbAjUwBTJDKZIbHB4GCdb1kMIvsaascNHEt5aI9Ro26tY89EgdTjab5pvtuUz6
+ ARIBxCCfWoXPfSWYriKWNVhOFI6x1T33OQD+/jUarfM88uDGz9h7f1JbhkfwPcO/UDKi
+ J32JDFxykfn77WihNxrXLY3zIHswIQA4BvY7TjoQ/DYu/5okwJneIqy0paEx7+hRpGGM
+ p/+1m/fTotXAsfPtYaokk03zNM5BbCkqbyoqhV7Jcg+WVsrpnda+OUEshikkUI2SR3xz
+ 1LPr6KsBZAjSy92cVt9261Zt7edRT9VKELSJrw9UvEiNFn0UNuy3ubOjlHzAD8UsIN30
+ 8RiA==
+X-Gm-Message-State: ANhLgQ1ZZhN039o7o7Jo2/6pdfRkN7m2Ya/L8jVS06BrmRtrdoFUvVGq
+ 1THmFpXnLanab3CNveNocY27IA==
+X-Google-Smtp-Source: ADFU+vsoxbiLn65abeK+CoaJTkFH/7IMTTkUgAtZxrezRu/238vSq4AIzpYtowBToyIoT+aRz7bdHg==
+X-Received: by 2002:a7b:c756:: with SMTP id w22mr3356418wmk.90.1583491188842; 
+ Fri, 06 Mar 2020 02:39:48 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b197sm13842655wmd.10.2020.03.06.02.38.47
+ by smtp.gmail.com with ESMTPSA id a184sm13066027wmf.29.2020.03.06.02.39.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 02:38:48 -0800 (PST)
-Date: Fri, 6 Mar 2020 11:38:46 +0100
+ Fri, 06 Mar 2020 02:39:48 -0800 (PST)
+Date: Fri, 6 Mar 2020 11:39:46 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>, Dave Airlie <airlied@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [v4] vgacon: Fix a UAF in vgacon_invert_region
-Message-ID: <20200306103846.GS2363188@phenom.ffwll.local>
-References: <20200304022429.37738-1-zhangxiaoxu5@huawei.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [Intel-gfx] [PATCH] MAINTAINERS: adjust to reservation.h renaming
+Message-ID: <20200306103946.GT2363188@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Joe Perches <joe@perches.com>,
+ Sebastian Duda <sebastian.duda@fau.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+References: <20200304120711.12117-1-lukas.bulwahn@gmail.com>
+ <b0296e3a-31f8-635a-f26d-8b0bc490aae3@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200304022429.37738-1-zhangxiaoxu5@huawei.com>
+In-Reply-To: <b0296e3a-31f8-635a-f26d-8b0bc490aae3@amd.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,156 +74,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: akpm@osdl.org, pmladek@suse.com, wangkefeng.wang@huawei.com,
- b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, sergey.senozhatsky@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Joe Perches <joe@perches.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Sebastian Duda <sebastian.duda@fau.de>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 04, 2020 at 10:24:29AM +0800, Zhang Xiaoxu wrote:
-> When syzkaller tests, there is a UAF:
->   BUG: KASan: use after free in vgacon_invert_region+0x9d/0x110 at addr
->     ffff880000100000
->   Read of size 2 by task syz-executor.1/16489
->   page:ffffea0000004000 count:0 mapcount:-127 mapping:          (null)
->   index:0x0
->   page flags: 0xfffff00000000()
->   page dumped because: kasan: bad access detected
->   CPU: 1 PID: 16489 Comm: syz-executor.1 Not tainted
->   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
->   rel-1.9.3-0-ge2fc41e-prebuilt.qemu-project.org 04/01/2014
->   Call Trace:
->     [<ffffffffb119f309>] dump_stack+0x1e/0x20
->     [<ffffffffb04af957>] kasan_report+0x577/0x950
->     [<ffffffffb04ae652>] __asan_load2+0x62/0x80
->     [<ffffffffb090f26d>] vgacon_invert_region+0x9d/0x110
->     [<ffffffffb0a39d95>] invert_screen+0xe5/0x470
->     [<ffffffffb0a21dcb>] set_selection+0x44b/0x12f0
->     [<ffffffffb0a3bfae>] tioclinux+0xee/0x490
->     [<ffffffffb0a1d114>] vt_ioctl+0xff4/0x2670
->     [<ffffffffb0a0089a>] tty_ioctl+0x46a/0x1a10
->     [<ffffffffb052db3d>] do_vfs_ioctl+0x5bd/0xc40
->     [<ffffffffb052e2f2>] SyS_ioctl+0x132/0x170
->     [<ffffffffb11c9b1b>] system_call_fastpath+0x22/0x27
->     Memory state around the buggy address:
->      ffff8800000fff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->      00 00
->      ffff8800000fff80: 00 00 00 00 00 00 00 00 00 00 00 00 00
->      00 00 00
->     >ffff880000100000: ff ff ff ff ff ff ff ff ff ff ff ff ff
->      ff ff ff
-> 
-> It can be reproduce in the linux mainline by the program:
->   #include <stdio.h>
->   #include <stdlib.h>
->   #include <unistd.h>
->   #include <fcntl.h>
->   #include <sys/types.h>
->   #include <sys/stat.h>
->   #include <sys/ioctl.h>
->   #include <linux/vt.h>
-> 
->   struct tiocl_selection {
->     unsigned short xs;      /* X start */
->     unsigned short ys;      /* Y start */
->     unsigned short xe;      /* X end */
->     unsigned short ye;      /* Y end */
->     unsigned short sel_mode; /* selection mode */
->   };
-> 
->   #define TIOCL_SETSEL    2
->   struct tiocl {
->     unsigned char type;
->     unsigned char pad;
->     struct tiocl_selection sel;
->   };
-> 
->   int main()
->   {
->     int fd = 0;
->     const char *dev = "/dev/char/4:1";
-> 
->     struct vt_consize v = {0};
->     struct tiocl tioc = {0};
-> 
->     fd = open(dev, O_RDWR, 0);
-> 
->     v.v_rows = 3346;
->     ioctl(fd, VT_RESIZEX, &v);
-> 
->     tioc.type = TIOCL_SETSEL;
->     ioctl(fd, TIOCLINUX, &tioc);
-> 
->     return 0;
->   }
-> 
-> When resize the screen, update the 'vc->vc_size_row' to the new_row_size,
-> but when 'set_origin' in 'vgacon_set_origin', vgacon use 'vga_vram_base'
-> for 'vc_origin' and 'vc_visible_origin', not 'vc_screenbuf'. It maybe
-> smaller than 'vc_screenbuf'. When TIOCLINUX, use the new_row_size to calc
-> the offset, it maybe larger than the vga_vram_size in vgacon driver, then
-> bad access.
-> Also, if set an larger screenbuf firstly, then set an more larger
-> screenbuf, when copy old_origin to new_origin, a bad access may happen.
-> 
-> So, If the screen size larger than vga_vram, resize screen should be
-> failed. This alse fix CVE-2020-8649 and CVE-2020-8647.
-> 
-> Fixes: 0aec4867dca14 ("[PATCH] SVGATextMode fix")
-> Reference: CVE-2020-8647 and CVE-2020-8649
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
+On Wed, Mar 04, 2020 at 01:08:32PM +0100, Christian K=F6nig wrote:
+> Am 04.03.20 um 13:07 schrieb Lukas Bulwahn:
+> > Commit 52791eeec1d9 ("dma-buf: rename reservation_object to dma_resv")
+> > renamed include/linux/reservation.h to include/linux/dma-resv.h, but
+> > missed the reference in the MAINTAINERS entry.
+> > =
 
-This seems to match the size computation used in other places in the vt
-and vgacon code. So from that pov
+> > Since then, ./scripts/get_maintainer.pl --self-test complains:
+> > =
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >    warning: no file matches F: include/linux/reservation.h
+> > =
 
-There's also no other "is this going to be bigger than the vga memory we
-have" checks anywhere, so makes sense to do that. There's a few copy
-helpers that limit the copy size to the max of vga_ram_size and
-vc->vc_screenbuf_size, but seems like not really done consistently. So
-seems to make sense, but really how did I end up getting listed as
-maintainer for vt stuff :-/
+> > Adjust the DMA BUFFER SHARING FRAMEWORK entry in MAINTAINERS.
+> > =
 
-Anyway also needs
+> > Co-developed-by: Sebastian Duda <sebastian.duda@fau.de>
+> > Signed-off-by: Sebastian Duda <sebastian.duda@fau.de>
+> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> =
 
-Cc: stable@vger.kernel.org
+> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
 
-Linus, since this missed the -fixes pull from Dave maybe double check I'm
-not grossly wrong here and apply directly?
+You'll push this too?
+-Daniel
 
-Thanks, Daniel
+> =
 
-> ---
->  drivers/video/console/vgacon.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-> index de7b8382aba9..998b0de1812f 100644
-> --- a/drivers/video/console/vgacon.c
-> +++ b/drivers/video/console/vgacon.c
-> @@ -1316,6 +1316,9 @@ static int vgacon_font_get(struct vc_data *c, struct console_font *font)
->  static int vgacon_resize(struct vc_data *c, unsigned int width,
->  			 unsigned int height, unsigned int user)
->  {
-> +	if ((width << 1) * height > vga_vram_size)
-> +		return -EINVAL;
-> +
->  	if (width % 2 || width > screen_info.orig_video_cols ||
->  	    height > (screen_info.orig_video_lines * vga_default_font_height)/
->  	    c->vc_font.height)
-> -- 
-> 2.17.2
-> 
+> > ---
+> > Christian, please pick this patch.
+> > applies cleanly on current master and next-20200303
+> > =
+
+> >   MAINTAINERS | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > =
+
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 6158a143a13e..3d6cb2789c9e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5022,7 +5022,7 @@ L:	dri-devel@lists.freedesktop.org
+> >   L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+> >   F:	drivers/dma-buf/
+> >   F:	include/linux/dma-buf*
+> > -F:	include/linux/reservation.h
+> > +F:	include/linux/dma-resv.h
+> >   F:	include/linux/*fence.h
+> >   F:	Documentation/driver-api/dma-buf.rst
+> >   K:	dma_(buf|fence|resv)
+> =
+
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
--- 
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
