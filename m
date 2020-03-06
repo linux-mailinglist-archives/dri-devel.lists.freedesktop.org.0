@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC0217B7F2
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:03:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E11817B7F5
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:04:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A0FF6EC81;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E96F6EC82;
 	Fri,  6 Mar 2020 08:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 398E76EC5A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 03:43:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97D06EC58
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 03:43:43 +0000 (UTC)
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 8A50CF91B8D15A427E9D;
+ by Forcepoint Email with ESMTP id 7A5B81D8692CED9F8EA4;
  Fri,  6 Mar 2020 11:43:40 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
@@ -23,9 +23,9 @@ To: <puck.chen@hisilicon.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <tzimmermann@suse.de>, <kraxel@redhat.com>, <alexander.deucher@amd.com>,
  <tglx@linutronix.de>, <dri-devel@lists.freedesktop.org>,
  <xinliang.liu@linaro.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/4] drm/hisilicon: Code cleanup for hibmc_drv_vdac
-Date: Fri, 6 Mar 2020 11:43:02 +0800
-Message-ID: <1583466184-7060-5-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH 3/4] drm/hisilicon: Add the load and unload for hibmc_driver
+Date: Fri, 6 Mar 2020 11:43:03 +0800
+Message-ID: <1583466184-7060-6-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1583466184-7060-1-git-send-email-tiantao6@hisilicon.com>
 References: <1583466184-7060-1-git-send-email-tiantao6@hisilicon.com>
@@ -51,88 +51,141 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-code cleanup for hibmc_drv_vdac.c, no actual function changes.
+using the load and unload function provided by drm framework instead of
+doing the same work in the hibmc_pci_probe and do some code cleanup.
 
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 49 ++++++++----------------
- 1 file changed, 16 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 62 +++++++++----------------
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  2 +
+ 2 files changed, 24 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 678ac2e..f0e6bb8 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -52,32 +52,6 @@ static const struct drm_connector_funcs hibmc_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 79a180a..51f1c70 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -23,7 +23,7 @@
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+-
++#include <drm/drm_pci.h>
+ #include "hibmc_drm_drv.h"
+ #include "hibmc_drm_regs.h"
  
--static struct drm_connector *
--hibmc_connector_init(struct hibmc_drm_private *priv)
--{
--	struct drm_device *dev = priv->dev;
--	struct drm_connector *connector;
--	int ret;
--
--	connector = devm_kzalloc(dev->dev, sizeof(*connector), GFP_KERNEL);
--	if (!connector) {
--		DRM_ERROR("failed to alloc memory when init connector\n");
--		return ERR_PTR(-ENOMEM);
--	}
--
--	ret = drm_connector_init(dev, connector,
--				 &hibmc_connector_funcs,
--				 DRM_MODE_CONNECTOR_VGA);
--	if (ret) {
--		DRM_ERROR("failed to init connector: %d\n", ret);
--		return ERR_PTR(ret);
--	}
--	drm_connector_helper_add(connector,
--				 &hibmc_connector_helper_funcs);
--
--	return connector;
--}
--
- static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
- 				   struct drm_display_mode *mode,
- 				   struct drm_display_mode *adj_mode)
-@@ -109,13 +83,6 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 	struct drm_connector *connector;
- 	int ret;
+@@ -49,6 +49,8 @@ static irqreturn_t hibmc_drm_interrupt(int irq, void *arg)
  
--	connector = hibmc_connector_init(priv);
--	if (IS_ERR(connector)) {
--		DRM_ERROR("failed to create connector: %ld\n",
--			  PTR_ERR(connector));
--		return PTR_ERR(connector);
--	}
--
- 	encoder = devm_kzalloc(dev->dev, sizeof(*encoder), GFP_KERNEL);
- 	if (!encoder) {
- 		DRM_ERROR("failed to alloc memory when init encoder\n");
-@@ -131,6 +98,22 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 	}
- 
- 	drm_encoder_helper_add(encoder, &hibmc_encoder_helper_funcs);
-+	connector = devm_kzalloc(dev->dev, sizeof(*connector), GFP_KERNEL);
-+	if (!connector) {
-+		DRM_ERROR("failed to alloc memory when init connector\n");
-+		return -ENOMEM;
-+	}
-+
-+	ret = drm_connector_init(dev, connector,
-+				 &hibmc_connector_funcs,
-+				 DRM_MODE_CONNECTOR_VGA);
-+	if (ret) {
-+		DRM_ERROR("failed to init connector: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_connector_helper_add(connector, &hibmc_connector_helper_funcs);
-+	drm_connector_register(connector);
- 	drm_connector_attach_encoder(connector, encoder);
- 
+ static struct drm_driver hibmc_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
++	.load			= hibmc_load,
++	.unload			= hibmc_unload,
+ 	.fops			= &hibmc_fops,
+ 	.name			= "hibmc",
+ 	.date			= "20160828",
+@@ -232,6 +234,21 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
  	return 0;
+ }
+ 
++static void hibmc_hw_unmap(struct hibmc_drm_private *priv)
++{
++	struct drm_device *dev = priv->dev;
++
++	if (priv->mmio) {
++		devm_iounmap(dev->dev, priv->mmio);
++		priv->mmio = NULL;
++	}
++
++	if (priv->fb_map) {
++		devm_iounmap(dev->dev, priv->fb_map);
++		priv->fb_map = NULL;
++	}
++}
++
+ static int hibmc_hw_init(struct hibmc_drm_private *priv)
+ {
+ 	int ret;
+@@ -245,7 +262,7 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
+ 	return 0;
+ }
+ 
+-static int hibmc_unload(struct drm_device *dev)
++void hibmc_unload(struct drm_device *dev)
+ {
+ 	struct hibmc_drm_private *priv = dev->dev_private;
+ 
+@@ -258,11 +275,12 @@ static int hibmc_unload(struct drm_device *dev)
+ 
+ 	hibmc_kms_fini(priv);
+ 	hibmc_mm_fini(priv);
++	hibmc_hw_unmap(priv);
+ 	dev->dev_private = NULL;
+ 	return 0;
+ }
+ 
+-static int hibmc_load(struct drm_device *dev)
++int hibmc_load(struct drm_device *dev, unsigned long flags)
+ {
+ 	struct hibmc_drm_private *priv;
+ 	int ret;
+@@ -332,43 +350,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
+ 	if (ret)
+ 		return ret;
+ 
+-	dev = drm_dev_alloc(&hibmc_driver, &pdev->dev);
+-	if (IS_ERR(dev)) {
+-		DRM_ERROR("failed to allocate drm_device\n");
+-		return PTR_ERR(dev);
+-	}
+-
+-	dev->pdev = pdev;
+-	pci_set_drvdata(pdev, dev);
+-
+-	ret = pci_enable_device(pdev);
+-	if (ret) {
+-		DRM_ERROR("failed to enable pci device: %d\n", ret);
+-		goto err_free;
+-	}
+-
+-	ret = hibmc_load(dev);
+-	if (ret) {
+-		DRM_ERROR("failed to load hibmc: %d\n", ret);
+-		goto err_disable;
+-	}
+-
+-	ret = drm_dev_register(dev, 0);
+-	if (ret) {
+-		DRM_ERROR("failed to register drv for userspace access: %d\n",
+-			  ret);
+-		goto err_unload;
+-	}
+-	return 0;
+-
+-err_unload:
+-	hibmc_unload(dev);
+-err_disable:
+-	pci_disable_device(pdev);
+-err_free:
+-	drm_dev_put(dev);
+-
+-	return ret;
++	return drm_get_pci_dev(pdev, ent, &hibmc_driver);
+ }
+ 
+ static void hibmc_pci_remove(struct pci_dev *pdev)
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+index 50a0c1f..4e89cd7 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+@@ -37,6 +37,8 @@ void hibmc_set_power_mode(struct hibmc_drm_private *priv,
+ void hibmc_set_current_gate(struct hibmc_drm_private *priv,
+ 			    unsigned int gate);
+ 
++int hibmc_load(struct drm_device *dev, unsigned long flags);
++void hibmc_unload(struct drm_device *dev);
+ int hibmc_de_init(struct hibmc_drm_private *priv);
+ int hibmc_vdac_init(struct hibmc_drm_private *priv);
+ 
 -- 
 2.7.4
 
