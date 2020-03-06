@@ -2,34 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4052A17CD82
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253E217CD7D
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:14:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88B8E6E147;
-	Sat,  7 Mar 2020 10:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDD166E13B;
+	Sat,  7 Mar 2020 10:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5ED736E84B
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 09:52:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0FAB331B;
- Fri,  6 Mar 2020 01:52:05 -0800 (PST)
-Received: from [192.168.1.161] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 693DB3F6C4;
- Fri,  6 Mar 2020 01:52:03 -0800 (PST)
-Subject: Re: [PATCH] drm: komeda: Make rt_pm_ops dependent on CONFIG_PM
-To: Liviu Dudau <liviu.dudau@arm.com>
-References: <20200304145412.33936-1-vincenzo.frascino@arm.com>
- <20200305184255.GH364558@e110455-lin.cambridge.arm.com>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <be7a17bf-86f8-a086-9783-3f4a211cf9e3@arm.com>
-Date: Fri, 6 Mar 2020 09:52:25 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 241FF6ECC8
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 10:30:52 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 026AORpl008903; Fri, 6 Mar 2020 11:29:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=IukcALM/LFo7ZNhzI6tBOK/8vY0XhfAkNL6xF8zqy74=;
+ b=Ul/MkeLhpH/q64O3k75Vdqz6ozVq6MZJjG2A7UeOrtjCIz9waVVko9idTMLpfpjusg/J
+ UOa/+IlwZ0GlIh5dTy0lzI3lu5B+d7aFo5TYbtJBgJKVRtg8VyawXtPh8G2shSHd7Lpc
+ KAUnURftrnyBRwjm21SBUz70eeacDbadq3fVsC5djJ/oXRmhyzy1CEUJYDDCa8TzsBgo
+ IjMsSvXhKKU0gt93iv2EpQYaqFSAtzFSSUKgZSdctAuXwbGWi40k2bzjhhCUpuP2ae97
+ BbeXCHs3IzwgRmDgICtCSzKnEhWXj1pdSbmFhQWMThjmR1OlrJiQsK3rP0oF/WzlX6xX GQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 2yfea7ej2s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 Mar 2020 11:29:44 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 72D69100038;
+ Fri,  6 Mar 2020 11:29:40 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4781D2A76CB;
+ Fri,  6 Mar 2020 11:29:40 +0100 (CET)
+Received: from localhost (10.75.127.48) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 6 Mar 2020 11:29:39
+ +0100
+From: Benjamin Gaignard <benjamin.gaignard@st.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <emil.l.velikov@gmail.com>
+Subject: [PATCH] drm: vm: Clean up documentation
+Date: Fri, 6 Mar 2020 11:29:34 +0100
+Message-ID: <20200306102937.4932-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-In-Reply-To: <20200305184255.GH364558@e110455-lin.cambridge.arm.com>
-Content-Language: en-US
+X-Originating-IP: [10.75.127.48]
+X-ClientProxiedBy: SFHDAG6NODE3.st.com (10.75.127.18) To SFHDAG3NODE3.st.com
+ (10.75.127.9)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-06_02:2020-03-05,
+ 2020-03-06 signatures=0
 X-Mailman-Approved-At: Sat, 07 Mar 2020 10:14:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,55 +66,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@st.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGl2aXUsCgpPbiAzLzUvMjAgNjo0MiBQTSwgTGl2aXUgRHVkYXUgd3JvdGU6Cj4gT24gV2Vk
-LCBNYXIgMDQsIDIwMjAgYXQgMDI6NTQ6MTJQTSArMDAwMCwgVmluY2Vuem8gRnJhc2Npbm8gd3Jv
-dGU6Cj4+IGtvbWVkYV9ydF9wbV9zdXNwZW5kKCkgYW5kIGtvbWVkYV9ydF9wbV9yZXN1bWUoKSBh
-cmUgY29tcGlsZWQgb25seSB3aGVuCj4+IENPTkZJR19QTSBpcyBlbmFibGVkLiBIYXZpbmcgaXQg
-ZGlzYWJsZWQgdHJpZ2dlcnMgdGhlIGZvbGxvd2luZyB3YXJuaW5nCj4+IGF0IGNvbXBpbGUgdGlt
-ZToKPj4KPj4gbGludXgvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFf
-ZHJ2LmM6MTU2OjEyOgo+PiB3YXJuaW5nOiDigJhrb21lZGFfcnRfcG1fcmVzdW1l4oCZIGRlZmlu
-ZWQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1mdW5jdGlvbl0KPj4gIHN0YXRpYyBpbnQga29tZWRh
-X3J0X3BtX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpCj4+ICAgICAgICAgICAgIF5+fn5+fn5+
-fn5+fn5+fn5+fn4KPj4gbGludXgvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9r
-b21lZGFfZHJ2LmM6MTQ5OjEyOgo+PiB3YXJuaW5nOiDigJhrb21lZGFfcnRfcG1fc3VzcGVuZOKA
-mSBkZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtZnVuY3Rpb25dCj4+ICBzdGF0aWMgaW50
-IGtvbWVkYV9ydF9wbV9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPj4KPj4gTWFrZSBrb21l
-ZGFfcnRfcG1fc3VzcGVuZCgpIGFuZCBrb21lZGFfcnRfcG1fcmVzdW1lKCkgZGVwZW5kZW50IG9u
-Cj4+IENPTkZJR19QTSB0byBhZGRyZXNzIHRoZSBpc3N1ZS4KPj4KPj4gQ2M6ICJKYW1lcyAoUWlh
-bikgV2FuZyIgPGphbWVzLnFpYW4ud2FuZ0Bhcm0uY29tPgo+PiBDYzogTGl2aXUgRHVkYXUgPGxp
-dml1LmR1ZGF1QGFybS5jb20+Cj4+IENjOiBNaWhhaWwgQXRhbmFzc292IDxtaWhhaWwuYXRhbmFz
-c292QGFybS5jb20+Cj4+IENjOiBCcmlhbiBTdGFya2V5IDxicmlhbi5zdGFya2V5QGFybS5jb20+
-Cj4+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4+IENjOiBEYW5pZWwgVmV0
-dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4+IFNpZ25lZC1vZmYtYnk6IFZpbmNlbnpvIEZyYXNjaW5v
-IDx2aW5jZW56by5mcmFzY2lub0Bhcm0uY29tPgo+IAo+IEFja2VkLWJ5OiBMaXZpdSBEdWRhdSA8
-bGl2aXUuZHVkYXVAYXJtLmNvbT4KPiAKPiBUaGFua3MgZm9yIHRoZSBwYXRjaCwgSSB3aWxsIHB1
-c2ggaXQgaW50byBkcm0tbWlzYy1maXhlcyB0b21vcnJvdy4KPiAKClRoYW5rIHlvdSEKCj4gQmVz
-dCByZWdhcmRzLAo+IExpdml1Cj4gCj4+IC0tLQo+PiAgZHJpdmVycy9ncHUvZHJtL2FybS9kaXNw
-bGF5L2tvbWVkYS9rb21lZGFfZHJ2LmMgfCAyICsrCj4+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNl
-cnRpb25zKCspCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkv
-a29tZWRhL2tvbWVkYV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEv
-a29tZWRhX2Rydi5jCj4+IGluZGV4IGVhNWNkMWUxNzMwNC4uZGQzYWUzZDg4Njg3IDEwMDY0NAo+
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kcnYuYwo+
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kcnYuYwo+
-PiBAQCAtMTQ2LDYgKzE0Niw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGtv
-bWVkYV9vZl9tYXRjaFtdID0gewo+PiAgCj4+ICBNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBrb21l
-ZGFfb2ZfbWF0Y2gpOwo+PiAgCj4+ICsjaWZkZWYgQ09ORklHX1BNCj4+ICBzdGF0aWMgaW50IGtv
-bWVkYV9ydF9wbV9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPj4gIHsKPj4gIAlzdHJ1Y3Qg
-a29tZWRhX2RydiAqbWRydiA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwo+PiBAQCAtMTU5LDYgKzE2
-MCw3IEBAIHN0YXRpYyBpbnQga29tZWRhX3J0X3BtX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYp
-Cj4+ICAKPj4gIAlyZXR1cm4ga29tZWRhX2Rldl9yZXN1bWUobWRydi0+bWRldik7Cj4+ICB9Cj4+
-ICsjZW5kaWYgLyogQ09ORklHX1BNICovCj4+ICAKPj4gIHN0YXRpYyBpbnQgX19tYXliZV91bnVz
-ZWQga29tZWRhX3BtX3N1c3BlbmQoc3RydWN0IGRldmljZSAqZGV2KQo+PiAgewo+PiAtLSAKPj4g
-Mi4yNS4xCj4+Cj4gCgotLSAKUmVnYXJkcywKVmluY2Vuem8KX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Fix kernel doc comments to avoid warnings when compiling with W=1.
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+---
+ drivers/gpu/drm/drm_vm.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
+index 64619fe90046..aa88911bbc06 100644
+--- a/drivers/gpu/drm/drm_vm.c
++++ b/drivers/gpu/drm/drm_vm.c
+@@ -102,7 +102,7 @@ static pgprot_t drm_dma_prot(uint32_t map_type, struct vm_area_struct *vma)
+ 	return tmp;
+ }
+ 
+-/**
++/*
+  * \c fault method for AGP virtual memory.
+  *
+  * \param vma virtual memory area.
+@@ -192,7 +192,7 @@ static vm_fault_t drm_vm_fault(struct vm_fault *vmf)
+ }
+ #endif
+ 
+-/**
++/*
+  * \c nopage method for shared virtual memory.
+  *
+  * \param vma virtual memory area.
+@@ -225,7 +225,7 @@ static vm_fault_t drm_vm_shm_fault(struct vm_fault *vmf)
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * \c close method for shared virtual memory.
+  *
+  * \param vma virtual memory area.
+@@ -294,7 +294,7 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
+ 	mutex_unlock(&dev->struct_mutex);
+ }
+ 
+-/**
++/*
+  * \c fault method for DMA virtual memory.
+  *
+  * \param address access address.
+@@ -329,7 +329,7 @@ static vm_fault_t drm_vm_dma_fault(struct vm_fault *vmf)
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * \c fault method for scatter-gather virtual memory.
+  *
+  * \param address access address.
+@@ -435,7 +435,7 @@ static void drm_vm_close_locked(struct drm_device *dev,
+ 	}
+ }
+ 
+-/**
++/*
+  * \c close method for all virtual memory types.
+  *
+  * \param vma virtual memory area.
+@@ -453,7 +453,7 @@ static void drm_vm_close(struct vm_area_struct *vma)
+ 	mutex_unlock(&dev->struct_mutex);
+ }
+ 
+-/**
++/*
+  * mmap DMA memory.
+  *
+  * \param file_priv DRM file private.
+@@ -513,7 +513,7 @@ static resource_size_t drm_core_get_reg_ofs(struct drm_device *dev)
+ #endif
+ }
+ 
+-/**
++/*
+  * mmap DMA memory.
+  *
+  * \param file_priv DRM file private.
+-- 
+2.15.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
