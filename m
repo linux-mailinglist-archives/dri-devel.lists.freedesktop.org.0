@@ -2,46 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C236817B7DE
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1197617B7F4
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 09:04:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC7D6EC6B;
-	Fri,  6 Mar 2020 08:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F6B96EC87;
+	Fri,  6 Mar 2020 08:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 180856EC50
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 02:34:20 +0000 (UTC)
-X-UUID: 0bcd69818ec44aa19b87aa0671e71ffa-20200306
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=lw7Z2hh6lxCttqw2IBWx1RQ1VaA6UHtHaJjaKiScxsU=; 
- b=e6ayxYvJPghsOeTmMKrxd+rDVv0LvxracPf2u1WBaq49Z7bf7awGJRY7Z9RXTt8/QyLyOp6nBUPB/iuIuHDkxt80A9kyPZ9ZMmjB8bJs6tJlqhBxcfDfOxmyxMltr6TCrFy6XOwb04o6zTxdOMyGNUjxdVoXWcum5c0B1+qgdZg=;
-X-UUID: 0bcd69818ec44aa19b87aa0671e71ffa-20200306
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <nick.fan@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1834358050; Fri, 06 Mar 2020 10:34:16 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 6 Mar 2020 10:33:05 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 6 Mar 2020 10:34:16 +0800
-Message-ID: <1583462055.4947.6.camel@mtksdaap41>
-Subject: Re: [PATCH v4 1/7] dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
-From: Nick Fan <nick.fan@mediatek.com>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Date: Fri, 6 Mar 2020 10:34:15 +0800
-In-Reply-To: <CANMq1KAVX4o5yC7c_88Wq_O=F+MaSN_V4uNcs1nzS3wBS6A5AA@mail.gmail.com>
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <20200207052627.130118-2-drinkcat@chromium.org>
- <20200225171613.GA7063@bogus>
- <CANMq1KAVX4o5yC7c_88Wq_O=F+MaSN_V4uNcs1nzS3wBS6A5AA@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3926EC54
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 03:17:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Date:Message-ID:Subject:Cc:From:To:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=o08bZPm/RS6A9C1jh4GWQzSm+/n79bG6xV2CG+lU8+w=; b=I0bxC8pLrA+EH6gd/iaXIZyDdE
+ VbHS7Ag0gperjDyalKKLEcJ/Pup74p9O36tpqgFzJXHl89k8pDwdxCyOSdsCs88TbDgbeSN917Izv
+ F93CsnajQFN7nQSgjmYitC3B4UloMvN2uzMxiFBjLi01V55cEZoqL0iveUJc4OWz720TINdo3V55P
+ Xj4Bsz8Euok8q49KS5QCJNjouANuuh3nbi2hy+eGoDFJGnPzY3gjzckADF3BA/A2tUddsekEXe1Ar
+ fwt4vV72TEdInyU1CC0TeT790zvZnhhndudq6Nd+nWTPBfip0RschhVSgRdeZIjux01++ZxUiGyj6
+ vRnTnAJQ==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jA3Uk-0003vv-65; Fri, 06 Mar 2020 03:17:50 +0000
+To: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: [RFC PATCH] drm: rcar-du: make all sub-symbols depend on DRM_RCAR_DU
+Message-ID: <4b50cc9f-1434-b78a-d56a-fadfd030f002@infradead.org>
+Date: Thu, 5 Mar 2020 19:17:49 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MTK: N
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 06 Mar 2020 08:03:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,121 +49,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Devicetree List <devicetree@vger.kernel.org>, David
- Airlie <airlied@linux.ie>, lkml <linux-kernel@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Sj Huang <sj.huang@mediatek.com>,
- Mark Brown <broonie@kernel.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry for my late reply.
-I have checked internally.
-The MT8183_POWER_DOMAIN_MFG_2D is just a legacy name, not really 2D
-domain.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-If the naming too confusing, we can change this name to
-MT8183_POWER_DOMAIN_MFG_CORE2 for consistency.
+DRM_RCAR_CMM depends on DRM_RCAR_DU. Since the following Kconfig
+symbols do not depend on DRM_RCAR_DU, the menu presentation is
+broken for these and following non-R-Car Kconfig symbols.
 
-Thanks
+Is it safe/appropriate to make all of these symbols depend on
+DRM_RCAR_DU?  It make the kconfig menu presentation much cleaner.
 
-Nick Fan
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Cc: Dave Airlie <airlied@linux.ie>
+---
+ drivers/gpu/drm/rcar-du/Kconfig |    3 +++
+ 1 file changed, 3 insertions(+)
 
-On Wed, 2020-02-26 at 08:55 +0800, Nicolas Boichat wrote:
-
-> +Nick Fan +Sj Huang @ MTK
-> 
-> On Wed, Feb 26, 2020 at 1:16 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Fri, Feb 07, 2020 at 01:26:21PM +0800, Nicolas Boichat wrote:
-> > > Define a compatible string for the Mali Bifrost GPU found in
-> > > Mediatek's MT8183 SoCs.
-> > >
-> > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> > > ---
-> > >
-> > > v4:
-> > >  - Add power-domain-names description
-> > >    (kept Alyssa's reviewed-by as the change is minor)
-> > > v3:
-> > >  - No change
-> > >
-> > >  .../bindings/gpu/arm,mali-bifrost.yaml        | 25 +++++++++++++++++++
-> > >  1 file changed, 25 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > > index 4ea6a8789699709..0d93b3981445977 100644
-> > > --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > > +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > > @@ -17,6 +17,7 @@ properties:
-> > >      items:
-> > >        - enum:
-> > >            - amlogic,meson-g12a-mali
-> > > +          - mediatek,mt8183-mali
-> > >            - realtek,rtd1619-mali
-> > >            - rockchip,px30-mali
-> > >        - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-> > > @@ -62,6 +63,30 @@ allOf:
-> > >            minItems: 2
-> > >        required:
-> > >          - resets
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            const: mediatek,mt8183-mali
-> > > +    then:
-> > > +      properties:
-> > > +        sram-supply: true
-> > > +        power-domains:
-> > > +          description:
-> > > +            List of phandle and PM domain specifier as documented in
-> > > +            Documentation/devicetree/bindings/power/power_domain.txt
-> > > +          minItems: 3
-> > > +          maxItems: 3
-> > > +        power-domain-names:
-> > > +          items:
-> > > +            - const: core0
-> > > +            - const: core1
-> > > +            - const: 2d
-> >
-> > AFAIK, there's no '2d' block in bifrost GPUs. A power domain for each
-> > core group is correct though.
-> 
-> Good question... Hopefully Nick/SJ@MTK can comment, the non-upstream DTS has:
-> gpu: mali@13040000 {
-> compatible = "mediatek,mt8183-mali", "arm,mali-bifrost";
-> power-domains = <&scpsys MT8183_POWER_DOMAIN_MFG_CORE0>;
-> ...
-> }
-> 
-> gpu_core1: mali_gpu_core1 {
-> compatible = "mediatek,gpu_core1";
-> power-domains = <&scpsys MT8183_POWER_DOMAIN_MFG_CORE1>;
-> };
-> 
-> gpu_core2: mali_gpu_core2 {
-> compatible = "mediatek,gpu_core2";
-> power-domains = <&scpsys MT8183_POWER_DOMAIN_MFG_2D>;
-> };
-> 
-> So I picked core0/core1/2d as names, but looking at this, it's likely
-> core2 is more appropriate (and MT8183_POWER_DOMAIN_MFG_2D might just
-> be a internal/legacy name, if there is no real 2d domain).
-> 
-> Thanks.
-> 
-> > Rob
+--- linux-next-20200305.orig/drivers/gpu/drm/rcar-du/Kconfig
++++ linux-next-20200305/drivers/gpu/drm/rcar-du/Kconfig
+@@ -24,6 +24,7 @@ config DRM_RCAR_CMM
+ config DRM_RCAR_DW_HDMI
+ 	tristate "R-Car DU Gen3 HDMI Encoder Support"
+ 	depends on DRM && OF
++	depends on DRM_RCAR_DU
+ 	select DRM_DW_HDMI
+ 	help
+ 	  Enable support for R-Car Gen3 internal HDMI encoder.
+@@ -31,6 +32,7 @@ config DRM_RCAR_DW_HDMI
+ config DRM_RCAR_LVDS
+ 	tristate "R-Car DU LVDS Encoder Support"
+ 	depends on DRM && DRM_BRIDGE && OF
++	depends on DRM_RCAR_DU
+ 	select DRM_PANEL
+ 	select OF_FLATTREE
+ 	select OF_OVERLAY
+@@ -47,4 +49,5 @@ config DRM_RCAR_VSP
+ 
+ config DRM_RCAR_WRITEBACK
+ 	bool
++	depends on DRM_RCAR_DU
+ 	default y if ARM64
 
 _______________________________________________
 dri-devel mailing list
