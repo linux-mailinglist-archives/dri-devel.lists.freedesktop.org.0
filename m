@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43A317B53D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 05:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0EB17B53E
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 05:14:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7D66EC60;
-	Fri,  6 Mar 2020 04:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF8376EC61;
+	Fri,  6 Mar 2020 04:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 962446EC62
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 04:14:05 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id g21so448101pfb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 20:14:05 -0800 (PST)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C9F6EC61
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 04:14:08 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id s2so460374pgv.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2020 20:14:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mZHNTw4SE3kOWwVknWFPKUrQ1ZVeKTfbVBIEBgdbJEY=;
- b=k1zGsGNc2op5navHqJUmfJnlqXF2SIMxGwKXMlUCnXt9rkmSdDX6Pvp4QwBWTph7zW
- UmZDgjq/YJN+aB8K4Nr8Yjp6Ctzbra3GsGawt8s/1cy9kNUlxDtcdmKYSdzYOc2ozAwR
- z7EIT/2t6q/nL/wYBvnleCud6PBMt4qDR3dk8=
+ bh=HBQjB4ox8U6+jb9VTlZJwNfTVSaeefy9+hgMvIEjQ6A=;
+ b=FtRQUH5OUYVpJqGJFw4pf9BDWO86UmyPSwW6T6ArUmvKy+L8NZMKS69Zd8g6fgHCW6
+ 0mPP31u/78DXkPHUWk58NTxqvEUigQ2ZUzi57fYwL3Tw0W46bVVBAmEoPQdIec+ubGsw
+ uDgYe71S/MAZJ9YwsWGuUpRN4MnSZ34NbGypE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mZHNTw4SE3kOWwVknWFPKUrQ1ZVeKTfbVBIEBgdbJEY=;
- b=RO6gocZZhn2uCYgqkQR1JPZTglpJwsmFDgIKJno8iio4hDlCDoRNd0Ibh0evxFZWhm
- sF2wFVpM6hiDsFIuPlj8QjM2ajSEqbj1BoM1URWj3sGqMwDQD2LvOLFydunGvILh+bv/
- MoDBERTmCL48fO6F2cwWcGLA7G4ygs4HsSfvoUo4x33/FFwwbOh55eN6QmaKrk6bfDt/
- jGvBoLH0ehva6/2yWpzGdWDl+rnoxlkyz9STVfd4b+a/knO1ZFD8ik2Q+LwTrYtiCpN1
- eZy9uNfcsPjkXzvjJeb4dpGEfRPJJC3DmPhIbaM21Ulv/ikwHJAmcmOtN3sGiJwHOvuy
- tlFA==
-X-Gm-Message-State: ANhLgQ28C1RJkQL/TiX23LryOZaGC1dcXhy19k+uuvJXohypVHqcwFPs
- O4JOyY+9Axaq2IFad8vuZvjahw==
-X-Google-Smtp-Source: ADFU+vs/j6aQZZ/8TpvTzBDFwv9bk8b1y/hiw7ywm2BIyvth3q+IirQdvmZj5kxzLWmMLEiAVTW8yw==
-X-Received: by 2002:a63:3142:: with SMTP id x63mr1455866pgx.138.1583468045232; 
- Thu, 05 Mar 2020 20:14:05 -0800 (PST)
+ bh=HBQjB4ox8U6+jb9VTlZJwNfTVSaeefy9+hgMvIEjQ6A=;
+ b=UzaR1Ud2vQevd+39bNOdtGrvzT3L5GT4bgU0JRz7+XpdI+GB4YLM9BrI/NUbLU+orE
+ UgeXHMF3rtmdgTgcuu0M7qQvZOS3iQebFaNx0znn8+NS/SmpfgyLwlMNAh6Ttwf+kt77
+ Inr8gSwObJZf4rxEokNMFMEo2oNwpCT6KsRbpg8CRIrgbB3V+BRENxhLbGrUSWSdp263
+ lSjeOwQUVf0odRJ4pylIwpgoKJsi/2DceDhUMYd2GBp8QF4FgktUMtSzktT6SOYMNcBh
+ 3pdlanXLID+7CqAViVj4+SIjoAQjD24Fbb0VChXVFfqchGoWJ3f+LSqhP/iiuT+OlK3v
+ R1xw==
+X-Gm-Message-State: ANhLgQ3o1WKGGjSfB3AtHuFnVipwmkyzoVxXzV6Tjcb33zgIk4qrNv2Z
+ VHwIb2/vhnvjO5aiqrfhHWDs0g==
+X-Google-Smtp-Source: ADFU+vsHo4JJ0N0WFqJ3nS6YhRMnj4RG/U8gRhcWvtDaY/ZipOvv4uxKm2K74UZgakBp4IYhT3R3Uw==
+X-Received: by 2002:a63:d0b:: with SMTP id c11mr1383026pgl.296.1583468048577; 
+ Thu, 05 Mar 2020 20:14:08 -0800 (PST)
 Received: from drinkcat2.tpe.corp.google.com
  ([2401:fa00:1:b:d8b7:33af:adcb:b648])
- by smtp.gmail.com with ESMTPSA id q97sm6295025pja.9.2020.03.05.20.14.02
+ by smtp.gmail.com with ESMTPSA id q97sm6295025pja.9.2020.03.05.20.14.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 20:14:04 -0800 (PST)
+ Thu, 05 Mar 2020 20:14:07 -0800 (PST)
 From: Nicolas Boichat <drinkcat@chromium.org>
 To: Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v5 3/4] RFC: drm/panfrost: Add mt8183-mali compatible string
-Date: Fri,  6 Mar 2020 12:13:44 +0800
-Message-Id: <20200306041345.259332-4-drinkcat@chromium.org>
+Subject: [PATCH v5 4/4] RFC: drm/panfrost: devfreq: Add support for 2
+ regulators
+Date: Fri,  6 Mar 2020 12:13:45 +0800
+Message-Id: <20200306041345.259332-5-drinkcat@chromium.org>
 X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
 In-Reply-To: <20200306041345.259332-1-drinkcat@chromium.org>
 References: <20200306041345.259332-1-drinkcat@chromium.org>
@@ -77,52 +78,68 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For testing only, the driver doesn't really work yet, AFAICT.
+The Bifrost GPU on MT8183 uses 2 regulators (core and SRAM) for
+devfreq, and provides OPP table with 2 sets of voltages.
+
+TODO: This is incomplete as we'll need add support for setting
+a pair of voltages as well. I also realized that the out-of-tree
+driver has complex logic to ensure voltage delta between the
+regulators stays within a specific range, so we'd need to port
+that as well.
 
 Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-
 ---
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c | 17 +++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_device.h  |  1 +
+ 2 files changed, 18 insertions(+)
 
-v5:
- - Change power domain name from 2d to core2.
-v4:
- - Add power domain names.
-v3:
- - Match mt8183-mali instead of bifrost, as we require special
-   handling for the 2 regulators and 3 power domains.
-
- drivers/gpu/drm/panfrost/panfrost_drv.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index a6e162236d67fdf..ff76b29b373e105 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -667,6 +667,15 @@ static const struct panfrost_compatible default_data = {
- 	.pm_domain_names = NULL,
- };
+diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+index 413987038fbfccb..9c0987a3d71c597 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
++++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+@@ -79,6 +79,21 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+ 	struct devfreq *devfreq;
+ 	struct thermal_cooling_device *cooling;
  
-+const char * const mediatek_mt8183_supplies[] = { "mali", "sram" };
-+const char * const mediatek_mt8183_pm_domains[] = { "core0", "core1", "core2" };
-+static const struct panfrost_compatible mediatek_mt8183_data = {
-+	.num_supplies = ARRAY_SIZE(mediatek_mt8183_supplies),
-+	.supply_names = mediatek_mt8183_supplies,
-+	.num_pm_domains = 3,
-+	.pm_domain_names = mediatek_mt8183_pm_domains,
-+};
++	/* If we have 2 regulator, we need an OPP table with 2 voltages. */
++	if (pfdev->comp->num_supplies > 1) {
++		pfdev->devfreq.dev_opp_table =
++			dev_pm_opp_set_regulators(dev,
++					pfdev->comp->supply_names,
++					pfdev->comp->num_supplies);
++		if (IS_ERR(pfdev->devfreq.dev_opp_table)) {
++			ret = PTR_ERR(pfdev->devfreq.dev_opp_table);
++			pfdev->devfreq.dev_opp_table = NULL;
++			dev_err(dev,
++				"Failed to init devfreq opp table: %d\n", ret);
++			return ret;
++		}
++	}
 +
- static const struct of_device_id dt_match[] = {
- 	{ .compatible = "arm,mali-t604", .data = &default_data, },
- 	{ .compatible = "arm,mali-t624", .data = &default_data, },
-@@ -677,6 +686,8 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "arm,mali-t830", .data = &default_data, },
- 	{ .compatible = "arm,mali-t860", .data = &default_data, },
- 	{ .compatible = "arm,mali-t880", .data = &default_data, },
-+	{ .compatible = "mediatek,mt8183-mali",
-+		.data = &mediatek_mt8183_data },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, dt_match);
+ 	ret = dev_pm_opp_of_add_table(dev);
+ 	if (ret == -ENODEV) /* Optional, continue without devfreq */
+ 		return 0;
+@@ -119,6 +134,8 @@ void panfrost_devfreq_fini(struct panfrost_device *pfdev)
+ 	if (pfdev->devfreq.cooling)
+ 		devfreq_cooling_unregister(pfdev->devfreq.cooling);
+ 	dev_pm_opp_of_remove_table(&pfdev->pdev->dev);
++	if (pfdev->devfreq.dev_opp_table)
++		dev_pm_opp_put_regulators(pfdev->devfreq.dev_opp_table);
+ }
+ 
+ void panfrost_devfreq_resume(struct panfrost_device *pfdev)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index c30c719a805940a..5009a8b7c853ea1 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -110,6 +110,7 @@ struct panfrost_device {
+ 	struct {
+ 		struct devfreq *devfreq;
+ 		struct thermal_cooling_device *cooling;
++		struct opp_table *dev_opp_table;
+ 		ktime_t busy_time;
+ 		ktime_t idle_time;
+ 		ktime_t time_last_update;
 -- 
 2.25.1.481.gfbce0eb801-goog
 
