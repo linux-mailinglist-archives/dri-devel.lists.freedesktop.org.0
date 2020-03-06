@@ -1,60 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F7A17C796
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 22:09:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E246417C7BF
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 22:18:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36F9D6E507;
-	Fri,  6 Mar 2020 21:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A081A6E511;
+	Fri,  6 Mar 2020 21:18:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDD66E507
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 21:09:03 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id r7so3968119wro.2
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 13:09:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:mime-version
- :content-disposition;
- bh=26Sq85vpjRSteJm5jvInxBanL+YHiCYPey00VEQD8F8=;
- b=cLRtfxoZGwd49oQ/cSgBBxapBQC8Ed31LFCvLKWWm4zURoL5NCgL9T6gXU3O/YLX9b
- bu2ClVKTMWAagnJmjZ8UVHBajmkrZ6AOI/4D6UohQnUw8oAacXTpoKIADxsE993noHXC
- T7RZFsQ8UvKvgFY4lOe9GS/lvqoZMbcrzc3mY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:mime-version:content-disposition;
- bh=26Sq85vpjRSteJm5jvInxBanL+YHiCYPey00VEQD8F8=;
- b=FJDqH0kKWXmKmNsjQJQ2aUsQ3GuUGs/9lQ+XRWyM1gr4CpO9xZyZlPkSQbqYV4E8Jg
- JW0Of5ae0t6ksLm6xFAMDLw8Tqdd1ZCAC09AkDf/8YJumKczKWRu3L03Tb1RvV002DBf
- aimwKFXdy4uCM98SHkhjln7cUsHaZp6YMcnr697K6tgmru01RlR8R3xkFch9K6oK8K7A
- rvnrBg+dyib5xZzR6yi3NcONjUW79EdRNPokcZqL48ucimYnhs9BzbobAZvwluMPopkP
- OuHTeJb5ZAP+3ubv2cJvZc4/dVe4izmd9yATzH757fBKZzy2uAYttN/KhvOq/WbMgqT4
- 73gg==
-X-Gm-Message-State: ANhLgQ3myglgydwpy8zDOwxt8sRymIxu8723V2g//iAfsP7AE92NxBpD
- Mwk6rSSrTiYet8egUDy/GMSD5w==
-X-Google-Smtp-Source: ADFU+vsACGhb6mJONDejOXhmARY5fMWATKiKJGT1hnE1V39dTnC/f5B9Nuv19LJ5/6zOD+TOq1plsw==
-X-Received: by 2002:adf:ec45:: with SMTP id w5mr5661870wrn.230.1583528941542; 
- Fri, 06 Mar 2020 13:09:01 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o16sm35619867wrj.5.2020.03.06.13.08.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 13:09:00 -0800 (PST)
-Date: Fri, 6 Mar 2020 22:08:54 +0100
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Dave Airlie <airlied@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PULL] drm-fixes
-Message-ID: <20200306210854.GA638432@phenom.ffwll.local>
-Mail-Followup-To: Dave Airlie <airlied@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- dri-devel@lists.freedesktop.org,
- LKML <linux-kernel@vger.kernel.org>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41A836E511
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 21:18:18 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 92F132001E;
+ Fri,  6 Mar 2020 22:18:04 +0100 (CET)
+Date: Fri, 6 Mar 2020 22:18:03 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 01/22] drm/arc: Use simple encoder
+Message-ID: <20200306211802.GA17369@ravnborg.org>
+References: <20200305155950.2705-1-tzimmermann@suse.de>
+ <20200305155950.2705-2-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200305155950.2705-2-tzimmermann@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=rqCPFu_3IIfdMowE660A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,48 +45,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
+ linux@armlinux.org.uk, paul@crapouillou.net, thierry.reding@gmail.com,
+ krzk@kernel.org, sebastian.reichel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com, hjc@rock-chips.com,
+ tomi.valkeinen@ti.com, abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com,
+ jonathanh@nvidia.com, xinliang.liu@linaro.org, ludovic.desroches@microchip.com,
+ kgene@kernel.org, linux-imx@nxp.com, linux-rockchip@lists.infradead.org,
+ virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
+ jsarha@ti.com, matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
+ jernej.skrabec@siol.net, kraxel@redhat.com, rodrigosiqueiramelo@gmail.com,
+ bbrezillon@kernel.org, jingoohan1@gmail.com, dri-devel@lists.freedesktop.org,
+ sw0312.kim@samsung.com, nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
+ kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
+ linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
+ laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Thu, Mar 05, 2020 at 04:59:29PM +0100, Thomas Zimmermann wrote:
+> The arc driver uses empty implementations for its encoders. Replace
+> the code with the generic simple encoder.
 
-Here's the pull for the lone vgacon fix that we discussed. I added a short
-explanation to the commit message where the overflow safety check is.
+We should , as a follow-up patch, embed the encoder in
+arcgpu_drm_private.
+Then we drop the kzalloc() and avoid that life-time challenge.
 
-drm-fixes-2020-03-06-1:
-one vgacon input check for stable
+This patch looks good for what it does.
 
-Cheers, Daniel
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-The following changes since commit 2ac4853e295bba53209917e14af701c45c99ce04:
-
-  Merge tag 'amd-drm-fixes-5.6-2020-03-05' of git://people.freedesktop.org/~agd5f/linux into drm-fixes (2020-03-06 11:06:33 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-03-06-1
-
-for you to fetch changes up to 513dc792d6060d5ef572e43852683097a8420f56:
-
-  vgacon: Fix a UAF in vgacon_invert_region (2020-03-06 21:06:34 +0100)
-
-----------------------------------------------------------------
-one vgacon input check for stable
-
-----------------------------------------------------------------
-Zhang Xiaoxu (1):
-      vgacon: Fix a UAF in vgacon_invert_region
-
- drivers/video/console/vgacon.c | 3 +++
- 1 file changed, 3 insertions(+)
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/arc/arcpgu_hdmi.c | 10 +++-------
+>  drivers/gpu/drm/arc/arcpgu_sim.c  |  8 ++------
+>  2 files changed, 5 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arc/arcpgu_hdmi.c b/drivers/gpu/drm/arc/arcpgu_hdmi.c
+> index 52839934f2fb..780911765e2e 100644
+> --- a/drivers/gpu/drm/arc/arcpgu_hdmi.c
+> +++ b/drivers/gpu/drm/arc/arcpgu_hdmi.c
+> @@ -7,15 +7,12 @@
+>  
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+> -#include <drm/drm_encoder.h>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>  
+>  #include "arcpgu.h"
+>  
+> -static struct drm_encoder_funcs arcpgu_drm_encoder_funcs = {
+> -	.destroy = drm_encoder_cleanup,
+> -};
+> -
+>  int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np)
+>  {
+>  	struct drm_encoder *encoder;
+> @@ -34,8 +31,7 @@ int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np)
+>  
+>  	encoder->possible_crtcs = 1;
+>  	encoder->possible_clones = 0;
+> -	ret = drm_encoder_init(drm, encoder, &arcpgu_drm_encoder_funcs,
+> -			       DRM_MODE_ENCODER_TMDS, NULL);
+> +	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/arc/arcpgu_sim.c b/drivers/gpu/drm/arc/arcpgu_sim.c
+> index 37d961668dfe..66ca2c26e339 100644
+> --- a/drivers/gpu/drm/arc/arcpgu_sim.c
+> +++ b/drivers/gpu/drm/arc/arcpgu_sim.c
+> @@ -8,6 +8,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>  
+>  #include "arcpgu.h"
+>  
+> @@ -50,10 +51,6 @@ static const struct drm_connector_funcs arcpgu_drm_connector_funcs = {
+>  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>  };
+>  
+> -static struct drm_encoder_funcs arcpgu_drm_encoder_funcs = {
+> -	.destroy = drm_encoder_cleanup,
+> -};
+> -
+>  int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
+>  {
+>  	struct arcpgu_drm_connector *arcpgu_connector;
+> @@ -68,8 +65,7 @@ int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
+>  	encoder->possible_crtcs = 1;
+>  	encoder->possible_clones = 0;
+>  
+> -	ret = drm_encoder_init(drm, encoder, &arcpgu_drm_encoder_funcs,
+> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_VIRTUAL);
+>  	if (ret)
+>  		return ret;
+>  
+> -- 
+> 2.25.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
