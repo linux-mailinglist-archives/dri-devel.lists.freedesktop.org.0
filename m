@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29CD17C714
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 21:31:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBAC17C725
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 21:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E852D6E4FE;
-	Fri,  6 Mar 2020 20:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD6586E4E6;
+	Fri,  6 Mar 2020 20:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5616E4FE;
- Fri,  6 Mar 2020 20:31:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6998B89150;
+ Fri,  6 Mar 2020 20:37:14 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id E82502001E;
- Fri,  6 Mar 2020 21:31:05 +0100 (CET)
-Date: Fri, 6 Mar 2020 21:31:04 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 37DE22001E;
+ Fri,  6 Mar 2020 21:37:12 +0100 (CET)
+Date: Fri, 6 Mar 2020 21:37:10 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm: Cleanups after drmm_add_final_kfree rollout
-Message-ID: <20200306203104.GF14757@ravnborg.org>
-References: <20200302222631.3861340-20-daniel.vetter@ffwll.ch>
- <20200303084520.3886414-1-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 20/51] drm: Handle dev->unique with drmm_
+Message-ID: <20200306203710.GG14757@ravnborg.org>
+References: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
+ <20200302222631.3861340-21-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200303084520.3886414-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200302222631.3861340-21-daniel.vetter@ffwll.ch>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=yPCof4ZbAAAA:8 a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8 a=Dv1GDlcVcgFAibDOM-sA:9
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8
+ a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=Eu1Yk3ZNupszFTrKmO4A:9
  a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,86 +48,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
  DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 03, 2020 at 09:45:20AM +0100, Daniel Vetter wrote:
-> A few things:
-> - Update the example driver in the documentation.
-> - We can drop the old kfree in drm_dev_release.
-> - Add a WARN_ON check in drm_dev_register to make sure everyone calls
->   drmm_add_final_kfree and there's no leaks.
+On Mon, Mar 02, 2020 at 11:26:00PM +0100, Daniel Vetter wrote:
+> We need to add a drmm_kstrdup for this, but let's start somewhere.
 > 
-> v2: Restore the full cleanup, I accidentally left some moved code
-> behind when fixing the bisectability of the series.
-
-Missed that when reading first version.
-Good to see this code-snippet be dropped again.
+> This is not exactly perfect onion unwinding, but it's jsut a kfree so
+> doesn't really matter at all.
 > 
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Dan Carpenter <dan.carpenter@oracle.com>
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Reluctanlyt... But anyway
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+See below for a few comments.
 
 
 > ---
->  drivers/gpu/drm/drm_drv.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/drm_drv.c     |  5 ++---
+>  drivers/gpu/drm/drm_managed.c | 16 ++++++++++++++++
+>  include/drm/drm_managed.h     |  1 +
+>  3 files changed, 19 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 80cfd0f14475..1ee606b4a4f9 100644
+> index 1a048325f30e..ef79c03e311c 100644
 > --- a/drivers/gpu/drm/drm_drv.c
 > +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -297,8 +297,6 @@ void drm_minor_release(struct drm_minor *minor)
->   *
->   *		drm_mode_config_cleanup(drm);
->   *		drm_dev_fini(drm);
-> - *		kfree(priv->userspace_facing);
-> - *		kfree(priv);
->   *	}
->   *
->   *	static struct drm_driver driver_drm_driver = {
-> @@ -326,10 +324,11 @@ void drm_minor_release(struct drm_minor *minor)
->   *			kfree(drm);
->   *			return ret;
->   *		}
-> + *		drmm_add_final_kfree(drm, priv);
->   *
->   *		drm_mode_config_init(drm);
->   *
-> - *		priv->userspace_facing = kzalloc(..., GFP_KERNEL);
-> + *		priv->userspace_facing = drmm_kzalloc(..., GFP_KERNEL);
->   *		if (!priv->userspace_facing)
->   *			return -ENOMEM;
->   *
-> @@ -838,10 +837,7 @@ static void drm_dev_release(struct kref *ref)
->  
->  	drm_managed_release(dev);
->  
-> -	if (!dev->driver->release && !dev->managed.final_kfree) {
-> -		WARN_ON(!list_empty(&dev->managed.resources));
-> -		kfree(dev);
-> -	} else if (dev->managed.final_kfree)
-Good to see this go again.
-
-
-> +	if (dev->managed.final_kfree)
->  		kfree(dev->managed.final_kfree);
+> @@ -777,7 +777,6 @@ void drm_dev_fini(struct drm_device *dev)
+>  	mutex_destroy(&dev->filelist_mutex);
+>  	mutex_destroy(&dev->struct_mutex);
+>  	drm_legacy_destroy_members(dev);
+> -	kfree(dev->unique);
 >  }
+>  EXPORT_SYMBOL(drm_dev_fini);
 >  
-> @@ -959,6 +955,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
->  	struct drm_driver *driver = dev->driver;
->  	int ret;
+> @@ -1068,8 +1067,8 @@ EXPORT_SYMBOL(drm_dev_unregister);
+>   */
+>  int drm_dev_set_unique(struct drm_device *dev, const char *name)
+>  {
+> -	kfree(dev->unique);
+> -	dev->unique = kstrdup(name, GFP_KERNEL);
+> +	drmm_kfree(dev, dev->unique);
+> +	dev->unique = drmm_kstrdup(dev, name, GFP_KERNEL);
 >  
-> +	WARN_ON(!dev->managed.final_kfree);
+>  	return dev->unique ? 0 : -ENOMEM;
+>  }
+> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
+> index 57dc79fa90af..514d5bd42446 100644
+> --- a/drivers/gpu/drm/drm_managed.c
+> +++ b/drivers/gpu/drm/drm_managed.c
+> @@ -160,6 +160,22 @@ void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+>  }
+>  EXPORT_SYMBOL(drmm_kmalloc);
+>  
+> +char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp)
+
+So we need this gfp for all users - just because i915 is special and
+uses "GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN" in to places -
+sigh.
+
+
+
+> +{
+> +	size_t size;
+> +	char *buf;
 > +
->  	if (drm_dev_needs_global_mutex(dev))
->  		mutex_lock(&drm_global_mutex);
+> +	if (!s)
+> +		return NULL;
+> +
+> +	size = strlen(s) + 1;
+> +	buf = drmm_kmalloc(dev, size, gfp);
+> +	if (buf)
+> +		memcpy(buf, s, size);
+> +	return buf;
+> +}
+> +EXPORT_SYMBOL_GPL(drmm_kstrdup);
+> +
+>  void drmm_kfree(struct drm_device *dev, void *data)
+>  {
+>  	struct drmres *dr_match = NULL, *dr;
+> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
+> index 7b5df7d09b19..89e6fce9f689 100644
+> --- a/include/drm/drm_managed.h
+> +++ b/include/drm/drm_managed.h
+> @@ -24,6 +24,7 @@ static inline void *drmm_kzalloc(struct drm_device *dev, size_t size, gfp_t gfp)
+>  {
+>  	return drmm_kmalloc(dev, size, gfp | __GFP_ZERO);
+>  }
+> +char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp);
+Missing empty line above. But it is fixed later IIRC
+
+>  
+>  void drmm_kfree(struct drm_device *dev, void *data);
 >  
 > -- 
 > 2.24.1
