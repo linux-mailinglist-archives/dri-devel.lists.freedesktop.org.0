@@ -1,77 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1CA17BC61
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 13:11:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F51E17BCC4
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 13:31:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5981089E50;
-	Fri,  6 Mar 2020 12:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDD26ECFD;
+	Fri,  6 Mar 2020 12:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
- [IPv6:2607:f8b0:4864:20::a41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5A089E50
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 12:11:19 +0000 (UTC)
-Received: by mail-vk1-xa41.google.com with SMTP id x62so521906vkg.11
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 04:11:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :content-transfer-encoding;
- bh=0TUqo6ABKjwBnwDPZcgrzkhlR/76Lf46MG8q+lDRB/8=;
- b=Lrp8JGAiHwHwWX0IhOfZnqln4zidFkjpkzJZc5IITIoiGy+D5onYZVtO/J77i20f0U
- E5/tYpu+oeJjp5Ek57MA/FDMMSQ2kSxqccAD3kIMoucdeTGVqIBGtY480HtRL5arKs0f
- TKyBrdvSML8aVPRNV1R+JwUz3nHMvSb99nsL4=
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54BB06ECF9
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 12:31:09 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id q19so2016695ljp.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 04:31:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=to7bU+MtbuWq2zSmrshAa2RS+7lmc+xLVoJxUf+INQ0=;
+ b=l0EQ6qPcS14s2kGTIH/cVFg+M+r1om0oVHrp2ziFTs3W5dZo7pIDCpOuV3oEpxwQKI
+ FEaAttqwy0EDA2gpyd6VO4XVaFUXSJ2Piiwn0K/lkpbfgJfIfdFrNxwqpGGlsqKnjuE1
+ brEh3Lcq4oQ+ApN96M2bp4SkOCiW0hElG2AJUIyA4cKIjPFvyOiz2ox1AucBB3FDunAI
+ Q4TZ1fR8oyRRaOAyvrf7JmCEdx7t0SdR1dtQEjJYHnOJxhoHdiYybr/KZfusEKlnnq/i
+ zgGlREj08Ql/Pi+N6uAseYkxvj+szMrdMSWnKhZCfjfrzpHzEFTL1tMAjUFlIPGVqaz7
+ ldWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:content-transfer-encoding;
- bh=0TUqo6ABKjwBnwDPZcgrzkhlR/76Lf46MG8q+lDRB/8=;
- b=raWKqwYQicAmqDlkVKkeQPVGxlTzx4Bb27n7wwR/cqdUk/MLVrW6d2iVxEHBpbJdge
- yyJ9C87eM5scQJU2zXPJgI5nwKZcCdPdnK6B3R+Twb/IIMaj2opDtah5PkgenJB/1rZ7
- h9sVAYrzxo39gMomavk3YzPAjmbBnuTe8vdpHF2Ie0yZ3puluX50LqiBU/rXhDwQk3or
- aBcGr0+buUzf/OEbraLKSzRqxLRYCIoIWz/4J8q45mM5x4EokVkte9rNO12wjsK3+jDr
- HE9DpkvO4GQacu2+zyRUYeu+QL67lr59i+p1DN7nDu0HcYeTtETSsj5DKmFs2C6l94D0
- EHPA==
-X-Gm-Message-State: ANhLgQ38QOiF3qfBOjAGAcdpkxz1MhQAom0caLRa1w03QyLxw0CIClMm
- iWbxuMSp4yJ3KzQz01bhvl2V70JV902IBo97uBDYiw==
-X-Google-Smtp-Source: ADFU+vubNpp5WuQGslML1DFO7WzoJzlruVOXAnHZ2XSMzf1yBhULppWC4mBeJHnBzL21C/ktAd6KdRlpH+x9FLeKDso=
-X-Received: by 2002:a1f:aac1:: with SMTP id t184mr1393354vke.33.1583496678551; 
- Fri, 06 Mar 2020 04:11:18 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=to7bU+MtbuWq2zSmrshAa2RS+7lmc+xLVoJxUf+INQ0=;
+ b=XTonbedPrOuso0KO1Sdn+JhGbrfLDg6pOHAg1Znf8M/oACk8N5bmmaHGTAM4YBiTtr
+ 5r1lwOs+6tTrzdTvq2g5KBS0Jkdi0ZVAgFtcNsNtl8KVFcup1dOwC3J01dc5AuhILxVd
+ FxixFw6KTb9EUGXjnDdZl6cJJBgI8BA6FjJ00psaLg2e8AtOG8FNSDGbmJ3lCPNnUG4u
+ Ta6NUAqpINSFVAI+cQ/rsH1V4rff0ppeH+kFr1H0JIEctsCvl8Jo10EVLiQY2J3Wia5e
+ 5bF7CKHf+2NGaC/YO+M2edOMvhe8ivUnQuU9o8iTfBYNceAPK9hczBrE/wAbPh5J8Che
+ v8yw==
+X-Gm-Message-State: ANhLgQ1veCgRFPWwA4/ovxZU3MTSlnF4dDm8lxiycUkWbaFddGJ+1bxw
+ dQ+gWMnXIo6AtoqulUastkg=
+X-Google-Smtp-Source: ADFU+vt4dBzbnq/Y0wVdLf39g1+fsGA0GgRTLzQx8tXoVUYdyq9dw+lDMisETRdewWX4xZ+IbYqubw==
+X-Received: by 2002:a2e:9008:: with SMTP id h8mr1902762ljg.217.1583497867526; 
+ Fri, 06 Mar 2020 04:31:07 -0800 (PST)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id u4sm2691157lfo.79.2020.03.06.04.31.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Mar 2020 04:31:07 -0800 (PST)
+Date: Fri, 6 Mar 2020 14:30:57 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/4] drm/fourcc: Add modifier definitions for describing
+ Amlogic Video Framebuffer Compression
+Message-ID: <20200306143057.1506cac3@eldfell.localdomain>
+In-Reply-To: <20200306101328.GR2363188@phenom.ffwll.local>
+References: <20200221090845.7397-1-narmstrong@baylibre.com>
+ <20200221090845.7397-2-narmstrong@baylibre.com>
+ <20200303121029.5532669d@eldfell.localdomain>
+ <20200303105325.bn4sob6yrdf5mwrh@DESKTOP-E1NTVVP.localdomain>
+ <CAKMK7uFgQGrnEkXyac15Wz8Opg43RTa=5cX0nN5=E_omb8oY8Q@mail.gmail.com>
+ <20200303152541.68ab6f3d@eldfell.localdomain>
+ <20200303173332.1c6daa09@eldfell.localdomain>
+ <20200306101328.GR2363188@phenom.ffwll.local>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <CA+E=qVffVzZwRTk9K7=xhWn-AOKExkew0aPcyL_W1nokx-mDdg@mail.gmail.com>
- <CAFqH_53crnC6hLExNgQRjMgtO+TLJjT6uzA4g8WXvy7NkwHcJg@mail.gmail.com>
- <CA+E=qVfGiQseZZVBvmmK6u2Mu=-91ViwLuhNegu96KRZNAHr_w@mail.gmail.com>
- <CAFqH_505eWt9UU7Wj6tCQpQCMZFMfy9e1ETSkiqi7i5Zx6KULQ@mail.gmail.com>
- <CA+E=qVff5_hdPFdaG4Lrg7Uzorea=JbEdPoy+sQd7rUGNTTZ5g@mail.gmail.com>
- <5245a8e4-2320-46bd-04fd-f86ce6b17ce7@collabora.com>
- <CA+E=qVcyRW4LNC5db27d-8x-T_Nk9QAhkBPwu5rwthTc6ewbYA@mail.gmail.com>
- <20200305193505.4km5j7n25ph4b6hn@core.my.home>
- <2a5a4a62-3189-e053-21db-983a4c766d44@collabora.com>
- <5d72a8c6824b31163a303b5ef1526efe05121e5d.camel@aosc.io>
- <20200306120726.t7aitfz5rq3m7m6y@core.my.home>
-In-Reply-To: <20200306120726.t7aitfz5rq3m7m6y@core.my.home>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Fri, 6 Mar 2020 20:11:07 +0800
-Message-ID: <CANMq1KC1R4B66Nr01pADa3RV8NpkPqkM-1pe-1N1nQiMviX1Cg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7688: Add anx7688 bridge driver
- support
-To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megous@megous.com>, 
- Icenowy Zheng <icenowy@aosc.io>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>, 
- Vasily Khoruzhick <anarsoul@gmail.com>,
- Enric Balletbo Serra <eballetbo@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Torsten Duwe <duwe@suse.de>, 
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel <linux-kernel@vger.kernel.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, 
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
- Collabora Kernel ML <kernel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,61 +73,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-amlogic@lists.infradead.org,
+ nd <nd@arm.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============1410089484=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXIgNiwgMjAyMCBhdCA4OjA3IFBNIE9uZMWZZWogSmlybWFuIDxtZWdvdXNAbWVn
-b3VzLmNvbT4gd3JvdGU6Cj4KPiBPbiBGcmksIE1hciAwNiwgMjAyMCBhdCAwNDo1Mzo0NlBNICsw
-ODAwLCBJY2Vub3d5IFpoZW5nIHdyb3RlOgo+ID4g5ZyoIDIwMjAtMDMtMDbmmJ/mnJ/kupTnmoQg
-MDk6NDYgKzAxMDDvvIxFbnJpYyBCYWxsZXRibyBpIFNlcnJh5YaZ6YGT77yaCj4gPiA+IEhpIE9u
-ZHJlaiwKPiA+ID4KPiA+ID4gT24gNS8zLzIwIDIwOjM1LCBPbmTFmWVqIEppcm1hbiB3cm90ZToK
-PiA+ID4gPiBIaSwKPiA+ID4gPgo+ID4gPiA+IE9uIFRodSwgTWFyIDA1LCAyMDIwIGF0IDEwOjI5
-OjMzQU0gLTA4MDAsIFZhc2lseSBLaG9ydXpoaWNrIHdyb3RlOgo+ID4gPiA+ID4gT24gVGh1LCBN
-YXIgNSwgMjAyMCBhdCA3OjI4IEFNIEVucmljIEJhbGxldGJvIGkgU2VycmEKPiA+ID4gPiA+IDxl
-bnJpYy5iYWxsZXRib0Bjb2xsYWJvcmEuY29tPiB3cm90ZToKPiA+ID4gPiA+ID4gSGkgVmFzaWx5
-LAo+ID4gPiA+ID4KPiA+ID4gPiA+IENDOiBJY2Vub3d5IGFuZCBPbmRyZWoKPiA+ID4gPiA+ID4g
-V291bGQgeW91IG1pbmQgdG8gY2hlY2sgd2hpY2ggZmlybXdhcmUgdmVyc2lvbiBpcyBydW5uaW5n
-IHRoZQo+ID4gPiA+ID4gPiBhbng3Njg4IGluCj4gPiA+ID4gPiA+IFBpbmVQaG9uZSwgSSB0aGlu
-ayBzaG91bGQgYmUgZWFzeSB0byBjaGVjayB3aXRoIGkyYy10b29scy4KPiA+ID4gPiA+Cj4gPiA+
-ID4gPiBJY2Vub3d5LCBPbmRyZWosIGNhbiB5b3UgZ3V5cyBwbGVhc2UgY2hlY2sgYW54NzY4OCBm
-aXJtd2FyZQo+ID4gPiA+ID4gdmVyc2lvbj8KPiA+ID4gPgo+ID4gPiA+IGkyY2dldCAwIDB4Mjgg
-MHgwMCB3Cj4gPiA+ID4gMHhhYWFhCj4gPiA+ID4KPiA+ID4gPiBpMmNnZXQgMCAweDI4IDB4MDIg
-dwo+ID4gPiA+IDB4NzY4OAo+ID4gPiA+Cj4gPiA+ID4gaTJjZ2V0IDAgMHgyOCAweDgwIHcKPiA+
-ID4gPiAweDAwMDAKPiA+ID4gPgo+ID4gPgo+ID4gPiBDYW4geW91IGNoZWNrIHRoZSB2YWx1ZSBm
-b3IgMHg4MSB0b28/Cj4gPgo+ID4gcm9vdEBpY2UtcGluZXBob25lIFsgfiBdICMgaTJjZHVtcCAw
-IDB4MjgKPiA+IE5vIHNpemUgc3BlY2lmaWVkICh1c2luZyBieXRlLWRhdGEgYWNjZXNzKQo+ID4g
-V0FSTklORyEgVGhpcyBwcm9ncmFtIGNhbiBjb25mdXNlIHlvdXIgSTJDIGJ1cywgY2F1c2UgZGF0
-YSBsb3NzIGFuZAo+ID4gd29yc2UhCj4gPiBJIHdpbGwgcHJvYmUgZmlsZSAvZGV2L2kyYy0wLCBh
-ZGRyZXNzIDB4MjgsIG1vZGUgYnl0ZQo+ID4gQ29udGludWU/IFtZL25dCj4gPiAgICAgIDAgIDEg
-IDIgIDMgIDQgIDUgIDYgIDcgIDggIDkgIGEgIGIgIGMgIGQgIGUgIGYgICAgMDEyMzQ1Njc4OWFi
-Y2RlZgo+ID4gMDA6IGFhIGFhIDg4IDc2IGFjIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDA1
-IDA1ICAgID8/P3Y/Li4uLi4uLi4uPz8KPiA+IDEwOiAzMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAw
-MCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAgICAwLi4uLi4uLi4uLi4uLi4uCj4gPiAyMDogMDAgMDAg
-MDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMjQgZjIgZTQgZmYgMDAgICAgLi4uLi4uLi4uLi4k
-Pz8uLgo+ID4gMzA6IDA2IDQwIDAwIDA0IDk0IDExIDIwIGZmIGZmIDAzIDAwIGJmIGZmIGZmIDEw
-IDAxICAgID9ALj8/PyAuLj8uPy4uPz8KPiA+IDQwOiA3MiBhNCAwMCAwOSAwMCAwOCAwNSA4NCAx
-NSA0MCAxNyAwMCAwMCAwYSAwMCBlMCAgICByPy4/Lj8/Pz9APy4uPy4/Cj4gPiA1MDogMDAgMDAg
-MDAgMGEgMTAgMDAgZTAgZGYgZmYgZmYgMDAgMDAgMDAgMTAgNzEgMDAgICAgLi4uPz8uPz8uLi4u
-Lj9xLgo+ID4gNjA6IDEwIDEwIDA0IDI5IDJkIDIxIDEwIDAxIDA5IDEzIDAwIDAzIGU4IDEzIDg4
-IDAwICAgID8/PyktIT8/Pz8uPz8/Py4KPiA+IDcwOiAwMCAxOSAxOCA4MyAxNiA1YyAxMSAwMCBm
-ZiAwMCAwMCAwZCAwNCAzOCA0MiAwNyAgICAuPz8/P1w/Li4uLj8/OEI/Cj4gPiA4MDogMDAgMDAg
-MDAgMDAgMDAgNzQgMWIgMTkgNDQgMDggNzUgMDAgMDAgMDAgMDAgMDAgICAgLi4uLi50Pz9EP3Uu
-Li4uLgo+ID4gOTA6IDAxIDAyIDAwIDAwIDAwIDAwIDAzIDAwIGZmIDMwIDAwIDU5IDAxIDAwIDAw
-IDAwICAgID8/Li4uLj8uLjAuWT8uLi4KPiA+IGEwOiAwMCBmZiBmZSBmZiBmZiAwMCAwMCAwMCAw
-MCAwMCAwMCAwMCAwMCAwMCAwMCAwMiAgICAuLj8uLi4uLi4uLi4uLi4/Cj4gPiBiMDogMDAgMDAg
-MDAgMDAgMDAgMDAgNDAgMDAgMjggMDAgMDAgMDAgMDAgNDQgMDggMDAgICAgLi4uLi4uQC4oLi4u
-LkQ/Lgo+ID4gYzA6IDAwIDAwIDAwIDAwIDgwIDAwIDEwIDAxIDBhIDEwIDE4IDAwIDAwIGZkIDAw
-IDAwICAgIC4uLi4/Lj8/Pz8/Li4/Li4KPiA+IGQwOiAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAw
-MCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAgICAuLi4uLi4uLi4uLi4uLi4uCj4gPiBlMDogNTAgMTAg
-MDggNTAgMDAgMDIgMDAgNzAgMDAgMDAgMzAgMTAgMGIgMDIgMWMgMDEgICAgUD8/UC4/LnAuLjA/
-Pz8/Pwo+ID4gZjA6IDAwIDBiIDA3IDAwIDk0IDExIDdmIDAwIDAwIDAwIDAwIDAwIDAwIDAxIDBl
-IGZmICAgIC4/Py4/Pz8uLi4uLi4/Py4KPgo+IE15IHZhbHVlcyBmb3IgMHgyOCBhZGRyZXNzIG1h
-dGNoIHRoaXMuIF4KCldoYXQgYWJvdXQgdGhlIHZhbHVlcyBhdCAweDJjPwoKPiBJbnRlcmVzdGlu
-ZyB0aGF0IGl0IHJldHVybnMgZGlmZmVyZW50IHJlZ2lzdGVyIHZhbHVlcyBmb3IgZGlmZmVyZW50
-Cj4gZGV2aWNlIGFkZHJlc3Nlcy4KClllcyB0aGUgcmVnaXN0ZXJzIGhhdmUgZGlmZmVyZW50IG1l
-YW5pbmdzIGZvciB0aGUgMiBhZGRyZXNzZXMuCgpUaGFua3MsCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+--===============1410089484==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/r_fP+nfVOoASHK7UVgVRJ0U"; protocol="application/pgp-signature"
+
+--Sig_/r_fP+nfVOoASHK7UVgVRJ0U
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 6 Mar 2020 11:13:28 +0100
+Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Tue, Mar 03, 2020 at 05:33:32PM +0200, Pekka Paalanen wrote:
+> > On Tue, 3 Mar 2020 15:25:41 +0200
+> > Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> >  =20
+> > > On Tue, 3 Mar 2020 12:37:16 +0100
+> > > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >  =20
+> > > > On Tue, Mar 3, 2020 at 11:53 AM Brian Starkey <brian.starkey@arm.co=
+m> wrote:   =20
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On Tue, Mar 03, 2020 at 12:10:29PM +0200, Pekka Paalanen wrote:  =
+   =20
+> > > > > > On Fri, 21 Feb 2020 10:08:42 +0100
+> > > > > > Neil Armstrong <narmstrong@baylibre.com> wrote:
+> > > > > >     =20
+> > ... =20
+> > > > > > > +/*
+> > > > > > > + * Amlogic Video Framebuffer Compression modifiers
+> > > > > > > + *
+> > > > > > > + * Amlogic uses a proprietary lossless image compression pro=
+tocol and format
+> > > > > > > + * for their hardware video codec accelerators, either video=
+ decoders or
+> > > > > > > + * video input encoders.
+> > > > > > > + *
+> > > > > > > + * It considerably reduces memory bandwidth while writing an=
+d reading
+> > > > > > > + * frames in memory.
+> > > > > > > + * Implementation details may be platform and SoC specific, =
+and shared
+> > > > > > > + * between the producer and the decoder on the same platform=
+.     =20
+> > > > > >
+> > > > > > Hi,
+> > > > > >
+> > > > > > after a lengthy IRC discussion on #dri-devel, this "may be plat=
+form and
+> > > > > > SoC specific" is a problem.
+> > > > > >
+> > > > > > It can be an issue in two ways:
+> > > > > >
+> > > > > > - If something in the data acts like a sub-modifier, then adver=
+tising
+> > > > > >   support for one modifier does not really tell if the data lay=
+out is
+> > > > > >   supported or not.
+> > > > > >
+> > > > > > - If you need to know the platform and/or SoC to be able to int=
+erpret
+> > > > > >   the data, it means the modifier is ill-defined and cannot be =
+used in
+> > > > > >   inter-machine communication (e.g. Pipewire).
+> > > > > >     =20
+> > > > >
+> > > > > Playing devil's advocate, the comment sounds similar to
+> > > > > I915_FORMAT_MOD_{X,Y}_TILED:
+> > > > >
+> > > > >  * This format is highly platforms specific and not useful for cr=
+oss-driver
+> > > > >  * sharing. It exists since on a given platform it does uniquely =
+identify the
+> > > > >  * layout in a simple way for i915-specific userspace.     =20
+> > > >=20
+> > > > Yeah which we regret now. We need to now roll out a new set of
+> > > > modifiers for at least some of the differences in these on the
+> > > > modern-ish chips (the old crap is pretty much lost cause anyway).
+> > > >=20
+> > > > This was kinda a nasty hack to smooth things over since we have epic
+> > > > amounts of userspace, but it's really not a great idea (and no one
+> > > > else really has epic amounts of existing userspace that uses tiling
+> > > > flags everywhere, this is all new code).
+> > > > -Daniel
+> > > >    =20
+> > > > > Isn't the statement that this for sharing between producer and de=
+coder
+> > > > > _on the same platform_ a similar clause with the same effect?
+> > > > >
+> > > > > What advantage is there to exposing the gory details? For Arm AFBC
+> > > > > it's necessary because IP on the SoC can be (likely to be) from
+> > > > > different vendors with different capabilities.
+> > > > >
+> > > > > If this is only for talking between Amlogic IP on the same SoC, a=
+nd
+> > > > > those devices support all the same "flavours", I don't see what is
+> > > > > gained by making userspace care about internals.     =20
+> > > >=20
+> > > > The trouble is if you mix&match IP cores, and one of them supports
+> > > > flavours A, B, C and the other C, D, E. But all you have is a single
+> > > > magic modifier for "whatever the flavour is that soc prefers". So
+> > > > someone gets to stuff this in DT.
+> > > >=20
+> > > > Also eventually, maybe, perhaps ARM does grow up into the
+> > > > client/server space with add-on pcie graphics, and at least for cli=
+ent
+> > > > you very often end up with integrated + add-in pcie gpu. At that po=
+int
+> > > > you really can't have magic per-soc modifiers anymore.   =20
+> > >=20
+> > > Hi,
+> > >=20
+> > > I also heard that Pipewire will copy buffers and modifiers verbatim
+> > > from one machine to another when streaming across network, assuming
+> > > that the same modifier means the same thing on all machines.[Citation=
+ needed]
+> > >=20
+> > > If that is something that must not be done with DRM modifiers, then
+> > > please contact them and document that. =20
+> >=20
+> > Sorry, it's waypipe, not pipewire:
+> > https://gitlab.freedesktop.org/mstoeckl/waypipe/ =20
+>=20
+> I do think this is very much something we want to make possible. They
+> might pick a silly modifier (compression modifiers only compress bw, by
+> necessity the lossless ones have to increase storage space so kinda dumb
+> thing to push over the network if you don't add .xz or whatever on top).
+>=20
+> I'm also hoping that intel's modifiers are definitely the one and only
+> that we ever screwed up, and we should be getting those fixed in the near
+> future too.
+>=20
+> So maybe what we should do instead is add a comment to the modifier docs
+> that this stuff _is_ supposed to be transferrable over networks and work.
+
+Personally I was not sure if it was so. Good to hear it is. Writing it
+down would be much appreciated.
+
+While at it, could you also write down something about the requirements
+of memory layout documentation? What I mean is, is it required that the
+memory layout is publicly specified *somewhere* if not in the modifier
+doc itself?
+
+It's not necessary for anyone to actually know the memory layout when
+the use cases only involve hardware access, but if there is no public
+spec I fear it would be easy to adapt an incompatible layout somewhere
+and never be able to notice until some rare case of interoperability
+mysteriously produces garbage.
+
+
+Thanks,
+pq
+
+--Sig_/r_fP+nfVOoASHK7UVgVRJ0U
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl5iQoEACgkQI1/ltBGq
+qqfCGxAAox4nO+w/VXB7GvaaUnfq9XR88+4sxGBKVIkfOVSsxxnE7oA+DAPrzq3C
+FqWKzbVYJhYTD84jea8tM029FeGPAlQbxZAph4YRM1kfCKqduxoPwoLOqR5k3W9X
+vkLo0T0m6oKslV2Gico/FFIRwCMZjHPh++ye8Ka9e/b+cNTTsYFH03gyAmyfiHa5
+wmt91K/ubByRZTmY9QoihQto4M1W7t5V76hl2yjVRDkU6BVM1K8DB0K1VhPBTDfZ
+ratG+r1scmAM2bsbsFWwxaTiv1zF9Z1zvUZcSSKFkWbbsU+AF+rmdYBs+M9/Wnny
+INwPZIMg7GqzwV4z6J++E4TajjFLeku/pqmZSX2ITGu7f4WtOV64m5+aQDdohNuh
+kUepGl2CCFtWaAOLUwdpwfGw8SFA74g4ac1xTyBGgNECewmt44fkP785imtmtYAn
+BiTchituR4jNrOTEo9WiZ4+bDC5dgjhp9dfZdWSEe7l0r3HgDOdFYcNbaCap3tKt
+5PE6MqyXXOD6yxqwfgpuFp/hja0T73RfzutNi6s84Bdx7M00lAg0owl3JrHx2Zou
+buqgRbNYYUYD7qmoYMUvpYlEsTCXClURVawf9G+Gh5Uc3bW5lGIR/DdzAw3tdPwW
+9TkR0C7rUWVWIotYUxwUujYoq4FXWv1mD4C2t/F2FXD8WAiVBqs=
+=eeJ1
+-----END PGP SIGNATURE-----
+
+--Sig_/r_fP+nfVOoASHK7UVgVRJ0U--
+
+--===============1410089484==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1410089484==--
