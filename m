@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA8A17C266
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 17:03:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B0317C272
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Mar 2020 17:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 775AB6ED44;
-	Fri,  6 Mar 2020 16:03:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6686ED4A;
+	Fri,  6 Mar 2020 16:04:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 692DD6ED42
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 16:03:50 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 026G2XQU121936;
- Fri, 6 Mar 2020 10:02:33 -0600
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D21956ED4A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2020 16:04:21 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 026G3XiS123652;
+ Fri, 6 Mar 2020 10:03:33 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1583510553;
- bh=LhFq71hWS6db1JXV2cLF2eSG5HHX8s0+6x10uspH48c=;
+ s=ti-com-17Q1; t=1583510613;
+ bh=F0zq4XKL8IcfIlkd0ZCG9r5itazNCHFXTC/e8qEav30=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=BTufL9BT7osNdKLL5ijwsQhScInkG0/lYrdj2x0+IEFmFmbGJ37BCg4pEl4QlurEl
- tEelh14JB7idOKeGwjg0W+6MmB9XZcfB5Ju5DxLchdJi+U4HXGkz30ahOdhXr971hH
- FmX3s5sUymzVepG+HO4HN6r2IWuNOohcdEJxgtyE=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 026G2Xnw050324
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 6 Mar 2020 10:02:33 -0600
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ b=W2pFEVlpGyjacU2G/NcNB0qfUKqcl0pU0f3k5dLwIkN8oybL680kQB93w6MdIRvNS
+ XXS2ah+Pa4ym9qZVA59/tvUs7zMgMLT2zSJuY5rcevSwGOR3rqnIBNJdgX9hIGhoCG
+ T+h8OLO+FO+sopsiYd2N8nYj5LhRU0BzhEIfmi2Q=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 026G3W6h125657;
+ Fri, 6 Mar 2020 10:03:32 -0600
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 6 Mar
- 2020 10:02:32 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 10:03:32 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 6 Mar 2020 10:02:32 -0600
+ Frontend Transport; Fri, 6 Mar 2020 10:03:32 -0600
 Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 026G2FjH073322;
- Fri, 6 Mar 2020 10:02:17 -0600
-Subject: Re: [PATCH 16/22] drm/tidss: Use simple encoder
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 026G3I8l042449;
+ Fri, 6 Mar 2020 10:03:19 -0600
+Subject: Re: [PATCH 17/22] drm/tilcdc: Use simple encoder
 To: Thomas Zimmermann <tzimmermann@suse.de>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <sam@ravnborg.org>, <abrodkin@synopsys.com>,
  <bbrezillon@kernel.org>, <nicolas.ferre@microchip.com>,
@@ -62,7 +61,7 @@ To: Thomas Zimmermann <tzimmermann@suse.de>, <airlied@linux.ie>,
  <rodrigosiqueiramelo@gmail.com>, <hamohammed.sa@gmail.com>,
  <sebastian.reichel@collabora.com>
 References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-17-tzimmermann@suse.de>
+ <20200305155950.2705-18-tzimmermann@suse.de>
 From: Jyri Sarha <jsarha@ti.com>
 Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
@@ -106,12 +105,12 @@ Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
  PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
  tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
-Message-ID: <15f51fa1-d3c3-3381-4d0b-a54ee9f21e1a@ti.com>
-Date: Fri, 6 Mar 2020 18:02:15 +0200
+Message-ID: <d4b7313e-3b5e-0659-fb2a-32a969a80081@ti.com>
+Date: Fri, 6 Mar 2020 18:03:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200305155950.2705-17-tzimmermann@suse.de>
+In-Reply-To: <20200305155950.2705-18-tzimmermann@suse.de>
 Content-Language: en-GB
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -135,7 +134,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 05/03/2020 17:59, Thomas Zimmermann wrote:
-> The tidss driver uses an empty implementation for its encoder. Replace
+> The tilcdc driver uses empty implementations for its encoders. Replace
 > the code with the generic simple encoder.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
@@ -143,44 +142,77 @@ On 05/03/2020 17:59, Thomas Zimmermann wrote:
 Acked-by: Jyri Sarha <jsarha@ti.com>
 
 > ---
->  drivers/gpu/drm/tidss/tidss_encoder.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/tilcdc/tilcdc_external.c | 10 +++-------
+>  drivers/gpu/drm/tilcdc/tilcdc_panel.c    |  8 ++------
+>  2 files changed, 5 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
-> index 83785b0a66a9..4c0558286f5e 100644
-> --- a/drivers/gpu/drm/tidss/tidss_encoder.c
-> +++ b/drivers/gpu/drm/tidss/tidss_encoder.c
-> @@ -8,8 +8,9 @@
->  
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_crtc_helper.h>
-> -#include <drm/drm_panel.h>
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
+> index 28b7f703236e..b177525588c1 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
+> @@ -10,6 +10,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
 >  #include <drm/drm_of.h>
-> +#include <drm/drm_panel.h>
 > +#include <drm/drm_simple_kms_helper.h>
 >  
->  #include "tidss_crtc.h"
->  #include "tidss_drv.h"
-> @@ -59,10 +60,6 @@ static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
->  	.atomic_check = tidss_encoder_atomic_check,
->  };
+>  #include "tilcdc_drv.h"
+>  #include "tilcdc_external.h"
+> @@ -83,10 +84,6 @@ int tilcdc_add_component_encoder(struct drm_device *ddev)
+>  	return 0;
+>  }
 >  
-> -static const struct drm_encoder_funcs encoder_funcs = {
-> -	.destroy = drm_encoder_cleanup,
+> -static const struct drm_encoder_funcs tilcdc_external_encoder_funcs = {
+> -	.destroy	= drm_encoder_cleanup,
 > -};
 > -
->  struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
->  					 u32 encoder_type, u32 possible_crtcs)
+>  static
+>  int tilcdc_attach_bridge(struct drm_device *ddev, struct drm_bridge *bridge)
 >  {
-> @@ -75,8 +72,7 @@ struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
+> @@ -131,9 +128,8 @@ int tilcdc_attach_external_device(struct drm_device *ddev)
+>  	if (!priv->external_encoder)
+>  		return -ENOMEM;
 >  
->  	enc->possible_crtcs = possible_crtcs;
+> -	ret = drm_encoder_init(ddev, priv->external_encoder,
+> -			       &tilcdc_external_encoder_funcs,
+> -			       DRM_MODE_ENCODER_NONE, NULL);
+> +	ret = drm_simple_encoder_init(ddev, priv->external_encoder,
+> +				      DRM_MODE_ENCODER_NONE);
+>  	if (ret) {
+>  		dev_err(ddev->dev, "drm_encoder_init() failed %d\n", ret);
+>  		return ret;
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> index 5584e656b857..12823d60c4e8 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> @@ -16,6 +16,7 @@
+>  #include <drm/drm_connector.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+>  #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
 >  
-> -	ret = drm_encoder_init(&tidss->ddev, enc, &encoder_funcs,
-> -			       encoder_type, NULL);
-> +	ret = drm_simple_encoder_init(&tidss->ddev, enc, encoder_type);
+>  #include "tilcdc_drv.h"
+>  #include "tilcdc_panel.h"
+> @@ -74,10 +75,6 @@ static void panel_encoder_mode_set(struct drm_encoder *encoder,
+>  	/* nothing needed */
+>  }
+>  
+> -static const struct drm_encoder_funcs panel_encoder_funcs = {
+> -		.destroy        = drm_encoder_cleanup,
+> -};
+> -
+>  static const struct drm_encoder_helper_funcs panel_encoder_helper_funcs = {
+>  		.dpms           = panel_encoder_dpms,
+>  		.prepare        = panel_encoder_prepare,
+> @@ -102,8 +99,7 @@ static struct drm_encoder *panel_encoder_create(struct drm_device *dev,
+>  	encoder = &panel_encoder->base;
+>  	encoder->possible_crtcs = 1;
+>  
+> -	ret = drm_encoder_init(dev, encoder, &panel_encoder_funcs,
+> -			DRM_MODE_ENCODER_LVDS, NULL);
+> +	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
 >  	if (ret < 0)
->  		return ERR_PTR(ret);
+>  		goto fail;
 >  
 > 
 
