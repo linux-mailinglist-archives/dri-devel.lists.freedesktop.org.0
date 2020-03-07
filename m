@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994FF17DA15
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 08:55:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2782717DA77
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 09:14:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB1376E228;
-	Mon,  9 Mar 2020 07:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D91406E362;
+	Mon,  9 Mar 2020 08:14:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8496E228
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 07:55:13 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 5CF7BAC5C;
- Mon,  9 Mar 2020 07:55:10 +0000 (UTC)
-Subject: Re: [PATCH 01/22] drm/arc: Use simple encoder
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-2-tzimmermann@suse.de>
- <20200306211802.GA17369@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <2cded827-de52-6110-505d-eacab9f28772@suse.de>
-Date: Mon, 9 Mar 2020 08:55:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0D5E6E255
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 17:45:12 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id i67so4222416ilf.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2020 09:45:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=adrPTs5EReBXNjXAz2JJkhvKUk54b45LCW/ZFGpHhpw=;
+ b=knu5cZ8qlKzWN5Y6ido9kGVPMGPUwoTrNMdpq3pHPzL3hqctF8NWvBTpT2+nY9KTPm
+ B8RiGpD7SxVN7jiGEILOHqkweS0+Ul+Epvqcln5I7jj3c75TCoyF0ybukZmUdVIwSN9C
+ qIWnRwdTCaFmH8tuP77OmE6XcHpjehMMLQbWMvNTItEFfb8ds8Spj57qJZk4LN0mIwdV
+ Kob8l+JUcMDnusdqVomDLmDUHOFSplztnsgtL0kywqcsyzQfJQQ8hcPRgR3WiJMqpKDP
+ Khg1tS4rmMjUnEyGOb4Plgdbeb0Yrp7pou6ONFcwIN/Y0kUZ3fBwILVQ5wVuCUIzYNWu
+ wqRA==
+X-Gm-Message-State: ANhLgQ2HyDU9RBcF3NsIQQsIw/SQHPjpZTTCxHaiLLoLfhqngVyEIdBP
+ 6eHnwjwGX3e+SYeOS0Wnu+cu8s2XSrDoLyq5hyke0wiGHngB
+X-Google-Smtp-Source: ADFU+vvPJdT0lErpVGKSwp+bdK2H2RInnrNgD5oOyHnfRJO1wLyxv3r1p4RZSjsApzQx1kabfKjTAgJitFO44xE95LVcgxfygpc2
 MIME-Version: 1.0
-In-Reply-To: <20200306211802.GA17369@ravnborg.org>
+X-Received: by 2002:a92:670f:: with SMTP id b15mr8527912ilc.71.1583603111955; 
+ Sat, 07 Mar 2020 09:45:11 -0800 (PST)
+Date: Sat, 07 Mar 2020 09:45:11 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f415bd05a047548f@google.com>
+Subject: kernel BUG at drivers/dma-buf/dma-buf.c:LINE!
+From: syzbot <syzbot+d6734079f30f7fc39021@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
+X-Mailman-Approved-At: Mon, 09 Mar 2020 08:13:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,222 +53,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
- linux@armlinux.org.uk, paul@crapouillou.net, thierry.reding@gmail.com,
- krzk@kernel.org, sebastian.reichel@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com, hjc@rock-chips.com,
- tomi.valkeinen@ti.com, abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com,
- jonathanh@nvidia.com, xinliang.liu@linaro.org, ludovic.desroches@microchip.com,
- kgene@kernel.org, linux-imx@nxp.com, linux-rockchip@lists.infradead.org,
- virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
- jernej.skrabec@siol.net, kraxel@redhat.com, rodrigosiqueiramelo@gmail.com,
- bbrezillon@kernel.org, jingoohan1@gmail.com, dri-devel@lists.freedesktop.org,
- sw0312.kim@samsung.com, nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
- kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
- linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
- laurent.pinchart@ideasonboard.com
-Content-Type: multipart/mixed; boundary="===============1283179534=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1283179534==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="MGskBhwtfwJu2ES79w1QlBRF0CsXl3V4l"
+Hello,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---MGskBhwtfwJu2ES79w1QlBRF0CsXl3V4l
-Content-Type: multipart/mixed; boundary="dfC3HwP1w1SRemUUkRjXLmFHcLkGVwl1e";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: airlied@linux.ie, daniel@ffwll.ch, abrodkin@synopsys.com,
- bbrezillon@kernel.org, nicolas.ferre@microchip.com,
- alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, jingoohan1@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- stefan@agner.ch, alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
- xinliang.liu@linaro.org, zourongrong@gmail.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- linux@armlinux.org.uk, p.zabel@pengutronix.de, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, paul@crapouillou.net, ck.hu@mediatek.com,
- matthias.bgg@gmail.com, laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
- heiko@sntech.de, wens@csie.org, jernej.skrabec@siol.net,
- thierry.reding@gmail.com, jonathanh@nvidia.com, jsarha@ti.com,
- tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- sebastian.reichel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- virtualization@lists.linux-foundation.org
-Message-ID: <2cded827-de52-6110-505d-eacab9f28772@suse.de>
-Subject: Re: [PATCH 01/22] drm/arc: Use simple encoder
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-2-tzimmermann@suse.de>
- <20200306211802.GA17369@ravnborg.org>
-In-Reply-To: <20200306211802.GA17369@ravnborg.org>
+syzbot found the following crash on:
 
---dfC3HwP1w1SRemUUkRjXLmFHcLkGVwl1e
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+HEAD commit:    63623fd4 Merge tag 'for-linus' of git://git.kernel.org/pub..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=177bf331e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9833e26bab355358
+dashboard link: https://syzkaller.appspot.com/bug?extid=d6734079f30f7fc39021
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=109d3ac3e00000
 
-Hi Sam
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+d6734079f30f7fc39021@syzkaller.appspotmail.com
 
-Am 06.03.20 um 22:18 schrieb Sam Ravnborg:
-> On Thu, Mar 05, 2020 at 04:59:29PM +0100, Thomas Zimmermann wrote:
->> The arc driver uses empty implementations for its encoders. Replace
->> the code with the generic simple encoder.
->=20
-> We should , as a follow-up patch, embed the encoder in
-> arcgpu_drm_private.
-> Then we drop the kzalloc() and avoid that life-time challenge.
-
-You're right, there's a devm_kzalloc() for the encoder. I didn't notice
-before. And from what I learned from the drmm_ patches, this doesn't
-work reliably.
-
-I'll drop this patch, as the series is supposed to handle embedded
-encoders. arcgpu will be fixed later when the managed API is ready.
-
-Best regards
-Thomas
-
->=20
-> This patch looks good for what it does.
->=20
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->=20
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/arc/arcpgu_hdmi.c | 10 +++-------
->>  drivers/gpu/drm/arc/arcpgu_sim.c  |  8 ++------
->>  2 files changed, 5 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/arc/arcpgu_hdmi.c b/drivers/gpu/drm/arc/a=
-rcpgu_hdmi.c
->> index 52839934f2fb..780911765e2e 100644
->> --- a/drivers/gpu/drm/arc/arcpgu_hdmi.c
->> +++ b/drivers/gpu/drm/arc/arcpgu_hdmi.c
->> @@ -7,15 +7,12 @@
->> =20
->>  #include <drm/drm_bridge.h>
->>  #include <drm/drm_crtc.h>
->> -#include <drm/drm_encoder.h>
->>  #include <drm/drm_device.h>
->> +#include <drm/drm_encoder.h>
->> +#include <drm/drm_simple_kms_helper.h>
->> =20
->>  #include "arcpgu.h"
->> =20
->> -static struct drm_encoder_funcs arcpgu_drm_encoder_funcs =3D {
->> -	.destroy =3D drm_encoder_cleanup,
->> -};
->> -
->>  int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *=
-np)
->>  {
->>  	struct drm_encoder *encoder;
->> @@ -34,8 +31,7 @@ int arcpgu_drm_hdmi_init(struct drm_device *drm, str=
-uct device_node *np)
->> =20
->>  	encoder->possible_crtcs =3D 1;
->>  	encoder->possible_clones =3D 0;
->> -	ret =3D drm_encoder_init(drm, encoder, &arcpgu_drm_encoder_funcs,
->> -			       DRM_MODE_ENCODER_TMDS, NULL);
->> +	ret =3D drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS)=
-;
->>  	if (ret)
->>  		return ret;
->> =20
->> diff --git a/drivers/gpu/drm/arc/arcpgu_sim.c b/drivers/gpu/drm/arc/ar=
-cpgu_sim.c
->> index 37d961668dfe..66ca2c26e339 100644
->> --- a/drivers/gpu/drm/arc/arcpgu_sim.c
->> +++ b/drivers/gpu/drm/arc/arcpgu_sim.c
->> @@ -8,6 +8,7 @@
->>  #include <drm/drm_atomic_helper.h>
->>  #include <drm/drm_device.h>
->>  #include <drm/drm_probe_helper.h>
->> +#include <drm/drm_simple_kms_helper.h>
->> =20
->>  #include "arcpgu.h"
->> =20
->> @@ -50,10 +51,6 @@ static const struct drm_connector_funcs arcpgu_drm_=
-connector_funcs =3D {
->>  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,=
-
->>  };
->> =20
->> -static struct drm_encoder_funcs arcpgu_drm_encoder_funcs =3D {
->> -	.destroy =3D drm_encoder_cleanup,
->> -};
->> -
->>  int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *n=
-p)
->>  {
->>  	struct arcpgu_drm_connector *arcpgu_connector;
->> @@ -68,8 +65,7 @@ int arcpgu_drm_sim_init(struct drm_device *drm, stru=
-ct device_node *np)
->>  	encoder->possible_crtcs =3D 1;
->>  	encoder->possible_clones =3D 0;
->> =20
->> -	ret =3D drm_encoder_init(drm, encoder, &arcpgu_drm_encoder_funcs,
->> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
->> +	ret =3D drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_VIRTU=
-AL);
->>  	if (ret)
->>  		return ret;
->> =20
->> --=20
->> 2.25.1
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+------------[ cut here ]------------
+kernel BUG at drivers/dma-buf/dma-buf.c:99!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 1 PID: 18500 Comm: syz-executor.0 Not tainted 5.6.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:dma_buf_release+0x35b/0x420 drivers/dma-buf/dma-buf.c:99
+Code: 00 00 e8 f8 d3 ec fc 4c 89 e7 45 31 e4 e8 ed 7a 35 fd e8 38 25 f7 fc 44 89 e0 5b 41 5c 41 5d 41 5e 41 5f 5d c3 e8 25 25 f7 fc <0f> 0b e8 1e 25 f7 fc 4c 89 ef e8 46 eb 00 00 eb 97 e8 0f 25 f7 fc
+RSP: 0018:ffffc9000296fdc8 EFLAGS: 00010293
+RAX: ffff888094086300 RBX: 0000000000000004 RCX: ffffffff847e6fc5
+RDX: 0000000000000000 RSI: ffffffff847e722b RDI: 0000000000000005
+RBP: ffffc9000296fdf0 R08: ffff888094086300 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88808c6ec800
+R13: ffff88808e6ecd7c R14: ffff88808e6ecd28 R15: ffff888097011940
+FS:  0000000002b7b940(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000008a9e80 CR3: 00000000916f0000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ __fput+0x2ff/0x890 fs/file_table.c:280
+ ____fput+0x16/0x20 fs/file_table.c:313
+ task_work_run+0x145/0x1c0 kernel/task_work.c:113
+ tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+ exit_to_usermode_loop+0x316/0x380 arch/x86/entry/common.c:164
+ prepare_exit_to_usermode arch/x86/entry/common.c:195 [inline]
+ syscall_return_slowpath arch/x86/entry/common.c:278 [inline]
+ do_syscall_64+0x676/0x790 arch/x86/entry/common.c:304
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x416011
+Code: 75 14 b8 03 00 00 00 0f 05 48 3d 01 f0 ff ff 0f 83 04 1b 00 00 c3 48 83 ec 08 e8 0a fc ff ff 48 89 04 24 b8 03 00 00 00 0f 05 <48> 8b 3c 24 48 89 c2 e8 53 fc ff ff 48 89 d0 48 83 c4 08 48 3d 01
+RSP: 002b:00007fff23e39030 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000009 RCX: 0000000000416011
+RDX: 0000000000000000 RSI: 0000000000000081 RDI: 0000000000000008
+RBP: 0000000000000000 R08: 0000000000000000 R09: 01ffffffffffffff
+R10: 0000000000770938 R11: 0000000000000293 R12: 000000000076bf20
+R13: 0000000000770948 R14: 0000000000000000 R15: 000000000076bf2c
+Modules linked in:
+---[ end trace 432bc1955550b75d ]---
+RIP: 0010:dma_buf_release+0x35b/0x420 drivers/dma-buf/dma-buf.c:99
+Code: 00 00 e8 f8 d3 ec fc 4c 89 e7 45 31 e4 e8 ed 7a 35 fd e8 38 25 f7 fc 44 89 e0 5b 41 5c 41 5d 41 5e 41 5f 5d c3 e8 25 25 f7 fc <0f> 0b e8 1e 25 f7 fc 4c 89 ef e8 46 eb 00 00 eb 97 e8 0f 25 f7 fc
+RSP: 0018:ffffc9000296fdc8 EFLAGS: 00010293
+RAX: ffff888094086300 RBX: 0000000000000004 RCX: ffffffff847e6fc5
+RDX: 0000000000000000 RSI: ffffffff847e722b RDI: 0000000000000005
+RBP: ffffc9000296fdf0 R08: ffff888094086300 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88808c6ec800
+R13: ffff88808e6ecd7c R14: ffff88808e6ecd28 R15: ffff888097011940
+FS:  0000000002b7b940(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000008a9e80 CR3: 00000000916f0000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
 
---dfC3HwP1w1SRemUUkRjXLmFHcLkGVwl1e--
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
---MGskBhwtfwJu2ES79w1QlBRF0CsXl3V4l
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5l9lgACgkQaA3BHVML
-eiMBRAgApqR+Law2DXZaFiuIJ24c8VPSKEu7Giq7JYiLOVGmKsm1p0fLKQq8TmFi
-bwgTe5PfO3G5rI3dzNv1j7u/c5JmQoOr5HqaKBFYz212GbEf25k2r2I9QDiO4yOb
-y37Fc7QVRj2rGJXyS9Zal6hvTZKpHBGlxCNBW0xuL5xwNiIUXHKta+13mqb3+PEg
-Td2cB8ln0K0sQG6kHgzlc3abvBRu1s8z0hXfpIkxlwvBdq/w0bgNxKcPf51KkbZX
-JW6WnFBik8AmFzdbOueul3n0oR+ax7JhtbFqbgi3sipfBbVep3SptrkVgUG4XVqR
-yxbVG3sywas5MF21bJOKVgiEQP3f7A==
-=tCLj
------END PGP SIGNATURE-----
-
---MGskBhwtfwJu2ES79w1QlBRF0CsXl3V4l--
-
---===============1283179534==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1283179534==--
