@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF5317CEFD
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 16:19:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 916FE17CEFF
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 16:19:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFE0C6E243;
-	Sat,  7 Mar 2020 15:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E51486E24B;
+	Sat,  7 Mar 2020 15:19:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 990E46E201
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 13:26:13 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id m33so3861780qtb.3
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2020 05:26:13 -0800 (PST)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8E76E21A
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 14:03:03 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id z65so2564292pfz.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2020 06:03:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gUkOL+11Z97b0R8dLesbdAOICKoUveakPMdqkDVaXPw=;
- b=FCSpKCl3xTu6d6RPwPExKuQvWmsrK2EB78TKjILnxJPa+UpIxtxOVvNnWKXRFB88Ll
- vPm8VOBT5vO0pp6woGvHyKnC42aGjvI7twA3zh9/7LX1pQfx2iPjb6hijH7LQ2xj1ETx
- 9ioZmBv7xabiBvQkDhlQr37ot8O7LK39233beulWcyabEN/qNmsircIkKL3a2AS56fSe
- PklbBRo/eI++ReUT5GJq2nBteuOblJOyusZm2BBB3TuM9bvhcT2s6RcCmpmORblNamzf
- fQLnIPbbsMMp7NfzIVWFJu0IdcmW9oqxhc/E+agaH26mIQlRlZEBktMwSo1jw9WJrt7X
- PFYg==
+ h=from:to:cc:subject:date:message-id;
+ bh=gaIKPIrwCubYADjJu7sbLJYt1zqBedkAptVOYUeebnQ=;
+ b=eJVYKpjGNQy3/0jAQG9Yvmmju4EmftP6llatDBOOPcGbKy29auxZvmVwQ+G9vl+BQh
+ 93rUD5+1vFq6visDWWmiC7Hx4uhVCIQY2Qu4KQLy2aL5Efusmn+k09u0fN/XZp7KSyDK
+ d8cZ78hOaQ8blzha43rIxWxmspnIv9+GBLWwSn/xN2kqMKKjr8oS1nwHqiCa2GnGeUyS
+ 2YNtFB7VqTWNYKuDcGzNGuNFhn/ckhJwOYVkmrvFJMUB0z5mFFrptxFj8P+s7aoIzdlM
+ K/Hscvl/bkXTyhS1LJ2gpKGziIJvN1dE9RW/vLY9cuqPdO1OfpKVv3t6HLGyfejvvZ0T
+ 9A5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gUkOL+11Z97b0R8dLesbdAOICKoUveakPMdqkDVaXPw=;
- b=KgpqMR/FMe9nR+YZ4MWh/V6r5KKiyCQvR/eZrwV1nW3uxQ4mM3lCpoLlnEy8iMpY3n
- F7EOjICmgfGGYRzxiGlDvoggm4txwGZnCCc4SkZXJbAjahV/wSbKNVHOiVgkO0+YTmck
- x/4Tv8FoYidhAIOvU0yP2R+F4/m7cMk0DYUjE/f3iAVT2vcxvQJQJS9MowbgXvtGR/pd
- OiVbcZuN9Z7dnSpxAhCi+QMQQUO4oDxYJo0ixqP6jG2XpMZhNSdTBW09X16mfZ5u0Vod
- szignVjPn7xVYgXVJEh7f2WUawRdhuwS82O1DYNa8NSxhN9vHzG+91SyEdyRE4l7AXGC
- 1yqg==
-X-Gm-Message-State: ANhLgQ0fNi1RBmrLZa9Cf66ZSKPnWvod8WBOTYkk5iCqoN4DYXbn4iLK
- /V4+wCHQO5CUEIxG56XzupwgVxk5x+65QrwdRLSzJ5dF
-X-Google-Smtp-Source: ADFU+vsPBOnuFWqKRzkIUHW++Zi8SPyndB8lUM1yQ+d/1kC4rwrelmYqzbuQq2uzF6MTG+aoV2pIBUn52W9JxDJ0UI4=
-X-Received: by 2002:ac8:694c:: with SMTP id n12mr7341692qtr.15.1583587572604; 
- Sat, 07 Mar 2020 05:26:12 -0800 (PST)
-MIME-Version: 1.0
-References: <1582710377-15489-1-git-send-email-kevin3.tang@gmail.com>
- <1582710377-15489-5-git-send-email-kevin3.tang@gmail.com>
- <CACvgo53dME1ioYebimSzdOMvjAudtmzpz_-5Q7rNqQnZoBpaqA@mail.gmail.com>
- <CAFPSGXYgY7=vgX6ZPWRgfxfZfBeVRj7=gUOwrcTyYpkYE1C1cA@mail.gmail.com>
- <CACvgo51ShmP+HvLHzxbpzFg2gNs-cD0iey=nM29prDhZsN7fhQ@mail.gmail.com>
-In-Reply-To: <CACvgo51ShmP+HvLHzxbpzFg2gNs-cD0iey=nM29prDhZsN7fhQ@mail.gmail.com>
-From: tang pengchuan <kevin3.tang@gmail.com>
-Date: Sat, 7 Mar 2020 21:26:01 +0800
-Message-ID: <CAFPSGXY=erOF8ouU-JkQbncghity6AP_3W=5YSuAHV=wsesQLA@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 4/6] drm/sprd: add Unisoc's drm display controller
- driver
-To: Emil Velikov <emil.l.velikov@gmail.com>
-X-Mailman-Approved-At: Sat, 07 Mar 2020 15:19:22 +0000
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=gaIKPIrwCubYADjJu7sbLJYt1zqBedkAptVOYUeebnQ=;
+ b=kMVKalvB7hBrF+UyTJewqapxlSSC1KLq/ab2ldCTME5sJLtxpq7JUah3KVxitqspe9
+ uVfv2VWNPehKXrKg8Lh7hrpDRPafEJitRxGsjPt87yVfxdnNHISzaL0nH9W4qU88Krhl
+ gjZoa5wHyz1MDyw23DlXFAVfci08TyB0+UvmAo0znGA+por5iCn/G076iTtUWbIz8eLT
+ 2avucmT2LiOPfXVQLOTVrhAAzgjiFLgb0tq3kVa4eog5UPYmwpNNb/0JRp1gc0XbtN36
+ VFKyz+/IqSrkSELCmJ9bbjw1fSpyf5gxbGhQscBk0i6+EZCO6CJJjeFNO9BUReXlrZ1A
+ RzOA==
+X-Gm-Message-State: ANhLgQ2SmQIPEo3k9MrF9OWYRz27JCegh616JyFY63ZB+ab6dWtTD0Hv
+ pfPp0nHAmyRk8MU5w9+eO7HAB7pP
+X-Google-Smtp-Source: ADFU+vtakTVmkQZCG3qPS+GHx36ySsFGc0kyS//oaXdR0rjV9BOP3tvZHFnoLHR0yeJ5lKrymgCgTw==
+X-Received: by 2002:a63:7e52:: with SMTP id o18mr8260708pgn.46.1583589782835; 
+ Sat, 07 Mar 2020 06:03:02 -0800 (PST)
+Received: from localhost ([117.18.48.82])
+ by smtp.gmail.com with ESMTPSA id 7sm12607320pjm.35.2020.03.07.06.03.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 07 Mar 2020 06:03:02 -0800 (PST)
+From: Leon He <hexiaolong2008@gmail.com>
+To: shuah@kernel.org,
+	sumit.semwal@linaro.org
+Subject: [v2] dma-buf: heaps: bugfix for selftest failure
+Date: Sat,  7 Mar 2020 22:02:45 +0800
+Message-Id: <1583589765-19344-1-git-send-email-hexiaolong2008@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Sat, 07 Mar 2020 15:19:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,99 +63,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Baolin Wang <baolin.wang@linaro.org>,
- Dave Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Orson Zhai <orsonzhai@gmail.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leon He <leon.he@unisoc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5jb20+IOS6jjIwMjDlubQz5pyIN+aX
-peWRqOWFrSDkuIrljYgxOjE05YaZ6YGT77yaCj4KPiBPbiBUaHUsIDUgTWFyIDIwMjAgYXQgMTM6
-MTUsIHRhbmcgcGVuZ2NodWFuIDxrZXZpbjMudGFuZ0BnbWFpbC5jb20+IHdyb3RlOgo+ID4gT24g
-VHVlLCBNYXIgMywgMjAyMCBhdCAyOjI5IEFNIEVtaWwgVmVsaWtvdiA8ZW1pbC5sLnZlbGlrb3ZA
-Z21haWwuY29tPiB3cm90ZToKPgo+ID4+IEhhdmUgeW91IHNlZW4gYSBjYXNlIHdoZXJlIHRoZSAw
-IG9yIGRlZmF1bHQgY2FzZSBhcmUgcmVhY2hlZD8gQUZBSUNUIHRoZXkgd2lsbAo+ID4+IG5ldmVy
-IHRyaWdnZXIuIFNvIG9uZSBtaWdodCBhcyB3ZWxsIHVzZToKPiA+Pgo+ID4+ICAgICBzd2l0Y2gg
-KGFuZ2xlKSB7Cj4gPj4gICAgIGNhc2UgRFJNX01PREVfRk9POgo+ID4+ICAgICAgICAgcmV0dXJu
-IERQVV9MQVlFUl9ST1RBVElPTl9GT087Cj4gPj4gICAgIC4uLgo+ID4+ICAgICBjYXNlIERSTV9N
-T0RFX0JBUjoKPiA+PiAgICAgICAgIHJldHVybiBEUFVfTEFZRVJfUk9UQVRJT05fQkFSOwo+ID4+
-ICAgICB9Cj4gPj4KPiA+IFllYWgsIHRoZSAwIG1heWJlIHVudXNlZCBjb2RlLCBpIHdpbGwgcmVt
-b3ZlIGl0Lgo+ID4gQnV0IGkgdGhpbmsgZGVmYXVsdCBpcyBuZWVkLCBiZWNhdXNlIHVzZXJzcGFj
-ZSBjb3VsZCBnaXZlIGFuIGluY29ycmVjdCB2YWx1ZSAuCj4gPiBTbyB3ZSBuZWVkIHRvIHNldHVw
-IGEgZGVmYXVsdCB2YWx1ZSBhbmQgZG9pbmcgZXJyb3IgY2hlY2suCj4KPiBBcyBtZW50aW9uZWQg
-aW4gdGhlIGRvY3VtZW50YXRpb24gWzBdIGlucHV0ICh1c2Vyc3BhY2UpIHZhbGlkYXRpb24KPiBz
-aG91bGQgaGFwcGVuIGluIGF0b21pY19jaGVjay4gVGhpcyBmdW5jdGlvbiBoZXJlIGlzIGNhbGxl
-ZCBkdXJpbmcKPiBhdG9taWNfZmx1c2ggd2hpY2ggaXMgX25vdF8gYWxsb3dlZCB0byBmYWlsLgpJ
-biBkcm0gYXRvbWljIGNvbW1pdCBjb2RlcGF0aDoKZHJtX2F0b21pY19jb21taXQtLT5kcm1fYXRv
-bWljX3BsYW5lX2NoZWNrLS0tPmRybV9wbGFuZV9jaGVja19waXhlbF9mb3JtYXQKYWxyZWFkeSBo
-ZWxwZWQgdXMgY2hlY2sgRFJNX0ZPUk1BVF9YWFgsIHNvIGRlZmF1bHQgbGFiZXIgaXMgZGVhZCBj
-b2RlLgpJcyBqdXN0IGEgd2FzdGUgb2YgdGltZSBhbmQgaW5jcmVhc2VzIHRoZSBjb21wbGV4aXR5
-IG9mIHRoZSBjb2RlIGZvciBubyByZWFzb24uCgpXZSBjYW4ndCB1c2UgInJldHVybiIgcmVwbGFj
-ZSAiYnJlYWsiCkJlY2F1c2UgInN3aXRjaChmb3JtYXQpIiBhbmQgInN3aXRjaChibGVuZGluZyki
-ZXhpc3QgYXQgdGhlIHNhbWUKZnVudGlvbiwgYW5kIEkgZG9uJ3QgdGhpbmsgaXQncyBhIGdvb2Qg
-aWRlYSB0byBzcGxpdCB0aGVtLgpJIHRoaW5rIHRoZXJlIGFyZSB0d28gc29sdXRpb25z77yaCjEu
-IFJlbW92ZSBkZWZhdWx0IGxhYmVsIGNvbXBsZXRlbHkKMi4gQWRkICJkZWZhdWx0OiAvLyBEbyBu
-b3RoaW5nIiwgRWc6CmludCBmbGFnID0gdmFsdWUgPiAxMDAwID8gMSA6IDA7CnN3aWNoKGZsYWcp
-IHsKICAgIGNhc2UgMDoKICAgICAgICAvLyBkbyBzb21ldGhpbmcKICAgICAgICBicmVhazsKICAg
-IGNhc2UgMToKICAgICAgICAvLyBkbyBzb21ldGhpbmcKICAgICAgICBicmVhazsKICAgIGRlZmF1
-bHQ6IC8vIGRvIG5vdGhpbmcKICAgICAgICAgYnJlYWs7Cn0KCj4KPgo+Cj4gPj4gVGhlIGRlZmF1
-bHQgY2FzZSBoZXJlIHNob3VsZCBiZSB1bnJlYWNoYWJsZS4gRWl0aGVyIGl0IGlzIG9yIHRoZSB1
-cHBlciBsYXllciAob3IKPiA+PiBlYXJsaWVyIGNvZGUpIHNob3VsZCBlbnN1cmUgdGhhdC4KPiA+
-Cj4gPiBUaGVyZSB3aWxsIGJlIHNvbWUgZGlmZmVyZW5jZXMgaW4gdGhlIGZvcm1hdHMgc3VwcG9y
-dGVkIGJ5IGRpZmZlcmVudCBjaGlwcywgYnV0IHVzZXJzcGFjZSB3aWxsIG9ubHkgaGF2ZSBvbmUg
-c2V0IG9mIGNvZGUuCj4gPiBTbyBpdCBpcyBuZWNlc3NhcnkgdG8gY2hlY2sgd2hldGhlciB0aGUg
-cGFyYW1ldGVycyBwYXNzZWQgYnkgdGhlIHVzZXIgbGF5ZXIgYXJlIHdyb25nLiBJIHRoaW5rIGl0
-IGlzIG5lY2Vzc2FyeQo+Cj4gQXMgc2FpZCBhYm92ZSAtIHRoaXMgdHlwZSBvZiBpc3N1ZXMgc2hv
-dWxkIGJlIGNoZWNrZWQgX2JlZm9yZV8KPiByZWFjaGluZyBhdG9taWNfZmx1c2ggLSBha2EgaW4g
-YXRvbWljX2NoZWNrLgpZb3VyIGFyZSByaWdodCwgc3dpdGNoKGZvcm1hdCkgYW5kIHN3aXRjaChi
-bGVuZGluZykgd2lsbCBuZXZlciByZWFjaApkZWZhdWx0IGxhYmVsLCBzbyBpdCdzIGRlYWQgY29k
-ZS4KQXMgZm9yIHJvdGF0aW9uLCB3ZSB3aWxsIGVuc3VyZSBpdCBpcyBjb3JyZWN0IGF0IHRoZSB1
-c2VyIGxheWVyLgo+Cj4KPiA+PiA+ICtzdGF0aWMgc3RydWN0IGRybV9wbGFuZSAqc3ByZF9wbGFu
-ZV9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sCj4gPj4gPiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgc3RydWN0IHNwcmRfZHB1ICpkcHUpCj4gPj4gPiArewo+ID4+
-ID4gKyAgICAgICBzdHJ1Y3QgZHJtX3BsYW5lICpwcmltYXJ5ID0gTlVMTDsKPiA+PiA+ICsgICAg
-ICAgc3RydWN0IHNwcmRfcGxhbmUgKnAgPSBOVUxMOwo+ID4+ID4gKyAgICAgICBzdHJ1Y3QgZHB1
-X2NhcGFiaWxpdHkgY2FwID0ge307Cj4gPj4gPiArICAgICAgIGludCBlcnIsIGk7Cj4gPj4gPiAr
-Cj4gPj4gPiArICAgICAgIGlmIChkcHUtPmNvcmUgJiYgZHB1LT5jb3JlLT5jYXBhYmlsaXR5KQo+
-ID4+IEFzIG1lbnRpb25lZCBiZWZvcmUgLSB0aGlzIGFsd2F5cyBldmFsdWF0ZXMgdG8gdHJ1ZSwg
-c28gZHJvcCB0aGUgY2hlY2suCj4gPj4gU2FtZSBhcHBsaWVzIGZvciB0aGUgb3RoZXIgZHB1LT5j
-b3JlLT5mb28gY2hlY2tzLgo+ID4+Cj4gPj4gU3RpbGwgbm90IGEgaHVnZSBmYW4gb2YgdGhlIGFi
-c3RyYWN0aW9uIGxheWVyLCBidXQgSSBndWVzcyB5b3UncmUgaGVzaXRhbnQgb24KPiA+PiByZW1v
-dmluZyBpdC4KPiA+Cj4gPiBTb21ldGltZXMsICBzb21lICJkcHUtPmNvcmUtPmZvbyIgbWF5YmUg
-YWx3YXlzIG5lZWQsIGNvbXBhdGliaWxpdHkgd2lsbCBiZSBiZXR0ZXIuCj4gPiBlZzoKPiA+Cj4g
-PiAgICAgaWYgKGRwdS0+Z2xiICYmIGRwdS0+Z2xiLT5wb3dlcikKPiA+ICAgICAgICAgZHB1LT5n
-bGItPnBvd2VyKGN0eCwgdHJ1ZSk7Cj4gPiAgICAgaWYgKGRwdS0+Z2xiICYmIGRwdS0+Z2xiLT5l
-bmFibGUpCj4gPiAgICAgICAgIGRwdS0+Z2xiLT5lbmFibGUoY3R4KTsKPiA+Cj4gPiAgICAgaWYg
-KGN0eC0+aXNfc3RvcHBlZCAmJiBkcHUtPmdsYiAmJiBkcHUtPmdsYi0+cmVzZXQpCj4gPiAgICAg
-ICAgIGRwdS0+Z2xiLT5yZXNldChjdHgpOwo+ID4KPiA+ICAgICBpZiAoZHB1LT5jbGsgJiYgZHB1
-LT5jbGstPmluaXQpCj4gPiAgICAgICAgIGRwdS0+Y2xrLT5pbml0KGN0eCk7Cj4gPiAgICAgaWYg
-KGRwdS0+Y2xrICYmIGRwdS0+Y2xrLT5lbmFibGUpCj4gPiAgICAgICAgIGRwdS0+Y2xrLT5lbmFi
-bGUoY3R4KTsKPiA+Cj4gPiAgICAgaWYgKGRwdS0+Y29yZSAmJiBkcHUtPmNvcmUtPmluaXQpCj4g
-PiAgICAgICAgIGRwdS0+Y29yZS0+aW5pdChjdHgpOwo+ID4gICAgIGlmIChkcHUtPmNvcmUgJiYg
-ZHB1LT5jb3JlLT5pZmNvbmZpZykKPiA+ICAgICAgICAgZHB1LT5jb3JlLT5pZmNvbmZpZyhjdHgp
-Owo+ID4KPgo+IElmIHRoZXJlIGFyZSBubyBob29rcywgdGhlbiB0aGUgd2hvbGUgdGhpbmcgaXMg
-ZGVhZCBjb2RlLiBBcyBzdWNoIGl0Cj4gc2hvdWxkIG5vdCBiZSBpbmNsdWRlZC4KPgo+Cj4gPiA+
-Cj4gPiA+IE5vdGU6IEN1c3RvbSBwcm9wZXJ0aWVzIHNob3VsZCBiZSBzZXBhcmF0ZSBwYXRjaGVz
-LiBUaGlzIGluY2x1ZGVzIGRvY3VtZW50YXRpb24KPiA+ID4gd2h5IHRoZXkgYXJlIG5lZWRlZCBh
-bmQgcmVmZXJlbmNlcyB0byBvcGVuLXNvdXJjZSB1c2Vyc3BhY2UuCj4gPiBUaGlzIG9ubHkgbmVl
-ZCBmb3Igb3VyIGNoaXBzLCB3aGF0IGRvY3VtZW50YXRpb24gZG8gd2UgbmVlZCB0byBwcm92aWRl
-Pwo+ID4KPgo+IEtNUyBwcm9wZXJ0aWVzIHNob3VsZCBiZSBnZW5lcmljLiBSZWFzb24gYmVpbmcg
-aXMgdGhhdCBkaXZlcmdlbmNlCj4gY2F1c2VzIHN1YnN0YW50aWFsIG92ZXJoZWFkLCBhbmQgZnJh
-Z2lsaXR5LCB0byBlYWNoIGFuZCBldmVyeQo+IHVzZXJzcGFjZSBjb25zdW1lci4gVGhlIGRvY3Vt
-ZW50YXRpb24gaGFzIHNvbWUgZ2VuZXJhbCBub3RlcyBvbiB0aGUKPiB0b3BpYyBbMV0uIERvbid0
-IGZvcmdldCB0aGUgIlRlc3RpbmcgYW5kIHZhbGlkYXRpb24iIHNlY3Rpb24gOy0pCj4KPiBBbHRo
-b3VnaCBJJ3ZlIHRyaWVkIHRvIGNhdGNoIGV2ZXJ5dGhpbmcsIEkgbWlnaHQgaGF2ZSBtaXNzZWQg
-YSBjb21tZW50Cj4gb3IgdHdvIGR1ZSB0aGUgSFRNTCBmb3JtYXR0aW5nLiBQbGVhc2UgdG9nZ2xl
-IHRvIHBsYWluIHRleHQgWzJdIGZvcgo+IHRoZSBmdXR1cmUuCkkgZ290IGl0Cj4KPiBUaGFua3MK
-PiAtRW1pbAo+Cj4gWzBdIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvdjUuNS9ncHUv
-ZHJtLWttcy5odG1sCj4gWzFdIERvY3VtZW50YXRpb24vZ3B1L2RybS11YXBpLnJzdCBpbiBwYXJ0
-aWN1bGFyICJPcGVuLVNvdXJjZQo+IFVzZXJzcGFjZSBSZXF1aXJlbWVudHMiCj4gWzJdIGh0dHBz
-Oi8vc21hbGxidXNpbmVzcy5jaHJvbi5jb20vcmVwbHktaW5saW5lLWdtYWlsLTQwNjc5Lmh0bWwK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+From: Leon He <leon.he@unisoc.com>
+
+There are two errors in the dmabuf-heap selftest:
+1. The 'char name[5]' was not initialized to zero, which will cause
+   strcmp(name, "vgem") failed in check_vgem().
+2. The return value of test_alloc_errors() should be reversed, other-
+   wise the while loop in main() will be broken.
+
+Signed-off-by: Leon He <leon.he@unisoc.com>
+---
+ tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+index cd5e1f6..836b185 100644
+--- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
++++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+@@ -22,7 +22,7 @@
+ static int check_vgem(int fd)
+ {
+ 	drm_version_t version = { 0 };
+-	char name[5];
++	char name[5] = { 0 };
+ 	int ret;
+ 
+ 	version.name_len = 4;
+@@ -357,7 +357,7 @@ static int test_alloc_errors(char *heap_name)
+ 	if (heap_fd >= 0)
+ 		close(heap_fd);
+ 
+-	return ret;
++	return !ret;
+ }
+ 
+ int main(void)
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
