@@ -2,57 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4ADF17CD86
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D035E17CD88
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 11:15:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1060F6E15E;
-	Sat,  7 Mar 2020 10:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F956E151;
+	Sat,  7 Mar 2020 10:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63B5E6E532
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 01:39:32 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id d12so4169688lji.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 17:39:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Vk7WexqGs9tKsJw0u0mXwTU3mYoTxeM70bWaTcQP0sk=;
- b=Mr40nDBsa29tmNy/wYcVN8rJvjzzdDoxgm/e0OT/i+X5gj6oERCsq+lDLv8GhQsZvs
- /BW/cUQyoz4S/WPxdEptsHM+GBEilpD4Nq2ZVnf1e/VdUZcP0S3oH15LeXAmHUqNpMJU
- hc+dfOGM0+/pKDaVUcRjZuLA2ZX+8fzJpf6a2+OZhv4DoKt4FhZxKsKX+TMfoM8eV3cX
- gdf6759jtZGcpu+05fD27i3KizcmrSWCB490SZhraUQfGXmd1xm/l2W3UJxNjhz63IlK
- KwRoD0XOwJmlTmmjvAY3H6VoHLcfOfb/26gbr1LMAchIY5Qk65YOqoeA6kQTVQKBaRnJ
- rxLA==
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 264046E055
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 05:41:14 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id x2so3263303ila.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2020 21:41:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Vk7WexqGs9tKsJw0u0mXwTU3mYoTxeM70bWaTcQP0sk=;
- b=gYc48zobUNdIZJkC8uA2n74eZAhX5ei0ld8hPlIK+Bpv4QUH3/VgGk7jgP00nEoGRd
- Aq8H0NPjzz2j9UL6B/D8hUg1M9dRnWWOeiUUMEsygQNko34lAFglbQuh530H34bnR4It
- SKTNU9erZaOHW/nt6Y0jn10pInM6acCM6bzGih5GA58MP6C2bP6XeXEBR/Nm2pvCoeZg
- X/iTi51XGHsas0ONjrSZWUM8Yjz2OnfYfrLdI4K5p5QwgwIEpP2mssuMZNZ7tUMzhRA3
- qbezlNbziAvDBQhAuByt3r3/+o34ASw2qElxZEKiN6HMS9U9aWR5sOgSzYGRY3QApfEk
- V5YA==
-X-Gm-Message-State: ANhLgQ0Fshm4i28Zk/iwcp2IK6r0Vut2D9let/9G7Sqgkj8yFgkauJFB
- kHFZiM3wObNrZ+dad0YU0/wS5QExlLPSaAkdAVtCTA==
-X-Google-Smtp-Source: ADFU+vsV+qVX0unqQUwWcGQVeYWEY2ubHw2+vJbqxcPBD1kNsVUvnDRy2az5R7tCqlw5INchb6uGPLZKiPuNJEV393c=
-X-Received: by 2002:a2e:b88d:: with SMTP id r13mr3359183ljp.66.1583545170498; 
- Fri, 06 Mar 2020 17:39:30 -0800 (PST)
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=8QrBn6vtevMXdmEfXm7wyezrQLMzd+pZc9pFYXzbb7A=;
+ b=CBEsinfKcsB5hTQqVSbAfF+hvBJd6iUIzlPefbnhtLFU+oEHp60OykIlZVF8pZH5wL
+ juYMxSYKXf4Vc6Jzg4+h9vay/qocd3WJtQclxvJNYPOP2VCK3Rz5LB3xYY2Na7Md8kCw
+ JlS9N8/tBheC79K/63ishRTXkDWlk+VIH2fYHf1NT+eBcRaN508nIKOXrVk1itXddjo9
+ 25Kj0g+TMNw/QHhXBTIeUTtjmsGIQRIdgHz7O5cY5v5hdMWqZbA9+q1EokGJuYOhBrgD
+ dX8iy8+t/i8nnB4gi36j9wkIZ3OHyxbsoOIds2zbzzXO3b/o0p3JdgZKdKQ/uNYYvqLx
+ QuYw==
+X-Gm-Message-State: ANhLgQ1ha2/1ePJhocYYLFKAplFCfXqG8aKGCZ1QHCAI/MnqujgnLFmy
+ oNvefWjodI2/aXmtP4chTBy8M583GMXNHNzVwQysyHTBL2/8
+X-Google-Smtp-Source: ADFU+vvEoEH+SghOZX3ris+rh4hGitpSlR4lu5HDAW/qGPxB9MopvIOmmBZK9ETnHrmCjsBACLReYgPzIMB/Tx+3s2poekB1/kQ2
 MIME-Version: 1.0
-References: <20200305012338.219746-1-rajatja@google.com>
- <20200305012338.219746-3-rajatja@google.com>
- <87o8tbnnqa.fsf@intel.com>
- <CACK8Z6HRB9q1KeborGr7V-0Qp0AApHV6gBTkc6xD5NokH8gr0w@mail.gmail.com>
- <87tv31om53.fsf@intel.com>
-In-Reply-To: <87tv31om53.fsf@intel.com>
-From: Rajat Jain <rajatja@google.com>
-Date: Fri, 6 Mar 2020 17:38:53 -0800
-Message-ID: <CACK8Z6HFOpsfhHo=y9Qj_NSdiCGBHsvchZ335mU1BQ5CYQq1VQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/3] drm/i915: Lookup and attach ACPI device node for
- connectors
-To: Jani Nikula <jani.nikula@linux.intel.com>
+X-Received: by 2002:a02:3093:: with SMTP id q141mr6351871jaq.121.1583559673441; 
+ Fri, 06 Mar 2020 21:41:13 -0800 (PST)
+Date: Fri, 06 Mar 2020 21:41:13 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d0f3cb05a03d37ec@google.com>
+Subject: KASAN: use-after-free Read in dmabuffs_dname
+From: syzbot <syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Sat, 07 Mar 2020 10:14:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,110 +53,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@google.com>, David Airlie <airlied@linux.ie>,
- Sugumaran Lacshiminarayanan <slacshiminar@lenovo.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Mark Pearson <mpearson@lenovo.com>, Tomoki Maruichi <maruichit@lenovo.com>,
- Jesse Barnes <jsbarnes@google.com>, Rajat Jain <rajatxjain@gmail.com>,
- intel-gfx@lists.freedesktop.org, Mat King <mathewk@google.com>,
- =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Duncan Laurie <dlaurie@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Pavel Machek <pavel@denx.de>, Nitin Joshi1 <njoshi1@lenovo.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 6, 2020 at 1:42 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Thu, 05 Mar 2020, Rajat Jain <rajatja@google.com> wrote:
-> > On Thu, Mar 5, 2020 at 1:41 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> >>
-> >> On Wed, 04 Mar 2020, Rajat Jain <rajatja@google.com> wrote:
-> >> 1) See if we can postpone creating and attaching properties to connector
-> >> ->late_register hook. (I didn't have the time to look into it yet, at
-> >> all.)
-> >
-> > Apparently not. The drm core doesn't like to add properties in
-> > late_register() callback. I just tried it and get this warning:
->
-> I kind of had a feeling this would be the case, thanks for checking.
+Hello,
 
-Thinking about it again, it looks like there is a difference in
-creating a property and attaching a property. I'm wondering if drm
-would let me (unconditionally) create a property before registering,
-and attach it in late_register() only in case a privacy screen is
-detected. (If not present, I can destroy the property in
-late_register()). If this approach sound more promising, I can try it
-out.
+syzbot found the following crash on:
 
->
-> >> 2) Provide a way to populate connector->acpi_device_id and
-> >> connector->acpi_handle on a per-connector basis. At least the device id
-> >> remains constant for the lifetime of the drm_device
-> >
-> > Are you confirming that the connector->acpi_device_id remains constant
-> > for the lifetime of the drm_device, as calculated in
-> > intel_acpi_device_id_update()?  Even in the face of external displays
-> > (monitors) being connected and disconnected during the lifetime of the
-> > system? If so, then I think we can have a solution.
->
-> First I thought so. Alas it does not hold for DP MST, where you can have
-> connectors added and removed dynamically. I think we could ensure they
-> stay the same for all other connectors though. I'm pretty sure this is
-> already the case; they get added/removed after all others.
->
-> Another thought, from the ACPI perspective, I'm not sure the dynamically
-> added/removed DP MST connectors should even have acpi handles. But
-> again, tying all this together with ACPI stuff is not something I am an
-> expert on.
+HEAD commit:    63623fd4 Merge tag 'for-linus' of git://git.kernel.org/pub..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11653ac3e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9833e26bab355358
+dashboard link: https://syzkaller.appspot.com/bug?extid=3643a18836bce555bff6
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+userspace arch: i386
 
-I propose that we:
+Unfortunately, I don't have any reproducer for this crash yet.
 
-1) Maintain a display_index[] array within the drm_dev, and increment
-as connectors are added.
-2) Initialize connector->acpi_device_id and and connector->acpi_handle
-while registering (one time per connector).
-3) Remove the code to update acpi_device_id on every resume.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
 
-It doesn't look like anyone on the DP MST side has cared for ACPI so
-far, so I doubt if we can do anything that might break MST currently.
-In other words, the above should not make things any worse for MST, if
-not better. For connectors other than MST, this should allow them to
-get ACPI handle and play with it, if they need.
+==================================================================
+BUG: KASAN: use-after-free in dmabuffs_dname+0x4f4/0x560 drivers/dma-buf/dma-buf.c:48
+Read of size 8 at addr ffff8880a6b390e8 by task syz-executor.1/2394
 
-WDYT?
+CPU: 1 PID: 2394 Comm: syz-executor.1 Not tainted 5.6.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x197/0x210 lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
+ __kasan_report.cold+0x1b/0x32 mm/kasan/report.c:506
+ kasan_report+0x12/0x20 mm/kasan/common.c:641
+ __asan_report_load8_noabort+0x14/0x20 mm/kasan/generic_report.c:135
+ dmabuffs_dname+0x4f4/0x560 drivers/dma-buf/dma-buf.c:48
+ tomoyo_realpath_from_path+0x165/0x660 security/tomoyo/realpath.c:259
+ tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
+ tomoyo_check_open_permission+0x2a3/0x3e0 security/tomoyo/file.c:771
+ tomoyo_file_open security/tomoyo/tomoyo.c:319 [inline]
+ tomoyo_file_open+0xa9/0xd0 security/tomoyo/tomoyo.c:314
+ security_file_open+0x71/0x300 security/security.c:1529
+ do_dentry_open+0x37a/0x1380 fs/open.c:784
+ vfs_open+0xa0/0xd0 fs/open.c:914
+ do_last fs/namei.c:3490 [inline]
+ path_openat+0x12ee/0x3490 fs/namei.c:3607
+ do_filp_open+0x192/0x260 fs/namei.c:3637
+ do_sys_openat2+0x5eb/0x7e0 fs/open.c:1149
+ do_sys_open+0xf2/0x180 fs/open.c:1165
+ __do_compat_sys_open fs/open.c:1212 [inline]
+ __se_compat_sys_open fs/open.c:1210 [inline]
+ __ia32_compat_sys_open+0x79/0xb0 fs/open.c:1210
+ do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
+ do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
+ entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
+RIP: 0023:0xf7fd8e39
+Code: 1d 00 00 00 89 d3 5b 5e 5d c3 8b 04 24 c3 8b 1c 24 c3 8b 3c 24 c3 90 90 90 90 90 90 90 90 90 90 90 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 002b:00000000f5db2014 EFLAGS: 00000296 ORIG_RAX: 0000000000000005
+RAX: ffffffffffffffda RBX: 00000000f5db204c RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000c09 RDI: 00000000f5db204c
+RBP: 00000000f5db2168 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
 
-Thanks,
+Allocated by task 2388:
+ save_stack+0x23/0x90 mm/kasan/common.c:72
+ set_track mm/kasan/common.c:80 [inline]
+ __kasan_kmalloc mm/kasan/common.c:515 [inline]
+ __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:488
+ kasan_kmalloc+0x9/0x10 mm/kasan/common.c:529
+ __do_kmalloc mm/slab.c:3656 [inline]
+ __kmalloc+0x163/0x770 mm/slab.c:3665
+ kmalloc include/linux/slab.h:560 [inline]
+ kzalloc include/linux/slab.h:669 [inline]
+ dma_buf_export+0x24d/0xa80 drivers/dma-buf/dma-buf.c:533
+ ion_alloc drivers/staging/android/ion/ion.c:386 [inline]
+ ion_ioctl+0x5a9/0xd20 drivers/staging/android/ion/ion.c:495
+ compat_ptr_ioctl+0x6e/0xa0 fs/ioctl.c:804
+ __do_compat_sys_ioctl fs/ioctl.c:857 [inline]
+ __se_compat_sys_ioctl fs/ioctl.c:808 [inline]
+ __ia32_compat_sys_ioctl+0x245/0x2c0 fs/ioctl.c:808
+ do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
+ do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
+ entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
 
-Rajat
+Freed by task 2380:
+ save_stack+0x23/0x90 mm/kasan/common.c:72
+ set_track mm/kasan/common.c:80 [inline]
+ kasan_set_free_info mm/kasan/common.c:337 [inline]
+ __kasan_slab_free+0x102/0x150 mm/kasan/common.c:476
+ kasan_slab_free+0xe/0x10 mm/kasan/common.c:485
+ __cache_free mm/slab.c:3426 [inline]
+ kfree+0x10a/0x2c0 mm/slab.c:3757
+ dma_buf_release+0x343/0x420 drivers/dma-buf/dma-buf.c:111
+ __fput+0x2ff/0x890 fs/file_table.c:280
+ ____fput+0x16/0x20 fs/file_table.c:313
+ task_work_run+0x145/0x1c0 kernel/task_work.c:113
+ tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+ exit_to_usermode_loop+0x316/0x380 arch/x86/entry/common.c:164
+ prepare_exit_to_usermode arch/x86/entry/common.c:195 [inline]
+ syscall_return_slowpath arch/x86/entry/common.c:278 [inline]
+ do_syscall_32_irqs_on arch/x86/entry/common.c:352 [inline]
+ do_fast_syscall_32+0xbbd/0xe16 arch/x86/entry/common.c:408
+ entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
 
->
-> >> (why do we keep
-> >> updating it at every resume?!) but can we be sure ->acpi_handle does
-> >> too? (I don't really know my way around ACPI.)
-> >
-> > I don't understand why this was being updated on every resume in that
-> > case (this existed even before my patchset). I believe we do not need
-> > it. Yes, the ->acpi_handle will not change if the ->acpi_device_id
-> > does not change. I believe the way forward should then be to populate
-> > connector->acpi_device_id and connector->acpi_handle ONE TIME at the
-> > time of connector init (and not update it on every resume). Does this
-> > sound ok?
->
-> If a DP MST connector gets removed, should the other ACPI display
-> indexes after that shift, or remain the same? I really don't know.
->
-> BR,
-> Jani.
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+The buggy address belongs to the object at ffff8880a6b39000
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 232 bytes inside of
+ 1024-byte region [ffff8880a6b39000, ffff8880a6b39400)
+The buggy address belongs to the page:
+page:ffffea00029ace40 refcount:1 mapcount:0 mapping:ffff8880aa400c40 index:0x0
+flags: 0xfffe0000000200(slab)
+raw: 00fffe0000000200 ffffea0002346b48 ffffea00022f49c8 ffff8880aa400c40
+raw: 0000000000000000 ffff8880a6b39000 0000000100000002 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff8880a6b38f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff8880a6b39000: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff8880a6b39080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                          ^
+ ffff8880a6b39100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8880a6b39180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
