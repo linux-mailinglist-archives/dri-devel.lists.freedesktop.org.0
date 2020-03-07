@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD1117D053
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 22:42:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 453FF17D073
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 23:25:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDDBB6E112;
-	Sat,  7 Mar 2020 21:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BAC6E260;
+	Sat,  7 Mar 2020 22:25:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98A736E112
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 21:41:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90E2A6E260
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 22:25:49 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206781] New: GM104 (GeForce 840m) with many errors "fifo:
+Subject: [Bug 206781] GM104 (GeForce 840m) with many errors "fifo:
  SCHED_ERROR 20"
-Date: Sat, 07 Mar 2020 21:41:54 +0000
+Date: Sat, 07 Mar 2020 22:25:49 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: gsedej@gmail.com
+X-Bugzilla-Who: imirkin@alum.mit.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-206781-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-206781-2300-rUpVziiaUe@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206781-2300@https.bugzilla.kernel.org/>
+References: <bug-206781-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -59,62 +59,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206781
 
-            Bug ID: 206781
-           Summary: GM104 (GeForce 840m) with many errors "fifo:
-                    SCHED_ERROR 20"
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.4
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: high
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: gsedej@gmail.com
-        Regression: No
+Ilia Mirkin (imirkin@alum.mit.edu) changed:
 
-Created attachment 287821
-  --> https://bugzilla.kernel.org/attachment.cgi?id=287821&action=edit
-dmesg contining errors - shortend at end
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |imirkin@alum.mit.edu
 
-Laptop HP Envy 15 with i7-4700mq and GeForce 840m on Ubuntu 18.04 and 20.04.
+--- Comment #1 from Ilia Mirkin (imirkin@alum.mit.edu) ---
+As mentioned on IRC, the MMIO faults at the start aren't anything to worry
+about.
 
-nouveau outputs many megabytes into system logs (kern.log and syslog) with
-"nouveau 0000:07:00.0: fifo: SCHED_ERROR 20 []"
+These two I've never seen before:
 
-
-full log is in attachment
-
-some relevant output before "SCHED_ERROR"
-
-
-nouveau 0000:07:00.0: NVIDIA GM108 (118010a2)
-...
-nouveau 0000:07:00.0: bios: version 82.08.14.00.0e
-...
-nouveau 0000:07:00.0: fb: 2048 MiB DDR3
-nouveau 0000:07:00.0: bus: MMIO read of 00000000 FAULT at 6013d4 [ IBUS ]
-...
-nouveau 0000:07:00.0: bus: MMIO read of 00000000 FAULT at 10ac08 [ IBUS ]
 nouveau 0000:07:00.0: fifo: fault 01 [WRITE] at 0000000000150000 engine 05
 [BAR2] client 08 [HUB/HOST_CPU_NB] reason 02 [PTE] on channel -1 [007fd38000
 unknown]
 nouveau 0000:07:00.0: fifo: fault 01 [WRITE] at 0000000000000000 engine 05
 [BAR2] client 08 [HUB/HOST_CPU_NB] reason 0a [UNSUPPORTED_APERTURE] on channel
 -1 [007fd38000 unknown]
-vga_switcheroo: enabled
-[TTM] Zone  kernel: Available graphics memory: 8164024 KiB
-nouveau 0000:07:00.0: fifo: SCHED_ERROR 20 []
-nouveau 0000:07:00.0: fifo: SCHED_ERROR 20 []
-nouveau 0000:07:00.0: fifo: SCHED_ERROR 20 []
-...
 
-
-I have also reported here:
-https://gitlab.freedesktop.org/xorg/driver/xf86-video-nouveau/issues/522
+And the SCHED thing is most frequently due to the ctxsw firmware timing out or
+other error. But given the faults above, could easily be follow-on from that.
 
 -- 
 You are receiving this mail because:
