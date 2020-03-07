@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08B917DA6E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 09:14:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D2217DA74
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 09:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 740E96E2EF;
-	Mon,  9 Mar 2020 08:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 584886E31D;
+	Mon,  9 Mar 2020 08:14:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from shell.v3.sk (unknown [167.172.186.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64646E25D
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 19:08:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 794556E25D
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 19:08:08 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 60641E00D1;
- Sat,  7 Mar 2020 19:08:24 +0000 (UTC)
+ by zimbra.v3.sk (Postfix) with ESMTP id D9BA8E00D3;
+ Sat,  7 Mar 2020 19:08:25 +0000 (UTC)
 Received: from shell.v3.sk ([127.0.0.1])
  by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id hO3c3OLp_9pF; Sat,  7 Mar 2020 19:08:23 +0000 (UTC)
+ with ESMTP id XwkNf2ZU1kmz; Sat,  7 Mar 2020 19:08:23 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 29AA2E00D3;
+ by zimbra.v3.sk (Postfix) with ESMTP id B6FACE0161;
  Sat,  7 Mar 2020 19:08:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at zimbra.v3.sk
 Received: from shell.v3.sk ([127.0.0.1])
  by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id dbpamSfDxU63; Sat,  7 Mar 2020 19:08:22 +0000 (UTC)
+ with ESMTP id YrblnvZ3IINr; Sat,  7 Mar 2020 19:08:23 +0000 (UTC)
 Received: from furthur.lan (unknown [109.183.109.54])
- by zimbra.v3.sk (Postfix) with ESMTPSA id 4641CDFEC0;
+ by zimbra.v3.sk (Postfix) with ESMTPSA id E2D02E00D1;
  Sat,  7 Mar 2020 19:08:22 +0000 (UTC)
 From: Lubomir Rintel <lkundrak@v3.sk>
 To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: [RESEND PATCH v2 0/3] Add support for Chrontel CH7033 VGA/DVI Encoder
-Date: Sat,  7 Mar 2020 20:07:57 +0100
-Message-Id: <20200307190800.142658-1-lkundrak@v3.sk>
+Subject: [RESEND PATCH v2 1/3] dt-bindings: Add vendor prefix for Chrontel,
+ Inc.
+Date: Sat,  7 Mar 2020 20:07:58 +0100
+Message-Id: <20200307190800.142658-2-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200307190800.142658-1-lkundrak@v3.sk>
+References: <20200307190800.142658-1-lkundrak@v3.sk>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 09 Mar 2020 08:13:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,31 +55,41 @@ Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
  Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
  David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>,
+ Lubomir Rintel <lkundrak@v3.sk>, Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Chrontel makes encoders for video displays and perhaps other stuff.
+Their web site is http://www.chrontel.com/.
 
-chained to this message is a driver for CH7033 along with device tree
-binding docs. I'm hoping that it could perhaps make it into 5.7. Please
-take a look.
+Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+Acked-by: Rob Herring <robh@kernel.org>
 
-Previous submission [1] contained the exact same patches as this one,
-but at that time they relied on Laurent's omapdrm/bridge/devel branch that
-has been merged since.
+---
+Changes since v1:
+- Collect Rob's ack
 
-[1] https://lore.kernel.org/lkml/20200221162743.14141-1-lkundrak@v3.sk/
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Tested to work well on MMP3-based Dell Wyse 3020. There's no datasheet or
-programming manual available.
-
-Thanks,
-Lubo
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index a2da166df1bc7..0ab86d876f4d2 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -185,6 +185,8 @@ patternProperties:
+     description: ChipOne
+   "^chipspark,.*":
+     description: ChipSPARK
++  "^chrontel,.*":
++    description: Chrontel, Inc.
+   "^chrp,.*":
+     description: Common Hardware Reference Platform
+   "^chunghwa,.*":
+-- 
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
