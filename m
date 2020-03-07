@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABB517CEAF
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 15:29:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6199717CEC8
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 15:39:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA9FC6E21A;
-	Sat,  7 Mar 2020 14:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 055AB6E21B;
+	Sat,  7 Mar 2020 14:39:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4975B6E21A
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 14:29:34 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id i10so4136546lfg.11
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2020 06:29:34 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 988136E21B
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 14:39:02 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id h18so5301230ljl.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2020 06:39:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0gth9WnIZKifidY8zRL9+Z6kQvOSg8SJ87cLGODnOlY=;
- b=ETCpnEQ66X85UPcwQDymDUWnxowB4eQ9XCHVSeL4X+M5rE28+uVc8/FD3ls4aLlTaJ
- eXUs9yPDz7CKA5az6dx3s82S7XNWyE21TurmsaI1zdYOjpG+hLuLdzXiQYEZkPw0fY7y
- kRHbvOqM/8CMNuXIwOJtDfcDynQOUpioQ5b6Pn9LgOtyjqjRfBhk5Y3m/m3gD8R69v+q
- KAEz3vc1j750gYHeBJ3Dj9YB36PXbWdhfdmKLNtNNa2HQska4OQPqDXMGhVtWTOrGyYg
- OAgXPmUnPLb7FTejCwdz/vUtGvRGkZiHD7aWKU96vo8mFZl3BoNPKC1SXBoS6q5T3Eze
- lwSw==
+ :cc:content-transfer-encoding;
+ bh=t/WcMDSzwfYzQmRuWEmm+pSOa1L1zd4g+YHoLKNww2w=;
+ b=fpr7C3M/xhPchKx+fQyooD3/w9rANaSGTyBQptulrD+rWySSDVetO5bcgNptVuT4c+
+ 1XmpDYvb7k3xaFRenM+EkwSmNBDiEHTORoptwWDbNWHzYhPxEhGKwvN5ph48L9cRLqSn
+ aqWIBhmTTc+rDf2roscoVHBRnLlXKItMShOODoXqt7L2qs8+G9Ueqh33pWw9K905QncI
+ SAhutqYZJHJy/j2IGixhgKMvlyXME76PcEtHzA9RubC1cn0e1aBAa3SB3hDHbpbsjZDP
+ YMfGTG3ki5hLMxRQuekCaoT2ahY8eBDVtVeAhlXBhpaHs9TZqCzvhOjkMiPkBPky5y1f
+ YdHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0gth9WnIZKifidY8zRL9+Z6kQvOSg8SJ87cLGODnOlY=;
- b=eF6uVz+mE4t5FbDMP3rt7GZBPjOMZMFJMCmoIYpXqXKGKHAVVQ8L9cPrHiuNkN3p2+
- tF9dQRWk3aZ8oFtLHs94AuwV8NbAer6SMRf5eZqE51NMarAe3q9D8K09k8Fdj9vkX4cv
- E9SWSJgjjgWAKHKUNqe7xr473Z07GMHn8yr9SFg6LKsk1P09rnMvvayg7dczBlmFxJtV
- WvcAedGr6ryiaiqG2ZLZTWdxsD8FqyRNiNNklHfoXCyS+O38Vi5qOWpwcJLaAMmBinvK
- 4nKHny4AUN6tqrP/kZkcTCESeqNyEtlTVlw2Q+pf36YTzul0+gGenLqGXMESSdXbkXuP
- C5aA==
-X-Gm-Message-State: ANhLgQ231OGOyxTlmGfKF4wd42x5UskTSqPvDE++M5CaXrmqn5/aHel7
- wNkiWd+HUAqnXf0WMEYGWLryMpNHRezgE8BiGtKSKw==
-X-Google-Smtp-Source: ADFU+vvulJpzwW4dwPlwEGiBPD6/xgPPJ1JBjAsUxIfOYpCdBaXBPmiDGACq5QBnT15Pl8uUvWSnqTavTKtxpRzGpPY=
-X-Received: by 2002:ac2:5f50:: with SMTP id 16mr4663459lfz.194.1583591372477; 
- Sat, 07 Mar 2020 06:29:32 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=t/WcMDSzwfYzQmRuWEmm+pSOa1L1zd4g+YHoLKNww2w=;
+ b=GeNv8WF4VLm6o8dKMZdBGZ57deMP90JL3J+h24IDbYaTlAIWmfE0VdFi5QMjFLJ5rY
+ qyQlBmJcsAxRKHZR7o2I317Z8FzHdfzACcgrgblrGtFIaTwfsdb4hGNf3YjymK1HiYdC
+ qqqcuccyDKqE0Du0cDlbhPO5p5leZJKw5D8abz8erM63HaR9LutejaAxHkwovmEWjLsO
+ d+QYTCQZicDN1ee34ArKyKZXXPd5nkUHejgLMeb4KhLrONTUqL7ZKoLJI/OQFn+juP2d
+ 11w3XWdWR7KVSCLQLW4s4H8F6qAgeLkn+6RHhgimd7AJ3EPRygGtDQgRckfkPZ3butuq
+ eyig==
+X-Gm-Message-State: ANhLgQ257WYwu13pYviKKBobHa9zDnD85EW4JwNmf7a5/4KLbLEnG5MR
+ 71wcRxCEPqlycwCcoxGz8vVRV4200CFvk585yKOMdA==
+X-Google-Smtp-Source: ADFU+vsYvZpVdEipQjSZrB1h4wDKox+b7o6MEiaMSfgPmwIJruUk7gfsto0WVhsX1PkA3CIe1u6mOJjakobVMrevStU=
+X-Received: by 2002:a2e:894d:: with SMTP id b13mr4273508ljk.99.1583591940994; 
+ Sat, 07 Mar 2020 06:39:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-2-ville.syrjala@linux.intel.com>
-In-Reply-To: <20200302203452.17977-2-ville.syrjala@linux.intel.com>
+ <20200302203452.17977-5-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200302203452.17977-5-ville.syrjala@linux.intel.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 7 Mar 2020 15:29:20 +0100
-Message-ID: <CACRpkdbwe7Q=8-SfS7Y34tCW=km0j3=5Q9zTFXXn3_A=7jBZOw@mail.gmail.com>
-Subject: Re: [PATCH 01/33] drm/panel-novatek-nt35510: Fix dotclock
+Date: Sat, 7 Mar 2020 15:38:49 +0100
+Message-ID: <CACRpkdY2Erbiky8yevDSEVip3o=rDEqSik6cuCfEmGQcnqeXxA@mail.gmail.com>
+Subject: Re: [PATCH 04/33] drm/panel-ilitek-ili9322: Fix dotclocks
 To: Ville Syrjala <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,39 +62,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
+Cc: Thierry Reding <treding@nvidia.com>,
  "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville,
-
-On Mon, Mar 2, 2020 at 9:34 PM Ville Syrjala
-<ville.syrjala@linux.intel.com> wrote:
-
->         .mode = {
->                 /* The internal pixel clock of the NT35510 is 20 MHz */
-> -               .clock = 20000000,
-> +               .clock = 23581,
-
-I double checked this with the datasheet NT35510 Application Note V0.07 HYDIS
-and all documentation is in line with the comment: the internal clock
-frequency of
-the dotclock is 20 MHz so this should be set to 20000 (kHz) sorry for putting
-the three orders of magnitude too big number there :P
-
-This clock isn't used by any drivers because this is a command mode DSI
-panel with a DSI link clocked from the host. (hs_rate or lp_rate).
-
-The internal formula shows how the actual vrefresh can be calculated for
-the display in respone to setting of the internal registers, see page 34:
-https://dflund.se/~triad/NT35510-appnote.pdf
-
-Yours,
-Linus Walleij
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgVmlsbGUhCgpPbiBNb24sIE1hciAyLCAyMDIwIGF0IDk6MzUgUE0gVmlsbGUgU3lyamFsYQo8
+dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgoKPiBGcm9tOiBWaWxsZSBTeXJq
+w6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Cj4gVGhlIGN1cnJlbnRseSBs
+aXN0ZWQgZG90Y2xvY2tzIGRpc2FncmVlIHdpdGggdGhlIGN1cnJlbnRseQo+IGxpc3RlZCB2cmVm
+cmVzaCByYXRlcy4gQ2hhbmdlIHRoZSBkb3RjbG9ja3MgdG8gbWF0Y2ggdGhlIHZyZWZyZXNoLgo+
+Cj4gU29tZW9uZSB0ZWxsIG1lIHdoaWNoIChpZiBlaXRoZXIpIG9mIHRoZSBkb3RjbG9jayBvciB2
+cmVyZXNoIGlzCj4gY29ycmVjdD8KPgo+IENjOiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlq
+QGxpbmFyby5vcmc+Cj4gQ2M6IFRoaWVycnkgUmVkaW5nIDx0cmVkaW5nQG52aWRpYS5jb20+Cj4g
+U2lnbmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVs
+LmNvbT4KClRoaXMgZGlzcGxheSBpcyBwYXJ0aWN1bGFybHkgcGVjdWxpYXIgc2luY2UgaXQgdXNl
+cwp0aGUgSVRVLVQgcGFja2VkIHN0cmVhbXMgYW5kIGxpa2UgRFNJIHRob3NlIGhhdmUKYSBkaWZm
+ZXJlbnQgY2xvY2tpbmcgdGhhbiB3aGF0ZXZlciBpcyBjbG9ja2VkIG91dCB0byB0aGUKYWN0dWFs
+IGRpc3BsYXkgYnkgdGhlIHBpeGVsIGNsb2NrLgoKRGF0YXNoZWV0IGlzIGhlcmU6Cmh0dHBzOi8v
+ZGZsdW5kLnNlL350cmlhZC9rcmFkL2RsaW5rLWRpci02ODUvSUxJOTMyMkRTX1YxLjEyLnBkZgoK
+SSBzZWUgSSBoYXZlIGNvbnNpc3RlbnRseSBzZXQgdGhlIGNsb2NrcyB0d28gb3JkZXJzIG9mCm1h
+Z25pdHVkZSB3cm9uZyBpbiB0aGlzIGRyaXZlciwgbWVhIGN1bHBhIDpQCkJ1dCBJIGNoZWNrZWQg
+dGhlbSBhbGwgYW5kIHdoYXQgSSB0aGluayB5b3Ugc2hvdWxkCmRvIGlzIGp1c3QgZGl2aWRlIHRo
+ZW0gYWxsIGJ5IDEwMCBhbmQgbGVhdmUgYXMtaXMuCgo+ICAvKiBTZXJpYWwgUkdCIG1vZGVzICov
+Cj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBzcmdiXzMyMHgyNDBfbW9k
+ZSA9IHsKPiAtICAgICAgIC5jbG9jayA9IDI0NTM1MDAsCj4gKyAgICAgICAuY2xvY2sgPSAxNDQ3
+OCwKClBsZWFzZSBzZXQgdG8gMjQ1MzUuCgo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNw
+bGF5X21vZGUgc3JnYl8zNjB4MjQwX21vZGUgPSB7Cj4gLSAgICAgICAuY2xvY2sgPSAyNzAwMDAw
+LAo+ICsgICAgICAgLmNsb2NrID0gMTAwMTQsCgpQbGVhc2Ugc2V0IHRvIDI3MDAwLgoKPiAgLyog
+VGhpcyBpcyB0aGUgb25seSBtb2RlIGxpc3RlZCBmb3IgcGFyYWxsZWwgUkdCIGluIHRoZSBkYXRh
+c2hlZXQgKi8KPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHByZ2JfMzIw
+eDI0MF9tb2RlID0gewo+IC0gICAgICAgLmNsb2NrID0gNjQwMDAwMCwKPiArICAgICAgIC5jbG9j
+ayA9IDY0MjksCgpQbGVhc2Ugc2V0IHRvIDY0MDAwLgoKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBk
+cm1fZGlzcGxheV9tb2RlIHl1dl82NDB4MzIwX21vZGUgPSB7Cj4gLSAgICAgICAuY2xvY2sgPSAy
+NDU0MDAwLAo+ICsgICAgICAgLmNsb2NrID0gMTg5NTQsCgpQbGVhc2Ugc2V0IHRvIDI0NTQwLgoK
+PiAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHl1dl83MjB4MzYwX21vZGUg
+PSB7Cj4gLSAgICAgICAuY2xvY2sgPSAyNzAwMDAwLAo+ICsgICAgICAgLmNsb2NrID0gMjI5MTEs
+CgpQbGVhc2Ugc2V0IHRvIDI3MDAwLgoKPiAgLyogQlQuNjU2IFZHQSBtb2RlLCA2NDB4NDgwICov
+Cj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBpdHVfcl9idF82NTZfNjQw
+X21vZGUgPSB7Cj4gLSAgICAgICAuY2xvY2sgPSAyNDU0MDAwLAo+ICsgICAgICAgLmNsb2NrID0g
+Mjc0ODAsCgpQbGVhc2Ugc2V0IHRvIDI0NTQwLgoKPiAgLyogQlQuNjU2IEQxIG1vZGUgNzIweDQ4
+MCAqLwo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgaXR1X3JfYnRfNjU2
+XzcyMF9tb2RlID0gewo+IC0gICAgICAgLmNsb2NrID0gMjcwMDAwMCwKPiArICAgICAgIC5jbG9j
+ayA9IDI5ODgwLAoKUGxlYXNlIHNldCB0byAyNzAwMC4KCllvdXJzLApMaW51cyBXYWxsZWlqCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
