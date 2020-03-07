@@ -2,27 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F344517F1C4
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE07F17F1B5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 502B06E848;
-	Tue, 10 Mar 2020 08:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357A66E83E;
+	Tue, 10 Mar 2020 08:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 508 seconds by postgrey-1.36 at gabe;
+ Mon, 09 Mar 2020 08:40:50 UTC
 Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE6F18940F
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 08:41:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB1BA6E354
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 08:40:50 +0000 (UTC)
 Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id D353260EEC;
- Mon,  9 Mar 2020 08:32:20 +0000 (UTC)
+ by v6.sk (Postfix) with ESMTP id BB84860EEF;
+ Mon,  9 Mar 2020 08:32:31 +0000 (UTC)
 From: Lubomir Rintel <lkundrak@v3.sk>
 To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: [RESEND PATCH v2 0/3] Add support for Chrontel CH7033 VGA/DVI Encoder
-Date: Sat,  7 Mar 2020 20:07:57 +0100
-Message-Id: <20200307190800.142658-1-lkundrak@v3.sk>
+Subject: [RESEND PATCH v2 1/3] dt-bindings: Add vendor prefix for Chrontel,
+ Inc.
+Date: Sat,  7 Mar 2020 20:07:58 +0100
+Message-Id: <20200307190800.142658-2-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200307190800.142658-1-lkundrak@v3.sk>
+References: <20200307190800.142658-1-lkundrak@v3.sk>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:04 +0000
+X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,31 +44,41 @@ Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
  Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
  David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>,
+ Lubomir Rintel <lkundrak@v3.sk>, Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Chrontel makes encoders for video displays and perhaps other stuff.
+Their web site is http://www.chrontel.com/.
 
-chained to this message is a driver for CH7033 along with device tree
-binding docs. I'm hoping that it could perhaps make it into 5.7. Please
-take a look.
+Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+Acked-by: Rob Herring <robh@kernel.org>
 
-Previous submission [1] contained the exact same patches as this one,
-but at that time they relied on Laurent's omapdrm/bridge/devel branch that
-has been merged since.
+---
+Changes since v1:
+- Collect Rob's ack
 
-[1] https://lore.kernel.org/lkml/20200221162743.14141-1-lkundrak@v3.sk/
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Tested to work well on MMP3-based Dell Wyse 3020. There's no datasheet or
-programming manual available.
-
-Thanks,
-Lubo
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index a2da166df1bc7..0ab86d876f4d2 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -185,6 +185,8 @@ patternProperties:
+     description: ChipOne
+   "^chipspark,.*":
+     description: ChipSPARK
++  "^chrontel,.*":
++    description: Chrontel, Inc.
+   "^chrp,.*":
+     description: Common Hardware Reference Platform
+   "^chunghwa,.*":
+-- 
+2.24.1
 
 
 _______________________________________________
