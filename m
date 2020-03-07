@@ -1,33 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED57A17CEFC
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 16:19:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF5317CEFD
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Mar 2020 16:19:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477026E23D;
-	Sat,  7 Mar 2020 15:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFE0C6E243;
+	Sat,  7 Mar 2020 15:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail3-165.sinamail.sina.com.cn (mail3-165.sinamail.sina.com.cn
- [202.108.3.165])
- by gabe.freedesktop.org (Postfix) with SMTP id DA13A6E1C4
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 12:04:42 +0000 (UTC)
-Received: from unknown (HELO localhost.localdomain)([222.130.245.189])
- by sina.com with ESMTP
- id 5E638DD00000C216; Sat, 7 Mar 2020 20:04:40 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-X-SMAIL-MID: 473524629061
-From: Hillf Danton <hdanton@sina.com>
-To: syzbot <syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com>
-Subject: Re: KASAN: use-after-free Read in dmabuffs_dname
-Date: Sat,  7 Mar 2020 20:04:23 +0800
-Message-Id: <20200307120423.8256-1-hdanton@sina.com>
-In-Reply-To: <000000000000d0f3cb05a03d37ec@google.com>
-References: 
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 990E46E201
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2020 13:26:13 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id m33so3861780qtb.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2020 05:26:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gUkOL+11Z97b0R8dLesbdAOICKoUveakPMdqkDVaXPw=;
+ b=FCSpKCl3xTu6d6RPwPExKuQvWmsrK2EB78TKjILnxJPa+UpIxtxOVvNnWKXRFB88Ll
+ vPm8VOBT5vO0pp6woGvHyKnC42aGjvI7twA3zh9/7LX1pQfx2iPjb6hijH7LQ2xj1ETx
+ 9ioZmBv7xabiBvQkDhlQr37ot8O7LK39233beulWcyabEN/qNmsircIkKL3a2AS56fSe
+ PklbBRo/eI++ReUT5GJq2nBteuOblJOyusZm2BBB3TuM9bvhcT2s6RcCmpmORblNamzf
+ fQLnIPbbsMMp7NfzIVWFJu0IdcmW9oqxhc/E+agaH26mIQlRlZEBktMwSo1jw9WJrt7X
+ PFYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gUkOL+11Z97b0R8dLesbdAOICKoUveakPMdqkDVaXPw=;
+ b=KgpqMR/FMe9nR+YZ4MWh/V6r5KKiyCQvR/eZrwV1nW3uxQ4mM3lCpoLlnEy8iMpY3n
+ F7EOjICmgfGGYRzxiGlDvoggm4txwGZnCCc4SkZXJbAjahV/wSbKNVHOiVgkO0+YTmck
+ x/4Tv8FoYidhAIOvU0yP2R+F4/m7cMk0DYUjE/f3iAVT2vcxvQJQJS9MowbgXvtGR/pd
+ OiVbcZuN9Z7dnSpxAhCi+QMQQUO4oDxYJo0ixqP6jG2XpMZhNSdTBW09X16mfZ5u0Vod
+ szignVjPn7xVYgXVJEh7f2WUawRdhuwS82O1DYNa8NSxhN9vHzG+91SyEdyRE4l7AXGC
+ 1yqg==
+X-Gm-Message-State: ANhLgQ0fNi1RBmrLZa9Cf66ZSKPnWvod8WBOTYkk5iCqoN4DYXbn4iLK
+ /V4+wCHQO5CUEIxG56XzupwgVxk5x+65QrwdRLSzJ5dF
+X-Google-Smtp-Source: ADFU+vsPBOnuFWqKRzkIUHW++Zi8SPyndB8lUM1yQ+d/1kC4rwrelmYqzbuQq2uzF6MTG+aoV2pIBUn52W9JxDJ0UI4=
+X-Received: by 2002:ac8:694c:: with SMTP id n12mr7341692qtr.15.1583587572604; 
+ Sat, 07 Mar 2020 05:26:12 -0800 (PST)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 07 Mar 2020 15:19:21 +0000
+References: <1582710377-15489-1-git-send-email-kevin3.tang@gmail.com>
+ <1582710377-15489-5-git-send-email-kevin3.tang@gmail.com>
+ <CACvgo53dME1ioYebimSzdOMvjAudtmzpz_-5Q7rNqQnZoBpaqA@mail.gmail.com>
+ <CAFPSGXYgY7=vgX6ZPWRgfxfZfBeVRj7=gUOwrcTyYpkYE1C1cA@mail.gmail.com>
+ <CACvgo51ShmP+HvLHzxbpzFg2gNs-cD0iey=nM29prDhZsN7fhQ@mail.gmail.com>
+In-Reply-To: <CACvgo51ShmP+HvLHzxbpzFg2gNs-cD0iey=nM29prDhZsN7fhQ@mail.gmail.com>
+From: tang pengchuan <kevin3.tang@gmail.com>
+Date: Sat, 7 Mar 2020 21:26:01 +0800
+Message-ID: <CAFPSGXY=erOF8ouU-JkQbncghity6AP_3W=5YSuAHV=wsesQLA@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 4/6] drm/sprd: add Unisoc's drm display controller
+ driver
+To: Emil Velikov <emil.l.velikov@gmail.com>
+X-Mailman-Approved-At: Sat, 07 Mar 2020 15:19:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,194 +67,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, Baolin Wang <baolin.wang@linaro.org>,
+ Dave Airlie <airlied@linux.ie>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Fri, 06 Mar 2020 21:41:13 -0800
-> syzbot found the following crash on:
-> 
-> HEAD commit:    63623fd4 Merge tag 'for-linus' of git://git.kernel.org/pub..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11653ac3e00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=9833e26bab355358
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3643a18836bce555bff6
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> userspace arch: i386
-> 
-> Unfortunately, I don't have any reproducer for this crash yet.
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
-> 
-> ==================================================================
-> BUG: KASAN: use-after-free in dmabuffs_dname+0x4f4/0x560 drivers/dma-buf/dma-buf.c:48
-> Read of size 8 at addr ffff8880a6b390e8 by task syz-executor.1/2394
-> 
-> CPU: 1 PID: 2394 Comm: syz-executor.1 Not tainted 5.6.0-rc3-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> Call Trace:
->  __dump_stack lib/dump_stack.c:77 [inline]
->  dump_stack+0x197/0x210 lib/dump_stack.c:118
->  print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
->  __kasan_report.cold+0x1b/0x32 mm/kasan/report.c:506
->  kasan_report+0x12/0x20 mm/kasan/common.c:641
->  __asan_report_load8_noabort+0x14/0x20 mm/kasan/generic_report.c:135
->  dmabuffs_dname+0x4f4/0x560 drivers/dma-buf/dma-buf.c:48
->  tomoyo_realpath_from_path+0x165/0x660 security/tomoyo/realpath.c:259
->  tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
->  tomoyo_check_open_permission+0x2a3/0x3e0 security/tomoyo/file.c:771
->  tomoyo_file_open security/tomoyo/tomoyo.c:319 [inline]
->  tomoyo_file_open+0xa9/0xd0 security/tomoyo/tomoyo.c:314
->  security_file_open+0x71/0x300 security/security.c:1529
->  do_dentry_open+0x37a/0x1380 fs/open.c:784
->  vfs_open+0xa0/0xd0 fs/open.c:914
->  do_last fs/namei.c:3490 [inline]
->  path_openat+0x12ee/0x3490 fs/namei.c:3607
->  do_filp_open+0x192/0x260 fs/namei.c:3637
->  do_sys_openat2+0x5eb/0x7e0 fs/open.c:1149
->  do_sys_open+0xf2/0x180 fs/open.c:1165
->  __do_compat_sys_open fs/open.c:1212 [inline]
->  __se_compat_sys_open fs/open.c:1210 [inline]
->  __ia32_compat_sys_open+0x79/0xb0 fs/open.c:1210
->  do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
->  do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
->  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
-> RIP: 0023:0xf7fd8e39
-> Code: 1d 00 00 00 89 d3 5b 5e 5d c3 8b 04 24 c3 8b 1c 24 c3 8b 3c 24 c3 90 90 90 90 90 90 90 90 90 90 90 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
-> RSP: 002b:00000000f5db2014 EFLAGS: 00000296 ORIG_RAX: 0000000000000005
-> RAX: ffffffffffffffda RBX: 00000000f5db204c RCX: 0000000000000000
-> RDX: 0000000000000000 RSI: 0000000000000c09 RDI: 00000000f5db204c
-> RBP: 00000000f5db2168 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> 
-> Allocated by task 2388:
->  save_stack+0x23/0x90 mm/kasan/common.c:72
->  set_track mm/kasan/common.c:80 [inline]
->  __kasan_kmalloc mm/kasan/common.c:515 [inline]
->  __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:488
->  kasan_kmalloc+0x9/0x10 mm/kasan/common.c:529
->  __do_kmalloc mm/slab.c:3656 [inline]
->  __kmalloc+0x163/0x770 mm/slab.c:3665
->  kmalloc include/linux/slab.h:560 [inline]
->  kzalloc include/linux/slab.h:669 [inline]
->  dma_buf_export+0x24d/0xa80 drivers/dma-buf/dma-buf.c:533
->  ion_alloc drivers/staging/android/ion/ion.c:386 [inline]
->  ion_ioctl+0x5a9/0xd20 drivers/staging/android/ion/ion.c:495
->  compat_ptr_ioctl+0x6e/0xa0 fs/ioctl.c:804
->  __do_compat_sys_ioctl fs/ioctl.c:857 [inline]
->  __se_compat_sys_ioctl fs/ioctl.c:808 [inline]
->  __ia32_compat_sys_ioctl+0x245/0x2c0 fs/ioctl.c:808
->  do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
->  do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
->  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
-> 
-> Freed by task 2380:
->  save_stack+0x23/0x90 mm/kasan/common.c:72
->  set_track mm/kasan/common.c:80 [inline]
->  kasan_set_free_info mm/kasan/common.c:337 [inline]
->  __kasan_slab_free+0x102/0x150 mm/kasan/common.c:476
->  kasan_slab_free+0xe/0x10 mm/kasan/common.c:485
->  __cache_free mm/slab.c:3426 [inline]
->  kfree+0x10a/0x2c0 mm/slab.c:3757
->  dma_buf_release+0x343/0x420 drivers/dma-buf/dma-buf.c:111
->  __fput+0x2ff/0x890 fs/file_table.c:280
->  ____fput+0x16/0x20 fs/file_table.c:313
->  task_work_run+0x145/0x1c0 kernel/task_work.c:113
->  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
->  exit_to_usermode_loop+0x316/0x380 arch/x86/entry/common.c:164
->  prepare_exit_to_usermode arch/x86/entry/common.c:195 [inline]
->  syscall_return_slowpath arch/x86/entry/common.c:278 [inline]
->  do_syscall_32_irqs_on arch/x86/entry/common.c:352 [inline]
->  do_fast_syscall_32+0xbbd/0xe16 arch/x86/entry/common.c:408
->  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
-> 
-> The buggy address belongs to the object at ffff8880a6b39000
->  which belongs to the cache kmalloc-1k of size 1024
-> The buggy address is located 232 bytes inside of
->  1024-byte region [ffff8880a6b39000, ffff8880a6b39400)
-> The buggy address belongs to the page:
-> page:ffffea00029ace40 refcount:1 mapcount:0 mapping:ffff8880aa400c40 index:0x0
-> flags: 0xfffe0000000200(slab)
-> raw: 00fffe0000000200 ffffea0002346b48 ffffea00022f49c8 ffff8880aa400c40
-> raw: 0000000000000000 ffff8880a6b39000 0000000100000002 0000000000000000
-> page dumped because: kasan: bad access detected
-> 
-> Memory state around the buggy address:
->  ffff8880a6b38f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->  ffff8880a6b39000: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> >ffff8880a6b39080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->                                                           ^
->  ffff8880a6b39100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->  ffff8880a6b39180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ==================================================================
-
-Add a completion for dmabuf releaser to wait those who are either
-holding the resv lock or aquiring it.
-
-
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -334,6 +334,9 @@ struct dma_buf {
- 
- 		__poll_t active;
- 	} cb_excl, cb_shared;
-+
-+	atomic_t resv_user;
-+	struct completion done;
- };
- 
- /**
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -45,11 +45,20 @@ static char *dmabuffs_dname(struct dentr
- 	size_t ret = 0;
- 
- 	dmabuf = dentry->d_fsdata;
-+	if (!dmabuf)
-+		goto print_name;
-+
-+	atomic_inc(&dmabuf->resv_user);
-+
- 	dma_resv_lock(dmabuf->resv, NULL);
- 	if (dmabuf->name)
- 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
- 	dma_resv_unlock(dmabuf->resv);
- 
-+	if (atomic_dec_and_test(&dmabuf->resv_user))
-+		complete(&dmabuf->done);
-+
-+print_name:
- 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
- 			     dentry->d_name.name, ret > 0 ? name : "");
- }
-@@ -85,6 +94,10 @@ static int dma_buf_release(struct inode
- 		return -EINVAL;
- 
- 	dmabuf = file->private_data;
-+	file->f_path.dentry->d_fsdata = NULL;
-+	atomic_inc(&dmabuf->resv_user);
-+	if (!atomic_dec_and_test(&dmabuf->resv_user))
-+		wait_for_completion(&dmabuf->done);
- 
- 	BUG_ON(dmabuf->vmapping_counter);
- 
-@@ -562,6 +575,7 @@ struct dma_buf *dma_buf_export(const str
- 
- 	mutex_init(&dmabuf->lock);
- 	INIT_LIST_HEAD(&dmabuf->attachments);
-+	init_completion(&dmabuf->done);
- 
- 	mutex_lock(&db_list.lock);
- 	list_add(&dmabuf->list_node, &db_list.head);
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5jb20+IOS6jjIwMjDlubQz5pyIN+aX
+peWRqOWFrSDkuIrljYgxOjE05YaZ6YGT77yaCj4KPiBPbiBUaHUsIDUgTWFyIDIwMjAgYXQgMTM6
+MTUsIHRhbmcgcGVuZ2NodWFuIDxrZXZpbjMudGFuZ0BnbWFpbC5jb20+IHdyb3RlOgo+ID4gT24g
+VHVlLCBNYXIgMywgMjAyMCBhdCAyOjI5IEFNIEVtaWwgVmVsaWtvdiA8ZW1pbC5sLnZlbGlrb3ZA
+Z21haWwuY29tPiB3cm90ZToKPgo+ID4+IEhhdmUgeW91IHNlZW4gYSBjYXNlIHdoZXJlIHRoZSAw
+IG9yIGRlZmF1bHQgY2FzZSBhcmUgcmVhY2hlZD8gQUZBSUNUIHRoZXkgd2lsbAo+ID4+IG5ldmVy
+IHRyaWdnZXIuIFNvIG9uZSBtaWdodCBhcyB3ZWxsIHVzZToKPiA+Pgo+ID4+ICAgICBzd2l0Y2gg
+KGFuZ2xlKSB7Cj4gPj4gICAgIGNhc2UgRFJNX01PREVfRk9POgo+ID4+ICAgICAgICAgcmV0dXJu
+IERQVV9MQVlFUl9ST1RBVElPTl9GT087Cj4gPj4gICAgIC4uLgo+ID4+ICAgICBjYXNlIERSTV9N
+T0RFX0JBUjoKPiA+PiAgICAgICAgIHJldHVybiBEUFVfTEFZRVJfUk9UQVRJT05fQkFSOwo+ID4+
+ICAgICB9Cj4gPj4KPiA+IFllYWgsIHRoZSAwIG1heWJlIHVudXNlZCBjb2RlLCBpIHdpbGwgcmVt
+b3ZlIGl0Lgo+ID4gQnV0IGkgdGhpbmsgZGVmYXVsdCBpcyBuZWVkLCBiZWNhdXNlIHVzZXJzcGFj
+ZSBjb3VsZCBnaXZlIGFuIGluY29ycmVjdCB2YWx1ZSAuCj4gPiBTbyB3ZSBuZWVkIHRvIHNldHVw
+IGEgZGVmYXVsdCB2YWx1ZSBhbmQgZG9pbmcgZXJyb3IgY2hlY2suCj4KPiBBcyBtZW50aW9uZWQg
+aW4gdGhlIGRvY3VtZW50YXRpb24gWzBdIGlucHV0ICh1c2Vyc3BhY2UpIHZhbGlkYXRpb24KPiBz
+aG91bGQgaGFwcGVuIGluIGF0b21pY19jaGVjay4gVGhpcyBmdW5jdGlvbiBoZXJlIGlzIGNhbGxl
+ZCBkdXJpbmcKPiBhdG9taWNfZmx1c2ggd2hpY2ggaXMgX25vdF8gYWxsb3dlZCB0byBmYWlsLgpJ
+biBkcm0gYXRvbWljIGNvbW1pdCBjb2RlcGF0aDoKZHJtX2F0b21pY19jb21taXQtLT5kcm1fYXRv
+bWljX3BsYW5lX2NoZWNrLS0tPmRybV9wbGFuZV9jaGVja19waXhlbF9mb3JtYXQKYWxyZWFkeSBo
+ZWxwZWQgdXMgY2hlY2sgRFJNX0ZPUk1BVF9YWFgsIHNvIGRlZmF1bHQgbGFiZXIgaXMgZGVhZCBj
+b2RlLgpJcyBqdXN0IGEgd2FzdGUgb2YgdGltZSBhbmQgaW5jcmVhc2VzIHRoZSBjb21wbGV4aXR5
+IG9mIHRoZSBjb2RlIGZvciBubyByZWFzb24uCgpXZSBjYW4ndCB1c2UgInJldHVybiIgcmVwbGFj
+ZSAiYnJlYWsiCkJlY2F1c2UgInN3aXRjaChmb3JtYXQpIiBhbmQgInN3aXRjaChibGVuZGluZyki
+ZXhpc3QgYXQgdGhlIHNhbWUKZnVudGlvbiwgYW5kIEkgZG9uJ3QgdGhpbmsgaXQncyBhIGdvb2Qg
+aWRlYSB0byBzcGxpdCB0aGVtLgpJIHRoaW5rIHRoZXJlIGFyZSB0d28gc29sdXRpb25z77yaCjEu
+IFJlbW92ZSBkZWZhdWx0IGxhYmVsIGNvbXBsZXRlbHkKMi4gQWRkICJkZWZhdWx0OiAvLyBEbyBu
+b3RoaW5nIiwgRWc6CmludCBmbGFnID0gdmFsdWUgPiAxMDAwID8gMSA6IDA7CnN3aWNoKGZsYWcp
+IHsKICAgIGNhc2UgMDoKICAgICAgICAvLyBkbyBzb21ldGhpbmcKICAgICAgICBicmVhazsKICAg
+IGNhc2UgMToKICAgICAgICAvLyBkbyBzb21ldGhpbmcKICAgICAgICBicmVhazsKICAgIGRlZmF1
+bHQ6IC8vIGRvIG5vdGhpbmcKICAgICAgICAgYnJlYWs7Cn0KCj4KPgo+Cj4gPj4gVGhlIGRlZmF1
+bHQgY2FzZSBoZXJlIHNob3VsZCBiZSB1bnJlYWNoYWJsZS4gRWl0aGVyIGl0IGlzIG9yIHRoZSB1
+cHBlciBsYXllciAob3IKPiA+PiBlYXJsaWVyIGNvZGUpIHNob3VsZCBlbnN1cmUgdGhhdC4KPiA+
+Cj4gPiBUaGVyZSB3aWxsIGJlIHNvbWUgZGlmZmVyZW5jZXMgaW4gdGhlIGZvcm1hdHMgc3VwcG9y
+dGVkIGJ5IGRpZmZlcmVudCBjaGlwcywgYnV0IHVzZXJzcGFjZSB3aWxsIG9ubHkgaGF2ZSBvbmUg
+c2V0IG9mIGNvZGUuCj4gPiBTbyBpdCBpcyBuZWNlc3NhcnkgdG8gY2hlY2sgd2hldGhlciB0aGUg
+cGFyYW1ldGVycyBwYXNzZWQgYnkgdGhlIHVzZXIgbGF5ZXIgYXJlIHdyb25nLiBJIHRoaW5rIGl0
+IGlzIG5lY2Vzc2FyeQo+Cj4gQXMgc2FpZCBhYm92ZSAtIHRoaXMgdHlwZSBvZiBpc3N1ZXMgc2hv
+dWxkIGJlIGNoZWNrZWQgX2JlZm9yZV8KPiByZWFjaGluZyBhdG9taWNfZmx1c2ggLSBha2EgaW4g
+YXRvbWljX2NoZWNrLgpZb3VyIGFyZSByaWdodCwgc3dpdGNoKGZvcm1hdCkgYW5kIHN3aXRjaChi
+bGVuZGluZykgd2lsbCBuZXZlciByZWFjaApkZWZhdWx0IGxhYmVsLCBzbyBpdCdzIGRlYWQgY29k
+ZS4KQXMgZm9yIHJvdGF0aW9uLCB3ZSB3aWxsIGVuc3VyZSBpdCBpcyBjb3JyZWN0IGF0IHRoZSB1
+c2VyIGxheWVyLgo+Cj4KPiA+PiA+ICtzdGF0aWMgc3RydWN0IGRybV9wbGFuZSAqc3ByZF9wbGFu
+ZV9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sCj4gPj4gPiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgc3RydWN0IHNwcmRfZHB1ICpkcHUpCj4gPj4gPiArewo+ID4+
+ID4gKyAgICAgICBzdHJ1Y3QgZHJtX3BsYW5lICpwcmltYXJ5ID0gTlVMTDsKPiA+PiA+ICsgICAg
+ICAgc3RydWN0IHNwcmRfcGxhbmUgKnAgPSBOVUxMOwo+ID4+ID4gKyAgICAgICBzdHJ1Y3QgZHB1
+X2NhcGFiaWxpdHkgY2FwID0ge307Cj4gPj4gPiArICAgICAgIGludCBlcnIsIGk7Cj4gPj4gPiAr
+Cj4gPj4gPiArICAgICAgIGlmIChkcHUtPmNvcmUgJiYgZHB1LT5jb3JlLT5jYXBhYmlsaXR5KQo+
+ID4+IEFzIG1lbnRpb25lZCBiZWZvcmUgLSB0aGlzIGFsd2F5cyBldmFsdWF0ZXMgdG8gdHJ1ZSwg
+c28gZHJvcCB0aGUgY2hlY2suCj4gPj4gU2FtZSBhcHBsaWVzIGZvciB0aGUgb3RoZXIgZHB1LT5j
+b3JlLT5mb28gY2hlY2tzLgo+ID4+Cj4gPj4gU3RpbGwgbm90IGEgaHVnZSBmYW4gb2YgdGhlIGFi
+c3RyYWN0aW9uIGxheWVyLCBidXQgSSBndWVzcyB5b3UncmUgaGVzaXRhbnQgb24KPiA+PiByZW1v
+dmluZyBpdC4KPiA+Cj4gPiBTb21ldGltZXMsICBzb21lICJkcHUtPmNvcmUtPmZvbyIgbWF5YmUg
+YWx3YXlzIG5lZWQsIGNvbXBhdGliaWxpdHkgd2lsbCBiZSBiZXR0ZXIuCj4gPiBlZzoKPiA+Cj4g
+PiAgICAgaWYgKGRwdS0+Z2xiICYmIGRwdS0+Z2xiLT5wb3dlcikKPiA+ICAgICAgICAgZHB1LT5n
+bGItPnBvd2VyKGN0eCwgdHJ1ZSk7Cj4gPiAgICAgaWYgKGRwdS0+Z2xiICYmIGRwdS0+Z2xiLT5l
+bmFibGUpCj4gPiAgICAgICAgIGRwdS0+Z2xiLT5lbmFibGUoY3R4KTsKPiA+Cj4gPiAgICAgaWYg
+KGN0eC0+aXNfc3RvcHBlZCAmJiBkcHUtPmdsYiAmJiBkcHUtPmdsYi0+cmVzZXQpCj4gPiAgICAg
+ICAgIGRwdS0+Z2xiLT5yZXNldChjdHgpOwo+ID4KPiA+ICAgICBpZiAoZHB1LT5jbGsgJiYgZHB1
+LT5jbGstPmluaXQpCj4gPiAgICAgICAgIGRwdS0+Y2xrLT5pbml0KGN0eCk7Cj4gPiAgICAgaWYg
+KGRwdS0+Y2xrICYmIGRwdS0+Y2xrLT5lbmFibGUpCj4gPiAgICAgICAgIGRwdS0+Y2xrLT5lbmFi
+bGUoY3R4KTsKPiA+Cj4gPiAgICAgaWYgKGRwdS0+Y29yZSAmJiBkcHUtPmNvcmUtPmluaXQpCj4g
+PiAgICAgICAgIGRwdS0+Y29yZS0+aW5pdChjdHgpOwo+ID4gICAgIGlmIChkcHUtPmNvcmUgJiYg
+ZHB1LT5jb3JlLT5pZmNvbmZpZykKPiA+ICAgICAgICAgZHB1LT5jb3JlLT5pZmNvbmZpZyhjdHgp
+Owo+ID4KPgo+IElmIHRoZXJlIGFyZSBubyBob29rcywgdGhlbiB0aGUgd2hvbGUgdGhpbmcgaXMg
+ZGVhZCBjb2RlLiBBcyBzdWNoIGl0Cj4gc2hvdWxkIG5vdCBiZSBpbmNsdWRlZC4KPgo+Cj4gPiA+
+Cj4gPiA+IE5vdGU6IEN1c3RvbSBwcm9wZXJ0aWVzIHNob3VsZCBiZSBzZXBhcmF0ZSBwYXRjaGVz
+LiBUaGlzIGluY2x1ZGVzIGRvY3VtZW50YXRpb24KPiA+ID4gd2h5IHRoZXkgYXJlIG5lZWRlZCBh
+bmQgcmVmZXJlbmNlcyB0byBvcGVuLXNvdXJjZSB1c2Vyc3BhY2UuCj4gPiBUaGlzIG9ubHkgbmVl
+ZCBmb3Igb3VyIGNoaXBzLCB3aGF0IGRvY3VtZW50YXRpb24gZG8gd2UgbmVlZCB0byBwcm92aWRl
+Pwo+ID4KPgo+IEtNUyBwcm9wZXJ0aWVzIHNob3VsZCBiZSBnZW5lcmljLiBSZWFzb24gYmVpbmcg
+aXMgdGhhdCBkaXZlcmdlbmNlCj4gY2F1c2VzIHN1YnN0YW50aWFsIG92ZXJoZWFkLCBhbmQgZnJh
+Z2lsaXR5LCB0byBlYWNoIGFuZCBldmVyeQo+IHVzZXJzcGFjZSBjb25zdW1lci4gVGhlIGRvY3Vt
+ZW50YXRpb24gaGFzIHNvbWUgZ2VuZXJhbCBub3RlcyBvbiB0aGUKPiB0b3BpYyBbMV0uIERvbid0
+IGZvcmdldCB0aGUgIlRlc3RpbmcgYW5kIHZhbGlkYXRpb24iIHNlY3Rpb24gOy0pCj4KPiBBbHRo
+b3VnaCBJJ3ZlIHRyaWVkIHRvIGNhdGNoIGV2ZXJ5dGhpbmcsIEkgbWlnaHQgaGF2ZSBtaXNzZWQg
+YSBjb21tZW50Cj4gb3IgdHdvIGR1ZSB0aGUgSFRNTCBmb3JtYXR0aW5nLiBQbGVhc2UgdG9nZ2xl
+IHRvIHBsYWluIHRleHQgWzJdIGZvcgo+IHRoZSBmdXR1cmUuCkkgZ290IGl0Cj4KPiBUaGFua3MK
+PiAtRW1pbAo+Cj4gWzBdIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvdjUuNS9ncHUv
+ZHJtLWttcy5odG1sCj4gWzFdIERvY3VtZW50YXRpb24vZ3B1L2RybS11YXBpLnJzdCBpbiBwYXJ0
+aWN1bGFyICJPcGVuLVNvdXJjZQo+IFVzZXJzcGFjZSBSZXF1aXJlbWVudHMiCj4gWzJdIGh0dHBz
+Oi8vc21hbGxidXNpbmVzcy5jaHJvbi5jb20vcmVwbHktaW5saW5lLWdtYWlsLTQwNjc5Lmh0bWwK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
