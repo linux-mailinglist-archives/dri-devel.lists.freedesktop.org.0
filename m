@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8C517DA67
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 09:14:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6B517DA5D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 09:14:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 036AC89F2E;
-	Mon,  9 Mar 2020 08:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 428AF6E2D8;
+	Mon,  9 Mar 2020 08:13:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 03D8B6E297
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2020 10:53:03 +0000 (UTC)
-X-UUID: 6ac139c1dcc74bb2aebe453063fab199-20200308
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E3616E290
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2020 10:53:04 +0000 (UTC)
+X-UUID: 4bbe4a8b0c264a27a313218f51fa1815-20200308
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=MYH+JWtN3TW3+5HBk7PMR9MHuRJoGMcqVVaD9IZJVF0=; 
- b=kxNjrTgrtRcrXxFsl0CIgOJ8nfidqGM/m0857NETEPBUizAz8MBKzOs9P9QsATVSgi2p9+GeBTvwXC3M7Ir0hNWDwqMY3os4m75h34RhnqKfBxdcZ8dHlmua8gSUjPU6mC7OwHWyYED7gtRiLhl2btQnmQvm+INMe2ynUv8CuoY=;
-X-UUID: 6ac139c1dcc74bb2aebe453063fab199-20200308
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ bh=1JNePjB6YqDB7fVq03Mwu2OpxYlWObOTYcRp1X0n4oQ=; 
+ b=UZlXvRIBIwKaaMMI5eTtkFMM1vV8nLU3exQpyAmS3l8lwst9Elh5LPAQ2ctxpngBN8ER/GOt2LBeqZ8Q78M53AjIblZJm8tp+JjRjULJEVQ1dJm3pVooC4oBPDbnclOcm2UzUMs8OplbLq+FgD0n0DQn/oI/APMXZTBG/dpjJb4=;
+X-UUID: 4bbe4a8b0c264a27a313218f51fa1815-20200308
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
  (envelope-from <dennis-yc.hsieh@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 85943508; Sun, 08 Mar 2020 18:53:00 +0800
+ with ESMTP id 1339047386; Sun, 08 Mar 2020 18:53:00 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Sun, 8 Mar 2020 18:52:03 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Sun, 8 Mar 2020 18:52:06 +0800
 Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via
  Frontend Transport; Sun, 8 Mar 2020 18:52:59 +0800
@@ -34,9 +34,9 @@ To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Jassi Brar
  <jassisinghbrar@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
  Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v5 10/13] soc: mediatek: cmdq: export finalize function
-Date: Sun, 8 Mar 2020 18:52:52 +0800
-Message-ID: <1583664775-19382-11-git-send-email-dennis-yc.hsieh@mediatek.com>
+Subject: [PATCH v5 11/13] soc: mediatek: cmdq: add jump function
+Date: Sun, 8 Mar 2020 18:52:53 +0800
+Message-ID: <1583664775-19382-12-git-send-email-dennis-yc.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1583664775-19382-1-git-send-email-dennis-yc.hsieh@mediatek.com>
 References: <1583664775-19382-1-git-send-email-dennis-yc.hsieh@mediatek.com>
@@ -65,80 +65,68 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Export finalize function to client which helps append eoc and jump
-command to pkt. Let client decide call finalize or not.
+Add jump function so that client can jump to any address which
+contains instruction.
 
 Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 1 +
- drivers/soc/mediatek/mtk-cmdq-helper.c  | 7 ++-----
- include/linux/soc/mediatek/mtk-cmdq.h   | 8 ++++++++
- 3 files changed, 11 insertions(+), 5 deletions(-)
+ drivers/soc/mediatek/mtk-cmdq-helper.c | 13 +++++++++++++
+ include/linux/soc/mediatek/mtk-cmdq.h  | 11 +++++++++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 0dfcd1787e65..7daaabc26eb1 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -490,6 +490,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
-+		cmdq_pkt_finalize(cmdq_handle);
- 		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
- 	}
- #endif
 diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index a9ebbabb7439..59bc1164b411 100644
+index 59bc1164b411..bb5be20fc70a 100644
 --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -372,7 +372,7 @@ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
+@@ -13,6 +13,7 @@
+ #define CMDQ_POLL_ENABLE_MASK	BIT(0)
+ #define CMDQ_EOC_IRQ_EN		BIT(0)
+ #define CMDQ_REG_TYPE		1
++#define CMDQ_JUMP_RELATIVE	1
+ 
+ struct cmdq_instruction {
+ 	union {
+@@ -372,6 +373,18 @@ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
  }
  EXPORT_SYMBOL(cmdq_pkt_assign);
  
--static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
-+int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
++int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr)
++{
++	struct cmdq_instruction inst = { {0} };
++
++	inst.op = CMDQ_CODE_JUMP;
++	inst.offset = CMDQ_JUMP_RELATIVE;
++	inst.value = addr >>
++		cmdq_mbox_shift(((struct cmdq_client *)pkt->cl)->chan);
++	return cmdq_pkt_append_command(pkt, inst);
++}
++EXPORT_SYMBOL(cmdq_pkt_jump);
++
+ int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
  {
  	struct cmdq_instruction inst = { {0} };
- 	int err;
-@@ -392,6 +392,7 @@ static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
- 
- 	return err;
- }
-+EXPORT_SYMBOL(cmdq_pkt_finalize);
- 
- static void cmdq_pkt_flush_async_cb(struct cmdq_cb_data data)
- {
-@@ -426,10 +427,6 @@ int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb cb,
- 	unsigned long flags = 0;
- 	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
- 
--	err = cmdq_pkt_finalize(pkt);
--	if (err < 0)
--		return err;
--
- 	pkt->cb.cb = cb;
- 	pkt->cb.data = data;
- 	pkt->async_cb.cb = cmdq_pkt_flush_async_cb;
 diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index fec292aac83c..99e77155f967 100644
+index 99e77155f967..1a6c56f3bec1 100644
 --- a/include/linux/soc/mediatek/mtk-cmdq.h
 +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -213,6 +213,14 @@ int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
+@@ -213,6 +213,17 @@ int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
   */
  int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value);
  
 +/**
-+ * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
-+ * @pkt:	the CMDQ packet
++ * cmdq_pkt_jump() - Append jump command to the CMDQ packet, ask GCE
++ *		     to execute an instruction that change current thread PC to
++ *		     a physical address which should contains more instruction.
++ * @pkt:        the CMDQ packet
++ * @addr:       physical address of target instruction buffer
 + *
 + * Return: 0 for success; else the error code is returned
 + */
-+int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
++int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr);
 +
  /**
-  * cmdq_pkt_flush_async() - trigger CMDQ to asynchronously execute the CMDQ
-  *                          packet and call back at the end of done packet
+  * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
+  * @pkt:	the CMDQ packet
 -- 
 2.18.0
 _______________________________________________
