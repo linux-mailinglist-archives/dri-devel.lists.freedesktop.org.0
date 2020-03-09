@@ -1,40 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8335917F196
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:19:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E07117F19C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:19:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B406E817;
-	Tue, 10 Mar 2020 08:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC8E16E822;
+	Tue, 10 Mar 2020 08:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from onstation.org (onstation.org [52.200.56.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FC36E40F;
- Mon,  9 Mar 2020 11:18:17 +0000 (UTC)
-Received: from localhost.localdomain (c-98-239-145-235.hsd1.wv.comcast.net
- [98.239.145.235])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: masneyb)
- by onstation.org (Postfix) with ESMTPSA id 0EF123E94B;
- Mon,  9 Mar 2020 11:18:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
- s=default; t=1583752696;
- bh=3QDZGZgiS58VF0JjyLEvpXThSA6/Pvydn+fwYa8zhWk=;
- h=From:To:Cc:Subject:Date:From;
- b=d/CPPE9uBD1E08FiabSDpgtLduLgdQu47yp1Q/DZr9Q+6GV9K5AcFtwvExSutg0so
- SzCenrkWJjQYHyHSHYZ+UisKp34at5vc15UsFaW7fKjS+G7Jqk+G+AmGzTda/MSqyl
- K3G6ZydlLGdCoklOYBuekT6EMrM/JBXaLR/Igwbo=
-From: Brian Masney <masneyb@onstation.org>
-To: robh+dt@kernel.org,
-	robdclark@gmail.com,
-	sean@poorly.run
-Subject: [PATCH] dt-bindings: display: msm: gmu: move sram property to gpu
- bindings
-Date: Mon,  9 Mar 2020 07:18:04 -0400
-Message-Id: <20200309111804.188162-1-masneyb@onstation.org>
-X-Mailer: git-send-email 2.24.1
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A37789F75
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 12:28:52 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 48bcw124fbz1rnrY;
+ Mon,  9 Mar 2020 13:28:49 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 48bcw10bNHz1qwyg;
+ Mon,  9 Mar 2020 13:28:49 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id dqRSDODqEJnb; Mon,  9 Mar 2020 13:28:47 +0100 (CET)
+X-Auth-Info: HH+q97FjzenHCVHdQZ7Q00Kt0uoz/tI7kmujMvv24y8=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Mon,  9 Mar 2020 13:28:47 +0100 (CET)
+Subject: Re: [PATCH] drm/stm: repair runtime power management
+To: Yannick FERTRE <yannick.fertre@st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20200229221649.90813-1-marex@denx.de>
+ <a30ad5a774004221903292871797607a@SFHDAG6NODE1.st.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <64ea7f77-0a0b-ae3a-2911-5fdc8633255e@denx.de>
+Date: Mon, 9 Mar 2020 12:57:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <a30ad5a774004221903292871797607a@SFHDAG6NODE1.st.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,180 +55,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jeffrey.l.hugo@gmail.com, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, smasetty@codeaurora.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Philippe CORNU <philippe.cornu@st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Vincent ABRIOU <vincent.abriou@st.com>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Alexandre TORGUE <alexandre.torgue@st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sram property was incorrectly added to the GMU binding when it
-really belongs with the GPU binding instead. Let's go ahead and
-move it.
-
-While changes are being made here, let's update the sram property
-description to mention that this property is only valid for a3xx and
-a4xx GPUs. The a3xx/a4xx example in the GPU is replaced with what was
-in the GMU.
-
-Signed-off-by: Brian Masney <masneyb@onstation.org>
-Fixes: 198a72c8f9ee ("dt-bindings: display: msm: gmu: add optional ocmem property")
----
-Background thread:
-https://lore.kernel.org/lkml/20200303170159.GA13109@jcrouse1-lnx.qualcomm.com/
-
-I started to look at what it would take to convert the GPU bindings to
-YAML, however I am unsure of the complete list of "qcom,adreno-XYZ.W"
-compatibles that are valid.
-
- .../devicetree/bindings/display/msm/gmu.txt   | 51 -----------------
- .../devicetree/bindings/display/msm/gpu.txt   | 55 ++++++++++++++-----
- 2 files changed, 42 insertions(+), 64 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/msm/gmu.txt b/Documentation/devicetree/bindings/display/msm/gmu.txt
-index bf9c7a2a495c..90af5b0a56a9 100644
---- a/Documentation/devicetree/bindings/display/msm/gmu.txt
-+++ b/Documentation/devicetree/bindings/display/msm/gmu.txt
-@@ -31,10 +31,6 @@ Required properties:
- - iommus: phandle to the adreno iommu
- - operating-points-v2: phandle to the OPP operating points
- 
--Optional properties:
--- sram: phandle to the On Chip Memory (OCMEM) that's present on some Snapdragon
--        SoCs. See Documentation/devicetree/bindings/sram/qcom,ocmem.yaml.
--
- Example:
- 
- / {
-@@ -67,50 +63,3 @@ Example:
- 		operating-points-v2 = <&gmu_opp_table>;
- 	};
- };
--
--a3xx example with OCMEM support:
--
--/ {
--	...
--
--	gpu: adreno@fdb00000 {
--		compatible = "qcom,adreno-330.2",
--		             "qcom,adreno";
--		reg = <0xfdb00000 0x10000>;
--		reg-names = "kgsl_3d0_reg_memory";
--		interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "kgsl_3d0_irq";
--		clock-names = "core",
--		              "iface",
--		              "mem_iface";
--		clocks = <&mmcc OXILI_GFX3D_CLK>,
--		         <&mmcc OXILICX_AHB_CLK>,
--		         <&mmcc OXILICX_AXI_CLK>;
--		sram = <&gmu_sram>;
--		power-domains = <&mmcc OXILICX_GDSC>;
--		operating-points-v2 = <&gpu_opp_table>;
--		iommus = <&gpu_iommu 0>;
--	};
--
--	ocmem@fdd00000 {
--		compatible = "qcom,msm8974-ocmem";
--
--		reg = <0xfdd00000 0x2000>,
--		      <0xfec00000 0x180000>;
--		reg-names = "ctrl",
--		             "mem";
--
--		clocks = <&rpmcc RPM_SMD_OCMEMGX_CLK>,
--		         <&mmcc OCMEMCX_OCMEMNOC_CLK>;
--		clock-names = "core",
--		              "iface";
--
--		#address-cells = <1>;
--		#size-cells = <1>;
--
--		gmu_sram: gmu-sram@0 {
--			reg = <0x0 0x100000>;
--			ranges = <0 0 0xfec00000 0x100000>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/msm/gpu.txt b/Documentation/devicetree/bindings/display/msm/gpu.txt
-index 7edc298a15f2..fd779cd6994d 100644
---- a/Documentation/devicetree/bindings/display/msm/gpu.txt
-+++ b/Documentation/devicetree/bindings/display/msm/gpu.txt
-@@ -35,25 +35,54 @@ Required properties:
-   bring the GPU out of secure mode.
- - firmware-name: optional property of the 'zap-shader' node, listing the
-   relative path of the device specific zap firmware.
-+- sram: phandle to the On Chip Memory (OCMEM) that's present on some a3xx and
-+        a4xx Snapdragon SoCs. See
-+        Documentation/devicetree/bindings/sram/qcom,ocmem.yaml.
- 
--Example 3xx/4xx/a5xx:
-+Example 3xx/4xx:
- 
- / {
- 	...
- 
--	gpu: qcom,kgsl-3d0@4300000 {
--		compatible = "qcom,adreno-320.2", "qcom,adreno";
--		reg = <0x04300000 0x20000>;
-+	gpu: adreno@fdb00000 {
-+		compatible = "qcom,adreno-330.2",
-+		             "qcom,adreno";
-+		reg = <0xfdb00000 0x10000>;
- 		reg-names = "kgsl_3d0_reg_memory";
--		interrupts = <GIC_SPI 80 0>;
--		clock-names =
--		    "core",
--		    "iface",
--		    "mem_iface";
--		clocks =
--		    <&mmcc GFX3D_CLK>,
--		    <&mmcc GFX3D_AHB_CLK>,
--		    <&mmcc MMSS_IMEM_AHB_CLK>;
-+		interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-names = "kgsl_3d0_irq";
-+		clock-names = "core",
-+		              "iface",
-+		              "mem_iface";
-+		clocks = <&mmcc OXILI_GFX3D_CLK>,
-+		         <&mmcc OXILICX_AHB_CLK>,
-+		         <&mmcc OXILICX_AXI_CLK>;
-+		sram = <&gpu_sram>;
-+		power-domains = <&mmcc OXILICX_GDSC>;
-+		operating-points-v2 = <&gpu_opp_table>;
-+		iommus = <&gpu_iommu 0>;
-+	};
-+
-+	gpu_sram: ocmem@fdd00000 {
-+		compatible = "qcom,msm8974-ocmem";
-+
-+		reg = <0xfdd00000 0x2000>,
-+		      <0xfec00000 0x180000>;
-+		reg-names = "ctrl",
-+		            "mem";
-+
-+		clocks = <&rpmcc RPM_SMD_OCMEMGX_CLK>,
-+		         <&mmcc OCMEMCX_OCMEMNOC_CLK>;
-+		clock-names = "core",
-+		              "iface";
-+
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+
-+		gpu_sram: gpu-sram@0 {
-+			reg = <0x0 0x100000>;
-+			ranges = <0 0 0xfec00000 0x100000>;
-+		};
- 	};
- };
- 
--- 
-2.24.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMy85LzIwIDExOjM1IEFNLCBZYW5uaWNrIEZFUlRSRSB3cm90ZToKPiBIZWxsbyBNYXJlaywK
+CkhpLAoKKHBsZWFzZSBzdG9wIHRvcC1wb3N0aW5nKQoKPiBUaGFuayBmb3IgeW91ciBwYXRjaC4g
+UG1fcnVudGltZV9wdXRfc3luYyBpcyBhbHNvIGRvbmUgaW50byBmdW5jdGlvbiBsdGRjX2NydGNf
+bW9kZV9maXh1cC4KPiBUbyBhdm9pZCBzZXZlcmFsIGNhbGwgb2YgUG1fcnVudGltZV9wdXRfc3lu
+YywgaXQgY291bGQgYmUgYmV0dGVyIHRvIGNoZWNrIHBtX3J1bnRpbWUgYWN0aXZpdHk6Cj4gCj4g
+KwlpbnQgcmV0Owo+ICAKPiAgCURSTV9ERUJVR19EUklWRVIoIlxuIik7Cj4gIAo+ICsJaWYgKCFw
+bV9ydW50aW1lX2FjdGl2ZShkZGV2LT5kZXYpKSB7Cj4gKwkJcmV0ID0gcG1fcnVudGltZV9nZXRf
+c3luYyhkZGV2LT5kZXYpOwo+ICsJCWlmIChyZXQpIHsKPiArCQkJRFJNX0VSUk9SKCJGYWlsZWQg
+dG8gZW5hYmxlIGNydGMsIGNhbm5vdCBnZXQgc3luY1xuIik7Cj4gKwkJCXJldHVybjsKPiArCQl9
+Cj4gKwl9Cj4gKwoKV2hlcmUgc2hvdWxkIHRoaXMgZ28gPyBBbmQgd291bGRuJ3QgdGhhdCBvbmx5
+IGhpZGUgbmFzdGllciBQTSBpbWJhbGFuY2UKaXNzdWVzID8KCj4gIEJlc3QgcmVnYXJkcwo+IAo+
+IFlhbm5pY2sgRmVydHLDqQo+IAo+IAo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tCj4gRnJv
+bTogTWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+IAo+IFNlbnQ6IHNhbWVkaSAyOSBmw6l2cmll
+ciAyMDIwIDIzOjE3Cj4gVG86IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzog
+TWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+OyBZYW5uaWNrIEZFUlRSRSA8eWFubmljay5mZXJ0
+cmVAc3QuY29tPjsgUGhpbGlwcGUgQ09STlUgPHBoaWxpcHBlLmNvcm51QHN0LmNvbT47IEJlbmph
+bWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBsaW5hcm8ub3JnPjsgVmluY2VudCBBQlJJ
+T1UgPHZpbmNlbnQuYWJyaW91QHN0LmNvbT47IE1heGltZSBDb3F1ZWxpbiA8bWNvcXVlbGluLnN0
+bTMyQGdtYWlsLmNvbT47IEFsZXhhbmRyZSBUT1JHVUUgPGFsZXhhbmRyZS50b3JndWVAc3QuY29t
+PjsgbGludXgtc3RtMzJAc3QtbWQtbWFpbG1hbi5zdG9ybXJlcGx5LmNvbTsgbGludXgtYXJtLWtl
+cm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gU3ViamVjdDogW1BBVENIXSBkcm0vc3RtOiByZXBh
+aXIgcnVudGltZSBwb3dlciBtYW5hZ2VtZW50Cj4gCj4gQWRkIG1pc3NpbmcgcG1fcnVudGltZV9n
+ZXRfc3luYygpIGludG8gbHRkY19jcnRjX2F0b21pY19lbmFibGUoKSB0byBtYXRjaCBwbV9ydW50
+aW1lX3B1dF9zeW5jKCkgaW4gbHRkY19jcnRjX2F0b21pY19kaXNhYmxlKCksIG90aGVyd2lzZSB0
+aGUgTFREQyBtaWdodCBzdXNwZW5kIHZpYSBydW50aW1lIFBNLCBkaXNhYmxlIGNsb2NrLCBhbmQg
+dGhlbiBmYWlsIHRvIHJlc3VtZSBsYXRlciBvbi4KPiAKPiBUaGUgdGVzdCB3aGljaCB0cmlnZ2Vy
+cyBpdCBpcyByb3VnaGx5IC0tIHJ1biBxdDUgYXBwbGljYXRpb24gd2hpY2ggdXNlcyBlZ2xmcyBw
+bGF0Zm9ybSBhbmQgZXRuYXZpdiwgc3RvcCB0aGUgYXBwbGljYXRpb24sIHNsZWVwIGZvciAxNSBt
+aW51dGVzLCBydW4gdGhlIGFwcGxpY2F0aW9uIGFnYWluLiBUaGlzIGxlYWRzIHRvIGEgdGltZW91
+dCB3YWl0aW5nIGZvciB2c3luYywgYmVjYXVzZSB0aGUgTFREQyBoYXMgc3VzcGVuZGVkLCBidXQg
+ZGlkIG5vdCByZXN1bWUuCj4gCj4gRml4ZXM6IDM1YWI2Y2ZiZjIxMSAoImRybS9zdG06IHN1cHBv
+cnQgcnVudGltZSBwb3dlciBtYW5hZ2VtZW50IikKPiBTaWduZWQtb2ZmLWJ5OiBNYXJlayBWYXN1
+dCA8bWFyZXhAZGVueC5kZT4KPiBDYzogWWFubmljayBGZXJ0csOpIDx5YW5uaWNrLmZlcnRyZUBz
+dC5jb20+Cj4gQ2M6IFBoaWxpcHBlIENvcm51IDxwaGlsaXBwZS5jb3JudUBzdC5jb20+Cj4gQ2M6
+IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBsaW5hcm8ub3JnPgo+IENjOiBW
+aW5jZW50IEFicmlvdSA8dmluY2VudC5hYnJpb3VAc3QuY29tPgo+IENjOiBNYXhpbWUgQ29xdWVs
+aW4gPG1jb3F1ZWxpbi5zdG0zMkBnbWFpbC5jb20+Cj4gQ2M6IEFsZXhhbmRyZSBUb3JndWUgPGFs
+ZXhhbmRyZS50b3JndWVAc3QuY29tPgo+IFRvOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCj4gQ2M6IGxpbnV4LXN0bTMyQHN0LW1kLW1haWxtYW4uc3Rvcm1yZXBseS5jb20KPiBDYzog
+bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gLS0tCj4gLS0tLS0tLS0tLS0t
+WyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tCj4gV0FSTklORzogQ1BVOiAwIFBJRDogMjk3IGF0IGRy
+aXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jOjE0OTQgZHJtX2F0b21pY19oZWxwZXJf
+d2FpdF9mb3JfdmJsYW5rcysweDFkYy8weDIwMAo+IFtDUlRDOjM1OmNydGMtMF0gdmJsYW5rIHdh
+aXQgdGltZWQgb3V0Cj4gTW9kdWxlcyBsaW5rZWQgaW46Cj4gQ1BVOiAwIFBJRDogMjk3IENvbW06
+IFFTR1JlbmRlclRocmVhZCBOb3QgdGFpbnRlZCA1LjYuMC1yYzMtbmV4dC0yMDIwMDIyOC0wMDAx
+MC1nMzE4YmYwZmMwOGVmICMyIEhhcmR3YXJlIG5hbWU6IFNUTTMyIChEZXZpY2UgVHJlZSBTdXBw
+b3J0KSBbPGMwMTBmMThjPl0gKHVud2luZF9iYWNrdHJhY2UpIGZyb20gWzxjMDEwYWZiOD5dIChz
+aG93X3N0YWNrKzB4MTAvMHgxNCkgWzxjMDEwYWZiOD5dIChzaG93X3N0YWNrKSBmcm9tIFs8YzA3
+YjFkM2M+XSAoZHVtcF9zdGFjaysweGI0LzB4ZDApIFs8YzA3YjFkM2M+XSAoZHVtcF9zdGFjaykg
+ZnJvbSBbPGMwMTFkOGI4Pl0gKF9fd2FybisweGQ0LzB4ZjApIFs8YzAxMWQ4Yjg+XSAoX193YXJu
+KSBmcm9tIFs8YzAxMWRjNGM+XSAod2Fybl9zbG93cGF0aF9mbXQrMHg3OC8weGE4KSBbPGMwMTFk
+YzRjPl0gKHdhcm5fc2xvd3BhdGhfZm10KSBmcm9tIFs8YzA0YTI2NmM+XSAoZHJtX2F0b21pY19o
+ZWxwZXJfd2FpdF9mb3JfdmJsYW5rcysweDFkYy8weDIwMCkKPiBbPGMwNGEyNjZjPl0gKGRybV9h
+dG9taWNfaGVscGVyX3dhaXRfZm9yX3ZibGFua3MpIGZyb20gWzxjMDRhNTEwYz5dIChkcm1fYXRv
+bWljX2hlbHBlcl9jb21taXRfdGFpbCswCj4geDUwLzB4NjApCj4gWzxjMDRhNTEwYz5dIChkcm1f
+YXRvbWljX2hlbHBlcl9jb21taXRfdGFpbCkgZnJvbSBbPGMwNGE1MmE4Pl0gKGNvbW1pdF90YWls
+KzB4MTJjLzB4MTNjKSBbPGMwNGE1MmE4Pl0gKGNvbW1pdF90YWlsKSBmcm9tIFs8YzA0YTUzYjQ+
+XSAoZHJtX2F0b21pY19oZWxwZXJfY29tbWl0KzB4ZjQvMHgxMDApCj4gWzxjMDRhNTNiND5dIChk
+cm1fYXRvbWljX2hlbHBlcl9jb21taXQpIGZyb20gWzxjMDRhMmQzOD5dIChkcm1fYXRvbWljX2hl
+bHBlcl9zZXRfY29uZmlnKzB4NTgvMHg2YykKPiBbPGMwNGEyZDM4Pl0gKGRybV9hdG9taWNfaGVs
+cGVyX3NldF9jb25maWcpIGZyb20gWzxjMDRiMTk5ND5dIChkcm1fbW9kZV9zZXRjcnRjKzB4NDUw
+LzB4NTUwKSBbPGMwNGIxOTk0Pl0gKGRybV9tb2RlX3NldGNydGMpIGZyb20gWzxjMDRhZDU3MD5d
+IChkcm1faW9jdGxfa2VybmVsKzB4OTAvMHhlOCkgWzxjMDRhZDU3MD5dIChkcm1faW9jdGxfa2Vy
+bmVsKSBmcm9tIFs8YzA0YWQ4YWM+XSAoZHJtX2lvY3RsKzB4MmU0LzB4MzJjKSBbPGMwNGFkOGFj
+Pl0gKGRybV9pb2N0bCkgZnJvbSBbPGMwMjQ2Nzg0Pl0gKHZmc19pb2N0bCsweDIwLzB4MzgpIFs8
+YzAyNDY3ODQ+XSAodmZzX2lvY3RsKSBmcm9tIFs8YzAyNDcwZjA+XSAoa3N5c19pb2N0bCsweGJj
+LzB4N2IwKSBbPGMwMjQ3MGYwPl0gKGtzeXNfaW9jdGwpIGZyb20gWzxjMDEwMTAwMD5dIChyZXRf
+ZmFzdF9zeXNjYWxsKzB4MC8weDU0KSBFeGNlcHRpb24gc3RhY2soMHhlZThmM2ZhOCB0byAweGVl
+OGYzZmYwKQo+IDNmYTA6ICAgICAgICAgICAgICAgICAgIDAwMDAwMDA1IGFkY2JlYjE4IDAwMDAw
+MDA1IGMwNjg2NGEyIGFkY2JlYjE4IDAwMDAwMDAxCj4gM2ZjMDogMDAwMDAwMDUgYWRjYmViMTgg
+YzA2ODY0YTIgMDAwMDAwMzYgMDAwMDAwMjkgMDAwMDAwMjMgMDAwMDAwMjMgMDAwMDAwMDcKPiAz
+ZmUwOiBiMTEzYjA5OCBhZGNiZWFmYyBiMTEyNTQxMyBiNjE1NWNmOCAtLS1bIGVuZCB0cmFjZSAy
+YWQ1YmE5NTRjZWI3NjdhIF0tLS0KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRjLmMg
+fCAzICsrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jIGIvZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRj
+LmMgaW5kZXggOTliZjkzZThiMzZmLi4zMDFkZTA0OTgwNzggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3N0bS9sdGRjLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYwo+
+IEBAIC00MjUsOSArNDI1LDEyIEBAIHN0YXRpYyB2b2lkIGx0ZGNfY3J0Y19hdG9taWNfZW5hYmxl
+KHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiAgCQkJCSAgICBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUg
+Km9sZF9zdGF0ZSkgIHsKPiAgCXN0cnVjdCBsdGRjX2RldmljZSAqbGRldiA9IGNydGNfdG9fbHRk
+YyhjcnRjKTsKPiArCXN0cnVjdCBkcm1fZGV2aWNlICpkZGV2ID0gY3J0Yy0+ZGV2Owo+ICAKPiAg
+CURSTV9ERUJVR19EUklWRVIoIlxuIik7Cj4gIAo+ICsJcG1fcnVudGltZV9nZXRfc3luYyhkZGV2
+LT5kZXYpOwo+ICsKPiAgCS8qIFNldHMgdGhlIGJhY2tncm91bmQgY29sb3IgdmFsdWUgKi8KPiAg
+CXJlZ193cml0ZShsZGV2LT5yZWdzLCBMVERDX0JDQ1IsIEJDQ1JfQkNCTEFDSyk7Cj4gIAo+IC0t
+Cj4gMi4yNS4wCj4gCgoKLS0gCkJlc3QgcmVnYXJkcywKTWFyZWsgVmFzdXQKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
