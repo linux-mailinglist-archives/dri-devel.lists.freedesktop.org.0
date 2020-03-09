@@ -2,46 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E07117F19C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:19:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B02017F1C3
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC8E16E822;
-	Tue, 10 Mar 2020 08:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF7E26E837;
+	Tue, 10 Mar 2020 08:19:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A37789F75
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 12:28:52 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 48bcw124fbz1rnrY;
- Mon,  9 Mar 2020 13:28:49 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 48bcw10bNHz1qwyg;
- Mon,  9 Mar 2020 13:28:49 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id dqRSDODqEJnb; Mon,  9 Mar 2020 13:28:47 +0100 (CET)
-X-Auth-Info: HH+q97FjzenHCVHdQZ7Q00Kt0uoz/tI7kmujMvv24y8=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Mon,  9 Mar 2020 13:28:47 +0100 (CET)
-Subject: Re: [PATCH] drm/stm: repair runtime power management
-To: Yannick FERTRE <yannick.fertre@st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20200229221649.90813-1-marex@denx.de>
- <a30ad5a774004221903292871797607a@SFHDAG6NODE1.st.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <64ea7f77-0a0b-ae3a-2911-5fdc8633255e@denx.de>
-Date: Mon, 9 Mar 2020 12:57:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA4AE89CD5
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 12:53:40 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a132so9750497wme.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 05:53:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KH1VNE2zt1RlYZ8rl8KTG3SK8e66WbruwQJVkNVIE98=;
+ b=c8WLYOiCVOo3TcVaTgnTw3VXuNGVreLagIf8x9lrWlUI/FaUFPULrCKTH3PRrBMCE0
+ NYbkl6g/ahGSwyC083KTSyICT2cjG7uhyV7GpOs7coflZdu7ALapA431f3RimNbGUJJD
+ 3sp3/TTIMpcr0IjS4IHRJ7eafDL5O34K+6HyfHmuVJpgUIAvHbiE/mwRGuFploheBc4s
+ +D8sGjuke/hh0bXwvbAto2Vq1iMJhcZ3GVNADe87INxRAfzMwEAgq/3vp/kkmxJfMs6Y
+ bvn93fJ/F7uDE+1oe/1LceBv/cJ+VBP+04+7CHy+emD3+7fYSH5sgMPsanG1/oEObc+v
+ q6fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KH1VNE2zt1RlYZ8rl8KTG3SK8e66WbruwQJVkNVIE98=;
+ b=TZm4Q4I1qcLxYv+8yYVwSsIxrAJdv696PLSbPXPiVg9wfWdYfOL6KT37RpeHl2urt/
+ Ubrc7lRX+Oxq/TP4ZqpyBhfbXDPA/to81qf5wtp/Pj4Ts5+lsbxRTgAkG5VW0i2Ixt1g
+ U8aftYiolVakWqRs+GJ5k6npJAvRIcSc350SCd9mXtGIVC7xSbr1LfhdSLE2cxwwOwWC
+ O3u4rc5mt+x6SanVSD5uYc5kSK4RslvtevxIyvw6Y50N/QjD0mCC6faGFMVZ3FEmEv5s
+ fDKUBgSR8Yf+/GzvLBi1pJKqOXEIV7S2PvvL0aKFuF89jjyS+8qFlsfNdfSNGgvCJswM
+ MzxQ==
+X-Gm-Message-State: ANhLgQ2pgKXTIxpfxJ4oEbxG5LJW7jStN3pELDzJWpjx9IZD1dw+bhnC
+ WPq8T4fiIVjPZ3DEclsOVMk=
+X-Google-Smtp-Source: ADFU+vtxz72bTI5i3Dyf4QaCSEg7XW/rjT5sFXoowpjaK8taEIwzAXYNCeUCdqFCnzrrMFztHVPfRw==
+X-Received: by 2002:a1c:9e85:: with SMTP id
+ h127mr19292611wme.145.1583758419327; 
+ Mon, 09 Mar 2020 05:53:39 -0700 (PDT)
+Received: from localhost.localdomain (178.43.54.24.ipv4.supernova.orange.pl.
+ [178.43.54.24])
+ by smtp.gmail.com with ESMTPSA id q1sm19653144wrx.19.2020.03.09.05.53.38
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 09 Mar 2020 05:53:38 -0700 (PDT)
+From: Dominik 'disconnect3d' Czarnota <dominik.b.czarnota@gmail.com>
+To: 
+Subject: [PATCH] Fix off by one in nvidia driver strncpy size arg
+Date: Mon,  9 Mar 2020 13:49:46 +0100
+Message-Id: <20200309124947.4502-1-dominik.b.czarnota@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <a30ad5a774004221903292871797607a@SFHDAG6NODE1.st.com>
-Content-Language: en-US
 X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,103 +67,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philippe CORNU <philippe.cornu@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Vincent ABRIOU <vincent.abriou@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Alexandre TORGUE <alexandre.torgue@st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ dominik.b.czarnota@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMy85LzIwIDExOjM1IEFNLCBZYW5uaWNrIEZFUlRSRSB3cm90ZToKPiBIZWxsbyBNYXJlaywK
-CkhpLAoKKHBsZWFzZSBzdG9wIHRvcC1wb3N0aW5nKQoKPiBUaGFuayBmb3IgeW91ciBwYXRjaC4g
-UG1fcnVudGltZV9wdXRfc3luYyBpcyBhbHNvIGRvbmUgaW50byBmdW5jdGlvbiBsdGRjX2NydGNf
-bW9kZV9maXh1cC4KPiBUbyBhdm9pZCBzZXZlcmFsIGNhbGwgb2YgUG1fcnVudGltZV9wdXRfc3lu
-YywgaXQgY291bGQgYmUgYmV0dGVyIHRvIGNoZWNrIHBtX3J1bnRpbWUgYWN0aXZpdHk6Cj4gCj4g
-KwlpbnQgcmV0Owo+ICAKPiAgCURSTV9ERUJVR19EUklWRVIoIlxuIik7Cj4gIAo+ICsJaWYgKCFw
-bV9ydW50aW1lX2FjdGl2ZShkZGV2LT5kZXYpKSB7Cj4gKwkJcmV0ID0gcG1fcnVudGltZV9nZXRf
-c3luYyhkZGV2LT5kZXYpOwo+ICsJCWlmIChyZXQpIHsKPiArCQkJRFJNX0VSUk9SKCJGYWlsZWQg
-dG8gZW5hYmxlIGNydGMsIGNhbm5vdCBnZXQgc3luY1xuIik7Cj4gKwkJCXJldHVybjsKPiArCQl9
-Cj4gKwl9Cj4gKwoKV2hlcmUgc2hvdWxkIHRoaXMgZ28gPyBBbmQgd291bGRuJ3QgdGhhdCBvbmx5
-IGhpZGUgbmFzdGllciBQTSBpbWJhbGFuY2UKaXNzdWVzID8KCj4gIEJlc3QgcmVnYXJkcwo+IAo+
-IFlhbm5pY2sgRmVydHLDqQo+IAo+IAo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tCj4gRnJv
-bTogTWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+IAo+IFNlbnQ6IHNhbWVkaSAyOSBmw6l2cmll
-ciAyMDIwIDIzOjE3Cj4gVG86IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzog
-TWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+OyBZYW5uaWNrIEZFUlRSRSA8eWFubmljay5mZXJ0
-cmVAc3QuY29tPjsgUGhpbGlwcGUgQ09STlUgPHBoaWxpcHBlLmNvcm51QHN0LmNvbT47IEJlbmph
-bWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBsaW5hcm8ub3JnPjsgVmluY2VudCBBQlJJ
-T1UgPHZpbmNlbnQuYWJyaW91QHN0LmNvbT47IE1heGltZSBDb3F1ZWxpbiA8bWNvcXVlbGluLnN0
-bTMyQGdtYWlsLmNvbT47IEFsZXhhbmRyZSBUT1JHVUUgPGFsZXhhbmRyZS50b3JndWVAc3QuY29t
-PjsgbGludXgtc3RtMzJAc3QtbWQtbWFpbG1hbi5zdG9ybXJlcGx5LmNvbTsgbGludXgtYXJtLWtl
-cm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gU3ViamVjdDogW1BBVENIXSBkcm0vc3RtOiByZXBh
-aXIgcnVudGltZSBwb3dlciBtYW5hZ2VtZW50Cj4gCj4gQWRkIG1pc3NpbmcgcG1fcnVudGltZV9n
-ZXRfc3luYygpIGludG8gbHRkY19jcnRjX2F0b21pY19lbmFibGUoKSB0byBtYXRjaCBwbV9ydW50
-aW1lX3B1dF9zeW5jKCkgaW4gbHRkY19jcnRjX2F0b21pY19kaXNhYmxlKCksIG90aGVyd2lzZSB0
-aGUgTFREQyBtaWdodCBzdXNwZW5kIHZpYSBydW50aW1lIFBNLCBkaXNhYmxlIGNsb2NrLCBhbmQg
-dGhlbiBmYWlsIHRvIHJlc3VtZSBsYXRlciBvbi4KPiAKPiBUaGUgdGVzdCB3aGljaCB0cmlnZ2Vy
-cyBpdCBpcyByb3VnaGx5IC0tIHJ1biBxdDUgYXBwbGljYXRpb24gd2hpY2ggdXNlcyBlZ2xmcyBw
-bGF0Zm9ybSBhbmQgZXRuYXZpdiwgc3RvcCB0aGUgYXBwbGljYXRpb24sIHNsZWVwIGZvciAxNSBt
-aW51dGVzLCBydW4gdGhlIGFwcGxpY2F0aW9uIGFnYWluLiBUaGlzIGxlYWRzIHRvIGEgdGltZW91
-dCB3YWl0aW5nIGZvciB2c3luYywgYmVjYXVzZSB0aGUgTFREQyBoYXMgc3VzcGVuZGVkLCBidXQg
-ZGlkIG5vdCByZXN1bWUuCj4gCj4gRml4ZXM6IDM1YWI2Y2ZiZjIxMSAoImRybS9zdG06IHN1cHBv
-cnQgcnVudGltZSBwb3dlciBtYW5hZ2VtZW50IikKPiBTaWduZWQtb2ZmLWJ5OiBNYXJlayBWYXN1
-dCA8bWFyZXhAZGVueC5kZT4KPiBDYzogWWFubmljayBGZXJ0csOpIDx5YW5uaWNrLmZlcnRyZUBz
-dC5jb20+Cj4gQ2M6IFBoaWxpcHBlIENvcm51IDxwaGlsaXBwZS5jb3JudUBzdC5jb20+Cj4gQ2M6
-IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBsaW5hcm8ub3JnPgo+IENjOiBW
-aW5jZW50IEFicmlvdSA8dmluY2VudC5hYnJpb3VAc3QuY29tPgo+IENjOiBNYXhpbWUgQ29xdWVs
-aW4gPG1jb3F1ZWxpbi5zdG0zMkBnbWFpbC5jb20+Cj4gQ2M6IEFsZXhhbmRyZSBUb3JndWUgPGFs
-ZXhhbmRyZS50b3JndWVAc3QuY29tPgo+IFRvOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4gQ2M6IGxpbnV4LXN0bTMyQHN0LW1kLW1haWxtYW4uc3Rvcm1yZXBseS5jb20KPiBDYzog
-bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gLS0tCj4gLS0tLS0tLS0tLS0t
-WyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tCj4gV0FSTklORzogQ1BVOiAwIFBJRDogMjk3IGF0IGRy
-aXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jOjE0OTQgZHJtX2F0b21pY19oZWxwZXJf
-d2FpdF9mb3JfdmJsYW5rcysweDFkYy8weDIwMAo+IFtDUlRDOjM1OmNydGMtMF0gdmJsYW5rIHdh
-aXQgdGltZWQgb3V0Cj4gTW9kdWxlcyBsaW5rZWQgaW46Cj4gQ1BVOiAwIFBJRDogMjk3IENvbW06
-IFFTR1JlbmRlclRocmVhZCBOb3QgdGFpbnRlZCA1LjYuMC1yYzMtbmV4dC0yMDIwMDIyOC0wMDAx
-MC1nMzE4YmYwZmMwOGVmICMyIEhhcmR3YXJlIG5hbWU6IFNUTTMyIChEZXZpY2UgVHJlZSBTdXBw
-b3J0KSBbPGMwMTBmMThjPl0gKHVud2luZF9iYWNrdHJhY2UpIGZyb20gWzxjMDEwYWZiOD5dIChz
-aG93X3N0YWNrKzB4MTAvMHgxNCkgWzxjMDEwYWZiOD5dIChzaG93X3N0YWNrKSBmcm9tIFs8YzA3
-YjFkM2M+XSAoZHVtcF9zdGFjaysweGI0LzB4ZDApIFs8YzA3YjFkM2M+XSAoZHVtcF9zdGFjaykg
-ZnJvbSBbPGMwMTFkOGI4Pl0gKF9fd2FybisweGQ0LzB4ZjApIFs8YzAxMWQ4Yjg+XSAoX193YXJu
-KSBmcm9tIFs8YzAxMWRjNGM+XSAod2Fybl9zbG93cGF0aF9mbXQrMHg3OC8weGE4KSBbPGMwMTFk
-YzRjPl0gKHdhcm5fc2xvd3BhdGhfZm10KSBmcm9tIFs8YzA0YTI2NmM+XSAoZHJtX2F0b21pY19o
-ZWxwZXJfd2FpdF9mb3JfdmJsYW5rcysweDFkYy8weDIwMCkKPiBbPGMwNGEyNjZjPl0gKGRybV9h
-dG9taWNfaGVscGVyX3dhaXRfZm9yX3ZibGFua3MpIGZyb20gWzxjMDRhNTEwYz5dIChkcm1fYXRv
-bWljX2hlbHBlcl9jb21taXRfdGFpbCswCj4geDUwLzB4NjApCj4gWzxjMDRhNTEwYz5dIChkcm1f
-YXRvbWljX2hlbHBlcl9jb21taXRfdGFpbCkgZnJvbSBbPGMwNGE1MmE4Pl0gKGNvbW1pdF90YWls
-KzB4MTJjLzB4MTNjKSBbPGMwNGE1MmE4Pl0gKGNvbW1pdF90YWlsKSBmcm9tIFs8YzA0YTUzYjQ+
-XSAoZHJtX2F0b21pY19oZWxwZXJfY29tbWl0KzB4ZjQvMHgxMDApCj4gWzxjMDRhNTNiND5dIChk
-cm1fYXRvbWljX2hlbHBlcl9jb21taXQpIGZyb20gWzxjMDRhMmQzOD5dIChkcm1fYXRvbWljX2hl
-bHBlcl9zZXRfY29uZmlnKzB4NTgvMHg2YykKPiBbPGMwNGEyZDM4Pl0gKGRybV9hdG9taWNfaGVs
-cGVyX3NldF9jb25maWcpIGZyb20gWzxjMDRiMTk5ND5dIChkcm1fbW9kZV9zZXRjcnRjKzB4NDUw
-LzB4NTUwKSBbPGMwNGIxOTk0Pl0gKGRybV9tb2RlX3NldGNydGMpIGZyb20gWzxjMDRhZDU3MD5d
-IChkcm1faW9jdGxfa2VybmVsKzB4OTAvMHhlOCkgWzxjMDRhZDU3MD5dIChkcm1faW9jdGxfa2Vy
-bmVsKSBmcm9tIFs8YzA0YWQ4YWM+XSAoZHJtX2lvY3RsKzB4MmU0LzB4MzJjKSBbPGMwNGFkOGFj
-Pl0gKGRybV9pb2N0bCkgZnJvbSBbPGMwMjQ2Nzg0Pl0gKHZmc19pb2N0bCsweDIwLzB4MzgpIFs8
-YzAyNDY3ODQ+XSAodmZzX2lvY3RsKSBmcm9tIFs8YzAyNDcwZjA+XSAoa3N5c19pb2N0bCsweGJj
-LzB4N2IwKSBbPGMwMjQ3MGYwPl0gKGtzeXNfaW9jdGwpIGZyb20gWzxjMDEwMTAwMD5dIChyZXRf
-ZmFzdF9zeXNjYWxsKzB4MC8weDU0KSBFeGNlcHRpb24gc3RhY2soMHhlZThmM2ZhOCB0byAweGVl
-OGYzZmYwKQo+IDNmYTA6ICAgICAgICAgICAgICAgICAgIDAwMDAwMDA1IGFkY2JlYjE4IDAwMDAw
-MDA1IGMwNjg2NGEyIGFkY2JlYjE4IDAwMDAwMDAxCj4gM2ZjMDogMDAwMDAwMDUgYWRjYmViMTgg
-YzA2ODY0YTIgMDAwMDAwMzYgMDAwMDAwMjkgMDAwMDAwMjMgMDAwMDAwMjMgMDAwMDAwMDcKPiAz
-ZmUwOiBiMTEzYjA5OCBhZGNiZWFmYyBiMTEyNTQxMyBiNjE1NWNmOCAtLS1bIGVuZCB0cmFjZSAy
-YWQ1YmE5NTRjZWI3NjdhIF0tLS0KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRjLmMg
-fCAzICsrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jIGIvZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRj
-LmMgaW5kZXggOTliZjkzZThiMzZmLi4zMDFkZTA0OTgwNzggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3N0bS9sdGRjLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYwo+
-IEBAIC00MjUsOSArNDI1LDEyIEBAIHN0YXRpYyB2b2lkIGx0ZGNfY3J0Y19hdG9taWNfZW5hYmxl
-KHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiAgCQkJCSAgICBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUg
-Km9sZF9zdGF0ZSkgIHsKPiAgCXN0cnVjdCBsdGRjX2RldmljZSAqbGRldiA9IGNydGNfdG9fbHRk
-YyhjcnRjKTsKPiArCXN0cnVjdCBkcm1fZGV2aWNlICpkZGV2ID0gY3J0Yy0+ZGV2Owo+ICAKPiAg
-CURSTV9ERUJVR19EUklWRVIoIlxuIik7Cj4gIAo+ICsJcG1fcnVudGltZV9nZXRfc3luYyhkZGV2
-LT5kZXYpOwo+ICsKPiAgCS8qIFNldHMgdGhlIGJhY2tncm91bmQgY29sb3IgdmFsdWUgKi8KPiAg
-CXJlZ193cml0ZShsZGV2LT5yZWdzLCBMVERDX0JDQ1IsIEJDQ1JfQkNCTEFDSyk7Cj4gIAo+IC0t
-Cj4gMi4yNS4wCj4gCgoKLS0gCkJlc3QgcmVnYXJkcywKTWFyZWsgVmFzdXQKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+From: disconnect3d <dominik.b.czarnota@gmail.com>
+
+This patch fixes an off-by-one error in strncpy size argument in
+drivers/video/fbdev/nvidia/nvidia.c. The issue is that in:
+
+        strncmp(this_opt, "noaccel", 6)
+
+the passed string literal: "noaccel" has 7 bytes (without the NULL byte)
+and the passed size argument is 6. As a result, the logic will also
+match/accept string "noacce" or "noacceX".
+
+This bug doesn't seem to have any security impact since its present in
+the driver's setup and just accepts slighty changed string to enable the
+`noaccel` flag.
+
+Signed-off-by: disconnect3d <dominik.b.czarnota@gmail.com>
+---
+
+Notes:
+    The bug could also be fixed by changing the size argument to
+    `sizeof("string literal")-1` but I am not proposing this change as that
+    would have to be changed in other places.
+    
+    There are also more cases like this in kernel sources which I
+    reported/will report soon.
+    
+    This bug has been found by running a massive grep-like search using
+    Google's BigQuery on GitHub repositories data. I am also going to work
+    on a CodeQL/Semmle query to be able to find more sophisticated cases
+    like this that can't be found via grepping.
+
+ drivers/video/fbdev/nvidia/nvidia.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
+index c583c018304d..b77efeb33477 100644
+--- a/drivers/video/fbdev/nvidia/nvidia.c
++++ b/drivers/video/fbdev/nvidia/nvidia.c
+@@ -1470,7 +1470,7 @@ static int nvidiafb_setup(char *options)
+ 			flatpanel = 1;
+ 		} else if (!strncmp(this_opt, "hwcur", 5)) {
+ 			hwcur = 1;
+-		} else if (!strncmp(this_opt, "noaccel", 6)) {
++		} else if (!strncmp(this_opt, "noaccel", 7)) {
+ 			noaccel = 1;
+ 		} else if (!strncmp(this_opt, "noscale", 7)) {
+ 			noscale = 1;
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
