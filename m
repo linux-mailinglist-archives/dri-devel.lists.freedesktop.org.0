@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38E617EAAB
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 22:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CCB17EAB4
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 22:04:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 968406E18F;
-	Mon,  9 Mar 2020 21:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABE196E49D;
+	Mon,  9 Mar 2020 21:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 559B16E18F
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 21:01:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583787704;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D1RxqWrKO438vkGEbZpjxhyrkCxLkS0aydXYxGr+6zQ=;
- b=du9mOD9esWE24MNbZq9ae9Of4+krj/yyVcQI3PHIjafC+XC/C0q48Xf+rNPgIkS9v4j09H
- RYeS4PWbWIK686sBj1EsVfFkrMeF+pAD4tykLOG1FaqOmm2cj4OAunn6NehmAJHWO5LPPv
- mlInUzDde1UfnbORgC+NtVBnM1CdAzE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-CLCY5D2iNIO5QGTkLhSluw-1; Mon, 09 Mar 2020 17:01:40 -0400
-X-MC-Unique: CLCY5D2iNIO5QGTkLhSluw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA3B713E2;
- Mon,  9 Mar 2020 21:01:37 +0000 (UTC)
-Received: from Ruby.bss.redhat.com (dhcp-10-20-1-196.bss.redhat.com
- [10.20.1.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69AAF26370;
- Mon,  9 Mar 2020 21:01:34 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/dp_mst: Rewrite and fix bandwidth limit checks
-Date: Mon,  9 Mar 2020 17:01:31 -0400
-Message-Id: <20200309210131.1497545-1-lyude@redhat.com>
-In-Reply-To: <20200306234623.547525-5-lyude@redhat.com>
-References: <20200306234623.547525-5-lyude@redhat.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED1C86E49D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 21:04:19 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a25so9236855wrd.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 14:04:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FsRBSfdE1T1XkabqS4jssoseR6/tPbgLzifbVihUd4s=;
+ b=ZgX6EII84RmyCkN3dglDEucICaphO9XwhwVQuaP7HVZeOZ6YWrwgBw2JEHwiGvWd5z
+ FM5vYp/5CUgsPWT6WxNu3M50+zkQbVsAjzcHFluVqTfvUhp70MYcvBCuJwyrLMrKKIV/
+ RGCbVN14H/1SvI4Z7tQZtW0RKGmKeakHF24G+qskLBlB5GspV/3MZy/DA2IMr/LqWl4u
+ 6i6AzNhbQlqokPdO4PNvDLWxLLkKLgrfmF6pWthMdvMfEnRweqA1UPy9hNSKHYTDcow6
+ jWb7LiVeR+I+g3JxvDWtcBxSAB3uHBLZeThXRU02TatRdzf6H+iiZJZi44FK5d+/qdpM
+ ypaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FsRBSfdE1T1XkabqS4jssoseR6/tPbgLzifbVihUd4s=;
+ b=WKa4jsdC+tfiYX3KKPpx4M+Xkru89Kd0cvMd5jKBmoJImJWQiZc8VXW5XeHBgi6zzh
+ t5LJu788fIUqL9gRhpraQ66AYqJv/KxSP691yQhUBYxUJGqTQ9M3qQSKBandyrjVTj3Z
+ oT+rU9f9/9sfckkr6eqm+wPBhhShWBC5Deu4ETrGPJEgjUSB56tycmi5eR8eEuhUAiO9
+ eDHx8I3p/g2ZErzrDik5SDgj6BB9OfTD7+UMgU/334aERsrT/7FK7DVq0eMKrqrP435U
+ ys8H9W515vYK5y8BLU0/Mslyo/u2TKV7GRbATMXI3yv/VAe8T+TAtjEYQ+8aAjsOCCUq
+ s25g==
+X-Gm-Message-State: ANhLgQ1SyFoKgPBYRWuo9dv5KOMFXo5hHjKorQD1a5SsQJHugA+6V52M
+ 2+s8bJ31yIbsSKJEa34awFusKIIoH//z3Z0Aq7s=
+X-Google-Smtp-Source: ADFU+vvaVP3DmMgzVl/RSGMO9/7IVNUa3ayUwouhdphjHeiOOcBXoS6Zqjaw5cOAztoAagck3sdi/WeIAMOjZA+JoCY=
+X-Received: by 2002:a5d:6688:: with SMTP id l8mr22417777wru.362.1583787858603; 
+ Mon, 09 Mar 2020 14:04:18 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20200306234923.547873-1-lyude@redhat.com>
+In-Reply-To: <20200306234923.547873-1-lyude@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 9 Mar 2020 17:04:07 -0400
+Message-ID: <CADnq5_P_qA8eKoGxeLiGBQXyBT3eL61ghLt3F6ee0eRpbJzOeA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/dp_mst: Fix link address probing regressions
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,154 +60,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@google.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+Cc: Benjamin Gaignard <benjamin.gaignard@st.com>,
+ David Airlie <airlied@linux.ie>, David Francis <david.francis@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Alex Deucher <alexander.deucher@amd.com>,
  Mikita Lipski <mikita.lipski@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2lnaCwgdGhpcyBpcyBtb3N0bHkgbXkgZmF1bHQgZm9yIG5vdCBnaXZpbmcgY29tbWl0IGNkODJk
-ODJjYmMwNAooImRybS9kcF9tc3Q6IEFkZCBicmFuY2ggYmFuZHdpZHRoIHZhbGlkYXRpb24gdG8g
-TVNUIGF0b21pYyBjaGVjayIpCmVub3VnaCBzY3J1dGlueSBkdXJpbmcgcmV2aWV3LiBUaGUgd2F5
-IHdlJ3JlIGNoZWNraW5nIGJhbmR3aWR0aApsaW1pdGF0aW9ucyBoZXJlIGlzIG1vc3RseSB3cm9u
-ZzoKCkZvciBzdGFydGVycywgZHJtX2RwX21zdF9hdG9taWNfY2hlY2tfYndfbGltaXQoKSBkZXRl
-cm1pbmVzIHRoZQpwYm5fbGltaXQgb2YgYSBicmFuY2ggYnkgc2ltcGx5IHNjYW5uaW5nIGVhY2gg
-cG9ydCBvbiB0aGUgY3VycmVudCBicmFuY2gKZGV2aWNlLCB0aGVuIHVzZXMgdGhlIGxhc3Qgbm9u
-LXplcm8gZnVsbF9wYm4gdmFsdWUgdGhhdCBpdCBmaW5kcy4gSXQKdGhlbiBjb3VudHMgdGhlIHN1
-bSBvZiB0aGUgUEJOIHVzZWQgb24gZWFjaCBicmFuY2ggZGV2aWNlIGZvciB0aGF0CmxldmVsLCBh
-bmQgY29tcGFyZXMgYWdhaW5zdCB0aGUgZnVsbF9wYm4gdmFsdWUgaXQgZm91bmQgYmVmb3JlLgoK
-VGhpcyBpcyB3cm9uZyBiZWNhdXNlIHBvcnRzIGNhbiBhbmQgd2lsbCBoYXZlIGRpZmZlcmVudCBQ
-Qk4gbGltaXRhdGlvbnMKb24gbWFueSBodWJzLCBlc3BlY2lhbGx5IHNpbmNlIGEgbnVtYmVyIG9m
-IERpc3BsYXlQb3J0IGh1YnMgb3V0IHRoZXJlCndpbGwgYmUgY2xldmVyIGFuZCBvbmx5IHVzZSB0
-aGUgc21hbGxlc3QgbGluayByYXRlIHJlcXVpcmVkIGZvciBlYWNoCmRvd25zdHJlYW0gc2luayAt
-IHBvdGVudGlhbGx5IGdpdmluZyBldmVyeSBwb3J0IGEgZGlmZmVyZW50IGZ1bGxfcGJuCnZhbHVl
-IGRlcGVuZGluZyBvbiB3aGF0IGxpbmsgcmF0ZSBpdCdzIHRyYWluZWQgYXQuIFRoaXMgbWVhbnMg
-d2l0aCBvdXIKY3VycmVudCBjb2RlLCB3aGljaCBtYXggUEJOIHZhbHVlIHdlIGVuZCB1cCB3aXRo
-IGlzIG5vdCB3ZWxsIGRlZmluZWQuCgpBZGRpdGlvbmFsbHksIHdlIGFsc28gbmVlZCB0byByZW1l
-bWJlciB3aGVuIGNoZWNraW5nIGJhbmR3aWR0aApsaW1pdGF0aW9ucyB0aGF0IHRoZSB0b3AtbW9z
-dCBkZXZpY2UgaW4gYW55IE1TVCB0b3BvbG9neSBpcyBhIGJyYW5jaApkZXZpY2UsIG5vdCBhIHBv
-cnQuIFRoaXMgbWVhbnMgdGhhdCB0aGUgZmlyc3QgbGV2ZWwgb2YgYSB0b3BvbG9neQpkb2Vzbid0
-IHRlY2huaWNhbGx5IGhhdmUgYSBmdWxsX3BibiB2YWx1ZSB0aGF0IG5lZWRzIHRvIGJlIGNoZWNr
-ZWQuCkluc3RlYWQsIHdlIHNob3VsZCBhc3N1bWUgdGhhdCBzbyBsb25nIGFzIG91ciBWQ1BJIGFs
-bG9jYXRpb25zIGZpdCB3ZSdyZQp3aXRoaW4gdGhlIGJhbmR3aWR0aCBsaW1pdGF0aW9ucyBvZiB0
-aGUgcHJpbWFyeSBNU1RCLgoKV2UgZG8gaG93ZXZlciwgd2FudCB0byBjaGVjayBmdWxsX3BibiBv
-biBldmVyeSBwb3J0IGluY2x1ZGluZyB0aG9zZSBvZgp0aGUgcHJpbWFyeSBNU1RCLiBIb3dldmVy
-LCBpdCdzIGltcG9ydGFudCB0byBrZWVwIGluIG1pbmQgdGhhdCB0aGlzCnZhbHVlIHJlcHJlc2Vu
-dHMgdGhlIG1pbmltdW0gbGluayByYXRlIC9iZXR3ZWVuIGEgcG9ydCdzIHNpbmsgb3IgbXN0YiwK
-YW5kIHRoZSBtc3RiIGl0c2VsZi8uIEEgcXVpY2sgZGlhZ3JhbSB0byBleHBsYWluOgoKICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBNU1RCICMxCiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAvICAgICAgIFwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyAgICAgICAg
-IFwKICAgICAgICAgICAgICAgICAgICAgICAgICAgUG9ydCAjMSAgICBQb3J0ICMyCiAgICAgICBm
-dWxsX3BibiBmb3IgUG9ydCAjMSDihpIgfCAgICAgICAgICB8IOKGkCBmdWxsX3BibiBmb3IgUG9y
-dCAjMgogICAgICAgICAgICAgICAgICAgICAgICAgICBTaW5rICMxICAgIE1TVEIgIzIKICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIGV0Yy4uLgoKTm90ZSB0aGF0IGluIHRoZSBhYm92ZSBkaWFncmFt
-LCB0aGUgY29tYmluZWQgUEJOIGZyb20gYWxsIFZDUEkKYWxsb2NhdGlvbnMgb24gc2FpZCBodWIg
-c2hvdWxkIG5vdCBleGNlZWQgdGhlIGZ1bGxfcGJuIHZhbHVlIG9mIHBvcnQgIzIsCmFuZCB0aGUg
-ZGlzcGxheSBjb25maWd1cmF0aW9uIG9uIHNpbmsgIzEgc2hvdWxkIG5vdCBleGNlZWQgdGhlIGZ1
-bGxfcGJuCnZhbHVlIG9mIHBvcnQgIzEuIEhvd2V2ZXIsIHBvcnQgIzEgYW5kIHBvcnQgIzIgY2Fu
-IG90aGVyd2lzZSBjb25zdW1lIGFzCm11Y2ggYmFuZHdpZHRoIGFzIHRoZXkgd2FudCBzbyBsb25n
-IGFzIHRoZWlyIFZDUEkgYWxsb2NhdGlvbnMgc3RpbGwgZml0LgoKQW5kIGZpbmFsbHkgLSBvdXIg
-Y3VycmVudCBiYW5kd2lkdGggY2hlY2tpbmcgY29kZSBhbHNvIG1ha2VzIHRoZSBtaXN0YWtlCm9m
-IG5vdCBjaGVja2luZyB3aGV0aGVyIHNvbWV0aGluZyBpcyBhbiBlbmQgZGV2aWNlIG9yIG5vdCBi
-ZWZvcmUgdHJ5aW5nCnRvIHRyYXZlcnNlIGRvd24gaXQuCgpTbywgbGV0J3MgZml4IGl0IGJ5IHJl
-d3JpdGluZyBvdXIgYmFuZHdpZHRoIGNoZWNraW5nIGhlbHBlcnMuIFdlIHNwbGl0CnRoZSBmdW5j
-dGlvbiBpbnRvIG9uZSBwYXJ0IGZvciBoYW5kbGluZyBicmFuY2hlcyB3aGljaCBzaW1wbHkgYWRk
-cyB1cAp0aGUgdG90YWwgUEJOIG9uIGVhY2ggYnJhbmNoIGFuZCByZXR1cm5zIGl0LCBhbmQgb25l
-IGZvciBjaGVja2luZyBlYWNoCnBvcnQgdG8gZW5zdXJlIHdlJ3JlIG5vdCBnb2luZyBvdmVyIGl0
-cyBQQk4gbGltaXQuIFBoZXcuCgpUaGlzIHNob3VsZCBmaXggcmVncmVzc2lvbnMgc2Vlbiwgd2hl
-cmUgd2UgZXJyb25lb3VzbHkgcmVqZWN0IGRpc3BsYXkKY29uZmlndXJhdGlvbnMgZHVlIHRvIHRo
-aW5raW5nIHRoZXkncmUgZ29pbmcgb3ZlciBvdXIgYmFuZHdpZHRoIGxpbWl0cwp3aGVuIHRoZXkn
-cmUgbm90LgoKQ2hhbmdlcyBzaW5jZSB2MToKKiBUb29rIGFuIGV2ZW4gY2xvc2VyIGxvb2sgYXQg
-aG93IFBCTiBsaW1pdGF0aW9ucyBhcmUgc3VwcG9zZWQgdG8gYmUKICBoYW5kbGVkLCBhbmQgZGlk
-IHNvbWUgZXhwZXJpbWVudGluZyB3aXRoIFNlYW4gUGF1bC4gRW5kZWQgdXAgcmV3cml0aW5nCiAg
-dGhlc2UgaGVscGVycyBhZ2FpbiwgYnV0IHRoaXMgdGltZSB0aGV5IHNob3VsZCBhY3R1YWxseSBi
-ZSBjb3JyZWN0IQpDaGFuZ2VzIHNpbmNlIHYyOgoqIFNtYWxsIGluZGVudGluZyBmaXgKKiBGaXgg
-cGJuX3VzZWQgY2hlY2sgaW4gZHJtX2RwX21zdF9hdG9taWNfY2hlY2tfcG9ydF9id19saW1pdCgp
-CgpTaWduZWQtb2ZmLWJ5OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgpGaXhlczogY2Q4
-MmQ4MmNiYzA0ICgiZHJtL2RwX21zdDogQWRkIGJyYW5jaCBiYW5kd2lkdGggdmFsaWRhdGlvbiB0
-byBNU1QgYXRvbWljIGNoZWNrIikKQ2M6IE1pa2l0YSBMaXBza2kgPG1pa2l0YS5saXBza2lAYW1k
-LmNvbT4KQ2M6IFNlYW4gUGF1bCA8c2VhbnBhdWxAZ29vZ2xlLmNvbT4KQ2M6IEhhbnMgZGUgR29l
-ZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3Rf
-dG9wb2xvZ3kuYyB8IDExOSArKysrKysrKysrKysrKysrKysrKy0tLS0tLQogMSBmaWxlIGNoYW5n
-ZWQsIDkzIGluc2VydGlvbnMoKyksIDI2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rw
-X21zdF90b3BvbG9neS5jCmluZGV4IGI4MWFkNDQ0YzI0Zi4uZDJmNDY0YmRjZmZmIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKQEAgLTQ4NDEsNDEgKzQ4NDEsMTAyIEBAIHN0
-YXRpYyBib29sIGRybV9kcF9tc3RfcG9ydF9kb3duc3RyZWFtX29mX2JyYW5jaChzdHJ1Y3QgZHJt
-X2RwX21zdF9wb3J0ICpwb3J0LAogCXJldHVybiBmYWxzZTsKIH0KIAotc3RhdGljIGlubGluZQot
-aW50IGRybV9kcF9tc3RfYXRvbWljX2NoZWNrX2J3X2xpbWl0KHN0cnVjdCBkcm1fZHBfbXN0X2Jy
-YW5jaCAqYnJhbmNoLAotCQkJCSAgICAgc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfc3RhdGUg
-Km1zdF9zdGF0ZSkKK3N0YXRpYyBpbnQKK2RybV9kcF9tc3RfYXRvbWljX2NoZWNrX3BvcnRfYndf
-bGltaXQoc3RydWN0IGRybV9kcF9tc3RfcG9ydCAqcG9ydCwKKwkJCQkgICAgICBzdHJ1Y3QgZHJt
-X2RwX21zdF90b3BvbG9neV9zdGF0ZSAqc3RhdGUpOworCitzdGF0aWMgaW50Citkcm1fZHBfbXN0
-X2F0b21pY19jaGVja19tc3RiX2J3X2xpbWl0KHN0cnVjdCBkcm1fZHBfbXN0X2JyYW5jaCAqbXN0
-YiwKKwkJCQkgICAgICBzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9zdGF0ZSAqc3RhdGUpCiB7
-Ci0Jc3RydWN0IGRybV9kcF9tc3RfcG9ydCAqcG9ydDsKIAlzdHJ1Y3QgZHJtX2RwX3ZjcGlfYWxs
-b2NhdGlvbiAqdmNwaTsKLQlpbnQgcGJuX2xpbWl0ID0gMCwgcGJuX3VzZWQgPSAwOworCXN0cnVj
-dCBkcm1fZHBfbXN0X3BvcnQgKnBvcnQ7CisJaW50IHBibl91c2VkID0gMCwgcmV0OworCWJvb2wg
-Zm91bmQgPSBmYWxzZTsKIAotCWxpc3RfZm9yX2VhY2hfZW50cnkocG9ydCwgJmJyYW5jaC0+cG9y
-dHMsIG5leHQpIHsKLQkJaWYgKHBvcnQtPm1zdGIpCi0JCQlpZiAoZHJtX2RwX21zdF9hdG9taWNf
-Y2hlY2tfYndfbGltaXQocG9ydC0+bXN0YiwgbXN0X3N0YXRlKSkKLQkJCQlyZXR1cm4gLUVOT1NQ
-QzsKKwkvKiBDaGVjayB0aGF0IHdlIGhhdmUgYXQgbGVhc3Qgb25lIHBvcnQgaW4gb3VyIHN0YXRl
-IHRoYXQncyBkb3duc3RyZWFtCisJICogb2YgdGhpcyBicmFuY2gsIG90aGVyd2lzZSB3ZSBjYW4g
-c2tpcCB0aGlzIGJyYW5jaAorCSAqLworCWxpc3RfZm9yX2VhY2hfZW50cnkodmNwaSwgJnN0YXRl
-LT52Y3BpcywgbmV4dCkgeworCQlpZiAoIXZjcGktPnBibiB8fAorCQkgICAgIWRybV9kcF9tc3Rf
-cG9ydF9kb3duc3RyZWFtX29mX2JyYW5jaCh2Y3BpLT5wb3J0LCBtc3RiKSkKKwkJCWNvbnRpbnVl
-OwogCi0JCWlmIChwb3J0LT5mdWxsX3BibiA+IDApCi0JCQlwYm5fbGltaXQgPSBwb3J0LT5mdWxs
-X3BibjsKKwkJZm91bmQgPSB0cnVlOworCQlicmVhazsKIAl9Ci0JRFJNX0RFQlVHX0FUT01JQygi
-W01TVCBCUkFOQ0g6JXBdIGJyYW5jaCBoYXMgJWQgUEJOIGF2YWlsYWJsZVxuIiwKLQkJCSBicmFu
-Y2gsIHBibl9saW1pdCk7CisJaWYgKCFmb3VuZCkKKwkJcmV0dXJuIDA7CiAKLQlsaXN0X2Zvcl9l
-YWNoX2VudHJ5KHZjcGksICZtc3Rfc3RhdGUtPnZjcGlzLCBuZXh0KSB7Ci0JCWlmICghdmNwaS0+
-cGJuKQotCQkJY29udGludWU7CisJaWYgKG1zdGItPnBvcnRfcGFyZW50KQorCQlEUk1fREVCVUdf
-QVRPTUlDKCJbTVNUQjolcF0gW01TVCBQT1JUOiVwXSBDaGVja2luZyBiYW5kd2lkdGggbGltaXRz
-IG9uIFtNU1RCOiVwXVxuIiwKKwkJCQkgbXN0Yi0+cG9ydF9wYXJlbnQtPnBhcmVudCwgbXN0Yi0+
-cG9ydF9wYXJlbnQsCisJCQkJIG1zdGIpOworCWVsc2UKKwkJRFJNX0RFQlVHX0FUT01JQygiW01T
-VEI6JXBdIENoZWNraW5nIGJhbmR3aWR0aCBsaW1pdHNcbiIsCisJCQkJIG1zdGIpOwogCi0JCWlm
-IChkcm1fZHBfbXN0X3BvcnRfZG93bnN0cmVhbV9vZl9icmFuY2godmNwaS0+cG9ydCwgYnJhbmNo
-KSkKLQkJCXBibl91c2VkICs9IHZjcGktPnBibjsKKwlsaXN0X2Zvcl9lYWNoX2VudHJ5KHBvcnQs
-ICZtc3RiLT5wb3J0cywgbmV4dCkgeworCQlyZXQgPSBkcm1fZHBfbXN0X2F0b21pY19jaGVja19w
-b3J0X2J3X2xpbWl0KHBvcnQsIHN0YXRlKTsKKwkJaWYgKHJldCA8IDApCisJCQlyZXR1cm4gcmV0
-OworCisJCXBibl91c2VkICs9IHJldDsKIAl9Ci0JRFJNX0RFQlVHX0FUT01JQygiW01TVCBCUkFO
-Q0g6JXBdIGJyYW5jaCB1c2VkICVkIFBCTlxuIiwKLQkJCSBicmFuY2gsIHBibl91c2VkKTsKIAot
-CWlmIChwYm5fdXNlZCA+IHBibl9saW1pdCkgewotCQlEUk1fREVCVUdfQVRPTUlDKCJbTVNUIEJS
-QU5DSDolcF0gTm8gYXZhaWxhYmxlIGJhbmR3aWR0aFxuIiwKLQkJCQkgYnJhbmNoKTsKKwlyZXR1
-cm4gcGJuX3VzZWQ7Cit9CisKK3N0YXRpYyBpbnQKK2RybV9kcF9tc3RfYXRvbWljX2NoZWNrX3Bv
-cnRfYndfbGltaXQoc3RydWN0IGRybV9kcF9tc3RfcG9ydCAqcG9ydCwKKwkJCQkgICAgICBzdHJ1
-Y3QgZHJtX2RwX21zdF90b3BvbG9neV9zdGF0ZSAqc3RhdGUpCit7CisJc3RydWN0IGRybV9kcF92
-Y3BpX2FsbG9jYXRpb24gKnZjcGk7CisJaW50IHBibl91c2VkID0gMDsKKworCWlmIChwb3J0LT5w
-ZHQgPT0gRFBfUEVFUl9ERVZJQ0VfTk9ORSkKKwkJcmV0dXJuIDA7CisKKwlpZiAoZHJtX2RwX21z
-dF9pc19lbmRfZGV2aWNlKHBvcnQtPnBkdCwgcG9ydC0+bWNzKSkgeworCQlib29sIGZvdW5kID0g
-ZmFsc2U7CisKKwkJbGlzdF9mb3JfZWFjaF9lbnRyeSh2Y3BpLCAmc3RhdGUtPnZjcGlzLCBuZXh0
-KSB7CisJCQlpZiAodmNwaS0+cG9ydCAhPSBwb3J0KQorCQkJCWNvbnRpbnVlOworCQkJaWYgKCF2
-Y3BpLT5wYm4pCisJCQkJcmV0dXJuIDA7CisKKwkJCWZvdW5kID0gdHJ1ZTsKKwkJCWJyZWFrOwor
-CQl9CisJCWlmICghZm91bmQpCisJCQlyZXR1cm4gMDsKKworCQkvKiBUaGlzIHNob3VsZCBuZXZl
-ciBoYXBwZW4sIGFzIGl0IG1lYW5zIHdlIHRyaWVkIHRvCisJCSAqIHNldCBhIG1vZGUgYmVmb3Jl
-IHF1ZXJ5aW5nIHRoZSBmdWxsX3BibgorCQkgKi8KKwkJaWYgKFdBUk5fT04oIXBvcnQtPmZ1bGxf
-cGJuKSkKKwkJCXJldHVybiAtRUlOVkFMOworCisJCXBibl91c2VkID0gdmNwaS0+cGJuOworCX0g
-ZWxzZSB7CisJCXBibl91c2VkID0gZHJtX2RwX21zdF9hdG9taWNfY2hlY2tfbXN0Yl9id19saW1p
-dChwb3J0LT5tc3RiLAorCQkJCQkJCQkgc3RhdGUpOworCQlpZiAocGJuX3VzZWQgPD0gMCkKKwkJ
-CXJldHVybiBwYm5fdXNlZDsKKwl9CisKKwlpZiAocGJuX3VzZWQgPiBwb3J0LT5mdWxsX3Bibikg
-eworCQlEUk1fREVCVUdfQVRPTUlDKCJbTVNUQjolcF0gW01TVCBQT1JUOiVwXSByZXF1aXJlZCBQ
-Qk4gb2YgJWQgZXhjZWVkcyBwb3J0IGxpbWl0IG9mICVkXG4iLAorCQkJCSBwb3J0LT5wYXJlbnQs
-IHBvcnQsIHBibl91c2VkLAorCQkJCSBwb3J0LT5mdWxsX3Bibik7CiAJCXJldHVybiAtRU5PU1BD
-OwogCX0KLQlyZXR1cm4gMDsKKworCURSTV9ERUJVR19BVE9NSUMoIltNU1RCOiVwXSBbTVNUIFBP
-UlQ6JXBdIHVzZXMgJWQgb3V0IG9mICVkIFBCTlxuIiwKKwkJCSBwb3J0LT5wYXJlbnQsIHBvcnQs
-IHBibl91c2VkLCBwb3J0LT5mdWxsX3Bibik7CisKKwlyZXR1cm4gcGJuX3VzZWQ7CiB9CiAKIHN0
-YXRpYyBpbmxpbmUgaW50CkBAIC01MDczLDkgKzUxMzQsMTUgQEAgaW50IGRybV9kcF9tc3RfYXRv
-bWljX2NoZWNrKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKIAkJcmV0ID0gZHJtX2Rw
-X21zdF9hdG9taWNfY2hlY2tfdmNwaV9hbGxvY19saW1pdChtZ3IsIG1zdF9zdGF0ZSk7CiAJCWlm
-IChyZXQpCiAJCQlicmVhazsKLQkJcmV0ID0gZHJtX2RwX21zdF9hdG9taWNfY2hlY2tfYndfbGlt
-aXQobWdyLT5tc3RfcHJpbWFyeSwgbXN0X3N0YXRlKTsKLQkJaWYgKHJldCkKKworCQltdXRleF9s
-b2NrKCZtZ3ItPmxvY2spOworCQlyZXQgPSBkcm1fZHBfbXN0X2F0b21pY19jaGVja19tc3RiX2J3
-X2xpbWl0KG1nci0+bXN0X3ByaW1hcnksCisJCQkJCQkJICAgIG1zdF9zdGF0ZSk7CisJCW11dGV4
-X3VubG9jaygmbWdyLT5sb2NrKTsKKwkJaWYgKHJldCA8IDApCiAJCQlicmVhazsKKwkJZWxzZQor
-CQkJcmV0ID0gMDsKIAl9CiAKIAlyZXR1cm4gcmV0OwotLSAKMi4yNC4xCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Mar 6, 2020 at 6:49 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> While fixing some regressions caused by introducing bandwidth checking
+> into the DP MST atomic helpers, I realized there was another much more
+> subtle regression that got introduced by a seemingly harmless patch to
+> fix unused variable errors while compiling with W=1 (mentioned in patch
+> 2). Basically, this regression makes it so sometimes link address
+> appears to "hang". This patch series fixes it.
+
+Series is:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+>
+> Lyude Paul (2):
+>   drm/dp_mst: Make drm_dp_mst_dpcd_write() consistent with
+>     drm_dp_dpcd_write()
+>   drm/dp_mst: Fix drm_dp_check_mstb_guid() return code
+>
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 24 +++++++++++++++---------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
+>
+> --
+> 2.24.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
