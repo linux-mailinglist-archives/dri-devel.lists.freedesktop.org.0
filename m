@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0022017EB68
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 22:43:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A48B117EB80
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 22:47:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA5E6E5A0;
-	Mon,  9 Mar 2020 21:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9026A6E5A2;
+	Mon,  9 Mar 2020 21:47:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 688256E5A0
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 21:43:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A2365F;
- Mon,  9 Mar 2020 22:43:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1583790218;
- bh=pwMFCEv6cbI5/4UKq3WzHqcs8yXkngffkYvRVAwmnWY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=exjRw1Oy0lPhQ/WeEX9J0KcRSXrQruHjnspphit0sHgfZe8FFBPKIvPn3DR9+Dl+c
- yqIVr4iAshxpXNFFWQy/u3MFMJBNyE5TyborqRZ38VLRAVMPFbA+Bifq/as5nGYKly
- re+YC6DTbWWBi5ET/cv6UTiMyDS9tC944h/kAFDs=
-Date: Mon, 9 Mar 2020 23:43:33 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm: panel: Set connector type for OrtusTech
- COM43H4M85ULC panel
-Message-ID: <20200309214333.GI4916@pendragon.ideasonboard.com>
-References: <20200309184210.10042-1-laurent.pinchart@ideasonboard.com>
- <20200309190047.GA7543@ravnborg.org>
- <20200309190127.GB4916@pendragon.ideasonboard.com>
- <20200309194541.GA8617@ravnborg.org>
- <20200309202942.GD4916@pendragon.ideasonboard.com>
- <20200309212251.GZ13686@intel.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 911236E5A2
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 21:47:45 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 8915A20021;
+ Mon,  9 Mar 2020 22:47:40 +0100 (CET)
+Date: Mon, 9 Mar 2020 22:47:39 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Subject: Re: [RESEND PATCH v7] dt-bindings: display: Add idk-2121wr binding
+Message-ID: <20200309214739.GA11495@ravnborg.org>
+References: <20200306152031.14212-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200309203242.GA14486@bogus>
+ <CA+V-a8uAhrkRPUaQOOAUgeKFnwH7zZOF-raQiYvtc9edUeHJ7g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200309212251.GZ13686@intel.com>
+In-Reply-To: <CA+V-a8uAhrkRPUaQOOAUgeKFnwH7zZOF-raQiYvtc9edUeHJ7g@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
+ a=yC-0_ovQAAAA:8 a=NcFk6D9gAAAA:8 a=S6n1fyGeoZp7psgl2-IA:9
+ a=CjuIK1q_8ugA:10 a=gDps05xe3HUA:10 a=-FEs8UIgK8oA:10 a=CojVow1nldcA:10
+ a=NWVoK91CQyQA:10 a=AjGcO6oz07-iQ99wixmX:22 a=QsnFDINu91a9xkgZirup:22
+ a=dT0RXAwTRpxWjiziVLXF:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,112 +49,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVmlsbGUsCgpPbiBNb24sIE1hciAwOSwgMjAyMCBhdCAxMToyMjo1MVBNICswMjAwLCBWaWxs
-ZSBTeXJqw6Rsw6Qgd3JvdGU6Cj4gT24gTW9uLCBNYXIgMDksIDIwMjAgYXQgMTA6Mjk6NDJQTSAr
-MDIwMCwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToKPiA+IE9uIE1vbiwgTWFyIDA5LCAyMDIwIGF0
-IDA4OjQ1OjQxUE0gKzAxMDAsIFNhbSBSYXZuYm9yZyB3cm90ZToKPiA+ID4gT24gTW9uLCBNYXIg
-MDksIDIwMjAgYXQgMDk6MDE6MjdQTSArMDIwMCwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToKPiA+
-ID4gPiBPbiBNb24sIE1hciAwOSwgMjAyMCBhdCAwODowMDo0N1BNICswMTAwLCBTYW0gUmF2bmJv
-cmcgd3JvdGU6Cj4gPiA+ID4gPiBPbiBNb24sIE1hciAwOSwgMjAyMCBhdCAwODo0MjoxMFBNICsw
-MjAwLCBMYXVyZW50IFBpbmNoYXJ0IHdyb3RlOgo+ID4gPiA+ID4gPiBUaGUgT3J0dXNUZWNoIENP
-TTQzSDRNODVVTEMgaXMgYSBEUEkgcGFuZWwsIHNldCB0aGUgY29ubmVjdG9yIHR5cGUKPiA+ID4g
-PiA+ID4gYWNjb3JkaW5nbHkuCj4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5
-OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Cj4g
-PiA+ID4gPgo+ID4gPiA+ID4gUmV2aWV3ZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
-Lm9yZz4KPiA+ID4gPiA+IAo+ID4gPiA+ID4gSSBhc3N1bWUgeW91IHdpbGwgYXBwbHkgdG8gZHJt
-LW1pc2MtbmV4dCAtIE9LPwo+ID4gPiA+IAo+ID4gPiA+IEkgc3RpbGwgaGF2ZW4ndCBnb3QgYXJv
-dW5kIHRvIHVzaW5nIGRpbSA6LSkKPiA+ID4gCj4gPiA+IEkgY2FuIG1hbmFnZSAtIHNvIHRoZSBl
-bnRyeSBsZXZlbCBpcyBwcmV0dHkgbG93Lgo+ID4gPiAKPiA+ID4gTXkgbGFtZSBhbmQgc2ltcGxl
-IHdvcmtmbG93Cj4gPiA+IAo+ID4gPiBkaW0gdXBkYXRlLWJyYW5jaGVzCj4gPiA+ICMgc2F2ZSBw
-YXRjaCBmcm9tIG11dHQKPiA+ID4gY2F0IG1ib3ggfCBkaW0gYXBwbHkKPiAKPiBXaHkgZG9uJ3Qg
-eW91IGp1c3QgcGlwZSB0aGUgdGhpbmcgaW50byBkaW0gc3RyYWlnaHQgZnJvbSBtdXR0Pwo+IFRo
-YXQncyB3aGF0IEkgZG8uIEZvbGxvd2VkIGJ5IHNvbWUgYW1vdW50IG9mIGRpbSBleHRyYWN0LXRh
-Zwo+IGFsc28gcGlwZWQgaW4gZnJvbSBtdXR0Lgo+IAo+ID4gPiBnaXQgcmViYXNlIGV0Yy4KPiA+
-ID4gZGltIGNoZWNrcGF0Y2ggPD0gaWYgSSBtYWtlIGNoYW5nZXMgd2hpbGUgYXBwbHlpbmcKPiA+
-ID4gI2J1aWxkIHRlc3RpbmcKPiA+ID4gZGltIHB1c2gKPiA+ID4gCj4gPiA+IAo+ID4gPiBBbmQg
-d2hlbiBJIGRvIG15IG93biBzdHVmZjoKPiA+ID4gZGltIHVwZGF0ZS1icmFuY2hlcwo+ID4gPiBn
-aXQgY2hlY2tvdXQgLWIgc2FtLW15LXN0dWZmCj4gPiA+IGhhY2tpbmctaGFja2luZwo+ID4gPiBj
-b21taXQsIGNvbW1pdAo+ID4gPiBnaXQgcmViYXNlIC0tZXhlYyAiZGltIGFkZC1taXNzaW5nLWNj
-IiBIRUFEfjUKPiA+ID4gCj4gPiA+IAo+ID4gPiBkaW0gY2FuIGRvIG11Y2ggbW9yZSB0aGFuIHRo
-YXQgLSBidXQgdGhlIGFib3ZlIGlzCj4gPiA+IHRoZSBmZXcgZGltIGNvbW1hbmRzIEkgdXNlLgo+
-ID4gPiBUaGlzIGhlbHAgbWUgdG8gZG8gdGhpbmdzIHJlbW90ZWx5IGNvcnJlY3QuCj4gPiA+IAo+
-ID4gPiBTbyBtYXliZSB0aGlzIGlzIGFzIGdvb2QgYXMgYW55IHRpbWUgdG8gdHJ5IG91dCBkaW0/
-Cj4gPiAKPiA+IEFzIGdvb2QgYXMgYW55LCBhbmQgYXMgYmFkIGFzIGFueSBJIHN1cHBvc2UgOi0p
-Cj4gPiAKPiA+IFRoZXJlIGFyZSBhIGZldyB0aGluZ3MgSSBkb24ndCBsaWtlIHdpdGggZGltLCBh
-bmQgSSBoYXZlbid0IGZvdW5kIHRpbWUKPiA+IHlldCB0byBzZWUgaG93IHRvIGZpeCAoaG93IGxp
-dmUgd2l0aCA6LSkgdGhlbSB5ZXQuIEFtb25nIHRob3NlIGlzc3Vlcwo+ID4gYXJlCj4gPiAKPiA+
-IC0gZGltIHJlcXVpcmVzIHRoZSBrZXJuZWwgdHJlZSB0byBiZSB1bmRlciAkRElNX1BSRUZJWC4g
-VGhpcyBpcyBteSBtYWluCj4gPiAgIGlzc3VlLCBhcyBJIGhhdmUgb25lIGtlcm5lbCB0cmVlIHBl
-ciBwcm9qZWN0LCB3aXRoIGFuZCBkZXZlbG9wIGZvcgo+ID4gICBkaWZmZXJlbnQgc3Vic3lzdGVt
-cyBpbiBlYWNoLiBJIHdvdWxkIGxpa2UgZGltIHRvIGluc3RlYWQgaGFuZGxlIGFueQo+ID4gICBr
-ZXJuZWwgdHJlZSByZWdhcmRsZXNzIG9mIHdoZXJlIGl0IGlzIGxvY2F0ZWQgb24gdGhlIGRpc2ss
-IHdpdGhvdXQKPiA+ICAgcmVxdWlyaW5nIG1lIHRvIGFkZCBhbm90aGVyIERSTS1zcGVjaWZpYyB0
-cmVlIHRvIG15IHdvcmtmbG93Lgo+ID4gCj4gPiAtIFRoZSBzY3JpcHQgYXV0by11cGRhdGVzIGl0
-c2VsZiwgYW5kIEkgZmluZCB0aGF0IHRvIGJlIGEgc2VjdXJpdHkgaXNzdWUKPiA+ICAgdGhhdCBJ
-J20gbm90IGNvbWZvcnRhYmxlIHdpdGguCj4gCj4gV2hhdCBkbyB5b3UgbWVhbiBpdCBhdXRvIHVw
-ZGF0ZXM/IE5ldmVyIHNlZW4gYW55dGhpbmcgbGlrZSB0aGF0LgoKVW5sZXNzIEknbSBtaXN0YWtl
-biwKCmZ1bmN0aW9uIGRpbV91cHRvZGF0ZQp7Cglsb2NhbCB1c2luZwoKCXVzaW5nPSIke0JBU0hf
-U09VUkNFWzBdfSIKCglpZiBbWyAhIC1lICIkdXNpbmciIF1dOyB0aGVuCgkJZWNob2VyciAiY291
-bGQgbm90IGZpZ3VyZSBvdXQgdGhlIHZlcnNpb24gYmVpbmcgdXNlZCAoJHVzaW5nKS4iCgkJcmV0
-dXJuIDEKCWZpCgoJaWYgW1sgISAtZSAiJERJTV9QUkVGSVgvbWFpbnRhaW5lci10b29scy8uZ2l0
-IiBdXTsgdGhlbgoJCWVjaG9lcnIgImNvdWxkIG5vdCBmaW5kIHRoZSB1cHN0cmVhbSByZXBvIGZv
-ciAkZGltLiIKCQlyZXR1cm4gMQoJZmkKCglnaXQgLS1naXQtZGlyPSRESU1fUFJFRklYL21haW50
-YWluZXItdG9vbHMvLmdpdCBmZXRjaCAtcQoKCWlmICEgZ2l0IC0tZ2l0LWRpcj0kRElNX1BSRUZJ
-WC9tYWludGFpbmVyLXRvb2xzLy5naXQgc2hvdyAiQHt1cHN0cmVhbX06ZGltIiB8XAoJCQlkaWZm
-ICIkdXNpbmciIC0gPiYgL2Rldi9udWxsOyB0aGVuCgkJZWNob2VyciAibm90IHJ1bm5pbmcgdXBz
-dHJlYW0gdmVyc2lvbiBvZiB0aGUgc2NyaXB0LiIKCQlyZXR1cm4gMQoJZmkKfQoKZnVuY3Rpb24g
-Y2hlY2tfZm9yX3VwZGF0ZXMKewoJbG9jYWwgc3RhbXAgc3RhbXBmaWxlCgoJc3RhbXBmaWxlPSRI
-T01FLy5kaW0tdXBkYXRlLWNoZWNrLXRpbWVzdGFtcAoKCSMgZGFpbHkgY2hlY2sgZm9yIHVwZGF0
-ZXMgYmFzZWQgb24gZmlsZSB0aW1lc3RhbXAKCXN0YW1wPSQoc3RhdCAtLXByaW50Zj0lWSAkc3Rh
-bXBmaWxlIDI+L2Rldi9udWxsIHx8IGVjaG8gLW4gMCkKCWlmIFtbICQoKHN0YW1wICsgMjQqNjAq
-NjApKSAtbHQgJChkYXRlICslcykgXV07IHRoZW4KCQlkaW1fdXB0b2RhdGUgfHwgdHJ1ZQoJCXRv
-dWNoICRzdGFtcGZpbGUKCWZpCn0KCkFuZCBjaGVja19mb3JfdXBkYXRlcyBpcyBjYWxsZWQgZm9y
-IGFsbCBjb21tYW5kcyBub3QgbGlzdGVkIGJ5Cmxpc3RfZGV2ZWxvcGVyX2NvbW1hbmRzLgoKPiA+
-IC0gVGhlIGRpbSBzY3JpcHQgbWFrZXMgYSBzcGVjaWFsIGNhc2Ugb2YgaW50ZWwgcmVwb3NpdG9y
-aWVzIGludGVybmFsbHksCj4gPiAgIHdoaWNoIEkgZG9uJ3QgZmluZCB2ZXJ5IGZhaXIuIE1heWJl
-IHRoYXQgY2FuIGJlIGNvbnNpZGVyZWQgYXMgYQo+ID4gICBjb21wZW5zYXRpb24gZm9yIEludGVs
-J3MgZWZmb3J0cyBpbiBEUk0gZGV2ZWxvcG1lbnQsIGJ1dCBhIG1vZGVsIHdoZXJlCj4gPiAgIHRo
-ZSBjb21tdW5pdHkgbWFpbnRhaW5pbmcgZHJtLW1pc2MgaGFzIHRvIHJlc29sdmUgY29uZmxpY3Rz
-IHdpdGgKPiA+ICAgZHJtLWludGVsIGJlZm9yZSBpdCByZWFjaGVzIGRybS1uZXh0IGJvdGhlcnMg
-bWUuCj4gCj4gSXQgZG9lc24ndCBzcGVjaWFsIGNhc2UgSW50ZWwgcmVwb3MuIEl0IGp1c3QgbWVy
-Z2VzIGFsbCB0aGUgcmVwb3MgbGlzdGVkCj4gaW4gdGhlIGNvbmZpZyBmaWxlIHRvIGNyZWF0ZSBh
-IG5ldyBkcm0tdGlwLiBUaGVyZSBhcmUgSW50ZWwgcmVwb3MsCj4gQU1EIHJlcG9zLCBhbmQgdmFy
-aW91cyBvdGhlciByZXBvcy4KCmRybS1hbWQgaGFzIGluZGVlZCBiZWVuIGFkZGVkIGFuZCBpcyB0
-YWtlbiBpbnRvIGFjY291dCBpbgpkaW1fcHVzaF9icmFuY2gsIHdpdGggZHJtLW1pc2MgYW5kIGRy
-bS1pbnRlbCwgYnV0IHRoZXJlJ3Mgc3RpbGwgbG90cyBvZgpJbnRlbC1zcGVjaWZpYyBjb2RlIGlu
-IG90aGVyIHBsYWNlcy4KCj4gVGhlIHBvaW50IGlzIHRvIGtlZXAgZHJtLXRpcCBhbHdheXMgdXAg
-dG8gZGF0ZSBhbmQgd29ya2luZyAoKikuIEFuZCBpZgo+IHlvdSBtYW5hZ2UgdG8gY3JlYXRlIGEg
-Y29uZmxpY3QgeW91IGNhbid0IHNvbHZlIHlvdSBjYW4gYWx3YXlzIHBpbmcKPiBzb21lb25lIHdo
-byBjYW4uIEFsc28gaG9lZnVsbHkgbm8gb25lIHNob3VsZCBiZSBzZWVpbmcgYWxsIHRoYXQgbWFu
-eQo+IGNvbmZsaWN0cyBkdWUgdG8gcmVyZXJlICh1bmxlc3MgeW91IGFjdHVhbGx5IGNyZWF0ZWQg
-YSBuZXcgY29uZmxpY3QKPiB0aGF0IGlzKS4KCldoYXQgaGFwcGVucyBpcyB0aGF0IGRybS1taXNj
-IGlzIGNvbXBldGluZyB3aXRoIGRybS1pbnRlbCBhbmQgZHJtLWFtZCB0bwpnZXQgaW4gZHJtLW5l
-eHQsIHdpdGggZXZlcnl0aGluZyBtZXJnZWQgaW4gZHJtLXRpcC4gSXQgZWZmZWN0aXZlbHkKY29u
-dmV5cyBhIG1lc3NhZ2UgdGhhdCB0aGVyZSdzIEludGVsLCBBTUQsIGFuZCB0aGUgY29tbXVuaXR5
-LCB3aGljaAptZWFucyB0aGF0IEludGVsIGFuZCBBTUQgYXJlIGNvbnNpZGVyZWQgaGlnaGVyIHBy
-aW9yaXR5IHRoYW4gYW55IG90aGVyCnNpbmdsZSB2ZW5kb3IsIHdoZW4gd2UgY2FtZSBmcm9tIGEg
-c2l0dWF0aW9uIHdoZXJlLCAqaW4gdGhlb3J5KiwgYWxsCnZlbmRvcnMgd2VyZSBvZiBlcXVhbCBp
-bXBvcnRhbmNlLiBUaGlzIGNhbiBiZSBqdXN0aWZpZWQgYnkgdGhlIGZhY3QgdGhhdAp0aGUgYW1v
-dW50IG9mIHBhdGNoZXMgZ2VuZXJhdGVkIGJ5IEludGVsIGFuZCBBTUQgYXJlIHNpZ25pZmljYW50
-bHkKaGlnaGVyIHRoYW4gd2hhdCBhbnkgb3RoZXIgdmVuZG9yIHByb2R1Y2VzLCBidXQgaXQncyBz
-dGlsbCBhIHNpZ25pZmljYW50CmNoYW5nZSBpbiBob3cgdGhlIGNvbnRyaWJ1dG9ycyB0byB0aGUg
-RFJNIHN1YnN5c3RlbSBhcmUgdHJlYXRlZC4gSSB0aGluawp0aGF0IHdoYXQgYm90aGVyZWQgbWUg
-dGhlIG1vc3Qgd2FzIHRvIGZpZ3VyZSB0aGlzIG91dCBieSByZWFkaW5nIHRoZQpzb3VyY2UgY29k
-ZSBvZiBkaW0sIGluc3RlYWQgb2Ygc2VlaW5nIHRoZSBtZXNzYWdlIG9mZmljaWFsbHkgc3RhdGVk
-CnNvbWV3aGVyZS4gSSdtIG5vdCBjbGFpbWluZyB0aGF0IGFueWJvZHkncyBpbnRlbnQgd2FzIHRv
-IHNuZWFrIHRoaXMgaW4KaW4gYW55IG1hbGljaW91cyB3YXksIGJ1dCBpdCBwcm9iYWJseSBmZWx0
-IHNpbWlsYXIgdW5jb25jaW91c2x5LCBoZW5jZQpteSBpbml0aWFsIHRyb3VibGVkIHJlYWN0aW9u
-LgoKQWxsIHRoaXMgYmVpbmcgc2FpZCwgbXkgbWFpbiBjb25jZXJuIGlzIHRoZSBmaXJzdCBwb2lu
-dCBJIG1lbnRpb25lZAphYm92ZSwgdGhhdCdzIHRoZSByZWFsIHRlY2huaWNhbCBibG9ja2VyLgoK
-PiAqIHdoeSB3b3VsZCBhbnlvbmUgcnVuIGFueXRoaW5nIGVsc2UgYnV0IGRybS10aXAgYW55d2F5
-PyA7KQoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Prabhakar
+
+On Mon, Mar 09, 2020 at 09:23:24PM +0000, Lad, Prabhakar wrote:
+> Hi Rob,
+> 
+> On Mon, Mar 9, 2020 at 8:32 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Fri,  6 Mar 2020 15:20:31 +0000, Lad Prabhakar wrote:
+> > > From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > >
+> > > Add binding for the idk-2121wr LVDS panel from Advantech.
+> > >
+> > > Some panel-specific documentation can be found here:
+> > > https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
+> > >
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > > Apologies for flooding in I missed to add the ML email-ids for the earlier
+> > > version so resending it.
+> > >
+> > > Hi All,
+> > >
+> > > This patch is part of series [1] ("Add dual-LVDS panel support to EK874),
+> > > all the patches have been accepted from it except this one. I have fixed
+> > > Rob's comments in this version of the patch.
+> > >
+> > > [1] https://patchwork.kernel.org/cover/11297589/
+> > >
+> > > v6->7
+> > >  * Added reference to lvds.yaml
+> > >  * Changed maintainer to myself
+> > >  * Switched to dual license
+> > >  * Dropped required properties except for ports as rest are already listed
+> > >    in lvds.panel
+> > >  * Dropped Reviewed-by tag of Laurent, due to the changes made it might not
+> > >    be valid.
+> > >
+> > > v5->v6:
+> > >  * No change
+> > >
+> > > v4->v5:
+> > > * No change
+> > >
+> > > v3->v4:
+> > > * Absorbed patch "dt-bindings: display: Add bindings for LVDS
+> > >   bus-timings"
+> > > * Big restructuring after Rob's and Laurent's comments
+> > >
+> > > v2->v3:
+> > > * New patch
+> > >
+> > >  .../display/panel/advantech,idk-2121wr.yaml        | 120 +++++++++++++++++++++
+> > >  1 file changed, 120 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+> > >
+> >
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >
+> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
+> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
+> >
+> This panel is a dual channel LVDS, as a result the root port is called as
+> ports instead of port and the child node port@0 and port@1 are used for
+> even and odd pixels, hence binding has required property as ports instead
+> of port.
+
+What goes wrong is that you have a ref to lvds.yaml - and thus you get
+also required from that file.
+
+So basically - I think this binding should not have a ref to lvds.yaml -
+as the binding needs to be different.
+
+	Sam
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
