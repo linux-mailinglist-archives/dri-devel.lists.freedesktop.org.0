@@ -2,40 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E69917EA16
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 21:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317B317EA2F
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 21:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92E126E584;
-	Mon,  9 Mar 2020 20:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD1E6E58A;
+	Mon,  9 Mar 2020 20:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C7D6E57A;
- Mon,  9 Mar 2020 20:33:38 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2020 13:33:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,534,1574150400"; d="scan'208";a="245457389"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by orsmga006.jf.intel.com with ESMTP; 09 Mar 2020 13:33:37 -0700
-Date: Mon, 9 Mar 2020 13:34:55 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v4 1/2] drm/edid: Name the detailed monitor
- range flags
-Message-ID: <20200309203454.GA12741@intel.com>
-References: <20200306014220.20029-1-manasi.d.navare@intel.com>
- <87mu8tojvt.fsf@intel.com> <20200306184048.GA25133@intel.com>
- <87h7yylyc7.fsf@intel.com>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70F916E58A;
+ Mon,  9 Mar 2020 20:37:40 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z15so12970021wrl.1;
+ Mon, 09 Mar 2020 13:37:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=etQwsxZhquxB/PEuJ02TQzUR5LQnS/E2DgPvNBKCcws=;
+ b=CLlb1cI0LmgVVywtN8uI2aWxGHzGxePlNfk7QVc9L7xqH4VDZgKPLxVyq1haUWBtcT
+ yCukEHIgCPCflhEgQZsUhK3eKoaFctbTmR3H/K7HEOqiyoxcr+0XOc6+0tUWK9XS+Wk7
+ Q5s423OmcF7V7iAKg8DgUGQrYv7dDibX3waz7ytKwnF+OAtkQ6H0N30dKo76PDhJp6+D
+ YqIgbgaKtfyiqXTco0gc/n1l6NBPRvFHC97WfWKYXfHUn/df/bxGyi7MUb5qkZALPCmz
+ EL8UJmcfL63XBHwBe2jKuy+pKTHm/ZUuA/EJSebfgzPmYpuVy9x8GFl6rJxgeUliPR51
+ qKbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=etQwsxZhquxB/PEuJ02TQzUR5LQnS/E2DgPvNBKCcws=;
+ b=dUrCOQcdvJivoHLx4ZqSdHLgh9PyEmUqmoF2FNW2mWIX4ZjFNhlbtCw7yjMl5JEK+d
+ 6QIXBGwE9BBBV5nSEZ3+qNA52/raoi7nNdmaArAgFFETZXoWjv0S2OSNB0+YfaPDDwED
+ 33rNx9PsOgsBReWMzZlMMGiFkKbdHlYGtBX27EIMmrHzpXSNlIF5hsC/ZsJqq81ekdaE
+ 1zS8t855Xpbe3SUYpC+s7wpYay7h5J9f2TOOvq4MiQQCy9GYZO6rAZ9o9Scfk/5UQT5B
+ AQumxAeKdiH1eV3ORFP9fj6MT0ohg3+oKNod5d1tdKXJ/G2NLtS8ZkA8ZBVzr94MIEfB
+ /85g==
+X-Gm-Message-State: ANhLgQ2xx6xru72xOmk5ow6QMpVvOLLwFbufcumI/IbIvc0Ty4OlOe9z
+ zSib9sBwA5Fl4qOi86ifu4RkC06hwzvoZzHCAiY=
+X-Google-Smtp-Source: ADFU+vtIxLO03bQvdjuyVpFZU+MOpT3RFri6ow5zLqmcOVNL9eIPkK7DOus4kdqyL4MWFJAQv65bOYmiNu5cjFqyOi4=
+X-Received: by 2002:a5d:6688:: with SMTP id l8mr22330427wru.362.1583786259114; 
+ Mon, 09 Mar 2020 13:37:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87h7yylyc7.fsf@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20200307083023.76498-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <9e5fcbcd3f7a4d74b9941a21e0407c6eef79e920.camel@redhat.com>
+In-Reply-To: <9e5fcbcd3f7a4d74b9941a21e0407c6eef79e920.camel@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 9 Mar 2020 16:37:27 -0400
+Message-ID: <CADnq5_PM5guD=LgyKo613PJkgEO=5Kwc_B1Gkwev1pPKEbsSSQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Cleanup drm_dp_mst_topology_cbs hooks
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,114 +61,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Kazlauskas Nicholas <Nicholas.Kazlauskas@amd.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 09, 2020 at 10:35:52AM +0200, Jani Nikula wrote:
-> On Fri, 06 Mar 2020, Manasi Navare <manasi.d.navare@intel.com> wrote:
-> > On Fri, Mar 06, 2020 at 12:30:46PM +0200, Jani Nikula wrote:
-> >> On Thu, 05 Mar 2020, Manasi Navare <manasi.d.navare@intel.com> wrote:
-> >> > This patch adds defines for the detailed monitor
-> >> > range flags as per the EDID specification.
-> >> >
-> >> > Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> >> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> >> > Cc: Harry Wentland <harry.wentland@amd.com>
-> >> > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
-> >> > Cc: Kazlauskas Nicholas <Nicholas.Kazlauskas@amd.com>
-> >> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> >> > ---
-> >> >  include/drm/drm_edid.h | 5 +++++
-> >> >  1 file changed, 5 insertions(+)
-> >> >
-> >> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> >> > index f0b03d401c27..f89c97623845 100644
-> >> > --- a/include/drm/drm_edid.h
-> >> > +++ b/include/drm/drm_edid.h
-> >> > @@ -91,6 +91,11 @@ struct detailed_data_string {
-> >> >  	u8 str[13];
-> >> >  } __attribute__((packed));
-> >> >  =
+On Mon, Mar 9, 2020 at 4:27 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> On Sat, 2020-03-07 at 14:00 +0530, Pankaj Bharadiya wrote:
+> > drm_dp_mst_topology_mgr_cbs.register_connector callbacks are identical
+> > amongst every driver and don't do anything other than calling
+> > drm_connector_register().
+> > drm_dp_mst_topology_mgr_cbs.destroy_connector callbacks are identical
+> > amongst every driver and don't do anything other than cleaning up the
+> > connector((drm_connector_unregister()/drm_connector_put())) except for
+> > amdgpu_dm driver where some amdgpu_dm specific code in there.
+>
+> Yeah that amdgpu destruction code kinda stinks a little bit :\. I think we can
+> just drop some of it and move the rest into their connector destruction
+> callbacks.
+>
+> For the whole series:
+>         Reviewed-by: Lyude Paul <lyude@redhat.com>
+>
+> I'm going to go ahead and let the maintainers know I'm going to push this
+> (since there's some minor changes here outside of drm-misc), and push this to
+> drm-misc-next. Then I'll go and write some patches to remove the leftover amd
+> bits and drop the callback for good (I'll cc it to you as well).
 
-> >> > +#define EDID_DEFAULT_GTF_SUPPORT_FLAG   0x00
-> >> > +#define EDID_RANGE_LIMITS_ONLY_FLAG     0x01
-> >> > +#define EDID_SECONDARY_GTF_SUPPORT_FLAG 0x02
-> >> > +#define EDID_CVT_SUPPORT_FLAG           0x04
-> >> =
+Series is:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-> >> Bikeshed for consideration:
-> >> =
-
-> >> drm_edid.h has some macros with DRM_EDID_ prefix, some with EDID_
-> >> prefix, and then some with no prefix at all really. Should we start
-> >> consolidating on something when we add more?
-> >>
+>
 > >
-> > Yes Jani I did notice the same thing and didnt know which convention
-> > to continue to follow but I noticed that majority of the defines were
-> > just EDID_ so just used that for these new defines.
-> =
-
-> Ah, look again, DRM_EDID_ trumps EDID_ 51 to 15.
-> =
-
-> > Is there a particular way you wish to consolidate this and use a specif=
-ic
-> > convention for #defines?
+> > This series aims to cleaup these drm_dp_mst_topology_mgr_cbs hooks.
 > >
-> > I can atleast change these new defines based on a preferred convention =
-and then
-> > separate patches to change the rest in .h and corresponding usages in .=
-c files.
-> =
-
-> I'd suggest DRM_EDID_ for new ones, perhaps eventually rename old ones.
-
-Okay cool, I will rename this to be DRM_EDID_ and then work on renaming oth=
-ers later
-Thanks for pointing this out.
-
-Regards
-Manasi
-
-> =
-
-> BR,
-> Jani.
-> =
-
-> =
-
+> > Pankaj Bharadiya (5):
+> >   drm: Register connector instead of calling register_connector callback
+> >   drm: Remove dp mst register connector callbacks
+> >   drm/dp_mst: Remove register_connector callback
+> >   drm: Add drm_dp_destroy_connector helper and use it
+> >   drm: Remove drm dp mst destroy_connector callbacks
 > >
-> > Regards
-> > Manasi
-> >  =
-
-> >> BR,
-> >> Jani.
-> >> =
-
-> >> =
-
-> >> > +
-> >> >  struct detailed_data_monitor_range {
-> >> >  	u8 min_vfreq;
-> >> >  	u8 max_vfreq;
-> >> =
-
-> >> -- =
-
-> >> Jani Nikula, Intel Open Source Graphics Center
-> =
-
-> -- =
-
-> Jani Nikula, Intel Open Source Graphics Center
+> >  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  6 ------
+> >  drivers/gpu/drm/drm_dp_mst_topology.c         | 18 +++++++++++++++---
+> >  drivers/gpu/drm/i915/display/intel_dp_mst.c   | 16 ----------------
+> >  drivers/gpu/drm/nouveau/dispnv50/disp.c       | 19 -------------------
+> >  drivers/gpu/drm/radeon/radeon_dp_mst.c        | 17 -----------------
+> >  include/drm/drm_dp_mst_helper.h               |  1 -
+> >  6 files changed, 15 insertions(+), 62 deletions(-)
+> >
+> --
+> Cheers,
+>         Lyude Paul (she/her)
+>         Associate Software Engineer at Red Hat
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
