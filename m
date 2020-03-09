@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD1017E963
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 20:53:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F7517E95E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 20:53:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6C16E544;
-	Mon,  9 Mar 2020 19:53:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA5DA6E563;
+	Mon,  9 Mar 2020 19:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1AC56E542
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E85046E544
  for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 19:53:15 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1B87428E;
- Mon,  9 Mar 2020 20:53:11 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FB9D428F;
+ Mon,  9 Mar 2020 20:53:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1583783592;
- bh=ysESZP46+pI7Egk+158z5jeEehIwFuG7+YFNAwSRNpg=;
+ bh=yLT8zdhbEIZaKM6eoPS8gGBPURYfEt93d69KgvPkwBM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HoZ0OtzmbqnSzFiOmFTp0MfQwsIjN7jNx/uNoRgDgj8CSOK4Zz7YDTpQm1Nv/OhiZ
- 3v6QoNGXpMYo87wlDDSWDMgzJHeLZdSjYqok+wTBX8dhWyzUoIkWicEqnG+imjMgDc
- S/6IB22jZrTc/ANyGxj/QV2Nx1ayV3wm39mDdi0g=
+ b=v5Sorky9GvN951pYUpU3rpfRTeRNNCgmLhA05df7MhPfQAYHOZwrYuQCH5sjGET33
+ E7i6tZjdK0uGvN9nRT3DsUOsUMve6ee3ZrXblPlfydYi5pwRThwiZe7G5tZO7tJJAw
+ NnqXTuZTV4VV+vzQDVNbCV3Suo1vdbZ2cKcg4UhA=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/21] drm: mxsfb: Enable vblank handling
-Date: Mon,  9 Mar 2020 21:52:09 +0200
-Message-Id: <20200309195216.31042-15-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 15/21] drm: mxsfb: Remove mxsfb_devdata unused fields
+Date: Mon,  9 Mar 2020 21:52:10 +0200
+Message-Id: <20200309195216.31042-16-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
 References: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
@@ -51,74 +51,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable vblank handling when the CRTC is turned on and disable it when it
-is turned off. This requires moving vblank init after the KMS pipeline
-initialisation, otherwise drm_vblank_init() gets called with 0 CRTCs.
+The debug0 and ipversion fields of the mxsfb_devdata structure are
+unused. Remove them.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 15 +++++++++------
- drivers/gpu/drm/mxsfb/mxsfb_kms.c |  6 +++++-
- 2 files changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 4 ----
+ drivers/gpu/drm/mxsfb/mxsfb_drv.h | 2 --
+ 2 files changed, 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index e324bd2a63a5..72b4f6a947a4 100644
+index 72b4f6a947a4..7c9a041f5f6d 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -160,12 +160,6 @@ static int mxsfb_load(struct drm_device *drm, unsigned long flags)
+@@ -42,19 +42,15 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
+ 		.transfer_count	= LCDC_V3_TRANSFER_COUNT,
+ 		.cur_buf	= LCDC_V3_CUR_BUF,
+ 		.next_buf	= LCDC_V3_NEXT_BUF,
+-		.debug0		= LCDC_V3_DEBUG0,
+ 		.hs_wdth_mask	= 0xff,
+ 		.hs_wdth_shift	= 24,
+-		.ipversion	= 3,
+ 	},
+ 	[MXSFB_V4] = {
+ 		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
+ 		.cur_buf	= LCDC_V4_CUR_BUF,
+ 		.next_buf	= LCDC_V4_NEXT_BUF,
+-		.debug0		= LCDC_V4_DEBUG0,
+ 		.hs_wdth_mask	= 0x3fff,
+ 		.hs_wdth_shift	= 18,
+-		.ipversion	= 4,
+ 	},
+ };
  
- 	pm_runtime_enable(drm->dev);
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+index edd766ad254f..607a6a5e6be3 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+@@ -19,10 +19,8 @@ struct mxsfb_devdata {
+ 	unsigned int	 transfer_count;
+ 	unsigned int	 cur_buf;
+ 	unsigned int	 next_buf;
+-	unsigned int	 debug0;
+ 	unsigned int	 hs_wdth_mask;
+ 	unsigned int	 hs_wdth_shift;
+-	unsigned int	 ipversion;
+ };
  
--	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
--	if (ret < 0) {
--		dev_err(drm->dev, "Failed to initialise vblank\n");
--		goto err_vblank;
--	}
--
- 	/* Modeset init */
- 	drm_mode_config_init(drm);
- 
-@@ -175,6 +169,15 @@ static int mxsfb_load(struct drm_device *drm, unsigned long flags)
- 		goto err_vblank;
- 	}
- 
-+	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-+	if (ret < 0) {
-+		dev_err(drm->dev, "Failed to initialise vblank\n");
-+		goto err_vblank;
-+	}
-+
-+	/* Start with vertical blanking interrupt reporting disabled. */
-+	drm_crtc_vblank_off(&mxsfb->crtc);
-+
- 	ret = mxsfb_attach_bridge(mxsfb);
- 	if (ret) {
- 		dev_err(drm->dev, "Cannot connect bridge: %d\n", ret);
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index ac2696c8483d..640305fb1068 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -322,8 +322,10 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
- 	dma_addr_t paddr;
- 
- 	pm_runtime_get_sync(drm->dev);
--
- 	mxsfb_enable_axi_clk(mxsfb);
-+
-+	drm_crtc_vblank_on(crtc);
-+
- 	mxsfb_crtc_mode_set_nofb(mxsfb);
- 
- 	/* Write cur_buf as well to avoid an initial corrupt frame */
-@@ -353,6 +355,8 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
- 	}
- 	spin_unlock_irq(&drm->event_lock);
- 
-+	drm_crtc_vblank_off(crtc);
-+
- 	mxsfb_disable_axi_clk(mxsfb);
- 	pm_runtime_put_sync(drm->dev);
- }
+ struct mxsfb_drm_private {
 -- 
 Regards,
 
