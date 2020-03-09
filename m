@@ -2,50 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F317DA6D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 09:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0589B17DAEA
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 09:32:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81BD66E359;
-	Mon,  9 Mar 2020 08:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69D366E2CF;
+	Mon,  9 Mar 2020 08:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id BC9776E2BE
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 07:55:44 +0000 (UTC)
-X-UUID: 7119ba7b7a6e46bcb84bdaed4b5b366d-20200309
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=d0wnLlS3PKlRwicESnqS4F2qX7BxraxwO4F/6cuzvFM=; 
- b=TvTU+oyqCuvB/dpVbfvu0kKeOdvaGuR0TXe4LK1eGwi+8IKZUxta4cn+iy/5g+zeKnkRjwu+zxKtOpDKhPOj8g83vj3cYLKgXzbFFMCAWt7WKoAAPWeeqSD4hxIZdJM8Dz8JxsMHj2HNr8FsY6UMor/pZY3sCobhsi8+7X0TdxI=;
-X-UUID: 7119ba7b7a6e46bcb84bdaed4b5b366d-20200309
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
- (envelope-from <nick.fan@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1475847732; Mon, 09 Mar 2020 15:55:40 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 9 Mar 2020 15:54:27 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 9 Mar 2020 15:55:55 +0800
-Message-ID: <1583740539.3995.15.camel@mtksdaap41>
-Subject: Re: [PATCH v4 1/7] dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
-From: Nick Fan <nick.fan@mediatek.com>
-To: Steven Price <steven.price@arm.com>
-Date: Mon, 9 Mar 2020 15:55:39 +0800
-In-Reply-To: <20200306144336.GA9234@arm.com>
-References: <20200207052627.130118-1-drinkcat@chromium.org>
- <20200207052627.130118-2-drinkcat@chromium.org>
- <20200225171613.GA7063@bogus>
- <CANMq1KAVX4o5yC7c_88Wq_O=F+MaSN_V4uNcs1nzS3wBS6A5AA@mail.gmail.com>
- <1583462055.4947.6.camel@mtksdaap41>
- <CAL_JsqLoUnxfrJh0WCs0jgro1KHAjWaYMsaKkKfAKA2KJ252_g@mail.gmail.com>
- <20200306144336.GA9234@arm.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+X-Greylist: delayed 446 seconds by postgrey-1.36 at gabe;
+ Mon, 09 Mar 2020 08:32:03 UTC
+Received: from mx02-sz.bfs.de (mx01-sz.bfs.de [194.94.69.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA98B6E2CF;
+ Mon,  9 Mar 2020 08:32:03 +0000 (UTC)
+Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
+ by mx02-sz.bfs.de (Postfix) with ESMTPS id 67CA12034C;
+ Mon,  9 Mar 2020 09:24:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901; 
+ t=1583742273;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kaIxDNUTjnov42I+Fqezs7SqV36FPgBJnmtmK2sN1WY=;
+ b=0JpQY9ir9n/8J66CFLcQZ8BXSKDe93gMgEzEPknfOyXaJbubGwafmD+04QOQF9/jbM/mj/
+ cOAvWou0719msxjBPi8mQ89zDzcTEdmGfVucApOhHi/ROByjo9R93APyJ46U4721aB8GjV
+ IoV8xLlzkUdYoRl9q1Q6+2gCMwxkJYiFjOxrBHB1Q3QtxdNL3unL8aUrztQG9Eso+8CqnM
+ SDKqffRBgIdRy2cJLCYVFBM2taEe1lrJ0Pf1P8wQ9Jp7DAd5gmVGHvOtivamDJkaS2+71A
+ vQdwgF5qpg2o/PepMgXAkPy6On6l7lYgeEyiegs9hcVCwLGGqlBylWL+kVevbA==
+Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
+ (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1913.5; Mon, 9 Mar 2020
+ 09:24:04 +0100
+Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
+ SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
+ 15.01.1913.005; Mon, 9 Mar 2020 09:24:04 +0100
+From: Walter Harms <wharms@bfs.de>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ "harry.wentland@amd.com" <harry.wentland@amd.com>, "sunpeng.li@amd.com"
+ <sunpeng.li@amd.com>, "alexander.deucher@amd.com"
+ <alexander.deucher@amd.com>, "christian.koenig@amd.com"
+ <christian.koenig@amd.com>, "David1.Zhou@amd.com" <David1.Zhou@amd.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>,
+ "Bhawanpreet.Lakha@amd.com" <Bhawanpreet.Lakha@amd.com>,
+ "mario.kleiner.de@gmail.com" <mario.kleiner.de@gmail.com>,
+ "David.Francis@amd.com" <David.Francis@amd.com>
+Subject: AW: [PATCH] drm/amdgpu/display: Fix an error handling path in
+ 'dm_update_crtc_state()'
+Thread-Topic: [PATCH] drm/amdgpu/display: Fix an error handling path in
+ 'dm_update_crtc_state()'
+Thread-Index: AQHV9SuzYuuVSz+HgUqDARTjMCrA+ag/7Vf/
+Date: Mon, 9 Mar 2020 08:24:04 +0000
+Message-ID: <97d88948e2ab4ec19c5a0c6d064df08b@bfs.de>
+References: <20200308092637.8194-1-christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20200308092637.8194-1-christophe.jaillet@wanadoo.fr>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.137.16.39]
 MIME-Version: 1.0
-X-MTK: N
-X-Mailman-Approved-At: Mon, 09 Mar 2020 08:13:37 +0000
+X-Spam-Status: No, score=-1.15
+Authentication-Results: mx02-sz.bfs.de;
+	none
+X-Spamd-Result: default: False [-1.15 / 7.00]; ARC_NA(0.00)[];
+ TO_DN_EQ_ADDR_SOME(0.00)[]; HAS_XOIP(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[wanadoo.fr,gmail.com];
+ TAGGED_RCPT(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ BAYES_HAM(-2.65)[98.46%]; DKIM_SIGNED(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[16]; NEURAL_HAM(-0.00)[-0.574,0];
+ FREEMAIL_TO(0.00)[wanadoo.fr]; RCVD_NO_TLS_LAST(0.10)[];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
+ SUSPICIOUS_RECIPS(1.50)[]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,78 +89,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <Mark.Rutland@arm.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>, Sj Huang <sj.huang@mediatek.com>,
- Mark Brown <broonie@kernel.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias
- Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2020-03-06 at 14:43 +0000, Steven Price wrote:
-> On Fri, Mar 06, 2020 at 02:13:08PM +0000, Rob Herring wrote:
-> > On Thu, Mar 5, 2020 at 8:34 PM Nick Fan <nick.fan@mediatek.com> wrote:
-> > >
-> > > Sorry for my late reply.
-> > > I have checked internally.
-> > > The MT8183_POWER_DOMAIN_MFG_2D is just a legacy name, not really 2D
-> > > domain.
-> > >
-> > > If the naming too confusing, we can change this name to
-> > > MT8183_POWER_DOMAIN_MFG_CORE2 for consistency.
-> > 
-> > Can you clarify what's in each domain? Are there actually 3 shader
-> > cores (IIRC, that should be discoverable)?
-> 
-> The cover letter from Nicolas includes:
-> 
-> > [  501.321752] panfrost 13040000.gpu: shader_present=0x7 l2_present=0x1
-> 
-> 0x7 is three bits set, so it certainly looks like there are 3 shader
-> cores. Of course I wouldn't guarantee that it is as simple as each power
-> domain has a shader core in. The job manager and tiler also need to be
-> powered somehow, so they are either sharing with a shader core or
-> there's something more complex going on.
-> 
-> Steve
-> 
-There are actually five power domains in total for MT8183 GPU.
 
-There are 3 shader cores in MT8183.
+________________________________________
+Von: kernel-janitors-owner@vger.kernel.org <kernel-janitors-owner@vger.kern=
+el.org> im Auftrag von Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Gesendet: Sonntag, 8. M=E4rz 2020 10:26
+An: harry.wentland@amd.com; sunpeng.li@amd.com; alexander.deucher@amd.com; =
+christian.koenig@amd.com; David1.Zhou@amd.com; airlied@linux.ie; daniel@ffw=
+ll.ch; nicholas.kazlauskas@amd.com; Bhawanpreet.Lakha@amd.com; mario.kleine=
+r.de@gmail.com; David.Francis@amd.com
+Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-k=
+ernel@vger.kernel.org; kernel-janitors@vger.kernel.org; Christophe JAILLET
+Betreff: [PATCH] drm/amdgpu/display: Fix an error handling path in 'dm_upda=
+te_crtc_state()'
 
-They can be listed as following for each power domain:
-1.MT8183_POWER_DOMAIN_MFG_ASYNC : SOC bus logic
-2.MT8183_POWER_DOMAIN_MFG : GPU job manager & tiler
-3.MT8183_POWER_DOMAIN_MFG_CORE0 : GPU shader core 0
-4.MT8183_POWER_DOMAIN_MFG_CORE1 : GPU shader core 1
-5.MT8183_POWER_DOMAIN_MFG_2D : GPU shader core 2
+'dc_stream_release()' may be called twice. Once here, and once below in the
+error handling path if we branch to the 'fail' label.
 
-There are other power domain dependency can be reference in the
-following link.
-https://lkml.org/lkml/2019/2/1/166
+Set 'new_stream' to NULL, once released to avoid the duplicated release
+function call.
 
-You can check the power domain dependencies as following
-==========================================================
-+static const struct scp_subdomain scp_subdomain_mt8183[] = {
-+	{MT8183_POWER_DOMAIN_MFG_ASYNC, MT8183_POWER_DOMAIN_MFG},
-+	{MT8183_POWER_DOMAIN_MFG, MT8183_POWER_DOMAIN_MFG_2D},
-+	{MT8183_POWER_DOMAIN_MFG, MT8183_POWER_DOMAIN_MFG_CORE0},
-+	{MT8183_POWER_DOMAIN_MFG, MT8183_POWER_DOMAIN_MFG_CORE1},
-==========================================================
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Maybe the 'goto fail' at line 7745 should be turned into a 'return ret'
+instead. Could be clearer.
 
-Thanks
+No Fixes tag provided because I've not been able to dig deep enough in the
+git history.
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Nick Fan
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
+u/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 97c1b01c0fc1..9d7773a77c4f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7704,8 +7704,10 @@ static int dm_update_crtc_state(struct amdgpu_displa=
+y_manager *dm,
+
+ skip_modeset:
+        /* Release extra reference */
+-       if (new_stream)
+-                dc_stream_release(new_stream);
++       if (new_stream) {
++               dc_stream_release(new_stream);
++               new_stream =3D NULL;
++       }
+
+
+dc_stream_release() is NULL-checked, so the if can be dropped.
+
+re,
+ wh
+
+        /*
+         * We want to do dc stream updates that do not require a
+--
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
