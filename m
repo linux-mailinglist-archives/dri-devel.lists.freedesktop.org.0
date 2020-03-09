@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A03E417F1C7
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8633317F1C5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CDF66E819;
-	Tue, 10 Mar 2020 08:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2EEA6E84A;
+	Tue, 10 Mar 2020 08:19:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5300::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CAE989E26
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 13:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583759039;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=N4kCbzLl0p2KhUN9IvoB6N4hWjyqEkU7njQAFmi2EJY=;
- b=HhkD6CYbplTxNlOZ2S7QSIU/yKjcQ4wD9aCyUEGcnQhNtAweFh3O3xi88kxEr7QfQY
- MgiKmLlejbDiZOh/SGga7IhWmz6WnCt1cMoTkn1IHDbKG8VuIf4BokiI2CSA1vlmIejN
- DiyFxGd8mE1WASnW20yOlMw+ISKloGtoWqfTopvJ9qSAUOLp3iOGskDzcvXREO25G/C+
- s4I41jv5n6hWIGQSBzkLfYQv8hrI4AVULbHZfLPO1rP4POZroozM6JF7cS/hJ4phv8Od
- nWK0l8RlcAqmaizcmhv93xLLqTPihvVAHL+TiJwRdurC0bt4/3a6/vnBGe77sZuryZjI
- rZJA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBp5hRw/qOxWRk4dCyhrHdH4Oo6ddLfFTaYHsPrZrAc1bul7yqA54k="
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2001:16b8:2643:2800:f942:4962:80bb:709]
- by smtp.strato.de (RZmta 46.2.0 AUTH) with ESMTPSA id y0a02cw29D3lh8k
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 9 Mar 2020 14:03:47 +0100 (CET)
-Subject: Re: [PATCH 24/33] drm/panel-simple: Fix dotclock for Ortustech
- COM37H3M
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200309130035.GV13686@intel.com>
-Date: Mon, 9 Mar 2020 14:03:57 +0100
-Message-Id: <EC094BF3-C112-4D6E-AC2B-D10327CE6C0A@goldelico.com>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-25-ville.syrjala@linux.intel.com>
- <4320E187-FAA1-4033-A02C-7DA1F9B68A52@goldelico.com>
- <20200303150336.GZ13686@intel.com>
- <CDD5B6AE-6711-4B81-87F9-8DBD067E33BD@goldelico.com>
- <C1BE9158-7D08-44D0-9699-4029806ABDE7@goldelico.com>
- <20200309130035.GV13686@intel.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 976F589E2B
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 13:26:36 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1583760398; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=D+vuyGCUCzEM9aL20B90w5AoCxN08RN5QuMYygPRkqs=;
+ b=lEG/Sm1wWMwrhHbS9TKhjKJXV0Sku4Iy0Twdo+TyjdyVaq4pLAPmuWQMMKJSeVZxTXg7/TbV
+ Oyre9fOk79wCLRHdzqiy1l0+6IpovPw3Cl5KrFs9l3ezaSMdffiB7fufcaMUQoL2q+CVONUI
+ pmXqZvZOmx/xoDwPmRtJDpglZ+4=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e664409.7f5fb300a570-smtp-out-n05;
+ Mon, 09 Mar 2020 13:26:33 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 7F81AC433D2; Mon,  9 Mar 2020 13:26:32 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: kgunda)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5F3D0C43637;
+ Mon,  9 Mar 2020 13:26:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5F3D0C43637
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=kgunda@codeaurora.org
+From: Kiran Gunda <kgunda@codeaurora.org>
+To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
+ b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+ daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V3 0/4] Add support for WLED5
+Date: Mon,  9 Mar 2020 18:55:58 +0530
+Message-Id: <1583760362-26978-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,82 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-> Am 09.03.2020 um 14:00 schrieb Ville Syrj=E4l=E4 <ville.syrjala@linux.int=
-el.com>:
-> =
+Currently, WLED driver supports only WLED4 peripherals that is present
+on pmi8998 and pm660L. This patch series  converts the existing WLED4
+bindings from .txt to .yaml format and adds the support for WLED5 peripheral
+that is present on PM8150L.
 
-> On Thu, Mar 05, 2020 at 08:41:43PM +0100, H. Nikolaus Schaller wrote:
->> =
+PM8150L WLED supports the following.
+    - Two modulators and each sink can use any of the modulator
+    - Multiple CABC selection options
+    - Multiple brightness width selection (12 bits to 15 bits)
 
->>> Am 03.03.2020 um 16:49 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
->>> =
+Changes from V1:
+	- Rebased on top of the below commit.
+	  backlight: qcom-wled: Fix unsigned comparison to zero
 
->>> Hi,
->>> =
+Changes from V2:
+	- Addressed Bjorn's comments by splitting the WLED4 changes
+	  in a seperate patch.
+	- Added WLED5 auto calibration support
 
->>>> Am 03.03.2020 um 16:03 schrieb Ville Syrj=E4l=E4 <ville.syrjala@linux.=
-intel.com>:
->>>> =
+Kiran Gunda (4):
+  backlight: qcom-wled: convert the wled bindings to .yaml format
+  backlight: qcom-wled: Add callbacks functions
+  backlight: qcom-wled: Add support for WLED5 peripheral in PM8150L
+  backlight: qcom-wled: Update auto calibration support for WLED5
 
->>>>> I haven't looked into the driver code, but would it be
->>>>> possible to specify .clock =3D 0 (or leave it out) to
->>>>> calculate it bottom up? This would avoid such inconsistencies.
->>>> =
+ .../bindings/leds/backlight/qcom-wled.txt          | 154 -----
+ .../bindings/leds/backlight/qcom-wled.yaml         | 223 ++++++++
+ drivers/video/backlight/qcom-wled.c                | 622 ++++++++++++++++++---
+ 3 files changed, 772 insertions(+), 227 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
 
->>>> I'm going to remove .vrefresh entirely from the struct.
->>>> It'll just be calculated from the other timings as needed.
->>> =
-
->>> Ok!
->>> =
-
->>> Anyways we should fix the panel timings so that it is compatible to .vr=
-efresh =3D 60.
->>> =
-
->>> I'll give it a try and let you know.
->> =
-
->> Ok, here is a new parameter set within data sheet limits for both
->> panel variants:
->> =
-
->> static const struct drm_display_mode ortustech_com37h3m_mode  =3D {
->> 	.clock =3D 22153,
->> 	.hdisplay =3D 480,
->> 	.hsync_start =3D 480 + 40,
->> 	.hsync_end =3D 480 + 40 + 10,
->> 	.htotal =3D 480 + 40 + 10 + 40,
->> 	.vdisplay =3D 640,
->> 	.vsync_start =3D 640 + 4,
->> 	.vsync_end =3D 640 + 4 + 2,
->> 	.vtotal =3D 640 + 4 + 2 + 4,
->> 	.vrefresh =3D 60,
->> 	.flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
->> };
->> =
-
->> I have tested on our omap3 based board and didn't find an issue
->> so you can insert into your patch.
-> =
-
-> Migth be better if you send that so we get proper attribution and
-> you can explain the change properly in the commit message.
-
-Ok, will do asap.
-
-BR and thanks,
-Nikolaus
-
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
