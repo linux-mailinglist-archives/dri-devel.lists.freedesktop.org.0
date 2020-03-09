@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECC517E954
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 20:53:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A280617E953
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 20:53:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE35D6E53E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE536E536;
 	Mon,  9 Mar 2020 19:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1481F6E4B3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 19:53:10 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51FD96E536
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 19:53:11 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id ACE803AB6;
- Mon,  9 Mar 2020 20:53:07 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 492C23B83;
+ Mon,  9 Mar 2020 20:53:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1583783588;
- bh=xyGmiUB3B2+IlJHHVl4ilqbmcFMAfEKJWEqqJi5boKs=;
+ bh=+g8PCqBUarUMFK9hlfvefovJVIvzLA3CQki6DSzasGA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a8Sz1owbDLXd30ZGCD4YJxHSN7bgY5FfdyTxqLcGBvnoKN5hmPjfPgSOCqKKWdr2V
- i9+7ksoXrWUDLwbLIDrzPoVXvUwKytBSBfY3dLQjiw50rhZEZG2MrUWp+nh0TOYQLq
- k/z65rs18bdQ77IJy8P08f7nXSVxHHptzzfBtQ/g=
+ b=OwV29y21j2xb1Y+C76Bznp8iFDiolc4EixVFHZ2POsQGXjjvjqy+2EHSc0pd+Ml3p
+ hCiZbSA8bML4+I3KFBhIFrROrS1upjMQQfA3xwl9i2+HlZ/SGl76QjFpJtreG91/F6
+ g06o45J7i7Qu5gLlSPxXBkLRVreRTR541A+pfd4s=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/21] drm: mxsfb: Use LCDC_CTRL register name explicitly
-Date: Mon,  9 Mar 2020 21:52:02 +0200
-Message-Id: <20200309195216.31042-8-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 08/21] drm: mxsfb: Remove register definitions from
+ mxsfb_crtc.c
+Date: Mon,  9 Mar 2020 21:52:03 +0200
+Message-Id: <20200309195216.31042-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
 References: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
@@ -51,38 +52,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LCDC_CTRL register is located at address 0x0000. Some of the
-accesses to the register simply use the mxsfb->base address. Reference
-the LCDC_CTRL register explicitly instead to clarify the code.
+mxsfb_crtc.c defines several macros related to register addresses and
+bit, which duplicates macros from mxsfb_regs.h. Use the macros from
+mxsfb_regs.h instead and remove them.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
-index be60c4021e2f..722bd9b4f5f9 100644
+index 722bd9b4f5f9..aef72adabf41 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
-@@ -170,17 +170,17 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+@@ -29,10 +29,6 @@
+ #include "mxsfb_drv.h"
+ #include "mxsfb_regs.h"
+ 
+-#define MXS_SET_ADDR		0x4
+-#define MXS_CLR_ADDR		0x8
+-#define MODULE_CLKGATE		BIT(30)
+-#define MODULE_SFTRST		BIT(31)
+ /* 1 second delay should be plenty of time for block reset */
+ #define RESET_TIMEOUT		1000000
+ 
+@@ -162,7 +158,7 @@ static int clear_poll_bit(void __iomem *addr, u32 mask)
+ {
+ 	u32 reg;
+ 
+-	writel(mask, addr + MXS_CLR_ADDR);
++	writel(mask, addr + REG_CLR);
+ 	return readl_poll_timeout(addr, reg, !(reg & mask), 0, RESET_TIMEOUT);
+ }
+ 
+@@ -170,17 +166,17 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
  {
  	int ret;
  
--	ret = clear_poll_bit(mxsfb->base, MODULE_SFTRST);
-+	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, MODULE_SFTRST);
+-	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, MODULE_SFTRST);
++	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_SFTRST);
  	if (ret)
  		return ret;
  
--	writel(MODULE_CLKGATE, mxsfb->base + MXS_CLR_ADDR);
-+	writel(MODULE_CLKGATE, mxsfb->base + LCDC_CTRL + MXS_CLR_ADDR);
+-	writel(MODULE_CLKGATE, mxsfb->base + LCDC_CTRL + MXS_CLR_ADDR);
++	writel(CTRL_CLKGATE, mxsfb->base + LCDC_CTRL + REG_CLR);
  
--	ret = clear_poll_bit(mxsfb->base, MODULE_SFTRST);
-+	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, MODULE_SFTRST);
+-	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, MODULE_SFTRST);
++	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_SFTRST);
  	if (ret)
  		return ret;
  
--	return clear_poll_bit(mxsfb->base, MODULE_CLKGATE);
-+	return clear_poll_bit(mxsfb->base + LCDC_CTRL, MODULE_CLKGATE);
+-	return clear_poll_bit(mxsfb->base + LCDC_CTRL, MODULE_CLKGATE);
++	return clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
  }
  
  static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb)
