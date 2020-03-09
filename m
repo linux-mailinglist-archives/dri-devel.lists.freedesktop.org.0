@@ -1,30 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5B917DFA3
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 13:15:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EA317E0BE
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 14:00:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8CB86E439;
-	Mon,  9 Mar 2020 12:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5EEC6E438;
+	Mon,  9 Mar 2020 13:00:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C2596E436;
- Mon,  9 Mar 2020 12:15:49 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from build.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20494660-1500050 
- for multiple; Mon, 09 Mar 2020 12:15:31 +0000
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/mm: Allow drm_mm_initialized() to be used outside of the
- locks
-Date: Mon,  9 Mar 2020 12:15:29 +0000
-Message-Id: <20200309121529.16497-1-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.20.1
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6329089F07
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 13:00:39 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2020 06:00:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,533,1574150400"; d="scan'208";a="245336534"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 09 Mar 2020 06:00:35 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 09 Mar 2020 15:00:35 +0200
+Date: Mon, 9 Mar 2020 15:00:35 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH 24/33] drm/panel-simple: Fix dotclock for Ortustech
+ COM37H3M
+Message-ID: <20200309130035.GV13686@intel.com>
+References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+ <20200302203452.17977-25-ville.syrjala@linux.intel.com>
+ <4320E187-FAA1-4033-A02C-7DA1F9B68A52@goldelico.com>
+ <20200303150336.GZ13686@intel.com>
+ <CDD5B6AE-6711-4B81-87F9-8DBD067E33BD@goldelico.com>
+ <C1BE9158-7D08-44D0-9699-4029806ABDE7@goldelico.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <C1BE9158-7D08-44D0-9699-4029806ABDE7@goldelico.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,77 +53,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mika.kuoppala@linux.intel.com, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark up the potential racy read in drm_mm_initialized(), as we want a
-cheap and cheerful check:
+On Thu, Mar 05, 2020 at 08:41:43PM +0100, H. Nikolaus Schaller wrote:
+> =
 
-[  121.098731] BUG: KCSAN: data-race in _i915_gem_object_create_stolen [i915] / rm_hole
-[  121.098766]
-[  121.098789] write (marked) to 0xffff8881f01ed330 of 8 bytes by task 3568 on cpu 3:
-[  121.098831]  rm_hole+0x64/0x140
-[  121.098860]  drm_mm_insert_node_in_range+0x3d3/0x6c0
-[  121.099254]  i915_gem_stolen_insert_node_in_range+0x91/0xe0 [i915]
-[  121.099646]  _i915_gem_object_create_stolen+0x9d/0x100 [i915]
-[  121.100047]  i915_gem_object_create_region+0x7a/0xa0 [i915]
-[  121.100451]  i915_gem_object_create_stolen+0x33/0x50 [i915]
-[  121.100849]  intel_engine_create_ring+0x1af/0x280 [i915]
-[  121.101242]  __execlists_context_alloc+0xce/0x3d0 [i915]
-[  121.101635]  execlists_context_alloc+0x25/0x40 [i915]
-[  121.102030]  intel_context_alloc_state+0xb6/0xf0 [i915]
-[  121.102420]  __intel_context_do_pin+0x1ff/0x220 [i915]
-[  121.102815]  i915_gem_do_execbuffer+0x46b4/0x4c20 [i915]
-[  121.103211]  i915_gem_execbuffer2_ioctl+0x2c3/0x580 [i915]
-[  121.103244]  drm_ioctl_kernel+0xe4/0x120
-[  121.103269]  drm_ioctl+0x297/0x4c7
-[  121.103296]  ksys_ioctl+0x89/0xb0
-[  121.103321]  __x64_sys_ioctl+0x42/0x60
-[  121.103349]  do_syscall_64+0x6e/0x2c0
-[  121.103377]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  121.103403]
-[  121.103426] read to 0xffff8881f01ed330 of 8 bytes by task 3109 on cpu 1:
-[  121.103819]  _i915_gem_object_create_stolen+0x30/0x100 [i915]
-[  121.104228]  i915_gem_object_create_region+0x7a/0xa0 [i915]
-[  121.104631]  i915_gem_object_create_stolen+0x33/0x50 [i915]
-[  121.105025]  intel_engine_create_ring+0x1af/0x280 [i915]
-[  121.105420]  __execlists_context_alloc+0xce/0x3d0 [i915]
-[  121.105818]  execlists_context_alloc+0x25/0x40 [i915]
-[  121.106202]  intel_context_alloc_state+0xb6/0xf0 [i915]
-[  121.106595]  __intel_context_do_pin+0x1ff/0x220 [i915]
-[  121.106985]  i915_gem_do_execbuffer+0x46b4/0x4c20 [i915]
-[  121.107375]  i915_gem_execbuffer2_ioctl+0x2c3/0x580 [i915]
-[  121.107409]  drm_ioctl_kernel+0xe4/0x120
-[  121.107437]  drm_ioctl+0x297/0x4c7
-[  121.107464]  ksys_ioctl+0x89/0xb0
-[  121.107489]  __x64_sys_ioctl+0x42/0x60
-[  121.107511]  do_syscall_64+0x6e/0x2c0
-[  121.107535]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> > Am 03.03.2020 um 16:49 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
+> > =
 
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
----
- include/drm/drm_mm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > Hi,
+> > =
 
-diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
-index d7939c054259..ee8b0e80ca90 100644
---- a/include/drm/drm_mm.h
-+++ b/include/drm/drm_mm.h
-@@ -272,7 +272,7 @@ static inline bool drm_mm_node_allocated(const struct drm_mm_node *node)
-  */
- static inline bool drm_mm_initialized(const struct drm_mm *mm)
- {
--	return mm->hole_stack.next;
-+	return READ_ONCE(mm->hole_stack.next);
- }
- 
- /**
--- 
-2.20.1
+> >> Am 03.03.2020 um 16:03 schrieb Ville Syrj=E4l=E4 <ville.syrjala@linux.=
+intel.com>:
+> >> =
 
+> >>> I haven't looked into the driver code, but would it be
+> >>> possible to specify .clock =3D 0 (or leave it out) to
+> >>> calculate it bottom up? This would avoid such inconsistencies.
+> >> =
+
+> >> I'm going to remove .vrefresh entirely from the struct.
+> >> It'll just be calculated from the other timings as needed.
+> > =
+
+> > Ok!
+> > =
+
+> > Anyways we should fix the panel timings so that it is compatible to .vr=
+efresh =3D 60.
+> > =
+
+> > I'll give it a try and let you know.
+> =
+
+> Ok, here is a new parameter set within data sheet limits for both
+> panel variants:
+> =
+
+> static const struct drm_display_mode ortustech_com37h3m_mode  =3D {
+> 	.clock =3D 22153,
+> 	.hdisplay =3D 480,
+> 	.hsync_start =3D 480 + 40,
+> 	.hsync_end =3D 480 + 40 + 10,
+> 	.htotal =3D 480 + 40 + 10 + 40,
+> 	.vdisplay =3D 640,
+> 	.vsync_start =3D 640 + 4,
+> 	.vsync_end =3D 640 + 4 + 2,
+> 	.vtotal =3D 640 + 4 + 2 + 4,
+> 	.vrefresh =3D 60,
+> 	.flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> };
+> =
+
+> I have tested on our omap3 based board and didn't find an issue
+> so you can insert into your patch.
+
+Migth be better if you send that so we get proper attribution and
+you can explain the change properly in the commit message.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
