@@ -1,40 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C11117E62F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 18:57:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8023517E661
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 19:07:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD0E96E02D;
-	Mon,  9 Mar 2020 17:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A93D6E198;
+	Mon,  9 Mar 2020 18:07:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 151296E02D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 17:57:48 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id B293B804F2;
- Mon,  9 Mar 2020 18:57:43 +0100 (CET)
-Date: Mon, 9 Mar 2020 18:57:42 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Phong LE <ple@baylibre.com>
-Subject: Re: [PATCH 2/3] dt-bindings: display: bridge: add it66121 bindings
-Message-ID: <20200309175742.GB4841@ravnborg.org>
-References: <20200309153654.11481-1-ple@baylibre.com>
- <20200309153654.11481-3-ple@baylibre.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5956E0CC;
+ Mon,  9 Mar 2020 18:07:01 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id j14so10517695otq.3;
+ Mon, 09 Mar 2020 11:07:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=+8twmAkYC8gLumwmIlw3+TNjk4YZIpc4Yf4Svt7khAE=;
+ b=PIYzmECT1ltubFpAFDyRXMA8iWCFx7I4+88MSNTP8UXfAJ16pnB1QDBF7smzl0AbzG
+ tIBnIsb1NRUwS7MP0IE8MGW0QxqrMcxdEjIfogXOs80+9A9iMQlUFDHKzdFVbu+BCpO6
+ JO02SuEVvUwnCbYQp6kgB36BE3zb77hlBqjYkxdxZlXygUdfuQKgF2KCQ+EkS681EVlS
+ z+1YZquaTykAZl09bgdHT6/IHY+eEdAWmm5VVpDfTrZRfpZxVVAIgpYOFNCPrhYx5gzG
+ /ApaANeL/qqCBdF+eTBvTrb90EuTBkOmT/Bla1mTtxPWLQJKA1kb4YSeHiXpZPJADwFZ
+ 91RA==
+X-Gm-Message-State: ANhLgQ3aEPBKan9Koqcnba2zQFmXqgNhoz56gKDWCxr1777LWLOHqKKt
+ KMWut6B0w3UiNWgkY2y1Ow==
+X-Google-Smtp-Source: ADFU+vs3IQ3wz+qJ/67vqIo0mD/X0qf+y/Hptx7ec/9FGLi0njnEexI24zE2V0heF26J/Ax0sA1e+g==
+X-Received: by 2002:a9d:5f7:: with SMTP id 110mr8301002otd.73.1583777220691;
+ Mon, 09 Mar 2020 11:07:00 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id t193sm3355321oif.34.2020.03.09.11.06.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Mar 2020 11:06:59 -0700 (PDT)
+Received: (nullmailer pid 18575 invoked by uid 1000);
+ Mon, 09 Mar 2020 18:06:58 -0000
+Date: Mon, 9 Mar 2020 13:06:58 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krishna Manikandan <mkrishn@codeaurora.org>
+Subject: Re: [v1] dt-bindings: msm: disp: add yaml schemas for DPU and DSI
+ bindings
+Message-ID: <20200309180658.GA15631@bogus>
+References: <1583494560-25336-1-git-send-email-mkrishn@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200309153654.11481-3-ple@baylibre.com>
+In-Reply-To: <1583494560-25336-1-git-send-email-mkrishn@codeaurora.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=IpJZQVW2AAAA:8
- a=gEfo2CItAAAA:8 a=cX5Nq78nYJ3ux5aV4n4A:9 a=_o3i03AVA8FuQwU8:21
- a=XREf6cB9zaPaBULp:21 a=CjuIK1q_8ugA:10 a=IawgGOuG5U0WyFbmm1f5:22
- a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,141 +61,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- dri-devel@lists.freedesktop.org, stephan@gerhold.net, narmstrong@baylibre.com,
- airlied@linux.ie, heiko.stuebner@theobroma-systems.com, jonas@kwiboo.se,
- a.hajda@samsung.com, robh+dt@kernel.org, broonie@kernel.org,
- Laurent.pinchart@ideasonboard.com
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ kalyan_t@codeaurora.org, hoegsberg@chromium.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Phong.
-
-On Mon, Mar 09, 2020 at 04:36:53PM +0100, Phong LE wrote:
-> Add the ITE bridge HDMI it66121 bindings.
-
-Good to see that you used DT Schema.
-
+On Fri,  6 Mar 2020 17:06:00 +0530, Krishna Manikandan wrote:
+> MSM Mobile Display Subsytem(MDSS) encapsulates sub-blocks
+> like DPU display controller, DSI etc. Add YAML schema
+> for the device tree bindings for the same.
 > 
-> Signed-off-by: Phong LE <ple@baylibre.com>
+> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
 > ---
->  .../bindings/display/bridge/ite,it66121.yaml  | 95 +++++++++++++++++++
->  1 file changed, 95 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+>  .../bindings/display/msm/dpu-sc7180.yaml           | 269 +++++++++++++++
+>  .../bindings/display/msm/dpu-sdm845.yaml           | 265 +++++++++++++++
+>  .../bindings/display/msm/dsi-sc7180.yaml           | 369 +++++++++++++++++++++
+>  .../bindings/display/msm/dsi-sdm845.yaml           | 369 +++++++++++++++++++++
+>  4 files changed, 1272 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/dsi-sc7180.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/dsi-sdm845.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> new file mode 100644
-> index 000000000000..f546c0b5a465
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> @@ -0,0 +1,95 @@
-> +# SPDX-License-Identifier: GPL-2.0
-For new schemas please use: (GPL-2.0 OR BSD-2-Clause)
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/ite,it66121.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ITE it66121 HDMI bridge Device Tree Bindings
-> +
-> +maintainers:
-> +  - Phong LE <ple@baylibre.com>
-> +
-> +description: |
-> +  The IT66121 is a high-performance and low-power single channel HDMI
-> +  transmitter, fully compliant with HDMI 1.3a, HDCP 1.2 and backward compatible
-> +  to DVI 1.0 specifications.
-> +
-> +properties:
-> +  compatible:
-> +    const: ite,it66121
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: base I2C address of the device
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: GPIO connected to active low reset
-> +
-> +  vrf12-supply:
-> +    maxItems: 1
-> +    description: Regulator for 1.2V analog core power.
-> +
-> +  vcn33-supply:
-> +    maxItems: 1
-> +    description: Regulator for 3.3V digital core power.
-> +
-> +  vcn18-supply:
-> +    maxItems: 1
-> +    description: Regulator for 1.8V IO core power.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  pclk-dual-edge:
-> +    maxItems: 1
-> +    description: enable pclk dual edge mode.
-> +
-> +  port:
-> +    type: object
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        description: |
-> +          Input endpoints of the bridge.
-> +
-> +    required:
-> +      - endpoint
-> +
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Are we missing an additionalProperties: false?
-So we do not have other properties than the ones listed here.
+Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+Documentation/devicetree/bindings/display/msm/dpu-sc7180.example.dts:17:10: fatal error: dt-bindings/clock/qcom,dispcc-sc7180.h: No such file or directory
+ #include <dt-bindings/clock/qcom,dispcc-sc7180.h>
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+scripts/Makefile.lib:300: recipe for target 'Documentation/devicetree/bindings/display/msm/dpu-sc7180.example.dt.yaml' failed
+make[1]: *** [Documentation/devicetree/bindings/display/msm/dpu-sc7180.example.dt.yaml] Error 1
+Makefile:1263: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
 
-	Sam
-
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-> +  - vrf12-supply
-> +  - vcn33-supply
-> +  - vcn18-supply
-> +  - interrupts
-> +  - port
-> +
-> +examples:
-> +  - |
-> +    i2c6 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      it66121hdmitx: it66121hdmitx@4c {
-> +        compatible = "ite,it66121";
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&ite_pins_default>;
-> +        vcn33-supply = <&mt6358_vcn33_wifi_reg>;
-> +        vcn18-supply = <&mt6358_vcn18_reg>;
-> +        vrf12-supply = <&mt6358_vrf12_reg>;
-> +        reset-gpios = <&pio 160 1 /* GPIO_ACTIVE_LOW */>;
-> +        interrupt-parent = <&pio>;
-> +        interrupts = <4 8 /* IRQ_TYPE_LEVEL_LOW */>;
-> +        reg = <0x4c>;
-> +        pclk-dual-edge;
-> +
-> +        port {
-> +          it66121_in: endpoint {
-> +            remote-endpoint = <&display_out>;
-> +          };
-> +        };
-> +      };
-> +    };
-> -- 
-> 2.17.1
+See https://patchwork.ozlabs.org/patch/1250230
+Please check and re-submit.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
