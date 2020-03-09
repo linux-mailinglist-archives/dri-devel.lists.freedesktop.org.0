@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48B117EB80
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 22:47:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9138917EC4C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 23:50:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9026A6E5A2;
-	Mon,  9 Mar 2020 21:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 469A26E11D;
+	Mon,  9 Mar 2020 22:50:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 911236E5A2
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 21:47:45 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80CFE6E11F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 22:50:44 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 8915A20021;
- Mon,  9 Mar 2020 22:47:40 +0100 (CET)
-Date: Mon, 9 Mar 2020 22:47:39 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Subject: Re: [RESEND PATCH v7] dt-bindings: display: Add idk-2121wr binding
-Message-ID: <20200309214739.GA11495@ravnborg.org>
-References: <20200306152031.14212-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200309203242.GA14486@bogus>
- <CA+V-a8uAhrkRPUaQOOAUgeKFnwH7zZOF-raQiYvtc9edUeHJ7g@mail.gmail.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id 2F5562253D;
+ Mon,  9 Mar 2020 22:50:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1583794244;
+ bh=SbGvCdG/e6XNfTS1VgIQo0Zu/6dVT8qotNh+oyjO5M8=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=1vg95p8COlpVYDXX1h4S4r+J5SHvpD73ztst8VndTbVLSSBmaFQ0xiIff7V3npw+p
+ HwpkR0B3AjsVB+aMbUhJ6d4JxHnyyp9zru3MTVtxVL7dgIGmaLzceEU3HGsng1ibYh
+ mewKaYlRLGQvVtehs20lzu/ZLAN4vkYGVY5sqVuE=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8uAhrkRPUaQOOAUgeKFnwH7zZOF-raQiYvtc9edUeHJ7g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
- a=yC-0_ovQAAAA:8 a=NcFk6D9gAAAA:8 a=S6n1fyGeoZp7psgl2-IA:9
- a=CjuIK1q_8ugA:10 a=gDps05xe3HUA:10 a=-FEs8UIgK8oA:10 a=CojVow1nldcA:10
- a=NWVoK91CQyQA:10 a=AjGcO6oz07-iQ99wixmX:22 a=QsnFDINu91a9xkgZirup:22
- a=dT0RXAwTRpxWjiziVLXF:22
+In-Reply-To: <CAFqH_51hL07c7z2mBSWMejKwZMkNHPVYiB7JpMPPgck0XycEug@mail.gmail.com>
+References: <20200302110128.2664251-1-enric.balletbo@collabora.com>
+ <20200302110128.2664251-4-enric.balletbo@collabora.com>
+ <158344207340.7173.8369925839829696256@swboyd.mtv.corp.google.com>
+ <8bfc4350-6e92-e657-18f2-3624a2558521@collabora.com>
+ <158353062701.66766.10488072352849985568@swboyd.mtv.corp.google.com>
+ <CAFqH_51hL07c7z2mBSWMejKwZMkNHPVYiB7JpMPPgck0XycEug@mail.gmail.com>
+Subject: Re: [PATCH v11 3/5] soc: mediatek: Move mt8173 MMSYS to platform
+ driver
+From: Stephen Boyd <sboyd@kernel.org>
+To: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Mon, 09 Mar 2020 15:50:43 -0700
+Message-ID: <158379424337.149997.7454036134629466675@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,93 +52,108 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Richard Fontana <rfontana@redhat.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>,
+ Chen-Yu Tsai <wens@csie.org>, Allison Randal <allison@lohutok.net>,
+ mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, frank-w@public-files.de,
+ Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
+ Houlong Wei <houlong.wei@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ ARM/Mediatek SoC support <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, fwll.ch@freedesktop.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Matthias Brugger <mbrugger@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, matthias.bgg@kernel.org,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar
-
-On Mon, Mar 09, 2020 at 09:23:24PM +0000, Lad, Prabhakar wrote:
-> Hi Rob,
+Quoting Enric Balletbo Serra (2020-03-06 14:09:50)
+> Missatge de Stephen Boyd <sboyd@kernel.org> del dia dv., 6 de mar
+> 2020 a les 22:37:
+> >
+> > Quoting Enric Balletbo i Serra (2020-03-06 08:30:16)
+> > > On 5/3/20 22:01, Stephen Boyd wrote:
+> > > > Quoting Enric Balletbo i Serra (2020-03-02 03:01:26)
+> > > >> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+> > > >> new file mode 100644
+> > > >> index 000000000000..473cdf732fb5
+> > > >> --- /dev/null
+> > > >> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > > >> @@ -0,0 +1,154 @@
+> > > >> +// SPDX-License-Identifier: GPL-2.0-only
+> > > >> +/*
+> > > >> + * Copyright (c) 2014 MediaTek Inc.
+> > > >> + * Author: James Liao <jamesjj.liao@mediatek.com>
+> > > >> + */
+> > > >> +
+> > > >> +#include <linux/clk-provider.h>
+> > > >> +#include <linux/of_device.h>
+> > > >> +#include <linux/platform_device.h>
+> > > >> +
+> > > >> +#include "../../clk/mediatek/clk-gate.h"
+> > > >> +#include "../../clk/mediatek/clk-mtk.h"
+> > > >
+> > > > Why not use include/linux/clk/?
+> > > >
+> > >
+> > > I can move these files to include, this will impact a lot more of drivers but,
+> > > yes, I think is the right way.
+> > >
+> > > > But I also don't understand why the clk driver is moved outside of
+> > > > drivers/clk/ into drivers/soc/. Commit text saying that it has shared
+> > > > registers doesn't mean it can't still keep the clk driver part in the
+> > > > drivers/clk/ area.
+> > > >
+> > >
+> > > Actually moving this to the soc directory has been requested by CK (mediatek) as
+> > > a change in v8. You can see the discussion in [1]
+> > >
+> >
+> > I can reply there in that thread if necessary, but we shouldn't need to
+> > force simple-mfd into DT bindings to support this. Match the compatible
+> > string in drivers/soc/ and register devices in software for the
+> > different pieces of this overall hardware block. If necessary, pass down
+> > the ioremapped addresss down through device data to each logical driver
+> > in the respective subsystem.
+> >
+> > So yes, it looks like an MFD, but that doesn't mean we have to change
+> > the DT binding or put it in drivers/mfd to support that. And we don't
+> > have to fix any problems with allowing two drivers to probe the same
+> > compatible string.
+> >
 > 
-> On Mon, Mar 9, 2020 at 8:32 PM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Fri,  6 Mar 2020 15:20:31 +0000, Lad Prabhakar wrote:
-> > > From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > >
-> > > Add binding for the idk-2121wr LVDS panel from Advantech.
-> > >
-> > > Some panel-specific documentation can be found here:
-> > > https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
-> > >
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > > Apologies for flooding in I missed to add the ML email-ids for the earlier
-> > > version so resending it.
-> > >
-> > > Hi All,
-> > >
-> > > This patch is part of series [1] ("Add dual-LVDS panel support to EK874),
-> > > all the patches have been accepted from it except this one. I have fixed
-> > > Rob's comments in this version of the patch.
-> > >
-> > > [1] https://patchwork.kernel.org/cover/11297589/
-> > >
-> > > v6->7
-> > >  * Added reference to lvds.yaml
-> > >  * Changed maintainer to myself
-> > >  * Switched to dual license
-> > >  * Dropped required properties except for ports as rest are already listed
-> > >    in lvds.panel
-> > >  * Dropped Reviewed-by tag of Laurent, due to the changes made it might not
-> > >    be valid.
-> > >
-> > > v5->v6:
-> > >  * No change
-> > >
-> > > v4->v5:
-> > > * No change
-> > >
-> > > v3->v4:
-> > > * Absorbed patch "dt-bindings: display: Add bindings for LVDS
-> > >   bus-timings"
-> > > * Big restructuring after Rob's and Laurent's comments
-> > >
-> > > v2->v3:
-> > > * New patch
-> > >
-> > >  .../display/panel/advantech,idk-2121wr.yaml        | 120 +++++++++++++++++++++
-> > >  1 file changed, 120 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> > >
-> >
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> >
-> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
-> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
-> >
-> This panel is a dual channel LVDS, as a result the root port is called as
-> ports instead of port and the child node port@0 and port@1 are used for
-> even and odd pixels, hence binding has required property as ports instead
-> of port.
+> That thread maybe has too much information and things evolved since
+> then. Note that the final solution is not an MFD neither we change the
+> bindings. I pointed to that thread just because CK (CK please correct
+> me if I'm wrong) thought that the driver is not a pure clock driver
+> and he preferred to move to drivers/soc/mediatek (in that thread, he
+> exposes his opinion on that).  Sorry to introduce more confusion.
+> 
+> You seem to be fine with the approach (just minor changes), so it
+> looks to me that the only problem is if this should be in drivers/clk
+> or drivers/soc. Honestly, this is not something I can't decide and
+> I'll let you (the soc and clk maintainers) decide. I don't really have
+> a strong opinion here. I don't mind move again to drivers/clk if that
+> is what we want but let's come to an agreement.
+> 
 
-What goes wrong is that you have a ref to lvds.yaml - and thus you get
-also required from that file.
-
-So basically - I think this binding should not have a ref to lvds.yaml -
-as the binding needs to be different.
-
-	Sam
+It's already in drivers/clk, so leave the clk part there and register
+the clk device and any other devices by matching the compatible in
+drivers/soc. That is my preferred solution. Can that be done?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
