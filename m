@@ -2,65 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4C317F1BA
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E139617F1BE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13F7F6E844;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2746E845;
 	Tue, 10 Mar 2020 08:19:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3634889E2B
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 13:27:00 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1583760420; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=68EsyXGUzdLIawLyIVCLBm8Bb1s9J5ol+wgvzvuPly0=;
- b=BDz48rlGCHPfZlaaKMzo6e2sBn3O0o4Gz5TOaT9Jv1jr6hnBGVQ8Y3fI5FcOk3rH1zn6wZOs
- 7xP49TuidswD3expxAGFXOtBGRzUH9mzKwP4e2xZFtwY2tY9KtH2O7i+3td7tma27gQSECH7
- tlgNt22a9+pytftKJYANuXu9uHA=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e664423.7fbc97d4ac38-smtp-out-n01;
- Mon, 09 Mar 2020 13:26:59 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id EE1C4C00449; Mon,  9 Mar 2020 13:26:58 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from kgunda-linux.qualcomm.com
- (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: kgunda)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 91D1BC433CB;
- Mon,  9 Mar 2020 13:26:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 91D1BC433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=kgunda@codeaurora.org
-From: Kiran Gunda <kgunda@codeaurora.org>
-To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
- b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
- daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Subject: [PATCH V3 4/4] backlight: qcom-wled: Update auto calibration support
- for WLED5
-Date: Mon,  9 Mar 2020 18:56:02 +0530
-Message-Id: <1583760362-26978-5-git-send-email-kgunda@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1583760362-26978-1-git-send-email-kgunda@codeaurora.org>
-References: <1583760362-26978-1-git-send-email-kgunda@codeaurora.org>
-X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B6B3C89F6D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 13:41:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A01830E;
+ Mon,  9 Mar 2020 06:41:39 -0700 (PDT)
+Received: from e123648.arm.com (unknown [10.37.12.74])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6F7213F67D;
+ Mon,  9 Mar 2020 06:41:28 -0700 (PDT)
+From: Lukasz Luba <lukasz.luba@arm.com>
+To: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-imx@nxp.com
+Subject: [PATCH v4 0/4] Add support for devices in the Energy Model
+Date: Mon,  9 Mar 2020 13:41:13 +0000
+Message-Id: <20200309134117.2331-1-lukasz.luba@arm.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,163 +40,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kiran Gunda <kgunda@codeaurora.org>
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
+ bsegall@google.com, Morten.Rasmussen@arm.com, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ daniel.lezcano@linaro.org, steven.price@arm.com, cw00.choi@samsung.com,
+ mingo@redhat.com, mgorman@suse.de, rui.zhang@intel.com,
+ alyssa.rosenzweig@collabora.com, orjan.eide@arm.com, b.zolnierkie@samsung.com,
+ s.hauer@pengutronix.de, rostedt@goodmis.org, matthias.bgg@gmail.com,
+ Dietmar.Eggemann@arm.com, airlied@linux.ie, javi.merino@arm.com,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ rdunlap@infradead.org, rjw@rjwysocki.net, agross@kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org, lukasz.luba@arm.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, auto calibration logic checks only for OVP_FAULT bit
-to be set in FAULT_STATUS register to detect OVP fault. This works
-well for WLED4 type. However, WLED5 type has OVP_PRE_ALARM bit
-which can indicate a potential OVP fault. Use that as well for
-detecting OVP fault and run auto calibration to fix the sink
-configuration.
+Hi all,
 
-Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
----
- drivers/video/backlight/qcom-wled.c | 90 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 88 insertions(+), 2 deletions(-)
+This patch set introduces support for devices in the Energy Model (EM)
+framework. It will unify the power model for thermal subsystem and make it
+simpler. The 1st patch refactors EM framework and adds support for devices.
+The 2nd patch changes dev_pm_opp_of_register_em() in OPP/OF which now should
+take as an argument struct device pointer. It touches a few trees
+(OMAP, NXP, Mediatek) updating their CPUfreq drivers to the new interface.
+Patch 3/4 changes thermal devfreq cooling removing old code for calculating
+local power table. It simplifies the code and uses EM for requested power
+calculation. Last patch 4/4 adds EM to Panfrost driver.
 
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index edbbcb2..5079f1f 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -27,6 +27,7 @@
- #define  WLED3_CTRL_REG_ILIM_FAULT_BIT			BIT(0)
- #define  WLED3_CTRL_REG_OVP_FAULT_BIT			BIT(1)
- #define  WLED4_CTRL_REG_SC_FAULT_BIT			BIT(2)
-+#define  WLED5_CTRL_REG_OVP_PRE_ALARM_BIT		BIT(4)
- 
- #define WLED3_CTRL_REG_INT_RT_STS			0x10
- #define  WLED3_CTRL_REG_OVP_FAULT_STATUS		BIT(1)
-@@ -104,6 +105,10 @@
- 
- #define WLED4_SINK_REG_BRIGHT(n)			(0x57 + (n * 0x10))
- 
-+/* WLED5 specific control registers */
-+#define WLED5_CTRL_REG_OVP_INT_CTL			0x5f
-+#define  WLED5_CTRL_REG_OVP_INT_TIMER_MASK		GENMASK(2, 0)
-+
- /* WLED5 specific sink registers */
- #define WLED5_SINK_REG_MOD_A_EN				0x50
- #define WLED5_SINK_REG_MOD_B_EN				0x60
-@@ -394,11 +399,67 @@ static int wled4_ovp_fault_status(struct wled *wled, bool *fault_set)
- 	return rc;
- }
- 
-+static int wled5_ovp_fault_status(struct wled *wled, bool *fault_set)
-+{
-+	int rc;
-+	u32 int_rt_sts, fault_sts;
-+
-+	*fault_set = false;
-+	rc = regmap_read(wled->regmap,
-+			wled->ctrl_addr + WLED3_CTRL_REG_INT_RT_STS,
-+			&int_rt_sts);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to read INT_RT_STS rc=%d\n", rc);
-+		return rc;
-+	}
-+
-+	rc = regmap_read(wled->regmap,
-+			wled->ctrl_addr + WLED3_CTRL_REG_FAULT_STATUS,
-+			&fault_sts);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to read FAULT_STATUS rc=%d\n", rc);
-+		return rc;
-+	}
-+
-+	if (int_rt_sts & WLED3_CTRL_REG_OVP_FAULT_STATUS)
-+		*fault_set = true;
-+
-+	if (fault_sts & (WLED3_CTRL_REG_OVP_FAULT_BIT |
-+			       WLED5_CTRL_REG_OVP_PRE_ALARM_BIT))
-+		*fault_set = true;
-+
-+	if (*fault_set)
-+		dev_dbg(wled->dev, "WLED OVP fault detected, int_rt_sts=0x%x fault_sts=0x%x\n",
-+			int_rt_sts, fault_sts);
-+
-+	return rc;
-+}
-+
- static int wled4_ovp_delay(struct wled *wled)
- {
- 	return WLED_SOFT_START_DLY_US;
- }
- 
-+static int wled5_ovp_delay(struct wled *wled)
-+{
-+	int rc, delay_us;
-+	u32 val;
-+	u8 ovp_timer_ms[8] = {1, 2, 4, 8, 12, 16, 20, 24};
-+
-+	/* For WLED5, get the delay based on OVP timer */
-+	rc = regmap_read(wled->regmap, wled->ctrl_addr +
-+			 WLED5_CTRL_REG_OVP_INT_CTL, &val);
-+	if (rc < 0)
-+		delay_us =
-+		ovp_timer_ms[val & WLED5_CTRL_REG_OVP_INT_TIMER_MASK] * 1000;
-+	else
-+		delay_us = 2 * WLED_SOFT_START_DLY_US;
-+
-+	dev_dbg(wled->dev, "delay_time_us: %d\n", *delay_us);
-+
-+	return delay_us;
-+}
-+
- static int wled_update_status(struct backlight_device *bl)
- {
- 	struct wled *wled = bl_get_data(bl);
-@@ -736,9 +797,32 @@ static bool wled_auto_detection_required(struct wled *wled)
- 	if (!wled->auto_detection_ovp_count) {
- 		wled->start_ovp_fault_time = ktime_get();
- 		wled->auto_detection_ovp_count++;
--	} else {
-+		return false;
-+	}
-+
-+	if (wled->version == 5) {
-+		/*
-+		 * WLED5 has OVP fault density interrupt configuration i.e. to
-+		 * count the number of OVP alarms for a certain duration before
-+		 * triggering OVP fault interrupt. By default, number of OVP
-+		 * fault events counted before an interrupt is fired is 32 and
-+		 * the time interval is 12 ms. If we see more than one OVP fault
-+		 * interrupt, then that should qualify for a real OVP fault
-+		 * condition to run auto calibration algorithm.
-+		 */
-+
-+		if (wled->auto_detection_ovp_count > 1) {
-+			elapsed_time_us = ktime_us_delta(ktime_get(),
-+					wled->start_ovp_fault_time);
-+			wled->auto_detection_ovp_count = 0;
-+			dev_dbg(wled->dev, "Elapsed time: %lld us\n",
-+				elapsed_time_us);
-+			return true;
-+		}
-+		wled->auto_detection_ovp_count++;
-+	} else if (wled->version == 4) {
- 		elapsed_time_us = ktime_us_delta(ktime_get(),
--						 wled->start_ovp_fault_time);
-+					 wled->start_ovp_fault_time);
- 		if (elapsed_time_us > WLED_AUTO_DETECT_CNT_DLY_US)
- 			wled->auto_detection_ovp_count = 0;
- 		else
-@@ -1424,6 +1508,8 @@ static int wled_configure(struct wled *wled)
- 		wled->wled_set_brightness = wled5_set_brightness;
- 		wled->wled_sync_toggle = wled5_sync_toggle;
- 		wled->cabc_config = wled5_cabc_config;
-+		wled->wled_ovp_fault_status = wled5_ovp_fault_status;
-+		wled->wled_ovp_delay = wled5_ovp_delay;
- 		wled->max_string_count = 4;
- 
- 		prop_addr = of_get_address(dev->of_node, 1, NULL, NULL);
+The patch set is based on linux-next tag next-20200306.
+
+Changes:
+v4:
+- devfreq cooling: added two new registration functions, which will take care
+  of registering EM for the device and simplify drivers code
+  (suggested by Robin and Rob)
+- Energy Model: changed unregistering code, added kref to track usage, added
+  code freeing tables, added helper function
+- added return value to function dev_pm_opp_of_register_em() and updated
+  CPUFreq drivers code, added debug prints in case of failure (which might
+  help in case CPU cooling was expecting EM)
+- updated comments in devfreq cooling removing statement that only
+  simple_ondemand devfreq governor is supported to work with power extensions
+- fixed spelling in the documentation (reported by Randy)
+v3 [3]:
+- added back the cpumask 'cpus' in the em_perf_domain due potential cache misses
+- removed _is_cpu_em() since there is no need for it
+- changed function name from em_pd_energy() to em_cpu_energy(), which is
+  optimized for usage from the scheduler making some assumptions and not
+  validating arguments to speed-up, there is a comment stressing that it should
+  be used only for CPUs em_perf_domain
+- changed em_get_pd() to em_pd_get() which is now aligned with em_cpu_get()
+  naming
+- Energy Model: add code which checks if the EM is already registered for the
+  devfreq device
+- extended comment in em_cpu_get() describing the need for this function
+- fixed build warning reported on x86 by kbuild test robot in devfreq_cooling.c
+- updated documentation in the energy-model.rst
+- changed print messages from 'energy_model' to 'EM'
+- changed dev_warn to dev_dbg, should calm down test scripts in case the
+  platform has OPPs less efficient in the OPP table (some of them are there for
+  cooling reasons, we shouldn't warn in this case, debug info is enough)
+v2 [2]:
+- changed EM API em_register_perf_domain() adding cpumask_t pointer
+  as last argument (which was discussed with Dietmar and Quentin)
+- removed dependency on PM_OPP, thanks to the cpumask_t argument
+- removed enum em_type and em->type dependent code
+- em_get_pd() can handle CPU device as well as devfreq device
+- updated EM documentation
+- in devfreq cooling added code which prevents from race condition with
+  devfreq governors which are trying to use OPPs while thermal is in the middle
+  of disabling them.
+- in devfreq cooling added code which updates state of the devfreq device to
+  avoid working on stale data when governor has not updated it for a long time
+- in devfreq cooling added backward compatibility frequency table for drivers
+  which did not provide EM
+- added Steven's Reviewed-by to trace code in thermal
+- added another CPUFreq driver which needs to be updated to the new API
+
+The v1 can be found here [1].
+
+Regards,
+Lukasz Luba
+
+[1] https://lkml.org/lkml/2020/1/16/619
+[2] https://lkml.org/lkml/2020/2/6/377
+[3] https://lkml.org/lkml/2020/2/21/1910
+
+Lukasz Luba (4):
+  PM / EM: add devices to Energy Model
+  OPP: change parameter to device pointer in dev_pm_opp_of_register_em()
+  thermal: devfreq_cooling: Refactor code and switch to use Energy Model
+  drm/panfrost: Register devfreq cooling and attempt to add Energy Model
+
+ Documentation/power/energy-model.rst        | 133 ++---
+ Documentation/scheduler/sched-energy.rst    |   2 +-
+ drivers/cpufreq/cpufreq-dt.c                |   4 +-
+ drivers/cpufreq/imx6q-cpufreq.c             |   7 +-
+ drivers/cpufreq/mediatek-cpufreq.c          |   5 +-
+ drivers/cpufreq/omap-cpufreq.c              |   6 +-
+ drivers/cpufreq/qcom-cpufreq-hw.c           |   4 +-
+ drivers/cpufreq/scmi-cpufreq.c              |  13 +-
+ drivers/cpufreq/scpi-cpufreq.c              |   4 +-
+ drivers/cpufreq/vexpress-spc-cpufreq.c      |   4 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c |   2 +-
+ drivers/opp/of.c                            |  57 ++-
+ drivers/thermal/cpufreq_cooling.c           |  10 +-
+ drivers/thermal/devfreq_cooling.c           | 506 +++++++++++---------
+ include/linux/devfreq_cooling.h             |  39 +-
+ include/linux/energy_model.h                | 111 +++--
+ include/linux/pm_opp.h                      |  15 +-
+ include/trace/events/thermal.h              |  19 +-
+ kernel/power/energy_model.c                 | 463 ++++++++++++++----
+ kernel/sched/fair.c                         |   2 +-
+ kernel/sched/topology.c                     |   4 +-
+ 21 files changed, 909 insertions(+), 501 deletions(-)
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
- a Linux Foundation Collaborative Project
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
