@@ -2,63 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC45617DEFF
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 12:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7E717DF74
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 13:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B63989C55;
-	Mon,  9 Mar 2020 11:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0389A6E25C;
+	Mon,  9 Mar 2020 12:02:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84FA889C55
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 11:49:19 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id x3so9464457wmj.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 04:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=bTyK1vEbnCjw8JirthPvuBhto29rFArsRHJMgNd42N0=;
- b=p5fikUQDYZzI+DqGSlWw6jEiflDEOQGm1SKiUEXPawrmdmJosx4+C7J9cjw9rY3lSm
- C4hg9j83eThnJiIHSxg5Tf9FJ9ATafyx1eHK+vQWMMowVkocxfckSs+h9WQWM9khJkkC
- 1v9MlkfF0mI/kznSCUQXCOuHqPj1gsIRTeivttxFO8WlZAN/yKiQirlOxbHH1Pm4l17i
- 7TWPaaDLKNQcv/4XkQo+N7awJlpdBHe1Ltu785hY8LP1dnWwYE+Gmn+bia76de71D70V
- azRYzqY7QL8/tM/jXE8QRiRY+gdij8Egyl8CQaM2aDgiosmGA4eMFSYoj1sru6mlqiTl
- 0BTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=bTyK1vEbnCjw8JirthPvuBhto29rFArsRHJMgNd42N0=;
- b=KhIS19JchqZSllwEFmwvIw7odClZzaK7tAJj8/8ugO+mDSxTcAvErp6akbIvv5cC/1
- mgyAJ0gLijhuNbGg0EWBr6m7QM+JUWCkrUYLfegXXWbTZcUPrhLcGfEpdD/QqF0PTd4Z
- M8B5eq5volCp9k3Dam1qgrXK/DzNO7fP9XxBNZtdusZvs5oTjxhAf6pMTu5i0WvoVU9R
- ScjBhdaUKgLho1nFHUPYBbd354nf7DDT8u7d/bYRdbbSA/5nTFjd6KBxiH2xvKJz3QaS
- 22BxSqnVSHhtrMTUb91/2D/pK5GiUVmCtXoPrPkacJbOrkC6Lbmztf44ixMdvV3maX3n
- 6oNA==
-X-Gm-Message-State: ANhLgQ3nKboXd8AfXS7NiVtz6HPnC52J1ShH1YOUaf5vyZiQfWK676mI
- d+/9Rn5eH/ipmgtP1Z8Uq6s=
-X-Google-Smtp-Source: ADFU+vvfrVz4OfMRTQP9j4tQTKbGiA20TX8sbtNUrRka4Gm+7DNS0n7LnzAu7KKmFak/LUJ3FVdfmQ==
-X-Received: by 2002:a7b:c950:: with SMTP id i16mr15978097wml.97.1583754558164; 
- Mon, 09 Mar 2020 04:49:18 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id m3sm42925505wrx.9.2020.03.09.04.49.16
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 09 Mar 2020 04:49:17 -0700 (PDT)
-Subject: Re: [PATCH] drm/ttm: fix false positive assert
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: Pierre-eric.Pelloux-prayer@amd.com, dri-devel@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>
-References: <20200306124155.1995-1-christian.koenig@amd.com>
-Message-ID: <84724c95-1fdb-314e-19b2-03a6f0865f26@gmail.com>
-Date: Mon, 9 Mar 2020 12:49:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B33D46E25C;
+ Mon,  9 Mar 2020 12:02:15 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from build.alporthouse.com (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20494481-1500050 
+ for multiple; Mon, 09 Mar 2020 12:01:52 +0000
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: Mark up racy check of drm_gem_object.handle_count
+Date: Mon,  9 Mar 2020 12:01:51 +0000
+Message-Id: <20200309120151.7675-1-chris@chris-wilson.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200306124155.1995-1-christian.koenig@amd.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,33 +36,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: mika.kuoppala@linux.intel.com, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGllcnJlLWVyaWMsIGp1c3QgYSBnZW50bGUgcGluZyBvbiB0aGlzPyBDb3VsZCBJIGdldCBhIHRl
-c3RlZC1ieT8KClJheSBjYW4geW91IGFjayBvciBldmVuIHJldmlldyB0aGlzPwoKVGhhbmtzLApD
-aHJpc3RpYW4uCgpBbSAwNi4wMy4yMCB1bSAxMzo0MSBzY2hyaWViIENocmlzdGlhbiBLw7ZuaWc6
-Cj4gVGhlIGFzc2VydCBzb21ldGltZXMgaW5jb3JyZWN0bHkgdHJpZ2dlcnMgd2hlbiBwaW5uZWQg
-Qk9zIGFyZSBkZXN0cm95ZWQuCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxj
-aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0
-bV9iby5jIHwgNSArKy0tLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBk
-ZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
-IGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+IGluZGV4IDI0NDVlMmJkNjI2Ny4uY2E1
-YThkMDFmZjFmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4gQEAgLTE1MSw4ICsxNTEsNiBAQCBz
-dGF0aWMgdm9pZCB0dG1fYm9fYWRkX21lbV90b19scnUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0
-ICpibywKPiAgIAlzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiA9IGJvLT5iZGV2Owo+ICAgCXN0
-cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuOwo+ICAgCj4gLQlkbWFfcmVzdl9hc3NlcnRf
-aGVsZChiby0+YmFzZS5yZXN2KTsKPiAtCj4gICAJaWYgKCFsaXN0X2VtcHR5KCZiby0+bHJ1KSkK
-PiAgIAkJcmV0dXJuOwo+ICAgCj4gQEAgLTYxMSw3ICs2MDksOCBAQCBzdGF0aWMgdm9pZCB0dG1f
-Ym9fcmVsZWFzZShzdHJ1Y3Qga3JlZiAqa3JlZikKPiAgIAkJICovCj4gICAJCWlmIChiby0+bWVt
-LnBsYWNlbWVudCAmIFRUTV9QTF9GTEFHX05PX0VWSUNUKSB7Cj4gICAJCQliby0+bWVtLnBsYWNl
-bWVudCAmPSB+VFRNX1BMX0ZMQUdfTk9fRVZJQ1Q7Cj4gLQkJCXR0bV9ib19tb3ZlX3RvX2xydV90
-YWlsKGJvLCBOVUxMKTsKPiArCQkJdHRtX2JvX2RlbF9mcm9tX2xydShibyk7Cj4gKwkJCXR0bV9i
-b19hZGRfbWVtX3RvX2xydShibywgJmJvLT5tZW0pOwo+ICAgCQl9Cj4gICAKPiAgIAkJa3JlZl9p
-bml0KCZiby0+a3JlZik7CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+[ 1715.899800] BUG: KCSAN: data-race in drm_gem_handle_create_tail / drm_gem_object_handle_put_unlocked
+[ 1715.899838]
+[ 1715.899861] write to 0xffff8881830f3604 of 4 bytes by task 7834 on cpu 1:
+[ 1715.899896]  drm_gem_handle_create_tail+0x62/0x250
+[ 1715.899927]  drm_gem_open_ioctl+0xc1/0x160
+[ 1715.899956]  drm_ioctl_kernel+0xe4/0x120
+[ 1715.899981]  drm_ioctl+0x297/0x4c7
+[ 1715.900003]  ksys_ioctl+0x89/0xb0
+[ 1715.900027]  __x64_sys_ioctl+0x42/0x60
+[ 1715.900052]  do_syscall_64+0x6e/0x2c0
+[ 1715.900079]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[ 1715.900100]
+[ 1715.900119] read to 0xffff8881830f3604 of 4 bytes by task 8137 on cpu 0:
+[ 1715.900149]  drm_gem_object_handle_put_unlocked+0x31/0x130
+[ 1715.900180]  drm_gem_object_release_handle+0x93/0xe0
+[ 1715.900208]  drm_gem_handle_delete+0x7b/0xe0
+[ 1715.900235]  drm_gem_close_ioctl+0x61/0x80
+[ 1715.900264]  drm_ioctl_kernel+0xe4/0x120
+[ 1715.900291]  drm_ioctl+0x297/0x4c7
+[ 1715.900316]  ksys_ioctl+0x89/0xb0
+[ 1715.900340]  __x64_sys_ioctl+0x42/0x60
+[ 1715.900363]  do_syscall_64+0x6e/0x2c0
+[ 1715.900388]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+---
+ drivers/gpu/drm/drm_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index a9e4a610445a..37627d06fb06 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -218,7 +218,7 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ 	struct drm_device *dev = obj->dev;
+ 	bool final = false;
+ 
+-	if (WARN_ON(obj->handle_count == 0))
++	if (WARN_ON(READ_ONCE(obj->handle_count) == 0))
+ 		return;
+ 
+ 	/*
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
