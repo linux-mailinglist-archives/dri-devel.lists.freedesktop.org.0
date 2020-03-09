@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B02017F1C3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A03E417F1C7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF7E26E837;
-	Tue, 10 Mar 2020 08:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CDF66E819;
+	Tue, 10 Mar 2020 08:20:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA4AE89CD5
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 12:53:40 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a132so9750497wme.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 05:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KH1VNE2zt1RlYZ8rl8KTG3SK8e66WbruwQJVkNVIE98=;
- b=c8WLYOiCVOo3TcVaTgnTw3VXuNGVreLagIf8x9lrWlUI/FaUFPULrCKTH3PRrBMCE0
- NYbkl6g/ahGSwyC083KTSyICT2cjG7uhyV7GpOs7coflZdu7ALapA431f3RimNbGUJJD
- 3sp3/TTIMpcr0IjS4IHRJ7eafDL5O34K+6HyfHmuVJpgUIAvHbiE/mwRGuFploheBc4s
- +D8sGjuke/hh0bXwvbAto2Vq1iMJhcZ3GVNADe87INxRAfzMwEAgq/3vp/kkmxJfMs6Y
- bvn93fJ/F7uDE+1oe/1LceBv/cJ+VBP+04+7CHy+emD3+7fYSH5sgMPsanG1/oEObc+v
- q6fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KH1VNE2zt1RlYZ8rl8KTG3SK8e66WbruwQJVkNVIE98=;
- b=TZm4Q4I1qcLxYv+8yYVwSsIxrAJdv696PLSbPXPiVg9wfWdYfOL6KT37RpeHl2urt/
- Ubrc7lRX+Oxq/TP4ZqpyBhfbXDPA/to81qf5wtp/Pj4Ts5+lsbxRTgAkG5VW0i2Ixt1g
- U8aftYiolVakWqRs+GJ5k6npJAvRIcSc350SCd9mXtGIVC7xSbr1LfhdSLE2cxwwOwWC
- O3u4rc5mt+x6SanVSD5uYc5kSK4RslvtevxIyvw6Y50N/QjD0mCC6faGFMVZ3FEmEv5s
- fDKUBgSR8Yf+/GzvLBi1pJKqOXEIV7S2PvvL0aKFuF89jjyS+8qFlsfNdfSNGgvCJswM
- MzxQ==
-X-Gm-Message-State: ANhLgQ2pgKXTIxpfxJ4oEbxG5LJW7jStN3pELDzJWpjx9IZD1dw+bhnC
- WPq8T4fiIVjPZ3DEclsOVMk=
-X-Google-Smtp-Source: ADFU+vtxz72bTI5i3Dyf4QaCSEg7XW/rjT5sFXoowpjaK8taEIwzAXYNCeUCdqFCnzrrMFztHVPfRw==
-X-Received: by 2002:a1c:9e85:: with SMTP id
- h127mr19292611wme.145.1583758419327; 
- Mon, 09 Mar 2020 05:53:39 -0700 (PDT)
-Received: from localhost.localdomain (178.43.54.24.ipv4.supernova.orange.pl.
- [178.43.54.24])
- by smtp.gmail.com with ESMTPSA id q1sm19653144wrx.19.2020.03.09.05.53.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 09 Mar 2020 05:53:38 -0700 (PDT)
-From: Dominik 'disconnect3d' Czarnota <dominik.b.czarnota@gmail.com>
-To: 
-Subject: [PATCH] Fix off by one in nvidia driver strncpy size arg
-Date: Mon,  9 Mar 2020 13:49:46 +0100
-Message-Id: <20200309124947.4502-1-dominik.b.czarnota@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5300::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CAE989E26
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 13:04:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583759039;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=N4kCbzLl0p2KhUN9IvoB6N4hWjyqEkU7njQAFmi2EJY=;
+ b=HhkD6CYbplTxNlOZ2S7QSIU/yKjcQ4wD9aCyUEGcnQhNtAweFh3O3xi88kxEr7QfQY
+ MgiKmLlejbDiZOh/SGga7IhWmz6WnCt1cMoTkn1IHDbKG8VuIf4BokiI2CSA1vlmIejN
+ DiyFxGd8mE1WASnW20yOlMw+ISKloGtoWqfTopvJ9qSAUOLp3iOGskDzcvXREO25G/C+
+ s4I41jv5n6hWIGQSBzkLfYQv8hrI4AVULbHZfLPO1rP4POZroozM6JF7cS/hJ4phv8Od
+ nWK0l8RlcAqmaizcmhv93xLLqTPihvVAHL+TiJwRdurC0bt4/3a6/vnBGe77sZuryZjI
+ rZJA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBp5hRw/qOxWRk4dCyhrHdH4Oo6ddLfFTaYHsPrZrAc1bul7yqA54k="
+X-RZG-CLASS-ID: mo00
+Received: from [IPv6:2001:16b8:2643:2800:f942:4962:80bb:709]
+ by smtp.strato.de (RZmta 46.2.0 AUTH) with ESMTPSA id y0a02cw29D3lh8k
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Mon, 9 Mar 2020 14:03:47 +0100 (CET)
+Subject: Re: [PATCH 24/33] drm/panel-simple: Fix dotclock for Ortustech
+ COM37H3M
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20200309130035.GV13686@intel.com>
+Date: Mon, 9 Mar 2020 14:03:57 +0100
+Message-Id: <EC094BF3-C112-4D6E-AC2B-D10327CE6C0A@goldelico.com>
+References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+ <20200302203452.17977-25-ville.syrjala@linux.intel.com>
+ <4320E187-FAA1-4033-A02C-7DA1F9B68A52@goldelico.com>
+ <20200303150336.GZ13686@intel.com>
+ <CDD5B6AE-6711-4B81-87F9-8DBD067E33BD@goldelico.com>
+ <C1BE9158-7D08-44D0-9699-4029806ABDE7@goldelico.com>
+ <20200309130035.GV13686@intel.com>
+To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,64 +61,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- dominik.b.czarnota@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: disconnect3d <dominik.b.czarnota@gmail.com>
 
-This patch fixes an off-by-one error in strncpy size argument in
-drivers/video/fbdev/nvidia/nvidia.c. The issue is that in:
+> Am 09.03.2020 um 14:00 schrieb Ville Syrj=E4l=E4 <ville.syrjala@linux.int=
+el.com>:
+> =
 
-        strncmp(this_opt, "noaccel", 6)
+> On Thu, Mar 05, 2020 at 08:41:43PM +0100, H. Nikolaus Schaller wrote:
+>> =
 
-the passed string literal: "noaccel" has 7 bytes (without the NULL byte)
-and the passed size argument is 6. As a result, the logic will also
-match/accept string "noacce" or "noacceX".
+>>> Am 03.03.2020 um 16:49 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
+>>> =
 
-This bug doesn't seem to have any security impact since its present in
-the driver's setup and just accepts slighty changed string to enable the
-`noaccel` flag.
+>>> Hi,
+>>> =
 
-Signed-off-by: disconnect3d <dominik.b.czarnota@gmail.com>
----
+>>>> Am 03.03.2020 um 16:03 schrieb Ville Syrj=E4l=E4 <ville.syrjala@linux.=
+intel.com>:
+>>>> =
 
-Notes:
-    The bug could also be fixed by changing the size argument to
-    `sizeof("string literal")-1` but I am not proposing this change as that
-    would have to be changed in other places.
-    
-    There are also more cases like this in kernel sources which I
-    reported/will report soon.
-    
-    This bug has been found by running a massive grep-like search using
-    Google's BigQuery on GitHub repositories data. I am also going to work
-    on a CodeQL/Semmle query to be able to find more sophisticated cases
-    like this that can't be found via grepping.
+>>>>> I haven't looked into the driver code, but would it be
+>>>>> possible to specify .clock =3D 0 (or leave it out) to
+>>>>> calculate it bottom up? This would avoid such inconsistencies.
+>>>> =
 
- drivers/video/fbdev/nvidia/nvidia.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>> I'm going to remove .vrefresh entirely from the struct.
+>>>> It'll just be calculated from the other timings as needed.
+>>> =
 
-diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-index c583c018304d..b77efeb33477 100644
---- a/drivers/video/fbdev/nvidia/nvidia.c
-+++ b/drivers/video/fbdev/nvidia/nvidia.c
-@@ -1470,7 +1470,7 @@ static int nvidiafb_setup(char *options)
- 			flatpanel = 1;
- 		} else if (!strncmp(this_opt, "hwcur", 5)) {
- 			hwcur = 1;
--		} else if (!strncmp(this_opt, "noaccel", 6)) {
-+		} else if (!strncmp(this_opt, "noaccel", 7)) {
- 			noaccel = 1;
- 		} else if (!strncmp(this_opt, "noscale", 7)) {
- 			noscale = 1;
--- 
-2.25.1
+>>> Ok!
+>>> =
+
+>>> Anyways we should fix the panel timings so that it is compatible to .vr=
+efresh =3D 60.
+>>> =
+
+>>> I'll give it a try and let you know.
+>> =
+
+>> Ok, here is a new parameter set within data sheet limits for both
+>> panel variants:
+>> =
+
+>> static const struct drm_display_mode ortustech_com37h3m_mode  =3D {
+>> 	.clock =3D 22153,
+>> 	.hdisplay =3D 480,
+>> 	.hsync_start =3D 480 + 40,
+>> 	.hsync_end =3D 480 + 40 + 10,
+>> 	.htotal =3D 480 + 40 + 10 + 40,
+>> 	.vdisplay =3D 640,
+>> 	.vsync_start =3D 640 + 4,
+>> 	.vsync_end =3D 640 + 4 + 2,
+>> 	.vtotal =3D 640 + 4 + 2 + 4,
+>> 	.vrefresh =3D 60,
+>> 	.flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+>> };
+>> =
+
+>> I have tested on our omap3 based board and didn't find an issue
+>> so you can insert into your patch.
+> =
+
+> Migth be better if you send that so we get proper attribution and
+> you can explain the change properly in the commit message.
+
+Ok, will do asap.
+
+BR and thanks,
+Nikolaus
 
 _______________________________________________
 dri-devel mailing list
