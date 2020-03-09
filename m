@@ -2,34 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146E317F1B1
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4ED17F1A3
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:19:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF0246E83B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E8E66E825;
 	Tue, 10 Mar 2020 08:19:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2238982A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 19:41:25 +0000 (UTC)
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 09 Mar 2020 12:35:21 -0700
-Received: from gurus-linux.qualcomm.com ([10.46.162.81])
- by ironmsg05-sd.qualcomm.com with ESMTP; 09 Mar 2020 12:35:21 -0700
-Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
- id 43E1B4973; Mon,  9 Mar 2020 12:35:21 -0700 (PDT)
-From: Guru Das Srinagesh <gurus@codeaurora.org>
-To: linux-pwm@vger.kernel.org
-Subject: [PATCH v7 12/13] backlight: pwm_bl: Use 64-bit division macros for
- period and duty cycle
-Date: Mon,  9 Mar 2020 12:35:15 -0700
-Message-Id: <bf6d8f6190d266f8992bd5451b12c9f3962fd18e.1583782035.git.gurus@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1583782035.git.gurus@codeaurora.org>
-References: <cover.1583782035.git.gurus@codeaurora.org>
-In-Reply-To: <cover.1583782035.git.gurus@codeaurora.org>
-References: <cover.1583782035.git.gurus@codeaurora.org>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A72E46E17E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 20:03:47 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 48bq0x3wtbz1r5rk;
+ Mon,  9 Mar 2020 21:03:45 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 48bq0x2CVYz1qqkP;
+ Mon,  9 Mar 2020 21:03:45 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id 7QrUrWL9FMjW; Mon,  9 Mar 2020 21:03:43 +0100 (CET)
+X-Auth-Info: hzRWpRxUI4tclANF6WjEvQz/wPaokBOtRFzOfVKeMrc=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Mon,  9 Mar 2020 21:03:43 +0100 (CET)
+Subject: Re: [PATCH] drm/imx: parallel-display: Adjust bus_flags and
+ bus_format handling
+To: Philipp Zabel <p.zabel@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20191114131751.26746-1-marex@denx.de>
+ <10f02dbe4e7b0966d279508b636e718e031e2e61.camel@pengutronix.de>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <86c5d55e-d113-7f5e-c8e2-9d025d0d481e@denx.de>
+Date: Mon, 9 Mar 2020 21:03:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <10f02dbe4e7b0966d279508b636e718e031e2e61.camel@pengutronix.de>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,73 +55,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guru Das Srinagesh <gurus@codeaurora.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-fbdev@vger.kernel.org,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- Lee Jones <lee.jones@linaro.org>
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because period and duty cycle are defined in the PWM framework structs
-as ints with units of nanoseconds, the maximum time duration that can be
-set is limited to ~2.147 seconds. Redefining them as u64 values will
-enable larger time durations to be set.
+On 3/9/20 11:50 AM, Philipp Zabel wrote:
+> Hi Marek,
 
-As a first step, prepare drivers to handle the switch to u64 period and
-duty_cycle by replacing division operations involving pwm period and duty cycle
-with their 64-bit equivalents as appropriate. The actual switch to u64 period
-and duty_cycle follows as a separate patch.
+Hi,
 
-Where the dividend is 64-bit but the divisor is 32-bit, use *_ULL
-macros:
-- DIV_ROUND_UP_ULL
-- DIV_ROUND_CLOSEST_ULL
-- div_u64
+> On Thu, 2019-11-14 at 14:17 +0100, Marek Vasut wrote:
+>> The bus_flags and bus_format handling logic does not seem to cover
+>> all potential usecases. Specifically, this seems to fail with an
+>> "edt,etm0700g0edh6" display attached to an 24bit display interface,
+>> with interface-pix-fmt = "rgb24" set in DT.
+> 
+> interface-pix-fmt is a legacy property that was never intended to be
+> used as an override for the panel bus format. The bus flags were
+> supposed to be set from the display-timings node, back when there was no
+> of-graph connected panel at all.
+> 
+> That being said, there isn't really a proper alternative that allows to
+> override the bus format requested by the panel driver in the device tree
+> to account for weird wiring. We could reuse the bus-width endpoint
+> property documented in [1], but that wouldn't completely specify how the
+> RGB components are to be mapped onto the parallel bus.
+> 
+> [1] Documentation/devicetree/bindings/media/video-interfaces.txt
+> 
+> I do wonder whether for your case it would be better to implement a
+> MEDIA_BUS_FMT_RGB666_1X24_CPADLO though, to leave the LSBs untouched
+> instead of risking to dump them into accidental PCB antennae.
+> 
+>> In this specific setup, the panel-simple.c driver entry for the display
+>> sets .bus_flags to non-zero value. However, as imxpd->bus_format is set
+>> from the DT property "interface-pix-fmt", imx_pd_encoder_atomic_check()
+>> will set imx_crtc_state->bus_flags = imxpd->bus_flags even though the
+>> imxpd->bus_flags is zero, while the di->bus_flags is correctly set by
+>> the panel-simple.c and non-zero.
+>>
+>> The result is incorrect flags being
+>> used for the display configuration and thus an image corruption.
+>> (Specifically, DRM_BUS_FLAG_PIXDATA_POSEDGE is not propagated and thus
+>> the ipuv3 clocks pixels on the wrong edge).
+>>
+>> This patch fixes the problem by overriding the imx_crtc_state->bus_format
+>> from the imxpd->bus_format only if the DT property "interface-pix-fmt" is
+>> present or if the DI provides no formats. Similarly for bus_flags, which
+>> are set from imxpd->bus_flags only if the DI provides no formats.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: David Airlie <airlied@linux.ie>
+>> Cc: Fabio Estevam <festevam@gmail.com>
+>> Cc: NXP Linux Team <linux-imx@nxp.com>
+>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+>> Cc: Shawn Guo <shawnguo@kernel.org>
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> To: dri-devel@lists.freedesktop.org
+>> ---
+>>  drivers/gpu/drm/imx/parallel-display.c | 13 ++++++++-----
+>>  1 file changed, 8 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
+>> index 35518e5de356..92f00b12c068 100644
+>> --- a/drivers/gpu/drm/imx/parallel-display.c
+>> +++ b/drivers/gpu/drm/imx/parallel-display.c
+>> @@ -113,13 +113,16 @@ static int imx_pd_encoder_atomic_check(struct drm_encoder *encoder,
+>>  	struct drm_display_info *di = &conn_state->connector->display_info;
+>>  	struct imx_parallel_display *imxpd = enc_to_imxpd(encoder);
+>>  
+>> -	if (!imxpd->bus_format && di->num_bus_formats) {
+>> -		imx_crtc_state->bus_flags = di->bus_flags;
+>> +	if (imxpd->bus_format || !di->num_bus_formats)
+> 
+> I see no reason to invert the logic here. Let's keep the common case
+> first.
+> 
+>> +		imx_crtc_state->bus_format = imxpd->bus_format;
+>> +	else
+>>  		imx_crtc_state->bus_format = di->bus_formats[0];
+>> -	} else {
+>> +
+>> +	if (di->num_bus_formats)
+>> +		imx_crtc_state->bus_flags = di->bus_flags;
+>> +	else
+>>  		imx_crtc_state->bus_flags = imxpd->bus_flags;
+>> -		imx_crtc_state->bus_format = imxpd->bus_format;
+>> -	}
+>> +
+>>  	imx_crtc_state->di_hsync_pin = 2;
+>>  	imx_crtc_state->di_vsync_pin = 3;
+> 
+> So while I don't like this being used at all, I think the patch improves
+> consistency, as imx_pd_connector_get_modes doesn't allow to override the
+> panel's modes with DT display-timings either.
 
-Where the divisor is 64-bit (dividend may be 32-bit or 64-bit), use
-DIV64_* macros:
-- DIV64_U64_ROUND_CLOSEST
-- div64_u64
-
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: linux-pwm@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-
-Signed-off-by: Guru Das Srinagesh <gurus@codeaurora.org>
----
- drivers/video/backlight/pwm_bl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index efb4efc..3e5dbcf 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -625,7 +625,8 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 		pb->scale = data->max_brightness;
- 	}
- 
--	pb->lth_brightness = data->lth_brightness * (state.period / pb->scale);
-+	pb->lth_brightness = data->lth_brightness * (div_u64(state.period,
-+				pb->scale));
- 
- 	props.type = BACKLIGHT_RAW;
- 	props.max_brightness = data->max_brightness;
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+So when this patch was posted half a year ago, it was needed. I rebased
+on current next and this patch is no longer needed as some form of it
+got in as part of other patches. This functionality is still broken in
+e.g. 5.4 though.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
