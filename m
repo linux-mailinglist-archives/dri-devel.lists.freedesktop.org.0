@@ -2,52 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E2F17EA10
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 21:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E69917EA16
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 21:33:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8AA76E575;
-	Mon,  9 Mar 2020 20:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92E126E584;
+	Mon,  9 Mar 2020 20:33:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB6D6E575
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 20:32:45 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id f21so10946625otp.12
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 13:32:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=TPaozqX6hcrQl8MvSCKkCToz6ciR60p3BFFfuKRb91M=;
- b=LY/qydvUkbZXZXQ51IIHeH8Kr2woqUhglL5koRoXyk2o41RtvCA5jX2d7NGhl9ETuz
- iN0jtmsp1qzt640FdgEYB6FvAYARp8bOTLzgTNt2BdYSILEwOa0jEnFCgbBBKjQoyr3T
- QAhnG3KrNfsOkKZB+P8YjsOZo9HD4Q6a/eb176NcckxplTPGNyB1BwysRu2kGeNK2Hzy
- 5mxJeIOUr8XbstGXmiVi7PjJiYoYr31FiMtTnbKQvcKBRk6DhPSAbi8jb6mqRDODMHOM
- 6kpMjAl2zcB7JlWlatWFp2/70nrVNRyub6xj852+mJfmjJDYuTC07EnvWrLVERlFAoZ2
- mUOw==
-X-Gm-Message-State: ANhLgQ1vulV/WXp1cW6p+4XZPAC/GIqIyPuMMFB1tyvZrLyV/rY2Q+YH
- bZMDaG5vpRjLvoSY0f/itWY4Vl8=
-X-Google-Smtp-Source: ADFU+vsR/WR3wizvIH1E4Drwx3TUV8dEzHnollfDTSSj6qrdLWlT3UkvH/z3CQ6DeACwVFzb8TLSTQ==
-X-Received: by 2002:a9d:6654:: with SMTP id q20mr1223294otm.180.1583785964227; 
- Mon, 09 Mar 2020 13:32:44 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id m15sm15202144otl.20.2020.03.09.13.32.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 13:32:43 -0700 (PDT)
-Received: (nullmailer pid 15518 invoked by uid 1000);
- Mon, 09 Mar 2020 20:32:42 -0000
-Date: Mon, 9 Mar 2020 15:32:42 -0500
-From: Rob Herring <robh@kernel.org>
-To: Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [RESEND PATCH v7] dt-bindings: display: Add idk-2121wr binding
-Message-ID: <20200309203242.GA14486@bogus>
-References: <20200306152031.14212-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3C7D6E57A;
+ Mon,  9 Mar 2020 20:33:38 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2020 13:33:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,534,1574150400"; d="scan'208";a="245457389"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by orsmga006.jf.intel.com with ESMTP; 09 Mar 2020 13:33:37 -0700
+Date: Mon, 9 Mar 2020 13:34:55 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v4 1/2] drm/edid: Name the detailed monitor
+ range flags
+Message-ID: <20200309203454.GA12741@intel.com>
+References: <20200306014220.20029-1-manasi.d.navare@intel.com>
+ <87mu8tojvt.fsf@intel.com> <20200306184048.GA25133@intel.com>
+ <87h7yylyc7.fsf@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200306152031.14212-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <87h7yylyc7.fsf@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,76 +48,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Chris.Paterson2@renesas.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org,
+ Kazlauskas Nicholas <Nicholas.Kazlauskas@amd.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  6 Mar 2020 15:20:31 +0000, Lad Prabhakar wrote:
-> From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> 
-> Add binding for the idk-2121wr LVDS panel from Advantech.
-> 
-> Some panel-specific documentation can be found here:
-> https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> Apologies for flooding in I missed to add the ML email-ids for the earlier
-> version so resending it.
-> 
-> Hi All,
-> 
-> This patch is part of series [1] ("Add dual-LVDS panel support to EK874),
-> all the patches have been accepted from it except this one. I have fixed
-> Rob's comments in this version of the patch.
-> 
-> [1] https://patchwork.kernel.org/cover/11297589/
-> 
-> v6->7
->  * Added reference to lvds.yaml
->  * Changed maintainer to myself
->  * Switched to dual license
->  * Dropped required properties except for ports as rest are already listed
->    in lvds.panel
->  * Dropped Reviewed-by tag of Laurent, due to the changes made it might not
->    be valid.
-> 
-> v5->v6:
->  * No change
-> 
-> v4->v5:
-> * No change
-> 
-> v3->v4:
-> * Absorbed patch "dt-bindings: display: Add bindings for LVDS
->   bus-timings"
-> * Big restructuring after Rob's and Laurent's comments
-> 
-> v2->v3:
-> * New patch
-> 
->  .../display/panel/advantech,idk-2121wr.yaml        | 120 +++++++++++++++++++++
->  1 file changed, 120 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> 
+On Mon, Mar 09, 2020 at 10:35:52AM +0200, Jani Nikula wrote:
+> On Fri, 06 Mar 2020, Manasi Navare <manasi.d.navare@intel.com> wrote:
+> > On Fri, Mar 06, 2020 at 12:30:46PM +0200, Jani Nikula wrote:
+> >> On Thu, 05 Mar 2020, Manasi Navare <manasi.d.navare@intel.com> wrote:
+> >> > This patch adds defines for the detailed monitor
+> >> > range flags as per the EDID specification.
+> >> >
+> >> > Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> >> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> >> > Cc: Harry Wentland <harry.wentland@amd.com>
+> >> > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
+> >> > Cc: Kazlauskas Nicholas <Nicholas.Kazlauskas@amd.com>
+> >> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> >> > ---
+> >> >  include/drm/drm_edid.h | 5 +++++
+> >> >  1 file changed, 5 insertions(+)
+> >> >
+> >> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> >> > index f0b03d401c27..f89c97623845 100644
+> >> > --- a/include/drm/drm_edid.h
+> >> > +++ b/include/drm/drm_edid.h
+> >> > @@ -91,6 +91,11 @@ struct detailed_data_string {
+> >> >  	u8 str[13];
+> >> >  } __attribute__((packed));
+> >> >  =
 
-My bot found errors running 'make dt_binding_check' on your patch:
+> >> > +#define EDID_DEFAULT_GTF_SUPPORT_FLAG   0x00
+> >> > +#define EDID_RANGE_LIMITS_ONLY_FLAG     0x01
+> >> > +#define EDID_SECONDARY_GTF_SUPPORT_FLAG 0x02
+> >> > +#define EDID_CVT_SUPPORT_FLAG           0x04
+> >> =
 
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
+> >> Bikeshed for consideration:
+> >> =
 
-See https://patchwork.ozlabs.org/patch/1250384
-Please check and re-submit.
+> >> drm_edid.h has some macros with DRM_EDID_ prefix, some with EDID_
+> >> prefix, and then some with no prefix at all really. Should we start
+> >> consolidating on something when we add more?
+> >>
+> >
+> > Yes Jani I did notice the same thing and didnt know which convention
+> > to continue to follow but I noticed that majority of the defines were
+> > just EDID_ so just used that for these new defines.
+> =
+
+> Ah, look again, DRM_EDID_ trumps EDID_ 51 to 15.
+> =
+
+> > Is there a particular way you wish to consolidate this and use a specif=
+ic
+> > convention for #defines?
+> >
+> > I can atleast change these new defines based on a preferred convention =
+and then
+> > separate patches to change the rest in .h and corresponding usages in .=
+c files.
+> =
+
+> I'd suggest DRM_EDID_ for new ones, perhaps eventually rename old ones.
+
+Okay cool, I will rename this to be DRM_EDID_ and then work on renaming oth=
+ers later
+Thanks for pointing this out.
+
+Regards
+Manasi
+
+> =
+
+> BR,
+> Jani.
+> =
+
+> =
+
+> >
+> > Regards
+> > Manasi
+> >  =
+
+> >> BR,
+> >> Jani.
+> >> =
+
+> >> =
+
+> >> > +
+> >> >  struct detailed_data_monitor_range {
+> >> >  	u8 min_vfreq;
+> >> >  	u8 max_vfreq;
+> >> =
+
+> >> -- =
+
+> >> Jani Nikula, Intel Open Source Graphics Center
+> =
+
+> -- =
+
+> Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
