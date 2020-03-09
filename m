@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CCB17EAB4
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 22:04:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 450DF17EAB6
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Mar 2020 22:05:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE196E49D;
-	Mon,  9 Mar 2020 21:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAF66E179;
+	Mon,  9 Mar 2020 21:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1C86E49D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 21:04:19 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id a25so9236855wrd.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 14:04:19 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8D856E4BA
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 21:04:58 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 6so1046916wmi.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 14:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FsRBSfdE1T1XkabqS4jssoseR6/tPbgLzifbVihUd4s=;
- b=ZgX6EII84RmyCkN3dglDEucICaphO9XwhwVQuaP7HVZeOZ6YWrwgBw2JEHwiGvWd5z
- FM5vYp/5CUgsPWT6WxNu3M50+zkQbVsAjzcHFluVqTfvUhp70MYcvBCuJwyrLMrKKIV/
- RGCbVN14H/1SvI4Z7tQZtW0RKGmKeakHF24G+qskLBlB5GspV/3MZy/DA2IMr/LqWl4u
- 6i6AzNhbQlqokPdO4PNvDLWxLLkKLgrfmF6pWthMdvMfEnRweqA1UPy9hNSKHYTDcow6
- jWb7LiVeR+I+g3JxvDWtcBxSAB3uHBLZeThXRU02TatRdzf6H+iiZJZi44FK5d+/qdpM
- ypaA==
+ :cc; bh=PPBql3SwnAWXA8bzGM5bAkSVwPmTU0okRlw09OOSTfQ=;
+ b=MmExyP/mYk+2OXsRI4sWEDNBuTe0XrTKYZ4cHF/vlRg4JbJykPReC4Kb8vyDHC5YaW
+ jvA6Ubv8k4CyajsL7sGjqoU92pUiDmr73cmGD3IBOmLh+JHYmZlOyLjPdlaId2pJQjPq
+ YAop7y4iuCxpaqEMf38Y4pgoXaudsMw+2MBH02I78Xv8VXSc6HIa9kCQ9j9ZLae+ceAq
+ mpyKlME+5ttvjgs3nsQPhT3zZgDVYTKZ1SeqoE4x0n9QbndliSZ9XOV8ncRujKQlWYdv
+ iJllEj7PV/ZQ55CvStyXeES9oUusHJl0fWcNHg/ML4EQNKcgiSzgf5mnBixpdZiThRSL
+ 3Csw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FsRBSfdE1T1XkabqS4jssoseR6/tPbgLzifbVihUd4s=;
- b=WKa4jsdC+tfiYX3KKPpx4M+Xkru89Kd0cvMd5jKBmoJImJWQiZc8VXW5XeHBgi6zzh
- t5LJu788fIUqL9gRhpraQ66AYqJv/KxSP691yQhUBYxUJGqTQ9M3qQSKBandyrjVTj3Z
- oT+rU9f9/9sfckkr6eqm+wPBhhShWBC5Deu4ETrGPJEgjUSB56tycmi5eR8eEuhUAiO9
- eDHx8I3p/g2ZErzrDik5SDgj6BB9OfTD7+UMgU/334aERsrT/7FK7DVq0eMKrqrP435U
- ys8H9W515vYK5y8BLU0/Mslyo/u2TKV7GRbATMXI3yv/VAe8T+TAtjEYQ+8aAjsOCCUq
- s25g==
-X-Gm-Message-State: ANhLgQ1SyFoKgPBYRWuo9dv5KOMFXo5hHjKorQD1a5SsQJHugA+6V52M
- 2+s8bJ31yIbsSKJEa34awFusKIIoH//z3Z0Aq7s=
-X-Google-Smtp-Source: ADFU+vvaVP3DmMgzVl/RSGMO9/7IVNUa3ayUwouhdphjHeiOOcBXoS6Zqjaw5cOAztoAagck3sdi/WeIAMOjZA+JoCY=
-X-Received: by 2002:a5d:6688:: with SMTP id l8mr22417777wru.362.1583787858603; 
- Mon, 09 Mar 2020 14:04:18 -0700 (PDT)
+ bh=PPBql3SwnAWXA8bzGM5bAkSVwPmTU0okRlw09OOSTfQ=;
+ b=TCwE3fiU8urq9aaGqwL8E4bXmNMzrOz2gCmEqJRYtHyFXW4nVHRInkRMl0vQc/+Miw
+ fOu/lAGvvFa/B8HjyAoIP1RyhexvXFzs88EGsTEQ8hGX+Xdf7cqy8qNaE6GWkZ83dlhD
+ douwIHO1IMDf1KchDQhWf6zn6pAg/iKeeg6s6LlEYjl4IoLBBXSTQkScBaBKLar0H0fs
+ yNnTDQW7JG9jd5t5tDHxdHSkfjfMjd6IKd65B6I7otQ/LJVgFTAQoa/x161izDz/oAkQ
+ 2RCtCRYupTLDO7wf8xnqb/DTvFP5tPQetDEgrGMAc3SZoH6zsC2KdbI2zRa3Xc7LvvSF
+ eqJg==
+X-Gm-Message-State: ANhLgQ1gfR53e1dtoL6zSkGJgJh8Nrkj1EkAsAHPWYY38NZ75/jBYGmS
+ A1qPhEuW3atls22iSNioNmxsCEp/Kx3WkeE8meQ=
+X-Google-Smtp-Source: ADFU+vt867l6+2f6xQRs6lHCyVXlKu6ZX8u2Fkbn27zJpglt9LXymm94ueIRIayE7EahP879gdzct1u7kXjVYQAbarQ=
+X-Received: by 2002:a1c:f21a:: with SMTP id s26mr1067033wmc.39.1583787897357; 
+ Mon, 09 Mar 2020 14:04:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200306234923.547873-1-lyude@redhat.com>
-In-Reply-To: <20200306234923.547873-1-lyude@redhat.com>
+References: <20200306234623.547525-1-lyude@redhat.com>
+ <20200306234623.547525-2-lyude@redhat.com>
+In-Reply-To: <20200306234623.547525-2-lyude@redhat.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 9 Mar 2020 17:04:07 -0400
-Message-ID: <CADnq5_P_qA8eKoGxeLiGBQXyBT3eL61ghLt3F6ee0eRpbJzOeA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm/dp_mst: Fix link address probing regressions
+Date: Mon, 9 Mar 2020 17:04:46 -0400
+Message-ID: <CADnq5_PfLg=Pvcb6SQtaEphxfj9G=Ad2t+oAFBK03rPQTn3vdg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] drm/dp_mst: Rename
+ drm_dp_mst_is_dp_mst_end_device() to be less redundant
 To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,39 +62,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Gaignard <benjamin.gaignard@st.com>,
- David Airlie <airlied@linux.ie>, David Francis <david.francis@amd.com>,
+Cc: Sean Paul <seanpaul@google.com>, David Airlie <airlied@linux.ie>,
  LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Mikita Lipski <mikita.lipski@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 6, 2020 at 6:49 PM Lyude Paul <lyude@redhat.com> wrote:
+On Fri, Mar 6, 2020 at 6:46 PM Lyude Paul <lyude@redhat.com> wrote:
 >
-> While fixing some regressions caused by introducing bandwidth checking
-> into the DP MST atomic helpers, I realized there was another much more
-> subtle regression that got introduced by a seemingly harmless patch to
-> fix unused variable errors while compiling with W=1 (mentioned in patch
-> 2). Basically, this regression makes it so sometimes link address
-> appears to "hang". This patch series fixes it.
+> It's already prefixed by dp_mst, so we don't really need to repeat
+> ourselves here. One of the changes I should have picked up originally
+> when reviewing MST DSC support.
+>
+> There should be no functional changes here
+>
+> Cc: Mikita Lipski <mikita.lipski@amd.com>
+> Cc: Sean Paul <seanpaul@google.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 
-Series is:
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> Lyude Paul (2):
->   drm/dp_mst: Make drm_dp_mst_dpcd_write() consistent with
->     drm_dp_dpcd_write()
->   drm/dp_mst: Fix drm_dp_check_mstb_guid() return code
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 6c62ad8f4414..6714d8a5c558 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -1937,7 +1937,7 @@ static u8 drm_dp_calculate_rad(struct drm_dp_mst_port *port,
+>         return parent_lct + 1;
+>  }
 >
->  drivers/gpu/drm/drm_dp_mst_topology.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
+> -static bool drm_dp_mst_is_dp_mst_end_device(u8 pdt, bool mcs)
+> +static bool drm_dp_mst_is_end_device(u8 pdt, bool mcs)
+>  {
+>         switch (pdt) {
+>         case DP_PEER_DEVICE_DP_LEGACY_CONV:
+> @@ -1967,13 +1967,13 @@ drm_dp_port_set_pdt(struct drm_dp_mst_port *port, u8 new_pdt,
 >
+>         /* Teardown the old pdt, if there is one */
+>         if (port->pdt != DP_PEER_DEVICE_NONE) {
+> -               if (drm_dp_mst_is_dp_mst_end_device(port->pdt, port->mcs)) {
+> +               if (drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+>                         /*
+>                          * If the new PDT would also have an i2c bus,
+>                          * don't bother with reregistering it
+>                          */
+>                         if (new_pdt != DP_PEER_DEVICE_NONE &&
+> -                           drm_dp_mst_is_dp_mst_end_device(new_pdt, new_mcs)) {
+> +                           drm_dp_mst_is_end_device(new_pdt, new_mcs)) {
+>                                 port->pdt = new_pdt;
+>                                 port->mcs = new_mcs;
+>                                 return 0;
+> @@ -1993,7 +1993,7 @@ drm_dp_port_set_pdt(struct drm_dp_mst_port *port, u8 new_pdt,
+>         port->mcs = new_mcs;
+>
+>         if (port->pdt != DP_PEER_DEVICE_NONE) {
+> -               if (drm_dp_mst_is_dp_mst_end_device(port->pdt, port->mcs)) {
+> +               if (drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+>                         /* add i2c over sideband */
+>                         ret = drm_dp_mst_register_i2c_bus(&port->aux);
+>                 } else {
+> @@ -2169,7 +2169,7 @@ drm_dp_mst_port_add_connector(struct drm_dp_mst_branch *mstb,
+>         }
+>
+>         if (port->pdt != DP_PEER_DEVICE_NONE &&
+> -           drm_dp_mst_is_dp_mst_end_device(port->pdt, port->mcs)) {
+> +           drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+>                 port->cached_edid = drm_get_edid(port->connector,
+>                                                  &port->aux.ddc);
+>                 drm_connector_set_tile_property(port->connector);
 > --
 > 2.24.1
 >
