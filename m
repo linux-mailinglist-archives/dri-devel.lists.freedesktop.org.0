@@ -1,41 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F82017F1B7
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8455B17F198
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:19:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E0E76E847;
-	Tue, 10 Mar 2020 08:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7BCD6E811;
+	Tue, 10 Mar 2020 08:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3AC6E0E9
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 20:18:38 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 48bqL40Fv6z1rqr6;
- Mon,  9 Mar 2020 21:18:36 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 48bqL36L5cz1qqkK;
- Mon,  9 Mar 2020 21:18:35 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id v1j6b16FhZMq; Mon,  9 Mar 2020 21:18:34 +0100 (CET)
-X-Auth-Info: pxE9hLQTDSKVUdsKBhgO8Qz9VASPqG+2R5NrZAxTfik=
-Received: from desktop.lan (ip-86-49-35-8.net.upcbroadband.cz [86.49.35.8])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Mon,  9 Mar 2020 21:18:34 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V2] drm/imx: parallel-display: Adjust bus_flags handling
-Date: Mon,  9 Mar 2020 21:18:33 +0100
-Message-Id: <20200309201833.41648-1-marex@denx.de>
-X-Mailer: git-send-email 2.25.0
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41C8C6E59B
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2020 21:23:51 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id j16so11147755otl.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 14:23:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=60mtLRBTUGDAGEj9S+E+BacY2yBoes/RyfYQD2sha5w=;
+ b=uNpqJ4H5j7CHmuE/rB7F61LMk0uUS39z4LbdTUguTFFIO6LT4Z3RjkDmMMeYpdJMd4
+ kDETIuUwWnOOHvM3AV5d2iwDizGvqCsKSC1GiZuga5vJmL0JGp2K7bhg+wTuCNKKap4C
+ xk+yfeYnfHRnNaXX/tL1LGfMvI+tGcRcgMgI7HVZs7ILHSrs3xg0iYdYtm2Gt5cPDd06
+ txhcFOOWUXb0OlRqrmFWPD5zLZ4AUpXfo9A8bJOqb0X7Ny4FeIcjxeYHvLU1b03tJ9ai
+ ezMqRXnTjHPToungkje0TMOsYDWl9CE5kVY/utn9sJEA+tB5dajOW3Y605MotvK38q74
+ ji2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=60mtLRBTUGDAGEj9S+E+BacY2yBoes/RyfYQD2sha5w=;
+ b=uV5UMnL+YgvbH0gKOUvbTSqroyS2mTzmUArSAWROMlrDteskF/JtpEZjJ/VR7A0Ugb
+ 7sn+Yb+TvDJfbya3LYIfgH8eFNr/HywadwVZmcq900iR2g9Aqr1FXJbTpgAbUxiHKHpl
+ ti3eZIigeSVUWLd7RG/obljfIAL3E3iZQkdIBDDFHSHuwU9AxvMEq4ycFbj3b1V0caXp
+ JAzFUMu7DvfrRXFYdNiTB+oi7lW5HwF8nwdTJTVLjQdgs7CDWtOXYRhE86ZgiR7GZd4J
+ CCsL7Ap1p28RaIpW65F7IrQUuPzA/f0Rk44AymdEWM/X404aYpoBtSKEALLDsHviC/dC
+ yZqA==
+X-Gm-Message-State: ANhLgQ18cOD8H7vCwInyxvCy99khFdbDRvcaqYUPd33g3zVYV/g0csQ+
+ gbaCyvogHec7pCIBLwBp7O/y6sNIA3XOrQPawrE=
+X-Google-Smtp-Source: ADFU+vsnq8F5RsqgkD+u2jIs+ixTXB5m/pE4+STbQz3EG0F3FtB21RUH829nSz2B+EjxGxc4zpuwK5RVKPeHRfqY318=
+X-Received: by 2002:a9d:64cd:: with SMTP id n13mr14626799otl.274.1583789030439; 
+ Mon, 09 Mar 2020 14:23:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200306152031.14212-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200309203242.GA14486@bogus>
+In-Reply-To: <20200309203242.GA14486@bogus>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 9 Mar 2020 21:23:24 +0000
+Message-ID: <CA+V-a8uAhrkRPUaQOOAUgeKFnwH7zZOF-raQiYvtc9edUeHJ7g@mail.gmail.com>
+Subject: Re: [RESEND PATCH v7] dt-bindings: display: Add idk-2121wr binding
+To: Rob Herring <robh@kernel.org>
 X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,55 +62,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- NXP Linux Team <linux-imx@nxp.com>, linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Chris Paterson <Chris.Paterson2@renesas.com>,
+ David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bus_flags handling logic does not seem to cover all potential
-usecases. Specifically, this seems to fail with an "edt,etm0700g0edh6"
-display attached to an 24bit display interface, with interface-pix-fmt
-= "rgb24" set in DT.
+Hi Rob,
 
-This patch fixes the problem by overriding the imx_crtc_state->bus_flags
-from the imxpd->bus_flags only if the DT property "interface-pix-fmt" is
-present or if the DI provides no formats.
+On Mon, Mar 9, 2020 at 8:32 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Fri,  6 Mar 2020 15:20:31 +0000, Lad Prabhakar wrote:
+> > From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> >
+> > Add binding for the idk-2121wr LVDS panel from Advantech.
+> >
+> > Some panel-specific documentation can be found here:
+> > https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
+> >
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > Apologies for flooding in I missed to add the ML email-ids for the earlier
+> > version so resending it.
+> >
+> > Hi All,
+> >
+> > This patch is part of series [1] ("Add dual-LVDS panel support to EK874),
+> > all the patches have been accepted from it except this one. I have fixed
+> > Rob's comments in this version of the patch.
+> >
+> > [1] https://patchwork.kernel.org/cover/11297589/
+> >
+> > v6->7
+> >  * Added reference to lvds.yaml
+> >  * Changed maintainer to myself
+> >  * Switched to dual license
+> >  * Dropped required properties except for ports as rest are already listed
+> >    in lvds.panel
+> >  * Dropped Reviewed-by tag of Laurent, due to the changes made it might not
+> >    be valid.
+> >
+> > v5->v6:
+> >  * No change
+> >
+> > v4->v5:
+> > * No change
+> >
+> > v3->v4:
+> > * Absorbed patch "dt-bindings: display: Add bindings for LVDS
+> >   bus-timings"
+> > * Big restructuring after Rob's and Laurent's comments
+> >
+> > v2->v3:
+> > * New patch
+> >
+> >  .../display/panel/advantech,idk-2121wr.yaml        | 120 +++++++++++++++++++++
+> >  1 file changed, 120 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+> >
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
+>
+This panel is a dual channel LVDS, as a result the root port is called as
+ports instead of port and the child node port@0 and port@1 are used for
+even and odd pixels, hence binding has required property as ports instead
+of port.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org
-To: dri-devel@lists.freedesktop.org
----
-V2: Rebase on next, update description
----
- drivers/gpu/drm/imx/parallel-display.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
+--Prabhakar
 
-diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index 08fafa4bf8c2..e411179cba1f 100644
---- a/drivers/gpu/drm/imx/parallel-display.c
-+++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -216,7 +216,7 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
- 
- 	if (next_bridge_state)
- 		bus_flags = next_bridge_state->input_bus_cfg.flags;
--	else if (!imxpd->bus_format && di->num_bus_formats)
-+	else if (di->num_bus_formats)
- 		bus_flags = di->bus_flags;
- 	else
- 		bus_flags = imxpd->bus_flags;
--- 
-2.25.0
-
+> See https://patchwork.ozlabs.org/patch/1250384
+> Please check and re-submit.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
