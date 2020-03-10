@@ -1,58 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC3E17F1BD
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0B717F186
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:13:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 535926E824;
-	Tue, 10 Mar 2020 08:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5566E156;
+	Tue, 10 Mar 2020 08:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ssl.serverraum.org (ssl.serverraum.org
- [IPv6:2a01:4f8:151:8464::1:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74DFB6E821
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 08:10:37 +0000 (UTC)
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ssl.serverraum.org (Postfix) with ESMTPSA id D55B52250D;
- Tue, 10 Mar 2020 09:10:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2016061301; t=1583827836;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h5zjFnWSZZGx36PVprkBxRg0bKg0yM9IvC4/63Yogcs=;
- b=Y4AI3mw/kxeIm7NYuuLPFJP5WA+KIpr8S8hPZfBvwYps8IZwbqetSECzCQf27vCUB23K9r
- hTO1y+nZMwYcsT6gBoLoqCCk/Gpc57S/zAbJohnYzKrRLo0QyoYbxUGis/bn15i6PQy/7j
- qg4BexoCiRSRsMB+p8GoXkWFywQbK30=
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3343E6E156
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 08:13:35 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AB40E29589A;
+ Tue, 10 Mar 2020 08:13:33 +0000 (GMT)
+Date: Tue, 10 Mar 2020 09:13:29 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/imx: parallel-display: Adjust bus_flags and
+ bus_format handling
+Message-ID: <20200310091329.099245fc@collabora.com>
+In-Reply-To: <20200309204805.GA875@pendragon.ideasonboard.com>
+References: <20191114131751.26746-1-marex@denx.de>
+ <10f02dbe4e7b0966d279508b636e718e031e2e61.camel@pengutronix.de>
+ <20200309192306.GA20358@pendragon.ideasonboard.com>
+ <20200309205559.3c860aae@collabora.com>
+ <20200309195926.GC4916@pendragon.ideasonboard.com>
+ <20200309212218.11ac77ae@collabora.com>
+ <20200309203211.GE4916@pendragon.ideasonboard.com>
+ <20200309214244.4d4671d9@collabora.com>
+ <20200309204805.GA875@pendragon.ideasonboard.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Date: Tue, 10 Mar 2020 09:10:35 +0100
-From: Michael Walle <michael@walle.cc>
-To: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] spi: spi-fsl-dspi: fix DMA mapping
-In-Reply-To: <4beb5200a76f2d817be7276444543de4@walle.cc>
-References: <20200310073313.21277-1-michael@walle.cc>
- <4beb5200a76f2d817be7276444543de4@walle.cc>
-Message-ID: <ea6ffa30ddc2459d07935e5e61a41172@walle.cc>
-X-Sender: michael@walle.cc
-User-Agent: Roundcube Webmail/1.3.10
-X-Spamd-Bar: /
-X-Spam-Status: No, score=-0.10
-X-Rspamd-Server: web
-X-Spam-Score: -0.10
-X-Rspamd-Queue-Id: D55B52250D
-X-Spamd-Result: default: False [-0.10 / 15.00]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.10)[text/plain]; DKIM_SIGNED(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[8]; NEURAL_HAM(-0.00)[-0.597];
- RCVD_COUNT_ZERO(0.00)[0]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[]
-X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,37 +50,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, Mark Brown <broonie@kernel.org>
+Cc: Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2020-03-10 08:40, schrieb Michael Walle:
-> Am 2020-03-10 08:33, schrieb Michael Walle:
->> Use the correct device to request the DMA mapping. Otherwise the IOMMU
->> doesn't get the mapping and it will generate a page fault.
->> 
->> The error messages look like:
->> [    3.008452] arm-smmu 5000000.iommu: Unhandled context fault:
->> fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
->> [    3.020123] arm-smmu 5000000.iommu: Unhandled context fault:
->> fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
->> 
->> This was tested on a custom board with a LS1028A SoC.
+On Mon, 9 Mar 2020 22:48:05 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+
+> Hi Boris,
 > 
-> Oh fu.. please disregard this patch. DMA mapping still isn't working.
-> Somehow I missed that the transfer mode was turned back to its default
-> XSPI mode.
+> On Mon, Mar 09, 2020 at 09:42:44PM +0100, Boris Brezillon wrote:
+> > On Mon, 9 Mar 2020 22:32:11 +0200 Laurent Pinchart wrote:  
+> > > On Mon, Mar 09, 2020 at 09:22:18PM +0100, Boris Brezillon wrote:  
+> > >> On Mon, 9 Mar 2020 21:59:26 +0200 Laurent Pinchart wrote:    
+> > >>> On Mon, Mar 09, 2020 at 08:55:59PM +0100, Boris Brezillon wrote:    
+> > >>>> On Mon, 9 Mar 2020 21:23:06 +0200 Laurent Pinchart wrote:      
+> > >>>>> On Mon, Mar 09, 2020 at 11:50:59AM +0100, Philipp Zabel wrote:      
+> > >>>>>> On Thu, 2019-11-14 at 14:17 +0100, Marek Vasut wrote:        
+> > >>>>>>> The bus_flags and bus_format handling logic does not seem to cover
+> > >>>>>>> all potential usecases. Specifically, this seems to fail with an
+> > >>>>>>> "edt,etm0700g0edh6" display attached to an 24bit display interface,
+> > >>>>>>> with interface-pix-fmt = "rgb24" set in DT.        
+> > >>>>>> 
+> > >>>>>> interface-pix-fmt is a legacy property that was never intended to be
+> > >>>>>> used as an override for the panel bus format. The bus flags were
+> > >>>>>> supposed to be set from the display-timings node, back when there was no
+> > >>>>>> of-graph connected panel at all.
+> > >>>>>> 
+> > >>>>>> That being said, there isn't really a proper alternative that allows to
+> > >>>>>> override the bus format requested by the panel driver in the device tree
+> > >>>>>> to account for weird wiring. We could reuse the bus-width endpoint
+> > >>>>>> property documented in [1], but that wouldn't completely specify how the
+> > >>>>>> RGB components are to be mapped onto the parallel bus.
+> > >>>>>> 
+> > >>>>>> [1] Documentation/devicetree/bindings/media/video-interfaces.txt        
+> > >>>>> 
+> > >>>>> Things are funny sometimes, I've run into the exact same problem with a
+> > >>>>> different display controller today.
+> > >>>>> 
+> > >>>>> Shouldn't we use the data-shift property from [1] to specify this ?
+> > >>>>> Combined with Boris' bus format negotiation for bridges, I think we
+> > >>>>> would have all the components in place to solve this problem properly.      
+> > >>>> 
+> > >>>> I wonder if we shouldn't take more complex pin mappings into account
+> > >>>> now and go directly for a data-mapping property describing those
+> > >>>> mappings using a string. This way we'd have a single property that
+> > >>>> would work for both fully parallel buses (DPI/RGB) and serial (or
+> > >>>> partially parallel) ones (LVDS).      
+> > >>> 
+> > >>> I'm all for standardization, but I'm not sure data-mapping is the right
+> > >>> property, at least with its current definition. It's really meant to
+> > >>> describe how individual bits are mapped to the LVDS time slots. I'm fine
+> > >>> extending it, but we need to define it clearly. How would you envision
+> > >>> it being used in this case ?    
+> > >> 
+> > >> Well, clearly the data-width/data-shift approach does not solve all
+> > >> problems: what do you do if the source R pins are connected to the sink
+> > >> B pins? Well, the first answer would probably be 'have a serious
+> > >> discussion with the HW designer responsible for this insanity' :-), but
+> > >> once you've passed this 'WTF' stage, you'll have to find a way to tell
+> > >> the source component it should use RGBxyx while the sink should use
+> > >> BGRxyx (or vice-versa). This is something you can't extract that from
+> > >> those width/shift props though. My suggestion would be to have one
+> > >> string per MEDIA_BUS_FMT definition, so we can force things at the DT
+> > >> level if we really have to. That's basically what the interface-pix-fmt
+> > >> property was doing, except we would standardize the prop and values and
+> > >> probably provide helpers so bridge elements don't have to parse this
+> > >> prop manually.    
+> > > 
+> > > I don't think that would work in the general case though. We may want to
+> > > use different formats and pick one of them at runtime based on external
+> > > information (for instance when the sink can accept both RGB and YUV),
+> > > hardcoding formats in DT isn't a good option. We instead need to add
+> > > information to DT to specify how lines are connected, and deduce formats
+> > > based on that.  
+> > 
+> > If we start describing the role of each pin, we're not that far from a
+> > pinmux definition, the only difference being that we want pin configs
+> > to match between the source and sink, where actual pinmux configs are
+> > only controlled by one element (the HW block requesting exclusive
+> > access to those pins).  
+> 
+> The trick here will be to find an appropriate middle-ground. I don't
+> think we need to describe the role of each pin, but only to take into
+> account the parallel bus routing configurations that are likely to
+> happen in practice. Connecting MSBs to LSBs when decreasing the bus
+> width (or the other way around when increasing it) is a common issue.
+> Flipping R and B should be less common, but I suppose it can happen in
+> practice if the display controller supports both RGB and BGR formats (it
+> will just need to adjust the format internally if there's no dedicated
+> R<->B flipping hardware option). What else do we have ?
 
-Damn. I need more coffee.. this patch IS working. Only the first probe
-fails due to EPROBE_DEFER.
+That's all I can think of, at least for DPI/RGB buses. So your
+recommendation would be to keep data-width/data-shift props and
+complement them with dpi-swap-red-blue-signals, right? Not entirely sure
+data-width is enough to describe all kind of bus-width
+increase/shrinking (don't we have RGB combinations taking the same
+number of signals but with different layouts)?
 
-[    2.539706] fsl-dspi 2120000.spi: rx dma channel not available (-517)
-[    2.546200] fsl-dspi 2120000.spi: can't get dma channels
-[    3.622774] spi-nor spi1.0: w25q128fw (16384 Kbytes)
+Alternatively we could describe the 'out-src-format <-> in-sink-format'
+mappings using pair of strings:
 
--michael
+	port {
+	...
+		endpoint {
+			bus-formats = <out-src-format1>,
+				      <in-sink-format1>,
+				      <out-src-format2>,
+				      <in-sink-format2>,
+					...;
+		};
+	};
+
+but I'm almost sure you won't like this idea (actually, I don't like it
+either :-)).
+
+Anyway, I don't have much time to spend on this, so I'll probably
+respin the lvds-codec patches, extending it to support bus-width on the
+input side of an encoder element.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
