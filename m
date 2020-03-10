@@ -2,41 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B2B17F579
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 11:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A029F17F582
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 11:58:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38A0C6E87C;
-	Tue, 10 Mar 2020 10:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C49D6E181;
+	Tue, 10 Mar 2020 10:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 689486E87C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 10:55:34 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AC76E222D9;
- Tue, 10 Mar 2020 10:55:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1583837734;
- bh=ENflZ7WFJd9A7Kdb9DAjPQN8HSW/204OmClXwA50uek=;
- h=Subject:To:Cc:From:Date:From;
- b=hsCwUjTPOqhCraZGQLWJ5HWnor4ILmj88Z2NkMjG8rsqYumOwSEaNO3se8lDtEzSg
- Oy1vvoJ5OFLJ/0qlTdrwCO9T8Bt29rgBBR07zqRHlZUVnUe1eM6DWlYnWLADWQP+kT
- PIV06h/9LvAaw4iTstJwAtl1FpykVssMEyLVj7Co=
-Subject: Patch "drm: kirin: Revert "Fix for hikey620 display offset problem""
- has been added to the 5.5-stable tree
-To: 20200303163228.52741-1-john.stultz@linaro.org, airlied@linux.ie,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- john.stultz@linaro.org, kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- sam@ravnborg.org, xinliang.liu@linaro.org, zourongrong@gmail.com
-From: <gregkh@linuxfoundation.org>
-Date: Tue, 10 Mar 2020 11:55:10 +0100
-Message-ID: <15838377104524@kroah.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26F9D89949;
+ Tue, 10 Mar 2020 10:58:45 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2020 03:58:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,536,1574150400"; d="scan'208";a="415152424"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 10 Mar 2020 03:58:42 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1jBcaw-000Dg2-77; Tue, 10 Mar 2020 18:58:42 +0800
+Date: Tue, 10 Mar 2020 18:58:05 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: [drm-intel:topic/core-for-CI 18/20] init/Kconfig:77: symbol BROKEN
+ is selected by DRM_I915_DEBUG
+Message-ID: <202003101855.mZzvr5AM%lkp@intel.com>
 MIME-Version: 1.0
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,147 +46,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+tree:   git://anongit.freedesktop.org/drm-intel topic/core-for-CI
+head:   72212a758bdd916331477e782bdad1fa3f625322
+commit: 19f102d485b9f5e03677f73133d9922e2650686f [18/20] Revert "drm/i915: Don't select BROKEN"
+config: powerpc-randconfig-a001-20200310
+compiler: powerpc-linux-gcc (GCC) 9.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git checkout 19f102d485b9f5e03677f73133d9922e2650686f
+        GCC_VERSION=9.2.0 make.cross ARCH=powerpc  randconfig
+        GCC_VERSION=9.2.0 make.cross ARCH=powerpc 
 
-This is a note to let you know that I've just added the patch titled
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
-    drm: kirin: Revert "Fix for hikey620 display offset problem"
+All errors (new ones prefixed by >>):
 
-to the 5.5-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+>> arch/powerpc/platforms/embedded6xx/Kconfig:2:error: recursive dependency detected!
+   arch/powerpc/platforms/embedded6xx/Kconfig:2: symbol EMBEDDED6xx depends on BROKEN_ON_SMP
+>> init/Kconfig:80: symbol BROKEN_ON_SMP depends on BROKEN
+>> init/Kconfig:77: symbol BROKEN is selected by DRM_I915_DEBUG
+>> drivers/gpu/drm/i915/Kconfig.debug:19: symbol DRM_I915_DEBUG depends on DRM_I915
+>> drivers/gpu/drm/i915/Kconfig:2: symbol DRM_I915 depends on DRM
+>> drivers/gpu/drm/Kconfig:8: symbol DRM depends on AGP
+>> drivers/char/agp/Kconfig:2: symbol AGP depends on PCI
+   drivers/pci/Kconfig:16: symbol PCI depends on HAVE_PCI
+>> drivers/pci/Kconfig:7: symbol HAVE_PCI is selected by FORCE_PCI
+>> drivers/pci/Kconfig:11: symbol FORCE_PCI is selected by MVME5100
+   arch/powerpc/platforms/embedded6xx/Kconfig:51: symbol MVME5100 depends on EMBEDDED6xx
+   For a resolution refer to Documentation/kbuild/kconfig-language.rst
+   subsection "Kconfig recursive dependency limitations"
 
-The filename of the patch is:
-     drm-kirin-revert-fix-for-hikey620-display-offset-problem.patch
-and it can be found in the queue-5.5 subdirectory.
+vim +77 init/Kconfig
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  76  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @77  config BROKEN
+^1da177e4c3f41 Linus Torvalds 2005-04-16  78  	bool
+^1da177e4c3f41 Linus Torvalds 2005-04-16  79  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @80  config BROKEN_ON_SMP
+^1da177e4c3f41 Linus Torvalds 2005-04-16  81  	bool
+^1da177e4c3f41 Linus Torvalds 2005-04-16  82  	depends on BROKEN || !SMP
+^1da177e4c3f41 Linus Torvalds 2005-04-16  83  	default y
+^1da177e4c3f41 Linus Torvalds 2005-04-16  84  
 
+:::::: The code at line 77 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-From 1b79cfd99ff5127e6a143767b51694a527b3ea38 Mon Sep 17 00:00:00 2001
-From: John Stultz <john.stultz@linaro.org>
-Date: Tue, 3 Mar 2020 16:32:28 +0000
-Subject: drm: kirin: Revert "Fix for hikey620 display offset problem"
-
-From: John Stultz <john.stultz@linaro.org>
-
-commit 1b79cfd99ff5127e6a143767b51694a527b3ea38 upstream.
-
-This reverts commit ff57c6513820efe945b61863cf4a51b79f18b592.
-
-With the commit ff57c6513820 ("drm: kirin: Fix for hikey620
-display offset problem") we added support for handling LDI
-overflows by resetting the hardware.
-
-However, its been observed that when we do hit the LDI overflow
-condition, the irq seems to be screaming, and we do nothing but
-stream:
-  [drm:ade_irq_handler [kirin_drm]] *ERROR* LDI underflow!
-over and over to the screen
-
-I've tried a few appraoches to avoid this, but none has yet
-been successful and the cure here is worse then the original
-disease, so revert this for now.
-
-Cc: Xinliang Liu <xinliang.liu@linaro.org>
-Cc: Rongrong Zou <zourongrong@gmail.com>
-Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-Cc: Chen Feng <puck.chen@hisilicon.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Fixes: ff57c6513820 ("drm: kirin: Fix for hikey620 display offset problem")
-Signed-off-by: John Stultz <john.stultz@linaro.org>
-Acked-by: Xinliang Liu <xinliang.liu@linaro.org>
-Signed-off-by: Xinliang Liu <xinliang.liu@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200303163228.52741-1-john.stultz@linaro.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
- drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h |    1 -
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c |   20 --------------------
- 2 files changed, 21 deletions(-)
-
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h
-@@ -83,7 +83,6 @@
- #define VSIZE_OFST			20
- #define LDI_INT_EN			0x741C
- #define FRAME_END_INT_EN_OFST		1
--#define UNDERFLOW_INT_EN_OFST		2
- #define LDI_CTRL			0x7420
- #define BPP_OFST			3
- #define DATA_GATE_EN			BIT(2)
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-@@ -46,7 +46,6 @@ struct ade_hw_ctx {
- 	struct clk *media_noc_clk;
- 	struct clk *ade_pix_clk;
- 	struct reset_control *reset;
--	struct work_struct display_reset_wq;
- 	bool power_on;
- 	int irq;
- 
-@@ -136,7 +135,6 @@ static void ade_init(struct ade_hw_ctx *
- 	 */
- 	ade_update_bits(base + ADE_CTRL, FRM_END_START_OFST,
- 			FRM_END_START_MASK, REG_EFFECTIVE_IN_ADEEN_FRMEND);
--	ade_update_bits(base + LDI_INT_EN, UNDERFLOW_INT_EN_OFST, MASK(1), 1);
- }
- 
- static bool ade_crtc_mode_fixup(struct drm_crtc *crtc,
-@@ -304,17 +302,6 @@ static void ade_crtc_disable_vblank(stru
- 			MASK(1), 0);
- }
- 
--static void drm_underflow_wq(struct work_struct *work)
--{
--	struct ade_hw_ctx *ctx = container_of(work, struct ade_hw_ctx,
--					      display_reset_wq);
--	struct drm_device *drm_dev = ctx->crtc->dev;
--	struct drm_atomic_state *state;
--
--	state = drm_atomic_helper_suspend(drm_dev);
--	drm_atomic_helper_resume(drm_dev, state);
--}
--
- static irqreturn_t ade_irq_handler(int irq, void *data)
- {
- 	struct ade_hw_ctx *ctx = data;
-@@ -331,12 +318,6 @@ static irqreturn_t ade_irq_handler(int i
- 				MASK(1), 1);
- 		drm_crtc_handle_vblank(crtc);
- 	}
--	if (status & BIT(UNDERFLOW_INT_EN_OFST)) {
--		ade_update_bits(base + LDI_INT_CLR, UNDERFLOW_INT_EN_OFST,
--				MASK(1), 1);
--		DRM_ERROR("LDI underflow!");
--		schedule_work(&ctx->display_reset_wq);
--	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -919,7 +900,6 @@ static void *ade_hw_ctx_alloc(struct pla
- 	if (ret)
- 		return ERR_PTR(-EIO);
- 
--	INIT_WORK(&ctx->display_reset_wq, drm_underflow_wq);
- 	ctx->crtc = crtc;
- 
- 	return ctx;
-
-
-Patches currently in stable-queue which might be from john.stultz@linaro.org are
-
-queue-5.5/usb-dwc3-gadget-update-chain-bit-correctly-when-using-sg-list.patch
-queue-5.5/drm-msm-fix-return-type-of-dsi_mgr_connector_mode_va.patch
-queue-5.5/drm-kirin-revert-fix-for-hikey620-display-offset-problem.patch
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
