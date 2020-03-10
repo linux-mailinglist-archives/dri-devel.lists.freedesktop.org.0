@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BAA17F193
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:19:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ACD017F19A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:19:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A016E7FE;
-	Tue, 10 Mar 2020 08:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14E8C6E81B;
+	Tue, 10 Mar 2020 08:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com
- [IPv6:2607:f8b0:4864:20::549])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6388A6E5C5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 00:06:25 +0000 (UTC)
-Received: by mail-pg1-x549.google.com with SMTP id b10so7532275pgi.16
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 17:06:25 -0700 (PDT)
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com
+ [IPv6:2607:f8b0:4864:20::44a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF3376E5BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 00:06:27 +0000 (UTC)
+Received: by mail-pf1-x44a.google.com with SMTP id s19so7894957pfh.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 17:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=VDuOhbt4EtVAr5HqP/z/JEAhJ6aufU2qBAQhX8Irrmg=;
- b=GrS+pcj6aRCeWKMOofPnAlbvuD551qH8x0F3XmDw6A3bEjIm8CdBeBzk8YPDrzjD0s
- 60fz0+NNvEPN2e7OgoN2O2oCMh1+e5iR69wFFjYkM6zemzHcqwkv+D2dzcZWd0jmrdU8
- FwN2gT7wobMh9LXMaGkMXQPdSH9aPWM0g2IlCrnkoxLhviqrDSgx9IpKpJjsmqhh/OWE
- FZZfsWusbJK822c6Q0OnyDbwFnhz6kNpYj4Oc0zwCnFA+4P522se/fLtdHlxMYMIFesB
- iHjIZi+7gKh3BW/TbfRZeBMzlJDiWzv8tz9LQLK+2+I9aRCoMWYh9EVKdMPm06/FkVK9
- 2PvQ==
+ :cc; bh=FPwV4EQH4sF8sFNnpBdmBi8fGAJX0LgAYaHhou0DP3U=;
+ b=dXopUinStduj8G4lTd/EqFI0R5HDO1jvennmHWNuMjVR2MUouxQ/8tt0kJXHaFgm2j
+ bWoh19rQQP2yKEVPGSmn7knp8ShZJjEgFisH1hjuOj3VJcl/vpUNB9tMui97ckC0RMCQ
+ ayv4vFpZmoaIaWRplocuNQRwbs7JxWhrUq5WYwHIPUdB4lGkONkuDwTkITqNa6tBwUq2
+ 3PHBu/m+NLhcsP6V5PrvIkYdy+UaC1XfXZTMtQpCBP+IsLHCfcClyM7xtpydik6DkR5T
+ 5Glak94v47NXSW0KzInr7nBP4MUEnRncjaJYZitw6XAq0qViDtJQz8XM5jzmYfED/YAd
+ BP+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=VDuOhbt4EtVAr5HqP/z/JEAhJ6aufU2qBAQhX8Irrmg=;
- b=OKZpS3VDigY3TowmfiEdpKDuZyckWTEMtpU4K5LkMRLPCZjahtBElgKwSeEqC66xK8
- yICPhdtn04eXYsGbqUYAwWX61ymGKufrmVCFO5vR4DOrx2+3LeOLNsk+kXueuRcqUcDL
- aAT6vdAElFQhEvib5eAoctgpb6t+B5DWq9x+okw9CggdTFJ1PIyU4eOwOl5pxbyMCaCs
- ihy05O/fkTh8SiIM44cz2qPqaa6SZp08sdTijVGsFMgDKooqogQD+hziFejKWHBI7Bmo
- 8eSv0t5Gr3EAYMDDvlrZLSsxMXiKgqszYYT4JwK46ULoXOk8djb2+wl4vM+TYwUhc3Jd
- 0W+w==
-X-Gm-Message-State: ANhLgQ03IuiIXRsP7Vlkt9Q9rgYa/JytRaqqE3ktAfxkn3Bcm9dhIMuf
- iy72HOXdYtW1GwKLxWmxrZHfE1FNQ3lH
-X-Google-Smtp-Source: ADFU+vtIdSBAQ/U0X6peaC3aYMgqWZSFYK7uWpMZKYsfO/SGNw2kHtAhYM7t3936cdiRunMRrME0efqVEQLM
-X-Received: by 2002:a17:90b:4010:: with SMTP id
- ie16mr190054pjb.185.1583798784825; 
- Mon, 09 Mar 2020 17:06:24 -0700 (PDT)
-Date: Mon,  9 Mar 2020 17:06:14 -0700
+ bh=FPwV4EQH4sF8sFNnpBdmBi8fGAJX0LgAYaHhou0DP3U=;
+ b=gX1IO92/Cvd3+jT1ZTIYxp0hjDcIRo09kjEIEIxsTeKBgT7CKlTfl+WgId31Iv+MXo
+ LF3BUwKUCZq5PiEnRjDBR+kcxpv3hYeb8Y8MUb2pYb5aqkfFXc1EObX2Q9dR55QmpCYV
+ eSdYP8FqmdDQ/Lvm24SjyxNVxo4nTyiwOxMbAjsBJTsgBw2curOQ/t9MvO9SCgUf3gYL
+ /73U9zk7GEwGy8JtgJzqXCZfC1HNmlAeZZc72T7Bz18JR8F3FpCZwmKW2nKh3Dm9i+jd
+ oPY4qXLfREwocgIiOyC28lDkpmtUtIKBQGj8ajAFzbrZYr6y+/d2RIkKgds13Gg3W3WU
+ c3AQ==
+X-Gm-Message-State: ANhLgQ3XzoE09Bvp/Xugh2qe9SP/VeS0H6p/MmYmj5hRMvMne1GuRSsi
+ Kbl8LVJ9VNNaLcCW+wKmKvVYsZY2bsnf
+X-Google-Smtp-Source: ADFU+vugarnvP2C9t3lCZ7MoHxq8nj0lvrNS9ABPb0Mf6UoaCBp8aLi6etg5t8NtsQ0OZSuqjcFupi8IIxx4
+X-Received: by 2002:a17:90b:3006:: with SMTP id
+ hg6mr1978034pjb.54.1583798787193; 
+ Mon, 09 Mar 2020 17:06:27 -0700 (PDT)
+Date: Mon,  9 Mar 2020 17:06:15 -0700
 In-Reply-To: <20200310000617.20662-1-rajatja@google.com>
-Message-Id: <20200310000617.20662-2-rajatja@google.com>
+Message-Id: <20200310000617.20662-3-rajatja@google.com>
 Mime-Version: 1.0
 References: <20200310000617.20662-1-rajatja@google.com>
 X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
-Subject: [PATCH v7 1/4] intel_acpi: Rename drm_dev local variable to dev
+Subject: [PATCH v7 2/4] drm/connector: Add support for privacy-screen property
 From: Rajat Jain <rajatja@google.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -82,46 +82,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Rajat Jain <rajatja@google.com>,
- rajatxjain@gmail.com
+Cc: Rajat Jain <rajatja@google.com>, rajatxjain@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the struct drm_device * local variable from drm_dev to dev
-per the feedback received here:
-https://lkml.org/lkml/2020/1/24/1143
+Add support for generic electronic privacy screen property, that
+can be added by systems that have an integrated EPS.
 
 Signed-off-by: Rajat Jain <rajatja@google.com>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 ---
-v7: same as v6
-v6: Initial patch (v6 to match other patches in the set)
+v7: * Initial version, formed by moving the privacy-screen property into
+      drm core.
+    * Break the init_property() into create_property() and attach_property()
+      so that property can be created while registering connector, but
+      attached in late_register() (after ACPI node detection).
 
- drivers/gpu/drm/i915/display/intel_acpi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_atomic_uapi.c |  4 +++
+ drivers/gpu/drm/drm_connector.c   | 56 +++++++++++++++++++++++++++++++
+ include/drm/drm_connector.h       | 25 ++++++++++++++
+ 3 files changed, 85 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
-index e21fb14d5e07b..3e6831cca4ac1 100644
---- a/drivers/gpu/drm/i915/display/intel_acpi.c
-+++ b/drivers/gpu/drm/i915/display/intel_acpi.c
-@@ -224,13 +224,13 @@ static u32 acpi_display_type(struct intel_connector *connector)
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index a1e5e262bae2d..843a8cdacd149 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -766,6 +766,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+ 						   fence_ptr);
+ 	} else if (property == connector->max_bpc_property) {
+ 		state->max_requested_bpc = val;
++	} else if (property == connector->privacy_screen_property) {
++		state->privacy_screen_status = val;
+ 	} else if (connector->funcs->atomic_set_property) {
+ 		return connector->funcs->atomic_set_property(connector,
+ 				state, property, val);
+@@ -842,6 +844,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+ 		*val = 0;
+ 	} else if (property == connector->max_bpc_property) {
+ 		*val = state->max_requested_bpc;
++	} else if (property == connector->privacy_screen_property) {
++		*val = state->privacy_screen_status;
+ 	} else if (connector->funcs->atomic_get_property) {
+ 		return connector->funcs->atomic_get_property(connector,
+ 				state, property, val);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index f632ca05960e7..39303e15063a9 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1171,6 +1171,10 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *	can also expose this property to external outputs, in which case they
+  *	must support "None", which should be the default (since external screens
+  *	have a built-in scaler).
++ *
++ * privacy-screen:
++ *	This optional property can be used to enable / disable an integrated
++ *	electronic privacy screen that is available on some displays.
+  */
  
- void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
- {
--	struct drm_device *drm_dev = &dev_priv->drm;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct intel_connector *connector;
- 	struct drm_connector_list_iter conn_iter;
- 	u8 display_index[16] = {};
+ int drm_connector_create_standard_properties(struct drm_device *dev)
+@@ -2137,6 +2141,58 @@ int drm_connector_set_panel_orientation_with_quirk(
+ }
+ EXPORT_SYMBOL(drm_connector_set_panel_orientation_with_quirk);
  
- 	/* Populate the ACPI IDs for all connectors for a given drm_device */
--	drm_connector_list_iter_begin(drm_dev, &conn_iter);
-+	drm_connector_list_iter_begin(dev, &conn_iter);
- 	for_each_intel_connector_iter(connector, &conn_iter) {
- 		u32 device_id, type;
++static const struct drm_prop_enum_list privacy_screen_enum[] = {
++	{ PRIVACY_SCREEN_DISABLED, "Disabled" },
++	{ PRIVACY_SCREEN_ENABLED, "Enabled" },
++};
++
++/**
++ * drm_connector_init_privacy_screen_property -
++ *     create and attach the drm connecter's privacy-screen property.
++ * @connector: connector for which to init the privacy-screen property
++ *
++ * This function creates and attaches the "privacy-screen" property to the
++ * connector. Initial state of privacy-screen is set to disabled.
++ */
++void
++drm_connector_create_privacy_screen_property(struct drm_connector *connector)
++{
++	if (connector->privacy_screen_property)
++		return;
++
++	connector->privacy_screen_property =
++		drm_property_create_enum(connector->dev, DRM_MODE_PROP_ENUM,
++					 "privacy-screen", privacy_screen_enum,
++					 ARRAY_SIZE(privacy_screen_enum));
++}
++EXPORT_SYMBOL(drm_connector_create_privacy_screen_property);
++
++void
++drm_connector_attach_privacy_screen_property(struct drm_connector *connector)
++{
++	struct drm_property *prop = connector->privacy_screen_property;
++
++	if (!prop)
++		return;
++
++	drm_object_attach_property(&connector->base, prop,
++				   PRIVACY_SCREEN_DISABLED);
++}
++EXPORT_SYMBOL(drm_connector_attach_privacy_screen_property);
++
++void
++drm_connector_destroy_privacy_screen_property(struct drm_connector *connector)
++{
++	struct drm_property *prop = connector->privacy_screen_property;
++
++	if (!prop)
++		return;
++
++	drm_property_destroy(connector->dev, prop);
++	connector->privacy_screen_property = NULL;
++}
++EXPORT_SYMBOL(drm_connector_destroy_privacy_screen_property);
++
+ int drm_connector_set_obj_prop(struct drm_mode_object *obj,
+ 				    struct drm_property *property,
+ 				    uint64_t value)
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 2113500b4075d..257f398ce8720 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -254,6 +254,20 @@ enum drm_panel_orientation {
+ 	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+ };
  
++/**
++ * enum drm_privacy_screen_status - privacy screen status
++ *
++ * This enum is used to track and control the state of the integrated privacy
++ * screen present on some display panels, via the "privacy-screen" property.
++ *
++ * @PRIVACY_SCREEN_DISABLED: The privacy-screen on the panel is disabled
++ * @PRIVACY_SCREEN_ENABLED:  The privacy-screen on the panel is enabled
++ **/
++enum drm_privacy_screen_status {
++	PRIVACY_SCREEN_DISABLED = 0,
++	PRIVACY_SCREEN_ENABLED = 1,
++};
++
+ /*
+  * This is a consolidated colorimetry list supported by HDMI and
+  * DP protocol standard. The respective connectors will register
+@@ -656,6 +670,8 @@ struct drm_connector_state {
+ 	 */
+ 	u8 max_bpc;
+ 
++	enum drm_privacy_screen_status privacy_screen_status;
++
+ 	/**
+ 	 * @hdr_output_metadata:
+ 	 * DRM blob property for HDR output metadata
+@@ -1255,6 +1271,12 @@ struct drm_connector {
+ 	 */
+ 	struct drm_property *max_bpc_property;
+ 
++	/**
++	 *  @privacy_screen_property: Optional property for the connector to
++	 *  control the integrated privacy screen, if available.
++	 */
++	struct drm_property *privacy_screen_property;
++
+ #define DRM_CONNECTOR_POLL_HPD (1 << 0)
+ #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
+ #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
+@@ -1561,6 +1583,9 @@ int drm_connector_set_panel_orientation_with_quirk(
+ 	int width, int height);
+ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+ 					  int min, int max);
++void drm_connector_create_privacy_screen_property(struct drm_connector *conn);
++void drm_connector_attach_privacy_screen_property(struct drm_connector *conn);
++void drm_connector_destroy_privacy_screen_property(struct drm_connector *conn);
+ 
+ /**
+  * struct drm_tile_group - Tile group metadata
 -- 
 2.25.1.481.gfbce0eb801-goog
 
