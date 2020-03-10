@@ -1,42 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0041807B0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 20:10:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFCC1807AC
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 20:09:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF366E8CE;
-	Tue, 10 Mar 2020 19:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33EA36E8CB;
+	Tue, 10 Mar 2020 19:09:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 306516E8CE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 19:10:30 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1496E8CA;
+ Tue, 10 Mar 2020 19:09:51 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2020 12:10:29 -0700
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2020 12:09:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,538,1574150400"; d="scan'208";a="353691156"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 10 Mar 2020 12:10:25 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 10 Mar 2020 21:10:24 +0200
-Date: Tue, 10 Mar 2020 21:10:24 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 1/2] drm/panel: Add Starry KR070PE2T
-Message-ID: <20200310191024.GQ13686@intel.com>
-References: <20200310102725.14591-1-dev@pascalroeleven.nl>
- <20200310102725.14591-2-dev@pascalroeleven.nl>
- <20200310185422.GA22095@ravnborg.org>
+X-IronPort-AV: E=Sophos;i="5.70,538,1574150400"; d="scan'208";a="441406891"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by fmsmga005.fm.intel.com with ESMTP; 10 Mar 2020 12:09:50 -0700
+Date: Tue, 10 Mar 2020 12:11:09 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v5 1/2] drm/edid: Name the detailed monitor range flags
+Message-ID: <20200310191109.GB717@intel.com>
+References: <20200309213940.27965-1-manasi.d.navare@intel.com>
+ <20200310162027.GL13686@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200310185422.GA22095@ravnborg.org>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200310162027.GL13686@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,120 +46,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Pascal Roeleven <dev@pascalroeleven.nl>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Kazlauskas Nicholas <Nicholas.Kazlauskas@amd.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 10, 2020 at 07:54:23PM +0100, Sam Ravnborg wrote:
-> Hi Pascal.
-> =
-
-> Thanks for submitting.
-> =
-
-> On Tue, Mar 10, 2020 at 11:27:23AM +0100, Pascal Roeleven wrote:
-> > The KR070PE2T is a 7" panel with a resolution of 800x480.
+On Tue, Mar 10, 2020 at 06:20:27PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Mon, Mar 09, 2020 at 02:39:39PM -0700, Manasi Navare wrote:
+> > This patch adds defines for the detailed monitor
+> > range flags as per the EDID specification.
 > > =
 
-> > KR070PE2T is the marking present on the ribbon cable. As this panel is
-> > probably available under different brands, this marking will catch
-> > most devices.
+> > v2:
+> > * Rename the flags with DRM_EDID_ (Jani N)
 > > =
 
-> > Signed-off-by: Pascal Roeleven <dev@pascalroeleven.nl>
-> =
-
-> A few things to improve.
-> =
-
-> The binding should be a separate patch.
-> subject - shall start with dt-bindings:
-> Shall be sent to deveicetree mailing list.
-> =
-
-> For panel we no longer accept .txt bindings.
-> But the good news is that since the panel is simple,
-> you only need to list your compatible in the file
-> bindings/display/panel/panel-simple.yaml
-> - must be en alphabetical order
-> - vendor prefix must be present in vendor-prefixes
-> =
-
-> =
-
-> =
-
+> > Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Cc: Harry Wentland <harry.wentland@amd.com>
+> > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
+> > Cc: Kazlauskas Nicholas <Nicholas.Kazlauskas@amd.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 > > ---
-> >  .../display/panel/starry,kr070pe2t.txt        |  7 +++++
-> >  drivers/gpu/drm/panel/panel-simple.c          | 26 +++++++++++++++++++
-> >  2 files changed, 33 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/sta=
-rry,kr070pe2t.txt
+> >  include/drm/drm_edid.h | 5 +++++
+> >  1 file changed, 5 insertions(+)
 > > =
 
-> > diff --git a/Documentation/devicetree/bindings/display/panel/starry,kr0=
-70pe2t.txt b/Documentation/devicetree/bindings/display/panel/starry,kr070pe=
-2t.txt
-> > new file mode 100644
-> > index 000000000..699ad5eb2
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/starry,kr070pe2t.=
-txt
-> > @@ -0,0 +1,7 @@
-> > +Starry 7" (800x480 pixels) LCD panel
-> > +
-> > +Required properties:
-> > +- compatible: should be "starry,kr070pe2t"
-> > +
-> > +This binding is compatible with the simple-panel binding, which is spe=
-cified
-> > +in simple-panel.txt in this directory.
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/pan=
-el/panel-simple.c
-> > index e14c14ac6..027a2612b 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -2842,6 +2842,29 @@ static const struct panel_desc shelly_sca07010_b=
-fn_lnn =3D {
-> >  	.bus_format =3D MEDIA_BUS_FMT_RGB666_1X18,
-> >  };
+> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> > index f0b03d401c27..34b15e3d070c 100644
+> > --- a/include/drm/drm_edid.h
+> > +++ b/include/drm/drm_edid.h
+> > @@ -91,6 +91,11 @@ struct detailed_data_string {
+> >  	u8 str[13];
+> >  } __attribute__((packed));
 > >  =
 
-> > +static const struct drm_display_mode starry_kr070pe2t_mode =3D {
-> > +	.clock =3D 33000,
-> > +	.hdisplay =3D 800,
-> > +	.hsync_start =3D 800 + 209,
-> > +	.hsync_end =3D 800 + 209 + 1,
-> > +	.htotal =3D 800 + 209 + 1 + 45,
-> > +	.vdisplay =3D 480,
-> > +	.vsync_start =3D 480 + 22,
-> > +	.vsync_end =3D 480 + 22 + 1,
-> > +	.vtotal =3D 480 + 22 + 1 + 22,
-> > +	.vrefresh =3D 60,
-> > +};
+> > +#define DRM_EDID_DEFAULT_GTF_SUPPORT_FLAG   0x00
+> > +#define DRM_EDID_RANGE_LIMITS_ONLY_FLAG     0x01
+> > +#define DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG 0x02
+> > +#define DRM_EDID_CVT_SUPPORT_FLAG           0x04
 > =
 
-> Please adjust so:
-> vrefresh * htotal * vtotal =3D=3D clock.
-> I cannot say what needs to be adjusted.
-> But we are moving away from specifying vrefresh and want the
-> data to be OK.
+> No indication what flags thse are. Also missing the
+> actual change to use them in drm_edid.c.
+>
 
-This one actually looks OK to me. Unless I typoed the numbers
-the timings give us a vrefresh of 59.58 which gets rounded to 60.
-So no change once .vrefresh disappears AFAICS.
+The name of the flag in #define indicates what flag it is, how else do you
+want me to add teh indication?
 
--- =
+I have done the change in my second patch to use this flag #define =
 
-Ville Syrj=E4l=E4
-Intel
+Use of these flags in other places in drm_edid.c will be follow up patches
+
+SOunds good?
+
+Manasi
+ =
+
+> > +
+> >  struct detailed_data_monitor_range {
+> >  	u8 min_vfreq;
+> >  	u8 max_vfreq;
+> > -- =
+
+> > 2.19.1
+> =
+
+> -- =
+
+> Ville Syrj=E4l=E4
+> Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
