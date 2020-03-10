@@ -2,40 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DA01807D9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 20:20:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29C71807ED
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 20:27:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F4E6E8D0;
-	Tue, 10 Mar 2020 19:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568056E8D1;
+	Tue, 10 Mar 2020 19:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BAB6E38A;
- Tue, 10 Mar 2020 19:20:10 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2020 12:20:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,538,1574150400"; d="scan'208";a="353692508"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by fmsmga001.fm.intel.com with ESMTP; 10 Mar 2020 12:20:09 -0700
-Date: Tue, 10 Mar 2020 12:21:28 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v5 2/2] drm/edid: Add function to parse EDID descriptors
- for adaptive sync limits
-Message-ID: <20200310192128.GA953@intel.com>
-References: <20200309213940.27965-1-manasi.d.navare@intel.com>
- <20200309213940.27965-2-manasi.d.navare@intel.com>
- <20200310190833.GA717@intel.com> <20200310191330.GR13686@intel.com>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 922AC6E8D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 19:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583868417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Wq5OtijW4qkxUGaUQxhzEeaUg8qC16AJk23Bpi60tww=;
+ b=RnwUiv8Kt1BWrGVaG7T/rXo0RHbzvLndYq/I+gTi7z6ec2O7b/rmJ+AZRiJYo0SJzYiNXa
+ uiXel6roJRa5aFHDAfHN0Es8ldC/h8xQ61A482c/AKRE1bgYBDIbiPz4uoFGXiinsYRorw
+ SHE9XUr6eW6YCTCjfY501vI2qibYJi4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-lZLErUOkNQiuzoSGW6AIvA-1; Tue, 10 Mar 2020 15:26:50 -0400
+X-MC-Unique: lZLErUOkNQiuzoSGW6AIvA-1
+Received: by mail-wr1-f71.google.com with SMTP id p11so7200844wrn.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 12:26:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vBBQf8YSJ+Mjo+kqeDTD8Z4+zLQIuCyl3eitu/ifyRg=;
+ b=gg9D/NTPJTNtvjB8XMrbq4tQdP6FrSRhjumzsOpehWIqm6bR+ehDRZkHfIZ49dPoTo
+ Wyy75pYPa8DClrAY0VenQfb3cuBgZBUa0Penqs+XW2c6HXEKhQAJRu7i/qOudGvWy0WM
+ BiAoW8JKdMYG/c1g5X1vi/rBDdVC72aROIv6Fm6qTxGrOvUsZgqTifD6io+S1IkudNCg
+ blnJTA0ACQlz/94jJ99WLigYISvSwmyG316pzpUMB8Tu1WHwCH4sYNUtuxY61rciYYF7
+ 6gBnIx4DI5Q78o2VLxSANlQKvVeU0VvnpQRR872NtTFj40YC3wXKiPfamL9Uq89fcp7r
+ HAtA==
+X-Gm-Message-State: ANhLgQ2dUYfdqSJSCv7A0oHRzi6wX5RXWLJ6uuro3F0qNyPwl3MmRHHV
+ +G+rl6/ayVJ1n5gvNsCmGQlxV9DTUEZ7uMOFLUEoHnu3WvAWVRLAZN+bJ/Sa1O7ZB7A7183dX0N
+ USEoWx4S25C3YIl7kw9XWxEFDg75m
+X-Received: by 2002:a7b:c153:: with SMTP id z19mr3416626wmi.37.1583868409502; 
+ Tue, 10 Mar 2020 12:26:49 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vulmI+P5MpROhNKaiKOfzCCxtCMi66TM8UrbbQOxyf42qxjAGtaVwzF6sV60157AZSfFYTJtQ==
+X-Received: by 2002:a7b:c153:: with SMTP id z19mr3416586wmi.37.1583868409147; 
+ Tue, 10 Mar 2020 12:26:49 -0700 (PDT)
+Received: from kherbst.pingu.com ([2a02:8308:b0be:6900:482c:9537:40:83ba])
+ by smtp.gmail.com with ESMTPSA id c8sm58633569wru.7.2020.03.10.12.26.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 12:26:48 -0700 (PDT)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v7] pci: prevent putting nvidia GPUs into lower device states
+ on certain intel bridges
+Date: Tue, 10 Mar 2020 20:26:27 +0100
+Message-Id: <20200310192627.437947-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200310191330.GR13686@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,250 +73,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Kazlauskas Nicholas <Nicholas.Kazlauskas@amd.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Karol Herbst <kherbst@redhat.com>, linux-pm@vger.kernel.org,
+ linux-pci@vger.kernel.org, Mika Westerberg <mika.westerberg@intel.com>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 10, 2020 at 09:13:30PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Tue, Mar 10, 2020 at 12:08:33PM -0700, Manasi Navare wrote:
-> > Hi Ville,
-> > =
-
-> > Please find answers to your concerns below:
-> > =
-
-> > On Mon, Mar 09, 2020 at 02:39:40PM -0700, Manasi Navare wrote:
-> > > Adaptive Sync is a VESA feature so add a DRM core helper to parse
-> > > the EDID's detailed descritors to obtain the adaptive sync monitor ra=
-nge.
-> > > Store this info as part fo drm_display_info so it can be used
-> > > across all drivers.
-> > > This part of the code is stripped out of amdgpu's function
-> > > amdgpu_dm_update_freesync_caps() to make it generic and be used
-> > > across all DRM drivers
-> > > =
-
-> > > v5:
-> > > * Use the renamed flags
-> > > v4:
-> > > * Use is_display_descriptor() (Ville)
-> > > * Name the monitor range flags (Ville)
-> > > v3:
-> > > * Remove the edid parsing restriction for just DP (Nicholas)
-> > > * Use drm_for_each_detailed_block (Ville)
-> > > * Make the drm_get_adaptive_sync_range function static (Harry, Jani)
-> > > v2:
-> > > * Change vmin and vmax to use u8 (Ville)
-> > > * Dont store pixel clock since that is just a max dotclock
-> > > and not related to VRR mode (Manasi)
-> > > =
-
-> > > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > Cc: Harry Wentland <harry.wentland@amd.com>
-> > > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
-> > > Cc: Kazlauskas Nicholas <Nicholas.Kazlauskas@amd.com>
-> > > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> > > Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_edid.c  | 44 +++++++++++++++++++++++++++++++++++=
-++
-> > >  include/drm/drm_connector.h | 22 +++++++++++++++++++
-> > >  2 files changed, 66 insertions(+)
-> > > =
-
-> > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > > index ad41764a4ebe..24b76ae58fdd 100644
-> > > --- a/drivers/gpu/drm/drm_edid.c
-> > > +++ b/drivers/gpu/drm/drm_edid.c
-> > > @@ -4938,6 +4938,47 @@ static void drm_parse_cea_ext(struct drm_conne=
-ctor *connector,
-> > >  	}
-> > >  }
-> > >  =
-
-> > > +static
-> > > +void get_adaptive_sync_range(struct detailed_timing *timing,
-> > > +			     void *info_adaptive_sync)
-> > > +{
-> > > +	struct drm_adaptive_sync_info *adaptive_sync =3D info_adaptive_sync;
-> > > +	const struct detailed_non_pixel *data =3D &timing->data.other_data;
-> > > +	const struct detailed_data_monitor_range *range =3D &data->data.ran=
-ge;
-> > > +
-> > > +	if (!is_display_descriptor((const u8 *)timing, EDID_DETAIL_MONITOR_=
-RANGE))
-> > > +		return;
-> > > +
-> > > +	/*
-> > > +	 * Check for flag range limits only. If flag =3D=3D 1 then
-> > > +	 * no additional timing information provided.
-> > > +	 * Default GTF, GTF Secondary curve and CVT are not
-> > > +	 * supported
-> > > +	 */
-> > > +	if (range->flags !=3D DRM_EDID_RANGE_LIMITS_ONLY_FLAG)
-> > > +		return;
-> > > +
-> > > +	adaptive_sync->min_vfreq =3D range->min_vfreq;
-> > > +	adaptive_sync->max_vfreq =3D range->max_vfreq;
-> > > +}
-> > > +
-> > > +static
-> > > +void drm_get_adaptive_sync_range(struct drm_connector *connector,
-> > > +				 const struct edid *edid)
-> > > +{
-> > > +	struct drm_display_info *info =3D &connector->display_info;
-> > > +
-> > > +	if (!version_greater(edid, 1, 1))
-> > > +		return;
-> > > +
-> > > +	drm_for_each_detailed_block((u8 *)edid, get_adaptive_sync_range,
-> > > +				    &info->adaptive_sync);
-> > =
-
-> > Some functions like get_monitor_name also pass something like &edid_nam=
-e, I dont
-> > think there is any specific convention of the argument name to be passe=
-d.
-> =
-
-> Hmm. Yeah, it's a bit all over. Still I'd probably follow =
-
-> the majority vote.
->
-
-I feel that this name makes it more intuitive rather than adding a generic =
-name
-If you dont feel strongly about changing it, I would like to keep this as is
- =
-
-> > =
-
-> > > +
-> > > +	DRM_DEBUG_KMS("Adaptive Sync refresh rate range is %d Hz - %d Hz\n",
-> > > +		      info->adaptive_sync.min_vfreq,
-> > > +		      info->adaptive_sync.max_vfreq);
-> > =
-
-> > Yes I agree that this is just a monitor range and unless the dpcd ignor=
-e msa bit is set
-> > and the range is atleast 10Hz apart , it might not be vrr range.
-> > =
-
-> > Would you prefer renaming this info->adaptive_sync as info->monitor_ran=
-ge ? Or
-> > should i just print it out as Monitor range is in the dmesg but leave t=
-he info->adaptive_sync
-> > naming as is?
-> =
-
-> If we want to parse it uncoditionally then I guess I'd go with the
-> monitor_rage naming, and leave it up to the vrr code to know what to do
-> with it.
->
-
-Yes I plan to add a function in the driver code that checks for the msa bit=
- and this range to be
-greater than 10 to say that the sink is adaptive sync capable.
-
-So i will just rename this struct to monitor range then?
-
-Manasi =
-
-> > =
-
-> > Manasi
-> > =
-
-> > > +}
-> > > +
-> > >  /* A connector has no EDID information, so we've got no EDID to comp=
-ute quirks from. Reset
-> > >   * all of the values which would have been set from EDID
-> > >   */
-> > > @@ -4960,6 +5001,7 @@ drm_reset_display_info(struct drm_connector *co=
-nnector)
-> > >  	memset(&info->hdmi, 0, sizeof(info->hdmi));
-> > >  =
-
-> > >  	info->non_desktop =3D 0;
-> > > +	memset(&info->adaptive_sync, 0, sizeof(info->adaptive_sync));
-> > >  }
-> > >  =
-
-> > >  u32 drm_add_display_info(struct drm_connector *connector, const stru=
-ct edid *edid)
-> > > @@ -4975,6 +5017,8 @@ u32 drm_add_display_info(struct drm_connector *=
-connector, const struct edid *edi
-> > >  =
-
-> > >  	info->non_desktop =3D !!(quirks & EDID_QUIRK_NON_DESKTOP);
-> > >  =
-
-> > > +	drm_get_adaptive_sync_range(connector, edid);
-> > > +
-> > >  	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
-> > >  =
-
-> > >  	if (edid->revision < 3)
-> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > > index 0df7a95ca5d9..2b22c0fa42c4 100644
-> > > --- a/include/drm/drm_connector.h
-> > > +++ b/include/drm/drm_connector.h
-> > > @@ -254,6 +254,23 @@ enum drm_panel_orientation {
-> > >  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-> > >  };
-> > >  =
-
-> > > +/**
-> > > + * struct drm_adaptive_sync_info - Panel's Adaptive Sync capabilitie=
-s for
-> > > + * &drm_display_info
-> > > + *
-> > > + * This struct is used to store a Panel's Adaptive Sync capabilities
-> > > + * as parsed from EDID's detailed monitor range descriptor block.
-> > > + *
-> > > + * @min_vfreq: This is the min supported refresh rate in Hz from
-> > > + *             EDID's detailed monitor range.
-> > > + * @max_vfreq: This is the max supported refresh rate in Hz from
-> > > + *             EDID's detailed monitor range
-> > > + */
-> > > +struct drm_adaptive_sync_info {
-> > > +	u8 min_vfreq;
-> > > +	u8 max_vfreq;
-> > > +};
-> > > +
-> > >  /*
-> > >   * This is a consolidated colorimetry list supported by HDMI and
-> > >   * DP protocol standard. The respective connectors will register
-> > > @@ -473,6 +490,11 @@ struct drm_display_info {
-> > >  	 * @non_desktop: Non desktop display (HMD).
-> > >  	 */
-> > >  	bool non_desktop;
-> > > +
-> > > +	/**
-> > > +	 * @adaptive_sync: Adaptive Sync capabilities of the DP/eDP sink
-> > > +	 */
-> > > +	struct drm_adaptive_sync_info adaptive_sync;
-> > >  };
-> > >  =
-
-> > >  int drm_display_info_set_bus_formats(struct drm_display_info *info,
-> > > -- =
-
-> > > 2.19.1
-> > > =
-
-> =
-
-> -- =
-
-> Ville Syrj=E4l=E4
-> Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGluZmFtb3VzICdydW50aW1lIFBNJyBidWcgbWFueSB1c2VycyBhcmUgZmFjaW5n
+IG9uIExhcHRvcHMgd2l0aApOdmlkaWEgUGFzY2FsIEdQVXMgYnkgc2tpcHBpbmcgc2FpZCBQQ0kg
+cG93ZXIgc3RhdGUgY2hhbmdlcyBvbiB0aGUgR1BVLgoKRGVwZW5kaW5nIG9uIHRoZSB1c2VkIGtl
+cm5lbCB0aGVyZSBtaWdodCBiZSBtZXNzYWdlcyBsaWtlIHRob3NlIGluIGRlbXNnOgoKIm5vdXZl
+YXUgMDAwMDowMTowMC4wOiBSZWZ1c2VkIHRvIGNoYW5nZSBwb3dlciBzdGF0ZSwgY3VycmVudGx5
+IGluIEQzIgoibm91dmVhdSAwMDAwOjAxOjAwLjA6IGNhbid0IGNoYW5nZSBwb3dlciBzdGF0ZSBm
+cm9tIEQzY29sZCB0byBEMCAoY29uZmlnCnNwYWNlIGluYWNjZXNzaWJsZSkiCmZvbGxvd2VkIGJ5
+IGJhY2t0cmFjZXMgb2Yga2VybmVsIGNyYXNoZXMgb3IgdGltZW91dHMgd2l0aGluIG5vdXZlYXUu
+CgpJdCdzIHN0aWxsIHVua293biB3aHkgdGhpcyBpc3N1ZSBleGlzdHMsIGJ1dCB0aGlzIGlzIGEg
+cmVsaWFibGUgd29ya2Fyb3VuZAphbmQgc29sdmVzIGEgdmVyeSBhbm5veWluZyBpc3N1ZSBmb3Ig
+dXNlciBoYXZpbmcgdG8gY2hvb3NlIGJldHdlZW4gYQpjcmFzaGluZyBrZXJuZWwgb3IgaGlnaGVy
+IHBvd2VyIGNvbnN1bXB0aW9uIG9mIHRoZWlyIExhcHRvcHMuCgpTaWduZWQtb2ZmLWJ5OiBLYXJv
+bCBIZXJic3QgPGtoZXJic3RAcmVkaGF0LmNvbT4KQ2M6IEJqb3JuIEhlbGdhYXMgPGJoZWxnYWFz
+QGdvb2dsZS5jb20+CkNjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgpDYzogUmFmYWVs
+IEouIFd5c29ja2kgPHJqd0Byand5c29ja2kubmV0PgpDYzogTWlrYSBXZXN0ZXJiZXJnIDxtaWth
+Lndlc3RlcmJlcmdAaW50ZWwuY29tPgpDYzogbGludXgtcGNpQHZnZXIua2VybmVsLm9yZwpDYzog
+bGludXgtcG1Admdlci5rZXJuZWwub3JnCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCkNjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpCdWd6aWxsYTogaHR0cHM6Ly9i
+dWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU2MjMKUmV2aWV3ZWQtYnk6IE1p
+a2EgV2VzdGVyYmVyZyA8bWlrYS53ZXN0ZXJiZXJnQGxpbnV4LmludGVsLmNvbT4KCi0tLQp2Mjog
+Y29udmVydCB0byBwY2lfZGV2IHF1aXJrCiAgICBwdXQgYSBwcm9wZXIgdGVjaG5pY2FsIGV4cGxh
+bmF0aW9uIG9mIHRoZSBpc3N1ZSBhcyBhIGluLWNvZGUgY29tbWVudAp2MzogZGlzYWJsZSBpdCBv
+bmx5IGZvciBjZXJ0YWluIGNvbWJpbmF0aW9ucyBvZiBpbnRlbCBhbmQgbnZpZGlhIGhhcmR3YXJl
+CnY0OiBzaW1wbGlmeSBxdWlyayBieSBzZXR0aW5nIGZsYWcgb24gdGhlIEdQVSBpdHNlbGYKdjU6
+IHJlc3RydWN0dXJlIHF1aXJrIHRvIG1ha2UgaXQgZWFzaWVyIHRvIGFkZCBuZXcgSURzCiAgICBm
+aXggd2hpdGVzcGFjZSBpc3N1ZXMKICAgIGZpeCBwb3RlbnRpYWwgTlVMTCBwb2ludGVyIGFjY2Vz
+cwogICAgdXBkYXRlIHRoZSBxdWlyayBkb2N1bWVudGF0aW9uCnY2OiBtb3ZlIHF1aXJrIGludG8g
+bm91dmVhdQp2NzogZml4IHR5cG9zIGFuZCBjb21taXQgbWVzc2FnZQoKIGRyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMgfCA1NyArKysrKysrKysrKysrKysrKysrKysrKysrKysK
+IGRyaXZlcnMvcGNpL3BjaS5jICAgICAgICAgICAgICAgICAgICAgfCAgOCArKysrCiBpbmNsdWRl
+L2xpbnV4L3BjaS5oICAgICAgICAgICAgICAgICAgIHwgIDEgKwogMyBmaWxlcyBjaGFuZ2VkLCA2
+NiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91
+dmVhdV9kcm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMKaW5kZXgg
+YjY1YWU4MTdlYWJmLi4yYzg2ZjAyNDgzMDUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L25vdXZlYXVfZHJtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVh
+dV9kcm0uYwpAQCAtNjE4LDYgKzYxOCw2MCBAQCBub3V2ZWF1X2RybV9kZXZpY2VfZmluaShzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2KQogCWtmcmVlKGRybSk7CiB9CiAKKy8qCisgKiBPbiBzb21lIElu
+dGVsIFBDSWUgYnJpZGdlIGNvbnRyb2xsZXJzIGRvaW5nIGEKKyAqIEQwIC0+IEQzaG90IC0+IEQz
+Y29sZCAtPiBEMCBzZXF1ZW5jZSBjYXVzZXMgTnZpZGlhIEdQVXMgdG8gbm90IHJlYXBwZWFyLgor
+ICogU2tpcHBpbmcgdGhlIGludGVybWVkaWF0ZSBEM2hvdCBzdGVwIHNlZW1zIHRvIG1ha2UgaXQg
+d29yayBhZ2Fpbi4gVGhpcyBpcworICogcHJvYmFibHkgY2F1c2VkIGJ5IG5vdCBtZWV0aW5nIHRo
+ZSBleHBlY3RhdGlvbiB0aGUgaW52b2x2ZWQgQU1MIGNvZGUgaGFzCisgKiB3aGVuIHRoZSBHUFUg
+aXMgcHV0IGludG8gRDNob3Qgc3RhdGUgYmVmb3JlIGludm9raW5nIGl0LgorICoKKyAqIFRoaXMg
+bGVhZHMgdG8gdmFyaW91cyBtYW5pZmVzdGF0aW9ucyBvZiB0aGlzIGlzc3VlOgorICogIC0gQU1M
+IGNvZGUgZXhlY3V0aW9uIHRvIHBvd2VyIG9uIHRoZSBHUFUgaGl0cyBhbiBpbmZpbml0ZSBsb29w
+IChhcyB0aGUKKyAqICAgIGNvZGUgd2FpdHMgb24gZGV2aWNlIG1lbW9yeSB0byBjaGFuZ2UpLgor
+ICogIC0ga2VybmVsIGNyYXNoZXMsIGFzIGFsbCBQQ0kgcmVhZHMgcmV0dXJuIC0xLCB3aGljaCBt
+b3N0IGNvZGUgaXNuJ3QgYWJsZQorICogICAgdG8gaGFuZGxlIHdlbGwgZW5vdWdoLgorICoKKyAq
+IEluIGFsbCBjYXNlcyBkbWVzZyB3aWxsIGNvbnRhaW4gYXQgbGVhc3Qgb25lIGxpbmUgbGlrZSB0
+aGlzOgorICogJ25vdXZlYXUgMDAwMDowMTowMC4wOiBSZWZ1c2VkIHRvIGNoYW5nZSBwb3dlciBz
+dGF0ZSwgY3VycmVudGx5IGluIEQzJworICogZm9sbG93ZWQgYnkgYSBsb3Qgb2Ygbm91dmVhdSB0
+aW1lb3V0cy4KKyAqCisgKiBJbiB0aGUgXF9TQi5QQ0kwLlBFRzAuUEcwMC5fT0ZGIGNvZGUgZGVl
+cGVyIGRvd24gd3JpdGVzIGJpdCAweDgwIHRvIHRoZSBub3QKKyAqIGRvY3VtZW50ZWQgUENJIGNv
+bmZpZyBzcGFjZSByZWdpc3RlciAweDI0OCBvZiB0aGUgSW50ZWwgUENJZSBicmlkZ2UKKyAqIGNv
+bnRyb2xsZXIgKDB4MTkwMSkgaW4gb3JkZXIgdG8gY2hhbmdlIHRoZSBzdGF0ZSBvZiB0aGUgUENJ
+ZSBsaW5rIGJldHdlZW4KKyAqIHRoZSBQQ0llIHBvcnQgYW5kIHRoZSBHUFUuIFRoZXJlIGFyZSBh
+bHRlcm5hdGl2ZSBjb2RlIHBhdGhzIHVzaW5nIG90aGVyCisgKiByZWdpc3RlcnMsIHdoaWNoIHNl
+ZW0gdG8gd29yayBmaW5lIChleGVjdXRlZCBwcmUgV2luZG93cyA4KToKKyAqICAtIDB4YmMgYml0
+IDB4MjAgKHB1YmxpY2x5IGF2YWlsYWJsZSBkb2N1bWVudGF0aW9uIGNsYWltcyAncmVzZXJ2ZWQn
+KQorICogIC0gMHhiMCBiaXQgMHgxMCAobGluayBkaXNhYmxlKQorICogQ2hhbmdpbmcgdGhlIGNv
+bmRpdGlvbnMgaW5zaWRlIHRoZSBmaXJtd2FyZSBieSBwb2tpbmcgaW50byB0aGUgcmVsZXZhbnQK
+KyAqIGFkZHJlc3NlcyBkb2VzIHJlc29sdmUgdGhlIGlzc3VlLCBidXQgaXQgc2VlbWVkIHRvIGJl
+IEFDUEkgcHJpdmF0ZSBtZW1vcnkKKyAqIGFuZCBub3QgYW55IGRldmljZSBhY2Nlc3NpYmxlIG1l
+bW9yeSBhdCBhbGwsIHNvIHRoZXJlIGlzIG5vIHBvcnRhYmxlIHdheSBvZgorICogY2hhbmdpbmcg
+dGhlIGNvbmRpdGlvbnMuCisgKiBPbiBhIFhQUyA5NTYwIHRoYXQgbWVhbnMgYml0cyBbMCwzXSBv
+biBcQ1BFWCBuZWVkIHRvIGJlIGNsZWFyZWQuCisgKgorICogVGhlIG9ubHkgc3lzdGVtcyB3aGVy
+ZSB0aGlzIGJlaGF2aW9yIGNhbiBiZSBzZWVuIGFyZSBoeWJyaWQgZ3JhcGhpY3MgbGFwdG9wcwor
+ICogd2l0aCBhIHNlY29uZGFyeSBOdmlkaWEgTWF4d2VsbCwgUGFzY2FsIG9yIFR1cmluZyBHUFUu
+IEl0J3MgdW5jbGVhciB3aGV0aGVyCisgKiB0aGlzIGlzc3VlIG9ubHkgb2NjdXJzIGluIGNvbWJp
+bmF0aW9uIHdpdGggbGlzdGVkIEludGVsIFBDSWUgYnJpZGdlCisgKiBjb250cm9sbGVycyBhbmQg
+dGhlIG1lbnRpb25lZCBHUFVzIG9yIG90aGVyIGRldmljZXMgYXMgd2VsbC4KKyAqCisgKiBkb2N1
+bWVudGF0aW9uIG9uIHRoZSBQQ0llIGJyaWRnZSBjb250cm9sbGVyIGNhbiBiZSBmb3VuZCBpbiB0
+aGUKKyAqICI3dGggR2VuZXJhdGlvbiBJbnRlbMKuIFByb2Nlc3NvciBGYW1pbGllcyBmb3IgSCBQ
+bGF0Zm9ybXMgRGF0YXNoZWV0IFZvbHVtZSAyIgorICogU2VjdGlvbiAiMTIgUENJIEV4cHJlc3Mq
+IENvbnRyb2xsZXIgKHgxNikgUmVnaXN0ZXJzIgorICovCisKK3N0YXRpYyB2b2lkIHF1aXJrX2Jy
+b2tlbl9udl9ydW5wbShzdHJ1Y3QgcGNpX2RldiAqZGV2KQoreworCXN0cnVjdCBwY2lfZGV2ICpi
+cmlkZ2UgPSBwY2lfdXBzdHJlYW1fYnJpZGdlKGRldik7CisKKwlpZiAoIWJyaWRnZSB8fCBicmlk
+Z2UtPnZlbmRvciAhPSBQQ0lfVkVORE9SX0lEX0lOVEVMKQorCQlyZXR1cm47CisKKwlzd2l0Y2gg
+KGJyaWRnZS0+ZGV2aWNlKSB7CisJY2FzZSAweDE5MDE6CisJCWRldi0+cGFyZW50X2QzY29sZCA9
+IDE7CisJCWJyZWFrOworCX0KK30KKwogc3RhdGljIGludCBub3V2ZWF1X2RybV9wcm9iZShzdHJ1
+Y3QgcGNpX2RldiAqcGRldiwKIAkJCSAgICAgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgKnBl
+bnQpCiB7CkBAIC02OTksNiArNzUzLDcgQEAgc3RhdGljIGludCBub3V2ZWF1X2RybV9wcm9iZShz
+dHJ1Y3QgcGNpX2RldiAqcGRldiwKIAlpZiAocmV0KQogCQlnb3RvIGZhaWxfZHJtX2Rldl9pbml0
+OwogCisJcXVpcmtfYnJva2VuX252X3J1bnBtKHBkZXYpOwogCXJldHVybiAwOwogCiBmYWlsX2Ry
+bV9kZXZfaW5pdDoKQEAgLTczNSw2ICs3OTAsOCBAQCBub3V2ZWF1X2RybV9yZW1vdmUoc3RydWN0
+IHBjaV9kZXYgKnBkZXYpCiB7CiAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IHBjaV9nZXRfZHJ2
+ZGF0YShwZGV2KTsKIAorCS8qIHJldmVydCBvdXIgd29ya2Fyb3VuZCAqLworCXBkZXYtPnBhcmVu
+dF9kM2NvbGQgPSBmYWxzZTsKIAlub3V2ZWF1X2RybV9kZXZpY2VfcmVtb3ZlKGRldik7CiAJcGNp
+X2Rpc2FibGVfZGV2aWNlKHBkZXYpOwogfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9wY2kvcGNpLmMg
+Yi9kcml2ZXJzL3BjaS9wY2kuYwppbmRleCBkODI4Y2E4MzVhOTguLjljNDA0NGZjMjU1MyAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9wY2kvcGNpLmMKKysrIGIvZHJpdmVycy9wY2kvcGNpLmMKQEAgLTg2
+MSw2ICs4NjEsMTQgQEAgc3RhdGljIGludCBwY2lfcmF3X3NldF9wb3dlcl9zdGF0ZShzdHJ1Y3Qg
+cGNpX2RldiAqZGV2LCBwY2lfcG93ZXJfdCBzdGF0ZSkKIAkgICB8fCAoc3RhdGUgPT0gUENJX0Qy
+ICYmICFkZXYtPmQyX3N1cHBvcnQpKQogCQlyZXR1cm4gLUVJTzsKIAorCS8qCisJICogUG93ZXIg
+bWFuYWdlbWVudCBjYW4gYmUgZGlzYWJsZWQgZm9yIGNlcnRhaW4gZGV2aWNlcyBhcyB0aGV5IGRv
+bid0CisJICogY29tZSBiYWNrIHVwIGxhdGVyIG9uIHJ1bnRpbWVfcmVzdW1lLiBXZSByZWx5IG9u
+IHBsYXRmb3JtIG1lYW5zIHRvCisJICogY3V0IHBvd2VyIGNvbnN1bXB0aW9uIGluc3RlYWQgKGUu
+Zy4gQUNQSSkuCisJICovCisJaWYgKHN0YXRlICE9IFBDSV9EMCAmJiBkZXYtPnBhcmVudF9kM2Nv
+bGQpCisJCXJldHVybiAwOworCiAJcGNpX3JlYWRfY29uZmlnX3dvcmQoZGV2LCBkZXYtPnBtX2Nh
+cCArIFBDSV9QTV9DVFJMLCAmcG1jc3IpOwogCWlmIChwbWNzciA9PSAodTE2KSB+MCkgewogCQlw
+Y2lfZXJyKGRldiwgImNhbid0IGNoYW5nZSBwb3dlciBzdGF0ZSBmcm9tICVzIHRvICVzIChjb25m
+aWcgc3BhY2UgaW5hY2Nlc3NpYmxlKVxuIiwKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvcGNp
+LmggYi9pbmNsdWRlL2xpbnV4L3BjaS5oCmluZGV4IDM4NDBhNTQxYTlkZS4uM2MwMWYwNDM1MTlh
+IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L3BjaS5oCisrKyBiL2luY2x1ZGUvbGludXgvcGNp
+LmgKQEAgLTM0MCw2ICszNDAsNyBAQCBzdHJ1Y3QgcGNpX2RldiB7CiAJdW5zaWduZWQgaW50CW5v
+X2QzY29sZDoxOwkvKiBEM2NvbGQgaXMgZm9yYmlkZGVuICovCiAJdW5zaWduZWQgaW50CWJyaWRn
+ZV9kMzoxOwkvKiBBbGxvdyBEMyBmb3IgYnJpZGdlICovCiAJdW5zaWduZWQgaW50CWQzY29sZF9h
+bGxvd2VkOjE7CS8qIEQzY29sZCBpcyBhbGxvd2VkIGJ5IHVzZXIgKi8KKwl1bnNpZ25lZCBpbnQJ
+cGFyZW50X2QzY29sZDoxOwkvKiBQb3dlciBtYW5hZ2UgdGhlIHBhcmVudCBpbnN0ZWFkICovCiAJ
+dW5zaWduZWQgaW50CW1taW9fYWx3YXlzX29uOjE7CS8qIERpc2FsbG93IHR1cm5pbmcgb2ZmIGlv
+L21lbQogCQkJCQkJICAgZGVjb2RpbmcgZHVyaW5nIEJBUiBzaXppbmcgKi8KIAl1bnNpZ25lZCBp
+bnQJd2FrZXVwX3ByZXBhcmVkOjE7Ci0tIAoyLjI0LjEKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
