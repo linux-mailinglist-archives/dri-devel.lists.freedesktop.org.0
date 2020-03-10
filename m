@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7287B17EEAD
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 03:37:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A11D017F0E8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 08:05:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15B276E143;
-	Tue, 10 Mar 2020 02:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96FDD6E06D;
+	Tue, 10 Mar 2020 07:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 703316E143
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 02:37:31 +0000 (UTC)
-X-UUID: f7731083a6bb467bbae773dcdd098d58-20200310
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=hLjlW65hQN7C6KTZ0z09rF1NUbZS3I5Rt9C9E6AC1dM=; 
- b=G4KZOYec4ghBtwfsRhvrArSWXtZAwYe4JjBpGHXb9+7rCrAdo9glAWfc+rs29ZiVD/VFgnBHP5+ZyGA5D5YH/qzIflNEDnMJiZqom53+YHdzLinubIkWdcK9EtM/HqZHjASUg19eGgFkpWhXt+M8gLjkwl1HyaMN2aF1avXJQpA=;
-X-UUID: f7731083a6bb467bbae773dcdd098d58-20200310
-Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 2051755948; Tue, 10 Mar 2020 10:37:26 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 10 Mar 2020 10:36:30 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 10 Mar 2020 10:36:31 +0800
-Message-ID: <1583807844.30143.0.camel@mtksdaap41>
-Subject: Re: [PATCH 10/22] drm/mediatek: Use simple encoder
-From: CK Hu <ck.hu@mediatek.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 10 Mar 2020 10:37:24 +0800
-In-Reply-To: <20200305155950.2705-11-tzimmermann@suse.de>
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-11-tzimmermann@suse.de>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A56EC6E06D
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 07:05:35 +0000 (UTC)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1jBYxK-0006u3-4g; Tue, 10 Mar 2020 08:05:34 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1jBYxI-0000rW-CL; Tue, 10 Mar 2020 08:05:32 +0100
+Date: Tue, 10 Mar 2020 08:05:32 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 15/33] drm/panel-simple: Fix dotclock for EDT ET035012DM6
+Message-ID: <20200310070532.7ltpdskupxxtd3me@pengutronix.de>
+References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
+ <20200302203452.17977-16-ville.syrjala@linux.intel.com>
+ <20200303073320.2udpokcs2ync4hpy@pengutronix.de>
+ <20200303145251.GX13686@intel.com>
+ <20200306080257.2v7knpjavace7jw4@pengutronix.de>
+ <20200309131843.GW13686@intel.com>
 MIME-Version: 1.0
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <20200309131843.GW13686@intel.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 08:00:25 up 115 days, 22:19, 139 users,  load average: 0.11, 0.05,
+ 0.01
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,122 +60,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
- linux@armlinux.org.uk, paul@crapouillou.net, thierry.reding@gmail.com,
- krzk@kernel.org, sam@ravnborg.org, sebastian.reichel@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com, hjc@rock-chips.com,
- abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com, jonathanh@nvidia.com,
- xinliang.liu@linaro.org, ludovic.desroches@microchip.com, kgene@kernel.org,
- linux-imx@nxp.com, linux-rockchip@lists.infradead.org,
- virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
- jernej.skrabec@siol.net, kraxel@redhat.com, rodrigosiqueiramelo@gmail.com,
- tomi.valkeinen@ti.com, bbrezillon@kernel.org, jingoohan1@gmail.com,
- dri-devel@lists.freedesktop.org, sw0312.kim@samsung.com,
- nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
- kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
- linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
- laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thierry Reding <treding@nvidia.com>, Andreas Pretzsch <apr@cn-eng.de>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Thomas:
+On 20-03-09 15:18, Ville Syrj=E4l=E4 wrote:
+> On Fri, Mar 06, 2020 at 09:02:57AM +0100, Marco Felsch wrote:
+> > On 20-03-03 16:52, Ville Syrj=E4l=E4 wrote:
+> > > On Tue, Mar 03, 2020 at 08:33:20AM +0100, Marco Felsch wrote:
+> > > > Hi Ville,
+> > > > =
 
-On Thu, 2020-03-05 at 16:59 +0100, Thomas Zimmermann wrote:
-> The mediatak driver uses empty implementations for its encoders. Replace
-> the code with the generic simple encoder.
-> 
+> > > > On 20-03-02 22:34, Ville Syrjala wrote:
+> > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > > =
 
-Acked-by: CK Hu <ck.hu@mediatek.com>
+> > > > > The currently listed dotclock disagrees with the currently
+> > > > > listed vrefresh rate. Change the dotclock to match the vrefresh.
+> > > > > =
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++-----------
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 14 +++-----------
->  2 files changed, 6 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index 14fbe1c09ce9..9c90c58e5acd 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -20,6 +20,7 @@
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_of.h>
-> +#include <drm/drm_simple_kms_helper.h>
->  
->  #include "mtk_dpi_regs.h"
->  #include "mtk_drm_ddp_comp.h"
-> @@ -509,15 +510,6 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
->  	return 0;
->  }
->  
-> -static void mtk_dpi_encoder_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
-> -static const struct drm_encoder_funcs mtk_dpi_encoder_funcs = {
-> -	.destroy = mtk_dpi_encoder_destroy,
-> -};
-> -
->  static bool mtk_dpi_encoder_mode_fixup(struct drm_encoder *encoder,
->  				       const struct drm_display_mode *mode,
->  				       struct drm_display_mode *adjusted_mode)
-> @@ -596,8 +588,8 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
->  		return ret;
->  	}
->  
-> -	ret = drm_encoder_init(drm_dev, &dpi->encoder, &mtk_dpi_encoder_funcs,
-> -			       DRM_MODE_ENCODER_TMDS, NULL);
-> +	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
-> +				      DRM_MODE_ENCODER_TMDS);
->  	if (ret) {
->  		dev_err(dev, "Failed to initialize decoder: %d\n", ret);
->  		goto err_unregister;
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 0ede69830a9d..a9a25087112f 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -22,6 +22,7 @@
->  #include <drm/drm_panel.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
->  
->  #include "mtk_drm_ddp_comp.h"
->  
-> @@ -787,15 +788,6 @@ static void mtk_output_dsi_disable(struct mtk_dsi *dsi)
->  	dsi->enabled = false;
->  }
->  
-> -static void mtk_dsi_encoder_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
-> -static const struct drm_encoder_funcs mtk_dsi_encoder_funcs = {
-> -	.destroy = mtk_dsi_encoder_destroy,
-> -};
-> -
->  static bool mtk_dsi_encoder_mode_fixup(struct drm_encoder *encoder,
->  				       const struct drm_display_mode *mode,
->  				       struct drm_display_mode *adjusted_mode)
-> @@ -888,8 +880,8 @@ static int mtk_dsi_create_conn_enc(struct drm_device *drm, struct mtk_dsi *dsi)
->  {
->  	int ret;
->  
-> -	ret = drm_encoder_init(drm, &dsi->encoder, &mtk_dsi_encoder_funcs,
-> -			       DRM_MODE_ENCODER_DSI, NULL);
-> +	ret = drm_simple_encoder_init(drm, &dsi->encoder,
-> +				      DRM_MODE_ENCODER_DSI);
->  	if (ret) {
->  		DRM_ERROR("Failed to encoder init to drm\n");
->  		return ret;
+> > > > > Someone tell me which (if either) of the dotclock or vreresh is
+> > > > > correct?
+> > > > =
 
+> > > > Pls, check the datasheet which is linked within the comment. We hit=
+ the
+> > > > vrefresh exactly if we are in SYNC MODE.
+> > > =
+
+> > > It's too much work to start hunting datasheets for all these
+> > > and figuring out what's going on in each case. Pls just
+> > > inform me which way is correct if you know the details.
+> > =
+
+> > How do you know that the clock is wrong if it is to much work? As I said
+> > the clock is completely fine.
+> =
+
+> htotal*vtotal*vrefresh !=3D clock, so one or both are incorrect.
+
+I checked the values using this equation:
+clock / (htotal * vtotal) =3D vrefresh.
+
+Regards,
+  Marco
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
