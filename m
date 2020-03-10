@@ -1,118 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E16317F4E0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 11:18:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A4D17F536
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 11:40:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DC036E866;
-	Tue, 10 Mar 2020 10:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B438D6E19C;
+	Tue, 10 Mar 2020 10:40:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0BF6E866
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 10:18:31 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r7so15094494wro.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 03:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DgiO2chKoJ8vjMNestzs4TKOYYd4s40lBmzDiEk2JPM=;
- b=VT/et8X/azwH5HPRePhnfM90hD3Y9ksu/lhtt2eZ7lIjWu0ZbwTq20kJniG7szqn7N
- ey5vDIYuZkNhr4+4UQdIm31jgyOySwtH6RRcKJ5/fyMl2LVCrCK8Rm+aWwMP9kIg3Yze
- MDZabwlV8p5obkM/vIYq7vieHeMCb0QTnOtkmX0CEjxGbzwzTO/WkIeCxRWjP99m2aQt
- ZYdxTmW+kNxNWC0z+VTpAnphzAaHAmMg1vGngTLUSRLsfmysI34PV3Xs2nTrtklwJgPT
- 4GtzJF4p2zSuqTH8mN3xHbIcIfYZOQRWnmL6X9adBz1hND2dvq71Uyqb2ncoHELdjeR9
- Pzyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=DgiO2chKoJ8vjMNestzs4TKOYYd4s40lBmzDiEk2JPM=;
- b=dBQ4ZhAnFIi0JPkjc7YNFqAFmha7P6cfdIr0NgIuInNG3M1SAkB1Ir+BthUiBke4bk
- d2y3GFYqHQx56PMfIWE/Awo3sLU9WwcZdJ//3OQVtydoNj8IQ7jabY1D+5N4KQ7TM5KX
- s2rRghPHsZnFIvmZnjii0tZsqRqOLZKpOWpopsPCfN1rAuSu4XpMCkCVVEyN6DPffPBU
- Dm9UFyCGHUf9L0aSKq0tzMniDCA2ml9CzDfOAggREQgANyXPeaIKuJrLZAlPryoVhzB/
- amb+naPw1+eka9yLkqZMlSC/qTJqj2Tiespf1zYZ3iZJYjSIf4EKGOArsF1kLs9oy4+5
- eIFA==
-X-Gm-Message-State: ANhLgQ3mVheWsmRJ0ngrElBYZF2D+Tt5q0Y4codc0/x81/27z6AduHqT
- zFYv6Cyk8fxpAaJtAdDaD7qsrbygy1qcNA==
-X-Google-Smtp-Source: ADFU+vuZjiwDGmSY9ujI6IzzZiJjGOpT4aZAHUoOXlMD6XC0+suHICJ2SWK39FVc8f6z8sHwo68HGg==
-X-Received: by 2002:a5d:68cc:: with SMTP id p12mr13054455wrw.375.1583835509517; 
- Tue, 10 Mar 2020 03:18:29 -0700 (PDT)
-Received: from [10.1.3.173]
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id f4sm9719626wrt.24.2020.03.10.03.18.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Mar 2020 03:18:28 -0700 (PDT)
-Subject: Re: [PATCH v2] drm: bridge: tfp410: Check device ID for I2C-connected
- TFP410
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20200309184432.10293-1-laurent.pinchart@ideasonboard.com>
- <20200309203736.32695-1-laurent.pinchart@ideasonboard.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <e6cecf9f-f5c8-dd43-9322-dca1ca4f162d@baylibre.com>
-Date: Tue, 10 Mar 2020 11:18:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200309203736.32695-1-laurent.pinchart@ideasonboard.com>
-Content-Language: en-US
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE996E19C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 10:40:52 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200310104050euoutp016874a2eb5df8ab0224dcf1a7cb163d2e~66zlULcrV0227502275euoutp01B
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 10:40:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200310104050euoutp016874a2eb5df8ab0224dcf1a7cb163d2e~66zlULcrV0227502275euoutp01B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1583836850;
+ bh=h8EnI0Ps4EDMkuvENIFMaL3EShKfIVUI0eaE4/33qXI=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=pucMQZ8Pfa7wA6SvwhyZudC8B0okCNWavKHTOBqP3OIEeiZL88EZQBbHZONkhWgzf
+ R0Lmn3NdnhHlX0diuVfhdmipgpxHXz0b+JuW31vhQVZQLkYzBBgfafD0Cx3wZgmHCy
+ UBv62R6XORDc2oCeW7j0BkGHB2CPz+1uyYmeCN8A=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200310104050eucas1p20033f6258a81cf2aac6c05c31d0a10ab~66zlB2CEV2000120001eucas1p2F;
+ Tue, 10 Mar 2020 10:40:50 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 10.17.60698.2BE676E5; Tue, 10
+ Mar 2020 10:40:50 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f~66zkoziwL2792127921eucas1p1R;
+ Tue, 10 Mar 2020 10:40:49 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200310104049eusmtrp14f270dc7b53cb7812bfe6a7404a599ad~66zkn4hMv2107721077eusmtrp1K;
+ Tue, 10 Mar 2020 10:40:49 +0000 (GMT)
+X-AuditID: cbfec7f5-a29ff7000001ed1a-64-5e676eb2d13b
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 66.23.07950.1BE676E5; Tue, 10
+ Mar 2020 10:40:49 +0000 (GMT)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200310104048eusmtip2958d88966a263faa9e295bb5988f59b2~66zjy0LT90209802098eusmtip2T;
+ Tue, 10 Mar 2020 10:40:48 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH v2] drm/bridge: analogix_dp: Split bind() into probe() and
+ real bind()
+Date: Tue, 10 Mar 2020 11:34:27 +0100
+Message-Id: <20200310103427.26048-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSe0hTYRjG+XbOdo7W7DQFP8yUBgVaambEJ2WUCR6lqP7ILuZl5mlK25Qd
+ ZxpdRpHYNDMlsyNdSDO1Nq+YpZhKNS80w1s2NC0E8453KtOcR+u/3/O9PO/z8PKRmKRc6EBG
+ q+IYtUqmkIqs8coPP01uZSp56M7PJgyZDSYhutP6BaDS7GIh6pidEKGl7yNC9DDjCsroS8dR
+ 5/wQhgpmHhCoabQTR7fu5hFoqn8JQ9mttQKkf9dLoIa0YJSdOSQ6QNET3TcJ+jXXS9A5yQ+E
+ dGN6m4DuSzEK6PK8a/Qf7i1Op1UUAbrudiZOv+p6hNHTZU7H1p2x3hfJKKLjGbXH/nDrqNym
+ vbEzQQmPDKQW5AbogBUJqd3wRds8pgPWpIQqALA567GAFzMAcuVmnBfTAOa9NwvWLCVcsogf
+ PAcwpbSYsAxWLD86TlpYRHlC3ZhOZGE7SgGnkkeBhTGqEIdPun0tbEudggPNKbiFcWorHB/u
+ WNkjpnxgWopWxIc5wxcldRjPtQTM/HiWZz9Y3cIBnm3hsLGC4NkRtmSmrrSG1A0Av5n0BC9S
+ AWy/nr3q2At7TL+WE8jlRi6w+I2HBSF1EI6PXOXRBnaPbeQr28CMyvsY/yyGyUkSfsc2yBkN
+ /1LrP7WttqRh4bNGjL9ICBwZWBCkAyfuf9QTAIqAPaNhlXKG9VIxF91ZmZLVqOTu52KUZWD5
+ K7UsGmerQO1CRAOgSCBdL45yOx8qEcri2URlA4AkJrUThznLQyXiSFniJUYdE6bWKBi2AWwi
+ cam92OvpUIiEksvimAsME8uo16YC0spBC2qqrUSjJ/StE3NBEZ1Vk94DRxeNfr6Hf6fmmGp6
+ 90wHvQznIrO8u3d56Vz6lbIerWYp797Y3Ag1b48mfS63Z5A+x7tGT+cPB4u/BmzIjx/M4QaJ
+ Q4uBOwxD+kJzWJJ/4BHHoM1gO2lu3MJqyxVzrlNbc+un/dISNiWdcQU6fynORsk8XTE1K/sL
+ +spw/EYDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeLIzCtJLcpLzFFi42I5/e/4Pd2NeelxBo8/q1ncWneO1aL//E1G
+ i40z1rNaXPn6ns3i/6PXrBZzJ9VaTLo/gcXi6veXzBYrvsxktzj55iqLRefEJewWnx78Z7aY
+ cX4fk8XaI3fZLQ71RVvMmPySzUHA4/2NVnaPnbPusnvM7pjJ6nFiwiUmj/vdx5k8Ni+p9/g7
+ az+LR9+WVYweB3ons3hsvzaP2ePzJrkA7ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1D
+ Y/NYKyNTJX07m5TUnMyy1CJ9uwS9jMUnrQu+hFXMW8fRwLjYs4uRk0NCwERiw6wOti5GLg4h
+ gaWMElcubmaHSMhInJzWwAphC0v8udYFVfSJUWJaZycTSIJNwFCi6y1IgpNDRCBP4uFhkDgX
+ B7PAZhaJ31vaWEASwgJhEj8uzAErYhFQlXj36grYBl4BW4m+7gY2iA3yEqs3HGCewMizgJFh
+ FaNIamlxbnpusZFecWJucWleul5yfu4mRmBMbDv2c8sOxq53wYcYBTgYlXh4BbTT4oRYE8uK
+ K3MPMUpwMCuJ8MbLp8cJ8aYkVlalFuXHF5XmpBYfYjQFWj6RWUo0OR8Yr3kl8YamhuYWlobm
+ xubGZhZK4rwdAgdjhATSE0tSs1NTC1KLYPqYODilGhiPLnPIqVby+XGeZdbjntTtV5j2GRS1
+ CVfaTPr2qW7h1uC2tRe4XubWXJYqyWZIKFvP9q7s9h/377wfdF2zyrrNIo3X/o5X7f67R0e5
+ YNtf/yNznpg5cRl/Tyzikvnfkrhyd87Ptapp/js2bzRwaoux9j9i/fjWj4p1GueuthtXVW1K
+ jzYom6fEUpyRaKjFXFScCADudgJonwIAAA==
+X-CMS-MailID: 20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f
+X-Msg-Generator: CA
+X-RootMTR: 20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f
+References: <CGME20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,243 +104,340 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Jyri Sarha <jsarha@ti.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Sandy Huang <hjc@rock-chips.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/03/2020 21:37, Laurent Pinchart wrote:
-> The TFP410 supports configuration through I2C (in which case the
-> corresponding DT node is a child of an I2C controller) or through pins
-> (in which case the DT node creates a platform device). When I2C access
-> to the device is available, read and validate the device ID at probe
-> time to ensure that the device is present.
-> 
-> While at it, sort headers alphabetically.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> This time based on drm-misc-next instead of v5.6-rc5, with conflicts
-> resolved.
-> 
->  drivers/gpu/drm/bridge/ti-tfp410.c | 134 +++++++++++++++++++++++++----
->  1 file changed, 115 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-> index 40c4d4a5517b..be8d74ff632b 100644
-> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
-> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-> @@ -9,6 +9,7 @@
->  #include <linux/module.h>
->  #include <linux/of_graph.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regmap.h>
->  #include <linux/workqueue.h>
->  
->  #include <drm/drm_atomic_helper.h>
-> @@ -26,6 +27,7 @@ struct tfp410 {
->  	u32			bus_format;
->  	struct delayed_work	hpd_work;
->  	struct gpio_desc	*powerdown;
-> +	struct regmap		*regmap;
->  
->  	struct drm_bridge_timings timings;
->  	struct drm_bridge	*next_bridge;
-> @@ -213,7 +215,7 @@ static const struct drm_bridge_timings tfp410_default_timings = {
->  	.hold_time_ps = 1300,
->  };
->  
-> -static int tfp410_parse_timings(struct tfp410 *dvi, bool i2c)
-> +static int tfp410_parse_timings(struct tfp410 *dvi)
->  {
->  	struct drm_bridge_timings *timings = &dvi->timings;
->  	struct device_node *ep;
-> @@ -224,7 +226,7 @@ static int tfp410_parse_timings(struct tfp410 *dvi, bool i2c)
->  	/* Start with defaults. */
->  	*timings = tfp410_default_timings;
->  
-> -	if (i2c)
-> +	if (dvi->regmap)
->  		/*
->  		 * In I2C mode timings are configured through the I2C interface.
->  		 * As the driver doesn't support I2C configuration yet, we just
-> @@ -283,10 +285,10 @@ static int tfp410_parse_timings(struct tfp410 *dvi, bool i2c)
->  	return 0;
->  }
->  
-> -static int tfp410_init(struct device *dev, bool i2c)
-> +static int tfp410_init(struct tfp410 *dvi)
->  {
->  	struct device_node *node;
-> -	struct tfp410 *dvi;
-> +	struct device *dev = dvi->dev;
->  	int ret;
->  
->  	if (!dev->of_node) {
-> @@ -294,11 +296,6 @@ static int tfp410_init(struct device *dev, bool i2c)
->  		return -ENXIO;
->  	}
->  
-> -	dvi = devm_kzalloc(dev, sizeof(*dvi), GFP_KERNEL);
-> -	if (!dvi)
-> -		return -ENOMEM;
-> -
-> -	dvi->dev = dev;
->  	dev_set_drvdata(dev, dvi);
->  
->  	dvi->bridge.funcs = &tfp410_bridge_funcs;
-> @@ -306,7 +303,7 @@ static int tfp410_init(struct device *dev, bool i2c)
->  	dvi->bridge.timings = &dvi->timings;
->  	dvi->bridge.type = DRM_MODE_CONNECTOR_DVID;
->  
-> -	ret = tfp410_parse_timings(dvi, i2c);
-> +	ret = tfp410_parse_timings(dvi);
->  	if (ret)
->  		return ret;
->  
-> @@ -346,7 +343,15 @@ static int tfp410_fini(struct device *dev)
->  
->  static int tfp410_probe(struct platform_device *pdev)
->  {
-> -	return tfp410_init(&pdev->dev, false);
-> +	struct tfp410 *dvi;
-> +
-> +	dvi = devm_kzalloc(&pdev->dev, sizeof(*dvi), GFP_KERNEL);
-> +	if (!dvi)
-> +		return -ENOMEM;
-> +
-> +	dvi->dev = &pdev->dev;
-> +
-> +	return tfp410_init(dvi);
->  }
->  
->  static int tfp410_remove(struct platform_device *pdev)
-> @@ -370,20 +375,111 @@ static struct platform_driver tfp410_platform_driver = {
->  };
->  
->  #if IS_ENABLED(CONFIG_I2C)
-> -/* There is currently no i2c functionality. */
-> +
-> +#define TFP410_VEN_ID_LO		0x00
-> +#define TFP410_VEN_ID_HI		0x01
-> +#define TFP410_DEV_ID_LO		0x02
-> +#define TFP410_DEV_ID_HI		0x03
-> +#define TFP410_REV_ID			0x04
-> +#define TFP410_CTL_1_MODE		0x08
-> +#define TFP410_CTL_2_MODE		0x09
-> +#define TFP410_CTL_3_MODE		0x0a
-> +#define TFP410_CFG			0x0b
-> +#define TFP410_DE_DLY			0x32
-> +#define TFP410_DE_CTL			0x33
-> +#define TFP410_DE_TOP			0x34
-> +#define TFP410_DE_CNT_LO		0x36
-> +#define TFP410_DE_CNT_HI		0x37
-> +#define TFP410_DE_LIN_LO		0x38
-> +#define TFP410_DE_LIN_HI		0x39
-> +#define TFP410_H_RES_LO			0x3a
-> +#define TFP410_H_RES_HI			0x3b
-> +#define TFP410_V_RES_LO			0x3c
-> +#define TFP410_V_RES_HI			0x3d
-> +
-> +static const struct regmap_config tfp410_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +
-> +	.max_register = 0x3d,
-> +	.wr_table = &(const struct regmap_access_table) {
-> +		.yes_ranges = (const struct regmap_range[]) {
-> +			{
-> +				.range_min = TFP410_CTL_1_MODE,
-> +				.range_max = TFP410_DE_LIN_HI,
-> +			},
-> +		},
-> +		.n_yes_ranges = 1,
-> +	},
-> +};
-> +
-> +static int tfp410_check_version(struct tfp410 *dvi)
-> +{
-> +	unsigned int value;
-> +	u16 vendor_id;
-> +	u16 device_id;
-> +	u8 revision_id;
-> +	int ret;
-> +
-> +	ret = regmap_read(dvi->regmap, TFP410_VEN_ID_LO, &value);
-> +	if (ret < 0)
-> +		return ret;
-> +	vendor_id = value;
-> +
-> +	ret = regmap_read(dvi->regmap, TFP410_VEN_ID_HI, &value);
-> +	if (ret < 0)
-> +		return ret;
-> +	vendor_id |= value << 8;
-> +
-> +	ret = regmap_read(dvi->regmap, TFP410_DEV_ID_LO, &value);
-> +	if (ret < 0)
-> +		return ret;
-> +	device_id = value;
-> +
-> +	ret = regmap_read(dvi->regmap, TFP410_DEV_ID_HI, &value);
-> +	if (ret < 0)
-> +		return ret;
-> +	device_id |= value << 8;
-> +
-> +	ret = regmap_read(dvi->regmap, TFP410_REV_ID, &value);
-> +	if (ret < 0)
-> +		return ret;
-> +	revision_id = value;
-> +
-> +	if (vendor_id != 0x014c || device_id != 0x0410) {
-> +		dev_err(dvi->dev, "invalid device ID %04x:%04x\n",
-> +			vendor_id, device_id);
-> +		return -ENODEV;
-> +	}
-> +
-> +	dev_info(dvi->dev, "Found TFP410 revision 0x%02x\n", revision_id);
-> +
-> +	return 0;
-> +}
-> +
->  static int tfp410_i2c_probe(struct i2c_client *client,
->  			    const struct i2c_device_id *id)
->  {
-> -	int reg;
-> +	struct tfp410 *dvi;
-> +	int ret;
->  
-> -	if (!client->dev.of_node ||
-> -	    of_property_read_u32(client->dev.of_node, "reg", &reg)) {
-> -		dev_err(&client->dev,
-> -			"Can't get i2c reg property from device-tree\n");
-> -		return -ENXIO;
-> +	dvi = devm_kzalloc(&client->dev, sizeof(*dvi), GFP_KERNEL);
-> +	if (!dvi)
-> +		return -ENOMEM;
-> +
-> +	dvi->dev = &client->dev;
-> +
-> +	dvi->regmap = devm_regmap_init_i2c(client, &tfp410_regmap_config);
-> +	if (IS_ERR(dvi->regmap))
-> +		return PTR_ERR(dvi->regmap);
-> +
-> +	ret = tfp410_check_version(dvi);
-> +	if (ret < 0) {
-> +		dev_err(dvi->dev, "failed to read device ID (%d)\n", ret);
-> +		return ret;
->  	}
->  
-> -	return tfp410_init(&client->dev, true);
-> +	return tfp410_init(dvi);
->  }
->  
->  static int tfp410_i2c_remove(struct i2c_client *client)
-> 
+Analogix_dp driver acquires all its resources in the ->bind() callback,
+what is a bit against the component driver based approach, where the
+driver initialization is split into a probe(), where all resources are
+gathered, and a bind(), where all objects are created and a compound
+driver is initialized.
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Extract all the resource related operations to analogix_dp_probe() and
+analogix_dp_remove(), then call them before/after registration of the
+device components from the main Exynos DP and Rockchip DP drivers. Also
+move the plat_data initialization to the probe() to make it available for
+the analogix_dp_probe() function.
 
-Neil
+This fixes the multiple calls to the bind() of the DRM compound driver
+when the DP PHY driver is not yet loaded/probed:
+
+[drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
+exynos-drm exynos-drm: bound 14400000.fimd (ops fimd_component_ops [exynosdrm])
+exynos-drm exynos-drm: bound 14450000.mixer (ops mixer_component_ops [exynosdrm])
+exynos-dp 145b0000.dp-controller: no DP phy configured
+exynos-drm exynos-drm: failed to bind 145b0000.dp-controller (ops exynos_dp_ops [exynosdrm]): -517
+exynos-drm exynos-drm: master bind failed: -517
+...
+[drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
+exynos-drm exynos-drm: bound 14400000.fimd (ops hdmi_enable [exynosdrm])
+exynos-drm exynos-drm: bound 14450000.mixer (ops hdmi_enable [exynosdrm])
+exynos-drm exynos-drm: bound 145b0000.dp-controller (ops hdmi_enable [exynosdrm])
+exynos-drm exynos-drm: bound 14530000.hdmi (ops hdmi_enable [exynosdrm])
+[drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+Console: switching to colour frame buffer device 170x48
+exynos-drm exynos-drm: fb0: exynosdrmfb frame buffer device
+[drm] Initialized exynos 1.1.0 20180330 for exynos-drm on minor 1
+...
+
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+v2:
+- moved plat_data initialization to exynos_dp_probe/rockchip_dp_probe as
+  pointed by Andy Yan
+---
+ .../drm/bridge/analogix/analogix_dp_core.c    | 33 +++++++++++------
+ drivers/gpu/drm/exynos/exynos_dp.c            | 29 ++++++++-------
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 36 ++++++++++---------
+ include/drm/bridge/analogix_dp.h              |  5 +--
+ 4 files changed, 61 insertions(+), 42 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index 9ded2cef57dd..76736fb8ed94 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1652,8 +1652,7 @@ static ssize_t analogix_dpaux_transfer(struct drm_dp_aux *aux,
+ }
+ 
+ struct analogix_dp_device *
+-analogix_dp_bind(struct device *dev, struct drm_device *drm_dev,
+-		 struct analogix_dp_plat_data *plat_data)
++analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct analogix_dp_device *dp;
+@@ -1756,22 +1755,30 @@ analogix_dp_bind(struct device *dev, struct drm_device *drm_dev,
+ 					irq_flags, "analogix-dp", dp);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to request irq\n");
+-		goto err_disable_pm_runtime;
++		return ERR_PTR(ret);
+ 	}
+ 	disable_irq(dp->irq);
+ 
++	return dp;
++}
++EXPORT_SYMBOL_GPL(analogix_dp_probe);
++
++int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
++{
++	int ret;
++
+ 	dp->drm_dev = drm_dev;
+ 	dp->encoder = dp->plat_data->encoder;
+ 
+ 	dp->aux.name = "DP-AUX";
+ 	dp->aux.transfer = analogix_dpaux_transfer;
+-	dp->aux.dev = &pdev->dev;
++	dp->aux.dev = dp->dev;
+ 
+ 	ret = drm_dp_aux_register(&dp->aux);
+ 	if (ret)
+-		return ERR_PTR(ret);
++		return ret;
+ 
+-	pm_runtime_enable(dev);
++	pm_runtime_enable(dp->dev);
+ 
+ 	ret = analogix_dp_create_bridge(drm_dev, dp);
+ 	if (ret) {
+@@ -1779,13 +1786,12 @@ analogix_dp_bind(struct device *dev, struct drm_device *drm_dev,
+ 		goto err_disable_pm_runtime;
+ 	}
+ 
+-	return dp;
++	return 0;
+ 
+ err_disable_pm_runtime:
++	pm_runtime_disable(dp->dev);
+ 
+-	pm_runtime_disable(dev);
+-
+-	return ERR_PTR(ret);
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(analogix_dp_bind);
+ 
+@@ -1802,10 +1808,15 @@ void analogix_dp_unbind(struct analogix_dp_device *dp)
+ 
+ 	drm_dp_aux_unregister(&dp->aux);
+ 	pm_runtime_disable(dp->dev);
+-	clk_disable_unprepare(dp->clock);
+ }
+ EXPORT_SYMBOL_GPL(analogix_dp_unbind);
+ 
++void analogix_dp_remove(struct analogix_dp_device *dp)
++{
++	clk_disable_unprepare(dp->clock);
++}
++EXPORT_SYMBOL_GPL(analogix_dp_remove);
++
+ #ifdef CONFIG_PM
+ int analogix_dp_suspend(struct analogix_dp_device *dp)
+ {
+diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
+index d23d3502ca91..5ee090691390 100644
+--- a/drivers/gpu/drm/exynos/exynos_dp.c
++++ b/drivers/gpu/drm/exynos/exynos_dp.c
+@@ -159,15 +159,8 @@ static int exynos_dp_bind(struct device *dev, struct device *master, void *data)
+ 	struct drm_device *drm_dev = data;
+ 	int ret;
+ 
+-	dp->dev = dev;
+ 	dp->drm_dev = drm_dev;
+ 
+-	dp->plat_data.dev_type = EXYNOS_DP;
+-	dp->plat_data.power_on_start = exynos_dp_poweron;
+-	dp->plat_data.power_off = exynos_dp_poweroff;
+-	dp->plat_data.attach = exynos_dp_bridge_attach;
+-	dp->plat_data.get_modes = exynos_dp_get_modes;
+-
+ 	if (!dp->plat_data.panel && !dp->ptn_bridge) {
+ 		ret = exynos_dp_dt_parse_panel(dp);
+ 		if (ret)
+@@ -185,13 +178,11 @@ static int exynos_dp_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	dp->plat_data.encoder = encoder;
+ 
+-	dp->adp = analogix_dp_bind(dev, dp->drm_dev, &dp->plat_data);
+-	if (IS_ERR(dp->adp)) {
++	ret = analogix_dp_bind(dp->adp, dp->drm_dev);
++	if (ret)
+ 		dp->encoder.funcs->destroy(&dp->encoder);
+-		return PTR_ERR(dp->adp);
+-	}
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static void exynos_dp_unbind(struct device *dev, struct device *master,
+@@ -222,6 +213,7 @@ static int exynos_dp_probe(struct platform_device *pdev)
+ 	if (!dp)
+ 		return -ENOMEM;
+ 
++	dp->dev = dev;
+ 	/*
+ 	 * We just use the drvdata until driver run into component
+ 	 * add function, and then we would set drvdata to null, so
+@@ -247,16 +239,29 @@ static int exynos_dp_probe(struct platform_device *pdev)
+ 
+ 	/* The remote port can be either a panel or a bridge */
+ 	dp->plat_data.panel = panel;
++	dp->plat_data.dev_type = EXYNOS_DP;
++	dp->plat_data.power_on_start = exynos_dp_poweron;
++	dp->plat_data.power_off = exynos_dp_poweroff;
++	dp->plat_data.attach = exynos_dp_bridge_attach;
++	dp->plat_data.get_modes = exynos_dp_get_modes;
+ 	dp->plat_data.skip_connector = !!bridge;
++
+ 	dp->ptn_bridge = bridge;
+ 
+ out:
++	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
++	if (IS_ERR(dp->adp))
++		return PTR_ERR(dp->adp);
++
+ 	return component_add(&pdev->dev, &exynos_dp_ops);
+ }
+ 
+ static int exynos_dp_remove(struct platform_device *pdev)
+ {
++	struct exynos_dp_device *dp = platform_get_drvdata(pdev);
++
+ 	component_del(&pdev->dev, &exynos_dp_ops);
++	analogix_dp_remove(dp->adp);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+index f38f5e113c6b..ce98c08aa8b4 100644
+--- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+@@ -325,15 +325,9 @@ static int rockchip_dp_bind(struct device *dev, struct device *master,
+ 			    void *data)
+ {
+ 	struct rockchip_dp_device *dp = dev_get_drvdata(dev);
+-	const struct rockchip_dp_chip_data *dp_data;
+ 	struct drm_device *drm_dev = data;
+ 	int ret;
+ 
+-	dp_data = of_device_get_match_data(dev);
+-	if (!dp_data)
+-		return -ENODEV;
+-
+-	dp->data = dp_data;
+ 	dp->drm_dev = drm_dev;
+ 
+ 	ret = rockchip_dp_drm_create_encoder(dp);
+@@ -344,16 +338,9 @@ static int rockchip_dp_bind(struct device *dev, struct device *master,
+ 
+ 	dp->plat_data.encoder = &dp->encoder;
+ 
+-	dp->plat_data.dev_type = dp->data->chip_type;
+-	dp->plat_data.power_on_start = rockchip_dp_poweron_start;
+-	dp->plat_data.power_off = rockchip_dp_powerdown;
+-	dp->plat_data.get_modes = rockchip_dp_get_modes;
+-
+-	dp->adp = analogix_dp_bind(dev, dp->drm_dev, &dp->plat_data);
+-	if (IS_ERR(dp->adp)) {
+-		ret = PTR_ERR(dp->adp);
++	ret = analogix_dp_bind(dp->adp, drm_dev);
++	if (ret)
+ 		goto err_cleanup_encoder;
+-	}
+ 
+ 	return 0;
+ err_cleanup_encoder:
+@@ -368,8 +355,6 @@ static void rockchip_dp_unbind(struct device *dev, struct device *master,
+ 
+ 	analogix_dp_unbind(dp->adp);
+ 	dp->encoder.funcs->destroy(&dp->encoder);
+-
+-	dp->adp = ERR_PTR(-ENODEV);
+ }
+ 
+ static const struct component_ops rockchip_dp_component_ops = {
+@@ -380,10 +365,15 @@ static const struct component_ops rockchip_dp_component_ops = {
+ static int rockchip_dp_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
++	const struct rockchip_dp_chip_data *dp_data;
+ 	struct drm_panel *panel = NULL;
+ 	struct rockchip_dp_device *dp;
+ 	int ret;
+ 
++	dp_data = of_device_get_match_data(dev);
++	if (!dp_data)
++		return -ENODEV;
++
+ 	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
+ 	if (ret < 0)
+ 		return ret;
+@@ -394,7 +384,12 @@ static int rockchip_dp_probe(struct platform_device *pdev)
+ 
+ 	dp->dev = dev;
+ 	dp->adp = ERR_PTR(-ENODEV);
++	dp->data = dp_data;
+ 	dp->plat_data.panel = panel;
++	dp->plat_data.dev_type = dp->data->chip_type;
++	dp->plat_data.power_on_start = rockchip_dp_poweron_start;
++	dp->plat_data.power_off = rockchip_dp_powerdown;
++	dp->plat_data.get_modes = rockchip_dp_get_modes;
+ 
+ 	ret = rockchip_dp_of_probe(dp);
+ 	if (ret < 0)
+@@ -402,12 +397,19 @@ static int rockchip_dp_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, dp);
+ 
++	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
++	if (IS_ERR(dp->adp))
++		return PTR_ERR(dp->adp);
++
+ 	return component_add(dev, &rockchip_dp_component_ops);
+ }
+ 
+ static int rockchip_dp_remove(struct platform_device *pdev)
+ {
++	struct rockchip_dp_device *dp = platform_get_drvdata(pdev);
++
+ 	component_del(&pdev->dev, &rockchip_dp_component_ops);
++	analogix_dp_remove(dp->adp);
+ 
+ 	return 0;
+ }
+diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
+index 7aa2f93da49c..b0dcc07334a1 100644
+--- a/include/drm/bridge/analogix_dp.h
++++ b/include/drm/bridge/analogix_dp.h
+@@ -42,9 +42,10 @@ int analogix_dp_resume(struct analogix_dp_device *dp);
+ int analogix_dp_suspend(struct analogix_dp_device *dp);
+ 
+ struct analogix_dp_device *
+-analogix_dp_bind(struct device *dev, struct drm_device *drm_dev,
+-		 struct analogix_dp_plat_data *plat_data);
++analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data);
++int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev);
+ void analogix_dp_unbind(struct analogix_dp_device *dp);
++void analogix_dp_remove(struct analogix_dp_device *dp);
+ 
+ int analogix_dp_start_crc(struct drm_connector *connector);
+ int analogix_dp_stop_crc(struct drm_connector *connector);
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
