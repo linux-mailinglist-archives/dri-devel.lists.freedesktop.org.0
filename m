@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF9C180C8D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 00:37:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4809C180C84
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 00:37:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFBBC6E8F8;
-	Tue, 10 Mar 2020 23:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67AB86E90A;
+	Tue, 10 Mar 2020 23:36:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ssl.serverraum.org (ssl.serverraum.org
- [IPv6:2a01:4f8:151:8464::1:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 492336E2E1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 14:12:47 +0000 (UTC)
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ssl.serverraum.org (Postfix) with ESMTPSA id 0CFAA23ECA;
- Tue, 10 Mar 2020 15:12:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2016061301; t=1583849565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hEWql192yhW7vtj33Ar2ueUuqZzJlfD7KDs4yhM6yuY=;
- b=PQ+UEguI+6SdYnqx6Rtn22RYead+fBmeyqt/n8R9DqO///TzSh9elzyIUB3fkJAb0eDZkH
- LWEdFzv03wvcW/kGvWMN7I+dWJRmr4aT5cBkoKjGHrgK+MmtC/QZH3j6F5n8VhXFi9rds0
- nYmd9aodavlaShm5p5AGAcONE0ELWCI=
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7140A6E301
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 14:30:48 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id y7so490142pjn.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 07:30:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ge7gDpcBGRttSD8WjUIEGB/IfPhV68NKF/ex9fXuV1k=;
+ b=CoFNk7HHJ27bS8Sau2w7fDpQELoK3pr1joAA4rGVBfG5Pm0v8QxK3gvrRv31TMJgBw
+ /CCO4x6Zsc+Of+XbBzOwSfE7m1Sxr4AKwGylYBTm8IAkBbFMbk7JAamCR/yEbd2trE7T
+ ZB4gaC5uh/i04xNu0v5Ipync9hCnJUA093+tfr9ocBI/54M6JwTgwD/rLyyfGf25JEz2
+ 6mhMR3QILXYjsvcCSoUdGHBFZ3n01gLbiOIyaQvtohNjsTXC47ZHWkh/TucOuWvDJzoq
+ G/Wcnk5S+SeD4OiYuFpNFMeNtZYnrAN0/fiJWGGuuDfvlHAM+YL+0/6r96Z2X7HtH+xo
+ G/pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ge7gDpcBGRttSD8WjUIEGB/IfPhV68NKF/ex9fXuV1k=;
+ b=j91S3vpogF1okyx/xaq84ekplT4P/6q+ufnyvJUqASgxwKPJAiJZnmeyimWUzH3AN4
+ m/jOhFJKbnIOib8tyv5C7TSssyQP6kL5kfMvPSERwjuVm49tY5ia1eDuxMn9f7EwQsML
+ 5xh5TLAmtf6itqfNqrUSjR7Px/VCOjja9/D6c4aSKvUpWZOBvCE0mUxmZGApIziOLgqs
+ fCqnvBQ9QXAsU+/mXwE6YGg1/mSn7UQ53K4kOx+DVoDo/SVoidpZ43Di0YaBqftM9sqt
+ x0x96yd6SvAPyPrnyBgWDTP5QtFeTsjQEekaCyasIhovE+qseot3i5FuOZmSIBvqtxnO
+ K+vg==
+X-Gm-Message-State: ANhLgQ2Fsg/jLB472yXY2uiKyFB4iHkmc2aqBnEToeBantgarTk/enFB
+ DG0hSJHL0pE9EpVnlpeQ0hI=
+X-Google-Smtp-Source: ADFU+vstmImOUNgoCcrT7uEN6qpq42UEh1S0ApYVVlp2WgbIzWYZKiUJyohS5+dKEhJO2dENy6CcRA==
+X-Received: by 2002:a17:902:9a4c:: with SMTP id
+ x12mr19846817plv.297.1583850647173; 
+ Tue, 10 Mar 2020 07:30:47 -0700 (PDT)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+ by smtp.gmail.com with ESMTPSA id l11sm2419160pjy.44.2020.03.10.07.30.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 07:30:46 -0700 (PDT)
+From: Chuhong Yuan <hslester96@gmail.com>
+To: 
+Subject: [PATCH v2] fbdev: s1d13xxxfb: add missed unregister_framebuffer in
+ remove
+Date: Tue, 10 Mar 2020 22:30:33 +0800
+Message-Id: <20200310143033.5098-1-hslester96@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Tue, 10 Mar 2020 15:12:45 +0100
-From: Michael Walle <michael@walle.cc>
-To: Vladimir Oltean <olteanv@gmail.com>
-Subject: Re: [PATCH] spi: spi-fsl-dspi: fix DMA mapping
-In-Reply-To: <CA+h21hqMoPhbq8YG0UeV1kP0iXApYsJvb9MZjPGX54dm2U-KnQ@mail.gmail.com>
-References: <20200310073313.21277-1-michael@walle.cc>
- <4beb5200a76f2d817be7276444543de4@walle.cc>
- <ea6ffa30ddc2459d07935e5e61a41172@walle.cc>
- <CA+h21hqMoPhbq8YG0UeV1kP0iXApYsJvb9MZjPGX54dm2U-KnQ@mail.gmail.com>
-Message-ID: <76923af394f334337a3cac125c270087@walle.cc>
-X-Sender: michael@walle.cc
-User-Agent: Roundcube Webmail/1.3.10
-X-Spamd-Bar: /
-X-Spam-Status: No, score=-0.10
-X-Rspamd-Server: web
-X-Spam-Score: -0.10
-X-Rspamd-Queue-Id: 0CFAA23ECA
-X-Spamd-Result: default: False [-0.10 / 15.00]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- DKIM_SIGNED(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
- NEURAL_HAM(-0.00)[-0.597]; FREEMAIL_TO(0.00)[gmail.com];
- RCVD_COUNT_ZERO(0.00)[0]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[]
 X-Mailman-Approved-At: Tue, 10 Mar 2020 23:36:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,58 +67,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vladimir Oltean <vladimir.oltean@nxp.com>,
- lkml <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- linux-spi@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Mark Brown <broonie@kernel.org>, linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Chuhong Yuan <hslester96@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2020-03-10 14:02, schrieb Vladimir Oltean:
-> On Tue, 10 Mar 2020 at 10:12, Michael Walle <michael@walle.cc> wrote:
->> 
->> Am 2020-03-10 08:40, schrieb Michael Walle:
->> > Am 2020-03-10 08:33, schrieb Michael Walle:
->> >> Use the correct device to request the DMA mapping. Otherwise the IOMMU
->> >> doesn't get the mapping and it will generate a page fault.
->> >>
->> >> The error messages look like:
->> >> [    3.008452] arm-smmu 5000000.iommu: Unhandled context fault:
->> >> fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
->> >> [    3.020123] arm-smmu 5000000.iommu: Unhandled context fault:
->> >> fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
->> >>
->> >> This was tested on a custom board with a LS1028A SoC.
->> >
->> > Oh fu.. please disregard this patch. DMA mapping still isn't working.
->> > Somehow I missed that the transfer mode was turned back to its default
->> > XSPI mode.
->> 
->> Damn. I need more coffee.. this patch IS working. Only the first probe
->> fails due to EPROBE_DEFER.
->> 
->> [    2.539706] fsl-dspi 2120000.spi: rx dma channel not available 
->> (-517)
->> [    2.546200] fsl-dspi 2120000.spi: can't get dma channels
->> [    3.622774] spi-nor spi1.0: w25q128fw (16384 Kbytes)
->> 
->> -michael
-> 
-> I'm testing LS1028A with IOMMU_DEFAULT_PASSTHROUGH=y and I didn't have
-> time to change my setup now. I've also sent a v3 to my patch series
-> which is going to conflict with this one, sorry.
+The driver calls register_framebuffer() in probe but does not call
+unregister_framebuffer() in remove.
+Rename current remove to __s1d13xxxfb_remove() for error handler.
+Then add a new remove to call unregister_framebuffer().
 
-No worries, its easy enough to rebase.
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+---
+Changes in v2:
+  - Rename the existing remove and add a new one to ensure the correctness
+    of error handler in probe.
 
-> I would have picked
-> your patch up with my series but I didn't have the right environment
-> to test it.
+ drivers/video/fbdev/s1d13xxxfb.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-I'll resend a v2 once your series is working.
+diff --git a/drivers/video/fbdev/s1d13xxxfb.c b/drivers/video/fbdev/s1d13xxxfb.c
+index 8048499e398d..bafea3d09bba 100644
+--- a/drivers/video/fbdev/s1d13xxxfb.c
++++ b/drivers/video/fbdev/s1d13xxxfb.c
+@@ -721,9 +721,8 @@ static void s1d13xxxfb_fetch_hw_state(struct fb_info *info)
+ 		xres, yres, xres_virtual, yres_virtual, is_color, is_dual, is_tft);
+ }
+ 
+-
+ static int
+-s1d13xxxfb_remove(struct platform_device *pdev)
++__s1d13xxxfb_remove(struct platform_device *pdev)
+ {
+ 	struct fb_info *info = platform_get_drvdata(pdev);
+ 	struct s1d13xxxfb_par *par = NULL;
+@@ -752,6 +751,18 @@ s1d13xxxfb_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static int
++s1d13xxxfb_remove(struct platform_device *pdev)
++{
++	struct fb_info *info = platform_get_drvdata(pdev);
++
++	if (info)
++		unregister_framebuffer(info);
++
++	return __s1d13xxxfb_remove(pdev);
++}
++
++
+ static int s1d13xxxfb_probe(struct platform_device *pdev)
+ {
+ 	struct s1d13xxxfb_par *default_par;
+@@ -895,7 +906,7 @@ static int s1d13xxxfb_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ bail:
+-	s1d13xxxfb_remove(pdev);
++	__s1d13xxxfb_remove(pdev);
+ 	return ret;
+ 
+ }
+-- 
+2.25.1
 
--michael
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
