@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE46180897
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 20:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAED21808DE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 21:12:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38DF6E39B;
-	Tue, 10 Mar 2020 19:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3A36E8D7;
+	Tue, 10 Mar 2020 20:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A23F6E39B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 19:54:33 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 55CCC804BA;
- Tue, 10 Mar 2020 20:54:26 +0100 (CET)
-Date: Tue, 10 Mar 2020 20:54:25 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v8] dt-bindings: display: Add idk-2121wr binding
-Message-ID: <20200310195425.GA23440@ravnborg.org>
-References: <1583869169-1006-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA1316E8D7;
+ Tue, 10 Mar 2020 20:12:06 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2020 13:11:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,538,1574150400"; d="scan'208";a="353700766"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga001.fm.intel.com with SMTP; 10 Mar 2020 13:11:52 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 10 Mar 2020 22:11:51 +0200
+Date: Tue, 10 Mar 2020 22:11:51 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH v3] drm/i915/mst: Hookup DRM DP MST
+ late_register/early_unregister callbacks
+Message-ID: <20200310201151.GS13686@intel.com>
+References: <20200310185417.1588984-1-lyude@redhat.com>
+ <20200310195122.1590925-1-lyude@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1583869169-1006-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200310195122.1590925-1-lyude@redhat.com>
+X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=yC-0_ovQAAAA:8
- a=NcFk6D9gAAAA:8 a=VwQbUJbxAAAA:8 a=7378Ce_uM9WWH4H7eJsA:9
- a=CjuIK1q_8ugA:10 a=gDps05xe3HUA:10 a=-FEs8UIgK8oA:10 a=CojVow1nldcA:10
- a=NWVoK91CQyQA:10 a=QsnFDINu91a9xkgZirup:22 a=dT0RXAwTRpxWjiziVLXF:22
- a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,47 +49,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, Manasi Navare <manasi.d.navare@intel.com>,
+ =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, "Lee, Shawn C" <shawn.c.lee@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar
+On Tue, Mar 10, 2020 at 03:51:21PM -0400, Lyude Paul wrote:
+> i915 can enable aux device nodes for DP MST by calling
+> drm_dp_mst_connector_late_register()/drm_dp_mst_connector_early_unregiste=
+r(),
+> so let's hook that up.
+> =
 
-On Tue, Mar 10, 2020 at 07:39:29PM +0000, Lad Prabhakar wrote:
-> From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> 
-> Add binding for the idk-2121wr LVDS panel from Advantech.
-> 
-> Some panel-specific documentation can be found here:
-> https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Changes since v1:
+> * Call intel_connector_register/unregister() from
+>   intel_dp_mst_connector_late_register/unregister() so we don't lose
+>   error injection - Ville Syrj=E4l=E4
+> Changes since v2:
+> * Don't forget to clean up if intel_connector_register() fails - Ville
+> =
+
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Cc: Manasi Navare <manasi.d.navare@intel.com>
+> Cc: "Lee, Shawn C" <shawn.c.lee@intel.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
 > ---
-> 
-> Hi All,
-> This patch is part of series [1] ("Add dual-LVDS panel support to EK874),
-> all the patches have been accepted from it except this one. I have fixed
-> Rob's comments in this version of the patch.
-> 
-> [1] https://patchwork.kernel.org/cover/11297589/
-> 
-> V7->8
->  * Dropped ref to lvds.yaml, since the panel a dual channel LVDS, as a
->    result the root port is called as ports instead of port and the child
->    node port@0 and port@1 are used for even and odd pixels, hence binding
->    has required property as ports instead of port.
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c | 33 +++++++++++++++++++--
+>  1 file changed, 31 insertions(+), 2 deletions(-)
+> =
 
-Looks good, thanks for your persistence..
-Applied and pushed to drm-misc-next.
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/dr=
+m/i915/display/intel_dp_mst.c
+> index d53978ed3c12..e08caca658c6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -548,12 +548,41 @@ static int intel_dp_mst_get_ddc_modes(struct drm_co=
+nnector *connector)
+>  	return ret;
+>  }
+>  =
 
-	Sam
+> +static int
+> +intel_dp_mst_connector_late_register(struct drm_connector *connector)
+> +{
+> +	struct intel_connector *intel_connector =3D to_intel_connector(connecto=
+r);
+> +	int ret;
+> +
+> +	ret =3D drm_dp_mst_connector_late_register(connector,
+> +						 intel_connector->port);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret =3D intel_connector_register(connector);
+> +	if (ret < 0)
+> +		drm_dp_mst_connector_early_unregister(connector,
+> +						      intel_connector->port);
+> +
+> +	return ret;
+> +}
+> +
+> +static void
+> +intel_dp_mst_connector_early_unregister(struct drm_connector *connector)
+> +{
+> +	struct intel_connector *intel_connector =3D to_intel_connector(connecto=
+r);
+> +
+> +	intel_connector_unregister(connector);
+> +	drm_dp_mst_connector_early_unregister(connector,
+> +					      intel_connector->port);
+> +}
+> +
+>  static const struct drm_connector_funcs intel_dp_mst_connector_funcs =3D=
+ {
+>  	.fill_modes =3D drm_helper_probe_single_connector_modes,
+>  	.atomic_get_property =3D intel_digital_connector_atomic_get_property,
+>  	.atomic_set_property =3D intel_digital_connector_atomic_set_property,
+> -	.late_register =3D intel_connector_register,
+> -	.early_unregister =3D intel_connector_unregister,
+> +	.late_register =3D intel_dp_mst_connector_late_register,
+> +	.early_unregister =3D intel_dp_mst_connector_early_unregister,
+>  	.destroy =3D intel_connector_destroy,
+>  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
+>  	.atomic_duplicate_state =3D intel_digital_connector_duplicate_state,
+> -- =
+
+> 2.24.1
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
