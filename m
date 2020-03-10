@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D9917F1B9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DFF17F199
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:19:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C763E6E833;
-	Tue, 10 Mar 2020 08:19:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35B826E808;
+	Tue, 10 Mar 2020 08:19:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF3736E513
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 02:35:45 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id l41so45969pjb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 19:35:45 -0700 (PDT)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 638506E513
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 03:43:54 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id t3so2608422plz.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2020 20:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=weiT/gNMaT98DNcrVoArqN1n8qFeWFcO2aQcNrwiOqg=;
- b=uxXytDB3DRQOxrf6pVlKVlOQH0reGS/RA0mfsP2HFwvi0wllV2YKlIc6k7vHehz7/6
- 1gSRXObd3WUwmpYBMiflWSSOTPFZOZZCUH+FjuKa+U+MOv7noMKdyhzJ7cgnqveEIaPG
- ZwZEEjoQnFIR57tphVcc4UE9MLyQXd9qUVxMAFIvEDNZxhoe4atpBb6WTV2MF83yvv6P
- q2kGNu3xBAMQUZZ6Uvn0abfyYWgqJcYOM9L1O8G5J2ntuY/u6b/TP7Ldg9mX8kOBPGla
- Z6lKmLItIFm1rieh7LRe7UUUtOkuw78CLJ0he6t8cSeTDIlxFR91rsQSt/iBxwOagnY+
- qPoQ==
+ bh=NJRaRZ4naX3Vnv5pmVF9pvGr8T/5dEuyNUhM/Hub+PE=;
+ b=r3daWSPEY9Uv+21e3FeeuaaVrZl1TLEKPbfhYSAW/PKUS5xWLkTJn6KOxSn82D/MTI
+ LNF2vHRgY8rH7HSn098uS6WuDkE7lXkCWCPy/Vuzk505jHF8XZ/NzTtLI4qrhFYG/5aI
+ dm+Lym2eERwjXSoQ1AHaU8twICmCsfj6ZvaYoVerKsCEy53VU8E1jCphrQh7kLCb5C1J
+ 8+GbwanjoeDJZehn1bknUAPH8T8X2bVg6uPnmJZDNPvex+RCT1CbT0CoahE4nylZK+fV
+ vsXNKazNbIq/KbU/m4KWIdiVMjDSH3EZod+exPnTVT/UaX/5vuXHyj9M3oQLPTFwp/0d
+ O64A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=weiT/gNMaT98DNcrVoArqN1n8qFeWFcO2aQcNrwiOqg=;
- b=nan/Cbxz8qipuOHqvndcCL8zZzQqGGYTNi1qUG9/5P6cTYANdnzQvw6T1//XWwTj//
- ElfpQ9BB98wdG4SS531QX2OJZZF5ZZAh0x6RQ6qB3GEfgo5+FDVziSfA7hxEf36eNd8R
- dNZ4bVEK6uRCv0NJ8D74MecELYvtVqjNW8TXpd3SRr0OvkRm3uciSu/amufj6rOxGmgb
- NR+iVbIC5YrzGHkl7r5amu2EpJdc5jgfSLWX9ZmA5qjn6UwaUhucEdSqaNFRmF0aJV/B
- 5FRoU+q2/rB6ipezNw5wp4uSKR/qyGc0VfL+LNBhy37hQp2P3PYEu/U5F+pjpr0XcDKd
- BhnA==
-X-Gm-Message-State: ANhLgQ2RzcFLIuCQeW7uwLQlE3OXpi/qLENazUoA70K6f7yCd/AQCDne
- phFqGiDeMO2c42kHu7g6xpQ=
-X-Google-Smtp-Source: ADFU+vuZFLuZ7dndLbqKaQsp8rEK6RvoNsgepHsiTu02j9X4XFtDo/9FRU6R4aQmSDiH3nLE2/pjvg==
-X-Received: by 2002:a17:90a:2ec7:: with SMTP id
- h7mr2487827pjs.107.1583807745548; 
- Mon, 09 Mar 2020 19:35:45 -0700 (PDT)
+ bh=NJRaRZ4naX3Vnv5pmVF9pvGr8T/5dEuyNUhM/Hub+PE=;
+ b=S1BqAU2zQe02gXN/huM8X2YjoEbAuL16My8tRHBnCR0A8Fyj64vFs7St2O3CMYkv3p
+ ROtRjqErg1lMw37ZgrMK03HZl5W9lyBFwWPZnYujgPIolGEs/ZM2pAymo+mEJ0WUKjCe
+ cGsFVW15P9U7aH/rOslQr6EiKjIskYDVXGfj5mNdHFHPQtjuuwZjWUJiCQ+tYZpDVetV
+ gzV4W9PrIQBqe14NV3JrKzIzQDCS75hKXT1xjAWcJWhtO58+woIqqmUbHPwph/U1vzhU
+ TZwgvnL1VFLx6BAQ8vHs+qjS5myW8sM71U+4e1cYkMovemdtfJF2J1yQNpZysJFZckGg
+ dlog==
+X-Gm-Message-State: ANhLgQ2GeUkkLbBR/QtqdbygMC8LQGa6YWYEKoE3vk5cA1qbKkr8cfD6
+ p37yOqtbqfKx1nsH1zsXbNcjcpri5P0=
+X-Google-Smtp-Source: ADFU+vv4G89H+vV2DiLZrhX6m7BY78nga1L/yVPTRxdMuCHNWhODFybtIruHBzBlmP9I2Mg0T+t/hA==
+X-Received: by 2002:a17:90a:778a:: with SMTP id
+ v10mr2550213pjk.135.1583811833984; 
+ Mon, 09 Mar 2020 20:43:53 -0700 (PDT)
 Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
- by smtp.gmail.com with ESMTPSA id u11sm816627pjn.2.2020.03.09.19.35.42
+ by smtp.gmail.com with ESMTPSA id q7sm31499354pfs.17.2020.03.09.20.43.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 19:35:44 -0700 (PDT)
+ Mon, 09 Mar 2020 20:43:53 -0700 (PDT)
 From: Chuhong Yuan <hslester96@gmail.com>
 To: 
-Subject: [PATCH v3] video: fbdev: vesafb: add missed release_region
-Date: Tue, 10 Mar 2020 10:35:36 +0800
-Message-Id: <20200310023536.13622-1-hslester96@gmail.com>
+Subject: [PATCH v2] video: fbdev: arcfb: add missed free_irq and fix the order
+ of request_irq
+Date: Tue, 10 Mar 2020 11:41:05 +0800
+Message-Id: <20200310034105.14379-1-hslester96@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
+X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,69 +67,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Chuhong Yuan <hslester96@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jaya Kumar <jayalk@intworks.biz>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver forgets to free the I/O region in remove and probe
-failure.
-Add the missed calls to fix it.
+The driver forgets to free irq in remove which is requested in
+probe.
+Add the missed call to fix it.
+Also, the position of request_irq() in probe should be put before
+register_framebuffer().
 
 Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
-Changes in v3:
-  - Revise the commit message.
-  - Add an error handler to suit the "goto error" before request_region().
-  - Revise the order of operations in remove.
-  
- drivers/video/fbdev/vesafb.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Changes in v2:
+  - Modify the commit message.
+  - Adjust the order of operations in probe and remove.
 
-diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
-index a1fe24ea869b..c7bc9ace47d4 100644
---- a/drivers/video/fbdev/vesafb.c
-+++ b/drivers/video/fbdev/vesafb.c
-@@ -439,7 +439,7 @@ static int vesafb_probe(struct platform_device *dev)
- 		       "vesafb: abort, cannot ioremap video memory 0x%x @ 0x%lx\n",
- 			vesafb_fix.smem_len, vesafb_fix.smem_start);
- 		err = -EIO;
--		goto err;
-+		goto err_release_region;
+ drivers/video/fbdev/arcfb.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
+index 314ab82e01c0..ab553f940f9f 100644
+--- a/drivers/video/fbdev/arcfb.c
++++ b/drivers/video/fbdev/arcfb.c
+@@ -544,10 +544,6 @@ static int arcfb_probe(struct platform_device *dev)
+ 	par->cslut[1] = 0x06;
+ 	info->flags = FBINFO_FLAG_DEFAULT;
+ 	spin_lock_init(&par->lock);
+-	retval = register_framebuffer(info);
+-	if (retval < 0)
+-		goto err1;
+-	platform_set_drvdata(dev, info);
+ 	if (irq) {
+ 		par->irq = irq;
+ 		if (request_irq(par->irq, &arcfb_interrupt, IRQF_SHARED,
+@@ -558,6 +554,10 @@ static int arcfb_probe(struct platform_device *dev)
+ 			goto err1;
+ 		}
  	}
++	retval = register_framebuffer(info);
++	if (retval < 0)
++		goto err1;
++	platform_set_drvdata(dev, info);
+ 	fb_info(info, "Arc frame buffer device, using %dK of video memory\n",
+ 		videomemorysize >> 10);
  
- 	printk(KERN_INFO "vesafb: framebuffer at 0x%lx, mapped to 0x%p, "
-@@ -458,15 +458,17 @@ static int vesafb_probe(struct platform_device *dev)
+@@ -593,6 +593,8 @@ static int arcfb_remove(struct platform_device *dev)
  
- 	if (fb_alloc_cmap(&info->cmap, 256, 0) < 0) {
- 		err = -ENOMEM;
--		goto err;
-+		goto err_release_region;
+ 	if (info) {
+ 		unregister_framebuffer(info);
++		if (irq)
++			free_irq(par->irq, info);
+ 		vfree((void __force *)info->screen_base);
+ 		framebuffer_release(info);
  	}
- 	if (register_framebuffer(info)<0) {
- 		err = -EINVAL;
- 		fb_dealloc_cmap(&info->cmap);
--		goto err;
-+		goto err_release_region;
- 	}
- 	fb_info(info, "%s frame buffer device\n", info->fix.id);
- 	return 0;
-+err_release_region:
-+	release_region(0x3c0, 32);
- err:
- 	arch_phys_wc_del(par->wc_cookie);
- 	if (info->screen_base)
-@@ -481,6 +483,7 @@ static int vesafb_remove(struct platform_device *pdev)
- 	struct fb_info *info = platform_get_drvdata(pdev);
- 
- 	unregister_framebuffer(info);
-+	release_region(0x3c0, 32);
- 	framebuffer_release(info);
- 
- 	return 0;
 -- 
 2.25.1
 
