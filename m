@@ -2,90 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35A417EE79
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 03:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7287B17EEAD
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 03:37:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2030F6E140;
-	Tue, 10 Mar 2020 02:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B276E143;
+	Tue, 10 Mar 2020 02:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-eopbgr760042.outbound.protection.outlook.com [40.107.76.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC6616E140
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 02:17:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=boZB8XLCxJvD1P3mo/K3ml4ZPFalc2Ly0yb5HZtHZ3fNzuOxYWsax4Bhnv82F3sreWtx6uB295Lh2A2rWRn0ppcV5s9hZ6TMCWN2V6lCU8OiuIvT/7IRjXA5zzJUsLEw+pGImmf6j2U6nJnF1pJPqlDQMUVOs1ZYr3ewWzNfX1qOwryZnyLWha8LFSryLqGCkoCwuPX/J5ZulaUfewoaam39iHEAZCyGfHep5O2AUKtjA59VDAlAbbFtwmv8rLp+32PHaRyUrgwkV2RrUY/Jf/dvBdy/QEOtAHldecFeKDZrxzsRMtlooKOSOGBj43AiPMqlLRtTuEoj82TxerqsVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aMc2DXIrv7YPCM74Hdwo3wXgBEyKSHqH35AF8nV8a/s=;
- b=FAZywgfG1RK+O9NwUqnA5RwPhvcvQ2CWOoa48g2K7BMG6MpgEzLvug1YdgkT6DEmj3nRcm0dWd/PA+OT9adufiG7Qvr1L7MIyvEq1fKW9U0DXmzJy1feSIllaOP9AmuKGNZ1Yoxc+HAdFmugwcxqJMas4pqENjr/jDk+LHCaUEJIm6+AwQ4Xe4urP7K+hgjLchpBqOjP75rDw02Tv2u4N3w8XH0rSzAuV071hZbYg/YFItiWhNatKyYPx1QOMWPIOzmOdr0oSFsZEU1dHZG70wPmhkY1/XvdJul2k8EukddTsq0BC/wA1tp0peQsrN5OtNcP4JpIcymslHvmrzMlwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aMc2DXIrv7YPCM74Hdwo3wXgBEyKSHqH35AF8nV8a/s=;
- b=CQ0uTT0BadrnfCGJ+Iu0YIFU2HSag9pcsKMJXbODfDQl8umb5lToth+yg0WeA/MZ16Z+Km6ibjx5jqaUVWBDGhX13Z9/VtDtTknFevY0KUxyYX5EK8EoS/bisnVytZvwx6sBBxu6hSI7Epf9PoEAx/CqIVPAFxMs73qGKZuszno=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Ray.Huang@amd.com; 
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com (2603:10b6:208:106::29)
- by MN2PR12MB3645.namprd12.prod.outlook.com (2603:10b6:208:cc::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.17; Tue, 10 Mar
- 2020 02:17:11 +0000
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::6417:7247:12ed:1d7b]) by MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::6417:7247:12ed:1d7b%5]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 02:17:11 +0000
-Date: Tue, 10 Mar 2020 10:17:03 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] drm/ttm: fix false positive assert
-Message-ID: <20200310021702.GA18005@jenkins-Celadon-RN>
-References: <20200306124155.1995-1-christian.koenig@amd.com>
- <84724c95-1fdb-314e-19b2-03a6f0865f26@gmail.com>
-Content-Disposition: inline
-In-Reply-To: <84724c95-1fdb-314e-19b2-03a6f0865f26@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: HK0PR03CA0105.apcprd03.prod.outlook.com
- (2603:1096:203:b0::21) To MN2PR12MB3309.namprd12.prod.outlook.com
- (2603:10b6:208:106::29)
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 703316E143
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 02:37:31 +0000 (UTC)
+X-UUID: f7731083a6bb467bbae773dcdd098d58-20200310
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=hLjlW65hQN7C6KTZ0z09rF1NUbZS3I5Rt9C9E6AC1dM=; 
+ b=G4KZOYec4ghBtwfsRhvrArSWXtZAwYe4JjBpGHXb9+7rCrAdo9glAWfc+rs29ZiVD/VFgnBHP5+ZyGA5D5YH/qzIflNEDnMJiZqom53+YHdzLinubIkWdcK9EtM/HqZHjASUg19eGgFkpWhXt+M8gLjkwl1HyaMN2aF1avXJQpA=;
+X-UUID: f7731083a6bb467bbae773dcdd098d58-20200310
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 2051755948; Tue, 10 Mar 2020 10:37:26 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 10 Mar 2020 10:36:30 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 10 Mar 2020 10:36:31 +0800
+Message-ID: <1583807844.30143.0.camel@mtksdaap41>
+Subject: Re: [PATCH 10/22] drm/mediatek: Use simple encoder
+From: CK Hu <ck.hu@mediatek.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Tue, 10 Mar 2020 10:37:24 +0800
+In-Reply-To: <20200305155950.2705-11-tzimmermann@suse.de>
+References: <20200305155950.2705-1-tzimmermann@suse.de>
+ <20200305155950.2705-11-tzimmermann@suse.de>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from jenkins-Celadon-RN (180.167.199.189) by
- HK0PR03CA0105.apcprd03.prod.outlook.com (2603:1096:203:b0::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.15 via Frontend Transport; Tue, 10 Mar 2020 02:17:09 +0000
-X-Originating-IP: [180.167.199.189]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: a4bb0265-cd95-45d2-60b5-08d7c4992433
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3645:|MN2PR12MB3645:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB364552372F9F3CF62A38F743ECFF0@MN2PR12MB3645.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1122;
-X-Forefront-PRVS: 033857D0BD
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(376002)(346002)(39860400002)(136003)(396003)(199004)(189003)(66476007)(66556008)(33716001)(66946007)(5660300002)(4326008)(9686003)(2906002)(54906003)(86362001)(186003)(478600001)(16526019)(956004)(52116002)(6496006)(316002)(26005)(33656002)(8936002)(8676002)(81166006)(55016002)(6666004)(6916009)(81156014)(1076003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3645;
- H:MN2PR12MB3309.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TrVApKK57SE0qvMe2ZV8tGvhHworMvtG+qf9QBubnuDxqjrmbC0CWr3AVn/tPhgVrT655wsc5lZgc1OMyGpRk1igjUhqxUnQAgNZ9KVyUYC9dCRqpwENIDZHt4DrSdM6ByUh7RtDC9tDmfdnVROCMAw1SQQQdMSXCmxgst3v342KjsDi5LxAGYBigN/zCHygkyeWxk5hKsvzlwmc8vCVqtjHNY+gNjQK72YCz1fS/BUom6+7NwTYXcAgM9zNjKDT46TPTWY06QRV0EHDRVCHEx9XVuY1uemepBA2Yduty6gg1xESM+hFIisFfK/Cs7tM3xCyu6231G7LozB64fqtoebBdtQrMWgn8MqAheVNcTxbjVddwhv9VUX8SSbbYXu/s8b/I+i/MEXNB1BxmnrMoHFZplcLzlwuqiaF/o3pOVuOSaHm1lZ6Rs6SdFBrjOeR
-X-MS-Exchange-AntiSpam-MessageData: J89qlBu4ifeC2SQJQMScwufXJD1qXIFIAnbRghMyH9BI9CKdUDKxfE4Zr4PiwhAoS6jxk6NQfxYjk9N0VHLrUaa9j/vVm+cPMsyTILWbQqGUG63v2FI0a1H5E8A1UdKm1EJ1lzfNpeKktYZWyNJ//g==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4bb0265-cd95-45d2-60b5-08d7c4992433
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 02:17:11.5190 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Trem1/v8fLzyZrXjTXwEAjilD+Cj9u4MAE+hAxzmbzmNccRbK04lhrFfJjUgxcO6g16sBCfNx7a6nrItfMq0Gw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3645
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,63 +52,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pelloux-prayer, Pierre-eric" <Pierre-eric.Pelloux-prayer@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
+ linux@armlinux.org.uk, paul@crapouillou.net, thierry.reding@gmail.com,
+ krzk@kernel.org, sam@ravnborg.org, sebastian.reichel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com, hjc@rock-chips.com,
+ abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com, jonathanh@nvidia.com,
+ xinliang.liu@linaro.org, ludovic.desroches@microchip.com, kgene@kernel.org,
+ linux-imx@nxp.com, linux-rockchip@lists.infradead.org,
+ virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
+ jsarha@ti.com, matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
+ jernej.skrabec@siol.net, kraxel@redhat.com, rodrigosiqueiramelo@gmail.com,
+ tomi.valkeinen@ti.com, bbrezillon@kernel.org, jingoohan1@gmail.com,
+ dri-devel@lists.freedesktop.org, sw0312.kim@samsung.com,
+ nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
+ kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
+ linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
+ laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 09, 2020 at 07:49:15PM +0800, Christian K=F6nig wrote:
-> Pierre-eric, just a gentle ping on this? Could I get a tested-by?
-> =
+Hi, Thomas:
 
-> Ray can you ack or even review this?
-> =
+On Thu, 2020-03-05 at 16:59 +0100, Thomas Zimmermann wrote:
+> The mediatak driver uses empty implementations for its encoders. Replace
+> the code with the generic simple encoder.
+> 
 
-> Thanks,
-> Christian.
-> =
+Acked-by: CK Hu <ck.hu@mediatek.com>
 
-> Am 06.03.20 um 13:41 schrieb Christian K=F6nig:
-> > The assert sometimes incorrectly triggers when pinned BOs are destroyed.
-> >
-> > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-
-Reviewed-by: Huang Rui <ray.huang@amd.com>
-
-> > ---
-> >   drivers/gpu/drm/ttm/ttm_bo.c | 5 ++---
-> >   1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index 2445e2bd6267..ca5a8d01ff1f 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -151,8 +151,6 @@ static void ttm_bo_add_mem_to_lru(struct ttm_buffer=
-_object *bo,
-> >   	struct ttm_bo_device *bdev =3D bo->bdev;
-> >   	struct ttm_mem_type_manager *man;
-> >   =
-
-> > -	dma_resv_assert_held(bo->base.resv);
-> > -
-> >   	if (!list_empty(&bo->lru))
-> >   		return;
-> >   =
-
-> > @@ -611,7 +609,8 @@ static void ttm_bo_release(struct kref *kref)
-> >   		 */
-> >   		if (bo->mem.placement & TTM_PL_FLAG_NO_EVICT) {
-> >   			bo->mem.placement &=3D ~TTM_PL_FLAG_NO_EVICT;
-> > -			ttm_bo_move_to_lru_tail(bo, NULL);
-> > +			ttm_bo_del_from_lru(bo);
-> > +			ttm_bo_add_mem_to_lru(bo, &bo->mem);
-> >   		}
-> >   =
-
-> >   		kref_init(&bo->kref);
-> =
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++-----------
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 14 +++-----------
+>  2 files changed, 6 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 14fbe1c09ce9..9c90c58e5acd 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -20,6 +20,7 @@
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_of.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>  
+>  #include "mtk_dpi_regs.h"
+>  #include "mtk_drm_ddp_comp.h"
+> @@ -509,15 +510,6 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>  	return 0;
+>  }
+>  
+> -static void mtk_dpi_encoder_destroy(struct drm_encoder *encoder)
+> -{
+> -	drm_encoder_cleanup(encoder);
+> -}
+> -
+> -static const struct drm_encoder_funcs mtk_dpi_encoder_funcs = {
+> -	.destroy = mtk_dpi_encoder_destroy,
+> -};
+> -
+>  static bool mtk_dpi_encoder_mode_fixup(struct drm_encoder *encoder,
+>  				       const struct drm_display_mode *mode,
+>  				       struct drm_display_mode *adjusted_mode)
+> @@ -596,8 +588,8 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
+>  		return ret;
+>  	}
+>  
+> -	ret = drm_encoder_init(drm_dev, &dpi->encoder, &mtk_dpi_encoder_funcs,
+> -			       DRM_MODE_ENCODER_TMDS, NULL);
+> +	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
+> +				      DRM_MODE_ENCODER_TMDS);
+>  	if (ret) {
+>  		dev_err(dev, "Failed to initialize decoder: %d\n", ret);
+>  		goto err_unregister;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index 0ede69830a9d..a9a25087112f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -22,6 +22,7 @@
+>  #include <drm/drm_panel.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>  
+>  #include "mtk_drm_ddp_comp.h"
+>  
+> @@ -787,15 +788,6 @@ static void mtk_output_dsi_disable(struct mtk_dsi *dsi)
+>  	dsi->enabled = false;
+>  }
+>  
+> -static void mtk_dsi_encoder_destroy(struct drm_encoder *encoder)
+> -{
+> -	drm_encoder_cleanup(encoder);
+> -}
+> -
+> -static const struct drm_encoder_funcs mtk_dsi_encoder_funcs = {
+> -	.destroy = mtk_dsi_encoder_destroy,
+> -};
+> -
+>  static bool mtk_dsi_encoder_mode_fixup(struct drm_encoder *encoder,
+>  				       const struct drm_display_mode *mode,
+>  				       struct drm_display_mode *adjusted_mode)
+> @@ -888,8 +880,8 @@ static int mtk_dsi_create_conn_enc(struct drm_device *drm, struct mtk_dsi *dsi)
+>  {
+>  	int ret;
+>  
+> -	ret = drm_encoder_init(drm, &dsi->encoder, &mtk_dsi_encoder_funcs,
+> -			       DRM_MODE_ENCODER_DSI, NULL);
+> +	ret = drm_simple_encoder_init(drm, &dsi->encoder,
+> +				      DRM_MODE_ENCODER_DSI);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to encoder init to drm\n");
+>  		return ret;
 
 _______________________________________________
 dri-devel mailing list
