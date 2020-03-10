@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA99D17F593
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 12:02:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283F217F6B7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 12:51:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7B56E892;
-	Tue, 10 Mar 2020 11:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55AE06E1BD;
+	Tue, 10 Mar 2020 11:51:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E80E899E6;
- Tue, 10 Mar 2020 11:02:49 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD476E1BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 11:51:54 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2020 04:02:48 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2020 04:51:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,536,1574150400"; d="scan'208";a="443123635"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 10 Mar 2020 04:02:47 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
- (envelope-from <lkp@intel.com>)
- id 1jBces-0000Ci-Pd; Tue, 10 Mar 2020 19:02:46 +0800
-Date: Tue, 10 Mar 2020 19:02:26 +0800
-From: kbuild test robot <lkp@intel.com>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [drm-intel:topic/core-for-CI 18/20]
- arch/powerpc/platforms/embedded6xx/Kconfig:2: symbol EMBEDDED6xx depends on
- BROKEN_ON_SMP
-Message-ID: <202003101908.mFLWJ9ce%lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="5.70,536,1574150400"; d="scan'208";a="276923704"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga002.fm.intel.com with SMTP; 10 Mar 2020 04:51:50 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 10 Mar 2020 13:51:50 +0200
+Date: Tue, 10 Mar 2020 13:51:50 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm: panel: Set connector type for OrtusTech
+ COM43H4M85ULC panel
+Message-ID: <20200310115150.GA13686@intel.com>
+References: <20200309184210.10042-1-laurent.pinchart@ideasonboard.com>
+ <20200309190047.GA7543@ravnborg.org>
+ <20200309190127.GB4916@pendragon.ideasonboard.com>
+ <20200309194541.GA8617@ravnborg.org>
+ <20200309202942.GD4916@pendragon.ideasonboard.com>
+ <20200309212251.GZ13686@intel.com>
+ <20200309214333.GI4916@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <20200309214333.GI4916@pendragon.ideasonboard.com>
+X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,119 +54,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
+Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel topic/core-for-CI
-head:   72212a758bdd916331477e782bdad1fa3f625322
-commit: 19f102d485b9f5e03677f73133d9922e2650686f [18/20] Revert "drm/i915: Don't select BROKEN"
-config: powerpc-defconfig
-compiler: powerpc64-linux-gcc (GCC) 9.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git checkout 19f102d485b9f5e03677f73133d9922e2650686f
-        GCC_VERSION=9.2.0 make.cross ARCH=powerpc  defconfig
-        GCC_VERSION=9.2.0 make.cross ARCH=powerpc 
+On Mon, Mar 09, 2020 at 11:43:33PM +0200, Laurent Pinchart wrote:
+> Hi Ville,
+> =
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+> On Mon, Mar 09, 2020 at 11:22:51PM +0200, Ville Syrj=E4l=E4 wrote:
+> > On Mon, Mar 09, 2020 at 10:29:42PM +0200, Laurent Pinchart wrote:
+> > > On Mon, Mar 09, 2020 at 08:45:41PM +0100, Sam Ravnborg wrote:
+> > > > On Mon, Mar 09, 2020 at 09:01:27PM +0200, Laurent Pinchart wrote:
+> > > > > On Mon, Mar 09, 2020 at 08:00:47PM +0100, Sam Ravnborg wrote:
+> > > > > > On Mon, Mar 09, 2020 at 08:42:10PM +0200, Laurent Pinchart wrot=
+e:
+> > > > > > > The OrtusTech COM43H4M85ULC is a DPI panel, set the connector=
+ type
+> > > > > > > accordingly.
+> > > > > > > =
 
-All errors (new ones prefixed by >>):
+> > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboar=
+d.com>
+> > > > > >
+> > > > > > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > > > > > =
 
-   arch/powerpc/platforms/embedded6xx/Kconfig:2:error: recursive dependency detected!
->> arch/powerpc/platforms/embedded6xx/Kconfig:2: symbol EMBEDDED6xx depends on BROKEN_ON_SMP
-   init/Kconfig:80: symbol BROKEN_ON_SMP depends on BROKEN
-   init/Kconfig:77: symbol BROKEN is selected by DRM_I915_DEBUG
-   drivers/gpu/drm/i915/Kconfig.debug:19: symbol DRM_I915_DEBUG depends on DRM_I915
-   drivers/gpu/drm/i915/Kconfig:2: symbol DRM_I915 depends on DRM
-   drivers/gpu/drm/Kconfig:8: symbol DRM depends on AGP
-   drivers/char/agp/Kconfig:2: symbol AGP depends on PCI
->> drivers/pci/Kconfig:16: symbol PCI depends on HAVE_PCI
-   drivers/pci/Kconfig:7: symbol HAVE_PCI is selected by FORCE_PCI
-   drivers/pci/Kconfig:11: symbol FORCE_PCI is selected by MVME5100
->> arch/powerpc/platforms/embedded6xx/Kconfig:51: symbol MVME5100 depends on EMBEDDED6xx
-   For a resolution refer to Documentation/kbuild/kconfig-language.rst
-   subsection "Kconfig recursive dependency limitations"
+> > > > > > I assume you will apply to drm-misc-next - OK?
+> > > > > =
 
-vim +2 arch/powerpc/platforms/embedded6xx/Kconfig
+> > > > > I still haven't got around to using dim :-)
+> > > > =
 
-a35e370cfd2ddf Arnd Bergmann         2007-08-30  @2  config EMBEDDED6xx
-a35e370cfd2ddf Arnd Bergmann         2007-08-30   3  	bool "Embedded 6xx/7xx/7xxx-based boards"
-be34fff07c3755 Christophe Leroy      2018-11-17   4  	depends on PPC_BOOK3S_32 && BROKEN_ON_SMP
-14cf11af6cf608 Paul Mackerras        2005-09-26   5  
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01   6  config LINKSTATION
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01   7  	bool "Linkstation / Kurobox(HG) from Buffalo"
-a35e370cfd2ddf Arnd Bergmann         2007-08-30   8  	depends on EMBEDDED6xx
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01   9  	select MPIC
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  10  	select FSL_SOC
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  11  	select PPC_UDBG_16550 if SERIAL_8250
-44d7631bdb1621 Segher Boessenkool    2007-02-22  12  	select DEFAULT_UIMAGE
-3490cba56f7f8a Jon Loeliger          2008-01-23  13  	select MPC10X_BRIDGE
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  14  	help
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  15  	  Select LINKSTATION if configuring for one of PPC- (MPC8241)
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  16  	  based NAS systems from Buffalo Technology. So far only
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  17  	  KuroboxHG has been tested. In the future classical Kurobox,
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  18  	  Linkstation-I HD-HLAN and HD-HGLAN versions, and PPC-based
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  19  	  Terastation systems should be supported too.
-04d76b937bdf60 Guennadi Liakhovetski 2006-12-01  20  
-3490cba56f7f8a Jon Loeliger          2008-01-23  21  config STORCENTER
-3490cba56f7f8a Jon Loeliger          2008-01-23  22  	bool "IOMEGA StorCenter"
-3490cba56f7f8a Jon Loeliger          2008-01-23  23  	depends on EMBEDDED6xx
-3490cba56f7f8a Jon Loeliger          2008-01-23  24  	select MPIC
-3490cba56f7f8a Jon Loeliger          2008-01-23  25  	select FSL_SOC
-3490cba56f7f8a Jon Loeliger          2008-01-23  26  	select PPC_UDBG_16550 if SERIAL_8250
-3490cba56f7f8a Jon Loeliger          2008-01-23  27  	select MPC10X_BRIDGE
-3490cba56f7f8a Jon Loeliger          2008-01-23  28  	help
-3490cba56f7f8a Jon Loeliger          2008-01-23  29  	  Select STORCENTER if configuring for the iomega StorCenter
-3490cba56f7f8a Jon Loeliger          2008-01-23  30  	  with an 8241 CPU in it.
-3490cba56f7f8a Jon Loeliger          2008-01-23  31  
-c5d56332fd6c2f Zang Roy-r61911       2006-06-13  32  config MPC7448HPC2
-c5d56332fd6c2f Zang Roy-r61911       2006-06-13  33  	bool "Freescale MPC7448HPC2(Taiga)"
-a35e370cfd2ddf Arnd Bergmann         2007-08-30  34  	depends on EMBEDDED6xx
-c5d56332fd6c2f Zang Roy-r61911       2006-06-13  35  	select TSI108_BRIDGE
-c5d56332fd6c2f Zang Roy-r61911       2006-06-13  36  	select DEFAULT_UIMAGE
-c5d56332fd6c2f Zang Roy-r61911       2006-06-13  37  	select PPC_UDBG_16550
-c5d56332fd6c2f Zang Roy-r61911       2006-06-13  38  	help
-c5d56332fd6c2f Zang Roy-r61911       2006-06-13  39  	  Select MPC7448HPC2 if configuring for Freescale MPC7448HPC2 (Taiga)
-c5d56332fd6c2f Zang Roy-r61911       2006-06-13  40  	  platform
-cb9e4d10c448a3 Josh Boyer            2007-05-08  41  
-cb9e4d10c448a3 Josh Boyer            2007-05-08  42  config PPC_HOLLY
-cb9e4d10c448a3 Josh Boyer            2007-05-08  43  	bool "PPC750GX/CL with TSI10x bridge (Hickory/Holly)"
-a35e370cfd2ddf Arnd Bergmann         2007-08-30  44  	depends on EMBEDDED6xx
-cb9e4d10c448a3 Josh Boyer            2007-05-08  45  	select TSI108_BRIDGE
-cb9e4d10c448a3 Josh Boyer            2007-05-08  46  	select PPC_UDBG_16550
-cb9e4d10c448a3 Josh Boyer            2007-05-08  47  	help
-cb9e4d10c448a3 Josh Boyer            2007-05-08  48  	  Select PPC_HOLLY if configuring for an IBM 750GX/CL Eval
-cb9e4d10c448a3 Josh Boyer            2007-05-08  49  	  Board with TSI108/9 bridge (Hickory/Holly)
-fd4ba7e2b7ce9a Dale Farnsworth       2007-05-12  50  
-be2019816e4dcd Stephen Chivers       2014-01-09 @51  config MVME5100
-be2019816e4dcd Stephen Chivers       2014-01-09  52  	bool "Motorola/Emerson MVME5100"
-be2019816e4dcd Stephen Chivers       2014-01-09  53  	depends on EMBEDDED6xx
-be2019816e4dcd Stephen Chivers       2014-01-09  54  	select MPIC
-eb01d42a77785f Christoph Hellwig     2018-11-15  55  	select FORCE_PCI
-be2019816e4dcd Stephen Chivers       2014-01-09  56  	select PPC_INDIRECT_PCI
-be2019816e4dcd Stephen Chivers       2014-01-09  57  	select PPC_I8259
-be2019816e4dcd Stephen Chivers       2014-01-09  58  	select PPC_NATIVE
-13ae40370f62cd Stephen Chivers       2014-04-20  59  	select PPC_UDBG_16550
-be2019816e4dcd Stephen Chivers       2014-01-09  60  	help
-be2019816e4dcd Stephen Chivers       2014-01-09  61  	  This option enables support for the Motorola (now Emerson) MVME5100
-be2019816e4dcd Stephen Chivers       2014-01-09  62  	  board.
-be2019816e4dcd Stephen Chivers       2014-01-09  63  
+> > > > I can manage - so the entry level is pretty low.
+> > > > =
 
-:::::: The code at line 2 was first introduced by commit
-:::::: a35e370cfd2ddfb5d2f0ceae376ffeda273b357c [POWERPC] Move embedded6xx into multiplatform
+> > > > My lame and simple workflow
+> > > > =
 
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Paul Mackerras <paulus@samba.org>
+> > > > dim update-branches
+> > > > # save patch from mutt
+> > > > cat mbox | dim apply
+> > =
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> > Why don't you just pipe the thing into dim straight from mutt?
+> > That's what I do. Followed by some amount of dim extract-tag
+> > also piped in from mutt.
+> > =
+
+> > > > git rebase etc.
+> > > > dim checkpatch <=3D if I make changes while applying
+> > > > #build testing
+> > > > dim push
+> > > > =
+
+> > > > =
+
+> > > > And when I do my own stuff:
+> > > > dim update-branches
+> > > > git checkout -b sam-my-stuff
+> > > > hacking-hacking
+> > > > commit, commit
+> > > > git rebase --exec "dim add-missing-cc" HEAD~5
+> > > > =
+
+> > > > =
+
+> > > > dim can do much more than that - but the above is
+> > > > the few dim commands I use.
+> > > > This help me to do things remotely correct.
+> > > > =
+
+> > > > So maybe this is as good as any time to try out dim?
+> > > =
+
+> > > As good as any, and as bad as any I suppose :-)
+> > > =
+
+> > > There are a few things I don't like with dim, and I haven't found time
+> > > yet to see how to fix (how live with :-) them yet. Among those issues
+> > > are
+> > > =
+
+> > > - dim requires the kernel tree to be under $DIM_PREFIX. This is my ma=
+in
+> > >   issue, as I have one kernel tree per project, with and develop for
+> > >   different subsystems in each. I would like dim to instead handle any
+> > >   kernel tree regardless of where it is located on the disk, without
+> > >   requiring me to add another DRM-specific tree to my workflow.
+> > > =
+
+> > > - The script auto-updates itself, and I find that to be a security is=
+sue
+> > >   that I'm not comfortable with.
+> > =
+
+> > What do you mean it auto updates? Never seen anything like that.
+> =
+
+> Unless I'm mistaken,
+> =
+
+> function dim_uptodate
+> {
+> 	local using
+> =
+
+> 	using=3D"${BASH_SOURCE[0]}"
+> =
+
+> 	if [[ ! -e "$using" ]]; then
+> 		echoerr "could not figure out the version being used ($using)."
+> 		return 1
+> 	fi
+> =
+
+> 	if [[ ! -e "$DIM_PREFIX/maintainer-tools/.git" ]]; then
+> 		echoerr "could not find the upstream repo for $dim."
+> 		return 1
+> 	fi
+> =
+
+> 	git --git-dir=3D$DIM_PREFIX/maintainer-tools/.git fetch -q
+> =
+
+> 	if ! git --git-dir=3D$DIM_PREFIX/maintainer-tools/.git show "@{upstream}=
+:dim" |\
+> 			diff "$using" - >& /dev/null; then
+> 		echoerr "not running upstream version of the script."
+> 		return 1
+> 	fi
+> }
+> =
+
+> function check_for_updates
+> {
+> 	local stamp stampfile
+> =
+
+> 	stampfile=3D$HOME/.dim-update-check-timestamp
+> =
+
+> 	# daily check for updates based on file timestamp
+> 	stamp=3D$(stat --printf=3D%Y $stampfile 2>/dev/null || echo -n 0)
+> 	if [[ $((stamp + 24*60*60)) -lt $(date +%s) ]]; then
+> 		dim_uptodate || true
+> 		touch $stampfile
+> 	fi
+> }
+> =
+
+> And check_for_updates is called for all commands not listed by
+> list_developer_commands.
+
+It checks if your dim is up to date. It doesn't automagically update it
+for you.
+
+> =
+
+> > > - The dim script makes a special case of intel repositories internall=
+y,
+> > >   which I don't find very fair. Maybe that can be considered as a
+> > >   compensation for Intel's efforts in DRM development, but a model wh=
+ere
+> > >   the community maintaining drm-misc has to resolve conflicts with
+> > >   drm-intel before it reaches drm-next bothers me.
+> > =
+
+> > It doesn't special case Intel repos. It just merges all the repos listed
+> > in the config file to create a new drm-tip. There are Intel repos,
+> > AMD repos, and various other repos.
+> =
+
+> drm-amd has indeed been added and is taken into accout in
+> dim_push_branch, with drm-misc and drm-intel, but there's still lots of
+> Intel-specific code in other places.
+
+All I really see are a few subcommands which I think are only used by
+i915 maintainers so there hasn't been any real need to abstract away
+any hardcoded references to intel repos etc. So can't really see "lots
+of code" like this.
+
+> =
+
+> > The point is to keep drm-tip always up to date and working (*). And if
+> > you manage to create a conflict you can't solve you can always ping
+> > someone who can. Also hoefully no one should be seeing all that many
+> > conflicts due to rerere (unless you actually created a new conflict
+> > that is).
+> =
+
+> What happens is that drm-misc is competing with drm-intel and drm-amd to
+> get in drm-next, with everything merged in drm-tip. It effectively
+> conveys a message that there's Intel, AMD, and the community, which
+> means that Intel and AMD are considered higher priority than any other
+> single vendor, when we came from a situation where, *in theory*, all
+> vendors were of equal importance. This can be justified by the fact that
+> the amount of patches generated by Intel and AMD are significantly
+> higher than what any other vendor produces, but it's still a significant
+> change in how the contributors to the DRM subsystem are treated.
+
+Anyone working on drm-intel/drm-arm/drm-any-other-repo-we-decide-to-have
+have to equally deal with the fallout from all the other repos as well.
+So everyone is treated exactly the same AFAICS.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
