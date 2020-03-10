@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11D017F0E8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 08:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CABA17F13A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 08:43:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96FDD6E06D;
-	Tue, 10 Mar 2020 07:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C97226E06E;
+	Tue, 10 Mar 2020 07:43:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A56EC6E06D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 07:05:35 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1jBYxK-0006u3-4g; Tue, 10 Mar 2020 08:05:34 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <mfe@pengutronix.de>)
- id 1jBYxI-0000rW-CL; Tue, 10 Mar 2020 08:05:32 +0100
-Date: Tue, 10 Mar 2020 08:05:32 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 15/33] drm/panel-simple: Fix dotclock for EDT ET035012DM6
-Message-ID: <20200310070532.7ltpdskupxxtd3me@pengutronix.de>
-References: <20200302203452.17977-1-ville.syrjala@linux.intel.com>
- <20200302203452.17977-16-ville.syrjala@linux.intel.com>
- <20200303073320.2udpokcs2ync4hpy@pengutronix.de>
- <20200303145251.GX13686@intel.com>
- <20200306080257.2v7knpjavace7jw4@pengutronix.de>
- <20200309131843.GW13686@intel.com>
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0E856E06E
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 07:43:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583826186;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+nP3UQKsL7INc3GF9IeS1a4rT+Gt51iSc6vJVd+78zU=;
+ b=IEGAEDqIn3vNmgGzNDSpNEUc2KfL7pf6sxL8A/QUC3haES8D0tNZWeQI93GEpfoSpmCHgL
+ JBtk+gA3nNcMKHgWQCqlO5B9pwe/b+9bM8V1QsN3SklZG3TlITytfc6kisp4DpU3zlmWEo
+ 7+GTLMMzv77IA8FhHvx450ckj8Y/qLg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-_-QArxHUP9uUxaarMwtY7Q-1; Tue, 10 Mar 2020 03:43:04 -0400
+X-MC-Unique: _-QArxHUP9uUxaarMwtY7Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F931107ACC4;
+ Tue, 10 Mar 2020 07:43:03 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
+ [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0783691D75;
+ Tue, 10 Mar 2020 07:43:03 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 253C69DB6; Tue, 10 Mar 2020 08:43:02 +0100 (CET)
+Date: Tue, 10 Mar 2020 08:43:02 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
+Message-ID: <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
+References: <20200310010818.569-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
+In-Reply-To: <20200310010818.569-1-gurchetansingh@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-In-Reply-To: <20200309131843.GW13686@intel.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 08:00:25 up 115 days, 22:19, 139 users,  load average: 0.11, 0.05,
- 0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,53 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <treding@nvidia.com>, Andreas Pretzsch <apr@cn-eng.de>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: chadversary@chromium.org, dri-devel@lists.freedesktop.org,
+ jbates@chromium.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20-03-09 15:18, Ville Syrj=E4l=E4 wrote:
-> On Fri, Mar 06, 2020 at 09:02:57AM +0100, Marco Felsch wrote:
-> > On 20-03-03 16:52, Ville Syrj=E4l=E4 wrote:
-> > > On Tue, Mar 03, 2020 at 08:33:20AM +0100, Marco Felsch wrote:
-> > > > Hi Ville,
-> > > > =
+On Mon, Mar 09, 2020 at 06:08:10PM -0700, Gurchetan Singh wrote:
+> We don't want fences from different 3D contexts/processes (GL, VK) to
+> be on the same timeline. Sending this out as a RFC to solicit feedback
+> on the general approach.
 
-> > > > On 20-03-02 22:34, Ville Syrjala wrote:
-> > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > =
+NACK.
 
-> > > > > The currently listed dotclock disagrees with the currently
-> > > > > listed vrefresh rate. Change the dotclock to match the vrefresh.
-> > > > > =
+virtio fences are global, period.  You can't simply change fence
+semantics like this.  At least not without a virtio protocol update
+because guest and host need to be on the same page here.  Just look at
+virgl_renderer_callbacks->write_fences() and how it doesn't consider
+contexts at all.
 
-> > > > > Someone tell me which (if either) of the dotclock or vreresh is
-> > > > > correct?
-> > > > =
+So one way out would be to add a virtio feature flag for this, so guest
+& host can negotiate whenever fences are global or per-context.
 
-> > > > Pls, check the datasheet which is linked within the comment. We hit=
- the
-> > > > vrefresh exactly if we are in SYNC MODE.
-> > > =
+Another approach would be to go multiqueue, with each virtqueue being
+roughly the same as a rendering pipeline on physical hardware, then have
+per-virtqueue fences.
 
-> > > It's too much work to start hunting datasheets for all these
-> > > and figuring out what's going on in each case. Pls just
-> > > inform me which way is correct if you know the details.
-> > =
+When going multiqueue we might also rethink the cursor queue approach.
+I think it makes sense to simply allow sending cursor commands to any
+queue then.  A separate cursor queue continues to be an option for the
+guest then, but I'm not sure how useful that actually is in practice
+given that cursor image updates are regular resource updates and have to
+go through the control queue, so virtio_gpu_cursor_plane_update() has to
+wait for the resource update finish before it can queue the cursor
+command.  I suspect the idea to fast-track cursor updates with a
+separate queue doesn't work that well in practice because of that.
 
-> > How do you know that the clock is wrong if it is to much work? As I said
-> > the clock is completely fine.
-> =
+cheers,
+  Gerd
 
-> htotal*vtotal*vrefresh !=3D clock, so one or both are incorrect.
-
-I checked the values using this equation:
-clock / (htotal * vtotal) =3D vrefresh.
-
-Regards,
-  Marco
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
