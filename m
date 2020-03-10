@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDE217F1C2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC3E17F1BD
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 09:20:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7B66E84C;
-	Tue, 10 Mar 2020 08:19:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 535926E824;
+	Tue, 10 Mar 2020 08:19:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5301::8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6116E7EC
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 07:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583826217;
- s=strato-dkim-0002; d=goldelico.com;
- h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
- Subject:Sender;
- bh=Dn5GFcmLByBrDK1f5aOSRQMAAq+2DgMtrNwOlwS3U+8=;
- b=Ix8bv9vbO/k/wGkyZnq9sROYTopv6nQ2FLN/HtTd5SgpCVurDfUzKawo4ZFDdG86b/
- u1/QBBdIN7GraZ1XoKMGQCE4yYdKkVrCAkgpLkG1aLl2Sa+grHwChkrM2uBrjS5d/ZOr
- 8tIn9AxqLIYCu5w/w8zu89O4/th6Fd2UoGEi7r7facKY/RdTVxYCFdg4oXDP59usMz2k
- Cfaz97tUwCBjrJK8rTAD7k6qNCh6AuuxLBiI6z58Zrmjsf1TRaE1eHD+7dxZsHMwF8BU
- OByLk7dQwxU1Bmgcob+HboG0b090WM88EUl+mn09Gkr+RZ8jtiV2jbRVY2weR0FBZdij
- b6sA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1mfYzBGHXH4GJ9t5w=="
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw2A7hJmUL
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Tue, 10 Mar 2020 08:43:19 +0100 (CET)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/panel-simple: Fix dotclock for Ortustech COM37H3M
-Date: Tue, 10 Mar 2020 08:43:19 +0100
-Message-Id: <e63a0533ad5b5142373437ef758aedbdb716152d.1583826198.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.23.0
+Received: from ssl.serverraum.org (ssl.serverraum.org
+ [IPv6:2a01:4f8:151:8464::1:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74DFB6E821
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 08:10:37 +0000 (UTC)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ssl.serverraum.org (Postfix) with ESMTPSA id D55B52250D;
+ Tue, 10 Mar 2020 09:10:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2016061301; t=1583827836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h5zjFnWSZZGx36PVprkBxRg0bKg0yM9IvC4/63Yogcs=;
+ b=Y4AI3mw/kxeIm7NYuuLPFJP5WA+KIpr8S8hPZfBvwYps8IZwbqetSECzCQf27vCUB23K9r
+ hTO1y+nZMwYcsT6gBoLoqCCk/Gpc57S/zAbJohnYzKrRLo0QyoYbxUGis/bn15i6PQy/7j
+ qg4BexoCiRSRsMB+p8GoXkWFywQbK30=
 MIME-Version: 1.0
+Date: Tue, 10 Mar 2020 09:10:35 +0100
+From: Michael Walle <michael@walle.cc>
+To: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] spi: spi-fsl-dspi: fix DMA mapping
+In-Reply-To: <4beb5200a76f2d817be7276444543de4@walle.cc>
+References: <20200310073313.21277-1-michael@walle.cc>
+ <4beb5200a76f2d817be7276444543de4@walle.cc>
+Message-ID: <ea6ffa30ddc2459d07935e5e61a41172@walle.cc>
+X-Sender: michael@walle.cc
+User-Agent: Roundcube Webmail/1.3.10
+X-Spamd-Bar: /
+X-Spam-Status: No, score=-0.10
+X-Rspamd-Server: web
+X-Spam-Score: -0.10
+X-Rspamd-Queue-Id: D55B52250D
+X-Spamd-Result: default: False [-0.10 / 15.00]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; DKIM_SIGNED(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; NEURAL_HAM(-0.00)[-0.597];
+ RCVD_COUNT_ZERO(0.00)[0]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[]
 X-Mailman-Approved-At: Tue, 10 Mar 2020 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,76 +65,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "H. Nikolaus Schaller" <hns@goldelico.com>, letux-kernel@openphoenux.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, Mark Brown <broonie@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The currently listed dotclock disagrees with the currently
-listed vrefresh rate. Change the dotclock to match the vrefresh.
+Am 2020-03-10 08:40, schrieb Michael Walle:
+> Am 2020-03-10 08:33, schrieb Michael Walle:
+>> Use the correct device to request the DMA mapping. Otherwise the IOMMU
+>> doesn't get the mapping and it will generate a page fault.
+>> 
+>> The error messages look like:
+>> [    3.008452] arm-smmu 5000000.iommu: Unhandled context fault:
+>> fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
+>> [    3.020123] arm-smmu 5000000.iommu: Unhandled context fault:
+>> fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
+>> 
+>> This was tested on a custom board with a LS1028A SoC.
+> 
+> Oh fu.. please disregard this patch. DMA mapping still isn't working.
+> Somehow I missed that the transfer mode was turned back to its default
+> XSPI mode.
 
-There are two variants of the COM37H3M panel.
-The older one's COM37H3M05DTC data sheet specifies:
+Damn. I need more coffee.. this patch IS working. Only the first probe
+fails due to EPROBE_DEFER.
 
-                         MIN      TYP     MAX
-CLK frequency    fCLK     --       22.4    26.3 MHz (in VGA mode)
-VSYNC Frequency  fVSYNC   54       60      66   Hz
-VSYNC cycle time tv       --      650      --   H
-HSYNC frequency  fHSYNC   --       39.3    --   kHz
-HSYNC cycle time th       --      570      --   CLK
+[    2.539706] fsl-dspi 2120000.spi: rx dma channel not available (-517)
+[    2.546200] fsl-dspi 2120000.spi: can't get dma channels
+[    3.622774] spi-nor spi1.0: w25q128fw (16384 Kbytes)
 
-The newer one's COM37H3M99DTC data sheet says:
-
-                         MIN      TYP     MAX
-CLK frequency    fCLK     18       19.8    27   MHz
-VSYNC Frequency  fVSYNC   54       60      66   Hz
-VSYNC cycle time tv      646      650     700   H
-HSYNC frequency  fHSYNC  --        39.0    50.0 kHz
-HSYNC cycle time th      504      508     630   CLK
-
-So we choose a parameter set that lies within the specs
-of both variants. We start at .vrefresh = 60,
-choose .htotal = 570 and .vtotal = 650 and end up
-in a clock of 22.230 MHz.
-
-Reported-by: Ville Syrjala <ville.syrjala@linux.intel.com>
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index e14c14ac62b5..b4cb23d4898d 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2390,15 +2390,15 @@ static const struct panel_desc ontat_yx700wv03 = {
- };
- 
- static const struct drm_display_mode ortustech_com37h3m_mode  = {
--	.clock = 22153,
-+	.clock = 22230,
- 	.hdisplay = 480,
--	.hsync_start = 480 + 8,
--	.hsync_end = 480 + 8 + 10,
--	.htotal = 480 + 8 + 10 + 10,
-+	.hsync_start = 480 + 40,
-+	.hsync_end = 480 + 40 + 10,
-+	.htotal = 480 + 40 + 10 + 40,
- 	.vdisplay = 640,
- 	.vsync_start = 640 + 4,
--	.vsync_end = 640 + 4 + 3,
--	.vtotal = 640 + 4 + 3 + 4,
-+	.vsync_end = 640 + 4 + 2,
-+	.vtotal = 640 + 4 + 2 + 4,
- 	.vrefresh = 60,
- 	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
- };
--- 
-2.23.0
-
+-michael
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
