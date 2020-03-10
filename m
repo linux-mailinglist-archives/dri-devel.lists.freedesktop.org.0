@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04DE17F90E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 13:53:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 840C117FA07
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Mar 2020 14:02:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B56946E2CD;
-	Tue, 10 Mar 2020 12:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A07E389DB4;
+	Tue, 10 Mar 2020 13:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47C9A6E2CD
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 12:53:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3D789DB4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 13:02:14 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A6A9920674;
- Tue, 10 Mar 2020 12:53:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 03B1320409;
+ Tue, 10 Mar 2020 13:02:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1583844822;
+ s=default; t=1583845334;
  bh=AVzm+BISmI/wJXjIKEQkgYUROhyHeNW4UtDhWxsdGk0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=p1NLp69p1pR9Y69BJm3Vj4RQ9AZGbbwA9K9rA4cGmdxMgqvpesx/5FW1EBj4hQgso
- jsnAltn6ABCs3PuxhRNhHomUXMimBOn1klze5ZhWnwRjXXkf9KsGiMnP8pLKB1Br3c
- iK8NMJunI+m5RZrPx8GyQxp7uhwXnW0ZLPnfxME0=
+ b=PFep8quAmuiL7YNiBfZDgAZFeQQsLkQS+IDx2w/pGFwFgaKnLY5zOlMDUUsW0QiPb
+ 47UfeFuBEARVaJgF+vHrqYj3YRlZvdas1MHR+cA8fbxFhfcchm5fG8rQNlYboVAzNG
+ PJkKid2S0B3OajdGEfI4dMtiXSS+4f6RftACWqdE=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.4 131/168] drm: kirin: Revert "Fix for hikey620 display
+Subject: [PATCH 5.5 144/189] drm: kirin: Revert "Fix for hikey620 display
  offset problem"
-Date: Tue, 10 Mar 2020 13:39:37 +0100
-Message-Id: <20200310123648.764344482@linuxfoundation.org>
+Date: Tue, 10 Mar 2020 13:39:41 +0100
+Message-Id: <20200310123654.404244877@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200310123635.322799692@linuxfoundation.org>
-References: <20200310123635.322799692@linuxfoundation.org>
+In-Reply-To: <20200310123639.608886314@linuxfoundation.org>
+References: <20200310123639.608886314@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
