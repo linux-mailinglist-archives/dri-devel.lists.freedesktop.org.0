@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4809C180C84
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 00:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4EA180C73
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 00:36:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67AB86E90A;
-	Tue, 10 Mar 2020 23:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AEB86E8E8;
+	Tue, 10 Mar 2020 23:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7140A6E301
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 14:30:48 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id y7so490142pjn.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 07:30:48 -0700 (PDT)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C5066E30C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 14:30:58 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id z12so6382999pgl.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 07:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ge7gDpcBGRttSD8WjUIEGB/IfPhV68NKF/ex9fXuV1k=;
- b=CoFNk7HHJ27bS8Sau2w7fDpQELoK3pr1joAA4rGVBfG5Pm0v8QxK3gvrRv31TMJgBw
- /CCO4x6Zsc+Of+XbBzOwSfE7m1Sxr4AKwGylYBTm8IAkBbFMbk7JAamCR/yEbd2trE7T
- ZB4gaC5uh/i04xNu0v5Ipync9hCnJUA093+tfr9ocBI/54M6JwTgwD/rLyyfGf25JEz2
- 6mhMR3QILXYjsvcCSoUdGHBFZ3n01gLbiOIyaQvtohNjsTXC47ZHWkh/TucOuWvDJzoq
- G/Wcnk5S+SeD4OiYuFpNFMeNtZYnrAN0/fiJWGGuuDfvlHAM+YL+0/6r96Z2X7HtH+xo
- G/pA==
+ bh=MacYADCTD8qyc7WRcNZs8kAJcizBx9dQZtfdy9R4RNE=;
+ b=KttrUyVNMJm4tVYsndEJewihA/Fnj3N2ZrjYXIrDKeGl8u/WNjT48KZrE5gagQlRGw
+ NsMbdCIkZCKNQ9PqKTuT6DOghaGLkm6UW7HV2ruq5QGTJfIBEw1k3T8+NDHpBWC2FvGm
+ GFuEtFUCuPXElbvO+Bt8GVG9txDegpQ7HBGqNL86qPmCGmC8/pmKM2VCCtl9gcZlEaKF
+ Sqk7gHJNqdfImZj4Tnq8kPoqYQtJOzyS+KFCV1P9sXrSEsYdNSJzBUxzbwJYwT9iFFq+
+ +HCsss44iRlGKPmrcylrkKGSpHUyGX4EKEPerBxQ8IrBOqRHSih0RLo1b1i5TRsWs+LX
+ erIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ge7gDpcBGRttSD8WjUIEGB/IfPhV68NKF/ex9fXuV1k=;
- b=j91S3vpogF1okyx/xaq84ekplT4P/6q+ufnyvJUqASgxwKPJAiJZnmeyimWUzH3AN4
- m/jOhFJKbnIOib8tyv5C7TSssyQP6kL5kfMvPSERwjuVm49tY5ia1eDuxMn9f7EwQsML
- 5xh5TLAmtf6itqfNqrUSjR7Px/VCOjja9/D6c4aSKvUpWZOBvCE0mUxmZGApIziOLgqs
- fCqnvBQ9QXAsU+/mXwE6YGg1/mSn7UQ53K4kOx+DVoDo/SVoidpZ43Di0YaBqftM9sqt
- x0x96yd6SvAPyPrnyBgWDTP5QtFeTsjQEekaCyasIhovE+qseot3i5FuOZmSIBvqtxnO
- K+vg==
-X-Gm-Message-State: ANhLgQ2Fsg/jLB472yXY2uiKyFB4iHkmc2aqBnEToeBantgarTk/enFB
- DG0hSJHL0pE9EpVnlpeQ0hI=
-X-Google-Smtp-Source: ADFU+vstmImOUNgoCcrT7uEN6qpq42UEh1S0ApYVVlp2WgbIzWYZKiUJyohS5+dKEhJO2dENy6CcRA==
-X-Received: by 2002:a17:902:9a4c:: with SMTP id
- x12mr19846817plv.297.1583850647173; 
- Tue, 10 Mar 2020 07:30:47 -0700 (PDT)
+ bh=MacYADCTD8qyc7WRcNZs8kAJcizBx9dQZtfdy9R4RNE=;
+ b=dP9mXAuQVZKCwzUs4+EZQ35MMJM7LtKeS5sMb7qscGQxczjskwb4tjAY52aEkiC+dV
+ w7UxzNO5+bOvFIbZpJVtO3BsQ+ZSaBJlIPMcXwz7f/0L9eGP/SMn0GDK8y3tperzBtog
+ KJXnwKCZ/eLGjfZLvU6g7IwqE0HGd/hIPywhA0Ba6rvjHQqyk0djjC8gQ81CQKuoDjY1
+ RoJEPZhYrJjJYZRdcjLuy0WXL5sEuNbvYVRRqWmqDPJZiFkqd1AuSaoQFMaWxwsreY5q
+ nn7/SZv6tbdrDfAQjrLiFd/szygInBDGPiH+QrRuU2bSBFIoWVYA30z99qijNhMFgTEm
+ zRgA==
+X-Gm-Message-State: ANhLgQ3FOELC6y+h/GRHGQBdMl/ETkllupk9sYqrwUwrenUe4KVdwLoW
+ 5wnoq3mH77NQpfZ+HA+YrnU=
+X-Google-Smtp-Source: ADFU+vtOz7EqaVGESIcXkflwV06RHK6js+BsrPdEsZ/CtPuy/i+I8NN2JdKWWajI6r7UnUNzTZwOCQ==
+X-Received: by 2002:aa7:9af8:: with SMTP id y24mr6740721pfp.91.1583850658299; 
+ Tue, 10 Mar 2020 07:30:58 -0700 (PDT)
 Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
- by smtp.gmail.com with ESMTPSA id l11sm2419160pjy.44.2020.03.10.07.30.43
+ by smtp.gmail.com with ESMTPSA id j21sm2537919pji.13.2020.03.10.07.30.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 07:30:46 -0700 (PDT)
+ Tue, 10 Mar 2020 07:30:57 -0700 (PDT)
 From: Chuhong Yuan <hslester96@gmail.com>
 To: 
-Subject: [PATCH v2] fbdev: s1d13xxxfb: add missed unregister_framebuffer in
- remove
-Date: Tue, 10 Mar 2020 22:30:33 +0800
-Message-Id: <20200310143033.5098-1-hslester96@gmail.com>
+Subject: [PATCH v3] video: fbdev: arcfb: add missed free_irq and fix the order
+ of request_irq
+Date: Tue, 10 Mar 2020 22:30:50 +0800
+Message-Id: <20200310143050.5154-1-hslester96@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 10 Mar 2020 23:36:13 +0000
@@ -67,73 +66,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Chuhong Yuan <hslester96@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver calls register_framebuffer() in probe but does not call
-unregister_framebuffer() in remove.
-Rename current remove to __s1d13xxxfb_remove() for error handler.
-Then add a new remove to call unregister_framebuffer().
+The driver forgets to free irq in remove which is requested in
+probe.
+Add the missed call to fix it.
+Also, the position of request_irq() in probe should be put before
+register_framebuffer().
 
 Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
-Changes in v2:
-  - Rename the existing remove and add a new one to ensure the correctness
-    of error handler in probe.
+Changes in v3:
+  - Add missed variable par in remove.
 
- drivers/video/fbdev/s1d13xxxfb.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/arcfb.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/s1d13xxxfb.c b/drivers/video/fbdev/s1d13xxxfb.c
-index 8048499e398d..bafea3d09bba 100644
---- a/drivers/video/fbdev/s1d13xxxfb.c
-+++ b/drivers/video/fbdev/s1d13xxxfb.c
-@@ -721,9 +721,8 @@ static void s1d13xxxfb_fetch_hw_state(struct fb_info *info)
- 		xres, yres, xres_virtual, yres_virtual, is_color, is_dual, is_tft);
- }
+diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
+index 314ab82e01c0..9a720c14056c 100644
+--- a/drivers/video/fbdev/arcfb.c
++++ b/drivers/video/fbdev/arcfb.c
+@@ -544,10 +544,6 @@ static int arcfb_probe(struct platform_device *dev)
+ 	par->cslut[1] = 0x06;
+ 	info->flags = FBINFO_FLAG_DEFAULT;
+ 	spin_lock_init(&par->lock);
+-	retval = register_framebuffer(info);
+-	if (retval < 0)
+-		goto err1;
+-	platform_set_drvdata(dev, info);
+ 	if (irq) {
+ 		par->irq = irq;
+ 		if (request_irq(par->irq, &arcfb_interrupt, IRQF_SHARED,
+@@ -558,6 +554,10 @@ static int arcfb_probe(struct platform_device *dev)
+ 			goto err1;
+ 		}
+ 	}
++	retval = register_framebuffer(info);
++	if (retval < 0)
++		goto err1;
++	platform_set_drvdata(dev, info);
+ 	fb_info(info, "Arc frame buffer device, using %dK of video memory\n",
+ 		videomemorysize >> 10);
  
--
- static int
--s1d13xxxfb_remove(struct platform_device *pdev)
-+__s1d13xxxfb_remove(struct platform_device *pdev)
+@@ -590,9 +590,12 @@ static int arcfb_probe(struct platform_device *dev)
+ static int arcfb_remove(struct platform_device *dev)
  {
- 	struct fb_info *info = platform_get_drvdata(pdev);
- 	struct s1d13xxxfb_par *par = NULL;
-@@ -752,6 +751,18 @@ s1d13xxxfb_remove(struct platform_device *pdev)
- 	return 0;
- }
+ 	struct fb_info *info = platform_get_drvdata(dev);
++	struct arcfb_par *par = info->par;
  
-+static int
-+s1d13xxxfb_remove(struct platform_device *pdev)
-+{
-+	struct fb_info *info = platform_get_drvdata(pdev);
-+
-+	if (info)
-+		unregister_framebuffer(info);
-+
-+	return __s1d13xxxfb_remove(pdev);
-+}
-+
-+
- static int s1d13xxxfb_probe(struct platform_device *pdev)
- {
- 	struct s1d13xxxfb_par *default_par;
-@@ -895,7 +906,7 @@ static int s1d13xxxfb_probe(struct platform_device *pdev)
- 	return 0;
- 
- bail:
--	s1d13xxxfb_remove(pdev);
-+	__s1d13xxxfb_remove(pdev);
- 	return ret;
- 
- }
+ 	if (info) {
+ 		unregister_framebuffer(info);
++		if (irq)
++			free_irq(par->irq, info);
+ 		vfree((void __force *)info->screen_base);
+ 		framebuffer_release(info);
+ 	}
 -- 
 2.25.1
 
