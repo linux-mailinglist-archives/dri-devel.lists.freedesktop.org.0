@@ -1,39 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96041180C8C
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 00:37:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B2D180C7F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 00:37:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0E06E910;
-	Tue, 10 Mar 2020 23:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA9126E8F4;
+	Tue, 10 Mar 2020 23:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA7086E177
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 09:50:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 54EA929595C
-Subject: Re: [PATCH v11 3/5] soc: mediatek: Move mt8173 MMSYS to platform
- driver
-To: Matthias Brugger <mbrugger@suse.com>, Stephen Boyd <sboyd@kernel.org>,
- Enric Balletbo Serra <eballetbo@gmail.com>
-References: <20200302110128.2664251-1-enric.balletbo@collabora.com>
- <20200302110128.2664251-4-enric.balletbo@collabora.com>
- <158344207340.7173.8369925839829696256@swboyd.mtv.corp.google.com>
- <8bfc4350-6e92-e657-18f2-3624a2558521@collabora.com>
- <158353062701.66766.10488072352849985568@swboyd.mtv.corp.google.com>
- <CAFqH_51hL07c7z2mBSWMejKwZMkNHPVYiB7JpMPPgck0XycEug@mail.gmail.com>
- <158379424337.149997.7454036134629466675@swboyd.mtv.corp.google.com>
- <21b43196-230c-5000-546e-b90d4b6b44a3@suse.com>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <1c726a44-dd8a-d69e-0563-dfbbc455317e@collabora.com>
-Date: Tue, 10 Mar 2020 10:50:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FCD989FE8
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 10:04:06 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id D3FF73ABB4B
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 09:53:34 +0000 (UTC)
+X-Originating-IP: 90.89.41.158
+Received: from xps13 (lfbn-tou-1-1473-158.w90-89.abo.wanadoo.fr [90.89.41.158])
+ (Authenticated sender: miquel.raynal@bootlin.com)
+ by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 9661B1C0012;
+ Tue, 10 Mar 2020 09:53:08 +0000 (UTC)
+Date: Tue, 10 Mar 2020 10:53:08 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH] drm/rockchip: rgb: don't count non-existent devices
+ when determining subdrivers
+Message-ID: <20200310105308.1c5fadf9@xps13>
+In-Reply-To: <20200121224828.4070067-1-heiko@sntech.de>
+References: <20200121224828.4070067-1-heiko@sntech.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <21b43196-230c-5000-546e-b90d4b6b44a3@suse.com>
-Content-Language: en-US
 X-Mailman-Approved-At: Tue, 10 Mar 2020 23:36:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,126 +44,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Kate Stewart <kstewart@linuxfoundation.org>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Richard Fontana <rfontana@redhat.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
- linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>,
- Chen-Yu Tsai <wens@csie.org>, Allison Randal <allison@lohutok.net>,
- mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
- sean.wang@mediatek.com, Rob Herring <robh+dt@kernel.org>,
- ARM/Mediatek SoC support <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, fwll.ch@freedesktop.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Houlong Wei <"houlong.w ei"@mediatek.com>, matthias.bgg@kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ christoph.muellner@theobroma-systems.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
-
-On 10/3/20 10:40, Matthias Brugger wrote:
-> 
-> 
-> On 09/03/2020 23:50, Stephen Boyd wrote:
->> Quoting Enric Balletbo Serra (2020-03-06 14:09:50)
->>> Missatge de Stephen Boyd <sboyd@kernel.org> del dia dv., 6 de mar
->>> 2020 a les 22:37:
->>>>
->>>> Quoting Enric Balletbo i Serra (2020-03-06 08:30:16)
->>>>> On 5/3/20 22:01, Stephen Boyd wrote:
->>>>>> Quoting Enric Balletbo i Serra (2020-03-02 03:01:26)
->>>>>>> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..473cdf732fb5
->>>>>>> --- /dev/null
->>>>>>> +++ b/drivers/soc/mediatek/mtk-mmsys.c
->>>>>>> @@ -0,0 +1,154 @@
->>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>>> +/*
->>>>>>> + * Copyright (c) 2014 MediaTek Inc.
->>>>>>> + * Author: James Liao <jamesjj.liao@mediatek.com>
->>>>>>> + */
->>>>>>> +
->>>>>>> +#include <linux/clk-provider.h>
->>>>>>> +#include <linux/of_device.h>
->>>>>>> +#include <linux/platform_device.h>
->>>>>>> +
->>>>>>> +#include "../../clk/mediatek/clk-gate.h"
->>>>>>> +#include "../../clk/mediatek/clk-mtk.h"
->>>>>>
->>>>>> Why not use include/linux/clk/?
->>>>>>
->>>>>
->>>>> I can move these files to include, this will impact a lot more of drivers but,
->>>>> yes, I think is the right way.
->>>>>
->>>>>> But I also don't understand why the clk driver is moved outside of
->>>>>> drivers/clk/ into drivers/soc/. Commit text saying that it has shared
->>>>>> registers doesn't mean it can't still keep the clk driver part in the
->>>>>> drivers/clk/ area.
->>>>>>
->>>>>
->>>>> Actually moving this to the soc directory has been requested by CK (mediatek) as
->>>>> a change in v8. You can see the discussion in [1]
->>>>>
->>>>
->>>> I can reply there in that thread if necessary, but we shouldn't need to
->>>> force simple-mfd into DT bindings to support this. Match the compatible
->>>> string in drivers/soc/ and register devices in software for the
->>>> different pieces of this overall hardware block. If necessary, pass down
->>>> the ioremapped addresss down through device data to each logical driver
->>>> in the respective subsystem.
->>>>
->>>> So yes, it looks like an MFD, but that doesn't mean we have to change
->>>> the DT binding or put it in drivers/mfd to support that. And we don't
->>>> have to fix any problems with allowing two drivers to probe the same
->>>> compatible string.
->>>>
->>>
->>> That thread maybe has too much information and things evolved since
->>> then. Note that the final solution is not an MFD neither we change the
->>> bindings. I pointed to that thread just because CK (CK please correct
->>> me if I'm wrong) thought that the driver is not a pure clock driver
->>> and he preferred to move to drivers/soc/mediatek (in that thread, he
->>> exposes his opinion on that).  Sorry to introduce more confusion.
->>>
->>> You seem to be fine with the approach (just minor changes), so it
->>> looks to me that the only problem is if this should be in drivers/clk
->>> or drivers/soc. Honestly, this is not something I can't decide and
->>> I'll let you (the soc and clk maintainers) decide. I don't really have
->>> a strong opinion here. I don't mind move again to drivers/clk if that
->>> is what we want but let's come to an agreement.
->>>
->>
->> It's already in drivers/clk, so leave the clk part there and register
->> the clk device and any other devices by matching the compatible in
->> drivers/soc. That is my preferred solution. Can that be done?
->>
-> 
-> I think we can once again create a platform device in drivers/soc which matches
-> the drivers/clk and then do the routing in drivers/soc. Enric any thoughts?
-> 
-
-Yes, working already on a new version.
-
-Thanks,
- Enric
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgSGVpa28sCgpIZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPiB3cm90ZSBvbiBUdWUs
+IDIxIEphbiAyMDIwIDIzOjQ4OjI4CiswMTAwOgoKPiBGcm9tOiBIZWlrbyBTdHVlYm5lciA8aGVp
+a28uc3R1ZWJuZXJAdGhlb2Jyb21hLXN5c3RlbXMuY29tPgo+IAo+IHJvY2tjaGlwX2RybV9lbmRw
+b2ludF9pc19zdWJkcml2ZXIoKSBtYXkgYWxzbyByZXR1cm4gZXJyb3IgY29kZXMuCj4gRm9yIGV4
+YW1wbGUgaWYgdGhlIHRhcmdldC1ub2RlIGlzIGluIHRoZSBkaXNhYmxlZCBzdGF0ZSwgc28gbm8K
+PiBwbGF0Zm9ybS1kZXZpY2UgaXMgZ2V0dGluZyBjcmVhdGVkIGZvciBpdC4KPiAKPiBJbiB0aGF0
+IGNhc2UgY3VycmVudCBjb2RlIHdvdWxkIGNvdW50IHRoYXQgYXMgZXh0ZXJuYWwgcmdiIGRldmlj
+ZSwKPiB3aGljaCBpbiB0dXJuIHdvdWxkIG1ha2UgcHJvYmluZyB0aGUgcm9ja2NoaXAtZHJtIGRl
+dmljZSBmYWlsLgo+IAo+IFNvIG9ubHkgY291bnQgdGhlIHRhcmdldCBhcyByZ2IgZGV2aWNlIGlm
+IHRoZSBmdW5jdGlvbiBhY3R1YWxseQo+IHJldHVybnMgMC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBI
+ZWlrbyBTdHVlYm5lciA8aGVpa28uc3R1ZWJuZXJAdGhlb2Jyb21hLXN5c3RlbXMuY29tPgo+IC0t
+LQo+ICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfcmdiLmMgfCAzICsrLQo+ICAx
+IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9yZ2IuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9yZ2IuYwo+IGluZGV4IGFlNzMwMjc1YTM0Zi4uNzlh
+N2U2MDYzM2UwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hp
+cF9yZ2IuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9yZ2IuYwo+
+IEBAIC05OCw3ICs5OCw4IEBAIHN0cnVjdCByb2NrY2hpcF9yZ2IgKnJvY2tjaGlwX3JnYl9pbml0
+KHN0cnVjdCBkZXZpY2UgKmRldiwKPiAgCQlpZiAob2ZfcHJvcGVydHlfcmVhZF91MzIoZW5kcG9p
+bnQsICJyZWciLCAmZW5kcG9pbnRfaWQpKQo+ICAJCQllbmRwb2ludF9pZCA9IDA7Cj4gIAo+IC0J
+CWlmIChyb2NrY2hpcF9kcm1fZW5kcG9pbnRfaXNfc3ViZHJpdmVyKGVuZHBvaW50KSA+IDApCj4g
+KwkJLyogaWYgc3ViZHJpdmVyICg+IDApIG9yIGVycm9yIGNhc2UgKDwgMCksIGlnbm9yZSBlbnRy
+eSAqLwo+ICsJCWlmIChyb2NrY2hpcF9kcm1fZW5kcG9pbnRfaXNfc3ViZHJpdmVyKGVuZHBvaW50
+KSAhPSAwKQo+ICAJCQljb250aW51ZTsKPiAgCj4gIAkJY2hpbGRfY291bnQrKzsKClJldmlld2Vk
+LWJ5OiBNaXF1ZWwgUmF5bmFsIDxtaXF1ZWwucmF5bmFsQGJvb3RsaW4uY29tPgoKVGhhbmtzLApN
+aXF1w6hsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
