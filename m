@@ -1,54 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DC8182A89
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:08:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC21182A81
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:08:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0F6E6EA3E;
-	Thu, 12 Mar 2020 08:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1583A6EA3F;
+	Thu, 12 Mar 2020 08:08:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60C1A6E47A
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:05:31 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id v9so2494478wrf.10
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 06:05:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=AhLkhUvdXLfO1SrTt7a8DDpSIYACsGN+xMVAxW5xB8M=;
- b=mXF9HzEtB49zv112z2A8Vvho3B+cvcgVwObY0OKhMIIH0zMdzxIODt0Vg8N8IXQW+a
- BYud6KydFWAaPuTpjxPwQn3MpdLCSItW9dq76Xu5t0IXhqV3lZXq9DQZBYhLFmkH9lut
- mFotv9s4g3TkexMUQ2HGK9DsSDG1Kr77JWRepmuJZ5T+fa/cQqCfk2Za2nRkVJV2uJiv
- NwFi5xgjYLx1yasq9tLUKKLTh8J0ZFmVEPU7lfbwJwBG9FP0uTiHy58OcXopIYsYHmU9
- R2rCP964fW3UgdzIoht5/tTBOALSrdLQSTyh5dEXCIcTjw1L3oCmggFgVPRDx92R6Ska
- OVYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=AhLkhUvdXLfO1SrTt7a8DDpSIYACsGN+xMVAxW5xB8M=;
- b=Mon7bF2ILyc/iXXRqnD638thcOGFlVmJbyXmVsLBWhysvsOOzui/Vn1mgImBZcbVQt
- iSd2tMt3tFj3auM5oPT19Y+olCAjWiVxqWl/v6NiK+0uI7c50BkhijSEidjqxJceZeep
- xXbMZbWKCVyLgQPjyL54A9fiycdMhbsLybfRF8ExjxO40h3N0SxdLGwx2Rwlqwj7NIen
- v1ySU77t6nKRgdiUnkDA6o6B/brrK9qAej+ysP7hiLOEDMA8qx5G1tLCa800LRYrZe8P
- 3i4kqN1wmYs9UDQWMmYJzp5iLbAbeRMeXeV/EPLx3byP2Evyup2N9BBbtw6qF60w4sV0
- Q4jA==
-X-Gm-Message-State: ANhLgQ2uoGuZ5IbSziCokp8WwGvJu6fad1QMAW3E2R3Or6GAXyIRJ09o
- 3fZEEkolcx7189pcTRaLPpc=
-X-Google-Smtp-Source: ADFU+vtmZ8OBwTwqf9IfppxfqWVwowjIoq/aKh+H9Xn5exxfAlSTYe0p2TQSbD+CzHz9OEbbKlBwtQ==
-X-Received: by 2002:a5d:6aca:: with SMTP id u10mr4223866wrw.99.1583931929923; 
- Wed, 11 Mar 2020 06:05:29 -0700 (PDT)
-Received: from debian.home (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id p10sm69291517wrx.81.2020.03.11.06.05.28
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Mar 2020 06:05:29 -0700 (PDT)
-From: Johan Jonker <jbx6244@gmail.com>
-To: heiko@sntech.de
-Subject: [PATCH v2] dt-bindings: display: convert rockchip vop bindings to yaml
-Date: Wed, 11 Mar 2020 14:05:15 +0100
-Message-Id: <20200311130515.10663-1-jbx6244@gmail.com>
-X-Mailer: git-send-email 2.11.0
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA60489E35
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1583932818; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VBz3FZ3ocy9Q4rzBgIHqJzobg61gP/HChhqdayvs+kk=;
+ b=yGNmzbLo0S1R24n1OGPsGlftaQ2Z9STV+IYFchtu/eOrKBQs99T+Sg0QfS0jjJiM7iPlvB
+ fCXv+Kd2EdwpQ7DhAMRKSbOYjLnORPIaX8ySm/AoXTBk1KYarlZRCzenNsMs2lIS3yfGGO
+ mUxsbYR1ib0OtfKdfzzID+aaqdyuqWM=
+Date: Wed, 11 Mar 2020 14:20:09 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [RFC v2 6/8] MIPS: DTS: jz4780: account for Synopsys HDMI driver
+ and LCD controller
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <1583932809.3.0@crapouillou.net>
+In-Reply-To: <F29E9DCC-29BC-4B88-9288-3E53BF8423C6@goldelico.com>
+References: <cover.1582913973.git.hns@goldelico.com>
+ <04b485165f38744816a0446e95150cafdeb716ee.1582913973.git.hns@goldelico.com>
+ <1583177253.3.5@crapouillou.net>
+ <F29E9DCC-29BC-4B88-9288-3E53BF8423C6@goldelico.com>
+MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 12 Mar 2020 08:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,245 +47,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Paul Burton <paulburton@kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>, linux-mips@vger.kernel.org,
+ Andi Kleen <ak@linux.intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current dts files with 'vop' nodes are manually verified.
-In order to automate this process rockchip-vop.txt
-has to be converted to yaml.
+Hi Nikolaus,
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
----
-Changes v2:
-  No new properties
----
- .../bindings/display/rockchip/rockchip-vop.txt     |  74 ------------
- .../bindings/display/rockchip/rockchip-vop.yaml    | 126 +++++++++++++++++++++
- 2 files changed, 126 insertions(+), 74 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
- create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
-deleted file mode 100644
-index 8b3a5f514..000000000
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
-+++ /dev/null
-@@ -1,74 +0,0 @@
--device-tree bindings for rockchip soc display controller (vop)
--
--VOP (Visual Output Processor) is the Display Controller for the Rockchip
--series of SoCs which transfers the image data from a video memory
--buffer to an external LCD interface.
--
--Required properties:
--- compatible: value should be one of the following
--		"rockchip,rk3036-vop";
--		"rockchip,rk3126-vop";
--		"rockchip,px30-vop-lit";
--		"rockchip,px30-vop-big";
--		"rockchip,rk3066-vop";
--		"rockchip,rk3188-vop";
--		"rockchip,rk3288-vop";
--		"rockchip,rk3368-vop";
--		"rockchip,rk3366-vop";
--		"rockchip,rk3399-vop-big";
--		"rockchip,rk3399-vop-lit";
--		"rockchip,rk3228-vop";
--		"rockchip,rk3328-vop";
--
--- reg: Must contain one entry corresponding to the base address and length
--	of the register space. Can optionally contain a second entry
--	corresponding to the CRTC gamma LUT address.
--
--- interrupts: should contain a list of all VOP IP block interrupts in the
--		 order: VSYNC, LCD_SYSTEM. The interrupt specifier
--		 format depends on the interrupt controller used.
--
--- clocks: must include clock specifiers corresponding to entries in the
--		clock-names property.
--
--- clock-names: Must contain
--		aclk_vop: for ddr buffer transfer.
--		hclk_vop: for ahb bus to R/W the phy regs.
--		dclk_vop: pixel clock.
--
--- resets: Must contain an entry for each entry in reset-names.
--  See ../reset/reset.txt for details.
--- reset-names: Must include the following entries:
--  - axi
--  - ahb
--  - dclk
--
--- iommus: required a iommu node
--
--- port: A port node with endpoint definitions as defined in
--  Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--Example:
--SoC specific DT entry:
--	vopb: vopb@ff930000 {
--		compatible = "rockchip,rk3288-vop";
--		reg = <0x0 0xff930000 0x0 0x19c>, <0x0 0xff931000 0x0 0x1000>;
--		interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&cru ACLK_VOP0>, <&cru DCLK_VOP0>, <&cru HCLK_VOP0>;
--		clock-names = "aclk_vop", "dclk_vop", "hclk_vop";
--		resets = <&cru SRST_LCDC1_AXI>, <&cru SRST_LCDC1_AHB>, <&cru SRST_LCDC1_DCLK>;
--		reset-names = "axi", "ahb", "dclk";
--		iommus = <&vopb_mmu>;
--		vopb_out: port {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			vopb_out_edp: endpoint@0 {
--				reg = <0>;
--				remote-endpoint=<&edp_in_vopb>;
--			};
--			vopb_out_hdmi: endpoint@1 {
--				reg = <1>;
--				remote-endpoint=<&hdmi_in_vopb>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-new file mode 100644
-index 000000000..cb88849f2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-@@ -0,0 +1,126 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/rockchip/rockchip-vop.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Rockchip soc display controller (VOP)
-+
-+description:
-+  VOP (Visual Output Processor) is the Display Controller for the Rockchip
-+  series of SoCs which transfers the image data from a video memory
-+  buffer to an external LCD interface.
-+
-+maintainers:
-+  - Sandy Huang <hjc@rock-chips.com>
-+  - Heiko Stuebner <heiko@sntech.de>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: rockchip,px30-vop-big
-+      - const: rockchip,px30-vop-lit
-+      - const: rockchip,rk3036-vop
-+      - const: rockchip,rk3066-vop
-+      - const: rockchip,rk3126-vop
-+      - const: rockchip,rk3188-vop
-+      - const: rockchip,rk3228-vop
-+      - const: rockchip,rk3288-vop
-+      - const: rockchip,rk3328-vop
-+      - const: rockchip,rk3366-vop
-+      - const: rockchip,rk3368-vop
-+      - const: rockchip,rk3399-vop-big
-+      - const: rockchip,rk3399-vop-lit
-+
-+  reg:
-+    minItems: 1
-+    items:
-+      - description:
-+          Must contain one entry corresponding to the base address and length
-+          of the register space.
-+      - description:
-+          Can optionally contain a second entry corresponding to
-+          the CRTC gamma LUT address.
-+
-+  interrupts:
-+    maxItems: 1
-+    description:
-+      Should contain a list of all VOP IP block interrupts in the
-+      order VSYNC, LCD_SYSTEM. The interrupt specifier
-+      format depends on the interrupt controller used.
-+
-+  clocks:
-+    items:
-+      - description: Clock for ddr buffer transfer.
-+      - description: Pixel clock.
-+      - description: Clock for the ahb bus to R/W the phy regs.
-+
-+  clock-names:
-+    items:
-+      - const: aclk_vop
-+      - const: dclk_vop
-+      - const: hclk_vop
-+
-+  resets:
-+    minItems: 3
-+    maxItems: 3
-+
-+  reset-names:
-+    items:
-+      - const: axi
-+      - const: ahb
-+      - const: dclk
-+
-+  port:
-+    type: object
-+    description:
-+      A port node with endpoint definitions as defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt.
-+
-+  iommus:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+  - reset-names
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rk3288-cru.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    vopb: vopb@ff930000 {
-+      compatible = "rockchip,rk3288-vop";
-+      reg = <0x0 0xff930000 0x0 0x19c>,
-+            <0x0 0xff931000 0x0 0x1000>;
-+      interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
-+      clocks = <&cru ACLK_VOP0>,
-+               <&cru DCLK_VOP0>,
-+               <&cru HCLK_VOP0>;
-+      clock-names = "aclk_vop", "dclk_vop", "hclk_vop";
-+      resets = <&cru SRST_LCDC1_AXI>,
-+               <&cru SRST_LCDC1_AHB>,
-+               <&cru SRST_LCDC1_DCLK>;
-+      reset-names = "axi", "ahb", "dclk";
-+      iommus = <&vopb_mmu>;
-+      vopb_out: port {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        vopb_out_edp: endpoint@0 {
-+          reg = <0>;
-+          remote-endpoint=<&edp_in_vopb>;
-+        };
-+        vopb_out_hdmi: endpoint@1 {
-+          reg = <1>;
-+          remote-endpoint=<&hdmi_in_vopb>;
-+        };
-+      };
-+    };
--- 
-2.11.0
+Le mer., mars 11, 2020 at 13:43, H. Nikolaus Schaller =
+
+<hns@goldelico.com> a =E9crit :
+> Hi Paul,
+> =
+
+>>  Am 02.03.2020 um 20:27 schrieb Paul Cercueil <paul@crapouillou.net>:
+>> =
+
+>>  Hi Nikolaus,
+>> =
+
+>> =
+
+>>  Le ven., f=E9vr. 28, 2020 at 19:19, H. Nikolaus Schaller =
+
+>> <hns@goldelico.com> a =E9crit :
+>>>  From: Paul Boddie <paul@boddie.org.uk>
+>>>  A specialisation of the generic Synopsys HDMI driver is employed =
+
+>>> for JZ4780
+>>>  HDMI support. This requires a new driver, plus device tree and =
+
+>>> configuration
+>>>  modifications.
+>>>  Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+>>>  Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>>>  ---
+>>>  arch/mips/boot/dts/ingenic/jz4780.dtsi | 32 =
+
+>>> ++++++++++++++++++++++++++
+>>>  1 file changed, 32 insertions(+)
+>>>  diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi =
+
+>>> b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+>>>  index f928329b034b..391d4e1efd35 100644
+>>>  --- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
+>>>  +++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+>>>  @@ -433,4 +433,36 @@
+>>>  		status =3D "disabled";
+>>>  	};
+>>>  +
+>>>  +	hdmi: hdmi@10180000 {
+>>>  +		compatible =3D "ingenic,jz4780-dw-hdmi";
+>>>  +		reg =3D <0x10180000 0x8000>;
+>>>  +		reg-io-width =3D <4>;
+>>>  +
+>>>  +		clocks =3D <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
+>>>  +		clock-names =3D "isfr" , "iahb";
+>>>  +
+>>>  +		assigned-clocks =3D <&cgu JZ4780_CLK_HDMI>;
+>>>  +		assigned-clock-rates =3D <27000000>;
+>> =
+
+>>  I *think* this should go to the board file.
+>> =
+
+>>>  +
+>>>  +		interrupt-parent =3D <&intc>;
+>>>  +		interrupts =3D <3>;
+>>>  +
+>>>  +		/* ddc-i2c-bus =3D <&i2c4>; */
+>>>  +
+>>>  +		status =3D "disabled";
+>>>  +	};
+>>>  +
+>>>  +	lcd: lcd@13050000 {
+>> =
+
+>>  The node name should be 'lcd-controller'.
+>> =
+
+>>>  +		compatible =3D "ingenic,jz4740-lcd";
+>> =
+
+>>  The JZ4780's LCD controller is much newer than the JZ4740 one, so =
+
+>> even if it works with the "ingenic,jz4740-lcd" compatible string, =
+
+>> you want it as a fallback.
+>>  So this should be: compatible =3D "ingenic,jz4780-lcd", =
+
+>> "ingenic,jz4740-lcd".
+>> =
+
+>>  That means the YAML should be updated too.
+> =
+
+> I have started to look into jz4780 HDMI setup again.
+> =
+
+> Well, there is no driver compatible to "ingenic,jz4780-lcd" so far
+> and it is questionalbe if we need a different one.
+> =
+
+> I think we should rather make the driver also compatible
+> than adding a fallback to ingenic,jz4740-lcdto the DTS.
+> =
+
+> The reason why this is better even if both LCDC are almost
+> compatible is that the jz4780 allows for much bigger displays
+> and therefore should have its own jz_soc_info with 4k x 2k
+> as maximum.
+
+Sure, feel free to extend the driver.
+
+> Next I tried to find out if the LCDC are really compatible.
+> =
+
+> Well the jz4780 has two lcdc instances but they are separated
+> by the reg addr. Next, there are unique features (like picture in
+> picture with alpha blending) but those are probably disabled
+> if not programmed from reset state. This may become a reason
+> to separate or augment the driver for the jz4780 but at the
+> moment we can ignore that.
+
+Two LCDC instances -> two lcd-controller@... nodes. It's that simple.
+
+The other features you listed are outside the LCDC, so outside the =
+
+scope of this driver.
+
+> There are also subtly different bit definitions and register
+> widths (e.g. 24 bit in addition to 16/18 bit modes or more bits
+> for the sync position) but it looks as if the ingenic_drm
+> driver already handles this.
+> =
+
+> Then I tried to read back the registers. Strangely they
+> are all 0x00000000. So there is no programming of the
+> lcd-controller in our DT setup with HDMI at all!
+
+How did you read them?
+Do it from the regmap: should be "cat =
+
+/sys/kernel/debug/regmap/13050000.lcd-controller/registers" (not sure =
+
+about the path)
+
+> I also checked that ingenic_drm_probe() is called and
+> returns successfully 0. It also reports that a /dev/fb
+> has been created:
+> =
+
+> [    7.908830] ingenic-drm 13050000.lcd-controller: fb0: =
+
+> ingenic-drmdrmf frame buffer device
+> =
+
+> But for example ingenic_drm_encoder_atomic_mode_set() is
+> never called which should write some registers of the LCDC.
+> =
+
+> I only did see some calls to ingenic_drm_encoder_atomic_check().
+> =
+
+> This of course explains why we have no HDMI signals despite
+> proper HPD and a /dev/fb0. Because the LCDC is not being
+> programmed.
+
+It won't be called until the HDMI driver says that the cable is =
+
+plugged, and there's a client application (e.g. fbdev emulation) =
+
+running. So the problem is most likely within the HDMI driver.
+
+Cheers,
+-Paul
+
+> Any ideas / hints how to check or improve?
+> =
+
+> BR and thanks,
+> Nikolaus
+> =
+
+
 
 _______________________________________________
 dri-devel mailing list
