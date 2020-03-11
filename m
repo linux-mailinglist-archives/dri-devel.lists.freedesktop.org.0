@@ -1,45 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4D8180F3C
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 06:07:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B4F180FD4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 06:24:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 769E36E903;
-	Wed, 11 Mar 2020 05:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA886E8F9;
+	Wed, 11 Mar 2020 05:24:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0152.hostedemail.com
- [216.40.44.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47F96E902;
- Wed, 11 Mar 2020 05:07:40 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay03.hostedemail.com (Postfix) with ESMTP id E122A837F24F;
- Wed, 11 Mar 2020 05:07:39 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:541:800:960:967:973:982:988:989:1260:1311:1314:1345:1359:1437:1515:1534:1540:1568:1711:1714:1730:1747:1777:1792:2393:2525:2560:2563:2682:2685:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3865:3866:3867:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:5007:6261:9025:10004:10848:11026:11473:11657:11658:11914:12043:12296:12297:12438:12555:12679:12895:12986:13069:13255:13311:13357:13894:14096:14181:14384:14394:14721:21080:21433:21627:21811:21939:21990:30054:30055,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: mark80_258ebdd83b35f
-X-Filterd-Recvd-Size: 2037
-Received: from joe-laptop.perches.com (unknown [47.151.143.254])
- (Authenticated sender: joe@perches.com)
- by omf16.hostedemail.com (Postfix) with ESMTPA;
- Wed, 11 Mar 2020 05:07:37 +0000 (UTC)
-From: Joe Perches <joe@perches.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>,
-	Zhi Wang <zhi.a.wang@intel.com>
-Subject: [PATCH -next 026/491] INTEL GVT-g DRIVERS (Intel GPU Virtualization):
- Use fallthrough; 
-Date: Tue, 10 Mar 2020 21:51:40 -0700
-Message-Id: <c80b7545125fb7e9fd40c6d4c55d720899fc8250.1583896349.git.joe@perches.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <cover.1583896344.git.joe@perches.com>
-References: <cover.1583896344.git.joe@perches.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74E766E8F9;
+ Wed, 11 Mar 2020 05:24:22 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id n18so1320409edw.9;
+ Tue, 10 Mar 2020 22:24:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=ZutBpd9PX/nAiXGCm2HtvoZ3q8rNB4BigBmi3PRqsDY=;
+ b=Nc3gi0xA1eree3EDoqU/5To0sMI3lYne34BeDUfDV8uovge8Fw6aK4H9UbngJq4Cwj
+ kZ6qMuMaioPOKpreZaIOt/XNQ38qBdV96nFS184AcB7PCzmL6fSegDe06cvg3UvF4X5J
+ 7aDnfJzo/SxPR7TZcox75eOOx64yT9I+vMht7k9JZDQVLe4UNa74+Yrt4ErYB8Pnqqbb
+ 4VETv317qblo3//78NYwp8jFz8YR6SNDK7Pji7BMt/eyi3k0v61LwhVykJG5/nUx5ZqH
+ A4U6JWtCQy2lRNyTUR6yTu8cQ+pyvBzNfl2o+JGXrVd5VhQjvIcsZM+HbDwIOIMcM2Z1
+ wPrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=ZutBpd9PX/nAiXGCm2HtvoZ3q8rNB4BigBmi3PRqsDY=;
+ b=KvuRgMFjhpfsdSbhnUBUO9Mk3YRSWlGu2TJWokB8l+DzNkdg5bZWfIma6pOP9eO9JT
+ 4Qyk8M+91S34rZRAd9Dawn+FMCrFa6Y5Y+XG6e0QwxJd4eOsVnh55ffbPvz6HfH/K7zx
+ PCz4AWYvf3bpr2uUqdLz9AtvZPWgnEEvf/0dCV8OaRJfMXmcZcKwdGj22dq69vTZXA5F
+ +AApN55Y77gkJJYOxTyjiT48LsWQANN4bBipaCSKf+4BhJeFJbLDNjRENmttFQ6o1wtM
+ ufp8A0+n3w/oovm+ulfziI6x53Gww1Bu7r2joEYWNVIfzAiYriA6i8vmwmyVTx8r8HB/
+ j47Q==
+X-Gm-Message-State: ANhLgQ15lskWO0vaZabQ2t826RWpXel7/0cBPRFI52iydWt2kZBLzSij
+ S1HhpPc9DRWXl5qjrzvkUIwtjmO8DegbCOWyt09y2+49
+X-Google-Smtp-Source: ADFU+vv04IZ6IebxQ7aRUv8qA2Rq0DtuH5UX+tXbLdDQurmE8CbnsqREFj8uzojp0K70RPW22RyOY5qZ3Ky5zCmEz6o=
+X-Received: by 2002:aa7:de85:: with SMTP id j5mr1079081edv.193.1583904260765; 
+ Tue, 10 Mar 2020 22:24:20 -0700 (PDT)
 MIME-Version: 1.0
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Wed, 11 Mar 2020 01:24:09 -0400
+Message-ID: <CAHUNapR2bqOenz6kEbLNMh7M-L8im4z_9zcOPT2+uu5wb5w8Hw@mail.gmail.com>
+Subject: X.Org GSoC 2020 - call for project ideas and mentors
+To: dri-devel <dri-devel@lists.freedesktop.org>, 
+ wayland <wayland-devel@lists.freedesktop.org>, 
+ ML mesa-dev <mesa-dev@lists.freedesktop.org>, 
+ "X.Org Devel List" <xorg-devel@lists.x.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,40 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the various uses of fallthrough comments to fallthrough;
+Hello!
 
-Done via script
-Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
+Once again X.Org has been fortunate to have been chosen to be part of GSoC!
 
-Signed-off-by: Joe Perches <joe@perches.com>
----
- drivers/gpu/drm/i915/gvt/handlers.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Starting March 16 (this Monday) students will be able to register and
+submit their applications for GSoC.
 
-diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
-index 1793f69..0e792f9 100644
---- a/drivers/gpu/drm/i915/gvt/handlers.c
-+++ b/drivers/gpu/drm/i915/gvt/handlers.c
-@@ -1225,7 +1225,7 @@ static int handle_g2v_notification(struct intel_vgpu *vgpu, int notification)
- 	switch (notification) {
- 	case VGT_G2V_PPGTT_L3_PAGE_TABLE_CREATE:
- 		root_entry_type = GTT_TYPE_PPGTT_ROOT_L3_ENTRY;
--		/* fall through */
-+		fallthrough;
- 	case VGT_G2V_PPGTT_L4_PAGE_TABLE_CREATE:
- 		mm = intel_vgpu_get_ppgtt_mm(vgpu, root_entry_type, pdps);
- 		return PTR_ERR_OR_ZERO(mm);
--- 
-2.24.0
+If you can spare a moment, please take a look at our current "idea"
+page which help students to start thinking about potential project
+ideas: https://www.x.org/wiki/SummerOfCodeIdeas/
 
+If you have any project ideas that might suit a post-secondary
+student, please add them to the list, or email me the details and I'll
+be happy to update the list on your behalf. Conversely, if there are
+projects on that list that are no longer relevant, please let me know
+and I'll take them down.
+
+Also, if you are considering being a mentor, please get in touch so I
+can add you to the list.
+
+If you have any thoughts or questions, please don't hesitate to get in touch.
+
+Best regards,
+    Trevor
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
