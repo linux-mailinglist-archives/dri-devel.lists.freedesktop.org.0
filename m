@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EADC181A6A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 14:53:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C85181A85
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 14:57:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC9F6E987;
-	Wed, 11 Mar 2020 13:53:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2B186E1FB;
+	Wed, 11 Mar 2020 13:57:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 198B26E987
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:53:19 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id a25so2745304wrd.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 06:53:19 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFB36E1FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:57:00 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id n8so2194012wmc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 06:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=eHwkeVxfO0gUnLqUCdk8e6YCrYOv+vU4eek8Koxv2A4=;
- b=QhNq1Oy1b7vPsK6CCb4Vuu9L3ZaRw/kwy/TnZ7UZmW+gcK08dnYRVPkaV7SUvFE2dv
- Lhnr/j3QVW+AgQ+XrC2BoW7BlwW+biR0Y5hS1oxB4/7lgXP8OT3OKp1nz1SQkhLqboth
- grJIPfpHxdUmJRgKg9VBJZlPmhem2o+q2gQW0XyBpna09CU3eD2BLsquxwVmQlTxvr/I
- vh1Wb5aGUzB8jpJHOwVGZm+ymjofp3bZQYuS2czZsPFf0v0+4dTOzjyC4Ie1r1e2ANhj
- GqPzZHTOkLN9JFoA1AGcrX2aYzx9m0N5Fy/OacTIoRqytbSgbeWmzA9iFsAd0zX6mLyB
- wtrg==
+ bh=eP5B12Iin5AOGx+bY3oMJduGL6svVsZhG2x1oXXR+cM=;
+ b=zNLw9uQxLElP8LuET1P9o4KdhzosxlRz4R8y6Cg5HPqv1Jhv0uS92raV0LAe7ps+7C
+ YLkXl5cejzD73MpJPUFispu8IScfXL4G70GUEPjI9XpfggH/a/02vx5++1a0PlChNHLk
+ 1eVExK0Y+7YOAqUjR+oVK2GVExIamCX+DruQI7j3Y/K0eW/m618ZMQEN/M+TGSS1a14+
+ jbKqvKLEs9Xe7VT5hVh3XrVrBgSLA1CVkCWiVSDCCH9kwuTAMjZ5r4RDEGN/0Y4uFdVp
+ ES9s0nkRM5SieZIzoHqAydDhrmJtj839ghHnAFjuJbdidlzSe1zX6rMGflsjmsxlpoF6
+ wMpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=eHwkeVxfO0gUnLqUCdk8e6YCrYOv+vU4eek8Koxv2A4=;
- b=GpGyfdZrzKqYcKPNEVwREnVPr7JLf5bEO+NasMxLLfsA80dZv3ZFPIlQtkHt1P2uob
- 4lYh2m0ld63DgpKY7eXpmL46e8/mCkyQUYkuR7Gcjyohyk5nZdQrY6LUNLHDR4AQ4dng
- rnzzZ1Il2v7/EeGRiLZxlfrc8X6sF9tJngQTjd6FUZvFeHccViiM+Z+Jnflf5K4fANRL
- eYW5iJa7wlsdgqkqrJn1Yn79m3TEcrEGopR6HGT1+/e/wUsGjZoC2cJm2qMaUZHg2quM
- /NXV0t97JIG2uyU3RnxR0KpHCv8CTPNg31M8H2bB+xMHywykDpnMeaHUsu1p9vjP9UWh
- u1+A==
-X-Gm-Message-State: ANhLgQ1uZjYQGW0HEJaBRVwDIQAlRVpke8U65zSyqLoaduCjay2239D0
- gN+v8Dc7xwOrhcrVkYJ72hH3pQ==
-X-Google-Smtp-Source: ADFU+vsVqorwQn7M8Op/RUAOJNd7SyRUX6Cug8+p6C05fmfENTXi0tJ6toOZvCeg8GUnbfj+iVFd1Q==
-X-Received: by 2002:adf:94a3:: with SMTP id 32mr4942375wrr.276.1583934797542; 
- Wed, 11 Mar 2020 06:53:17 -0700 (PDT)
+ bh=eP5B12Iin5AOGx+bY3oMJduGL6svVsZhG2x1oXXR+cM=;
+ b=oahzpuLs+Go/bwebbKpNNWnX3W1/oLWg9adn4ZBjN7PSqFeQ9pUdf12LF/71RJJMNy
+ EMCKHGvXuJUjwcqbSB7gB/Oy2I49lPcdhuwWuEzEikEHOvEYN5009OfxPPy2Do38Qy/0
+ WLDxBaq4Oc4iBomyI+FwD/iog2TMu3g/u8X8tNu9BI5bmXvT7DzFF8EqlzL13jDurg6J
+ s3Db+iUiFxGL4T0K8b+YyHW6H6sH5EOopKqObkQ/YosAJ2t5aEtW4L8mbOt9ZJqL3CJq
+ q3CIGJ7EoWO0RUfz3Cip4vUs8Mj8tk6VTOULROMvOao+LNHmKVC+BvOh6DMlb4WPBs3g
+ yg+w==
+X-Gm-Message-State: ANhLgQ1Dz5v+loJhBUgIQPG2TtEv1EklL9tmYgDddcHcBab99VYzXKYa
+ VuffmgHSYJ9MQupCVJzmK8BrWA==
+X-Google-Smtp-Source: ADFU+vuVCbxLxvwDV80YtRJPYtrM3jSj45mkKh6Zy9tISMTyxX1rJG46k0FTnRLAAsbDxBLEJOqRhQ==
+X-Received: by 2002:a05:600c:22d8:: with SMTP id
+ 24mr1527490wmg.108.1583935018691; 
+ Wed, 11 Mar 2020 06:56:58 -0700 (PDT)
 Received: from [10.1.3.173]
  (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id k18sm20816731wru.94.2020.03.11.06.53.16
+ by smtp.gmail.com with ESMTPSA id e1sm59569460wrx.90.2020.03.11.06.56.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Mar 2020 06:53:17 -0700 (PDT)
-Subject: Re: [PATCH v13 1/6] dt-bindings: media: add pclk-sample dual edge
- property
+ Wed, 11 Mar 2020 06:56:58 -0700 (PDT)
+Subject: Re: [PATCH v13 5/6] drm/mediatek: dpi sample mode support
 To: Jitao Shi <jitao.shi@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20200311071823.117899-1-jitao.shi@mediatek.com>
- <20200311071823.117899-2-jitao.shi@mediatek.com>
+ <20200311071823.117899-6-jitao.shi@mediatek.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -109,12 +109,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <c46e49e6-846f-4f41-a8e3-57d5503e1cd7@baylibre.com>
-Date: Wed, 11 Mar 2020 14:53:16 +0100
+Message-ID: <1753781a-7b99-bc1a-22e4-2df2f45a6419@baylibre.com>
+Date: Wed, 11 Mar 2020 14:56:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200311071823.117899-2-jitao.shi@mediatek.com>
+In-Reply-To: <20200311071823.117899-6-jitao.shi@mediatek.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -130,6 +130,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
  huijuan.xie@mediatek.com, stonea168@163.com, cawa.cheng@mediatek.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
  linux-mediatek@lists.infradead.org, yingjoe.chen@mediatek.com,
  eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
@@ -137,44 +138,112 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
 On 11/03/2020 08:18, Jitao Shi wrote:
-> Some chips's sample mode are rising, falling and dual edge (both
-> falling and rising edge).
-> Extern the pclk-sample property to support dual edge.
+> DPI can sample on falling, rising or both edge.
+> When DPI sample the data both rising and falling edge.
+> It can reduce half data io pins.
 > 
-> Acked-by: Rob Herring <robh@kernel.org>
 > Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 > ---
->  Documentation/devicetree/bindings/media/video-interfaces.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 27 +++++++++++++++++++++++++--
+>  1 file changed, 25 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> index f884ada0bffc..da9ad24935db 100644
-> --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-> +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> @@ -118,8 +118,8 @@ Optional endpoint properties
->  - data-enable-active: similar to HSYNC and VSYNC, specifies the data enable
->    signal polarity.
->  - field-even-active: field signal level during the even field data transmission.
-> -- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
-> -  signal.
-> +- pclk-sample: sample data on rising (1), falling (0) or both rising and
-> +  falling (2) edge of the pixel clock signal.
->  - sync-on-green-active: active state of Sync-on-green (SoG) signal, 0/1 for
->    LOW/HIGH respectively.
->  - data-lanes: an array of physical data lane indexes. Position of an entry
-> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 087f5ce732e1..2871e68e7767 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -75,6 +75,7 @@ struct mtk_dpi {
+>  	enum mtk_dpi_out_bit_num bit_num;
+>  	enum mtk_dpi_out_channel_swap channel_swap;
+>  	int refcount;
+> +	u32 pclk_sample;
+>  };
+>  
+>  static inline struct mtk_dpi *mtk_dpi_from_encoder(struct drm_encoder *e)
+> @@ -348,6 +349,13 @@ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
+>  		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
+>  }
+>  
+> +static void mtk_dpi_enable_pclk_sample_dual_edge(struct mtk_dpi *dpi)
+> +{
+> +	mtk_dpi_mask(dpi, DPI_DDR_SETTING, DDR_EN | DDR_4PHASE,
+> +		     DDR_EN | DDR_4PHASE);
+> +	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, EDGE_SEL, EDGE_SEL);
+> +}
+> +
+>  static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
+>  					enum mtk_dpi_out_color_format format)
+>  {
+> @@ -439,7 +447,8 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>  	pll_rate = clk_get_rate(dpi->tvd_clk);
+>  
+>  	vm.pixelclock = pll_rate / factor;
+> -	clk_set_rate(dpi->pixel_clk, vm.pixelclock);
+> +	clk_set_rate(dpi->pixel_clk,
+> +		     vm.pixelclock * (dpi->pclk_sample > 1 ? 2 : 1));
+>  	vm.pixelclock = clk_get_rate(dpi->pixel_clk);
+>  
+>  	dev_dbg(dpi->dev, "Got  PLL %lu Hz, pixel clock %lu Hz\n",
+> @@ -450,7 +459,8 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>  	limit.y_bottom = 0x0010;
+>  	limit.y_top = 0x0FE0;
+>  
+> -	dpi_pol.ck_pol = MTK_DPI_POLARITY_FALLING;
+> +	dpi_pol.ck_pol = dpi->pclk_sample == 1 ?
+> +			 MTK_DPI_POLARITY_RISING : MTK_DPI_POLARITY_FALLING;
+>  	dpi_pol.de_pol = MTK_DPI_POLARITY_RISING;
+>  	dpi_pol.hsync_pol = vm.flags & DISPLAY_FLAGS_HSYNC_HIGH ?
+>  			    MTK_DPI_POLARITY_FALLING : MTK_DPI_POLARITY_RISING;
+> @@ -504,6 +514,8 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>  	mtk_dpi_config_color_format(dpi, dpi->color_format);
+>  	mtk_dpi_config_2n_h_fre(dpi);
+>  	mtk_dpi_config_disable_edge(dpi);
+> +	if (dpi->pclk_sample > 1)
+> +		mtk_dpi_enable_pclk_sample_dual_edge(dpi);
+>  	mtk_dpi_sw_reset(dpi, false);
+>  
+>  	return 0;
+> @@ -693,6 +705,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
+>  static int mtk_dpi_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> +	struct device_node *ep;
+>  	struct mtk_dpi *dpi;
+>  	struct resource *mem;
+>  	int comp_id;
+> @@ -705,6 +718,16 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+>  	dpi->dev = dev;
+>  	dpi->conf = (struct mtk_dpi_conf *)of_device_get_match_data(dev);
+>  
+> +	ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> +	if (!ep) {
+> +		dev_err(dev, "Failed get the endpoint port\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Get the sampling edge from the endpoint. */
+> +	of_property_read_u32(ep, "pclk-sample", &dpi->pclk_sample);
+> +	of_node_put(ep);
 
-This changes the bus format, but we recently introduced a bus format negociation
-between bridges to avoid adding such properties into DT, and make bus format setup
-dynamic between an encoder and a bridge.
+Instead of having hard-coded value in DT, you should switch to bridge bus
+format negotiation instead.
 
-It would be great to use that instead.
+Boris pushed support a few weeks ago and the dw-hdmi bridge has been updated
+to work with it and negotiate the format between the encoder and the bridge.
+
+Phong is pushing the it66121 bridge driver which is used on a MT8183 board, and
+should make use of that to handle the dual edge support between the 8183 dpi and
+the it66121 bridge.
 
 Neil
+
+> +
+>  	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>  	dpi->regs = devm_ioremap_resource(dev, mem);
+>  	if (IS_ERR(dpi->regs)) {
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
