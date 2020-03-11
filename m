@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70863182AC7
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB653182A86
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:08:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5686EA8F;
-	Thu, 12 Mar 2020 08:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F946EA49;
+	Thu, 12 Mar 2020 08:08:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
  [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 588FF6E9F7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 20:05:07 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,541,1574089200"; d="scan'208";a="41405016"
+ by gabe.freedesktop.org (Postfix) with ESMTP id 576866E9FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 20:05:17 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,541,1574089200"; d="scan'208";a="41405026"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 12 Mar 2020 05:05:06 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 12 Mar 2020 05:05:16 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1349A40E0C0D;
- Thu, 12 Mar 2020 05:05:02 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 68BB740E0C0D;
+ Thu, 12 Mar 2020 05:05:13 +0900 (JST)
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH v4 1/2] dt-bindings: display: Add idk-1110wr binding
-Date: Wed, 11 Mar 2020 20:03:39 +0000
-Message-Id: <1583957020-16359-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 2/2] arm64: dts: renesas: Add HiHope RZ/G2M board with
+ idk-1110wr display
+Date: Wed, 11 Mar 2020 20:03:40 +0000
+Message-Id: <1583957020-16359-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1583957020-16359-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <1583957020-16359-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -57,95 +58,90 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
-Add binding for the idk-1110wr LVDS panel from Advantech.
-
-Some panel-specific documentation can be found here:
-https://buy.advantech.eu/Displays/Embedded-LCD-Kits-LCD-Kit-Modules/model-IDK-1110WR-55WSA1E.htm
+The HiHope RZ/G2M is advertised as compatible with panel idk-1110wr
+from Advantech, however the panel isn't sold alongside the board.
+A new dts, adding everything that's required to get the panel to
+work with HiHope RZ/G2M, is the most convenient way to support the
+HiHope RZ/G2M when it's connected to the idk-1110wr.
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- .../display/panel/advantech,idk-1110wr.yaml        | 69 ++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
+ arch/arm64/boot/dts/renesas/Makefile               |  1 +
+ .../r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts        | 52 ++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts
 
-diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index 2153842..82dd245 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m.dtb
+ dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex.dtb
++dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb
+ dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n.dtb
+ dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n-ex.dtb
+ dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb r8a774c0-ek874.dtb \
+diff --git a/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts
 new file mode 100644
-index 0000000..93878c2
+index 0000000..2ab5edd
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
-@@ -0,0 +1,69 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/advantech,idk-1110wr.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts
+@@ -0,0 +1,52 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the HiHope RZ/G2M sub board connected to an
++ * Advantech IDK-1110WR 10.1" LVDS panel
++ *
++ * Copyright (C) 2020 Renesas Electronics Corp.
++ */
 +
-+title: Advantech IDK-1110WR 10.1" WSVGA LVDS Display Panel
++#include "r8a774a1-hihope-rzg2m-ex.dts"
++#include "rzg2-advantech-idk-1110wr-panel.dtsi"
 +
-+maintainers:
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-+  - Thierry Reding <thierry.reding@gmail.com>
++/ {
++	backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm0 0 50000>;
 +
-+allOf:
-+  - $ref: lvds.yaml#
++		brightness-levels = <0 2 8 16 32 64 128 255>;
++		default-brightness-level = <6>;
++	};
 +
-+properties:
-+  compatible:
-+    items:
-+      - const: advantech,idk-1110wr
-+      - {} # panel-lvds, but not listed here to avoid false select
++};
 +
-+  data-mapping:
-+    const: jeida-24
++&gpio1 {
++	/*
++	 * When GP1_20 is LOW LVDS0 is connected to the LVDS connector
++	 * When GP1_20 is HIGH LVDS0 is connected to the LT8918L
++	 */
++	lvds-connector-en-gpio {
++		gpio-hog;
++		gpios = <20 GPIO_ACTIVE_HIGH>;
++		output-low;
++		line-name = "lvds-connector-en-gpio";
++	};
++};
 +
-+  width-mm:
-+    const: 223
++&lvds0 {
++	status = "okay";
++};
 +
-+  height-mm:
-+    const: 125
++&pfc {
++	pwm0_pins: pwm0 {
++		groups = "pwm0";
++		function = "pwm0";
++	};
++};
 +
-+  panel-timing: true
-+  port: true
++&pwm0 {
++	pinctrl-0 = <&pwm0_pins>;
++	pinctrl-names = "default";
 +
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+
-+examples:
-+  - |+
-+    panel {
-+      compatible = "advantech,idk-1110wr", "panel-lvds";
-+
-+      width-mm = <223>;
-+      height-mm = <125>;
-+
-+      data-mapping = "jeida-24";
-+
-+      panel-timing {
-+        /* 1024x600 @60Hz */
-+        clock-frequency = <51200000>;
-+        hactive = <1024>;
-+        vactive = <600>;
-+        hsync-len = <240>;
-+        hfront-porch = <40>;
-+        hback-porch = <40>;
-+        vsync-len = <10>;
-+        vfront-porch = <15>;
-+        vback-porch = <10>;
-+      };
-+
-+      port {
-+        panel_in: endpoint {
-+          remote-endpoint = <&lvds_encoder>;
-+        };
-+      };
-+    };
-+
-+...
++	status = "okay";
++};
 -- 
 2.7.4
 
