@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2C7181903
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 14:01:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C477218191C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 14:06:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50AEC6E429;
-	Wed, 11 Mar 2020 13:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4276E47A;
+	Wed, 11 Mar 2020 13:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id D36166E429
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:01:52 +0000 (UTC)
-X-UUID: 530e16f6b4c34eda8033d39dc1f66c97-20200311
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8B4A56E47A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:05:57 +0000 (UTC)
+X-UUID: a88d23ee84d24c6f87ab8de3e23780a0-20200311
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=/WVVWBfJZWBTP9PrYKh6PTL6LhgD9CaRZwh9r2ttw8o=; 
- b=FeHfmLXP6lg2ahvRdk64ty2LUW5cF4x0VuXOaLEeKE7Z284kDlDMEsrfRiSzGi7cqFtGAdKfpYCAPgpsSFHhPQSjsWOb8ReDdaoaPafwkK6FvSZG0VTPZvr0ykk5oDs3eP14P+zvxpb+jpS6X+mXXC25WmhCxpmgKIW8aDo4grQ=;
-X-UUID: 530e16f6b4c34eda8033d39dc1f66c97-20200311
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ bh=Mp2aZPUa6vRdl4F4YlSPXJ1sI5MSD/01Q/eOy0GtTQI=; 
+ b=iyj05Fw0ZIkoFngYSieienICJb8iu/QUVoBTVNlGmL+GyI5SB+CJ59Cq8HqSyTeO4MJQ7s3q3FxEE1+RhG1IhFZvT4bP32K4AzR1jDPhL4jZjPjQ8oBpIWtb64oiqmQQ2uiAKz6A4NMBGx6gWHuUGcQN/xX66qoKzUDU9JKN+9k=;
+X-UUID: a88d23ee84d24c6f87ab8de3e23780a0-20200311
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
  (envelope-from <ck.hu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1205752028; Wed, 11 Mar 2020 21:01:47 +0800
+ with ESMTP id 257172720; Wed, 11 Mar 2020 21:05:54 +0800
 Received: from mtkcas09.mediatek.inc (172.21.101.178) by
  mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 11 Mar 2020 21:01:45 +0800
+ 15.0.1395.4; Wed, 11 Mar 2020 21:05:52 +0800
 Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 11 Mar 2020 21:00:54 +0800
-Message-ID: <1583931705.29614.3.camel@mtksdaap41>
-Subject: Re: [PATCH v11 0/5] arm/arm64: mediatek: Fix mt8173 mmsys device
- probing
+ Transport; Wed, 11 Mar 2020 21:05:01 +0800
+Message-ID: <1583931952.29614.5.camel@mtksdaap41>
+Subject: Re: [PATCH v11 3/5] clk / soc: mediatek: Move mt8173 MMSYS to
+ platform driver
 From: CK Hu <ck.hu@mediatek.com>
 To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Date: Wed, 11 Mar 2020 21:01:45 +0800
-In-Reply-To: <20200311115614.1425528-1-enric.balletbo@collabora.com>
+Date: Wed, 11 Mar 2020 21:05:52 +0800
+In-Reply-To: <20200311115614.1425528-4-enric.balletbo@collabora.com>
 References: <20200311115614.1425528-1-enric.balletbo@collabora.com>
+ <20200311115614.1425528-4-enric.balletbo@collabora.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: D0C530029DFB3D1C48B2A2ED83E49AE8D5F42442F09CD39392B33A38427356E82000:8
+X-TM-SNTS-SMTP: D784D3DAEEA661B9A0D6E2A96065163283990E8ECB339D1E7BA070311362A5752000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,71 +82,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi, Enric:
 
-I'm confused this is v11 or v12.
-For v12, you've lost some 'Acked-by' and 'Reviewed-by' tag.
-
-Regards,
-CK
-
 On Wed, 2020-03-11 at 12:56 +0100, Enric Balletbo i Serra wrote:
-> Dear all,
+> From: Matthias Brugger <mbrugger@suse.com>
 > 
-> These patches are intended to solve an old standing issue on some
-> Mediatek devices (mt8173, mt2701 and mt2712 are affected by this issue).
+> There is no strong reason for this to use CLK_OF_DECLARE instead of
+> being a platform driver. Plus, MMSYS provides clocks but also a shared
+> register space for the mediatek-drm and the mediatek-mdp
+> driver. So move the MMSYS clocks to a new platform driver and also
+> create a new MMSYS platform driver in drivers/soc/mediatek that
+> instantiates the clock driver.
 > 
-> Up to now both drivers, clock and drm are probed with the same device tree
-> compatible. But only the first driver gets probed, which in effect breaks
-> graphics on those devices.
-> 
-> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
-> control clock gates (which is used in the clk driver) and some registers
-> to set the routing and enable the differnet blocks of the display
-> and MDP (Media Data Path) subsystem. On this series the clk driver is
-> not a pure clock controller but a system controller that can provide
-> access to the shared registers between the different drivers that need
-> it (mediatek-drm and mediatek-mdp). Hence the MMSYS clk driver was moved
-> to drivers/soc/mediatek and is the entry point (parent) which will trigger
-> the probe of the corresponding mediatek-drm driver.
-> 
-> **IMPORTANT** This series only fixes the issue on mt8173 to make it
-> simple and as is the only platform I can test. Similar changes should be
-> applied for mt2701 and mt2712 to have display working.
-> 
-> These patches apply on top of linux-next.
-> 
-> For reference, here are the links to the old discussions:
-> * v10: https://patchwork.kernel.org/project/linux-mediatek/list/?series=248505
-> * v9: https://patchwork.kernel.org/project/linux-clk/list/?series=247591
-> * v8: https://patchwork.kernel.org/project/linux-mediatek/list/?series=244891
-> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
-> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
-> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
-> * v4:
->   * https://patchwork.kernel.org/patch/10530871/
->   * https://patchwork.kernel.org/patch/10530883/
->   * https://patchwork.kernel.org/patch/10530885/
->   * https://patchwork.kernel.org/patch/10530911/
->   * https://patchwork.kernel.org/patch/10530913/
-> * v3:
->   * https://patchwork.kernel.org/patch/10367857/
->   * https://patchwork.kernel.org/patch/10367861/
->   * https://patchwork.kernel.org/patch/10367877/
->   * https://patchwork.kernel.org/patch/10367875/
->   * https://patchwork.kernel.org/patch/10367885/
->   * https://patchwork.kernel.org/patch/10367883/
->   * https://patchwork.kernel.org/patch/10367889/
->   * https://patchwork.kernel.org/patch/10367907/
->   * https://patchwork.kernel.org/patch/10367909/
->   * https://patchwork.kernel.org/patch/10367905/
-> * v2: No relevant discussion, see v3
-> * v1:
->   * https://patchwork.kernel.org/patch/10016497/
->   * https://patchwork.kernel.org/patch/10016499/
->   * https://patchwork.kernel.org/patch/10016505/
->   * https://patchwork.kernel.org/patch/10016507/
-> 
-> Best regards,
->  Enric
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
+> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
 > 
 > Changes in v11:
 > - Leave the clocks part in drivers/clk (clk-mt8173-mm)
@@ -154,63 +106,33 @@ On Wed, 2020-03-11 at 12:56 +0100, Enric Balletbo i Serra wrote:
 > - Removed the Reviewed-by CK tag as changed the organization.
 > 
 > Changes in v10:
-> - Update the binding documentation for the mmsys system controller.
 > - Renamed to be generic mtk-mmsys
 > - Add driver data support to be able to support diferent SoCs
-> - Select CONFIG_MTK_MMSYS (CK)
-> - Pass device pointer of mmsys device instead of config regs (CK)
-> - Match driver data to get display routing.
 > 
 > Changes in v9:
 > - Move mmsys to drivers/soc/mediatek (CK)
-> - Introduced a new patch to move routing control into mmsys driver.
-> - Removed the patch to use regmap as is not needed anymore.
-> - Do not move the display routing from the drm driver (CK)
 > 
 > Changes in v8:
 > - Be a builtin_platform_driver like other mediatek mmsys drivers.
-> - New patch introduced in this series.
 > 
 > Changes in v7:
 > - Free clk_data->clks as well
 > - Get rid of private data structure
 > 
-> Enric Balletbo i Serra (3):
->   dt-bindings: mediatek: Update mmsys binding to reflect it is a system
->     controller
->   soc / drm: mediatek: Move routing control to mmsys device
->   soc / drm: mediatek: Fix mediatek-drm device probing
-> 
-> Matthias Brugger (2):
->   drm/mediatek: Omit warning on probe defers
->   clk / soc: mediatek: Move mt8173 MMSYS to platform driver
-> 
->  .../bindings/arm/mediatek/mediatek,mmsys.txt  |   7 +-
->  drivers/clk/mediatek/Kconfig                  |   7 +
->  drivers/clk/mediatek/Makefile                 |   1 +
->  drivers/clk/mediatek/clk-mt8173-mm.c          | 146 ++++++++
->  drivers/clk/mediatek/clk-mt8173.c             | 104 ------
->  drivers/gpu/drm/mediatek/Kconfig              |   1 +
->  drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
->  drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  19 +-
->  drivers/gpu/drm/mediatek/mtk_drm_ddp.c        | 259 +-------------
->  drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   7 -
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  45 +--
->  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   2 +-
->  drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
->  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
->  drivers/soc/mediatek/Kconfig                  |   8 +
->  drivers/soc/mediatek/Makefile                 |   1 +
->  drivers/soc/mediatek/mtk-mmsys.c              | 335 ++++++++++++++++++
->  include/linux/soc/mediatek/mtk-mmsys.h        |  20 ++
->  21 files changed, 590 insertions(+), 411 deletions(-)
+>  drivers/clk/mediatek/Kconfig         |   7 ++
+>  drivers/clk/mediatek/Makefile        |   1 +
+>  drivers/clk/mediatek/clk-mt8173-mm.c | 146 +++++++++++++++++++++++++++
+>  drivers/clk/mediatek/clk-mt8173.c    | 104 -------------------
+>  drivers/soc/mediatek/Kconfig         |   8 ++
+>  drivers/soc/mediatek/Makefile        |   1 +
+>  drivers/soc/mediatek/mtk-mmsys.c     |  50 +++++++++
+>  7 files changed, 213 insertions(+), 104 deletions(-)
 >  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
 >  create mode 100644 drivers/soc/mediatek/mtk-mmsys.c
->  create mode 100644 include/linux/soc/mediatek/mtk-mmsys.h
 > 
+
+>  obj-$(CONFIG_COMMON_CLK_MT8183_CAMSYS) += clk-mt8183-cam.o
+
 
 _______________________________________________
 dri-devel mailing list
