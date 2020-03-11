@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EAC1811D5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 08:23:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE42E1811A4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 08:19:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB0FB6E41A;
-	Wed, 11 Mar 2020 07:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5C4E6E427;
+	Wed, 11 Mar 2020 07:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9014F6E41A
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 07:23:47 +0000 (UTC)
-X-UUID: e6aee5488f88488db736545ec069e8b3-20200311
+ by gabe.freedesktop.org (Postfix) with ESMTP id CA3BA6E0DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 07:18:50 +0000 (UTC)
+X-UUID: 7f667eab9e5d4ffbb3d2c074b5a79669-20200311
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=8nLyZVk/PhYmrdzTV342CZJrfyCY+3YyqtqMqJ7V3+0=; 
- b=R/C//83yzgMDVRQmfq9ukHdSmyOj2yrBax+4BZswesSaaPy/qByw0sqGgDtQWI0zYzo/fikoHmH0+1PvAtkHsQCMJFANx2TgzzVvK5vEz7LsnoULqfhNO7c4wEj5Y9sD/WmsAT/0Av7od87xK8BOR5xxu7hYLYF+4Ozixz/8h8k=;
-X-UUID: e6aee5488f88488db736545ec069e8b3-20200311
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=Tbydff45iGovy+Y4pjIMl85obrLQehvyczoepJ8vfGk=; 
+ b=uyc/rTkgGVqeUAI2gk3kFPn0mtLa/K/xZOGNniO2p7NhJPOvq3uLm1Gx7dc04nf08uZtGFj7szbZZubbuLtmbtkBvAvd/KboZ9U4Gq5oBRbL20nY7ujkCwRpqHnsHZU3ws1+dAaxHO1EtT2R9n2zEsHHnTOsCeI2nhIf92tJ9A0=;
+X-UUID: 7f667eab9e5d4ffbb3d2c074b5a79669-20200311
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1430431296; Wed, 11 Mar 2020 15:18:41 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 11 Mar 2020 15:19:01 +0800
+ with ESMTP id 401206173; Wed, 11 Mar 2020 15:18:42 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Wed, 11 Mar 2020 15:16:15 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Wed, 11 Mar 2020 15:18:05 +0800
+ 15.0.1395.4 via Frontend Transport; Wed, 11 Mar 2020 15:18:06 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v13 0/6] mt8183 dpi supports dual edge and pin mode swap
-Date: Wed, 11 Mar 2020 15:18:17 +0800
-Message-ID: <20200311071823.117899-1-jitao.shi@mediatek.com>
+Subject: [PATCH v13 1/6] dt-bindings: media: add pclk-sample dual edge property
+Date: Wed, 11 Mar 2020 15:18:18 +0800
+Message-ID: <20200311071823.117899-2-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200311071823.117899-1-jitao.shi@mediatek.com>
+References: <20200311071823.117899-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 1C7E631F0024CEF11B8147BAD69898DD502D82A9C849D73040D0A592C700B9AD2000:8
+X-TM-SNTS-SMTP: DDF6152538569474880FB993D3FF36BDDB40ED98CF638D2176655FAD063E62CD2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,66 +65,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes since v12:
- - fix mediatek,dpi.yaml make_dt_binding_check errors.
+Some chips's sample mode are rising, falling and dual edge (both
+falling and rising edge).
+Extern the pclk-sample property to support dual edge.
 
-Change since v11:
- - fine tune mediatek,dpi.yaml.
- - add Acked-by: Rob Herring <robh@kernel.org>.
+Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ Documentation/devicetree/bindings/media/video-interfaces.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Change since v10:
- - convert the Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-   to yaml format.
- - read the pclk-sample in endpoint.
-
-Changes since v9:
- - rename pinctrl-names = "gpiomode", "dpimode" to "active", "idle".
- - fix some typo.
-
-Changes since v8:
- - drop pclk-sample redefine in mediatek,dpi.txt
- - only get the gpiomode and dpimode when dpi->pinctrl is successful.
-
-Changes since v7:
- - separate dt-bindings to independent patches.
- - move dpi dual edge to one patch.
-
-Changes since v6:
- - change dual_edge to pclk-sample
- - remove dpi_pin_mode_swap and
-
-Changes since v5:
- - fine tune the dt-bindings commit message.
-
-Changes since v4:
- - move pin mode control and dual edge control to deveice tree.
- - update dt-bindings document for pin mode swap and dual edge control.
-
-Changes since v3:
- - add dpi pin mode control when dpi on or off.
- - update dpi dual edge comment.
-
-Changes since v2:
- - update dt-bindings document for mt8183 dpi.
- - separate dual edge modfication as independent patch.
-
-Jitao Shi (6):
-  dt-bindings: media: add pclk-sample dual edge property
-  dt-bindings: display: mediatek: control dpi pins mode to avoid leakage
-  dt-bindings: display: mediatek: dpi sample data in dual edge support
-  dt-bindings: display: mediatek: convert the document format from txt
-    to yaml
-  drm/mediatek: dpi sample mode support
-  drm/mediatek: set dpi pin mode to gpio low to avoid leakage current
-
- .../display/mediatek/mediatek,dpi.txt         |  36 ------
- .../display/mediatek/mediatek,dpi.yaml        | 103 ++++++++++++++++++
- .../bindings/media/video-interfaces.txt       |   4 +-
- drivers/gpu/drm/mediatek/mtk_dpi.c            |  58 +++++++++-
- 4 files changed, 161 insertions(+), 40 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
+index f884ada0bffc..da9ad24935db 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.txt
++++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
+@@ -118,8 +118,8 @@ Optional endpoint properties
+ - data-enable-active: similar to HSYNC and VSYNC, specifies the data enable
+   signal polarity.
+ - field-even-active: field signal level during the even field data transmission.
+-- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
+-  signal.
++- pclk-sample: sample data on rising (1), falling (0) or both rising and
++  falling (2) edge of the pixel clock signal.
+ - sync-on-green-active: active state of Sync-on-green (SoG) signal, 0/1 for
+   LOW/HIGH respectively.
+ - data-lanes: an array of physical data lane indexes. Position of an entry
 -- 
 2.21.0
 _______________________________________________
