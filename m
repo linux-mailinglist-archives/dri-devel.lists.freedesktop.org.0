@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985F3182ACB
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:10:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E01182ABF
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:10:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 979866EA94;
-	Thu, 12 Mar 2020 08:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3262E6EA6F;
+	Thu, 12 Mar 2020 08:08:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FFF96E57E
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 11:20:18 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id t3so1041631pgn.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 04:20:18 -0700 (PDT)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B00A6E972
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 11:20:23 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id i13so1155428pfe.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 04:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KxW/JHv7DCd6LJdHZguy7LpVn/rmry23ZMXy1XI084k=;
- b=fBOA7Z4/VSkvDegFBNVqp2pLUAlgBxRv5RhOTNT8p2xHiAPXkjWsHMTxUl1BPV00zJ
- vMY5dhyEKkfjXmFfYLzpD5a73p+KDdMSaC4nhV9dQ1R32BqiNxXeCSXBpA7Ii2Wer4pC
- VDfF4BA+tuEYJwFmE32LvvNq/AN2GVAmGN3hs=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dwWKWsLEV24axZ5LPi6+9EofRSocDQnNjSMdJCwyg/k=;
+ b=DiECrG1ChFrIsdnCWJkiiijV0Oa2bLJvHMESQKerzpeZrJBihyO27UbVoCHaNyHPMH
+ 3Zf0FXl3wUuI7rGKr3W7raEbt/GKRIAgNwv8jRHu9xBi2qAhYsfvrS6rwyKm2U7mBDtZ
+ SzR6JVH7cbDV7RKvMFAbM3cWCfSEgVFtW7rTE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KxW/JHv7DCd6LJdHZguy7LpVn/rmry23ZMXy1XI084k=;
- b=V7Lb5Hty7U/8xLZVwUeHfxXR6Mtgx+wdVb30uHVKPTjbRCvQxH4TgwLEwmss7zMWX7
- HHUNwHbb8nJDUWtMTNmmAQz9eCPTCSh62G3KkI65nNyuINLTqdAfN0X+IETVIvWvOL8r
- +fkcHERN2hDz/yl86pJ2JkTE8W9dSUJwacDTdr83GR68XybyTrpzei6S5r34HbhoblPP
- 7wVQjX74ItkacYzP/Vr3xr7H9rqCjz2vRCmASnTweJVGm7MBjwrx7aNTU5ovcotkHWry
- J0yrfe3Mi0YzewMdRPVnTdaPkembN/NCAjmSgTMoz0DTiQnz1/ihl43djIJ3wno55p77
- PYgg==
-X-Gm-Message-State: ANhLgQ2PeWFCUR8oO6rJMA5O3jmq34hIBnrrL+kcfPhYSdK5IqjhrvXW
- CH1BuTdgunWANEOaX9nnHlgiYg==
-X-Google-Smtp-Source: ADFU+vvUUJsm4mKY+53aHHx0GkxoPfHJ2XfB3hmp2HvE1iN3ACnAA15TuK1aSNIfg+893OuM9NF9eQ==
-X-Received: by 2002:a63:4d6:: with SMTP id 205mr2392870pge.10.1583925617855;
- Wed, 11 Mar 2020 04:20:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dwWKWsLEV24axZ5LPi6+9EofRSocDQnNjSMdJCwyg/k=;
+ b=gMn0tuZ590lNpTtxfARtbPhrtxGdcUT9h+Rb5SDIpqbJYWs42lHZjE1CLEmPwSxmrI
+ y/F37r0a3kLmSh7ucrEQiPPPgobEkDOQXFQT0PT2AKMtfI/Sg8d25zRkTtbtS+QpecPi
+ oti3LHsWSy/Xx3G5AMCz4JPmKZ1vNKo0MbAUNwCsWzWOHu1257fBUOCMqHq6M7taw1aN
+ bVoAu/TK/7hwtZ254W01u5T7PhUoeTB8f/CBfGbGjZohGjnk4X1VjxNFvFSYxQkuFu2n
+ IrT1yM4BKYpv++jTjX2oTW8L1se1Zvb1S71PnMPfxflckG9+18dRpEgg9t0XRN6YogC8
+ pBmA==
+X-Gm-Message-State: ANhLgQ3nT6mtQ0BMw6nSxOZx+YjAUGkjRVfRQ+g6kc8Mb3vQu8a31ACo
+ idzDe9lGOXXzzZxCkiIOTih7ug==
+X-Google-Smtp-Source: ADFU+vsqTKXWkUwlZU65GnXLcGQeIusImXSF6/071PjPajjV9Zy+d6+78zX7Xm4MNtky83+YtZg6Ow==
+X-Received: by 2002:aa7:94b5:: with SMTP id a21mr295803pfl.290.1583925623087; 
+ Wed, 11 Mar 2020 04:20:23 -0700 (PDT)
 Received: from localhost ([2401:fa00:8f:203:30f2:7a9c:387e:6c7])
- by smtp.gmail.com with ESMTPSA id e12sm35842384pff.168.2020.03.11.04.20.14
+ by smtp.gmail.com with ESMTPSA id q43sm4280776pjc.40.2020.03.11.04.20.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Mar 2020 04:20:17 -0700 (PDT)
+ Wed, 11 Mar 2020 04:20:22 -0700 (PDT)
 From: David Stevens <stevensd@chromium.org>
 To: Gerd Hoffmann <kraxel@redhat.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 0/4] Support virtio cross-device resources
-Date: Wed, 11 Mar 2020 20:20:00 +0900
-Message-Id: <20200311112004.47138-1-stevensd@chromium.org>
+Subject: [PATCH v3 1/4] dma-buf: add support for virtio exported objects
+Date: Wed, 11 Mar 2020 20:20:01 +0900
+Message-Id: <20200311112004.47138-2-stevensd@chromium.org>
 X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
+In-Reply-To: <20200311112004.47138-1-stevensd@chromium.org>
+References: <20200311112004.47138-1-stevensd@chromium.org>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 12 Mar 2020 08:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,41 +76,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset implements the current proposal for virtio cross-device
-resource sharing [1], with minor changes based on recent comments. It
-is expected that this will be used to import virtio resources into the
-virtio-video driver currently under discussion [2].
+This change adds a new dma-buf operation that allows dma-bufs to be used
+by virtio drivers to share exported objects. The new operation allows
+the importing driver to query the exporting driver for the UUID which
+identifies the underlying exported object.
 
-This patchset adds a new hook to dma-buf, for querying the dma-buf's
-underlying virtio UUID. This hook is then plumbed through DRM PRIME
-buffers, and finally implemented in virtgpu.
+Signed-off-by: David Stevens <stevensd@chromium.org>
+---
+ drivers/dma-buf/dma-buf.c | 12 ++++++++++++
+ include/linux/dma-buf.h   | 18 ++++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
-[1] https://markmail.org/thread/jsaoqy7phrqdcpqu
-[2] https://markmail.org/thread/p5d3k566srtdtute
-
-v2 -> v3 changes:
- - Remove ifdefs.
- - Simplify virtgpu_gem_prime_export as it can only be called once.
- - Use virtio_gpu_vbuffer's objs field instead of abusing data_buf.
-
-David Stevens (4):
-  dma-buf: add support for virtio exported objects
-  drm/prime: add support for virtio exported objects
-  virtio-gpu: add VIRTIO_GPU_F_RESOURCE_UUID feature
-  drm/virtio: Support virtgpu exported resources
-
- drivers/dma-buf/dma-buf.c              | 12 ++++++
- drivers/gpu/drm/drm_prime.c            | 23 +++++++++++
- drivers/gpu/drm/virtio/virtgpu_drv.c   |  3 ++
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 18 +++++++++
- drivers/gpu/drm/virtio/virtgpu_kms.c   |  4 ++
- drivers/gpu/drm/virtio/virtgpu_prime.c | 41 +++++++++++++++++--
- drivers/gpu/drm/virtio/virtgpu_vq.c    | 55 ++++++++++++++++++++++++++
- include/drm/drm_drv.h                  | 10 +++++
- include/linux/dma-buf.h                | 18 +++++++++
- include/uapi/linux/virtio_gpu.h        | 19 +++++++++
- 10 files changed, 200 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index d4097856c86b..fa5210ba6aaa 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1158,6 +1158,18 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+ 
++int dma_buf_get_uuid(struct dma_buf *dmabuf, uuid_t *uuid)
++{
++	if (WARN_ON(!dmabuf) || !uuid)
++		return -EINVAL;
++
++	if (!dmabuf->ops->get_uuid)
++		return -ENODEV;
++
++	return dmabuf->ops->get_uuid(dmabuf, uuid);
++}
++EXPORT_SYMBOL_GPL(dma_buf_get_uuid);
++
+ #ifdef CONFIG_DEBUG_FS
+ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ {
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index abf5459a5b9d..00758523597d 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -251,6 +251,21 @@ struct dma_buf_ops {
+ 
+ 	void *(*vmap)(struct dma_buf *);
+ 	void (*vunmap)(struct dma_buf *, void *vaddr);
++
++	/**
++	 * @get_uuid
++	 *
++	 * This is called by dma_buf_get_uuid to get the UUID which identifies
++	 * the buffer to virtio devices.
++	 *
++	 * This callback is optional.
++	 *
++	 * Returns:
++	 *
++	 * 0 on success or a negative error code on failure. On success uuid
++	 * will be populated with the buffer's UUID.
++	 */
++	int (*get_uuid)(struct dma_buf *dmabuf, uuid_t *uuid);
+ };
+ 
+ /**
+@@ -444,4 +459,7 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+ 		 unsigned long);
+ void *dma_buf_vmap(struct dma_buf *);
+ void dma_buf_vunmap(struct dma_buf *, void *vaddr);
++
++int dma_buf_get_uuid(struct dma_buf *dmabuf, uuid_t *uuid);
++
+ #endif /* __DMA_BUF_H__ */
 -- 
 2.25.1.481.gfbce0eb801-goog
 
