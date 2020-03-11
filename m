@@ -1,58 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4545F1815F3
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 11:36:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DFA181667
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 12:00:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69A8B6E96F;
-	Wed, 11 Mar 2020 10:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B53A26E42D;
+	Wed, 11 Mar 2020 11:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18AA96E97F
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 10:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583922974;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gf7kTyGOygOhxC0qSg8pDlevcgH2JZuB/eu5yxfSA/g=;
- b=XNhgdW/bZeshdPLF1SqbMLlVeJiHgyyCTg55Md1ph9Fjqcz4yi8cxVlHmegHDf6bPBEMlA
- eUGZJ1d2qYY/WHJMbUVps93AZSUdDaFWKV0WZ33GrLeJOEiZz69c/qnskoGH5bwp7QHL1y
- vM3cGOOun7ig3G44ajzsBYYTqBLiYIE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-y6g8OhTMNRWClKrTLEwsxw-1; Wed, 11 Mar 2020 06:36:12 -0400
-X-MC-Unique: y6g8OhTMNRWClKrTLEwsxw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9065B1005509;
- Wed, 11 Mar 2020 10:36:10 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
- [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F3ED5D9C9;
- Wed, 11 Mar 2020 10:36:10 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 505D89D43; Wed, 11 Mar 2020 11:36:09 +0100 (CET)
-Date: Wed, 11 Mar 2020 11:36:09 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
-Message-ID: <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
-References: <20200310010818.569-1-gurchetansingh@chromium.org>
- <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
- <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 048B26E42D
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 11:00:30 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id d5so1644721wrc.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 04:00:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=b25sp8qI66/j49iyqNBdtNtMfSxMP1oLNv9A/qaCM54=;
+ b=sb18lLKdSNSbxGqA+zyYirj10S+4pAyx5q2T4myXQBQU5GcQIXieK/Wa1x7PNYPY4z
+ 7S3WsqR8o1HJK5iidQd31GRWt0YLv6l2TVdNAfYlCGjfx6n5S4zA6+7Kp56GCoWuy7Us
+ 5GGaRq24RthbtueJWxMCdoK/tPQxEfx6YhnL8CRXAu8oGZb6VDTUBCIoDToMgyH+X0zo
+ P3ffXXHuqgFED6uQqq3pCVDoDtmdnRByLxzmi4F07ZZICycw010EMcIvH5P905/BMMQf
+ +FRmiOjR21i00obejzRA+xY27ZTjg2rIedoDvdDtEjMUeWKAwgZPgxAgNahJCpnGpopP
+ 4seQ==
+X-Gm-Message-State: ANhLgQ1W6hKF42IEjgjm24vTpkVDE4Qy9Aso634W5KYthHQZBjIf0hSN
+ EdrMYPJabrZUCXO+R6HaL5I=
+X-Google-Smtp-Source: ADFU+vvNZicSP57FUXBCc+PbAP0dQa6QnWWOb5Ff7mqH6aO33TLcIKh9t9fDtFxYFTEo8QnHyZAzlw==
+X-Received: by 2002:adf:e485:: with SMTP id i5mr4104528wrm.81.1583924428712;
+ Wed, 11 Mar 2020 04:00:28 -0700 (PDT)
+Received: from debian (41.142.6.51.dyn.plus.net. [51.6.142.41])
+ by smtp.gmail.com with ESMTPSA id z19sm8187551wma.41.2020.03.11.04.00.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Mar 2020 04:00:27 -0700 (PDT)
+Date: Wed, 11 Mar 2020 11:00:25 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [PATCH -next 019/491] Hyper-V CORE AND DRIVERS: Use fallthrough;
+Message-ID: <20200311110025.lycn35o7zvvmohvu@debian>
+References: <cover.1583896344.git.joe@perches.com>
+ <84677022b8ec4ad14bddab57d871dcbfc0b4a1bf.1583896348.git.joe@perches.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
+In-Reply-To: <84677022b8ec4ad14bddab57d871dcbfc0b4a1bf.1583896348.git.joe@perches.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,43 +58,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chad Versace <chadversary@chromium.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- John Bates <jbates@chromium.org>
+Cc: Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, "K. Y. Srinivasan" <kys@microsoft.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+On Tue, Mar 10, 2020 at 09:51:33PM -0700, Joe Perches wrote:
+> Convert the various uses of fallthrough comments to fallthrough;
+> 
+> Done via script
+> Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
+> 
+> Signed-off-by: Joe Perches <joe@perches.com>
 
-> I should've been more clear -- this is an internal cleanup/preparation and
-> the per-context changes are invisible to host userspace.
-
-Ok, it wasn't clear that you don't flip the switch yet.  In general the
-commit messages could be a bit more verbose ...
-
-I'm wondering though why we need the new fence_id in the first place.
-Isn't it enough to have per-context (instead of global) last_seq?
-
-> Multi-queue sounds very interesting indeed, especially with VK
-> multi-threaded command submission.  That to me is V3 rather than V2.. let's
-> start easy!
-
-Having v2 if we plan to obsolete it with v3 soon doesn't look like a
-good plan to me.  It'll make backward compatibility more complex for
-no good reason ...
-
-Also: Does virglrenderer render different contexts in parallel today?
-Only in case it does we'll actually get benefits from per-context
-fences.  But I think it doesn't, so there is no need to rush.
-
-I think we should better have a rough plan for parallel rendering first,
-then go start implementing the pieces needed.
-
-cheers,
-  Gerd
-
+Reviewed-by: Wei Liu <wei.liu@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
