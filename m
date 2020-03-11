@@ -1,41 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FBE182AE4
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:11:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A64182AD4
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:10:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CADE76EA63;
-	Thu, 12 Mar 2020 08:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 805CB6EA76;
+	Thu, 12 Mar 2020 08:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEDDF6E98C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:55:40 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2020 06:55:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,541,1574150400"; d="scan'208";a="242688236"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga003.jf.intel.com with ESMTP; 11 Mar 2020 06:55:34 -0700
-Received: from andy by smile with local (Exim 4.93)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1jC1pf-008kO4-Aj; Wed, 11 Mar 2020 15:55:35 +0200
-Date: Wed, 11 Mar 2020 15:55:35 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Phong LE <ple@baylibre.com>
-Subject: Re: [PATCH v2 3/4] drm: bridge: add it66121 driver
-Message-ID: <20200311135535.GQ1922688@smile.fi.intel.com>
-References: <20200311125135.30832-1-ple@baylibre.com>
- <20200311125135.30832-4-ple@baylibre.com>
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA046E98F
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 14:04:18 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id l20so1613593qtp.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 07:04:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=Cqo7VQlzq/TPqJ6TonOp7as4n99bgQmDcdcZv6gO2F8=;
+ b=TLSRpSEmfq9xFyRZcgDxGh5Lb3hW5CBEQSLBNpDGJMrD7LL5VqTgyTK0D0IkvCWszV
+ PPn0UMKyCql6oHnq2pUDsMtfTl3IBd5oU9i5HK9C25J1tKKKJuSzJLrwEN+uYxyA+1bN
+ S0jJ2jpKh2dB++96q4I7n7U/se7wzWOUKQu+Vz7acBANJaJTZK+GtD7boM68YeLR9nmd
+ OGAJPNo8yw06zxYfHoXgmEqiaxlqcjT9cHwgr54Kj034/ot73B3bB1GsgYMbdoZxcHyd
+ ds8dwdCrLusTWusZOWN/lHOxgZZB3HGA0w85dW20UDr31WyAoS01r4fKcGft5XWC4qYQ
+ 18mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=Cqo7VQlzq/TPqJ6TonOp7as4n99bgQmDcdcZv6gO2F8=;
+ b=ofvd4OyJkPkuQG395ZrXD5XP5+snhgXHG+U2RPTeDb3seLgcyXUp5Qu9A7Mc9yB7ll
+ K1wRxlr48tdBgFVQwgGRiu/6xncPrJktGCaX+zLdN9sweHFoIgl6s+8EW6bhzLsLMAFK
+ s38vEmSd0PVarLi20KRj/XNCgqRpSoI42Mo1lVfyErA46btERUHfc/x+N+m1hombZ1E0
+ ZNE45P/6wdeoQe8Sm14jDTjVH1mnDaiVxOOiJ8U/Cm5GTIaUS8oOuyhLQBSWcG36qbN2
+ u5IeQ6bqEs07Xzvh9ulN9zq6X9fxTDI6tWD0oFIjgtAhinm6kTS4o8XJ1wJJUFi985UZ
+ Bszw==
+X-Gm-Message-State: ANhLgQ2iuiizdfHm6nxARioipW/zmgyHBdzE9iBgThHfMjcEeMo1fz+f
+ EiQPmyiK0agCWpVFmoCfHmPSFA==
+X-Google-Smtp-Source: ADFU+vviajzmBXQ916Uf4yRSfIBDqtB11ZLiBbI5MR+xNrH29WCHdAQ3/YUVflC76y1uWsFSv4av7Q==
+X-Received: by 2002:aed:218f:: with SMTP id l15mr2730531qtc.247.1583935457502; 
+ Wed, 11 Mar 2020 07:04:17 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id m17sm19286741qke.24.2020.03.11.07.04.16
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 11 Mar 2020 07:04:16 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jC1y4-00044U-03; Wed, 11 Mar 2020 11:04:16 -0300
+Date: Wed, 11 Mar 2020 11:04:15 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 4/6] drm/amdgpu: add checks if DMA-buf P2P is supported
+Message-ID: <20200311140415.GB31668@ziepe.ca>
+References: <20200311135158.3310-1-christian.koenig@amd.com>
+ <20200311135158.3310-5-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200311125135.30832-4-ple@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200311135158.3310-5-christian.koenig@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Thu, 12 Mar 2020 08:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,466 +75,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, narmstrong@baylibre.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
- Laurent.pinchart@ideasonboard.com, mchehab+samsung@kernel.org,
- sam@ravnborg.org, heiko.stuebner@theobroma-systems.com, icenowy@aosc.io,
- devicetree@vger.kernel.org, stephan@gerhold.net, jonas@kwiboo.se,
- robh+dt@kernel.org, Jonathan.Cameron@huawei.com, jernej.skrabec@siol.net,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, broonie@kernel.org,
- davem@davemloft.net
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Logan Gunthorpe <logang@deltatee.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, hch@infradead.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 11, 2020 at 01:51:34PM +0100, Phong LE wrote:
-> This commit is a simple driver for bridge HMDI it66121.
-> The input format is RBG and there is no color conversion.
-> Audio, HDCP and CEC are not supported yet.
-
-I guess you should have been told in your company how to use get_maintainer.pl
-to avoid spamming people.
-
-Hint:
-	scripts/get_maintainer.pl --git --git-min-percent=67 ...
-
-...
-
-> + * Copyright (C) 2020 BayLibre, SAS
-> + * Author: Phong LE <ple@baylibre.com>
-> + * Copyright (C) 2018-2019, Artem Mygaiev
-> + * Copyright (C) 2017, Fresco Logic, Incorporated.
-
-This too compact to read, perhaps squeeze blank line after your (c) note
-followed by description how the rest (c) appear in the file.
-
-> + *
-
-Redundant line.
-
-> + */
-
-...
-
-> +#include <linux/of.h>
-
-This can be replaced with property.h, see comments against ->probe().
-
-> +#include <linux/of_device.h>
-> +#include <linux/of_gpio.h>
-
-I didn't find evidence of use of any of those.
-
-...
-
-> +#define IT66121_MASTER_SEL_REG			0x10
-
-> +#define IT66121_AFE_DRV_REG			0x61
-
-> +#define IT66121_INPUT_MODE_REG			0x70
-
-> +#define IT66121_INPUT_CSC_REG			0x72
-
-> +#define IT66121_AFE_XP_REG			0x62
-
-> +#define IT66121_AFE_IP_REG			0x64
-
-> +#define IT66121_AFE_XP_EC1_REG			0x68
-
-> +#define IT66121_SW_RST_REG			0x04
-
-> +#define IT66121_DDC_COMMAND_REG			0x15
-
-> +#define IT66121_HDCP_REG			0x20
-
-> +#define IT66121_INT_STATUS1_REG			0x06
-
-> +#define IT66121_DDC_HEADER_REG			0x11
-
-> +#define IT66121_DDC_OFFSET_REG			0x12
-> +#define IT66121_DDC_BYTE_REG			0x13
-> +#define IT66121_DDC_SEGMENT_REG			0x14
-> +#define IT66121_DDC_RD_FIFO_REG			0x17
-
-> +#define IT66121_CLK_BANK_REG			0x0F
-
-> +#define IT66121_INT_REG				0x05
-
-> +#define IT66121_INT_MASK1_REG			0x09
-
-> +#define IT66121_INT_CLR1_REG			0x0C
-
-> +#define IT66121_AV_MUTE_REG			0xC1
-
-> +#define IT66121_PKT_GEN_CTRL_REG		0xC6
-
-> +#define IT66121_AVIINFO_DB1_REG			0x158
-> +#define IT66121_AVIINFO_DB2_REG			0x159
-> +#define IT66121_AVIINFO_DB3_REG			0x15A
-> +#define IT66121_AVIINFO_DB4_REG			0x15B
-> +#define IT66121_AVIINFO_DB5_REG			0x15C
-> +#define IT66121_AVIINFO_CSUM_REG		0x15D
-> +#define IT66121_AVIINFO_DB6_REG			0x15E
-> +#define IT66121_AVIINFO_DB7_REG			0x15F
-> +#define IT66121_AVIINFO_DB8_REG			0x160
-> +#define IT66121_AVIINFO_DB9_REG			0x161
-> +#define IT66121_AVIINFO_DB10_REG		0x162
-> +#define IT66121_AVIINFO_DB11_REG		0x163
-> +#define IT66121_AVIINFO_DB12_REG		0x164
-> +#define IT66121_AVIINFO_DB13_REG		0x165
-> +
-> +#define IT66121_AVI_INFO_PKT_REG		0xCD
-
-> +#define IT66121_HDMI_MODE_REG			0xC0
-
-> +#define IT66121_SYS_STATUS_REG			0x0E
-
-> +#define IT66121_DDC_STATUS_REG			0x16
-
-It's better to
-a) keep register sorted by value (easy to be oriented);
-b) have them in fixed width, e.g. 0x0CD.
-
-...
-
-> +#define IT66121_DEVICE_MASK			0x0F
-
-GENMASK() ?
-
-> +#define IT66121_EDID_SLEEP			20000
-> +#define IT66121_EDID_TIMEOUT			200000
-
-Care to add units?
-
-> +#define IT66121_AFE_CLK_HIGH			80000
-
-Also, what is the unit of this?
-
-...
-
-> +	return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG,
-> +				IT66121_MASTER_SEL_HOST);
-
-Indentation?
-Same for other similar places.
-
-...
-
-> +static int it66121_configure_afe(struct it66121_ctx *ctx,
-> +				 const struct drm_display_mode *mode)
-
-...like this.
-
-...
-
-> +	if (val & (IT66121_DDC_STATUS_NOACK | IT66121_DDC_STATUS_WAIT_BUS |
-> +	    IT66121_DDC_STATUS_ARBI_LOSE))
-> +		return -EAGAIN;
-
-Perhaps better to
-
-	u32 busy = IT66121_DDC_STATUS_NOACK | IT66121_DDC_STATUS_WAIT_BUS |
-		   IT66121_DDC_STATUS_ARBI_LOSE;
-
-
-	if (val & busy)
-		return -EAGAIN;
-
-?
-
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static int it66121_abort_ddc_ops(struct it66121_ctx *ctx)
-> +{
-> +	int ret;
-> +	unsigned int swreset, cpdesire;
-> +
-> +	ret = regmap_read(ctx->regmap, IT66121_SW_RST_REG, &swreset);
-> +	if (ret)
-> +		return ret;
-> +
-
-> +	ret = regmap_read(ctx->regmap, IT66121_HDCP_REG, &cpdesire);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(ctx->regmap, IT66121_HDCP_REG,
-> +			   cpdesire & (~IT66121_HDCP_CPDESIRED & 0xFF));
-> +	if (ret)
-> +		return ret;
-
-regmap_update_bits() ?
-
-> +
-> +	ret = regmap_write(ctx->regmap, IT66121_SW_RST_REG,
-> +			   swreset | IT66121_SW_RST_HDCP);
-> +	if (ret)
-> +		return ret;
-
-This should surround the inner update, correct? Otherwise, regmap_update_bits()
-can be used as well.
-
-> +}
-
-...
-
-> +static int it66121_get_edid_block(void *context, u8 *buf,
-> +				  unsigned int block, size_t len)
-> +{
-
-> +		ret = regmap_write(ctx->regmap, IT66121_DDC_COMMAND_REG,
-> +				   IT66121_DDC_COMMAND_EDID_READ);
-> +		if (ret)
-> +			return ret;
-> +
-> +		offset += cnt;
-> +		remain -= cnt;
-
-> +		msleep(20);
-
-Should be explained.
-
-> +
-> +		ret = it66121_wait_ddc_ready(ctx);
-> +		if (ret)
-> +			return ret;
-> +
-
-> +		do {
-> +			ret = regmap_read(ctx->regmap,
-> +					  IT66121_DDC_RD_FIFO_REG, &val);
-> +			if (ret)
-> +				return ret;
-> +			*(buf++) = val;
-> +			cnt--;
-> +		} while (cnt > 0);
-
-I'm wondering if regmap API has a helper for above like cases.
-
-> +	}
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static int it66121_connector_get_modes(struct drm_connector *connector)
-> +{
-
-> +	struct it66121_ctx *ctx = container_of(connector, struct it66121_ctx,
-> +			connector);
-
-Seems like it can be an inline helper and in all places you can use
-
-	struct it66121_ctx *ctx = to_it66121_ctx(connector);
-
-
-> +	ret = drm_connector_update_edid_property(connector,
-> +						 ctx->edid);
-
-It quite fits one line, perhaps configure your editor to see 80 limit sharp?
-Applies to all similar cases as well.
-
-> +	if (ret) {
-> +		DRM_ERROR("Failed to update EDID property: %d\n", ret);
-> +		goto unlock;
-> +	}
-
-> +}
-
-...
-
-> +	return (val & IT66121_SYS_STATUS_HPDETECT);
-
-Too many parentheses.
-
-...
-
-> +	max_clock = ctx->dual_edge ? 74250 : 148500;
-
-Magic numbers? Also, It seems one definition is enough.
-
-...
-
-> +	msleep(50);
-
-Should be explained.
-
-...
-
-> +	val = mute ? IT66121_AV_MUTE_ON : (~IT66121_AV_MUTE_ON & 0xFF);
-
-	val = mute ? IT66121_AV_MUTE_ON : 0;
-
-> +	ret = regmap_write_bits(ctx->regmap, IT66121_AV_MUTE_REG,
-> +				IT66121_AV_MUTE_ON, val);
-
-...or even
-
-	mask = IT66121_AV_MUTE_ON;
-	val = mute ? mask : 0;
-
-	ret = regmap_write_bits(ctx->regmap, IT66121_AV_MUTE_REG, mask, val);
-
-> +	if (ret)
-> +		return ret;
-
-...
-
-> +	regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
-> +			  IT66121_CLK_BANK_PWROFF_TXCLK,
-> +			  ~IT66121_CLK_BANK_PWROFF_TXCLK & 0xFF);
-
-Same idea. What the point of all this operations in the value parameter?
-Please, fix over the code.
-
-...
-
-
-> +	if (val & IT66121_SYS_STATUS_ACTIVE_IRQ) {
-
-	if (!(val & IT66121_SYS_STATUS_ACTIVE_IRQ))
-		goto unlock;
-
-> +		ret = regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
-> +		if (ret) {
-> +			dev_err(dev, "Cannot read STATUS1_REG %d\n", ret);
-> +		} else {
-> +			if (val & IT66121_INT_STATUS1_DDC_FIFOERR)
-> +				it66121_clear_ddc_fifo(ctx);
-
-> +			if (val & (IT66121_INT_STATUS1_DDC_BUSHANG |
-> +					IT66121_INT_STATUS1_DDC_NOACK))
-
-Indentation.
-
-> +				it66121_abort_ddc_ops(ctx);
-> +			if (val & IT66121_INT_STATUS1_HPD_STATUS) {
-> +				regmap_write_bits(ctx->regmap,
-> +						  IT66121_INT_CLR1_REG,
-> +						  IT66121_INT_CLR1_HPD,
-> +						  IT66121_INT_CLR1_HPD);
-> +
-> +				if (!it66121_is_hpd_detect(ctx)) {
-> +					kfree(ctx->edid);
-> +					ctx->edid = NULL;
-> +				}
-> +				event = true;
-> +			}
-> +		}
-> +
-> +		regmap_write_bits(ctx->regmap, IT66121_SYS_STATUS_REG,
-> +				  IT66121_SYS_STATUS_CLEAR_IRQ,
-> +				  IT66121_SYS_STATUS_CLEAR_IRQ);
-> +	}
-> +
-> +unlock:
-> +	mutex_unlock(&ctx->lock);
-
-...
-
-> +static int it66121_probe(struct i2c_client *client,
-> +			 const struct i2c_device_id *id)
-> +{
-
-> +	u8 ids[4];
-
-Magic, also see below.
-
-> +	int i, ret;
-> +	struct it66121_ctx *ctx;
-> +	struct device *dev = &client->dev;
-
-> +	ctx->conf = (struct it66121_conf *)of_device_get_match_data(dev);
-
-device_get_match_data()
-
-In any case why explicit casting?
-
-> +	if (!ctx->conf)
-> +		return -ENODEV;
-> +
-
-> +	ctx->dual_edge = of_property_read_bool(dev->of_node, "pclk-dual-edge");
-
-device_property_read_bool()
-
-> +	for (i = 0; i < 4; i++) {
-
-Magic.
-
-> +		regmap_read(ctx->regmap, i, &ret);
-> +		ids[i] = ret;
-> +	}
-
-> +
-> +	if (ids[0] != IT66121_VENDOR_ID0 ||
-> +	    ids[1] != IT66121_VENDOR_ID1 ||
-> +	    ids[2] != IT66121_DEVICE_ID0 ||
-> +	    ((ids[3] & IT66121_DEVICE_MASK) != IT66121_DEVICE_ID1)) {
-> +		ite66121_power_off(ctx);
-> +		return -ENODEV;
-> +	}
-> +
-> +	ctx->bridge.funcs = &it66121_bridge_funcs;
-> +	ctx->bridge.of_node = dev->of_node;
-> +
-> +	ret = devm_request_threaded_irq(dev, client->irq, NULL,
-> +					it66121_irq_threaded_handler,
-
-> +					IRQF_SHARED | IRQF_TRIGGER_LOW |
-> +					IRQF_ONESHOT,
-
-Shouldn't flags come from appropriate resource provider (DT / ACPI / etc)?
-
-> +					dev_name(dev),
-> +					ctx);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to request irq %d:%d\n", client->irq, ret);
-> +		ite66121_power_off(ctx);
-> +		return ret;
-> +	}
-> +
-> +	drm_bridge_add(&ctx->bridge);
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static const struct of_device_id it66121_dt_match[] = {
-> +	{ .compatible = "ite,it66121",
-> +	  .data = &it66121_conf_simple,
-> +	},
-
-> +	{ },
-
-Terminator line doesn't need comma.
-
-> +};
-
-...
-
-> +static const struct i2c_device_id it66121_id[] = {
-> +	{ "it66121", 0 },
-
-> +	{ },
-
-Ditto.
-
-> +};
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBNYXIgMTEsIDIwMjAgYXQgMDI6NTE6NTZQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5p
+ZyB3cm90ZToKPiBDaGVjayBpZiB3ZSBjYW4gZG8gcGVlcjJwZWVyIG9uIHRoZSBQQ0llIGJ1cy4K
+PiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
+ZC5jb20+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kbWFfYnVmLmMgfCA0
+ICsrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1Zi5jIGIvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RtYV9idWYuYwo+IGluZGV4IGFlZjEyZWUyZjFlMy4u
+YmJmNjc4MDBjOGE2IDEwMDY0NAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9kbWFfYnVmLmMKPiBAQCAtMzgsNiArMzgsNyBAQAo+ICAjaW5jbHVkZSA8ZHJtL2FtZGdw
+dV9kcm0uaD4KPiAgI2luY2x1ZGUgPGxpbnV4L2RtYS1idWYuaD4KPiAgI2luY2x1ZGUgPGxpbnV4
+L2RtYS1mZW5jZS1hcnJheS5oPgo+ICsjaW5jbHVkZSA8bGludXgvcGNpLXAycGRtYS5oPgo+ICAK
+PiAgLyoqCj4gICAqIGFtZGdwdV9nZW1fcHJpbWVfdm1hcCAtICZkbWFfYnVmX29wcy52bWFwIGlt
+cGxlbWVudGF0aW9uCj4gQEAgLTE3OSw2ICsxODAsOSBAQCBzdGF0aWMgaW50IGFtZGdwdV9kbWFf
+YnVmX2F0dGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLAo+ICAJc3RydWN0IGFtZGdwdV9kZXZp
+Y2UgKmFkZXYgPSBhbWRncHVfdHRtX2FkZXYoYm8tPnRiby5iZGV2KTsKPiAgCWludCByOwo+ICAK
+PiArCWlmIChwY2lfcDJwZG1hX2Rpc3RhbmNlX21hbnkoYWRldi0+cGRldiwgJmF0dGFjaC0+ZGV2
+LCAxLCB0cnVlKSA8IDApCj4gKwkJYXR0YWNoLT5wZWVyMnBlZXIgPSBmYWxzZTsKPiArCgpBcmUg
+dGhlcmUgb3RoZXIgcmVsYXRlZCBwYXRjaGVzIHRoYW4gdGhpcyBzZXJpZXM/CgpwMnAgZG1hIG1h
+cHBpbmcgbmVlZHMgdG8gYmUgZG9uZSBpbiBjb21tb24gY29kZSwgaW4gcDJwZG1hLmMgLSBpZSB0
+aGlzCm9wZW4gY29kaW5nIGlzIG1pc3NpbmcgdGhlIGJ1c19vZmZzZXQgc3R1ZmYsIGF0IGxlYXN0
+LiAKCkkgcmVhbGx5IGRvIG5vdCB3YW50IHRvIHNlZSBkcml2ZXJzIG9wZW4gY29kZSB0aGlzIHN0
+dWZmLgoKV2UgYWxyZWFkeSBoYXZlIGEgcDJwZG1hIEFQSSBmb3IgaGFuZGxpbmcgdGhlIHN0cnVj
+dCBwYWdlIGNhc2UsIHNvIEkKc3VnZ2VzdCBhZGRpbmcgc29tZSBuZXcgcDJwZG1hIEFQSSB0byBo
+YW5kbGUgdGhpcyBmb3Igbm9uLXN0cnVjdCBwYWdlCmNhc2VzLgoKaWUgc29tZSB0aGluZyBsaWtl
+OgoKaW50ICdwMnBkbWEgbWFwIGJhcicoCiAgIHN0cnVjdCBwY2lfZGV2aWNlICpzb3VyY2UsCiAg
+IHVuc2lnbmVkIGludCBzb3VyY2VfYmFyX251bWJlciwgCiAgIHN0cnVjdCBwY2lfZGV2aWNlICpk
+ZXN0LCAKICAgcGh5c2FkZHImbGVuICphcnJheV9vZl9vZmZzZXRzICYgbGVuZ3RoIHBhaXJzIGlu
+dG8gc291cmNlIGJhciwKICAgc3RydWN0IHNjYXR0ZXJsaXN0ICpvdXRwdXRfc2dsKQoKSmFzb24K
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
