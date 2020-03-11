@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C752181240
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 08:46:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E6E181215
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 08:41:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA1E489B69;
-	Wed, 11 Mar 2020 07:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB0D6E488;
+	Wed, 11 Mar 2020 07:40:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9046F89B69
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 07:45:57 +0000 (UTC)
-X-UUID: c3db92029253409ab9606dc55780707f-20200311
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ECA596E5B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 07:40:54 +0000 (UTC)
+X-UUID: 769b7011e41e4c89b8b4c4ba5257be87-20200311
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=kmuKx8yXnrVZRj26G1wT2tuW6nPEGkF1XeVUsCNtoWg=; 
- b=kshX+c6dHL/AB3e7H0xyPP/tvUkeBy3YvwTu+9VZisgDrQl4vlVDDHLmMVhd/EYcc1ENJT5wyHv+daO1zWHMeLYYzX0NUPtJS9L/6OPKcmSh8D1mxAHTxS559r+aqGcrdXRxliIGVMmB3tJtQMrt0q7LnytmDjt8bcP6wnwm8l4=;
-X-UUID: c3db92029253409ab9606dc55780707f-20200311
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=LkxTQ6EkbNDavsaknDTmCujK6P6DkEqHOkdqLklErpk=; 
+ b=IMTp8gc4JdjYowh4XonGi1wqO7V2sF2CqlOdBQDVULX0o+sh7jPnzTigiIuJ3aJ6BHW/L7MhwDplLFq96QoEmBwIUM4oO5/WJB+YYliE0o5bHpSeeOSILZJZOGlrhuNPWotm1koB2MScXHPT8FJuijA24MGzW4LfMY2SGC+ho00=;
+X-UUID: 769b7011e41e4c89b8b4c4ba5257be87-20200311
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1501939638; Wed, 11 Mar 2020 15:40:52 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 11 Mar 2020 15:41:10 +0800
+ with ESMTP id 1845059689; Wed, 11 Mar 2020 15:40:51 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Wed, 11 Mar 2020 15:38:24 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Wed, 11 Mar 2020 15:42:00 +0800
+ 15.0.1395.4 via Frontend Transport; Wed, 11 Mar 2020 15:42:01 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 0/4] Config mipi tx drive current and impedance
-Date: Wed, 11 Mar 2020 15:40:28 +0800
-Message-ID: <20200311074032.119481-1-jitao.shi@mediatek.com>
+Subject: [PATCH v3 1/4] dt-bindings: display: mediatek: add property to
+ control mipi tx drive current
+Date: Wed, 11 Mar 2020 15:40:29 +0800
+Message-ID: <20200311074032.119481-2-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200311074032.119481-1-jitao.shi@mediatek.com>
+References: <20200311074032.119481-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 8B87C366A05019574894C8BE919C0DEE41E6FDE2156CBE9411D871362E6DA08A2000:8
+X-TM-SNTS-SMTP: 722E361D831C8C3966132F721EB94F410BBC341B3127202F294AB6C020A316202000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,27 +66,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes since v2:
- - fix the title of commit message.
- - rename mipitx-current-drive to drive-strength-microamp
+Add a property to control mipi tx drive current:
+"drive-strength-microamp"
 
-Changes since v1:
- - fix coding style.
- - change mtk_mipi_tx_config_calibration_data() to void
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ .../devicetree/bindings/display/mediatek/mediatek,dsi.txt     | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Jitao Shi (4):
-  dt-bindings: display: mediatek: add property to control mipi tx drive
-    current
-  dt-bindings: display: mediatek: get mipitx calibration data from nvmem
-  drm/mediatek: add the mipitx driving control
-  drm/mediatek: config mipitx impedance with calibration data
-
- .../display/mediatek/mediatek,dsi.txt         |  9 +++
- drivers/gpu/drm/mediatek/mtk_mipi_tx.c        |  6 ++
- drivers/gpu/drm/mediatek/mtk_mipi_tx.h        |  1 +
- drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c | 64 +++++++++++++++++++
- 4 files changed, 80 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+index a19a6cc375ed..d501f9ff4b1f 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+@@ -33,6 +33,9 @@ Required properties:
+ - #clock-cells: must be <0>;
+ - #phy-cells: must be <0>.
+ 
++Optional properties:
++- drive-strength-microamp: adjust driving current, should be 1 ~ 0xF
++
+ Example:
+ 
+ mipi_tx0: mipi-dphy@10215000 {
+@@ -42,6 +45,7 @@ mipi_tx0: mipi-dphy@10215000 {
+ 	clock-output-names = "mipi_tx0_pll";
+ 	#clock-cells = <0>;
+ 	#phy-cells = <0>;
++	drive-strength-microamp = <0x8>;
+ };
+ 
+ dsi0: dsi@1401b000 {
 -- 
 2.21.0
 _______________________________________________
