@@ -1,49 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3FB18121A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 08:41:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B13D181267
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 08:52:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26CDC89F19;
-	Wed, 11 Mar 2020 07:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 505486E7F5;
+	Wed, 11 Mar 2020 07:52:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id DA05F89F19
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 07:41:09 +0000 (UTC)
-X-UUID: fa473359c47149918de90198436f3f65-20200311
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=npWCMlNAf6vwIc/DWpZvRQRY1F0x8+HE51QC285Pl4k=; 
- b=OdoZRqYeIIfHqfGz8YoRqyNfcB0Giusls61DhZdFk3ee1JOnQzAV5sqTnfW1E9aJzseZkM4eIyzEkUxdEtSm/EUJAVrFEFNho7K6M0FKfOPOlmDzgX7Q7IBeoN95E8zAk22lwIz4HwK1VG9Uq/0x4e8YPO1UNgV9ONMeius64io=;
-X-UUID: fa473359c47149918de90198436f3f65-20200311
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 2117756342; Wed, 11 Mar 2020 15:41:06 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 11 Mar 2020 15:41:25 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
- MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Wed, 11 Mar 2020 15:42:06 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 4/4] drm/mediatek: config mipitx impedance with calibration
- data
-Date: Wed, 11 Mar 2020 15:40:32 +0800
-Message-ID: <20200311074032.119481-5-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200311074032.119481-1-jitao.shi@mediatek.com>
-References: <20200311074032.119481-1-jitao.shi@mediatek.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2040.outbound.protection.outlook.com [40.107.244.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A02196E7F5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 07:52:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VDO3rv4HB6fBYWbSQVNVFDM+zFz6QuDaRSfaHQCL1dH54zBpZWO+4FP2bZrO3s+DJmIB+dvqDcHqJFnUrEPQCcd0NYcLXRlJ1sGdGZIIxF3HjpqAMgo6e+OJQ68NERdcxTHJ+UUfPXbBSuWknZ4UfXz0v+v2lzv6yjgBXYPo2VIYJyS6ZuzJFng2lsTs+u51poMdGn6wxKta8lXDwGGbAFVLuT/ofTGRyeFPe/FbnRA6WtQB1sVrWZq6VyXWdeh1D56MK71o086KeN5Ngz05/LxT/9AxSuuVM4RafZLlVnapWFa+TxDxalubBilxV5FC+M3h6t3hmNhINnaevl0lHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TvRzHiPg4zhr/7Iix1ApfvuHBQBapuuZeCph8XAt3ec=;
+ b=EOQx0fqZrWQEnDLUnyHDOwgS1oPDv/PMrLw5NHZHme3hd95+1C3FJBYQMHZE9UXvr6eDZdm7+DRq/uZlWG14BcndQmf0yc0BtAkaftq5mseKuZq4QeBhcQxN2CjO1fg6lApCsaMcK+rn5d6NsiLzijPjPf6cyIEP28hkfEEHFVvsQ1c0oBBk1jxd1WkUMyk53q64k/qGhjPU73G9AoJAB17pGr2dDJJnq7qnDjrKy0T6Yjf/u3PZ5CW7YyBcE4+RJL2eSqBqwHDZpfzndVWk5TkjxYa6fqe9EtCxO0y98FaSiqPAsOiqNQS/MP3FcOHD5ZlQLYnpbiPXvFcbLgCogg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TvRzHiPg4zhr/7Iix1ApfvuHBQBapuuZeCph8XAt3ec=;
+ b=yR5h2qUuhC0aAH/bgRQErrAXdSv1/n+AYO28zw9B1UdDgD8MEHkfBxqsWNCiY7Suzk33GTOm5IaKtHfhzrakRewu4K8ViSeWqUMIfZY1+WM/+fo0mpmkiOT3x1zVxM97/EBKBIh645fdzrEuJb1FxEqXV1ZGFUUO09GTO5qkMUw=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Ray.Huang@amd.com; 
+Received: from MN2PR12MB3309.namprd12.prod.outlook.com (2603:10b6:208:106::29)
+ by MN2PR12MB3869.namprd12.prod.outlook.com (2603:10b6:208:16f::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15; Wed, 11 Mar
+ 2020 07:52:45 +0000
+Received: from MN2PR12MB3309.namprd12.prod.outlook.com
+ ([fe80::6417:7247:12ed:1d7b]) by MN2PR12MB3309.namprd12.prod.outlook.com
+ ([fe80::6417:7247:12ed:1d7b%5]) with mapi id 15.20.2793.013; Wed, 11 Mar 2020
+ 07:52:45 +0000
+Date: Wed, 11 Mar 2020 15:52:37 +0800
+From: Huang Rui <ray.huang@amd.com>
+To: Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH] drm/ttm: Use scnprintf() for avoiding potential buffer
+ overflow
+Message-ID: <20200311075236.GB2835@jenkins-Celadon-RN>
+References: <20200311073452.7056-1-tiwai@suse.de>
+Content-Disposition: inline
+In-Reply-To: <20200311073452.7056-1-tiwai@suse.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: HK2PR02CA0155.apcprd02.prod.outlook.com
+ (2603:1096:201:1f::15) To MN2PR12MB3309.namprd12.prod.outlook.com
+ (2603:10b6:208:106::29)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: F58B740D8966EE329A7B198D2569BE8D1EF0981AF9706E2EFCADD53E09D0F5262000:8
-X-MTK: N
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from jenkins-Celadon-RN (180.167.199.189) by
+ HK2PR02CA0155.apcprd02.prod.outlook.com (2603:1096:201:1f::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Wed, 11 Mar 2020 07:52:43 +0000
+X-Originating-IP: [180.167.199.189]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 8591d569-5b56-46ea-2ab0-08d7c5912f34
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3869:|MN2PR12MB3869:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB386925074440776BD5F8C444ECFC0@MN2PR12MB3869.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Forefront-PRVS: 0339F89554
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(396003)(376002)(346002)(39860400002)(366004)(136003)(199004)(2906002)(4326008)(316002)(86362001)(81156014)(8676002)(33656002)(9686003)(52116002)(6666004)(6496006)(6916009)(26005)(66476007)(956004)(54906003)(186003)(33716001)(55016002)(81166006)(66946007)(16526019)(5660300002)(478600001)(66556008)(1076003)(8936002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3869;
+ H:MN2PR12MB3309.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cimgq42jlF9S+7+CXN+F95tnQBPG0LmDH1cXZsHemVVeYYjXDyfJfSF35Xki/gkCcnylEu21yROC8GepnexcBqR3njR6eVhsfQZe6nyQwit+uW5Y894bvCCQRfAm1GJtux5hRhGQx+05+KRxff7ovx23Mv0v6hraCUv+Yu+3AlRtWHs6ywTTOpKsK/ciUY21xHFQ4eQeGO9AD+mGmEiFX+e5XLGAUgPJrsxFPXG3ZMAOT0lTJrd9513RDINi5ru8q87u+l2CUGnXSV3//j1pjkIxdGQFkw1FBDS22sWjMjhvZBA3CtreXHeBGka/ImLWE7XkG/SxszL8gFK9paDUVMu81hB39njVlLFR5eIsoGckmTL+hkaTTr62Zto7BVZt5hQZMVTurx5BEHl1ddONSC3XU1hl461QM78X36B7Jk2NQfmYTW6nMkC8SBF32/Ru
+X-MS-Exchange-AntiSpam-MessageData: c2uVOgRxKKCfbyNGMB3zYFLaLDWuB5b3F3b6nw/YITc12mkDbwBftg82BHm2ghV380pYtjnnIKIx1E6oYi7vzLAqXj+48EJML9OIwm9btPRd7aLd/JXu/q7mAbOmFEGjq9+1jLjUDISLChUZUEn92Q==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8591d569-5b56-46ea-2ab0-08d7c5912f34
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 07:52:45.1041 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Re+3C6SrSH5k7l0zHZ3NA2BCexCBlAcGYrzf3mMv0/pK7PUrJDFUd1ec5mK0quc8yYATH1tgvDFuEHTxDIkMXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3869
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,115 +98,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
- cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Read calibration data from nvmem, and config mipitx impedance with
-calibration data to make sure their impedance are 100ohm.
+On Wed, Mar 11, 2020 at 03:34:52PM +0800, Takashi Iwai wrote:
+> Since snprintf() returns the would-be-output size instead of the
+> actual output size, the succeeding calls may go beyond the given
+> buffer limit.  Fix it by replacing with scnprintf().
+> 
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
+Reviewed-by: Huang Rui <ray.huang@amd.com>
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-index 124fdf95f1e5..878feeb7ac6c 100644
---- a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-+++ b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-@@ -5,6 +5,8 @@
-  */
- 
- #include "mtk_mipi_tx.h"
-+#include <linux/nvmem-consumer.h>
-+#include <linux/slab.h>
- 
- #define MIPITX_LANE_CON		0x000c
- #define RG_DSI_CPHY_T1DRV_EN		BIT(0)
-@@ -28,6 +30,7 @@
- #define MIPITX_PLL_CON4		0x003c
- #define RG_DSI_PLL_IBIAS		(3 << 10)
- 
-+#define MIPITX_D2P_RTCODE	0x0100
- #define MIPITX_D2_SW_CTL_EN	0x0144
- #define MIPITX_D0_SW_CTL_EN	0x0244
- #define MIPITX_CK_CKMODE_EN	0x0328
-@@ -108,6 +111,58 @@ static const struct clk_ops mtk_mipi_tx_pll_ops = {
- 	.recalc_rate = mtk_mipi_tx_pll_recalc_rate,
- };
- 
-+static void mtk_mipi_tx_config_calibration_data(struct mtk_mipi_tx *mipi_tx)
-+{
-+	u32 *buf;
-+	u32 rt_code[5];
-+	int i, j;
-+	struct nvmem_cell *cell;
-+	struct device *dev = mipi_tx->dev;
-+	size_t len;
-+
-+	cell = nvmem_cell_get(dev, "calibration-data");
-+	if (IS_ERR(cell)) {
-+		dev_info(dev, "nvmem_cell_get fail\n");
-+		return;
-+	}
-+
-+	buf = (u32 *)nvmem_cell_read(cell, &len);
-+
-+	nvmem_cell_put(cell);
-+
-+	if (IS_ERR(buf)) {
-+		dev_info(dev, "can't get data\n");
-+		return;
-+	}
-+
-+	if (len < 3 * sizeof(u32)) {
-+		dev_info(dev, "invalid calibration data\n");
-+		kfree(buf);
-+		return;
-+	}
-+
-+	rt_code[0] = ((buf[0] >> 6 & 0x1f) << 5) | (buf[0] >> 11 & 0x1f);
-+	rt_code[1] = ((buf[1] >> 27 & 0x1f) << 5) | (buf[0] >> 1 & 0x1f);
-+	rt_code[2] = ((buf[1] >> 17 & 0x1f) << 5) | (buf[1] >> 22 & 0x1f);
-+	rt_code[3] = ((buf[1] >> 7 & 0x1f) << 5) | (buf[1] >> 12 & 0x1f);
-+	rt_code[4] = ((buf[2] >> 27 & 0x1f) << 5) | (buf[1] >> 2 & 0x1f);
-+
-+	for (i = 0; i < 5; i++) {
-+		if ((rt_code[i] & 0x1f) == 0)
-+			rt_code[i] |= 0x10;
-+
-+		if ((rt_code[i] >> 5 & 0x1f) == 0)
-+			rt_code[i] |= 0x10 << 5;
-+
-+		for (j = 0; j < 10; j++)
-+			mtk_mipi_tx_update_bits(mipi_tx,
-+				MIPITX_D2P_RTCODE * (i + 1) + j * 4,
-+				1, rt_code[i] >> j & 1);
-+	}
-+
-+	kfree(buf);
-+}
-+
- static void mtk_mipi_tx_power_on_signal(struct phy *phy)
- {
- 	struct mtk_mipi_tx *mipi_tx = phy_get_drvdata(phy);
-@@ -130,6 +185,8 @@ static void mtk_mipi_tx_power_on_signal(struct phy *phy)
- 				RG_DSI_HSTX_LDO_REF_SEL,
- 				mipi_tx->mipitx_drive << 6);
- 
-+	mtk_mipi_tx_config_calibration_data(mipi_tx);
-+
- 	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_CK_CKMODE_EN, DSI_CK_CKMODE_EN);
- }
- 
--- 
-2.21.0
+> ---
+>  drivers/gpu/drm/ttm/ttm_page_alloc_dma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_page_alloc_dma.c b/drivers/gpu/drm/ttm/ttm_page_alloc_dma.c
+> index bf876faea592..faefaaef7909 100644
+> --- a/drivers/gpu/drm/ttm/ttm_page_alloc_dma.c
+> +++ b/drivers/gpu/drm/ttm/ttm_page_alloc_dma.c
+> @@ -604,7 +604,7 @@ static struct dma_pool *ttm_dma_pool_init(struct device *dev, gfp_t flags,
+>  	p = pool->name;
+>  	for (i = 0; i < ARRAY_SIZE(t); i++) {
+>  		if (type & t[i]) {
+> -			p += snprintf(p, sizeof(pool->name) - (p - pool->name),
+> +			p += scnprintf(p, sizeof(pool->name) - (p - pool->name),
+>  				      "%s", n[i]);
+>  		}
+>  	}
+> -- 
+> 2.16.4
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
