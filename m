@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497371825C9
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 00:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6541825ED
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 00:36:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959AD6E519;
-	Wed, 11 Mar 2020 23:24:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09488895D7;
+	Wed, 11 Mar 2020 23:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDED26E519
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 23:24:52 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id x11so223648wrv.5
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 16:24:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=jyc0DmthNhbkCDc5Lj6koSBgtM563eXtr/p2glAoIaI=;
- b=BGZix1b7KHoar2w0KDkHKidsyWc1e2dOusEd1oRs45/s1nggef2xVx77KJhjpnHSZk
- clVpjWcxMXAz2Sp6VMP7X1PUzW83cu0C+GqZmtsev1i8DJ1LiL5oCHS7yXFgwD4pLhhK
- 26XSPDcZJp3Xz1X4RKfN+bU1eAByqCGB+tvGEL++pVnTSttlfApzWL8sfRhRpaIfwvyo
- 6YxlScvRT1IvIhRTxn5zAUrrntcB2R9XwHwGAPueZHGGmINqQS2CIxJp/0f2feMAs7mF
- YArekIqu36WA8HNcwXZZr5xjZuxJjNtW96TET/2jsDNwqHnCNRyGXEfoh42XwOxbegRA
- DPxw==
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DEB8895D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 23:36:30 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id c20so3234971lfb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 16:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YKKTGMGuC7csysaHUesEZogJs7wnfht4eIuQDMWN8RY=;
+ b=m1Rot4bztTgh2wPUxiSW/rqn0jSM0lhavj6u4hAqIl77E3iaCQG/e/kkCksb97Xhqf
+ 1XvpZHOinpeFWhukb5Adv4V5rnhXTaZKAEZgKjtNi7QxGpGkMQfFlPyPYPjCnfzfBbDK
+ UjwFxBhd/Kfd1uCnOa2tBMdTUhBtRSeoSqJq0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=jyc0DmthNhbkCDc5Lj6koSBgtM563eXtr/p2glAoIaI=;
- b=TIdkbFKthd4cDHzt4QgqtgMPiVCLYhOU+oQctXyAPHE15zofscTA66oLmSxo0jhzoX
- MGcb7kcQZEBqWF2lgmLgxon/ffbNh8FZGBaWoor/EDt197QG8hnNV4JDjb9t2z26RuYj
- P/jn6QZoXKRYEQ3Ix3X/n/mI3yZZpP13aZNOyI+4wYo3UoLY0XRrG+TBnq16FWkZzSi/
- NEwL/kpu6NJm7mUoTuHukcDmLIfv5LrxkDOJaVN1lRtn2VisJOv7r1YiW6vjVrTkofQl
- jJi3tShYQSf+sGL6MURrbsLEqc2SHZ9bFRnIto2RFJjrDFU3QVUp+fr9ArFr/DCH8xUL
- dpCQ==
-X-Gm-Message-State: ANhLgQ0J3zAWjwR2qbOadFNOCTfBOElvrXrSmPJw8ttnhcW73CgNWLo0
- hEMvg+8cCzrNNKRJ7mUveeY=
-X-Google-Smtp-Source: ADFU+vvQooBGL6xviIsa9Gml2WDmUUkSluU/bVnFryBT//SefAXth7hGYISugMiyVH+g1RlgJResZA==
-X-Received: by 2002:a5d:480c:: with SMTP id l12mr6839433wrq.19.1583969091424; 
- Wed, 11 Mar 2020 16:24:51 -0700 (PDT)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
- by smtp.gmail.com with ESMTPSA id p10sm8421253wru.4.2020.03.11.16.24.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 16:24:50 -0700 (PDT)
-Date: Thu, 12 Mar 2020 00:24:46 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Wambui Karuga <wambui.karugax@gmail.com>
-Subject: Re: [PATCH 10/21] drm/tegra: remove checks for debugfs functions
- return value
-Message-ID: <20200311232446.GA998881@ulmo>
-References: <20200227120232.19413-1-wambui.karugax@gmail.com>
- <20200227120232.19413-11-wambui.karugax@gmail.com>
- <20200311143753.GC494173@ulmo>
- <alpine.LNX.2.21.99999.375.2003111750360.14786@wambui>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YKKTGMGuC7csysaHUesEZogJs7wnfht4eIuQDMWN8RY=;
+ b=TKt3WlnWuXObHp3BT45RPw/OR0zO8LgKCWiWYuQuqD+4XHTLxyHdNXrKHGti0yW1x+
+ +JVahOjSzGsSEoOqRNngqaY+XCil89ecu7guvH1MWLnSG0FdOPBJZWb91k3gj3OzOGix
+ m11XHz8EUcy4rK6XCzrBUJkZpc7TunKzN3/YQp8v+WJiXz1TzkjTyT9jM6zZeSoc8G6v
+ L685EraTyuC+vXDJlJxFyTFxoZjs7sLr2a3PeUDrKliBaicuNWtCuAR3XFWlVNE3a+2G
+ +ZCLdWfTEXSAC7uW6QRQf2J1Rv9gAOXS/sIQ+50d/EQkhTYrbQC9NCumqRkmsE8TAZ7o
+ fwYA==
+X-Gm-Message-State: ANhLgQ2hUOUjyfhO3iUHSrT94uMgnIwT+3zbI3/By47CeFsF4NheLROk
+ YX00/De05P0VjdXV1gswWJrYp6/V694=
+X-Google-Smtp-Source: ADFU+vvHlxa7MydcZmTMbkhzmZpvDyuq3cyQGI9RPzakB2jn+OQx9IABTbi5tKNksTs3z+kxklRpFg==
+X-Received: by 2002:a19:cbc3:: with SMTP id b186mr3572714lfg.182.1583969788184; 
+ Wed, 11 Mar 2020 16:36:28 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com.
+ [209.85.208.179])
+ by smtp.gmail.com with ESMTPSA id o26sm21874994ljg.33.2020.03.11.16.36.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Mar 2020 16:36:27 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id d23so4264233ljg.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 16:36:27 -0700 (PDT)
+X-Received: by 2002:a05:651c:1026:: with SMTP id
+ w6mr3295587ljm.168.1583969787038; 
+ Wed, 11 Mar 2020 16:36:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <alpine.LNX.2.21.99999.375.2003111750360.14786@wambui>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+References: <20200310010818.569-1-gurchetansingh@chromium.org>
+ <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
+ <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
+ <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
+In-Reply-To: <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Wed, 11 Mar 2020 16:36:16 -0700
+X-Gmail-Original-Message-ID: <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
+Message-ID: <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,92 +72,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-tegra@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0470316922=="
+Cc: Chad Versace <chadversary@chromium.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ John Bates <jbates@chromium.org>
+Content-Type: multipart/mixed; boundary="===============1000791270=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============1000791270==
+Content-Type: multipart/alternative; boundary="0000000000007e257305a09cb425"
 
---===============0470316922==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="r5Pyd7+fXNt84Ff3"
-Content-Disposition: inline
+--0000000000007e257305a09cb425
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, Mar 11, 2020 at 3:36 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+>   Hi,
+>
+> > I should've been more clear -- this is an internal cleanup/preparation
+> and
+> > the per-context changes are invisible to host userspace.
+>
+> Ok, it wasn't clear that you don't flip the switch yet.  In general the
+> commit messages could be a bit more verbose ...
+>
+> I'm wondering though why we need the new fence_id in the first place.
+> Isn't it enough to have per-context (instead of global) last_seq?
+>
+
+Heh, that was to leave open the possibility of multiple timelines per
+context.  Roughly speaking,
+
+V2 -- multiple processes
+V3 -- multiple processes and multiple threads (due to VK multi-threaded
+command buffers)
+
+I think we all agree on V2.  It seems we still have to discuss V3
+(multi-queue, thread pools, a fence context associated with each thread) a
+bit more before we start landing pieces.
 
 
---r5Pyd7+fXNt84Ff3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> > Multi-queue sounds very interesting indeed, especially with VK
+> > multi-threaded command submission.  That to me is V3 rather than V2..
+> let's
+> > start easy!
+>
+> Having v2 if we plan to obsolete it with v3 soon doesn't look like a
+> good plan to me.  It'll make backward compatibility more complex for
+> no good reason ...
+>
+> Also: Does virglrenderer render different contexts in parallel today?
+> Only in case it does we'll actually get benefits from per-context
+> fences.  But I think it doesn't, so there is no need to rush.
+>
+> I think we should better have a rough plan for parallel rendering first,
+> then go start implementing the pieces needed.
+>
+> cheers,
+>   Gerd
+>
+>
+
+--0000000000007e257305a09cb425
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 11, 2020 at 05:54:46PM +0300, Wambui Karuga wrote:
-> Hey Thierry,
->=20
-> On Wed, 11 Mar 2020, Thierry Reding wrote:
->=20
-> > On Thu, Feb 27, 2020 at 03:02:21PM +0300, Wambui Karuga wrote:
-> > > Since 987d65d01356 (drm: debugfs: make
-> > > drm_debugfs_create_files() never fail) there is no need to check the
-> > > return value of drm_debugfs_create_files(). Therefore, remove the
-> > > return checks and error handling of the drm_debugfs_create_files()
-> > > function from various debugfs init functions in drm/tegra and have
-> > > them return 0 directly.
-> > >=20
-> > > This change also includes removing the use of drm_debugfs_create_files
-> > > as a return value in tegra_debugfs_init() and have the function decla=
-red
-> > > as void.
-> > >=20
-> > > Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/tegra/dc.c   | 11 +----------
-> > >  drivers/gpu/drm/tegra/drm.c  |  8 ++++----
-> > >  drivers/gpu/drm/tegra/dsi.c  | 11 +----------
-> > >  drivers/gpu/drm/tegra/hdmi.c | 11 +----------
-> > >  drivers/gpu/drm/tegra/sor.c  | 11 +----------
-> > >  5 files changed, 8 insertions(+), 44 deletions(-)
-> >=20
-> > Applied, thanks.
-> >=20
-> There's a newer version[1] of this patch series as this specific patch
-> depends on other work in drm.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 11, 2020 at 3:36 AM Gerd =
+Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 H=
+i,<br>
+<br>
+&gt; I should&#39;ve been more clear -- this is an internal cleanup/prepara=
+tion and<br>
+&gt; the per-context changes are invisible to host userspace.<br>
+<br>
+Ok, it wasn&#39;t clear that you don&#39;t flip the switch yet.=C2=A0 In ge=
+neral the<br>
+commit messages could be a bit more verbose ...<br>
+<br>
+I&#39;m wondering though why we need the new fence_id in the first place.<b=
+r>
+Isn&#39;t it enough to have per-context (instead of global) last_seq?<br></=
+blockquote><div><br></div><div>Heh, that was to leave open the possibility =
+of multiple timelines per context.=C2=A0 Roughly speaking,</div><div><br></=
+div><div>V2 -- multiple processes</div><div>V3 -- multiple processes and mu=
+ltiple threads (due to VK multi-threaded command buffers)</div><div><br></d=
+iv><div>I think we all agree on V2.=C2=A0 It seems we still=C2=A0have to di=
+scuss V3 (multi-queue, thread pools, a fence context associated with each t=
+hread) a bit more before we start landing pieces.=C2=A0</div><div><br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; Multi-queue sounds very interesting indeed, especially with VK<br>
+&gt; multi-threaded command submission.=C2=A0 That to me is V3 rather than =
+V2.. let&#39;s<br>
+&gt; start easy!<br>
+<br>
+Having v2 if we plan to obsolete it with v3 soon doesn&#39;t look like a<br=
+>
+good plan to me.=C2=A0 It&#39;ll make backward compatibility more complex f=
+or<br>
+no good reason ...<br>
+<br>
+Also: Does virglrenderer render different contexts in parallel today?<br>
+Only in case it does we&#39;ll actually get benefits from per-context<br>
+fences.=C2=A0 But I think it doesn&#39;t, so there is no need to rush.<br>
+<br>
+I think we should better have a rough plan for parallel rendering first,<br=
+>
+then go start implementing the pieces needed.<br>
+<br>
+cheers,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div></div>
 
-Oh yeah, I just noticed that this patch causes a build failure, so I
-backed it out again.
+--0000000000007e257305a09cb425--
 
-If there's dependencies on other work, it's probably best to take this
-through drm-misc, in which case:
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
-Let me know if you'd prefer me to apply this to drm/tegra instead.
-
-Thierry
-
---r5Pyd7+fXNt84Ff3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5pczsACgkQ3SOs138+
-s6HS4Q/+P562RsBDU9ZpqlH/UKz4Fl0liGtZcZPtT8vsdxVvw6pnXlF1Flc0b99d
-EPk6sJ/3s+cWhfClB1ZlOnn/insCTRmtOLpqFaN5qmtbQNCG0jI84s+4uJJU5lgx
-drcSDnXfLGTaSVQBPzwVS2gYnuM0rduA3M5MfCq7L/V+K2Cbs4k3r9BUyDKPZ92N
-P8XzCqdfB4nj9tX3fAP5PCncio8wOvWtvUVkH3ZGDTypbNWkbF2wbQ2ESU7uis3q
-aeTA74Eqv2z/lq2uq2Jk9QqOko31i+6SUIv3x/MOxmOXXpN442ib7DoAXCGvroIK
-IvPDD18Che8PeUi2zLe+2pT/9AHR4ZN9SqBZ72rEhOsGNczJEo57uy2J+ZL8yZnH
-4u7trV6ozHtOlFPrn5LNQONpbNG+esnsghrWwm7tz8Mscq2CiFCvHioyN4lzhOKd
-gHJ3ZkZPFXqgmALsnAhP9vpLuQ68aGsrkW4tslBZNp/T2xzU27lG7r8JKyBkADSN
-hkYfhsPlhJXJozmgVBJK6cJnstGJ2jaQjIKy/pZYb+g8T1upzykbTkJaT9CF9hSN
-NE+lWaQ+OITnBwN76VMnuotVwoM2dB8lChqHLYFhqMk52JGEFZskpI/RO5MKejpH
-BZddEqbYrBfBmUQ4V2BdkxjKrRlXZvLl5x0RC/wjdNStNQqKPx8=
-=pQXY
------END PGP SIGNATURE-----
-
---r5Pyd7+fXNt84Ff3--
-
---===============0470316922==
+--===============1000791270==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -166,4 +202,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0470316922==--
+--===============1000791270==--
