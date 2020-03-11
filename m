@@ -2,58 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFB91812A9
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 09:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869071812BA
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 09:15:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD02A895E1;
-	Wed, 11 Mar 2020 08:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17B1B6E922;
+	Wed, 11 Mar 2020 08:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E27CF6E90B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 08:11:01 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 73F7DADCC;
- Wed, 11 Mar 2020 08:11:00 +0000 (UTC)
-Subject: Re: [PATCH] drm: sysfs: Use scnprintf() for avoiding potential buffer
- overflow
-To: Takashi Iwai <tiwai@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <20200311073540.7108-1-tiwai@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <d0e1fa20-6686-1cf9-33b2-eef4707420f0@suse.de>
-Date: Wed, 11 Mar 2020 09:10:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D40126E920;
+ Wed, 11 Mar 2020 08:15:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2020 01:15:41 -0700
+X-IronPort-AV: E=Sophos;i="5.70,540,1574150400"; d="scan'208";a="236353114"
+Received: from mkuta-mobl.ger.corp.intel.com (HELO localhost) ([10.249.39.69])
+ by orsmga008-auth.jf.intel.com with
+ ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 01:15:38 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Wambui Karuga <wambui.karugax@gmail.com>, airlied@linux.ie, daniel@ffwll.ch,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v2 14/17] drm/i915: have *_debugfs_init() functions return
+ void.
+In-Reply-To: <20200310133121.27913-15-wambui.karugax@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200310133121.27913-1-wambui.karugax@gmail.com>
+ <20200310133121.27913-15-wambui.karugax@gmail.com>
+Date: Wed, 11 Mar 2020 10:15:55 +0200
+Message-ID: <87y2s7l32c.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200311073540.7108-1-tiwai@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,120 +46,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1695615576=="
+Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1695615576==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="i9CBwAotVPIe2xy5TUBA4d80YewZ0tCQw"
+On Tue, 10 Mar 2020, Wambui Karuga <wambui.karugax@gmail.com> wrote:
+> Since commit 987d65d01356 (drm: debugfs: make
+> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
+> fails and should return void. Therefore, remove its use as the
+> return value of debugfs_init() functions and have the functions return
+> void.
+>
+> v2: convert intel_display_debugfs_register() stub to return void too.
+>
+> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---i9CBwAotVPIe2xy5TUBA4d80YewZ0tCQw
-Content-Type: multipart/mixed; boundary="7uITulxgksgV41VPR6q2ZENboZ4e3w1ef";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Takashi Iwai <tiwai@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <d0e1fa20-6686-1cf9-33b2-eef4707420f0@suse.de>
-Subject: Re: [PATCH] drm: sysfs: Use scnprintf() for avoiding potential buffer
- overflow
-References: <20200311073540.7108-1-tiwai@suse.de>
-In-Reply-To: <20200311073540.7108-1-tiwai@suse.de>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
---7uITulxgksgV41VPR6q2ZENboZ4e3w1ef
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
 
-Hi Takashi
-
-Am 11.03.20 um 08:35 schrieb Takashi Iwai:
-> Since snprintf() returns the would-be-output size instead of the
-> actual output size, the succeeding calls may go beyond the given
-> buffer limit.  Fix it by replacing with scnprintf().
->=20
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 > ---
->  drivers/gpu/drm/drm_sysfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index dd2bc85f43cc..9b3180e8c12f 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -230,7 +230,7 @@ static ssize_t modes_show(struct device *device,
-> =20
->  	mutex_lock(&connector->dev->mode_config.mutex);
->  	list_for_each_entry(mode, &connector->modes, head) {
-> -		written +=3D snprintf(buf + written, PAGE_SIZE - written, "%s\n",
-> +		written +=3D scnprintf(buf + written, PAGE_SIZE - written, "%s\n",
->  				    mode->name);
+>  drivers/gpu/drm/i915/display/intel_display_debugfs.c | 8 ++++----
+>  drivers/gpu/drm/i915/display/intel_display_debugfs.h | 4 ++--
+>  drivers/gpu/drm/i915/i915_debugfs.c                  | 8 ++++----
+>  drivers/gpu/drm/i915/i915_debugfs.h                  | 4 ++--
+>  4 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> index 1e6eb7f2f72d..424f4e52f783 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> @@ -1927,7 +1927,7 @@ static const struct {
+>  	{"i915_edp_psr_debug", &i915_edp_psr_debug_fops},
+>  };
+>  
+> -int intel_display_debugfs_register(struct drm_i915_private *i915)
+> +void intel_display_debugfs_register(struct drm_i915_private *i915)
+>  {
+>  	struct drm_minor *minor = i915->drm.primary;
+>  	int i;
+> @@ -1940,9 +1940,9 @@ int intel_display_debugfs_register(struct drm_i915_private *i915)
+>  				    intel_display_debugfs_files[i].fops);
 >  	}
->  	mutex_unlock(&connector->dev->mode_config.mutex);
->=20
+>  
+> -	return drm_debugfs_create_files(intel_display_debugfs_list,
+> -					ARRAY_SIZE(intel_display_debugfs_list),
+> -					minor->debugfs_root, minor);
+> +	drm_debugfs_create_files(intel_display_debugfs_list,
+> +				 ARRAY_SIZE(intel_display_debugfs_list),
+> +				 minor->debugfs_root, minor);
+>  }
+>  
+>  static int i915_panel_show(struct seq_file *m, void *data)
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.h b/drivers/gpu/drm/i915/display/intel_display_debugfs.h
+> index a3bea1ce04c2..c922c1745bfe 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.h
+> @@ -10,10 +10,10 @@ struct drm_connector;
+>  struct drm_i915_private;
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> -int intel_display_debugfs_register(struct drm_i915_private *i915);
+> +void intel_display_debugfs_register(struct drm_i915_private *i915);
+>  int intel_connector_debugfs_add(struct drm_connector *connector);
+>  #else
+> -static inline int intel_display_debugfs_register(struct drm_i915_private *i915) { return 0; }
+> +static inline void intel_display_debugfs_register(struct drm_i915_private *i915) {}
+>  static inline int intel_connector_debugfs_add(struct drm_connector *connector) { return 0; }
+>  #endif
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+> index 8f2525e4ce0f..de313199c714 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> @@ -2392,7 +2392,7 @@ static const struct i915_debugfs_files {
+>  	{"i915_guc_log_relay", &i915_guc_log_relay_fops},
+>  };
+>  
+> -int i915_debugfs_register(struct drm_i915_private *dev_priv)
+> +void i915_debugfs_register(struct drm_i915_private *dev_priv)
+>  {
+>  	struct drm_minor *minor = dev_priv->drm.primary;
+>  	int i;
+> @@ -2409,7 +2409,7 @@ int i915_debugfs_register(struct drm_i915_private *dev_priv)
+>  				    i915_debugfs_files[i].fops);
+>  	}
+>  
+> -	return drm_debugfs_create_files(i915_debugfs_list,
+> -					I915_DEBUGFS_ENTRIES,
+> -					minor->debugfs_root, minor);
+> +	drm_debugfs_create_files(i915_debugfs_list,
+> +				 I915_DEBUGFS_ENTRIES,
+> +				 minor->debugfs_root, minor);
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.h b/drivers/gpu/drm/i915/i915_debugfs.h
+> index 6da39c76ab5e..1de2736f1248 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.h
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.h
+> @@ -12,10 +12,10 @@ struct drm_i915_private;
+>  struct seq_file;
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> -int i915_debugfs_register(struct drm_i915_private *dev_priv);
+> +void i915_debugfs_register(struct drm_i915_private *dev_priv);
+>  void i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj);
+>  #else
+> -static inline int i915_debugfs_register(struct drm_i915_private *dev_priv) { return 0; }
+> +static inline void i915_debugfs_register(struct drm_i915_private *dev_priv) {}
+>  static inline void i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj) {}
+>  #endif
 
-In drm_sysfs.c, there are more _show functions with calls to snprintf()
-that could be replaced by scnprintf(). ATM they don't return the correct
-length for output that exceeds PAGE_SIZE. since you're at it, you may
-replace them as well.
-
-But in any case
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-for this patch.
-
-Do you want me to merge the patch into drm-misc-next?
-
-Best regards
-Thomas
-
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---7uITulxgksgV41VPR6q2ZENboZ4e3w1ef--
-
---i9CBwAotVPIe2xy5TUBA4d80YewZ0tCQw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5onRMACgkQaA3BHVML
-eiN5BQf+JBuY/KJdmf4VQBjN/Im5rRfREhzHwKE0yQClegTe6Ywjj1Bpr8CuSFMB
-sjYITdQBB3ZckHUJU3f3kA7OvwcDCQDIamMgx9YypYmk2+8XJCjTarfx54sUPgaj
-bIXACceQxrgSJVQ/G8/L+6Y3W7Wlr2uyncUbNJxEABlwzKp+kl+Ff+qxXNDryLek
-AOJNfeYs4N24xbPsNzMgyWvp7C9dAEDoCmQq0+jaha5BZJ9KBIQCLqmGdcZw9TFj
-dxbgi0b0q82F87itngVIKDr/7SBr66i+29zUL2/2sRxAttcpj6wlfuWZ9TBDhau6
-13lzdrt32IrRY5aO7bTL3/qZ/5kuBg==
-=OvBh
------END PGP SIGNATURE-----
-
---i9CBwAotVPIe2xy5TUBA4d80YewZ0tCQw--
-
---===============1695615576==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1695615576==--
