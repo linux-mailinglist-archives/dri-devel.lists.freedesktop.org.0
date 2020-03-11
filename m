@@ -1,32 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1189F182A91
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:09:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E50F182AD6
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:10:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959B46EA47;
-	Thu, 12 Mar 2020 08:08:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6567A6EA9D;
+	Thu, 12 Mar 2020 08:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C3D6E9AB
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 15:53:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id EC0A3293F52
-Subject: Re: [PATCH v11 0/5] arm/arm64: mediatek: Fix mt8173 mmsys device
- probing
-To: CK Hu <ck.hu@mediatek.com>
-References: <20200311115614.1425528-1-enric.balletbo@collabora.com>
- <1583931705.29614.3.camel@mtksdaap41>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <24893e7f-5d76-e10e-61db-4b0abd43d12d@collabora.com>
-Date: Wed, 11 Mar 2020 16:53:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from dodo.xh.is (dodo.xh.is
+ [IPv6:2001:19f0:8001:184d:5400:2ff:fe7b:e8bd])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02ED56E9BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 16:29:58 +0000 (UTC)
+X-Spam: yes
+X-Spam-Score: 6.6 / 99999
+X-Spam-Symbols: TAGGED_RCPT, BROKEN_CONTENT_TYPE, SUSPICIOUS_RECIPS,
+ MID_CONTAINS_FROM, FROM_EQ_ENVFROM, ASN, ARC_NA, TO_DN_SOME,
+ R_MISSING_CHARSET, MIME_TRACE, RCVD_VIA_SMTP_AUTH, FROM_HAS_DN,
+ RCVD_NO_TLS_LAST, FREEMAIL_TO, RCVD_COUNT_TWO,
+ FREEMAIL_ENVRCPT, TO_MATCH_ENVRCPT_SOME, RCPT_COUNT_TWELVE
+Received: by dodo.xh.is (OpenSMTPD) with ESMTPSA id 6de100bf
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
+ Wed, 11 Mar 2020 09:29:56 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1]) (Authenticated sender:
+ icenowy@aosc.io)
+ by hermes.aosc.io (Postfix) with ESMTPSA id BC2B74C30D;
+ Wed, 11 Mar 2020 16:29:47 +0000 (UTC)
+From: Icenowy Zheng <icenowy@aosc.io>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megous@megous.com>
+Subject: [PATCH 0/5] Add support for PinePhone LCD panel
+Date: Thu, 12 Mar 2020 00:29:31 +0800
+Message-Id: <20200311162936.221613-1-icenowy@aosc.io>
 MIME-Version: 1.0
-In-Reply-To: <1583931705.29614.3.camel@mtksdaap41>
-Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aosc.io; s=dkim;
+ t=1583944194;
+ h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding;
+ bh=9aZ3S84mHw4qXcjY/Kp+GSG14l46FAM2R96fwhUnoLw=;
+ b=CB0z2emeUteq4K+Vm+Fl3YW5AeDzN+fR9fgavG6U/oahKEFAAdnW8kuNmiSZ7oWpDQm9IV
+ WxcSkkn8AlLXmy5KwmN3BH1rHXhyzPyBnIS0/fRTlxGEaAQhAwQe2WnYfS/EHTF0xhIF1d
+ grHLKR2JssBVmHAnD79ImiHiNXFJZcQ=
 X-Mailman-Approved-At: Thu, 12 Mar 2020 08:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,176 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
- mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
- Richard Fontana <rfontana@redhat.com>, laurent.pinchart@ideasonboard.com,
- ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
- linux-clk@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
- Weiyi Lu <weiyi.lu@mediatek.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- wens@csie.org, linux-arm-kernel@lists.infradead.org,
- mtk01761 <wendell.lin@mediatek.com>, Owen Chen <owen.chen@mediatek.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
- sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
- robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Allison Randal <allison@lohutok.net>, Matthias Brugger <mbrugger@suse.com>,
- Fabien Parent <fparent@baylibre.com>, sboyd@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, matthias.bgg@kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi CK,
+This patchset adds support for the LCD panel of PinePhone.
 
-On 11/3/20 14:01, CK Hu wrote:
-> Hi, Enric:
-> 
-> I'm confused this is v11 or v12.
-> For v12, you've lost some 'Acked-by' and 'Reviewed-by' tag.
-> 
+The first 3 patches are for the panel itself, and the last 2 patches are
+for enabling it on PinePhone.
 
-Right, sorry about that, I messed my workflow after a patman upgrade that didn't
-work. I'll collect the acks and reviews and send a v12 later today, so it's
-clear which patches to apply.
+PATCH 4 is the fix of a bug in sun6i_mipi_dsi which will gets triggered
+on XBD599.
 
-Thanks,
- Enric
+Icenowy Zheng (5):
+  dt-bindings: vendor-prefixes: Add Xingbangda
+  dt-bindings: panel: add binding for Xingbangda XBD599 panel
+  drm: panel: add Xingbangda XBD599 panel
+  drm/sun4i: sun6i_mipi_dsi: fix horizontal timing calculation
+  arm64: allwinner: dts: a64: add LCD-related device nodes for PinePhone
 
-> Regards,
-> CK
-> 
-> On Wed, 2020-03-11 at 12:56 +0100, Enric Balletbo i Serra wrote:
->> Dear all,
->>
->> These patches are intended to solve an old standing issue on some
->> Mediatek devices (mt8173, mt2701 and mt2712 are affected by this issue).
->>
->> Up to now both drivers, clock and drm are probed with the same device tree
->> compatible. But only the first driver gets probed, which in effect breaks
->> graphics on those devices.
->>
->> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
->> control clock gates (which is used in the clk driver) and some registers
->> to set the routing and enable the differnet blocks of the display
->> and MDP (Media Data Path) subsystem. On this series the clk driver is
->> not a pure clock controller but a system controller that can provide
->> access to the shared registers between the different drivers that need
->> it (mediatek-drm and mediatek-mdp). Hence the MMSYS clk driver was moved
->> to drivers/soc/mediatek and is the entry point (parent) which will trigger
->> the probe of the corresponding mediatek-drm driver.
->>
->> **IMPORTANT** This series only fixes the issue on mt8173 to make it
->> simple and as is the only platform I can test. Similar changes should be
->> applied for mt2701 and mt2712 to have display working.
->>
->> These patches apply on top of linux-next.
->>
->> For reference, here are the links to the old discussions:
->> * v10: https://patchwork.kernel.org/project/linux-mediatek/list/?series=248505
->> * v9: https://patchwork.kernel.org/project/linux-clk/list/?series=247591
->> * v8: https://patchwork.kernel.org/project/linux-mediatek/list/?series=244891
->> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
->> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
->> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
->> * v4:
->>   * https://patchwork.kernel.org/patch/10530871/
->>   * https://patchwork.kernel.org/patch/10530883/
->>   * https://patchwork.kernel.org/patch/10530885/
->>   * https://patchwork.kernel.org/patch/10530911/
->>   * https://patchwork.kernel.org/patch/10530913/
->> * v3:
->>   * https://patchwork.kernel.org/patch/10367857/
->>   * https://patchwork.kernel.org/patch/10367861/
->>   * https://patchwork.kernel.org/patch/10367877/
->>   * https://patchwork.kernel.org/patch/10367875/
->>   * https://patchwork.kernel.org/patch/10367885/
->>   * https://patchwork.kernel.org/patch/10367883/
->>   * https://patchwork.kernel.org/patch/10367889/
->>   * https://patchwork.kernel.org/patch/10367907/
->>   * https://patchwork.kernel.org/patch/10367909/
->>   * https://patchwork.kernel.org/patch/10367905/
->> * v2: No relevant discussion, see v3
->> * v1:
->>   * https://patchwork.kernel.org/patch/10016497/
->>   * https://patchwork.kernel.org/patch/10016499/
->>   * https://patchwork.kernel.org/patch/10016505/
->>   * https://patchwork.kernel.org/patch/10016507/
->>
->> Best regards,
->>  Enric
->>
->> Changes in v11:
->> - Leave the clocks part in drivers/clk (clk-mt8173-mm)
->> - Instantiate the clock driver from the mtk-mmsys driver.
->> - Add default config option to not break anything.
->> - Removed the Reviewed-by CK tag as changed the organization.
->>
->> Changes in v10:
->> - Update the binding documentation for the mmsys system controller.
->> - Renamed to be generic mtk-mmsys
->> - Add driver data support to be able to support diferent SoCs
->> - Select CONFIG_MTK_MMSYS (CK)
->> - Pass device pointer of mmsys device instead of config regs (CK)
->> - Match driver data to get display routing.
->>
->> Changes in v9:
->> - Move mmsys to drivers/soc/mediatek (CK)
->> - Introduced a new patch to move routing control into mmsys driver.
->> - Removed the patch to use regmap as is not needed anymore.
->> - Do not move the display routing from the drm driver (CK)
->>
->> Changes in v8:
->> - Be a builtin_platform_driver like other mediatek mmsys drivers.
->> - New patch introduced in this series.
->>
->> Changes in v7:
->> - Free clk_data->clks as well
->> - Get rid of private data structure
->>
->> Enric Balletbo i Serra (3):
->>   dt-bindings: mediatek: Update mmsys binding to reflect it is a system
->>     controller
->>   soc / drm: mediatek: Move routing control to mmsys device
->>   soc / drm: mediatek: Fix mediatek-drm device probing
->>
->> Matthias Brugger (2):
->>   drm/mediatek: Omit warning on probe defers
->>   clk / soc: mediatek: Move mt8173 MMSYS to platform driver
->>
->>  .../bindings/arm/mediatek/mediatek,mmsys.txt  |   7 +-
->>  drivers/clk/mediatek/Kconfig                  |   7 +
->>  drivers/clk/mediatek/Makefile                 |   1 +
->>  drivers/clk/mediatek/clk-mt8173-mm.c          | 146 ++++++++
->>  drivers/clk/mediatek/clk-mt8173.c             | 104 ------
->>  drivers/gpu/drm/mediatek/Kconfig              |   1 +
->>  drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
->>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
->>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
->>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
->>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  19 +-
->>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c        | 259 +-------------
->>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   7 -
->>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  45 +--
->>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   2 +-
->>  drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
->>  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
->>  drivers/soc/mediatek/Kconfig                  |   8 +
->>  drivers/soc/mediatek/Makefile                 |   1 +
->>  drivers/soc/mediatek/mtk-mmsys.c              | 335 ++++++++++++++++++
->>  include/linux/soc/mediatek/mtk-mmsys.h        |  20 ++
->>  21 files changed, 590 insertions(+), 411 deletions(-)
->>  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
->>  create mode 100644 drivers/soc/mediatek/mtk-mmsys.c
->>  create mode 100644 include/linux/soc/mediatek/mtk-mmsys.h
->>
-> 
+ .../display/panel/xingbangda,xbd599.yaml      |  50 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  37 ++
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-xingbangda-xbd599.c   | 367 ++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c        |  10 +-
+ 7 files changed, 471 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/xingbangda,xbd599.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-xingbangda-xbd599.c
+
+-- 
+2.24.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
