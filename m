@@ -1,62 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3264E180EB0
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 04:44:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47EEA180F32
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 06:07:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A07D6E8F3;
-	Wed, 11 Mar 2020 03:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 506926E0D7;
+	Wed, 11 Mar 2020 05:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 242E96E8F3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 03:44:22 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id u10so263102pjy.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Mar 2020 20:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hMsZ5n2u+PGel/PKPO0Vzp2oWzKhB5uQ11WvL+UIaGQ=;
- b=V5wbqKyJdEhdokczEP+Q5Y6Dyulhe9f0DbqMR2ZIGhbprsU5DH44E5w3d5AO9p5kbu
- iIK59Mz4eF6hX2NQwg+IyXgDMvDI6El7sRYmq/rNCo9nHUxicwczbY6PtvXjB5pZ+n0o
- 1gqYd6xP6287IAfRlWETYX8bFynx313rFUmRUb9Qn1giSAvjFU0cV0VpuCqclcUqUSle
- swVCzsasC1RUT2WJNLArpISSY3A2S/rUi8ehqlm3KXPEIDdmeIi+EAmK/aMt9Inpeyc5
- LumXVbgjvQwS5wEJIssoCybhdSwtxVnBOkm1LGUkzO2iaWFmAXeJqHbVZ3a5GORFi+BF
- p4Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hMsZ5n2u+PGel/PKPO0Vzp2oWzKhB5uQ11WvL+UIaGQ=;
- b=Ta0eXIhsjiAUs0M3xLilbfHovn6/oZtUW6vszdeqkl9ZpqQzD66+iYdQYLyfrBjlcA
- 4ejzpizzLGeKNmtOfWX1BuqF0yHRbMjnzT3fwKvJfJNEwRNUHJ1xzTT5aqO9eDD0cQ5h
- asDZSJOpxRyb9kf/aS1shA+42b+ImR8B7XxioC5hrozqxOGr+fg5HlTwveBTVvpuwCbF
- Mgp8A/zu2jwTb98dDmTXtHtqrJ5YRb5Sv1h4uL2TLjcILkwdIhWhyVt+JAO3YTKAgCUY
- ZHyYxxZ0ioY5XvZ5IEXxExWkmDyH/1tKBEkjTs+/JXWCCh9p9f7iqYlx47OUtg1niqSp
- OxUg==
-X-Gm-Message-State: ANhLgQ0f+0O5hi3/r0XJxnS6+iuvuuIqImOmAjbvK9NpxuSbzAvo/MK6
- av+bkRXJTSAPdbFDrbRd7kmRAQ==
-X-Google-Smtp-Source: ADFU+vsyc38HlAKduJYbrL0y2cac0FOPPUwBSZxhe9PfTZjeQKeX1PZpmFU0vNIubE/s8pv2abm3Yw==
-X-Received: by 2002:a17:902:d703:: with SMTP id
- w3mr1144366ply.264.1583898261589; 
- Tue, 10 Mar 2020 20:44:21 -0700 (PDT)
-Received: from omlet.com ([2605:6000:1026:c273::ce4])
- by smtp.gmail.com with ESMTPSA id bb13sm3650846pjb.43.2020.03.10.20.44.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 20:44:20 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: 
-Subject: [PATCH 3/3] RFC: dma-buf: Add an API for importing and exporting sync
- files (v4)
-Date: Tue, 10 Mar 2020 22:43:48 -0500
-Message-Id: <20200311034351.1275197-3-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200311034351.1275197-1-jason@jlekstrand.net>
-References: <20200303190318.522103-1-jason@jlekstrand.net>
- <20200311034351.1275197-1-jason@jlekstrand.net>
+Received: from smtprelay.hostedemail.com (smtprelay0005.hostedemail.com
+ [216.40.44.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 486006E0D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 05:07:11 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id 69F6618224519;
+ Wed, 11 Mar 2020 05:07:10 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:541:800:960:967:973:982:988:989:1042:1260:1311:1314:1345:1359:1437:1515:1535:1544:1711:1730:1747:1777:1792:1801:2393:2525:2560:2563:2682:2685:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3354:3865:3866:3867:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4605:5007:6117:6261:6742:8603:9025:9036:9592:10004:10848:11026:11473:11657:11658:11914:12043:12294:12296:12297:12438:12555:12679:12895:12986:13894:14093:14181:14394:14721:21080:21433:21451:21611:21627:21740:21772:21789:21811:21939:30054,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: cream52_212c176dc7e35
+X-Filterd-Recvd-Size: 5395
+Received: from joe-laptop.perches.com (unknown [47.151.143.254])
+ (Authenticated sender: joe@perches.com)
+ by omf16.hostedemail.com (Postfix) with ESMTPA;
+ Wed, 11 Mar 2020 05:07:07 +0000 (UTC)
+From: Joe Perches <joe@perches.com>
+To: Paul Cercueil <paul@crapouillou.net>,
+ Harvey Hunt <harveyhuntnexus@gmail.com>
+Subject: [PATCH -next 013/491] INGENIC JZ47xx SoCs: Use fallthrough;
+Date: Tue, 10 Mar 2020 21:51:27 -0700
+Message-Id: <ad408ff8dc4e5fae0884312cb0aa618664e546e5.1583896348.git.joe@perches.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <cover.1583896344.git.joe@perches.com>
+References: <cover.1583896344.git.joe@perches.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,234 +51,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chenbo Feng <fengc@google.com>, daniels@collabora.com,
- daniel.vetter@ffwll.ch, jajones@nvidia.com, linux-kernel@vger.kernel.org,
- Greg Hackmann <ghackmann@google.com>, linaro-mm-sig@lists.linaro.org,
- hoegsberg@google.com, dri-devel@lists.freedesktop.org,
- Jason Ekstrand <jason@jlekstrand.net>, jessehall@google.com,
- airlied@redhat.com, christian.koenig@amd.com, linux-media@vger.kernel.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ alsa-devel@alsa-project.org, David Airlie <airlied@linux.ie>,
+ Richard Weinberger <richard@nod.at>, Takashi Iwai <tiwai@suse.com>,
+ linux-mmc@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Explicit synchronization is the future.  At least, that seems to be what
-most userspace APIs are agreeing on at this point.  However, most of our
-Linux APIs (both userspace and kernel UAPI) are currently built around
-implicit synchronization with dma-buf.  While work is ongoing to change
-many of the userspace APIs and protocols to an explicit synchronization
-model, switching over piecemeal is difficult due to the number of
-potential components involved.  On the kernel side, many drivers use
-dma-buf including GPU (3D/compute), display, v4l, and others.  In
-userspace, we have X11, several Wayland compositors, 3D drivers, compute
-drivers (OpenCL etc.), media encode/decode, and the list goes on.
+Convert the various uses of fallthrough comments to fallthrough;
 
-This patch provides a path forward by allowing userspace to manually
-manage the fences attached to a dma-buf.  Alternatively, one can think
-of this as making dma-buf's implicit synchronization simply a carrier
-for an explicit fence.  This is accomplished by adding two IOCTLs to
-dma-buf for importing and exporting a sync file to/from the dma-buf.
-This way a userspace component which is uses explicit synchronization,
-such as a Vulkan driver, can manually set the write fence on a buffer
-before handing it off to an implicitly synchronized component such as a
-Wayland compositor or video encoder.  In this way, each of the different
-components can be upgraded to an explicit synchronization model one at a
-time as long as the userspace pieces connecting them are aware of it and
-import/export fences at the right times.
+Done via script
+Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
 
-There is a potential race condition with this API if userspace is not
-careful.  A typical use case for implicit synchronization is to wait for
-the dma-buf to be ready, use it, and then signal it for some other
-component.  Because a sync_file cannot be created until it is guaranteed
-to complete in finite time, userspace can only signal the dma-buf after
-it has already submitted the work which uses it to the kernel and has
-received a sync_file back.  There is no way to atomically submit a
-wait-use-signal operation.  This is not, however, really a problem with
-this API so much as it is a problem with explicit synchronization
-itself.  The way this is typically handled is to have very explicit
-ownership transfer points in the API or protocol which ensure that only
-one component is using it at any given time.  Both X11 (via the PRESENT
-extension) and Wayland provide such ownership transfer points via
-explicit present and idle messages.
-
-The decision was intentionally made in this patch to make the import and
-export operations IOCTLs on the dma-buf itself rather than as a DRM
-IOCTL.  This makes it the import/export operation universal across all
-components which use dma-buf including GPU, display, v4l, and others.
-It also means that a userspace component can do the import/export
-without access to the DRM fd which may be tricky to get in cases where
-the client communicates with DRM via a userspace API such as OpenGL or
-Vulkan.  At a future date we may choose to add direct import/export APIs
-to components such as drm_syncobj to avoid allocating a file descriptor
-and going through two ioctls.  However, that seems to be something of a
-micro-optimization as import/export operations are likely to happen at a
-rate of a few per frame of rendered or decoded video.
-
-v2 (Jason Ekstrand):
- - Use a wrapper dma_fence_array of all fences including the new one
-   when importing an exclusive fence.
-
-v3 (Jason Ekstrand):
- - Lock around setting shared fences as well as exclusive
- - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
- - Initialize ret to 0 in dma_buf_wait_sync_file
-
-v4 (Jason Ekstrand):
- - Use the new dma_resv_get_singleton helper
-
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+Signed-off-by: Joe Perches <joe@perches.com>
 ---
- drivers/dma-buf/dma-buf.c    | 96 ++++++++++++++++++++++++++++++++++++
- include/uapi/linux/dma-buf.h | 13 ++++-
- 2 files changed, 107 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm.c           | 2 +-
+ drivers/mmc/host/jz4740_mmc.c                   | 6 ++----
+ drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c | 2 +-
+ drivers/mtd/nand/raw/ingenic/jz4725b_bch.c      | 4 ++--
+ drivers/mtd/nand/raw/ingenic/jz4780_bch.c       | 4 ++--
+ sound/soc/codecs/jz4770.c                       | 2 +-
+ 6 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index d4097856c86b..09973c689866 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -20,6 +20,7 @@
- #include <linux/debugfs.h>
- #include <linux/module.h>
- #include <linux/seq_file.h>
-+#include <linux/sync_file.h>
- #include <linux/poll.h>
- #include <linux/dma-resv.h>
- #include <linux/mm.h>
-@@ -348,6 +349,95 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
+index 9dfe7c..8eefe7 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
+@@ -305,7 +305,7 @@ static void ingenic_drm_crtc_update_ctrl(struct ingenic_drm *priv,
+ 	switch (finfo->format) {
+ 	case DRM_FORMAT_XRGB1555:
+ 		ctrl |= JZ_LCD_CTRL_RGB555;
+-		/* fall-through */
++		fallthrough;
+ 	case DRM_FORMAT_RGB565:
+ 		ctrl |= JZ_LCD_CTRL_BPP_15_16;
+ 		break;
+diff --git a/drivers/mmc/host/jz4740_mmc.c b/drivers/mmc/host/jz4740_mmc.c
+index fbae87..9026af6 100644
+--- a/drivers/mmc/host/jz4740_mmc.c
++++ b/drivers/mmc/host/jz4740_mmc.c
+@@ -737,8 +737,7 @@ static irqreturn_t jz_mmc_irq_worker(int irq, void *devid)
+ 			break;
  
-+static long dma_buf_wait_sync_file(struct dma_buf *dmabuf,
-+				   const void __user *user_data)
-+{
-+	struct dma_buf_sync_file arg;
-+	struct dma_fence *fence;
-+	int ret = 0;
-+
-+	if (copy_from_user(&arg, user_data, sizeof(arg)))
-+		return -EFAULT;
-+
-+	if (arg.flags != 0 && arg.flags != DMA_BUF_SYNC_FILE_SYNC_WRITE)
-+		return -EINVAL;
-+
-+	fence = sync_file_get_fence(arg.fd);
-+	if (!fence)
-+		return -EINVAL;
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	if (arg.flags & DMA_BUF_SYNC_FILE_SYNC_WRITE) {
-+		struct dma_fence *singleton = NULL;
-+		ret = dma_resv_get_singleton(dmabuf->resv, fence, &singleton);
-+		if (!ret && singleton)
-+			dma_resv_add_excl_fence(dmabuf->resv, singleton);
-+	} else {
-+		dma_resv_add_shared_fence(dmabuf->resv, fence);
-+	}
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_fence_put(fence);
-+
-+	return ret;
-+}
-+
-+static long dma_buf_signal_sync_file(struct dma_buf *dmabuf,
-+				     void __user *user_data)
-+{
-+	struct dma_buf_sync_file arg;
-+	struct dma_fence *fence = NULL;
-+	struct sync_file *sync_file;
-+	int fd, ret;
-+
-+	if (copy_from_user(&arg, user_data, sizeof(arg)))
-+		return -EFAULT;
-+
-+	if (arg.flags != 0 && arg.flags != DMA_BUF_SYNC_FILE_SYNC_WRITE)
-+		return -EINVAL;
-+
-+	fd = get_unused_fd_flags(O_CLOEXEC);
-+	if (fd < 0)
-+		return fd;
-+
-+	if (arg.flags & DMA_BUF_SYNC_FILE_SYNC_WRITE) {
-+		/* We need to include both the exclusive fence and all of
-+		 * the shared fences in our fence.
-+		 */
-+		ret = dma_resv_get_singleton(dmabuf->resv, NULL, &fence);
-+		if (ret)
-+			goto err_put_fd;
-+	} else {
-+		fence = dma_resv_get_excl_rcu(dmabuf->resv);
-+	}
-+
-+	if (!fence)
-+		fence = dma_fence_get_stub();
-+
-+	sync_file = sync_file_create(fence);
-+
-+	dma_fence_put(fence);
-+
-+	if (!sync_file) {
-+		ret = -EINVAL;
-+		goto err_put_fd;
-+	}
-+
-+	fd_install(fd, sync_file->file);
-+
-+	arg.fd = fd;
-+	if (copy_to_user(user_data, &arg, sizeof(arg)))
-+		return -EFAULT;
-+
-+	return 0;
-+
-+err_put_fd:
-+	put_unused_fd(fd);
-+	return ret;
-+}
-+
- static long dma_buf_ioctl(struct file *file,
- 			  unsigned int cmd, unsigned long arg)
- {
-@@ -390,6 +480,12 @@ static long dma_buf_ioctl(struct file *file,
- 	case DMA_BUF_SET_NAME:
- 		return dma_buf_set_name(dmabuf, (const char __user *)arg);
- 
-+	case DMA_BUF_IOCTL_WAIT_SYNC_FILE:
-+		return dma_buf_wait_sync_file(dmabuf, (const void __user *)arg);
-+
-+	case DMA_BUF_IOCTL_SIGNAL_SYNC_FILE:
-+		return dma_buf_signal_sync_file(dmabuf, (void __user *)arg);
-+
+ 		jz_mmc_prepare_data_transfer(host);
+-		/* fall through */
+-
++		fallthrough;
+ 	case JZ4740_MMC_STATE_TRANSFER_DATA:
+ 		if (host->use_dma) {
+ 			/* Use DMA if enabled.
+@@ -772,8 +771,7 @@ static irqreturn_t jz_mmc_irq_worker(int irq, void *devid)
+ 			break;
+ 		}
+ 		jz4740_mmc_write_irq_reg(host, JZ_MMC_IRQ_DATA_TRAN_DONE);
+-		/* fall through */
+-
++		fallthrough;
+ 	case JZ4740_MMC_STATE_SEND_STOP:
+ 		if (!req->stop)
+ 			break;
+diff --git a/drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c b/drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c
+index 49afeb..935c49 100644
+--- a/drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c
++++ b/drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c
+@@ -253,7 +253,7 @@ static int ingenic_nand_attach_chip(struct nand_chip *chip)
+ 		chip->ecc.hwctl = ingenic_nand_ecc_hwctl;
+ 		chip->ecc.calculate = ingenic_nand_ecc_calculate;
+ 		chip->ecc.correct = ingenic_nand_ecc_correct;
+-		/* fall through */
++		fallthrough;
+ 	case NAND_ECC_SOFT:
+ 		dev_info(nfc->dev, "using %s (strength %d, size %d, bytes %d)\n",
+ 			 (nfc->ecc) ? "hardware ECC" : "software ECC",
+diff --git a/drivers/mtd/nand/raw/ingenic/jz4725b_bch.c b/drivers/mtd/nand/raw/ingenic/jz4725b_bch.c
+index 6c852ea..2d0e0a 100644
+--- a/drivers/mtd/nand/raw/ingenic/jz4725b_bch.c
++++ b/drivers/mtd/nand/raw/ingenic/jz4725b_bch.c
+@@ -145,10 +145,10 @@ static void jz4725b_bch_read_parity(struct ingenic_ecc *bch, u8 *buf,
+ 	switch (size8) {
+ 	case 3:
+ 		dest8[2] = (val >> 16) & 0xff;
+-		/* fall-through */
++		fallthrough;
+ 	case 2:
+ 		dest8[1] = (val >> 8) & 0xff;
+-		/* fall-through */
++		fallthrough;
+ 	case 1:
+ 		dest8[0] = val & 0xff;
+ 		break;
+diff --git a/drivers/mtd/nand/raw/ingenic/jz4780_bch.c b/drivers/mtd/nand/raw/ingenic/jz4780_bch.c
+index 079266a..d67dbf 100644
+--- a/drivers/mtd/nand/raw/ingenic/jz4780_bch.c
++++ b/drivers/mtd/nand/raw/ingenic/jz4780_bch.c
+@@ -123,10 +123,10 @@ static void jz4780_bch_read_parity(struct ingenic_ecc *bch, void *buf,
+ 	switch (size8) {
+ 	case 3:
+ 		dest8[2] = (val >> 16) & 0xff;
+-		/* fall through */
++		fallthrough;
+ 	case 2:
+ 		dest8[1] = (val >> 8) & 0xff;
+-		/* fall through */
++		fallthrough;
+ 	case 1:
+ 		dest8[0] = val & 0xff;
+ 		break;
+diff --git a/sound/soc/codecs/jz4770.c b/sound/soc/codecs/jz4770.c
+index e7cf2c..6e2a91 100644
+--- a/sound/soc/codecs/jz4770.c
++++ b/sound/soc/codecs/jz4770.c
+@@ -202,7 +202,7 @@ static int jz4770_codec_set_bias_level(struct snd_soc_component *codec,
+ 				   REG_CR_VIC_SB_SLEEP, REG_CR_VIC_SB_SLEEP);
+ 		regmap_update_bits(regmap, JZ4770_CODEC_REG_CR_VIC,
+ 				   REG_CR_VIC_SB, REG_CR_VIC_SB);
+-	/* fall-through */
++		fallthrough;
  	default:
- 		return -ENOTTY;
+ 		break;
  	}
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index dbc7092e04b5..86e07acca90c 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -37,8 +37,17 @@ struct dma_buf_sync {
- 
- #define DMA_BUF_NAME_LEN	32
- 
-+struct dma_buf_sync_file {
-+	__u32 flags;
-+	__s32 fd;
-+};
-+
-+#define DMA_BUF_SYNC_FILE_SYNC_WRITE	(1 << 0)
-+
- #define DMA_BUF_BASE		'b'
--#define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
--#define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
-+#define DMA_BUF_IOCTL_SYNC	    _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-+#define DMA_BUF_SET_NAME	    _IOW(DMA_BUF_BASE, 1, const char *)
-+#define DMA_BUF_IOCTL_WAIT_SYNC_FILE	_IOW(DMA_BUF_BASE, 2, struct dma_buf_sync)
-+#define DMA_BUF_IOCTL_SIGNAL_SYNC_FILE	_IOWR(DMA_BUF_BASE, 3, struct dma_buf_sync)
- 
- #endif
 -- 
-2.24.1
+2.24.0
 
 _______________________________________________
 dri-devel mailing list
