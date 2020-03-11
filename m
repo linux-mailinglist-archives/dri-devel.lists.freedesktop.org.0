@@ -2,50 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34AA182AB3
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FBE182AE4
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:11:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD8ED6EA83;
-	Thu, 12 Mar 2020 08:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CADE76EA63;
+	Thu, 12 Mar 2020 08:09:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C88BD6E97B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:30:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1583933446;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=GdjmaOpO8Y3WU4rFoDIjKcLngUYzQxklDSD8RGkNqKM=;
- b=jzAma20AklWyfw8PSGvm4ZVzEbVnDcTRqBdor6CJOslr1gjFzI3M7BgLnAwR74djAv
- i1pILqPxfkRbORrI556CwzE0bV1lvr2i8+GJQOGK8kVlvugBavi5uFgtXtKyYCVB7vOH
- ue/bvBvDQp5I3v0GTwusZ9qcyYX/FGnN5gDbLuWzH5x4cGyobNNxEWLgIVm2SHG47tPs
- D6PdgaxL0kyBwAm7TZQTV2MLTSjPIQx87bD7cq8VJKTFjR6nJ1BGim8CW2eXy0XOxA/F
- 9CFOlxXJWrXwQ8WqyNYYsjx+8aWXx3Lm7HTFShyBQ0N3XPmQEysAaEFlgc4v3fW3EetV
- aewg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmMnw43lIA8="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
- with ESMTPSA id y0a02cw2BDURyeO
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 11 Mar 2020 14:30:27 +0100 (CET)
-Subject: Re: [RFC v2 6/8] MIPS: DTS: jz4780: account for Synopsys HDMI driver
- and LCD controller
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <1583932809.3.0@crapouillou.net>
-Date: Wed, 11 Mar 2020 14:30:26 +0100
-Message-Id: <81CAD3B7-0467-4F67-B379-76795B147497@goldelico.com>
-References: <cover.1582913973.git.hns@goldelico.com>
- <04b485165f38744816a0446e95150cafdeb716ee.1582913973.git.hns@goldelico.com>
- <1583177253.3.5@crapouillou.net>
- <F29E9DCC-29BC-4B88-9288-3E53BF8423C6@goldelico.com>
- <1583932809.3.0@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3124)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEDDF6E98C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 13:55:40 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2020 06:55:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,541,1574150400"; d="scan'208";a="242688236"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by orsmga003.jf.intel.com with ESMTP; 11 Mar 2020 06:55:34 -0700
+Received: from andy by smile with local (Exim 4.93)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1jC1pf-008kO4-Aj; Wed, 11 Mar 2020 15:55:35 +0200
+Date: Wed, 11 Mar 2020 15:55:35 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Phong LE <ple@baylibre.com>
+Subject: Re: [PATCH v2 3/4] drm: bridge: add it66121 driver
+Message-ID: <20200311135535.GQ1922688@smile.fi.intel.com>
+References: <20200311125135.30832-1-ple@baylibre.com>
+ <20200311125135.30832-4-ple@baylibre.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200311125135.30832-4-ple@baylibre.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Thu, 12 Mar 2020 08:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,267 +49,464 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Paul Burton <paulburton@kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, linux-mips@vger.kernel.org,
- Andi Kleen <ak@linux.intel.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: mark.rutland@arm.com, narmstrong@baylibre.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
+ Laurent.pinchart@ideasonboard.com, mchehab+samsung@kernel.org,
+ sam@ravnborg.org, heiko.stuebner@theobroma-systems.com, icenowy@aosc.io,
+ devicetree@vger.kernel.org, stephan@gerhold.net, jonas@kwiboo.se,
+ robh+dt@kernel.org, Jonathan.Cameron@huawei.com, jernej.skrabec@siol.net,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, broonie@kernel.org,
+ davem@davemloft.net
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+On Wed, Mar 11, 2020 at 01:51:34PM +0100, Phong LE wrote:
+> This commit is a simple driver for bridge HMDI it66121.
+> The input format is RBG and there is no color conversion.
+> Audio, HDCP and CEC are not supported yet.
 
-> Am 11.03.2020 um 14:20 schrieb Paul Cercueil <paul@crapouillou.net>:
-> =
+I guess you should have been told in your company how to use get_maintainer.pl
+to avoid spamming people.
 
-> Hi Nikolaus,
-> =
+Hint:
+	scripts/get_maintainer.pl --git --git-min-percent=67 ...
 
-> =
+...
 
-> Le mer., mars 11, 2020 at 13:43, H. Nikolaus Schaller <hns@goldelico.com>=
- a =E9crit :
->> Hi Paul,
->>> The JZ4780's LCD controller is much newer than the JZ4740 one, so even =
-if it works with the "ingenic,jz4740-lcd" compatible string, you want it as=
- a fallback.
->>> So this should be: compatible =3D "ingenic,jz4780-lcd", "ingenic,jz4740=
--lcd".
->>> That means the YAML should be updated too.
->> I have started to look into jz4780 HDMI setup again.
->> Well, there is no driver compatible to "ingenic,jz4780-lcd" so far
->> and it is questionalbe if we need a different one.
->> I think we should rather make the driver also compatible
->> than adding a fallback to ingenic,jz4740-lcdto the DTS.
->> The reason why this is better even if both LCDC are almost
->> compatible is that the jz4780 allows for much bigger displays
->> and therefore should have its own jz_soc_info with 4k x 2k
->> as maximum.
-> =
+> + * Copyright (C) 2020 BayLibre, SAS
+> + * Author: Phong LE <ple@baylibre.com>
+> + * Copyright (C) 2018-2019, Artem Mygaiev
+> + * Copyright (C) 2017, Fresco Logic, Incorporated.
 
-> Sure, feel free to extend the driver.
-> =
+This too compact to read, perhaps squeeze blank line after your (c) note
+followed by description how the rest (c) appear in the file.
 
->> Next I tried to find out if the LCDC are really compatible.
->> Well the jz4780 has two lcdc instances but they are separated
->> by the reg addr. Next, there are unique features (like picture in
->> picture with alpha blending) but those are probably disabled
->> if not programmed from reset state. This may become a reason
->> to separate or augment the driver for the jz4780 but at the
->> moment we can ignore that.
-> =
+> + *
 
-> Two LCDC instances -> two lcd-controller@... nodes. It's that simple.
+Redundant line.
 
-Indeed :)
+> + */
 
-> =
+...
 
-> The other features you listed are outside the LCDC, so outside the scope =
-of this driver.
+> +#include <linux/of.h>
 
-Well, in the description they are mixed but I think we do not have
-to care about now.
-> =
+This can be replaced with property.h, see comments against ->probe().
 
->> There are also subtly different bit definitions and register
->> widths (e.g. 24 bit in addition to 16/18 bit modes or more bits
->> for the sync position) but it looks as if the ingenic_drm
->> driver already handles this.
->> Then I tried to read back the registers. Strangely they
->> are all 0x00000000. So there is no programming of the
->> lcd-controller in our DT setup with HDMI at all!
-> =
+> +#include <linux/of_device.h>
+> +#include <linux/of_gpio.h>
 
-> How did you read them?
+I didn't find evidence of use of any of those.
 
-I used devmem2 (may be an omap tool I have recompiled for MIPS - it uses /d=
-ev/mem).
+...
 
-> Do it from the regmap: should be "cat /sys/kernel/debug/regmap/13050000.l=
-cd-controller/registers" (not sure about the path)
+> +#define IT66121_MASTER_SEL_REG			0x10
 
-Well seems to give the same result:
+> +#define IT66121_AFE_DRV_REG			0x61
 
-root@letux:~# cat /sys/kernel/debug/regmap/13050000.lcd-controller/registers
-00: 00000000
-04: 00000000
-08: 00000000
-0c: 00000000
-10: 00000000
-14: 00000000
-18: 00000000
-1c: 00000000
-20: 00000000
-24: 00000000
-28: 00000000
-2c: 00000000
-30: 00000000
-34: 00000000
-38: 00000000
-3c: 00000000
-40: 00000000
-44: 00000000
-48: 00000000
-4c: 00000000
-50: 00000000
-54: 00000000
-58: 00000000
-5c: 00000000
-root@letux:~# =
+> +#define IT66121_INPUT_MODE_REG			0x70
+
+> +#define IT66121_INPUT_CSC_REG			0x72
+
+> +#define IT66121_AFE_XP_REG			0x62
+
+> +#define IT66121_AFE_IP_REG			0x64
+
+> +#define IT66121_AFE_XP_EC1_REG			0x68
+
+> +#define IT66121_SW_RST_REG			0x04
+
+> +#define IT66121_DDC_COMMAND_REG			0x15
+
+> +#define IT66121_HDCP_REG			0x20
+
+> +#define IT66121_INT_STATUS1_REG			0x06
+
+> +#define IT66121_DDC_HEADER_REG			0x11
+
+> +#define IT66121_DDC_OFFSET_REG			0x12
+> +#define IT66121_DDC_BYTE_REG			0x13
+> +#define IT66121_DDC_SEGMENT_REG			0x14
+> +#define IT66121_DDC_RD_FIFO_REG			0x17
+
+> +#define IT66121_CLK_BANK_REG			0x0F
+
+> +#define IT66121_INT_REG				0x05
+
+> +#define IT66121_INT_MASK1_REG			0x09
+
+> +#define IT66121_INT_CLR1_REG			0x0C
+
+> +#define IT66121_AV_MUTE_REG			0xC1
+
+> +#define IT66121_PKT_GEN_CTRL_REG		0xC6
+
+> +#define IT66121_AVIINFO_DB1_REG			0x158
+> +#define IT66121_AVIINFO_DB2_REG			0x159
+> +#define IT66121_AVIINFO_DB3_REG			0x15A
+> +#define IT66121_AVIINFO_DB4_REG			0x15B
+> +#define IT66121_AVIINFO_DB5_REG			0x15C
+> +#define IT66121_AVIINFO_CSUM_REG		0x15D
+> +#define IT66121_AVIINFO_DB6_REG			0x15E
+> +#define IT66121_AVIINFO_DB7_REG			0x15F
+> +#define IT66121_AVIINFO_DB8_REG			0x160
+> +#define IT66121_AVIINFO_DB9_REG			0x161
+> +#define IT66121_AVIINFO_DB10_REG		0x162
+> +#define IT66121_AVIINFO_DB11_REG		0x163
+> +#define IT66121_AVIINFO_DB12_REG		0x164
+> +#define IT66121_AVIINFO_DB13_REG		0x165
+> +
+> +#define IT66121_AVI_INFO_PKT_REG		0xCD
+
+> +#define IT66121_HDMI_MODE_REG			0xC0
+
+> +#define IT66121_SYS_STATUS_REG			0x0E
+
+> +#define IT66121_DDC_STATUS_REG			0x16
+
+It's better to
+a) keep register sorted by value (easy to be oriented);
+b) have them in fixed width, e.g. 0x0CD.
+
+...
+
+> +#define IT66121_DEVICE_MASK			0x0F
+
+GENMASK() ?
+
+> +#define IT66121_EDID_SLEEP			20000
+> +#define IT66121_EDID_TIMEOUT			200000
+
+Care to add units?
+
+> +#define IT66121_AFE_CLK_HIGH			80000
+
+Also, what is the unit of this?
+
+...
+
+> +	return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG,
+> +				IT66121_MASTER_SEL_HOST);
+
+Indentation?
+Same for other similar places.
+
+...
+
+> +static int it66121_configure_afe(struct it66121_ctx *ctx,
+> +				 const struct drm_display_mode *mode)
+
+...like this.
+
+...
+
+> +	if (val & (IT66121_DDC_STATUS_NOACK | IT66121_DDC_STATUS_WAIT_BUS |
+> +	    IT66121_DDC_STATUS_ARBI_LOSE))
+> +		return -EAGAIN;
+
+Perhaps better to
+
+	u32 busy = IT66121_DDC_STATUS_NOACK | IT66121_DDC_STATUS_WAIT_BUS |
+		   IT66121_DDC_STATUS_ARBI_LOSE;
 
 
-> =
+	if (val & busy)
+		return -EAGAIN;
 
->> I also checked that ingenic_drm_probe() is called and
->> returns successfully 0. It also reports that a /dev/fb
->> has been created:
->> [    7.908830] ingenic-drm 13050000.lcd-controller: fb0: ingenic-drmdrmf=
- frame buffer device
->> But for example ingenic_drm_encoder_atomic_mode_set() is
->> never called which should write some registers of the LCDC.
->> I only did see some calls to ingenic_drm_encoder_atomic_check().
->> This of course explains why we have no HDMI signals despite
->> proper HPD and a /dev/fb0. Because the LCDC is not being
->> programmed.
-> =
+?
 
-> It won't be called until the HDMI driver says that the cable is plugged, =
-and there's a client application (e.g. fbdev emulation) running. So the pro=
-blem is most likely within the HDMI driver.
+> +
+> +	return 0;
+> +}
 
-Ok!
+...
 
-The HDMI subsystem says (with some printk inserted) on cable unplug/replug:
+> +static int it66121_abort_ddc_ops(struct it66121_ctx *ctx)
+> +{
+> +	int ret;
+> +	unsigned int swreset, cpdesire;
+> +
+> +	ret = regmap_read(ctx->regmap, IT66121_SW_RST_REG, &swreset);
+> +	if (ret)
+> +		return ret;
+> +
 
-root@letux:~# [ 3894.370706] dw_hdmi_update_power
-[ 3894.373984] dw_hdmi_update_power: hdmi->force=3D0
-[ 3894.378759] dw_hdmi_update_power: hdmi->disabled=3D0
-[ 3894.383756] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3894.388947] dw_hdmi_update_power: hdmi->rxsense=3D1
-[ 3894.393831] dw_hdmi_update_power: force=3D2
-[ 3894.397895] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3894.403200] dw_hdmi_phy_update_hpd
-[ 3894.406784] dw_hdmi_update_power
-[ 3894.410054] dw_hdmi_update_power: hdmi->force=3D0
-[ 3894.414766] dw_hdmi_update_power: hdmi->disabled=3D0
-[ 3894.419611] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3894.424928] dw_hdmi_update_power: hdmi->rxsense=3D1
-[ 3894.429699] dw_hdmi_update_power: force=3D2
-[ 3894.433876] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3894.439068] dw_hdmi_phy_update_hpd
-[ 3894.452316] dw_hdmi_update_power
-[ 3894.455596] dw_hdmi_update_power: hdmi->force=3D0
-[ 3894.460150] dw_hdmi_update_power: hdmi->disabled=3D0
-[ 3894.464967] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3894.470131] dw_hdmi_update_power: hdmi->rxsense=3D1
-[ 3894.475051] dw_hdmi_update_power: force=3D2
-[ 3894.479111] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3894.484423] dw_hdmi_phy_update_hpd
-[ 3894.488007] dw_hdmi_update_power
-[ 3894.491278] dw_hdmi_update_power: hdmi->force=3D0
-[ 3894.495982] dw_hdmi_update_power: hdmi->disabled=3D0
-[ 3894.500823] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3894.506139] dw_hdmi_update_power: hdmi->rxsense=3D0
-[ 3894.510895] dw_hdmi_update_power: force=3D1
-[ 3894.515063] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3894.520252] dw_hdmi_poweroff
-[ 3894.523284] dw_hdmi_phy_disable
-[ 3894.526480] dw_hdmi_phy_power_off
-[ 3894.529823] dw_hdmi_phy_gen2_txpwron
-[ 3894.533567] dw-hdmi-jz4780 10180000.hdmi: PHY powered down in 0 iteratio=
-ns
-[ 3894.540496] dw_hdmi_phy_gen2_pddq
-[ 3894.543966] dw_hdmi_phy_update_hpd
-[ 3894.547435] dw-hdmi-jz4780 10180000.hdmi: EVENT=3Dplugout
-[ 3897.079560] dw_hdmi_update_power
-[ 3897.082840] dw_hdmi_update_power: hdmi->force=3D0
-[ 3897.087394] dw_hdmi_update_power: hdmi->disabled=3D0
-[ 3897.092207] dw_hdmi_update_power: hdmi->bridge_is_on=3D0
-[ 3897.097370] dw_hdmi_update_power: hdmi->rxsense=3D1
-[ 3897.102316] dw_hdmi_update_power: force=3D2
-[ 3897.106380] dw_hdmi_update_power: hdmi->bridge_is_on=3D0
-[ 3897.111667] dw_hdmi_poweron
-[ 3897.114518] dw_hdmi_setup
-[ 3897.117163] hdmi_disable_overflow_interrupts
-[ 3897.121478] dw-hdmi-jz4780 10180000.hdmi: Non-CEA mode used in HDMI
-[ 3897.127930] hdmi_av_composer
-[ 3897.130848] dw-hdmi-jz4780 10180000.hdmi: final pixclk =3D 0
-[ 3897.136506] dw_hdmi_phy_init
-[ 3897.139440] dw_hdmi_phy_sel_data_en_pol
-[ 3897.143428] dw_hdmi_phy_sel_interface_control
-[ 3897.147840] hdmi_phy_configure
-[ 3897.150922] dw_hdmi_phy_power_off
-[ 3897.154415] dw_hdmi_phy_gen2_txpwron
-[ 3897.158043] dw-hdmi-jz4780 10180000.hdmi: PHY powered down in 0 iteratio=
-ns
-[ 3897.165094] dw_hdmi_phy_gen2_pddq
-[ 3897.168468] dw_hdmi_set_high_tmds_clock_ratio
-[ 3897.173002] hdmi_phy_configure_dwc_hdmi_3d_tx
-[ 3897.186578] dw_hdmi_phy_power_on
-[ 3897.189847] dw_hdmi_phy_gen2_txpwron
-[ 3897.193586] dw_hdmi_phy_gen2_pddq
-[ 3897.217640] dw-hdmi-jz4780 10180000.hdmi: PHY PLL locked 1 iterations
-[ 3897.224226] dw_hdmi_phy_sel_data_en_pol
-[ 3897.228107] dw_hdmi_phy_sel_interface_control
-[ 3897.232631] hdmi_phy_configure
-[ 3897.235739] dw_hdmi_phy_power_off
-[ 3897.239082] dw_hdmi_phy_gen2_txpwron
-[ 3897.242826] dw-hdmi-jz4780 10180000.hdmi: PHY powered down in 0 iteratio=
-ns
-[ 3897.249754] dw_hdmi_phy_gen2_pddq
-[ 3897.253239] dw_hdmi_set_high_tmds_clock_ratio
-[ 3897.257658] hdmi_phy_configure_dwc_hdmi_3d_tx
-[ 3897.271264] dw_hdmi_phy_power_on
-[ 3897.274659] dw_hdmi_phy_gen2_txpwron
-[ 3897.278292] dw_hdmi_phy_gen2_pddq
-[ 3897.283840] dw-hdmi-jz4780 10180000.hdmi: PHY PLL locked 1 iterations
-[ 3897.290346] dw_hdmi_enable_video_path
-[ 3897.294240] dw-hdmi-jz4780 10180000.hdmi: sink has audio support
-[ 3897.300324] dw-hdmi-jz4780 10180000.hdmi: dw_hdmi_setup HDMI mode
-[ 3897.306596] hdmi_config_AVI
-[ 3897.309467] hdmi_config_vendor_specific_infoframe
-[ 3897.314336] hdmi_config_drm_infoframe
-[ 3897.318096] hdmi_tx_hdcp_config
-[ 3897.321270] dw_hdmi_clear_overflow
-[ 3897.324831] dw_hdmi_phy_update_hpd
-[ 3897.328298] dw-hdmi-jz4780 10180000.hdmi: EVENT=3Dplugin
-[ 3897.333704] dw_hdmi_update_power
-[ 3897.336990] dw_hdmi_update_power: hdmi->force=3D0
-[ 3897.341551] dw_hdmi_update_power: hdmi->disabled=3D0
-[ 3897.346528] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3897.351858] dw_hdmi_update_power: hdmi->rxsense=3D1
-[ 3897.356615] dw_hdmi_update_power: force=3D2
-[ 3897.360655] dw_hdmi_update_power: hdmi->bridge_is_on=3D1
-[ 3897.365980] dw_hdmi_phy_update_hpd
+> +	ret = regmap_read(ctx->regmap, IT66121_HDCP_REG, &cpdesire);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(ctx->regmap, IT66121_HDCP_REG,
+> +			   cpdesire & (~IT66121_HDCP_CPDESIRED & 0xFF));
+> +	if (ret)
+> +		return ret;
 
-So the plugout/plugin events are not processed further.
+regmap_update_bits() ?
 
-One thing looks strange:
+> +
+> +	ret = regmap_write(ctx->regmap, IT66121_SW_RST_REG,
+> +			   swreset | IT66121_SW_RST_HDCP);
+> +	if (ret)
+> +		return ret;
 
-[ 3897.127930] hdmi_av_composer
-[ 3897.130848] dw-hdmi-jz4780 10180000.hdmi: final pixclk =3D 0
+This should surround the inner update, correct? Otherwise, regmap_update_bits()
+can be used as well.
 
-But I have no idea if this is the reason or the consequence
-of the uninitialized lcdc.
+> +}
 
-So we need some DRM specialist to take a look on it.
+...
 
-BR and thanks,
-Nikolaus
+> +static int it66121_get_edid_block(void *context, u8 *buf,
+> +				  unsigned int block, size_t len)
+> +{
+
+> +		ret = regmap_write(ctx->regmap, IT66121_DDC_COMMAND_REG,
+> +				   IT66121_DDC_COMMAND_EDID_READ);
+> +		if (ret)
+> +			return ret;
+> +
+> +		offset += cnt;
+> +		remain -= cnt;
+
+> +		msleep(20);
+
+Should be explained.
+
+> +
+> +		ret = it66121_wait_ddc_ready(ctx);
+> +		if (ret)
+> +			return ret;
+> +
+
+> +		do {
+> +			ret = regmap_read(ctx->regmap,
+> +					  IT66121_DDC_RD_FIFO_REG, &val);
+> +			if (ret)
+> +				return ret;
+> +			*(buf++) = val;
+> +			cnt--;
+> +		} while (cnt > 0);
+
+I'm wondering if regmap API has a helper for above like cases.
+
+> +	}
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int it66121_connector_get_modes(struct drm_connector *connector)
+> +{
+
+> +	struct it66121_ctx *ctx = container_of(connector, struct it66121_ctx,
+> +			connector);
+
+Seems like it can be an inline helper and in all places you can use
+
+	struct it66121_ctx *ctx = to_it66121_ctx(connector);
+
+
+> +	ret = drm_connector_update_edid_property(connector,
+> +						 ctx->edid);
+
+It quite fits one line, perhaps configure your editor to see 80 limit sharp?
+Applies to all similar cases as well.
+
+> +	if (ret) {
+> +		DRM_ERROR("Failed to update EDID property: %d\n", ret);
+> +		goto unlock;
+> +	}
+
+> +}
+
+...
+
+> +	return (val & IT66121_SYS_STATUS_HPDETECT);
+
+Too many parentheses.
+
+...
+
+> +	max_clock = ctx->dual_edge ? 74250 : 148500;
+
+Magic numbers? Also, It seems one definition is enough.
+
+...
+
+> +	msleep(50);
+
+Should be explained.
+
+...
+
+> +	val = mute ? IT66121_AV_MUTE_ON : (~IT66121_AV_MUTE_ON & 0xFF);
+
+	val = mute ? IT66121_AV_MUTE_ON : 0;
+
+> +	ret = regmap_write_bits(ctx->regmap, IT66121_AV_MUTE_REG,
+> +				IT66121_AV_MUTE_ON, val);
+
+...or even
+
+	mask = IT66121_AV_MUTE_ON;
+	val = mute ? mask : 0;
+
+	ret = regmap_write_bits(ctx->regmap, IT66121_AV_MUTE_REG, mask, val);
+
+> +	if (ret)
+> +		return ret;
+
+...
+
+> +	regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+> +			  IT66121_CLK_BANK_PWROFF_TXCLK,
+> +			  ~IT66121_CLK_BANK_PWROFF_TXCLK & 0xFF);
+
+Same idea. What the point of all this operations in the value parameter?
+Please, fix over the code.
+
+...
+
+
+> +	if (val & IT66121_SYS_STATUS_ACTIVE_IRQ) {
+
+	if (!(val & IT66121_SYS_STATUS_ACTIVE_IRQ))
+		goto unlock;
+
+> +		ret = regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
+> +		if (ret) {
+> +			dev_err(dev, "Cannot read STATUS1_REG %d\n", ret);
+> +		} else {
+> +			if (val & IT66121_INT_STATUS1_DDC_FIFOERR)
+> +				it66121_clear_ddc_fifo(ctx);
+
+> +			if (val & (IT66121_INT_STATUS1_DDC_BUSHANG |
+> +					IT66121_INT_STATUS1_DDC_NOACK))
+
+Indentation.
+
+> +				it66121_abort_ddc_ops(ctx);
+> +			if (val & IT66121_INT_STATUS1_HPD_STATUS) {
+> +				regmap_write_bits(ctx->regmap,
+> +						  IT66121_INT_CLR1_REG,
+> +						  IT66121_INT_CLR1_HPD,
+> +						  IT66121_INT_CLR1_HPD);
+> +
+> +				if (!it66121_is_hpd_detect(ctx)) {
+> +					kfree(ctx->edid);
+> +					ctx->edid = NULL;
+> +				}
+> +				event = true;
+> +			}
+> +		}
+> +
+> +		regmap_write_bits(ctx->regmap, IT66121_SYS_STATUS_REG,
+> +				  IT66121_SYS_STATUS_CLEAR_IRQ,
+> +				  IT66121_SYS_STATUS_CLEAR_IRQ);
+> +	}
+> +
+> +unlock:
+> +	mutex_unlock(&ctx->lock);
+
+...
+
+> +static int it66121_probe(struct i2c_client *client,
+> +			 const struct i2c_device_id *id)
+> +{
+
+> +	u8 ids[4];
+
+Magic, also see below.
+
+> +	int i, ret;
+> +	struct it66121_ctx *ctx;
+> +	struct device *dev = &client->dev;
+
+> +	ctx->conf = (struct it66121_conf *)of_device_get_match_data(dev);
+
+device_get_match_data()
+
+In any case why explicit casting?
+
+> +	if (!ctx->conf)
+> +		return -ENODEV;
+> +
+
+> +	ctx->dual_edge = of_property_read_bool(dev->of_node, "pclk-dual-edge");
+
+device_property_read_bool()
+
+> +	for (i = 0; i < 4; i++) {
+
+Magic.
+
+> +		regmap_read(ctx->regmap, i, &ret);
+> +		ids[i] = ret;
+> +	}
+
+> +
+> +	if (ids[0] != IT66121_VENDOR_ID0 ||
+> +	    ids[1] != IT66121_VENDOR_ID1 ||
+> +	    ids[2] != IT66121_DEVICE_ID0 ||
+> +	    ((ids[3] & IT66121_DEVICE_MASK) != IT66121_DEVICE_ID1)) {
+> +		ite66121_power_off(ctx);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ctx->bridge.funcs = &it66121_bridge_funcs;
+> +	ctx->bridge.of_node = dev->of_node;
+> +
+> +	ret = devm_request_threaded_irq(dev, client->irq, NULL,
+> +					it66121_irq_threaded_handler,
+
+> +					IRQF_SHARED | IRQF_TRIGGER_LOW |
+> +					IRQF_ONESHOT,
+
+Shouldn't flags come from appropriate resource provider (DT / ACPI / etc)?
+
+> +					dev_name(dev),
+> +					ctx);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to request irq %d:%d\n", client->irq, ret);
+> +		ite66121_power_off(ctx);
+> +		return ret;
+> +	}
+> +
+> +	drm_bridge_add(&ctx->bridge);
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static const struct of_device_id it66121_dt_match[] = {
+> +	{ .compatible = "ite,it66121",
+> +	  .data = &it66121_conf_simple,
+> +	},
+
+> +	{ },
+
+Terminator line doesn't need comma.
+
+> +};
+
+...
+
+> +static const struct i2c_device_id it66121_id[] = {
+> +	{ "it66121", 0 },
+
+> +	{ },
+
+Ditto.
+
+> +};
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 _______________________________________________
 dri-devel mailing list
