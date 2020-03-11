@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEAD182AC2
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:10:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36864182ADF
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDD66EA6B;
-	Thu, 12 Mar 2020 08:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE526EA8E;
+	Thu, 12 Mar 2020 08:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 122F76E9E4
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AECD36E9E6
  for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 18:35:19 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id l13so2329768qtv.10
+Received: by mail-qt1-x841.google.com with SMTP id f17so1058238qtq.6
  for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 11:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Yd+xe0QbNmktoZjpJg43C/41KpLoxm/0aQKS2FSaS3E=;
- b=T5u4wkGorRMsF6nNncNqo4u2AxsrIUqlN8mcICipRt8jE73vdIfF+GtJaU/nwQTASH
- 8wS+b8zMD796R57juosBaEBb8H9hMJVyml4x+uTHb+BCypffHOEfwYvE/nrlai0Jegv6
- FxYC7LXInWuPmKKE66pgeEaK0xiROZGQqzjplU9JF00xyUqrLGiz5jSK5YigiieXcTgu
- 2MhdCfLjfpUneRGX+PKVLQAfE0z1/Y0bTUreYkirHtkb4PSp/LyoQgl7ymheDmm5a08a
- Gz9PK60Dko2CPILX0MePkRl7styVd1ZNKQhzvOkSgrmoFOwybxNI7y/d+HBSQ1EVHt0N
- K+UA==
+ bh=uygKHmkoF/XJeHmET22wDgQZ4IaJVIkBqpHNgU4CsJM=;
+ b=Obbz1qB+tB3LW2qPkKBSaSvBXS0QAxokU4EYzwIOqtm8mh2BUcwkjBK401WkLDG3qN
+ maRWjYJWBrWo0yx7uPmbBEL9/OzQfBwoxFIjDiIZ4OOTuIIkTb0vfXIeIFlufr44gvy8
+ ozDGUwJ+AScwhg3khplp06oZj8CIkNUNOOOSsNf9UpdHapwBkULUpPjYH90BGR4d5ybZ
+ l2D7tGyYQL+lxEibzC81pQq/n5FVYiBCvnO3s8o0YZ74E2FigGT6Ku4BH3nFtHmoRzsv
+ Y1UQAMgsdkUeEyDQRU6R2V+PqPmV9Io8KFSEaRkCEdGoEN79gzAbDpSPiBBGoLfSwi6k
+ 0GSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yd+xe0QbNmktoZjpJg43C/41KpLoxm/0aQKS2FSaS3E=;
- b=c51V3eHvRZ3p3amSR0SZMVNT2ri9KS1vGQbk34f+9t//g6WYb5b8xelZztQnpXFAeg
- mocHPVvQAXWKWVmkRY5df+BZQVG4nFn3KJuiAK/9xNUvDWyiid5RB0AScAQFDkVW07UK
- mi0dAJYKEEBVrfXo9Pu9K/x7StoXseVvPzz5tZ9Z14b9NIrWPiu0Gxl86Zf2GBIlynv+
- sP7MeFCblvtVIzJEYXsEIrRJscoJV5CRVbzovd2xo9NeKaImUfkKM+lEmea5C2l3l6+i
- eggTBuFCjMBeEVlxo9jYAP8VtGrYOPtLs6OHGSaatkh6cKpc54H/+gRkvcKe7g5DJpGc
- omiA==
-X-Gm-Message-State: ANhLgQ3BB4kWbvWUV9SSif9nCUCrEPNXcF1PEqTeGku34WqZGJty/fN+
- yECL4mBMMeHwcoDNm6q1VCtRdQ==
-X-Google-Smtp-Source: ADFU+vtkDL7Acp/VH19W18vm5b/9WqeC+awgKyc75q+9sf3VgvOE3gOX0YH3WoWVFdlaKA6kLiYpzg==
-X-Received: by 2002:aed:2266:: with SMTP id o35mr3965179qtc.392.1583951718149; 
+ bh=uygKHmkoF/XJeHmET22wDgQZ4IaJVIkBqpHNgU4CsJM=;
+ b=R8+N75xdLLSANHV4EfJcczsB4KI3VpAG4waSzuOlPYHHHW6vY4dEH/yPavnoi9QM3z
+ JOAJJHbX8pjeIZS+ZtI8Uu0XxV79AMLcdMId1edWqtgRguG6M00ggr7iQM4FGqq0RgaF
+ en2m0vfuyoDdrlaHtHr/4d+3+BtfzzjT5c9zwbPsdwBiKh9zP8ge9K3bfDV+Q9vHYpiH
+ 7JH2DZJZwvoiCQ+0Gc404oPZPSJR2DCfCPlSCZkOsK6Y+mx20TJsreqgPdDcUgvurd8N
+ /mAiTolcYs0NmncdqJM/FGqNKEDCWafiiYe1HITqVJk1KHueGj39fnQBPc1EgipqUJC3
+ 49MQ==
+X-Gm-Message-State: ANhLgQ2fGn1XKzyBKtClNYCdTcHKsahuQ7hSVBW8uRq+vb/MJPWQK3i6
+ dbaYCBGeMkiEZWFJxzYQwBRuRw==
+X-Google-Smtp-Source: ADFU+vuxi2jwTZNWP7BbaHt9jLf2pO1O8MStIxhR8zwOb6icVa77ppaQhtJcOJ1hj7G1PBtoZXjjag==
+X-Received: by 2002:ac8:b43:: with SMTP id m3mr3894888qti.191.1583951718521;
  Wed, 11 Mar 2020 11:35:18 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id o7sm8052457qtg.63.2020.03.11.11.35.15
+ by smtp.gmail.com with ESMTPSA id g22sm11074847qtp.8.2020.03.11.11.35.15
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
  Wed, 11 Mar 2020 11:35:16 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jC6CJ-00016d-Aq; Wed, 11 Mar 2020 15:35:15 -0300
+ id 1jC6CJ-00016j-CP; Wed, 11 Mar 2020 15:35:15 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
  Felix.Kuehling@amd.com
-Subject: [PATCH hmm 6/8] mm/hmm: reorganize how !pte_present is handled in
- hmm_vma_handle_pte()
-Date: Wed, 11 Mar 2020 15:35:04 -0300
-Message-Id: <20200311183506.3997-7-jgg@ziepe.ca>
+Subject: [PATCH hmm 7/8] mm/hmm: return -EFAULT when setting HMM_PFN_ERROR on
+ requested valid pages
+Date: Wed, 11 Mar 2020 15:35:05 -0300
+Message-Id: <20200311183506.3997-8-jgg@ziepe.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311183506.3997-1-jgg@ziepe.ca>
 References: <20200311183506.3997-1-jgg@ziepe.ca>
@@ -85,97 +85,105 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jason Gunthorpe <jgg@mellanox.com>
 
-The intention with this code is to determine if the caller required the
-pages to be valid, and if so, then take some action to make them valid.
-The action varies depending on the page type.
+hmm_range_fault() should never return 0 if the caller requested a valid
+page, but the pfns output for that page would be HMM_PFN_ERROR.
 
-In all cases, if the caller doesn't ask for the page, then
-hmm_range_fault() should not return an error.
+hmm_pte_need_fault() must always be called before setting HMM_PFN_ERROR to
+detect if the page is in faulting mode or not.
 
-Revise the implementation to be clearer, and fix some bugs:
+Fix two cases in hmm_vma_walk_pmd() and reorganize some of the duplicated
+code.
 
- - hmm_pte_need_fault() must always be called before testing fault or
-   write_fault otherwise the defaults of false apply and the if()'s don't
-   work. This was missed on the is_migration_entry() branch
-
- - -EFAULT should not be returned unless hmm_pte_need_fault() indicates
-   fault is required - ie snapshotting should not fail.
-
- - For !pte_present() the cpu_flags are always 0, except in the special
-   case of is_device_private_entry(), calling pte_to_hmm_pfn_flags() is
-   confusing.
-
-Reorganize the flow so that it always follows the pattern of calling
-hmm_pte_need_fault() and then checking fault || write_fault.
-
-Fixes: 2aee09d8c116 ("mm/hmm: change hmm_vma_fault() to allow write fault on page basis")
+Fixes: d08faca018c4 ("mm/hmm: properly handle migration pmd")
+Fixes: da4c3c735ea4 ("mm/hmm/mirror: helper to snapshot CPU page table")
 Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 ---
- mm/hmm.c | 35 +++++++++++++++--------------------
- 1 file changed, 15 insertions(+), 20 deletions(-)
+ mm/hmm.c | 38 +++++++++++++++++++++-----------------
+ 1 file changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/mm/hmm.c b/mm/hmm.c
-index e10cd0adba7b37..bf676cfef3e8ee 100644
+index bf676cfef3e8ee..f61fddf2ef6505 100644
 --- a/mm/hmm.c
 +++ b/mm/hmm.c
-@@ -282,15 +282,6 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 	if (!pte_present(pte)) {
- 		swp_entry_t entry = pte_to_swp_entry(pte);
+@@ -363,8 +363,10 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
+ {
+ 	struct hmm_vma_walk *hmm_vma_walk = walk->private;
+ 	struct hmm_range *range = hmm_vma_walk->range;
+-	uint64_t *pfns = range->pfns;
+-	unsigned long addr = start, i;
++	uint64_t *pfns = &range->pfns[(start - range->start) >> PAGE_SHIFT];
++	unsigned long npages = (end - start) >> PAGE_SHIFT;
++	unsigned long addr = start;
++	bool fault, write_fault;
+ 	pte_t *ptep;
+ 	pmd_t pmd;
  
--		if (!non_swap_entry(entry)) {
--			cpu_flags = pte_to_hmm_pfn_flags(range, pte);
--			hmm_pte_need_fault(hmm_vma_walk, orig_pfn, cpu_flags,
--					   &fault, &write_fault);
--			if (fault || write_fault)
--				goto fault;
--			return 0;
--		}
+@@ -374,14 +376,6 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
+ 		return hmm_vma_walk_hole(start, end, -1, walk);
+ 
+ 	if (thp_migration_supported() && is_pmd_migration_entry(pmd)) {
+-		bool fault, write_fault;
+-		unsigned long npages;
+-		uint64_t *pfns;
 -
+-		i = (addr - range->start) >> PAGE_SHIFT;
+-		npages = (end - addr) >> PAGE_SHIFT;
+-		pfns = &range->pfns[i];
+-
+ 		hmm_range_need_fault(hmm_vma_walk, pfns, npages,
+ 				     0, &fault, &write_fault);
+ 		if (fault || write_fault) {
+@@ -390,8 +384,15 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
+ 			return -EBUSY;
+ 		}
+ 		return hmm_pfns_fill(start, end, range, HMM_PFN_NONE);
+-	} else if (!pmd_present(pmd))
++	}
++
++	if (!pmd_present(pmd)) {
++		hmm_range_need_fault(hmm_vma_walk, pfns, npages, 0, &fault,
++				     &write_fault);
++		if (fault || write_fault)
++			return -EFAULT;
+ 		return hmm_pfns_fill(start, end, range, HMM_PFN_ERROR);
++	}
+ 
+ 	if (pmd_devmap(pmd) || pmd_trans_huge(pmd)) {
  		/*
- 		 * This is a special swap entry, ignore migration, use
- 		 * device and report anything else as error.
-@@ -310,26 +301,30 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 			return 0;
- 		}
+@@ -408,8 +409,7 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
+ 		if (!pmd_devmap(pmd) && !pmd_trans_huge(pmd))
+ 			goto again;
  
--		if (is_migration_entry(entry)) {
--			if (fault || write_fault) {
--				pte_unmap(ptep);
--				hmm_vma_walk->last = addr;
--				migration_entry_wait(walk->mm, pmdp, addr);
--				return -EBUSY;
--			}
-+		hmm_pte_need_fault(hmm_vma_walk, orig_pfn, 0, &fault,
-+				   &write_fault);
-+		if (!fault && !write_fault)
- 			return 0;
-+
-+		if (!non_swap_entry(entry))
-+			goto fault;
-+
-+		if (is_migration_entry(entry)) {
-+			pte_unmap(ptep);
-+			hmm_vma_walk->last = addr;
-+			migration_entry_wait(walk->mm, pmdp, addr);
-+			return -EBUSY;
- 		}
- 
- 		/* Report error for everything else */
- 		pte_unmap(ptep);
- 		*pfn = range->values[HMM_PFN_ERROR];
- 		return -EFAULT;
--	} else {
--		cpu_flags = pte_to_hmm_pfn_flags(range, pte);
--		hmm_pte_need_fault(hmm_vma_walk, orig_pfn, cpu_flags,
--				   &fault, &write_fault);
+-		i = (addr - range->start) >> PAGE_SHIFT;
+-		return hmm_vma_handle_pmd(walk, addr, end, &pfns[i], pmd);
++		return hmm_vma_handle_pmd(walk, addr, end, pfns, pmd);
  	}
  
-+	cpu_flags = pte_to_hmm_pfn_flags(range, pte);
-+	hmm_pte_need_fault(hmm_vma_walk, orig_pfn, cpu_flags, &fault,
-+			   &write_fault);
- 	if (fault || write_fault)
- 		goto fault;
+ 	/*
+@@ -418,15 +418,19 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
+ 	 * entry pointing to pte directory or it is a bad pmd that will not
+ 	 * recover.
+ 	 */
+-	if (pmd_bad(pmd))
++	if (pmd_bad(pmd)) {
++		hmm_range_need_fault(hmm_vma_walk, pfns, npages, 0, &fault,
++				     &write_fault);
++		if (fault || write_fault)
++			return -EFAULT;
+ 		return hmm_pfns_fill(start, end, range, HMM_PFN_ERROR);
++	}
  
+ 	ptep = pte_offset_map(pmdp, addr);
+-	i = (addr - range->start) >> PAGE_SHIFT;
+-	for (; addr < end; addr += PAGE_SIZE, ptep++, i++) {
++	for (; addr < end; addr += PAGE_SIZE, ptep++, pfns++) {
+ 		int r;
+ 
+-		r = hmm_vma_handle_pte(walk, addr, end, pmdp, ptep, &pfns[i]);
++		r = hmm_vma_handle_pte(walk, addr, end, pmdp, ptep, pfns);
+ 		if (r) {
+ 			/* hmm_vma_handle_pte() did pte_unmap() */
+ 			hmm_vma_walk->last = addr;
 -- 
 2.25.1
 
