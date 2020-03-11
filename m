@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33692182A8A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:08:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83B1182AAD
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:09:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40CBB6EA62;
-	Thu, 12 Mar 2020 08:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B4D6EA5B;
+	Thu, 12 Mar 2020 08:08:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5DD06E9A6
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 15:44:44 +0000 (UTC)
-X-Originating-IP: 90.89.41.158
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB236E48C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 15:58:45 +0000 (UTC)
+Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id D07443B0272
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 15:45:16 +0000 (UTC)
 Received: from localhost.localdomain
  (lfbn-tou-1-1473-158.w90-89.abo.wanadoo.fr [90.89.41.158])
  (Authenticated sender: miquel.raynal@bootlin.com)
- by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id DB3F940008;
- Wed, 11 Mar 2020 15:44:39 +0000 (UTC)
+ by relay12.mail.gandi.net (Postfix) with ESMTPSA id 46CA2200006;
+ Wed, 11 Mar 2020 15:44:46 +0000 (UTC)
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Kamal Dasu <kdasu.kdev@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 2/3] arch: mips: brcm: Add 7425 flash-edu support
-Date: Wed, 11 Mar 2020 16:44:39 +0100
-Message-Id: <20200311154439.25493-1-miquel.raynal@bootlin.com>
+Subject: Re: [PATCH V4 1/3] dt: bindings: brcmnand: Add support for flash-edu
+Date: Wed, 11 Mar 2020 16:44:45 +0100
+Message-Id: <20200311154445.25555-1-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200122213313.35820-3-kdasu.kdev@gmail.com>
+In-Reply-To: <20200122213313.35820-2-kdasu.kdev@gmail.com>
 References: 
 MIME-Version: 1.0
 X-linux-mtd-patch-notification: thanks
-X-linux-mtd-patch-commit: 634088e2621310d2473e4ec3b69843e32d5cee20
+X-linux-mtd-patch-commit: cdc6aba6719b9d7d85c6d411a43345ee12223268
 X-Mailman-Approved-At: Thu, 12 Mar 2020 08:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,14 +59,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-01-22 at 21:33:12 UTC, Kamal Dasu wrote:
-> Nand controller v5.0 and v6.0 have nand edu blocks that enable
-> dma nand flash transfers. This allows for faster read and write
-> access.
+On Wed, 2020-01-22 at 21:33:11 UTC, Kamal Dasu wrote:
+> Adding support for EBI DMA unit (EDU).
 > 
 > Signed-off-by: Kamal Dasu <kdasu.kdev@gmail.com>
-> Acked-by: Paul Burton <paulburton@kernel.org>
-> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
 Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next, thanks.
 
