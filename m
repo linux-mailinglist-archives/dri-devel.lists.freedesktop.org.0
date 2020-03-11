@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AED1811A5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 08:19:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B0A1811A8
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 08:19:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CD76E420;
-	Wed, 11 Mar 2020 07:18:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A43126E445;
+	Wed, 11 Mar 2020 07:18:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 963756E0DB
+ by gabe.freedesktop.org (Postfix) with ESMTP id B409C6E41A
  for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 07:18:51 +0000 (UTC)
-X-UUID: c3abf23f4740480b8915779c5e556a18-20200311
+X-UUID: c3ad8a71dd6e4b81af3c19b06804cdc5-20200311
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=Ww3PQXCuCactHIHSbIHhRo1XGdsy8EpBA62I+TU2ezQ=; 
- b=Y9C3ph7fKLXby8ER4uM6frWTvlyqkP2pJv1zQiF4BqqG10RQsQGCOqWND7lLkLi1mP3yZvBYLqjbx33PlhCLpKZgl2L6mxvXd2UkZL8eRgDIg3fT5HRCs51FDqLAKHcjk0pT91PVTU2YPdcQvTEUYI1wJ21DI/SvlKfcMs5lMn4=;
-X-UUID: c3abf23f4740480b8915779c5e556a18-20200311
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ bh=9JBTj+vrzKP+Q6L5ukHhTC+DxupJsI7Gf1gGQQIuWJk=; 
+ b=LECGlAekGrmj9vK4FqEiDn3xXGc3ZpcBqIZoY3RX2B21vgXCJw0vYbqmPRXHP1y3N9ANYaS/GYWD3Rnx44dBZKmy2RQhCGrWOwhJqgeJBZdwD9KWW/+gsplXtjNUYrc5howKWSjk4PZniYwxVSRPJe0d+71xHsSV1kLEuXJ9n+M=;
+X-UUID: c3ad8a71dd6e4b81af3c19b06804cdc5-20200311
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1740409003; Wed, 11 Mar 2020 15:18:45 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 11 Mar 2020 15:16:18 +0800
+ with ESMTP id 1331942434; Wed, 11 Mar 2020 15:18:46 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33DR.mediatek.inc
+ (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Wed, 11 Mar 2020 15:14:30 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Wed, 11 Mar 2020 15:18:10 +0800
+ 15.0.1395.4 via Frontend Transport; Wed, 11 Mar 2020 15:18:11 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v13 4/6] dt-bindings: display: mediatek: convert the document
- format from txt to yaml
-Date: Wed, 11 Mar 2020 15:18:21 +0800
-Message-ID: <20200311071823.117899-5-jitao.shi@mediatek.com>
+Subject: [PATCH v13 5/6] drm/mediatek: dpi sample mode support
+Date: Wed, 11 Mar 2020 15:18:22 +0800
+Message-ID: <20200311071823.117899-6-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200311071823.117899-1-jitao.shi@mediatek.com>
 References: <20200311071823.117899-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: D82C855FFB3DE59EBE5C7ABD3E05E9692732A47F5D628E4BBE17D725C343A6E52000:8
+X-TM-SNTS-SMTP: CEF2DB693517EEF1C396A846C8B59F9FFC734174A6225D38E0F4AC176537DA292000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,174 +65,96 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+DPI can sample on falling, rising or both edge.
+When DPI sample the data both rising and falling edge.
+It can reduce half data io pins.
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 ---
- .../display/mediatek/mediatek,dpi.txt         |  45 --------
- .../display/mediatek/mediatek,dpi.yaml        | 103 ++++++++++++++++++
- 2 files changed, 103 insertions(+), 45 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-deleted file mode 100644
-index 2dfb50a7321e..000000000000
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Mediatek DPI Device
--===================
--
--The Mediatek DPI function block is a sink of the display subsystem and
--provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
--output bus.
--
--Required properties:
--- compatible: "mediatek,<chip>-dpi"
--  the supported chips are mt2701 , mt8173 and mt8183.
--- reg: Physical base address and length of the controller's registers
--- interrupts: The interrupt signal from the function block.
--- clocks: device clocks
--  See Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
--- clock-names: must contain "pixel", "engine", and "pll"
--- port: Output port node with endpoint definitions as described in
--  Documentation/devicetree/bindings/graph.txt. This port should be connected
--  to the input port of an attached HDMI or LVDS encoder chip.
--
--Optional properties:
--- pinctrl-names: Contain "default" and "sleep".
--  pinctrl-names see Documentation/devicetree/bindings/pinctrlpinctrl-bindings.txt
--- pclk-sample: refer Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--Example:
--
--dpi0: dpi@1401d000 {
--	compatible = "mediatek,mt8173-dpi";
--	reg = <0 0x1401d000 0 0x1000>;
--	interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
--	clocks = <&mmsys CLK_MM_DPI_PIXEL>,
--		 <&mmsys CLK_MM_DPI_ENGINE>,
--		 <&apmixedsys CLK_APMIXED_TVDPLL>;
--	clock-names = "pixel", "engine", "pll";
--	pinctrl-names = "default", "sleep";
--	pinctrl-0 = <&dpi_pin_func>;
--	pinctrl-1 = <&dpi_pin_idle>;
--
--	port {
--		dpi0_out: endpoint {
--			pclk-sample = <0>;
--			remote-endpoint = <&hdmi0_in>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-new file mode 100644
-index 000000000000..d65543e3bf8c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-@@ -0,0 +1,103 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index 087f5ce732e1..2871e68e7767 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -75,6 +75,7 @@ struct mtk_dpi {
+ 	enum mtk_dpi_out_bit_num bit_num;
+ 	enum mtk_dpi_out_channel_swap channel_swap;
+ 	int refcount;
++	u32 pclk_sample;
+ };
+ 
+ static inline struct mtk_dpi *mtk_dpi_from_encoder(struct drm_encoder *e)
+@@ -348,6 +349,13 @@ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
+ 		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
+ }
+ 
++static void mtk_dpi_enable_pclk_sample_dual_edge(struct mtk_dpi *dpi)
++{
++	mtk_dpi_mask(dpi, DPI_DDR_SETTING, DDR_EN | DDR_4PHASE,
++		     DDR_EN | DDR_4PHASE);
++	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, EDGE_SEL, EDGE_SEL);
++}
 +
-+title: mediatek DPI Controller Device Tree Bindings
+ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
+ 					enum mtk_dpi_out_color_format format)
+ {
+@@ -439,7 +447,8 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+ 	pll_rate = clk_get_rate(dpi->tvd_clk);
+ 
+ 	vm.pixelclock = pll_rate / factor;
+-	clk_set_rate(dpi->pixel_clk, vm.pixelclock);
++	clk_set_rate(dpi->pixel_clk,
++		     vm.pixelclock * (dpi->pclk_sample > 1 ? 2 : 1));
+ 	vm.pixelclock = clk_get_rate(dpi->pixel_clk);
+ 
+ 	dev_dbg(dpi->dev, "Got  PLL %lu Hz, pixel clock %lu Hz\n",
+@@ -450,7 +459,8 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+ 	limit.y_bottom = 0x0010;
+ 	limit.y_top = 0x0FE0;
+ 
+-	dpi_pol.ck_pol = MTK_DPI_POLARITY_FALLING;
++	dpi_pol.ck_pol = dpi->pclk_sample == 1 ?
++			 MTK_DPI_POLARITY_RISING : MTK_DPI_POLARITY_FALLING;
+ 	dpi_pol.de_pol = MTK_DPI_POLARITY_RISING;
+ 	dpi_pol.hsync_pol = vm.flags & DISPLAY_FLAGS_HSYNC_HIGH ?
+ 			    MTK_DPI_POLARITY_FALLING : MTK_DPI_POLARITY_RISING;
+@@ -504,6 +514,8 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+ 	mtk_dpi_config_color_format(dpi, dpi->color_format);
+ 	mtk_dpi_config_2n_h_fre(dpi);
+ 	mtk_dpi_config_disable_edge(dpi);
++	if (dpi->pclk_sample > 1)
++		mtk_dpi_enable_pclk_sample_dual_edge(dpi);
+ 	mtk_dpi_sw_reset(dpi, false);
+ 
+ 	return 0;
+@@ -693,6 +705,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
+ static int mtk_dpi_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
++	struct device_node *ep;
+ 	struct mtk_dpi *dpi;
+ 	struct resource *mem;
+ 	int comp_id;
+@@ -705,6 +718,16 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+ 	dpi->dev = dev;
+ 	dpi->conf = (struct mtk_dpi_conf *)of_device_get_match_data(dev);
+ 
++	ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
++	if (!ep) {
++		dev_err(dev, "Failed get the endpoint port\n");
++		return -EINVAL;
++	}
 +
-+maintainers:
-+  - CK Hu <ck.hu@mediatek.com>
-+  - Jitao shi <jitao.shi@mediatek.com>
++	/* Get the sampling edge from the endpoint. */
++	of_property_read_u32(ep, "pclk-sample", &dpi->pclk_sample);
++	of_node_put(ep);
 +
-+description: |
-+  The Mediatek DPI function block is a sink of the display subsystem and
-+  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
-+  output bus.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt2701-dpi
-+      - mediatek,mt8173-dpi
-+      - mediatek,mt8183-dpi
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Pixel Clock
-+      - description: Engine Clock
-+      - description: DPI PLL
-+
-+  clock-names:
-+    items:
-+      - const: pixel
-+      - const: engine
-+      - const: pll
-+
-+  pinctrl-0: true
-+  pinctrl-1: true
-+
-+  pinctrl-names:
-+    items:
-+      - const: default
-+      - const: sleep
-+
-+  port@0:
-+    type: object
-+    description:
-+      Output port node with endpoint definitions as described in
-+      Documentation/devicetree/bindings/graph.txt. This port should be connected
-+      to the input port of an attached HDMI or LVDS encoder chip.
-+
-+    properties:
-+      endpoint:
-+        type: object
-+
-+        properties:
-+          pclk-sample:
-+            items:
-+            - description: refer Documentation/devicetree/bindings/media/video-interfaces.txt.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - port@0
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/mt8173-clk.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    dpi0: dpi@1401d000 {
-+        compatible = "mediatek,mt8173-dpi";
-+        reg = <0 0x1401d000 0 0x1000>;
-+        interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
-+        clocks = <&mmsys CLK_MM_DPI_PIXEL>,
-+             <&mmsys CLK_MM_DPI_ENGINE>,
-+             <&apmixedsys CLK_APMIXED_TVDPLL>;
-+        clock-names = "pixel", "engine", "pll";
-+        pinctrl-names = "default", "sleep";
-+        pinctrl-0 = <&dpi_pin_func>;
-+        pinctrl-1 = <&dpi_pin_idle>;
-+
-+        port@0 {
-+            dpi0_out: endpoint {
-+                pclk-sample = <0>;
-+                remote-endpoint = <&hdmi0_in>;
-+            };
-+        };
-+    };
-+
-+...
+ 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	dpi->regs = devm_ioremap_resource(dev, mem);
+ 	if (IS_ERR(dpi->regs)) {
 -- 
 2.21.0
 _______________________________________________
