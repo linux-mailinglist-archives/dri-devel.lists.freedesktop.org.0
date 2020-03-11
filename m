@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708A4182AE2
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:11:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47312182A9D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:09:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF3D6EAA4;
-	Thu, 12 Mar 2020 08:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69B046EA4F;
+	Thu, 12 Mar 2020 08:08:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE03A6E9E1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 18:35:16 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id c145so3070456qke.12
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 11:35:16 -0700 (PDT)
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1996E9E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 18:35:20 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id e16so3097559qkl.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 11:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uADmryRzUppwT0DoGC+vBgxjUH6ONtG4PbQCGFnnObM=;
- b=VUmp9gXg3gFFyzdp3BYqvtlRiDQuHpwTyPbJtafqR5nqzevoh+CJyh9Tmk0l1rtePV
- BQbOyou6HXXPi0MIBkFBd/nDlZ7zW6oaWhgYkg1746g6vTjLUc4zchtLbTk5u6rlJFcH
- OqI/UsNrU0c1qnzSRe+90EsTnAep6Cxv9sDTgutpePZ2ftbb4+r2vBajlqvQ/FtfH2WQ
- tcRgrS0PSKtpdfnaJFY1e10PVH+8BMdvSdmZ03GeCrZjItWXejdM+25Q9PumbjfaRSBO
- Tl6c+VS+Z2ou82HkY5RIOvzff/ouDGE/WNAnF+hBwzsCmqGcMlKT5IZzkHUBtySUT505
- m+6A==
+ bh=8lEcVZbpC6FaqZy+Eys87JwANFXrjLZWV2hXSwo7DsY=;
+ b=W2QcOA29+2hWCo5dDy/jbUb7GhqQlmsnMJZk/cECcBgqjRYGVtdV2RyzDV9agkzEDY
+ kdGVL25lhvr2y1TCNOvtamw6p7HliGBbQOlw5wyKr5k01cZPcqO3bX8bYmGwGbdVbjzZ
+ Qw2Q7wpYrxD4X6zOi2KLFKH5EiBC1WW9a0e7B7cX60TfFbRpaDvpECRZsYahA2FgOPcC
+ l8evX/8XNukV9x7I9e6WmEE8SxUhCDwQ8vktxGPhdfd+O1KaOqLDUEEevOUGpLT1R1G+
+ iwi43ZEr6GqkZtDpl7jhMmGOTb/j9MRuywyNP2Pf72IzWStQ2oSvqU+oCwVTGUwoilMP
+ KaFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uADmryRzUppwT0DoGC+vBgxjUH6ONtG4PbQCGFnnObM=;
- b=bTK8UsaBbe5IP4n9oSBm0LqsC7/g9BadIzuf+V2eLEZFNPJgXTpBXZpq9vHq5m6T/C
- YSLwixmLyklB7tsZDIfGE3UNGDrDFJrSDhmNbbukqJBXUg+kG2UvAF/Vv0KSRt7ZtG4C
- k57t63T9a4EcHV7qkkXxWwtz3JJCI+8i+mHn48utOcP8IY7OFITsrVkUoqx4dd10Zr4Q
- c4nylPZxeBuFmUZIkmWppRowWQiScFIg9IjFQY/t7DkdbzD+Ns6/x6jDMzNDfSDYxfiS
- GcNgDtDzORaw64BOtFbM/3aNEfY926QGsc6RyQmJQOW92z97bocvF3rVbXxsB8C2h0X6
- tDEA==
-X-Gm-Message-State: ANhLgQ2ZhcTYSWPX5m8f0KJwigCnN/wBkCDblpvZmXb7eI/Omd71aJBH
- KxvcFWZAygERXysEt78k8DmVjg==
-X-Google-Smtp-Source: ADFU+vu4pkafRt7ZpiQA2Qo9TSkli2LPgyls9Ykw3IxuaySmx8qfnahDqH8g+HMF46wNbf60JV5d8Q==
-X-Received: by 2002:a05:620a:11b3:: with SMTP id
- c19mr4218673qkk.296.1583951715965; 
- Wed, 11 Mar 2020 11:35:15 -0700 (PDT)
+ bh=8lEcVZbpC6FaqZy+Eys87JwANFXrjLZWV2hXSwo7DsY=;
+ b=uIcSVZwfioRJUiEYngM4mo+WfkQlq/UhprOzl03HpoccQw5atkXzMGfEhMiOAqvFrn
+ DgPA+SJ7AQiEq/NXrnFRycKcXS28FIz0QzP/4LgzoGuBc+dWJ1D+OGOpHnq09G6jD3ju
+ A6DRz+F91ptBRgdOfTSio7ryUvDyDyd0VxWS82+sQA0eqkbCsSIBYZvn5/952UpI/wT4
+ iKriS0oJyaDR5bg1v5VZ8qWu00acGLdwoZVwXnhmNV1oUC5krPFXl402O0yqvaCf4/Mo
+ BBNmycqnvkvNqmI6Kb0Ttvw1jATP5E6J+hbrqYr9cBzr58z6btGgE2LZRAakJh0lZOCe
+ 1ptQ==
+X-Gm-Message-State: ANhLgQ3FqRGiv+0R+X2N8P75g6zy/NEJafFLJOoqmSEUnYcO8AtCkgSm
+ 75sND9RjqPMpy1/i34G8JmJ8yg==
+X-Google-Smtp-Source: ADFU+vv42iIVOVgQYb8TOc186/XWa+snYITfoBWnXSMFRcjaqugUYatuGxkE3I0VXu08rjERKTHgkg==
+X-Received: by 2002:a05:620a:134a:: with SMTP id
+ c10mr4076890qkl.188.1583951719448; 
+ Wed, 11 Mar 2020 11:35:19 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id c40sm5273938qtk.18.2020.03.11.11.35.15
+ by smtp.gmail.com with ESMTPSA id d73sm7995274qkg.113.2020.03.11.11.35.15
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 11 Mar 2020 11:35:15 -0700 (PDT)
+ Wed, 11 Mar 2020 11:35:16 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jC6CJ-000168-0X; Wed, 11 Mar 2020 15:35:15 -0300
+ id 1jC6CJ-00016F-3B; Wed, 11 Mar 2020 15:35:15 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
  Felix.Kuehling@amd.com
-Subject: [PATCH hmm 1/8] mm/hmm: add missing unmaps of the ptep during
- hmm_vma_handle_pte()
-Date: Wed, 11 Mar 2020 15:34:59 -0300
-Message-Id: <20200311183506.3997-2-jgg@ziepe.ca>
+Subject: [PATCH  hmm 2/8] mm/hmm: don't free the cached pgmap while scanning
+Date: Wed, 11 Mar 2020 15:35:00 -0300
+Message-Id: <20200311183506.3997-3-jgg@ziepe.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311183506.3997-1-jgg@ziepe.ca>
 References: <20200311183506.3997-1-jgg@ziepe.ca>
@@ -86,55 +85,96 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jason Gunthorpe <jgg@mellanox.com>
 
-Many of the direct returns of error skipped doing the pte_unmap(). All non
-zero exit paths must unmap the pte.
+The pgmap is held in the hmm_vma_walk variable in hope of speeding up
+future get_dev_pagemap() calls by hitting the same pointer. The algorithm
+doesn't actually care about how long the pgmap is held for.
 
-The pte_unmap() is split unnaturally like this because some of the error
-exit paths trigger a sleep and must release the lock before sleeping.
+Move the put of the cached pgmap to after the walk is completed and delete
+all the other now redundant puts.
+
+This solves a possible leak of the reference in hmm_vma_walk_pmd() if a
+hmm_vma_handle_pte() fails while looping.
 
 Fixes: 992de9a8b751 ("mm/hmm: allow to mirror vma of a file on a DAX backed filesystem")
-Fixes: 53f5c3f489ec ("mm/hmm: factor out pte and pmd handling to simplify hmm_vma_walk_pmd()")
 Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 ---
- mm/hmm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ mm/hmm.c | 31 +++++++++----------------------
+ 1 file changed, 9 insertions(+), 22 deletions(-)
+
+We talked about just deleting this stuff, but I think it makes alot sense for
+hmm_range_fault() to trigger fault on devmap pages that are not compatible
+with the caller - so lets just fix the leak on error path for now.
 
 diff --git a/mm/hmm.c b/mm/hmm.c
-index 72e5a6d9a41756..35f85424176d14 100644
+index 35f85424176d14..9e8f68eb83287a 100644
 --- a/mm/hmm.c
 +++ b/mm/hmm.c
-@@ -325,6 +325,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+@@ -239,10 +239,6 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
  		}
+ 		pfns[i] = hmm_device_entry_from_pfn(range, pfn) | cpu_flags;
+ 	}
+-	if (hmm_vma_walk->pgmap) {
+-		put_dev_pagemap(hmm_vma_walk->pgmap);
+-		hmm_vma_walk->pgmap = NULL;
+-	}
+ 	hmm_vma_walk->last = end;
+ 	return 0;
+ }
+@@ -360,10 +356,6 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 	return 0;
  
- 		/* Report error for everything else */
-+		pte_unmap(ptep);
- 		*pfn = range->values[HMM_PFN_ERROR];
- 		return -EFAULT;
- 	} else {
-@@ -339,10 +340,13 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 	if (pte_devmap(pte)) {
- 		hmm_vma_walk->pgmap = get_dev_pagemap(pte_pfn(pte),
- 					      hmm_vma_walk->pgmap);
--		if (unlikely(!hmm_vma_walk->pgmap))
-+		if (unlikely(!hmm_vma_walk->pgmap)) {
-+			pte_unmap(ptep);
- 			return -EBUSY;
-+		}
- 	} else if (IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL) && pte_special(pte)) {
- 		if (!is_zero_pfn(pte_pfn(pte))) {
-+			pte_unmap(ptep);
- 			*pfn = range->values[HMM_PFN_SPECIAL];
- 			return -EFAULT;
- 		}
-@@ -437,7 +441,7 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
- 
- 		r = hmm_vma_handle_pte(walk, addr, end, pmdp, ptep, &pfns[i]);
- 		if (r) {
--			/* hmm_vma_handle_pte() did unmap pte directory */
-+			/* hmm_vma_handle_pte() did pte_unmap() */
- 			hmm_vma_walk->last = addr;
+ fault:
+-	if (hmm_vma_walk->pgmap) {
+-		put_dev_pagemap(hmm_vma_walk->pgmap);
+-		hmm_vma_walk->pgmap = NULL;
+-	}
+ 	pte_unmap(ptep);
+ 	/* Fault any virtual address we were asked to fault */
+ 	return hmm_vma_walk_hole_(addr, end, fault, write_fault, walk);
+@@ -446,16 +438,6 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
  			return r;
  		}
+ 	}
+-	if (hmm_vma_walk->pgmap) {
+-		/*
+-		 * We do put_dev_pagemap() here and not in hmm_vma_handle_pte()
+-		 * so that we can leverage get_dev_pagemap() optimization which
+-		 * will not re-take a reference on a pgmap if we already have
+-		 * one.
+-		 */
+-		put_dev_pagemap(hmm_vma_walk->pgmap);
+-		hmm_vma_walk->pgmap = NULL;
+-	}
+ 	pte_unmap(ptep - 1);
+ 
+ 	hmm_vma_walk->last = addr;
+@@ -529,10 +511,6 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
+ 			pfns[i] = hmm_device_entry_from_pfn(range, pfn) |
+ 				  cpu_flags;
+ 		}
+-		if (hmm_vma_walk->pgmap) {
+-			put_dev_pagemap(hmm_vma_walk->pgmap);
+-			hmm_vma_walk->pgmap = NULL;
+-		}
+ 		hmm_vma_walk->last = end;
+ 		goto out_unlock;
+ 	}
+@@ -694,6 +672,15 @@ long hmm_range_fault(struct hmm_range *range, unsigned int flags)
+ 			return -EBUSY;
+ 		ret = walk_page_range(mm, hmm_vma_walk.last, range->end,
+ 				      &hmm_walk_ops, &hmm_vma_walk);
++		/*
++		 * A pgmap is kept cached in the hmm_vma_walk to avoid expensive
++		 * searching in the probably common case that the pgmap is the
++		 * same for the entire requested range.
++		 */
++		if (hmm_vma_walk.pgmap) {
++			put_dev_pagemap(hmm_vma_walk.pgmap);
++			hmm_vma_walk.pgmap = NULL;
++		}
+ 	} while (ret == -EBUSY);
+ 
+ 	if (ret)
 -- 
 2.25.1
 
