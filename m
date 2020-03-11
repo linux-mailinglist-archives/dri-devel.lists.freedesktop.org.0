@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E50F182AD6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C0F182AB7
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:09:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6567A6EA9D;
-	Thu, 12 Mar 2020 08:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 118856EA79;
+	Thu, 12 Mar 2020 08:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dodo.xh.is (dodo.xh.is
  [IPv6:2001:19f0:8001:184d:5400:2ff:fe7b:e8bd])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02ED56E9BE
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 16:29:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00A7E6E497
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 16:33:44 +0000 (UTC)
 X-Spam: yes
 X-Spam-Score: 6.6 / 99999
-X-Spam-Symbols: TAGGED_RCPT, BROKEN_CONTENT_TYPE, SUSPICIOUS_RECIPS,
- MID_CONTAINS_FROM, FROM_EQ_ENVFROM, ASN, ARC_NA, TO_DN_SOME,
- R_MISSING_CHARSET, MIME_TRACE, RCVD_VIA_SMTP_AUTH, FROM_HAS_DN,
- RCVD_NO_TLS_LAST, FREEMAIL_TO, RCVD_COUNT_TWO,
- FREEMAIL_ENVRCPT, TO_MATCH_ENVRCPT_SOME, RCPT_COUNT_TWELVE
-Received: by dodo.xh.is (OpenSMTPD) with ESMTPSA id 6de100bf
+X-Spam-Symbols: MID_CONTAINS_FROM, FREEMAIL_TO, RCVD_NO_TLS_LAST,
+ FROM_EQ_ENVFROM, SUSPICIOUS_RECIPS, RCVD_VIA_SMTP_AUTH,
+ TO_DN_SOME, BROKEN_CONTENT_TYPE, R_MISSING_CHARSET,
+ RCPT_COUNT_TWELVE, ASN, RCVD_COUNT_TWO, FROM_HAS_DN,
+ FREEMAIL_ENVRCPT, TO_MATCH_ENVRCPT_SOME, ARC_NA, TAGGED_RCPT,
+ MIME_TRACE
+Received: by dodo.xh.is (OpenSMTPD) with ESMTPSA id a0f7dd32
  (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
- Wed, 11 Mar 2020 09:29:56 -0700 (PDT)
+ Wed, 11 Mar 2020 09:33:44 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1]) (Authenticated sender:
  icenowy@aosc.io)
- by hermes.aosc.io (Postfix) with ESMTPSA id BC2B74C30D;
- Wed, 11 Mar 2020 16:29:47 +0000 (UTC)
+ by hermes.aosc.io (Postfix) with ESMTPSA id 951924BFAC;
+ Wed, 11 Mar 2020 16:33:37 +0000 (UTC)
 From: Icenowy Zheng <icenowy@aosc.io>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megous@megous.com>
 Subject: [PATCH 0/5] Add support for PinePhone LCD panel
-Date: Thu, 12 Mar 2020 00:29:31 +0800
-Message-Id: <20200311162936.221613-1-icenowy@aosc.io>
+Date: Thu, 12 Mar 2020 00:33:24 +0800
+Message-Id: <20200311163329.221840-1-icenowy@aosc.io>
 MIME-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aosc.io; s=dkim;
- t=1583944194;
+ t=1583944422;
  h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding;
  bh=9aZ3S84mHw4qXcjY/Kp+GSG14l46FAM2R96fwhUnoLw=;
- b=CB0z2emeUteq4K+Vm+Fl3YW5AeDzN+fR9fgavG6U/oahKEFAAdnW8kuNmiSZ7oWpDQm9IV
- WxcSkkn8AlLXmy5KwmN3BH1rHXhyzPyBnIS0/fRTlxGEaAQhAwQe2WnYfS/EHTF0xhIF1d
- grHLKR2JssBVmHAnD79ImiHiNXFJZcQ=
+ b=M89YJFIsfv3TZ/gwLoaB/0Mmpaux2szLuy6/wGBcE0KvwJsUyq4OivuUzj7OVflX7zqjPC
+ O+ZAmvqBL37TldMPGv7hCZUL3De0hTKB/wYZZ/t0xalJHpEXiJoJIdZpUzeu5pH2sT2sI5
+ HR8LUFEPwhbZGQ//OtguR8BmVhgN6DI=
 X-Mailman-Approved-At: Thu, 12 Mar 2020 08:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
