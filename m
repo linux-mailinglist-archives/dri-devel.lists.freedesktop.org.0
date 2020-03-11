@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC9618239F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 22:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F7A1823B3
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Mar 2020 22:11:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082406E4E6;
-	Wed, 11 Mar 2020 21:00:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 234446E4FF;
+	Wed, 11 Mar 2020 21:11:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59EA56E4E6
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 21:00:04 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id p125so3292606oif.10
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 14:00:04 -0700 (PDT)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA626E4FF
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 21:11:15 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id z5so2040329pfn.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 14:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=NSfkleXDa5UPJsZWkmUSl1QpNzKwRs0wnvQ0H8hAcuc=;
+ b=UgFFS3MautlLOAeYiAPLohAO7UDp9cITkh8tKbVU+R8+PzZ84LCRDmE4r6j88TS8VF
+ TtV7+eFJOw1U6dwNTENpSlCfGxrz1XIuw061O6GtubW6D+lbVb/ki1tQmUyJ5Zi9Iubu
+ l2GjAnAp2tk5nFCUnGm49gG98L4bLmg0KOAnY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7phUkchvkdDhI0qJQteXXrbvWqBV29LumyqHqAKAGfw=;
- b=DKEHmpIWlL29cMVFWe6xjU8gFVRSfh+JmPnUg+aC/f/dRk65+C5pIvZuwTvHTk1yKK
- nprcxp5VKsDIbibGRV6WtJxjwnbc1oFs8j2GXfFHUitinNps9fcCtjcrqoyhAOw44PgM
- noKuGoe11mnG2wH45cSQOELIqhKy3ni+5zB+GuaIL53GrtLMJ/2Ug/QfRABr1Dp/ZFLz
- LPwzTXO4pHHEdp+IZuPow4+V/VM6s5ekLCA830a0E0ccU113yphfKjkGzvXGp7EhQ6Tu
- FXURexQM/sMVBLvfWZHJ3EoXBOy/VwiCCf/iDfXUGPsAS5fh5No85MEJNWziRrEIdSG8
- JgYA==
-X-Gm-Message-State: ANhLgQ2365L74nLvUMvMbVmqL2vSTMcAr3EWlwBXc2gVDyMn8LzC0bQi
- 2xQZPJDD5wrPHFZiMRJQPktlLlE=
-X-Google-Smtp-Source: ADFU+vt16JBJitN1b4tjKD/58wMS3bY1wUUrgmNH3EbK4CL9Ke6XCgMF9CDaBHhmiDnMFZbI7bhplQ==
-X-Received: by 2002:a05:6808:248:: with SMTP id m8mr403527oie.91.1583960403280; 
- Wed, 11 Mar 2020 14:00:03 -0700 (PDT)
-Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.googlemail.com with ESMTPSA id z22sm634145oog.45.2020.03.11.14.00.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 14:00:02 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dt-bindings: display: Fix dtc unit-address warnings in
- examples
-Date: Wed, 11 Mar 2020 16:00:01 -0500
-Message-Id: <20200311210001.5102-1-robh@kernel.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=NSfkleXDa5UPJsZWkmUSl1QpNzKwRs0wnvQ0H8hAcuc=;
+ b=EIJVcuNv+US5z+2+Qcl+gTZ3d0gBBFnkarFMYSzlU+DGq3GCIk6sXMn+3kzPskipuA
+ U6XLr7+lhL3BgnqNJ/zm4xJ9U2EWfq1qP3VFSnHLOHV4lLpH1oLCE0yqxNzZ7S55m1P/
+ esdk9BpQBq8Y8N5sFcaOpaRH8/+GXudr+Ox15WrVUNpAQhEoxI/u091AQub2lFdMuygV
+ 3PAOhUr6TjDxzG6wjfBUVqHN1Y2AsZdrWuOwvQ1yD+ZjXbs74tU0KgEWNbRfYNdENy8m
+ L9GmhzlQhOvb/g87h1j02peX5mMMa0PdjEnpNyMh6bmCr5o+dLzjpPo6FwIJhUMWrv+Z
+ Stdg==
+X-Gm-Message-State: ANhLgQ1yy1tdYaYJdANBSBd15Bm7JMGKLJP24q7IIaYN6r3qFZQPv/4F
+ 7ZV2iDTY4iD19IQVpXE7Ut90LLe7aj4=
+X-Google-Smtp-Source: ADFU+vvdn/plQdKp95zl7wL0YroSpLRU6DvjOwBhsyyoJR3bH/TAf4i7y2lkFOcgEOXSJin55tABKg==
+X-Received: by 2002:a63:9d04:: with SMTP id i4mr4553990pgd.294.1583961075013; 
+ Wed, 11 Mar 2020 14:11:15 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
+ by smtp.gmail.com with ESMTPSA id u12sm51075103pfm.165.2020.03.11.14.11.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Mar 2020 14:11:14 -0700 (PDT)
+Date: Wed, 11 Mar 2020 14:11:13 -0700
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Harigovindan P <harigovi@codeaurora.org>
+Subject: Re: [PATCH v6 2/2] drm/panel: add support for rm69299 visionox panel
+ driver
+Message-ID: <20200311211113.GC144492@google.com>
+References: <20200311085807.21984-1-harigovi@codeaurora.org>
+ <20200311085807.21984-3-harigovi@codeaurora.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200311085807.21984-3-harigovi@codeaurora.org>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,126 +66,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: sean@poorly.run, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extra dtc warnings (roughly what W=1 enables) are now enabled by default
-when building the binding examples. These were fixed treewide in
-5.6-rc5, but some new display bindings have been added with new
-warnings:
+Hi,
 
-Documentation/devicetree/bindings/display/panel/raydium,rm68200.example.dts:17.7-27.11: Warning (unit_address_vs_reg): /example-0/dsi@0: node has a unit name, but no reg property
-Documentation/devicetree/bindings/display/panel/panel-simple-dsi.example.dts:17.19-31.11: Warning (unit_address_vs_reg): /example-0/mdss_dsi@fd922800: node has a unit name, but no reg property
-Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.example.dts:17.7-26.11: Warning (unit_address_vs_reg): /example-0/dsi@0: node has a unit name, but no reg property
-Documentation/devicetree/bindings/display/ti/ti,am65x-dss.example.dts:21.27-49.11: Warning (unit_address_format): /example-0/dss@04a00000: unit name should not have leading 0s
-Documentation/devicetree/bindings/display/ti/ti,j721e-dss.example.dts:21.27-72.11: Warning (unit_address_format): /example-0/dss@04a00000: unit name should not have leading 0s
-Documentation/devicetree/bindings/display/ti/ti,k2g-dss.example.dts:20.27-42.11: Warning (unit_address_format): /example-0/dss@02540000: unit name should not have leading 0s
+thanks for re-spinning!
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Jyri Sarha <jsarha@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/display/panel/orisetech,otm8009a.yaml  | 3 +--
- .../devicetree/bindings/display/panel/panel-simple-dsi.yaml    | 2 +-
- .../devicetree/bindings/display/panel/raydium,rm68200.yaml     | 2 +-
- Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 2 +-
- Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml | 2 +-
- Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml   | 2 +-
- 6 files changed, 6 insertions(+), 7 deletions(-)
+One more comment inline.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-index 6e6ac995c27b..2e7c65b093d7 100644
---- a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-@@ -39,7 +39,7 @@ required:
- 
- examples:
-   - |
--    dsi@0 {
-+    dsi {
-       #address-cells = <1>;
-       #size-cells = <0>;
-       panel@0 {
-@@ -50,4 +50,3 @@ examples:
-       };
-     };
- ...
--
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index 8b60368a2425..b2e8742fd6af 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -50,7 +50,7 @@ required:
- 
- examples:
-   - |
--    mdss_dsi@fd922800 {
-+    dsi {
-       #address-cells = <1>;
-       #size-cells = <0>;
-       panel@0 {
-diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
-index 09149f140d5f..a35ba16fc000 100644
---- a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
-@@ -42,7 +42,7 @@ required:
- 
- examples:
-   - |
--    dsi@0 {
-+    dsi {
-       #address-cells = <1>;
-       #size-cells = <0>;
-       panel@0 {
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-index cac61a998203..aa5543a64526 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-@@ -121,7 +121,7 @@ examples:
-     #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/soc/ti,sci_pm_domain.h>
- 
--    dss: dss@04a00000 {
-+    dss: dss@4a00000 {
-             compatible = "ti,am65x-dss";
-             reg =   <0x0 0x04a00000 0x0 0x1000>, /* common */
-                     <0x0 0x04a02000 0x0 0x1000>, /* vidl1 */
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-index ade9b2f513f5..6d47cd7206c2 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-@@ -154,7 +154,7 @@ examples:
-     #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/soc/ti,sci_pm_domain.h>
- 
--    dss: dss@04a00000 {
-+    dss: dss@4a00000 {
-             compatible = "ti,j721e-dss";
-             reg =   <0x00 0x04a00000 0x00 0x10000>, /* common_m */
-                     <0x00 0x04a10000 0x00 0x10000>, /* common_s0*/
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-index 385bd060ccf9..7cb37053e95b 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-@@ -81,7 +81,7 @@ examples:
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     #include <dt-bindings/interrupt-controller/irq.h>
- 
--    dss: dss@02540000 {
-+    dss: dss@2540000 {
-             compatible = "ti,k2g-dss";
-             reg =   <0x02540000 0x400>,
-                     <0x02550000 0x1000>,
--- 
-2.20.1
+On Wed, Mar 11, 2020 at 02:28:07PM +0530, Harigovindan P wrote:
 
+> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> new file mode 100644
+> index 000000000000..b226723a7543
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+>
+> ...
+>
+> +static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct visionox_rm69299 *ctx;
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	ctx->supplies[0].supply = "vdda";
+> +	ctx->supplies[1].supply = "vdd3p3";
+> +
+> +	ret = devm_regulator_bulk_get(ctx->panel.dev, ARRAY_SIZE(ctx->supplies),
+> +				      ctx->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ctx->reset_gpio = devm_gpiod_get(ctx->panel.dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->reset_gpio)) {
+> +		DRM_DEV_ERROR(dev, "cannot get reset gpio %ld\n",
+> +			PTR_ERR(ctx->reset_gpio));
+> +		return PTR_ERR(ctx->reset_gpio);
+> +	}
+> +
+> +	drm_panel_init(&ctx->panel, dev, &visionox_rm69299_drm_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	ctx->panel.dev = dev;
+> +	ctx->panel.funcs = &visionox_rm69299_drm_funcs;
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM |
+> +		MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "dsi attach failed ret = %d\n", ret);
+> +		goto err_dsi_attach;
+> +	}
+> +
+> +	ret = regulator_set_load(ctx->supplies[0].consumer, 32000);
+> +	if (ret) {
+> +		mipi_dsi_detach(dsi);
+> +		goto err_dsi_attach;
+> +	}
+
+the common way to do this kind of unwinding in the kernel would be to add
+something like this before 'err_dsi_attach':
+
+err_set_load:
+	mipi_dsi_detach(dsi);
+
+
+and then just do 'goto err_set_load' in the error paths.
+
+> +
+> +	ret = regulator_set_load(ctx->supplies[1].consumer, 13200);
+> +	if (ret) {
+> +		mipi_dsi_detach(dsi);
+> +		goto err_dsi_attach;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_dsi_attach:
+> +	drm_panel_remove(&ctx->panel);
+> +	return ret;
+> +}
+
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
