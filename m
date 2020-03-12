@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F04184214
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BB7184210
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:00:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5586C6EB8A;
-	Fri, 13 Mar 2020 08:00:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 065986E283;
+	Fri, 13 Mar 2020 08:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 394 seconds by postgrey-1.36 at gabe;
- Thu, 12 Mar 2020 11:02:37 UTC
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFDA6EA73;
- Thu, 12 Mar 2020 11:02:37 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 48dQjL3pfwz9sPF;
- Thu, 12 Mar 2020 21:55:50 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
- s=201909; t=1584010558;
- bh=72/MkVf9VVMOXQXQBCEOJd5iIUWgKkmEQGqh1LToq2c=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=kjtDKke2a24ahWnaI2Uj0G4Fe2Y+Jmmv/GYwuEOLFEW9uRKLJ/Eh8hY/uIvPOkWOq
- hSpbFhZ+nkMkq9HnJFD5n60KJODzNOkbfNQ2xKBvxmtGjcLFu/cP0AF6WyLXOSMULb
- 6fFjUvKvb8/nZ+iPRU20W0VkcxW1QK6SeQvdds5ZfmEH3nf/wYggGS/dPu8fp0XU/0
- 5piT2dBaqMVbWuvgxSVjBFiUYMtS2zI6exgAeql41Nme4eoBMZr+hItq7bW8gr3rM3
- jCRuhb1gAjdGh5ftRaRGO6Z5fFXzHCOWGuRXdE2RxOkjZdMiy8L8pyOPyQMC+hwaj9
- VAqGftLnfpYYg==
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Richard Henderson
- <rth@twiddle.net>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta
- <vgupta@synopsys.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras
- <paulus@samba.org>, Yoshinori Sato <ysato@users.sourceforge.jp>, Rich
- Felker <dalias@libc.org>, Dave Airlie <airlied@redhat.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs
- <bskeggs@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Jiri
- Slaby <jirislaby@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>, Luis
- Chamberlain <mcgrof@kernel.org>, Kalle Valo <kvalo@codeaurora.org>, "David
- S. Miller" <davem@davemloft.net>, Dave Jiang <dave.jiang@intel.com>, Jon
- Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Arnd Bergmann
- <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>, Andrew
- Morton <akpm@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, linux-ntb@googlegroups.com,
- virtualization@lists.linux-foundation.org, linux-arch@vger.kernel.org
-Subject: Re: [RESEND PATCH v2 1/9] iomap: Constify ioreadX() iomem argument
- (as in generic implementation)
-In-Reply-To: <20200219175007.13627-2-krzk@kernel.org>
-References: <20200219175007.13627-1-krzk@kernel.org>
- <20200219175007.13627-2-krzk@kernel.org>
-Date: Thu, 12 Mar 2020 21:55:44 +1100
-Message-ID: <87ftedj0zz.fsf@mpe.ellerman.id.au>
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE226E201
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 14:03:59 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id g12so6586500ljj.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 07:03:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qKTaqDytagD0O2wTlbTJF0/J9uHzNIR8oj4ra9daOM8=;
+ b=aYkSLnFFgjnfOwrnv1bkZJXAllGNQlS1h6LL+vuczIMAuxlDl2vzOZOZLFaJOF0RYU
+ ZnfUwBXFh7vUDzXX4pN6iG9h2dRbP7yHFjQxx4Mjr6894lhMr5dOVGhZ9ja/envyBRJL
+ BNC9Dx3ZqJYdAYEfAUoT0ZwrMvEPT1Z5DBDAeoZfXldt3Ghez4olv5UyazN5BIXANt8C
+ svsL/tnDl+SXMh7nyyDc3FID0Ze7xXuv2Ql5USUaHgHtiLvetPqSXJqtqyH8/qL1yQCu
+ WZsP7G5juEDROdknu2q0lZc8MugXUtk8335LKZWhGwRgmkd4oZlorV1YYEqHb/Q2kPLm
+ WKfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qKTaqDytagD0O2wTlbTJF0/J9uHzNIR8oj4ra9daOM8=;
+ b=Vm3gnplSD6i8mobLHWyGF3vfw6yLgeDS2exeZOwnAoCtjQ26Yxa9QqMdwIgPP44ybB
+ g/b3/UAtdMaH/d2GMa0FIwt4K3d+RxZs0fJw1vJISO06ZJMK/h3G9iJXxk9FVHRZwhS3
+ wfY+/pKZegDQn4GVQ6aEOkHG1S3mzh8ud58JgTbEJ3dGWQQzecQ7edpPYrbQpK8GBVGQ
+ 8/F7gmXF+tzTnoqjy4uNWDpQjK6iTTRlI8FoTEhcr+UqLUpZqmGoxHM3Jvwr3YFjpD3j
+ PqdrYwld0Jjvet4VMueVH0+XfiMq3wccxsG7ku3XacapwT4FSndfP0rXF50vOyu7i4/y
+ TrKg==
+X-Gm-Message-State: ANhLgQ0bdr1IWmEJyQwwPIaNfiXTtfEXqTU4iBb5Y5z5IQ7DNgyI5vd+
+ dJfXZnF4DGpIONilgejUnag=
+X-Google-Smtp-Source: ADFU+vvCITbN/jgqfAHTW4GEJzjWjtUzEGnY8Gksa/EjYHKp9ufrbjJ1E03okV+xVPt7OOVh9jI1dA==
+X-Received: by 2002:a2e:9ac5:: with SMTP id p5mr5386486ljj.200.1584021837662; 
+ Thu, 12 Mar 2020 07:03:57 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru.
+ [94.29.39.224])
+ by smtp.googlemail.com with ESMTPSA id c22sm21261599lfi.41.2020.03.12.07.03.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Mar 2020 07:03:57 -0700 (PDT)
+Subject: Re: [PATCH v1 3/3] drm/tegra: dc: Silence RGB output deferred-probe
+ error
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20200308223809.23549-1-digetx@gmail.com>
+ <20200308223809.23549-3-digetx@gmail.com> <20200312093353.GB1199023@ulmo>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d2f72b22-59d1-ed0e-c22c-756091723415@gmail.com>
+Date: Thu, 12 Mar 2020 17:03:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200312093353.GB1199023@ulmo>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 13 Mar 2020 08:00:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,106 +73,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Krzysztof Kozlowski <krzk@kernel.org> writes:
-> diff --git a/arch/powerpc/kernel/iomap.c b/arch/powerpc/kernel/iomap.c
-> index 5ac84efc6ede..9fe4fb3b08aa 100644
-> --- a/arch/powerpc/kernel/iomap.c
-> +++ b/arch/powerpc/kernel/iomap.c
-> @@ -15,23 +15,23 @@
->   * Here comes the ppc64 implementation of the IOMAP 
->   * interfaces.
->   */
-> -unsigned int ioread8(void __iomem *addr)
-> +unsigned int ioread8(const void __iomem *addr)
->  {
->  	return readb(addr);
->  }
-> -unsigned int ioread16(void __iomem *addr)
-> +unsigned int ioread16(const void __iomem *addr)
->  {
->  	return readw(addr);
->  }
-> -unsigned int ioread16be(void __iomem *addr)
-> +unsigned int ioread16be(const void __iomem *addr)
->  {
->  	return readw_be(addr);
->  }
-> -unsigned int ioread32(void __iomem *addr)
-> +unsigned int ioread32(const void __iomem *addr)
->  {
->  	return readl(addr);
->  }
-> -unsigned int ioread32be(void __iomem *addr)
-> +unsigned int ioread32be(const void __iomem *addr)
->  {
->  	return readl_be(addr);
->  }
-> @@ -41,27 +41,27 @@ EXPORT_SYMBOL(ioread16be);
->  EXPORT_SYMBOL(ioread32);
->  EXPORT_SYMBOL(ioread32be);
->  #ifdef __powerpc64__
-> -u64 ioread64(void __iomem *addr)
-> +u64 ioread64(const void __iomem *addr)
->  {
->  	return readq(addr);
->  }
-> -u64 ioread64_lo_hi(void __iomem *addr)
-> +u64 ioread64_lo_hi(const void __iomem *addr)
->  {
->  	return readq(addr);
->  }
-> -u64 ioread64_hi_lo(void __iomem *addr)
-> +u64 ioread64_hi_lo(const void __iomem *addr)
->  {
->  	return readq(addr);
->  }
-> -u64 ioread64be(void __iomem *addr)
-> +u64 ioread64be(const void __iomem *addr)
->  {
->  	return readq_be(addr);
->  }
-> -u64 ioread64be_lo_hi(void __iomem *addr)
-> +u64 ioread64be_lo_hi(const void __iomem *addr)
->  {
->  	return readq_be(addr);
->  }
-> -u64 ioread64be_hi_lo(void __iomem *addr)
-> +u64 ioread64be_hi_lo(const void __iomem *addr)
->  {
->  	return readq_be(addr);
->  }
-> @@ -139,15 +139,15 @@ EXPORT_SYMBOL(iowrite64be_hi_lo);
->   * FIXME! We could make these do EEH handling if we really
->   * wanted. Not clear if we do.
->   */
-> -void ioread8_rep(void __iomem *addr, void *dst, unsigned long count)
-> +void ioread8_rep(const void __iomem *addr, void *dst, unsigned long count)
->  {
->  	readsb(addr, dst, count);
->  }
-> -void ioread16_rep(void __iomem *addr, void *dst, unsigned long count)
-> +void ioread16_rep(const void __iomem *addr, void *dst, unsigned long count)
->  {
->  	readsw(addr, dst, count);
->  }
-> -void ioread32_rep(void __iomem *addr, void *dst, unsigned long count)
-> +void ioread32_rep(const void __iomem *addr, void *dst, unsigned long count)
->  {
->  	readsl(addr, dst, count);
->  }
-
-This looks OK to me.
-
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
-
-cheers
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTIuMDMuMjAyMCAxMjozMywgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBNb24sIE1h
+ciAwOSwgMjAyMCBhdCAwMTozODowOUFNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
+IERyaXZlciBmYWlscyB0byBwcm9iZSB3aXRoIC1FUFJPQkVfREVGRVIgaWYgZGlzcGxheSBvdXRw
+dXQgaXNuJ3QgcmVhZHkKPj4geWV0LiBUaGlzIHByb2R1Y2VzIGEgYml0IG5vaXN5IGVycm9yIG1l
+c3NhZ2UgaW4gS01TRyBkdXJpbmcga2VybmVsJ3MgYm9vdAo+PiB1cCBvbiBUZWdyYTIwIGFuZCBU
+ZWdyYTMwIGJlY2F1c2UgUkdCIG91dHB1dCB0ZW5kcyB0byBiZSBwcm9iZWQgZWFybGllcgo+PiB0
+aGFuIGEgY29ycmVzcG9uZGluZyB2b2x0YWdlIHJlZ3VsYXRvciBkcml2ZXIuCj4+Cj4+IFNpZ25l
+ZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4KPj4gLS0tCj4+ICBk
+cml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYyB8IDYgKysrKystCj4+ICAxIGZpbGUgY2hhbmdlZCwg
+NSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vdGVncmEvZGMuYyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9kYy5jCj4+IGluZGV4
+IDU2ZDkzM2U4MTc5Ny4uZDdmMmM0NjU0YjZiIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vdGVncmEvZGMuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYwo+PiBAQCAt
+MjU3MSw3ICsyNTcxLDExIEBAIHN0YXRpYyBpbnQgdGVncmFfZGNfcHJvYmUoc3RydWN0IHBsYXRm
+b3JtX2RldmljZSAqcGRldikKPj4gIAo+PiAgCWVyciA9IHRlZ3JhX2RjX3JnYl9wcm9iZShkYyk7
+Cj4+ICAJaWYgKGVyciA8IDAgJiYgZXJyICE9IC1FTk9ERVYpIHsKPj4gLQkJZGV2X2VycigmcGRl
+di0+ZGV2LCAiZmFpbGVkIHRvIHByb2JlIFJHQiBvdXRwdXQ6ICVkXG4iLCBlcnIpOwo+PiArCQlp
+ZiAoZXJyID09IC1FUFJPQkVfREVGRVIpCj4+ICsJCQlkZXZfZGJnKCZwZGV2LT5kZXYsICJSR0Ig
+b3V0cHV0IHByb2JlIGRlZmVycmVkXG4iKTsKPj4gKwkJZWxzZQo+PiArCQkJZGV2X2VycigmcGRl
+di0+ZGV2LCAiZmFpbGVkIHRvIHByb2JlIFJHQiBvdXRwdXQ6ICVkXG4iLAo+PiArCQkJCWVycik7
+Cj4+ICAJCXJldHVybiBlcnI7Cj4+ICAJfQo+IAo+IEknZCBwcmVmZXIgaWYgd2UgaGFkIGp1c3Qg
+YSBzaW5nbGUgbWVzc2FnZSBhbmQgb25seSBkaWZmZXJlbnRpYXRlIG9uIHRoZQo+IGtlcm5lbCBt
+ZXNzYWdlIGxldmVsLCBzb21ldGhpbmcgbW9yZSBhbG9uZyB0aGVzZSBsaW5lczoKPiAKPiAJaWYg
+KGVyciA8IDAgJiYgZXJyICE9IC1FTk9ERVYpIHsKPiAJCWNvbnN0IGNoYXIgKmxldmVsID0gS0VS
+Tl9FUlI7Cj4gCj4gCQlpZiAoZXJyID09IC1FUFJPQkVfREVGRVIpCj4gCQkJbGV2ZWwgPSBLRVJO
+X0RFQlVHOwo+IAo+IAkJZGV2X3ByaW50ayhsZXZlbCwgZGMtPmRldiwgImZhaWxlZCB0byBwcm9i
+ZSBSR0Igb3V0cHV0OiAlZFxuIiwKPiAJCQkgICBlcnIpOwo+IAkJcmV0dXJuIGVycjsKPiAJfQo+
+IAo+IERvIHlvdSBtaW5kIGlmIEkgc3F1YXNoIHRoYXQgaW50byB5b3VyIHBhdGNoPwoKSSBkb24n
+dCBtaW5kLCB0aGFua3MgOikKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
