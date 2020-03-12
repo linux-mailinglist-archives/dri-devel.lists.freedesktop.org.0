@@ -2,32 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B00C1828BE
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 07:07:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F881828F8
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 07:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2536E07B;
-	Thu, 12 Mar 2020 06:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C5F36EA33;
+	Thu, 12 Mar 2020 06:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19E526E071;
- Thu, 12 Mar 2020 06:07:48 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2020 23:07:47 -0700
-X-IronPort-AV: E=Sophos;i="5.70,543,1574150400"; d="scan'208";a="236709824"
-Received: from elsaidmo-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.39.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2020 23:07:44 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 12 Mar 2020 08:08:03 +0200
-Message-ID: <87lfo6ksvw.fsf@intel.com>
+Received: from smtprelay.hostedemail.com (smtprelay0157.hostedemail.com
+ [216.40.44.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40A716EA33
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 06:27:51 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay08.hostedemail.com (Postfix) with ESMTP id 72080182CED5B;
+ Thu, 12 Mar 2020 06:27:50 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:960:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:1801:2110:2393:2525:2553:2560:2563:2682:2685:2692:2828:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3622:3653:3865:3866:3867:3873:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4605:5007:6742:8527:9025:10004:10400:10848:10967:11026:11232:11658:11914:12043:12296:12297:12438:12555:12663:12740:12760:12895:12986:13069:13161:13229:13311:13357:13439:14096:14097:14180:14181:14581:14659:14721:21060:21080:21433:21627:21811:21939:30054:30090:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: point06_441a962f90223
+X-Filterd-Recvd-Size: 3157
+Received: from XPS-9350.home (unknown [47.151.143.254])
+ (Authenticated sender: joe@perches.com)
+ by omf14.hostedemail.com (Postfix) with ESMTPA;
+ Thu, 12 Mar 2020 06:27:47 +0000 (UTC)
+Message-ID: <969ea500cfd66fa2fc32e8d1e9c6126710d16813.camel@perches.com>
+Subject: Re: [PATCH -next 013/491] INGENIC JZ47xx SoCs: Use fallthrough;
+From: Joe Perches <joe@perches.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Date: Wed, 11 Mar 2020 23:26:04 -0700
+In-Reply-To: <20200311084052.3ca3c331@xps13>
+References: <cover.1583896344.git.joe@perches.com>
+ <ad408ff8dc4e5fae0884312cb0aa618664e546e5.1583896348.git.joe@perches.com>
+ <20200311084052.3ca3c331@xps13>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,89 +52,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ alsa-devel@alsa-project.org, David Airlie <airlied@linux.ie>,
+ Richard Weinberger <richard@nod.at>, Mark Brown <broonie@kernel.org>,
+ Takashi Iwai <tiwai@suse.com>, linux-mmc@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Paul Cercueil <paul@crapouillou.net>,
+ Harvey Hunt <harveyhuntnexus@gmail.com>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 2020-03-11 at 08:40 +0100, Miquel Raynal wrote:
+> Hi Joe,
+> 
+> Joe Perches <joe@perches.com> wrote on Tue, 10 Mar 2020 21:51:27 -0700:
+> 
+> > Convert the various uses of fallthrough comments to fallthrough;
+> > 
+> > Done via script
+> > Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
+> > 
+> > Signed-off-by: Joe Perches <joe@perches.com>
+> > ---
+> >  drivers/gpu/drm/ingenic/ingenic-drm.c           | 2 +-
+> >  drivers/mmc/host/jz4740_mmc.c                   | 6 ++----
+> >  drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c | 2 +-
+> >  drivers/mtd/nand/raw/ingenic/jz4725b_bch.c      | 4 ++--
+> >  drivers/mtd/nand/raw/ingenic/jz4780_bch.c       | 4 ++--
+> >  sound/soc/codecs/jz4770.c                       | 2 +-
+> >  6 files changed, 9 insertions(+), 11 deletions(-)
+> 
+> I like very much the new way to advertise for fallthrough statements,
+> but I am not willing to take any patch converting a single driver
+> anymore. I had too many from Gustavo when these comments had to be
+> inserted. I would really prefer a MTD-wide or a NAND-wide or at least a
+> raw-NAND-wide single patch (anything inside drivers/mtd/nand/raw/).
 
-Hi Dave & Daniel -
+I understand completely.
 
-Normally I'd like to be slowing down on the fixes by now, but apart from
-the GVT fixes these are all cc: stable GPU fixes. No reason to postpone.
+This set was done to generate patches by
+nominally maintained subsystems.
 
-BR,
-Jani.
+If you want something else:
 
+The easiest thing for you to do would be to
+run the cvt_fallthrough.pl script yourself.
 
-drm-intel-fixes-2020-03-12:
-drm/i915 fixes for v5.6-rc6:
-- hard lockup fix
-- GVT fixes
-- 32-bit alignment issue fix
-- timeline wait fixes
-- cacheline_retire and free
+$ cvt_fallthrough.pl drivers/mtd/nand/raw/
 
-BR,
-Jani.
+That would produce:
 
-The following changes since commit 2c523b344dfa65a3738e7039832044aa133c75fb:
+$ git diff --shortstat drivers/mtd/nand/raw
+ 9 files changed, 18 insertions(+), 24 deletions(-)
 
-  Linux 5.6-rc5 (2020-03-08 17:44:44 -0700)
+or
 
-are available in the Git repository at:
+$ cvt_fallthrough.pl drivers/mtd/
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2020-03-12
+which would produce:
 
-for you to fetch changes up to 14a0d527a479eb2cb6067f9e5e163e1bf35db2a9:
+$ git diff --shortstat drivers/mtd/
+ 22 files changed, 45 insertions(+), 60 deletions(-)
 
-  drm/i915: Defer semaphore priority bumping to a workqueue (2020-03-11 23:12:39 +0200)
+cheers, Joe
 
-----------------------------------------------------------------
-drm/i915 fixes for v5.6-rc6:
-- hard lockup fix
-- GVT fixes
-- 32-bit alignment issue fix
-- timeline wait fixes
-- cacheline_retire and free
-
-----------------------------------------------------------------
-Chris Wilson (5):
-      drm/i915: Actually emit the await_start
-      drm/i915: Return early for await_start on same timeline
-      drm/i915/execlists: Enable timeslice on partial virtual engine dequeue
-      drm/i915/gt: Close race between cacheline_retire and free
-      drm/i915: Defer semaphore priority bumping to a workqueue
-
-Jani Nikula (1):
-      Merge tag 'gvt-fixes-2020-03-10' of https://github.com/intel/gvt-linux into drm-intel-fixes
-
-Matthew Auld (1):
-      drm/i915: be more solid in checking the alignment
-
-Tina Zhang (2):
-      drm/i915/gvt: Fix emulated vbt size issue
-      drm/i915/gvt: Fix dma-buf display blur issue on CFL
-
-Zhenyu Wang (1):
-      drm/i915/gvt: Fix unnecessary schedule timer when no vGPU exits
-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  3 ++-
- drivers/gpu/drm/i915/gt/intel_lrc.c            | 29 ++++++++++++++++----------
- drivers/gpu/drm/i915/gt/intel_timeline.c       |  8 +++++--
- drivers/gpu/drm/i915/gvt/display.c             |  3 ++-
- drivers/gpu/drm/i915/gvt/opregion.c            |  5 ++---
- drivers/gpu/drm/i915/gvt/vgpu.c                | 12 ++++++++---
- drivers/gpu/drm/i915/i915_request.c            | 28 ++++++++++++++++++-------
- drivers/gpu/drm/i915/i915_request.h            |  2 ++
- drivers/gpu/drm/i915/i915_utils.h              |  5 +++++
- 9 files changed, 66 insertions(+), 29 deletions(-)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
