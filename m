@@ -2,70 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13ACF184221
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13C8183670
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 17:44:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75C9989C97;
-	Fri, 13 Mar 2020 08:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5606E247;
+	Thu, 12 Mar 2020 16:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCA6D6EB01
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 16:37:36 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id m2so7255864qka.7
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 09:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=fmA8zKRe76L9QKXynKJ5M/zisBlIkbsLwFQy3LQahYI=;
- b=KnteymGLpkCc/QfvlROTLY5FU+cvnMfHx3Z/DRw8BCFXZt7iuH6QM2L8dGPveQUUn3
- Xlhpfnj22gbb00Ajojd+xRnUeKGKFC/Zglayy3ZU7Fb8m4VFbcrwr40XiWp3ov1/ykVn
- 50j0Xys2kPWj8lJQThzi6h+Abasy7fco7NKHepLokp4T3nUslp5eA0azM8UN5ShssXcR
- /coFE6WQnM7yvxRwRmdgJOv84KxclHIi1t/Vuh6HvLG48YWad9Scekhq9v5t4slQNOVw
- VUBakr2wwlLvqTGCCgx2gzI5gxsHdjkTDbdmt7DrBlCzDNkcudKItHAvui1LdFqzC7SL
- O7vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=fmA8zKRe76L9QKXynKJ5M/zisBlIkbsLwFQy3LQahYI=;
- b=ZnoVGRJep9uznw2Kej6mZQs0aEj4CogV1wMVuPtVrWZ0LE1vWnc03Pkp4rMWsc8jhu
- auGAE4jaPPOuMq2tUCTrXjkXvv5D62xpkoLAp5o+JPE0YGMJt/vks8ZcBE4IP8W/D+0U
- TcRlXxrvFpcj7VBmyzC/P0QUQH9fC0GUldjV310OEWYR+dB2ZfV6cVkyDMzb+5CsYVVp
- lKgKWu6Vmj/Hxq0G2nVheheSfDXTT7YxzRobYr6KtdruISgWtAaG6fQ1gVS58bnCD351
- de3O8SfBS/BYDunw6VEehhi3XT+8cWjMOwBFkfEwkOhS3/ZA+fKIIreernmEge/dUT5k
- /5hg==
-X-Gm-Message-State: ANhLgQ1XFGlStYd4vN9ZKXathm+hMiaS68fYXus0Lrev+N1XI0YVZKxU
- DMq9uW0DjoRw0odkQUrjrEeUyw==
-X-Google-Smtp-Source: ADFU+vsCZGS3KHARg6F0Q8AUmySkB/O1C49CFLK8V1S8E9P7Q1oeOBUV0BmgWYk1CW/U1GncetrzAg==
-X-Received: by 2002:ae9:e509:: with SMTP id w9mr8707944qkf.26.1584031055747;
- Thu, 12 Mar 2020 09:37:35 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id f26sm12590660qkl.119.2020.03.12.09.37.35
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 12 Mar 2020 09:37:35 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jCQpy-0008RM-Kv; Thu, 12 Mar 2020 13:37:34 -0300
-Date: Thu, 12 Mar 2020 13:37:34 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] mm/hmm: Simplify hmm_vma_walk_pud slightly
-Message-ID: <20200312163734.GR31668@ziepe.ca>
-References: <5bd778fa-51e5-3e0c-d9bb-b38539b03c8d@arm.com>
- <20200312102813.56699-1-steven.price@arm.com>
- <20200312142749.GM31668@ziepe.ca>
- <58e296a6-d32b-bb37-28ce-ade0f784454d@arm.com>
- <20200312151113.GO31668@ziepe.ca>
- <689d3c56-3d19-4655-21f5-f9aeab3089df@arm.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E90E56E247;
+ Thu, 12 Mar 2020 16:44:36 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 746EC296B45;
+ Thu, 12 Mar 2020 16:44:35 +0000 (GMT)
+Date: Thu, 12 Mar 2020 17:44:32 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/msm: avoid double-attaching hdmi/edp bridges
+Message-ID: <20200312174432.316e0e1d@collabora.com>
+In-Reply-To: <CAF6AEGt4hnMJE=DSAx1754DTV4TJG5L8YocqMjAE1NpNJZaJMg@mail.gmail.com>
+References: <20200312035154.1621-1-imirkin@alum.mit.edu>
+ <CAF6AEGt4hnMJE=DSAx1754DTV4TJG5L8YocqMjAE1NpNJZaJMg@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <689d3c56-3d19-4655-21f5-f9aeab3089df@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Fri, 13 Mar 2020 08:00:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,66 +42,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>,
- "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Jerome Glisse <jglisse@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 12, 2020 at 04:16:33PM +0000, Steven Price wrote:
-> > Actually, while you are looking at this, do you think we should be
-> > adding at least READ_ONCE in the pagewalk.c walk_* functions? The
-> > multiple references of pmd, pud, etc without locking seems sketchy to
-> > me.
+On Thu, 12 Mar 2020 09:19:58 -0700
+Rob Clark <robdclark@gmail.com> wrote:
+
+> On Wed, Mar 11, 2020 at 8:52 PM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
+> >
+> > Each of hdmi and edp are already attached in msm_*_bridge_init. A second
+> > attachment returns -EBUSY, failing the driver load.
+> >
+> > Tested with HDMI on IFC6410 (APQ8064 / MDP4), but eDP case should be
+> > analogous.
+> >
+> > Fixes: 3ef2f119bd3ed (drm/msm: Use drm_attach_bridge() to attach a bridge to an encoder)
+> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>  
 > 
-> I agree it seems worrying. I'm not entirely sure whether the holding of
-> mmap_sem is sufficient,
+> Thanks
+> 
+> Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-I looked at this question, and at least for PMD, mmap_sem is not
-sufficient. I didn't easilly figure it out for the other ones
 
-I'm guessing if PMD is not safe then none of them are.
+Sorry for the regression. Looks like encoder->bridge was assigned twice
+before my patch, and I didn't check if there were other
+drm_bridge_attach() calls in the driver :-/.
 
-> this isn't something that I changed so I've just
-> been hoping that it's sufficient since it seems to have been working
-> (whether that's by chance because the compiler didn't generate multiple
-> reads I've no idea). For walking the kernel's page tables the lack of
-> READ_ONCE is also not great, but at least for PTDUMP we don't care too much
-> about accuracy and it should be crash proof because there's no RCU grace
-> period. And again the code I was replacing didn't have any special
-> protection.
->
-> I can't see any harm in updating the code to include READ_ONCE and I'm happy
-> to review a patch.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-The reason I ask is because hmm's walkers often have this pattern
-where they get the pointer and then de-ref it (again) then
-immediately have to recheck the 'again' conditions of the walker
-itself because the re-read may have given a different value.
 
-Having the walker deref the pointer and pass the value it into the ops
-for use rather than repeatedly de-refing an unlocked value seems like
-a much safer design to me.
+> 
+> > ---
+> >  drivers/gpu/drm/msm/edp/edp.c   | 4 ----
+> >  drivers/gpu/drm/msm/hdmi/hdmi.c | 4 ----
+> >  2 files changed, 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/edp/edp.c b/drivers/gpu/drm/msm/edp/edp.c
+> > index ad4e963ccd9b..106a67473af5 100644
+> > --- a/drivers/gpu/drm/msm/edp/edp.c
+> > +++ b/drivers/gpu/drm/msm/edp/edp.c
+> > @@ -178,10 +178,6 @@ int msm_edp_modeset_init(struct msm_edp *edp, struct drm_device *dev,
+> >                 goto fail;
+> >         }
+> >
+> > -       ret = drm_bridge_attach(encoder, edp->bridge, NULL);
+> > -       if (ret)
+> > -               goto fail;
+> > -
+> >         priv->bridges[priv->num_bridges++]       = edp->bridge;
+> >         priv->connectors[priv->num_connectors++] = edp->connector;
+> >
+> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> > index 1a9b6289637d..737453b6e596 100644
+> > --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> > @@ -327,10 +327,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+> >                 goto fail;
+> >         }
+> >
+> > -       ret = drm_bridge_attach(encoder, hdmi->bridge, NULL);
+> > -       if (ret)
+> > -               goto fail;
+> > -
+> >         priv->bridges[priv->num_bridges++]       = hdmi->bridge;
+> >         priv->connectors[priv->num_connectors++] = hdmi->connector;
+> >
+> > --
+> > 2.24.1
+> >  
 
-If this also implicitly relies on a RCU grace period then it is also
-missing RCU locking...
-
-I also didn't quite understand why walk_pte_range() skipped locking
-the pte in the no_vma case - I don't get why vma would be related to
-locking here.
-
-I also saw that hmm open coded the pte walk, presumably for
-performance, so I was thinking of adding some kind of pte_range()
-callback to avoid the expensive indirect function call per pte, but
-hmm also can't have the pmd locked...
-
-Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
