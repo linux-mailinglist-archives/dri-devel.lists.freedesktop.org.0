@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6719A182AA7
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:09:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77084182AE0
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A63026EA66;
-	Thu, 12 Mar 2020 08:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39D0E6EA88;
+	Thu, 12 Mar 2020 08:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa49.google.com (mail-vk1-xa49.google.com
- [IPv6:2607:f8b0:4864:20::a49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19D516EA04
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 00:57:39 +0000 (UTC)
-Received: by mail-vk1-xa49.google.com with SMTP id c127so1659464vkh.18
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 17:57:39 -0700 (PDT)
+Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com
+ [IPv6:2607:f8b0:4864:20::449])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03C286EA04
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 00:57:41 +0000 (UTC)
+Received: by mail-pf1-x449.google.com with SMTP id c17so2607561pfi.20
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 17:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc:content-transfer-encoding;
- bh=9+NZL60hxKQVqLsC6LWr9zYj9I18UQ9y4TN5uOQMD5E=;
- b=FYhpNVF+Anhsb+ZCWqSGGuuOKlkVy2qEQjJdcJrxALzcFBRafcG+QuDIFNyefJcE0U
- oybNevbBU1b91/WoRDa2pk0jYi5b9wfl9FRx2dQKzsyTjFbZGV8p9rF4U+e6m6hswIsL
- sfWrZK7AnA97wBrPVf7tnBulMSEjwgwpiE2G5SMtkIM27LNmadVR3sLu3yg1SU9J69PW
- 7tzpcxMROI5Wtiy586p20ZfcGrNN6w9U7b4VQ/vNLIq1LdHFYJWbp+t6skpzs/psb6w2
- zf/Lk74SHVUspL8gyI2J/wHOLQn58f0NKyuJ7P20OnoUa/QbEsHa8P4zFakYj7M+cOOM
- AmSw==
+ :cc; bh=hrX565yTBVUaBRHBANP/oUW6tx77j7n+/fB0WrNdRuo=;
+ b=mmGkCmqF1t4vIGKl1vxRmYa4Iw9gw+m0F2Rl36GDX5iFly8hLcreI4jW1JM0aj9fke
+ mEhYDzVhpOaAmixqSzg4Zm5LcbvnOrul+h7AKhTqr9vwmuCxeJ2hQ6GiB7gc7kWUHvWH
+ B1bfDHrvt/E9HTfMP0pIbWBLiFG9MjkavH0Otsac92H+MB+4jaFXYn7fzfii6HNUyEP9
+ LoaEAooybbbw4wOPB1wo2ldXZ2cMJX2PtI9ACfh7AzN+OehezA9MI68uW7Y5jVc6czVo
+ mle4uCa7o5PzON+Fe+JJ9FApEx33Sw+Z31PPH7UTQaaVSJQoZXojHjMc4kixdB5/w0cq
+ T5/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc:content-transfer-encoding;
- bh=9+NZL60hxKQVqLsC6LWr9zYj9I18UQ9y4TN5uOQMD5E=;
- b=gBMepNsqNFMjZMJHgmpZ2KOvommTrRVeCZ0oMe6IVSE+UgCOilPKWcMElpUR/3MWcA
- 6jQsuyLikEZcfwkJs+juITEtmMUASFivoW+c9nPFkfgedZa9AG7XkZZLluQE2B9Mo95k
- vFTKtZ+k3Nd3WnFjCznfZ65Chb+AYcRmahPzkvm1oniZvkfEjKe8KouC8ggirYyLF8Iu
- 2wdu23UxEOxvdcpMpW2YYSbsqhcafWLO4MNilW72VQnRPjogiUXRETE6673j+lwdkh6C
- QBXjtFbP+nNQl+r7lubS/eJvZhOkJ8fYuEviXaqBeOwA3cne7dz/BVTRucLFiC5S17tC
- gPxA==
-X-Gm-Message-State: ANhLgQ0FWcDSYK+M5Dkw+LFlMgzQkfbrSyP0d0I+46tTHPEIlBDSom4E
- GpNkMSyouw5k3s0KlybFX1rl7UAHMz06
-X-Google-Smtp-Source: ADFU+vtDaZvaf7oRnHi/dLlI6NjupwIimtwcS2AG3lGB96kzAsYgjBQqUml5Skxbv8u1hHcuXEOQt0Nbt+Ks
-X-Received: by 2002:a1f:9948:: with SMTP id b69mr3867845vke.13.1583974658082; 
- Wed, 11 Mar 2020 17:57:38 -0700 (PDT)
-Date: Wed, 11 Mar 2020 17:57:21 -0700
+ :references:subject:from:to:cc;
+ bh=hrX565yTBVUaBRHBANP/oUW6tx77j7n+/fB0WrNdRuo=;
+ b=r54bNAhi4CqBipsPk2l7pjv+m1YF5nnVNQxA60lQPmdejfrjdiuaFpSoNGIb4uJfNe
+ MUHAzGNqEiDEFgUA9jY/ogSekT+UjgFOI/oAnVOWnlufZzSJqb7rh51ej9tiCO1Nrz/X
+ cpS/zLbErAA0EoqQ0YgXIjJgJ+TrTKXRjyUra75kLKtm+DHyNTwfpGxWOD6fNFa0rRgY
+ PJ5aRQWd75xxzHRhuF/K+cINZklcuy28v6WTAGK+dcL+CCYDaxDLV5zpLYxVYS6xpO4Q
+ eZFOHlkdMzuP8nEryHc52PSrS2nNGJawI4uYpz310jPJKOAjAkj9NpZx5qmiZ6V9bsEj
+ FfLg==
+X-Gm-Message-State: ANhLgQ16n9XDu9nUr/X09ztU5eJ5P2s7/k8b+U1B8qit0xs638+MnBQ6
+ 8rOeRC6EGFIE/AbrE6k7e2bs7PBzPu25
+X-Google-Smtp-Source: ADFU+vvwh7TxtyhUhqTq0JD2HSw6HCRI/lZYTYLR36CPZC7RY1ZRfZmp0+bpIdsz6npDN4qgr1AMMVBexP3l
+X-Received: by 2002:a17:90a:2103:: with SMTP id
+ a3mr1404774pje.181.1583974660505; 
+ Wed, 11 Mar 2020 17:57:40 -0700 (PDT)
+Date: Wed, 11 Mar 2020 17:57:22 -0700
 In-Reply-To: <20200312005722.48803-1-rajatja@google.com>
-Message-Id: <20200312005722.48803-5-rajatja@google.com>
+Message-Id: <20200312005722.48803-6-rajatja@google.com>
 Mime-Version: 1.0
 References: <20200312005722.48803-1-rajatja@google.com>
 X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
-Subject: [PATCH v8 4/5] drm/i915: Add helper code for ACPI privacy screen
+Subject: [PATCH v8 5/5] drm/i915: Enable support for integrated privacy screen
 From: Rajat Jain <rajatja@google.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -83,148 +83,151 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rajat Jain <rajatja@google.com>, rajatxjain@gmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIGhlbHBlciBmdW5jdGlvbnMgdGhhdCBjYW4gYWxsb3cgaTkxNSB0byBkZXRlY3QgYW5kIGNv
-bnRyb2wKYW4gaW50ZWdyYXRlZCBwcml2YWN5IHNjcmVlbiB2aWEgQUNQSSBtZXRob2RzLiBUaGVz
-ZSBzaGFsbCBiZSB1c2VkCmluIHRoZSBuZXh0IHBhdGNoLgoKU2lnbmVkLW9mZi1ieTogUmFqYXQg
-SmFpbiA8cmFqYXRqYUBnb29nbGUuY29tPgotLS0Kdjg6IEluaXRpYWwgdmVyc2lvbi4gZm9ybWVk
-IGJ5IHJlZmFjdG9yaW5nIHRoZSBwcmV2aW91cyBwYXRjaCA0LgogICAgcHJpbnQgdGhlIGNvbm5l
-Y3RvciBuYW1lIGluIHRoZSBkZWJ1ZyBtZXNzYWdlcy4KCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9N
-YWtlZmlsZSAgICAgICAgICAgICAgICAgfCAgIDMgKy0KIC4uLi9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX3ByaXZhY3lfc2NyZWVuLmMgICB8IDE4NCArKysrKysrKysrKysrKysrKysKIC4uLi9kcm0v
-aTkxNS9kaXNwbGF5L2ludGVsX3ByaXZhY3lfc2NyZWVuLmggICB8ICAyNyArKysKIDMgZmlsZXMg
-Y2hhbmdlZCwgMjEzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIGNyZWF0ZSBtb2RlIDEw
-MDY0NCBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3ByaXZhY3lfc2NyZWVuLmMK
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3By
-aXZhY3lfc2NyZWVuLmgKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9NYWtlZmls
-ZSBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L01ha2VmaWxlCmluZGV4IDlmODg3YTg2ZTU1NWQuLmRh
-NDIzODkxMDdmOWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L01ha2VmaWxlCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L01ha2VmaWxlCkBAIC0yMDksNyArMjA5LDggQEAgaTkx
-NS15ICs9IFwKIAlkaXNwbGF5L2ludGVsX3ZnYS5vCiBpOTE1LSQoQ09ORklHX0FDUEkpICs9IFwK
-IAlkaXNwbGF5L2ludGVsX2FjcGkubyBcCi0JZGlzcGxheS9pbnRlbF9vcHJlZ2lvbi5vCisJZGlz
-cGxheS9pbnRlbF9vcHJlZ2lvbi5vIFwKKwlkaXNwbGF5L2ludGVsX3ByaXZhY3lfc2NyZWVuLm8K
-IGk5MTUtJChDT05GSUdfRFJNX0ZCREVWX0VNVUxBVElPTikgKz0gXAogCWRpc3BsYXkvaW50ZWxf
-ZmJkZXYubwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X3ByaXZhY3lfc2NyZWVuLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3By
-aXZhY3lfc2NyZWVuLmMKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwMC4u
-NjYwMzkxMDNjODIxYgotLS0gL2Rldi9udWxsCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfcHJpdmFjeV9zY3JlZW4uYwpAQCAtMCwwICsxLDE4NCBAQAorLy8gU1BEWC1M
-aWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAgT1IgTUlUCisvKgorICogSW50ZWwgQUNQSSBwcml2
-YWN5IHNjcmVlbiBjb2RlCisgKgorICogQ29weXJpZ2h0IMKpIDIwMjAgR29vZ2xlIEluYy4KKyAq
-CisgKiBUaGlzIGNvZGUgY2FuIGhlbHAgZGV0ZWN0IGFuZCBjb250cm9sIGFuIGludGVncmF0ZWQg
-RVBTIChlbGVjdHJvbmljCisgKiBwcml2YWN5IHNjcmVlbikgdmlhIEFDUEkgZnVuY3Rpb25zLiBJ
-dCBleHBlY3RzIGFuIEFDUEkgbm9kZSBmb3IgdGhlCisgKiBkcm0gY29ubmVjdG9yIGRldmljZSB3
-aXRoIHRoZSBmb2xsb3dpbmcgZWxlbWVudHM6CisgKgorICogVVVJRCBzaG91bGQgYmUgImM3MDMz
-MTEzLTg3MjAtNGNlYi05MDkwLTlkNTJiM2U1MmQ3MyIKKyAqCisgKiBfQURSID0gQUNQSSBhZGRy
-ZXNzIHBlciBTcGVjIChhbHNvIHNlZSBpbnRlbF9hY3BpX2RldmljZV9pZF91cGRhdGUoKSkKKyAq
-IGh0dHBzOi8vdWVmaS5vcmcvc2l0ZXMvZGVmYXVsdC9maWxlcy9yZXNvdXJjZXMvQUNQSV82XzNf
-ZmluYWxfSmFuMzAucGRmCisgKiBQYWdlcyAxMTE5IC0gMTEyMy4KKyAqCisgKiBfRFNNIG1ldGhv
-ZCB0aGF0IHdpbGwgcGVyZm9ybSB0aGUgZm9sbG93aW5nIGZ1bmN0aW9ucyBhY2NvcmRpbmcgdG8K
-KyAqIExvY2FsMSBhcmd1bWVudCBwYXNzZWQgdG8gaXQ6CisgKiAgLSBMb2NhbDEgPSAwIChFUFMg
-Y2FwYWJpbGl0aWVzKTogUmVwb3J0IEVQUyBwcmVzZW5jZSBhbmQgY2FwYWJpbGl0aWVzLgorICog
-IC0gTG9jYWwxID0gMSAoRVBTIFN0YXRlKSAgOiAgX0RTTSByZXR1cm5zIDEgaWYgRVBTIGlzIGVu
-YWJsZWQsIDAgb3RoZXJ3aXNlLgorICogIC0gTG9jYWwxID0gMiAoRVBTIEVuYWJsZSkgOiAgX0RT
-TSBlbmFibGVzIEVQUworICogIC0gTG9jYWwxID0gMyAoRVBTIERpc2FibGUpOiAgX0RTTSBkaXNh
-YmxlcyBFUFMKKyAqCisgKiBIZXJlIGlzIGEgc2FtcGxlIEFDUEkgbm9kZToKKyAqCisgKiAgU2Nv
-cGUgKFxfU0IuUENJMC5HRlgwKSAvLyBJbnRlbCBncmFwaGljcyBkZXZpY2UgKFBDSSBkZXZpY2Up
-CisgKiAgeworICogICAgICBNZXRob2QgKF9ET0QsIDAsIE5vdFNlcmlhbGl6ZWQpICAvLyBfRE9E
-OiBEaXNwbGF5IE91dHB1dCBEZXZpY2VzCisgKiAgICAgIHsKKyAqICAgICAgICAgIFJldHVybiAo
-UGFja2FnZSAoMHgwMSkKKyAqICAgICAgICAgIHsKKyAqICAgICAgICAgICAgICAweDgwMDEwNDAw
-CisgKiAgICAgICAgICB9KQorICogICAgICB9CisgKgorICogICAgICBEZXZpY2UgKExDRCkKKyAq
-ICAgICAgeworICogICAgICAgICAgTmFtZSAoX0FEUiwgMHg4MDAxMDQwMCkgIC8vIF9BRFI6IEFk
-ZHJlc3MKKyAqICAgICAgICAgIE5hbWUgKF9TVEEsIDB4MEYpICAvLyBfU1RBOiBTdGF0dXMKKyAq
-CisgKiAgICAgICAgICBNZXRob2QgKEVQU1AsIDAsIE5vdFNlcmlhbGl6ZWQpIC8vIEVQUyBQcmVz
-ZW50CisgKiAgICAgICAgICB7CisgKiAgICAgICAgICAgICAgUmV0dXJuICgweDAxKQorICogICAg
-ICAgICAgfQorICoKKyAqICAgICAgICAgIE1ldGhvZCAoRVBTUywgMCwgTm90U2VyaWFsaXplZCkg
-Ly8gRVBTIFN0YXRlCisgKiAgICAgICAgICB7CisgKiAgICAgICAgICAgICAgTG9jYWwwID0gXF9T
-Qi5QQ0kwLkdSWFMgKDB4Q0QpCisgKiAgICAgICAgICAgICAgUmV0dXJuIChMb2NhbDApCisgKiAg
-ICAgICAgICB9CisgKgorICogICAgICAgICAgTWV0aG9kIChFUFNFLCAwLCBOb3RTZXJpYWxpemVk
-KSAvLyBFUFMgRW5hYmxlCisgKiAgICAgICAgICB7CisgKiAgICAgICAgICAgICAgXF9TQi5QQ0kw
-LlNUWFMgKDB4Q0QpCisgKiAgICAgICAgICB9CisgKgorICogICAgICAgICAgTWV0aG9kIChFUFNE
-LCAwLCBOb3RTZXJpYWxpemVkKSAvLyBFUFMgRGlzYWJsZQorICogICAgICAgICAgeworICogICAg
-ICAgICAgICAgIFxfU0IuUENJMC5DVFhTICgweENEKQorICogICAgICAgICAgfQorICoKKyAqICAg
-ICAgICAgIE1ldGhvZCAoX0RTTSwgNCwgU2VyaWFsaXplZCkgIC8vIF9EU006IERldmljZS1TcGVj
-aWZpYyBNZXRob2QKKyAqICAgICAgICAgIHsKKyAqICAgICAgICAgICAgICBUb0J1ZmZlciAoQXJn
-MCwgTG9jYWwwKQorICogICAgICAgICAgICAgIElmICgoTG9jYWwwID09IFRvVVVJRCAoImM3MDMz
-MTEzLTg3MjAtNGNlYi05MDkwLTlkNTJiM2U1MmQ3MyIpKSkKKyAqICAgICAgICAgICAgICB7Cisg
-KiAgICAgICAgICAgICAgICAgIFRvSW50ZWdlciAoQXJnMiwgTG9jYWwxKQorICogICAgICAgICAg
-ICAgICAgICBJZiAoKExvY2FsMSA9PSBaZXJvKSkKKyAqICAgICAgICAgICAgICAgICAgeworICog
-ICAgICAgICAgICAgICAgICAgICAgTG9jYWwyID0gRVBTUCAoKQorICogICAgICAgICAgICAgICAg
-ICAgICAgSWYgKChMb2NhbDIgPT0gT25lKSkKKyAqICAgICAgICAgICAgICAgICAgICAgIHsKKyAq
-ICAgICAgICAgICAgICAgICAgICAgICAgICBSZXR1cm4gKEJ1ZmZlciAoT25lKQorICogICAgICAg
-ICAgICAgICAgICAgICAgICAgIHsKKyAqICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDB4
-MEYKKyAqICAgICAgICAgICAgICAgICAgICAgICAgICB9KQorICogICAgICAgICAgICAgICAgICAg
-ICAgfQorICogICAgICAgICAgICAgICAgICB9CisgKgorICogICAgICAgICAgICAgICAgICBJZiAo
-KExvY2FsMSA9PSBPbmUpKQorICogICAgICAgICAgICAgICAgICB7CisgKiAgICAgICAgICAgICAg
-ICAgICAgICBSZXR1cm4gKEVQU1MgKCkpCisgKiAgICAgICAgICAgICAgICAgIH0KKyAqCisgKiAg
-ICAgICAgICAgICAgICAgIElmICgoTG9jYWwxID09IDB4MDIpKQorICogICAgICAgICAgICAgICAg
-ICB7CisgKiAgICAgICAgICAgICAgICAgICAgICBFUFNFICgpCisgKiAgICAgICAgICAgICAgICAg
-IH0KKyAqCisgKiAgICAgICAgICAgICAgICAgIElmICgoTG9jYWwxID09IDB4MDMpKQorICogICAg
-ICAgICAgICAgICAgICB7CisgKiAgICAgICAgICAgICAgICAgICAgICBFUFNEICgpCisgKiAgICAg
-ICAgICAgICAgICAgIH0KKyAqCisgKiAgICAgICAgICAgICAgICAgIFJldHVybiAoQnVmZmVyIChP
-bmUpCisgKiAgICAgICAgICAgICAgICAgIHsKKyAqICAgICAgICAgICAgICAgICAgICAgICAweDAw
-CisgKiAgICAgICAgICAgICAgICAgIH0pCisgKiAgICAgICAgICAgICAgfQorICoKKyAqICAgICAg
-ICAgICAgICBSZXR1cm4gKEJ1ZmZlciAoT25lKQorICogICAgICAgICAgICAgIHsKKyAqICAgICAg
-ICAgICAgICAgICAgIDB4MDAKKyAqICAgICAgICAgICAgICB9KQorICogICAgICAgICAgfQorICog
-ICAgICB9CisgKiAgfQorICovCisKKyNpbmNsdWRlIDxsaW51eC9hY3BpLmg+CisKKyNpbmNsdWRl
-ICJpbnRlbF9wcml2YWN5X3NjcmVlbi5oIgorCisjZGVmaW5lIENPTk5fTkFNRShjb25uKQkJCQkJ
-CVwKKwkoY29ubi0+YmFzZS5rZGV2ID8gZGV2X25hbWUoY29ubi0+YmFzZS5rZGV2KSA6ICJOT05B
-TUUiKQorCisjZGVmaW5lIENPTk5FQ1RPUl9EU01fUkVWSUQgMQorCisjZGVmaW5lIENPTk5FQ1RP
-Ul9EU01fRk5fUFJJVkFDWV9FTkFCTEUJCTIKKyNkZWZpbmUgQ09OTkVDVE9SX0RTTV9GTl9QUklW
-QUNZX0RJU0FCTEUJMworCitzdGF0aWMgY29uc3QgZ3VpZF90IGRybV9jb25uX2RzbV9ndWlkID0K
-KwlHVUlEX0lOSVQoMHhDNzAzMzExMywgMHg4NzIwLCAweDRDRUIsCisJCSAgMHg5MCwgMHg5MCwg
-MHg5RCwgMHg1MiwgMHhCMywgMHhFNSwgMHgyRCwgMHg3Myk7CisKKy8qIE1ha2VzIF9EU00gY2Fs
-bCB0byBzZXQgcHJpdmFjeSBzY3JlZW4gc3RhdHVzICovCitzdGF0aWMgdm9pZCBhY3BpX3ByaXZh
-Y3lfc2NyZWVuX2NhbGxfZHNtKHN0cnVjdCBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvciwKKwkJ
-CQkJIHU2NCBmdW5jKQoreworCXVuaW9uIGFjcGlfb2JqZWN0ICpvYmo7CisJYWNwaV9oYW5kbGUg
-YWNwaV9oYW5kbGUgPSBjb25uZWN0b3ItPmFjcGlfaGFuZGxlOworCXN0cnVjdCBkcm1fZGV2aWNl
-ICpkcm0gPSBjb25uZWN0b3ItPmJhc2UuZGV2OworCisJaWYgKCFhY3BpX2hhbmRsZSkKKwkJcmV0
-dXJuOworCisJb2JqID0gYWNwaV9ldmFsdWF0ZV9kc20oYWNwaV9oYW5kbGUsICZkcm1fY29ubl9k
-c21fZ3VpZCwKKwkJCQlDT05ORUNUT1JfRFNNX1JFVklELCBmdW5jLCBOVUxMKTsKKwlpZiAoIW9i
-aikgeworCQlkcm1fZXJyKGRybSwgIiVzOiBmYWlsZWQgdG8gZXZhbHVhdGUgX0RTTSBmb3IgZm4g
-JWxseFxuIiwKKwkJCUNPTk5fTkFNRShjb25uZWN0b3IpLCBmdW5jKTsKKwkJcmV0dXJuOworCX0K
-KworCUFDUElfRlJFRShvYmopOworfQorCit2b2lkIGludGVsX3ByaXZhY3lfc2NyZWVuX3NldF92
-YWwoc3RydWN0IGludGVsX2Nvbm5lY3RvciAqY29ubmVjdG9yLAorCQkJCSAgZW51bSBkcm1fcHJp
-dmFjeV9zY3JlZW5fc3RhdHVzIHZhbCkKK3sKKwlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtID0gY29u
-bmVjdG9yLT5iYXNlLmRldjsKKworCWlmICh2YWwgPT0gUFJJVkFDWV9TQ1JFRU5fRElTQUJMRUQp
-IHsKKwkJZHJtX2RiZ19rbXMoZHJtLCAiJXM6IGRpc2FibGluZyBwcml2YWN5LXNjcmVlblxuIiwK
-KwkJCSAgICBDT05OX05BTUUoY29ubmVjdG9yKSk7CisJCWFjcGlfcHJpdmFjeV9zY3JlZW5fY2Fs
-bF9kc20oY29ubmVjdG9yLAorCQkJCQkgICAgIENPTk5FQ1RPUl9EU01fRk5fUFJJVkFDWV9ESVNB
-QkxFKTsKKwl9IGVsc2UgeworCQlkcm1fZGJnX2ttcyhkcm0sICIlczogZW5hYmxpbmcgcHJpdmFj
-eS1zY3JlZW5cbiIsCisJCQkgICAgQ09OTl9OQU1FKGNvbm5lY3RvcikpOworCQlhY3BpX3ByaXZh
-Y3lfc2NyZWVuX2NhbGxfZHNtKGNvbm5lY3RvciwKKwkJCQkJICAgICBDT05ORUNUT1JfRFNNX0ZO
-X1BSSVZBQ1lfRU5BQkxFKTsKKwl9Cit9CisKK2Jvb2wgaW50ZWxfcHJpdmFjeV9zY3JlZW5fcHJl
-c2VudChzdHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IpCit7CisJYWNwaV9oYW5kbGUg
-aGFuZGxlID0gY29ubmVjdG9yLT5hY3BpX2hhbmRsZTsKKwlzdHJ1Y3QgZHJtX2RldmljZSAqZHJt
-ID0gY29ubmVjdG9yLT5iYXNlLmRldjsKKworCWlmIChoYW5kbGUgJiYKKwkgICAgYWNwaV9jaGVj
-a19kc20oaGFuZGxlLCAmZHJtX2Nvbm5fZHNtX2d1aWQsCisJCQkgICBDT05ORUNUT1JfRFNNX1JF
-VklELAorCQkJICAgMSA8PCBDT05ORUNUT1JfRFNNX0ZOX1BSSVZBQ1lfRU5BQkxFIHwKKwkJCSAg
-IDEgPDwgQ09OTkVDVE9SX0RTTV9GTl9QUklWQUNZX0RJU0FCTEUpKSB7CisJCWRybV9pbmZvKGRy
-bSwgIiVzOiBzdXBwb3J0cyBBQ1BJIHByaXZhY3ktc2NyZWVuXG4iLAorCQkJIENPTk5fTkFNRShj
-b25uZWN0b3IpKTsKKwkJcmV0dXJuIHRydWU7CisJfQorCisJZHJtX2RiZ19rbXMoZHJtLCAiJXM6
-IGRvZXNuJ3Qgc3VwcG9ydCBBQ1BJIHByaXZhY3ktc2NyZWVuXG4iLAorCQkgICAgQ09OTl9OQU1F
-KGNvbm5lY3RvcikpOworCXJldHVybiBmYWxzZTsKK30KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcHJpdmFjeV9zY3JlZW4uaCBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfcHJpdmFjeV9zY3JlZW4uaApuZXcgZmlsZSBtb2RlIDEwMDY0
-NAppbmRleCAwMDAwMDAwMDAwMDAwLi44NjU1NzQ1ZmY5MDg1Ci0tLSAvZGV2L251bGwKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wcml2YWN5X3NjcmVlbi5oCkBAIC0w
-LDAgKzEsMjcgQEAKKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wIE9SIE1JVCAq
-LworLyoKKyAqIENvcHlyaWdodCDCqSAyMDIwIEdvb2dsZSBJbmMuCisgKi8KKworI2lmbmRlZiBf
-X0RSTV9QUklWQUNZX1NDUkVFTl9IX18KKyNkZWZpbmUgX19EUk1fUFJJVkFDWV9TQ1JFRU5fSF9f
-CisKKyNpbmNsdWRlICJpbnRlbF9kaXNwbGF5X3R5cGVzLmgiCisKKyNpZmRlZiBDT05GSUdfQUNQ
-SQorYm9vbCBpbnRlbF9wcml2YWN5X3NjcmVlbl9wcmVzZW50KHN0cnVjdCBpbnRlbF9jb25uZWN0
-b3IgKmNvbm5lY3Rvcik7Cit2b2lkIGludGVsX3ByaXZhY3lfc2NyZWVuX3NldF92YWwoc3RydWN0
-IGludGVsX2Nvbm5lY3RvciAqY29ubmVjdG9yLAorCQkJCSAgZW51bSBkcm1fcHJpdmFjeV9zY3Jl
-ZW5fc3RhdHVzIHZhbCk7CisjZWxzZQorc3RhdGljIGJvb2wgaW50ZWxfcHJpdmFjeV9zY3JlZW5f
-cHJlc2VudChzdHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IpCit7CisJcmV0dXJuIGZh
-bHNlOworfQorCitzdGF0aWMgdm9pZAoraW50ZWxfcHJpdmFjeV9zY3JlZW5fc2V0X3ZhbChzdHJ1
-Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCisJCQkgICAgIGVudW0gZHJtX3ByaXZhY3lf
-c2NyZWVuX3N0YXR1cyB2YWwpCit7IH0KKyNlbmRpZiAvKiBDT05GSUdfQUNQSSAqLworCisjZW5k
-aWYgLyogX19EUk1fUFJJVkFDWV9TQ1JFRU5fSF9fICovCi0tIAoyLjI1LjEuNDgxLmdmYmNlMGVi
-ODAxLWdvb2cKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Add support for an ACPI based integrated privacy screen that is
+available on some systems.
+
+Signed-off-by: Rajat Jain <rajatja@google.com>
+---
+v8: - separate the APCI privacy screen into a separate patch.
+    - Don't destroy the property if there is no privacy screen (because
+      drm core doesn't like destroying property in late_register()).
+    - The setting change needs to be committed in ->update_pipe() for 
+      ddi.c as well as dp.c and both of them call intel_dp_add_properties()
+v7: Look for ACPI node in ->late_register() hook.
+    Do the scan only once per drm_device (instead of 1 per drm_connector)
+v6: Addressed minor comments from Jani at
+    https://lkml.org/lkml/2020/1/24/1143
+     - local variable renamed.
+     - used drm_dbg_kms()
+     - used acpi_device_handle()
+     - Used opaque type acpi_handle instead of void*
+v5: same as v4
+v4: Same as v3
+v3: fold the code into existing acpi_device_id_update() function
+v2: formed by splitting the original patch into ACPI lookup, and privacy
+    screen property. Also move it into i915 now that I found existing code
+    in i915 that can be re-used.
+
+ drivers/gpu/drm/i915/display/intel_atomic.c |  2 ++
+ drivers/gpu/drm/i915/display/intel_ddi.c    |  1 +
+ drivers/gpu/drm/i915/display/intel_dp.c     | 34 ++++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_dp.h     |  5 +++
+ 4 files changed, 41 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
+index d043057d2fa03..9898d8980e7ce 100644
+--- a/drivers/gpu/drm/i915/display/intel_atomic.c
++++ b/drivers/gpu/drm/i915/display/intel_atomic.c
+@@ -150,6 +150,8 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
+ 	    new_conn_state->base.picture_aspect_ratio != old_conn_state->base.picture_aspect_ratio ||
+ 	    new_conn_state->base.content_type != old_conn_state->base.content_type ||
+ 	    new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
++	    new_conn_state->base.privacy_screen_status !=
++		old_conn_state->base.privacy_screen_status ||
+ 	    !blob_equal(new_conn_state->base.hdr_output_metadata,
+ 			old_conn_state->base.hdr_output_metadata))
+ 		crtc_state->mode_changed = true;
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 73d0f4648c06a..69a5423216dc5 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3708,6 +3708,7 @@ static void intel_ddi_update_pipe(struct intel_encoder *encoder,
+ 	if (!intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI))
+ 		intel_ddi_update_pipe_dp(encoder, crtc_state, conn_state);
+ 
++	intel_dp_update_privacy_screen(encoder, crtc_state, conn_state);
+ 	intel_hdcp_update_pipe(encoder, crtc_state, conn_state);
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 3ddc424b028c1..5f33ebb466135 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -62,6 +62,7 @@
+ #include "intel_lspcon.h"
+ #include "intel_lvds.h"
+ #include "intel_panel.h"
++#include "intel_privacy_screen.h"
+ #include "intel_psr.h"
+ #include "intel_sideband.h"
+ #include "intel_tc.h"
+@@ -5886,6 +5887,10 @@ intel_dp_connector_register(struct drm_connector *connector)
+ 		dev_priv->acpi_scan_done = true;
+ 	}
+ 
++	/* Check for integrated Privacy screen support */
++	if (intel_privacy_screen_present(to_intel_connector(connector)))
++		drm_connector_attach_privacy_screen_property(connector);
++
+ 	DRM_DEBUG_KMS("registering %s bus for %s\n",
+ 		      intel_dp->aux.name, connector->kdev->kobj.name);
+ 
+@@ -6883,6 +6888,33 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
+ 		connector->state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+ 
+ 	}
++
++	/*
++	 * Created here, but depending on result of probing for privacy-screen
++	 * in intel_dp_connector_register(), gets attached in that function.
++	 * Need to create here because the drm core doesn't like creating
++	 * properties during ->late_register().
++	 */
++	drm_connector_create_privacy_screen_property(connector);
++}
++
++void
++intel_dp_update_privacy_screen(struct intel_encoder *encoder,
++			       const struct intel_crtc_state *crtc_state,
++			       const struct drm_connector_state *conn_state)
++{
++	struct drm_connector *connector = conn_state->connector;
++
++	intel_privacy_screen_set_val(to_intel_connector(connector),
++				     conn_state->privacy_screen_status);
++}
++
++static void intel_dp_update_pipe(struct intel_encoder *encoder,
++				 const struct intel_crtc_state *crtc_state,
++				 const struct drm_connector_state *conn_state)
++{
++	intel_dp_update_privacy_screen(encoder, crtc_state, conn_state);
++	intel_panel_update_backlight(encoder, crtc_state, conn_state);
+ }
+ 
+ static void intel_dp_init_panel_power_timestamps(struct intel_dp *intel_dp)
+@@ -7826,7 +7858,7 @@ bool intel_dp_init(struct drm_i915_private *dev_priv,
+ 	intel_encoder->compute_config = intel_dp_compute_config;
+ 	intel_encoder->get_hw_state = intel_dp_get_hw_state;
+ 	intel_encoder->get_config = intel_dp_get_config;
+-	intel_encoder->update_pipe = intel_panel_update_backlight;
++	intel_encoder->update_pipe = intel_dp_update_pipe;
+ 	intel_encoder->suspend = intel_dp_encoder_suspend;
+ 	if (IS_CHERRYVIEW(dev_priv)) {
+ 		intel_encoder->pre_pll_enable = chv_dp_pre_pll_enable;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index 0c7be8ed1423a..e4594e27ce5a8 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -123,4 +123,9 @@ static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
+ 
+ u32 intel_dp_mode_to_fec_clock(u32 mode_clock);
+ 
++void
++intel_dp_update_privacy_screen(struct intel_encoder *encoder,
++			       const struct intel_crtc_state *crtc_state,
++			       const struct drm_connector_state *conn_state);
++
+ #endif /* __INTEL_DP_H__ */
+-- 
+2.25.1.481.gfbce0eb801-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
