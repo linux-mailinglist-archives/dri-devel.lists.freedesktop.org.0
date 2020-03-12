@@ -1,66 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42223183D0B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 00:08:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DAE9183D1E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 00:14:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C637E6EB4F;
-	Thu, 12 Mar 2020 23:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9DF36EB54;
+	Thu, 12 Mar 2020 23:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E37C6EB4F
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 23:08:29 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id f10so8436198ljn.6
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 16:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OoF+OBxMdbYWaTz4CXOlHNkN8CmTDgt6DMscVbsH5gw=;
- b=fdyqBpEjR6PuuJ5gwMxsLKKfZxJGuoJK9FDFmX3ALQjMpWkMDUwZHdROftx4OhVV0O
- hmh7SY/iDMvmbYgNymkeJKGjKAcDo43jrehrzLm2WAqJBnZCGNuE5RlvLSW+XeAjtfD/
- /2vSkZJrLoAHRitchAt3nIdxeyex0LDn/e3qU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OoF+OBxMdbYWaTz4CXOlHNkN8CmTDgt6DMscVbsH5gw=;
- b=TWS8QfRKPBW0RjTK1wFEz3LB2HDHUVFmTXVRSgUG0QTshS8skyx/wdUKXtcxaJ+a41
- alrLtf20tyI7ZAjo1R5jxquMlGKCxmFD8SIJWaJaYPHdoVtjZRmgUfM0XurtbBgrzbYn
- rYFabE7SmHJFwiIJR1sAbRbg7b68LBHY6E7hdZODOQhwu3VTlYlrd4Ci7eyYPOeNkHOX
- KZhjuMngJTru84zRW4GeYFR69GhO/AlD+Fc6hI3NBEyYQUk3DP8oxa+pvt5pyUQB1Z/Y
- /Mf+MIRQdSSFAJh26K7aJRNu1lEWAppdxfd76okyx67SRU1Vzsl0n8Uwi8X5wqtgBytC
- /fOQ==
-X-Gm-Message-State: ANhLgQ1wBayAhoC2A6UDXUHAVMAl/0XYst7dCmJMqF12KGiVEA0aBCyr
- klqtiZ3l9H0pXStsQ/NidfUaU7+pjiU=
-X-Google-Smtp-Source: ADFU+vu3yJp6PCx0+H5LoCOHgr5nrdBllb/E/v8zP2Uc2RWngTrDdWG1aMHJ33o70q3LL7EwmE0wEg==
-X-Received: by 2002:a2e:8043:: with SMTP id p3mr6322034ljg.270.1584054507526; 
- Thu, 12 Mar 2020 16:08:27 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
- [209.85.167.45])
- by smtp.gmail.com with ESMTPSA id a17sm20127819ljk.42.2020.03.12.16.08.26
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Mar 2020 16:08:26 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id b186so6205958lfg.11
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 16:08:26 -0700 (PDT)
-X-Received: by 2002:a19:760c:: with SMTP id c12mr6647407lff.48.1584054506413; 
- Thu, 12 Mar 2020 16:08:26 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D1FE6EB54
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 23:13:57 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id EC2D3206F7;
+ Thu, 12 Mar 2020 23:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1584054837;
+ bh=KdJ376DrupqSBe4hSilpFPULBV8+maazUojKqMfa2Hs=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=OPQZ9/crlt1D8ScrMECNiBOu3Ewxf1OnMJkB6zbrAZUkT4KA0/XSQZ7E+XiLRoIfV
+ CtME35UK548pS59QOb5MmyuPCYA7AxrPTGjW6qQ6ZPj2wTNFRaQY4DFbg0bNE2EKMr
+ AGmSq5wEHbayZYhgGVSng7s7xs0zFYDuiL3S8eZI=
 MIME-Version: 1.0
-References: <20200310010818.569-1-gurchetansingh@chromium.org>
- <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
- <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
- <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
- <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
- <20200312092940.xioyjloil3f25ccv@sirius.home.kraxel.org>
-In-Reply-To: <20200312092940.xioyjloil3f25ccv@sirius.home.kraxel.org>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Thu, 12 Mar 2020 16:08:13 -0700
-X-Gmail-Original-Message-ID: <CAAfnVBkTWy2pohv5kWWYwAa1yq14fRJrtN4GD7sF-h4inabH6Q@mail.gmail.com>
-Message-ID: <CAAfnVBkTWy2pohv5kWWYwAa1yq14fRJrtN4GD7sF-h4inabH6Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
-To: Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <ab03d578775df76c12e1dcff5d5cc5c1eb4d6fa7.1582533919.git-series.maxime@cerno.tech>
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <ab03d578775df76c12e1dcff5d5cc5c1eb4d6fa7.1582533919.git-series.maxime@cerno.tech>
+Subject: Re: [PATCH 05/89] clk: Return error code when of provider pointer is
+ NULL
+From: Stephen Boyd <sboyd@kernel.org>
+To: Eric Anholt <eric@anholt.net>, Maxime Ripard <maxime@cerno.tech>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Date: Thu, 12 Mar 2020 16:13:56 -0700
+Message-ID: <158405483605.149997.16173757299414738003@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,187 +48,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chad Versace <chadversary@chromium.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- David Stevens <stevensd@chromium.org>, John Bates <jbates@chromium.org>
-Content-Type: multipart/mixed; boundary="===============0018948956=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0018948956==
-Content-Type: multipart/alternative; boundary="000000000000292a9e05a0b06e44"
+Quoting Maxime Ripard (2020-02-24 01:06:07)
+> The clock framework DT provider helpers don't check the pointers in the
+> array registered by the clock provider before returning it.
+> 
+> This means that if the array is sparse, we will end up returning a NULL
+> pointer while the caller expects an error pointer, resulting in a crash.
+> 
+> Let's test the pointer returned and properly return an error if the pointer
+> is NULL.
+> 
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/clk/clk.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index f0f2b599fd7e..8532b5ed1060 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -4318,13 +4318,18 @@ struct clk *of_clk_src_onecell_get(struct of_phandle_args *clkspec, void *data)
+>  {
+>         struct clk_onecell_data *clk_data = data;
+>         unsigned int idx = clkspec->args[0];
+> +       struct clk *clk;
+>  
+>         if (idx >= clk_data->clk_num) {
+>                 pr_err("%s: invalid clock index %u\n", __func__, idx);
+>                 return ERR_PTR(-EINVAL);
+>         }
+>  
+> -       return clk_data->clks[idx];
+> +       clk = clk_data->clks[idx];
+> +       if (!clk)
 
---000000000000292a9e05a0b06e44
-Content-Type: text/plain; charset="UTF-8"
+NULL is a valid clk. That should keep working and not be overriden with
+an error pointer. If you want to return an error pointer either fill it
+in with an error pointer or write your own version of this.
 
-On Thu, Mar 12, 2020 at 2:29 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> +               return ERR_PTR(-ENODEV);
+> +
+> +       return clk;
+>  }
+>  EXPORT_SYMBOL_GPL(of_clk_src_onecell_get);
+>  
+> @@ -4333,13 +4338,18 @@ of_clk_hw_onecell_get(struct of_phandle_args *clkspec, void *data)
+>  {
+>         struct clk_hw_onecell_data *hw_data = data;
+>         unsigned int idx = clkspec->args[0];
+> +       struct clk_hw *hw;
+>  
+>         if (idx >= hw_data->num) {
+>                 pr_err("%s: invalid index %u\n", __func__, idx);
+>                 return ERR_PTR(-EINVAL);
+>         }
+>  
+> -       return hw_data->hws[idx];
+> +       hw = hw_data->hws[idx];
+> +       if (!hw)
 
-> On Wed, Mar 11, 2020 at 04:36:16PM -0700, Gurchetan Singh wrote:
-> > On Wed, Mar 11, 2020 at 3:36 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > >   Hi,
-> > >
-> > > > I should've been more clear -- this is an internal
-> cleanup/preparation
-> > > and
-> > > > the per-context changes are invisible to host userspace.
-> > >
-> > > Ok, it wasn't clear that you don't flip the switch yet.  In general the
-> > > commit messages could be a bit more verbose ...
-> > >
-> > > I'm wondering though why we need the new fence_id in the first place.
-> > > Isn't it enough to have per-context (instead of global) last_seq?
-> > >
-> >
-> > Heh, that was to leave open the possibility of multiple timelines per
-> > context.  Roughly speaking,
-> >
-> > V2 -- multiple processes
-> > V3 -- multiple processes and multiple threads (due to VK multi-threaded
-> > command buffers)
-> >
-> > I think we all agree on V2.  It seems we still have to discuss V3
-> > (multi-queue, thread pools, a fence context associated with each thread)
-> a
-> > bit more before we start landing pieces.
->
-> While thinking about the whole thing a bit more ...
-> Do we need virtio_gpu_ctrl_hdr->fence_id at all?
->
+And this one is the same. We let NULL be returned so that it can be
+returned as a NULL pointer to the caller if desired. That indicates a
+clk that does nothing when used.
 
-A fence ID could be useful for sharing fences across virtio devices.  Think
-FENCE_ASSIGN_UUID, akin to  RESOURCE_ASSIGN_UUID (+dstevens@).
-
-
-> At virtio level it is pretty simple:  The host completes the SUBMIT_3D
-> virtio command when it finished rendering, period.
-
-
-> On the guest side we don't need the fence_id.  The completion callback
-> gets passed the virtio_gpu_vbuffer, so it can figure which command did
-> actually complete without looking at virtio_gpu_ctrl_hdr->fence_id.
->
-> On the host side we depend on the fence_id right now, but only because
-> that is the way the virgl_renderer_callbacks->write_fence interface is
-> designed.  We have to change that anyway for per-context (or whatever)
-> fences, so it should not be a problem to drop the fence_id dependency
-> too and just pass around an opaque pointer instead.
->
-
-For multiple GPU timelines per context, the (process local) sync object
-handle looks interesting:
-
-https://patchwork.kernel.org/patch/9758565/
-
-Some have extended EXECBUFFER to support this flow:
-
-https://patchwork.freedesktop.org/patch/msgid/1499289202-25441-1-git-send-email-jason.ekstrand@intel.com
-
-
-> cheers,
->   Gerd
->
->
-
---000000000000292a9e05a0b06e44
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 12, 2020 at 2:29 AM Gerd =
-Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank">kraxel@=
-redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Wed, Mar 11, 2020 at 04:36:16PM -0700, Gurchetan Singh wrote:=
-<br>
-&gt; On Wed, Mar 11, 2020 at 3:36 AM Gerd Hoffmann &lt;<a href=3D"mailto:kr=
-axel@redhat.com" target=3D"_blank">kraxel@redhat.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt;=C2=A0 =C2=A0Hi,<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; I should&#39;ve been more clear -- this is an internal clean=
-up/preparation<br>
-&gt; &gt; and<br>
-&gt; &gt; &gt; the per-context changes are invisible to host userspace.<br>
-&gt; &gt;<br>
-&gt; &gt; Ok, it wasn&#39;t clear that you don&#39;t flip the switch yet.=
-=C2=A0 In general the<br>
-&gt; &gt; commit messages could be a bit more verbose ...<br>
-&gt; &gt;<br>
-&gt; &gt; I&#39;m wondering though why we need the new fence_id in the firs=
-t place.<br>
-&gt; &gt; Isn&#39;t it enough to have per-context (instead of global) last_=
-seq?<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; Heh, that was to leave open the possibility of multiple timelines per<=
-br>
-&gt; context.=C2=A0 Roughly speaking,<br>
-&gt; <br>
-&gt; V2 -- multiple processes<br>
-&gt; V3 -- multiple processes and multiple threads (due to VK multi-threade=
-d<br>
-&gt; command buffers)<br>
-&gt; <br>
-&gt; I think we all agree on V2.=C2=A0 It seems we still have to discuss V3=
-<br>
-&gt; (multi-queue, thread pools, a fence context associated with each threa=
-d) a<br>
-&gt; bit more before we start landing pieces.<br>
-<br>
-While thinking about the whole thing a bit more ...<br>
-Do we need virtio_gpu_ctrl_hdr-&gt;fence_id at all?<br></blockquote><div><b=
-r></div><div>A fence ID could be useful for sharing fences across virtio de=
-vices.=C2=A0 Think FENCE_ASSIGN_UUID, akin to=C2=A0 RESOURCE_ASSIGN_UUID (+=
-dstevens@).</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-At virtio level it is pretty simple:=C2=A0 The host completes the SUBMIT_3D=
-<br>
-virtio command when it finished rendering, period.=C2=A0</blockquote><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">
-<br>
-On the guest side we don&#39;t need the fence_id.=C2=A0 The completion call=
-back<br>
-gets passed the virtio_gpu_vbuffer, so it can figure which command did<br>
-actually complete without looking at virtio_gpu_ctrl_hdr-&gt;fence_id.<br>
-<br>
-On the host side we depend on the fence_id right now, but only because<br>
-that is the way the virgl_renderer_callbacks-&gt;write_fence interface is<b=
-r>
-designed.=C2=A0 We have to change that anyway for per-context (or whatever)=
-<br>
-fences, so it should not be a problem to drop the fence_id dependency<br>
-too and just pass around an opaque pointer instead.<br></blockquote><div><b=
-r></div><div>For multiple GPU timelines per context, the (process local) sy=
-nc object handle looks interesting:</div><div><br></div><div><a href=3D"htt=
-ps://patchwork.kernel.org/patch/9758565/" target=3D"_blank">https://patchwo=
-rk.kernel.org/patch/9758565/</a><br></div><div><br></div><div>Some have ext=
-ended EXECBUFFER to support this flow:</div><div><br></div><div><a href=3D"=
-https://patchwork.freedesktop.org/patch/msgid/1499289202-25441-1-git-send-e=
-mail-jason.ekstrand@intel.com" target=3D"_blank">https://patchwork.freedesk=
-top.org/patch/msgid/1499289202-25441-1-git-send-email-jason.ekstrand@intel.=
-com</a></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
-<br>
-cheers,<br>
-=C2=A0 Gerd<br>
-<br>
-</blockquote></div></div>
-
---000000000000292a9e05a0b06e44--
-
---===============0018948956==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> +               return ERR_PTR(-ENODEV);
+> +
+> +       return hw;
+>  }
+>  EXPORT_SYMBOL_GPL(of_clk_hw_onecell_get);
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0018948956==--
