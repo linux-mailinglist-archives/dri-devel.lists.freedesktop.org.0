@@ -2,57 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F058A182C20
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 10:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC0C182C33
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 10:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7686E6E0E8;
-	Thu, 12 Mar 2020 09:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 990066E101;
+	Thu, 12 Mar 2020 09:17:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 607F589EEB;
- Thu, 12 Mar 2020 09:13:32 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2020 02:13:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,544,1574150400"; d="scan'208";a="242962128"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by orsmga003.jf.intel.com with ESMTP; 12 Mar 2020 02:13:30 -0700
-Received: from fmsmsx161.amr.corp.intel.com (10.18.125.9) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 12 Mar 2020 02:13:30 -0700
-Received: from bgsmsx109.gar.corp.intel.com (10.223.4.211) by
- FMSMSX161.amr.corp.intel.com (10.18.125.9) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 12 Mar 2020 02:13:29 -0700
-Received: from BGSMSX107.gar.corp.intel.com ([169.254.9.15]) by
- BGSMSX109.gar.corp.intel.com ([169.254.10.57]) with mapi id 14.03.0439.000;
- Thu, 12 Mar 2020 14:43:25 +0530
-From: "Laxminarayan Bharadiya, Pankaj"
- <pankaj.laxminarayan.bharadiya@intel.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: RE: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor based
- integer scaling support
-Thread-Topic: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor based
- integer scaling support
-Thread-Index: AQHV66uZeA9shQKOjUiF9Sh/Uqx6m6hBuziAgAMGXKA=
-Date: Thu, 12 Mar 2020 09:13:24 +0000
-Message-ID: <E92BA18FDE0A5B43B7B3DA7FCA031286057B2C55@BGSMSX107.gar.corp.intel.com>
-References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200225070545.4482-6-pankaj.laxminarayan.bharadiya@intel.com>
- <20200310161723.GK13686@intel.com>
-In-Reply-To: <20200310161723.GK13686@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA9416E101
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 09:17:43 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200312091741euoutp019998b2e699fa6e38150c604d9a986003~7g9j3Ro302031320313euoutp01I
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 09:17:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200312091741euoutp019998b2e699fa6e38150c604d9a986003~7g9j3Ro302031320313euoutp01I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1584004661;
+ bh=EgS01AJXAw4endn2MFPkJtrJ+FnKs9oauKWXYk0E9U8=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=TCk4G8fVttCATPlya7mZuH1Dfed1Dm6UoYfskeAXkQPANOVTLRs+CxQ/wKcSbaD3L
+ 1fGziPs+9lP4tabTuo353s1RTNzoYE/zmaPv2602/ziojTXx7F/Ovz4YSPQB3zTxnU
+ VNM1x0yWaLOHLWpahCxIA1lc7+gdWIyQx8oRZjHM=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200312091741eucas1p15a6dae6117ac10c11c0b3738443f7a37~7g9jo2vB_1355513555eucas1p1q;
+ Thu, 12 Mar 2020 09:17:41 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id E6.FE.60698.53EF96E5; Thu, 12
+ Mar 2020 09:17:41 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200312091741eucas1p118c87eb8c223a5ab31e9db488f84779c~7g9jVhzAP1341313413eucas1p1v;
+ Thu, 12 Mar 2020 09:17:41 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200312091741eusmtrp141683eb301109c34e832289bf0ad5233~7g9jUvkSI3209432094eusmtrp1U;
+ Thu, 12 Mar 2020 09:17:41 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-04-5e69fe35a71b
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id ED.28.08375.53EF96E5; Thu, 12
+ Mar 2020 09:17:41 +0000 (GMT)
+Received: from [106.120.51.74] (unknown [106.120.51.74]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200312091740eusmtip1e3dbb8be0b0654dc26f698eb262acdb3~7g9ioN8F20994209942eusmtip1d;
+ Thu, 12 Mar 2020 09:17:40 +0000 (GMT)
+Subject: Re: [PATCH v2] drm/bridge: analogix_dp: Split bind() into probe()
+ and real bind()
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <78cf2af3-3fbe-c381-b96d-fb14d959f6e8@samsung.com>
+Date: Thu, 12 Mar 2020 10:17:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200310103427.26048-1-m.szyprowski@samsung.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHeXfOtrPR5Hg0fNRMGwTd1MSMQxcr6sMhIcQPEZWXlYcp6ZRN
+ nRresGxpmTlKd1QqcbXEsryVQsuGecEroaCiGWjRMjO8haLW5pnkt9/z/p/n/zx/eAmM+iz0
+ IGJVSaxapYiTi6R4U/tyn2/QemzEweYKOX2vfwTRr0trhfTg4qyIrijOoIf+WDHatGAQ010/
+ h3D69v0qMT335S9Gl/abBfSLtnExbSm8RJfqraKTMmZ2+KaYaebGxUyZziBkOos+CZiJgg4B
+ U1+Vxaxx73GmsKEaMa139TgzX7czVHpReiyajYtNYdX+wVHSmKWWeUFiHZm6pnuAZaNJWT6S
+ EEAegtapGVE+khIUaUJgLuFwvlhAYBjrcyjzCCZXirDNEYN51CE8Q/CyZlXIFzMIPuimbQpB
+ uJCXYdiA2d9dyTIEo+3fNnwxcl0A32vmkN1KRO6FtfoRkZ1lZDCYKnLFdsbJ3fDbko/beTt5
+ AR6+WUd8jzN0GaY23iW2fuu7no1+jPSG3MYyjGc3GJ16JLAvAzKHgLxZ+92ErTgDPeVhfAQX
+ +NHRIOZ5B3Tr7+A8Z8GE6QbGz+oQNL5qdmQ+CmN9KxvJMNvRtS3+vOUp+DWdyaMTDM848xc4
+ QXFTiWOpDHR5FO+xCyZ6Gx1+bmAcWBQVITm3JRe3JQu3JQv3f+1jhFcjNzZZE69kNYEqVuun
+ UcRrklVKv6sJ8XXI9uu61zsW3yLz6hULIgkk3yYrmo+JoISKFE1avAUBgcldZZHeyghKFq1I
+ S2fVCZHq5DhWY0GeBC53kwVWWsMpUqlIYq+xbCKr3lQFhMQjG+UEK2Pblr8+9xnkhg7vGS/G
+ nUpvaRs6loyU5HyYiftYub9ca+w+kuxnrQ0QaLVYRroqQ18WqsurAtNpycCKU/H0gbnI66Er
+ ZizavaWntWHCd66z3yuz4Fx3b7WxPlXZHhX+VBlwfFWJvEJ8gkI8Kaq+wD1ssVmPnTWeeLIm
+ xzUxioB9mFqj+AcjJbeacQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCIsWRmVeSWpSXmKPExsVy+t/xu7qm/zLjDObv4bboP3+T0WLjjPWs
+ Fle+vmezmDup1uLq95fMFiu+zGS3OPnmKotF58Ql7BafHvxntphxfh+Txdojd9ktDvVFW8yY
+ /JLNgdfj/Y1Wdo+ds+6ye8zumMnqcWLCJSaP+93HmTw2L6n3+DtrP4tH35ZVjB4HeiezeHze
+ JBfAFaVnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CX
+ 8W3XZ6aCTQIVfzumMjcwPubtYuTkkBAwkZi57xZbFyMXh5DAUkaJSwufsUMkxCV2z3/LDGEL
+ S/y51gVV9JpR4sPS04wgCWGBGIk1e16AJUQEZjNKrDuwih3EYRZoYJY41fOfGaJlIqPEzfOn
+ weayCWhK/N18kw3E5hWwk1gxtxksziKgKvHhUBcLiC0qECHxeGI7I0SNoMTJmU/A4pxA9S/3
+ ngGrZxZQl/gz7xIzhC0v0bx1NpQtLnHryXymCYxCs5C0z0LSMgtJyywkLQsYWVYxiqSWFuem
+ 5xYb6hUn5haX5qXrJefnbmIExvi2Yz8372C8tDH4EKMAB6MSD++EzxlxQqyJZcWVuYcYJTiY
+ lUR44+XT44R4UxIrq1KL8uOLSnNSiw8xmgI9N5FZSjQ5H5h+8kriDU0NzS0sDc2NzY3NLJTE
+ eTsEDsYICaQnlqRmp6YWpBbB9DFxcEo1MEZMK+au0FvdtXmBZdjSznfS0xSk3L5W/o/aH/N5
+ UddNy8XvbN4WPUpZc6dpteb7yxPYddXvxwc+Tf+lLZbr32tp0h7UNPnz6rafk6cpmcTxpzIp
+ Xd3Ovse554XkqfY5B1l2GNsvnfbDaIWuffyUx2/XnHk1ybTu3KKVe/MnFxR8/f126TM+6XtK
+ LMUZiYZazEXFiQAPfudBBwMAAA==
+X-CMS-MailID: 20200312091741eucas1p118c87eb8c223a5ab31e9db488f84779c
+X-Msg-Generator: CA
+X-RootMTR: 20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f
+References: <CGME20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f@eucas1p1.samsung.com>
+ <20200310103427.26048-1-m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,383 +111,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@linux.ie" <airlied@linux.ie>, "De Marchi,
- Lucas" <lucas.demarchi@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Shankar,
- Uma" <uma.shankar@intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Souza,
- Jose" <jose.souza@intel.com>, "Nautiyal,
- Ankit K" <ankit.k.nautiyal@intel.com>,
- "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Jingoo Han <jingoohan1@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andy Yan <andy.yan@rock-chips.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> -----Original Message-----
-> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Sent: 10 March 2020 21:47
-> To: Laxminarayan Bharadiya, Pankaj
-> <pankaj.laxminarayan.bharadiya@intel.com>
-> Cc: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-
-> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; airlied@linux=
-.ie;
-> maarten.lankhorst@linux.intel.com; tzimmermann@suse.de;
-> mripard@kernel.org; mihail.atanassov@arm.com; Joonas Lahtinen
-> <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
-> Chris Wilson <chris@chris-wilson.co.uk>; Souza, Jose
-> <jose.souza@intel.com>; De Marchi, Lucas <lucas.demarchi@intel.com>;
-> Roper, Matthew D <matthew.d.roper@intel.com>; Deak, Imre
-> <imre.deak@intel.com>; Shankar, Uma <uma.shankar@intel.com>; linux-
-> kernel@vger.kernel.org; Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
-> Subject: Re: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor
-> based integer scaling support
-> =
-
-> On Tue, Feb 25, 2020 at 12:35:45PM +0530, Pankaj Bharadiya wrote:
-> > Integer scaling (IS) is a nearest-neighbor upscaling technique that
-> > simply scales up the existing pixels by an integer (i.e., whole
-> > number) multiplier.Nearest-neighbor (NN) interpolation works by
-> > filling in the missing color values in the upscaled image with that of
-> > the coordinate-mapped nearest source pixel value.
-> >
-> > Both IS and NN preserve the clarity of the original image. Integer
-> > scaling is particularly useful for pixel art games that rely on sharp,
-> > blocky images to deliver their distinctive look.
-> >
-> > Program the scaler filter coefficients to enable the NN filter if
-> > scaling filter property is set to DRM_SCALING_FILTER_NEAREST_NEIGHBOR
-> > and enable integer scaling.
-> >
-> > Bspec: 49247
-> >
-> > Signed-off-by: Pankaj Bharadiya
-> > <pankaj.laxminarayan.bharadiya@intel.com>
-> > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_display.c | 83
-> > +++++++++++++++++++-  drivers/gpu/drm/i915/display/intel_display.h |
-> > 2 +  drivers/gpu/drm/i915/display/intel_sprite.c  | 20 +++--
-> >  3 files changed, 97 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c
-> > b/drivers/gpu/drm/i915/display/intel_display.c
-> > index b5903ef3c5a0..6d5f59203258 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > @@ -6237,6 +6237,73 @@ void skl_scaler_disable(const struct
-> intel_crtc_state *old_crtc_state)
-> >  		skl_detach_scaler(crtc, i);
-> >  }
-> >
-> > +/**
-> > + *  Theory behind setting nearest-neighbor integer scaling:
-> > + *
-> > + *  17 phase of 7 taps requires 119 coefficients in 60 dwords per set.
-> > + *  The letter represents the filter tap (D is the center tap) and
-> > +the number
-> > + *  represents the coefficient set for a phase (0-16).
-> > + *
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |Index value | Data value coeffient 1 | Data value coeffien=
-t 2 |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   00h      |          B0            |          A0        =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   01h      |          D0            |          C0        =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   02h      |          F0            |          E0        =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   03h      |          A1            |          G0        =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   04h      |          C1            |          B1        =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   ...      |          ...           |          ...       =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   38h      |          B16           |          A16       =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   39h      |          D16           |          C16       =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   3Ah      |          F16           |          C16       =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *         |   3Bh      |        Reserved        |          G16       =
-    |
-> > + *         +------------+------------------------+--------------------=
-----+
-> > + *
-> > + *  To enable nearest-neighbor scaling:  program scaler coefficents
-> > +with
-> > + *  the center tap (Dxx) values set to 1 and all other values set to
-> > +0 as per
-> > + *  SCALER_COEFFICIENT_FORMAT
-> > + *
-> > + */
-> > +void skl_setup_nearest_neighbor_filter(struct drm_i915_private
-> *dev_priv,
-> > +				  enum pipe pipe, int scaler_id)
-> =
-
-> skl_scaler_...
-> =
-
-> > +{
-> > +
-> > +	int coeff =3D 0;
-> > +	int phase =3D 0;
-> > +	int tap;
-> > +	int val =3D 0;
-> =
-
-> Needlessly wide scope for most of these.
-> =
-
-> > +
-> > +	/*enable the index auto increment.*/
-> > +	intel_de_write_fw(dev_priv, SKL_PS_COEF_INDEX_SET0(pipe,
-> scaler_id),
-> > +			  _PS_COEE_INDEX_AUTO_INC);
-> > +
-> > +	for (phase =3D 0; phase < 17; phase++) {
-> > +		for (tap =3D 0; tap < 7; tap++) {
-> > +			coeff++;
-> =
-
-> Can be part of the % check.
-
-OK.
-
-> =
-
-> > +			if (tap =3D=3D 3)
-> > +				val =3D (phase % 2) ? (0x800) : (0x800 << 16);
-> =
-
-> Parens overload.
-
-OK. Will remove.
-> =
-
-> > +
-> > +			if (coeff % 2 =3D=3D 0) {
-> > +				intel_de_write_fw(dev_priv,
-> SKL_PS_COEF_DATA_SET0(pipe, scaler_id), val);
-> > +				val =3D 0;
-> =
-
-> Can drop this val=3D0 if you move the variable into tight scope and initi=
-alize
-> there.
-
-Moving val=3D0 initialization to the tight scope will not work here as we n=
-eed
-to retain "val" and write only when 2 coefficients are ready (since 2 =
-
-coefficients are packed in 1 dword).
-
-e.g. for (12th , 11th)  coefficients, coefficient reg value should be ( (0 =
-<< 16) | 0x800).
-If we initialize val =3D 0 in tight loop, 0 will be written to  coefficient=
- register.
-
-> =
-
-> I was trying to think of a bit more generic way to do this, but couldn't =
-really
-> think of anything apart from pre-filling the entire coefficient set and t=
-he
-> programming blindly. And that seems a bit wasteful if we only care about
-> nearest neighbour.
-> =
-
-> > +			}
-> > +
-> > +		}
-> > +
-> > +	}
-> > +
-> > +	intel_de_write_fw(dev_priv, SKL_PS_COEF_DATA_SET0(pipe,
-> scaler_id),
-> > +0); }
-> > +
-> >  static void skl_pfit_enable(const struct intel_crtc_state
-> > *crtc_state)  {
-> >  	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
-> > @@ -6260,9 +6327,23 @@ static void skl_pfit_enable(const struct
-> intel_crtc_state *crtc_state)
-> >  		pfit_w =3D (crtc_state->pch_pfit.size >> 16) & 0xFFFF;
-> >  		pfit_h =3D crtc_state->pch_pfit.size & 0xFFFF;
-> >
-> > +		id =3D scaler_state->scaler_id;
-> > +
-> >  		if (state->scaling_filter =3D=3D
-> >  		    DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
-> >  			scaling_filter =3D PS_FILTER_PROGRAMMED;
-> > +			skl_setup_nearest_neighbor_filter(dev_priv, pipe,
-> id);
-> =
-
-> This should be sitting alongside the other register writes.
-
-I missed this, thanks for pointing out.
-
-> =
-
-> > +
-> > +			/* Make the scaling window size to integer multiple
-> of
-> > +			 * source.
-> > +			 *
-> > +			 * TODO: Should userspace take desision to round
-> > +			 * scaling window to integer multiple?
-> =
-
-> To give userspace actual control of the pfit window size we need the bord=
-er
-> props (or something along those lines). Step 1 is
-> https://patchwork.freedesktop.org/series/68409/. There are further steps =
-in
-> my branch after that, but it's still missing the border props for eDP/LVD=
-S/DSI
-> since I was too lazy to think how they should interact with the existing =
-scaling
-> mode prop.
-> =
-
-> > +			 */
-> > +			pfit_w =3D rounddown(pfit_w,
-> > +					   (crtc_state->pipe_src_w << 16));
-> > +			pfit_h =3D rounddown(pfit_h,
-> > +					   (crtc_state->pipe_src_h << 16));
-> >  		}
-> =
-
-> This part should be dropped as Daniel mentioned.
-
-Will remove.
-
-Thanks,
-Pankaj
-
-> =
-
-> >
-> >  		hscale =3D (crtc_state->pipe_src_w << 16) / pfit_w; @@ -
-> 6271,8
-> > +6352,6 @@ static void skl_pfit_enable(const struct intel_crtc_state
-> *crtc_state)
-> >  		uv_rgb_hphase =3D skl_scaler_calc_phase(1, hscale, false);
-> >  		uv_rgb_vphase =3D skl_scaler_calc_phase(1, vscale, false);
-> >
-> > -		id =3D scaler_state->scaler_id;
-> > -
-> >  		spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
-> >
-> >  		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id),
-> =
-
-> I think we should also explicitly indicate here which cofficient set(s) w=
-e're
-> going to use, even if using set0 does mean those bits will be 0.
-> =
-
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display.h
-> > b/drivers/gpu/drm/i915/display/intel_display.h
-> > index f92efbbec838..49f58d3c98fe 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_display.h
-> > @@ -586,6 +586,8 @@ void intel_crtc_arm_fifo_underrun(struct
-> > intel_crtc *crtc,
-> >  u16 skl_scaler_calc_phase(int sub, int scale, bool chroma_center);
-> > int skl_update_scaler_crtc(struct intel_crtc_state *crtc_state);  void
-> > skl_scaler_disable(const struct intel_crtc_state *old_crtc_state);
-> > +void skl_setup_nearest_neighbor_filter(struct drm_i915_private
-> *dev_priv,
-> > +				  enum pipe pipe, int scaler_id);
-> >  void ilk_pfit_disable(const struct intel_crtc_state *old_crtc_state);
-> >  u32 glk_plane_color_ctl(const struct intel_crtc_state *crtc_state,
-> >  			const struct intel_plane_state *plane_state); diff --
-> git
-> > a/drivers/gpu/drm/i915/display/intel_sprite.c
-> > b/drivers/gpu/drm/i915/display/intel_sprite.c
-> > index fd7b31a21723..5bef5c031374 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_sprite.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-> > @@ -415,18 +415,26 @@ skl_program_scaler(struct intel_plane *plane,
-> >  	u16 y_vphase, uv_rgb_vphase;
-> >  	int hscale, vscale;
-> >  	const struct drm_plane_state *state =3D &plane_state->uapi;
-> > +	u32 src_w =3D drm_rect_width(&plane_state->uapi.src) >> 16;
-> > +	u32 src_h =3D drm_rect_height(&plane_state->uapi.src) >> 16;
-> >  	u32 scaling_filter =3D PS_FILTER_MEDIUM;
-> > +	struct drm_rect dst;
-> >
-> >  	if (state->scaling_filter =3D=3D
-> DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
-> >  		scaling_filter =3D PS_FILTER_PROGRAMMED;
-> > +		skl_setup_nearest_neighbor_filter(dev_priv, pipe,
-> scaler_id);
-> > +
-> > +		/* Make the scaling window size to integer multiple of source
-> > +		 * TODO: Should userspace take desision to round scaling
-> window
-> > +		 * to integer multiple?
-> > +		 */
-> > +		crtc_w =3D rounddown(crtc_w, src_w);
-> > +		crtc_h =3D rounddown(crtc_h, src_h);
-> >  	}
-> >
-> > -	hscale =3D drm_rect_calc_hscale(&plane_state->uapi.src,
-> > -				      &plane_state->uapi.dst,
-> > -				      0, INT_MAX);
-> > -	vscale =3D drm_rect_calc_vscale(&plane_state->uapi.src,
-> > -				      &plane_state->uapi.dst,
-> > -				      0, INT_MAX);
-> > +	drm_rect_init(&dst, crtc_x, crtc_y, crtc_w, crtc_h);
-> =
-
-> Drop as well.
-> =
-
-> > +	hscale =3D drm_rect_calc_hscale(&plane_state->uapi.src, &dst, 0,
-> INT_MAX);
-> > +	vscale =3D drm_rect_calc_vscale(&plane_state->uapi.src, &dst, 0,
-> > +INT_MAX);
-> >
-> >  	/* TODO: handle sub-pixel coordinates */
-> >  	if (intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier)
-> &&
-> > --
-> > 2.23.0
-> =
-
-> --
-> Ville Syrj=E4l=E4
-> Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTAuMDMuMjAyMCAxMTozNCwgTWFyZWsgU3p5cHJvd3NraSB3cm90ZToKPiBBbmFsb2dpeF9k
+cCBkcml2ZXIgYWNxdWlyZXMgYWxsIGl0cyByZXNvdXJjZXMgaW4gdGhlIC0+YmluZCgpIGNhbGxi
+YWNrLAo+IHdoYXQgaXMgYSBiaXQgYWdhaW5zdCB0aGUgY29tcG9uZW50IGRyaXZlciBiYXNlZCBh
+cHByb2FjaCwgd2hlcmUgdGhlCj4gZHJpdmVyIGluaXRpYWxpemF0aW9uIGlzIHNwbGl0IGludG8g
+YSBwcm9iZSgpLCB3aGVyZSBhbGwgcmVzb3VyY2VzIGFyZQo+IGdhdGhlcmVkLCBhbmQgYSBiaW5k
+KCksIHdoZXJlIGFsbCBvYmplY3RzIGFyZSBjcmVhdGVkIGFuZCBhIGNvbXBvdW5kCj4gZHJpdmVy
+IGlzIGluaXRpYWxpemVkLgo+Cj4gRXh0cmFjdCBhbGwgdGhlIHJlc291cmNlIHJlbGF0ZWQgb3Bl
+cmF0aW9ucyB0byBhbmFsb2dpeF9kcF9wcm9iZSgpIGFuZAo+IGFuYWxvZ2l4X2RwX3JlbW92ZSgp
+LCB0aGVuIGNhbGwgdGhlbSBiZWZvcmUvYWZ0ZXIgcmVnaXN0cmF0aW9uIG9mIHRoZQo+IGRldmlj
+ZSBjb21wb25lbnRzIGZyb20gdGhlIG1haW4gRXh5bm9zIERQIGFuZCBSb2NrY2hpcCBEUCBkcml2
+ZXJzLiBBbHNvCj4gbW92ZSB0aGUgcGxhdF9kYXRhIGluaXRpYWxpemF0aW9uIHRvIHRoZSBwcm9i
+ZSgpIHRvIG1ha2UgaXQgYXZhaWxhYmxlIGZvcgo+IHRoZSBhbmFsb2dpeF9kcF9wcm9iZSgpIGZ1
+bmN0aW9uLgo+Cj4gVGhpcyBmaXhlcyB0aGUgbXVsdGlwbGUgY2FsbHMgdG8gdGhlIGJpbmQoKSBv
+ZiB0aGUgRFJNIGNvbXBvdW5kIGRyaXZlcgo+IHdoZW4gdGhlIERQIFBIWSBkcml2ZXIgaXMgbm90
+IHlldCBsb2FkZWQvcHJvYmVkOgo+Cj4gW2RybV0gRXh5bm9zIERSTTogdXNpbmcgMTQ0MDAwMDAu
+ZmltZCBkZXZpY2UgZm9yIERNQSBtYXBwaW5nIG9wZXJhdGlvbnMKPiBleHlub3MtZHJtIGV4eW5v
+cy1kcm06IGJvdW5kIDE0NDAwMDAwLmZpbWQgKG9wcyBmaW1kX2NvbXBvbmVudF9vcHMgW2V4eW5v
+c2RybV0pCj4gZXh5bm9zLWRybSBleHlub3MtZHJtOiBib3VuZCAxNDQ1MDAwMC5taXhlciAob3Bz
+IG1peGVyX2NvbXBvbmVudF9vcHMgW2V4eW5vc2RybV0pCj4gZXh5bm9zLWRwIDE0NWIwMDAwLmRw
+LWNvbnRyb2xsZXI6IG5vIERQIHBoeSBjb25maWd1cmVkCj4gZXh5bm9zLWRybSBleHlub3MtZHJt
+OiBmYWlsZWQgdG8gYmluZCAxNDViMDAwMC5kcC1jb250cm9sbGVyIChvcHMgZXh5bm9zX2RwX29w
+cyBbZXh5bm9zZHJtXSk6IC01MTcKPiBleHlub3MtZHJtIGV4eW5vcy1kcm06IG1hc3RlciBiaW5k
+IGZhaWxlZDogLTUxNwo+IC4uLgo+IFtkcm1dIEV4eW5vcyBEUk06IHVzaW5nIDE0NDAwMDAwLmZp
+bWQgZGV2aWNlIGZvciBETUEgbWFwcGluZyBvcGVyYXRpb25zCj4gZXh5bm9zLWRybSBleHlub3Mt
+ZHJtOiBib3VuZCAxNDQwMDAwMC5maW1kIChvcHMgaGRtaV9lbmFibGUgW2V4eW5vc2RybV0pCj4g
+ZXh5bm9zLWRybSBleHlub3MtZHJtOiBib3VuZCAxNDQ1MDAwMC5taXhlciAob3BzIGhkbWlfZW5h
+YmxlIFtleHlub3Nkcm1dKQo+IGV4eW5vcy1kcm0gZXh5bm9zLWRybTogYm91bmQgMTQ1YjAwMDAu
+ZHAtY29udHJvbGxlciAob3BzIGhkbWlfZW5hYmxlIFtleHlub3Nkcm1dKQo+IGV4eW5vcy1kcm0g
+ZXh5bm9zLWRybTogYm91bmQgMTQ1MzAwMDAuaGRtaSAob3BzIGhkbWlfZW5hYmxlIFtleHlub3Nk
+cm1dKQo+IFtkcm1dIFN1cHBvcnRzIHZibGFuayB0aW1lc3RhbXAgY2FjaGluZyBSZXYgMiAoMjEu
+MTAuMjAxMykuCj4gQ29uc29sZTogc3dpdGNoaW5nIHRvIGNvbG91ciBmcmFtZSBidWZmZXIgZGV2
+aWNlIDE3MHg0OAo+IGV4eW5vcy1kcm0gZXh5bm9zLWRybTogZmIwOiBleHlub3Nkcm1mYiBmcmFt
+ZSBidWZmZXIgZGV2aWNlCj4gW2RybV0gSW5pdGlhbGl6ZWQgZXh5bm9zIDEuMS4wIDIwMTgwMzMw
+IGZvciBleHlub3MtZHJtIG9uIG1pbm9yIDEKPiAuLi4KPgo+IFNpZ25lZC1vZmYtYnk6IE1hcmVr
+IFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4KCgpSZXZpZXdlZC1ieTogQW5k
+cnplaiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4KCsKgLS0KUmVnYXJkcwpBbmRyemVqCgoK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
