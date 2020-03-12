@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4151830F6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 14:13:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5F0183112
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 14:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92756E22A;
-	Thu, 12 Mar 2020 13:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDAF16EAB5;
+	Thu, 12 Mar 2020 13:18:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D38836E22A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 13:13:41 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 905236EAB5
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 13:18:04 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9002320724
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 13:13:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 533DF206B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 13:18:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584018821;
- bh=OLCs9wDW5DLwK6glkoG1xXvwb8u+w1JpNNt/MSUzvEw=;
+ s=default; t=1584019084;
+ bh=9LvTzccs20EfwHRZkugVuiWmgd25bpPrRl6L8w4/Oz4=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ESG9DyqOBtb3RY9JZ8+KWe4xtjArS1LrAi62Ut7Q9YGKrM49cnixegAQl2+B//l1p
- 5vF1N7TMBktea7/YfUwAOe6WZZSUS9hFlfar8X+r16vp9X58Fve69WgAVHhGpGeQ/C
- F3Awe52tsGjZQOvFr+uhrxusXABsT1jl1XnEamKM=
-Received: by mail-qk1-f173.google.com with SMTP id e11so5991949qkg.9
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 06:13:41 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ2hEy3pAwh1bC5ShdB4AjFbRxI4v5Mv5eWBDTuQtwr9RMb8osuP
- pfniOswmd5yd0XvEJPbxcNDuQkYYroWynMQtAA==
-X-Google-Smtp-Source: ADFU+vsl+NWGl4RtiFZjKswLmhm4fAbnZDjrreYI1ja6LxDiRHZLHZlRiEDnADMNoidWwaIebO8AI/TFTKYi20bRWw0=
-X-Received: by 2002:a37:aa92:: with SMTP id t140mr6922921qke.119.1584018820626; 
- Thu, 12 Mar 2020 06:13:40 -0700 (PDT)
+ b=zY0iaiEuq+94HEJNC+M3uNNqqWvIuL8LmuYCbrWbvB2ja1QjHiApBUHK6+3t2w3V3
+ r2wjvYgMkprtz2WwMP/UCxCpanZ2I1A9xlCbVCUQS7wjr8zptKjLXjrHXhOmEI72K1
+ j4fWFVMRwBFcA8StaO/AmvEoxFfHjdqyIJEyK6pk=
+Received: by mail-qt1-f182.google.com with SMTP id n5so4256245qtv.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 06:18:04 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ052HIExcqkF2dUgqJkAbcnHbxrpo0i332iO0x2CJA2J1/L3NjM
+ uq5u1WvOXv9/UFCTExAlwWI1/dyQnifZOu3npg==
+X-Google-Smtp-Source: ADFU+vuLXMJHQEOc9yZQJjg2VBWDBilY6CR5xhZf9pkeq5kaczXg78bABk9trxq/40GZUQEb4VvUo1jtlgxUuKyHUpc=
+X-Received: by 2002:ac8:59:: with SMTP id i25mr7306219qtg.110.1584019083428;
+ Thu, 12 Mar 2020 06:18:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200308115017.18563-1-sam@ravnborg.org>
- <20200308115017.18563-2-sam@ravnborg.org>
- <e584e779-aab3-1a41-f198-a5585d9be2e8@st.com>
-In-Reply-To: <e584e779-aab3-1a41-f198-a5585d9be2e8@st.com>
+References: <20200311210001.5102-1-robh@kernel.org>
+ <20200311214028.GA21800@ravnborg.org>
+In-Reply-To: <20200311214028.GA21800@ravnborg.org>
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 12 Mar 2020 08:13:25 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK4Wa-Z+2EOOTsUqfcXwV33o18eaUzq5-cYE5Zpirtyzw@mail.gmail.com>
-Message-ID: <CAL_JsqK4Wa-Z+2EOOTsUqfcXwV33o18eaUzq5-cYE5Zpirtyzw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] dt-bindings: display: fix panel warnings
-To: Benjamin GAIGNARD <benjamin.gaignard@st.com>
+Date: Thu, 12 Mar 2020 08:17:50 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqK8n-YTsROL+XhjJVtFJzV-aGPxhLOxs1axHq5+TvE-Lg@mail.gmail.com>
+Message-ID: <CAL_JsqK8n-YTsROL+XhjJVtFJzV-aGPxhLOxs1axHq5+TvE-Lg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: Fix dtc unit-address warnings in
+ examples
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,43 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jyri Sarha <jsarha@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 12, 2020 at 5:21 AM Benjamin GAIGNARD
-<benjamin.gaignard@st.com> wrote:
+On Wed, Mar 11, 2020 at 4:40 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
->
->
-> On 3/8/20 12:50 PM, Sam Ravnborg wrote:
-> > Fix following type af warnings in the panel bindings:
+> On Wed, Mar 11, 2020 at 04:00:01PM -0500, Rob Herring wrote:
+> > Extra dtc warnings (roughly what W=1 enables) are now enabled by default
+> > when building the binding examples. These were fixed treewide in
+> > 5.6-rc5, but some new display bindings have been added with new
+> > warnings:
 > >
-> > Warning (unit_address_vs_reg): /example-0/dsi/panel: node has a reg or ranges property, but no unit name
-> > Warning (unit_address_vs_reg): /example-0/dsi@ff450000: node has a unit name, but no reg property
+> > Documentation/devicetree/bindings/display/panel/raydium,rm68200.example.dts:17.7-27.11: Warning (unit_address_vs_reg): /example-0/dsi@0: node has a unit name, but no reg property
+> > Documentation/devicetree/bindings/display/panel/panel-simple-dsi.example.dts:17.19-31.11: Warning (unit_address_vs_reg): /example-0/mdss_dsi@fd922800: node has a unit name, but no reg property
+> > Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.example.dts:17.7-26.11: Warning (unit_address_vs_reg): /example-0/dsi@0: node has a unit name, but no reg property
+> > Documentation/devicetree/bindings/display/ti/ti,am65x-dss.example.dts:21.27-49.11: Warning (unit_address_format): /example-0/dss@04a00000: unit name should not have leading 0s
+> > Documentation/devicetree/bindings/display/ti/ti,j721e-dss.example.dts:21.27-72.11: Warning (unit_address_format): /example-0/dss@04a00000: unit name should not have leading 0s
+> > Documentation/devicetree/bindings/display/ti/ti,k2g-dss.example.dts:20.27-42.11: Warning (unit_address_format): /example-0/dss@02540000: unit name should not have leading 0s
 > >
-> > Removing the "@xxx" from the node name fixed first warning.
-> > Adding a missing reg property fixed the second warning
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Jyri Sarha <jsarha@ti.com>
+> > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 >
-> I will add W=1 in my command line when check the yaml files to not
-> reproduce this later.
+> And I can drop my patch that only fixed the panel/ parts - good.
 
-No need to starting in 5.7.
+It seems I missed some panels. Perhaps ones that are in drm-misc, but
+not in linux-next yet? Keep yours and I'll respin with just the TI
+part.
 
 Rob
 _______________________________________________
