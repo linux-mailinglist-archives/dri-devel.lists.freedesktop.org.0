@@ -2,34 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13C8183670
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 17:44:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236001836C8
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 18:02:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5606E247;
-	Thu, 12 Mar 2020 16:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEDBD89935;
+	Thu, 12 Mar 2020 17:02:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E90E56E247;
- Thu, 12 Mar 2020 16:44:36 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 746EC296B45;
- Thu, 12 Mar 2020 16:44:35 +0000 (GMT)
-Date: Thu, 12 Mar 2020 17:44:32 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/msm: avoid double-attaching hdmi/edp bridges
-Message-ID: <20200312174432.316e0e1d@collabora.com>
-In-Reply-To: <CAF6AEGt4hnMJE=DSAx1754DTV4TJG5L8YocqMjAE1NpNJZaJMg@mail.gmail.com>
-References: <20200312035154.1621-1-imirkin@alum.mit.edu>
- <CAF6AEGt4hnMJE=DSAx1754DTV4TJG5L8YocqMjAE1NpNJZaJMg@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CF3906EB0F;
+ Thu, 12 Mar 2020 17:02:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4EBA730E;
+ Thu, 12 Mar 2020 10:02:21 -0700 (PDT)
+Received: from [10.57.15.252] (unknown [10.57.15.252])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A670B3F6CF;
+ Thu, 12 Mar 2020 10:02:19 -0700 (PDT)
+Subject: Re: [PATCH] mm/hmm: Simplify hmm_vma_walk_pud slightly
+To: Jason Gunthorpe <jgg@ziepe.ca>
+References: <5bd778fa-51e5-3e0c-d9bb-b38539b03c8d@arm.com>
+ <20200312102813.56699-1-steven.price@arm.com>
+ <20200312142749.GM31668@ziepe.ca>
+ <58e296a6-d32b-bb37-28ce-ade0f784454d@arm.com>
+ <20200312151113.GO31668@ziepe.ca>
+ <689d3c56-3d19-4655-21f5-f9aeab3089df@arm.com>
+ <20200312163734.GR31668@ziepe.ca>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <bf9b38ae-edd5-115f-e1ca-d769872f994a@arm.com>
+Date: Thu, 12 Mar 2020 17:02:18 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200312163734.GR31668@ziepe.ca>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,81 +47,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Philip Yang <Philip.Yang@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>,
+ "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Jerome Glisse <jglisse@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Christoph Hellwig <hch@lst.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Mar 2020 09:19:58 -0700
-Rob Clark <robdclark@gmail.com> wrote:
-
-> On Wed, Mar 11, 2020 at 8:52 PM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> >
-> > Each of hdmi and edp are already attached in msm_*_bridge_init. A second
-> > attachment returns -EBUSY, failing the driver load.
-> >
-> > Tested with HDMI on IFC6410 (APQ8064 / MDP4), but eDP case should be
-> > analogous.
-> >
-> > Fixes: 3ef2f119bd3ed (drm/msm: Use drm_attach_bridge() to attach a bridge to an encoder)
-> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>  
+On 12/03/2020 16:37, Jason Gunthorpe wrote:
+> On Thu, Mar 12, 2020 at 04:16:33PM +0000, Steven Price wrote:
+>>> Actually, while you are looking at this, do you think we should be
+>>> adding at least READ_ONCE in the pagewalk.c walk_* functions? The
+>>> multiple references of pmd, pud, etc without locking seems sketchy to
+>>> me.
+>>
+>> I agree it seems worrying. I'm not entirely sure whether the holding of
+>> mmap_sem is sufficient,
 > 
-> Thanks
+> I looked at this question, and at least for PMD, mmap_sem is not
+> sufficient. I didn't easilly figure it out for the other ones
 > 
-> Reviewed-by: Rob Clark <robdclark@gmail.com>
-
-
-Sorry for the regression. Looks like encoder->bridge was assigned twice
-before my patch, and I didn't check if there were other
-drm_bridge_attach() calls in the driver :-/.
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-
+> I'm guessing if PMD is not safe then none of them are.
 > 
-> > ---
-> >  drivers/gpu/drm/msm/edp/edp.c   | 4 ----
-> >  drivers/gpu/drm/msm/hdmi/hdmi.c | 4 ----
-> >  2 files changed, 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/edp/edp.c b/drivers/gpu/drm/msm/edp/edp.c
-> > index ad4e963ccd9b..106a67473af5 100644
-> > --- a/drivers/gpu/drm/msm/edp/edp.c
-> > +++ b/drivers/gpu/drm/msm/edp/edp.c
-> > @@ -178,10 +178,6 @@ int msm_edp_modeset_init(struct msm_edp *edp, struct drm_device *dev,
-> >                 goto fail;
-> >         }
-> >
-> > -       ret = drm_bridge_attach(encoder, edp->bridge, NULL);
-> > -       if (ret)
-> > -               goto fail;
-> > -
-> >         priv->bridges[priv->num_bridges++]       = edp->bridge;
-> >         priv->connectors[priv->num_connectors++] = edp->connector;
-> >
-> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> > index 1a9b6289637d..737453b6e596 100644
-> > --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> > @@ -327,10 +327,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
-> >                 goto fail;
-> >         }
-> >
-> > -       ret = drm_bridge_attach(encoder, hdmi->bridge, NULL);
-> > -       if (ret)
-> > -               goto fail;
-> > -
-> >         priv->bridges[priv->num_bridges++]       = hdmi->bridge;
-> >         priv->connectors[priv->num_connectors++] = hdmi->connector;
-> >
-> > --
-> > 2.24.1
-> >  
+>> this isn't something that I changed so I've just
+>> been hoping that it's sufficient since it seems to have been working
+>> (whether that's by chance because the compiler didn't generate multiple
+>> reads I've no idea). For walking the kernel's page tables the lack of
+>> READ_ONCE is also not great, but at least for PTDUMP we don't care too much
+>> about accuracy and it should be crash proof because there's no RCU grace
+>> period. And again the code I was replacing didn't have any special
+>> protection.
+>>
+>> I can't see any harm in updating the code to include READ_ONCE and I'm happy
+>> to review a patch.
+> 
+> The reason I ask is because hmm's walkers often have this pattern
+> where they get the pointer and then de-ref it (again) then
+> immediately have to recheck the 'again' conditions of the walker
+> itself because the re-read may have given a different value.
+> 
+> Having the walker deref the pointer and pass the value it into the ops
+> for use rather than repeatedly de-refing an unlocked value seems like
+> a much safer design to me.
 
+Yeah that sounds like a good idea.
+
+> If this also implicitly relies on a RCU grace period then it is also
+> missing RCU locking...
+
+True - I'm not 100% sure in what situations a page table entry can be 
+freed. Anshuman has added locking to deal with memory hotplug[1]. I 
+believe this is sufficient.
+
+[1] bf2b59f60ee1 ("arm64/mm: Hold memory hotplug lock while walking for 
+kernel page table dump")
+
+> I also didn't quite understand why walk_pte_range() skipped locking
+> the pte in the no_vma case - I don't get why vma would be related to
+> locking here.
+
+The no_vma case is for walking the kernel's page tables and they may 
+have entries that are not backed by struct page, so there isn't 
+(reliably) a PTE lock to take.
+
+> I also saw that hmm open coded the pte walk, presumably for
+> performance, so I was thinking of adding some kind of pte_range()
+> callback to avoid the expensive indirect function call per pte, but
+> hmm also can't have the pmd locked...
+
+Yeah the callback per PTE is a bit heavy because of the indirect 
+function call. I'm not sure how to optimise it beyond open coding at the 
+PMD level. One option would be to provide helper functions to make it a 
+bit more generic.
+
+Do you have an idea of what pte_range() would look like?
+
+Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
