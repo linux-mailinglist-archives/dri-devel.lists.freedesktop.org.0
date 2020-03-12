@@ -2,58 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75543183D95
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 00:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955AD183DA9
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 00:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D49476EB5E;
-	Thu, 12 Mar 2020 23:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE71F6EB5D;
+	Thu, 12 Mar 2020 23:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCEF46EB5D;
- Thu, 12 Mar 2020 23:50:22 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e6aca900000>; Thu, 12 Mar 2020 16:49:36 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 12 Mar 2020 16:50:22 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 12 Mar 2020 16:50:22 -0700
-Received: from rcampbell-dev.nvidia.com (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Thu, 12 Mar 2020 23:50:21 +0000
-Subject: Re: [PATCH hmm 9/8] mm/hmm: do not check pmd_protnone twice in
- hmm_vma_handle_pmd()
-To: Jason Gunthorpe <jgg@ziepe.ca>, Jerome Glisse <jglisse@redhat.com>,
- <Felix.Kuehling@amd.com>
-References: <20200311183506.3997-1-jgg@ziepe.ca>
- <20200312193310.GA1190@ziepe.ca>
-X-Nvconfidentiality: public
-From: Ralph Campbell <rcampbell@nvidia.com>
-Message-ID: <e02e3adf-5320-0c9a-63d4-13d0d5dca086@nvidia.com>
-Date: Thu, 12 Mar 2020 16:50:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 814206EB5D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 23:59:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584057576;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type: content-transfer-encoding:content-transfer-encoding;
+ bh=ejeFisR7chWYmT+9iXfyCXL3BgA70UKw+IBoJisNP24=;
+ b=bs5Ej9y2ERh/i1iPqguIV5LdQ1DFI/unaK2rxsXc0rNzqF9VKOWxblGVj8XMP7L+vkodcd
+ qBHPvjwAwY43VvEU6VfLHI5MYqFD0VGxwk/H4/MoIbllFvkzEibYT26mG7PDXqadlU6lK4
+ /psY2HIbhSO0dzK5vL5QvaJKyXMmMaQ=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-332-iazcJ3Y-M2K--UKmXxiD-A-1; Thu, 12 Mar 2020 19:59:34 -0400
+X-MC-Unique: iazcJ3Y-M2K--UKmXxiD-A-1
+Received: by mail-qt1-f199.google.com with SMTP id n4so5670814qtv.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 16:59:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :organization:user-agent:mime-version:content-transfer-encoding;
+ bh=ejeFisR7chWYmT+9iXfyCXL3BgA70UKw+IBoJisNP24=;
+ b=et96v3NlMb4mRApJVzN1Z/FLkvTcF0auF4rJE7pJpVmLqwBwRad7Q66aBa9eeGnUYx
+ JqgU0qelYo2kHrGPwnN434YlbtQzyfJc5+IaxGWVNW42ePUuKPTrcNbngRhpmuzs08iU
+ z5Q/Bq8gwsJ9Oe/Ab6RAMxjNN52KD4kODsvl6DaGbfCOq5tngpmQZm9mcXMgtHdedReN
+ GEgYF495bbUgZpqCfTojXc1859QOkK1l5L2bnhUYChwRxx7LD9m9Spfmxghw7+lGZ327
+ RTh+BsIyz0rpE3P1d2NEELZIQL38J/4usRrZ0vVYHCjI92VGjHozl7tImr7LXj5NJ2W7
+ H3Lw==
+X-Gm-Message-State: ANhLgQ0cmP4wBDAJO/zWhSJMBO5HL/89KJ9jTvEhrKGkc+OYgA1iYdrt
+ EU+Wwo6OgowNHw9MW0g4hPS9V0PJKMOcynhxqgKrQnC02ZG/vQ+SGKjeHSQcXAQOFoSgFrbqWkb
+ 6CWujniolGfkKevrE0X1cH1l2qzNv
+X-Received: by 2002:ad4:49d1:: with SMTP id j17mr10108153qvy.124.1584057574023; 
+ Thu, 12 Mar 2020 16:59:34 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsbEySjCF04zmVi6rEqp5pAohB4kdNC47Q7cgD2gNRUUA8bSLgyHujzrUKBe4Vh7MnlnoClNQ==
+X-Received: by 2002:ad4:49d1:: with SMTP id j17mr10108140qvy.124.1584057573768; 
+ Thu, 12 Mar 2020 16:59:33 -0700 (PDT)
+Received: from whitewolf.lyude.net
+ (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
+ by smtp.gmail.com with ESMTPSA id b10sm7315685qto.60.2020.03.12.16.59.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Mar 2020 16:59:32 -0700 (PDT)
+Message-ID: <bf16ee577567beed91c86b7d9cda3ec2e8c50a71.camel@redhat.com>
+Subject: [PULL] topic/mst-bw-check-fixes-for-airlied
+From: Lyude Paul <lyude@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 12 Mar 2020 19:59:31 -0400
+Organization: Red Hat
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-In-Reply-To: <20200312193310.GA1190@ziepe.ca>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1584056976; bh=aQ7MGcgWWA7Gw37+lSs7CbvLiWZTO8XM95c59ZBgdKg=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=Yjw6gyMW0BovQBnuixd3cn86pt/2gu0Ac7NS1EnrlfxR7BcgErUjUkaNBWBnWSs0C
- 9F/zA30YH9bMAPNXu2Nr8PI3K9ZpeUmb5sbe4/Dc+V54R0Wv6WLNsx84vq7EJwran4
- gcySY5TUcmBxxGCC3Dm79KkOwpO8r+SVf9oXVGcyPMffb5pUJUU8AwjqTPQ0KOmNsF
- 8nccy22VR59NWO9vtEs5Uys8+6xnGlNvFd8ns+yqIJ7oor9dPe7QJG5pEmG0tR6IfW
- ioJqV0YRdsx0vDGo+QtSjwzFKi7XEnibWrNKLL48QDZFzbTcjsPzlozJ46kwdQlcN8
- hyqUxrvZOJYFw==
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,48 +74,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
- amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>
+Reply-To: lyude@redhat.com
+Cc: "DRM maintainer tools
+ announcements, discussion, and development" <dim-tools@lists.freedesktop.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+topic/mst-bw-check-fixes-for-airlied-2020-03-12-2:
+UAPI Changes: None
 
-On 3/12/20 12:33 PM, Jason Gunthorpe wrote:
-> pmd_to_hmm_pfn_flags() already checks it and makes the cpu flags 0. If no
-> fault is requested then the pfns should be returned with the not valid
-> flags.
-> 
-> It should not unconditionally fault if faulting is not requested.
-> 
-> Fixes: 2aee09d8c116 ("mm/hmm: change hmm_vma_fault() to allow write fault on page basis")
-> Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
+Cross-subsystem Changes: None
 
-Looks good to me.
-Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
+Core Changes: Fixed regressions introduced by commit cd82d82cbc04
+("drm/dp_mst: Add branch bandwidth validation to MST atomic check"),
+which would cause us to:
 
-> ---
->   mm/hmm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> Bonus patch, this one got found after I made the series..
-> 
-> diff --git a/mm/hmm.c b/mm/hmm.c
-> index ca33d086bdc190..6d9da4b0f0a9f8 100644
-> --- a/mm/hmm.c
-> +++ b/mm/hmm.c
-> @@ -226,7 +226,7 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
->   	hmm_range_need_fault(hmm_vma_walk, pfns, npages, cpu_flags,
->   			     &fault, &write_fault);
->   
-> -	if (pmd_protnone(pmd) || fault || write_fault)
-> +	if (fault || write_fault)
->   		return hmm_vma_walk_hole_(addr, end, fault, write_fault, walk);
->   
->   	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
-> 
+* Calculate the available bandwidth on an MST topology incorrectly, and
+  as a result reject most display configurations that would try to enable
+  more then one sink on a topology
+* Occasionally expose MST connectors to userspace before finishing
+  probing their PBN capabilities, resulting in us rejecting display
+  configurations because we assumed briefly that no bandwidth was
+  available
+
+Driver Changes: None
+The following changes since commit e3c3b6e66da1caeb39a504b03ddcdd3693e45254:
+
+  Merge tag 'exynos-drm-fixes-for-v5.6-rc5-v2' of git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-fixes (2020-03-12 11:02:52 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/topic/mst-bw-check-fixes-for-airlied-2020-03-12-2
+
+for you to fetch changes up to 047d4cd2067b028e7bca906c5ce20f4c89b65386:
+
+  drm/dp_mst: Rewrite and fix bandwidth limit checks (2020-03-12 19:07:49 -0400)
+
+----------------------------------------------------------------
+UAPI Changes: None
+
+Cross-subsystem Changes: None
+
+Core Changes: Fixed regressions introduced by commit cd82d82cbc04
+("drm/dp_mst: Add branch bandwidth validation to MST atomic check"),
+which would cause us to:
+
+* Calculate the available bandwidth on an MST topology incorrectly, and
+  as a result reject most display configurations that would try to enable
+  more then one sink on a topology
+* Occasionally expose MST connectors to userspace before finishing
+  probing their PBN capabilities, resulting in us rejecting display
+  configurations because we assumed briefly that no bandwidth was
+  available
+
+Driver Changes: None
+
+----------------------------------------------------------------
+Lyude Paul (4):
+      drm/dp_mst: Rename drm_dp_mst_is_dp_mst_end_device() to be less redundant
+      drm/dp_mst: Use full_pbn instead of available_pbn for bandwidth checks
+      drm/dp_mst: Reprobe path resources in CSN handler
+      drm/dp_mst: Rewrite and fix bandwidth limit checks
+
+ drivers/gpu/drm/drm_dp_mst_topology.c | 184 +++++++++++++++++++++++-----------
+ include/drm/drm_dp_mst_helper.h       |   4 +-
+ 2 files changed, 128 insertions(+), 60 deletions(-)
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
