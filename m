@@ -1,47 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AEE182E19
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 11:46:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A08182E28
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 11:49:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 234F56E0E0;
-	Thu, 12 Mar 2020 10:46:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2B86E13B;
+	Thu, 12 Mar 2020 10:49:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9C1246E0E0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 10:45:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 5CC7A2A6045;
- Thu, 12 Mar 2020 11:45:58 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id ZsZBsh3MxG4m; Thu, 12 Mar 2020 11:45:58 +0100 (CET)
-Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch
- [83.76.80.252])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 591412A6042;
- Thu, 12 Mar 2020 11:45:56 +0100 (CET)
-Received: from [::1] by thor with esmtp (Exim 4.93)
- (envelope-from <michel@daenzer.net>)
- id 1jCLLf-000xjA-EN; Thu, 12 Mar 2020 11:45:55 +0100
-Subject: Re: Variable Refresh Rate & flickering screens
-To: Simon Ser <contact@emersion.fr>,
- Ville Syrjala <ville.syrjala@linux.intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Harry Wentland
- <hwentlan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Scott Anderson <scott@anderso.nz>, "Anthony.Koo@amd.com"
- <Anthony.Koo@amd.com>, Martin Peres <martin.peres@free.fr>
-References: <bRy2hTFvMya3tNzlzsjQv6uzpsgC18d0NYQx1A9Otma6wCsYLHH9X6esb47-9KWzUjVNWTi3VXCVLVGX-dlW17P0YeCFCg4OZ4KEykC0Czw=@emersion.fr>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <647ff0e7-f186-4e16-f9b9-0908a3171051@daenzer.net>
-Date: Thu, 12 Mar 2020 11:45:55 +0100
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9FB16E13B;
+ Thu, 12 Mar 2020 10:49:15 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 62A77B1EC;
+ Thu, 12 Mar 2020 10:49:11 +0000 (UTC)
+Subject: Re: [RESEND PATCH v2 6/9] drm/mgag200: Constify ioreadX() iomem
+ argument (as in generic implementation)
+To: Krzysztof Kozlowski <krzk@kernel.org>, Richard Henderson
+ <rth@twiddle.net>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jiri Slaby
+ <jirislaby@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ "David S. Miller" <davem@davemloft.net>, Dave Jiang <dave.jiang@intel.com>,
+ Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
+ linux-arch@vger.kernel.org
+References: <20200219175007.13627-1-krzk@kernel.org>
+ <20200219175007.13627-7-krzk@kernel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <90baef2d-25fe-fac4-6a7e-b103b4b6721e@suse.de>
+Date: Thu, 12 Mar 2020 11:49:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <bRy2hTFvMya3tNzlzsjQv6uzpsgC18d0NYQx1A9Otma6wCsYLHH9X6esb47-9KWzUjVNWTi3VXCVLVGX-dlW17P0YeCFCg4OZ4KEykC0Czw=@emersion.fr>
-Content-Language: en-CA
+In-Reply-To: <20200219175007.13627-7-krzk@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,37 +91,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1729316716=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wMy0xMSA5OjA5IHAubS4sIFNpbW9uIFNlciB3cm90ZToKPiBIaSBhbGwsCj4gCj4g
-SSd2ZSBiZWVuIHdvcmtpbmcgb24gYWRkaW5nIFZSUiBzdXBwb3J0IHRvIFN3YXkgWzFdIChhIFdh
-eWxhbmQKPiBjb21wb3NpdG9yKS4gVGhlIGNvbXBvc2l0b3IganVzdCBzZXRzIHRoZSBWUlJfRU5B
-QkxFRCBwcm9wZXJ0eS4KPiAKPiBUaGlzIHdvcmtzIGZpbmUgZm9yIHNvbWUgc2NyZWVucywgYnV0
-IGNhdXNlcyBmbGNpa2VyaW5nIGZvciBvdGhlcgo+IHNjcmVlbnMgYXMgZXhwZWN0ZWQgWzJdLiBG
-aXhpbmcgdGhlIGZsaWNrZXJpbmcgaXMgc29tZXRoaW5nIHdlJ3ZlCj4gdGFsa2VkIGFib3V0IGxh
-c3QgWERDIFszXS4gVGhlIGZsaWNrZXJpbmcgaXMgY2F1c2VkIGJ5IHBoeXNpY2FsCj4gbGltaXRh
-dGlvbnMgb2YgdGhlIHNjcmVlbjogY2hhbmdpbmcgdGhlIHJlZnJlc2ggcmF0ZSB0b28gcXVpY2ts
-eQo+IHJlc3VsdHMgaW4gYnJpZ2h0bmVzcyBpc3N1ZXMuCj4gCj4gVGhlIGFwcHJvYWNoIHRha2Vu
-IGJ5IHhmODYtdmlkZW8tYW1kZ3B1IGlzIHRvIG9ubHkgZW5hYmxlIFZSUiBpZiBhbiBhcHAKPiBp
-cyBmdWxsc2NyZWVuIGFuZCBub3QgcHJlc2VudCBpbiBhIHNwZWNpYWwgTWVzYSBibGFja2xpc3Qg
-KGUuZy4gRmlyZWZveAo+IGlzIGluIHRoZSBibGFja2xpc3QgYmVjYXVzZSBpdCBkb2Vzbid0IHJl
-bmRlciBhdCBhIGZpeGVkIGludGVydmFsKS4KPiAKPiBGb3IgV2F5bGFuZCwgSSdkIHByZWZlciB0
-byBhdm9pZCBoYXZpbmcgYSBibGFja2xpc3QuIEknZCBsaWtlIHRvIGJlCj4gYWJsZSB0byB1c2Ug
-VlJSIGluIHRoZSBnZW5lcmFsIGNhc2UgKG5vdCBqdXN0IGZvciBmdWxsc2NyZWVuIGFwcHMpLgo+
-IEEgd2F5IHRvIGZpeCB0aGUgZmxpY2tlcmluZyB3b3VsZCBiZSB0byBpbXBsZW1lbnQgYSBzbGV3
-IHJhdGUgYW5kIG1ha2UKPiBpdCBzbyByZWZyZXNoIHJhdGUgdmFyaWF0aW9ucyBhcmUgY2FwcGVk
-IGJ5IHRoZSBzbGV3IHJhdGUuCgpPbmUgcG90ZW50aWFsIGlzc3VlIEkgc2VlIHdpdGggdGhpcyBp
-cyB0aGUgY3Vyc29yLCB3aGljaCBjYW4gZmVlbAphd2t3YXJkIGlmIGl0IG9ubHkgbW92ZXMgYXQg
-MzAgSHouIEkgd29uZGVyIGlmIGEgc2xldyByYXRlIHdoaWNoIGNhbgpyZWxpYWJseSBwcmV2ZW50
-IGZsaWNrZXJpbmcgYWxsb3dzIHRoZSBmcmFtZXJhdGUgdG8gcmFtcCB1cCBxdWlja2x5CmVub3Vn
-aCBmb3IgdGhpcyBub3QgdG8gYmUgYW5ub3lpbmcuCgoKLS0gCkVhcnRobGluZyBNaWNoZWwgRMOk
-bnplciAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICBodHRwczovL3JlZGhhdC5jb20KTGli
-cmUgc29mdHdhcmUgZW50aHVzaWFzdCAgICAgICAgICAgICB8ICAgICAgICAgICAgIE1lc2EgYW5k
-IFggZGV2ZWxvcGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1729316716==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="8zb502i0uNK5UHJJl43MN65Z2VSqAtFfM"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--8zb502i0uNK5UHJJl43MN65Z2VSqAtFfM
+Content-Type: multipart/mixed; boundary="UnbV06xuRFGsh6csSeVcRA5al48ja8xJK";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Richard Henderson
+ <rth@twiddle.net>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jiri Slaby
+ <jirislaby@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ "David S. Miller" <davem@davemloft.net>, Dave Jiang <dave.jiang@intel.com>,
+ Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
+ linux-arch@vger.kernel.org
+Message-ID: <90baef2d-25fe-fac4-6a7e-b103b4b6721e@suse.de>
+Subject: Re: [RESEND PATCH v2 6/9] drm/mgag200: Constify ioreadX() iomem
+ argument (as in generic implementation)
+References: <20200219175007.13627-1-krzk@kernel.org>
+ <20200219175007.13627-7-krzk@kernel.org>
+In-Reply-To: <20200219175007.13627-7-krzk@kernel.org>
+
+--UnbV06xuRFGsh6csSeVcRA5al48ja8xJK
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Krzysztof,
+
+I just received a resend email from 3 weeks ago :/
+
+Do you want me to merge the mgag200 patch into drm-misc-next?
+
+Best regards
+Thomas
+
+Am 19.02.20 um 18:50 schrieb Krzysztof Kozlowski:
+> The ioreadX() helpers have inconsistent interface.  On some architectur=
+es
+> void *__iomem address argument is a pointer to const, on some not.
+>=20
+> Implementations of ioreadX() do not modify the memory under the address=
+
+> so they can be converted to a "const" version for const-safety and
+> consistency among architectures.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> ---
+>=20
+> Changes since v1:
+> 1. Add Thomas' review.
+> ---
+>  drivers/gpu/drm/mgag200/mgag200_drv.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mg=
+ag200/mgag200_drv.h
+> index aa32aad222c2..6512b3af4fb7 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> @@ -34,9 +34,9 @@
+> =20
+>  #define MGAG200FB_CONN_LIMIT 1
+> =20
+> -#define RREG8(reg) ioread8(((void __iomem *)mdev->rmmio) + (reg))
+> +#define RREG8(reg) ioread8(((const void __iomem *)mdev->rmmio) + (reg)=
+)
+>  #define WREG8(reg, v) iowrite8(v, ((void __iomem *)mdev->rmmio) + (reg=
+))
+> -#define RREG32(reg) ioread32(((void __iomem *)mdev->rmmio) + (reg))
+> +#define RREG32(reg) ioread32(((const void __iomem *)mdev->rmmio) + (re=
+g))
+>  #define WREG32(reg, v) iowrite32(v, ((void __iomem *)mdev->rmmio) + (r=
+eg))
+> =20
+>  #define ATTR_INDEX 0x1fc0
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--UnbV06xuRFGsh6csSeVcRA5al48ja8xJK--
+
+--8zb502i0uNK5UHJJl43MN65Z2VSqAtFfM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl5qE6QACgkQaA3BHVML
+eiOp7Af/Z24gM/vp7wuoDOu1s9VJhDHNRqfYcrpjv+SeE5E7jsj4gBCwwLJxuyKf
+5DIzeOH97Mrv5fgfIx97Af8C372d1sRW46TwvSXFm8ywyTvigM4cWdRapf9cXozZ
+AiQUCqkrkGEL6FhofMuHqZ2arL+6NooRluvXmoeX9bXA+itrwOhU4YhoIUwTJnUc
+7UrcNFXhCKIZrEGfkHGZrnbC/Lr9g+tBLcEcQJf69SUMc56aboUZf47aOcpw67lj
+3TpHOqEJwqnxnQlKSO0cL4BgwEzZWt3ahVqFdDlM+QfSlJO65N7Y6s8CismBxubN
+bGiOW37w7Bmi4mVHO5RWa3uelcwjoA==
+=D9Sa
+-----END PGP SIGNATURE-----
+
+--8zb502i0uNK5UHJJl43MN65Z2VSqAtFfM--
+
+--===============1729316716==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1729316716==--
