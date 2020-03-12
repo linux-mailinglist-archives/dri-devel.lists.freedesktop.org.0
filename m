@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7F3182995
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 08:13:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089E9182A08
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 08:55:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A40C06E060;
-	Thu, 12 Mar 2020 07:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E025A89715;
+	Thu, 12 Mar 2020 07:55:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D98006E060
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 07:13:25 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02C7DBoM010246;
- Thu, 12 Mar 2020 02:13:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1583997191;
- bh=fjYERfZUgQqc0nG8FGAu3JPItUIvc/HLycHoB+1dJS8=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=MAnsAHWYbQnl4E2RuhyzfPrYoPjmkJH9TNu0ubI5w9NKRTidri1yub5+zuWeLobIX
- iTP0fnFNo6/zLgplDh7cqHidhgLj0RewxcvJKQZLntJz2uvrukxUPIb5Xqk4d0P0HL
- R9cUaOUohdncf6stuJl910WmUtchTJmg0unByiJc=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02C7DBFD079960
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 12 Mar 2020 02:13:11 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 12
- Mar 2020 02:13:10 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 12 Mar 2020 02:13:10 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02C7D6DT060795;
- Thu, 12 Mar 2020 02:13:07 -0500
-Subject: Re: [PATCH v6 2/3] drm: bridge: Add support for Cadence MHDP DPI/DP
- bridge
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Yuti Amonkar
- <yamonkar@cadence.com>
-References: <1582712579-28504-1-git-send-email-yamonkar@cadence.com>
- <1582712579-28504-3-git-send-email-yamonkar@cadence.com>
- <20200311222053.GE4863@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <ef6a6e31-425f-c402-83ab-886221b4a0c3@ti.com>
-Date: Thu, 12 Mar 2020 09:13:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-yw1-xc42.google.com (mail-yw1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D766A89715;
+ Thu, 12 Mar 2020 07:55:51 +0000 (UTC)
+Received: by mail-yw1-xc42.google.com with SMTP id 10so4716754ywv.5;
+ Thu, 12 Mar 2020 00:55:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Y8PH8OwRLD6nQXDDi9y8VIf66Uz6y/cjwU3hUU4CHeQ=;
+ b=NYpb5alec01RBygunaSyIwAvzoDgMhxcnYOM5Z0iWhI6ke8QJJuGbFWLgFtCkzOhSo
+ GmBEWrvQPIhOxjn7HuZ7k5vG73LaHkos049KQPV5cc2hFNRvbijKNH9UqIw+VgasE4xn
+ 3u7y7elTcNfK1JzMXRbdFDFnqbOxqmLRe+0rUE5mK/coiDm/Xdd+K3y7vJXqETfNaKUl
+ I7SRSFAGlpKQOP6enB7qLsjfHZagaBg0kGG8KnhuK9p/9Obksy8WCavX1brmWM52OIno
+ Zyuu7bat/tQDr2/OE3y96UhIQ7QPveDoq0k2IxJJU4ACBvdTqQ5KLP5bueYl/O1MeTvH
+ Bw2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Y8PH8OwRLD6nQXDDi9y8VIf66Uz6y/cjwU3hUU4CHeQ=;
+ b=Qcip4Xy/CePSf/5C7o2XJuB0dr7s7renKoZaUDiELDbr3XGTa3KDl1nJyu0dx797BA
+ pHuSgxxbFa0/cQO0LJHyXim9xN3yOS0Wo70tHS+xOjpuHL7dvsDDUuDHnTdsTBFk7h5t
+ yGGmCwhmuhVbWATbjztg6X58udmDHcu2lUUK0BI7kg1BgKPUgx0Xm/LH3jk47tlsoh+B
+ FvAU4CZp90+zOlnMpAHEi5fK+ki19vDaxKAtVZw2Egttg//GWl4XFanJKykQaxm3RO6t
+ X6hit9gDMZAB2TSu/Tnl2l5AX58Ii43cQjthKCoNJdfgDd/9XupVNZ2DOSbJUF8S+KXK
+ 84fQ==
+X-Gm-Message-State: ANhLgQ2xEJ1RtSvFsvyQDESrUZppMc0os9HJ7ozFYIEKZNbtbIidRcUx
+ IkyHXTs24G0FWeWH3G12owK9/x3vHdbQOuqdvho=
+X-Google-Smtp-Source: ADFU+vts+xJgjvsNggC0oJn6T/AhhA6fIzZAK7IOhIRQgnxsxYNXe7MXAD02qS1EHhqhreTigQi0w6OWbvY0Klo8cyc=
+X-Received: by 2002:a25:ace2:: with SMTP id x34mr7802951ybd.83.1583999750963; 
+ Thu, 12 Mar 2020 00:55:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200311222053.GE4863@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200304001339.8248-1-rcampbell@nvidia.com>
+ <20200304001339.8248-2-rcampbell@nvidia.com>
+In-Reply-To: <20200304001339.8248-2-rcampbell@nvidia.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Thu, 12 Mar 2020 17:55:39 +1000
+Message-ID: <CACAvsv4+od30K-FAr5Fet7kOz1APRDTXmHRc3fN4eiCVDhY02w@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH v3 1/4] nouveau/hmm: fix vma range check for
+ migration
+To: Ralph Campbell <rcampbell@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- praneeth@ti.com, narmstrong@baylibre.com, airlied@linux.ie, jonas@kwiboo.se,
- jsarha@ti.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, robh+dt@kernel.org, maxime@cerno.tech,
- sjakhade@cadence.com, mparab@cadence.com
+Cc: linux-rdma@vger.kernel.org, ML nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
+ Jason Gunthorpe <jgg@mellanox.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+I've taken all 4 patches in my tree.
 
-On 12/03/2020 00:20, Laurent Pinchart wrote:
->> +	ret = load_firmware(mhdp);
->> +	if (ret)
->> +		goto phy_exit;
->> +
->> +	drm_bridge_add(&mhdp->bridge);
-> What if someone starts using the bridge before the firmware is
-> operational ? It seems that you should delay bridge registration until
-> the firmware is loaded. It may make it possible to remove
-> bridge_attached and solve the problem you mention in mhdp_fw_cb().
+Thanks Ralph,
+Ben.
 
-Handling the fw has been a bit of a pain... This is what we came up with to support all the 
-combinations (built-in/module, fw-userspace-helper/direct load, single-output/multiple-outputs).
-
-The idea is that when the driver is loaded and probed (with or without fw), the DP is "ready". If we 
-don't have fw yet, everything looks fine, but the connector stays in disconnected state. When we get 
-the fw, connector will get connected (only if there's a cable connected, of course).
-
-If we register the bridge only when we have fw, two things can happen:
-
-- If we get the fw only rather late (in case userspace fw helper), a userspace app (e.g. weston) 
-could already have been started, and failed due to there being no DRM card.
-
-- If we have two displays from the same display controller, say, DP and HDMI, the HDMI will only be 
-available when the DP is available. If the DP fw, for some reason, cannot be loaded, we never get HDMI.
-
-  Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+On Wed, 4 Mar 2020 at 10:14, Ralph Campbell <rcampbell@nvidia.com> wrote:
+>
+> find_vma_intersection(mm, start, end) only guarantees that end is greater
+> than or equal to vma->vm_start but doesn't guarantee that start is
+> greater than or equal to vma->vm_start. The calculation for the
+> intersecting range in nouveau_svmm_bind() isn't accounting for this and
+> can call migrate_vma_setup() with a starting address less than
+> vma->vm_start. This results in migrate_vma_setup() returning -EINVAL for
+> the range instead of nouveau skipping that part of the range and migrating
+> the rest.
+>
+> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_svm.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> index df9bf1fd1bc0..169320409286 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> @@ -179,6 +179,7 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
+>                 if (!vma)
+>                         break;
+>
+> +               addr = max(addr, vma->vm_start);
+>                 next = min(vma->vm_end, end);
+>                 /* This is a best effort so we ignore errors */
+>                 nouveau_dmem_migrate_vma(cli->drm, vma, addr, next);
+> --
+> 2.20.1
+>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
