@@ -2,24 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236001836C8
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 18:02:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0F5184219
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:01:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDBD89935;
-	Thu, 12 Mar 2020 17:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 674B06EB8F;
+	Fri, 13 Mar 2020 08:00:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CF3906EB0F;
- Thu, 12 Mar 2020 17:02:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4EBA730E;
- Thu, 12 Mar 2020 10:02:21 -0700 (PDT)
-Received: from [10.57.15.252] (unknown [10.57.15.252])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A670B3F6CF;
- Thu, 12 Mar 2020 10:02:19 -0700 (PDT)
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E78186EB09
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 17:17:36 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id d8so7520754qka.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 10:17:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=jNz3IrFgPeotxDLNaXTICEUp/RnRWRjsOnVPCR+thno=;
+ b=LBoFZXyaqhI+wrfyV+JgFdECjctTdkD2NLPfW0UefrCclVuDzNLgMftJt7wePOin+m
+ GYCLQTjFK9OKRcikgaMB6TZrU4/32wc7kJmLl3k66rVME286eUq+XtTdrQEXGwp+2UE9
+ IoRtplyaoIatnd7VSBGe49Mk2dnK+ynNnvR5lazFHP8HlKx6vzTIyBlxxEW95/jMHfXg
+ gGpybedoLh0hzhQrXvVi190UFh5WgV1YNJ3vHJFlsAwJ5dSoRNr6fV2ANfpzvh1drYj4
+ Wj8xPoGeoTlu0SOfO9z/cG7aO0NaGpEx9wfMe9LoTymeqvcPxqYF5KTRttUHZB4Trrae
+ m/7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=jNz3IrFgPeotxDLNaXTICEUp/RnRWRjsOnVPCR+thno=;
+ b=lYRGMX41hoQjIapYBrPnrB4o5AMMUcHRwxdWsH+/i9nei+hEm029dLfQ5DALT9Hf1i
+ +pm46YDHBnt3VwtdP+erWV8op+VegMXpVfkivLzdWpc1Lgc2RWS3UK9OCLPS5o8/Tpw7
+ bxLHp1DdvqNst5xrGd/PyitDvrUFzRA5Wh9vSgTfwTLgEnMx+Cests6hXJ2njkMvxcsp
+ EW8ZJa0bf0a+xBqscKYpesPEeE+948Zgav3lV5QGXXkd57dndLh53EjUlLkg0QZNcx4A
+ urGdm3Aso9UxX6CmLRQMg+bE5aqp8ez1262I9kKyt4hTZhoZFvTyY6evImD+HOBxkQAm
+ lNSA==
+X-Gm-Message-State: ANhLgQ29iYX+UZ6BcAPDNisESLdEqkw0XGqmzFQAGdtDyW6s4gg25J5C
+ FVnHo2rat2KPpVNxG89zTWHwGQ==
+X-Google-Smtp-Source: ADFU+vtW5dsy1G4ib2/EXTBUeblL8Qau/zrPbOpFbNGasj8QDK9MzB6BcBkp4LKFA9nfntvXkIwwaA==
+X-Received: by 2002:a05:620a:112c:: with SMTP id
+ p12mr9067500qkk.307.1584033455959; 
+ Thu, 12 Mar 2020 10:17:35 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id s49sm10076169qtc.29.2020.03.12.10.17.35
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 12 Mar 2020 10:17:35 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jCRSg-0000u8-Fq; Thu, 12 Mar 2020 14:17:34 -0300
+Date: Thu, 12 Mar 2020 14:17:34 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Steven Price <steven.price@arm.com>
 Subject: Re: [PATCH] mm/hmm: Simplify hmm_vma_walk_pud slightly
-To: Jason Gunthorpe <jgg@ziepe.ca>
+Message-ID: <20200312171734.GT31668@ziepe.ca>
 References: <5bd778fa-51e5-3e0c-d9bb-b38539b03c8d@arm.com>
  <20200312102813.56699-1-steven.price@arm.com>
  <20200312142749.GM31668@ziepe.ca>
@@ -27,14 +63,12 @@ References: <5bd778fa-51e5-3e0c-d9bb-b38539b03c8d@arm.com>
  <20200312151113.GO31668@ziepe.ca>
  <689d3c56-3d19-4655-21f5-f9aeab3089df@arm.com>
  <20200312163734.GR31668@ziepe.ca>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <bf9b38ae-edd5-115f-e1ca-d769872f994a@arm.com>
-Date: Thu, 12 Mar 2020 17:02:18 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ <bf9b38ae-edd5-115f-e1ca-d769872f994a@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200312163734.GR31668@ziepe.ca>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <bf9b38ae-edd5-115f-e1ca-d769872f994a@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Fri, 13 Mar 2020 08:00:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,80 +88,54 @@ Cc: Philip Yang <Philip.Yang@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
  "linux-mm@kvack.org" <linux-mm@kvack.org>, Jerome Glisse <jglisse@redhat.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/03/2020 16:37, Jason Gunthorpe wrote:
-> On Thu, Mar 12, 2020 at 04:16:33PM +0000, Steven Price wrote:
->>> Actually, while you are looking at this, do you think we should be
->>> adding at least READ_ONCE in the pagewalk.c walk_* functions? The
->>> multiple references of pmd, pud, etc without locking seems sketchy to
->>> me.
->>
->> I agree it seems worrying. I'm not entirely sure whether the holding of
->> mmap_sem is sufficient,
+On Thu, Mar 12, 2020 at 05:02:18PM +0000, Steven Price wrote:
+
+> > Having the walker deref the pointer and pass the value it into the ops
+> > for use rather than repeatedly de-refing an unlocked value seems like
+> > a much safer design to me.
 > 
-> I looked at this question, and at least for PMD, mmap_sem is not
-> sufficient. I didn't easilly figure it out for the other ones
+> Yeah that sounds like a good idea.
+
+Ok.. let see when I get this hmm & odp stuff cleared off
+ 
+> > I also didn't quite understand why walk_pte_range() skipped locking
+> > the pte in the no_vma case - I don't get why vma would be related to
+> > locking here.
 > 
-> I'm guessing if PMD is not safe then none of them are.
+> The no_vma case is for walking the kernel's page tables and they may have
+> entries that are not backed by struct page, so there isn't (reliably) a PTE
+> lock to take.
+
+Oh, that is an interesting bit of insight..
+
+> > I also saw that hmm open coded the pte walk, presumably for
+> > performance, so I was thinking of adding some kind of pte_range()
+> > callback to avoid the expensive indirect function call per pte, but
+> > hmm also can't have the pmd locked...
 > 
->> this isn't something that I changed so I've just
->> been hoping that it's sufficient since it seems to have been working
->> (whether that's by chance because the compiler didn't generate multiple
->> reads I've no idea). For walking the kernel's page tables the lack of
->> READ_ONCE is also not great, but at least for PTDUMP we don't care too much
->> about accuracy and it should be crash proof because there's no RCU grace
->> period. And again the code I was replacing didn't have any special
->> protection.
->>
->> I can't see any harm in updating the code to include READ_ONCE and I'm happy
->> to review a patch.
+> Yeah the callback per PTE is a bit heavy because of the indirect function
+> call. I'm not sure how to optimise it beyond open coding at the PMD level.
+> One option would be to provide helper functions to make it a bit more
+> generic.
 > 
-> The reason I ask is because hmm's walkers often have this pattern
-> where they get the pointer and then de-ref it (again) then
-> immediately have to recheck the 'again' conditions of the walker
-> itself because the re-read may have given a different value.
-> 
-> Having the walker deref the pointer and pass the value it into the ops
-> for use rather than repeatedly de-refing an unlocked value seems like
-> a much safer design to me.
+> Do you have an idea of what pte_range() would look like?
 
-Yeah that sounds like a good idea.
+Basically just pass in the already mapped pte array just like is
+already done at the tail of the pmd
 
-> If this also implicitly relies on a RCU grace period then it is also
-> missing RCU locking...
+The reason to do it like this is so that the common code in the walker
+can correctly prove the pmd is pointing at a pte before trying to map
+it.
 
-True - I'm not 100% sure in what situations a page table entry can be 
-freed. Anshuman has added locking to deal with memory hotplug[1]. I 
-believe this is sufficient.
+This is complicated, and hmm at least already got it wrong when trying
+to open code at the PMD level.
 
-[1] bf2b59f60ee1 ("arm64/mm: Hold memory hotplug lock while walking for 
-kernel page table dump")
-
-> I also didn't quite understand why walk_pte_range() skipped locking
-> the pte in the no_vma case - I don't get why vma would be related to
-> locking here.
-
-The no_vma case is for walking the kernel's page tables and they may 
-have entries that are not backed by struct page, so there isn't 
-(reliably) a PTE lock to take.
-
-> I also saw that hmm open coded the pte walk, presumably for
-> performance, so I was thinking of adding some kind of pte_range()
-> callback to avoid the expensive indirect function call per pte, but
-> hmm also can't have the pmd locked...
-
-Yeah the callback per PTE is a bit heavy because of the indirect 
-function call. I'm not sure how to optimise it beyond open coding at the 
-PMD level. One option would be to provide helper functions to make it a 
-bit more generic.
-
-Do you have an idea of what pte_range() would look like?
-
-Steve
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
