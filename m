@@ -1,38 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF030182B98
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:54:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC753182BAB
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:58:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 387136E0B6;
-	Thu, 12 Mar 2020 08:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 956EE6E0A5;
+	Thu, 12 Mar 2020 08:58:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B92ED6E09A;
- Thu, 12 Mar 2020 08:54:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46FC11FB;
- Thu, 12 Mar 2020 01:54:46 -0700 (PDT)
-Received: from [10.57.15.252] (unknown [10.57.15.252])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 140973F67D;
- Thu, 12 Mar 2020 01:54:43 -0700 (PDT)
-Subject: Re: [PATCH hmm 3/8] mm/hmm: do not call hmm_vma_walk_hole() while
- holding a spinlock
-To: Jason Gunthorpe <jgg@ziepe.ca>, Jerome Glisse <jglisse@redhat.com>,
- Ralph Campbell <rcampbell@nvidia.com>,
- "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>
-References: <20200311183506.3997-1-jgg@ziepe.ca>
- <20200311183506.3997-4-jgg@ziepe.ca>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <5bd778fa-51e5-3e0c-d9bb-b38539b03c8d@arm.com>
-Date: Thu, 12 Mar 2020 08:54:41 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B52E6E0A5;
+ Thu, 12 Mar 2020 08:58:49 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2020 01:58:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,544,1574150400"; d="scan'208";a="236757961"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by orsmga008.jf.intel.com with ESMTP; 12 Mar 2020 01:58:47 -0700
+Received: from fmsmsx119.amr.corp.intel.com (10.18.124.207) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 12 Mar 2020 01:58:47 -0700
+Received: from bgsmsx101.gar.corp.intel.com (10.223.4.170) by
+ FMSMSX119.amr.corp.intel.com (10.18.124.207) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 12 Mar 2020 01:58:47 -0700
+Received: from BGSMSX107.gar.corp.intel.com ([169.254.9.15]) by
+ BGSMSX101.gar.corp.intel.com ([169.254.1.153]) with mapi id 14.03.0439.000;
+ Thu, 12 Mar 2020 14:28:43 +0530
+From: "Laxminarayan Bharadiya, Pankaj"
+ <pankaj.laxminarayan.bharadiya@intel.com>
+To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: RE: [RFC][PATCH 3/5] drm/i915: Enable scaling filter for plane and
+ pipe
+Thread-Topic: [RFC][PATCH 3/5] drm/i915: Enable scaling filter for plane and
+ pipe
+Thread-Index: AQHV66uR0nE+V83KFEm4O/sSi5gKVahBt/iAgAMIn3A=
+Date: Thu, 12 Mar 2020 08:58:42 +0000
+Message-ID: <E92BA18FDE0A5B43B7B3DA7FCA031286057B2BE5@BGSMSX107.gar.corp.intel.com>
+References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200225070545.4482-4-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200310160545.GI13686@intel.com>
+In-Reply-To: <20200310160545.GI13686@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
 MIME-Version: 1.0
-In-Reply-To: <20200311183506.3997-4-jgg@ziepe.ca>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,78 +65,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Jason Gunthorpe <jgg@mellanox.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>, "Souza, 
+ Jose" <jose.souza@intel.com>, "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
+ "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/03/2020 18:35, Jason Gunthorpe wrote:
-> From: Jason Gunthorpe <jgg@mellanox.com>
-> 
-> This eventually calls into handle_mm_fault() which is a sleeping function.
-> Release the lock first.
-> 
-> hmm_vma_walk_hole() does not touch the contents of the PUD, so it does not
-> need the lock.
-> 
-> Fixes: 3afc423632a1 ("mm: pagewalk: add p4d_entry() and pgd_entry()")
-> Cc: Steven Price <steven.price@arm.com>
-> Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 
-Sorry about that, thanks for fixing.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+> -----Original Message-----
+> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Sent: 10 March 2020 21:36
+> To: Laxminarayan Bharadiya, Pankaj
+> <pankaj.laxminarayan.bharadiya@intel.com>
+> Cc: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-
+> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; airlied@linux=
+.ie;
+> maarten.lankhorst@linux.intel.com; tzimmermann@suse.de;
+> mripard@kernel.org; mihail.atanassov@arm.com; Joonas Lahtinen
+> <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
+> Chris Wilson <chris@chris-wilson.co.uk>; Souza, Jose
+> <jose.souza@intel.com>; Juha-Pekka Heikkila
+> <juhapekka.heikkila@gmail.com>; linux-kernel@vger.kernel.org; Nautiyal,
+> Ankit K <ankit.k.nautiyal@intel.com>
+> Subject: Re: [RFC][PATCH 3/5] drm/i915: Enable scaling filter for plane a=
+nd
+> pipe
+> =
 
-> ---
->   mm/hmm.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/mm/hmm.c b/mm/hmm.c
-> index 9e8f68eb83287a..32dcbfd3908315 100644
-> --- a/mm/hmm.c
-> +++ b/mm/hmm.c
-> @@ -473,8 +473,8 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
->   
->   	pud = READ_ONCE(*pudp);
->   	if (pud_none(pud)) {
-> -		ret = hmm_vma_walk_hole(start, end, -1, walk);
-> -		goto out_unlock;
-> +		spin_unlock(ptl);
-> +		return hmm_vma_walk_hole(start, end, -1, walk);
->   	}
->   
->   	if (pud_huge(pud) && pud_devmap(pud)) {
-> @@ -483,8 +483,8 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
->   		bool fault, write_fault;
->   
->   		if (!pud_present(pud)) {
-> -			ret = hmm_vma_walk_hole(start, end, -1, walk);
-> -			goto out_unlock;
-> +			spin_unlock(ptl);
-> +			return hmm_vma_walk_hole(start, end, -1, walk);
->   		}
->   
->   		i = (addr - range->start) >> PAGE_SHIFT;
-> @@ -495,9 +495,9 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
->   		hmm_range_need_fault(hmm_vma_walk, pfns, npages,
->   				     cpu_flags, &fault, &write_fault);
->   		if (fault || write_fault) {
-> -			ret = hmm_vma_walk_hole_(addr, end, fault,
-> -						 write_fault, walk);
-> -			goto out_unlock;
-> +			spin_unlock(ptl);
-> +			return hmm_vma_walk_hole_(addr, end, fault, write_fault,
-> +						  walk);
->   		}
->   
->   		pfn = pud_pfn(pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
-> 
+> On Tue, Feb 25, 2020 at 12:35:43PM +0530, Pankaj Bharadiya wrote:
+> > Attach scaling filter property for crtc and plane and program the
+> > scaler control register for the selected filter type.
+> >
+> > This is preparatory patch to enable Nearest-neighbor integer scaling.
+> >
+> > Signed-off-by: Pankaj Bharadiya
+> > <pankaj.laxminarayan.bharadiya@intel.com>
+> > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_display.c | 17 +++++++++++++++--
+> > drivers/gpu/drm/i915/display/intel_sprite.c  | 12 +++++++++++-
+> >  drivers/gpu/drm/i915/i915_reg.h              |  1 +
+> >  3 files changed, 27 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c
+> > b/drivers/gpu/drm/i915/display/intel_display.c
+> > index 3031e64ee518..b5903ef3c5a0 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > @@ -6242,6 +6242,8 @@ static void skl_pfit_enable(const struct
+> intel_crtc_state *crtc_state)
+> >  	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
+> >  	struct drm_i915_private *dev_priv =3D to_i915(crtc->base.dev);
+> >  	enum pipe pipe =3D crtc->pipe;
+> > +	const struct drm_crtc_state *state =3D &crtc_state->uapi;
+> > +	u32 scaling_filter =3D PS_FILTER_MEDIUM;
+> >  	const struct intel_crtc_scaler_state *scaler_state =3D
+> >  		&crtc_state->scaler_state;
+> >
+> > @@ -6258,6 +6260,11 @@ static void skl_pfit_enable(const struct
+> intel_crtc_state *crtc_state)
+> >  		pfit_w =3D (crtc_state->pch_pfit.size >> 16) & 0xFFFF;
+> >  		pfit_h =3D crtc_state->pch_pfit.size & 0xFFFF;
+> >
+> > +		if (state->scaling_filter =3D=3D
+> > +		    DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
+> > +			scaling_filter =3D PS_FILTER_PROGRAMMED;
+> > +		}
+> =
 
+> Just make that a function that can be used all over.
+> skl_scaler_filter(scaling_filter) or something.
+> =
+
+> > +
+> >  		hscale =3D (crtc_state->pipe_src_w << 16) / pfit_w;
+> >  		vscale =3D (crtc_state->pipe_src_h << 16) / pfit_h;
+> >
+> > @@ -6268,8 +6275,10 @@ static void skl_pfit_enable(const struct
+> > intel_crtc_state *crtc_state)
+> >
+> >  		spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
+> >
+> > -		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id),
+> PS_SCALER_EN |
+> > -				  PS_FILTER_MEDIUM | scaler_state-
+> >scalers[id].mode);
+> > +		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id),
+> > +				  PS_SCALER_EN |
+> > +				  scaling_filter |
+> > +				  scaler_state->scalers[id].mode);
+> >  		intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, id),
+> >  				  PS_Y_PHASE(0) |
+> PS_UV_RGB_PHASE(uv_rgb_vphase));
+> >  		intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, id), @@
+> -16695,6
+> > +16704,10 @@ static int intel_crtc_init(struct drm_i915_private *dev_pr=
+iv,
+> enum pipe pipe)
+> >  		dev_priv->plane_to_crtc_mapping[i9xx_plane] =3D crtc;
+> >  	}
+> >
+> > +
+> > +	if (INTEL_GEN(dev_priv) >=3D 11)
+> =
+
+> gen >=3D 10 actually. Even glk seems to have it but bspec says not to use=
+ it on
+> glk. Supposedly not validated.
+> =
+
+> ilk/snb/ivb pfits also has programmable coefficients actually. So IMO we
+> should enable this on those as well.
+
+OK. I need to explore bspec more for these platforms.
+To begin with I would like to stick to gen >=3D10.
+
+> =
+
+> The bigger problem will be how is userspace supposed to use this if it's =
+a crtc
+> property? Those will not get automagically exposed via xrandr.
+> =
+
+> > +		drm_crtc_enable_scaling_filter(&crtc->base);
+> > +
+> >  	intel_color_init(crtc);
+> >
+> >  	drm_WARN_ON(&dev_priv->drm, drm_crtc_index(&crtc->base) !=3D
+> > crtc->pipe); diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c
+> > b/drivers/gpu/drm/i915/display/intel_sprite.c
+> > index 7abeefe8dce5..fd7b31a21723 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_sprite.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
+> > @@ -414,6 +414,12 @@ skl_program_scaler(struct intel_plane *plane,
+> >  	u16 y_hphase, uv_rgb_hphase;
+> >  	u16 y_vphase, uv_rgb_vphase;
+> >  	int hscale, vscale;
+> > +	const struct drm_plane_state *state =3D &plane_state->uapi;
+> > +	u32 scaling_filter =3D PS_FILTER_MEDIUM;
+> > +
+> > +	if (state->scaling_filter =3D=3D
+> DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
+> > +		scaling_filter =3D PS_FILTER_PROGRAMMED;
+> > +	}
+> >
+> >  	hscale =3D drm_rect_calc_hscale(&plane_state->uapi.src,
+> >  				      &plane_state->uapi.dst,
+> > @@ -441,7 +447,8 @@ skl_program_scaler(struct intel_plane *plane,
+> >  	}
+> >
+> >  	intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, scaler_id),
+> > -			  PS_SCALER_EN | PS_PLANE_SEL(plane->id) | scaler-
+> >mode);
+> > +			  scaling_filter | PS_SCALER_EN |
+> > +			  PS_PLANE_SEL(plane->id) | scaler->mode);
+> >  	intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, scaler_id),
+> >  			  PS_Y_PHASE(y_vphase) |
+> PS_UV_RGB_PHASE(uv_rgb_vphase));
+> >  	intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, scaler_id), @@
+> > -3104,6 +3111,9 @@ skl_universal_plane_create(struct drm_i915_private
+> > *dev_priv,
+> >
+> >  	drm_plane_create_zpos_immutable_property(&plane->base,
+> plane_id);
+> >
+> > +	if (INTEL_GEN(dev_priv) >=3D 11)
+> =
+
+> also gen>=3D10
+> =
+
+> Also this patch breaks things as we don't yet have the code to program the
+> coefficients. So the series needs to be reordered.
+
+Will reorder the series.
+
+Thanks,
+Pankaj
+> =
+
+> > +		drm_plane_enable_scaling_filter(&plane->base);
+> > +
+> >  	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
+> >
+> >  	return plane;
+> > diff --git a/drivers/gpu/drm/i915/i915_reg.h
+> > b/drivers/gpu/drm/i915/i915_reg.h index f45b5e86ec63..34923b1c284c
+> > 100644
+> > --- a/drivers/gpu/drm/i915/i915_reg.h
+> > +++ b/drivers/gpu/drm/i915/i915_reg.h
+> > @@ -7212,6 +7212,7 @@ enum {
+> >  #define PS_PLANE_SEL(plane) (((plane) + 1) << 25)
+> >  #define PS_FILTER_MASK         (3 << 23)
+> >  #define PS_FILTER_MEDIUM       (0 << 23)
+> > +#define PS_FILTER_PROGRAMMED   (1 << 23)
+> >  #define PS_FILTER_EDGE_ENHANCE (2 << 23)
+> >  #define PS_FILTER_BILINEAR     (3 << 23)
+> >  #define PS_VERT3TAP            (1 << 21)
+> > --
+> > 2.23.0
+> =
+
+> --
+> Ville Syrj=E4l=E4
+> Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
