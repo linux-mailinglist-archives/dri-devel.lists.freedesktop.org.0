@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5021218327C
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 15:10:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142B418327D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 15:10:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB2926EACD;
-	Thu, 12 Mar 2020 14:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED5516EACE;
+	Thu, 12 Mar 2020 14:10:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E36126E201;
- Thu, 12 Mar 2020 14:10:26 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id m9so7631886wro.12;
- Thu, 12 Mar 2020 07:10:26 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D22656EACE;
+ Thu, 12 Mar 2020 14:10:40 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id f3so674693wrw.7;
+ Thu, 12 Mar 2020 07:10:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z9pN5bnfB9UOGPPBmOZ+T30a1QO55ydc2k3sYdmcW5U=;
- b=NR1rKwJFKCpKBdFOSixakBU1LfBZYgL1ja4b92wMexZSj1lE2q5+MuAeq7wwehzMnY
- 8mQ1YXCriAfreO0PYg4YDJRnD4rf6rmCHuRhQRand0tnPQ3ETIZJFxRxp6CODcG0oSiV
- alZbg1MInEptTSH0CgCpu2Czb3ME7Whpi2P6m05YH+tZh6HYIz8/vfrBn2bNrCfI4Tz1
- qolgY8dyw1MuANUII0CPwrPGFuQtZ4ozioq4TyDoKqUSOt3V4dxlI+2CCxBMZlKq20aI
- CDWJ0wNZeKSQPLYv42knyfiAoIOLLJrE/glxMsXynLHRF/ge7KbuHQ9D/+jgYxGK9q4S
- lL5A==
+ :cc; bh=5ew4nctO4indXSHhLzfgYmvH3/95PcDt5dya905io4s=;
+ b=sX/nnTzF3WpKLW62aZlNhg/tTlQc74J7QTe1pBr91d8+JK2+VEiYuqwttW48ushB4x
+ i3KDywYEXlpUVblBDddQq9yAhpfBBfUBL2gFgMksYr9BFi0NRWSEfBLfg1jZbBrXegBH
+ hiR5L63dnbJuHzhV5khA5kWHnb6YFMboh134KqQmjWahLl88dQ061x4subDiaAU/iLMK
+ lSEl6pYsL1shARFfb7TwcRm8bqMgXOSyKPbmBUJtI5Nsoq9uq2US5HIFzpIa3VxPOBbB
+ n+Y8sFibTJ+s1gY8tMX6ufWMSjxFw7aow0lwiXR3841o2GcXk5J9eG6VTkAYL0sJo8Yt
+ rudA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Z9pN5bnfB9UOGPPBmOZ+T30a1QO55ydc2k3sYdmcW5U=;
- b=gT03Z4e06Cdr4h0GoB9WLQYpwYQ653AOe9+6kYCxCB7u0K/PlSG2GvZuE4HAzN9u4z
- FsKK92X6iXvLyeEzWFhLV1EovGTH+HuXIF6epdeBoNgUicLnEW+Hm6eAZOpSIIB/YZU3
- V/8XF67GpEAUKM5H3zFO2sa5t+4Z6xAb9WXh0d6QHC5wZO94vMWPgkKPKW9gQ1r78USy
- Xfp2MQ8+fmkWhmJJgF2poB3aNjlcZ1w4iBMIb4WURzBxn360e3sxg8eGQRZPiLQEluUw
- 2vXCaz4EmYRdHaaPNelHyaU+lhFcwZS9atOyjCs+5/bm1DRJfYhujNdJ62BH6MeQdIIl
- ly1w==
-X-Gm-Message-State: ANhLgQ1omv/HFGEgzTs3Fr1da45qh1VknSF9B+3GVpnYEs0fM/pSFLbZ
- kZcAeIxF2GDfa2xsBQREdZuvCEYuhsz8kmHtXeCjvQ==
-X-Google-Smtp-Source: ADFU+vvHHg5y26BwqZU/LzLm11ufz4kziAJw4cWQh+hWSa1c3vndABADeU8cnh7o+ogAxkbeq1ZNsRjRSjTYi1qMhII=
-X-Received: by 2002:adf:f74b:: with SMTP id z11mr11781048wrp.124.1584022225518; 
- Thu, 12 Mar 2020 07:10:25 -0700 (PDT)
+ bh=5ew4nctO4indXSHhLzfgYmvH3/95PcDt5dya905io4s=;
+ b=PM0K89r9uXF6bQICuYI0ACv4TzfK3GEhnOSRvgy341cnRtleVudz3xfL9XcwKDW2zu
+ kljrhuxHiJ3qT8Yrnu6Jco41bzjlhJGr9yfzII95L7TES656FbdiZcguQ6EOyyfroKVo
+ fp5dPc5h2Cx9ClV9WxELnfRmwURDKAGhMGWY6AntSvU3uCwP5PsTyIaMJTYE5Co+OjvI
+ 2Ulc9IZYyadv4mFrm0kG0Io9BaR2YskCieF/WJlEZeHDOTa3zMjVB5UVU5JeRk/KlskV
+ Y2p6f25tePODp/nfEDo6F3DBP0rUF9sq3HvXaXIOj84zwR1wbHFdEx6FAlhEUvgRF3ju
+ ohCg==
+X-Gm-Message-State: ANhLgQ07rnECeeMsUEUcplMb398OY3tnRcXWDkR9qKKEofKOpNzSSrRB
+ iUFYiqB/O1Emn+cL0LtGFzUjE1K+szaXC0p10Hw=
+X-Google-Smtp-Source: ADFU+vu2HXAwbqlqKOCUAswlE7mxU7DuLJWJDNNP8K82VB8pUBhvZNzs6p6b0qoJdIatEFawHfMSI05gTzYSHQzNFMU=
+X-Received: by 2002:adf:c5c8:: with SMTP id v8mr6917160wrg.111.1584022239536; 
+ Thu, 12 Mar 2020 07:10:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1583896344.git.joe@perches.com>
- <4ee79adcba4e5ea80b3ef6271caeef6df4bf8ca7.1583896349.git.joe@perches.com>
-In-Reply-To: <4ee79adcba4e5ea80b3ef6271caeef6df4bf8ca7.1583896349.git.joe@perches.com>
+ <c9f6b726f857935502a4bfb026e27d9e6e5f7e72.1583896349.git.joe@perches.com>
+In-Reply-To: <c9f6b726f857935502a4bfb026e27d9e6e5f7e72.1583896349.git.joe@perches.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 12 Mar 2020 10:10:14 -0400
-Message-ID: <CADnq5_NA+9VhVUGxPcJ8swu=qqPpPA+3-HK9fy5jAg5ko8TfwA@mail.gmail.com>
-Subject: Re: [PATCH -next 024/491] AMD DISPLAY CORE: Use fallthrough;
+Date: Thu, 12 Mar 2020 10:10:28 -0400
+Message-ID: <CADnq5_MistiCrp=jRXqpuu03zTYb+Av8EFq2Dkwjvo5_+PrK0w@mail.gmail.com>
+Subject: Re: [PATCH -next 025/491] AMD POWERPLAY: Use fallthrough;
 To: Joe Perches <joe@perches.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,10 +61,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -84,59 +84,37 @@ On Wed, Mar 11, 2020 at 1:07 AM Joe Perches <joe@perches.com> wrote:
 >
 > Signed-off-by: Joe Perches <joe@perches.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 4 ++--
->  drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       | 2 +-
->  drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> index 2f1c958..37fa7b 100644
-> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> @@ -267,7 +267,7 @@ static struct atom_display_object_path_v2 *get_bios_object(
->                                         && id.enum_id == obj_id.enum_id)
->                                 return &bp->object_info_tbl.v1_4->display_path[i];
->                 }
-> -               /* fall through */
-> +               fallthrough;
->         case OBJECT_TYPE_CONNECTOR:
->         case OBJECT_TYPE_GENERIC:
->                 /* Both Generic and Connector Object ID
-> @@ -280,7 +280,7 @@ static struct atom_display_object_path_v2 *get_bios_object(
->                                         && id.enum_id == obj_id.enum_id)
->                                 return &bp->object_info_tbl.v1_4->display_path[i];
->                 }
-> -               /* fall through */
-> +               fallthrough;
+> diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
+> index bf04cf..fc5236c 100644
+> --- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
+> @@ -1250,7 +1250,7 @@ static void smu7_set_dpm_event_sources(struct pp_hwmgr *hwmgr, uint32_t sources)
+>         switch (sources) {
 >         default:
->                 return NULL;
->         }
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c b/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
-> index 68c4049..743042 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
-> @@ -645,7 +645,7 @@ bool dce_aux_transfer_with_retries(struct ddc_service *ddc,
->                         case AUX_TRANSACTION_REPLY_AUX_DEFER:
->                         case AUX_TRANSACTION_REPLY_I2C_OVER_AUX_DEFER:
->                                 retry_on_defer = true;
-> -                               /* fall through */
-> +                               fallthrough;
->                         case AUX_TRANSACTION_REPLY_I2C_OVER_AUX_NACK:
->                                 if (++aux_defer_retries >= AUX_MAX_DEFER_RETRIES) {
->                                         goto fail;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c b/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
-> index 8aa937f..51481e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
-> @@ -479,7 +479,7 @@ static void program_grph_pixel_format(
->         case SURFACE_PIXEL_FORMAT_GRPH_ABGR16161616F:
->                 sign = 1;
->                 floating = 1;
+>                 pr_err("Unknown throttling event sources.");
 > -               /* fall through */
 > +               fallthrough;
->         case SURFACE_PIXEL_FORMAT_GRPH_ARGB16161616F: /* shouldn't this get float too? */
->         case SURFACE_PIXEL_FORMAT_GRPH_ARGB16161616:
->                 grph_depth = 3;
+>         case 0:
+>                 protection = false;
+>                 /* src is unused */
+> @@ -3698,12 +3698,12 @@ static int smu7_request_link_speed_change_before_state_change(
+>                         data->force_pcie_gen = PP_PCIEGen2;
+>                         if (current_link_speed == PP_PCIEGen2)
+>                                 break;
+> -                       /* fall through */
+> +                       fallthrough;
+>                 case PP_PCIEGen2:
+>                         if (0 == amdgpu_acpi_pcie_performance_request(hwmgr->adev, PCIE_PERF_REQ_GEN2, false))
+>                                 break;
+>  #endif
+> -                       /* fall through */
+> +                       fallthrough;
+>                 default:
+>                         data->force_pcie_gen = smu7_get_current_pcie_speed(hwmgr);
+>                         break;
 > --
 > 2.24.0
 >
