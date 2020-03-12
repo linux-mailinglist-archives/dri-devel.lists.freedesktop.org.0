@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A991826F4
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 03:09:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE4D182788
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 04:52:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10FE06EA12;
-	Thu, 12 Mar 2020 02:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49F3B6E239;
+	Thu, 12 Mar 2020 03:52:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44CB66E52F;
- Thu, 12 Mar 2020 02:09:35 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id e11so4206982qkg.9;
- Wed, 11 Mar 2020 19:09:35 -0700 (PDT)
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A5A6E239;
+ Thu, 12 Mar 2020 03:52:21 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id m33so3324208qtb.3;
+ Wed, 11 Mar 2020 20:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
+ h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=x5II60aZSBbTDv/ankg5R9N5ZnZmTO16QBbjlaMju2I=;
- b=e9ov2jeyM89aJQWeqOZhgkdVw/Jtpw03qJU9K+ubvFMYrpHpeN9O0Xe1T9cI22B9mW
- NFzOMGtEcjE875xUBR9bC4Pea7BMPLcEuly79meiRTL+JN4qtHBXlmZnBq+v3zT+lI/j
- USDL4Za40Tb30UmGwjT2bCkGoh/qc18wMmtTRFIK+TwGEIGxklT10P93R/N++TbuZ1ej
- AFi3XytZGkXhOxFYgRVVodnlfg2D7/qPihNTohgLlPKoDeIJ0H2dgdRpTpUveipMTdq+
- L75JAo1wcgB7REib43VTDnH7uKU4rtR+Sz4Qocc70Dxu2rZ6cYyNx5WiEjqx1XOs7PA/
- xmiA==
+ bh=KQg257bFU/54D8sZD22vQvVkmqU+8hmHZdOg7G3dJQ4=;
+ b=TcIxJvpOUP/f+7MPbEGA4d+S0Zxx5fuLASCk1047vjuKQBiyWaRR7fJmmW637eBk5P
+ DIi6ZuWmL6nfYbHDTybLBkrk9tEfPWYuonggc6wFzSEhPzNeh7PpC8OY8CshPSbQENl0
+ ubbOVZ6pk39VI/sk6bwZXFCOq0nmi23wi1R4kODWy7JY8gwjyOiLyfPETafK/MxiRajH
+ 8IhtMhmffv1RXh3LysaVC4+PD1P8vMOuCBv9/vcRraqaJg4Chg0VeqX/MqtZ8/14yEgY
+ i1dAcPpR326qbjxajTL33jt22gojvFa7P0rDJzjrHxSKePi3sNb0RsFiYRmdrxqgFkmB
+ E24Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=x5II60aZSBbTDv/ankg5R9N5ZnZmTO16QBbjlaMju2I=;
- b=ZxR9PnJjq7FJxA+B6y18upFTNbdjhEHqR2CSQvVsiZH0k52Wz4+vg5fln6YUF6dj1e
- V0C7pCQ6d2uYj4HQpBLqCEcmIR6g8BHuNCxCYrv36ms+9Jj++FdaJAvmUYmNYfWESi2R
- gplD6qIyVVgOb9PRxZYRErauW3l5Qg2Mvzz6VBRaHbqO5IwxIRTcwtkNC1zmD/co+lGT
- bmZpXGGG2+E8PBBp+4kjo+2uCGsF0rdkyyYsyVBfrKStFImZlbCr0gu73AGkbGzcEZqh
- 1GERtxHa13RA9LXuRLSNNHwRGdCIyviVwvcXnt8fCHl9zqZ2IaZgxX93g6XC9l9Pd/4X
- TpBQ==
-X-Gm-Message-State: ANhLgQ0mvMiJcI3Pd5I+wCWMK+hHgrJ0EN9IjkPuP+vVywa7G3DNl0q1
- 4AUFLiNleN9vcreufLE1/WyzTXig
-X-Google-Smtp-Source: ADFU+vtkFdpd1CbfBu3OEvrIsBYs+XlhbY+87lX8a85HsdiUQ5K03NXHJJlRQUsN7RWkzi6PM8uqYg==
-X-Received: by 2002:a37:a0d6:: with SMTP id j205mr5555558qke.455.1583978974129; 
- Wed, 11 Mar 2020 19:09:34 -0700 (PDT)
-Received: from localhost.localdomain ([71.219.40.23])
- by smtp.gmail.com with ESMTPSA id b25sm7867478qkk.28.2020.03.11.19.09.33
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=KQg257bFU/54D8sZD22vQvVkmqU+8hmHZdOg7G3dJQ4=;
+ b=UXOylac6JKON7doo/QNiTje08DCRgK9zRLGwgEagKtvIGo8OB+BlMNbyflyI23DLyZ
+ bWYads/8HDDJVplAz+Sf6uVtkw5UoF7GMsuDubsL19oI2KFLuw+AAHoYTJj3mqYDT5cW
+ dJRMKjylt4QsCaJHDQ4l7xO39vBiOKEAqCNZtB/ipk1G62XBKBvwrYZ4VgMSZ2aW35Q4
+ nvBhZxKnVFTEIbgpCAhXs7xBBToalnY6C51kTVaT6a0zgmMRTHZl9XicnIftoZDvE00P
+ kbSZTSYgqoiHBLsBL7jRNPcxmqgwUpc0nBURt0Ox5Dh7Kxx8j+5kC0c5TZ66aDhx5w4i
+ N5ug==
+X-Gm-Message-State: ANhLgQ126jUE4CunqnB/5XNOZ7157IyWBfsZXQrY5qGS0hj8TzRrUaSB
+ Ts9IeItfbOHBe9xVgWodektrJodz7LE=
+X-Google-Smtp-Source: ADFU+vtj53M9tfsuivBLtWhYCrZBup+7hHZahjU3LIYwZDJagukCdl1qw81rCRN0nwK8SPWKPjAi3Q==
+X-Received: by 2002:ac8:6708:: with SMTP id e8mr5484258qtp.229.1583985140745; 
+ Wed, 11 Mar 2020 20:52:20 -0700 (PDT)
+Received: from athos.hellosponsor.com
+ (pool-173-68-201-69.nycmny.fios.verizon.net. [173.68.201.69])
+ by smtp.gmail.com with ESMTPSA id x1sm7836250qkl.128.2020.03.11.20.52.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 19:09:33 -0700 (PDT)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu 5.6 fixes
-Date: Wed, 11 Mar 2020 22:09:24 -0400
-Message-Id: <20200312020924.4161-1-alexander.deucher@amd.com>
+ Wed, 11 Mar 2020 20:52:20 -0700 (PDT)
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+To: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@gmail.com>
+Subject: [PATCH] drm/msm: avoid double-attaching hdmi/edp bridges
+Date: Wed, 11 Mar 2020 23:51:54 -0400
+Message-Id: <20200312035154.1621-1-imirkin@alum.mit.edu>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,52 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Each of hdmi and edp are already attached in msm_*_bridge_init. A second
+attachment returns -EBUSY, failing the driver load.
 
-Fixes for 5.6.
+Tested with HDMI on IFC6410 (APQ8064 / MDP4), but eDP case should be
+analogous.
 
-The following changes since commit 513dc792d6060d5ef572e43852683097a8420f56:
+Fixes: 3ef2f119bd3ed (drm/msm: Use drm_attach_bridge() to attach a bridge to an encoder)
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>
+---
+ drivers/gpu/drm/msm/edp/edp.c   | 4 ----
+ drivers/gpu/drm/msm/hdmi/hdmi.c | 4 ----
+ 2 files changed, 8 deletions(-)
 
-  vgacon: Fix a UAF in vgacon_invert_region (2020-03-06 21:06:34 +0100)
+diff --git a/drivers/gpu/drm/msm/edp/edp.c b/drivers/gpu/drm/msm/edp/edp.c
+index ad4e963ccd9b..106a67473af5 100644
+--- a/drivers/gpu/drm/msm/edp/edp.c
++++ b/drivers/gpu/drm/msm/edp/edp.c
+@@ -178,10 +178,6 @@ int msm_edp_modeset_init(struct msm_edp *edp, struct drm_device *dev,
+ 		goto fail;
+ 	}
+ 
+-	ret = drm_bridge_attach(encoder, edp->bridge, NULL);
+-	if (ret)
+-		goto fail;
+-
+ 	priv->bridges[priv->num_bridges++]       = edp->bridge;
+ 	priv->connectors[priv->num_connectors++] = edp->connector;
+ 
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 1a9b6289637d..737453b6e596 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -327,10 +327,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+ 		goto fail;
+ 	}
+ 
+-	ret = drm_bridge_attach(encoder, hdmi->bridge, NULL);
+-	if (ret)
+-		goto fail;
+-
+ 	priv->bridges[priv->num_bridges++]       = hdmi->bridge;
+ 	priv->connectors[priv->num_connectors++] = hdmi->connector;
+ 
+-- 
+2.24.1
 
-are available in the Git repository at:
-
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.6-2020-03-11
-
-for you to fetch changes up to 1d2686d417c5998af3817f93be01745b3db57ecd:
-
-  drm/amdgpu/powerplay: nv1x, renior copy dcn clock settings of watermark to smu during boot up (2020-03-10 17:31:10 -0400)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.6-2020-03-11:
-
-amdgpu:
-- Update the display watermark bounding box for navi14
-- Fix fetching vbios directly from rom on vega20/arcturus
-- Navi and renoir watermark fixes
-
-----------------------------------------------------------------
-Hawking Zhang (1):
-      drm/amdgpu: correct ROM_INDEX/DATA offset for VEGA20
-
-Hersen Wu (1):
-      drm/amdgpu/powerplay: nv1x, renior copy dcn clock settings of watermark to smu during boot up
-
-Martin Leung (1):
-      drm/amd/display: update soc bb for nv14
-
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |  25 ++++-
- .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  | 114 +++++++++++++++++++++
- drivers/gpu/drm/amd/powerplay/amdgpu_smu.c         |   7 +-
- drivers/gpu/drm/amd/powerplay/navi10_ppt.c         |  22 ++--
- drivers/gpu/drm/amd/powerplay/renoir_ppt.c         |   5 +-
- 5 files changed, 158 insertions(+), 15 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
